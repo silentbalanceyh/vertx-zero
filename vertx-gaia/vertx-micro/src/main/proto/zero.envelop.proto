@@ -1,0 +1,57 @@
+// Version
+syntax = "proto3";
+
+option java_multiple_files = true;
+
+option java_package = "io.vertx.tp.ipc.eon";
+option java_outer_classname = "UpEnvelop";
+
+import "zero.enum.proto";
+import "zero.status.proto";
+
+package io.vertx.tp.ipc.eon;
+
+message IpcContent {
+    string value = 1;
+}
+
+message IpcEnvelop {
+    // Envelop data format
+    io.vertx.tp.ipc.eon.em.Format type = 1;
+    // Body content
+    string body = 2;
+    // Stream content
+    bytes stream = 3;
+    // Service name for method calling, connect to method
+    string name = 4;
+}
+
+message IpcRequest {
+    // Response format
+    io.vertx.tp.ipc.eon.em.Format response_format = 1;
+    // Response type
+    io.vertx.tp.ipc.eon.em.Category response_category = 2;
+    // Size
+    int32 response_size = 3;
+    // Content of response
+    IpcEnvelop envelop = 4;
+
+    // Whether contains username
+    bool is_client_id = 5;
+    // Whether contains scope
+    bool is_oauth_scope = 6;
+
+    // Compression
+    io.vertx.tp.ipc.eon.em.Compression algorithm = 7;
+    // Status
+    IpcStatus response_status = 8;
+}
+
+message IpcResponse {
+    // Response content
+    IpcEnvelop envelop = 1;
+    // Passed client id
+    string client_id = 2;
+    // Passed scope
+    string oauth_scope = 3;
+}

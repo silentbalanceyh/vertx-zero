@@ -1,0 +1,8 @@
+{
+    "name": "Lang",
+    "code": "Test",
+    "$1": {
+        "email,e": "com",
+        "email,s": "lang"
+    }
+}

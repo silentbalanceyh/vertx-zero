@@ -1,0 +1,9 @@
+cn.vertxup.lbs.api
+cn.vertxup.lbs.domain
+cn.vertxup.lbs.domain.tables
+cn.vertxup.lbs.domain.tables.daos
+cn.vertxup.lbs.domain.tables.interfaces
+cn.vertxup.lbs.domain.tables.pojos
+cn.vertxup.lbs.domain.tables.records
+cn.vertxup.lbs.service
+io.vertx.tp.lbs.cv

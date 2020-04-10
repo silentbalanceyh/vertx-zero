@@ -1,0 +1,16 @@
+cn.vertxup.ui.api
+cn.vertxup.ui.domain
+cn.vertxup.ui.domain.tables
+cn.vertxup.ui.domain.tables.daos
+cn.vertxup.ui.domain.tables.interfaces
+cn.vertxup.ui.domain.tables.pojos
+cn.vertxup.ui.domain.tables.records
+cn.vertxup.ui.service
+cn.vertxup.ui.service.column
+io.vertx.tp.optic
+io.vertx.tp.ui.atom
+io.vertx.tp.ui.cv
+io.vertx.tp.ui.cv.em
+io.vertx.tp.ui.init
+io.vertx.tp.ui.refine
+io.vertx.tp.ui.uca

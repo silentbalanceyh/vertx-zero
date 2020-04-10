@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>vertx-gaia</artifactId>
+        <groupId>cn.vertxup</groupId>
+        <version>0.5.3-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+    <name>( Vertx Core ) vertx-rx: Reactive Engine</name>
+    <artifactId>vertx-rx</artifactId>
+    <dependencies>
+        <dependency>
+            <groupId>cn.vertxup</groupId>
+            <artifactId>vertx-up</artifactId>
+        </dependency>
+        <!-- RxJava -->
+        <dependency>
+            <groupId>io.vertx</groupId>
+            <artifactId>vertx-rx-java2</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>io.vertx</groupId>
+                    <artifactId>vertx-core</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.reactivestreams</groupId>
+                    <artifactId>reactive-streams</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>io.reactivex.rxjava2</groupId>
+                    <artifactId>rxjava</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+    </dependencies>
+</project>

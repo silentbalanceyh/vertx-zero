@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>vertx-zero</artifactId>
+        <groupId>cn.vertxup</groupId>
+        <version>0.5.3-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>vertx-pin</artifactId>
+    <packaging>pom</packaging>
+    <name>（ Zero Plugin ) Container Tier</name>
+    <modules>
+        <!-- Crud -->
+        <module>zero-crud</module>
+        <!-- RBCA -->
+        <module>zero-rbac</module>
+        <!-- Zero Core Library -->
+        <module>zero-ke</module>
+        <!-- Ui Configuration -->
+        <module>zero-ui</module>
+        <!-- Test Framework -->
+        <module>zero-quiz</module>
+        <!-- Api / Service / Job definition -->
+        <module>zero-jet</module>
+        <!-- Micro Api Gateway-->
+        <module>zero-router</module>
+        <!-- Business Module -->
+        <!-- Erp -->
+        <module>zero-erp</module>
+        <!-- Ambient -->
+        <module>zero-ambient</module>
+        <!-- Location Service -->
+        <module>zero-lbs</module>
+        <!-- Dynamic Modeling -->
+        <module>zero-atom</module>
+        <module>zero-graphic</module>
+    </modules>
+    <dependencies>
+        <dependency>
+            <groupId>cn.vertxup</groupId>
+            <artifactId>vertx-up</artifactId>
+        </dependency>
+    </dependencies>
+    <build>
+        <plugins>
+            <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
+                    <encoding>${encoding}</encoding>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>

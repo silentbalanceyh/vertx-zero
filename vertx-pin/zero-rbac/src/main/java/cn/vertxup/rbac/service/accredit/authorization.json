@@ -1,0 +1,11 @@
+{
+    "jwt": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyIjoiOGMxNDhiNzItNzM0OC00ZDRlLWI2MDQtM2I3ZDYwNTNhYzFlIiwiaWF0IjoxNTYwNDA4ODIzfQ.0dt4vj_t5vBqlxomHhboXd3pDbHBkn4xJYzIVykI3a8",
+    "options": {},
+    "metadata": {
+        "uri": "/api/test",
+        "method": "POST"
+    },
+    "headers": {
+        "X-Sigma": "SLiuwlzYviA6UGqhSRdrwKgWxl5tTp70"
+    }
+}

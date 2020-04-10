@@ -1,0 +1,10 @@
+etcd:
+  micro: zero-test
+  nodes:
+  - host: localhost
+    port: 6181
+  - host: localhost
+    port: 6180
+  - host: localhost
+    port: 6179
+  timeout: 2

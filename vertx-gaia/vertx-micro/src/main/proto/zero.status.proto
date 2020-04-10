@@ -1,0 +1,33 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "io.vertx.tp.ipc.eon";
+option java_outer_classname = "UpStatus";
+
+package io.vertx.tp.ipc.eon;
+
+message IpcStatus {
+    // Status Code
+    int32 code = 1;
+    // Status Content
+    string message = 2;
+}
+
+message RetryParams {
+    // Retry
+    int32 max_reconnect = 1;
+}
+
+message RetryInfo {
+    // Whether authorized
+    bool passed = 1;
+    // Backoff
+    repeated int32 backoff_ms = 2;
+}
+
+message ResponseParams {
+    // Size
+    int32 size = 1;
+    // Interval us
+    int32 interval_us = 2;
+}

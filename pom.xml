@@ -1,0 +1,1240 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>cn.vertxup</groupId>
+    <artifactId>vertx-zero</artifactId>
+    <version>0.5.3-SNAPSHOT</version>
+    <name>vertx-zero: Vertx Up Zero Framework</name>
+    <description>Vertx Zero Framework is a tool for Service Mesh Micro Service.</description>
+    <url>http://www.vertxup.cn</url>
+    <modules>
+        <module>vertx-import</module>
+        <module>vertx-gaia</module>
+        <module>vertx-pin</module>
+        <module>vertx-ifx</module>
+    </modules>
+    <packaging>pom</packaging>
+    <!-- License -->
+    <licenses>
+        <license>
+            <name>The Apache License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+        </license>
+    </licenses>
+    <!-- Developers -->
+    <developers>
+        <developer>
+            <name>Lang</name>
+            <email>silentbalanceyh@126.com</email>
+            <roles>
+                <role>developer</role>
+            </roles>
+            <timezone>+8</timezone>
+        </developer>
+    </developers>
+    <!-- Scm Connection -->
+    <scm>
+        <connection>scm:git:https://github.com/silentbalanceyh/vertx-zero.git</connection>
+        <developerConnection>scm:git:https://github.com/silentbalanceyh/vertx-zero.git</developerConnection>
+        <url>https://silentbalanceyh.github.io/vertx-zero/</url>
+        <tag>v${project.version}</tag>
+    </scm>
+    <!-- Distribution -->
+    <distributionManagement>
+        <snapshotRepository>
+            <id>oss</id>
+            <name>Maven Central Snapshots Repository</name>
+            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+        </snapshotRepository>
+        <repository>
+            <id>oss</id>
+            <name>Maven Central Staging Repository</name>
+            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2</url>
+        </repository>
+    </distributionManagement>
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <java.version>1.8</java.version>
+        <encoding>UTF-8</encoding>
+        <jcabi.version>0.22.6</jcabi.version>
+        <!-- Vertx 3.9.0, For testing -->
+        <vertx.version>3.9.0</vertx.version>
+        <stack.version>3.9.0</stack.version>
+
+        <jackson.version>2.9.10</jackson.version>
+        <jackson.databind.version>2.9.10.3</jackson.databind.version>
+        <jws.version>2.1.1</jws.version>
+        <jersey.version>2.30.1</jersey.version>
+        <javax.el.version>3.0.1-b06</javax.el.version>
+        <glassfish.el.version>3.0.1-b11</glassfish.el.version>
+
+        <!-- Database Needed -->
+        <hikari.cp.version>3.4.2</hikari.cp.version>
+        <jooq.version>3.10.8</jooq.version>
+        <vertx.jooq.version>2.4.1</vertx.jooq.version>
+        <vertx.jooq.async.version>0.4</vertx.jooq.async.version>
+        <vertx.jooq.code.version>5.1.0</vertx.jooq.code.version>
+        <mysql.version>8.0.19</mysql.version>
+
+        <!-- Java Reflection -->
+        <reflect.asm.version>1.11.9</reflect.asm.version>
+        <lombok.version>1.18.12</lombok.version>
+        <asm.version>8.0.1</asm.version>
+        <cglib.version>3.3.0</cglib.version>
+        <reflection.version>0.9.12</reflection.version>
+
+        <!-- Etcd -->
+        <etcd.version>2.18.0</etcd.version>
+        <!-- Bean Validation -->
+        <hibernate.validator.version>6.1.2.Final</hibernate.validator.version>
+
+        <jwt.version>3.10.2</jwt.version>
+        <jetbrains.version>19.0.0</jetbrains.version>
+        <guice.version>4.1.0</guice.version>
+        <scala.version>2.13.1</scala.version>
+        <feign.version>8.18.0</feign.version>
+        <guava.version>28.2-jre</guava.version>
+        <codehaus.janino.version>3.2.1</codehaus.janino.version>
+        <codehaus.mojo.version>1.18</codehaus.mojo.version>
+        <ignite.version>2.8.0</ignite.version>
+        <mongodb.async.version>3.12.3</mongodb.async.version>
+        <poi.version>4.1.2</poi.version>
+
+        <!-- elasticsearch version -->
+        <elasticsearch.version>7.6.2</elasticsearch.version>
+        <!-- neo4j search -->
+        <neo4j.version>4.0.1</neo4j.version>
+
+        <!-- Apache Common -->
+        <common.jexl.version>3.1</common.jexl.version>
+        <common.lang3.version>3.10</common.lang3.version>
+        <common.logging.version>1.2</common.logging.version>
+        <common.net.version>3.6</common.net.version>
+        <common.codec.version>1.14</common.codec.version>
+        <http.async.client.version>4.1.4</http.async.client.version>
+        <http.client.version>4.5.12</http.client.version>
+        <http.core.version>4.4.13</http.core.version>
+        <!-- Liquibase -->
+        <liquibase.version>3.8.9</liquibase.version>
+        <!-- Rpc -->
+        <protobuf.version>3.11.4</protobuf.version>
+        <vertx.grpc.version>1.6.1</vertx.grpc.version>
+        <grpc.version>1.28.1</grpc.version>
+
+        <!-- Yaml -->
+        <yaml.version>1.26</yaml.version>
+        <hdr.version>2.1.12</hdr.version>
+
+        <!-- Vert.x Addition -->
+        <rxjava2.version>2.2.19</rxjava2.version>
+        <netty.tcnative.version>2.0.30.Final</netty.tcnative.version>
+        <netty.version>4.1.48.Final</netty.version>
+        <hazelcast.version>3.12.4</hazelcast.version>
+        <swagger.version>1.6.0</swagger.version>
+        <error.prone.version>2.3.4</error.prone.version>
+        <reactive.streams>1.0.3</reactive.streams>
+
+        <!-- JSR -->
+        <jsr311.version>1.1.1</jsr311.version>
+        <jsr330.version>1</jsr330.version>
+        <jsr303.version>2.0.1.Final</jsr303.version>
+        <jcache.version>1.1.1</jcache.version>
+        <jsr305.version>3.0.2</jsr305.version>
+        <jsr340.version>4.0.1</jsr340.version>
+        <jsr338.version>2.2</jsr338.version>
+
+        <!-- Testing -->
+        <junit.version>4.13</junit.version>
+
+        <!-- AspectJ -->
+        <aspectj.version>1.9.5</aspectj.version>
+        <javassist.version>3.27.0-GA</javassist.version>
+        <mdoclet.version>1.4</mdoclet.version>
+
+        <!-- Logging -->
+        <log4j2.version>2.13.1</log4j2.version>
+        <logback.version>1.2.3</logback.version>
+        <logback.cal10n.version>0.8.1</logback.cal10n.version>
+        <slf4j.version>1.7.25</slf4j.version>
+
+        <!-- Plugin -->
+        <maven.plugin.assembly>3.2.0</maven.plugin.assembly>
+        <maven.plugin.compiler>3.8.1</maven.plugin.compiler>
+        <maven.plugin.surefire>3.0.0-M4</maven.plugin.surefire>
+        <maven.plugin.clean>3.1.0</maven.plugin.clean>
+        <maven.plugin.version>2.7</maven.plugin.version>
+        <maven.plugin.install>3.0.0-M1</maven.plugin.install>
+        <maven.plugin.deploy>3.0.0-M1</maven.plugin.deploy>
+        <maven.plugin.jar>3.0.2</maven.plugin.jar>
+        <maven.plugin.resource>3.1.0</maven.plugin.resource>
+        <maven.plugin.site>3.9.0</maven.plugin.site>
+        <maven.plugin.enforcer>3.0.0-M3</maven.plugin.enforcer>
+        <maven.plugin.lombok>1.18.12.0</maven.plugin.lombok>
+        <maven.plugin.processor>3.3.3</maven.plugin.processor>
+        <maven.plugin.source>3.2.1</maven.plugin.source>
+        <maven.plugin.javadoc>3.1.1</maven.plugin.javadoc>
+        <maven.plugin.staging>1.6.8</maven.plugin.staging>
+        <maven.plugin.pgp>1.6</maven.plugin.pgp>
+        <maven.plugin.fabric8>4.4.0</maven.plugin.fabric8>
+        <maven.plugin.coveralls>4.3.0</maven.plugin.coveralls>
+        <maven.plugin.cobertura>2.7</maven.plugin.cobertura>
+        <maven.plugin.spotify>1.2.2</maven.plugin.spotify>
+        <maven.plugin.protobuf>0.6.1</maven.plugin.protobuf>
+        <maven.plugin.os>1.5.0.Final</maven.plugin.os>
+        <maven.plugin.antrun>1.8</maven.plugin.antrun>
+        <maven.plugin.aspectj>1.11</maven.plugin.aspectj>
+        <maven.plugin.jcabi>0.14.1</maven.plugin.jcabi>
+        <maven.plugin.jar>3.2.0</maven.plugin.jar>
+
+    </properties>
+    <prerequisites>
+        <maven>3.5.0</maven>
+    </prerequisites>
+    <dependencyManagement>
+        <dependencies>
+            <!-- Zero -->
+            <dependency>
+                <groupId>cn.vertxup</groupId>
+                <artifactId>vertx-co</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.vertxup</groupId>
+                <artifactId>vertx-tp</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.vertxup</groupId>
+                <artifactId>vertx-micro</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.vertxup</groupId>
+                <artifactId>vertx-rx</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.vertxup</groupId>
+                <artifactId>vertx-up</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.vertxup</groupId>
+                <artifactId>vertx-ifx</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <!-- Zero Extension -->
+            <dependency>
+                <groupId>cn.vertxup</groupId>
+                <artifactId>zero-ke</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <!-- vertx -->
+            <dependency>
+                <groupId>io.vertx</groupId>
+                <artifactId>vertx-docgen</artifactId>
+                <version>${vertx.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.vertx</groupId>
+                <artifactId>vertx-codegen</artifactId>
+                <version>${vertx.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.vertx</groupId>
+                <artifactId>vertx-web</artifactId>
+                <version>${vertx.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.vertx</groupId>
+                <artifactId>vertx-web-client</artifactId>
+                <version>${vertx.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.vertx</groupId>
+                <artifactId>vertx-config-yaml</artifactId>
+                <version>${vertx.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.vertx</groupId>
+                <artifactId>vertx-core</artifactId>
+                <version>${vertx.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.vertx</groupId>
+                <artifactId>vertx-hazelcast</artifactId>
+                <version>${vertx.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.vertx</groupId>
+                <artifactId>vertx-unit</artifactId>
+                <version>${vertx.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.vertx</groupId>
+                <artifactId>vertx-mysql-postgresql-client</artifactId>
+                <version>${vertx.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.vertx</groupId>
+                <artifactId>vertx-service-discovery</artifactId>
+                <version>${vertx.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.vertx</groupId>
+                <artifactId>vertx-circuit-breaker</artifactId>
+                <version>${vertx.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.vertx</groupId>
+                <artifactId>vertx-health-check</artifactId>
+                <version>${vertx.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.vertx</groupId>
+                <artifactId>vertx-auth</artifactId>
+                <version>${vertx.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.vertx</groupId>
+                <artifactId>vertx-auth-mongo</artifactId>
+                <version>${vertx.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.vertx</groupId>
+                <artifactId>vertx-auth-jwt</artifactId>
+                <version>${vertx.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.vertx</groupId>
+                <artifactId>vertx-redis-client</artifactId>
+                <version>${vertx.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.vertx</groupId>
+                <artifactId>vertx-grpc</artifactId>
+                <version>${vertx.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.vertx</groupId>
+                <artifactId>vertx-rx-java2</artifactId>
+                <version>${vertx.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.yaml</groupId>
+                <artifactId>snakeyaml</artifactId>
+                <version>${yaml.version}</version>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/org.neo4j.driver/neo4j-java-driver -->
+            <dependency>
+                <groupId>org.neo4j.driver</groupId>
+                <artifactId>neo4j-java-driver</artifactId>
+                <version>${neo4j.version}</version>
+            </dependency>
+            <!-- elasticsearch dependencies -->
+            <dependency>
+                <groupId>org.elasticsearch</groupId>
+                <artifactId>elasticsearch</artifactId>
+                <version>${elasticsearch.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.elasticsearch.client</groupId>
+                <artifactId>elasticsearch-rest-high-level-client</artifactId>
+                <version>${elasticsearch.version}</version>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/commons-net/commons-net -->
+            <dependency>
+                <groupId>commons-net</groupId>
+                <artifactId>commons-net</artifactId>
+                <version>${common.net.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>commons-codec</groupId>
+                <artifactId>commons-codec</artifactId>
+                <version>${common.codec.version}</version>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/org.apache.commons/commons-jexl -->
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-jexl3</artifactId>
+                <version>${common.jexl.version}</version>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/com.auth0/java-jwt -->
+            <dependency>
+                <groupId>com.auth0</groupId>
+                <artifactId>java-jwt</artifactId>
+                <version>${jwt.version}</version>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/javax.servlet/javax.servlet-api -->
+            <dependency>
+                <groupId>javax.servlet</groupId>
+                <artifactId>javax.servlet-api</artifactId>
+                <version>${jsr340.version}</version>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/javax.persistence/javax.persistence-api -->
+            <dependency>
+                <groupId>javax.persistence</groupId>
+                <artifactId>javax.persistence-api</artifactId>
+                <version>${jsr338.version}</version>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/io.netty/netty-tcnative -->
+            <dependency>
+                <groupId>io.netty</groupId>
+                <artifactId>netty-tcnative</artifactId>
+                <version>${netty.tcnative.version}</version>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/com.jcabi/jcabi-aspects -->
+            <dependency>
+                <groupId>com.jcabi</groupId>
+                <artifactId>jcabi-aspects</artifactId>
+                <version>${jcabi.version}</version>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/org.aspectj/aspectjweaver -->
+            <dependency>
+                <groupId>org.aspectj</groupId>
+                <artifactId>aspectjweaver</artifactId>
+                <version>${aspectj.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.aspectj</groupId>
+                <artifactId>aspectjtools</artifactId>
+                <version>${aspectj.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.aspectj</groupId>
+                <artifactId>aspectjrt</artifactId>
+                <version>${aspectj.version}</version>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/io.github.jklingsporn/vertx-jooq-async-future -->
+            <dependency>
+                <groupId>io.github.jklingsporn</groupId>
+                <artifactId>vertx-jooq-async-future</artifactId>
+                <version>${vertx.jooq.async.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.github.jklingsporn</groupId>
+                <artifactId>vertx-jooq-async-generate</artifactId>
+                <version>${vertx.jooq.async.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.github.jklingsporn</groupId>
+                <artifactId>vertx-jooq-async-shared</artifactId>
+                <version>${vertx.jooq.async.version}</version>
+            </dependency>
+            <!-- http://mvnrepository.com/artifact/io.github.jklingsporn/vertx-jooq-future -->
+            <dependency>
+                <groupId>io.github.jklingsporn</groupId>
+                <artifactId>vertx-jooq-shared</artifactId>
+                <version>${vertx.jooq.code.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.github.jklingsporn</groupId>
+                <artifactId>vertx-jooq-future</artifactId>
+                <version>${vertx.jooq.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.github.jklingsporn</groupId>
+                <artifactId>vertx-jooq-generate</artifactId>
+                <version>${vertx.jooq.code.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>io.github.jklingsporn</groupId>
+                        <artifactId>vertx-jooq-shared</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+            <dependency>
+                <groupId>mysql</groupId>
+                <artifactId>mysql-connector-java</artifactId>
+                <version>${mysql.version}</version>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/org.ow2.asm/asm -->
+            <dependency>
+                <groupId>org.ow2.asm</groupId>
+                <artifactId>asm</artifactId>
+                <version>${asm.version}</version>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/com.google.errorprone/error_prone_annotations -->
+            <dependency>
+                <groupId>com.google.errorprone</groupId>
+                <artifactId>error_prone_annotations</artifactId>
+                <version>${error.prone.version}</version>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/com.google.code.findbugs/jsr305 -->
+            <dependency>
+                <groupId>com.google.code.findbugs</groupId>
+                <artifactId>jsr305</artifactId>
+                <version>${jsr305.version}</version>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/io.grpc/grpc-context -->
+            <dependency>
+                <groupId>io.grpc</groupId>
+                <artifactId>grpc-context</artifactId>
+                <version>${grpc.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.grpc</groupId>
+                <artifactId>grpc-stub</artifactId>
+                <version>${grpc.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.grpc</groupId>
+                <artifactId>grpc-protobuf</artifactId>
+                <version>${grpc.version}</version>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/io.grpc/grpc-netty -->
+            <dependency>
+                <groupId>io.grpc</groupId>
+                <artifactId>grpc-netty</artifactId>
+                <version>${grpc.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>io.netty</groupId>
+                        <artifactId>netty-handler-proxy</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>io.netty</groupId>
+                        <artifactId>netty-codec-http2</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/io.grpc/grpc-core -->
+            <dependency>
+                <groupId>io.grpc</groupId>
+                <artifactId>grpc-core</artifactId>
+                <version>${grpc.version}</version>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/io.reactivex.rxjava2/rxjava -->
+            <dependency>
+                <groupId>io.reactivex.rxjava2</groupId>
+                <artifactId>rxjava</artifactId>
+                <version>${rxjava2.version}</version>
+            </dependency>
+            <!-- Demo Project -->
+            <dependency>
+                <groupId>cn.vertxup</groupId>
+                <artifactId>vertx-zeus</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/org.apache.commons/commons-lang3 -->
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-lang3</artifactId>
+                <version>${common.lang3.version}</version>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/com.hazelcast/hazelcast -->
+            <dependency>
+                <groupId>com.hazelcast</groupId>
+                <artifactId>hazelcast</artifactId>
+                <version>${hazelcast.version}</version>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/io.netty/netty-tcnative-boringssl-static -->
+            <dependency>
+                <groupId>io.netty</groupId>
+                <artifactId>netty-tcnative-boringssl-static</artifactId>
+                <version>${netty.tcnative.version}</version>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-core -->
+            <dependency>
+                <groupId>org.apache.logging.log4j</groupId>
+                <artifactId>log4j-core</artifactId>
+                <version>${log4j2.version}</version>
+            </dependency>
+            <!-- java rs -->
+            <!-- https://mvnrepository.com/artifact/org.codehaus.janino/janino -->
+            <dependency>
+                <groupId>org.codehaus.janino</groupId>
+                <artifactId>janino</artifactId>
+                <version>${codehaus.janino.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>animal-sniffer-annotations</artifactId>
+                <version>${codehaus.mojo.version}</version>
+            </dependency>
+            <!-- http://mvnrepository.com/artifact/javax.ws.rs/javax.ws.rs-api -->
+            <dependency>
+                <groupId>javax.ws.rs</groupId>
+                <artifactId>javax.ws.rs-api</artifactId>
+                <version>${jws.version}</version>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/org.hdrhistogram/HdrHistogram -->
+            <dependency>
+                <groupId>org.hdrhistogram</groupId>
+                <artifactId>HdrHistogram</artifactId>
+                <version>${hdr.version}</version>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/javax.inject/javax.inject -->
+            <dependency>
+                <groupId>javax.inject</groupId>
+                <artifactId>javax.inject</artifactId>
+                <version>${jsr330.version}</version>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/javax.validation/validation-api -->
+            <dependency>
+                <groupId>javax.validation</groupId>
+                <artifactId>validation-api</artifactId>
+                <version>${jsr303.version}</version>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/org.hibernate.validator/hibernate-validator -->
+            <dependency>
+                <groupId>org.hibernate.validator</groupId>
+                <artifactId>hibernate-validator</artifactId>
+                <version>${hibernate.validator.version}</version>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/javax.el/javax.el-api -->
+            <dependency>
+                <groupId>javax.el</groupId>
+                <artifactId>javax.el-api</artifactId>
+                <version>${javax.el.version}</version>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/org.glassfish/javax.el -->
+            <dependency>
+                <groupId>org.glassfish</groupId>
+                <artifactId>javax.el</artifactId>
+                <version>${glassfish.el.version}</version>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/org.javassist/javassist -->
+            <dependency>
+                <groupId>org.javassist</groupId>
+                <artifactId>javassist</artifactId>
+                <version>${javassist.version}</version>
+            </dependency>
+            <!-- http://www.mvnrepository.com/artifact/com.fasterxml.jackson.dataformat/jackson-dataformat-yaml -->
+            <dependency>
+                <groupId>com.fasterxml.jackson.dataformat</groupId>
+                <artifactId>jackson-dataformat-yaml</artifactId>
+                <version>${jackson.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>com.fasterxml.jackson.core</groupId>
+                        <artifactId>jackson-core</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson.dataformat</groupId>
+                <artifactId>jackson-dataformat-smile</artifactId>
+                <version>${jackson.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>com.fasterxml.jackson.core</groupId>
+                        <artifactId>jackson-core</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson.dataformat</groupId>
+                <artifactId>jackson-dataformat-cbor</artifactId>
+                <version>${jackson.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>com.fasterxml.jackson.core</groupId>
+                        <artifactId>jackson-core</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson.module</groupId>
+                <artifactId>jackson-module-parameter-names</artifactId>
+                <version>${jackson.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson.datatype</groupId>
+                <artifactId>jackson-datatype-jdk8</artifactId>
+                <version>${jackson.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson.datatype</groupId>
+                <artifactId>jackson-datatype-jsr310</artifactId>
+                <version>${jackson.version}</version>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.module/jackson-module-afterburner -->
+            <dependency>
+                <groupId>com.fasterxml.jackson.module</groupId>
+                <artifactId>jackson-module-afterburner</artifactId>
+                <version>${jackson.version}</version>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind -->
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-databind</artifactId>
+                <version>${jackson.databind.version}</version>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-core -->
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-core</artifactId>
+                <version>${jackson.version}</version>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-annotations -->
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-annotations</artifactId>
+                <version>${jackson.version}</version>
+            </dependency>
+            <!-- Asm -->
+            <!-- http://www.mvnrepository.com/artifact/com.esotericsoftware/reflectasm/ -->
+            <dependency>
+                <groupId>com.esotericsoftware</groupId>
+                <artifactId>reflectasm</artifactId>
+                <version>${reflect.asm.version}</version>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/org.reflections/reflections -->
+            <dependency>
+                <groupId>org.reflections</groupId>
+                <artifactId>reflections</artifactId>
+                <version>${reflection.version}</version>
+            </dependency>
+            <!-- http://mvnrepository.com/artifact/junit/junit -->
+            <dependency>
+                <groupId>junit</groupId>
+                <artifactId>junit</artifactId>
+                <version>${junit.version}</version>
+            </dependency>
+            <!-- Logging -->
+            <!-- https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-slf4j-impl -->
+            <dependency>
+                <groupId>org.apache.logging.log4j</groupId>
+                <artifactId>log4j-slf4j-impl</artifactId>
+                <version>${log4j2.version}</version>
+            </dependency>
+            <!-- http://mvnrepository.com/artifact/org.slf4j/jul-to-slf4j/ -->
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>jul-to-slf4j</artifactId>
+                <version>${slf4j.version}</version>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/commons-logging/commons-logging -->
+            <dependency>
+                <groupId>commons-logging</groupId>
+                <artifactId>commons-logging</artifactId>
+                <version>${common.logging.version}</version>
+            </dependency>
+            <!-- http://mvnrepository.com/artifact/org.slf4j/slf4j-api/ -->
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-api</artifactId>
+                <version>${slf4j.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-ext</artifactId>
+                <version>${slf4j.version}</version>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-to-slf4j -->
+            <dependency>
+                <groupId>org.apache.logging.log4j</groupId>
+                <artifactId>log4j-to-slf4j</artifactId>
+                <version>${log4j2.version}</version>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/org.scala-lang/scala-library -->
+            <dependency>
+                <groupId>org.scala-lang</groupId>
+                <artifactId>scala-library</artifactId>
+                <version>${scala.version}</version>
+            </dependency>
+            <!-- http://mvnrepository.com/artifact/ch.qos.logback/logback-classic -->
+            <dependency>
+                <groupId>ch.qos.logback</groupId>
+                <artifactId>logback-classic</artifactId>
+                <version>${logback.version}</version>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/ch.qos.cal10n/cal10n-api -->
+            <dependency>
+                <groupId>ch.qos.cal10n</groupId>
+                <artifactId>cal10n-api</artifactId>
+                <version>${logback.cal10n.version}</version>
+            </dependency>
+            <!-- http://mvnrepository.com/artifact/ch.qos.logback/logback-core -->
+            <dependency>
+                <groupId>ch.qos.logback</groupId>
+                <artifactId>logback-core</artifactId>
+                <version>${logback.version}</version>
+            </dependency>
+            <!-- http://mvnrepository.com/artifact/org.glassfish.jersey.core/jersey-common -->
+            <dependency>
+                <groupId>org.glassfish.jersey.core</groupId>
+                <artifactId>jersey-common</artifactId>
+                <version>${jersey.version}</version>
+            </dependency>
+            <!-- http://mvnrepository.com/artifact/org.projectlombok/lombok -->
+            <dependency>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok</artifactId>
+                <version>${lombok.version}</version>
+            </dependency>
+            <!-- http://mvnrepository.com/artifact/org.projectlombok/lombok-maven-plugin -->
+            <dependency>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok-maven-plugin</artifactId>
+                <version>${maven.plugin.lombok}</version>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/com.google.guava/guava -->
+            <dependency>
+                <groupId>com.google.guava</groupId>
+                <artifactId>guava</artifactId>
+                <version>${guava.version}</version>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/com.netflix.feign/feign-core -->
+            <dependency>
+                <groupId>com.netflix.feign</groupId>
+                <artifactId>feign-core</artifactId>
+                <version>${feign.version}</version>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/com.github.phiz71/vertx-swagger-router -->
+            <dependency>
+                <groupId>com.github.phiz71</groupId>
+                <artifactId>vertx-swagger-router</artifactId>
+                <version>${swagger.version}</version>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/com.netflix.feign/feign-jackson -->
+            <dependency>
+                <groupId>com.netflix.feign</groupId>
+                <artifactId>feign-jackson</artifactId>
+                <version>${feign.version}</version>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/com.google.protobuf/protobuf-java -->
+            <dependency>
+                <groupId>com.google.protobuf</groupId>
+                <artifactId>protobuf-java</artifactId>
+                <version>${protobuf.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.google.protobuf</groupId>
+                <artifactId>protobuf-java-util</artifactId>
+                <version>${protobuf.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>com.google.protobuf</groupId>
+                        <artifactId>protobuf-java</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/cglib/cglib -->
+            <dependency>
+                <groupId>cglib</groupId>
+                <artifactId>cglib</artifactId>
+                <version>${cglib.version}</version>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/javax.cache/cache-api -->
+            <dependency>
+                <groupId>javax.cache</groupId>
+                <artifactId>cache-api</artifactId>
+                <version>${jcache.version}</version>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/org.apache.ignite/ignite-core -->
+            <dependency>
+                <groupId>org.apache.ignite</groupId>
+                <artifactId>ignite-core</artifactId>
+                <version>${ignite.version}</version>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/org.apache.ignite/ignite-indexing -->
+            <dependency>
+                <groupId>org.apache.ignite</groupId>
+                <artifactId>ignite-indexing</artifactId>
+                <version>${ignite.version}</version>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/org.mousio/etcd4j -->
+            <dependency>
+                <groupId>org.mousio</groupId>
+                <artifactId>etcd4j</artifactId>
+                <version>${etcd.version}</version>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/org.mongodb/mongodb-driver-async -->
+            <dependency>
+                <groupId>org.mongodb</groupId>
+                <artifactId>mongodb-driver-async</artifactId>
+                <version>${mongodb.async.version}</version>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/org.mongodb/mongo-java-driver -->
+            <dependency>
+                <groupId>org.mongodb</groupId>
+                <artifactId>mongo-java-driver</artifactId>
+                <version>${mongodb.async.version}</version>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/org.reactivestreams/reactive-streams -->
+            <dependency>
+                <groupId>org.reactivestreams</groupId>
+                <artifactId>reactive-streams</artifactId>
+                <version>${reactive.streams}</version>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/com.zaxxer/HikariCP -->
+            <dependency>
+                <groupId>com.zaxxer</groupId>
+                <artifactId>HikariCP</artifactId>
+                <version>${hikari.cp.version}</version>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/org.jooq/jooq-codegen -->
+            <dependency>
+                <groupId>org.jooq</groupId>
+                <artifactId>jooq-codegen</artifactId>
+                <version>${jooq.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.jooq</groupId>
+                <artifactId>jooq-meta</artifactId>
+                <version>${jooq.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.jooq</groupId>
+                <artifactId>jooq</artifactId>
+                <version>${jooq.version}</version>
+            </dependency>
+            <!-- Netty -->
+            <dependency>
+                <groupId>io.netty</groupId>
+                <artifactId>netty-codec</artifactId>
+                <version>${netty.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.netty</groupId>
+                <artifactId>netty-codec-dns</artifactId>
+                <version>${netty.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.netty</groupId>
+                <artifactId>netty-buffer</artifactId>
+                <version>${netty.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.netty</groupId>
+                <artifactId>netty-codec-http</artifactId>
+                <version>${netty.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.netty</groupId>
+                <artifactId>netty-codec-http2</artifactId>
+                <version>${netty.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.netty</groupId>
+                <artifactId>netty-codec-mqtt</artifactId>
+                <version>${netty.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.netty</groupId>
+                <artifactId>netty-common</artifactId>
+                <version>${netty.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.netty</groupId>
+                <artifactId>netty-handler</artifactId>
+                <version>${netty.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.netty</groupId>
+                <artifactId>netty-handler-proxy</artifactId>
+                <version>${netty.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.netty</groupId>
+                <artifactId>netty-resolver</artifactId>
+                <version>${netty.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.netty</groupId>
+                <artifactId>netty-resolver-dns</artifactId>
+                <version>${netty.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.netty</groupId>
+                <artifactId>netty-transport</artifactId>
+                <version>${netty.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.netty</groupId>
+                <artifactId>netty-transport-native-epoll</artifactId>
+                <version>${netty.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.netty</groupId>
+                <artifactId>netty-transport-native-kqueue</artifactId>
+                <version>${netty.version}</version>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/org.apache.httpcomponents/httpclient -->
+            <dependency>
+                <groupId>org.apache.httpcomponents</groupId>
+                <artifactId>httpasyncclient</artifactId>
+                <version>${http.async.client.version}</version>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/org.apache.httpcomponents/httpclient -->
+            <dependency>
+                <groupId>org.apache.httpcomponents</groupId>
+                <artifactId>httpclient</artifactId>
+                <version>${http.client.version}</version>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/org.apache.httpcomponents/httpmime -->
+            <dependency>
+                <groupId>org.apache.httpcomponents</groupId>
+                <artifactId>httpmime</artifactId>
+                <version>${http.client.version}</version>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/org.apache.httpcomponents/httpcore -->
+            <dependency>
+                <groupId>org.apache.httpcomponents</groupId>
+                <artifactId>httpcore</artifactId>
+                <version>${http.core.version}</version>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/org.liquibase/liquibase-core -->
+            <dependency>
+                <groupId>org.liquibase</groupId>
+                <artifactId>liquibase-core</artifactId>
+                <version>${liquibase.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>ch.raffael.markdown-doclet</groupId>
+                <artifactId>markdown-doclet</artifactId>
+                <version>${mdoclet.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+    <build>
+        <pluginManagement>
+            <plugins>
+                <!-- https://mvnrepository.com/artifact/org.liquibase/liquibase-maven-plugin -->
+                <plugin>
+                    <groupId>org.liquibase</groupId>
+                    <artifactId>liquibase-maven-plugin</artifactId>
+                    <version>${liquibase.version}</version>
+                </plugin>
+                <!-- https://mvnrepository.com/artifact/com.jcabi/jcabi-maven-plugin -->
+                <plugin>
+                    <groupId>com.jcabi</groupId>
+                    <artifactId>jcabi-maven-plugin</artifactId>
+                    <version>${maven.plugin.jcabi}</version>
+                </plugin>
+
+                <!-- https://mvnrepository.com/artifact/org.codehaus.mojo/aspectj-maven-plugin -->
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>aspectj-maven-plugin</artifactId>
+                    <version>${maven.plugin.aspectj}</version>
+                </plugin>
+                <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-antrun-plugin -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-antrun-plugin</artifactId>
+                    <version>${maven.plugin.antrun}</version>
+                </plugin>
+                <!-- http://mvnrepository.com/artifact/org.jooq/jooq-codegen-maven -->
+                <plugin>
+                    <groupId>org.jooq</groupId>
+                    <artifactId>jooq-codegen-maven</artifactId>
+                    <version>${jooq.version}</version>
+                </plugin>
+                <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-assembly-plugin -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-assembly-plugin</artifactId>
+                    <version>${maven.plugin.assembly}</version>
+                </plugin>
+                <!-- https://mvnrepository.com/artifact/com.spotify/docker-maven-plugin -->
+                <plugin>
+                    <groupId>com.spotify</groupId>
+                    <artifactId>docker-maven-plugin</artifactId>
+                    <version>${maven.plugin.spotify}</version>
+                </plugin>
+                <!-- https://mvnrepository.com/artifact/io.fabric8/fabric8-maven-plugin -->
+                <plugin>
+                    <groupId>io.fabric8</groupId>
+                    <artifactId>fabric8-maven-plugin</artifactId>
+                    <version>${maven.plugin.fabric8}</version>
+                </plugin>
+                <!-- http://www.mvnrepository.com/artifact/org.apache.maven.plugins/maven-enforcer-plugin/ -->
+                <plugin>
+                    <artifactId>maven-enforcer-plugin</artifactId>
+                    <version>${maven.plugin.enforcer}</version>
+                </plugin>
+                <!-- http://www.mvnrepository.com/artifact/org.apache.maven.plugins/maven-site-plugin/ -->
+                <plugin>
+                    <artifactId>maven-site-plugin</artifactId>
+                    <version>${maven.plugin.site}</version>
+                </plugin>
+                <!-- http://www.mvnrepository.com/artifact/org.apache.maven.plugins/maven-resources-plugin -->
+                <plugin>
+                    <artifactId>maven-resources-plugin</artifactId>
+                    <version>${maven.plugin.resource}</version>
+                </plugin>
+                <!-- http://www.mvnrepository.com/artifact/org.apache.maven.plugins/maven-deploy-plugin -->
+                <plugin>
+                    <artifactId>maven-deploy-plugin</artifactId>
+                    <version>${maven.plugin.deploy}</version>
+                </plugin>
+                <!-- http://www.mvnrepository.com/artifact/org.apache.maven.plugins/maven-install-plugin/ -->
+                <plugin>
+                    <artifactId>maven-install-plugin</artifactId>
+                    <version>${maven.plugin.install}</version>
+                </plugin>
+                <!-- http://www.mvnrepository.com/artifact/org.apache.maven.plugins/maven-clean-plugin -->
+                <plugin>
+                    <artifactId>maven-clean-plugin</artifactId>
+                    <version>${maven.plugin.clean}</version>
+                </plugin>
+                <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-jar-plugin -->
+                <plugin>
+                    <artifactId>maven-jar-plugin</artifactId>
+                    <version>${maven.plugin.jar}</version>
+                </plugin>
+                <!-- http://www.mvnrepository.com/artifact/org.codehaus.mojo/versions-maven-plugin -->
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>versions-maven-plugin</artifactId>
+                    <version>${maven.plugin.version}</version>
+                </plugin>
+                <!-- http://mvnrepository.com/artifact/org.apache.maven.plugins/maven-compiler-plugin -->
+                <plugin>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>${maven.plugin.compiler}</version>
+                </plugin>
+                <!-- http://www.mvnrepository.com/artifact/org.apache.maven.plugins/maven-surefire-plugin -->
+                <plugin>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <version>${maven.plugin.surefire}</version>
+                </plugin>
+                <!-- http://mvnrepository.com/artifact/org.projectlombok/lombok-maven-plugin -->
+                <plugin>
+                    <groupId>org.projectlombok</groupId>
+                    <artifactId>lombok-maven-plugin</artifactId>
+                    <version>${maven.plugin.lombok}</version>
+                </plugin>
+                <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-gpg-plugin -->
+                <plugin>
+                    <artifactId>maven-gpg-plugin</artifactId>
+                    <version>${maven.plugin.pgp}</version>
+                </plugin>
+                <!-- Import from vertx.core -->
+                <plugin>
+                    <groupId>org.bsc.maven</groupId>
+                    <artifactId>maven-processor-plugin</artifactId>
+                    <version>${maven.plugin.processor}</version>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-javadoc-plugin</artifactId>
+                    <version>${maven.plugin.javadoc}</version>
+                    <configuration>
+                        <doclet>ch.raffael.mddoclet.MarkdownDoclet</doclet>
+                        <docletArtifact>
+                            <groupId>ch.raffael.markdown-doclet</groupId>
+                            <artifactId>markdown-doclet</artifactId>
+                            <version>${mdoclet.version}</version>
+                        </docletArtifact>
+                        <useStandardDocletOptions>true</useStandardDocletOptions>
+                        <reportOutputDirectory>${project.build.directory}/docs</reportOutputDirectory>
+                        <!-- Release configuration -->
+                        <!--<destDir>${project.basedir}/src/document</destDir>-->
+                    </configuration>
+                    <executions>
+                        <execution>
+                            <goals>
+                                <goal>javadoc</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+                <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-source-plugin -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-source-plugin</artifactId>
+                    <version>${maven.plugin.source}</version>
+                    <configuration>
+                        <excludes>
+                            <exclude>docoverride/**</exclude>
+                        </excludes>
+                    </configuration>
+                </plugin>
+                <!-- https://mvnrepository.com/artifact/org.sonatype.plugins/nexus-staging-maven-plugin -->
+                <plugin>
+                    <groupId>org.sonatype.plugins</groupId>
+                    <artifactId>nexus-staging-maven-plugin</artifactId>
+                    <version>${maven.plugin.staging}</version>
+                    <extensions>true</extensions>
+                    <configuration>
+                        <serverId>vertx-zero</serverId>
+                        <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+                        <autoReleaseAfterClose>true</autoReleaseAfterClose>
+                    </configuration>
+                </plugin>
+                <!-- https://mvnrepository.com/artifact/org.eluder.coveralls/coveralls-maven-plugin -->
+                <plugin>
+                    <groupId>org.eluder.coveralls</groupId>
+                    <artifactId>coveralls-maven-plugin</artifactId>
+                    <version>${maven.plugin.coveralls}</version>
+                </plugin>
+                <!-- https://mvnrepository.com/artifact/org.codehaus.mojo/cobertura-maven-plugin -->
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>cobertura-maven-plugin</artifactId>
+                    <version>${maven.plugin.cobertura}</version>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+        <plugins>
+            <!-- Source -->
+            <plugin>
+                <artifactId>maven-source-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <goals>
+                            <goal>jar-no-fork</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <!-- Java Doc -->
+            <plugin>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <configuration>
+                    <doclint>none</doclint>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>attach-javadocs</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <!-- Staging -->
+            <plugin>
+                <groupId>org.sonatype.plugins</groupId>
+                <artifactId>nexus-staging-maven-plugin</artifactId>
+                <extensions>true</extensions>
+                <configuration>
+                    <serverId>oss</serverId>
+                    <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+                    <autoReleaseAfterClose>true</autoReleaseAfterClose>
+                </configuration>
+            </plugin>
+            <!-- Deploy Only -->
+            <!--
+            <plugin>
+                <artifactId>maven-gpg-plugin</artifactId>
+                <version>${maven.plugin.pgp}</version>
+                <executions>
+                    <execution>
+                        <id>sign-artifacts</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>sign</goal>
+                        </goals>
+                        <configuration>
+                            <executable>gpg2</executable>
+                            <keyname>lang.yu</keyname>
+                            <passphrase>pl,okmijn123</passphrase>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>versions-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+</project>

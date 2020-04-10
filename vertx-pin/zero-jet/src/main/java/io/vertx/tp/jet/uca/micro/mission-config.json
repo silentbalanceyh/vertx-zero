@@ -1,0 +1,17 @@
+{
+    "metadata": {},
+    "key": "c77b751b-5b71-418d-abcc-6ed328f8e900",
+    "namespace": "cn.originx.vie.app.ex",
+    "name": "bastion.data-sync",
+    "comment": "堡垒机同步专用",
+    "isWorkflow": false,
+    "isGraphic": false,
+    "channelType": "ACTOR",
+    "serviceRecord": "cn.originx.bastion.data.BastionRecord",
+    "serviceComponent": "cn.originx.bastion.component.SyncComponent",
+    "identifier": "ci.bastion",
+    "sigma": "HGyhDZ5p96jaNFbpZMl6s6SJWD4PNzAm",
+    "language": "cn",
+    "active": true,
+    "addon": {}
+}

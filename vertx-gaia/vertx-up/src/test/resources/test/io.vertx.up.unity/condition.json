@@ -1,0 +1,17 @@
+{
+    "pager": {
+        "size": 10,
+        "page": 1
+    },
+    "criteria": {
+        "": true,
+        "$1": {
+            "name,c": "cd",
+            "code,c": "cd"
+        }
+    },
+    "projection": [],
+    "sorter": [
+        "updateTime,DESC"
+    ]
+}

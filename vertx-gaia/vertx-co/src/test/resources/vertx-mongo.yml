@@ -1,0 +1,4 @@
+mongo:
+  db_name: "mongo_test_db"
+  port: 2008
+  host: "127.0.0.3"

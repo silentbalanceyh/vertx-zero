@@ -1,0 +1,7 @@
+required:
+  - driverClassName
+  - username
+  - password
+  - instance
+  - hostname
+  - jdbcUrl

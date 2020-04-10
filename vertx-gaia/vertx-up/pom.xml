@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>vertx-gaia</artifactId>
+        <groupId>cn.vertxup</groupId>
+        <version>0.5.3-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>vertx-up</artifactId>
+    <name>( Vertx Core ) vertx-up: Core Engine</name>
+    <dependencies>
+        <!-- Service Discovery -->
+        <dependency>
+            <groupId>cn.vertxup</groupId>
+            <artifactId>vertx-tp</artifactId>
+        </dependency>
+        <!-- EL -->
+        <dependency>
+            <groupId>javax.el</groupId>
+            <artifactId>javax.el-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish</groupId>
+            <artifactId>javax.el</artifactId>
+        </dependency>
+        <!-- Jsr 311 Jws -->
+        <dependency>
+            <groupId>org.glassfish.jersey.core</groupId>
+            <artifactId>jersey-common</artifactId>
+        </dependency>
+    </dependencies>
+</project>

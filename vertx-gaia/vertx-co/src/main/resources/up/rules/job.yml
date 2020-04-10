@@ -1,0 +1,4 @@
+typed:
+  store: JOBJECT
+  client: JOBJECT
+  interval: JOBJECT

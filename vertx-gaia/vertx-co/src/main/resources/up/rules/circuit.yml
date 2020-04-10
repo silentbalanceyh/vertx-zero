@@ -1,0 +1,9 @@
+typed:
+  fallbackOnFailure: BOOLEAN
+  maxFailures: INTEGER
+  maxRetries: INTEGER
+  metricsRollingWindow: INTEGER
+  notificationAddress: STRING
+  notificationPeriod: INTEGER
+  resetTimeout: INTEGER
+  timeout: INTEGER

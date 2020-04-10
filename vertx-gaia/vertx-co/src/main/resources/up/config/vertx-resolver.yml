@@ -1,0 +1,7 @@
+default: io.vertx.up.uca.rs.mime.resolver.BufferResolver
+application:
+  json: io.vertx.up.uca.rs.mime.resolver.JsonResolver
+  octet-stream: io.vertx.up.uca.rs.mime.resolver.FileResolver
+  x-www-form-urlencoded: io.vertx.up.uca.rs.mime.resolver.FileResolver
+multipart:
+  form-data: io.vertx.up.uca.rs.mime.resolver.FileResolver

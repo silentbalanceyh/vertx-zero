@@ -1,0 +1,18 @@
+mapping:
+  pkId: key
+  zsigma: sigma
+  zlanguage: language
+  zcreateBy: createBy
+  zcreateTime: createTime
+  zupdateBy: updateBy
+  zupdateTime: updateTime
+  tcomment: comment
+  darriveTime: arriveTime
+  vhotelId: hotelId
+  soperator: operator
+  sroomNum: roomNumber
+  sserial: serial
+  iinoccup: inoccup
+  iperson: person
+  roitemId: oitemId
+  isActive: active

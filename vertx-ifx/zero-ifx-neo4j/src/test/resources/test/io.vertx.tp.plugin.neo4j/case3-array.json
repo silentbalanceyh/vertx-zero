@@ -1,0 +1,21 @@
+{
+    "name": "TESTN4J001",
+    "nodes": [
+        {
+            "key": "ADD-A-001",
+            "x": 100,
+            "y": 50,
+            "data": {
+                "username": "lang.yu"
+            }
+        },
+        {
+            "key": "ADD-A-002",
+            "x": 66,
+            "y": 100,
+            "data": {
+                "username": "silentyh"
+            }
+        }
+    ]
+}

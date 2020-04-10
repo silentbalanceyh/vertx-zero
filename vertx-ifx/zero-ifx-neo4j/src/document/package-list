@@ -1,0 +1,3 @@
+io.vertx.tp.plugin.neo4j
+io.vertx.tp.plugin.neo4j.refine
+io.vertx.tp.plugin.neo4j.sync

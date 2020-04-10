@@ -1,0 +1,17 @@
+typed:
+  # HttpServerOptions
+  port: INTEGER
+  compressionSupported: BOOLEAN
+  compressionLevel: INTEGER
+  maxWebsocketFrameSize: INTEGER
+  websocketSubProtocols: STRING
+  handle100ContinueAutomatically: BOOLEAN
+  maxChunkSize: INTEGER
+  maxInitialLineLength: INTEGER
+  maxHeaderSize: INTEGER
+  http2ConnectionWindowSize: INTEGER
+  decompressionSupported: BOOLEAN
+  acceptUnmaskedFrames: BOOLEAN
+  decoderInitialBufferSize: INTEGER
+  alpnVersions: JARRAY
+  # NetServerOptions

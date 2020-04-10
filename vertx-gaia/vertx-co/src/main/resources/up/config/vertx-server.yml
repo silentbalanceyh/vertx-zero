@@ -1,0 +1,6 @@
+server:
+- name: zero-ws
+  type: http
+  config:
+    port: 6083
+    host: 0.0.0.0

@@ -1,0 +1,28 @@
+package io.vertx.tp.plugin.neo4j;
+
+import io.vertx.core.json.JsonArray;
+import io.vertx.ext.unit.TestContext;
+import org.junit.Ignore;
+import org.junit.Test;
+
+@Ignore
+public class Neo4jGTc extends Neo4jQuiz {
+    @Test
+    public void testReady(final TestContext context) {
+        final Neo4jGs gs = this.create("case5-graphic-test.json");
+        final Neo4jClient client = Neo4jInfix.getClient().connect(gs.getName());
+        // client.edgeCreate(gs.getEdges());
+        // client.nodeCreate(gs.getNodes()).compose(created -> client.edgeCreate(gs.getEdges())).compose(client::closeAsync);
+    }
+
+    @Test
+    public void testAnalyze(final TestContext context) {
+        final Neo4jGs gs = this.create("case5-graphic.json");
+        final Neo4jClient client = Neo4jInfix.getClient().connect(gs.getName());
+        this.async(context, client.graphicByKey("442dc45cb85a6345b1fab405bfbb5fa9"), actual -> {
+            final JsonArray nodes = actual.getJsonArray("nodes");
+            final JsonArray edges = actual.getJsonArray("edges");
+            System.err.println(nodes.size() + "," + edges.size() + "," + actual.encodePrettily());
+        });
+    }
+}

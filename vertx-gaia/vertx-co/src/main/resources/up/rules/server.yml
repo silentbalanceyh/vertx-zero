@@ -1,0 +1,6 @@
+required:
+  - name
+  - type
+  - config
+typed:
+  config: JOBJECT

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<configuration>
+    <jdbc>
+        <driver>com.mysql.cj.jdbc.Driver</driver>
+        <url>
+            <![CDATA[ jdbc:mysql://ox.engine.cn:3306/DB_ETERNAL?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&failOverReadOnly=false&useSSL=false ]]>
+        </url>
+        <username>root</username>
+        <password>pl,okmijn123</password>
+    </jdbc>
+    <generator>
+        <name>io.github.jklingsporn.vertx.jooq.generate.future.FutureVertxGenerator</name>
+        <database>
+            <!--force generating id'sfor everything in public schema, that has an 'id' field-->
+            <syntheticPrimaryKeys>public\..*\.id</syntheticPrimaryKeys>
+            <!--name for fake primary key-->
+            <overridePrimaryKeys>override_primmary_key</overridePrimaryKeys>
+            <name>org.jooq.util.mysql.MySQLDatabase</name>
+            <inputSchema>DB_ETERNAL</inputSchema>
+            <includes>(^(UI_|V_).*)</includes>
+            <unsignedTypes>false</unsignedTypes>
+            <forcedTypes>
+                <!-- Convert tinyint to boolean -->
+                <forcedType>
+                    <name>BOOLEAN</name>
+                    <types>(?i).*TINYINT.*</types>
+                </forcedType>
+                <!-- Convert varchar column with name 'someJsonObject' to a io.vertx.core.json.JsonObject-->
+                <forcedType>
+                    <userType>io.vertx.core.json.JsonObject</userType>
+                    <converter>io.github.jklingsporn.vertx.jooq.shared.JsonObjectConverter
+                    </converter>
+                    <expression>ZeroJsonObject</expression>
+                    <types>.*</types>
+                </forcedType>
+                <!-- Convert varchar column with name 'someJsonArray' to a io.vertx.core.json.JsonArray-->
+                <forcedType>
+                    <userType>io.vertx.core.json.JsonArray</userType>
+                    <converter>io.github.jklingsporn.vertx.jooq.shared.JsonArrayConverter
+                    </converter>
+                    <expression>ZeroJsonArray</expression>
+                    <types>.*</types>
+                </forcedType>
+            </forcedTypes>
+        </database>
+        <generate>
+            <daos>true</daos>
+            <pojos>true</pojos>
+            <javaTimeTypes>true</javaTimeTypes>
+            <interfaces>true</interfaces>
+            <fluentSetters>true</fluentSetters>
+        </generate>
+        <target>
+            <packageName>cn.vertxup.ui.domain</packageName>
+            <directory>../../src/main/java</directory>
+        </target>
+        <strategy>
+            <name>io.github.jklingsporn.vertx.jooq.generate.future.FutureGeneratorStrategy
+            </name>
+        </strategy>
+    </generator>
+</configuration>

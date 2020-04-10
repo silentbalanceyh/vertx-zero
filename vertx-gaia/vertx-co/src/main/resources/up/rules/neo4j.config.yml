@@ -1,0 +1,10 @@
+required:
+  - hostname
+  - username
+  - password
+typed:
+  hostname: STRING
+  username: STRING
+  password: STRING
+  port: INTEGER
+  options: JOBJECT

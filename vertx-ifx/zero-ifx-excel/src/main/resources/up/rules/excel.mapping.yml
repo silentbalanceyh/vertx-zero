@@ -1,0 +1,6 @@
+required:
+  - table
+  - pojo
+  - dao
+typed:
+  unique: JARRAY

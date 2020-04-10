@@ -1,0 +1,36 @@
+# Compiled class up.god.file
+*.class
+
+# Log up.god.file
+*.log
+
+# BlueJ files
+*.ctxt
+
+# Mobile Tools for Java (J2ME)
+.mtj.tmp/
+
+# Package Files #
+*.jar
+*.war
+*.ear
+*.zip
+*.tar.gz
+*.rar
+
+# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
+hs_err_pid*
+.vertx
+.idea
+up.god.file-uploads
+target
+*.versionsBackup
+*.iml
+archive
+!vertx-zeus/up-thea/tool/jooq/*.jar
+file-uploads
+!vertx-zero-example
+.Archive
+.markeditor
+configs
+zero-tree.txt

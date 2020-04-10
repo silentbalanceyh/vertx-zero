@@ -1,0 +1,8 @@
+io.vertx.tp.error
+io.vertx.tp.optic.component
+io.vertx.tp.plugin.database
+io.vertx.tp.plugin.init
+io.vertx.tp.plugin.jooq
+io.vertx.up.plugin
+io.vertx.up.uca.marshal
+io.vertx.up.uca.options

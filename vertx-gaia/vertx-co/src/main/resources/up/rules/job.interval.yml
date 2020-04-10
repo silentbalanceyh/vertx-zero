@@ -1,0 +1,3 @@
+typed:
+  component: STRING
+  config: JOBJECT

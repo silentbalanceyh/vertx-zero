@@ -1,0 +1,51 @@
+typed:
+  acceptBacklog: INTEGER
+  clientAuth: STRING
+  clusterPingInterval: INTEGER
+  clusterPingReplyInterval: INTEGER
+  clusterPublicHost: STRING
+  clusterPublicPort: INTEGER
+  clustered: BOOLEAN
+  connectTimeout: INTEGER
+  # String Array
+  crlPaths: JARRAY
+  crlValues: JARRAY
+  enabledCipherSuites: JARRAY
+  enabledSecureTransportProtocols: JARRAY
+  host: STRING
+  idleTimeout: INTEGER
+  # EventBusOptions -> JdkSSLEngineOptions
+  jdkSslEngineOptions: JOBJECT
+  # EventBusOptions -> JksOptions
+  keyStoreOptions: JOBJECT
+  logActivity: BOOLEAN
+  # EventBusOptions -> OpenSSLEngineOptions
+  openSslEngineOptions: JOBJECT
+  # EventBusOptions -> PemKeyCertOptions
+  pemKeyCertOptions: JOBJECT
+  # EventBusOptions -> PemTrustOptions
+  pemTrustOptions: JOBJECT
+  # EventBusOptions -> PfxOptions
+  pfxKeyCertOptions: JOBJECT
+  # EventBusOptions -> PfxOptions
+  pfxTrustOptions: JOBJECT
+  port: INTEGER
+  receiveBufferSize: INTEGER
+  reconnectAttempts: INTEGER
+  reconnectInterval: INTEGER
+  reuseAddress: BOOLEAN
+  reusePort: BOOLEAN
+  sendBufferSize: INTEGER
+  soLinger: INTEGER
+  ssl: BOOLEAN
+  tcpCork: BOOLEAN
+  tcpFastOpen: BOOLEAN
+  tcpKeepAlive: BOOLEAN
+  tcpNoDelay: BOOLEAN
+  tcpQuickAck: BOOLEAN
+  trafficClass: INTEGER
+  trustAll: BOOLEAN
+  # EventBusOptions -> JksOptions
+  trustStoreOptions: JOBJECT
+  useAlpn: BOOLEAN
+  usePooledBuffers: BOOLEAN

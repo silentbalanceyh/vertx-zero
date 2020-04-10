@@ -1,0 +1,14 @@
+[
+    {
+        "name": "Lang",
+        "email": "lang.yu@hpe.com",
+        "age": 32,
+        "male": true
+    },
+    {
+        "name": "Lang1",
+        "email": "lang.yu1@hpe.com",
+        "age": 36,
+        "male": false
+    }
+]

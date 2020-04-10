@@ -1,0 +1,4 @@
+required:
+  - mapping
+typed:
+  environment: JARRAY

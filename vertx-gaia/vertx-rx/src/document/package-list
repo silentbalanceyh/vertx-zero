@@ -1,0 +1,7 @@
+io.vertx.rx
+io.vertx.rx.micro
+io.vertx.rx.rs.dispatch
+io.vertx.rx.rs.router
+io.vertx.rx.web
+io.vertx.rx.web.anima
+io.vertx.rx.web.limit

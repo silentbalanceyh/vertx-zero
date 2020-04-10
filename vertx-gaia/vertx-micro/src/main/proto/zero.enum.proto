@@ -1,0 +1,29 @@
+// Version
+syntax = "proto3";
+// Basic options
+option java_multiple_files = true;
+option java_package = "io.vertx.tp.ipc.eon.em";
+option java_outer_classname = "UpEnum";
+
+package io.vertx.tp.ipc.eon.em;
+
+// Compress Algorithm
+enum Compression {
+    NONE = 0; // No compression
+    GZIP = 1; // Gzip compression
+    DEFLATE = 2; // Deflate compression
+}
+
+// Format
+enum Format {
+    BINARY = 0; // Binary
+    JSON = 1; // Json
+    XML = 2; // Xml
+}
+
+// Envelop Category
+enum Category {
+    COMPRESSABLE = 0; // Compression
+    UNCOMPRESSABLE = 1; // Uncompression
+    RANDOM = 2; // Random
+}

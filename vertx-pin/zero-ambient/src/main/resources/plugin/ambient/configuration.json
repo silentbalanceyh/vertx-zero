@@ -1,0 +1,9 @@
+{
+    "supportSource": true,
+    "initializer": null,
+    "prerequisite": null,
+    "loader": null,
+    "dataFolder": "init/oob/",
+    "fileStorage": "FILE",
+    "fileLanguage": "cn"
+}
