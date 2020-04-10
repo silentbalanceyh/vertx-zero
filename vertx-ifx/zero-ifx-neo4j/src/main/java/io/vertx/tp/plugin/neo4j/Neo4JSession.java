@@ -27,6 +27,8 @@ public interface Neo4JSession {
 
     Future<JsonObject> find(JsonObject condition);
 
+    JsonObject findSync(JsonObject condition);
+
     Future<JsonObject> delete(JsonObject node);
 
     Future<JsonArray> delete(JsonArray nodes);

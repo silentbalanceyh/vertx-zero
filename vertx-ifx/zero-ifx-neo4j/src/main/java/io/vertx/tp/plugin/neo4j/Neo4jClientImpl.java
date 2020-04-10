@@ -103,6 +103,11 @@ public class Neo4jClientImpl implements Neo4jClient {
     }
 
     @Override
+    public boolean nodeExisting(final String key) {
+        return Ut.notNil(this.session.findSync(new JsonObject().put("key", key)));
+    }
+
+    @Override
     public Future<JsonObject> edgeCreate(final JsonObject edge) {
         return this.session.link(edge);
     }
