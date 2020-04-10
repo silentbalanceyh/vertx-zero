@@ -12,7 +12,7 @@ import java.util.function.Supplier;
 
 public abstract class AbstractN4JExecutor {
 
-    private JsonObject doSync(final JsonObject processed, final String alias, final Function<JsonObject, String> consumer) {
+    protected JsonObject doSync(final JsonObject processed, final String alias, final Function<JsonObject, String> consumer) {
         final String command = consumer.apply(processed);
         N4J.infoNode(this.getClass(), "Alias: {2}, Command: {0}, Args: {1}", command, processed.encode(), alias);
 
@@ -20,7 +20,7 @@ public abstract class AbstractN4JExecutor {
         return executor.execute(command, processed, alias);
     }
 
-    private JsonArray doSync(final JsonArray processed, final Function<JsonArray, List<String>> consumer) {
+    protected JsonArray doSync(final JsonArray processed, final Function<JsonArray, List<String>> consumer) {
         final List<String> command = consumer.apply(processed);
         N4J.infoEdge(this.getClass(), "Command: {0}, Args: {1}", command, processed.encode());
         final N4JExecutor executor = N4JExecutor.create().bind(this.session());

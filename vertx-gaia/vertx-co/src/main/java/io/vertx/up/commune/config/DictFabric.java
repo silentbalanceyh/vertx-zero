@@ -12,14 +12,14 @@ import java.util.concurrent.ConcurrentMap;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 
-/*
+/**
+ * ## DictFabric
+ *
  * Combiner of Dict
- * 1) ConcurrentMap<String, Epsilon> map
- * -- stored field -> dict
- * 2) ConcurrentMap<String, JsonArray>
- * -- dictionary data in current channel
- * 3) DualMapping
- * -- Stored mapping ( from -> to )
+ * 1. `ConcurrentMap<String, Epsilon>` map stored field -> dict
+ * 2. `ConcurrentMap<String, JsonArray>` dictionary data in current channel
+ * 3. DualMapping Stored mapping ( from -> to )
+ * 4. The `fabric` do not support mapping converting future( Important )
  */
 public class DictFabric {
 
@@ -174,10 +174,12 @@ public class DictFabric {
      * Api: to ( in -> out )
      * Api: from ( out -> in )
      */
+
     /*
      * inTo
      * 1) The field is Ox field
      * 2) uuid -> ( out -> in )
+     * 3) The output structure are Ox field
      */
     public JsonObject inToS(final JsonObject input) {
         return this.process(this.fromData, input, DualItem::from);
@@ -199,6 +201,7 @@ public class DictFabric {
      * inFrom
      * 1) The field is Ox field
      * 2) display -> ( in -> out )
+     * 3) The output structure are Ox field
      */
     public JsonObject inFromS(final JsonObject input) {
         return this.process(this.fromData, input, DualItem::to);
@@ -220,6 +223,7 @@ public class DictFabric {
      * outTo
      * 1) The field is Tp field
      * 2) uuid -> ( out -> in )
+     * 3) The output structure are Tp field
      */
     public JsonObject outToS(final JsonObject output) {
         return this.process(this.toData, output, DualItem::from);
@@ -241,6 +245,7 @@ public class DictFabric {
      * outFrom
      * 1) The field is Tp field
      * 2) display -> ( in -> out )
+     * 3) The output structure are Tp field
      */
     public JsonObject outFromS(final JsonObject output) {
         return this.process(this.toData, output, DualItem::to);

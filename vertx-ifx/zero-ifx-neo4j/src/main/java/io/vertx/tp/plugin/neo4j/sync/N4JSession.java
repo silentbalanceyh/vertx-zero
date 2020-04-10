@@ -70,6 +70,12 @@ public class N4JSession extends AbstractN4JSession {
     }
 
     @Override
+    public JsonObject findSync(final JsonObject condition) {
+        return this.doSync(condition, ALIAS_FOUND,
+                processed -> N4J.nodeFind(this.graph, processed, ALIAS_FOUND));
+    }
+
+    @Override
     public Future<JsonObject> link(final JsonObject edge) {
         return this.edgeOp().create(edge);
     }

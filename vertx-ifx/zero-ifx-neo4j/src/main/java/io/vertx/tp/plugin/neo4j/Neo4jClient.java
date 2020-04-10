@@ -62,6 +62,8 @@ public interface Neo4jClient extends TpClient<Neo4jClient> {
 
     Future<JsonObject> nodeFind(String key);
 
+    boolean nodeExisting(String key);
+
     /*
      * Edge basic operations
      * {
