@@ -11,4 +11,7 @@ interface Info {
             "of {2} annotated with {3}. will be initialized with DI container.";
 
     String SCANNED_INSTANCES = "The instance classes ({0}) will be scanned.";
+
+    String SCANNED_JSR311 = "( Field ) JSR311 Warning, declared class: " +
+            "\"{0}\", field = \"{1}\", type = {2}";
 }
