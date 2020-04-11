@@ -10,6 +10,29 @@ import java.time.DateTimeException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+/**
+ * # 「Tp」Jackson Deserializer
+ *
+ * This serializer inherit from `LocalDateTimeDeserializer` for the calculation of date time
+ * with TimeZone. When you set the date time to java object, here are standard of datetime, the
+ * default format is UTC.
+ *
+ * This component is used by {@link com.fasterxml.jackson.databind.module.ZeroModule} as following:
+ *
+ * ```java
+ * // <pre><code class="java">
+ *      this.addDeserializer(LocalDateTime.class, new AdjustDateTimeDeserializer());
+ * // </code></pre>
+ * ```
+ *
+ * ## Designed
+ *
+ * After `java 8`, it provide `LocalDateTime, LocalDate, LocalTime` for datetime calculation, it means that you can
+ * use previous three datetime classes instead of `Date` or `Calendar` here. These api are more useful when you are in
+ * development of some real business project.
+ *
+ * @author lang
+ */
 public class AdjustDateTimeDeserializer extends LocalDateTimeDeserializer {
 
     private static final DateTimeFormatter DEFAULT_FORMATTER = DateTimeFormatter.ISO_LOCAL_DATE_TIME;

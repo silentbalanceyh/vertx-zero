@@ -35,7 +35,28 @@ import java.util.Iterator;
  * Here will ignore method description because it's inherited from jackson `SimpleModule`. Here are three
  * major `serializer/deserializer` for different situations.
  *
- * This module will be used to build internal `mapper` of jackson for based data type architecture.
+ * ## Usage
+ *
+ * This module will be used to build internal `mapper` of jackson for based data type architecture. Please refer
+ * following code example to see how to use:
+ *
+ * ```java
+ * // <pre><code class="java">
+ *
+ * private static final ObjectMapper MAPPER = new ObjectMapper();
+ *
+ * static{
+ *      final ZeroModule module = new ZeroModule();
+ *      Jackson.MAPPER.registerModule(module);
+ *      Jackson.MAPPER.setPropertyNamingStrategy(OrignialNamingStrategy.JOOQ_NAME);
+ * }
+ *
+ * // </code></pre>
+ * ```
+ *
+ * Based on above code segments, you can registry new module instead of attributes settings for jackson serialization.
+ *
+ * @author lang
  */
 public class ZeroModule extends SimpleModule {
     private static final long serialVersionUID = 1L;

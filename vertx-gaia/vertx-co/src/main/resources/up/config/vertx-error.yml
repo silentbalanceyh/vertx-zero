@@ -76,7 +76,6 @@ E40051: "Your RoutingContext object reference is null, could not be getNull by g
 E40052: "You defined @WebFilter \"{0}\", but it does not implement interface \"io.vertx.up.uca.web.filter\"."
 E40053: "The order of @WebFilter must be greater than or equal 0 ( >= 0 ), but now \"{0}\" @Ordered value is negative number."
 E40054: "The @WebFilter \"{0}\"could not be initialized, please check your class."
-E40055: "(Jooq) Query with 3 length only support value of Date,DateTime,Time only, current = {0}"
 E40056: "(Database) Data pool initialized met issue, jdbcUrl = {0}, exception = {1}"
 E40057: "(Jooq) The method \"copyEntity(T target,T updated)\" require second argument updated must not be null. Class = {0}, Data = {1}"
 E40058: "(Jooq) The mode required is {0}, but current filters are \"{1}\", they are conflict"
@@ -86,8 +85,10 @@ E40061: "(Security) You are using Zero Security Framework, but the @Wall found S
 E40062: "(Quiz) Current test case name = `{0}` is invalid when you enable Quiz Framework of Zero, name must end with `Tc`"
 E40063: "Your reflect invoking does not satisfy the pre-condition, method = {0}"
 E40064: "(Act) Act specification is invalid, you could not call this api when isBatch = {0}"
-E40065: "(Jooq) Jooq database configuration pool key = `provider` missing, it's required when you enable Jooq."
+E40065: "(Jooq) Jooq database configuration pool key = `provider` missing, it's required when you enable Jooq"
 E40066: "(Jooq) The input `clazz` is not implemented from VertxDAO, clazz is invalid: {0}"
+E40067: "(Jooq) There is no `Clause` for field = \"{0}\" and type = \"{1}\", original field = \"{2}\""
+E40055: "(Jooq) The analyzed field of original \"{0}\" field is null, it means that the field is invalid"
 
 # RxJava
 E45001: (V) - The field "{1}" of json array "{0}" must be mapped to unique element, but current reduced is "{2}"
