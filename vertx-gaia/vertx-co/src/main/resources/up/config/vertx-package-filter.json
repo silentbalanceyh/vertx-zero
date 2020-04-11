@@ -63,6 +63,7 @@
         "org.neo4j",
         "org.objenesis",
         "org.openxmlformats",
+        "org.osgi",
         "org.reactivestreams",
         "org.reflections",
         "org.slf4j",
