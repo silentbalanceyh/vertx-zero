@@ -7,7 +7,8 @@ import io.vertx.up.atom.query.Inquiry;
 import io.vertx.up.atom.query.Sorter;
 import io.vertx.up.eon.Strings;
 import io.vertx.up.eon.Values;
-import io.vertx.up.exception.zero.JooqArgumentException;
+import io.vertx.up.exception.zero.JooqCondClauseException;
+import io.vertx.up.exception.zero.JooqCondFieldException;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import io.vertx.up.util.Ut;
@@ -217,9 +218,9 @@ public class JooqCond {
         for (final String field : filters.fieldNames()) {
             /*
              * field analyzing first
+             * The `field` is basic field here for first analyzing
              */
             final Object value = filters.getValue(field);
-            Fn.outUp(Objects.isNull(value), LOGGER, JooqArgumentException.class, JooqCond.class, value);
             /*
              * Code flow 1
              * - When `field` value is [] ( JsonArray ), the system must convert the result to
@@ -284,7 +285,7 @@ public class JooqCond {
 
             if (Objects.nonNull(fnAnalyze)) {
                 final Field metaField = fnAnalyze.apply(targetField);
-                Fn.outUp(Objects.isNull(metaField), LOGGER, JooqArgumentException.class, JooqCond.class, metaField);
+                Fn.outUp(Objects.isNull(metaField), LOGGER, JooqCondFieldException.class, JooqCond.class, targetField);
 
                 /*
                  * 1) fields = ( field,op )
@@ -298,7 +299,8 @@ public class JooqCond {
                  * Clause extraction
                  */
                 final Clause clause = Clause.get(type);
-                Fn.outUp(Objects.isNull(clause), LOGGER, JooqArgumentException.class, JooqCond.class, clause);
+                Fn.outUp(Objects.isNull(clause), LOGGER, JooqCondClauseException.class,
+                        JooqCond.class, metaField.getName(), type, targetField);
 
                 /*
                  * Get condition of this term
