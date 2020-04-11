@@ -1125,6 +1125,35 @@
                         <reportOutputDirectory>${project.build.directory}/docs</reportOutputDirectory>
                         <!-- Release configuration -->
                         <!--<destDir>${project.basedir}/src/document</destDir>-->
+                        <additionalOptions>--allow-script-in-comments</additionalOptions>
+                        <header><![CDATA[
+                            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/styles/idea.min.css">
+                            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/highlight.min.js"></script>
+                            <script type="text/javascript">
+                                hljs.initHighlightingOnLoad();
+                            </script>
+                            <style type="text/css">
+                            body{
+                                font-family: "Verdana"
+                            }
+                            code{
+                                font-size: 13px;
+                                font-family: "PT Mono","Menlo","Monaco";
+                            }
+                            div.block {
+                                font-family: "JetBrains Mono","Verdana", Georgia, "Times New Roman", Times, serif;
+                            }
+                            div.block pre .java{
+                                background-color:#f8f8f8;
+                            }
+                            li.blockList > pre {
+                                font-size: 14px;
+                            }
+                            .bar{
+                                font-size: 13px!important;
+                            }
+                            </style>
+                        ]]></header>
                     </configuration>
                     <executions>
                         <execution>

@@ -7,12 +7,29 @@ import io.vertx.up.atom.unity.Uson;
 import java.io.IOException;
 
 /**
+ * # 「Tp」Jackson Deserializer
+ *
+ * Blade is a game of `sword` processing, it's for {@link io.vertx.up.atom.unity.Uson} data structure serialization.
+ * Uson is defined by Zero Framework and it contains following features:
+ *
+ * * Stream Api for Json processing.
+ * * Fluent Api that are mocked as Vert.x native.
+ *
+ * This deserializer is for {@link io.vertx.up.atom.unity.Uson} serialization if needed, the internal Json data object
+ * will be deserialize instead of itself.
+ *
+ * This component is used by {@link com.fasterxml.jackson.databind.module.ZeroModule} as following:
+ *
+ * ```java
+ * // <pre><code class="java">
+ *       this.addDeserializer(Uson.class, new BladeDeserializer());
+ * // </code></pre>
+ * ```
+ *
  * @author Lang
  */
 public class BladeDeserializer extends JsonDeserializer<Uson> { // NOPMD
-    /**
-     *
-     */
+
     @Override
     public Uson deserialize(final JsonParser parser,
                             final DeserializationContext context)
