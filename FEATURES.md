@@ -58,6 +58,7 @@ All the business part that you can refer `vertx-pin` project ( zero extensions )
 * **ElasticSearch**
 * **MySql**
 * **Mongo DB**
+* **Neo4j**: Graphic Database
 * **Jooq**
 * **Etcd3**
 * **gRPC**: Zero micro environment
