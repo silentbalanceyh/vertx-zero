@@ -5,6 +5,13 @@ import io.vertx.core.json.JsonObject;
 
 import java.io.IOException;
 
+/**
+ * # 「Tp」Jackson Deserializer
+ *
+ * Came from `vert.x` internally to support `io.vertx.core.json.JsonObject` deserialization, ignored.
+ *
+ * @author lang
+ */
 public class JsonObjectDeserializer extends JsonDeserializer<JsonObject> {
 
     @Override
