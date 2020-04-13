@@ -3,14 +3,14 @@ package io.vertx.up.uca.web.thread;
 import io.reactivex.Observable;
 import io.vertx.up.annotations.Qualifier;
 import io.vertx.up.eon.Plugins;
-import io.vertx.up.log.Annal;
 import io.vertx.up.eon.Values;
+import io.vertx.up.fn.Fn;
+import io.vertx.up.log.Annal;
+import io.vertx.up.util.Ut;
 import io.vertx.zero.exception.MultiAnnotatedException;
 import io.vertx.zero.exception.NamedImplementionException;
 import io.vertx.zero.exception.NamedNotFoundException;
 import io.vertx.zero.exception.QualifierMissedException;
-import io.vertx.up.util.Ut;
-import io.vertx.up.fn.Fn;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -21,6 +21,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.stream.Collectors;
 
+@SuppressWarnings("all")
 public class AffluxThread extends Thread {
 
     private static final Annal LOGGER = Annal.get(AffluxThread.class);
@@ -67,15 +68,23 @@ public class AffluxThread extends Thread {
             final List<Class<?>> target = this.classes.stream().filter(
                     item -> Ut.isImplement(item, type)
             ).collect(Collectors.toList());
-            // Unique
-            if (Values.ONE == target.size()) {
-                final Class<?> targetCls = target.get(Values.IDX);
-                LOGGER.info(Info.SCANNED_FIELD, this.reference,
-                        field.getName(), targetCls.getName(), Inject.class);
-                this.fieldMap.put(field.getName(), targetCls);
+            // Unique Implementation Processing
+            if (target.isEmpty()) {
+                // 0 size of current size here
+                final String fieldName = field.getName();
+                final String typeName = field.getDeclaringClass().getName();
+                LOGGER.warn(Info.SCANNED_JSR311, typeName, fieldName, type.getName());
             } else {
-                // By Named and Qualifier
-                this.scanQualifier(field, target);
+                // Unique
+                if (Values.ONE == target.size()) {
+                    final Class<?> targetCls = target.get(Values.IDX);
+                    LOGGER.info(Info.SCANNED_FIELD, this.reference,
+                            field.getName(), targetCls.getName(), Inject.class);
+                    this.fieldMap.put(field.getName(), targetCls);
+                } else {
+                    // By Named and Qualifier
+                    this.scanQualifier(field, target);
+                }
             }
         } else {
             this.fieldMap.put(field.getName(), type);

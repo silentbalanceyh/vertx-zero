@@ -26,6 +26,16 @@ import java.io.IOException;
  * // </code></pre>
  * ```
  *
+ * Here are `Uson` usage segment:
+ *
+ * ```java
+ * // <pre><code class="java">
+ *
+ *      // Before App Initialized ( Public Api ), Stream api ( Fluent ) here about Uson usage
+ *      .compose(appData -> Uson.create(appData).remove(KeField.APP_KEY).toFuture())
+ * // </code></pre>
+ * ```
+ *
  * @author Lang
  */
 public class BladeDeserializer extends JsonDeserializer<Uson> { // NOPMD

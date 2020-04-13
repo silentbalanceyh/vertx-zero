@@ -41,7 +41,7 @@ final class Jackson {
 
         final ZeroModule module = new ZeroModule();
         Jackson.MAPPER.registerModule(module);
-        Jackson.MAPPER.setPropertyNamingStrategy(OrignialNamingStrategy.JOOQ_NAME);
+        Jackson.MAPPER.setPropertyNamingStrategy(OriginalNamingStrategy.JOOQ_NAME);
     }
 
     private Jackson() {
