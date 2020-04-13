@@ -15,28 +15,28 @@ import java.util.concurrent.ConcurrentMap;
 
 @Plugin
 public class ElasticSearchInfix implements Infix {
-	private static final String NAME = "ZERO_ELASTIC_SEARCH_POOL";
+    private static final String NAME = "ZERO_ELASTIC_SEARCH_POOL";
 
-	private static final ConcurrentMap<String, ElasticSearchClient> CLIENTS = new ConcurrentHashMap<>();
+    private static final ConcurrentMap<String, ElasticSearchClient> CLIENTS = new ConcurrentHashMap<>();
 
-	private static void initInternal(final Vertx vertx) {
-		Fn.pool(CLIENTS, NAME,
-			() -> Infix.initTp("elasticsearch",
-				(config) -> ElasticSearchClient.createShared(vertx, config),
-				ElasticSearchInfix.class));
-	}
+    private static void initInternal(final Vertx vertx) {
+        Fn.pool(CLIENTS, NAME,
+                () -> Infix.initTp("elasticsearch",
+                        (config) -> ElasticSearchClient.createShared(vertx, config),
+                        ElasticSearchInfix.class));
+    }
 
-	public static void init(final Vertx vertx) {
-		initInternal(vertx);
-	}
+    public static void init(final Vertx vertx) {
+        initInternal(vertx);
+    }
 
-	public static ElasticSearchClient getClient() {
-		return CLIENTS.get(NAME);
-	}
+    public static ElasticSearchClient getClient() {
+        return CLIENTS.get(NAME);
+    }
 
-	@Override
-	@SuppressWarnings("all")
-	public ElasticSearchClient get() {
-		return getClient();
-	}
+    @Override
+    @SuppressWarnings("all")
+    public ElasticSearchClient get() {
+        return getClient();
+    }
 }

@@ -1,0 +1,9 @@
+{
+    "index": "cmdb",
+    "searchText": "\"003\"",
+    "from": 0,
+    "size": 10,
+    "precision": {
+        "categoryThird": "PC服务器"
+    }
+}
