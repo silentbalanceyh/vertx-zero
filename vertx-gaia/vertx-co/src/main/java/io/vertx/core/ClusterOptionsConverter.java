@@ -2,10 +2,26 @@ package io.vertx.core;
 
 import io.vertx.core.json.JsonObject;
 import io.vertx.core.spi.cluster.ClusterManager;
-import io.vertx.up.util.Ut;
 import io.vertx.up.fn.Fn;
+import io.vertx.up.util.Ut;
 
-class ClusterOptionsConverter {
+/**
+ * 「Tp」 Vert.x Extension
+ *
+ * This class is `Converter` class of `Options`, it just like any other converters inner
+ * vert.x framework. In vert.x framework, each `XOptions` contains at least one converter to
+ * process `JsonObject` configuration data. It provide feature to to type checking and default
+ * value injection.
+ *
+ * This class is ClusterOptions assist tool
+ *
+ * * enabled: Boolean Type
+ * * manager: String class and it will be converted to `ClusterManager`
+ * * options: JsonObject
+ *
+ * @author lang
+ */
+final class ClusterOptionsConverter {
     ClusterOptionsConverter() {
     }
 

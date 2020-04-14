@@ -8,6 +8,14 @@ package io.vertx.core.http;
  * recommend to use HTTP Status code in the whole web flow to implement the meaningful RESTful
  * Api.
  *
+ * Here are some consideration points about RESTful design:
+ *
+ * 1. Release the protocol power of HTTP for application.
+ * 2. Client / Server Preference about MIME resolution.
+ * 3. Http Idempotent in Web application.
+ * 4. Conditional query / searching.
+ * 5. Web Security and plugin architecture for application.
+ *
  * @author lang
  */
 public enum HttpStatusCode {
