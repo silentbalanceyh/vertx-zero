@@ -2,7 +2,13 @@ package io.vertx.core.http;
 
 
 /**
- * @author Lang
+ * 「Co」Zero Http Constant
+ *
+ * This enum class provide the whole HTTP status code here, when you use zero framework, we
+ * recommend to use HTTP Status code in the whole web flow to implement the meaningful RESTful
+ * Api.
+ *
+ * @author lang
  */
 public enum HttpStatusCode {
     // ~ 1xx =================================================
@@ -293,9 +299,21 @@ public enum HttpStatusCode {
 
 
     /**
+     * Default scope ( package ), The constructor of Http Status Code
+     *
+     * @param statusCode int status value
+     * @param message    string status description
+     */
+    HttpStatusCode(final int statusCode, final String message) {
+        this.statusCode = statusCode;
+        this.message = message;
+    }
+
+    /**
      * int to HttpStatusCode
      *
      * @param statusCode Input int value of http status code
+     *
      * @return HttpStatusCode object
      */
     public static HttpStatusCode fromCode(final int statusCode) {
@@ -314,6 +332,7 @@ public enum HttpStatusCode {
      * String to HttpStatusCode
      *
      * @param message String literal value of http status code
+     *
      * @return HttpStatusCode object
      */
     public static HttpStatusCode fromString(final String message) {
@@ -327,18 +346,6 @@ public enum HttpStatusCode {
         }
         return code;
     }
-
-    /**
-     * Default scope ( package ), The constructor of Http Status Code
-     *
-     * @param statusCode int status value
-     * @param message    string status description
-     */
-    HttpStatusCode(final int statusCode, final String message) {
-        this.statusCode = statusCode;
-        this.message = message;
-    }
-
 
     /**
      * Return int value of http status code
@@ -358,7 +365,9 @@ public enum HttpStatusCode {
         return this.message;
     }
 
-    /** **/
+    /**
+     *
+     **/
     @Override
     public String toString() {
         return this.message();
