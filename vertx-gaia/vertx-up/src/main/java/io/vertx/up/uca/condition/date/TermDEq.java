@@ -12,7 +12,11 @@ public class TermDEq extends AbstractDTerm {
     public Condition where(final Field field, final String fieldName, final Object value) {
         return this.toDate(field, () -> {
             final LocalDate date = this.toDate(value);
-            return field.between(date.atStartOfDay(), date.plusDays(1).atStartOfDay());
+            //  field.between(date.atStartOfDay(), date.plusDays(1).atStartOfDay());
+            //  New Condition to replace between
+            final Condition min = field.ge(date.atStartOfDay());
+            final Condition max = field.lt(date.plusDays(1).atStartOfDay());
+            return min.and(max);
         }, () -> DSL.field(fieldName).eq(value));
     }
 }
