@@ -1,6 +1,8 @@
 package io.vertx.tp.atom.modeling.rule;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -68,7 +70,7 @@ public class RuleUnique implements Serializable {
      * 合法规则，无优先级，只要满足则可入库，不满足规则则不可入库
      * 带优先级，在游离态创建连接需要根据优先级创建
      */
-    private transient List<RuleTerm> record;
+    private transient List<RuleTerm> record = new ArrayList<>();
     /*
      * （无优先级）可接受规则：
      * 1）集成可入记录规则，从 UCMDB 中读取数据专用
@@ -76,19 +78,19 @@ public class RuleUnique implements Serializable {
      * ---
      * 读取 UCMDB 中数据的专用规则，可以没有 code
      */
-    private transient Set<RuleTerm> integration;
+    private transient Set<RuleTerm> integration = new HashSet<>();
     /*
      * 带优先级的标识规则，识别专用
      */
-    private transient List<RuleTerm> priority;
+    private transient List<RuleTerm> priority = new ArrayList<>();
     /*
      * 强连接
      */
-    private transient Set<RuleTerm> strong;
+    private transient Set<RuleTerm> strong = new HashSet<>();
     /*
      * 弱连接
      */
-    private transient Set<RuleTerm> weak;
+    private transient Set<RuleTerm> weak = new HashSet<>();
 
     public List<RuleTerm> getRecord() {
         return this.record;

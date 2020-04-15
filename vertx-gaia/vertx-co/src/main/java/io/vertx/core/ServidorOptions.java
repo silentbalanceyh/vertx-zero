@@ -4,12 +4,16 @@ import io.vertx.core.json.JsonObject;
 
 import java.io.Serializable;
 
+/**
+ * 「Tp」Vert.x Extension
+ *
+ * This class is `Options`
+ */
 public class ServidorOptions implements Serializable {
 
+    public static final Integer DEFAULT_PORT = 6084;
     private static final String DEFAULT_NAME = "__RPC__";
     private static final String DEFAULT_HOST = "0.0.0.0";
-    public static final Integer DEFAULT_PORT = 6084;
-
     private transient String name = DEFAULT_NAME;
     private transient String host = DEFAULT_HOST;
     private transient Integer port = DEFAULT_PORT;

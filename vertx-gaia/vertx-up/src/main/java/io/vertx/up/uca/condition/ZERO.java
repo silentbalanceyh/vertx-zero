@@ -1,6 +1,7 @@
 package io.vertx.up.uca.condition;
 
 import io.vertx.up.atom.query.Inquiry;
+import io.vertx.up.uca.condition.date.*;
 import io.vertx.up.util.Ut;
 
 import java.time.LocalDate;
@@ -55,7 +56,9 @@ interface Pool {
     ConcurrentMap<String, Term> TERM_DATE_MAP = new ConcurrentHashMap<String, Term>() {
         {
             this.put(Inquiry.Op.LT, Ut.instance(TermDLt.class));
+            this.put(Inquiry.Op.LE, Ut.instance(TermDLe.class));
             this.put(Inquiry.Op.GT, Ut.instance(TermDGt.class));
+            this.put(Inquiry.Op.GE, Ut.instance(TermDGe.class));
             this.put(Inquiry.Op.EQ, Ut.instance(TermDEq.class));
         }
     };
