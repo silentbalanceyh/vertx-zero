@@ -2,9 +2,9 @@ package io.vertx.core;
 
 import io.vertx.core.json.JsonObject;
 
-class ServidorOptionsConverter {
+final class ServidorOptionsConverter {
 
-    ServidorOptionsConverter() {
+    private ServidorOptionsConverter() {
     }
 
     static void fromJson(final JsonObject json, final ServidorOptions obj) {

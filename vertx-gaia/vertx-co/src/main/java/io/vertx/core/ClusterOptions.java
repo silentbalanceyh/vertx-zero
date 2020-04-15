@@ -1,5 +1,6 @@
 package io.vertx.core;
 
+import io.vertx.codegen.annotations.Fluent;
 import io.vertx.core.json.JsonObject;
 import io.vertx.core.spi.cluster.ClusterManager;
 import io.vertx.spi.cluster.hazelcast.HazelcastClusterManager;
@@ -31,59 +32,135 @@ import java.io.Serializable;
  * instead of `lime` extension in zero framework, it is also no third-part configuration, the file
  * name must be fixed ( `vertx.yml` ).
  *
+ * > NOTE: The generator will be ignored because of `ClusterManager` serialization with specific
+ * code logical.
+ *
  * @author lang
  */
+// @DataObject(generateConverter = true, publicConverter = false)
 public class ClusterOptions implements Serializable {
-    /** Static default value to enable cluster mode: false **/
+
+    /**
+     * Default `enabled`, false
+     * Whether enable the cluster mode in zero framework
+     **/
     private static final boolean ENABLED = false;
-    /** Static default ClusterManager: HazelcastClusterManager **/
+
+    /**
+     * Default `manager`, HazelcastClusterManager
+     * This attribute is valid when `enabled = true`, you can provide your custom
+     * defined ClusterManager to overwrite the default one.
+     **/
     private static final ClusterManager MANAGER = new HazelcastClusterManager();
-    /** Static default options of JsonObject **/
+
+    /**
+     * Default `options`, JsonObject without any attributes
+     * When you provide custom ClusterManager, you may need some additional
+     * configuration data here.
+     **/
     private static final JsonObject OPTIONS = new JsonObject();
 
     private boolean enabled;
     private ClusterManager manager;
     private JsonObject options;
 
+    /**
+     * Default constructor
+     */
     public ClusterOptions() {
         this.enabled = ENABLED;
         this.manager = MANAGER;
         this.options = OPTIONS;
     }
 
+    /**
+     * Copy constructor
+     *
+     * @param other The other {@code ClusterOptions} to copy when creating this
+     */
     public ClusterOptions(final ClusterOptions other) {
         this.enabled = other.isEnabled();
         this.manager = other.getManager();
         this.options = other.getOptions();
     }
 
+    /**
+     * Create an instance from a {@link io.vertx.core.json.JsonObject}
+     *
+     * @param json the JsonObject to create it from
+     */
     public ClusterOptions(final JsonObject json) {
         this();
         ClusterOptionsConverter.fromJson(json, this);
     }
 
+    /**
+     * Get whether cluster mode is enabled in zero framework.
+     *
+     * @return the result of cluster ( true / false )
+     */
     public boolean isEnabled() {
         return this.enabled;
     }
 
+    /**
+     * 「Fluent」
+     * When you want to modify the cluster mode, you can call this api.
+     *
+     * @param enabled the cluster mode switch based on your input.
+     *
+     * @return a reference to this.
+     */
+    @Fluent
     public ClusterOptions setEnabled(final boolean enabled) {
         this.enabled = enabled;
         return this;
     }
 
+    /**
+     * This attribute is different from other attributes, the literal of `manager` is
+     * java {@link java.lang.String}, here the ClusterOptions stored `ClusterManager`
+     * reference that has been initialized by converter. It's more smart for developers
+     * to get ClusterManager directly and ignored the instance building code flow.
+     *
+     * @return ClusterManager
+     */
     public ClusterManager getManager() {
         return this.manager;
     }
 
+    /**
+     * 「Fluent」
+     * Set cluster manager in options to replace the default `ClusterManager`.
+     *
+     * @param manager another `ClusterManager` reference from out.
+     *
+     * @return a reference to this.
+     */
+    @Fluent
     public ClusterOptions setManager(final ClusterManager manager) {
         this.manager = manager;
         return this;
     }
 
+    /**
+     * @return the additional configuration in current options
+     */
     public JsonObject getOptions() {
         return this.options;
     }
 
+    /**
+     * 「Fluent」
+     * Set cluster manager additional configuration data here, if you provide your
+     * custom defined ClusterManager, you can set this additional configuration to
+     * configure ClusterManager to do adjustment of `options`.
+     *
+     * @param options the JsonObject that stored additional configuration.
+     *
+     * @return a reference to this.
+     */
+    @Fluent
     public ClusterOptions setOptions(final JsonObject options) {
         this.options = options;
         return this;

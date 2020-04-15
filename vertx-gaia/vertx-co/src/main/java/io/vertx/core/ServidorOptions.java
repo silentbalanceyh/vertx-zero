@@ -6,6 +6,8 @@ import java.io.Serializable;
 
 /**
  * 「Tp」Vert.x Extension
+ *
+ * This class is `Options`
  */
 public class ServidorOptions implements Serializable {
 

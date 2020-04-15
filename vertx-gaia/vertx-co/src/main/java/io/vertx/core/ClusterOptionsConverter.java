@@ -19,10 +19,17 @@ import io.vertx.up.util.Ut;
  * * manager: String class and it will be converted to `ClusterManager`
  * * options: JsonObject
  *
- * @author lang
+ * Converter for {@link io.vertx.core.ClusterOptions}
+ *
+ * > NOTE: This class should be generated from {@link io.vertx.core.ClusterOptions} original class
+ * using Vert.x codegen, but there exist `Class<?>` type attribute, the automatic generator has
+ * been ignored.
+ *
+ * @author <a href="http://www.origin-x.cn">lang</a>
  */
 final class ClusterOptionsConverter {
-    ClusterOptionsConverter() {
+
+    private ClusterOptionsConverter() {
     }
 
     static void fromJson(final JsonObject json, final ClusterOptions obj) {
