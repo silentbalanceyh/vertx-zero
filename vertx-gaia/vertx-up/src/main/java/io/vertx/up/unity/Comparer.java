@@ -92,6 +92,13 @@ class Comparer {
                  * Convert current entity to json
                  */
                 final JsonObject latestJson = Ut.sureJObject(To.toJson(latest, pojo));
+                if (latestJson.containsKey("key")) {
+                    /*
+                     * Because here it will combine previous/current json object
+                     * The system should remove latest `key` field ( Primary Key Removed )
+                     */
+                    latestJson.remove("key");
+                }
                 /*
                  * Merged
                  */
