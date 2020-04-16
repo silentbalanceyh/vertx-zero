@@ -16,17 +16,9 @@ class DateValue {
     static Object toNumeric(final Cell cell) {
         if (CellType.NUMERIC == cell.getCellType()) {
             if (DateUtil.isCellDateFormatted(cell)) {
-                /*
-                 * DateTime format here
-                 */
-                final String literal = cell.getStringCellValue();
-                if (Ut.isNil(literal)) {
-                    /*
-                     * When 0.0 appeared in this kind of format, it means Null here
-                     */
-                    return null;
-                } else {
-                    final Date date = DateUtil.getJavaDate(cell.getNumericCellValue(), TimeZone.getDefault());
+                final double cellValue = cell.getNumericCellValue();
+                if (DateUtil.isValidExcelDate(cellValue)) {
+                    final Date date = DateUtil.getJavaDate(cellValue, TimeZone.getDefault());
                     /*
                      * For 1899-12-30
                      */
@@ -40,7 +32,7 @@ class DateValue {
                     } else {
                         return date.toInstant();
                     }
-                }
+                } else return null;
             } else {
                 return cell.getNumericCellValue();
             }
