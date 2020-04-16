@@ -19,8 +19,8 @@ class DateValue {
                 /*
                  * DateTime format here
                  */
-                final double cellValue = cell.getNumericCellValue();
-                if (0.0 == cellValue) {
+                final String literal = cell.getStringCellValue();
+                if (Ut.isNil(literal)) {
                     /*
                      * When 0.0 appeared in this kind of format, it means Null here
                      */
