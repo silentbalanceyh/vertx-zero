@@ -16,20 +16,23 @@ class DateValue {
     static Object toNumeric(final Cell cell) {
         if (CellType.NUMERIC == cell.getCellType()) {
             if (DateUtil.isCellDateFormatted(cell)) {
-                final Date date = DateUtil.getJavaDate(cell.getNumericCellValue(), TimeZone.getDefault());
-                /*
-                 * For 1899-12-30
-                 */
-                final LocalDateTime dateTime = Ut.toDateTime(date);
-                if (dateTime.getYear() < 1900) {
+                final double cellValue = cell.getNumericCellValue();
+                if (DateUtil.isValidExcelDate(cellValue)) {
+                    final Date date = DateUtil.getJavaDate(cellValue, TimeZone.getDefault());
                     /*
-                     * Calculation has been put in `toTime`
+                     * For 1899-12-30
                      */
-                    final LocalTime time = Ut.toTime(date);
-                    return time.format(DateTimeFormatter.ISO_LOCAL_TIME);
-                } else {
-                    return date.toInstant();
-                }
+                    final LocalDateTime dateTime = Ut.toDateTime(date);
+                    if (dateTime.getYear() < 1900) {
+                        /*
+                         * Calculation has been put in `toTime`
+                         */
+                        final LocalTime time = Ut.toTime(date);
+                        return time.format(DateTimeFormatter.ISO_LOCAL_TIME);
+                    } else {
+                        return date.toInstant();
+                    }
+                } else return null;
             } else {
                 return cell.getNumericCellValue();
             }
