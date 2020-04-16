@@ -16,19 +16,30 @@ class DateValue {
     static Object toNumeric(final Cell cell) {
         if (CellType.NUMERIC == cell.getCellType()) {
             if (DateUtil.isCellDateFormatted(cell)) {
-                final Date date = DateUtil.getJavaDate(cell.getNumericCellValue(), TimeZone.getDefault());
                 /*
-                 * For 1899-12-30
+                 * DateTime format here
                  */
-                final LocalDateTime dateTime = Ut.toDateTime(date);
-                if (dateTime.getYear() < 1900) {
+                final double cellValue = cell.getNumericCellValue();
+                if (0.0 == cellValue) {
                     /*
-                     * Calculation has been put in `toTime`
+                     * When 0.0 appeared in this kind of format, it means Null here
                      */
-                    final LocalTime time = Ut.toTime(date);
-                    return time.format(DateTimeFormatter.ISO_LOCAL_TIME);
+                    return null;
                 } else {
-                    return date.toInstant();
+                    final Date date = DateUtil.getJavaDate(cell.getNumericCellValue(), TimeZone.getDefault());
+                    /*
+                     * For 1899-12-30
+                     */
+                    final LocalDateTime dateTime = Ut.toDateTime(date);
+                    if (dateTime.getYear() < 1900) {
+                        /*
+                         * Calculation has been put in `toTime`
+                         */
+                        final LocalTime time = Ut.toTime(date);
+                        return time.format(DateTimeFormatter.ISO_LOCAL_TIME);
+                    } else {
+                        return date.toInstant();
+                    }
                 }
             } else {
                 return cell.getNumericCellValue();
