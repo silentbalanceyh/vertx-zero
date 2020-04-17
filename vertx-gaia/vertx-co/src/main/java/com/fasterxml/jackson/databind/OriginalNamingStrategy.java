@@ -19,7 +19,7 @@ import java.util.Locale;
  *
  * To uniform this kind of java bean get method specification, here zero provide small fix of naming resolution.
  *
- * @author lang
+ * @author <a href="http://www.origin-x.cn">lang</a>
  */
 public class OriginalNamingStrategy extends PropertyNamingStrategy {
 

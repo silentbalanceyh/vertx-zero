@@ -29,7 +29,7 @@ import java.lang.annotation.*;
  * But in zero system, we recommend to use `Ux.Jooq.on(xx)` instead of Jooq injection, it means
  * that you can write program with `Ux.Jooq` instead of `javax.inject.@Inject` annotation here.
  *
- * @author lang
+ * @author <a href="http://www.origin-x.cn">lang</a>
  */
 @Target({ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)

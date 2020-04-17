@@ -16,7 +16,7 @@ public class BranchTc {
                         () -> Ux.log(this.getClass()).on("[ Log ] Branch -> {0}").info("Lang"),
                         () -> Future.succeededFuture("Branch"))
         );
-        result.setHandler(System.out::println);
+        result.onComplete(System.out::println);
     }
 }
 

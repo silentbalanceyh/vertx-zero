@@ -6,6 +6,7 @@ import io.vertx.ext.unit.Async;
 import io.vertx.ext.unit.TestContext;
 import io.vertx.up.commune.config.Database;
 import io.vertx.up.commune.config.Integration;
+import io.vertx.up.fn.Fn;
 
 import java.util.function.Consumer;
 import java.util.function.Function;
@@ -15,7 +16,7 @@ public class AsyncBase extends ZeroBase {
     public <T> void async(final TestContext context,
                           final Future<T> future,
                           final Consumer<T> consumer) {
-        AsyncFlow.async(context, future, consumer);
+        Fn.onTest(context, future, consumer);
     }
 
     public <T> Function<T, Future<T>> asyncFn(final Async async) {

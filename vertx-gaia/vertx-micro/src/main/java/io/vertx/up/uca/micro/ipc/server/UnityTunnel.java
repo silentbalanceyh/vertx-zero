@@ -43,18 +43,18 @@ public class UnityTunnel implements Tunnel {
                 if (null == method) {
                     // No Rpc Handler here
                     final Envelop community = Envelop.failure(
-                            new _501RpcMethodMissingException(getClass(), data.getAddress()));
+                            new _501RpcMethodMissingException(this.getClass(), data.getAddress()));
                     // Build IpcData
-                    final IpcData responseData = build(community, envelop);
+                    final IpcData responseData = UnityTunnel.this.build(community, envelop);
                     future.complete(DataEncap.out(responseData));
                 } else {
                     // Execute Transit
-                    final Transit transit = getTransit(method, vertx);
+                    final Transit transit = UnityTunnel.this.getTransit(method, vertx);
                     // Execute Transit
                     final Future<Envelop> result = transit.async(envelop);
-                    result.setHandler(res -> {
+                    result.onComplete(res -> {
                         if (res.succeeded()) {
-                            final IpcData responseData = build(res.result(), envelop);
+                            final IpcData responseData = UnityTunnel.this.build(res.result(), envelop);
                             future.complete(DataEncap.out(responseData));
                         } else {
                             res.cause().printStackTrace();

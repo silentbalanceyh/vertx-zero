@@ -36,7 +36,7 @@ public class AsyncAim extends BaseAim implements Aim<RoutingContext> {
              * New method instead of old
              * -- request(address, T, handler)
              */
-            future.setHandler(dataRes -> {
+            future.onComplete(dataRes -> {
                 /*
                  * To avoid null pointer result when the handler triggered result here
                  * SUCCESS

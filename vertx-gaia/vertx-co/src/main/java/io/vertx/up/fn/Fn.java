@@ -4,13 +4,13 @@ import io.vertx.core.Future;
 import io.vertx.core.Promise;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
+import io.vertx.ext.unit.TestContext;
 import io.vertx.up.exception.UpException;
 import io.vertx.up.exception.WebException;
 import io.vertx.up.exception.ZeroException;
 import io.vertx.up.exception.ZeroRunException;
 import io.vertx.up.fn.wait.Case;
 import io.vertx.up.log.Annal;
-import io.vertx.up.util.Ut;
 
 import java.util.concurrent.ConcurrentMap;
 import java.util.function.Consumer;
@@ -253,6 +253,10 @@ public final class Fn {
 
     public static void onZero(final ZeroActuator actuator, final Object... input) throws ZeroException {
         Zero.execZero(actuator, input);
+    }
+
+    public static <T> void onTest(final TestContext context, final Future<T> future, final Consumer<T> consumer) {
+        Wait.testing(context, future, consumer);
     }
 
     // ------ Pool

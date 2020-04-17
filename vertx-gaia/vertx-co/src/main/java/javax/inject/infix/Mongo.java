@@ -42,7 +42,7 @@ import java.lang.annotation.*;
  *
  * It could be used in any `Agent/Worker` instance directly.
  *
- * @author lang
+ * @author <a href="http://www.origin-x.cn">lang</a>
  */
 @Target({ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)

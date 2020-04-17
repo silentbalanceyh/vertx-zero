@@ -61,7 +61,7 @@ public class JtMinos extends AbstractVerticle {
                  * ZApi definition cross API / SERVICE here
                  */
                 final Future<Envelop> future = executor.async(message, uri);
-                future.setHandler(replyHandler -> {
+                future.onComplete(replyHandler -> {
                     if (replyHandler.succeeded()) {
                         /*
                          * 「Callback Life Cycle」

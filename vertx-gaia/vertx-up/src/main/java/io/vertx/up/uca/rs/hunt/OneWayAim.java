@@ -50,7 +50,7 @@ public class OneWayAim extends BaseAim implements Aim<RoutingContext> {
              * Event bus send request out instead of other method
              * Please refer following old code to compare.
              */
-            future.setHandler(dataRes -> {
+            future.onComplete(dataRes -> {
                 /*
                  * To avoid null pointer result when the handler triggered result here
                  * SUCCESS

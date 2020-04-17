@@ -31,7 +31,7 @@ import java.time.format.DateTimeFormatter;
  * use previous three datetime classes instead of `Date` or `Calendar` here. These api are more useful when you are in
  * development of some real business project.
  *
- * @author lang
+ * @author <a href="http://www.origin-x.cn">lang</a>
  */
 public class AdjustDateTimeDeserializer extends LocalDateTimeDeserializer {
 
