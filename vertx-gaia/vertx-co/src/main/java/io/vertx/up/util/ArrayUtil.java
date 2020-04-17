@@ -50,6 +50,7 @@ final class ArrayUtil {
      *
      * @param array      source
      * @param jsonObject element that will be added.
+     *
      * @return the new json array
      */
     static JsonArray add(final JsonArray array,
@@ -223,6 +224,4 @@ final class ArrayUtil {
         }
         return target;
     }
-
-
 }

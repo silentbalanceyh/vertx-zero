@@ -72,6 +72,12 @@ class To {
         return result;
     }
 
+    static JsonArray toArray(final JsonArray array, final Function<JsonObject, JsonObject> executor) {
+        final JsonArray normalized = new JsonArray();
+        Ut.itJArray(array).map(executor).forEach(normalized::add);
+        return normalized;
+    }
+
     static <T> JsonArray toArray(
             final List<T> list,
             final String pojo
