@@ -6,7 +6,7 @@ import io.vertx.up.fn.Fn;
 import io.vertx.up.util.Ut;
 
 /**
- * 「Tp」 Vert.x Extension
+ * 「Co」 Vert.x Extension
  *
  * This class is `Converter` class of `Options`, it just like any other converters inner
  * vert.x framework. In vert.x framework, each `XOptions` contains at least one converter to

@@ -163,7 +163,7 @@ public class FileActor {
                             });
                             return Ux.thenCombine(futures);
                         });
-                        result.setHandler(imported -> {
+                        result.onComplete(imported -> {
                             Ix.infoDao(LOGGER, IxMsg.FILE_LOADED, filename);
                             promise.complete(Envelop.success(Boolean.TRUE));
                         });

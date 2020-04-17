@@ -32,7 +32,7 @@ public class SyncAim extends BaseAim implements Aim<RoutingContext> {
                  * Data handler to process Flower next result here.
                  */
                 final Future<Envelop> future = Flower.next(context, result);
-                future.setHandler(dataRes -> {
+                future.onComplete(dataRes -> {
                     /*
                      * To avoid null pointer result when the handler triggered result here
                      * SUCCESS

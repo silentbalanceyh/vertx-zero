@@ -5,6 +5,7 @@ import io.vertx.ext.unit.TestContext;
 import io.vertx.ext.unit.junit.RunTestOnContext;
 import io.vertx.ext.unit.junit.VertxUnitRunner;
 import io.vertx.up.atom.Kv;
+import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.unity.jq.UxJooq;
@@ -53,7 +54,7 @@ public abstract class JooqBase extends AsyncBase {
         final UxJooq jooq = daoSupplier.get();
         if (null != jooq) {
             final Future<T> future = supplier.get();
-            AsyncFlow.async(context, future, consumer);
+            Fn.onTest(context, future, consumer);
         }
     }
 

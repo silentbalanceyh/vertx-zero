@@ -8,8 +8,8 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.tp.error._401QiyTokenException;
 import io.vertx.tp.plugin.qiy.api.QiyAuthorize;
 import io.vertx.tp.plugin.qiy.api.QiyUpload;
-import io.vertx.up.log.Annal;
 import io.vertx.up.fn.Fn;
+import io.vertx.up.log.Annal;
 
 public class QiyClientImpl implements QiyClient {
 
@@ -37,7 +37,7 @@ public class QiyClientImpl implements QiyClient {
     @Override
     public QiyClient authorize(final Handler<AsyncResult<JsonObject>> handler) {
         QiyRepdor.handle(this.authorizeApi.authorize(this.config.getClientId(), this.config.getClientSecret()))
-                .setHandler(res -> {
+                .onComplete(res -> {
                     this.config.setToken(res.result());
                     handler.handle(Future.succeededFuture(res.result()));
                 });
@@ -48,7 +48,7 @@ public class QiyClientImpl implements QiyClient {
     public QiyClient refreshToken(final String refreshToken,
                                   final Handler<AsyncResult<JsonObject>> handler) {
         QiyRepdor.handle(this.authorizeApi.refreshToken(this.config.getClientId(), refreshToken))
-                .setHandler(res -> {
+                .onComplete(res -> {
                     this.config.setToken(res.result());
                     handler.handle(Future.succeededFuture(res.result()));
                 });
@@ -65,7 +65,7 @@ public class QiyClientImpl implements QiyClient {
         // Request upload
         final QiyUpload uploadApi = this.config.getUpApi(QiyUpload.class);
         QiyRepdor.complete(uploadApi.requestUpload(fileType, fileSize, this.config.getAccessToken()))
-                .setHandler(res -> handler.handle(Future.succeededFuture(res.result())));
+                .onComplete(res -> handler.handle(Future.succeededFuture(res.result())));
         return this;
     }
 

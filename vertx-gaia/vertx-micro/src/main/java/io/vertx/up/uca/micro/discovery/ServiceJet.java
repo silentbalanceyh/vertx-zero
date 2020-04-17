@@ -73,7 +73,7 @@ public class ServiceJet implements UddiJet {
     @Override
     public Handler<RoutingContext> handler() {
         // Run with circuit breaker
-        return context -> this.breaker.execute(future -> this.getEndPoints().setHandler(res -> {
+        return context -> this.breaker.execute(future -> this.getEndPoints().onComplete(res -> {
             if (res.succeeded()) {
                 final List<Record> records = res.result();
                 // Find the record hitted. ( Include Path variable such as /xx/yy/:zz/:xy )

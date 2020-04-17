@@ -16,7 +16,7 @@ import java.util.Base64;
  * 1. This module should support most of features that in `vert.x` internally`.
  * 2. This module must extend the default jackson serialization sub-system here.
  *
- * @author lang
+ * @author <a href="http://www.origin-x.cn">lang</a>
  */
 public class ByteArraySerializer extends JsonSerializer<byte[]> {
     private final Base64.Encoder BASE64 = Base64.getEncoder();

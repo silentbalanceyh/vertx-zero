@@ -10,7 +10,7 @@ import java.io.IOException;
  *
  * Came from `vert.x` internally to support `io.vertx.core.json.JsonArray` serialization, ignored.
  *
- * @author lang
+ * @author <a href="http://www.origin-x.cn">lang</a>
  */
 public class JsonArraySerializer extends JsonSerializer<JsonArray> {
     @Override

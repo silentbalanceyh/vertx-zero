@@ -57,6 +57,7 @@ public final class Ut {
      * @param left  First Set
      * @param right Second Set
      * @param <T>   The element type in Set
+     *
      * @return The result set
      */
     public static <T> Set<T> intersect(final Set<T> left, final Set<T> right) {
@@ -81,6 +82,7 @@ public final class Ut {
      * 6) elementGroup
      * 7) elementSubset
      * 8) elementChild
+     * 9) elementEach
      */
     public static <T> T[] elementAdd(final T[] array, final T element) {
         return ArrayUtil.add(array, element);

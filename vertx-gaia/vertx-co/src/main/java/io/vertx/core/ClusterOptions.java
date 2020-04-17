@@ -8,7 +8,7 @@ import io.vertx.spi.cluster.hazelcast.HazelcastClusterManager;
 import java.io.Serializable;
 
 /**
- * 「Tp」Vert.x Extension
+ * # 「Co」Vert.x Extension
  *
  * This class is `Options` architecture in vert.x framework for cluster configuration in zero
  * framework. Here are some configuration parts:
@@ -19,14 +19,19 @@ import java.io.Serializable;
  * 4. Here provide `JsonObject` reference to store cluster options in the configured file.
  *
  * Here are yaml structure in `vertx.yml`:
+ *
+ * **vertx.yml**
+ *
+ * ```yaml
  * // <pre><code class="yaml">
- *      zero:
- *          vertx:
- *              clustered:
- *                  enabled: true  # Enable Cluster
- *                  manager: ""    # The default cluster manager implementation class name
- *                  options:       # The JsonObject configuration for cluster
+ *  zero:
+ *      vertx:
+ *          clustered:
+ *              enabled: true           # Enable Cluster
+ *              manager: ""             # The default cluster manager implementation class name
+ *              options:                # The JsonObject configuration for cluster
  * // </code></pre>
+ * ```
  *
  * Please be careful about the configuration file, this configuration must be in `vertx.yml` file
  * instead of `lime` extension in zero framework, it is also no third-part configuration, the file
@@ -35,7 +40,7 @@ import java.io.Serializable;
  * > NOTE: The generator will be ignored because of `ClusterManager` serialization with specific
  * code logical.
  *
- * @author lang
+ * @author <a href="http://www.origin-x.cn">lang</a>
  */
 // @DataObject(generateConverter = true, publicConverter = false)
 public class ClusterOptions implements Serializable {

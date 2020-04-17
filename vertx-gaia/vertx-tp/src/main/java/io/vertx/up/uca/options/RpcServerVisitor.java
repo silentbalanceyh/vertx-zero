@@ -31,6 +31,7 @@ public class RpcServerVisitor implements ServerVisitor<ServidorOptions> {
             transformer = Ut.singleton(RpcServerStrada.class);
 
     @Override
+    @SuppressWarnings("all")
     public ConcurrentMap<Integer, ServidorOptions> visit(final String... key)
             throws ZeroException {
         // 1. Must be the first line, fixed position.

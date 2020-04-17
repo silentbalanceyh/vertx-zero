@@ -77,7 +77,7 @@ public class JwtAuthProvider implements JwtAuth {
                     /* 401 */
                     .compose(nil -> this.securer.authenticate(authInfo))
                     /* Mount Handler */
-                    .setHandler(this.authorized(token, handler));
+                    .onComplete(this.authorized(token, handler));
         } else {
             /*
              * Get token from sessionTokens
@@ -95,7 +95,7 @@ public class JwtAuthProvider implements JwtAuth {
                      */
                     this.securer.authorize(authInfo)
                             /* Mount Handler */
-                            .setHandler(this.authorized(token, handler));
+                            .onComplete(this.authorized(token, handler));
                 } else {
                     LOGGER.debug(Info.MAP_MISSING, token);
                     /*
@@ -107,7 +107,7 @@ public class JwtAuthProvider implements JwtAuth {
                             /* 401 */
                             .compose(nil -> this.securer.authenticate(authInfo))
                             /* Mount Handler */
-                            .setHandler(this.authorized(token, handler));
+                            .onComplete(this.authorized(token, handler));
                 }
             });
         }

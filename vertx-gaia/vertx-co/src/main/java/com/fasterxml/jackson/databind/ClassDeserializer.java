@@ -18,7 +18,7 @@ import java.io.IOException;
  *
  * This deserializer is reverted component to {@link com.fasterxml.jackson.databind.ClassSerializer}.
  *
- * @author Lang
+ * @author <a href="http://www.origin-x.cn">lang</a>
  */
 public class ClassDeserializer extends JsonDeserializer<Class<?>> { // NOPMD
 

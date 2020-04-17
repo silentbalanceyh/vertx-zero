@@ -33,7 +33,7 @@ public class IpcAim extends BaseAim implements Aim<RoutingContext> {
             /*
              * Set handler to wait for future result instead of other
              */
-            future.setHandler(dataRes -> {
+            future.onComplete(dataRes -> {
                 /*
                  * To avoid null pointer result when the handler triggered result here
                  * SUCCESS
@@ -53,7 +53,7 @@ public class IpcAim extends BaseAim implements Aim<RoutingContext> {
                      * 2) dataRes -> Rpc Handler
                      * 3) Answer reply with Rpc data ( handler result )
                      */
-                    handler.setHandler(res -> {
+                    handler.onComplete(res -> {
                         /*
                          * To avoid null pointer result
                          * SUCCESS
