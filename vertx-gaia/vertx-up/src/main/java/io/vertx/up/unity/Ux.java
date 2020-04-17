@@ -19,6 +19,7 @@ import io.vertx.up.commune.Envelop;
 import io.vertx.up.commune.Record;
 import io.vertx.up.commune.config.Dict;
 import io.vertx.up.commune.config.DictEpsilon;
+import io.vertx.up.commune.config.DictFabric;
 import io.vertx.up.eon.Constants;
 import io.vertx.up.eon.Strings;
 import io.vertx.up.eon.em.ChangeFlag;
@@ -577,6 +578,10 @@ public final class Ux {
 
     public static Future<ConcurrentMap<String, JsonArray>> dictCalc(final Dict dict, final MultiMap paramsMap) {
         return DictTool.dictCalc(dict, paramsMap);
+    }
+
+    public static <T> Future<T> dictTo(final T record, final DictFabric fabric) {
+        return DictTool.dictTo(record, fabric);
     }
 
     /**

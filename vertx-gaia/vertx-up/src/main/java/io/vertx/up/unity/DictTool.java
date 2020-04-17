@@ -7,7 +7,9 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.tp.optic.component.Dictionary;
 import io.vertx.up.commune.config.Dict;
 import io.vertx.up.commune.config.DictEpsilon;
+import io.vertx.up.commune.config.DictFabric;
 import io.vertx.up.fn.Fn;
+import io.vertx.up.uca.adminicle.FieldMapper;
 import io.vertx.up.util.Ut;
 
 import java.util.Objects;
@@ -19,6 +21,7 @@ import java.util.concurrent.ConcurrentMap;
  * Dict
  * DictEpsilon
  */
+@SuppressWarnings("all")
 class DictTool {
 
     private static final ConcurrentMap<Integer, Dictionary> POOL_DICT =
@@ -37,6 +40,23 @@ class DictTool {
                     });
         }
         return epsilonMap;
+    }
+
+    static <T> Future<T> dictTo(final T record, final DictFabric fabric) {
+        final FieldMapper mapper = new FieldMapper();
+        if (record instanceof JsonObject) {
+            final JsonObject ref = (JsonObject) record;
+            return fabric.inTo(ref)
+                    .compose(processed -> Ux.future(mapper.out(processed, fabric.mapping())))
+                    .compose(processed -> Ux.future((T) processed));
+        } else if (record instanceof JsonArray) {
+            final JsonArray ref = (JsonArray) record;
+            return fabric.inTo(ref)
+                    .compose(processed -> Ux.future(mapper.out(processed, fabric.mapping())))
+                    .compose(processed -> Ux.future((T) processed));
+        } else {
+            return Ux.future(record);
+        }
     }
 
     static Future<ConcurrentMap<String, JsonArray>> dictCalc(final Dict dict, final MultiMap paramMap) {
