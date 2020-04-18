@@ -133,11 +133,11 @@ public final class Statute {
 
 You can send request to group leader: `445191171` to contact with the author team of zero.
 
-![](/_image/2020-04-10/2020-04-18-11-26-20.jpg)
+![](./_image/2020-04-10/2020-04-18-11-26-20.jpg)
 
 For china people, because of network limitation, you can join `BearyChat` with below:
 
-[![](/_image/2020-04-10/char-4.png)](https://vertx-zero.bearychat.com/signup/f453ec0b240b5eadcafb54f9303b16a6?inviter_id==bwUDB)
+[![](./_image/2020-04-10/char-4.png)](https://vertx-zero.bearychat.com/signup/f453ec0b240b5eadcafb54f9303b16a6?inviter_id==bwUDB)
 
 ## DESIGNED IN CHINA
 
