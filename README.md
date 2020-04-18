@@ -1,6 +1,6 @@
 # Zero Epic Fabric
 
-[![Maven Central](https://maven-badges.herokuapp.com/maven-central/cn.vertxup/vertx-zero/badge.svg?style=plastic)](https://maven-badges.herokuapp.com/maven-central/cn.vertxup/vertx-zero/)  [![Apache License 2](https://img.shields.io/badge/license-ASF2-blue.svg)](https://www.apache.org/licenses/LICENSE-2.0.txt)  [![Build Status](https://travis-ci.org/silentbalanceyh/vertx-zero.svg?branch=master)](https://travis-ci.org/silentbalanceyh/vertx-zero) 
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/cn.vertxup/vertx-zero/badge.svg?style=plastic)](https://maven-badges.herokuapp.com/maven-central/cn.vertxup/vertx-zero/)  [![Apache License 2](https://img.shields.io/badge/license-ASF2-blue.svg)](https://www.apache.org/licenses/LICENSE-2.0.txt)  [![Build Status](https://travis-ci.org/silentbalanceyh/vertx-zero.svg?branch=master)](https://travis-ci.org/silentbalanceyh/vertx-zero) [![Gitter](https://badges.gitter.im/Join Chat.svg)](https://gitter.im/vertx-up/Lobby) 
 
 This project is based on Vert.x, the idea came from Spring-Boot framework. It could help developers focus on business requirements instead of more details of Vert.x. The project contains two parts "Up" and "Zero". "Up" means running up, "Zero" means no more workload for high producation, you could run your project with default configuration only.
 
@@ -29,8 +29,16 @@ In 2019, Zero Framework has been re-factor to new version `0.5.x` and here I pro
 
 ## 1. Documentation
 
+### 1.1. Official Document
+
 * You can refer the link to see documents of Zero Framework: [Offical Document](DOCUMENT.md)
 * For all module api documents you can refere [Api Document](DOCUMENT-API.md)
+
+### 1.2. Related
+
+* You can refer [Zero UI](http://www.vertxui.cn) to visit front-end framework, it runs 3 production cases ( CN ).
+* You can refer [Spring Up](http://www.spring-up.cn) to visit spring framework bridged component ( Experimental Version ), it runs one production cases ( CN ).
+* You can refer [Origin X](http://www.origin-x.cn) to visit knowledge management of all documents, it act as entry of documentation ( CN ).
 
 ## 2. Envrionment
 
@@ -70,9 +78,36 @@ Once the Zero is up, you can see following logs in your console \( The default p
     Endpoint: http://0.0.0.0:6083/
 ```
 
-### 2.3. Logging in Zero
+### 2.3. Tips
 
-You also could use following function in your coding to get Logger component instead of `log4j` because we have re-designed the detail implementation of logging system.
+#### 2.3.1. Data Specification
+
+In zero framework, we designed uniform data specification as following response data format for business usage:
+
+```json
+{
+    "data": 
+}
+```
+
+After `0.5.2`, it could support freedom data format response as you wanted such as:
+
+```shell
+Hello World
+1
+...
+```
+
+If you want to switch to freedom mode, you can set the configuration in `vertx.yml` file:
+
+```yaml
+zero:
+    freedom: true     # The default value of `freedom` is false.
+```
+
+#### 2.3.2. Logging in Zero
+
+You can use following function in your coding to get Logger component instead of `log4j` because we have re-designed the detail implementation of logging system.
 
 ```java
 // Zero Logger initialized, connect to vert.x logging system directly but uniform managed by zero.
@@ -86,11 +121,19 @@ public final class Statute {
 }
 ```
 
-## 3. Case in Action
+## 3. Other Information
+
+### 3.1. Case Actions
 
 1. TLK Video Mobile System ( 0.4.6 )
 2. Micro Hotel Platform
 3. CMDB/ITSM Platform
+
+### 3.2. WeChat Group
+
+You can send request to group leader: `445191171` to contact with the author team of zero.
+
+![](./_image/2020-04-10/2020-04-18-11-26-20.jpg)
 
 ## DESIGNED IN CHINA
 
