@@ -6,6 +6,8 @@ import io.vertx.core.http.HttpServerResponse;
 import io.vertx.core.http.HttpStatusCode;
 import io.vertx.up.commune.Envelop;
 import io.vertx.up.eon.Strings;
+import io.vertx.up.uca.rs.hunt.adaptor.WingSelector;
+import io.vertx.up.uca.rs.hunt.adaptor.Wings;
 
 import javax.ws.rs.core.MediaType;
 import java.util.Objects;
@@ -23,13 +25,13 @@ final class Outcome {
          */
         if (produces.isEmpty()) {
             /*
-             * Default situation
+             * No `produces` set for current api, select default `application/json`.
              */
             response.putHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON);
         } else {
             if (produces.contains(MediaType.WILDCARD_TYPE)) {
                 /*
-                 * Default situation
+                 * Here are `.* / .*` wild card type set, select default `application/json`.
                  */
                 response.putHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON);
             } else {
@@ -39,7 +41,7 @@ final class Outcome {
                 final MediaType type = produces.iterator().next();
                 if (Objects.isNull(type)) {
                     /*
-                     * Default situation
+                     * No content type set default situation, select default `application/json`
                      */
                     response.putHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON);
                 } else {
@@ -96,7 +98,6 @@ final class Outcome {
          */
         if (!response.ended()) {
             if (HttpMethod.HEAD == envelop.getMethod()) {
-
                 /*
                  * Whether the method is header
                  * When it's header, here process header request in special situation
@@ -109,49 +110,14 @@ final class Outcome {
                 response.end(Strings.EMPTY);
             } else {
                 final String headerStr = response.headers().get(HttpHeaders.CONTENT_TYPE);
-                if (Objects.isNull(headerStr)) {
-
-                    /*
-                     * Default String mode
-                     * 1. No `Content-Type` provided
-                     * 2. Default mime is `application/json` and replied in string
-                     */
-                    response.end(envelop.toString());
-                } else {
-
-                    /*
-                     * Extract the data `MediaType` from response header
-                     */
-                    final MediaType type = MediaType.valueOf(headerStr);
-                    if (MediaType.WILDCARD_TYPE.equals(type)) {
-                        /*
-                         * Default String mode
-                         * 1. Content-Type is `* / *` format
-                         * 2. Replied body directly
-                         */
-                        response.end(envelop.outString());
-                    } else {
-                        if (MediaType.APPLICATION_OCTET_STREAM_TYPE.equals(type)) {
-                            /*
-                             * Buffer only ( Buffer output )
-                             * 1. Content-Type is `application/octet-stream`
-                             * 2. Replied in Buffer mode
-                             * byte[] data body instead of String.
-                             *
-                             * Situation 1:
-                             * Download stream here for file download here
-                             */
-                            response.end(envelop.outBuffer());
-                        } else {
-
-                            /*
-                             * Other situation for uniform response
-                             * In Stream mode
-                             */
-                            response.end(envelop.outString());
-                        }
-                    }
-                }
+                /*
+                 * Wings selected
+                 */
+                final Wings wings = WingSelector.end(headerStr, produces);
+                /*
+                 * Response processing
+                 */
+                wings.output(response, envelop);
             }
         }
         response.closed();
