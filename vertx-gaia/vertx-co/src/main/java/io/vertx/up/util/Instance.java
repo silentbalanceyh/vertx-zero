@@ -33,6 +33,7 @@ final class Instance {
      * @param clazz  the instance type that you want to create
      * @param params constructor parameters of this type
      * @param <T>    Returned instance type
+     *
      * @return return new created instance
      */
 
@@ -68,6 +69,7 @@ final class Instance {
      * Get class from name, cached into memory pool
      *
      * @param name class Name
+     *
      * @return Class<?>
      */
     static Class<?> clazz(final String name) {
@@ -75,9 +77,9 @@ final class Instance {
                 .getContextClassLoader().loadClass(name), name));
     }
 
-    static void clazzIf(final String name, final Consumer<Class<?>> consumer){
+    static void clazzIf(final String name, final Consumer<Class<?>> consumer) {
         final Class<?> clazz = clazz(name, null);
-        if(Objects.nonNull(clazz)){
+        if (Objects.nonNull(clazz)) {
             consumer.accept(clazz);
         }
     }
@@ -157,8 +159,9 @@ final class Instance {
     /**
      * Check whether clazz implement the interfaceCls
      *
-     * @param clazz        classname
+     * @param clazz        classname/interface name
      * @param interfaceCls interface name that will be implement
+     *
      * @return whether OK here
      */
     @SuppressWarnings("all")

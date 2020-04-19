@@ -23,7 +23,7 @@ interface Pool {
 
             /* Type `application` */
 
-            this.put("application", new ConcurrentHashMap<String, Wings>() {
+            this.put(MediaType.APPLICATION_JSON_TYPE.getType(), new ConcurrentHashMap<String, Wings>() {
                 {
                     /* SubType: json */
                     this.put(MediaType.APPLICATION_JSON_TYPE.getSubtype(), Ut.singleton(JsonWings.class));

@@ -12,6 +12,7 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.ext.auth.jwt.JWTAuthOptions;
 import io.vertx.ext.jwt.JWT;
 import io.vertx.ext.jwt.JWTOptions;
+import io.vertx.ext.web.FileUpload;
 import io.vertx.tp.plugin.database.DataPool;
 import io.vertx.tp.plugin.jooq.JooqInfix;
 import io.vertx.up.atom.query.Pagination;
@@ -34,6 +35,7 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.ConcurrentMap;
 import java.util.function.*;
 
@@ -81,6 +83,7 @@ public final class Ux {
      * 2) toToggle:  Toggle switch from interface style to worker here, the key should be "0", "1", "2", "3", ....
      * 3) toArray
      * ( Business Part, support `pojoFile` conversation )
+     * 4) toFile
      */
     public static <T> JsonObject toJson(final T entity) {
         return To.toJson(entity, "");
@@ -130,6 +133,44 @@ public final class Ux {
         return To.toArray(array, executor);
     }
 
+    /**
+     * File upload tool to convert data
+     *
+     * @param fileUploads Set of file uploads
+     * @param expected    The method declared type
+     * @param consumer    File consumer to read `filename` to Buffer
+     * @param <T>         Returned type for declared
+     *
+     * @return T reference that converted
+     */
+    public static <T> T toFile(final Set<FileUpload> fileUploads, final Class<?> expected, final Function<String, Buffer> consumer) {
+        return Upload.toFile(fileUploads, expected, consumer);
+    }
+
+    /**
+     * Single file upload converting
+     *
+     * @param fileUpload The `FileUpload` reference
+     * @param expected   The method declared type
+     * @param consumer   File consumer to read `filename` to Buffer
+     * @param <T>        Returned type of declared
+     *
+     * @return T reference that converted
+     */
+    public static <T> T toFile(final FileUpload fileUpload, final Class<?> expected, final Function<String, Buffer> consumer) {
+        return Upload.toFile(fileUpload, expected, consumer);
+    }
+
+    /**
+     * Split `Set<FileUpload>` by fieldname
+     *
+     * @param fileUploads FileUpload Set
+     *
+     * @return Map of `field = Set<FileUpload>`
+     */
+    public static ConcurrentMap<String, Set<FileUpload>> toFile(final Set<FileUpload> fileUploads) {
+        return Upload.toFile(fileUploads);
+    }
 
     /*
      * Envelop building here

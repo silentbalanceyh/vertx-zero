@@ -4,21 +4,29 @@ import io.vertx.core.Handler;
 import io.vertx.ext.web.RoutingContext;
 
 /**
+ * # 「Co」Zero Critical internal failure handler
+ *
  * Common handler to handle failure
+ *
+ * @author <a href="http://www.origin-x.cn">lang</a>
  */
 public class CommonEndurer implements Handler<RoutingContext> {
+
+    private CommonEndurer() {
+    }
 
     public static Handler<RoutingContext> create() {
         return new CommonEndurer();
     }
 
-    private CommonEndurer() {
-    }
-
     @Override
     public void handle(final RoutingContext event) {
         if (event.failed()) {
-            event.failure().printStackTrace();
+            /*
+             * Reply
+             */
+            final Throwable error = event.failure();
+            error.printStackTrace();
         }
     }
 }

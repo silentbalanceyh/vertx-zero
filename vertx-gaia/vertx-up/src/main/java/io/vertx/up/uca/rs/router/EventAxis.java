@@ -5,7 +5,9 @@ import io.vertx.ext.web.Router;
 import io.vertx.ext.web.RoutingContext;
 import io.vertx.up.atom.agent.Depot;
 import io.vertx.up.atom.agent.Event;
+import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
+import io.vertx.up.runtime.ZeroAnno;
 import io.vertx.up.uca.rs.Aim;
 import io.vertx.up.uca.rs.Axis;
 import io.vertx.up.uca.rs.Sentry;
@@ -13,8 +15,6 @@ import io.vertx.up.uca.rs.dispatch.ModeSplitter;
 import io.vertx.up.uca.rs.dispatch.StandardVerifier;
 import io.vertx.up.uca.web.failure.CommonEndurer;
 import io.vertx.up.util.Ut;
-import io.vertx.up.fn.Fn;
-import io.vertx.up.runtime.ZeroAnno;
 
 import java.util.Set;
 
@@ -75,6 +75,7 @@ public class EventAxis implements Axis<Router> {
                      * 4) Uniform failure handler
                      */
                     route.handler(this.verifier.signal(depot))
+                            .failureHandler(CommonEndurer.create())
                             .handler(aim.attack(event))
                             .failureHandler(CommonEndurer.create());
                 }));

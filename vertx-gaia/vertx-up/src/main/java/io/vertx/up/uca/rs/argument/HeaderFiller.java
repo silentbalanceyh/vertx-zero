@@ -2,9 +2,23 @@ package io.vertx.up.uca.rs.argument;
 
 import io.vertx.core.http.HttpServerRequest;
 import io.vertx.ext.web.RoutingContext;
-import io.vertx.up.uca.rs.Filler;
 import io.vertx.up.runtime.ZeroSerializer;
+import io.vertx.up.uca.rs.Filler;
 
+/**
+ * 「Co」JSR311 for .@HeaderParam
+ *
+ * This `Filler` is for header map `key=value` extract such as
+ *
+ * ```shell
+ * // <pre><code>
+ *    Content-Type = application/json
+ *    Authorization = Basic xxxxx
+ * // </code></pre>
+ * ```
+ *
+ * @author <a href="http://www.origin-x.cn">lang</a>
+ */
 public class HeaderFiller implements Filler {
     @Override
     public Object apply(final String name,

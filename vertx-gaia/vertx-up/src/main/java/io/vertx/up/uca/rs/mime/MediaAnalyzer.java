@@ -15,7 +15,6 @@ import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import java.util.List;
 
-@SuppressWarnings("unchecked")
 public class MediaAnalyzer implements Analyzer {
 
     private static final Annal LOGGER = Annal.get(MediaAnalyzer.class);
@@ -27,15 +26,15 @@ public class MediaAnalyzer implements Analyzer {
     public Object[] in(final RoutingContext context,
                        final Event event)
             throws WebException {
-        /** Consume mime type matching **/
-        final MediaType requestMedia = getMedia(context);
+        /* Consume mime type matching **/
+        final MediaType requestMedia = this.getMedia(context);
         MediaAtom.accept(event, requestMedia);
 
-        /** Extract definition from method **/
+        /* Extract definition from method **/
         final List<Epsilon<Object>> epsilons =
-                income.in(context, event);
+                this.income.in(context, event);
 
-        /** Extract value list **/
+        /* Extract value list **/
         return epsilons.stream()
                 .map(Epsilon::getValue).toArray();
     }

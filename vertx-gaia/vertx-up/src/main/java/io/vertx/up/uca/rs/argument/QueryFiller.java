@@ -6,9 +6,17 @@ import io.vertx.up.runtime.ZeroSerializer;
 import io.vertx.up.uca.rs.Filler;
 
 /**
- * Parse JqTool Params
+ * 「Co」JSR311 for .@QueryParam
  *
- * @QueryParam
+ * This `Filler` is for query string `/api/xxx?name={name}` format to extract to
+ *
+ * ```shell
+ * // <pre><code>
+ *    name = value
+ * // </code></pre>
+ * ```
+ *
+ * @author <a href="http://www.origin-x.cn">lang</a>
  */
 public class QueryFiller implements Filler {
 

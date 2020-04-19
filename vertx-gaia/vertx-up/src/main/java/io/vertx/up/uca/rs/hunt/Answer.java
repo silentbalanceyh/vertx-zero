@@ -112,21 +112,20 @@ public final class Answer {
              * Bind Data
              */
             envelop.bind(context);
-
             /*
              * Media processing
              */
             Outcome.media(response, mediaTypes);
-
             /*
-             * Security for response
+             * Security for response ( Successful Only )
              */
-            Outcome.security(response);
-
-            /*
-             * SessionData Stored
-             */
-            storeSession(context, envelop.data(), sessionAction);
+            if (envelop.valid()) {
+                Outcome.security(response);
+                /*
+                 * SessionData Stored
+                 */
+                storeSession(context, envelop.data(), sessionAction);
+            }
             /*
              * Plugin Extension for response replying here ( Plug-in )
              */

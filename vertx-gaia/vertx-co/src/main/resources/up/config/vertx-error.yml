@@ -150,6 +150,8 @@ E60044: "(500) - Your pointer plugin component specification met error, config =
 E60045: "(400) - Your request missed `sigma` field, it means that your request header `X-Sigma` missing, but it's required"
 E60046: "(500) - Could not build valid `URL` for http request, please check your data: integration-request = {0}, data = {1} "
 E60047: "(501) - Sorry, the client that your bind is `null`, could not continue this operation"
+E40068: "(411) - When you upload file, the `Content-Length` must be matched, but current is {0}"
+E40069: "(415) - The declared type {0} is not match to MIME {1}"
 
 # CRUD Module
 E80100: "(404) - (CRUD) You missed `module` = `{0}` definition in file \"plugin/crud/module/\" folder"

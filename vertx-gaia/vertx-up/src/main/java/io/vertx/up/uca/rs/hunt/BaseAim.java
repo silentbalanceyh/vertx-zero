@@ -2,7 +2,7 @@ package io.vertx.up.uca.rs.hunt;
 
 import io.vertx.core.AsyncResult;
 import io.vertx.core.eventbus.Message;
-import io.vertx.ext.web.Cookie;
+import io.vertx.core.http.Cookie;
 import io.vertx.ext.web.RoutingContext;
 import io.vertx.ext.web.Session;
 import io.vertx.up.annotations.Address;
@@ -44,6 +44,7 @@ public abstract class BaseAim {
      *
      * @param context RoutingContext reference
      * @param event   Event object of definition
+     *
      * @return TypedArgument ( Object[] )
      */
     protected Object[] buildArgs(final RoutingContext context,
@@ -62,6 +63,7 @@ public abstract class BaseAim {
      * Get event bus address.
      *
      * @param event Event object of definition
+     *
      * @return Get event bus address
      */
     protected String address(final Event event) {
@@ -73,6 +75,7 @@ public abstract class BaseAim {
     /**
      * @param event Event object of definition
      * @param args  TypedArgument ( Object[] )
+     *
      * @return Return invoked result
      */
     protected Object invoke(final Event event, final Object[] args) {
@@ -120,7 +123,6 @@ public abstract class BaseAim {
                                   final Map<String, List<Rule>> rulers,
                                   final Depot depot) {
         try {
-
             final Object[] args = this.buildArgs(context, depot.getEvent());
             // Execute web flow and uniform call.
             Flower.executeRequest(context, rulers, depot, args, this.verifier());
