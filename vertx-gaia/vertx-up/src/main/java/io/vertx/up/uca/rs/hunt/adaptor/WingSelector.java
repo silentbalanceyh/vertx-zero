@@ -39,14 +39,15 @@ public class WingSelector {
         final ConcurrentMap<String, Wings> subtype = Pool.SELECT_POOL.get(type.getType());
         final Wings selected;
         if (Objects.isNull(subtype) || subtype.isEmpty()) {
-            selected = new JsonWings();
+            selected = Pool.SELECT_POOL.get(MediaType.APPLICATION_JSON_TYPE.getType())
+                    .get(MediaType.APPLICATION_JSON_TYPE.getSubtype());
         } else {
             final Wings wings = subtype.get(type.getSubtype());
             selected = Objects.isNull(wings) ? new JsonWings() : wings;
         }
         final Annal logger = Annal.get(WingSelector.class);
-        logger.info("Wings response selected `{0}` for content type {1}",
-                selected.getClass().getName(), contentType);
+        logger.info("Wings response selected `{0}` for content type {1}, mime = {2}",
+                selected.getClass().getName(), contentType, type.toString());
         return selected;
     }
 }

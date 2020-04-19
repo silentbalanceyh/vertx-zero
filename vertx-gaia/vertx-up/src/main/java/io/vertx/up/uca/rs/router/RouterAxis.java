@@ -5,7 +5,6 @@ import io.vertx.core.http.HttpMethod;
 import io.vertx.core.json.JsonArray;
 import io.vertx.ext.web.Router;
 import io.vertx.ext.web.handler.BodyHandler;
-import io.vertx.ext.web.handler.CookieHandler;
 import io.vertx.ext.web.handler.CorsHandler;
 import io.vertx.ext.web.handler.ResponseContentTypeHandler;
 import io.vertx.tp.plugin.session.SessionClient;
@@ -36,7 +35,8 @@ public class RouterAxis implements Axis<Router> {
     @Override
     public void mount(final Router router) {
         // 1. Cookie, Body
-        router.route().order(Orders.COOKIE).handler(CookieHandler.create());
+        // Enabled by default
+        // router.route().order(Orders.COOKIE).handler(CookieHandler.create());
         // 2. Session
         /*
          * CSRF Handler Setting ( Disabled in default )
