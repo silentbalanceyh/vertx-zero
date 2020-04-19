@@ -2,13 +2,10 @@ package io.vertx.up.uca.rs.mime.resolver;
 
 import io.vertx.ext.web.RoutingContext;
 import io.vertx.up.atom.Epsilon;
-import io.vertx.up.exception.WebException;
 import io.vertx.up.log.Annal;
 import io.vertx.up.runtime.ZeroSerializer;
 import io.vertx.up.uca.rs.mime.Resolver;
 import io.vertx.up.util.Ut;
-
-import java.util.Objects;
 
 /**
  * Json Resolver
@@ -22,8 +19,7 @@ public class JsonResolver<T> implements Resolver<T> {
 
     @Override
     public Epsilon<T> resolve(final RoutingContext context,
-                              final Epsilon<T> income)
-            throws WebException {
+                              final Epsilon<T> income) {
         // Json Resolver
         final String content = context.getBodyAsString();
         LOGGER.info("( Resolver ) Income Type: {0}, Content = {1}",
@@ -31,11 +27,7 @@ public class JsonResolver<T> implements Resolver<T> {
         if (Ut.isNil(content)) {
             // Default Value set for BodyParam
             final T defaultValue = (T) income.getDefaultValue();
-            if (Objects.isNull(defaultValue)) {
-                income.setValue(null);
-            } else {
-                income.setValue(defaultValue);
-            }
+            income.setValue(defaultValue);
         } else {
             final Object result = ZeroSerializer.getValue(income.getArgType(), content);
             if (null != result) {

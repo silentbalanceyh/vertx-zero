@@ -7,6 +7,8 @@ import io.vertx.up.eon.em.MimeFlow;
 import io.vertx.up.exception.WebException;
 import io.vertx.up.log.Annal;
 import io.vertx.up.uca.rs.mime.Resolver;
+import io.vertx.up.uca.rs.mime.Solve;
+import io.vertx.up.uca.rs.mime.resolver.SolveResolver;
 import io.vertx.up.uca.rs.mime.resolver.UnsetResolver;
 import io.vertx.up.uca.yaml.Node;
 import io.vertx.up.util.Ut;
@@ -15,6 +17,13 @@ import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import java.lang.annotation.Annotation;
 
+/**
+ * # 「Co」Zero Mime Processing here
+ *
+ * This component will process the request data before your code occurs
+ *
+ * @param <T> generic definition
+ */
 public class MimeAtomic<T> implements Atomic<T> {
 
     private static final Node<JsonObject> NODE = Node.infix("resolver");
@@ -64,7 +73,23 @@ public class MimeAtomic<T> implements Atomic<T> {
             return Ut.singleton(resolver);
         } else {
             LOGGER.info(Info.RESOLVER_CONFIG, resolverCls, header);
-            return Ut.singleton(resolverCls);
+            /*
+             * Split workflow
+             * Resolver or Solve
+             */
+            if (Ut.isImplement(resolverCls, Resolver.class)) {
+                /*
+                 * Resolver Directly
+                 */
+                return Ut.singleton(resolverCls);
+            } else {
+                /*
+                 * Solve component, contract to set Solve<T> here.
+                 */
+                final Resolver<T> resolver = Ut.singleton(SolveResolver.class);
+                Ut.contract(resolver, Solve.class, Ut.singleton(resolverCls));
+                return resolver;
+            }
         }
     }
 }
