@@ -52,7 +52,6 @@ public class SyncAim extends BaseAim implements Aim<RoutingContext> {
                 Answer.reply(context, envelop);
             }
 
-
         }, context, event), event);
     }
 }

@@ -2,22 +2,22 @@ package io.vertx.up.uca.rs.mime.parse;
 
 import io.vertx.ext.web.RoutingContext;
 import io.vertx.up.atom.agent.Event;
-import io.vertx.up.exception.WebException;
 
 /**
+ * # 「Co」Zero Framework for MIME parsing
+ *
  * Incoming message for request
  *
- * @param <T>
+ * @param <T> generic class type
  */
 public interface Income<T> {
     /**
      * request mime analyzing
      *
-     * @param context
-     * @param event
-     * @return
-     * @throws WebException
+     * @param context RoutingContext environment here
+     * @param event   Event definition for method declared.
+     *
+     * @return Extract `T` processing
      */
-    T in(RoutingContext context, Event event)
-            throws WebException;
+    T in(RoutingContext context, Event event);
 }

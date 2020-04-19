@@ -1,6 +1,8 @@
 package io.vertx.up.uca.rs.hunt;
 
 import io.vertx.core.Future;
+import io.vertx.core.http.HttpHeaders;
+import io.vertx.core.http.HttpServerRequest;
 import io.vertx.ext.web.RoutingContext;
 import io.vertx.up.annotations.Codex;
 import io.vertx.up.atom.Kv;
@@ -9,6 +11,7 @@ import io.vertx.up.atom.agent.Depot;
 import io.vertx.up.atom.agent.Event;
 import io.vertx.up.commune.Envelop;
 import io.vertx.up.exception.WebException;
+import io.vertx.up.exception.web._411ContentLengthException;
 import io.vertx.up.extension.pointer.PluginExtension;
 import io.vertx.up.log.Annal;
 import io.vertx.up.uca.container.Virtual;
@@ -37,18 +40,28 @@ class Flower {
         return PluginExtension.Flower.next(context, envelop);
     }
 
+    static void replyError(final RoutingContext context,
+                           final WebException error,
+                           final Event event) {
+        final Envelop envelop = Envelop.failure(error);
+        Answer.reply(context, envelop, event);
+    }
+
     static void executeRequest(final RoutingContext context,
                                final Map<String, List<Rule>> rulers,
                                final Depot depot,
                                final Object[] args,
                                final Validator verifier) {
         // Extract major object
-        final WebException error = verifyPureArguments(verifier, depot, args);
+        WebException error = verifyPureArguments(verifier, depot, args);
         if (null == error) {
-
+            error = verifyUpload(context);
+        }
+        if (null == error) {
             // Check if annotated with @Codex
             final Kv<Integer, Class<?>> found = findParameter(depot.getEvent().getAction());
             if (null == found.getValue()) {
+                // Verify here.
                 context.next();
             } else {
                 // @Codex validation for different types
@@ -97,13 +110,6 @@ class Flower {
         }
     }
 
-    static void replyError(final RoutingContext context,
-                           final WebException error,
-                           final Event event) {
-        final Envelop envelop = Envelop.failure(error);
-        Answer.reply(context, envelop, event);
-    }
-
     private static WebException verifyPureArguments(
             final Validator verifier,
             final Depot depot,
@@ -127,5 +133,19 @@ class Flower {
             error = ex;
         }
         return error;
+    }
+
+    private static WebException verifyUpload(final RoutingContext context) {
+        final HttpServerRequest request = context.request();
+        if (request.isExpectMultipart()) {
+            if (!request.headers().contains(HttpHeaders.CONTENT_LENGTH)) {
+                /*
+                 * Content-Length = 0
+                 */
+                return new _411ContentLengthException(Flower.class, 0);
+            } else {
+                return null;
+            }
+        } else return null;
     }
 }

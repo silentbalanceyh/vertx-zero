@@ -42,7 +42,24 @@ class Upload {
              * Size = 0 or null
              */
             LOGGER.warn("The fileUploads set size is 0.");
-            return null;
+            if (Collection.class.isAssignableFrom(expected)) {
+                if (List.class.isAssignableFrom(expected)) {
+                    /*
+                     * List<T>
+                     */
+                    return (T) Collections.emptyList();
+                } else if (Set.class.isAssignableFrom(expected)) {
+                    /*
+                     * Set<T>
+                     */
+                    return (T) Collections.emptySet();
+                } else {
+                    LOGGER.warn("The type {0} is not supported.", expected.getName());
+                    return null;
+                }
+            } else {
+                return null;
+            }
         } else {
             /*
              * Collection checking
@@ -60,9 +77,18 @@ class Upload {
                 final Stream stream = fileUploads.stream()
                         .map(fileUpload -> toFile(fileUpload, FileUpload.class, consumer));
                 if (List.class.isAssignableFrom(expected)) {
+                    /*
+                     * List<T>
+                     */
                     return (T) stream.collect(Collectors.toList());
-                } else {
+                } else if (Set.class.isAssignableFrom(expected)) {
+                    /*
+                     * Set<T>
+                     */
                     return (T) stream.collect(Collectors.toSet());
+                } else {
+                    LOGGER.warn("The type {0} is not supported.", expected.getName());
+                    return null;
                 }
             } else {
                 /*

@@ -60,16 +60,16 @@ public class MimeAtomic<T> implements Atomic<T> {
         if (UnsetResolver.class == resolverCls) {
             /* 3. Old path **/
             final JsonObject content = NODE.read();
-            // LOGGER.info("[ RESOLVER ] Resolvers = {0}", content.encodePrettily());
             final String resolver;
             if (null == header) {
                 resolver = content.getString("default");
+                LOGGER.info(Info.RESOLVER_DEFAULT, resolver, context.request().absoluteURI());
             } else {
                 final MediaType type = MediaType.valueOf(header);
                 final JsonObject resolverMap = content.getJsonObject(type.getType());
                 resolver = resolverMap.getString(type.getSubtype());
+                LOGGER.info(Info.RESOLVER, resolver, header, context.request().absoluteURI());
             }
-            LOGGER.info(Info.RESOLVER, resolver, header, context.request().absoluteURI());
             return Ut.singleton(resolver);
         } else {
             LOGGER.info(Info.RESOLVER_CONFIG, resolverCls, header);

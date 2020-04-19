@@ -16,6 +16,7 @@ import io.vertx.up.commune.Envelop;
 import io.vertx.up.commune.config.XHeader;
 import io.vertx.up.util.Ut;
 
+import java.util.Objects;
 import java.util.Set;
 
 /*
@@ -122,25 +123,39 @@ public class TypedArgument {
              * It's only for file uploading here.
              * ( FileUpload ) type here for actual in agent
              */
-            final Class<?> actualType = type.getComponentType();
-            if (is(actualType, FileUpload.class)) {
-                returnValue = context.fileUploads();
-            }
+            returnValue = context.fileUploads();
         } else if (is(type, JsonArray.class)) {
             /*
              * JsonArray, Could get from Serialization
              */
             returnValue = context.getBodyAsJsonArray();
+            if (Objects.isNull(returnValue)) {
+                returnValue = new JsonArray();
+            }
         } else if (is(type, JsonObject.class)) {
             /*
              * JsonObject, Could get from Serialization
              */
             returnValue = context.getBodyAsJson();
+            if (Objects.isNull(returnValue)) {
+                returnValue = new JsonObject();
+            }
         } else if (is(type, Buffer.class)) {
             /*
              * Buffer, Could get from Serialization
              */
             returnValue = context.getBody();
+            if (Objects.isNull(returnValue)) {
+                returnValue = Buffer.buffer();
+            }
+        } else if (is(type, FileUpload.class)) {
+            /*
+             * Single FileUpload
+             */
+            final Set<FileUpload> uploads = context.fileUploads();
+            if (!uploads.isEmpty()) {
+                returnValue = uploads.iterator().next();
+            }
         }
         return returnValue;
     }
