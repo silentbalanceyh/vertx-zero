@@ -35,7 +35,7 @@ public class UiList extends TableImpl<UiListRecord> {
      * The reference instance of <code>DB_ETERNAL.UI_LIST</code>
      */
     public static final UiList UI_LIST = new UiList();
-    private static final long serialVersionUID = 1475438340;
+    private static final long serialVersionUID = -92574275;
     /**
      * The column <code>DB_ETERNAL.UI_LIST.KEY</code>. 「key」- 主键
      */
@@ -48,6 +48,10 @@ public class UiList extends TableImpl<UiListRecord> {
      * The column <code>DB_ETERNAL.UI_LIST.CODE</code>. 「code」- 系统编码
      */
     public final TableField<UiListRecord, String> CODE = createField("CODE", org.jooq.impl.SQLDataType.VARCHAR(255), this, "「code」- 系统编码");
+    /**
+     * The column <code>DB_ETERNAL.UI_LIST.IDENTIFIER</code>. 「identifier」- 表单所属的模型ID
+     */
+    public final TableField<UiListRecord, String> IDENTIFIER = createField("IDENTIFIER", org.jooq.impl.SQLDataType.VARCHAR(255), this, "「identifier」- 表单所属的模型ID");
     /**
      * The column <code>DB_ETERNAL.UI_LIST.V_QUERY</code>. 「vQuery」- 连接query到 grid -&gt; query 节点
      */

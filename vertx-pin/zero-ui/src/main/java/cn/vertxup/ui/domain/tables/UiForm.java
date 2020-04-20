@@ -36,7 +36,7 @@ public class UiForm extends TableImpl<UiFormRecord> {
      * The reference instance of <code>DB_ETERNAL.UI_FORM</code>
      */
     public static final UiForm UI_FORM = new UiForm();
-    private static final long serialVersionUID = 545170438;
+    private static final long serialVersionUID = -1884242335;
     /**
      * The column <code>DB_ETERNAL.UI_FORM.KEY</code>. 「key」- 主键
      */
@@ -65,6 +65,10 @@ public class UiForm extends TableImpl<UiFormRecord> {
      * The column <code>DB_ETERNAL.UI_FORM.ROW</code>. 「rowConfig/rowClass」- 行专用配置
      */
     public final TableField<UiFormRecord, String> ROW = createField("ROW", org.jooq.impl.SQLDataType.CLOB, this, "「rowConfig/rowClass」- 行专用配置");
+    /**
+     * The column <code>DB_ETERNAL.UI_FORM.IDENTIFIER</code>. 「identifier」- 表单所属的模型ID
+     */
+    public final TableField<UiFormRecord, String> IDENTIFIER = createField("IDENTIFIER", org.jooq.impl.SQLDataType.VARCHAR(255), this, "「identifier」- 表单所属的模型ID");
     /**
      * The column <code>DB_ETERNAL.UI_FORM.ACTIVE</code>. 「active」- 是否启用
      */

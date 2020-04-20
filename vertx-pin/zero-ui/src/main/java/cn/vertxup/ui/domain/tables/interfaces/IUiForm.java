@@ -95,6 +95,16 @@ public interface IUiForm extends Serializable {
     public String getRow();
 
     /**
+     * Setter for <code>DB_ETERNAL.UI_FORM.IDENTIFIER</code>. 「identifier」- 表单所属的模型ID
+     */
+    public IUiForm setIdentifier(String value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.UI_FORM.IDENTIFIER</code>. 「identifier」- 表单所属的模型ID
+     */
+    public String getIdentifier();
+
+    /**
      * Setter for <code>DB_ETERNAL.UI_FORM.ACTIVE</code>. 「active」- 是否启用
      */
     public IUiForm setActive(Boolean value);
@@ -196,6 +206,7 @@ public interface IUiForm extends Serializable {
         setColumns(json.getInteger("COLUMNS"));
         setHidden(json.getString("HIDDEN"));
         setRow(json.getString("ROW"));
+        setIdentifier(json.getString("IDENTIFIER"));
         setActive(json.getBoolean("ACTIVE"));
         setSigma(json.getString("SIGMA"));
         setMetadata(json.getString("METADATA"));
@@ -217,6 +228,7 @@ public interface IUiForm extends Serializable {
         json.put("COLUMNS",getColumns());
         json.put("HIDDEN",getHidden());
         json.put("ROW",getRow());
+        json.put("IDENTIFIER",getIdentifier());
         json.put("ACTIVE",getActive());
         json.put("SIGMA",getSigma());
         json.put("METADATA",getMetadata());
