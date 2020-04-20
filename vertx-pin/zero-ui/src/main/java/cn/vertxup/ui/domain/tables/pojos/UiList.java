@@ -24,11 +24,12 @@ import javax.annotation.Generated;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class UiList implements IUiList {
 
-    private static final long serialVersionUID = -1565625483;
+    private static final long serialVersionUID = 474757552;
 
     private String        key;
     private String        name;
     private String        code;
+    private String        identifier;
     private String        vQuery;
     private String        vSearch;
     private String        vTable;
@@ -54,6 +55,7 @@ public class UiList implements IUiList {
         this.key = value.key;
         this.name = value.name;
         this.code = value.code;
+        this.identifier = value.identifier;
         this.vQuery = value.vQuery;
         this.vSearch = value.vSearch;
         this.vTable = value.vTable;
@@ -78,6 +80,7 @@ public class UiList implements IUiList {
         String        key,
         String        name,
         String        code,
+        String        identifier,
         String        vQuery,
         String        vSearch,
         String        vTable,
@@ -100,6 +103,7 @@ public class UiList implements IUiList {
         this.key = key;
         this.name = name;
         this.code = code;
+        this.identifier = identifier;
         this.vQuery = vQuery;
         this.vSearch = vSearch;
         this.vTable = vTable;
@@ -150,6 +154,17 @@ public class UiList implements IUiList {
     @Override
     public UiList setCode(String code) {
         this.code = code;
+        return this;
+    }
+
+    @Override
+    public String getIdentifier() {
+        return this.identifier;
+    }
+
+    @Override
+    public UiList setIdentifier(String identifier) {
+        this.identifier = identifier;
         return this;
     }
 
@@ -358,6 +373,7 @@ public class UiList implements IUiList {
         sb.append(key);
         sb.append(", ").append(name);
         sb.append(", ").append(code);
+        sb.append(", ").append(identifier);
         sb.append(", ").append(vQuery);
         sb.append(", ").append(vSearch);
         sb.append(", ").append(vTable);
@@ -393,6 +409,7 @@ public class UiList implements IUiList {
         setKey(from.getKey());
         setName(from.getName());
         setCode(from.getCode());
+        setIdentifier(from.getIdentifier());
         setVQuery(from.getVQuery());
         setVSearch(from.getVSearch());
         setVTable(from.getVTable());

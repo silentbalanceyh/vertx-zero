@@ -84,6 +84,13 @@ public class UiListDao extends DAOImpl<UiListRecord, cn.vertxup.ui.domain.tables
     }
 
     /**
+     * Fetch records that have <code>IDENTIFIER IN (values)</code>
+     */
+    public List<cn.vertxup.ui.domain.tables.pojos.UiList> fetchByIdentifier(String... values) {
+        return fetch(UiList.UI_LIST.IDENTIFIER, values);
+    }
+
+    /**
      * Fetch records that have <code>V_QUERY IN (values)</code>
      */
     public List<cn.vertxup.ui.domain.tables.pojos.UiList> fetchByVQuery(String... values) {
@@ -235,6 +242,13 @@ public class UiListDao extends DAOImpl<UiListRecord, cn.vertxup.ui.domain.tables
      */
     public CompletableFuture<List<cn.vertxup.ui.domain.tables.pojos.UiList>> fetchByCodeAsync(List<String> values) {
         return fetchAsync(UiList.UI_LIST.CODE,values);
+    }
+
+    /**
+     * Fetch records that have <code>IDENTIFIER IN (values)</code> asynchronously
+     */
+    public CompletableFuture<List<cn.vertxup.ui.domain.tables.pojos.UiList>> fetchByIdentifierAsync(List<String> values) {
+        return fetchAsync(UiList.UI_LIST.IDENTIFIER,values);
     }
 
     /**

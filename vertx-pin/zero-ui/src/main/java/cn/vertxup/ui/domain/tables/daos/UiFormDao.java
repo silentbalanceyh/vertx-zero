@@ -113,6 +113,13 @@ public class UiFormDao extends DAOImpl<UiFormRecord, cn.vertxup.ui.domain.tables
     }
 
     /**
+     * Fetch records that have <code>IDENTIFIER IN (values)</code>
+     */
+    public List<cn.vertxup.ui.domain.tables.pojos.UiForm> fetchByIdentifier(String... values) {
+        return fetch(UiForm.UI_FORM.IDENTIFIER, values);
+    }
+
+    /**
      * Fetch records that have <code>ACTIVE IN (values)</code>
      */
     public List<cn.vertxup.ui.domain.tables.pojos.UiForm> fetchByActive(Boolean... values) {
@@ -222,6 +229,13 @@ public class UiFormDao extends DAOImpl<UiFormRecord, cn.vertxup.ui.domain.tables
      */
     public CompletableFuture<List<cn.vertxup.ui.domain.tables.pojos.UiForm>> fetchByRowAsync(List<String> values) {
         return fetchAsync(UiForm.UI_FORM.ROW,values);
+    }
+
+    /**
+     * Fetch records that have <code>IDENTIFIER IN (values)</code> asynchronously
+     */
+    public CompletableFuture<List<cn.vertxup.ui.domain.tables.pojos.UiForm>> fetchByIdentifierAsync(List<String> values) {
+        return fetchAsync(UiForm.UI_FORM.IDENTIFIER,values);
     }
 
     /**

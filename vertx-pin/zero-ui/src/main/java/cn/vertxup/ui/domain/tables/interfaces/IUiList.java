@@ -54,6 +54,16 @@ public interface IUiList extends Serializable {
     public String getCode();
 
     /**
+     * Setter for <code>DB_ETERNAL.UI_LIST.IDENTIFIER</code>. 「identifier」- 表单所属的模型ID
+     */
+    public IUiList setIdentifier(String value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.UI_LIST.IDENTIFIER</code>. 「identifier」- 表单所属的模型ID
+     */
+    public String getIdentifier();
+
+    /**
      * Setter for <code>DB_ETERNAL.UI_LIST.V_QUERY</code>. 「vQuery」- 连接query到 grid -&gt; query 节点
      */
     public IUiList setVQuery(String value);
@@ -251,6 +261,7 @@ public interface IUiList extends Serializable {
         setKey(json.getString("KEY"));
         setName(json.getString("NAME"));
         setCode(json.getString("CODE"));
+        setIdentifier(json.getString("IDENTIFIER"));
         setVQuery(json.getString("V_QUERY"));
         setVSearch(json.getString("V_SEARCH"));
         setVTable(json.getString("V_TABLE"));
@@ -278,6 +289,7 @@ public interface IUiList extends Serializable {
         json.put("KEY",getKey());
         json.put("NAME",getName());
         json.put("CODE",getCode());
+        json.put("IDENTIFIER",getIdentifier());
         json.put("V_QUERY",getVQuery());
         json.put("V_SEARCH",getVSearch());
         json.put("V_TABLE",getVTable());

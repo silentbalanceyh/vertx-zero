@@ -25,7 +25,7 @@ import javax.annotation.Generated;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class UiForm implements IUiForm {
 
-    private static final long serialVersionUID = 757671727;
+    private static final long serialVersionUID = -2099931898;
 
     private String        key;
     private String        name;
@@ -34,6 +34,7 @@ public class UiForm implements IUiForm {
     private Integer       columns;
     private String        hidden;
     private String        row;
+    private String        identifier;
     private Boolean       active;
     private String        sigma;
     private String        metadata;
@@ -53,6 +54,7 @@ public class UiForm implements IUiForm {
         this.columns = value.columns;
         this.hidden = value.hidden;
         this.row = value.row;
+        this.identifier = value.identifier;
         this.active = value.active;
         this.sigma = value.sigma;
         this.metadata = value.metadata;
@@ -71,6 +73,7 @@ public class UiForm implements IUiForm {
         Integer       columns,
         String        hidden,
         String        row,
+        String        identifier,
         Boolean       active,
         String        sigma,
         String        metadata,
@@ -87,6 +90,7 @@ public class UiForm implements IUiForm {
         this.columns = columns;
         this.hidden = hidden;
         this.row = row;
+        this.identifier = identifier;
         this.active = active;
         this.sigma = sigma;
         this.metadata = metadata;
@@ -171,6 +175,17 @@ public class UiForm implements IUiForm {
     @Override
     public UiForm setRow(String row) {
         this.row = row;
+        return this;
+    }
+
+    @Override
+    public String getIdentifier() {
+        return this.identifier;
+    }
+
+    @Override
+    public UiForm setIdentifier(String identifier) {
+        this.identifier = identifier;
         return this;
     }
 
@@ -273,6 +288,7 @@ public class UiForm implements IUiForm {
         sb.append(", ").append(columns);
         sb.append(", ").append(hidden);
         sb.append(", ").append(row);
+        sb.append(", ").append(identifier);
         sb.append(", ").append(active);
         sb.append(", ").append(sigma);
         sb.append(", ").append(metadata);
@@ -302,6 +318,7 @@ public class UiForm implements IUiForm {
         setColumns(from.getColumns());
         setHidden(from.getHidden());
         setRow(from.getRow());
+        setIdentifier(from.getIdentifier());
         setActive(from.getActive());
         setSigma(from.getSigma());
         setMetadata(from.getMetadata());
