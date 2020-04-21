@@ -1,6 +1,7 @@
 package io.vertx.tp.modular.jooq.internal;
 
 import io.vertx.tp.atom.cv.em.ModelType;
+import io.vertx.tp.atom.modeling.data.DataAtom;
 import io.vertx.tp.atom.modeling.data.DataEvent;
 import io.vertx.tp.atom.modeling.element.DataMatrix;
 import io.vertx.tp.atom.modeling.element.DataTpl;
@@ -97,8 +98,10 @@ class Query {
         final ModelType type = event.getType();
         /* 2. 专用转换 */
         final Ingest ingest = Ingest.create(type);
+        final DataAtom atomRef = event.getTpl().atom();
         /* 3. 生成 Condition */
-        Ao.infoUca(Query.class, "查询解析器：{0}", null == ingest ? null : ingest.getClass().getName());
+        Ao.infoUca(Query.class, "查询解析器：{0}，操作模型：{1}",
+                null == ingest ? null : ingest.getClass().getName(), atomRef.identifier());
         return ingest;
     }
 
