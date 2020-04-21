@@ -1,6 +1,7 @@
 package io.vertx.quiz;
 
 import io.vertx.core.Future;
+import io.vertx.core.Promise;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.unit.Async;
 import io.vertx.ext.unit.TestContext;
@@ -17,6 +18,13 @@ public class AsyncBase extends ZeroBase {
                           final Future<T> future,
                           final Consumer<T> consumer) {
         Fn.onTest(context, future, consumer);
+    }
+
+    public <T> Future<T> async(final TestContext context,
+                               final Future<T> future) {
+        final Promise<T> promise = Promise.promise();
+        Fn.onTest(context, future, promise::complete);
+        return promise.future();
     }
 
     public <T> Function<T, Future<T>> asyncFn(final Async async) {
