@@ -17,9 +17,13 @@
             <artifactId>vertx-tp</artifactId>
         </dependency>
         <!-- EL -->
-        <dependency>
+        <!-- <dependency>
             <groupId>javax.el</groupId>
             <artifactId>javax.el-api</artifactId>
+        </dependency> -->
+        <dependency>
+            <groupId>jakarta.ws.rs</groupId>
+            <artifactId>jakarta.ws.rs-api</artifactId>
         </dependency>
         <dependency>
             <groupId>org.glassfish</groupId>
