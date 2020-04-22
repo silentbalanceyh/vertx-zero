@@ -3,10 +3,10 @@ package io.vertx.up.util;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.unit.TestContext;
-import io.vertx.quiz.StoreBase;
+import io.vertx.quiz.ZeroBase;
 import org.junit.Test;
 
-public class JacksonTc extends StoreBase {
+public class JacksonTc extends ZeroBase {
 
     @Test
     public void testvJson(final TestContext context) {
