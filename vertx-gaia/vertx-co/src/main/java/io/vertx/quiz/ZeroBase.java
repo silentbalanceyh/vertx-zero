@@ -9,7 +9,7 @@ import org.junit.Rule;
 import org.junit.runner.RunWith;
 
 /**
- * 「Co」 Testing Framework
+ * # 「Co」 Testing Framework
  *
  * This class is Testing Bases ( annotated with `@RunWith` in `vertx-unit` ) and it provide default
  * Vertx instance. For fixing the block issue ( Default is 2000ms ), I extend the time here
@@ -20,6 +20,8 @@ import org.junit.runner.RunWith;
  * It means that our test cases must do some long time works especially in enterprise application or
  * complex web applications. This class provide default testing environment in vert.x so that developers could
  * do unit testing smartly.
+ *
+ * From this class, it provide vertx environment instead of JUnit purely.
  *
  * @author <a href="http://www.origin-x.cn">lang</a>
  */

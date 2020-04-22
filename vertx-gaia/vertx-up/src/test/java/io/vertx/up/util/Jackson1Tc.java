@@ -2,14 +2,14 @@ package io.vertx.up.util;
 
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.unit.TestContext;
+import io.vertx.quiz.ZeroBase;
 import io.vertx.up.unity.Ux;
-import io.vertx.quiz.StoreBase;
 import org.junit.Test;
 
 import java.util.Date;
 import java.util.TimeZone;
 
-public class Jackson1Tc extends StoreBase {
+public class Jackson1Tc extends ZeroBase {
 
     @Test
     public void testLocalTime(final TestContext context) {

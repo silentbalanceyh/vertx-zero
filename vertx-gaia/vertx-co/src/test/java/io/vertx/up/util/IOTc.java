@@ -1,13 +1,13 @@
 package io.vertx.up.util;
 
 import io.vertx.ext.unit.TestContext;
-import io.vertx.quiz.StoreBase;
+import io.vertx.quiz.ZeroBase;
 import org.junit.Test;
 
 import java.io.File;
 import java.io.FileOutputStream;
 
-public class IOTc extends StoreBase {
+public class IOTc extends ZeroBase {
     @Test
     public void testProp(final TestContext context) {
         context.assertNotNull(IO.getProp(this.ioFile("in.properties")));
@@ -18,6 +18,7 @@ public class IOTc extends StoreBase {
         context.assertNotNull(IO.getYaml(this.ioFile("test.yaml")));
     }
 
+    @SuppressWarnings("all")
     public void testBigFile(final TestContext context) throws Exception {
         final File file = new File("target.sql");
         if (!file.exists()) {

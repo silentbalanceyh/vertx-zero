@@ -23,6 +23,7 @@ io.vertx.up.secure.inquire
 io.vertx.up.secure.jwt
 io.vertx.up.secure.provider
 io.vertx.up.uca.condition
+io.vertx.up.uca.condition.date
 io.vertx.up.uca.container
 io.vertx.up.uca.cosmic
 io.vertx.up.uca.cosmic.security
@@ -45,6 +46,7 @@ io.vertx.up.uca.rs.argument
 io.vertx.up.uca.rs.config
 io.vertx.up.uca.rs.dispatch
 io.vertx.up.uca.rs.hunt
+io.vertx.up.uca.rs.hunt.adaptor
 io.vertx.up.uca.rs.mime
 io.vertx.up.uca.rs.mime.parse
 io.vertx.up.uca.rs.mime.resolver

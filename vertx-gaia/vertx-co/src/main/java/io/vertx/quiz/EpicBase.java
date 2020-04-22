@@ -6,7 +6,7 @@ import io.vertx.up.log.Annal;
 import io.vertx.up.util.Ut;
 
 /**
- * 「Co」 Testing Framework
+ * # 「Co」 Testing Framework
  *
  * This class is testing base class to read file resources, here are specification in zero framework for testing
  *
@@ -21,6 +21,8 @@ import io.vertx.up.util.Ut;
  * 3. JsonArray
  *
  * And so on, it provide testing logger for developers to record all the testing logs.
+ *
+ * This class is for JUnit purely
  *
  * @author <a href="http://www.origin-x.cn">lang</a>
  */

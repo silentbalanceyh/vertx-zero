@@ -2,13 +2,13 @@ package io.vertx.up.unity;
 
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.unit.TestContext;
+import io.vertx.quiz.ZeroBase;
 import io.vertx.up.util.Ut;
-import io.vertx.quiz.StoreBase;
 import org.junit.Test;
 
 import java.time.LocalDateTime;
 
-public class UxToTc extends StoreBase {
+public class UxToTc extends ZeroBase {
 
     @Test
     public void testUserJson(final TestContext context) {
