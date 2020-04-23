@@ -66,7 +66,7 @@
 
         <jcabi.version>0.22.6</jcabi.version>
         <jackson.version>2.9.10</jackson.version>
-        <jackson.databind.version>2.9.10.3</jackson.databind.version>
+        <jackson.databind.version>2.9.10.4</jackson.databind.version>
         <jersey.version>2.30.1</jersey.version>
         <javax.el.version>3.0.1-b06</javax.el.version>
         <glassfish.el.version>3.0.1-b11</glassfish.el.version>
