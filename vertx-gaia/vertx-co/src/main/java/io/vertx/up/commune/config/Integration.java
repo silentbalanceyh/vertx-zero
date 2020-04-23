@@ -66,7 +66,7 @@ public class Integration implements Json, Serializable {
      */
     @JsonSerialize(using = JsonObjectSerializer.class)
     @JsonDeserialize(using = JsonObjectDeserializer.class)
-    private transient JsonObject options;
+    private transient JsonObject options = new JsonObject();
     @JsonIgnore
     private transient ConcurrentMap<String, DictEpsilon> epsilon = new ConcurrentHashMap<>();
 
@@ -139,7 +139,7 @@ public class Integration implements Json, Serializable {
     }
 
     public JsonObject getOptions() {
-        return Objects.isNull(this.options) ? new JsonObject() : this.options;
+        return this.options;
     }
 
     public void setOptions(final JsonObject options) {
@@ -156,6 +156,17 @@ public class Integration implements Json, Serializable {
     public <T> T getOption(final String optionKey, final T defaultValue) {
         final T result = this.getOption(optionKey);
         return Objects.isNull(result) ? defaultValue : result;
+    }
+
+    /*
+     * Control for debug
+     */
+    public void mockOn() {
+        this.options.put("debug", true);
+    }
+
+    public void mockOff() {
+        this.options.put("debug", false);
     }
 
     @Override
