@@ -282,8 +282,7 @@ public class Mission implements Serializable {
                 if (Ut.isNil(this.outcomeAddress)) {
                     this.outcomeAddress = null;
                 }
-            } else {
-                LOGGER.info(Info.JOB_NO_OFF, this.getCode());
+                LOGGER.info(Info.JOB_OFF, this.getCode());
             }
         }
         return this;
