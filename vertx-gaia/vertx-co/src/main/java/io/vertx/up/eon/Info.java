@@ -92,5 +92,5 @@ public interface Info {
 
     String JOB_SCANNED = "[ Job ] The system scanned {0} jobs with type {1}";
 
-    String JOB_NO_OFF = "[ Job ] Current job `{0}` does not has @Off method.";
+    String JOB_OFF = "[ Job ] Current job `{0}` has defined @Off method.";
 }
