@@ -9,6 +9,7 @@ import io.vertx.up.commune.Commercial;
 import io.vertx.up.commune.config.*;
 import io.vertx.up.eon.ID;
 import io.vertx.up.eon.em.ChannelType;
+import io.vertx.up.eon.em.Environment;
 import io.vertx.up.util.Ut;
 
 import java.util.Objects;
@@ -24,6 +25,11 @@ import java.util.Objects;
  */
 @SuppressWarnings("unchecked")
 public abstract class JtCommercial implements Commercial {
+    /*
+     * Environment selection, the default should be `Production`,
+     * It means that the code logical is correct.
+     */
+    private transient Environment environment = Environment.Production;
     private transient IService service;
     /*
      * Shared data structure for
@@ -99,9 +105,23 @@ public abstract class JtCommercial implements Commercial {
 
     @Override
     public Integration integration() {
-        return Jt.toIntegration(this.service);
+        final Integration integration = Jt.toIntegration(this.service);
+        if (Environment.Mockito == this.environment) {
+            /*
+             * When pre-release here, the integration should be connected to actual
+             * environment, in this kind of situation, you can call mock JtJob `mockOn`
+             * to turn on `debug` options in integration, but it require the environment
+             * to be `Mockito` instead of others.
+             * Involve environment concept to split development/testing/production
+             */
+            integration.mockOn();
+        }
+        return integration;
     }
 
+    public void mockOn() {
+        this.environment = Environment.Mockito;
+    }
 
     @Override
     public Dict dict() {
