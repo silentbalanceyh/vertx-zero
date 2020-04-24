@@ -57,4 +57,8 @@ public class Sl {
     public static List<CommandOption> commands() {
         return SlCommand.commands();
     }
+
+    public static CommandOption commandsBack() {
+        return SlCommand.commandsBack();
+    }
 }

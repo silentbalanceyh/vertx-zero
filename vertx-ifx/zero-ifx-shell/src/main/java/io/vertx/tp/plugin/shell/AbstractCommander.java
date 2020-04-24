@@ -40,6 +40,11 @@ public abstract class AbstractCommander implements Commander {
         return Future.succeededFuture(this.execute(args));
     }
 
+    @Override
+    public boolean execute(final CommandArgs args) {
+        return true;
+    }
+
     protected Annal logger() {
         return Annal.get(this.getClass());
     }

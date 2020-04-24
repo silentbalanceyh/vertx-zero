@@ -42,4 +42,8 @@ class SlConfig {
     static JsonArray commandsDefault() {
         return Ut.sureJArray(CONFIGURATION.getJsonArray("commandsDefault"));
     }
+
+    static JsonObject commandsBack() {
+        return Ut.sureJObject(CONFIGURATION.getJsonObject("commandsBack"));
+    }
 }

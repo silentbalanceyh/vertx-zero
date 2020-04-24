@@ -1,10 +1,12 @@
 package io.vertx.tp.plugin.shell.refine;
 
 import io.vertx.core.json.JsonArray;
+import io.vertx.core.json.JsonObject;
+import io.vertx.tp.plugin.shell.ConsoleCommander;
 import io.vertx.tp.plugin.shell.atom.CommandOption;
+import io.vertx.tp.plugin.shell.commander.BackCommander;
 import io.vertx.tp.plugin.shell.commander.HelpCommander;
 import io.vertx.tp.plugin.shell.commander.QuitCommander;
-import io.vertx.tp.plugin.shell.commander.SystemCommander;
 import io.vertx.tp.plugin.shell.cv.em.CommandType;
 import io.vertx.up.log.Annal;
 import io.vertx.up.unity.Ux;
@@ -28,6 +30,15 @@ class SlCommand {
         }
     };
 
+    public static CommandOption commandsBack() {
+        final JsonObject commandsBack = SlConfig.commandsBack();
+        final CommandOption option = Ux.fromJson(commandsBack, CommandOption.class);
+        option.setArgs(false);
+        option.setType(CommandType.COMMAND);
+        option.setPlugin(BackCommander.class);
+        return option;
+    }
+
     public static List<CommandOption> commands() {
         if (commands.isEmpty()) {
             /*
@@ -48,7 +59,7 @@ class SlCommand {
             final List<CommandOption> commandsList = Ux.fromJson(commandJson, CommandOption.class);
             commandsList.stream().filter(item -> CommandType.SYSTEM == item.getType()).forEach(command -> {
                 command.setArgs(false);
-                command.setPlugin(SystemCommander.class);
+                command.setPlugin(ConsoleCommander.class);
             });
             commands.addAll(commandsList);
             /*

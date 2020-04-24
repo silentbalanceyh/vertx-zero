@@ -21,7 +21,6 @@ class ConsoleInput {
      */
     static void dataIn(final Scanner scanner, final Actuator prompt,
                        final Function<String[], Future<Boolean>> actuator) {
-        scanner.useDelimiter("\n");
         if (scanner.hasNextLine()) {
             final String line = scanner.nextLine();
             if (Ut.isNil(line)) {
@@ -44,6 +43,9 @@ class ConsoleInput {
                              */
                             final boolean result = handler.result();
                             if (result) {
+                                /*
+                                 * true means back from sub-system
+                                 */
                                 prompt.execute();
                                 dataIn(scanner, prompt, actuator);
                             }

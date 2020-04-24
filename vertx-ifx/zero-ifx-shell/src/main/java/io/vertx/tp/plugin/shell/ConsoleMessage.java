@@ -1,6 +1,7 @@
 package io.vertx.tp.plugin.shell;
 
 import io.vertx.core.json.JsonObject;
+import io.vertx.tp.plugin.shell.atom.CommandOption;
 import io.vertx.tp.plugin.shell.refine.Sl;
 import io.vertx.up.eon.em.Environment;
 import io.vertx.up.util.Ut;
@@ -30,6 +31,13 @@ public class ConsoleMessage {
         final JsonObject message = WELCOME.getJsonObject("message");
         Sl.output("------------->>>> Command Begin");
         Sl.output(message.getString("environment"), environment);
+        Sl.output(message.getString("wait"));
+        System.out.print(">> ");
+    }
+
+    static void input(final CommandOption option) {
+        final JsonObject message = WELCOME.getJsonObject("message");
+        Sl.output("------------( Sub-System )");
         Sl.output(message.getString("wait"));
         System.out.print(">> ");
     }

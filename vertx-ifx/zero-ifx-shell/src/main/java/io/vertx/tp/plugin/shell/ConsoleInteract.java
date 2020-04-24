@@ -18,7 +18,7 @@ import java.util.Scanner;
 /**
  * @author <a href="http://www.origin-x.cn">lang</a>
  */
-public class ConsoleInteract {
+class ConsoleInteract {
 
     private transient final Scanner scanner = new Scanner(System.in);
 
@@ -26,6 +26,7 @@ public class ConsoleInteract {
 
     private ConsoleInteract(final Environment environment) {
         this.environment = environment;
+        this.scanner.useDelimiter("\n");
     }
 
     public static ConsoleInteract start(final Environment environment) {
@@ -35,7 +36,7 @@ public class ConsoleInteract {
     /*
      * Process for commands
      */
-    private Future<Boolean> run(final CommandLine parsed, final List<CommandOption> commands) {
+    Future<Boolean> run(final CommandLine parsed, final List<CommandOption> commands) {
         /*
          * Found command inner run method
          */
@@ -49,18 +50,23 @@ public class ConsoleInteract {
              */
             throw new CommandMissingException(ConsoleInteract.class, Ut.fromJoin(parsed.getArgList()));
         } else {
+            final Options options = new Options();
+            commands.stream().map(CommandOption::option).forEach(options::addOption);
+            /*
+             * Create CommandArgs
+             */
+            final List<String> inputArgs = parsed.getArgList();
+            final List<String> inputNames = command.getArgumentsList();
+            final CommandArgs commandArgs = CommandArgs.create(inputNames, inputArgs);
+            commandArgs.bind(options);
+
             if (CommandType.SYSTEM == command.getType()) {
-                return null;
-            } else {
-                final Options options = new Options();
-                commands.stream().map(CommandOption::option).forEach(options::addOption);
                 /*
-                 * Create CommandArgs
+                 * Sub-System calling
                  */
-                final List<String> inputArgs = parsed.getArgList();
-                final List<String> inputNames = command.getArgumentsList();
-                final CommandArgs commandArgs = CommandArgs.create(inputNames, inputArgs);
-                commandArgs.bind(options);
+                final ConsoleCommander commander = Ut.singleton(ConsoleCommander.class);
+                return commander.bind(command).bind(this.environment).executeAsync(commandArgs);
+            } else {
                 /*
                  * Plugin processing
                  */
@@ -70,18 +76,15 @@ public class ConsoleInteract {
         }
     }
 
-    public void run(final String... args) {
+    void run(final String... args) {
         /* Welcome first */
         ConsoleMessage.welcome();
 
         /* Environment and Input */
         ConsoleMessage.input(this.environment);
 
-        /* Pass reference of Scanner ( System.in ) */
-        final Scanner scanner = new Scanner(System.in);
-
         /* Data in */
-        ConsoleInput.dataIn(scanner, () -> ConsoleMessage.input(this.environment), (normalized) -> {
+        ConsoleInput.dataIn(this.scanner, () -> ConsoleMessage.input(this.environment), (normalized) -> {
 
             /* Main Processing */
             final List<CommandOption> commands = Sl.commands();
