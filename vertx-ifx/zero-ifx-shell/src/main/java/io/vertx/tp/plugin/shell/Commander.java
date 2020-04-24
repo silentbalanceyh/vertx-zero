@@ -1,6 +1,8 @@
 package io.vertx.tp.plugin.shell;
 
 import io.vertx.core.Future;
+import io.vertx.tp.plugin.shell.atom.CommandArgs;
+import io.vertx.tp.plugin.shell.atom.CommandOption;
 import io.vertx.up.eon.em.Environment;
 
 /**
@@ -10,7 +12,9 @@ public interface Commander {
 
     Commander bind(Environment environment);
 
-    boolean execute(String[] args);
+    Commander bind(CommandOption options);
 
-    Future<Boolean> executeAsync(String[] args);
+    boolean execute(CommandArgs args);
+
+    Future<Boolean> executeAsync(CommandArgs args);
 }

@@ -7,31 +7,36 @@ import com.fasterxml.jackson.databind.JsonArraySerializer;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import io.vertx.core.json.JsonArray;
+import io.vertx.tp.plugin.shell.Commander;
 import io.vertx.tp.plugin.shell.cv.em.CommandType;
+import io.vertx.up.util.Ut;
+import org.apache.commons.cli.Option;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 /**
  * @author <a href="http://www.origin-x.cn">lang</a>
  */
 public class CommandOption implements Serializable {
 
-    private final transient CommandType type = CommandType.COMMAND;   // Default Command Type
+    private transient CommandType type = CommandType.COMMAND;   // Default Command Type
+
     private transient String simple;
     private transient String name;
     private transient String description;
-
+    private transient boolean args;
     @JsonSerialize(using = JsonArraySerializer.class)
     @JsonDeserialize(using = JsonArrayDeserializer.class)
-    private transient JsonArray arguments;
-
+    private transient JsonArray arguments = new JsonArray();
     @JsonSerialize(using = ClassSerializer.class)
     @JsonDeserialize(using = ClassDeserializer.class)
     private transient Class<?> plugin;
 
-    private transient List<CommandType> commands = new ArrayList<>();
+    private transient List<CommandOption> commands = new ArrayList<>();
 
     public String getSimple() {
         return this.simple;
@@ -69,6 +74,10 @@ public class CommandOption implements Serializable {
         return this.type;
     }
 
+    public void setType(final CommandType type) {
+        this.type = type;
+    }
+
     public JsonArray getArguments() {
         return this.arguments;
     }
@@ -77,11 +86,45 @@ public class CommandOption implements Serializable {
         this.arguments = arguments;
     }
 
-    public List<CommandType> getCommands() {
+    public List<String> getArgumentsList() {
+        return this.arguments.stream()
+                .map(item -> (String) item).collect(Collectors.toList());
+    }
+
+    public List<CommandOption> getCommands() {
         return this.commands;
     }
 
-    public void setCommands(final List<CommandType> commands) {
+    public void setCommands(final List<CommandOption> commands) {
         this.commands = commands;
+    }
+
+    public boolean isArgs() {
+        return this.args;
+    }
+
+    public void setArgs(final boolean args) {
+        this.args = args;
+    }
+
+    /*
+     * Whether this command is valid
+     */
+    public boolean valid() {
+        if (CommandType.COMMAND == this.type) {
+            if (Objects.isNull(this.plugin)) {
+                return false;
+            } else {
+                return Ut.isImplement(this.plugin, Commander.class);
+            }
+        } else return true;
+    }
+
+    public Option option() {
+        final Option option = new Option(this.simple, this.name, this.args, this.description);
+        /*
+         * Get option here, arguments processing
+         */
+        return option;
     }
 }

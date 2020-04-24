@@ -1,7 +1,9 @@
 package io.vertx.tp.plugin.shell.refine;
 
-import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
+import io.vertx.tp.plugin.shell.atom.CommandOption;
+
+import java.util.List;
 
 /**
  * The tool class for Shell
@@ -26,10 +28,16 @@ public class Sl {
     }
 
     /*
-     * Message output
+     * Message
+     * - output, Print message information in console
+     * - message, Format message information with dynamic `args`
      */
-    public static void message(final String message, final Object... args) {
-        SlLog.message(message, args);
+    public static void output(final String message, final Object... args) {
+        SlLog.output(message, args);
+    }
+
+    public static String message(final String message, final Object... args) {
+        return SlLog.message(message, args);
     }
 
     /*
@@ -39,7 +47,10 @@ public class Sl {
         return SlConfig.welcome();
     }
 
-    public static JsonArray commands(final boolean isDefault) {
-        return isDefault ? SlConfig.commandsDefault() : SlConfig.commands();
+    /*
+     * Get Commands Here
+     */
+    public static List<CommandOption> commands() {
+        return SlCommand.commands();
     }
 }

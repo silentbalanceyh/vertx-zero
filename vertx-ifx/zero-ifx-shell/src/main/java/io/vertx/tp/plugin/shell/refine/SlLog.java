@@ -7,11 +7,19 @@ import java.text.MessageFormat;
  */
 class SlLog {
 
-    static void message(final String message, final Object... args) {
+    static void output(final String message, final Object... args) {
         if (0 == args.length) {
             System.out.println("[ μηδέν ] " + message);
         } else {
             System.out.println(MessageFormat.format("[ μηδέν ] " + message, args));
+        }
+    }
+
+    static String message(final String message, final Object... args) {
+        if (0 == args.length) {
+            return ("[ μηδέν ] " + message);
+        } else {
+            return (MessageFormat.format("[ μηδέν ] " + message, args));
         }
     }
 }

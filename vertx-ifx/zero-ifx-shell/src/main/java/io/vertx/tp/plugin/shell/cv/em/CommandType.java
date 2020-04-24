@@ -6,4 +6,6 @@ package io.vertx.tp.plugin.shell.cv.em;
 public enum CommandType {
     SYSTEM,     // It means current command could get to sub-system of zero
     COMMAND,    // Current command is executor for plugin here
+    DEFAULT;    // Default command that zero framework provide
+
 }

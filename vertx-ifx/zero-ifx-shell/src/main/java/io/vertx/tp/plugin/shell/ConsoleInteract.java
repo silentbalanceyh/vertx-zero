@@ -1,13 +1,17 @@
 package io.vertx.tp.plugin.shell;
 
+import io.vertx.tp.plugin.shell.atom.CommandArgs;
+import io.vertx.tp.plugin.shell.atom.CommandOption;
+import io.vertx.tp.plugin.shell.cv.em.CommandType;
+import io.vertx.tp.plugin.shell.refine.Sl;
 import io.vertx.up.eon.em.Environment;
 import io.vertx.up.log.Annal;
+import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
-import org.apache.commons.cli.CommandLineParser;
-import org.apache.commons.cli.DefaultParser;
-import org.apache.commons.cli.Options;
-import org.apache.commons.cli.ParseException;
+import org.apache.commons.cli.*;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Scanner;
 
 /**
@@ -18,10 +22,10 @@ class ConsoleInteract {
 
     static void run(final Environment environment, final String args) {
         /* Welcome first */
-        ConsoleWelcome.welcome();
+        ConsoleMessage.welcome();
 
         /* Environment and Input */
-        ConsoleWelcome.input(environment);
+        ConsoleMessage.input(environment);
         final Scanner scanner = new Scanner(System.in);
         String line = "";
         do {
@@ -40,13 +44,26 @@ class ConsoleInteract {
                  * Process sub-system
                  */
                 try {
-                    run(environment, interactArgs);
+                    /*
+                     * First is command and could be as following:
+                     *
+                     * j -out=xxx .etc
+                     *
+                     * Instead of this situation, append - to command
+                     */
+                    interactArgs[0] = "-" + interactArgs[0];
+
+                    final String[] normalized = Arrays.stream(interactArgs)
+                            .map(String::trim)
+                            .toArray(String[]::new);
+
+                    run(environment, normalized);
                 } catch (final ParseException ex) {
-                    LOGGER.info("Commander line could not be parsed: {0}", line);
-                    ConsoleWelcome.input(environment);
+                    Sl.output("Commander line could not be parsed:\"{0}\"", line);
+                    ConsoleMessage.input(environment);
                 }
             } else {
-                ConsoleWelcome.input(environment);
+                ConsoleMessage.input(environment);
             }
         } while (true);
     }
@@ -55,12 +72,57 @@ class ConsoleInteract {
         /*
          * LineParser
          */
-        System.out.println(Ut.fromJoin(args));
         final CommandLineParser parser = new DefaultParser();
         /*
          * Options
          */
         final Options options = new Options();
-        parser.parse(options, args);
+        final List<CommandOption> commands = Sl.commands();
+        commands.stream().map(CommandOption::option).forEach(options::addOption);
+        /*
+         * Parse Line
+         */
+        final CommandLine parsed = parser.parse(options, args);
+        commands.stream()
+                .filter(each -> parsed.hasOption(each.getName()) || parsed.hasOption(each.getSimple()))
+                .filter(CommandOption::valid)
+                .forEach(each -> {
+                    /*
+                     * Command
+                     */
+                    if (CommandType.SYSTEM == each.getType()) {
+                        /*
+                         * run sub-system
+                         */
+                    } else {
+                        /*
+                         * Create CommandArgs
+                         */
+                        final List<String> inputArgs = parsed.getArgList();
+                        final List<String> inputNames = each.getArgumentsList();
+                        final CommandArgs commandArgs = CommandArgs.create(inputNames, inputArgs);
+                        commandArgs.bind(options);
+                        /*
+                         * Plugin Processing
+                         */
+                        final Commander commander = Ut.singleton(each.getPlugin());
+                        commander.bind(environment).bind(each)
+                                /*
+                                 * Command Args processing
+                                 */
+                                .executeAsync(commandArgs).compose(processed -> {
+                            /*
+                             * Execute next and wait for
+                             */
+                            ConsoleMessage.input(environment);
+                            return Ux.future(Boolean.TRUE);
+                        });
+                    }
+                });
+    }
+
+
+    private static void run(final Environment environment, final CommandOption option) {
+        final String name = option.getName();
     }
 }
