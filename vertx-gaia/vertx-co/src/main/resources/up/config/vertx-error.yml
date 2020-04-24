@@ -153,6 +153,9 @@ E60047: "(501) - Sorry, the client that your bind is `null`, could not continue 
 E40068: "(411) - When you upload file, the `Content-Length` must be matched, but current is {0}"
 E40069: "(415) - The declared type {0} is not match to MIME {1}"
 
+# Console exception
+E40070: "(501) - The default launcher key mustn''t be overwrite. ( dev, config )"
+
 # CRUD Module
 E80100: "(404) - (CRUD) You missed `module` = `{0}` definition in file \"plugin/crud/module/\" folder"
 E80101: "(404) - (CRUD) You missed `column` configuration and instance is null. access module = {0}"

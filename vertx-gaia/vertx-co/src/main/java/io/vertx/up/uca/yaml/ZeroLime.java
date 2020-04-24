@@ -4,6 +4,7 @@ import io.reactivex.Observable;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.eon.Strings;
 import io.vertx.up.fn.Fn;
+import io.vertx.up.log.Annal;
 import io.vertx.up.util.Ut;
 
 import java.util.Objects;
@@ -15,6 +16,8 @@ import java.util.concurrent.ConcurrentMap;
  * @author lang
  */
 public class ZeroLime implements Node<ConcurrentMap<String, String>> {
+
+    private static final Annal LOGGER = Annal.get(ZeroLime.class);
 
     private static final ConcurrentMap<String, String> INTERNALS
             = new ConcurrentHashMap<String, String>() {
@@ -38,6 +41,7 @@ public class ZeroLime implements Node<ConcurrentMap<String, String>> {
 
     private ConcurrentMap<String, String> build(final String literal) {
         final Set<String> sets = Ut.toSet(literal, Strings.COMMA);
+        LOGGER.info("Lime node parsing \"{0}\" and size is = {1}", literal, sets.size());
         Fn.safeNull(() -> Observable.fromIterable(sets)
                 .filter(Objects::nonNull)
                 .subscribe(item -> Fn.pool(INTERNALS, item,

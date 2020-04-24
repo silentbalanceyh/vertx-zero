@@ -95,7 +95,7 @@
         <jwt.version>3.10.2</jwt.version>
         <jetbrains.version>19.0.0</jetbrains.version>
         <guice.version>4.1.0</guice.version>
-        <scala.version>2.13.1</scala.version>
+        <scala.version>2.13.2</scala.version>
         <feign.version>8.18.0</feign.version>
         <guava.version>28.2-jre</guava.version>
         <joda.version>2.10.5</joda.version>
@@ -117,6 +117,7 @@
         <common.logging.version>1.2</common.logging.version>
         <common.net.version>3.6</common.net.version>
         <common.codec.version>1.14</common.codec.version>
+        <common.cli.version>1.4</common.cli.version>
 
         <http.async.client.version>4.1.4</http.async.client.version>
         <http.client.version>4.5.12</http.client.version>
@@ -532,6 +533,12 @@
                 <groupId>org.apache.commons</groupId>
                 <artifactId>commons-lang3</artifactId>
                 <version>${common.lang3.version}</version>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/commons-cli/commons-cli -->
+            <dependency>
+                <groupId>commons-cli</groupId>
+                <artifactId>commons-cli</artifactId>
+                <version>${common.cli.version}</version>
             </dependency>
             <!-- https://mvnrepository.com/artifact/com.hazelcast/hazelcast -->
             <dependency>
