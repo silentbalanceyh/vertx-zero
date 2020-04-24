@@ -5,6 +5,7 @@ import io.vertx.tp.plugin.shell.refine.Sl;
 import io.vertx.up.eon.em.Environment;
 import io.vertx.up.log.Annal;
 
+import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.function.Consumer;
@@ -36,8 +37,7 @@ public class ConsoleFramework {
         if (INTERNAL.containsKey("start")) {
             LOGGER.warn("There exist 'start' consumer, you'll overwrite previous.");
         }
-        this.bind("start", consumer);
-        return this;
+        return this.bind("start", consumer);
     }
 
     /**
@@ -54,6 +54,13 @@ public class ConsoleFramework {
              * Argument
              */
             final String input = args[0];
+            final Consumer<String> consumer = INTERNAL.get(input);
+            if (Objects.nonNull(consumer)) {
+                consumer.accept(input);
+            } else {
+                LOGGER.warn("No consumer found for argument `{0}`", input);
+                System.exit(-1);
+            }
         } else {
             System.exit(-1);
         }

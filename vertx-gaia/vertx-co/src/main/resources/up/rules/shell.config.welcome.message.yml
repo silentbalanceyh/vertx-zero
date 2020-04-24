@@ -1,0 +1,3 @@
+typed:
+  environment: STRING
+  wait: STRING

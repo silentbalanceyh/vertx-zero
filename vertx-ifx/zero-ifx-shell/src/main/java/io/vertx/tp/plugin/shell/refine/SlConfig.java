@@ -5,8 +5,6 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.up.plugin.Infix;
 import io.vertx.up.util.Ut;
 
-import java.util.Set;
-
 /**
  * @author <a href="http://www.origin-x.cn">lang</a>
  */
@@ -22,6 +20,7 @@ class SlConfig {
             /*
              * command configuration
              */
+            System.out.println(config);
             final String command = config.getString("commands");
             config.put("commands", Ut.ioJArray(command));
             return config;
@@ -29,16 +28,19 @@ class SlConfig {
         CONFIGURATION.mergeIn(data, true);
     }
 
-    static JsonObject readyInput() {
-        return Ut.sureJObject(readyValidate().getJsonObject("input"));
+    static JsonObject welcome() {
+        return Ut.sureJObject(CONFIGURATION.getJsonObject("welcome"));
     }
 
-    static Set<String> readyArgs() {
-        final JsonArray args = Ut.sureJArray(readyValidate().getJsonArray("args"));
-        return Ut.toSet(args);
-    }
-
-    private static JsonObject readyValidate() {
+    static JsonObject validate() {
         return Ut.sureJObject(CONFIGURATION.getJsonObject("validate"));
+    }
+
+    static JsonArray commands() {
+        return Ut.sureJArray(CONFIGURATION.getJsonArray("commands"));
+    }
+
+    static JsonArray commandsDefault() {
+        return Ut.sureJArray(CONFIGURATION.getJsonArray("commandsDefault"));
     }
 }

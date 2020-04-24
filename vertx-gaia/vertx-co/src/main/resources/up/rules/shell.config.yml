@@ -1,3 +1,4 @@
 typed:
   welcome: JOBJECT
   commands: STRING
+  commandsDefault: JARRAY

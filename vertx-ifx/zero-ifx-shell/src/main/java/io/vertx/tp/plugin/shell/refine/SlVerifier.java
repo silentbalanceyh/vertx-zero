@@ -15,7 +15,7 @@ class SlVerifier {
     private static final Annal LOGGER = Annal.get(SlVerifier.class);
 
     static boolean validate(final String[] args) {
-        final JsonObject input = SlConfig.readyInput();
+        final JsonObject input = Ut.sureJObject(SlConfig.validate().getJsonObject("input"));
         /*
          * 1. required arguments for complex shell building
          */
@@ -32,7 +32,8 @@ class SlVerifier {
              * 2. Command must be
              */
             final String argument = args[0];
-            final Set<String> supported = SlConfig.readyArgs();
+            final Set<String> supported =
+                    Ut.toSet(Ut.sureJArray(SlConfig.validate().getJsonArray("args")));
             if (supported.contains(argument)) {
                 validated = true;
             } else {
