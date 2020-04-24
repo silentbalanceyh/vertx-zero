@@ -155,6 +155,8 @@ E40069: "(415) - The declared type {0} is not match to MIME {1}"
 
 # Console exception
 E40070: "(501) - The default launcher key mustn''t be overwrite. ( dev, config )"
+E40071: "(500) - The input commands are invalid, command = \"{0}\", details = \"{1}\""
+E40072: "(500) - The command line ( {0} ) could not be parsed, it''s failure to build `Commander`"
 
 # CRUD Module
 E80100: "(404) - (CRUD) You missed `module` = `{0}` definition in file \"plugin/crud/module/\" folder"

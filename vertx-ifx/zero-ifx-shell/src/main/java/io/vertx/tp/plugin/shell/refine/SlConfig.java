@@ -20,7 +20,6 @@ class SlConfig {
             /*
              * command configuration
              */
-            System.out.println(config);
             final String command = config.getString("commands");
             config.put("commands", Ut.ioJArray(command));
             return config;

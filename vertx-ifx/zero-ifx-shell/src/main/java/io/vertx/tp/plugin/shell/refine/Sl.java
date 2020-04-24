@@ -36,6 +36,10 @@ public class Sl {
         SlLog.output(message, args);
     }
 
+    public static void outputSubSystem(final String message, final String name, final Object... args) {
+        SlLog.output(message, name, args);
+    }
+
     public static String message(final String message, final Object... args) {
         return SlLog.message(message, args);
     }

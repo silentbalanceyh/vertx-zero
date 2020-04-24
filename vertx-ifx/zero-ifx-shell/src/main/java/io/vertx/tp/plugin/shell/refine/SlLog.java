@@ -8,10 +8,18 @@ import java.text.MessageFormat;
 class SlLog {
 
     static void output(final String message, final Object... args) {
+        stream(message, "[ μηδέν ] ", args);
+    }
+
+    static void output(final String message, final String name, final Object... args) {
+        stream(message, "[ μηδέν ] (" + name + ")", args);
+    }
+
+    private static void stream(final String message, final String flag, final Object... args) {
         if (0 == args.length) {
-            System.out.println("[ μηδέν ] " + message);
+            System.out.println(flag + message);
         } else {
-            System.out.println(MessageFormat.format("[ μηδέν ] " + message, args));
+            System.out.println(MessageFormat.format(flag + message, args));
         }
     }
 

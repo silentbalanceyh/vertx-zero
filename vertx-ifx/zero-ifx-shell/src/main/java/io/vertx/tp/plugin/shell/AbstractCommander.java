@@ -3,6 +3,7 @@ package io.vertx.tp.plugin.shell;
 import io.vertx.core.Future;
 import io.vertx.tp.plugin.shell.atom.CommandArgs;
 import io.vertx.tp.plugin.shell.atom.CommandOption;
+import io.vertx.tp.plugin.shell.cv.em.CommandType;
 import io.vertx.up.eon.em.Environment;
 import io.vertx.up.log.Annal;
 
@@ -27,6 +28,11 @@ public abstract class AbstractCommander implements Commander {
     public Commander bind(final CommandOption option) {
         this.option = option;
         return this;
+    }
+
+    @Override
+    public CommandType type() {
+        return this.option.getType();
     }
 
     @Override

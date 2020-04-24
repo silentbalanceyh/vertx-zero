@@ -5,6 +5,7 @@ import io.vertx.tp.plugin.shell.refine.Sl;
 import io.vertx.up.eon.em.Environment;
 import io.vertx.up.util.Ut;
 
+import java.util.Objects;
 import java.util.function.Supplier;
 
 /**
@@ -31,6 +32,17 @@ public class ConsoleMessage {
         Sl.output(message.getString("environment"), environment);
         Sl.output(message.getString("wait"));
         System.out.print(">> ");
+    }
+
+    static void failInput() {
+        Sl.output(message("empty",
+                () -> "Empty arguments here for redo"));
+    }
+
+    static void failError(final Throwable ex) {
+        final String error = Objects.isNull(ex) ? "Error" : ex.getMessage();
+        Sl.output(message("error",
+                () -> "Error occurs {0}"), error);
     }
 
     public static void quit() {

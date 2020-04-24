@@ -25,8 +25,8 @@ public class ConsoleFramework {
          * `config`     - Default Production
          * `dev`        - Default Development
          */
-        INTERNAL.put("config", args -> ConsoleInteract.run(Environment.Production, args));
-        INTERNAL.put("dev", args -> ConsoleInteract.run(Environment.Development, args));
+        INTERNAL.put("config", ConsoleInteract.start(Environment.Production)::run);
+        INTERNAL.put("dev", ConsoleInteract.start(Environment.Development)::run);
     }
 
     public static ConsoleFramework start() {
