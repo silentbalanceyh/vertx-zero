@@ -3,17 +3,21 @@ package io.vertx.tp.plugin.shell;
 import io.vertx.core.Future;
 import io.vertx.core.Vertx;
 import io.vertx.tp.error.CommandMissingException;
-import io.vertx.tp.plugin.shell.async.Term;
+import io.vertx.tp.error.CommandParseException;
 import io.vertx.tp.plugin.shell.atom.CommandArgs;
 import io.vertx.tp.plugin.shell.atom.CommandOption;
+import io.vertx.tp.plugin.shell.atom.Term;
 import io.vertx.tp.plugin.shell.cv.em.CommandType;
+import io.vertx.tp.plugin.shell.cv.em.TermStatus;
+import io.vertx.tp.plugin.shell.refine.Sl;
 import io.vertx.up.eon.em.Environment;
+import io.vertx.up.exception.UpException;
 import io.vertx.up.util.Ut;
-import org.apache.commons.cli.CommandLine;
-import org.apache.commons.cli.Options;
+import org.apache.commons.cli.*;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.function.Consumer;
 
 /**
  * @author <a href="http://www.origin-x.cn">lang</a>
@@ -35,7 +39,7 @@ class ConsoleInteract {
     /*
      * Process for commands
      */
-    Future<Boolean> run(final CommandLine parsed, final List<CommandOption> commands) {
+    private Future<TermStatus> run(final CommandLine parsed, final List<CommandOption> commands) {
         /*
          * Found command inner run method
          */
@@ -77,28 +81,85 @@ class ConsoleInteract {
 
     void run(final String... args) {
         /* Welcome first */
-        ConsoleMessage.welcome();
+        Sl.welcome();
 
         /* Environment and Input */
-        ConsoleMessage.input(this.environment);
+        Sl.welcomeCommand(this.environment);
 
+        /* Create once */
         final Term term = Term.create(this.vertx);
+
+        /* Must be wrapper here */
+        this.run(term);
+    }
+
+    void run(final Term term) {
+        final Consumer<Term> consumer = termRef -> {
+            /* Environment input again */
+            Sl.welcomeCommand(this.environment);
+            /* Continue here */
+            this.run(termRef);
+        };
         term.run(handler -> {
             if (handler.succeeded()) {
+                /* Process result of input */
+                final String[] args = handler.result();
 
+                /* Major code logical should returned Future<TermStatus> instead */
+                final Future<TermStatus> future = this.runAsync(args);
+
+                future.onComplete(callback -> {
+                    if (callback.succeeded()) {
+                        final TermStatus status = callback.result();
+                        if (TermStatus.EXIT == status) {
+                            /*
+                             * EXIT -> Application End
+                             */
+                            System.exit(0);
+                        } else {
+                            /*
+                             * SUCCESS, FAILURE
+                             */
+                            if (TermStatus.WAIT != status) {
+                                consumer.accept(term);
+                            }
+                        }
+                    } else {
+                        consumer.accept(term);
+                    }
+                });
             } else {
-                /* Environment input again */
-                ConsoleMessage.input(this.environment);
+                /* Error Input */
+                Sl.failEmpty();
+                consumer.accept(term);
             }
         });
+    }
+
+    private Future<TermStatus> runAsync(final String[] args) {
+        /* Critical CommandOption */
+        final List<CommandOption> commands = Sl.commands();
+        return this.runAsync(args, commands)
+                .compose(commandLine -> this.run(commandLine, commands))
+                .otherwise(Sl::failError);
+    }
+
+    private Future<CommandLine> runAsync(final String[] args, final List<CommandOption> definition) {
         /*
-        ConsoleInput.dataIn(this.scanner, () -> ConsoleMessage.input(this.environment), (normalized) -> {
-
-            final List<CommandOption> commands = Sl.commands();
-
-            final CommandLine parsed = ConsoleInput.dataLine(commands, normalized);
-
-            return this.run(parsed, commands);
-        });*/
+         * LineParser
+         */
+        final CommandLineParser parser = new DefaultParser();
+        /*
+         * Options
+         */
+        final Options options = new Options();
+        definition.stream().map(CommandOption::option).forEach(options::addOption);
+        try {
+            final CommandLine parsed = parser.parse(options, args);
+            return Future.succeededFuture(parsed);
+        } catch (final ParseException ex) {
+            final UpException error = new CommandParseException(this.getClass(), Ut.fromJoin(args), ex);
+            return Future.failedFuture(error);
+        }
     }
 }

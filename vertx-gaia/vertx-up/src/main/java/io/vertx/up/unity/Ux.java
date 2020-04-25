@@ -225,6 +225,10 @@ public final class Ux {
         return Web.toHandler(message);
     }
 
+    public static <T> Future<T> handler(final Consumer<Handler<AsyncResult<T>>> handler) {
+        return Web.toFuture(handler);
+    }
+
     public static <T, R> ConcurrentMap<ChangeFlag, List<T>> compare(final List<T> original, final List<T> current, final Function<T, R> fnValue, final String mergedPojo) {
         return Comparer.compare(original, current, fnValue, mergedPojo);
     }

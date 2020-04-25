@@ -1,11 +1,9 @@
 package io.vertx.tp.plugin.shell;
 
 import io.vertx.core.Future;
-import io.vertx.core.Promise;
 import io.vertx.tp.plugin.shell.atom.CommandArgs;
-import io.vertx.up.util.Ut;
-
-import java.util.Scanner;
+import io.vertx.tp.plugin.shell.cv.em.TermStatus;
+import io.vertx.tp.plugin.shell.refine.Sl;
 
 /**
  * @author <a href="http://www.origin-x.cn">lang</a>
@@ -13,29 +11,9 @@ import java.util.Scanner;
 public class ConsoleCommander extends AbstractCommander {
 
     @Override
-    public Future<Boolean> executeAsync(final CommandArgs args) {
-        final Promise<Boolean> future = Promise.promise();
-        /*
-         * Sub-System Welcome here
-         */
-        this.prompt();
-        final Scanner scanner = new Scanner(System.in);
-        if (scanner.hasNextLine()) {
-            String line = scanner.nextLine();
-            if (Ut.isNil(line)) {
-                /*
-                 * prompt
-                 */
-                ConsoleMessage.failInput();
-                this.prompt();
-                line = scanner.nextLine();
-                System.out.println(line);
-            }
-        }
-        return future.future();
-    }
-
-    private void prompt() {
-        ConsoleMessage.input(this.option);
+    public Future<TermStatus> executeAsync(final CommandArgs args) {
+        /* Welcome first */
+        Sl.welcomeSub(this.option);
+        return Future.succeededFuture();
     }
 }

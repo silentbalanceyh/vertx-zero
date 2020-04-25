@@ -1,9 +1,11 @@
 package io.vertx.tp.plugin.shell;
 
 import io.vertx.core.Future;
+import io.vertx.core.Vertx;
 import io.vertx.tp.plugin.shell.atom.CommandArgs;
 import io.vertx.tp.plugin.shell.atom.CommandOption;
 import io.vertx.tp.plugin.shell.cv.em.CommandType;
+import io.vertx.tp.plugin.shell.cv.em.TermStatus;
 import io.vertx.up.eon.em.Environment;
 import io.vertx.up.log.Annal;
 
@@ -14,6 +16,7 @@ import java.util.Objects;
  */
 public abstract class AbstractCommander implements Commander {
     protected transient CommandOption option;
+    protected transient Vertx vertxRef;
     protected transient Environment environment = Environment.Production;
 
     @Override
@@ -31,18 +34,24 @@ public abstract class AbstractCommander implements Commander {
     }
 
     @Override
+    public Commander bind(final Vertx vertx) {
+        this.vertxRef = vertx;
+        return this;
+    }
+
+    @Override
     public CommandType type() {
         return this.option.getType();
     }
 
     @Override
-    public Future<Boolean> executeAsync(final CommandArgs args) {
+    public Future<TermStatus> executeAsync(final CommandArgs args) {
         return Future.succeededFuture(this.execute(args));
     }
 
     @Override
-    public boolean execute(final CommandArgs args) {
-        return true;
+    public TermStatus execute(final CommandArgs args) {
+        return TermStatus.SUCCESS;
     }
 
     protected Annal logger() {

@@ -1,9 +1,11 @@
 package io.vertx.tp.plugin.shell;
 
 import io.vertx.core.Future;
+import io.vertx.core.Vertx;
 import io.vertx.tp.plugin.shell.atom.CommandArgs;
 import io.vertx.tp.plugin.shell.atom.CommandOption;
 import io.vertx.tp.plugin.shell.cv.em.CommandType;
+import io.vertx.tp.plugin.shell.cv.em.TermStatus;
 import io.vertx.up.eon.em.Environment;
 
 /**
@@ -15,9 +17,11 @@ public interface Commander {
 
     Commander bind(CommandOption options);
 
+    Commander bind(Vertx vertx);
+
     CommandType type();
 
-    boolean execute(CommandArgs args);
+    TermStatus execute(CommandArgs args);
 
-    Future<Boolean> executeAsync(CommandArgs args);
+    Future<TermStatus> executeAsync(CommandArgs args);
 }

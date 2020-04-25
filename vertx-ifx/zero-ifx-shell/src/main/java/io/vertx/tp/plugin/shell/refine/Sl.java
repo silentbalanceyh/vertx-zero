@@ -1,9 +1,11 @@
 package io.vertx.tp.plugin.shell.refine;
 
-import io.vertx.core.json.JsonObject;
 import io.vertx.tp.plugin.shell.atom.CommandOption;
+import io.vertx.tp.plugin.shell.cv.em.TermStatus;
+import io.vertx.up.eon.em.Environment;
 
 import java.util.List;
+import java.util.function.Supplier;
 
 /**
  * The tool class for Shell
@@ -27,6 +29,33 @@ public class Sl {
         return SlVerifier.validate(args);
     }
 
+    public static void welcome() {
+        SlWelcome.welcome();
+    }
+
+    public static void goodbye() {
+        SlWelcome.goodbye();
+    }
+
+    public static void welcomeCommand(final Environment environment) {
+        SlWelcome.welcomeCommand(environment);
+    }
+
+    public static void welcomeSub(final CommandOption option) {
+        SlWelcome.welcomeSub(option);
+    }
+
+    /*
+     * Workflow
+     */
+    public static void failEmpty() {
+        SlMessage.failEmpty();
+    }
+
+    public static TermStatus failError(final Throwable ex) {
+        return SlMessage.failError(ex);
+    }
+
     /*
      * Message
      * - output, Print message information in console
@@ -36,19 +65,12 @@ public class Sl {
         SlLog.output(message, args);
     }
 
-    public static void outputSubSystem(final String message, final String name, final Object... args) {
-        SlLog.output(message, name, args);
-    }
-
     public static String message(final String message, final Object... args) {
         return SlLog.message(message, args);
     }
 
-    /*
-     * Execution life cycle
-     */
-    public static JsonObject welcome() {
-        return SlConfig.welcome();
+    public static String message(final String key, final Supplier<String> defaultSupplier) {
+        return SlMessage.message(key, defaultSupplier);
     }
 
     /*
