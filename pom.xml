@@ -97,12 +97,12 @@
         <guice.version>4.1.0</guice.version>
         <scala.version>2.13.2</scala.version>
         <feign.version>8.18.0</feign.version>
-        <guava.version>28.2-jre</guava.version>
-        <joda.version>2.10.5</joda.version>
+        <guava.version>29.0-jre</guava.version>
+        <joda.version>2.10.6</joda.version>
         <codehaus.janino.version>3.2.1</codehaus.janino.version>
         <codehaus.mojo.version>1.18</codehaus.mojo.version>
         <ignite.version>2.8.0</ignite.version>
-        <mongodb.async.version>3.12.3</mongodb.async.version>
+        <mongodb.async.version>3.12.2</mongodb.async.version>
         <poi.version>4.1.2</poi.version>
 
         <!-- elasticsearch version -->

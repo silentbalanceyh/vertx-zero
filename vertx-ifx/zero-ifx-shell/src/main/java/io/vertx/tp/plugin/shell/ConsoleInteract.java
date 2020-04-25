@@ -3,10 +3,10 @@ package io.vertx.tp.plugin.shell;
 import io.vertx.core.Future;
 import io.vertx.core.Vertx;
 import io.vertx.tp.error.CommandMissingException;
+import io.vertx.tp.plugin.shell.async.Term;
 import io.vertx.tp.plugin.shell.atom.CommandArgs;
 import io.vertx.tp.plugin.shell.atom.CommandOption;
 import io.vertx.tp.plugin.shell.cv.em.CommandType;
-import io.vertx.tp.plugin.shell.refine.Sl;
 import io.vertx.up.eon.em.Environment;
 import io.vertx.up.util.Ut;
 import org.apache.commons.cli.CommandLine;
@@ -14,14 +14,11 @@ import org.apache.commons.cli.Options;
 
 import java.util.List;
 import java.util.Objects;
-import java.util.Scanner;
 
 /**
  * @author <a href="http://www.origin-x.cn">lang</a>
  */
 class ConsoleInteract {
-
-    private transient final Scanner scanner = new Scanner(System.in);
 
     private transient final Environment environment;
     private transient final Vertx vertx;
@@ -29,7 +26,6 @@ class ConsoleInteract {
     private ConsoleInteract(final Vertx vertx, final Environment environment) {
         this.environment = environment;
         this.vertx = vertx;
-        this.scanner.useDelimiter("\n");
     }
 
     public static ConsoleInteract start(final Vertx vertx, final Environment environment) {
@@ -86,17 +82,23 @@ class ConsoleInteract {
         /* Environment and Input */
         ConsoleMessage.input(this.environment);
 
-        /* Data in */
+        final Term term = Term.create(this.vertx);
+        term.run(handler -> {
+            if (handler.succeeded()) {
+
+            } else {
+                /* Environment input again */
+                ConsoleMessage.input(this.environment);
+            }
+        });
+        /*
         ConsoleInput.dataIn(this.scanner, () -> ConsoleMessage.input(this.environment), (normalized) -> {
 
-            /* Main Processing */
             final List<CommandOption> commands = Sl.commands();
 
-            /* Parsing Line for processing */
             final CommandLine parsed = ConsoleInput.dataLine(commands, normalized);
 
-            /* Build Commander based on `CommandLine` and `List<CommonOption>` */
             return this.run(parsed, commands);
-        });
+        });*/
     }
 }

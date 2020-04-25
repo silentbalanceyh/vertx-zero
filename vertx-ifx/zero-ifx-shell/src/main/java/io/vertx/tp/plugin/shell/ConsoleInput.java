@@ -15,6 +15,7 @@ import java.util.function.Function;
 /**
  * @author <a href="http://www.origin-x.cn">lang</a>
  */
+@Deprecated
 class ConsoleInput {
     /*
      * Read input to uniform argument[];
