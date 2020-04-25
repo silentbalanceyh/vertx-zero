@@ -31,7 +31,8 @@ class SlWelcome {
 
     static void welcomeSub(final CommandOption option) {
         final JsonObject message = WELCOME.getJsonObject("message");
-        SlLog.output("------------( Sub-System )");
+        SlLog.outputOpt("------>>>> Sub System: {0} )",
+                option.getName(), option.getDescription());
         SlLog.output(message.getString("wait"));
         System.out.print(">> ");
     }

@@ -11,7 +11,7 @@ class SlLog {
         stream(message, "[ μηδέν ] ", args);
     }
 
-    static void output(final String message, final String name, final Object... args) {
+    static void outputOpt(final String message, final String name, final Object... args) {
         stream(message, "[ μηδέν ] (" + name + ")", args);
     }
 

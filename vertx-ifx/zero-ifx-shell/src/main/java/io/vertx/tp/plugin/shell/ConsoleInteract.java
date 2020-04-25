@@ -68,13 +68,16 @@ class ConsoleInteract {
                  * Sub-System calling
                  */
                 final ConsoleCommander commander = Ut.singleton(ConsoleCommander.class);
-                return commander.bind(command).bind(this.environment).executeAsync(commandArgs);
+                return commander.bind(command).bind(this.environment).bind(this.vertx)
+                        .executeAsync(commandArgs);
             } else {
                 /*
                  * Plugin processing
+                 * instance instead of single for shared usage
                  */
-                final Commander commander = Ut.singleton(command.getPlugin());
-                return commander.bind(command).bind(this.environment).executeAsync(commandArgs);
+                final Commander commander = Ut.instance(command.getPlugin());
+                return commander.bind(command).bind(this.environment).bind(this.vertx)
+                        .executeAsync(commandArgs);
             }
         }
     }
