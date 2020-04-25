@@ -1,5 +1,6 @@
 package io.vertx.tp.plugin.shell;
 
+import io.vertx.core.Vertx;
 import io.vertx.tp.error.InternalConflictException;
 import io.vertx.tp.plugin.shell.refine.Sl;
 import io.vertx.up.eon.em.Environment;
@@ -20,17 +21,35 @@ public class ConsoleFramework {
 
     static {
         Sl.init();
-        /*
-         * `start`      - this must be bind with method boot
-         * `config`     - Default Production
-         * `dev`        - Default Development
-         */
-        INTERNAL.put("config", ConsoleInteract.start(Environment.Production)::run);
-        INTERNAL.put("dev", ConsoleInteract.start(Environment.Development)::run);
     }
 
-    public static ConsoleFramework start() {
-        return new ConsoleFramework();
+    private final transient Vertx vertxRef;
+
+    private ConsoleFramework(final Vertx vertxRef) {
+        this.vertxRef = vertxRef;
+        if (INTERNAL.isEmpty()) {
+            /*
+             * config dev
+             * config ( Default for production )
+             */
+            INTERNAL.put("config", arg -> {
+                /*
+                 * Callback consume for execution
+                 */
+                final ConsoleInteract interact;
+                if ("dev".equals(arg)) {
+                    interact = ConsoleInteract.start(this.vertxRef, Environment.Development);
+                } else {
+                    LOGGER.info("The console will go through production mode");
+                    interact = ConsoleInteract.start(this.vertxRef, Environment.Production);
+                }
+                interact.run(arg);
+            });
+        }
+    }
+
+    public static ConsoleFramework start(final Vertx vertxRef) {
+        return new ConsoleFramework(vertxRef);
     }
 
     public ConsoleFramework bind(final Consumer<String> consumer) {
@@ -56,7 +75,8 @@ public class ConsoleFramework {
             final String input = args[0];
             final Consumer<String> consumer = INTERNAL.get(input);
             if (Objects.nonNull(consumer)) {
-                consumer.accept(input);
+                final String consumerArgs = 2 == args.length ? args[1] : null;
+                consumer.accept(consumerArgs);
             } else {
                 LOGGER.warn("No consumer found for argument `{0}`", input);
                 System.exit(-1);
@@ -70,7 +90,7 @@ public class ConsoleFramework {
      * 绑定 args 中的执行
      */
     public ConsoleFramework bind(final String name, final Consumer<String> consumer) {
-        if ("config".equals(name) || "dev".equals(name)) {
+        if ("config".equals(name)) {
             throw new InternalConflictException(ConsoleFramework.class);
         }
         INTERNAL.put(name, consumer);

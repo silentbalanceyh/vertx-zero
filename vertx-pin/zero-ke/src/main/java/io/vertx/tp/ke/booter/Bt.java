@@ -2,6 +2,7 @@ package io.vertx.tp.ke.booter;
 
 import io.vertx.core.*;
 import io.vertx.tp.plugin.excel.atom.ExTable;
+import io.vertx.up.unity.Ux;
 
 import java.util.List;
 import java.util.Set;
@@ -13,11 +14,11 @@ import java.util.Set;
 public class Bt {
 
     public static WorkerExecutor getWorker(final String name) {
-        return BtHelper.getWorker(name);
+        return Ux.nativeWorker(name);
     }
 
     public static Vertx getVertx() {
-        return BtHelper.getVertx();
+        return Ux.nativeVertx();
     }
 
     /*

@@ -19,7 +19,6 @@ import java.util.function.Function;
 /**
  * For collection
  */
-@SuppressWarnings("unchecked")
 final class Congregation {
     private static final Annal LOGGER = Annal.get(Congregation.class);
 

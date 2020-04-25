@@ -1,6 +1,7 @@
 package io.vertx.tp.plugin.shell;
 
 import io.vertx.core.Future;
+import io.vertx.core.Vertx;
 import io.vertx.tp.error.CommandMissingException;
 import io.vertx.tp.plugin.shell.atom.CommandArgs;
 import io.vertx.tp.plugin.shell.atom.CommandOption;
@@ -23,14 +24,16 @@ class ConsoleInteract {
     private transient final Scanner scanner = new Scanner(System.in);
 
     private transient final Environment environment;
+    private transient final Vertx vertx;
 
-    private ConsoleInteract(final Environment environment) {
+    private ConsoleInteract(final Vertx vertx, final Environment environment) {
         this.environment = environment;
+        this.vertx = vertx;
         this.scanner.useDelimiter("\n");
     }
 
-    public static ConsoleInteract start(final Environment environment) {
-        return new ConsoleInteract(environment);
+    public static ConsoleInteract start(final Vertx vertx, final Environment environment) {
+        return new ConsoleInteract(vertx, environment);
     }
 
     /*

@@ -122,12 +122,15 @@
         <http.async.client.version>4.1.4</http.async.client.version>
         <http.client.version>4.5.12</http.client.version>
         <http.core.version>4.4.13</http.core.version>
+
         <!-- Liquibase -->
         <liquibase.version>3.8.9</liquibase.version>
+
         <!-- Rpc -->
         <protobuf.version>3.11.4</protobuf.version>
         <vertx.grpc.version>1.6.1</vertx.grpc.version>
         <grpc.version>1.29.0</grpc.version>
+        <picoli.version>4.2.0</picoli.version>
 
         <!-- Yaml -->
         <yaml.version>1.26</yaml.version>
@@ -255,6 +258,11 @@
             <dependency>
                 <groupId>io.vertx</groupId>
                 <artifactId>vertx-web</artifactId>
+                <version>${vertx.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.vertx</groupId>
+                <artifactId>vertx-shell</artifactId>
                 <version>${vertx.version}</version>
             </dependency>
             <dependency>
@@ -1010,6 +1018,12 @@
                 <groupId>joda-time</groupId>
                 <artifactId>joda-time</artifactId>
                 <version>${joda.version}</version>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/info.picocli/picocli -->
+            <dependency>
+                <groupId>info.picocli</groupId>
+                <artifactId>picocli</artifactId>
+                <version>${picoli.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

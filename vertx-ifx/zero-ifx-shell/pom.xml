@@ -17,5 +17,13 @@
             <artifactId>commons-cli</artifactId>
             <version>${common.cli.version}</version>
         </dependency>
+        <dependency>
+            <groupId>info.picocli</groupId>
+            <artifactId>picocli</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.vertx</groupId>
+            <artifactId>vertx-shell</artifactId>
+        </dependency>
     </dependencies>
 </project>
