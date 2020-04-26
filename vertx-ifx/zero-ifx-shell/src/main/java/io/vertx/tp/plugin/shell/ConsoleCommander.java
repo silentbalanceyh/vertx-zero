@@ -19,7 +19,7 @@ public class ConsoleCommander extends AbstractCommander {
     @Override
     public Future<TermStatus> executeAsync(final CommandInput args) {
         /* Welcome first */
-        Sl.welcomeSub(this.environment, this.option);
+        Sl.welcomeSub(this.environment, this.atom);
         /* Async Result Captured */
         /* Term create */
         final Term term = Term.create(this.vertxRef);
@@ -32,7 +32,7 @@ public class ConsoleCommander extends AbstractCommander {
 
         final BiConsumer<Term, TermStatus> consumer = (termRef, status) -> {
             /* Environment input again */
-            Sl.welcomeSub(this.environment, this.option);
+            Sl.welcomeSub(this.environment, this.atom);
             /* Continue here */
             this.run(termRef);
             /* Promise complete */
@@ -75,7 +75,7 @@ public class ConsoleCommander extends AbstractCommander {
 
     private Future<TermStatus> runAsync(final String[] args) {
         /* Critical CommandOption */
-        final List<CommandAtom> commands = Sl.commands(this.option.getCommands());
+        final List<CommandAtom> commands = Sl.commands(this.atom.getCommands());
 
         /* Parse Arguments */
         return ConsoleTool.parseAsync(args, commands)

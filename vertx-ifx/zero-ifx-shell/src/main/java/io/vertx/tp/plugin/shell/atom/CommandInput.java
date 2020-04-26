@@ -13,7 +13,7 @@ import java.util.concurrent.ConcurrentMap;
  */
 public class CommandInput implements Serializable {
     private final ConcurrentMap<String, String> inputValue = new ConcurrentHashMap<>();
-    private Options options = new Options();
+    private transient Options options;
 
     private CommandInput(final List<String> names, final List<String> values) {
         if (values.size() >= names.size()) {
@@ -41,8 +41,8 @@ public class CommandInput implements Serializable {
         return this.options;
     }
 
-    public CommandInput bind(final Options options) {
-        this.options = options;
+    public CommandInput bind(final CommandAtom atom) {
+        this.options = atom.options();
         return this;
     }
 }

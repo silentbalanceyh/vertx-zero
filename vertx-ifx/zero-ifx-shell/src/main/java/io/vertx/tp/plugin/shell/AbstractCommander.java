@@ -14,7 +14,7 @@ import java.util.Objects;
  * @author <a href="http://www.origin-x.cn">lang</a>
  */
 public abstract class AbstractCommander implements Commander {
-    protected transient CommandAtom option;
+    protected transient CommandAtom atom;
     protected transient Vertx vertxRef;
     protected transient Environment environment = Environment.Production;
 
@@ -27,8 +27,8 @@ public abstract class AbstractCommander implements Commander {
     }
 
     @Override
-    public Commander bind(final CommandAtom option) {
-        this.option = option;
+    public Commander bind(final CommandAtom atom) {
+        this.atom = atom;
         return this;
     }
 

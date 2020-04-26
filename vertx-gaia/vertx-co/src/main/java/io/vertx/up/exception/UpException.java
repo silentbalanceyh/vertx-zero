@@ -12,18 +12,18 @@ public abstract class UpException extends ZeroRunException {
 
     public UpException(final Class<?> clazz, final Object... args) {
         super(Strings.EMPTY);
-        target = clazz;
-        message = Errors.normalize(clazz, getCode(), args);
+        this.target = clazz;
+        this.message = Errors.normalize(clazz, this.getCode(), args);
     }
 
     public abstract int getCode();
 
     @Override
     public String getMessage() {
-        return message;
+        return this.message;
     }
 
     public Class<?> getTarget() {
-        return target;
+        return this.target;
     }
 }

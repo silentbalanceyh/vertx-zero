@@ -11,6 +11,9 @@ import io.vertx.up.util.Ut;
 class SlConfig {
 
     private static final JsonObject CONFIGURATION = new JsonObject();
+    private static final String FIELD_COMMANDS = "commands";
+    private static final String FIELD_DEFAULT = "default";
+    private static final String FIELD_DEFINED = "defined";
 
     static void init() {
         /*
@@ -20,8 +23,20 @@ class SlConfig {
             /*
              * command configuration
              */
-            final String command = config.getString("commands");
-            config.put("commands", Ut.ioJArray(command));
+            final JsonObject commands = Ut.sureJObject(config.getJsonObject(FIELD_COMMANDS));
+            /*
+             * default, defined
+             */
+            final JsonObject commandsJson = new JsonObject();
+            final String defaultFile = commands.getString(FIELD_DEFAULT);
+            if (Ut.notNil(defaultFile)) {
+                commandsJson.put(FIELD_DEFAULT, Ut.ioJArray(defaultFile));
+            }
+            final String definedFile = commands.getString(FIELD_DEFINED);
+            if (Ut.notNil(definedFile)) {
+                commandsJson.put(FIELD_DEFINED, Ut.ioJArray(definedFile));
+            }
+            config.put(FIELD_COMMANDS, commandsJson);
             return config;
         }, JsonObject.class);
         CONFIGURATION.mergeIn(data, true);
@@ -44,14 +59,12 @@ class SlConfig {
     }
 
     static JsonArray commands() {
-        return Ut.sureJArray(CONFIGURATION.getJsonArray("commands"));
+        final JsonObject commands = CONFIGURATION.getJsonObject(FIELD_COMMANDS);
+        return Ut.sureJArray(commands.getJsonArray(FIELD_DEFINED));
     }
 
     static JsonArray commandsDefault() {
-        return Ut.sureJArray(CONFIGURATION.getJsonArray("commandsDefault"));
-    }
-
-    static JsonObject commandsBack() {
-        return Ut.sureJObject(CONFIGURATION.getJsonObject("commandsBack"));
+        final JsonObject commands = CONFIGURATION.getJsonObject(FIELD_COMMANDS);
+        return Ut.sureJArray(commands.getJsonArray(FIELD_DEFAULT));
     }
 }

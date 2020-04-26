@@ -120,6 +120,7 @@ public class CommandAtom implements Serializable {
         /*
          * Parse options
          */
+        this.options.stream().map(CommandOption::option).forEach(options::addOption);
         return options;
     }
 

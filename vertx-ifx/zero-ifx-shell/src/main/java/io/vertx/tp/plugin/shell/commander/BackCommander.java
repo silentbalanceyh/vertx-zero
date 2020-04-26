@@ -11,7 +11,7 @@ import io.vertx.tp.plugin.shell.refine.Sl;
 public class BackCommander extends AbstractCommander {
     @Override
     public TermStatus execute(final CommandInput args) {
-        Sl.goodbye(this.option);
+        Sl.goodbye(this.atom);
         return TermStatus.EXIT;
     }
 }

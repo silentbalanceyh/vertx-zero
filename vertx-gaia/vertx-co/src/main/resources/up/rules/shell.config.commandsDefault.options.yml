@@ -1,7 +1,0 @@
-required:
-  - name
-  - simple
-typed:
-  descrption: STRING
-  name: STRING
-  simple: STRING

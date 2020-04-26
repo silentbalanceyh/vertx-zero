@@ -11,31 +11,34 @@ import org.apache.commons.cli.HelpFormatter;
  */
 public class HelpCommander extends AbstractCommander {
     public String header() {
-        return Sl.message("header",
-                /* Default supplier for "header" */
-                () -> "Zero Framework Console/Shell!");
+        /* Default supplier for "header" */
+        return Sl.message("header", () -> "Zero Framework Console/Shell!");
     }
 
     public String footer() {
-        return Sl.message("footer",
-                /* Default supplier for "header" */
-                () -> "CopyRight: http://www.vertxup.cn");
+        /* Default supplier for "header" */
+        return Sl.message("footer", () -> "CopyRight: http://www.vertxup.cn");
     }
 
     public String usage() {
-        return Sl.message("usage",
-                /* Default supplier for "usage" */
-                () -> "Syntax for different type:" +
-                        "\t SYSTEM: <command> Go to sub-system of console." +
-                        "\t COMMAND: <command> [options] Execute actual command" +
-                        "\t Options: [ -name1 value1 -name2 value2 ]");
+        /* Default supplier for "usage" */
+        return Sl.message("usage", () -> "Syntax for different type:" +
+                "\t SYSTEM: <command> Go to sub-system of console." +
+                "\t COMMAND: <command> [options] Execute actual command" +
+                "\t Options: [ -name1 value1 -name2 value2 ]");
     }
 
     @Override
     public TermStatus execute(final CommandInput args) {
+        System.out.println(args.get());
+        /*
+         * Print Help
+         */
         final HelpFormatter formatter = new HelpFormatter();
         formatter.setWidth(240);
-        formatter.printHelp(this.option.getName() + ": " + this.usage(), args.options());
+
+
+        // formatter.printHelp(this.option.getName() + ": " + this.usage(), args.options());
         return TermStatus.SUCCESS;
     }
 }
