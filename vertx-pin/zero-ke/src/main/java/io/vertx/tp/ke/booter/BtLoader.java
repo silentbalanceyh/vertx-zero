@@ -23,9 +23,9 @@ class BtLoader {
      */
     static {
         /* Excel Init */
-        ExcelInfix.init(BtHelper.getVertx());
+        ExcelInfix.init(Ux.nativeVertx());
         /* Jooq Init */
-        JooqInfix.init(BtHelper.getVertx());
+        JooqInfix.init(Ux.nativeVertx());
     }
 
     /*

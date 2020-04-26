@@ -9,8 +9,6 @@ import io.vertx.up.uca.yaml.Node;
 import io.vertx.up.uca.yaml.ZeroUniform;
 import io.vertx.up.util.Ut;
 
-import java.util.Objects;
-import java.util.function.Consumer;
 import java.util.function.Function;
 
 interface InfixTool {
@@ -42,11 +40,16 @@ public interface Infix {
     static <R> R initTp(final String key,
                         final Function<JsonObject, R> executor,
                         final Class<?> clazz) {
-        final Annal logger = Annal.get(clazz);
-        final JsonObject options = InfixTool.init(logger, key, clazz);
-        final JsonObject config = null == options.getJsonObject(key) ? new JsonObject() : options.getJsonObject(key);
-        final JsonObject ready = config.containsKey("config") ? config.getJsonObject("config") : new JsonObject();
-        return InfixTool.init(logger, key, ready, executor);
+        /*
+         * Old code of BUGS
+         * final Annal logger = Annal.get(clazz);
+         * final JsonObject options = InfixTool.init(logger, key, clazz);
+         * final JsonObject config = null == options.getJsonObject(key) ? new JsonObject() : options.getJsonObject(key);
+         * final JsonObject ready = config.containsKey("config") ? config.getJsonObject("config") : new JsonObject();
+         * return InfixTool.init(logger, key, ready, executor);
+         */
+        return init(key, (config) ->
+                executor.apply(Ut.sureJObject(config.getJsonObject("config"))), clazz);
     }
 
     static <R> R init(final String key,
@@ -54,8 +57,8 @@ public interface Infix {
                       final Class<?> clazz) {
         final Annal logger = Annal.get(clazz);
         final JsonObject options = InfixTool.init(logger, key, clazz);
-        final JsonObject config = null == options.getJsonObject(key) ? new JsonObject() : options.getJsonObject(key);
-        return InfixTool.init(logger, key, config, executor);
+        return InfixTool.init(logger, key,
+                Ut.sureJObject(options.getJsonObject(key)), executor);
     }
 
     <T> T get();

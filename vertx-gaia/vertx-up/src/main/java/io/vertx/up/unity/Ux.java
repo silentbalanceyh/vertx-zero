@@ -1,10 +1,7 @@
 package io.vertx.up.unity;
 
 import io.github.jklingsporn.vertx.jooq.future.VertxDAO;
-import io.vertx.core.AsyncResult;
-import io.vertx.core.Future;
-import io.vertx.core.Handler;
-import io.vertx.core.MultiMap;
+import io.vertx.core.*;
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.eventbus.Message;
 import io.vertx.core.json.JsonArray;
@@ -40,6 +37,8 @@ import java.util.concurrent.ConcurrentMap;
 import java.util.function.*;
 
 /**
+ * 「Kt」Utility X Component in zero
+ *
  * Here Ux is a util interface of uniform to call different tools.
  * It just like helper for business usage.
  */
@@ -224,6 +223,10 @@ public final class Ux {
 
     public static <T> Handler<AsyncResult<T>> handler(final Message<Envelop> message) {
         return Web.toHandler(message);
+    }
+
+    public static <T> Future<T> handler(final Consumer<Handler<AsyncResult<T>>> handler) {
+        return Web.toFuture(handler);
     }
 
     public static <T, R> ConcurrentMap<ChangeFlag, List<T>> compare(final List<T> original, final List<T> current, final Function<T, R> fnValue, final String mergedPojo) {
@@ -605,8 +608,51 @@ public final class Ux {
         return In.request(envelop, clazz);
     }
 
-    public static void initComponent(final JsonObject init) {
-        Atomic.initComponent(init);
+    // ---------------------- Agent mode usage --------------------------
+
+    /**
+     * This method will be configured in `vertx-extension.yml` file in common situation,
+     * The file content should be as following:
+     *
+     * ```yml
+     * // <pre><code>
+     * init:
+     *   - component: "[ComponentName1]"
+     *   - component: "[ComponentName2]"
+     * // </code></pre>
+     * ```
+     *
+     * All components here will be called when container starting, the component must declare the init method as
+     *
+     * ```java
+     * // <pre><code>
+     * public static void init(){
+     *     // Here are initialize code logical
+     *     Ke.banner("「Εκδήλωση」- Crud ( Ix )");
+     *
+     *     Ix.infoInit(LOGGER, "IxConfiguration...");
+     * }
+     * // </code></pre>
+     * ```
+     *
+     * This method should be used when you want to develop zero extension module for business requirement.
+     *
+     * @param init The configuration data came from `init` node in file
+     */
+    public static void nativeInit(final JsonObject init) {
+        Atomic.nativeInit(init);
+    }
+
+    public static Vertx nativeVertx() {
+        return Atomic.nativeVertx();
+    }
+
+    public static WorkerExecutor nativeWorker(final String name) {
+        return Atomic.nativeWorker(name, 10);
+    }
+
+    public static WorkerExecutor nativeWorker(final String name, final Integer minutes) {
+        return Atomic.nativeWorker(name, minutes);
     }
 
     // -> Dict for caculation

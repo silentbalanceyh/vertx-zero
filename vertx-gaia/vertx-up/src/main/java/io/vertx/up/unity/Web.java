@@ -3,6 +3,7 @@ package io.vertx.up.unity;
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Future;
 import io.vertx.core.Handler;
+import io.vertx.core.Promise;
 import io.vertx.core.eventbus.Message;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.commune.Envelop;
@@ -14,6 +15,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
+import java.util.function.Consumer;
 import java.util.function.Function;
 
 class Web {
@@ -32,6 +34,18 @@ class Web {
                 message.reply(Envelop.failure(To.toError(Web.class, handler.cause())));
             }
         };
+    }
+
+    static <T> Future<T> toFuture(final Consumer<Handler<AsyncResult<T>>> handler) {
+        final Promise<T> promise = Promise.promise();
+        handler.accept(result -> {
+            if (result.succeeded()) {
+                promise.complete(result.result());
+            } else {
+                promise.fail(result.cause());
+            }
+        });
+        return promise.future();
     }
 
     @SuppressWarnings("all")

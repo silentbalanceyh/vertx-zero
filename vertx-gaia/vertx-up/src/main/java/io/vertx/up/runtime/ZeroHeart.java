@@ -38,7 +38,7 @@ public class ZeroHeart {
         if (config.containsKey(INIT)) {
             final JsonArray initArray = config.getJsonArray(INIT);
             /* Component Init */
-            Ut.itJArray(initArray, (init, index) -> Ux.initComponent(init));
+            Ut.itJArray(initArray, (init, index) -> Ux.nativeInit(init));
         }
     }
 

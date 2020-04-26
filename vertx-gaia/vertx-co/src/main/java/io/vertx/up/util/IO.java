@@ -45,6 +45,7 @@ final class IO {
      * Read to JsonArray
      *
      * @param filename The filename to describe source path
+     *
      * @return Return to JsonArray object
      */
     static JsonArray getJArray(final String filename) {
@@ -56,6 +57,7 @@ final class IO {
      * Read to JsonObject
      *
      * @param filename The filename to describe source path
+     *
      * @return Return to JsonObject
      */
     static JsonObject getJObject(final String filename) {
@@ -69,6 +71,7 @@ final class IO {
      * Read to String
      *
      * @param in input stream
+     *
      * @return converted stream
      */
     static String getString(final InputStream in) {
@@ -95,18 +98,34 @@ final class IO {
      * Read yaml to JsonObject
      *
      * @param filename input filename
+     *
      * @return Deserialized type of T
      */
     @SuppressWarnings("unchecked")
     static <T> T getYaml(final String filename) {
-        final YamlType type = getYamlType(filename);
-        return Fn.getSemi(YamlType.ARRAY == type, null,
-                () -> (T) Fn.getJvm(() -> new JsonArray(
-                        getYamlNode(filename).toString()
-                ), filename),
-                () -> (T) Fn.getJvm(() -> new JsonObject(
-                        getYamlNode(filename).toString()
-                ), filename));
+        if (Ut.isNil(filename)) {
+            /*
+             * If filename is null or empty
+             * return to null reference for future usage
+             */
+            return null;
+        } else {
+            final YamlType type = getYamlType(filename);
+            final String literal = getYamlNode(filename).toString();
+            if (Ut.isNil(literal)) {
+                /*
+                 * If content is null or empty
+                 * return to null reference for future usage
+                 */
+                return null;
+            } else {
+                if (YamlType.ARRAY == type) {
+                    return (T) new JsonArray(literal);
+                } else {
+                    return (T) new JsonObject(literal);
+                }
+            }
+        }
     }
 
     private static JsonNode getYamlNode(final String filename) {
@@ -127,6 +146,7 @@ final class IO {
      * Check yaml type
      *
      * @param filename input file name
+     *
      * @return YamlType of the file by format
      */
     private static YamlType getYamlType(final String filename) {
@@ -144,6 +164,7 @@ final class IO {
      * Read to property object
      *
      * @param filename input filename
+     *
      * @return Properties that will be returned
      */
     static Properties getProp(final String filename) {
@@ -160,6 +181,7 @@ final class IO {
      * Read to URL
      *
      * @param filename input filename
+     *
      * @return URL of this filename include ZIP/JAR url
      */
     static URL getURL(final String filename) {
@@ -176,6 +198,7 @@ final class IO {
      * Read to Buffer
      *
      * @param filename input filename
+     *
      * @return Buffer from filename
      */
     @SuppressWarnings("all")
@@ -193,6 +216,7 @@ final class IO {
      * Read to File
      *
      * @param filename input filename
+     *
      * @return File object by filename that input
      */
     static File getFile(final String filename) {
@@ -214,6 +238,7 @@ final class IO {
      * Read to Path
      *
      * @param filename input filename
+     *
      * @return file content that converted to String
      */
     static String getPath(final String filename) {

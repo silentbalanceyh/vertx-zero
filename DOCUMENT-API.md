@@ -7,7 +7,7 @@
 There are some categories of each document for flag:
 
 * 「Tp」Third-part extensions ( May be extend from Open Source Project ).
-* 「Kit」Tools in zero framework such as `Ux, Ut, Fn`.
+* 「Kt」Tools in zero framework such as `Ux, Ut, Fn`.
 * 「Co」Core classes in zero framework, it does not contain `web container` docs.
 * 「Web」Critical `web` docs include **engine** and **container** docs. 
 * 「Ex」Zero Extension documents.

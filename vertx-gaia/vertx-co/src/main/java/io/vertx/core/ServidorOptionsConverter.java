@@ -3,7 +3,7 @@ package io.vertx.core;
 import io.vertx.core.json.JsonObject;
 
 /**
- * 「Co」 Vert.x Extension
+ * # 「Co」 Vert.x Extension
  *
  * This class is `Converter` class of `Options`, it should be generated but current one is not.
  *

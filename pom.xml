@@ -65,14 +65,14 @@
         <stack.version>3.9.0</stack.version>
 
         <jcabi.version>0.22.6</jcabi.version>
-        <jackson.version>2.9.10</jackson.version>
-        <jackson.databind.version>2.9.10.3</jackson.databind.version>
+        <jackson.version>2.11.0</jackson.version>
+        <jackson.extension.version>2.11.0.rc1</jackson.extension.version>
         <jersey.version>2.30.1</jersey.version>
         <javax.el.version>3.0.1-b06</javax.el.version>
         <glassfish.el.version>3.0.1-b11</glassfish.el.version>
 
         <!-- Database Needed -->
-        <hikari.cp.version>3.4.2</hikari.cp.version>
+        <hikari.cp.version>3.4.3</hikari.cp.version>
         <jooq.version>3.10.8</jooq.version>
         <vertx.jooq.version>2.4.1</vertx.jooq.version>
         <vertx.jooq.async.version>0.4</vertx.jooq.async.version>
@@ -95,10 +95,10 @@
         <jwt.version>3.10.2</jwt.version>
         <jetbrains.version>19.0.0</jetbrains.version>
         <guice.version>4.1.0</guice.version>
-        <scala.version>2.13.1</scala.version>
+        <scala.version>2.13.2</scala.version>
         <feign.version>8.18.0</feign.version>
-        <guava.version>28.2-jre</guava.version>
-        <joda.version>2.10.5</joda.version>
+        <guava.version>29.0-jre</guava.version>
+        <joda.version>2.10.6</joda.version>
         <codehaus.janino.version>3.2.1</codehaus.janino.version>
         <codehaus.mojo.version>1.18</codehaus.mojo.version>
         <ignite.version>2.8.0</ignite.version>
@@ -117,16 +117,20 @@
         <common.logging.version>1.2</common.logging.version>
         <common.net.version>3.6</common.net.version>
         <common.codec.version>1.14</common.codec.version>
+        <common.cli.version>1.4</common.cli.version>
 
         <http.async.client.version>4.1.4</http.async.client.version>
         <http.client.version>4.5.12</http.client.version>
         <http.core.version>4.4.13</http.core.version>
+
         <!-- Liquibase -->
         <liquibase.version>3.8.9</liquibase.version>
+
         <!-- Rpc -->
         <protobuf.version>3.11.4</protobuf.version>
         <vertx.grpc.version>1.6.1</vertx.grpc.version>
         <grpc.version>1.29.0</grpc.version>
+        <picoli.version>4.2.0</picoli.version>
 
         <!-- Yaml -->
         <yaml.version>1.26</yaml.version>
@@ -163,7 +167,7 @@
         <mdoclet.version>1.4</mdoclet.version>
 
         <!-- Logging -->
-        <log4j2.version>2.13.1</log4j2.version>
+        <log4j2.version>2.13.2</log4j2.version>
         <logback.version>1.2.3</logback.version>
         <logback.cal10n.version>0.8.1</logback.cal10n.version>
         <slf4j.version>1.7.25</slf4j.version>
@@ -254,6 +258,11 @@
             <dependency>
                 <groupId>io.vertx</groupId>
                 <artifactId>vertx-web</artifactId>
+                <version>${vertx.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.vertx</groupId>
+                <artifactId>vertx-shell</artifactId>
                 <version>${vertx.version}</version>
             </dependency>
             <dependency>
@@ -533,6 +542,12 @@
                 <artifactId>commons-lang3</artifactId>
                 <version>${common.lang3.version}</version>
             </dependency>
+            <!-- https://mvnrepository.com/artifact/commons-cli/commons-cli -->
+            <dependency>
+                <groupId>commons-cli</groupId>
+                <artifactId>commons-cli</artifactId>
+                <version>${common.cli.version}</version>
+            </dependency>
             <!-- https://mvnrepository.com/artifact/com.hazelcast/hazelcast -->
             <dependency>
                 <groupId>com.hazelcast</groupId>
@@ -609,7 +624,7 @@
             <dependency>
                 <groupId>com.fasterxml.jackson.dataformat</groupId>
                 <artifactId>jackson-dataformat-yaml</artifactId>
-                <version>${jackson.version}</version>
+                <version>${jackson.extension.version}</version>
                 <exclusions>
                     <exclusion>
                         <groupId>com.fasterxml.jackson.core</groupId>
@@ -620,7 +635,7 @@
             <dependency>
                 <groupId>com.fasterxml.jackson.dataformat</groupId>
                 <artifactId>jackson-dataformat-smile</artifactId>
-                <version>${jackson.version}</version>
+                <version>${jackson.extension.version}</version>
                 <exclusions>
                     <exclusion>
                         <groupId>com.fasterxml.jackson.core</groupId>
@@ -631,7 +646,7 @@
             <dependency>
                 <groupId>com.fasterxml.jackson.dataformat</groupId>
                 <artifactId>jackson-dataformat-cbor</artifactId>
-                <version>${jackson.version}</version>
+                <version>${jackson.extension.version}</version>
                 <exclusions>
                     <exclusion>
                         <groupId>com.fasterxml.jackson.core</groupId>
@@ -642,17 +657,17 @@
             <dependency>
                 <groupId>com.fasterxml.jackson.module</groupId>
                 <artifactId>jackson-module-parameter-names</artifactId>
-                <version>${jackson.version}</version>
+                <version>${jackson.extension.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.fasterxml.jackson.datatype</groupId>
                 <artifactId>jackson-datatype-jdk8</artifactId>
-                <version>${jackson.version}</version>
+                <version>${jackson.extension.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.fasterxml.jackson.datatype</groupId>
                 <artifactId>jackson-datatype-jsr310</artifactId>
-                <version>${jackson.version}</version>
+                <version>${jackson.extension.version}</version>
             </dependency>
             <!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.module/jackson-module-afterburner -->
             <dependency>
@@ -664,7 +679,7 @@
             <dependency>
                 <groupId>com.fasterxml.jackson.core</groupId>
                 <artifactId>jackson-databind</artifactId>
-                <version>${jackson.databind.version}</version>
+                <version>${jackson.version}</version>
             </dependency>
             <!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-core -->
             <dependency>
@@ -1003,6 +1018,12 @@
                 <groupId>joda-time</groupId>
                 <artifactId>joda-time</artifactId>
                 <version>${joda.version}</version>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/info.picocli/picocli -->
+            <dependency>
+                <groupId>info.picocli</groupId>
+                <artifactId>picocli</artifactId>
+                <version>${picoli.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
