@@ -10,7 +10,6 @@ import io.vertx.tp.plugin.shell.cv.em.TermStatus;
 public class BackCommander extends AbstractCommander {
     @Override
     public TermStatus execute(final CommandArgs args) {
-
-        return TermStatus.WAIT;
+        return TermStatus.SUCCESS;
     }
 }
