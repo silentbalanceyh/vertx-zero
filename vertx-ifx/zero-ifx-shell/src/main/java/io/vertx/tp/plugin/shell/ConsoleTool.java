@@ -61,7 +61,9 @@ class ConsoleTool {
             /*
              * Create CommandArgs
              */
-            final CommandInput input = getInput(parsed).bind(command);
+            final CommandInput input = getInput(parsed)
+                    .bind(command)
+                    .bind(commands);
             /*
              * Commander
              */
@@ -90,7 +92,7 @@ class ConsoleTool {
         final List<String> names = new ArrayList<>();
         final List<String> values = new ArrayList<>();
         Arrays.stream(parsed.getOptions()).forEach(option -> {
-            final String name = option.getLongOpt();
+            final String name = option.getOpt();
             final String value = parsed.getOptionValue(name);
             names.add(name);
             values.add(value);

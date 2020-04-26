@@ -19,6 +19,11 @@ class SlMessage {
                 () -> "Empty arguments here for redo"));
     }
 
+    static void failInvalid(final String command) {
+        Sl.output(message("invalid",
+                () -> "Invalid command \"{0}\", it could not be recognised"), command);
+    }
+
     static TermStatus failError(final Throwable ex) {
         final String error = Objects.isNull(ex) ? "Error" : ex.getMessage();
         Sl.output(message("error",

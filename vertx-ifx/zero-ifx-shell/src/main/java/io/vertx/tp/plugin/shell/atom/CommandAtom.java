@@ -7,7 +7,6 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import io.vertx.tp.plugin.shell.Commander;
 import io.vertx.tp.plugin.shell.cv.em.CommandType;
 import io.vertx.up.util.Ut;
-import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
 
 import java.io.Serializable;
@@ -27,6 +26,7 @@ public class CommandAtom implements Serializable {
     private transient String name;
     private transient String description;
     private transient boolean args;
+
     @JsonSerialize(using = ClassSerializer.class)
     @JsonDeserialize(using = ClassDeserializer.class)
     private transient Class<?> plugin;
@@ -124,14 +124,8 @@ public class CommandAtom implements Serializable {
         return options;
     }
 
-    @Deprecated
-    public Option option() {
-        final Option option = new Option(this.simple, this.name, this.args, this.description);
-        /*
-         * Get option here, arguments processing
-         */
-        this.options.forEach(argument -> option.setArgName(argument.getName()));
-
-        return option;
+    public CommandOption option(final String name) {
+        return this.options.stream().filter(item -> name.equals(item.getSimple()))
+                .findAny().orElse(null);
     }
 }

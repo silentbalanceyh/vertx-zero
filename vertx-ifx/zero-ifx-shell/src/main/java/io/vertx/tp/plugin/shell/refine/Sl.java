@@ -60,6 +60,10 @@ public class Sl {
         SlMessage.failEmpty();
     }
 
+    public static void failInvalid(final String command) {
+        SlMessage.failInvalid(command);
+    }
+
     public static void failWarn(final String message, final Object... args) {
         SlMessage.failWarn(message, args);
     }

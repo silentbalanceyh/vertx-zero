@@ -1,5 +1,10 @@
 package io.vertx.tp.plugin.shell.atom;
 
+import com.fasterxml.jackson.databind.JsonObjectDeserializer;
+import com.fasterxml.jackson.databind.JsonObjectSerializer;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import io.vertx.core.json.JsonObject;
 import org.apache.commons.cli.Option;
 
 import java.io.Serializable;
@@ -12,6 +17,10 @@ public class CommandOption implements Serializable {
     private transient String simple;
     private transient String description;
     private transient boolean required = false;
+
+    @JsonSerialize(using = JsonObjectSerializer.class)
+    @JsonDeserialize(using = JsonObjectDeserializer.class)
+    private transient JsonObject config = new JsonObject();
 
     public String getSimple() {
         return this.simple;
@@ -43,6 +52,14 @@ public class CommandOption implements Serializable {
 
     public void setName(final String name) {
         this.name = name;
+    }
+
+    public JsonObject getConfig() {
+        return this.config;
+    }
+
+    public void setConfig(final JsonObject config) {
+        this.config = config;
     }
 
     public Option option() {

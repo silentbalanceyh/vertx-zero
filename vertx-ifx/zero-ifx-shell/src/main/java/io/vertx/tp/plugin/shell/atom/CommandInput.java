@@ -12,6 +12,7 @@ import java.util.concurrent.ConcurrentMap;
  * @author <a href="http://www.origin-x.cn">lang</a>
  */
 public class CommandInput implements Serializable {
+    protected final ConcurrentMap<String, CommandAtom> defineMap = new ConcurrentHashMap<>();
     private final ConcurrentMap<String, String> inputValue = new ConcurrentHashMap<>();
     private transient Options options;
 
@@ -44,5 +45,14 @@ public class CommandInput implements Serializable {
     public CommandInput bind(final CommandAtom atom) {
         this.options = atom.options();
         return this;
+    }
+
+    public CommandInput bind(final List<CommandAtom> atoms) {
+        atoms.forEach(atom -> this.defineMap.put(atom.getSimple(), atom));
+        return this;
+    }
+
+    public ConcurrentMap<String, CommandAtom> atom() {
+        return this.defineMap;
     }
 }
