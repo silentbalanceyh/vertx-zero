@@ -56,7 +56,7 @@ class ConsoleTool {
                 Sl.failWarn(" Plugin null -> name = {0},{1}, type = {2}",
                         command.getSimple(), command.getName(), command.getType());
             }
-            throw new CommandMissingException(ConsoleInteract.class, Ut.fromJoin(parsed.getArgList()));
+            throw new CommandMissingException(ConsoleInteract.class, Ut.fromJoin(parsed.getArgs()));
         } else {
             final Options options = new Options();
             commands.stream().map(CommandOption::option).forEach(options::addOption);

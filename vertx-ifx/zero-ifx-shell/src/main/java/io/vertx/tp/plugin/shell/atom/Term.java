@@ -7,12 +7,15 @@ import io.vertx.core.Vertx;
 import io.vertx.tp.error.CommandMissingException;
 import io.vertx.up.eon.Strings;
 import io.vertx.up.exception.UpException;
+import io.vertx.up.fn.Fn;
 import io.vertx.up.util.Ut;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
 /**
  * @author <a href="http://www.origin-x.cn">lang</a>
@@ -21,13 +24,15 @@ public class Term {
 
     private static final transient UpException ERROR_ARG_MISSING =
             new CommandMissingException(Term.class, Strings.EMPTY);
+    private static final ConcurrentMap<Integer, Scanner> POOL_SCANNER = new ConcurrentHashMap<>();
 
-    private final transient Scanner scanner = new Scanner(System.in);
+    private final transient Scanner scanner;
     private final transient Vertx vertx;
     private final transient List<String> inputHistory = new ArrayList<>();
 
     private Term(final Vertx vertx) {
         this.vertx = vertx;
+        this.scanner = Fn.pool(POOL_SCANNER, vertx.hashCode(), () -> new Scanner(System.in));
         this.scanner.useDelimiter("\n");
     }
 
@@ -43,6 +48,7 @@ public class Term {
         /*
          * Std in to get arguments
          */
+        this.scanner.reset();
         if (this.scanner.hasNextLine()) {
             final String line = this.scanner.nextLine();
             if (Ut.isNil(line)) {
@@ -62,8 +68,12 @@ public class Term {
             /*
              * Very small possible to go to this flow here
              * Throw exception for end user
+             * handler.handle(Future.failedFuture(ERROR_ARG_MISSING));
+             * When click terminal operation here
              */
-            handler.handle(Future.failedFuture(ERROR_ARG_MISSING));
+            POOL_SCANNER.values().forEach(scanner -> Fn.safeJvm(scanner::close));
+            System.exit(0);
+            // handler.handle(Future.failedFuture(ERROR_ARG_MISSING));
         }
     }
 

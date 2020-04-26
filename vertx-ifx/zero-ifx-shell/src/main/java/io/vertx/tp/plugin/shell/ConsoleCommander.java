@@ -9,7 +9,7 @@ import io.vertx.tp.plugin.shell.cv.em.TermStatus;
 import io.vertx.tp.plugin.shell.refine.Sl;
 
 import java.util.List;
-import java.util.function.Consumer;
+import java.util.function.BiConsumer;
 
 /**
  * @author <a href="http://www.origin-x.cn">lang</a>
@@ -30,13 +30,13 @@ public class ConsoleCommander extends AbstractCommander {
     private Future<TermStatus> run(final Term term) {
         final Promise<TermStatus> promise = Promise.promise();
 
-        final Consumer<Term> consumer = termRef -> {
+        final BiConsumer<Term, TermStatus> consumer = (termRef, status) -> {
             /* Environment input again */
             Sl.welcomeSub(this.environment, this.option);
             /* Continue here */
             this.run(termRef);
-            /* Promise ccomplete */
-            promise.complete(TermStatus.WAIT);
+            /* Promise complete */
+            promise.complete(status);
         };
         term.run(handler -> {
             if (handler.succeeded()) {
@@ -58,16 +58,16 @@ public class ConsoleCommander extends AbstractCommander {
                              * SUCCESS, FAILURE
                              */
                             if (TermStatus.WAIT != status) {
-                                consumer.accept(term);
+                                consumer.accept(term, status);
                             }
                         }
                     } else {
-                        consumer.accept(term);
+                        consumer.accept(term, TermStatus.FAILURE);
                     }
                 });
             } else {
                 Sl.failEmpty();
-                consumer.accept(term);
+                consumer.accept(term, TermStatus.FAILURE);
             }
         });
         return promise.future();

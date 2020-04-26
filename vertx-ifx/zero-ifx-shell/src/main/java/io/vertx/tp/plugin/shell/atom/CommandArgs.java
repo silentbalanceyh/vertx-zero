@@ -30,6 +30,10 @@ public class CommandArgs implements Serializable {
         return this.inputValue.get(name);
     }
 
+    public ConcurrentMap<String, String> get() {
+        return this.inputValue;
+    }
+
     public Options options() {
         return this.options;
     }
