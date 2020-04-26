@@ -35,7 +35,7 @@ public class HelpCommander extends AbstractCommander {
     public TermStatus execute(final CommandInput args) {
         final HelpFormatter formatter = new HelpFormatter();
         formatter.setWidth(240);
-        formatter.printHelp(this.usage(), args.options());
+        formatter.printHelp(this.option.getName() + ": " + this.usage(), args.options());
         return TermStatus.SUCCESS;
     }
 }

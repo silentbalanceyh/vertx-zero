@@ -2,7 +2,7 @@ package io.vertx.tp.plugin.shell;
 
 import io.vertx.core.Future;
 import io.vertx.core.Vertx;
-import io.vertx.tp.plugin.shell.atom.CommandOption;
+import io.vertx.tp.plugin.shell.atom.CommandAtom;
 import io.vertx.tp.plugin.shell.atom.Term;
 import io.vertx.tp.plugin.shell.cv.em.TermStatus;
 import io.vertx.tp.plugin.shell.refine.Sl;
@@ -87,7 +87,7 @@ class ConsoleInteract {
 
     private Future<TermStatus> runAsync(final String[] args) {
         /* Critical CommandOption */
-        final List<CommandOption> commands = Sl.commands();
+        final List<CommandAtom> commands = Sl.commands();
 
         /* Parse Arguments */
         return ConsoleTool.parseAsync(args, commands)

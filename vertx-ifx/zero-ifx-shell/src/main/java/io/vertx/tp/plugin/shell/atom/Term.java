@@ -91,7 +91,10 @@ public class Term {
          */
         final String[] normalized;
         if (0 < interactArgs.length) {
-            interactArgs[0] = "-" + interactArgs[0];
+            /*
+             * Standard Options, remove `-` here
+             */
+            // interactArgs[0] = "-" + interactArgs[0];
             /*
              * Normalize
              */

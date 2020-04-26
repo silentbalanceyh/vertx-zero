@@ -1,6 +1,6 @@
 package io.vertx.tp.plugin.shell.refine;
 
-import io.vertx.tp.plugin.shell.atom.CommandOption;
+import io.vertx.tp.plugin.shell.atom.CommandAtom;
 import io.vertx.tp.plugin.shell.cv.em.TermStatus;
 import io.vertx.up.eon.em.Environment;
 
@@ -37,7 +37,7 @@ public class Sl {
         SlWelcome.goodbye();
     }
 
-    public static void goodbye(final CommandOption option) {
+    public static void goodbye(final CommandAtom option) {
         SlWelcome.goodbye(option);
     }
 
@@ -45,11 +45,11 @@ public class Sl {
         SlWelcome.welcomeCommand(environment);
     }
 
-    public static void welcomeCommand(final CommandOption option) {
+    public static void welcomeCommand(final CommandAtom option) {
         SlWelcome.welcomeCommand(option);
     }
 
-    public static void welcomeSub(final Environment environment, final CommandOption option) {
+    public static void welcomeSub(final Environment environment, final CommandAtom option) {
         SlWelcome.welcomeSub(environment, option);
     }
 
@@ -93,11 +93,11 @@ public class Sl {
     /*
      * Get Commands Here
      */
-    public static List<CommandOption> commands() {
+    public static List<CommandAtom> commands() {
         return SlCommand.commands();
     }
 
-    public static List<CommandOption> commands(final List<CommandOption> commands) {
+    public static List<CommandAtom> commands(final List<CommandAtom> commands) {
         return SlCommand.commands(commands);
     }
 }

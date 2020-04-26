@@ -2,8 +2,8 @@ package io.vertx.tp.plugin.shell;
 
 import io.vertx.core.Future;
 import io.vertx.core.Vertx;
+import io.vertx.tp.plugin.shell.atom.CommandAtom;
 import io.vertx.tp.plugin.shell.atom.CommandInput;
-import io.vertx.tp.plugin.shell.atom.CommandOption;
 import io.vertx.tp.plugin.shell.cv.em.TermStatus;
 import io.vertx.up.eon.em.Environment;
 import io.vertx.up.log.Annal;
@@ -14,7 +14,7 @@ import java.util.Objects;
  * @author <a href="http://www.origin-x.cn">lang</a>
  */
 public abstract class AbstractCommander implements Commander {
-    protected transient CommandOption option;
+    protected transient CommandAtom option;
     protected transient Vertx vertxRef;
     protected transient Environment environment = Environment.Production;
 
@@ -27,7 +27,7 @@ public abstract class AbstractCommander implements Commander {
     }
 
     @Override
-    public Commander bind(final CommandOption option) {
+    public Commander bind(final CommandAtom option) {
         this.option = option;
         return this;
     }

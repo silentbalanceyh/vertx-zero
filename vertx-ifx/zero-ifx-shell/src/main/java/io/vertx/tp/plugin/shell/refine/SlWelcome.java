@@ -1,7 +1,7 @@
 package io.vertx.tp.plugin.shell.refine;
 
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.plugin.shell.atom.CommandOption;
+import io.vertx.tp.plugin.shell.atom.CommandAtom;
 import io.vertx.up.eon.em.Environment;
 import io.vertx.up.log.Log;
 
@@ -29,14 +29,14 @@ class SlWelcome {
         System.out.print(">> ");
     }
 
-    static void welcomeSub(final Environment environment, final CommandOption option) {
+    static void welcomeSub(final Environment environment, final CommandAtom option) {
         final JsonObject message = WELCOME.getJsonObject("message");
         SlLog.outputOpt("------>>>> " + Log.color("Sub System", Log.COLOR_GREEN) + ": {0}", option.getName(), option.getDescription());
         SlLog.output(Log.color(message.getString("environment"), Log.COLOR_BLANK, true) + " " + message.getString("wait"), environment);
         System.out.print(">> ");
     }
 
-    static void welcomeCommand(final CommandOption option) {
+    static void welcomeCommand(final CommandAtom option) {
         SlLog.output(SlMessage.message("previous",
                 () -> "Previous: name = {0}, description = {1}"), option.getSimple(), option.getDescription());
     }
@@ -47,7 +47,7 @@ class SlWelcome {
                 () -> "You have quit Zero Console successfully!"));
     }
 
-    static void goodbye(final CommandOption option) {
+    static void goodbye(final CommandAtom option) {
         final String pattern = SlMessage.message("back",
                 /* Default supplier for "quit" */
                 () -> "You have quit current Sub System: {0} successfully!");

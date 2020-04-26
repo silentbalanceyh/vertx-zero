@@ -2,8 +2,8 @@ package io.vertx.tp.plugin.shell;
 
 import io.vertx.core.Future;
 import io.vertx.core.Promise;
+import io.vertx.tp.plugin.shell.atom.CommandAtom;
 import io.vertx.tp.plugin.shell.atom.CommandInput;
-import io.vertx.tp.plugin.shell.atom.CommandOption;
 import io.vertx.tp.plugin.shell.atom.Term;
 import io.vertx.tp.plugin.shell.cv.em.TermStatus;
 import io.vertx.tp.plugin.shell.refine.Sl;
@@ -75,7 +75,7 @@ public class ConsoleCommander extends AbstractCommander {
 
     private Future<TermStatus> runAsync(final String[] args) {
         /* Critical CommandOption */
-        final List<CommandOption> commands = Sl.commands(this.option.getCommands());
+        final List<CommandAtom> commands = Sl.commands(this.option.getCommands());
 
         /* Parse Arguments */
         return ConsoleTool.parseAsync(args, commands)
