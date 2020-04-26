@@ -1,5 +1,7 @@
 package io.vertx.tp.plugin.shell.refine;
 
+import io.vertx.up.log.Log;
+
 import java.text.MessageFormat;
 
 /**
@@ -8,11 +10,11 @@ import java.text.MessageFormat;
 class SlLog {
 
     static void output(final String message, final Object... args) {
-        stream(message, "[ μηδέν ] ", args);
+        stream(message, Log.color("[ μηδέν ]", Log.COLOR_BLUE, true), args);
     }
 
     static void outputOpt(final String message, final String name, final Object... args) {
-        stream(message, "[ μηδέν ] (" + name + ")", args);
+        stream(message, Log.color("[ μηδέν ]", Log.COLOR_BLUE, true) + " (" + name + ")", args);
     }
 
     private static void stream(final String message, final String flag, final Object... args) {

@@ -37,12 +37,20 @@ public class Sl {
         SlWelcome.goodbye();
     }
 
+    public static void goodbye(final CommandOption option) {
+        SlWelcome.goodbye(option);
+    }
+
     public static void welcomeCommand(final Environment environment) {
         SlWelcome.welcomeCommand(environment);
     }
 
-    public static void welcomeSub(final CommandOption option) {
-        SlWelcome.welcomeSub(option);
+    public static void welcomeCommand(final CommandOption option) {
+        SlWelcome.welcomeCommand(option);
+    }
+
+    public static void welcomeSub(final Environment environment, final CommandOption option) {
+        SlWelcome.welcomeSub(environment, option);
     }
 
     /*
@@ -52,9 +60,14 @@ public class Sl {
         SlMessage.failEmpty();
     }
 
+    public static void failWarn(final String message, final Object... args) {
+        SlMessage.failWarn(message, args);
+    }
+
     public static TermStatus failError(final Throwable ex) {
         return SlMessage.failError(ex);
     }
+
 
     /*
      * Message
@@ -84,7 +97,7 @@ public class Sl {
         return SlCommand.commands();
     }
 
-    public static CommandOption commandsBack() {
-        return SlCommand.commandsBack();
+    public static List<CommandOption> commands(final List<CommandOption> commands) {
+        return SlCommand.commands(commands);
     }
 }

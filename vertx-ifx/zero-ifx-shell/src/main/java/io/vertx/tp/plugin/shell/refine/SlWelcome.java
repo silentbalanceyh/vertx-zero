@@ -3,6 +3,7 @@ package io.vertx.tp.plugin.shell.refine;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.plugin.shell.atom.CommandOption;
 import io.vertx.up.eon.em.Environment;
+import io.vertx.up.log.Log;
 
 /**
  * @author <a href="http://www.origin-x.cn">lang</a>
@@ -15,7 +16,7 @@ class SlWelcome {
         final String version = WELCOME.getString("version");
         System.out.println("------------------------------------------------------");
         System.out.println("|                                                    |");
-        System.out.println("|         " + banner + "         |");
+        System.out.println("|         " + Log.color(banner, Log.COLOR_CYAN, true) + "         |");
         System.out.println("|                                                    |");
         System.out.println("------------------------------------------------------");
         System.out.println("                                   ---- Version." + version + "   ");
@@ -23,23 +24,34 @@ class SlWelcome {
 
     static void welcomeCommand(final Environment environment) {
         final JsonObject message = WELCOME.getJsonObject("message");
-        SlLog.output("------------->>>> Command Begin");
-        SlLog.output(message.getString("environment"), environment);
-        SlLog.output(message.getString("wait"));
+        SlLog.output("------------->>>> " + Log.color("Command Begin", Log.COLOR_BLUE));
+        SlLog.output(Log.color(message.getString("environment"), Log.COLOR_BLANK, true) + " " + message.getString("wait"), environment);
         System.out.print(">> ");
     }
 
-    static void welcomeSub(final CommandOption option) {
+    static void welcomeSub(final Environment environment, final CommandOption option) {
         final JsonObject message = WELCOME.getJsonObject("message");
-        SlLog.outputOpt("------>>>> Sub System: {0} )",
-                option.getName(), option.getDescription());
-        SlLog.output(message.getString("wait"));
+        SlLog.outputOpt("------>>>> " + Log.color("Sub System", Log.COLOR_GREEN) + ": {0}", option.getName(), option.getDescription());
+        SlLog.output(Log.color(message.getString("environment"), Log.COLOR_BLANK, true) + " " + message.getString("wait"), environment);
         System.out.print(">> ");
+    }
+
+    static void welcomeCommand(final CommandOption option) {
+        SlLog.output(SlMessage.message("previous",
+                () -> "Previous: name = {0}, description = {1}"), option.getSimple(), option.getDescription());
     }
 
     static void goodbye() {
         SlLog.output(SlMessage.message("quit",
                 /* Default supplier for "quit" */
                 () -> "You have quit Zero Console successfully!"));
+    }
+
+    static void goodbye(final CommandOption option) {
+        final String pattern = SlMessage.message("back",
+                /* Default supplier for "quit" */
+                () -> "You have quit current Sub System: {0} successfully!");
+        SlLog.outputOpt(pattern,
+                option.getName(), option.getDescription());
     }
 }
