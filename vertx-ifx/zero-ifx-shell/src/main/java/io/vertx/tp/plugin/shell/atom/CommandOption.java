@@ -120,6 +120,7 @@ public class CommandOption implements Serializable {
          * Get option here, arguments processing
          */
         this.arguments.forEach(argument -> option.setArgName(argument.getName()));
+
         return option;
     }
 }
