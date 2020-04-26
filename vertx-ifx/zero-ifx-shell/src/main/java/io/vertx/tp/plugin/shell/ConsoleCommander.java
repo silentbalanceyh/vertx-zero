@@ -2,7 +2,7 @@ package io.vertx.tp.plugin.shell;
 
 import io.vertx.core.Future;
 import io.vertx.core.Promise;
-import io.vertx.tp.plugin.shell.atom.CommandArgs;
+import io.vertx.tp.plugin.shell.atom.CommandInput;
 import io.vertx.tp.plugin.shell.atom.CommandOption;
 import io.vertx.tp.plugin.shell.atom.Term;
 import io.vertx.tp.plugin.shell.cv.em.TermStatus;
@@ -17,7 +17,7 @@ import java.util.function.BiConsumer;
 public class ConsoleCommander extends AbstractCommander {
 
     @Override
-    public Future<TermStatus> executeAsync(final CommandArgs args) {
+    public Future<TermStatus> executeAsync(final CommandInput args) {
         /* Welcome first */
         Sl.welcomeSub(this.environment, this.option);
         /* Async Result Captured */

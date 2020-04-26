@@ -2,7 +2,7 @@ package io.vertx.tp.plugin.shell;
 
 import io.vertx.core.Future;
 import io.vertx.core.Vertx;
-import io.vertx.tp.plugin.shell.atom.CommandArgs;
+import io.vertx.tp.plugin.shell.atom.CommandInput;
 import io.vertx.tp.plugin.shell.atom.CommandOption;
 import io.vertx.tp.plugin.shell.cv.em.TermStatus;
 import io.vertx.up.eon.em.Environment;
@@ -39,12 +39,12 @@ public abstract class AbstractCommander implements Commander {
     }
 
     @Override
-    public Future<TermStatus> executeAsync(final CommandArgs args) {
+    public Future<TermStatus> executeAsync(final CommandInput args) {
         return Future.succeededFuture(this.execute(args));
     }
 
     @Override
-    public TermStatus execute(final CommandArgs args) {
+    public TermStatus execute(final CommandInput args) {
         return TermStatus.SUCCESS;
     }
 

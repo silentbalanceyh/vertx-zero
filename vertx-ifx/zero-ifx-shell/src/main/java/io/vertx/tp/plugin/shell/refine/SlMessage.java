@@ -24,6 +24,9 @@ class SlMessage {
         Sl.output(message("error",
                 () -> Log.color("[ ERROR ]", Log.COLOR_RED, true) + " "
                         + Log.color(" {0} ", Log.COLOR_RED)), error);
+        if (SlConfig.isDebug()) {
+            ex.printStackTrace();
+        }
         return TermStatus.FAILURE;
     }
 

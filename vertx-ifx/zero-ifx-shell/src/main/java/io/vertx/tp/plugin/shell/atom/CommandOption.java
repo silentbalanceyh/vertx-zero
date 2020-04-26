@@ -2,11 +2,8 @@ package io.vertx.tp.plugin.shell.atom;
 
 import com.fasterxml.jackson.databind.ClassDeserializer;
 import com.fasterxml.jackson.databind.ClassSerializer;
-import com.fasterxml.jackson.databind.JsonArrayDeserializer;
-import com.fasterxml.jackson.databind.JsonArraySerializer;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import io.vertx.core.json.JsonArray;
 import io.vertx.tp.plugin.shell.Commander;
 import io.vertx.tp.plugin.shell.cv.em.CommandType;
 import io.vertx.up.util.Ut;
@@ -29,14 +26,12 @@ public class CommandOption implements Serializable {
     private transient String name;
     private transient String description;
     private transient boolean args;
-    @JsonSerialize(using = JsonArraySerializer.class)
-    @JsonDeserialize(using = JsonArrayDeserializer.class)
-    private transient JsonArray arguments = new JsonArray();
     @JsonSerialize(using = ClassSerializer.class)
     @JsonDeserialize(using = ClassDeserializer.class)
     private transient Class<?> plugin;
 
     private transient List<CommandOption> commands = new ArrayList<>();
+    private transient List<CommandArgs> arguments = new ArrayList<>();
 
     public String getSimple() {
         return this.simple;
@@ -78,17 +73,16 @@ public class CommandOption implements Serializable {
         this.type = type;
     }
 
-    public JsonArray getArguments() {
+    public List<CommandArgs> getArguments() {
         return this.arguments;
     }
 
-    public void setArguments(final JsonArray arguments) {
+    public void setArguments(final List<CommandArgs> arguments) {
         this.arguments = arguments;
     }
 
     public List<String> getArgumentsList() {
-        return this.arguments.stream()
-                .map(item -> (String) item).collect(Collectors.toList());
+        return this.arguments.stream().map(CommandArgs::getName).collect(Collectors.toList());
     }
 
     public List<CommandOption> getCommands() {
@@ -125,6 +119,7 @@ public class CommandOption implements Serializable {
         /*
          * Get option here, arguments processing
          */
+        this.arguments.forEach(argument -> option.setArgName(argument.getName()));
         return option;
     }
 }

@@ -3,7 +3,7 @@ package io.vertx.tp.plugin.shell;
 import io.vertx.core.Future;
 import io.vertx.tp.error.CommandMissingException;
 import io.vertx.tp.error.CommandParseException;
-import io.vertx.tp.plugin.shell.atom.CommandArgs;
+import io.vertx.tp.plugin.shell.atom.CommandInput;
 import io.vertx.tp.plugin.shell.atom.CommandOption;
 import io.vertx.tp.plugin.shell.cv.em.CommandType;
 import io.vertx.tp.plugin.shell.cv.em.TermStatus;
@@ -65,8 +65,8 @@ class ConsoleTool {
              */
             final List<String> inputArgs = parsed.getArgList();
             final List<String> inputNames = command.getArgumentsList();
-            final CommandArgs commandArgs = CommandArgs.create(inputNames, inputArgs);
-            commandArgs.bind(options);
+            final CommandInput commandInput = CommandInput.create(inputNames, inputArgs);
+            commandInput.bind(options);
             /*
              * Commander
              */
@@ -87,7 +87,7 @@ class ConsoleTool {
              * binder processing
              */
             Sl.welcomeCommand(command);
-            return binder.apply(commander.bind(command)).executeAsync(commandArgs);
+            return binder.apply(commander.bind(command)).executeAsync(commandInput);
         }
     }
 }

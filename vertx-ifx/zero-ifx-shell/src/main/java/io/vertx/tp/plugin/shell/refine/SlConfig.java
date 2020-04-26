@@ -31,6 +31,14 @@ class SlConfig {
         return Ut.sureJObject(CONFIGURATION.getJsonObject("welcome"));
     }
 
+    static boolean isDebug() {
+        Boolean debug = Boolean.FALSE;
+        if (CONFIGURATION.containsKey("debug")) {
+            debug = CONFIGURATION.getBoolean("debug");
+        }
+        return debug;
+    }
+
     static JsonObject validate() {
         return Ut.sureJObject(CONFIGURATION.getJsonObject("validate"));
     }
