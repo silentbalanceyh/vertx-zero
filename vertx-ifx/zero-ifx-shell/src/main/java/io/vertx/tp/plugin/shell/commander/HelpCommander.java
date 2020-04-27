@@ -31,7 +31,6 @@ public class HelpCommander extends AbstractCommander {
             final String commandValue = inputMap.get(ARG_COMMAND);
             final CommandAtom found = this.findAtom(atomList, commandValue);
             if (Objects.isNull(found)) {
-
                 /*
                  * Command invalid
                  */

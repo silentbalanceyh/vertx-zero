@@ -5,7 +5,6 @@ import io.vertx.core.Future;
 import io.vertx.core.Handler;
 import io.vertx.core.Vertx;
 import io.vertx.tp.error.CommandMissingException;
-import io.vertx.up.eon.Strings;
 import io.vertx.up.exception.UpException;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.util.Ut;
@@ -23,7 +22,7 @@ import java.util.concurrent.ConcurrentMap;
 public class Term {
 
     private static final transient UpException ERROR_ARG_MISSING =
-            new CommandMissingException(Term.class, Strings.EMPTY);
+            new CommandMissingException(Term.class);
     private static final ConcurrentMap<Integer, Scanner> POOL_SCANNER = new ConcurrentHashMap<>();
 
     private final transient Scanner scanner;

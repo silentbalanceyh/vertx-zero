@@ -16,6 +16,7 @@ public class CommandOption implements Serializable {
     private transient String name;
     private transient String simple;
     private transient String description;
+    private transient Object defaultValue;
     private transient boolean required = false;
 
     @JsonSerialize(using = JsonObjectSerializer.class)
@@ -52,6 +53,14 @@ public class CommandOption implements Serializable {
 
     public void setName(final String name) {
         this.name = name;
+    }
+
+    public Object getDefaultValue() {
+        return this.defaultValue;
+    }
+
+    public void setDefaultValue(final Object defaultValue) {
+        this.defaultValue = defaultValue;
     }
 
     public JsonObject getConfig() {

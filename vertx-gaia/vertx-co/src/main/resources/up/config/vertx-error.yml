@@ -156,8 +156,9 @@ E40069: "(415) - The declared type {0} is not match to MIME {1}"
 # Console exception
 E40070: "The default launcher key mustn''t be overwrite. ( config )"
 E40071: "The input commands are invalid, command = \"{0}\", details = \"{1}\""
-E40072: "The command line ( {0} ) could not be parsed, it''s failure to build `Commander`"
+E40072: "The command line of input arguments is empty or null, please input again"
 E40073: "Input command \"{0}\" could not be recognised in your definition"
+E40074: "The command `{0}` plugin is null or could not be found, please check your configuration"
 
 # CRUD Module
 E80100: "(404) - (CRUD) You missed `module` = `{0}` definition in file \"plugin/crud/module/\" folder"
