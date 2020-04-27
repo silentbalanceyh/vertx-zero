@@ -40,7 +40,11 @@ class SlCommand {
              */
             final JsonArray commandJson = SlConfig.commands();
             final List<CommandAtom> commandsList = Ux.fromJson(commandJson, CommandAtom.class);
-            commands.addAll(mountPlugin(commandsList));
+            final List<CommandAtom> filtered = commandsList.stream()
+                    .filter(item -> !COMMAND_PLUGINS.containsKey(item.getSimple()))
+                    .peek(item -> Sl.failWarn("The command will be ignored: name = {0}, description: {1}", item.getName(), item.getDescription()))
+                    .collect(Collectors.toList());
+            commands.addAll(mountPlugin(filtered));
         }
         return commands;
     }
@@ -51,6 +55,7 @@ class SlCommand {
          */
         final List<CommandAtom> normalized = Objects.isNull(commands) ? new ArrayList<>() : commands.stream()
                 .filter(command -> !COMMAND_PLUGINS.containsKey(command.getSimple()))
+                .peek(item -> Sl.failWarn("The command will be ignored: name = {0}, description: {1}", item.getName(), item.getDescription()))
                 .collect(Collectors.toList());
         /*
          * Default Commands
