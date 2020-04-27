@@ -5,13 +5,16 @@ import io.vertx.core.Vertx;
 import io.vertx.tp.plugin.shell.atom.CommandAtom;
 import io.vertx.tp.plugin.shell.atom.CommandInput;
 import io.vertx.tp.plugin.shell.cv.em.TermStatus;
+import io.vertx.tp.plugin.shell.refine.Sl;
 import io.vertx.up.eon.em.Environment;
 import io.vertx.up.log.Annal;
 import io.vertx.up.runtime.ZeroSerializer;
 import io.vertx.up.util.Ut;
 
+import java.io.File;
 import java.util.Objects;
 import java.util.concurrent.ConcurrentMap;
+import java.util.function.Function;
 
 /**
  * @author <a href="http://www.origin-x.cn">lang</a>
@@ -68,6 +71,27 @@ public abstract class AbstractCommander implements Commander {
 
     protected Boolean inBoolean(final CommandInput input, final String name) {
         return this.inValue(input, name, Boolean.class);
+    }
+
+    protected String inFolder(final CommandInput input, final String name, final Function<String, String> processor) {
+        String folder = this.inValue(input, name, String.class);
+        if (Objects.nonNull(processor)) {
+            folder = processor.apply(folder);
+        }
+        return this.inFolder(folder);
+    }
+
+    protected String inFolder(final CommandInput input, final String name) {
+        return this.inFolder(input, name, null);
+    }
+
+    protected String inFolder(final String folderName) {
+        final File file = new File(folderName);
+        if (!file.exists()) {
+            final boolean created = file.mkdirs();
+            Sl.output("Folder does not exist, created: {0}", created);
+        }
+        return file.getAbsolutePath();
     }
 
     /*
