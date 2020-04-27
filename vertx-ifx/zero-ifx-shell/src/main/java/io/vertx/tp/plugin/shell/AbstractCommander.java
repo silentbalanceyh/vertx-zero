@@ -70,6 +70,22 @@ public abstract class AbstractCommander implements Commander {
         return this.inValue(input, name, Boolean.class);
     }
 
+    /*
+     * Read json object / array from input file
+     */
+    @SuppressWarnings("unchecked")
+    protected <T> T inJson(final CommandInput input, final String name) {
+        final String filename = this.inValue(input, name, String.class);
+        final String content = Ut.ioString(filename);
+        if (Ut.isJArray(content)) {
+            return (T) Ut.toJArray(content);
+        } else if (Ut.isJObject(content)) {
+            return (T) Ut.toJObject(content);
+        } else {
+            return (T) content;
+        }
+    }
+
     @SuppressWarnings("unchecked")
     protected <T> T inValue(final CommandInput input, final String name, final Class<T> clazzT) {
         /* Input Argument Map */
