@@ -529,8 +529,16 @@ public final class Ut {
         return IO.getString(in);
     }
 
+    public static String ioString(final InputStream in, final String joined) {
+        return IO.getString(in, joined);
+    }
+
     public static String ioString(final String filename) {
         return IO.getString(filename);
+    }
+
+    public static String ioString(final String filename, final String joined) {
+        return IO.getString(filename, joined);
     }
 
     public static Buffer ioBuffer(final String filename) {
