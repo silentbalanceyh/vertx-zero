@@ -21,7 +21,7 @@ public class MapInfix implements Infix {
     private static void initInternal(final Vertx vertx,
                                      final String name) {
         Fn.pool(CLIENTS, name,
-                () -> Infix.initTp(Plugins.Infix.SHARED,
+                () -> Infix.init(Plugins.Infix.SHARED,
                         (config) -> SharedClient.createShared(vertx, config, name),
                         MapInfix.class));
     }

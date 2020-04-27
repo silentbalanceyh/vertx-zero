@@ -1,0 +1,4 @@
+typed:
+  welcome: JOBJECT
+  commands: JOBJECT
+  validate: JOBJECT

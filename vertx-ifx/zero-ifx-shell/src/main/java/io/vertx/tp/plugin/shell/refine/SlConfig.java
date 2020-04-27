@@ -19,7 +19,7 @@ class SlConfig {
         /*
          * Initialize client
          */
-        final JsonObject data = Infix.initTp("shell", config -> {
+        final JsonObject data = Infix.init("shell", config -> {
             /*
              * command configuration
              */

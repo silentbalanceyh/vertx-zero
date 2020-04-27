@@ -20,7 +20,7 @@ public class ExcelInfix implements Infix {
     private static void initInternal(final Vertx vertx,
                                      final String name) {
         Fn.pool(CLIENTS, name,
-                () -> Infix.initTp("excel",
+                () -> Infix.init("excel",
                         (config) -> ExcelClient.createShared(vertx, config),
                         ExcelInfix.class));
     }
@@ -34,7 +34,7 @@ public class ExcelInfix implements Infix {
     }
 
     public static ExcelClient createClient(final Vertx vertx) {
-        return Infix.initTp("excel",
+        return Infix.init("excel",
                 (config) -> ExcelClient.createShared(vertx, config),
                 ExcelInfix.class);
     }

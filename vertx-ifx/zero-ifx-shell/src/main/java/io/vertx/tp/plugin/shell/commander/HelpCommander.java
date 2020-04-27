@@ -5,6 +5,7 @@ import io.vertx.tp.plugin.shell.AbstractCommander;
 import io.vertx.tp.plugin.shell.atom.CommandAtom;
 import io.vertx.tp.plugin.shell.atom.CommandInput;
 import io.vertx.tp.plugin.shell.atom.CommandOption;
+import io.vertx.tp.plugin.shell.cv.em.CommandType;
 import io.vertx.tp.plugin.shell.cv.em.TermStatus;
 import io.vertx.tp.plugin.shell.refine.Sl;
 import io.vertx.up.log.Log;
@@ -77,19 +78,28 @@ public class HelpCommander extends AbstractCommander {
         final StringBuilder content = new StringBuilder();
         content.append(Sl.message("help", () -> "Command List: ")).append("\n");
         content.append("------------------------------------------------------\n");
-        content.append(String.format("%-22s", Log.color(name, Log.COLOR_YELLOW, true)));
+        content.append(String.format("%-32s", " " + Log.color(name, Log.COLOR_YELLOW, true)));
         content.append(String.format("%-26s", Log.color(simple, Log.COLOR_YELLOW, true)));
         content.append(String.format("%-16s", Log.color(description, Log.COLOR_YELLOW, true))).append("\n");
         content.append("------------------------------------------------------\n");
 
         /* Defined Map */
-        atoms.forEach(atom -> {
-            content.append(String.format("%-16s", atom.getName()));
-            content.append(String.format("%-16s", atom.getSimple()));
-            content.append(String.format("%-20s", atom.getDescription())).append("\n");
-        });
+        this.printContent(content, atoms, " ");
         content.append("------------------------------------------------------");
         System.out.println(content.toString());
+    }
+
+    private void printContent(final StringBuilder content, final List<CommandAtom> atoms, final String prefix) {
+        atoms.forEach(atom -> {
+            content.append(String.format("%-24s", prefix + " " + atom.getName()));
+            content.append(String.format("%-20s", prefix + " " + atom.getSimple()));
+            content.append(String.format("%-20s", atom.getDescription())).append("\n");
+            /* Where it's SYSTEM */
+            if (CommandType.SYSTEM == atom.getType()) {
+                final List<CommandAtom> children = atom.getCommands();
+                this.printContent(content, children, prefix + " - ");
+            }
+        });
     }
 
     private void printCommand(final CommandAtom atom) {
