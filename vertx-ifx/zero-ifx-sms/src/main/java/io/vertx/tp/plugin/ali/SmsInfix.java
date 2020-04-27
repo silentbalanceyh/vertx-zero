@@ -20,7 +20,7 @@ public class SmsInfix implements Infix {
 
     private static void initInternal(final Vertx vertx,
                                      final String name) {
-        Fn.pool(CLIENTS, name, () -> Infix.initTp("ali-sms",
+        Fn.pool(CLIENTS, name, () -> Infix.init("ali-sms",
                 (config) -> SmsClient.createShared(vertx),
                 SmsInfix.class));
     }

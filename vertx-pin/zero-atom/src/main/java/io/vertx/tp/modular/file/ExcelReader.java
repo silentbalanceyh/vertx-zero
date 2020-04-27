@@ -9,6 +9,7 @@ import io.vertx.up.util.Ut;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -16,6 +17,27 @@ import java.util.stream.Collectors;
  * Excel类型的 Marshal，用于读取数据
  */
 public class ExcelReader implements AoFile {
+    private final transient String rootPath;
+
+    public ExcelReader() {
+        this(Ao.Path.PATH_EXCEL);
+    }
+
+    public ExcelReader(final String rootPath) {
+        final String normalized;
+        if (Objects.isNull(rootPath)) {
+            /* runtime/excel */
+            normalized = Ao.Path.PATH_EXCEL;
+        } else {
+            /* End with '/' */
+            if (!rootPath.endsWith("/")) {
+                normalized = rootPath + "/";
+            } else {
+                normalized = rootPath;
+            }
+        }
+        this.rootPath = normalized;
+    }
 
     @Override
     public Set<Model> readModels(final String appName) {
@@ -53,7 +75,7 @@ public class ExcelReader implements AoFile {
 
 
     private Set<String> readFiles(final String folder) {
-        final String root = Ao.Path.PATH_EXCEL + folder;
+        final String root = this.rootPath + folder;
         final List<String> files = Ut.ioFiles(root);
         return files.stream()
                 .filter(file -> !file.startsWith("~"))  // 过滤Office的临时文件

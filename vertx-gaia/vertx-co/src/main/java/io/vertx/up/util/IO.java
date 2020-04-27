@@ -75,6 +75,10 @@ final class IO {
      * @return converted stream
      */
     static String getString(final InputStream in) {
+        return getString(in, null);
+    }
+
+    static String getString(final InputStream in, final String joined) {
         final StringBuilder buffer = new StringBuilder(Values.BUFFER_SIZE);
         return Fn.getJvm(() -> {
             final BufferedReader reader = new BufferedReader(new InputStreamReader(in, Values.ENCODING));
@@ -82,6 +86,9 @@ final class IO {
             String line;
             while (null != (line = reader.readLine())) {
                 buffer.append(line);
+                if (Ut.notNil(joined)) {
+                    buffer.append(joined);
+                }
             }
             in.close();
             reader.close();
@@ -89,9 +96,12 @@ final class IO {
         }, in);
     }
 
+    static String getString(final String filename, final String joined) {
+        return Fn.getJvm(() -> getString(Stream.read(filename), joined), filename);
+    }
+
     static String getString(final String filename) {
-        return Fn.getJvm(
-                () -> getString(Stream.read(filename)), filename);
+        return Fn.getJvm(() -> getString(Stream.read(filename)), filename);
     }
 
     /**

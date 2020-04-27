@@ -3,6 +3,7 @@ package io.vertx.tp.plugin.shell;
 import io.vertx.core.Future;
 import io.vertx.tp.error.CommandParseException;
 import io.vertx.tp.error.CommandUnknownException;
+import io.vertx.tp.error.PluginMissingException;
 import io.vertx.tp.plugin.shell.atom.CommandAtom;
 import io.vertx.tp.plugin.shell.atom.CommandInput;
 import io.vertx.tp.plugin.shell.cv.em.CommandType;
@@ -79,6 +80,13 @@ class ConsoleTool {
                  * instance instead of single for shared usage
                  */
                 commander = Ut.instance(command.getPlugin());
+                if (Objects.isNull(commander)) {
+                    /*
+                     * Could not be found
+                     */
+                    return Future.failedFuture(new PluginMissingException(ConsoleTool.class,
+                            command.getName() + ", ( " + command.getPlugin() + " )"));
+                }
             }
             /*
              * binder processing
@@ -113,10 +121,14 @@ class ConsoleTool {
              */
             return Future.failedFuture(new CommandUnknownException(ConsoleTool.class, commandName));
         } else {
-            /*
-             * Returned Command Atom
-             */
-            return Future.succeededFuture(atom);
+            if (atom.valid()) {
+                /*
+                 * Returned Command Atom
+                 */
+                return Future.succeededFuture(atom);
+            } else {
+                return Future.failedFuture(new PluginMissingException(ConsoleTool.class, atom.getName()));
+            }
         }
     }
 }

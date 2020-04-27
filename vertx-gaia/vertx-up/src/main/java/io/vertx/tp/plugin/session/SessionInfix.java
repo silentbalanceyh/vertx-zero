@@ -42,7 +42,7 @@ public class SessionInfix implements Infix {
              * Null will create new
              */
             return Fn.pool(CLIENTS, name,
-                    () -> Infix.initTp(Plugins.Infix.SESSION,
+                    () -> Infix.init(Plugins.Infix.SESSION,
                             (config) -> SessionClient.createShared(vertx, config),
                             SessionInfix.class));
         } else {

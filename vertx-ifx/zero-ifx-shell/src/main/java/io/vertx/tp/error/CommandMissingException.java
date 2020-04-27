@@ -7,8 +7,8 @@ import io.vertx.up.exception.UpException;
  */
 public class CommandMissingException extends UpException {
 
-    public CommandMissingException(final Class<?> clazz, final String input) {
-        super(clazz, input);
+    public CommandMissingException(final Class<?> clazz) {
+        super(clazz);
     }
 
     @Override

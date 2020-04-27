@@ -20,7 +20,7 @@ public class TrashInfix implements Infix {
     private static void initInternal(final Vertx vertx,
                                      final String name) {
         Fn.pool(CLIENTS, name,
-                () -> Infix.initTp("trash",
+                () -> Infix.init("trash",
                         (config) -> TrashPlatform.createShared(vertx, config),
                         TrashPlatform.class));
     }

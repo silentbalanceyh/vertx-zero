@@ -18,7 +18,7 @@ public class Neo4jInfix implements Infix {
             = new ConcurrentHashMap<>();
 
     private static void initInternal(final Vertx vertx, final String name) {
-        Fn.pool(CLIENTS, name, () -> Infix.initTp("neo4j",
+        Fn.pool(CLIENTS, name, () -> Infix.init("neo4j",
                 config -> Neo4jClient.createShared(vertx, config),
                 Neo4jInfix.class));
     }

@@ -115,6 +115,25 @@ public class CommandAtom implements Serializable {
         } else return true;
     }
 
+    @SuppressWarnings("unchecked")
+    public <T> T getDefault(final String simple) {
+        final CommandOption option = this.options.stream()
+                .filter(each -> simple.equals(each.getSimple()))
+                .findAny().orElse(null);
+        if (Objects.isNull(option)) {
+            return null;
+        } else {
+            if (option.isRequired()) {
+                /*
+                 * required parameter must provide values
+                 */
+                return null;
+            } else {
+                return (T) option.getDefaultValue();
+            }
+        }
+    }
+
     public Options options() {
         final Options options = new Options();
         /*

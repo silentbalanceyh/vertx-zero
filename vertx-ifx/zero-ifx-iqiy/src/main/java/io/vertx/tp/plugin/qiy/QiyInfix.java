@@ -2,8 +2,8 @@ package io.vertx.tp.plugin.qiy;
 
 import io.vertx.core.Vertx;
 import io.vertx.up.annotations.Plugin;
-import io.vertx.up.plugin.Infix;
 import io.vertx.up.fn.Fn;
+import io.vertx.up.plugin.Infix;
 
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
@@ -19,7 +19,7 @@ public class QiyInfix implements Infix {
     private static void initInternal(final Vertx vertx,
                                      final String name) {
         Fn.pool(CLIENTS, name,
-                () -> Infix.initTp("qiy",
+                () -> Infix.init("qiy",
                         (config) -> QiyClient.createShared(vertx, config),
                         QiyInfix.class));
     }

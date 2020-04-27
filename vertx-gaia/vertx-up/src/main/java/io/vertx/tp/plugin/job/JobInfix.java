@@ -21,7 +21,7 @@ public class JobInfix implements Infix {
     private static void initInternal(final Vertx vertx,
                                      final String name) {
         Fn.pool(CLIENTS, name,
-                () -> Infix.initTp("job",
+                () -> Infix.init("job",
                         (config) -> JobClient.createShared(vertx, config.getJsonObject("client")),
                         SessionInfix.class));
     }
