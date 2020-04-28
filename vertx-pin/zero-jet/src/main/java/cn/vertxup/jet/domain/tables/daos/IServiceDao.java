@@ -231,6 +231,13 @@ public class IServiceDao extends DAOImpl<IServiceRecord, cn.vertxup.jet.domain.t
     }
 
     /**
+     * Fetch records that have <code>RULE_UNIQUE IN (values)</code>
+     */
+    public List<cn.vertxup.jet.domain.tables.pojos.IService> fetchByRuleUnique(String... values) {
+        return fetch(IService.I_SERVICE.RULE_UNIQUE, values);
+    }
+
+    /**
      * Fetch records that have <code>SIGMA IN (values)</code>
      */
     public List<cn.vertxup.jet.domain.tables.pojos.IService> fetchBySigma(String... values) {
@@ -459,6 +466,13 @@ public class IServiceDao extends DAOImpl<IServiceRecord, cn.vertxup.jet.domain.t
      */
     public CompletableFuture<List<cn.vertxup.jet.domain.tables.pojos.IService>> fetchByIdentifierComponentAsync(List<String> values) {
         return fetchAsync(IService.I_SERVICE.IDENTIFIER_COMPONENT,values);
+    }
+
+    /**
+     * Fetch records that have <code>RULE_UNIQUE IN (values)</code> asynchronously
+     */
+    public CompletableFuture<List<cn.vertxup.jet.domain.tables.pojos.IService>> fetchByRuleUniqueAsync(List<String> values) {
+        return fetchAsync(IService.I_SERVICE.RULE_UNIQUE,values);
     }
 
     /**

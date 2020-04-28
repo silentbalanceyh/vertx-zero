@@ -53,6 +53,7 @@ CREATE TABLE IF NOT EXISTS I_SERVICE
      */
     `CONFIG_INTEGRATION`   MEDIUMTEXT COMMENT '「configIntegration」- 集成配置信息，第三方专用',
     `CONFIG_DATABASE`      MEDIUMTEXT COMMENT '「configDatabase」- 数据库配置，当前通道访问的Database',
+
     /*
      * 字典专用配置信息
      * 构造最终对象：io.vertx.up.commune.config.Dict
@@ -64,6 +65,7 @@ CREATE TABLE IF NOT EXISTS I_SERVICE
     `DICT_CONFIG`          MEDIUMTEXT COMMENT '「dictConfig」- 字典的配置信息',
     `DICT_COMPONENT`       VARCHAR(255) COMMENT '「dictComponent」- 字典配置中的插件',
     `DICT_EPSILON`         MEDIUMTEXT COMMENT '「dictEpsilon」- 字典的消费配置',
+
     /*
      * 映射专用配置信息
      * 映射模式有三种：
@@ -74,6 +76,7 @@ CREATE TABLE IF NOT EXISTS I_SERVICE
     `MAPPING_CONFIG`       MEDIUMTEXT COMMENT '「mappingConfig」- 映射专用配置',
     `MAPPING_MODE`         VARCHAR(20) COMMENT '「mappingMode」- 映射的模式',
     `MAPPING_COMPONENT`    VARCHAR(255) COMMENT '「mappingComponent」- 映射组件类型',
+
     /*
      * 服务组件定义，消费 ActIn，并且生成 ActOut
      * 1）只消费 ActIn，不消费 Envelop（下层转换成 ZRecord 和 ActRequest执行，不再处理 Envelop）
@@ -88,6 +91,8 @@ CREATE TABLE IF NOT EXISTS I_SERVICE
     -- 当前服务描述的模型identifier
     `IDENTIFIER`           VARCHAR(255) COMMENT '「identifier」- 当前类型描述的Model的标识',
     `IDENTIFIER_COMPONENT` VARCHAR(255) COMMENT '「identifierComponent」- 当前业务接口使用的标识选择器',
+
+    `RULE_UNIQUE`          MEDIUMTEXT COMMENT '「ruleUnique」- 第二标识规则，当前通道的专用标识规则RuleUnique',
 
     -- 特殊字段
     `SIGMA`                VARCHAR(32) COMMENT '「sigma」- 统一标识',

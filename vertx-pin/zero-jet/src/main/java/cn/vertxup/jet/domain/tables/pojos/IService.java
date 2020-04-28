@@ -24,7 +24,7 @@ import javax.annotation.Generated;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class IService implements IIService {
 
-    private static final long serialVersionUID = 711020080;
+    private static final long serialVersionUID = 637752053;
 
     private String        key;
     private String        namespace;
@@ -50,6 +50,7 @@ public class IService implements IIService {
     private String        serviceConfig;
     private String        identifier;
     private String        identifierComponent;
+    private String        ruleUnique;
     private String        sigma;
     private String        language;
     private Boolean       active;
@@ -86,6 +87,7 @@ public class IService implements IIService {
         this.serviceConfig = value.serviceConfig;
         this.identifier = value.identifier;
         this.identifierComponent = value.identifierComponent;
+        this.ruleUnique = value.ruleUnique;
         this.sigma = value.sigma;
         this.language = value.language;
         this.active = value.active;
@@ -121,6 +123,7 @@ public class IService implements IIService {
         String        serviceConfig,
         String        identifier,
         String        identifierComponent,
+        String        ruleUnique,
         String        sigma,
         String        language,
         Boolean       active,
@@ -154,6 +157,7 @@ public class IService implements IIService {
         this.serviceConfig = serviceConfig;
         this.identifier = identifier;
         this.identifierComponent = identifierComponent;
+        this.ruleUnique = ruleUnique;
         this.sigma = sigma;
         this.language = language;
         this.active = active;
@@ -429,6 +433,17 @@ public class IService implements IIService {
     }
 
     @Override
+    public String getRuleUnique() {
+        return this.ruleUnique;
+    }
+
+    @Override
+    public IService setRuleUnique(String ruleUnique) {
+        this.ruleUnique = ruleUnique;
+        return this;
+    }
+
+    @Override
     public String getSigma() {
         return this.sigma;
     }
@@ -544,6 +559,7 @@ public class IService implements IIService {
         sb.append(", ").append(serviceConfig);
         sb.append(", ").append(identifier);
         sb.append(", ").append(identifierComponent);
+        sb.append(", ").append(ruleUnique);
         sb.append(", ").append(sigma);
         sb.append(", ").append(language);
         sb.append(", ").append(active);
@@ -590,6 +606,7 @@ public class IService implements IIService {
         setServiceConfig(from.getServiceConfig());
         setIdentifier(from.getIdentifier());
         setIdentifierComponent(from.getIdentifierComponent());
+        setRuleUnique(from.getRuleUnique());
         setSigma(from.getSigma());
         setLanguage(from.getLanguage());
         setActive(from.getActive());
