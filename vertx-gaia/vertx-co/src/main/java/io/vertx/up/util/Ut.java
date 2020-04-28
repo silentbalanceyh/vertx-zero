@@ -1,6 +1,7 @@
 package io.vertx.up.util;
 
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.vertx.config.ConfigStoreOptions;
 import io.vertx.core.Future;
 import io.vertx.core.MultiMap;
@@ -31,6 +32,10 @@ import java.util.function.*;
 @SuppressWarnings("all")
 public final class Ut {
     private Ut() {
+    }
+
+    public static ObjectMapper mapper() {
+        return Jackson.getMapper();
     }
 
     public static JsonArray sureJArray(final JsonArray array) {
