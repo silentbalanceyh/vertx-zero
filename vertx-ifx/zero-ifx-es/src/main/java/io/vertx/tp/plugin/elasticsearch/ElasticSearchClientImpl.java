@@ -29,6 +29,7 @@ import org.elasticsearch.client.indices.GetIndexResponse;
 
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Objects;
 import java.util.concurrent.ConcurrentMap;
 
 /**
@@ -43,6 +44,7 @@ public class ElasticSearchClientImpl implements ElasticSearchClient {
     private final transient JsonObject options = new JsonObject();
     private final transient ElasticSearchHelper helper = ElasticSearchHelper.helper(this.getClass());
     private final transient ElasticQr qr = new ElasticQr();
+    private transient RestHighLevelClient client;
 
     ElasticSearchClientImpl(final Vertx vertx, final JsonObject options) {
         this.vertx = vertx;
@@ -50,13 +52,29 @@ public class ElasticSearchClientImpl implements ElasticSearchClient {
             LOGGER.info("[ ZERO ] Elastic Search initialized: {0}", options.encode());
             this.options.mergeIn(options);
             this.qr.bind(options);
+            this.client = this.helper.getClient(options);
+        }
+    }
+
+    private RestHighLevelClient getClient() {
+        if (Objects.isNull(this.client)) {
+            this.client = this.helper.getClient(this.options);
+        }
+        return this.client;
+    }
+
+    public boolean connected() {
+        try {
+            return this.client.ping(RequestOptions.DEFAULT);
+        } catch (final Throwable ex) {
+            return false;
         }
     }
 
     @Override
     public JsonObject getIndex(final String index) {
         final JsonObject result = new JsonObject();
-        final RestHighLevelClient client = this.helper.getClient(this.options);
+        final RestHighLevelClient client = this.getClient();
 
         try {
             final GetIndexRequest request = new GetIndexRequest(index)
@@ -78,7 +96,7 @@ public class ElasticSearchClientImpl implements ElasticSearchClient {
     @Override
     public JsonObject createIndex(final String index, final int numberOfShards, final int numberOfReplicas, final ConcurrentMap<String, Class<?>> mappings) {
         final JsonObject result = new JsonObject();
-        final RestHighLevelClient client = this.helper.getClient(this.options);
+        final RestHighLevelClient client = this.getClient();
 
         try {
             final CreateIndexRequest request = new CreateIndexRequest(index)
@@ -100,7 +118,7 @@ public class ElasticSearchClientImpl implements ElasticSearchClient {
     @Override
     public JsonObject updateIndex(final String index, final int numberOfShards, final int numberOfReplicas) {
         final JsonObject result = new JsonObject();
-        final RestHighLevelClient client = this.helper.getClient(this.options);
+        final RestHighLevelClient client = this.getClient();
 
         try {
             final UpdateSettingsRequest request = new UpdateSettingsRequest(index)
@@ -120,7 +138,7 @@ public class ElasticSearchClientImpl implements ElasticSearchClient {
     @Override
     public JsonObject deleteIndex(final String index) {
         final JsonObject result = new JsonObject();
-        final RestHighLevelClient client = this.helper.getClient(this.options);
+        final RestHighLevelClient client = this.getClient();
 
         try {
             final DeleteIndexRequest request = new DeleteIndexRequest(index);
@@ -139,7 +157,7 @@ public class ElasticSearchClientImpl implements ElasticSearchClient {
     @Override
     public JsonObject getDocument(final String index, final String documentId) {
         final JsonObject result = new JsonObject();
-        final RestHighLevelClient client = this.helper.getClient(this.options);
+        final RestHighLevelClient client = this.getClient();
 
         try {
             final GetRequest request = new GetRequest()
@@ -166,7 +184,7 @@ public class ElasticSearchClientImpl implements ElasticSearchClient {
     @Override
     public JsonObject createDocument(final String index, final String documentId, final JsonObject source) {
         final JsonObject result = new JsonObject();
-        final RestHighLevelClient client = this.helper.getClient(this.options);
+        final RestHighLevelClient client = this.getClient();
 
         try {
             final IndexRequest request = new IndexRequest(index)
@@ -190,7 +208,7 @@ public class ElasticSearchClientImpl implements ElasticSearchClient {
     @Override
     public JsonObject updateDocument(final String index, final String documentId, final JsonObject source) {
         final JsonObject result = new JsonObject();
-        final RestHighLevelClient client = this.helper.getClient(this.options);
+        final RestHighLevelClient client = this.getClient();
 
         try {
             final UpdateRequest request = new UpdateRequest()
@@ -215,7 +233,7 @@ public class ElasticSearchClientImpl implements ElasticSearchClient {
     @Override
     public JsonObject deleteDocument(final String index, final String documentId) {
         final JsonObject result = new JsonObject();
-        final RestHighLevelClient client = this.helper.getClient(this.options);
+        final RestHighLevelClient client = this.getClient();
 
         try {
             final DeleteRequest request = new DeleteRequest()

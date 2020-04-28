@@ -28,6 +28,8 @@ public interface Neo4jClient extends TpClient<Neo4jClient> {
     @Fluent
     Neo4jClient connect(String graph);
 
+    boolean connected();
+
     /*
      * Node basic operations
      * {
