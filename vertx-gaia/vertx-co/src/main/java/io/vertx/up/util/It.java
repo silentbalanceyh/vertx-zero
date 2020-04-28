@@ -3,13 +3,28 @@ package io.vertx.up.util;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 
-import java.util.Objects;
+import java.util.*;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
 class It {
+    static <T> java.util.stream.Stream<T> itSet(final Set<T> set) {
+        final Set<T> source = Objects.isNull(set) ? new HashSet<>() : set;
+        return itList(source);
+    }
+
+    static <T> java.util.stream.Stream<T> itList(final List<T> list) {
+        final List<T> source = Objects.isNull(list) ? new ArrayList<>() : list;
+        return itList(source);
+    }
+
+    private static <T> java.util.stream.Stream<T> itList(final Collection<T> source) {
+        return source.stream().filter(Objects::nonNull);
+    }
+
     static java.util.stream.Stream<JsonObject> itJArray(final JsonArray array) {
-        return array.stream().filter(item -> item instanceof JsonObject).map(item -> (JsonObject) item);
+        final JsonArray source = Define.sureJArray(array);
+        return source.stream().filter(item -> item instanceof JsonObject).map(item -> (JsonObject) item);
     }
 
     static java.util.stream.Stream<JsonObject> itJArray(final JsonArray array, final Predicate<JsonObject> predicate) {
@@ -17,7 +32,8 @@ class It {
     }
 
     static java.util.stream.Stream<String> itJString(final JsonArray array) {
-        return array.stream().filter(item -> item instanceof String).map(item -> (String) item);
+        final JsonArray source = Define.sureJArray(array);
+        return source.stream().filter(item -> item instanceof String).map(item -> (String) item);
     }
 
     static java.util.stream.Stream<String> itJString(final JsonArray array, final Predicate<String> predicate) {

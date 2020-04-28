@@ -128,12 +128,6 @@ class Combine {
         });
     }
 
-    static Future<JsonArray> thenCombineArray(final JsonArray input, final Function<JsonObject, Future<JsonObject>> future) {
-        final List<Future<JsonObject>> futures = new ArrayList<>();
-        Ut.itJArray(input).map(future).forEach(futures::add);
-        return thenCombine(futures);
-    }
-
     static Future<JsonObject> thenCombine(
             final Future<JsonObject> source,
             final Function<JsonObject, List<Future>> generateFun,
