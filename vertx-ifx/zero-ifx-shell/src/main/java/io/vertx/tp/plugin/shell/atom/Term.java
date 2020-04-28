@@ -47,7 +47,6 @@ public class Term {
         /*
          * Std in to get arguments
          */
-        this.scanner.reset();
         if (this.scanner.hasNextLine()) {
             final String line = this.scanner.nextLine();
             if (Ut.isNil(line)) {
