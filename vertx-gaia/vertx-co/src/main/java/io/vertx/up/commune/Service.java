@@ -3,6 +3,7 @@ package io.vertx.up.commune;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.commune.config.DualMapping;
 import io.vertx.up.commune.config.Identity;
+import io.vertx.up.commune.rule.RuleUnique;
 
 /*
  * Uniform interface for Job/Component definition
@@ -42,4 +43,9 @@ public interface Service {
      * It's also for Job / Component here
      */
     DualMapping mapping();
+
+    /*
+     * `rule`
+     */
+    RuleUnique rule();
 }

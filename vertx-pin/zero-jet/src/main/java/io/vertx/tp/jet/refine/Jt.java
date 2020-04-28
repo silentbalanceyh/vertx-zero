@@ -11,6 +11,7 @@ import io.vertx.tp.jet.atom.JtConfig;
 import io.vertx.tp.jet.atom.JtUri;
 import io.vertx.tp.jet.atom.JtWorker;
 import io.vertx.up.commune.config.*;
+import io.vertx.up.commune.rule.RuleUnique;
 import io.vertx.up.eon.Strings;
 import io.vertx.up.eon.em.ChannelType;
 import io.vertx.up.log.Annal;
@@ -146,6 +147,10 @@ public class Jt {
 
     public static Database toDatabase(final IService service) {
         return JtDataObject.toDatabase(service);
+    }
+
+    public static RuleUnique toRule(final IService service) {
+        return JtDataObject.toRule(service);
     }
 
     public static Integration toIntegration(final IService service) {

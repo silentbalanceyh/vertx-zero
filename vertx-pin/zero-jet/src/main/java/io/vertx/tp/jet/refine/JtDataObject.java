@@ -12,6 +12,7 @@ import io.vertx.tp.optic.environment.Ambient;
 import io.vertx.up.commune.config.Database;
 import io.vertx.up.commune.config.Dict;
 import io.vertx.up.commune.config.Integration;
+import io.vertx.up.commune.rule.RuleUnique;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.util.Ut;
 
@@ -40,6 +41,19 @@ class JtDataObject {
              */
             // TODO: SSL Options
             return integration;
+        }
+    }
+
+    static RuleUnique toRule(final IService service) {
+        if (Objects.isNull(service)) {
+            return null;
+        } else {
+            final String rules = service.getRuleUnique();
+            if (Ut.isNil(rules)) {
+                return null;
+            } else {
+                return Ut.deserialize(rules, RuleUnique.class);
+            }
         }
     }
 

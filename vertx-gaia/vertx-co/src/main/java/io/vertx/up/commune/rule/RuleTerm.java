@@ -1,4 +1,4 @@
-package io.vertx.tp.atom.modeling.rule;
+package io.vertx.up.commune.rule;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;

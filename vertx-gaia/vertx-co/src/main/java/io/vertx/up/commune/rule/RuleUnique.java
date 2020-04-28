@@ -1,10 +1,12 @@
-package io.vertx.tp.atom.modeling.rule;
+package io.vertx.up.commune.rule;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
 /*
  * 表示规则专用模型，用于绑定 X_MODEL 中的 ruleUnique 专用
@@ -62,6 +64,12 @@ import java.util.Set;
  */
 public class RuleUnique implements Serializable {
     /*
+     * 子规则
+     * identifier = rule1
+     * identifier = rule2
+     */
+    private transient ConcurrentMap<String, RuleUnique> children = new ConcurrentHashMap<>();
+    /*
      * （无优先级）可推送的规则：
      * 1）草稿 -> 合法状态的标准规则；
      * 2）这种规则下，可将数据推送到 UCMDB 并且实现 ucmdb_id 的回写
@@ -91,6 +99,14 @@ public class RuleUnique implements Serializable {
      * 弱连接
      */
     private transient Set<RuleTerm> weak = new HashSet<>();
+
+    public ConcurrentMap<String, RuleUnique> getChildren() {
+        return this.children;
+    }
+
+    public void setChildren(final ConcurrentMap<String, RuleUnique> children) {
+        this.children = children;
+    }
 
     public List<RuleTerm> getRecord() {
         return this.record;
@@ -130,6 +146,20 @@ public class RuleUnique implements Serializable {
 
     public void setWeak(final Set<RuleTerm> weak) {
         this.weak = weak;
+    }
+
+    public RuleUnique child(final String identifier) {
+        return this.children.get(identifier);
+    }
+
+    public RuleUnique child() {
+        return this;
+    }
+
+    public boolean valid() {
+        return !(this.record.isEmpty() &&
+                this.integration.isEmpty() &&
+                this.priority.isEmpty());
     }
 
     @Override

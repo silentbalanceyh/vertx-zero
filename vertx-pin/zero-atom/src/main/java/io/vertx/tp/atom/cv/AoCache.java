@@ -1,7 +1,6 @@
 package io.vertx.tp.atom.cv;
 
 import io.vertx.tp.atom.modeling.Model;
-import io.vertx.tp.atom.modeling.data.DataAtom;
 import io.vertx.tp.modular.dao.AoDao;
 import io.vertx.tp.modular.jdbc.AoConnection;
 import io.vertx.tp.modular.jooq.JQEngine;
@@ -20,8 +19,6 @@ public interface AoCache {
     // （设计图上存在）
     /* Model 池化 **/
     ConcurrentMap<String, Model> POOL_MODELS = new ConcurrentHashMap<>();
-    /* Atom 池化 **/
-    ConcurrentMap<String, DataAtom> POOL_ATOM = new ConcurrentHashMap<>();
     /* Switcher */
     ConcurrentMap<Integer, Switcher> POOL_SWITCHER = new ConcurrentHashMap<>();
     /* OxPerformer资源池（内部） */
