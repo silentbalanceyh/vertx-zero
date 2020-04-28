@@ -35,7 +35,7 @@ public class IService extends TableImpl<IServiceRecord> {
      * The reference instance of <code>DB_ETERNAL.I_SERVICE</code>
      */
     public static final IService I_SERVICE = new IService();
-    private static final long serialVersionUID = -475074108;
+    private static final long serialVersionUID = 1097809166;
     /**
      * The column <code>DB_ETERNAL.I_SERVICE.KEY</code>. 「key」- 服务ID
      */
@@ -132,6 +132,10 @@ public class IService extends TableImpl<IServiceRecord> {
      * The column <code>DB_ETERNAL.I_SERVICE.IDENTIFIER_COMPONENT</code>. 「identifierComponent」- 当前业务接口使用的标识选择器
      */
     public final TableField<IServiceRecord, String> IDENTIFIER_COMPONENT = createField("IDENTIFIER_COMPONENT", org.jooq.impl.SQLDataType.VARCHAR(255), this, "「identifierComponent」- 当前业务接口使用的标识选择器");
+    /**
+     * The column <code>DB_ETERNAL.I_SERVICE.RULE_UNIQUE</code>. 「ruleUnique」- 第二标识规则，当前通道的专用标识规则RuleUnique
+     */
+    public final TableField<IServiceRecord, String> RULE_UNIQUE = createField("RULE_UNIQUE", org.jooq.impl.SQLDataType.CLOB, this, "「ruleUnique」- 第二标识规则，当前通道的专用标识规则RuleUnique");
     /**
      * The column <code>DB_ETERNAL.I_SERVICE.SIGMA</code>. 「sigma」- 统一标识
      */

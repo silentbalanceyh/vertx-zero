@@ -4,11 +4,11 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.tp.plugin.shell.AbstractCommander;
 import io.vertx.tp.plugin.shell.atom.CommandAtom;
 import io.vertx.tp.plugin.shell.atom.CommandInput;
-import io.vertx.tp.plugin.shell.atom.CommandOption;
 import io.vertx.tp.plugin.shell.cv.em.CommandType;
 import io.vertx.tp.plugin.shell.cv.em.TermStatus;
 import io.vertx.tp.plugin.shell.refine.Sl;
 import io.vertx.up.log.Log;
+import io.vertx.up.util.Ut;
 import org.apache.commons.cli.HelpFormatter;
 
 import java.text.MessageFormat;
@@ -68,8 +68,7 @@ public class HelpCommander extends AbstractCommander {
     }
 
     private void printCommands(final List<CommandAtom> atoms) {
-        final CommandOption option = this.atom.option(ARG_COMMAND);
-        final JsonObject config = option.getConfig();
+        final JsonObject config = Ut.sureJObject(this.atom.getConfig().getJsonObject("header"));
         final String name = config.containsKey("name") ? config.getString("name") : "Command Name";
         final String simple = config.containsKey("simple") ? config.getString("simple") : "Command Simple";
         final String description = config.containsKey("description") ? config.getString("description") : "Description";

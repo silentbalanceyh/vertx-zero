@@ -14,6 +14,7 @@ public interface ElasticSearchClient {
         return new ElasticSearchClientImpl(vertx, options);
     }
 
+    boolean connected();
     /* index API */
 
     /**

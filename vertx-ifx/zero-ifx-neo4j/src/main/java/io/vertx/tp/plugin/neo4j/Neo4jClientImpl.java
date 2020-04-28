@@ -67,6 +67,15 @@ public class Neo4jClientImpl implements Neo4jClient {
         return this;
     }
 
+    public boolean connected() {
+        try {
+            this.driver.verifyConnectivity();
+            return true;
+        } catch (final Throwable ex) {
+            return false;
+        }
+    }
+
     @Override
     public Future<JsonObject> nodeCreate(final JsonObject node) {
         return this.session.create(node);

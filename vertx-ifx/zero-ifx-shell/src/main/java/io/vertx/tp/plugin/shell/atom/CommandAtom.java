@@ -2,8 +2,11 @@ package io.vertx.tp.plugin.shell.atom;
 
 import com.fasterxml.jackson.databind.ClassDeserializer;
 import com.fasterxml.jackson.databind.ClassSerializer;
+import com.fasterxml.jackson.databind.JsonObjectDeserializer;
+import com.fasterxml.jackson.databind.JsonObjectSerializer;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import io.vertx.core.json.JsonObject;
 import io.vertx.tp.plugin.shell.Commander;
 import io.vertx.tp.plugin.shell.cv.em.CommandType;
 import io.vertx.up.util.Ut;
@@ -33,6 +36,10 @@ public class CommandAtom implements Serializable {
 
     private transient List<CommandAtom> commands = new ArrayList<>();
     private transient List<CommandOption> options = new ArrayList<>();
+
+    @JsonSerialize(using = JsonObjectSerializer.class)
+    @JsonDeserialize(using = JsonObjectDeserializer.class)
+    private transient JsonObject config = new JsonObject();
 
     public String getSimple() {
         return this.simple;
@@ -100,6 +107,14 @@ public class CommandAtom implements Serializable {
 
     public void setArgs(final boolean args) {
         this.args = args;
+    }
+
+    public JsonObject getConfig() {
+        return this.config;
+    }
+
+    public void setConfig(final JsonObject config) {
+        this.config = config;
     }
 
     /*

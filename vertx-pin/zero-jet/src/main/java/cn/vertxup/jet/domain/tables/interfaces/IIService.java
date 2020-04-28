@@ -264,6 +264,16 @@ public interface IIService extends Serializable {
     public String getIdentifierComponent();
 
     /**
+     * Setter for <code>DB_ETERNAL.I_SERVICE.RULE_UNIQUE</code>. 「ruleUnique」- 第二标识规则，当前通道的专用标识规则RuleUnique
+     */
+    public IIService setRuleUnique(String value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.I_SERVICE.RULE_UNIQUE</code>. 「ruleUnique」- 第二标识规则，当前通道的专用标识规则RuleUnique
+     */
+    public String getRuleUnique();
+
+    /**
      * Setter for <code>DB_ETERNAL.I_SERVICE.SIGMA</code>. 「sigma」- 统一标识
      */
     public IIService setSigma(String value);
@@ -382,6 +392,7 @@ public interface IIService extends Serializable {
         setServiceConfig(json.getString("SERVICE_CONFIG"));
         setIdentifier(json.getString("IDENTIFIER"));
         setIdentifierComponent(json.getString("IDENTIFIER_COMPONENT"));
+        setRuleUnique(json.getString("RULE_UNIQUE"));
         setSigma(json.getString("SIGMA"));
         setLanguage(json.getString("LANGUAGE"));
         setActive(json.getBoolean("ACTIVE"));
@@ -420,6 +431,7 @@ public interface IIService extends Serializable {
         json.put("SERVICE_CONFIG",getServiceConfig());
         json.put("IDENTIFIER",getIdentifier());
         json.put("IDENTIFIER_COMPONENT",getIdentifierComponent());
+        json.put("RULE_UNIQUE",getRuleUnique());
         json.put("SIGMA",getSigma());
         json.put("LANGUAGE",getLanguage());
         json.put("ACTIVE",getActive());
