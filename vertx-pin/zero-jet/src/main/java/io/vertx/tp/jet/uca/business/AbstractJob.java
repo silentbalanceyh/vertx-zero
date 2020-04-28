@@ -11,6 +11,7 @@ import io.vertx.up.atom.Refer;
 import io.vertx.up.atom.worker.Mission;
 import io.vertx.up.commune.Service;
 import io.vertx.up.commune.config.*;
+import io.vertx.up.commune.rule.RuleUnique;
 import io.vertx.up.log.Annal;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
@@ -65,6 +66,11 @@ public abstract class AbstractJob implements Service {
     @Override
     public Identity identity() {
         return Jt.toIdentity(this.service());
+    }
+
+    @Override
+    public RuleUnique rule() {
+        return Jt.toRule(this.service());
     }
 
     @Override

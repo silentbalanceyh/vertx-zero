@@ -5,9 +5,9 @@ import cn.vertxup.atom.domain.tables.pojos.MJoin;
 import cn.vertxup.atom.domain.tables.pojos.MModel;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.atom.cv.em.ModelType;
-import io.vertx.tp.atom.modeling.rule.RuleUnique;
 import io.vertx.tp.atom.refine.Ao;
 import io.vertx.tp.optic.modeling.JsonModel;
+import io.vertx.up.commune.rule.RuleUnique;
 
 import java.util.Set;
 import java.util.concurrent.ConcurrentMap;

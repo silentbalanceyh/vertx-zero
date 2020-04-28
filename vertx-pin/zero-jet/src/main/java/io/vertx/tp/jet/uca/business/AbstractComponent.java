@@ -9,6 +9,7 @@ import io.vertx.up.commune.ActIn;
 import io.vertx.up.commune.ActOut;
 import io.vertx.up.commune.Service;
 import io.vertx.up.commune.config.*;
+import io.vertx.up.commune.rule.RuleUnique;
 import io.vertx.up.exception.WebException;
 import io.vertx.up.exception.web._400SigmaMissingException;
 import io.vertx.up.log.Annal;
@@ -77,6 +78,9 @@ public abstract class AbstractComponent implements JtComponent, Service {
      * - mappingConfig
      * - mappingMode
      * - mappingComponent
+     *
+     * rule
+     * - rule
      */
     @Contract
     private transient JsonObject options;
@@ -84,6 +88,8 @@ public abstract class AbstractComponent implements JtComponent, Service {
     private transient Identity identity;
     @Contract
     private transient DualMapping mapping;
+    @Contract
+    private transient RuleUnique rule;
 
     /*
      * There are required attribute
@@ -105,6 +111,11 @@ public abstract class AbstractComponent implements JtComponent, Service {
     @Override
     public DualMapping mapping() {
         return this.mapping;
+    }
+
+    @Override
+    public RuleUnique rule() {
+        return this.rule;
     }
 
     // ------------ Uniform default major transfer method ------------

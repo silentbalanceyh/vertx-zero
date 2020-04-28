@@ -7,6 +7,7 @@ import io.vertx.tp.optic.jet.JtComponent;
 import io.vertx.up.commune.Commercial;
 import io.vertx.up.commune.Envelop;
 import io.vertx.up.commune.config.*;
+import io.vertx.up.commune.rule.RuleUnique;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.unity.UxPool;
 import io.vertx.up.util.Ut;
@@ -69,6 +70,7 @@ class Anagogic {
                 Ut.contract(component, Identity.class, commercial.identity());      /* identifierComponent -> converted to identity */
                 Ut.contract(component, DualMapping.class, commercial.mapping());    /* mappingConfig */
                 Ut.contract(component, DictFabric.class, fabric);                   /* dictConfig -> converted to fabric */
+                Ut.contract(component, RuleUnique.class, commercial.rule());        /* Rule Unique */
 
                 return Future.succeededFuture(Boolean.TRUE);
             });

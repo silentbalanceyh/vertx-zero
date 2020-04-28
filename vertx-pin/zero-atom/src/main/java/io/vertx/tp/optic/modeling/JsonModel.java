@@ -10,9 +10,9 @@ import io.vertx.tp.atom.cv.em.ModelType;
 import io.vertx.tp.atom.modeling.Model;
 import io.vertx.tp.atom.modeling.Schema;
 import io.vertx.tp.atom.modeling.element.DataKey;
-import io.vertx.tp.atom.modeling.rule.RuleUnique;
 import io.vertx.tp.ke.cv.KeField;
 import io.vertx.tp.modular.apply.AoDefault;
+import io.vertx.up.commune.rule.RuleUnique;
 import io.vertx.up.util.Ut;
 
 import java.util.HashSet;

@@ -1,4 +1,4 @@
-package io.vertx.tp.atom.modeling.rule;
+package io.vertx.up.commune.rule;
 
 import java.io.Serializable;
 import java.util.ArrayList;

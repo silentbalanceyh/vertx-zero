@@ -7,6 +7,7 @@ import io.vertx.tp.jet.refine.Jt;
 import io.vertx.tp.optic.environment.Ambient;
 import io.vertx.up.commune.Commercial;
 import io.vertx.up.commune.config.*;
+import io.vertx.up.commune.rule.RuleUnique;
 import io.vertx.up.eon.ID;
 import io.vertx.up.eon.em.ChannelType;
 import io.vertx.up.eon.em.Environment;
@@ -101,6 +102,11 @@ public abstract class JtCommercial implements Commercial {
     @Override
     public Database database() {
         return Jt.toDatabase(this.service::getConfigDatabase, this.app.getSource());
+    }
+
+    @Override
+    public RuleUnique rule() {
+        return Jt.toRule(this.service);
     }
 
     @Override

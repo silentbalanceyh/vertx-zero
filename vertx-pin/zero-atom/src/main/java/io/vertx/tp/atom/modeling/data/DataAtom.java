@@ -4,9 +4,9 @@ import cn.vertxup.atom.domain.tables.pojos.MAttribute;
 import io.vertx.tp.atom.cv.AoCache;
 import io.vertx.tp.atom.cv.AoMsg;
 import io.vertx.tp.atom.modeling.Model;
-import io.vertx.tp.atom.modeling.rule.RuleUnique;
 import io.vertx.tp.atom.refine.Ao;
 import io.vertx.tp.modular.phantom.AoPerformer;
+import io.vertx.up.commune.rule.RuleUnique;
 import io.vertx.up.fn.Fn;
 
 import java.time.LocalDate;
@@ -31,6 +31,7 @@ public class DataAtom {
 
     private transient final String identifier;
     private transient final String unique;
+    private transient RuleUnique rule;
 
     private DataAtom(final String appName,
                      final String identifier,
@@ -65,17 +66,42 @@ public class DataAtom {
                 .collect(Collectors.toSet());
     }
 
-    /**
-     * 返回当前模型中的标识规则
-     */
-    public RuleUnique rules() {
-        return this.model.getUnique();
-    }
 
     public Model getModel() {
         return this.model;
     }
 
+    // ------------ 标识规则 ----------
+
+    /**
+     * 返回当前模型中的标识规则
+     */
+    public RuleUnique rule() {
+        return this.model.getUnique();
+    }
+
+    /*
+     * 直接返回当前模型连接的标识规则（第二标识规则）
+     */
+    public RuleUnique ruleDirect() {
+        return this.rule;
+    }
+
+    /*
+     * 1）先检索连接的标识规则：Slave
+     * 2）再检索存储的标识规则：Master
+     */
+    public RuleUnique ruleSmart() {
+        if (Objects.nonNull(this.rule)) {
+            return this.rule;
+        } else {
+            return this.model.getUnique();
+        }
+    }
+
+    public void connect(final RuleUnique channelRule) {
+        this.rule = channelRule;
+    }
     // ------------ 属性检查的特殊功能，收集相关属性 ----------
 
     public Boolean isTrack() {
