@@ -37,7 +37,7 @@ import java.util.concurrent.ConcurrentMap;
 import java.util.function.*;
 
 /**
- * 「Kt」Utility X Component in zero
+ * #「Kt」Utility X Component in zero
  *
  * Here Ux is a util interface of uniform to call different tools.
  * It just like helper for business usage.
@@ -51,6 +51,14 @@ public final class Ux {
      * 2) debug:
      * 3) otherwise:
      * ( Business Part: Debugging )
+     */
+
+    /**
+     * Create new log instance for store `Annal` mapping
+     *
+     * @param clazz The logger target that contains `Annal`
+     *
+     * @return the instance of `io.vertx.up.fn.wait.Log`
      */
     public static Log log(final Class<?> clazz) {
         return Log.create(null == clazz ? Ux.class : clazz);
@@ -325,41 +333,47 @@ public final class Ux {
      */
 
     /**
+     * Future async specific workflow for combine future here.
+     *
+     * For example:
+     *
+     * ```shell
+     * // <pre><code>
+     * --------> generateFun ( Supplier )     operatorFun ( BiConsumer )
+     * --------> json1 -> ? future<out1>  ->  operatorFun[0] -> (json1, out1) -> merged1
+     * jarray -> json2 -> ? future<out2>  ->  operatorFun[1] -> (json2, out2) -> merged2  -> merged ( Future<JsonArray> )
+     * --------> json3 -> ? future<out3>  ->  operatorFun[2] -> (json3, out3) -> merged3
+     * // </code></pre>
+     * ```
+     *
      * @param source      The first query result of list
      * @param generateFun (json) -> future(out) ( each record )
      * @param operatorFun (json, out) -> merged
      *
      * @return It often used in secondary select in database here
-     * The workflow
-     * --------> generateFun ( Supplier )     operatorFun ( BiConsumer )
-     * --------> json1 -> ? future<out1>  ->  operatorFun[0] -> (json1, out1) -> merged1
-     * jarray -> json2 -> ? future<out2>  ->  operatorFun[1] -> (json2, out2) -> merged2  -> merged
-     * --------> json3 -> ? future<out3>  ->  operatorFun[2] -> (json3, out3) -> merged3
      */
     public static Future<JsonArray> thenCombine(final Future<JsonArray> source, final Function<JsonObject, Future<JsonObject>> generateFun, final BinaryOperator<JsonObject> operatorFun) {
         return Combine.thenCombine(source, generateFun, operatorFun);
     }
 
     /**
-     * @param source      The input json object
-     * @param generateFun The json object should generate list<future>, each future should be json object
-     * @param operatorFun merged the result to json object instead of other
-     *
-     * @return The final result of future
      * The workflow
      * ------>  generateFun ( Supplier )                operatorFun ( BiConsumer )
      * ------>  future1 ( json -> ? future<out1> )  ->  operatorFun[0] -> (json, out1) -> merged1  ->
      * json ->  future2 ( json -> ? future<out2> )  ->  operatorFun[1] -> (json, out2) -> merged2  -> merged
      * ------>  future3 ( json -> ? future<out3> )  ->  operatorFun[2] -> (json, out3) -> merged3  ->
+     *
+     * @param source      The input json object
+     * @param generateFun The json object should generate list<future>, each future should be json object
+     * @param operatorFun merged the result to json object instead of other
+     *
+     * @return The final result of future
      */
     public static Future<JsonObject> thenCombine(final JsonObject source, final Function<JsonObject, List<Future>> generateFun, final BiConsumer<JsonObject, JsonObject>... operatorFun) {
         return Combine.thenCombine(Future.succeededFuture(source), generateFun, operatorFun);
     }
 
     /**
-     * @param futures The list of futures
-     *
-     * @return The final result of futures
      * input:
      * - List: [future1, future2, future3]
      * output:
@@ -368,8 +382,18 @@ public final class Ux {
      * future1 -> (in1 -> out1)
      * future2 -> (in2 -> out2) --> future ( [out1, out2, out3] )
      * future3 -> (in3 -> out3)
+     *
+     * @param futures The list of futures
+     *
+     * @return The final result of futures
      */
     public static Future<JsonArray> thenCombine(final List<Future<JsonObject>> futures) {
+        return Combine.thenCombine(futures);
+    }
+
+    public static Future<JsonArray> thenCombine(final JsonArray input, final Function<JsonObject, Future<JsonObject>> function) {
+        final List<Future<JsonObject>> futures = new ArrayList<>();
+        Ut.itJArray(input).map(function).forEach(futures::add);
         return Combine.thenCombine(futures);
     }
 
@@ -377,10 +401,10 @@ public final class Ux {
         return Combine.thenCombineT(futures);
     }
 
-    public static Future<JsonArray> thenCombine(final JsonArray input, final Function<JsonObject, Future<JsonObject>> function) {
-        final List<Future<JsonObject>> futures = new ArrayList<>();
-        Ut.itJArray(input).map(function).forEach(futures::add);
-        return Combine.thenCombine(futures);
+    public static <I, O> Future<List<O>> thenCombineT(final List<I> source, final Function<I, Future<O>> consumer) {
+        final List<Future<O>> futures = new ArrayList<>();
+        Ut.itList(source).map(consumer).forEach(futures::add);
+        return Combine.thenCombineT(futures);
     }
 
     public static <T> Future<ConcurrentMap<String, T>> thenCombine(final ConcurrentMap<String, Future<T>> futureMap) {
@@ -394,8 +418,14 @@ public final class Ux {
         return Combine.thenCombineArray(futures);
     }
 
-    public static Future<JsonArray> thenCombineArray(final JsonArray input, final Function<JsonObject, Future<JsonObject>> future) {
-        return Combine.thenCombineArray(input, future);
+    public static Future<JsonArray> thenCombineArray(final JsonArray source, final Function<JsonObject, Future<JsonArray>> consumer) {
+        return thenCombineArray(source, JsonObject.class, consumer);
+    }
+
+    public static <T> Future<JsonArray> thenCombineArray(final JsonArray source, final Class<T> clazz, final Function<T, Future<JsonArray>> consumer) {
+        final List<Future<JsonArray>> futures = new ArrayList<>();
+        Ut.itJArray(source, clazz, (item, index) -> futures.add(consumer.apply(item)));
+        return Combine.thenCombineArray(futures);
     }
 
     public static <T> Future<List<T>> thenCombineArrayT(final List<Future<List<T>>> futures) {

@@ -304,6 +304,10 @@ public final class Ut {
         Congregation.exec(list, fnEach);
     }
 
+    public static <V> java.util.stream.Stream<V> itSet(final Set<V> set) {
+        return It.itSet(set);
+    }
+
     public static void itDay(final String from, final String to, final Consumer<Date> consumer) {
         Period.itDay(from, to, consumer);
     }
@@ -318,6 +322,10 @@ public final class Ut {
 
     public static <V> void itList(final List<V> list, final BiConsumer<V, Integer> fnEach) {
         Congregation.exec(list, fnEach);
+    }
+
+    public static <V> java.util.stream.Stream<V> itList(final List<V> list) {
+        return It.itList(list);
     }
 
     public static <V> void itArray(final V[] array, final BiConsumer<V, Integer> fnEach) {
