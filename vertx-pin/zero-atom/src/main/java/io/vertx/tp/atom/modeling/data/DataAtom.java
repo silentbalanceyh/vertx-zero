@@ -99,8 +99,9 @@ public class DataAtom {
         }
     }
 
-    public void connect(final RuleUnique channelRule) {
+    public DataAtom connect(final RuleUnique channelRule) {
         this.rule = channelRule;
+        return this;
     }
     // ------------ 属性检查的特殊功能，收集相关属性 ----------
 
