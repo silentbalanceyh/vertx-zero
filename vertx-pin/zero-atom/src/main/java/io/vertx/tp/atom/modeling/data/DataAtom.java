@@ -54,7 +54,11 @@ public class DataAtom {
          * 唯一ID，主要是内置构造函数用
          */
         final String unique = Model.namespace(appName) + "-" + identifier;
-        return Fn.pool(AoCache.POOL_ATOM, unique, () -> new DataAtom(appName, identifier, unique));
+        final DataAtom atom = Fn.pool(AoCache.POOL_ATOM, unique, () -> new DataAtom(appName, identifier, unique));
+        /*
+         * 清除编程专用的 RuleUnique
+         */
+        return atom.connect(null);
     }
 
     /**
