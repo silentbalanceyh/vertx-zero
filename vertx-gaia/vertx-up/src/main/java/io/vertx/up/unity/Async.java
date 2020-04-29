@@ -94,7 +94,7 @@ class Async {
                 () -> completableFuture.thenAcceptAsync((item) -> Fn.safeSemi(
                         null == item, null,
                         () -> future.complete(new JsonArray()),
-                        () -> future.complete(To.toArray(item, pojo))
+                        () -> future.complete(To.toJArray(item, pojo))
                 )).exceptionally((ex) -> {
                     LOGGER.jvm(ex);
                     future.fail(ex);

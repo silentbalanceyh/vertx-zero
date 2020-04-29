@@ -1,12 +1,14 @@
 package io.vertx.up.util;
 
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.vertx.config.ConfigStoreOptions;
 import io.vertx.core.Future;
 import io.vertx.core.MultiMap;
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
+import io.vertx.up.commune.Record;
 import io.vertx.up.fn.Actuator;
 
 import java.io.File;
@@ -31,6 +33,10 @@ import java.util.function.*;
 @SuppressWarnings("all")
 public final class Ut {
     private Ut() {
+    }
+
+    public static ObjectMapper mapper() {
+        return Jackson.getMapper();
     }
 
     public static JsonArray sureJArray(final JsonArray array) {
@@ -83,7 +89,12 @@ public final class Ut {
      * 7) elementSubset
      * 8) elementChild
      * 9) elementEach
+     * 10) elementFlat
      */
+    public static JsonArray elementFlat(final JsonArray input) {
+        return ArrayUtil.flat(input);
+    }
+
     public static <T> T[] elementAdd(final T[] array, final T element) {
         return ArrayUtil.add(array, element);
     }
@@ -1007,12 +1018,20 @@ public final class Ut {
         return To.toJArray(value, repeat);
     }
 
+    public static JsonArray toJArray(final JsonArray array, final Function<JsonObject, JsonObject> executor) {
+        return To.toJArray(array, executor);
+    }
+
     public static <T> JsonArray toJArray(final Set<T> set) {
         return To.toJArray(set);
     }
 
     public static <T> JsonArray toJArray(final List<T> list) {
         return To.toJArray(list);
+    }
+
+    public static JsonArray toJArray(final Record[] records) {
+        return To.toJArray(records);
     }
 
     public static JsonObject toJObject(final String literal) {

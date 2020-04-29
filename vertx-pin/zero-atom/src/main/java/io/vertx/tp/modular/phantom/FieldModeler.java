@@ -37,7 +37,7 @@ class FieldModeler implements AoModeler {
         final List<MField> fields = Ux.Jooq.on(MFieldDao.class)
                 .fetchAnd(this.onCriteria(entityJson));
         // JsonArray
-        final JsonArray fieldArr = Ux.toArray(fields);
+        final JsonArray fieldArr = Ux.toJArray(fields);
         return this.onResult(schemaJson, fieldArr);
     }
 

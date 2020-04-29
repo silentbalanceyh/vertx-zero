@@ -6,14 +6,12 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.atom.pojo.Mirror;
 import io.vertx.up.commune.Envelop;
-import io.vertx.up.commune.Record;
 import io.vertx.up.exception.WebException;
 import io.vertx.up.exception.web._500InternalServerException;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.util.Ut;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import java.util.function.Function;
@@ -51,7 +49,7 @@ class To {
                 () -> convert.apply(toJson(entity, "")));
     }
 
-    static <T> JsonArray toArray(
+    static <T> JsonArray toJArray(
             final List<T> list,
             final Function<JsonObject, JsonObject> convert
     ) {
@@ -63,22 +61,7 @@ class To {
         return array;
     }
 
-    static JsonArray toArray(final Record[] records) {
-        final JsonArray result = new JsonArray();
-        if (Objects.nonNull(records)) {
-            Arrays.stream(records).map(Record::toJson)
-                    .forEach(result::add);
-        }
-        return result;
-    }
-
-    static JsonArray toArray(final JsonArray array, final Function<JsonObject, JsonObject> executor) {
-        final JsonArray normalized = new JsonArray();
-        Ut.itJArray(array).map(executor).forEach(normalized::add);
-        return normalized;
-    }
-
-    static <T> JsonArray toArray(
+    static <T> JsonArray toJArray(
             final List<T> list,
             final String pojo
     ) {
@@ -95,7 +78,7 @@ class To {
             final String pojo
     ) {
         final List<JsonObject> jlist = new ArrayList<>();
-        Ut.itJArray(toArray(list, pojo)).forEach(jlist::add);
+        Ut.itJArray(toJArray(list, pojo)).forEach(jlist::add);
         return jlist;
     }
 

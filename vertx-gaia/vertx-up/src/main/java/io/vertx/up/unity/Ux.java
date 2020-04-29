@@ -86,9 +86,9 @@ public final class Ux {
 
     /*
      * Entity ( Pojo ) to JsonObject, support pojo file here
-     * 1) toJson / fromJson
+     * 1) toJObject / fromJson
      * 2) toToggle:  Toggle switch from interface style to worker here, the key should be "0", "1", "2", "3", ....
-     * 3) toArray
+     * 3) toJArray
      * ( Business Part, support `pojoFile` conversation )
      * 4) toFile
      */
@@ -124,20 +124,12 @@ public final class Ux {
         return From.fromJson(data, pojo);
     }
 
-    public static <T> JsonArray toArray(final List<T> list) {
-        return To.toArray(list, "");
+    public static <T> JsonArray toJArray(final List<T> list) {
+        return To.toJArray(list, "");
     }
 
-    public static JsonArray toArray(final Record[] records) {
-        return To.toArray(records);
-    }
-
-    public static <T> JsonArray toArray(final List<T> list, final String pojo) {
-        return To.toArray(list, pojo);
-    }
-
-    public static <T> JsonArray toArray(final JsonArray array, final Function<JsonObject, JsonObject> executor) {
-        return To.toArray(array, executor);
+    public static <T> JsonArray toJArray(final List<T> list, final String pojo) {
+        return To.toJArray(list, pojo);
     }
 
     /**
@@ -258,7 +250,7 @@ public final class Ux {
     }
 
     public static <T> Future<JsonArray> fnJArray(final List<T> item) {
-        return Future.succeededFuture(To.toArray(item, ""));
+        return Future.succeededFuture(To.toJArray(item, ""));
     }
 
     public static <T> Future<List<JsonObject>> fnJList(final List<T> item) {
@@ -266,7 +258,7 @@ public final class Ux {
     }
 
     public static Future<JsonArray> fnJArray(final Record[] records) {
-        return Fn.getNull(Future.succeededFuture(new JsonArray()), () -> To.future(To.toArray(records)), records);
+        return Fn.getNull(Future.succeededFuture(new JsonArray()), () -> To.future(Ut.toJArray(records)), records);
     }
 
     public static Future<JsonObject> fnJObject(final Record record) {
@@ -278,7 +270,7 @@ public final class Ux {
     }
 
     public static <T> Function<List<T>, Future<JsonArray>> fnJArray(final String pojo) {
-        return list -> Future.succeededFuture(To.toArray(list, pojo));
+        return list -> Future.succeededFuture(To.toJArray(list, pojo));
     }
 
     public static <T> Function<List<T>, Future<List<JsonObject>>> fnJList(final String pojo) {
@@ -286,7 +278,7 @@ public final class Ux {
     }
 
     public static <T> Future<ConcurrentMap<String, JsonArray>> fnJMap(final List<T> item, final String field) {
-        return fnJMap(To.toArray(item, ""), field);
+        return fnJMap(To.toJArray(item, ""), field);
     }
 
     public static Future<ConcurrentMap<String, JsonArray>> fnJMap(final JsonArray item, final String field) {
@@ -294,7 +286,7 @@ public final class Ux {
     }
 
     public static <T> Future<ConcurrentMap<String, JsonArray>> fnJMapType(final List<T> item) {
-        return fnJMap(To.toArray(item, ""), "type");
+        return fnJMap(To.toJArray(item, ""), "type");
     }
 
     public static Future<ConcurrentMap<String, JsonArray>> fnJMapType(final JsonArray item) {

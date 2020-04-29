@@ -4,10 +4,12 @@ import io.vertx.core.MultiMap;
 import io.vertx.core.json.DecodeException;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
+import io.vertx.up.commune.Record;
 import io.vertx.up.eon.Values;
 import io.vertx.up.fn.Fn;
 
 import java.util.*;
+import java.util.function.Function;
 import java.util.function.Supplier;
 
 final class To {
@@ -55,6 +57,12 @@ final class To {
         }, reference);
     }
 
+    static JsonArray toJArray(final JsonArray array, final Function<JsonObject, JsonObject> executor) {
+        final JsonArray normalized = new JsonArray();
+        Ut.itJArray(array).map(executor).forEach(normalized::add);
+        return normalized;
+    }
+
     static <T> JsonArray toJArray(final Set<T> set) {
         final JsonArray array = new JsonArray();
         if (Objects.nonNull(set)) {
@@ -69,6 +77,15 @@ final class To {
             list.stream().filter(Objects::nonNull).forEach(array::add);
         }
         return array;
+    }
+
+    static JsonArray toJArray(final Record[] records) {
+        final JsonArray result = new JsonArray();
+        if (Objects.nonNull(records)) {
+            Arrays.stream(records).map(Record::toJson)
+                    .forEach(result::add);
+        }
+        return result;
     }
 
     static JsonObject toJObject(final String literal) {

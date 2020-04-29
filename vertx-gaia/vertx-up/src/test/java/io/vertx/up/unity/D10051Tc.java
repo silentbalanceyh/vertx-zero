@@ -17,7 +17,7 @@ public class D10051Tc extends EpicBase {
         final List<D10051Obj> obj = Ut.deserialize(data, new TypeReference<List<D10051Obj>>() {
         });
         // Convert
-        final JsonArray ret = Ux.toArray(obj, "d10051");
+        final JsonArray ret = Ux.toJArray(obj, "d10051");
         System.err.println(ret.encode());
         Assert.assertEquals(2, ret.size());
     }
