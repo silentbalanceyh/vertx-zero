@@ -11,6 +11,7 @@ import io.vertx.up.exception.zero.JooqCondClauseException;
 import io.vertx.up.exception.zero.JooqCondFieldException;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
+import io.vertx.up.log.Debugger;
 import io.vertx.up.util.Ut;
 import org.jooq.Condition;
 import org.jooq.Field;
@@ -130,7 +131,7 @@ public class JooqCond {
                     class, Inquiry.Mode.LINEAR, filters);*/
             condition = transformTree(filters, fnAnalyze, fnTable);
         }
-        if (null != condition) {
+        if (null != condition && Debugger.isJqCondition()) {
             LOGGER.info(Info.JOOQ_PARSE, condition);
         }
         return condition;

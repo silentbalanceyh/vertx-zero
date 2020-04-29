@@ -12,6 +12,7 @@ import io.vertx.tp.plugin.excel.tool.ExFn;
 import io.vertx.up.atom.Refer;
 import io.vertx.up.eon.Values;
 import io.vertx.up.log.Annal;
+import io.vertx.up.log.Debugger;
 import io.vertx.up.util.Ut;
 import org.apache.poi.ss.usermodel.*;
 
@@ -42,7 +43,9 @@ public class SheetAnalyzer implements Serializable {
      * Scan sheet to find all the data and definition part
      */
     public Set<ExTable> analyzed(final ExBound bound) {
-        LOGGER.info("[ Έξοδος ] Scan Range: {0}", bound);
+        if (Debugger.isExcelRange()) {
+            LOGGER.info("[ Έξοδος ] Scan Range: {0}", bound);
+        }
         /* Sheet scanning */
         final Set<ExTable> tables = new HashSet<>();
 
@@ -62,8 +65,10 @@ public class SheetAnalyzer implements Serializable {
         });
         /* analyzedBounds */
         if (!tableCell.isEmpty()) {
-            LOGGER.info("[ Έξοδος ] Scanned sheet: {0}, tableCell = {1}",
-                    this.sheet.getSheetName(), String.valueOf(tableCell.size()));
+            if (Debugger.isExcelRange()) {
+                LOGGER.info("[ Έξοδος ] Scanned sheet: {0}, tableCell = {1}",
+                        this.sheet.getSheetName(), String.valueOf(tableCell.size()));
+            }
             /* Range scaned */
             final ConcurrentMap<Integer, Integer> range = this.getRange(tableCell);
             tableCell.stream().map(cell -> {
