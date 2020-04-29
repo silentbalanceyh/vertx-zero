@@ -109,6 +109,10 @@ public class N4J {
     public static String graphicByKey(final String graph, final Integer level) {
         return N4JApoc.graphic(graph, level);
     }
+
+    public static String graphicReset(final String graph) {
+        return N4JApoc.graphicReset(graph);
+    }
     // -------------- Tools
 
     public static JsonObject nodeMarker(final JsonObject node) {

@@ -2,10 +2,8 @@ package io.vertx.tp.plugin.neo4j;
 
 import io.vertx.core.json.JsonArray;
 import io.vertx.ext.unit.TestContext;
-import org.junit.Ignore;
 import org.junit.Test;
 
-@Ignore
 public class Neo4jGTc extends Neo4jQuiz {
     @Test
     public void testReady(final TestContext context) {
@@ -23,6 +21,15 @@ public class Neo4jGTc extends Neo4jQuiz {
             final JsonArray nodes = actual.getJsonArray("nodes");
             final JsonArray edges = actual.getJsonArray("edges");
             System.err.println(nodes.size() + "," + edges.size() + "," + actual.encodePrettily());
+        });
+    }
+
+    @Test
+    public void testPurge(final TestContext context) {
+        final Neo4jGs graphic = this.create("case1-array.json");
+        final Neo4jClient client = Neo4jInfix.getClient().connect(graphic.getName());
+        this.async(context, client.graphicReset(), actual -> {
+            System.out.println("The graphic " + graphic.getName() + " has been reset: " + actual);
         });
     }
 }
