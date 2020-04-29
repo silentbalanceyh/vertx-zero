@@ -50,7 +50,7 @@ public interface Info {
 
     String JOB_CONFIG = "[ Job ] Job configuration read : {0}";
 
-    String JOB_MOVED = "[ Job ] Type = {0}, `{1}` The status has been moved: {2} -> {3}";
+    String JOB_MOVED = "[ Job ] Job `{1}`（ Moved: {2} -> {3} ）, Type = {0}";
 
     String JOB_TERMINAL = "[ Job ] {0} The job will be terminal, status -> ERROR";
 
@@ -88,7 +88,7 @@ public interface Info {
     String PHASE_ERROR = "[ Job: {0} ] Terminal with error: {1}";
 
     // ------------ Job
-    String JOB_DELAY = "[ Job: {0} ] Job will started after {1} ms";
+    String JOB_DELAY = "[ Job ] Job \"{0}\" will started after {1} min";
 
     String JOB_SCANNED = "[ Job ] The system scanned {0} jobs with type {1}";
 

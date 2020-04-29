@@ -131,7 +131,7 @@ public class JooqCond {
                     class, Inquiry.Mode.LINEAR, filters);*/
             condition = transformTree(filters, fnAnalyze, fnTable);
         }
-        if (null != condition && Debugger.isJqCondition()) {
+        if (null != condition && Debugger.onJooqCondition()) {
             LOGGER.info(Info.JOOQ_PARSE, condition);
         }
         return condition;

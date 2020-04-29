@@ -51,7 +51,7 @@ interface Info {
 
     String JOB_MONITOR = "Zero system detect {0} jobs, the scheduler will begin....";
 
-    String JOB_AGHA_SELECTED = "[ Job: {1} ] Agha = {0} has been selected for job {1} of type {2}";
+    String JOB_AGHA_SELECTED = "[ Job ] Agha = {0} has been selected for job {1} of type {2}";
 }
 
 interface Pool {

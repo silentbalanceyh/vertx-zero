@@ -24,29 +24,39 @@ public class Debugger {
     private Debugger() {
     }
 
-    public static boolean isJqCondition() {
+    /*
+     * Default false
+     */
+    public static boolean onJooqCondition() {
         return isEnabled("jooq.condition");
     }
 
-    public static boolean isJqPassword() {
+    public static boolean onJooqPassword() {
         return isEnabled("jooq.password");
     }
 
-    public static boolean isExcelRange() {
+    public static boolean onExcelRange() {
         return isEnabled("excel.range");
     }
 
-    public static boolean isUrlDetect() {
-        return isDisabled("rest.url.detect");
+    public static boolean onJobBoot() {
+        return isEnabled("job.boot");
     }
 
-    public static boolean isDisabled(final String key) {
-        return JSON_DEBUG.getBoolean(key, Boolean.TRUE);
+    /*
+     * Default true
+     */
+    public static boolean offUrlDetect() {
+        return isDisabled("rest.url.detect");
     }
 
     /*
      * Default is false, when true, it' ok
      */
+    public static boolean isDisabled(final String key) {
+        return JSON_DEBUG.getBoolean(key, Boolean.TRUE);
+    }
+
     public static boolean isEnabled(final String key) {
         return JSON_DEBUG.getBoolean(key, Boolean.FALSE);
     }

@@ -5,6 +5,7 @@ import io.vertx.core.Promise;
 import io.vertx.tp.plugin.job.JobPool;
 import io.vertx.up.atom.worker.Mission;
 import io.vertx.up.eon.Info;
+import io.vertx.up.log.Debugger;
 import io.vertx.up.util.Ut;
 
 class PlanAgha extends AbstractAgha {
@@ -27,8 +28,10 @@ class PlanAgha extends AbstractAgha {
             Ut.itRepeat(2, () -> this.moveOn(mission, true));
         }));
         JobPool.mount(jobId, mission.getCode());
-        this.getLogger().info(Info.JOB_INTERVAL, mission.getCode(),
-                String.valueOf(0), String.valueOf(mission.getDuration()), String.valueOf(jobId));
+        if (Debugger.onJooqCondition()) {
+            this.getLogger().info(Info.JOB_INTERVAL, mission.getCode(),
+                    String.valueOf(0), String.valueOf(mission.getDuration()), String.valueOf(jobId));
+        }
         return future.future();
     }
 }

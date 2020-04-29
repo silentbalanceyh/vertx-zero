@@ -5,8 +5,10 @@ import io.vertx.core.Promise;
 import io.vertx.tp.plugin.job.JobPool;
 import io.vertx.up.atom.worker.Mission;
 import io.vertx.up.eon.Info;
+import io.vertx.up.log.Debugger;
 import io.vertx.up.util.Ut;
 
+import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 
@@ -35,8 +37,10 @@ class FixedAgha extends AbstractAgha {
             Ut.itRepeat(2, () -> this.moveOn(mission, true));
         }));
         JobPool.mount(jobId, mission.getCode());
-        this.getLogger().info(Info.JOB_INTERVAL, mission.getCode(),
-                String.valueOf(delay), String.valueOf(mission.getDuration()), String.valueOf(jobId));
+        if (Debugger.onJooqCondition()) {
+            this.getLogger().info(Info.JOB_INTERVAL, mission.getCode(),
+                    String.valueOf(delay), String.valueOf(mission.getDuration()), String.valueOf(jobId));
+        }
         return future.future();
     }
 
@@ -45,7 +49,8 @@ class FixedAgha extends AbstractAgha {
         final Instant start = Instant.now();
         final long delay = ChronoUnit.MILLIS.between(start, end);
         if (0 < delay) {
-            this.getLogger().info(Info.JOB_DELAY, mission.getCode(), String.valueOf(delay));
+            final SimpleDateFormat format = new SimpleDateFormat("HH:mm:ss.sss");
+            this.getLogger().info(Info.JOB_DELAY, mission.getCode(), format.format(delay));
         }
         return delay < 0 ? 0L : delay;
     }

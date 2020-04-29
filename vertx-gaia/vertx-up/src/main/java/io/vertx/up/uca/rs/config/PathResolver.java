@@ -104,7 +104,7 @@ class PathResolver {
         final String processed = uri;
         final String finalUri = Fn.getNull(() -> processed.startsWith(Strings.SLASH)
                 ? processed : Strings.SLASH + processed, uri);
-        if (!path.equals(finalUri) && Debugger.isUrlDetect()) {
+        if (!path.equals(finalUri) && Debugger.offUrlDetect()) {
             LOGGER.warn("[ Path ] The original uri is `{0}`, recommend/detected uri is `{1}`.", path, finalUri);
         }
         return finalUri;

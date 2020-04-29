@@ -7,6 +7,7 @@ import io.vertx.up.atom.worker.Mission;
 import io.vertx.up.eon.Values;
 import io.vertx.up.eon.em.JobType;
 import io.vertx.up.log.Annal;
+import io.vertx.up.log.Debugger;
 import io.vertx.up.uca.job.center.Agha;
 import io.vertx.up.uca.job.store.JobConfig;
 import io.vertx.up.uca.job.store.JobPin;
@@ -75,7 +76,9 @@ public class ZeroScheduler extends AbstractVerticle {
             /*
              * Invoke here to provide input
              */
-            LOGGER.info(Info.JOB_AGHA_SELECTED, agha.getClass(), mission.getCode(), mission.getType());
+            if (Debugger.onJobBoot()) {
+                LOGGER.info(Info.JOB_AGHA_SELECTED, agha.getClass(), mission.getCode(), mission.getType());
+            }
             /*
              * If job type is ONCE, it's not started
              */
