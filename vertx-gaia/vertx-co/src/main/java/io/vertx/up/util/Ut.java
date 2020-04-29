@@ -8,6 +8,7 @@ import io.vertx.core.MultiMap;
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
+import io.vertx.up.commune.Record;
 import io.vertx.up.fn.Actuator;
 
 import java.io.File;
@@ -1027,6 +1028,10 @@ public final class Ut {
 
     public static <T> JsonArray toJArray(final List<T> list) {
         return To.toJArray(list);
+    }
+
+    public static JsonArray toJArray(final Record[] records) {
+        return To.toJArray(records);
     }
 
     public static JsonObject toJObject(final String literal) {

@@ -4,6 +4,7 @@ import io.vertx.core.MultiMap;
 import io.vertx.core.json.DecodeException;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
+import io.vertx.up.commune.Record;
 import io.vertx.up.eon.Values;
 import io.vertx.up.fn.Fn;
 
@@ -76,6 +77,15 @@ final class To {
             list.stream().filter(Objects::nonNull).forEach(array::add);
         }
         return array;
+    }
+
+    static JsonArray toJArray(final Record[] records) {
+        final JsonArray result = new JsonArray();
+        if (Objects.nonNull(records)) {
+            Arrays.stream(records).map(Record::toJson)
+                    .forEach(result::add);
+        }
+        return result;
     }
 
     static JsonObject toJObject(final String literal) {

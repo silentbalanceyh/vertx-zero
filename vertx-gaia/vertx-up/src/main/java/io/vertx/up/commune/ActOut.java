@@ -44,19 +44,19 @@ public class ActOut extends ActMapping implements Serializable {
      * These methods Do not support `identifier` binding
      */
     public static Future<ActOut> empty() {
-        return Ux.future(Ao.empty());
+        return Ux.future(Act.empty());
     }
 
     public static Future<ActOut> future(final Boolean result) {
-        return Ux.future(Ao.response(result));
+        return Ux.future(Act.response(result));
     }
 
     public static Future<ActOut> future(final Buffer buffer) {
-        return Ux.future(Ao.response(buffer));
+        return Ux.future(Act.response(buffer));
     }
 
     public static Future<ActOut> future(final Throwable ex) {
-        return Ux.future(Ao.response(ex));
+        return Ux.future(Act.response(ex));
     }
 
     /*
@@ -66,35 +66,35 @@ public class ActOut extends ActMapping implements Serializable {
      * 4）Record
      */
     public static Future<ActOut> future(final JsonObject data) {
-        return Ux.future(Ao.response(data));
+        return Ux.future(Act.response(data));
     }
 
     public static Future<ActOut> future(final JsonObject data, final String identifier) {
-        return Ux.future(Ao.response(data).bind(identifier));
+        return Ux.future(Act.response(data).bind(identifier));
     }
 
     public static Future<ActOut> future(final JsonArray dataArray) {
-        return Ux.future(Ao.response(dataArray));
+        return Ux.future(Act.response(dataArray));
     }
 
     public static Future<ActOut> future(final JsonArray dataArray, final String identifier) {
-        return Ux.future(Ao.response(dataArray).bind(identifier));
+        return Ux.future(Act.response(dataArray).bind(identifier));
     }
 
     public static Future<ActOut> future(final Record[] records) {
-        return Ux.future(Ao.response(records));
+        return Ux.future(Act.response(records));
     }
 
     public static Future<ActOut> future(final Record[] records, final String identifier) {
-        return Ux.future(Ao.response(records).bind(identifier));
+        return Ux.future(Act.response(records).bind(identifier));
     }
 
     public static Future<ActOut> future(final Record record) {
-        return Ux.future(Ao.response(record));
+        return Ux.future(Act.response(record));
     }
 
     public static Future<ActOut> future(final Record record, final String identifier) {
-        return Ux.future(Ao.response(record).bind(identifier));
+        return Ux.future(Act.response(record).bind(identifier));
     }
 
     private ActOut bind(final String identifier) {

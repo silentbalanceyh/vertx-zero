@@ -132,10 +132,6 @@ public final class Ux {
         return To.toJArray(list, pojo);
     }
 
-    public static JsonArray toJArray(final Record[] records) {
-        return To.toJArray(records);
-    }
-
     /**
      * File upload tool to convert data
      *
@@ -262,7 +258,7 @@ public final class Ux {
     }
 
     public static Future<JsonArray> fnJArray(final Record[] records) {
-        return Fn.getNull(Future.succeededFuture(new JsonArray()), () -> To.future(To.toJArray(records)), records);
+        return Fn.getNull(Future.succeededFuture(new JsonArray()), () -> To.future(Ut.toJArray(records)), records);
     }
 
     public static Future<JsonObject> fnJObject(final Record record) {

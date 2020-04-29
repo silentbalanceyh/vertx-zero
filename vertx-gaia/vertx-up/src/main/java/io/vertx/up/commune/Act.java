@@ -4,11 +4,11 @@ import io.vertx.core.buffer.Buffer;
 import io.vertx.core.http.HttpStatusCode;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.unity.Ux;
+import io.vertx.up.util.Ut;
 
 import java.util.Objects;
 
-class Ao {
+class Act {
 
     static ActOut empty() {
         return new ActOut(new JsonObject(), HttpStatusCode.NO_CONTENT);
@@ -43,7 +43,7 @@ class Ao {
     }
 
     static ActOut response(final Record[] records) {
-        final JsonArray result = Ux.toJArray(records);
+        final JsonArray result = Ut.toJArray(records);
         return response(result);
     }
 

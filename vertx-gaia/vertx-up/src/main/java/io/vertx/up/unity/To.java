@@ -6,14 +6,12 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.atom.pojo.Mirror;
 import io.vertx.up.commune.Envelop;
-import io.vertx.up.commune.Record;
 import io.vertx.up.exception.WebException;
 import io.vertx.up.exception.web._500InternalServerException;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.util.Ut;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import java.util.function.Function;
@@ -61,15 +59,6 @@ class To {
                 .map(item -> toJson(item, convert))
                 .subscribe(array::add);
         return array;
-    }
-
-    static JsonArray toJArray(final Record[] records) {
-        final JsonArray result = new JsonArray();
-        if (Objects.nonNull(records)) {
-            Arrays.stream(records).map(Record::toJson)
-                    .forEach(result::add);
-        }
-        return result;
     }
 
     static <T> JsonArray toJArray(
