@@ -19,24 +19,24 @@ import java.util.concurrent.ConcurrentMap;
 /**
  * @author <a href="http://www.origin-x.cn">lang</a>
  */
-public class Term {
+public class Terminal {
 
     private static final transient UpException ERROR_ARG_MISSING =
-            new CommandMissingException(Term.class);
+            new CommandMissingException(Terminal.class);
     private static final ConcurrentMap<Integer, Scanner> POOL_SCANNER = new ConcurrentHashMap<>();
 
     private final transient Scanner scanner;
     private final transient Vertx vertx;
     private final transient List<String> inputHistory = new ArrayList<>();
 
-    private Term(final Vertx vertx) {
+    private Terminal(final Vertx vertx) {
         this.vertx = vertx;
         this.scanner = Fn.pool(POOL_SCANNER, vertx.hashCode(), () -> new Scanner(System.in));
         this.scanner.useDelimiter("\n");
     }
 
-    public static Term create(final Vertx vertx) {
-        return new Term(vertx);
+    public static Terminal create(final Vertx vertx) {
+        return new Terminal(vertx);
     }
 
     /*
@@ -46,8 +46,9 @@ public class Term {
     public void run(final Handler<AsyncResult<String[]>> handler) {
         /*
          * Std in to get arguments
+         * Fix bug: java.lang.IndexOutOfBoundsException: end
          */
-        if (this.scanner.hasNextLine()) {
+        if (this.scanner.hasNext() && this.scanner.hasNextLine()) {
             final String line = this.scanner.nextLine();
             if (Ut.isNil(line)) {
                 /*
