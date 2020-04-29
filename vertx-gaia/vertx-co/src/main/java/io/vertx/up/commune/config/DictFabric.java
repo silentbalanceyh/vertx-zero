@@ -57,7 +57,16 @@ public class DictFabric {
     }
 
     public DictFabric createCopy(final DualItem mapping) {
-        final DictFabric created = create(mapping);
+        /*
+         * Here are two mapping for copy
+         * 1. When `mapping` is null, check whether there exist mapping
+         * 2. When `mapping` is not null, the mapping will be overwrite directly
+         *
+         * Fix issue of : java.lang.NullPointerException
+         * when you call `createCopy()` directly.
+         */
+        final DualItem calculated = Objects.isNull(mapping) ? this.mapping : mapping;
+        final DictFabric created = create(calculated);
         created.dictionary(this.dictData);
         created.epsilon(this.epsilonMap);
         return created;
