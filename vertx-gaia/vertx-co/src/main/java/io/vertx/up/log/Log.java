@@ -47,7 +47,10 @@ public final class Log {
 
     public static void jvm(final Logger logger, final Throwable ex) {
         Fn.safeNull(logger::warn, ex);
-        ex.printStackTrace();
+        if (Debugger.onStackTrace()) {
+            /* Default to false */
+            ex.printStackTrace();
+        }
     }
 
     public static void zero(final Logger logger, final ZeroException ex) {

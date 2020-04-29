@@ -48,31 +48,39 @@ public class Terminal {
          * Std in to get arguments
          * Fix bug: java.lang.IndexOutOfBoundsException: end
          */
-        if (this.scanner.hasNext() && this.scanner.hasNextLine()) {
-            final String line = this.scanner.nextLine();
-            if (Ut.isNil(line)) {
-                /*
-                 * No input such as enter press keyboard directly
-                 */
-                handler.handle(Future.failedFuture(ERROR_ARG_MISSING));
+        try {
+            if (this.scanner.hasNextLine()) {
+                this.runLine(handler);
             } else {
                 /*
-                 * Success for result
+                 * Very small possible to go to this flow here
+                 * Throw exception for end user
+                 * handler.handle(Future.failedFuture(ERROR_ARG_MISSING));
+                 * When click terminal operation here
                  */
-                this.inputHistory.add(line);
-                final String[] normalized = this.arguments(line);
-                handler.handle(Future.succeededFuture(normalized));
+                POOL_SCANNER.values().forEach(scanner -> Fn.safeJvm(scanner::close));
+                System.exit(0);
+                // handler.handle(Future.failedFuture(ERROR_ARG_MISSING));
             }
+        } catch (final IndexOutOfBoundsException ex) {
+            this.runLine(handler);
+        }
+    }
+
+    private void runLine(final Handler<AsyncResult<String[]>> handler) {
+        final String line = this.scanner.nextLine();
+        if (Ut.isNil(line)) {
+            /*
+             * No input such as enter press keyboard directly
+             */
+            handler.handle(Future.failedFuture(ERROR_ARG_MISSING));
         } else {
             /*
-             * Very small possible to go to this flow here
-             * Throw exception for end user
-             * handler.handle(Future.failedFuture(ERROR_ARG_MISSING));
-             * When click terminal operation here
+             * Success for result
              */
-            POOL_SCANNER.values().forEach(scanner -> Fn.safeJvm(scanner::close));
-            System.exit(0);
-            // handler.handle(Future.failedFuture(ERROR_ARG_MISSING));
+            this.inputHistory.add(line);
+            final String[] normalized = this.arguments(line);
+            handler.handle(Future.succeededFuture(normalized));
         }
     }
 

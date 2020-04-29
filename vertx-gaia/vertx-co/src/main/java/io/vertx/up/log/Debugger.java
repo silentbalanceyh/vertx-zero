@@ -43,6 +43,10 @@ public class Debugger {
         return isEnabled("job.boot");
     }
 
+    public static boolean onStackTrace() {
+        return isEnabled("stack.trace");
+    }
+
     /*
      * Default true
      */
