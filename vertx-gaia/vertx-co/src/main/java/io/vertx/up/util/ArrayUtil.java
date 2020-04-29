@@ -29,6 +29,18 @@ final class ArrayUtil {
         return Array.newInstance(newArrayComponentType, 1);
     }
 
+    static JsonArray flat(final JsonArray item) {
+        final JsonArray normalized = new JsonArray();
+        item.stream().filter(Objects::nonNull).forEach(each -> {
+            if (each instanceof JsonArray) {
+                normalized.addAll(flat((JsonArray) each));
+            } else {
+                normalized.add(each);
+            }
+        });
+        return normalized;
+    }
+
     static <T> T[] add(final T[] array, final T element) {
         final Class<?> type;
         if (array != null) {

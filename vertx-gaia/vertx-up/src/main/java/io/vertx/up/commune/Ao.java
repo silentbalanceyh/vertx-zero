@@ -43,7 +43,7 @@ class Ao {
     }
 
     static ActOut response(final Record[] records) {
-        final JsonArray result = Ux.toArray(records);
+        final JsonArray result = Ux.toJArray(records);
         return response(result);
     }
 

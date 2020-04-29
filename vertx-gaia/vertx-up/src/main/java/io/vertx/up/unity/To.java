@@ -51,7 +51,7 @@ class To {
                 () -> convert.apply(toJson(entity, "")));
     }
 
-    static <T> JsonArray toArray(
+    static <T> JsonArray toJArray(
             final List<T> list,
             final Function<JsonObject, JsonObject> convert
     ) {
@@ -63,7 +63,7 @@ class To {
         return array;
     }
 
-    static JsonArray toArray(final Record[] records) {
+    static JsonArray toJArray(final Record[] records) {
         final JsonArray result = new JsonArray();
         if (Objects.nonNull(records)) {
             Arrays.stream(records).map(Record::toJson)
@@ -72,13 +72,7 @@ class To {
         return result;
     }
 
-    static JsonArray toArray(final JsonArray array, final Function<JsonObject, JsonObject> executor) {
-        final JsonArray normalized = new JsonArray();
-        Ut.itJArray(array).map(executor).forEach(normalized::add);
-        return normalized;
-    }
-
-    static <T> JsonArray toArray(
+    static <T> JsonArray toJArray(
             final List<T> list,
             final String pojo
     ) {
@@ -95,7 +89,7 @@ class To {
             final String pojo
     ) {
         final List<JsonObject> jlist = new ArrayList<>();
-        Ut.itJArray(toArray(list, pojo)).forEach(jlist::add);
+        Ut.itJArray(toJArray(list, pojo)).forEach(jlist::add);
         return jlist;
     }
 

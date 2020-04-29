@@ -36,7 +36,7 @@ class EntityModeler implements AoModeler {
         final List<MEntity> entities = Ux.Jooq.on(MEntityDao.class)
                 .fetchAnd(filters);
         // Array
-        final JsonArray entityArr = Ux.toArray(entities);
+        final JsonArray entityArr = Ux.toJArray(entities);
         // JsonObject
         return this.onResult(modelJson, entityArr);
     }

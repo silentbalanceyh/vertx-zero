@@ -88,7 +88,12 @@ public final class Ut {
      * 7) elementSubset
      * 8) elementChild
      * 9) elementEach
+     * 10) elementFlat
      */
+    public static JsonArray elementFlat(final JsonArray input) {
+        return ArrayUtil.flat(input);
+    }
+
     public static <T> T[] elementAdd(final T[] array, final T element) {
         return ArrayUtil.add(array, element);
     }
@@ -1010,6 +1015,10 @@ public final class Ut {
 
     public static <T> JsonArray toJArray(final T value, final int repeat) {
         return To.toJArray(value, repeat);
+    }
+
+    public static JsonArray toJArray(final JsonArray array, final Function<JsonObject, JsonObject> executor) {
+        return To.toJArray(array, executor);
     }
 
     public static <T> JsonArray toJArray(final Set<T> set) {

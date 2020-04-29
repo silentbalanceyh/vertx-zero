@@ -8,6 +8,7 @@ import io.vertx.up.eon.Values;
 import io.vertx.up.fn.Fn;
 
 import java.util.*;
+import java.util.function.Function;
 import java.util.function.Supplier;
 
 final class To {
@@ -53,6 +54,12 @@ final class To {
             }
             return literal;
         }, reference);
+    }
+
+    static JsonArray toJArray(final JsonArray array, final Function<JsonObject, JsonObject> executor) {
+        final JsonArray normalized = new JsonArray();
+        Ut.itJArray(array).map(executor).forEach(normalized::add);
+        return normalized;
     }
 
     static <T> JsonArray toJArray(final Set<T> set) {
