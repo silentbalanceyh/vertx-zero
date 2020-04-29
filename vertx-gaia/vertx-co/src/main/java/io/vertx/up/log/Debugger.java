@@ -36,6 +36,10 @@ public class Debugger {
         return isEnabled("excel.range");
     }
 
+    public static boolean isUrlDetect() {
+        return isDisabled("rest.url.detect");
+    }
+
     public static boolean isDisabled(final String key) {
         return JSON_DEBUG.getBoolean(key, Boolean.TRUE);
     }
