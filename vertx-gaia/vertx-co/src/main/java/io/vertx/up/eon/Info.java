@@ -88,7 +88,7 @@ public interface Info {
     String PHASE_ERROR = "[ Job: {0} ] Terminal with error: {1}";
 
     // ------------ Job
-    String JOB_DELAY = "[ Job ] Job \"{0}\" will started after {1} min";
+    String JOB_DELAY = "[ Job ] Job \"{0}\" will started after `{1}` ";
 
     String JOB_SCANNED = "[ Job ] The system scanned {0} jobs with type {1}";
 

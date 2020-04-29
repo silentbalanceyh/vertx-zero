@@ -49,7 +49,7 @@ class FixedAgha extends AbstractAgha {
         final Instant start = Instant.now();
         final long delay = ChronoUnit.MILLIS.between(start, end);
         if (0 < delay) {
-            final SimpleDateFormat format = new SimpleDateFormat("HH:mm:ss.sss");
+            final SimpleDateFormat format = new SimpleDateFormat("HH:mm:ss.SSS");
             this.getLogger().info(Info.JOB_DELAY, mission.getCode(), format.format(delay));
         }
         return delay < 0 ? 0L : delay;
