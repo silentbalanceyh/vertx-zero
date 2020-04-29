@@ -13,6 +13,7 @@ import io.vertx.up.eon.FileSuffix;
 import io.vertx.up.eon.Strings;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
+import io.vertx.up.log.Debugger;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.unity.jq.UxJooq;
 import io.vertx.up.util.Ut;
@@ -55,7 +56,9 @@ class IxDao {
                 final String key = file.replace(Strings.DOT + FileSuffix.JSON, Strings.EMPTY);
                 if (file.contains(config.getName())) {
                     /* 4. Logger */
-                    Ix.infoInit(LOGGER, IxMsg.INIT_INFO, path, key);
+                    if (Debugger.isEnabled("curd.dao.file")) {
+                        Ix.infoInit(LOGGER, IxMsg.INIT_INFO, path, key);
+                    }
                     /*
                      * Resolution for resource key calculation
                      */

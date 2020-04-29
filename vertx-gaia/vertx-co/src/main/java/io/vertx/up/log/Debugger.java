@@ -25,22 +25,25 @@ public class Debugger {
     }
 
     public static boolean isJqCondition() {
-        return isFalse("jooq.condition");
+        return isEnabled("jooq.condition");
     }
 
     public static boolean isJqPassword() {
-        return isFalse("jooq.password");
+        return isEnabled("jooq.password");
     }
 
     public static boolean isExcelRange() {
-        return isFalse("excel.range");
+        return isEnabled("excel.range");
     }
 
-    public static boolean isFalse(final String key) {
-        return JSON_DEBUG.getBoolean(key, Boolean.FALSE);
-    }
-
-    public static boolean isTrue(final String key) {
+    public static boolean isDisabled(final String key) {
         return JSON_DEBUG.getBoolean(key, Boolean.TRUE);
+    }
+
+    /*
+     * Default is false, when true, it' ok
+     */
+    public static boolean isEnabled(final String key) {
+        return JSON_DEBUG.getBoolean(key, Boolean.FALSE);
     }
 }
