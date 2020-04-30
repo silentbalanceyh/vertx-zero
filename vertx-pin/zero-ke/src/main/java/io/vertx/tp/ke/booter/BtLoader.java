@@ -81,7 +81,10 @@ class BtLoader {
         /* ExcelClient */
         final ExcelClient client = ExcelInfix.getClient();
         /* Single file */
-        client.loading(filename, handler -> callback.handle(Future.succeededFuture(filename)));
+        client.loading(filename, handler -> {
+            out(filename);
+            callback.handle(Future.succeededFuture(filename));
+        });
     }
 
     /*

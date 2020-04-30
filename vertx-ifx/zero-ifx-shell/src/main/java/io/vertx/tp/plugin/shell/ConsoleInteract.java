@@ -3,7 +3,7 @@ package io.vertx.tp.plugin.shell;
 import io.vertx.core.Future;
 import io.vertx.core.Vertx;
 import io.vertx.tp.plugin.shell.atom.CommandAtom;
-import io.vertx.tp.plugin.shell.atom.Term;
+import io.vertx.tp.plugin.shell.atom.Terminal;
 import io.vertx.tp.plugin.shell.cv.em.TermStatus;
 import io.vertx.tp.plugin.shell.refine.Sl;
 import io.vertx.up.eon.em.Environment;
@@ -36,20 +36,20 @@ class ConsoleInteract {
         Sl.welcomeCommand(this.environment);
 
         /* Create once */
-        final Term term = Term.create(this.vertx);
+        final Terminal terminal = Terminal.create(this.vertx);
 
         /* Must be wrapper here */
-        this.run(term);
+        this.run(terminal);
     }
 
-    void run(final Term term) {
-        final Consumer<Term> consumer = termRef -> {
+    void run(final Terminal terminal) {
+        final Consumer<Terminal> consumer = terminalRef -> {
             /* Environment input again */
             Sl.welcomeCommand(this.environment);
             /* Continue here */
-            this.run(termRef);
+            this.run(terminalRef);
         };
-        term.run(handler -> {
+        terminal.run(handler -> {
             if (handler.succeeded()) {
                 /* Process result of input */
                 final String[] args = handler.result();
@@ -70,17 +70,17 @@ class ConsoleInteract {
                              * SUCCESS, FAILURE
                              */
                             if (TermStatus.WAIT != status) {
-                                consumer.accept(term);
+                                consumer.accept(terminal);
                             }
                         }
                     } else {
-                        consumer.accept(term);
+                        consumer.accept(terminal);
                     }
                 });
             } else {
                 /* Error Input */
                 Sl.failEmpty();
-                consumer.accept(term);
+                consumer.accept(terminal);
             }
         });
     }

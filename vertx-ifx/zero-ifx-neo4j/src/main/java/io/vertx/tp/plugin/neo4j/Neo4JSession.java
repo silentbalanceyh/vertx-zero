@@ -48,4 +48,9 @@ public interface Neo4JSession {
 
     Future<JsonArray> unlink(JsonArray edges);
 
+    /*
+     * Graphic Reset
+     * Remove all nodes / edges
+     */
+    Future<Boolean> reset();
 }

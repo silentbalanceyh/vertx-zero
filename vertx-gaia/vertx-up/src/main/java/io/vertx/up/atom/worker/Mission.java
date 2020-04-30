@@ -17,6 +17,7 @@ import io.vertx.up.eon.em.JobType;
 import io.vertx.up.exception.web._501JobOnMissingException;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
+import io.vertx.up.log.Debugger;
 import io.vertx.up.util.Ut;
 
 import java.io.Serializable;
@@ -282,6 +283,8 @@ public class Mission implements Serializable {
                 if (Ut.isNil(this.outcomeAddress)) {
                     this.outcomeAddress = null;
                 }
+            }
+            if (Debugger.onJobBoot()) {
                 LOGGER.info(Info.JOB_OFF, this.getCode());
             }
         }

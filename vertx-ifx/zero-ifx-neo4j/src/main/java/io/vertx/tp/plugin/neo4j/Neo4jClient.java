@@ -107,4 +107,9 @@ public interface Neo4jClient extends TpClient<Neo4jClient> {
     Future<JsonObject> graphicByKey(String key);
 
     Future<JsonObject> graphicByKey(String key, Integer level);
+
+    /*
+     * Clean Graphic
+     */
+    Future<Boolean> graphicReset();
 }

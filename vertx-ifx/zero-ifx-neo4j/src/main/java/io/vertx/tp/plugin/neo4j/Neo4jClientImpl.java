@@ -171,4 +171,8 @@ public class Neo4jClientImpl implements Neo4jClient {
         return this.nodeFind(key).compose(node -> this.graphic(node, level));
     }
 
+    @Override
+    public Future<Boolean> graphicReset() {
+        return this.session.reset();
+    }
 }

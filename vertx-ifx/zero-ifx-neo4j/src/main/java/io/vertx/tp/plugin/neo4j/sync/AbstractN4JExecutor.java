@@ -62,7 +62,6 @@ public abstract class AbstractN4JExecutor {
 
     protected void execute(final Supplier<List<String>> supplier) {
         final List<String> commands = supplier.get();
-
         final N4JExecutor executor = N4JExecutor.create().bind(this.session());
         executor.execute(commands);
     }

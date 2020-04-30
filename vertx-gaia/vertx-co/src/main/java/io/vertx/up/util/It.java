@@ -10,15 +10,15 @@ import java.util.function.Predicate;
 class It {
     static <T> java.util.stream.Stream<T> itSet(final Set<T> set) {
         final Set<T> source = Objects.isNull(set) ? new HashSet<>() : set;
-        return itList(source);
+        return itCollection(source);
     }
 
     static <T> java.util.stream.Stream<T> itList(final List<T> list) {
         final List<T> source = Objects.isNull(list) ? new ArrayList<>() : list;
-        return itList(source);
+        return itCollection(source);
     }
 
-    private static <T> java.util.stream.Stream<T> itList(final Collection<T> source) {
+    private static <T> java.util.stream.Stream<T> itCollection(final Collection<T> source) {
         return source.stream().filter(Objects::nonNull);
     }
 

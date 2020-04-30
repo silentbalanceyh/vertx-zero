@@ -3,7 +3,9 @@ package cn.vertxup.ui.service;
 import cn.vertxup.ui.domain.tables.daos.UiListDao;
 import cn.vertxup.ui.domain.tables.pojos.UiList;
 import io.vertx.core.Future;
+import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
+import io.vertx.tp.ke.cv.KeField;
 import io.vertx.tp.ke.refine.Ke;
 import io.vertx.tp.ui.refine.Ui;
 import io.vertx.up.log.Annal;
@@ -23,8 +25,7 @@ public class ListService implements ListStub {
         /*
          * Read list configuration for configuration
          */
-        return Ux.Jooq.on(UiListDao.class)
-                .<UiList>findByIdAsync(listId)
+        return Ux.Jooq.on(UiListDao.class).<UiList>findByIdAsync(listId)
                 .compose(list -> {
                     if (Objects.isNull(list)) {
                         Ui.infoWarn(ListService.LOGGER, " Form not found, id = {0}", listId);
@@ -38,6 +39,18 @@ public class ListService implements ListStub {
                         return this.attachConfig(listJson);
                     }
                 });
+    }
+
+    @Override
+    public Future<JsonArray> fetchByIdentifier(final String identifier, final String sigma) {
+        final JsonObject condition = new JsonObject();
+        condition.put(KeField.IDENTIFIER, identifier);
+        condition.put(KeField.SIGMA, sigma);
+        return Ux.Jooq.on(UiListDao.class).<UiList>fetchAndAsync(condition)
+                /* List<UiList> */
+                .compose(Ux::fnJList)
+                .compose(lists -> Ux.thenCombineT(lists, this::attachConfig))
+                .compose(Ux::fnJArray);
     }
 
     private Future<JsonObject> attachConfig(final JsonObject listJson) {

@@ -4,7 +4,7 @@ import io.vertx.core.Future;
 import io.vertx.core.Promise;
 import io.vertx.tp.plugin.shell.atom.CommandAtom;
 import io.vertx.tp.plugin.shell.atom.CommandInput;
-import io.vertx.tp.plugin.shell.atom.Term;
+import io.vertx.tp.plugin.shell.atom.Terminal;
 import io.vertx.tp.plugin.shell.cv.em.TermStatus;
 import io.vertx.tp.plugin.shell.refine.Sl;
 
@@ -22,23 +22,23 @@ public class ConsoleCommander extends AbstractCommander {
         Sl.welcomeSub(this.environment, this.atom);
         /* Async Result Captured */
         /* Term create */
-        final Term term = Term.create(this.vertxRef);
+        final Terminal terminal = Terminal.create(this.vertxRef);
 
-        return this.run(term);
+        return this.run(terminal);
     }
 
-    private Future<TermStatus> run(final Term term) {
+    private Future<TermStatus> run(final Terminal terminal) {
         final Promise<TermStatus> promise = Promise.promise();
 
-        final BiConsumer<Term, TermStatus> consumer = (termRef, status) -> {
+        final BiConsumer<Terminal, TermStatus> consumer = (terminalRef, status) -> {
             /* Environment input again */
             Sl.welcomeSub(this.environment, this.atom);
             /* Continue here */
-            this.run(termRef);
+            this.run(terminalRef);
             /* Promise complete */
             promise.complete(status);
         };
-        term.run(handler -> {
+        terminal.run(handler -> {
             if (handler.succeeded()) {
                 /* New Arguments */
                 final String[] args = handler.result();
@@ -58,16 +58,16 @@ public class ConsoleCommander extends AbstractCommander {
                              * SUCCESS, FAILURE
                              */
                             if (TermStatus.WAIT != status) {
-                                consumer.accept(term, status);
+                                consumer.accept(terminal, status);
                             }
                         }
                     } else {
-                        consumer.accept(term, TermStatus.FAILURE);
+                        consumer.accept(terminal, TermStatus.FAILURE);
                     }
                 });
             } else {
                 Sl.failEmpty();
-                consumer.accept(term, TermStatus.FAILURE);
+                consumer.accept(terminal, TermStatus.FAILURE);
             }
         });
         return promise.future();
