@@ -25,19 +25,23 @@ import java.util.stream.Collectors;
 public class Jt {
 
     public static void infoInit(final Annal logger, final String pattern, final Object... args) {
-        JtLog.infoInit(logger, pattern, args);
+        JtLog.info(logger, "Init", pattern, args);
     }
 
     public static void infoRoute(final Annal logger, final String pattern, final Object... args) {
-        JtLog.infoRoute(logger, pattern, args);
+        JtLog.info(logger, "Route", pattern, args);
     }
 
     public static void infoWorker(final Annal logger, final String pattern, final Object... args) {
-        JtLog.infoWorker(logger, pattern, args);
+        JtLog.info(logger, "Worker", pattern, args);
     }
 
     public static void infoWeb(final Annal logger, final String pattern, final Object... args) {
-        JtLog.infoWeb(logger, pattern, args);
+        JtLog.info(logger, "Wet", pattern, args);
+    }
+
+    public static void warnApp(final Annal logger, final String pattern, final Object... args) {
+        JtLog.warn(logger, "Ambient", pattern, args);
     }
 
     public static String jobCode(final IJob job) {
