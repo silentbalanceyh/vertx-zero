@@ -5,13 +5,16 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.tp.error._500AmbientConnectException;
 import io.vertx.tp.jet.atom.JtApp;
 import io.vertx.tp.jet.init.JtPin;
+import io.vertx.tp.jet.refine.Jt;
 import io.vertx.up.eon.ID;
 import io.vertx.up.fn.Fn;
+import io.vertx.up.log.Annal;
 import io.vertx.up.util.Ut;
 
 import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
+import java.util.function.Function;
 
 /*
  * The environment data, it's for multi-app deployment here
@@ -26,6 +29,8 @@ public class Ambient {
     /* XHeader information of Ambient */
     private static final ConcurrentMap<String, AmbientEnvironment> ENVIRONMENTS =
             new ConcurrentHashMap<>();
+
+    private static final Annal LOGGER = Annal.get(Ambient.class);
 
     static {
         try {
@@ -74,16 +79,12 @@ public class Ambient {
             final String sigma = headers.get(ID.Header.X_SIGMA);
             JtApp app = null;
             if (Ut.notNil(sigma)) {
-                app = APPS.values().stream()
-                        .filter(each -> sigma.equals(each.getSigma()))
-                        .findFirst().orElse(null);
+                app = searchApp(sigma, JtApp::getSigma);
             }
             if (Objects.isNull(app)) {
                 final String appKey = headers.get(ID.Header.X_APP_KEY);
                 if (Ut.notNil(appKey)) {
-                    app = APPS.values().stream()
-                            .filter(each -> appKey.equals(each.getAppKey()))
-                            .findFirst().orElse(null);
+                    app = searchApp(sigma, JtApp::getAppKey);
                 }
             }
             return app;
@@ -97,23 +98,31 @@ public class Ambient {
          * 2) sigma search ( Secondary priority )
          */
         if (Ut.isNil(key)) {
+            Jt.warnApp(LOGGER, "Input key of app is null, key = {0}", key);
             return null;
         } else {
-            final JtApp app = APPS.get(key);
+            JtApp app = APPS.get(key);
             if (Objects.isNull(app)) {
                 /*
                  * sigma instead of appKey here
                  */
-                return APPS.values().stream()
-                        .filter(Objects::nonNull)
-                        .filter(appItem -> key.equals(appItem.getSigma()))
-                        .findFirst().orElse(null);
-            } else {
-                /*
-                 * search app by key
-                 */
-                return app;
+                app = searchApp(key, JtApp::getSigma);
             }
+            /*
+             * search app by key
+             */
+            return app;
         }
+    }
+
+    private static JtApp searchApp(final String key, final Function<JtApp, String> executor) {
+        final JtApp app = APPS.values().stream()
+                .filter(Objects::nonNull)
+                .filter(appItem -> key.equals(executor.apply(appItem)))
+                .findFirst().orElse(null);
+        if (Objects.isNull(app)) {
+            Jt.warnApp(LOGGER, "Ambient -> JtApp = null, input key = {0}", key);
+        }
+        return app;
     }
 }

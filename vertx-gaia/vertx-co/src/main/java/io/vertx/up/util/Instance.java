@@ -86,6 +86,7 @@ final class Instance {
 
     static Class<?> clazz(final String name, final Class<?> defaultCls) {
         if (Ut.isNil(name)) {
+            LOGGER.warn("[T] Input name is null, check your pre-condition");
             return defaultCls;
         } else {
             try {
@@ -112,6 +113,7 @@ final class Instance {
                     return clazz;
                 }
             } catch (final Throwable ex) {
+                LOGGER.error("[T] Error occurs in reflection, details: {0}", ex.getMessage());
                 return defaultCls;
             }
         }
@@ -194,6 +196,7 @@ final class Instance {
             for (final Constructor<?> constructor : constructors) {
                 if (0 == constructor.getParameterTypes().length) {
                     noarg = true;
+                    break;
                 }
             }
             return noarg;

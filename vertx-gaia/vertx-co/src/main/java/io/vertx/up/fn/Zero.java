@@ -3,6 +3,7 @@ package io.vertx.up.fn;
 import io.vertx.up.exception.ZeroException;
 import io.vertx.up.exception.ZeroRunException;
 import io.vertx.up.log.Annal;
+import io.vertx.up.log.Debugger;
 
 import java.net.ConnectException;
 import java.time.format.DateTimeParseException;
@@ -61,7 +62,9 @@ final class Zero {
             }
             if (!(ex instanceof DateTimeParseException)) {
                 // TODO: Debug Trace for JVM
-                ex.printStackTrace();
+                if (Debugger.onStackTrace()) {
+                    ex.printStackTrace();
+                }
             }
         } finally {
             if (null == ret) {
