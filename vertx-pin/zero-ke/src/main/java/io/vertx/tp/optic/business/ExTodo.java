@@ -1,7 +1,9 @@
 package io.vertx.tp.optic.business;
 
 import io.vertx.core.Future;
+import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
+import io.vertx.up.unity.Ux;
 
 /*
  * XTodo Record fetching workflow
@@ -13,4 +15,12 @@ public interface ExTodo {
      * 2) params -> include ( modelId, modelKey, modelCategory, include sigma )
      */
     Future<JsonObject> fetchAsync(String id, JsonObject params);
+
+    /*
+     * Valve XTodo data for creation
+     * Default implementation is `No valve`
+     */
+    default Future<JsonArray> valveAsync(final JsonArray input) {
+        return Ux.future(input);
+    }
 }
