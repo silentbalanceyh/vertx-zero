@@ -82,7 +82,6 @@ public class Keys {
     public static final UniqueKey<SRoleRecord> KEY_S_ROLE_CODE = UniqueKeys0.KEY_S_ROLE_CODE;
     public static final UniqueKey<SUserRecord> KEY_S_USER_PRIMARY = UniqueKeys0.KEY_S_USER_PRIMARY;
     public static final UniqueKey<SUserRecord> KEY_S_USER_USERNAME = UniqueKeys0.KEY_S_USER_USERNAME;
-    public static final UniqueKey<SUserRecord> KEY_S_USER_MOBILE = UniqueKeys0.KEY_S_USER_MOBILE;
     public static final UniqueKey<SUserRecord> KEY_S_USER_EMAIL = UniqueKeys0.KEY_S_USER_EMAIL;
     public static final UniqueKey<SViewRecord> KEY_S_VIEW_PRIMARY = UniqueKeys0.KEY_S_VIEW_PRIMARY;
     public static final UniqueKey<SViewRecord> KEY_S_VIEW_OWNER = UniqueKeys0.KEY_S_VIEW_OWNER;
@@ -119,7 +118,6 @@ public class Keys {
         public static final UniqueKey<SRoleRecord> KEY_S_ROLE_CODE = Internal.createUniqueKey(SRole.S_ROLE, "KEY_S_ROLE_CODE", SRole.S_ROLE.CODE, SRole.S_ROLE.SIGMA);
         public static final UniqueKey<SUserRecord> KEY_S_USER_PRIMARY = Internal.createUniqueKey(SUser.S_USER, "KEY_S_USER_PRIMARY", SUser.S_USER.KEY);
         public static final UniqueKey<SUserRecord> KEY_S_USER_USERNAME = Internal.createUniqueKey(SUser.S_USER, "KEY_S_USER_USERNAME", SUser.S_USER.USERNAME, SUser.S_USER.SIGMA);
-        public static final UniqueKey<SUserRecord> KEY_S_USER_MOBILE = Internal.createUniqueKey(SUser.S_USER, "KEY_S_USER_MOBILE", SUser.S_USER.MOBILE, SUser.S_USER.SIGMA);
         public static final UniqueKey<SUserRecord> KEY_S_USER_EMAIL = Internal.createUniqueKey(SUser.S_USER, "KEY_S_USER_EMAIL", SUser.S_USER.EMAIL, SUser.S_USER.SIGMA);
         public static final UniqueKey<SViewRecord> KEY_S_VIEW_PRIMARY = Internal.createUniqueKey(SView.S_VIEW, "KEY_S_VIEW_PRIMARY", SView.S_VIEW.KEY);
         public static final UniqueKey<SViewRecord> KEY_S_VIEW_OWNER = Internal.createUniqueKey(SView.S_VIEW, "KEY_S_VIEW_OWNER", SView.S_VIEW.OWNER, SView.S_VIEW.OWNER_TYPE, SView.S_VIEW.RESOURCE_ID, SView.S_VIEW.NAME);
