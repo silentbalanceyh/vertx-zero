@@ -76,12 +76,9 @@ class AoImpl {
             return null;
         } else {
             final Pin pin = Pin.getInstance();
-            final AoDao dao = pin.getDao(database);
             final DataAtom atom = supplier.get();
-            if (Objects.nonNull(atom)) {
-                dao.mount(atom);
-            }
-            return dao;
+            return Fn.pool(AoCache.POOL_T_DAO, atom.identifier(),
+                    () -> pin.getDao(database).mount(atom));
         }
     }
 }
