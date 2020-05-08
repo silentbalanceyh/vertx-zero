@@ -45,8 +45,6 @@ public class FormService implements FormStub {
         condition.put(KeField.SIGMA, sigma);
         return Ux.Jooq.on(UiFormDao.class).<UiForm>fetchAndAsync(condition)
                 /* List<UiForm> */
-                .compose(Ux::fnJList)
-                .compose(forms -> Ux.thenCombineT(forms, this::attachConfig))
                 .compose(Ux::fnJArray);
     }
 
