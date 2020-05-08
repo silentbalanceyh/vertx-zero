@@ -45,9 +45,14 @@ public class FormService implements FormStub {
         condition.put(KeField.SIGMA, sigma);
         return Ux.Jooq.on(UiFormDao.class).<UiForm>fetchAndAsync(condition)
                 /* List<UiForm> */
-                .compose(Ux::fnJList)
-                .compose(forms -> Ux.thenCombineT(forms, this::attachConfig))
-                .compose(Ux::fnJArray);
+                .compose(Ux::fnJArray)
+                .compose(forms -> {
+                    Ut.itJArray(forms).forEach(form -> {
+                        Ke.mountArray(form, KeField.Ui.HIDDEN);
+                        Ke.mount(form, KeField.METADATA);
+                    });
+                    return Ux.future(forms);
+                });
     }
 
     @Override

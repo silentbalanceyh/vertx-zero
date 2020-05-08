@@ -48,8 +48,6 @@ public class ListService implements ListStub {
         condition.put(KeField.SIGMA, sigma);
         return Ux.Jooq.on(UiListDao.class).<UiList>fetchAndAsync(condition)
                 /* List<UiList> */
-                .compose(Ux::fnJList)
-                .compose(lists -> Ux.thenCombineT(lists, this::attachConfig))
                 .compose(Ux::fnJArray);
     }
 
