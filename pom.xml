@@ -92,7 +92,7 @@
         <!-- Bean Validation -->
         <hibernate.validator.version>6.1.2.Final</hibernate.validator.version>
 
-        <jwt.version>3.10.2</jwt.version>
+        <jwt.version>3.10.3</jwt.version>
         <jetbrains.version>19.0.0</jetbrains.version>
         <guice.version>4.1.0</guice.version>
         <scala.version>2.13.2</scala.version>
@@ -102,7 +102,7 @@
         <codehaus.janino.version>3.2.1</codehaus.janino.version>
         <codehaus.mojo.version>1.18</codehaus.mojo.version>
         <ignite.version>2.8.0</ignite.version>
-        <mongodb.async.version>3.12.3</mongodb.async.version>
+        <mongodb.async.version>3.12.4</mongodb.async.version>
         <poi.version>4.1.2</poi.version>
 
         <!-- elasticsearch version -->

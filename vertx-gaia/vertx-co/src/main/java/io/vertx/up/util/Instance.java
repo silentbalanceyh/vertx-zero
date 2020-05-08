@@ -86,7 +86,6 @@ final class Instance {
 
     static Class<?> clazz(final String name, final Class<?> defaultCls) {
         if (Ut.isNil(name)) {
-            LOGGER.warn("[T] Input name is null, check your pre-condition");
             return defaultCls;
         } else {
             try {
