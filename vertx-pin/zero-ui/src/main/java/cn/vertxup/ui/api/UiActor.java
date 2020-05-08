@@ -65,12 +65,12 @@ public class UiActor {
 
     @Address(Addr.Control.FETCH_FORM_BY_IDENTIFIER)
     public Future<JsonArray> fetchForms(final String sigma, final String identifier) {
-        return this.formStub.fetchByIdentifier(sigma, identifier);
+        return this.formStub.fetchByIdentifier(identifier, sigma);
     }
 
 
     @Address(Addr.Control.FETCH_LIST_BY_IDENTIFIER)
     public Future<JsonArray> fetchLists(final String sigma, final String identifier) {
-        return this.listStub.fetchByIdentifier(sigma, identifier);
+        return this.listStub.fetchByIdentifier(identifier, sigma);
     }
 }
