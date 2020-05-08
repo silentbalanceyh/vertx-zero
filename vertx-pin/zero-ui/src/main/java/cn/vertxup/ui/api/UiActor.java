@@ -62,4 +62,15 @@ public class UiActor {
     public Future<JsonObject> fetchForm(final String sigma, final String code) {
         return this.formStub.fetchByCode(code, sigma);
     }
+
+    @Address(Addr.Control.FETCH_FORM_BY_IDENTIFIER)
+    public Future<JsonArray> fetchForms(final String sigma, final String identifier) {
+        return this.formStub.fetchByIdentifier(sigma, identifier);
+    }
+
+
+    @Address(Addr.Control.FETCH_LIST_BY_IDENTIFIER)
+    public Future<JsonArray> fetchLists(final String sigma, final String identifier) {
+        return this.listStub.fetchByIdentifier(sigma, identifier);
+    }
 }

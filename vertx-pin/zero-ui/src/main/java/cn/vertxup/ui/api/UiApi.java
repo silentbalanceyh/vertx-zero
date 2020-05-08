@@ -1,5 +1,6 @@
 package cn.vertxup.ui.api;
 
+import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.ke.cv.KeField;
 import io.vertx.tp.ui.cv.Addr;
@@ -60,4 +61,25 @@ public interface UiApi {
     @Address(Addr.Control.FETCH_FORM_BY_CODE)
     JsonObject fetchForm(@HeaderParam(ID.Header.X_SIGMA) String sigma,
                          @PathParam(KeField.CODE) String name);
+
+    /*
+     * Fetch form configuration by
+     * identifier, this method is for multi forms fetch
+     */
+    @Path("/ui/forms/:identifier")
+    @GET
+    @Address(Addr.Control.FETCH_FORM_BY_IDENTIFIER)
+    JsonArray fetchForms(@HeaderParam(ID.Header.X_SIGMA) String sigma,
+                         @PathParam(KeField.IDENTIFIER) String identifier);
+
+    /*
+     * Fetch list configuration by
+     * identifier, this method is for multi lists fetch
+     */
+    @Path("/ui/lists/:identifier")
+    @GET
+    @Address(Addr.Control.FETCH_LIST_BY_IDENTIFIER)
+    JsonArray fetchLists(@HeaderParam(ID.Header.X_SIGMA) String sigma,
+                         @PathParam(KeField.IDENTIFIER) String identifier);
+
 }
