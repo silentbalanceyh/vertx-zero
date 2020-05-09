@@ -39,7 +39,8 @@ public class JobService implements JobStub {
                              */
                             .map(Jt::jobCode)
                             .collect(Collectors.toSet());
-                    Jt.infoWeb(LOGGER, "Job fetched from database: {0}", codes.size());
+                    Jt.infoWeb(LOGGER, "Job fetched from database: {0}, input sigma: {1}",
+                            codes.size(), sigma);
                     return JobKit.fetchMission(codes);
                 });
     }
