@@ -20,7 +20,7 @@ class SlVerifier {
          * 1. required arguments for complex shell building
          */
         boolean validated = false;
-        if (1 == args.length || Objects.isNull(args[0])) {
+        if (0 == args.length || Objects.isNull(args[0])) {
             if (input.containsKey("required")) {
                 SlLog.output(input.getString("required"));
             } else {
