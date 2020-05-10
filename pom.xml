@@ -72,7 +72,7 @@
         <glassfish.el.version>3.0.1-b11</glassfish.el.version>
 
         <!-- Database Needed -->
-        <hikari.cp.version>3.4.3</hikari.cp.version>
+        <hikari.cp.version>3.4.5</hikari.cp.version>
         <jooq.version>3.10.8</jooq.version>
         <vertx.jooq.version>2.4.1</vertx.jooq.version>
         <vertx.jooq.async.version>0.4</vertx.jooq.async.version>
