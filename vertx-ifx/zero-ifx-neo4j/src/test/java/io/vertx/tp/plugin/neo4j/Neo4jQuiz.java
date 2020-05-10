@@ -5,9 +5,11 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.quiz.AsyncBase;
 import io.vertx.up.unity.Ux;
+import org.junit.Ignore;
 
 import java.util.function.BiFunction;
 
+@Ignore
 public class Neo4jQuiz extends AsyncBase {
     static {
         Neo4jInfix.init(VERTX);

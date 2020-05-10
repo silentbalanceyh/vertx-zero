@@ -2,8 +2,10 @@ package io.vertx.tp.plugin.neo4j;
 
 import io.vertx.core.json.JsonArray;
 import io.vertx.ext.unit.TestContext;
+import org.junit.Ignore;
 import org.junit.Test;
 
+@Ignore
 public class Neo4jGTc extends Neo4jQuiz {
     @Test
     public void testReady(final TestContext context) {
