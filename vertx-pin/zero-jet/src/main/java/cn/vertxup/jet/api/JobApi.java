@@ -34,7 +34,9 @@ public interface JobApi {
     @Path("/job/info/by/sigma")
     @POST
     @Address(JtAddr.Job.BY_SIGMA)
-    String fetchJobs(@HeaderParam(ID.Header.X_SIGMA) String sigma, @BodyParam JsonObject body);
+    String fetchJobs(@HeaderParam(ID.Header.X_SIGMA) String sigma,
+                     @BodyParam JsonObject body,
+                     @QueryParam("grouped") boolean grouped);
 
     @Path("/job/info/mission/:key")
     @GET

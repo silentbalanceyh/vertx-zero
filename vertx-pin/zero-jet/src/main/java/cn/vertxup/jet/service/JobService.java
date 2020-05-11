@@ -27,7 +27,7 @@ public class JobService implements JobStub {
     private transient AmbientStub ambient;
 
     @Override
-    public Future<JsonObject> searchJobs(final String sigma, final JsonObject body) {
+    public Future<JsonObject> searchJobs(final String sigma, final JsonObject body, final boolean grouped) {
         final Inquiry inquiry = Inquiry.create(body);
         inquiry.getCriteria().add("sigma", sigma);
         final JsonObject condition = inquiry.toJson();
@@ -51,6 +51,9 @@ public class JobService implements JobStub {
                             codes.size(), sigma);
                     return JobKit.fetchMission(codes).compose(normalized -> {
                         jobs.put("list", normalized);
+                        /*
+                         * count group
+                         * */
                         return Ux.future(jobs);
                     });
                 });

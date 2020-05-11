@@ -70,8 +70,8 @@ public class JobActor {
      * Basic Job api here
      */
     @Address(JtAddr.Job.BY_SIGMA)
-    public Future<JsonObject> fetch(final String sigma, final JsonObject body) {
-        return this.stub.searchJobs(sigma, body);
+    public Future<JsonObject> fetch(final String sigma, final JsonObject body, final boolean grouped) {
+        return this.stub.searchJobs(sigma, body, grouped);
     }
 
     @Address(JtAddr.Job.GET_BY_KEY)

@@ -14,6 +14,7 @@ CREATE TABLE IF NOT EXISTS I_JOB
 
     -- 存储对应的数据
     `TYPE`              VARCHAR(20) COMMENT '「type」- 任务类型',
+    `GROUP`             VARCHAR(64) COMMENT '「group」- 任务组（按组查询），自由字符串',
     `COMMENT`           TEXT COMMENT '「comment」- 备注信息',
     `ADDITIONAL`        TEXT COMMENT '「additional」- 额外配置信息',
 
