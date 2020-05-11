@@ -31,7 +31,9 @@ public class JooqCond {
                                      final Function<String, String> fnTable) {
         final Set<String> keywords = new HashSet<String>() {
             {
-                this.add("KEY"); // MYSQL, KEY is keyword
+                this.add("KEY");    // MYSQL, KEY is keyword
+                this.add("GROUP");  // GROUP is keyword
+                this.add("NAME");   // NAME is keyword
             }
         };
         final StringBuilder normalized = new StringBuilder();
