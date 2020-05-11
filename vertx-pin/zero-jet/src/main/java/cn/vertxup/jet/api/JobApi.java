@@ -32,9 +32,9 @@ public interface JobApi {
     String statusJob(@PathParam("namespace") String namespace);
 
     @Path("/job/info/by/sigma")
-    @GET
+    @POST
     @Address(JtAddr.Job.BY_SIGMA)
-    String fetchJobs(@HeaderParam(ID.Header.X_SIGMA) String sigma);
+    String fetchJobs(@HeaderParam(ID.Header.X_SIGMA) String sigma, @BodyParam JsonObject body);
 
     @Path("/job/info/mission/:key")
     @GET

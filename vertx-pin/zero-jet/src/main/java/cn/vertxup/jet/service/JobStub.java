@@ -1,7 +1,6 @@
 package cn.vertxup.jet.service;
 
 import io.vertx.core.Future;
-import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 
 /*
@@ -10,7 +9,7 @@ import io.vertx.core.json.JsonObject;
  */
 public interface JobStub {
 
-    Future<JsonArray> fetchAll(String sigma);
+    Future<JsonObject> searchJobs(String sigma, JsonObject body);
 
     Future<JsonObject> fetchByKey(String key);
 
