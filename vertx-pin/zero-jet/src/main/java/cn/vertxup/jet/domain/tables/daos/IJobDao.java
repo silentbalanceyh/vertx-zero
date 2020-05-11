@@ -99,6 +99,13 @@ public class IJobDao extends DAOImpl<IJobRecord, cn.vertxup.jet.domain.tables.po
     }
 
     /**
+     * Fetch records that have <code>GROUP IN (values)</code>
+     */
+    public List<cn.vertxup.jet.domain.tables.pojos.IJob> fetchByGroup(String... values) {
+        return fetch(IJob.I_JOB.GROUP, values);
+    }
+
+    /**
      * Fetch records that have <code>COMMENT IN (values)</code>
      */
     public List<cn.vertxup.jet.domain.tables.pojos.IJob> fetchByComment(String... values) {
@@ -271,6 +278,13 @@ public class IJobDao extends DAOImpl<IJobRecord, cn.vertxup.jet.domain.tables.po
      */
     public CompletableFuture<List<cn.vertxup.jet.domain.tables.pojos.IJob>> fetchByTypeAsync(List<String> values) {
         return fetchAsync(IJob.I_JOB.TYPE,values);
+    }
+
+    /**
+     * Fetch records that have <code>GROUP IN (values)</code> asynchronously
+     */
+    public CompletableFuture<List<cn.vertxup.jet.domain.tables.pojos.IJob>> fetchByGroupAsync(List<String> values) {
+        return fetchAsync(IJob.I_JOB.GROUP,values);
     }
 
     /**

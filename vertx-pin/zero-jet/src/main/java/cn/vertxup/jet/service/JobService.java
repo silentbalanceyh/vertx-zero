@@ -10,11 +10,13 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.jet.refine.Jt;
 import io.vertx.tp.ke.cv.KeField;
+import io.vertx.up.atom.query.Inquiry;
 import io.vertx.up.log.Annal;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
 import javax.inject.Inject;
+import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -25,14 +27,20 @@ public class JobService implements JobStub {
     private transient AmbientStub ambient;
 
     @Override
-    public Future<JsonArray> fetchAll(final String sigma) {
+    public Future<JsonObject> searchJobs(final String sigma, final JsonObject body, final boolean grouped) {
+        final Inquiry inquiry = Inquiry.create(body);
+        inquiry.getCriteria().add("sigma", sigma);
+        final JsonObject condition = inquiry.toJson();
+        LOGGER.info("Job condition: {0}", condition);
         return Ux.Jooq.on(IJobDao.class)
-                .<IJob>fetchAsync("sigma", sigma)
+                .searchAsync(condition)
                 .compose(jobs -> {
+                    final JsonArray array = Ut.sureJArray(jobs.getJsonArray("list"));
                     /*
                      * Result for all jobs that are belong to current sigma here.
                      */
-                    final Set<String> codes = jobs.stream()
+                    final List<IJob> jobList = Ux.fromJson(array, IJob.class);
+                    final Set<String> codes = jobList.stream()
                             .filter(Objects::nonNull)
                             /*
                              * Job name calculation for appending namespace
@@ -41,7 +49,24 @@ public class JobService implements JobStub {
                             .collect(Collectors.toSet());
                     Jt.infoWeb(LOGGER, "Job fetched from database: {0}, input sigma: {1}",
                             codes.size(), sigma);
-                    return JobKit.fetchMission(codes);
+                    return JobKit.fetchMission(codes).compose(normalized -> {
+                        jobs.put("list", normalized);
+                        /*
+                         * count group
+                         * */
+                        if (grouped) {
+                            final JsonObject criteria = inquiry.getCriteria().toJson();
+                            return Ux.Jooq.on(IJobDao.class).countByAsync(criteria, "group")
+                                    .compose(aggregation -> {
+                                        final JsonObject aggregationJson = new JsonObject();
+                                        aggregation.forEach(aggregationJson::put);
+                                        jobs.put("aggregation", aggregationJson);
+                                        return Ux.future(jobs);
+                                    });
+                        } else {
+                            return Ux.future(jobs);
+                        }
+                    });
                 });
     }
 

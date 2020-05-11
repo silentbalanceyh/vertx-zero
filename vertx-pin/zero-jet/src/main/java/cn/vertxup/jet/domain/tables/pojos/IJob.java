@@ -25,13 +25,14 @@ import javax.annotation.Generated;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class IJob implements IIJob {
 
-    private static final long serialVersionUID = 1478777892;
+    private static final long serialVersionUID = 2125693837;
 
     private String        key;
     private String        namespace;
     private String        name;
     private String        code;
     private String        type;
+    private String        group;
     private String        comment;
     private String        additional;
     private LocalTime     runAt;
@@ -60,6 +61,7 @@ public class IJob implements IIJob {
         this.name = value.name;
         this.code = value.code;
         this.type = value.type;
+        this.group = value.group;
         this.comment = value.comment;
         this.additional = value.additional;
         this.runAt = value.runAt;
@@ -87,6 +89,7 @@ public class IJob implements IIJob {
         String        name,
         String        code,
         String        type,
+        String        group,
         String        comment,
         String        additional,
         LocalTime     runAt,
@@ -112,6 +115,7 @@ public class IJob implements IIJob {
         this.name = name;
         this.code = code;
         this.type = type;
+        this.group = group;
         this.comment = comment;
         this.additional = additional;
         this.runAt = runAt;
@@ -185,6 +189,17 @@ public class IJob implements IIJob {
     @Override
     public IJob setType(String type) {
         this.type = type;
+        return this;
+    }
+
+    @Override
+    public String getGroup() {
+        return this.group;
+    }
+
+    @Override
+    public IJob setGroup(String group) {
+        this.group = group;
         return this;
     }
 
@@ -406,6 +421,7 @@ public class IJob implements IIJob {
         sb.append(", ").append(name);
         sb.append(", ").append(code);
         sb.append(", ").append(type);
+        sb.append(", ").append(group);
         sb.append(", ").append(comment);
         sb.append(", ").append(additional);
         sb.append(", ").append(runAt);
@@ -444,6 +460,7 @@ public class IJob implements IIJob {
         setName(from.getName());
         setCode(from.getCode());
         setType(from.getType());
+        setGroup(from.getGroup());
         setComment(from.getComment());
         setAdditional(from.getAdditional());
         setRunAt(from.getRunAt());

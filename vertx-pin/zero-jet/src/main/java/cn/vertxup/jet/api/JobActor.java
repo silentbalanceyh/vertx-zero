@@ -2,7 +2,6 @@ package cn.vertxup.jet.api;
 
 import cn.vertxup.jet.service.JobStub;
 import io.vertx.core.Future;
-import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.jet.cv.JtAddr;
 import io.vertx.tp.ke.cv.KeField;
@@ -71,8 +70,8 @@ public class JobActor {
      * Basic Job api here
      */
     @Address(JtAddr.Job.BY_SIGMA)
-    public Future<JsonArray> fetch(final String sigma) {
-        return this.stub.fetchAll(sigma);
+    public Future<JsonObject> fetch(final String sigma, final JsonObject body, final Boolean grouped) {
+        return this.stub.searchJobs(sigma, body, grouped);
     }
 
     @Address(JtAddr.Job.GET_BY_KEY)

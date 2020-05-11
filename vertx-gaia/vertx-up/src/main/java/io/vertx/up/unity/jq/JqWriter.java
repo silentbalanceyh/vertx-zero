@@ -35,15 +35,11 @@ class JqWriter {
     private JqWriter(final VertxDAO vertxDAO, final JqAnalyzer analyzer) {
         this.vertxDAO = vertxDAO;
         this.analyzer = analyzer;
+        this.reader = JqReader.create(vertxDAO, analyzer);
     }
 
     static JqWriter create(final VertxDAO vertxDAO, final JqAnalyzer analyzer) {
         return new JqWriter(vertxDAO, analyzer);
-    }
-
-    JqWriter on(JqReader reader) {
-        this.reader = reader;
-        return this;
     }
 
     // ============ INSERT Operation =============

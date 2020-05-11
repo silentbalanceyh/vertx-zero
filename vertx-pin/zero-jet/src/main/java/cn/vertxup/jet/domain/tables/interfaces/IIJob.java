@@ -75,6 +75,16 @@ public interface IIJob extends Serializable {
     public String getType();
 
     /**
+     * Setter for <code>DB_ETERNAL.I_JOB.GROUP</code>. 「group」- 任务组（按组查询），自由字符串
+     */
+    public IIJob setGroup(String value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.I_JOB.GROUP</code>. 「group」- 任务组（按组查询），自由字符串
+     */
+    public String getGroup();
+
+    /**
      * Setter for <code>DB_ETERNAL.I_JOB.COMMENT</code>. 「comment」- 备注信息
      */
     public IIJob setComment(String value);
@@ -284,6 +294,7 @@ public interface IIJob extends Serializable {
         setName(json.getString("NAME"));
         setCode(json.getString("CODE"));
         setType(json.getString("TYPE"));
+        setGroup(json.getString("GROUP"));
         setComment(json.getString("COMMENT"));
         setAdditional(json.getString("ADDITIONAL"));
         // Omitting unrecognized type java.time.LocalTime for column RUN_AT!
@@ -314,6 +325,7 @@ public interface IIJob extends Serializable {
         json.put("NAME",getName());
         json.put("CODE",getCode());
         json.put("TYPE",getType());
+        json.put("GROUP",getGroup());
         json.put("COMMENT",getComment());
         json.put("ADDITIONAL",getAdditional());
         // Omitting unrecognized type java.time.LocalTime for column RUN_AT!

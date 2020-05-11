@@ -31,18 +31,17 @@ public class JqReader {
 
     private transient JqAnalyzer analyzer;
 
-    private JqReader(final VertxDAO vertxDAO, final JqAnalyzer analyzer) {
+    private transient JqAggregator aggregator;
+
+    private JqReader(final VertxDAO vertxDAO,
+                     final JqAnalyzer analyzer) {
         this.vertxDAO = vertxDAO;
         this.analyzer = analyzer;
+        this.aggregator = JqAggregator.create(vertxDAO, analyzer);
     }
 
     static JqReader create(final VertxDAO vertxDAO, final JqAnalyzer analyzer) {
         return new JqReader(vertxDAO, analyzer);
-    }
-
-    JqReader on(final JqAnalyzer analyzer) {
-        this.analyzer = analyzer;
-        return this;
     }
 
     // ============ Fetch One Operation =============
@@ -132,7 +131,7 @@ public class JqReader {
                 .compose(Ux.fnJArray(pojo))
                 .compose(array -> {
                     response.put("list", array);
-                    return this.countAsync(inquiry);
+                    return this.aggregator.countAsync(inquiry);
                 })
                 .compose(counter -> {
                     response.put("count", counter);
@@ -144,23 +143,9 @@ public class JqReader {
         final JsonObject response = new JsonObject();
         final List<T> list = this.search(inquiry);
         response.put("list", Ux.<T>fnJArray(pojo).apply(list));
-        final Integer counter = this.count(inquiry);
+        final Integer counter = this.aggregator.count(inquiry);
         response.put("count", counter);
         return response;
-    }
-
-    /*
-     * Basic Method for low tier search/count pair
-     */
-    <T> Future<Integer> countAsync(final Inquiry inquiry) {
-        return this.countAsync(null == inquiry.getCriteria() ? new JsonObject() : inquiry.getCriteria().toJson());
-    }
-
-    <T> Future<Integer> countAsync(final JsonObject filters) {
-        final Function<DSLContext, Integer> function
-                = dslContext -> null == filters ? dslContext.fetchCount(this.vertxDAO.getTable()) :
-                dslContext.fetchCount(this.vertxDAO.getTable(), JooqCond.transform(filters, this.analyzer::column));
-        return JqTool.future(this.vertxDAO.executeAsync(function));
     }
 
     <T> Future<List<T>> searchAsync(final Inquiry inquiry) {
@@ -181,16 +166,6 @@ public class JqReader {
     <T> List<T> search(final JsonObject criteria) {
         final DSLContext context = JooqInfix.getDSL();
         return this.searchInternal(context, criteria);
-    }
-
-    <T> Integer count(final Inquiry inquiry) {
-        return this.count(null == inquiry.getCriteria() ? new JsonObject() : inquiry.getCriteria().toJson());
-    }
-
-    <T> Integer count(final JsonObject filters) {
-        final DSLContext context = JooqInfix.getDSL();
-        return null == filters ? context.fetchCount(this.vertxDAO.getTable()) :
-                context.fetchCount(this.vertxDAO.getTable(), JooqCond.transform(filters, this.analyzer::column));
     }
 
     /*

@@ -16,6 +16,7 @@ import org.jooq.Operator;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.ConcurrentMap;
 import java.util.function.BiPredicate;
 import java.util.function.Consumer;
 
@@ -27,6 +28,8 @@ public class UxJooq {
     private transient final Class<?> clazz;
     /* Analyzer */
     private transient final JqAnalyzer analyzer;
+    /* Aggre */
+    private transient final JqAggregator aggregator;
     /* Writer */
     private transient final JqWriter writer;
     /* Reader */
@@ -41,13 +44,13 @@ public class UxJooq {
 
         /* Analyzing column for Jooq */
         this.analyzer = JqAnalyzer.create(vertxDAO);
+        this.aggregator = JqAggregator.create(vertxDAO, analyzer);
 
         /* Reader connect Analayzer */
         this.reader = JqReader.create(vertxDAO, this.analyzer);
 
         /* Writer connect Reader */
-        this.writer = JqWriter.create(vertxDAO, this.analyzer)
-                .on(this.reader);
+        this.writer = JqWriter.create(vertxDAO, this.analyzer);
     }
 
     // -------------------- Bind Config --------------------
@@ -327,16 +330,20 @@ public class UxJooq {
     /* (Async / Sync) Count Operation */
     public Future<Integer> countAsync(final JsonObject params, final String pojo) {
         final Inquiry inquiry = JqTool.getInquiry(params, pojo);
-        return this.reader.countAsync(inquiry);
+        return this.aggregator.countAsync(inquiry);
     }
 
     public Future<Integer> countAsync(final JsonObject params) {
         return countAsync(params, this.analyzer.pojoFile());
     }
 
+    public Future<ConcurrentMap<String, Integer>> countByAsync(final JsonObject params, final String groupField) {
+        return this.aggregator.countByAsync(params, groupField);
+    }
+
     public Integer count(final JsonObject params, final String pojo) {
         final Inquiry inquiry = JqTool.getInquiry(params, pojo);
-        return this.reader.count(inquiry);
+        return this.aggregator.count(inquiry);
     }
 
     public Integer count(final JsonObject params) {

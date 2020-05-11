@@ -29,7 +29,7 @@ import org.jooq.impl.UpdatableRecordImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class IJobRecord extends UpdatableRecordImpl<IJobRecord> implements IIJob {
 
-    private static final long serialVersionUID = -1224048724;
+    private static final long serialVersionUID = -1869011832;
 
     /**
      * Setter for <code>DB_ETERNAL.I_JOB.KEY</code>. 「key」- 任务ID
@@ -117,11 +117,28 @@ public class IJobRecord extends UpdatableRecordImpl<IJobRecord> implements IIJob
     }
 
     /**
+     * Setter for <code>DB_ETERNAL.I_JOB.GROUP</code>. 「group」- 任务组（按组查询），自由字符串
+     */
+    @Override
+    public IJobRecord setGroup(String value) {
+        set(5, value);
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.I_JOB.GROUP</code>. 「group」- 任务组（按组查询），自由字符串
+     */
+    @Override
+    public String getGroup() {
+        return (String) get(5);
+    }
+
+    /**
      * Setter for <code>DB_ETERNAL.I_JOB.COMMENT</code>. 「comment」- 备注信息
      */
     @Override
     public IJobRecord setComment(String value) {
-        set(5, value);
+        set(6, value);
         return this;
     }
 
@@ -130,7 +147,7 @@ public class IJobRecord extends UpdatableRecordImpl<IJobRecord> implements IIJob
      */
     @Override
     public String getComment() {
-        return (String) get(5);
+        return (String) get(6);
     }
 
     /**
@@ -138,7 +155,7 @@ public class IJobRecord extends UpdatableRecordImpl<IJobRecord> implements IIJob
      */
     @Override
     public IJobRecord setAdditional(String value) {
-        set(6, value);
+        set(7, value);
         return this;
     }
 
@@ -147,7 +164,7 @@ public class IJobRecord extends UpdatableRecordImpl<IJobRecord> implements IIJob
      */
     @Override
     public String getAdditional() {
-        return (String) get(6);
+        return (String) get(7);
     }
 
     /**
@@ -155,7 +172,7 @@ public class IJobRecord extends UpdatableRecordImpl<IJobRecord> implements IIJob
      */
     @Override
     public IJobRecord setRunAt(LocalTime value) {
-        set(7, value);
+        set(8, value);
         return this;
     }
 
@@ -164,7 +181,7 @@ public class IJobRecord extends UpdatableRecordImpl<IJobRecord> implements IIJob
      */
     @Override
     public LocalTime getRunAt() {
-        return (LocalTime) get(7);
+        return (LocalTime) get(8);
     }
 
     /**
@@ -172,7 +189,7 @@ public class IJobRecord extends UpdatableRecordImpl<IJobRecord> implements IIJob
      */
     @Override
     public IJobRecord setDuration(Long value) {
-        set(8, value);
+        set(9, value);
         return this;
     }
 
@@ -181,7 +198,7 @@ public class IJobRecord extends UpdatableRecordImpl<IJobRecord> implements IIJob
      */
     @Override
     public Long getDuration() {
-        return (Long) get(8);
+        return (Long) get(9);
     }
 
     /**
@@ -189,7 +206,7 @@ public class IJobRecord extends UpdatableRecordImpl<IJobRecord> implements IIJob
      */
     @Override
     public IJobRecord setProxy(String value) {
-        set(9, value);
+        set(10, value);
         return this;
     }
 
@@ -198,7 +215,7 @@ public class IJobRecord extends UpdatableRecordImpl<IJobRecord> implements IIJob
      */
     @Override
     public String getProxy() {
-        return (String) get(9);
+        return (String) get(10);
     }
 
     /**
@@ -206,7 +223,7 @@ public class IJobRecord extends UpdatableRecordImpl<IJobRecord> implements IIJob
      */
     @Override
     public IJobRecord setThreshold(Integer value) {
-        set(10, value);
+        set(11, value);
         return this;
     }
 
@@ -215,7 +232,7 @@ public class IJobRecord extends UpdatableRecordImpl<IJobRecord> implements IIJob
      */
     @Override
     public Integer getThreshold() {
-        return (Integer) get(10);
+        return (Integer) get(11);
     }
 
     /**
@@ -223,7 +240,7 @@ public class IJobRecord extends UpdatableRecordImpl<IJobRecord> implements IIJob
      */
     @Override
     public IJobRecord setIncomeComponent(String value) {
-        set(11, value);
+        set(12, value);
         return this;
     }
 
@@ -232,7 +249,7 @@ public class IJobRecord extends UpdatableRecordImpl<IJobRecord> implements IIJob
      */
     @Override
     public String getIncomeComponent() {
-        return (String) get(11);
+        return (String) get(12);
     }
 
     /**
@@ -240,7 +257,7 @@ public class IJobRecord extends UpdatableRecordImpl<IJobRecord> implements IIJob
      */
     @Override
     public IJobRecord setIncomeAddress(String value) {
-        set(12, value);
+        set(13, value);
         return this;
     }
 
@@ -249,7 +266,7 @@ public class IJobRecord extends UpdatableRecordImpl<IJobRecord> implements IIJob
      */
     @Override
     public String getIncomeAddress() {
-        return (String) get(12);
+        return (String) get(13);
     }
 
     /**
@@ -257,7 +274,7 @@ public class IJobRecord extends UpdatableRecordImpl<IJobRecord> implements IIJob
      */
     @Override
     public IJobRecord setOutcomeComponent(String value) {
-        set(13, value);
+        set(14, value);
         return this;
     }
 
@@ -266,7 +283,7 @@ public class IJobRecord extends UpdatableRecordImpl<IJobRecord> implements IIJob
      */
     @Override
     public String getOutcomeComponent() {
-        return (String) get(13);
+        return (String) get(14);
     }
 
     /**
@@ -274,7 +291,7 @@ public class IJobRecord extends UpdatableRecordImpl<IJobRecord> implements IIJob
      */
     @Override
     public IJobRecord setOutcomeAddress(String value) {
-        set(14, value);
+        set(15, value);
         return this;
     }
 
@@ -283,7 +300,7 @@ public class IJobRecord extends UpdatableRecordImpl<IJobRecord> implements IIJob
      */
     @Override
     public String getOutcomeAddress() {
-        return (String) get(14);
+        return (String) get(15);
     }
 
     /**
@@ -291,7 +308,7 @@ public class IJobRecord extends UpdatableRecordImpl<IJobRecord> implements IIJob
      */
     @Override
     public IJobRecord setServiceId(String value) {
-        set(15, value);
+        set(16, value);
         return this;
     }
 
@@ -300,7 +317,7 @@ public class IJobRecord extends UpdatableRecordImpl<IJobRecord> implements IIJob
      */
     @Override
     public String getServiceId() {
-        return (String) get(15);
+        return (String) get(16);
     }
 
     /**
@@ -308,7 +325,7 @@ public class IJobRecord extends UpdatableRecordImpl<IJobRecord> implements IIJob
      */
     @Override
     public IJobRecord setSigma(String value) {
-        set(16, value);
+        set(17, value);
         return this;
     }
 
@@ -317,7 +334,7 @@ public class IJobRecord extends UpdatableRecordImpl<IJobRecord> implements IIJob
      */
     @Override
     public String getSigma() {
-        return (String) get(16);
+        return (String) get(17);
     }
 
     /**
@@ -325,7 +342,7 @@ public class IJobRecord extends UpdatableRecordImpl<IJobRecord> implements IIJob
      */
     @Override
     public IJobRecord setLanguage(String value) {
-        set(17, value);
+        set(18, value);
         return this;
     }
 
@@ -334,7 +351,7 @@ public class IJobRecord extends UpdatableRecordImpl<IJobRecord> implements IIJob
      */
     @Override
     public String getLanguage() {
-        return (String) get(17);
+        return (String) get(18);
     }
 
     /**
@@ -342,7 +359,7 @@ public class IJobRecord extends UpdatableRecordImpl<IJobRecord> implements IIJob
      */
     @Override
     public IJobRecord setActive(Boolean value) {
-        set(18, value);
+        set(19, value);
         return this;
     }
 
@@ -351,7 +368,7 @@ public class IJobRecord extends UpdatableRecordImpl<IJobRecord> implements IIJob
      */
     @Override
     public Boolean getActive() {
-        return (Boolean) get(18);
+        return (Boolean) get(19);
     }
 
     /**
@@ -359,7 +376,7 @@ public class IJobRecord extends UpdatableRecordImpl<IJobRecord> implements IIJob
      */
     @Override
     public IJobRecord setMetadata(String value) {
-        set(19, value);
+        set(20, value);
         return this;
     }
 
@@ -368,7 +385,7 @@ public class IJobRecord extends UpdatableRecordImpl<IJobRecord> implements IIJob
      */
     @Override
     public String getMetadata() {
-        return (String) get(19);
+        return (String) get(20);
     }
 
     /**
@@ -376,7 +393,7 @@ public class IJobRecord extends UpdatableRecordImpl<IJobRecord> implements IIJob
      */
     @Override
     public IJobRecord setCreatedAt(LocalDateTime value) {
-        set(20, value);
+        set(21, value);
         return this;
     }
 
@@ -385,7 +402,7 @@ public class IJobRecord extends UpdatableRecordImpl<IJobRecord> implements IIJob
      */
     @Override
     public LocalDateTime getCreatedAt() {
-        return (LocalDateTime) get(20);
+        return (LocalDateTime) get(21);
     }
 
     /**
@@ -393,7 +410,7 @@ public class IJobRecord extends UpdatableRecordImpl<IJobRecord> implements IIJob
      */
     @Override
     public IJobRecord setCreatedBy(String value) {
-        set(21, value);
+        set(22, value);
         return this;
     }
 
@@ -402,7 +419,7 @@ public class IJobRecord extends UpdatableRecordImpl<IJobRecord> implements IIJob
      */
     @Override
     public String getCreatedBy() {
-        return (String) get(21);
+        return (String) get(22);
     }
 
     /**
@@ -410,7 +427,7 @@ public class IJobRecord extends UpdatableRecordImpl<IJobRecord> implements IIJob
      */
     @Override
     public IJobRecord setUpdatedAt(LocalDateTime value) {
-        set(22, value);
+        set(23, value);
         return this;
     }
 
@@ -419,7 +436,7 @@ public class IJobRecord extends UpdatableRecordImpl<IJobRecord> implements IIJob
      */
     @Override
     public LocalDateTime getUpdatedAt() {
-        return (LocalDateTime) get(22);
+        return (LocalDateTime) get(23);
     }
 
     /**
@@ -427,7 +444,7 @@ public class IJobRecord extends UpdatableRecordImpl<IJobRecord> implements IIJob
      */
     @Override
     public IJobRecord setUpdatedBy(String value) {
-        set(23, value);
+        set(24, value);
         return this;
     }
 
@@ -436,7 +453,7 @@ public class IJobRecord extends UpdatableRecordImpl<IJobRecord> implements IIJob
      */
     @Override
     public String getUpdatedBy() {
-        return (String) get(23);
+        return (String) get(24);
     }
 
     // -------------------------------------------------------------------------
@@ -465,6 +482,7 @@ public class IJobRecord extends UpdatableRecordImpl<IJobRecord> implements IIJob
         setName(from.getName());
         setCode(from.getCode());
         setType(from.getType());
+        setGroup(from.getGroup());
         setComment(from.getComment());
         setAdditional(from.getAdditional());
         setRunAt(from.getRunAt());
@@ -509,7 +527,7 @@ public class IJobRecord extends UpdatableRecordImpl<IJobRecord> implements IIJob
     /**
      * Create a detached, initialised IJobRecord
      */
-    public IJobRecord(String key, String namespace, String name, String code, String type, String comment, String additional, LocalTime runAt, Long duration, String proxy, Integer threshold, String incomeComponent, String incomeAddress, String outcomeComponent, String outcomeAddress, String serviceId, String sigma, String language, Boolean active, String metadata, LocalDateTime createdAt, String createdBy, LocalDateTime updatedAt, String updatedBy) {
+    public IJobRecord(String key, String namespace, String name, String code, String type, String group, String comment, String additional, LocalTime runAt, Long duration, String proxy, Integer threshold, String incomeComponent, String incomeAddress, String outcomeComponent, String outcomeAddress, String serviceId, String sigma, String language, Boolean active, String metadata, LocalDateTime createdAt, String createdBy, LocalDateTime updatedAt, String updatedBy) {
         super(IJob.I_JOB);
 
         set(0, key);
@@ -517,24 +535,25 @@ public class IJobRecord extends UpdatableRecordImpl<IJobRecord> implements IIJob
         set(2, name);
         set(3, code);
         set(4, type);
-        set(5, comment);
-        set(6, additional);
-        set(7, runAt);
-        set(8, duration);
-        set(9, proxy);
-        set(10, threshold);
-        set(11, incomeComponent);
-        set(12, incomeAddress);
-        set(13, outcomeComponent);
-        set(14, outcomeAddress);
-        set(15, serviceId);
-        set(16, sigma);
-        set(17, language);
-        set(18, active);
-        set(19, metadata);
-        set(20, createdAt);
-        set(21, createdBy);
-        set(22, updatedAt);
-        set(23, updatedBy);
+        set(5, group);
+        set(6, comment);
+        set(7, additional);
+        set(8, runAt);
+        set(9, duration);
+        set(10, proxy);
+        set(11, threshold);
+        set(12, incomeComponent);
+        set(13, incomeAddress);
+        set(14, outcomeComponent);
+        set(15, outcomeAddress);
+        set(16, serviceId);
+        set(17, sigma);
+        set(18, language);
+        set(19, active);
+        set(20, metadata);
+        set(21, createdAt);
+        set(22, createdBy);
+        set(23, updatedAt);
+        set(24, updatedBy);
     }
 }

@@ -36,7 +36,7 @@ public class IJob extends TableImpl<IJobRecord> {
      * The reference instance of <code>DB_ETERNAL.I_JOB</code>
      */
     public static final IJob I_JOB = new IJob();
-    private static final long serialVersionUID = 1435080500;
+    private static final long serialVersionUID = -1475423627;
     /**
      * The column <code>DB_ETERNAL.I_JOB.KEY</code>. 「key」- 任务ID
      */
@@ -57,6 +57,10 @@ public class IJob extends TableImpl<IJobRecord> {
      * The column <code>DB_ETERNAL.I_JOB.TYPE</code>. 「type」- 任务类型
      */
     public final TableField<IJobRecord, String> TYPE = createField("TYPE", org.jooq.impl.SQLDataType.VARCHAR(20), this, "「type」- 任务类型");
+    /**
+     * The column <code>DB_ETERNAL.I_JOB.GROUP</code>. 「group」- 任务组（按组查询），自由字符串
+     */
+    public final TableField<IJobRecord, String> GROUP = createField("GROUP", org.jooq.impl.SQLDataType.VARCHAR(64), this, "「group」- 任务组（按组查询），自由字符串");
     /**
      * The column <code>DB_ETERNAL.I_JOB.COMMENT</code>. 「comment」- 备注信息
      */
