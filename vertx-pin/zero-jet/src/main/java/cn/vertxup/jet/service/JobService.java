@@ -54,7 +54,18 @@ public class JobService implements JobStub {
                         /*
                          * count group
                          * */
-                        return Ux.future(jobs);
+                        if (grouped) {
+                            final JsonObject criteria = inquiry.getCriteria().toJson();
+                            return Ux.Jooq.on(IJobDao.class).countByAsync(criteria, "group")
+                                    .compose(aggregation -> {
+                                        final JsonObject aggregationJson = new JsonObject();
+                                        aggregation.forEach(aggregationJson::put);
+                                        jobs.put("aggregation", aggregationJson);
+                                        return Ux.future(jobs);
+                                    });
+                        } else {
+                            return Ux.future(jobs);
+                        }
                     });
                 });
     }
