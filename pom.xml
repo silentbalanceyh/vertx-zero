@@ -106,7 +106,7 @@
         <poi.version>4.1.2</poi.version>
 
         <!-- elasticsearch version -->
-        <elasticsearch.version>7.6.2</elasticsearch.version>
+        <elasticsearch.version>7.7.0</elasticsearch.version>
 
         <!-- neo4j search -->
         <neo4j.version>4.0.1</neo4j.version>
@@ -139,7 +139,7 @@
         <!-- Vert.x Addition -->
         <rxjava2.version>2.2.19</rxjava2.version>
         <netty.tcnative.version>2.0.30.Final</netty.tcnative.version>
-        <netty.version>4.1.49.Final</netty.version>
+        <netty.version>4.1.50.Final</netty.version>
         <hazelcast.version>3.12.4</hazelcast.version>
         <swagger.version>1.6.0</swagger.version>
         <error.prone.version>2.3.4</error.prone.version>
