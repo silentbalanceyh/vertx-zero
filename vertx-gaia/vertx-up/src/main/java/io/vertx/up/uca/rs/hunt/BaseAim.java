@@ -143,9 +143,10 @@ public abstract class BaseAim {
             {
                 final Session session = context.session();
                 if (Objects.nonNull(session)) {
+                    // Fix: 3.9.1 cookie error of null pointer
                     final Cookie cookie = context.getCookie("vertx-web.session");
                     this.getLogger().info(Info.SESSION_ID, context.request().path(),
-                            session.id(), cookie.getValue());
+                            session.id(), Objects.isNull(cookie) ? null : cookie.getValue());
                 }
             }
             consumer.execute();
