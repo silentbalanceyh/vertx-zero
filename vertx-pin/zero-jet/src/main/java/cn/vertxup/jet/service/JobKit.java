@@ -51,13 +51,17 @@ public class JobKit {
     }
 
     public static IService fromJson(final JsonObject serviceJson) {
+        Ke.mountString(serviceJson, KeField.METADATA);
+        Ke.mountString(serviceJson, KeField.RULE_UNIQUE);
+
         Ke.mountString(serviceJson, KeField.Api.CONFIG_INTEGRATION);
         Ke.mountString(serviceJson, KeField.Api.CONFIG_DATABASE);
 
         Ke.mountString(serviceJson, KeField.Api.CHANNEL_CONFIG);
         Ke.mountString(serviceJson, KeField.Api.SERVICE_CONFIG);
-        Ke.mountString(serviceJson, KeField.Api.DICT_CONFIG);
         Ke.mountString(serviceJson, KeField.Api.MAPPING_CONFIG);
+        Ke.mountString(serviceJson, KeField.Api.DICT_EPSILON);
+        Ke.mountString(serviceJson, KeField.Api.DICT_CONFIG);
         return Ux.fromJson(serviceJson, IService.class);
     }
 
@@ -68,6 +72,7 @@ public class JobKit {
             final JsonObject service = metadata.getJsonObject(KeField.SERVICE);
             if (Ut.notNil(service)) {
                 Ke.mount(service, KeField.METADATA);
+                Ke.mount(service, KeField.RULE_UNIQUE);
 
                 /*
                  * Zero standard configuration
@@ -86,8 +91,9 @@ public class JobKit {
                  */
                 Ke.mount(service, KeField.Api.CHANNEL_CONFIG);
                 Ke.mount(service, KeField.Api.SERVICE_CONFIG);
-                Ke.mount(service, KeField.Api.DICT_CONFIG);
                 Ke.mount(service, KeField.Api.MAPPING_CONFIG);
+                Ke.mount(service, KeField.Api.DICT_EPSILON);
+                Ke.mountArray(service, KeField.Api.DICT_CONFIG);
             }
         }
         return serialized;
