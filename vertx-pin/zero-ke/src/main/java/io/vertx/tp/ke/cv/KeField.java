@@ -134,7 +134,7 @@ public interface KeField {
 
         String MAPPING_CONFIG = "mappingConfig";
 
-        String EPSILON = "epsilon";                 /* Origin X to store definition of Epsilon */
+        String DICT_EPSILON = "dictEpsilon";                 /* Origin X to store definition of Epsilon */
     }
 
     /*

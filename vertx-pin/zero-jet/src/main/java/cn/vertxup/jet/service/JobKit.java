@@ -60,6 +60,7 @@ public class JobKit {
         Ke.mountString(serviceJson, KeField.Api.CHANNEL_CONFIG);
         Ke.mountString(serviceJson, KeField.Api.SERVICE_CONFIG);
         Ke.mountString(serviceJson, KeField.Api.MAPPING_CONFIG);
+        Ke.mountString(serviceJson, KeField.Api.DICT_EPSILON);
         Ke.mountString(serviceJson, KeField.Api.DICT_CONFIG);
         return Ux.fromJson(serviceJson, IService.class);
     }
@@ -91,6 +92,7 @@ public class JobKit {
                 Ke.mount(service, KeField.Api.CHANNEL_CONFIG);
                 Ke.mount(service, KeField.Api.SERVICE_CONFIG);
                 Ke.mount(service, KeField.Api.MAPPING_CONFIG);
+                Ke.mount(service, KeField.Api.DICT_EPSILON);
                 Ke.mountArray(service, KeField.Api.DICT_CONFIG);
             }
         }
