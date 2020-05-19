@@ -6,7 +6,7 @@ package io.vertx.tp.ipc.eon;
 /**
  * Protobuf type {@code io.vertx.tp.ipc.eon.IpcResponse}
  */
-public  final class IpcResponse extends
+public final class IpcResponse extends
     com.google.protobuf.GeneratedMessageV3 implements
     // @@protoc_insertion_point(message_implements:io.vertx.tp.ipc.eon.IpcResponse)
     IpcResponseOrBuilder {
@@ -117,6 +117,7 @@ private static final long serialVersionUID = 0L;
    * <code>.io.vertx.tp.ipc.eon.IpcEnvelop envelop = 1;</code>
    * @return Whether the envelop field is set.
    */
+  @java.lang.Override
   public boolean hasEnvelop() {
     return envelop_ != null;
   }
@@ -128,6 +129,7 @@ private static final long serialVersionUID = 0L;
    * <code>.io.vertx.tp.ipc.eon.IpcEnvelop envelop = 1;</code>
    * @return The envelop.
    */
+  @java.lang.Override
   public io.vertx.tp.ipc.eon.IpcEnvelop getEnvelop() {
     return envelop_ == null ? io.vertx.tp.ipc.eon.IpcEnvelop.getDefaultInstance() : envelop_;
   }
@@ -138,6 +140,7 @@ private static final long serialVersionUID = 0L;
    *
    * <code>.io.vertx.tp.ipc.eon.IpcEnvelop envelop = 1;</code>
    */
+  @java.lang.Override
   public io.vertx.tp.ipc.eon.IpcEnvelopOrBuilder getEnvelopOrBuilder() {
     return getEnvelop();
   }
@@ -152,6 +155,7 @@ private static final long serialVersionUID = 0L;
    * <code>string client_id = 2;</code>
    * @return The clientId.
    */
+  @java.lang.Override
   public java.lang.String getClientId() {
     java.lang.Object ref = clientId_;
     if (ref instanceof java.lang.String) {
@@ -172,6 +176,7 @@ private static final long serialVersionUID = 0L;
    * <code>string client_id = 2;</code>
    * @return The bytes for clientId.
    */
+  @java.lang.Override
   public com.google.protobuf.ByteString
       getClientIdBytes() {
     java.lang.Object ref = clientId_;
@@ -196,6 +201,7 @@ private static final long serialVersionUID = 0L;
    * <code>string oauth_scope = 3;</code>
    * @return The oauthScope.
    */
+  @java.lang.Override
   public java.lang.String getOauthScope() {
     java.lang.Object ref = oauthScope_;
     if (ref instanceof java.lang.String) {
@@ -216,6 +222,7 @@ private static final long serialVersionUID = 0L;
    * <code>string oauth_scope = 3;</code>
    * @return The bytes for oauthScope.
    */
+  @java.lang.Override
   public com.google.protobuf.ByteString
       getOauthScopeBytes() {
     java.lang.Object ref = oauthScope_;
