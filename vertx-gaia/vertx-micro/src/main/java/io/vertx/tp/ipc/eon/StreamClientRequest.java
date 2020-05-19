@@ -6,7 +6,7 @@ package io.vertx.tp.ipc.eon;
 /**
  * Protobuf type {@code io.vertx.tp.ipc.eon.StreamClientRequest}
  */
-public  final class StreamClientRequest extends
+public final class StreamClientRequest extends
     com.google.protobuf.GeneratedMessageV3 implements
     // @@protoc_insertion_point(message_implements:io.vertx.tp.ipc.eon.StreamClientRequest)
     StreamClientRequestOrBuilder {
@@ -99,6 +99,7 @@ private static final long serialVersionUID = 0L;
    * <code>.io.vertx.tp.ipc.eon.IpcEnvelop envelop = 1;</code>
    * @return Whether the envelop field is set.
    */
+  @java.lang.Override
   public boolean hasEnvelop() {
     return envelop_ != null;
   }
@@ -106,12 +107,14 @@ private static final long serialVersionUID = 0L;
    * <code>.io.vertx.tp.ipc.eon.IpcEnvelop envelop = 1;</code>
    * @return The envelop.
    */
+  @java.lang.Override
   public io.vertx.tp.ipc.eon.IpcEnvelop getEnvelop() {
     return envelop_ == null ? io.vertx.tp.ipc.eon.IpcEnvelop.getDefaultInstance() : envelop_;
   }
   /**
    * <code>.io.vertx.tp.ipc.eon.IpcEnvelop envelop = 1;</code>
    */
+  @java.lang.Override
   public io.vertx.tp.ipc.eon.IpcEnvelopOrBuilder getEnvelopOrBuilder() {
     return getEnvelop();
   }

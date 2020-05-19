@@ -6,7 +6,7 @@ package io.vertx.tp.ipc.eon;
 /**
  * Protobuf type {@code io.vertx.tp.ipc.eon.IpcContent}
  */
-public  final class IpcContent extends
+public final class IpcContent extends
     com.google.protobuf.GeneratedMessageV3 implements
     // @@protoc_insertion_point(message_implements:io.vertx.tp.ipc.eon.IpcContent)
     IpcContentOrBuilder {
@@ -93,6 +93,7 @@ private static final long serialVersionUID = 0L;
    * <code>string value = 1;</code>
    * @return The value.
    */
+  @java.lang.Override
   public java.lang.String getValue() {
     java.lang.Object ref = value_;
     if (ref instanceof java.lang.String) {
@@ -109,6 +110,7 @@ private static final long serialVersionUID = 0L;
    * <code>string value = 1;</code>
    * @return The bytes for value.
    */
+  @java.lang.Override
   public com.google.protobuf.ByteString
       getValueBytes() {
     java.lang.Object ref = value_;
