@@ -56,6 +56,8 @@ public class UserActor {
     public Future<Boolean> logout(final Envelop envelop) {
         final String token = envelop.jwt();
         final String habitus = envelop.jwt("habitus");
+        // Fix issue of 3.9.1
+        envelop.cleanUp();
         return this.loginStub.logout(token, habitus);
     }
 
