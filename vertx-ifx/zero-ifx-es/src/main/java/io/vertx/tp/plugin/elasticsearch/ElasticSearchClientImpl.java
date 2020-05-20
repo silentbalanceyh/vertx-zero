@@ -29,7 +29,6 @@ import org.elasticsearch.client.indices.GetIndexResponse;
 
 import java.io.IOException;
 import java.util.Arrays;
-import java.util.Objects;
 import java.util.concurrent.ConcurrentMap;
 
 /**
@@ -44,7 +43,6 @@ public class ElasticSearchClientImpl implements ElasticSearchClient {
     private final transient JsonObject options = new JsonObject();
     private final transient ElasticSearchHelper helper = ElasticSearchHelper.helper(this.getClass());
     private final transient ElasticQr qr = new ElasticQr();
-    private transient RestHighLevelClient client;
 
     ElasticSearchClientImpl(final Vertx vertx, final JsonObject options) {
         this.vertx = vertx;
@@ -52,20 +50,18 @@ public class ElasticSearchClientImpl implements ElasticSearchClient {
             LOGGER.info("[ ZERO ] Elastic Search initialized: {0}", options.encode());
             this.options.mergeIn(options);
             this.qr.bind(options);
-            this.client = this.helper.getClient(options);
         }
     }
 
     private RestHighLevelClient getClient() {
-        if (Objects.isNull(this.client)) {
-            this.client = this.helper.getClient(this.options);
-        }
-        return this.client;
+        // Fix Bug:
+        // -- java.lang.IllegalStateException: Request cannot be executed; I/O reactor status: STOPPED
+        return this.helper.getClient(this.options);
     }
 
     public boolean connected() {
         try {
-            return this.client.ping(RequestOptions.DEFAULT);
+            return this.getClient().ping(RequestOptions.DEFAULT);
         } catch (final Throwable ex) {
             return false;
         }
