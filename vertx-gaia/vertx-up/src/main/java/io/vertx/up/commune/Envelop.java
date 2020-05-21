@@ -14,7 +14,6 @@ import io.vertx.up.commune.envelop.Rib;
 import io.vertx.up.eon.ID;
 import io.vertx.up.exception.WebException;
 import io.vertx.up.exception.web._500InternalServerException;
-import io.vertx.up.fn.Actuator;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
@@ -38,8 +37,6 @@ public class Envelop implements Serializable {
     private final JsonObject cachedJwt = new JsonObject();
     /* Communicate Key in Event Bus, to identify the Envelop */
     private String key;
-    /* Fix issue of 3.9.1, logout processing problems */
-    private transient Actuator cleaner;
     /*
      * Constructor for Envelop creation, two constructor for
      * 1) Success Envelop
@@ -306,12 +303,6 @@ public class Envelop implements Serializable {
         this.assist.session(session);
     }
 
-    public void cleanUp() {
-        if (Objects.nonNull(this.cleaner)) {
-            this.cleaner.execute();
-        }
-    }
-
     /* Uri */
     public String getUri() {
         return this.assist.uri();
@@ -339,6 +330,8 @@ public class Envelop implements Serializable {
      * Bind Routing Context to process Assist structure
      */
     public Envelop bind(final RoutingContext context) {
+        /* Bind Context for Session / User etc. */
+        this.assist.bind(context);
         final HttpServerRequest request = context.request();
 
         /* Http Request Part */
@@ -351,15 +344,11 @@ public class Envelop implements Serializable {
         this.assist.user(context.user());
         this.assist.context(context.data());
 
-        /* Prepare cleaner for `logout` */
-        this.cleaner = () -> {
-            context.clearUser();
-            final Session session = context.session();
-            if (Objects.nonNull(session) && !session.isDestroyed()) {
-                session.destroy();
-            }
-        };
         return this;
+    }
+
+    public RoutingContext context() {
+        return this.assist.reference();
     }
 
     /*
