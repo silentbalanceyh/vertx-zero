@@ -29,6 +29,7 @@ public class AuthReady {
      * often need the metadata information to do locating and checking here.
      */
     public static JsonObject prepare(final JsonObject data, final RoutingContext context) {
+        final JsonObject normalized = data.copy();
         final HttpServerRequest request = context.request();
         /*
          * Build metadata
@@ -42,7 +43,7 @@ public class AuthReady {
         metadata.put("uri", ZeroAnno.recoveryUri(request.path(), request.method()));
         metadata.put("requestUri", request.path());
         metadata.put("method", request.method().name());
-        data.put("metadata", metadata);
+        normalized.put("metadata", metadata);
         /*
          * Build Custom Headers
          */
@@ -53,7 +54,7 @@ public class AuthReady {
                 headers.put(entry.getKey(), entry.getValue());
             }
         });
-        data.put("headers", headers);
-        return data;
+        normalized.put("headers", headers);
+        return normalized;
     }
 }

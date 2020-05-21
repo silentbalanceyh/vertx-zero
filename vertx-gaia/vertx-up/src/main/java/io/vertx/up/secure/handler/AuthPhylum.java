@@ -4,6 +4,7 @@ import io.vertx.core.AsyncResult;
 import io.vertx.core.Future;
 import io.vertx.core.Handler;
 import io.vertx.core.http.*;
+import io.vertx.core.json.JsonObject;
 import io.vertx.ext.auth.AuthProvider;
 import io.vertx.ext.auth.User;
 import io.vertx.ext.web.RoutingContext;
@@ -138,7 +139,8 @@ public abstract class AuthPhylum implements AuthHandler {
                 return;
             }
             // proceed to authN
-            this.getAuthProvider(ctx).authenticate(AuthReady.prepare(res.result(), ctx), authN -> {
+            final JsonObject readyForAuthorized = AuthReady.prepare(res.result(), ctx);
+            this.getAuthProvider(ctx).authenticate(readyForAuthorized, authN -> {
                 if (authN.succeeded()) {
                     final User authenticated = authN.result();
                     ctx.setUser(authenticated);
@@ -207,7 +209,8 @@ public abstract class AuthPhylum implements AuthHandler {
          *
          * After 3.9.1 this feature should be OK, wait for testing
          */
-        this.authProvider.authenticate(user.principal(), processed -> {
+        final JsonObject readyForAuthorized = AuthReady.prepare(user.principal(), ctx);
+        this.authProvider.authenticate(readyForAuthorized, processed -> {
             if (processed.succeeded()) {
                 this.authorize(processed.result(), authZ -> {
                     if (authZ.failed()) {
