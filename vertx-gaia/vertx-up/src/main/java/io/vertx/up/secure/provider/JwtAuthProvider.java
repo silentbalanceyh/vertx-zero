@@ -12,6 +12,7 @@ import io.vertx.ext.auth.User;
 import io.vertx.ext.auth.jwt.JWTAuthOptions;
 import io.vertx.ext.jwt.JWT;
 import io.vertx.ext.jwt.JWTOptions;
+import io.vertx.up.eon.Constants;
 import io.vertx.up.exception.web.*;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
@@ -23,7 +24,7 @@ import java.util.function.Supplier;
 
 public class JwtAuthProvider implements JwtAuth {
     private static final JsonArray EMPTY_ARRAY = new JsonArray();
-    private static final String AUTH_POOL = "JWT_AUTH_TOKEN_POOL";
+    private static final String AUTH_POOL = Constants.DEFAULT_JWT_AUTH_POOL;
     private static final Annal LOGGER = Annal.get(JwtAuthProvider.class);
     private final JWT jwt;
     private final String permissionsClaimKey;

@@ -21,6 +21,8 @@ public interface Constants {
 
     String DEFAULT_FREEDOM = "freedom";
 
+    String DEFAULT_JWT_AUTH_POOL = "JWT_AUTH_TOKEN_POOL";
+
     /**
      * Scanned data to distinguish mode
      * 1) Only Interface Style could have the indexes key such as 0,1,2 consider as data key.

@@ -4,6 +4,7 @@ import io.vertx.core.AsyncResult;
 import io.vertx.core.Future;
 import io.vertx.core.Handler;
 import io.vertx.core.http.*;
+import io.vertx.core.json.JsonObject;
 import io.vertx.ext.auth.AuthProvider;
 import io.vertx.ext.auth.User;
 import io.vertx.ext.web.RoutingContext;
@@ -18,6 +19,7 @@ import io.vertx.up.exception.web._500InternalServerException;
 import io.vertx.up.log.Annal;
 
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -137,7 +139,8 @@ public abstract class AuthPhylum implements AuthHandler {
                 return;
             }
             // proceed to authN
-            this.getAuthProvider(ctx).authenticate(AuthReady.prepare(res.result(), ctx), authN -> {
+            final JsonObject readyForAuthorized = AuthReady.prepare(res.result(), ctx);
+            this.getAuthProvider(ctx).authenticate(readyForAuthorized, authN -> {
                 if (authN.succeeded()) {
                     final User authenticated = authN.result();
                     ctx.setUser(authenticated);
@@ -199,13 +202,33 @@ public abstract class AuthPhylum implements AuthHandler {
     }
 
     private void authorizeUser(final RoutingContext ctx, final User user) {
-        this.authorize(user, authZ -> {
-            if (authZ.failed()) {
-                this.processException(ctx, authZ.cause());
-                return;
+        /*
+         * A critical point is that here are secondary authorization of 401 workflow
+         * we recommend to enable `permission` cache to do 403 workflow based on
+         * 401 result.
+         *
+         * After 3.9.1 this feature should be OK, wait for testing
+         */
+        final JsonObject readyForAuthorized = AuthReady.prepare(user.principal(), ctx);
+        this.authProvider.authenticate(readyForAuthorized, processed -> {
+            if (processed.succeeded()) {
+                this.authorize(processed.result(), authZ -> {
+                    if (authZ.failed()) {
+                        this.processException(ctx, authZ.cause());
+                        return;
+                    }
+                    // success, allowed to continue
+                    ctx.next();
+                });
+            } else {
+                // 403 authorize failure
+                final Throwable ex = processed.cause();
+                if (Objects.nonNull(ex)) {
+                    ctx.fail(ex);
+                } else {
+                    ctx.fail(FORBIDDEN);
+                }
             }
-            // success, allowed to continue
-            ctx.next();
         });
     }
 

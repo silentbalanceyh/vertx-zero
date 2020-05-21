@@ -3,6 +3,7 @@ package io.vertx.up.extension.pointer;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.commune.Envelop;
+import io.vertx.up.log.Annal;
 import io.vertx.up.uca.yaml.Node;
 import io.vertx.up.uca.yaml.ZeroUniform;
 import io.vertx.up.unity.Ux;
@@ -19,6 +20,7 @@ class Plugin {
 
     private static transient final Node<JsonObject> UNIFORM = Ut.singleton(ZeroUniform.class);
     private static transient final JsonObject PLUGIN_CONFIG = new JsonObject();
+    private static final Annal LOGGER = Annal.get(Plugin.class);
 
     /*
      * I/O read for config loading.
@@ -51,7 +53,12 @@ class Plugin {
             final Class<?> pluginCls = Ut.clazz(metadata.getString("component"));
             if (Objects.nonNull(pluginCls)) {
                 final JsonObject config = metadata.getJsonObject("config");
-                return function.apply(pluginCls, config);
+                try {
+                    return function.apply(pluginCls, config);
+                } catch (final Throwable ex) {
+                    LOGGER.warn("Plugin Extension Failure: {0}", ex.getMessage());
+                    return Ux.future(envelop);
+                }
             }
         }
         return Ux.future(envelop);

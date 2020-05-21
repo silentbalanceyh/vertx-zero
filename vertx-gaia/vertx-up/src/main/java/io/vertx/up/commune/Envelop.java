@@ -330,6 +330,8 @@ public class Envelop implements Serializable {
      * Bind Routing Context to process Assist structure
      */
     public Envelop bind(final RoutingContext context) {
+        /* Bind Context for Session / User etc. */
+        this.assist.bind(context);
         final HttpServerRequest request = context.request();
 
         /* Http Request Part */
@@ -341,7 +343,12 @@ public class Envelop implements Serializable {
         this.assist.session(context.session());
         this.assist.user(context.user());
         this.assist.context(context.data());
+
         return this;
+    }
+
+    public RoutingContext context() {
+        return this.assist.reference();
     }
 
     /*
