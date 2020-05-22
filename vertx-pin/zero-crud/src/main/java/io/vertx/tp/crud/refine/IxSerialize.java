@@ -60,8 +60,8 @@ class IxSerialize {
         });
         final String pojo = config.getPojo();
         final T reference = Ut.isNil(pojo) ?
-                Ux.fromJson(data, (Class<T>) config.getPojoCls()) :
-                Ux.fromJson(data, (Class<T>) config.getPojoCls(), config.getPojo());
+                Ux.fromJson(normalized, (Class<T>) config.getPojoCls()) :
+                Ux.fromJson(normalized, (Class<T>) config.getPojoCls(), config.getPojo());
         IxLog.infoDao(LOGGER, "Deserialized: {0}", reference);
         return reference;
     }
