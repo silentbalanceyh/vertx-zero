@@ -42,6 +42,22 @@ class IxSerialize {
     @SuppressWarnings("all")
     static <T> T entity(final JsonObject data, final IxModule config) {
         IxLog.infoDao(LOGGER, "Normalized: \n{0}", data.encodePrettily());
+        /*
+         * JsonObject / JsonArray must be converted to string
+         */
+        final JsonObject normalized = new JsonObject();
+        data.fieldNames().forEach(field -> {
+            Object value = data.getValue(field);
+            if (Objects.nonNull(value)) {
+                if (value instanceof JsonObject) {
+                    value = ((JsonObject) value).encode();
+                }
+                if (value instanceof JsonArray) {
+                    value = ((JsonArray) value).encode();
+                }
+            }
+            normalized.put(field, value);
+        });
         final String pojo = config.getPojo();
         final T reference = Ut.isNil(pojo) ?
                 Ux.fromJson(data, (Class<T>) config.getPojoCls()) :

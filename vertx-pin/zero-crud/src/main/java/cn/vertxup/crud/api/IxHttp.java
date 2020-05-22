@@ -4,6 +4,8 @@ import io.vertx.core.Future;
 import io.vertx.core.http.HttpStatusCode;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.crud.atom.IxModule;
+import io.vertx.tp.ke.cv.KeField;
+import io.vertx.tp.ke.refine.Ke;
 import io.vertx.up.commune.Envelop;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
@@ -36,6 +38,8 @@ public class IxHttp {
             return success200(entity);
         } else {
             final JsonObject serializedJson = Ux.toJson(entity, pojo);
+            /* metadata must be converted */
+            Ke.mount(serializedJson, KeField.METADATA);
             return Ux.future(Envelop.success(serializedJson));
         }
     }
