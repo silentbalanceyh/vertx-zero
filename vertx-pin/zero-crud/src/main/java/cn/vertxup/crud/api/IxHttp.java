@@ -32,7 +32,7 @@ public class IxHttp {
         final JsonObject serializedJson = Ux.toJson(entity, config.getPojo());
         /* metadata must be converted */
         Ke.mount(serializedJson, KeField.METADATA);
-        return success200(entity);
+        return success200(serializedJson);
     }
 
     /* 204 */

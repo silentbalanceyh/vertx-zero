@@ -4,6 +4,8 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.crud.atom.IxField;
 import io.vertx.tp.crud.atom.IxModule;
+import io.vertx.tp.ke.cv.KeField;
+import io.vertx.tp.ke.refine.Ke;
 import io.vertx.up.atom.unity.Uarr;
 import io.vertx.up.eon.Values;
 import io.vertx.up.log.Annal;
@@ -45,23 +47,11 @@ class IxSerialize {
         /*
          * JsonObject / JsonArray must be converted to string
          */
-        final JsonObject normalized = new JsonObject();
-        data.fieldNames().forEach(field -> {
-            Object value = data.getValue(field);
-            if (Objects.nonNull(value)) {
-                if (value instanceof JsonObject) {
-                    value = ((JsonObject) value).encode();
-                }
-                if (value instanceof JsonArray) {
-                    value = ((JsonArray) value).encode();
-                }
-            }
-            normalized.put(field, value);
-        });
+        Ke.mountString(data, KeField.METADATA);
         final String pojo = config.getPojo();
         final T reference = Ut.isNil(pojo) ?
-                Ux.fromJson(normalized, (Class<T>) config.getPojoCls()) :
-                Ux.fromJson(normalized, (Class<T>) config.getPojoCls(), config.getPojo());
+                Ux.fromJson(data, (Class<T>) config.getPojoCls()) :
+                Ux.fromJson(data, (Class<T>) config.getPojoCls(), config.getPojo());
         IxLog.infoDao(LOGGER, "Deserialized: {0}", reference);
         return reference;
     }
