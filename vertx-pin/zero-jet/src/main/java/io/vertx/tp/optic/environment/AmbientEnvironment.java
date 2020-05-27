@@ -164,4 +164,18 @@ public class AmbientEnvironment {
          */
         this.jobs.put(service.getKey(), job);
     }
+    /*
+     * Cache flush for Uri
+     */
+    public void flushUri(final JtUri uri) {
+        /*
+         * serviceKey -> service (Cached)
+         */
+        final IService service = uri.service();
+        this.serviceMap.put(service.getKey(), service);
+        /*
+         * serviceKey -> uri (JtUri)
+         */
+        this.uris.put(service.getKey(), uri);
+    }
 }
