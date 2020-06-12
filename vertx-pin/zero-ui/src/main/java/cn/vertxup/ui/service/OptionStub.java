@@ -18,6 +18,9 @@ public interface OptionStub {
     String FIELD_QUERY_PROJECTION = "projection";
     String FIELD_QUERY_CRITERIA = "criteria";
 
+    String FIELD_OP_CONFIG = "config";
+    String FIELD_OP_PLUGIN = "plugin";
+
     /* V_QUERY */
     Future<JsonObject> fetchQuery(String id);
 
@@ -33,7 +36,7 @@ public interface OptionStub {
     /*
      * update
      */
-    Future<JsonArray> updateA(JsonArray data);
+    Future<JsonArray> updateA(String controlId, JsonArray data);
 
     /*
      * delete by control id

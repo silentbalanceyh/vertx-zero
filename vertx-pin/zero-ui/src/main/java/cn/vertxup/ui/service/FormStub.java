@@ -23,7 +23,7 @@ public interface FormStub {
     /*
      * update
      */
-    Future<JsonObject> update(JsonObject data);
+    Future<JsonObject> update(String key, JsonObject data);
 
     /*
      * delete

@@ -81,6 +81,25 @@ public class FormService implements FormStub {
                 });
     }
 
+    @Override
+    public Future<JsonObject> update(final String key, final JsonObject data) {
+        // 1. mountIn form, convert those into object from string
+        final JsonObject form = this.mountIn(data);
+        final UiForm uiForm = Ux.fromJson(form, UiForm.class);
+        // 2. save ui-form record
+        return Ux.Jooq.on(UiFormDao.class)
+                .saveAsync(key, uiForm)
+                .compose(Ux::fnJObject)
+                // 3. mountOut
+                .compose(updatedForm -> Ux.future(this.mountOut(updatedForm)));
+    }
+
+    @Override
+    public Future<Boolean> delete(final String key) {
+        return Ux.Jooq.on(UiFormDao.class)
+                .deleteByIdAsync(key);
+    }
+
     private Future<JsonObject> attachConfig(final JsonObject formJson) {
         final JsonObject config = new JsonObject();
         Ke.mount(formJson, KeField.METADATA);
@@ -105,7 +124,7 @@ public class FormService implements FormStub {
          * row: JsonObject
          */
         if (formJson.containsKey(KeField.Ui.ROW)) {
-            form.put(KeField.Ui.ROW, formJson.getValue(KeField.Ui.HIDDEN));
+            form.put(KeField.Ui.ROW, formJson.getValue(KeField.Ui.ROW));
             Ke.mount(form, KeField.Ui.ROW);
         }
         /*
@@ -123,14 +142,16 @@ public class FormService implements FormStub {
                 .compose(ui -> Ux.future(config.put("form", form.put("ui", ui))));
     }
 
-    @Override
-    public Future<JsonObject> update(JsonObject data) {
-        return null;
+    private JsonObject mountIn(final JsonObject data) {
+        Ke.mountString(data, KeField.Ui.HIDDEN);
+        Ke.mountString(data, KeField.Ui.ROW);
+        Ke.mountString(data, KeField.METADATA);
+        return data;
     }
-
-    @Override
-    public Future<Boolean> delete(String key) {
-        return Ux.Jooq.on(UiFormDao.class)
-                .deleteByIdAsync(key);
+    private JsonObject mountOut(final JsonObject data) {
+        Ke.mountArray(data, KeField.Ui.HIDDEN);
+        Ke.mount(data, KeField.Ui.ROW);
+        Ke.mount(data, KeField.METADATA);
+        return data;
     }
 }

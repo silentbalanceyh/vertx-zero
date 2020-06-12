@@ -1,16 +1,17 @@
 package cn.vertxup.ui.service;
 
 import cn.vertxup.ui.domain.tables.daos.*;
-import cn.vertxup.ui.domain.tables.pojos.VFragment;
-import cn.vertxup.ui.domain.tables.pojos.VQuery;
-import cn.vertxup.ui.domain.tables.pojos.VSearch;
-import cn.vertxup.ui.domain.tables.pojos.VTable;
+import cn.vertxup.ui.domain.tables.pojos.*;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.ke.cv.KeField;
 import io.vertx.tp.ke.refine.Ke;
 import io.vertx.up.unity.Ux;
+import io.vertx.up.util.Ut;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class OptionService implements OptionStub {
     @Override
@@ -51,13 +52,42 @@ public class OptionService implements OptionStub {
     }
 
     @Override
-    public Future<JsonArray> updateA(JsonArray data) {
-        return null;
+    public Future<JsonArray> updateA(final String controlId, final JsonArray data) {
+        // 1. mountIn fields, convert those into object from string
+        final List<UiOp> ops = Ut.itJArray(data)
+                .map(this::mountIn)
+                .map(field -> Ux.fromJson(field, UiOp.class))
+                .collect(Collectors.toList());
+        // 2. delete old ones and insert new ones
+        return this.deleteByControlId(controlId)
+                .compose(result -> Ux.Jooq.on(UiOpDao.class)
+                        .insertAsync(ops)
+                        .compose(Ux::fnJArray)
+                        // 3. mountOut
+                        .compose(updatedOps -> {
+                            List<JsonObject> list = Ut.itJArray(updatedOps)
+                                    .map(this::mountOut)
+                                    .collect(Collectors.toList());
+                            return Ux.future(new JsonArray(list));
+                        }));
     }
 
     @Override
     public Future<Boolean> deleteByControlId(String controlId) {
         return Ux.Jooq.on(UiOpDao.class)
                 .deleteAsync(new JsonObject().put(KeField.Ui.CONTROL_ID, controlId));
+    }
+
+    private JsonObject mountIn(final JsonObject data) {
+        Ke.mountString(data, OptionStub.FIELD_OP_CONFIG);
+        Ke.mountString(data, OptionStub.FIELD_OP_PLUGIN);
+        Ke.mountString(data, KeField.METADATA);
+        return data;
+    }
+    private JsonObject mountOut(final JsonObject data) {
+        Ke.mount(data, OptionStub.FIELD_OP_CONFIG);
+        Ke.mount(data, OptionStub.FIELD_OP_PLUGIN);
+        Ke.mount(data, KeField.METADATA);
+        return data;
     }
 }

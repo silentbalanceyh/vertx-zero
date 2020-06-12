@@ -8,6 +8,7 @@ public interface FieldStub {
     String OPTION_JSX = "optionJsx";
     String OPTION_CONFIG = "optionConfig";
     String OPTION_ITEM = "optionItem";
+    String RULES = "rules";
 
     /*
      * Fetch all fields
@@ -17,7 +18,7 @@ public interface FieldStub {
     /*
      * update
      */
-    Future<JsonArray> updateA(JsonArray data);
+    Future<JsonArray> updateA(final String controlId, final JsonArray data);
 
     /*
      * delete by control id
