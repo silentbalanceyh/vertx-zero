@@ -1,15 +1,14 @@
 package cn.vertxup.ui.service;
 
-import cn.vertxup.ui.domain.tables.daos.VFragmentDao;
-import cn.vertxup.ui.domain.tables.daos.VQueryDao;
-import cn.vertxup.ui.domain.tables.daos.VSearchDao;
-import cn.vertxup.ui.domain.tables.daos.VTableDao;
+import cn.vertxup.ui.domain.tables.daos.*;
 import cn.vertxup.ui.domain.tables.pojos.VFragment;
 import cn.vertxup.ui.domain.tables.pojos.VQuery;
 import cn.vertxup.ui.domain.tables.pojos.VSearch;
 import cn.vertxup.ui.domain.tables.pojos.VTable;
 import io.vertx.core.Future;
+import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
+import io.vertx.tp.ke.cv.KeField;
 import io.vertx.tp.ke.refine.Ke;
 import io.vertx.up.unity.Ux;
 
@@ -49,5 +48,16 @@ public class OptionService implements OptionStub {
                 .<VTable>findByIdAsync(id)
                 .compose(Ux::fnJObject)
                 .compose(Ke.mountArray(FIELD_TABLE_OP_CONFIG));
+    }
+
+    @Override
+    public Future<JsonArray> updateA(JsonArray data) {
+        return null;
+    }
+
+    @Override
+    public Future<Boolean> deleteByControlId(String controlId) {
+        return Ux.Jooq.on(UiOpDao.class)
+                .deleteAsync(new JsonObject().put(KeField.Ui.CONTROL_ID, controlId));
     }
 }

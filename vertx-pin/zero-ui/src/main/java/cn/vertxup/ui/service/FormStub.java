@@ -19,4 +19,14 @@ public interface FormStub {
      * By identifier & sigma
      */
     Future<JsonArray> fetchByIdentifier(String identifier, String sigma);
+
+    /*
+     * update
+     */
+    Future<JsonObject> update(JsonObject data);
+
+    /*
+     * delete
+     */
+    Future<Boolean> delete(String key);
 }

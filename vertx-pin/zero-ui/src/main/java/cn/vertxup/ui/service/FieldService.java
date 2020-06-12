@@ -5,6 +5,7 @@ import cn.vertxup.ui.domain.tables.pojos.UiField;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
+import io.vertx.tp.ke.cv.KeField;
 import io.vertx.tp.ke.refine.Ke;
 import io.vertx.tp.ui.cv.em.RowType;
 import io.vertx.tp.ui.refine.Ui;
@@ -23,7 +24,7 @@ public class FieldService implements FieldStub {
     @Override
     public Future<JsonArray> fetchUi(final String formId) {
         return Ux.Jooq.on(UiFieldDao.class)
-                .<UiField>fetchAsync("controlId", formId)
+                .<UiField>fetchAsync(KeField.Ui.CONTROL_ID, formId)
                 .compose(ui -> {
                     if (Objects.isNull(ui) || ui.isEmpty()) {
                         Ui.infoWarn(FieldService.LOGGER, " Field not configured.");
@@ -130,5 +131,16 @@ public class FieldService implements FieldStub {
             ui.add(rowArr);
         }
         return Ux.future(ui);
+    }
+
+    @Override
+    public Future<JsonArray> updateA(JsonArray data) {
+        return null;
+    }
+
+    @Override
+    public Future<Boolean> deleteByControlId(String controlId) {
+        return Ux.Jooq.on(UiFieldDao.class)
+                .deleteAsync(new JsonObject().put(KeField.Ui.CONTROL_ID, controlId));
     }
 }

@@ -122,4 +122,15 @@ public class FormService implements FormStub {
                 /* Put `ui` to form configuration */
                 .compose(ui -> Ux.future(config.put("form", form.put("ui", ui))));
     }
+
+    @Override
+    public Future<JsonObject> update(JsonObject data) {
+        return null;
+    }
+
+    @Override
+    public Future<Boolean> delete(String key) {
+        return Ux.Jooq.on(UiFormDao.class)
+                .deleteByIdAsync(key);
+    }
 }

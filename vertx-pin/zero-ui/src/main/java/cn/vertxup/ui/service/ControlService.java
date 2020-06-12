@@ -51,7 +51,7 @@ public class ControlService implements ControlStub {
     @Override
     public Future<JsonArray> fetchOps(final String control) {
         return Ux.Jooq.on(UiOpDao.class)
-                .<UiOp>fetchAsync("controlId", control)
+                .<UiOp>fetchAsync(KeField.Ui.CONTROL_ID, control)
                 .compose(Ux::fnJArray)
                 .compose(array -> {
                     Ut.itJArray(array).forEach(each ->

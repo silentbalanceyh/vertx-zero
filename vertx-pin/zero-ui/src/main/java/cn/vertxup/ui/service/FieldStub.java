@@ -13,4 +13,14 @@ public interface FieldStub {
      * Fetch all fields
      */
     Future<JsonArray> fetchUi(String formId);
+
+    /*
+     * update
+     */
+    Future<JsonArray> updateA(JsonArray data);
+
+    /*
+     * delete by control id
+     */
+    Future<Boolean> deleteByControlId(String controlId);
 }
