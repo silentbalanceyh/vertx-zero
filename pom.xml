@@ -129,7 +129,7 @@
         <!-- Rpc -->
         <protobuf.version>3.12.2</protobuf.version>
         <vertx.grpc.version>1.6.1</vertx.grpc.version>
-        <grpc.version>1.29.0</grpc.version>
+        <grpc.version>1.30.0</grpc.version>
         <picoli.version>4.3.2</picoli.version>
 
         <!-- Yaml -->
@@ -138,7 +138,7 @@
 
         <!-- Vert.x Addition -->
         <rxjava2.version>2.2.19</rxjava2.version>
-        <netty.tcnative.version>2.0.30.Final</netty.tcnative.version>
+        <netty.tcnative.version>2.0.31.Final</netty.tcnative.version>
         <netty.version>4.1.50.Final</netty.version>
         <hazelcast.version>3.12.4</hazelcast.version>
         <swagger.version>1.6.0</swagger.version>
