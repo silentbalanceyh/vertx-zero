@@ -7,6 +7,7 @@ import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.ui.cv.Addr;
+import io.vertx.tp.ui.refine.Ui;
 import io.vertx.up.annotations.Address;
 import io.vertx.up.annotations.Queue;
 import io.vertx.up.log.Annal;
@@ -36,14 +37,16 @@ public class FormActor {
         final JsonArray fields = body.getJsonArray(FIELD_FIELDS);
         final JsonArray ops = body.getJsonArray(FIELD_OPS);
 
-        LOGGER.info("putFormCascade updating data: {0}", body.encodePrettily());
+        Ui.infoUi(LOGGER, "putFormCascade updating data: {0}", body.encodePrettily());
         return this.formStub.update(key, body)
                 .compose(updatedForm -> this.fieldStub.updateA(key, fields))
                 .compose(updatedFields -> {
+                    // return with updated fields
                     body.put(FIELD_FIELDS, updatedFields);
                     return this.optionStub.updateA(key, ops);
                 })
                 .compose(updatedOps -> {
+                    // return with updated ops
                     body.put(FIELD_OPS, updatedOps);
                     return Ux.future(body);
                 });
