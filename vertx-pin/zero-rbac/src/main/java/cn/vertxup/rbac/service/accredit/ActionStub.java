@@ -5,6 +5,8 @@ import cn.vertxup.rbac.domain.tables.pojos.SResource;
 import io.vertx.core.Future;
 import io.vertx.core.http.HttpMethod;
 
+import java.util.List;
+
 /*
  * SAction means Backend event, it's in to SResource
  * Here are the relations between SAction & SResource
@@ -22,4 +24,11 @@ public interface ActionStub {
     Future<SAction> fetchAction(String normalizedUri, HttpMethod method, String sigma);
 
     Future<SResource> fetchResource(String key);
+    /*
+     * Api selector for action to get all authorized apis here.
+     * It will be used in following situations
+     *
+     * 1 - FormDesigner: form design tools usage.
+     */
+    Future<List<SAction>> seekAction(String keyword, String sigma);
 }

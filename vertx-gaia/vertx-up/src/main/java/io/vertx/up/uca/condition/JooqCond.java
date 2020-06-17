@@ -128,9 +128,23 @@ public class JooqCond {
              * be parsed by query tree engine, this operation is unsupported and it will
              * throw out exception JooqModeConflictException,
              * Ignore operator information here, because the next analyzing will ignore automatically.
+             *
+             * Here are all information for different usage instead of others
+             * - When operator is null -> ignore operator
+             * - When here are operator, put default connector
+             *   - false: or
+             *   - true: and
              */
-            /*Fn.outUp(null != operator, LOGGER, JooqModeConflictException.class,
-                    class, Inquiry.Mode.LINEAR, filters);*/
+            if (Objects.nonNull(operator)) {
+                if (!filters.containsKey(Strings.EMPTY)) {
+                    if (Operator.AND == operator) {
+                        /*
+                         * Fix for complex connector
+                         */
+                        filters.put(Strings.EMPTY, Boolean.TRUE);
+                    }
+                }
+            }
             condition = transformTree(filters, fnAnalyze, fnTable);
         }
         if (null != condition && Debugger.onJooqCondition()) {
