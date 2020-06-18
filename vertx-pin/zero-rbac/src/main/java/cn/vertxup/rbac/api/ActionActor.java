@@ -1,0 +1,28 @@
+package cn.vertxup.rbac.api;
+
+import cn.vertxup.rbac.service.accredit.ActionStub;
+import io.vertx.core.Future;
+import io.vertx.core.json.JsonArray;
+import io.vertx.core.json.JsonObject;
+import io.vertx.tp.rbac.cv.Addr;
+import io.vertx.up.annotations.Address;
+import io.vertx.up.annotations.Queue;
+import io.vertx.up.unity.Ux;
+
+import javax.inject.Inject;
+
+/**
+ * @author <a href="http://www.origin-x.cn">lang</a>
+ */
+@Queue
+public class ActionActor {
+
+    @Inject
+    private transient ActionStub actionStub;
+
+    @Address(Addr.Authority.ACTION_SEEK)
+    public Future<JsonArray> seekAction(final String sigma, final JsonObject params) {
+        final String keyword = params.getString("keyword");
+        return this.actionStub.seekAction(keyword, sigma).compose(Ux::fnJArray);
+    }
+}

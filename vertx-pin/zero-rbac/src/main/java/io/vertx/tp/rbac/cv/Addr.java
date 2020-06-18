@@ -45,6 +45,13 @@ public interface Addr {
         String IMPORT = Prefix._EVENT + "X-IMPORT/USER";
     }
 
+    interface Authority{
+        /*
+         * Api Seeking
+         */
+        String ACTION_SEEK = Prefix._EVENT + "X-ACTION/SEEK";
+    }
+
     interface Group {
         String GROUP_SIGMA = Prefix._EVENT + "S-GROUP/SIGMA";
     }
