@@ -16,6 +16,7 @@ import io.vertx.up.util.Ut;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class FieldService implements FieldStub {
@@ -41,6 +42,7 @@ public class FieldService implements FieldStub {
         // 1. mountIn fields, convert those into object from string
         final List<UiField> fields = Ut.itJArray(data)
                 .map(this::mountIn)
+                .map(field -> field.put(KeField.Ui.CONTROL_ID, Optional.ofNullable(field.getString(KeField.Ui.CONTROL_ID)).orElse(controlId)))
                 .map(field -> Ux.fromJson(field, UiField.class))
                 .collect(Collectors.toList());
         // 2. delete old ones and insert new ones

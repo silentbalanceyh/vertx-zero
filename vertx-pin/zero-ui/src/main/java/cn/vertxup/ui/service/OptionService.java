@@ -11,6 +11,7 @@ import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class OptionService implements OptionStub {
@@ -56,6 +57,7 @@ public class OptionService implements OptionStub {
         // 1. mountIn fields, convert those into object from string
         final List<UiOp> ops = Ut.itJArray(data)
                 .map(this::mountIn)
+                .map(field -> field.put(KeField.Ui.CONTROL_ID, Optional.ofNullable(field.getString(KeField.Ui.CONTROL_ID)).orElse(controlId)))
                 .map(field -> Ux.fromJson(field, UiOp.class))
                 .collect(Collectors.toList());
         // 2. delete old ones and insert new ones
