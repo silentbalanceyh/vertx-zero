@@ -12,6 +12,8 @@ import io.vertx.up.util.Ut;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 import java.util.stream.Collectors;
 
 public class OptionService implements OptionStub {
@@ -54,8 +56,11 @@ public class OptionService implements OptionStub {
 
     @Override
     public Future<JsonArray> updateA(final String controlId, final JsonArray data) {
+        final ConcurrentMap<Object, Boolean> seen = new ConcurrentHashMap<>();
         // 1. mountIn fields, convert those into object from string
         final List<UiOp> ops = Ut.itJArray(data)
+                // filter(deduplicate) by action
+                .filter(item -> Ut.notNil(item.getString("action")) && null == seen.putIfAbsent(item.getString("action"), Boolean.TRUE))
                 .map(this::mountIn)
                 .map(field -> field.put(KeField.Ui.CONTROL_ID, Optional.ofNullable(field.getString(KeField.Ui.CONTROL_ID)).orElse(controlId)))
                 .map(field -> Ux.fromJson(field, UiOp.class))
