@@ -27,5 +27,9 @@ public interface Addr {
         String FETCH_FORM_BY_IDENTIFIER = Prefix._EVENT + "X-FORM/BY-IDENTIFIER";
 
         String FETCH_LIST_BY_IDENTIFIER = Prefix._EVENT + "X-LIST/BY-IDENTIFIER";
+
+        String PUT_FORM_CASCADE = Prefix._EVENT + "X-FORM/PUT/CASCADE";
+
+        String DELETE_FORM = Prefix._EVENT + "X-FORM/DELETE";
     }
 }

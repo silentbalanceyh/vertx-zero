@@ -5,6 +5,7 @@ import cn.vertxup.ui.domain.tables.pojos.UiField;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
+import io.vertx.tp.ke.cv.KeField;
 import io.vertx.tp.ke.refine.Ke;
 import io.vertx.tp.ui.cv.em.RowType;
 import io.vertx.tp.ui.refine.Ui;
@@ -23,7 +24,7 @@ public class FieldService implements FieldStub {
     @Override
     public Future<JsonArray> fetchUi(final String formId) {
         return Ux.Jooq.on(UiFieldDao.class)
-                .<UiField>fetchAsync("controlId", formId)
+                .<UiField>fetchAsync(KeField.Ui.CONTROL_ID, formId)
                 .compose(ui -> {
                     if (Objects.isNull(ui) || ui.isEmpty()) {
                         Ui.infoWarn(FieldService.LOGGER, " Field not configured.");
@@ -33,6 +34,33 @@ public class FieldService implements FieldStub {
                         return this.attachConfig(uiJson);
                     }
                 });
+    }
+
+    @Override
+    public Future<JsonArray> updateA(final String controlId, final JsonArray data) {
+        // 1. mountIn fields, convert those into object from string
+        final List<UiField> fields = Ut.itJArray(data)
+                .map(this::mountIn)
+                .map(field -> Ux.fromJson(field, UiField.class))
+                .collect(Collectors.toList());
+        // 2. delete old ones and insert new ones
+        return this.deleteByControlId(controlId)
+                .compose(result -> Ux.Jooq.on(UiFieldDao.class)
+                        .insertAsync(fields)
+                        .compose(Ux::fnJArray)
+                        // 3. mountOut
+                        .compose(updatedFields -> {
+                            List<JsonObject> list = Ut.itJArray(updatedFields)
+                                    .map(this::mountOut)
+                                    .collect(Collectors.toList());
+                            return Ux.future(new JsonArray(list));
+                        }));
+    }
+
+    @Override
+    public Future<Boolean> deleteByControlId(String controlId) {
+        return Ux.Jooq.on(UiFieldDao.class)
+                .deleteAsync(new JsonObject().put(KeField.Ui.CONTROL_ID, controlId));
     }
 
     private Future<JsonArray> attachConfig(final JsonArray fieldJson) {
@@ -130,5 +158,22 @@ public class FieldService implements FieldStub {
             ui.add(rowArr);
         }
         return Ux.future(ui);
+    }
+
+    private JsonObject mountIn(final JsonObject data) {
+        Ke.mountString(data, FieldStub.OPTION_JSX);
+        Ke.mountString(data, FieldStub.OPTION_CONFIG);
+        Ke.mountString(data, FieldStub.OPTION_ITEM);
+        Ke.mountString(data, FieldStub.RULES);
+        Ke.mountString(data, KeField.METADATA);
+        return data;
+    }
+    private JsonObject mountOut(final JsonObject data) {
+        Ke.mount(data, FieldStub.OPTION_JSX);
+        Ke.mount(data, FieldStub.OPTION_CONFIG);
+        Ke.mount(data, FieldStub.OPTION_ITEM);
+        Ke.mountArray(data, FieldStub.RULES);
+        Ke.mount(data, KeField.METADATA);
+        return data;
     }
 }

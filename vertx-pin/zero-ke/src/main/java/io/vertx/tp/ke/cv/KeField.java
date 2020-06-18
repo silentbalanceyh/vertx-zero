@@ -153,6 +153,8 @@ public interface KeField {
 
         String CONTROLS = "controls";
 
+        String CONTROL_ID = "controlId";
+
         String CLASS_NAME = "className";
         /*
          * Form belong-to
