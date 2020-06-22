@@ -54,6 +54,26 @@ public interface ISResource extends Serializable {
     public String getName();
 
     /**
+     * Setter for <code>DB_ETERNAL.S_RESOURCE.TYPE</code>. 「type」- 资源分类
+     */
+    public ISResource setType(String value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.S_RESOURCE.TYPE</code>. 「type」- 资源分类
+     */
+    public String getType();
+
+    /**
+     * Setter for <code>DB_ETERNAL.S_RESOURCE.IDENTIFIER</code>. 「identifier」- 当前资源所属的Model的标识
+     */
+    public ISResource setIdentifier(String value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.S_RESOURCE.IDENTIFIER</code>. 「identifier」- 当前资源所属的Model的标识
+     */
+    public String getIdentifier();
+
+    /**
      * Setter for <code>DB_ETERNAL.S_RESOURCE.COMMENT</code>. 「comment」- 备注信息
      */
     public ISResource setComment(String value);
@@ -211,6 +231,8 @@ public interface ISResource extends Serializable {
         setKey(json.getString("KEY"));
         setCode(json.getString("CODE"));
         setName(json.getString("NAME"));
+        setType(json.getString("TYPE"));
+        setIdentifier(json.getString("IDENTIFIER"));
         setComment(json.getString("COMMENT"));
         setLevel(json.getInteger("LEVEL"));
         setModeRole(json.getString("MODE_ROLE"));
@@ -234,6 +256,8 @@ public interface ISResource extends Serializable {
         json.put("KEY",getKey());
         json.put("CODE",getCode());
         json.put("NAME",getName());
+        json.put("TYPE",getType());
+        json.put("IDENTIFIER",getIdentifier());
         json.put("COMMENT",getComment());
         json.put("LEVEL",getLevel());
         json.put("MODE_ROLE",getModeRole());

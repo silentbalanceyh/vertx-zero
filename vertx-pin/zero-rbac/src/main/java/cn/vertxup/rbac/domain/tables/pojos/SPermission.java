@@ -24,13 +24,12 @@ import javax.annotation.Generated;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class SPermission implements ISPermission {
 
-    private static final long serialVersionUID = 615111614;
+    private static final long serialVersionUID = 497149360;
 
     private String        key;
     private String        name;
     private String        code;
     private String        group;
-    private String        type;
     private String        identifier;
     private String        sigma;
     private String        language;
@@ -49,7 +48,6 @@ public class SPermission implements ISPermission {
         this.name = value.name;
         this.code = value.code;
         this.group = value.group;
-        this.type = value.type;
         this.identifier = value.identifier;
         this.sigma = value.sigma;
         this.language = value.language;
@@ -67,7 +65,6 @@ public class SPermission implements ISPermission {
         String        name,
         String        code,
         String        group,
-        String        type,
         String        identifier,
         String        sigma,
         String        language,
@@ -83,7 +80,6 @@ public class SPermission implements ISPermission {
         this.name = name;
         this.code = code;
         this.group = group;
-        this.type = type;
         this.identifier = identifier;
         this.sigma = sigma;
         this.language = language;
@@ -137,17 +133,6 @@ public class SPermission implements ISPermission {
     @Override
     public SPermission setGroup(String group) {
         this.group = group;
-        return this;
-    }
-
-    @Override
-    public String getType() {
-        return this.type;
-    }
-
-    @Override
-    public SPermission setType(String type) {
-        this.type = type;
         return this;
     }
 
@@ -269,7 +254,6 @@ public class SPermission implements ISPermission {
         sb.append(", ").append(name);
         sb.append(", ").append(code);
         sb.append(", ").append(group);
-        sb.append(", ").append(type);
         sb.append(", ").append(identifier);
         sb.append(", ").append(sigma);
         sb.append(", ").append(language);
@@ -298,7 +282,6 @@ public class SPermission implements ISPermission {
         setName(from.getName());
         setCode(from.getCode());
         setGroup(from.getGroup());
-        setType(from.getType());
         setIdentifier(from.getIdentifier());
         setSigma(from.getSigma());
         setLanguage(from.getLanguage());

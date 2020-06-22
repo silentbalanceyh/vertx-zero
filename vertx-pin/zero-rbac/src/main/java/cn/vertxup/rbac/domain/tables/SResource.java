@@ -35,7 +35,7 @@ public class SResource extends TableImpl<SResourceRecord> {
      * The reference instance of <code>DB_ETERNAL.S_RESOURCE</code>
      */
     public static final SResource S_RESOURCE = new SResource();
-    private static final long serialVersionUID = -1640477198;
+    private static final long serialVersionUID = 995937417;
     /**
      * The column <code>DB_ETERNAL.S_RESOURCE.KEY</code>. 「key」- 资源对应的ID
      */
@@ -48,6 +48,14 @@ public class SResource extends TableImpl<SResourceRecord> {
      * The column <code>DB_ETERNAL.S_RESOURCE.NAME</code>. 「name」- 资源名称
      */
     public final TableField<SResourceRecord, String> NAME = createField("NAME", org.jooq.impl.SQLDataType.VARCHAR(255), this, "「name」- 资源名称");
+    /**
+     * The column <code>DB_ETERNAL.S_RESOURCE.TYPE</code>. 「type」- 资源分类
+     */
+    public final TableField<SResourceRecord, String> TYPE = createField("TYPE", org.jooq.impl.SQLDataType.VARCHAR(60), this, "「type」- 资源分类");
+    /**
+     * The column <code>DB_ETERNAL.S_RESOURCE.IDENTIFIER</code>. 「identifier」- 当前资源所属的Model的标识
+     */
+    public final TableField<SResourceRecord, String> IDENTIFIER = createField("IDENTIFIER", org.jooq.impl.SQLDataType.VARCHAR(255), this, "「identifier」- 当前资源所属的Model的标识");
     /**
      * The column <code>DB_ETERNAL.S_RESOURCE.COMMENT</code>. 「comment」- 备注信息
      */

@@ -8,6 +8,8 @@ CREATE TABLE IF NOT EXISTS S_RESOURCE
     `KEY`        VARCHAR(36) COMMENT '「key」- 资源对应的ID',
     `CODE`       VARCHAR(255) COMMENT '「code」- 资源编号',
     `NAME`       VARCHAR(255) COMMENT '「name」- 资源名称',
+    `TYPE`       VARCHAR(60) COMMENT '「type」- 资源分类',
+    `IDENTIFIER` VARCHAR(255) COMMENT '「identifier」- 当前资源所属的Model的标识',
     `COMMENT`    TEXT COMMENT '「comment」- 备注信息',
 
     -- 资源属性（正向查询专用）

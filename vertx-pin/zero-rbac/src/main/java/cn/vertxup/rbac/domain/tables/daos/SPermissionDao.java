@@ -91,13 +91,6 @@ public class SPermissionDao extends DAOImpl<SPermissionRecord, cn.vertxup.rbac.d
     }
 
     /**
-     * Fetch records that have <code>TYPE IN (values)</code>
-     */
-    public List<cn.vertxup.rbac.domain.tables.pojos.SPermission> fetchByType(String... values) {
-        return fetch(SPermission.S_PERMISSION.TYPE, values);
-    }
-
-    /**
      * Fetch records that have <code>IDENTIFIER IN (values)</code>
      */
     public List<cn.vertxup.rbac.domain.tables.pojos.SPermission> fetchByIdentifier(String... values) {
@@ -200,13 +193,6 @@ public class SPermissionDao extends DAOImpl<SPermissionRecord, cn.vertxup.rbac.d
      */
     public CompletableFuture<List<cn.vertxup.rbac.domain.tables.pojos.SPermission>> fetchByGroupAsync(List<String> values) {
         return fetchAsync(SPermission.S_PERMISSION.GROUP,values);
-    }
-
-    /**
-     * Fetch records that have <code>TYPE IN (values)</code> asynchronously
-     */
-    public CompletableFuture<List<cn.vertxup.rbac.domain.tables.pojos.SPermission>> fetchByTypeAsync(List<String> values) {
-        return fetchAsync(SPermission.S_PERMISSION.TYPE,values);
     }
 
     /**
