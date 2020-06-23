@@ -24,11 +24,13 @@ import javax.annotation.Generated;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class SPermission implements ISPermission {
 
-    private static final long serialVersionUID = 1278189422;
+    private static final long serialVersionUID = 497149360;
 
     private String        key;
     private String        name;
     private String        code;
+    private String        group;
+    private String        identifier;
     private String        sigma;
     private String        language;
     private Boolean       active;
@@ -45,6 +47,8 @@ public class SPermission implements ISPermission {
         this.key = value.key;
         this.name = value.name;
         this.code = value.code;
+        this.group = value.group;
+        this.identifier = value.identifier;
         this.sigma = value.sigma;
         this.language = value.language;
         this.active = value.active;
@@ -60,6 +64,8 @@ public class SPermission implements ISPermission {
         String        key,
         String        name,
         String        code,
+        String        group,
+        String        identifier,
         String        sigma,
         String        language,
         Boolean       active,
@@ -73,6 +79,8 @@ public class SPermission implements ISPermission {
         this.key = key;
         this.name = name;
         this.code = code;
+        this.group = group;
+        this.identifier = identifier;
         this.sigma = sigma;
         this.language = language;
         this.active = active;
@@ -114,6 +122,28 @@ public class SPermission implements ISPermission {
     @Override
     public SPermission setCode(String code) {
         this.code = code;
+        return this;
+    }
+
+    @Override
+    public String getGroup() {
+        return this.group;
+    }
+
+    @Override
+    public SPermission setGroup(String group) {
+        this.group = group;
+        return this;
+    }
+
+    @Override
+    public String getIdentifier() {
+        return this.identifier;
+    }
+
+    @Override
+    public SPermission setIdentifier(String identifier) {
+        this.identifier = identifier;
         return this;
     }
 
@@ -223,6 +253,8 @@ public class SPermission implements ISPermission {
         sb.append(key);
         sb.append(", ").append(name);
         sb.append(", ").append(code);
+        sb.append(", ").append(group);
+        sb.append(", ").append(identifier);
         sb.append(", ").append(sigma);
         sb.append(", ").append(language);
         sb.append(", ").append(active);
@@ -249,6 +281,8 @@ public class SPermission implements ISPermission {
         setKey(from.getKey());
         setName(from.getName());
         setCode(from.getCode());
+        setGroup(from.getGroup());
+        setIdentifier(from.getIdentifier());
         setSigma(from.getSigma());
         setLanguage(from.getLanguage());
         setActive(from.getActive());

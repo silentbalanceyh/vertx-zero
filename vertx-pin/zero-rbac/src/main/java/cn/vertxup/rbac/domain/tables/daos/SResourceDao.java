@@ -84,6 +84,20 @@ public class SResourceDao extends DAOImpl<SResourceRecord, cn.vertxup.rbac.domai
     }
 
     /**
+     * Fetch records that have <code>TYPE IN (values)</code>
+     */
+    public List<cn.vertxup.rbac.domain.tables.pojos.SResource> fetchByType(String... values) {
+        return fetch(SResource.S_RESOURCE.TYPE, values);
+    }
+
+    /**
+     * Fetch records that have <code>IDENTIFIER IN (values)</code>
+     */
+    public List<cn.vertxup.rbac.domain.tables.pojos.SResource> fetchByIdentifier(String... values) {
+        return fetch(SResource.S_RESOURCE.IDENTIFIER, values);
+    }
+
+    /**
      * Fetch records that have <code>COMMENT IN (values)</code>
      */
     public List<cn.vertxup.rbac.domain.tables.pojos.SResource> fetchByComment(String... values) {
@@ -207,6 +221,20 @@ public class SResourceDao extends DAOImpl<SResourceRecord, cn.vertxup.rbac.domai
      */
     public CompletableFuture<List<cn.vertxup.rbac.domain.tables.pojos.SResource>> fetchByNameAsync(List<String> values) {
         return fetchAsync(SResource.S_RESOURCE.NAME,values);
+    }
+
+    /**
+     * Fetch records that have <code>TYPE IN (values)</code> asynchronously
+     */
+    public CompletableFuture<List<cn.vertxup.rbac.domain.tables.pojos.SResource>> fetchByTypeAsync(List<String> values) {
+        return fetchAsync(SResource.S_RESOURCE.TYPE,values);
+    }
+
+    /**
+     * Fetch records that have <code>IDENTIFIER IN (values)</code> asynchronously
+     */
+    public CompletableFuture<List<cn.vertxup.rbac.domain.tables.pojos.SResource>> fetchByIdentifierAsync(List<String> values) {
+        return fetchAsync(SResource.S_RESOURCE.IDENTIFIER,values);
     }
 
     /**

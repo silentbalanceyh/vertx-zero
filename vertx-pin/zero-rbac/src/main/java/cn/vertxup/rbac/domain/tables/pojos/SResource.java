@@ -24,11 +24,13 @@ import javax.annotation.Generated;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class SResource implements ISResource {
 
-    private static final long serialVersionUID = 485153002;
+    private static final long serialVersionUID = 481192735;
 
     private String        key;
     private String        code;
     private String        name;
+    private String        type;
+    private String        identifier;
     private String        comment;
     private Integer       level;
     private String        modeRole;
@@ -50,6 +52,8 @@ public class SResource implements ISResource {
         this.key = value.key;
         this.code = value.code;
         this.name = value.name;
+        this.type = value.type;
+        this.identifier = value.identifier;
         this.comment = value.comment;
         this.level = value.level;
         this.modeRole = value.modeRole;
@@ -70,6 +74,8 @@ public class SResource implements ISResource {
         String        key,
         String        code,
         String        name,
+        String        type,
+        String        identifier,
         String        comment,
         Integer       level,
         String        modeRole,
@@ -88,6 +94,8 @@ public class SResource implements ISResource {
         this.key = key;
         this.code = code;
         this.name = name;
+        this.type = type;
+        this.identifier = identifier;
         this.comment = comment;
         this.level = level;
         this.modeRole = modeRole;
@@ -134,6 +142,28 @@ public class SResource implements ISResource {
     @Override
     public SResource setName(String name) {
         this.name = name;
+        return this;
+    }
+
+    @Override
+    public String getType() {
+        return this.type;
+    }
+
+    @Override
+    public SResource setType(String type) {
+        this.type = type;
+        return this;
+    }
+
+    @Override
+    public String getIdentifier() {
+        return this.identifier;
+    }
+
+    @Override
+    public SResource setIdentifier(String identifier) {
+        this.identifier = identifier;
         return this;
     }
 
@@ -298,6 +328,8 @@ public class SResource implements ISResource {
         sb.append(key);
         sb.append(", ").append(code);
         sb.append(", ").append(name);
+        sb.append(", ").append(type);
+        sb.append(", ").append(identifier);
         sb.append(", ").append(comment);
         sb.append(", ").append(level);
         sb.append(", ").append(modeRole);
@@ -329,6 +361,8 @@ public class SResource implements ISResource {
         setKey(from.getKey());
         setCode(from.getCode());
         setName(from.getName());
+        setType(from.getType());
+        setIdentifier(from.getIdentifier());
         setComment(from.getComment());
         setLevel(from.getLevel());
         setModeRole(from.getModeRole());

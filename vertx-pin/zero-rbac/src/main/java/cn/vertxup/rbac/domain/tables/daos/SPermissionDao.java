@@ -84,6 +84,20 @@ public class SPermissionDao extends DAOImpl<SPermissionRecord, cn.vertxup.rbac.d
     }
 
     /**
+     * Fetch records that have <code>GROUP IN (values)</code>
+     */
+    public List<cn.vertxup.rbac.domain.tables.pojos.SPermission> fetchByGroup(String... values) {
+        return fetch(SPermission.S_PERMISSION.GROUP, values);
+    }
+
+    /**
+     * Fetch records that have <code>IDENTIFIER IN (values)</code>
+     */
+    public List<cn.vertxup.rbac.domain.tables.pojos.SPermission> fetchByIdentifier(String... values) {
+        return fetch(SPermission.S_PERMISSION.IDENTIFIER, values);
+    }
+
+    /**
      * Fetch records that have <code>SIGMA IN (values)</code>
      */
     public List<cn.vertxup.rbac.domain.tables.pojos.SPermission> fetchBySigma(String... values) {
@@ -172,6 +186,20 @@ public class SPermissionDao extends DAOImpl<SPermissionRecord, cn.vertxup.rbac.d
      */
     public CompletableFuture<List<cn.vertxup.rbac.domain.tables.pojos.SPermission>> fetchByCodeAsync(List<String> values) {
         return fetchAsync(SPermission.S_PERMISSION.CODE,values);
+    }
+
+    /**
+     * Fetch records that have <code>GROUP IN (values)</code> asynchronously
+     */
+    public CompletableFuture<List<cn.vertxup.rbac.domain.tables.pojos.SPermission>> fetchByGroupAsync(List<String> values) {
+        return fetchAsync(SPermission.S_PERMISSION.GROUP,values);
+    }
+
+    /**
+     * Fetch records that have <code>IDENTIFIER IN (values)</code> asynchronously
+     */
+    public CompletableFuture<List<cn.vertxup.rbac.domain.tables.pojos.SPermission>> fetchByIdentifierAsync(List<String> values) {
+        return fetchAsync(SPermission.S_PERMISSION.IDENTIFIER,values);
     }
 
     /**
