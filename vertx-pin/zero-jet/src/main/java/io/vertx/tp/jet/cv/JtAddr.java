@@ -22,4 +22,9 @@ public interface JtAddr {
 
         String UPDATE_BY_KEY = Prefix._EVENT + "I-JOB/UPDATE/BY/KEY";
     }
+
+    interface Aeon {
+
+        String NEW_ROUTE = Prefix._EVENT + "X-API/ROUTE/NEW";
+    }
 }
