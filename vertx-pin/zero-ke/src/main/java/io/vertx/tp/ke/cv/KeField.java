@@ -192,4 +192,16 @@ public interface KeField {
         String EDGE = "edge";                     /* Graphic edge */
         String EDGES = "edges";                   /* Graphic edges */
     }
+
+    interface Rbac {
+        String ROLE_ID = "roleId";
+        String PERM_ID = "permId";
+
+        // view related
+        String PROJECTION = "projection";
+        String CRITERIA = "criteria";
+        String ROWS = "rows";
+        String POSITION = "position";
+    }
+
 }

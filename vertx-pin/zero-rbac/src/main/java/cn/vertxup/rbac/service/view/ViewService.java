@@ -6,13 +6,14 @@ import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.ke.cv.KeField;
+import io.vertx.tp.ke.refine.Ke;
 import io.vertx.tp.rbac.cv.AuthMsg;
 import io.vertx.tp.rbac.cv.em.OwnerType;
 import io.vertx.tp.rbac.refine.Sc;
-import io.vertx.up.unity.Ux;
 import io.vertx.up.atom.query.Inquiry;
-import io.vertx.up.log.Annal;
 import io.vertx.up.eon.Strings;
+import io.vertx.up.log.Annal;
+import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
 import java.util.List;
@@ -57,6 +58,26 @@ public class ViewService implements ViewStub {
                 .fetchAndAsync(new JsonObject().put("criteria", filters));
     }
 
+    @Override
+    public Future<JsonObject> updateByType(String ownerType, String key, JsonObject data) {
+        final SView view = Ux.fromJson(mountIn(data.put("ownerType", ownerType.toUpperCase())), SView.class);
+        return this.deleteById(key)
+                .compose(result -> Ux.Jooq.on(SViewDao.class)
+                        .insertAsync(view)
+                        .compose(Ux::fnJObject)
+                        .compose(item -> {
+                            // TODO refresh cache
+
+
+                            return Ux.future(this.mountOut(item));
+                        }));
+    }
+
+    @Override
+    public Future<Boolean> deleteById(String key) {
+        return Ux.Jooq.on(SViewDao.class).deleteByIdAsync(key);
+    }
+
     private JsonObject toFilters(final String resourceId, final String view) {
         final JsonObject filters = new JsonObject();
         filters.put(Strings.EMPTY, Boolean.TRUE);
@@ -73,5 +94,20 @@ public class ViewService implements ViewStub {
         data.put("rows", new JsonObject().encode());
         data.put(Inquiry.KEY_CRITERIA, new JsonObject().encode());
         return Ut.deserialize(data, SView.class);
+    }
+
+    private JsonObject mountIn(final JsonObject data) {
+        Ke.mountString(data, KeField.Rbac.PROJECTION);
+        Ke.mountString(data, KeField.Rbac.CRITERIA);
+        Ke.mountString(data, KeField.Rbac.ROWS);
+        Ke.mountString(data, KeField.METADATA);
+        return data;
+    }
+    private JsonObject mountOut(final JsonObject data) {
+        Ke.mountArray(data,  KeField.Rbac.PROJECTION);
+        Ke.mount(data, KeField.Rbac.CRITERIA);
+        Ke.mount(data, KeField.Rbac.ROWS);
+        Ke.mount(data, KeField.METADATA);
+        return data;
     }
 }

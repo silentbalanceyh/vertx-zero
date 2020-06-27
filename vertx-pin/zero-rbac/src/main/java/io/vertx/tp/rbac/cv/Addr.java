@@ -58,5 +58,11 @@ public interface Addr {
 
     interface Role {
         String ROLE_SIGMA = Prefix._EVENT + "S-ROLE/SIGMA";
+
+        String ROLE_PERM_UPDATE = Prefix._EVENT + "S-ROLE-PERM/PUT";
+    }
+
+    interface View {
+        String VIEW_UPDATE_BY_TYPE = Prefix._EVENT + "S-VIEW-BY-TYPE/PUT";
     }
 }
