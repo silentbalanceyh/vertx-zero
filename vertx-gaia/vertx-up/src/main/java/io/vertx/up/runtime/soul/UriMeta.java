@@ -3,6 +3,8 @@ package io.vertx.up.runtime.soul;
 import io.vertx.core.http.HttpMethod;
 
 import java.io.Serializable;
+import java.lang.reflect.Method;
+import java.util.Objects;
 
 /**
  * This object is for uri store, it could store following information
@@ -32,7 +34,7 @@ public class UriMeta implements Serializable {
      * class definition in static mode.
      */
     private transient Class<?> workerClass;
-    private transient String workerMethod;
+    private transient Method workerMethod;
 
     public String getUri() {
         return this.uri;
@@ -40,6 +42,14 @@ public class UriMeta implements Serializable {
 
     public void setUri(final String uri) {
         this.uri = uri;
+    }
+
+    public String getCacheKey() {
+        if (Objects.isNull(this.method) || Objects.isNull(this.uri)) {
+            return null;
+        } else {
+            return this.method.name() + ":" + this.uri;
+        }
     }
 
     public HttpMethod getMethod() {
@@ -74,11 +84,12 @@ public class UriMeta implements Serializable {
         this.workerClass = workerClass;
     }
 
-    public String getWorkerMethod() {
+    public Method getWorkerMethod() {
         return this.workerMethod;
     }
 
-    public void setWorkerMethod(final String workerMethod) {
+    public void setWorkerMethod(final Method workerMethod) {
         this.workerMethod = workerMethod;
+        this.workerClass = workerMethod.getDeclaringClass();
     }
 }
