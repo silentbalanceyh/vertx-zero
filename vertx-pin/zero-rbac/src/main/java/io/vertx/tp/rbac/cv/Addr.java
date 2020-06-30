@@ -54,6 +54,9 @@ public interface Addr {
 
         /* Resource Search */
         String RESOURCE_SEARCH = Prefix._EVENT + "X-RESOURCE/SEARCH";
+
+        /* Perm Information */
+        String PERMISSION_GROUP = Prefix._EVENT + "X-PERMISSION/GROUP";
     }
 
     interface Group {
