@@ -13,7 +13,6 @@ import io.vertx.up.eon.Values;
 import io.vertx.up.eon.em.Etat;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
-import io.vertx.up.runtime.ZeroAeon;
 import io.vertx.up.runtime.ZeroGrid;
 import io.vertx.up.runtime.ZeroHeart;
 import io.vertx.up.uca.registry.Uddi;
@@ -71,13 +70,6 @@ public class ZeroHttpAgent extends AbstractVerticle {
 
             /* Build router with current option **/
             final Router router = Router.router(this.vertx);
-
-            /*
-             * It's new engine for routing dynamic deployment in zero framework
-             * The class `ZeroAeon` could manage routing reference that stored into
-             * zero framework `Router` pool here
-             * **/
-            ZeroAeon.initialize(router);
 
             // Router
             routerAxiser.mount(router);

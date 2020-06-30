@@ -8,6 +8,7 @@ import io.vertx.up.atom.agent.Event;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import io.vertx.up.runtime.ZeroAnno;
+import io.vertx.up.runtime.soul.UriAeon;
 import io.vertx.up.uca.rs.Aim;
 import io.vertx.up.uca.rs.Axis;
 import io.vertx.up.uca.rs.Sentry;
@@ -45,7 +46,16 @@ public class EventAxis implements Axis<Router> {
 
     @Override
     public void mount(final Router router) {
-        // Extract Event foreach
+        /*
+         * It's new engine for routing dynamic deployment in zero framework
+         * The class `ZeroAeon` could manage routing reference that stored into
+         * zero framework `Router` pool here
+         * **/
+        UriAeon.connect(router);
+
+        /*
+         * Extract Event foreach
+         */
         EVENTS.forEach(event -> Fn.safeSemi(null == event, LOGGER,
                 () -> LOGGER.warn(Info.NULL_EVENT, this.getClass().getName()),
                 () -> {
