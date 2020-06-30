@@ -4,6 +4,7 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.Router;
 import io.vertx.up.fn.Fn;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
@@ -31,14 +32,6 @@ public class UriAeon {
         Fn.poolThread(NEURO, () -> UriNeuro.getInstance(threadId).bind(router));
     }
 
-    /*
-     * Registry route of dynamic in Jet project ( For I_API )
-     */
-    public static void addUri(final UriMeta meta) {
-        if (Objects.nonNull(meta)) {
-            STORE.add(meta);
-        }
-    }
 
     /*
      * Routing mounting here ( Dynamic Modification )
@@ -48,5 +41,25 @@ public class UriAeon {
          * Create new routing on `original` route object
          */
         NEURO.values().forEach(neuro -> neuro.addRoute(config));
+    }
+
+    /*
+     * ADD / SEARCH / GET
+     */
+    // ADD
+    public static void uriAdd(final UriMeta meta) {
+        if (Objects.nonNull(meta)) {
+            STORE.add(meta);
+        }
+    }
+
+    // SEARCH
+    public static List<UriMeta> uriSearch(final String keyword) {
+        return STORE.search(keyword);
+    }
+
+    // GET
+    public static List<UriMeta> uriGet() {
+        return STORE.getAll();
     }
 }

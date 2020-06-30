@@ -9,11 +9,16 @@ import io.vertx.core.http.HttpMethod;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.ke.cv.KeField;
+import io.vertx.tp.ke.refine.Ke;
+import io.vertx.tp.optic.business.ExRoute;
 import io.vertx.up.eon.Strings;
+import io.vertx.up.runtime.soul.UriAeon;
+import io.vertx.up.runtime.soul.UriMeta;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 public class ActionService implements ActionStub {
@@ -46,7 +51,7 @@ public class ActionService implements ActionStub {
     }
 
     @Override
-    public Future<List<SAction>> seekAction(final String keyword, final String sigma) {
+    public Future<List<SAction>> searchAuthorized(final String keyword, final String sigma) {
         if (Ut.isNil(sigma) || Ut.isNil(keyword)) {
             return Ux.future(new ArrayList<>());
         } else {
@@ -72,5 +77,28 @@ public class ActionService implements ActionStub {
             condition.put("$0", criteria);
             return Ux.Jooq.on(SActionDao.class).fetchAndAsync(condition);
         }
+    }
+
+    @Override
+    public Future<List<UriMeta>> searchAll(final String keyword, final String sigma) {
+        /*
+         * Static by `keyword` of UriMeta
+         */
+        final List<UriMeta> staticList = UriAeon.uriSearch(keyword);
+        /*
+         * Dynamic by `keyword` and `sigma` ( zero-jet )
+         */
+        return Ke.channel(ExRoute.class, ArrayList::new, route -> route.searchAsync(keyword, sigma)).compose(uris -> {
+            /*
+             * Combine two list of uri metadata
+             */
+            final List<UriMeta> resultList = new ArrayList<>(uris);
+            resultList.addAll(staticList);
+            /*
+             * After combine, re-order the result list by `uri`
+             */
+            resultList.sort(Comparator.comparing(UriMeta::getUri));
+            return Ux.future(resultList);
+        });
     }
 }

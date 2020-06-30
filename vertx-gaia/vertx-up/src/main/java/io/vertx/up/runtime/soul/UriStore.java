@@ -8,11 +8,10 @@ import io.vertx.up.util.Ut;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
+import java.util.stream.Collectors;
 
 /**
  * @author <a href="http://www.origin-x.cn">lang</a>
@@ -38,6 +37,8 @@ class UriStore {
             final UriMeta uriMeta = new UriMeta();
             uriMeta.setMethod(event.getMethod());
             uriMeta.setUri(event.getPath());
+            uriMeta.setDynamic(Boolean.FALSE);
+            uriMeta.setComment(event.getPath());
             /*
              * Get Address
              */
@@ -85,5 +86,35 @@ class UriStore {
             URIS.put(cacheKey, meta);
         }
         return this;
+    }
+
+    /*
+     * Get all Uris, sort by `uri` here
+     */
+    List<UriMeta> getAll() {
+        final List<UriMeta> uris = new ArrayList<>(URIS.values());
+        uris.sort(Comparator.comparing(UriMeta::getUri));
+        return uris;
+    }
+
+    /*
+     * Search UriMeta by `keyword`
+     */
+    List<UriMeta> search(final String keyword) {
+        if (Ut.isNil(keyword)) {
+            return new ArrayList<>();
+        } else {
+            final List<UriMeta> sortedList = this.getAll();
+            return sortedList.stream().filter(item -> {
+                if (item.getUri().contains(keyword)) {
+                    return true;
+                }
+                if (Ut.isNil(item.getComment())) {
+                    return false;
+                } else {
+                    return item.getComment().contains(keyword);
+                }
+            }).collect(Collectors.toList());
+        }
     }
 }

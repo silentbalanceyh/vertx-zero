@@ -14,7 +14,9 @@ import io.vertx.up.commune.config.*;
 import io.vertx.up.commune.rule.RuleUnique;
 import io.vertx.up.eon.Strings;
 import io.vertx.up.eon.em.ChannelType;
+import io.vertx.up.extension.PlugRouter;
 import io.vertx.up.log.Annal;
+import io.vertx.up.util.Ut;
 
 import javax.ws.rs.core.MediaType;
 import java.util.Set;
@@ -54,6 +56,13 @@ public class Jt {
     public static String toPath(final Supplier<String> routeSupplier, final Supplier<String> uriSupplier,
                                 final boolean secure, final JtConfig external) {
         return JtRoute.toPath(routeSupplier, uriSupplier, secure, external);
+    }
+
+    public static String toPath(final Supplier<String> routeSupplier, final Supplier<String> uriSupplier,
+                                final boolean secure) {
+        final JsonObject routerConfig = PlugRouter.config();
+        final JtConfig config = Ut.deserialize(routerConfig, JtConfig.class);
+        return toPath(routeSupplier, uriSupplier, secure, config);
     }
 
     public static Set<MediaType> toMime(final Supplier<String> supplier) {

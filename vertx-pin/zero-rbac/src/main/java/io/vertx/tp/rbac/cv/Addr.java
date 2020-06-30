@@ -46,8 +46,12 @@ public interface Addr {
     }
 
     interface Authority {
-        /* Api Seeking */
+        /* Api Seeking（Action Only） */
         String ACTION_SEEK = Prefix._EVENT + "X-ACTION/SEEK";
+
+        /* Api Pre-Ready */
+        String ACTION_READY = Prefix._EVENT + "X-ACTION/READY";
+
         /* Resource Search */
         String RESOURCE_SEARCH = Prefix._EVENT + "X-RESOURCE/SEARCH";
     }

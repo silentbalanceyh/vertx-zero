@@ -141,9 +141,15 @@ public class SheetAnalyzer implements Serializable {
         ExFn.itRow(row, bound, (dataCell, dataIndex) -> {
             /* Field / Value */
             final String field = table.field(dataIndex);
-            final Object value = ExValue.getValue(dataCell, this.evaluator);
-            /* Stored into record */
-            record.put(field, value);
+            try {
+                final Object value = ExValue.getValue(dataCell, this.evaluator);
+                /* Stored into record */
+                record.put(field, value);
+            } catch (final Throwable ex) {
+                LOGGER.info("Error occurs: {0}, Table Name: {1}",
+                        ex.getMessage(), table.getName());
+                ex.printStackTrace();
+            }
         });
         return record;
     }

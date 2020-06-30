@@ -25,6 +25,19 @@ public class UriMeta implements Serializable {
     private transient String uri;
     private transient HttpMethod method;
     private transient String key;
+
+    /*
+     * Brief Description for current api here
+     * It's for UI display that could store uri comment
+     * 1) For System/Static URIs, the comment is equal to `uri`
+     * 2) For Dynamic URIs, the comment came from `I_API` field ( name + comment )
+     */
+    private transient String comment;
+    /*
+     * Whether the API is dynamic or static
+     * Dynamic could be configured
+     */
+    private transient boolean dynamic;
     /*
      * Address ( Worker Addr )
      */
@@ -35,6 +48,14 @@ public class UriMeta implements Serializable {
      */
     private transient Class<?> workerClass;
     private transient Method workerMethod;
+
+    public boolean isDynamic() {
+        return this.dynamic;
+    }
+
+    public void setDynamic(final boolean dynamic) {
+        this.dynamic = dynamic;
+    }
 
     public String getUri() {
         return this.uri;
@@ -91,5 +112,27 @@ public class UriMeta implements Serializable {
     public void setWorkerMethod(final Method workerMethod) {
         this.workerMethod = workerMethod;
         this.workerClass = workerMethod.getDeclaringClass();
+    }
+
+    public String getComment() {
+        return this.comment;
+    }
+
+    public void setComment(final String comment) {
+        this.comment = comment;
+    }
+
+    @Override
+    public boolean equals(final Object o) {
+        if (this == o) return true;
+        if (o == null || this.getClass() != o.getClass()) return false;
+        final UriMeta uriMeta = (UriMeta) o;
+        return this.uri.equals(uriMeta.uri) &&
+                this.method == uriMeta.method;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(this.uri, this.method);
     }
 }
