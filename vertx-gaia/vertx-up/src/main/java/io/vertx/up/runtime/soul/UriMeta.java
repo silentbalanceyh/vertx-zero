@@ -1,5 +1,6 @@
 package io.vertx.up.runtime.soul;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.vertx.core.http.HttpMethod;
 
 import java.io.Serializable;
@@ -33,6 +34,7 @@ public class UriMeta implements Serializable {
      * 2) For Dynamic URIs, the comment came from `I_API` field ( name + comment )
      */
     private transient String comment;
+    private transient String name;
     /*
      * Whether the API is dynamic or static
      * Dynamic could be configured
@@ -46,7 +48,9 @@ public class UriMeta implements Serializable {
      * Worker Component that reflect to `I_SERVICE` table or
      * class definition in static mode.
      */
+    @JsonIgnore
     private transient Class<?> workerClass;
+    @JsonIgnore
     private transient Method workerMethod;
 
     public boolean isDynamic() {
@@ -65,6 +69,7 @@ public class UriMeta implements Serializable {
         this.uri = uri;
     }
 
+    @JsonIgnore
     public String getCacheKey() {
         if (Objects.isNull(this.method) || Objects.isNull(this.uri)) {
             return null;
@@ -120,6 +125,14 @@ public class UriMeta implements Serializable {
 
     public void setComment(final String comment) {
         this.comment = comment;
+    }
+
+    public String getName() {
+        return this.name;
+    }
+
+    public void setName(final String name) {
+        this.name = name;
     }
 
     @Override

@@ -38,7 +38,11 @@ class UriStore {
             uriMeta.setMethod(event.getMethod());
             uriMeta.setUri(event.getPath());
             uriMeta.setDynamic(Boolean.FALSE);
+            /*
+             * name / comment
+             */
             uriMeta.setComment(event.getPath());
+            uriMeta.setName(event.getPath());
             /*
              * Get Address
              */
@@ -109,10 +113,10 @@ class UriStore {
                 if (item.getUri().contains(keyword)) {
                     return true;
                 }
-                if (Ut.isNil(item.getComment())) {
+                if (Ut.isNil(item.getName())) {
                     return false;
                 } else {
-                    return item.getComment().contains(keyword);
+                    return item.getName().contains(keyword);
                 }
             }).collect(Collectors.toList());
         }

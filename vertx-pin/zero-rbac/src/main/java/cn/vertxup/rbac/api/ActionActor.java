@@ -29,6 +29,6 @@ public class ActionActor {
     @Address(Addr.Authority.ACTION_READY)
     public Future<JsonArray> searchAll(final String sigma, final JsonObject params) {
         final String keyword = params.getString("keyword");
-        return Ux.future(new JsonArray());
+        return this.actionStub.searchAll(keyword, sigma).compose(Ux::fnJArray);
     }
 }

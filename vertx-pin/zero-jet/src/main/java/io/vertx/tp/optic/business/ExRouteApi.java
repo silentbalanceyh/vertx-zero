@@ -1,4 +1,4 @@
-package io.vertx.tp.optic;
+package io.vertx.tp.optic.business;
 
 import cn.vertxup.jet.domain.tables.daos.IApiDao;
 import cn.vertxup.jet.domain.tables.pojos.IApi;
@@ -8,11 +8,8 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.tp.jet.atom.JtApp;
 import io.vertx.tp.jet.refine.Jt;
 import io.vertx.tp.ke.cv.KeField;
-import io.vertx.tp.optic.business.ExRoute;
 import io.vertx.tp.optic.environment.Ambient;
 import io.vertx.up.runtime.soul.UriMeta;
-import io.vertx.up.uca.yaml.Node;
-import io.vertx.up.uca.yaml.ZeroUniform;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
@@ -24,10 +21,6 @@ import java.util.Objects;
  * @author <a href="http://www.origin-x.cn">lang</a>
  */
 public class ExRouteApi implements ExRoute {
-    /*
-     * RouterConfig
-     */
-    private transient final Node<JsonObject> uniform = Ut.singleton(ZeroUniform.class);
 
     @Override
     public Future<List<UriMeta>> searchAsync(final String keyword, final String sigma) {
@@ -69,11 +62,8 @@ public class ExRouteApi implements ExRoute {
                         /*
                          * Comment analyzing
                          */
-                        if (Ut.isNil(api.getName())) {
-                            meta.setComment(api.getComment());
-                        } else {
-                            meta.setComment(api.getName());
-                        }
+                        meta.setName(api.getName());
+                        meta.setComment(api.getComment());
                         uris.add(meta);
                     });
                     /*
