@@ -4,6 +4,7 @@ import cn.vertxup.rbac.domain.tables.pojos.SAction;
 import cn.vertxup.rbac.domain.tables.pojos.SResource;
 import io.vertx.core.Future;
 import io.vertx.core.http.HttpMethod;
+import io.vertx.up.runtime.soul.UriMeta;
 
 import java.util.List;
 
@@ -24,11 +25,36 @@ public interface ActionStub {
     Future<SAction> fetchAction(String normalizedUri, HttpMethod method, String sigma);
 
     Future<SResource> fetchResource(String key);
+
     /*
      * Api selector for action to get all authorized apis here.
      * It will be used in following situations
      *
      * 1 - FormDesigner: form design tools usage.
+     *
+     * Workflow:
+     *
+     * 1) - Fetch Apis from `SEC_ACTION` directly
+     * 2) - All the Apis have been authorized
+     * 3) - This workflow is ( Step 1 ) workflow here.
      */
-    Future<List<SAction>> seekAction(String keyword, String sigma);
+    Future<List<SAction>> searchAuthorized(String keyword, String sigma);
+
+    /*
+     * Api selector for permission/resource management.
+     * All the apis could be extract here.
+     *
+     * 1 - I_API table stored
+     * 2 - UriAeon that stored in memory
+     *
+     * Workflow:
+     *
+     * 1) - Fetch Apis from `UriAeon` class ( Memory Storage )
+     * 2) - Fetch Apis from `I_API` ( By api channel )
+     * 3) - Wrapper Apis with description ( The description came from two parts )
+     *    -- 3.1. I_API ( comment first, then name )
+     *    -- 3.2. UriAeon ( Normalized could be wrapper by frontend, others lefts )
+     *
+     */
+    Future<List<UriMeta>> searchAll(String keyword, String sigma);
 }

@@ -71,7 +71,6 @@ public class ZeroHttpAgent extends AbstractVerticle {
             /* Build router with current option **/
             final Router router = Router.router(this.vertx);
 
-            /* Mount data to router **/
             // Router
             routerAxiser.mount(router);
             // Wall

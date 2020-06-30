@@ -65,8 +65,8 @@
         <stack.version>3.9.1</stack.version>
 
         <jcabi.version>0.22.6</jcabi.version>
-        <jackson.version>2.11.0</jackson.version>
-        <jackson.extension.version>2.11.0</jackson.extension.version>
+        <jackson.version>2.11.1</jackson.version>
+        <jackson.extension.version>2.11.1</jackson.extension.version>
         <jersey.version>2.30.1</jersey.version>
         <javax.el.version>3.0.1-b06</javax.el.version>
         <glassfish.el.version>3.0.1-b11</glassfish.el.version>
@@ -95,7 +95,7 @@
         <jwt.version>3.10.3</jwt.version>
         <jetbrains.version>19.0.0</jetbrains.version>
         <guice.version>4.1.0</guice.version>
-        <scala.version>2.13.2</scala.version>
+        <scala.version>2.13.3</scala.version>
         <feign.version>8.18.0</feign.version>
         <guava.version>29.0-jre</guava.version>
         <joda.version>2.10.6</joda.version>
@@ -109,7 +109,7 @@
         <elasticsearch.version>7.7.1</elasticsearch.version>
 
         <!-- neo4j search -->
-        <neo4j.version>4.0.1</neo4j.version>
+        <neo4j.version>4.1.0</neo4j.version>
 
         <!-- Apache Common -->
         <common.jexl.version>3.1</common.jexl.version>
@@ -129,7 +129,7 @@
         <!-- Rpc -->
         <protobuf.version>3.12.2</protobuf.version>
         <vertx.grpc.version>1.6.1</vertx.grpc.version>
-        <grpc.version>1.30.1</grpc.version>
+        <grpc.version>1.30.2</grpc.version>
         <picoli.version>4.3.2</picoli.version>
 
         <!-- Yaml -->

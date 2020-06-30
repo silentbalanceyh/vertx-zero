@@ -21,8 +21,14 @@ public class ActionActor {
     private transient ActionStub actionStub;
 
     @Address(Addr.Authority.ACTION_SEEK)
-    public Future<JsonArray> seekAction(final String sigma, final JsonObject params) {
+    public Future<JsonArray> searchAuthorized(final String sigma, final JsonObject params) {
         final String keyword = params.getString("keyword");
-        return this.actionStub.seekAction(keyword, sigma).compose(Ux::fnJArray);
+        return this.actionStub.searchAuthorized(keyword, sigma).compose(Ux::fnJArray);
+    }
+
+    @Address(Addr.Authority.ACTION_READY)
+    public Future<JsonArray> searchAll(final String sigma, final JsonObject params) {
+        final String keyword = params.getString("keyword");
+        return this.actionStub.searchAll(keyword, sigma).compose(Ux::fnJArray);
     }
 }

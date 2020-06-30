@@ -46,7 +46,7 @@ public class FieldService implements FieldStub {
         final List<UiField> fields = Ut.itJArray(data)
                 // filter(deduplicate) by name
                 .filter(item -> (!item.containsKey(KeField.NAME)) ||
-                                (Ut.notNil(item.getString(KeField.NAME)) && null == seen.putIfAbsent(item.getString(KeField.NAME), Boolean.TRUE)))
+                        (Ut.notNil(item.getString(KeField.NAME)) && null == seen.putIfAbsent(item.getString(KeField.NAME), Boolean.TRUE)))
                 .map(this::mountIn)
                 .map(field -> field.put(KeField.Ui.CONTROL_ID, Optional.ofNullable(field.getString(KeField.Ui.CONTROL_ID)).orElse(controlId)))
                 .map(field -> Ux.fromJson(field, UiField.class))
@@ -58,7 +58,7 @@ public class FieldService implements FieldStub {
                         .compose(Ux::fnJArray)
                         // 3. mountOut
                         .compose(updatedFields -> {
-                            List<JsonObject> list = Ut.itJArray(updatedFields)
+                            final List<JsonObject> list = Ut.itJArray(updatedFields)
                                     .map(this::mountOut)
                                     .collect(Collectors.toList());
                             return Ux.future(new JsonArray(list));
@@ -66,7 +66,7 @@ public class FieldService implements FieldStub {
     }
 
     @Override
-    public Future<Boolean> deleteByControlId(String controlId) {
+    public Future<Boolean> deleteByControlId(final String controlId) {
         return Ux.Jooq.on(UiFieldDao.class)
                 .deleteAsync(new JsonObject().put(KeField.Ui.CONTROL_ID, controlId));
     }
@@ -156,8 +156,15 @@ public class FieldService implements FieldStub {
                         if (Ut.notNil(config) && config.containsKey("format")) {
                             /*
                              * Date here for moment = true
+                             * Here are some difference between two components
+                             * 1) For `Date`, the format should be string
+                             * 2) For `TableEditor`, the format should be object
+                             * The table editor is added new here
                              */
-                            dataCell.put("moment", true);
+                            final Object format = config.getValue("format");
+                            if (String.class == format.getClass()) {
+                                dataCell.put("moment", true);
+                            }
                         }
                     }
                 }
@@ -176,6 +183,7 @@ public class FieldService implements FieldStub {
         Ke.mountString(data, KeField.METADATA);
         return data;
     }
+
     private JsonObject mountOut(final JsonObject data) {
         Ke.mount(data, FieldStub.OPTION_JSX);
         Ke.mount(data, FieldStub.OPTION_CONFIG);

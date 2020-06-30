@@ -45,11 +45,15 @@ public interface Addr {
         String IMPORT = Prefix._EVENT + "X-IMPORT/USER";
     }
 
-    interface Authority{
-        /*
-         * Api Seeking
-         */
+    interface Authority {
+        /* Api Seeking（Action Only） */
         String ACTION_SEEK = Prefix._EVENT + "X-ACTION/SEEK";
+
+        /* Api Pre-Ready */
+        String ACTION_READY = Prefix._EVENT + "X-ACTION/READY";
+
+        /* Resource Search */
+        String RESOURCE_SEARCH = Prefix._EVENT + "X-RESOURCE/SEARCH";
     }
 
     interface Group {
