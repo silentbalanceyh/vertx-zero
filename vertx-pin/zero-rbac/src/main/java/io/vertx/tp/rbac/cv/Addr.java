@@ -54,6 +54,18 @@ public interface Addr {
 
         /* Resource Search */
         String RESOURCE_SEARCH = Prefix._EVENT + "X-RESOURCE/SEARCH";
+
+        /* Resource get with action */
+        String RESOURCE_GET_CASCADE = Prefix._EVENT + "X-RESOURCE/GET-CASCADE";
+
+        /* Resource add with action */
+        String RESOURCE_ADD_CASCADE = Prefix._EVENT + "X-RESOURCE/ADD-CASCADE";
+
+        /* Resource update with action */
+        String RESOURCE_UPDATE_CASCADE = Prefix._EVENT + "X-RESOURCE/UPDATE-CASCADE";
+
+        /* Resource delete with action */
+        String RESOURCE_DELETE_CASCADE = Prefix._EVENT + "X-RESOURCE/DELETE-CASCADE";
     }
 
     interface Group {
