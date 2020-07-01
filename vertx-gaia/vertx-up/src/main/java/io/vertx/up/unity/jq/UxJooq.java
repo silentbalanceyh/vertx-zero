@@ -350,6 +350,16 @@ public class UxJooq {
         return count(params, this.analyzer.pojoFile());
     }
 
+    // -------------------- Group Operation ------------
+    public Future<JsonArray> groupAsync(final JsonObject params, final String... groupFields) {
+        return this.groupAsync(this.analyzer.pojoFile(), params, groupFields);
+    }
+
+    public Future<JsonArray> groupAsync(final String pojo, final JsonObject params, final String... groupFields) {
+        final Inquiry inquiry = JqTool.getInquiry(params, pojo);
+        return this.aggregator.groupByAsync(inquiry.toJson(), groupFields);
+    }
+
     // -------------------- Search Operation -----------
     /* (Async / Sync) Sort, Projection, Criteria, Pager Search Operations */
     public Future<JsonObject> searchAsync(final JsonObject params, final String pojo) {
