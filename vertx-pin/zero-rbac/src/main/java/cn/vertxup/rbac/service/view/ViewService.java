@@ -9,6 +9,7 @@ import io.vertx.tp.ke.cv.KeField;
 import io.vertx.tp.ke.refine.Ke;
 import io.vertx.tp.rbac.cv.AuthMsg;
 import io.vertx.tp.rbac.cv.em.OwnerType;
+import io.vertx.tp.rbac.permission.ScHabitus;
 import io.vertx.tp.rbac.refine.Sc;
 import io.vertx.up.atom.query.Inquiry;
 import io.vertx.up.eon.Strings;
@@ -59,16 +60,15 @@ public class ViewService implements ViewStub {
     }
 
     @Override
-    public Future<JsonObject> updateByType(String ownerType, String key, JsonObject data) {
+    public Future<JsonObject> updateByType(String ownerType, String key, JsonObject data, String habit) {
         final SView view = Ux.fromJson(mountIn(data.put("ownerType", ownerType.toUpperCase())), SView.class);
         return this.deleteById(key)
                 .compose(result -> Ux.Jooq.on(SViewDao.class)
                         .insertAsync(view)
                         .compose(Ux::fnJObject)
                         .compose(item -> {
-                            // TODO refresh cache
-
-
+                            // clear current user's habit
+                            ScHabitus.initialize(habit).clear();
                             return Ux.future(this.mountOut(item));
                         }));
     }

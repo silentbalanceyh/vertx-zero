@@ -57,6 +57,18 @@ public interface Addr {
 
         /* Perm Information */
         String PERMISSION_GROUP = Prefix._EVENT + "X-PERMISSION/GROUP";
+
+        /* Resource get with action */
+        String RESOURCE_GET_CASCADE = Prefix._EVENT + "X-RESOURCE/GET-CASCADE";
+
+        /* Resource add with action */
+        String RESOURCE_ADD_CASCADE = Prefix._EVENT + "X-RESOURCE/ADD-CASCADE";
+
+        /* Resource update with action */
+        String RESOURCE_UPDATE_CASCADE = Prefix._EVENT + "X-RESOURCE/UPDATE-CASCADE";
+
+        /* Resource delete with action */
+        String RESOURCE_DELETE_CASCADE = Prefix._EVENT + "X-RESOURCE/DELETE-CASCADE";
     }
 
     interface Group {

@@ -59,11 +59,13 @@ class Query {
 
         final DataTpl tpl = event.getTpl();
 
+        final Set<String> projection = event.getProjection();
+
         /* 5. 执行结果 */
         final Record record = consumer.apply(matrix.keySet(), ingest);
 
         /* 6. 处理行数据 */
-        event.stored(Data.doJoin(matrix.keySet(), new Record[]{record}, tpl));
+        event.stored(Data.doJoin(matrix.keySet(), new Record[]{record}, tpl, projection));
         return event;
     }
 
@@ -84,8 +86,10 @@ class Query {
 
         final DataTpl tpl = event.getTpl();
 
+        final Set<String> projection = event.getProjection();
+
         final Record[] records = consumer.apply(matrix.keySet(), ingest);
-        event.stored(Data.doJoin(matrix.keySet(), records, tpl));
+        event.stored(Data.doJoin(matrix.keySet(), records, tpl, projection));
         if (Objects.nonNull(counter)) {
             final Long count = counter.apply(matrix.keySet(), ingest);
             event.stored(count);

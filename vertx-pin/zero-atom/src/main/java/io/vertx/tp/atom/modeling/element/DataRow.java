@@ -131,10 +131,10 @@ public class DataRow implements Serializable {
      * Matrix, Keys 中的数据反向写入到 Record 中
      * 证明外层调用需要依赖响应结果
      */
-    public DataRow success(final String table, final org.jooq.Record record) {
+    public DataRow success(final String table, final org.jooq.Record record, final Set<String> projection) {
         /* 先同步DataMatrix */
         final DataMatrix matrix = this.matrix.get(table);
-        Sync.doData(matrix, this.record, record);
+        Sync.doData(matrix, this.record, record, projection);
         /* 再同步主键 */
         return this.success(table);
     }

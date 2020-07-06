@@ -4,6 +4,7 @@ import io.vertx.tp.atom.modeling.data.DataEvent;
 import io.vertx.tp.atom.modeling.element.DataMatrix;
 import org.jooq.Record;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.concurrent.ConcurrentMap;
 import java.util.function.BiFunction;
@@ -29,7 +30,7 @@ class Reader {
             /* 记录处理 */
             final Record record = actor.apply(table, matrix);
             /* 设置反向同步记录 */
-            row.success(table, record);
+            row.success(table, record, new HashSet<>());
         })));
 
         /* 执行最终返回 */

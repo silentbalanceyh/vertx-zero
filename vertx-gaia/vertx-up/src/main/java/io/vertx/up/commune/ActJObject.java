@@ -101,7 +101,7 @@ class ActJObject extends ActMapping implements Serializable {
              * isQuery ? criteria
              * Until now the system has calculated the body data here
              */
-            if (body.containsKey(Inquiry.KEY_CRITERIA)) {
+            if (body.containsKey(Inquiry.KEY_CRITERIA) || body.containsKey(Inquiry.KEY_PROJECTION)) {
                 /*
                  * JqTool part
                  */
@@ -119,6 +119,10 @@ class ActJObject extends ActMapping implements Serializable {
                              */
                             body.remove(field);
                         });
+            }
+            // fill criteria field when query is not empty
+            if (Ut.notNil(this.query) && !this.query.containsKey(Inquiry.KEY_CRITERIA)) {
+                this.query.put(Inquiry.KEY_CRITERIA, new JsonObject());
             }
             if (Ut.notNil(body)) {
                 /*
