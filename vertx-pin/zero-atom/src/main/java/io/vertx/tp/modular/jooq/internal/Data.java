@@ -15,6 +15,7 @@ import org.jooq.Record;
 import org.jooq.exception.DataAccessException;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.function.Consumer;
@@ -89,10 +90,10 @@ class Data {
                     if (idx < records.length) {
                         final Record record = records[idx];
                         /* 直接调用内置方法 */
-                        row.success(table, record);
+                        row.success(table, record, new HashSet<>());
                     } else {
                         /* 空数据返回 */
-                        row.success(table, null);
+                        row.success(table, null, new HashSet<>());
                     }
                 }
             }
@@ -102,12 +103,13 @@ class Data {
     static List<DataRow> doJoin(
             final Set<String> tableSet,
             final Record[] records,
-            final DataTpl tpl
+            final DataTpl tpl,
+            final Set<String> projection
     ) {
         final List<DataRow> rows = new ArrayList<>();
         for (final Record record : records) {
             final DataRow row = new DataRow(tpl);
-            tableSet.forEach(table -> row.success(table, record));
+            tableSet.forEach(table -> row.success(table, record, projection));
             rows.add(row);
         }
         return rows;

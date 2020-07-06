@@ -21,9 +21,7 @@ import io.vertx.up.exception.WebException;
 import io.vertx.up.fn.Fn;
 
 import java.io.Serializable;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class DataEvent implements Serializable {
@@ -42,6 +40,7 @@ public class DataEvent implements Serializable {
     // private transient DataInOut input;
     private transient AoIo io;
     private transient Criteria criteria;
+    private transient Set<String> projection;
     private transient Inquiry inquiry;
     private transient long counter;
 
@@ -141,6 +140,7 @@ public class DataEvent implements Serializable {
              * Inquiry 和 Criteria 的关系嵌套
              */
             this.criteria = inquiry.getCriteria();
+            this.projection = Optional.ofNullable(inquiry.getProjection()).orElse(new HashSet<>());
         }
         return this;
     }
@@ -166,6 +166,10 @@ public class DataEvent implements Serializable {
 
     public Criteria getCriteria() {
         return this.criteria;
+    }
+
+    public Set<String> getProjection() {
+        return this.projection;
     }
 
     public Pager getPager() {
