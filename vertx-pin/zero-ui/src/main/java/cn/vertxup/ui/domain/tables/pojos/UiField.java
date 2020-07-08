@@ -24,7 +24,7 @@ import javax.annotation.Generated;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class UiField implements IUiField {
 
-    private static final long serialVersionUID = -507353361;
+    private static final long serialVersionUID = -300471204;
 
     private String        key;
     private Integer       xPoint;
@@ -34,6 +34,7 @@ public class UiField implements IUiField {
     private Integer       span;
     private Boolean       hidden;
     private String        render;
+    private String        container;
     private String        optionJsx;
     private String        optionConfig;
     private String        optionItem;
@@ -60,6 +61,7 @@ public class UiField implements IUiField {
         this.span = value.span;
         this.hidden = value.hidden;
         this.render = value.render;
+        this.container = value.container;
         this.optionJsx = value.optionJsx;
         this.optionConfig = value.optionConfig;
         this.optionItem = value.optionItem;
@@ -85,6 +87,7 @@ public class UiField implements IUiField {
         Integer       span,
         Boolean       hidden,
         String        render,
+        String        container,
         String        optionJsx,
         String        optionConfig,
         String        optionItem,
@@ -108,6 +111,7 @@ public class UiField implements IUiField {
         this.span = span;
         this.hidden = hidden;
         this.render = render;
+        this.container = container;
         this.optionJsx = optionJsx;
         this.optionConfig = optionConfig;
         this.optionItem = optionItem;
@@ -209,6 +213,17 @@ public class UiField implements IUiField {
     @Override
     public UiField setRender(String render) {
         this.render = render;
+        return this;
+    }
+
+    @Override
+    public String getContainer() {
+        return this.container;
+    }
+
+    @Override
+    public UiField setContainer(String container) {
+        this.container = container;
         return this;
     }
 
@@ -378,6 +393,7 @@ public class UiField implements IUiField {
         sb.append(", ").append(span);
         sb.append(", ").append(hidden);
         sb.append(", ").append(render);
+        sb.append(", ").append(container);
         sb.append(", ").append(optionJsx);
         sb.append(", ").append(optionConfig);
         sb.append(", ").append(optionItem);
@@ -414,6 +430,7 @@ public class UiField implements IUiField {
         setSpan(from.getSpan());
         setHidden(from.getHidden());
         setRender(from.getRender());
+        setContainer(from.getContainer());
         setOptionJsx(from.getOptionJsx());
         setOptionConfig(from.getOptionConfig());
         setOptionItem(from.getOptionItem());

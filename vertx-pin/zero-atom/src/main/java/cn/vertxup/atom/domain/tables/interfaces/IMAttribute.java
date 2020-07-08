@@ -144,6 +144,16 @@ public interface IMAttribute extends Serializable {
     public String getComments();
 
     /**
+     * Setter for <code>DB_ETERNAL.M_ATTRIBUTE.IS_ARRAY</code>. 「isArray」- 是否集合属性，集合属性在导入导出时可用（保留）
+     */
+    public IMAttribute setIsArray(Boolean value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.M_ATTRIBUTE.IS_ARRAY</code>. 「isArray」- 是否集合属性，集合属性在导入导出时可用（保留）
+     */
+    public Boolean getIsArray();
+
+    /**
      * Setter for <code>DB_ETERNAL.M_ATTRIBUTE.IS_SYNC_IN</code>. 「isSyncIn」- 是否同步读
      */
     public IMAttribute setIsSyncIn(Boolean value);
@@ -182,6 +192,16 @@ public interface IMAttribute extends Serializable {
      * Getter for <code>DB_ETERNAL.M_ATTRIBUTE.IS_TRACK</code>. 「isTrack」- 是否实现历史记录，如果是 isTrack 那么启用 ACTIVITY 的变更记录，对应 ITEM
      */
     public Boolean getIsTrack();
+
+    /**
+     * Setter for <code>DB_ETERNAL.M_ATTRIBUTE.IS_CONFIRM</code>. 「isConfirm」- 是否生成待确认变更，只有放在待确认变更中的数据需要生成待确认变更
+     */
+    public IMAttribute setIsConfirm(Boolean value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.M_ATTRIBUTE.IS_CONFIRM</code>. 「isConfirm」- 是否生成待确认变更，只有放在待确认变更中的数据需要生成待确认变更
+     */
+    public Boolean getIsConfirm();
 
     /**
      * Setter for <code>DB_ETERNAL.M_ATTRIBUTE.SIGMA</code>. 「sigma」- 统一标识
@@ -290,10 +310,12 @@ public interface IMAttribute extends Serializable {
         setOutComponent(json.getString("OUT_COMPONENT"));
         setModelId(json.getString("MODEL_ID"));
         setComments(json.getString("COMMENTS"));
+        setIsArray(json.getBoolean("IS_ARRAY"));
         setIsSyncIn(json.getBoolean("IS_SYNC_IN"));
         setIsSyncOut(json.getBoolean("IS_SYNC_OUT"));
         setIsLock(json.getBoolean("IS_LOCK"));
         setIsTrack(json.getBoolean("IS_TRACK"));
+        setIsConfirm(json.getBoolean("IS_CONFIRM"));
         setSigma(json.getString("SIGMA"));
         setLanguage(json.getString("LANGUAGE"));
         setActive(json.getBoolean("ACTIVE"));
@@ -320,10 +342,12 @@ public interface IMAttribute extends Serializable {
         json.put("OUT_COMPONENT",getOutComponent());
         json.put("MODEL_ID",getModelId());
         json.put("COMMENTS",getComments());
+        json.put("IS_ARRAY",getIsArray());
         json.put("IS_SYNC_IN",getIsSyncIn());
         json.put("IS_SYNC_OUT",getIsSyncOut());
         json.put("IS_LOCK",getIsLock());
         json.put("IS_TRACK",getIsTrack());
+        json.put("IS_CONFIRM",getIsConfirm());
         json.put("SIGMA",getSigma());
         json.put("LANGUAGE",getLanguage());
         json.put("ACTIVE",getActive());

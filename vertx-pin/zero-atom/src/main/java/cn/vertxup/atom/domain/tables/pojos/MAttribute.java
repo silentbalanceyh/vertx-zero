@@ -24,7 +24,7 @@ import javax.annotation.Generated;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class MAttribute implements IMAttribute {
 
-    private static final long serialVersionUID = 1986229780;
+    private static final long serialVersionUID = 439452325;
 
     private String        key;
     private String        name;
@@ -38,10 +38,12 @@ public class MAttribute implements IMAttribute {
     private String        outComponent;
     private String        modelId;
     private String        comments;
+    private Boolean       isArray;
     private Boolean       isSyncIn;
     private Boolean       isSyncOut;
     private Boolean       isLock;
     private Boolean       isTrack;
+    private Boolean       isConfirm;
     private String        sigma;
     private String        language;
     private Boolean       active;
@@ -66,10 +68,12 @@ public class MAttribute implements IMAttribute {
         this.outComponent = value.outComponent;
         this.modelId = value.modelId;
         this.comments = value.comments;
+        this.isArray = value.isArray;
         this.isSyncIn = value.isSyncIn;
         this.isSyncOut = value.isSyncOut;
         this.isLock = value.isLock;
         this.isTrack = value.isTrack;
+        this.isConfirm = value.isConfirm;
         this.sigma = value.sigma;
         this.language = value.language;
         this.active = value.active;
@@ -93,10 +97,12 @@ public class MAttribute implements IMAttribute {
         String        outComponent,
         String        modelId,
         String        comments,
+        Boolean       isArray,
         Boolean       isSyncIn,
         Boolean       isSyncOut,
         Boolean       isLock,
         Boolean       isTrack,
+        Boolean       isConfirm,
         String        sigma,
         String        language,
         Boolean       active,
@@ -118,10 +124,12 @@ public class MAttribute implements IMAttribute {
         this.outComponent = outComponent;
         this.modelId = modelId;
         this.comments = comments;
+        this.isArray = isArray;
         this.isSyncIn = isSyncIn;
         this.isSyncOut = isSyncOut;
         this.isLock = isLock;
         this.isTrack = isTrack;
+        this.isConfirm = isConfirm;
         this.sigma = sigma;
         this.language = language;
         this.active = active;
@@ -265,6 +273,17 @@ public class MAttribute implements IMAttribute {
     }
 
     @Override
+    public Boolean getIsArray() {
+        return this.isArray;
+    }
+
+    @Override
+    public MAttribute setIsArray(Boolean isArray) {
+        this.isArray = isArray;
+        return this;
+    }
+
+    @Override
     public Boolean getIsSyncIn() {
         return this.isSyncIn;
     }
@@ -305,6 +324,17 @@ public class MAttribute implements IMAttribute {
     @Override
     public MAttribute setIsTrack(Boolean isTrack) {
         this.isTrack = isTrack;
+        return this;
+    }
+
+    @Override
+    public Boolean getIsConfirm() {
+        return this.isConfirm;
+    }
+
+    @Override
+    public MAttribute setIsConfirm(Boolean isConfirm) {
+        this.isConfirm = isConfirm;
         return this;
     }
 
@@ -412,10 +442,12 @@ public class MAttribute implements IMAttribute {
         sb.append(", ").append(outComponent);
         sb.append(", ").append(modelId);
         sb.append(", ").append(comments);
+        sb.append(", ").append(isArray);
         sb.append(", ").append(isSyncIn);
         sb.append(", ").append(isSyncOut);
         sb.append(", ").append(isLock);
         sb.append(", ").append(isTrack);
+        sb.append(", ").append(isConfirm);
         sb.append(", ").append(sigma);
         sb.append(", ").append(language);
         sb.append(", ").append(active);
@@ -450,10 +482,12 @@ public class MAttribute implements IMAttribute {
         setOutComponent(from.getOutComponent());
         setModelId(from.getModelId());
         setComments(from.getComments());
+        setIsArray(from.getIsArray());
         setIsSyncIn(from.getIsSyncIn());
         setIsSyncOut(from.getIsSyncOut());
         setIsLock(from.getIsLock());
         setIsTrack(from.getIsTrack());
+        setIsConfirm(from.getIsConfirm());
         setSigma(from.getSigma());
         setLanguage(from.getLanguage());
         setActive(from.getActive());

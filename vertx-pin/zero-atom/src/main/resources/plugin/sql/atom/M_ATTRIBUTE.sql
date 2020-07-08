@@ -19,10 +19,12 @@ CREATE TABLE IF NOT EXISTS M_ATTRIBUTE
     `COMMENTS`      TEXT COMMENT '「comments」- 当前属性的描述信息',
 
     -- 标记
+    `IS_ARRAY`      BIT COMMENT '「isArray」- 是否集合属性，集合属性在导入导出时可用（保留）',
     `IS_SYNC_IN`    BIT COMMENT '「isSyncIn」- 是否同步读',
     `IS_SYNC_OUT`   BIT COMMENT '「isSyncOut」- 是否同步写',
     `IS_LOCK`       BIT COMMENT '「isLock」- 是否锁定，锁定属性不可删除',
     `IS_TRACK`      BIT COMMENT '「isTrack」- 是否实现历史记录，如果是 isTrack 那么启用 ACTIVITY 的变更记录，对应 ITEM',
+    `IS_CONFIRM`    BIT COMMENT '「isConfirm」- 是否生成待确认变更，只有放在待确认变更中的数据需要生成待确认变更',
 
     -- 特殊字段
     `SIGMA`         VARCHAR(32) COMMENT '「sigma」- 统一标识',

@@ -147,6 +147,13 @@ public class MAttributeDao extends DAOImpl<MAttributeRecord, cn.vertxup.atom.dom
     }
 
     /**
+     * Fetch records that have <code>IS_ARRAY IN (values)</code>
+     */
+    public List<cn.vertxup.atom.domain.tables.pojos.MAttribute> fetchByIsArray(Boolean... values) {
+        return fetch(MAttribute.M_ATTRIBUTE.IS_ARRAY, values);
+    }
+
+    /**
      * Fetch records that have <code>IS_SYNC_IN IN (values)</code>
      */
     public List<cn.vertxup.atom.domain.tables.pojos.MAttribute> fetchByIsSyncIn(Boolean... values) {
@@ -172,6 +179,13 @@ public class MAttributeDao extends DAOImpl<MAttributeRecord, cn.vertxup.atom.dom
      */
     public List<cn.vertxup.atom.domain.tables.pojos.MAttribute> fetchByIsTrack(Boolean... values) {
         return fetch(MAttribute.M_ATTRIBUTE.IS_TRACK, values);
+    }
+
+    /**
+     * Fetch records that have <code>IS_CONFIRM IN (values)</code>
+     */
+    public List<cn.vertxup.atom.domain.tables.pojos.MAttribute> fetchByIsConfirm(Boolean... values) {
+        return fetch(MAttribute.M_ATTRIBUTE.IS_CONFIRM, values);
     }
 
     /**
@@ -322,6 +336,13 @@ public class MAttributeDao extends DAOImpl<MAttributeRecord, cn.vertxup.atom.dom
     }
 
     /**
+     * Fetch records that have <code>IS_ARRAY IN (values)</code> asynchronously
+     */
+    public CompletableFuture<List<cn.vertxup.atom.domain.tables.pojos.MAttribute>> fetchByIsArrayAsync(List<Boolean> values) {
+        return fetchAsync(MAttribute.M_ATTRIBUTE.IS_ARRAY,values);
+    }
+
+    /**
      * Fetch records that have <code>IS_SYNC_IN IN (values)</code> asynchronously
      */
     public CompletableFuture<List<cn.vertxup.atom.domain.tables.pojos.MAttribute>> fetchByIsSyncInAsync(List<Boolean> values) {
@@ -347,6 +368,13 @@ public class MAttributeDao extends DAOImpl<MAttributeRecord, cn.vertxup.atom.dom
      */
     public CompletableFuture<List<cn.vertxup.atom.domain.tables.pojos.MAttribute>> fetchByIsTrackAsync(List<Boolean> values) {
         return fetchAsync(MAttribute.M_ATTRIBUTE.IS_TRACK,values);
+    }
+
+    /**
+     * Fetch records that have <code>IS_CONFIRM IN (values)</code> asynchronously
+     */
+    public CompletableFuture<List<cn.vertxup.atom.domain.tables.pojos.MAttribute>> fetchByIsConfirmAsync(List<Boolean> values) {
+        return fetchAsync(MAttribute.M_ATTRIBUTE.IS_CONFIRM,values);
     }
 
     /**
