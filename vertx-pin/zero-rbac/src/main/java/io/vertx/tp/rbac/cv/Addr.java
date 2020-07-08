@@ -58,6 +58,9 @@ public interface Addr {
         /* Perm Information */
         String PERMISSION_GROUP = Prefix._EVENT + "X-PERMISSION/GROUP";
 
+        /* Perm Saving */
+        String PERMISSION_SAVING = Prefix._EVENT + "X-PERMISSION/SAVING";
+
         /* Resource get with action */
         String RESOURCE_GET_CASCADE = Prefix._EVENT + "X-RESOURCE/GET-CASCADE";
 

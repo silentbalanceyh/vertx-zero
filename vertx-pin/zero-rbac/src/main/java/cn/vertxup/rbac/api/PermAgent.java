@@ -1,13 +1,14 @@
 package cn.vertxup.rbac.api;
 
 import io.vertx.core.json.JsonArray;
+import io.vertx.core.json.JsonObject;
 import io.vertx.tp.rbac.cv.Addr;
 import io.vertx.up.annotations.Address;
 import io.vertx.up.annotations.EndPoint;
-import io.vertx.up.eon.ID;
 
+import javax.ws.rs.BodyParam;
 import javax.ws.rs.GET;
-import javax.ws.rs.HeaderParam;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 
 /**
@@ -20,5 +21,10 @@ public interface PermAgent {
     @Path("/permission/groups/by/sigma")
     @GET
     @Address(Addr.Authority.PERMISSION_GROUP)
-    JsonArray calculate(@HeaderParam(ID.Header.X_SIGMA) String sigma);
+    JsonArray calculate();
+
+    @Path("/permission/definition/saving")
+    @PUT
+    @Address(Addr.Authority.PERMISSION_SAVING)
+    JsonObject saveRelation(@BodyParam JsonObject body);
 }
