@@ -104,6 +104,16 @@ public interface IUiField extends Serializable {
     public String getRender();
 
     /**
+     * Setter for <code>DB_ETERNAL.UI_FIELD.CONTAINER</code>. 「container」- 容器字段专用容器信息，映射到 name 中
+     */
+    public IUiField setContainer(String value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.UI_FIELD.CONTAINER</code>. 「container」- 容器字段专用容器信息，映射到 name 中
+     */
+    public String getContainer();
+
+    /**
      * Setter for <code>DB_ETERNAL.UI_FIELD.OPTION_JSX</code>. 「optionJsx」- 字段专用配置
      */
     public IUiField setOptionJsx(String value);
@@ -266,6 +276,7 @@ public interface IUiField extends Serializable {
         setSpan(json.getInteger("SPAN"));
         setHidden(json.getBoolean("HIDDEN"));
         setRender(json.getString("RENDER"));
+        setContainer(json.getString("CONTAINER"));
         setOptionJsx(json.getString("OPTION_JSX"));
         setOptionConfig(json.getString("OPTION_CONFIG"));
         setOptionItem(json.getString("OPTION_ITEM"));
@@ -294,6 +305,7 @@ public interface IUiField extends Serializable {
         json.put("SPAN",getSpan());
         json.put("HIDDEN",getHidden());
         json.put("RENDER",getRender());
+        json.put("CONTAINER",getContainer());
         json.put("OPTION_JSX",getOptionJsx());
         json.put("OPTION_CONFIG",getOptionConfig());
         json.put("OPTION_ITEM",getOptionItem());

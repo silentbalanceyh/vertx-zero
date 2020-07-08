@@ -102,7 +102,16 @@ public class FieldService implements FieldStub {
                 final JsonObject dataCell = new JsonObject();
                 if (RowType.TITLE == rowType) {
                     dataCell.put("title", cell.getValue("label"));
-                    dataCell.put("field", cell.getValue("key"));    // Specific field for title.
+                    dataCell.put("field", cell.getValue(KeField.KEY));    // Specific field for title.
+                } else if (RowType.CONTAINER == rowType) {
+                    dataCell.put("complex", Boolean.TRUE);
+                    // Container type will be mapped to name field here
+                    dataCell.put(KeField.NAME, cell.getValue("container"));
+                    // optionJsx -> config
+                    Ke.mount(cell, FieldStub.OPTION_JSX);
+                    if (Objects.nonNull(cell.getValue(FieldStub.OPTION_JSX))) {
+                        dataCell.put(KeField.Ui.CONFIG, cell.getValue(FieldStub.OPTION_JSX));
+                    }
                 } else {
                     Ke.mount(cell, FieldStub.OPTION_JSX);
                     Ke.mount(cell, FieldStub.OPTION_CONFIG);
@@ -151,6 +160,7 @@ public class FieldService implements FieldStub {
                      * In this kind of situation, the config `optionJsx` must contains `config.format` here.
                      */
                     final JsonObject optionJsx = cell.getJsonObject(FieldStub.OPTION_JSX);
+
                     if (Ut.notNil(optionJsx)) {
                         final JsonObject config = optionJsx.getJsonObject("config");
                         if (Ut.notNil(config) && config.containsKey("format")) {

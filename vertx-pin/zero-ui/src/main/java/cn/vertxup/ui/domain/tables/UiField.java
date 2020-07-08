@@ -35,7 +35,7 @@ public class UiField extends TableImpl<UiFieldRecord> {
      * The reference instance of <code>DB_ETERNAL.UI_FIELD</code>
      */
     public static final UiField UI_FIELD = new UiField();
-    private static final long serialVersionUID = -1570481169;
+    private static final long serialVersionUID = -961655265;
     /**
      * The column <code>DB_ETERNAL.UI_FIELD.KEY</code>. 「key」- 字段主键
      */
@@ -68,6 +68,10 @@ public class UiField extends TableImpl<UiFieldRecord> {
      * The column <code>DB_ETERNAL.UI_FIELD.RENDER</code>. 「render」- 使用的Render函数
      */
     public final TableField<UiFieldRecord, String> RENDER = createField("RENDER", org.jooq.impl.SQLDataType.VARCHAR(64), this, "「render」- 使用的Render函数");
+    /**
+     * The column <code>DB_ETERNAL.UI_FIELD.CONTAINER</code>. 「container」- 容器字段专用容器信息，映射到 name 中
+     */
+    public final TableField<UiFieldRecord, String> CONTAINER = createField("CONTAINER", org.jooq.impl.SQLDataType.VARCHAR(128), this, "「container」- 容器字段专用容器信息，映射到 name 中");
     /**
      * The column <code>DB_ETERNAL.UI_FIELD.OPTION_JSX</code>. 「optionJsx」- 字段专用配置
      */

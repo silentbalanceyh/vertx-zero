@@ -119,6 +119,13 @@ public class UiFieldDao extends DAOImpl<UiFieldRecord, cn.vertxup.ui.domain.tabl
     }
 
     /**
+     * Fetch records that have <code>CONTAINER IN (values)</code>
+     */
+    public List<cn.vertxup.ui.domain.tables.pojos.UiField> fetchByContainer(String... values) {
+        return fetch(UiField.UI_FIELD.CONTAINER, values);
+    }
+
+    /**
      * Fetch records that have <code>OPTION_JSX IN (values)</code>
      */
     public List<cn.vertxup.ui.domain.tables.pojos.UiField> fetchByOptionJsx(String... values) {
@@ -277,6 +284,13 @@ public class UiFieldDao extends DAOImpl<UiFieldRecord, cn.vertxup.ui.domain.tabl
      */
     public CompletableFuture<List<cn.vertxup.ui.domain.tables.pojos.UiField>> fetchByRenderAsync(List<String> values) {
         return fetchAsync(UiField.UI_FIELD.RENDER,values);
+    }
+
+    /**
+     * Fetch records that have <code>CONTAINER IN (values)</code> asynchronously
+     */
+    public CompletableFuture<List<cn.vertxup.ui.domain.tables.pojos.UiField>> fetchByContainerAsync(List<String> values) {
+        return fetchAsync(UiField.UI_FIELD.CONTAINER,values);
     }
 
     /**

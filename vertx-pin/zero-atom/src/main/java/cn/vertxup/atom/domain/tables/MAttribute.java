@@ -35,7 +35,7 @@ public class MAttribute extends TableImpl<MAttributeRecord> {
      * The reference instance of <code>DB_ETERNAL.M_ATTRIBUTE</code>
      */
     public static final MAttribute M_ATTRIBUTE = new MAttribute();
-    private static final long serialVersionUID = -952643074;
+    private static final long serialVersionUID = 680263677;
     /**
      * The column <code>DB_ETERNAL.M_ATTRIBUTE.KEY</code>. 「key」- 属性ID
      */
@@ -85,6 +85,10 @@ public class MAttribute extends TableImpl<MAttributeRecord> {
      */
     public final TableField<MAttributeRecord, String> COMMENTS = createField("COMMENTS", org.jooq.impl.SQLDataType.CLOB, this, "「comments」- 当前属性的描述信息");
     /**
+     * The column <code>DB_ETERNAL.M_ATTRIBUTE.IS_ARRAY</code>. 「isArray」- 是否集合属性，集合属性在导入导出时可用（保留）
+     */
+    public final TableField<MAttributeRecord, Boolean> IS_ARRAY = createField("IS_ARRAY", org.jooq.impl.SQLDataType.BIT, this, "「isArray」- 是否集合属性，集合属性在导入导出时可用（保留）");
+    /**
      * The column <code>DB_ETERNAL.M_ATTRIBUTE.IS_SYNC_IN</code>. 「isSyncIn」- 是否同步读
      */
     public final TableField<MAttributeRecord, Boolean> IS_SYNC_IN = createField("IS_SYNC_IN", org.jooq.impl.SQLDataType.BIT, this, "「isSyncIn」- 是否同步读");
@@ -100,6 +104,10 @@ public class MAttribute extends TableImpl<MAttributeRecord> {
      * The column <code>DB_ETERNAL.M_ATTRIBUTE.IS_TRACK</code>. 「isTrack」- 是否实现历史记录，如果是 isTrack 那么启用 ACTIVITY 的变更记录，对应 ITEM
      */
     public final TableField<MAttributeRecord, Boolean> IS_TRACK = createField("IS_TRACK", org.jooq.impl.SQLDataType.BIT, this, "「isTrack」- 是否实现历史记录，如果是 isTrack 那么启用 ACTIVITY 的变更记录，对应 ITEM");
+    /**
+     * The column <code>DB_ETERNAL.M_ATTRIBUTE.IS_CONFIRM</code>. 「isConfirm」- 是否生成待确认变更，只有放在待确认变更中的数据需要生成待确认变更
+     */
+    public final TableField<MAttributeRecord, Boolean> IS_CONFIRM = createField("IS_CONFIRM", org.jooq.impl.SQLDataType.BIT, this, "「isConfirm」- 是否生成待确认变更，只有放在待确认变更中的数据需要生成待确认变更");
     /**
      * The column <code>DB_ETERNAL.M_ATTRIBUTE.SIGMA</code>. 「sigma」- 统一标识
      */

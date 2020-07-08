@@ -17,6 +17,9 @@ CREATE TABLE IF NOT EXISTS UI_FIELD
     `HIDDEN`        BIT COMMENT '「hidden」- button专用',
     `RENDER`        VARCHAR(64) COMMENT '「render」- 使用的Render函数',
 
+    -- Form 中的容器字段相关配置
+    `CONTAINER`     VARCHAR(128) COMMENT '「container」- 容器字段专用容器信息，映射到 name 中',
+
     -- Option选项
     `OPTION_JSX`    TEXT COMMENT '「optionJsx」- 字段专用配置',
     `OPTION_CONFIG` TEXT COMMENT '「optionConfig」- 字段专用配置',

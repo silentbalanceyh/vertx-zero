@@ -28,7 +28,7 @@ import org.jooq.impl.UpdatableRecordImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class MAttributeRecord extends UpdatableRecordImpl<MAttributeRecord> implements IMAttribute {
 
-    private static final long serialVersionUID = 949769322;
+    private static final long serialVersionUID = -1406244281;
 
     /**
      * Setter for <code>DB_ETERNAL.M_ATTRIBUTE.KEY</code>. 「key」- 属性ID
@@ -235,11 +235,28 @@ public class MAttributeRecord extends UpdatableRecordImpl<MAttributeRecord> impl
     }
 
     /**
+     * Setter for <code>DB_ETERNAL.M_ATTRIBUTE.IS_ARRAY</code>. 「isArray」- 是否集合属性，集合属性在导入导出时可用（保留）
+     */
+    @Override
+    public MAttributeRecord setIsArray(Boolean value) {
+        set(12, value);
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.M_ATTRIBUTE.IS_ARRAY</code>. 「isArray」- 是否集合属性，集合属性在导入导出时可用（保留）
+     */
+    @Override
+    public Boolean getIsArray() {
+        return (Boolean) get(12);
+    }
+
+    /**
      * Setter for <code>DB_ETERNAL.M_ATTRIBUTE.IS_SYNC_IN</code>. 「isSyncIn」- 是否同步读
      */
     @Override
     public MAttributeRecord setIsSyncIn(Boolean value) {
-        set(12, value);
+        set(13, value);
         return this;
     }
 
@@ -248,7 +265,7 @@ public class MAttributeRecord extends UpdatableRecordImpl<MAttributeRecord> impl
      */
     @Override
     public Boolean getIsSyncIn() {
-        return (Boolean) get(12);
+        return (Boolean) get(13);
     }
 
     /**
@@ -256,7 +273,7 @@ public class MAttributeRecord extends UpdatableRecordImpl<MAttributeRecord> impl
      */
     @Override
     public MAttributeRecord setIsSyncOut(Boolean value) {
-        set(13, value);
+        set(14, value);
         return this;
     }
 
@@ -265,7 +282,7 @@ public class MAttributeRecord extends UpdatableRecordImpl<MAttributeRecord> impl
      */
     @Override
     public Boolean getIsSyncOut() {
-        return (Boolean) get(13);
+        return (Boolean) get(14);
     }
 
     /**
@@ -273,7 +290,7 @@ public class MAttributeRecord extends UpdatableRecordImpl<MAttributeRecord> impl
      */
     @Override
     public MAttributeRecord setIsLock(Boolean value) {
-        set(14, value);
+        set(15, value);
         return this;
     }
 
@@ -282,7 +299,7 @@ public class MAttributeRecord extends UpdatableRecordImpl<MAttributeRecord> impl
      */
     @Override
     public Boolean getIsLock() {
-        return (Boolean) get(14);
+        return (Boolean) get(15);
     }
 
     /**
@@ -290,7 +307,7 @@ public class MAttributeRecord extends UpdatableRecordImpl<MAttributeRecord> impl
      */
     @Override
     public MAttributeRecord setIsTrack(Boolean value) {
-        set(15, value);
+        set(16, value);
         return this;
     }
 
@@ -299,7 +316,24 @@ public class MAttributeRecord extends UpdatableRecordImpl<MAttributeRecord> impl
      */
     @Override
     public Boolean getIsTrack() {
-        return (Boolean) get(15);
+        return (Boolean) get(16);
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.M_ATTRIBUTE.IS_CONFIRM</code>. 「isConfirm」- 是否生成待确认变更，只有放在待确认变更中的数据需要生成待确认变更
+     */
+    @Override
+    public MAttributeRecord setIsConfirm(Boolean value) {
+        set(17, value);
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.M_ATTRIBUTE.IS_CONFIRM</code>. 「isConfirm」- 是否生成待确认变更，只有放在待确认变更中的数据需要生成待确认变更
+     */
+    @Override
+    public Boolean getIsConfirm() {
+        return (Boolean) get(17);
     }
 
     /**
@@ -307,7 +341,7 @@ public class MAttributeRecord extends UpdatableRecordImpl<MAttributeRecord> impl
      */
     @Override
     public MAttributeRecord setSigma(String value) {
-        set(16, value);
+        set(18, value);
         return this;
     }
 
@@ -316,7 +350,7 @@ public class MAttributeRecord extends UpdatableRecordImpl<MAttributeRecord> impl
      */
     @Override
     public String getSigma() {
-        return (String) get(16);
+        return (String) get(18);
     }
 
     /**
@@ -324,7 +358,7 @@ public class MAttributeRecord extends UpdatableRecordImpl<MAttributeRecord> impl
      */
     @Override
     public MAttributeRecord setLanguage(String value) {
-        set(17, value);
+        set(19, value);
         return this;
     }
 
@@ -333,7 +367,7 @@ public class MAttributeRecord extends UpdatableRecordImpl<MAttributeRecord> impl
      */
     @Override
     public String getLanguage() {
-        return (String) get(17);
+        return (String) get(19);
     }
 
     /**
@@ -341,7 +375,7 @@ public class MAttributeRecord extends UpdatableRecordImpl<MAttributeRecord> impl
      */
     @Override
     public MAttributeRecord setActive(Boolean value) {
-        set(18, value);
+        set(20, value);
         return this;
     }
 
@@ -350,7 +384,7 @@ public class MAttributeRecord extends UpdatableRecordImpl<MAttributeRecord> impl
      */
     @Override
     public Boolean getActive() {
-        return (Boolean) get(18);
+        return (Boolean) get(20);
     }
 
     /**
@@ -358,7 +392,7 @@ public class MAttributeRecord extends UpdatableRecordImpl<MAttributeRecord> impl
      */
     @Override
     public MAttributeRecord setMetadata(String value) {
-        set(19, value);
+        set(21, value);
         return this;
     }
 
@@ -367,7 +401,7 @@ public class MAttributeRecord extends UpdatableRecordImpl<MAttributeRecord> impl
      */
     @Override
     public String getMetadata() {
-        return (String) get(19);
+        return (String) get(21);
     }
 
     /**
@@ -375,7 +409,7 @@ public class MAttributeRecord extends UpdatableRecordImpl<MAttributeRecord> impl
      */
     @Override
     public MAttributeRecord setCreatedAt(LocalDateTime value) {
-        set(20, value);
+        set(22, value);
         return this;
     }
 
@@ -384,7 +418,7 @@ public class MAttributeRecord extends UpdatableRecordImpl<MAttributeRecord> impl
      */
     @Override
     public LocalDateTime getCreatedAt() {
-        return (LocalDateTime) get(20);
+        return (LocalDateTime) get(22);
     }
 
     /**
@@ -392,7 +426,7 @@ public class MAttributeRecord extends UpdatableRecordImpl<MAttributeRecord> impl
      */
     @Override
     public MAttributeRecord setCreatedBy(String value) {
-        set(21, value);
+        set(23, value);
         return this;
     }
 
@@ -401,7 +435,7 @@ public class MAttributeRecord extends UpdatableRecordImpl<MAttributeRecord> impl
      */
     @Override
     public String getCreatedBy() {
-        return (String) get(21);
+        return (String) get(23);
     }
 
     /**
@@ -409,7 +443,7 @@ public class MAttributeRecord extends UpdatableRecordImpl<MAttributeRecord> impl
      */
     @Override
     public MAttributeRecord setUpdatedAt(LocalDateTime value) {
-        set(22, value);
+        set(24, value);
         return this;
     }
 
@@ -418,7 +452,7 @@ public class MAttributeRecord extends UpdatableRecordImpl<MAttributeRecord> impl
      */
     @Override
     public LocalDateTime getUpdatedAt() {
-        return (LocalDateTime) get(22);
+        return (LocalDateTime) get(24);
     }
 
     /**
@@ -426,7 +460,7 @@ public class MAttributeRecord extends UpdatableRecordImpl<MAttributeRecord> impl
      */
     @Override
     public MAttributeRecord setUpdatedBy(String value) {
-        set(23, value);
+        set(25, value);
         return this;
     }
 
@@ -435,7 +469,7 @@ public class MAttributeRecord extends UpdatableRecordImpl<MAttributeRecord> impl
      */
     @Override
     public String getUpdatedBy() {
-        return (String) get(23);
+        return (String) get(25);
     }
 
     // -------------------------------------------------------------------------
@@ -471,10 +505,12 @@ public class MAttributeRecord extends UpdatableRecordImpl<MAttributeRecord> impl
         setOutComponent(from.getOutComponent());
         setModelId(from.getModelId());
         setComments(from.getComments());
+        setIsArray(from.getIsArray());
         setIsSyncIn(from.getIsSyncIn());
         setIsSyncOut(from.getIsSyncOut());
         setIsLock(from.getIsLock());
         setIsTrack(from.getIsTrack());
+        setIsConfirm(from.getIsConfirm());
         setSigma(from.getSigma());
         setLanguage(from.getLanguage());
         setActive(from.getActive());
@@ -508,7 +544,7 @@ public class MAttributeRecord extends UpdatableRecordImpl<MAttributeRecord> impl
     /**
      * Create a detached, initialised MAttributeRecord
      */
-    public MAttributeRecord(String key, String name, String alias, String type, String source, String sourceField, String expression, String normalize, String inComponent, String outComponent, String modelId, String comments, Boolean isSyncIn, Boolean isSyncOut, Boolean isLock, Boolean isTrack, String sigma, String language, Boolean active, String metadata, LocalDateTime createdAt, String createdBy, LocalDateTime updatedAt, String updatedBy) {
+    public MAttributeRecord(String key, String name, String alias, String type, String source, String sourceField, String expression, String normalize, String inComponent, String outComponent, String modelId, String comments, Boolean isArray, Boolean isSyncIn, Boolean isSyncOut, Boolean isLock, Boolean isTrack, Boolean isConfirm, String sigma, String language, Boolean active, String metadata, LocalDateTime createdAt, String createdBy, LocalDateTime updatedAt, String updatedBy) {
         super(MAttribute.M_ATTRIBUTE);
 
         set(0, key);
@@ -523,17 +559,19 @@ public class MAttributeRecord extends UpdatableRecordImpl<MAttributeRecord> impl
         set(9, outComponent);
         set(10, modelId);
         set(11, comments);
-        set(12, isSyncIn);
-        set(13, isSyncOut);
-        set(14, isLock);
-        set(15, isTrack);
-        set(16, sigma);
-        set(17, language);
-        set(18, active);
-        set(19, metadata);
-        set(20, createdAt);
-        set(21, createdBy);
-        set(22, updatedAt);
-        set(23, updatedBy);
+        set(12, isArray);
+        set(13, isSyncIn);
+        set(14, isSyncOut);
+        set(15, isLock);
+        set(16, isTrack);
+        set(17, isConfirm);
+        set(18, sigma);
+        set(19, language);
+        set(20, active);
+        set(21, metadata);
+        set(22, createdAt);
+        set(23, createdBy);
+        set(24, updatedAt);
+        set(25, updatedBy);
     }
 }
