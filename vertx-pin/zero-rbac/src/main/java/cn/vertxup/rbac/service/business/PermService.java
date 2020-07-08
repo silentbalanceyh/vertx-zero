@@ -8,12 +8,14 @@ import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.ke.cv.KeField;
+import io.vertx.tp.rbac.refine.Sc;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.unity.jq.UxJooq;
 import io.vertx.up.util.Ut;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * @author <a href="http://www.origin-x.cn">lang</a>
@@ -39,6 +41,8 @@ public class PermService implements PermStub {
          * Removed Permission Id from S_ACTION
          * Update all the action permissionId = null by key
          */
+        Sc.infoWeb(this.getClass(), "Permission Update: {0}, sigma = {1}",
+                processed.encode(), sigma);
         final JsonArray removed = Ut.sureJArray(processed.getJsonArray("removed"));
         final List<Future<SAction>> entities = new ArrayList<>();
         final UxJooq jooq = Ux.Jooq.on(SActionDao.class);
@@ -73,7 +77,26 @@ public class PermService implements PermStub {
             return Ux.thenCombineT(actionList).compose(nil -> Ux.future(data));
         }).compose(permissions -> {
             final List<SPermission> permissionList = Ux.fromJson(permissions, SPermission.class);
-            return Ux.Jooq.on(SPermissionDao.class).insertAsync(permissionList);
+            /*
+             * Save Action for SPermission by `key` only
+             */
+            final List<Future<SPermission>> futures = new ArrayList<>();
+            final UxJooq permDao = Ux.Jooq.on(SPermissionDao.class);
+            Ut.itList(permissionList).map(permission -> permDao.<SPermission>findByIdAsync(permission.getKey())
+                    .compose(queired -> {
+                        if (Objects.isNull(queired)) {
+                            /*
+                             * Insert entity object into database
+                             */
+                            return permDao.insertAsync(permission);
+                        } else {
+                            /*
+                             * Update the `key` hitted object into database
+                             */
+                            return permDao.saveAsync(permission.getKey(), permission);
+                        }
+                    })).forEach(futures::add);
+            return Ux.thenCombineT(futures);
         }).compose(nil -> Ux.future(relation));
     }
 }
