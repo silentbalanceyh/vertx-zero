@@ -106,7 +106,7 @@ public class FieldService implements FieldStub {
                 } else if (RowType.CONTAINER == rowType) {
                     dataCell.put("complex", Boolean.TRUE);
                     // Container type will be mapped to name field here
-                    dataCell.put(KeField.NAME, cell.getValue(KeField.NAME));
+                    dataCell.put(KeField.NAME, cell.getValue("container"));
                     // optionJsx -> config
                     Ke.mount(cell, FieldStub.OPTION_JSX);
                     if (Objects.nonNull(cell.getValue(FieldStub.OPTION_JSX))) {
