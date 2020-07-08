@@ -25,11 +25,12 @@ public interface PermStub {
      *         "action1",
      *         "action2"
      *     ],
-     *     "data":{
+     *     "relation":{
      *         "action3": "permission1",
      *         "action4": "permission1",
      *         "action5": "permission2"
-     *     }
+     *     },
+     *     "data":[]
      * }
      */
     Future<JsonObject> savingPerm(JsonObject processed, String sigma);

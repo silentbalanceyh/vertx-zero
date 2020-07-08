@@ -3,6 +3,7 @@ package cn.vertxup.rbac.service.business;
 import cn.vertxup.rbac.domain.tables.daos.SActionDao;
 import cn.vertxup.rbac.domain.tables.daos.SPermissionDao;
 import cn.vertxup.rbac.domain.tables.pojos.SAction;
+import cn.vertxup.rbac.domain.tables.pojos.SPermission;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
@@ -42,7 +43,6 @@ public class PermService implements PermStub {
         final List<Future<SAction>> entities = new ArrayList<>();
         final UxJooq jooq = Ux.Jooq.on(SActionDao.class);
         Ut.itJString(removed).map(key -> jooq.<SAction>findByIdAsync(key)
-
                 /*
                  * Set all queried permissionId of each action to null
                  * Here should remove permissionId to set resource to freedom
@@ -53,24 +53,27 @@ public class PermService implements PermStub {
                 })
                 .compose(jooq::updateAsync)
         ).forEach(entities::add);
+        final JsonObject relation = Ut.sureJObject(processed.getJsonObject("relation"));
         return Ux.thenCombineT(entities).compose(actions -> {
 
             /*
              * Get data from processed
              */
-            final JsonObject data = Ut.sureJObject(processed.getJsonObject(KeField.DATA));
-
+            final JsonArray data = Ut.sureJArray(processed.getJsonArray(KeField.DATA));
             /*
              * Build relation between actionId -> permissionId
              */
             final List<Future<SAction>> actionList = new ArrayList<>();
-            Ut.<String>itJObject(data, (permissionId, actionId) -> actionList.add(
+            Ut.<String>itJObject(relation, (permissionId, actionId) -> actionList.add(
                     jooq.<SAction>findByIdAsync(actionId).compose(action -> {
                         action.setPermissionId(permissionId);
                         return Ux.future(action);
                     }).compose(jooq::updateAsync)
             ));
             return Ux.thenCombineT(actionList).compose(nil -> Ux.future(data));
-        });
+        }).compose(permissions -> {
+            final List<SPermission> permissionList = Ux.fromJson(permissions, SPermission.class);
+            return Ux.Jooq.on(SPermissionDao.class).insertAsync(permissionList);
+        }).compose(nil -> Ux.future(relation));
     }
 }
