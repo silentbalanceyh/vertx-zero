@@ -29,6 +29,7 @@ public interface KeField {
     String USER_ID = "userId";                  /* Security Object: user id ( X_USER key ) field */
     String USERNAME = "username";               /* Security Object: user name ( X_USER username) field*/
     String REAL_NAME = "realname";              /* Security Object: user real name field */
+    String GROUP = "group";                     /* Security Object: group */
     String ALIAS = "alias";                     /* Security Object: another name for current */
     String PASSWORD = "password";               /* Security Object: Password belong to field of security framework, ( X_USER password ) field */
     String EMAIL = "email";                     /* Security Object: user email ( X_USER email ) field */
