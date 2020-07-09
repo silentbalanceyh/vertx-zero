@@ -40,7 +40,7 @@ public class DataEvent implements Serializable {
     // private transient DataInOut input;
     private transient AoIo io;
     private transient Criteria criteria;
-    private transient Set<String> projection;
+    private final transient Set<String> projection = new HashSet<>();
     private transient Inquiry inquiry;
     private transient long counter;
 
@@ -140,7 +140,10 @@ public class DataEvent implements Serializable {
              * Inquiry 和 Criteria 的关系嵌套
              */
             this.criteria = inquiry.getCriteria();
-            this.projection = Optional.ofNullable(inquiry.getProjection()).orElse(new HashSet<>());
+            final Set<String> projections = Optional.ofNullable(inquiry.getProjection()).orElse(new HashSet<>());
+            if (!projections.isEmpty()) {
+                this.projection.addAll(projections);
+            }
         }
         return this;
     }
