@@ -28,6 +28,7 @@ public interface AuthKey {
     String F_ROLE_ID = "roleId";
     String F_GROUP_ID = "groupId";
     String F_PARENT_ID = "parentId";
+    String F_PERMISSION_ID = "permissionId";
 
     String F_CLIENT_ID = "clientId";
     String F_CLIENT_SECRET = "clientSecret";

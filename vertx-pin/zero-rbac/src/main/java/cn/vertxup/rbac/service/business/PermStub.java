@@ -29,9 +29,17 @@ public interface PermStub {
      *         "action3": "permission1",
      *         "action4": "permission1",
      *         "action5": "permission2"
-     *     },
-     *     "data":[]
+     *     }
      * }
      */
-    Future<JsonObject> savingPerm(JsonObject processed, String sigma);
+    Future<JsonObject> savingPerm(JsonArray removed, JsonObject relation);
+
+    /*
+     * Permission Sync with `group` provided
+     * {
+     *     "group": "xxx",
+     *     "data": []
+     * }
+     */
+    Future<JsonArray> syncPerm(JsonArray permission, String group, String sigma);
 }
