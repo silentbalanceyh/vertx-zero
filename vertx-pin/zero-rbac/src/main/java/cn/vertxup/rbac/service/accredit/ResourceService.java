@@ -11,6 +11,7 @@ import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
 import java.util.Optional;
+import java.util.UUID;
 
 public class ResourceService implements ResourceStub {
 
@@ -37,7 +38,8 @@ public class ResourceService implements ResourceStub {
                     if (params.containsKey("action") && Ut.notNil(params.getJsonObject("action"))) {
                         final SAction sAction = Ux.fromJson(params.getJsonObject("action"), SAction.class);
                         // verify important fields
-                        sAction.setActive(Optional.ofNullable(sAction.getActive()).orElse(Boolean.TRUE))
+                        sAction.setKey(Optional.ofNullable(sAction.getKey()).orElse(UUID.randomUUID().toString()))
+                                .setActive(Optional.ofNullable(sAction.getActive()).orElse(Boolean.TRUE))
                                 .setResourceId(Optional.ofNullable(sAction.getResourceId()).orElse(resource.getString(KeField.KEY)))
                                 .setLevel(Optional.ofNullable(sAction.getLevel()).orElse(resource.getInteger("level")))
                                 .setSigma(Optional.ofNullable(sAction.getSigma()).orElse(resource.getString(KeField.SIGMA)))
