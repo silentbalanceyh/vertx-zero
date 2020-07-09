@@ -1,5 +1,6 @@
 package cn.vertxup.rbac.service.business;
 
+import cn.vertxup.rbac.domain.tables.daos.RRolePermDao;
 import cn.vertxup.rbac.domain.tables.daos.SActionDao;
 import cn.vertxup.rbac.domain.tables.daos.SPermissionDao;
 import cn.vertxup.rbac.domain.tables.pojos.SAction;
@@ -51,11 +52,10 @@ public class PermService implements PermStub {
              */
             final List<SPermission> saved = Ux.fromJson(permissions, SPermission.class);
             final Set<String> keeped = saved.stream().map(SPermission::getKey).collect(Collectors.toSet());
-            final String[] removedKeys = existing.stream()
+            final List<String> removedKeys = existing.stream()
                     .filter(item -> !keeped.contains(item.getKey()))
-                    .map(SPermission::getKey).collect(Collectors.toList())
-                    .toArray(new String[]{});
-            return permDao.deleteByIdAsync(removedKeys).compose(nil -> {
+                    .map(SPermission::getKey).collect(Collectors.toList());
+            return this.removeAsync(removedKeys, sigma).compose(nil -> {
                 /*
                  * Save Action for SPermission by `key` only
                  */
@@ -77,6 +77,38 @@ public class PermService implements PermStub {
                 return Ux.thenCombineT(futures).compose(Ux::fnJArray);
             });
         });
+    }
+
+    private Future<Boolean> removeAsync(final List<String> removedKeys, final String sigma) {
+        /*
+         * 1. Remove permission records
+         */
+        final Future<Boolean> removedFuture;
+        if (removedKeys.isEmpty()) {
+            return Ux.future(Boolean.TRUE);
+        } else {
+            final String[] ids = removedKeys.toArray(new String[]{});
+            return Ux.Jooq.on(SPermissionDao.class).deleteByIdAsync(ids).compose(permTrue -> {
+                /*
+                 * 2. Remove permission role records
+                 */
+                final JsonObject condition = new JsonObject();
+                condition.put("permId,i", Ut.toJArray(removedKeys));
+                return Ux.Jooq.on(RRolePermDao.class).deleteAsync(condition).compose(relationTrue -> {
+                    /*
+                     * 3. Update all SAction of permission that set to null
+                     */
+                    final JsonObject condAction = new JsonObject();
+                    condAction.put("permissionId,i", Ut.toJArray(removedKeys));
+                    condAction.put(KeField.SIGMA, sigma);
+                    final UxJooq actionDao = Ux.Jooq.on(SActionDao.class);
+                    return actionDao.<SAction>fetchAndAsync(condAction).compose(actions -> {
+                        actions.forEach(action -> action.setPermissionId(null));
+                        return actionDao.updateAsync(actions);
+                    });
+                });
+            }).compose(nil -> Ux.future(Boolean.TRUE));
+        }
     }
 
     @Override
