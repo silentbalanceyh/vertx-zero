@@ -51,3 +51,6 @@ ALTER TABLE X_APP
     ADD UNIQUE (`PATH`, `URL_MAIN`); -- 应用唯一主页
 ALTER TABLE X_APP
     ADD UNIQUE (`NAME`); -- 应用程序名称唯一（这是系统名称）
+
+-- /app/name/:name
+ALTER TABLE X_APP ADD INDEX IDX_X_APP_NAME (`NAME`);

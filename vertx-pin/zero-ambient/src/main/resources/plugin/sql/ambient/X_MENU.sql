@@ -33,3 +33,7 @@ CREATE TABLE IF NOT EXISTS X_MENU
 -- changeset Lang:ox-menu-2
 ALTER TABLE X_MENU
     ADD UNIQUE (`NAME`, `APP_ID`);
+
+-- 场景：读取应用中的菜单
+ALTER TABLE X_MENU
+    ADD INDEX IDX_X_MENU_APP_ID (`APP_ID`);
