@@ -201,6 +201,14 @@ public final class Ux {
         return To.future(null);
     }
 
+    public static Future<JsonArray> futureJArray() {
+        return To.future(new JsonArray());
+    }
+
+    public static Future<JsonObject> futureJObject() {
+        return To.future(new JsonObject());
+    }
+
     public static Future<JsonObject> complex(final JsonObject input, final Predicate<JsonObject> predicate, final Supplier<Future<JsonObject>> executor) {
         return Complex.complex(input, predicate, executor);
     }

@@ -142,6 +142,11 @@ final class StringUtil {
         return null == input || 0 == input.trim().length();
     }
 
+    static boolean isNilOr(final String... inputs) {
+        final long counter = Arrays.stream(inputs).filter(StringUtil::isNil).count();
+        return counter != 0L;
+    }
+
     static boolean notNil(final String input) {
         return !isNil(input);
     }

@@ -70,5 +70,7 @@ public interface Addr {
         String HISTORIES = Prefix._EVENT + "X-ACTIVITY/HISTORIES";
 
         String HISTORY_ITEMS = Prefix._EVENT + "X-ACTIVITY/HISTORY-ITEMS";
+
+        String HISTORY_BY_FIELDS = Prefix._EVENT + "X-ACTIVITY/HISTORY-BY-FIELDS";
     }
 }
