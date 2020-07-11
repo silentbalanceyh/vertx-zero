@@ -63,7 +63,6 @@ public final class Ut {
      * @param left  First Set
      * @param right Second Set
      * @param <T>   The element type in Set
-     *
      * @return The result set
      */
     public static <T> Set<T> intersect(final Set<T> left, final Set<T> right) {
@@ -939,6 +938,10 @@ public final class Ut {
 
     public static boolean isNil(final String input) {
         return StringUtil.isNil(input);
+    }
+
+    public static boolean isNilOr(final String... inputs) {
+        return StringUtil.isNilOr(inputs);
     }
 
     public static boolean isNil(final JsonObject json) {

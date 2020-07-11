@@ -15,6 +15,8 @@ import io.vertx.up.util.Ut;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 public class ActivityService implements ActivityStub {
     /*
@@ -41,6 +43,29 @@ public class ActivityService implements ActivityStub {
                      */
                     return Ux.future(response);
                 });
+    }
+
+    @Override
+    public Future<JsonArray> fetchActivities(final String identifier, final String key,
+                                             final String field) {
+        final JsonObject filters = new JsonObject();
+        filters.put(KeField.MODEL_ID, identifier);
+        filters.put(KeField.MODEL_KEY, key);
+        /*
+         * Created By should be synced from system
+         * Read all valid activities
+         */
+        return Ux.Jooq.on(XActivityDao.class).<XActivity>fetchAndAsync(filters).compose(activities -> {
+            /*
+             * Continue for finding of all fields
+             */
+            final Set<String> activityIds = activities.stream().map(XActivity::getKey)
+                    .collect(Collectors.toSet());
+            final JsonObject criteria = new JsonObject();
+            criteria.put("activityId,i", Ut.toJArray(activityIds));
+            criteria.put("fieldName", field);
+            return Ux.Jooq.on(XActivityChangeDao.class).fetchAndAsync(criteria).compose(Ux::fnJArray);
+        });
     }
 
     @Override
