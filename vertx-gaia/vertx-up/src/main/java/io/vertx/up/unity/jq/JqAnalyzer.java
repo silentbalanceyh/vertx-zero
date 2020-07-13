@@ -40,6 +40,7 @@ class JqAnalyzer {
     private transient String tableName;
 
     private transient ConcurrentMap<String, Field> fieldMap = new ConcurrentHashMap<>();
+    private transient Class<?> entityCls;
 
     private JqAnalyzer(final VertxDAO vertxDAO) {
         this.vertxDAO = Fn.pool(DAO_POOL, vertxDAO.hashCode(), () -> vertxDAO);
@@ -47,6 +48,8 @@ class JqAnalyzer {
         final Table<?> tableField = Ut.field(this.vertxDAO, "table");
 
         final Class<?> typeCls = Ut.field(this.vertxDAO, "type");
+        this.entityCls = typeCls;
+
         final java.lang.reflect.Field[] fields = Ut.fields(typeCls);
         // Analyze Type and definition sequence, columns hitted.
         final Field[] columns = tableField.fields();
@@ -83,6 +86,10 @@ class JqAnalyzer {
 
     String table() {
         return this.tableName;
+    }
+
+    Class<?> type() {
+        return this.entityCls;
     }
 
     private String columnName(final String field) {

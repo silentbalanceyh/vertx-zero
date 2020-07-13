@@ -215,15 +215,15 @@ public class JqReader {
         final JsonArray projection = Objects.isNull(projectionSet) ? new JsonArray() : Ut.toJArray(projectionSet);
         // Returned one by one
         if (null != pagerStep) {
-            return JqResult.toResult(pagerStep.fetch(this.vertxDAO.mapper()), projection, this.analyzer.pojo());
+            return JqResult.toResult(pagerStep.fetch(this.vertxDAO.mapper()), projection, this.analyzer);
         }
         if (null != selectStep) {
-            return JqResult.toResult(selectStep.fetch(this.vertxDAO.mapper()), projection, this.analyzer.pojo());
+            return JqResult.toResult(selectStep.fetch(this.vertxDAO.mapper()), projection, this.analyzer);
         }
         if (null != conditionStep) {
-            return JqResult.toResult(conditionStep.fetch(this.vertxDAO.mapper()), projection, this.analyzer.pojo());
+            return JqResult.toResult(conditionStep.fetch(this.vertxDAO.mapper()), projection, this.analyzer);
         }
-        return JqResult.toResult(started.fetch(this.vertxDAO.mapper()), projection, this.analyzer.pojo());
+        return JqResult.toResult(started.fetch(this.vertxDAO.mapper()), projection, this.analyzer);
     }
 
     private <T> List<T> searchInternal(final DSLContext dslContext, final JsonObject criteria) {
