@@ -1,8 +1,11 @@
 package cn.vertxup.ambient.api;
 
+import cn.vertxup.ambient.domain.tables.daos.XActivityDao;
+import cn.vertxup.ambient.domain.tables.pojos.XActivity;
 import cn.vertxup.ambient.service.ActivityStub;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
+import io.vertx.core.json.JsonObject;
 import io.vertx.tp.ambient.cv.Addr;
 import io.vertx.up.annotations.Address;
 import io.vertx.up.annotations.Queue;
@@ -10,6 +13,7 @@ import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
 import javax.inject.Inject;
+import java.util.Objects;
 
 @Queue
 public class HistoryActor {
@@ -38,5 +42,25 @@ public class HistoryActor {
         } else {
             return this.activityStub.fetchActivities(modelId, modelKey, modelField);
         }
+    }
+
+    @Address(Addr.History.ACTIVITY_SEARCH)
+    public Future<JsonObject> searchActivities(final JsonObject body) {
+        return Ux.Jooq.on(XActivityDao.class).searchAsync(body);
+    }
+
+    @Address(Addr.History.ACTIVITY_GET)
+    public Future<JsonObject> fetchActivity(final String key) {
+        return Ux.Jooq.on(XActivityDao.class).<XActivity>findByIdAsync(key).compose(activity -> {
+            if (Objects.isNull(activity)) {
+                return Ux.futureJObject();
+            } else {
+                return this.activityStub.fetchChanges(activity.getKey()).compose(changes -> {
+                    final JsonObject data = Ux.toJson(activity);
+                    data.put("changes", changes);
+                    return Ux.future(data);
+                });
+            }
+        });
     }
 }

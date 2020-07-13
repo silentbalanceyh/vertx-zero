@@ -10,6 +10,7 @@ import org.jooq.Record;
 import java.math.BigDecimal;
 import java.util.*;
 import java.util.concurrent.ConcurrentMap;
+import java.util.stream.Collectors;
 
 /*
  * Jooq Result for ( DataRegion Needed )
@@ -18,30 +19,12 @@ import java.util.concurrent.ConcurrentMap;
 @SuppressWarnings("all")
 class JqResult {
 
-    static <T> List<T> toResult(final List<T> list, final JsonArray projection, final Mojo mojo) {
+    static <T> List<T> toResult(final List<T> list, final JsonArray projectionArray, final Mojo mojo) {
         /*
          * convert projection to field
          */
-        final Set<String> filters = getFilters(projection, mojo);
-        /* Clear field */
-        filters.forEach(filtered -> list.forEach(entity -> Ut.field(entity, filtered, null)));
-        return list;
-    }
-
-    private static Set<String> getFilters(final JsonArray projection, final Mojo mojo) {
-        final Set<String> filters = new HashSet<>();
-        if (Objects.nonNull(mojo)) {
-            /* Pojo file bind */
-            projection.stream()
-                    .filter(Objects::nonNull)
-                    .map(field -> (String) field)
-                    .map(field -> mojo.getIn().get(field))
-                    .forEach(filters::add);
-        } else {
-            /* No Pojo file */
-            filters.addAll(projection.getList());
-        }
-        return filters;
+        final Set<String> projections = getProjections(projectionArray, mojo);
+        return toResult(list, projections);
     }
 
     static JsonArray toJoin(final List<Record> records, final JsonArray projection,
@@ -85,8 +68,59 @@ class JqResult {
             }
             joinResult.add(data);
         });
-        final Set<String> filters = getFilters(projection, mojo);
-        Ut.itJArray(joinResult).forEach(each -> filters.forEach(removed -> each.remove(removed)));
-        return joinResult;
+        final Set<String> projections = getProjections(projection, mojo);
+        return toResult(joinResult, projections);
+    }
+
+    private static <T> List<T> toResult(final List<T> list, final Set<String> projections) {
+        if (!projections.isEmpty()) {
+            /*
+             * Get all fields here
+             */
+            final Class<?> componentType = list.getClass().getComponentType();
+            final String[] fields = Arrays.stream(Ut.fields(componentType))
+                    .map(java.lang.reflect.Field::getName)
+                    .filter(Objects::nonNull)
+                    /*
+                     * Calculated filtered fields by projections
+                     */
+                    .filter(item -> !projections.contains(item))
+                    .collect(Collectors.toSet()).toArray(new String[]{});
+            for (String filtered : fields) {
+                list.forEach(entity -> Ut.field(entity, filtered, null));
+            }
+        }
+        return list;
+    }
+
+    private static JsonArray toResult(final JsonArray data, final Set<String> projections) {
+        if (!projections.isEmpty()) {
+            Ut.itJArray(data).forEach(record -> {
+                final Set<String> filters = new HashSet<>(record.fieldNames()).stream()
+                        /*
+                         * Calculated filtered fields by projections
+                         */
+                        .filter(item -> !projections.contains(item))
+                        .collect(Collectors.toSet());
+                filters.forEach(filtered -> record.remove(filtered));
+            });
+        }
+        return data;
+    }
+
+    private static Set<String> getProjections(final JsonArray projection, final Mojo mojo) {
+        final Set<String> filters = new HashSet<>();
+        if (Objects.nonNull(mojo)) {
+            /* Pojo file bind */
+            projection.stream()
+                    .filter(Objects::nonNull)
+                    .map(field -> (String) field)
+                    .map(field -> mojo.getIn().get(field))
+                    .forEach(filters::add);
+        } else {
+            /* No Pojo file */
+            filters.addAll(projection.getList());
+        }
+        return filters;
     }
 }

@@ -2,13 +2,12 @@ package cn.vertxup.ambient.api;
 
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
+import io.vertx.core.json.JsonObject;
 import io.vertx.tp.ambient.cv.Addr;
 import io.vertx.up.annotations.Address;
 import io.vertx.up.annotations.EndPoint;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
+import javax.ws.rs.*;
 
 /**
  * # Zero History Api Definition
@@ -40,4 +39,21 @@ public interface HistoryAgent {
     @GET
     @Address(Addr.History.HISTORY_ITEMS)
     Future<JsonArray> fetchItems(@PathParam("key") String key);
+
+    /*
+     * The activity change histories page needed
+     * Only support two read method:
+     *
+     * 1) Search by query engine
+     * 2) Get activity by id value here
+     */
+    @Path("/x-activity/search")
+    @POST
+    @Address(Addr.History.ACTIVITY_SEARCH)
+    Future<JsonObject> searchActivities(@BodyParam JsonObject body);
+
+    @Path("/x-activity/:key")
+    @POST
+    @Address(Addr.History.ACTIVITY_GET)
+    Future<JsonObject> fetchActivity(@PathParam("key") String key);
 }
