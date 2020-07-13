@@ -31,7 +31,7 @@ class Sync {
                         // 抽取字段名为空
                         if (Ut.notNil(attribute)) {
                             // projection 为空表示不过滤
-                            if (0 == projection.size() || projection.contains(attribute)) {
+                            if (0 == projection.size() || !projection.contains(attribute)) {
                                 // 抽取字段类型
                                 final Class<?> type = matrix.getType(attribute);
                                 // 读值
@@ -42,7 +42,7 @@ class Sync {
                                 recordReference.set(attribute, Ut.aiJValue(value, type));
                             }
                         }
-            });
+                    });
         }
     }
 }
