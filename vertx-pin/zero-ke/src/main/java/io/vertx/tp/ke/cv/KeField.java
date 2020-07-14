@@ -88,6 +88,7 @@ public interface KeField {
     String RECORD = "record";                   /* Change calculation for data record */
     String RECORD_NEW = "recordNew";            /* Change calculation to store the latest record */
     String RECORD_OLD = "recordOld";            /* Change calculation to store the previous record */
+    String NEXT = "next";                       /* Whether next trigger */
 
     String CREATED_AT = "createdAt";            /* Auditor created At */
     String UPDATED_AT = "updatedAt";            /* Auditor updated At */

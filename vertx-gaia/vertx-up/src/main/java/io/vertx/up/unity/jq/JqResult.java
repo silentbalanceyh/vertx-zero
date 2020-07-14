@@ -14,17 +14,22 @@ import java.util.stream.Collectors;
 
 /*
  * Jooq Result for ( DataRegion Needed )
- * 1) `projection` to do filter and remove un-used columns
+ *
+ * Calculate `projection` columns here
+ *
+ * 1. When the `projection` is null or empty, the system should get all the data from database.
+ * 2. When the `projection` is not empty, projection columns are the results that contains all fields.
  */
 @SuppressWarnings("all")
 class JqResult {
 
-    static <T> List<T> toResult(final List<T> list, final JsonArray projectionArray, final Mojo mojo) {
+    static <T> List<T> toResult(final List<T> list, final JsonArray projectionArray, final JqAnalyzer analyzer) {
         /*
          * convert projection to field
          */
+        final Mojo mojo = analyzer.pojo();
         final Set<String> projections = getProjections(projectionArray, mojo);
-        return toResult(list, projections);
+        return toResult(list, projections, analyzer.type());
     }
 
     static JsonArray toJoin(final List<Record> records, final JsonArray projection,
@@ -72,13 +77,12 @@ class JqResult {
         return toResult(joinResult, projections);
     }
 
-    private static <T> List<T> toResult(final List<T> list, final Set<String> projections) {
-        if (!projections.isEmpty()) {
+    private static <T> List<T> toResult(final List<T> list, final Set<String> projections, final Class<?> type) {
+        if (!projections.isEmpty() && !list.isEmpty()) {
             /*
              * Get all fields here
              */
-            final Class<?> componentType = list.getClass().getComponentType();
-            final String[] fields = Arrays.stream(Ut.fields(componentType))
+            final String[] fields = Arrays.stream(Ut.fields(type))
                     .map(java.lang.reflect.Field::getName)
                     .filter(Objects::nonNull)
                     /*
@@ -94,7 +98,7 @@ class JqResult {
     }
 
     private static JsonArray toResult(final JsonArray data, final Set<String> projections) {
-        if (!projections.isEmpty()) {
+        if (!projections.isEmpty() && !Ut.isNil(data)) {
             Ut.itJArray(data).forEach(record -> {
                 final Set<String> filters = new HashSet<>(record.fieldNames()).stream()
                         /*

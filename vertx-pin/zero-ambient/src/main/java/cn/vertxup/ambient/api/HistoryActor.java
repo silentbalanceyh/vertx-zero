@@ -7,6 +7,8 @@ import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.ambient.cv.Addr;
+import io.vertx.tp.ke.cv.KeField;
+import io.vertx.tp.ke.refine.Ke;
 import io.vertx.up.annotations.Address;
 import io.vertx.up.annotations.Queue;
 import io.vertx.up.unity.Ux;
@@ -57,6 +59,12 @@ public class HistoryActor {
             } else {
                 return this.activityStub.fetchChanges(activity.getKey()).compose(changes -> {
                     final JsonObject data = Ux.toJson(activity);
+                    /*
+                     * recordOld -> recordNew
+                     * Data that should be deserialized to Json Object
+                     */
+                    Ke.mount(data, KeField.RECORD_NEW);
+                    Ke.mount(data, KeField.RECORD_OLD);
                     data.put("changes", changes);
                     return Ux.future(data);
                 });

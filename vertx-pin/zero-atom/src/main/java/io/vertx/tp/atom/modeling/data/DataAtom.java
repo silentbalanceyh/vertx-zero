@@ -137,49 +137,63 @@ public class DataAtom {
     /*
      * 解决空指针问题，
      * isTrack
+     * isConfirm
      * isSyncIn
      * isSyncOut
-     * 三个字段可能没有值
      */
-    public Set<String> auditTrack() {
+    public Set<String> falseTrack() {
         return this.audit(attr -> {
             final Boolean result = attr.getIsTrack();
             return Objects.isNull(result) ? Boolean.FALSE : result;
         });
     }
 
-    public Set<String> ignoreTrack() {
+    public Set<String> trueTrack() {
         return this.audit(attr -> {
             final Boolean result = attr.getIsTrack();
             return Objects.isNull(result) ? Boolean.TRUE : !result;
         });
     }
 
-    public Set<String> auditIn() {
+    public Set<String> falseIn() {
         return this.audit(attr -> {
             final Boolean result = attr.getIsSyncIn();
             return Objects.isNull(result) ? Boolean.FALSE : result;
         });
     }
 
-    public Set<String> ignoreIn() {
+    public Set<String> trueIn() {
         return this.audit(attr -> {
             final Boolean result = attr.getIsSyncIn();
             return Objects.isNull(result) ? Boolean.TRUE : !result;
         });
     }
 
-    public Set<String> auditOut() {
+    public Set<String> falseOut() {
         return this.audit(attr -> {
             final Boolean result = attr.getIsSyncOut();
             return Objects.isNull(result) ? Boolean.FALSE : result;
         });
     }
 
-    public Set<String> ignoreOut() {
+    public Set<String> trueOut() {
         return this.audit(attr -> {
             final Boolean result = attr.getIsSyncOut();
             return Objects.isNull(result) ? Boolean.TRUE : !result;
+        });
+    }
+
+    public Set<String> falseConfirm() {
+        return this.audit(attr -> {
+            final Boolean result = attr.getIsConfirm();
+            return Objects.isNull(result) ? Boolean.FALSE : result;
+        });
+    }
+
+    public Set<String> trueConfirm() {
+        return this.audit(attr -> {
+            final Boolean result = attr.getIsConfirm();
+            return Objects.isNull(result) ? Boolean.TRUE : result;
         });
     }
 

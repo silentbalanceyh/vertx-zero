@@ -53,7 +53,7 @@ public interface HistoryAgent {
     Future<JsonObject> searchActivities(@BodyParam JsonObject body);
 
     @Path("/x-activity/:key")
-    @POST
+    @GET
     @Address(Addr.History.ACTIVITY_GET)
     Future<JsonObject> fetchActivity(@PathParam("key") String key);
 }
