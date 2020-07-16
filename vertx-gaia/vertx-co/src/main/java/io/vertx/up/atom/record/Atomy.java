@@ -60,6 +60,9 @@ public class Atomy {
 
     public static Atomy create(final JsonArray original, final JsonArray current) {
         if (Ut.isNil(original) && Ut.isNil(current)) {
+            /*
+             * Prevent null only
+             */
             throw new AtomyParameterException();
         }
         return new Atomy(original, current);

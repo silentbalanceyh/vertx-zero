@@ -12,6 +12,8 @@ import cn.vertxup.rbac.domain.tables.RUserGroup;
 import cn.vertxup.rbac.domain.tables.RUserRole;
 import cn.vertxup.rbac.domain.tables.SAction;
 import cn.vertxup.rbac.domain.tables.SGroup;
+import cn.vertxup.rbac.domain.tables.SPacket;
+import cn.vertxup.rbac.domain.tables.SPath;
 import cn.vertxup.rbac.domain.tables.SPermission;
 import cn.vertxup.rbac.domain.tables.SResource;
 import cn.vertxup.rbac.domain.tables.SRole;
@@ -73,6 +75,16 @@ public class Tables {
      * The table <code>DB_ETERNAL.S_GROUP</code>.
      */
     public static final SGroup S_GROUP = cn.vertxup.rbac.domain.tables.SGroup.S_GROUP;
+
+    /**
+     * The table <code>DB_ETERNAL.S_PACKET</code>.
+     */
+    public static final SPacket S_PACKET = cn.vertxup.rbac.domain.tables.SPacket.S_PACKET;
+
+    /**
+     * The table <code>DB_ETERNAL.S_PATH</code>.
+     */
+    public static final SPath S_PATH = cn.vertxup.rbac.domain.tables.SPath.S_PATH;
 
     /**
      * The table <code>DB_ETERNAL.S_PERMISSION</code>.

@@ -33,7 +33,7 @@ public class Db extends SchemaImpl {
      * The reference instance of <code>DB_ETERNAL</code>
      */
     public static final Db DB_ETERNAL = new Db();
-    private static final long serialVersionUID = 1045966251;
+    private static final long serialVersionUID = -313398421;
     /**
      * The table <code>DB_ETERNAL.O_ACCESS_TOKEN</code>.
      */
@@ -73,6 +73,16 @@ public class Db extends SchemaImpl {
      * The table <code>DB_ETERNAL.S_GROUP</code>.
      */
     public final SGroup S_GROUP = cn.vertxup.rbac.domain.tables.SGroup.S_GROUP;
+
+    /**
+     * The table <code>DB_ETERNAL.S_PACKET</code>.
+     */
+    public final SPacket S_PACKET = cn.vertxup.rbac.domain.tables.SPacket.S_PACKET;
+
+    /**
+     * The table <code>DB_ETERNAL.S_PATH</code>.
+     */
+    public final SPath S_PATH = cn.vertxup.rbac.domain.tables.SPath.S_PATH;
 
     /**
      * The table <code>DB_ETERNAL.S_PERMISSION</code>.
@@ -132,6 +142,8 @@ public class Db extends SchemaImpl {
                 RUserRole.R_USER_ROLE,
                 SAction.S_ACTION,
                 SGroup.S_GROUP,
+                SPacket.S_PACKET,
+                SPath.S_PATH,
                 SPermission.S_PERMISSION,
                 SResource.S_RESOURCE,
                 SRole.S_ROLE,
