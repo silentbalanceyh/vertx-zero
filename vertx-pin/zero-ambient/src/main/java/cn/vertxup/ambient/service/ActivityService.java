@@ -30,6 +30,7 @@ public class ActivityService implements ActivityStub {
         final JsonObject filters = new JsonObject();
         filters.put(KeField.MODEL_ID, identifier);
         filters.put(KeField.MODEL_KEY, key);
+        filters.put(KeField.ACTIVE, Boolean.TRUE);  // 只搜索合法的
         return Ux.Jooq.on(XActivityDao.class)
                 .fetchAndAsync(filters)
                 .compose(Ux::fnJArray)
@@ -51,6 +52,7 @@ public class ActivityService implements ActivityStub {
         final JsonObject filters = new JsonObject();
         filters.put(KeField.MODEL_ID, identifier);
         filters.put(KeField.MODEL_KEY, key);
+        filters.put(KeField.ACTIVE, Boolean.TRUE);  // 只搜索合法的
         /*
          * Created By should be synced from system
          * Read all valid activities
