@@ -35,7 +35,7 @@ public class SAction extends TableImpl<SActionRecord> {
      * The reference instance of <code>DB_ETERNAL.S_ACTION</code>
      */
     public static final SAction S_ACTION = new SAction();
-    private static final long serialVersionUID = -1894605798;
+    private static final long serialVersionUID = -940402587;
     /**
      * The column <code>DB_ETERNAL.S_ACTION.KEY</code>. 「key」- 操作ID
      */
@@ -159,7 +159,7 @@ public class SAction extends TableImpl<SActionRecord> {
      */
     @Override
     public List<Index> getIndexes() {
-        return Arrays.<Index>asList(Indexes.S_ACTION_CODE, Indexes.S_ACTION_PRIMARY, Indexes.S_ACTION_RESOURCE_ID, Indexes.S_ACTION_URI);
+        return Arrays.<Index>asList(Indexes.S_ACTION_CODE, Indexes.S_ACTION_IDXM_S_ACTION_SIGMA_URI_METHOD, Indexes.S_ACTION_IDXM_S_ACTION_URI_METHOD, Indexes.S_ACTION_IDX_S_ACTION_PERMISSION_ID, Indexes.S_ACTION_PRIMARY, Indexes.S_ACTION_RESOURCE_ID, Indexes.S_ACTION_URI);
     }
 
     /**

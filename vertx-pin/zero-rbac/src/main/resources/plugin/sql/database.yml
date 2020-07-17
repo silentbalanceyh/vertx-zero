@@ -7,6 +7,12 @@ databaseChangeLog:
       file: plugin/sql/rbac/O_USER.sql
       relativeToChangelogFile: false
   - include:
+      file: plugin/sql/rbac/S_PATH.sql
+      relativeToChangelogFile: false
+  - include:
+      file: plugin/sql/rbac/S_PACKET.sql
+      relativeToChangelogFile: false
+  - include:
       file: plugin/sql/rbac/S_ACTION.sql
       relativeToChangelogFile: false
   - include:

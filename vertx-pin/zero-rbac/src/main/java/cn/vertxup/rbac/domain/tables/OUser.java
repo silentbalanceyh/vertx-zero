@@ -34,7 +34,7 @@ public class OUser extends TableImpl<OUserRecord> {
      * The reference instance of <code>DB_ETERNAL.O_USER</code>
      */
     public static final OUser O_USER = new OUser();
-    private static final long serialVersionUID = -1576961587;
+    private static final long serialVersionUID = 1706775127;
     /**
      * The column <code>DB_ETERNAL.O_USER.KEY</code>. 「key」- OAuth用户ID
      */
@@ -130,7 +130,7 @@ public class OUser extends TableImpl<OUserRecord> {
      */
     @Override
     public List<Index> getIndexes() {
-        return Arrays.<Index>asList(Indexes.O_USER_CLIENT_ID, Indexes.O_USER_CLIENT_SECRET, Indexes.O_USER_PRIMARY);
+        return Arrays.<Index>asList(Indexes.O_USER_CLIENT_ID, Indexes.O_USER_CLIENT_SECRET, Indexes.O_USER_IDXM_O_USER_OAUTH_AUTHORIZE, Indexes.O_USER_PRIMARY);
     }
 
     /**
