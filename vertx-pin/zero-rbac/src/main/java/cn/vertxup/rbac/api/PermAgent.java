@@ -6,10 +6,7 @@ import io.vertx.tp.rbac.cv.Addr;
 import io.vertx.up.annotations.Address;
 import io.vertx.up.annotations.EndPoint;
 
-import javax.ws.rs.BodyParam;
-import javax.ws.rs.GET;
-import javax.ws.rs.PUT;
-import javax.ws.rs.Path;
+import javax.ws.rs.*;
 
 /**
  * @author <a href="http://www.origin-x.cn">lang</a>
@@ -27,4 +24,9 @@ public interface PermAgent {
     @PUT
     @Address(Addr.Authority.PERMISSION_SAVING)
     JsonObject saveRelation(@BodyParam JsonObject body);
+
+    @Path("/permission/by/role/:roleId")
+    @GET
+    @Address(Addr.Authority.PERMISSION_BY_ROLE)
+    JsonArray fetchAsync(@PathParam("roleId") String roleId);
 }

@@ -58,6 +58,8 @@ public interface Addr {
         /* Perm Information */
         String PERMISSION_GROUP = Prefix._EVENT + "X-PERMISSION/GROUP";
 
+        String PERMISSION_BY_ROLE = Prefix._EVENT + "X-PERMISSION/BY/ROLE";
+
         /* Perm Saving */
         String PERMISSION_SAVING = Prefix._EVENT + "X-PERMISSION/SAVING";
 
