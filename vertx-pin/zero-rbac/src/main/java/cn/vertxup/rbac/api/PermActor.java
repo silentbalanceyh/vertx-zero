@@ -1,5 +1,6 @@
 package cn.vertxup.rbac.api;
 
+import cn.vertxup.rbac.domain.tables.daos.RRolePermDao;
 import cn.vertxup.rbac.service.business.PermStub;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
@@ -73,5 +74,14 @@ public class PermActor {
         return this.stub.syncPerm(permissions, group, sigma)                // Permission Process
                 .compose(nil -> this.stub.savingPerm(removed, relation))    // Action Process
                 .compose(nil -> Ux.future(relation));
+    }
+
+    @Address(Addr.Authority.PERMISSION_BY_ROLE)
+    public Future<JsonArray> fetchAsync(final String roleId) {
+        if (Ut.notNil(roleId)) {
+            return Ux.Jooq.on(RRolePermDao.class)
+                    .fetchAsync(KeField.ROLE_ID, roleId)
+                    .compose(Ux::fnJArray);
+        } else return Ux.futureJArray();
     }
 }
