@@ -61,8 +61,8 @@
         <encoding>UTF-8</encoding>
 
         <!-- Vertx Framework Version -->
-        <vertx.version>3.9.1</vertx.version>
-        <stack.version>3.9.1</stack.version>
+        <vertx.version>3.9.2</vertx.version>
+        <stack.version>3.9.2</stack.version>
 
         <jcabi.version>0.22.6</jcabi.version>
         <jackson.version>2.11.1</jackson.version>
@@ -77,7 +77,7 @@
         <vertx.jooq.version>2.4.1</vertx.jooq.version>
         <vertx.jooq.async.version>0.4</vertx.jooq.async.version>
         <vertx.jooq.code.version>5.1.2</vertx.jooq.code.version>
-        <mysql.version>8.0.20</mysql.version>
+        <mysql.version>8.0.21</mysql.version>
 
         <!-- Java Reflection -->
         <reflect.asm.version>1.11.9</reflect.asm.version>
@@ -109,11 +109,11 @@
         <elasticsearch.version>7.7.1</elasticsearch.version>
 
         <!-- neo4j search -->
-        <neo4j.version>4.1.0</neo4j.version>
+        <neo4j.version>4.1.1</neo4j.version>
 
         <!-- Apache Common -->
         <common.jexl.version>3.1</common.jexl.version>
-        <common.lang3.version>3.10</common.lang3.version>
+        <common.lang3.version>3.11</common.lang3.version>
         <common.logging.version>1.2</common.logging.version>
         <common.net.version>3.6</common.net.version>
         <common.codec.version>1.14</common.codec.version>
@@ -124,7 +124,7 @@
         <http.core.version>4.4.13</http.core.version>
 
         <!-- Liquibase -->
-        <liquibase.version>3.8.9</liquibase.version>
+        <liquibase.version>4.0.0</liquibase.version>
 
         <!-- Rpc -->
         <protobuf.version>3.12.2</protobuf.version>
@@ -162,7 +162,7 @@
         <junit.version>4.13</junit.version>
 
         <!-- AspectJ -->
-        <aspectj.version>1.9.5</aspectj.version>
+        <aspectj.version>1.9.6</aspectj.version>
         <javassist.version>3.27.0-GA</javassist.version>
         <mdoclet.version>1.4</mdoclet.version>
 

@@ -8,10 +8,10 @@ import io.vertx.core.json.Json;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.core.shareddata.AsyncMap;
+import io.vertx.ext.auth.JWTOptions;
 import io.vertx.ext.auth.User;
 import io.vertx.ext.auth.jwt.JWTAuthOptions;
 import io.vertx.ext.jwt.JWT;
-import io.vertx.ext.jwt.JWTOptions;
 import io.vertx.up.eon.Constants;
 import io.vertx.up.exception.web.*;
 import io.vertx.up.fn.Fn;
@@ -40,9 +40,9 @@ public class JwtAuthProvider implements JwtAuth {
         this.jwtOptions = config.getJWTOptions();
         // File reading here.
         this.jwt = Ux.Jwt.create(config, vertx.fileSystem()::readFileBlocking);
-        vertx.sharedData().<String, Boolean>getAsyncMap(AUTH_POOL, res -> {
+        vertx.sharedData().<String, Boolean>getAsyncMap(JwtAuthProvider.AUTH_POOL, res -> {
             if (res.succeeded()) {
-                LOGGER.debug(Info.MAP_INITED, AUTH_POOL);
+                JwtAuthProvider.LOGGER.debug(Info.MAP_INITED, JwtAuthProvider.AUTH_POOL);
                 this.sessionTokens = res.result();
             }
         });
@@ -61,7 +61,7 @@ public class JwtAuthProvider implements JwtAuth {
 
     @Override
     public void authenticate(final JsonObject authInfo, final Handler<AsyncResult<User>> handler) {
-        LOGGER.info("( Auth ) Auth Information: {0}", authInfo.encode());
+        JwtAuthProvider.LOGGER.info("( Auth ) Auth Information: {0}", authInfo.encode());
         final String token = authInfo.getString("jwt");
         /*
          * Extract token from sessionTokens here
@@ -73,7 +73,7 @@ public class JwtAuthProvider implements JwtAuth {
              * 1) 401 Validation
              * 2) 403 Validation ( If So )
              */
-            LOGGER.debug(Info.FLOW_NULL, token);
+            JwtAuthProvider.LOGGER.debug(Info.FLOW_NULL, token);
             this.prerequisite(token)
                     /* 401 */
                     .compose(nil -> this.securer.authenticate(authInfo))
@@ -86,7 +86,7 @@ public class JwtAuthProvider implements JwtAuth {
             this.sessionTokens.get(token, res -> {
                 if (null != res && null != res.result() && res.result()) {
                     /* Token verified from cache */
-                    LOGGER.info(Info.MAP_HIT, token, res.result());
+                    JwtAuthProvider.LOGGER.info(Info.MAP_HIT, token, res.result());
                     /*
                      * Also this situation, the prerequisite step could be skipped because it has
                      * been calculated before, the token is valid and we could process this token
@@ -98,7 +98,7 @@ public class JwtAuthProvider implements JwtAuth {
                             /* Mount Handler */
                             .onComplete(this.authorized(token, handler));
                 } else {
-                    LOGGER.debug(Info.MAP_MISSING, token);
+                    JwtAuthProvider.LOGGER.debug(Info.MAP_MISSING, token);
                     /*
                      * Repeat do 401 validation & 403 validation
                      * 1) 401 Validation
@@ -119,7 +119,7 @@ public class JwtAuthProvider implements JwtAuth {
             if (user.succeeded()) {
                 /* Store token into async map to refresh cache and then return */
                 this.sessionTokens.put(token, Boolean.TRUE, result -> {
-                    LOGGER.debug(Info.MAP_PUT, token, Boolean.TRUE);
+                    JwtAuthProvider.LOGGER.debug(Info.MAP_PUT, token, Boolean.TRUE);
                     handler.handle(Future.succeededFuture(user.result()));
                 });
             } else {

@@ -18,7 +18,7 @@
         <zero.version>0.5.3-SNAPSHOT</zero.version>
         <hazelcast.version>3.12.4</hazelcast.version>
         <maven.javadoc.skip>true</maven.javadoc.skip>
-        <aspectj.version>1.9.5</aspectj.version>
+        <aspectj.version>1.9.6</aspectj.version>
     </properties>
     <dependencies>
         <dependency>
