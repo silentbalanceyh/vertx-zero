@@ -18,7 +18,7 @@ import javax.ws.rs.PathParam;
 public interface CriterionAgent {
 
     @GET
-    @Path("/rules/by/sigma")
+    @Path("/rules")
     @Address(Addr.Rule.FETCH_BY_SIGMA)
     Future<JsonArray> fetchAsync();
 
