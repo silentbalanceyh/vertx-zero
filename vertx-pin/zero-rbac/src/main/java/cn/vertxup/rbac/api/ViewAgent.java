@@ -14,10 +14,10 @@ import javax.ws.rs.PathParam;
 @EndPoint
 public interface ViewAgent {
 
-    @Path("/view/{ownerType}/{key}")
+    @Path("/view/:ownerType/:key")
     @PUT
-    @Address(Addr.View.VIEW_UPDATE_BY_TYPE)
-    JsonObject updateViewByType(@PathParam("ownerType") String ownerType,
-                                @PathParam("key") String key,
-                                @BodyParam JsonObject data);
+    @Address(Addr.Authority.VIEW_UPDATE_BY_TYPE)
+    JsonObject updateByType(@PathParam("ownerType") String ownerType,
+                            @PathParam("key") String key,
+                            @BodyParam JsonObject data);
 }

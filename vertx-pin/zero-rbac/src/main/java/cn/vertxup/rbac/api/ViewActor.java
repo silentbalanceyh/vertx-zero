@@ -6,8 +6,6 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.tp.rbac.cv.Addr;
 import io.vertx.up.annotations.Address;
 import io.vertx.up.annotations.Queue;
-import io.vertx.up.commune.Envelop;
-import io.vertx.up.unity.Ux;
 
 import javax.inject.Inject;
 
@@ -17,11 +15,9 @@ public class ViewActor {
     @Inject
     private transient ViewStub viewStub;
 
-    @Address(Addr.View.VIEW_UPDATE_BY_TYPE)
-    public Future<JsonObject> updateViewByType(final Envelop envelop) {
-        final String ownerType = Ux.getString(envelop).toUpperCase();
-        final String key = Ux.getString1(envelop);
-        final JsonObject data = Ux.getJson2(envelop);
+    @Address(Addr.Authority.VIEW_UPDATE_BY_TYPE)
+    public Future<JsonObject> updateByType(final String ownerType,
+                                           final String key, final JsonObject data) {
         // final String habit     = Ke.keyHabitus(envelop);
         return this.viewStub.updateByType(ownerType, key, data);
     }
