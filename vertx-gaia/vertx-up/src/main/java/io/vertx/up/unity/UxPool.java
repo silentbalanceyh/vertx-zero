@@ -8,6 +8,8 @@ import io.vertx.up.exception.web._500PoolInternalException;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 
+import java.util.Set;
+
 /**
  * Shared Data for pool usage in utility X
  */
@@ -69,6 +71,19 @@ public class UxPool {
         return Fn.<Boolean>thenGeneric(future -> this.client.clear(res -> {
             LOGGER.debug(Info.POOL_CLEAR, this.name);
             Fn.thenGeneric(res, future, To.toError(_500PoolInternalException.class, this.getClass(), this.name, "clear"));
+        }));
+    }
+
+    // Count
+    public Future<Integer> size() {
+        return Fn.<Integer>thenGeneric(future -> this.client.size(res -> {
+            Fn.thenGeneric(res, future, To.toError(_500PoolInternalException.class, this.getClass(), this.name, "size"));
+        }));
+    }
+
+    public Future<Set<String>> keys() {
+        return Fn.<Set<String>>thenGeneric(future -> this.client.keys(res -> {
+            Fn.thenGeneric(res, future, To.toError(_500PoolInternalException.class, this.getClass(), this.name, "keys"));
         }));
     }
 }

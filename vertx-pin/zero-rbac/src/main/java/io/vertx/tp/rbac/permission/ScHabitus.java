@@ -11,6 +11,7 @@ import io.vertx.up.unity.UxPool;
 import io.vertx.up.util.Ut;
 
 import java.util.Objects;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
@@ -21,7 +22,6 @@ import java.util.concurrent.ConcurrentMap;
  * 2. token -> habitus
  */
 public class ScHabitus {
-    private static final Annal LOGGER = Annal.get(ScHabitus.class);
     /*
      * name = HABITUS_CACHE ( Logged User )
      *      2.1. Fixed name for `habitus` storage
@@ -29,20 +29,28 @@ public class ScHabitus {
      *               "HABITUS-" + <habitus> + "-SESSION"
      * Each habitus keep a pool
      */
-    private static final String POOL_HABITUS = "vertx-web.sessions.habitus";
+    public static final String POOL_HABITUS = "vertx-web.sessions.habitus";
+    private static final Annal LOGGER = Annal.get(ScHabitus.class);
     private static final ConcurrentMap<String, ScHabitus> POOLS =
             new ConcurrentHashMap<>();
     private final transient UxPool pool;
     private final transient String habitus;
 
     private ScHabitus(final String habitus) {
-        Sc.infoResource(LOGGER, AuthMsg.POOL_RESOURCE, POOL_HABITUS, habitus);
+        Sc.infoResource(ScHabitus.LOGGER, AuthMsg.POOL_RESOURCE, ScHabitus.POOL_HABITUS, habitus);
         this.habitus = habitus;
-        this.pool = Ux.Pool.on(POOL_HABITUS);
+        this.pool = Ux.Pool.on(ScHabitus.POOL_HABITUS);
     }
 
     public static ScHabitus initialize(final String habitus) {
-        return Fn.pool(POOLS, habitus, () -> new ScHabitus(habitus));
+        return Fn.pool(ScHabitus.POOLS, habitus, () -> new ScHabitus(habitus));
+    }
+
+    /*
+     * Monitor for current ScHabitus
+     */
+    public static Set<String> habitus() {
+        return POOLS.keySet();
     }
 
     /*

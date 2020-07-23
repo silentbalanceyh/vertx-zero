@@ -8,6 +8,7 @@ import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.error._401PasswordWrongException;
 import io.vertx.tp.error._449UserNotFoundException;
+import io.vertx.tp.ke.cv.KeField;
 import io.vertx.tp.rbac.cv.AuthKey;
 import io.vertx.tp.rbac.cv.AuthMsg;
 import io.vertx.tp.rbac.permission.ScPrivilege;
@@ -51,12 +52,12 @@ public class LoginService implements LoginStub {
                         // Secondar query
                         (user) -> Arrays.asList(
                                 // Fetch Oauth user
-                                this.userStub.fetchOUser(user.getString("key"))
+                                this.userStub.fetchOUser(user.getString(KeField.KEY))
                         ),
                         Ut::ifMerge // SUser / OUser - Avoid duplicated merging
                 ))
                 .compose(item -> Uson.create(item).pickup(
-                        "key",                      /* client_id parameter */
+                        KeField.KEY,                /* client_id parameter */
                         AuthKey.SCOPE,              /* scope parameter */
                         AuthKey.STATE,              /* state parameter */
                         AuthKey.F_CLIENT_SECRET,    /* client_secret parameter */

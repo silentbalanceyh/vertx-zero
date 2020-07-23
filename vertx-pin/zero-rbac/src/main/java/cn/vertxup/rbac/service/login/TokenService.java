@@ -49,6 +49,10 @@ public class TokenService implements TokenStub {
                          * 4) Let's habitus length be 128 and it will be a key of logged user here.
                          * */
                         .append(KeField.HABITUS, Ut.randomString(128))
+                        /*
+                         * Store session id instead of habitus in future
+                         */
+                        .append("session", Objects.nonNull(session) ? session.id() : null)
                         .append("role", roles).toFuture()
                 )
 

@@ -64,17 +64,31 @@ public class ScSession {
     public static Future<Boolean> initAuthorization(final JsonObject data) {
         /*
          * Create relation between session & user
-         * - user
-         * - group
-         * - role
+         * {
+         *      "user": "X_USER key field, client key/user id here",
+         *      "role": [
+         *          {
+         *              "roleId": "X_ROLE key field",
+         *              "priority": 0
+         *          }
+         *      ],
+         *      "group":[
+         *          {
+         *              "groupId": "X_GROUP key field",
+         *              "priority": 0
+         *          }
+         *      ],
+         *      "habitus": "128 bit random string",
+         *      "session": "session id that vert.x generated"
+         * }
          **/
         return ScPrivilege.init(data).compose(reference ->
                 /*
                  * ScPrivilege evaluation for current logged user
                  */
-                reference.evaluate(profile -> initRoles(profile, data.getJsonArray("role"))
+                reference.evaluate(profile -> ScSession.initRoles(profile, data.getJsonArray("role"))
                         /* Initialize group information */
-                        .compose(processed -> initGroups(processed, data.getJsonArray("group")))
+                        .compose(processed -> ScSession.initGroups(processed, data.getJsonArray("group")))
                         /* Refresh Cache */
                         .compose(reference::storeProfile)
                         /* Result Report */
@@ -147,7 +161,7 @@ public class ScSession {
         /*
          * To avoid log more, here must use `encode` instead of `encodePrettily`
          */
-        Sc.infoAuth(LOGGER, "Permissions: {0}", result.encode());
+        Sc.infoAuth(ScSession.LOGGER, "Permissions: {0}", result.encode());
         return Future.succeededFuture(result);
     }
 }
