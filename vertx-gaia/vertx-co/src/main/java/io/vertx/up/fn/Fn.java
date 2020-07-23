@@ -190,6 +190,14 @@ public final class Fn {
         return Semi.execReturn(supplier, defaultValue);
     }
 
+    public static <T> T getEmpty(final Supplier<T> supplier, final String... input) {
+        return Zero.getEmpty(null, supplier, input);
+    }
+
+    public static <T> T getEmpty(final T defaultValue, final Supplier<T> supplier, final String... input) {
+        return Zero.getEmpty(defaultValue, supplier, input);
+    }
+
     // ------ Semi Safe
     public static void safeSemi(final boolean condition, final Annal logger, final Actuator tSupplier, final Actuator fSupplier) {
         Semi.exec(condition, logger, tSupplier, fSupplier);

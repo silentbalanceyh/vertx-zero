@@ -14,6 +14,7 @@ import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 
 import java.util.Objects;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
@@ -216,5 +217,34 @@ public class SharedClientImpl<K, V> implements SharedClient<K, V> {
     private void ensure(final boolean expected) {
         Fn.outWeb(this.isAsync != expected, LOGGER,
                 _501SharedDataModeException.class, this.getClass(), this.isAsync);
+    }
+
+    /*
+     * Shared Enhancement for
+     *
+     * 1) Session Management
+     * 2) Cache Management
+     * 3) Login/Logout Management
+     */
+    @Override
+    public SharedClient<K, V> size(Handler<AsyncResult<Integer>> handler) {
+        this.asyncMap.size(handler);
+        return this;
+    }
+
+    @Override
+    public SharedClient<K, V> keys(Handler<AsyncResult<Set<K>>> handler) {
+        this.asyncMap.keys(handler);
+        return this;
+    }
+
+    @Override
+    public int size() {
+        return this.syncMap.size();
+    }
+
+    @Override
+    public Set<K> keys() {
+        return this.syncMap.keySet();
     }
 }

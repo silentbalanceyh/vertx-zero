@@ -9,6 +9,8 @@ import io.vertx.core.shareddata.AsyncMap;
 import io.vertx.core.shareddata.LocalMap;
 import io.vertx.up.atom.Kv;
 
+import java.util.Set;
+
 /**
  * Shared client for shared data in vert.x
  */
@@ -42,6 +44,10 @@ public interface SharedClient<K, V> {
 
     V get(K key, boolean once);
 
+    int size();
+
+    Set<K> keys();
+
     @Fluent
     SharedClient<K, V> put(K key, V value, Handler<AsyncResult<Kv<K, V>>> handler);
 
@@ -59,4 +65,13 @@ public interface SharedClient<K, V> {
 
     @Fluent
     SharedClient<K, V> clear(Handler<AsyncResult<Boolean>> handler);
+
+    /*
+     * Map count for usage
+     */
+    @Fluent
+    SharedClient<K, V> size(Handler<AsyncResult<Integer>> handler);
+
+    @Fluent
+    SharedClient<K, V> keys(Handler<AsyncResult<Set<K>>> handler);
 }
