@@ -9,7 +9,6 @@ import io.vertx.tp.ke.cv.KeField;
 import io.vertx.tp.ke.refine.Ke;
 import io.vertx.tp.rbac.cv.AuthMsg;
 import io.vertx.tp.rbac.cv.em.OwnerType;
-import io.vertx.tp.rbac.permission.ScHabitus;
 import io.vertx.tp.rbac.refine.Sc;
 import io.vertx.up.atom.query.Inquiry;
 import io.vertx.up.eon.Strings;
@@ -30,7 +29,7 @@ public class ViewService implements ViewStub {
         final JsonObject filters = toFilters(resourceId, view);
         filters.put("owner", userId);
         filters.put("ownerType", OwnerType.USER.name());
-        Sc.infoResource(LOGGER, AuthMsg.VIEW_PROCESS, "fetch", filters.encode());
+        Sc.infoResource(ViewService.LOGGER, AuthMsg.VIEW_PROCESS, "fetch", filters.encode());
         return Ux.Jooq.on(SViewDao.class)
                 .fetchOneAsync(new JsonObject().put("criteria", filters));
     }
@@ -43,7 +42,7 @@ public class ViewService implements ViewStub {
         filters.put("owner", userId);
         filters.put("ownerType", OwnerType.USER.name());
         /* SView projection */
-        Sc.infoResource(LOGGER, AuthMsg.VIEW_PROCESS, "save", filters.encode());
+        Sc.infoResource(ViewService.LOGGER, AuthMsg.VIEW_PROCESS, "save", filters.encode());
         final SView myView = toView(filters, projection);
         return Ux.Jooq.on(SViewDao.class)
                 .upsertAsync(filters, myView);
@@ -60,21 +59,17 @@ public class ViewService implements ViewStub {
     }
 
     @Override
-    public Future<JsonObject> updateByType(String ownerType, String key, JsonObject data, String habit) {
+    public Future<JsonObject> updateByType(final String ownerType, final String key, final JsonObject data) {
         final SView view = Ux.fromJson(mountIn(data.put("ownerType", ownerType.toUpperCase())), SView.class);
         return this.deleteById(key)
                 .compose(result -> Ux.Jooq.on(SViewDao.class)
                         .insertAsync(view)
                         .compose(Ux::fnJObject)
-                        .compose(item -> {
-                            // clear current user's habit
-                            ScHabitus.initialize(habit).clear();
-                            return Ux.future(this.mountOut(item));
-                        }));
+                        .compose(item -> Ux.future(this.mountOut(item))));
     }
 
     @Override
-    public Future<Boolean> deleteById(String key) {
+    public Future<Boolean> deleteById(final String key) {
         return Ux.Jooq.on(SViewDao.class).deleteByIdAsync(key);
     }
 
@@ -103,8 +98,9 @@ public class ViewService implements ViewStub {
         Ke.mountString(data, KeField.METADATA);
         return data;
     }
+
     private JsonObject mountOut(final JsonObject data) {
-        Ke.mountArray(data,  KeField.Rbac.PROJECTION);
+        Ke.mountArray(data, KeField.Rbac.PROJECTION);
         Ke.mount(data, KeField.Rbac.CRITERIA);
         Ke.mount(data, KeField.Rbac.ROWS);
         Ke.mount(data, KeField.METADATA);

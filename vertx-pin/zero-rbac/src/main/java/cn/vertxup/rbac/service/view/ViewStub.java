@@ -15,7 +15,7 @@ public interface ViewStub {
 
     Future<List<SView>> fetchMatrix(JsonArray role, String resourceId, String view);
 
-    Future<JsonObject> updateByType(String ownerType, String key, JsonObject data, String habit);
+    Future<JsonObject> updateByType(String ownerType, String key, JsonObject data);
 
     Future<Boolean> deleteById(String key);
 }

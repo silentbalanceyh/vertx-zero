@@ -22,11 +22,17 @@ public interface PermAgent {
 
     @Path("/permission/definition/saving")
     @PUT
-    @Address(Addr.Authority.PERMISSION_SAVING)
-    JsonObject saveRelation(@BodyParam JsonObject body);
+    @Address(Addr.Authority.PERMISSION_DEFINITION_SAVE)
+    JsonObject saveDefinition(@BodyParam JsonObject body);
 
-    @Path("/permission/by/role/:roleId")
+    @Path("/permission/role/:roleId")
     @GET
     @Address(Addr.Authority.PERMISSION_BY_ROLE)
     JsonArray fetchAsync(@PathParam("roleId") String roleId);
+
+    @Path("/permission/role/:roleId")
+    @PUT
+    @Address(Addr.Authority.PERMISSION_SAVE)
+    JsonArray savePerm(@PathParam("roleId") String roleId,
+                       @BodyParam JsonArray permissions);
 }

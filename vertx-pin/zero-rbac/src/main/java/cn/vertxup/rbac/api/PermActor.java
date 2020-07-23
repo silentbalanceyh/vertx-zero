@@ -1,6 +1,7 @@
 package cn.vertxup.rbac.api;
 
 import cn.vertxup.rbac.domain.tables.daos.RRolePermDao;
+import cn.vertxup.rbac.domain.tables.pojos.RRolePerm;
 import cn.vertxup.rbac.service.business.PermStub;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
@@ -11,10 +12,14 @@ import io.vertx.tp.rbac.refine.Sc;
 import io.vertx.up.annotations.Address;
 import io.vertx.up.annotations.Queue;
 import io.vertx.up.commune.config.XHeader;
+import io.vertx.up.fn.Fn;
 import io.vertx.up.unity.Ux;
+import io.vertx.up.unity.jq.UxJooq;
 import io.vertx.up.util.Ut;
 
 import javax.inject.Inject;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author <a href="http://www.origin-x.cn">lang</a>
@@ -33,9 +38,9 @@ public class PermActor {
         return this.stub.groupAsync(header.getSigma());
     }
 
-    @Address(Addr.Authority.PERMISSION_SAVING)
-    public Future<JsonObject> savingPerm(final JsonObject processed,
-                                         final XHeader header) {
+    @Address(Addr.Authority.PERMISSION_DEFINITION_SAVE)
+    public Future<JsonObject> saveDefinition(final JsonObject processed,
+                                             final XHeader header) {
         final String sigma = header.getSigma();
         Sc.infoWeb(this.getClass(), "Permission Update: {0}, sigma = {1}",
                 processed.encode(), sigma);
@@ -78,10 +83,39 @@ public class PermActor {
 
     @Address(Addr.Authority.PERMISSION_BY_ROLE)
     public Future<JsonArray> fetchAsync(final String roleId) {
-        if (Ut.notNil(roleId)) {
-            return Ux.Jooq.on(RRolePermDao.class)
-                    .fetchAsync(KeField.ROLE_ID, roleId)
-                    .compose(Ux::fnJArray);
-        } else return Ux.futureJArray();
+        return Fn.getEmpty(Ux.futureJArray(), () -> Ux.Jooq.on(RRolePermDao.class)
+                .fetchAsync(KeField.ROLE_ID, roleId)
+                .compose(Ux::fnJArray), roleId);
+    }
+
+    @Address(Addr.Authority.PERMISSION_SAVE)
+    public Future<JsonArray> savePerm(final String roleId, final JsonArray permissions) {
+        return Fn.getEmpty(Ux.futureJArray(), () -> {
+            final JsonObject condition = new JsonObject();
+            condition.put(KeField.ROLE_ID, roleId);
+            /*
+             * Delete all the relations that belong to roleId
+             * that the user provided here
+             * */
+            final UxJooq dao = Ux.Jooq.on(RRolePermDao.class);
+            return dao.deleteAsync(condition).compose(processed -> {
+                /*
+                 * Build new relations that belong to the role
+                 */
+                final List<RRolePerm> relations = new ArrayList<>();
+                Ut.itJArray(permissions, String.class, (permissionId, index) -> {
+                    final RRolePerm item = new RRolePerm();
+                    item.setRoleId(roleId);
+                    item.setPermId(permissionId);
+                    relations.add(item);
+                });
+                return dao.insertAsync(relations).compose(inserted -> {
+                    /*
+                     * Habit clean for role
+                     */
+                    return Ux.future(inserted);
+                }).compose(Ux::fnJArray);
+            });
+        }, roleId);
     }
 }
