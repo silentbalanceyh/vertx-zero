@@ -56,9 +56,23 @@ class KeElement {
         return response -> Ux.future(mount(response, field));
     }
 
+    static Function<JsonArray, Future<JsonArray>> mounts(final String field) {
+        return response -> {
+            Ut.itJArray(response).forEach(json -> mount(json, field));
+            return Ux.future(response);
+        };
+    }
+
     static Function<JsonObject, Future<JsonObject>> mount(final String... field) {
         return response -> {
             Arrays.stream(field).forEach(each -> mount(response, each));
+            return Ux.future(response);
+        };
+    }
+
+    static Function<JsonArray, Future<JsonArray>> mounts(final String... field) {
+        return response -> {
+            Arrays.stream(field).forEach(each -> Ut.itJArray(response).forEach(json -> mount(json, each)));
             return Ux.future(response);
         };
     }
