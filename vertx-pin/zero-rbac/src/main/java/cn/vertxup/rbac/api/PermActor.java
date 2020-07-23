@@ -111,9 +111,10 @@ public class PermActor {
                 });
                 return dao.insertAsync(relations).compose(inserted -> {
                     /*
-                     * Habit clean for role
+                     * Refresh cache pool with Sc interface directly
                      */
-                    return Ux.future(inserted);
+                    return Sc.cachePermission(roleId, permissions)
+                            .compose(nil -> Ux.future(inserted));
                 }).compose(Ux::fnJArray);
             });
         }, roleId);

@@ -87,6 +87,11 @@ public class ProfileRole implements Serializable {
      * 2.2) If not null: Return authorities directly ( pick up from cache )
      */
     private Future<JsonArray> fetchAuthoritiesAsyncWithCache() {
+        /*
+         * This workflow will execute when each user login
+         * It means that the cache pool could be refreshed when role
+         * permissions
+         */
         return Sc.<JsonArray>cachePermission(this.roleId).compose(array -> {
             if (Objects.isNull(array)) {
                 return this.fetchAuthoritiesAsync()
