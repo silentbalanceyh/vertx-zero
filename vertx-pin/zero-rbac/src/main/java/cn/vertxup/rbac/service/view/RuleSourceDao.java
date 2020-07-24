@@ -25,7 +25,7 @@ public class RuleSourceDao implements RuleSource {
         } else {
             return dao.findAsync(condition).compose(Ux::fnJArray).compose(data -> {
                 final JsonObject normalized = new JsonObject();
-                normalized.put(KeField.DATA, data);
+                normalized.put(KeField.DATUM, data);
                 return Ux.future(normalized);
             });
         }

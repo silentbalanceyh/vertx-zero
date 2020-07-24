@@ -16,6 +16,10 @@ public interface Addr {
          */
         String FETCH_BY_SIGMA = Prefix._EVENT + "X-RULE/FETCH/ALL";
         String FETCH_RULE_ITEMS = Prefix._EVENT + "X-RULE-ITEM/FETCH/BY/RULE";
+        /*
+         * Fetch all resource definition
+         */
+        String FETCH_VIEWS = Prefix._EVENT + "X-RULE-VIEW/FETCH/BY-KEYS";
     }
 
     interface Auth {
