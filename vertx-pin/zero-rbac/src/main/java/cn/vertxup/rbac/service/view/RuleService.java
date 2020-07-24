@@ -6,6 +6,7 @@ import cn.vertxup.rbac.domain.tables.pojos.SView;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
+import io.vertx.tp.ke.cv.KeDefault;
 import io.vertx.tp.ke.cv.KeField;
 import io.vertx.tp.ke.refine.Ke;
 import io.vertx.tp.rbac.cv.em.SourceType;
@@ -47,7 +48,7 @@ public class RuleService implements RuleStub {
     @Override
     public Future<JsonArray> saveViews(final String ownerType, final String ownerId,
                                        final JsonArray views, final String view) {
-        final Set<String> keySet = Ut.mapString(views, KeField.KEY);
+        final Set<String> keySet = Ut.mapString(views, KeField.RESOURCE_ID);
         return this.fetchViews(ownerType, ownerId, Ut.toJArray(keySet), view).compose(original -> {
             /*
              * owner, ownerType, resourceId, name are unique
@@ -92,6 +93,7 @@ public class RuleService implements RuleStub {
                      */
                     normalized.setKey(UUID.randomUUID().toString());
                     normalized.setActive(Boolean.TRUE);
+                    normalized.setName(KeDefault.VIEW_DEFAULT);
                     addQueue.add(normalized);
                 }
             });
