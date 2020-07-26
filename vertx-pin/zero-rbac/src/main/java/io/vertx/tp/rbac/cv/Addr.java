@@ -10,6 +10,18 @@ interface Prefix {
 
 public interface Addr {
 
+    interface Rule {
+        /*
+         * Fetch all rules that defined in current app
+         */
+        String FETCH_BY_SIGMA = Prefix._EVENT + "X-RULE/FETCH/ALL";
+        String FETCH_RULE_ITEMS = Prefix._EVENT + "X-RULE-ITEM/FETCH/BY/RULE";
+        /*
+         * Fetch all resource definition
+         */
+        String FETCH_VIEWS = Prefix._EVENT + "X-RULE-VIEW/FETCH/BY-KEYS";
+    }
+
     interface Auth {
 
         String LOGIN = Prefix._EVENT + "O-LOGIN";
@@ -73,6 +85,8 @@ public interface Addr {
         String RESOURCE_UPDATE_CASCADE = Prefix._EVENT + "X-RESOURCE/UPDATE-CASCADE";
         /* Resource delete with action */
         String RESOURCE_DELETE_CASCADE = Prefix._EVENT + "X-RESOURCE/DELETE-CASCADE";
+
+        String VIEW_UPDATE_BY_TYPE = Prefix._EVENT + "S-VIEW-BY-TYPE/PUT";
     }
 
     interface Group {
@@ -83,9 +97,5 @@ public interface Addr {
         String ROLE_SIGMA = Prefix._EVENT + "S-ROLE/SIGMA";
 
         String ROLE_PERM_UPDATE = Prefix._EVENT + "S-ROLE-PERM/PUT";
-    }
-
-    interface View {
-        String VIEW_UPDATE_BY_TYPE = Prefix._EVENT + "S-VIEW-BY-TYPE/PUT";
     }
 }

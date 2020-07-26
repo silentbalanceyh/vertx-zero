@@ -124,7 +124,7 @@
         <http.core.version>4.4.13</http.core.version>
 
         <!-- Liquibase -->
-        <liquibase.version>4.0.0</liquibase.version>
+        <liquibase.version>3.8.9</liquibase.version>
 
         <!-- Rpc -->
         <protobuf.version>3.12.2</protobuf.version>

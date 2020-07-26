@@ -152,22 +152,34 @@ public class InvokerUtil {
                                final Method method,
                                final Envelop envelop) {
         final Class<?> argType = method.getParameterTypes()[Values.IDX];
-        // One type dynamic here
-        final Object reference = Objects.nonNull(envelop) ? envelop.data() : new JsonObject();
-        // Non Direct
-        Object parameters = reference;
-        if (JsonObject.class == reference.getClass()) {
-            final JsonObject json = (JsonObject) reference;
-            if (isInterface(json)) {
-                // Proxy mode
-                if (Values.ONE == json.fieldNames().size()) {
-                    // New Mode for direct type
-                    parameters = json.getValue("0");
+        // Append single argument
+        final Object analyzed = TypedArgument.analyze(envelop, argType);
+        if (Objects.isNull(analyzed)) {
+            // One type dynamic here
+            final Object reference = Objects.nonNull(envelop) ? envelop.data() : new JsonObject();
+            // Non Direct
+            Object parameters = reference;
+            if (JsonObject.class == reference.getClass()) {
+                final JsonObject json = (JsonObject) reference;
+                if (isInterface(json)) {
+                    // Proxy mode
+                    if (Values.ONE == json.fieldNames().size()) {
+                        // New Mode for direct type
+                        parameters = json.getValue("0");
+                    }
                 }
             }
+            final Object arguments = ZeroSerializer.getValue(argType, Ut.toString(parameters));
+            return Ut.invoke(proxy, method.getName(), arguments);
+        } else {
+            /*
+             * XHeader
+             * User
+             * Session
+             * These three argument types could be single
+             */
+            return Ut.invoke(proxy, method.getName(), analyzed);
         }
-        final Object arguments = ZeroSerializer.getValue(argType, Ut.toString(parameters));
-        return Ut.invoke(proxy, method.getName(), arguments);
     }
 
 

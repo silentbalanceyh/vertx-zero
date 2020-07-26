@@ -26,7 +26,7 @@ public class ViewService implements ViewStub {
     @Override
     public Future<SView> fetchMatrix(final String userId, final String resourceId, final String view) {
         /* Find user matrix */
-        final JsonObject filters = toFilters(resourceId, view);
+        final JsonObject filters = this.toFilters(resourceId, view);
         filters.put("owner", userId);
         filters.put("ownerType", OwnerType.USER.name());
         Sc.infoResource(ViewService.LOGGER, AuthMsg.VIEW_PROCESS, "fetch", filters.encode());
@@ -38,12 +38,12 @@ public class ViewService implements ViewStub {
     public Future<SView> saveMatrix(final String userId, final String resourceId,
                                     final String view, final JsonArray projection) {
         /* Find user matrix */
-        final JsonObject filters = toFilters(resourceId, view);
+        final JsonObject filters = this.toFilters(resourceId, view);
         filters.put("owner", userId);
         filters.put("ownerType", OwnerType.USER.name());
         /* SView projection */
         Sc.infoResource(ViewService.LOGGER, AuthMsg.VIEW_PROCESS, "save", filters.encode());
-        final SView myView = toView(filters, projection);
+        final SView myView = this.toView(filters, projection);
         return Ux.Jooq.on(SViewDao.class)
                 .upsertAsync(filters, myView);
     }
@@ -51,26 +51,11 @@ public class ViewService implements ViewStub {
     @Override
     public Future<List<SView>> fetchMatrix(final JsonArray roleIds, final String resourceId, final String view) {
         /* Find user matrix */
-        final JsonObject filters = toFilters(resourceId, view);
+        final JsonObject filters = this.toFilters(resourceId, view);
         filters.put("owner,i", roleIds);
         filters.put("ownerType", OwnerType.ROLE.name());
         return Ux.Jooq.on(SViewDao.class)
                 .fetchAndAsync(new JsonObject().put("criteria", filters));
-    }
-
-    @Override
-    public Future<JsonObject> updateByType(final String ownerType, final String key, final JsonObject data) {
-        final SView view = Ux.fromJson(mountIn(data.put("ownerType", ownerType.toUpperCase())), SView.class);
-        return this.deleteById(key)
-                .compose(result -> Ux.Jooq.on(SViewDao.class)
-                        .insertAsync(view)
-                        .compose(Ux::fnJObject)
-                        .compose(item -> Ux.future(this.mountOut(item))));
-    }
-
-    @Override
-    public Future<Boolean> deleteById(final String key) {
-        return Ux.Jooq.on(SViewDao.class).deleteByIdAsync(key);
     }
 
     private JsonObject toFilters(final String resourceId, final String view) {

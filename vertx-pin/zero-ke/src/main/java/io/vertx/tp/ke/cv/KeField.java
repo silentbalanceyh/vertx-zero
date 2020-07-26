@@ -62,6 +62,7 @@ public interface KeField {
     String CATEGORY = "category";               /* Common: category */
     String SERVICE = "service";                 /* Common: service */
     String DATA = "data";                       /* Common: data */
+    String DATUM = "datum";                     /* Common: metadata key */
     String MAPPING = "mapping";                 /* Common: Json mapping configuration */
     String STATUS = "status";                   /* Common: status for different workflow */
     String SERIAL = "serial";                   /* Common: serial field ( XNumber related or other meaningful serial */
