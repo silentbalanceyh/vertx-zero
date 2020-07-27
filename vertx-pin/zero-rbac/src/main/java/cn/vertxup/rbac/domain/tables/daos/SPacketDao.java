@@ -140,6 +140,13 @@ public class SPacketDao extends DAOImpl<SPacketRecord, cn.vertxup.rbac.domain.ta
     }
 
     /**
+     * Fetch records that have <code>COND_CONFIG IN (values)</code>
+     */
+    public List<cn.vertxup.rbac.domain.tables.pojos.SPacket> fetchByCondConfig(String... values) {
+        return fetch(SPacket.S_PACKET.COND_CONFIG, values);
+    }
+
+    /**
      * Fetch records that have <code>SIGMA IN (values)</code>
      */
     public List<cn.vertxup.rbac.domain.tables.pojos.SPacket> fetchBySigma(String... values) {
@@ -277,6 +284,13 @@ public class SPacketDao extends DAOImpl<SPacketRecord, cn.vertxup.rbac.domain.ta
      */
     public CompletableFuture<List<cn.vertxup.rbac.domain.tables.pojos.SPacket>> fetchByCondTplMappingAsync(List<String> values) {
         return fetchAsync(SPacket.S_PACKET.COND_TPL_MAPPING,values);
+    }
+
+    /**
+     * Fetch records that have <code>COND_CONFIG IN (values)</code> asynchronously
+     */
+    public CompletableFuture<List<cn.vertxup.rbac.domain.tables.pojos.SPacket>> fetchByCondConfigAsync(List<String> values) {
+        return fetchAsync(SPacket.S_PACKET.COND_CONFIG,values);
     }
 
     /**
