@@ -35,7 +35,7 @@ public class SPacket extends TableImpl<SPacketRecord> {
      * The reference instance of <code>DB_ETERNAL.S_PACKET</code>
      */
     public static final SPacket S_PACKET = new SPacket();
-    private static final long serialVersionUID = -1405694295;
+    private static final long serialVersionUID = 1491147040;
     /**
      * The column <code>DB_ETERNAL.S_PACKET.KEY</code>. 「key」- 包信息
      */
@@ -80,6 +80,10 @@ public class SPacket extends TableImpl<SPacketRecord> {
      * The column <code>DB_ETERNAL.S_PACKET.COND_TPL_MAPPING</code>. 「condTplMapping」- 查询条件映射关系
      */
     public final TableField<SPacketRecord, String> COND_TPL_MAPPING = createField("COND_TPL_MAPPING", org.jooq.impl.SQLDataType.CLOB, this, "「condTplMapping」- 查询条件映射关系");
+    /**
+     * The column <code>DB_ETERNAL.S_PACKET.COND_CONFIG</code>. 「condConfig」- 条件配置（界面配置相关）
+     */
+    public final TableField<SPacketRecord, String> COND_CONFIG = createField("COND_CONFIG", org.jooq.impl.SQLDataType.CLOB, this, "「condConfig」- 条件配置（界面配置相关）");
     /**
      * The column <code>DB_ETERNAL.S_PACKET.SIGMA</code>. 「sigma」- 统一标识
      */
@@ -163,7 +167,7 @@ public class SPacket extends TableImpl<SPacketRecord> {
      */
     @Override
     public List<Index> getIndexes() {
-        return Arrays.<Index>asList(Indexes.S_PACKET_IDX_S_PACKET_PATH_ID, Indexes.S_PACKET_PRIMARY);
+        return Arrays.<Index>asList(Indexes.S_PACKET_IDX_S_PACKET_PATH_ID, Indexes.S_PACKET_PATH_ID, Indexes.S_PACKET_PRIMARY);
     }
 
     /**
@@ -179,7 +183,7 @@ public class SPacket extends TableImpl<SPacketRecord> {
      */
     @Override
     public List<UniqueKey<SPacketRecord>> getKeys() {
-        return Arrays.<UniqueKey<SPacketRecord>>asList(Keys.KEY_S_PACKET_PRIMARY);
+        return Arrays.<UniqueKey<SPacketRecord>>asList(Keys.KEY_S_PACKET_PRIMARY, Keys.KEY_S_PACKET_PATH_ID);
     }
 
     /**

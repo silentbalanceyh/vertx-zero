@@ -134,6 +134,16 @@ public interface ISPacket extends Serializable {
     public String getCondTplMapping();
 
     /**
+     * Setter for <code>DB_ETERNAL.S_PACKET.COND_CONFIG</code>. 「condConfig」- 条件配置（界面配置相关）
+     */
+    public ISPacket setCondConfig(String value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.S_PACKET.COND_CONFIG</code>. 「condConfig」- 条件配置（界面配置相关）
+     */
+    public String getCondConfig();
+
+    /**
      * Setter for <code>DB_ETERNAL.S_PACKET.SIGMA</code>. 「sigma」- 统一标识
      */
     public ISPacket setSigma(String value);
@@ -239,6 +249,7 @@ public interface ISPacket extends Serializable {
         setColConfig(json.getString("COL_CONFIG"));
         setCondTpl(json.getString("COND_TPL"));
         setCondTplMapping(json.getString("COND_TPL_MAPPING"));
+        setCondConfig(json.getString("COND_CONFIG"));
         setSigma(json.getString("SIGMA"));
         setLanguage(json.getString("LANGUAGE"));
         setActive(json.getBoolean("ACTIVE"));
@@ -264,6 +275,7 @@ public interface ISPacket extends Serializable {
         json.put("COL_CONFIG",getColConfig());
         json.put("COND_TPL",getCondTpl());
         json.put("COND_TPL_MAPPING",getCondTplMapping());
+        json.put("COND_CONFIG",getCondConfig());
         json.put("SIGMA",getSigma());
         json.put("LANGUAGE",getLanguage());
         json.put("ACTIVE",getActive());

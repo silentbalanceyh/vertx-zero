@@ -24,7 +24,7 @@ import javax.annotation.Generated;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class SPacket implements ISPacket {
 
-    private static final long serialVersionUID = 683330738;
+    private static final long serialVersionUID = -58928827;
 
     private String        key;
     private String        pathId;
@@ -37,6 +37,7 @@ public class SPacket implements ISPacket {
     private String        colConfig;
     private String        condTpl;
     private String        condTplMapping;
+    private String        condConfig;
     private String        sigma;
     private String        language;
     private Boolean       active;
@@ -60,6 +61,7 @@ public class SPacket implements ISPacket {
         this.colConfig = value.colConfig;
         this.condTpl = value.condTpl;
         this.condTplMapping = value.condTplMapping;
+        this.condConfig = value.condConfig;
         this.sigma = value.sigma;
         this.language = value.language;
         this.active = value.active;
@@ -82,6 +84,7 @@ public class SPacket implements ISPacket {
         String        colConfig,
         String        condTpl,
         String        condTplMapping,
+        String        condConfig,
         String        sigma,
         String        language,
         Boolean       active,
@@ -102,6 +105,7 @@ public class SPacket implements ISPacket {
         this.colConfig = colConfig;
         this.condTpl = condTpl;
         this.condTplMapping = condTplMapping;
+        this.condConfig = condConfig;
         this.sigma = sigma;
         this.language = language;
         this.active = active;
@@ -234,6 +238,17 @@ public class SPacket implements ISPacket {
     }
 
     @Override
+    public String getCondConfig() {
+        return this.condConfig;
+    }
+
+    @Override
+    public SPacket setCondConfig(String condConfig) {
+        this.condConfig = condConfig;
+        return this;
+    }
+
+    @Override
     public String getSigma() {
         return this.sigma;
     }
@@ -336,6 +351,7 @@ public class SPacket implements ISPacket {
         sb.append(", ").append(colConfig);
         sb.append(", ").append(condTpl);
         sb.append(", ").append(condTplMapping);
+        sb.append(", ").append(condConfig);
         sb.append(", ").append(sigma);
         sb.append(", ").append(language);
         sb.append(", ").append(active);
@@ -369,6 +385,7 @@ public class SPacket implements ISPacket {
         setColConfig(from.getColConfig());
         setCondTpl(from.getCondTpl());
         setCondTplMapping(from.getCondTplMapping());
+        setCondConfig(from.getCondConfig());
         setSigma(from.getSigma());
         setLanguage(from.getLanguage());
         setActive(from.getActive());

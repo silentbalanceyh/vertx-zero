@@ -79,6 +79,7 @@ public class Keys {
     public static final UniqueKey<SGroupRecord> KEY_S_GROUP_PRIMARY = UniqueKeys0.KEY_S_GROUP_PRIMARY;
     public static final UniqueKey<SGroupRecord> KEY_S_GROUP_CODE = UniqueKeys0.KEY_S_GROUP_CODE;
     public static final UniqueKey<SPacketRecord> KEY_S_PACKET_PRIMARY = UniqueKeys0.KEY_S_PACKET_PRIMARY;
+    public static final UniqueKey<SPacketRecord> KEY_S_PACKET_PATH_ID = UniqueKeys0.KEY_S_PACKET_PATH_ID;
     public static final UniqueKey<SPathRecord> KEY_S_PATH_PRIMARY = UniqueKeys0.KEY_S_PATH_PRIMARY;
     public static final UniqueKey<SPathRecord> KEY_S_PATH_CODE = UniqueKeys0.KEY_S_PATH_CODE;
     public static final UniqueKey<SPermissionRecord> KEY_S_PERMISSION_PRIMARY = UniqueKeys0.KEY_S_PERMISSION_PRIMARY;
@@ -118,6 +119,7 @@ public class Keys {
         public static final UniqueKey<SGroupRecord> KEY_S_GROUP_PRIMARY = Internal.createUniqueKey(SGroup.S_GROUP, "KEY_S_GROUP_PRIMARY", SGroup.S_GROUP.KEY);
         public static final UniqueKey<SGroupRecord> KEY_S_GROUP_CODE = Internal.createUniqueKey(SGroup.S_GROUP, "KEY_S_GROUP_CODE", SGroup.S_GROUP.CODE, SGroup.S_GROUP.SIGMA);
         public static final UniqueKey<SPacketRecord> KEY_S_PACKET_PRIMARY = Internal.createUniqueKey(SPacket.S_PACKET, "KEY_S_PACKET_PRIMARY", SPacket.S_PACKET.KEY);
+        public static final UniqueKey<SPacketRecord> KEY_S_PACKET_PATH_ID = Internal.createUniqueKey(SPacket.S_PACKET, "KEY_S_PACKET_PATH_ID", SPacket.S_PACKET.PATH_ID, SPacket.S_PACKET.RESOURCE_ID, SPacket.S_PACKET.SIGMA);
         public static final UniqueKey<SPathRecord> KEY_S_PATH_PRIMARY = Internal.createUniqueKey(SPath.S_PATH, "KEY_S_PATH_PRIMARY", SPath.S_PATH.KEY);
         public static final UniqueKey<SPathRecord> KEY_S_PATH_CODE = Internal.createUniqueKey(SPath.S_PATH, "KEY_S_PATH_CODE", SPath.S_PATH.CODE, SPath.S_PATH.SIGMA);
         public static final UniqueKey<SPermissionRecord> KEY_S_PERMISSION_PRIMARY = Internal.createUniqueKey(SPermission.S_PERMISSION, "KEY_S_PERMISSION_PRIMARY", SPermission.S_PERMISSION.KEY);

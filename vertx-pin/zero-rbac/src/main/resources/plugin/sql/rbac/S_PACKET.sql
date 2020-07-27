@@ -62,6 +62,7 @@ CREATE TABLE IF NOT EXISTS S_PACKET
       */
      `COND_TPL`             TEXT COMMENT '「condTpl」- 条件模板',
      `COND_TPL_MAPPING`     TEXT COMMENT '「condTplMapping」- 查询条件映射关系',
+     `COND_CONFIG`          TEXT COMMENT '「condConfig」- 条件配置（界面配置相关）',
 
     `SIGMA`      VARCHAR(32) COMMENT '「sigma」- 统一标识',
     `LANGUAGE`   VARCHAR(10) COMMENT '「language」- 使用的语言',

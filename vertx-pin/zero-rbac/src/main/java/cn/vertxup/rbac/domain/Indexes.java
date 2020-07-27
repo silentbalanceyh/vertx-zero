@@ -63,6 +63,7 @@ public class Indexes {
     public static final Index S_GROUP_CODE = Indexes0.S_GROUP_CODE;
     public static final Index S_GROUP_PRIMARY = Indexes0.S_GROUP_PRIMARY;
     public static final Index S_PACKET_IDX_S_PACKET_PATH_ID = Indexes0.S_PACKET_IDX_S_PACKET_PATH_ID;
+    public static final Index S_PACKET_PATH_ID = Indexes0.S_PACKET_PATH_ID;
     public static final Index S_PACKET_PRIMARY = Indexes0.S_PACKET_PRIMARY;
     public static final Index S_PATH_CODE = Indexes0.S_PATH_CODE;
     public static final Index S_PATH_PRIMARY = Indexes0.S_PATH_PRIMARY;
@@ -102,6 +103,7 @@ public class Indexes {
         public static Index S_GROUP_CODE = Internal.createIndex("CODE", SGroup.S_GROUP, new OrderField[] { SGroup.S_GROUP.CODE, SGroup.S_GROUP.SIGMA }, true);
         public static Index S_GROUP_PRIMARY = Internal.createIndex("PRIMARY", SGroup.S_GROUP, new OrderField[] { SGroup.S_GROUP.KEY }, true);
         public static Index S_PACKET_IDX_S_PACKET_PATH_ID = Internal.createIndex("IDX_S_PACKET_PATH_ID", SPacket.S_PACKET, new OrderField[] { SPacket.S_PACKET.PATH_ID }, false);
+        public static Index S_PACKET_PATH_ID = Internal.createIndex("PATH_ID", SPacket.S_PACKET, new OrderField[] { SPacket.S_PACKET.PATH_ID, SPacket.S_PACKET.RESOURCE_ID, SPacket.S_PACKET.SIGMA }, true);
         public static Index S_PACKET_PRIMARY = Internal.createIndex("PRIMARY", SPacket.S_PACKET, new OrderField[] { SPacket.S_PACKET.KEY }, true);
         public static Index S_PATH_CODE = Internal.createIndex("CODE", SPath.S_PATH, new OrderField[] { SPath.S_PATH.CODE, SPath.S_PATH.SIGMA }, true);
         public static Index S_PATH_PRIMARY = Internal.createIndex("PRIMARY", SPath.S_PATH, new OrderField[] { SPath.S_PATH.KEY }, true);

@@ -7,6 +7,7 @@ import cn.vertxup.rbac.service.view.RuleStub;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.tp.ke.cv.KeField;
+import io.vertx.tp.ke.refine.Ke;
 import io.vertx.tp.rbac.cv.Addr;
 import io.vertx.up.annotations.Address;
 import io.vertx.up.annotations.Queue;
@@ -36,6 +37,32 @@ public class CriterionActor {
     public Future<JsonArray> fetchItems(final String ruleId) {
         return Fn.getEmpty(Ux.futureJArray(), () -> Ux.Jooq.on(SPacketDao.class)
                 .fetchAsync("pathId", ruleId)
-                .compose(Ux::fnJArray), ruleId);
+                .compose(Ux::fnJArray).compose(Ke.mounts(
+                        /*
+                         * rows configuration
+                         * When rows contains more than one, it need complex config
+                         * format for future calculation
+                         *
+                         * 1. rowTpl: define basic data structure in our system
+                         * 2. rowTplMapping: define mapping information between `source` and `target`
+                         */
+                        "rowTpl",
+                        "rowTplMapping",
+                        /*
+                         * projection configuration
+                         * Freedom data format for projection definition
+                         */
+                        "colConfig",
+                        /*
+                         * criteria configuration
+                         *
+                         * 1. condTpl: define basic data structure in criteria condition
+                         * 2. condTplMapping: define mapping information between `source` and `target`
+                         * 3. condConfig: define configuration ( Freedom Format )
+                         */
+                        "condTpl",
+                        "condTplMapping",
+                        "condConfig"
+                )), ruleId);
     }
 }
