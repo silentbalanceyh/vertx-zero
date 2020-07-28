@@ -74,8 +74,7 @@ class RuleRobin {
                      * group node for group source
                      */
                     processed.put(KeField.GROUP, ui);
-                    processed.remove("groupConfig");
-                    processed.remove("groupMapping");
+                    processed.remove("groupComponent");
                     processed.remove("groupCondition");
                     processed.remove("groupType");
                     return Ux.future(processed);
