@@ -74,6 +74,16 @@ public interface ISPath extends Serializable {
     public String getGroupType();
 
     /**
+     * Setter for <code>DB_ETERNAL.S_PATH.GROUP_COMPONENT</code>. 「groupComponent」- 在 DAO/OX/DEF 时的特殊组件
+     */
+    public ISPath setGroupComponent(String value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.S_PATH.GROUP_COMPONENT</code>. 「groupComponent」- 在 DAO/OX/DEF 时的特殊组件
+     */
+    public String getGroupComponent();
+
+    /**
      * Setter for <code>DB_ETERNAL.S_PATH.GROUP_CONDITION</code>. 「groupCondition」- 分组条件
      */
     public ISPath setGroupCondition(String value);
@@ -233,6 +243,7 @@ public interface ISPath extends Serializable {
         setCode(json.getString("CODE"));
         setGroupMapping(json.getString("GROUP_MAPPING"));
         setGroupType(json.getString("GROUP_TYPE"));
+        setGroupComponent(json.getString("GROUP_COMPONENT"));
         setGroupCondition(json.getString("GROUP_CONDITION"));
         setGroupConfig(json.getString("GROUP_CONFIG"));
         setUiType(json.getString("UI_TYPE"));
@@ -258,6 +269,7 @@ public interface ISPath extends Serializable {
         json.put("CODE",getCode());
         json.put("GROUP_MAPPING",getGroupMapping());
         json.put("GROUP_TYPE",getGroupType());
+        json.put("GROUP_COMPONENT",getGroupComponent());
         json.put("GROUP_CONDITION",getGroupCondition());
         json.put("GROUP_CONFIG",getGroupConfig());
         json.put("UI_TYPE",getUiType());

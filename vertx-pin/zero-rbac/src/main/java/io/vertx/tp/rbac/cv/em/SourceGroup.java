@@ -3,10 +3,8 @@ package io.vertx.tp.rbac.cv.em;
 /**
  * @author <a href="http://www.origin-x.cn">lang</a>
  */
-public enum SourceType {
-    DAO,    // Static
-    WEB,    // Items
-    OX,     // Dynamic
-    DEFINE, // Define
+public enum SourceGroup {
     NONE,   // None
+    DAO,    // Dao Processing
+    DEFINE  // Define
 }

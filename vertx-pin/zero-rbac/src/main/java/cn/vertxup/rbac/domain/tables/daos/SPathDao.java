@@ -98,6 +98,13 @@ public class SPathDao extends DAOImpl<SPathRecord, cn.vertxup.rbac.domain.tables
     }
 
     /**
+     * Fetch records that have <code>GROUP_COMPONENT IN (values)</code>
+     */
+    public List<cn.vertxup.rbac.domain.tables.pojos.SPath> fetchByGroupComponent(String... values) {
+        return fetch(SPath.S_PATH.GROUP_COMPONENT, values);
+    }
+
+    /**
      * Fetch records that have <code>GROUP_CONDITION IN (values)</code>
      */
     public List<cn.vertxup.rbac.domain.tables.pojos.SPath> fetchByGroupCondition(String... values) {
@@ -235,6 +242,13 @@ public class SPathDao extends DAOImpl<SPathRecord, cn.vertxup.rbac.domain.tables
      */
     public CompletableFuture<List<cn.vertxup.rbac.domain.tables.pojos.SPath>> fetchByGroupTypeAsync(List<String> values) {
         return fetchAsync(SPath.S_PATH.GROUP_TYPE,values);
+    }
+
+    /**
+     * Fetch records that have <code>GROUP_COMPONENT IN (values)</code> asynchronously
+     */
+    public CompletableFuture<List<cn.vertxup.rbac.domain.tables.pojos.SPath>> fetchByGroupComponentAsync(List<String> values) {
+        return fetchAsync(SPath.S_PATH.GROUP_COMPONENT,values);
     }
 
     /**
