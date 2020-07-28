@@ -5,7 +5,6 @@ package io.vertx.tp.rbac.cv.em;
  */
 public enum SourceGroup {
     NONE,   // None
-    TREE,   // Tree ( For Category )
-    DICT,   // Dict ( For Tabular )
+    DAO,    // Dao Processing
     DEFINE  // Define
 }

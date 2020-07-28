@@ -1,7 +1,7 @@
 package cn.vertxup.rbac.service.view;
 
-import cn.vertxup.rbac.service.view.source.RadixCategory;
-import cn.vertxup.rbac.service.view.source.RadixDynamic;
+import cn.vertxup.rbac.service.view.source.RadixGroup;
+import cn.vertxup.rbac.service.view.source.RadixUi;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.rbac.cv.em.SourceGroup;
@@ -18,13 +18,13 @@ public interface RuleSource {
 
     ConcurrentMap<SourceType, RuleSource> UIS = new ConcurrentHashMap<SourceType, RuleSource>() {
         {
-            this.put(SourceType.DAO, Ut.singleton(RadixDynamic.class));
+            this.put(SourceType.DAO, Ut.singleton(RadixUi.class));
         }
     };
 
     ConcurrentMap<SourceGroup, RuleSource> GROUPS = new ConcurrentHashMap<SourceGroup, RuleSource>() {
         {
-            this.put(SourceGroup.TREE, Ut.singleton(RadixCategory.class));
+            this.put(SourceGroup.DAO, Ut.singleton(RadixGroup.class));
         }
     };
 

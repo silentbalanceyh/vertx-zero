@@ -2,6 +2,7 @@ package cn.vertxup.rbac.service.view.source;
 
 import cn.vertxup.rbac.service.view.RuleSource;
 import io.vertx.core.Future;
+import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.log.Annal;
 import io.vertx.up.unity.Ux;
@@ -12,8 +13,8 @@ import java.util.Objects;
 /**
  * @author <a href="http://www.origin-x.cn">lang</a>
  */
-public class RadixDynamic implements RuleSource {
-    private static final Annal LOGGER = Annal.get(RadixDynamic.class);
+public class RadixUi implements RuleSource {
+    private static final Annal LOGGER = Annal.get(RadixUi.class);
 
     @Override
     public Future<JsonObject> procAsync(final JsonObject inputData, final JsonObject config) {
@@ -28,7 +29,7 @@ public class RadixDynamic implements RuleSource {
                 inputData.encode(), condition.encode());
         final UxJooq dao = RadixTool.toDao(config.getString("uiComponent"));
         if (Objects.isNull(dao)) {
-            return Ux.futureJObject();
+            return RadixTool.toResponse(new JsonArray());
         } else {
             return dao.findAsync(condition).compose(Ux::fnJArray)
                     /*
