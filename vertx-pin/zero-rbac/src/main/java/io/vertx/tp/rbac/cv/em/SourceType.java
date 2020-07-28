@@ -7,6 +7,6 @@ public enum SourceType {
     DAO,    // Static
     WEB,    // Items
     OX,     // Dynamic
-    DEF,    // Define
-    ERROR,  // Error
+    DEFINE, // Define
+    NONE,   // None
 }

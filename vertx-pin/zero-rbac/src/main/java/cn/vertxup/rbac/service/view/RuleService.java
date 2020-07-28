@@ -9,14 +9,12 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.tp.ke.cv.KeDefault;
 import io.vertx.tp.ke.cv.KeField;
 import io.vertx.tp.ke.refine.Ke;
-import io.vertx.tp.rbac.cv.em.SourceType;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.unity.jq.UxJooq;
 import io.vertx.up.util.Ut;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentMap;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 /**
@@ -26,7 +24,7 @@ public class RuleService implements RuleStub {
     @Override
     public Future<JsonArray> procAsync(final List<SPath> paths) {
         final List<SPath> filtered = paths.stream().filter(Objects::nonNull).collect(Collectors.toList());
-        return Ux.thenCombineT(filtered, this::procRule).compose(Ux::fnJArray);
+        return Ux.thenCombineT(filtered, RuleRobin::procRule).compose(Ux::fnJArray);
     }
 
     @Override
@@ -122,45 +120,5 @@ public class RuleService implements RuleStub {
                         return Ux.future(response);
                     });
         });
-    }
-
-    private Future<JsonObject> procRule(final SPath path) {
-        final JsonObject serialized = Ut.serializeJson(path);
-        return Ke.mount(
-                "uiCondition",
-                "groupCondition",
-                "groupConfig"
-        ).apply(serialized).compose(processed -> {
-            final SourceType type = Ut.toEnum(path::getUiType, SourceType.class, SourceType.ERROR);
-            if (SourceType.ERROR == type) {
-                return Ux.future(processed);
-            } else {
-                return Ux.future(processed)
-                        /* node `ui` processing */
-                        .compose(this.toUi(type, path));
-            }
-        });
-    }
-
-    private Function<JsonObject, Future<JsonObject>> toUi(final SourceType type, final SPath path) {
-        return processed -> {
-            final RuleSource dao = RuleSource.EXECUTOR.get(type);
-            if (Objects.isNull(dao)) {
-                return Ux.future(processed);
-            } else {
-                /* */
-                final JsonObject inputData = new JsonObject();
-                inputData.put(KeField.SIGMA, path.getSigma());
-                inputData.put(KeField.LANGUAGE, path.getLanguage());
-                return dao.procAsync(inputData, processed).compose(ui -> {
-                    /* ui node */
-                    processed.put("ui", ui);
-                    processed.remove("uiCondition");
-                    processed.remove("uiComponent");
-                    processed.remove("uiType");
-                    return Ux.future(processed);
-                });
-            }
-        };
     }
 }

@@ -51,6 +51,7 @@ CREATE TABLE IF NOT EXISTS S_PATH
      * TREE : 树形分类，对应 Category 部分的分类
      */
     `GROUP_TYPE`        VARCHAR(128) COMMENT '「groupType」- 分组类型',
+    `GROUP_COMPONENT`   VARCHAR(255) COMMENT '「groupComponent」- 在 DAO/OX/DEF 时的特殊组件',
     `GROUP_CONDITION`   TEXT COMMENT '「groupCondition」- 分组条件',
     `GROUP_CONFIG`      TEXT COMMENT '「groupConfig」- 组配置信息，配置呈现部分',
 

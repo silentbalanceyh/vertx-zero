@@ -24,13 +24,14 @@ import javax.annotation.Generated;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class SPath implements ISPath {
 
-    private static final long serialVersionUID = 810995538;
+    private static final long serialVersionUID = 145212068;
 
     private String        key;
     private String        name;
     private String        code;
     private String        groupMapping;
     private String        groupType;
+    private String        groupComponent;
     private String        groupCondition;
     private String        groupConfig;
     private String        uiType;
@@ -54,6 +55,7 @@ public class SPath implements ISPath {
         this.code = value.code;
         this.groupMapping = value.groupMapping;
         this.groupType = value.groupType;
+        this.groupComponent = value.groupComponent;
         this.groupCondition = value.groupCondition;
         this.groupConfig = value.groupConfig;
         this.uiType = value.uiType;
@@ -76,6 +78,7 @@ public class SPath implements ISPath {
         String        code,
         String        groupMapping,
         String        groupType,
+        String        groupComponent,
         String        groupCondition,
         String        groupConfig,
         String        uiType,
@@ -96,6 +99,7 @@ public class SPath implements ISPath {
         this.code = code;
         this.groupMapping = groupMapping;
         this.groupType = groupType;
+        this.groupComponent = groupComponent;
         this.groupCondition = groupCondition;
         this.groupConfig = groupConfig;
         this.uiType = uiType;
@@ -164,6 +168,17 @@ public class SPath implements ISPath {
     @Override
     public SPath setGroupType(String groupType) {
         this.groupType = groupType;
+        return this;
+    }
+
+    @Override
+    public String getGroupComponent() {
+        return this.groupComponent;
+    }
+
+    @Override
+    public SPath setGroupComponent(String groupComponent) {
+        this.groupComponent = groupComponent;
         return this;
     }
 
@@ -330,6 +345,7 @@ public class SPath implements ISPath {
         sb.append(", ").append(code);
         sb.append(", ").append(groupMapping);
         sb.append(", ").append(groupType);
+        sb.append(", ").append(groupComponent);
         sb.append(", ").append(groupCondition);
         sb.append(", ").append(groupConfig);
         sb.append(", ").append(uiType);
@@ -363,6 +379,7 @@ public class SPath implements ISPath {
         setCode(from.getCode());
         setGroupMapping(from.getGroupMapping());
         setGroupType(from.getGroupType());
+        setGroupComponent(from.getGroupComponent());
         setGroupCondition(from.getGroupCondition());
         setGroupConfig(from.getGroupConfig());
         setUiType(from.getUiType());
