@@ -1,6 +1,5 @@
 package cn.vertxup.ambient.api;
 
-import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.ambient.cv.Addr;
 import io.vertx.up.annotations.Address;
@@ -21,8 +20,4 @@ public interface ModelAgent {
     JsonObject moduleByName(@HeaderParam(ID.Header.X_APP_ID) String appId,
                             @QueryParam("entry") String entry);
 
-    @Path("/model")
-    @GET
-    @Address(Addr.Module.IDENTIFIERS)
-    JsonArray models(@HeaderParam(ID.Header.X_SIGMA) String appId);
 }

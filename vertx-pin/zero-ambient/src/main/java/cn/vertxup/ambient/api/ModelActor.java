@@ -2,7 +2,6 @@ package cn.vertxup.ambient.api;
 
 import cn.vertxup.ambient.service.ModelStub;
 import io.vertx.core.Future;
-import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.ambient.cv.Addr;
 import io.vertx.up.annotations.Address;
@@ -21,12 +20,5 @@ public class ModelActor {
             final String appId,
             final String entry) {
         return this.stub.fetchModule(appId, entry);
-    }
-
-    @Address(Addr.Module.IDENTIFIERS)
-    public Future<JsonArray> fetchModels(
-            final String sigma
-    ) {
-        return this.stub.fetchModels(sigma);
     }
 }
