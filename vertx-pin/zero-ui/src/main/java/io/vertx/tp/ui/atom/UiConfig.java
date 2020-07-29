@@ -18,6 +18,17 @@ public class UiConfig implements Serializable {
     @JsonSerialize(using = JsonObjectSerializer.class)
     @JsonDeserialize(using = JsonObjectDeserializer.class)
     private transient JsonObject mapping;
+    @JsonSerialize(using = JsonObjectSerializer.class)
+    @JsonDeserialize(using = JsonObjectDeserializer.class)
+    private transient JsonObject attributes;
+
+    public JsonObject getAttributes() {
+        return this.attributes;
+    }
+
+    public void setAttributes(final JsonObject attributes) {
+        this.attributes = attributes;
+    }
 
     public String getDefinition() {
         return this.definition;

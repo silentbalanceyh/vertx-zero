@@ -112,6 +112,11 @@ public class RuleService implements RuleStub {
                     })
                     .compose(nil -> jooq.insertAsync(addQueue))
                     .compose(Ux::fnJArray)
+                    .compose(Ke.mounts("rows", "criteria"))
+                    .compose(result -> {
+                        Ut.itJArray(result).forEach(json -> Ke.mountArray(json, "projection"));
+                        return Ux.future(result);
+                    })
                     .compose(inserted -> {
                         /*
                          * Stored data into inserted queue here

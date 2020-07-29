@@ -2,9 +2,11 @@ package io.vertx.tp.ui.init;
 
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
+import io.vertx.tp.ke.cv.KeField;
 import io.vertx.tp.ui.atom.UiConfig;
 import io.vertx.tp.ui.cv.UiFolder;
 import io.vertx.tp.ui.refine.Ui;
+import io.vertx.up.eon.Values;
 import io.vertx.up.log.Annal;
 import io.vertx.up.util.Ut;
 
@@ -71,5 +73,51 @@ class UiConfiguration {
 
     static JsonArray getColumn(final String key) {
         return COLUMN_MAP.getOrDefault(key, new JsonArray());
+    }
+
+    static JsonArray attributes(final String key) {
+        final JsonArray columns = getColumn(key);
+        if (Ut.notNil(columns)) {
+            /*
+             * column transfer to
+             */
+            final ConcurrentMap<String, String> attributeMap = new ConcurrentHashMap<>();
+            Ut.itJArray(columns).forEach(json -> {
+                if (json.containsKey(KeField.METADATA)) {
+                    final String unparsed = json.getString(KeField.METADATA);
+                    final String[] parsed = unparsed.split(",");
+                    if (2 < parsed.length) {
+                        final String name = parsed[Values.IDX];
+                        final String alias = parsed[Values.ONE];
+                        if (!Ut.isNilOr(name, alias)) {
+                            attributeMap.put(name, alias);
+                        }
+                    }
+                } else {
+                    final String name = json.getString("dataIndex");
+                    final String alias = json.getString("title");
+                    if (!Ut.isNilOr(name, alias)) {
+                        attributeMap.put(name, alias);
+                    }
+                }
+            });
+            final JsonObject defaults = CONFIG.getAttributes();
+            Ut.<String>itJObject(defaults, (alias, name) -> {
+                if (!attributeMap.containsKey(name)) {
+                    attributeMap.put(name, alias);
+                }
+            });
+            /*
+             * Converted to JsonArray
+             */
+            final JsonArray attributes = new JsonArray();
+            attributeMap.forEach((name, alias) -> {
+                final JsonObject attribute = new JsonObject();
+                attribute.put(KeField.NAME, name);
+                attribute.put(KeField.ALIAS, alias);
+                attributes.add(attribute);
+            });
+            return attributes;
+        } else return new JsonArray();
     }
 }

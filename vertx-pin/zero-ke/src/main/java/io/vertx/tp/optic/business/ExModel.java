@@ -12,4 +12,8 @@ import java.util.concurrent.ConcurrentMap;
 public interface ExModel {
 
     Future<ConcurrentMap<String, JsonObject>> keyAsync(String sigma, JsonArray users);
+
+    Future<JsonArray> fetchAsync(String sigma);
+
+    Future<JsonArray> fetchAttrs(String identifier, String sigma);
 }
