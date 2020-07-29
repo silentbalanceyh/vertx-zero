@@ -77,17 +77,10 @@ public class SVisitantDao extends DAOImpl<SVisitantRecord, cn.vertxup.rbac.domai
     }
 
     /**
-     * Fetch records that have <code>VIEW_RID IN (values)</code>
+     * Fetch records that have <code>VIEW_ID IN (values)</code>
      */
-    public List<cn.vertxup.rbac.domain.tables.pojos.SVisitant> fetchByViewRid(String... values) {
-        return fetch(SVisitant.S_VISITANT.VIEW_RID, values);
-    }
-
-    /**
-     * Fetch records that have <code>VIEW_WID IN (values)</code>
-     */
-    public List<cn.vertxup.rbac.domain.tables.pojos.SVisitant> fetchByViewWid(String... values) {
-        return fetch(SVisitant.S_VISITANT.VIEW_WID, values);
+    public List<cn.vertxup.rbac.domain.tables.pojos.SVisitant> fetchByViewId(String... values) {
+        return fetch(SVisitant.S_VISITANT.VIEW_ID, values);
     }
 
     /**
@@ -231,17 +224,10 @@ public class SVisitantDao extends DAOImpl<SVisitantRecord, cn.vertxup.rbac.domai
     }
 
     /**
-     * Fetch records that have <code>VIEW_RID IN (values)</code> asynchronously
+     * Fetch records that have <code>VIEW_ID IN (values)</code> asynchronously
      */
-    public CompletableFuture<List<cn.vertxup.rbac.domain.tables.pojos.SVisitant>> fetchByViewRidAsync(List<String> values) {
-        return fetchAsync(SVisitant.S_VISITANT.VIEW_RID,values);
-    }
-
-    /**
-     * Fetch records that have <code>VIEW_WID IN (values)</code> asynchronously
-     */
-    public CompletableFuture<List<cn.vertxup.rbac.domain.tables.pojos.SVisitant>> fetchByViewWidAsync(List<String> values) {
-        return fetchAsync(SVisitant.S_VISITANT.VIEW_WID,values);
+    public CompletableFuture<List<cn.vertxup.rbac.domain.tables.pojos.SVisitant>> fetchByViewIdAsync(List<String> values) {
+        return fetchAsync(SVisitant.S_VISITANT.VIEW_ID,values);
     }
 
     /**

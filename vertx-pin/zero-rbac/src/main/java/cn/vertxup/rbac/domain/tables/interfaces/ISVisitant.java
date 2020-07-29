@@ -44,24 +44,14 @@ public interface ISVisitant extends Serializable {
     public String getCode();
 
     /**
-     * Setter for <code>DB_ETERNAL.S_VISITANT.VIEW_RID</code>. 「viewRid」- 视图访问者的读ID
+     * Setter for <code>DB_ETERNAL.S_VISITANT.VIEW_ID</code>. 「viewId」- 视图访问者的读ID
      */
-    public ISVisitant setViewRid(String value);
+    public ISVisitant setViewId(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.S_VISITANT.VIEW_RID</code>. 「viewRid」- 视图访问者的读ID
+     * Getter for <code>DB_ETERNAL.S_VISITANT.VIEW_ID</code>. 「viewId」- 视图访问者的读ID
      */
-    public String getViewRid();
-
-    /**
-     * Setter for <code>DB_ETERNAL.S_VISITANT.VIEW_WID</code>. 「viewWid」- 视图访问者对应操作时的写ID
-     */
-    public ISVisitant setViewWid(String value);
-
-    /**
-     * Getter for <code>DB_ETERNAL.S_VISITANT.VIEW_WID</code>. 「viewWid」- 视图访问者对应操作时的写ID
-     */
-    public String getViewWid();
+    public String getViewId();
 
     /**
      * Setter for <code>DB_ETERNAL.S_VISITANT.TYPE</code>. 「type」- 访问者类型
@@ -250,8 +240,7 @@ public interface ISVisitant extends Serializable {
     default ISVisitant fromJson(io.vertx.core.json.JsonObject json) {
         setKey(json.getString("KEY"));
         setCode(json.getString("CODE"));
-        setViewRid(json.getString("VIEW_RID"));
-        setViewWid(json.getString("VIEW_WID"));
+        setViewId(json.getString("VIEW_ID"));
         setType(json.getString("TYPE"));
         setModelKey(json.getString("MODEL_KEY"));
         setModelId(json.getString("MODEL_ID"));
@@ -277,8 +266,7 @@ public interface ISVisitant extends Serializable {
         io.vertx.core.json.JsonObject json = new io.vertx.core.json.JsonObject();
         json.put("KEY",getKey());
         json.put("CODE",getCode());
-        json.put("VIEW_RID",getViewRid());
-        json.put("VIEW_WID",getViewWid());
+        json.put("VIEW_ID",getViewId());
         json.put("TYPE",getType());
         json.put("MODEL_KEY",getModelKey());
         json.put("MODEL_ID",getModelId());

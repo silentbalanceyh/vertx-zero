@@ -24,12 +24,11 @@ import javax.annotation.Generated;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class SVisitant implements ISVisitant {
 
-    private static final long serialVersionUID = 867718302;
+    private static final long serialVersionUID = 936791188;
 
     private String        key;
     private String        code;
-    private String        viewRid;
-    private String        viewWid;
+    private String        viewId;
     private String        type;
     private String        modelKey;
     private String        modelId;
@@ -53,8 +52,7 @@ public class SVisitant implements ISVisitant {
     public SVisitant(SVisitant value) {
         this.key = value.key;
         this.code = value.code;
-        this.viewRid = value.viewRid;
-        this.viewWid = value.viewWid;
+        this.viewId = value.viewId;
         this.type = value.type;
         this.modelKey = value.modelKey;
         this.modelId = value.modelId;
@@ -77,8 +75,7 @@ public class SVisitant implements ISVisitant {
     public SVisitant(
         String        key,
         String        code,
-        String        viewRid,
-        String        viewWid,
+        String        viewId,
         String        type,
         String        modelKey,
         String        modelId,
@@ -99,8 +96,7 @@ public class SVisitant implements ISVisitant {
     ) {
         this.key = key;
         this.code = code;
-        this.viewRid = viewRid;
-        this.viewWid = viewWid;
+        this.viewId = viewId;
         this.type = type;
         this.modelKey = modelKey;
         this.modelId = modelId;
@@ -143,24 +139,13 @@ public class SVisitant implements ISVisitant {
     }
 
     @Override
-    public String getViewRid() {
-        return this.viewRid;
+    public String getViewId() {
+        return this.viewId;
     }
 
     @Override
-    public SVisitant setViewRid(String viewRid) {
-        this.viewRid = viewRid;
-        return this;
-    }
-
-    @Override
-    public String getViewWid() {
-        return this.viewWid;
-    }
-
-    @Override
-    public SVisitant setViewWid(String viewWid) {
-        this.viewWid = viewWid;
+    public SVisitant setViewId(String viewId) {
+        this.viewId = viewId;
         return this;
     }
 
@@ -357,8 +342,7 @@ public class SVisitant implements ISVisitant {
 
         sb.append(key);
         sb.append(", ").append(code);
-        sb.append(", ").append(viewRid);
-        sb.append(", ").append(viewWid);
+        sb.append(", ").append(viewId);
         sb.append(", ").append(type);
         sb.append(", ").append(modelKey);
         sb.append(", ").append(modelId);
@@ -392,8 +376,7 @@ public class SVisitant implements ISVisitant {
     public void from(ISVisitant from) {
         setKey(from.getKey());
         setCode(from.getCode());
-        setViewRid(from.getViewRid());
-        setViewWid(from.getViewWid());
+        setViewId(from.getViewId());
         setType(from.getType());
         setModelKey(from.getModelKey());
         setModelId(from.getModelId());

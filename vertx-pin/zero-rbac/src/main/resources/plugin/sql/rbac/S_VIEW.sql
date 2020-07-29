@@ -60,7 +60,9 @@ CREATE TABLE IF NOT EXISTS S_VIEW
      * 一旦启用了访问者，那么该视图中对应的 ROWS/CRITERIA/PROJECTION/POSITION 会纳入到系统中
      * 运算，运算时需要考虑访问者中的扩展属性
      */
-    `VISITANT`          BIT COMMENT '「visitant」- 是否包含了视图访问者',
+    `VISITANT`              BIT COMMENT '「visitant」- 是否包含了视图访问者',
+    `VISITANT_SYNTAX`       TEXT COMMENT '「visitantSyntax」- 访问者语法',
+    `VISITANT_COMPONENT`    VARCHAR(255) COMMENT '「visitantComponent」- 访问者扩展组件',
 
     -- 特殊字段
     `SIGMA`       VARCHAR(128) COMMENT '「sigma」- 用户组绑定的统一标识',

@@ -124,6 +124,26 @@ public interface ISView extends Serializable {
     public Boolean getVisitant();
 
     /**
+     * Setter for <code>DB_ETERNAL.S_VIEW.VISITANT_SYNTAX</code>. 「visitantSyntax」- 访问者语法
+     */
+    public ISView setVisitantSyntax(String value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.S_VIEW.VISITANT_SYNTAX</code>. 「visitantSyntax」- 访问者语法
+     */
+    public String getVisitantSyntax();
+
+    /**
+     * Setter for <code>DB_ETERNAL.S_VIEW.VISITANT_COMPONENT</code>. 「visitantComponent」- 访问者扩展组件
+     */
+    public ISView setVisitantComponent(String value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.S_VIEW.VISITANT_COMPONENT</code>. 「visitantComponent」- 访问者扩展组件
+     */
+    public String getVisitantComponent();
+
+    /**
      * Setter for <code>DB_ETERNAL.S_VIEW.SIGMA</code>. 「sigma」- 用户组绑定的统一标识
      */
     public ISView setSigma(String value);
@@ -228,6 +248,8 @@ public interface ISView extends Serializable {
         setRows(json.getString("ROWS"));
         setPosition(json.getString("POSITION"));
         setVisitant(json.getBoolean("VISITANT"));
+        setVisitantSyntax(json.getString("VISITANT_SYNTAX"));
+        setVisitantComponent(json.getString("VISITANT_COMPONENT"));
         setSigma(json.getString("SIGMA"));
         setLanguage(json.getString("LANGUAGE"));
         setActive(json.getBoolean("ACTIVE"));
@@ -252,6 +274,8 @@ public interface ISView extends Serializable {
         json.put("ROWS",getRows());
         json.put("POSITION",getPosition());
         json.put("VISITANT",getVisitant());
+        json.put("VISITANT_SYNTAX",getVisitantSyntax());
+        json.put("VISITANT_COMPONENT",getVisitantComponent());
         json.put("SIGMA",getSigma());
         json.put("LANGUAGE",getLanguage());
         json.put("ACTIVE",getActive());

@@ -7,9 +7,17 @@ CREATE TABLE IF NOT EXISTS S_VISITANT
 (
     `KEY`         VARCHAR(36) COMMENT '「key」- 限定记录ID',
     `CODE`        VARCHAR(255) COMMENT '「code」- 访问者系统编码',
-    -- 关联视图ID
-    `VIEW_RID`    VARCHAR(36) COMMENT '「viewRid」- 视图访问者的读ID',
-    `VIEW_WID`    VARCHAR(36) COMMENT '「viewWid」- 视图访问者对应操作时的写ID',
+
+    -- 视图ID
+    `VIEW_ID`     VARCHAR(36) COMMENT '「viewId」- 视图访问者的读ID',
+
+    /*
+     * 查询条件
+     * 1）VIEW_ID：角色/资源定位视图
+     * 2）MODEL_ID：标识模型 identifier
+     * 3）TYPE：FORM/LIST/OP 三大类（抽象资源分类）
+     * 4）MODEL_KEY：定位唯一记录专用，FORM 和 LIST 为 controlId
+     */
 
     /*
      * 访问者类型决定了当前访问者如何处理视图相关信息
@@ -58,8 +66,6 @@ CREATE TABLE IF NOT EXISTS S_VISITANT
 
 -- changeset Lang:ox-visitant-2
 ALTER TABLE S_VISITANT
-    ADD UNIQUE (`CODE`, `VIEW_RID`);
+    ADD UNIQUE (`CODE`, `VIEW_ID`);
 ALTER TABLE S_VISITANT ADD INDEX
-    IDXM_S_VISITANT_VIEW_RID_TYPE_MODEL (`VIEW_RID`,`TYPE`,`MODEL_ID`,`MODEL_KEY`);
-ALTER TABLE S_VISITANT ADD INDEX
-    IDXM_S_VISITANT_VIEW_WID_TYPE_MODEL (`VIEW_WID`,`TYPE`,`MODEL_ID`,`MODEL_KEY`);
+    IDXM_S_VISITANT_VIEW_ID_TYPE_MODEL (`VIEW_ID`,`TYPE`,`MODEL_ID`,`MODEL_KEY`);

@@ -133,6 +133,20 @@ public class SViewDao extends DAOImpl<SViewRecord, cn.vertxup.rbac.domain.tables
     }
 
     /**
+     * Fetch records that have <code>VISITANT_SYNTAX IN (values)</code>
+     */
+    public List<cn.vertxup.rbac.domain.tables.pojos.SView> fetchByVisitantSyntax(String... values) {
+        return fetch(SView.S_VIEW.VISITANT_SYNTAX, values);
+    }
+
+    /**
+     * Fetch records that have <code>VISITANT_COMPONENT IN (values)</code>
+     */
+    public List<cn.vertxup.rbac.domain.tables.pojos.SView> fetchByVisitantComponent(String... values) {
+        return fetch(SView.S_VIEW.VISITANT_COMPONENT, values);
+    }
+
+    /**
      * Fetch records that have <code>SIGMA IN (values)</code>
      */
     public List<cn.vertxup.rbac.domain.tables.pojos.SView> fetchBySigma(String... values) {
@@ -263,6 +277,20 @@ public class SViewDao extends DAOImpl<SViewRecord, cn.vertxup.rbac.domain.tables
      */
     public CompletableFuture<List<cn.vertxup.rbac.domain.tables.pojos.SView>> fetchByVisitantAsync(List<Boolean> values) {
         return fetchAsync(SView.S_VIEW.VISITANT,values);
+    }
+
+    /**
+     * Fetch records that have <code>VISITANT_SYNTAX IN (values)</code> asynchronously
+     */
+    public CompletableFuture<List<cn.vertxup.rbac.domain.tables.pojos.SView>> fetchByVisitantSyntaxAsync(List<String> values) {
+        return fetchAsync(SView.S_VIEW.VISITANT_SYNTAX,values);
+    }
+
+    /**
+     * Fetch records that have <code>VISITANT_COMPONENT IN (values)</code> asynchronously
+     */
+    public CompletableFuture<List<cn.vertxup.rbac.domain.tables.pojos.SView>> fetchByVisitantComponentAsync(List<String> values) {
+        return fetchAsync(SView.S_VIEW.VISITANT_COMPONENT,values);
     }
 
     /**
