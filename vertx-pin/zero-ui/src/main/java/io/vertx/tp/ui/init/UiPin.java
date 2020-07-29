@@ -23,4 +23,8 @@ public class UiPin {
     public static JsonArray getColumn(final String identifier) {
         return UiConfiguration.getColumn(identifier);
     }
+
+    public static JsonArray attributes(final String identifier) {
+        return UiConfiguration.attributes(identifier);
+    }
 }

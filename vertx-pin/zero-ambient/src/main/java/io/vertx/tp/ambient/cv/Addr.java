@@ -62,7 +62,9 @@ public interface Addr {
     interface Module {
         String BY_NAME = Prefix._EVENT + "X-MODULE/NAME";
 
-        String IDENTIFIERS = Prefix._EVENT + "X-IDENTIFIER/LIST";
+        String MODELS = Prefix._EVENT + "X-MODEL/LIST";
+
+        String MODEL_FIELDS = Prefix._EVENT + "X-MODEL/FIELDS";
     }
 
     interface History {

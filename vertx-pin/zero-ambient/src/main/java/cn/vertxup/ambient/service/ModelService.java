@@ -25,6 +25,13 @@ public class ModelService implements ModelStub {
 
     @Override
     public Future<JsonArray> fetchModels(final String sigma) {
-        return Ke.channel(ExModel.class, JsonArray::new, model -> model.fetchAsync(sigma));
+        return Ke.channel(ExModel.class, JsonArray::new,
+                model -> model.fetchAsync(sigma));
+    }
+
+    @Override
+    public Future<JsonArray> fetchAttrs(final String identifier, final String sigma) {
+        return Ke.channel(ExModel.class, JsonArray::new,
+                model -> model.fetchAttrs(identifier, sigma));
     }
 }
