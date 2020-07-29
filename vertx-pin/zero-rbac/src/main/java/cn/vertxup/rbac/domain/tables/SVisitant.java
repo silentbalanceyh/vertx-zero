@@ -35,7 +35,7 @@ public class SVisitant extends TableImpl<SVisitantRecord> {
      * The reference instance of <code>DB_ETERNAL.S_VISITANT</code>
      */
     public static final SVisitant S_VISITANT = new SVisitant();
-    private static final long serialVersionUID = -933983458;
+    private static final long serialVersionUID = -932496823;
     /**
      * The column <code>DB_ETERNAL.S_VISITANT.KEY</code>. 「key」- 限定记录ID
      */
@@ -45,9 +45,13 @@ public class SVisitant extends TableImpl<SVisitantRecord> {
      */
     public final TableField<SVisitantRecord, String> CODE = createField("CODE", org.jooq.impl.SQLDataType.VARCHAR(255), this, "「code」- 访问者系统编码");
     /**
-     * The column <code>DB_ETERNAL.S_VISITANT.VIEW_ID</code>. 「viewId」- 视图访问者的ID
+     * The column <code>DB_ETERNAL.S_VISITANT.VIEW_RID</code>. 「viewRid」- 视图访问者的读ID
      */
-    public final TableField<SVisitantRecord, String> VIEW_ID = createField("VIEW_ID", org.jooq.impl.SQLDataType.VARCHAR(36), this, "「viewId」- 视图访问者的ID");
+    public final TableField<SVisitantRecord, String> VIEW_RID = createField("VIEW_RID", org.jooq.impl.SQLDataType.VARCHAR(36), this, "「viewRid」- 视图访问者的读ID");
+    /**
+     * The column <code>DB_ETERNAL.S_VISITANT.VIEW_WID</code>. 「viewWid」- 视图访问者对应操作时的写ID
+     */
+    public final TableField<SVisitantRecord, String> VIEW_WID = createField("VIEW_WID", org.jooq.impl.SQLDataType.VARCHAR(36), this, "「viewWid」- 视图访问者对应操作时的写ID");
     /**
      * The column <code>DB_ETERNAL.S_VISITANT.TYPE</code>. 「type」- 访问者类型
      */
@@ -167,7 +171,7 @@ public class SVisitant extends TableImpl<SVisitantRecord> {
      */
     @Override
     public List<Index> getIndexes() {
-        return Arrays.<Index>asList(Indexes.S_VISITANT_CODE, Indexes.S_VISITANT_IDXM_S_VISITANT_VIEW_ID_TYPE_MODEL, Indexes.S_VISITANT_PRIMARY);
+        return Arrays.<Index>asList(Indexes.S_VISITANT_CODE, Indexes.S_VISITANT_IDXM_S_VISITANT_VIEW_RID_TYPE_MODEL, Indexes.S_VISITANT_IDXM_S_VISITANT_VIEW_WID_TYPE_MODEL, Indexes.S_VISITANT_PRIMARY);
     }
 
     /**

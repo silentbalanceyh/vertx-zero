@@ -138,6 +138,6 @@ public class Keys {
         public static final UniqueKey<SViewRecord> KEY_S_VIEW_PRIMARY = Internal.createUniqueKey(SView.S_VIEW, "KEY_S_VIEW_PRIMARY", SView.S_VIEW.KEY);
         public static final UniqueKey<SViewRecord> KEY_S_VIEW_OWNER = Internal.createUniqueKey(SView.S_VIEW, "KEY_S_VIEW_OWNER", SView.S_VIEW.OWNER, SView.S_VIEW.OWNER_TYPE, SView.S_VIEW.RESOURCE_ID, SView.S_VIEW.NAME);
         public static final UniqueKey<SVisitantRecord> KEY_S_VISITANT_PRIMARY = Internal.createUniqueKey(SVisitant.S_VISITANT, "KEY_S_VISITANT_PRIMARY", SVisitant.S_VISITANT.KEY);
-        public static final UniqueKey<SVisitantRecord> KEY_S_VISITANT_CODE = Internal.createUniqueKey(SVisitant.S_VISITANT, "KEY_S_VISITANT_CODE", SVisitant.S_VISITANT.CODE, SVisitant.S_VISITANT.VIEW_ID);
+        public static final UniqueKey<SVisitantRecord> KEY_S_VISITANT_CODE = Internal.createUniqueKey(SVisitant.S_VISITANT, "KEY_S_VISITANT_CODE", SVisitant.S_VISITANT.CODE, SVisitant.S_VISITANT.VIEW_RID);
     }
 }
