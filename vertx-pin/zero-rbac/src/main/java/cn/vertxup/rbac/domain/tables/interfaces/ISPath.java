@@ -74,12 +74,12 @@ public interface ISPath extends Serializable {
     public String getGroupType();
 
     /**
-     * Setter for <code>DB_ETERNAL.S_PATH.GROUP_COMPONENT</code>. 「groupComponent」- 在 DAO/OX/DEF 时的特殊组件
+     * Setter for <code>DB_ETERNAL.S_PATH.GROUP_COMPONENT</code>. 「groupComponent」- 必须绑定组专用Dao组件
      */
     public ISPath setGroupComponent(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.S_PATH.GROUP_COMPONENT</code>. 「groupComponent」- 在 DAO/OX/DEF 时的特殊组件
+     * Getter for <code>DB_ETERNAL.S_PATH.GROUP_COMPONENT</code>. 「groupComponent」- 必须绑定组专用Dao组件
      */
     public String getGroupComponent();
 

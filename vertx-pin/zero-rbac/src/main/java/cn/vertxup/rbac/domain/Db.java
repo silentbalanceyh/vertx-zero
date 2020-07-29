@@ -33,7 +33,7 @@ public class Db extends SchemaImpl {
      * The reference instance of <code>DB_ETERNAL</code>
      */
     public static final Db DB_ETERNAL = new Db();
-    private static final long serialVersionUID = -313398421;
+    private static final long serialVersionUID = -269186042;
     /**
      * The table <code>DB_ETERNAL.O_ACCESS_TOKEN</code>.
      */
@@ -110,6 +110,11 @@ public class Db extends SchemaImpl {
     public final SView S_VIEW = cn.vertxup.rbac.domain.tables.SView.S_VIEW;
 
     /**
+     * The table <code>DB_ETERNAL.S_VISITANT</code>.
+     */
+    public final SVisitant S_VISITANT = cn.vertxup.rbac.domain.tables.SVisitant.S_VISITANT;
+
+    /**
      * No further instances allowed
      */
     private Db() {
@@ -148,6 +153,7 @@ public class Db extends SchemaImpl {
                 SResource.S_RESOURCE,
                 SRole.S_ROLE,
                 SUser.S_USER,
-                SView.S_VIEW);
+                SView.S_VIEW,
+                SVisitant.S_VISITANT);
     }
 }

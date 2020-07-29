@@ -31,6 +31,9 @@ databaseChangeLog:
       file: plugin/sql/rbac/S_ROLE.sql
       relativeToChangelogFile: false
   - include:
+      file: plugin/sql/rbac/S_VISITANT.sql
+      relativeToChangelogFile: false
+  - include:
       file: plugin/sql/rbac/S_VIEW.sql
       relativeToChangelogFile: false
   - include:
