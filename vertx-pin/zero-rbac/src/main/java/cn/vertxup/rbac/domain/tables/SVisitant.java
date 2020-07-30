@@ -35,7 +35,7 @@ public class SVisitant extends TableImpl<SVisitantRecord> {
      * The reference instance of <code>DB_ETERNAL.S_VISITANT</code>
      */
     public static final SVisitant S_VISITANT = new SVisitant();
-    private static final long serialVersionUID = 599897121;
+    private static final long serialVersionUID = 1005274160;
     /**
      * The column <code>DB_ETERNAL.S_VISITANT.KEY</code>. 「key」- 限定记录ID
      */
@@ -69,25 +69,13 @@ public class SVisitant extends TableImpl<SVisitantRecord> {
      */
     public final TableField<SVisitantRecord, String> ACL_VARIETY = createField("ACL_VARIETY", org.jooq.impl.SQLDataType.CLOB, this, "「aclVariety」- 多样性的属性集，用于控制集合类型的属性");
     /**
-     * The column <code>DB_ETERNAL.S_VISITANT.ACL_VARIETY_CONFIG</code>. 「aclVarietyConfig」- 多样性的属性集相关配置
-     */
-    public final TableField<SVisitantRecord, String> ACL_VARIETY_CONFIG = createField("ACL_VARIETY_CONFIG", org.jooq.impl.SQLDataType.CLOB, this, "「aclVarietyConfig」- 多样性的属性集相关配置");
-    /**
      * The column <code>DB_ETERNAL.S_VISITANT.ACL_VOW</code>. 「aclVow」- 引用类属性集
      */
     public final TableField<SVisitantRecord, String> ACL_VOW = createField("ACL_VOW", org.jooq.impl.SQLDataType.CLOB, this, "「aclVow」- 引用类属性集");
     /**
-     * The column <code>DB_ETERNAL.S_VISITANT.ACL_VOW_CONFIG</code>. 「aclVowConfig」- 引用类属性集相关配置
+     * The column <code>DB_ETERNAL.S_VISITANT.ACL_VERGE</code>. 「aclVerge」- 依赖属性集
      */
-    public final TableField<SVisitantRecord, String> ACL_VOW_CONFIG = createField("ACL_VOW_CONFIG", org.jooq.impl.SQLDataType.CLOB, this, "「aclVowConfig」- 引用类属性集相关配置");
-    /**
-     * The column <code>DB_ETERNAL.S_VISITANT.ACL_DEPEND</code>. 「aclDepend」- 依赖属性集
-     */
-    public final TableField<SVisitantRecord, String> ACL_DEPEND = createField("ACL_DEPEND", org.jooq.impl.SQLDataType.CLOB, this, "「aclDepend」- 依赖属性集");
-    /**
-     * The column <code>DB_ETERNAL.S_VISITANT.ACL_DEPEND_CONFIG</code>. 「aclDependConfig」- 依赖属性集配置
-     */
-    public final TableField<SVisitantRecord, String> ACL_DEPEND_CONFIG = createField("ACL_DEPEND_CONFIG", org.jooq.impl.SQLDataType.CLOB, this, "「aclDependConfig」- 依赖属性集配置");
+    public final TableField<SVisitantRecord, String> ACL_VERGE = createField("ACL_VERGE", org.jooq.impl.SQLDataType.CLOB, this, "「aclVerge」- 依赖属性集");
     /**
      * The column <code>DB_ETERNAL.S_VISITANT.SIGMA</code>. 「sigma」- 用户组绑定的统一标识
      */

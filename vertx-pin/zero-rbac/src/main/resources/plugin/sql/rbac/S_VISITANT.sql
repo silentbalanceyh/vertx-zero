@@ -40,11 +40,8 @@ CREATE TABLE IF NOT EXISTS S_VISITANT
     `ACL_VISIBLE`          TEXT COMMENT '「aclVisible」- 可见的属性集',
     `ACL_VIEW`             TEXT COMMENT '「aclView」- 只读的属性集',
     `ACL_VARIETY`          TEXT COMMENT '「aclVariety」- 多样性的属性集，用于控制集合类型的属性',
-    `ACL_VARIETY_CONFIG`   TEXT COMMENT '「aclVarietyConfig」- 多样性的属性集相关配置',
     `ACL_VOW`              TEXT COMMENT '「aclVow」- 引用类属性集',
-    `ACL_VOW_CONFIG`       TEXT COMMENT '「aclVowConfig」- 引用类属性集相关配置',
-    `ACL_DEPEND`           TEXT COMMENT '「aclDepend」- 依赖属性集',
-    `ACL_DEPEND_CONFIG`    TEXT COMMENT '「aclDependConfig」- 依赖属性集配置',
+    `ACL_VERGE`            TEXT COMMENT '「aclVerge」- 依赖属性集',
 
     -- 特殊字段
     `SIGMA`       VARCHAR(128) COMMENT '「sigma」- 用户组绑定的统一标识',

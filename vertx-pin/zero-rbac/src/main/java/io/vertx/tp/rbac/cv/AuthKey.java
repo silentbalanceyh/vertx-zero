@@ -48,4 +48,10 @@ public interface AuthKey {
      */
     String PROFILE_PERM = "PERM";
     String PROFILE_ROLE = "ROLE";
+
+    String ACL_VISIBLE = "visible";
+    String ACL_VIEW = "view";
+    String ACL_EDITION = "edition";
+
+    String ACL_MATRIX = "matrix";
 }

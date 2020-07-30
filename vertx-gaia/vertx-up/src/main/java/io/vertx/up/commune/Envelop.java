@@ -132,6 +132,11 @@ public class Envelop implements Serializable {
         return Rib.get(this.data);
     }
 
+    /* Get `Http Body` part only */
+    public JsonObject body() {
+        return Rib.getBody(this.data);
+    }
+
     /* Get `data` part by type */
     public <T> T data(final Class<T> clazz) {
         return Rib.get(this.data, clazz);

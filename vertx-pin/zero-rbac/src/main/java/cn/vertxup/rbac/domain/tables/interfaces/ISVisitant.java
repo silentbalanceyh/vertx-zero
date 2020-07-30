@@ -104,16 +104,6 @@ public interface ISVisitant extends Serializable {
     public String getAclVariety();
 
     /**
-     * Setter for <code>DB_ETERNAL.S_VISITANT.ACL_VARIETY_CONFIG</code>. 「aclVarietyConfig」- 多样性的属性集相关配置
-     */
-    public ISVisitant setAclVarietyConfig(String value);
-
-    /**
-     * Getter for <code>DB_ETERNAL.S_VISITANT.ACL_VARIETY_CONFIG</code>. 「aclVarietyConfig」- 多样性的属性集相关配置
-     */
-    public String getAclVarietyConfig();
-
-    /**
      * Setter for <code>DB_ETERNAL.S_VISITANT.ACL_VOW</code>. 「aclVow」- 引用类属性集
      */
     public ISVisitant setAclVow(String value);
@@ -124,34 +114,14 @@ public interface ISVisitant extends Serializable {
     public String getAclVow();
 
     /**
-     * Setter for <code>DB_ETERNAL.S_VISITANT.ACL_VOW_CONFIG</code>. 「aclVowConfig」- 引用类属性集相关配置
+     * Setter for <code>DB_ETERNAL.S_VISITANT.ACL_VERGE</code>. 「aclVerge」- 依赖属性集
      */
-    public ISVisitant setAclVowConfig(String value);
+    public ISVisitant setAclVerge(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.S_VISITANT.ACL_VOW_CONFIG</code>. 「aclVowConfig」- 引用类属性集相关配置
+     * Getter for <code>DB_ETERNAL.S_VISITANT.ACL_VERGE</code>. 「aclVerge」- 依赖属性集
      */
-    public String getAclVowConfig();
-
-    /**
-     * Setter for <code>DB_ETERNAL.S_VISITANT.ACL_DEPEND</code>. 「aclDepend」- 依赖属性集
-     */
-    public ISVisitant setAclDepend(String value);
-
-    /**
-     * Getter for <code>DB_ETERNAL.S_VISITANT.ACL_DEPEND</code>. 「aclDepend」- 依赖属性集
-     */
-    public String getAclDepend();
-
-    /**
-     * Setter for <code>DB_ETERNAL.S_VISITANT.ACL_DEPEND_CONFIG</code>. 「aclDependConfig」- 依赖属性集配置
-     */
-    public ISVisitant setAclDependConfig(String value);
-
-    /**
-     * Getter for <code>DB_ETERNAL.S_VISITANT.ACL_DEPEND_CONFIG</code>. 「aclDependConfig」- 依赖属性集配置
-     */
-    public String getAclDependConfig();
+    public String getAclVerge();
 
     /**
      * Setter for <code>DB_ETERNAL.S_VISITANT.SIGMA</code>. 「sigma」- 用户组绑定的统一标识
@@ -256,11 +226,8 @@ public interface ISVisitant extends Serializable {
         setAclVisible(json.getString("ACL_VISIBLE"));
         setAclView(json.getString("ACL_VIEW"));
         setAclVariety(json.getString("ACL_VARIETY"));
-        setAclVarietyConfig(json.getString("ACL_VARIETY_CONFIG"));
         setAclVow(json.getString("ACL_VOW"));
-        setAclVowConfig(json.getString("ACL_VOW_CONFIG"));
-        setAclDepend(json.getString("ACL_DEPEND"));
-        setAclDependConfig(json.getString("ACL_DEPEND_CONFIG"));
+        setAclVerge(json.getString("ACL_VERGE"));
         setSigma(json.getString("SIGMA"));
         setLanguage(json.getString("LANGUAGE"));
         setActive(json.getBoolean("ACTIVE"));
@@ -283,11 +250,8 @@ public interface ISVisitant extends Serializable {
         json.put("ACL_VISIBLE",getAclVisible());
         json.put("ACL_VIEW",getAclView());
         json.put("ACL_VARIETY",getAclVariety());
-        json.put("ACL_VARIETY_CONFIG",getAclVarietyConfig());
         json.put("ACL_VOW",getAclVow());
-        json.put("ACL_VOW_CONFIG",getAclVowConfig());
-        json.put("ACL_DEPEND",getAclDepend());
-        json.put("ACL_DEPEND_CONFIG",getAclDependConfig());
+        json.put("ACL_VERGE",getAclVerge());
         json.put("SIGMA",getSigma());
         json.put("LANGUAGE",getLanguage());
         json.put("ACTIVE",getActive());

@@ -119,13 +119,6 @@ public class SVisitantDao extends DAOImpl<SVisitantRecord, cn.vertxup.rbac.domai
     }
 
     /**
-     * Fetch records that have <code>ACL_VARIETY_CONFIG IN (values)</code>
-     */
-    public List<cn.vertxup.rbac.domain.tables.pojos.SVisitant> fetchByAclVarietyConfig(String... values) {
-        return fetch(SVisitant.S_VISITANT.ACL_VARIETY_CONFIG, values);
-    }
-
-    /**
      * Fetch records that have <code>ACL_VOW IN (values)</code>
      */
     public List<cn.vertxup.rbac.domain.tables.pojos.SVisitant> fetchByAclVow(String... values) {
@@ -133,24 +126,10 @@ public class SVisitantDao extends DAOImpl<SVisitantRecord, cn.vertxup.rbac.domai
     }
 
     /**
-     * Fetch records that have <code>ACL_VOW_CONFIG IN (values)</code>
+     * Fetch records that have <code>ACL_VERGE IN (values)</code>
      */
-    public List<cn.vertxup.rbac.domain.tables.pojos.SVisitant> fetchByAclVowConfig(String... values) {
-        return fetch(SVisitant.S_VISITANT.ACL_VOW_CONFIG, values);
-    }
-
-    /**
-     * Fetch records that have <code>ACL_DEPEND IN (values)</code>
-     */
-    public List<cn.vertxup.rbac.domain.tables.pojos.SVisitant> fetchByAclDepend(String... values) {
-        return fetch(SVisitant.S_VISITANT.ACL_DEPEND, values);
-    }
-
-    /**
-     * Fetch records that have <code>ACL_DEPEND_CONFIG IN (values)</code>
-     */
-    public List<cn.vertxup.rbac.domain.tables.pojos.SVisitant> fetchByAclDependConfig(String... values) {
-        return fetch(SVisitant.S_VISITANT.ACL_DEPEND_CONFIG, values);
+    public List<cn.vertxup.rbac.domain.tables.pojos.SVisitant> fetchByAclVerge(String... values) {
+        return fetch(SVisitant.S_VISITANT.ACL_VERGE, values);
     }
 
     /**
@@ -273,13 +252,6 @@ public class SVisitantDao extends DAOImpl<SVisitantRecord, cn.vertxup.rbac.domai
     }
 
     /**
-     * Fetch records that have <code>ACL_VARIETY_CONFIG IN (values)</code> asynchronously
-     */
-    public CompletableFuture<List<cn.vertxup.rbac.domain.tables.pojos.SVisitant>> fetchByAclVarietyConfigAsync(List<String> values) {
-        return fetchAsync(SVisitant.S_VISITANT.ACL_VARIETY_CONFIG,values);
-    }
-
-    /**
      * Fetch records that have <code>ACL_VOW IN (values)</code> asynchronously
      */
     public CompletableFuture<List<cn.vertxup.rbac.domain.tables.pojos.SVisitant>> fetchByAclVowAsync(List<String> values) {
@@ -287,24 +259,10 @@ public class SVisitantDao extends DAOImpl<SVisitantRecord, cn.vertxup.rbac.domai
     }
 
     /**
-     * Fetch records that have <code>ACL_VOW_CONFIG IN (values)</code> asynchronously
+     * Fetch records that have <code>ACL_VERGE IN (values)</code> asynchronously
      */
-    public CompletableFuture<List<cn.vertxup.rbac.domain.tables.pojos.SVisitant>> fetchByAclVowConfigAsync(List<String> values) {
-        return fetchAsync(SVisitant.S_VISITANT.ACL_VOW_CONFIG,values);
-    }
-
-    /**
-     * Fetch records that have <code>ACL_DEPEND IN (values)</code> asynchronously
-     */
-    public CompletableFuture<List<cn.vertxup.rbac.domain.tables.pojos.SVisitant>> fetchByAclDependAsync(List<String> values) {
-        return fetchAsync(SVisitant.S_VISITANT.ACL_DEPEND,values);
-    }
-
-    /**
-     * Fetch records that have <code>ACL_DEPEND_CONFIG IN (values)</code> asynchronously
-     */
-    public CompletableFuture<List<cn.vertxup.rbac.domain.tables.pojos.SVisitant>> fetchByAclDependConfigAsync(List<String> values) {
-        return fetchAsync(SVisitant.S_VISITANT.ACL_DEPEND_CONFIG,values);
+    public CompletableFuture<List<cn.vertxup.rbac.domain.tables.pojos.SVisitant>> fetchByAclVergeAsync(List<String> values) {
+        return fetchAsync(SVisitant.S_VISITANT.ACL_VERGE,values);
     }
 
     /**

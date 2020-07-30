@@ -24,7 +24,7 @@ import javax.annotation.Generated;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class SVisitant implements ISVisitant {
 
-    private static final long serialVersionUID = -47029816;
+    private static final long serialVersionUID = 419376296;
 
     private String        key;
     private String        viewId;
@@ -34,11 +34,8 @@ public class SVisitant implements ISVisitant {
     private String        aclVisible;
     private String        aclView;
     private String        aclVariety;
-    private String        aclVarietyConfig;
     private String        aclVow;
-    private String        aclVowConfig;
-    private String        aclDepend;
-    private String        aclDependConfig;
+    private String        aclVerge;
     private String        sigma;
     private String        language;
     private Boolean       active;
@@ -59,11 +56,8 @@ public class SVisitant implements ISVisitant {
         this.aclVisible = value.aclVisible;
         this.aclView = value.aclView;
         this.aclVariety = value.aclVariety;
-        this.aclVarietyConfig = value.aclVarietyConfig;
         this.aclVow = value.aclVow;
-        this.aclVowConfig = value.aclVowConfig;
-        this.aclDepend = value.aclDepend;
-        this.aclDependConfig = value.aclDependConfig;
+        this.aclVerge = value.aclVerge;
         this.sigma = value.sigma;
         this.language = value.language;
         this.active = value.active;
@@ -83,11 +77,8 @@ public class SVisitant implements ISVisitant {
         String        aclVisible,
         String        aclView,
         String        aclVariety,
-        String        aclVarietyConfig,
         String        aclVow,
-        String        aclVowConfig,
-        String        aclDepend,
-        String        aclDependConfig,
+        String        aclVerge,
         String        sigma,
         String        language,
         Boolean       active,
@@ -105,11 +96,8 @@ public class SVisitant implements ISVisitant {
         this.aclVisible = aclVisible;
         this.aclView = aclView;
         this.aclVariety = aclVariety;
-        this.aclVarietyConfig = aclVarietyConfig;
         this.aclVow = aclVow;
-        this.aclVowConfig = aclVowConfig;
-        this.aclDepend = aclDepend;
-        this.aclDependConfig = aclDependConfig;
+        this.aclVerge = aclVerge;
         this.sigma = sigma;
         this.language = language;
         this.active = active;
@@ -209,17 +197,6 @@ public class SVisitant implements ISVisitant {
     }
 
     @Override
-    public String getAclVarietyConfig() {
-        return this.aclVarietyConfig;
-    }
-
-    @Override
-    public SVisitant setAclVarietyConfig(String aclVarietyConfig) {
-        this.aclVarietyConfig = aclVarietyConfig;
-        return this;
-    }
-
-    @Override
     public String getAclVow() {
         return this.aclVow;
     }
@@ -231,35 +208,13 @@ public class SVisitant implements ISVisitant {
     }
 
     @Override
-    public String getAclVowConfig() {
-        return this.aclVowConfig;
+    public String getAclVerge() {
+        return this.aclVerge;
     }
 
     @Override
-    public SVisitant setAclVowConfig(String aclVowConfig) {
-        this.aclVowConfig = aclVowConfig;
-        return this;
-    }
-
-    @Override
-    public String getAclDepend() {
-        return this.aclDepend;
-    }
-
-    @Override
-    public SVisitant setAclDepend(String aclDepend) {
-        this.aclDepend = aclDepend;
-        return this;
-    }
-
-    @Override
-    public String getAclDependConfig() {
-        return this.aclDependConfig;
-    }
-
-    @Override
-    public SVisitant setAclDependConfig(String aclDependConfig) {
-        this.aclDependConfig = aclDependConfig;
+    public SVisitant setAclVerge(String aclVerge) {
+        this.aclVerge = aclVerge;
         return this;
     }
 
@@ -363,11 +318,8 @@ public class SVisitant implements ISVisitant {
         sb.append(", ").append(aclVisible);
         sb.append(", ").append(aclView);
         sb.append(", ").append(aclVariety);
-        sb.append(", ").append(aclVarietyConfig);
         sb.append(", ").append(aclVow);
-        sb.append(", ").append(aclVowConfig);
-        sb.append(", ").append(aclDepend);
-        sb.append(", ").append(aclDependConfig);
+        sb.append(", ").append(aclVerge);
         sb.append(", ").append(sigma);
         sb.append(", ").append(language);
         sb.append(", ").append(active);
@@ -398,11 +350,8 @@ public class SVisitant implements ISVisitant {
         setAclVisible(from.getAclVisible());
         setAclView(from.getAclView());
         setAclVariety(from.getAclVariety());
-        setAclVarietyConfig(from.getAclVarietyConfig());
         setAclVow(from.getAclVow());
-        setAclVowConfig(from.getAclVowConfig());
-        setAclDepend(from.getAclDepend());
-        setAclDependConfig(from.getAclDependConfig());
+        setAclVerge(from.getAclVerge());
         setSigma(from.getSigma());
         setLanguage(from.getLanguage());
         setActive(from.getActive());

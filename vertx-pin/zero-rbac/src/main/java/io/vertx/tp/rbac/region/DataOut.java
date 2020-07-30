@@ -1,4 +1,4 @@
-package io.vertx.tp.rbac.extension;
+package io.vertx.tp.rbac.region;
 
 import cn.vertxup.rbac.service.dwarf.DataDwarf;
 import io.vertx.core.json.JsonArray;
@@ -18,9 +18,9 @@ import java.util.Set;
 import java.util.function.BiConsumer;
 import java.util.function.Supplier;
 
-class DataMin {
+class DataOut {
 
-    private static final Annal LOGGER = Annal.get(DataMin.class);
+    private static final Annal LOGGER = Annal.get(DataOut.class);
 
     /*
      * projection on result

@@ -48,11 +48,11 @@ public class DataBound implements Serializable {
         Ut.itMap(this.rows, (field, rowSet) -> rows.put(field, Ut.toJArray(rowSet)));
         json.put("rows", rows);
         /* Advanced */
-        final JsonObject advanced = new JsonObject();
-        advanced.put("credit", credit);
-        advanced.put("seeker", this.seeker);
-        advanced.put("view", this.viewData);
-        json.put("advanced", advanced);
+        json.put("credit", credit);
+        if (Ut.notNil(this.seeker)) {
+            json.put("seeker", this.seeker);
+            json.put("view", this.viewData);
+        }
         return json;
     }
 

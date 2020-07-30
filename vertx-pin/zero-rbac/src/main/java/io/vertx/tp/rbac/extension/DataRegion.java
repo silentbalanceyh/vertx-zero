@@ -1,18 +1,21 @@
 package io.vertx.tp.rbac.extension;
 
 import io.vertx.core.Future;
-import io.vertx.core.http.HttpMethod;
-import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.RoutingContext;
 import io.vertx.tp.rbac.cv.AuthMsg;
 import io.vertx.tp.rbac.refine.Sc;
-import io.vertx.up.atom.query.Inquiry;
+import io.vertx.tp.rbac.region.CommonCosmo;
+import io.vertx.tp.rbac.region.Cosmo;
+import io.vertx.tp.rbac.region.SeekCosmo;
 import io.vertx.up.commune.Envelop;
 import io.vertx.up.extension.region.AbstractRegion;
+import io.vertx.up.fn.Fn;
 import io.vertx.up.unity.Ux;
 
 import java.util.Objects;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
 /*
  * Extension in RBAC module
@@ -20,6 +23,10 @@ import java.util.Objects;
  * 2) Visitant calculation ( Extension More )
  */
 public class DataRegion extends AbstractRegion {
+    private static final ConcurrentMap<String, Cosmo> POOL_COMMON =
+            new ConcurrentHashMap<>();
+    private static final ConcurrentMap<String, Cosmo> POOL_SEEK =
+            new ConcurrentHashMap<>();
 
     @Override
     public Future<Envelop> before(final RoutingContext context, final Envelop envelop) {
@@ -30,38 +37,19 @@ public class DataRegion extends AbstractRegion {
                     Sc.infoAuth(this.getLogger(), context.request().path(),
                             AuthMsg.REGION_BEFORE, matrix.encode());
                     /*
-                     * Body modification is only available for POST/PUT
-                     * 1) Because only POST/PUT support body parameter
-                     * 2) JqTool engine parameters belong to body key such as
-                     * {
-                     *     criteria: {},
-                     *     sorter: [],
-                     *     projection: [],
-                     *     pager:{
-                     *         page: xx,
-                     *         size: xx
-                     *     }
-                     * }
-                     * 3) Get method will ignore this kind of situation and move the logical to
-                     * After workflow
+                     * Select cosmo by matrix
                      */
-                    final HttpMethod method = envelop.getMethod();
-                    if (HttpMethod.POST == method || HttpMethod.PUT == method) {
-                        /* Projection Modification */
-                        final JsonArray projection = matrix.getJsonArray(Inquiry.KEY_PROJECTION);
-                        if (Objects.nonNull(projection) && !projection.isEmpty()) {
-                            envelop.onProjection(projection);
-                        }
-                        /* Criteria Modification */
-                        final JsonObject criteria = matrix.getJsonObject(Inquiry.KEY_CRITERIA);
-                        if (Objects.nonNull(criteria) && !criteria.isEmpty()) {
-                            envelop.onCriteria(criteria);
-                        }
-                    }
+                    final Cosmo cosmo = this.cosmo(matrix);
+                    return cosmo.before(envelop, matrix);
+                } else {
+                    /*
+                     * Matrix null or empty
+                     */
+                    return Ux.future(envelop);
                 }
-                return Ux.future(envelop);
             });
         } else {
+            // Data Region disabled
             return Ux.future(envelop);
         }
     }
@@ -71,17 +59,38 @@ public class DataRegion extends AbstractRegion {
         if (this.isEnabled(context)) {
             /* Get Critical parameters */
             return Sc.cacheBound(context, response).compose(matrix -> {
-                Sc.infoAuth(this.getLogger(), AuthMsg.REGION_AFTER, matrix.encode());
-                /* Projection */
-                DataMin.dwarfRecord(response, matrix);
-                /* Rows */
-                DataMin.dwarfRows(response, matrix);
-                /* Projection For Array */
-                DataMin.dwarfCollection(response, matrix);
-                return Ux.future(response);
+                if (Objects.nonNull(matrix)) {
+                    Sc.infoAuth(this.getLogger(), AuthMsg.REGION_AFTER, matrix.encode());
+                    /*
+                     * Select cosmo by matrix
+                     */
+                    final Cosmo cosmo = this.cosmo(matrix);
+                    return cosmo.after(response, matrix);
+                } else {
+                    /*
+                     * Matrix null or empty
+                     */
+                    return Ux.future(response);
+                }
             });
         } else {
+            // Data Region disabled
             return Ux.future(response);
+        }
+    }
+
+    private Cosmo cosmo(final JsonObject matrix) {
+        /* Build DataCosmo */
+        if (matrix.containsKey("seeker")) {
+            /*
+             * Virtual resource region calculation
+             */
+            return Fn.poolThread(POOL_SEEK, SeekCosmo::new);
+        } else {
+            /*
+             * Actual resource region calculation
+             */
+            return Fn.poolThread(POOL_COMMON, CommonCosmo::new);
         }
     }
 }
