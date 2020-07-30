@@ -44,4 +44,7 @@ public interface AuthMsg {
     String SEEKER_RESOURCE = "Seeking Resource with uri = {0}, method = {1}, sigma = {2}";
     String POOL_RESOURCE = "Pool = {0} has been initialized to `habitus` = {1}";
     String VIEW_PROCESS = "My View Operation: {0}, filters = {1}";
+    
+    // -- visitant process for additional
+    String VISITANT_PROCESS = "My Visitant Op: {0}, filters = {1}";
 }

@@ -23,7 +23,7 @@ public class MatrixService implements MatrixStub {
         final String resourceId = resource.getKey();
         final String profileKey = Sc.generateProfileKey(resource);
         /* Fetch User First */
-        return stub.fetchMatrix(userId, resourceId, request.getView())
+        return this.stub.fetchMatrix(userId, resourceId, request.getView())
                 /* Whether userId exist */
                 .compose(result -> Objects.isNull(result) ?
                         /*
@@ -33,7 +33,7 @@ public class MatrixService implements MatrixStub {
                         request.openSession()
                                 /* Extract Roles from Privilege */
                                 .compose(privilege -> privilege.fetchRoles(profileKey))
-                                .compose(roles -> stub.fetchMatrix(roles, resourceId, request.getView()))
+                                .compose(roles -> this.stub.fetchMatrix(roles, resourceId, request.getView()))
                         :
                         /*
                          * It means that there is defined user resource instead of role resource.
