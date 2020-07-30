@@ -3,7 +3,7 @@ package io.vertx.tp.rbac.region;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.commune.Envelop;
-import io.vertx.up.unity.Ux;
+import io.vertx.up.util.Ut;
 
 /**
  * @author <a href="http://www.origin-x.cn">lang</a>
@@ -11,16 +11,31 @@ import io.vertx.up.unity.Ux;
 public class SeekCosmo implements Cosmo {
     @Override
     public Future<Envelop> before(final Envelop request, final JsonObject matrix) {
-        /*
-         *  Cosmo extraction
-         */
-        return DataIn.visitCond(request, matrix).compose(acl -> {
-            return null;
-        });
+        final JsonObject seeker = matrix.getJsonObject("seeker");
+        final String component = seeker.getString("component");
+        if (Ut.notNil(component)) {
+            final Cosmo external = Ut.singleton(component);
+            return external.before(request, matrix);
+        } else {
+            return DataIn.visitCond(request, matrix).compose(acl -> {
+                /*
+                 * Read AclData
+                 */
+                request.acl(acl);
+                return null;
+            });
+        }
     }
 
     @Override
     public Future<Envelop> after(final Envelop response, final JsonObject matrix) {
-        return Ux.future(response);
+        final JsonObject seeker = matrix.getJsonObject("seeker");
+        final String component = seeker.getString("component");
+        if (Ut.notNil(component)) {
+            final Cosmo external = Ut.singleton(component);
+            return external.after(response, matrix);
+        } else {
+            return null;
+        }
     }
 }

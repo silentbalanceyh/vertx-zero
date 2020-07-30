@@ -1,5 +1,7 @@
 package io.vertx.tp.rbac.acl;
 
+import io.vertx.up.commune.secure.AclView;
+
 /**
  * @author <a href="http://www.origin-x.cn">lang</a>
  */

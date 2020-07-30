@@ -43,7 +43,8 @@ class DataIn {
         }
         final JsonObject condition = new JsonObject();
         {
-            Ut.<String>itJObject(seeker, (expr, field) -> {
+            final JsonObject syntax = seeker.getJsonObject("syntax");
+            Ut.<String>itJObject(syntax, (expr, field) -> {
                 final String literal;
                 if (expr.contains("`")) {
                     literal = Ut.fromExpression(expr, input);

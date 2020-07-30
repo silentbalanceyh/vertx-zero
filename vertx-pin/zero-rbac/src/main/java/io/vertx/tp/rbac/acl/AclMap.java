@@ -1,6 +1,7 @@
 package io.vertx.tp.rbac.acl;
 
 import io.vertx.core.json.JsonObject;
+import io.vertx.up.commune.secure.AclView;
 import io.vertx.up.util.Ut;
 
 import java.util.concurrent.ConcurrentHashMap;

@@ -38,7 +38,7 @@ public class UnityTunnel implements Tunnel {
                 // Method called with message handler
                 final Envelop envelop = DataEncap.consume(data);
                 // Method handle
-                final Method method = IPCS.get(data.getAddress());
+                final Method method = Tunnel.IPCS.get(data.getAddress());
                 // Work mode
                 if (null == method) {
                     // No Rpc Handler here
@@ -68,8 +68,7 @@ public class UnityTunnel implements Tunnel {
     private IpcData build(final Envelop community, final Envelop envelop) {
         // Headers and user could not be modified
         if (null != envelop) {
-            community.setHeaders(envelop.headers());
-            community.setUser(envelop.user());
+            community.from(envelop);
         }
         // IpcResponse -> Output Envelop
         final IpcData responseData = new IpcData();

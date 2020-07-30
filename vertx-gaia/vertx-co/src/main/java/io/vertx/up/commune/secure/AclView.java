@@ -1,4 +1,4 @@
-package io.vertx.tp.rbac.acl;
+package io.vertx.up.commune.secure;
 
 import java.io.Serializable;
 import java.util.concurrent.ConcurrentHashMap;

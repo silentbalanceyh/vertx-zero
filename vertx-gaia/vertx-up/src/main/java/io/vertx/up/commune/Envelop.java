@@ -11,6 +11,7 @@ import io.vertx.ext.auth.User;
 import io.vertx.ext.web.RoutingContext;
 import io.vertx.ext.web.Session;
 import io.vertx.up.commune.envelop.Rib;
+import io.vertx.up.commune.secure.Acl;
 import io.vertx.up.eon.ID;
 import io.vertx.up.exception.WebException;
 import io.vertx.up.exception.web._500InternalServerException;
@@ -37,6 +38,7 @@ public class Envelop implements Serializable {
     private final JsonObject cachedJwt = new JsonObject();
     /* Communicate Key in Event Bus, to identify the Envelop */
     private String key;
+    private Acl acl;
     /*
      * Constructor for Envelop creation, two constructor for
      * 1) Success Envelop
@@ -190,6 +192,15 @@ public class Envelop implements Serializable {
     public Envelop key(final String key) {
         this.key = key;
         return this;
+    }
+
+    public Envelop acl(final Acl acl) {
+        this.acl = acl;
+        return this;
+    }
+
+    public Acl acl() {
+        return this.acl;
     }
 
     public String key() {
@@ -369,6 +380,11 @@ public class Envelop implements Serializable {
             to.setUser(this.user());
             to.setSession(this.getSession());
             to.setHeaders(this.headers());
+            /*
+             * Spec
+             */
+            to.acl(this.acl);
+            to.key(this.key);
         }
         return to;
     }
@@ -384,6 +400,11 @@ public class Envelop implements Serializable {
             this.setUser(from.user());
             this.setSession(from.getSession());
             this.setHeaders(from.headers());
+            /*
+             * Spec
+             */
+            this.acl(from.acl());
+            this.key(from.key());
         }
         return this;
     }
