@@ -47,6 +47,23 @@ CREATE TABLE IF NOT EXISTS S_VIEW
      */
     `ROWS`        TEXT COMMENT '「rows」- 该资源针对保存的行进行过滤',
     `POSITION`    TEXT COMMENT '「position」- 当前列的顺序信息',
+
+    /*
+     * 是否虚拟视图，一般在抽象层的为虚拟视图，一旦出现虚拟视图，则需要针对原始视图执行视图替换
+     * 1）入参为传入的参数信息，主要用于检查 identifier 部分
+     * 2）只能在顶层模型往底层模型中转移的时候执行虚拟视图的控制
+     * 3）虚拟视图提供的功能
+     * 3.1）列过滤，从配置项到子类
+     * 3.2）表单三态：可见/不可见，可见时：只读/可编辑
+     * 3.3）操作：不同的操作带有不同的扩展
+     * 如果当前视图带有视图访问者，则计算算法会发生改变，主要作用于通用接口，目前需要设置的主要是：
+     * 一旦启用了访问者，那么该视图中对应的 ROWS/CRITERIA/PROJECTION/POSITION 会纳入到系统中
+     * 运算，运算时需要考虑访问者中的扩展属性
+     */
+    `VISITANT`              BIT COMMENT '「visitant」- 是否包含了视图访问者',
+    `VISITANT_SYNTAX`       TEXT COMMENT '「visitantSyntax」- 访问者语法',
+    `VISITANT_COMPONENT`    VARCHAR(255) COMMENT '「visitantComponent」- 访问者扩展组件',
+
     -- 特殊字段
     `SIGMA`       VARCHAR(128) COMMENT '「sigma」- 用户组绑定的统一标识',
     `LANGUAGE`    VARCHAR(10) COMMENT '「language」- 使用的语言',

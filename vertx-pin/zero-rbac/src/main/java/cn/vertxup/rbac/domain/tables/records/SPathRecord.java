@@ -31,7 +31,7 @@ import org.jooq.impl.UpdatableRecordImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class SPathRecord extends UpdatableRecordImpl<SPathRecord> implements Record20<String, String, String, String, String, String, String, String, String, String, String, String, String, String, Boolean, String, LocalDateTime, String, LocalDateTime, String>, ISPath {
 
-    private static final long serialVersionUID = -16913946;
+    private static final long serialVersionUID = -1770127846;
 
     /**
      * Setter for <code>DB_ETERNAL.S_PATH.KEY</code>. 「key」- 规则主键
@@ -119,7 +119,7 @@ public class SPathRecord extends UpdatableRecordImpl<SPathRecord> implements Rec
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.S_PATH.GROUP_COMPONENT</code>. 「groupComponent」- 在 DAO/OX/DEF 时的特殊组件
+     * Setter for <code>DB_ETERNAL.S_PATH.GROUP_COMPONENT</code>. 「groupComponent」- 必须绑定组专用Dao组件
      */
     @Override
     public SPathRecord setGroupComponent(String value) {
@@ -128,7 +128,7 @@ public class SPathRecord extends UpdatableRecordImpl<SPathRecord> implements Rec
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.S_PATH.GROUP_COMPONENT</code>. 「groupComponent」- 在 DAO/OX/DEF 时的特殊组件
+     * Getter for <code>DB_ETERNAL.S_PATH.GROUP_COMPONENT</code>. 「groupComponent」- 必须绑定组专用Dao组件
      */
     @Override
     public String getGroupComponent() {

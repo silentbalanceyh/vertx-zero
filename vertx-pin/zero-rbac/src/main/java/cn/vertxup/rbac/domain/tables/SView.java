@@ -35,7 +35,7 @@ public class SView extends TableImpl<SViewRecord> {
      * The reference instance of <code>DB_ETERNAL.S_VIEW</code>
      */
     public static final SView S_VIEW = new SView();
-    private static final long serialVersionUID = -1635803448;
+    private static final long serialVersionUID = -1163429074;
     /**
      * The column <code>DB_ETERNAL.S_VIEW.KEY</code>. 「key」- 限定记录ID
      */
@@ -72,6 +72,18 @@ public class SView extends TableImpl<SViewRecord> {
      * The column <code>DB_ETERNAL.S_VIEW.POSITION</code>. 「position」- 当前列的顺序信息
      */
     public final TableField<SViewRecord, String> POSITION = createField("POSITION", org.jooq.impl.SQLDataType.CLOB, this, "「position」- 当前列的顺序信息");
+    /**
+     * The column <code>DB_ETERNAL.S_VIEW.VISITANT</code>. 「visitant」- 是否包含了视图访问者
+     */
+    public final TableField<SViewRecord, Boolean> VISITANT = createField("VISITANT", org.jooq.impl.SQLDataType.BIT, this, "「visitant」- 是否包含了视图访问者");
+    /**
+     * The column <code>DB_ETERNAL.S_VIEW.VISITANT_SYNTAX</code>. 「visitantSyntax」- 访问者语法
+     */
+    public final TableField<SViewRecord, String> VISITANT_SYNTAX = createField("VISITANT_SYNTAX", org.jooq.impl.SQLDataType.CLOB, this, "「visitantSyntax」- 访问者语法");
+    /**
+     * The column <code>DB_ETERNAL.S_VIEW.VISITANT_COMPONENT</code>. 「visitantComponent」- 访问者扩展组件
+     */
+    public final TableField<SViewRecord, String> VISITANT_COMPONENT = createField("VISITANT_COMPONENT", org.jooq.impl.SQLDataType.VARCHAR(255), this, "「visitantComponent」- 访问者扩展组件");
     /**
      * The column <code>DB_ETERNAL.S_VIEW.SIGMA</code>. 「sigma」- 用户组绑定的统一标识
      */

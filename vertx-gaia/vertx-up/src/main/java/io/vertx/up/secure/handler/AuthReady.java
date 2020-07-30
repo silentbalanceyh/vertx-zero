@@ -55,6 +55,9 @@ public class AuthReady {
             }
         });
         normalized.put("headers", headers);
+        /*
+         * Build data part ( collect all data )
+         */
         return normalized;
     }
 }

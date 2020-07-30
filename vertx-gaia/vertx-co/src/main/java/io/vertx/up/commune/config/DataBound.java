@@ -36,6 +36,12 @@ public class DataBound implements Serializable {
     private final transient ConcurrentMap<String, Set<String>> rows =
             new ConcurrentHashMap<>();
 
+    /*
+     * Visitant Resource data structure for data bound
+     * The visitant resource must be unique in our environment
+     */
+    private final transient JsonObject view = new JsonObject();
+
     public JsonObject toJson() {
         final JsonObject json = new JsonObject();
         json.put("projection", Ut.toJArray(this.projection));
@@ -45,9 +51,22 @@ public class DataBound implements Serializable {
         Ut.itMap(this.rows, (field, rowSet) -> rows.put(field, Ut.toJArray(rowSet)));
         json.put("rows", rows);
         json.put("credit", credit);
+        /* View */
+        if (Ut.notNil(view)) {
+            json.put("view", view);
+        }
         return json;
     }
 
+    /*
+     * Add view data into DataBound for visitant usage in future
+     */
+    public DataBound addView(final JsonObject view) {
+        if (Ut.notNil(view)) {
+            this.view.mergeIn(view);
+        }
+        return this;
+    }
 
     /*
      * Projection modification: projection field here.

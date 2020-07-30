@@ -35,7 +35,7 @@ public class SPath extends TableImpl<SPathRecord> {
      * The reference instance of <code>DB_ETERNAL.S_PATH</code>
      */
     public static final SPath S_PATH = new SPath();
-    private static final long serialVersionUID = 702015104;
+    private static final long serialVersionUID = -1679528520;
     /**
      * The column <code>DB_ETERNAL.S_PATH.KEY</code>. 「key」- 规则主键
      */
@@ -57,9 +57,9 @@ public class SPath extends TableImpl<SPathRecord> {
      */
     public final TableField<SPathRecord, String> GROUP_TYPE = createField("GROUP_TYPE", org.jooq.impl.SQLDataType.VARCHAR(128), this, "「groupType」- 分组类型");
     /**
-     * The column <code>DB_ETERNAL.S_PATH.GROUP_COMPONENT</code>. 「groupComponent」- 在 DAO/OX/DEF 时的特殊组件
+     * The column <code>DB_ETERNAL.S_PATH.GROUP_COMPONENT</code>. 「groupComponent」- 必须绑定组专用Dao组件
      */
-    public final TableField<SPathRecord, String> GROUP_COMPONENT = createField("GROUP_COMPONENT", org.jooq.impl.SQLDataType.VARCHAR(255), this, "「groupComponent」- 在 DAO/OX/DEF 时的特殊组件");
+    public final TableField<SPathRecord, String> GROUP_COMPONENT = createField("GROUP_COMPONENT", org.jooq.impl.SQLDataType.VARCHAR(255), this, "「groupComponent」- 必须绑定组专用Dao组件");
     /**
      * The column <code>DB_ETERNAL.S_PATH.GROUP_CONDITION</code>. 「groupCondition」- 分组条件
      */
