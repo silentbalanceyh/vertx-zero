@@ -38,7 +38,7 @@ class DataOut {
         }, (responseJson, type) -> DataDwarf.create(type).minimize(responseJson, matrix, acl));
 
         if (Objects.nonNull(acl)) {
-            final JsonObject aclData = acl.aclData();
+            final JsonObject aclData = acl.acl();
             if (Ut.notNil(aclData)) {
                 envelop.attach("acl", aclData);
             }

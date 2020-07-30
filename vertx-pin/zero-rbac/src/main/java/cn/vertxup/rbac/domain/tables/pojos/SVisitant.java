@@ -24,10 +24,11 @@ import javax.annotation.Generated;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class SVisitant implements ISVisitant {
 
-    private static final long serialVersionUID = 419376296;
+    private static final long serialVersionUID = -849074504;
 
     private String        key;
     private String        viewId;
+    private String        phase;
     private String        type;
     private String        identifier;
     private String        configKey;
@@ -50,6 +51,7 @@ public class SVisitant implements ISVisitant {
     public SVisitant(SVisitant value) {
         this.key = value.key;
         this.viewId = value.viewId;
+        this.phase = value.phase;
         this.type = value.type;
         this.identifier = value.identifier;
         this.configKey = value.configKey;
@@ -71,6 +73,7 @@ public class SVisitant implements ISVisitant {
     public SVisitant(
         String        key,
         String        viewId,
+        String        phase,
         String        type,
         String        identifier,
         String        configKey,
@@ -90,6 +93,7 @@ public class SVisitant implements ISVisitant {
     ) {
         this.key = key;
         this.viewId = viewId;
+        this.phase = phase;
         this.type = type;
         this.identifier = identifier;
         this.configKey = configKey;
@@ -127,6 +131,17 @@ public class SVisitant implements ISVisitant {
     @Override
     public SVisitant setViewId(String viewId) {
         this.viewId = viewId;
+        return this;
+    }
+
+    @Override
+    public String getPhase() {
+        return this.phase;
+    }
+
+    @Override
+    public SVisitant setPhase(String phase) {
+        this.phase = phase;
         return this;
     }
 
@@ -312,6 +327,7 @@ public class SVisitant implements ISVisitant {
 
         sb.append(key);
         sb.append(", ").append(viewId);
+        sb.append(", ").append(phase);
         sb.append(", ").append(type);
         sb.append(", ").append(identifier);
         sb.append(", ").append(configKey);
@@ -344,6 +360,7 @@ public class SVisitant implements ISVisitant {
     public void from(ISVisitant from) {
         setKey(from.getKey());
         setViewId(from.getViewId());
+        setPhase(from.getPhase());
         setType(from.getType());
         setIdentifier(from.getIdentifier());
         setConfigKey(from.getConfigKey());

@@ -44,6 +44,16 @@ public interface ISVisitant extends Serializable {
     public String getViewId();
 
     /**
+     * Setter for <code>DB_ETERNAL.S_VISITANT.PHASE</code>. 「phase」- 作用周期
+     */
+    public ISVisitant setPhase(String value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.S_VISITANT.PHASE</code>. 「phase」- 作用周期
+     */
+    public String getPhase();
+
+    /**
      * Setter for <code>DB_ETERNAL.S_VISITANT.TYPE</code>. 「type」- 访问者类型
      */
     public ISVisitant setType(String value);
@@ -220,6 +230,7 @@ public interface ISVisitant extends Serializable {
     default ISVisitant fromJson(io.vertx.core.json.JsonObject json) {
         setKey(json.getString("KEY"));
         setViewId(json.getString("VIEW_ID"));
+        setPhase(json.getString("PHASE"));
         setType(json.getString("TYPE"));
         setIdentifier(json.getString("IDENTIFIER"));
         setConfigKey(json.getString("CONFIG_KEY"));
@@ -244,6 +255,7 @@ public interface ISVisitant extends Serializable {
         io.vertx.core.json.JsonObject json = new io.vertx.core.json.JsonObject();
         json.put("KEY",getKey());
         json.put("VIEW_ID",getViewId());
+        json.put("PHASE",getPhase());
         json.put("TYPE",getType());
         json.put("IDENTIFIER",getIdentifier());
         json.put("CONFIG_KEY",getConfigKey());

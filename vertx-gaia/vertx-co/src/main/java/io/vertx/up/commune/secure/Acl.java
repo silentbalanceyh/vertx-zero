@@ -1,6 +1,7 @@
 package io.vertx.up.commune.secure;
 
 import io.vertx.core.json.JsonObject;
+import io.vertx.up.eon.em.AclPhase;
 
 import java.io.Serializable;
 import java.util.Set;
@@ -17,5 +18,10 @@ public interface Acl extends Serializable {
     /*
      * JsonObject calculation
      */
-    JsonObject aclData();
+    JsonObject acl();
+
+    /*
+     * Phase
+     */
+    AclPhase phase();
 }

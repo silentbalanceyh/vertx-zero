@@ -1,10 +1,12 @@
 package io.vertx.tp.rbac.atom.acl;
 
 import cn.vertxup.rbac.domain.tables.pojos.SVisitant;
+import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.rbac.cv.em.AclType;
 import io.vertx.up.commune.secure.Acl;
 import io.vertx.up.commune.secure.AclView;
+import io.vertx.up.eon.em.AclPhase;
 import io.vertx.up.util.Ut;
 
 import java.util.Objects;
@@ -44,6 +46,8 @@ public class AclData implements Acl {
     private final ConcurrentMap<String, AclType> complexType =
             new ConcurrentHashMap<>();
 
+    private final AclPhase phase;
+
     public AclData(final SVisitant visitant) {
         if (Objects.nonNull(visitant)) {
             /*
@@ -69,6 +73,12 @@ public class AclData implements Acl {
             this.initComplex(varietyJson, AclType.DATA, viewSet);
             final JsonObject vowJson = Ut.toJObject(visitant.getAclVow());
             this.initComplex(vowJson, AclType.REFERENCE, viewSet);
+            /*
+             * Convert to `EAGER` as default
+             */
+            this.phase = Ut.toEnum(visitant::getPhase, AclPhase.class, AclPhase.EAGER);
+        } else {
+            this.phase = AclPhase.ERROR;
         }
     }
 
@@ -88,7 +98,36 @@ public class AclData implements Acl {
     }
 
     @Override
-    public JsonObject aclData() {
-        return new JsonObject().put("acl", "test");
+    public AclPhase phase() {
+        return this.phase;
+    }
+
+    @Override
+    public JsonObject acl() {
+        final JsonObject acl = new JsonObject();
+        /*
+         * capture access field information
+         */
+        final JsonArray access = new JsonArray();
+        final JsonArray edition = new JsonArray();
+        this.commonMap.forEach((field, aclField) -> {
+            /*
+             * access: []
+             * edition: []
+             */
+            if (aclField.isAccess()) {
+                access.add(field);
+            }
+            if (aclField.isEdit()) {
+                edition.add(field);
+            }
+        });
+        if (Ut.notNil(access)) {
+            acl.put("access", access);
+        }
+        if (Ut.notNil(edition)) {
+            acl.put("edition", edition);
+        }
+        return acl;
     }
 }

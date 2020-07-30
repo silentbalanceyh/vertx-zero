@@ -35,7 +35,7 @@ public class SVisitant extends TableImpl<SVisitantRecord> {
      * The reference instance of <code>DB_ETERNAL.S_VISITANT</code>
      */
     public static final SVisitant S_VISITANT = new SVisitant();
-    private static final long serialVersionUID = 1005274160;
+    private static final long serialVersionUID = 575263195;
     /**
      * The column <code>DB_ETERNAL.S_VISITANT.KEY</code>. 「key」- 限定记录ID
      */
@@ -44,6 +44,10 @@ public class SVisitant extends TableImpl<SVisitantRecord> {
      * The column <code>DB_ETERNAL.S_VISITANT.VIEW_ID</code>. 「viewId」- 视图访问者的读ID
      */
     public final TableField<SVisitantRecord, String> VIEW_ID = createField("VIEW_ID", org.jooq.impl.SQLDataType.VARCHAR(36), this, "「viewId」- 视图访问者的读ID");
+    /**
+     * The column <code>DB_ETERNAL.S_VISITANT.PHASE</code>. 「phase」- 作用周期
+     */
+    public final TableField<SVisitantRecord, String> PHASE = createField("PHASE", org.jooq.impl.SQLDataType.VARCHAR(64), this, "「phase」- 作用周期");
     /**
      * The column <code>DB_ETERNAL.S_VISITANT.TYPE</code>. 「type」- 访问者类型
      */

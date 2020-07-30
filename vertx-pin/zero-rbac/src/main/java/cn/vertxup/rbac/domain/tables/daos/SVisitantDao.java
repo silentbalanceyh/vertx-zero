@@ -77,6 +77,13 @@ public class SVisitantDao extends DAOImpl<SVisitantRecord, cn.vertxup.rbac.domai
     }
 
     /**
+     * Fetch records that have <code>PHASE IN (values)</code>
+     */
+    public List<cn.vertxup.rbac.domain.tables.pojos.SVisitant> fetchByPhase(String... values) {
+        return fetch(SVisitant.S_VISITANT.PHASE, values);
+    }
+
+    /**
      * Fetch records that have <code>TYPE IN (values)</code>
      */
     public List<cn.vertxup.rbac.domain.tables.pojos.SVisitant> fetchByType(String... values) {
@@ -207,6 +214,13 @@ public class SVisitantDao extends DAOImpl<SVisitantRecord, cn.vertxup.rbac.domai
      */
     public CompletableFuture<List<cn.vertxup.rbac.domain.tables.pojos.SVisitant>> fetchByViewIdAsync(List<String> values) {
         return fetchAsync(SVisitant.S_VISITANT.VIEW_ID,values);
+    }
+
+    /**
+     * Fetch records that have <code>PHASE IN (values)</code> asynchronously
+     */
+    public CompletableFuture<List<cn.vertxup.rbac.domain.tables.pojos.SVisitant>> fetchByPhaseAsync(List<String> values) {
+        return fetchAsync(SVisitant.S_VISITANT.PHASE,values);
     }
 
     /**

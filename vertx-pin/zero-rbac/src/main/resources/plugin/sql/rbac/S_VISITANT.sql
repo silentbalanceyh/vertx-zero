@@ -9,7 +9,15 @@ CREATE TABLE IF NOT EXISTS S_VISITANT
 
     -- 视图ID
     `VIEW_ID`     VARCHAR(36) COMMENT '「viewId」- 视图访问者的读ID',
-
+    /*
+     * 作用周期包含三个：
+     * 1）EAGER：该 ACL 直接控制当前请求资源（立即生效）
+     * 2）DELAY：该 ACL 会读取成为配置项，作用于其他资源（在当前请求中不执行 ACL 流程）
+     * -- 一般读取配置数据和元数据时使用 DELAY
+     * -- 而读取当前数据时则直接使用 EAGER
+     * 处于 DELAY 状态时，VIEW 中的 DataRegion 依旧生效
+     */
+    `PHASE`       VARCHAR(64) COMMENT '「phase」- 作用周期',
     /*
      * 查询条件
      * 1）VIEW_ID：角色/资源定位视图
