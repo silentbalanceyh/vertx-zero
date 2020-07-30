@@ -1,4 +1,4 @@
-package io.vertx.tp.rbac.acl;
+package io.vertx.tp.rbac.atom.acl;
 
 import cn.vertxup.rbac.domain.tables.pojos.SVisitant;
 import io.vertx.core.json.JsonObject;
@@ -79,7 +79,8 @@ public class AclData implements Acl {
         });
     }
 
-    public Set<String> getProjection() {
-        return null;
+    @Override
+    public Set<String> projection() {
+        return this.commonMap.keySet();
     }
 }

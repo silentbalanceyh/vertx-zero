@@ -1,13 +1,14 @@
 package io.vertx.tp.rbac.extension;
 
 import io.vertx.core.Future;
+import io.vertx.core.http.HttpMethod;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.RoutingContext;
+import io.vertx.tp.rbac.acl.region.CommonCosmo;
+import io.vertx.tp.rbac.acl.region.Cosmo;
+import io.vertx.tp.rbac.acl.region.SeekCosmo;
 import io.vertx.tp.rbac.cv.AuthMsg;
 import io.vertx.tp.rbac.refine.Sc;
-import io.vertx.tp.rbac.region.CommonCosmo;
-import io.vertx.tp.rbac.region.Cosmo;
-import io.vertx.tp.rbac.region.SeekCosmo;
 import io.vertx.up.commune.Envelop;
 import io.vertx.up.extension.region.AbstractRegion;
 import io.vertx.up.fn.Fn;
@@ -39,8 +40,17 @@ public class DataRegion extends AbstractRegion {
                     /*
                      * Select cosmo by matrix
                      */
-                    final Cosmo cosmo = this.cosmo(matrix);
-                    return cosmo.before(envelop, matrix);
+
+                    final HttpMethod method = envelop.getMethod();
+                    if (HttpMethod.POST == method || HttpMethod.PUT == method) {
+                        final Cosmo cosmo = this.cosmo(matrix);
+                        return cosmo.before(envelop, matrix);
+                    } else {
+                        /*
+                         * DELETE / PUT has no before
+                         */
+                        return Ux.future(envelop);
+                    }
                 } else {
                     /*
                      * Matrix null or empty

@@ -1,4 +1,4 @@
-package io.vertx.tp.rbac.region;
+package io.vertx.tp.rbac.acl.region;
 
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;

@@ -1,16 +1,22 @@
-package io.vertx.tp.rbac.region;
+package io.vertx.tp.rbac.acl.region;
 
 import cn.vertxup.rbac.domain.tables.daos.SVisitantDao;
 import cn.vertxup.rbac.domain.tables.pojos.SVisitant;
 import io.vertx.core.Future;
+import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.ke.cv.KeField;
-import io.vertx.tp.rbac.acl.AclData;
+import io.vertx.tp.rbac.atom.acl.AclData;
+import io.vertx.tp.rbac.refine.Sc;
+import io.vertx.up.atom.query.Inquiry;
 import io.vertx.up.commune.Envelop;
+import io.vertx.up.commune.secure.Acl;
 import io.vertx.up.eon.Values;
 import io.vertx.up.log.Annal;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
+
+import java.util.Objects;
 
 /**
  * @author <a href="http://www.origin-x.cn">lang</a>
@@ -19,11 +25,27 @@ import io.vertx.up.util.Ut;
 class DataIn {
     private static final Annal LOGGER = Annal.get(DataIn.class);
 
+    static void visitProjection(final Envelop envelop, final JsonObject matrix, final Acl acl) {
+        final JsonArray projection = matrix.getJsonArray(Inquiry.KEY_PROJECTION);
+        if (Objects.nonNull(projection) && !projection.isEmpty()) {
+            final JsonArray replaced = Sc.aclProjection(projection, acl);
+            envelop.onProjection(replaced);
+        }
+    }
+
+    static void visitCriteria(final Envelop envelop, final JsonObject matrix) {
+        /* Criteria Modification */
+        final JsonObject criteria = matrix.getJsonObject(Inquiry.KEY_CRITERIA);
+        if (Objects.nonNull(criteria) && !criteria.isEmpty()) {
+            envelop.onCriteria(criteria);
+        }
+    }
+
     /*
      * Calculated `syntax` to generate visitant condition
      * Then the system should pick up unique visitant object here
      */
-    static Future<AclData> visitCond(final Envelop envelop, final JsonObject matrix) {
+    static Future<AclData> visitAcl(final Envelop envelop, final JsonObject matrix) {
         /*
          * Read configuration of `seeker` here
          ***/

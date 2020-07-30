@@ -1,4 +1,4 @@
-package cn.vertxup.rbac.service.dwarf;
+package io.vertx.tp.rbac.acl.dwarf;
 
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;

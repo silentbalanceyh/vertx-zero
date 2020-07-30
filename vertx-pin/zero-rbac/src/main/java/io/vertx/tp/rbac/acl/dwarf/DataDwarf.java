@@ -1,8 +1,9 @@
-package cn.vertxup.rbac.service.dwarf;
+package io.vertx.tp.rbac.acl.dwarf;
 
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.error._500DwarfInstanceNullException;
 import io.vertx.tp.rbac.cv.em.RegionType;
+import io.vertx.up.commune.secure.Acl;
 import io.vertx.up.fn.Fn;
 
 /*
@@ -26,5 +27,5 @@ public interface DataDwarf {
         }
     }
 
-    void minimize(JsonObject dataReference, JsonObject matrix);
+    void minimize(JsonObject dataReference, JsonObject matrix, Acl acl);
 }

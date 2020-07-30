@@ -1,4 +1,4 @@
-package io.vertx.tp.rbac.acl;
+package io.vertx.tp.rbac.atom.acl;
 
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.commune.secure.AclView;

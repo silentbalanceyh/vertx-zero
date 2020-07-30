@@ -1,8 +1,8 @@
-package io.vertx.tp.rbac.region;
+package io.vertx.tp.rbac.acl.region;
 
-import cn.vertxup.rbac.service.dwarf.DataDwarf;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
+import io.vertx.tp.rbac.acl.dwarf.DataDwarf;
 import io.vertx.tp.rbac.cv.AuthMsg;
 import io.vertx.tp.rbac.cv.em.RegionType;
 import io.vertx.tp.rbac.refine.Sc;
@@ -33,7 +33,7 @@ class DataOut {
             {
                 this.add(RegionType.RECORD);
             }
-        }, (responseJson, type) -> DataDwarf.create(type).minimize(responseJson, matrix));
+        }, (responseJson, type) -> DataDwarf.create(type).minimize(responseJson, matrix, envelop.acl()));
     }
 
     /*
@@ -49,7 +49,7 @@ class DataOut {
                 this.add(RegionType.ARRAY);
                 this.add(RegionType.PAGINATION);
             }
-        }, (responseJson, type) -> DataDwarf.create(type).minimize(responseJson, matrix));
+        }, (responseJson, type) -> DataDwarf.create(type).minimize(responseJson, matrix, envelop.acl()));
     }
 
     @SuppressWarnings("all")
@@ -60,7 +60,7 @@ class DataOut {
                 this.add(RegionType.ARRAY);
                 this.add(RegionType.PAGINATION);
             }
-        }, (responseJson, type) -> DataDwarf.create(type).minimize(responseJson, matrix));
+        }, (responseJson, type) -> DataDwarf.create(type).minimize(responseJson, matrix, envelop.acl()));
     }
 
     /*
