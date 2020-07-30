@@ -16,6 +16,8 @@ import java.util.Objects;
 
 /*
  * Extension in RBAC module
+ * 1) Region calculation
+ * 2) Visitant calculation ( Extension More )
  */
 public class DataRegion extends AbstractRegion {
 

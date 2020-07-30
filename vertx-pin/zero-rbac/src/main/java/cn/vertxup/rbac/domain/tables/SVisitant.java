@@ -35,7 +35,7 @@ public class SVisitant extends TableImpl<SVisitantRecord> {
      * The reference instance of <code>DB_ETERNAL.S_VISITANT</code>
      */
     public static final SVisitant S_VISITANT = new SVisitant();
-    private static final long serialVersionUID = -630055074;
+    private static final long serialVersionUID = 599897121;
     /**
      * The column <code>DB_ETERNAL.S_VISITANT.KEY</code>. 「key」- 限定记录ID
      */
@@ -49,25 +49,13 @@ public class SVisitant extends TableImpl<SVisitantRecord> {
      */
     public final TableField<SVisitantRecord, String> TYPE = createField("TYPE", org.jooq.impl.SQLDataType.VARCHAR(128), this, "「type」- 访问者类型");
     /**
-     * The column <code>DB_ETERNAL.S_VISITANT.STATIC_KEY</code>. 「staticKey」- 模型下记录对应的ID，一般是配置的ID
+     * The column <code>DB_ETERNAL.S_VISITANT.IDENTIFIER</code>. 「identifier」- 动态类型中的模型ID
      */
-    public final TableField<SVisitantRecord, String> STATIC_KEY = createField("STATIC_KEY", org.jooq.impl.SQLDataType.VARCHAR(36), this, "「staticKey」- 模型下记录对应的ID，一般是配置的ID");
+    public final TableField<SVisitantRecord, String> IDENTIFIER = createField("IDENTIFIER", org.jooq.impl.SQLDataType.VARCHAR(255), this, "「identifier」- 动态类型中的模型ID");
     /**
-     * The column <code>DB_ETERNAL.S_VISITANT.DYNAMIC_ID</code>. 「dynamicId」- 动态类型中的模型ID
+     * The column <code>DB_ETERNAL.S_VISITANT.CONFIG_KEY</code>. 「configKey」- 模型下记录对应的ID，一般是配置的ID
      */
-    public final TableField<SVisitantRecord, String> DYNAMIC_ID = createField("DYNAMIC_ID", org.jooq.impl.SQLDataType.VARCHAR(255), this, "「dynamicId」- 动态类型中的模型ID");
-    /**
-     * The column <code>DB_ETERNAL.S_VISITANT.RELATED_ID</code>. 「relatedId」- 相关模型
-     */
-    public final TableField<SVisitantRecord, String> RELATED_ID = createField("RELATED_ID", org.jooq.impl.SQLDataType.VARCHAR(255), this, "「relatedId」- 相关模型");
-    /**
-     * The column <code>DB_ETERNAL.S_VISITANT.RELATED_RESOURCE</code>. 「relatedResource」- 相关资源影响集合（主要用于写限制）
-     */
-    public final TableField<SVisitantRecord, String> RELATED_RESOURCE = createField("RELATED_RESOURCE", org.jooq.impl.SQLDataType.CLOB, this, "「relatedResource」- 相关资源影响集合（主要用于写限制）");
-    /**
-     * The column <code>DB_ETERNAL.S_VISITANT.RELATED_CONFIG</code>. 「relatedConfig」- 相关资源影响配置（主要用于写限制）
-     */
-    public final TableField<SVisitantRecord, String> RELATED_CONFIG = createField("RELATED_CONFIG", org.jooq.impl.SQLDataType.CLOB, this, "「relatedConfig」- 相关资源影响配置（主要用于写限制）");
+    public final TableField<SVisitantRecord, String> CONFIG_KEY = createField("CONFIG_KEY", org.jooq.impl.SQLDataType.VARCHAR(36), this, "「configKey」- 模型下记录对应的ID，一般是配置的ID");
     /**
      * The column <code>DB_ETERNAL.S_VISITANT.ACL_VISIBLE</code>. 「aclVisible」- 可见的属性集
      */
@@ -183,7 +171,7 @@ public class SVisitant extends TableImpl<SVisitantRecord> {
      */
     @Override
     public List<Index> getIndexes() {
-        return Arrays.<Index>asList(Indexes.S_VISITANT_IDXM_S_VISITANT_VIEW_ID_TYPE_RELATED, Indexes.S_VISITANT_PRIMARY, Indexes.S_VISITANT_VIEW_ID);
+        return Arrays.<Index>asList(Indexes.S_VISITANT_IDXM_S_VISITANT_VIEW_ID_TYPE_CONFIG, Indexes.S_VISITANT_IDXM_S_VISITANT_VIEW_ID_TYPE_IDENTIFIER, Indexes.S_VISITANT_PRIMARY, Indexes.S_VISITANT_VIEW_ID);
     }
 
     /**

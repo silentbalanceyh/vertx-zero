@@ -24,7 +24,7 @@ import javax.annotation.Generated;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class SResource implements ISResource {
 
-    private static final long serialVersionUID = 481192735;
+    private static final long serialVersionUID = 1002831176;
 
     private String        key;
     private String        code;
@@ -36,6 +36,10 @@ public class SResource implements ISResource {
     private String        modeRole;
     private String        modeGroup;
     private String        modeTree;
+    private Boolean       virtual;
+    private String        seekSyntax;
+    private String        seekConfig;
+    private String        seekComponent;
     private String        sigma;
     private String        category;
     private String        language;
@@ -59,6 +63,10 @@ public class SResource implements ISResource {
         this.modeRole = value.modeRole;
         this.modeGroup = value.modeGroup;
         this.modeTree = value.modeTree;
+        this.virtual = value.virtual;
+        this.seekSyntax = value.seekSyntax;
+        this.seekConfig = value.seekConfig;
+        this.seekComponent = value.seekComponent;
         this.sigma = value.sigma;
         this.category = value.category;
         this.language = value.language;
@@ -81,6 +89,10 @@ public class SResource implements ISResource {
         String        modeRole,
         String        modeGroup,
         String        modeTree,
+        Boolean       virtual,
+        String        seekSyntax,
+        String        seekConfig,
+        String        seekComponent,
         String        sigma,
         String        category,
         String        language,
@@ -101,6 +113,10 @@ public class SResource implements ISResource {
         this.modeRole = modeRole;
         this.modeGroup = modeGroup;
         this.modeTree = modeTree;
+        this.virtual = virtual;
+        this.seekSyntax = seekSyntax;
+        this.seekConfig = seekConfig;
+        this.seekComponent = seekComponent;
         this.sigma = sigma;
         this.category = category;
         this.language = language;
@@ -223,6 +239,50 @@ public class SResource implements ISResource {
     }
 
     @Override
+    public Boolean getVirtual() {
+        return this.virtual;
+    }
+
+    @Override
+    public SResource setVirtual(Boolean virtual) {
+        this.virtual = virtual;
+        return this;
+    }
+
+    @Override
+    public String getSeekSyntax() {
+        return this.seekSyntax;
+    }
+
+    @Override
+    public SResource setSeekSyntax(String seekSyntax) {
+        this.seekSyntax = seekSyntax;
+        return this;
+    }
+
+    @Override
+    public String getSeekConfig() {
+        return this.seekConfig;
+    }
+
+    @Override
+    public SResource setSeekConfig(String seekConfig) {
+        this.seekConfig = seekConfig;
+        return this;
+    }
+
+    @Override
+    public String getSeekComponent() {
+        return this.seekComponent;
+    }
+
+    @Override
+    public SResource setSeekComponent(String seekComponent) {
+        this.seekComponent = seekComponent;
+        return this;
+    }
+
+    @Override
     public String getSigma() {
         return this.sigma;
     }
@@ -335,6 +395,10 @@ public class SResource implements ISResource {
         sb.append(", ").append(modeRole);
         sb.append(", ").append(modeGroup);
         sb.append(", ").append(modeTree);
+        sb.append(", ").append(virtual);
+        sb.append(", ").append(seekSyntax);
+        sb.append(", ").append(seekConfig);
+        sb.append(", ").append(seekComponent);
         sb.append(", ").append(sigma);
         sb.append(", ").append(category);
         sb.append(", ").append(language);
@@ -368,6 +432,10 @@ public class SResource implements ISResource {
         setModeRole(from.getModeRole());
         setModeGroup(from.getModeGroup());
         setModeTree(from.getModeTree());
+        setVirtual(from.getVirtual());
+        setSeekSyntax(from.getSeekSyntax());
+        setSeekConfig(from.getSeekConfig());
+        setSeekComponent(from.getSeekComponent());
         setSigma(from.getSigma());
         setCategory(from.getCategory());
         setLanguage(from.getLanguage());

@@ -54,54 +54,24 @@ public interface ISVisitant extends Serializable {
     public String getType();
 
     /**
-     * Setter for <code>DB_ETERNAL.S_VISITANT.STATIC_KEY</code>. 「staticKey」- 模型下记录对应的ID，一般是配置的ID
+     * Setter for <code>DB_ETERNAL.S_VISITANT.IDENTIFIER</code>. 「identifier」- 动态类型中的模型ID
      */
-    public ISVisitant setStaticKey(String value);
+    public ISVisitant setIdentifier(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.S_VISITANT.STATIC_KEY</code>. 「staticKey」- 模型下记录对应的ID，一般是配置的ID
+     * Getter for <code>DB_ETERNAL.S_VISITANT.IDENTIFIER</code>. 「identifier」- 动态类型中的模型ID
      */
-    public String getStaticKey();
+    public String getIdentifier();
 
     /**
-     * Setter for <code>DB_ETERNAL.S_VISITANT.DYNAMIC_ID</code>. 「dynamicId」- 动态类型中的模型ID
+     * Setter for <code>DB_ETERNAL.S_VISITANT.CONFIG_KEY</code>. 「configKey」- 模型下记录对应的ID，一般是配置的ID
      */
-    public ISVisitant setDynamicId(String value);
+    public ISVisitant setConfigKey(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.S_VISITANT.DYNAMIC_ID</code>. 「dynamicId」- 动态类型中的模型ID
+     * Getter for <code>DB_ETERNAL.S_VISITANT.CONFIG_KEY</code>. 「configKey」- 模型下记录对应的ID，一般是配置的ID
      */
-    public String getDynamicId();
-
-    /**
-     * Setter for <code>DB_ETERNAL.S_VISITANT.RELATED_ID</code>. 「relatedId」- 相关模型
-     */
-    public ISVisitant setRelatedId(String value);
-
-    /**
-     * Getter for <code>DB_ETERNAL.S_VISITANT.RELATED_ID</code>. 「relatedId」- 相关模型
-     */
-    public String getRelatedId();
-
-    /**
-     * Setter for <code>DB_ETERNAL.S_VISITANT.RELATED_RESOURCE</code>. 「relatedResource」- 相关资源影响集合（主要用于写限制）
-     */
-    public ISVisitant setRelatedResource(String value);
-
-    /**
-     * Getter for <code>DB_ETERNAL.S_VISITANT.RELATED_RESOURCE</code>. 「relatedResource」- 相关资源影响集合（主要用于写限制）
-     */
-    public String getRelatedResource();
-
-    /**
-     * Setter for <code>DB_ETERNAL.S_VISITANT.RELATED_CONFIG</code>. 「relatedConfig」- 相关资源影响配置（主要用于写限制）
-     */
-    public ISVisitant setRelatedConfig(String value);
-
-    /**
-     * Getter for <code>DB_ETERNAL.S_VISITANT.RELATED_CONFIG</code>. 「relatedConfig」- 相关资源影响配置（主要用于写限制）
-     */
-    public String getRelatedConfig();
+    public String getConfigKey();
 
     /**
      * Setter for <code>DB_ETERNAL.S_VISITANT.ACL_VISIBLE</code>. 「aclVisible」- 可见的属性集
@@ -281,11 +251,8 @@ public interface ISVisitant extends Serializable {
         setKey(json.getString("KEY"));
         setViewId(json.getString("VIEW_ID"));
         setType(json.getString("TYPE"));
-        setStaticKey(json.getString("STATIC_KEY"));
-        setDynamicId(json.getString("DYNAMIC_ID"));
-        setRelatedId(json.getString("RELATED_ID"));
-        setRelatedResource(json.getString("RELATED_RESOURCE"));
-        setRelatedConfig(json.getString("RELATED_CONFIG"));
+        setIdentifier(json.getString("IDENTIFIER"));
+        setConfigKey(json.getString("CONFIG_KEY"));
         setAclVisible(json.getString("ACL_VISIBLE"));
         setAclView(json.getString("ACL_VIEW"));
         setAclVariety(json.getString("ACL_VARIETY"));
@@ -311,11 +278,8 @@ public interface ISVisitant extends Serializable {
         json.put("KEY",getKey());
         json.put("VIEW_ID",getViewId());
         json.put("TYPE",getType());
-        json.put("STATIC_KEY",getStaticKey());
-        json.put("DYNAMIC_ID",getDynamicId());
-        json.put("RELATED_ID",getRelatedId());
-        json.put("RELATED_RESOURCE",getRelatedResource());
-        json.put("RELATED_CONFIG",getRelatedConfig());
+        json.put("IDENTIFIER",getIdentifier());
+        json.put("CONFIG_KEY",getConfigKey());
         json.put("ACL_VISIBLE",getAclVisible());
         json.put("ACL_VIEW",getAclView());
         json.put("ACL_VARIETY",getAclVariety());

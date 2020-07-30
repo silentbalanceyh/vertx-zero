@@ -124,6 +124,46 @@ public interface ISResource extends Serializable {
     public String getModeTree();
 
     /**
+     * Setter for <code>DB_ETERNAL.S_RESOURCE.VIRTUAL</code>. 「virtual」- 虚拟资源
+     */
+    public ISResource setVirtual(Boolean value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.S_RESOURCE.VIRTUAL</code>. 「virtual」- 虚拟资源
+     */
+    public Boolean getVirtual();
+
+    /**
+     * Setter for <code>DB_ETERNAL.S_RESOURCE.SEEK_SYNTAX</code>. 「seekSyntax」- 访问者语法
+     */
+    public ISResource setSeekSyntax(String value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.S_RESOURCE.SEEK_SYNTAX</code>. 「seekSyntax」- 访问者语法
+     */
+    public String getSeekSyntax();
+
+    /**
+     * Setter for <code>DB_ETERNAL.S_RESOURCE.SEEK_CONFIG</code>. 「seekConfig」- 访问者配置
+     */
+    public ISResource setSeekConfig(String value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.S_RESOURCE.SEEK_CONFIG</code>. 「seekConfig」- 访问者配置
+     */
+    public String getSeekConfig();
+
+    /**
+     * Setter for <code>DB_ETERNAL.S_RESOURCE.SEEK_COMPONENT</code>. 「seekComponent」- 访问者组件
+     */
+    public ISResource setSeekComponent(String value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.S_RESOURCE.SEEK_COMPONENT</code>. 「seekComponent」- 访问者组件
+     */
+    public String getSeekComponent();
+
+    /**
      * Setter for <code>DB_ETERNAL.S_RESOURCE.SIGMA</code>. 「sigma」- 统一标识
      */
     public ISResource setSigma(String value);
@@ -238,6 +278,10 @@ public interface ISResource extends Serializable {
         setModeRole(json.getString("MODE_ROLE"));
         setModeGroup(json.getString("MODE_GROUP"));
         setModeTree(json.getString("MODE_TREE"));
+        setVirtual(json.getBoolean("VIRTUAL"));
+        setSeekSyntax(json.getString("SEEK_SYNTAX"));
+        setSeekConfig(json.getString("SEEK_CONFIG"));
+        setSeekComponent(json.getString("SEEK_COMPONENT"));
         setSigma(json.getString("SIGMA"));
         setCategory(json.getString("CATEGORY"));
         setLanguage(json.getString("LANGUAGE"));
@@ -263,6 +307,10 @@ public interface ISResource extends Serializable {
         json.put("MODE_ROLE",getModeRole());
         json.put("MODE_GROUP",getModeGroup());
         json.put("MODE_TREE",getModeTree());
+        json.put("VIRTUAL",getVirtual());
+        json.put("SEEK_SYNTAX",getSeekSyntax());
+        json.put("SEEK_CONFIG",getSeekConfig());
+        json.put("SEEK_COMPONENT",getSeekComponent());
         json.put("SIGMA",getSigma());
         json.put("CATEGORY",getCategory());
         json.put("LANGUAGE",getLanguage());

@@ -35,7 +35,7 @@ public class SResource extends TableImpl<SResourceRecord> {
      * The reference instance of <code>DB_ETERNAL.S_RESOURCE</code>
      */
     public static final SResource S_RESOURCE = new SResource();
-    private static final long serialVersionUID = 995937417;
+    private static final long serialVersionUID = 1100022483;
     /**
      * The column <code>DB_ETERNAL.S_RESOURCE.KEY</code>. 「key」- 资源对应的ID
      */
@@ -76,6 +76,22 @@ public class SResource extends TableImpl<SResourceRecord> {
      * The column <code>DB_ETERNAL.S_RESOURCE.MODE_TREE</code>. 「modeTree」- 该资源处理树（用户组）的模式
      */
     public final TableField<SResourceRecord, String> MODE_TREE = createField("MODE_TREE", org.jooq.impl.SQLDataType.VARCHAR(32), this, "「modeTree」- 该资源处理树（用户组）的模式");
+    /**
+     * The column <code>DB_ETERNAL.S_RESOURCE.VIRTUAL</code>. 「virtual」- 虚拟资源
+     */
+    public final TableField<SResourceRecord, Boolean> VIRTUAL = createField("VIRTUAL", org.jooq.impl.SQLDataType.BIT, this, "「virtual」- 虚拟资源");
+    /**
+     * The column <code>DB_ETERNAL.S_RESOURCE.SEEK_SYNTAX</code>. 「seekSyntax」- 访问者语法
+     */
+    public final TableField<SResourceRecord, String> SEEK_SYNTAX = createField("SEEK_SYNTAX", org.jooq.impl.SQLDataType.CLOB, this, "「seekSyntax」- 访问者语法");
+    /**
+     * The column <code>DB_ETERNAL.S_RESOURCE.SEEK_CONFIG</code>. 「seekConfig」- 访问者配置
+     */
+    public final TableField<SResourceRecord, String> SEEK_CONFIG = createField("SEEK_CONFIG", org.jooq.impl.SQLDataType.CLOB, this, "「seekConfig」- 访问者配置");
+    /**
+     * The column <code>DB_ETERNAL.S_RESOURCE.SEEK_COMPONENT</code>. 「seekComponent」- 访问者组件
+     */
+    public final TableField<SResourceRecord, String> SEEK_COMPONENT = createField("SEEK_COMPONENT", org.jooq.impl.SQLDataType.VARCHAR(255), this, "「seekComponent」- 访问者组件");
     /**
      * The column <code>DB_ETERNAL.S_RESOURCE.SIGMA</code>. 「sigma」- 统一标识
      */

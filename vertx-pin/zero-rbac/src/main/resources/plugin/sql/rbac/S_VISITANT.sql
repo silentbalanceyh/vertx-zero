@@ -24,16 +24,8 @@ CREATE TABLE IF NOT EXISTS S_VISITANT
      * OP：操作访问者（操作处理）
      **/
     `TYPE`                 VARCHAR(128) COMMENT '「type」- 访问者类型',
-    `STATIC_KEY`           VARCHAR(36)  COMMENT '「staticKey」- 模型下记录对应的ID，一般是配置的ID',
-    `DYNAMIC_ID`           VARCHAR(255) COMMENT '「dynamicId」- 动态类型中的模型ID',
-
-    /*
-     * 此处的 MODEL_KEY 用于表示某个表单，列表的记录集
-     * RELATED_ID 对应 controlId 记录，在处理单个 controlId 记录时启用访问者
-     **/
-    `RELATED_ID`        VARCHAR(255) COMMENT '「relatedId」- 相关模型',
-    `RELATED_RESOURCE`  TEXT COMMENT '「relatedResource」- 相关资源影响集合（主要用于写限制）',
-    `RELATED_CONFIG`    TEXT COMMENT '「relatedConfig」- 相关资源影响配置（主要用于写限制）',
+    `IDENTIFIER`           VARCHAR(255) COMMENT '「identifier」- 动态类型中的模型ID',
+    `CONFIG_KEY`           VARCHAR(36)  COMMENT '「configKey」- 模型下记录对应的ID，一般是配置的ID',
 
     -- 访问者的访问信息
     /*
@@ -70,7 +62,7 @@ CREATE TABLE IF NOT EXISTS S_VISITANT
 
 -- changeset Lang:ox-visitant-2
 ALTER TABLE S_VISITANT
-    ADD UNIQUE (`VIEW_ID`,`TYPE`,`STATIC_KEY`);
+    ADD UNIQUE (`VIEW_ID`,`TYPE`,`CONFIG_KEY`);
 /*
  * 关于唯一性描述
  * 1）读取配置，如表单读取
@@ -89,4 +81,6 @@ ALTER TABLE S_VISITANT
  * -- DYNAMIC_ID：动态类型，映射到 identifier 的模型 ID
  */
 ALTER TABLE S_VISITANT ADD INDEX
-    IDXM_S_VISITANT_VIEW_ID_TYPE_RELATED (`VIEW_ID`,`TYPE`,`RELATED_ID`);
+    IDXM_S_VISITANT_VIEW_ID_TYPE_CONFIG (`VIEW_ID`,`TYPE`,`CONFIG_KEY`);
+ALTER TABLE S_VISITANT ADD INDEX
+    IDXM_S_VISITANT_VIEW_ID_TYPE_IDENTIFIER (`VIEW_ID`,`TYPE`,`IDENTIFIER`);

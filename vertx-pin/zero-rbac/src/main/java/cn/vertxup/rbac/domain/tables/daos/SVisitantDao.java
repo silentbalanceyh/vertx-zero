@@ -84,38 +84,17 @@ public class SVisitantDao extends DAOImpl<SVisitantRecord, cn.vertxup.rbac.domai
     }
 
     /**
-     * Fetch records that have <code>STATIC_KEY IN (values)</code>
+     * Fetch records that have <code>IDENTIFIER IN (values)</code>
      */
-    public List<cn.vertxup.rbac.domain.tables.pojos.SVisitant> fetchByStaticKey(String... values) {
-        return fetch(SVisitant.S_VISITANT.STATIC_KEY, values);
+    public List<cn.vertxup.rbac.domain.tables.pojos.SVisitant> fetchByIdentifier(String... values) {
+        return fetch(SVisitant.S_VISITANT.IDENTIFIER, values);
     }
 
     /**
-     * Fetch records that have <code>DYNAMIC_ID IN (values)</code>
+     * Fetch records that have <code>CONFIG_KEY IN (values)</code>
      */
-    public List<cn.vertxup.rbac.domain.tables.pojos.SVisitant> fetchByDynamicId(String... values) {
-        return fetch(SVisitant.S_VISITANT.DYNAMIC_ID, values);
-    }
-
-    /**
-     * Fetch records that have <code>RELATED_ID IN (values)</code>
-     */
-    public List<cn.vertxup.rbac.domain.tables.pojos.SVisitant> fetchByRelatedId(String... values) {
-        return fetch(SVisitant.S_VISITANT.RELATED_ID, values);
-    }
-
-    /**
-     * Fetch records that have <code>RELATED_RESOURCE IN (values)</code>
-     */
-    public List<cn.vertxup.rbac.domain.tables.pojos.SVisitant> fetchByRelatedResource(String... values) {
-        return fetch(SVisitant.S_VISITANT.RELATED_RESOURCE, values);
-    }
-
-    /**
-     * Fetch records that have <code>RELATED_CONFIG IN (values)</code>
-     */
-    public List<cn.vertxup.rbac.domain.tables.pojos.SVisitant> fetchByRelatedConfig(String... values) {
-        return fetch(SVisitant.S_VISITANT.RELATED_CONFIG, values);
+    public List<cn.vertxup.rbac.domain.tables.pojos.SVisitant> fetchByConfigKey(String... values) {
+        return fetch(SVisitant.S_VISITANT.CONFIG_KEY, values);
     }
 
     /**
@@ -259,38 +238,17 @@ public class SVisitantDao extends DAOImpl<SVisitantRecord, cn.vertxup.rbac.domai
     }
 
     /**
-     * Fetch records that have <code>STATIC_KEY IN (values)</code> asynchronously
+     * Fetch records that have <code>IDENTIFIER IN (values)</code> asynchronously
      */
-    public CompletableFuture<List<cn.vertxup.rbac.domain.tables.pojos.SVisitant>> fetchByStaticKeyAsync(List<String> values) {
-        return fetchAsync(SVisitant.S_VISITANT.STATIC_KEY,values);
+    public CompletableFuture<List<cn.vertxup.rbac.domain.tables.pojos.SVisitant>> fetchByIdentifierAsync(List<String> values) {
+        return fetchAsync(SVisitant.S_VISITANT.IDENTIFIER,values);
     }
 
     /**
-     * Fetch records that have <code>DYNAMIC_ID IN (values)</code> asynchronously
+     * Fetch records that have <code>CONFIG_KEY IN (values)</code> asynchronously
      */
-    public CompletableFuture<List<cn.vertxup.rbac.domain.tables.pojos.SVisitant>> fetchByDynamicIdAsync(List<String> values) {
-        return fetchAsync(SVisitant.S_VISITANT.DYNAMIC_ID,values);
-    }
-
-    /**
-     * Fetch records that have <code>RELATED_ID IN (values)</code> asynchronously
-     */
-    public CompletableFuture<List<cn.vertxup.rbac.domain.tables.pojos.SVisitant>> fetchByRelatedIdAsync(List<String> values) {
-        return fetchAsync(SVisitant.S_VISITANT.RELATED_ID,values);
-    }
-
-    /**
-     * Fetch records that have <code>RELATED_RESOURCE IN (values)</code> asynchronously
-     */
-    public CompletableFuture<List<cn.vertxup.rbac.domain.tables.pojos.SVisitant>> fetchByRelatedResourceAsync(List<String> values) {
-        return fetchAsync(SVisitant.S_VISITANT.RELATED_RESOURCE,values);
-    }
-
-    /**
-     * Fetch records that have <code>RELATED_CONFIG IN (values)</code> asynchronously
-     */
-    public CompletableFuture<List<cn.vertxup.rbac.domain.tables.pojos.SVisitant>> fetchByRelatedConfigAsync(List<String> values) {
-        return fetchAsync(SVisitant.S_VISITANT.RELATED_CONFIG,values);
+    public CompletableFuture<List<cn.vertxup.rbac.domain.tables.pojos.SVisitant>> fetchByConfigKeyAsync(List<String> values) {
+        return fetchAsync(SVisitant.S_VISITANT.CONFIG_KEY,values);
     }
 
     /**

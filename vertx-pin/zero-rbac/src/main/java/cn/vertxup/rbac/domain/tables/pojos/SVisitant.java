@@ -24,16 +24,13 @@ import javax.annotation.Generated;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class SVisitant implements ISVisitant {
 
-    private static final long serialVersionUID = -732526774;
+    private static final long serialVersionUID = -47029816;
 
     private String        key;
     private String        viewId;
     private String        type;
-    private String        staticKey;
-    private String        dynamicId;
-    private String        relatedId;
-    private String        relatedResource;
-    private String        relatedConfig;
+    private String        identifier;
+    private String        configKey;
     private String        aclVisible;
     private String        aclView;
     private String        aclVariety;
@@ -57,11 +54,8 @@ public class SVisitant implements ISVisitant {
         this.key = value.key;
         this.viewId = value.viewId;
         this.type = value.type;
-        this.staticKey = value.staticKey;
-        this.dynamicId = value.dynamicId;
-        this.relatedId = value.relatedId;
-        this.relatedResource = value.relatedResource;
-        this.relatedConfig = value.relatedConfig;
+        this.identifier = value.identifier;
+        this.configKey = value.configKey;
         this.aclVisible = value.aclVisible;
         this.aclView = value.aclView;
         this.aclVariety = value.aclVariety;
@@ -84,11 +78,8 @@ public class SVisitant implements ISVisitant {
         String        key,
         String        viewId,
         String        type,
-        String        staticKey,
-        String        dynamicId,
-        String        relatedId,
-        String        relatedResource,
-        String        relatedConfig,
+        String        identifier,
+        String        configKey,
         String        aclVisible,
         String        aclView,
         String        aclVariety,
@@ -109,11 +100,8 @@ public class SVisitant implements ISVisitant {
         this.key = key;
         this.viewId = viewId;
         this.type = type;
-        this.staticKey = staticKey;
-        this.dynamicId = dynamicId;
-        this.relatedId = relatedId;
-        this.relatedResource = relatedResource;
-        this.relatedConfig = relatedConfig;
+        this.identifier = identifier;
+        this.configKey = configKey;
         this.aclVisible = aclVisible;
         this.aclView = aclView;
         this.aclVariety = aclVariety;
@@ -166,57 +154,24 @@ public class SVisitant implements ISVisitant {
     }
 
     @Override
-    public String getStaticKey() {
-        return this.staticKey;
+    public String getIdentifier() {
+        return this.identifier;
     }
 
     @Override
-    public SVisitant setStaticKey(String staticKey) {
-        this.staticKey = staticKey;
+    public SVisitant setIdentifier(String identifier) {
+        this.identifier = identifier;
         return this;
     }
 
     @Override
-    public String getDynamicId() {
-        return this.dynamicId;
+    public String getConfigKey() {
+        return this.configKey;
     }
 
     @Override
-    public SVisitant setDynamicId(String dynamicId) {
-        this.dynamicId = dynamicId;
-        return this;
-    }
-
-    @Override
-    public String getRelatedId() {
-        return this.relatedId;
-    }
-
-    @Override
-    public SVisitant setRelatedId(String relatedId) {
-        this.relatedId = relatedId;
-        return this;
-    }
-
-    @Override
-    public String getRelatedResource() {
-        return this.relatedResource;
-    }
-
-    @Override
-    public SVisitant setRelatedResource(String relatedResource) {
-        this.relatedResource = relatedResource;
-        return this;
-    }
-
-    @Override
-    public String getRelatedConfig() {
-        return this.relatedConfig;
-    }
-
-    @Override
-    public SVisitant setRelatedConfig(String relatedConfig) {
-        this.relatedConfig = relatedConfig;
+    public SVisitant setConfigKey(String configKey) {
+        this.configKey = configKey;
         return this;
     }
 
@@ -403,11 +358,8 @@ public class SVisitant implements ISVisitant {
         sb.append(key);
         sb.append(", ").append(viewId);
         sb.append(", ").append(type);
-        sb.append(", ").append(staticKey);
-        sb.append(", ").append(dynamicId);
-        sb.append(", ").append(relatedId);
-        sb.append(", ").append(relatedResource);
-        sb.append(", ").append(relatedConfig);
+        sb.append(", ").append(identifier);
+        sb.append(", ").append(configKey);
         sb.append(", ").append(aclVisible);
         sb.append(", ").append(aclView);
         sb.append(", ").append(aclVariety);
@@ -441,11 +393,8 @@ public class SVisitant implements ISVisitant {
         setKey(from.getKey());
         setViewId(from.getViewId());
         setType(from.getType());
-        setStaticKey(from.getStaticKey());
-        setDynamicId(from.getDynamicId());
-        setRelatedId(from.getRelatedId());
-        setRelatedResource(from.getRelatedResource());
-        setRelatedConfig(from.getRelatedConfig());
+        setIdentifier(from.getIdentifier());
+        setConfigKey(from.getConfigKey());
         setAclVisible(from.getAclVisible());
         setAclView(from.getAclView());
         setAclVariety(from.getAclVariety());
