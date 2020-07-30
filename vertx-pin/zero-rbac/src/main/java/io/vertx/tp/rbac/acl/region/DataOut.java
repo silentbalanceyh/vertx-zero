@@ -8,6 +8,7 @@ import io.vertx.tp.rbac.cv.em.RegionType;
 import io.vertx.tp.rbac.refine.Sc;
 import io.vertx.up.atom.query.Inquiry;
 import io.vertx.up.commune.Envelop;
+import io.vertx.up.commune.secure.Acl;
 import io.vertx.up.eon.Values;
 import io.vertx.up.log.Annal;
 import io.vertx.up.util.Ut;
@@ -28,12 +29,20 @@ class DataOut {
      */
     @SuppressWarnings("all")
     static void dwarfRecord(final Envelop envelop, final JsonObject matrix) {
-        final JsonArray projection = matrix.getJsonArray(Inquiry.KEY_PROJECTION);
+        final Acl acl = envelop.acl();
+        final JsonArray projection = Sc.aclProjection(matrix.getJsonArray(Inquiry.KEY_PROJECTION), acl);
         dwarfUniform(envelop, projection, new HashSet<RegionType>() {
             {
                 this.add(RegionType.RECORD);
             }
-        }, (responseJson, type) -> DataDwarf.create(type).minimize(responseJson, matrix, envelop.acl()));
+        }, (responseJson, type) -> DataDwarf.create(type).minimize(responseJson, matrix, acl));
+
+        if (Objects.nonNull(acl)) {
+            final JsonObject aclData = acl.aclData();
+            if (Ut.notNil(aclData)) {
+                envelop.attach("acl", aclData);
+            }
+        }
     }
 
     /*
@@ -54,7 +63,7 @@ class DataOut {
 
     @SuppressWarnings("all")
     static void dwarfCollection(final Envelop envelop, final JsonObject matrix) {
-        final JsonArray prjection = matrix.getJsonArray(Inquiry.KEY_PROJECTION);
+        final JsonArray prjection = Sc.aclProjection(matrix.getJsonArray(Inquiry.KEY_PROJECTION), envelop.acl());
         dwarfUniform(envelop, prjection, new HashSet<RegionType>() {
             {
                 this.add(RegionType.ARRAY);

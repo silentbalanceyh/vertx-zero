@@ -160,6 +160,12 @@ public class Envelop implements Serializable {
         Rib.set(this.data, field, value, argIndex);
     }
 
+    public void attach(final String field, final Object value) {
+        if (Objects.nonNull(this.data)) {
+            this.data.put(field, value);
+        }
+    }
+
     // ------------------ Below are response Part -------------------
     /* String */
     public String outString() {
