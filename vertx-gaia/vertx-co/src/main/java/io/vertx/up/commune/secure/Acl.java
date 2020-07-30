@@ -1,5 +1,7 @@
 package io.vertx.up.commune.secure;
 
+import io.vertx.core.json.JsonObject;
+
 import java.io.Serializable;
 import java.util.Set;
 
@@ -11,4 +13,9 @@ public interface Acl extends Serializable {
      * projection calculation
      */
     Set<String> projection();
+
+    /*
+     * JsonObject calculation
+     */
+    JsonObject aclData();
 }

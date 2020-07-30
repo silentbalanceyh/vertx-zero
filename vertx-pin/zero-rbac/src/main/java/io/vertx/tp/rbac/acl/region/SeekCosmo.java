@@ -18,14 +18,22 @@ public class SeekCosmo implements Cosmo {
             final Cosmo external = Ut.singleton(component);
             return external.before(request, matrix);
         } else {
-            return DataIn.visitAcl(request, matrix).compose(acl -> {
-                request.acl(acl);
+            if (Ut.isNil(seeker)) {
                 /* Projection Modification */
-                DataIn.visitProjection(request, matrix, acl);
+                DataIn.visitProjection(request, matrix, null);
                 /* Criteria Modification */
                 DataIn.visitCriteria(request, matrix);
                 return Ux.future(request);
-            });
+            } else {
+                return DataIn.visitAcl(request, matrix).compose(acl -> {
+                    request.acl(acl);
+                    /* Projection Modification */
+                    DataIn.visitProjection(request, matrix, acl);
+                    /* Criteria Modification */
+                    DataIn.visitCriteria(request, matrix);
+                    return Ux.future(request);
+                });
+            }
         }
     }
 

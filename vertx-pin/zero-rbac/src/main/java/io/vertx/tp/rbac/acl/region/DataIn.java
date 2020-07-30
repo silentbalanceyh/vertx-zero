@@ -85,8 +85,12 @@ class DataIn {
                 } else {
                     ret = null;
                 }
-                return Ux.future(ret);
-            }).compose(visitant -> Ux.future(new AclData(visitant)));
+                if (Objects.isNull(ret)) {
+                    return Ux.future();
+                } else {
+                    return Ux.future(new AclData(ret));
+                }
+            });
         } else return Ux.future();
     }
 }

@@ -7,6 +7,7 @@ import io.vertx.up.commune.secure.Acl;
 import io.vertx.up.commune.secure.AclView;
 import io.vertx.up.util.Ut;
 
+import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
@@ -44,29 +45,31 @@ public class AclData implements Acl {
             new ConcurrentHashMap<>();
 
     public AclData(final SVisitant visitant) {
-        /*
-         * Depend processing
-         */
-        Ut.<JsonObject>itJObject(Ut.toJObject(visitant.getAclVerge()),
-                (config, field) -> this.dependMap.put(field, config));
-        /*
-         * Visible processing
-         */
-        final Set<String> visibleSet = Ut.toSet(Ut.toJArray(visitant.getAclVisible()));
-        final Set<String> viewSet = Ut.toSet(Ut.toJArray(visitant.getAclView()));
-        visibleSet.forEach(field -> {
-            final boolean view = viewSet.contains(field);
-            final AclView simple = new AclItem(field, view, true);
-            simple.depend(this.dependMap.containsKey(field));
-            this.commonMap.put(field, simple);
-        });
-        /*
-         * variety json
-         */
-        final JsonObject varietyJson = Ut.toJObject(visitant.getAclVariety());
-        this.initComplex(varietyJson, AclType.DATA, viewSet);
-        final JsonObject vowJson = Ut.toJObject(visitant.getAclVow());
-        this.initComplex(vowJson, AclType.REFERENCE, viewSet);
+        if (Objects.nonNull(visitant)) {
+            /*
+             * Depend processing
+             */
+            Ut.<JsonObject>itJObject(Ut.toJObject(visitant.getAclVerge()),
+                    (config, field) -> this.dependMap.put(field, config));
+            /*
+             * Visible processing
+             */
+            final Set<String> visibleSet = Ut.toSet(Ut.toJArray(visitant.getAclVisible()));
+            final Set<String> viewSet = Ut.toSet(Ut.toJArray(visitant.getAclView()));
+            visibleSet.forEach(field -> {
+                final boolean view = viewSet.contains(field);
+                final AclView simple = new AclItem(field, view, true);
+                simple.depend(this.dependMap.containsKey(field));
+                this.commonMap.put(field, simple);
+            });
+            /*
+             * variety json
+             */
+            final JsonObject varietyJson = Ut.toJObject(visitant.getAclVariety());
+            this.initComplex(varietyJson, AclType.DATA, viewSet);
+            final JsonObject vowJson = Ut.toJObject(visitant.getAclVow());
+            this.initComplex(vowJson, AclType.REFERENCE, viewSet);
+        }
     }
 
     private void initComplex(final JsonObject input, final AclType type, final Set<String> viewSet) {
@@ -82,5 +85,10 @@ public class AclData implements Acl {
     @Override
     public Set<String> projection() {
         return this.commonMap.keySet();
+    }
+
+    @Override
+    public JsonObject aclData() {
+        return new JsonObject().put("acl", "test");
     }
 }
