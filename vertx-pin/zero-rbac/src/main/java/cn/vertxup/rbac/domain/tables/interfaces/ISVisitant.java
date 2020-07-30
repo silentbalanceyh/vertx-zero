@@ -34,16 +34,6 @@ public interface ISVisitant extends Serializable {
     public String getKey();
 
     /**
-     * Setter for <code>DB_ETERNAL.S_VISITANT.CODE</code>. 「code」- 访问者系统编码
-     */
-    public ISVisitant setCode(String value);
-
-    /**
-     * Getter for <code>DB_ETERNAL.S_VISITANT.CODE</code>. 「code」- 访问者系统编码
-     */
-    public String getCode();
-
-    /**
      * Setter for <code>DB_ETERNAL.S_VISITANT.VIEW_ID</code>. 「viewId」- 视图访问者的读ID
      */
     public ISVisitant setViewId(String value);
@@ -64,84 +54,134 @@ public interface ISVisitant extends Serializable {
     public String getType();
 
     /**
-     * Setter for <code>DB_ETERNAL.S_VISITANT.MODEL_KEY</code>. 「modelKey」- 模型下记录对应的ID
+     * Setter for <code>DB_ETERNAL.S_VISITANT.STATIC_KEY</code>. 「staticKey」- 模型下记录对应的ID，一般是配置的ID
      */
-    public ISVisitant setModelKey(String value);
+    public ISVisitant setStaticKey(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.S_VISITANT.MODEL_KEY</code>. 「modelKey」- 模型下记录对应的ID
+     * Getter for <code>DB_ETERNAL.S_VISITANT.STATIC_KEY</code>. 「staticKey」- 模型下记录对应的ID，一般是配置的ID
      */
-    public String getModelKey();
+    public String getStaticKey();
 
     /**
-     * Setter for <code>DB_ETERNAL.S_VISITANT.MODEL_ID</code>. 「modelId」- 模型对应的 identifier 
+     * Setter for <code>DB_ETERNAL.S_VISITANT.DYNAMIC_ID</code>. 「dynamicId」- 动态类型中的模型ID
      */
-    public ISVisitant setModelId(String value);
+    public ISVisitant setDynamicId(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.S_VISITANT.MODEL_ID</code>. 「modelId」- 模型对应的 identifier 
+     * Getter for <code>DB_ETERNAL.S_VISITANT.DYNAMIC_ID</code>. 「dynamicId」- 动态类型中的模型ID
      */
-    public String getModelId();
+    public String getDynamicId();
 
     /**
-     * Setter for <code>DB_ETERNAL.S_VISITANT.ATTR_VISIBLE</code>. 「attrVisible」- 可见的属性集
+     * Setter for <code>DB_ETERNAL.S_VISITANT.RELATED_ID</code>. 「relatedId」- 相关模型
      */
-    public ISVisitant setAttrVisible(String value);
+    public ISVisitant setRelatedId(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.S_VISITANT.ATTR_VISIBLE</code>. 「attrVisible」- 可见的属性集
+     * Getter for <code>DB_ETERNAL.S_VISITANT.RELATED_ID</code>. 「relatedId」- 相关模型
      */
-    public String getAttrVisible();
+    public String getRelatedId();
 
     /**
-     * Setter for <code>DB_ETERNAL.S_VISITANT.ATTR_VIEW</code>. 「attrView」- 只读的属性集
+     * Setter for <code>DB_ETERNAL.S_VISITANT.RELATED_RESOURCE</code>. 「relatedResource」- 相关资源影响集合（主要用于写限制）
      */
-    public ISVisitant setAttrView(String value);
+    public ISVisitant setRelatedResource(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.S_VISITANT.ATTR_VIEW</code>. 「attrView」- 只读的属性集
+     * Getter for <code>DB_ETERNAL.S_VISITANT.RELATED_RESOURCE</code>. 「relatedResource」- 相关资源影响集合（主要用于写限制）
      */
-    public String getAttrView();
+    public String getRelatedResource();
 
     /**
-     * Setter for <code>DB_ETERNAL.S_VISITANT.ATTR_VARIETY</code>. 「attrVariety」- 多样性的属性集，用于控制集合类型的属性
+     * Setter for <code>DB_ETERNAL.S_VISITANT.RELATED_CONFIG</code>. 「relatedConfig」- 相关资源影响配置（主要用于写限制）
      */
-    public ISVisitant setAttrVariety(String value);
+    public ISVisitant setRelatedConfig(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.S_VISITANT.ATTR_VARIETY</code>. 「attrVariety」- 多样性的属性集，用于控制集合类型的属性
+     * Getter for <code>DB_ETERNAL.S_VISITANT.RELATED_CONFIG</code>. 「relatedConfig」- 相关资源影响配置（主要用于写限制）
      */
-    public String getAttrVariety();
+    public String getRelatedConfig();
 
     /**
-     * Setter for <code>DB_ETERNAL.S_VISITANT.ATTR_VARIETY_CONFIG</code>. 「attrVarietyConfig」- 多样性的属性集相关配置
+     * Setter for <code>DB_ETERNAL.S_VISITANT.ACL_VISIBLE</code>. 「aclVisible」- 可见的属性集
      */
-    public ISVisitant setAttrVarietyConfig(String value);
+    public ISVisitant setAclVisible(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.S_VISITANT.ATTR_VARIETY_CONFIG</code>. 「attrVarietyConfig」- 多样性的属性集相关配置
+     * Getter for <code>DB_ETERNAL.S_VISITANT.ACL_VISIBLE</code>. 「aclVisible」- 可见的属性集
      */
-    public String getAttrVarietyConfig();
+    public String getAclVisible();
 
     /**
-     * Setter for <code>DB_ETERNAL.S_VISITANT.ATTR_VOW</code>. 「attrVow」- 引用类属性集
+     * Setter for <code>DB_ETERNAL.S_VISITANT.ACL_VIEW</code>. 「aclView」- 只读的属性集
      */
-    public ISVisitant setAttrVow(String value);
+    public ISVisitant setAclView(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.S_VISITANT.ATTR_VOW</code>. 「attrVow」- 引用类属性集
+     * Getter for <code>DB_ETERNAL.S_VISITANT.ACL_VIEW</code>. 「aclView」- 只读的属性集
      */
-    public String getAttrVow();
+    public String getAclView();
 
     /**
-     * Setter for <code>DB_ETERNAL.S_VISITANT.ATTR_VOW_CONFIG</code>. 「attrVowConfig」- 引用类属性集相关配置
+     * Setter for <code>DB_ETERNAL.S_VISITANT.ACL_VARIETY</code>. 「aclVariety」- 多样性的属性集，用于控制集合类型的属性
      */
-    public ISVisitant setAttrVowConfig(String value);
+    public ISVisitant setAclVariety(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.S_VISITANT.ATTR_VOW_CONFIG</code>. 「attrVowConfig」- 引用类属性集相关配置
+     * Getter for <code>DB_ETERNAL.S_VISITANT.ACL_VARIETY</code>. 「aclVariety」- 多样性的属性集，用于控制集合类型的属性
      */
-    public String getAttrVowConfig();
+    public String getAclVariety();
+
+    /**
+     * Setter for <code>DB_ETERNAL.S_VISITANT.ACL_VARIETY_CONFIG</code>. 「aclVarietyConfig」- 多样性的属性集相关配置
+     */
+    public ISVisitant setAclVarietyConfig(String value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.S_VISITANT.ACL_VARIETY_CONFIG</code>. 「aclVarietyConfig」- 多样性的属性集相关配置
+     */
+    public String getAclVarietyConfig();
+
+    /**
+     * Setter for <code>DB_ETERNAL.S_VISITANT.ACL_VOW</code>. 「aclVow」- 引用类属性集
+     */
+    public ISVisitant setAclVow(String value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.S_VISITANT.ACL_VOW</code>. 「aclVow」- 引用类属性集
+     */
+    public String getAclVow();
+
+    /**
+     * Setter for <code>DB_ETERNAL.S_VISITANT.ACL_VOW_CONFIG</code>. 「aclVowConfig」- 引用类属性集相关配置
+     */
+    public ISVisitant setAclVowConfig(String value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.S_VISITANT.ACL_VOW_CONFIG</code>. 「aclVowConfig」- 引用类属性集相关配置
+     */
+    public String getAclVowConfig();
+
+    /**
+     * Setter for <code>DB_ETERNAL.S_VISITANT.ACL_DEPEND</code>. 「aclDepend」- 依赖属性集
+     */
+    public ISVisitant setAclDepend(String value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.S_VISITANT.ACL_DEPEND</code>. 「aclDepend」- 依赖属性集
+     */
+    public String getAclDepend();
+
+    /**
+     * Setter for <code>DB_ETERNAL.S_VISITANT.ACL_DEPEND_CONFIG</code>. 「aclDependConfig」- 依赖属性集配置
+     */
+    public ISVisitant setAclDependConfig(String value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.S_VISITANT.ACL_DEPEND_CONFIG</code>. 「aclDependConfig」- 依赖属性集配置
+     */
+    public String getAclDependConfig();
 
     /**
      * Setter for <code>DB_ETERNAL.S_VISITANT.SIGMA</code>. 「sigma」- 用户组绑定的统一标识
@@ -239,17 +279,21 @@ public interface ISVisitant extends Serializable {
 
     default ISVisitant fromJson(io.vertx.core.json.JsonObject json) {
         setKey(json.getString("KEY"));
-        setCode(json.getString("CODE"));
         setViewId(json.getString("VIEW_ID"));
         setType(json.getString("TYPE"));
-        setModelKey(json.getString("MODEL_KEY"));
-        setModelId(json.getString("MODEL_ID"));
-        setAttrVisible(json.getString("ATTR_VISIBLE"));
-        setAttrView(json.getString("ATTR_VIEW"));
-        setAttrVariety(json.getString("ATTR_VARIETY"));
-        setAttrVarietyConfig(json.getString("ATTR_VARIETY_CONFIG"));
-        setAttrVow(json.getString("ATTR_VOW"));
-        setAttrVowConfig(json.getString("ATTR_VOW_CONFIG"));
+        setStaticKey(json.getString("STATIC_KEY"));
+        setDynamicId(json.getString("DYNAMIC_ID"));
+        setRelatedId(json.getString("RELATED_ID"));
+        setRelatedResource(json.getString("RELATED_RESOURCE"));
+        setRelatedConfig(json.getString("RELATED_CONFIG"));
+        setAclVisible(json.getString("ACL_VISIBLE"));
+        setAclView(json.getString("ACL_VIEW"));
+        setAclVariety(json.getString("ACL_VARIETY"));
+        setAclVarietyConfig(json.getString("ACL_VARIETY_CONFIG"));
+        setAclVow(json.getString("ACL_VOW"));
+        setAclVowConfig(json.getString("ACL_VOW_CONFIG"));
+        setAclDepend(json.getString("ACL_DEPEND"));
+        setAclDependConfig(json.getString("ACL_DEPEND_CONFIG"));
         setSigma(json.getString("SIGMA"));
         setLanguage(json.getString("LANGUAGE"));
         setActive(json.getBoolean("ACTIVE"));
@@ -265,17 +309,21 @@ public interface ISVisitant extends Serializable {
     default io.vertx.core.json.JsonObject toJson() {
         io.vertx.core.json.JsonObject json = new io.vertx.core.json.JsonObject();
         json.put("KEY",getKey());
-        json.put("CODE",getCode());
         json.put("VIEW_ID",getViewId());
         json.put("TYPE",getType());
-        json.put("MODEL_KEY",getModelKey());
-        json.put("MODEL_ID",getModelId());
-        json.put("ATTR_VISIBLE",getAttrVisible());
-        json.put("ATTR_VIEW",getAttrView());
-        json.put("ATTR_VARIETY",getAttrVariety());
-        json.put("ATTR_VARIETY_CONFIG",getAttrVarietyConfig());
-        json.put("ATTR_VOW",getAttrVow());
-        json.put("ATTR_VOW_CONFIG",getAttrVowConfig());
+        json.put("STATIC_KEY",getStaticKey());
+        json.put("DYNAMIC_ID",getDynamicId());
+        json.put("RELATED_ID",getRelatedId());
+        json.put("RELATED_RESOURCE",getRelatedResource());
+        json.put("RELATED_CONFIG",getRelatedConfig());
+        json.put("ACL_VISIBLE",getAclVisible());
+        json.put("ACL_VIEW",getAclView());
+        json.put("ACL_VARIETY",getAclVariety());
+        json.put("ACL_VARIETY_CONFIG",getAclVarietyConfig());
+        json.put("ACL_VOW",getAclVow());
+        json.put("ACL_VOW_CONFIG",getAclVowConfig());
+        json.put("ACL_DEPEND",getAclDepend());
+        json.put("ACL_DEPEND_CONFIG",getAclDependConfig());
         json.put("SIGMA",getSigma());
         json.put("LANGUAGE",getLanguage());
         json.put("ACTIVE",getActive());

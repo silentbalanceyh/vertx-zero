@@ -24,20 +24,24 @@ import javax.annotation.Generated;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class SVisitant implements ISVisitant {
 
-    private static final long serialVersionUID = 936791188;
+    private static final long serialVersionUID = -732526774;
 
     private String        key;
-    private String        code;
     private String        viewId;
     private String        type;
-    private String        modelKey;
-    private String        modelId;
-    private String        attrVisible;
-    private String        attrView;
-    private String        attrVariety;
-    private String        attrVarietyConfig;
-    private String        attrVow;
-    private String        attrVowConfig;
+    private String        staticKey;
+    private String        dynamicId;
+    private String        relatedId;
+    private String        relatedResource;
+    private String        relatedConfig;
+    private String        aclVisible;
+    private String        aclView;
+    private String        aclVariety;
+    private String        aclVarietyConfig;
+    private String        aclVow;
+    private String        aclVowConfig;
+    private String        aclDepend;
+    private String        aclDependConfig;
     private String        sigma;
     private String        language;
     private Boolean       active;
@@ -51,17 +55,21 @@ public class SVisitant implements ISVisitant {
 
     public SVisitant(SVisitant value) {
         this.key = value.key;
-        this.code = value.code;
         this.viewId = value.viewId;
         this.type = value.type;
-        this.modelKey = value.modelKey;
-        this.modelId = value.modelId;
-        this.attrVisible = value.attrVisible;
-        this.attrView = value.attrView;
-        this.attrVariety = value.attrVariety;
-        this.attrVarietyConfig = value.attrVarietyConfig;
-        this.attrVow = value.attrVow;
-        this.attrVowConfig = value.attrVowConfig;
+        this.staticKey = value.staticKey;
+        this.dynamicId = value.dynamicId;
+        this.relatedId = value.relatedId;
+        this.relatedResource = value.relatedResource;
+        this.relatedConfig = value.relatedConfig;
+        this.aclVisible = value.aclVisible;
+        this.aclView = value.aclView;
+        this.aclVariety = value.aclVariety;
+        this.aclVarietyConfig = value.aclVarietyConfig;
+        this.aclVow = value.aclVow;
+        this.aclVowConfig = value.aclVowConfig;
+        this.aclDepend = value.aclDepend;
+        this.aclDependConfig = value.aclDependConfig;
         this.sigma = value.sigma;
         this.language = value.language;
         this.active = value.active;
@@ -74,17 +82,21 @@ public class SVisitant implements ISVisitant {
 
     public SVisitant(
         String        key,
-        String        code,
         String        viewId,
         String        type,
-        String        modelKey,
-        String        modelId,
-        String        attrVisible,
-        String        attrView,
-        String        attrVariety,
-        String        attrVarietyConfig,
-        String        attrVow,
-        String        attrVowConfig,
+        String        staticKey,
+        String        dynamicId,
+        String        relatedId,
+        String        relatedResource,
+        String        relatedConfig,
+        String        aclVisible,
+        String        aclView,
+        String        aclVariety,
+        String        aclVarietyConfig,
+        String        aclVow,
+        String        aclVowConfig,
+        String        aclDepend,
+        String        aclDependConfig,
         String        sigma,
         String        language,
         Boolean       active,
@@ -95,17 +107,21 @@ public class SVisitant implements ISVisitant {
         String        updatedBy
     ) {
         this.key = key;
-        this.code = code;
         this.viewId = viewId;
         this.type = type;
-        this.modelKey = modelKey;
-        this.modelId = modelId;
-        this.attrVisible = attrVisible;
-        this.attrView = attrView;
-        this.attrVariety = attrVariety;
-        this.attrVarietyConfig = attrVarietyConfig;
-        this.attrVow = attrVow;
-        this.attrVowConfig = attrVowConfig;
+        this.staticKey = staticKey;
+        this.dynamicId = dynamicId;
+        this.relatedId = relatedId;
+        this.relatedResource = relatedResource;
+        this.relatedConfig = relatedConfig;
+        this.aclVisible = aclVisible;
+        this.aclView = aclView;
+        this.aclVariety = aclVariety;
+        this.aclVarietyConfig = aclVarietyConfig;
+        this.aclVow = aclVow;
+        this.aclVowConfig = aclVowConfig;
+        this.aclDepend = aclDepend;
+        this.aclDependConfig = aclDependConfig;
         this.sigma = sigma;
         this.language = language;
         this.active = active;
@@ -124,17 +140,6 @@ public class SVisitant implements ISVisitant {
     @Override
     public SVisitant setKey(String key) {
         this.key = key;
-        return this;
-    }
-
-    @Override
-    public String getCode() {
-        return this.code;
-    }
-
-    @Override
-    public SVisitant setCode(String code) {
-        this.code = code;
         return this;
     }
 
@@ -161,90 +166,145 @@ public class SVisitant implements ISVisitant {
     }
 
     @Override
-    public String getModelKey() {
-        return this.modelKey;
+    public String getStaticKey() {
+        return this.staticKey;
     }
 
     @Override
-    public SVisitant setModelKey(String modelKey) {
-        this.modelKey = modelKey;
+    public SVisitant setStaticKey(String staticKey) {
+        this.staticKey = staticKey;
         return this;
     }
 
     @Override
-    public String getModelId() {
-        return this.modelId;
+    public String getDynamicId() {
+        return this.dynamicId;
     }
 
     @Override
-    public SVisitant setModelId(String modelId) {
-        this.modelId = modelId;
+    public SVisitant setDynamicId(String dynamicId) {
+        this.dynamicId = dynamicId;
         return this;
     }
 
     @Override
-    public String getAttrVisible() {
-        return this.attrVisible;
+    public String getRelatedId() {
+        return this.relatedId;
     }
 
     @Override
-    public SVisitant setAttrVisible(String attrVisible) {
-        this.attrVisible = attrVisible;
+    public SVisitant setRelatedId(String relatedId) {
+        this.relatedId = relatedId;
         return this;
     }
 
     @Override
-    public String getAttrView() {
-        return this.attrView;
+    public String getRelatedResource() {
+        return this.relatedResource;
     }
 
     @Override
-    public SVisitant setAttrView(String attrView) {
-        this.attrView = attrView;
+    public SVisitant setRelatedResource(String relatedResource) {
+        this.relatedResource = relatedResource;
         return this;
     }
 
     @Override
-    public String getAttrVariety() {
-        return this.attrVariety;
+    public String getRelatedConfig() {
+        return this.relatedConfig;
     }
 
     @Override
-    public SVisitant setAttrVariety(String attrVariety) {
-        this.attrVariety = attrVariety;
+    public SVisitant setRelatedConfig(String relatedConfig) {
+        this.relatedConfig = relatedConfig;
         return this;
     }
 
     @Override
-    public String getAttrVarietyConfig() {
-        return this.attrVarietyConfig;
+    public String getAclVisible() {
+        return this.aclVisible;
     }
 
     @Override
-    public SVisitant setAttrVarietyConfig(String attrVarietyConfig) {
-        this.attrVarietyConfig = attrVarietyConfig;
+    public SVisitant setAclVisible(String aclVisible) {
+        this.aclVisible = aclVisible;
         return this;
     }
 
     @Override
-    public String getAttrVow() {
-        return this.attrVow;
+    public String getAclView() {
+        return this.aclView;
     }
 
     @Override
-    public SVisitant setAttrVow(String attrVow) {
-        this.attrVow = attrVow;
+    public SVisitant setAclView(String aclView) {
+        this.aclView = aclView;
         return this;
     }
 
     @Override
-    public String getAttrVowConfig() {
-        return this.attrVowConfig;
+    public String getAclVariety() {
+        return this.aclVariety;
     }
 
     @Override
-    public SVisitant setAttrVowConfig(String attrVowConfig) {
-        this.attrVowConfig = attrVowConfig;
+    public SVisitant setAclVariety(String aclVariety) {
+        this.aclVariety = aclVariety;
+        return this;
+    }
+
+    @Override
+    public String getAclVarietyConfig() {
+        return this.aclVarietyConfig;
+    }
+
+    @Override
+    public SVisitant setAclVarietyConfig(String aclVarietyConfig) {
+        this.aclVarietyConfig = aclVarietyConfig;
+        return this;
+    }
+
+    @Override
+    public String getAclVow() {
+        return this.aclVow;
+    }
+
+    @Override
+    public SVisitant setAclVow(String aclVow) {
+        this.aclVow = aclVow;
+        return this;
+    }
+
+    @Override
+    public String getAclVowConfig() {
+        return this.aclVowConfig;
+    }
+
+    @Override
+    public SVisitant setAclVowConfig(String aclVowConfig) {
+        this.aclVowConfig = aclVowConfig;
+        return this;
+    }
+
+    @Override
+    public String getAclDepend() {
+        return this.aclDepend;
+    }
+
+    @Override
+    public SVisitant setAclDepend(String aclDepend) {
+        this.aclDepend = aclDepend;
+        return this;
+    }
+
+    @Override
+    public String getAclDependConfig() {
+        return this.aclDependConfig;
+    }
+
+    @Override
+    public SVisitant setAclDependConfig(String aclDependConfig) {
+        this.aclDependConfig = aclDependConfig;
         return this;
     }
 
@@ -341,17 +401,21 @@ public class SVisitant implements ISVisitant {
         StringBuilder sb = new StringBuilder("SVisitant (");
 
         sb.append(key);
-        sb.append(", ").append(code);
         sb.append(", ").append(viewId);
         sb.append(", ").append(type);
-        sb.append(", ").append(modelKey);
-        sb.append(", ").append(modelId);
-        sb.append(", ").append(attrVisible);
-        sb.append(", ").append(attrView);
-        sb.append(", ").append(attrVariety);
-        sb.append(", ").append(attrVarietyConfig);
-        sb.append(", ").append(attrVow);
-        sb.append(", ").append(attrVowConfig);
+        sb.append(", ").append(staticKey);
+        sb.append(", ").append(dynamicId);
+        sb.append(", ").append(relatedId);
+        sb.append(", ").append(relatedResource);
+        sb.append(", ").append(relatedConfig);
+        sb.append(", ").append(aclVisible);
+        sb.append(", ").append(aclView);
+        sb.append(", ").append(aclVariety);
+        sb.append(", ").append(aclVarietyConfig);
+        sb.append(", ").append(aclVow);
+        sb.append(", ").append(aclVowConfig);
+        sb.append(", ").append(aclDepend);
+        sb.append(", ").append(aclDependConfig);
         sb.append(", ").append(sigma);
         sb.append(", ").append(language);
         sb.append(", ").append(active);
@@ -375,17 +439,21 @@ public class SVisitant implements ISVisitant {
     @Override
     public void from(ISVisitant from) {
         setKey(from.getKey());
-        setCode(from.getCode());
         setViewId(from.getViewId());
         setType(from.getType());
-        setModelKey(from.getModelKey());
-        setModelId(from.getModelId());
-        setAttrVisible(from.getAttrVisible());
-        setAttrView(from.getAttrView());
-        setAttrVariety(from.getAttrVariety());
-        setAttrVarietyConfig(from.getAttrVarietyConfig());
-        setAttrVow(from.getAttrVow());
-        setAttrVowConfig(from.getAttrVowConfig());
+        setStaticKey(from.getStaticKey());
+        setDynamicId(from.getDynamicId());
+        setRelatedId(from.getRelatedId());
+        setRelatedResource(from.getRelatedResource());
+        setRelatedConfig(from.getRelatedConfig());
+        setAclVisible(from.getAclVisible());
+        setAclView(from.getAclView());
+        setAclVariety(from.getAclVariety());
+        setAclVarietyConfig(from.getAclVarietyConfig());
+        setAclVow(from.getAclVow());
+        setAclVowConfig(from.getAclVowConfig());
+        setAclDepend(from.getAclDepend());
+        setAclDependConfig(from.getAclDependConfig());
         setSigma(from.getSigma());
         setLanguage(from.getLanguage());
         setActive(from.getActive());

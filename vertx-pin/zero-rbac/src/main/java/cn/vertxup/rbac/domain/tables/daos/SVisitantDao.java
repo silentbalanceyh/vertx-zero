@@ -70,13 +70,6 @@ public class SVisitantDao extends DAOImpl<SVisitantRecord, cn.vertxup.rbac.domai
     }
 
     /**
-     * Fetch records that have <code>CODE IN (values)</code>
-     */
-    public List<cn.vertxup.rbac.domain.tables.pojos.SVisitant> fetchByCode(String... values) {
-        return fetch(SVisitant.S_VISITANT.CODE, values);
-    }
-
-    /**
      * Fetch records that have <code>VIEW_ID IN (values)</code>
      */
     public List<cn.vertxup.rbac.domain.tables.pojos.SVisitant> fetchByViewId(String... values) {
@@ -91,59 +84,94 @@ public class SVisitantDao extends DAOImpl<SVisitantRecord, cn.vertxup.rbac.domai
     }
 
     /**
-     * Fetch records that have <code>MODEL_KEY IN (values)</code>
+     * Fetch records that have <code>STATIC_KEY IN (values)</code>
      */
-    public List<cn.vertxup.rbac.domain.tables.pojos.SVisitant> fetchByModelKey(String... values) {
-        return fetch(SVisitant.S_VISITANT.MODEL_KEY, values);
+    public List<cn.vertxup.rbac.domain.tables.pojos.SVisitant> fetchByStaticKey(String... values) {
+        return fetch(SVisitant.S_VISITANT.STATIC_KEY, values);
     }
 
     /**
-     * Fetch records that have <code>MODEL_ID IN (values)</code>
+     * Fetch records that have <code>DYNAMIC_ID IN (values)</code>
      */
-    public List<cn.vertxup.rbac.domain.tables.pojos.SVisitant> fetchByModelId(String... values) {
-        return fetch(SVisitant.S_VISITANT.MODEL_ID, values);
+    public List<cn.vertxup.rbac.domain.tables.pojos.SVisitant> fetchByDynamicId(String... values) {
+        return fetch(SVisitant.S_VISITANT.DYNAMIC_ID, values);
     }
 
     /**
-     * Fetch records that have <code>ATTR_VISIBLE IN (values)</code>
+     * Fetch records that have <code>RELATED_ID IN (values)</code>
      */
-    public List<cn.vertxup.rbac.domain.tables.pojos.SVisitant> fetchByAttrVisible(String... values) {
-        return fetch(SVisitant.S_VISITANT.ATTR_VISIBLE, values);
+    public List<cn.vertxup.rbac.domain.tables.pojos.SVisitant> fetchByRelatedId(String... values) {
+        return fetch(SVisitant.S_VISITANT.RELATED_ID, values);
     }
 
     /**
-     * Fetch records that have <code>ATTR_VIEW IN (values)</code>
+     * Fetch records that have <code>RELATED_RESOURCE IN (values)</code>
      */
-    public List<cn.vertxup.rbac.domain.tables.pojos.SVisitant> fetchByAttrView(String... values) {
-        return fetch(SVisitant.S_VISITANT.ATTR_VIEW, values);
+    public List<cn.vertxup.rbac.domain.tables.pojos.SVisitant> fetchByRelatedResource(String... values) {
+        return fetch(SVisitant.S_VISITANT.RELATED_RESOURCE, values);
     }
 
     /**
-     * Fetch records that have <code>ATTR_VARIETY IN (values)</code>
+     * Fetch records that have <code>RELATED_CONFIG IN (values)</code>
      */
-    public List<cn.vertxup.rbac.domain.tables.pojos.SVisitant> fetchByAttrVariety(String... values) {
-        return fetch(SVisitant.S_VISITANT.ATTR_VARIETY, values);
+    public List<cn.vertxup.rbac.domain.tables.pojos.SVisitant> fetchByRelatedConfig(String... values) {
+        return fetch(SVisitant.S_VISITANT.RELATED_CONFIG, values);
     }
 
     /**
-     * Fetch records that have <code>ATTR_VARIETY_CONFIG IN (values)</code>
+     * Fetch records that have <code>ACL_VISIBLE IN (values)</code>
      */
-    public List<cn.vertxup.rbac.domain.tables.pojos.SVisitant> fetchByAttrVarietyConfig(String... values) {
-        return fetch(SVisitant.S_VISITANT.ATTR_VARIETY_CONFIG, values);
+    public List<cn.vertxup.rbac.domain.tables.pojos.SVisitant> fetchByAclVisible(String... values) {
+        return fetch(SVisitant.S_VISITANT.ACL_VISIBLE, values);
     }
 
     /**
-     * Fetch records that have <code>ATTR_VOW IN (values)</code>
+     * Fetch records that have <code>ACL_VIEW IN (values)</code>
      */
-    public List<cn.vertxup.rbac.domain.tables.pojos.SVisitant> fetchByAttrVow(String... values) {
-        return fetch(SVisitant.S_VISITANT.ATTR_VOW, values);
+    public List<cn.vertxup.rbac.domain.tables.pojos.SVisitant> fetchByAclView(String... values) {
+        return fetch(SVisitant.S_VISITANT.ACL_VIEW, values);
     }
 
     /**
-     * Fetch records that have <code>ATTR_VOW_CONFIG IN (values)</code>
+     * Fetch records that have <code>ACL_VARIETY IN (values)</code>
      */
-    public List<cn.vertxup.rbac.domain.tables.pojos.SVisitant> fetchByAttrVowConfig(String... values) {
-        return fetch(SVisitant.S_VISITANT.ATTR_VOW_CONFIG, values);
+    public List<cn.vertxup.rbac.domain.tables.pojos.SVisitant> fetchByAclVariety(String... values) {
+        return fetch(SVisitant.S_VISITANT.ACL_VARIETY, values);
+    }
+
+    /**
+     * Fetch records that have <code>ACL_VARIETY_CONFIG IN (values)</code>
+     */
+    public List<cn.vertxup.rbac.domain.tables.pojos.SVisitant> fetchByAclVarietyConfig(String... values) {
+        return fetch(SVisitant.S_VISITANT.ACL_VARIETY_CONFIG, values);
+    }
+
+    /**
+     * Fetch records that have <code>ACL_VOW IN (values)</code>
+     */
+    public List<cn.vertxup.rbac.domain.tables.pojos.SVisitant> fetchByAclVow(String... values) {
+        return fetch(SVisitant.S_VISITANT.ACL_VOW, values);
+    }
+
+    /**
+     * Fetch records that have <code>ACL_VOW_CONFIG IN (values)</code>
+     */
+    public List<cn.vertxup.rbac.domain.tables.pojos.SVisitant> fetchByAclVowConfig(String... values) {
+        return fetch(SVisitant.S_VISITANT.ACL_VOW_CONFIG, values);
+    }
+
+    /**
+     * Fetch records that have <code>ACL_DEPEND IN (values)</code>
+     */
+    public List<cn.vertxup.rbac.domain.tables.pojos.SVisitant> fetchByAclDepend(String... values) {
+        return fetch(SVisitant.S_VISITANT.ACL_DEPEND, values);
+    }
+
+    /**
+     * Fetch records that have <code>ACL_DEPEND_CONFIG IN (values)</code>
+     */
+    public List<cn.vertxup.rbac.domain.tables.pojos.SVisitant> fetchByAclDependConfig(String... values) {
+        return fetch(SVisitant.S_VISITANT.ACL_DEPEND_CONFIG, values);
     }
 
     /**
@@ -217,13 +245,6 @@ public class SVisitantDao extends DAOImpl<SVisitantRecord, cn.vertxup.rbac.domai
     }
 
     /**
-     * Fetch records that have <code>CODE IN (values)</code> asynchronously
-     */
-    public CompletableFuture<List<cn.vertxup.rbac.domain.tables.pojos.SVisitant>> fetchByCodeAsync(List<String> values) {
-        return fetchAsync(SVisitant.S_VISITANT.CODE,values);
-    }
-
-    /**
      * Fetch records that have <code>VIEW_ID IN (values)</code> asynchronously
      */
     public CompletableFuture<List<cn.vertxup.rbac.domain.tables.pojos.SVisitant>> fetchByViewIdAsync(List<String> values) {
@@ -238,59 +259,94 @@ public class SVisitantDao extends DAOImpl<SVisitantRecord, cn.vertxup.rbac.domai
     }
 
     /**
-     * Fetch records that have <code>MODEL_KEY IN (values)</code> asynchronously
+     * Fetch records that have <code>STATIC_KEY IN (values)</code> asynchronously
      */
-    public CompletableFuture<List<cn.vertxup.rbac.domain.tables.pojos.SVisitant>> fetchByModelKeyAsync(List<String> values) {
-        return fetchAsync(SVisitant.S_VISITANT.MODEL_KEY,values);
+    public CompletableFuture<List<cn.vertxup.rbac.domain.tables.pojos.SVisitant>> fetchByStaticKeyAsync(List<String> values) {
+        return fetchAsync(SVisitant.S_VISITANT.STATIC_KEY,values);
     }
 
     /**
-     * Fetch records that have <code>MODEL_ID IN (values)</code> asynchronously
+     * Fetch records that have <code>DYNAMIC_ID IN (values)</code> asynchronously
      */
-    public CompletableFuture<List<cn.vertxup.rbac.domain.tables.pojos.SVisitant>> fetchByModelIdAsync(List<String> values) {
-        return fetchAsync(SVisitant.S_VISITANT.MODEL_ID,values);
+    public CompletableFuture<List<cn.vertxup.rbac.domain.tables.pojos.SVisitant>> fetchByDynamicIdAsync(List<String> values) {
+        return fetchAsync(SVisitant.S_VISITANT.DYNAMIC_ID,values);
     }
 
     /**
-     * Fetch records that have <code>ATTR_VISIBLE IN (values)</code> asynchronously
+     * Fetch records that have <code>RELATED_ID IN (values)</code> asynchronously
      */
-    public CompletableFuture<List<cn.vertxup.rbac.domain.tables.pojos.SVisitant>> fetchByAttrVisibleAsync(List<String> values) {
-        return fetchAsync(SVisitant.S_VISITANT.ATTR_VISIBLE,values);
+    public CompletableFuture<List<cn.vertxup.rbac.domain.tables.pojos.SVisitant>> fetchByRelatedIdAsync(List<String> values) {
+        return fetchAsync(SVisitant.S_VISITANT.RELATED_ID,values);
     }
 
     /**
-     * Fetch records that have <code>ATTR_VIEW IN (values)</code> asynchronously
+     * Fetch records that have <code>RELATED_RESOURCE IN (values)</code> asynchronously
      */
-    public CompletableFuture<List<cn.vertxup.rbac.domain.tables.pojos.SVisitant>> fetchByAttrViewAsync(List<String> values) {
-        return fetchAsync(SVisitant.S_VISITANT.ATTR_VIEW,values);
+    public CompletableFuture<List<cn.vertxup.rbac.domain.tables.pojos.SVisitant>> fetchByRelatedResourceAsync(List<String> values) {
+        return fetchAsync(SVisitant.S_VISITANT.RELATED_RESOURCE,values);
     }
 
     /**
-     * Fetch records that have <code>ATTR_VARIETY IN (values)</code> asynchronously
+     * Fetch records that have <code>RELATED_CONFIG IN (values)</code> asynchronously
      */
-    public CompletableFuture<List<cn.vertxup.rbac.domain.tables.pojos.SVisitant>> fetchByAttrVarietyAsync(List<String> values) {
-        return fetchAsync(SVisitant.S_VISITANT.ATTR_VARIETY,values);
+    public CompletableFuture<List<cn.vertxup.rbac.domain.tables.pojos.SVisitant>> fetchByRelatedConfigAsync(List<String> values) {
+        return fetchAsync(SVisitant.S_VISITANT.RELATED_CONFIG,values);
     }
 
     /**
-     * Fetch records that have <code>ATTR_VARIETY_CONFIG IN (values)</code> asynchronously
+     * Fetch records that have <code>ACL_VISIBLE IN (values)</code> asynchronously
      */
-    public CompletableFuture<List<cn.vertxup.rbac.domain.tables.pojos.SVisitant>> fetchByAttrVarietyConfigAsync(List<String> values) {
-        return fetchAsync(SVisitant.S_VISITANT.ATTR_VARIETY_CONFIG,values);
+    public CompletableFuture<List<cn.vertxup.rbac.domain.tables.pojos.SVisitant>> fetchByAclVisibleAsync(List<String> values) {
+        return fetchAsync(SVisitant.S_VISITANT.ACL_VISIBLE,values);
     }
 
     /**
-     * Fetch records that have <code>ATTR_VOW IN (values)</code> asynchronously
+     * Fetch records that have <code>ACL_VIEW IN (values)</code> asynchronously
      */
-    public CompletableFuture<List<cn.vertxup.rbac.domain.tables.pojos.SVisitant>> fetchByAttrVowAsync(List<String> values) {
-        return fetchAsync(SVisitant.S_VISITANT.ATTR_VOW,values);
+    public CompletableFuture<List<cn.vertxup.rbac.domain.tables.pojos.SVisitant>> fetchByAclViewAsync(List<String> values) {
+        return fetchAsync(SVisitant.S_VISITANT.ACL_VIEW,values);
     }
 
     /**
-     * Fetch records that have <code>ATTR_VOW_CONFIG IN (values)</code> asynchronously
+     * Fetch records that have <code>ACL_VARIETY IN (values)</code> asynchronously
      */
-    public CompletableFuture<List<cn.vertxup.rbac.domain.tables.pojos.SVisitant>> fetchByAttrVowConfigAsync(List<String> values) {
-        return fetchAsync(SVisitant.S_VISITANT.ATTR_VOW_CONFIG,values);
+    public CompletableFuture<List<cn.vertxup.rbac.domain.tables.pojos.SVisitant>> fetchByAclVarietyAsync(List<String> values) {
+        return fetchAsync(SVisitant.S_VISITANT.ACL_VARIETY,values);
+    }
+
+    /**
+     * Fetch records that have <code>ACL_VARIETY_CONFIG IN (values)</code> asynchronously
+     */
+    public CompletableFuture<List<cn.vertxup.rbac.domain.tables.pojos.SVisitant>> fetchByAclVarietyConfigAsync(List<String> values) {
+        return fetchAsync(SVisitant.S_VISITANT.ACL_VARIETY_CONFIG,values);
+    }
+
+    /**
+     * Fetch records that have <code>ACL_VOW IN (values)</code> asynchronously
+     */
+    public CompletableFuture<List<cn.vertxup.rbac.domain.tables.pojos.SVisitant>> fetchByAclVowAsync(List<String> values) {
+        return fetchAsync(SVisitant.S_VISITANT.ACL_VOW,values);
+    }
+
+    /**
+     * Fetch records that have <code>ACL_VOW_CONFIG IN (values)</code> asynchronously
+     */
+    public CompletableFuture<List<cn.vertxup.rbac.domain.tables.pojos.SVisitant>> fetchByAclVowConfigAsync(List<String> values) {
+        return fetchAsync(SVisitant.S_VISITANT.ACL_VOW_CONFIG,values);
+    }
+
+    /**
+     * Fetch records that have <code>ACL_DEPEND IN (values)</code> asynchronously
+     */
+    public CompletableFuture<List<cn.vertxup.rbac.domain.tables.pojos.SVisitant>> fetchByAclDependAsync(List<String> values) {
+        return fetchAsync(SVisitant.S_VISITANT.ACL_DEPEND,values);
+    }
+
+    /**
+     * Fetch records that have <code>ACL_DEPEND_CONFIG IN (values)</code> asynchronously
+     */
+    public CompletableFuture<List<cn.vertxup.rbac.domain.tables.pojos.SVisitant>> fetchByAclDependConfigAsync(List<String> values) {
+        return fetchAsync(SVisitant.S_VISITANT.ACL_DEPEND_CONFIG,values);
     }
 
     /**
