@@ -118,32 +118,37 @@ public class AclData implements Acl {
     @Override
     public JsonObject acl() {
         final JsonObject acl = new JsonObject();
-        if (!this.fields.isEmpty()) {
+        /*
+         * capture access field information
+         */
+        final JsonArray access = new JsonArray();
+        final JsonArray edition = new JsonArray();
+        this.commonMap.forEach((field, aclField) -> {
             /*
-             * capture access field information
+             * access: []
+             * edition: []
              */
-            final JsonArray access = new JsonArray();
-            final JsonArray edition = new JsonArray();
-            this.commonMap.forEach((field, aclField) -> {
-                /*
-                 * access: []
-                 * edition: []
-                 */
-                if (aclField.isAccess()) {
-                    access.add(field);
-                }
-                if (aclField.isEdit()) {
-                    edition.add(field);
-                }
-            });
-            if (Ut.notNil(access)) {
-                acl.put("access", access);
+            if (aclField.isAccess()) {
+                access.add(field);
             }
-            if (Ut.notNil(edition)) {
-                acl.put("edition", edition);
+            if (aclField.isEdit()) {
+                edition.add(field);
             }
-            acl.put("fields", Ut.toJArray(this.fields));
+        });
+        if (Ut.notNil(access)) {
+            acl.put("access", access);
         }
+        if (Ut.notNil(edition)) {
+            acl.put("edition", edition);
+        }
+        /*
+         * access + this.fields
+         * 1) When access > this.fields, it should be edition
+         * 2) Then it's readonly
+         */
+        final JsonArray accessArr = access.copy();
+        accessArr.addAll(Ut.toJArray(this.fields));
+        acl.put("fields", accessArr);
         return acl;
     }
 }
