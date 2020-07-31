@@ -38,8 +38,9 @@ class RadixTool {
     }
 
     static JsonObject toCriteria(final JsonObject inputData, final JsonObject tpl) {
-        final JsonObject normalized = tpl.copy();
-        Ut.itJObject(tpl, (item, field) -> {
+        final JsonObject formatTpl = Ut.sureJObject(tpl);
+        final JsonObject normalized = formatTpl.copy();
+        Ut.itJObject(formatTpl, (item, field) -> {
             if (item instanceof String) {
                 final String literal = item.toString();
                 if (literal.contains("`")) {
