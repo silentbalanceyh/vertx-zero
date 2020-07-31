@@ -42,7 +42,7 @@ public class DataRegion extends AbstractRegion {
                      */
 
                     final HttpMethod method = envelop.getMethod();
-                    if (HttpMethod.POST == method || HttpMethod.PUT == method) {
+                    if (HttpMethod.POST == method || HttpMethod.GET == method) {
                         final Cosmo cosmo = this.cosmo(matrix);
                         return cosmo.before(envelop, matrix);
                     } else {

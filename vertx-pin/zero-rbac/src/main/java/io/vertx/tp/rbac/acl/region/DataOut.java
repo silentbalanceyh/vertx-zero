@@ -36,12 +36,19 @@ class DataOut {
                 this.add(RegionType.RECORD);
             }
         }, (responseJson, type) -> DataDwarf.create(type).minimize(responseJson, matrix, acl));
-
+        /*
+         * Append data of `acl` into description for future usage
+         * This feature is ok when AclPhase = DELAY because the EAGER
+         * will impact our current request response directly.
+         *
+         * But this node should returned all critical data
+         * 1) access, The fields that you could visit
+         * 2) edition, The fields that you could edit
+         * 3) record, The fields of all current record
+         */
         if (Objects.nonNull(acl)) {
             final JsonObject aclData = acl.acl();
-            if (Ut.notNil(aclData)) {
-                envelop.attach("acl", aclData);
-            }
+            envelop.attach("acl", aclData);
         }
     }
 

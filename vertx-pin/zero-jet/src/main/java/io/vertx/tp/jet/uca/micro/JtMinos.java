@@ -66,7 +66,7 @@ public class JtMinos extends AbstractVerticle {
                         /*
                          * 「Callback Life Cycle」
                          * Replying message from service
-                         *
+                         * It could connect with ACL control data
                          */
                         final Envelop replied = replyHandler.result();
                         if (Objects.nonNull(replied.error())) {
