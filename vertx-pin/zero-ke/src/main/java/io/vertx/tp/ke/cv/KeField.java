@@ -5,8 +5,9 @@ public interface KeField {
     String GLOBAL_ID = "globalId";              /* Third part global id of primary key */
 
     String FIELD = "field";                     /* Model definition field */
+    String FORM = "form";                       /* Form */
     String MODEL = "model";                     /* Model definition field */
-    String ENTITY = "entity";                     /* Model definition field */
+    String ENTITY = "entity";                   /* Model definition field */
     String JOINED_KEY = "joinedKey";            /* Model definition for connect model to schema */
     String ENTITY_ID = "entityId";              /* Model definition to stored related Entity Id of Field/Key/Index */
     String NAMESPACE = "namespace";             /* Model definition of Multi-App environment, each application contains only one namespace */

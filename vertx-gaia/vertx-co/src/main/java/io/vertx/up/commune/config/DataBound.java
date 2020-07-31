@@ -36,11 +36,8 @@ public class DataBound implements Serializable {
     private final transient ConcurrentMap<String, Set<String>> rows =
             new ConcurrentHashMap<>();
 
-    /*
-     * Visitant Resource data structure for data bound
-     * The visitant resource must be unique in our environment
-     */
-    private final transient JsonObject view = new JsonObject();
+    private final transient JsonObject seeker = new JsonObject();
+    private final transient JsonObject viewData = new JsonObject();
 
     public JsonObject toJson() {
         final JsonObject json = new JsonObject();
@@ -50,21 +47,22 @@ public class DataBound implements Serializable {
         final JsonObject rows = new JsonObject();
         Ut.itMap(this.rows, (field, rowSet) -> rows.put(field, Ut.toJArray(rowSet)));
         json.put("rows", rows);
+        /* Advanced */
         json.put("credit", credit);
-        /* View */
-        if (Ut.notNil(view)) {
-            json.put("view", view);
+        if (Ut.notNil(this.seeker)) {
+            json.put("seeker", this.seeker);
+            json.put("view", this.viewData);
         }
         return json;
     }
 
-    /*
-     * Add view data into DataBound for visitant usage in future
-     */
+    public DataBound addSeeker(final JsonObject seeker) {
+        this.seeker.mergeIn(seeker);
+        return this;
+    }
+
     public DataBound addView(final JsonObject view) {
-        if (Ut.notNil(view)) {
-            this.view.mergeIn(view);
-        }
+        this.viewData.mergeIn(view);
         return this;
     }
 

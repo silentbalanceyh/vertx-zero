@@ -1,13 +1,14 @@
-package io.vertx.tp.rbac.extension;
+package io.vertx.tp.rbac.acl.region;
 
-import cn.vertxup.rbac.service.dwarf.DataDwarf;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
+import io.vertx.tp.rbac.acl.dwarf.DataDwarf;
 import io.vertx.tp.rbac.cv.AuthMsg;
 import io.vertx.tp.rbac.cv.em.RegionType;
 import io.vertx.tp.rbac.refine.Sc;
 import io.vertx.up.atom.query.Inquiry;
 import io.vertx.up.commune.Envelop;
+import io.vertx.up.commune.secure.Acl;
 import io.vertx.up.eon.Values;
 import io.vertx.up.log.Annal;
 import io.vertx.up.util.Ut;
@@ -18,9 +19,9 @@ import java.util.Set;
 import java.util.function.BiConsumer;
 import java.util.function.Supplier;
 
-class DataMin {
+class DataOut {
 
-    private static final Annal LOGGER = Annal.get(DataMin.class);
+    private static final Annal LOGGER = Annal.get(DataOut.class);
 
     /*
      * projection on result
@@ -28,12 +29,27 @@ class DataMin {
      */
     @SuppressWarnings("all")
     static void dwarfRecord(final Envelop envelop, final JsonObject matrix) {
-        final JsonArray projection = matrix.getJsonArray(Inquiry.KEY_PROJECTION);
+        final Acl acl = envelop.acl();
+        final JsonArray projection = Sc.aclProjection(matrix.getJsonArray(Inquiry.KEY_PROJECTION), acl);
         dwarfUniform(envelop, projection, new HashSet<RegionType>() {
             {
                 this.add(RegionType.RECORD);
             }
-        }, (responseJson, type) -> DataDwarf.create(type).minimize(responseJson, matrix));
+        }, (responseJson, type) -> DataDwarf.create(type).minimize(responseJson, matrix, acl));
+        /*
+         * Append data of `acl` into description for future usage
+         * This feature is ok when AclPhase = DELAY because the EAGER
+         * will impact our current request response directly.
+         *
+         * But this node should returned all critical data
+         * 1) access, The fields that you could visit
+         * 2) edition, The fields that you could edit
+         * 3) record, The fields of all current record
+         */
+        if (Objects.nonNull(acl)) {
+            final JsonObject aclData = acl.acl();
+            envelop.attach("acl", aclData);
+        }
     }
 
     /*
@@ -49,18 +65,18 @@ class DataMin {
                 this.add(RegionType.ARRAY);
                 this.add(RegionType.PAGINATION);
             }
-        }, (responseJson, type) -> DataDwarf.create(type).minimize(responseJson, matrix));
+        }, (responseJson, type) -> DataDwarf.create(type).minimize(responseJson, matrix, envelop.acl()));
     }
 
     @SuppressWarnings("all")
     static void dwarfCollection(final Envelop envelop, final JsonObject matrix) {
-        final JsonArray prjection = matrix.getJsonArray(Inquiry.KEY_PROJECTION);
+        final JsonArray prjection = Sc.aclProjection(matrix.getJsonArray(Inquiry.KEY_PROJECTION), envelop.acl());
         dwarfUniform(envelop, prjection, new HashSet<RegionType>() {
             {
                 this.add(RegionType.ARRAY);
                 this.add(RegionType.PAGINATION);
             }
-        }, (responseJson, type) -> DataDwarf.create(type).minimize(responseJson, matrix));
+        }, (responseJson, type) -> DataDwarf.create(type).minimize(responseJson, matrix, envelop.acl()));
     }
 
     /*

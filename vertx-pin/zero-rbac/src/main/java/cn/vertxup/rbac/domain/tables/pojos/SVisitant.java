@@ -24,20 +24,19 @@ import javax.annotation.Generated;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class SVisitant implements ISVisitant {
 
-    private static final long serialVersionUID = 936791188;
+    private static final long serialVersionUID = -849074504;
 
     private String        key;
-    private String        code;
     private String        viewId;
+    private String        phase;
     private String        type;
-    private String        modelKey;
-    private String        modelId;
-    private String        attrVisible;
-    private String        attrView;
-    private String        attrVariety;
-    private String        attrVarietyConfig;
-    private String        attrVow;
-    private String        attrVowConfig;
+    private String        identifier;
+    private String        configKey;
+    private String        aclVisible;
+    private String        aclView;
+    private String        aclVariety;
+    private String        aclVow;
+    private String        aclVerge;
     private String        sigma;
     private String        language;
     private Boolean       active;
@@ -51,17 +50,16 @@ public class SVisitant implements ISVisitant {
 
     public SVisitant(SVisitant value) {
         this.key = value.key;
-        this.code = value.code;
         this.viewId = value.viewId;
+        this.phase = value.phase;
         this.type = value.type;
-        this.modelKey = value.modelKey;
-        this.modelId = value.modelId;
-        this.attrVisible = value.attrVisible;
-        this.attrView = value.attrView;
-        this.attrVariety = value.attrVariety;
-        this.attrVarietyConfig = value.attrVarietyConfig;
-        this.attrVow = value.attrVow;
-        this.attrVowConfig = value.attrVowConfig;
+        this.identifier = value.identifier;
+        this.configKey = value.configKey;
+        this.aclVisible = value.aclVisible;
+        this.aclView = value.aclView;
+        this.aclVariety = value.aclVariety;
+        this.aclVow = value.aclVow;
+        this.aclVerge = value.aclVerge;
         this.sigma = value.sigma;
         this.language = value.language;
         this.active = value.active;
@@ -74,17 +72,16 @@ public class SVisitant implements ISVisitant {
 
     public SVisitant(
         String        key,
-        String        code,
         String        viewId,
+        String        phase,
         String        type,
-        String        modelKey,
-        String        modelId,
-        String        attrVisible,
-        String        attrView,
-        String        attrVariety,
-        String        attrVarietyConfig,
-        String        attrVow,
-        String        attrVowConfig,
+        String        identifier,
+        String        configKey,
+        String        aclVisible,
+        String        aclView,
+        String        aclVariety,
+        String        aclVow,
+        String        aclVerge,
         String        sigma,
         String        language,
         Boolean       active,
@@ -95,17 +92,16 @@ public class SVisitant implements ISVisitant {
         String        updatedBy
     ) {
         this.key = key;
-        this.code = code;
         this.viewId = viewId;
+        this.phase = phase;
         this.type = type;
-        this.modelKey = modelKey;
-        this.modelId = modelId;
-        this.attrVisible = attrVisible;
-        this.attrView = attrView;
-        this.attrVariety = attrVariety;
-        this.attrVarietyConfig = attrVarietyConfig;
-        this.attrVow = attrVow;
-        this.attrVowConfig = attrVowConfig;
+        this.identifier = identifier;
+        this.configKey = configKey;
+        this.aclVisible = aclVisible;
+        this.aclView = aclView;
+        this.aclVariety = aclVariety;
+        this.aclVow = aclVow;
+        this.aclVerge = aclVerge;
         this.sigma = sigma;
         this.language = language;
         this.active = active;
@@ -128,17 +124,6 @@ public class SVisitant implements ISVisitant {
     }
 
     @Override
-    public String getCode() {
-        return this.code;
-    }
-
-    @Override
-    public SVisitant setCode(String code) {
-        this.code = code;
-        return this;
-    }
-
-    @Override
     public String getViewId() {
         return this.viewId;
     }
@@ -146,6 +131,17 @@ public class SVisitant implements ISVisitant {
     @Override
     public SVisitant setViewId(String viewId) {
         this.viewId = viewId;
+        return this;
+    }
+
+    @Override
+    public String getPhase() {
+        return this.phase;
+    }
+
+    @Override
+    public SVisitant setPhase(String phase) {
+        this.phase = phase;
         return this;
     }
 
@@ -161,90 +157,79 @@ public class SVisitant implements ISVisitant {
     }
 
     @Override
-    public String getModelKey() {
-        return this.modelKey;
+    public String getIdentifier() {
+        return this.identifier;
     }
 
     @Override
-    public SVisitant setModelKey(String modelKey) {
-        this.modelKey = modelKey;
+    public SVisitant setIdentifier(String identifier) {
+        this.identifier = identifier;
         return this;
     }
 
     @Override
-    public String getModelId() {
-        return this.modelId;
+    public String getConfigKey() {
+        return this.configKey;
     }
 
     @Override
-    public SVisitant setModelId(String modelId) {
-        this.modelId = modelId;
+    public SVisitant setConfigKey(String configKey) {
+        this.configKey = configKey;
         return this;
     }
 
     @Override
-    public String getAttrVisible() {
-        return this.attrVisible;
+    public String getAclVisible() {
+        return this.aclVisible;
     }
 
     @Override
-    public SVisitant setAttrVisible(String attrVisible) {
-        this.attrVisible = attrVisible;
+    public SVisitant setAclVisible(String aclVisible) {
+        this.aclVisible = aclVisible;
         return this;
     }
 
     @Override
-    public String getAttrView() {
-        return this.attrView;
+    public String getAclView() {
+        return this.aclView;
     }
 
     @Override
-    public SVisitant setAttrView(String attrView) {
-        this.attrView = attrView;
+    public SVisitant setAclView(String aclView) {
+        this.aclView = aclView;
         return this;
     }
 
     @Override
-    public String getAttrVariety() {
-        return this.attrVariety;
+    public String getAclVariety() {
+        return this.aclVariety;
     }
 
     @Override
-    public SVisitant setAttrVariety(String attrVariety) {
-        this.attrVariety = attrVariety;
+    public SVisitant setAclVariety(String aclVariety) {
+        this.aclVariety = aclVariety;
         return this;
     }
 
     @Override
-    public String getAttrVarietyConfig() {
-        return this.attrVarietyConfig;
+    public String getAclVow() {
+        return this.aclVow;
     }
 
     @Override
-    public SVisitant setAttrVarietyConfig(String attrVarietyConfig) {
-        this.attrVarietyConfig = attrVarietyConfig;
+    public SVisitant setAclVow(String aclVow) {
+        this.aclVow = aclVow;
         return this;
     }
 
     @Override
-    public String getAttrVow() {
-        return this.attrVow;
+    public String getAclVerge() {
+        return this.aclVerge;
     }
 
     @Override
-    public SVisitant setAttrVow(String attrVow) {
-        this.attrVow = attrVow;
-        return this;
-    }
-
-    @Override
-    public String getAttrVowConfig() {
-        return this.attrVowConfig;
-    }
-
-    @Override
-    public SVisitant setAttrVowConfig(String attrVowConfig) {
-        this.attrVowConfig = attrVowConfig;
+    public SVisitant setAclVerge(String aclVerge) {
+        this.aclVerge = aclVerge;
         return this;
     }
 
@@ -341,17 +326,16 @@ public class SVisitant implements ISVisitant {
         StringBuilder sb = new StringBuilder("SVisitant (");
 
         sb.append(key);
-        sb.append(", ").append(code);
         sb.append(", ").append(viewId);
+        sb.append(", ").append(phase);
         sb.append(", ").append(type);
-        sb.append(", ").append(modelKey);
-        sb.append(", ").append(modelId);
-        sb.append(", ").append(attrVisible);
-        sb.append(", ").append(attrView);
-        sb.append(", ").append(attrVariety);
-        sb.append(", ").append(attrVarietyConfig);
-        sb.append(", ").append(attrVow);
-        sb.append(", ").append(attrVowConfig);
+        sb.append(", ").append(identifier);
+        sb.append(", ").append(configKey);
+        sb.append(", ").append(aclVisible);
+        sb.append(", ").append(aclView);
+        sb.append(", ").append(aclVariety);
+        sb.append(", ").append(aclVow);
+        sb.append(", ").append(aclVerge);
         sb.append(", ").append(sigma);
         sb.append(", ").append(language);
         sb.append(", ").append(active);
@@ -375,17 +359,16 @@ public class SVisitant implements ISVisitant {
     @Override
     public void from(ISVisitant from) {
         setKey(from.getKey());
-        setCode(from.getCode());
         setViewId(from.getViewId());
+        setPhase(from.getPhase());
         setType(from.getType());
-        setModelKey(from.getModelKey());
-        setModelId(from.getModelId());
-        setAttrVisible(from.getAttrVisible());
-        setAttrView(from.getAttrView());
-        setAttrVariety(from.getAttrVariety());
-        setAttrVarietyConfig(from.getAttrVarietyConfig());
-        setAttrVow(from.getAttrVow());
-        setAttrVowConfig(from.getAttrVowConfig());
+        setIdentifier(from.getIdentifier());
+        setConfigKey(from.getConfigKey());
+        setAclVisible(from.getAclVisible());
+        setAclView(from.getAclView());
+        setAclVariety(from.getAclVariety());
+        setAclVow(from.getAclVow());
+        setAclVerge(from.getAclVerge());
         setSigma(from.getSigma());
         setLanguage(from.getLanguage());
         setActive(from.getActive());

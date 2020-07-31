@@ -8,6 +8,7 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.RoutingContext;
 import io.vertx.up.commune.Envelop;
+import io.vertx.up.commune.secure.Acl;
 import io.vertx.up.log.Annal;
 
 import java.util.List;
@@ -146,5 +147,16 @@ public class Sc {
 
     public static <T> Future<List<T>> composite(final CompositeFuture res) {
         return ScFn.composite(res);
+    }
+
+    /*
+     * Acl method
+     */
+    public static JsonArray aclProjection(final JsonArray original, final Acl acl) {
+        return ScAcl.aclProjection(original, acl);
+    }
+
+    public static void aclRecord(final JsonObject record, final Acl acl) {
+        ScAcl.aclRecord(record, acl);
     }
 }

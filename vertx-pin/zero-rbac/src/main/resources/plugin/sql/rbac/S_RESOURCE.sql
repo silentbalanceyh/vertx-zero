@@ -20,6 +20,12 @@ CREATE TABLE IF NOT EXISTS S_RESOURCE
     `MODE_GROUP` VARCHAR(32) COMMENT '「modeGroup」- 该资源查找组的模式',
     `MODE_TREE`  VARCHAR(32) COMMENT '「modeTree」- 该资源处理树（用户组）的模式',
 
+    -- 资源访问者配置，动态资源定义
+    `VIRTUAL`           BIT COMMENT '「virtual」- 虚拟资源',
+    `SEEK_SYNTAX`       TEXT COMMENT '「seekSyntax」- 访问者语法',
+    `SEEK_CONFIG`       TEXT COMMENT '「seekConfig」- 访问者配置',
+    `SEEK_COMPONENT`    VARCHAR(255) COMMENT '「seekComponent」- 访问者组件',
+
     -- 资源标识
     `SIGMA`      VARCHAR(32) COMMENT '「sigma」- 统一标识',
 

@@ -1,4 +1,4 @@
-package cn.vertxup.rbac.service.dwarf;
+package io.vertx.tp.rbac.acl.dwarf;
 
 import io.vertx.tp.rbac.cv.em.RegionType;
 

@@ -1,7 +1,8 @@
-package cn.vertxup.rbac.service.dwarf;
+package io.vertx.tp.rbac.acl.dwarf;
 
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
+import io.vertx.up.commune.secure.Acl;
 
 /*
  * Filters for
@@ -10,7 +11,7 @@ import io.vertx.core.json.JsonObject;
  */
 class PaginationDwarf implements DataDwarf {
     @Override
-    public void minimize(final JsonObject dataReference, final JsonObject matrix) {
+    public void minimize(final JsonObject dataReference, final JsonObject matrix, final Acl acl) {
         /* inputArray */
         final JsonObject pagination = dataReference.getJsonObject("data");
         final JsonArray inputArray = pagination.getJsonArray("list");

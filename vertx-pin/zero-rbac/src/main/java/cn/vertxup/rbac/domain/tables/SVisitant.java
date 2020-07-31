@@ -35,55 +35,51 @@ public class SVisitant extends TableImpl<SVisitantRecord> {
      * The reference instance of <code>DB_ETERNAL.S_VISITANT</code>
      */
     public static final SVisitant S_VISITANT = new SVisitant();
-    private static final long serialVersionUID = 2138812134;
+    private static final long serialVersionUID = 575263195;
     /**
      * The column <code>DB_ETERNAL.S_VISITANT.KEY</code>. 「key」- 限定记录ID
      */
     public final TableField<SVisitantRecord, String> KEY = createField("KEY", org.jooq.impl.SQLDataType.VARCHAR(36).nullable(false), this, "「key」- 限定记录ID");
     /**
-     * The column <code>DB_ETERNAL.S_VISITANT.CODE</code>. 「code」- 访问者系统编码
-     */
-    public final TableField<SVisitantRecord, String> CODE = createField("CODE", org.jooq.impl.SQLDataType.VARCHAR(255), this, "「code」- 访问者系统编码");
-    /**
      * The column <code>DB_ETERNAL.S_VISITANT.VIEW_ID</code>. 「viewId」- 视图访问者的读ID
      */
     public final TableField<SVisitantRecord, String> VIEW_ID = createField("VIEW_ID", org.jooq.impl.SQLDataType.VARCHAR(36), this, "「viewId」- 视图访问者的读ID");
+    /**
+     * The column <code>DB_ETERNAL.S_VISITANT.PHASE</code>. 「phase」- 作用周期
+     */
+    public final TableField<SVisitantRecord, String> PHASE = createField("PHASE", org.jooq.impl.SQLDataType.VARCHAR(64), this, "「phase」- 作用周期");
     /**
      * The column <code>DB_ETERNAL.S_VISITANT.TYPE</code>. 「type」- 访问者类型
      */
     public final TableField<SVisitantRecord, String> TYPE = createField("TYPE", org.jooq.impl.SQLDataType.VARCHAR(128), this, "「type」- 访问者类型");
     /**
-     * The column <code>DB_ETERNAL.S_VISITANT.MODEL_KEY</code>. 「modelKey」- 模型下记录对应的ID
+     * The column <code>DB_ETERNAL.S_VISITANT.IDENTIFIER</code>. 「identifier」- 动态类型中的模型ID
      */
-    public final TableField<SVisitantRecord, String> MODEL_KEY = createField("MODEL_KEY", org.jooq.impl.SQLDataType.VARCHAR(36), this, "「modelKey」- 模型下记录对应的ID");
+    public final TableField<SVisitantRecord, String> IDENTIFIER = createField("IDENTIFIER", org.jooq.impl.SQLDataType.VARCHAR(255), this, "「identifier」- 动态类型中的模型ID");
     /**
-     * The column <code>DB_ETERNAL.S_VISITANT.MODEL_ID</code>. 「modelId」- 模型对应的 identifier
+     * The column <code>DB_ETERNAL.S_VISITANT.CONFIG_KEY</code>. 「configKey」- 模型下记录对应的ID，一般是配置的ID
      */
-    public final TableField<SVisitantRecord, String> MODEL_ID = createField("MODEL_ID", org.jooq.impl.SQLDataType.VARCHAR(255), this, "「modelId」- 模型对应的 identifier ");
+    public final TableField<SVisitantRecord, String> CONFIG_KEY = createField("CONFIG_KEY", org.jooq.impl.SQLDataType.VARCHAR(36), this, "「configKey」- 模型下记录对应的ID，一般是配置的ID");
     /**
-     * The column <code>DB_ETERNAL.S_VISITANT.ATTR_VISIBLE</code>. 「attrVisible」- 可见的属性集
+     * The column <code>DB_ETERNAL.S_VISITANT.ACL_VISIBLE</code>. 「aclVisible」- 可见的属性集
      */
-    public final TableField<SVisitantRecord, String> ATTR_VISIBLE = createField("ATTR_VISIBLE", org.jooq.impl.SQLDataType.CLOB, this, "「attrVisible」- 可见的属性集");
+    public final TableField<SVisitantRecord, String> ACL_VISIBLE = createField("ACL_VISIBLE", org.jooq.impl.SQLDataType.CLOB, this, "「aclVisible」- 可见的属性集");
     /**
-     * The column <code>DB_ETERNAL.S_VISITANT.ATTR_VIEW</code>. 「attrView」- 只读的属性集
+     * The column <code>DB_ETERNAL.S_VISITANT.ACL_VIEW</code>. 「aclView」- 只读的属性集
      */
-    public final TableField<SVisitantRecord, String> ATTR_VIEW = createField("ATTR_VIEW", org.jooq.impl.SQLDataType.CLOB, this, "「attrView」- 只读的属性集");
+    public final TableField<SVisitantRecord, String> ACL_VIEW = createField("ACL_VIEW", org.jooq.impl.SQLDataType.CLOB, this, "「aclView」- 只读的属性集");
     /**
-     * The column <code>DB_ETERNAL.S_VISITANT.ATTR_VARIETY</code>. 「attrVariety」- 多样性的属性集，用于控制集合类型的属性
+     * The column <code>DB_ETERNAL.S_VISITANT.ACL_VARIETY</code>. 「aclVariety」- 多样性的属性集，用于控制集合类型的属性
      */
-    public final TableField<SVisitantRecord, String> ATTR_VARIETY = createField("ATTR_VARIETY", org.jooq.impl.SQLDataType.CLOB, this, "「attrVariety」- 多样性的属性集，用于控制集合类型的属性");
+    public final TableField<SVisitantRecord, String> ACL_VARIETY = createField("ACL_VARIETY", org.jooq.impl.SQLDataType.CLOB, this, "「aclVariety」- 多样性的属性集，用于控制集合类型的属性");
     /**
-     * The column <code>DB_ETERNAL.S_VISITANT.ATTR_VARIETY_CONFIG</code>. 「attrVarietyConfig」- 多样性的属性集相关配置
+     * The column <code>DB_ETERNAL.S_VISITANT.ACL_VOW</code>. 「aclVow」- 引用类属性集
      */
-    public final TableField<SVisitantRecord, String> ATTR_VARIETY_CONFIG = createField("ATTR_VARIETY_CONFIG", org.jooq.impl.SQLDataType.CLOB, this, "「attrVarietyConfig」- 多样性的属性集相关配置");
+    public final TableField<SVisitantRecord, String> ACL_VOW = createField("ACL_VOW", org.jooq.impl.SQLDataType.CLOB, this, "「aclVow」- 引用类属性集");
     /**
-     * The column <code>DB_ETERNAL.S_VISITANT.ATTR_VOW</code>. 「attrVow」- 引用类属性集
+     * The column <code>DB_ETERNAL.S_VISITANT.ACL_VERGE</code>. 「aclVerge」- 依赖属性集
      */
-    public final TableField<SVisitantRecord, String> ATTR_VOW = createField("ATTR_VOW", org.jooq.impl.SQLDataType.CLOB, this, "「attrVow」- 引用类属性集");
-    /**
-     * The column <code>DB_ETERNAL.S_VISITANT.ATTR_VOW_CONFIG</code>. 「attrVowConfig」- 引用类属性集相关配置
-     */
-    public final TableField<SVisitantRecord, String> ATTR_VOW_CONFIG = createField("ATTR_VOW_CONFIG", org.jooq.impl.SQLDataType.CLOB, this, "「attrVowConfig」- 引用类属性集相关配置");
+    public final TableField<SVisitantRecord, String> ACL_VERGE = createField("ACL_VERGE", org.jooq.impl.SQLDataType.CLOB, this, "「aclVerge」- 依赖属性集");
     /**
      * The column <code>DB_ETERNAL.S_VISITANT.SIGMA</code>. 「sigma」- 用户组绑定的统一标识
      */
@@ -167,7 +163,7 @@ public class SVisitant extends TableImpl<SVisitantRecord> {
      */
     @Override
     public List<Index> getIndexes() {
-        return Arrays.<Index>asList(Indexes.S_VISITANT_CODE, Indexes.S_VISITANT_IDXM_S_VISITANT_VIEW_ID_TYPE_MODEL, Indexes.S_VISITANT_PRIMARY);
+        return Arrays.<Index>asList(Indexes.S_VISITANT_IDXM_S_VISITANT_VIEW_ID_TYPE_CONFIG, Indexes.S_VISITANT_IDXM_S_VISITANT_VIEW_ID_TYPE_IDENTIFIER, Indexes.S_VISITANT_PRIMARY, Indexes.S_VISITANT_VIEW_ID);
     }
 
     /**
@@ -183,7 +179,7 @@ public class SVisitant extends TableImpl<SVisitantRecord> {
      */
     @Override
     public List<UniqueKey<SVisitantRecord>> getKeys() {
-        return Arrays.<UniqueKey<SVisitantRecord>>asList(Keys.KEY_S_VISITANT_PRIMARY, Keys.KEY_S_VISITANT_CODE);
+        return Arrays.<UniqueKey<SVisitantRecord>>asList(Keys.KEY_S_VISITANT_PRIMARY, Keys.KEY_S_VISITANT_VIEW_ID);
     }
 
     /**

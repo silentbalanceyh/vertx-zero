@@ -133,6 +133,34 @@ public class SResourceDao extends DAOImpl<SResourceRecord, cn.vertxup.rbac.domai
     }
 
     /**
+     * Fetch records that have <code>VIRTUAL IN (values)</code>
+     */
+    public List<cn.vertxup.rbac.domain.tables.pojos.SResource> fetchByVirtual(Boolean... values) {
+        return fetch(SResource.S_RESOURCE.VIRTUAL, values);
+    }
+
+    /**
+     * Fetch records that have <code>SEEK_SYNTAX IN (values)</code>
+     */
+    public List<cn.vertxup.rbac.domain.tables.pojos.SResource> fetchBySeekSyntax(String... values) {
+        return fetch(SResource.S_RESOURCE.SEEK_SYNTAX, values);
+    }
+
+    /**
+     * Fetch records that have <code>SEEK_CONFIG IN (values)</code>
+     */
+    public List<cn.vertxup.rbac.domain.tables.pojos.SResource> fetchBySeekConfig(String... values) {
+        return fetch(SResource.S_RESOURCE.SEEK_CONFIG, values);
+    }
+
+    /**
+     * Fetch records that have <code>SEEK_COMPONENT IN (values)</code>
+     */
+    public List<cn.vertxup.rbac.domain.tables.pojos.SResource> fetchBySeekComponent(String... values) {
+        return fetch(SResource.S_RESOURCE.SEEK_COMPONENT, values);
+    }
+
+    /**
      * Fetch records that have <code>SIGMA IN (values)</code>
      */
     public List<cn.vertxup.rbac.domain.tables.pojos.SResource> fetchBySigma(String... values) {
@@ -270,6 +298,34 @@ public class SResourceDao extends DAOImpl<SResourceRecord, cn.vertxup.rbac.domai
      */
     public CompletableFuture<List<cn.vertxup.rbac.domain.tables.pojos.SResource>> fetchByModeTreeAsync(List<String> values) {
         return fetchAsync(SResource.S_RESOURCE.MODE_TREE,values);
+    }
+
+    /**
+     * Fetch records that have <code>VIRTUAL IN (values)</code> asynchronously
+     */
+    public CompletableFuture<List<cn.vertxup.rbac.domain.tables.pojos.SResource>> fetchByVirtualAsync(List<Boolean> values) {
+        return fetchAsync(SResource.S_RESOURCE.VIRTUAL,values);
+    }
+
+    /**
+     * Fetch records that have <code>SEEK_SYNTAX IN (values)</code> asynchronously
+     */
+    public CompletableFuture<List<cn.vertxup.rbac.domain.tables.pojos.SResource>> fetchBySeekSyntaxAsync(List<String> values) {
+        return fetchAsync(SResource.S_RESOURCE.SEEK_SYNTAX,values);
+    }
+
+    /**
+     * Fetch records that have <code>SEEK_CONFIG IN (values)</code> asynchronously
+     */
+    public CompletableFuture<List<cn.vertxup.rbac.domain.tables.pojos.SResource>> fetchBySeekConfigAsync(List<String> values) {
+        return fetchAsync(SResource.S_RESOURCE.SEEK_CONFIG,values);
+    }
+
+    /**
+     * Fetch records that have <code>SEEK_COMPONENT IN (values)</code> asynchronously
+     */
+    public CompletableFuture<List<cn.vertxup.rbac.domain.tables.pojos.SResource>> fetchBySeekComponentAsync(List<String> values) {
+        return fetchAsync(SResource.S_RESOURCE.SEEK_COMPONENT,values);
     }
 
     /**

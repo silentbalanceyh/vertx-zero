@@ -1,5 +1,6 @@
 package io.vertx.up.uca.rs.hunt;
 
+import io.vertx.core.Future;
 import io.vertx.core.http.HttpServerResponse;
 import io.vertx.core.http.HttpStatusCode;
 import io.vertx.core.json.JsonObject;
@@ -129,11 +130,18 @@ public final class Answer {
             /*
              * Plugin Extension for response replying here ( Plug-in )
              */
-            PluginExtension.Answer.reply(context, envelop);
-            /*
-             * Output of current situation
-             */
-            Outcome.out(response, envelop, mediaTypes);
+            PluginExtension.Answer.reply(context, envelop).compose(processed -> {
+                /*
+                 * Output of current situation,
+                 * Here has been replaced by DataRegion.
+                 * Fix BUG:
+                 * In old workflow, below code is not in compose of `PluginExtension`,
+                 * The async will impact response data here, it could let response keep the original
+                 * and ACL workflow won't be OK for response data serialization.
+                 */
+                Outcome.out(response, processed, mediaTypes);
+                return Future.succeededFuture();
+            });
         }
     }
 

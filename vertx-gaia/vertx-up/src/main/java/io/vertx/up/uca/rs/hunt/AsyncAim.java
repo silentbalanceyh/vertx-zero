@@ -24,7 +24,6 @@ public class AsyncAim extends BaseAim implements Aim<RoutingContext> {
              * Build future ( data handler )
              */
             final Future<Envelop> future = this.invoke(context, event);
-
             /*
              * Event bus building / get from vertx instance.
              */
@@ -42,7 +41,17 @@ public class AsyncAim extends BaseAim implements Aim<RoutingContext> {
                  * SUCCESS
                  */
                 if (dataRes.succeeded()) {
-                    bus.<Envelop>request(address, dataRes.result(), Ux.Opt.on().delivery(), handler -> {
+                    /*
+                     * Before send, captured the previous, only this kind of situation need
+                     * Do `combine` request here.
+                     * Because:
+                     *
+                     * - In OneWay, the client do not focus on response data.
+                     * - In Ping, the client also get `true/false` only
+                     * - In Sync, not need to pass Envelop on event bus
+                     */
+                    final Envelop request = dataRes.result();
+                    bus.<Envelop>request(address, request, Ux.Opt.on().delivery(), handler -> {
                         final Envelop response;
                         if (handler.succeeded()) {
                             // Request - Response message
@@ -50,6 +59,8 @@ public class AsyncAim extends BaseAim implements Aim<RoutingContext> {
                         } else {
                             response = this.failure(address, handler);
                         }
+                        // Request -> Response
+                        response.from(request);
                         Answer.reply(context, response, event);
                     });
                 } else {

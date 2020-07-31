@@ -26,6 +26,10 @@ public interface ID {
      * The `Answer` reply should use this key to extract previous request data
      */
     String REQUEST_BODY = "$$CONTEXT_REQUEST$$";
+    /*
+     * Acl data information from data region for future usage
+     */
+    String REQUEST_ACL = "$$CONTEXT_ACL$$";
 
     String PARAM_BODY = "$$__BODY__$$";
     String PARAM_STREAM = "$$_STREAM__$$";
@@ -87,10 +91,10 @@ public interface ID {
 
         ConcurrentMap<String, String> PARAM_MAP = new ConcurrentHashMap<String, String>() {
             {
-                this.put(X_APP_ID, "appId");
-                this.put(X_APP_KEY, "appKey");
-                this.put(X_SIGMA, "sigma");
-                this.put(X_LANG, "language");
+                this.put(Header.X_APP_ID, "appId");
+                this.put(Header.X_APP_KEY, "appKey");
+                this.put(Header.X_SIGMA, "sigma");
+                this.put(Header.X_LANG, "language");
             }
         };
     }
