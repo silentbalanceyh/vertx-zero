@@ -75,9 +75,14 @@ class DataIn {
             {
                 final JsonObject syntaxData = Ut.sureJObject(syntax.getJsonObject(KeField.DATA));
                 Ut.<String>itJObject(syntaxData, (expr, field) -> {
-                    final String literal;
+                    String literal;
                     if (expr.contains("`")) {
-                        literal = Ut.fromExpression(expr, input);
+                        try {
+                            literal = Ut.fromExpression(expr, input);
+                        } catch (final Throwable ex) {
+                            // Throwable for continue
+                            literal = null;
+                        }
                     } else {
                         literal = expr;
                     }
