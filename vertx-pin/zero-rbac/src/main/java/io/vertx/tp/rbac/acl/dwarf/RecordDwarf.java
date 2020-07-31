@@ -13,6 +13,8 @@ class RecordDwarf implements DataDwarf {
     public void minimize(final JsonObject dataReference, final JsonObject matrix, final Acl acl) {
         /* inputArray */
         final JsonObject record = dataReference.getJsonObject("data");
+        /* Capture data fields of current record */
+        Sc.aclRecord(record, acl);
         /* projection only */
         final JsonObject updated = Dwarf.onProjection(record,
                 Sc.aclProjection(matrix.getJsonArray(Inquiry.KEY_PROJECTION), acl));

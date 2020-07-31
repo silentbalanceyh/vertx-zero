@@ -24,4 +24,9 @@ public interface Acl extends Serializable {
      * Phase
      */
     AclPhase phase();
+
+    /*
+     * Record bind
+     */
+    void bind(JsonObject record);
 }

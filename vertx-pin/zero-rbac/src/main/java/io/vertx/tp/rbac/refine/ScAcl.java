@@ -1,6 +1,7 @@
 package io.vertx.tp.rbac.refine;
 
 import io.vertx.core.json.JsonArray;
+import io.vertx.core.json.JsonObject;
 import io.vertx.up.commune.secure.Acl;
 import io.vertx.up.eon.em.AclPhase;
 import io.vertx.up.util.Ut;
@@ -13,6 +14,12 @@ import java.util.Set;
  * @author <a href="http://www.origin-x.cn">lang</a>
  */
 class ScAcl {
+
+    static void aclRecord(final JsonObject record, final Acl acl) {
+        if (Objects.nonNull(acl)) {
+            acl.bind(record);
+        }
+    }
 
     static JsonArray aclProjection(final JsonArray original, final Acl acl) {
         final JsonArray projection = Ut.sureJArray(original);

@@ -11,6 +11,7 @@ import io.vertx.up.util.Ut;
 
 import java.util.Objects;
 import java.util.Set;
+import java.util.TreeSet;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
@@ -19,6 +20,8 @@ import java.util.concurrent.ConcurrentMap;
  * Data Structure with calculation
  */
 public class AclData implements Acl {
+
+    private final Set<String> fields = new TreeSet<>();
     /*
      * Acl processing
      * 1) visible
@@ -103,30 +106,43 @@ public class AclData implements Acl {
     }
 
     @Override
+    public void bind(final JsonObject record) {
+        if (Ut.notNil(record)) {
+            /*
+             * Bind all fields here
+             */
+            this.fields.addAll(record.fieldNames());
+        }
+    }
+
+    @Override
     public JsonObject acl() {
         final JsonObject acl = new JsonObject();
-        /*
-         * capture access field information
-         */
-        final JsonArray access = new JsonArray();
-        final JsonArray edition = new JsonArray();
-        this.commonMap.forEach((field, aclField) -> {
+        if (!this.fields.isEmpty()) {
             /*
-             * access: []
-             * edition: []
+             * capture access field information
              */
-            if (aclField.isAccess()) {
-                access.add(field);
+            final JsonArray access = new JsonArray();
+            final JsonArray edition = new JsonArray();
+            this.commonMap.forEach((field, aclField) -> {
+                /*
+                 * access: []
+                 * edition: []
+                 */
+                if (aclField.isAccess()) {
+                    access.add(field);
+                }
+                if (aclField.isEdit()) {
+                    edition.add(field);
+                }
+            });
+            if (Ut.notNil(access)) {
+                acl.put("access", access);
             }
-            if (aclField.isEdit()) {
-                edition.add(field);
+            if (Ut.notNil(edition)) {
+                acl.put("edition", edition);
             }
-        });
-        if (Ut.notNil(access)) {
-            acl.put("access", access);
-        }
-        if (Ut.notNil(edition)) {
-            acl.put("edition", edition);
+            acl.put("fields", Ut.toJArray(this.fields));
         }
         return acl;
     }
