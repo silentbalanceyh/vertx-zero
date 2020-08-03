@@ -1,21 +1,29 @@
 package cn.vertxup.rbac.service.view;
 
-import cn.vertxup.rbac.domain.tables.pojos.SVisitant;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
-
-import java.util.concurrent.ConcurrentMap;
 
 /**
  * @author <a href="http://www.origin-x.cn">lang</a>
  */
 public interface VisitStub {
-
     /*
-     * Fetch Visitant by
-     * 1) Analyze visitant syntax to calculate condition ( Json format )
-     * 2) Combine all conditions that analyzed based on view
-     * 3) DataBound stored all attached data here
+     * Fetch single visitant object by two methods:
+     * The request data is as following:
+     * {
+     *      "resourceId": "Sec Resource Id",
+     *      "identifier": "Model identifier ( Static )",
+     *      "configKey": "Dynamic Model, Control Id or ",
+     *      "type": "FORM / RECORD / LIST / OP"
+     * }
+     * resourceId / ownerType / ownerId / name = DEFAULT
+     * could calculate viewId
+     * The unique condition for visitant:
+     * 1) viewId + type + identifier
+     * 2) viewId + type + configKey
+     * One more:
+     * `viewId + type` is not unique, here may contain more visitants
      */
-    Future<ConcurrentMap<String, SVisitant>> fetchVisitant(JsonObject condition);
+    Future<JsonObject> fetchVisitant(String ownerType, String ownerId,
+                                     JsonObject request);
 }

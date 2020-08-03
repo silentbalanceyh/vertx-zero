@@ -20,6 +20,7 @@ public interface Addr {
          * Fetch all resource definition
          */
         String FETCH_VIEWS = Prefix._EVENT + "X-RULE-VIEW/FETCH/BY-KEYS";
+        String FETCH_VISITANT = Prefix._EVENT + "X-VISITANT/FETCH/OWNER";
     }
 
     interface Auth {

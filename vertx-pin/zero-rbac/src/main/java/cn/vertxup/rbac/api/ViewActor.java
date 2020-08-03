@@ -1,8 +1,10 @@
 package cn.vertxup.rbac.api;
 
 import cn.vertxup.rbac.service.view.RuleStub;
+import cn.vertxup.rbac.service.view.VisitStub;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
+import io.vertx.core.json.JsonObject;
 import io.vertx.tp.ke.cv.KeDefault;
 import io.vertx.tp.rbac.cv.Addr;
 import io.vertx.up.annotations.Address;
@@ -15,6 +17,9 @@ public class ViewActor {
 
     @Inject
     private transient RuleStub ruleStub;
+
+    @Inject
+    private transient VisitStub visitStub;
 
     @Address(Addr.Authority.VIEW_UPDATE_BY_TYPE)
     public Future<JsonArray> saveViews(final String ownerType,
@@ -29,5 +34,12 @@ public class ViewActor {
                                          final String owner,
                                          final JsonArray keys) {
         return this.ruleStub.fetchViews(ownerType, owner, keys, KeDefault.VIEW_DEFAULT);
+    }
+
+    @Address(Addr.Rule.FETCH_VISITANT)
+    public Future<JsonObject> fetchVisitant(final String ownerType,
+                                            final String owner,
+                                            final JsonObject body) {
+        return this.visitStub.fetchVisitant(ownerType, owner, body);
     }
 }

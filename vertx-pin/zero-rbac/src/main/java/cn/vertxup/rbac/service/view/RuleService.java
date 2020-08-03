@@ -47,17 +47,17 @@ public class RuleService implements RuleStub {
     public Future<JsonArray> saveViews(final String ownerType, final String ownerId,
                                        final JsonArray views, final String view) {
         final Set<String> keySet = Ut.mapString(views, KeField.RESOURCE_ID);
+        /*
+         * owner, ownerType, resourceId, name are unique
+         * Because of here:
+         *
+         * 1. owner, ownerType are both the same
+         * 2. view is default name: DEFAULT
+         *
+         * In this kind of situation, we could consider resourceId as unique key
+         */
+        final ConcurrentMap<String, JsonObject> newMap = Ut.elementMap(views, KeField.RESOURCE_ID);
         return this.fetchViews(ownerType, ownerId, Ut.toJArray(keySet), view).compose(original -> {
-            /*
-             * owner, ownerType, resourceId, name are unique
-             * Because of here:
-             *
-             * 1. owner, ownerType are both the same
-             * 2. view is default name: DEFAULT
-             *
-             * In this kind of situation, we could consider resourceId as unique key
-             */
-            final ConcurrentMap<String, JsonObject> newMap = Ut.elementMap(views, KeField.RESOURCE_ID);
             final ConcurrentMap<String, JsonObject> oldMap = Ut.elementMap(original, KeField.RESOURCE_ID);
             /*
              * Calculate new data here for processing
@@ -124,6 +124,36 @@ public class RuleService implements RuleStub {
                         response.addAll(inserted);
                         return Ux.future(response);
                     });
+        }).compose(viewData -> {
+            /*
+             * viewData -> JsonArray to store all views
+             * newMap -> ( resourceId = JsonObject )
+             * Here JsonObject may contains visitantData when viewData contain ( visitant = true )
+             */
+            final JsonArray visitantArr = new JsonArray();
+            Ut.itJArray(viewData)
+                    .filter(viewItem -> viewItem.containsKey("visitant"))
+                    .filter(viewItem -> viewItem.getBoolean("visitant"))
+                    .forEach(viewItem -> {
+
+                        // Resource Id
+                        final String resourceId = viewItem.getString(KeField.RESOURCE_ID);
+                        if (Ut.notNil(resourceId) && newMap.containsKey(resourceId)) {
+                            final JsonObject input = newMap.get(resourceId);
+
+                            // Request data that contains `visitantData`
+                            if (input.containsKey("visitantData")) {
+
+                                // visitantData to generate visitant
+                                final JsonObject visitantData = input.getJsonObject("visitantData");
+                                if (Ut.notNil(visitantData)) {
+                                    visitantData.put("viewId", viewItem.getString(KeField.KEY));
+                                    System.err.println(visitantData.encodePrettily());
+                                }
+                            }
+                        }
+                    });
+            return Ux.future(viewData);
         });
     }
 }

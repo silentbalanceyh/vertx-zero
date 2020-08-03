@@ -30,6 +30,9 @@ CREATE TABLE IF NOT EXISTS S_VISITANT
      * FORM: 表单访问者（字段属性访问）
      * LIST：列表访问者（深度列过滤）
      * OP：操作访问者（操作处理）
+     * 1）关于 configKey
+     * -- 在配置模式下，configKey 描述的配置的 control 记录
+     * -- 在记录读取下，configKey 描述的是模型的 category 的主键
      **/
     `TYPE`                 VARCHAR(128) COMMENT '「type」- 访问者类型',
     `IDENTIFIER`           VARCHAR(255) COMMENT '「identifier」- 动态类型中的模型ID',

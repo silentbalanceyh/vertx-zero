@@ -55,6 +55,11 @@ public class Sc {
         ScLog.warnWeb(LOGGER, pattern, args);
     }
 
+    public static void infoView(final Class<?> clazz, final String pattern, final Object... args) {
+        final Annal LOGGER = Annal.get(clazz);
+        ScLog.infoView(LOGGER, pattern, args);
+    }
+
     /*
      * Uri normalize and extraction of tool
      */
