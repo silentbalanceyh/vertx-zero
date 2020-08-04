@@ -25,4 +25,11 @@ public interface ViewAgent {
     JsonObject fetchByKeys(@PathParam("ownerType") String ownerType,
                            @PathParam("ownerId") String ownerId,
                            @BodyParam JsonArray ids);
+
+    @POST
+    @Path("/visitant/:ownerType/:ownerId")
+    @Address(Addr.Rule.FETCH_VISITANT)
+    JsonObject fetchVisitant(@PathParam("ownerType") String ownerType,
+                             @PathParam("ownerId") String ownerId,
+                             @BodyParam JsonObject params);
 }

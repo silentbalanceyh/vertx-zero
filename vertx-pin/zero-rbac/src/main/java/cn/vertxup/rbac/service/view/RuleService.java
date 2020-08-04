@@ -13,7 +13,11 @@ import io.vertx.up.unity.Ux;
 import io.vertx.up.unity.jq.UxJooq;
 import io.vertx.up.util.Ut;
 
-import java.util.*;
+import javax.inject.Inject;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+import java.util.Set;
 import java.util.concurrent.ConcurrentMap;
 import java.util.stream.Collectors;
 
@@ -21,6 +25,9 @@ import java.util.stream.Collectors;
  * @author <a href="http://www.origin-x.cn">lang</a>
  */
 public class RuleService implements RuleStub {
+    @Inject
+    private transient VisitStub visitStub;
+
     @Override
     public Future<JsonArray> procAsync(final List<SPath> paths) {
         final List<SPath> filtered = paths.stream().filter(Objects::nonNull).collect(Collectors.toList());
@@ -47,17 +54,17 @@ public class RuleService implements RuleStub {
     public Future<JsonArray> saveViews(final String ownerType, final String ownerId,
                                        final JsonArray views, final String view) {
         final Set<String> keySet = Ut.mapString(views, KeField.RESOURCE_ID);
+        /*
+         * owner, ownerType, resourceId, name are unique
+         * Because of here:
+         *
+         * 1. owner, ownerType are both the same
+         * 2. view is default name: DEFAULT
+         *
+         * In this kind of situation, we could consider resourceId as unique key
+         */
+        final ConcurrentMap<String, JsonObject> newMap = Ut.elementMap(views, KeField.RESOURCE_ID);
         return this.fetchViews(ownerType, ownerId, Ut.toJArray(keySet), view).compose(original -> {
-            /*
-             * owner, ownerType, resourceId, name are unique
-             * Because of here:
-             *
-             * 1. owner, ownerType are both the same
-             * 2. view is default name: DEFAULT
-             *
-             * In this kind of situation, we could consider resourceId as unique key
-             */
-            final ConcurrentMap<String, JsonObject> newMap = Ut.elementMap(views, KeField.RESOURCE_ID);
             final ConcurrentMap<String, JsonObject> oldMap = Ut.elementMap(original, KeField.RESOURCE_ID);
             /*
              * Calculate new data here for processing
@@ -89,7 +96,6 @@ public class RuleService implements RuleStub {
                     /*
                      * Spec fields that should added default
                      */
-                    normalized.setKey(UUID.randomUUID().toString());
                     normalized.setActive(Boolean.TRUE);
                     normalized.setName(KeDefault.VIEW_DEFAULT);
                     addQueue.add(normalized);
@@ -124,6 +130,42 @@ public class RuleService implements RuleStub {
                         response.addAll(inserted);
                         return Ux.future(response);
                     });
+        }).compose(viewData -> {
+            /*
+             * viewData -> JsonArray to store all views
+             * newMap -> ( resourceId = JsonObject )
+             * Here JsonObject may contains visitantData when viewData contain ( visitant = true )
+             */
+            return this.saveVisitants(viewData, newMap);
         });
+    }
+
+    /*
+     * Save `visitants` in batch
+     */
+    private Future<JsonArray> saveVisitants(final JsonArray views, final ConcurrentMap<String, JsonObject> resourceMap) {
+        final List<Future<JsonObject>> futures = new ArrayList<>();
+        Ut.itJArray(views).filter(view -> view.getBoolean("visitant", Boolean.FALSE)).forEach(view -> {
+            /*
+             * view is S_VIEW record
+             * resourceMap is request data here
+             */
+            final String resourceId = view.getString(KeField.RESOURCE_ID);
+            if (Ut.notNil(resourceId) && resourceMap.containsKey(resourceId)) {
+                final JsonObject requestData = resourceMap.get(resourceId);
+                if (requestData.containsKey("visitantData")) {
+                    final JsonObject visitantData = requestData.getJsonObject("visitantData");
+                    if (Ut.notNil(visitantData)) {
+                        futures.add(this.visitStub.saveAsync(visitantData.copy(), view)
+                                /*
+                                 * Processed for views
+                                 */
+                                .compose(processed -> Ux.future(view.put("visitantData", processed)))
+                        );
+                    }
+                }
+            }
+        });
+        return Ux.thenCombine(futures).compose(nil -> Ux.future(views));
     }
 }

@@ -6,7 +6,6 @@ import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.ke.cv.KeField;
-import io.vertx.tp.ke.refine.Ke;
 import io.vertx.tp.rbac.cv.AuthMsg;
 import io.vertx.tp.rbac.cv.em.OwnerType;
 import io.vertx.tp.rbac.refine.Sc;
@@ -74,21 +73,5 @@ public class ViewService implements ViewStub {
         data.put("rows", new JsonObject().encode());
         data.put(Inquiry.KEY_CRITERIA, new JsonObject().encode());
         return Ut.deserialize(data, SView.class);
-    }
-
-    private JsonObject mountIn(final JsonObject data) {
-        Ke.mountString(data, KeField.Rbac.PROJECTION);
-        Ke.mountString(data, KeField.Rbac.CRITERIA);
-        Ke.mountString(data, KeField.Rbac.ROWS);
-        Ke.mountString(data, KeField.METADATA);
-        return data;
-    }
-
-    private JsonObject mountOut(final JsonObject data) {
-        Ke.mountArray(data, KeField.Rbac.PROJECTION);
-        Ke.mount(data, KeField.Rbac.CRITERIA);
-        Ke.mount(data, KeField.Rbac.ROWS);
-        Ke.mount(data, KeField.METADATA);
-        return data;
     }
 }

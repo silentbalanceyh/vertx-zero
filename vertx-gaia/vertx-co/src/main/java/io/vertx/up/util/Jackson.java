@@ -221,4 +221,13 @@ final class Jackson {
             }
         }, target, source, field);
     }
+
+    static void assign(final JsonObject target, final JsonObject source, final String... fields) {
+        if (0 < fields.length) {
+            Arrays.stream(fields)
+                    .filter(source::containsKey)
+                    .filter(field -> Objects.nonNull(source.getValue(field)))
+                    .forEach(field -> target.put(field, source.getValue(field)));
+        }
+    }
 }

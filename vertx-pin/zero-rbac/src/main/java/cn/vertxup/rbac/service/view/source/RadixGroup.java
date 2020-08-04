@@ -4,6 +4,7 @@ import cn.vertxup.rbac.service.view.RuleSource;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
+import io.vertx.tp.rbac.refine.Sc;
 import io.vertx.up.log.Annal;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.unity.jq.UxJooq;
@@ -20,7 +21,7 @@ public class RadixGroup implements RuleSource {
     public Future<JsonObject> procAsync(final JsonObject inputData, final JsonObject config) {
         final JsonObject condition = RadixTool.toCriteria(
                 inputData, config.getJsonObject("groupCondition"));
-        LOGGER.info("Group Condition for Rule: input = {0}, normalized = {1}",
+        Sc.infoView(this.getClass(), "Group Condition for Rule: input = {0}, normalized = {1}",
                 inputData.encode(), condition.encode());
         final UxJooq dao = RadixTool.toDao(config.getString("groupComponent"));
         if (Objects.isNull(dao)) {

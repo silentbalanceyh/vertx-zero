@@ -7,12 +7,10 @@ import io.vertx.up.eon.em.ChangeFlag;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.uca.condition.JooqCond;
 import io.vertx.up.unity.Ux;
+import io.vertx.up.util.Ut;
 import org.jooq.Condition;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentMap;
 import java.util.function.BiPredicate;
@@ -62,22 +60,24 @@ class JqWriter {
 
     /* Async insert operation: INSERT */
     <T> Future<T> insertAsync(final T entity) {
-        final CompletableFuture<Void> future = this.vertxDAO.insertAsync(entity);
+        final CompletableFuture<Void> future = this.vertxDAO.insertAsync(uuid(entity));
         return JqTool.future(future).compose(nil -> Future.succeededFuture(entity));
     }
 
     <T> Future<List<T>> insertAsync(final List<T> entities) {
+        entities.forEach(this::uuid);
         final CompletableFuture<Void> future = this.vertxDAO.insertAsync(entities);
         return JqTool.future(future).compose(nil -> Future.succeededFuture(entities));
     }
 
     /* Sync insert operation: INSERT */
     <T> T insert(final T entity) {
-        this.vertxDAO.insert(entity);
+        this.vertxDAO.insert(uuid(entity));
         return entity;
     }
 
     <T> List<T> insert(final List<T> entities) {
+        entities.forEach(this::uuid);
         this.vertxDAO.insert(entities);
         return entities;
     }
@@ -254,5 +254,18 @@ class JqWriter {
         } else {
             return this.update(this.analyzer.copyEntity(queried, updated));
         }
+    }
+
+    /*
+     * When primary key is String and missed `KEY` field in zero database,
+     * Here generate default uuid key, otherwise the `key` field will be ignored.
+     * This feature does not support pojo mapping
+     */
+    private <T> T uuid(final T input) {
+        final Object keyValue = Ut.field(input, "key");
+        if (Objects.isNull(keyValue)) {
+            Ut.field(input, "key", UUID.randomUUID().toString());
+        }
+        return input;
     }
 }

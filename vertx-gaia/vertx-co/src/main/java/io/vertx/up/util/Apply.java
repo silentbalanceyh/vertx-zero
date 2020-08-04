@@ -4,6 +4,7 @@ import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 
+import java.util.Arrays;
 import java.util.Objects;
 import java.util.function.Consumer;
 import java.util.function.Function;
@@ -115,5 +116,74 @@ class Apply {
             }
             return record;
         }
+    }
+
+    static Function<JsonArray, Future<JsonArray>> ifStrings(final String... fields) {
+        return jarray -> {
+            It.itJArray(jarray).forEach(json ->
+                    Arrays.stream(fields).forEach(field -> ifString(json, field)));
+            return Future.succeededFuture(jarray);
+        };
+    }
+
+    static Function<JsonObject, Future<JsonObject>> ifString(final String... fields) {
+        return json -> {
+            Arrays.stream(fields).forEach(field -> ifString(json, field));
+            return Future.succeededFuture(json);
+        };
+    }
+
+    static Function<JsonObject, Future<JsonObject>> ifJObject(final String... fields) {
+        return json -> {
+            Arrays.stream(fields).forEach(field -> ifJson(json, field));
+            return Future.succeededFuture(json);
+        };
+    }
+
+    static Function<JsonArray, Future<JsonArray>> ifJArray(final String... fields) {
+        return jarray -> {
+            It.itJArray(jarray).forEach(json ->
+                    Arrays.stream(fields).forEach(field -> ifJson(json, field)));
+            return Future.succeededFuture(jarray);
+        };
+    }
+
+    static void ifString(final JsonObject json, final String field) {
+        if (!Types.isEmpty(json)) {
+            final Object value = json.getValue(field);
+            if (Objects.nonNull(value)) {
+                if (value instanceof JsonObject) {
+                    final String literal = ((JsonObject) value).encode();
+                    json.put(field, literal);
+                } else if (value instanceof JsonArray) {
+                    final String literal = ((JsonArray) value).encode();
+                    json.put(field, literal);
+                }
+            }
+        }
+    }
+
+    static void ifString(final JsonObject json, final String... fields) {
+        Arrays.stream(fields).forEach(field -> ifString(json, field));
+    }
+
+    static void ifJson(final JsonObject json, final String field) {
+        if (!Types.isEmpty(json)) {
+            final Object value = json.getValue(field);
+            if (Objects.nonNull(value)) {
+                final String literal = value.toString();
+                if (Types.isJObject(literal)) {
+                    final JsonObject replaced = To.toJObject(literal);
+                    json.put(field, replaced);
+                } else if (Types.isJArray(literal)) {
+                    final JsonArray replaced = To.toJArray(literal);
+                    json.put(field, replaced);
+                }
+            }
+        }
+    }
+
+    static void ifJson(final JsonObject json, final String... fields) {
+        Arrays.stream(fields).forEach(field -> ifJson(json, field));
     }
 }
