@@ -126,7 +126,8 @@ public class VisitService implements VisitStub {
         } else {
             criteria.put("configKey", configKey);
         }
-        Sc.infoView(this.getClass(), "Visitant Upsert: {0}", criteria.encode());
+        Sc.infoView(this.getClass(), "Visitant Upsert: {0}, Data: {1}",
+                criteria.encode(), request.encode());
         Ut.ifString(request,
                 "aclVisible",
                 "aclView",

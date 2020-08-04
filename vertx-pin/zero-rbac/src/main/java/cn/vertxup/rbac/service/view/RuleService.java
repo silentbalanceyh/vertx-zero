@@ -14,7 +14,10 @@ import io.vertx.up.unity.jq.UxJooq;
 import io.vertx.up.util.Ut;
 
 import javax.inject.Inject;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+import java.util.Set;
 import java.util.concurrent.ConcurrentMap;
 import java.util.stream.Collectors;
 
@@ -93,7 +96,6 @@ public class RuleService implements RuleStub {
                     /*
                      * Spec fields that should added default
                      */
-                    normalized.setKey(UUID.randomUUID().toString());
                     normalized.setActive(Boolean.TRUE);
                     normalized.setName(KeDefault.VIEW_DEFAULT);
                     addQueue.add(normalized);
