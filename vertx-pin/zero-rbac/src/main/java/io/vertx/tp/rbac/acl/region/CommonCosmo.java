@@ -12,7 +12,7 @@ public class CommonCosmo implements Cosmo {
     @Override
     public Future<Envelop> before(final Envelop request, final JsonObject matrix) {
         /* Projection Modification */
-        DataIn.visitProjection(request, matrix, null);
+        DataIn.visitProjection(request, matrix);
         /* Criteria Modification */
         DataIn.visitCriteria(request, matrix);
         return Ux.future(request);

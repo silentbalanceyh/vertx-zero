@@ -29,14 +29,14 @@ class AcModule {
             final String cacheKey = appId + ":" + entry;
             final JsonObject cachedData = CACHE_MODULE.getOrDefault(cacheKey, null);
             if (Objects.isNull(cachedData)) {
-                return Ux.future(new JsonObject());
-            } else {
                 return executor.get().compose(dataData -> {
                     if (Objects.nonNull(dataData)) {
                         CACHE_MODULE.put(cacheKey, dataData);
                     }
                     return Ux.future(dataData);
                 });
+            } else {
+                return Ux.future(cachedData);
             }
         }
     }

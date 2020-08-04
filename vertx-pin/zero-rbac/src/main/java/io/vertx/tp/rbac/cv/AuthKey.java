@@ -49,9 +49,14 @@ public interface AuthKey {
     String PROFILE_PERM = "PERM";
     String PROFILE_ROLE = "ROLE";
 
-    String ACL_VISIBLE = "visible";
-    String ACL_VIEW = "view";
-    String ACL_EDITION = "edition";
-
-    String ACL_MATRIX = "matrix";
+    interface Acl {
+        /*
+         * Five constant for checking
+         */
+        String BEFORE_PROJECTION = "BEFORE_PROJECTION";
+        String BEFORE_CRITERIA = "BEFORE_CRITERIA";
+        String AFTER_RECORD = "AFTER_RECORD";
+        String AFTER_ROWS = "AFTER_ROWS";
+        String AFTER_COLLECTION = "AFTER_COLLECTION";
+    }
 }
