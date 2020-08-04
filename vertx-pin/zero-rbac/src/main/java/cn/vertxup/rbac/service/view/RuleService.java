@@ -13,6 +13,7 @@ import io.vertx.up.unity.Ux;
 import io.vertx.up.unity.jq.UxJooq;
 import io.vertx.up.util.Ut;
 
+import javax.inject.Inject;
 import java.util.*;
 import java.util.concurrent.ConcurrentMap;
 import java.util.stream.Collectors;
@@ -21,6 +22,9 @@ import java.util.stream.Collectors;
  * @author <a href="http://www.origin-x.cn">lang</a>
  */
 public class RuleService implements RuleStub {
+    @Inject
+    private transient VisitStub visitStub;
+
     @Override
     public Future<JsonArray> procAsync(final List<SPath> paths) {
         final List<SPath> filtered = paths.stream().filter(Objects::nonNull).collect(Collectors.toList());
@@ -130,30 +134,36 @@ public class RuleService implements RuleStub {
              * newMap -> ( resourceId = JsonObject )
              * Here JsonObject may contains visitantData when viewData contain ( visitant = true )
              */
-            final JsonArray visitantArr = new JsonArray();
-            Ut.itJArray(viewData)
-                    .filter(viewItem -> viewItem.containsKey("visitant"))
-                    .filter(viewItem -> viewItem.getBoolean("visitant"))
-                    .forEach(viewItem -> {
-
-                        // Resource Id
-                        final String resourceId = viewItem.getString(KeField.RESOURCE_ID);
-                        if (Ut.notNil(resourceId) && newMap.containsKey(resourceId)) {
-                            final JsonObject input = newMap.get(resourceId);
-
-                            // Request data that contains `visitantData`
-                            if (input.containsKey("visitantData")) {
-
-                                // visitantData to generate visitant
-                                final JsonObject visitantData = input.getJsonObject("visitantData");
-                                if (Ut.notNil(visitantData)) {
-                                    visitantData.put("viewId", viewItem.getString(KeField.KEY));
-                                    System.err.println(visitantData.encodePrettily());
-                                }
-                            }
-                        }
-                    });
-            return Ux.future(viewData);
+            return this.saveVisitants(viewData, newMap);
         });
+    }
+
+    /*
+     * Save `visitants` in batch
+     */
+    private Future<JsonArray> saveVisitants(final JsonArray views, final ConcurrentMap<String, JsonObject> resourceMap) {
+        final List<Future<JsonObject>> futures = new ArrayList<>();
+        Ut.itJArray(views).filter(view -> view.getBoolean("visitant", Boolean.FALSE)).forEach(view -> {
+            /*
+             * view is S_VIEW record
+             * resourceMap is request data here
+             */
+            final String resourceId = view.getString(KeField.RESOURCE_ID);
+            if (Ut.notNil(resourceId) && resourceMap.containsKey(resourceId)) {
+                final JsonObject requestData = resourceMap.get(resourceId);
+                if (requestData.containsKey("visitantData")) {
+                    final JsonObject visitantData = requestData.getJsonObject("visitantData");
+                    if (Ut.notNil(visitantData)) {
+                        futures.add(this.visitStub.saveAsync(visitantData.copy(), view)
+                                /*
+                                 * Processed for views
+                                 */
+                                .compose(processed -> Ux.future(view.put("visitantData", processed)))
+                        );
+                    }
+                }
+            }
+        });
+        return Ux.thenCombine(futures).compose(nil -> Ux.future(views));
     }
 }

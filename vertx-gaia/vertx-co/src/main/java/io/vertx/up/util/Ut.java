@@ -405,6 +405,7 @@ public final class Ut {
      * 7) field / fields
      * 8) contract / contractAsync ( @Contract )
      * 9) plugin
+     * 10) assign
      */
     public static <T> T plugin(final JsonObject options, final String pluginKey, final Class<T> interfaceCls) {
         return Instance.plugin(options, pluginKey, interfaceCls);
@@ -497,6 +498,10 @@ public final class Ut {
     public static <T, V> Future<Boolean> contractAsync(final T instance, final Class<?> fieldType, final V value) {
         contract(instance, fieldType, value);
         return Future.succeededFuture(Boolean.TRUE);
+    }
+
+    public static void assign(final JsonObject target, final JsonObject source, final String... fields) {
+        Jackson.assign(target, source, fields);
     }
 
     /*
@@ -659,7 +664,41 @@ public final class Ut {
      * 3) ifEmpty / ifJEmpty
      * 4) ifJValue -> JsonObject field filling of value
      * 5) ifJCopy -> JsonObject copy self
+     * 6) ifJObject / ifJArray /
+     * 7) ifString / ifStrings
      */
+
+    public static void ifStrings(final JsonArray array, final String... fields) {
+        It.itJArray(array).forEach(json -> Apply.ifString(json, fields));
+    }
+
+    public static void ifString(final JsonObject json, final String... fields) {
+        Apply.ifString(json, fields);
+    }
+
+    public static Function<JsonArray, Future<JsonArray>> ifStrings(final String... fields) {
+        return Apply.ifStrings(fields);
+    }
+
+    public static Function<JsonObject, Future<JsonObject>> ifString(final String... fields) {
+        return Apply.ifString(fields);
+    }
+
+    public static Function<JsonObject, Future<JsonObject>> ifJObject(final String... fields) {
+        return Apply.ifJObject(fields);
+    }
+
+    public static void ifJObject(final JsonObject json, final String... fields) {
+        Apply.ifJson(json, fields);
+    }
+
+    public static Function<JsonArray, Future<JsonArray>> ifJArray(final String... fields) {
+        return Apply.ifJArray(fields);
+    }
+
+    public static void ifJArray(final JsonArray array, final String... fields) {
+        It.itJArray(array).forEach(json -> Apply.ifJson(json, fields));
+    }
 
     public static JsonObject ifMerge(final JsonObject target, final JsonObject source) {
         return Jackson.flatMerge(target, source);
