@@ -51,6 +51,9 @@ public class AclData implements Acl {
 
     private final AclPhase phase;
 
+    private final ConcurrentMap<String, JsonObject> seekConfig
+            = new ConcurrentHashMap<>();
+
     public AclData(final SVisitant visitant) {
         if (Objects.nonNull(visitant)) {
             /*
@@ -116,6 +119,14 @@ public class AclData implements Acl {
     }
 
     @Override
+    public Acl config(final JsonObject config) {
+        if (Ut.notNil(config)) {
+
+        }
+        return this;
+    }
+
+    @Override
     public JsonObject acl() {
         final JsonObject acl = new JsonObject();
         /*
@@ -150,5 +161,11 @@ public class AclData implements Acl {
         accessArr.addAll(Ut.toJArray(this.fields));
         acl.put("fields", accessArr);
         return acl;
+    }
+
+    @Override
+    public boolean ok(final String phase) {
+
+        return false;
     }
 }

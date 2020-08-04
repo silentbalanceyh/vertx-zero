@@ -4,6 +4,7 @@ import cn.vertxup.ambient.domain.tables.daos.XModuleDao;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
+import io.vertx.tp.ambient.cache.AcCache;
 import io.vertx.tp.ke.cv.KeField;
 import io.vertx.tp.ke.refine.Ke;
 import io.vertx.tp.optic.business.ExModel;
@@ -16,11 +17,14 @@ public class ModelService implements ModelStub {
                 .put("", Boolean.TRUE)
                 .put("entry", entry)
                 .put("appId", appId);
-        return Ux.Jooq.on(XModuleDao.class)
+        /*
+         * Cache Module for future usage
+         */
+        return AcCache.getModule(filters, () -> Ux.Jooq.on(XModuleDao.class)
                 .fetchOneAsync(filters)
                 .compose(Ux::fnJObject)
                 /* Metadata field usage */
-                .compose(Ke.mount(KeField.METADATA));
+                .compose(Ke.mount(KeField.METADATA)));
     }
 
     @Override

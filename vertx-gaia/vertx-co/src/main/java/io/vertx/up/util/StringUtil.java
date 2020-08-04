@@ -132,8 +132,8 @@ final class StringUtil {
             Ut.itJObject(params, (value, key) -> context.set(key, value));
             return expression.evaluate(context).toString();
         } catch (final JexlException ex) {
-            // ex.printStackTrace();   // For Debug
-            return expr;            // For Keep original string
+            // ex.printStackTrace();    // For Debug
+            return null;                // Get null
             // throw new JexlExpressionException(StringUtil.class, expr, ex);
         }
     }

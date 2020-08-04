@@ -11,6 +11,12 @@ import java.util.Set;
  */
 public interface Acl extends Serializable {
     /*
+     * Acl configuration to store
+     * seeker configuration
+     */
+    Acl config(JsonObject config);
+
+    /*
      * projection calculation
      */
     Set<String> projection();
@@ -29,4 +35,9 @@ public interface Acl extends Serializable {
      * Record bind
      */
     void bind(JsonObject record);
+
+    /*
+     * Ok for region
+     */
+    boolean ok(String phase);
 }

@@ -21,7 +21,7 @@ public class SeekCosmo implements Cosmo {
         } else {
             if (Ut.isNil(seeker)) {
                 /* Projection Modification */
-                DataIn.visitProjection(request, matrix, null);
+                DataIn.visitProjection(request, matrix);
                 /* Criteria Modification */
                 DataIn.visitCriteria(request, matrix);
                 return Ux.future(request);
@@ -30,7 +30,7 @@ public class SeekCosmo implements Cosmo {
                 return DataIn.visitAcl(request, matrix, AclTime.BEFORE).compose(acl -> {
                     request.acl(acl);
                     /* Projection Modification */
-                    DataIn.visitProjection(request, matrix, acl);
+                    DataIn.visitProjection(request, matrix);
                     /* Criteria Modification */
                     DataIn.visitCriteria(request, matrix);
                     return Ux.future(request);

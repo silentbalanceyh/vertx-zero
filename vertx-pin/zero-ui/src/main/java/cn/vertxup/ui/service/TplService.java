@@ -16,13 +16,12 @@ public class TplService implements TplStub {
         /*
          * Enable Cache for Layout
          */
-        return Ke.poolAsync(LAYOUT_POOL, layoutId,
-                () -> Ux.Jooq.on(UiLayoutDao.class)
-                        .findByIdAsync(layoutId)
-                        .compose(Ux::fnJObject)
-                        /*
-                         * Configuration converted to Json
-                         */
-                        .compose(Ke.mount(KeField.Ui.CONFIG)));
+        return Ke.poolAsync(LAYOUT_POOL, layoutId, () -> Ux.Jooq.on(UiLayoutDao.class)
+                .findByIdAsync(layoutId)
+                .compose(Ux::fnJObject)
+                /*
+                 * Configuration converted to Json
+                 */
+                .compose(Ke.mount(KeField.Ui.CONFIG)));
     }
 }

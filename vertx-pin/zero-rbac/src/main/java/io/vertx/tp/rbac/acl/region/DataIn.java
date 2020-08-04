@@ -26,10 +26,10 @@ import java.util.Objects;
 class DataIn {
     private static final Annal LOGGER = Annal.get(DataIn.class);
 
-    static void visitProjection(final Envelop envelop, final JsonObject matrix, final Acl acl) {
+    static void visitProjection(final Envelop envelop, final JsonObject matrix) {
         final JsonArray projection = matrix.getJsonArray(Inquiry.KEY_PROJECTION);
         if (Objects.nonNull(projection) && !projection.isEmpty()) {
-            final JsonArray replaced = Sc.aclProjection(projection, acl);
+            final JsonArray replaced = Sc.aclProjection(projection, envelop.acl());
             envelop.onProjection(replaced);
         }
     }
@@ -75,18 +75,15 @@ class DataIn {
             {
                 final JsonObject syntaxData = Ut.sureJObject(syntax.getJsonObject(KeField.DATA));
                 Ut.<String>itJObject(syntaxData, (expr, field) -> {
-                    String literal;
+                    final String literal;
                     if (expr.contains("`")) {
-                        try {
-                            literal = Ut.fromExpression(expr, input);
-                        } catch (final Throwable ex) {
-                            // Throwable for continue
-                            literal = null;
-                        }
+                        literal = Ut.fromExpression(expr, input);
                     } else {
                         literal = expr;
                     }
-                    condition.put(field, literal);
+                    if (Ut.notNil(literal)) {
+                        condition.put(field, literal);
+                    }
                 });
             }
             LOGGER.info("Visitant unique query condition: {0}", condition);
@@ -101,7 +98,7 @@ class DataIn {
                     if (Objects.isNull(ret)) {
                         return Ux.future();
                     } else {
-                        return Ux.future(new AclData(ret));
+                        return Ux.future(new AclData(ret).config(seeker.getJsonObject("config")));
                     }
                 });
             } else return Ux.future();
