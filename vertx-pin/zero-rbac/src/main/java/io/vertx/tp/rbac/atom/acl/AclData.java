@@ -168,9 +168,9 @@ public class AclData implements Acl {
          * 1) When access > this.fields, it should be edition
          * 2) Then it's readonly
          */
-        final JsonArray accessArr = access.copy();
-        accessArr.addAll(Ut.toJArray(this.fields));
-        acl.put("fields", accessArr);
+        final Set<String> accessArr = Ut.toSet(access.copy());
+        accessArr.addAll(this.fields);
+        acl.put("fields", Ut.toJArray(accessArr));
         return acl;
     }
 }

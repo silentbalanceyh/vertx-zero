@@ -22,12 +22,8 @@ class ScAcl {
         }
     }
 
-    static JsonArray aclBefore(final JsonArray original, final Acl acl) {
+    static JsonArray aclOn(final JsonArray original, final Acl acl) {
         return aclProjection(original, acl, out -> AclPhase.EAGER == out.phase());
-    }
-
-    static JsonArray aclAfter(final JsonArray original, final Acl acl) {
-        return aclProjection(original, acl, out -> AclPhase.DELAY == out.phase());
     }
 
     private static JsonArray aclProjection(final JsonArray original, final Acl acl,

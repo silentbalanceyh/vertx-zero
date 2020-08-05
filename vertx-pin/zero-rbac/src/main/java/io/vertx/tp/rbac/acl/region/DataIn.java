@@ -29,7 +29,7 @@ class DataIn {
             /*
              * original + acl projection
              */
-            projection = Sc.aclBefore(projection, acl);
+            projection = Sc.aclOn(projection, acl);
         }
         if (Objects.nonNull(projection) && !projection.isEmpty()) {
             /*

@@ -157,12 +157,8 @@ public class Sc {
     /*
      * Acl method
      */
-    public static JsonArray aclBefore(final JsonArray original, final Acl acl) {
-        return ScAcl.aclBefore(original, acl);
-    }
-
-    public static JsonArray aclAfter(final JsonArray original, final Acl acl) {
-        return ScAcl.aclAfter(original, acl);
+    public static JsonArray aclOn(final JsonArray original, final Acl acl) {
+        return ScAcl.aclOn(original, acl);
     }
 
     public static void aclRecord(final JsonObject record, final Acl acl) {
