@@ -1,4 +1,4 @@
-package io.vertx.tp.rbac.acl.dwarf;
+package io.vertx.tp.rbac.acl.rapid;
 
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.error._500DwarfInstanceNullException;
@@ -9,9 +9,9 @@ import io.vertx.up.fn.Fn;
 /*
  * Dwarf
  */
-public interface DataDwarf {
+public interface Dwarf {
 
-    static DataDwarf create(final RegionType type) {
+    static Dwarf create(final RegionType type) {
         if (RegionType.RECORD == type) {
             return Fn.pool(Pool.DWARF_POOL, type, RecordDwarf::new);
         } else if (RegionType.PAGINATION == type) {
@@ -22,7 +22,7 @@ public interface DataDwarf {
             /*
              * Exception for unsupported type of Dwarf
              */
-            Fn.out(true, _500DwarfInstanceNullException.class, DataDwarf.class, type);
+            Fn.out(true, _500DwarfInstanceNullException.class, Dwarf.class, type);
             return null;
         }
     }

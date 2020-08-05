@@ -103,6 +103,12 @@ public interface KeField {
     String TEAM_ID = "teamId";                  /* Team Id */
     String WORK_NUMBER = "workNumber";          /* Work Number */
 
+    String CONFIG = "config";                   /* Acl Usage */
+    String PHASE = "phase";                     /* Acl Phase */
+    String SEEKER = "seeker";                   /* Acl Seeker */
+    String SYNTAX = "syntax";                   /* Acl Syntax */
+    String VIEW_ID = "viewId";                  /* View Id */
+
     /*
      * X_APP
      */

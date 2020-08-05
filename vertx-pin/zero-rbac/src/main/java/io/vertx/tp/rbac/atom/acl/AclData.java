@@ -50,9 +50,7 @@ public class AclData implements Acl {
             new ConcurrentHashMap<>();
 
     private final AclPhase phase;
-
-    private final ConcurrentMap<String, JsonObject> seekConfig
-            = new ConcurrentHashMap<>();
+    private final JsonObject config = new JsonObject();
 
     public AclData(final SVisitant visitant) {
         if (Objects.nonNull(visitant)) {
@@ -99,7 +97,7 @@ public class AclData implements Acl {
     }
 
     @Override
-    public Set<String> projection() {
+    public Set<String> aclVisible() {
         return this.commonMap.keySet();
     }
 
@@ -121,9 +119,14 @@ public class AclData implements Acl {
     @Override
     public Acl config(final JsonObject config) {
         if (Ut.notNil(config)) {
-
+            this.config.mergeIn(config);
         }
         return this;
+    }
+
+    @Override
+    public JsonObject config() {
+        return this.config;
     }
 
     @Override
@@ -149,7 +152,7 @@ public class AclData implements Acl {
         if (Ut.notNil(access)) {
             acl.put("access", access);
         }
-        if (Ut.notNil(edition)) {
+        if (Ut.notNil(edition) && Ut.isNil(this.config)) {
             acl.put("edition", edition);
         }
         /*
@@ -157,15 +160,11 @@ public class AclData implements Acl {
          * 1) When access > this.fields, it should be edition
          * 2) Then it's readonly
          */
-        final JsonArray accessArr = access.copy();
-        accessArr.addAll(Ut.toJArray(this.fields));
-        acl.put("fields", accessArr);
+        if (Ut.isNil(this.config)) {
+            final Set<String> accessArr = Ut.toSet(access.copy());
+            accessArr.addAll(this.fields);
+            acl.put("fields", Ut.toJArray(accessArr));
+        }
         return acl;
-    }
-
-    @Override
-    public boolean ok(final String phase) {
-
-        return false;
     }
 }

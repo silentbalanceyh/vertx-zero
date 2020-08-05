@@ -16,10 +16,12 @@ public interface Acl extends Serializable {
      */
     Acl config(JsonObject config);
 
+    JsonObject config();
+
     /*
      * projection calculation
      */
-    Set<String> projection();
+    Set<String> aclVisible();
 
     /*
      * JsonObject calculation
@@ -35,9 +37,4 @@ public interface Acl extends Serializable {
      * Record bind
      */
     void bind(JsonObject record);
-
-    /*
-     * Ok for region
-     */
-    boolean ok(String phase);
 }

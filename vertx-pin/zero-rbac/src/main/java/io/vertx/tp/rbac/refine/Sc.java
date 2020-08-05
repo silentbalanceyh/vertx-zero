@@ -157,8 +157,8 @@ public class Sc {
     /*
      * Acl method
      */
-    public static JsonArray aclProjection(final JsonArray original, final Acl acl) {
-        return ScAcl.aclProjection(original, acl);
+    public static JsonArray aclOn(final JsonArray original, final Acl acl) {
+        return ScAcl.aclOn(original, acl);
     }
 
     public static void aclRecord(final JsonObject record, final Acl acl) {

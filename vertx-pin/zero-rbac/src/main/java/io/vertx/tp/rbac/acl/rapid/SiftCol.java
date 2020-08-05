@@ -1,4 +1,4 @@
-package io.vertx.tp.rbac.acl.dwarf;
+package io.vertx.tp.rbac.acl.rapid;
 
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
@@ -10,8 +10,8 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
-class Dwarf {
-    private static final Annal LOGGER = Annal.get(Dwarf.class);
+class SiftCol {
+    private static final Annal LOGGER = Annal.get(SiftCol.class);
 
     /*
      * projection -> JsonObject
@@ -56,34 +56,5 @@ class Dwarf {
                 .map(item -> onProjection(item, projection))
                 .forEach(result::add);
         return result;
-    }
-
-    /*
-     * rows -> JsonArray
-     */
-    static JsonArray onRows(final JsonArray input, final JsonObject rows) {
-        final JsonArray result = new JsonArray();
-        if (rows.isEmpty()) {
-            /*
-             * Do not do any row filters.
-             */
-            result.addAll(input);
-        } else {
-            Sc.infoAuth(LOGGER, AuthMsg.REGION_ROWS, rows.encode());
-            input.stream().filter(Objects::nonNull)
-                    .map(item -> (JsonObject) item)
-                    .filter(item -> isMatch(item, rows))
-                    .forEach(result::add);
-        }
-        return result;
-    }
-
-    private static boolean isMatch(final JsonObject item, final JsonObject rows) {
-        final long counter = rows.fieldNames().stream().filter(field -> {
-            final Object inputValue = item.getValue(field);
-            final JsonArray rowsArray = rows.getJsonArray(field);
-            return !rowsArray.contains(inputValue);
-        }).count();
-        return 0 == counter;
     }
 }

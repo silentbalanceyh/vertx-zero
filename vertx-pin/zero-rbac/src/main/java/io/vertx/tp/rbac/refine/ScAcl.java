@@ -9,6 +9,7 @@ import io.vertx.up.util.Ut;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Predicate;
 
 /**
  * @author <a href="http://www.origin-x.cn">lang</a>
@@ -21,7 +22,12 @@ class ScAcl {
         }
     }
 
-    static JsonArray aclProjection(final JsonArray original, final Acl acl) {
+    static JsonArray aclOn(final JsonArray original, final Acl acl) {
+        return aclProjection(original, acl, out -> AclPhase.EAGER == out.phase());
+    }
+
+    private static JsonArray aclProjection(final JsonArray original, final Acl acl,
+                                           final Predicate<Acl> predicate) {
         final JsonArray projection = Ut.sureJArray(original);
         if (Objects.isNull(acl)) {
             /*
@@ -29,43 +35,46 @@ class ScAcl {
              */
             return projection;
         } else {
-            /*
-             * Delay for acl control in phase
-             */
-            if (AclPhase.EAGER == acl.phase()) {
-                final Set<String> aclProjection = acl.projection();
-                if (aclProjection.isEmpty()) {
-                    /*
-                     * acl is empty, it means no definition found in our system
-                     * If the acl will be modified / configured, it must contains some default fields
-                     * such as:
-                     * - active
-                     * - key
-                     * - language
-                     * - sigma
-                     */
-                    return projection;
-                } else {
-                    /*
-                     * Mix calculation
-                     * 1) Acl Projection is major control
-                     * 2) Matrix Projection is the secondary here, it means that all aclProjection must contains
-                     */
-                    final Set<String> replaced = new HashSet<>(aclProjection);
-                    Ut.itJArray(projection, String.class, (field, index) -> {
-                        if (aclProjection.contains(field)) {
-                            replaced.add(field);
-                        }
-                    });
-                    return Ut.toJArray(replaced);
-                }
+            if (predicate.test(acl)) {
+                /*
+                 * Acl combine with projection
+                 */
+                return aclProjection(original, acl);
             } else {
                 /*
-                 * Delay and pass acl only for record
-                 * Here the situation is form control
+                 * Keep the same, no happen
                  */
                 return projection;
             }
+        }
+    }
+
+    private static JsonArray aclProjection(final JsonArray original, final Acl acl) {
+        final Set<String> aclProjection = acl.aclVisible();
+        if (aclProjection.isEmpty()) {
+            /*
+             * acl is empty, it means no definition found in our system
+             * If the acl will be modified / configured, it must contains some default fields
+             * such as:
+             * - active
+             * - key
+             * - language
+             * - sigma
+             */
+            return original;
+        } else {
+            /*
+             * Mix calculation
+             * 1) Acl Projection is major control
+             * 2) Matrix Projection is the secondary here, it means that all aclProjection must contains
+             */
+            final Set<String> replaced = new HashSet<>(aclProjection);
+            Ut.itJArray(original, String.class, (field, index) -> {
+                if (aclProjection.contains(field)) {
+                    replaced.add(field);
+                }
+            });
+            return Ut.toJArray(replaced);
         }
     }
 }

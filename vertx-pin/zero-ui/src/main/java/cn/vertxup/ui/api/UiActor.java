@@ -1,12 +1,10 @@
 package cn.vertxup.ui.api;
 
-import cn.vertxup.ui.service.ControlStub;
-import cn.vertxup.ui.service.FormStub;
-import cn.vertxup.ui.service.ListStub;
-import cn.vertxup.ui.service.PageStub;
+import cn.vertxup.ui.service.*;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
+import io.vertx.tp.ke.cv.KeField;
 import io.vertx.tp.ui.cv.Addr;
 import io.vertx.tp.ui.cv.em.ControlType;
 import io.vertx.up.annotations.Address;
@@ -30,6 +28,9 @@ public class UiActor {
 
     @Inject
     private transient ControlStub controlStub;
+
+    @Inject
+    private transient OpStub opStub;
 
     @Address(Addr.Page.FETCH_AMP)
     public Future<JsonObject> fetchAmp(final String sigma, final JsonObject body) {
@@ -55,7 +56,18 @@ public class UiActor {
     @Address(Addr.Control.FETCH_OP)
     public Future<JsonArray> fetchOps(final JsonObject body) {
         final String control = body.getString("control");
-        return this.controlStub.fetchOps(control);
+        if (Ut.notNil(control)) {
+            /*
+             * UI_OP stored
+             */
+            return this.opStub.fetchDynamic(control);
+        } else {
+            /*
+             * fetch data plugin/ui/ops.json
+             */
+            final String identifier = body.getString(KeField.IDENTIFIER);
+            return this.opStub.fetchFixed(identifier);
+        }
     }
 
     @Address(Addr.Control.FETCH_FORM_BY_CODE)

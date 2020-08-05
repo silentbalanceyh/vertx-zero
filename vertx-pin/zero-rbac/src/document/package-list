@@ -10,7 +10,7 @@ cn.vertxup.rbac.ipc
 cn.vertxup.rbac.service.accredit
 cn.vertxup.rbac.service.batch
 cn.vertxup.rbac.service.business
-io.vertx.tp.rbac.acl.dwarf
+io.vertx.tp.rbac.acl.rapid
 cn.vertxup.rbac.service.jwt
 cn.vertxup.rbac.service.login
 cn.vertxup.rbac.service.view
