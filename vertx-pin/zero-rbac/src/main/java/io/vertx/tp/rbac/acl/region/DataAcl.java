@@ -7,6 +7,7 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.tp.ke.cv.KeField;
 import io.vertx.tp.rbac.atom.acl.AclData;
 import io.vertx.tp.rbac.cv.em.AclTime;
+import io.vertx.tp.rbac.refine.Sc;
 import io.vertx.up.commune.Envelop;
 import io.vertx.up.commune.secure.Acl;
 import io.vertx.up.eon.Values;
@@ -66,7 +67,7 @@ class DataAcl {
                     }
                 });
             }
-            LOGGER.info("Visitant unique query condition: {0}", condition);
+            Sc.infoView(DataAcl.class, "Visitant unique query condition: {0}", condition);
             if (Ut.notNil(condition)) {
                 return Ux.Jooq.on(SVisitantDao.class).<SVisitant>fetchAndAsync(condition).compose(visitant -> {
                     final SVisitant ret;

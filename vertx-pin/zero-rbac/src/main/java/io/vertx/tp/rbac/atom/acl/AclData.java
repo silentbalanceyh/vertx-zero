@@ -131,45 +131,40 @@ public class AclData implements Acl {
 
     @Override
     public JsonObject acl() {
+        final JsonObject acl = new JsonObject();
+        /*
+         * capture access field information
+         */
+        final JsonArray access = new JsonArray();
+        final JsonArray edition = new JsonArray();
+        this.commonMap.forEach((field, aclField) -> {
+            /*
+             * access: []
+             * edition: []
+             */
+            if (aclField.isAccess()) {
+                access.add(field);
+            }
+            if (aclField.isEdit()) {
+                edition.add(field);
+            }
+        });
+        if (Ut.notNil(access)) {
+            acl.put("access", access);
+        }
+        if (Ut.notNil(edition) && Ut.isNil(this.config)) {
+            acl.put("edition", edition);
+        }
+        /*
+         * access + this.fields
+         * 1) When access > this.fields, it should be edition
+         * 2) Then it's readonly
+         */
         if (Ut.isNil(this.config)) {
-            final JsonObject acl = new JsonObject();
-            /*
-             * capture access field information
-             */
-            final JsonArray access = new JsonArray();
-            final JsonArray edition = new JsonArray();
-            this.commonMap.forEach((field, aclField) -> {
-                /*
-                 * access: []
-                 * edition: []
-                 */
-                if (aclField.isAccess()) {
-                    access.add(field);
-                }
-                if (aclField.isEdit()) {
-                    edition.add(field);
-                }
-            });
-            if (Ut.notNil(access)) {
-                acl.put("access", access);
-            }
-            if (Ut.notNil(edition)) {
-                acl.put("edition", edition);
-            }
-            /*
-             * access + this.fields
-             * 1) When access > this.fields, it should be edition
-             * 2) Then it's readonly
-             */
             final Set<String> accessArr = Ut.toSet(access.copy());
             accessArr.addAll(this.fields);
             acl.put("fields", Ut.toJArray(accessArr));
-            return acl;
-        } else {
-            /*
-             * Only process acl information
-             */
-            return null;
         }
+        return acl;
     }
 }
