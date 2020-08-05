@@ -44,7 +44,7 @@ class PaginationDwarf implements Dwarf {
         final JsonArray inputArray = pagination.getJsonArray("list");
 
         /* rows */
-        final JsonArray updated = DataDwarf.onRows(inputArray, matrix.getJsonObject("rows"));
+        final JsonArray updated = SiftRow.onRows(inputArray, matrix.getJsonObject("rows"));
 
         /* Updated, be careful there should modify list node */
         pagination.put("list", updated);

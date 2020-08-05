@@ -34,9 +34,9 @@ class DataAcl {
          * 2）To avoid missing acl configuration information, the default phase is `BEFORE`
          * 3）Input and Define must be matched
          ***/
-        final JsonObject seeker = matrix.getJsonObject("seeker");
-        final JsonObject syntax = seeker.getJsonObject("syntax");
-        final AclTime actual = Ut.toEnum(() -> syntax.getString("phase"), AclTime.class, AclTime.BEFORE);
+        final JsonObject seeker = matrix.getJsonObject(KeField.SEEKER);
+        final JsonObject syntax = seeker.getJsonObject(KeField.SYNTAX);
+        final AclTime actual = Ut.toEnum(() -> syntax.getString(KeField.PHASE), AclTime.class, AclTime.BEFORE);
         if (expected == actual) {
             final JsonObject input = new JsonObject();
             {
@@ -49,7 +49,7 @@ class DataAcl {
                 input.put(KeField.RESOURCE_ID, viewData.getString(KeField.RESOURCE_ID));
                 input.put(KeField.SIGMA, viewData.getString(KeField.SIGMA));
                 input.put(KeField.LANGUAGE, viewData.getString(KeField.LANGUAGE));
-                input.put("viewId", viewData.getString(KeField.KEY));
+                input.put(KeField.VIEW_ID, viewData.getString(KeField.KEY));
             }
             final JsonObject condition = new JsonObject();
             {
@@ -78,7 +78,7 @@ class DataAcl {
                     if (Objects.isNull(ret)) {
                         return Ux.future();
                     } else {
-                        return Ux.future(new AclData(ret).config(syntax.getJsonObject("region")));
+                        return Ux.future(new AclData(ret).config(syntax.getJsonObject(KeField.CONFIG)));
                     }
                 });
             } else return Ux.future();

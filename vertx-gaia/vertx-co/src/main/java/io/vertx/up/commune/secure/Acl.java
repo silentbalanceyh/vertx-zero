@@ -16,10 +16,12 @@ public interface Acl extends Serializable {
      */
     Acl config(JsonObject config);
 
+    JsonObject config();
+
     /*
      * projection calculation
      */
-    Set<String> projection();
+    Set<String> aclVisible();
 
     /*
      * JsonObject calculation

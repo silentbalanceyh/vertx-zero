@@ -3,7 +3,6 @@ package io.vertx.tp.rbac.atom.acl;
 import cn.vertxup.rbac.domain.tables.pojos.SVisitant;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.ke.cv.KeField;
 import io.vertx.tp.rbac.cv.em.AclType;
 import io.vertx.up.commune.secure.Acl;
 import io.vertx.up.commune.secure.AclView;
@@ -51,9 +50,7 @@ public class AclData implements Acl {
             new ConcurrentHashMap<>();
 
     private final AclPhase phase;
-
-    private final ConcurrentMap<String, JsonObject> regionMap
-            = new ConcurrentHashMap<>();
+    private final JsonObject config = new JsonObject();
 
     public AclData(final SVisitant visitant) {
         if (Objects.nonNull(visitant)) {
@@ -100,7 +97,7 @@ public class AclData implements Acl {
     }
 
     @Override
-    public Set<String> projection() {
+    public Set<String> aclVisible() {
         return this.commonMap.keySet();
     }
 
@@ -120,57 +117,59 @@ public class AclData implements Acl {
     }
 
     @Override
-    public Acl config(final JsonObject region) {
-        if (Ut.notNil(region)) {
-            final JsonArray data = Ut.sureJArray(region.getJsonArray(KeField.DATA));
-            final JsonObject config = Ut.sureJObject(region.getJsonObject("config"));
-            if (Ut.notNil(data)) {
-                Ut.itJArray(data, String.class, (field, index) -> {
-                    if (config.containsKey(field)) {
-                        this.regionMap.put(field, config.getJsonObject(field));
-                    } else {
-                        this.regionMap.put(field, null);
-                    }
-                });
-            }
+    public Acl config(final JsonObject config) {
+        if (Ut.notNil(config)) {
+            this.config.mergeIn(config);
         }
         return this;
     }
 
     @Override
+    public JsonObject config() {
+        return this.config;
+    }
+
+    @Override
     public JsonObject acl() {
-        final JsonObject acl = new JsonObject();
-        /*
-         * capture access field information
-         */
-        final JsonArray access = new JsonArray();
-        final JsonArray edition = new JsonArray();
-        this.commonMap.forEach((field, aclField) -> {
+        if (Ut.isNil(this.config)) {
+            final JsonObject acl = new JsonObject();
             /*
-             * access: []
-             * edition: []
+             * capture access field information
              */
-            if (aclField.isAccess()) {
-                access.add(field);
+            final JsonArray access = new JsonArray();
+            final JsonArray edition = new JsonArray();
+            this.commonMap.forEach((field, aclField) -> {
+                /*
+                 * access: []
+                 * edition: []
+                 */
+                if (aclField.isAccess()) {
+                    access.add(field);
+                }
+                if (aclField.isEdit()) {
+                    edition.add(field);
+                }
+            });
+            if (Ut.notNil(access)) {
+                acl.put("access", access);
             }
-            if (aclField.isEdit()) {
-                edition.add(field);
+            if (Ut.notNil(edition)) {
+                acl.put("edition", edition);
             }
-        });
-        if (Ut.notNil(access)) {
-            acl.put("access", access);
+            /*
+             * access + this.fields
+             * 1) When access > this.fields, it should be edition
+             * 2) Then it's readonly
+             */
+            final Set<String> accessArr = Ut.toSet(access.copy());
+            accessArr.addAll(this.fields);
+            acl.put("fields", Ut.toJArray(accessArr));
+            return acl;
+        } else {
+            /*
+             * Only process acl information
+             */
+            return null;
         }
-        if (Ut.notNil(edition)) {
-            acl.put("edition", edition);
-        }
-        /*
-         * access + this.fields
-         * 1) When access > this.fields, it should be edition
-         * 2) Then it's readonly
-         */
-        final Set<String> accessArr = Ut.toSet(access.copy());
-        accessArr.addAll(this.fields);
-        acl.put("fields", Ut.toJArray(accessArr));
-        return acl;
     }
 }

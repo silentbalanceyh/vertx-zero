@@ -10,8 +10,8 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
-class DataDwarf {
-    private static final Annal LOGGER = Annal.get(DataDwarf.class);
+class SiftCol {
+    private static final Annal LOGGER = Annal.get(SiftCol.class);
 
     /*
      * projection -> JsonObject
@@ -56,34 +56,5 @@ class DataDwarf {
                 .map(item -> onProjection(item, projection))
                 .forEach(result::add);
         return result;
-    }
-
-    /*
-     * rows -> JsonArray
-     */
-    static JsonArray onRows(final JsonArray input, final JsonObject rows) {
-        final JsonArray result = new JsonArray();
-        if (rows.isEmpty()) {
-            /*
-             * Do not do any row filters.
-             */
-            result.addAll(input);
-        } else {
-            Sc.infoAuth(LOGGER, AuthMsg.REGION_ROWS, rows.encode());
-            input.stream().filter(Objects::nonNull)
-                    .map(item -> (JsonObject) item)
-                    .filter(item -> isMatch(item, rows))
-                    .forEach(result::add);
-        }
-        return result;
-    }
-
-    private static boolean isMatch(final JsonObject item, final JsonObject rows) {
-        final long counter = rows.fieldNames().stream().filter(field -> {
-            final Object inputValue = item.getValue(field);
-            final JsonArray rowsArray = rows.getJsonArray(field);
-            return !rowsArray.contains(inputValue);
-        }).count();
-        return 0 == counter;
     }
 }

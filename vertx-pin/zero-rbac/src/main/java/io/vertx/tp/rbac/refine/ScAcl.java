@@ -50,7 +50,7 @@ class ScAcl {
     }
 
     private static JsonArray aclProjection(final JsonArray original, final Acl acl) {
-        final Set<String> aclProjection = acl.projection();
+        final Set<String> aclProjection = acl.aclVisible();
         if (aclProjection.isEmpty()) {
             /*
              * acl is empty, it means no definition found in our system

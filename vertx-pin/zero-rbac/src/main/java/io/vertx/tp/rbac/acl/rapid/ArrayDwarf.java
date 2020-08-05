@@ -2,8 +2,10 @@ package io.vertx.tp.rbac.acl.rapid;
 
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
+import io.vertx.tp.rbac.refine.Sc;
 import io.vertx.up.atom.query.Inquiry;
 import io.vertx.up.commune.secure.Acl;
+import io.vertx.up.util.Ut;
 
 import java.util.Objects;
 
@@ -38,13 +40,40 @@ class ArrayDwarf implements Dwarf {
         final JsonArray inputArray = dataReference.getJsonArray("data");
 
         /* rows */
-        JsonArray updated = DataDwarf.onRows(inputArray, matrix.getJsonObject("rows"));
-
-        /* projection: for After Get only */
-        updated = DataDwarf.onProjection(updated, matrix.getJsonArray(Inquiry.KEY_PROJECTION));
+        JsonArray updated = SiftRow.onRows(inputArray, matrix.getJsonObject("rows"));
 
         if (Objects.nonNull(acl)) {
-            /* acl normalized on */
+            /*
+             * Acl normalized only
+             * 2 -> 1 choice
+             * 1) Existing config: aclVisible -> rows
+             * 2) No config: aclVisible as projection
+             */
+            final JsonObject config = acl.config();
+            if (Ut.isNil(config) || Ut.isNil(config.getJsonObject("rows"))) {
+
+                /* projection: for After Get only */
+                updated = SiftCol.onProjection(updated,
+                        Sc.aclOn(matrix.getJsonArray(Inquiry.KEY_PROJECTION), acl));
+            } else {
+
+                /* pick up projection in S_VIEW only */
+                updated = SiftCol.onProjection(updated,
+                        matrix.getJsonArray(Inquiry.KEY_PROJECTION));
+
+                /*
+                 * Produce rows configuration
+                 * {
+                 *     "field1": [],
+                 *     "field2": [],
+                 * }
+                 * */
+                final JsonObject rows = SiftRow.onAcl(
+                        config.getJsonObject("rows"), acl.aclVisible());
+                if (Objects.nonNull(rows)) {
+                    updated = SiftRow.onRows(updated, rows);
+                }
+            }
         }
         /* Updated */
         dataReference.put("data", updated);
