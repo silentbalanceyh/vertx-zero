@@ -75,6 +75,10 @@ class UiConfiguration {
         return COLUMN_MAP.getOrDefault(key, new JsonArray());
     }
 
+    static JsonArray getOp() {
+        return Ut.sureJArray(CONFIG.getOp());
+    }
+
     static JsonArray attributes(final String key) {
         final JsonArray columns = getColumn(key);
         if (Ut.notNil(columns)) {

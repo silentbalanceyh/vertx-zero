@@ -65,7 +65,7 @@ public class VisitService implements VisitStub {
                         criteria.put("viewId", view.getKey());
                         criteria.put(KeField.TYPE, type);
                         criteria.put(KeField.SIGMA, view.getSigma());
-                        if (Ut.isNil(configKey)) {
+                        if (Ut.notNil(identifier)) {
                             /*
                              * identifier as condition
                              * in this kind of situation, here are the definition for `identifier`
