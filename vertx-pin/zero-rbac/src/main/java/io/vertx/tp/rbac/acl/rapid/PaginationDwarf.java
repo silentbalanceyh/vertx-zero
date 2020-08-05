@@ -1,4 +1,4 @@
-package io.vertx.tp.rbac.acl.dwarf;
+package io.vertx.tp.rbac.acl.rapid;
 
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;

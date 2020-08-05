@@ -3,6 +3,7 @@ package io.vertx.tp.rbac.atom.acl;
 import cn.vertxup.rbac.domain.tables.pojos.SVisitant;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
+import io.vertx.tp.ke.cv.KeField;
 import io.vertx.tp.rbac.cv.em.AclType;
 import io.vertx.up.commune.secure.Acl;
 import io.vertx.up.commune.secure.AclView;
@@ -51,7 +52,7 @@ public class AclData implements Acl {
 
     private final AclPhase phase;
 
-    private final ConcurrentMap<String, JsonObject> seekConfig
+    private final ConcurrentMap<String, JsonObject> regionMap
             = new ConcurrentHashMap<>();
 
     public AclData(final SVisitant visitant) {
@@ -119,9 +120,19 @@ public class AclData implements Acl {
     }
 
     @Override
-    public Acl config(final JsonObject config) {
-        if (Ut.notNil(config)) {
-
+    public Acl config(final JsonObject region) {
+        if (Ut.notNil(region)) {
+            final JsonArray data = Ut.sureJArray(region.getJsonArray(KeField.DATA));
+            final JsonObject config = Ut.sureJObject(region.getJsonObject("config"));
+            if (Ut.notNil(data)) {
+                Ut.itJArray(data, String.class, (field, index) -> {
+                    if (config.containsKey(field)) {
+                        this.regionMap.put(field, config.getJsonObject(field));
+                    } else {
+                        this.regionMap.put(field, null);
+                    }
+                });
+            }
         }
         return this;
     }
@@ -161,11 +172,5 @@ public class AclData implements Acl {
         accessArr.addAll(Ut.toJArray(this.fields));
         acl.put("fields", accessArr);
         return acl;
-    }
-
-    @Override
-    public boolean ok(final String phase) {
-
-        return false;
     }
 }

@@ -35,9 +35,4 @@ public interface Acl extends Serializable {
      * Record bind
      */
     void bind(JsonObject record);
-
-    /*
-     * Ok for region
-     */
-    boolean ok(String phase);
 }

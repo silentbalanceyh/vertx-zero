@@ -1,4 +1,4 @@
-package io.vertx.tp.rbac.acl.dwarf;
+package io.vertx.tp.rbac.acl.rapid;
 
 import io.vertx.tp.rbac.cv.em.RegionType;
 

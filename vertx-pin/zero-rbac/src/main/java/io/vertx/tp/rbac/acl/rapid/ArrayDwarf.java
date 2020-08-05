@@ -1,4 +1,4 @@
-package io.vertx.tp.rbac.acl.dwarf;
+package io.vertx.tp.rbac.acl.rapid;
 
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
@@ -14,7 +14,6 @@ class ArrayDwarf implements DataDwarf {
      * {
      *     "data": []
      * }
-     *
      */
     @Override
     public void minimize(final JsonObject dataReference, final JsonObject matrix, final Acl acl) {
@@ -23,7 +22,7 @@ class ArrayDwarf implements DataDwarf {
         /* rows */
         JsonArray updated = Dwarf.onRows(inputArray, matrix.getJsonObject("rows"));
         /* projection: for After Get only */
-        updated = Dwarf.onProjection(updated, Sc.aclProjection(matrix.getJsonArray(Inquiry.KEY_PROJECTION), acl));
+        updated = Dwarf.onProjection(updated, Sc.aclAfter(matrix.getJsonArray(Inquiry.KEY_PROJECTION), acl));
         /* Updated */
         dataReference.put("data", updated);
     }

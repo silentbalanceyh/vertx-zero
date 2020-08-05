@@ -1,4 +1,4 @@
-package io.vertx.tp.rbac.acl.dwarf;
+package io.vertx.tp.rbac.acl.rapid;
 
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.rbac.refine.Sc;
@@ -17,7 +17,7 @@ class RecordDwarf implements DataDwarf {
         Sc.aclRecord(record, acl);
         /* projection only */
         final JsonObject updated = Dwarf.onProjection(record,
-                Sc.aclProjection(matrix.getJsonArray(Inquiry.KEY_PROJECTION), acl));
+                Sc.aclAfter(matrix.getJsonArray(Inquiry.KEY_PROJECTION), acl));
         /* Updated */
         dataReference.put("data", updated);
     }

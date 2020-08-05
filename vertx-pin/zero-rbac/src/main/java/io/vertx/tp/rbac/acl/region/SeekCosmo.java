@@ -7,6 +7,8 @@ import io.vertx.up.commune.Envelop;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
+import java.util.Objects;
+
 /**
  * @author <a href="http://www.origin-x.cn">lang</a>
  */
@@ -27,7 +29,7 @@ public class SeekCosmo implements Cosmo {
                 return Ux.future(request);
             } else {
                 /* Before calling and will capture `BEFORE` syntax */
-                return DataIn.visitAcl(request, matrix, AclTime.BEFORE).compose(acl -> {
+                return DataAcl.visitAcl(request, matrix, AclTime.BEFORE).compose(acl -> {
                     request.acl(acl);
                     /* Projection Modification */
                     DataIn.visitProjection(request, matrix);
@@ -48,7 +50,7 @@ public class SeekCosmo implements Cosmo {
             return external.after(response, matrix);
         } else {
             /* After calling and will capture `AFTER` syntax */
-            return DataIn.visitAcl(response, matrix, AclTime.AFTER).compose(acl -> {
+            return DataAcl.visitAcl(response, matrix, AclTime.AFTER).compose(acl -> {
                 response.acl(acl);
                 /* Projection */
                 DataOut.dwarfRecord(response, matrix);
@@ -56,6 +58,20 @@ public class SeekCosmo implements Cosmo {
                 DataOut.dwarfRows(response, matrix);
                 /* Projection For Array */
                 DataOut.dwarfCollection(response, matrix);
+                /*
+                 * Append data of `acl` into description for future usage
+                 * This feature is ok when AclPhase = DELAY because the EAGER
+                 * will impact our current request response directly.
+                 *
+                 * But this node should returned all critical data
+                 * 1) access, The fields that you could visit
+                 * 2) edition, The fields that you could edit
+                 * 3) record, The fields of all current record
+                 */
+                if (Objects.nonNull(acl)) {
+                    final JsonObject aclData = acl.acl();
+                    response.attach("acl", aclData);
+                }
                 return Ux.future(response);
             }).otherwise(Ux.otherwise());
         }
