@@ -104,7 +104,8 @@ class Complex {
                             return Ux.future(fnReduce.apply(firstRef, result));
                         });
                     }
-                });
+                })
+                .otherwise(Ux.otherwise(() -> null));
     }
 
     static Function<Pagination, Future<JsonArray>> complex(final Function<JsonObject, Future<Integer>> total, final Function<Pagination, Future<JsonObject>> page, final Function<JsonObject, Future<JsonArray>> result) {
