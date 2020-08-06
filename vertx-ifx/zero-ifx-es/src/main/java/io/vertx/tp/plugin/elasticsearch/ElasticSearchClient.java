@@ -4,6 +4,7 @@ import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 
+import java.util.Set;
 import java.util.concurrent.ConcurrentMap;
 
 /**
@@ -24,7 +25,7 @@ public interface ElasticSearchClient {
      * @param index name of index
      * @return JsonObject for index information
      */
-    JsonObject getIndex(final String index);
+    JsonObject getIndex(String index);
 
     /**
      * create index with settings and mappings
@@ -38,9 +39,9 @@ public interface ElasticSearchClient {
      * "isAcknowledged": true
      * }
      */
-    JsonObject createIndex(final String index, int numberOfShards, int numberOfReplicas, final ConcurrentMap<String, Class<?>> mappings);
+    JsonObject createIndex(String index, int numberOfShards, int numberOfReplicas, ConcurrentMap<String, Class<?>> mappings);
 
-    JsonObject createIndex(final String index, final ConcurrentMap<String, Class<?>> mappings);
+    JsonObject createIndex(String index, ConcurrentMap<String, Class<?>> mappings);
 
     /**
      * delete index
@@ -53,7 +54,9 @@ public interface ElasticSearchClient {
      * "isAcknowledged": true
      * }
      */
-    JsonObject updateIndex(final String index, int numberOfShards, int numberOfReplicas);
+    JsonObject updateIndex(String index, int numberOfShards, int numberOfReplicas);
+
+    JsonObject updateIndex(String index);
 
     /**
      * delete index by name
@@ -64,7 +67,7 @@ public interface ElasticSearchClient {
      * "isAcknowledged": true
      * }
      */
-    JsonObject deleteIndex(final String index);
+    JsonObject deleteIndex(String index);
 
     /* document API */
 
@@ -81,7 +84,7 @@ public interface ElasticSearchClient {
      * "data": {}
      * }
      */
-    JsonObject getDocument(final String index, final String documentId);
+    JsonObject getDocument(String index, String documentId);
 
     /**
      * create document from json object, must specify document id
@@ -96,11 +99,11 @@ public interface ElasticSearchClient {
      * "result": true / false
      * }
      */
-    JsonObject createDocument(final String index, final String documentId, final JsonObject source);
+    JsonObject createDocument(String index, String documentId, JsonObject source);
 
-    Boolean createDocuments(final String index, JsonArray documents);
+    Boolean createDocuments(String index, JsonArray documents);
 
-    Boolean createDocuments(final String index, JsonArray documents, final String keyField);
+    Boolean createDocuments(String index, JsonArray documents, String keyField);
 
     /**
      * update document from json object, must specify document id
@@ -115,7 +118,11 @@ public interface ElasticSearchClient {
      * "result": true / false
      * }
      */
-    JsonObject updateDocument(final String index, final String documentId, final JsonObject source);
+    JsonObject updateDocument(String index, String documentId, JsonObject source);
+
+    Boolean updateDocuments(String index, JsonArray documents);
+
+    Boolean updateDocuments(String index, JsonArray documents, String keyField);
 
     /**
      * delete document by document id
@@ -129,7 +136,9 @@ public interface ElasticSearchClient {
      * "result": true / false
      * }
      */
-    JsonObject deleteDocument(final String index, final String documentId);
+    JsonObject deleteDocument(String index, String documentId);
+
+    Boolean deleteDocuments(String index, Set<String> ids);
 
     /* full test search API */
 
