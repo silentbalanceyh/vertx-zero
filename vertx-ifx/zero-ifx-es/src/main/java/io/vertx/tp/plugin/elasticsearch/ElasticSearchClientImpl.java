@@ -3,34 +3,17 @@ package io.vertx.tp.plugin.elasticsearch;
 import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
+import io.vertx.up.eon.em.ChangeFlag;
+import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import io.vertx.up.util.Ut;
-import org.elasticsearch.ElasticsearchException;
-import org.elasticsearch.action.DocWriteResponse;
-import org.elasticsearch.action.admin.indices.alias.Alias;
-import org.elasticsearch.action.admin.indices.delete.DeleteIndexRequest;
-import org.elasticsearch.action.admin.indices.settings.put.UpdateSettingsRequest;
-import org.elasticsearch.action.bulk.BulkRequest;
-import org.elasticsearch.action.bulk.BulkResponse;
-import org.elasticsearch.action.delete.DeleteRequest;
-import org.elasticsearch.action.delete.DeleteResponse;
 import org.elasticsearch.action.get.GetRequest;
 import org.elasticsearch.action.get.GetResponse;
-import org.elasticsearch.action.index.IndexRequest;
-import org.elasticsearch.action.index.IndexResponse;
-import org.elasticsearch.action.support.IndicesOptions;
-import org.elasticsearch.action.support.master.AcknowledgedResponse;
-import org.elasticsearch.action.update.UpdateRequest;
-import org.elasticsearch.action.update.UpdateResponse;
 import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.RestHighLevelClient;
-import org.elasticsearch.client.indices.CreateIndexRequest;
-import org.elasticsearch.client.indices.CreateIndexResponse;
-import org.elasticsearch.client.indices.GetIndexRequest;
-import org.elasticsearch.client.indices.GetIndexResponse;
 
 import java.io.IOException;
-import java.util.Arrays;
+import java.util.Set;
 import java.util.concurrent.ConcurrentMap;
 
 /**
@@ -43,8 +26,11 @@ public class ElasticSearchClientImpl implements ElasticSearchClient {
 
     private final transient Vertx vertx;
     private final transient JsonObject options = new JsonObject();
+    @Deprecated
     private final transient ElasticSearchHelper helper = ElasticSearchHelper.helper(this.getClass());
     private final transient ElasticQr qr = new ElasticQr();
+    // Indexer for index management
+    private final transient ElasticIndexer indexer;
 
     ElasticSearchClientImpl(final Vertx vertx, final JsonObject options) {
         this.vertx = vertx;
@@ -53,6 +39,8 @@ public class ElasticSearchClientImpl implements ElasticSearchClient {
             this.options.mergeIn(options);
             this.qr.bind(options);
         }
+        // Create new indexer to simply the index processing
+        this.indexer = ElasticIndexer.create(this.options);
     }
 
     private RestHighLevelClient getClient() {
@@ -63,99 +51,61 @@ public class ElasticSearchClientImpl implements ElasticSearchClient {
 
     @Override
     public boolean connected() {
-        try {
-            return this.getClient().ping(RequestOptions.DEFAULT);
-        } catch (final Throwable ex) {
-            return false;
-        }
+        // Check connection
+        return Fn.getJvm(Boolean.FALSE, () -> this.getClient().ping(RequestOptions.DEFAULT));
     }
 
     @Override
     public JsonObject getIndex(final String index) {
-        final JsonObject result = new JsonObject();
-        final RestHighLevelClient client = this.getClient();
-
-        try {
-            final GetIndexRequest request = new GetIndexRequest(index)
-                    .includeDefaults(true)
-                    .indicesOptions(IndicesOptions.lenientExpandOpen());
-
-            final GetIndexResponse response = client.indices().get(request, RequestOptions.DEFAULT);
-
-            this.buildGetIndexResult(response, result);
-        } catch (final IOException ioe) {
-            LOGGER.error("failed to get index information");
-            LOGGER.error(ioe.getMessage());
-        }
-
-        this.helper.closeClient(client);
-        return result;
-    }
-
-    @Override
-    public JsonObject createIndex(final String index, final ConcurrentMap<String, Class<?>> mappings) {
-        return this.createIndex(index, 5, 1, mappings);
-    }
-
-    @Override
-    public JsonObject createIndex(final String index, final int numberOfShards, final int numberOfReplicas, final ConcurrentMap<String, Class<?>> mappings) {
-        final JsonObject result = new JsonObject();
-        final RestHighLevelClient client = this.getClient();
-
-        try {
-            final CreateIndexRequest request = new CreateIndexRequest(index)
-                    .alias(new Alias(this.options.getString("index")))
-                    .settings(this.helper.settingsBuilder(numberOfShards, numberOfReplicas))
-                    .mapping(this.helper.mappingsBuilder(mappings));
-
-            final CreateIndexResponse response = client.indices().create(request, RequestOptions.DEFAULT);
-
-            result.put("isAcknowledged", response.isAcknowledged());
-        } catch (final IOException ioe) {
-            LOGGER.jvm(ioe);
-        }
-
-        this.helper.closeClient(client);
-        return result;
-    }
-
-    @Override
-    public JsonObject updateIndex(final String index, final int numberOfShards, final int numberOfReplicas) {
-        final JsonObject result = new JsonObject();
-        final RestHighLevelClient client = this.getClient();
-
-        try {
-            final UpdateSettingsRequest request = new UpdateSettingsRequest(index)
-                    .settings(this.helper.settingsBuilder(numberOfShards, numberOfReplicas));
-
-            final AcknowledgedResponse response = client.indices().putSettings(request, RequestOptions.DEFAULT);
-
-            result.put("isAcknowledged", response.isAcknowledged());
-        } catch (final IOException ioe) {
-            LOGGER.jvm(ioe);
-        }
-
-        this.helper.closeClient(client);
-        return result;
+        // Get index information
+        return this.indexer.getIndex(index);
     }
 
     @Override
     public JsonObject deleteIndex(final String index) {
-        final JsonObject result = new JsonObject();
-        final RestHighLevelClient client = this.getClient();
+        // Delete index information
+        return this.indexer.deleteIndex(index);
+    }
 
-        try {
-            final DeleteIndexRequest request = new DeleteIndexRequest(index);
+    @Override
+    public JsonObject createIndex(final String index, final ConcurrentMap<String, Class<?>> mappings) {
+        // Create Index ( Default )
+        return this.indexer.createIndex(index, 5, 1, mappings);
+    }
 
-            final AcknowledgedResponse response = client.indices().delete(request, RequestOptions.DEFAULT);
+    @Override
+    public JsonObject createIndex(final String index, final int numberOfShards, final int numberOfReplicas, final ConcurrentMap<String, Class<?>> mappings) {
+        // Create Index based on input parameters
+        return this.indexer.createIndex(index, numberOfShards, numberOfReplicas, mappings);
+    }
 
-            result.put("isAcknowledged", response.isAcknowledged());
-        } catch (final IOException | ElasticsearchException ioe) {
-            LOGGER.jvm(ioe);
-        }
+    @Override
+    public JsonObject updateIndex(final String index) {
+        // Update Index here
+        return this.indexer.updateIndex(index, 5, 1);
+    }
 
-        this.helper.closeClient(client);
-        return result;
+    @Override
+    public JsonObject updateIndex(final String index, final int numberOfShards, final int numberOfReplicas) {
+        // Update Index based on input parameters
+        return this.indexer.updateIndex(index, numberOfShards, numberOfReplicas);
+    }
+
+    @Override
+    public JsonObject createDocument(final String index, final String documentId, final JsonObject source) {
+        final EsAmbit ambit = EsAmbit.create(ChangeFlag.ADD, index, this.options);
+        return ambit.process(documentId, source);
+    }
+
+    @Override
+    public Boolean createDocuments(final String index, final JsonArray documents) {
+        return this.createDocuments(index, documents, "key");
+    }
+
+    @Override
+    public Boolean createDocuments(final String index, final JsonArray documents, final String keyField) {
+        final EsAmbit ambit = EsAmbit.create(ChangeFlag.ADD, index, this.options);
+        return ambit.process(documents, keyField);
     }
 
     @Override
@@ -186,144 +136,38 @@ public class ElasticSearchClientImpl implements ElasticSearchClient {
     }
 
     @Override
-    public JsonObject createDocument(final String index, final String documentId, final JsonObject source) {
-        final JsonObject result = new JsonObject();
-        final RestHighLevelClient client = this.getClient();
-
-        try {
-            final IndexRequest request = new IndexRequest(index)
-                    .id(documentId)
-                    .source(source.getMap());
-
-            final IndexResponse response = client.index(request, RequestOptions.DEFAULT);
-
-            result
-                    .put("index", response.getIndex())
-                    .put("id", response.getId())
-                    .put("result", response.getResult() == DocWriteResponse.Result.CREATED);
-        } catch (final IOException ioe) {
-            LOGGER.jvm(ioe);
-        }
-
-        this.helper.closeClient(client);
-        return result;
-    }
-
-    @Override
-    public Boolean createDocuments(final String index, final JsonArray documents) {
-        return this.createDocuments(index, documents, "key");
-    }
-
-    @Override
-    public Boolean createDocuments(final String index, final JsonArray documents, final String keyField) {
-        if (Ut.isNil(documents)) {
-            /*
-             * No data, not needed
-             */
-            return true;
-        } else {
-            final RestHighLevelClient client = this.getClient();
-            boolean result;
-            try {
-                final BulkRequest request = new BulkRequest();
-                Ut.itJArray(documents).forEach(json -> {
-                    final String documentId = json.getString(keyField);
-                    if (Ut.notNil(documentId)) {
-                        final IndexRequest indexRequest = new IndexRequest(index)
-                                .id(documentId)
-                                .source(json.getMap());
-                        request.add(indexRequest);
-                    }
-                });
-                final BulkResponse bulkResponse = client.bulk(request, RequestOptions.DEFAULT);
-                if (bulkResponse.hasFailures()) {
-                    LOGGER.warn("Failure found: {0}", bulkResponse.buildFailureMessage());
-                    result = false;
-                } else {
-                    LOGGER.info("Documents have been indexed ( size = {0} ) successfully!", documents.size());
-                    result = true;
-                }
-            } catch (final IOException ioe) {
-                LOGGER.jvm(ioe);
-                result = false;
-            }
-            this.helper.closeClient(client);
-            return result;
-        }
-    }
-
-    @Override
     public JsonObject updateDocument(final String index, final String documentId, final JsonObject source) {
-        final JsonObject result = new JsonObject();
-        final RestHighLevelClient client = this.getClient();
+        final EsAmbit ambit = EsAmbit.create(ChangeFlag.UPDATE, index, this.options);
+        return ambit.process(documentId, source);
+    }
 
-        try {
-            final UpdateRequest request = new UpdateRequest()
-                    .index(index)
-                    .id(documentId)
-                    .doc(source.getMap());
+    @Override
+    public Boolean updateDocuments(final String index, final JsonArray documents) {
+        final EsAmbit ambit = EsAmbit.create(ChangeFlag.UPDATE, index, this.options);
+        return ambit.process(documents, "key");
+    }
 
-            final UpdateResponse response = client.update(request, RequestOptions.DEFAULT);
-
-            result
-                    .put("index", response.getIndex())
-                    .put("id", response.getId())
-                    .put("result", response.getResult() == DocWriteResponse.Result.UPDATED);
-        } catch (final IOException ioe) {
-            LOGGER.jvm(ioe);
-        }
-
-        this.helper.closeClient(client);
-        return result;
+    @Override
+    public Boolean updateDocuments(final String index, final JsonArray documents, final String keyField) {
+        final EsAmbit ambit = EsAmbit.create(ChangeFlag.UPDATE, index, this.options);
+        return ambit.process(documents, keyField);
     }
 
     @Override
     public JsonObject deleteDocument(final String index, final String documentId) {
-        final JsonObject result = new JsonObject();
-        final RestHighLevelClient client = this.getClient();
+        final EsAmbit ambit = EsAmbit.create(ChangeFlag.DELETE, index, this.options);
+        return ambit.process(documentId, null);
+    }
 
-        try {
-            final DeleteRequest request = new DeleteRequest()
-                    .index(index)
-                    .id(documentId);
-
-            final DeleteResponse response = client.delete(request, RequestOptions.DEFAULT);
-
-            result
-                    .put("index", response.getIndex())
-                    .put("id", response.getId())
-                    .put("result", response.getResult() == DocWriteResponse.Result.DELETED);
-        } catch (final IOException ioe) {
-            LOGGER.jvm(ioe);
-        }
-
-        this.helper.closeClient(client);
-        return result;
+    @Override
+    public Boolean deleteDocuments(final String index, final Set<String> ids) {
+        final EsAmbit ambit = EsAmbit.create(ChangeFlag.DELETE, index, this.options);
+        return ambit.process(Ut.toJArray(ids), null);
     }
 
     @Override
     public JsonObject search(final JsonObject params) {
         return this.qr.search(params, null);
-    }
-
-    private void buildGetIndexResult(final GetIndexResponse response, final JsonObject result) {
-        result.put("index", Arrays.asList(response.getIndices()));
-
-        final JsonArray aliases = new JsonArray();
-        response.getAliases().forEach((key, val) -> val.forEach(item -> aliases.add(item.getAlias())));
-        result.put("aliases", aliases);
-
-        final JsonObject settings = new JsonObject();
-        response.getSettings().forEach((key, val) -> {
-            final JsonObject data = new JsonObject();
-            val.keySet().forEach(name -> data.put(name, val.get(name)));
-            settings.put(key, data);
-        });
-        result.put("settings", settings);
-
-        final JsonObject mappings = new JsonObject();
-        response.getMappings().forEach((key, val) -> mappings.put(key, val.getSourceAsMap()));
-        result.put("mappings", mappings);
     }
 
     @Override

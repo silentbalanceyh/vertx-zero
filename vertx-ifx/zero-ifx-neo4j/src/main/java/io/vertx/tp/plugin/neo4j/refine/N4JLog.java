@@ -8,6 +8,10 @@ class N4JLog {
         logger.info("[ γραφικό ] ( " + flag + " ) " + pattern, args);
     }
 
+    static void debug(final Annal logger, final String flag, final String pattern, final Object... args) {
+        logger.debug("[ γραφικό ] ( " + flag + " ) " + pattern, args);
+    }
+
     static void warn(final Annal logger, final String flag, final String pattern, final Object... args) {
         logger.warn("[ γραφικό ] ( " + flag + " ) " + pattern, args);
     }

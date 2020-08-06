@@ -27,7 +27,7 @@ public class GraphicAnalyzer extends AbstractN4JExecutor {
 
     public Future<JsonObject> searchAsync(final JsonObject node, final Integer integer) {
         final String command = N4J.graphicByKey(this.graph, integer);
-        N4J.infoEdge(this.getClass(), "Command: {0}, Args: {1}", command, node.encode());
+        N4J.infoEdge(this.getClass(), "Command: {0}", command);
         final Session session = this.session();
         final Transaction transaction = session.beginTransaction();
         final Result result = transaction.run(command, N4J.parameters(node));
