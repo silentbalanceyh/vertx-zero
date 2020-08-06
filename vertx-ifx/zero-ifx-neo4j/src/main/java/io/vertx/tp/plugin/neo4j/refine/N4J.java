@@ -21,6 +21,11 @@ public class N4J {
         N4JLog.info(logger, "Edge", pattern, args);
     }
 
+    public static void debugEdge(final Class<?> clazz, final String pattern, final Object... args) {
+        final Annal logger = Annal.get(clazz);
+        N4JLog.debug(logger, "Edge", pattern, args);
+    }
+
     public static void warnEdge(final Class<?> clazz, final String pattern, final Object... args) {
         final Annal logger = Annal.get(clazz);
         N4JLog.warn(logger, "Edge", pattern, args);

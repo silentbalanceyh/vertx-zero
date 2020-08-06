@@ -14,7 +14,7 @@ public abstract class AbstractN4JExecutor {
 
     protected JsonObject doSync(final JsonObject processed, final String alias, final Function<JsonObject, String> consumer) {
         final String command = consumer.apply(processed);
-        N4J.infoNode(this.getClass(), "Alias: {2}, Command: {0}, Args: {1}", command, processed.encode(), alias);
+        N4J.infoNode(this.getClass(), "Alias: {1}, Command: {0}", command, alias);
 
         final N4JExecutor executor = N4JExecutor.create().bind(this.session());
         return executor.execute(command, processed, alias);
@@ -22,14 +22,14 @@ public abstract class AbstractN4JExecutor {
 
     protected JsonArray doSync(final JsonArray processed, final Function<JsonArray, List<String>> consumer) {
         final List<String> command = consumer.apply(processed);
-        N4J.infoEdge(this.getClass(), "Command: {0}, Args: {1}", command, processed.encode());
+        N4J.debugEdge(this.getClass(), "Command: {0}", command);
         final N4JExecutor executor = N4JExecutor.create().bind(this.session());
         return executor.execute(command, processed);
     }
 
     private JsonObject doSync(final JsonObject processed, final Function<JsonObject, String> consumer) {
         final String command = consumer.apply(processed);
-        N4J.infoEdge(this.getClass(), "Command: {0}, Args: {1}", command, processed.encode());
+        N4J.debugEdge(this.getClass(), "Command: {0}", command);
 
         final N4JExecutor executor = N4JExecutor.create().bind(this.session());
         return executor.execute(command, processed);
@@ -37,7 +37,7 @@ public abstract class AbstractN4JExecutor {
 
     private JsonArray doSync(final JsonArray processed, final String alias, final Function<JsonArray, List<String>> consumer) {
         final List<String> commands = consumer.apply(processed);
-        N4J.infoNode(this.getClass(), "Alias: {2}, Size: {0}, Args: {1}", commands.size(), processed.encode(), alias);
+        N4J.infoNode(this.getClass(), "Alias: {1}, Size: {0}", commands.size(), alias);
 
         final N4JExecutor executor = N4JExecutor.create().bind(this.session());
         return executor.execute(commands, processed, alias);
