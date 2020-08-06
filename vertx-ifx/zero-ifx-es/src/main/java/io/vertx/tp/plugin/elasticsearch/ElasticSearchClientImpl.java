@@ -10,6 +10,8 @@ import org.elasticsearch.action.DocWriteResponse;
 import org.elasticsearch.action.admin.indices.alias.Alias;
 import org.elasticsearch.action.admin.indices.delete.DeleteIndexRequest;
 import org.elasticsearch.action.admin.indices.settings.put.UpdateSettingsRequest;
+import org.elasticsearch.action.bulk.BulkRequest;
+import org.elasticsearch.action.bulk.BulkResponse;
 import org.elasticsearch.action.delete.DeleteRequest;
 import org.elasticsearch.action.delete.DeleteResponse;
 import org.elasticsearch.action.get.GetRequest;
@@ -59,6 +61,7 @@ public class ElasticSearchClientImpl implements ElasticSearchClient {
         return this.helper.getClient(this.options);
     }
 
+    @Override
     public boolean connected() {
         try {
             return this.getClient().ping(RequestOptions.DEFAULT);
@@ -87,6 +90,11 @@ public class ElasticSearchClientImpl implements ElasticSearchClient {
 
         this.helper.closeClient(client);
         return result;
+    }
+
+    @Override
+    public JsonObject createIndex(final String index, final ConcurrentMap<String, Class<?>> mappings) {
+        return this.createIndex(index, 5, 1, mappings);
     }
 
     @Override
@@ -199,6 +207,49 @@ public class ElasticSearchClientImpl implements ElasticSearchClient {
 
         this.helper.closeClient(client);
         return result;
+    }
+
+    @Override
+    public Boolean createDocuments(final String index, final JsonArray documents) {
+        return this.createDocuments(index, documents, "key");
+    }
+
+    @Override
+    public Boolean createDocuments(final String index, final JsonArray documents, final String keyField) {
+        if (Ut.isNil(documents)) {
+            /*
+             * No data, not needed
+             */
+            return true;
+        } else {
+            final RestHighLevelClient client = this.getClient();
+            boolean result;
+            try {
+                final BulkRequest request = new BulkRequest();
+                Ut.itJArray(documents).forEach(json -> {
+                    final String documentId = json.getString(keyField);
+                    if (Ut.notNil(documentId)) {
+                        final IndexRequest indexRequest = new IndexRequest(index)
+                                .id(documentId)
+                                .source(json.getMap());
+                        request.add(indexRequest);
+                    }
+                });
+                final BulkResponse bulkResponse = client.bulk(request, RequestOptions.DEFAULT);
+                if (bulkResponse.hasFailures()) {
+                    LOGGER.warn("Failure found: {0}", bulkResponse.buildFailureMessage());
+                    result = false;
+                } else {
+                    LOGGER.info("Documents have been indexed ( size = {0} ) successfully!", documents.size());
+                    result = true;
+                }
+            } catch (final IOException ioe) {
+                LOGGER.jvm(ioe);
+                result = false;
+            }
+            this.helper.closeClient(client);
+            return result;
+        }
     }
 
     @Override

@@ -13,6 +13,9 @@ public class GetRotator extends AbstractRotator {
 
     @Override
     public String request(final IntegrationRequest request, final JsonObject params) {
+        /*
+         * Turn On mock workflow when integration is `debug`
+         */
         final HttpGet httpGet = new HttpGet(this.configPath(request, params));
         this.logger().info(Message.HTTP_REQUEST, request.getPath(), request.getMethod(), params);
         return this.sendUrl(httpGet, request.getHeaders());
