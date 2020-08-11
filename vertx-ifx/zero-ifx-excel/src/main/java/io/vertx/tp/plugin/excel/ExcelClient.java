@@ -18,7 +18,6 @@ import java.util.Set;
  * ExcelClient for office excel data loading
  * Apache Poi
  */
-@SuppressWarnings("all")
 public interface ExcelClient extends TpClient<ExcelClient> {
 
     String MAPPING = "mapping";

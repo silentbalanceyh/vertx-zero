@@ -1,12 +1,15 @@
 package io.vertx.tp.plugin.excel.tool;
 
 import io.vertx.core.json.JsonArray;
+import io.vertx.tp.plugin.excel.atom.ExKey;
 import io.vertx.up.eon.Strings;
 import io.vertx.up.eon.Values;
+import io.vertx.up.util.Ut;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.util.CellRangeAddress;
 
 import java.math.BigDecimal;
 import java.time.Instant;
@@ -44,6 +47,40 @@ class ExData {
         final int size = rowData.size();
         for (int idx = Values.IDX; idx < size; idx++) {
             createCell(row, idx, rowData.getValue(idx));
+        }
+    }
+
+    static boolean generateHeader(final Sheet sheet, final String identifier, final JsonArray tableData) {
+        if (Values.TWO <= tableData.size()) {
+            final JsonArray labelHeader = Ut.sureJArray(tableData.getJsonArray(Values.IDX));
+            final JsonArray fieldHeader = Ut.sureJArray(tableData.getJsonArray(Values.ONE));
+            final int width = Math.max(labelHeader.size(), fieldHeader.size());
+            /*
+             * Row creation
+             * The header must be the first row
+             */
+            final Row row = sheet.createRow(Values.IDX);
+            /*
+             * First cell
+             */
+            createCell(row, 0, ExKey.EXPR_TABLE);
+            createCell(row, 1, identifier);
+            createCell(row, 2, null);
+            /*
+             * Region for cell
+             * The four parameters are all index part, it means that you should
+             * 0,0: means first row
+             * 2,width - 1: From the third column here
+             */
+            final CellRangeAddress region =
+                    new CellRangeAddress(0, 0, 2, width - 1);
+            sheet.addMergedRegion(region);
+            return true;
+        } else {
+            /*
+             * Header generation failure
+             */
+            return false;
         }
     }
 

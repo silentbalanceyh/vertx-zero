@@ -40,10 +40,23 @@ class KeTool {
 
     static Future<JsonArray> combineAsync(final JsonArray data, final ConcurrentMap<String, String> headers, final List<String> columns) {
         final JsonArray combined = new JsonArray();
-        /* Header */
-        final JsonArray header = new JsonArray();
-        columns.forEach(column -> header.add(headers.get(column)));
-        combined.add(header);
+        /*
+         * Header
+         * To keep the template is the same as importing, here provide some correction
+         * The header should has two rows:
+         * CnHeader + EnHeader
+         *
+         * -- CnHeader for label
+         * -- EnHeader for field
+         * */
+        final JsonArray labelHeader = new JsonArray();
+        final JsonArray fieldHeader = new JsonArray();
+        columns.forEach(column -> {
+            labelHeader.add(headers.get(column));
+            fieldHeader.add(column);
+        });
+        combined.add(labelHeader);
+        combined.add(fieldHeader);
 
         /* Data Part */
         Ut.itJArray(data, (each, index) -> {

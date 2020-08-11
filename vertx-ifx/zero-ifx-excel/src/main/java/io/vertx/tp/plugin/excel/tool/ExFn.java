@@ -6,6 +6,7 @@ import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 
+import java.util.List;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
@@ -118,6 +119,14 @@ public class ExFn {
                               final int columnIndex,
                               final Consumer<Cell> consumer) {
         onCell(row, columnIndex, consumer, null);
+    }
+
+    public static void generateStyle(final Sheet sheet, final JsonArray tableData, final List<Integer> sizeList) {
+
+    }
+
+    public static boolean generateHeader(final Sheet sheet, final String identifier, final JsonArray tableData) {
+        return ExData.generateHeader(sheet, identifier, tableData);
     }
 
     public static void generateData(final Sheet sheet, final Integer index, final JsonArray rowData) {
