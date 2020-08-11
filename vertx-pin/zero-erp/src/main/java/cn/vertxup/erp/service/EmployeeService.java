@@ -39,11 +39,11 @@ public class EmployeeService implements EmployeeStub {
                      * If data contains `userId`, it means that current employee will relate to
                      * an account
                      */
-                    if (data.containsKey(USER_ID)) {
+                    if (data.containsKey(EmployeeStub.USER_ID)) {
                         /*
                          * Create new relation here.
                          */
-                        final String key = data.getString(USER_ID);
+                        final String key = data.getString(EmployeeStub.USER_ID);
                         return this.updateRef(key, inserted);
                     } else {
                         return Ux.future(data);
@@ -76,8 +76,8 @@ public class EmployeeService implements EmployeeStub {
     public Future<JsonObject> updateAsync(final String key, final JsonObject data) {
         return this.fetchAsync(key)
                 .compose(Ut.ifNil(JsonObject::new, original -> {
-                    final String userId = original.getString(USER_ID);
-                    final String current = data.getString(USER_ID);
+                    final String userId = original.getString(EmployeeStub.USER_ID);
+                    final String current = data.getString(EmployeeStub.USER_ID);
                     if (Ut.isNil(userId) && Ut.isNil(current)) {
                         /*
                          * Old null, new null
@@ -144,7 +144,7 @@ public class EmployeeService implements EmployeeStub {
     }
 
     private Future<Boolean> deleteAsync(final String key, final JsonObject item) {
-        final String userId = item.getString(USER_ID);
+        final String userId = item.getString(EmployeeStub.USER_ID);
         return this.updateRef(userId, new JsonObject())
                 .compose(nil -> Ux.Jooq.on(EEmployeeDao.class)
                         .deleteByIdAsync(key));
@@ -171,10 +171,10 @@ public class EmployeeService implements EmployeeStub {
         return this.switchA(input, (user, data) -> {
             final Set<String> keys = Ut.mapString(data, KeField.KEY);
             return user.fetchRef(keys);
-        }).compose(Ut.ifJEmpty(response -> {
-            final JsonArray merged = Ut.elementZip(input, response, KeField.KEY, KeField.MODEL_KEY);
+        }).compose(employee -> {
+            final JsonArray merged = Ut.elementZip(input, employee, KeField.KEY, KeField.MODEL_KEY);
             return Ux.future(merged);
-        }));
+        });
     }
 
     private Future<JsonObject> switchJ(final JsonObject input,
