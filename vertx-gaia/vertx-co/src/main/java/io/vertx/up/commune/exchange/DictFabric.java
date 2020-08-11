@@ -10,8 +10,6 @@ import io.vertx.up.util.Ut;
 import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
-import java.util.function.BiFunction;
-import java.util.function.Function;
 
 /**
  * ## DictFabric
@@ -41,17 +39,10 @@ public class DictFabric {
      */
     private final transient ConcurrentMap<String, DictEpsilon> epsilonMap
             = new ConcurrentHashMap<>();
-
     /*
-     * The dictionary data that have been processed here, the format is as following:
-     * {
-     *     "source": []
-     * }
-     * The source is the direction name here.
+     * Each fabric bind
      */
-    private final transient ConcurrentMap<String, JsonArray> dictData
-            = new ConcurrentHashMap<>();
-
+    private final transient DictStore store = new DictStore();
     /*
      *  The mapping in dictionary
      */
@@ -96,7 +87,7 @@ public class DictFabric {
          */
         final DualItem calculated = Objects.isNull(mapping) ? this.mapping : mapping;
         final DictFabric created = create(calculated);
-        created.dictionary(this.dictData);
+        created.dictionary(this.store.data());
         created.epsilon(this.epsilonMap);
         return created;
     }
@@ -126,12 +117,8 @@ public class DictFabric {
 
     @Fluent
     public DictFabric dictionary(final ConcurrentMap<String, JsonArray> dictData) {
-        if (Objects.nonNull(dictData) && !dictData.isEmpty()) {
-            this.dictData.clear();                          /* Clear Queue */
-            this.dictData.putAll(dictData);
-        } else {
-            LOGGER.debug("DictFabric got empty dictData ( ConcurrentMap<String, JsonArray> ) !");
-        }
+        // Call store for data replaced
+        this.store.data(dictData);
         this.init();
         return this;
     }
@@ -148,11 +135,11 @@ public class DictFabric {
     }
 
     public ConcurrentMap<String, JsonArray> dictionary() {
-        return this.dictData;
+        return this.store.data();
     }
 
     public JsonArray dictionary(final String dictName) {
-        return this.dictData.getOrDefault(dictName, new JsonArray());
+        return this.store.item(dictName);
     }
 
     private void init() {
@@ -164,10 +151,7 @@ public class DictFabric {
                 /*
                  * Get JsonArray from dict
                  */
-                JsonArray dataArray = this.dictData.get(epsilon.getSource());
-                if (Objects.isNull(dataArray)) {
-                    dataArray = new JsonArray();
-                }
+                final JsonArray dataArray = this.store.item(epsilon.getSource());
                 /*
                  * Data Source is dataArray
                  * Build current `DualItem`
@@ -209,7 +193,7 @@ public class DictFabric {
     }
 
     private boolean ready() {
-        return !this.epsilonMap.isEmpty() && !this.dictData.isEmpty();
+        return !this.epsilonMap.isEmpty() && this.store.ready();
     }
 
     /*
@@ -228,11 +212,11 @@ public class DictFabric {
      * 3) The output structure are Ox field
      */
     public JsonObject inToS(final JsonObject input) {
-        return this.process(this.fromData, input, DualItem::from);
+        return DictTool.process(this.fromData, input, DualItem::from);
     }
 
     public JsonArray inToS(final JsonArray input) {
-        return this.process(input, this::inToS);
+        return DictTool.process(input, this::inToS);
     }
 
     public Future<JsonObject> inTo(final JsonObject input) {
@@ -250,11 +234,11 @@ public class DictFabric {
      * 3) The output structure are Ox field
      */
     public JsonObject inFromS(final JsonObject input) {
-        return this.process(this.fromData, input, DualItem::to);
+        return DictTool.process(this.fromData, input, DualItem::to);
     }
 
     public JsonArray inFromS(final JsonArray input) {
-        return this.process(input, this::inFromS);
+        return DictTool.process(input, this::inFromS);
     }
 
     public Future<JsonObject> inFrom(final JsonObject input) {
@@ -272,11 +256,11 @@ public class DictFabric {
      * 3) The output structure are Tp field
      */
     public JsonObject outToS(final JsonObject output) {
-        return this.process(this.toData, output, DualItem::from);
+        return DictTool.process(this.toData, output, DualItem::from);
     }
 
     public JsonArray outToS(final JsonArray output) {
-        return this.process(output, this::outToS);
+        return DictTool.process(output, this::outToS);
     }
 
     public Future<JsonObject> outTo(final JsonObject input) {
@@ -294,11 +278,11 @@ public class DictFabric {
      * 3) The output structure are Tp field
      */
     public JsonObject outFromS(final JsonObject output) {
-        return this.process(this.toData, output, DualItem::to);
+        return DictTool.process(this.toData, output, DualItem::to);
     }
 
     public JsonArray outFromS(final JsonArray output) {
-        return this.process(output, this::outFromS);
+        return DictTool.process(output, this::outFromS);
     }
 
     public Future<JsonObject> outFrom(final JsonObject input) {
@@ -316,64 +300,42 @@ public class DictFabric {
      *
      * this.init() is required when `dictData` have been changed here
      */
-    public void update(final String dictName, final JsonObject input) {
-        this.update(dictName, input, "key");
+    public void upItem(final String dictName, final JsonObject input) {
+        this.upItem(dictName, input, "key");
     }
 
-    public void update(final String dictName, final JsonArray input) {
-        this.update(dictName, input, "key");
+    public void upItem(final String dictName, final JsonArray input) {
+        this.upItem(dictName, input, "key");
     }
 
-    public void update(final String dictName, final JsonArray input, final String keyField) {
-        Ut.itJArray(input).forEach(json -> this.update(dictName, json, keyField));
+    public void upItem(final String dictName, final JsonArray input, final String keyField) {
+        this.store.updateItem(dictName, input, keyField);
+        this.init();
     }
 
-    public void update(final String dictName, final JsonObject input, final String keyField) {
-        final JsonObject data = Ut.sureJObject(input);
-        if (this.dictData.containsKey(dictName) && data.containsKey(keyField)) {
-            final JsonArray original = this.dictData.get(dictName);
-            final JsonArray updated = Ut.elementSave(original, data, keyField);
-            this.dictData.put(dictName, updated);
-            /*
-             * Here we need re-calculate `fromData` and `toData` instead
-             * When `dictData` have been changed, here we should call `init` method to re-calculate`
-             * */
-            this.init();
-        }
+    public void upItem(final String dictName, final JsonObject input, final String keyField) {
+        this.store.updateItem(dictName, input, keyField);
+        this.init();
+    }
+
+    public boolean inItem(final String dictName, final String value) {
+        return this.store.checkItem(dictName, value, "key");
+    }
+
+    public boolean inItem(final String dictName, final String value, final String keyField) {
+        return this.store.checkItem(dictName, value, keyField);
     }
 
     /*
-     * Checked method to see whether it's in current dict
+     * Debug method for output information of current dict only
      */
-
-    private JsonArray process(final JsonArray process,
-                              final Function<JsonObject, JsonObject> function) {
-        final JsonArray normalized = new JsonArray();
-        Ut.itJArray(process).map(function).forEach(normalized::add);
-        return normalized;
-    }
-
-    private JsonObject process(final ConcurrentMap<String, DualItem> dataMap,
-                               final JsonObject input,
-                               final BiFunction<DualItem, String, String> applier) {
-        final JsonObject normalized = Objects.isNull(input) ? new JsonObject() : input.copy();
-        dataMap.forEach((field, item) -> {
-            final Object fromValue = input.getValue(field);
-            if (Objects.nonNull(fromValue) && fromValue instanceof String) {
-                final String toValue = applier.apply(item, fromValue.toString());
-                normalized.put(field, toValue);
-            }
-        });
-        return normalized;
-    }
-
     public String report() {
         final StringBuilder builder = new StringBuilder();
         builder.append("\n\t[ Epsilon ]: ");
         this.epsilonMap.forEach((key, epsilon) -> builder.append("\n\t\t").
                 append(key).append(" = ").append(epsilon));
         builder.append("\n\t[ Dict Data ]: ");
-        this.dictData.forEach((key, dictData) -> builder.append("\n\t\t").
+        this.store.data().forEach((key, dictData) -> builder.append("\n\t\t").
                 append(key).append(" = ").append(dictData.encode()));
         if (Objects.nonNull(this.mapping)) {
             builder.append("\n\t[ Mapping ]: ").append(this.mapping.toString());
