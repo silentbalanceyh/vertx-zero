@@ -32,24 +32,26 @@ public class ExcelClientImpl implements ExcelClient {
 
     private transient final Vertx vertx;
     private transient final ExcelHelper helper = ExcelHelper.helper(this.getClass());
-    private transient final String temp;
 
     ExcelClientImpl(final Vertx vertx, final JsonObject config) {
         this.vertx = vertx;
-        final String temp = config.getString("temp");
-        this.temp = Ut.isNil(temp) ? "/tmp" : temp;
         this.init(config);
     }
 
     @Override
     public ExcelClient init(final JsonObject config) {
-        final JsonArray mapping = config.getJsonArray(MAPPING);
+        final JsonArray mapping = config.getJsonArray(ExcelClient.MAPPING);
         this.helper.initConnect(mapping);
         LOGGER.debug("[ Έξοδος ] Configuration finished: {0}", Pool.CONNECTS.size());
-        if (config.containsKey(ENVIRONMENT)) {
-            final JsonArray environments = config.getJsonArray(ENVIRONMENT);
+        if (config.containsKey(ExcelClient.ENVIRONMENT)) {
+            final JsonArray environments = config.getJsonArray(ExcelClient.ENVIRONMENT);
             this.helper.initEnvironment(environments);
             LOGGER.debug("[ Έξοδος ] Configuration environments: {0}", environments.encode());
+        }
+        if (config.containsKey(ExcelClient.PEN)) {
+            final String componentStr = config.getString(ExcelClient.PEN);
+            this.helper.initPen(componentStr);
+            LOGGER.debug("[ Έξοδος ] Configuration pen for Exporting: {0}", componentStr);
         }
         return this;
     }
@@ -214,26 +216,60 @@ public class ExcelClientImpl implements ExcelClient {
         final XSSFWorkbook workbook = new XSSFWorkbook();
         /* 2. Sheet created */
         final XSSFSheet sheet = workbook.createSheet(identifier);
-        /* 3. Row created */
+        /*
+         * 3. Row created
+         * 3.1. First row created
+         * 3.2. Other data rows created
+         *
+         * Basic Operation:
+         * 1) Get the first row size ( labelRow )
+         * 2) Get the second row size ( labelCell )
+         * 3) Build header data on template
+         * {TABLE} / identifier / xxxxxx
+         * Generate the header row here
+         * */
+        final boolean headed = ExFn.generateHeader(sheet, identifier, data);
+        /*
+         * Data Part
+         */
         final List<Integer> sizeList = new ArrayList<>();
         Ut.itJArray(data, JsonArray.class, (rowData, index) -> {
-            ExFn.generateData(sheet, index, rowData);
+            /*
+             * Adjust 1 for generateHeader
+             */
+            final Integer actualIdx = headed ? (index + 1) : index;
+            ExFn.generateData(sheet, actualIdx, rowData);
             sizeList.add(rowData.size());
         });
-        /* 4. Adjust column width */
-        final IntSummaryStatistics statistics = sizeList.stream().mapToInt(Integer::intValue).summaryStatistics();
-        final int max = statistics.getMax();
-        for (int idx = 0; idx < max; idx++) {
-            sheet.autoSizeColumn(idx);
-        }
+
+        /*
+         * Tpl extraction for exporting
+         */
+        this.helper.brush(workbook, sheet);
+
+        /*
+         * 4. Adjust column width
+         *  Here are some situation that the font-size may be changed in Tpl
+         * */
+        ExFn.generateAdjust(sheet, sizeList);
+
         /* 5. OutputStream */
         Fn.safeJvm(() -> {
-            // TODO: Modified in future
+            /*
+             * This file object refer to created temp file and output to buffer
+             */
             final String filename = identifier + "." + UUID.randomUUID() + ".xlsx";
             final OutputStream out = new FileOutputStream(filename);
             workbook.write(out);
             // InputStream converted
-            handler.handle(Ux.future(Ut.ioBuffer(filename)));
+            handler.handle(Ux.future(Ut.ioBuffer(filename)).compose(buffer -> {
+                /*
+                 * ioDelete should happened after data got, in this kind of situation
+                 * there is no additional data generated here.
+                 */
+                // Ut.ioRm(filename);
+                return Future.succeededFuture(buffer);
+            }));
         });
         return this;
     }

@@ -45,7 +45,6 @@ final class IO {
      * Read to JsonArray
      *
      * @param filename The filename to describe source path
-     *
      * @return Return to JsonArray object
      */
     static JsonArray getJArray(final String filename) {
@@ -57,7 +56,6 @@ final class IO {
      * Read to JsonObject
      *
      * @param filename The filename to describe source path
-     *
      * @return Return to JsonObject
      */
     static JsonObject getJObject(final String filename) {
@@ -71,7 +69,6 @@ final class IO {
      * Read to String
      *
      * @param in input stream
-     *
      * @return converted stream
      */
     static String getString(final InputStream in) {
@@ -108,7 +105,6 @@ final class IO {
      * Read yaml to JsonObject
      *
      * @param filename input filename
-     *
      * @return Deserialized type of T
      */
     @SuppressWarnings("unchecked")
@@ -156,7 +152,6 @@ final class IO {
      * Check yaml type
      *
      * @param filename input file name
-     *
      * @return YamlType of the file by format
      */
     private static YamlType getYamlType(final String filename) {
@@ -174,7 +169,6 @@ final class IO {
      * Read to property object
      *
      * @param filename input filename
-     *
      * @return Properties that will be returned
      */
     static Properties getProp(final String filename) {
@@ -191,7 +185,6 @@ final class IO {
      * Read to URL
      *
      * @param filename input filename
-     *
      * @return URL of this filename include ZIP/JAR url
      */
     static URL getURL(final String filename) {
@@ -208,7 +201,6 @@ final class IO {
      * Read to Buffer
      *
      * @param filename input filename
-     *
      * @return Buffer from filename
      */
     @SuppressWarnings("all")
@@ -226,7 +218,6 @@ final class IO {
      * Read to File
      *
      * @param filename input filename
-     *
      * @return File object by filename that input
      */
     static File getFile(final String filename) {
@@ -248,7 +239,6 @@ final class IO {
      * Read to Path
      *
      * @param filename input filename
-     *
      * @return file content that converted to String
      */
     static String getPath(final String filename) {
@@ -265,5 +255,11 @@ final class IO {
         final byte[] bytes = Stream.readBytes(file);
         final byte[] compressed = Compressor.decompress(bytes);
         return new String(compressed, Values.DEFAULT_CHARSET);
+    }
+
+    static boolean deleteFile(final String filename) {
+        final File file = getFile(filename);
+        file.deleteOnExit();
+        return true;
     }
 }

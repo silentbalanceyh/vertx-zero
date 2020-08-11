@@ -544,6 +544,10 @@ public final class Ut {
         return Define.sureJArray(IO.getJArray(filename));
     }
 
+    public static boolean ioRm(final String filename) {
+        return IO.deleteFile(filename);
+    }
+
     public static JsonObject ioJObject(final String filename) {
         return Define.sureJObject(IO.getJObject(filename));
     }

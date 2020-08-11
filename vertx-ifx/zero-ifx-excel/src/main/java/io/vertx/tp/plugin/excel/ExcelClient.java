@@ -18,11 +18,11 @@ import java.util.Set;
  * ExcelClient for office excel data loading
  * Apache Poi
  */
-@SuppressWarnings("all")
 public interface ExcelClient extends TpClient<ExcelClient> {
 
     String MAPPING = "mapping";
     String ENVIRONMENT = "environment";
+    String PEN = "pen";
 
     static ExcelClient createShared(final Vertx vertx, final JsonObject config) {
         return new ExcelClientImpl(vertx, config);
