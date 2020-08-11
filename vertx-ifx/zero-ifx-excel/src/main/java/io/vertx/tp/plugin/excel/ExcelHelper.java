@@ -27,6 +27,7 @@ class ExcelHelper {
 
     private transient final Class<?> target;
     private final transient Map<String, FormulaEvaluator> references = new HashMap<>();
+    private transient ExTpl tpl;
 
     private ExcelHelper(final Class<?> target) {
         this.target = target;
@@ -106,6 +107,22 @@ class ExcelHelper {
             }
             return sheets;
         }, workbook);
+    }
+
+    void brush(final Workbook workbook, final Sheet sheet) {
+        if (Objects.nonNull(this.tpl)) {
+            this.tpl.bind(workbook);
+            this.tpl.applyStyle(sheet);
+        }
+    }
+
+    void initPen(final String componentStr) {
+        if (Ut.notNil(componentStr)) {
+            final Class<?> tplCls = Ut.clazz(componentStr, null);
+            if (Ut.isImplement(tplCls, ExTpl.class)) {
+                this.tpl = Ut.singleton(componentStr);
+            }
+        }
     }
 
     void initConnect(final JsonArray connects) {

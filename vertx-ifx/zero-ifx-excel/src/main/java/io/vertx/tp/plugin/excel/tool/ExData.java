@@ -15,6 +15,8 @@ import java.math.BigDecimal;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.IntSummaryStatistics;
+import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
@@ -39,6 +41,17 @@ class ExData {
             this.put(Boolean.class, CellType.BOOLEAN);
         }
     };
+
+    static void generateAdjust(final Sheet sheet, final List<Integer> sizeList) {
+        // Adjust column width first
+        final IntSummaryStatistics statistics =
+                sizeList.stream().mapToInt(Integer::intValue).summaryStatistics();
+        final int max = statistics.getMax();
+        for (int idx = 0; idx < max; idx++) {
+            sheet.autoSizeColumn(idx);
+        }
+        // Bordered for each cell
+    }
 
     static void generateData(final Sheet sheet, final Integer index, final JsonArray rowData) {
         /* Row creation */

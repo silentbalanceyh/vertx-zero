@@ -121,8 +121,8 @@ public class ExFn {
         onCell(row, columnIndex, consumer, null);
     }
 
-    public static void generateStyle(final Sheet sheet, final JsonArray tableData, final List<Integer> sizeList) {
-
+    public static void generateAdjust(final Sheet sheet, final List<Integer> sizeList) {
+        ExData.generateAdjust(sheet, sizeList);
     }
 
     public static boolean generateHeader(final Sheet sheet, final String identifier, final JsonArray tableData) {

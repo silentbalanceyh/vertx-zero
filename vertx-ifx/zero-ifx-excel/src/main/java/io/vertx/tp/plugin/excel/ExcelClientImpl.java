@@ -32,12 +32,9 @@ public class ExcelClientImpl implements ExcelClient {
 
     private transient final Vertx vertx;
     private transient final ExcelHelper helper = ExcelHelper.helper(this.getClass());
-    private transient final String temp;
 
     ExcelClientImpl(final Vertx vertx, final JsonObject config) {
         this.vertx = vertx;
-        final String temp = config.getString("temp");
-        this.temp = Ut.isNil(temp) ? "/tmp" : temp;
         this.init(config);
     }
 
@@ -50,6 +47,11 @@ public class ExcelClientImpl implements ExcelClient {
             final JsonArray environments = config.getJsonArray(ExcelClient.ENVIRONMENT);
             this.helper.initEnvironment(environments);
             LOGGER.debug("[ Έξοδος ] Configuration environments: {0}", environments.encode());
+        }
+        if (config.containsKey(ExcelClient.PEN)) {
+            final String componentStr = config.getString(ExcelClient.PEN);
+            this.helper.initPen(componentStr);
+            LOGGER.debug("[ Έξοδος ] Configuration pen for Exporting: {0}", componentStr);
         }
         return this;
     }
@@ -239,13 +241,18 @@ public class ExcelClientImpl implements ExcelClient {
             ExFn.generateData(sheet, actualIdx, rowData);
             sizeList.add(rowData.size());
         });
-        /* 4. Adjust column width */
-        final IntSummaryStatistics statistics =
-                sizeList.stream().mapToInt(Integer::intValue).summaryStatistics();
-        final int max = statistics.getMax();
-        for (int idx = 0; idx < max; idx++) {
-            sheet.autoSizeColumn(idx);
-        }
+
+        /*
+         * Tpl extraction for exporting
+         */
+        this.helper.brush(workbook, sheet);
+
+        /*
+         * 4. Adjust column width
+         *  Here are some situation that the font-size may be changed in Tpl
+         * */
+        ExFn.generateAdjust(sheet, sizeList);
+
         /* 5. OutputStream */
         Fn.safeJvm(() -> {
             /*
@@ -260,7 +267,7 @@ public class ExcelClientImpl implements ExcelClient {
                  * ioDelete should happened after data got, in this kind of situation
                  * there is no additional data generated here.
                  */
-                Ut.ioRm(filename);
+                // Ut.ioRm(filename);
                 return Future.succeededFuture(buffer);
             }));
         });
