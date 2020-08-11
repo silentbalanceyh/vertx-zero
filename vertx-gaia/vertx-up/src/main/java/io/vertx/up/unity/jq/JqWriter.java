@@ -10,6 +10,7 @@ import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 import org.jooq.Condition;
 
+import java.lang.reflect.Field;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentMap;
@@ -262,9 +263,26 @@ class JqWriter {
      * This feature does not support pojo mapping
      */
     private <T> T uuid(final T input) {
-        final Object keyValue = Ut.field(input, "key");
-        if (Objects.isNull(keyValue)) {
-            Ut.field(input, "key", UUID.randomUUID().toString());
+        if (Objects.nonNull(input)) {
+            final Class<?> clazz = input.getClass();
+            try {
+                final Field field = clazz.getDeclaredField("key");
+                if (Objects.nonNull(field)) {
+                    final Object keyValue = Ut.field(input, "key");
+                    if (Objects.isNull(keyValue)) {
+                        Ut.field(input, "key", UUID.randomUUID().toString());
+                    }
+                }
+            } catch (Throwable ex) {
+                /*
+                 * To avoid java.lang.NoSuchFieldException: key
+                 * Some relation tables do not contain `key` as primaryKey such as
+                 * R_USER_ROLE
+                 * - userId
+                 * - roleId
+                 * Instead of other kind of ids here
+                 */
+            }
         }
         return input;
     }

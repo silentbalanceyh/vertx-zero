@@ -1,4 +1,4 @@
-package io.vertx.up.commune.config;
+package io.vertx.up.commune.exchange;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;

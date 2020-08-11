@@ -10,8 +10,8 @@ import io.vertx.tp.optic.jet.JtComponent;
 import io.vertx.up.annotations.Contract;
 import io.vertx.up.atom.worker.Mission;
 import io.vertx.up.commune.*;
-import io.vertx.up.commune.config.Dict;
-import io.vertx.up.commune.config.DictFabric;
+import io.vertx.up.commune.exchange.DictConfig;
+import io.vertx.up.commune.exchange.DictFabric;
 import io.vertx.up.log.Annal;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
@@ -148,7 +148,7 @@ public abstract class AbstractChannel implements JtChannel {
         /*
          * Dict configuration
          */
-        final Dict dict = this.commercial.dict();
+        final DictConfig dict = this.commercial.dict();
         if (Objects.isNull(this.dictionary)) {
             final String appKey = this.commercial.app();
             final String identifier = this.commercial.identifier();

@@ -6,7 +6,7 @@ import io.vertx.core.MultiMap;
 import io.vertx.core.json.JsonArray;
 import io.vertx.tp.ke.cv.KeField;
 import io.vertx.tp.optic.component.DictionaryPlugin;
-import io.vertx.up.commune.config.DictSource;
+import io.vertx.up.commune.exchange.DictSource;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 

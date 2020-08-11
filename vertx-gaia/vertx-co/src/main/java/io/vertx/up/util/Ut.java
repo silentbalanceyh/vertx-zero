@@ -847,6 +847,10 @@ public final class Ut {
         return Period.equalDate(left, right);
     }
 
+    public static boolean isUUID(final String literal) {
+        return Is.isUUID(literal);
+    }
+
     public static boolean isBoolean(final Class<?> clazz) {
         return Types.isBoolean(clazz);
     }

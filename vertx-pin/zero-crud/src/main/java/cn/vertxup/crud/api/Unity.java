@@ -16,10 +16,10 @@ import io.vertx.tp.optic.Pocket;
 import io.vertx.tp.optic.Seeker;
 import io.vertx.tp.optic.component.Dictionary;
 import io.vertx.up.commune.Envelop;
-import io.vertx.up.commune.config.Dict;
-import io.vertx.up.commune.config.DictEpsilon;
-import io.vertx.up.commune.config.DictFabric;
-import io.vertx.up.commune.config.DictSource;
+import io.vertx.up.commune.exchange.DictConfig;
+import io.vertx.up.commune.exchange.DictEpsilon;
+import io.vertx.up.commune.exchange.DictFabric;
+import io.vertx.up.commune.exchange.DictSource;
 import io.vertx.up.log.Annal;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.unity.jq.UxJooq;
@@ -74,7 +74,7 @@ class Unity {
         /* Channel Plugin */
         final Dictionary plugin = Pocket.lookup(Dictionary.class);
         /* Dict */
-        final Dict dict = config.getSource();
+        final DictConfig dict = config.getSource();
         if (epsilonMap.isEmpty() || Objects.isNull(plugin) || !dict.validSource()) {
             /*
              * Direct returned

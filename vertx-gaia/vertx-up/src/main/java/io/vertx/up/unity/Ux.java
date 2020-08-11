@@ -15,9 +15,9 @@ import io.vertx.tp.plugin.jooq.JooqInfix;
 import io.vertx.up.atom.query.Pagination;
 import io.vertx.up.commune.Envelop;
 import io.vertx.up.commune.Record;
-import io.vertx.up.commune.config.Dict;
-import io.vertx.up.commune.config.DictEpsilon;
-import io.vertx.up.commune.config.DictFabric;
+import io.vertx.up.commune.exchange.DictConfig;
+import io.vertx.up.commune.exchange.DictEpsilon;
+import io.vertx.up.commune.exchange.DictFabric;
 import io.vertx.up.eon.Constants;
 import io.vertx.up.eon.Strings;
 import io.vertx.up.eon.em.ChangeFlag;
@@ -686,7 +686,7 @@ public final class Ux {
         return DictTool.mapEpsilon(epsilon);
     }
 
-    public static Future<ConcurrentMap<String, JsonArray>> dictCalc(final Dict dict, final MultiMap paramsMap) {
+    public static Future<ConcurrentMap<String, JsonArray>> dictCalc(final DictConfig dict, final MultiMap paramsMap) {
         return DictTool.dictCalc(dict, paramsMap);
     }
 

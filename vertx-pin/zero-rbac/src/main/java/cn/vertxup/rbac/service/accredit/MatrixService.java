@@ -6,7 +6,7 @@ import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.rbac.atom.ScRequest;
 import io.vertx.tp.rbac.refine.Sc;
-import io.vertx.up.commune.config.DataBound;
+import io.vertx.up.commune.secure.DataBound;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 

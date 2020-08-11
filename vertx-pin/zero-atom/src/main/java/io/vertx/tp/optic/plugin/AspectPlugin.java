@@ -5,7 +5,7 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.atom.modeling.data.DataAtom;
 import io.vertx.tp.error._501NotSupportException;
-import io.vertx.up.commune.config.DictFabric;
+import io.vertx.up.commune.exchange.DictFabric;
 
 /*
  * 用于处理 Aop 横切层的专用插件接口，目前主要使用在

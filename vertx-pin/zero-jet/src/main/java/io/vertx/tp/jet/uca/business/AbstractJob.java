@@ -10,7 +10,12 @@ import io.vertx.tp.optic.environment.Ambient;
 import io.vertx.up.atom.Refer;
 import io.vertx.up.atom.worker.Mission;
 import io.vertx.up.commune.Service;
-import io.vertx.up.commune.config.*;
+import io.vertx.up.commune.config.Database;
+import io.vertx.up.commune.exchange.DualMapping;
+import io.vertx.up.commune.config.Identity;
+import io.vertx.up.commune.config.Integration;
+import io.vertx.up.commune.exchange.DictConfig;
+import io.vertx.up.commune.exchange.DictFabric;
 import io.vertx.up.commune.rule.RuleUnique;
 import io.vertx.up.log.Annal;
 import io.vertx.up.unity.Ux;
@@ -50,8 +55,8 @@ public abstract class AbstractJob implements Service {
      * - mappingMode
      * - mappingComponent
      */
-    protected Dict dict() {
-        final Dict dict = Jt.toDict(this.service());
+    protected DictConfig dict() {
+        final DictConfig dict = Jt.toDict(this.service());
         if (Objects.isNull(this.fabric)) {
             this.fabric = DictFabric.create().epsilon(dict.getEpsilon());
         }

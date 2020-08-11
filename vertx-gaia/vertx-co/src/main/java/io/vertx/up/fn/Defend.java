@@ -1,9 +1,9 @@
 package io.vertx.up.fn;
 
 import io.vertx.core.VertxException;
-import io.vertx.up.log.Annal;
 import io.vertx.up.exception.ZeroException;
 import io.vertx.up.exception.ZeroRunException;
+import io.vertx.up.log.Annal;
 
 /**
  * Defend means swapper the exception part for specific statement.
@@ -45,6 +45,8 @@ final class Defend {
             reference = supplier.get();
         } catch (final Exception ex) {
             Annal.sure(logger, () -> logger.jvm(ex));
+            // TODO: Debug for JVM
+            ex.printStackTrace();
         }
         return reference;
     }
