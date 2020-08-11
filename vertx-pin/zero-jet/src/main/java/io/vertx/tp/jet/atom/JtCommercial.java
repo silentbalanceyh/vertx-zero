@@ -6,7 +6,11 @@ import io.vertx.tp.jet.cv.JtKey;
 import io.vertx.tp.jet.refine.Jt;
 import io.vertx.tp.optic.environment.Ambient;
 import io.vertx.up.commune.Commercial;
-import io.vertx.up.commune.config.*;
+import io.vertx.up.commune.config.Database;
+import io.vertx.up.commune.exchange.DualMapping;
+import io.vertx.up.commune.config.Identity;
+import io.vertx.up.commune.config.Integration;
+import io.vertx.up.commune.exchange.DictConfig;
 import io.vertx.up.commune.rule.RuleUnique;
 import io.vertx.up.eon.ID;
 import io.vertx.up.eon.em.ChannelType;
@@ -130,7 +134,7 @@ public abstract class JtCommercial implements Commercial {
     }
 
     @Override
-    public Dict dict() {
+    public DictConfig dict() {
         return Jt.toDict(this.service);
     }
 

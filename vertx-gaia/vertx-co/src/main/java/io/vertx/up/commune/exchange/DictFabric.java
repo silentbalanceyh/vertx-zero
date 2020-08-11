@@ -1,5 +1,6 @@
-package io.vertx.up.commune.config;
+package io.vertx.up.commune.exchange;
 
+import io.vertx.codegen.annotations.Fluent;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
@@ -26,12 +27,36 @@ public class DictFabric {
     private static final Annal LOGGER = Annal.get(DictFabric.class);
     /*
      * From field = DictEpsilon
+     * This map stored consume information of current usage, the format is as following
+     * {
+     *     "field": {
+     *         "source": "...",
+     *         "in": "...",
+     *         "out": "..."
+     *     }
+     * }
+     * -- field: The field that defined in final input record
+     * -- source: The dict name that has been mapped to `dictData` variable here
+     * -- in/out: The translation direction that defined.
      */
     private final transient ConcurrentMap<String, DictEpsilon> epsilonMap
             = new ConcurrentHashMap<>();
+
+    /*
+     * The dictionary data that have been processed here, the format is as following:
+     * {
+     *     "source": []
+     * }
+     * The source is the direction name here.
+     */
     private final transient ConcurrentMap<String, JsonArray> dictData
             = new ConcurrentHashMap<>();
+
+    /*
+     *  The mapping in dictionary
+     */
     private final transient DualItem mapping;
+
     /*
      * Data here for dictionary
      */
@@ -44,6 +69,10 @@ public class DictFabric {
         this.mapping = mapping;
     }
 
+    /*
+     * Here are the creation method for `DictFabric`
+     * Each api will create new `DictFabric` object
+     */
     public static DictFabric create(final DualItem mapping) {
         return new DictFabric(mapping);
     }
@@ -72,6 +101,7 @@ public class DictFabric {
         return created;
     }
 
+    @Fluent
     public DictFabric epsilon(final ConcurrentMap<String, DictEpsilon> epsilonMap) {
         if (Objects.nonNull(epsilonMap) && !epsilonMap.isEmpty()) {
             /*
@@ -94,6 +124,7 @@ public class DictFabric {
         return this;
     }
 
+    @Fluent
     public DictFabric dictionary(final ConcurrentMap<String, JsonArray> dictData) {
         if (Objects.nonNull(dictData) && !dictData.isEmpty()) {
             this.dictData.clear();                          /* Clear Queue */
@@ -105,7 +136,9 @@ public class DictFabric {
         return this;
     }
 
-    // -------- Get data
+    /*
+     * The stored data that related to configuration defined here
+     */
     public DualItem mapping() {
         return this.mapping;
     }
@@ -116,6 +149,10 @@ public class DictFabric {
 
     public ConcurrentMap<String, JsonArray> dictionary() {
         return this.dictData;
+    }
+
+    public JsonArray dictionary(final String dictName) {
+        return this.dictData.getOrDefault(dictName, new JsonArray());
     }
 
     private void init() {
@@ -271,6 +308,43 @@ public class DictFabric {
     public Future<JsonArray> outFrom(final JsonArray input) {
         return Future.succeededFuture(this.outFromS(input));
     }
+
+    // ----------------------- Operation Method -----------------------
+    /*
+     * Update single dictionary by `dictName` and `keyField`
+     * - dictName: the dictionary name that stored in `dictData`
+     *
+     * this.init() is required when `dictData` have been changed here
+     */
+    public void update(final String dictName, final JsonObject input) {
+        this.update(dictName, input, "key");
+    }
+
+    public void update(final String dictName, final JsonArray input) {
+        this.update(dictName, input, "key");
+    }
+
+    public void update(final String dictName, final JsonArray input, final String keyField) {
+        Ut.itJArray(input).forEach(json -> this.update(dictName, json, keyField));
+    }
+
+    public void update(final String dictName, final JsonObject input, final String keyField) {
+        final JsonObject data = Ut.sureJObject(input);
+        if (this.dictData.containsKey(dictName) && data.containsKey(keyField)) {
+            final JsonArray original = this.dictData.get(dictName);
+            final JsonArray updated = Ut.elementSave(original, data, keyField);
+            this.dictData.put(dictName, updated);
+            /*
+             * Here we need re-calculate `fromData` and `toData` instead
+             * When `dictData` have been changed, here we should call `init` method to re-calculate`
+             * */
+            this.init();
+        }
+    }
+
+    /*
+     * Checked method to see whether it's in current dict
+     */
 
     private JsonArray process(final JsonArray process,
                               final Function<JsonObject, JsonObject> function) {

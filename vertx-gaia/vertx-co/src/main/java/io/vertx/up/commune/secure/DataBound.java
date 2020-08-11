@@ -1,4 +1,4 @@
-package io.vertx.up.commune.config;
+package io.vertx.up.commune.secure;
 
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;

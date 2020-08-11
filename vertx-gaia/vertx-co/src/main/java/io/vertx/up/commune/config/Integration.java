@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.commune.Json;
+import io.vertx.up.commune.exchange.DictEpsilon;
 import io.vertx.up.util.Ut;
 
 import java.io.Serializable;

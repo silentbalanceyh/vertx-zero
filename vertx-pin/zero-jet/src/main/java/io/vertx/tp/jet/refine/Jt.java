@@ -10,7 +10,11 @@ import io.vertx.tp.jet.atom.JtApp;
 import io.vertx.tp.jet.atom.JtConfig;
 import io.vertx.tp.jet.atom.JtUri;
 import io.vertx.tp.jet.atom.JtWorker;
-import io.vertx.up.commune.config.*;
+import io.vertx.up.commune.config.Database;
+import io.vertx.up.commune.exchange.DualMapping;
+import io.vertx.up.commune.config.Identity;
+import io.vertx.up.commune.config.Integration;
+import io.vertx.up.commune.exchange.DictConfig;
 import io.vertx.up.commune.rule.RuleUnique;
 import io.vertx.up.eon.Strings;
 import io.vertx.up.eon.em.ChannelType;
@@ -78,7 +82,7 @@ public class Jt {
     /*
      * IService -> Dict
      */
-    public static Dict toDict(final IService service) {
+    public static DictConfig toDict(final IService service) {
         return JtBusiness.toDict(service);
     }
 
@@ -96,7 +100,7 @@ public class Jt {
         return JtBusiness.toIdentify(service);
     }
 
-    public static Future<ConcurrentMap<String, JsonArray>> toDictionary(final String key, final String identifier, final Dict dict) {
+    public static Future<ConcurrentMap<String, JsonArray>> toDictionary(final String key, final String identifier, final DictConfig dict) {
         return JtBusiness.toDictionary(key, identifier, dict);
     }
 

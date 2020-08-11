@@ -1,4 +1,4 @@
-package io.vertx.up.commune.config;
+package io.vertx.up.commune.exchange;
 
 import io.vertx.core.json.JsonArray;
 import io.vertx.up.util.Ut;
@@ -29,7 +29,7 @@ import java.util.concurrent.ConcurrentMap;
  *     }
  * ]
  */
-public class Dict implements Serializable {
+public class DictConfig implements Serializable {
 
     /*
      * Source definition here for directory configuration
@@ -41,7 +41,7 @@ public class Dict implements Serializable {
     /*
      * Build object of Dict
      */
-    public Dict(final String literal) {
+    public DictConfig(final String literal) {
         if (Ut.isJArray(literal)) {
             final JsonArray parameters = new JsonArray(literal);
             /* Initialize */
@@ -49,7 +49,7 @@ public class Dict implements Serializable {
         }
     }
 
-    public Dict(final JsonArray input) {
+    public DictConfig(final JsonArray input) {
         if (Objects.nonNull(input)) {
             /* Initialize */
             this.init(input);
@@ -63,7 +63,7 @@ public class Dict implements Serializable {
                 .forEach(this.source::add);
     }
 
-    public Dict bind(final Class<?> component) {
+    public DictConfig bind(final Class<?> component) {
         if (Objects.isNull(component)) {
             /*
              * When component not found,
@@ -81,7 +81,7 @@ public class Dict implements Serializable {
         return this;
     }
 
-    public Dict bind(final ConcurrentMap<String, DictEpsilon> epsilon) {
+    public DictConfig bind(final ConcurrentMap<String, DictEpsilon> epsilon) {
         if (Objects.nonNull(epsilon)) {
             this.epsilon.putAll(epsilon);
         }

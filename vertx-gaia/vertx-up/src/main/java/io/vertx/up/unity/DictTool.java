@@ -5,9 +5,9 @@ import io.vertx.core.MultiMap;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.optic.component.Dictionary;
-import io.vertx.up.commune.config.Dict;
-import io.vertx.up.commune.config.DictEpsilon;
-import io.vertx.up.commune.config.DictFabric;
+import io.vertx.up.commune.exchange.DictConfig;
+import io.vertx.up.commune.exchange.DictEpsilon;
+import io.vertx.up.commune.exchange.DictFabric;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.uca.adminicle.FieldMapper;
 import io.vertx.up.util.Ut;
@@ -59,7 +59,7 @@ class DictTool {
         }
     }
 
-    static Future<ConcurrentMap<String, JsonArray>> dictCalc(final Dict dict, final MultiMap paramMap) {
+    static Future<ConcurrentMap<String, JsonArray>> dictCalc(final DictConfig dict, final MultiMap paramMap) {
         if (Objects.isNull(dict)) {
             /*
              * Not `Dict` configured

@@ -3,7 +3,7 @@ package io.vertx.up.commune;
 import io.vertx.core.MultiMap;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.commune.config.DualMapping;
+import io.vertx.up.commune.exchange.DualMapping;
 import io.vertx.up.eon.ID;
 import io.vertx.up.fn.Fn;
 import io.vertx.zero.exception.ActSpecificationException;

@@ -6,8 +6,8 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.crud.cv.em.DsMode;
-import io.vertx.up.commune.config.Dict;
-import io.vertx.up.commune.config.DictEpsilon;
+import io.vertx.up.commune.exchange.DictConfig;
+import io.vertx.up.commune.exchange.DictEpsilon;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
@@ -133,9 +133,9 @@ public class IxModule implements Serializable {
         this.epsilon = epsilon;
     }
 
-    public Dict getSource() {
+    public DictConfig getSource() {
         final JsonArray source = Objects.isNull(this.source) ? new JsonArray() : this.source;
-        return new Dict(source);
+        return new DictConfig(source);
     }
 
     public void setSource(final JsonArray source) {

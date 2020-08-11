@@ -9,7 +9,7 @@ import io.vertx.tp.error.*;
 import io.vertx.tp.rbac.atom.ScRequest;
 import io.vertx.tp.rbac.cv.AuthMsg;
 import io.vertx.tp.rbac.refine.Sc;
-import io.vertx.up.commune.config.DataBound;
+import io.vertx.up.commune.secure.DataBound;
 import io.vertx.up.exception.WebException;
 import io.vertx.up.exception.web._500InternalServerException;
 import io.vertx.up.log.Annal;

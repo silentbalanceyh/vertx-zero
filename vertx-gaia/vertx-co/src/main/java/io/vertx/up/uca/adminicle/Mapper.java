@@ -2,7 +2,7 @@ package io.vertx.up.uca.adminicle;
 
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.commune.config.DualItem;
+import io.vertx.up.commune.exchange.DualItem;
 import io.vertx.up.util.Ut;
 
 /*

@@ -4,7 +4,7 @@ import io.vertx.core.Future;
 import io.vertx.core.MultiMap;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.commune.config.DictSource;
+import io.vertx.up.commune.exchange.DictSource;
 
 public interface DictionaryPlugin {
 

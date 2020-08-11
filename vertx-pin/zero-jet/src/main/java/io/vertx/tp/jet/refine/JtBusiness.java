@@ -8,9 +8,9 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.tp.jet.atom.JtApp;
 import io.vertx.tp.ke.cv.KeField;
 import io.vertx.tp.optic.environment.Ambient;
-import io.vertx.up.commune.config.Dict;
-import io.vertx.up.commune.config.DualMapping;
+import io.vertx.up.commune.exchange.DualMapping;
 import io.vertx.up.commune.config.Identity;
+import io.vertx.up.commune.exchange.DictConfig;
 import io.vertx.up.eon.em.MappingMode;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.unity.Ux;
@@ -24,13 +24,13 @@ import java.util.concurrent.ConcurrentMap;
  * have been put into pool structure
  */
 class JtBusiness {
-    static Dict toDict(final IService service) {
+    static DictConfig toDict(final IService service) {
         return Fn.getNull(null, () -> Fn.pool(Pool.POOL_DICT, service.getKey(), () -> {
             /*
              * Dict Config for service
              */
             final String dictStr = service.getDictConfig();
-            final Dict dict = new Dict(dictStr);
+            final DictConfig dict = new DictConfig(dictStr);
             /*
              * When valid, inject component here
              */
@@ -90,7 +90,7 @@ class JtBusiness {
         }), service);
     }
 
-    static Future<ConcurrentMap<String, JsonArray>> toDictionary(final String key, final String identifier, final Dict dict) {
+    static Future<ConcurrentMap<String, JsonArray>> toDictionary(final String key, final String identifier, final DictConfig dict) {
         /*
          * Params here for different situations
          */
