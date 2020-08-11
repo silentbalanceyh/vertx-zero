@@ -12,6 +12,7 @@ import java.time.temporal.TemporalUnit;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
+import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.function.BiFunction;
@@ -22,6 +23,18 @@ import java.util.function.Function;
  * Specific checking
  */
 class Is {
+    /*
+     * Low performance processing, be careful to use
+     */
+    static boolean isUUID(final String literal) {
+        UUID converted;
+        try {
+            converted = UUID.fromString(literal);
+        } catch (final IllegalArgumentException ex) {
+            converted = null;
+        }
+        return Objects.nonNull(converted);
+    }
 
     static boolean isSame(final Object left, final Object right, final String field) {
         if (Objects.isNull(left) && Objects.isNull(right)) {

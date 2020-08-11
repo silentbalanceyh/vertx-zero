@@ -300,30 +300,42 @@ public class DictFabric {
      *
      * this.init() is required when `dictData` have been changed here
      */
-    public void upItem(final String dictName, final JsonObject input) {
-        this.upItem(dictName, input, "key");
+    public void itemUpdate(final String dictName, final JsonObject input) {
+        this.itemUpdate(dictName, input, "key");
     }
 
-    public void upItem(final String dictName, final JsonArray input) {
-        this.upItem(dictName, input, "key");
+    public void itemUpdate(final String dictName, final JsonArray input) {
+        this.itemUpdate(dictName, input, "key");
     }
 
-    public void upItem(final String dictName, final JsonArray input, final String keyField) {
-        this.store.updateItem(dictName, input, keyField);
+    public void itemUpdate(final String dictName, final JsonArray input, final String keyField) {
+        this.store.itemUpdate(dictName, input, keyField);
         this.init();
     }
 
-    public void upItem(final String dictName, final JsonObject input, final String keyField) {
-        this.store.updateItem(dictName, input, keyField);
+    public void itemUpdate(final String dictName, final JsonObject input, final String keyField) {
+        this.store.itemUpdate(dictName, input, keyField);
         this.init();
     }
 
-    public boolean inItem(final String dictName, final String value) {
-        return this.store.checkItem(dictName, value, "key");
+    /*
+     * Check whether there existing the `keyField` = value
+     * record in fixed dictName of our DictFabric
+     */
+    public boolean itemExist(final String dictName, final String value) {
+        return this.store.itemExist(dictName, value, "key");
     }
 
-    public boolean inItem(final String dictName, final String value, final String keyField) {
-        return this.store.checkItem(dictName, value, keyField);
+    public boolean itemExist(final String dictName, final String value, final String keyField) {
+        return this.store.itemExist(dictName, value, keyField);
+    }
+
+    public JsonObject itemFind(final String dictName, final String value) {
+        return this.store.itemFind(dictName, value, "key");
+    }
+
+    public JsonObject itemFind(final String dictName, final String value, final String keyField) {
+        return this.store.itemFind(dictName, value, keyField);
     }
 
     /*

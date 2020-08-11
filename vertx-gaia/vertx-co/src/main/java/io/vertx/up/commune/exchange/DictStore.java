@@ -50,7 +50,7 @@ class DictStore {
     /*
      * Api for update / add / get operation on `dictData`
      */
-    void updateItem(final String dictName, final JsonObject input, final String keyField) {
+    void itemUpdate(final String dictName, final JsonObject input, final String keyField) {
         final JsonObject data = Ut.sureJObject(input);
         final JsonArray original = this.item(dictName);
         // Check not null
@@ -60,13 +60,13 @@ class DictStore {
         }
     }
 
-    void updateItem(final String dictName, final JsonArray input, final String keyField) {
+    void itemUpdate(final String dictName, final JsonArray input, final String keyField) {
         final JsonArray data = Ut.sureJArray(input);
         Ut.itJArray(data).filter(item -> Objects.nonNull(item.getValue(keyField)))
-                .forEach(json -> this.updateItem(dictName, json, keyField));
+                .forEach(json -> this.itemUpdate(dictName, json, keyField));
     }
 
-    boolean checkItem(final String dictName, final String value, final String keyField) {
+    boolean itemExist(final String dictName, final String value, final String keyField) {
         if (Ut.isNilOr(keyField, value)) {
             return false;
         } else {
@@ -77,5 +77,11 @@ class DictStore {
                     .filter(value::equals).count();
             return 0 < counter;
         }
+    }
+
+    JsonObject itemFind(final String dictName, final String value, final String keyField) {
+        final JsonArray dictData = this.item(dictName);
+        // Find the `keyField` = value as condition
+        return Ut.elementFind(dictData, keyField, value);
     }
 }
