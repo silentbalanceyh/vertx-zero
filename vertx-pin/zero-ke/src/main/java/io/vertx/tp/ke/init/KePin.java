@@ -1,11 +1,11 @@
 package io.vertx.tp.ke.init;
 
-import io.vertx.core.json.JsonArray;
-import io.vertx.core.json.JsonObject;
 import io.vertx.tp.optic.atom.Lexeme;
-import io.vertx.up.util.Ut;
+import io.vertx.up.log.Annal;
 
+import java.util.Iterator;
 import java.util.Objects;
+import java.util.ServiceLoader;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
@@ -15,38 +15,60 @@ import java.util.concurrent.ConcurrentMap;
  */
 public class KePin {
 
-    private static final String TUNNEL_CONFIG = "plugin/channel.json";
+    private static final Annal LOGGER = Annal.get(KePin.class);
 
-    private static final ConcurrentMap<String, Lexeme> LEXEME_MAP
-            = new ConcurrentHashMap<>();
+    private static final ConcurrentMap<String, Object> REF =
+            new ConcurrentHashMap<>();
 
-    /*
-     * Static initialization for loading configuration
-     */
-    static {
-        init();
-    }
+    @SuppressWarnings("unchecked")
+    public static <T> Lexeme<T> get(final Class<T> interfaceCls) {
+        if (Objects.isNull(interfaceCls)) {
+            return null;
+        } else {
+            final Object original = REF.getOrDefault(interfaceCls.getName(), null);
+            if (Objects.isNull(original)) {
+                /*
+                 * Service Loader for lookup input interface implementation
+                 * This configuration must be configured in
+                 * META-INF/services/<interfaceCls Name> file
+                 */
+                final ServiceLoader<T> loader =
+                        ServiceLoader.load(interfaceCls, interfaceCls.getClassLoader());
 
-    public static Lexeme get(final Class<?> interfaceCls) {
-        /* Lazy initialization */
-        if (LEXEME_MAP.isEmpty()) {
-            init();
-        }
-        return LEXEME_MAP.getOrDefault(interfaceCls.getName(), null);
-    }
+                /*
+                 * New data structure to put interface class into LEXEME_MAP
+                 * In current version, it support one to one only
+                 *
+                 * 1) The key is interface class name
+                 * 2) The found class is implementation name
+                 */
+                final Iterator<T> it = loader.iterator();
+                Lexeme<T> found = null;
+                while (it.hasNext()) {
 
-    private static void init() {
-        final JsonObject config = Ut.ioJObject(TUNNEL_CONFIG);
-        if (!Ut.isNil(config)) {
-            /*
-             * Load information here.
-             */
-            final JsonArray channels = config.getJsonArray("channels");
-            channels.stream().filter(Objects::nonNull)
-                    .map(item -> (JsonObject) item)
-                    .map(Lexeme::new)
-                    .filter(Lexeme::isValid)
-                    .forEach(lexeme -> LEXEME_MAP.put(lexeme.getInterfaceCls().getName(), lexeme));
+                    /*
+                     * Found the first implementation class
+                     */
+                    final T reference = it.next();
+                    if (Objects.nonNull(reference)) {
+                        found = new Lexeme<>(interfaceCls, reference);
+                        /*
+                         * Refresh cache
+                         */
+                        final String cacheKey = interfaceCls.getName();
+                        LOGGER.info("Lexeme<T>: interface = {0} <-------- impl = {1}",
+                                cacheKey, reference.getClass().getName());
+                        REF.put(cacheKey, found);
+                        break;
+                    }
+                }
+                return found;
+            } else {
+                /*
+                 * Found in cache and return (Lexeme<T>) directly
+                 */
+                return (Lexeme<T>) original;
+            }
         }
     }
 }
