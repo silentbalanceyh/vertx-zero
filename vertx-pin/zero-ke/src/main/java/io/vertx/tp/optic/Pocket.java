@@ -3,7 +3,6 @@ package io.vertx.tp.optic;
 import io.vertx.tp.ke.init.KePin;
 import io.vertx.tp.optic.atom.Income;
 import io.vertx.tp.optic.atom.Lexeme;
-import io.vertx.up.util.Ut;
 
 import java.util.Objects;
 
@@ -14,11 +13,11 @@ public class Pocket {
     /*
      * Lookup interface
      */
-    public static <T> T lookup(final Class<?> clazz) {
+    public static <T> T lookup(final Class<T> clazz) {
         /*
          * Get lexeme reference here.
          */
-        final Lexeme lexeme = KePin.get(clazz);
+        final Lexeme<T> lexeme = KePin.get(clazz);
         if (Objects.isNull(lexeme)) {
             /*
              * Null pointer
@@ -28,12 +27,11 @@ public class Pocket {
             /*
              * Implementation pointer
              */
-            final Class<?> implCls = lexeme.getImplCls();
-            return Ut.singleton(implCls);
+            return lexeme.instance();
         }
     }
 
-    public static Income income(final Class<?> clazz, final Object... args) {
+    public static <T> Income income(final Class<T> clazz, final Object... args) {
         final Income income = Income.in(clazz);
         for (final Object arg : args) {
             income.in(arg);
