@@ -1,6 +1,0 @@
-io.vertx.tp.error
-io.vertx.tp.plugin.excel
-io.vertx.tp.plugin.excel.atom
-io.vertx.tp.plugin.excel.cell
-io.vertx.tp.plugin.excel.ranger
-io.vertx.tp.plugin.excel.tool

@@ -1160,7 +1160,7 @@
                         <useStandardDocletOptions>true</useStandardDocletOptions>
                         <reportOutputDirectory>${project.build.directory}/docs</reportOutputDirectory>
                         <!-- Release configuration -->
-                        <!--<destDir>${project.basedir}/src/document</destDir>-->
+                        <destDir>${project.basedir}/target/docs/</destDir>
                         <additionalOptions>--allow-script-in-comments</additionalOptions>
                         <header><![CDATA[
                             <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/styles/idea.min.css">

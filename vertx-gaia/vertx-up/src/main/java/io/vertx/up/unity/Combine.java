@@ -28,13 +28,8 @@ class Combine {
         final List<Future> futureList = new ArrayList<>(futures);
         return CompositeFuture.join(futureList).compose(finished -> {
             final List<T> result = new ArrayList<>();
-            if (null != finished) {
-                Ut.itList(finished.list(), (item, index) -> {
-                    if (Objects.nonNull(item)) {
-                        result.add((T) item);
-                    }
-                });
-            }
+            Ut.itList(finished.list(),
+                    (item, index) -> result.add((T) item));
             return Future.succeededFuture(result);
         });
     }
