@@ -1,8 +1,0 @@
-cn.vertxup.graphic.api
-cn.vertxup.graphic.domain
-cn.vertxup.graphic.domain.tables
-cn.vertxup.graphic.domain.tables.daos
-cn.vertxup.graphic.domain.tables.interfaces
-cn.vertxup.graphic.domain.tables.pojos
-cn.vertxup.graphic.domain.tables.records
-io.vertx.tp.graphic.cv
