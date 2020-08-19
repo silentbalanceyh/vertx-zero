@@ -65,8 +65,8 @@
         <stack.version>3.9.2</stack.version>
 
         <jcabi.version>0.22.6</jcabi.version>
-        <jackson.version>2.11.1</jackson.version>
-        <jackson.extension.version>2.11.1</jackson.extension.version>
+        <jackson.version>2.11.2</jackson.version>
+        <jackson.extension.version>2.11.2</jackson.extension.version>
         <jersey.version>2.30.1</jersey.version>
         <javax.el.version>3.0.1-b06</javax.el.version>
         <glassfish.el.version>3.0.1-b11</glassfish.el.version>
@@ -76,7 +76,7 @@
         <jooq.version>3.10.8</jooq.version>
         <vertx.jooq.version>2.4.1</vertx.jooq.version>
         <vertx.jooq.async.version>0.4</vertx.jooq.async.version>
-        <vertx.jooq.code.version>5.1.2</vertx.jooq.code.version>
+        <vertx.jooq.code.version>5.2.0</vertx.jooq.code.version>
         <mysql.version>8.0.21</mysql.version>
 
         <!-- Java Reflection -->
@@ -102,7 +102,7 @@
         <codehaus.janino.version>3.2.1</codehaus.janino.version>
         <codehaus.mojo.version>1.19</codehaus.mojo.version>
         <ignite.version>2.8.1</ignite.version>
-        <mongodb.async.version>3.12.6</mongodb.async.version>
+        <mongodb.async.version>3.12.7</mongodb.async.version>
         <poi.version>4.1.2</poi.version>
 
         <!-- elasticsearch version -->
@@ -115,7 +115,7 @@
         <common.jexl.version>3.1</common.jexl.version>
         <common.lang3.version>3.11</common.lang3.version>
         <common.logging.version>1.2</common.logging.version>
-        <common.net.version>3.6</common.net.version>
+        <common.net.version>3.7</common.net.version>
         <common.codec.version>1.14</common.codec.version>
         <common.cli.version>1.4</common.cli.version>
 
@@ -129,7 +129,7 @@
         <!-- Rpc -->
         <protobuf.version>3.12.2</protobuf.version>
         <vertx.grpc.version>1.6.1</vertx.grpc.version>
-        <grpc.version>1.31.0</grpc.version>
+        <grpc.version>1.31.1</grpc.version>
         <picoli.version>4.5.0</picoli.version>
 
         <!-- Yaml -->
@@ -138,7 +138,7 @@
 
         <!-- Vert.x Addition -->
         <rxjava2.version>2.2.19</rxjava2.version>
-        <netty.tcnative.version>2.0.31.Final</netty.tcnative.version>
+        <netty.tcnative.version>2.0.33.Final</netty.tcnative.version>
         <netty.version>4.1.51.Final</netty.version>
         <hazelcast.version>3.12.4</hazelcast.version>
         <swagger.version>1.6.0</swagger.version>
