@@ -11,7 +11,7 @@
 
     <artifactId>vertx-pin</artifactId>
     <packaging>pom</packaging>
-    <name>（ Zero Plugin ) Container Tier</name>
+    <name>vertx-pin: Container Tier</name>
     <modules>
         <!-- Crud -->
         <module>zero-crud</module>
