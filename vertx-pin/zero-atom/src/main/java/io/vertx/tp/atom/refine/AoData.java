@@ -5,18 +5,30 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.tp.atom.modeling.data.DataAtom;
 import io.vertx.tp.atom.modeling.data.DataRecord;
 import io.vertx.tp.atom.modeling.element.DataMatrix;
+import io.vertx.tp.modular.jooq.convert.JsonArraySider;
+import io.vertx.tp.modular.jooq.convert.JsonObjectSider;
 import io.vertx.tp.plugin.excel.atom.ExRecord;
 import io.vertx.tp.plugin.excel.atom.ExTable;
 import io.vertx.up.commune.Record;
 import io.vertx.up.util.Ut;
+import org.jooq.Converter;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
 class AoData {
+    /* 转换器专用 */
+    @SuppressWarnings("all")
+    private static ConcurrentMap<Class<?>, Converter> CONVERT_MAP = new ConcurrentHashMap<Class<?>, Converter>() {
+        {
+            put(JsonArray.class, Ut.singleton(JsonArraySider.class));
+            put(JsonObject.class, Ut.singleton(JsonObjectSider.class));
+        }
+    };
 
     /*
      * 数据设置
@@ -107,5 +119,10 @@ class AoData {
         Ut.contract(record, DataAtom.class, atom);
         record.fromJson(data);
         return record;
+    }
+
+    @SuppressWarnings("all")
+    static Converter converter(final Class<?> type) {
+        return CONVERT_MAP.getOrDefault(type, null);
     }
 }

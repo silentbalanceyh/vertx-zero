@@ -1,5 +1,7 @@
 package io.vertx.up.util;
 
+import io.vertx.core.json.JsonArray;
+import io.vertx.core.json.JsonObject;
 import io.vertx.up.experiment.brain.V;
 
 import java.math.BigDecimal;
@@ -170,6 +172,16 @@ class Value {
              * - java.lang.float
              */
             return Float.class;
+        } else if (JsonArray.class == type) {
+            /*
+             * - JsonArray
+             */
+            return JsonArray.class;
+        } else if (JsonObject.class == type) {
+            /*
+             * - JsonObject
+             */
+            return JsonObject.class;
         } else {
             /*
              * - Other
@@ -223,6 +235,16 @@ class Value {
              * Strict:     -       java.util.Date
              */
             return V.vDate().to(input, sourceType);
+        } else if (JsonArray.class == targetType) {
+            /*
+             * Strict:     -       JsonArray
+             */
+            return Ut.toJArray(input);
+        } else if (JsonObject.class == targetType) {
+            /*
+             * Strict:     -       JsonArray
+             */
+            return Ut.toJObject(input);
         } else if (String.class == targetType) {
             return addonFn.apply(input);
         }

@@ -25,8 +25,8 @@ import java.util.*;
  */
 class ExcelHelper {
 
+    private static final Map<String, FormulaEvaluator> REFERENCES = new HashMap<>();
     private transient final Class<?> target;
-    private final transient Map<String, FormulaEvaluator> references = new HashMap<>();
     private transient ExTpl tpl;
 
     private ExcelHelper(final Class<?> target) {
@@ -80,18 +80,19 @@ class ExcelHelper {
             /* FormulaEvaluator reference */
             final FormulaEvaluator evaluator = workbook.getCreationHelper().createFormulaEvaluator();
             /* FormulaEvaluator reference for external files here */
-            if (!this.references.isEmpty()) {
+            final Map<String, FormulaEvaluator> references = new HashMap<>(REFERENCES);
+            if (!references.isEmpty()) {
                 /*
                  * Here you must put self reference evaluator and all related here.
                  * It should fix issue: Could not set environment etc.
                  */
-                this.references.put(workbook.createName().getNameName(), evaluator);
+                references.put(workbook.createName().getNameName(), evaluator);
                 /*
                  * Above one line code resolved following issue:
                  * org.apache.poi.ss.formula.CollaboratingWorkbooksEnvironment$WorkbookNotFoundException:
                  * Could not resolve external workbook name 'environment.ambient.xlsx'. Workbook environment has not been set up.
                  */
-                evaluator.setupReferencedWorkbooks(this.references);
+                evaluator.setupReferencedWorkbooks(references);
             }
             final Iterator<Sheet> it = workbook.sheetIterator();
             final Set<ExTable> sheets = new HashSet<>();
@@ -154,7 +155,7 @@ class ExcelHelper {
                      */
                     final FormulaEvaluator evaluator = workbook.getCreationHelper().createFormulaEvaluator();
                     if (Objects.nonNull(evaluator)) {
-                        this.references.put(key, evaluator);
+                        REFERENCES.put(key, evaluator);
                     }
                 });
     }

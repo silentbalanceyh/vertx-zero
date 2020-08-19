@@ -101,7 +101,7 @@ public class HikariDataPool implements DataPool {
                 configuration.set(provider);
                 /* Dialect selected */
                 final SQLDialect dialect = Pool.DIALECT.get(this.database.getCategory());
-                HikariDataPool.LOGGER.debug("Jooq Database ：Dialect = {0}, Database = {1}, ", dialect, this.database.toJson().encodePrettily());
+                LOGGER.debug("Jooq Database ：Dialect = {0}, Database = {1}, ", dialect, this.database.toJson().encodePrettily());
                 configuration.set(dialect);
                 this.context = DSL.using(configuration);
             } catch (final SQLException ex) {

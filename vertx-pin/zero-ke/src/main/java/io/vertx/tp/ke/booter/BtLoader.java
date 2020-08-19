@@ -18,6 +18,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 class BtLoader {
+
     /*
      * Environment Init for Split Booter
      */
@@ -78,9 +79,10 @@ class BtLoader {
     }
 
     static void doImport(final String filename, final Handler<AsyncResult<String>> callback) {
-        /* ExcelClient */
+        /*
+         * Build more excel client
+         */
         final ExcelClient client = ExcelInfix.getClient();
-        /* Single file */
         client.loading(filename, handler -> {
             out(filename);
             callback.handle(Future.succeededFuture(filename));
