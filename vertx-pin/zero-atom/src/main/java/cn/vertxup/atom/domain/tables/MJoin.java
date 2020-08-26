@@ -34,7 +34,7 @@ public class MJoin extends TableImpl<MJoinRecord> {
      * The reference instance of <code>DB_ETERNAL.M_JOIN</code>
      */
     public static final MJoin M_JOIN = new MJoin();
-    private static final long serialVersionUID = 1150185582;
+    private static final long serialVersionUID = -1144587074;
     /**
      * The column <code>DB_ETERNAL.M_JOIN.MODEL</code>. 「model」- 模型identifier
      */
@@ -106,7 +106,7 @@ public class MJoin extends TableImpl<MJoinRecord> {
      */
     @Override
     public List<Index> getIndexes() {
-        return Arrays.<Index>asList(Indexes.M_JOIN_PRIMARY);
+        return Arrays.<Index>asList(Indexes.M_JOIN_IDXM_M_JOIN_NAMESPACE_MODEL, Indexes.M_JOIN_PRIMARY);
     }
 
     /**

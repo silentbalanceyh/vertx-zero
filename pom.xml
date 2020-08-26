@@ -130,7 +130,7 @@
         <protobuf.version>3.12.2</protobuf.version>
         <vertx.grpc.version>1.6.1</vertx.grpc.version>
         <grpc.version>1.31.1</grpc.version>
-        <picoli.version>4.5.0</picoli.version>
+        <picoli.version>4.5.1</picoli.version>
 
         <!-- Yaml -->
         <yaml.version>1.26</yaml.version>

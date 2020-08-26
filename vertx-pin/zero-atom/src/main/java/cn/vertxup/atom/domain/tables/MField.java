@@ -35,7 +35,7 @@ public class MField extends TableImpl<MFieldRecord> {
      * The reference instance of <code>DB_ETERNAL.M_FIELD</code>
      */
     public static final MField M_FIELD = new MField();
-    private static final long serialVersionUID = 503654203;
+    private static final long serialVersionUID = -105074854;
     /**
      * The column <code>DB_ETERNAL.M_FIELD.KEY</code>. 「key」- 字段ID
      */
@@ -175,7 +175,7 @@ public class MField extends TableImpl<MFieldRecord> {
      */
     @Override
     public List<Index> getIndexes() {
-        return Arrays.<Index>asList(Indexes.M_FIELD_NAME, Indexes.M_FIELD_PRIMARY);
+        return Arrays.<Index>asList(Indexes.M_FIELD_IDX_M_FIELD_ENTITY_ID, Indexes.M_FIELD_NAME, Indexes.M_FIELD_PRIMARY);
     }
 
     /**

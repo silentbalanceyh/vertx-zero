@@ -35,7 +35,7 @@ public class MAttribute extends TableImpl<MAttributeRecord> {
      * The reference instance of <code>DB_ETERNAL.M_ATTRIBUTE</code>
      */
     public static final MAttribute M_ATTRIBUTE = new MAttribute();
-    private static final long serialVersionUID = 680263677;
+    private static final long serialVersionUID = -930402413;
     /**
      * The column <code>DB_ETERNAL.M_ATTRIBUTE.KEY</code>. 「key」- 属性ID
      */
@@ -49,17 +49,9 @@ public class MAttribute extends TableImpl<MAttributeRecord> {
      */
     public final TableField<MAttributeRecord, String> ALIAS = createField("ALIAS", org.jooq.impl.SQLDataType.VARCHAR(255), this, "「alias」- 属性别名（业务名）");
     /**
-     * The column <code>DB_ETERNAL.M_ATTRIBUTE.TYPE</code>. 「type」- INTERNAL/EXTERNAL属性
+     * The column <code>DB_ETERNAL.M_ATTRIBUTE.TYPE</code>. 「type」- INTERNAL/EXTERNAL/REFERENCE属性
      */
-    public final TableField<MAttributeRecord, String> TYPE = createField("TYPE", org.jooq.impl.SQLDataType.VARCHAR(10), this, "「type」- INTERNAL/EXTERNAL属性");
-    /**
-     * The column <code>DB_ETERNAL.M_ATTRIBUTE.SOURCE</code>. 「source」- 关联实体ID
-     */
-    public final TableField<MAttributeRecord, String> SOURCE = createField("SOURCE", org.jooq.impl.SQLDataType.VARCHAR(255), this, "「source」- 关联实体ID");
-    /**
-     * The column <code>DB_ETERNAL.M_ATTRIBUTE.SOURCE_FIELD</code>. 「sourceField」- 可选，如果不设置则以name为主
-     */
-    public final TableField<MAttributeRecord, String> SOURCE_FIELD = createField("SOURCE_FIELD", org.jooq.impl.SQLDataType.VARCHAR(255), this, "「sourceField」- 可选，如果不设置则以name为主");
+    public final TableField<MAttributeRecord, String> TYPE = createField("TYPE", org.jooq.impl.SQLDataType.VARCHAR(10), this, "「type」- INTERNAL/EXTERNAL/REFERENCE属性");
     /**
      * The column <code>DB_ETERNAL.M_ATTRIBUTE.EXPRESSION</code>. 「expression」- 表达式
      */
@@ -85,9 +77,33 @@ public class MAttribute extends TableImpl<MAttributeRecord> {
      */
     public final TableField<MAttributeRecord, String> COMMENTS = createField("COMMENTS", org.jooq.impl.SQLDataType.CLOB, this, "「comments」- 当前属性的描述信息");
     /**
+     * The column <code>DB_ETERNAL.M_ATTRIBUTE.SOURCE</code>. 「source」- 关联实体ID
+     */
+    public final TableField<MAttributeRecord, String> SOURCE = createField("SOURCE", org.jooq.impl.SQLDataType.VARCHAR(255), this, "「source」- 关联实体ID");
+    /**
+     * The column <code>DB_ETERNAL.M_ATTRIBUTE.SOURCE_FIELD</code>. 「sourceField」- 可选，如果不设置则以name为主
+     */
+    public final TableField<MAttributeRecord, String> SOURCE_FIELD = createField("SOURCE_FIELD", org.jooq.impl.SQLDataType.VARCHAR(255), this, "「sourceField」- 可选，如果不设置则以name为主");
+    /**
+     * The column <code>DB_ETERNAL.M_ATTRIBUTE.SOURCE_CONFIG</code>. 「sourceConfig」- 数据集配置（区分 Array 和 Object）
+     */
+    public final TableField<MAttributeRecord, String> SOURCE_CONFIG = createField("SOURCE_CONFIG", org.jooq.impl.SQLDataType.CLOB, this, "「sourceConfig」- 数据集配置（区分 Array 和 Object）");
+    /**
+     * The column <code>DB_ETERNAL.M_ATTRIBUTE.SOURCE_REFERENCE</code>. 「sourceReference」- 引用配置信息（ type = REFERENCE）
+     */
+    public final TableField<MAttributeRecord, String> SOURCE_REFERENCE = createField("SOURCE_REFERENCE", org.jooq.impl.SQLDataType.CLOB, this, "「sourceReference」- 引用配置信息（ type = REFERENCE）");
+    /**
+     * The column <code>DB_ETERNAL.M_ATTRIBUTE.SOURCE_EXTERNAL</code>. 「sourceExternal」- 外部配置信息（ type = EXTERNAL ）
+     */
+    public final TableField<MAttributeRecord, String> SOURCE_EXTERNAL = createField("SOURCE_EXTERNAL", org.jooq.impl.SQLDataType.CLOB, this, "「sourceExternal」- 外部配置信息（ type = EXTERNAL ）");
+    /**
      * The column <code>DB_ETERNAL.M_ATTRIBUTE.IS_ARRAY</code>. 「isArray」- 是否集合属性，集合属性在导入导出时可用（保留）
      */
     public final TableField<MAttributeRecord, Boolean> IS_ARRAY = createField("IS_ARRAY", org.jooq.impl.SQLDataType.BIT, this, "「isArray」- 是否集合属性，集合属性在导入导出时可用（保留）");
+    /**
+     * The column <code>DB_ETERNAL.M_ATTRIBUTE.IS_REFER</code>. 「isRefer」- 是否引用属性的主属性，主属性才可拥有 sourceReference 配置，根据 source 有区别
+     */
+    public final TableField<MAttributeRecord, Boolean> IS_REFER = createField("IS_REFER", org.jooq.impl.SQLDataType.BIT, this, "「isRefer」- 是否引用属性的主属性，主属性才可拥有 sourceReference 配置，根据 source 有区别");
     /**
      * The column <code>DB_ETERNAL.M_ATTRIBUTE.IS_SYNC_IN</code>. 「isSyncIn」- 是否同步读
      */
@@ -191,7 +207,7 @@ public class MAttribute extends TableImpl<MAttributeRecord> {
      */
     @Override
     public List<Index> getIndexes() {
-        return Arrays.<Index>asList(Indexes.M_ATTRIBUTE_NAME, Indexes.M_ATTRIBUTE_PRIMARY);
+        return Arrays.<Index>asList(Indexes.M_ATTRIBUTE_IDX_M_ATTRIBUTE_MODEL_ID, Indexes.M_ATTRIBUTE_NAME, Indexes.M_ATTRIBUTE_PRIMARY);
     }
 
     /**
