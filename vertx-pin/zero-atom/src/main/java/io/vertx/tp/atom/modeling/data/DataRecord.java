@@ -50,7 +50,7 @@ public class DataRecord extends ActiveRecord {
 
     @Override
     public ConcurrentMap<String, Class<?>> types() {
-        return this.atom.types();
+        return this.atom.type();
     }
 
     // ------------- 主键处理 --------------
