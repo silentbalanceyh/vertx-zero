@@ -19,7 +19,7 @@ class BlueDye {
      * Fix Issue:
      * The maximum number of Cell Styles was exceeded. You can define up to 64000 style in a .xlsx Workbook
      */
-    private static final ConcurrentMap<String, DyeCell> STYLE_POOL =
+    private final ConcurrentMap<String, DyeCell> stylePool =
             new ConcurrentHashMap<>();
 
     private final transient Workbook workbook;
@@ -39,7 +39,7 @@ class BlueDye {
      * {TABLE} cell
      */
     void onTable(final Cell cell) {
-        final DyeCell dyeCell = Fn.pool(STYLE_POOL, "TABLE",
+        final DyeCell dyeCell = Fn.pool(this.stylePool, "TABLE",
                 () -> DyeCell.create(this.workbook)
                         .color("FFFFFF", "3EB7FF")
                         .align(HorizontalAlignment.CENTER)
@@ -49,7 +49,7 @@ class BlueDye {
     }
 
     void onModel(final Cell cell) {
-        final DyeCell dyeCell = Fn.pool(STYLE_POOL, "MODEL",
+        final DyeCell dyeCell = Fn.pool(this.stylePool, "MODEL",
                 () -> DyeCell.create(this.workbook)
                         .color("FFFFFF", "696969")
                         .align(HorizontalAlignment.CENTER)
@@ -59,7 +59,7 @@ class BlueDye {
     }
 
     void onEmpty(final Cell cell) {
-        final DyeCell dyeCell = Fn.pool(STYLE_POOL, "EMPTY",
+        final DyeCell dyeCell = Fn.pool(this.stylePool, "EMPTY",
                 () -> DyeCell.create(this.workbook)
                         .align(HorizontalAlignment.CENTER)
                         .border(BorderStyle.THIN));
@@ -71,7 +71,7 @@ class BlueDye {
     }
 
     void onEnHeader(final Cell cell) {
-        final DyeCell dyeCell = Fn.pool(STYLE_POOL, "HEADER",
+        final DyeCell dyeCell = Fn.pool(this.stylePool, "HEADER",
                 () -> DyeCell.create(this.workbook)
                         .color("000000", "FFEC8B")
                         .align(HorizontalAlignment.CENTER)
@@ -81,7 +81,7 @@ class BlueDye {
     }
 
     void onData(final Cell cell) {
-        final DyeCell dyeCell = Fn.pool(STYLE_POOL, "DATA",
+        final DyeCell dyeCell = Fn.pool(this.stylePool, "DATA",
                 () -> DyeCell.create(this.workbook)
                         .border(BorderStyle.THIN)
                         .font(13, false));
