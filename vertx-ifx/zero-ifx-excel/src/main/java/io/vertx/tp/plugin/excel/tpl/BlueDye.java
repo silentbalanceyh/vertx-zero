@@ -1,10 +1,7 @@
 package io.vertx.tp.plugin.excel.tpl;
 
 import io.vertx.up.fn.Fn;
-import org.apache.poi.ss.usermodel.BorderStyle;
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.HorizontalAlignment;
-import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.usermodel.*;
 
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
@@ -84,6 +81,7 @@ class BlueDye {
         final DyeCell dyeCell = Fn.pool(this.stylePool, "DATA",
                 () -> DyeCell.create(this.workbook)
                         .border(BorderStyle.THIN)
+                        .align(null, VerticalAlignment.TOP)
                         .font(13, false));
         cell.setCellStyle(dyeCell.build());
     }

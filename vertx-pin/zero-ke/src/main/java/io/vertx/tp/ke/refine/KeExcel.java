@@ -110,8 +110,22 @@ class KeExcel {
                             item.children().forEach(shapeItem -> row.addNull());
                         }
                     } else {
-                        /* Simple with rows */
-                        row.add(each.getValue(column));
+                        /*
+                         * The condition is for calculation
+                         * java.lang.IllegalArgumentException:
+                         * Merged region A301 must contain 2 or more cells
+                         * Simple with rows
+                         */
+                        if (1 < max) {
+                            /*
+                             * Here fix issue
+                             * java.lang.IllegalStateException:
+                             * Cannot add merged region N306:N308 to sheet because it overlaps with an existing merged region (N304:N306).
+                             */
+                            row.add(itemRow(each.getValue(column), max - 1));
+                        } else {
+                            row.add(each.getValue(column));
+                        }
                     }
                 });
                 combined.add(row);

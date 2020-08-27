@@ -54,7 +54,7 @@ class ExData {
                 sizeList.stream().mapToInt(Integer::intValue).summaryStatistics();
         final int max = statistics.getMax();
         for (int idx = 0; idx < max; idx++) {
-            sheet.autoSizeColumn(idx);
+            sheet.autoSizeColumn(idx, true);
         }
         // Bordered for each cell
     }
@@ -146,34 +146,39 @@ class ExData {
             /*
              * CellRangeAddress
              */
-            if (Objects.nonNull(input)) {
-                final int cols = define.getInteger("cols");
-                final int rows = define.getInteger("rows");
+            final int cols = define.getInteger("cols");
+            final int rows = define.getInteger("rows");
+            /*
+             * Build new region for complex header
+             */
+            final int rowStart = rowIndex;
+            final int colStart = colIndex;
+            /*
+             * Adjust for end
+             */
+            int rowEnd = rowIndex + rows;
+            int colEnd = colIndex + cols;
+            if (rowStart < rowEnd) {
+                rowEnd--;
+            }
+            if (colStart < colEnd) {
+                colEnd--;
+            }
+            try {
                 /*
-                 * Build new region for complex header
+                 * valid for region / Merged region A302 must contain 2 or more cells
                  */
-                final int rowStart = rowIndex;
-                final int colStart = colIndex;
-                /*
-                 * Adjust for end
-                 */
-                int rowEnd = rowIndex + rows;
-                int colEnd = colIndex + cols;
-                if (rowStart < rowEnd) {
-                    rowEnd--;
-                }
-                if (colStart < colEnd) {
-                    colEnd--;
-                }
-                try {
+                final int rowAcc = (rowEnd - rowStart);
+                final int colAcc = (colEnd - colStart);
+                if (0 < rowAcc || 0 < colAcc) {
                     LOGGER.debug("[ Έξοδος ] Region created: ( Row: {0} ~ {1}, Column: {2} ~ {3} )",
                             rowStart, rowEnd, colStart, colEnd);
                     final CellRangeAddress region =
                             new CellRangeAddress(rowStart, rowEnd, colStart, colEnd);
                     sheet.addMergedRegion(region);
-                } catch (final Throwable ex) {
-                    LOGGER.jvm(ex);
                 }
+            } catch (final Throwable ex) {
+                LOGGER.jvm(ex);
             }
         } else {
             /*
