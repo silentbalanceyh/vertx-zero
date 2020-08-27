@@ -5,6 +5,7 @@ import io.vertx.tp.atom.cv.AoMsg;
 import io.vertx.tp.atom.modeling.Model;
 import io.vertx.tp.atom.refine.Ao;
 import io.vertx.tp.modular.phantom.AoPerformer;
+import io.vertx.up.commune.element.Shape;
 import io.vertx.up.commune.rule.RuleUnique;
 import io.vertx.up.fn.Fn;
 
@@ -80,11 +81,14 @@ public class DataAtom {
 
     // ------------ 基础模型部分 ------------
 
-    /**
-     * 返回当前 Model 中的所有属性集
-     */
+    /** 返回当前 Model 中的所有属性集 */
     public Set<String> attributes() {
         return this.metadata.attributes();
+    }
+
+    /** 返回 name = alias */
+    public ConcurrentMap<String, String> alias() {
+        return this.metadata.alias();
     }
 
     public Model getModel() {
@@ -109,6 +113,11 @@ public class DataAtom {
     /* 属性类型 */
     public ConcurrentMap<String, Class<?>> type() {
         return this.metadata.type();
+    }
+
+    /** 返回 Shape 对象 */
+    public Shape shape() {
+        return this.metadata.shape();
     }
 
     public Class<?> type(final String field) {

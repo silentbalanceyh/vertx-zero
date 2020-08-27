@@ -6,6 +6,7 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.ext.auth.User;
 import io.vertx.ext.web.Session;
 import io.vertx.tp.ke.cv.KeField;
+import io.vertx.up.atom.Kv;
 import io.vertx.up.atom.record.Atomy;
 import io.vertx.up.commune.Envelop;
 import io.vertx.up.log.Annal;
@@ -82,8 +83,9 @@ public class Ke {
     }
 
     public static Future<JsonArray> combineAsync(final JsonArray data, final ConcurrentMap<String, String> headers,
-                                                 final List<String> columns) {
-        return KeTool.combineAsync(data, headers, columns);
+                                                 final List<String> columns,
+                                                 final ConcurrentMap<String, List<Kv<String, String>>> subColumn) {
+        return KeTool.combineAsync(data, headers, columns, subColumn);
     }
 
     public static Function<JsonObject, Future<JsonObject>> fabricAsync(final String field) {

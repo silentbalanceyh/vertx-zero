@@ -3,6 +3,8 @@ package io.vertx.tp.atom.modeling.data;
 import cn.vertxup.atom.domain.tables.pojos.MAttribute;
 import cn.vertxup.atom.domain.tables.pojos.MField;
 import cn.vertxup.atom.domain.tables.pojos.MJoin;
+import io.vertx.core.json.JsonArray;
+import io.vertx.core.json.JsonObject;
 import io.vertx.tp.atom.modeling.Model;
 import io.vertx.tp.atom.modeling.Schema;
 import io.vertx.tp.atom.modeling.element.DataKey;
@@ -10,14 +12,13 @@ import io.vertx.tp.atom.modeling.element.DataRow;
 import io.vertx.tp.atom.modeling.element.DataTpl;
 import io.vertx.tp.error._417RelatedFieldMissingException;
 import io.vertx.tp.error._417RelatedSchemaMissingException;
+import io.vertx.tp.ke.cv.KeField;
+import io.vertx.up.atom.Kv;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import io.vertx.up.util.Ut;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
 
@@ -98,6 +99,22 @@ class Bridge {
 
     private static MAttribute toAttribute(final Schema schema, final MField field) {
         return toAttribute(schema, field, field.getName());
+    }
+
+    static List<Kv<String, String>> toArrayList(final MAttribute attribute, final Function<MAttribute, String> consumer) {
+        final JsonObject sourceConfig = Ut.toJObject(consumer.apply(attribute));
+        final JsonArray fields = Ut.sureJArray(sourceConfig.getJsonArray(KeField.FIELDS));
+        final List<Kv<String, String>> result = new ArrayList<>();
+        if (Ut.notNil(fields)) {
+            Ut.itJArray(fields).forEach(item -> {
+                final String field = item.getString(KeField.FIELD);
+                final String alias = item.getString(KeField.ALIAS);
+                if (Ut.notNil(field)) {
+                    result.add(Kv.create(field, alias));
+                }
+            });
+        }
+        return result;
     }
 
     @SuppressWarnings("all")

@@ -9,6 +9,7 @@ import io.vertx.tp.error._500ExportingErrorException;
 import io.vertx.tp.plugin.excel.atom.ExRecord;
 import io.vertx.tp.plugin.excel.atom.ExTable;
 import io.vertx.tp.plugin.excel.tool.ExFn;
+import io.vertx.up.commune.element.Shape;
 import io.vertx.up.exception.WebException;
 import io.vertx.up.exception.web._500InternalServerException;
 import io.vertx.up.fn.Fn;
@@ -272,6 +273,11 @@ public class ExcelClientImpl implements ExcelClient {
             }));
         });
         return this;
+    }
+
+    @Override
+    public Future<Buffer> exportTable(final String identifier, final JsonArray data, final Shape type) {
+        return null;
     }
 
     @Override

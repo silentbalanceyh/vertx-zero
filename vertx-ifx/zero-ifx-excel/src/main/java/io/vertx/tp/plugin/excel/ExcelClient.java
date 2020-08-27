@@ -9,6 +9,7 @@ import io.vertx.core.buffer.Buffer;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.plugin.excel.atom.ExTable;
+import io.vertx.up.commune.element.Shape;
 import io.vertx.up.plugin.TpClient;
 
 import java.io.InputStream;
@@ -37,6 +38,7 @@ public interface ExcelClient extends TpClient<ExcelClient> {
      *
      * @param filename data input file
      * @param handler  callback handler to process Set<ExTable>
+     *
      * @return self reference
      */
     @Fluent
@@ -53,6 +55,8 @@ public interface ExcelClient extends TpClient<ExcelClient> {
     ExcelClient exportTable(String identifier, JsonArray data, Handler<AsyncResult<Buffer>> handler);
 
     Future<Buffer> exportTable(String identifier, JsonArray data);
+
+    Future<Buffer> exportTable(String identifier, JsonArray data, Shape type);
 
     @Fluent
     <T> ExcelClient importTable(String tableOnly, String filename, Handler<AsyncResult<Set<T>>> handler);

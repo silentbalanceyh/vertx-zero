@@ -269,7 +269,7 @@ public class FileActor {
                     removed.stream().map(item -> (String) item).forEach(exportedHeaders::remove);
 
                     /* Combine and build data of excel */
-                    return Ke.combineAsync(data, exportedHeaders, columnList);
+                    return Ke.combineAsync(data, exportedHeaders, columnList, new ConcurrentHashMap<>());
                 })
 
                 /* Final exporting her for excel download */

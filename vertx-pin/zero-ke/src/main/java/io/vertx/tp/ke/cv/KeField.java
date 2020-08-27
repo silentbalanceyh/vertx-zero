@@ -5,6 +5,7 @@ public interface KeField {
     String GLOBAL_ID = "globalId";              /* Third part global id of primary key */
 
     String FIELD = "field";                     /* Model definition field */
+    String FIELDS = "fields";                   /* Model definition fields */
     String FORM = "form";                       /* Form */
     String MODEL = "model";                     /* Model definition field */
     String ENTITY = "entity";                   /* Model definition field */
