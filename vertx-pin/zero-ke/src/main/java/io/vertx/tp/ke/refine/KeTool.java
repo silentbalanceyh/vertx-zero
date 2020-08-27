@@ -3,7 +3,7 @@ package io.vertx.tp.ke.refine;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.atom.Kv;
+import io.vertx.up.commune.element.Shape;
 import io.vertx.up.uca.yaml.Node;
 import io.vertx.up.uca.yaml.ZeroUniform;
 import io.vertx.up.unity.Ux;
@@ -12,7 +12,6 @@ import io.vertx.up.util.Ut;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
@@ -42,7 +41,7 @@ class KeTool {
 
     static Future<JsonArray> combineAsync(final JsonArray data, final ConcurrentMap<String, String> headers,
                                           final List<String> columns,
-                                          final ConcurrentMap<String, List<Kv<String, String>>> subColumn) {
+                                          final Shape shape) {
         final JsonArray combined = new JsonArray();
         /*
          * Header
@@ -76,7 +75,7 @@ class KeTool {
     static Future<JsonArray> combineAsync(final JsonArray data, final ConcurrentMap<String, String> headers) {
         /* Header sequence */
         final List<String> columns = new ArrayList<>(headers.keySet());
-        return combineAsync(data, headers, columns, new ConcurrentHashMap<>());
+        return combineAsync(data, headers, columns, null);
     }
 
     static <T> void consume(final Supplier<T> supplier, final Consumer<T> consumer) {
