@@ -52,6 +52,10 @@ public class ShapeItem implements Serializable {
         }
     }
 
+    public boolean isComplex() {
+        return !this.children.isEmpty();
+    }
+
     public String getName() {
         return this.name;
     }

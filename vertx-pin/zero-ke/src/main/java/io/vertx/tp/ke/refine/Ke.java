@@ -79,18 +79,18 @@ public class Ke {
     }
 
     public static Future<JsonArray> combineAsync(final JsonArray data, final ConcurrentMap<String, String> headers) {
-        return KeTool.combineAsync(data, headers);
+        return KeExcel.combineAsync(data, headers);
     }
 
     public static Future<JsonArray> combineAsync(final JsonArray data, final ConcurrentMap<String, String> headers,
                                                  final List<String> columns) {
-        return KeTool.combineAsync(data, headers, columns, null);
+        return KeExcel.combineAsync(data, headers, columns, null);
     }
 
     public static Future<JsonArray> combineAsync(final JsonArray data, final ConcurrentMap<String, String> headers,
                                                  final List<String> columns,
                                                  final Shape shape) {
-        return KeTool.combineAsync(data, headers, columns, shape);
+        return KeExcel.combineAsync(data, headers, columns, shape);
     }
 
     public static Function<JsonObject, Future<JsonObject>> fabricAsync(final String field) {

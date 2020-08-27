@@ -1,6 +1,7 @@
 package io.vertx.up.commune.element;
 
 import io.vertx.up.atom.Kv;
+import io.vertx.up.eon.Values;
 
 import java.io.Serializable;
 import java.util.List;
@@ -20,6 +21,7 @@ public class Shape implements Serializable {
             new ConcurrentHashMap<>();
     private final transient ConcurrentMap<String, Class<?>> typeMap =
             new ConcurrentHashMap<>();
+    private transient boolean complex = Boolean.FALSE;
 
     private Shape() {
     }
@@ -62,6 +64,7 @@ public class Shape implements Serializable {
         final ShapeItem typeItem = this.shapeMap.getOrDefault(name, null);
         if (Objects.nonNull(typeItem)) {
             typeItem.add(children);
+            this.complex = true;
         }
         return this;
     }
@@ -79,6 +82,30 @@ public class Shape implements Serializable {
         this.aliasMap.clear();
         this.typeMap.clear();
         this.shapeMap.clear();
+    }
+
+    public boolean isComplex() {
+        return this.complex;
+    }
+
+    public boolean isComplex(final String name) {
+        final ShapeItem item = this.shapeMap.getOrDefault(name, null);
+        if (Objects.isNull(item)) {
+            return false;
+        } else {
+            return item.isComplex();
+        }
+    }
+
+    public int sizeChildren(final String name) {
+        final ShapeItem typeItem = this.shapeMap.getOrDefault(name, null);
+        if (Objects.nonNull(typeItem)) {
+            return typeItem.children().size();
+        } else return Values.ZERO;
+    }
+
+    public ShapeItem child(final String name) {
+        return this.shapeMap.getOrDefault(name, null);
     }
 
     public ConcurrentMap<String, String> alias() {
