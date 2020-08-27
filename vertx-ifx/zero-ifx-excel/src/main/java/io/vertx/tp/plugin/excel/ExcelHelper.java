@@ -8,6 +8,7 @@ import io.vertx.tp.plugin.excel.atom.ExConnect;
 import io.vertx.tp.plugin.excel.atom.ExTable;
 import io.vertx.tp.plugin.excel.ranger.ExBound;
 import io.vertx.tp.plugin.excel.ranger.RowBound;
+import io.vertx.up.commune.element.Shape;
 import io.vertx.up.eon.FileSuffix;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.util.Ut;
@@ -110,10 +111,10 @@ class ExcelHelper {
         }, workbook);
     }
 
-    void brush(final Workbook workbook, final Sheet sheet) {
+    void brush(final Workbook workbook, final Sheet sheet, final Shape shape) {
         if (Objects.nonNull(this.tpl)) {
             this.tpl.bind(workbook);
-            this.tpl.applyStyle(sheet);
+            this.tpl.applyStyle(sheet, shape);
         }
     }
 

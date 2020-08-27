@@ -56,13 +56,22 @@ class KeExcel {
                     // Children column here
                     final ShapeItem item = shape.child(column);
                     if (Objects.nonNull(item)) {
+                        /*
+                         * Adjust
+                         * 1) firstCnHeader
+                         * 2) firstEnHeader
+                         */
+                        final int childCount = item.children().size() - 1;
+                        Ut.itRepeat(childCount, () -> {
+                            firstCnHeader.addNull();
+                            firstEnHeader.addNull();
+                        });
                         item.children().forEach(child -> {
                             secondCnHeader.add(child.getAlias());
                             secondEnHeader.add(child.getName());
                         });
                     }
                 } else {
-
                     // Simple column here
                     firstCnHeader.add(itemRow(headers.get(column), 2));
                     firstEnHeader.add(itemRow(column, 2));

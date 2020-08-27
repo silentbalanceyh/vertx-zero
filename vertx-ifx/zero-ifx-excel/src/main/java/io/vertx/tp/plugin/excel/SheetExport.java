@@ -73,7 +73,7 @@ class SheetExport {
          * 1) When shape is null, the data type of each cell is detected by data literal
          * 2) When shape contains value, the data type of each cell is defined by Shape
          * */
-        final boolean headed = ExFn.generateHeader(sheet, identifier, data);
+        final boolean headed = ExFn.generateHeader(sheet, identifier, data, shape);
 
         /*
          * 4. Data Part of current excel file
@@ -84,14 +84,14 @@ class SheetExport {
              * Adjust 1 for generatedHeader
              */
             final Integer actualIdx = headed ? (index + 1) : index;
-            ExFn.generateData(sheet, actualIdx, rowData);
+            ExFn.generateData(sheet, actualIdx, rowData, shape);
             sizeList.add(rowData.size());
         });
 
         /*
          * 5. Apply for style based on Tpl extraction
          */
-        this.helper.brush(workbook, sheet);
+        this.helper.brush(workbook, sheet, shape);
 
         /*
          * 6. Adjust column width

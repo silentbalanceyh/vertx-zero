@@ -2,6 +2,7 @@ package io.vertx.tp.plugin.excel.tool;
 
 import io.vertx.core.json.JsonArray;
 import io.vertx.tp.plugin.excel.ranger.ExBound;
+import io.vertx.up.commune.element.Shape;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -125,11 +126,13 @@ public class ExFn {
         ExData.generateAdjust(sheet, sizeList);
     }
 
-    public static boolean generateHeader(final Sheet sheet, final String identifier, final JsonArray tableData) {
-        return ExData.generateHeader(sheet, identifier, tableData);
+    public static boolean generateHeader(final Sheet sheet, final String identifier,
+                                         final JsonArray tableData, final Shape shape) {
+        return ExData.generateHeader(sheet, identifier, tableData, shape);
     }
 
-    public static void generateData(final Sheet sheet, final Integer index, final JsonArray rowData) {
-        ExData.generateData(sheet, index, rowData);
+    public static void generateData(final Sheet sheet, final Integer index,
+                                    final JsonArray rowData, final Shape shape) {
+        ExData.generateData(sheet, index, rowData, shape);
     }
 }

@@ -33,6 +33,10 @@ public interface Values {
 
     int TWO = 2;
 
+    int THREE = 3;
+
+    int FOUR = 4;
+
     String TRUE = "true";
 
     String FALSE = "false";
