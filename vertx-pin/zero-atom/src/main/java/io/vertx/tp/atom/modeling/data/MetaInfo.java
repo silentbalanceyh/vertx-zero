@@ -53,6 +53,10 @@ class MetaInfo {
         return this.reference().getModel().getSigma();
     }
 
+    String language() {
+        return this.reference().getModel().getLanguage();
+    }
+
     /* 读取模型中的属性信息 */
     Set<String> attributes() {
         return this.modelRef.getAttributes().stream()
@@ -60,6 +64,7 @@ class MetaInfo {
                 .filter(Ut::notNil)
                 .collect(Collectors.toSet());
     }
+    /* 读取属性信息 */
 
     // ------------------ 计算型处理 -----------------
 

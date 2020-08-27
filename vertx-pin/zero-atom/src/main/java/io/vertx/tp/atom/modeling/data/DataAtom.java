@@ -83,7 +83,7 @@ public class DataAtom {
     /**
      * 返回当前 Model 中的所有属性集
      */
-    Set<String> attributes() {
+    public Set<String> attributes() {
         return this.metadata.attributes();
     }
 
@@ -99,6 +99,11 @@ public class DataAtom {
     /* 返回当前记录专用的 sigma */
     public String sigma() {
         return this.metadata.sigma();
+    }
+
+    /* 返回语言信息 */
+    public String language() {
+        return this.metadata.language();
     }
 
     /* 属性类型 */
