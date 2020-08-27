@@ -83,7 +83,7 @@ class BtLoader {
          * Build more excel client
          */
         final ExcelClient client = ExcelInfix.getClient();
-        client.loading(filename, handler -> {
+        client.importAsync(filename, handler -> {
             out(filename);
             callback.handle(Future.succeededFuture(filename));
         });

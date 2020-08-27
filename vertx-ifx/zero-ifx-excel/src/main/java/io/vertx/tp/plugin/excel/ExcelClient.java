@@ -33,47 +33,41 @@ public interface ExcelClient extends TpClient<ExcelClient> {
     @Override
     ExcelClient init(JsonObject params);
 
-    /**
-     * Excel file data loading
-     *
-     * @param filename data input file
-     * @param handler  callback handler to process Set<ExTable>
-     *
-     * @return self reference
-     */
-    @Fluent
-    <T> ExcelClient loading(String filename, Handler<AsyncResult<Set<T>>> handler);
 
+    // --------------------- ExTable Ingesting -----------------------
+    Set<ExTable> ingest(String filename);
 
     @Fluent
     ExcelClient ingest(String filename, Handler<AsyncResult<Set<ExTable>>> handler);
 
-    Set<ExTable> ingest(String filename);
-
-
-    @Fluent
-    ExcelClient exportTable(String identifier, JsonArray data, Handler<AsyncResult<Buffer>> handler);
-
-    Future<Buffer> exportTable(String identifier, JsonArray data);
-
-    Future<Buffer> exportTable(String identifier, JsonArray data, Shape type);
-
-    @Fluent
-    <T> ExcelClient importTable(String tableOnly, String filename, Handler<AsyncResult<Set<T>>> handler);
-
-    @Fluent
-    <T> ExcelClient importTable(String tableOnly, InputStream in, Handler<AsyncResult<Set<T>>> handler);
-
-    /**
-     * Two format supported here: 2013 / 2017
-     */
-    @Fluent
-    <T> ExcelClient loading(InputStream in, boolean isXlsx, Handler<AsyncResult<Set<T>>> handler);
+    Set<ExTable> ingest(InputStream in, boolean isXlsx);
 
     @Fluent
     ExcelClient ingest(InputStream in, boolean isXlsx, Handler<AsyncResult<Set<ExTable>>> handler);
 
-    Set<ExTable> ingest(InputStream in, boolean isXlsx);
+    // --------------------- ExTable Exporting -----------------------
+    @Fluent
+    ExcelClient exportAsync(String identifier, JsonArray data, Handler<AsyncResult<Buffer>> handler);
+
+    @Fluent
+    ExcelClient exportAsync(String identifier, JsonArray data, Shape shape, Handler<AsyncResult<Buffer>> handler);
+
+    Future<Buffer> exportAsync(String identifier, JsonArray data);
+
+    Future<Buffer> exportAsync(String identifier, JsonArray data, Shape type);
+
+    // --------------------- ExTable Loading / Importing -----------------------
+    @Fluent
+    <T> ExcelClient importAsync(String filename, Handler<AsyncResult<Set<T>>> handler);
+
+    @Fluent
+    <T> ExcelClient importAsync(InputStream in, boolean isXlsx, Handler<AsyncResult<Set<T>>> handler);
+
+    @Fluent
+    <T> ExcelClient importAsync(String tableOnly, String filename, Handler<AsyncResult<Set<T>>> handler);
+
+    @Fluent
+    <T> ExcelClient importAsync(String tableOnly, InputStream in, boolean isXlsx, Handler<AsyncResult<Set<T>>> handler);
 
     /**
      * Save entity ( table -> data )

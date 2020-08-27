@@ -275,7 +275,7 @@ public class FileActor {
                 /* Final exporting her for excel download */
                 .compose(data -> {
                     final String actor = Ux.getString(request);
-                    return this.client.exportTable(actor, data);
+                    return this.client.exportAsync(actor, data);
                 })
                 .compose(buffer -> Ux.future(Envelop.success(buffer)))
         );
