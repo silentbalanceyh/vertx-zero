@@ -157,6 +157,9 @@ public class DyeCell implements Serializable {
 
     public CellStyle build() {
         this.style.setFont(this.font);
+        /*
+         * Process Cache Pool here for max style applying
+         */
         return this.style;
     }
 }

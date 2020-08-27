@@ -1,6 +1,7 @@
 package io.vertx.tp.atom.modeling.data;
 
 import cn.vertxup.atom.domain.tables.pojos.MAttribute;
+import cn.vertxup.atom.domain.tables.pojos.MModel;
 import io.vertx.tp.atom.modeling.Model;
 import io.vertx.up.util.Ut;
 
@@ -9,9 +10,11 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 /**
@@ -50,11 +53,11 @@ class MetaInfo {
 
     /* 返回统一标识符 */
     String sigma() {
-        return this.reference().getModel().getSigma();
+        return this.sure(MModel::getSigma);
     }
 
     String language() {
-        return this.reference().getModel().getLanguage();
+        return this.sure(MModel::getLanguage);
     }
 
     /* 读取模型中的属性信息 */
@@ -78,6 +81,15 @@ class MetaInfo {
 
     boolean isDateType(final String field) {
         return this.typeDate().containsKey(field);
+    }
+
+    private <T> T sure(final Function<MModel, T> function) {
+        final MModel model = this.reference().getModel();
+        if (Objects.isNull(model)) {
+            return null;
+        } else {
+            return function.apply(model);
+        }
     }
 
     private ConcurrentMap<String, Class<?>> typeDate() {
