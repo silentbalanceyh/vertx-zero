@@ -3,10 +3,12 @@ package io.vertx.tp.plugin.excel.tool;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.plugin.excel.atom.ExKey;
+import io.vertx.tp.plugin.excel.atom.ExPos;
 import io.vertx.up.commune.element.Shape;
+import io.vertx.up.commune.element.ShapeItem;
 import io.vertx.up.eon.Strings;
 import io.vertx.up.eon.Values;
-import io.vertx.up.log.Annal;
+import io.vertx.up.fn.Fn;
 import io.vertx.up.util.Ut;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellType;
@@ -14,39 +16,12 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.util.CellRangeAddress;
 
-import java.math.BigDecimal;
-import java.time.Instant;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.IntSummaryStatistics;
 import java.util.List;
 import java.util.Objects;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
 import java.util.function.Consumer;
 
 class ExData {
-
-    private static final Annal LOGGER = Annal.get(ExData.class);
-
-    private static final ConcurrentMap<Class<?>, CellType> TYPE_MAP = new ConcurrentHashMap<Class<?>, CellType>() {
-        {
-            this.put(String.class, CellType.STRING);
-            this.put(char.class, CellType.STRING);
-            this.put(Instant.class, CellType.NUMERIC);
-            this.put(LocalDate.class, CellType.NUMERIC);
-            this.put(LocalDateTime.class, CellType.NUMERIC);
-            this.put(BigDecimal.class, CellType.NUMERIC);
-            this.put(Integer.class, CellType.NUMERIC);
-            this.put(int.class, CellType.NUMERIC);
-            this.put(Long.class, CellType.NUMERIC);
-            this.put(long.class, CellType.NUMERIC);
-            this.put(Short.class, CellType.NUMERIC);
-            this.put(short.class, CellType.NUMERIC);
-            this.put(boolean.class, CellType.BOOLEAN);
-            this.put(Boolean.class, CellType.BOOLEAN);
-        }
-    };
 
     static void generateAdjust(final Sheet sheet, final List<Integer> sizeList) {
         // Adjust column width first
@@ -65,9 +40,15 @@ class ExData {
         final Row row = sheet.createRow(index);
         /* Data Filling */
         final int size = rowData.size();
-        for (int idx = Values.IDX; idx < size; idx++) {
+        for (int colIdx = Values.IDX; colIdx < size; colIdx++) {
+
+            /* Processing for ExPos */
+            final ExPos pos = ExPos.index(index, colIdx);
+            final ShapeItem item = shape.item(colIdx);
+
             /* createCell processed */
-            createCell(sheet, row, index, idx, rowData.getValue(idx));
+            createCell(sheet, row, pos,
+                    rowData.getValue(colIdx), item.getType());
         }
     }
 
@@ -82,9 +63,9 @@ class ExData {
             /*
              * First cell
              */
-            createCell(sheet, row, 0, ExKey.EXPR_TABLE);
-            createCell(sheet, row, 1, identifier);
-            createCell(sheet, row, 2, null);
+            createCell(sheet, row, ExPos.index(0), ExKey.EXPR_TABLE);
+            createCell(sheet, row, ExPos.index(1), identifier);
+            createCell(sheet, row, ExPos.index(2), null);
             /*
              * Region for cell
              * The four parameters are all index part, it means that you should
@@ -122,12 +103,12 @@ class ExData {
     }
 
     private static void createCell(final Sheet sheet, final Row row,
-                                   final Integer colIndex, final Object value) {
-        createCell(sheet, row, 0, colIndex, value);
+                                   final ExPos pos, final Object value) {
+        createCell(sheet, row, pos, value, String.class);
     }
 
     private static void createCell(final Sheet sheet, final Row row,
-                                   final Integer rowIndex, final Integer colIndex, final Object value) {
+                                   final ExPos pos, final Object value, final Class<?> type) {
         if (value instanceof JsonObject) {
             /*
              * Json Format
@@ -142,66 +123,49 @@ class ExData {
             /*
              * Processing `cols`, `rows`
              */
-            createCell(row, colIndex, input);
+            createCell(row, pos.colIndex(), input, type);
             /*
              * CellRangeAddress
              */
             final int cols = define.getInteger("cols");
             final int rows = define.getInteger("rows");
-            /*
-             * Build new region for complex header
-             */
-            final int rowStart = rowIndex;
-            final int colStart = colIndex;
-            /*
-             * Adjust for end
-             */
-            int rowEnd = rowIndex + rows;
-            int colEnd = colIndex + cols;
-            if (rowStart < rowEnd) {
-                rowEnd--;
-            }
-            if (colStart < colEnd) {
-                colEnd--;
-            }
-            try {
+
+            final CellRangeAddress region = pos.region(rows, cols);
+            if (Objects.nonNull(region)) {
                 /*
-                 * valid for region / Merged region A302 must contain 2 or more cells
+                 * Call,  valid for region / Merged region A302 must contain 2 or more cells
                  */
-                final int rowAcc = (rowEnd - rowStart);
-                final int colAcc = (colEnd - colStart);
-                if (0 < rowAcc || 0 < colAcc) {
-                    LOGGER.debug("[ Έξοδος ] Region created: ( Row: {0} ~ {1}, Column: {2} ~ {3} )",
-                            rowStart, rowEnd, colStart, colEnd);
-                    final CellRangeAddress region =
-                            new CellRangeAddress(rowStart, rowEnd, colStart, colEnd);
-                    sheet.addMergedRegion(region);
-                }
-            } catch (final Throwable ex) {
-                LOGGER.jvm(ex);
+                Fn.safeJvm(() -> sheet.addMergedRegion(region));
             }
         } else {
             /*
              * null consumer processing
              */
-            createCell(row, colIndex, value);
+            createCell(row, pos.colIndex(), value, type);
         }
     }
 
-    private static void createCell(final Row row, final Integer index, final Object value) {
+    private static void createCell(final Row row, final Integer index, final Object value, final Class<?> typeDef) {
         if (Objects.isNull(value)) {
             /* Cell create */
             final Cell cell = row.createCell(index);
             /* null filling */
             cell.setCellValue(Strings.EMPTY);
         } else {
-            /* Cell Type */
-            final Class<?> type = value.getClass();
-            final CellType cellType = TYPE_MAP.getOrDefault(type, CellType.STRING);
+            /* Type analyzed */
+            final Class<?> type;
+            if (Objects.isNull(typeDef)) {
+                type = value.getClass();
+            } else {
+                type = typeDef;
+            }
+
+            /* Cell type */
+            final CellType cellType = ExIo.type(type);
             /* Cell create */
             final Cell cell = row.createCell(index, cellType);
-            /* All type should be OK */
-            cell.setCellValue(value.toString());
+            /* All type should be OK for set String */
+            ExIo.value(cell, type, value);
         }
     }
 }

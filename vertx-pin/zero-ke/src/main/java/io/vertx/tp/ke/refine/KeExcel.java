@@ -49,12 +49,12 @@ class KeExcel {
                 if (shape.isComplex(column)) {
                     complexField.add(column);
                     // Complex that belong to data array
-                    final int columnSize = shape.sizeChildren(column);
+                    final int columnSize = shape.size(column);
                     firstCnHeader.add(itemColumn(headers.get(column), columnSize));
                     firstEnHeader.add(itemColumn(column, columnSize));
 
                     // Children column here
-                    final ShapeItem item = shape.child(column);
+                    final ShapeItem item = shape.item(column);
                     if (Objects.nonNull(item)) {
                         /*
                          * Adjust
@@ -98,7 +98,7 @@ class KeExcel {
                         /*
                          * children field
                          */
-                        final ShapeItem item = shape.child(column);
+                        final ShapeItem item = shape.item(column);
                         /*
                          * Only pick first
                          */
@@ -137,7 +137,7 @@ class KeExcel {
                     final int maxIdx = idx;
                     columns.forEach(column -> {
                         if (shape.isComplex(column)) {
-                            final ShapeItem item = shape.child(column);
+                            final ShapeItem item = shape.item(column);
                             final JsonArray columnValue = each.getJsonArray(column);
                             final int valueLength = columnValue.size();
                             if (Ut.notNil(columnValue) && 1 < columnValue.size()) {

@@ -13,7 +13,7 @@ import io.vertx.tp.atom.modeling.element.DataTpl;
 import io.vertx.tp.error._417RelatedFieldMissingException;
 import io.vertx.tp.error._417RelatedSchemaMissingException;
 import io.vertx.tp.ke.cv.KeField;
-import io.vertx.up.atom.Kv;
+import io.vertx.up.commune.element.ShapeItem;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import io.vertx.up.util.Ut;
@@ -101,16 +101,29 @@ class Bridge {
         return toAttribute(schema, field, field.getName());
     }
 
-    static List<Kv<String, String>> toArrayList(final MAttribute attribute, final Function<MAttribute, String> consumer) {
+    static List<ShapeItem> toShape(final MAttribute attribute, final Function<MAttribute, String> consumer) {
         final JsonObject sourceConfig = Ut.toJObject(consumer.apply(attribute));
         final JsonArray fields = Ut.sureJArray(sourceConfig.getJsonArray(KeField.FIELDS));
-        final List<Kv<String, String>> result = new ArrayList<>();
+        final List<ShapeItem> result = new ArrayList<>();
         if (Ut.notNil(fields)) {
+            /*
+             * [
+             *      {
+             *          "field": "xxx",
+             *          "alias": "xxx",
+             *          "type": "java type class"
+             *      }
+             * ]
+             */
             Ut.itJArray(fields).forEach(item -> {
+                /*
+                 * field, alias, type
+                 */
                 final String field = item.getString(KeField.FIELD);
                 final String alias = item.getString(KeField.ALIAS);
+                final Class<?> type = Ut.clazz(item.getString(KeField.TYPE), String.class);
                 if (Ut.notNil(field)) {
-                    result.add(Kv.create(field, alias));
+                    result.add(ShapeItem.create(field, alias, type));
                 }
             });
         }

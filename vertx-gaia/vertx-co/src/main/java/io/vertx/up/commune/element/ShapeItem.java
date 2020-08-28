@@ -1,7 +1,6 @@
 package io.vertx.up.commune.element;
 
 import io.vertx.core.json.JsonArray;
-import io.vertx.up.atom.Kv;
 import io.vertx.up.util.Ut;
 
 import java.io.Serializable;
@@ -32,22 +31,23 @@ public class ShapeItem implements Serializable {
         this.type = Objects.isNull(type) ? String.class : type;
     }
 
-    static ShapeItem create(final String name, final String alias, final Class<?> type) {
+    public static ShapeItem create(final String name, final String alias, final Class<?> type) {
         return new ShapeItem(name, alias, type);
     }
 
-    static ShapeItem create(final String name, final String alias) {
+    public static ShapeItem create(final String name, final String alias) {
         return new ShapeItem(name, alias);
     }
 
-    void add(final List<Kv<String, String>> children) {
+    void add(final List<ShapeItem> children) {
         if (Objects.nonNull(children) && JsonArray.class == this.type) {
-            children.forEach(kv -> {
-                final String name = kv.getKey();
-                final String alias = kv.getValue();
-                final ShapeItem item = new ShapeItem(name, alias);
+            children.forEach(item -> {
+                /*
+                 * Array for children
+                 * Map for children
+                 */
                 this.children.add(item);
-                this.childMap.put(name, item);
+                this.childMap.put(item.getName(), item);
             });
         }
     }

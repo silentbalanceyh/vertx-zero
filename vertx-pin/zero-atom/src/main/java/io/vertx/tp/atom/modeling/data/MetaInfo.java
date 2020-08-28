@@ -3,14 +3,16 @@ package io.vertx.tp.atom.modeling.data;
 import cn.vertxup.atom.domain.tables.pojos.MAttribute;
 import cn.vertxup.atom.domain.tables.pojos.MModel;
 import io.vertx.tp.atom.modeling.Model;
-import io.vertx.up.atom.Kv;
 import io.vertx.up.commune.element.Shape;
 import io.vertx.up.util.Ut;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.*;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.Objects;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.function.Function;
@@ -41,19 +43,28 @@ class MetaInfo {
         this.identifier = modelRef.identifier();
         /* 直接计算 */
         modelRef.getAttributes().forEach(attr -> {
-            final String name = attr.getName();
-            final String alias = attr.getAlias();
-            if (Ut.notNil(name)) {
-                this.shape.add(name, alias, this.type(name));
-            }
-            /* isArray */
+            /* isArray 判断集合 */
             Boolean isArray = attr.getIsArray();
             if (Objects.isNull(isArray)) {
                 isArray = Boolean.FALSE;
             }
-            if (isArray) {
-                final List<Kv<String, String>> children = Bridge.toArrayList(attr, MAttribute::getSourceConfig);
-                this.shape.add(name, children);
+
+            /* 提取 name */
+            final String name = attr.getName();
+            final String alias = attr.getAlias();
+            if (Ut.notNil(name)) {
+                /* 添加操作 */
+                if (isArray) {
+                    /*
+                     * Complex for Array
+                     */
+                    this.shape.add(name, alias, Bridge.toShape(attr, MAttribute::getSourceConfig));
+                } else {
+                    /*
+                     * Simple for Flatted
+                     */
+                    this.shape.add(name, alias, this.type(name));
+                }
             }
         });
     }

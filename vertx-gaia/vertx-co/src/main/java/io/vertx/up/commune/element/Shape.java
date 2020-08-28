@@ -1,6 +1,6 @@
 package io.vertx.up.commune.element;
 
-import io.vertx.up.atom.Kv;
+import io.vertx.core.json.JsonArray;
 import io.vertx.up.eon.Values;
 
 import java.io.Serializable;
@@ -11,79 +11,84 @@ import java.util.concurrent.ConcurrentMap;
 
 /**
  * @author <a href="http://www.origin-x.cn">lang</a>
- * 带 Shape 数据类型的导入专用模型
+ * Type for data structure
  */
 public class Shape implements Serializable {
+    /*
+     * When complex = true, mapping
+     */
+    private final transient ConcurrentMap<String, ShapeItem> shapeMap = new ConcurrentHashMap<>();
+    /*
+     * Index storage for index mapping
+     * 1) Flat index store
+     * 2) Complex index store
+     * 0,1,2,3,4,5,6 = JsonArray,11,12,13 = JsonArray
+     *             6,7,8,9,10          13,14,15,16
+     *
+     */
+    private final ConcurrentMap<Integer, ShapeItem> indexMap = new ConcurrentHashMap<>();
 
-    private final transient ConcurrentMap<String, ShapeItem> shapeMap =
-            new ConcurrentHashMap<>();
-    private final transient ConcurrentMap<String, String> aliasMap =
-            new ConcurrentHashMap<>();
-    private final transient ConcurrentMap<String, Class<?>> typeMap =
-            new ConcurrentHashMap<>();
     private transient boolean complex = Boolean.FALSE;
 
     private Shape() {
-    }
-
-    private Shape(final ConcurrentMap<String, String> aliasMap,
-                  final ConcurrentMap<String, Class<?>> typeMap) {
-        if (Objects.nonNull(aliasMap)) {
-            this.aliasMap.putAll(aliasMap);
-        }
-        if (Objects.nonNull(typeMap)) {
-            this.typeMap.putAll(typeMap);
-        }
-        /*
-         * For-each
-         * 1) name
-         * 2) alias
-         * 3) type
-         */
-        aliasMap.forEach((field, alias) -> {
-            final Class<?> type = typeMap.get(field);
-            final ShapeItem item = ShapeItem.create(field, alias, type);
-            this.shapeMap.put(field, item);
-        });
     }
 
     public static Shape create() {
         return new Shape();
     }
 
-    public static Shape create(final ConcurrentMap<String, String> aliasMap,
-                               final ConcurrentMap<String, Class<?>> typeMap) {
-        final ConcurrentMap<String, String> inputAlias = Objects.isNull(aliasMap)
-                ? new ConcurrentHashMap<>() : new ConcurrentHashMap<>(aliasMap);
-        final ConcurrentMap<String, Class<?>> inputType = Objects.isNull(typeMap)
-                ? new ConcurrentHashMap<>() : new ConcurrentHashMap<>(typeMap);
-        return new Shape(inputAlias, inputType);
-    }
-
-    public Shape add(final String name, final List<Kv<String, String>> children) {
-        final ShapeItem typeItem = this.shapeMap.getOrDefault(name, null);
-        if (Objects.nonNull(typeItem)) {
-            typeItem.add(children);
+    public Shape add(final String name, final String alias, final List<ShapeItem> children) {
+        if (Objects.nonNull(name)) {
             this.complex = true;
+            /*
+             * Add `JsonArray.class` first
+             */
+            this.add(name, alias, JsonArray.class);
+            /*
+             * Here should contains type
+             */
+            final ShapeItem added = this.shapeMap.getOrDefault(name, null);
+            if (Objects.nonNull(added)) {
+                /*
+                 * Add children
+                 */
+                added.add(children);
+                /*
+                 * index = Class<?>
+                 */
+                children.forEach(this::indexPos);
+            }
         }
         return this;
     }
 
     public Shape add(final String name, final String alias, final Class<?> type) {
-        if (Objects.nonNull(name)) {
-            /*
-             * Index = aliasMap size
-             */
-            this.aliasMap.put(name, alias);
-            this.typeMap.put(name, type);
-            this.shapeMap.put(name, ShapeItem.create(name, alias, type));
+        if (Objects.nonNull(name) && JsonArray.class != type) {
+
+            /* JsonArray */
+            final ShapeItem shapeItem = ShapeItem.create(name, alias, type);
+            this.shapeMap.put(name, shapeItem);
+
+            /* Index for simple */
+            this.indexPos(shapeItem);
         }
         return this;
     }
 
+    /*
+     * Re calculate index map to correct structure
+     */
+    private void indexPos(final ShapeItem item) {
+        if (JsonArray.class != item.getType()) {
+            /*
+             * index = Class<?>
+             */
+            final int key = this.indexMap.size();
+            this.indexMap.put(key, item);
+        }
+    }
+
     public void clear() {
-        this.aliasMap.clear();
-        this.typeMap.clear();
         this.shapeMap.clear();
     }
 
@@ -100,22 +105,28 @@ public class Shape implements Serializable {
         }
     }
 
-    public int sizeChildren(final String name) {
+    public int size(final String name) {
         final ShapeItem typeItem = this.shapeMap.getOrDefault(name, null);
         if (Objects.nonNull(typeItem)) {
             return typeItem.children().size();
         } else return Values.ZERO;
     }
 
-    public ShapeItem child(final String name) {
+    public int size() {
+        return this.shapeMap.size();
+    }
+
+    public ShapeItem item(final String name) {
         return this.shapeMap.getOrDefault(name, null);
     }
 
-    public ConcurrentMap<String, String> alias() {
-        return this.aliasMap;
+    public ShapeItem item(final int index) {
+        return this.indexMap.getOrDefault(index, null);
     }
 
-    public ConcurrentMap<String, Class<?>> type() {
-        return this.typeMap;
+    public ConcurrentMap<String, String> alias() {
+        final ConcurrentMap<String, String> alias = new ConcurrentHashMap<>();
+        this.shapeMap.forEach((field, item) -> alias.put(field, item.getAlias()));
+        return alias;
     }
 }
