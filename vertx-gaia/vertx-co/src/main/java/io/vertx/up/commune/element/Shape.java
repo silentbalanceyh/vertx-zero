@@ -71,6 +71,9 @@ public class Shape implements Serializable {
 
     public Shape add(final String name, final String alias, final Class<?> type) {
         if (Objects.nonNull(name)) {
+            /*
+             * Index = aliasMap size
+             */
             this.aliasMap.put(name, alias);
             this.typeMap.put(name, type);
             this.shapeMap.put(name, ShapeItem.create(name, alias, type));
