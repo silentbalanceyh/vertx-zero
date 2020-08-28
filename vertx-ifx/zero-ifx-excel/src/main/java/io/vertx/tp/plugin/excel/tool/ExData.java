@@ -113,7 +113,7 @@ class ExData {
 
     private static void createCell(final Sheet sheet, final Row row,
                                    final ExPos pos, final Object value) {
-        createCell(sheet, row, pos, value, String.class);
+        createCell(sheet, row, pos, value, null);
     }
 
     private static void createCell(final Sheet sheet, final Row row,

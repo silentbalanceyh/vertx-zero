@@ -98,16 +98,28 @@ class ExIo {
      * setCellValue(double)
      */
     private static void outBigDecimal(final Cell cell, final Object value) {
-        final BigDecimal decimal = new BigDecimal(value.toString());
-        cell.setCellValue(decimal.doubleValue());
+        final String liberal = value.toString();
+        if (Ut.isInteger(liberal) || Ut.isDecimal(liberal)) {
+            final BigDecimal decimal = new BigDecimal(value.toString());
+            cell.setCellValue(decimal.doubleValue());
+        } else {
+            // Number format of empty
+            cell.setCellValue(liberal);
+        }
     }
 
     /*
      * setCellValue(double)
      */
     private static void outNumeric(final Cell cell, final Object value) {
-        final double parsed = Double.parseDouble(value.toString());
-        cell.setCellValue(parsed);
+        final String liberal = value.toString();
+        if (Ut.isInteger(liberal) || Ut.isDecimal(liberal)) {
+            final double parsed = Double.parseDouble(liberal);
+            cell.setCellValue(parsed);
+        } else {
+            // Number format of empty
+            cell.setCellValue(liberal);
+        }
     }
 
     /*

@@ -7,6 +7,7 @@ import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
@@ -129,6 +130,11 @@ public class ExFn {
     public static boolean generateHeader(final Sheet sheet, final String identifier,
                                          final JsonArray tableData, final Shape shape) {
         return ExData.generateHeader(sheet, identifier, tableData, shape);
+    }
+
+    public static void generateHeader(final Sheet sheet, final Integer index,
+                                      final JsonArray rowData) {
+        ExData.generateData(sheet, index, rowData, new ArrayList<>());
     }
 
     public static void generateData(final Sheet sheet, final Integer index,

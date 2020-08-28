@@ -26,6 +26,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
 /**
  * @author <a href="http://www.origin-x.cn">lang</a>
@@ -93,9 +95,39 @@ class SheetExport {
              */
             final Integer actualIdx = headed ? (index + 1) : index;
             /*
-             * Generate data processing
+             * Generate banner of title for usage
              */
-            ExFn.generateData(sheet, actualIdx, rowData, types);
+            if (shape.isComplex()) {
+                /*
+                 * 1,2,3,4
+                 */
+                if (actualIdx <= 4) {
+                    /*
+                     * 1,2, Cn Header
+                     * 3,4, En Header
+                     */
+                    ExFn.generateHeader(sheet, actualIdx, rowData);
+                } else {
+                    /*
+                     * Data Part
+                     */
+                    ExFn.generateData(sheet, actualIdx, rowData, types);
+                }
+            } else {
+                if (actualIdx <= 2) {
+                    /*
+                     * 1, Cn Header
+                     * 2, En Header
+                     */
+                    ExFn.generateHeader(sheet, actualIdx, rowData);
+                } else {
+                    /*
+                     * Data Part
+                     */
+                    ExFn.generateData(sheet, actualIdx, rowData, types);
+                }
+            }
+
             sizeList.add(rowData.size());
         });
 
@@ -154,31 +186,56 @@ class SheetExport {
         final List<Class<?>> typeArray = new ArrayList<>();
         if (Objects.nonNull(shape) && shape.isComplex()) {
             // index = 3
-            final JsonArray fields = data.getJsonArray(Values.THREE);
-            if (Ut.notNil(fields)) {
-                fields.forEach(item -> {
+            final JsonArray fields = data.getJsonArray(Values.TWO);
+            // index = 4
+            final JsonArray secondary = data.getJsonArray(Values.THREE);
+
+            if (Ut.notNil(fields) && Ut.notNil(secondary)) {
+                // parent processing
+                final ConcurrentMap<Integer, String> parentMap = new ConcurrentHashMap<>();
+
+                /*
+                 * Iterator on first
+                 * Calculate region for `null`
+                 */
+                String found = null;
+                final int length = fields.size();
+                for (int idx = 0; idx < length; idx++) {
+                    final Object item = fields.getValue(idx);
                     final String field = this.typeField(item);
                     if (Ut.notNil(field)) {
                         final Class<?> type = shape.type(field);
                         if (JsonArray.class != type) {
                             typeArray.add(type);
+                        } else {
+                            // Start index
+                            found = field;
+                            parentMap.put(idx, found);
                         }
+                    } else {
+                        // End index
+                        parentMap.put(idx, found);
                     }
-                });
-            }
-            // index = 4
-            final JsonArray secondary = data.getJsonArray(Values.FOUR);
-            if (Ut.notNil(secondary)) {
-                secondary.forEach(item -> {
+                }
+                /*
+                 * Secondary must be children to extract
+                 */
+                final int lengthChild = secondary.size();
+                for (int idx = 0; idx < lengthChild; idx++) {
+                    final Object item = secondary.getValue(idx);
                     final String field = this.typeField(item);
-                    if (Ut.notNil(field)) {
-                        typeArray.add(shape.type(field));
+                    final String parent = parentMap.getOrDefault(idx, null);
+                    if (Ut.notNil(field) && Ut.notNil(parent)) {
+                        /*
+                         * Find type based on parent/child both
+                         */
+                        typeArray.add(shape.type(parent, field));
                     }
-                });
+                }
             }
         } else {
             // index = 2
-            final JsonArray fields = data.getJsonArray(Values.TWO);
+            final JsonArray fields = data.getJsonArray(Values.ONE);
             if (Ut.notNil(fields)) {
                 fields.forEach(item -> {
                     final String field = this.typeField(item);
@@ -186,7 +243,6 @@ class SheetExport {
                 });
             }
         }
-        System.err.println(typeArray);
         return typeArray;
     }
 
