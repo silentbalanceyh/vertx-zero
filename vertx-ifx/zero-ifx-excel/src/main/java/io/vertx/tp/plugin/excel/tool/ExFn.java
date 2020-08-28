@@ -132,7 +132,7 @@ public class ExFn {
     }
 
     public static void generateData(final Sheet sheet, final Integer index,
-                                    final JsonArray rowData, final Shape shape) {
-        ExData.generateData(sheet, index, rowData, shape);
+                                    final JsonArray rowData, final List<Class<?>> typeArray) {
+        ExData.generateData(sheet, index, rowData, typeArray);
     }
 }

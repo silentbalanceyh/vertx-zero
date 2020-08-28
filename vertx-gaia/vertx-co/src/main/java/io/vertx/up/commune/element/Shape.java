@@ -18,15 +18,6 @@ public class Shape implements Serializable {
      * When complex = true, mapping
      */
     private final transient ConcurrentMap<String, ShapeItem> shapeMap = new ConcurrentHashMap<>();
-    /*
-     * Index storage for index mapping
-     * 1) Flat index store
-     * 2) Complex index store
-     * 0,1,2,3,4,5,6 = JsonArray,11,12,13 = JsonArray
-     *             6,7,8,9,10          13,14,15,16
-     *
-     */
-    private final ConcurrentMap<Integer, ShapeItem> indexMap = new ConcurrentHashMap<>();
 
     private transient boolean complex = Boolean.FALSE;
 
@@ -59,7 +50,7 @@ public class Shape implements Serializable {
     }
 
     public Shape add(final String name, final String alias, final Class<?> type) {
-        if (Objects.nonNull(name) && JsonArray.class != type) {
+        if (Objects.nonNull(name)) {
 
             /* JsonArray */
             final ShapeItem shapeItem = ShapeItem.create(name, alias, type);
@@ -100,17 +91,25 @@ public class Shape implements Serializable {
         return this.shapeMap.getOrDefault(name, null);
     }
 
-    public ShapeItem item(final int index) {
-        return this.indexMap.getOrDefault(index, null);
-    }
-
     public ConcurrentMap<String, String> alias() {
         final ConcurrentMap<String, String> alias = new ConcurrentHashMap<>();
         this.shapeMap.forEach((field, item) -> alias.put(field, item.getAlias()));
         return alias;
     }
 
-    public void report() {
-        this.indexMap.forEach((key, item) -> System.err.println(key + ", " + item));
+    public Class<?> type(final String field) {
+        final ShapeItem item = this.shapeMap.getOrDefault(field, null);
+        return Objects.isNull(item) ? null : item.getType();
+    }
+
+    public Class<?> type(final String field, final String childField) {
+        final ShapeItem item = this.shapeMap.getOrDefault(field, null);
+        if (Objects.isNull(item)) {
+            return null;
+        } else {
+            if (JsonArray.class == item.getType()) {
+                return item.getType(childField);
+            } else return null;
+        }
     }
 }

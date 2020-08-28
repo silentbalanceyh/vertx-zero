@@ -6,11 +6,13 @@ import io.vertx.core.Handler;
 import io.vertx.core.Promise;
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.json.JsonArray;
+import io.vertx.core.json.JsonObject;
 import io.vertx.tp.error._500ExportingErrorException;
 import io.vertx.tp.plugin.excel.tool.ExFn;
 import io.vertx.up.commune.element.Shape;
 import io.vertx.up.eon.FileSuffix;
 import io.vertx.up.eon.Strings;
+import io.vertx.up.eon.Values;
 import io.vertx.up.exception.WebException;
 import io.vertx.up.exception.web._500InternalServerException;
 import io.vertx.up.fn.Fn;
@@ -79,12 +81,21 @@ class SheetExport {
          * 4. Data Part of current excel file
          */
         final List<Integer> sizeList = new ArrayList<>();
+        /*
+         * Type processing
+         */
+        final List<Class<?>> types = this.types(data, shape);
         Ut.itJArray(data, JsonArray.class, (rowData, index) -> {
             /*
              * Adjust 1 for generatedHeader
+             * 1) Header adjust to pickup data region
+             * 2) index map calculation
              */
             final Integer actualIdx = headed ? (index + 1) : index;
-            ExFn.generateData(sheet, actualIdx, rowData, shape);
+            /*
+             * Generate data processing
+             */
+            ExFn.generateData(sheet, actualIdx, rowData, types);
             sizeList.add(rowData.size());
         });
 
@@ -127,6 +138,68 @@ class SheetExport {
         final Promise<Buffer> promise = Promise.promise();
         this.exportData(identifier, data, shape, this.callback(promise));
         return promise.future();
+    }
+
+    /*
+     * Build data type here
+     * 1) Simple
+     * (index = 2) = 0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15...
+     * 2) Complex
+     * (index = 3) = 0,1,2,3,4,5 = JsonArray,n,n,8,9,10 = JsonArray,n,n,n,14,15,...
+     * (index = 4) = n,n,n,n,n,5,6,7,n,n,10,11,12,13,14,15,...
+     *
+     * Flatted for complex type here
+     */
+    private List<Class<?>> types(final JsonArray data, final Shape shape) {
+        final List<Class<?>> typeArray = new ArrayList<>();
+        if (Objects.nonNull(shape) && shape.isComplex()) {
+            // index = 3
+            final JsonArray fields = data.getJsonArray(Values.THREE);
+            if (Ut.notNil(fields)) {
+                fields.forEach(item -> {
+                    final String field = this.typeField(item);
+                    if (Ut.notNil(field)) {
+                        final Class<?> type = shape.type(field);
+                        if (JsonArray.class != type) {
+                            typeArray.add(type);
+                        }
+                    }
+                });
+            }
+            // index = 4
+            final JsonArray secondary = data.getJsonArray(Values.FOUR);
+            if (Ut.notNil(secondary)) {
+                secondary.forEach(item -> {
+                    final String field = this.typeField(item);
+                    if (Ut.notNil(field)) {
+                        typeArray.add(shape.type(field));
+                    }
+                });
+            }
+        } else {
+            // index = 2
+            final JsonArray fields = data.getJsonArray(Values.TWO);
+            if (Ut.notNil(fields)) {
+                fields.forEach(item -> {
+                    final String field = this.typeField(item);
+                    typeArray.add(shape.type(field));
+                });
+            }
+        }
+        System.err.println(typeArray);
+        return typeArray;
+    }
+
+    private String typeField(final Object input) {
+        if (Objects.isNull(input)) {
+            return null;
+        } else {
+            if (input instanceof JsonObject) {
+                return ((JsonObject) input).getString("value");
+            } else {
+                return (String) input;
+            }
+        }
     }
 
     private Handler<AsyncResult<Buffer>> callback(final Promise<Buffer> promise) {

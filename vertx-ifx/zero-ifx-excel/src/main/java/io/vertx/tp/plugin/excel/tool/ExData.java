@@ -5,7 +5,6 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.tp.plugin.excel.atom.ExKey;
 import io.vertx.tp.plugin.excel.atom.ExPos;
 import io.vertx.up.commune.element.Shape;
-import io.vertx.up.commune.element.ShapeItem;
 import io.vertx.up.eon.Strings;
 import io.vertx.up.eon.Values;
 import io.vertx.up.fn.Fn;
@@ -35,20 +34,25 @@ class ExData {
     }
 
     static void generateData(final Sheet sheet, final Integer index,
-                             final JsonArray rowData, final Shape shape) {
+                             final JsonArray rowData, final List<Class<?>> types) {
         /* Row creation */
         final Row row = sheet.createRow(index);
         /* Data Filling */
         final int size = rowData.size();
-        shape.report();
         for (int colIdx = Values.IDX; colIdx < size; colIdx++) {
-
             /* Processing for ExPos */
             final ExPos pos = ExPos.index(index, colIdx);
-            final ShapeItem item = shape.item(colIdx);
+            /*
+             * Type processing
+             */
+            final Class<?> type;
+            if (colIdx < types.size()) {
+                type = types.get(colIdx);
+            } else {
+                type = null;
+            }
             /* createCell processed */
-            createCell(sheet, row, pos,
-                    rowData.getValue(colIdx), Objects.isNull(item) ? null : item.getType());
+            createCell(sheet, row, pos, rowData.getValue(colIdx), type);
         }
     }
 
