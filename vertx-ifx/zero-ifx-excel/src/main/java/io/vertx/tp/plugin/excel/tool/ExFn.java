@@ -76,6 +76,24 @@ public class ExFn {
         itRow(row, bound, consumer, null);
     }
 
+    /*
+     * For complex template
+     */
+    public static void itRowZip(final Row row, final Row row1,
+                                final ExBound bound,
+                                final BiConsumer<Cell, Cell> consumer) {
+        final int start = bound.getStart();
+        final int end = bound.getEnd();
+        for (int idx = start; idx < end; idx++) {
+            final Cell cell = row.getCell(idx);
+            final Cell cell1 = row1.getCell(idx);
+            if (null != cell) {
+                // Predicate existing
+                consumer.accept(cell, cell1);
+            }
+        }
+    }
+
 
     public static void onRow(final Sheet sheet,
                              final int rowIndex,
@@ -98,6 +116,14 @@ public class ExFn {
                              final int rowIndex,
                              final Consumer<Row> consumer) {
         onRow(sheet, rowIndex, consumer, null);
+    }
+
+    public static void onRow(final Sheet sheet,
+                             final int rowIndex, final int rowIndex1,
+                             final BiConsumer<Row, Row> consumer) {
+        onRow(sheet, rowIndex, row ->
+                onRow(sheet, rowIndex1,
+                        row1 -> consumer.accept(row, row1)), null);
     }
 
     public static void onCell(final Row row,

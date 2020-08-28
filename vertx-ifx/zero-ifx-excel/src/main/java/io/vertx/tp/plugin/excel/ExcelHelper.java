@@ -95,6 +95,9 @@ class ExcelHelper {
                  */
                 evaluator.setupReferencedWorkbooks(references);
             }
+            /*
+             * Sheet process
+             */
             final Iterator<Sheet> it = workbook.sheetIterator();
             final Set<ExTable> sheets = new HashSet<>();
             while (it.hasNext()) {
@@ -105,7 +108,7 @@ class ExcelHelper {
 
                 final SheetAnalyzer exSheet = new SheetAnalyzer(sheet).on(evaluator);
                 /* Build Set */
-                sheets.addAll(exSheet.analyzed(range));
+                sheets.addAll(exSheet.analyzed(range, shape));
             }
             return sheets;
         }, workbook);
