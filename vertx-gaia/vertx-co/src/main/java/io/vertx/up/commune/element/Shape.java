@@ -53,10 +53,6 @@ public class Shape implements Serializable {
                  * Add children
                  */
                 added.add(children);
-                /*
-                 * index = Class<?>
-                 */
-                children.forEach(this::indexPos);
             }
         }
         return this;
@@ -68,24 +64,8 @@ public class Shape implements Serializable {
             /* JsonArray */
             final ShapeItem shapeItem = ShapeItem.create(name, alias, type);
             this.shapeMap.put(name, shapeItem);
-
-            /* Index for simple */
-            this.indexPos(shapeItem);
         }
         return this;
-    }
-
-    /*
-     * Re calculate index map to correct structure
-     */
-    private void indexPos(final ShapeItem item) {
-        if (JsonArray.class != item.getType()) {
-            /*
-             * index = Class<?>
-             */
-            final int key = this.indexMap.size();
-            this.indexMap.put(key, item);
-        }
     }
 
     public void clear() {
@@ -128,5 +108,9 @@ public class Shape implements Serializable {
         final ConcurrentMap<String, String> alias = new ConcurrentHashMap<>();
         this.shapeMap.forEach((field, item) -> alias.put(field, item.getAlias()));
         return alias;
+    }
+
+    public void report() {
+        this.indexMap.forEach((key, item) -> System.err.println(key + ", " + item));
     }
 }

@@ -96,4 +96,13 @@ public class ShapeItem implements Serializable {
             }
         }
     }
+
+    @Override
+    public String toString() {
+        return "ShapeItem{" +
+                "name='" + this.name + '\'' +
+                ", alias='" + this.alias + '\'' +
+                ", type=" + this.type +
+                '}';
+    }
 }

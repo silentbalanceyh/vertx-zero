@@ -40,15 +40,15 @@ class ExData {
         final Row row = sheet.createRow(index);
         /* Data Filling */
         final int size = rowData.size();
+        shape.report();
         for (int colIdx = Values.IDX; colIdx < size; colIdx++) {
 
             /* Processing for ExPos */
             final ExPos pos = ExPos.index(index, colIdx);
             final ShapeItem item = shape.item(colIdx);
-
             /* createCell processed */
             createCell(sheet, row, pos,
-                    rowData.getValue(colIdx), item.getType());
+                    rowData.getValue(colIdx), Objects.isNull(item) ? null : item.getType());
         }
     }
 
@@ -63,18 +63,23 @@ class ExData {
             /*
              * First cell
              */
+            final ExPos pos = ExPos.index(2);
             createCell(sheet, row, ExPos.index(0), ExKey.EXPR_TABLE);
             createCell(sheet, row, ExPos.index(1), identifier);
-            createCell(sheet, row, ExPos.index(2), null);
+            createCell(sheet, row, pos, null);
             /*
              * Region for cell
              * The four parameters are all index part, it means that you should
              * 0,0: means first row
              * 2,width - 1: From the third column here
              */
-            final CellRangeAddress region =
-                    new CellRangeAddress(0, 0, 2, width - 1);
-            sheet.addMergedRegion(region);
+            final CellRangeAddress region = pos.region(0, width - 1);
+            if (Objects.nonNull(region)) {
+                /*
+                 * Call,  valid for region / Merged region A302 must contain 2 or more cells
+                 */
+                Fn.safeJvm(() -> sheet.addMergedRegion(region));
+            }
         };
         if (shape.isComplex()) {
             /*
