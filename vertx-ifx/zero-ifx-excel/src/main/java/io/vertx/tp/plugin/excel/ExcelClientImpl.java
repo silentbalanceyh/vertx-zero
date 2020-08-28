@@ -50,9 +50,34 @@ public class ExcelClientImpl implements ExcelClient {
     }
 
     // --------------------- ExTable Ingesting -----------------------
+
+    /**
+     * 1) Api for ingest of parameters, the matrix is as following
+     * |    filename/input-stream   |    2003/2007                       |     Shape     |      Async       |
+     * |        filename            |    by extension ( .xls, .xlsx )    |       x       |      false       |
+     * |        input-stream        |    isXlsx, true for 2007           |       x       |      false       |
+     * |        filename            |    by extension ( .xls, .xlsx )    |       V       |      false       |
+     * |        input-stream        |    isXlsx, true for 2007           |       V       |      false       |
+     * |        filename            |    by extension ( .xls, .xlsx )    |       x       |      true        |
+     * |        input-stream        |    isXlsx, true for 2007           |       x       |      true        |
+     * |        filename            |    by extension ( .xls, .xlsx )    |       V       |      true        |
+     * |        input-stream        |    isXlsx, true for 2007           |       V       |      true        |
+     *
+     * 2) 12 mode of `ingest` here
+     * 2.1) The input contains two categories:
+     * -- 1. InputStream for byte array input, in this mode, you must provide `isXlsx` parameter
+     * -- 2. filename of input, the format should be distinguish by file extension `.xls` for 2003, `.xlsx` for 2007
+     * 2.2) The Shape contains `Dynamic` importing in Ox channel or other build `Shape` object, it contains type definition
+     * 2.2) async contains ( Sync, Callback, Future ) three mode
+     */
     @Override
     public Set<ExTable> ingest(final String filename) {
         return this.ingest.ingest(filename);
+    }
+
+    @Override
+    public Set<ExTable> ingest(final String filename, final Shape shape) {
+        return this.ingest.ingest(filename, shape);
     }
 
     @Override
@@ -61,52 +86,155 @@ public class ExcelClientImpl implements ExcelClient {
     }
 
     @Override
+    public Set<ExTable> ingest(final InputStream in, final boolean isXlsx, final Shape shape) {
+        return this.ingest.ingest(in, isXlsx, shape);
+    }
+
+    @Override
+    public Future<Set<ExTable>> ingestAsync(final String filename) {
+        return Future.succeededFuture(this.ingest(filename));
+    }
+
+    @Override
+    public Future<Set<ExTable>> ingestAsync(final String filename, final Shape shape) {
+        return Future.succeededFuture(this.ingest(filename, shape));
+    }
+
+    @Override
+    public Future<Set<ExTable>> ingestAsync(final InputStream in, final boolean isXlsx) {
+        return Future.succeededFuture(this.ingest(in, isXlsx));
+    }
+
+    @Override
+    public Future<Set<ExTable>> ingestAsync(final InputStream in, final boolean isXlsx, final Shape shape) {
+        return Future.succeededFuture(this.ingest(in, isXlsx, shape));
+    }
+
+    @Override
     @Fluent
     public ExcelClient ingest(final String filename, final Handler<AsyncResult<Set<ExTable>>> handler) {
-        this.ingest.ingest(filename, handler);
+        handler.handle(this.ingestAsync(filename));
+        return this;
+    }
+
+    @Override
+    @Fluent
+    public ExcelClient ingest(final String filename, final Shape shape, final Handler<AsyncResult<Set<ExTable>>> handler) {
+        handler.handle(this.ingestAsync(filename, shape));
         return this;
     }
 
     @Override
     @Fluent
     public ExcelClient ingest(final InputStream in, final boolean isXlsx, final Handler<AsyncResult<Set<ExTable>>> handler) {
-        this.ingest.ingest(in, isXlsx, handler);
+        handler.handle(this.ingestAsync(in, isXlsx));
+        return this;
+    }
+
+    @Override
+    @Fluent
+    public ExcelClient ingest(final InputStream in, final boolean isXlsx, final Shape shape, final Handler<AsyncResult<Set<ExTable>>> handler) {
+        handler.handle(this.ingestAsync(in, isXlsx, shape));
         return this;
     }
 
     // --------------------- ExTable Loading / Importing -----------------------
+
+    /**
+     * 1) Api for ingest of parameters, the matrix is as following
+     * |    filename/input-stream   |    2003/2007                       |     Shape     |      Async       |
+     * |        filename            |    by extension ( .xls, .xlsx )    |       x       |      true        |
+     * |        input-stream        |    isXlsx, true for 2007           |       x       |      true        |
+     * |        filename            |    by extension ( .xls, .xlsx )    |       V       |      true        |
+     * |        input-stream        |    isXlsx, true for 2007           |       V       |      true        |
+     *
+     * 2) 12 mode of `ingest` here
+     * 2.1) The input contains two categories:
+     * -- 1. InputStream for byte array input, in this mode, you must provide `isXlsx` parameter
+     * -- 2. filename of input, the format should be distinguish by file extension `.xls` for 2003, `.xlsx` for 2007
+     * 2.2) The Shape contains `Dynamic` importing in Ox channel or other build `Shape` object, it contains type definition
+     * 2.2) async contains ( Sync, Callback, Future ) three mode
+     */
     @Override
     @Fluent
     public <T> ExcelClient importAsync(final String filename, final Handler<AsyncResult<Set<T>>> handler) {
-        return this.ingest(filename,
-                res -> handler.handle(this.importer.importAsync(res)));
+        return this.ingest(filename, res -> handler.handle(this.importer.importAsync(res)));
     }
-
 
     @Override
     @Fluent
     public <T> ExcelClient importAsync(final InputStream in, final boolean isXlsx, final Handler<AsyncResult<Set<T>>> handler) {
-        return this.ingest(in, isXlsx,
-                res -> handler.handle(this.importer.importAsync(res)));
+        return this.ingest(in, isXlsx, res -> handler.handle(this.importer.importAsync(res)));
     }
 
     @Override
-    @Fluent
-    public <T> ExcelClient importAsync(final String tableOnly, final String filename, final Handler<AsyncResult<Set<T>>> handler) {
-        return this.ingest(filename, this.ingest.ingestAsync(tableOnly,
-                res -> handler.handle(this.importer.importAsync(res))));
+    public <T> ExcelClient importAsync(final String filename, final Shape shape, final Handler<AsyncResult<Set<T>>> handler) {
+        return this.ingest(filename, shape, res -> handler.handle(this.importer.importAsync(res)));
     }
 
     @Override
-    @Fluent
-    public <T> ExcelClient importAsync(final String tableOnly, final InputStream in, final boolean isXlsx, final Handler<AsyncResult<Set<T>>> handler) {
-        return this.ingest(in, isXlsx, this.ingest.ingestAsync(tableOnly,
-                res -> handler.handle(this.importer.importAsync(res))));
+    public <T> ExcelClient importAsync(final InputStream in, final boolean isXlsx, final Shape shape, final Handler<AsyncResult<Set<T>>> handler) {
+        return this.ingest(in, isXlsx, shape, res -> handler.handle(this.importer.importAsync(res)));
     }
 
     @Override
-    public <T> T saveEntity(final JsonObject data, final ExTable table) {
-        return this.importer.saveEntity(data, table);
+    public <T> Future<Set<T>> importAsync(final String filename) {
+        return this.ingestAsync(filename).compose(this.importer::importAsync);
+    }
+
+    @Override
+    public <T> Future<Set<T>> importAsync(final String filename, final Shape shape) {
+        return this.ingestAsync(filename, shape).compose(this.importer::importAsync);
+    }
+
+    @Override
+    public <T> Future<Set<T>> importAsync(final InputStream in, final boolean isXlsx) {
+        return this.ingestAsync(in, isXlsx).compose(this.importer::importAsync);
+    }
+
+    @Override
+    public <T> Future<Set<T>> importAsync(final InputStream in, final boolean isXlsx, final Shape shape) {
+        return this.ingestAsync(in, isXlsx, shape).compose(this.importer::importAsync);
+    }
+
+    @Override
+    public <T> ExcelClient importAsync(final String filename, final Handler<AsyncResult<Set<T>>> handler, final String... includes) {
+        return this.ingest(filename, res -> handler.handle(this.importer.importAsync(this.ingest.compressAsync(res.result(), includes))));
+    }
+
+    @Override
+    public <T> ExcelClient importAsync(final String filename, final Shape shape, final Handler<AsyncResult<Set<T>>> handler, final String... includes) {
+        return this.ingest(filename, shape, res -> handler.handle(this.importer.importAsync(this.ingest.compressAsync(res.result(), includes))));
+    }
+
+    @Override
+    public <T> ExcelClient importAsync(final InputStream in, final boolean isXlsx, final Handler<AsyncResult<Set<T>>> handler, final String... includes) {
+        return this.ingest(in, isXlsx, res -> handler.handle(this.importer.importAsync(this.ingest.compressAsync(res.result(), includes))));
+    }
+
+    @Override
+    public <T> ExcelClient importAsync(final InputStream in, final boolean isXlsx, final Shape shape, final Handler<AsyncResult<Set<T>>> handler, final String... includes) {
+        return this.ingest(in, isXlsx, shape, res -> handler.handle(this.importer.importAsync(this.ingest.compressAsync(res.result(), includes))));
+    }
+
+    @Override
+    public <T> Future<Set<T>> importAsync(final String filename, final String... includes) {
+        return this.ingestAsync(filename).compose(tables -> this.ingest.compressAsync(tables, includes)).compose(this.importer::importAsync);
+    }
+
+    @Override
+    public <T> Future<Set<T>> importAsync(final String filename, final Shape shape, final String... includes) {
+        return this.ingestAsync(filename, shape).compose(tables -> this.ingest.compressAsync(tables, includes)).compose(this.importer::importAsync);
+    }
+
+    @Override
+    public <T> Future<Set<T>> importAsync(final InputStream in, final boolean isXlsx, final String... includes) {
+        return this.ingestAsync(in, isXlsx).compose(tables -> this.ingest.compressAsync(tables, includes)).compose(this.importer::importAsync);
+    }
+
+    @Override
+    public <T> Future<Set<T>> importAsync(final InputStream in, final boolean isXlsx, final Shape shape, final String... includes) {
+        return this.ingestAsync(in, isXlsx, shape).compose(tables -> this.ingest.compressAsync(tables, includes)).compose(this.importer::importAsync);
     }
 
     // --------------------- ExTable Exporting -----------------------
@@ -132,5 +260,11 @@ public class ExcelClientImpl implements ExcelClient {
     @Override
     public Future<Buffer> exportAsync(final String identifier, final JsonArray data) {
         return this.exporter.exportData(identifier, data, Shape.create());
+    }
+
+    // --------------------- Save Entity -----------------------
+    @Override
+    public <T> T saveEntity(final JsonObject data, final ExTable table) {
+        return this.importer.saveEntity(data, table);
     }
 }

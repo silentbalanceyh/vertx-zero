@@ -76,7 +76,7 @@ class ExcelHelper {
     /*
      * Get Set<ExSheet> collection based on workbook
      */
-    Set<ExTable> getExTables(final Workbook workbook) {
+    Set<ExTable> getExTables(final Workbook workbook, final Shape shape) {
         return Fn.getNull(new HashSet<>(), () -> {
             /* FormulaEvaluator reference */
             final FormulaEvaluator evaluator = workbook.getCreationHelper().createFormulaEvaluator();

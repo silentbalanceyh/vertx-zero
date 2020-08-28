@@ -105,22 +105,26 @@ class SheetImport {
         return reference;
     }
 
+    <T> Future<Set<T>> importAsync(final Set<ExTable> tables) {
+        /*
+         * Loading data into system
+         */
+        final Set<T> entitySet = new HashSet<>();
+        tables.forEach(table -> this.extract(table).forEach(json -> {
+            /* Filters building */
+            final T entity = this.saveEntity(json, table);
+            if (Objects.nonNull(entity)) {
+                entitySet.add(entity);
+            }
+        }));
+        /* Set<T> handler */
+        return Future.succeededFuture(entitySet);
+    }
+
     <T> Future<Set<T>> importAsync(final AsyncResult<Set<ExTable>> async) {
         if (async.succeeded()) {
             final Set<ExTable> tables = async.result();
-            /*
-             * Loading data into system
-             */
-            final Set<T> entitySet = new HashSet<>();
-            tables.forEach(table -> this.extract(table).forEach(json -> {
-                /* Filters building */
-                final T entity = this.saveEntity(json, table);
-                if (Objects.nonNull(entity)) {
-                    entitySet.add(entity);
-                }
-            }));
-            /* Set<T> handler */
-            return Future.succeededFuture(entitySet);
+            return this.importAsync(tables);
         } else {
             final Throwable error = async.cause();
             if (Objects.nonNull(error)) {

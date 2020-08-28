@@ -1,12 +1,13 @@
 package io.vertx.tp.plugin.excel;
 
-import io.vertx.core.AsyncResult;
 import io.vertx.core.Future;
-import io.vertx.core.Handler;
 import io.vertx.tp.plugin.excel.atom.ExTable;
+import io.vertx.up.commune.element.Shape;
 import org.apache.poi.ss.usermodel.Workbook;
 
 import java.io.InputStream;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -29,37 +30,31 @@ class SheetIngest {
      * 2. Iterator for Sheet ( By Analyzer )
      */
     Set<ExTable> ingest(final InputStream in, final boolean isXlsx) {
-        final Workbook workbook = this.helper.getWorkbook(in, isXlsx);
-        return this.helper.getExTables(workbook);
+        return this.ingest(in, isXlsx, Shape.create());
     }
 
     Set<ExTable> ingest(final String filename) {
+        return this.ingest(filename, Shape.create());
+    }
+
+    Set<ExTable> ingest(final InputStream in, final boolean isXlsx, final Shape shape) {
+        final Workbook workbook = this.helper.getWorkbook(in, isXlsx);
+        return this.helper.getExTables(workbook, shape);
+    }
+
+    Set<ExTable> ingest(final String filename, final Shape shape) {
         final Workbook workbook = this.helper.getWorkbook(filename);
-        return this.helper.getExTables(workbook);
+        return this.helper.getExTables(workbook, shape);
     }
 
-    void ingest(final String filename, final Handler<AsyncResult<Set<ExTable>>> handler) {
-        handler.handle(Future.succeededFuture(this.ingest(filename)));
-    }
-
-    void ingest(final InputStream in, final boolean isXlsx, final Handler<AsyncResult<Set<ExTable>>> handler) {
-        handler.handle(Future.succeededFuture(this.ingest(in, isXlsx)));
-    }
-
-    <T> Handler<AsyncResult<Set<ExTable>>> ingestAsync(final String tableOnly,
-                                                       final Handler<AsyncResult<Set<ExTable>>> handler) {
-        return processed -> {
-            if (processed.succeeded()) {
-                /* Filtered valid table here */
-                final Set<ExTable> execution = this.getFiltered(tableOnly, processed.result());
-                handler.handle(Future.succeededFuture(execution));
-            }
-        };
-    }
-
-    private Set<ExTable> getFiltered(final String tableOnly, final Set<ExTable> processed) {
+    private Set<ExTable> compress(final Set<ExTable> processed, final String... includes) {
+        final Set<String> tables = new HashSet<>(Arrays.asList(includes));
         return processed.stream()
-                .filter(table -> tableOnly.equals(table.getName()))
+                .filter(table -> tables.contains(table.getName()))
                 .collect(Collectors.toSet());
+    }
+
+    Future<Set<ExTable>> compressAsync(final Set<ExTable> processed, final String... includes) {
+        return Future.succeededFuture(this.compress(processed, includes));
     }
 }

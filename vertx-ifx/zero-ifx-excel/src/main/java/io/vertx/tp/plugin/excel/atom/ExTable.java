@@ -76,6 +76,7 @@ public class ExTable implements Serializable {
     /*
      * System Unique
      */
+    @SuppressWarnings("unchecked")
     public <ID> ID whereKey(final JsonObject data) {
         final String keyField = this.getConnect().getKey();
         if (Objects.nonNull(keyField)) {
