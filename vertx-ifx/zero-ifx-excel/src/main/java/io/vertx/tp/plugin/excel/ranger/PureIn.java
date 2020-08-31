@@ -49,7 +49,8 @@ public class PureIn extends AbstractExIn {
                 /* Field / Value */
                 final String field = table.field(cellIndex);
                 if (Objects.nonNull(field)) {
-                    final Object value = this.extractValue(dataCell, shape);
+                    final Class<?> type = shape.type(field);
+                    final Object value = this.extractValue(dataCell, type);
 
                     /* Stored into record */
                     record.put(field, value);

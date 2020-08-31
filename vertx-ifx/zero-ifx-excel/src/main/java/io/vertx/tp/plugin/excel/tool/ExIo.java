@@ -20,7 +20,7 @@ import java.util.function.BiConsumer;
 /**
  * @author <a href="http://www.origin-x.cn">lang</a>
  */
-class ExIo {
+public class ExIo {
     private static final ConcurrentMap<Class<?>, CellType> TYPE_MAP = new ConcurrentHashMap<Class<?>, CellType>() {
         {
             this.put(String.class, CellType.STRING);
@@ -150,7 +150,7 @@ class ExIo {
      * Process for output to excel file
      * These apis will be used in exporting workflow
      */
-    static CellType type(final Class<?> input) {
+    public static CellType type(final Class<?> input) {
         return TYPE_MAP.getOrDefault(input, CellType.STRING);
     }
 

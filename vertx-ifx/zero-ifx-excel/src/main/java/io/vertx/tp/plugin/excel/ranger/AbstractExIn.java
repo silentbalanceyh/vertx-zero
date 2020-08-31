@@ -34,11 +34,11 @@ public abstract class AbstractExIn implements ExIn {
         return Annal.get(this.getClass());
     }
 
-    protected Object extractValue(final Cell dataCell, final Shape shape) {
+    protected Object extractValue(final Cell dataCell, final Class<?> type) {
         Object result;
         try {
             /* Cell value extraction based on shape */
-            result = ExValue.getValue(dataCell, this.evaluator);
+            result = ExValue.getValue(dataCell, type, this.evaluator);
         } catch (final Throwable ex) {
             this.logger().jvm(ex);
             // For debug
@@ -48,7 +48,9 @@ public abstract class AbstractExIn implements ExIn {
         return result;
     }
 
-
+    /*
+     * Merge `eachMap` to `dataMap`
+     */
     protected void extractComplex(final ConcurrentMap<String, JsonArray> complexMap,
                                   final ConcurrentMap<String, JsonObject> rowMap) {
         rowMap.forEach((field, record) -> {
@@ -70,7 +72,8 @@ public abstract class AbstractExIn implements ExIn {
             if (Objects.isNull(original)) {
                 original = new JsonObject();
             }
-            final Object value = this.extractValue(dataCell, shape);
+            final Class<?> type = shape.type(parent, field);
+            final Object value = this.extractValue(dataCell, type);
             original.put(field, value);
             rowMap.put(parent, original);
         };

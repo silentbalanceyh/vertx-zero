@@ -129,7 +129,8 @@ public class ComplexIn extends AbstractExIn {
                     this.cellConsumer(rowMap, parent, field).accept(dataCell, shape);
                 } else {
                     /* Pure Workflow */
-                    final Object value = this.extractValue(dataCell, shape);
+                    final Class<?> type = shape.type(field);
+                    final Object value = this.extractValue(dataCell, type);
                     record.put(field, value);
                 }
             } else {
