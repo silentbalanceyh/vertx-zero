@@ -10,6 +10,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
 public class ExTable implements Serializable {
     /* Field */
@@ -18,6 +20,9 @@ public class ExTable implements Serializable {
 
     /* Metadata Row */
     private transient final String sheet;
+    /* Complex Structure */
+    private final transient ConcurrentMap<String, String> fieldMap = new ConcurrentHashMap<>();
+    private final transient ConcurrentMap<Integer, String> indexMap = new ConcurrentHashMap<>();
     private transient String name;
     private transient String description;
     private transient ExConnect connect;
@@ -92,7 +97,22 @@ public class ExTable implements Serializable {
      */
     public void add(final String field) {
         if (Ut.notNil(field)) {
+            final int index = this.indexMap.size();
             this.fields.add(field);
+            // index map
+            this.indexMap.put(index, field);
+        }
+    }
+
+    public void add(final String field, final String child) {
+        if (Ut.notNil(field) && Ut.notNil(child)) {
+            if (!this.fields.contains(field)) {
+                this.fields.add(field);
+            }
+            this.fieldMap.put(child, field);
+            // index map
+            final int index = this.indexMap.size();
+            this.indexMap.put(index, child);
         }
     }
 
@@ -113,7 +133,14 @@ public class ExTable implements Serializable {
      * Extract field by index
      */
     public String field(final int index) {
-        return this.fields.size() <= index ? null : this.fields.get(index);
+        return this.indexMap.getOrDefault(index, null);
+    }
+
+    /*
+     * Parent field extraction
+     */
+    public String field(final String child) {
+        return this.fieldMap.getOrDefault(child, null);
     }
 
     public int size() {

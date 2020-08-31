@@ -3,6 +3,8 @@ package io.vertx.tp.plugin.excel.tool;
 import io.vertx.core.json.JsonArray;
 import io.vertx.tp.plugin.excel.ranger.ExBound;
 import io.vertx.up.commune.element.Shape;
+import io.vertx.up.eon.Values;
+import io.vertx.up.util.Ut;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -19,35 +21,56 @@ import java.util.function.Predicate;
 public class ExFn {
     /*
      * Iterator of rows with RowBound
+     * Each row as `Unit`
      */
     public static void itSheet(final Sheet sheet,
                                final ExBound bound,
-                               final BiConsumer<Row, Integer> consumer,
-                               final Predicate<Row> predicate) {
+                               final BiConsumer<Row, Integer> consumer) {
         /* Start / End */
         final int start = bound.getStart();
         final int end = bound.getEnd();
         for (int idx = start; idx <= end; idx++) {
             final Row row = sheet.getRow(idx);
             if (null != row) {
-                if (null == predicate) {
-                    consumer.accept(row, idx);
-                } else {
-                    if (predicate.test(row)) {
-                        // Predicate existing
-                        consumer.accept(row, idx);
-                    }
-                }
+                // Predicate existing
+                consumer.accept(row, idx);
             }
         }
     }
 
     public static void itSheet(final Sheet sheet,
                                final ExBound bound,
-                               final BiConsumer<Row, Integer> consumer) {
-        itSheet(sheet, bound, consumer, null);
+                               final Consumer<List<Row>> consumer) {
+        /* Start / End */
+        final int start = bound.getStart();
+        final int end = bound.getEnd();
+        /* Matrix -> List */
+        final List<List<Row>> matrix = new ArrayList<>();
+        final List<Row> parameters = new ArrayList<>();
+        for (int idx = start; idx <= end; idx++) {
+            final Row row = sheet.getRow(idx);
+            final Cell cell = row.getCell(Values.IDX);
+            /*
+             * The first time for rows
+             */
+            final String literal = cell.getStringCellValue();
+            if (Ut.notNil(literal)) {
+                /*
+                 * Other times for processing.
+                 */
+                if (!parameters.isEmpty()) {
+                    matrix.add(new ArrayList<>(parameters));
+                    parameters.clear();
+                }
+            }
+            parameters.add(row);
+        }
+        matrix.forEach(consumer);
     }
 
+    /*
+     * Used out side
+     */
     public static void itRow(final Row row,
                              final ExBound bound,
                              final BiConsumer<Cell, Integer> consumer,
@@ -70,6 +93,9 @@ public class ExFn {
         }
     }
 
+    /*
+     * No filter provided
+     */
     public static void itRow(final Row row,
                              final ExBound bound,
                              final BiConsumer<Cell, Integer> consumer) {
@@ -77,7 +103,7 @@ public class ExFn {
     }
 
     /*
-     * For complex template
+     * For complex template, two row iteration
      */
     public static void itRowZip(final Row row, final Row row1,
                                 final ExBound bound,

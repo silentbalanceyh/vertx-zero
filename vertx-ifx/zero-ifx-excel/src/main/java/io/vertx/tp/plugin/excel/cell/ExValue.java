@@ -1,6 +1,7 @@
 package io.vertx.tp.plugin.excel.cell;
 
 import io.vertx.tp.plugin.excel.atom.ExKey;
+import io.vertx.up.commune.element.Shape;
 import io.vertx.up.util.Ut;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellType;
@@ -47,6 +48,10 @@ public interface ExValue {
         } else {
             return reference;
         }
+    }
+
+    static Object getValue(final Cell cell, final FormulaEvaluator evaluator, final Shape shape) {
+        return null;
     }
 
     static Object getValue(final Cell cell, final FormulaEvaluator evaluator) {
