@@ -13,6 +13,7 @@ import io.vertx.up.commune.Record;
 import io.vertx.up.commune.config.Database;
 import io.vertx.up.commune.config.Identity;
 import io.vertx.up.log.Annal;
+import org.jooq.Converter;
 
 import java.util.List;
 import java.util.Set;
@@ -229,6 +230,11 @@ public class Ao {
 
     public static Record[] records(final JsonArray data, final DataAtom atom) {
         return AoData.records(data, atom);
+    }
+
+    @SuppressWarnings("all")
+    public static Converter converter(final Class<?> type) {
+        return AoData.converter(type);
     }
 
     /*

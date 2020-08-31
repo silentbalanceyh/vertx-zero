@@ -28,7 +28,7 @@ import org.jooq.impl.UpdatableRecordImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class MAttributeRecord extends UpdatableRecordImpl<MAttributeRecord> implements IMAttribute {
 
-    private static final long serialVersionUID = -1406244281;
+    private static final long serialVersionUID = 573517477;
 
     /**
      * Setter for <code>DB_ETERNAL.M_ATTRIBUTE.KEY</code>. 「key」- 属性ID
@@ -82,7 +82,7 @@ public class MAttributeRecord extends UpdatableRecordImpl<MAttributeRecord> impl
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.M_ATTRIBUTE.TYPE</code>. 「type」- INTERNAL/EXTERNAL属性
+     * Setter for <code>DB_ETERNAL.M_ATTRIBUTE.TYPE</code>. 「type」- INTERNAL/EXTERNAL/REFERENCE属性
      */
     @Override
     public MAttributeRecord setType(String value) {
@@ -91,7 +91,7 @@ public class MAttributeRecord extends UpdatableRecordImpl<MAttributeRecord> impl
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.M_ATTRIBUTE.TYPE</code>. 「type」- INTERNAL/EXTERNAL属性
+     * Getter for <code>DB_ETERNAL.M_ATTRIBUTE.TYPE</code>. 「type」- INTERNAL/EXTERNAL/REFERENCE属性
      */
     @Override
     public String getType() {
@@ -99,45 +99,11 @@ public class MAttributeRecord extends UpdatableRecordImpl<MAttributeRecord> impl
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.M_ATTRIBUTE.SOURCE</code>. 「source」- 关联实体ID
-     */
-    @Override
-    public MAttributeRecord setSource(String value) {
-        set(4, value);
-        return this;
-    }
-
-    /**
-     * Getter for <code>DB_ETERNAL.M_ATTRIBUTE.SOURCE</code>. 「source」- 关联实体ID
-     */
-    @Override
-    public String getSource() {
-        return (String) get(4);
-    }
-
-    /**
-     * Setter for <code>DB_ETERNAL.M_ATTRIBUTE.SOURCE_FIELD</code>. 「sourceField」- 可选，如果不设置则以name为主
-     */
-    @Override
-    public MAttributeRecord setSourceField(String value) {
-        set(5, value);
-        return this;
-    }
-
-    /**
-     * Getter for <code>DB_ETERNAL.M_ATTRIBUTE.SOURCE_FIELD</code>. 「sourceField」- 可选，如果不设置则以name为主
-     */
-    @Override
-    public String getSourceField() {
-        return (String) get(5);
-    }
-
-    /**
      * Setter for <code>DB_ETERNAL.M_ATTRIBUTE.EXPRESSION</code>. 「expression」- 表达式
      */
     @Override
     public MAttributeRecord setExpression(String value) {
-        set(6, value);
+        set(4, value);
         return this;
     }
 
@@ -146,7 +112,7 @@ public class MAttributeRecord extends UpdatableRecordImpl<MAttributeRecord> impl
      */
     @Override
     public String getExpression() {
-        return (String) get(6);
+        return (String) get(4);
     }
 
     /**
@@ -154,7 +120,7 @@ public class MAttributeRecord extends UpdatableRecordImpl<MAttributeRecord> impl
      */
     @Override
     public MAttributeRecord setNormalize(String value) {
-        set(7, value);
+        set(5, value);
         return this;
     }
 
@@ -163,7 +129,7 @@ public class MAttributeRecord extends UpdatableRecordImpl<MAttributeRecord> impl
      */
     @Override
     public String getNormalize() {
-        return (String) get(7);
+        return (String) get(5);
     }
 
     /**
@@ -171,7 +137,7 @@ public class MAttributeRecord extends UpdatableRecordImpl<MAttributeRecord> impl
      */
     @Override
     public MAttributeRecord setInComponent(String value) {
-        set(8, value);
+        set(6, value);
         return this;
     }
 
@@ -180,7 +146,7 @@ public class MAttributeRecord extends UpdatableRecordImpl<MAttributeRecord> impl
      */
     @Override
     public String getInComponent() {
-        return (String) get(8);
+        return (String) get(6);
     }
 
     /**
@@ -188,7 +154,7 @@ public class MAttributeRecord extends UpdatableRecordImpl<MAttributeRecord> impl
      */
     @Override
     public MAttributeRecord setOutComponent(String value) {
-        set(9, value);
+        set(7, value);
         return this;
     }
 
@@ -197,7 +163,7 @@ public class MAttributeRecord extends UpdatableRecordImpl<MAttributeRecord> impl
      */
     @Override
     public String getOutComponent() {
-        return (String) get(9);
+        return (String) get(7);
     }
 
     /**
@@ -205,7 +171,7 @@ public class MAttributeRecord extends UpdatableRecordImpl<MAttributeRecord> impl
      */
     @Override
     public MAttributeRecord setModelId(String value) {
-        set(10, value);
+        set(8, value);
         return this;
     }
 
@@ -214,7 +180,7 @@ public class MAttributeRecord extends UpdatableRecordImpl<MAttributeRecord> impl
      */
     @Override
     public String getModelId() {
-        return (String) get(10);
+        return (String) get(8);
     }
 
     /**
@@ -222,7 +188,7 @@ public class MAttributeRecord extends UpdatableRecordImpl<MAttributeRecord> impl
      */
     @Override
     public MAttributeRecord setComments(String value) {
-        set(11, value);
+        set(9, value);
         return this;
     }
 
@@ -231,7 +197,92 @@ public class MAttributeRecord extends UpdatableRecordImpl<MAttributeRecord> impl
      */
     @Override
     public String getComments() {
+        return (String) get(9);
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.M_ATTRIBUTE.SOURCE</code>. 「source」- 关联实体ID
+     */
+    @Override
+    public MAttributeRecord setSource(String value) {
+        set(10, value);
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.M_ATTRIBUTE.SOURCE</code>. 「source」- 关联实体ID
+     */
+    @Override
+    public String getSource() {
+        return (String) get(10);
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.M_ATTRIBUTE.SOURCE_FIELD</code>. 「sourceField」- 可选，如果不设置则以name为主
+     */
+    @Override
+    public MAttributeRecord setSourceField(String value) {
+        set(11, value);
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.M_ATTRIBUTE.SOURCE_FIELD</code>. 「sourceField」- 可选，如果不设置则以name为主
+     */
+    @Override
+    public String getSourceField() {
         return (String) get(11);
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.M_ATTRIBUTE.SOURCE_CONFIG</code>. 「sourceConfig」- 数据集配置（区分 Array 和 Object）
+     */
+    @Override
+    public MAttributeRecord setSourceConfig(String value) {
+        set(12, value);
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.M_ATTRIBUTE.SOURCE_CONFIG</code>. 「sourceConfig」- 数据集配置（区分 Array 和 Object）
+     */
+    @Override
+    public String getSourceConfig() {
+        return (String) get(12);
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.M_ATTRIBUTE.SOURCE_REFERENCE</code>. 「sourceReference」- 引用配置信息（ type = REFERENCE）
+     */
+    @Override
+    public MAttributeRecord setSourceReference(String value) {
+        set(13, value);
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.M_ATTRIBUTE.SOURCE_REFERENCE</code>. 「sourceReference」- 引用配置信息（ type = REFERENCE）
+     */
+    @Override
+    public String getSourceReference() {
+        return (String) get(13);
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.M_ATTRIBUTE.SOURCE_EXTERNAL</code>. 「sourceExternal」- 外部配置信息（ type = EXTERNAL ）
+     */
+    @Override
+    public MAttributeRecord setSourceExternal(String value) {
+        set(14, value);
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.M_ATTRIBUTE.SOURCE_EXTERNAL</code>. 「sourceExternal」- 外部配置信息（ type = EXTERNAL ）
+     */
+    @Override
+    public String getSourceExternal() {
+        return (String) get(14);
     }
 
     /**
@@ -239,7 +290,7 @@ public class MAttributeRecord extends UpdatableRecordImpl<MAttributeRecord> impl
      */
     @Override
     public MAttributeRecord setIsArray(Boolean value) {
-        set(12, value);
+        set(15, value);
         return this;
     }
 
@@ -248,7 +299,24 @@ public class MAttributeRecord extends UpdatableRecordImpl<MAttributeRecord> impl
      */
     @Override
     public Boolean getIsArray() {
-        return (Boolean) get(12);
+        return (Boolean) get(15);
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.M_ATTRIBUTE.IS_REFER</code>. 「isRefer」- 是否引用属性的主属性，主属性才可拥有 sourceReference 配置，根据 source 有区别
+     */
+    @Override
+    public MAttributeRecord setIsRefer(Boolean value) {
+        set(16, value);
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.M_ATTRIBUTE.IS_REFER</code>. 「isRefer」- 是否引用属性的主属性，主属性才可拥有 sourceReference 配置，根据 source 有区别
+     */
+    @Override
+    public Boolean getIsRefer() {
+        return (Boolean) get(16);
     }
 
     /**
@@ -256,7 +324,7 @@ public class MAttributeRecord extends UpdatableRecordImpl<MAttributeRecord> impl
      */
     @Override
     public MAttributeRecord setIsSyncIn(Boolean value) {
-        set(13, value);
+        set(17, value);
         return this;
     }
 
@@ -265,7 +333,7 @@ public class MAttributeRecord extends UpdatableRecordImpl<MAttributeRecord> impl
      */
     @Override
     public Boolean getIsSyncIn() {
-        return (Boolean) get(13);
+        return (Boolean) get(17);
     }
 
     /**
@@ -273,7 +341,7 @@ public class MAttributeRecord extends UpdatableRecordImpl<MAttributeRecord> impl
      */
     @Override
     public MAttributeRecord setIsSyncOut(Boolean value) {
-        set(14, value);
+        set(18, value);
         return this;
     }
 
@@ -282,7 +350,7 @@ public class MAttributeRecord extends UpdatableRecordImpl<MAttributeRecord> impl
      */
     @Override
     public Boolean getIsSyncOut() {
-        return (Boolean) get(14);
+        return (Boolean) get(18);
     }
 
     /**
@@ -290,7 +358,7 @@ public class MAttributeRecord extends UpdatableRecordImpl<MAttributeRecord> impl
      */
     @Override
     public MAttributeRecord setIsLock(Boolean value) {
-        set(15, value);
+        set(19, value);
         return this;
     }
 
@@ -299,7 +367,7 @@ public class MAttributeRecord extends UpdatableRecordImpl<MAttributeRecord> impl
      */
     @Override
     public Boolean getIsLock() {
-        return (Boolean) get(15);
+        return (Boolean) get(19);
     }
 
     /**
@@ -307,7 +375,7 @@ public class MAttributeRecord extends UpdatableRecordImpl<MAttributeRecord> impl
      */
     @Override
     public MAttributeRecord setIsTrack(Boolean value) {
-        set(16, value);
+        set(20, value);
         return this;
     }
 
@@ -316,7 +384,7 @@ public class MAttributeRecord extends UpdatableRecordImpl<MAttributeRecord> impl
      */
     @Override
     public Boolean getIsTrack() {
-        return (Boolean) get(16);
+        return (Boolean) get(20);
     }
 
     /**
@@ -324,7 +392,7 @@ public class MAttributeRecord extends UpdatableRecordImpl<MAttributeRecord> impl
      */
     @Override
     public MAttributeRecord setIsConfirm(Boolean value) {
-        set(17, value);
+        set(21, value);
         return this;
     }
 
@@ -333,7 +401,7 @@ public class MAttributeRecord extends UpdatableRecordImpl<MAttributeRecord> impl
      */
     @Override
     public Boolean getIsConfirm() {
-        return (Boolean) get(17);
+        return (Boolean) get(21);
     }
 
     /**
@@ -341,7 +409,7 @@ public class MAttributeRecord extends UpdatableRecordImpl<MAttributeRecord> impl
      */
     @Override
     public MAttributeRecord setSigma(String value) {
-        set(18, value);
+        set(22, value);
         return this;
     }
 
@@ -350,7 +418,7 @@ public class MAttributeRecord extends UpdatableRecordImpl<MAttributeRecord> impl
      */
     @Override
     public String getSigma() {
-        return (String) get(18);
+        return (String) get(22);
     }
 
     /**
@@ -358,7 +426,7 @@ public class MAttributeRecord extends UpdatableRecordImpl<MAttributeRecord> impl
      */
     @Override
     public MAttributeRecord setLanguage(String value) {
-        set(19, value);
+        set(23, value);
         return this;
     }
 
@@ -367,7 +435,7 @@ public class MAttributeRecord extends UpdatableRecordImpl<MAttributeRecord> impl
      */
     @Override
     public String getLanguage() {
-        return (String) get(19);
+        return (String) get(23);
     }
 
     /**
@@ -375,7 +443,7 @@ public class MAttributeRecord extends UpdatableRecordImpl<MAttributeRecord> impl
      */
     @Override
     public MAttributeRecord setActive(Boolean value) {
-        set(20, value);
+        set(24, value);
         return this;
     }
 
@@ -384,7 +452,7 @@ public class MAttributeRecord extends UpdatableRecordImpl<MAttributeRecord> impl
      */
     @Override
     public Boolean getActive() {
-        return (Boolean) get(20);
+        return (Boolean) get(24);
     }
 
     /**
@@ -392,7 +460,7 @@ public class MAttributeRecord extends UpdatableRecordImpl<MAttributeRecord> impl
      */
     @Override
     public MAttributeRecord setMetadata(String value) {
-        set(21, value);
+        set(25, value);
         return this;
     }
 
@@ -401,7 +469,7 @@ public class MAttributeRecord extends UpdatableRecordImpl<MAttributeRecord> impl
      */
     @Override
     public String getMetadata() {
-        return (String) get(21);
+        return (String) get(25);
     }
 
     /**
@@ -409,7 +477,7 @@ public class MAttributeRecord extends UpdatableRecordImpl<MAttributeRecord> impl
      */
     @Override
     public MAttributeRecord setCreatedAt(LocalDateTime value) {
-        set(22, value);
+        set(26, value);
         return this;
     }
 
@@ -418,7 +486,7 @@ public class MAttributeRecord extends UpdatableRecordImpl<MAttributeRecord> impl
      */
     @Override
     public LocalDateTime getCreatedAt() {
-        return (LocalDateTime) get(22);
+        return (LocalDateTime) get(26);
     }
 
     /**
@@ -426,7 +494,7 @@ public class MAttributeRecord extends UpdatableRecordImpl<MAttributeRecord> impl
      */
     @Override
     public MAttributeRecord setCreatedBy(String value) {
-        set(23, value);
+        set(27, value);
         return this;
     }
 
@@ -435,7 +503,7 @@ public class MAttributeRecord extends UpdatableRecordImpl<MAttributeRecord> impl
      */
     @Override
     public String getCreatedBy() {
-        return (String) get(23);
+        return (String) get(27);
     }
 
     /**
@@ -443,7 +511,7 @@ public class MAttributeRecord extends UpdatableRecordImpl<MAttributeRecord> impl
      */
     @Override
     public MAttributeRecord setUpdatedAt(LocalDateTime value) {
-        set(24, value);
+        set(28, value);
         return this;
     }
 
@@ -452,7 +520,7 @@ public class MAttributeRecord extends UpdatableRecordImpl<MAttributeRecord> impl
      */
     @Override
     public LocalDateTime getUpdatedAt() {
-        return (LocalDateTime) get(24);
+        return (LocalDateTime) get(28);
     }
 
     /**
@@ -460,7 +528,7 @@ public class MAttributeRecord extends UpdatableRecordImpl<MAttributeRecord> impl
      */
     @Override
     public MAttributeRecord setUpdatedBy(String value) {
-        set(25, value);
+        set(29, value);
         return this;
     }
 
@@ -469,7 +537,7 @@ public class MAttributeRecord extends UpdatableRecordImpl<MAttributeRecord> impl
      */
     @Override
     public String getUpdatedBy() {
-        return (String) get(25);
+        return (String) get(29);
     }
 
     // -------------------------------------------------------------------------
@@ -497,15 +565,19 @@ public class MAttributeRecord extends UpdatableRecordImpl<MAttributeRecord> impl
         setName(from.getName());
         setAlias(from.getAlias());
         setType(from.getType());
-        setSource(from.getSource());
-        setSourceField(from.getSourceField());
         setExpression(from.getExpression());
         setNormalize(from.getNormalize());
         setInComponent(from.getInComponent());
         setOutComponent(from.getOutComponent());
         setModelId(from.getModelId());
         setComments(from.getComments());
+        setSource(from.getSource());
+        setSourceField(from.getSourceField());
+        setSourceConfig(from.getSourceConfig());
+        setSourceReference(from.getSourceReference());
+        setSourceExternal(from.getSourceExternal());
         setIsArray(from.getIsArray());
+        setIsRefer(from.getIsRefer());
         setIsSyncIn(from.getIsSyncIn());
         setIsSyncOut(from.getIsSyncOut());
         setIsLock(from.getIsLock());
@@ -544,34 +616,38 @@ public class MAttributeRecord extends UpdatableRecordImpl<MAttributeRecord> impl
     /**
      * Create a detached, initialised MAttributeRecord
      */
-    public MAttributeRecord(String key, String name, String alias, String type, String source, String sourceField, String expression, String normalize, String inComponent, String outComponent, String modelId, String comments, Boolean isArray, Boolean isSyncIn, Boolean isSyncOut, Boolean isLock, Boolean isTrack, Boolean isConfirm, String sigma, String language, Boolean active, String metadata, LocalDateTime createdAt, String createdBy, LocalDateTime updatedAt, String updatedBy) {
+    public MAttributeRecord(String key, String name, String alias, String type, String expression, String normalize, String inComponent, String outComponent, String modelId, String comments, String source, String sourceField, String sourceConfig, String sourceReference, String sourceExternal, Boolean isArray, Boolean isRefer, Boolean isSyncIn, Boolean isSyncOut, Boolean isLock, Boolean isTrack, Boolean isConfirm, String sigma, String language, Boolean active, String metadata, LocalDateTime createdAt, String createdBy, LocalDateTime updatedAt, String updatedBy) {
         super(MAttribute.M_ATTRIBUTE);
 
         set(0, key);
         set(1, name);
         set(2, alias);
         set(3, type);
-        set(4, source);
-        set(5, sourceField);
-        set(6, expression);
-        set(7, normalize);
-        set(8, inComponent);
-        set(9, outComponent);
-        set(10, modelId);
-        set(11, comments);
-        set(12, isArray);
-        set(13, isSyncIn);
-        set(14, isSyncOut);
-        set(15, isLock);
-        set(16, isTrack);
-        set(17, isConfirm);
-        set(18, sigma);
-        set(19, language);
-        set(20, active);
-        set(21, metadata);
-        set(22, createdAt);
-        set(23, createdBy);
-        set(24, updatedAt);
-        set(25, updatedBy);
+        set(4, expression);
+        set(5, normalize);
+        set(6, inComponent);
+        set(7, outComponent);
+        set(8, modelId);
+        set(9, comments);
+        set(10, source);
+        set(11, sourceField);
+        set(12, sourceConfig);
+        set(13, sourceReference);
+        set(14, sourceExternal);
+        set(15, isArray);
+        set(16, isRefer);
+        set(17, isSyncIn);
+        set(18, isSyncOut);
+        set(19, isLock);
+        set(20, isTrack);
+        set(21, isConfirm);
+        set(22, sigma);
+        set(23, language);
+        set(24, active);
+        set(25, metadata);
+        set(26, createdAt);
+        set(27, createdBy);
+        set(28, updatedAt);
+        set(29, updatedBy);
     }
 }

@@ -21,4 +21,9 @@ public enum AttributeType {
      * 第三方数据源
      */
     EXTERNAL,
+    /*
+     * Reference Data Source
+     * 引用专用
+     */
+    REFERENCE,
 }

@@ -8,6 +8,7 @@ import io.vertx.tp.plugin.excel.atom.ExConnect;
 import io.vertx.tp.plugin.excel.atom.ExTable;
 import io.vertx.tp.plugin.excel.ranger.ExBound;
 import io.vertx.tp.plugin.excel.ranger.RowBound;
+import io.vertx.up.commune.element.Shape;
 import io.vertx.up.eon.FileSuffix;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.util.Ut;
@@ -25,8 +26,8 @@ import java.util.*;
  */
 class ExcelHelper {
 
+    private static final Map<String, FormulaEvaluator> REFERENCES = new HashMap<>();
     private transient final Class<?> target;
-    private final transient Map<String, FormulaEvaluator> references = new HashMap<>();
     private transient ExTpl tpl;
 
     private ExcelHelper(final Class<?> target) {
@@ -75,24 +76,28 @@ class ExcelHelper {
     /*
      * Get Set<ExSheet> collection based on workbook
      */
-    Set<ExTable> getExTables(final Workbook workbook) {
+    Set<ExTable> getExTables(final Workbook workbook, final Shape shape) {
         return Fn.getNull(new HashSet<>(), () -> {
             /* FormulaEvaluator reference */
             final FormulaEvaluator evaluator = workbook.getCreationHelper().createFormulaEvaluator();
             /* FormulaEvaluator reference for external files here */
-            if (!this.references.isEmpty()) {
+            final Map<String, FormulaEvaluator> references = new HashMap<>(REFERENCES);
+            if (!references.isEmpty()) {
                 /*
                  * Here you must put self reference evaluator and all related here.
                  * It should fix issue: Could not set environment etc.
                  */
-                this.references.put(workbook.createName().getNameName(), evaluator);
+                references.put(workbook.createName().getNameName(), evaluator);
                 /*
                  * Above one line code resolved following issue:
                  * org.apache.poi.ss.formula.CollaboratingWorkbooksEnvironment$WorkbookNotFoundException:
                  * Could not resolve external workbook name 'environment.ambient.xlsx'. Workbook environment has not been set up.
                  */
-                evaluator.setupReferencedWorkbooks(this.references);
+                evaluator.setupReferencedWorkbooks(references);
             }
+            /*
+             * Sheet process
+             */
             final Iterator<Sheet> it = workbook.sheetIterator();
             final Set<ExTable> sheets = new HashSet<>();
             while (it.hasNext()) {
@@ -103,16 +108,16 @@ class ExcelHelper {
 
                 final SheetAnalyzer exSheet = new SheetAnalyzer(sheet).on(evaluator);
                 /* Build Set */
-                sheets.addAll(exSheet.analyzed(range));
+                sheets.addAll(exSheet.analyzed(range, shape));
             }
             return sheets;
         }, workbook);
     }
 
-    void brush(final Workbook workbook, final Sheet sheet) {
+    void brush(final Workbook workbook, final Sheet sheet, final Shape shape) {
         if (Objects.nonNull(this.tpl)) {
             this.tpl.bind(workbook);
-            this.tpl.applyStyle(sheet);
+            this.tpl.applyStyle(sheet, shape);
         }
     }
 
@@ -154,7 +159,7 @@ class ExcelHelper {
                      */
                     final FormulaEvaluator evaluator = workbook.getCreationHelper().createFormulaEvaluator();
                     if (Objects.nonNull(evaluator)) {
-                        this.references.put(key, evaluator);
+                        REFERENCES.put(key, evaluator);
                     }
                 });
     }

@@ -2,6 +2,7 @@ package io.vertx.tp.plugin.excel.tpl;
 
 import io.vertx.codegen.annotations.Fluent;
 import io.vertx.tp.plugin.excel.ExTpl;
+import io.vertx.up.commune.element.Shape;
 import io.vertx.up.eon.Values;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
@@ -25,7 +26,7 @@ public class BlueTpl implements ExTpl {
     }
 
     @Override
-    public void applyStyle(final Sheet sheet) {
+    public void applyStyle(final Sheet sheet, final Shape shape) {
         /*
          * 读取可见区域
          */
@@ -35,17 +36,35 @@ public class BlueTpl implements ExTpl {
              */
             final Row first = sheet.getRow(Values.IDX);
             this.applyFirst(first);
-            /*
-             * 处理 Title 行
-             */
-            final Row cnHeader = sheet.getRow(Values.ONE);
-            final Row enHeader = sheet.getRow(Values.TWO);
-            this.applyHeader(cnHeader, enHeader);
+            final int dataStart;
+            if (shape.isComplex()) {
+                /*
+                 * 处理 Title 行
+                 */
+                final Row cnHeader = sheet.getRow(Values.ONE);
+                final Row enHeader = sheet.getRow(Values.THREE);
+                this.applyHeader(cnHeader, enHeader);
+                /*
+                 * 处理第二 Title 行
+                 */
+                final Row cnHeader1 = sheet.getRow(Values.TWO);
+                final Row enHeader1 = sheet.getRow(Values.FOUR);
+                this.applyHeader(cnHeader1, enHeader1);
+                dataStart = 5;
+            } else {
+                /*
+                 * 处理 Title 行
+                 */
+                final Row cnHeader = sheet.getRow(Values.ONE);
+                final Row enHeader = sheet.getRow(Values.TWO);
+                this.applyHeader(cnHeader, enHeader);
+                dataStart = 3;
+            }
             /*
              * 处理数据行
              */
             final int num = sheet.getPhysicalNumberOfRows();
-            for (int idx = 3; idx < num; idx++) {
+            for (int idx = dataStart; idx < num; idx++) {
                 final Row data = sheet.getRow(idx);
                 this.applyData(data);
             }

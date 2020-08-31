@@ -54,34 +54,14 @@ public interface IMAttribute extends Serializable {
     public String getAlias();
 
     /**
-     * Setter for <code>DB_ETERNAL.M_ATTRIBUTE.TYPE</code>. 「type」- INTERNAL/EXTERNAL属性
+     * Setter for <code>DB_ETERNAL.M_ATTRIBUTE.TYPE</code>. 「type」- INTERNAL/EXTERNAL/REFERENCE属性
      */
     public IMAttribute setType(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.M_ATTRIBUTE.TYPE</code>. 「type」- INTERNAL/EXTERNAL属性
+     * Getter for <code>DB_ETERNAL.M_ATTRIBUTE.TYPE</code>. 「type」- INTERNAL/EXTERNAL/REFERENCE属性
      */
     public String getType();
-
-    /**
-     * Setter for <code>DB_ETERNAL.M_ATTRIBUTE.SOURCE</code>. 「source」- 关联实体ID
-     */
-    public IMAttribute setSource(String value);
-
-    /**
-     * Getter for <code>DB_ETERNAL.M_ATTRIBUTE.SOURCE</code>. 「source」- 关联实体ID
-     */
-    public String getSource();
-
-    /**
-     * Setter for <code>DB_ETERNAL.M_ATTRIBUTE.SOURCE_FIELD</code>. 「sourceField」- 可选，如果不设置则以name为主
-     */
-    public IMAttribute setSourceField(String value);
-
-    /**
-     * Getter for <code>DB_ETERNAL.M_ATTRIBUTE.SOURCE_FIELD</code>. 「sourceField」- 可选，如果不设置则以name为主
-     */
-    public String getSourceField();
 
     /**
      * Setter for <code>DB_ETERNAL.M_ATTRIBUTE.EXPRESSION</code>. 「expression」- 表达式
@@ -144,6 +124,56 @@ public interface IMAttribute extends Serializable {
     public String getComments();
 
     /**
+     * Setter for <code>DB_ETERNAL.M_ATTRIBUTE.SOURCE</code>. 「source」- 关联实体ID
+     */
+    public IMAttribute setSource(String value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.M_ATTRIBUTE.SOURCE</code>. 「source」- 关联实体ID
+     */
+    public String getSource();
+
+    /**
+     * Setter for <code>DB_ETERNAL.M_ATTRIBUTE.SOURCE_FIELD</code>. 「sourceField」- 可选，如果不设置则以name为主
+     */
+    public IMAttribute setSourceField(String value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.M_ATTRIBUTE.SOURCE_FIELD</code>. 「sourceField」- 可选，如果不设置则以name为主
+     */
+    public String getSourceField();
+
+    /**
+     * Setter for <code>DB_ETERNAL.M_ATTRIBUTE.SOURCE_CONFIG</code>. 「sourceConfig」- 数据集配置（区分 Array 和 Object）
+     */
+    public IMAttribute setSourceConfig(String value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.M_ATTRIBUTE.SOURCE_CONFIG</code>. 「sourceConfig」- 数据集配置（区分 Array 和 Object）
+     */
+    public String getSourceConfig();
+
+    /**
+     * Setter for <code>DB_ETERNAL.M_ATTRIBUTE.SOURCE_REFERENCE</code>. 「sourceReference」- 引用配置信息（ type = REFERENCE）
+     */
+    public IMAttribute setSourceReference(String value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.M_ATTRIBUTE.SOURCE_REFERENCE</code>. 「sourceReference」- 引用配置信息（ type = REFERENCE）
+     */
+    public String getSourceReference();
+
+    /**
+     * Setter for <code>DB_ETERNAL.M_ATTRIBUTE.SOURCE_EXTERNAL</code>. 「sourceExternal」- 外部配置信息（ type = EXTERNAL ）
+     */
+    public IMAttribute setSourceExternal(String value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.M_ATTRIBUTE.SOURCE_EXTERNAL</code>. 「sourceExternal」- 外部配置信息（ type = EXTERNAL ）
+     */
+    public String getSourceExternal();
+
+    /**
      * Setter for <code>DB_ETERNAL.M_ATTRIBUTE.IS_ARRAY</code>. 「isArray」- 是否集合属性，集合属性在导入导出时可用（保留）
      */
     public IMAttribute setIsArray(Boolean value);
@@ -152,6 +182,16 @@ public interface IMAttribute extends Serializable {
      * Getter for <code>DB_ETERNAL.M_ATTRIBUTE.IS_ARRAY</code>. 「isArray」- 是否集合属性，集合属性在导入导出时可用（保留）
      */
     public Boolean getIsArray();
+
+    /**
+     * Setter for <code>DB_ETERNAL.M_ATTRIBUTE.IS_REFER</code>. 「isRefer」- 是否引用属性的主属性，主属性才可拥有 sourceReference 配置，根据 source 有区别
+     */
+    public IMAttribute setIsRefer(Boolean value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.M_ATTRIBUTE.IS_REFER</code>. 「isRefer」- 是否引用属性的主属性，主属性才可拥有 sourceReference 配置，根据 source 有区别
+     */
+    public Boolean getIsRefer();
 
     /**
      * Setter for <code>DB_ETERNAL.M_ATTRIBUTE.IS_SYNC_IN</code>. 「isSyncIn」- 是否同步读
@@ -302,15 +342,19 @@ public interface IMAttribute extends Serializable {
         setName(json.getString("NAME"));
         setAlias(json.getString("ALIAS"));
         setType(json.getString("TYPE"));
-        setSource(json.getString("SOURCE"));
-        setSourceField(json.getString("SOURCE_FIELD"));
         setExpression(json.getString("EXPRESSION"));
         setNormalize(json.getString("NORMALIZE"));
         setInComponent(json.getString("IN_COMPONENT"));
         setOutComponent(json.getString("OUT_COMPONENT"));
         setModelId(json.getString("MODEL_ID"));
         setComments(json.getString("COMMENTS"));
+        setSource(json.getString("SOURCE"));
+        setSourceField(json.getString("SOURCE_FIELD"));
+        setSourceConfig(json.getString("SOURCE_CONFIG"));
+        setSourceReference(json.getString("SOURCE_REFERENCE"));
+        setSourceExternal(json.getString("SOURCE_EXTERNAL"));
         setIsArray(json.getBoolean("IS_ARRAY"));
+        setIsRefer(json.getBoolean("IS_REFER"));
         setIsSyncIn(json.getBoolean("IS_SYNC_IN"));
         setIsSyncOut(json.getBoolean("IS_SYNC_OUT"));
         setIsLock(json.getBoolean("IS_LOCK"));
@@ -334,15 +378,19 @@ public interface IMAttribute extends Serializable {
         json.put("NAME",getName());
         json.put("ALIAS",getAlias());
         json.put("TYPE",getType());
-        json.put("SOURCE",getSource());
-        json.put("SOURCE_FIELD",getSourceField());
         json.put("EXPRESSION",getExpression());
         json.put("NORMALIZE",getNormalize());
         json.put("IN_COMPONENT",getInComponent());
         json.put("OUT_COMPONENT",getOutComponent());
         json.put("MODEL_ID",getModelId());
         json.put("COMMENTS",getComments());
+        json.put("SOURCE",getSource());
+        json.put("SOURCE_FIELD",getSourceField());
+        json.put("SOURCE_CONFIG",getSourceConfig());
+        json.put("SOURCE_REFERENCE",getSourceReference());
+        json.put("SOURCE_EXTERNAL",getSourceExternal());
         json.put("IS_ARRAY",getIsArray());
+        json.put("IS_REFER",getIsRefer());
         json.put("IS_SYNC_IN",getIsSyncIn());
         json.put("IS_SYNC_OUT",getIsSyncOut());
         json.put("IS_LOCK",getIsLock());

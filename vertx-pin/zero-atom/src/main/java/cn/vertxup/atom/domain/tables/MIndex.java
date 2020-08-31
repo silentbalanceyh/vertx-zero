@@ -35,7 +35,7 @@ public class MIndex extends TableImpl<MIndexRecord> {
      * The reference instance of <code>DB_ETERNAL.M_INDEX</code>
      */
     public static final MIndex M_INDEX = new MIndex();
-    private static final long serialVersionUID = 1438328913;
+    private static final long serialVersionUID = -2056235212;
     /**
      * The column <code>DB_ETERNAL.M_INDEX.KEY</code>. 「key」- 索引ID
      */
@@ -147,7 +147,7 @@ public class MIndex extends TableImpl<MIndexRecord> {
      */
     @Override
     public List<Index> getIndexes() {
-        return Arrays.<Index>asList(Indexes.M_INDEX_NAME, Indexes.M_INDEX_PRIMARY);
+        return Arrays.<Index>asList(Indexes.M_INDEX_IDX_M_INDEX_ENTITY_ID, Indexes.M_INDEX_NAME, Indexes.M_INDEX_PRIMARY);
     }
 
     /**

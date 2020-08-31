@@ -34,13 +34,11 @@ public class DataEvent implements Serializable {
     private final transient AoSentence sentence;
     private final transient DataAtom atom;  // Delay 模式
     private final transient DataTpl tpl;
-
+    private final transient Set<String> projection = new HashSet<>();
     private transient WebException exception;
-
     // private transient DataInOut input;
     private transient AoIo io;
     private transient Criteria criteria;
-    private final transient Set<String> projection = new HashSet<>();
     private transient Inquiry inquiry;
     private transient long counter;
 
@@ -99,7 +97,8 @@ public class DataEvent implements Serializable {
      * 只设置主键，其他不设置
      * 起点：创建新的 DataRow
      */
-    public <ID> DataEvent keys(final ID... keys) {
+    @SafeVarargs
+    public final <ID> DataEvent keys(final ID... keys) {
         this.io.keys(keys);
         return this;
     }

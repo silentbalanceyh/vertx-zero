@@ -63,6 +63,7 @@ public final class Ut {
      * @param left  First Set
      * @param right Second Set
      * @param <T>   The element type in Set
+     *
      * @return The result set
      */
     public static <T> Set<T> intersect(final Set<T> left, final Set<T> right) {
@@ -1086,6 +1087,10 @@ public final class Ut {
 
     public static JsonObject toJObject(final String literal) {
         return To.toJObject(literal);
+    }
+
+    public static JsonObject toJObject(final Object value) {
+        return Jackson.toJObject(value);
     }
 
     public static JsonObject toJObject(final Map<String, Object> map) {

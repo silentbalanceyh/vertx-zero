@@ -28,14 +28,15 @@ public class DyeCell implements Serializable {
      * Align for text
      */
     public DyeCell align(final HorizontalAlignment align, final VerticalAlignment valign) {
-        this.style.setAlignment(align);
+        if (Objects.nonNull(align)) {
+            this.style.setAlignment(align);
+        }
         this.style.setVerticalAlignment(valign);
         return this;
     }
 
     public DyeCell align(final HorizontalAlignment align) {
-        this.style.setAlignment(align);
-        this.style.setVerticalAlignment(VerticalAlignment.TOP);
+        this.align(align, VerticalAlignment.TOP);
         return this;
     }
 
@@ -157,6 +158,9 @@ public class DyeCell implements Serializable {
 
     public CellStyle build() {
         this.style.setFont(this.font);
+        /*
+         * Process Cache Pool here for max style applying
+         */
         return this.style;
     }
 }

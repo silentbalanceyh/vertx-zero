@@ -73,7 +73,7 @@ public class DatumInit implements Init {
                 pre -> {
                     /* ExcelClient */
                     final ExcelClient client = ExcelInfix.createClient(Bt.getVertx());
-                    client.loading(filename, result -> {
+                    client.importAsync(filename, result -> {
                         At.infoApp(LOGGER, AtMsg.INIT_DATUM_EACH, filename);
                         if (result.succeeded()) {
                             pre.complete(Ke.Result.bool(filename, Boolean.TRUE));

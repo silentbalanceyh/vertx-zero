@@ -1,9 +1,12 @@
 package io.vertx.tp.atom.modeling.element;
 
+import io.vertx.tp.atom.refine.Ao;
 import io.vertx.up.commune.Record;
 import io.vertx.up.util.Ut;
+import org.jooq.Converter;
 
 import java.util.Arrays;
+import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
@@ -16,6 +19,7 @@ interface Pool {
 
 class Sync {
 
+    @SuppressWarnings("all")
     static void doData(final DataMatrix matrix,
                        final Record recordReference,
                        final org.jooq.Record record,
@@ -48,8 +52,16 @@ class Sync {
                     if (0 == projection.size() || projection.contains(attribute)) {
                         // 抽取字段类型
                         final Class<?> type = matrix.getType(attribute);
-                        // 读值
-                        final Object value = record.getValue(field, type);
+                        // 提取 Converter
+                        final Converter converter = Ao.converter(type);
+                        final Object value;
+                        if (Objects.isNull(converter)) {
+                            // 类型直接转换
+                            value = record.getValue(field, type);
+                        } else {
+                            // Type直接转换
+                            value = record.getValue(field, converter);
+                        }
                         // 填充值处理
                         matrix.set(attribute, value);
                         // 填充 Record 数据，必须是 JsonObject 可适配类型

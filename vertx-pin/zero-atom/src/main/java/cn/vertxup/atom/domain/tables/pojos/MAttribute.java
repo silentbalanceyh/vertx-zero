@@ -24,21 +24,25 @@ import javax.annotation.Generated;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class MAttribute implements IMAttribute {
 
-    private static final long serialVersionUID = 439452325;
+    private static final long serialVersionUID = 1740992276;
 
     private String        key;
     private String        name;
     private String        alias;
     private String        type;
-    private String        source;
-    private String        sourceField;
     private String        expression;
     private String        normalize;
     private String        inComponent;
     private String        outComponent;
     private String        modelId;
     private String        comments;
+    private String        source;
+    private String        sourceField;
+    private String        sourceConfig;
+    private String        sourceReference;
+    private String        sourceExternal;
     private Boolean       isArray;
+    private Boolean       isRefer;
     private Boolean       isSyncIn;
     private Boolean       isSyncOut;
     private Boolean       isLock;
@@ -60,15 +64,19 @@ public class MAttribute implements IMAttribute {
         this.name = value.name;
         this.alias = value.alias;
         this.type = value.type;
-        this.source = value.source;
-        this.sourceField = value.sourceField;
         this.expression = value.expression;
         this.normalize = value.normalize;
         this.inComponent = value.inComponent;
         this.outComponent = value.outComponent;
         this.modelId = value.modelId;
         this.comments = value.comments;
+        this.source = value.source;
+        this.sourceField = value.sourceField;
+        this.sourceConfig = value.sourceConfig;
+        this.sourceReference = value.sourceReference;
+        this.sourceExternal = value.sourceExternal;
         this.isArray = value.isArray;
+        this.isRefer = value.isRefer;
         this.isSyncIn = value.isSyncIn;
         this.isSyncOut = value.isSyncOut;
         this.isLock = value.isLock;
@@ -89,15 +97,19 @@ public class MAttribute implements IMAttribute {
         String        name,
         String        alias,
         String        type,
-        String        source,
-        String        sourceField,
         String        expression,
         String        normalize,
         String        inComponent,
         String        outComponent,
         String        modelId,
         String        comments,
+        String        source,
+        String        sourceField,
+        String        sourceConfig,
+        String        sourceReference,
+        String        sourceExternal,
         Boolean       isArray,
+        Boolean       isRefer,
         Boolean       isSyncIn,
         Boolean       isSyncOut,
         Boolean       isLock,
@@ -116,15 +128,19 @@ public class MAttribute implements IMAttribute {
         this.name = name;
         this.alias = alias;
         this.type = type;
-        this.source = source;
-        this.sourceField = sourceField;
         this.expression = expression;
         this.normalize = normalize;
         this.inComponent = inComponent;
         this.outComponent = outComponent;
         this.modelId = modelId;
         this.comments = comments;
+        this.source = source;
+        this.sourceField = sourceField;
+        this.sourceConfig = sourceConfig;
+        this.sourceReference = sourceReference;
+        this.sourceExternal = sourceExternal;
         this.isArray = isArray;
+        this.isRefer = isRefer;
         this.isSyncIn = isSyncIn;
         this.isSyncOut = isSyncOut;
         this.isLock = isLock;
@@ -181,28 +197,6 @@ public class MAttribute implements IMAttribute {
     @Override
     public MAttribute setType(String type) {
         this.type = type;
-        return this;
-    }
-
-    @Override
-    public String getSource() {
-        return this.source;
-    }
-
-    @Override
-    public MAttribute setSource(String source) {
-        this.source = source;
-        return this;
-    }
-
-    @Override
-    public String getSourceField() {
-        return this.sourceField;
-    }
-
-    @Override
-    public MAttribute setSourceField(String sourceField) {
-        this.sourceField = sourceField;
         return this;
     }
 
@@ -273,6 +267,61 @@ public class MAttribute implements IMAttribute {
     }
 
     @Override
+    public String getSource() {
+        return this.source;
+    }
+
+    @Override
+    public MAttribute setSource(String source) {
+        this.source = source;
+        return this;
+    }
+
+    @Override
+    public String getSourceField() {
+        return this.sourceField;
+    }
+
+    @Override
+    public MAttribute setSourceField(String sourceField) {
+        this.sourceField = sourceField;
+        return this;
+    }
+
+    @Override
+    public String getSourceConfig() {
+        return this.sourceConfig;
+    }
+
+    @Override
+    public MAttribute setSourceConfig(String sourceConfig) {
+        this.sourceConfig = sourceConfig;
+        return this;
+    }
+
+    @Override
+    public String getSourceReference() {
+        return this.sourceReference;
+    }
+
+    @Override
+    public MAttribute setSourceReference(String sourceReference) {
+        this.sourceReference = sourceReference;
+        return this;
+    }
+
+    @Override
+    public String getSourceExternal() {
+        return this.sourceExternal;
+    }
+
+    @Override
+    public MAttribute setSourceExternal(String sourceExternal) {
+        this.sourceExternal = sourceExternal;
+        return this;
+    }
+
+    @Override
     public Boolean getIsArray() {
         return this.isArray;
     }
@@ -280,6 +329,17 @@ public class MAttribute implements IMAttribute {
     @Override
     public MAttribute setIsArray(Boolean isArray) {
         this.isArray = isArray;
+        return this;
+    }
+
+    @Override
+    public Boolean getIsRefer() {
+        return this.isRefer;
+    }
+
+    @Override
+    public MAttribute setIsRefer(Boolean isRefer) {
+        this.isRefer = isRefer;
         return this;
     }
 
@@ -434,15 +494,19 @@ public class MAttribute implements IMAttribute {
         sb.append(", ").append(name);
         sb.append(", ").append(alias);
         sb.append(", ").append(type);
-        sb.append(", ").append(source);
-        sb.append(", ").append(sourceField);
         sb.append(", ").append(expression);
         sb.append(", ").append(normalize);
         sb.append(", ").append(inComponent);
         sb.append(", ").append(outComponent);
         sb.append(", ").append(modelId);
         sb.append(", ").append(comments);
+        sb.append(", ").append(source);
+        sb.append(", ").append(sourceField);
+        sb.append(", ").append(sourceConfig);
+        sb.append(", ").append(sourceReference);
+        sb.append(", ").append(sourceExternal);
         sb.append(", ").append(isArray);
+        sb.append(", ").append(isRefer);
         sb.append(", ").append(isSyncIn);
         sb.append(", ").append(isSyncOut);
         sb.append(", ").append(isLock);
@@ -474,15 +538,19 @@ public class MAttribute implements IMAttribute {
         setName(from.getName());
         setAlias(from.getAlias());
         setType(from.getType());
-        setSource(from.getSource());
-        setSourceField(from.getSourceField());
         setExpression(from.getExpression());
         setNormalize(from.getNormalize());
         setInComponent(from.getInComponent());
         setOutComponent(from.getOutComponent());
         setModelId(from.getModelId());
         setComments(from.getComments());
+        setSource(from.getSource());
+        setSourceField(from.getSourceField());
+        setSourceConfig(from.getSourceConfig());
+        setSourceReference(from.getSourceReference());
+        setSourceExternal(from.getSourceExternal());
         setIsArray(from.getIsArray());
+        setIsRefer(from.getIsRefer());
         setIsSyncIn(from.getIsSyncIn());
         setIsSyncOut(from.getIsSyncOut());
         setIsLock(from.getIsLock());

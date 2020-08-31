@@ -35,7 +35,7 @@ public class MKey extends TableImpl<MKeyRecord> {
      * The reference instance of <code>DB_ETERNAL.M_KEY</code>
      */
     public static final MKey M_KEY = new MKey();
-    private static final long serialVersionUID = -1535066882;
+    private static final long serialVersionUID = 2047428929;
     /**
      * The column <code>DB_ETERNAL.M_KEY.KEY</code>. 「key」- 键ID
      */
@@ -143,7 +143,7 @@ public class MKey extends TableImpl<MKeyRecord> {
      */
     @Override
     public List<Index> getIndexes() {
-        return Arrays.<Index>asList(Indexes.M_KEY_NAME, Indexes.M_KEY_PRIMARY);
+        return Arrays.<Index>asList(Indexes.M_KEY_IDX_M_KEY_ENTITY_ID, Indexes.M_KEY_NAME, Indexes.M_KEY_PRIMARY);
     }
 
     /**
