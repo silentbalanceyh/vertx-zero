@@ -51,15 +51,18 @@ public interface ExValue {
     }
 
     static Object getValue(final Cell cell, final Class<?> type, final FormulaEvaluator evaluator) {
-        String exprOr = cell.getStringCellValue();
-        if (Ut.isNil(exprOr)) {
+        /*
+         * BLANK / ERROR Processed first to processed
+         */
+        final CellType cellType = cell.getCellType();
+        if (CellType.BLANK == cellType || CellType.ERROR == cellType) {
             /*
-             * When literal is "", return null directly
+             * These two are both returned 'null' value
              */
             return null;
         }
-
-        if (CellType.FORMULA == cell.getCellType() && Objects.nonNull(evaluator)) {
+        final String exprOr;
+        if (CellType.FORMULA == cellType && Objects.nonNull(evaluator)) {
             /*
              * Formula process, should do processing first
              */
@@ -70,6 +73,9 @@ public interface ExValue {
             } else {
                 exprOr = exprValue;
             }
+            /*
+             * Two situations: EMPTY / NULL
+             */
             if (Ut.isNil(exprOr)) {
                 /*
                  * Terminal for exprOr
@@ -87,18 +93,18 @@ public interface ExValue {
          * otherwise, use new workflow instead
          */
         final Function<Cell, Object> fun;
-        if (CellType.FORMULA == cell.getCellType()) {
+        if (CellType.FORMULA == cellType) {
             fun = Pool.FUNS.get(CellType.STRING);
         } else {
             if (Objects.nonNull(type)) {
-                final CellType cellType = ExIo.type(type);
-                if (Objects.isNull(cellType)) {
-                    fun = Pool.FUNS.get(cell.getCellType());
-                } else {
+                final CellType switchedType = ExIo.type(type);
+                if (Objects.isNull(switchedType)) {
                     fun = Pool.FUNS.get(cellType);
+                } else {
+                    fun = Pool.FUNS.get(switchedType);
                 }
             } else {
-                fun = Pool.FUNS.get(cell.getCellType());
+                fun = Pool.FUNS.get(cellType);
             }
         }
 
