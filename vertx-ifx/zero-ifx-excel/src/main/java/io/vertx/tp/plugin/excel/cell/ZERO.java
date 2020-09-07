@@ -25,7 +25,17 @@ interface Pool {
     ConcurrentMap<CellType, Function<Cell, Object>> FUNS
             = new ConcurrentHashMap<CellType, Function<Cell, Object>>() {
         {
-            this.put(CellType.STRING, Cell::getStringCellValue);
+            this.put(CellType.STRING, cell -> {
+                if (CellType.NUMERIC == cell.getCellType()) {
+                    /*
+                     * Fix issue of user operation:
+                     * Cannot get a STRING value from a NUMERIC cell
+                     */
+                    return String.valueOf(cell.getNumericCellValue());
+                } else {
+                    return cell.getStringCellValue();
+                }
+            });
             this.put(CellType.BOOLEAN, Cell::getBooleanCellValue);
             this.put(CellType.NUMERIC, DateValue::toNumeric);
         }
