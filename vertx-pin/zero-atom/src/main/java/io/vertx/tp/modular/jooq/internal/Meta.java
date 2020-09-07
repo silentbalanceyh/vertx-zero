@@ -1,5 +1,7 @@
 package io.vertx.tp.modular.jooq.internal;
 
+import io.vertx.core.json.JsonArray;
+import io.vertx.core.json.JsonObject;
 import io.vertx.tp.atom.modeling.element.DataMatrix;
 import io.vertx.tp.atom.refine.Ao;
 import io.vertx.tp.error._417TableCounterException;
@@ -127,7 +129,16 @@ class Meta {
 
     static Field field(final String field, final DataMatrix matrix) {
         final String column = matrix.getColumn(field);
-        final Class<?> type = matrix.getType(field);
+        Class<?> type = matrix.getType(field);
+        /*
+         * JsonArray / JsonObject 执行转换，转成 String 类型，兼容性处理
+         */
+        if (JsonArray.class == type || JsonObject.class == type) {
+            /*
+             * Bug: org.jooq.exception.SQLDialectNotSupportedException: Type class io.vertx.core.json.JsonArray is not supported in dialect DEFAULT
+             */
+            type = String.class;
+        }
         return DSL.field(column, type);
     }
 

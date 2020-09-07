@@ -51,7 +51,7 @@ public class ExFn {
             final Row row = sheet.getRow(idx);
             final Cell cell = row.getCell(Values.IDX);
             /*
-             * The first time for rows
+             * The first time for rows, check whether current row is valid
              */
             final String literal = cell.getStringCellValue();
             if (Ut.notNil(literal)) {
@@ -64,6 +64,13 @@ public class ExFn {
                 }
             }
             parameters.add(row);
+        }
+        if (!parameters.isEmpty()) {
+            /*
+             * The left data matrix for last one
+             */
+            matrix.add(new ArrayList<>(parameters));
+            parameters.clear();
         }
         matrix.forEach(consumer);
     }
