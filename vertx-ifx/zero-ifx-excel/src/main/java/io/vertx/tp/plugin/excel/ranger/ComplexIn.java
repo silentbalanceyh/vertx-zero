@@ -14,6 +14,7 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 
 import java.util.Objects;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.function.BiConsumer;
@@ -69,11 +70,18 @@ public class ComplexIn extends AbstractExIn {
 
     @Override
     public ExTable applyData(final ExTable table, final ExBound dataRange, final Cell cell, final Shape shape) {
+        /*
+         * Build data column range based on current cell and table
+         * 1) table means ExTable for range
+         * 2) cell is the first row
+         */
+        final ExBound bound = new ColBound(cell.getColumnIndex(), cell.getColumnIndex() + table.size());
+        /*
+         * Get index that to checked be `null` for different record here
+         */
+        final Set<Integer> diffSet = table.indexDiff();
         /* Data Range */
-        ExFn.itSheet(this.sheet, dataRange, (rowList) -> {
-            /* Build Data Col Range */
-            final ExBound bound = new ColBound(cell.getColumnIndex(),
-                    cell.getColumnIndex() + table.size());
+        ExFn.itSheet(this.sheet, dataRange, diffSet, (rowList) -> {
             /*
              *  Build data part instead of each row here
              *  Each row should be record
