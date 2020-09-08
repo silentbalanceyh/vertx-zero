@@ -3,6 +3,7 @@ package io.vertx.tp.plugin.excel.atom;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.error._404ConnectMissingException;
+import io.vertx.up.eon.Strings;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.util.Ut;
 
@@ -19,7 +20,6 @@ public class ExTable implements Serializable {
     /* Metadata Row */
     private transient final String sheet;
     /* Complex Structure */
-    private final transient ConcurrentMap<String, String> fieldMap = new ConcurrentHashMap<>();
     private final transient ConcurrentMap<Integer, String> indexMap = new ConcurrentHashMap<>();
     private transient String name;
     private transient String description;
@@ -104,13 +104,13 @@ public class ExTable implements Serializable {
 
     public void add(final String field, final String child) {
         if (Ut.notNil(field) && Ut.notNil(child)) {
-            if (!this.fields.contains(field)) {
-                this.fields.add(field);
+            final String combine = field + Strings.DOT + child;
+            if (!this.fields.contains(combine)) {
+                this.fields.add(combine);
             }
-            this.fieldMap.put(child, field);
             // index map
             final int index = this.indexMap.size();
-            this.indexMap.put(index, child);
+            this.indexMap.put(index, combine);
         }
     }
 
@@ -126,7 +126,10 @@ public class ExTable implements Serializable {
     public Set<Integer> indexDiff() {
         final Set<Integer> excludes = new HashSet<>();
         this.indexMap.forEach((index, field) -> {
-            if (!this.fieldMap.containsKey(field)) {
+            /*
+             * Do not contain . means pure fields
+             */
+            if (!field.contains(".")) {
                 excludes.add(index);
             }
         });
@@ -145,13 +148,6 @@ public class ExTable implements Serializable {
      */
     public String field(final int index) {
         return this.indexMap.getOrDefault(index, null);
-    }
-
-    /*
-     * Parent field extraction
-     */
-    public String field(final String child) {
-        return this.fieldMap.getOrDefault(child, null);
     }
 
     public int size() {

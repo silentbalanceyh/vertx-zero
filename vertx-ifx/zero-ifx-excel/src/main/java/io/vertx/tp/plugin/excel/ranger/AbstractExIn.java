@@ -66,15 +66,24 @@ public abstract class AbstractExIn implements ExIn {
     }
 
     protected BiConsumer<Cell, Shape> cellConsumer(final ConcurrentMap<String, JsonObject> rowMap,
-                                                   final String parent, final String field) {
+                                                   final String field) {
         return (dataCell, shape) -> {
+            /*
+             * Calculated
+             */
+            final String[] fields = field.split("\\.");
+            final String parent = fields[0];
+            final String child = fields[1];
+            /*
+             * Do Processing
+             */
             JsonObject original = rowMap.get(parent);
             if (Objects.isNull(original)) {
                 original = new JsonObject();
             }
-            final Class<?> type = shape.type(parent, field);
+            final Class<?> type = shape.type(parent, child);
             final Object value = this.extractValue(dataCell, type);
-            original.put(field, value);
+            original.put(child, value);
             rowMap.put(parent, original);
         };
     }
