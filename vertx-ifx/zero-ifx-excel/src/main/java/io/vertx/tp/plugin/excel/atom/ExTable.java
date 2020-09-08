@@ -7,9 +7,7 @@ import io.vertx.up.fn.Fn;
 import io.vertx.up.util.Ut;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
@@ -120,6 +118,19 @@ public class ExTable implements Serializable {
         if (!record.isEmpty()) {
             this.values.add(record);
         }
+    }
+
+    /*
+     * Spec method to calculate row distinguish
+     */
+    public Set<Integer> indexDiff() {
+        final Set<Integer> excludes = new HashSet<>();
+        this.indexMap.forEach((index, field) -> {
+            if (!this.fieldMap.containsKey(field)) {
+                excludes.add(index);
+            }
+        });
+        return excludes;
     }
 
     /*

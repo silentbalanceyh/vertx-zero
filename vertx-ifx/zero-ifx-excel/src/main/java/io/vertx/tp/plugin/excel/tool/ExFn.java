@@ -3,14 +3,15 @@ package io.vertx.tp.plugin.excel.tool;
 import io.vertx.core.json.JsonArray;
 import io.vertx.tp.plugin.excel.ranger.ExBound;
 import io.vertx.up.commune.element.Shape;
-import io.vertx.up.eon.Values;
 import io.vertx.up.util.Ut;
 import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
@@ -40,6 +41,7 @@ public class ExFn {
 
     public static void itSheet(final Sheet sheet,
                                final ExBound bound,
+                               final Set<Integer> indexSet,
                                final Consumer<List<Row>> consumer) {
         /* Start / End */
         final int start = bound.getStart();
@@ -49,12 +51,29 @@ public class ExFn {
         final List<Row> parameters = new ArrayList<>();
         for (int idx = start; idx <= end; idx++) {
             final Row row = sheet.getRow(idx);
-            final Cell cell = row.getCell(Values.IDX);
             /*
-             * The first time for rows, check whether current row is valid
+             * Check each cell values, each cell must be BLANK that are in indexSet
+             * If all `indexSet` is BLANK, it means that current row is not new row
+             * For new row, at least there should be only one value existing
              */
-            final String literal = cell.getStringCellValue();
-            if (Ut.notNil(literal)) {
+            final boolean isPrevRow = indexSet.stream().map(row::getCell)
+                    .allMatch(cell -> {
+                        /*
+                         * Here are STRING / BLANK etc.
+                         */
+                        if (CellType.BLANK == cell.getCellType()) {
+                            /*
+                             * BLANK
+                             */
+                            return true;
+                        } else if (CellType.STRING == cell.getCellType()) {
+                            /*
+                             * STRING, the value should be ""
+                             */
+                            return Ut.isNil(cell.getStringCellValue());
+                        } else return false;
+                    });
+            if (!isPrevRow) {
                 /*
                  * Other times for processing.
                  */
