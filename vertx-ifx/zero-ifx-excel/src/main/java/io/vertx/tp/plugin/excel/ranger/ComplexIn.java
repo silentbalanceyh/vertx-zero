@@ -7,6 +7,7 @@ import io.vertx.tp.plugin.excel.atom.ExTable;
 import io.vertx.tp.plugin.excel.tool.ExFn;
 import io.vertx.up.atom.Refer;
 import io.vertx.up.commune.element.Shape;
+import io.vertx.up.eon.Strings;
 import io.vertx.up.eon.Values;
 import io.vertx.up.util.Ut;
 import org.apache.poi.ss.usermodel.Cell;
@@ -128,13 +129,12 @@ public class ComplexIn extends AbstractExIn {
             /* Field / Value / field should not be null */
             final String field = table.field(cellIndex);
             if (Objects.nonNull(field)) {
-                final String parent = table.field(field);
                 /* Different value processing */
-                if (Objects.nonNull(parent)) {
+                if (field.contains(Strings.DOT)) {
                     /*
-                     * Data Structure for complex data
+                     * Do Processing
                      */
-                    this.cellConsumer(rowMap, parent, field).accept(dataCell, shape);
+                    this.cellConsumer(rowMap, field).accept(dataCell, shape);
                 } else {
                     /* Pure Workflow */
                     final Class<?> type = shape.type(field);
@@ -153,13 +153,11 @@ public class ComplexIn extends AbstractExIn {
             /* Field / Value / field should not be null */
             final String field = table.field(cellIndex);
             if (Objects.nonNull(field)) {
-                final String parent = table.field(field);
-                /* Different value processing */
-                if (Objects.nonNull(parent)) {
+                if (field.contains(Strings.DOT)) {
                     /*
                      * Data Structure for complex data
                      */
-                    this.cellConsumer(rowMap, parent, field).accept(dataCell, shape);
+                    this.cellConsumer(rowMap, field).accept(dataCell, shape);
                 }
             } else {
                 this.logger().warn("Field (index = {0}) could not be found", cellIndex);

@@ -185,9 +185,9 @@ class SheetExport {
     private List<Class<?>> types(final JsonArray data, final Shape shape) {
         final List<Class<?>> typeArray = new ArrayList<>();
         if (Objects.nonNull(shape) && shape.isComplex()) {
-            // index = 3
+            // index = 2
             final JsonArray fields = data.getJsonArray(Values.TWO);
-            // index = 4
+            // index = 3
             final JsonArray secondary = data.getJsonArray(Values.THREE);
 
             if (Ut.notNil(fields) && Ut.notNil(secondary)) {

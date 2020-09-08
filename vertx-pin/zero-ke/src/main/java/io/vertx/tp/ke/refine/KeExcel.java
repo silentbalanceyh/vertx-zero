@@ -88,7 +88,6 @@ class KeExcel {
             Ut.itJArray(data, (each, index) -> {
                 /* Current row max */
                 final int max = rowCalculate(each, complexField);
-
                 /* Data Part */
                 final JsonArray row = new JsonArray();
                 columns.forEach(column -> {
@@ -122,7 +121,7 @@ class KeExcel {
                              * java.lang.IllegalStateException:
                              * Cannot add merged region N306:N308 to sheet because it overlaps with an existing merged region (N304:N306).
                              */
-                            row.add(itemRow(each.getValue(column), max - 1));
+                            row.add(itemRow(each.getValue(column), max));
                         } else {
                             row.add(each.getValue(column));
                         }
@@ -132,7 +131,7 @@ class KeExcel {
                 /*
                  * Repeat
                  */
-                for (int idx = 1; idx < max - 1; idx++) {
+                for (int idx = 1; idx < max; idx++) {
                     final JsonArray addOn = new JsonArray();
                     final int maxIdx = idx;
                     columns.forEach(column -> {
