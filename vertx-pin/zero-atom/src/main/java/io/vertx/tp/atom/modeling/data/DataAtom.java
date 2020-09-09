@@ -155,7 +155,7 @@ public class DataAtom {
     /*
      * 模型本身打开Track属性
      */
-    public Boolean isTrack() {
+    public Boolean trackable() {
         return this.marker.trackable();
     }
 
