@@ -26,7 +26,7 @@ class MetaMarker {
     }
 
     Set<String> track(final Boolean defaultValue) {
-        return this.audit(MAttribute::getIsSyncIn, defaultValue);
+        return this.audit(MAttribute::getIsTrack, defaultValue);
     }
 
     Set<String> in(final Boolean defaultValue) {
@@ -42,14 +42,28 @@ class MetaMarker {
     }
 
     private Set<String> audit(final Function<MAttribute, Boolean> function, final Boolean defaultValue) {
-        return this.audit(attr -> {
-            final Boolean result = function.apply(attr);
-            return Objects.isNull(result) ? defaultValue : result;
-        });
+        if (defaultValue) {
+            /*
+             * field = true
+             */
+            return this.audit(attr -> {
+                final Boolean result = function.apply(attr);
+                return Objects.isNull(result) ? Boolean.TRUE : result;
+            });
+        } else {
+            /*
+             * field = false
+             */
+            return this.audit(attr -> {
+                final Boolean result = function.apply(attr);
+                return Objects.isNull(result) ? Boolean.FALSE : !result;
+            });
+        }
     }
 
     private Set<String> audit(final Predicate<MAttribute> predicate) {
         return this.modelRef.getAttributes().stream()
+                .filter(Objects::nonNull)
                 .filter(predicate)
                 .map(MAttribute::getName)
                 .filter(Objects::nonNull)
