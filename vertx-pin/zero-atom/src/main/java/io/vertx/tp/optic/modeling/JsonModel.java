@@ -6,6 +6,7 @@ import cn.vertxup.atom.domain.tables.pojos.MJoin;
 import cn.vertxup.atom.domain.tables.pojos.MModel;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
+import io.vertx.tp.atom.cv.em.AttributeType;
 import io.vertx.tp.atom.cv.em.ModelType;
 import io.vertx.tp.atom.modeling.Model;
 import io.vertx.tp.atom.modeling.Schema;
@@ -28,8 +29,6 @@ import java.util.concurrent.ConcurrentMap;
  * 3. 包含多个Schema
  */
 public class JsonModel implements Model {
-    private final transient ConcurrentMap<String, MAttribute> attributes
-            = new ConcurrentHashMap<>();
     private final transient Set<Schema> schemata
             = new HashSet<>();
     /* 所有关联的Entity的ID */
@@ -37,6 +36,8 @@ public class JsonModel implements Model {
             = new HashSet<>();
     /* 延迟填充 */
     private final transient ConcurrentMap<String, Class<?>> attributeTypes
+            = new ConcurrentHashMap<>();
+    private final transient ConcurrentMap<String, MAttribute> attributes
             = new ConcurrentHashMap<>();
 
     private final transient String namespace;
@@ -80,13 +81,33 @@ public class JsonModel implements Model {
              * 读取所有 MAttribute
              */
             this.getAttributes().forEach(attribute -> {
-                final Schema schema = this.getSchema(attribute.getSource());
-                final MField field = schema.getField(attribute.getSourceField());
-                if (Objects.nonNull(field)) {
+                /*
+                 * 属性构造
+                 */
+                final AttributeType type = Ut.toEnum(attribute::getType, AttributeType.class, AttributeType.INTERNAL);
+                if (AttributeType.INTERNAL == type) {
                     /*
-                     * 属性 Map 处理
+                     * type = INTERNAL 属性
                      */
-                    this.attributeTypes.put(attribute.getName(), Ut.clazz(field.getType()));
+                    final Schema schema = this.getSchema(attribute.getSource());
+                    final MField field = schema.getField(attribute.getSourceField());
+                    if (Objects.nonNull(field)) {
+                        /*
+                         * 属性 Map 处理
+                         */
+                        this.attributeTypes.put(attribute.getName(), Ut.clazz(field.getType()));
+                    }
+                } else if (AttributeType.REFERENCE == type) {
+                    /*
+                     * type = REFERENCE 属性
+                     * 只支持两种数据类型
+                     * JsonObject / JsonArray
+                     */
+                    if (attribute.getIsArray()) {
+                        this.attributeTypes.put(attribute.getName(), JsonArray.class);
+                    } else {
+                        this.attributeTypes.put(attribute.getName(), JsonObject.class);
+                    }
                 }
             });
 
