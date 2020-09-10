@@ -99,9 +99,15 @@ public class JsonModel implements Model {
                     }
                 } else if (AttributeType.REFERENCE == type) {
                     /*
+                     * REFERENCE 新增类型，用于引用不同类型，主要应用于
+                     * 1）读取
+                     * 2）查询
+                     *
                      * type = REFERENCE 属性
                      * 只支持两种数据类型
                      * JsonObject / JsonArray
+                     *
+                     * 这种类型禁止使用在写操作中：添加、删除、修改
                      */
                     if (attribute.getIsArray()) {
                         this.attributeTypes.put(attribute.getName(), JsonArray.class);

@@ -93,6 +93,7 @@ public class Jq {
         return Writer.doWrites(clazz, event, actor, predicate);
     }
 
+    // 数据库读操作
     public static DataEvent doRead(final Class<?> clazz, final DataEvent event, final BiFunction<String, DataMatrix, Record> actor) {
         return Reader.doRead(clazz, event, actor);
     }

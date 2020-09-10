@@ -11,6 +11,9 @@ import io.vertx.tp.atom.refine.Ao;
 import io.vertx.tp.error._417DataRowNullException;
 import io.vertx.tp.modular.io.AoIo;
 import io.vertx.tp.modular.metadata.AoSentence;
+import io.vertx.tp.modular.ray.AoRay;
+import io.vertx.tp.modular.ray.RayBatch;
+import io.vertx.tp.modular.ray.RaySingle;
 import io.vertx.up.atom.query.Criteria;
 import io.vertx.up.atom.query.Inquiry;
 import io.vertx.up.atom.query.Pager;
@@ -59,8 +62,10 @@ public class DataEvent implements Serializable {
         /* 连接专用填充 ItemMatrix */
         Bridge.connect(model,
                 // 字段基本函数
-                (schema) -> (field, attribute) ->
-                        this.tpl.initTpl(schema, field, attribute));
+                (schema) -> (field, attribute) -> this.tpl.initTpl(schema, field, attribute),
+                // 引用字段专用
+                this.tpl::initReference
+        );
         /* 连接专用填充 ItemMatrix - 主键类 */
         Bridge.join(model,
                 // 主键关联函数，虚拟键，不填充 this.sources
@@ -234,7 +239,11 @@ public class DataEvent implements Serializable {
                 record = row.getRecord();
             }
         }
-        return record;
+        /*
+         * Reference 引用流程
+         */
+        final AoRay<Record> ray = new RaySingle().on(this.tpl);
+        return ray.attach(record);
     }
 
     /*
@@ -242,11 +251,16 @@ public class DataEvent implements Serializable {
      */
     public Record[] getRecords() {
         final List<DataRow> rows = this.getRows();
-        return rows.stream()
+        final Record[] response = rows.stream()
                 .map(DataRow::getRecord)
                 .filter(Objects::nonNull)
                 .collect(Collectors.toList())
                 .toArray(new Record[]{});
+        /*
+         * Reference 引用流程
+         */
+        final AoRay<Record[]> ray = new RayBatch().on(this.tpl);
+        return ray.attach(response);
     }
 
     /*

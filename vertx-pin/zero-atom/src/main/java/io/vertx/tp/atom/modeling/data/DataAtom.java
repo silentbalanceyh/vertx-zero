@@ -22,6 +22,7 @@ public class DataAtom {
     private transient final AoPerformer performer;
 
     private transient final String unique;
+    private transient final String appName;
 
     private transient final MetaInfo metadata;
     private transient final MetaRule ruler;
@@ -31,6 +32,7 @@ public class DataAtom {
                      final String identifier,
                      final String unique) {
         /* Performer池化（每个App不一样）*/
+        this.appName = appName;
         this.performer = AoPerformer.getInstance(appName);
         /* 构造当前模型的唯一值，从外置传入 */
         this.unique = unique;
@@ -77,6 +79,10 @@ public class DataAtom {
          */
         final String unique = Model.namespace(appName) + "-" + identifier;
         return new DataAtom(appName, identifier, unique);
+    }
+
+    public DataAtom get(final String identifier) {
+        return DataAtom.get(this.appName, identifier);
     }
 
     // ------------ 基础模型部分 ------------

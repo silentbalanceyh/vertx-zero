@@ -5,6 +5,7 @@ import cn.vertxup.atom.domain.tables.pojos.MField;
 import cn.vertxup.atom.domain.tables.pojos.MJoin;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
+import io.vertx.tp.atom.cv.em.AttributeType;
 import io.vertx.tp.atom.modeling.Model;
 import io.vertx.tp.atom.modeling.Schema;
 import io.vertx.tp.atom.modeling.element.DataKey;
@@ -20,6 +21,7 @@ import io.vertx.up.util.Ut;
 
 import java.util.*;
 import java.util.function.BiConsumer;
+import java.util.function.Consumer;
 import java.util.function.Function;
 
 
@@ -30,7 +32,8 @@ import java.util.function.Function;
 class Bridge {
 
     static void connect(final Model model,
-                        final Function<Schema, BiConsumer<MField, MAttribute>> consumer) {
+                        final Function<Schema, BiConsumer<MField, MAttribute>> consumer,
+                        final Consumer<MAttribute> referenceConsumer) {
         /*
          * 1. 遍历当前模型中的 Schema
          * 2. 二层遍历当前模型中的 Attribute
@@ -59,7 +62,6 @@ class Bridge {
                  * 过滤器，用于过滤不满足条件的 ( schema, attribute ) 键值对
                  */
                 (schema, attribute) -> attribute.getSource().equals(schema.identifier()));
-
         /*
          * FIX：解决Schema中的主键问题
          * 1. 对于 JOIN_MULTI 这种情况，在这里初始化 Matrix 的时候，有可能出现主键没有被记录到 Matrix的情况
@@ -87,6 +89,14 @@ class Bridge {
                 }
             }
         });
+        /*
+         * FIX: 关于 REFERENCE 部分的填充
+         */
+        model.getAttributes().stream()
+                .filter(Objects::nonNull)
+                .filter(attr -> Objects.nonNull(attr.getSource()))
+                .filter(attr -> AttributeType.REFERENCE.name().equals(attr.getType()))
+                .forEach(referenceConsumer);
     }
 
     private static MAttribute toAttribute(final Schema schema, final MField field, final String name) {
