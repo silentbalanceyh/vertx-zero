@@ -31,7 +31,9 @@ class RayRuler {
              */
             Ut.itJArray(source).forEach(json -> {
                 final String key = joinedKey(json, joined);
-                grouped.put(key, new AmbJson().data(json));
+                if (Ut.notNil(key)) {
+                    grouped.put(key, new AmbJson().data(json));
+                }
             });
         } else {
             /*
@@ -40,8 +42,10 @@ class RayRuler {
             final ConcurrentMap<String, JsonArray> groupedArray = new ConcurrentHashMap<>();
             Ut.itJArray(source).forEach(json -> {
                 final String key = joinedKey(json, joined);
-                final JsonArray group = Fn.pool(groupedArray, key, JsonArray::new);
-                group.add(json);
+                if (Ut.notNil(key)) {
+                    final JsonArray group = Fn.pool(groupedArray, key, JsonArray::new);
+                    group.add(json);
+                }
             });
             groupedArray.forEach((key, data) -> {
                 final AmbJson amb = new AmbJson().data(data);
