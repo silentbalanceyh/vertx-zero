@@ -9,6 +9,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
+import io.vertx.tp.atom.refine.Ao;
 import io.vertx.up.atom.Kv;
 import io.vertx.up.commune.Record;
 import io.vertx.up.eon.Strings;
@@ -97,7 +98,7 @@ public class DataQRule implements Serializable {
 
     public List<Kv<String, String>> joined() {
         final List<Kv<String, String>> joinedKeys = new ArrayList<>();
-        Ut.<String>itJObject(this.joined, (current, joined) -> joinedKeys.add(Kv.create(current, joined)));
+        Ut.<String>itJObject(this.joined, (value, key) -> joinedKeys.add(Kv.create(key, value)));
         return joinedKeys;
     }
 
@@ -115,6 +116,7 @@ public class DataQRule implements Serializable {
             }
         });
         tpl.put(Strings.EMPTY, this.condition.getBoolean(Strings.EMPTY, Boolean.FALSE));
+        Ao.infoUca(this.getClass(), "Single condition building: {0}", tpl.encode());
         return tpl;
     }
 
@@ -129,6 +131,7 @@ public class DataQRule implements Serializable {
             tpl.put(field, Ut.toJArray(values));
         });
         tpl.put(Strings.EMPTY, this.conditions.getBoolean(Strings.EMPTY, Boolean.FALSE));
+        Ao.infoUca(this.getClass(), "Batch condition building: {0}", tpl.encode());
         return tpl;
     }
 
