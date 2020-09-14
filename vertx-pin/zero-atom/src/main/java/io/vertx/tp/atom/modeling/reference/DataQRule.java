@@ -1,5 +1,6 @@
 package io.vertx.tp.atom.modeling.reference;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.JsonArrayDeserializer;
 import com.fasterxml.jackson.databind.JsonArraySerializer;
 import com.fasterxml.jackson.databind.JsonObjectDeserializer;
@@ -8,14 +9,13 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
+import io.vertx.up.atom.Kv;
 import io.vertx.up.commune.Record;
 import io.vertx.up.eon.Strings;
 import io.vertx.up.util.Ut;
 
 import java.io.Serializable;
-import java.util.Arrays;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -42,6 +42,9 @@ public class DataQRule implements Serializable {
     @JsonSerialize(using = JsonArraySerializer.class)
     @JsonDeserialize(using = JsonArrayDeserializer.class)
     private transient JsonArray diff;
+
+    @JsonIgnore
+    private transient Class<?> type;
 
     public JsonObject getCondition() {
         return this.condition;
@@ -81,6 +84,21 @@ public class DataQRule implements Serializable {
 
     public void setDiff(final JsonArray diff) {
         this.diff = diff;
+    }
+
+    public Class<?> type() {
+        return this.type;
+    }
+
+    public DataQRule type(final Class<?> type) {
+        this.type = type;
+        return this;
+    }
+
+    public List<Kv<String, String>> joined() {
+        final List<Kv<String, String>> joinedKeys = new ArrayList<>();
+        Ut.<String>itJObject(this.joined, (current, joined) -> joinedKeys.add(Kv.create(current, joined)));
+        return joinedKeys;
     }
 
     /*

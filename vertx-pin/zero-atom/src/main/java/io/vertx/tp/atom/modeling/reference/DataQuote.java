@@ -70,7 +70,7 @@ public class DataQuote implements Serializable {
             final JsonObject ruleData = Ut.sureJObject(sourceReference.getJsonObject(KeField.RULE));
             if (Ut.notNil(ruleData)) {
                 final DataQRule rule = Ut.deserialize(ruleData, DataQRule.class);
-                this.sourceRule.put(name, rule);
+                this.sourceRule.put(name, rule.type(this.typeMap.get(name)));
             }
         }
         return this;

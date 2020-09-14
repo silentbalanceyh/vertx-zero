@@ -1,5 +1,6 @@
 package io.vertx.tp.modular.ray;
 
+import io.vertx.tp.atom.modeling.reference.DataQRule;
 import io.vertx.up.commune.Record;
 import io.vertx.up.commune.element.AmbJson;
 
@@ -16,10 +17,14 @@ public class RaySingle extends AbstractRay<Record> {
          * 返回 DataQuote
          */
         final ConcurrentMap<String, AmbJson> data = new ConcurrentHashMap<>();
-        this.references.values().forEach(source -> data.putAll(source.fetchSingle(input)));
+        final ConcurrentMap<String, DataQRule> rules = new ConcurrentHashMap<>();
+        this.references.values().forEach(source -> {
+            data.putAll(source.fetchSingle(input));
+            rules.putAll(source.rules());
+        });
         /*
          * 结果处理
          */
-        return RayCombine.combine(input, data);
+        return RayCombine.combine(input, data, rules);
     }
 }
