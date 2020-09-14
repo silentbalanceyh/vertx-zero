@@ -8,6 +8,7 @@ import io.vertx.tp.atom.cv.em.ModelType;
 import io.vertx.tp.atom.modeling.Model;
 import io.vertx.tp.atom.modeling.Schema;
 import io.vertx.tp.atom.modeling.data.DataAtom;
+import io.vertx.tp.atom.modeling.reference.DataQuote;
 import io.vertx.tp.atom.refine.Ao;
 import io.vertx.tp.modular.metadata.AoSentence;
 import io.vertx.up.commune.Record;
@@ -34,7 +35,7 @@ public class DataTpl implements Serializable {
     /*
      * 模板中增加引用
      */
-    private final transient ConcurrentMap<String, DataReference> references
+    private final transient ConcurrentMap<String, DataQuote> references
             = new ConcurrentHashMap<>();
 
     private transient AoSentence sentence;
@@ -136,7 +137,7 @@ public class DataTpl implements Serializable {
         return this.tpl;
     }
 
-    public ConcurrentMap<String, DataReference> matrixReference() {
+    public ConcurrentMap<String, DataQuote> matrixReference() {
         return this.references;
     }
 
@@ -172,8 +173,8 @@ public class DataTpl implements Serializable {
         if (AttributeType.REFERENCE == attrType) {
             // 读取 Table Name
             final String source = attribute.getSource();
-            final DataReference reference = Fn.pool(this.references,
-                    source, () -> DataReference.create(source));
+            final DataQuote reference = Fn.pool(this.references,
+                    source, () -> DataQuote.create(source));
             // 执行 Source 的初始化
             reference.add(attribute);
         }

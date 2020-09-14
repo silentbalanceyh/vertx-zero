@@ -34,7 +34,6 @@ public class DataEvent implements Serializable {
      *     attribute = table
      *     属性 = 表名
      */
-    private final transient AoSentence sentence;
     private final transient DataAtom atom;  // Delay 模式
     private final transient DataTpl tpl;
     private final transient Set<String> projection = new HashSet<>();
@@ -47,7 +46,6 @@ public class DataEvent implements Serializable {
 
     private DataEvent(final DataAtom atom, final AoSentence sentence) {
         this.atom = atom;
-        this.sentence = sentence;
         /*
          * DataTpl 专用，模板处理，创建 DataEvent的时候 Tpl对应的模板就固定下来
          * 固定下来过后成为只读对象
@@ -56,7 +54,7 @@ public class DataEvent implements Serializable {
          */
         final Model model = atom.getModel();
         this.tpl = DataTpl.create()
-                .on(this.sentence)
+                .on(sentence)
                 .on(atom);
         // 初始化 Tpl 模板
         /* 连接专用填充 ItemMatrix */

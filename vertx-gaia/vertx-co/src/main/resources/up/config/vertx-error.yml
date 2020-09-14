@@ -253,3 +253,4 @@ E80536: "(417) - (Mod) Sorry, the entityKey = {0} field definition could not be 
 E80537: "(417) - (Mod) Sorry, the entity = {0} definition could not be found in {1}"
 E80538: "(417) - (Mod) Current model: {0} related schema counter {1} or joins number {2} is invalid ( joins >= schema >= 1 )"
 E80539: "(501) - (Web) Current `DictFabric` is null, but it''s required"
+E80540: "(501) - (Web) The model of `DataTpl` is null and could not be found in your environment, Anonymous error"

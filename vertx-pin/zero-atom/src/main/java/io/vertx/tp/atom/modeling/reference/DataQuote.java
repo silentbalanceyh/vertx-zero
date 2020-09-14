@@ -1,9 +1,10 @@
-package io.vertx.tp.atom.modeling.element;
+package io.vertx.tp.atom.modeling.reference;
 
 import cn.vertxup.atom.domain.tables.pojos.MAttribute;
 import io.vertx.codegen.annotations.Fluent;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
+import io.vertx.tp.ke.cv.KeField;
 import io.vertx.up.util.Ut;
 
 import java.io.Serializable;
@@ -14,7 +15,7 @@ import java.util.concurrent.ConcurrentMap;
 /**
  * @author <a href="http://www.origin-x.cn">lang</a>
  */
-public class DataReference implements Serializable {
+public class DataQuote implements Serializable {
 
     private transient final String source;
     /*
@@ -27,16 +28,19 @@ public class DataReference implements Serializable {
     /* 属性名 -> sourceReference 配置 */
     private transient final ConcurrentMap<String, JsonObject> sourceReference = new ConcurrentHashMap<>();
 
-    private DataReference(final String source) {
+    /* 规则集 -> sourceReference 中拆分 */
+    private transient final ConcurrentMap<String, DataQRule> sourceRule = new ConcurrentHashMap<>();
+
+    private DataQuote(final String source) {
         this.source = source;
     }
 
-    public static DataReference create(final String tableName) {
-        return new DataReference(tableName);
+    public static DataQuote create(final String tableName) {
+        return new DataQuote(tableName);
     }
 
     @Fluent
-    public DataReference add(final MAttribute attribute) {
+    public DataQuote add(final MAttribute attribute) {
         /*
          * JsonArray / JsonObject
          */
@@ -60,7 +64,23 @@ public class DataReference implements Serializable {
         if (Objects.nonNull(attribute.getSourceReference())) {
             final JsonObject sourceReference = Ut.toJObject(attribute.getSourceReference());
             this.sourceReference.put(name, sourceReference);
+            /*
+             * JsonObject rule
+             */
+            final JsonObject ruleData = Ut.sureJObject(sourceReference.getJsonObject(KeField.RULE));
+            if (Ut.notNil(ruleData)) {
+                final DataQRule rule = Ut.deserialize(ruleData, DataQRule.class);
+                this.sourceRule.put(name, rule);
+            }
         }
         return this;
+    }
+
+    public ConcurrentMap<String, DataQRule> rules() {
+        return this.sourceRule;
+    }
+
+    public Class<?> type(final String field) {
+        return this.typeMap.getOrDefault(field, null);
     }
 }

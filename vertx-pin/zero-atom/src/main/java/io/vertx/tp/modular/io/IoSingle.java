@@ -12,7 +12,8 @@ public class IoSingle extends AbstractIo {
     }
 
     @Override
-    public <ID> AoIo keys(final ID... keys) {
+    @SafeVarargs
+    public final <ID> AoIo keys(final ID... keys) {
         /* keys长度 */
         this.ensure(keys.length);
 

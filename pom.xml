@@ -116,7 +116,7 @@
         <common.lang3.version>3.11</common.lang3.version>
         <common.logging.version>1.2</common.logging.version>
         <common.net.version>3.7</common.net.version>
-        <common.codec.version>1.14</common.codec.version>
+        <common.codec.version>1.15</common.codec.version>
         <common.cli.version>1.4</common.cli.version>
 
         <http.async.client.version>4.1.4</http.async.client.version>
@@ -129,7 +129,7 @@
         <!-- Rpc -->
         <protobuf.version>3.12.2</protobuf.version>
         <vertx.grpc.version>1.6.1</vertx.grpc.version>
-        <grpc.version>1.31.1</grpc.version>
+        <grpc.version>1.32.1</grpc.version>
         <picoli.version>4.5.1</picoli.version>
 
         <!-- Yaml -->
@@ -139,7 +139,7 @@
         <!-- Vert.x Addition -->
         <rxjava2.version>2.2.19</rxjava2.version>
         <netty.tcnative.version>2.0.34.Final</netty.tcnative.version>
-        <netty.version>4.1.51.Final</netty.version>
+        <netty.version>4.1.52.Final</netty.version>
         <hazelcast.version>3.12.4</hazelcast.version>
         <swagger.version>1.6.0</swagger.version>
         <error.prone.version>2.4.0</error.prone.version>
