@@ -172,6 +172,10 @@ public class DataAtom {
         return this.reference.rules();
     }
 
+    public DataQRule refRule(final String field) {
+        return this.reference.rules(field);
+    }
+
     // ------------ 属性检查的特殊功能，收集相关属性 ----------
     /*
      * 模型本身打开Track属性

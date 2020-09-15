@@ -23,6 +23,8 @@ class MetaReference {
      */
     private final transient ConcurrentMap<String, DataQuote> references
             = new ConcurrentHashMap<>();
+    private final transient ConcurrentMap<String, DataQRule> rules
+            = new ConcurrentHashMap<>();
 
     MetaReference(final Model modelRef) {
         this.modelRef = modelRef;
@@ -42,6 +44,10 @@ class MetaReference {
                     // 执行 Source 的初始化
                     reference.add(attribute);
                 });
+        /*
+         * DataQuote之后处理
+         */
+        this.references.values().forEach(source -> this.rules.putAll(source.rules()));
     }
 
 
@@ -54,8 +60,10 @@ class MetaReference {
     }
 
     ConcurrentMap<String, DataQRule> rules() {
-        final ConcurrentMap<String, DataQRule> rules = new ConcurrentHashMap<>();
-        this.references.values().forEach(source -> rules.putAll(source.rules()));
-        return rules;
+        return this.rules;
+    }
+
+    DataQRule rules(final String field) {
+        return this.rules.getOrDefault(field, null);
     }
 }
