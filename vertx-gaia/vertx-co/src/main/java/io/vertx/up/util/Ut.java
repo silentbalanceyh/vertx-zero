@@ -78,6 +78,10 @@ public final class Ut {
         return Arithmetic.diff(subtrahend, minuend);
     }
 
+    public static <T> Set<T> each(final Set<T> source, final Consumer<T>... consumers) {
+        return (Set<T>) Arithmetic.each(source, consumers);
+    }
+
     /*
      * Array or List calculation
      * 1) elementAdd

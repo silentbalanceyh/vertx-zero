@@ -1,7 +1,10 @@
 package io.vertx.up.util;
 
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.function.Consumer;
 
 /**
  * Collection calculation for Set
@@ -21,6 +24,7 @@ final class Arithmetic {
      * @param left  First Set
      * @param right Second Set
      * @param <T>   The element type in Set
+     *
      * @return The result set
      */
     static <T> Set<T> intersect(final Set<T> left,
@@ -39,6 +43,7 @@ final class Arithmetic {
      * @param left  First Set
      * @param right Second Set
      * @param <T>   The element type in Set
+     *
      * @return The result Set
      */
     static <T> Set<T> union(final Set<T> left,
@@ -58,6 +63,7 @@ final class Arithmetic {
      * @param subtrahend Subtrahend set
      * @param minuend    Minuend set
      * @param <T>        The element type in Set
+     *
      * @return The result SEt
      */
     static <T> Set<T> diff(final Set<T> subtrahend,
@@ -65,5 +71,12 @@ final class Arithmetic {
         final Set<T> ret = new HashSet<>(subtrahend);
         ret.removeAll(minuend);
         return ret;
+    }
+
+    static <T> Collection<T> each(final Collection<T> source, final Consumer<T>... consumers) {
+        if (0 < consumers.length) {
+            source.forEach(item -> Arrays.stream(consumers).forEach(consumer -> consumer.accept(item)));
+        }
+        return source;
     }
 }

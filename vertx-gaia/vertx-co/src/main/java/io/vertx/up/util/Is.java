@@ -121,7 +121,6 @@ class Is {
             }
         });
         final Set<String> dateFieldSet = dateFields.keySet();
-
         final Function<String, Boolean> isSame = (field) -> {
             /*
              * Extract value from each record
