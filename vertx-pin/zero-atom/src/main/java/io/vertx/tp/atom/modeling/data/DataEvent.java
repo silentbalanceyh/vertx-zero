@@ -60,10 +60,7 @@ public class DataEvent implements Serializable {
         /* 连接专用填充 ItemMatrix */
         Bridge.connect(model,
                 // 字段基本函数
-                (schema) -> (field, attribute) -> this.tpl.initTpl(schema, field, attribute),
-                // 引用字段专用
-                this.tpl::initReference
-        );
+                (schema) -> (field, attribute) -> this.tpl.initTpl(schema, field, attribute));
         /* 连接专用填充 ItemMatrix - 主键类 */
         Bridge.join(model,
                 // 主键关联函数，虚拟键，不填充 this.sources

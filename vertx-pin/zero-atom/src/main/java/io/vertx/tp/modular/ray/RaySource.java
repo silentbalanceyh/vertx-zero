@@ -53,10 +53,6 @@ class RaySource {
         return this.fetchData(rule -> rule.condition(records));
     }
 
-    public ConcurrentMap<String, DataQRule> rules() {
-        return this.quote.rules();
-    }
-
     private ConcurrentMap<String, AmbJson> fetchData(final Function<DataQRule, JsonObject> supplier) {
         final ConcurrentMap<String, AmbJson> data = new ConcurrentHashMap<>();
         this.quote.rules().forEach((field, rule) -> {

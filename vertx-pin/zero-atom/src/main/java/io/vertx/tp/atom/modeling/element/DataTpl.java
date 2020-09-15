@@ -3,17 +3,14 @@ package io.vertx.tp.atom.modeling.element;
 import cn.vertxup.atom.domain.tables.pojos.MAttribute;
 import cn.vertxup.atom.domain.tables.pojos.MField;
 import cn.vertxup.atom.domain.tables.pojos.MJoin;
-import io.vertx.tp.atom.cv.em.AttributeType;
 import io.vertx.tp.atom.cv.em.ModelType;
 import io.vertx.tp.atom.modeling.Model;
 import io.vertx.tp.atom.modeling.Schema;
 import io.vertx.tp.atom.modeling.data.DataAtom;
-import io.vertx.tp.atom.modeling.reference.DataQuote;
 import io.vertx.tp.atom.refine.Ao;
 import io.vertx.tp.modular.metadata.AoSentence;
 import io.vertx.up.commune.Record;
 import io.vertx.up.fn.Fn;
-import io.vertx.up.util.Ut;
 
 import java.io.Serializable;
 import java.util.Comparator;
@@ -31,11 +28,6 @@ public class DataTpl implements Serializable {
     private final transient ConcurrentMap<String, DataMatrix> tpl
             = new ConcurrentHashMap<>();
     private final transient ConcurrentMap<String, String> sources
-            = new ConcurrentHashMap<>();
-    /*
-     * 模板中增加引用
-     */
-    private final transient ConcurrentMap<String, DataQuote> references
             = new ConcurrentHashMap<>();
 
     private transient AoSentence sentence;
@@ -137,10 +129,6 @@ public class DataTpl implements Serializable {
         return this.tpl;
     }
 
-    public ConcurrentMap<String, DataQuote> matrixReference() {
-        return this.references;
-    }
-
     ConcurrentMap<String, DataMatrix> matrixKey() {
         return this.getKey().getMatrix();
     }
@@ -167,19 +155,6 @@ public class DataTpl implements Serializable {
             this.initMatrix(schema, field, attribute).accept(key.getMatrix());
         }
     }
-
-    public void initReference(final MAttribute attribute) {
-        final AttributeType attrType = Ut.toEnum(attribute::getType, AttributeType.class, AttributeType.INTERNAL);
-        if (AttributeType.REFERENCE == attrType) {
-            // 读取 Table Name
-            final String source = attribute.getSource();
-            final DataQuote reference = Fn.pool(this.references,
-                    source, () -> DataQuote.create(source));
-            // 执行 Source 的初始化
-            reference.add(attribute);
-        }
-    }
-
 
     private Consumer<ConcurrentMap<String, DataMatrix>> initMatrix(final Schema schema, final MField field, final MAttribute attribute) {
         return tpl -> {
