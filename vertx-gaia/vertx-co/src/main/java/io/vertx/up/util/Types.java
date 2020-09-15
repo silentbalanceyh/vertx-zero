@@ -154,13 +154,17 @@ final class Types {
         } else {
             if (value instanceof Class) {
                 final Class<?> type = (Class<?>) value;
-                return LocalDateTime.class == type || LocalDate.class == type ||
-                        LocalTime.class == type || Date.class == type ||
-                        Instant.class == type;
+                return isDate(type);
             } else {
                 return Period.isValid(value.toString());
             }
         }
+    }
+
+    static boolean isDate(final Class<?> type) {
+        return LocalDateTime.class == type || LocalDate.class == type ||
+                LocalTime.class == type || Date.class == type ||
+                Instant.class == type;
     }
 
     static boolean isArray(final Object value) {
@@ -176,6 +180,7 @@ final class Types {
      * Check Primary
      *
      * @param source
+     *
      * @return
      */
     static boolean isPrimary(final Class<?> source) {

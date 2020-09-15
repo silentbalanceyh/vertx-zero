@@ -130,10 +130,6 @@ public class DataAtom {
         return this.metadata.type(field);
     }
 
-    public boolean isDateType(final String field) {
-        return this.metadata.isDateType(field);
-    }
-
     // ------------ 标识规则 ----------
 
     /** 存储的规则 */

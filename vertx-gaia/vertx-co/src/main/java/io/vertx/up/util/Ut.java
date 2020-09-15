@@ -22,7 +22,6 @@ import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.time.temporal.TemporalUnit;
 import java.util.*;
 import java.util.concurrent.ConcurrentMap;
 import java.util.function.*;
@@ -924,13 +923,12 @@ public final class Ut {
         return Types.isDate(value);
     }
 
-    public static boolean isSubset(final JsonObject cond, final JsonObject record) {
-        return Is.isSubset(cond, record);
+    public static boolean isDate(final Class<?> type) {
+        return Types.isDate(type);
     }
 
-    public static boolean isChanged(final JsonObject oldRecord, final JsonObject newRecord,
-                                    final Set<String> ignores, final ConcurrentMap<String, Class<?>> dateFields) {
-        return Is.isChanged(oldRecord, newRecord, ignores, dateFields, null);
+    public static boolean isSubset(final JsonObject cond, final JsonObject record) {
+        return Is.isSubset(cond, record);
     }
 
     public static boolean isChanged(final JsonObject oldRecord, final JsonObject newRecord,
@@ -939,17 +937,8 @@ public final class Ut {
         return Is.isChanged(oldRecord, newRecord, ignores, dateFields, fnPredicate);
     }
 
-    public static TemporalUnit toUnit(final Class<?> clazz) {
-        return Is.getUnit(clazz);
-    }
-
-    public static boolean isSame(final Object oldValue, final Object newValue, final boolean isDate,
-                                 final TemporalUnit unit) {
-        return Is.isSame(oldValue, newValue, isDate, unit);
-    }
-
-    public static boolean isSame(final Object oldValue, final Object newValue, final boolean isDate) {
-        return Is.isSame(oldValue, newValue, isDate, null);
+    public static boolean isSame(final Object oldValue, final Object newValue, final Class<?> type) {
+        return Is.isSame(oldValue, newValue, type);
     }
 
     public static boolean isJArray(final String literal) {

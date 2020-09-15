@@ -13,7 +13,6 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.function.BiFunction;
 import java.util.function.BiPredicate;
@@ -111,31 +110,20 @@ class Is {
             ignores.forEach(oldCopy::remove);
             ignores.forEach(newCopy::remove);
         }
-        /*
-         * Date Time conversation
-         */
-        final ConcurrentMap<String, Class<?>> dateFields = new ConcurrentHashMap<>();
-        types.forEach((field, type) -> {
-            if (Types.isDate(type)) {
-                dateFields.put(field, type);
-            }
-        });
-        final Set<String> dateFieldSet = dateFields.keySet();
         final Function<String, Boolean> isSame = (field) -> {
             /*
              * Extract value from each record
              */
             final Object oldValue = oldCopy.getValue(field);
             final Object newValue = newCopy.getValue(field);
-            final TemporalUnit unit = getUnit(dateFields.get(field));
-            final boolean basic = isSame(oldValue, newValue, dateFieldSet.contains(field), unit);
+            final Class<?> type = types.get(field);
+            final boolean basic = isSame(oldValue, newValue, type);
             if (basic) {
                 return Boolean.TRUE;
             } else {
                 if (Objects.isNull(fnPredicate)) {
                     return Boolean.FALSE;
                 } else {
-                    final Class<?> type = dateFields.get(field);
                     final BiPredicate<Object, Object> predicate = fnPredicate.apply(field, type);
                     return predicate.test(oldValue, newValue);
                 }
@@ -155,75 +143,24 @@ class Is {
         return !(unchanged && additional);
     }
 
-    static TemporalUnit getUnit(final Class<?> clazz) {
-        final TemporalUnit unit;
-        if (LocalDateTime.class == clazz || LocalTime.class == clazz) {
-            /*
-             * 按分钟
-             */
-            unit = ChronoUnit.MINUTES;
-        } else {
-            /*
-             * 某天
-             */
-            unit = ChronoUnit.DAYS;
-        }
-        return unit;
-    }
-
     static boolean isSame(final Object oldValue, final Object newValue,
-                          final boolean isDate,
-                          final TemporalUnit unit) {
-
+                          final Class<?> clazz) {
         if (Objects.isNull(oldValue) && Objects.isNull(newValue)) {
             /*
              * ( Unchanged ) When `new` and `old` are both null
              */
             return true;
         } else if (Objects.nonNull(oldValue) && Objects.nonNull(newValue)) {
-            if (Types.isDate(oldValue) && isDate) {
+            if (Types.isDate(oldValue) || Types.isDate(clazz)) {
                 /*
-                 * For `Date` type of `Instant`, there provide comparing method
-                 * for different unit kind fo comparing.
-                 * 1) Convert to instant first
-                 * 2) When `unit` is null, do not comparing other kind of here.
+                 * Date
                  */
-                final Instant oldInstant = Period.parseFull(oldValue.toString())
-                        .toInstant();
-                final Instant newInstant = Period.parseFull(newValue.toString())
-                        .toInstant();
+                return isSameDate(oldValue, newValue, clazz);
+            } else if (Types.isJArray(oldValue) || Types.isJArray(clazz)) {
                 /*
-                 * Compared by unit
+                 * Array with configuration of diff
                  */
-                final LocalDateTime oldDateTime = Period.toDateTime(oldInstant);
-                final LocalDateTime newDateTime = Period.toDateTime(newInstant);
-                /*
-                 * Only compared Date
-                 */
-                final LocalDate oldDate = oldDateTime.toLocalDate();
-                final LocalDate newDate = newDateTime.toLocalDate();
-
-                final LocalTime oldTime = oldDateTime.toLocalTime();
-                final LocalTime newTime = newDateTime.toLocalTime();
-                if (ChronoUnit.DAYS == unit) {
-                    /*
-                     * Date Only
-                     */
-                    return oldDate.isEqual(newDate);
-                } else if (ChronoUnit.MINUTES == unit) {
-                    /*
-                     * Time to HH:mm
-                     */
-                    return oldDate.isEqual(newDate) &&
-                            (oldTime.getHour() == newTime.getHour())
-                            && (oldTime.getMinute() == newTime.getMinute());
-                } else {
-                    /*
-                     * DateTime completed
-                     */
-                    return oldDate.isEqual(newDate) &&
-                            oldTime.equals(newTime);
-                }
+                return true;
             } else {
                 /*
                  * Non date type value here
@@ -243,6 +180,71 @@ class Is {
              */
             return isSpecific(oldValue, newValue);
         }
+    }
+
+    private static boolean isSameDate(final Object oldValue, final Object newValue, final Class<?> clazz) {
+        /*
+         * Time Unit Calculation
+         */
+        final TemporalUnit unit = getUnit(clazz);
+        /*
+         * For `Date` type of `Instant`, there provide comparing method
+         * for different unit kind fo comparing.
+         * 1) Convert to instant first
+         * 2) When `unit` is null, do not comparing other kind of here.
+         */
+        final Instant oldInstant = Period.parseFull(oldValue.toString())
+                .toInstant();
+        final Instant newInstant = Period.parseFull(newValue.toString())
+                .toInstant();
+        /*
+         * Compared by unit
+         */
+        final LocalDateTime oldDateTime = Period.toDateTime(oldInstant);
+        final LocalDateTime newDateTime = Period.toDateTime(newInstant);
+        /*
+         * Only compared Date
+         */
+        final LocalDate oldDate = oldDateTime.toLocalDate();
+        final LocalDate newDate = newDateTime.toLocalDate();
+
+        final LocalTime oldTime = oldDateTime.toLocalTime();
+        final LocalTime newTime = newDateTime.toLocalTime();
+        if (ChronoUnit.DAYS == unit) {
+            /*
+             * Date Only
+             */
+            return oldDate.isEqual(newDate);
+        } else if (ChronoUnit.MINUTES == unit) {
+            /*
+             * Time to HH:mm
+             */
+            return oldDate.isEqual(newDate) &&
+                    (oldTime.getHour() == newTime.getHour())
+                    && (oldTime.getMinute() == newTime.getMinute());
+        } else {
+            /*
+             * DateTime completed
+             */
+            return oldDate.isEqual(newDate) &&
+                    oldTime.equals(newTime);
+        }
+    }
+
+    private static TemporalUnit getUnit(final Class<?> clazz) {
+        final TemporalUnit unit;
+        if (LocalDateTime.class == clazz || LocalTime.class == clazz) {
+            /*
+             * 按分钟
+             */
+            unit = ChronoUnit.MINUTES;
+        } else {
+            /*
+             * 某天
+             */
+            unit = ChronoUnit.DAYS;
+        }
+        return unit;
     }
 
     private static boolean isSpecific(final Object oldValue, final Object newValue) {

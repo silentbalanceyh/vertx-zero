@@ -6,14 +6,8 @@ import io.vertx.tp.atom.modeling.Model;
 import io.vertx.up.commune.element.Shape;
 import io.vertx.up.util.Ut;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.util.Date;
-import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -24,14 +18,6 @@ import java.util.stream.Collectors;
  */
 class MetaInfo {
 
-    private static final Set<Class<?>> TYPE_DATE = new HashSet<Class<?>>() {
-        {
-            this.add(LocalDateTime.class);
-            this.add(LocalDate.class);
-            this.add(LocalTime.class);
-            this.add(Date.class);
-        }
-    };
     private transient final Model modelRef;
     private transient final String identifier;
     private transient final Shape shape = Shape.create();
@@ -121,10 +107,6 @@ class MetaInfo {
         return this.modelRef.types().getOrDefault(field, null);
     }
 
-    boolean isDateType(final String field) {
-        return this.typeDate().containsKey(field);
-    }
-
     private <T> T sure(final Function<MModel, T> function) {
         final MModel model = this.reference().getModel();
         if (Objects.isNull(model)) {
@@ -132,15 +114,5 @@ class MetaInfo {
         } else {
             return function.apply(model);
         }
-    }
-
-    private ConcurrentMap<String, Class<?>> typeDate() {
-        final ConcurrentMap<String, Class<?>> typeMap = new ConcurrentHashMap<>();
-        this.type().forEach((field, type) -> {
-            if (TYPE_DATE.contains(type)) {
-                typeMap.put(field, type);
-            }
-        });
-        return typeMap;
     }
 }
