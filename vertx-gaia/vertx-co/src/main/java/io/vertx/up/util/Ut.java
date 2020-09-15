@@ -9,6 +9,7 @@ import io.vertx.core.buffer.Buffer;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.commune.Record;
+import io.vertx.up.commune.element.CParam;
 import io.vertx.up.fn.Actuator;
 
 import java.io.File;
@@ -931,15 +932,6 @@ public final class Ut {
         return Is.isSubset(cond, record);
     }
 
-    public static boolean isChanged(final JsonObject oldRecord, final JsonObject newRecord,
-                                    final Set<String> ignores, final ConcurrentMap<String, Class<?>> dateFields,
-                                    final BiFunction<String, Class<?>, BiPredicate<Object, Object>> fnPredicate) {
-        return Is.isChanged(oldRecord, newRecord, ignores, dateFields, fnPredicate);
-    }
-
-    public static boolean isSame(final Object oldValue, final Object newValue, final Class<?> type) {
-        return Is.isSame(oldValue, newValue, type);
-    }
 
     public static boolean isJArray(final String literal) {
         return Types.isJArray(literal);
@@ -1007,6 +999,29 @@ public final class Ut {
 
     public static boolean notNil(final JsonArray jsonArray) {
         return !isNil(jsonArray);
+    }
+
+    /*
+     * Complex compare method for two record
+     * - oldRecord: Old data record that stored in our system
+     * - newRecord: New data record that come into our system
+     * There are additional parameters for different usage
+     * 1) - ignores: You can set ignore fields that will be skipped when comparing
+     * 2) - typeMap: It's required because it contains ( field = Class<?> ) to record the type mapping
+     *
+     * 3) - fnPredicate: Function to check when standard comparing return FALSE
+     * 4) - arrayDiff: It contains array diff configuration instead of fixed
+     */
+    public static boolean isChanged(
+            final CParam cParam,
+            /* */
+            final BiFunction<String, Class<?>, BiPredicate<Object, Object>> fnPredicate) {
+        return Is.isChanged(cParam, fnPredicate);
+    }
+
+    public static boolean isSame(final Object oldValue, final Object newValue,
+                                 final Class<?> type, final Set<String> diffSet) {
+        return Is.isSame(oldValue, newValue, type, diffSet);
     }
 
     /*

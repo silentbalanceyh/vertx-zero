@@ -5,7 +5,7 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.tp.atom.modeling.reference.DataQRule;
 import io.vertx.up.atom.Kv;
 import io.vertx.up.commune.Record;
-import io.vertx.up.commune.element.AmbJson;
+import io.vertx.up.commune.element.JAmb;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.util.Ut;
 
@@ -22,9 +22,9 @@ class RayRuler {
     /*
      * Grouped by joined key
      */
-    static ConcurrentMap<String, AmbJson> group(final JsonArray source, final List<Kv<String, String>> joined,
-                                                final Class<?> type) {
-        final ConcurrentMap<String, AmbJson> grouped = new ConcurrentHashMap<>();
+    static ConcurrentMap<String, JAmb> group(final JsonArray source, final List<Kv<String, String>> joined,
+                                             final Class<?> type) {
+        final ConcurrentMap<String, JAmb> grouped = new ConcurrentHashMap<>();
         if (JsonObject.class == type) {
             /*
              * 单记录
@@ -32,7 +32,7 @@ class RayRuler {
             Ut.itJArray(source).forEach(json -> {
                 final String key = joinedKey(json, joined);
                 if (Ut.notNil(key)) {
-                    grouped.put(key, new AmbJson().data(json));
+                    grouped.put(key, new JAmb().data(json));
                 }
             });
         } else {
@@ -48,7 +48,7 @@ class RayRuler {
                 }
             });
             groupedArray.forEach((key, data) -> {
-                final AmbJson amb = new AmbJson().data(data);
+                final JAmb amb = new JAmb().data(data);
                 grouped.put(key, amb);
             });
         }
@@ -58,7 +58,7 @@ class RayRuler {
     /*
      * Required
      */
-    static AmbJson required(final AmbJson amb, final DataQRule rule) {
+    static JAmb required(final JAmb amb, final DataQRule rule) {
         /* required 字段提取 */
         final Boolean isSingle = amb.isSingle();
         if (Objects.isNull(isSingle)) {

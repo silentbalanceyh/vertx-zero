@@ -3,6 +3,7 @@ package io.vertx.tp.atom.modeling.data;
 import cn.vertxup.atom.domain.tables.pojos.MAttribute;
 import cn.vertxup.atom.domain.tables.pojos.MModel;
 import io.vertx.tp.atom.modeling.Model;
+import io.vertx.up.commune.element.CParam;
 import io.vertx.up.commune.element.Shape;
 import io.vertx.up.util.Ut;
 
@@ -97,6 +98,15 @@ class MetaInfo {
     Shape shape() {
         /* 构造 Shape */
         return this.shape;
+    }
+
+    CParam diff() {
+        /* 构造 CParam */
+        return CParam.create(this.modelRef.types());
+    }
+
+    CParam diff(final Set<String> ignoreSet) {
+        return this.diff().ignores(ignoreSet);
     }
 
     ConcurrentMap<String, Class<?>> type() {

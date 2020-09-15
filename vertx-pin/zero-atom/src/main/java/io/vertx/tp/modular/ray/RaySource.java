@@ -12,7 +12,7 @@ import io.vertx.tp.optic.DS;
 import io.vertx.tp.plugin.database.DataPool;
 import io.vertx.up.commune.Record;
 import io.vertx.up.commune.config.Database;
-import io.vertx.up.commune.element.AmbJson;
+import io.vertx.up.commune.element.JAmb;
 import io.vertx.up.eon.Values;
 import io.vertx.up.util.Ut;
 
@@ -42,26 +42,26 @@ class RaySource {
      * field1 -> DataQRule
      * field2 -> DataQRule
      */
-    public ConcurrentMap<String, AmbJson> fetchSingle(final Record record) {
+    public ConcurrentMap<String, JAmb> fetchSingle(final Record record) {
         return this.fetchData(rule -> rule.condition(record));
     }
 
     /*
      * 批量运算
      */
-    public ConcurrentMap<String, AmbJson> fetchBatch(final Record[] records) {
+    public ConcurrentMap<String, JAmb> fetchBatch(final Record[] records) {
         return this.fetchData(rule -> rule.condition(records));
     }
 
-    private ConcurrentMap<String, AmbJson> fetchData(final Function<DataQRule, JsonObject> supplier) {
-        final ConcurrentMap<String, AmbJson> data = new ConcurrentHashMap<>();
+    private ConcurrentMap<String, JAmb> fetchData(final Function<DataQRule, JsonObject> supplier) {
+        final ConcurrentMap<String, JAmb> data = new ConcurrentHashMap<>();
         this.quote.rules().forEach((field, rule) -> {
             /*
              * 条件处理
              */
             final Class<?> clazz = this.quote.type(field);
             final JsonObject condition = supplier.apply(rule);
-            final AmbJson recordReference = this.fetchData(condition, clazz);
+            final JAmb recordReference = this.fetchData(condition, clazz);
             if (Objects.nonNull(recordReference)) {
                 data.put(field, recordReference);
             }
@@ -69,7 +69,7 @@ class RaySource {
         return data;
     }
 
-    private AmbJson fetchData(final JsonObject condition, final Class<?> returnType) {
+    private JAmb fetchData(final JsonObject condition, final Class<?> returnType) {
         final AoDao dao = this.dao();
         final Record[] data = dao.fetch(condition);
         if (JsonObject.class == returnType) {
@@ -79,7 +79,7 @@ class RaySource {
                     return null;
                 } else {
                     final JsonObject recordData = record.toJson();
-                    return new AmbJson().data(recordData);
+                    return new JAmb().data(recordData);
                 }
             } else {
                 /*
@@ -92,7 +92,7 @@ class RaySource {
              * 多数据结果集
              */
             final JsonArray dataResult = Ut.toJArray(data);
-            return new AmbJson().data(dataResult);
+            return new JAmb().data(dataResult);
         }
     }
 

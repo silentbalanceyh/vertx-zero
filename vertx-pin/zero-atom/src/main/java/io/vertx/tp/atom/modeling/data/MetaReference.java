@@ -6,6 +6,7 @@ import io.vertx.tp.atom.modeling.Model;
 import io.vertx.tp.atom.modeling.reference.DataQRule;
 import io.vertx.tp.atom.modeling.reference.DataQuote;
 import io.vertx.up.fn.Fn;
+import io.vertx.up.util.Ut;
 
 import java.util.Objects;
 import java.util.Set;
@@ -24,6 +25,8 @@ class MetaReference {
     private final transient ConcurrentMap<String, DataQuote> references
             = new ConcurrentHashMap<>();
     private final transient ConcurrentMap<String, DataQRule> rules
+            = new ConcurrentHashMap<>();
+    private final transient ConcurrentMap<String, Set<String>> ruleDiff
             = new ConcurrentHashMap<>();
 
     MetaReference(final Model modelRef) {
@@ -48,6 +51,12 @@ class MetaReference {
          * DataQuote之后处理
          */
         this.references.values().forEach(source -> this.rules.putAll(source.rules()));
+        this.rules.forEach((field, rule) -> {
+            final Set<String> diffFields = Ut.toSet(rule.getDiff());
+            if (!diffFields.isEmpty()) {
+                this.ruleDiff.put(field, diffFields);
+            }
+        });
     }
 
 
@@ -63,7 +72,7 @@ class MetaReference {
         return this.rules;
     }
 
-    DataQRule rules(final String field) {
-        return this.rules.getOrDefault(field, null);
+    ConcurrentMap<String, Set<String>> ruleDiff() {
+        return this.ruleDiff;
     }
 }

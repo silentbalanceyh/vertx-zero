@@ -7,10 +7,12 @@ import io.vertx.tp.atom.modeling.reference.DataQRule;
 import io.vertx.tp.atom.modeling.reference.DataQuote;
 import io.vertx.tp.atom.refine.Ao;
 import io.vertx.tp.modular.phantom.AoPerformer;
+import io.vertx.up.commune.element.CParam;
 import io.vertx.up.commune.element.Shape;
 import io.vertx.up.commune.rule.RuleUnique;
 import io.vertx.up.fn.Fn;
 
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
@@ -132,6 +134,20 @@ public class DataAtom {
         return this.metadata.type(field);
     }
 
+    // ------------ 比对专用方法 ----------
+
+    /** 返回 CParam 对象 */
+    public CParam diff() {
+        return this.metadata.diff().diff(this.reference.ruleDiff());
+    }
+
+    public CParam diff(final Set<String> ignoreSet) {
+        return this.metadata.diff(ignoreSet).diff(this.reference.ruleDiff());
+    }
+
+    public Set<String> diffSet(final String field) {
+        return this.reference.ruleDiff().getOrDefault(field, new HashSet<>());
+    }
     // ------------ 标识规则 ----------
 
     /** 存储的规则 */
@@ -170,10 +186,6 @@ public class DataAtom {
 
     public ConcurrentMap<String, DataQRule> refRules() {
         return this.reference.rules();
-    }
-
-    public DataQRule refRule(final String field) {
-        return this.reference.rules(field);
     }
 
     // ------------ 属性检查的特殊功能，收集相关属性 ----------

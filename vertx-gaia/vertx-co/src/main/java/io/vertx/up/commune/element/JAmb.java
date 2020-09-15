@@ -12,7 +12,7 @@ import io.vertx.core.json.JsonObject;
  *
  * Difference situation will use this one, this object contains Ambiguity here
  */
-public class AmbJson {
+public class JAmb {
     private transient Object data;
     private transient Boolean single;
 
@@ -26,14 +26,14 @@ public class AmbJson {
     }
 
     @Fluent
-    public AmbJson data(final JsonObject data) {
+    public JAmb data(final JsonObject data) {
         this.data = data;
         this.single = Boolean.TRUE;
         return this;
     }
 
     @Fluent
-    public AmbJson data(final JsonArray data) {
+    public JAmb data(final JsonArray data) {
         this.data = data;
         this.single = Boolean.FALSE;
         return this;

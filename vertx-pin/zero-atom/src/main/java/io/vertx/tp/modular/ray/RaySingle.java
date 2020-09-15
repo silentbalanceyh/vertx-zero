@@ -1,7 +1,7 @@
 package io.vertx.tp.modular.ray;
 
 import io.vertx.up.commune.Record;
-import io.vertx.up.commune.element.AmbJson;
+import io.vertx.up.commune.element.JAmb;
 
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
@@ -15,7 +15,7 @@ public class RaySingle extends AbstractRay<Record> {
         /*
          * 返回 DataQuote
          */
-        final ConcurrentMap<String, AmbJson> data = new ConcurrentHashMap<>();
+        final ConcurrentMap<String, JAmb> data = new ConcurrentHashMap<>();
         this.refer.values().forEach(source -> data.putAll(source.fetchSingle(input)));
         /*
          * 结果处理

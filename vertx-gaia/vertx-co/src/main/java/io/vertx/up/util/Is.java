@@ -1,6 +1,7 @@
 package io.vertx.up.util;
 
 import io.vertx.core.json.JsonObject;
+import io.vertx.up.commune.element.CParam;
 import io.vertx.up.eon.Strings;
 
 import java.time.Instant;
@@ -57,6 +58,10 @@ class Is {
         }
     }
 
+    static boolean isSame(final Object left, final Object right, final Class<?> type) {
+        return isSame(left, right, type, new HashSet<>());
+    }
+
     @SuppressWarnings("unchecked")
     static <T> boolean isEqual(final JsonObject record, final String field, final T expected) {
         if (Types.isEmpty(record)) {
@@ -97,9 +102,12 @@ class Is {
         return fields.size() == counter;
     }
 
-    static boolean isChanged(final JsonObject oldRecord, final JsonObject newRecord,
-                             final Set<String> ignores, final ConcurrentMap<String, Class<?>> types,
+    static boolean isChanged(final CParam param,
                              final BiFunction<String, Class<?>, BiPredicate<Object, Object>> fnPredicate) {
+        final JsonObject oldRecord = param.original();
+        final JsonObject newRecord = param.current();
+        final ConcurrentMap<String, Class<?>> typeMap = param.type();
+        final Set<String> ignores = param.ignores();
         /*
          * copy each compared json object and remove
          * all fields that will not be compared here.
@@ -116,8 +124,8 @@ class Is {
              */
             final Object oldValue = oldCopy.getValue(field);
             final Object newValue = newCopy.getValue(field);
-            final Class<?> type = types.get(field);
-            final boolean basic = isSame(oldValue, newValue, type);
+            final Class<?> type = typeMap.get(field);
+            final boolean basic = isSame(oldValue, newValue, type, param.diff(field));
             if (basic) {
                 return Boolean.TRUE;
             } else {
@@ -144,7 +152,7 @@ class Is {
     }
 
     static boolean isSame(final Object oldValue, final Object newValue,
-                          final Class<?> clazz) {
+                          final Class<?> clazz, final Set<String> diffSet) {
         if (Objects.isNull(oldValue) && Objects.isNull(newValue)) {
             /*
              * ( Unchanged ) When `new` and `old` are both null

@@ -5,7 +5,7 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.tp.atom.modeling.reference.DataQRule;
 import io.vertx.up.atom.Kv;
 import io.vertx.up.commune.Record;
-import io.vertx.up.commune.element.AmbJson;
+import io.vertx.up.commune.element.JAmb;
 
 import java.util.Arrays;
 import java.util.List;
@@ -17,7 +17,7 @@ import java.util.concurrent.ConcurrentMap;
  */
 class RayCombine {
 
-    static Record combine(final Record record, final ConcurrentMap<String, AmbJson> ambMap,
+    static Record combine(final Record record, final ConcurrentMap<String, JAmb> ambMap,
                           final ConcurrentMap<String, DataQRule> ruleMap) {
         ambMap.forEach((field, each) -> {
             final DataQRule rule = ruleMap.get(field);
@@ -27,7 +27,7 @@ class RayCombine {
     }
 
     static Record[] combine(final Record[] records,
-                            final ConcurrentMap<String, AmbJson> ambMap,
+                            final ConcurrentMap<String, JAmb> ambMap,
                             final ConcurrentMap<String, DataQRule> ruleMap) {
         ambMap.forEach((field, each) -> {
             final DataQRule rule = ruleMap.get(field);
@@ -38,7 +38,7 @@ class RayCombine {
         return records;
     }
 
-    private static void combine(final Record[] records, final String field, final AmbJson amb, final DataQRule rule) {
+    private static void combine(final Record[] records, final String field, final JAmb amb, final DataQRule rule) {
         final List<Kv<String, String>> ruleJoined = rule.joined();
         final Boolean single = amb.isSingle();
         if (Objects.nonNull(single) && !single) {
@@ -46,7 +46,7 @@ class RayCombine {
              * Only valid for batch operations
              * also include empty json array
              */
-            final AmbJson normalized = RayRuler.required(amb, rule);
+            final JAmb normalized = RayRuler.required(amb, rule);
             if (Objects.nonNull(normalized)) {
                 final JsonArray source = normalized.dataT();
                 /*
@@ -56,7 +56,7 @@ class RayCombine {
                 /*
                  * Grouped by returnType
                  */
-                final ConcurrentMap<String, AmbJson> grouped = RayRuler.group(source, ruleJoined, returnType);
+                final ConcurrentMap<String, JAmb> grouped = RayRuler.group(source, ruleJoined, returnType);
                 /*
                  * 记录处理
                  */
@@ -69,7 +69,7 @@ class RayCombine {
                         /*
                          * 合并记录属性集
                          */
-                        final AmbJson item = grouped.get(joinedKey);
+                        final JAmb item = grouped.get(joinedKey);
                         combine(record, field, item, rule);
                     }
                 });
@@ -78,19 +78,19 @@ class RayCombine {
     }
 
 
-    static void combine(final Record record, final String field, final AmbJson amb, final DataQRule rule) {
+    static void combine(final Record record, final String field, final JAmb amb, final DataQRule rule) {
         // 读取 single
         final Boolean single = amb.isSingle();
         if (Objects.nonNull(single)) {
             if (single) {
-                final AmbJson normalized = RayRuler.required(amb, rule);
+                final JAmb normalized = RayRuler.required(amb, rule);
                 if (Objects.nonNull(normalized)) {
                     // 必须该行，类型设定
                     final JsonObject data = amb.dataT();
                     record.add(field, data);
                 }
             } else {
-                final AmbJson normalized = RayRuler.required(amb, rule);
+                final JAmb normalized = RayRuler.required(amb, rule);
                 if (Objects.nonNull(normalized)) {
                     // 必须该行，类型设定
                     final JsonArray data = amb.dataT();
