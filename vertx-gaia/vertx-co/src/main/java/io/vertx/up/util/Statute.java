@@ -28,6 +28,7 @@ final class Statute {
      * @param list     The target list
      * @param fnFilter the filter for list search.
      * @param <T>      The generic type of list element.
+     *
      * @return Found type for target generic type.
      */
     static <T> T find(final List<T> list, final Predicate<T> fnFilter) {
@@ -74,11 +75,15 @@ final class Statute {
     }
 
     static JsonObject subset(final JsonObject input, final String... pickedKeys) {
+        return subset(input, new HashSet<>(Arrays.asList(pickedKeys)));
+    }
+
+    static JsonObject subset(final JsonObject input, final Set<String> pickedKeys) {
         if (Objects.isNull(input)) {
             return new JsonObject();
         } else {
             final JsonObject normalized = new JsonObject(); // input.copy();
-            Arrays.stream(pickedKeys).forEach(field -> normalized.put(field, input.getValue(field)));
+            pickedKeys.forEach(field -> normalized.put(field, input.getValue(field)));
             return normalized;
         }
     }

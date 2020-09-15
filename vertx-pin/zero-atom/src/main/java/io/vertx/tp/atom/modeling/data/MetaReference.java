@@ -17,8 +17,6 @@ import java.util.concurrent.ConcurrentMap;
  * @author <a href="http://www.origin-x.cn">lang</a>
  */
 class MetaReference {
-
-    private transient final Model modelRef;
     /*
      * 引用信息
      */
@@ -30,7 +28,6 @@ class MetaReference {
             = new ConcurrentHashMap<>();
 
     MetaReference(final Model modelRef) {
-        this.modelRef = modelRef;
         /*
          * Reference
          */

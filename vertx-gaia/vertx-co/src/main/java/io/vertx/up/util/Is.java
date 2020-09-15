@@ -1,5 +1,6 @@
 package io.vertx.up.util;
 
+import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.commune.element.CParam;
 import io.vertx.up.eon.Strings;
@@ -14,7 +15,6 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
-import java.util.concurrent.ConcurrentMap;
 import java.util.function.BiFunction;
 import java.util.function.BiPredicate;
 import java.util.function.Function;
@@ -36,7 +36,7 @@ class Is {
         return Objects.nonNull(converted);
     }
 
-    static boolean isSame(final Object left, final Object right, final String field) {
+    static boolean isSameBy(final Object left, final Object right, final String field) {
         if (Objects.isNull(left) && Objects.isNull(right)) {
             return true;
         } else {
@@ -49,7 +49,7 @@ class Is {
                     if (left instanceof JsonObject && right instanceof JsonObject) {
                         final Object leftValue = ((JsonObject) left).getValue(field);
                         final Object rightValue = ((JsonObject) right).getValue(field);
-                        return isSame(leftValue, rightValue, field);
+                        return isSameBy(leftValue, rightValue, field);
                     } else {
                         return left.equals(right);
                     }
@@ -62,7 +62,6 @@ class Is {
         return isSame(left, right, type, new HashSet<>());
     }
 
-    @SuppressWarnings("unchecked")
     static <T> boolean isEqual(final JsonObject record, final String field, final T expected) {
         if (Types.isEmpty(record)) {
             /*
@@ -83,7 +82,7 @@ class Is {
                 /*
                  * Compared
                  */
-                return ((T) value).equals(expected);
+                return value.equals(expected);
             }
         }
     }
@@ -104,16 +103,13 @@ class Is {
 
     static boolean isChanged(final CParam param,
                              final BiFunction<String, Class<?>, BiPredicate<Object, Object>> fnPredicate) {
-        final JsonObject oldRecord = param.original();
-        final JsonObject newRecord = param.current();
-        final ConcurrentMap<String, Class<?>> typeMap = param.type();
         final Set<String> ignores = param.ignores();
         /*
          * copy each compared json object and remove
          * all fields that will not be compared here.
          */
-        final JsonObject oldCopy = oldRecord.copy();
-        final JsonObject newCopy = newRecord.copy();
+        final JsonObject oldCopy = param.original().copy();
+        final JsonObject newCopy = param.current().copy();
         if (Objects.nonNull(ignores) && !ignores.isEmpty()) {
             ignores.forEach(oldCopy::remove);
             ignores.forEach(newCopy::remove);
@@ -124,7 +120,7 @@ class Is {
              */
             final Object oldValue = oldCopy.getValue(field);
             final Object newValue = newCopy.getValue(field);
-            final Class<?> type = typeMap.get(field);
+            final Class<?> type = param.type(field);
             final boolean basic = isSame(oldValue, newValue, type, param.diff(field));
             if (basic) {
                 return Boolean.TRUE;
@@ -168,7 +164,7 @@ class Is {
                 /*
                  * Array with configuration of diff
                  */
-                return true;
+                return isSameArray((JsonArray) oldValue, (JsonArray) newValue, diffSet);
             } else {
                 /*
                  * Non date type value here
@@ -188,6 +184,28 @@ class Is {
              */
             return isSpecific(oldValue, newValue);
         }
+    }
+
+    private static boolean isSameArray(final JsonArray oldValue, final JsonArray newValue, final Set<String> diffSet) {
+        if (oldValue.size() == newValue.size()) {
+            /*
+             * size is the same
+             */
+            return Ut.itJArray(oldValue).allMatch(original -> isIn(newValue, original, diffSet));
+        } else {
+            /*
+             * size is different, not the same ( Fast Checking )
+             */
+            return false;
+        }
+    }
+
+    private static boolean isIn(final JsonArray source, final JsonObject value, final Set<String> diffSet) {
+        return Ut.itJArray(source).anyMatch(item -> {
+            final JsonObject checked = Statute.subset(item, diffSet);
+            final JsonObject pending = Statute.subset(value, diffSet);
+            return checked.equals(pending);
+        });
     }
 
     private static boolean isSameDate(final Object oldValue, final Object newValue, final Class<?> clazz) {

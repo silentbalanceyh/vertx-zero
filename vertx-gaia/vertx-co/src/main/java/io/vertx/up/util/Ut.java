@@ -189,6 +189,10 @@ public final class Ut {
         return Statute.subset(input, fields);
     }
 
+    public static JsonObject elementSubset(final JsonObject input, final Set<String> set) {
+        return Statute.subset(input, set);
+    }
+
     public static JsonArray elementSubset(final JsonArray input, final Function<JsonObject, Boolean> fnFilter) {
         return Statute.subset(input, fnFilter);
     }
