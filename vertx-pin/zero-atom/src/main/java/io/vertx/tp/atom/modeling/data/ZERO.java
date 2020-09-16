@@ -19,9 +19,21 @@ import io.vertx.up.log.Annal;
 import io.vertx.up.util.Ut;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
 
+interface Pool {
+    // 基础模型池
+    ConcurrentMap<Integer, MetaInfo> META_INFO = new ConcurrentHashMap<>();
+    // 标识规则信息
+    ConcurrentMap<Integer, MetaRule> META_RULE = new ConcurrentHashMap<>();
+    // 基础标识信息
+    ConcurrentMap<Integer, MetaMarker> META_MARKER = new ConcurrentHashMap<>();
+    // 数据引用信息
+    ConcurrentMap<Integer, MetaReference> META_REFERENCE = new ConcurrentHashMap<>();
+}
 
 /**
  * 连接专用
@@ -59,7 +71,6 @@ class Bridge {
                  * 过滤器，用于过滤不满足条件的 ( schema, attribute ) 键值对
                  */
                 (schema, attribute) -> attribute.getSource().equals(schema.identifier()));
-
         /*
          * FIX：解决Schema中的主键问题
          * 1. 对于 JOIN_MULTI 这种情况，在这里初始化 Matrix 的时候，有可能出现主键没有被记录到 Matrix的情况

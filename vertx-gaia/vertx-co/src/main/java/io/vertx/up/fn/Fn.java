@@ -58,15 +58,6 @@ public final class Fn {
         return Wait.branch(condition, executor, caseLine);
     }
 
-    // ------ Async future / or steps
-    public static <T> Future<T> future(final Supplier<Future<T>> caseLine) {
-        return Wait.branch(caseLine).second.get();
-    }
-
-    public static <T> Future<T> future(final Actuator executor, final Supplier<Future<T>> caseLine) {
-        return Wait.branch(executor, caseLine).second.get();
-    }
-
     public static <T> Future<T> thenGeneric(final Consumer<Promise<T>> consumer) {
         return Wait.then(consumer);
     }

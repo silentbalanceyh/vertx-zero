@@ -11,6 +11,9 @@ import io.vertx.tp.atom.refine.Ao;
 import io.vertx.tp.error._417DataRowNullException;
 import io.vertx.tp.modular.io.AoIo;
 import io.vertx.tp.modular.metadata.AoSentence;
+import io.vertx.tp.modular.ray.AoRay;
+import io.vertx.tp.modular.ray.RayBatch;
+import io.vertx.tp.modular.ray.RaySingle;
 import io.vertx.up.atom.query.Criteria;
 import io.vertx.up.atom.query.Inquiry;
 import io.vertx.up.atom.query.Pager;
@@ -31,7 +34,6 @@ public class DataEvent implements Serializable {
      *     attribute = table
      *     属性 = 表名
      */
-    private final transient AoSentence sentence;
     private final transient DataAtom atom;  // Delay 模式
     private final transient DataTpl tpl;
     private final transient Set<String> projection = new HashSet<>();
@@ -44,7 +46,6 @@ public class DataEvent implements Serializable {
 
     private DataEvent(final DataAtom atom, final AoSentence sentence) {
         this.atom = atom;
-        this.sentence = sentence;
         /*
          * DataTpl 专用，模板处理，创建 DataEvent的时候 Tpl对应的模板就固定下来
          * 固定下来过后成为只读对象
@@ -53,14 +54,13 @@ public class DataEvent implements Serializable {
          */
         final Model model = atom.getModel();
         this.tpl = DataTpl.create()
-                .on(this.sentence)
+                .on(sentence)
                 .on(atom);
         // 初始化 Tpl 模板
         /* 连接专用填充 ItemMatrix */
         Bridge.connect(model,
                 // 字段基本函数
-                (schema) -> (field, attribute) ->
-                        this.tpl.initTpl(schema, field, attribute));
+                (schema) -> (field, attribute) -> this.tpl.initTpl(schema, field, attribute));
         /* 连接专用填充 ItemMatrix - 主键类 */
         Bridge.join(model,
                 // 主键关联函数，虚拟键，不填充 this.sources
@@ -234,7 +234,11 @@ public class DataEvent implements Serializable {
                 record = row.getRecord();
             }
         }
-        return record;
+        /*
+         * Reference 引用流程
+         */
+        final AoRay<Record> ray = new RaySingle().on(this.tpl);
+        return ray.attach(record);
     }
 
     /*
@@ -242,11 +246,16 @@ public class DataEvent implements Serializable {
      */
     public Record[] getRecords() {
         final List<DataRow> rows = this.getRows();
-        return rows.stream()
+        final Record[] response = rows.stream()
                 .map(DataRow::getRecord)
                 .filter(Objects::nonNull)
                 .collect(Collectors.toList())
                 .toArray(new Record[]{});
+        /*
+         * Reference 引用流程
+         */
+        final AoRay<Record[]> ray = new RayBatch().on(this.tpl);
+        return ray.attach(response);
     }
 
     /*

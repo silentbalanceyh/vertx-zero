@@ -9,7 +9,8 @@ import java.util.List;
 
 public class IoBatch extends AbstractIo {
     @Override
-    public <ID> AoIo keys(final ID... keys) {
+    @SafeVarargs
+    public final <ID> AoIo keys(final ID... keys) {
         return this.saveRows(() -> {
             final List<DataRow> rows = new ArrayList<>();
             Arrays.stream(keys)

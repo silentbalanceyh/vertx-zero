@@ -62,6 +62,7 @@ public class DataTpl implements Serializable {
         return Ao.record(this.atom);
     }
 
+
     // -------------- Join 专用 -----------
     /*
      * Join时的主表

@@ -9,6 +9,7 @@ import io.vertx.core.buffer.Buffer;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.commune.Record;
+import io.vertx.up.commune.element.CParam;
 import io.vertx.up.fn.Actuator;
 
 import java.io.File;
@@ -22,7 +23,6 @@ import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.time.temporal.TemporalUnit;
 import java.util.*;
 import java.util.concurrent.ConcurrentMap;
 import java.util.function.*;
@@ -76,6 +76,10 @@ public final class Ut {
 
     public static <T> Set<T> diff(final Set<T> subtrahend, final Set<T> minuend) {
         return Arithmetic.diff(subtrahend, minuend);
+    }
+
+    public static <T> Set<T> each(final Set<T> source, final Consumer<T>... consumers) {
+        return (Set<T>) Arithmetic.each(source, consumers);
     }
 
     /*
@@ -183,6 +187,10 @@ public final class Ut {
 
     public static JsonObject elementSubset(final JsonObject input, final String... fields) {
         return Statute.subset(input, fields);
+    }
+
+    public static JsonObject elementSubset(final JsonObject input, final Set<String> set) {
+        return Statute.subset(input, set);
     }
 
     public static JsonArray elementSubset(final JsonArray input, final Function<JsonObject, Boolean> fnFilter) {
@@ -920,33 +928,14 @@ public final class Ut {
         return Types.isDate(value);
     }
 
+    public static boolean isDate(final Class<?> type) {
+        return Types.isDate(type);
+    }
+
     public static boolean isSubset(final JsonObject cond, final JsonObject record) {
         return Is.isSubset(cond, record);
     }
 
-    public static boolean isChanged(final JsonObject oldRecord, final JsonObject newRecord,
-                                    final Set<String> ignores, final ConcurrentMap<String, Class<?>> dateFields) {
-        return Is.isChanged(oldRecord, newRecord, ignores, dateFields, null);
-    }
-
-    public static boolean isChanged(final JsonObject oldRecord, final JsonObject newRecord,
-                                    final Set<String> ignores, final ConcurrentMap<String, Class<?>> dateFields,
-                                    final BiFunction<String, Class<?>, BiPredicate<Object, Object>> fnPredicate) {
-        return Is.isChanged(oldRecord, newRecord, ignores, dateFields, fnPredicate);
-    }
-
-    public static TemporalUnit toUnit(final Class<?> clazz) {
-        return Is.getUnit(clazz);
-    }
-
-    public static boolean isSame(final Object oldValue, final Object newValue, final boolean isDate,
-                                 final TemporalUnit unit) {
-        return Is.isSame(oldValue, newValue, isDate, unit);
-    }
-
-    public static boolean isSame(final Object oldValue, final Object newValue, final boolean isDate) {
-        return Is.isSame(oldValue, newValue, isDate, null);
-    }
 
     public static boolean isJArray(final String literal) {
         return Types.isJArray(literal);
@@ -1014,6 +1003,29 @@ public final class Ut {
 
     public static boolean notNil(final JsonArray jsonArray) {
         return !isNil(jsonArray);
+    }
+
+    /*
+     * Complex compare method for two record
+     * - oldRecord: Old data record that stored in our system
+     * - newRecord: New data record that come into our system
+     * There are additional parameters for different usage
+     * 1) - ignores: You can set ignore fields that will be skipped when comparing
+     * 2) - typeMap: It's required because it contains ( field = Class<?> ) to record the type mapping
+     *
+     * 3) - fnPredicate: Function to check when standard comparing return FALSE
+     * 4) - arrayDiff: It contains array diff configuration instead of fixed
+     */
+    public static boolean isChanged(
+            final CParam cParam,
+            /* */
+            final BiFunction<String, Class<?>, BiPredicate<Object, Object>> fnPredicate) {
+        return Is.isChanged(cParam, fnPredicate);
+    }
+
+    public static boolean isSame(final Object oldValue, final Object newValue,
+                                 final Class<?> type, final Set<String> diffSet) {
+        return Is.isSame(oldValue, newValue, type, diffSet);
     }
 
     /*

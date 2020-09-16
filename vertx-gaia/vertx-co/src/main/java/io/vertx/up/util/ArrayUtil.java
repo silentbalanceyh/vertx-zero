@@ -150,7 +150,7 @@ final class ArrayUtil {
         return Fn.getNull(new JsonArray(), () -> {
             final AtomicBoolean isFound = new AtomicBoolean(Boolean.FALSE);
             It.itJArray(array).forEach(each -> {
-                final boolean isSame = Is.isSame(each, json, field);
+                final boolean isSame = Is.isSameBy(each, json, field);
                 if (isSame) {
                     each.mergeIn(json, true);
                     isFound.set(Boolean.TRUE);
