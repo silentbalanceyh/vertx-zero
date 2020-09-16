@@ -61,8 +61,8 @@
         <encoding>UTF-8</encoding>
 
         <!-- Vertx Framework Version -->
-        <vertx.version>3.9.2</vertx.version>
-        <stack.version>3.9.2</stack.version>
+        <vertx.version>3.9.3</vertx.version>
+        <stack.version>3.9.3</stack.version>
 
         <jcabi.version>0.22.6</jcabi.version>
         <jackson.version>2.11.2</jackson.version>
@@ -133,7 +133,7 @@
         <picoli.version>4.5.1</picoli.version>
 
         <!-- Yaml -->
-        <yaml.version>1.26</yaml.version>
+        <yaml.version>1.27</yaml.version>
         <hdr.version>2.1.12</hdr.version>
 
         <!-- Vert.x Addition -->
