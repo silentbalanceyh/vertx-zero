@@ -27,10 +27,29 @@ public class HikariDataPool implements DataPool {
     private static final String OPT_MINIMUM_IDLE = "hikari.minimum.idle";
     private static final String OPT_MAXIMUM_POOL_SIZE = "hikari.maximum.pool.size";
     private static final String OPT_POOL_NAME = "hikari.name";
+    private static final ConcurrentMap<String, DataPool> POOL_SWITCH = new ConcurrentHashMap<>();
+    /*
+     * Database Options for HikariDataBase, for current version add new parameter for KikariDatabase
+     * performance turning, it's recommend by
+     * https://stackoverflow.com/questions/50014066/spring-boot-2-hikari-connection-pool-optimization
+     * Please refer above link for more details.
+     */
+    // Statement Related
     private static final String OPT_STATEMENT_CACHED = "hikari.statement.cached";
     private static final String OPT_STATEMENT_CACHE_SIZE = "hikari.statement.cache.size";
     private static final String OPT_STATEMENT_CACHE_SQL_LIMIT = "hikari.statement.cache.sqllimit";
-    private static final ConcurrentMap<String, DataPool> POOL_SWITCH = new ConcurrentHashMap<>();
+    // Use Related
+    private static final String OPT_USE_SERVER_PREP_STMT = "hikari.use.server.statement";
+    private static final String OPT_USE_LOCAL_SESSION_STATE = "hikari.use.local.session";
+    private static final String OPT_USE_LOCAL_TRANSACTION_STATE = "hikari.use.local.transaction";
+    private static final String OPT_USE_NEW_IO = "hikari.use.new.io";
+    private static final String OPT_USE_COMPRESSION = "hikari.use.compression";
+    // Advanced
+    private static final String OPT_REWRITE_BATCHED_STMT = "hikari.rewrite.batched.statement";
+    private static final String OPT_CACHE_METADATA = "hikari.cache.resultset.metadata";
+    private static final String OPT_CACHE_SERVER_CONFIG = "hikari.cache.server.configuration";
+    private static final String OPT_ELIDE_COMMIT = "hikari.elideset.autocommit";
+    private static final String OPT_MAINTAIN_TIMESTAT = "hikari.maintain.timestat";
     private final transient Database database;
     /* Each jdbc url has one Pool here **/
     private transient DSLContext context;
@@ -38,6 +57,41 @@ public class HikariDataPool implements DataPool {
 
     HikariDataPool(final Database database) {
         this.database = database;
+    }
+
+    private void initPool() {
+        if (Objects.nonNull(this.database)) {
+            // Default configuration, 300 s as connection timeout for long time working
+            final Boolean autoCommit = this.database.getOption(OPT_AUTO_COMMIT, Boolean.TRUE);
+
+            this.dataSource.setAutoCommit(autoCommit);
+            this.dataSource.setConnectionTimeout(this.database.getOption(OPT_CONNECTION_TIMEOUT, 300000L));
+            this.dataSource.setIdleTimeout(this.database.getOption(OPT_IDLE_TIMEOUT, 600000L));
+            this.dataSource.setMaxLifetime(this.database.getOption(OPT_MAX_LIFETIME, 25600000L));
+            this.dataSource.setMinimumIdle(this.database.getOption(OPT_MINIMUM_IDLE, 256));
+            this.dataSource.setMaximumPoolSize(this.database.getOption(OPT_MAXIMUM_POOL_SIZE, 512));
+
+            // Default attributes
+            this.dataSource.addDataSourceProperty("cachePrepStmts", this.database.getOption(OPT_STATEMENT_CACHED, "true"));
+            this.dataSource.addDataSourceProperty("prepStmtCacheSize", this.database.getOption(OPT_STATEMENT_CACHE_SIZE, "2048"));
+            this.dataSource.addDataSourceProperty("prepStmtCacheSqlLimit", this.database.getOption(OPT_STATEMENT_CACHE_SQL_LIMIT, "4096"));
+
+            // Use Related
+            this.dataSource.addDataSourceProperty("useServerPrepStmts", this.database.getOption(OPT_USE_SERVER_PREP_STMT, "true"));
+            this.dataSource.addDataSourceProperty("useLocalSessionState", this.database.getOption(OPT_USE_LOCAL_SESSION_STATE, "true"));
+            this.dataSource.addDataSourceProperty("useLocalTransactionState", this.database.getOption(OPT_USE_LOCAL_TRANSACTION_STATE, "true"));
+            this.dataSource.addDataSourceProperty("useNewIO", this.database.getOption(OPT_USE_NEW_IO, "true"));
+            this.dataSource.addDataSourceProperty("useCompression", this.database.getOption(OPT_USE_COMPRESSION, "true"));
+
+            // Advanced Configuration
+            this.dataSource.addDataSourceProperty("rewriteBatchedStatements", this.database.getOption(OPT_REWRITE_BATCHED_STMT, "true"));
+            this.dataSource.addDataSourceProperty("cacheResultSetMetadata", this.database.getOption(OPT_CACHE_METADATA, "true"));
+            this.dataSource.addDataSourceProperty("cacheServerConfiguration", this.database.getOption(OPT_CACHE_SERVER_CONFIG, "true"));
+            this.dataSource.addDataSourceProperty("elideSetAutoCommits", this.database.getOption(OPT_ELIDE_COMMIT, "true"));
+            this.dataSource.addDataSourceProperty("maintainTimeStats", this.database.getOption(OPT_MAINTAIN_TIMESTAT, "false"));
+            // Data pool name
+            this.dataSource.setPoolName(this.database.getOption(OPT_POOL_NAME, "ZERO-POOL-DATA"));
+        }
     }
 
     private void initDelay() {
@@ -144,31 +198,6 @@ public class HikariDataPool implements DataPool {
              */
             this.dataSource.setDriverClassName(this.database.getDriverClassName());
             // dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
-        }
-    }
-
-    private void initPool() {
-        if (Objects.nonNull(this.database)) {
-            // Default configuration, 300 s as connection timeout for long time working
-            final Boolean autoCommit = this.database.getOption(OPT_AUTO_COMMIT, Boolean.TRUE);
-
-            this.dataSource.setAutoCommit(autoCommit);
-            this.dataSource.setConnectionTimeout(this.database.getOption(OPT_CONNECTION_TIMEOUT, 300000L));
-            this.dataSource.setIdleTimeout(this.database.getOption(OPT_IDLE_TIMEOUT, 600000L));
-            this.dataSource.setMaxLifetime(this.database.getOption(OPT_MAX_LIFETIME, 25600000L));
-            this.dataSource.setMinimumIdle(this.database.getOption(OPT_MINIMUM_IDLE, 256));
-            this.dataSource.setMaximumPoolSize(this.database.getOption(OPT_MAXIMUM_POOL_SIZE, 512));
-
-            // Default attributes
-            this.dataSource.addDataSourceProperty("cachePrepStmts",
-                    this.database.getOption(OPT_STATEMENT_CACHED, "true"));
-            this.dataSource.addDataSourceProperty("prepStmtCacheSize",
-                    this.database.getOption(OPT_STATEMENT_CACHE_SIZE, "2048"));
-            this.dataSource.addDataSourceProperty("prepStmtCacheSqlLimit",
-                    this.database.getOption(OPT_STATEMENT_CACHE_SQL_LIMIT, "4096"));
-
-            // Data pool name
-            this.dataSource.setPoolName(this.database.getOption(OPT_POOL_NAME, "ZERO-POOL-DATA"));
         }
     }
 }

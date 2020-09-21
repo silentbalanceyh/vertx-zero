@@ -30,12 +30,11 @@ public class JqTool {
             final CompletableFuture<T> completableFuture
     ) {
         final Promise<T> future = Promise.promise();
-        completableFuture.thenAcceptAsync(future::complete)
-                .exceptionally((ex) -> {
-                    LOGGER.jvm(ex);
-                    future.fail(ex);
-                    return null;
-                });
+        completableFuture.thenAcceptAsync(future::complete).exceptionally((ex) -> {
+            LOGGER.jvm(ex);
+            future.fail(ex);
+            return null;
+        });
         return future.future();
     }
 

@@ -69,18 +69,20 @@ public class ZeroHttpWorker extends AbstractVerticle {
             // 7. Record for different invokers
             INVOKER_MAP.put(receipt.hashCode(), invoker);
 
-            Fn.safeJvm(() -> Fn.safeNull(() -> bus.<Envelop>consumer(address,
-                    message -> {
-                        if (method.isAnnotationPresent(Ipc.class)) {
-                            // Rpc continue replying
-                            invoker.next(reference, method, message, this.vertx);
-                        } else {
-                            // Direct replying
-                            invoker.invoke(reference, method, message);
-                        }
-                    }),
-                    address, reference, method), LOGGER
-            );
+            Fn.safeJvm(() -> Fn.safeNull(() -> bus.<Envelop>consumer(address, message -> {
+                if (method.isAnnotationPresent(Ipc.class)) {
+                    // Rpc continue replying
+                    invoker.next(reference, method, message, this.vertx);
+                } else {
+                    /*
+                     * Standard mode: Direct replying
+                     * This mode is non micro-service and could call in most of our
+                     * situations, instead we catch `blocked thread` issue in
+                     * Invoker ( AsyncInvoker ) for future extend design here.
+                     */
+                    invoker.invoke(reference, method, message);
+                }
+            }), address, reference, method), LOGGER);
         }
         // Record all the information;
         if (!LOGGED.getAndSet(Boolean.TRUE)) {

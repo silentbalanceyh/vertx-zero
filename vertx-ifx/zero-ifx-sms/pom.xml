@@ -9,7 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <artifactId>zero-ifx-sms</artifactId>
-    <name>( Zero Infix ) Mobile Message Module</name>
+    <name>( Zero Infix ) Alibaba - Sms Service</name>
     <dependencies>
         <!-- https://mvnrepository.com/artifact/com.aliyun/aliyun-java-sdk-core -->
         <dependency>

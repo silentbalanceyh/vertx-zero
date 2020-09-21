@@ -9,6 +9,11 @@ public interface Orders {
      * 1,000,000
      */
     int MONITOR = 1_000_000;
+    /*
+     * Time Out
+     * 1,050,000
+     */
+    int TIMEOUT = 1_050_000;
     /**
      * Cors Order
      * 1,100,000
