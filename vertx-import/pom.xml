@@ -95,51 +95,151 @@
                 <groupId>cn.vertxup</groupId>
                 <artifactId>zero-crud</artifactId>
                 <version>${zero.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>cn.vertxup</groupId>
+                        <artifactId>vertx-up</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>cn.vertxup</groupId>
+                        <artifactId>zero-ke</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
             <dependency>
                 <groupId>cn.vertxup</groupId>
                 <artifactId>zero-rbac</artifactId>
                 <version>${zero.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>cn.vertxup</groupId>
+                        <artifactId>vertx-up</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>cn.vertxup</groupId>
+                        <artifactId>zero-ke</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
             <dependency>
                 <groupId>cn.vertxup</groupId>
                 <artifactId>zero-ambient</artifactId>
                 <version>${zero.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>cn.vertxup</groupId>
+                        <artifactId>vertx-up</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>cn.vertxup</groupId>
+                        <artifactId>zero-ke</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
             <dependency>
                 <groupId>cn.vertxup</groupId>
                 <artifactId>zero-ui</artifactId>
                 <version>${zero.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>cn.vertxup</groupId>
+                        <artifactId>vertx-up</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>cn.vertxup</groupId>
+                        <artifactId>zero-ke</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
             <dependency>
                 <groupId>cn.vertxup</groupId>
                 <artifactId>zero-jet</artifactId>
                 <version>${zero.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>cn.vertxup</groupId>
+                        <artifactId>vertx-up</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>cn.vertxup</groupId>
+                        <artifactId>zero-ke</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
             <dependency>
                 <groupId>cn.vertxup</groupId>
                 <artifactId>zero-erp</artifactId>
                 <version>${zero.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>cn.vertxup</groupId>
+                        <artifactId>vertx-up</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>cn.vertxup</groupId>
+                        <artifactId>zero-ke</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
             <dependency>
                 <groupId>cn.vertxup</groupId>
                 <artifactId>zero-atom</artifactId>
                 <version>${zero.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>cn.vertxup</groupId>
+                        <artifactId>vertx-up</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>cn.vertxup</groupId>
+                        <artifactId>zero-ke</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
             <dependency>
                 <groupId>cn.vertxup</groupId>
                 <artifactId>zero-graphic</artifactId>
                 <version>${zero.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>cn.vertxup</groupId>
+                        <artifactId>vertx-up</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>cn.vertxup</groupId>
+                        <artifactId>zero-ke</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
             <dependency>
                 <groupId>cn.vertxup</groupId>
                 <artifactId>zero-router</artifactId>
                 <version>${zero.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>cn.vertxup</groupId>
+                        <artifactId>vertx-up</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>cn.vertxup</groupId>
+                        <artifactId>zero-ke</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
             <dependency>
                 <groupId>cn.vertxup</groupId>
                 <artifactId>zero-lbs</artifactId>
                 <version>${zero.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>cn.vertxup</groupId>
+                        <artifactId>vertx-up</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>cn.vertxup</groupId>
+                        <artifactId>zero-ke</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
             <dependency>
                 <groupId>cn.vertxup</groupId>
@@ -152,61 +252,144 @@
                 <groupId>cn.vertxup</groupId>
                 <artifactId>vertx-ifx</artifactId>
                 <version>${zero.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>cn.vertxup</groupId>
+                        <artifactId>vertx-up</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
             <dependency>
                 <groupId>cn.vertxup</groupId>
                 <artifactId>zero-ifx-sms</artifactId>
                 <version>${zero.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>cn.vertxup</groupId>
+                        <artifactId>vertx-up</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
             <dependency>
                 <groupId>cn.vertxup</groupId>
                 <artifactId>zero-ifx-es</artifactId>
                 <version>${zero.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>cn.vertxup</groupId>
+                        <artifactId>vertx-up</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
             <dependency>
                 <groupId>cn.vertxup</groupId>
                 <artifactId>zero-ifx-excel</artifactId>
                 <version>${zero.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>cn.vertxup</groupId>
+                        <artifactId>vertx-up</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
             <dependency>
                 <groupId>cn.vertxup</groupId>
                 <artifactId>zero-ifx-feign</artifactId>
                 <version>${zero.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>cn.vertxup</groupId>
+                        <artifactId>vertx-up</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
             <dependency>
                 <groupId>cn.vertxup</groupId>
                 <artifactId>zero-ifx-history</artifactId>
                 <version>${zero.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>cn.vertxup</groupId>
+                        <artifactId>vertx-up</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
             <dependency>
                 <groupId>cn.vertxup</groupId>
                 <artifactId>zero-ifx-iqiy</artifactId>
                 <version>${zero.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>cn.vertxup</groupId>
+                        <artifactId>vertx-up</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
             <dependency>
                 <groupId>cn.vertxup</groupId>
                 <artifactId>zero-ifx-qiniu</artifactId>
                 <version>${zero.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>cn.vertxup</groupId>
+                        <artifactId>vertx-up</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
             <dependency>
                 <groupId>cn.vertxup</groupId>
                 <artifactId>zero-ifx-redis</artifactId>
                 <version>${zero.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>cn.vertxup</groupId>
+                        <artifactId>vertx-up</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
             <dependency>
                 <groupId>cn.vertxup</groupId>
                 <artifactId>zero-ifx-mongo</artifactId>
                 <version>${zero.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>cn.vertxup</groupId>
+                        <artifactId>vertx-up</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
             <dependency>
                 <groupId>cn.vertxup</groupId>
                 <artifactId>zero-ifx-neo4j</artifactId>
                 <version>${zero.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>cn.vertxup</groupId>
+                        <artifactId>vertx-up</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
             <dependency>
                 <groupId>cn.vertxup</groupId>
                 <artifactId>zero-ifx-shell</artifactId>
                 <version>${zero.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>cn.vertxup</groupId>
+                        <artifactId>vertx-up</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+            <dependency>
+                <groupId>cn.vertxup</groupId>
+                <artifactId>zero-ifx-canal</artifactId>
+                <version>${zero.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>cn.vertxup</groupId>
+                        <artifactId>vertx-up</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
         </dependencies>
     </dependencyManagement>

@@ -25,6 +25,7 @@
         <module>zero-ifx-sms</module>
         <module>zero-ifx-neo4j</module>
         <module>zero-ifx-shell</module>
+        <module>zero-ifx-canal</module>
     </modules>
     <dependencies>
         <dependency>

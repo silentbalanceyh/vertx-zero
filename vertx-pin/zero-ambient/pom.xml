@@ -17,11 +17,6 @@
             <groupId>cn.vertxup</groupId>
             <artifactId>zero-ke</artifactId>
         </dependency>
-        <dependency>
-            <groupId>cn.vertxup</groupId>
-            <artifactId>zero-ifx-excel</artifactId>
-            <version>${project.version}</version>
-        </dependency>
     </dependencies>
     <build>
         <plugins>

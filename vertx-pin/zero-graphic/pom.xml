@@ -21,6 +21,12 @@
             <groupId>cn.vertxup</groupId>
             <artifactId>zero-ifx-neo4j</artifactId>
             <version>${project.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>cn.vertxup</groupId>
+                    <artifactId>vertx-up</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
     </dependencies>
     <build>
