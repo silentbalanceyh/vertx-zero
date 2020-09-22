@@ -5,7 +5,7 @@
     <parent>
         <artifactId>vertx-gaia</artifactId>
         <groupId>cn.vertxup</groupId>
-        <version>0.5.3-SNAPSHOT</version>
+        <version>0.5.4</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <name>( Vertx Core ) vertx-tp: Zero Integration</name>
@@ -25,10 +25,6 @@
                     <artifactId>slf4j-api</artifactId>
                 </exclusion>
             </exclusions>
-        </dependency>
-        <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
         </dependency>
         <!-- JooQ -->
         <dependency>

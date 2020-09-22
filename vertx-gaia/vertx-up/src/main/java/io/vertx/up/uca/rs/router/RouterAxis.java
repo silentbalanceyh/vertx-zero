@@ -4,10 +4,7 @@ import io.vertx.core.Vertx;
 import io.vertx.core.http.HttpMethod;
 import io.vertx.core.json.JsonArray;
 import io.vertx.ext.web.Router;
-import io.vertx.ext.web.handler.BodyHandler;
-import io.vertx.ext.web.handler.CorsHandler;
-import io.vertx.ext.web.handler.ResponseContentTypeHandler;
-import io.vertx.ext.web.handler.SessionHandler;
+import io.vertx.ext.web.handler.*;
 import io.vertx.ext.web.sstore.ClusteredSessionStore;
 import io.vertx.ext.web.sstore.LocalSessionStore;
 import io.vertx.ext.web.sstore.SessionStore;
@@ -47,12 +44,20 @@ public class RouterAxis implements Axis<Router> {
          */
         this.mountSession(router);
         /*
+         * Timeout for blocked issue
+         */
+        this.mountTimeout(router);
+        /*
          * Body, Content
          */
         router.route().order(Orders.BODY).handler(BodyHandler.create().setBodyLimit(32 * MB));
         router.route().order(Orders.CONTENT).handler(ResponseContentTypeHandler.create());
         // 3. Cors data here
         this.mountCors(router);
+    }
+
+    private void mountTimeout(final Router router) {
+        router.route().order(Orders.TIMEOUT).handler(TimeoutHandler.create(10000L));
     }
 
     private void mountSession(final Router router) {

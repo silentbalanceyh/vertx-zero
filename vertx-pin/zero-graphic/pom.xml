@@ -5,7 +5,7 @@
     <parent>
         <artifactId>vertx-pin</artifactId>
         <groupId>cn.vertxup</groupId>
-        <version>0.5.3-SNAPSHOT</version>
+        <version>0.5.4</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -21,6 +21,12 @@
             <groupId>cn.vertxup</groupId>
             <artifactId>zero-ifx-neo4j</artifactId>
             <version>${project.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>cn.vertxup</groupId>
+                    <artifactId>vertx-up</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
     </dependencies>
     <build>

@@ -5,7 +5,7 @@
     <parent>
         <artifactId>vertx-pin</artifactId>
         <groupId>cn.vertxup</groupId>
-        <version>0.5.3-SNAPSHOT</version>
+        <version>0.5.4</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -19,7 +19,7 @@
         </dependency>
         <dependency>
             <groupId>cn.vertxup</groupId>
-            <artifactId>vertx-micro</artifactId>
+            <artifactId>zero-iproxy</artifactId>
         </dependency>
     </dependencies>
 </project>

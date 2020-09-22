@@ -5,17 +5,17 @@
     <parent>
         <artifactId>vertx-ifx</artifactId>
         <groupId>cn.vertxup</groupId>
-        <version>0.5.3-SNAPSHOT</version>
+        <version>0.5.4</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <artifactId>zero-ifx-sms</artifactId>
-    <name>( Zero Infix ) Mobile Message Module</name>
+    <name>( Zero Infix ) Alibaba - Sms Service</name>
     <dependencies>
         <!-- https://mvnrepository.com/artifact/com.aliyun/aliyun-java-sdk-core -->
         <dependency>
             <groupId>com.aliyun</groupId>
             <artifactId>aliyun-java-sdk-core</artifactId>
-            <version>4.5.3</version>
+            <version>4.5.10</version>
         </dependency>
         <!-- https://mvnrepository.com/artifact/com.aliyun/aliyun-java-sdk-dysmsapi -->
         <dependency>

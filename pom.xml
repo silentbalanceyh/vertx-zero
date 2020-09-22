@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>cn.vertxup</groupId>
     <artifactId>vertx-zero</artifactId>
-    <version>0.5.3-SNAPSHOT</version>
+    <version>0.5.4</version>
     <name>vertx-zero: Vertx Up Zero Framework</name>
     <description>Vertx Zero Framework is a tool for Service Mesh Micro Service.</description>
     <url>http://www.vertxup.cn</url>
@@ -14,6 +14,7 @@
         <module>vertx-gaia</module>
         <module>vertx-pin</module>
         <module>vertx-ifx</module>
+        <module>vertx-istio</module>
     </modules>
     <packaging>pom</packaging>
     <!-- License -->
@@ -61,8 +62,8 @@
         <encoding>UTF-8</encoding>
 
         <!-- Vertx Framework Version -->
-        <vertx.version>3.9.2</vertx.version>
-        <stack.version>3.9.2</stack.version>
+        <vertx.version>3.9.3</vertx.version>
+        <stack.version>3.9.3</stack.version>
 
         <jcabi.version>0.22.6</jcabi.version>
         <jackson.version>2.11.2</jackson.version>
@@ -75,8 +76,8 @@
         <hikari.cp.version>3.4.5</hikari.cp.version>
         <jooq.version>3.10.8</jooq.version>
         <vertx.jooq.version>2.4.1</vertx.jooq.version>
+        <vertx.jooq.code.version>2.4.1</vertx.jooq.code.version>
         <vertx.jooq.async.version>0.4</vertx.jooq.async.version>
-        <vertx.jooq.code.version>5.2.0</vertx.jooq.code.version>
         <mysql.version>8.0.21</mysql.version>
 
         <!-- Java Reflection -->
@@ -130,10 +131,11 @@
         <protobuf.version>3.12.2</protobuf.version>
         <vertx.grpc.version>1.6.1</vertx.grpc.version>
         <grpc.version>1.32.1</grpc.version>
+        <gson.version>2.8.6</gson.version>
         <picoli.version>4.5.1</picoli.version>
 
         <!-- Yaml -->
-        <yaml.version>1.26</yaml.version>
+        <yaml.version>1.27</yaml.version>
         <hdr.version>2.1.12</hdr.version>
 
         <!-- Vert.x Addition -->
@@ -143,7 +145,7 @@
         <hazelcast.version>3.12.4</hazelcast.version>
         <swagger.version>1.6.0</swagger.version>
         <error.prone.version>2.4.0</error.prone.version>
-        <reactive.streams>1.0.3</reactive.streams>
+        <reactive.streams.version>1.0.3</reactive.streams.version>
 
         <!-- JSR -->
         <!--
@@ -220,7 +222,7 @@
             </dependency>
             <dependency>
                 <groupId>cn.vertxup</groupId>
-                <artifactId>vertx-micro</artifactId>
+                <artifactId>zero-iproxy</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
@@ -486,6 +488,11 @@
                 <artifactId>jsr305</artifactId>
                 <version>${jsr305.version}</version>
             </dependency>
+            <dependency>
+                <groupId>com.google.code.gson</groupId>
+                <artifactId>gson</artifactId>
+                <version>${gson.version}</version>
+            </dependency>
             <!-- https://mvnrepository.com/artifact/io.grpc/grpc-context -->
             <dependency>
                 <groupId>io.grpc</groupId>
@@ -564,6 +571,11 @@
             <dependency>
                 <groupId>org.apache.logging.log4j</groupId>
                 <artifactId>log4j-core</artifactId>
+                <version>${log4j2.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.logging.log4j</groupId>
+                <artifactId>log4j-api</artifactId>
                 <version>${log4j2.version}</version>
             </dependency>
             <!-- java rs -->
@@ -883,7 +895,7 @@
             <dependency>
                 <groupId>org.reactivestreams</groupId>
                 <artifactId>reactive-streams</artifactId>
-                <version>${reactive.streams}</version>
+                <version>${reactive.streams.version}</version>
             </dependency>
             <!-- https://mvnrepository.com/artifact/com.zaxxer/HikariCP -->
             <dependency>
