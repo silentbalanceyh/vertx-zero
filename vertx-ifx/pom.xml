@@ -29,6 +29,7 @@
         <dependency>
             <groupId>cn.vertxup</groupId>
             <artifactId>vertx-up</artifactId>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
     <build>
