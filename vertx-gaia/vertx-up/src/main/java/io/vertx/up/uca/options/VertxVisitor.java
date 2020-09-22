@@ -46,7 +46,7 @@ public class VertxVisitor implements NodeVisitor {
         LOGGER.info(Info.INF_B_VERIFY, KEY, this.getClass().getSimpleName(), vertxData);
         Fn.onZero(() -> Ruler.verify(KEY, vertxData), vertxData);
         // 4. Set cluster options
-        this.clusterOptions = this.clusterTransformer.transform(data.getJsonObject(YKEY_CLUSTERED));
+        this.clusterOptions = this.clusterTransformer.transform(vertxData.getJsonObject(YKEY_CLUSTERED));
         // 5. Transfer Data
         return this.visit(vertxData.getJsonArray(YKEY_INSTANCE));
     }
