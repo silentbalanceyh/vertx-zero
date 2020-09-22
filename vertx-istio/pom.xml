@@ -8,14 +8,12 @@
         <version>0.5.4</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>vertx-gaia</artifactId>
+
+    <artifactId>vertx-istio</artifactId>
     <packaging>pom</packaging>
-    <name>vertx-gaia: Zero Core Library Collection</name>
+    <name>vertx-istio: Micro Architecture</name>
     <modules>
-        <module>vertx-up</module>
-        <module>vertx-co</module>
-        <module>vertx-tp</module>
-        <module>vertx-rx</module>
+        <module>zero-iproxy</module>
     </modules>
     <build>
         <plugins>

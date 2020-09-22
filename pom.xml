@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>cn.vertxup</groupId>
     <artifactId>vertx-zero</artifactId>
-    <version>0.5.3-SNAPSHOT</version>
+    <version>0.5.4</version>
     <name>vertx-zero: Vertx Up Zero Framework</name>
     <description>Vertx Zero Framework is a tool for Service Mesh Micro Service.</description>
     <url>http://www.vertxup.cn</url>
@@ -14,6 +14,7 @@
         <module>vertx-gaia</module>
         <module>vertx-pin</module>
         <module>vertx-ifx</module>
+        <module>vertx-istio</module>
     </modules>
     <packaging>pom</packaging>
     <!-- License -->
@@ -221,7 +222,7 @@
             </dependency>
             <dependency>
                 <groupId>cn.vertxup</groupId>
-                <artifactId>vertx-micro</artifactId>
+                <artifactId>zero-iproxy</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
