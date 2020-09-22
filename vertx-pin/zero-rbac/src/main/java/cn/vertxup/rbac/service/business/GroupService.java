@@ -12,8 +12,8 @@ import io.vertx.tp.rbac.cv.AuthMsg;
 import io.vertx.tp.rbac.refine.Sc;
 import io.vertx.up.atom.unity.Uarr;
 import io.vertx.up.log.Annal;
+import io.vertx.up.uca.jooq.UxJooq;
 import io.vertx.up.unity.Ux;
-import io.vertx.up.unity.jq.UxJooq;
 
 import java.util.ArrayList;
 import java.util.List;

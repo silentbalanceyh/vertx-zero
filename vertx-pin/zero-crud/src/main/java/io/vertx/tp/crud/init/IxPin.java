@@ -6,7 +6,7 @@ import io.vertx.tp.crud.refine.Ix;
 import io.vertx.tp.ke.refine.Ke;
 import io.vertx.up.atom.Rule;
 import io.vertx.up.log.Annal;
-import io.vertx.up.unity.jq.UxJooq;
+import io.vertx.up.uca.jooq.UxJooq;
 
 import java.util.List;
 import java.util.Set;

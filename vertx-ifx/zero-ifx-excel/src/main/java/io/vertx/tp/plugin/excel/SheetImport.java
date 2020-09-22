@@ -8,8 +8,8 @@ import io.vertx.tp.plugin.excel.atom.ExRecord;
 import io.vertx.tp.plugin.excel.atom.ExTable;
 import io.vertx.up.exception.web._500InternalServerException;
 import io.vertx.up.log.Annal;
+import io.vertx.up.uca.jooq.UxJooq;
 import io.vertx.up.unity.Ux;
-import io.vertx.up.unity.jq.UxJooq;
 import io.vertx.up.util.Ut;
 
 import java.util.HashSet;

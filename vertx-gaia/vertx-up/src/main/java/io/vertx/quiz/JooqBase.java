@@ -7,8 +7,8 @@ import io.vertx.ext.unit.junit.VertxUnitRunner;
 import io.vertx.up.atom.Kv;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
+import io.vertx.up.uca.jooq.UxJooq;
 import io.vertx.up.unity.Ux;
-import io.vertx.up.unity.jq.UxJooq;
 import org.junit.Rule;
 import org.junit.runner.RunWith;
 

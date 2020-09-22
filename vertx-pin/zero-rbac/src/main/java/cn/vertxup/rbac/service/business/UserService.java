@@ -15,8 +15,8 @@ import io.vertx.tp.rbac.cv.AuthKey;
 import io.vertx.tp.rbac.cv.AuthMsg;
 import io.vertx.tp.rbac.refine.Sc;
 import io.vertx.up.log.Annal;
+import io.vertx.up.uca.jooq.UxJooq;
 import io.vertx.up.unity.Ux;
-import io.vertx.up.unity.jq.UxJooq;
 import io.vertx.up.util.Ut;
 
 import java.util.Comparator;
@@ -116,6 +116,7 @@ public class UserService implements UserStub {
      * create OUser record
      *
      * @param user SUser entity
+     *
      * @return SUser entity
      */
     private Future<JsonObject> createOUser(final SUser user) {
@@ -139,6 +140,7 @@ public class UserService implements UserStub {
      *
      * @param userKey user key
      * @param user    user entity
+     *
      * @return user entity
      */
     private Future<JsonObject> fulfillUserWithRolesAndGroups(final String userKey, final JsonObject user) {

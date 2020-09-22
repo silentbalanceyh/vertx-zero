@@ -6,8 +6,8 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.tp.crud.atom.IxMeta;
 import io.vertx.tp.crud.atom.IxModule;
 import io.vertx.up.log.Annal;
+import io.vertx.up.uca.jooq.UxJooq;
 import io.vertx.up.unity.Ux;
-import io.vertx.up.unity.jq.UxJooq;
 
 import java.util.List;
 import java.util.function.Function;

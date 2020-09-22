@@ -4,7 +4,7 @@ import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.ke.cv.KeField;
-import io.vertx.up.unity.jq.UxJooq;
+import io.vertx.up.uca.jooq.UxJooq;
 
 /*
  * Apeak implementation by some specific definition

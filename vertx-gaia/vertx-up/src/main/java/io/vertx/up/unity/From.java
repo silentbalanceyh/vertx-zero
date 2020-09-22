@@ -5,7 +5,7 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.up.atom.pojo.Mirror;
 import io.vertx.up.atom.pojo.Mojo;
 import io.vertx.up.fn.Fn;
-import io.vertx.up.unity.jq.JqTool;
+import io.vertx.up.uca.jooq.JqTool;
 import io.vertx.up.util.Ut;
 
 import java.util.ArrayList;

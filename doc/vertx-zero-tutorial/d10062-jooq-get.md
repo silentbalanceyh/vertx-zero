@@ -94,7 +94,7 @@ public class TabularService implements TabularStub {
 
 ## 2. Utility X of Jooq
 
-In this example we used an api of `Ux.Jooq` class, this class is provided by zero system, once you have finished the configuration of Jooq, you can use `Ux.Jooq` tool in any place of zero system code. When you used `Ux.Jooq` class, you must call `on(Class<?>)` first and returned `io.vertx.up.unity.jq.UxJooq` reference, once you get this reference you can call some common api now.
+In this example we used an api of `Ux.Jooq` class, this class is provided by zero system, once you have finished the configuration of Jooq, you can use `Ux.Jooq` tool in any place of zero system code. When you used `Ux.Jooq` class, you must call `on(Class<?>)` first and returned `io.vertx.up.uca.jooq.UxJooq` reference, once you get this reference you can call some common api now.
 
 Current example, we used `fetchOnneByID` method, you can check this method signature:
 

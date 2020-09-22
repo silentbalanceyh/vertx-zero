@@ -13,8 +13,8 @@ import io.vertx.up.annotations.Address;
 import io.vertx.up.annotations.Queue;
 import io.vertx.up.commune.config.XHeader;
 import io.vertx.up.fn.Fn;
+import io.vertx.up.uca.jooq.UxJooq;
 import io.vertx.up.unity.Ux;
-import io.vertx.up.unity.jq.UxJooq;
 import io.vertx.up.util.Ut;
 
 import javax.inject.Inject;

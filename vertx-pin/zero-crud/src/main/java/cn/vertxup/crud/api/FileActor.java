@@ -25,8 +25,8 @@ import io.vertx.up.commune.Envelop;
 import io.vertx.up.commune.exchange.DictFabric;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
+import io.vertx.up.uca.jooq.UxJooq;
 import io.vertx.up.unity.Ux;
-import io.vertx.up.unity.jq.UxJooq;
 import io.vertx.up.util.Ut;
 
 import java.io.File;

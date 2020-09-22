@@ -6,8 +6,8 @@ import io.vertx.tp.crud.actor.IxActor;
 import io.vertx.tp.crud.atom.IxModule;
 import io.vertx.tp.crud.refine.Ix;
 import io.vertx.up.commune.Envelop;
+import io.vertx.up.uca.jooq.UxJooq;
 import io.vertx.up.unity.Ux;
-import io.vertx.up.unity.jq.UxJooq;
 
 public class IxHub {
     /*

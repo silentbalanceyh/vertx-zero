@@ -4,8 +4,8 @@ import cn.vertxup.jet.domain.tables.daos.IJobDao;
 import io.vertx.ext.unit.TestContext;
 import io.vertx.quiz.JooqBase;
 import io.vertx.tp.plugin.jooq.JooqInfix;
+import io.vertx.up.uca.jooq.UxJooq;
 import io.vertx.up.unity.Ux;
-import io.vertx.up.unity.jq.UxJooq;
 import org.junit.Ignore;
 import org.junit.Test;
 
@@ -25,6 +25,7 @@ public class JobTc extends JooqBase {
         });
     }
 
+    @Override
     public UxJooq getDao() {
         return Ux.Jooq.on(IJobDao.class);
     }

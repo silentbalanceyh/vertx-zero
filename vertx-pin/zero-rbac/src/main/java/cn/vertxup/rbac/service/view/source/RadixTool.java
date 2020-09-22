@@ -5,8 +5,8 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.ke.cv.KeField;
 import io.vertx.tp.ke.refine.Ke;
+import io.vertx.up.uca.jooq.UxJooq;
 import io.vertx.up.unity.Ux;
-import io.vertx.up.unity.jq.UxJooq;
 import io.vertx.up.util.Ut;
 
 import java.util.Objects;

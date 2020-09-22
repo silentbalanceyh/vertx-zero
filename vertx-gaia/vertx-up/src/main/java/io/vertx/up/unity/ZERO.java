@@ -1,6 +1,6 @@
 package io.vertx.up.unity;
 
-import io.vertx.up.unity.jq.UxJooq;
+import io.vertx.up.uca.jooq.UxJooq;
 
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;

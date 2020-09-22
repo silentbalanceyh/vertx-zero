@@ -6,8 +6,8 @@ import io.vertx.tp.error._500AmbientErrorException;
 import io.vertx.tp.error._500ApplicationInitException;
 import io.vertx.tp.ke.cv.KeField;
 import io.vertx.up.fn.Fn;
+import io.vertx.up.uca.jooq.UxJooq;
 import io.vertx.up.unity.Ux;
-import io.vertx.up.unity.jq.UxJooq;
 import org.jooq.DSLContext;
 
 @SuppressWarnings("all")

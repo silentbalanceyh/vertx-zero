@@ -1,4 +1,4 @@
-package io.vertx.up.unity.jq;
+package io.vertx.up.uca.jooq;
 
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
