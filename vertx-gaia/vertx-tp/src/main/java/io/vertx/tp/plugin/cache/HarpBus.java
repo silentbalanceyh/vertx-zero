@@ -23,6 +23,9 @@ public class HarpBus {
          */
         final L1Config config = Ut.deserialize(options.getJsonObject(KEY_L1), L1Config.class);
         if (Objects.nonNull(config.getComponent())) {
+            /*
+             * L1 cache here
+             */
             final L1Cache cache = Ut.instance(config.getComponent());
             cache.bind(vertx).bind(config);
         }

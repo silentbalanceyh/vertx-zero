@@ -9,22 +9,10 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>vertx-ifx</artifactId>
+    <artifactId>vertx-fit</artifactId>
+
     <packaging>pom</packaging>
-    <name>vertx-ifx: Zero Plugins</name>
-    <modules>
-        <module>zero-ifx-es</module>
-        <module>zero-ifx-feign</module>
-        <module>zero-ifx-history</module>
-        <module>zero-ifx-excel</module>
-        <module>zero-ifx-iqiy</module>
-        <module>zero-ifx-mongo</module>
-        <module>zero-ifx-native</module>
-        <module>zero-ifx-redis</module>
-        <module>zero-ifx-sms</module>
-        <module>zero-ifx-neo4j</module>
-        <module>zero-ifx-shell</module>
-    </modules>
+    <name>vertx-synchro: Connect between ? and ?</name>
     <dependencies>
         <dependency>
             <groupId>cn.vertxup</groupId>
@@ -80,4 +68,5 @@
             </plugin>
         </plugins>
     </build>
+
 </project>

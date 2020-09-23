@@ -28,8 +28,11 @@ public class Harp {
              * Cache enabled
              */
             final JsonObject config = options.getJsonObject(KEY_CACHE);
-            LOGGER.info("（ Cache ) L1,L2,L3 has been configured: {0}", config);
+            LOGGER.info("( Cache ) L1,L2,L3 has been configured: {0}", config);
             BUS_HARP = HarpBus.create(vertx, config);
+            /*
+             * Call bus start method for subscribe
+             */
         }
     }
 }
