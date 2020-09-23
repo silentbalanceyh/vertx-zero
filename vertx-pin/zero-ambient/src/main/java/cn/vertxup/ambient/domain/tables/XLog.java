@@ -35,7 +35,7 @@ public class XLog extends TableImpl<XLogRecord> {
      * The reference instance of <code>DB_ETERNAL.X_LOG</code>
      */
     public static final XLog X_LOG = new XLog();
-    private static final long serialVersionUID = 1908612171;
+    private static final long serialVersionUID = 756001248;
     /**
      * The column <code>DB_ETERNAL.X_LOG.KEY</code>. 「key」- 日志的主键
      */
@@ -159,7 +159,7 @@ public class XLog extends TableImpl<XLogRecord> {
      */
     @Override
     public List<Index> getIndexes() {
-        return Arrays.<Index>asList(Indexes.X_LOG_PRIMARY);
+        return Arrays.<Index>asList(Indexes.X_LOG_IDXM_X_LOG_SIGMA_TYPE, Indexes.X_LOG_PRIMARY);
     }
 
     /**

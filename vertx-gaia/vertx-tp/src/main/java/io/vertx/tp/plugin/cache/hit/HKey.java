@@ -5,6 +5,8 @@ package io.vertx.tp.plugin.cache.hit;
  * Calculated cache key based on L1Config etc
  */
 public interface HKey {
-
-    String unique();
+    /*
+     * Matrix store
+     */
+    String unique(HMeta meta);
 }

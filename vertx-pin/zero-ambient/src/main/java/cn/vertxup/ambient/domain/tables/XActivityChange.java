@@ -35,7 +35,7 @@ public class XActivityChange extends TableImpl<XActivityChangeRecord> {
      * The reference instance of <code>DB_ETERNAL.X_ACTIVITY_CHANGE</code>
      */
     public static final XActivityChange X_ACTIVITY_CHANGE = new XActivityChange();
-    private static final long serialVersionUID = -1280197306;
+    private static final long serialVersionUID = 271347569;
     /**
      * The column <code>DB_ETERNAL.X_ACTIVITY_CHANGE.KEY</code>. 「key」- 操作行为主键
      */
@@ -155,7 +155,7 @@ public class XActivityChange extends TableImpl<XActivityChangeRecord> {
      */
     @Override
     public List<Index> getIndexes() {
-        return Arrays.<Index>asList(Indexes.X_ACTIVITY_CHANGE_PRIMARY);
+        return Arrays.<Index>asList(Indexes.X_ACTIVITY_CHANGE_IDX_X_ACTIVITY_CHANGE_ACTIVITY_ID, Indexes.X_ACTIVITY_CHANGE_IDX_X_ACTIVITY_CHANGE_CREATED_AT, Indexes.X_ACTIVITY_CHANGE_PRIMARY);
     }
 
     /**

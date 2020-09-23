@@ -71,6 +71,7 @@ public class Keys {
     public static final UniqueKey<XAttachmentRecord> KEY_X_ATTACHMENT_FILE_PATH = UniqueKeys0.KEY_X_ATTACHMENT_FILE_PATH;
     public static final UniqueKey<XCategoryRecord> KEY_X_CATEGORY_PRIMARY = UniqueKeys0.KEY_X_CATEGORY_PRIMARY;
     public static final UniqueKey<XCategoryRecord> KEY_X_CATEGORY_APP_ID = UniqueKeys0.KEY_X_CATEGORY_APP_ID;
+    public static final UniqueKey<XCategoryRecord> KEY_X_CATEGORY_SIGMA = UniqueKeys0.KEY_X_CATEGORY_SIGMA;
     public static final UniqueKey<XLogRecord> KEY_X_LOG_PRIMARY = UniqueKeys0.KEY_X_LOG_PRIMARY;
     public static final UniqueKey<XMenuRecord> KEY_X_MENU_PRIMARY = UniqueKeys0.KEY_X_MENU_PRIMARY;
     public static final UniqueKey<XMenuRecord> KEY_X_MENU_NAME = UniqueKeys0.KEY_X_MENU_NAME;
@@ -82,6 +83,7 @@ public class Keys {
     public static final UniqueKey<XSourceRecord> KEY_X_SOURCE_APP_ID = UniqueKeys0.KEY_X_SOURCE_APP_ID;
     public static final UniqueKey<XTabularRecord> KEY_X_TABULAR_PRIMARY = UniqueKeys0.KEY_X_TABULAR_PRIMARY;
     public static final UniqueKey<XTabularRecord> KEY_X_TABULAR_APP_ID = UniqueKeys0.KEY_X_TABULAR_APP_ID;
+    public static final UniqueKey<XTabularRecord> KEY_X_TABULAR_SIGMA = UniqueKeys0.KEY_X_TABULAR_SIGMA;
     public static final UniqueKey<XTodoRecord> KEY_X_TODO_PRIMARY = UniqueKeys0.KEY_X_TODO_PRIMARY;
     public static final UniqueKey<XTodoRecord> KEY_X_TODO_SIGMA_2 = UniqueKeys0.KEY_X_TODO_SIGMA_2;
     public static final UniqueKey<XTodoRecord> KEY_X_TODO_SIGMA = UniqueKeys0.KEY_X_TODO_SIGMA;
@@ -109,6 +111,7 @@ public class Keys {
         public static final UniqueKey<XAttachmentRecord> KEY_X_ATTACHMENT_FILE_PATH = Internal.createUniqueKey(XAttachment.X_ATTACHMENT, "KEY_X_ATTACHMENT_FILE_PATH", XAttachment.X_ATTACHMENT.FILE_PATH);
         public static final UniqueKey<XCategoryRecord> KEY_X_CATEGORY_PRIMARY = Internal.createUniqueKey(XCategory.X_CATEGORY, "KEY_X_CATEGORY_PRIMARY", XCategory.X_CATEGORY.KEY);
         public static final UniqueKey<XCategoryRecord> KEY_X_CATEGORY_APP_ID = Internal.createUniqueKey(XCategory.X_CATEGORY, "KEY_X_CATEGORY_APP_ID", XCategory.X_CATEGORY.APP_ID, XCategory.X_CATEGORY.TYPE, XCategory.X_CATEGORY.CODE);
+        public static final UniqueKey<XCategoryRecord> KEY_X_CATEGORY_SIGMA = Internal.createUniqueKey(XCategory.X_CATEGORY, "KEY_X_CATEGORY_SIGMA", XCategory.X_CATEGORY.SIGMA, XCategory.X_CATEGORY.TYPE, XCategory.X_CATEGORY.CODE);
         public static final UniqueKey<XLogRecord> KEY_X_LOG_PRIMARY = Internal.createUniqueKey(XLog.X_LOG, "KEY_X_LOG_PRIMARY", XLog.X_LOG.KEY);
         public static final UniqueKey<XMenuRecord> KEY_X_MENU_PRIMARY = Internal.createUniqueKey(XMenu.X_MENU, "KEY_X_MENU_PRIMARY", XMenu.X_MENU.KEY);
         public static final UniqueKey<XMenuRecord> KEY_X_MENU_NAME = Internal.createUniqueKey(XMenu.X_MENU, "KEY_X_MENU_NAME", XMenu.X_MENU.NAME, XMenu.X_MENU.APP_ID);
@@ -120,6 +123,7 @@ public class Keys {
         public static final UniqueKey<XSourceRecord> KEY_X_SOURCE_APP_ID = Internal.createUniqueKey(XSource.X_SOURCE, "KEY_X_SOURCE_APP_ID", XSource.X_SOURCE.APP_ID);
         public static final UniqueKey<XTabularRecord> KEY_X_TABULAR_PRIMARY = Internal.createUniqueKey(XTabular.X_TABULAR, "KEY_X_TABULAR_PRIMARY", XTabular.X_TABULAR.KEY);
         public static final UniqueKey<XTabularRecord> KEY_X_TABULAR_APP_ID = Internal.createUniqueKey(XTabular.X_TABULAR, "KEY_X_TABULAR_APP_ID", XTabular.X_TABULAR.APP_ID, XTabular.X_TABULAR.TYPE, XTabular.X_TABULAR.CODE);
+        public static final UniqueKey<XTabularRecord> KEY_X_TABULAR_SIGMA = Internal.createUniqueKey(XTabular.X_TABULAR, "KEY_X_TABULAR_SIGMA", XTabular.X_TABULAR.SIGMA, XTabular.X_TABULAR.TYPE, XTabular.X_TABULAR.CODE);
         public static final UniqueKey<XTodoRecord> KEY_X_TODO_PRIMARY = Internal.createUniqueKey(XTodo.X_TODO, "KEY_X_TODO_PRIMARY", XTodo.X_TODO.KEY);
         public static final UniqueKey<XTodoRecord> KEY_X_TODO_SIGMA_2 = Internal.createUniqueKey(XTodo.X_TODO, "KEY_X_TODO_SIGMA_2", XTodo.X_TODO.SIGMA, XTodo.X_TODO.SERIAL);
         public static final UniqueKey<XTodoRecord> KEY_X_TODO_SIGMA = Internal.createUniqueKey(XTodo.X_TODO, "KEY_X_TODO_SIGMA", XTodo.X_TODO.SIGMA, XTodo.X_TODO.CODE);

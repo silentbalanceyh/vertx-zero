@@ -35,7 +35,7 @@ public class XTodo extends TableImpl<XTodoRecord> {
      * The reference instance of <code>DB_ETERNAL.X_TODO</code>
      */
     public static final XTodo X_TODO = new XTodo();
-    private static final long serialVersionUID = -90363195;
+    private static final long serialVersionUID = -2077469566;
     /**
      * The column <code>DB_ETERNAL.X_TODO.KEY</code>. 「key」- 待办主键
      */
@@ -195,7 +195,7 @@ public class XTodo extends TableImpl<XTodoRecord> {
      */
     @Override
     public List<Index> getIndexes() {
-        return Arrays.<Index>asList(Indexes.X_TODO_PRIMARY, Indexes.X_TODO_SIGMA, Indexes.X_TODO_SIGMA_2);
+        return Arrays.<Index>asList(Indexes.X_TODO_IDXM_X_TODO_SIGMA_STATUS, Indexes.X_TODO_IDXM_X_TODO_SIGMA_TYPE_STATUS, Indexes.X_TODO_PRIMARY, Indexes.X_TODO_SIGMA, Indexes.X_TODO_SIGMA_2);
     }
 
     /**

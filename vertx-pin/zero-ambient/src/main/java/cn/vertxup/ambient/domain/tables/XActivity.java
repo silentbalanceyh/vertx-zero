@@ -35,7 +35,7 @@ public class XActivity extends TableImpl<XActivityRecord> {
      * The reference instance of <code>DB_ETERNAL.X_ACTIVITY</code>
      */
     public static final XActivity X_ACTIVITY = new XActivity();
-    private static final long serialVersionUID = -1223681023;
+    private static final long serialVersionUID = -1827152555;
     /**
      * The column <code>DB_ETERNAL.X_ACTIVITY.KEY</code>. 「key」- 操作行为主键
      */
@@ -151,7 +151,7 @@ public class XActivity extends TableImpl<XActivityRecord> {
      */
     @Override
     public List<Index> getIndexes() {
-        return Arrays.<Index>asList(Indexes.X_ACTIVITY_PRIMARY);
+        return Arrays.<Index>asList(Indexes.X_ACTIVITY_IDXM_X_ACTIVITY_MODEL_ID_MODEL_KEY, Indexes.X_ACTIVITY_PRIMARY);
     }
 
     /**

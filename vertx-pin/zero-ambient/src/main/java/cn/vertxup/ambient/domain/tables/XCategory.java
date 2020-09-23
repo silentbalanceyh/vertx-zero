@@ -35,7 +35,7 @@ public class XCategory extends TableImpl<XCategoryRecord> {
      * The reference instance of <code>DB_ETERNAL.X_CATEGORY</code>
      */
     public static final XCategory X_CATEGORY = new XCategory();
-    private static final long serialVersionUID = -610382378;
+    private static final long serialVersionUID = -1427323854;
     /**
      * The column <code>DB_ETERNAL.X_CATEGORY.KEY</code>. 「key」- 类型主键
      */
@@ -163,7 +163,7 @@ public class XCategory extends TableImpl<XCategoryRecord> {
      */
     @Override
     public List<Index> getIndexes() {
-        return Arrays.<Index>asList(Indexes.X_CATEGORY_APP_ID, Indexes.X_CATEGORY_PRIMARY);
+        return Arrays.<Index>asList(Indexes.X_CATEGORY_APP_ID, Indexes.X_CATEGORY_IDXM_X_CATEGORY_APP_ID_TYPE_ACTIVE, Indexes.X_CATEGORY_IDXM_X_CATEGORY_SIGMA_TYPE_ACTIVE, Indexes.X_CATEGORY_PRIMARY, Indexes.X_CATEGORY_SIGMA);
     }
 
     /**
@@ -179,7 +179,7 @@ public class XCategory extends TableImpl<XCategoryRecord> {
      */
     @Override
     public List<UniqueKey<XCategoryRecord>> getKeys() {
-        return Arrays.<UniqueKey<XCategoryRecord>>asList(Keys.KEY_X_CATEGORY_PRIMARY, Keys.KEY_X_CATEGORY_APP_ID);
+        return Arrays.<UniqueKey<XCategoryRecord>>asList(Keys.KEY_X_CATEGORY_PRIMARY, Keys.KEY_X_CATEGORY_APP_ID, Keys.KEY_X_CATEGORY_SIGMA);
     }
 
     /**

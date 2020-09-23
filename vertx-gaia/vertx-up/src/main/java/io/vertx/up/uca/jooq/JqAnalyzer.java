@@ -17,7 +17,10 @@ import org.jooq.TableField;
 import org.jooq.UniqueKey;
 import org.jooq.impl.DSL;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
+import java.util.TreeSet;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
@@ -37,7 +40,7 @@ class JqAnalyzer {
             new ConcurrentHashMap<>();
 
     private transient Mojo pojo;
-    private transient String tableName;
+    private transient Table<?> table;
 
     private transient ConcurrentMap<String, Field> fieldMap = new ConcurrentHashMap<>();
     private transient Class<?> entityCls;
@@ -45,18 +48,14 @@ class JqAnalyzer {
     private JqAnalyzer(final VertxDAO vertxDAO) {
         this.vertxDAO = Fn.pool(DAO_POOL, vertxDAO.hashCode(), () -> vertxDAO);
         // Mapping initializing
-        final Table<?> tableField = Ut.field(this.vertxDAO, "table");
+        this.table = Ut.field(this.vertxDAO, "table");
 
         final Class<?> typeCls = Ut.field(this.vertxDAO, "type");
         this.entityCls = typeCls;
 
         final java.lang.reflect.Field[] fields = Ut.fields(typeCls);
         // Analyze Type and definition sequence, columns hitted.
-        final Field[] columns = tableField.fields();
-        /*
-         * Help for join
-         */
-        this.tableName = tableField.getName();
+        final Field[] columns = this.table.fields();
 
         // Mapping building
         for (int idx = Values.IDX; idx < columns.length; idx++) {
@@ -85,7 +84,35 @@ class JqAnalyzer {
     }
 
     String table() {
-        return this.tableName;
+        return this.table.getName();
+    }
+
+    List<TreeSet<String>> keys() {
+        /*
+         * keys include
+         * - PrimaryKey
+         * - UniqueKey
+         */
+        final List<TreeSet<String>> keys = new ArrayList<>();
+        this.table.getKeys().forEach(ukey -> {
+            /*
+             *  UniqueKey
+             */
+            final TreeSet<String> keySet = new TreeSet<>();
+            ukey.getFields().forEach(column -> {
+                /*
+                 * Column to Field converting
+                 */
+                final String field = this.revert.getOrDefault(column.getName(), null);
+                if (Objects.nonNull(field)) {
+                    keySet.add(field);
+                }
+            });
+            if (!keySet.isEmpty()) {
+                keys.add(keySet);
+            }
+        });
+        return keys;
     }
 
     Class<?> type() {

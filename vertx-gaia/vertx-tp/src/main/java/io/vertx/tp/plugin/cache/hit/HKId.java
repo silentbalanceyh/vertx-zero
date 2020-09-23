@@ -18,7 +18,7 @@ public class HKId implements HKey {
     }
 
     @Override
-    public String unique() {
+    public String unique(final HMeta meta) {
         return this.id;
     }
 }

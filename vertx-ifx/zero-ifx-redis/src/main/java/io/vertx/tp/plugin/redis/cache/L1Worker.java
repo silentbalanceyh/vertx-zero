@@ -5,6 +5,8 @@ import io.vertx.core.buffer.Buffer;
 import io.vertx.core.eventbus.EventBus;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.plugin.cache.l1.L1Config;
+import io.vertx.tp.plugin.cache.l1.L1Kit;
+import io.vertx.up.eon.em.ChangeFlag;
 import io.vertx.up.util.Ut;
 
 import java.util.Objects;
@@ -14,7 +16,6 @@ import java.util.concurrent.ConcurrentMap;
  * @author <a href="http://www.origin-x.cn">lang</a>
  */
 public class L1Worker extends AbstractVerticle {
-    private transient final L1Channel channel = new L1Channel();
 
     @Override
     public void start() {
@@ -41,6 +42,14 @@ public class L1Worker extends AbstractVerticle {
                      * Mapped data
                      */
                     final ConcurrentMap<String, JsonObject> mapped = L1Kit.dataConsumer(jsonBody, config.copy());
+                    /*
+                     * Redis
+                     */
+                    final ChangeFlag flag = Ut.toEnum(() -> jsonBody.getString("flag"), ChangeFlag.class, ChangeFlag.NONE);
+                    if (ChangeFlag.NONE != flag) {
+                        final L1Channel channel = new L1Channel();
+                        mapped.forEach((key, data) -> channel.refresh(key, data, flag));
+                    }
                 }
             });
         }

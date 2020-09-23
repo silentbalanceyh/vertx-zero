@@ -35,7 +35,7 @@ public class XMenu extends TableImpl<XMenuRecord> {
      * The reference instance of <code>DB_ETERNAL.X_MENU</code>
      */
     public static final XMenu X_MENU = new XMenu();
-    private static final long serialVersionUID = 2106688458;
+    private static final long serialVersionUID = -1164933231;
     /**
      * The column <code>DB_ETERNAL.X_MENU.KEY</code>. 「key」- 菜单主键
      */
@@ -159,7 +159,7 @@ public class XMenu extends TableImpl<XMenuRecord> {
      */
     @Override
     public List<Index> getIndexes() {
-        return Arrays.<Index>asList(Indexes.X_MENU_NAME, Indexes.X_MENU_PRIMARY);
+        return Arrays.<Index>asList(Indexes.X_MENU_IDX_X_MENU_APP_ID, Indexes.X_MENU_NAME, Indexes.X_MENU_PRIMARY);
     }
 
     /**

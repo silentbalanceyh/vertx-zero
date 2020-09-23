@@ -9,6 +9,8 @@ import io.vertx.redis.client.Redis;
 import io.vertx.redis.client.Request;
 import io.vertx.redis.client.Response;
 import io.vertx.tp.plugin.redis.RedisInfix;
+import io.vertx.up.eon.em.ChangeFlag;
+import io.vertx.up.log.Annal;
 import io.vertx.up.util.Ut;
 import redis.clients.jedis.Jedis;
 
@@ -19,6 +21,7 @@ import java.util.function.Function;
  * @author <a href="http://www.origin-x.cn">lang</a>
  */
 class L1Channel {
+    private final static Annal LOGGER = Annal.get(L1Channel.class);
 
     private final transient Redis redis;
     private final transient Jedis jedis;
@@ -26,6 +29,37 @@ class L1Channel {
     L1Channel() {
         this.redis = RedisInfix.getClient();
         this.jedis = RedisInfix.getJClient();
+    }
+
+    void refresh(final String key, final JsonObject data, final ChangeFlag flag) {
+        final Request request;
+        switch (flag) {
+            case ADD:
+            case UPDATE: {
+                request = Request.cmd(Command.SET);
+                request.arg(key);
+                request.arg(data.encode());
+            }
+            break;
+            case DELETE: {
+                request = Request.cmd(Command.DEL);
+            }
+            break;
+            default:
+                request = null;
+                break;
+        }
+        if (Objects.nonNull(request)) {
+            this.redis.send(request, res -> {
+                if (res.succeeded()) {
+                    LOGGER.info("( Cache ) The key `{0}` has been refreshed.", key);
+                } else {
+                    if (Objects.nonNull(res.cause())) {
+                        res.cause().printStackTrace();
+                    }
+                }
+            });
+        }
     }
 
     JsonObject hit(final String key) {
@@ -43,13 +77,13 @@ class L1Channel {
     Future<JsonObject> hitAsync(final String key) {
         final Request request = Request.cmd(Command.GET);
         request.arg(key);
-        return this.hitAsync(request, response -> {
+        return this.requestAsync(request, response -> {
             final Buffer buffer = response.toBuffer();
             return Objects.isNull(buffer) ? null : buffer.toJsonObject();
         });
     }
 
-    private <T> Future<T> hitAsync(final Request request, final Function<Response, T> consumer) {
+    private <T> Future<T> requestAsync(final Request request, final Function<Response, T> consumer) {
         final Promise<T> promise = Promise.promise();
         this.redis.send(request, res -> {
             if (res.succeeded()) {

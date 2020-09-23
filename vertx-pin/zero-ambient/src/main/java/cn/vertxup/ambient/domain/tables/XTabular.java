@@ -35,7 +35,7 @@ public class XTabular extends TableImpl<XTabularRecord> {
      * The reference instance of <code>DB_ETERNAL.X_TABULAR</code>
      */
     public static final XTabular X_TABULAR = new XTabular();
-    private static final long serialVersionUID = -732896972;
+    private static final long serialVersionUID = -1658793888;
     /**
      * The column <code>DB_ETERNAL.X_TABULAR.KEY</code>. 「key」- 列表主键
      */
@@ -151,7 +151,7 @@ public class XTabular extends TableImpl<XTabularRecord> {
      */
     @Override
     public List<Index> getIndexes() {
-        return Arrays.<Index>asList(Indexes.X_TABULAR_APP_ID, Indexes.X_TABULAR_PRIMARY);
+        return Arrays.<Index>asList(Indexes.X_TABULAR_APP_ID, Indexes.X_TABULAR_IDXM_X_TABULAR_APP_ID_TYPE_ACTIVE, Indexes.X_TABULAR_IDXM_X_TABULAR_SIGMA_TYPE_ACTIVE, Indexes.X_TABULAR_PRIMARY, Indexes.X_TABULAR_SIGMA);
     }
 
     /**
@@ -167,7 +167,7 @@ public class XTabular extends TableImpl<XTabularRecord> {
      */
     @Override
     public List<UniqueKey<XTabularRecord>> getKeys() {
-        return Arrays.<UniqueKey<XTabularRecord>>asList(Keys.KEY_X_TABULAR_PRIMARY, Keys.KEY_X_TABULAR_APP_ID);
+        return Arrays.<UniqueKey<XTabularRecord>>asList(Keys.KEY_X_TABULAR_PRIMARY, Keys.KEY_X_TABULAR_APP_ID, Keys.KEY_X_TABULAR_SIGMA);
     }
 
     /**

@@ -3,6 +3,7 @@ package io.vertx.tp.plugin.cache.l1;
 import io.vertx.core.Future;
 import io.vertx.core.Vertx;
 import io.vertx.tp.plugin.cache.hit.HKey;
+import io.vertx.tp.plugin.cache.hit.HMeta;
 import io.vertx.up.eon.em.ChangeFlag;
 
 /**
@@ -37,9 +38,9 @@ public interface L1Cache {
      * - by field
      * - by unique condition
      */
-    <T> void flushAsync(T input, ChangeFlag type, Class<T> clazz);
+    <T> void flushAsync(T input, ChangeFlag type, HMeta meta);
 
-    <T> Future<T> hitAsync(HKey key, Class<T> clazz);
+    <T> Future<T> hitAsync(HKey key, HMeta meta);
 
-    <T> T hit(HKey key, Class<T> clazz);
+    <T> T hit(HKey key, HMeta meta);
 }

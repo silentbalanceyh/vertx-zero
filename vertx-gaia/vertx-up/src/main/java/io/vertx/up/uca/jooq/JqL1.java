@@ -4,11 +4,14 @@ import io.github.jklingsporn.vertx.jooq.future.VertxDAO;
 import io.vertx.tp.plugin.cache.Harp;
 import io.vertx.tp.plugin.cache.hit.HKId;
 import io.vertx.tp.plugin.cache.hit.HKey;
+import io.vertx.tp.plugin.cache.hit.HMeta;
 import io.vertx.tp.plugin.cache.l1.L1Cache;
 import io.vertx.up.eon.em.ChangeFlag;
 import io.vertx.up.fn.Fn;
 
 import java.util.Objects;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 import java.util.function.Supplier;
 
 /**
@@ -17,6 +20,7 @@ import java.util.function.Supplier;
 @SuppressWarnings("all")
 class JqL1 {
 
+    private static final ConcurrentMap<Class<?>, HMeta> META_POOL = new ConcurrentHashMap<>();
     private final transient VertxDAO vertxDAO;
     private final transient JqAnalyzer analyzer;
 
@@ -43,8 +47,12 @@ class JqL1 {
      * Insert data
      */
     public <T> void insertAsync(final T input) {
-        final Class<T> entityCls = (Class<T>) this.analyzer.type();
-        this.cacheL1.flushAsync(input, ChangeFlag.ADD, entityCls);
+        this.cacheL1.flushAsync(input, ChangeFlag.ADD, this.meta());
+    }
+
+    private HMeta meta() {
+        final Class<?> clazz = this.analyzer.type();
+        return Fn.pool(META_POOL, clazz, () -> new HMeta(clazz).keys(this.analyzer.keys()));
     }
 
     /*
@@ -54,8 +62,7 @@ class JqL1 {
         return cached(() -> {
             // HKey for id
             final HKey key = new HKId(id);
-            final Class<T> entityCls = (Class<T>) this.analyzer.type();
-            return this.cacheL1.hit(key, entityCls);
+            return this.cacheL1.hit(key, this.meta());
         }, executor);
     }
 

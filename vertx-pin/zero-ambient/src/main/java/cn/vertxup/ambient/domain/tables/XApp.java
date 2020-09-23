@@ -35,7 +35,7 @@ public class XApp extends TableImpl<XAppRecord> {
      * The reference instance of <code>DB_ETERNAL.X_APP</code>
      */
     public static final XApp X_APP = new XApp();
-    private static final long serialVersionUID = 1353664553;
+    private static final long serialVersionUID = -2028863582;
     /**
      * The column <code>DB_ETERNAL.X_APP.KEY</code>. 「key」- 应用程序主键
      */
@@ -179,7 +179,7 @@ public class XApp extends TableImpl<XAppRecord> {
      */
     @Override
     public List<Index> getIndexes() {
-        return Arrays.<Index>asList(Indexes.X_APP_CODE, Indexes.X_APP_NAME, Indexes.X_APP_PATH, Indexes.X_APP_PATH_2, Indexes.X_APP_PRIMARY);
+        return Arrays.<Index>asList(Indexes.X_APP_CODE, Indexes.X_APP_IDX_X_APP_NAME, Indexes.X_APP_NAME, Indexes.X_APP_PATH, Indexes.X_APP_PATH_2, Indexes.X_APP_PRIMARY);
     }
 
     /**
