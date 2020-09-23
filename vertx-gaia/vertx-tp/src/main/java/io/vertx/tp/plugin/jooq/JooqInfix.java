@@ -1,6 +1,7 @@
 package io.vertx.tp.plugin.jooq;
 
 import io.vertx.core.Vertx;
+import io.vertx.tp.plugin.cache.Harp;
 import io.vertx.tp.plugin.database.DataPool;
 import io.vertx.up.annotations.Plugin;
 import io.vertx.up.commune.config.Database;
@@ -33,6 +34,10 @@ public class JooqInfix implements Infix {
         final ConcurrentMap<String, Configuration> inited =
                 Infix.init(Plugins.Infix.JOOQ, JooqPin::initConfiguration, JooqInfix.class);
         CONFIGURATION.putAll(inited);
+        /*
+         * Check L1 cache enabled
+         */
+        Harp.init(vertx);
     }
 
     public static <T> T getDao(final Class<T> clazz) {

@@ -28,17 +28,17 @@ public interface Plugins {
     ConcurrentMap<Class<? extends Annotation>, String> INFIX_MAP =
             new ConcurrentHashMap<Class<? extends Annotation>, String>() {
                 {
-                    put(Mongo.class, Infix.MONGO);
-                    put(MySql.class, Infix.MYSQL);
-                    put(Jooq.class, Infix.JOOQ);
-                    put(Rpc.class, Infix.RPC);
-                    put(Redis.class, Infix.REDIS);
+                    this.put(Mongo.class, Infix.MONGO);
+                    this.put(MySql.class, Infix.MYSQL);
+                    this.put(Jooq.class, Infix.JOOQ);
+                    this.put(Rpc.class, Infix.RPC);
+                    this.put(Redis.class, Infix.REDIS);
                 }
             };
     Set<Class<? extends Annotation>> INJECT_ANNOTATIONS = new HashSet<Class<? extends Annotation>>() {
         {
-            addAll(INFIX_MAP.keySet());
-            add(Inject.class);
+            this.addAll(INFIX_MAP.keySet());
+            this.add(Inject.class);
         }
     };
 
@@ -64,7 +64,9 @@ public interface Plugins {
 
 
         String JOOQ = "jooq";
+
         String RPC = "rpc";
+
         String SECURE = "secure";
 
         String LOGGER = "logger";
@@ -73,21 +75,20 @@ public interface Plugins {
          */
         Set<String> STANDAND = new HashSet<String>() {
             {
-                add(MONGO);
-                add(MYSQL);
-                add(REDIS);
+                this.add(MONGO);
+                this.add(MYSQL);
+                this.add(REDIS);
                 // Could not put session  / shared in to standard
                 // this.add(SESSION);
                 // this.add(SHARED);
-
-                add(RPC);
-                add(JOOQ);
-                add(LOGGER);
+                this.add(RPC);
+                this.add(JOOQ);
+                this.add(LOGGER);
             }
         };
     }
 
-    interface Default{
+    interface Default {
         String WALL_MONGO = "io.vertx.tp.plugin.mongo.MongoWall";
         String AGENT_RPC = "io.vertx.up.verticle.ZeroRpcAgent";
         String AGENT_API = "io.vertx.up.verticle.ZeroApiAgent";

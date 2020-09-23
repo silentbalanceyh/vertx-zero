@@ -1,5 +1,7 @@
 package io.vertx.tp.plugin.cache.l1;
 
+import io.vertx.core.Vertx;
+
 /**
  * @author <a href="http://www.origin-x.cn">lang</a>
  * The first Level for cache, this interface is used by Jooq
@@ -12,5 +14,9 @@ package io.vertx.tp.plugin.cache.l1;
  * -- 3.2）The cache key is unique key directly
  * -- 3.3）The cache key is condition for `existing/missing` checking
  */
-public interface DbCache {
+public interface L1Cache {
+
+    L1Cache bind(L1Config config);
+
+    L1Cache bind(Vertx vertx);
 }
