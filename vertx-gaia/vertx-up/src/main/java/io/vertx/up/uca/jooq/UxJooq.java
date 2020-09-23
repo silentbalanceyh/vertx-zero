@@ -4,12 +4,12 @@ import io.github.jklingsporn.vertx.jooq.future.VertxDAO;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
+import io.vertx.tp.plugin.jooq.condition.JooqCond;
 import io.vertx.up.atom.query.Inquiry;
 import io.vertx.up.eon.em.Format;
 import io.vertx.up.exception.zero.JooqClassInvalidException;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
-import io.vertx.up.uca.condition.JooqCond;
 import io.vertx.up.util.Ut;
 import org.jooq.Operator;
 

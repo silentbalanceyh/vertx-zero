@@ -2,7 +2,7 @@ package io.vertx.up.unity.jq;
 
 import io.vertx.core.json.JsonObject;
 import io.vertx.quiz.JooqBase;
-import io.vertx.up.uca.condition.JooqCond;
+import io.vertx.tp.plugin.jooq.condition.JooqCond;
 import org.jooq.Condition;
 import org.jooq.Operator;
 import org.jooq.impl.DSL;
