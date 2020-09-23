@@ -13,29 +13,35 @@ import java.util.Objects;
  */
 public class HarpBus {
     private static final String KEY_L1 = "l1";
-    private final transient Vertx vertx;
     private transient L1Cache l1;
 
     private HarpBus(final Vertx vertx, final JsonObject options) {
-        this.vertx = vertx;
         /*
          * L1 processing
          */
-        final L1Config config = Ut.deserialize(options.getJsonObject(KEY_L1), L1Config.class);
-        if (Objects.nonNull(config.getComponent())) {
-            /*
-             * L1 cache here
-             */
-            final L1Cache cache = Ut.instance(config.getComponent());
-            cache.bind(vertx).bind(config);
-        }
+        this.initL1(vertx, options.getJsonObject(KEY_L1));
     }
 
     static HarpBus create(final Vertx vertx, final JsonObject options) {
         return new HarpBus(vertx, options);
     }
 
-    public void subscribe() {
+    private void initL1(final Vertx vertx, final JsonObject config) {
+        final L1Config configL1 = Ut.deserialize(config, L1Config.class);
+        if (Objects.nonNull(configL1.getComponent())) {
+            /*
+             * L1 cache here
+             */
+            final Class<?> cacheClass = configL1.getComponent();
+            if (Ut.isImplement(cacheClass, L1Cache.class)) {
+                final L1Cache cache = Ut.instance(configL1.getComponent());
+                cache.bind(vertx).bind(configL1);
+                this.l1 = cache;
+            }
+        }
+    }
 
+    L1Cache cacheL1() {
+        return this.l1;
     }
 }

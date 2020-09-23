@@ -67,6 +67,14 @@ public class ZeroHeart {
     }
 
     /*
+     * Cache
+     */
+    public static boolean isCache() {
+        final JsonObject options = VISITOR.read();
+        return options.containsKey("cache");
+    }
+
+    /*
      * Whether Current node is ApiGateway
      */
     public static boolean isGateway() {

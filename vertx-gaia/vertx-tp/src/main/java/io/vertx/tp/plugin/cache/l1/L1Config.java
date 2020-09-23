@@ -49,5 +49,4 @@ public class L1Config implements Serializable {
     public void setMatrix(final JsonObject matrix) {
         this.matrix = matrix;
     }
-
 }

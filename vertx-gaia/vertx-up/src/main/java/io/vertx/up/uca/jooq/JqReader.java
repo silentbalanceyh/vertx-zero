@@ -8,6 +8,7 @@ import io.vertx.tp.plugin.jooq.JooqInfix;
 import io.vertx.tp.plugin.jooq.condition.JooqCond;
 import io.vertx.up.atom.query.Inquiry;
 import io.vertx.up.atom.query.Pager;
+import io.vertx.up.uca.jooq.cache.L1;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 import org.jooq.*;
@@ -29,15 +30,17 @@ public class JqReader {
 
     private transient final VertxDAO vertxDAO;
 
-    private transient JqAnalyzer analyzer;
-
+    private transient final JqAnalyzer analyzer;
+    private transient final JqL1 cacheL1;
     private transient JqAggregator aggregator;
 
     private JqReader(final VertxDAO vertxDAO,
                      final JqAnalyzer analyzer) {
         this.vertxDAO = vertxDAO;
         this.analyzer = analyzer;
+
         this.aggregator = JqAggregator.create(vertxDAO, analyzer);
+        this.cacheL1 = JqL1.create(vertxDAO, analyzer);
     }
 
     static JqReader create(final VertxDAO vertxDAO, final JqAnalyzer analyzer) {
@@ -74,8 +77,10 @@ public class JqReader {
         return toResult(this.vertxDAO.fetchOne(this.analyzer.column(field), value));
     }
 
+    // Cached
+    @L1
     <T> T findById(final Object id) {
-        return toResult(this.vertxDAO.findById(id));
+        return this.cacheL1.findById(id, () -> toResult(this.vertxDAO.findById(id)));
     }
 
     <T> List<T> findAll() {

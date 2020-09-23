@@ -15,7 +15,6 @@
         <module>vertx-pin</module>
         <module>vertx-ifx</module>
         <module>vertx-istio</module>
-        <module>vertx-synchro</module>
     </modules>
     <packaging>pom</packaging>
     <!-- License -->

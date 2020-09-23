@@ -1,6 +1,9 @@
 package io.vertx.tp.plugin.cache.l1;
 
+import io.vertx.core.Future;
 import io.vertx.core.Vertx;
+import io.vertx.tp.plugin.cache.HKey;
+import io.vertx.up.eon.em.ChangeFlag;
 
 /**
  * @author <a href="http://www.origin-x.cn">lang</a>
@@ -19,4 +22,26 @@ public interface L1Cache {
     L1Cache bind(L1Config config);
 
     L1Cache bind(Vertx vertx);
+
+    /*
+     * Policy 1:
+     *
+     * Double check for write / read
+     *
+     * write include:
+     * - ADD
+     * - DELETE
+     * - UPDATE
+     * read include:
+     * - by key
+     * - by field
+     * - by unique condition
+     */
+    <T> Future<T> flushAsync(T input, ChangeFlag type);
+
+    <T> T flush(T input, ChangeFlag type);
+
+    <T> Future<T> hitAsync(HKey key);
+
+    <T> T hit(HKey key);
 }

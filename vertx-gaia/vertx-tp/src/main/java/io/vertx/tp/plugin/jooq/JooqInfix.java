@@ -35,7 +35,7 @@ public class JooqInfix implements Infix {
                 Infix.init(Plugins.Infix.JOOQ, JooqPin::initConfiguration, JooqInfix.class);
         CONFIGURATION.putAll(inited);
         /*
-         * Check L1 cache enabled
+         * Harp
          */
         Harp.init(vertx);
     }
