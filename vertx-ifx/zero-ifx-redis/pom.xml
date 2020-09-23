@@ -12,6 +12,12 @@
     <artifactId>zero-ifx-redis</artifactId>
     <name>( Zero Infix ) Redis</name>
     <dependencies>
+        <!-- Sync -->
+        <dependency>
+            <groupId>redis.clients</groupId>
+            <artifactId>jedis</artifactId>
+        </dependency>
+        <!-- Async ( Recommend ) -->
         <dependency>
             <groupId>io.vertx</groupId>
             <artifactId>vertx-redis-client</artifactId>

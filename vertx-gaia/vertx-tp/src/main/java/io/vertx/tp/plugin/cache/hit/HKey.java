@@ -1,4 +1,4 @@
-package io.vertx.tp.plugin.cache;
+package io.vertx.tp.plugin.cache.hit;
 
 /**
  * @author <a href="http://www.origin-x.cn">lang</a>
@@ -6,4 +6,5 @@ package io.vertx.tp.plugin.cache;
  */
 public interface HKey {
 
+    String unique();
 }

@@ -28,6 +28,7 @@ import java.util.function.Function;
 class JqWriter {
 
     private transient final VertxDAO vertxDAO;
+    private transient final JqL1 cacheL1;
     private transient JqReader reader;
     private transient JqAnalyzer analyzer;
 
@@ -35,6 +36,7 @@ class JqWriter {
         this.vertxDAO = vertxDAO;
         this.analyzer = analyzer;
         this.reader = JqReader.create(vertxDAO, analyzer);
+        this.cacheL1 = JqL1.create(vertxDAO, analyzer);
     }
 
     static JqWriter create(final VertxDAO vertxDAO, final JqAnalyzer analyzer) {
@@ -72,8 +74,11 @@ class JqWriter {
     }
 
     /* Sync insert operation: INSERT */
+    // Cached
+    @L1
     <T> T insert(final T entity) {
         this.vertxDAO.insert(uuid(entity));
+        this.cacheL1.insertAsync(entity);
         return entity;
     }
 

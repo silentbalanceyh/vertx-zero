@@ -1,9 +1,14 @@
 package io.vertx.up.uca.jooq;
 
 import io.github.jklingsporn.vertx.jooq.future.VertxDAO;
-import io.vertx.up.uca.jooq.cache.L1Async;
-import io.vertx.up.uca.jooq.cache.L1Sync;
+import io.vertx.tp.plugin.cache.Harp;
+import io.vertx.tp.plugin.cache.hit.HKId;
+import io.vertx.tp.plugin.cache.hit.HKey;
+import io.vertx.tp.plugin.cache.l1.L1Cache;
+import io.vertx.up.eon.em.ChangeFlag;
+import io.vertx.up.fn.Fn;
 
+import java.util.Objects;
 import java.util.function.Supplier;
 
 /**
@@ -15,8 +20,7 @@ class JqL1 {
     private final transient VertxDAO vertxDAO;
     private final transient JqAnalyzer analyzer;
 
-    private final transient L1Sync sync;
-    private final transient L1Async async;
+    private final transient L1Cache cacheL1;
 
     private JqL1(final VertxDAO vertxDAO,
                  final JqAnalyzer analyzer) {
@@ -28,8 +32,7 @@ class JqL1 {
         /*
          * Vertx Processing
          */
-        this.sync = new L1Sync();
-        this.async = new L1Async();
+        this.cacheL1 = Harp.cacheL1();
     }
 
     public static JqL1 create(final VertxDAO vertxDAO, final JqAnalyzer analyzer) {
@@ -37,9 +40,28 @@ class JqL1 {
     }
 
     /*
+     * Insert data
+     */
+    public <T> void insertAsync(final T input) {
+        final Class<T> entityCls = (Class<T>) this.analyzer.type();
+        this.cacheL1.flushAsync(input, ChangeFlag.ADD, entityCls);
+    }
+
+    /*
      * Fetch data by id
      */
     public <T> T findById(final Object id, final Supplier<T> executor) {
-        return sync.findById(id, executor);
+        return cached(() -> {
+            // HKey for id
+            final HKey key = new HKId(id);
+            final Class<T> entityCls = (Class<T>) this.analyzer.type();
+            return this.cacheL1.hit(key, entityCls);
+        }, executor);
+    }
+
+    private <T> T cached(final Supplier<T> internal, final Supplier<T> executor) {
+        if (Objects.nonNull(this.cacheL1)) {
+            return Fn.getJvm(executor.get(), () -> internal.get());
+        } else return executor.get();
     }
 }

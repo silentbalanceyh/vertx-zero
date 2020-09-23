@@ -9,6 +9,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import io.vertx.core.json.JsonObject;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 /**
  * @author <a href="http://www.origin-x.cn">lang</a>
@@ -18,6 +19,12 @@ public class L1Config implements Serializable {
     @JsonSerialize(using = ClassSerializer.class)
     @JsonDeserialize(using = ClassDeserializer.class)
     private transient Class<?> component;
+
+    @JsonSerialize(using = ClassSerializer.class)
+    @JsonDeserialize(using = ClassDeserializer.class)
+    private transient Class<?> worker;
+
+    private transient String address;
 
     @JsonSerialize(using = JsonObjectSerializer.class)
     @JsonDeserialize(using = JsonObjectDeserializer.class)
@@ -48,5 +55,35 @@ public class L1Config implements Serializable {
 
     public void setMatrix(final JsonObject matrix) {
         this.matrix = matrix;
+    }
+
+    public Class<?> getWorker() {
+        return this.worker;
+    }
+
+    public void setWorker(final Class<?> worker) {
+        this.worker = worker;
+    }
+
+    public String getAddress() {
+        return this.address;
+    }
+
+    public void setAddress(final String address) {
+        this.address = address;
+    }
+
+    public L1Config copy() {
+        final L1Config config = new L1Config();
+        config.setComponent(this.component);
+        if (Objects.nonNull(this.matrix)) {
+            config.setMatrix(this.matrix.copy());
+        }
+        if (Objects.nonNull(this.options)) {
+            config.setOptions(this.options.copy());
+        }
+        config.setWorker(this.worker);
+        config.setAddress(this.address);
+        return config;
     }
 }

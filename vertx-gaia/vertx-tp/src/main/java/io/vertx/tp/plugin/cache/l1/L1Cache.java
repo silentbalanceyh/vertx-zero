@@ -2,7 +2,7 @@ package io.vertx.tp.plugin.cache.l1;
 
 import io.vertx.core.Future;
 import io.vertx.core.Vertx;
-import io.vertx.tp.plugin.cache.HKey;
+import io.vertx.tp.plugin.cache.hit.HKey;
 import io.vertx.up.eon.em.ChangeFlag;
 
 /**
@@ -37,11 +37,9 @@ public interface L1Cache {
      * - by field
      * - by unique condition
      */
-    <T> Future<T> flushAsync(T input, ChangeFlag type);
+    <T> void flushAsync(T input, ChangeFlag type, Class<T> clazz);
 
-    <T> T flush(T input, ChangeFlag type);
+    <T> Future<T> hitAsync(HKey key, Class<T> clazz);
 
-    <T> Future<T> hitAsync(HKey key);
-
-    <T> T hit(HKey key);
+    <T> T hit(HKey key, Class<T> clazz);
 }
