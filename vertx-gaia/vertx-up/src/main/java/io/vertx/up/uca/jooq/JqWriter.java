@@ -78,7 +78,7 @@ class JqWriter {
     @L1
     <T> T insert(final T entity) {
         this.vertxDAO.insert(uuid(entity));
-        this.cacheL1.insertAsync(entity);
+        this.cacheL1.insertL1(entity);
         return entity;
     }
 
@@ -102,8 +102,10 @@ class JqWriter {
     }
 
     /* Sync insert operation: UPDATE */
+    @L1
     <T> T update(final T entity) {
         this.vertxDAO.update(entity);
+        this.cacheL1.updateL1(entity);
         return entity;
     }
 
@@ -139,6 +141,7 @@ class JqWriter {
     /* Sync delete operation: DELETE */
     <T> T delete(final T entity) {
         this.vertxDAO.delete(entity);
+        this.cacheL1.deleteL1(entity);
         return entity;
     }
 

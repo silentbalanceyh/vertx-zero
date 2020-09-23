@@ -54,6 +54,8 @@ public class L1 extends AbstractL1 {
         final JsonObject data = this.channel.hit(uk);
         if (Ut.isNil(data)) {
             return null;
-        } else return Ut.deserialize(data, meta.type());
+        } else {
+            return Ut.deserialize(data, meta.type());
+        }
     }
 }

@@ -46,8 +46,16 @@ class JqL1 {
     /*
      * Insert data
      */
-    public <T> void insertAsync(final T input) {
+    public <T> void insertL1(final T input) {
         this.cacheL1.flushAsync(input, ChangeFlag.ADD, this.meta());
+    }
+
+    public <T> void updateL1(final T input) {
+        this.cacheL1.flushAsync(input, ChangeFlag.UPDATE, this.meta());
+    }
+
+    public <T> void deleteL1(final T input) {
+        this.cacheL1.flushAsync(input, ChangeFlag.DELETE, this.meta());
     }
 
     private HMeta meta() {
@@ -68,7 +76,17 @@ class JqL1 {
 
     private <T> T cached(final Supplier<T> internal, final Supplier<T> executor) {
         if (Objects.nonNull(this.cacheL1)) {
-            return Fn.getJvm(executor.get(), () -> internal.get());
+            try {
+                final T found = internal.get();
+                if (Objects.isNull(found)) {
+                    return executor.get();
+                } else {
+                    return found;
+                }
+            } catch (Throwable ex) {
+                ex.printStackTrace();
+                return executor.get();
+            }
         } else return executor.get();
     }
 }

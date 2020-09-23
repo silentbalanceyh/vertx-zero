@@ -87,7 +87,7 @@ public class HikariDataPool implements DataPool {
             this.dataSource.addDataSourceProperty("rewriteBatchedStatements", this.database.getOption(OPT_REWRITE_BATCHED_STMT, "true"));
             this.dataSource.addDataSourceProperty("cacheResultSetMetadata", this.database.getOption(OPT_CACHE_METADATA, "true"));
             this.dataSource.addDataSourceProperty("cacheServerConfiguration", this.database.getOption(OPT_CACHE_SERVER_CONFIG, "true"));
-            this.dataSource.addDataSourceProperty("elideSetAutoCommits", this.database.getOption(OPT_ELIDE_COMMIT, "true"));
+            // this.dataSource.addDataSourceProperty("elideSetAutoCommits", this.database.getOption(OPT_ELIDE_COMMIT, "true"));
             this.dataSource.addDataSourceProperty("maintainTimeStats", this.database.getOption(OPT_MAINTAIN_TIMESTAT, "false"));
             // Data pool name
             this.dataSource.setPoolName(this.database.getOption(OPT_POOL_NAME, "ZERO-POOL-DATA"));

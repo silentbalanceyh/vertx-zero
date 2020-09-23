@@ -70,7 +70,7 @@ public class L1Kit {
      */
     public static String keyString(final String type, final TreeMap<String, String> treeMap) {
         final StringBuilder key = new StringBuilder();
-        key.append(KEY_DAO).append(":").append(type).append(",");
+        key.append(KEY_DAO).append(":").append(type).append(":");
         treeMap.forEach((k, v) -> key.append(k).append("=").append(v).append(","));
         return key.toString();
     }

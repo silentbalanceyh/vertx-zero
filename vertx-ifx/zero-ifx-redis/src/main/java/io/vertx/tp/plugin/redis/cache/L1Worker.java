@@ -48,7 +48,7 @@ public class L1Worker extends AbstractVerticle {
                     final ChangeFlag flag = Ut.toEnum(() -> jsonBody.getString("flag"), ChangeFlag.class, ChangeFlag.NONE);
                     if (ChangeFlag.NONE != flag) {
                         final L1Channel channel = new L1Channel();
-                        mapped.forEach((key, data) -> channel.refresh(key, data, flag));
+                        channel.refresh(mapped, flag);
                     }
                 }
             });
