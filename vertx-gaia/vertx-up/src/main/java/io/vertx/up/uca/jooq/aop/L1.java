@@ -1,4 +1,4 @@
-package io.vertx.up.uca.jooq;
+package io.vertx.up.uca.jooq.aop;
 
 import java.lang.annotation.*;
 

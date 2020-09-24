@@ -1,4 +1,4 @@
-package io.vertx.up.uca.jooq;
+package io.vertx.up.uca.jooq.aop;
 
 import io.github.jklingsporn.vertx.jooq.future.VertxDAO;
 import io.vertx.tp.plugin.cache.Harp;
@@ -8,6 +8,7 @@ import io.vertx.tp.plugin.cache.hit.HMeta;
 import io.vertx.tp.plugin.cache.l1.L1Cache;
 import io.vertx.up.eon.em.ChangeFlag;
 import io.vertx.up.fn.Fn;
+import io.vertx.up.uca.jooq.JqAnalyzer;
 
 import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;

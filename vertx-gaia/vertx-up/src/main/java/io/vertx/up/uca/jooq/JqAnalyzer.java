@@ -25,7 +25,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
 @SuppressWarnings("all")
-class JqAnalyzer {
+public class JqAnalyzer {
 
     private static final Annal LOGGER = Annal.get(JqAnalyzer.class);
     private static final ConcurrentMap<Integer, VertxDAO> DAO_POOL =
@@ -79,15 +79,15 @@ class JqAnalyzer {
         }
     }
 
-    static JqAnalyzer create(final VertxDAO vertxDAO) {
+    public static JqAnalyzer create(final VertxDAO vertxDAO) {
         return new JqAnalyzer(vertxDAO);
     }
 
-    String table() {
+    public String table() {
         return this.table.getName();
     }
 
-    List<TreeSet<String>> keys() {
+    public List<TreeSet<String>> keys() {
         /*
          * keys include
          * - PrimaryKey
@@ -115,7 +115,7 @@ class JqAnalyzer {
         return keys;
     }
 
-    Class<?> type() {
+    public Class<?> type() {
         return this.entityCls;
     }
 
@@ -205,11 +205,11 @@ class JqAnalyzer {
         return targetField;
     }
 
-    ConcurrentMap<String, Field> columns() {
+    public ConcurrentMap<String, Field> columns() {
         return this.fieldMap;
     }
 
-    Field column(final String field) {
+    public Field column(final String field) {
         String columnField = columnName(field);
         Fn.outUp(null == columnField, LOGGER,
                 JooqFieldMissingException.class, UxJooq.class, field, Ut.field(this.vertxDAO, "type"));
@@ -233,7 +233,7 @@ class JqAnalyzer {
         return found;
     }
 
-    void on(final String pojo, final Class<?> clazz) {
+    public void on(final String pojo, final Class<?> clazz) {
         if (Ut.isNil(pojo)) {
             this.pojo = null;
         } else {
@@ -245,7 +245,7 @@ class JqAnalyzer {
         }
     }
 
-    <T> T copyEntity(final T target, final T updated) {
+    public <T> T copyEntity(final T target, final T updated) {
         Fn.outUp(null == updated, LOGGER, JooqMergeException.class,
                 UxJooq.class, null == target ? null : target.getClass(), Ut.serialize(target));
         return Fn.getSemi(null == target && null == updated, LOGGER, () -> null, () -> {
@@ -269,7 +269,7 @@ class JqAnalyzer {
         });
     }
 
-    String pojoFile() {
+    public String pojoFile() {
         if (Objects.isNull(this.pojo)) {
             return Strings.EMPTY;
         } else {
@@ -277,7 +277,7 @@ class JqAnalyzer {
         }
     }
 
-    Mojo pojo() {
+    public Mojo pojo() {
         return this.pojo;
     }
 }

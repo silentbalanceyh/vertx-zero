@@ -30,7 +30,6 @@ public class JqReader {
     private transient final VertxDAO vertxDAO;
 
     private transient final JqAnalyzer analyzer;
-    private transient final JqL1 cacheL1;
     private transient JqAggregator aggregator;
 
     private JqReader(final VertxDAO vertxDAO,
@@ -39,7 +38,6 @@ public class JqReader {
         this.analyzer = analyzer;
 
         this.aggregator = JqAggregator.create(vertxDAO, analyzer);
-        this.cacheL1 = JqL1.create(vertxDAO, analyzer);
     }
 
     static JqReader create(final VertxDAO vertxDAO, final JqAnalyzer analyzer) {
@@ -77,9 +75,8 @@ public class JqReader {
     }
 
     // Cached
-    @L1
     <T> T findById(final Object id) {
-        return this.cacheL1.findById(id, () -> toResult(this.vertxDAO.findById(id)));
+        return toResult(this.vertxDAO.findById(id));
     }
 
     <T> List<T> findAll() {

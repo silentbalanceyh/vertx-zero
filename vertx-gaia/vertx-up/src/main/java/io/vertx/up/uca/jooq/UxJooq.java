@@ -10,6 +10,7 @@ import io.vertx.up.eon.em.Format;
 import io.vertx.up.exception.zero.JooqClassInvalidException;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
+import io.vertx.up.uca.jooq.aop.L1;
 import io.vertx.up.util.Ut;
 import org.jooq.Operator;
 
@@ -234,6 +235,7 @@ public class UxJooq {
         return this.reader.findByIdAsync(id);
     }
 
+    @L1
     public <T> T findById(final Object id) {
         return this.reader.findById(id);
     }
