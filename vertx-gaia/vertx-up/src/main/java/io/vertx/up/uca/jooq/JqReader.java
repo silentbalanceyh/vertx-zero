@@ -32,16 +32,14 @@ public class JqReader {
     private transient final JqAnalyzer analyzer;
     private transient JqAggregator aggregator;
 
-    private JqReader(final VertxDAO vertxDAO,
-                     final JqAnalyzer analyzer) {
-        this.vertxDAO = vertxDAO;
+    private JqReader(final JqAnalyzer analyzer) {
         this.analyzer = analyzer;
-
-        this.aggregator = JqAggregator.create(vertxDAO, analyzer);
+        this.vertxDAO = analyzer.vertxDAO();
+        this.aggregator = JqAggregator.create(analyzer);
     }
 
-    static JqReader create(final VertxDAO vertxDAO, final JqAnalyzer analyzer) {
-        return new JqReader(vertxDAO, analyzer);
+    static JqReader create(final JqAnalyzer analyzer) {
+        return new JqReader(analyzer);
     }
 
     // ============ Fetch One Operation =============

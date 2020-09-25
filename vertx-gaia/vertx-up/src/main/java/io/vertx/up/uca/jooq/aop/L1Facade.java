@@ -1,6 +1,5 @@
 package io.vertx.up.uca.jooq.aop;
 
-import io.github.jklingsporn.vertx.jooq.future.VertxDAO;
 import io.vertx.tp.plugin.cache.Harp;
 import io.vertx.tp.plugin.cache.hit.HKId;
 import io.vertx.tp.plugin.cache.hit.HKey;
@@ -18,21 +17,17 @@ import java.util.function.Supplier;
 /**
  * @author <a href="http://www.origin-x.cn">lang</a>
  */
-@SuppressWarnings("all")
-class JqL1 {
+class L1Facade {
 
     private static final ConcurrentMap<Class<?>, HMeta> META_POOL = new ConcurrentHashMap<>();
-    private final transient VertxDAO vertxDAO;
     private final transient JqAnalyzer analyzer;
 
     private final transient L1Cache cacheL1;
 
-    private JqL1(final VertxDAO vertxDAO,
-                 final JqAnalyzer analyzer) {
+    private L1Facade(final JqAnalyzer analyzer) {
         /*
          * Dao / Analyzer
          */
-        this.vertxDAO = vertxDAO;
         this.analyzer = analyzer;
         /*
          * Vertx Processing
@@ -40,8 +35,8 @@ class JqL1 {
         this.cacheL1 = Harp.cacheL1();
     }
 
-    public static JqL1 create(final VertxDAO vertxDAO, final JqAnalyzer analyzer) {
-        return new JqL1(vertxDAO, analyzer);
+    public static L1Facade create(final JqAnalyzer analyzer) {
+        return new L1Facade(analyzer);
     }
 
     /*
@@ -68,7 +63,7 @@ class JqL1 {
      * Fetch data by id
      */
     public <T> T findById(final Object id, final Supplier<T> executor) {
-        return cached(() -> {
+        return this.cached(() -> {
             // HKey for id
             final HKey key = new HKId(id);
             return this.cacheL1.hit(key, this.meta());
@@ -84,7 +79,7 @@ class JqL1 {
                 } else {
                     return found;
                 }
-            } catch (Throwable ex) {
+            } catch (final Throwable ex) {
                 ex.printStackTrace();
                 return executor.get();
             }

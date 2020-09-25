@@ -29,13 +29,13 @@ class JqAggregator {
 
     private transient JqAnalyzer analyzer;
 
-    private JqAggregator(final VertxDAO vertxDAO, final JqAnalyzer analyzer) {
-        this.vertxDAO = vertxDAO;
+    private JqAggregator(final JqAnalyzer analyzer) {
         this.analyzer = analyzer;
+        this.vertxDAO = analyzer.vertxDAO();
     }
 
-    static JqAggregator create(final VertxDAO vertxDAO, final JqAnalyzer analyzer) {
-        return new JqAggregator(vertxDAO, analyzer);
+    static JqAggregator create(final JqAnalyzer analyzer) {
+        return new JqAggregator(analyzer);
     }
 
     // -------------------- Count Operation ------------

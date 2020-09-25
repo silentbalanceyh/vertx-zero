@@ -21,15 +21,19 @@ import org.aspectj.lang.annotation.Before;
  */
 @Aspect
 @SuppressWarnings("all")
-public class JqCache {
-    private transient JqL1 l1;
+public class L1Cache {
+    private transient L1Facade l1;
 
     /*
      * Aspect in constructor for input of
      * -- Class<T> : The dao class for current operation
      * -- VertxDao : The bind vertx dao that contains vertx reference
      */
-    @Before(value = "initialization(io.vertx.up.uca.jooq.UxJooq.new(..)) && args(clazz,dao)", argNames = "clazz,dao")
+    @Before(
+            value = "initialization(io.vertx.up.uca.jooq.UxJooq.new(..)) " +
+                    "&& args(clazz,dao)",
+            argNames = "clazz,dao"
+    )
     public void init(final Class<?> clazz, final VertxDAO dao) {
         /*
          * L1 Cache enabled
@@ -38,17 +42,21 @@ public class JqCache {
          *
          * Here processed L1 cache building for different method
          */
-        this.l1 = JqL1.create(dao, JqAnalyzer.create(dao));
+        this.l1 = L1Facade.create(JqAnalyzer.create(dao));
     }
 
     /*
      * Around for read
      * 1) findById(Object)
+     * 2) findByIdAsync(Object)
      */
-    @Around(value = "execution(* io.vertx.up.uca.jooq.Ux*.findById(Object)) && args(input)", argNames = "input")
+    @Around(
+            value = "execution(* io.vertx.up.uca.jooq.Ux*.findById*(..)) " +  // 1. Method Sign
+                    "&& args(id)",                                                    // 2. Parameter
+            argNames = "id"
+    )
     public <T> T findById(final ProceedingJoinPoint point,
-                          final T input) throws Throwable {
-        final Object target = point.getTarget();
+                          final T id) throws Throwable {
         return (T) point.proceed();
     }
 }

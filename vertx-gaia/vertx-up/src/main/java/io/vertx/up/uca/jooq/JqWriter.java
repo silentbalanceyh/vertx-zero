@@ -31,14 +31,14 @@ class JqWriter {
     private transient JqReader reader;
     private transient JqAnalyzer analyzer;
 
-    private JqWriter(final VertxDAO vertxDAO, final JqAnalyzer analyzer) {
-        this.vertxDAO = vertxDAO;
+    private JqWriter(final JqAnalyzer analyzer) {
         this.analyzer = analyzer;
-        this.reader = JqReader.create(vertxDAO, analyzer);
+        this.vertxDAO = analyzer.vertxDAO();
+        this.reader = JqReader.create(analyzer);
     }
 
-    static JqWriter create(final VertxDAO vertxDAO, final JqAnalyzer analyzer) {
-        return new JqWriter(vertxDAO, analyzer);
+    static JqWriter create(final JqAnalyzer analyzer) {
+        return new JqWriter(analyzer);
     }
 
     // ============ INSERT Operation =============

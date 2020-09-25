@@ -10,7 +10,6 @@ import io.vertx.up.eon.em.Format;
 import io.vertx.up.exception.zero.JooqClassInvalidException;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
-import io.vertx.up.uca.jooq.aop.L1;
 import io.vertx.up.util.Ut;
 import org.jooq.Operator;
 
@@ -45,13 +44,13 @@ public class UxJooq {
 
         /* Analyzing column for Jooq */
         this.analyzer = JqAnalyzer.create(vertxDAO);
-        this.aggregator = JqAggregator.create(vertxDAO, analyzer);
+        this.aggregator = JqAggregator.create(analyzer);
 
         /* Reader connect Analayzer */
-        this.reader = JqReader.create(vertxDAO, this.analyzer);
+        this.reader = JqReader.create(this.analyzer);
 
         /* Writer connect Reader */
-        this.writer = JqWriter.create(vertxDAO, this.analyzer);
+        this.writer = JqWriter.create(this.analyzer);
     }
 
     // -------------------- Bind Config --------------------
@@ -235,7 +234,6 @@ public class UxJooq {
         return this.reader.findByIdAsync(id);
     }
 
-    @L1
     public <T> T findById(final Object id) {
         return this.reader.findById(id);
     }

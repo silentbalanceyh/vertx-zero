@@ -1,6 +1,7 @@
 package io.vertx.up.uca.jooq;
 
 import io.github.jklingsporn.vertx.jooq.future.VertxDAO;
+import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.atom.pojo.Mirror;
 import io.vertx.up.atom.pojo.Mojo;
@@ -81,6 +82,14 @@ public class JqAnalyzer {
 
     public static JqAnalyzer create(final VertxDAO vertxDAO) {
         return new JqAnalyzer(vertxDAO);
+    }
+
+    public VertxDAO vertxDAO() {
+        return this.vertxDAO;
+    }
+
+    public Vertx vertx() {
+        return Objects.isNull(this.vertxDAO) ? null : vertxDAO.vertx();
     }
 
     public String table() {
