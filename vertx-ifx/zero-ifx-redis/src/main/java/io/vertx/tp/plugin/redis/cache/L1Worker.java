@@ -41,7 +41,7 @@ public class L1Worker extends AbstractVerticle {
                     /*
                      * Mapped data
                      */
-                    final ConcurrentMap<String, JsonObject> mapped = CacheTool.dataConsumer(jsonBody, config.copy());
+                    final ConcurrentMap<String, Object> mapped = CacheTool.generateData(jsonBody);
                     /*
                      * Redis
                      */
@@ -49,6 +49,11 @@ public class L1Worker extends AbstractVerticle {
                     if (ChangeFlag.NONE != flag) {
                         final L1Channel channel = new L1Channel();
                         channel.write(mapped, flag);
+                        /*
+                         * Key Processing
+                         */
+                        final ConcurrentMap<String, Object> mappedKey = CacheTool.generateKey(jsonBody);
+                        channel.combine(mappedKey);
                     }
                 }
             });

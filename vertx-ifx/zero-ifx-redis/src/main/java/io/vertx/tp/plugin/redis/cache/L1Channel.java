@@ -3,6 +3,7 @@ package io.vertx.tp.plugin.redis.cache;
 import io.vertx.core.Future;
 import io.vertx.core.Promise;
 import io.vertx.core.buffer.Buffer;
+import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.redis.client.Command;
 import io.vertx.redis.client.Redis;
@@ -34,7 +35,7 @@ class L1Channel {
         this.jedis = RedisInfix.getJClient();
     }
 
-    void write(final ConcurrentMap<String, JsonObject> dataMap, final ChangeFlag flag) {
+    void write(final ConcurrentMap<String, Object> dataMap, final ChangeFlag flag) {
         final List<Request> requests = new ArrayList<>();
         dataMap.forEach((k, data) -> {
             final Request request = this.requestData(k, data, flag);
@@ -53,6 +54,12 @@ class L1Channel {
                 }
             });
         }
+    }
+
+    void combine(final ConcurrentMap<String, Object> dataMap) {
+        /*
+         * Read and Write ( Merged )
+         */
     }
 
     JsonObject read(final String key) {
@@ -76,19 +83,34 @@ class L1Channel {
         final Request request = Request.cmd(Command.GET);
         request.arg(key);
         return this.requestAsync(request, response -> {
-            final Buffer buffer = response.toBuffer();
-            return Objects.isNull(buffer) ? null : buffer.toJsonObject();
+            if (Objects.nonNull(response)) {
+                final Buffer buffer = response.toBuffer();
+                return Objects.isNull(buffer) ? null : buffer.toJsonObject();
+            } else return null;
         });
     }
 
-    private Request requestData(final String key, final JsonObject data, final ChangeFlag flag) {
+    private Request requestData(final String key, final Object input, final ChangeFlag flag) {
+        final String dataString;
+        if (input instanceof String) {
+            dataString = input.toString();
+        } else if (input instanceof JsonObject) {
+            dataString = ((JsonObject) input).encode();
+        } else if (input instanceof JsonArray) {
+            dataString = ((JsonArray) input).encode();
+        } else {
+            dataString = null;
+        }
+        if (Objects.isNull(dataString)) {
+            return null;
+        }
         final Request request;
         switch (flag) {
             case ADD:
             case UPDATE: {
                 request = Request.cmd(Command.SET);
                 request.arg(key);
-                request.arg(data.encode());
+                request.arg(dataString);
             }
             break;
             case DELETE: {

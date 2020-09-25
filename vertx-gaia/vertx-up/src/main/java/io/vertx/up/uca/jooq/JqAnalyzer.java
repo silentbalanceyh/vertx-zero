@@ -96,7 +96,12 @@ public class JqAnalyzer {
         return this.table.getName();
     }
 
-    public List<TreeSet<String>> keys() {
+    public TreeSet<String> primaryKey() {
+        TreeSet<String> primary = this.keySet(this.table.getPrimaryKey());
+        return primary.isEmpty() ? null : primary;
+    }
+
+    public List<TreeSet<String>> uniqueKey() {
         /*
          * keys include
          * - PrimaryKey
@@ -107,21 +112,26 @@ public class JqAnalyzer {
             /*
              *  UniqueKey
              */
-            final TreeSet<String> keySet = new TreeSet<>();
-            ukey.getFields().forEach(column -> {
-                /*
-                 * Column to Field converting
-                 */
-                final String field = this.revert.getOrDefault(column.getName(), null);
-                if (Objects.nonNull(field)) {
-                    keySet.add(field);
-                }
-            });
+            final TreeSet<String> keySet = this.keySet(ukey);
             if (!keySet.isEmpty()) {
                 keys.add(keySet);
             }
         });
         return keys;
+    }
+
+    private TreeSet<String> keySet(final UniqueKey<?> uk) {
+        final TreeSet<String> keySet = new TreeSet<>();
+        uk.getFields().forEach(column -> {
+            /*
+             * Column to Field converting
+             */
+            final String field = this.revert.getOrDefault(column.getName(), null);
+            if (Objects.nonNull(field)) {
+                keySet.add(field);
+            }
+        });
+        return keySet;
     }
 
     public Class<?> type() {

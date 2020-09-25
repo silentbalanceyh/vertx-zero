@@ -14,7 +14,6 @@ import io.vertx.up.uca.jooq.JqAnalyzer;
 
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
-import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 /**
@@ -44,26 +43,36 @@ class L1Facade {
 
     private CacheMeta meta() {
         final Class<?> clazz = this.analyzer.type();
-        return Fn.pool(META_POOL, clazz, () -> new CacheMeta(clazz).keys(this.analyzer.keys()));
+        return Fn.pool(META_POOL, clazz, () -> new CacheMeta(clazz).primaryKey(this.analyzer.primaryKey()));
     }
 
     /*
      * Fetch data by id
+     * Here processed following:
+     *
+     * 1) Data Part: DATA:<MODEL>:<KEY>
+     * 2）Key Part: KEY:<MODEL>:<KEY>,  Here the operation is append
      */
     public <T, K> T findById(final K id, final RunSupplier<T> executor) {
-        // CKey build
         final CacheKey key = new CacheId(id);
-        // Supplier
         final RunSupplier<T> supplier = () -> this.cacheL1.read(key, this.meta());
-        final Consumer<T> consumer = t -> this.cacheL1.write(t, ChangeFlag.UPDATE, this.meta());
-        return CacheFn.in(supplier, executor, consumer);
+        return CacheFn.in(supplier, executor, this::writeCache);
     }
 
     public <T, K> Future<T> findByIdAsync(final K id, final RunSupplier<Future<T>> executor) {
-        // CKey build
         final CacheKey key = new CacheId(id);
         final Supplier<Future<T>> supplier = () -> this.cacheL1.readAsync(key, this.meta());
-        final Consumer<T> consumer = t -> this.cacheL1.write(t, ChangeFlag.UPDATE, this.meta());
-        return CacheFn.in(supplier, executor, consumer);
+        return CacheFn.in(supplier, executor, this::writeCache);
+    }
+
+    /*
+     * Private method for write
+     */
+    private <T> void writeCache(final T entity) {
+        this.cacheL1.write(entity, ChangeFlag.UPDATE, this.meta());
+    }
+
+    private <T> void deleteCache(final T entity) {
+        this.cacheL1.write(entity, ChangeFlag.DELETE, this.meta());
     }
 }

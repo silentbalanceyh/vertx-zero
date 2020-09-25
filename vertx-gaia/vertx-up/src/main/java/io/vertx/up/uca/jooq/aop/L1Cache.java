@@ -30,11 +30,7 @@ public class L1Cache {
      * -- Class<T> : The dao class for current operation
      * -- VertxDao : The bind vertx dao that contains vertx reference
      */
-    @Before(
-            value = "initialization(io.vertx.up.uca.jooq.UxJooq.new(..)) " +
-                    "&& args(clazz,dao)",
-            argNames = "clazz,dao"
-    )
+    @Before(value = "initialization(io.vertx.up.uca.jooq.UxJooq.new(..)) && args(clazz,dao)", argNames = "clazz,dao")
     public void init(final Class<?> clazz, final VertxDAO dao) {
         /*
          * L1 Cache enabled
@@ -51,21 +47,13 @@ public class L1Cache {
      * 1) findById(Object)
      * 2) findByIdAsync(Object)
      */
-    @Around(
-            value = "execution(* io.vertx.up.uca.jooq.Ux*.findById(..)) " +  // 1. Method Sign
-                    "&& args(id)",                                            // 2. Parameter
-            argNames = "id"
-    )
+    @Around(value = "execution(* io.vertx.up.uca.jooq.Ux*.findById(..)) && args(id)", argNames = "id")
     public <T, K> T findById(final ProceedingJoinPoint point,
                              final K id) throws Throwable {
         return this.l1.findById(id, () -> (T) point.proceed());
     }
 
-    @Around(
-            value = "execution(* io.vertx.up.uca.jooq.Ux*.findByIdAsync(..)) " +  // 1. Method Sign
-                    "&& args(id)",                                            // 2. Parameter
-            argNames = "id"
-    )
+    @Around(value = "execution(* io.vertx.up.uca.jooq.Ux*.findByIdAsync(..)) && args(id)", argNames = "id")
     public <T, K> Future<T> findByIdAsync(final ProceedingJoinPoint point,
                                           final K id) throws Throwable {
         return this.l1.findByIdAsync(id, () -> (Future<T>) point.proceed());

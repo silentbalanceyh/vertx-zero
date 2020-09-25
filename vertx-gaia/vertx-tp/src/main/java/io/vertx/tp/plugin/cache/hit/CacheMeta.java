@@ -1,10 +1,9 @@
 package io.vertx.tp.plugin.cache.hit;
 
-import io.vertx.core.json.JsonArray;
+import io.vertx.core.json.JsonObject;
+import io.vertx.up.util.Ut;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 import java.util.TreeSet;
 
@@ -15,7 +14,8 @@ public class CacheMeta implements Serializable {
     /*
      * UniqueKey for key calculation
      */
-    private final List<TreeSet<String>> keys = new ArrayList<>();
+    private final TreeSet<String> primaryKey = new TreeSet<>();
+    private final JsonObject condition = new JsonObject();
 
     private final transient Class<?> clazz;
 
@@ -23,8 +23,18 @@ public class CacheMeta implements Serializable {
         this.clazz = clazz;
     }
 
-    public CacheMeta keys(final List<TreeSet<String>> keys) {
-        this.keys.addAll(keys);
+    public CacheMeta primaryKey(final TreeSet<String> primaryKey) {
+        this.condition.clear();
+        this.primaryKey.clear();
+        this.primaryKey.addAll(primaryKey);
+        return this;
+    }
+
+    public CacheMeta conditionKey(final JsonObject condition) {
+        if (Ut.notNil(condition)) {
+            this.condition.clear();
+            this.condition.mergeIn(condition, true);
+        }
         return this;
     }
 
@@ -37,13 +47,26 @@ public class CacheMeta implements Serializable {
         return Objects.nonNull(this.clazz) ? (Class<T>) this.clazz : null;
     }
 
-    public JsonArray keys() {
-        final JsonArray keys = new JsonArray();
-        this.keys.forEach(set -> {
-            final JsonArray each = new JsonArray();
-            set.forEach(each::add);
-            keys.add(each);
-        });
-        return keys;
+    public JsonObject metadata() {
+        final JsonObject merged = new JsonObject();
+        merged.put("type", this.typeName());
+        if (this.primaryKey.isEmpty() && this.condition.isEmpty()) {
+            return null;
+        } else {
+            merged.put("key", Ut.toJArray(this.primaryKey));
+            if (this.primaryKey.isEmpty()) {
+                merged.put("primary", Boolean.FALSE);
+                merged.put("condition", this.condition);
+            } else {
+                merged.put("primary", Boolean.TRUE);
+            }
+        }
+        return merged;
+    }
+
+    public String primaryString() {
+        final StringBuilder key = new StringBuilder();
+        this.primaryKey.forEach(key::append);
+        return key.toString();
     }
 }
