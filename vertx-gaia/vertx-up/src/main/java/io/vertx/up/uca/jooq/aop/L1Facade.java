@@ -1,17 +1,20 @@
 package io.vertx.up.uca.jooq.aop;
 
+import io.vertx.core.Future;
 import io.vertx.tp.plugin.cache.Harp;
-import io.vertx.tp.plugin.cache.hit.HKId;
-import io.vertx.tp.plugin.cache.hit.HKey;
-import io.vertx.tp.plugin.cache.hit.HMeta;
+import io.vertx.tp.plugin.cache.hit.CacheId;
+import io.vertx.tp.plugin.cache.hit.CacheKey;
+import io.vertx.tp.plugin.cache.hit.CacheMeta;
 import io.vertx.tp.plugin.cache.l1.L1Cache;
+import io.vertx.tp.plugin.cache.util.CacheFn;
 import io.vertx.up.eon.em.ChangeFlag;
 import io.vertx.up.fn.Fn;
+import io.vertx.up.fn.RunSupplier;
 import io.vertx.up.uca.jooq.JqAnalyzer;
 
-import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
+import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 /**
@@ -19,7 +22,7 @@ import java.util.function.Supplier;
  */
 class L1Facade {
 
-    private static final ConcurrentMap<Class<?>, HMeta> META_POOL = new ConcurrentHashMap<>();
+    private static final ConcurrentMap<Class<?>, CacheMeta> META_POOL = new ConcurrentHashMap<>();
     private final transient JqAnalyzer analyzer;
 
     private final transient L1Cache cacheL1;
@@ -39,50 +42,28 @@ class L1Facade {
         return new L1Facade(analyzer);
     }
 
-    /*
-     * Insert data
-     */
-    public <T> void insertL1(final T input) {
-        this.cacheL1.flushAsync(input, ChangeFlag.ADD, this.meta());
-    }
-
-    public <T> void updateL1(final T input) {
-        this.cacheL1.flushAsync(input, ChangeFlag.UPDATE, this.meta());
-    }
-
-    public <T> void deleteL1(final T input) {
-        this.cacheL1.flushAsync(input, ChangeFlag.DELETE, this.meta());
-    }
-
-    private HMeta meta() {
+    private CacheMeta meta() {
         final Class<?> clazz = this.analyzer.type();
-        return Fn.pool(META_POOL, clazz, () -> new HMeta(clazz).keys(this.analyzer.keys()));
+        return Fn.pool(META_POOL, clazz, () -> new CacheMeta(clazz).keys(this.analyzer.keys()));
     }
 
     /*
      * Fetch data by id
      */
-    public <T> T findById(final Object id, final Supplier<T> executor) {
-        return this.cached(() -> {
-            // HKey for id
-            final HKey key = new HKId(id);
-            return this.cacheL1.hit(key, this.meta());
-        }, executor);
+    public <T, K> T findById(final K id, final RunSupplier<T> executor) {
+        // CKey build
+        final CacheKey key = new CacheId(id);
+        // Supplier
+        final RunSupplier<T> supplier = () -> this.cacheL1.read(key, this.meta());
+        final Consumer<T> consumer = t -> this.cacheL1.write(t, ChangeFlag.UPDATE, this.meta());
+        return CacheFn.in(supplier, executor, consumer);
     }
 
-    private <T> T cached(final Supplier<T> internal, final Supplier<T> executor) {
-        if (Objects.nonNull(this.cacheL1)) {
-            try {
-                final T found = internal.get();
-                if (Objects.isNull(found)) {
-                    return executor.get();
-                } else {
-                    return found;
-                }
-            } catch (final Throwable ex) {
-                ex.printStackTrace();
-                return executor.get();
-            }
-        } else return executor.get();
+    public <T, K> Future<T> findByIdAsync(final K id, final RunSupplier<Future<T>> executor) {
+        // CKey build
+        final CacheKey key = new CacheId(id);
+        final Supplier<Future<T>> supplier = () -> this.cacheL1.readAsync(key, this.meta());
+        final Consumer<T> consumer = t -> this.cacheL1.write(t, ChangeFlag.UPDATE, this.meta());
+        return CacheFn.in(supplier, executor, consumer);
     }
 }

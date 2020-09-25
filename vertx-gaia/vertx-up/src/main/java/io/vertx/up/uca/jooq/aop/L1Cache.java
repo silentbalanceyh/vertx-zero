@@ -1,6 +1,7 @@
 package io.vertx.up.uca.jooq.aop;
 
 import io.github.jklingsporn.vertx.jooq.future.VertxDAO;
+import io.vertx.core.Future;
 import io.vertx.up.uca.jooq.JqAnalyzer;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -51,12 +52,22 @@ public class L1Cache {
      * 2) findByIdAsync(Object)
      */
     @Around(
-            value = "execution(* io.vertx.up.uca.jooq.Ux*.findById*(..)) " +  // 1. Method Sign
-                    "&& args(id)",                                                    // 2. Parameter
+            value = "execution(* io.vertx.up.uca.jooq.Ux*.findById(..)) " +  // 1. Method Sign
+                    "&& args(id)",                                            // 2. Parameter
             argNames = "id"
     )
-    public <T> T findById(final ProceedingJoinPoint point,
-                          final T id) throws Throwable {
-        return (T) point.proceed();
+    public <T, K> T findById(final ProceedingJoinPoint point,
+                             final K id) throws Throwable {
+        return this.l1.findById(id, () -> (T) point.proceed());
+    }
+
+    @Around(
+            value = "execution(* io.vertx.up.uca.jooq.Ux*.findByIdAsync(..)) " +  // 1. Method Sign
+                    "&& args(id)",                                            // 2. Parameter
+            argNames = "id"
+    )
+    public <T, K> Future<T> findByIdAsync(final ProceedingJoinPoint point,
+                                          final K id) throws Throwable {
+        return this.l1.findByIdAsync(id, () -> (Future<T>) point.proceed());
     }
 }

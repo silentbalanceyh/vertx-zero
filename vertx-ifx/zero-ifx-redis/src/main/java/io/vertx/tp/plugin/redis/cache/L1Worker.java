@@ -5,7 +5,7 @@ import io.vertx.core.buffer.Buffer;
 import io.vertx.core.eventbus.EventBus;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.plugin.cache.l1.L1Config;
-import io.vertx.tp.plugin.cache.l1.L1Kit;
+import io.vertx.tp.plugin.cache.util.CacheTool;
 import io.vertx.up.eon.em.ChangeFlag;
 import io.vertx.up.util.Ut;
 
@@ -41,14 +41,14 @@ public class L1Worker extends AbstractVerticle {
                     /*
                      * Mapped data
                      */
-                    final ConcurrentMap<String, JsonObject> mapped = L1Kit.dataConsumer(jsonBody, config.copy());
+                    final ConcurrentMap<String, JsonObject> mapped = CacheTool.dataConsumer(jsonBody, config.copy());
                     /*
                      * Redis
                      */
                     final ChangeFlag flag = Ut.toEnum(() -> jsonBody.getString("flag"), ChangeFlag.class, ChangeFlag.NONE);
                     if (ChangeFlag.NONE != flag) {
                         final L1Channel channel = new L1Channel();
-                        channel.refresh(mapped, flag);
+                        channel.write(mapped, flag);
                     }
                 }
             });

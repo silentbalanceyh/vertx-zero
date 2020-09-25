@@ -7,14 +7,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.TreeSet;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
 
 /**
  * @author <a href="http://www.origin-x.cn">lang</a>
  */
-public class HMeta implements Serializable {
-    private static final ConcurrentMap<Class<?>, HMeta> META_POOL = new ConcurrentHashMap<>();
+public class CacheMeta implements Serializable {
     /*
      * UniqueKey for key calculation
      */
@@ -22,11 +19,11 @@ public class HMeta implements Serializable {
 
     private final transient Class<?> clazz;
 
-    public HMeta(final Class<?> clazz) {
+    public CacheMeta(final Class<?> clazz) {
         this.clazz = clazz;
     }
 
-    public HMeta keys(final List<TreeSet<String>> keys) {
+    public CacheMeta keys(final List<TreeSet<String>> keys) {
         this.keys.addAll(keys);
         return this;
     }

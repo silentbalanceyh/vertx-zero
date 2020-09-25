@@ -1,9 +1,10 @@
-package io.vertx.tp.plugin.cache.l1;
+package io.vertx.tp.plugin.cache.util;
 
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.plugin.cache.hit.HMeta;
+import io.vertx.tp.plugin.cache.hit.CacheMeta;
+import io.vertx.tp.plugin.cache.l1.L1Config;
 import io.vertx.up.eon.em.ChangeFlag;
 import io.vertx.up.util.Ut;
 
@@ -15,15 +16,13 @@ import java.util.concurrent.ConcurrentMap;
 /**
  * @author <a href="http://www.origin-x.cn">lang</a>
  */
-public class L1Kit {
+public class CacheTool {
     private static final String KEY_DAO = "KEY_DAO";
-    private static final String KEY_QUERY = "KEY_QUERY";
 
     /*
      * Delivery when event bus publish ( send data )
      */
-    public static <T> Buffer dataDelivery(final T entity, final ChangeFlag flag,
-                                          final HMeta meta) {
+    public static <T> Buffer dataDelivery(final T entity, final ChangeFlag flag, final CacheMeta meta) {
         final JsonObject data = new JsonObject();
         data.put("data", (JsonObject) Ut.serializeJson(entity));
         data.put("type", meta.typeName());
@@ -58,7 +57,7 @@ public class L1Kit {
                 }
             }
             if (!treeMap.isEmpty()) {
-                final String cacheKey = keyString(data.getString("type"), treeMap);
+                final String cacheKey = dataKey(data.getString("type"), treeMap);
                 resultMap.put(cacheKey, record);
             }
         });
@@ -68,7 +67,7 @@ public class L1Kit {
     /*
      * Key Calculation
      */
-    public static String keyString(final String type, final TreeMap<String, String> treeMap) {
+    public static String dataKey(final String type, final TreeMap<String, String> treeMap) {
         final StringBuilder key = new StringBuilder();
         key.append(KEY_DAO).append(":").append(type).append(":");
         treeMap.forEach((k, v) -> key.append(k).append("=").append(v).append(","));

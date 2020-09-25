@@ -1,9 +1,14 @@
 package io.vertx.tp.plugin.cache.l1;
 
+import io.vertx.core.Future;
 import io.vertx.core.Vertx;
 import io.vertx.core.eventbus.EventBus;
-import io.vertx.tp.plugin.cache.hit.HMeta;
+import io.vertx.core.json.JsonObject;
+import io.vertx.tp.plugin.cache.hit.CacheKey;
+import io.vertx.tp.plugin.cache.hit.CacheMeta;
+import io.vertx.tp.plugin.cache.util.CacheTool;
 import io.vertx.up.eon.em.ChangeFlag;
+import io.vertx.up.log.Annal;
 import io.vertx.up.util.Ut;
 
 
@@ -30,8 +35,13 @@ public abstract class AbstractL1 implements L1Cache {
         return this;
     }
 
+    /*
+     * Refresh will send data to event bus
+     * Publish / Consume mode for cache data processing
+     * Actual the cache will be deleted
+     */
     @Override
-    public <T> void flushAsync(final T input, final ChangeFlag type, final HMeta meta) {
+    public <T> void write(final T input, final ChangeFlag flag, final CacheMeta meta) {
         /*
          * Address processing
          */
@@ -41,7 +51,39 @@ public abstract class AbstractL1 implements L1Cache {
             /*
              * Delivery options
              */
-            eventBus.publish(address, L1Kit.dataDelivery(input, type, meta));
+            eventBus.publish(address, CacheTool.dataDelivery(input, flag, meta));
         }
     }
+
+    @Override
+    public <T> Future<T> readAsync(final CacheKey key, final CacheMeta meta) {
+        // Get key
+        final String uk = key.unique(meta);
+        this.logger().info("( Cache ) L1 reader will read data by `{0}` ", uk);
+        return this.readAsync(uk).compose(response -> {
+            final T ret = Ut.deserialize(response, meta.type());
+            return Future.succeededFuture(ret);
+        });
+    }
+
+    @Override
+    public <T> T read(final CacheKey key, final CacheMeta meta) {
+        // Get key
+        final String uk = key.unique(meta);
+        this.logger().info("( Cache ) L1 reader will read data by `{0}` ", uk);
+        final JsonObject data = this.read(uk);
+        if (Ut.isNil(data)) {
+            return null;
+        } else {
+            return Ut.deserialize(data, meta.type());
+        }
+    }
+
+    protected Annal logger() {
+        return Annal.get(this.getClass());
+    }
+
+    public abstract Future<JsonObject> readAsync(String key);
+
+    public abstract JsonObject read(String key);
 }

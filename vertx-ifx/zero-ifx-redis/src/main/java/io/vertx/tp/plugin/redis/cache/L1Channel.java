@@ -34,7 +34,7 @@ class L1Channel {
         this.jedis = RedisInfix.getJClient();
     }
 
-    void refresh(final ConcurrentMap<String, JsonObject> dataMap, final ChangeFlag flag) {
+    void write(final ConcurrentMap<String, JsonObject> dataMap, final ChangeFlag flag) {
         final List<Request> requests = new ArrayList<>();
         dataMap.forEach((k, data) -> {
             final Request request = this.requestData(k, data, flag);
@@ -55,22 +55,7 @@ class L1Channel {
         }
     }
 
-    void refresh(final String key, final JsonObject data, final ChangeFlag flag) {
-        final Request request = this.requestData(key, data, flag);
-        if (Objects.nonNull(request) && Objects.nonNull(this.redis)) {
-            this.redis.send(request, res -> {
-                if (res.succeeded()) {
-                    LOGGER.info("( Cache ) The key `{0}` has been refreshed.", key);
-                } else {
-                    if (Objects.nonNull(res.cause())) {
-                        res.cause().printStackTrace();
-                    }
-                }
-            });
-        }
-    }
-
-    JsonObject hit(final String key) {
+    JsonObject read(final String key) {
         /*
          * Async convert to sync
          */
@@ -87,7 +72,7 @@ class L1Channel {
         }
     }
 
-    Future<JsonObject> hitAsync(final String key) {
+    Future<JsonObject> readAsync(final String key) {
         final Request request = Request.cmd(Command.GET);
         request.arg(key);
         return this.requestAsync(request, response -> {
