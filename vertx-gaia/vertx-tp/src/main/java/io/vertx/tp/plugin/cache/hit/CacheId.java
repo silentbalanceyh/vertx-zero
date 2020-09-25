@@ -22,9 +22,8 @@ public class CacheId implements CacheKey {
 
     @Override
     public String unique(final CacheMeta meta) {
-        final Class<?> entityCls = meta.type();
         final TreeMap<String, String> treeMap = new TreeMap<>();
         treeMap.put(meta.primaryString(), this.id);
-        return CacheTool.keyId(entityCls.getName(), treeMap);
+        return CacheTool.keyId(meta.typeName(), treeMap);
     }
 }

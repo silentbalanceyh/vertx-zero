@@ -58,4 +58,18 @@ public class L1Cache {
                                           final K id) throws Throwable {
         return this.l1.findByIdAsync(id, () -> (Future<T>) point.proceed());
     }
+
+    /*
+     * Around for fetch
+     * 1) fetchOne
+     * 2) fetchOneAsync
+     */
+    @Around(value = "execution(* io.vertx.up.uca.jooq.Ux*.fetchOne(..)) && args(field,value)", argNames = "field,value")
+    public <T, K> T fetchOne(final ProceedingJoinPoint point,
+                             final String field, final Object value) throws Throwable {
+        System.out.println("One");
+        final int length = point.getArgs().length;
+
+        return (T) point.proceed();
+    }
 }
