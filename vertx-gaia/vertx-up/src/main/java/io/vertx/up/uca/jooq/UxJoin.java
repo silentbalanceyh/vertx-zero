@@ -101,12 +101,12 @@ public class UxJoin {
         return this.joinder.searchPaginationAsync(inquiry, this.merged);
     }
 
-    public Future<JsonArray> findAsync(final Inquiry inquiry) {
+    public Future<JsonArray> fetchAsync(final Inquiry inquiry) {
         this.POJO_MAP.forEach(this.joinder::pojo);
         return Ux.future(this.joinder.searchArray(inquiry, this.merged));
     }
 
-    public Future<JsonArray> findAsync(final JsonObject params) {
-        return findAsync(toInquiry(params));
+    public Future<JsonArray> fetchAsync(final JsonObject params) {
+        return fetchAsync(toInquiry(params));
     }
 }
