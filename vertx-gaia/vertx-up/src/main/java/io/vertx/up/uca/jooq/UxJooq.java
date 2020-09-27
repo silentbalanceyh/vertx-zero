@@ -280,28 +280,20 @@ public class UxJooq {
     /* (Async / Sync) Sort, Projection, Criteria, Pager Search Operations */
     public Future<JsonObject> searchAsync(final JsonObject params, final String pojo) {
         final Inquiry inquiry = JqTool.getInquiry(params, pojo);
-        return searchAsync(inquiry, pojo);
+        return this.reader.searchPaginationAsync(inquiry, pojo);
     }
 
     public Future<JsonObject> searchAsync(final JsonObject params) {
         return searchAsync(params, this.analyzer.pojoFile());
     }
 
-    public Future<JsonObject> searchAsync(final Inquiry inquiry, final String pojo) {
-        return this.reader.searchPaginationAsync(inquiry, pojo);
-    }
-
     public JsonObject search(final JsonObject params, final String pojo) {
         final Inquiry inquiry = JqTool.getInquiry(params, pojo);
-        return search(inquiry, pojo);
+        return this.reader.searchPagination(inquiry, pojo);
     }
 
     public JsonObject search(final JsonObject params) {
         return search(params, this.analyzer.pojoFile());
-    }
-
-    public JsonObject search(final Inquiry inquiry, final String pojo) {
-        return this.reader.searchPagination(inquiry, pojo);
     }
 
     // -------------------- Count Operation ------------

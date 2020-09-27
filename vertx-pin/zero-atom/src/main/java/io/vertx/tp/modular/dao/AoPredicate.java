@@ -5,11 +5,11 @@ import io.vertx.up.atom.query.Criteria;
 
 interface AoPredicate {
 
-    Future<Boolean> existingAsync(Criteria criteria);
+    Future<Boolean> existAsync(Criteria criteria);
 
-    Boolean existing(Criteria criteria);
+    Boolean exist(Criteria criteria);
 
-    Future<Boolean> missingAsync(Criteria criteria);
+    Future<Boolean> missAsync(Criteria criteria);
 
-    Boolean missing(Criteria criteria);
+    Boolean miss(Criteria criteria);
 }
