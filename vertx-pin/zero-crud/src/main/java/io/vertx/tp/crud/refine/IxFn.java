@@ -84,7 +84,7 @@ class IxFn {
         return dao -> {
             IxLog.infoDao(LOGGER, "( JqTool ) Dao -> {0}, pojo = {1}", dao.getClass(), pojo);
             // Here must put condition here.
-            return dao.existsOneAsync(parameters);
+            return dao.existAsync(parameters);
         };
     }
 

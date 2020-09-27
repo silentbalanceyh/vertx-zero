@@ -33,7 +33,7 @@ public class AppService implements AppStub {
     public Future<JsonObject> fetchById(final String appId) {
         return Ux.Jooq.on(XAppDao.class)
                 /* Fetch By Id */
-                .<XApp>findByIdAsync(appId)
+                .<XApp>fetchByIdAsync(appId)
                 /* Convert to Json */
                 .compose(Ux::fnJObject)
                 /* Image field: logo */

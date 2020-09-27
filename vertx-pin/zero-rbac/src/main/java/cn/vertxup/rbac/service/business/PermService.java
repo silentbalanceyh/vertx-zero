@@ -60,7 +60,7 @@ public class PermService implements PermStub {
                  * Save Action for SPermission by `key` only
                  */
                 final List<Future<SPermission>> futures = new ArrayList<>();
-                Ut.itList(saved).map(permission -> permDao.<SPermission>findByIdAsync(permission.getKey())
+                Ut.itList(saved).map(permission -> permDao.<SPermission>fetchByIdAsync(permission.getKey())
                         .compose(queired -> {
                             if (Objects.isNull(queired)) {
                                 /*
@@ -71,7 +71,7 @@ public class PermService implements PermStub {
                                 /*
                                  * Update the `key` hitted object into database
                                  */
-                                return permDao.saveAsync(permission.getKey(), permission);
+                                return permDao.updateAsync(permission.getKey(), permission);
                             }
                         })).forEach(futures::add);
                 return Ux.thenCombineT(futures).compose(Ux::fnJArray);
@@ -119,7 +119,7 @@ public class PermService implements PermStub {
          */
         final List<Future<SAction>> entities = new ArrayList<>();
         final UxJooq jooq = Ux.Jooq.on(SActionDao.class);
-        Ut.itJString(removed).map(key -> jooq.<SAction>findByIdAsync(key)
+        Ut.itJString(removed).map(key -> jooq.<SAction>fetchByIdAsync(key)
                 /*
                  * Set all queried permissionId of each action to null
                  * Here should remove permissionId to set resource to freedom
@@ -136,7 +136,7 @@ public class PermService implements PermStub {
              */
             final List<Future<SAction>> actionList = new ArrayList<>();
             Ut.<String>itJObject(relation, (permissionId, actionId) -> actionList.add(
-                    jooq.<SAction>findByIdAsync(actionId).compose(action -> {
+                    jooq.<SAction>fetchByIdAsync(actionId).compose(action -> {
                         action.setPermissionId(permissionId);
                         return Ux.future(action);
                     }).compose(jooq::updateAsync)

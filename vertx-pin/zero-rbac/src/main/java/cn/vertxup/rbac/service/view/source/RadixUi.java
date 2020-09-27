@@ -31,7 +31,7 @@ public class RadixUi implements RuleSource {
         if (Objects.isNull(dao)) {
             return RadixTool.toResponse(new JsonArray());
         } else {
-            return dao.findAsync(condition).compose(Ux::fnJArray)
+            return dao.fetchAsync(condition).compose(Ux::fnJArray)
                     /*
                      * Response processing,
                      * `metadata` field should be serialized

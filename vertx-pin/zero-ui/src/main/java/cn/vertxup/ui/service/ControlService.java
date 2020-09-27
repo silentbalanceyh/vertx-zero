@@ -37,7 +37,7 @@ public class ControlService implements ControlStub {
     @Override
     public Future<JsonObject> fetchById(final String control) {
         return Ux.Jooq.on(UiControlDao.class)
-                .<UiControl>findByIdAsync(control)
+                .<UiControl>fetchByIdAsync(control)
                 .compose(Ux::fnJObject)
                 .compose(Ke.mount(KeField.Ui.CONTAINER_CONFIG))
                 .compose(Ke.mount(KeField.Ui.COMPONENT_CONFIG))

@@ -16,7 +16,6 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentMap;
 import java.util.function.BiPredicate;
 import java.util.function.Consumer;
-import java.util.function.Function;
 
 /**
  * Jooq Splitted Writter
@@ -157,12 +156,17 @@ class JqWriter {
 
     // ============ UPDATE Operation (Save) =============
 
-    <T> T save(final Object id, final T updated) {
-        return this.save(id, target -> this.analyzer.copyEntity(target, updated));
+    <T> T update(final Object id, final T updated) {
+        final T old = this.reader.<T>fetchById(id);
+        final T combine = this.analyzer.copyEntity(old, updated);
+        return this.update(combine);
     }
 
-    <T> Future<T> saveAsync(final Object id, final T updated) {
-        return this.saveAsync(id, target -> this.analyzer.copyEntity(target, updated));
+    <T> Future<T> updateAsync(final Object id, final T updated) {
+        return this.reader.<T>fetchByIdAsync(id).compose(old -> {
+            final T combine = this.analyzer.copyEntity(old, updated);
+            return this.<T>updateAsync(combine);
+        });
     }
     // ============ UPSERT Operation (Save) =============
 
@@ -171,7 +175,7 @@ class JqWriter {
     }
 
     public <T> Future<T> upsertAsync(final String key, final T updated) {
-        return combineAsync(this.reader.<T>findByIdAsync(key), updated);
+        return combineAsync(this.reader.<T>fetchByIdAsync(key), updated);
     }
 
     public <T> T upsert(final JsonObject filters, final T updated) {
@@ -179,7 +183,7 @@ class JqWriter {
     }
 
     public <T> T upsert(final String key, final T updated) {
-        return this.combine(this.reader.findById(key), updated);
+        return this.combine(this.reader.fetchById(key), updated);
     }
 
     <T> List<T> upsert(final JsonObject filters, final List<T> list, final BiPredicate<T, T> fnCombine) {
@@ -220,18 +224,6 @@ class JqWriter {
     }
 
     // ------------ Private Method inner Writer ---------
-
-    /*
-     * Saving operation
-     */
-    private <T> Future<T> saveAsync(final Object id, final Function<T, T> copyFun) {
-        return this.reader.<T>findByIdAsync(id).compose(old -> this.<T>updateAsync(copyFun.apply(old)));
-    }
-
-    private <T> T save(final Object id, final Function<T, T> copyFun) {
-        final T old = this.reader.<T>findById(id);
-        return copyFun.apply(old);
-    }
 
     /*
      * Combine for `Saving` here, it could help Jooq to execute

@@ -113,7 +113,7 @@ public class TodoService implements TodoStub {
     @Override
     public Future<JsonObject> updateStatus(final String key, final JsonObject params) {
         return Ux.Jooq.on(XTodoDao.class)
-                .<XTodo>findByIdAsync(key)
+                .<XTodo>fetchByIdAsync(key)
                 .compose(Ux::fnJObject)
                 .compose(Ut.ifJNil((todoJson) -> {
                     /*
@@ -167,7 +167,7 @@ public class TodoService implements TodoStub {
     @Override
     public Future<JsonObject> fetchTodo(final String key) {
         return Ux.Jooq.on(XTodoDao.class)
-                .<XTodo>findByIdAsync(key)
+                .<XTodo>fetchByIdAsync(key)
                 .compose(Ux::fnJObject)
                 .compose(Ut.ifNil(JsonObject::new, (todo) -> Ke.channel(ExTodo.class, () -> todo, channel -> {
                     At.infoInit(LOGGER, AtMsg.CHANNEL_TODO, channel.getClass().getName());

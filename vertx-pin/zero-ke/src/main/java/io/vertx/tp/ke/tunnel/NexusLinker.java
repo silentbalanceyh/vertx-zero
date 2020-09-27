@@ -58,7 +58,7 @@ class NexusLinker implements Nexus {
 
     @Override
     public Future<JsonObject> updateNexus(final String key, final JsonObject params) {
-        return this.execute(params, (updatedData) -> this.jooq.findByIdAsync(key)
+        return this.execute(params, (updatedData) -> this.jooq.fetchByIdAsync(key)
                 .compose(Ux::fnJObject)
                 .compose(original -> {
                     original.mergeIn(updatedData);

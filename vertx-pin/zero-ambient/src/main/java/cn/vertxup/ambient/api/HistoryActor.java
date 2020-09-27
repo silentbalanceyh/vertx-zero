@@ -53,7 +53,7 @@ public class HistoryActor {
 
     @Address(Addr.History.ACTIVITY_GET)
     public Future<JsonObject> fetchActivity(final String key) {
-        return Ux.Jooq.on(XActivityDao.class).<XActivity>findByIdAsync(key).compose(activity -> {
+        return Ux.Jooq.on(XActivityDao.class).<XActivity>fetchByIdAsync(key).compose(activity -> {
             if (Objects.isNull(activity)) {
                 return Ux.futureJObject();
             } else {

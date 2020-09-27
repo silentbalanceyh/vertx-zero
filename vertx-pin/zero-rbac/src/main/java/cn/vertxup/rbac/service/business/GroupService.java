@@ -43,9 +43,9 @@ public class GroupService implements GroupStub {
         if (null == dao) {
             return null;
         }
-        final SGroup current = dao.findById(groupKey);
+        final SGroup current = dao.fetchById(groupKey);
         return null == current ? null :
-                dao.findById(current.getParentId());
+                dao.fetchById(current.getParentId());
     }
 
     @Override

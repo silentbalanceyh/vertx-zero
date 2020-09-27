@@ -53,7 +53,7 @@ public class EmployeeService implements EmployeeStub {
 
     @Override
     public Future<JsonObject> fetchAsync(final String key) {
-        return Ux.Jooq.on(EEmployeeDao.class).findByIdAsync(key)
+        return Ux.Jooq.on(EEmployeeDao.class).fetchByIdAsync(key)
                 .compose(Ux::fnJObject)
                 .compose(this::fetchRef);
     }
@@ -67,7 +67,7 @@ public class EmployeeService implements EmployeeStub {
 
     @Override
     public Future<JsonArray> fetchAsync(final JsonObject condition) {
-        return Ux.Jooq.on(EEmployeeDao.class).findAsync(condition)
+        return Ux.Jooq.on(EEmployeeDao.class).fetchAsync(condition)
                 .compose(Ux::fnJArray)
                 .compose(this::fetchRef);
     }

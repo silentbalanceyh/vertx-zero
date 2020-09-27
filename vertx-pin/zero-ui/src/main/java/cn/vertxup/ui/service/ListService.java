@@ -25,7 +25,7 @@ public class ListService implements ListStub {
         /*
          * Read list configuration for configuration
          */
-        return Ux.Jooq.on(UiListDao.class).<UiList>findByIdAsync(listId)
+        return Ux.Jooq.on(UiListDao.class).<UiList>fetchByIdAsync(listId)
                 .compose(list -> {
                     if (Objects.isNull(list)) {
                         Ui.infoWarn(ListService.LOGGER, " Form not found, id = {0}", listId);

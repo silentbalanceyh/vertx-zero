@@ -18,7 +18,7 @@ public class ResourceService implements ResourceStub {
     @Override
     public Future<JsonObject> fetchResource(String resourceId) {
         return Ux.Jooq.on(SResourceDao.class)
-                .findByIdAsync(resourceId)
+                .fetchByIdAsync(resourceId)
                 .compose(Ux::fnJObject)
                 .compose(resource -> Ux.Jooq.on(SActionDao.class)
                         .fetchOneAsync(KeField.RESOURCE_ID, resourceId)

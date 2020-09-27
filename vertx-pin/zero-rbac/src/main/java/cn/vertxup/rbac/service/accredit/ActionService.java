@@ -47,7 +47,7 @@ public class ActionService implements ActionStub {
     @Override
     public Future<SResource> fetchResource(final String key) {
         return Ux.Jooq.on(SResourceDao.class)
-                .findByIdAsync(key);
+                .fetchByIdAsync(key);
     }
 
     @Override

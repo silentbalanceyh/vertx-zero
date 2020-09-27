@@ -59,11 +59,11 @@ public class JqReader {
         return this.toResult(context.selectFrom(this.vertxDAO.getTable()).where(condition).fetchOne(this.vertxDAO.mapper()));
     }
 
-    <T> Future<T> findByIdAsync(final Object id) {
+    <T> Future<T> fetchByIdAsync(final Object id) {
         return JqTool.future(this.vertxDAO.findByIdAsync(id));
     }
 
-    <T> Future<List<T>> findAllAsync() {
+    <T> Future<List<T>> fetchAllAsync() {
         return JqTool.future(this.vertxDAO.findAllAsync());
     }
 
@@ -73,11 +73,11 @@ public class JqReader {
     }
 
     // Cached
-    <T> T findById(final Object id) {
+    <T> T fetchById(final Object id) {
         return toResult(this.vertxDAO.findById(id));
     }
 
-    <T> List<T> findAll() {
+    <T> List<T> fetchAll() {
         return this.vertxDAO.findAll();
     }
 

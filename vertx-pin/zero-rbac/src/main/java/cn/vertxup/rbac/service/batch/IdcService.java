@@ -57,7 +57,7 @@ class IdcService extends AbstractIdc {
                     condition.put(KeField.SIGMA, this.sigma);
                     condition.put(Strings.EMPTY, Boolean.TRUE);
                     Sc.infoWeb(this.getClass(), "Unique filters: {0}", condition.encode());
-                    return Ux.Jooq.on(SUserDao.class).findAsync(condition)
+                    return Ux.Jooq.on(SUserDao.class).fetchAsync(condition)
                             .compose(Ux::fnJArray)
                             .compose(original -> {
                                 /*

@@ -13,7 +13,7 @@ public class ExCompanyEpic implements ExCompany {
     @Override
     public Future<JsonObject> fetchAsync(final String id) {
         return Ux.Jooq.on(ECompanyDao.class)
-                .findByIdAsync(id)
+                .fetchByIdAsync(id)
                 .compose(Ux::fnJObject);
     }
 }

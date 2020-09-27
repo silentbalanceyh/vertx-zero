@@ -79,7 +79,7 @@ public class ActivityService implements ActivityStub {
     @Override
     public Future<JsonObject> fetchActivity(final String id) {
         return Ux.Jooq.on(XActivityDao.class)
-                .<XActivity>findByIdAsync(id)
+                .<XActivity>fetchByIdAsync(id)
                 .compose(Ut.ifNil(JsonObject::new, (activity) -> this.fetchChanges(activity.getKey())
                         .compose(changes -> {
                             final JsonObject activityJson = Ux.toJson(activity);

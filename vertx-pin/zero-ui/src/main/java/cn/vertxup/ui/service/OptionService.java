@@ -20,7 +20,7 @@ public class OptionService implements OptionStub {
     @Override
     public Future<JsonObject> fetchQuery(final String id) {
         return Ux.Jooq.on(VQueryDao.class)
-                .<VQuery>findByIdAsync(id)
+                .<VQuery>fetchByIdAsync(id)
                 .compose(Ux::fnJObject)
                 .compose(Ke.mount(FIELD_QUERY_CRITERIA))
                 .compose(Ke.mountArray(FIELD_QUERY_PROJECTION));
@@ -29,7 +29,7 @@ public class OptionService implements OptionStub {
     @Override
     public Future<JsonObject> fetchSearch(final String id) {
         return Ux.Jooq.on(VSearchDao.class)
-                .<VSearch>findByIdAsync(id)
+                .<VSearch>fetchByIdAsync(id)
                 .compose(Ux::fnJObject)
                 .compose(Ke.mount(FIELD_SEARCH_NOTICE))
                 .compose(Ke.mountArray(FIELD_SEARCH_COND));
@@ -38,7 +38,7 @@ public class OptionService implements OptionStub {
     @Override
     public Future<JsonObject> fetchFragment(final String id) {
         return Ux.Jooq.on(VFragmentDao.class)
-                .<VFragment>findByIdAsync(id)
+                .<VFragment>fetchByIdAsync(id)
                 .compose(Ux::fnJObject)
                 .compose(Ke.mount(FIELD_FRAGMENT_MODEL))
                 .compose(Ke.mount(FIELD_FRAGMENT_NOTICE))
@@ -49,7 +49,7 @@ public class OptionService implements OptionStub {
     @Override
     public Future<JsonObject> fetchTable(final String id) {
         return Ux.Jooq.on(VTableDao.class)
-                .<VTable>findByIdAsync(id)
+                .<VTable>fetchByIdAsync(id)
                 .compose(Ux::fnJObject)
                 .compose(Ke.mountArray(FIELD_TABLE_OP_CONFIG));
     }

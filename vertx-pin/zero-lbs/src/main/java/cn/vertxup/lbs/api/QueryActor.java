@@ -21,7 +21,7 @@ public class QueryActor {
     @Address(Addr.PickUp.COUNTRIES)
     public Future<JsonArray> queryCountries(final Envelop request) {
         return Ux.Jooq.on(LCountryDao.class)
-                .findAllAsync()
+                .fetchAllAsync()
                 .compose(Ux::fnJArray);
     }
 
@@ -73,7 +73,7 @@ public class QueryActor {
                 .compose(regionId -> this.combine(response, "regionId",
                         () -> regionId))
                 .compose(regionId -> Ux.Jooq.on(LRegionDao.class)
-                        .<LRegion>findByIdAsync(regionId)
+                        .<LRegion>fetchByIdAsync(regionId)
                 )
                 /*
                  * Region -> City
@@ -81,7 +81,7 @@ public class QueryActor {
                 .compose(region -> this.combine(response, "cityId",
                         region::getCityId))
                 .compose(cityId -> Ux.Jooq.on(LCityDao.class)
-                        .<LCity>findByIdAsync(cityId)
+                        .<LCity>fetchByIdAsync(cityId)
                 )
                 /*
                  * City -> State
@@ -89,7 +89,7 @@ public class QueryActor {
                 .compose(city -> this.combine(response, "stateId",
                         city::getStateId))
                 .compose(stateId -> Ux.Jooq.on(LStateDao.class)
-                        .<LState>findByIdAsync(stateId)
+                        .<LState>fetchByIdAsync(stateId)
                 )
                 /*
                  * State -> Country

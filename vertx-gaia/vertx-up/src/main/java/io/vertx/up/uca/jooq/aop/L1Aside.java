@@ -22,7 +22,7 @@ import org.aspectj.lang.annotation.Before;
  */
 @Aspect
 @SuppressWarnings("all")
-public class L1Cache {
+public class L1Aside {
     private transient L1Facade l1;
 
     /*
@@ -42,8 +42,10 @@ public class L1Cache {
         this.l1 = L1Facade.create(JqAnalyzer.create(dao));
     }
 
+    // -------------------- INSERT --------------------
+
     /*
-     * Around for read
+     * Around for find
      * 1) findById(Object)
      * 2) findByIdAsync(Object)
      */
@@ -64,12 +66,10 @@ public class L1Cache {
      * 1) fetchOne
      * 2) fetchOneAsync
      */
-    @Around(value = "execution(* io.vertx.up.uca.jooq.Ux*.fetchOne(..)) && args(field,value)", argNames = "field,value")
-    public <T, K> T fetchOne(final ProceedingJoinPoint point,
-                             final String field, final Object value) throws Throwable {
-        System.out.println("One");
+    @Around(value = "execution(* io.vertx.up.uca.jooq.Ux*.fetchOne*(..))")
+    public <T> T fetchOne(final ProceedingJoinPoint point) throws Throwable {
         final int length = point.getArgs().length;
-
+        System.out.println(length);
         return (T) point.proceed();
     }
 }
