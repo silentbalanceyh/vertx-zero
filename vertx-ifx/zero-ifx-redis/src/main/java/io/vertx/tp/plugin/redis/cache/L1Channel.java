@@ -127,14 +127,16 @@ class L1Channel {
 
     private <T> Future<T> requestAsync(final Request request, final Function<Response, T> consumer) {
         final Promise<T> promise = Promise.promise();
-        this.redis.send(request, res -> {
-            if (res.succeeded()) {
-                final T data = consumer.apply(res.result());
-                promise.complete(data);
-            } else {
-                promise.fail(res.cause());
-            }
-        });
-        return promise.future();
+        if (Objects.nonNull(this.redis)) {
+            this.redis.send(request, res -> {
+                if (res.succeeded()) {
+                    final T data = consumer.apply(res.result());
+                    promise.complete(data);
+                } else {
+                    promise.fail(res.cause());
+                }
+            });
+            return promise.future();
+        } else return Future.succeededFuture();
     }
 }

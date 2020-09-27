@@ -115,6 +115,11 @@ class JqWriter {
         return JqTool.future(future).compose(nil -> Future.succeededFuture(entity));
     }
 
+    <T> Future<T[]> deleteAsync(final T... entity) {
+        final CompletableFuture<Void> future = this.vertxDAO.deleteAsync(Arrays.asList(entity));
+        return JqTool.future(future).compose(nil -> Future.succeededFuture(entity));
+    }
+
     <ID> Future<Boolean> deleteByIdAsync(final ID id) {
         final CompletableFuture<Void> future = this.vertxDAO.deleteByIdAsync(id);
         return JqTool.future(future).compose(nil -> Future.succeededFuture(Boolean.TRUE));
@@ -134,6 +139,11 @@ class JqWriter {
     /* Sync delete operation: DELETE */
     <T> T delete(final T entity) {
         this.vertxDAO.delete(entity);
+        return entity;
+    }
+
+    <T> T[] delete(final T... entity) {
+        this.vertxDAO.delete(Arrays.asList(entity));
         return entity;
     }
 

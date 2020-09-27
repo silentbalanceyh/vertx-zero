@@ -166,8 +166,16 @@ public class UxJooq {
         return this.writer.<T>deleteAsync(entity);
     }
 
+    public <T> Future<List<T>> deleteAsync(final T... entity) {
+        return this.writer.<T>deleteAsync(entity).compose(result -> Future.succeededFuture(Arrays.asList(result)));
+    }
+
     public <T> T delete(final T entity) {
         return this.writer.<T>delete(entity);
+    }
+
+    public <T> List<T> delete(final T... entity) {
+        return Arrays.asList(this.writer.<T>delete(entity));
     }
 
 
@@ -266,7 +274,6 @@ public class UxJooq {
         return this.reader.fetchInAsync(field, values.getList());
     }
 
-
     public <T> List<T> fetchIn(final String field, final Object... values) {
         return this.reader.fetchIn(field, Arrays.asList(values));
     }
@@ -274,7 +281,6 @@ public class UxJooq {
     public <T> List<T> fetchIn(final String field, final JsonArray values) {
         return this.reader.fetchIn(field, values.getList());
     }
-
 
     // -------------------- Search Operation -----------
     /* (Async / Sync) Sort, Projection, Criteria, Pager Search Operations */
@@ -368,6 +374,19 @@ public class UxJooq {
         return this.reader.existsById(id);
     }
 
+    public Future<Boolean> missByIdAsync(final Object id) {
+        return this.reader.existsByIdAsync(id).compose(result -> Future.succeededFuture(!result));
+    }
+
+    public Boolean missById(final Object id) {
+        return !this.reader.existsById(id);
+    }
+
+    public <T> Future<Boolean> missAsync(final JsonObject filters) {
+        return this.<T>fetchAsync(filters)
+                .compose(item -> Future.succeededFuture(0 == item.size()));
+    }
+
     public <T> Future<Boolean> existAsync(final JsonObject filters) {
         return this.<T>fetchAsync(filters)
                 .compose(item -> Future.succeededFuture(0 < item.size()));
@@ -376,5 +395,10 @@ public class UxJooq {
     public <T> Boolean exist(final JsonObject filters) {
         final List<T> list = fetch(filters);
         return 0 < list.size();
+    }
+
+    public <T> Boolean miss(final JsonObject filters) {
+        final List<T> list = fetch(filters);
+        return 0 == list.size();
     }
 }

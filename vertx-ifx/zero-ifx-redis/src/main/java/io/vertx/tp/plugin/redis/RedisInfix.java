@@ -6,11 +6,12 @@ import io.vertx.redis.client.Redis;
 import io.vertx.redis.client.RedisOptions;
 import io.vertx.up.annotations.Plugin;
 import io.vertx.up.eon.Plugins;
-import io.vertx.up.fn.Fn;
+import io.vertx.up.log.Annal;
 import io.vertx.up.plugin.Infix;
 import io.vertx.up.util.Ut;
 import redis.clients.jedis.Jedis;
 
+import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
@@ -19,6 +20,7 @@ import java.util.concurrent.ConcurrentMap;
 public class RedisInfix implements Infix {
 
     private static final String NAME = "ZERO_REDIS_POOL";
+    private static final Annal LOGGER = Annal.get(RedisInfix.class);
 
     private static final ConcurrentMap<String, Redis> CLIENTS
             = new ConcurrentHashMap<>();
@@ -27,14 +29,28 @@ public class RedisInfix implements Infix {
 
     private static void initInternal(final Vertx vertx,
                                      final String name) {
-        Fn.pool(CLIENTS, name, () -> Infix.init(Plugins.Infix.REDIS,
+        final RedisOptions options = Infix.init(Plugins.Infix.REDIS,
                 /*
                  * Two parts for
                  * - Redis reference
                  * - RedisOptions reference ( For Sync usage )
                  */
-                (config) -> Redis.createClient(vertx, new RedisOptions(initSync(name, config))),
-                RedisInfix.class));
+                (config) -> new RedisOptions(initSync(name, config)),
+                RedisInfix.class);
+        /*
+         * Redis client processing
+         */
+        final Redis redis = Redis.createClient(vertx, options);
+        redis.connect(handler -> {
+            if (handler.succeeded()) {
+                CLIENTS.put(name, redis);
+            } else {
+                final Throwable ex = handler.cause();
+                if (Objects.nonNull(ex)) {
+                    LOGGER.jvm(ex);
+                }
+            }
+        });
     }
 
     private static JsonObject initSync(final String name, final JsonObject options) {
@@ -52,7 +68,12 @@ public class RedisInfix implements Infix {
                     client.auth(username, password);
                 }
             }
-            CLIENTS_SYNC.put(name, client);
+            try {
+                client.ping();
+                CLIENTS_SYNC.put(name, client);
+            } catch (final Throwable ex) {
+                LOGGER.jvm(ex);
+            }
         }
         return options;
     }

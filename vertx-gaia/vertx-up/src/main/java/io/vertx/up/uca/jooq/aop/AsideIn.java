@@ -2,6 +2,7 @@ package io.vertx.up.uca.jooq.aop;
 
 import io.github.jklingsporn.vertx.jooq.future.VertxDAO;
 import io.vertx.core.Future;
+import io.vertx.up.log.Annal;
 import io.vertx.up.uca.jooq.JqAnalyzer;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -17,48 +18,35 @@ import org.aspectj.lang.annotation.Before;
  *
  * Here we used Cache-Aside for cache hitting
  *
- * 1) The Read: Get -> Null Check -> Write
- * 2) The Write: Get Key -> Delete in Cache ( The next time the system will refresh cache )
+ * This aop is for reading data
  */
 @Aspect
 @SuppressWarnings("all")
-public class L1Aside {
-    private transient L1Facade l1;
+public class AsideIn {
+    private static final Annal LOGGER = Annal.get(AsideIn.class);
+    private transient L1Fetch fetcher;
 
-    /*
-     * Aspect in constructor for input of
-     * -- Class<T> : The dao class for current operation
-     * -- VertxDao : The bind vertx dao that contains vertx reference
-     */
     @Before(value = "initialization(io.vertx.up.uca.jooq.UxJooq.new(..)) && args(clazz,dao)", argNames = "clazz,dao")
     public void init(final Class<?> clazz, final VertxDAO dao) {
-        /*
-         * L1 Cache enabled
-         * 1. VertxDao
-         * 2. JqAnalyzer reference of object
-         *
-         * Here processed L1 cache building for different method
-         */
-        this.l1 = L1Facade.create(JqAnalyzer.create(dao));
+        this.fetcher = new L1Fetch(JqAnalyzer.create(dao));
     }
-
-    // -------------------- INSERT --------------------
 
     /*
      * Around for find
      * 1) findById(Object)
      * 2) findByIdAsync(Object)
      */
-    @Around(value = "execution(* io.vertx.up.uca.jooq.Ux*.findById(..)) && args(id)", argNames = "id")
+    @Around(value = "execution(* io.vertx.up.uca.jooq.Ux*.fetchById*(..)) && args(id)", argNames = "id")
     public <T, K> T findById(final ProceedingJoinPoint point,
                              final K id) throws Throwable {
-        return this.l1.findById(id, () -> (T) point.proceed());
-    }
-
-    @Around(value = "execution(* io.vertx.up.uca.jooq.Ux*.findByIdAsync(..)) && args(id)", argNames = "id")
-    public <T, K> Future<T> findByIdAsync(final ProceedingJoinPoint point,
-                                          final K id) throws Throwable {
-        return this.l1.findByIdAsync(id, () -> (Future<T>) point.proceed());
+        final Class<?> returnType = AsideDim.returnType(point);
+        if (Future.class == returnType) {
+            LOGGER.info("( Aop ) `fetchByIdAsync(Object)` aspecting.. (Async) {0}", id);
+            return (T) this.fetcher.findByIdAsync(id, () -> (Future) point.proceed());
+        } else {
+            LOGGER.info("( Aop ) `fetchById(Object)` aspecting.. (Sync) {0}", id);
+            return this.fetcher.findById(id, () -> (T) point.proceed());
+        }
     }
 
     /*
