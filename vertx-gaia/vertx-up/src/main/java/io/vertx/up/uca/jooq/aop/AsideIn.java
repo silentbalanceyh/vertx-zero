@@ -2,8 +2,6 @@ package io.vertx.up.uca.jooq.aop;
 
 import io.github.jklingsporn.vertx.jooq.future.VertxDAO;
 import io.vertx.core.Future;
-import io.vertx.core.json.JsonObject;
-import io.vertx.tp.plugin.cache.hit.CacheCond;
 import io.vertx.tp.plugin.cache.hit.CacheId;
 import io.vertx.tp.plugin.cache.hit.CacheKey;
 import io.vertx.up.log.Annal;
@@ -48,6 +46,15 @@ public class AsideIn {
     }
 
     /*
+     * search / searchAsync
+     */
+    @Around(value = "execution(* io.vertx.up.uca.jooq.UxJooq.search*(..))")
+    public <T> T search(final ProceedingJoinPoint point) throws Throwable {
+        final CacheKey key = AsideDim.keyCond(point);
+        return execAsync(key, point, "search");
+    }
+
+    /*
      * existById / existByIdAsync
      * missById / missByIdAsync
      */
@@ -72,7 +79,7 @@ public class AsideIn {
      */
     @Around(value = "execution(* io.vertx.up.uca.jooq.UxJooq.fetchOne*(..))")
     public <T> T fetchOne(final ProceedingJoinPoint point) throws Throwable {
-        final CacheKey key = keyCond(point);
+        final CacheKey key = AsideDim.keyCond(point);
         return execAsync(key, point, "fetchOne");
     }
 
@@ -87,31 +94,18 @@ public class AsideIn {
      */
     @Around(value = "execution(* io.vertx.up.uca.jooq.UxJooq.fetch(..))")
     public <T> List<T> fetch(final ProceedingJoinPoint point) throws Throwable {
-        final CacheKey key = keyCond(point);
+        final CacheKey key = AsideDim.keyCond(point);
         return execAsync(key, point, "fetch");
     }
 
     @Around(value = "execution(* io.vertx.up.uca.jooq.UxJooq.fetchAsync(..))")
     public <T> Future<List<T>> fetchAsync(final ProceedingJoinPoint point) throws Throwable {
-        final CacheKey key = keyCond(point);
+        final CacheKey key = AsideDim.keyCond(point);
         return execAsync(key, point, "fetchAsync");
     }
 
+
     // ----------------------- Could not be modified ----------------------
-    private CacheKey keyCond(final ProceedingJoinPoint point) {
-        final Object[] args = point.getArgs();
-        final int length = args.length;
-        final CacheKey key;
-        if (2 == length) {
-            final String field = (String) args[0];
-            final Object value = args[1];
-            key = new CacheCond(field, value);
-        } else {
-            final JsonObject condition = (JsonObject) args[0];
-            key = new CacheCond(condition);
-        }
-        return key;
-    }
 
     private <T> T execAsync(final CacheKey key, final ProceedingJoinPoint point, final String method) {
         final Class<?> returnType = AsideDim.returnType(point);
