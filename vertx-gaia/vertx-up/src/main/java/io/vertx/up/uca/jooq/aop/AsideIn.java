@@ -2,12 +2,19 @@ package io.vertx.up.uca.jooq.aop;
 
 import io.github.jklingsporn.vertx.jooq.future.VertxDAO;
 import io.vertx.core.Future;
+import io.vertx.core.json.JsonObject;
+import io.vertx.tp.plugin.cache.hit.CacheCond;
+import io.vertx.tp.plugin.cache.hit.CacheId;
+import io.vertx.tp.plugin.cache.hit.CacheKey;
 import io.vertx.up.log.Annal;
 import io.vertx.up.uca.jooq.JqAnalyzer;
+import io.vertx.up.util.Ut;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
+
+import java.util.List;
 
 /**
  * @author <a href="http://www.origin-x.cn">lang</a>
@@ -24,40 +31,100 @@ import org.aspectj.lang.annotation.Before;
 @SuppressWarnings("all")
 public class AsideIn {
     private static final Annal LOGGER = Annal.get(AsideIn.class);
-    private transient L1Fetch fetcher;
+    private transient L1Aside executor;
 
     @Before(value = "initialization(io.vertx.up.uca.jooq.UxJooq.new(..)) && args(clazz,dao)", argNames = "clazz,dao")
     public void init(final Class<?> clazz, final VertxDAO dao) {
-        this.fetcher = new L1Fetch(JqAnalyzer.create(dao));
+        this.executor = new L1Aside(JqAnalyzer.create(dao));
     }
 
     /*
      * Around for find
-     * 1) findById(Object)
-     * 2) findByIdAsync(Object)
      */
-    @Around(value = "execution(* io.vertx.up.uca.jooq.Ux*.fetchById*(..)) && args(id)", argNames = "id")
-    public <T, K> T findById(final ProceedingJoinPoint point,
-                             final K id) throws Throwable {
-        final Class<?> returnType = AsideDim.returnType(point);
-        if (Future.class == returnType) {
-            LOGGER.info("( Aop ) `fetchByIdAsync(Object)` aspecting.. (Async) {0}", id);
-            return (T) this.fetcher.findByIdAsync(id, () -> (Future) point.proceed());
-        } else {
-            LOGGER.info("( Aop ) `fetchById(Object)` aspecting.. (Sync) {0}", id);
-            return this.fetcher.findById(id, () -> (T) point.proceed());
-        }
+    @Around(value = "execution(* io.vertx.up.uca.jooq.UxJooq.fetchById*(..)) && args(id)", argNames = "id")
+    public <T, K> T findById(final ProceedingJoinPoint point, final K id) throws Throwable {
+        final CacheKey key = new CacheId(id);
+        return execAsync(key, point, "fetchById");
+    }
+
+    /*
+     * existById / existByIdAsync
+     * missById / missByIdAsync
+     */
+    @Around(value = "execution(* io.vertx.up.uca.jooq.UxJooq.existById*(..)) && args(id)", argNames = "id")
+    public <T, K> T existById(final ProceedingJoinPoint point, final K id) throws Throwable {
+        final CacheKey key = new CacheId(id);
+        return execAsync(key, point, "existById");
+    }
+
+    @Around(value = "execution(* io.vertx.up.uca.jooq.UxJooq.missById*(..)) && args(id)", argNames = "id")
+    public <T, K> T missById(final ProceedingJoinPoint point, final K id) throws Throwable {
+        final CacheKey key = new CacheId(id);
+        return execAsync(key, point, "missById");
     }
 
     /*
      * Around for fetch
-     * 1) fetchOne
-     * 2) fetchOneAsync
+     * 1) fetchOne(JsonObject)
+     *    fetchOne(String, Object)
+     * 2) fetchOneAsync(JsonObject)
+     *    fetchOneAsync(String, Object)
      */
-    @Around(value = "execution(* io.vertx.up.uca.jooq.Ux*.fetchOne*(..))")
+    @Around(value = "execution(* io.vertx.up.uca.jooq.UxJooq.fetchOne*(..))")
     public <T> T fetchOne(final ProceedingJoinPoint point) throws Throwable {
-        final int length = point.getArgs().length;
-        System.out.println(length);
-        return (T) point.proceed();
+        final CacheKey key = keyCond(point);
+        return execAsync(key, point, "fetchOne");
+    }
+
+    /*
+     * Distinguish with fetchOne, here could not use `fetch*` pattern
+     * The call tracking is as following:
+     *
+     * 1) fetchAll ( No Cache )
+     * 2) fetchAnd / fetchOr / fetchIn: These all methods will call `fetch/fetchAsync` API instead
+     * 3) Only cached `fetch / fetchAsync` for all API here
+     * 4) exist / existAsync / miss / missAsync will call `fetch/fetchAsync` API instead
+     */
+    @Around(value = "execution(* io.vertx.up.uca.jooq.UxJooq.fetch(..))")
+    public <T> List<T> fetch(final ProceedingJoinPoint point) throws Throwable {
+        final CacheKey key = keyCond(point);
+        return execAsync(key, point, "fetch");
+    }
+
+    @Around(value = "execution(* io.vertx.up.uca.jooq.UxJooq.fetchAsync(..))")
+    public <T> Future<List<T>> fetchAsync(final ProceedingJoinPoint point) throws Throwable {
+        final CacheKey key = keyCond(point);
+        return execAsync(key, point, "fetchAsync");
+    }
+
+    // ----------------------- Could not be modified ----------------------
+    private CacheKey keyCond(final ProceedingJoinPoint point) {
+        final Object[] args = point.getArgs();
+        final int length = args.length;
+        final CacheKey key;
+        if (2 == length) {
+            final String field = (String) args[0];
+            final Object value = args[1];
+            key = new CacheCond(field, value);
+        } else {
+            final JsonObject condition = (JsonObject) args[0];
+            key = new CacheCond(condition);
+        }
+        return key;
+    }
+
+    private <T> T execAsync(final CacheKey key, final ProceedingJoinPoint point, final String method) {
+        final Class<?> returnType = AsideDim.returnType(point);
+        if (Future.class == returnType) {
+            if (Ut.notNil(method)) {
+                LOGGER.info("( Aop ) `{0}Async(Object)` aspecting.. (Async) {1}", method, Ut.fromJoin(point.getArgs()));
+            }
+            return (T) this.executor.readAsync(key, () -> (Future) point.proceed(point.getArgs()));
+        } else {
+            if (Ut.notNil(method)) {
+                LOGGER.info("( Aop ) `{0}(Object)` aspecting.. (Sync) {1}", method, Ut.fromJoin(point.getArgs()));
+            }
+            return this.executor.read(key, () -> (T) point.proceed(point.getArgs()));
+        }
     }
 }

@@ -12,10 +12,7 @@ import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 import org.jooq.*;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 import java.util.function.Function;
 
 /**
@@ -48,12 +45,17 @@ public class JqReader {
         return JqTool.future(this.vertxDAO.fetchOneAsync(this.analyzer.column(field), value));
     }
 
-    <T> Future<T> fetchOneAndAsync(final JsonObject filters) {
+    <T> Future<T> fetchOneAsync(final JsonObject filters) {
         final Condition condition = JooqCond.transform(filters, Operator.AND, this.analyzer::column);
         return JqTool.future(this.vertxDAO.fetchOneAsync(condition));
     }
 
-    <T> T fetchOneAnd(final JsonObject filters) {
+    /* Sync fetch one operation: SELECT */
+    <T> T fetchOne(final String field, final Object value) {
+        return toResult(this.vertxDAO.fetchOne(this.analyzer.column(field), value));
+    }
+
+    <T> T fetchOne(final JsonObject filters) {
         final Condition condition = JooqCond.transform(filters, Operator.AND, this.analyzer::column);
         final DSLContext context = JooqInfix.getDSL();
         return this.toResult(context.selectFrom(this.vertxDAO.getTable()).where(condition).fetchOne(this.vertxDAO.mapper()));
@@ -67,10 +69,6 @@ public class JqReader {
         return JqTool.future(this.vertxDAO.findAllAsync());
     }
 
-    /* Sync fetch one operation: SELECT */
-    <T> T fetchOne(final String field, final Object value) {
-        return toResult(this.vertxDAO.fetchOne(this.analyzer.column(field), value));
-    }
 
     // Cached
     <T> T fetchById(final Object id) {
@@ -92,28 +90,19 @@ public class JqReader {
 
     // ============ Fetch List with Condition ===========
     <T> Future<List<T>> fetchAsync(final String field, final Object value) {
-        return JqTool.future(this.vertxDAO.fetchAsync(this.analyzer.column(field), Arrays.asList(value)));
-    }
-
-    <T> Future<List<T>> fetchAsync(final Condition condition) {
-        return JqTool.future(this.vertxDAO.fetchAsync(condition));
-    }
-
-    <T> Future<List<T>> fetchInAsync(final String field, final List<Object> values) {
-        return JqTool.future(this.vertxDAO.fetchAsync(this.analyzer.column(field), values));
+        return JqTool.future(this.vertxDAO.fetchAsync(this.analyzer.column(field), parameters(value)));
     }
 
     <T> List<T> fetch(final String field, final Object value) {
-        return this.vertxDAO.fetch(this.analyzer.column(field), value);
+        return this.vertxDAO.fetch(this.analyzer.column(field), parameters(value));
     }
 
-    <T> List<T> fetchIn(final String field, final List<Object> values) {
-        return this.vertxDAO.fetch(this.analyzer.column(field), values.toArray());
-    }
-
-    <T> List<T> fetch(final Condition condition) {
-        final DSLContext context = JooqInfix.getDSL();
-        return context.selectFrom(this.vertxDAO.getTable()).where(condition).fetch(this.vertxDAO.mapper());
+    private List<Object> parameters(final Object value) {
+        if (value instanceof Collection) {
+            return (List<Object>) value;
+        } else {
+            return Arrays.asList(value);
+        }
     }
 
     // ============ Result Wrapper ==============

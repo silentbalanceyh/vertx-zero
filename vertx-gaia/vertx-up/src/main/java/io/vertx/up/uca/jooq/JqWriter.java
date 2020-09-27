@@ -42,7 +42,7 @@ class JqWriter {
 
     // ============ INSERT Operation =============
     <T> Future<T> upsertReturningPrimaryAsync(final JsonObject filters, final T updated, final Consumer<Long> consumer) {
-        return this.reader.<T>fetchOneAndAsync(filters).compose(item -> Fn.match(
+        return this.reader.<T>fetchOneAsync(filters).compose(item -> Fn.match(
                 Fn.fork(() -> this.<T>updateAsync(this.analyzer.copyEntity(item, updated))),
                 Fn.branch(null == item, () -> this.insertReturningPrimaryAsync(updated, consumer))
         ));
@@ -158,8 +158,7 @@ class JqWriter {
     }
 
     <T, ID> Boolean delete(final JsonObject filters, final String pojo) {
-        final Condition condition = JooqCond.transform(filters, null, this.analyzer::column);
-        final List<T> result = this.reader.fetch(condition);
+        final List<T> result = this.reader.search(filters);
         result.stream().map(item -> this.delete(item));
         return Boolean.TRUE;
     }
@@ -181,7 +180,7 @@ class JqWriter {
     // ============ UPSERT Operation (Save) =============
 
     public <T> Future<T> upsertAsync(final JsonObject filters, final T updated) {
-        return combineAsync(this.reader.<T>fetchOneAndAsync(filters), updated);
+        return combineAsync(this.reader.<T>fetchOneAsync(filters), updated);
     }
 
     public <T> Future<T> upsertAsync(final String key, final T updated) {
@@ -189,7 +188,7 @@ class JqWriter {
     }
 
     public <T> T upsert(final JsonObject filters, final T updated) {
-        return this.combine(this.reader.fetchOneAnd(filters), updated);
+        return this.combine(this.reader.fetchOne(filters), updated);
     }
 
     public <T> T upsert(final String key, final T updated) {

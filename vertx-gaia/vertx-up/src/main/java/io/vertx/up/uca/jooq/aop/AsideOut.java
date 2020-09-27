@@ -14,13 +14,13 @@ import java.util.List;
  */
 @Aspect
 @SuppressWarnings("all")
-public class AsideOS {
-    private static final Annal LOGGER = Annal.get(AsideOS.class);
-    private transient L1Update update;
+public class AsideOut {
+    private static final Annal LOGGER = Annal.get(AsideOut.class);
+    private transient L1Aside executor;
 
     @Before(value = "initialization(io.vertx.up.uca.jooq.UxJooq.new(..)) && args(clazz,dao)", argNames = "clazz,dao")
     public void init(final Class<?> clazz, final VertxDAO dao) {
-        this.update = new L1Update(JqAnalyzer.create(dao));
+        this.executor = new L1Aside(JqAnalyzer.create(dao));
     }
 
     public <T> T update(final ProceedingJoinPoint point) throws Throwable {

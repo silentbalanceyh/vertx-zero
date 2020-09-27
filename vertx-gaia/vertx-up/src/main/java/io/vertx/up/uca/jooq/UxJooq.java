@@ -4,14 +4,13 @@ import io.github.jklingsporn.vertx.jooq.future.VertxDAO;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.plugin.jooq.condition.JooqCond;
 import io.vertx.up.atom.query.Inquiry;
+import io.vertx.up.eon.Strings;
 import io.vertx.up.eon.em.Format;
 import io.vertx.up.exception.zero.JooqClassInvalidException;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import io.vertx.up.util.Ut;
-import org.jooq.Operator;
 
 import java.util.Arrays;
 import java.util.List;
@@ -233,19 +232,39 @@ public class UxJooq {
     }
 
     public <T> Future<List<T>> fetchAndAsync(final JsonObject filters) {
-        return this.reader.fetchAsync(JooqCond.transform(filters, Operator.AND, this.analyzer::column));
+        filters.put(Strings.EMPTY, Boolean.TRUE);
+        return this.fetchAsync(filters);
     }
 
     public <T> List<T> fetchAnd(final JsonObject filters) {
-        return this.reader.fetch(JooqCond.transform(filters, Operator.AND, this.analyzer::column));
+        filters.put(Strings.EMPTY, Boolean.TRUE);
+        return this.fetch(filters);
     }
 
     public <T> Future<List<T>> fetchOrAsync(final JsonObject orFilters) {
-        return this.reader.fetchAsync(JooqCond.transform(orFilters, Operator.OR, this.analyzer::column));
+        orFilters.put(Strings.EMPTY, Boolean.FALSE);
+        return this.fetchAsync(orFilters);
     }
 
     public <T> List<T> fetchOr(final JsonObject orFilters) {
-        return this.reader.fetch(JooqCond.transform(orFilters, Operator.OR, this.analyzer::column));
+        orFilters.put(Strings.EMPTY, Boolean.FALSE);
+        return this.fetch(orFilters);
+    }
+
+    public <T> Future<List<T>> fetchInAsync(final String field, final Object... value) {
+        return this.fetchAsync(field, Arrays.asList(value));
+    }
+
+    public <T> Future<List<T>> fetchInAsync(final String field, final JsonArray values) {
+        return this.fetchAsync(field, values.getList());
+    }
+
+    public <T> List<T> fetchIn(final String field, final Object... values) {
+        return this.fetch(field, Arrays.asList(values));
+    }
+
+    public <T> List<T> fetchIn(final String field, final JsonArray values) {
+        return this.fetch(field, values.getList());
     }
 
     public <T> List<T> fetch(final String field, final Object value) {
@@ -264,22 +283,6 @@ public class UxJooq {
 
     public <T> List<T> fetch(final JsonObject filters) {
         return this.reader.search(filters);
-    }
-
-    public <T> Future<List<T>> fetchInAsync(final String field, final Object... value) {
-        return this.reader.fetchInAsync(field, Arrays.asList(value));
-    }
-
-    public <T> Future<List<T>> fetchInAsync(final String field, final JsonArray values) {
-        return this.reader.fetchInAsync(field, values.getList());
-    }
-
-    public <T> List<T> fetchIn(final String field, final Object... values) {
-        return this.reader.fetchIn(field, Arrays.asList(values));
-    }
-
-    public <T> List<T> fetchIn(final String field, final JsonArray values) {
-        return this.reader.fetchIn(field, values.getList());
     }
 
     // -------------------- Search Operation -----------
@@ -348,11 +351,11 @@ public class UxJooq {
     }
 
     public <T> Future<T> fetchOneAsync(final JsonObject filters) {
-        return this.reader.fetchOneAndAsync(filters);
+        return this.reader.fetchOneAsync(filters);
     }
 
     public <T> T fetchOne(final JsonObject filters) {
-        return this.reader.fetchOneAnd(filters);
+        return this.reader.fetchOne(filters);
     }
 
     /* (Async / Sync) Find By ID */
