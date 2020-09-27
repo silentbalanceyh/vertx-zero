@@ -98,6 +98,11 @@ public class CacheTool {
     }
 
     public static String keyCond(final String type, final JsonObject condition) {
+        final TreeMap<String, String> treeMap = keyCond(condition);
+        return keyUniform(type, KEY_DATA_REF, treeMap);
+    }
+
+    public static TreeMap<String, String> keyCond(final JsonObject condition) {
         final TreeMap<String, String> treeMap = new TreeMap<>();
         condition.fieldNames().forEach(field -> {
             final Object value = condition.getValue(field);
@@ -105,7 +110,7 @@ public class CacheTool {
                 treeMap.put(field, value.toString());
             }
         });
-        return keyUniform(type, KEY_DATA_REF, treeMap);
+        return treeMap;
     }
 
     /*
