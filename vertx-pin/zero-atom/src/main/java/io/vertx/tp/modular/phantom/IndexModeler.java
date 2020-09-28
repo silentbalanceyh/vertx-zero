@@ -36,7 +36,7 @@ class IndexModeler implements AoModeler {
         final List<MIndex> indexList = Ux.Jooq.on(MIndexDao.class)
                 .fetchAnd(this.onCriteria(entityJson));
         // Array
-        final JsonArray indexes = Ux.toJArray(indexList);
+        final JsonArray indexes = Ux.toJson(indexList);
 
         return this.onResult(schemaJson, indexes);
     }

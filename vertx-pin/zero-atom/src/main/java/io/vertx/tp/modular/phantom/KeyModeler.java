@@ -36,7 +36,7 @@ class KeyModeler implements AoModeler {
         final List<MKey> keyList = Ux.Jooq.on(MKeyDao.class)
                 .fetchAnd(this.onCriteria(entityJson));
         // Array
-        final JsonArray keys = Ux.toJArray(keyList);
+        final JsonArray keys = Ux.toJson(keyList);
         return this.onResult(schemaJson, keys);
     }
 

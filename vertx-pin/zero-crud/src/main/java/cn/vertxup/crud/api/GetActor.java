@@ -70,9 +70,7 @@ public class GetActor {
                  * Get List<T> from database that `active = true`
                  */
                 return dao.fetchAsync(filters)
-                        .compose(item -> Ut.isNil(pojo) ?
-                                Ux.fnJArray(item) :
-                                Ux.fnJArray(pojo).apply(item))
+                        .compose(list -> Ux.futureJArray(list, pojo))
                         .compose(Ix::query)
                         .compose(IxHttp::success200);
             }

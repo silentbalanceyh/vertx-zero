@@ -33,7 +33,7 @@ public class GroupService implements GroupStub {
         Sc.infoAuth(LOGGER, AuthMsg.RELATION_GROUP_ROLE, groupKey, "Sync");
         final List<RGroupRole> relations = Ux.Jooq.on(RGroupRoleDao.class)
                 .fetch(AuthKey.F_GROUP_ID, groupKey);
-        return Uarr.create(Ux.toJArray(relations))
+        return Uarr.create(Ux.toJson(relations))
                 .remove(AuthKey.F_GROUP_ID).to();
     }
 

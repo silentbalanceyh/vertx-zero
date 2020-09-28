@@ -29,10 +29,9 @@ class IxFn {
             criteria.put("criteria", filters);
             // Here must put condition here.
             if (Ut.notNil(pojo)) {
-                return dao.searchAsync(criteria, pojo);
-            } else {
-                return dao.searchAsync(criteria);
+                dao.on(pojo);
             }
+            return dao.searchAsync(criteria);
         };
     }
 
@@ -43,12 +42,10 @@ class IxFn {
             IxLog.infoDao(LOGGER, "( JqTool ) Dao -> {0}, pojo = {1}", config.getDaoCls(), pojo);
             // Here must put condition here.
             if (Ut.notNil(pojo)) {
-                return dao.searchAsync(criteria, pojo)
-                        .compose(IxFn::queryResult);
-            } else {
-                return dao.searchAsync(criteria)
-                        .compose(IxFn::queryResult);
+                dao.on(pojo);
             }
+            return dao.searchAsync(criteria)
+                    .compose(IxFn::queryResult);
         };
     }
 
@@ -77,7 +74,7 @@ class IxFn {
         final String pojo = config.getPojo();
         final JsonObject parameters = new JsonObject();
         if (Ut.notNil(pojo)) {
-            parameters.mergeIn(Ux.fromJson(criteria, pojo));
+            parameters.mergeIn(Ux.criteria(criteria, pojo));
         } else {
             parameters.mergeIn(criteria);
         }

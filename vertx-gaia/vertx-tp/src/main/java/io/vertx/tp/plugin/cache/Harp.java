@@ -8,6 +8,8 @@ import io.vertx.up.uca.yaml.Node;
 import io.vertx.up.uca.yaml.ZeroUniform;
 import io.vertx.up.util.Ut;
 
+import java.util.Objects;
+
 /**
  * @author <a href="http://www.origin-x.cn">lang</a>
  * Life Cycle for cache when processing in
@@ -34,6 +36,6 @@ public class Harp {
     }
 
     public static L1Cache cacheL1() {
-        return BUS_HARP.cacheL1();
+        return Objects.isNull(BUS_HARP) ? null : BUS_HARP.cacheL1();
     }
 }

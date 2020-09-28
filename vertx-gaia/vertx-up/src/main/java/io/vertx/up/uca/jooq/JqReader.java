@@ -8,6 +8,9 @@ import io.vertx.tp.plugin.jooq.JooqInfix;
 import io.vertx.tp.plugin.jooq.condition.JooqCond;
 import io.vertx.up.atom.query.Inquiry;
 import io.vertx.up.atom.query.Pager;
+import io.vertx.up.uca.jooq.aggr.JqAggregator;
+import io.vertx.up.uca.jooq.util.JqOut;
+import io.vertx.up.uca.jooq.util.JqTool;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 import org.jooq.*;
@@ -110,13 +113,18 @@ public class JqReader {
         return null == value ? null : (T) value;
     }
 
+    Future<JsonObject> searchPageAsync(final JsonObject params, final String pojo) {
+        final Inquiry inquiry = JqTool.getInquiry(params, pojo);
+        return searchPageAsync(inquiry, pojo);
+    }
+
     /*
      * Pagination Searching
      */
-    Future<JsonObject> searchPaginationAsync(final Inquiry inquiry, final String pojo) {
+    Future<JsonObject> searchPageAsync(final Inquiry inquiry, final String pojo) {
         final JsonObject response = new JsonObject();
         return this.searchAsync(inquiry)
-                .compose(Ux.fnJArray(pojo))
+                .compose(list -> Ux.futureJArray(list, pojo))
                 .compose(array -> {
                     response.put("list", array);
                     return this.aggregator.countAsync(inquiry);
@@ -127,11 +135,16 @@ public class JqReader {
                 });
     }
 
-    <T> JsonObject searchPagination(final Inquiry inquiry, final String pojo) {
+    <T> JsonObject searchPage(final JsonObject params, final String pojo) {
+        final Inquiry inquiry = JqTool.getInquiry(params, pojo);
+        return searchPage(inquiry, pojo);
+    }
+
+    <T> JsonObject searchPage(final Inquiry inquiry, final String pojo) {
         final JsonObject response = new JsonObject();
         final List<T> list = this.search(inquiry);
-        response.put("list", Ux.<T>fnJArray(pojo).apply(list));
-        final Integer counter = this.aggregator.count(inquiry);
+        response.put("list", Ux.toJson(list, pojo));
+        final Long counter = this.aggregator.count(inquiry);
         response.put("count", counter);
         return response;
     }
@@ -203,15 +216,15 @@ public class JqReader {
         final JsonArray projection = Objects.isNull(projectionSet) ? new JsonArray() : Ut.toJArray(projectionSet);
         // Returned one by one
         if (null != pagerStep) {
-            return JqResult.toResult(pagerStep.fetch(this.vertxDAO.mapper()), projection, this.analyzer);
+            return JqOut.toResult(pagerStep.fetch(this.vertxDAO.mapper()), projection, this.analyzer);
         }
         if (null != selectStep) {
-            return JqResult.toResult(selectStep.fetch(this.vertxDAO.mapper()), projection, this.analyzer);
+            return JqOut.toResult(selectStep.fetch(this.vertxDAO.mapper()), projection, this.analyzer);
         }
         if (null != conditionStep) {
-            return JqResult.toResult(conditionStep.fetch(this.vertxDAO.mapper()), projection, this.analyzer);
+            return JqOut.toResult(conditionStep.fetch(this.vertxDAO.mapper()), projection, this.analyzer);
         }
-        return JqResult.toResult(started.fetch(this.vertxDAO.mapper()), projection, this.analyzer);
+        return JqOut.toResult(started.fetch(this.vertxDAO.mapper()), projection, this.analyzer);
     }
 
     private <T> List<T> searchInternal(final DSLContext dslContext, final JsonObject criteria) {

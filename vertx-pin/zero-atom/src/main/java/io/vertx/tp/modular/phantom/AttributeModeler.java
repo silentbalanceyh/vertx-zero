@@ -33,7 +33,7 @@ class AttributeModeler implements AoModeler {
         final List<MAttribute> attrList = Ux.Jooq.on(MAttributeDao.class)
                 .fetch(KeField.MODEL_ID, this.getModelId(modelJson));
         // JsonArray
-        final JsonArray attrArr = Ux.toJArray(attrList);
+        final JsonArray attrArr = Ux.toJson(attrList);
 
         modelJson.put(KeField.Modeling.ATTRIBUTES, attrArr);
         return modelJson;

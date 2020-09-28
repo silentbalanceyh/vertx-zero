@@ -1,4 +1,4 @@
-package io.vertx.up.uca.jooq;
+package io.vertx.up.uca.jooq.util;
 
 import io.vertx.core.Future;
 import io.vertx.core.Promise;
@@ -26,9 +26,7 @@ public class JqTool {
 
     private static final Annal LOGGER = Annal.get(JqTool.class);
 
-    static <T> Future<T> future(
-            final CompletableFuture<T> completableFuture
-    ) {
+    public static <T> Future<T> future(final CompletableFuture<T> completableFuture) {
         final Promise<T> future = Promise.promise();
         completableFuture.thenAcceptAsync(future::complete).exceptionally((ex) -> {
             LOGGER.jvm(ex);
@@ -38,8 +36,8 @@ public class JqTool {
         return future.future();
     }
 
-    static <T> ConcurrentMap<ChangeFlag, List<T>> compared(final List<T> current, final List<T> original,
-                                                           final BiPredicate<T, T> finder, final BinaryOperator<T> combiner) {
+    public static <T> ConcurrentMap<ChangeFlag, List<T>> compared(final List<T> current, final List<T> original,
+                                                                  final BiPredicate<T, T> finder, final BinaryOperator<T> combiner) {
         /*
          * Combine original / and last list
          */
@@ -71,7 +69,7 @@ public class JqTool {
         };
     }
 
-    static Inquiry getInquiry(final JsonObject envelop, final String pojo) {
+    public static Inquiry getInquiry(final JsonObject envelop, final String pojo) {
         return Fn.getNull(Inquiry.create(new JsonObject()), () -> {
             final JsonObject data = envelop.copy();
             if (Ut.isNil(pojo)) {
@@ -84,7 +82,7 @@ public class JqTool {
         }, envelop);
     }
 
-    static Inquiry getInquiry(final JsonObject data, final Mojo mojo) {
+    public static Inquiry getInquiry(final JsonObject data, final Mojo mojo) {
         if (data.containsKey("projection")) {
             data.put("projection", projection(data.getJsonArray("projection"), mojo));
         }
@@ -94,7 +92,7 @@ public class JqTool {
         if (data.containsKey("criteria")) {
             data.put("criteria", criteria(data.getJsonObject("criteria"), mojo));
         }
-        LOGGER.info(Info.INQUIRY_MESSAGE, data.encode());
+        LOGGER.info(ZERO.INQUIRY_MESSAGE, data.encode());
         return Inquiry.create(data);
     }
 

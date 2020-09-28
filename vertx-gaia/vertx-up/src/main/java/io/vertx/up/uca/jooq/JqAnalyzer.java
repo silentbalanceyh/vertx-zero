@@ -18,10 +18,7 @@ import org.jooq.TableField;
 import org.jooq.UniqueKey;
 import org.jooq.impl.DSL;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.TreeSet;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
@@ -96,9 +93,14 @@ public class JqAnalyzer {
         return this.table.getName();
     }
 
-    public TreeSet<String> primaryKey() {
+    public TreeSet<String> primarySet() {
         TreeSet<String> primary = this.keySet(this.table.getPrimaryKey());
-        return primary.isEmpty() ? null : primary;
+        return primary.isEmpty() ? new TreeSet<>() : primary;
+    }
+
+    public String primary() {
+        TreeSet<String> primary = this.keySet(this.table.getPrimaryKey());
+        return primary.isEmpty() ? null : primary.iterator().next();
     }
 
     public List<TreeSet<String>> uniqueKey() {
@@ -250,6 +252,28 @@ public class JqAnalyzer {
             found = DSL.field(DSL.name(columnField));
         }
         return found;
+    }
+
+    /*
+     * Pick all columns that match input String[] field
+     * This operation could be used in different aggr
+     */
+    public Field[] column(final String... fields) {
+        /*
+         * List<Field> building
+         */
+        final List<Field> columnList = new ArrayList<>();
+        Arrays.asList(fields).forEach(field -> {
+            /*
+             * Column field
+             */
+            final Field columnField = this.column(field);
+            if (Objects.nonNull(columnField)) {
+                columnList.add(columnField);
+            }
+        });
+        // The style is for Jooq
+        return columnList.toArray(new Field[]{});
     }
 
     public void on(final String pojo, final Class<?> clazz) {

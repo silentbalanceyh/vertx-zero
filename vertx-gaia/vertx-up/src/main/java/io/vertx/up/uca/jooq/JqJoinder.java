@@ -10,6 +10,7 @@ import io.vertx.up.atom.Kv;
 import io.vertx.up.atom.pojo.Mojo;
 import io.vertx.up.atom.query.Inquiry;
 import io.vertx.up.atom.query.Pager;
+import io.vertx.up.uca.jooq.util.JqOut;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 import org.jooq.*;
@@ -241,7 +242,7 @@ class JqJoinder {
          */
         final Set<String> projectionSet = inquiry.getProjection();
         final JsonArray projection = Objects.isNull(projectionSet) ? new JsonArray() : Ut.toJArray(projectionSet);
-        return JqResult.toJoin(records, projection, this.COLUMN_MAP, mojo);
+        return JqOut.toJoin(records, projection, this.COLUMN_MAP, mojo);
     }
 
     private Field getColumn(final String field) {

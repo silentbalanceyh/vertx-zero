@@ -1,8 +1,9 @@
-package io.vertx.up.uca.jooq;
+package io.vertx.up.uca.jooq.util;
 
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.atom.pojo.Mojo;
+import io.vertx.up.uca.jooq.JqAnalyzer;
 import io.vertx.up.util.Ut;
 import org.jooq.Field;
 import org.jooq.Record;
@@ -21,9 +22,9 @@ import java.util.stream.Collectors;
  * 2. When the `projection` is not empty, projection columns are the results that contains all fields.
  */
 @SuppressWarnings("all")
-class JqResult {
+public class JqOut {
 
-    static <T> List<T> toResult(final List<T> list, final JsonArray projectionArray, final JqAnalyzer analyzer) {
+    public static <T> List<T> toResult(final List<T> list, final JsonArray projectionArray, final JqAnalyzer analyzer) {
         /*
          * convert projection to field
          */
@@ -32,8 +33,8 @@ class JqResult {
         return toResult(list, projections, analyzer.type());
     }
 
-    static JsonArray toJoin(final List<Record> records, final JsonArray projection,
-                            final ConcurrentMap<String, String> fields, final Mojo mojo) {
+    public static JsonArray toJoin(final List<Record> records, final JsonArray projection,
+                                   final ConcurrentMap<String, String> fields, final Mojo mojo) {
         final JsonArray joinResult = new JsonArray();
         records.forEach(record -> {
             final int size = record.size();

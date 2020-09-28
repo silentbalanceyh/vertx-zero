@@ -3,19 +3,17 @@ package io.vertx.up.uca.jooq;
 import io.github.jklingsporn.vertx.jooq.future.VertxDAO;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.plugin.jooq.condition.JooqCond;
 import io.vertx.up.eon.em.ChangeFlag;
 import io.vertx.up.fn.Fn;
+import io.vertx.up.uca.jooq.util.JqTool;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
-import org.jooq.Condition;
 
 import java.lang.reflect.Field;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentMap;
 import java.util.function.BiPredicate;
-import java.util.function.Consumer;
 
 /**
  * Jooq Splitted Writter
@@ -41,22 +39,6 @@ class JqWriter {
     }
 
     // ============ INSERT Operation =============
-    <T> Future<T> upsertReturningPrimaryAsync(final JsonObject filters, final T updated, final Consumer<Long> consumer) {
-        return this.reader.<T>fetchOneAsync(filters).compose(item -> Fn.match(
-                Fn.fork(() -> this.<T>updateAsync(this.analyzer.copyEntity(item, updated))),
-                Fn.branch(null == item, () -> this.insertReturningPrimaryAsync(updated, consumer))
-        ));
-    }
-
-    /* Async insert operation with key returned: INSERT ( AUTO INCREAMENT ) */
-    <T> Future<T> insertReturningPrimaryAsync(final T entity,
-                                              final Consumer<Long> consumer) {
-        final CompletableFuture<Long> future = this.vertxDAO.insertReturningPrimaryAsync(entity);
-        return JqTool.future(future).compose(id -> {
-            if (null != consumer) consumer.accept(id);
-            return Future.succeededFuture(entity);
-        });
-    }
 
     /* Async insert operation: INSERT */
     <T> Future<T> insertAsync(final T entity) {
@@ -115,8 +97,8 @@ class JqWriter {
         return JqTool.future(future).compose(nil -> Future.succeededFuture(entity));
     }
 
-    <T> Future<T[]> deleteAsync(final T... entity) {
-        final CompletableFuture<Void> future = this.vertxDAO.deleteAsync(Arrays.asList(entity));
+    <T> Future<List<T>> deleteAsync(final List<T> entity) {
+        final CompletableFuture<Void> future = this.vertxDAO.deleteAsync(entity);
         return JqTool.future(future).compose(nil -> Future.succeededFuture(entity));
     }
 
@@ -131,9 +113,10 @@ class JqWriter {
     }
 
     <T, ID> Future<Boolean> deleteAsync(final JsonObject filters, final String pojo) {
-        final Condition condition = JooqCond.transform(filters, null, this.analyzer::column);
+        /*final Condition condition = JooqCond.transform(filters, null, this.analyzer::column);
         final CompletableFuture<Integer> deleted = this.vertxDAO.deleteExecAsync(condition);
-        return JqTool.future(deleted).compose(nil -> Future.succeededFuture(Boolean.TRUE));
+        return JqTool.future(deleted).compose(nil -> Future.succeededFuture(Boolean.TRUE));*/
+        return null;
     }
 
     /* Sync delete operation: DELETE */
@@ -142,8 +125,8 @@ class JqWriter {
         return entity;
     }
 
-    <T> T[] delete(final T... entity) {
-        this.vertxDAO.delete(Arrays.asList(entity));
+    <T> List<T> delete(final List<T> entity) {
+        this.vertxDAO.delete(entity);
         return entity;
     }
 

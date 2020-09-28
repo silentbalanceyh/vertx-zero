@@ -104,7 +104,6 @@ public class AsideIn {
         return execAsync(key, point, "fetchAsync");
     }
 
-
     // ----------------------- Could not be modified ----------------------
 
     private <T> T execAsync(final CacheKey key, final ProceedingJoinPoint point, final String method) {

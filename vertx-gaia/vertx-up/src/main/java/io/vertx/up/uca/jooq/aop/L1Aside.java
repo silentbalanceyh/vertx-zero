@@ -39,7 +39,7 @@ public class L1Aside {
 
     private CacheMeta meta() {
         final Class<?> clazz = this.analyzer.type();
-        return Fn.pool(META_POOL, clazz, () -> new CacheMeta(clazz).primaryKey(this.analyzer.primaryKey()));
+        return Fn.pool(META_POOL, clazz, () -> new CacheMeta(clazz).primaryKey(this.analyzer.primarySet()));
     }
 
 

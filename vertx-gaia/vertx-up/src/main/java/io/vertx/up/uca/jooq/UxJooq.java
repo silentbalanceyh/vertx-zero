@@ -10,6 +10,8 @@ import io.vertx.up.eon.em.Format;
 import io.vertx.up.exception.zero.JooqClassInvalidException;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
+import io.vertx.up.uca.jooq.aggr.JqAggregator;
+import io.vertx.up.uca.jooq.util.JqTool;
 import io.vertx.up.util.Ut;
 
 import java.util.Arrays;
@@ -54,6 +56,7 @@ public class UxJooq {
     // -------------------- Bind Config --------------------
     /*
      * Bind configuration range here
+     * Pojo mode of complex processing
      */
     public UxJooq on(final String pojo) {
         this.analyzer.on(pojo, this.clazz);
@@ -165,35 +168,27 @@ public class UxJooq {
         return this.writer.<T>deleteAsync(entity);
     }
 
-    public <T> Future<List<T>> deleteAsync(final T... entity) {
-        return this.writer.<T>deleteAsync(entity).compose(result -> Future.succeededFuture(Arrays.asList(result)));
+    public <T> Future<List<T>> deleteAsync(final List<T> entity) {
+        return this.writer.<T>deleteAsync(entity);
     }
 
     public <T> T delete(final T entity) {
         return this.writer.<T>delete(entity);
     }
 
-    public <T> List<T> delete(final T... entity) {
-        return Arrays.asList(this.writer.<T>delete(entity));
+    public <T> List<T> delete(final List<T> entity) {
+        return this.writer.<T>delete(entity);
     }
 
 
     /* (Async / Sync) Delete by Filters */
     public <T, ID> Future<Boolean> deleteAsync(final JsonObject filters) {
-        return this.writer.<T, ID>deleteAsync(filters, "");
-    }
-
-    public <T, ID> Boolean delete(final JsonObject filters, final String pojo) {
-        return this.writer.<T, ID>delete(filters, pojo);
-    }
-
-    public <T, ID> Future<Boolean> deleteAsync(final JsonObject filters, final String pojo) {
-        return this.writer.<T, ID>deleteAsync(filters, pojo);
+        return this.writer.<T, ID>deleteAsync(filters, this.analyzer.pojoFile());
     }
 
     public <T, ID> Boolean delete(final JsonObject filters) {
 
-        return this.writer.<T, ID>delete(filters, "");
+        return this.writer.<T, ID>delete(filters, this.analyzer.pojoFile());
     }
 
     // -------------------- Upsert ---------
@@ -288,55 +283,19 @@ public class UxJooq {
     // -------------------- Search Operation -----------
     /* (Async / Sync) Sort, Projection, Criteria, Pager Search Operations */
     public Future<JsonObject> searchAsync(final JsonObject params, final String pojo) {
-        final Inquiry inquiry = JqTool.getInquiry(params, pojo);
-        return this.reader.searchPaginationAsync(inquiry, pojo);
+        return this.reader.searchPageAsync(params, pojo);
     }
 
     public Future<JsonObject> searchAsync(final JsonObject params) {
-        return searchAsync(params, this.analyzer.pojoFile());
+        return this.reader.searchPageAsync(params, this.analyzer.pojoFile());
     }
 
     public JsonObject search(final JsonObject params, final String pojo) {
-        final Inquiry inquiry = JqTool.getInquiry(params, pojo);
-        return this.reader.searchPagination(inquiry, pojo);
+        return this.reader.searchPage(params, pojo);
     }
 
     public JsonObject search(final JsonObject params) {
-        return search(params, this.analyzer.pojoFile());
-    }
-
-    // -------------------- Count Operation ------------
-    /* (Async / Sync) Count Operation */
-    public Future<Integer> countAsync(final JsonObject params, final String pojo) {
-        final Inquiry inquiry = JqTool.getInquiry(params, pojo);
-        return this.aggregator.countAsync(inquiry);
-    }
-
-    public Future<Integer> countAsync(final JsonObject params) {
-        return countAsync(params, this.analyzer.pojoFile());
-    }
-
-    public Future<ConcurrentMap<String, Integer>> countByAsync(final JsonObject params, final String groupField) {
-        return this.aggregator.countByAsync(params, groupField);
-    }
-
-    public Integer count(final JsonObject params, final String pojo) {
-        final Inquiry inquiry = JqTool.getInquiry(params, pojo);
-        return this.aggregator.count(inquiry);
-    }
-
-    public Integer count(final JsonObject params) {
-        return count(params, this.analyzer.pojoFile());
-    }
-
-    // -------------------- Group Operation ------------
-    public Future<JsonArray> groupAsync(final JsonObject params, final String... groupFields) {
-        return this.groupAsync(this.analyzer.pojoFile(), params, groupFields);
-    }
-
-    public Future<JsonArray> groupAsync(final String pojo, final JsonObject params, final String... groupFields) {
-        final Inquiry inquiry = JqTool.getInquiry(params, pojo);
-        return this.aggregator.groupByAsync(inquiry.toJson(), groupFields);
+        return this.reader.searchPage(params, this.analyzer.pojoFile());
     }
 
     // -------------------- Fetch One/All --------------------
@@ -403,5 +362,56 @@ public class UxJooq {
     public <T> Boolean miss(final JsonObject filters) {
         final List<T> list = fetch(filters);
         return 0 == list.size();
+    }
+
+    // -------------------- Count Operation ------------
+    /* (Async / Sync) Count Operation */
+    public Future<Long> countAsync(final JsonObject params, final String pojo) {
+        final Inquiry inquiry = JqTool.getInquiry(params, pojo);
+        return this.aggregator.countAsync(inquiry);
+    }
+
+    public Future<Long> countAsync(final JsonObject params) {
+        return countAsync(params, this.analyzer.pojoFile());
+    }
+
+    public Long count(final JsonObject params, final String pojo) {
+        final Inquiry inquiry = JqTool.getInquiry(params, pojo);
+        return this.aggregator.count(inquiry);
+    }
+
+    public Long count(final JsonObject params) {
+        return count(params, this.analyzer.pojoFile());
+    }
+
+    /* (Async / Sync) Count By Operation */
+    public Future<ConcurrentMap<String, Integer>> countByAsync(final String groupField) {
+        return this.aggregator.countByAsync(new JsonObject(), groupField);
+    }
+
+    public ConcurrentMap<String, Integer> countBy(final String groupField) {
+        return this.aggregator.countBy(new JsonObject(), groupField);
+    }
+
+    public Future<ConcurrentMap<String, Integer>> countByAsync(final JsonObject params, final String groupField) {
+        return this.aggregator.countByAsync(params, groupField);
+    }
+
+    public ConcurrentMap<String, Integer> countBy(final JsonObject params, final String groupField) {
+        return this.aggregator.countBy(params, groupField);
+    }
+
+    // -------------------- Group Operation ------------
+    public <T> ConcurrentMap<String, List<T>> group(final String field) {
+        return this.aggregator.group(new JsonObject(), field);
+    }
+
+    public Future<JsonArray> groupAsync(final JsonObject params, final String... groupFields) {
+        return this.groupAsync(this.analyzer.pojoFile(), params, groupFields);
+    }
+
+    public Future<JsonArray> groupAsync(final String pojo, final JsonObject params, final String... groupFields) {
+        final Inquiry inquiry = JqTool.getInquiry(params, pojo);
+        return this.aggregator.groupByAsync(inquiry.toJson(), groupFields);
     }
 }

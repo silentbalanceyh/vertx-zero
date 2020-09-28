@@ -1,9 +1,11 @@
 package io.vertx.up.uca.jooq.aop;
 
 import io.github.jklingsporn.vertx.jooq.future.VertxDAO;
+import io.vertx.core.json.JsonObject;
 import io.vertx.up.log.Annal;
 import io.vertx.up.uca.jooq.JqAnalyzer;
 import org.aspectj.lang.ProceedingJoinPoint;
+import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 
@@ -23,32 +25,90 @@ public class AsideOut {
         this.executor = new L1Aside(JqAnalyzer.create(dao));
     }
 
+    /*
+     * Distinguish upsert situation
+     * 1) upsert(String, T)
+     * 2) upsert(JsonObject, T) / upsert(JsonObject, List<T>)
+     */
+    @Around(value = "execution(* io.vertx.up.uca.jooq.UxJooq.upsert*(..))")
+    public <T> T upsert(final ProceedingJoinPoint point) throws Throwable {
+        final Object[] args = point.getArgs();
+        if (2 == args.length) {
+            final Object firstArg = args[0];
+            if (firstArg instanceof JsonObject) {
+                final Object secondArg = args[1];
+                if (secondArg instanceof List) {
+                    /*
+                     * upsert(JsonObject, List<T>)
+                     */
+                    LOGGER.info("( Aop ) upsert(JsonObject,List<T>) aspect execution.. {0}", args);
+                    return null;
+                } else {
+                    /*
+                     * upsert(JsonObject, T)
+                     */
+                    LOGGER.info("( Aop ) upsert(JsonObject,T) aspect execution.. {0}", args);
+                    return null;
+                }
+            } else {
+                /*
+                 * upsert(String, T)
+                 */
+                LOGGER.info("( Aop ) upsert(String, T) aspect execution.. {0}", args);
+                return null;
+            }
+        } else {
+            /*
+             * Skip aop directly
+             */
+            return (T) point.proceed(args);
+        }
+    }
+
+    @Around(value = "execution(* io.vertx.up.uca.jooq.UxJooq.delete(..))")
+    public <T> T delete(final ProceedingJoinPoint point) throws Throwable {
+
+        return null;
+    }
+
+    @Around(value = "execution(* io.vertx.up.uca.jooq.UxJooq.deleteAsync(..))")
+    public <T> T deleteAsync(final ProceedingJoinPoint point) throws Throwable {
+
+        return null;
+    }
+
+
+    @Around(value = "execution(* io.vertx.up.uca.jooq.UxJooq.deleteById(..))")
+    public <T> T deleteById(final ProceedingJoinPoint point) throws Throwable {
+        final Object[] args = point.getArgs();
+
+        return null;
+    }
+
+    /*
+     * Distinguish update situation
+     */
+    @Around(value = "execution(* io.vertx.up.uca.jooq.UxJooq.update*(..))")
     public <T> T update(final ProceedingJoinPoint point) throws Throwable {
-        /*
-         * Distinguish update situation
-         * 1) update(T)
-         * 2) update(id, T)
-         * 3) update(List<T>)
-         */
         final Object[] args = point.getArgs();
         if (1 == args.length) {
             final Object object = args[0];
             if (object instanceof List) {
                 /*
-                 * List<T>
+                 * update( List<T> )
                  */
                 LOGGER.info("( Aop ) update(List<T>) aspect execution.. {0}", args);
                 return null;
             } else {
                 /*
-                 * T
+                 * update( T )
                  */
                 LOGGER.info("( Aop ) update(T) aspect execution.. {0}", args);
                 return null;
             }
         } else if (2 == args.length) {
             /*
-             * id, T
+             * update( id, T )
              */
             LOGGER.info("( Aop ) update(id,T) aspect execution.. {0}", args);
             return null;
