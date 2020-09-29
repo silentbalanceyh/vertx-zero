@@ -11,6 +11,7 @@ import io.vertx.up.exception.zero.JooqClassInvalidException;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import io.vertx.up.uca.jooq.aggr.JqAggregator;
+import io.vertx.up.uca.jooq.util.JqFlow;
 import io.vertx.up.uca.jooq.util.JqTool;
 import io.vertx.up.util.Ut;
 
@@ -32,9 +33,13 @@ public class UxJooq {
     private transient final JqAggregator aggregator;
     /* Writer */
     private transient final JqWriter writer;
+
     /* Reader */
     private transient final JqReader reader;
-
+    /*
+     * New Structure for usage
+     */
+    private transient final JqFlow workflow;
     private transient Format format = Format.JSON;
 
     public <T> UxJooq(final Class<T> clazz, final VertxDAO vertxDAO) {
@@ -51,6 +56,9 @@ public class UxJooq {
 
         /* Writer connect Reader */
         this.writer = JqWriter.create(this.analyzer);
+
+        /* New Structure */
+        this.workflow = JqFlow.create(this.analyzer);
     }
 
     // -------------------- Bind Config --------------------
@@ -86,25 +94,139 @@ public class UxJooq {
      *    return this.writer.insertReturningPrimaryAsync(entity, consumer);
      * }
      */
-    /* (Async / Sync) Entity Insert */
+    /*
+     * insertAsync(T)
+     *      <-- insertAsync(JsonObject)
+     *      <-- insertAsync(JsonObject,pojo)
+     *      <-- insertAsyncJ(T)
+     *      <-- insertAsyncJ(JsonObject, pojo)
+     *      <-- insertAsyncJ(JsonObject)
+     * */
     public <T> Future<T> insertAsync(final T entity) {
         return this.writer.insertAsync(entity);
     }
 
+    public <T> Future<T> insertAsync(final JsonObject data) {
+        return workflow.<T>inputAsync(data).compose(this::insertAsync);
+    }
+
+    public <T> Future<T> insertAsync(final JsonObject data, final String pojo) {
+        return JqFlow.create(this.analyzer, pojo).<T>inputAsync(data).compose(this::insertAsync);
+    }
+
+    public <T> Future<JsonObject> insertAsyncJ(final T entity) {
+        return this.insertAsync(entity).compose(workflow::outputAsync);
+    }
+
+    public <T> Future<JsonObject> insertAsyncJ(final JsonObject data) {
+        return workflow.<T>inputAsync(data).compose(this::insertAsync).compose(workflow::outputAsync);
+    }
+
+    public <T> Future<JsonObject> insertAsyncJ(final JsonObject data, final String pojo) {
+        final JqFlow flow = JqFlow.create(this.analyzer, pojo);
+        return flow.<T>inputAsync(data).compose(this::insertAsync).compose(flow::outputAsync);
+    }
+
+    /*
+     * insert(T)
+     *      <-- insert(JsonObject)
+     *      <-- insert(JsonObject, pojo)
+     *      <-- insertJ(T)
+     *      <-- insertJ(JsonObject)
+     *      <-- insertJ(JsonObject, pojo)
+     * */
     public <T> T insert(final T entity) {
         return this.writer.insert(entity);
     }
 
+    public <T> T insert(final JsonObject data) {
+        return this.insert((T) workflow.input(data));
+    }
 
-    /* (Async / Sync) Collection Insert */
+    public <T> T insert(final JsonObject data, final String pojo) {
+        return this.insert((T) JqFlow.create(this.analyzer, pojo).input(data));
+    }
+
+    public <T> JsonObject insertJ(final T entity) {
+        return workflow.output(this.insert(entity));
+    }
+
+    public <T> JsonObject insertJ(final JsonObject data) {
+        return workflow.output(this.insert((T) workflow.input(data)));  // T & List<T> Diff
+    }
+
+    public <T> JsonObject insertJ(final JsonObject data, final String pojo) {
+        final JqFlow flow = JqFlow.create(this.analyzer, pojo);
+        return flow.output(this.insert((T) flow.input(data)));          // T & List<T> Diff
+    }
+
+    /*
+     * insertAsync(List<T>)
+     *  <-- insertAsync(JsonArray)
+     *  <-- insertAsync(JsonArray,pojo)
+     *  <-- insertAsyncJ(List<T>)
+     *  <-- insertAsyncJ(JsonArray)
+     *  <-- insertAsyncJ(JsonArray, pojo)
+     */
     public <T> Future<List<T>> insertAsync(final List<T> entities) {
         return this.writer.insertAsync(entities);
     }
 
-    public <T> List<T> insert(final List<T> entities) {
-        return this.writer.insert(entities);
+    public <T> Future<List<T>> insertAsync(final JsonArray input) {
+        return workflow.<T>inputAsync(input).compose(this::insertAsync);          // --> `insertAsync(List<T>)`
     }
 
+    public <T> Future<List<T>> insertAsync(final JsonArray input, final String pojo) {
+        return JqFlow.create(this.analyzer, pojo).<T>inputAsync(input).compose(this::insertAsync);         // --> `insertAsync(List<T>)`
+    }
+
+    public <T> Future<JsonArray> insertAsyncJ(final List<T> list) {
+        return this.insertAsync(list).compose(workflow::outputAsync);
+    }
+
+    public <T> Future<JsonArray> insertAsyncJ(final JsonArray input) {
+        return workflow.<T>inputAsync(input).compose(this::insertAsync).compose(workflow::outputAsync);
+    }
+
+    public <T> Future<JsonArray> insertAsyncJ(final JsonArray input, final String pojo) {
+        final JqFlow flow = JqFlow.create(this.analyzer, pojo);
+        return flow.<T>inputAsync(input).compose(this::insertAsync).compose(flow::outputAsync);
+    }
+
+
+    /*
+     * insert(List<T>)
+     *  <-- insert(JsonArray)
+     *  <-- insert(JsonArray,pojo)
+     *  <-- insertJ(List<T>)
+     *  <-- insertJ(JsonArray)
+     *  <-- insertJ(JsonArray, pojo)
+     */
+    public <T> List<T> insert(final List<T> entities) {
+        return null;
+    }
+
+    public <T> List<T> insert(final JsonArray data) {
+        return this.insert(workflow.input(data));
+    }
+
+    public <T> List<T> insert(final JsonArray data, final String pojo) {
+        final JqFlow flow = JqFlow.create(this.analyzer, pojo);
+        return this.insert(flow.input(data));
+    }
+
+    public <T> JsonArray insertJ(final List<T> list) {
+        return workflow.output(this.insert(list));
+    }
+
+    public <T> JsonArray insertJ(final JsonArray data) {
+        return workflow.output(this.insert(workflow.input(data)));
+    }
+
+    public <T> JsonArray insertJ(final JsonArray data, final String pojo) {
+        final JqFlow flow = JqFlow.create(this.analyzer, pojo);
+        return flow.<T>output(this.insert(flow.input(data)));
+    }
     // -------------------- UPDATE --------------------
     /* Async Only
      * Disabled increament primary key processing, this method is not used in our system once,

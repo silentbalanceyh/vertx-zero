@@ -92,7 +92,7 @@ public class JqTool {
         if (data.containsKey("criteria")) {
             data.put("criteria", criteria(data.getJsonObject("criteria"), mojo));
         }
-        LOGGER.info(ZERO.INQUIRY_MESSAGE, data.encode());
+        LOGGER.info(Info.INQUIRY_MESSAGE, data.encode());
         return Inquiry.create(data);
     }
 

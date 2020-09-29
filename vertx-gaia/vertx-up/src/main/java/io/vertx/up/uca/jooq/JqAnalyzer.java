@@ -313,10 +313,26 @@ public class JqAnalyzer {
     }
 
     public String pojoFile() {
-        if (Objects.isNull(this.pojo)) {
-            return Strings.EMPTY;
+        return this.pojoFile(null);
+    }
+
+    public String pojoFile(final String pojoExternal) {
+        if (Objects.isNull(pojoExternal)) {
+            if (Objects.isNull(this.pojo)) {
+                /*
+                 * If current analyzer is null pojo
+                 * return "" instead of other pojo file
+                 */
+                return Strings.EMPTY;
+            } else {
+                return this.pojo.getPojoFile();
+            }
         } else {
-            return this.pojo.getPojoFile();
+            /*
+             * External is high priority
+             * -- !!!! Do not replace the pojo file that bind to analyzer
+             */
+            return pojoExternal;
         }
     }
 

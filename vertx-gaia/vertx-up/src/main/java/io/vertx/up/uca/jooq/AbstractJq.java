@@ -3,12 +3,8 @@ package io.vertx.up.uca.jooq;
 import io.github.jklingsporn.vertx.jooq.future.VertxDAO;
 import io.vertx.core.Future;
 import io.vertx.core.Promise;
-import io.vertx.core.json.JsonArray;
-import io.vertx.core.json.JsonObject;
 import io.vertx.up.log.Annal;
-import io.vertx.up.unity.Ux;
 
-import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 /**
@@ -29,34 +25,8 @@ public abstract class AbstractJq {
     }
 
     /*
-     * Input / Output
-     */
-    protected <T> T in(final JsonObject data, final String pojo) {
-        return Ux.<T>fromJson(data, (Class<T>) this.analyzer.type(), pojo);
-    }
-
-    protected <T> List<T> in(final JsonArray data, final String pojo) {
-        return Ux.fromJson(data, (Class<T>) this.analyzer.type(), pojo);
-    }
-
-    protected <T> JsonObject outJ(final T entity, final String pojo) {
-        return Ux.toJson(entity, pojo);
-    }
-
-    protected <T> JsonObject outJ(final T entity) {
-        return this.outJ(entity, this.analyzer.pojoFile());
-    }
-
-    protected <T> Future<JsonObject> outJAsync(final T entity, final String pojo) {
-        return Future.succeededFuture(Ux.toJson(entity, pojo));
-    }
-
-    protected <T> Future<JsonObject> outJAsync(final T entity) {
-        return outJAsync(entity, this.analyzer.pojoFile());
-    }
-
-    /*
      * Future processed
+     * Callback for it for future processed
      */
     protected <T> Future<T> successed(final CompletableFuture<T> future) {
         final Promise<T> promise = Promise.promise();
@@ -78,6 +48,9 @@ public abstract class AbstractJq {
         return null;
     }
 
+    /**
+     * The logger could be used by sub-class only
+     */
     protected Annal logger() {
         return Annal.get(getClass());
     }

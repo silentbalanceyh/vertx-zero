@@ -7,10 +7,11 @@ import io.vertx.up.eon.em.ChangeFlag;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.uca.jooq.util.JqTool;
 import io.vertx.up.unity.Ux;
-import io.vertx.up.util.Ut;
 
-import java.lang.reflect.Field;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentMap;
 import java.util.function.BiPredicate;
@@ -28,10 +29,17 @@ class JqWriter {
     private transient JqReader reader;
     private transient JqAnalyzer analyzer;
 
+    private transient JqOpInsert insert;
+
     private JqWriter(final JqAnalyzer analyzer) {
         this.analyzer = analyzer;
         this.vertxDAO = analyzer.vertxDAO();
         this.reader = JqReader.create(analyzer);
+
+        /*
+         * New Structure for more details
+         */
+        this.insert = new JqOpInsert(analyzer);
     }
 
     static JqWriter create(final JqAnalyzer analyzer) {
@@ -42,27 +50,19 @@ class JqWriter {
 
     /* Async insert operation: INSERT */
     <T> Future<T> insertAsync(final T entity) {
-        final CompletableFuture<Void> future = this.vertxDAO.insertAsync(uuid(entity));
-        return JqTool.future(future).compose(nil -> Future.succeededFuture(entity));
+        return this.insert.insertAsync(entity);
     }
 
     <T> Future<List<T>> insertAsync(final List<T> entities) {
-        entities.forEach(this::uuid);
-        final CompletableFuture<Void> future = this.vertxDAO.insertAsync(entities);
-        return JqTool.future(future).compose(nil -> Future.succeededFuture(entities));
+        return this.insert.insertAsync(entities);
     }
 
-    /* Sync insert operation: INSERT */
-    // Cached
     <T> T insert(final T entity) {
-        this.vertxDAO.insert(uuid(entity));
-        return entity;
+        return this.insert.insert(entity);
     }
 
     <T> List<T> insert(final List<T> entities) {
-        entities.forEach(this::uuid);
-        this.vertxDAO.insert(entities);
-        return entities;
+        return this.insert.insert(entities);
     }
 
     // ============ UPDATE Operation =============
@@ -240,35 +240,5 @@ class JqWriter {
         } else {
             return this.update(this.analyzer.copyEntity(queried, updated));
         }
-    }
-
-    /*
-     * When primary key is String and missed `KEY` field in zero database,
-     * Here generate default uuid key, otherwise the `key` field will be ignored.
-     * This feature does not support pojo mapping
-     */
-    private <T> T uuid(final T input) {
-        if (Objects.nonNull(input)) {
-            final Class<?> clazz = input.getClass();
-            try {
-                final Field field = clazz.getDeclaredField("key");
-                if (Objects.nonNull(field)) {
-                    final Object keyValue = Ut.field(input, "key");
-                    if (Objects.isNull(keyValue)) {
-                        Ut.field(input, "key", UUID.randomUUID().toString());
-                    }
-                }
-            } catch (Throwable ex) {
-                /*
-                 * To avoid java.lang.NoSuchFieldException: key
-                 * Some relation tables do not contain `key` as primaryKey such as
-                 * R_USER_ROLE
-                 * - userId
-                 * - roleId
-                 * Instead of other kind of ids here
-                 */
-            }
-        }
-        return input;
     }
 }
