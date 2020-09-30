@@ -57,7 +57,7 @@ class ActionCount extends AbstractAggregator {
      * Simple count
      */
     private long countInternal(final DSLContext context, final JsonObject criteria) {
-        final Condition condition = this.toCondition(criteria);
+        final Condition condition = this.condition(criteria);
         if (Objects.isNull(condition)) {
             return context.fetchCount(this.vertxDAO.getTable());
         } else {

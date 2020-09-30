@@ -10,6 +10,7 @@ import io.vertx.up.log.Annal;
 import io.vertx.up.util.Ut;
 import org.jooq.Condition;
 import org.jooq.DSLContext;
+import org.jooq.Operator;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -92,7 +93,11 @@ abstract class AbstractAction {
         return JooqInfix.getDSL();
     }
 
-    protected Condition toCondition(final JsonObject criteria) {
+    protected Condition condition(final JsonObject criteria) {
         return Ut.isNil(criteria) ? null : JooqCond.transform(criteria, this.analyzer::column);
+    }
+
+    protected Condition conditionAnd(final JsonObject criteria) {
+        return JooqCond.transform(criteria, Operator.AND, this.analyzer::column);
     }
 }

@@ -21,7 +21,7 @@ class ActionInsert extends AbstractAction {
 
     /* Future<T> */
     <T> Future<T> insertAsync(final T entity) {
-        return this.<T>successed(this.vertxDAO.insertAsync(this.uuid(entity)), entity);
+        return this.successed(this.vertxDAO.insertAsync(this.uuid(entity)), entity);
     }
 
     /* T */
@@ -32,7 +32,7 @@ class ActionInsert extends AbstractAction {
 
     /* Future<List<T>> */
     <T> Future<List<T>> insertAsync(final List<T> list) {
-        return this.<List<T>>successed(this.vertxDAO.insertAsync(uuid(list)), list);
+        return this.successed(this.vertxDAO.insertAsync(uuid(list)), list);
     }
 
     /* List<T> */

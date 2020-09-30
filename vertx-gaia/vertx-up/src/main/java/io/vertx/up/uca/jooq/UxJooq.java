@@ -577,17 +577,19 @@ public class UxJooq {
     }
     // -------------------- Fetch Record -------------------
 
-    /* (Async / Sync) Find / Exist / Missing By Filters Operation */
-    // -------------------- UPDATE --------------------
-    /* Async Only
-     * Disabled increament primary key processing, this method is not used in our system once,
-     * In distributed system environment, it's no usage.
+    /*
+     * update(T)
+     * updateAsync(T)
+     * update(List<T>)
+     * updateAsync(List<T>)
+     * update(id, T)
+     * updateAsync(id, T)
+     * update(criteria, T)
+     * updateAsync(criteria, T)
+     * update(criteria, T, pojo)
+     * updateAsync(criteria, T, pojo)
      *
-     * public <T> Future<T> upsertReturningPrimaryAsync(final JsonObject filters, final T updated, final Consumer<Long> consumer) {
-     *    return this.writer.upsertReturningPrimaryAsync(filters, updated, consumer);
-     * }
      */
-
     /* (Async / Sync) Entity Update */
     public <T> Future<T> updateAsync(final T entity) {
         return this.writer.updateAsync(entity);
@@ -616,6 +618,21 @@ public class UxJooq {
         return this.writer.update(id, updated);
     }
 
+    public <T> Future<T> updateAsync(final JsonObject criteria, final T updated) {
+        return this.workflow.inputQrAsync(criteria).compose(normalized -> this.writer.updateAsync(normalized, updated));
+    }
+
+    public <T> T update(final JsonObject criteria, final T updated) {
+        return this.writer.update(this.workflow.inputQr(criteria), updated);
+    }
+
+    public <T> Future<T> updateAsync(final JsonObject criteria, final T updated, final String pojo) {
+        return JqFlow.create(this.analyzer, pojo).inputQrAsync(criteria).compose(normalized -> this.writer.updateAsync(normalized, updated));
+    }
+
+    public <T> T update(final JsonObject criteria, final T updated, final String pojo) {
+        return this.writer.update(JqFlow.create(this.analyzer, pojo).inputQr(criteria), updated);
+    }
 
     // -------------------- DELETE --------------------
     /* (Async / Sync) Delete By ( ID / IDs ) */

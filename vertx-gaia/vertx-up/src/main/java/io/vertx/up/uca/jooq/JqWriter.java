@@ -30,6 +30,7 @@ class JqWriter {
     private transient JqAnalyzer analyzer;
 
     private transient ActionInsert insert;
+    private transient ActionUpdate update;
 
     private JqWriter(final JqAnalyzer analyzer) {
         this.analyzer = analyzer;
@@ -40,6 +41,7 @@ class JqWriter {
          * New Structure for more details
          */
         this.insert = new ActionInsert(analyzer);
+        this.update = new ActionUpdate(analyzer);
     }
 
     static JqWriter create(final JqAnalyzer analyzer) {
@@ -70,26 +72,37 @@ class JqWriter {
 
     /* Async insert operation: UPDATE */
     <T> Future<T> updateAsync(final T entity) {
-        final CompletableFuture<Void> future = this.vertxDAO.updateAsync(entity);
-        return JqTool.future(future).compose(nil -> Future.succeededFuture(entity));
-    }
-
-    <T> Future<List<T>> updateAsync(final List<T> entities) {
-        final CompletableFuture<Void> future = this.vertxDAO.updateAsync(entities);
-        return JqTool.future(future).compose(nil -> Future.succeededFuture(entities));
+        return this.update.updateAsync(entity);
     }
 
     /* Sync insert operation: UPDATE */
     <T> T update(final T entity) {
-        this.vertxDAO.update(entity);
-        return entity;
+        return this.update.update(entity);
+    }
+
+    <T> T update(final Object id, final T updated) {
+        return this.update.update(id, updated);
+    }
+
+    <T> Future<T> updateAsync(final Object id, final T updated) {
+        return this.update.updateAsync(id, updated);
+    }
+
+    <T> T update(final JsonObject criteria, final T updated) {
+        return this.update.update(criteria, updated);
+    }
+
+    <T> Future<T> updateAsync(final JsonObject criteria, final T updated) {
+        return this.update.updateAsync(criteria, updated);
+    }
+
+    <T> Future<List<T>> updateAsync(final List<T> entities) {
+        return this.update.updateAsync(entities);
     }
 
     <T> List<T> update(final List<T> entities) {
-        this.vertxDAO.update(entities);
-        return entities;
+        return this.update.update(entities);
     }
-
     // ============ DELETE Operation =============
 
     /* Async delete operation: DELETE */
@@ -147,20 +160,6 @@ class JqWriter {
         return Boolean.TRUE;
     }
 
-    // ============ UPDATE Operation (Save) =============
-
-    <T> T update(final Object id, final T updated) {
-        final T old = this.reader.<T>fetchById(id);
-        final T combine = this.analyzer.copyEntity(old, updated);
-        return this.update(combine);
-    }
-
-    <T> Future<T> updateAsync(final Object id, final T updated) {
-        return this.reader.<T>fetchByIdAsync(id).compose(old -> {
-            final T combine = this.analyzer.copyEntity(old, updated);
-            return this.<T>updateAsync(combine);
-        });
-    }
     // ============ UPSERT Operation (Save) =============
 
     public <T> Future<T> upsertAsync(final JsonObject filters, final T updated) {

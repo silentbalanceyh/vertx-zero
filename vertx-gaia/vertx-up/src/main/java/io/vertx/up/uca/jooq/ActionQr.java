@@ -44,7 +44,6 @@ class ActionQr extends AbstractAction {
     <T> List<T> search(final JsonObject criteria) {
         return this.searchInternal(this.context(), criteria);
     }
-
     /*
      * Common usage for search engine calling.
      * These methos could help to do query based on Zero Query Engine.
