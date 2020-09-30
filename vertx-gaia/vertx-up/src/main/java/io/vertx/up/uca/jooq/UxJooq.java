@@ -260,6 +260,7 @@ public class UxJooq {
      * <-- fetchJAll(pojo)
      *
      * fetchAsync(String, Object)
+     * <-- fetchJAsync(String, Object)
      * <-- fetchInAsync(String, Object...)
      * <-- fetchInAsync(String, Collection)
      * <-- fetchInAsync(String, JsonArray)
@@ -267,6 +268,7 @@ public class UxJooq {
      * <-- fetchJInAsync(String, Collection)
      * <-- fetchJInAsync(String, JsonArray)
      * fetch(String, Object)
+     * <-- fetchJ(String, Object)
      * <-- fetchIn(String, Object...)
      * <-- fetchIn(String, Collection)
      * <-- fetchIn(String, JsonArray)
@@ -275,21 +277,25 @@ public class UxJooq {
      * <-- fetchJIn(String, JsonArray)
      *
      * fetchAsync(JsonObject)
+     * <-- fetchJAsync(JsonObject)
      * <-- fetchAndAsync(JsonObject)
      * <-- fetchJAndAsync(JsonObject)
      * <-- fetchOrAsync(JsonObject)
      * <-- fetchJOrAsync(JsonObject)
      * fetchAsync(JsonObject, pojo)
+     * <-- fetchJAsync(JsonObject, pojo)
      * <-- fetchAndAsync(JsonObject, pojo)
      * <-- fetchJAndAsync(JsonObject, pojo)
      * <-- fetchOrAsync(JsonObject, pojo)
      * <-- fetchJOrAsync(JsonObject, pojo)
      * fetch(JsonObject)
+     * <-- fetchJ(JsonObject)
      * <-- fetchAnd(JsonObject)
      * <-- fetchJAnd(JsonObject)
      * <-- fetchOr(JsonObject)
      * <-- fetchJOr(JsonObject)
      * fetch(JsonObject, pojo)
+     * <-- fetchJ(JsonObject, pojo)
      * <-- fetchAnd(JsonObject, pojo)
      * <-- fetchJAnd(JsonObject, pojo)
      * <-- fetchOr(JsonObject, pojo)
@@ -338,6 +344,10 @@ public class UxJooq {
         return this.fetchAsync(field, collection);
     }
 
+    public Future<JsonArray> fetchJAsync(final String field, final Object value) {
+        return this.fetchAsync(field, value).compose(this.workflow::outputAsync);
+    }
+
     public Future<JsonArray> fetchJInAsync(final String field, final Object... value) {
         return this.fetchAsync(field, Arrays.asList(value)).compose(this.workflow::outputAsync);
     }
@@ -367,6 +377,10 @@ public class UxJooq {
         return this.fetch(field, collection);
     }
 
+    public JsonArray fetchJ(final String field, final Object value) {
+        return this.workflow.output(this.fetch(field, value));
+    }
+
     public JsonArray fetchJIn(final String field, final Object... values) {
         return this.workflow.output(this.fetch(field, Arrays.asList(values)));
     }
@@ -392,6 +406,10 @@ public class UxJooq {
         return this.fetchAsync(criteria.put(Strings.EMPTY, Boolean.FALSE));
     }
 
+    public Future<JsonArray> fetchJAsync(final JsonObject criteria) {
+        return this.fetchAsync(criteria).compose(this.workflow::outputAsync);
+    }
+
     public Future<JsonArray> fetchJAndAsync(final JsonObject criteria) {
         return this.fetchAsync(criteria.put(Strings.EMPTY, Boolean.TRUE)).compose(this.workflow::outputAsync);
     }
@@ -411,6 +429,10 @@ public class UxJooq {
 
     public <T> List<T> fetchOr(final JsonObject criteria) {
         return this.fetch(criteria.put(Strings.EMPTY, Boolean.FALSE));
+    }
+
+    public JsonArray fetchJ(final JsonObject criteria) {
+        return this.workflow.output(this.fetch(criteria));
     }
 
     public JsonArray fetchJAnd(final JsonObject criteria) {
@@ -434,6 +456,10 @@ public class UxJooq {
         return this.fetchAsync(criteria.put(Strings.EMPTY, Boolean.FALSE), pojo);
     }
 
+    public Future<JsonArray> fetchJAsync(final JsonObject criteria, final String pojo) {
+        return this.fetchAsync(criteria, pojo).compose(JqFlow.create(this.analyzer, pojo)::outputAsync);
+    }
+
     public Future<JsonArray> fetchJAndAsync(final JsonObject criteria, final String pojo) {
         return this.fetchAsync(criteria.put(Strings.EMPTY, Boolean.TRUE), pojo).compose(JqFlow.create(this.analyzer, pojo)::outputAsync);
     }
@@ -453,6 +479,10 @@ public class UxJooq {
 
     public <T> List<T> fetchOr(final JsonObject criteria, final String pojo) {
         return this.fetch(criteria.put(Strings.EMPTY, Boolean.FALSE), pojo);
+    }
+
+    public JsonArray fetchJ(final JsonObject criteria, final String pojo) {
+        return JqFlow.create(this.analyzer, pojo).output(this.fetch(criteria, pojo));
     }
 
     public JsonArray fetchJAnd(final JsonObject criteria, final String pojo) {
