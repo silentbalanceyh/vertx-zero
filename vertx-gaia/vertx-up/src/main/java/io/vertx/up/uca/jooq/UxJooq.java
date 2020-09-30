@@ -15,12 +15,12 @@ import io.vertx.up.uca.jooq.util.JqTool;
 import io.vertx.up.util.Ut;
 
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.ConcurrentMap;
 import java.util.function.BiPredicate;
 
-@SuppressWarnings("all")
 public class UxJooq {
 
     private static final Annal LOGGER = Annal.get(UxJooq.class);
@@ -48,7 +48,7 @@ public class UxJooq {
 
         /* Analyzing column for Jooq */
         this.analyzer = JqAnalyzer.create(vertxDAO);
-        this.aggregator = JqAggregator.create(analyzer);
+        this.aggregator = JqAggregator.create(this.analyzer);
 
         /* Reader connect Analayzer */
         this.reader = JqReader.create(this.analyzer);
@@ -97,31 +97,31 @@ public class UxJooq {
      * insertAsync(T)
      *      <-- insertAsync(JsonObject)
      *      <-- insertAsync(JsonObject,pojo)
-     *      <-- insertAsyncJ(T)
-     *      <-- insertAsyncJ(JsonObject, pojo)
-     *      <-- insertAsyncJ(JsonObject)
+     *      <-- insertJAsync(T)
+     *      <-- insertJAsync(JsonObject, pojo)
+     *      <-- insertJAsync(JsonObject)
      * */
     public <T> Future<T> insertAsync(final T entity) {
         return this.writer.insertAsync(entity);
     }
 
     public <T> Future<T> insertAsync(final JsonObject data) {
-        return workflow.<T>inputAsync(data).compose(this::insertAsync);
+        return this.workflow.<T>inputAsync(data).compose(this::insertAsync);
     }
 
     public <T> Future<T> insertAsync(final JsonObject data, final String pojo) {
         return JqFlow.create(this.analyzer, pojo).<T>inputAsync(data).compose(this::insertAsync);
     }
 
-    public <T> Future<JsonObject> insertAsyncJ(final T entity) {
-        return this.insertAsync(entity).compose(workflow::outputAsync);
+    public <T> Future<JsonObject> insertJAsync(final T entity) {
+        return this.insertAsync(entity).compose(this.workflow::outputAsync);
     }
 
-    public <T> Future<JsonObject> insertAsyncJ(final JsonObject data) {
-        return workflow.<T>inputAsync(data).compose(this::insertAsync).compose(workflow::outputAsync);
+    public <T> Future<JsonObject> insertJAsync(final JsonObject data) {
+        return this.workflow.<T>inputAsync(data).compose(this::insertAsync).compose(this.workflow::outputAsync);
     }
 
-    public <T> Future<JsonObject> insertAsyncJ(final JsonObject data, final String pojo) {
+    public <T> Future<JsonObject> insertJAsync(final JsonObject data, final String pojo) {
         final JqFlow flow = JqFlow.create(this.analyzer, pojo);
         return flow.<T>inputAsync(data).compose(this::insertAsync).compose(flow::outputAsync);
     }
@@ -139,7 +139,7 @@ public class UxJooq {
     }
 
     public <T> T insert(final JsonObject data) {
-        return this.insert((T) workflow.input(data));
+        return this.insert((T) this.workflow.input(data));
     }
 
     public <T> T insert(final JsonObject data, final String pojo) {
@@ -147,11 +147,11 @@ public class UxJooq {
     }
 
     public <T> JsonObject insertJ(final T entity) {
-        return workflow.output(this.insert(entity));
+        return this.workflow.output(this.insert(entity));
     }
 
     public <T> JsonObject insertJ(final JsonObject data) {
-        return workflow.output(this.insert((T) workflow.input(data)));  // T & List<T> Diff
+        return this.workflow.output(this.insert((T) this.workflow.input(data)));  // T & List<T> Diff
     }
 
     public <T> JsonObject insertJ(final JsonObject data, final String pojo) {
@@ -162,32 +162,32 @@ public class UxJooq {
     /*
      * insertAsync(List<T>)
      *  <-- insertAsync(JsonArray)
-     *  <-- insertAsync(JsonArray,pojo)
-     *  <-- insertAsyncJ(List<T>)
-     *  <-- insertAsyncJ(JsonArray)
-     *  <-- insertAsyncJ(JsonArray, pojo)
+     *  <-- insertAsync(JsonArray, pojo)
+     *  <-- insertJAsync(List<T>)
+     *  <-- insertJAsync(JsonArray)
+     *  <-- insertJAsync(JsonArray, pojo)
      */
     public <T> Future<List<T>> insertAsync(final List<T> entities) {
         return this.writer.insertAsync(entities);
     }
 
     public <T> Future<List<T>> insertAsync(final JsonArray input) {
-        return workflow.<T>inputAsync(input).compose(this::insertAsync);          // --> `insertAsync(List<T>)`
+        return this.workflow.<T>inputAsync(input).compose(this::insertAsync);          // --> `insertAsync(List<T>)`
     }
 
     public <T> Future<List<T>> insertAsync(final JsonArray input, final String pojo) {
         return JqFlow.create(this.analyzer, pojo).<T>inputAsync(input).compose(this::insertAsync);         // --> `insertAsync(List<T>)`
     }
 
-    public <T> Future<JsonArray> insertAsyncJ(final List<T> list) {
-        return this.insertAsync(list).compose(workflow::outputAsync);
+    public <T> Future<JsonArray> insertJAsync(final List<T> list) {
+        return this.insertAsync(list).compose(this.workflow::outputAsync);
     }
 
-    public <T> Future<JsonArray> insertAsyncJ(final JsonArray input) {
-        return workflow.<T>inputAsync(input).compose(this::insertAsync).compose(workflow::outputAsync);
+    public <T> Future<JsonArray> insertJAsync(final JsonArray input) {
+        return this.workflow.<T>inputAsync(input).compose(this::insertAsync).compose(this.workflow::outputAsync);
     }
 
-    public <T> Future<JsonArray> insertAsyncJ(final JsonArray input, final String pojo) {
+    public <T> Future<JsonArray> insertJAsync(final JsonArray input, final String pojo) {
         final JqFlow flow = JqFlow.create(this.analyzer, pojo);
         return flow.<T>inputAsync(input).compose(this::insertAsync).compose(flow::outputAsync);
     }
@@ -206,7 +206,7 @@ public class UxJooq {
     }
 
     public <T> List<T> insert(final JsonArray data) {
-        return this.insert(workflow.input(data));
+        return this.insert(this.workflow.input(data));
     }
 
     public <T> List<T> insert(final JsonArray data, final String pojo) {
@@ -215,11 +215,11 @@ public class UxJooq {
     }
 
     public <T> JsonArray insertJ(final List<T> list) {
-        return workflow.output(this.insert(list));
+        return this.workflow.output(this.insert(list));
     }
 
     public <T> JsonArray insertJ(final JsonArray data) {
-        return workflow.output(this.insert(workflow.input(data)));
+        return this.workflow.output(this.insert(this.workflow.input(data)));
     }
 
     public <T> JsonArray insertJ(final JsonArray data, final String pojo) {
@@ -228,7 +228,12 @@ public class UxJooq {
     }
 
     // -------------------- Search Operation -----------
-    /* (Async / Sync) Sort, Projection, Criteria, Pager Search Operations */
+    /*
+     * searchAsync(JsonObject, pojo)
+     * searchAsync(JsonObject)
+     * search(JsonObject, pojo)
+     * search(JsonObject)
+     */
     public Future<JsonObject> searchAsync(final JsonObject params, final String pojo) {
         return this.reader.searchAsync(params, JqFlow.create(this.analyzer, pojo));
     }
@@ -247,57 +252,79 @@ public class UxJooq {
     // -------------------- Fetch Operation -----------
 
     // -------------------- Fetch List -------------------
-    /* (Async / Sync) Find All */
+    /*
+     * fetchAllAsync()
+     * <-- fetchJAllAsync()
+     * <-- fetchJAllAsync(pojo)
+     * fetchAll()
+     * <-- fetchJAll()
+     * <-- fetchJAll(pojo)
+     *
+     * fetchAsync(String, Object)
+     * <-- fetchInAsync(String, Object...)
+     * <-- fetchInAsync(String, Collection)
+     * <-- fetchInAsync(String, JsonArray)
+     * <-- fetchJInAsync(String, Object...)
+     * <-- fetchJInAsync(String, Collection)
+     * <-- fetchJInAsync(String, JsonArray)
+     * fetch(String, Object)
+     * <-- fetchIn(String, Object...)
+     * <-- fetchIn(String, Collection)
+     * <-- fetchIn(String, JsonArray)
+     * <-- fetchJIn(String, Object...)
+     * <-- fetchJIn(String, Collection)
+     * <-- fetchJIn(String, JsonArray)
+     *
+     * fetchAsync(JsonObject)
+     * <-- fetchAndAsync(JsonObject)
+     * <-- fetchJAndAsync(JsonObject)
+     * <-- fetchOrAsync(JsonObject)
+     * <-- fetchJOrAsync(JsonObject)
+     * fetchAsync(JsonObject, pojo)
+     * <-- fetchAndAsync(JsonObject, pojo)
+     * <-- fetchJAndAsync(JsonObject, pojo)
+     * <-- fetchOrAsync(JsonObject, pojo)
+     * <-- fetchJOrAsync(JsonObject, pojo)
+     * fetch(JsonObject)
+     * <-- fetchAnd(JsonObject)
+     * <-- fetchJAnd(JsonObject)
+     * <-- fetchOr(JsonObject)
+     * <-- fetchJOr(JsonObject)
+     * fetch(JsonObject, pojo)
+     * <-- fetchAnd(JsonObject, pojo)
+     * <-- fetchJAnd(JsonObject, pojo)
+     * <-- fetchOr(JsonObject, pojo)
+     * <-- fetchJOr(JsonObject, pojo)
+     */
+    /* fetchAllAsync() */
     public <T> Future<List<T>> fetchAllAsync() {
         return this.reader.fetchAllAsync();
     }
 
+    public Future<JsonArray> fetchJAllAsync() {
+        return this.fetchAllAsync().compose(this.workflow::outputAsync);
+    }
+
+    public Future<JsonArray> fetchJAllAsync(final String pojo) {
+        return this.fetchAllAsync().compose(JqFlow.create(this.analyzer, pojo)::outputAsync);
+    }
+
+    /* fetchAll() */
     public <T> List<T> fetchAll() {
         return this.reader.fetchAll();
     }
 
-    public <T> List<T> fetch(final String field, final Object value) {
-        return this.reader.fetch(field, value);
+    public JsonArray fetchJAll() {
+        return this.workflow.output(this.fetchAll());
     }
 
+    public JsonArray fetchJAll(final String pojo) {
+        return JqFlow.create(this.analyzer, pojo).output(this.fetchAll());
+    }
+
+    /* fetchAsync(String, Object) */
     public <T> Future<List<T>> fetchAsync(final String field, final Object value) {
         return this.reader.fetchAsync(field, value);
-    }
-
-    public <T> Future<List<T>> fetchAsync(final JsonObject criteria) {
-        return this.reader.fetchAsync(criteria, this.workflow);
-    }
-
-    public <T> Future<List<T>> fetchAsync(final JsonObject criteria, final String pojo) {
-        return this.reader.fetchAsync(criteria, JqFlow.create(this.analyzer, pojo));
-    }
-
-    public <T> List<T> fetch(final JsonObject criteria) {
-        return this.reader.fetch(criteria, this.workflow);
-    }
-
-    public <T> List<T> fetch(final JsonObject criteria, final String pojo) {
-        return this.reader.fetch(criteria, JqFlow.create(this.analyzer, pojo));
-    }
-
-    public <T> Future<List<T>> fetchAndAsync(final JsonObject filters) {
-        filters.put(Strings.EMPTY, Boolean.TRUE);
-        return this.fetchAsync(filters);
-    }
-
-    public <T> List<T> fetchAnd(final JsonObject filters) {
-        filters.put(Strings.EMPTY, Boolean.TRUE);
-        return this.fetch(filters);
-    }
-
-    public <T> Future<List<T>> fetchOrAsync(final JsonObject orFilters) {
-        orFilters.put(Strings.EMPTY, Boolean.FALSE);
-        return this.fetchAsync(orFilters);
-    }
-
-    public <T> List<T> fetchOr(final JsonObject orFilters) {
-        orFilters.put(Strings.EMPTY, Boolean.FALSE);
-        return this.fetch(orFilters);
     }
 
     public <T> Future<List<T>> fetchInAsync(final String field, final Object... value) {
@@ -308,6 +335,27 @@ public class UxJooq {
         return this.fetchAsync(field, values.getList());
     }
 
+    public <T> Future<List<T>> fetchInAsync(final String field, final Collection collection) {
+        return this.fetchAsync(field, collection);
+    }
+
+    public Future<JsonArray> fetchJInAsync(final String field, final Object... value) {
+        return this.fetchAsync(field, Arrays.asList(value)).compose(this.workflow::outputAsync);
+    }
+
+    public Future<JsonArray> fetchJInAsync(final String field, final JsonArray values) {
+        return this.fetchAsync(field, values.getList()).compose(this.workflow::outputAsync);
+    }
+
+    public Future<JsonArray> fetchJInAsync(final String field, final Collection collection) {
+        return this.fetchAsync(field, collection).compose(this.workflow::outputAsync);
+    }
+
+    /* fetch(String, Object) */
+    public <T> List<T> fetch(final String field, final Object value) {
+        return this.reader.fetch(field, value);
+    }
+
     public <T> List<T> fetchIn(final String field, final Object... values) {
         return this.fetch(field, Arrays.asList(values));
     }
@@ -316,6 +364,105 @@ public class UxJooq {
         return this.fetch(field, values.getList());
     }
 
+    public <T> List<T> fetchIn(final String field, final Collection collection) {
+        return this.fetch(field, collection);
+    }
+
+    public JsonArray fetchJIn(final String field, final Object... values) {
+        return this.workflow.output(this.fetch(field, Arrays.asList(values)));
+    }
+
+    public JsonArray fetchJIn(final String field, final JsonArray values) {
+        return this.workflow.output(this.fetch(field, values.getList()));
+    }
+
+    public JsonArray fetchJIn(final String field, final Collection collection) {
+        return this.workflow.output(this.fetch(field, collection));
+    }
+
+    /* fetchAsync(JsonObject) */
+    public <T> Future<List<T>> fetchAsync(final JsonObject criteria) {
+        return this.workflow.inputQrJAsync(criteria).compose(this.reader::fetchAsync);
+    }
+
+    public <T> Future<List<T>> fetchAndAsync(final JsonObject criteria) {
+        return this.fetchAsync(criteria.put(Strings.EMPTY, Boolean.TRUE));
+    }
+
+    public <T> Future<List<T>> fetchOrAsync(final JsonObject criteria) {
+        return this.fetchAsync(criteria.put(Strings.EMPTY, Boolean.FALSE));
+    }
+
+    public Future<JsonArray> fetchJAndAsync(final JsonObject criteria) {
+        return this.fetchAsync(criteria.put(Strings.EMPTY, Boolean.TRUE)).compose(this.workflow::outputAsync);
+    }
+
+    public Future<JsonArray> fetchJOrAsync(final JsonObject criteria) {
+        return this.fetchAsync(criteria.put(Strings.EMPTY, Boolean.FALSE)).compose(this.workflow::outputAsync);
+    }
+
+    /* fetch(JsonObject) */
+    public <T> List<T> fetch(final JsonObject criteria) {
+        return this.reader.fetch(this.workflow.inputQrJ(criteria));
+    }
+
+    public <T> List<T> fetchAnd(final JsonObject criteria) {
+        return this.fetch(criteria.put(Strings.EMPTY, Boolean.TRUE));
+    }
+
+    public <T> List<T> fetchOr(final JsonObject criteria) {
+        return this.fetch(criteria.put(Strings.EMPTY, Boolean.FALSE));
+    }
+
+    public JsonArray fetchJAnd(final JsonObject criteria) {
+        return this.workflow.output(this.fetch(criteria.put(Strings.EMPTY, Boolean.TRUE)));
+    }
+
+    public JsonArray fetchJOr(final JsonObject criteria) {
+        return this.workflow.output(this.fetch(criteria.put(Strings.EMPTY, Boolean.FALSE)));
+    }
+
+    /* fetchAsync(JsonObject, pojo) */
+    public <T> Future<List<T>> fetchAsync(final JsonObject criteria, final String pojo) {
+        return JqFlow.create(this.analyzer, pojo).inputQrJAsync(criteria).compose(this.reader::fetchAsync);
+    }
+
+    public <T> Future<List<T>> fetchAndAsync(final JsonObject criteria, final String pojo) {
+        return this.fetchAsync(criteria.put(Strings.EMPTY, Boolean.TRUE), pojo);
+    }
+
+    public <T> Future<List<T>> fetchOrAsync(final JsonObject criteria, final String pojo) {
+        return this.fetchAsync(criteria.put(Strings.EMPTY, Boolean.FALSE), pojo);
+    }
+
+    public Future<JsonArray> fetchJAndAsync(final JsonObject criteria, final String pojo) {
+        return this.fetchAsync(criteria.put(Strings.EMPTY, Boolean.TRUE), pojo).compose(JqFlow.create(this.analyzer, pojo)::outputAsync);
+    }
+
+    public Future<JsonArray> fetchJOrAsync(final JsonObject criteria, final String pojo) {
+        return this.fetchAsync(criteria.put(Strings.EMPTY, Boolean.FALSE), pojo).compose(JqFlow.create(this.analyzer, pojo)::outputAsync);
+    }
+
+    /* fetch(JsonObject, pojo) */
+    public <T> List<T> fetch(final JsonObject criteria, final String pojo) {
+        return this.reader.fetch(JqFlow.create(this.analyzer, pojo).inputQrJ(criteria));
+    }
+
+    public <T> List<T> fetchAnd(final JsonObject criteria, final String pojo) {
+        return this.fetch(criteria.put(Strings.EMPTY, Boolean.TRUE), pojo);
+    }
+
+    public <T> List<T> fetchOr(final JsonObject criteria, final String pojo) {
+        return this.fetch(criteria.put(Strings.EMPTY, Boolean.FALSE), pojo);
+    }
+
+    public JsonArray fetchJAnd(final JsonObject criteria, final String pojo) {
+        return JqFlow.create(this.analyzer, pojo).output(this.fetch(criteria.put(Strings.EMPTY, Boolean.TRUE), pojo));
+    }
+
+    public JsonArray fetchJOr(final JsonObject criteria, final String pojo) {
+        return JqFlow.create(this.analyzer, pojo).output(this.fetch(criteria.put(Strings.EMPTY, Boolean.FALSE), pojo));
+    }
     /* (Async / Sync) Find / Exist / Missing By Filters Operation */
     // -------------------- UPDATE --------------------
     /* Async Only
@@ -485,12 +632,12 @@ public class UxJooq {
     }
 
     public <T> Boolean exist(final JsonObject filters) {
-        final List<T> list = fetch(filters);
+        final List<T> list = this.fetch(filters);
         return 0 < list.size();
     }
 
     public <T> Boolean miss(final JsonObject filters) {
-        final List<T> list = fetch(filters);
+        final List<T> list = this.fetch(filters);
         return 0 == list.size();
     }
 
@@ -502,7 +649,7 @@ public class UxJooq {
     }
 
     public Future<Long> countAsync(final JsonObject params) {
-        return countAsync(params, this.analyzer.pojoFile());
+        return this.countAsync(params, this.analyzer.pojoFile());
     }
 
     public Long count(final JsonObject params, final String pojo) {
@@ -511,7 +658,7 @@ public class UxJooq {
     }
 
     public Long count(final JsonObject params) {
-        return count(params, this.analyzer.pojoFile());
+        return this.count(params, this.analyzer.pojoFile());
     }
 
     /* (Async / Sync) Count By Operation */

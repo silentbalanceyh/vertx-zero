@@ -76,12 +76,12 @@ public class JqReader {
         return this.fetch.fetch(field, value);
     }
 
-    <T> Future<List<T>> fetchAsync(final JsonObject criteria, final JqFlow workflow) {
-        return this.fetch.fetchAsync(criteria, workflow);
+    <T> Future<List<T>> fetchAsync(final JsonObject criteria) {
+        return this.fetch.fetchAsync(criteria);
     }
 
-    <T> List<T> fetch(final JsonObject criteria, final JqFlow workflow) {
-        return this.fetch.fetch(criteria, workflow);
+    <T> List<T> fetch(final JsonObject criteria) {
+        return this.fetch.fetch(criteria);
     }
 
     // ============ Fetch One Operation =============

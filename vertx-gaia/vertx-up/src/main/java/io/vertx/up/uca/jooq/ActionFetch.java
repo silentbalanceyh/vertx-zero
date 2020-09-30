@@ -2,7 +2,6 @@ package io.vertx.up.uca.jooq;
 
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.uca.jooq.util.JqFlow;
 
 import java.util.List;
 
@@ -41,13 +40,12 @@ class ActionFetch extends AbstractAction {
     }
 
     /* Future<List<T>> */
-    <T> Future<List<T>> fetchAsync(final JsonObject criteria, final JqFlow workflow) {
-        return workflow.inputQrJAsync(criteria)
-                .compose(this.qr::searchAsync);
+    <T> Future<List<T>> fetchAsync(final JsonObject criteria) {
+        return this.qr.searchAsync(criteria);
     }
 
     /* List<T> */
-    <T> List<T> fetch(final JsonObject criteria, final JqFlow workflow) {
-        return this.qr.search(workflow.inputQrJ(criteria));
+    <T> List<T> fetch(final JsonObject criteria) {
+        return this.qr.search(criteria);
     }
 }

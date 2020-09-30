@@ -13,7 +13,6 @@ import org.jooq.DSLContext;
 
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 /**
@@ -78,10 +77,13 @@ abstract class AbstractAction {
      * 1): No collection -> List<Object> -> [Element]
      * 2): List type -> Direct for list -> [Element, ...]
      */
-    protected List<Object> parameters(final Object value) {
+    protected Collection<Object> parameters(final Object value) {
         if (value instanceof Collection) {
-            return (List<Object>) value;
+            return (Collection<Object>) value;
         } else {
+            /*
+             * List as the first collection type selected
+             */
             return Arrays.asList(value);
         }
     }
