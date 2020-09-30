@@ -1,4 +1,4 @@
-package io.vertx.up.uca.jooq.aop;
+package io.vertx.up.uca.jooq.cache;
 
 import io.github.jklingsporn.vertx.jooq.future.VertxDAO;
 import io.vertx.core.Future;

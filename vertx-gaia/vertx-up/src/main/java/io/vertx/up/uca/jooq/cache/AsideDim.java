@@ -1,4 +1,4 @@
-package io.vertx.up.uca.jooq.aop;
+package io.vertx.up.uca.jooq.cache;
 
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.plugin.cache.hit.CacheCond;

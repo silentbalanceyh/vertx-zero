@@ -10,7 +10,6 @@ import io.vertx.up.eon.em.Format;
 import io.vertx.up.exception.zero.JooqClassInvalidException;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
-import io.vertx.up.uca.jooq.aggr.JqAggregator;
 import io.vertx.up.uca.jooq.util.JqFlow;
 import io.vertx.up.uca.jooq.util.JqTool;
 import io.vertx.up.util.Ut;
@@ -227,6 +226,97 @@ public class UxJooq {
         final JqFlow flow = JqFlow.create(this.analyzer, pojo);
         return flow.<T>output(this.insert(flow.input(data)));
     }
+
+    // -------------------- Search Operation -----------
+    /* (Async / Sync) Sort, Projection, Criteria, Pager Search Operations */
+    public Future<JsonObject> searchAsync(final JsonObject params, final String pojo) {
+        return this.reader.searchAsync(params, JqFlow.create(this.analyzer, pojo));
+    }
+
+    public Future<JsonObject> searchAsync(final JsonObject params) {
+        return this.reader.searchAsync(params, this.workflow);
+    }
+
+    public JsonObject search(final JsonObject params, final String pojo) {
+        return this.reader.search(params, JqFlow.create(this.analyzer, pojo));
+    }
+
+    public JsonObject search(final JsonObject params) {
+        return this.reader.search(params, this.workflow);
+    }
+    // -------------------- Fetch Operation -----------
+
+    // -------------------- Fetch List -------------------
+    /* (Async / Sync) Find All */
+    public <T> Future<List<T>> fetchAllAsync() {
+        return this.reader.fetchAllAsync();
+    }
+
+    public <T> List<T> fetchAll() {
+        return this.reader.fetchAll();
+    }
+
+    public <T> List<T> fetch(final String field, final Object value) {
+        return this.reader.fetch(field, value);
+    }
+
+    public <T> Future<List<T>> fetchAsync(final String field, final Object value) {
+        return this.reader.fetchAsync(field, value);
+    }
+
+    public <T> Future<List<T>> fetchAsync(final JsonObject criteria) {
+        return this.reader.fetchAsync(criteria, this.workflow);
+    }
+
+    public <T> Future<List<T>> fetchAsync(final JsonObject criteria, final String pojo) {
+        return this.reader.fetchAsync(criteria, JqFlow.create(this.analyzer, pojo));
+    }
+
+    public <T> List<T> fetch(final JsonObject criteria) {
+        return this.reader.fetch(criteria, this.workflow);
+    }
+
+    public <T> List<T> fetch(final JsonObject criteria, final String pojo) {
+        return this.reader.fetch(criteria, JqFlow.create(this.analyzer, pojo));
+    }
+
+    public <T> Future<List<T>> fetchAndAsync(final JsonObject filters) {
+        filters.put(Strings.EMPTY, Boolean.TRUE);
+        return this.fetchAsync(filters);
+    }
+
+    public <T> List<T> fetchAnd(final JsonObject filters) {
+        filters.put(Strings.EMPTY, Boolean.TRUE);
+        return this.fetch(filters);
+    }
+
+    public <T> Future<List<T>> fetchOrAsync(final JsonObject orFilters) {
+        orFilters.put(Strings.EMPTY, Boolean.FALSE);
+        return this.fetchAsync(orFilters);
+    }
+
+    public <T> List<T> fetchOr(final JsonObject orFilters) {
+        orFilters.put(Strings.EMPTY, Boolean.FALSE);
+        return this.fetch(orFilters);
+    }
+
+    public <T> Future<List<T>> fetchInAsync(final String field, final Object... value) {
+        return this.fetchAsync(field, Arrays.asList(value));
+    }
+
+    public <T> Future<List<T>> fetchInAsync(final String field, final JsonArray values) {
+        return this.fetchAsync(field, values.getList());
+    }
+
+    public <T> List<T> fetchIn(final String field, final Object... values) {
+        return this.fetch(field, Arrays.asList(values));
+    }
+
+    public <T> List<T> fetchIn(final String field, final JsonArray values) {
+        return this.fetch(field, values.getList());
+    }
+
+    /* (Async / Sync) Find / Exist / Missing By Filters Operation */
     // -------------------- UPDATE --------------------
     /* Async Only
      * Disabled increament primary key processing, this method is not used in our system once,
@@ -336,88 +426,6 @@ public class UxJooq {
 
     public <T> T upsert(final String key, final T updated) {
         return this.writer.upsert(key, updated);
-    }
-
-    // -------------------- Fetch List -------------------
-    /* (Async / Sync) Find All */
-    public <T> Future<List<T>> fetchAllAsync() {
-        return this.reader.fetchAllAsync();
-    }
-
-    public <T> List<T> fetchAll() {
-        return this.reader.fetchAll();
-    }
-
-    public <T> Future<List<T>> fetchAndAsync(final JsonObject filters) {
-        filters.put(Strings.EMPTY, Boolean.TRUE);
-        return this.fetchAsync(filters);
-    }
-
-    public <T> List<T> fetchAnd(final JsonObject filters) {
-        filters.put(Strings.EMPTY, Boolean.TRUE);
-        return this.fetch(filters);
-    }
-
-    public <T> Future<List<T>> fetchOrAsync(final JsonObject orFilters) {
-        orFilters.put(Strings.EMPTY, Boolean.FALSE);
-        return this.fetchAsync(orFilters);
-    }
-
-    public <T> List<T> fetchOr(final JsonObject orFilters) {
-        orFilters.put(Strings.EMPTY, Boolean.FALSE);
-        return this.fetch(orFilters);
-    }
-
-    public <T> Future<List<T>> fetchInAsync(final String field, final Object... value) {
-        return this.fetchAsync(field, Arrays.asList(value));
-    }
-
-    public <T> Future<List<T>> fetchInAsync(final String field, final JsonArray values) {
-        return this.fetchAsync(field, values.getList());
-    }
-
-    public <T> List<T> fetchIn(final String field, final Object... values) {
-        return this.fetch(field, Arrays.asList(values));
-    }
-
-    public <T> List<T> fetchIn(final String field, final JsonArray values) {
-        return this.fetch(field, values.getList());
-    }
-
-    public <T> List<T> fetch(final String field, final Object value) {
-        return this.reader.fetch(field, value);
-    }
-
-    /* (Async / Sync) Fetch to List<T> Operation */
-    public <T> Future<List<T>> fetchAsync(final String field, final Object value) {
-        return this.reader.fetchAsync(field, value);
-    }
-
-    /* (Async / Sync) Find / Exist / Missing By Filters Operation */
-    public <T> Future<List<T>> fetchAsync(final JsonObject filters) {
-        return this.reader.searchAsync(filters);
-    }
-
-    public <T> List<T> fetch(final JsonObject filters) {
-        return this.reader.search(filters);
-    }
-
-    // -------------------- Search Operation -----------
-    /* (Async / Sync) Sort, Projection, Criteria, Pager Search Operations */
-    public Future<JsonObject> searchAsync(final JsonObject params, final String pojo) {
-        return this.reader.searchPageAsync(params, pojo);
-    }
-
-    public Future<JsonObject> searchAsync(final JsonObject params) {
-        return this.reader.searchPageAsync(params, this.analyzer.pojoFile());
-    }
-
-    public JsonObject search(final JsonObject params, final String pojo) {
-        return this.reader.searchPage(params, pojo);
-    }
-
-    public JsonObject search(final JsonObject params) {
-        return this.reader.searchPage(params, this.analyzer.pojoFile());
     }
 
     // -------------------- Fetch One/All --------------------

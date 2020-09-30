@@ -9,27 +9,33 @@ import java.util.UUID;
 
 /**
  * @author <a href="http://www.origin-x.cn">lang</a>
+ *
+ * INSERT Operation, methods are default ( Package Only )
  */
 @SuppressWarnings("all")
-class JqOpInsert extends AbstractJq {
+class ActionInsert extends AbstractAction {
 
-    JqOpInsert(final JqAnalyzer analyzer) {
+    ActionInsert(final JqAnalyzer analyzer) {
         super(analyzer);
     }
 
+    /* Future<T> */
     <T> Future<T> insertAsync(final T entity) {
-        return this.successed(this.vertxDAO.insertAsync(this.uuid(entity)), entity);
+        return this.<T>successed(this.vertxDAO.insertAsync(this.uuid(entity)), entity);
     }
 
+    /* T */
     <T> T insert(final T entity) {
         this.vertxDAO.insert(uuid(entity));
         return entity;
     }
 
+    /* Future<List<T>> */
     <T> Future<List<T>> insertAsync(final List<T> list) {
-        return this.successed(this.vertxDAO.insertAsync(uuid(list)), list);
+        return this.<List<T>>successed(this.vertxDAO.insertAsync(uuid(list)), list);
     }
 
+    /* List<T> */
     <T> List<T> insert(final List<T> list) {
         this.vertxDAO.insert(uuid(list));
         return list;

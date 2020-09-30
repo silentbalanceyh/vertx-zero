@@ -8,10 +8,9 @@ import io.vertx.tp.plugin.jooq.JooqInfix;
 import io.vertx.tp.plugin.jooq.condition.JooqCond;
 import io.vertx.up.atom.query.Inquiry;
 import io.vertx.up.atom.query.Pager;
-import io.vertx.up.uca.jooq.aggr.JqAggregator;
+import io.vertx.up.uca.jooq.util.JqFlow;
 import io.vertx.up.uca.jooq.util.JqOut;
 import io.vertx.up.uca.jooq.util.JqTool;
-import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 import org.jooq.*;
 
@@ -32,14 +31,57 @@ public class JqReader {
     private transient final JqAnalyzer analyzer;
     private transient JqAggregator aggregator;
 
+    private transient ActionSearch search;
+    private transient ActionFetch fetch;
+
     private JqReader(final JqAnalyzer analyzer) {
         this.analyzer = analyzer;
         this.vertxDAO = analyzer.vertxDAO();
         this.aggregator = JqAggregator.create(analyzer);
+
+        /*
+         * New Structure for more details
+         */
+        this.search = new ActionSearch(analyzer);
+        this.fetch = new ActionFetch(analyzer);
     }
 
     static JqReader create(final JqAnalyzer analyzer) {
         return new JqReader(analyzer);
+    }
+
+    // ============ Search Processing =============
+    <T> Future<JsonObject> searchAsync(final JsonObject params, final JqFlow workflow) {
+        return this.search.searchAsync(params, workflow);
+    }
+
+    <T> JsonObject search(final JsonObject params, final JqFlow workflow) {
+        return this.search.search(params, workflow);
+    }
+
+    // ============ Fetch Processing ================
+    <T> Future<List<T>> fetchAllAsync() {
+        return this.fetch.fetchAllAsync();
+    }
+
+    <T> List<T> fetchAll() {
+        return this.fetch.fetchAll();
+    }
+
+    <T> Future<List<T>> fetchAsync(final String field, final Object value) {
+        return this.fetch.fetchAsync(field, value);
+    }
+
+    <T> List<T> fetch(final String field, final Object value) {
+        return this.fetch.fetch(field, value);
+    }
+
+    <T> Future<List<T>> fetchAsync(final JsonObject criteria, final JqFlow workflow) {
+        return this.fetch.fetchAsync(criteria, workflow);
+    }
+
+    <T> List<T> fetch(final JsonObject criteria, final JqFlow workflow) {
+        return this.fetch.fetch(criteria, workflow);
     }
 
     // ============ Fetch One Operation =============
@@ -68,18 +110,10 @@ public class JqReader {
         return JqTool.future(this.vertxDAO.findByIdAsync(id));
     }
 
-    <T> Future<List<T>> fetchAllAsync() {
-        return JqTool.future(this.vertxDAO.findAllAsync());
-    }
-
 
     // Cached
     <T> T fetchById(final Object id) {
         return toResult(this.vertxDAO.findById(id));
-    }
-
-    <T> List<T> fetchAll() {
-        return this.vertxDAO.findAll();
     }
 
     // ============ Exist Operation =============
@@ -89,15 +123,6 @@ public class JqReader {
 
     Boolean existsById(final Object id) {
         return this.vertxDAO.existsById(id);
-    }
-
-    // ============ Fetch List with Condition ===========
-    <T> Future<List<T>> fetchAsync(final String field, final Object value) {
-        return JqTool.future(this.vertxDAO.fetchAsync(this.analyzer.column(field), parameters(value)));
-    }
-
-    <T> List<T> fetch(final String field, final Object value) {
-        return this.vertxDAO.fetch(this.analyzer.column(field), parameters(value));
     }
 
     private List<Object> parameters(final Object value) {
@@ -111,42 +136,6 @@ public class JqReader {
     // ============ Result Wrapper ==============
     private <T> T toResult(final Object value) {
         return null == value ? null : (T) value;
-    }
-
-    Future<JsonObject> searchPageAsync(final JsonObject params, final String pojo) {
-        final Inquiry inquiry = JqTool.getInquiry(params, pojo);
-        return searchPageAsync(inquiry, pojo);
-    }
-
-    /*
-     * Pagination Searching
-     */
-    Future<JsonObject> searchPageAsync(final Inquiry inquiry, final String pojo) {
-        final JsonObject response = new JsonObject();
-        return this.searchAsync(inquiry)
-                .compose(list -> Ux.futureJArray(list, pojo))
-                .compose(array -> {
-                    response.put("list", array);
-                    return this.aggregator.countAsync(inquiry);
-                })
-                .compose(counter -> {
-                    response.put("count", counter);
-                    return Future.succeededFuture(response);
-                });
-    }
-
-    <T> JsonObject searchPage(final JsonObject params, final String pojo) {
-        final Inquiry inquiry = JqTool.getInquiry(params, pojo);
-        return searchPage(inquiry, pojo);
-    }
-
-    <T> JsonObject searchPage(final Inquiry inquiry, final String pojo) {
-        final JsonObject response = new JsonObject();
-        final List<T> list = this.search(inquiry);
-        response.put("list", Ux.toJson(list, pojo));
-        final Long counter = this.aggregator.count(inquiry);
-        response.put("count", counter);
-        return response;
     }
 
     <T> Future<List<T>> searchAsync(final Inquiry inquiry) {

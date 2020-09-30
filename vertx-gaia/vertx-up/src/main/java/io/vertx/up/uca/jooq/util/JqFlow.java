@@ -3,11 +3,13 @@ package io.vertx.up.uca.jooq.util;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
+import io.vertx.up.atom.query.Inquiry;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.uca.jooq.JqAnalyzer;
 import io.vertx.up.unity.Ux;
 
 import java.util.List;
+import java.util.Objects;
 
 /**
  * @author <a href="http://www.origin-x.cn">lang</a>
@@ -55,6 +57,23 @@ public class JqFlow {
 
     public <T> Future<List<T>> inputAsync(final JsonArray data) {
         return Future.succeededFuture(this.input(data));
+    }
+
+    public Inquiry inputQr(final JsonObject input) {
+        return JqTool.getInquiry(input, this.pojo);
+    }
+
+    public JsonObject inputQrJ(final JsonObject criteria) {
+        final Inquiry inquiry = JqTool.getInquiry(new JsonObject().put(Inquiry.KEY_CRITERIA, criteria), this.pojo);
+        return Objects.isNull(inquiry.getCriteria()) ? new JsonObject() : inquiry.getCriteria().toJson();
+    }
+
+    public Future<Inquiry> inputQrAsync(final JsonObject input) {
+        return Future.succeededFuture(this.inputQr(input));
+    }
+
+    public Future<JsonObject> inputQrJAsync(final JsonObject criteria) {
+        return Future.succeededFuture(this.inputQrJ(criteria));
     }
 
     // ============ Output Conversation =============

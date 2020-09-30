@@ -29,7 +29,7 @@ class JqWriter {
     private transient JqReader reader;
     private transient JqAnalyzer analyzer;
 
-    private transient JqOpInsert insert;
+    private transient ActionInsert insert;
 
     private JqWriter(final JqAnalyzer analyzer) {
         this.analyzer = analyzer;
@@ -39,7 +39,7 @@ class JqWriter {
         /*
          * New Structure for more details
          */
-        this.insert = new JqOpInsert(analyzer);
+        this.insert = new ActionInsert(analyzer);
     }
 
     static JqWriter create(final JqAnalyzer analyzer) {
@@ -47,6 +47,7 @@ class JqWriter {
     }
 
     // ============ INSERT Operation =============
+
 
     /* Async insert operation: INSERT */
     <T> Future<T> insertAsync(final T entity) {

@@ -1,11 +1,9 @@
-package io.vertx.up.uca.jooq.aggr;
+package io.vertx.up.uca.jooq;
 
-import io.github.jklingsporn.vertx.jooq.future.VertxDAO;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.plugin.jooq.JooqInfix;
 import io.vertx.tp.plugin.jooq.condition.JooqCond;
-import io.vertx.up.uca.jooq.JqAnalyzer;
 import io.vertx.up.util.Ut;
 import org.jooq.DSLContext;
 import org.jooq.Field;
@@ -20,15 +18,10 @@ import java.util.concurrent.ConcurrentMap;
  * Abstract for aggr processing
  */
 @SuppressWarnings("all")
-public abstract class AbstractAggr {
+abstract class AbstractAggregator extends AbstractAction {
 
-    protected transient final VertxDAO vertxDAO;
-
-    protected final transient JqAnalyzer analyzer;
-
-    protected AbstractAggr(final JqAnalyzer analyzer) {
-        this.analyzer = analyzer;
-        this.vertxDAO = analyzer.vertxDAO();
+    protected AbstractAggregator(final JqAnalyzer analyzer) {
+        super(analyzer);
     }
 
     /*

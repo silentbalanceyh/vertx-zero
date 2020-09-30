@@ -1,10 +1,9 @@
-package io.vertx.up.uca.jooq.aggr;
+package io.vertx.up.uca.jooq;
 
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.atom.query.Inquiry;
-import io.vertx.up.uca.jooq.JqAnalyzer;
 
 import java.util.List;
 import java.util.concurrent.ConcurrentMap;
@@ -15,10 +14,10 @@ import java.util.concurrent.ConcurrentMap;
 @SuppressWarnings("all")
 public class JqAggregator {
 
-    private transient final AgCount counter;
+    private transient final ActionCount counter;
 
     private JqAggregator(final JqAnalyzer analyzer) {
-        this.counter = AgCount.create(analyzer);
+        this.counter = new ActionCount(analyzer);
     }
 
     public static JqAggregator create(final JqAnalyzer analyzer) {
