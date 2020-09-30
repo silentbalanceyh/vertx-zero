@@ -84,36 +84,30 @@ public class JqReader {
         return this.fetch.fetch(criteria);
     }
 
+    <T> Future<T> fetchByIdAsync(final Object id) {
+        return this.fetch.fetchByIdAsync(id);
+    }
+
+    <T> T fetchById(final Object id) {
+        return this.fetch.fetchById(id);
+    }
+
     // ============ Fetch One Operation =============
     /* Async fetch one operation: SELECT */
     <T> Future<T> fetchOneAsync(final String field, final Object value) {
-        return JqTool.future(this.vertxDAO.fetchOneAsync(this.analyzer.column(field), value));
+        return this.fetch.fetchOneAsync(field, value);
     }
 
-    <T> Future<T> fetchOneAsync(final JsonObject filters) {
-        final Condition condition = JooqCond.transform(filters, Operator.AND, this.analyzer::column);
-        return JqTool.future(this.vertxDAO.fetchOneAsync(condition));
-    }
-
-    /* Sync fetch one operation: SELECT */
     <T> T fetchOne(final String field, final Object value) {
-        return toResult(this.vertxDAO.fetchOne(this.analyzer.column(field), value));
+        return this.fetch.fetchOne(field, value);
     }
 
-    <T> T fetchOne(final JsonObject filters) {
-        final Condition condition = JooqCond.transform(filters, Operator.AND, this.analyzer::column);
-        final DSLContext context = JooqInfix.getDSL();
-        return this.toResult(context.selectFrom(this.vertxDAO.getTable()).where(condition).fetchOne(this.vertxDAO.mapper()));
+    <T> Future<T> fetchOneAsync(final JsonObject criteria) {
+        return this.fetch.fetchOneAsync(criteria);
     }
 
-    <T> Future<T> fetchByIdAsync(final Object id) {
-        return JqTool.future(this.vertxDAO.findByIdAsync(id));
-    }
-
-
-    // Cached
-    <T> T fetchById(final Object id) {
-        return toResult(this.vertxDAO.findById(id));
+    <T> T fetchOne(final JsonObject criteria) {
+        return this.fetch.fetchOne(criteria);
     }
 
     // ============ Exist Operation =============

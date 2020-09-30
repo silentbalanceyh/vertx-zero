@@ -249,7 +249,6 @@ public class UxJooq {
     public JsonObject search(final JsonObject params) {
         return this.reader.search(params, this.workflow);
     }
-    // -------------------- Fetch Operation -----------
 
     // -------------------- Fetch List -------------------
     /*
@@ -463,6 +462,91 @@ public class UxJooq {
     public JsonArray fetchJOr(final JsonObject criteria, final String pojo) {
         return JqFlow.create(this.analyzer, pojo).output(this.fetch(criteria.put(Strings.EMPTY, Boolean.FALSE), pojo));
     }
+    // -------------------- Fetch One/All --------------------
+
+    /*
+     * fetchByIdAsync(Object)
+     * <-- fetchJByIdAsync(Object)
+     * fetchById(Object)
+     * <-- fetchJById(Object)
+     * fetchOneAsync(String, Object)
+     * <-- fetchJOneAsync(String, Object)
+     * fetchOne(String, Object)
+     * <-- fetchJOne(String, Object)
+     * fetchOneAsync(JsonObject)
+     * <-- fetchJOneAsync(JsonObject)
+     * fetchOne(JsonObject)
+     * <-- fetchJOne(JsonObject)
+     * fetchOneAsync(JsonObject, pojo)
+     * <-- fetchJOneAsync(JsonObject, pojo)
+     * fetchOne(JsonObject, pojo)
+     * <-- fetchJOne(JsonObject, pojo)
+     */
+    public <T> Future<T> fetchByIdAsync(final Object id) {
+        return this.reader.fetchByIdAsync(id);
+    }
+
+    public Future<JsonObject> fetchJByIdAsync(final Object id) {
+        return this.fetchByIdAsync(id).compose(this.workflow::outputAsync);
+    }
+
+    public <T> T fetchById(final Object id) {
+        return this.reader.fetchById(id);
+    }
+
+    public <T> JsonObject fetchJById(final Object id) {
+        return this.workflow.output((T) this.fetchById(id));
+    }
+
+    public <T> Future<T> fetchOneAsync(final String field, final Object value) {
+        return this.reader.fetchOneAsync(field, value);
+    }
+
+    public Future<JsonObject> fetchJOneAsync(final String field, final Object value) {
+        return this.fetchOneAsync(field, value).compose(this.workflow::outputAsync);
+    }
+
+    public <T> T fetchOne(final String field, final Object value) {
+        return this.reader.fetchOne(field, value);
+    }
+
+    public <T> JsonObject fetchJOne(final String field, final Object value) {
+        return this.workflow.output((T) this.fetchOne(field, value));
+    }
+
+    public <T> Future<T> fetchOneAsync(final JsonObject criteria) {
+        return this.workflow.inputQrJAsync(criteria).compose(this.reader::fetchOneAsync);
+    }
+
+    public Future<JsonObject> fetchJOneAsync(final JsonObject criteria) {
+        return this.fetchOneAsync(criteria).compose(this.workflow::outputAsync);
+    }
+
+    public <T> T fetchOne(final JsonObject criteria) {
+        return this.reader.fetchOne(this.workflow.inputQrJ(criteria));
+    }
+
+    public <T> JsonObject fetchJOne(final JsonObject criteria) {
+        return this.workflow.output((T) this.fetchOne(criteria));
+    }
+
+    public <T> Future<T> fetchOneAsync(final JsonObject criteria, final String pojo) {
+        return JqFlow.create(this.analyzer, pojo).inputQrJAsync(criteria).compose(this.reader::fetchOneAsync);
+    }
+
+    public Future<JsonObject> fetchJOneAsync(final JsonObject criteria, final String pojo) {
+        return this.fetchOneAsync(criteria, pojo).compose(JqFlow.create(this.analyzer, pojo)::outputAsync);
+    }
+
+    public <T> T fetchOne(final JsonObject criteria, final String pojo) {
+        return this.reader.fetchOne(JqFlow.create(this.analyzer, pojo).inputQrJ(criteria));
+    }
+
+    public <T> JsonObject fetchJOne(final JsonObject criteria, final String pojo) {
+        return JqFlow.create(this.analyzer, pojo).output((T) this.fetchOne(criteria, pojo));
+    }
+    // -------------------- Fetch Record -------------------
+
     /* (Async / Sync) Find / Exist / Missing By Filters Operation */
     // -------------------- UPDATE --------------------
     /* Async Only
@@ -575,33 +659,6 @@ public class UxJooq {
         return this.writer.upsert(key, updated);
     }
 
-    // -------------------- Fetch One/All --------------------
-
-    /* (Async / Sync) Fetch One */
-    public <T> Future<T> fetchOneAsync(final String field, final Object value) {
-        return this.reader.fetchOneAsync(field, value);
-    }
-
-    public <T> T fetchOne(final String field, final Object value) {
-        return this.reader.fetchOne(field, value);
-    }
-
-    public <T> Future<T> fetchOneAsync(final JsonObject filters) {
-        return this.reader.fetchOneAsync(filters);
-    }
-
-    public <T> T fetchOne(final JsonObject filters) {
-        return this.reader.fetchOne(filters);
-    }
-
-    /* (Async / Sync) Find By ID */
-    public <T> Future<T> fetchByIdAsync(final Object id) {
-        return this.reader.fetchByIdAsync(id);
-    }
-
-    public <T> T fetchById(final Object id) {
-        return this.reader.fetchById(id);
-    }
 
     // -------------------- Exist Operation --------------------
     /* (Async / Sync) Exist By ID Operation */
