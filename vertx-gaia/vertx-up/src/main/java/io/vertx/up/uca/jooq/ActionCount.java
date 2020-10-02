@@ -2,7 +2,6 @@ package io.vertx.up.uca.jooq;
 
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.uca.jooq.util.JqTool;
 import org.jooq.Condition;
 import org.jooq.DSLContext;
 
@@ -31,7 +30,7 @@ class ActionCount extends AbstractAggregator {
     }
 
     Future<Long> countAsync() {
-        return JqTool.future(this.vertxDAO.countAsync());
+        return this.successed(this.vertxDAO.countAsync());
     }
 
     Long count(final JsonObject criteria) {
@@ -40,7 +39,7 @@ class ActionCount extends AbstractAggregator {
 
     <T> Future<Long> countAsync(final JsonObject criteria) {
         final Function<DSLContext, Long> executor = context -> countInternal(context, criteria);
-        return JqTool.future(this.vertxDAO.executeAsync(executor));
+        return this.successed(this.vertxDAO.executeAsync(executor));
     }
 
     ConcurrentMap<String, Integer> countBy(final JsonObject filters, final String field) {

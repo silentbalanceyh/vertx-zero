@@ -1,5 +1,6 @@
 package io.vertx.up.uca.jooq.util;
 
+import io.vertx.core.CompositeFuture;
 import io.vertx.core.Future;
 import io.vertx.core.Promise;
 import io.vertx.core.json.JsonArray;
@@ -25,6 +26,12 @@ import java.util.function.BinaryOperator;
 public class JqTool {
 
     private static final Annal LOGGER = Annal.get(JqTool.class);
+
+    public static <T> CompositeFuture joinAsync(final JsonObject criteria, final JsonObject data, final JqFlow flow) {
+        final Future<JsonObject> criteriaFuture = flow.inputQrJAsync(criteria);
+        final Future<T> dataFuture = flow.inputAsync(data);
+        return CompositeFuture.join(criteriaFuture, dataFuture);
+    }
 
     public static <T> Future<T> future(final CompletableFuture<T> completableFuture) {
         final Promise<T> future = Promise.promise();
