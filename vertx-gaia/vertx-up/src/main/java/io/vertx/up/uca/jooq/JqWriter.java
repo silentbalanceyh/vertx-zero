@@ -3,17 +3,12 @@ package io.vertx.up.uca.jooq;
 import io.github.jklingsporn.vertx.jooq.future.VertxDAO;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.eon.em.ChangeFlag;
-import io.vertx.up.fn.Fn;
 import io.vertx.up.uca.jooq.util.JqTool;
-import io.vertx.up.unity.Ux;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ConcurrentMap;
 import java.util.function.BiPredicate;
 
 /**
@@ -31,6 +26,7 @@ class JqWriter {
 
     private transient ActionInsert insert;
     private transient ActionUpdate update;
+    private transient ActionUpsert upsert;
 
     private JqWriter(final JqAnalyzer analyzer) {
         this.analyzer = analyzer;
@@ -42,6 +38,7 @@ class JqWriter {
          */
         this.insert = new ActionInsert(analyzer);
         this.update = new ActionUpdate(analyzer);
+        this.upsert = new ActionUpsert(analyzer);
     }
 
     static JqWriter create(final JqAnalyzer analyzer) {
@@ -162,83 +159,27 @@ class JqWriter {
 
     // ============ UPSERT Operation (Save) =============
 
-    public <T> Future<T> upsertAsync(final JsonObject filters, final T updated) {
-        return combineAsync(this.reader.<T>fetchOneAsync(filters), updated);
+    public <T> Future<T> upsertAsync(final JsonObject criteria, final T updated) {
+        return this.upsert.upsertAsync(criteria, updated);
     }
 
-    public <T> Future<T> upsertAsync(final String key, final T updated) {
-        return combineAsync(this.reader.<T>fetchByIdAsync(key), updated);
+    public <T> Future<T> upsertAsync(final Object id, final T updated) {
+        return this.upsert.upsertAsync(id, updated);
     }
 
-    public <T> T upsert(final JsonObject filters, final T updated) {
-        return this.combine(this.reader.fetchOne(filters), updated);
+    public <T> T upsert(final JsonObject criteria, final T updated) {
+        return this.upsert.upsert(criteria, updated);
     }
 
-    public <T> T upsert(final String key, final T updated) {
-        return this.combine(this.reader.fetchById(key), updated);
+    public <T> T upsert(final Object id, final T updated) {
+        return this.upsert.upsert(id, updated);
     }
 
-    <T> List<T> upsert(final JsonObject filters, final List<T> list, final BiPredicate<T, T> fnCombine) {
-        final List<T> original = this.reader.<T>search(filters);
-        /*
-         * Query data by filters
-         */
-        final ConcurrentMap<ChangeFlag, List<T>> queueMap =
-                JqTool.compared(list, original, fnCombine, this.analyzer::copyEntity);
-        /*
-         * Insert & Update
-         */
-        final List<T> resultList = new ArrayList<>();
-        resultList.addAll(this.insert(queueMap.get(ChangeFlag.ADD)));
-        resultList.addAll(this.update(queueMap.get(ChangeFlag.UPDATE)));
-        return resultList;
+    <T> List<T> upsert(final JsonObject criteria, final List<T> list, final BiPredicate<T, T> finder) {
+        return this.upsert.upsert(criteria, list, finder);
     }
 
-    <T> Future<List<T>> upsertAsync(final JsonObject filters, final List<T> list, final BiPredicate<T, T> fnCombine) {
-        /*
-         * Query data by filters ( This filters should fetch all condition list as List<T> )
-         * original
-         */
-        return this.reader.<T>searchAsync(filters).compose(original -> {
-            /*
-             * Combine original / and last list
-             */
-            final ConcurrentMap<ChangeFlag, List<T>> queueMap =
-                    JqTool.compared(list, original, fnCombine, this.analyzer::copyEntity);
-            /*
-             * Insert & Update
-             */
-            final List<Future<List<T>>> futures = new ArrayList<>();
-            futures.add(this.insertAsync(queueMap.get(ChangeFlag.ADD)));
-            futures.add(this.updateAsync(queueMap.get(ChangeFlag.UPDATE)));
-            return Ux.thenCombineArrayT(futures);
-        });
-    }
-
-    // ------------ Private Method inner Writer ---------
-
-    /*
-     * Combine for `Saving` here, it could help Jooq to execute
-     * Saving operation.
-     *
-     * Insert / Update merged
-     * 1 Existing: do updating
-     * 2 Missing: do missing
-     */
-    private <T> Future<T> combineAsync(final Future<T> queried, final T updated) {
-        return queried.compose(item -> Fn.match(
-                // null != item, updated to existing item.
-                Fn.fork(() -> this.<T>updateAsync(this.analyzer.copyEntity(item, updated))),
-                // null == item, insert data
-                Fn.branch(null == item, () -> this.insertAsync(updated))
-        ));
-    }
-
-    private <T> T combine(final T queried, final T updated) {
-        if (null == queried) {
-            return this.insert(updated);
-        } else {
-            return this.update(this.analyzer.copyEntity(queried, updated));
-        }
+    <T> Future<List<T>> upsertAsync(final JsonObject criteria, final List<T> list, final BiPredicate<T, T> finder) {
+        return this.upsert.upsertAsync(criteria, list, finder);
     }
 }

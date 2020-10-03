@@ -9,19 +9,13 @@ import io.vertx.up.atom.pojo.Mirror;
 import io.vertx.up.atom.pojo.Mojo;
 import io.vertx.up.atom.query.Inquiry;
 import io.vertx.up.eon.Strings;
-import io.vertx.up.eon.em.ChangeFlag;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import io.vertx.up.util.Ut;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
-import java.util.function.BiPredicate;
-import java.util.function.BinaryOperator;
 
 public class JqTool {
 
@@ -33,6 +27,12 @@ public class JqTool {
         return CompositeFuture.join(criteriaFuture, dataFuture);
     }
 
+    public static <T> CompositeFuture joinAsync(final JsonObject criteria, final JsonArray data, final JqFlow flow) {
+        final Future<JsonObject> criteriaFuture = flow.inputQrJAsync(criteria);
+        final Future<List<T>> dataFuture = flow.inputAsync(data);
+        return CompositeFuture.join(criteriaFuture, dataFuture);
+    }
+
     public static <T> Future<T> future(final CompletableFuture<T> completableFuture) {
         final Promise<T> future = Promise.promise();
         completableFuture.thenAcceptAsync(future::complete).exceptionally((ex) -> {
@@ -41,39 +41,6 @@ public class JqTool {
             return null;
         });
         return future.future();
-    }
-
-    public static <T> ConcurrentMap<ChangeFlag, List<T>> compared(final List<T> current, final List<T> original,
-                                                                  final BiPredicate<T, T> finder, final BinaryOperator<T> combiner) {
-        /*
-         * Combine original / and last list
-         */
-        final List<T> addQueue = new ArrayList<>();
-        final List<T> updateQueue = new ArrayList<>();
-        /*
-         * Only get `ADD` & `UPDATE`
-         * Iterate original list
-         * 1) If the entity is missing in original, ADD
-         * 2) If the entity is existing in original, UPDATE
-         */
-        current.forEach(newRecord -> {
-            /*
-             * New record found in `original`
-             */
-            final T found = Ut.elementFind(original, oldRecord -> finder.test(oldRecord, newRecord));
-            if (Objects.isNull(found)) {
-                addQueue.add(newRecord);
-            } else {
-                final T combine = combiner.apply(found, newRecord);
-                updateQueue.add(combine);
-            }
-        });
-        return new ConcurrentHashMap<ChangeFlag, List<T>>() {
-            {
-                this.put(ChangeFlag.ADD, addQueue);
-                this.put(ChangeFlag.UPDATE, updateQueue);
-            }
-        };
     }
 
     public static Inquiry getInquiry(final JsonObject envelop, final String pojo) {

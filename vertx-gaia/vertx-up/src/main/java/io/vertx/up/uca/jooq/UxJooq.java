@@ -878,6 +878,258 @@ public class UxJooq {
                 .compose(flow::outputAsync);
     }
 
+    // -------------------- Upsert Operation ( INSERT / UPDATE ) ---------
+
+    /*
+     * upsert(id, T)
+     *      <-- upsert(id, JsonObject)
+     *      <-- upsert(id, JsonObject, pojo)
+     *      <-- upsertJ(id, T)
+     *      <-- upsertJ(id, JsonObject)
+     *      <-- upsertJ(id, JsonObject, pojo)
+     */
+    public <T> T upsert(final Object id, final T updated) {
+        return this.writer.upsert(id, updated);
+    }
+
+    public <T> T upsert(final Object id, final JsonObject data) {
+        return this.upsert(id, (T) this.workflow.input(data));
+    }
+
+    public <T> T upsert(final Object id, final JsonObject data, final String pojo) {
+        return this.upsert(id, (T) JqFlow.create(this.analyzer, pojo).input(data));
+    }
+
+    public <T> JsonObject upsertJ(final Object id, final T updated) {
+        return this.workflow.output(this.upsert(id, updated));
+    }
+
+    public <T> JsonObject upsertJ(final Object id, final JsonObject data) {
+        return this.workflow.output(this.upsert(id, (T) this.workflow.input(data)));
+    }
+
+    public <T> JsonObject upsertJ(final Object id, final JsonObject data, final String pojo) {
+        final JqFlow flow = JqFlow.create(this.analyzer, pojo);
+        return flow.output(this.upsert(id, (T) flow.input(data)));
+    }
+
+    /*
+     * upsertAsync(id, T)
+     *      <-- upsertAsync(id, JsonObject)
+     *      <-- upsertAsync(id, JsonObject, pojo)
+     *      <-- upsertJAsync(id, T)
+     *      <-- upsertJAsync(id, JsonObject)
+     *      <-- upsertJAsync(id, JsonObject, pojo)
+     */
+    public <T> Future<T> upsertAsync(final Object id, final T updated) {
+        return this.writer.upsertAsync(id, updated);
+    }
+
+    public <T> Future<T> upsertAsync(final Object id, final JsonObject data) {
+        return this.workflow.<T>inputAsync(data).compose(updated -> this.upsertAsync(id, updated));
+    }
+
+    public <T> Future<T> upsertAsync(final Object id, final JsonObject data, final String pojo) {
+        return JqFlow.create(this.analyzer, pojo).<T>inputAsync(data).compose(updated -> this.upsertAsync(id, updated));
+    }
+
+    public <T> Future<JsonObject> upsertJAsync(final Object id, final T updated) {
+        return this.upsertAsync(id, updated).compose(this.workflow::outputAsync);
+    }
+
+    public <T> Future<JsonObject> upsertJAsync(final Object id, final JsonObject data) {
+        return this.workflow.<T>inputAsync(data).compose(updated -> this.upsertAsync(id, updated)).compose(this.workflow::outputAsync);
+    }
+
+    public <T> Future<JsonObject> upsertJAsync(final Object id, final JsonObject data, final String pojo) {
+        final JqFlow flow = JqFlow.create(this.analyzer, pojo);
+        return flow.<T>inputAsync(data).compose(updated -> this.upsertAsync(id, updated)).compose(flow::outputAsync);
+    }
+
+    /*
+     * upsert(criteria, T)
+     *      <-- upsert(criteria, JsonObject)
+     *      <-- upsertJ(criteria, T)
+     *      <-- upsertJ(criteria, JsonObject)
+     * upsert(criteria, T, pojo)
+     *      <-- upsert(criteria, JsonObject, pojo)
+     *      <-- upsertJ(criteria, T, pojo)
+     *      <-- upsertJ(criteria, JsonObject, pojo)
+     */
+    public <T> T upsert(final JsonObject criteria, final T updated) {
+        return this.writer.upsert(this.workflow.inputQrJ(criteria), updated);
+    }
+
+    public <T> T upsert(final JsonObject criteria, final JsonObject data) {
+        return this.upsert(criteria, (T) this.workflow.input(data));
+    }
+
+    public <T> JsonObject upsertJ(final JsonObject criteria, final T updated) {
+        return this.workflow.output(this.upsert(criteria, updated));
+    }
+
+    public <T> JsonObject upsertJ(final JsonObject criteria, final JsonObject data) {
+        return this.workflow.output(this.upsert(criteria, (T) this.workflow.input(data)));
+    }
+
+    public <T> T upsert(final JsonObject criteria, final T updated, final String pojo) {
+        return this.writer.upsert(JqFlow.create(this.analyzer, pojo).inputQrJ(criteria), updated);
+    }
+
+    public <T> T upsert(final JsonObject criteria, final JsonObject data, final String pojo) {
+        return this.upsert(criteria, (T) JqFlow.create(this.analyzer, pojo).input(data), pojo);
+    }
+
+    public <T> JsonObject upsertJ(final JsonObject criteria, final T updated, final String pojo) {
+        return this.workflow.output(this.upsert(criteria, updated, pojo));
+    }
+
+    public <T> JsonObject upsertJ(final JsonObject criteria, final JsonObject data, final String pojo) {
+        final JqFlow flow = JqFlow.create(this.analyzer, pojo);
+        return flow.output(this.upsert(criteria, (T) flow.input(data), pojo));
+    }
+
+    /*
+     * upsertAsync(criteria, T)
+     *      <-- upsertAsync(criteria, JsonObject)
+     *      <-- upsertJAsync(criteria, T)
+     *      <-- upsertJAsync(criteria, JsonObject)
+     * upsertAsync(criteria, T, pojo)
+     *      <-- upsertAsync(criteria, JsonObject, pojo)
+     *      <-- upsertJAsync(criteria, T, pojo)
+     *      <-- upsertJAsync(criteria, JsonObject, pojo)
+     */
+    public <T> Future<T> upsertAsync(final JsonObject criteria, final T updated) {
+        return this.workflow.inputQrJAsync(criteria).compose(normalized -> this.writer.upsertAsync(normalized, updated));
+    }
+
+    public <T> Future<T> upsertAsync(final JsonObject criteria, final JsonObject data) {
+        return JqTool.joinAsync(criteria, data, this.workflow)
+                .compose(response -> this.upsertAsync(response.resultAt(Values.IDX), (T) response.resultAt(Values.ONE)));
+    }
+
+    public <T> Future<JsonObject> upsertJAsync(final JsonObject criteria, final T updated) {
+        return this.upsertAsync(criteria, updated).compose(this.workflow::outputAsync);
+    }
+
+    public <T> Future<JsonObject> upsertJAsync(final JsonObject criteria, final JsonObject data) {
+        return JqTool.joinAsync(criteria, data, this.workflow)
+                .compose(response -> this.upsertAsync(response.resultAt(Values.IDX), (T) response.resultAt(Values.ONE)))
+                .compose(this.workflow::outputAsync);
+    }
+
+    public <T> Future<T> upsertAsync(final JsonObject criteria, final T updated, final String pojo) {
+        return JqFlow.create(this.analyzer, pojo).inputQrJAsync(criteria).compose(normalized -> this.writer.upsertAsync(normalized, updated));
+    }
+
+    public <T> Future<T> upsertAsync(final JsonObject criteria, final JsonObject data, final String pojo) {
+        return JqTool.joinAsync(criteria, data, JqFlow.create(this.analyzer, pojo))
+                .compose(response -> this.upsertAsync(response.resultAt(Values.IDX), (T) response.resultAt(Values.ONE), pojo));
+    }
+
+    public <T> Future<JsonObject> upsertJAsync(final JsonObject criteria, final T updated, final String pojo) {
+        return this.upsertAsync(criteria, updated, pojo).compose(JqFlow.create(this.analyzer, pojo)::outputAsync);
+    }
+
+    public <T> Future<JsonObject> upsertJAsync(final JsonObject criteria, final JsonObject data, final String pojo) {
+        final JqFlow flow = JqFlow.create(this.analyzer, pojo);
+        return JqTool.joinAsync(criteria, data, flow)
+                .compose(response -> this.upsertAsync(response.resultAt(Values.IDX), (T) response.resultAt(Values.ONE), pojo))
+                .compose(flow::outputAsync);
+    }
+
+    /*
+     * upsert(criteria, list, finder)
+     *      <-- upsert(criteria, JsonArray, finder)
+     *      <-- upsertJ(criteria, list, finder)
+     *      <-- upsertJ(criteria, JsonArray, finder)
+     * upsert(criteria, list, finder, pojo)
+     *      <-- upsert(criteria, JsonArray, finder, pojo)
+     *      <-- upsertJ(criteria, list, finder, pojo)
+     *      <-- upsertJ(criteria, JsonArray, finder, pojo)
+     */
+    public <T> List<T> upsert(final JsonObject criteria, final List<T> list, final BiPredicate<T, T> finder) {
+        return this.writer.upsert(this.workflow.inputQrJ(criteria), list, finder);
+    }
+
+    public <T> List<T> upsert(final JsonObject criteria, final JsonArray data, final BiPredicate<T, T> finder) {
+        return this.upsert(criteria, this.workflow.input(data), finder);
+    }
+
+    public <T> JsonArray upsertJ(final JsonObject criteria, final List<T> list, final BiPredicate<T, T> finder) {
+        return this.workflow.output(this.upsert(criteria, list, finder));
+    }
+
+    public <T> JsonArray upsertJ(final JsonObject criteria, final JsonArray data, final BiPredicate<T, T> finder) {
+        return this.workflow.output(this.upsert(criteria, this.workflow.input(data), finder));
+    }
+
+    public <T> List<T> upsert(final JsonObject criteria, final List<T> list, final BiPredicate<T, T> finder, final String pojo) {
+        return this.writer.upsert(JqFlow.create(this.analyzer, pojo).inputQrJ(criteria), list, finder);
+    }
+
+    public <T> List<T> upsert(final JsonObject criteria, final JsonArray data, final BiPredicate<T, T> finder, final String pojo) {
+        return this.upsert(criteria, JqFlow.create(this.analyzer, pojo).input(data), finder, pojo);
+    }
+
+    public <T> JsonArray upsertJ(final JsonObject criteria, final List<T> list, final BiPredicate<T, T> finder, final String pojo) {
+        return JqFlow.create(this.analyzer, pojo).output(this.upsert(criteria, list, finder, pojo));
+    }
+
+    public <T> JsonArray upsertJ(final JsonObject criteria, final JsonArray data, final BiPredicate<T, T> finder, final String pojo) {
+        final JqFlow flow = JqFlow.create(this.analyzer, pojo);
+        return flow.output(this.upsert(criteria, flow.input(data), finder, pojo));
+    }
+
+    /*
+     * upsertAsync(criteria, list, finder)
+     *      <-- upsertAsync(criteria, JsonArray, finder)
+     *      <-- upsertJAsync(criteria, list, finder)
+     *      <-- upsertJAsync(criteria, JsonArray, finder)
+     * upsertAsync(criteria, list, finder, pojo)
+     *      <-- upsertAsync(criteria, JsonArray, finder, pojo)
+     *      <-- upsertJAsync(criteria, list, finder, pojo)
+     *      <-- upsertJAsync(criteria, JsonArray, finder, pojo)
+     */
+    public <T> Future<List<T>> upsertAsync(final JsonObject criteria, final List<T> list, final BiPredicate<T, T> finder) {
+        return this.workflow.inputQrJAsync(criteria).compose(normalized -> this.writer.upsertAsync(normalized, list, finder));
+    }
+
+    public <T> Future<List<T>> upsertAsync(final JsonObject criteria, final JsonArray data, final BiPredicate<T, T> finder) {
+        return JqTool.joinAsync(criteria, data, this.workflow)
+                .compose(response -> this.upsertAsync(response.resultAt(Values.IDX), (List<T>) response.resultAt(Values.ONE), finder));
+    }
+
+    public <T> Future<JsonArray> upsertJAsync(final JsonObject criteria, final List<T> list, final BiPredicate<T, T> finder) {
+        return this.upsertAsync(criteria, list, finder).compose(this.workflow::outputAsync);
+    }
+
+    public <T> Future<JsonArray> upsertJAsync(final JsonObject criteria, final JsonArray data, final BiPredicate<T, T> finder) {
+        return JqTool.joinAsync(criteria, data, this.workflow)
+                .compose(response -> this.upsertAsync(response.resultAt(Values.IDX), (List<T>) response.resultAt(Values.ONE), finder))
+                .compose(this.workflow::outputAsync);
+    }
+
+    public <T> Future<List<T>> upsertAsync(final JsonObject criteria, final List<T> list, final BiPredicate<T, T> finder, final String pojo) {
+        return JqFlow.create(this.analyzer, pojo).inputQrJAsync(criteria).compose(normalized -> this.writer.upsertAsync(normalized, list, finder));
+    }
+
+    public <T> Future<List<T>> upsertAsync(final JsonObject criteria, final JsonArray data, final BiPredicate<T, T> finder, final String pojo) {
+        return JqTool.joinAsync(criteria, data, JqFlow.create(this.analyzer, pojo))
+                .compose(response -> this.upsertAsync(response.resultAt(Values.IDX), (List<T>) response.resultAt(Values.ONE), finder, pojo));
+    }
+
+    public <T> Future<JsonArray> upsertJAsync(final JsonObject criteria, final List<T> list, final BiPredicate<T, T> finder, final String pojo) {
+        return this.upsertAsync(criteria, list, finder, pojo).compose(JqFlow.create(this.analyzer, pojo)::outputAsync);
+    }
+
+    public <T> Future<JsonArray> upsertJAsync(final JsonObject criteria, final JsonArray data, final BiPredicate<T, T> finder, final String pojo) {
+        final JqFlow flow = JqFlow.create(this.analyzer, pojo);
+        return JqTool.joinAsync(criteria, data, flow)
+                .compose(response -> this.upsertAsync(response.resultAt(Values.IDX), (List<T>) response.resultAt(Values.ONE), finder, pojo))
+                .compose(flow::outputAsync);
+    }
+
     // -------------------- DELETE --------------------
     /* (Async / Sync) Delete By ( ID / IDs ) */
     public <ID> Future<Boolean> deleteByIdAsync(final ID id) {
@@ -924,32 +1176,6 @@ public class UxJooq {
 
         return this.writer.<T, ID>delete(filters, this.analyzer.pojoFile());
     }
-
-    // -------------------- Upsert ---------
-    public <T> Future<List<T>> upsertAsync(final JsonObject filters, final List<T> list, final BiPredicate<T, T> fnCombine) {
-        return this.writer.upsertAsync(filters, list, fnCombine);
-    }
-
-    public <T> Future<T> upsertAsync(final JsonObject filters, final T updated) {
-        return this.writer.upsertAsync(filters, updated);
-    }
-
-    public <T> Future<T> upsertAsync(final String key, final T updated) {
-        return this.writer.upsertAsync(key, updated);
-    }
-
-    public <T> List<T> upsert(final JsonObject filters, final List<T> list, final BiPredicate<T, T> fnCombine) {
-        return this.writer.upsert(filters, list, fnCombine);
-    }
-
-    public <T> T upsert(final JsonObject filters, final T updated) {
-        return this.writer.upsert(filters, updated);
-    }
-
-    public <T> T upsert(final String key, final T updated) {
-        return this.writer.upsert(key, updated);
-    }
-
 
     // -------------------- Exist Operation --------------------
     /* (Async / Sync) Exist By ID Operation */

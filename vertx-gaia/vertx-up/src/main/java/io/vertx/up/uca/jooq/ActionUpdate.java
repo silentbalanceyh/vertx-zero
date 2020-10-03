@@ -19,7 +19,7 @@ class ActionUpdate extends AbstractAction {
         this.fetch = new ActionFetch(analyzer);
     }
 
-    // ============ UPSERT Operation =============
+    // ============ UPDATE Operation =============
 
     /* Future<T> */
     <T> Future<T> updateAsync(final T entity) {
@@ -72,13 +72,4 @@ class ActionUpdate extends AbstractAction {
         final T combine = this.analyzer.copyEntity((T) previous, updated);
         return this.update(combine);
     }
-
-    // ============ MERGE Operation (Save) =============
-    /*
-     * Combine data for `Saving`, it could help Jooq to execute SAVE
-     *
-     * Insert / Update merged
-     * 1 Existing: do updating
-     * 2 Missing: do missing
-     */
 }
