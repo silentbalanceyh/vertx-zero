@@ -13,7 +13,7 @@ import java.util.List;
  * - Search, Check, Find
  */
 @SuppressWarnings("all")
-public class JqReader {
+class JqReader {
 
     private transient ActionSearch search;
     private transient ActionFetch fetch;

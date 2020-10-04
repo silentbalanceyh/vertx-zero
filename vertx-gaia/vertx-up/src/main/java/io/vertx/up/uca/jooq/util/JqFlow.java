@@ -10,6 +10,8 @@ import io.vertx.up.unity.Ux;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
 /**
  * @author <a href="http://www.origin-x.cn">lang</a>
@@ -87,6 +89,19 @@ public class JqFlow {
 
     public <T> JsonArray output(final List<T> input) {
         return Ux.toJson(input, this.pojo);
+    }
+
+    public <T> ConcurrentMap<String, JsonArray> output(final ConcurrentMap<String, List<T>> input) {
+        final ConcurrentMap<String, JsonArray> map = new ConcurrentHashMap<>();
+        input.forEach((field, list) -> {
+            final JsonArray groupData = Ux.toJson(list, this.pojo);
+            map.put(field, groupData);
+        });
+        return map;
+    }
+
+    public <T> Future<ConcurrentMap<String, JsonArray>> outputAsync(final ConcurrentMap<String, List<T>> input) {
+        return Future.succeededFuture(this.output(input));
     }
 
     public <T> Future<JsonArray> outputAsync(final List<T> input) {

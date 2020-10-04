@@ -34,7 +34,7 @@ public class PermService implements PermStub {
          * Permission Groups processing
          */
         return Ux.Jooq.on(SPermissionDao.class)
-                .groupAsync(condition, "group", "identifier");
+                .countByAsync(condition, "group", "identifier");
     }
 
     @Override

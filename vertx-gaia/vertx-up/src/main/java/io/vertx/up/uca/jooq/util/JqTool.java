@@ -2,7 +2,6 @@ package io.vertx.up.uca.jooq.util;
 
 import io.vertx.core.CompositeFuture;
 import io.vertx.core.Future;
-import io.vertx.core.Promise;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.atom.pojo.Mirror;
@@ -14,7 +13,6 @@ import io.vertx.up.log.Annal;
 import io.vertx.up.util.Ut;
 
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentMap;
 
 public class JqTool {
@@ -31,16 +29,6 @@ public class JqTool {
         final Future<JsonObject> criteriaFuture = flow.inputQrJAsync(criteria);
         final Future<List<T>> dataFuture = flow.inputAsync(data);
         return CompositeFuture.join(criteriaFuture, dataFuture);
-    }
-
-    public static <T> Future<T> future(final CompletableFuture<T> completableFuture) {
-        final Promise<T> future = Promise.promise();
-        completableFuture.thenAcceptAsync(future::complete).exceptionally((ex) -> {
-            LOGGER.jvm(ex);
-            future.fail(ex);
-            return null;
-        });
-        return future.future();
     }
 
     public static Inquiry getInquiry(final JsonObject envelop, final String pojo) {

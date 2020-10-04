@@ -12,12 +12,14 @@ import java.util.concurrent.ConcurrentMap;
  * @author <a href="http://www.origin-x.cn">lang</a>
  */
 @SuppressWarnings("all")
-public class JqAggregator {
+class JqAggregator {
 
     private transient final ActionCount counter;
+    private transient final ActionGroup group;
 
     private JqAggregator(final JqAnalyzer analyzer) {
         this.counter = new ActionCount(analyzer);
+        this.group = new ActionGroup(analyzer);
     }
 
     public static JqAggregator create(final JqAnalyzer analyzer) {
@@ -28,40 +30,32 @@ public class JqAggregator {
     /*
      * Internal Call and do not export this Programming API
      */
-    public Long count(final Inquiry inquiry) {
+    Long count(final Inquiry inquiry) {
         return this.count(null == inquiry.getCriteria() ? new JsonObject() : inquiry.getCriteria().toJson());
     }
 
-    public <T> Future<Long> countAsync(final Inquiry inquiry) {
+    <T> Future<Long> countAsync(final Inquiry inquiry) {
         return this.countAsync(null == inquiry.getCriteria() ? new JsonObject() : inquiry.getCriteria().toJson());
-    }
-
-    public Long count(final JsonObject params, final String pojo) {
-        return null;
     }
 
     /*
      * AgCount class for count
      * 1) countAll / countAllAsync
      */
-    public Long countAll() {
+    Long countAll() {
         return this.counter.count();
     }
 
-    public Future<Long> countAllAsync() {
+    Future<Long> countAllAsync() {
         return this.counter.countAsync();
     }
 
-    public <T> Long count(final JsonObject filters) {
-        return this.counter.count(filters);
+    <T> Long count(final JsonObject criteria) {
+        return this.counter.count(criteria);
     }
 
-    /*
-     * Basic Method for low tier search/count pair
-     */
-
-    public <T> Future<Long> countAsync(final JsonObject filters) {
-        return this.counter.countAsync(filters);
+    <T> Future<Long> countAsync(final JsonObject criteria) {
+        return this.counter.countAsync(criteria);
     }
 
     /*
@@ -77,17 +71,16 @@ public class JqAggregator {
      *
      * The limitation is that the grouped field should be only one
      */
-    public <T> Future<ConcurrentMap<String, Integer>> countByAsync(final JsonObject filters, final String field) {
-        return Future.succeededFuture(countBy(filters, field));
+    <T> Future<ConcurrentMap<String, Integer>> countByAsync(final JsonObject criteria, final String field) {
+        return Future.succeededFuture(countBy(criteria, field));
     }
 
-    public <T> ConcurrentMap<String, Integer> countBy(final JsonObject filters, final String field) {
-        return null;
+    <T> ConcurrentMap<String, Integer> countBy(final JsonObject criteria, final String field) {
+        return this.counter.countBy(criteria, field);
     }
 
-    // -------------------- Group Operation ------------
     /*
-     * Group Fields here
+     * Count function by group Fields here
      * The aggregation result is List<Map<String,Object>> reference here,
      * Here the result should be:
      *
@@ -100,11 +93,28 @@ public class JqAggregator {
      *     "count": "COUNT"
      * }
      */
-    public Future<JsonArray> groupByAsync(final JsonObject filters, final String... fields) {
-        return null;
+    <T> JsonArray countBy(final JsonObject criteria, final String... fields) {
+        return this.counter.countBy(criteria, fields);
     }
 
-    public <T> ConcurrentMap<String, List<T>> group(final JsonObject filters, final String field) {
-        return null;
+    Future<JsonArray> countByAsync(final JsonObject criteria, final String... fields) {
+        return Future.succeededFuture(countBy(criteria, fields));
+    }
+
+    // -------------------- Group Operation ------------
+    <T> ConcurrentMap<String, List<T>> group(final String field) {
+        return this.group.group(field);
+    }
+
+    <T> Future<ConcurrentMap<String, List<T>>> groupAsync(final String field) {
+        return Future.succeededFuture(this.group(field));
+    }
+
+    <T> ConcurrentMap<String, List<T>> group(final JsonObject criteria, final String field) {
+        return this.group.group(criteria, field);
+    }
+
+    <T> Future<ConcurrentMap<String, List<T>>> groupAsync(final JsonObject criteria, final String field) {
+        return Future.succeededFuture(this.group(criteria, field));
     }
 }

@@ -99,7 +99,7 @@ abstract class AbstractAggregator extends AbstractAction {
         return result;
     }
 
-    protected <T> List<Map<String, Object>> fetchAggregation(final JsonObject filters, final Field[] selectedFields, final String... groupFields) {
+    protected <T> List<Map<String, Object>> fetchAggregation(final JsonObject criteria, final Field[] selectedFields, final String... groupFields) {
         /*
          * Field[] by groupFields
          */
@@ -119,7 +119,7 @@ abstract class AbstractAggregator extends AbstractAction {
          * Result calculation
          */
         final List<Map<String, Object>> groupResult;
-        if (Ut.isNil(filters)) {
+        if (Ut.isNil(criteria)) {
             groupResult = selected
                     .groupBy(columns).fetchMaps();
         } else {
@@ -127,7 +127,7 @@ abstract class AbstractAggregator extends AbstractAction {
                     /*
                      * Where condition for result
                      */
-                    .where(JooqCond.transform(filters, this.analyzer::column))
+                    .where(JooqCond.transform(criteria, this.analyzer::column))
                     .groupBy(columns).fetchMaps();
         }
         return groupResult;

@@ -4,7 +4,6 @@ import io.github.jklingsporn.vertx.jooq.future.VertxDAO;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.atom.query.Inquiry;
 import io.vertx.up.eon.Strings;
 import io.vertx.up.eon.Values;
 import io.vertx.up.eon.em.Format;
@@ -34,7 +33,6 @@ public final class UxJooq {
     private transient final JqAggregator aggregator;
     /* Writer */
     private transient final JqWriter writer;
-
     /* Reader */
     private transient final JqReader reader;
     /*
@@ -1272,7 +1270,6 @@ public final class UxJooq {
      * deleteByIdAsync(ID...)
      * deleteByIdAsync(Collection<ID> ids)
      */
-    @SafeVarargs
     public final Boolean deleteById(final Object... ids) {
         return this.writer.deleteById(ids);
     }
@@ -1281,7 +1278,6 @@ public final class UxJooq {
         return this.writer.deleteById(ids);
     }
 
-    @SafeVarargs
     public final Future<Boolean> deleteByIdAsync(final Object... ids) {
         return this.writer.deleteByIdAsync(ids);
     }
@@ -1382,53 +1378,125 @@ public final class UxJooq {
     }
 
     // -------------------- Count Operation ------------
-    /* (Async / Sync) Count Operation */
-    public Future<Long> countAsync(final JsonObject params, final String pojo) {
-        final Inquiry inquiry = JqTool.getInquiry(params, pojo);
-        return this.aggregator.countAsync(inquiry);
+    /*
+     * countAll()
+     * countAllAsync()
+     */
+    public Long countAll() {
+        return this.aggregator.countAll();
     }
 
-    public Future<Long> countAsync(final JsonObject params) {
-        return this.countAsync(params, this.analyzer.pojoFile());
+    public Future<Long> countAllAsync() {
+        return this.aggregator.countAllAsync();
     }
 
-    public Long count(final JsonObject params, final String pojo) {
-        final Inquiry inquiry = JqTool.getInquiry(params, pojo);
-        return this.aggregator.count(inquiry);
+    /*
+     * count(JsonObject)
+     * count(JsonObject, pojo)
+     * countAsync(JsonObject)
+     * countAsync(JsonObject, pojo)
+     */
+
+    public Long count(final JsonObject criteria) {
+        return this.aggregator.count(this.workflow.inputQrJ(criteria));
     }
 
-    public Long count(final JsonObject params) {
-        return this.count(params, this.analyzer.pojoFile());
+    public Long count(final JsonObject criteria, final String pojo) {
+        return this.aggregator.count(JqFlow.create(this.analyzer, pojo).inputQrJ(criteria));
     }
 
-    /* (Async / Sync) Count By Operation */
-    public Future<ConcurrentMap<String, Integer>> countByAsync(final String groupField) {
-        return this.aggregator.countByAsync(new JsonObject(), groupField);
+    public Future<Long> countAsync(final JsonObject criteria) {
+        return this.workflow.inputQrJAsync(criteria).compose(this.aggregator::countAsync);
     }
+
+    public Future<Long> countAsync(final JsonObject criteria, final String pojo) {
+        return JqFlow.create(this.analyzer, pojo).inputQrJAsync(criteria).compose(this.aggregator::countAsync);
+    }
+
+
+    /*
+     * countBy(String)
+     * countBy(JsonObject, String)
+     * countBy(String...)
+     * countBy(JsonObject, String...)
+     * countByAsync(String)
+     * countByAsync(JsonObject, String)
+     * countByAsync(String...)
+     * countByAsync(JsonObject, String...)
+     */
 
     public ConcurrentMap<String, Integer> countBy(final String groupField) {
-        return this.aggregator.countBy(new JsonObject(), groupField);
+        return this.aggregator.countBy(null, groupField);
     }
 
-    public Future<ConcurrentMap<String, Integer>> countByAsync(final JsonObject params, final String groupField) {
-        return this.aggregator.countByAsync(params, groupField);
+    public ConcurrentMap<String, Integer> countBy(final JsonObject criteria, final String groupField) {
+        return this.aggregator.countBy(this.workflow.inputQrJ(criteria), groupField);
     }
 
-    public ConcurrentMap<String, Integer> countBy(final JsonObject params, final String groupField) {
-        return this.aggregator.countBy(params, groupField);
+    public JsonArray countBy(final String... groupFields) {
+        return this.aggregator.countBy(null, groupFields);
+    }
+
+    public JsonArray countBy(final JsonObject criteria, final String... groupFields) {
+        return this.aggregator.countBy(this.workflow.inputQrJ(criteria), groupFields);
+    }
+
+    public Future<ConcurrentMap<String, Integer>> countByAsync(final String groupField) {
+        return this.aggregator.countByAsync(null, groupField);
+    }
+
+    public Future<ConcurrentMap<String, Integer>> countByAsync(final JsonObject criteria, final String groupField) {
+        return this.workflow.inputQrJAsync(criteria).compose(processed -> this.aggregator.countByAsync(processed, groupField));
+    }
+
+    public Future<JsonArray> countByAsync(final String... groupFields) {
+        return this.aggregator.countByAsync(null, groupFields);
+    }
+
+    public Future<JsonArray> countByAsync(final JsonObject criteria, final String... groupFields) {
+        return this.workflow.inputQrJAsync(criteria).compose(processed -> this.aggregator.countByAsync(processed, groupFields));
     }
 
     // -------------------- Group Operation ------------
+    /*
+     * group(String)
+     *      <-- groupJ(String)
+     * group(JsonObject, String)
+     *      <-- groupJ(JsonObject, String)
+     * groupAsync(String)
+     *      <-- groupJAsync(JsonObject, String)
+     * groupAsync(JsonObject, String)
+     *      <-- groupJAsync(JsonObject, String)
+     */
     public <T> ConcurrentMap<String, List<T>> group(final String field) {
-        return this.aggregator.group(new JsonObject(), field);
+        return this.aggregator.group(field);
     }
 
-    public Future<JsonArray> groupAsync(final JsonObject params, final String... groupFields) {
-        return this.groupAsync(this.analyzer.pojoFile(), params, groupFields);
+    public <T> ConcurrentMap<String, List<T>> group(final JsonObject criteria, final String field) {
+        return this.aggregator.group(this.workflow.inputQrJ(criteria), field);
     }
 
-    public Future<JsonArray> groupAsync(final String pojo, final JsonObject params, final String... groupFields) {
-        final Inquiry inquiry = JqTool.getInquiry(params, pojo);
-        return this.aggregator.groupByAsync(inquiry.toJson(), groupFields);
+    public <T> Future<ConcurrentMap<String, List<T>>> groupAsync(final String field) {
+        return this.aggregator.groupAsync(field);
+    }
+
+    public <T> Future<ConcurrentMap<String, List<T>>> groupAsync(final JsonObject criteria, final String field) {
+        return this.workflow.inputQrJAsync(criteria).compose(processed -> this.aggregator.groupAsync(processed, field));
+    }
+
+    public <T> ConcurrentMap<String, JsonArray> groupJ(final String field) {
+        return this.workflow.output(this.group(field));
+    }
+
+    public <T> ConcurrentMap<String, JsonArray> groupJ(final JsonObject criteria, final String field) {
+        return this.workflow.output(this.group(criteria, field));
+    }
+
+    public <T> Future<ConcurrentMap<String, JsonArray>> groupJAsync(final String field) {
+        return this.groupAsync(field).compose(this.workflow::outputAsync);
+    }
+
+    public <T> Future<ConcurrentMap<String, JsonArray>> groupJAsync(final JsonObject criteria, final String field) {
+        return this.groupAsync(criteria, field).compose(this.workflow::outputAsync);
     }
 }
