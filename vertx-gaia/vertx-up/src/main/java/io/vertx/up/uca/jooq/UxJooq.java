@@ -22,7 +22,8 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentMap;
 import java.util.function.BiPredicate;
 
-public class UxJooq {
+@SuppressWarnings("all")
+public final class UxJooq {
 
     private static final Annal LOGGER = Annal.get(UxJooq.class);
 
@@ -202,7 +203,7 @@ public class UxJooq {
      *      <-- insertJ(JsonArray, pojo)
      */
     public <T> List<T> insert(final List<T> entities) {
-        return null;
+        return this.writer.insert(entities);
     }
 
     public <T> List<T> insert(final JsonArray data) {
@@ -344,7 +345,7 @@ public class UxJooq {
         return this.fetchAsync(field, values.getList());
     }
 
-    public <T> Future<List<T>> fetchInAsync(final String field, final Collection collection) {
+    public <T> Future<List<T>> fetchInAsync(final String field, final Collection<Object> collection) {
         return this.fetchAsync(field, collection);
     }
 
@@ -360,7 +361,7 @@ public class UxJooq {
         return this.fetchAsync(field, values.getList()).compose(this.workflow::outputAsync);
     }
 
-    public Future<JsonArray> fetchJInAsync(final String field, final Collection collection) {
+    public Future<JsonArray> fetchJInAsync(final String field, final Collection<Object> collection) {
         return this.fetchAsync(field, collection).compose(this.workflow::outputAsync);
     }
 
@@ -377,7 +378,7 @@ public class UxJooq {
         return this.fetch(field, values.getList());
     }
 
-    public <T> List<T> fetchIn(final String field, final Collection collection) {
+    public <T> List<T> fetchIn(final String field, final Collection<Object> collection) {
         return this.fetch(field, collection);
     }
 
@@ -393,7 +394,7 @@ public class UxJooq {
         return this.workflow.output(this.fetch(field, values.getList()));
     }
 
-    public JsonArray fetchJIn(final String field, final Collection collection) {
+    public JsonArray fetchJIn(final String field, final Collection<Object> collection) {
         return this.workflow.output(this.fetch(field, collection));
     }
 
@@ -761,27 +762,27 @@ public class UxJooq {
      *      <-- updateJAsync(id, JsonObject)
      *      <-- updateJAsync(id, JsonObject, pojo)
      */
-    public <T> Future<T> updateAsync(final Object id, final T updated) {
+    public <T, ID> Future<T> updateAsync(final ID id, final T updated) {
         return this.writer.updateAsync(id, updated);
     }
 
-    public <T> Future<T> updateAsync(final Object id, final JsonObject data) {
+    public <T, ID> Future<T> updateAsync(final ID id, final JsonObject data) {
         return this.workflow.<T>inputAsync(data).compose(entity -> this.updateAsync(id, entity));
     }
 
-    public <T> Future<T> updateAsync(final Object id, final JsonObject data, final String pojo) {
+    public <T, ID> Future<T> updateAsync(final ID id, final JsonObject data, final String pojo) {
         return JqFlow.create(this.analyzer, pojo).<T>inputAsync(data).compose(entity -> this.updateAsync(id, entity));
     }
 
-    public <T> Future<JsonObject> updateJAsync(final Object id, final T updated) {
+    public <T, ID> Future<JsonObject> updateJAsync(final ID id, final T updated) {
         return this.updateAsync(id, updated).compose(this.workflow::outputAsync);
     }
 
-    public <T> Future<JsonObject> updateJAsync(final Object id, final JsonObject data) {
+    public <T, ID> Future<JsonObject> updateJAsync(final ID id, final JsonObject data) {
         return this.workflow.<T>inputAsync(data).compose(entity -> this.updateAsync(id, entity)).compose(this.workflow::outputAsync);
     }
 
-    public <T> Future<JsonObject> updateJAsync(final Object id, final JsonObject data, final String pojo) {
+    public <T, ID> Future<JsonObject> updateJAsync(final ID id, final JsonObject data, final String pojo) {
         final JqFlow flow = JqFlow.create(this.analyzer, pojo);
         return flow.<T>inputAsync(data).compose(entity -> this.updateAsync(id, entity)).compose(flow::outputAsync);
     }
@@ -1131,88 +1132,253 @@ public class UxJooq {
     }
 
     // -------------------- DELETE --------------------
-    /* (Async / Sync) Delete By ( ID / IDs ) */
-    public <ID> Future<Boolean> deleteByIdAsync(final ID id) {
-        return this.writer.<ID>deleteByIdAsync(id);
-    }
-
-    public <ID> Future<Boolean> deleteByIdAsync(final ID... ids) {
-        return this.writer.<ID>deleteByIdAsync(Arrays.asList(ids));
-    }
-
-    public <ID> Boolean deleteById(final ID id) {
-        return this.writer.<ID>deleteById(id);
-    }
-
-    public <ID> Boolean deleteById(final ID... ids) {
-        return this.writer.<ID>deleteById(Arrays.asList(ids));
-    }
-
-
-    /* (Async / Sync) Delete Entity */
-    public <T> Future<T> deleteAsync(final T entity) {
-        return this.writer.<T>deleteAsync(entity);
-    }
-
-    public <T> Future<List<T>> deleteAsync(final List<T> entity) {
-        return this.writer.<T>deleteAsync(entity);
-    }
-
+    /*
+     * delete(T)
+     *      <-- delete(JsonObject)
+     *      <-- delete(JsonObject, pojo)
+     *      <-- deleteJ(T)
+     *      <-- deleteJ(JsonObject)
+     *      <-- deleteJ(JsonObject, pojo)
+     */
     public <T> T delete(final T entity) {
-        return this.writer.<T>delete(entity);
+        return this.writer.delete(entity);
     }
 
+    public <T> T delete(final JsonObject data) {
+        return this.delete((T) this.workflow.input(data));
+    }
+
+    public <T> T delete(final JsonObject data, final String pojo) {
+        return this.delete((T) JqFlow.create(this.analyzer, pojo).input(data));
+    }
+
+    public <T> JsonObject deleteJ(final T entity) {
+        return this.workflow.output(this.delete(entity));
+    }
+
+    public <T> JsonObject deleteJ(final JsonObject data) {
+        return this.workflow.output(this.delete((T) this.workflow.input(data)));
+    }
+
+    public <T> JsonObject deleteJ(final JsonObject data, final String pojo) {
+        final JqFlow flow = JqFlow.create(this.analyzer, pojo);
+        return flow.output(this.delete((T) flow.input(data)));
+    }
+
+    /*
+     * deleteAsync(T)
+     *      <-- deleteAsync(JsonObject)
+     *      <-- deleteAsync(JsonObject, pojo)
+     *      <-- deleteJAsync(T)
+     *      <-- deleteJAsync(JsonObject)
+     *      <-- deleteJAsync(JsonObject, pojo)
+     */
+    public <T, ID> Future<T> deleteAsync(final T entity) {
+        return this.writer.deleteAsync(entity);
+    }
+
+    public <T, ID> Future<T> deleteAsync(final JsonObject data) {
+        return this.workflow.<T>inputAsync(data).compose(this::deleteAsync);
+    }
+
+    public <T, ID> Future<T> deleteAsync(final JsonObject data, final String pojo) {
+        return JqFlow.create(this.analyzer, pojo).<T>inputAsync(data).compose(this::deleteAsync);
+    }
+
+    public <T, ID> Future<JsonObject> deleteJAsync(final T entity) {
+        return this.deleteAsync(entity).compose(this.workflow::outputAsync);
+    }
+
+    public <T, ID> Future<JsonObject> deleteJAsync(final JsonObject data) {
+        return this.workflow.<T>inputAsync(data).compose(this::deleteAsync).compose(this.workflow::outputAsync);
+    }
+
+    public <T, ID> Future<JsonObject> deleteJAsync(final JsonObject data, final String pojo) {
+        final JqFlow flow = JqFlow.create(this.analyzer, pojo);
+        return flow.<T>inputAsync(data).compose(this::deleteAsync).compose(flow::outputAsync);
+    }
+
+
+    /*
+     * delete(List<T>)
+     *      <-- delete(JsonArray)
+     *      <-- delete(JsonArray, pojo)
+     *      <-- deleteJ(List<T>)
+     *      <-- deleteJ(JsonArray)
+     *      <-- deleteJ(JsonArray, pojo)
+     */
     public <T> List<T> delete(final List<T> entity) {
-        return this.writer.<T>delete(entity);
+        return this.writer.delete(entity);
+    }
+
+    public <T> List<T> delete(final JsonArray data) {
+        return this.delete(this.workflow.input(data));
+    }
+
+    public <T> List<T> delete(final JsonArray data, final String pojo) {
+        return this.delete(JqFlow.create(this.analyzer, pojo).input(data));
+    }
+
+    public <T> JsonArray deleteJ(final List<T> entity) {
+        return this.workflow.output(this.delete(entity));
+    }
+
+    public <T> JsonArray deleteJ(final JsonArray data) {
+        return this.workflow.output(this.delete((List<T>) this.workflow.input(data)));
+    }
+
+    public <T> JsonArray deleteJ(final JsonArray data, final String pojo) {
+        final JqFlow flow = JqFlow.create(this.analyzer, pojo);
+        return flow.output(this.delete((List<T>) flow.input(data)));
+    }
+
+    /*
+     * deleteAsync(List<T>)
+     *      <-- deleteAsync(JsonArray)
+     *      <-- deleteAsync(JsonArray, pojo)
+     *      <-- deleteJAsync(List<T>)
+     *      <-- deleteJAsync(JsonArray)
+     *      <-- deleteJAsync(JsonArray, pojo)
+     */
+    public <T> Future<List<T>> deleteAsync(final List<T> entity) {
+        return this.writer.deleteAsync(entity);
+    }
+
+    public <T> Future<List<T>> deleteAsync(final JsonArray data) {
+        return this.workflow.<T>inputAsync(data).compose(this::deleteAsync);
+    }
+
+    public <T> Future<List<T>> deleteAsync(final JsonArray data, final String pojo) {
+        return JqFlow.create(this.analyzer, pojo).<T>inputAsync(data).compose(this::deleteAsync);
+    }
+
+    public <T> Future<JsonArray> deleteJAsync(final List<T> entity) {
+        return this.deleteAsync(entity).compose(this.workflow::outputAsync);
+    }
+
+    public <T> Future<JsonArray> deleteJAsync(final JsonArray data) {
+        return this.workflow.<T>inputAsync(data).compose(this::deleteAsync).compose(this.workflow::outputAsync);
+    }
+
+    public <T> Future<JsonArray> deleteJAsync(final JsonArray data, final String pojo) {
+        final JqFlow flow = JqFlow.create(this.analyzer, pojo);
+        return flow.<T>inputAsync(data).compose(this::deleteAsync).compose(flow::outputAsync);
     }
 
 
+    /*
+     * deleteById(ID...)
+     * deleteById(Collection<ID> ids)
+     * deleteByIdAsync(ID...)
+     * deleteByIdAsync(Collection<ID> ids)
+     */
+    @SafeVarargs
+    public final Boolean deleteById(final Object... ids) {
+        return this.writer.deleteById(ids);
+    }
+
+    public Boolean deleteById(final Collection<Object> ids) {
+        return this.writer.deleteById(ids);
+    }
+
+    @SafeVarargs
+    public final Future<Boolean> deleteByIdAsync(final Object... ids) {
+        return this.writer.deleteByIdAsync(ids);
+    }
+
+    public Future<Boolean> deleteByIdAsync(final Collection<Object> ids) {
+        return this.writer.deleteByIdAsync(ids);
+    }
+
+    /*
+     * deleteBy(JsonObject)
+     * deleteBy(JsonObject, pojo)
+     * deleteByAsync(JsonObject)
+     * deleteByAsync(JsonObject, pojo)
+     */
     /* (Async / Sync) Delete by Filters */
-    public <T, ID> Future<Boolean> deleteAsync(final JsonObject filters) {
-        return this.writer.<T, ID>deleteAsync(filters, this.analyzer.pojoFile());
+    public Future<Boolean> deleteByAsync(final JsonObject criteria) {
+        return this.workflow.inputQrJAsync(criteria).compose(this.writer::deleteByAsync);
     }
 
-    public <T, ID> Boolean delete(final JsonObject filters) {
+    public Future<Boolean> deleteByAsync(final JsonObject criteria, final String pojo) {
+        return JqFlow.create(this.analyzer, pojo).inputQrJAsync(criteria).compose(this.writer::deleteByAsync);
+    }
 
-        return this.writer.<T, ID>delete(filters, this.analyzer.pojoFile());
+    public Boolean deleteBy(final JsonObject criteria) {
+        return this.writer.deleteBy(this.workflow.inputQrJ(criteria));
+    }
+
+    public Boolean deleteBy(final JsonObject criteria, final String pojo) {
+        return this.writer.deleteBy(JqFlow.create(this.analyzer, pojo).inputQrJ(criteria));
     }
 
     // -------------------- Exist Operation --------------------
-    /* (Async / Sync) Exist By ID Operation */
-    public Future<Boolean> existByIdAsync(final Object id) {
-        return this.reader.existsByIdAsync(id);
-    }
+    /*
+     * existById(key)
+     *      <-- missById(key)
+     * existByIdAsync(key)
+     *      <-- missByIdAsync(key)
+     */
 
     public Boolean existById(final Object id) {
-        return this.reader.existsById(id);
+        return this.reader.existById(id);
     }
 
-    public Future<Boolean> missByIdAsync(final Object id) {
-        return this.reader.existsByIdAsync(id).compose(result -> Future.succeededFuture(!result));
+    public Future<Boolean> existByIdAsync(final Object id) {
+        return this.reader.existByIdAsync(id);
     }
 
     public Boolean missById(final Object id) {
-        return !this.reader.existsById(id);
+        return !this.existById(id);
     }
 
-    public <T> Future<Boolean> missAsync(final JsonObject filters) {
-        return this.<T>fetchAsync(filters)
-                .compose(item -> Future.succeededFuture(0 == item.size()));
+    public Future<Boolean> missByIdAsync(final Object id) {
+        return this.existByIdAsync(id)
+                .compose(result -> Future.succeededFuture(!result));
     }
 
-    public <T> Future<Boolean> existAsync(final JsonObject filters) {
-        return this.<T>fetchAsync(filters)
-                .compose(item -> Future.succeededFuture(0 < item.size()));
+    /*
+     * exist(JsonObject)
+     *      <-- miss(JsonObject)
+     * exist(JsonObject, pojo)
+     *      <-- miss(JsonObject, pojo)
+     * existAsync(JsonObject)
+     *      <-- missAsync(JsonObject)
+     * existAsync(JsonObject, pojo)
+     *      <-- missAsync(JsonObject, pojo)
+     */
+
+    public Boolean exist(final JsonObject criteria) {
+        return this.reader.exist(this.workflow.inputQrJ(criteria));
     }
 
-    public <T> Boolean exist(final JsonObject filters) {
-        final List<T> list = this.fetch(filters);
-        return 0 < list.size();
+    public Boolean exist(final JsonObject criteria, final String pojo) {
+        return this.reader.exist(JqFlow.create(this.analyzer, pojo).inputQrJ(criteria));
     }
 
-    public <T> Boolean miss(final JsonObject filters) {
-        final List<T> list = this.fetch(filters);
-        return 0 == list.size();
+    public Future<Boolean> existAsync(final JsonObject criteria) {
+        return this.workflow.inputQrJAsync(criteria).compose(this.reader::existAsync);
+    }
+
+    public Future<Boolean> existAsync(final JsonObject criteria, final String pojo) {
+        return JqFlow.create(this.analyzer, pojo).inputQrJAsync(criteria).compose(this.reader::existAsync);
+    }
+
+    public Boolean miss(final JsonObject criteria) {
+        return !this.exist(criteria);
+    }
+
+    public Boolean miss(final JsonObject criteria, final String pojo) {
+        return !this.exist(criteria, pojo);
+    }
+
+    public Future<Boolean> missAsync(final JsonObject criteria) {
+        return this.existAsync(criteria).compose(existing -> Future.succeededFuture(!existing));
+    }
+
+    public Future<Boolean> missAsync(final JsonObject criteria, final String pojo) {
+        return this.existAsync(criteria, pojo).compose(existing -> Future.succeededFuture(!existing));
     }
 
     // -------------------- Count Operation ------------

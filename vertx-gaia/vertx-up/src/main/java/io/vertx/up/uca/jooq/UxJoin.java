@@ -15,7 +15,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
 @SuppressWarnings("all")
-public class UxJoin {
+public final class UxJoin {
 
     private transient final JsonObject configuration = new JsonObject();
     private transient final JqJoinder joinder = new JqJoinder();

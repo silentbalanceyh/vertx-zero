@@ -1,14 +1,10 @@
 package io.vertx.up.uca.jooq;
 
-import io.github.jklingsporn.vertx.jooq.future.VertxDAO;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.uca.jooq.util.JqTool;
 
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
 import java.util.function.BiPredicate;
 
 /**
@@ -20,25 +16,19 @@ import java.util.function.BiPredicate;
 @SuppressWarnings("all")
 class JqWriter {
 
-    private transient final VertxDAO vertxDAO;
-    private transient JqReader reader;
-    private transient JqAnalyzer analyzer;
-
     private transient ActionInsert insert;
     private transient ActionUpdate update;
     private transient ActionUpsert upsert;
+    private transient ActionDelete delete;
 
     private JqWriter(final JqAnalyzer analyzer) {
-        this.analyzer = analyzer;
-        this.vertxDAO = analyzer.vertxDAO();
-        this.reader = JqReader.create(analyzer);
-
         /*
          * New Structure for more details
          */
         this.insert = new ActionInsert(analyzer);
         this.update = new ActionUpdate(analyzer);
         this.upsert = new ActionUpsert(analyzer);
+        this.delete = new ActionDelete(analyzer);
     }
 
     static JqWriter create(final JqAnalyzer analyzer) {
@@ -77,11 +67,11 @@ class JqWriter {
         return this.update.update(entity);
     }
 
-    <T> T update(final Object id, final T updated) {
+    <T, ID> T update(final ID id, final T updated) {
         return this.update.update(id, updated);
     }
 
-    <T> Future<T> updateAsync(final Object id, final T updated) {
+    <T, ID> Future<T> updateAsync(final ID id, final T updated) {
         return this.update.updateAsync(id, updated);
     }
 
@@ -102,59 +92,44 @@ class JqWriter {
     }
     // ============ DELETE Operation =============
 
-    /* Async delete operation: DELETE */
     <T> Future<T> deleteAsync(final T entity) {
-        final CompletableFuture<Void> future = this.vertxDAO.deleteAsync(Arrays.asList(entity));
-        return JqTool.future(future).compose(nil -> Future.succeededFuture(entity));
+        return this.delete.deleteAsync(entity);
     }
 
     <T> Future<List<T>> deleteAsync(final List<T> entity) {
-        final CompletableFuture<Void> future = this.vertxDAO.deleteAsync(entity);
-        return JqTool.future(future).compose(nil -> Future.succeededFuture(entity));
+        return this.delete.deleteAsync(entity);
     }
 
-    <ID> Future<Boolean> deleteByIdAsync(final ID id) {
-        final CompletableFuture<Void> future = this.vertxDAO.deleteByIdAsync(id);
-        return JqTool.future(future).compose(nil -> Future.succeededFuture(Boolean.TRUE));
-    }
-
-    <ID> Future<Boolean> deleteByIdAsync(final Collection<ID> ids) {
-        final CompletableFuture<Void> future = this.vertxDAO.deleteByIdAsync(ids);
-        return JqTool.future(future).compose(nil -> Future.succeededFuture(Boolean.TRUE));
-    }
-
-    <T, ID> Future<Boolean> deleteAsync(final JsonObject filters, final String pojo) {
-        /*final Condition condition = JooqCond.transform(filters, null, this.analyzer::column);
-        final CompletableFuture<Integer> deleted = this.vertxDAO.deleteExecAsync(condition);
-        return JqTool.future(deleted).compose(nil -> Future.succeededFuture(Boolean.TRUE));*/
-        return null;
-    }
-
-    /* Sync delete operation: DELETE */
     <T> T delete(final T entity) {
-        this.vertxDAO.delete(entity);
-        return entity;
+        return this.delete.delete(entity);
     }
 
     <T> List<T> delete(final List<T> entity) {
-        this.vertxDAO.delete(entity);
-        return entity;
+        return this.delete.delete(entity);
     }
 
-    <ID> Boolean deleteById(final ID id) {
-        this.vertxDAO.deleteById(id);
-        return Boolean.TRUE;
+    <ID> Future<Boolean> deleteByIdAsync(final ID... ids) {
+        return this.delete.deleteByIdAsync(ids);
+    }
+
+    <ID> Future<Boolean> deleteByIdAsync(final Collection<ID> ids) {
+        return this.delete.deleteByIdAsync(ids);
+    }
+
+    <ID> Boolean deleteById(final ID... ids) {
+        return this.delete.deleteById(ids);
     }
 
     <ID> Boolean deleteById(final Collection<ID> ids) {
-        this.vertxDAO.deleteById(ids);
-        return Boolean.TRUE;
+        return this.delete.deleteById(ids);
     }
 
-    <T, ID> Boolean delete(final JsonObject filters, final String pojo) {
-        final List<T> result = this.reader.search(filters);
-        result.stream().map(item -> this.delete(item));
-        return Boolean.TRUE;
+    <T, ID> Boolean deleteBy(final JsonObject criteria) {
+        return this.delete.deleteBy(criteria);
+    }
+
+    <T, ID> Future<Boolean> deleteByAsync(final JsonObject criteria) {
+        return this.delete.deleteByAsync(criteria);
     }
 
     // ============ UPSERT Operation (Save) =============
@@ -163,7 +138,7 @@ class JqWriter {
         return this.upsert.upsertAsync(criteria, updated);
     }
 
-    public <T> Future<T> upsertAsync(final Object id, final T updated) {
+    public <T, ID> Future<T> upsertAsync(final ID id, final T updated) {
         return this.upsert.upsertAsync(id, updated);
     }
 
@@ -171,7 +146,7 @@ class JqWriter {
         return this.upsert.upsert(criteria, updated);
     }
 
-    public <T> T upsert(final Object id, final T updated) {
+    public <T, ID> T upsert(final ID id, final T updated) {
         return this.upsert.upsert(id, updated);
     }
 

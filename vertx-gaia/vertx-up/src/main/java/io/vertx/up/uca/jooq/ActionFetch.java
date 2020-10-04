@@ -53,12 +53,12 @@ class ActionFetch extends AbstractAction {
     }
 
     /* Future<T> */
-    <T> Future<T> fetchByIdAsync(final Object id) {
+    <T, ID> Future<T> fetchByIdAsync(final ID id) {
         return this.successed(this.vertxDAO.findByIdAsync(id));
     }
 
     /* T */
-    <T> T fetchById(final Object id) {
+    <T, ID> T fetchById(final ID id) {
         return (T) this.vertxDAO.findById(id);
     }
 

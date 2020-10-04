@@ -36,7 +36,7 @@ class ActionUpsert extends AbstractAction {
     }
 
     /* Future<T> */
-    <T> Future<T> upsertAsync(final Object id, final T updated) {
+    <T, ID> Future<T> upsertAsync(final ID id, final T updated) {
         return this.execAsync(this.fetch.fetchByIdAsync(id), updated);
     }
 
@@ -45,7 +45,7 @@ class ActionUpsert extends AbstractAction {
     }
 
     /* T */
-    <T> T upsert(final Object id, final T updated) {
+    <T, ID> T upsert(final ID id, final T updated) {
         return this.exec(this.fetch.fetchById(id), updated);
     }
 

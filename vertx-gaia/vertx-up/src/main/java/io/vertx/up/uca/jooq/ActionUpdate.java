@@ -44,7 +44,7 @@ class ActionUpdate extends AbstractAction {
     }
 
     /* Future<T> */
-    <T> Future<T> updateAsync(final Object id, final T updated) {
+    <T, ID> Future<T> updateAsync(final ID id, final T updated) {
         return this.fetch.fetchByIdAsync(id).compose(previous -> {
             final T combine = this.analyzer.copyEntity((T) previous, updated);
             return this.updateAsync(combine);
@@ -52,7 +52,7 @@ class ActionUpdate extends AbstractAction {
     }
 
     /* T */
-    <T> T update(final Object id, final T updated) {
+    <T, ID> T update(final ID id, final T updated) {
         final T previous = this.fetch.fetchById(id);
         final T combine = this.analyzer.copyEntity((T) previous, updated);
         return this.update(combine);
