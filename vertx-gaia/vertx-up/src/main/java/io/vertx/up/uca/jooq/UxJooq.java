@@ -1577,4 +1577,239 @@ public final class UxJooq {
     public Future<JsonArray> sumByAsync(final String field, final String... groupFields) {
         return Future.succeededFuture(this.sumBy(field, new JsonObject(), groupFields));
     }
+
+    // -------------------- Max Operation ------------
+    /*
+     * max(String)
+     * max(String, JsonObject)
+     * max(String, JsonObject, pojo)
+     * maxAsync(String)
+     * maxAsync(String, JsonObject)
+     * maxAsync(String, JsonObject, pojo)
+     */
+    public BigDecimal max(final String field) {
+        return this.aggregator.max(field, null);
+    }
+
+    public Future<BigDecimal> maxAsync(final String field) {
+        return Future.succeededFuture(this.aggregator.max(field, null));
+    }
+
+    public BigDecimal max(final String field, final JsonObject criteria) {
+        return this.aggregator.max(field, this.workflow.inputQrJ(criteria));
+    }
+
+    public Future<BigDecimal> maxAsync(final String field, final JsonObject criteria) {
+        return this.workflow.inputQrJAsync(criteria)
+                .compose(processed -> Future.succeededFuture(this.aggregator.max(field, processed)));
+    }
+
+    public BigDecimal max(final String field, final JsonObject criteria, final String pojo) {
+        return this.aggregator.max(field, JqFlow.create(this.analyzer, pojo).inputQrJ(criteria));
+    }
+
+    public Future<BigDecimal> maxAsync(final String field, final JsonObject criteria, final String pojo) {
+        return JqFlow.create(this.analyzer, pojo).inputQrJAsync(criteria)
+                .compose(processed -> Future.succeededFuture(this.aggregator.max(field, processed)));
+    }
+
+    /*
+     * maxBy(String, JsonObject, String)
+     *      <-- maxBy(String, String)
+     *      <-- maxByAsync(String, String)
+     *      <-- maxByAsync(String, JsonObject, String)
+     * maxBy(String, JsonObject, String...)
+     *      <-- maxBy(String, String...)
+     *      <-- maxByAsync(String, String...)
+     *      <-- maxByAsync(String, JsonObject, String...)
+     */
+
+    public ConcurrentMap<String, BigDecimal> maxBy(final String field, final JsonObject criteria, final String groupField) {
+        return this.aggregator.max(field, this.workflow.inputQrJ(criteria), groupField);
+    }
+
+    public ConcurrentMap<String, BigDecimal> maxBy(final String field, final String groupField) {
+        return this.maxBy(field, new JsonObject(), groupField);
+    }
+
+    public Future<ConcurrentMap<String, BigDecimal>> maxByAsync(final String field, final String groupField) {
+        return Future.succeededFuture(this.maxBy(field, new JsonObject(), groupField));
+    }
+
+    public Future<ConcurrentMap<String, BigDecimal>> maxByAsync(final String field, final JsonObject criteria, final String groupField) {
+        return Future.succeededFuture(this.maxBy(field, criteria, groupField));
+    }
+
+    public JsonArray maxBy(final String field, final JsonObject criteria, final String... groupFields) {
+        return this.aggregator.max(field, this.workflow.inputQrJ(criteria), groupFields);
+    }
+
+    public JsonArray maxBy(final String field, final String... groupFields) {
+        return this.maxBy(field, new JsonObject(), groupFields);
+    }
+
+    public Future<JsonArray> maxByAsync(final String field, final JsonObject criteria, final String... groupFields) {
+        return Future.succeededFuture(this.maxBy(field, criteria, groupFields));
+    }
+
+    public Future<JsonArray> maxByAsync(final String field, final String... groupFields) {
+        return Future.succeededFuture(this.maxBy(field, new JsonObject(), groupFields));
+    }
+
+    // -------------------- Min Operation ------------
+    /*
+     * min(String)
+     * min(String, JsonObject)
+     * min(String, JsonObject, pojo)
+     * minAsync(String)
+     * minAsync(String, JsonObject)
+     * minAsync(String, JsonObject, pojo)
+     */
+    public BigDecimal min(final String field) {
+        return this.aggregator.min(field, null);
+    }
+
+    public Future<BigDecimal> minAsync(final String field) {
+        return Future.succeededFuture(this.aggregator.min(field, null));
+    }
+
+    public BigDecimal min(final String field, final JsonObject criteria) {
+        return this.aggregator.min(field, this.workflow.inputQrJ(criteria));
+    }
+
+    public Future<BigDecimal> minAsync(final String field, final JsonObject criteria) {
+        return this.workflow.inputQrJAsync(criteria)
+                .compose(processed -> Future.succeededFuture(this.aggregator.min(field, processed)));
+    }
+
+    public BigDecimal min(final String field, final JsonObject criteria, final String pojo) {
+        return this.aggregator.min(field, JqFlow.create(this.analyzer, pojo).inputQrJ(criteria));
+    }
+
+    public Future<BigDecimal> minAsync(final String field, final JsonObject criteria, final String pojo) {
+        return JqFlow.create(this.analyzer, pojo).inputQrJAsync(criteria)
+                .compose(processed -> Future.succeededFuture(this.aggregator.min(field, processed)));
+    }
+
+    /*
+     * minBy(String, JsonObject, String)
+     *      <-- minBy(String, String)
+     *      <-- minByAsync(String, String)
+     *      <-- minByAsync(String, JsonObject, String)
+     * minBy(String, JsonObject, String...)
+     *      <-- minBy(String, String...)
+     *      <-- minByAsync(String, String...)
+     *      <-- minByAsync(String, JsonObject, String...)
+     */
+
+    public ConcurrentMap<String, BigDecimal> minBy(final String field, final JsonObject criteria, final String groupField) {
+        return this.aggregator.min(field, this.workflow.inputQrJ(criteria), groupField);
+    }
+
+    public ConcurrentMap<String, BigDecimal> minBy(final String field, final String groupField) {
+        return this.minBy(field, new JsonObject(), groupField);
+    }
+
+    public Future<ConcurrentMap<String, BigDecimal>> minByAsync(final String field, final String groupField) {
+        return Future.succeededFuture(this.minBy(field, new JsonObject(), groupField));
+    }
+
+    public Future<ConcurrentMap<String, BigDecimal>> minByAsync(final String field, final JsonObject criteria, final String groupField) {
+        return Future.succeededFuture(this.minBy(field, criteria, groupField));
+    }
+
+    public JsonArray minBy(final String field, final JsonObject criteria, final String... groupFields) {
+        return this.aggregator.min(field, this.workflow.inputQrJ(criteria), groupFields);
+    }
+
+    public JsonArray minBy(final String field, final String... groupFields) {
+        return this.minBy(field, new JsonObject(), groupFields);
+    }
+
+    public Future<JsonArray> minByAsync(final String field, final JsonObject criteria, final String... groupFields) {
+        return Future.succeededFuture(this.minBy(field, criteria, groupFields));
+    }
+
+    public Future<JsonArray> minByAsync(final String field, final String... groupFields) {
+        return Future.succeededFuture(this.minBy(field, new JsonObject(), groupFields));
+    }
+
+
+    // -------------------- Avg Operation ------------
+    /*
+     * avg(String)
+     * avg(String, JsonObject)
+     * avg(String, JsonObject, pojo)
+     * avgAsync(String)
+     * avgAsync(String, JsonObject)
+     * avgAsync(String, JsonObject, pojo)
+     */
+    public BigDecimal avg(final String field) {
+        return this.aggregator.avg(field, null);
+    }
+
+    public Future<BigDecimal> avgAsync(final String field) {
+        return Future.succeededFuture(this.aggregator.avg(field, null));
+    }
+
+    public BigDecimal avg(final String field, final JsonObject criteria) {
+        return this.aggregator.avg(field, this.workflow.inputQrJ(criteria));
+    }
+
+    public Future<BigDecimal> avgAsync(final String field, final JsonObject criteria) {
+        return this.workflow.inputQrJAsync(criteria)
+                .compose(processed -> Future.succeededFuture(this.aggregator.avg(field, processed)));
+    }
+
+    public BigDecimal avg(final String field, final JsonObject criteria, final String pojo) {
+        return this.aggregator.avg(field, JqFlow.create(this.analyzer, pojo).inputQrJ(criteria));
+    }
+
+    public Future<BigDecimal> avgAsync(final String field, final JsonObject criteria, final String pojo) {
+        return JqFlow.create(this.analyzer, pojo).inputQrJAsync(criteria)
+                .compose(processed -> Future.succeededFuture(this.aggregator.avg(field, processed)));
+    }
+
+    /*
+     * avgBy(String, JsonObject, String)
+     *      <-- avgBy(String, String)
+     *      <-- avgByAsync(String, String)
+     *      <-- avgByAsync(String, JsonObject, String)
+     * avgBy(String, JsonObject, String...)
+     *      <-- avgBy(String, String...)
+     *      <-- avgByAsync(String, String...)
+     *      <-- avgByAsync(String, JsonObject, String...)
+     */
+
+    public ConcurrentMap<String, BigDecimal> avgBy(final String field, final JsonObject criteria, final String groupField) {
+        return this.aggregator.avg(field, this.workflow.inputQrJ(criteria), groupField);
+    }
+
+    public ConcurrentMap<String, BigDecimal> avgBy(final String field, final String groupField) {
+        return this.avgBy(field, new JsonObject(), groupField);
+    }
+
+    public Future<ConcurrentMap<String, BigDecimal>> avgByAsync(final String field, final String groupField) {
+        return Future.succeededFuture(this.avgBy(field, new JsonObject(), groupField));
+    }
+
+    public Future<ConcurrentMap<String, BigDecimal>> avgByAsync(final String field, final JsonObject criteria, final String groupField) {
+        return Future.succeededFuture(this.avgBy(field, criteria, groupField));
+    }
+
+    public JsonArray avgBy(final String field, final JsonObject criteria, final String... groupFields) {
+        return this.aggregator.avg(field, this.workflow.inputQrJ(criteria), groupFields);
+    }
+
+    public JsonArray avgBy(final String field, final String... groupFields) {
+        return this.avgBy(field, new JsonObject(), groupFields);
+    }
+
+    public Future<JsonArray> avgByAsync(final String field, final JsonObject criteria, final String... groupFields) {
+        return Future.succeededFuture(this.avgBy(field, criteria, groupFields));
+    }
+
+    public Future<JsonArray> avgByAsync(final String field, final String... groupFields) {
+        return Future.succeededFuture(this.avgBy(field, new JsonObject(), groupFields));
+    }
 }

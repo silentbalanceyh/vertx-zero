@@ -15,14 +15,24 @@ import java.util.concurrent.ConcurrentMap;
 @SuppressWarnings("all")
 class JqAggregator {
 
-    private transient final ActionCount counter;
-    private transient final ActionSum sum;
+    private transient final AggregatorCount counter;
+    private transient final AggregatorSum sum;
+    private transient final AggregatorMax max;
+    private transient final AggregatorMin min;
+    private transient final AggregatorAvg avg;
+
     private transient final ActionGroup group;
 
     private JqAggregator(final JqAnalyzer analyzer) {
-        this.counter = new ActionCount(analyzer);
         this.group = new ActionGroup(analyzer);
-        this.sum = new ActionSum(analyzer);
+        /*
+         * Aggr
+         */
+        this.counter = new AggregatorCount(analyzer);
+        this.sum = new AggregatorSum(analyzer);
+        this.min = new AggregatorMin(analyzer);
+        this.max = new AggregatorMax(analyzer);
+        this.avg = new AggregatorAvg(analyzer);
     }
 
     public static JqAggregator create(final JqAnalyzer analyzer) {
@@ -118,5 +128,43 @@ class JqAggregator {
     JsonArray sum(final String field, final JsonObject criteria, final String... groupFields) {
         return this.sum.sum(field, criteria, groupFields);
     }
+
     // ---------------------- Max Operation -------------
+    BigDecimal max(final String field, final JsonObject criteria) {
+        return this.max.max(field, criteria);
+    }
+
+    ConcurrentMap<String, BigDecimal> max(final String field, final JsonObject criteria, final String groupField) {
+        return this.max.max(field, criteria, groupField);
+    }
+
+    JsonArray max(final String field, final JsonObject criteria, final String... groupFields) {
+        return this.max.max(field, criteria, groupFields);
+    }
+
+    // ---------------------- Min Operation -------------
+    BigDecimal min(final String field, final JsonObject criteria) {
+        return this.min.min(field, criteria);
+    }
+
+    ConcurrentMap<String, BigDecimal> min(final String field, final JsonObject criteria, final String groupField) {
+        return this.min.min(field, criteria, groupField);
+    }
+
+    JsonArray min(final String field, final JsonObject criteria, final String... groupFields) {
+        return this.min.min(field, criteria, groupFields);
+    }
+
+    // ---------------------- Avg Operation -------------
+    BigDecimal avg(final String field, final JsonObject criteria) {
+        return this.avg.avg(field, criteria);
+    }
+
+    ConcurrentMap<String, BigDecimal> avg(final String field, final JsonObject criteria, final String groupField) {
+        return this.avg.avg(field, criteria, groupField);
+    }
+
+    JsonArray avg(final String field, final JsonObject criteria, final String... groupFields) {
+        return this.avg.avg(field, criteria, groupFields);
+    }
 }

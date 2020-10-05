@@ -9,11 +9,11 @@ import java.util.concurrent.ConcurrentMap;
 /**
  * @author <a href="http://www.origin-x.cn">lang</a>
  */
-class ActionSum extends AbstractAggregator {
+class AggregatorSum extends AbstractAggregator {
 
     private static final String FIELD_SUM = "SUM";
 
-    ActionSum(final JqAnalyzer analyzer) {
+    AggregatorSum(final JqAnalyzer analyzer) {
         super(analyzer);
     }
 

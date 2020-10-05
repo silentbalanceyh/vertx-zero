@@ -15,13 +15,13 @@ class ActionSearch extends AbstractAction {
     private static final String FIELD_LIST = "list";
     private static final String FIELD_COUNT = "count";
     private transient final ActionQr qr;
-    private transient final ActionCount counter;
+    private transient final AggregatorCount counter;
 
     ActionSearch(final JqAnalyzer analyzer) {
         super(analyzer);
         // Qr
         this.qr = new ActionQr(analyzer);
-        this.counter = new ActionCount(analyzer);
+        this.counter = new AggregatorCount(analyzer);
     }
 
     <T> Future<JsonObject> searchAsync(final JsonObject query, final JqFlow workflow) {

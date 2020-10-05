@@ -18,11 +18,11 @@ import java.util.function.Function;
  * -- SELECT COUNT(*) FROM <TABLE_NAME>
  */
 @SuppressWarnings("all")
-class ActionCount extends AbstractAggregator {
+class AggregatorCount extends AbstractAggregator {
 
     private static final String FIELD_COUNT = "COUNT";
 
-    ActionCount(final JqAnalyzer analyzer) {
+    AggregatorCount(final JqAnalyzer analyzer) {
         super(analyzer);
     }
 
