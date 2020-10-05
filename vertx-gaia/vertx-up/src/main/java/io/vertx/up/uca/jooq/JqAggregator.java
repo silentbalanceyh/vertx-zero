@@ -5,6 +5,7 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.atom.query.Inquiry;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.concurrent.ConcurrentMap;
 
@@ -15,11 +16,13 @@ import java.util.concurrent.ConcurrentMap;
 class JqAggregator {
 
     private transient final ActionCount counter;
+    private transient final ActionSum sum;
     private transient final ActionGroup group;
 
     private JqAggregator(final JqAnalyzer analyzer) {
         this.counter = new ActionCount(analyzer);
         this.group = new ActionGroup(analyzer);
+        this.sum = new ActionSum(analyzer);
     }
 
     public static JqAggregator create(final JqAnalyzer analyzer) {
@@ -71,9 +74,6 @@ class JqAggregator {
      *
      * The limitation is that the grouped field should be only one
      */
-    <T> Future<ConcurrentMap<String, Integer>> countByAsync(final JsonObject criteria, final String field) {
-        return Future.succeededFuture(countBy(criteria, field));
-    }
 
     <T> ConcurrentMap<String, Integer> countBy(final JsonObject criteria, final String field) {
         return this.counter.countBy(criteria, field);
@@ -97,24 +97,26 @@ class JqAggregator {
         return this.counter.countBy(criteria, fields);
     }
 
-    Future<JsonArray> countByAsync(final JsonObject criteria, final String... fields) {
-        return Future.succeededFuture(countBy(criteria, fields));
-    }
-
     // -------------------- Group Operation ------------
     <T> ConcurrentMap<String, List<T>> group(final String field) {
         return this.group.group(field);
-    }
-
-    <T> Future<ConcurrentMap<String, List<T>>> groupAsync(final String field) {
-        return Future.succeededFuture(this.group(field));
     }
 
     <T> ConcurrentMap<String, List<T>> group(final JsonObject criteria, final String field) {
         return this.group.group(criteria, field);
     }
 
-    <T> Future<ConcurrentMap<String, List<T>>> groupAsync(final JsonObject criteria, final String field) {
-        return Future.succeededFuture(this.group(criteria, field));
+    // -------------------- Sum Operation ------------
+    BigDecimal sum(final String field, final JsonObject criteria) {
+        return this.sum.sum(field, criteria);
     }
+
+    ConcurrentMap<String, BigDecimal> sum(final String field, final JsonObject criteria, final String groupField) {
+        return this.sum.sum(field, criteria, groupField);
+    }
+
+    JsonArray sum(final String field, final JsonObject criteria, final String... groupFields) {
+        return this.sum.sum(field, criteria, groupFields);
+    }
+    // ---------------------- Max Operation -------------
 }

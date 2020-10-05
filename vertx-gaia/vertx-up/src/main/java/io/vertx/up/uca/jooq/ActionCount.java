@@ -8,8 +8,6 @@ import org.jooq.DSLContext;
 import org.jooq.Field;
 import org.jooq.impl.DSL;
 
-import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.ConcurrentMap;
 import java.util.function.Function;
@@ -52,34 +50,20 @@ class ActionCount extends AbstractAggregator {
         return this.successed(this.vertxDAO.executeAsync(executor));
     }
 
-    ConcurrentMap<String, Integer> countBy(final JsonObject criteria, final String field) {
-        /*
-         * COUNT field
-         */
+    /*
+     * Single group
+     */
+    ConcurrentMap<String, Integer> countBy(final JsonObject criteria, final String groupField) {
         final Field countField = DSL.field("*").count().as(FIELD_COUNT);
-        /*
-         * COUNT by field
-         */
-        final List<Map<String, Object>> groupResult = this.fetchAggregation(criteria, new Field[]{countField}, field);
-        /*
-         * Process result
-         */
-        return toMap(FIELD_COUNT, groupResult, field);
+        return this.aggregateBy(countField, criteria, groupField);
     }
 
-    JsonArray countBy(final JsonObject criteria, final String... fields) {
-        /*
-         * COUNT fields
-         */
+    /*
+     * Multi group
+     */
+    JsonArray countBy(final JsonObject criteria, final String... groupFields) {
         final Field countField = DSL.field("*").count().as(FIELD_COUNT);
-        /*
-         * COUNT by fields
-         */
-        final List<Map<String, Object>> groupResult = this.fetchAggregation(criteria, new Field[]{countField}, fields);
-        /*
-         * Process result
-         */
-        return toArray(FIELD_COUNT, groupResult, fields);
+        return this.aggregateBy(countField, criteria, groupFields);
     }
 
     /*

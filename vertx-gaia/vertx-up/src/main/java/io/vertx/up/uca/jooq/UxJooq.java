@@ -14,6 +14,7 @@ import io.vertx.up.uca.jooq.util.JqFlow;
 import io.vertx.up.uca.jooq.util.JqTool;
 import io.vertx.up.util.Ut;
 
+import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
@@ -1377,6 +1378,49 @@ public final class UxJooq {
         return this.existAsync(criteria, pojo).compose(existing -> Future.succeededFuture(!existing));
     }
 
+    // -------------------- Group Operation ------------
+    /*
+     * group(String)
+     *      <-- groupJ(String)
+     *      <-- groupAsync(String)
+     *      <-- groupJAsync(String)
+     * group(JsonObject, String)
+     *      <-- groupAsync(JsonObject, String)
+     *      <-- groupJ(JsonObject, String)
+     *      <-- groupJAsync(JsonObject, String)
+     */
+    public <T> ConcurrentMap<String, List<T>> group(final String field) {
+        return this.aggregator.group(field);
+    }
+
+    public <T> ConcurrentMap<String, JsonArray> groupJ(final String field) {
+        return this.workflow.output(this.group(field));
+    }
+
+    public <T> Future<ConcurrentMap<String, List<T>>> groupAsync(final String field) {
+        return Future.succeededFuture(this.group(field));  // Async Future
+    }
+
+    public <T> Future<ConcurrentMap<String, JsonArray>> groupJAsync(final String field) {
+        return Future.succeededFuture(this.group(field)).compose(this.workflow::outputAsync);
+    }
+
+    public <T> ConcurrentMap<String, List<T>> group(final JsonObject criteria, final String field) {
+        return this.aggregator.group(this.workflow.inputQrJ(criteria), field);
+    }
+
+    public <T> ConcurrentMap<String, JsonArray> groupJ(final JsonObject criteria, final String field) {
+        return this.workflow.output(this.group(criteria, field));
+    }
+
+    public <T> Future<ConcurrentMap<String, List<T>>> groupAsync(final JsonObject criteria, final String field) {
+        return Future.succeededFuture(this.group(criteria, field));  // Async Future
+    }
+
+    public <T> Future<ConcurrentMap<String, JsonArray>> groupJAsync(final JsonObject criteria, final String field) {
+        return Future.succeededFuture(this.group(criteria, field)).compose(this.workflow::outputAsync); // Async Future
+    }
+
     // -------------------- Count Operation ------------
     /*
      * countAll()
@@ -1415,88 +1459,122 @@ public final class UxJooq {
 
 
     /*
-     * countBy(String)
      * countBy(JsonObject, String)
-     * countBy(String...)
+     *      <-- countByAsync(JsonObject, String)
+     *      <-- countBy(String)
+     *      <-- countByAsync(String)
      * countBy(JsonObject, String...)
-     * countByAsync(String)
-     * countByAsync(JsonObject, String)
-     * countByAsync(String...)
-     * countByAsync(JsonObject, String...)
+     *      <-- countByAsync(JsonObject, String...)
+     *      <-- countBy(String...)
+     *      <-- countByAsync(String...)
      */
-
-    public ConcurrentMap<String, Integer> countBy(final String groupField) {
-        return this.aggregator.countBy(null, groupField);
-    }
-
     public ConcurrentMap<String, Integer> countBy(final JsonObject criteria, final String groupField) {
         return this.aggregator.countBy(this.workflow.inputQrJ(criteria), groupField);
     }
 
-    public JsonArray countBy(final String... groupFields) {
-        return this.aggregator.countBy(null, groupFields);
+    public ConcurrentMap<String, Integer> countBy(final String groupField) {
+        return this.countBy(new JsonObject(), groupField);
+    }
+
+    public Future<ConcurrentMap<String, Integer>> countByAsync(final JsonObject criteria, final String groupField) {
+        return Future.succeededFuture(this.countBy(criteria, groupField));
+    }
+
+    public Future<ConcurrentMap<String, Integer>> countByAsync(final String groupField) {
+        return Future.succeededFuture(this.countBy(new JsonObject(), groupField));
     }
 
     public JsonArray countBy(final JsonObject criteria, final String... groupFields) {
         return this.aggregator.countBy(this.workflow.inputQrJ(criteria), groupFields);
     }
 
-    public Future<ConcurrentMap<String, Integer>> countByAsync(final String groupField) {
-        return this.aggregator.countByAsync(null, groupField);
-    }
-
-    public Future<ConcurrentMap<String, Integer>> countByAsync(final JsonObject criteria, final String groupField) {
-        return this.workflow.inputQrJAsync(criteria).compose(processed -> this.aggregator.countByAsync(processed, groupField));
+    public JsonArray countBy(final String... groupFields) {
+        return this.countBy(new JsonObject(), groupFields);
     }
 
     public Future<JsonArray> countByAsync(final String... groupFields) {
-        return this.aggregator.countByAsync(null, groupFields);
+        return Future.succeededFuture(this.countBy(new JsonObject(), groupFields));
     }
 
     public Future<JsonArray> countByAsync(final JsonObject criteria, final String... groupFields) {
-        return this.workflow.inputQrJAsync(criteria).compose(processed -> this.aggregator.countByAsync(processed, groupFields));
+        return Future.succeededFuture(this.countBy(criteria, groupFields));
     }
 
-    // -------------------- Group Operation ------------
+    // -------------------- Sum Operation ------------
     /*
-     * group(String)
-     *      <-- groupJ(String)
-     * group(JsonObject, String)
-     *      <-- groupJ(JsonObject, String)
-     * groupAsync(String)
-     *      <-- groupJAsync(JsonObject, String)
-     * groupAsync(JsonObject, String)
-     *      <-- groupJAsync(JsonObject, String)
+     * sum(String)
+     * sum(String, JsonObject)
+     * sum(String, JsonObject, pojo)
+     * sumAsync(String)
+     * sumAsync(String, JsonObject)
+     * sumAsync(String, JsonObject, pojo)
      */
-    public <T> ConcurrentMap<String, List<T>> group(final String field) {
-        return this.aggregator.group(field);
+    public BigDecimal sum(final String field) {
+        return this.aggregator.sum(field, null);
     }
 
-    public <T> ConcurrentMap<String, List<T>> group(final JsonObject criteria, final String field) {
-        return this.aggregator.group(this.workflow.inputQrJ(criteria), field);
+    public Future<BigDecimal> sumAsync(final String field) {
+        return Future.succeededFuture(this.aggregator.sum(field, null));
     }
 
-    public <T> Future<ConcurrentMap<String, List<T>>> groupAsync(final String field) {
-        return this.aggregator.groupAsync(field);
+    public BigDecimal sum(final String field, final JsonObject criteria) {
+        return this.aggregator.sum(field, this.workflow.inputQrJ(criteria));
     }
 
-    public <T> Future<ConcurrentMap<String, List<T>>> groupAsync(final JsonObject criteria, final String field) {
-        return this.workflow.inputQrJAsync(criteria).compose(processed -> this.aggregator.groupAsync(processed, field));
+    public Future<BigDecimal> sumAsync(final String field, final JsonObject criteria) {
+        return this.workflow.inputQrJAsync(criteria)
+                .compose(processed -> Future.succeededFuture(this.aggregator.sum(field, processed)));
     }
 
-    public <T> ConcurrentMap<String, JsonArray> groupJ(final String field) {
-        return this.workflow.output(this.group(field));
+    public BigDecimal sum(final String field, final JsonObject criteria, final String pojo) {
+        return this.aggregator.sum(field, JqFlow.create(this.analyzer, pojo).inputQrJ(criteria));
     }
 
-    public <T> ConcurrentMap<String, JsonArray> groupJ(final JsonObject criteria, final String field) {
-        return this.workflow.output(this.group(criteria, field));
+    public Future<BigDecimal> sumAsync(final String field, final JsonObject criteria, final String pojo) {
+        return JqFlow.create(this.analyzer, pojo).inputQrJAsync(criteria)
+                .compose(processed -> Future.succeededFuture(this.aggregator.sum(field, processed)));
     }
 
-    public <T> Future<ConcurrentMap<String, JsonArray>> groupJAsync(final String field) {
-        return this.groupAsync(field).compose(this.workflow::outputAsync);
+    /*
+     * sumBy(String, JsonObject, String)
+     *      <-- sumBy(String, String)
+     *      <-- sumByAsync(String, String)
+     *      <-- sumByAsync(String, JsonObject, String)
+     * sumBy(String, JsonObject, String...)
+     *      <-- sumBy(String, String...)
+     *      <-- sumByAsync(String, String...)
+     *      <-- sumByAsync(String, JsonObject, String...)
+     */
+
+    public ConcurrentMap<String, BigDecimal> sumBy(final String field, final JsonObject criteria, final String groupField) {
+        return this.aggregator.sum(field, this.workflow.inputQrJ(criteria), groupField);
     }
 
-    public <T> Future<ConcurrentMap<String, JsonArray>> groupJAsync(final JsonObject criteria, final String field) {
-        return this.groupAsync(criteria, field).compose(this.workflow::outputAsync);
+    public ConcurrentMap<String, BigDecimal> sumBy(final String field, final String groupField) {
+        return this.sumBy(field, new JsonObject(), groupField);
+    }
+
+    public Future<ConcurrentMap<String, BigDecimal>> sumByAsync(final String field, final String groupField) {
+        return Future.succeededFuture(this.sumBy(field, new JsonObject(), groupField));
+    }
+
+    public Future<ConcurrentMap<String, BigDecimal>> sumByAsync(final String field, final JsonObject criteria, final String groupField) {
+        return Future.succeededFuture(this.sumBy(field, criteria, groupField));
+    }
+
+    public JsonArray sumBy(final String field, final JsonObject criteria, final String... groupFields) {
+        return this.aggregator.sum(field, this.workflow.inputQrJ(criteria), groupFields);
+    }
+
+    public JsonArray sumBy(final String field, final String... groupFields) {
+        return this.sumBy(field, new JsonObject(), groupFields);
+    }
+
+    public Future<JsonArray> sumByAsync(final String field, final JsonObject criteria, final String... groupFields) {
+        return Future.succeededFuture(this.sumBy(field, criteria, groupFields));
+    }
+
+    public Future<JsonArray> sumByAsync(final String field, final String... groupFields) {
+        return Future.succeededFuture(this.sumBy(field, new JsonObject(), groupFields));
     }
 }
