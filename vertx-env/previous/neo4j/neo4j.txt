@@ -1,0 +1,9 @@
+
+# 删除所有关系和节点
+MATCH (n) OPTIONAL MATCH (n)-[r]-() DELETE n,r
+
+# 统计节点数量
+MATCH (n) RETURN COUNT(*)
+
+# 统计边的数量
+MATCH (n)-[]-() RETURN COUNT(*)

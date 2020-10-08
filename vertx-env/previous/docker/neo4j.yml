@@ -1,0 +1,13 @@
+version: '2'
+services:
+    neo4j:
+        image: neo4j:latest
+        container_name: ox_neo4j
+        ports:
+            - 7474:7474
+            - 7473:7473
+            - 7687:7687
+        environment:
+            - NEO4J_AUTH=neo4j/HpLive2012
+        volumes:
+            - /tmp/ox-engine/neo4j/data:/data
