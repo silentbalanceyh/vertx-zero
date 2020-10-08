@@ -11,12 +11,40 @@ import java.lang.reflect.Method;
 /**
  * @author <a href="http://www.origin-x.cn">lang</a>
  */
-class AsideDim {
+class L1Condition {
 
-    static Class<?> returnType(final ProceedingJoinPoint point) {
+    static Method method(final ProceedingJoinPoint point) {
         final MethodSignature signature = (MethodSignature) point.getSignature();
-        final Method method = signature.getMethod();
-        return method.getReturnType();
+        return signature.getMethod();
+    }
+
+    static boolean isMatch(final ProceedingJoinPoint point, final Class<?>... expected) {
+        final Method method = method(point);
+        final Class<?>[] clazz = method.getParameterTypes();
+        /*
+         * The expected and clazz must be matched
+         */
+        if (expected.length == clazz.length) {
+            final int length = expected.length;
+            boolean matched = true;
+            for (int idx = 0; idx < length; idx++) {
+                final Class<?> expectedCls = expected[idx];
+                final Class<?> actualCls = clazz[idx];
+                /*
+                 * If they are equal ?
+                 */
+                if (expectedCls == actualCls) {
+                    matched = false;
+                    break;
+                }
+            }
+            return matched;
+        } else {
+            /*
+             * Do not match
+             */
+            return false;
+        }
     }
 
     @SuppressWarnings("all")

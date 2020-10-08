@@ -122,7 +122,7 @@
         <common.cli.version>1.4</common.cli.version>
 
         <http.async.client.version>4.1.4</http.async.client.version>
-        <http.client.version>4.5.12</http.client.version>
+        <http.client.version>4.5.13</http.client.version>
         <http.core.version>4.4.13</http.core.version>
 
         <!-- Liquibase -->
@@ -140,7 +140,7 @@
         <hdr.version>2.1.12</hdr.version>
 
         <!-- Vert.x Addition -->
-        <rxjava2.version>2.2.19</rxjava2.version>
+        <rxjava2.version>2.2.20</rxjava2.version>
         <netty.tcnative.version>2.0.34.Final</netty.tcnative.version>
         <netty.version>4.1.52.Final</netty.version>
         <hazelcast.version>3.12.4</hazelcast.version>
