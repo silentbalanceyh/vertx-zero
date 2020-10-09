@@ -86,8 +86,38 @@ class L1Channel {
         return this.requestAsync(request, response -> {
             if (Objects.nonNull(response)) {
                 final Buffer buffer = response.toBuffer();
-                return Objects.isNull(buffer) ? null : buffer.toJsonObject();
+                /*
+                 * Whether it's refer
+                 */
+                if (Objects.isNull(buffer)) {
+                    return null;
+                } else {
+                    final String literal = buffer.toString();
+                    if (Ut.isJObject(literal)) {
+                        /*
+                         * Data Found
+                         */
+                        return new JsonObject(literal);
+                    } else {
+                        /*
+                         * Call self
+                         */
+                        return literal;
+                    }
+                }
             } else return null;
+        }).compose(item -> {
+            if (item instanceof JsonObject) {
+                /*
+                 * Data Found
+                 */
+                return Future.succeededFuture((JsonObject) item);
+            } else {
+                /*
+                 * Call self key and continue to get data
+                 */
+                return this.readAsync(item.toString());
+            }
         });
     }
 

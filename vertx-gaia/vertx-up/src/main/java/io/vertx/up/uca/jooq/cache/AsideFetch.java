@@ -168,7 +168,7 @@ public class AsideFetch extends AbstractAside {
          * Returned Type checked only, two signatures
          */
         final CacheKey key = new CacheId(id);
-        return this.readAsync(key, this.baseMeta.createCopy(), point);
+        return this.readAsync(key, this.metadata(), point);
     }
 
     /*
@@ -186,7 +186,7 @@ public class AsideFetch extends AbstractAside {
             final String field = this.argument(0, point);
             final Object value = this.argument(1, point);
             final CacheKey key = new CacheCond(field, value);
-            return this.readAsync(key, this.baseMeta.createCopy().conditionKey(new JsonObject().put(field, value)), point);
+            return this.readAsync(key, this.metadata().conditionKey(new JsonObject().put(field, value)), point);
         } else if (L1Analyzer.isMatch(point, JsonObject.class)) {
             /*
              * fetchOne(JsonObject)
@@ -194,7 +194,7 @@ public class AsideFetch extends AbstractAside {
              */
             final JsonObject condition = this.argument(0, point);
             final CacheKey key = new CacheCond(condition);
-            return this.readAsync(key, this.baseMeta.createCopy().conditionKey(condition), point);
+            return this.readAsync(key, this.metadata().conditionKey(condition), point);
         } else if (L1Analyzer.isMatch(point, JsonObject.class, String.class)) {
             /*
              * fetchOne(JsonObject,String)

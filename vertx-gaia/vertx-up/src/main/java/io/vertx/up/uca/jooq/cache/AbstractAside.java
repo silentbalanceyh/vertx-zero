@@ -4,32 +4,28 @@ import io.github.jklingsporn.vertx.jooq.future.VertxDAO;
 import io.vertx.core.Future;
 import io.vertx.tp.plugin.cache.hit.CacheKey;
 import io.vertx.tp.plugin.cache.hit.CacheMeta;
-import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import io.vertx.up.uca.jooq.JqAnalyzer;
 import io.vertx.up.util.Ut;
 import org.aspectj.lang.ProceedingJoinPoint;
 
 import java.lang.reflect.Method;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
 
 /**
  * @author <a href="http://www.origin-x.cn">lang</a>
  */
 @SuppressWarnings("all")
 abstract class AbstractAside {
-    private static final ConcurrentMap<Class<?>, CacheMeta> META_POOL = new ConcurrentHashMap<>();
     /*
      * L1 Aside executing for cache
      */
     protected transient L1Aside executor;
-    protected transient CacheMeta baseMeta;
+    protected transient JqAnalyzer analyzer;
 
     protected void initialize(final Class<?> clazz, final VertxDAO vertxDAO) {
         final JqAnalyzer analyzer = JqAnalyzer.create(vertxDAO);
+        this.analyzer = analyzer;
         this.executor = new L1Aside(analyzer);
-        this.baseMeta = Fn.pool(META_POOL, clazz, () -> new CacheMeta(clazz).primaryKey(analyzer.primarySet()));
     }
     /*
      * Method / Return Type
@@ -81,5 +77,9 @@ abstract class AbstractAside {
         } else {
             return null;
         }
+    }
+
+    protected CacheMeta metadata() {
+        return new CacheMeta(this.analyzer.type()).primaryKey(this.analyzer.primarySet());
     }
 }
