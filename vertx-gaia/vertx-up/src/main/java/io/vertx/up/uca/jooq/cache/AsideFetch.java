@@ -2,6 +2,9 @@ package io.vertx.up.uca.jooq.cache;
 
 import io.github.jklingsporn.vertx.jooq.future.VertxDAO;
 import io.vertx.core.json.JsonObject;
+import io.vertx.tp.plugin.cache.hit.CacheCond;
+import io.vertx.tp.plugin.cache.hit.CacheId;
+import io.vertx.tp.plugin.cache.hit.CacheKey;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -117,15 +120,15 @@ public class AsideFetch extends AbstractAside {
      */
     @Around(value = "execution(* io.vertx.up.uca.jooq.UxJooq.fetch(..))")
     public <T> T fetch(final ProceedingJoinPoint point) throws Throwable {
-        if (L1Condition.isMatch(point, String.class, Object.class)) {
+        if (L1Analyzer.isMatch(point, String.class, Object.class)) {
             /*
              * fetch(String,Object)
              */
-        } else if (L1Condition.isMatch(point, JsonObject.class)) {
+        } else if (L1Analyzer.isMatch(point, JsonObject.class)) {
             /*
              * fetch(JsonObject)
              */
-        } else if (L1Condition.isMatch(point, JsonObject.class, String.class)) {
+        } else if (L1Analyzer.isMatch(point, JsonObject.class, String.class)) {
             /*
              * fetch(JsonObject, String)
              */
@@ -138,15 +141,15 @@ public class AsideFetch extends AbstractAside {
      */
     @Around(value = "execution(* io.vertx.up.uca.jooq.UxJooq.fetchAsync(..))")
     public <T> T fetchAsync(final ProceedingJoinPoint point) throws Throwable {
-        if (L1Condition.isMatch(point, String.class, Object.class)) {
+        if (L1Analyzer.isMatch(point, String.class, Object.class)) {
             /*
              * fetchAsync(String,Object)
              */
-        } else if (L1Condition.isMatch(point, JsonObject.class)) {
+        } else if (L1Analyzer.isMatch(point, JsonObject.class)) {
             /*
              * fetchAsync(JsonObject)
              */
-        } else if (L1Condition.isMatch(point, JsonObject.class, String.class)) {
+        } else if (L1Analyzer.isMatch(point, JsonObject.class, String.class)) {
             /*
              * fetchAsync(JsonObject, String)
              */
@@ -155,15 +158,17 @@ public class AsideFetch extends AbstractAside {
     }
 
     /*
+     * 「Finished」
      * fetchById
      * fetchByIdAsync
      */
-    @Around(value = "execution(* io.vertx.up.uca.jooq.UxJooq.fetchById*(..))")
-    public <T> T fetchById(final ProceedingJoinPoint point) throws Throwable {
+    @Around(value = "execution(* io.vertx.up.uca.jooq.UxJooq.fetchById*(..)) && args(id)", argNames = "id")
+    public <T> T fetchById(final ProceedingJoinPoint point, final Object id) throws Throwable {
         /*
          * Returned Type checked only, two signatures
          */
-        return null;
+        final CacheKey key = new CacheId(id);
+        return this.readAsync(key, this.metadata(), point);
     }
 
     /*
@@ -173,22 +178,30 @@ public class AsideFetch extends AbstractAside {
      */
     @Around(value = "execution(* io.vertx.up.uca.jooq.UxJooq.fetchOne*(..))")
     public <T> T fetchOne(final ProceedingJoinPoint point) throws Throwable {
-        if (L1Condition.isMatch(point, String.class, Object.class)) {
+        if (L1Analyzer.isMatch(point, String.class, Object.class)) {
             /*
-             * fetch(String,Object)
-             * fetchAsync(String,Object)
+             * fetchOne(String,Object)
+             * fetchOneAsync(String,Object)
              */
-        } else if (L1Condition.isMatch(point, JsonObject.class)) {
+            final String field = this.argument(0, point);
+            final Object value = this.argument(1, point);
+            final CacheKey key = new CacheCond(field, value);
+            return this.readAsync(key, this.metadata(field, value), point);
+        } else if (L1Analyzer.isMatch(point, JsonObject.class)) {
             /*
-             * fetch(JsonObject)
-             * fetchAsync(JsonObject)
+             * fetchOne(JsonObject)
+             * fetchOneAsync(JsonObject)
              */
-        } else if (L1Condition.isMatch(point, JsonObject.class, String.class)) {
+            final JsonObject condition = this.argument(0, point);
+            final CacheKey key = new CacheCond(condition);
+            return this.readAsync(key, this.metadata(condition), point);
+        } else if (L1Analyzer.isMatch(point, JsonObject.class, String.class)) {
             /*
-             * fetch(JsonObject,String)
-             * fetchAsync(JsonObject, String)
+             * fetchOne(JsonObject,String)
+             * fetchOneAsync(JsonObject, String)
+             * POJO mode processing
              */
         }
-        return null;
+        return (T) point.proceed();
     }
 }

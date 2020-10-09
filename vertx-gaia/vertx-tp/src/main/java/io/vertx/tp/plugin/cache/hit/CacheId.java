@@ -26,4 +26,9 @@ public class CacheId implements CacheKey {
         treeMap.put(meta.primaryString(), this.id);
         return CacheTool.keyId(meta.typeName(), treeMap);
     }
+
+    @Override
+    public boolean primary() {
+        return true;
+    }
 }

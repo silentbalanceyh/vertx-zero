@@ -6,7 +6,19 @@ package io.vertx.tp.plugin.cache.hit;
  */
 public interface CacheKey {
     /*
+     * Bind Part for metadata
+     * 1. primary keys
+     * 2. condition
+     * 3. type
+     */
+
+    /*
      * Matrix store
      */
     String unique(CacheMeta meta);
+
+    /*
+     * Where it's primary node
+     */
+    boolean primary();
 }

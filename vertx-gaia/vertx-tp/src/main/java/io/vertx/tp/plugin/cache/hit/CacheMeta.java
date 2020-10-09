@@ -18,9 +18,11 @@ public class CacheMeta implements Serializable {
     private final JsonObject condition = new JsonObject();
 
     private final transient Class<?> clazz;
+    private transient boolean baseMeta;
 
     public CacheMeta(final Class<?> clazz) {
         this.clazz = clazz;
+        this.baseMeta = true;
     }
 
     public CacheMeta primaryKey(final TreeSet<String> primaryKey) {
@@ -36,6 +38,15 @@ public class CacheMeta implements Serializable {
             this.condition.mergeIn(condition, true);
         }
         return this;
+    }
+
+    /*
+     * Copy of current base Meta here
+     */
+    public CacheMeta createCopy() {
+        final CacheMeta nonBase = new CacheMeta(this.clazz);
+        nonBase.baseMeta = false;
+        return nonBase.primaryKey(this.primaryKey);
     }
 
     public String typeName() {

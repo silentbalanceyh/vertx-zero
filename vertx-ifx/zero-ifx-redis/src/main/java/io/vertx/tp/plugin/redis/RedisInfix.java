@@ -38,17 +38,25 @@ public class RedisInfix implements Infix {
                 (config) -> new RedisOptions(initSync(name, config)),
                 RedisInfix.class);
         /*
-         * Redis client processing
+         * Redis client processing, ping to check whether it's Ok
          */
         final Redis redis = Redis.createClient(vertx, options);
+        CLIENTS.put(name, redis);
         redis.connect(handler -> {
+            /*
+             * If connected, keep
+             * If not connected, remove
+             * This kind of operation could let your system synced the Redis
+             * instead of Null Pointer in Unit Testing
+             */
             if (handler.succeeded()) {
-                CLIENTS.put(name, redis);
+                LOGGER.info("[ Redis ] Connected successfully! {0}", options.toJson().encode());
             } else {
                 final Throwable ex = handler.cause();
                 if (Objects.nonNull(ex)) {
                     LOGGER.jvm(ex);
                 }
+                CLIENTS.remove(name);
             }
         });
     }

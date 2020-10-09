@@ -60,6 +60,7 @@ class L1Channel {
         /*
          * Read and Write ( Merged )
          */
+        System.out.println(dataMap);
     }
 
     JsonObject read(final String key) {

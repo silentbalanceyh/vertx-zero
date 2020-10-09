@@ -60,8 +60,10 @@ public class HarpBus {
              * L1 cache here
              */
             final Class<?> cacheClass = this.l1Config.getComponent();
-            cache = Fn.poolThread(POOL_L1, () -> Ut.instance(cacheClass));
-            cache.bind(this.vertx).bind(this.l1Config.copy());
+            cache = Fn.poolThread(POOL_L1, () -> {
+                final L1Cache created = Ut.instance(cacheClass);
+                return created.bind(this.vertx).bind(this.l1Config.copy());
+            });
         }
         return cache;
     }

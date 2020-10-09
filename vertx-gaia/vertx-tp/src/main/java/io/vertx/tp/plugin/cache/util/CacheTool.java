@@ -19,7 +19,6 @@ import java.util.concurrent.ConcurrentMap;
 public class CacheTool {
     private static final String KEY_DATA = "DATA";
     private static final String KEY_DATA_REF = "DATA_REF";
-    private static final String KEY_META = "META";
 
     /*
      * Delivery when event bus publish ( send data )
@@ -118,8 +117,11 @@ public class CacheTool {
      */
     private static String keyUniform(final String type, final String prefix, final TreeMap<String, String> treeMap) {
         final StringBuilder key = new StringBuilder();
+        /*
+         * Group Redis by : character here
+         */
         key.append(type).append(":").append(prefix).append(":");
-        treeMap.forEach((k, v) -> key.append(k).append("=").append(v).append(":"));
+        treeMap.forEach((k, v) -> key.append(k).append("=").append(v).append(","));
         return key.toString();
     }
 

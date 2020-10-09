@@ -25,4 +25,9 @@ public class CacheCond implements CacheKey {
     public String unique(final CacheMeta meta) {
         return CacheTool.keyCond(meta.typeName(), this.condition);
     }
+
+    @Override
+    public boolean primary() {
+        return false;
+    }
 }
