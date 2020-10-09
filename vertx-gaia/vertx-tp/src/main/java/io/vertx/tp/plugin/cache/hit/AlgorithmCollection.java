@@ -1,8 +1,7 @@
-package io.vertx.tp.plugin.cache.l1;
+package io.vertx.tp.plugin.cache.hit;
 
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.plugin.cache.hit.CacheMeta;
 import io.vertx.up.util.Ut;
 
 import java.util.Objects;
@@ -12,7 +11,7 @@ import java.util.Objects;
  */
 public class AlgorithmCollection extends AbstractL1Algorithm {
     @Override
-    public <T> void dataDelivery(final JsonObject message, final T entity, final CacheMeta meta) {
+    public <T> void dataDelivery(final JsonObject message, final T entity) {
         if (Objects.nonNull(message)) {
             message.put("data", (JsonArray) Ut.serializeJson(entity));
             message.put("collection", Boolean.TRUE);

@@ -2,8 +2,7 @@ package io.vertx.up.uca.jooq.cache;
 
 import io.vertx.core.Future;
 import io.vertx.tp.plugin.cache.Harp;
-import io.vertx.tp.plugin.cache.hit.CacheKey;
-import io.vertx.tp.plugin.cache.hit.CacheMeta;
+import io.vertx.tp.plugin.cache.hit.CMessage;
 import io.vertx.tp.plugin.cache.l1.L1Cache;
 import io.vertx.tp.plugin.cache.util.CacheFn;
 import io.vertx.up.eon.em.ChangeFlag;
@@ -36,15 +35,15 @@ public class L1Aside {
     /*
      * Private method for write
      */
-    private <T> void writeCache(final T entity, final CacheMeta meta) {
+    private <T> void writeCache(final CMessage message) {
         if (Objects.nonNull(this.cacheL1)) {
-            this.cacheL1.write(entity, ChangeFlag.UPDATE, meta);
+            this.cacheL1.write(message, ChangeFlag.UPDATE);
         }
     }
 
-    private <T> void deleteCache(final T entity, final CacheMeta meta) {
+    private <T> void deleteCache(final CMessage message) {
         if (Objects.nonNull(this.cacheL1)) {
-            this.cacheL1.write(entity, ChangeFlag.DELETE, meta);
+            this.cacheL1.write(message, ChangeFlag.DELETE);
         }
     }
 
@@ -63,13 +62,15 @@ public class L1Aside {
         } else return executor;
     }
 
-    <T> T read(final CacheKey key, final CacheMeta meta, final RunSupplier<T> executor) {
-        return CacheFn.in(this.defend(() -> this.cacheL1.read(key, meta)), executor,
-                entity -> this.writeCache(entity, meta));
+    <T> T read(final CMessage message, final RunSupplier<T> executor) {
+        return CacheFn.in(this.defend(() -> this.cacheL1.read(message)), executor,
+                /* Fullfill Message with returned data */
+                entity -> this.writeCache(message.data(entity)));
     }
 
-    <T> Future<T> readAsync(final CacheKey key, final CacheMeta meta, final RunSupplier<Future<T>> executor) {
-        return CacheFn.in(this.defendAsync(() -> this.cacheL1.readAsync(key, meta)), executor,
-                entity -> this.writeCache(entity, meta));
+    <T> Future<T> readAsync(final CMessage message, final RunSupplier<Future<T>> executor) {
+        return CacheFn.in(this.defendAsync(() -> this.cacheL1.readAsync(message)), executor,
+                /* Fullfill Message with returned data */
+                entity -> this.writeCache(message.data(entity)));
     }
 }

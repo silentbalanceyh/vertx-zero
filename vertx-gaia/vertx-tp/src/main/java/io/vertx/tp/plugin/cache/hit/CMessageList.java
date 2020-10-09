@@ -1,8 +1,6 @@
 package io.vertx.tp.plugin.cache.hit;
 
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.plugin.cache.l1.AlgorithmCollection;
-import io.vertx.tp.plugin.cache.l1.L1Algorithm;
 import io.vertx.up.util.Ut;
 
 import java.util.Objects;
@@ -10,30 +8,37 @@ import java.util.Objects;
 /**
  * @author <a href="http://www.origin-x.cn">lang</a>
  */
-public class CacheCond implements CacheKey {
+public class CMessageList extends AbstractCMessage {
     private final transient JsonObject condition = new JsonObject();
 
-    public CacheCond(final JsonObject condition) {
+    public CMessageList(final JsonObject condition, final Class<?> type) {
+        super(type);
         if (Objects.nonNull(condition)) {
             this.condition.mergeIn(condition, true);
         }
     }
 
-    public CacheCond(final String field, final Object value) {
+    public CMessageList(final String field, final Object value, final Class<?> type) {
+        super(type);
         this.condition.put(field, value);
     }
 
     @Override
-    public String unique(final CacheMeta meta) {
+    public String dataUnique() {
         /*
          * Single Record
          */
         final L1Algorithm algorithm = Ut.singleton(AlgorithmCollection.class);
-        return algorithm.dataUnique(meta.typeName(), this.condition);
+        return algorithm.dataUnique(this.typeName(), this.condition);
     }
 
     @Override
-    public boolean primary() {
-        return false;
+    public boolean isList() {
+        return Boolean.TRUE;
+    }
+
+    @Override
+    public boolean isRef() {
+        return Boolean.TRUE;
     }
 }

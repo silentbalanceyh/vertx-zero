@@ -3,9 +3,10 @@ package io.vertx.up.uca.jooq.cache;
 import io.github.jklingsporn.vertx.jooq.future.VertxDAO;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.plugin.cache.hit.CacheCond;
-import io.vertx.tp.plugin.cache.hit.CacheKey;
-import io.vertx.tp.plugin.cache.hit.CacheMeta;
+import io.vertx.tp.plugin.cache.hit.CMessage;
+import io.vertx.tp.plugin.cache.hit.CMessageKey;
+import io.vertx.tp.plugin.cache.hit.CMessageList;
+import io.vertx.tp.plugin.cache.hit.CMessageUnique;
 import io.vertx.up.log.Annal;
 import io.vertx.up.uca.jooq.JqAnalyzer;
 import io.vertx.up.util.Ut;
@@ -43,7 +44,7 @@ abstract class AbstractAside {
     /*
      * Executing method processing
      */
-    protected <T> T readAsync(final CacheKey key, final CacheMeta meta, final ProceedingJoinPoint point) {
+    protected <T> T readAsync(final CMessage message, final ProceedingJoinPoint point) {
         /*
          * Get method definition
          */
@@ -62,13 +63,13 @@ abstract class AbstractAside {
              * Async calling
              */
             logger().info("( Aop ) `{0}` aspecting... ( Async ) {1}", name, Ut.fromJoin(args));
-            return (T) this.executor.readAsync(key, meta, () -> (Future) point.proceed(args));
+            return (T) this.executor.readAsync(message, () -> (Future) point.proceed(args));
         } else {
             /*
              * Sync calling
              */
             logger().info("( Aop ) `{0}` aspecting... ( Sync ) {1}", name, Ut.fromJoin(args));
-            return (T) this.executor.read(key, meta, () -> (T) point.proceed(args));
+            return (T) this.executor.read(message, () -> (T) point.proceed(args));
         }
     }
 
@@ -81,23 +82,61 @@ abstract class AbstractAside {
         }
     }
 
-    protected CacheMeta metadata() {
-        return new CacheMeta(this.analyzer.type()).primaryKey(this.analyzer.primarySet());
+    /*
+     * Major split code logical for duplicated
+     */
+    protected CMessage messageField(final ProceedingJoinPoint point) {
+        final String field = this.argument(0, point);
+        final Object value = this.argument(1, point);
+        return this.message(field, value);
+    }
+
+    protected CMessage messageUnique(final ProceedingJoinPoint point) {
+        final JsonObject condition = this.argument(0, point);
+        return this.message(condition);
+    }
+
+    protected CMessage messagesField(final ProceedingJoinPoint point) {
+        final String field = this.argument(0, point);
+        final Object value = this.argument(1, point);
+        return this.messages(field, value);
+    }
+
+    protected CMessage messageList(final ProceedingJoinPoint point) {
+        final JsonObject condition = this.argument(0, point);
+        return this.messages(condition);
     }
 
     /*
-     * Major split code logical
+     * CMessage creation for sub-class usage
      */
-    protected <T> T aopKv(final ProceedingJoinPoint point) {
-        final String field = this.argument(0, point);
-        final Object value = this.argument(1, point);
-        final CacheKey key = new CacheCond(field, value);
-        return this.readAsync(key, this.metadata().conditionKey(new JsonObject().put(field, value)), point);
+    protected CMessage message(final Object id) {
+        final CMessage message = new CMessageKey(id, this.analyzer.type());
+        message.bind(this.analyzer.primarySet());
+        return message;
     }
 
-    protected <T> T aopCond(final ProceedingJoinPoint point) {
-        final JsonObject condition = this.argument(0, point);
-        final CacheKey key = new CacheCond(condition);
-        return this.readAsync(key, this.metadata().conditionKey(condition), point);
+    protected CMessage message(final String field, final Object value) {
+        final CMessage message = new CMessageUnique(field, value, this.analyzer.type());
+        message.bind(this.analyzer.primarySet());
+        return message;
+    }
+
+    protected CMessage messages(final String field, final Object value) {
+        final CMessage message = new CMessageList(field, value, this.analyzer.type());
+        message.bind(this.analyzer.primarySet());
+        return message;
+    }
+
+    protected CMessage message(final JsonObject condition) {
+        final CMessage message = new CMessageUnique(condition, this.analyzer.type());
+        message.bind(this.analyzer.primarySet());
+        return message;
+    }
+
+    protected CMessage messages(final JsonObject condition) {
+        final CMessage message = new CMessageList(condition, this.analyzer.type());
+        message.bind(this.analyzer.primarySet());
+        return message;
     }
 }

@@ -2,8 +2,7 @@ package io.vertx.tp.plugin.cache.l1;
 
 import io.vertx.core.Future;
 import io.vertx.core.Vertx;
-import io.vertx.tp.plugin.cache.hit.CacheKey;
-import io.vertx.tp.plugin.cache.hit.CacheMeta;
+import io.vertx.tp.plugin.cache.hit.CMessage;
 import io.vertx.up.eon.em.ChangeFlag;
 
 /**
@@ -39,9 +38,9 @@ public interface L1Cache {
      * - by unique condition
      *
      */
-    <T> void write(T input, ChangeFlag flag, CacheMeta meta);
+    <T> void write(CMessage message, ChangeFlag flag);
 
-    <T> Future<T> readAsync(CacheKey key, CacheMeta meta);
+    <T> Future<T> readAsync(CMessage message);
 
-    <T> T read(CacheKey key, CacheMeta meta);
+    <T> T read(CMessage message);
 }

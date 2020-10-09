@@ -2,7 +2,7 @@ package io.vertx.tp.plugin.redis.cache;
 
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.plugin.cache.l1.AbstractL1;
+import io.vertx.tp.plugin.cache.hit.AbstractL1;
 
 /**
  * @author <a href="http://www.origin-x.cn">lang</a>

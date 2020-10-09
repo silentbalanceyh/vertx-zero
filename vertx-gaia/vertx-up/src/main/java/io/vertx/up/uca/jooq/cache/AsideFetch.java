@@ -2,8 +2,7 @@ package io.vertx.up.uca.jooq.cache;
 
 import io.github.jklingsporn.vertx.jooq.future.VertxDAO;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.plugin.cache.hit.CacheId;
-import io.vertx.tp.plugin.cache.hit.CacheKey;
+import io.vertx.tp.plugin.cache.hit.CMessage;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -123,12 +122,14 @@ public class AsideFetch extends AbstractAside {
             /*
              * fetch(String,Object)
              */
-            return this.aopKv(point);
+            final CMessage message = this.messagesField(point);
+            return this.readAsync(message, point);
         } else if (L1Analyzer.isMatch(point, JsonObject.class)) {
             /*
              * fetch(JsonObject)
              */
-            return this.aopCond(point);
+            final CMessage message = this.messageList(point);
+            return this.readAsync(message, point);
         } else {
             if (L1Analyzer.isMatch(point, JsonObject.class, String.class)) {
                 /*
@@ -148,12 +149,14 @@ public class AsideFetch extends AbstractAside {
             /*
              * fetchAsync(String,Object)
              */
-            return this.aopKv(point);
+            final CMessage message = this.messagesField(point);
+            return this.readAsync(message, point);
         } else if (L1Analyzer.isMatch(point, JsonObject.class)) {
             /*
              * fetchAsync(JsonObject)
              */
-            return this.aopCond(point);
+            final CMessage message = this.messageList(point);
+            return this.readAsync(message, point);
         } else {
             if (L1Analyzer.isMatch(point, JsonObject.class, String.class)) {
                 /*
@@ -174,8 +177,8 @@ public class AsideFetch extends AbstractAside {
         /*
          * Returned Type checked only, two signatures
          */
-        final CacheKey key = new CacheId(id);
-        return this.readAsync(key, this.metadata(), point);
+        final CMessage message = this.message(id);
+        return this.readAsync(message, point);
     }
 
     /*
@@ -191,13 +194,15 @@ public class AsideFetch extends AbstractAside {
              * fetchOne(String,Object)
              * fetchOneAsync(String,Object)
              */
-            return this.aopKv(point);
+            final CMessage message = this.messageField(point);
+            return this.readAsync(message, point);
         } else if (L1Analyzer.isMatch(point, JsonObject.class)) {
             /*
              * fetchOne(JsonObject)
              * fetchOneAsync(JsonObject)
              */
-            return this.aopCond(point);
+            final CMessage message = this.messageUnique(point);
+            return this.readAsync(message, point);
         } else {
             if (L1Analyzer.isMatch(point, JsonObject.class, String.class)) {
                 /*
