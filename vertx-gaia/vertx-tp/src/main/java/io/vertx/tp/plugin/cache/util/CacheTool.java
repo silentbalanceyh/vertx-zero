@@ -19,6 +19,7 @@ import java.util.concurrent.ConcurrentMap;
 public class CacheTool {
     private static final String KEY_DATA = "DATA";
     private static final String KEY_DATA_REF = "DATA_REF";
+    private static final String KEY_DATA_TREE = "DATA_TREE";
 
     /*
      * Delivery when event bus publish ( send data )
@@ -52,19 +53,18 @@ public class CacheTool {
          * key = data
          */
         final Object dataPart = data.getValue("data");
-        if (primary) {
+        /*
+         * key calculation by primaryKey
+         * This situation the dataPart must be JsonObject
+         */
+        if (dataPart instanceof JsonObject) {
             /*
-             * key calculation by primaryKey
-             * This situation the dataPart must be JsonObject
+             * primaryKey = data
              */
-            if (dataPart instanceof JsonObject) {
-                /*
-                 * primaryKey = data
-                 */
-                final String cacheKey = keyId((JsonObject) dataPart, type, data.getJsonArray("key"));
-                resultMap.put(cacheKey, dataPart);
-            }
-        } else {
+            final String cacheKey = keyId((JsonObject) dataPart, type, data.getJsonArray("key"));
+            resultMap.put(cacheKey, dataPart);
+        }
+        if (!primary) {
             /*
              * cacheKey = dataKey Ref
              */
@@ -74,19 +74,33 @@ public class CacheTool {
     }
 
     public static ConcurrentMap<String, Object> generateKey(final JsonObject data) {
-        final ConcurrentMap<String, Object> resultMap = new ConcurrentHashMap<>();
         /*
          * Data Part Processing
          * 1) Get primary = true / false
          */
         final Boolean primary = data.getBoolean("primary", Boolean.TRUE);
         if (!primary) {
+            final String type = data.getString("type");
+            final ConcurrentMap<String, Object> resultMap = new ConcurrentHashMap<>();
             /*
              * key = cacheKey
              */
             keyRef(resultMap, data, true);
+            /*
+             * Process resultMap on existing references
+             */
+            final ConcurrentMap<String, Object> calculated = new ConcurrentHashMap<>();
+            resultMap.forEach((key, value) -> {
+                /*
+                 * TREE Key
+                 */
+                final String normalizedKey = type + ":" + KEY_DATA_TREE + ":" + key;
+                calculated.put(normalizedKey, value);
+            });
+            return calculated;
+        } else {
+            return new ConcurrentHashMap<>();
         }
-        return resultMap;
     }
 
     /*

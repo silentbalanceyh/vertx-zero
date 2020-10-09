@@ -60,7 +60,28 @@ class L1Channel {
         /*
          * Read and Write ( Merged )
          */
-        System.out.println(dataMap);
+        dataMap.forEach((key, value) -> {
+            /*
+             * Write Tree Combine
+             */
+            if (Objects.nonNull(this.redis)) {
+                /*
+                 * Get by key
+                 */
+                final Request request = Request.cmd(Command.APPEND);
+                request.arg(key);
+                request.arg(value.toString());
+                this.redis.send(request, res -> {
+                    if (res.succeeded()) {
+                        LOGGER.info("( Cache ) The key `{0}` has been synced.", key);
+                    } else {
+                        if (Objects.nonNull(res.cause())) {
+                            res.cause().printStackTrace();
+                        }
+                    }
+                });
+            }
+        });
     }
 
     JsonObject read(final String key) {
@@ -107,16 +128,21 @@ class L1Channel {
                 }
             } else return null;
         }).compose(item -> {
-            if (item instanceof JsonObject) {
-                /*
-                 * Data Found
-                 */
-                return Future.succeededFuture((JsonObject) item);
+            if (Objects.isNull(item)) {
+                return Future.succeededFuture();
             } else {
-                /*
-                 * Call self key and continue to get data
-                 */
-                return this.readAsync(item.toString());
+                if (item instanceof JsonObject) {
+                    /*
+                     * Data Found
+                     */
+                    return Future.succeededFuture((JsonObject) item);
+                } else {
+                    LOGGER.info("( Cache ) L1 reader will read data by secondary key `{0}`.", item.toString());
+                    /*
+                     * Call self key and continue to get data
+                     */
+                    return this.readAsync(item.toString());
+                }
             }
         });
     }

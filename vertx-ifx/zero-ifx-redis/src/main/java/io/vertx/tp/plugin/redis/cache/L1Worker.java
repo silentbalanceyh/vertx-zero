@@ -53,6 +53,9 @@ public class L1Worker extends AbstractVerticle {
                          * Key Processing
                          */
                         final ConcurrentMap<String, Object> mappedKey = CacheTool.generateKey(jsonBody);
+                        /*
+                         * Calculate the prefix of current type
+                         */
                         channel.combine(mappedKey);
                     }
                 }

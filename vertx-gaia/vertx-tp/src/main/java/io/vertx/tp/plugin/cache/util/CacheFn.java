@@ -2,6 +2,7 @@ package io.vertx.tp.plugin.cache.util;
 
 import io.vertx.core.Future;
 import io.vertx.up.fn.RunSupplier;
+import io.vertx.up.log.Annal;
 
 import java.util.Objects;
 import java.util.function.Consumer;
@@ -12,6 +13,8 @@ import java.util.function.Supplier;
  * Cache-Aside
  */
 public class CacheFn {
+    private static final Annal LOGGER = Annal.get(CacheFn.class);
+
     /*
      * T -> T
      */
@@ -33,6 +36,7 @@ public class CacheFn {
             /*
              * 2. When T reference is null
              */
+            LOGGER.info("[ Cache ] ( Sync ) Actual operation will execute because failure to hit cache.");
             reference = actual.get();
             if (Objects.nonNull(callback) && Objects.nonNull(reference)) {
                 /*
@@ -61,6 +65,7 @@ public class CacheFn {
                 /*
                  * 2. When T reference is null
                  */
+                LOGGER.info("[ Cache ] ( Async ) Actual operation will execute because failure to hit cache.");
                 return actual.get().compose(actualRef -> {
                     if (Objects.nonNull(callback) && Objects.nonNull(actualRef)) {
                         /*
