@@ -1,7 +1,9 @@
 package io.vertx.tp.plugin.cache.hit;
 
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.plugin.cache.util.CacheTool;
+import io.vertx.tp.plugin.cache.l1.AlgorithmCollection;
+import io.vertx.tp.plugin.cache.l1.L1Algorithm;
+import io.vertx.up.util.Ut;
 
 import java.util.Objects;
 
@@ -23,7 +25,11 @@ public class CacheCond implements CacheKey {
 
     @Override
     public String unique(final CacheMeta meta) {
-        return CacheTool.keyCond(meta.typeName(), this.condition);
+        /*
+         * Single Record
+         */
+        final L1Algorithm algorithm = Ut.singleton(AlgorithmCollection.class);
+        return algorithm.dataUnique(meta.typeName(), this.condition);
     }
 
     @Override

@@ -1,10 +1,7 @@
 package io.vertx.tp.plugin.cache.util;
 
-import io.vertx.core.buffer.Buffer;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.plugin.cache.hit.CacheMeta;
-import io.vertx.up.eon.em.ChangeFlag;
 import io.vertx.up.util.Ut;
 
 import java.util.Objects;
@@ -20,23 +17,6 @@ public class CacheTool {
     private static final String KEY_DATA = "DATA";
     private static final String KEY_DATA_REF = "DATA_REF";
     private static final String KEY_DATA_TREE = "DATA_TREE";
-
-    /*
-     * Delivery when event bus publish ( send data )
-     */
-    public static <T> Buffer dataDelivery(final T entity, final ChangeFlag flag, final CacheMeta meta) {
-        final JsonObject data = new JsonObject();
-        data.put("data", (JsonObject) Ut.serializeJson(entity));
-        data.put("flag", flag);
-        /*
-         * Key Metadata
-         */
-        data.mergeIn(meta.metadata());
-        /*
-         * HKey generate
-         */
-        return data.toBuffer();
-    }
 
     /*
      * Delivery when event bus consume ( send data )
@@ -63,6 +43,11 @@ public class CacheTool {
              */
             final String cacheKey = keyId((JsonObject) dataPart, type, data.getJsonArray("key"));
             resultMap.put(cacheKey, dataPart);
+        } else if (dataPart instanceof JsonArray) {
+            /*
+             * Cache key for collection
+             */
+
         }
         if (!primary) {
             /*
@@ -101,13 +86,6 @@ public class CacheTool {
         } else {
             return new ConcurrentHashMap<>();
         }
-    }
-
-    /*
-     * The key that related to data record
-     */
-    public static String keyId(final String type, final TreeMap<String, String> treeMap) {
-        return keyUniform(type, KEY_DATA, treeMap);
     }
 
     public static String keyCond(final String type, final JsonObject condition) {

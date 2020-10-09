@@ -2,7 +2,6 @@ package io.vertx.up.uca.jooq.cache;
 
 import io.github.jklingsporn.vertx.jooq.future.VertxDAO;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.plugin.cache.hit.CacheCond;
 import io.vertx.tp.plugin.cache.hit.CacheId;
 import io.vertx.tp.plugin.cache.hit.CacheKey;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -124,16 +123,20 @@ public class AsideFetch extends AbstractAside {
             /*
              * fetch(String,Object)
              */
+            return this.aopKv(point);
         } else if (L1Analyzer.isMatch(point, JsonObject.class)) {
             /*
              * fetch(JsonObject)
              */
-        } else if (L1Analyzer.isMatch(point, JsonObject.class, String.class)) {
-            /*
-             * fetch(JsonObject, String)
-             */
+            return this.aopCond(point);
+        } else {
+            if (L1Analyzer.isMatch(point, JsonObject.class, String.class)) {
+                /*
+                 * fetch(JsonObject, String)
+                 */
+            }
+            return (T) point.proceed(point.getArgs());
         }
-        return null;
     }
 
     /*
@@ -145,16 +148,20 @@ public class AsideFetch extends AbstractAside {
             /*
              * fetchAsync(String,Object)
              */
+            return this.aopKv(point);
         } else if (L1Analyzer.isMatch(point, JsonObject.class)) {
             /*
              * fetchAsync(JsonObject)
              */
-        } else if (L1Analyzer.isMatch(point, JsonObject.class, String.class)) {
-            /*
-             * fetchAsync(JsonObject, String)
-             */
+            return this.aopCond(point);
+        } else {
+            if (L1Analyzer.isMatch(point, JsonObject.class, String.class)) {
+                /*
+                 * fetchAsync(JsonObject, String)
+                 */
+            }
+            return (T) point.proceed(point.getArgs());
         }
-        return null;
     }
 
     /*
@@ -184,18 +191,13 @@ public class AsideFetch extends AbstractAside {
              * fetchOne(String,Object)
              * fetchOneAsync(String,Object)
              */
-            final String field = this.argument(0, point);
-            final Object value = this.argument(1, point);
-            final CacheKey key = new CacheCond(field, value);
-            return this.readAsync(key, this.metadata().conditionKey(new JsonObject().put(field, value)), point);
+            return this.aopKv(point);
         } else if (L1Analyzer.isMatch(point, JsonObject.class)) {
             /*
              * fetchOne(JsonObject)
              * fetchOneAsync(JsonObject)
              */
-            final JsonObject condition = this.argument(0, point);
-            final CacheKey key = new CacheCond(condition);
-            return this.readAsync(key, this.metadata().conditionKey(condition), point);
+            return this.aopCond(point);
         } else {
             if (L1Analyzer.isMatch(point, JsonObject.class, String.class)) {
                 /*
@@ -206,7 +208,7 @@ public class AsideFetch extends AbstractAside {
                  * so it does not support cache feature here.
                  */
             }
-            return (T) point.proceed();
+            return (T) point.proceed(point.getArgs());
         }
     }
 }

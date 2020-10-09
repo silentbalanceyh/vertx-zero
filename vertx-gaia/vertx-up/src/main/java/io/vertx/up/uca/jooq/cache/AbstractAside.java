@@ -2,6 +2,8 @@ package io.vertx.up.uca.jooq.cache;
 
 import io.github.jklingsporn.vertx.jooq.future.VertxDAO;
 import io.vertx.core.Future;
+import io.vertx.core.json.JsonObject;
+import io.vertx.tp.plugin.cache.hit.CacheCond;
 import io.vertx.tp.plugin.cache.hit.CacheKey;
 import io.vertx.tp.plugin.cache.hit.CacheMeta;
 import io.vertx.up.log.Annal;
@@ -81,5 +83,21 @@ abstract class AbstractAside {
 
     protected CacheMeta metadata() {
         return new CacheMeta(this.analyzer.type()).primaryKey(this.analyzer.primarySet());
+    }
+
+    /*
+     * Major split code logical
+     */
+    protected <T> T aopKv(final ProceedingJoinPoint point) {
+        final String field = this.argument(0, point);
+        final Object value = this.argument(1, point);
+        final CacheKey key = new CacheCond(field, value);
+        return this.readAsync(key, this.metadata().conditionKey(new JsonObject().put(field, value)), point);
+    }
+
+    protected <T> T aopCond(final ProceedingJoinPoint point) {
+        final JsonObject condition = this.argument(0, point);
+        final CacheKey key = new CacheCond(condition);
+        return this.readAsync(key, this.metadata().conditionKey(condition), point);
     }
 }

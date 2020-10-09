@@ -1,6 +1,8 @@
 package io.vertx.tp.plugin.cache.hit;
 
-import io.vertx.tp.plugin.cache.util.CacheTool;
+import io.vertx.tp.plugin.cache.l1.AlgorithmRecord;
+import io.vertx.tp.plugin.cache.l1.L1Algorithm;
+import io.vertx.up.util.Ut;
 
 import java.util.Objects;
 import java.util.TreeMap;
@@ -24,7 +26,11 @@ public class CacheId implements CacheKey {
     public String unique(final CacheMeta meta) {
         final TreeMap<String, String> treeMap = new TreeMap<>();
         treeMap.put(meta.primaryString(), this.id);
-        return CacheTool.keyId(meta.typeName(), treeMap);
+        /*
+         * Single Record
+         */
+        final L1Algorithm algorithm = Ut.singleton(AlgorithmRecord.class);
+        return algorithm.dataUnique(meta.typeName(), treeMap);
     }
 
     @Override

@@ -6,10 +6,11 @@ import io.vertx.core.eventbus.EventBus;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.plugin.cache.hit.CacheKey;
 import io.vertx.tp.plugin.cache.hit.CacheMeta;
-import io.vertx.tp.plugin.cache.util.CacheTool;
 import io.vertx.up.eon.em.ChangeFlag;
 import io.vertx.up.log.Annal;
 import io.vertx.up.util.Ut;
+
+import java.util.Collection;
 
 
 /**
@@ -51,7 +52,19 @@ public abstract class AbstractL1 implements L1Cache {
             /*
              * Delivery options
              */
-            eventBus.publish(address, CacheTool.dataDelivery(input, flag, meta));
+            final L1Algorithm algorithm;
+            if (input instanceof Collection) {
+                /*
+                 * Collection
+                 */
+                algorithm = Ut.singleton(AlgorithmCollection.class);
+            } else {
+                /*
+                 * Record
+                 */
+                algorithm = Ut.singleton(AlgorithmRecord.class);
+            }
+            eventBus.publish(address, algorithm.dataDelivery(input, flag, meta));
         }
     }
 
