@@ -65,11 +65,11 @@ public class CacheMeta implements Serializable {
             return null;
         } else {
             merged.put("key", Ut.toJArray(this.primaryKey));
-            if (this.primaryKey.isEmpty()) {
+            if (this.condition.isEmpty()) {
+                merged.put("primary", Boolean.TRUE);
+            } else {
                 merged.put("primary", Boolean.FALSE);
                 merged.put("condition", this.condition);
-            } else {
-                merged.put("primary", Boolean.TRUE);
             }
         }
         return merged;

@@ -2,7 +2,6 @@ package io.vertx.up.uca.jooq.cache;
 
 import io.github.jklingsporn.vertx.jooq.future.VertxDAO;
 import io.vertx.core.Future;
-import io.vertx.core.json.JsonObject;
 import io.vertx.tp.plugin.cache.hit.CacheKey;
 import io.vertx.tp.plugin.cache.hit.CacheMeta;
 import io.vertx.up.fn.Fn;
@@ -82,18 +81,5 @@ abstract class AbstractAside {
         } else {
             return null;
         }
-    }
-
-    protected CacheMeta metadata() {
-        return this.baseMeta.createCopy();
-    }
-
-    protected CacheMeta metadata(final JsonObject condition) {
-        final CacheMeta meta = this.baseMeta.createCopy();
-        return this.baseMeta.createCopy().conditionKey(condition);
-    }
-
-    protected CacheMeta metadata(final String field, final Object value) {
-        return this.metadata(new JsonObject().put(field, value));
     }
 }
