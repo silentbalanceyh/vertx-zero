@@ -172,6 +172,7 @@ public class AsideFetch extends AbstractAside {
     }
 
     /*
+     * 「Finished」
      * fetchOne
      * fetchOneAsync
      * Becareful about two signature definitions here
@@ -195,13 +196,17 @@ public class AsideFetch extends AbstractAside {
             final JsonObject condition = this.argument(0, point);
             final CacheKey key = new CacheCond(condition);
             return this.readAsync(key, this.metadata().conditionKey(condition), point);
-        } else if (L1Analyzer.isMatch(point, JsonObject.class, String.class)) {
-            /*
-             * fetchOne(JsonObject,String)
-             * fetchOneAsync(JsonObject, String)
-             * POJO mode processing
-             */
+        } else {
+            if (L1Analyzer.isMatch(point, JsonObject.class, String.class)) {
+                /*
+                 * fetchOne(JsonObject,String)
+                 * fetchOneAsync(JsonObject, String)
+                 * 「Important」
+                 * In current version, Pojo mode is for old system, it will be removed in future,
+                 * so it does not support cache feature here.
+                 */
+            }
+            return (T) point.proceed();
         }
-        return (T) point.proceed();
     }
 }
