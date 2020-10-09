@@ -40,35 +40,53 @@ public class L1Worker extends AbstractVerticle {
                      * Buffer converted to data
                      */
                     final JsonObject jsonBody = body.toJsonObject();
+
                     /*
-                     * Mapped data
+                     * Consume
                      */
-                    final Boolean isCollection = jsonBody.getBoolean("collection", Boolean.FALSE);
-                    final L1Algorithm algorithm;
-                    if (isCollection) {
-                        algorithm = Ut.singleton(AlgorithmCollection.class);
-                    } else {
-                        algorithm = Ut.singleton(AlgorithmRecord.class);
-                    }
-                    final ConcurrentMap<String, Object> mapped = algorithm.dataCache(jsonBody);
-                    /*
-                     * Redis
-                     */
-                    final ChangeFlag flag = Ut.toEnum(() -> jsonBody.getString("flag"), ChangeFlag.class, ChangeFlag.NONE);
-                    if (ChangeFlag.NONE != flag) {
-                        final L1Channel channel = new L1Channel();
-                        channel.write(mapped, flag);
-                        /*
-                         * Key Processing
-                         */
-                        final ConcurrentMap<String, Object> mappedKey = algorithm.dataKey(jsonBody);
-                        /*
-                         * Calculate the prefix of current type
-                         */
-                        channel.combine(mappedKey);
-                    }
+                    this.consumeData(jsonBody);
                 }
             });
         }
+    }
+
+    private void consumeData(final JsonObject jsonBody) {
+        /*
+         * Flag must not be NONE
+         */
+        final ChangeFlag flag = Ut.toEnum(() -> jsonBody.getString("flag"), ChangeFlag.class, ChangeFlag.NONE);
+        if (ChangeFlag.NONE != flag) {
+            /*
+             * L1Channel created
+             */
+            final L1Channel channel = new L1Channel();
+
+            /*
+             * L1Algorithm
+             */
+            final L1Algorithm algorithm = this.create(jsonBody);
+            final ConcurrentMap<String, Object> mapped = algorithm.dataCache(jsonBody);
+            channel.write(mapped, flag);
+
+            /*
+             * Key Processing
+             */
+            final ConcurrentMap<String, Object> mappedKey = algorithm.dataKey(jsonBody);
+            /*
+             * Calculate the prefix of current type
+             */
+            channel.combine(mappedKey);
+        }
+    }
+
+    private L1Algorithm create(final JsonObject jsonBody) {
+        final Boolean isCollection = jsonBody.getBoolean("collection", Boolean.FALSE);
+        final L1Algorithm algorithm;
+        if (isCollection) {
+            algorithm = Ut.singleton(AlgorithmCollection.class);
+        } else {
+            algorithm = Ut.singleton(AlgorithmRecord.class);
+        }
+        return algorithm;
     }
 }

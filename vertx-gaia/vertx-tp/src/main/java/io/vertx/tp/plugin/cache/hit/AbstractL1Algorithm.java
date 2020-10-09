@@ -28,14 +28,43 @@ abstract class AbstractL1Algorithm implements L1Algorithm {
     @Override
     public ConcurrentMap<String, Object> dataCache(final JsonObject jsonBody) {
         final ConcurrentMap<String, Object> resultMap = new ConcurrentHashMap<>();
-
+        /*
+         * Get refer attribute to check whether contains `reference`
+         */
+        final Boolean isRefer = jsonBody.getBoolean("refer", Boolean.FALSE);
+        /*
+         * Data processing for different data part
+         * 1) JsonObject - Single Record
+         * 2) JsonArray - Collection Data
+         */
+        this.dataProcess(resultMap, jsonBody);
+        /*
+         * Data refer processing
+         */
+        if (isRefer) {
+            /*
+             * Call refer here
+             * cacheKey = dataKey here
+             */
+            this.dataRefer(resultMap, jsonBody);
+        }
         return resultMap;
     }
 
     @Override
     public ConcurrentMap<String, Object> dataKey(final JsonObject jsonBody) {
         final ConcurrentMap<String, Object> resultMap = new ConcurrentHashMap<>();
-
+        /*
+         * Get refer attribute to check whether need `dataKey` step
+         * refer = true will trigger this method
+         */
+        final Boolean isRefer = jsonBody.getBoolean("refer", Boolean.FALSE);
+        if (isRefer) {
+            /*
+             * Data Tree processing
+             */
+            this.dataTree(resultMap, jsonBody);
+        }
         return resultMap;
     }
 
@@ -68,4 +97,13 @@ abstract class AbstractL1Algorithm implements L1Algorithm {
      * Abstract Processing data
      */
     public abstract String dataType();
+
+    /*
+     * Abstract Processing data body
+     */
+    public abstract void dataProcess(ConcurrentMap<String, Object> resultMap, JsonObject jsonBody);
+
+    public abstract void dataRefer(ConcurrentMap<String, Object> resultMap, JsonObject jsonBody);
+
+    public abstract void dataTree(ConcurrentMap<String, Object> resultMap, JsonObject jsonBody);
 }
