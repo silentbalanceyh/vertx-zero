@@ -119,7 +119,7 @@ public class AsideFetch extends AbstractAside {
      * fetch
      */
     @Around(value = "execution(* io.vertx.up.uca.jooq.UxJooq.fetch(..))")
-    public <T> T fetch(final ProceedingJoinPoint point) throws Throwable {
+    public <T> T aspectFetch(final ProceedingJoinPoint point) throws Throwable {
         if (L1Analyzer.isMatch(point, String.class, Object.class)) {
             /*
              * fetch(String,Object)
@@ -140,7 +140,7 @@ public class AsideFetch extends AbstractAside {
      * fetchAsync
      */
     @Around(value = "execution(* io.vertx.up.uca.jooq.UxJooq.fetchAsync(..))")
-    public <T> T fetchAsync(final ProceedingJoinPoint point) throws Throwable {
+    public <T> T aspectFetchAsync(final ProceedingJoinPoint point) throws Throwable {
         if (L1Analyzer.isMatch(point, String.class, Object.class)) {
             /*
              * fetchAsync(String,Object)
@@ -163,7 +163,7 @@ public class AsideFetch extends AbstractAside {
      * fetchByIdAsync
      */
     @Around(value = "execution(* io.vertx.up.uca.jooq.UxJooq.fetchById*(..)) && args(id)", argNames = "id")
-    public <T> T fetchById(final ProceedingJoinPoint point, final Object id) throws Throwable {
+    public <T> T aspectFetchById(final ProceedingJoinPoint point, final Object id) throws Throwable {
         /*
          * Returned Type checked only, two signatures
          */
@@ -177,7 +177,7 @@ public class AsideFetch extends AbstractAside {
      * Becareful about two signature definitions here
      */
     @Around(value = "execution(* io.vertx.up.uca.jooq.UxJooq.fetchOne*(..))")
-    public <T> T fetchOne(final ProceedingJoinPoint point) throws Throwable {
+    public <T> T aspectFetchOne(final ProceedingJoinPoint point) throws Throwable {
         if (L1Analyzer.isMatch(point, String.class, Object.class)) {
             /*
              * fetchOne(String,Object)
