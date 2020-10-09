@@ -43,7 +43,7 @@ public class CMessageUnique extends AbstractCMessage {
     }
 
     @Override
-    public JsonObject dataPart() {
-        return new JsonObject().put("condition", this.condition.copy());
+    public JsonObject dataCondition() {
+        return this.condition.copy();
     }
 }

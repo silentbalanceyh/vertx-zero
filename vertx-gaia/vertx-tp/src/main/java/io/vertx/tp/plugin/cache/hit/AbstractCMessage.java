@@ -58,30 +58,33 @@ public abstract class AbstractCMessage implements CMessage {
         delivery.put("flag", flag);
         delivery.put("type", this.typeName());
         delivery.put("key", Ut.toJArray(this.primarySet));
+
         /*
          * Refer
          */
         if (this.isRef()) {
-            delivery.put("primary", Boolean.TRUE);
+            delivery.put("refer", Boolean.TRUE);
         } else {
-            delivery.put("primary", Boolean.FALSE);
+            delivery.put("refer", Boolean.FALSE);
         }
+
         /*
          * Message
          */
         if (Objects.nonNull(this.data)) {
             if (this.isList()) {
                 delivery.put("data", (JsonArray) Ut.serializeJson(this.data));
+                delivery.put("collection", Boolean.TRUE);
             } else {
                 delivery.put("data", (JsonObject) Ut.serializeJson(this.data));
-                delivery.put("collection", Boolean.TRUE);
+                delivery.put("collection", Boolean.FALSE);
             }
         }
-        delivery.mergeIn(dataPart());
+        delivery.mergeIn(new JsonObject().put("condition", this.dataCondition()));
         return delivery.toBuffer();
     }
 
-    public JsonObject dataPart() {
+    public JsonObject dataCondition() {
         return new JsonObject();
     }
 }

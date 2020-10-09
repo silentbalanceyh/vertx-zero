@@ -4,8 +4,10 @@ import io.vertx.core.AbstractVerticle;
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.eventbus.EventBus;
 import io.vertx.core.json.JsonObject;
+import io.vertx.tp.plugin.cache.hit.AlgorithmCollection;
+import io.vertx.tp.plugin.cache.hit.AlgorithmRecord;
+import io.vertx.tp.plugin.cache.hit.L1Algorithm;
 import io.vertx.tp.plugin.cache.l1.L1Config;
-import io.vertx.tp.plugin.cache.util.CacheTool;
 import io.vertx.up.eon.em.ChangeFlag;
 import io.vertx.up.util.Ut;
 
@@ -41,7 +43,14 @@ public class L1Worker extends AbstractVerticle {
                     /*
                      * Mapped data
                      */
-                    final ConcurrentMap<String, Object> mapped = CacheTool.generateData(jsonBody);
+                    final Boolean isCollection = jsonBody.getBoolean("collection", Boolean.FALSE);
+                    final L1Algorithm algorithm;
+                    if (isCollection) {
+                        algorithm = Ut.singleton(AlgorithmCollection.class);
+                    } else {
+                        algorithm = Ut.singleton(AlgorithmRecord.class);
+                    }
+                    final ConcurrentMap<String, Object> mapped = algorithm.dataCache(jsonBody);
                     /*
                      * Redis
                      */
@@ -52,7 +61,7 @@ public class L1Worker extends AbstractVerticle {
                         /*
                          * Key Processing
                          */
-                        final ConcurrentMap<String, Object> mappedKey = CacheTool.generateKey(jsonBody);
+                        final ConcurrentMap<String, Object> mappedKey = algorithm.dataKey(jsonBody);
                         /*
                          * Calculate the prefix of current type
                          */

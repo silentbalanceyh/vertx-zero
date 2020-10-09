@@ -4,6 +4,8 @@ import io.vertx.core.json.JsonObject;
 
 import java.util.Objects;
 import java.util.TreeMap;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
 /**
  * @author <a href="http://www.origin-x.cn">lang</a>
@@ -21,6 +23,20 @@ abstract class AbstractL1Algorithm implements L1Algorithm {
     @Override
     public String dataUnique(final String type, final TreeMap<String, String> treeMap) {
         return this.dataUnique(type, KEY_DATA, treeMap);
+    }
+
+    @Override
+    public ConcurrentMap<String, Object> dataCache(final JsonObject jsonBody) {
+        final ConcurrentMap<String, Object> resultMap = new ConcurrentHashMap<>();
+
+        return resultMap;
+    }
+
+    @Override
+    public ConcurrentMap<String, Object> dataKey(final JsonObject jsonBody) {
+        final ConcurrentMap<String, Object> resultMap = new ConcurrentHashMap<>();
+
+        return resultMap;
     }
 
     /*
@@ -52,6 +68,4 @@ abstract class AbstractL1Algorithm implements L1Algorithm {
      * Abstract Processing data
      */
     public abstract String dataType();
-
-    public abstract <T> void dataDelivery(final JsonObject message, final T entity);
 }
