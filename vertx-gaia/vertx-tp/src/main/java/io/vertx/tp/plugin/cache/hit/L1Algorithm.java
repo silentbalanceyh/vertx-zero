@@ -34,6 +34,8 @@ public interface L1Algorithm {
 
     String dataKey(String type, JsonObject condition);
 
+    String dataRefKey(String type, JsonObject condition);
+
     /*
      * Phase 2: Cache Data Generation
      */

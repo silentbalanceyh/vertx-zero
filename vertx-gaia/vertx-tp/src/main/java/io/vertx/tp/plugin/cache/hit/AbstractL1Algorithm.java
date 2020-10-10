@@ -20,7 +20,7 @@ abstract class AbstractL1Algorithm implements L1Algorithm {
      * Non-Primary Key processing
      */
     @Override
-    public String dataKey(final String type, final JsonObject condition) {
+    public String dataRefKey(final String type, final JsonObject condition) {
         final TreeMap<String, String> treeMap = this.dataMap(condition);
         return this.dataKey(type, CACHE_DATA_REF, treeMap);
     }
@@ -29,6 +29,12 @@ abstract class AbstractL1Algorithm implements L1Algorithm {
      * Get DATA directly
      * Primary Key processing
      */
+    @Override
+    public String dataKey(final String type, final JsonObject condition) {
+        final TreeMap<String, String> treeMap = this.dataMap(condition);
+        return this.dataKey(type, treeMap);
+    }
+
     @Override
     public String dataKey(final String type, final TreeMap<String, String> treeMap) {
         return this.dataKey(type, CACHE_DATA, treeMap);

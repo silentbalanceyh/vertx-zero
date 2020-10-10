@@ -38,7 +38,7 @@ public class AlgorithmRecord extends AbstractL1Algorithm {
         /*
          * conditionKey will put into
          */
-        final String conditionKey = this.dataKey(jsonBody.getString(FIELD_TYPE), condition);
+        final String conditionKey = this.dataRefKey(jsonBody.getString(FIELD_TYPE), condition);
         resultMap.put(conditionKey, cacheKey);
     }
 
@@ -48,7 +48,7 @@ public class AlgorithmRecord extends AbstractL1Algorithm {
          * dataKey = conditionKey
          */
         final JsonObject condition = jsonBody.getJsonObject(FIELD_CONDITION);
-        final String conditionKey = this.dataKey(jsonBody.getString(FIELD_TYPE), condition);
+        final String conditionKey = this.dataRefKey(jsonBody.getString(FIELD_TYPE), condition);
         final String cacheKey = this.calculateKey(jsonBody);
         /*
          * Condition Key will append
