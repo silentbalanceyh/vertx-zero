@@ -4,7 +4,7 @@ import io.vertx.core.Future;
 import io.vertx.tp.plugin.cache.Harp;
 import io.vertx.tp.plugin.cache.hit.CMessage;
 import io.vertx.tp.plugin.cache.l1.L1Cache;
-import io.vertx.tp.plugin.cache.util.CacheFn;
+import io.vertx.tp.plugin.cache.util.CacheAside;
 import io.vertx.up.fn.RunSupplier;
 import io.vertx.up.uca.jooq.JqAnalyzer;
 
@@ -35,7 +35,7 @@ public class L1Aside {
     /*
      * Private method for write
      */
-    void writeCache(final CMessage message) {
+    private void writeCache(final CMessage message) {
         if (Objects.nonNull(this.cacheL1)) {
             this.cacheL1.write(message);
         }
@@ -48,18 +48,31 @@ public class L1Aside {
     }
 
     /*
+     * -- delete
+     *    deleteAsync
+     * Delete cache information
+     */
+    <T> T delete(final List<CMessage> messages, final RunSupplier<T> executor) {
+        return CacheAside.after(executor, ret -> this.deleteCache(messages));
+    }
+
+    <T> Future<T> deleteAsync(final List<CMessage> messages, final RunSupplier<Future<T>> executor) {
+        return CacheAside.afterAsync(executor, ret -> this.deleteCache(messages));
+    }
+
+    /*
      * -- read
      *    readAsync
      * Read information such as T & List<T> returned from cache here
      */
     <T> T read(final CMessage message, final RunSupplier<T> executor) {
-        return CacheFn.in(this.defend(() -> this.cacheL1.read(message)), executor,
+        return CacheAside.before(this.defend(() -> this.cacheL1.read(message)), executor,
                 /* Fullfill Message with returned data */
                 entity -> this.writeCache(message.data(entity)));
     }
 
     <T> Future<T> readAsync(final CMessage message, final RunSupplier<Future<T>> executor) {
-        return CacheFn.in(this.defendAsync(() -> this.cacheL1.readAsync(message)), executor,
+        return CacheAside.before(this.defendAsync(() -> this.cacheL1.readAsync(message)), executor,
                 /* Fullfill Message with returned data */
                 entity -> this.writeCache(message.data(entity)));
     }
@@ -71,11 +84,11 @@ public class L1Aside {
      * Exist such as T & List<T>, the different point is returned type is Boolean
      */
     Boolean exist(final CMessage message, final RunSupplier<Boolean> executor) {
-        return CacheFn.in(this.defend(() -> this.cacheL1.exist(message)), executor);
+        return CacheAside.before(this.defend(() -> this.cacheL1.exist(message)), executor);
     }
 
     Future<Boolean> existAsync(final CMessage message, final RunSupplier<Future<Boolean>> executor) {
-        return CacheFn.in(this.defendAsync(() -> this.cacheL1.existAsync(message)), executor);
+        return CacheAside.before(this.defendAsync(() -> this.cacheL1.existAsync(message)), executor);
     }
 
 

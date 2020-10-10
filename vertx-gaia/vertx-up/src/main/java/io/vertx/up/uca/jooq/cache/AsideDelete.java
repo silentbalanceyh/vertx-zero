@@ -70,6 +70,6 @@ public class AsideDelete extends L1AsideWriting {
          * Object[] / Collection
          */
         final List<CMessage> messages = this.messageList(id);
-        return null;
+        return this.deleteAsync(messages, point);
     }
 }
