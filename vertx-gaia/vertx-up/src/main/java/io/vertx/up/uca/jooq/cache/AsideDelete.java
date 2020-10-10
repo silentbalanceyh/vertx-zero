@@ -1,10 +1,13 @@
 package io.vertx.up.uca.jooq.cache;
 
 import io.github.jklingsporn.vertx.jooq.future.VertxDAO;
+import io.vertx.tp.plugin.cache.hit.CMessage;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
+
+import java.util.List;
 
 /**
  * @author <a href="http://www.origin-x.cn">lang</a>
@@ -12,7 +15,7 @@ import org.aspectj.lang.annotation.Before;
  */
 @Aspect
 @SuppressWarnings("all")
-public class AsideDelete extends AbstractAside {
+public class AsideDelete extends L1AsideWriting {
     @Before(value = "initialization(io.vertx.up.uca.jooq.UxJooq.new(..)) && args(clazz,dao)", argNames = "clazz,dao")
     public void init(final Class<?> clazz, final VertxDAO dao) {
         super.initialize(clazz, dao);
@@ -63,6 +66,10 @@ public class AsideDelete extends AbstractAside {
      */
     @Around(value = "execution(* io.vertx.up.uca.jooq.UxJooq.deleteById*(..)) && args(id)", argNames = "id")
     public <T> T deleteById(final ProceedingJoinPoint point, final Object id) throws Throwable {
+        /*
+         * Object[] / Collection
+         */
+        final List<CMessage> messages = this.messageList(id);
         return null;
     }
 }

@@ -11,7 +11,46 @@ import java.lang.reflect.Method;
  * @author <a href="http://www.origin-x.cn">lang</a>
  */
 @SuppressWarnings("all")
-public abstract class AbstractAsideReading extends AbstractAside {
+class L1AsideReading extends AbstractAside {
+    /*
+     * Async / Sync calling in uniform form here
+     * The returned data type are following:
+     * 1) T as entity
+     * 2) List<T> as `java.util.List<T>` for entity collection
+     * 3) Boolean as `checking/double checking` etc
+     *
+     * The workflow mode is as:
+     * 1) T as sync.
+     * 2) Future<T> as async.
+     */
+    protected <T> T existAsync(final CMessage message, final ProceedingJoinPoint point) {
+        /*
+         * Get method definition
+         */
+        final Method method = L1Analyzer.method(point);
+        /*
+         * Class<?>, returnType
+         */
+        final Class<?> returnType = method.getReturnType();
+        final String name = method.getName();
+        /*
+         * Args of Object[]
+         */
+        final Object[] args = point.getArgs();
+        if (Future.class == returnType) {
+            /*
+             * Async calling
+             */
+            this.logger().info("( Aop ) `{0}` exist aspecting... ( Async ) {1}", name, Ut.fromJoin(args));
+            return (T) this.executor.existAsync(message, () -> (Future<Boolean>) point.proceed(args));
+        } else {
+            /*
+             * Sync calling
+             */
+            this.logger().info("( Aop ) `{0}` exist aspecting... ( Sync ) {1}", name, Ut.fromJoin(args));
+            return (T) this.executor.exist(message, () -> (Boolean) point.proceed(args));
+        }
+    }
 
     /*
      * Executing method processing
@@ -34,43 +73,14 @@ public abstract class AbstractAsideReading extends AbstractAside {
             /*
              * Async calling
              */
-            this.logger().info("( Aop ) `{0}` aspecting... ( Async ) {1}", name, Ut.fromJoin(args));
-            return (T) this.executor.readAsync(message, () -> (Future) point.proceed(args));
+            this.logger().info("( Aop ) `{0}` read aspecting... ( Async ) {1}", name, Ut.fromJoin(args));
+            return (T) this.executor.readAsync(message, () -> (Future<T>) point.proceed(args));
         } else {
             /*
              * Sync calling
              */
-            this.logger().info("( Aop ) `{0}` aspecting... ( Sync ) {1}", name, Ut.fromJoin(args));
+            this.logger().info("( Aop ) `{0}` read aspecting... ( Sync ) {1}", name, Ut.fromJoin(args));
             return (T) this.executor.read(message, () -> (T) point.proceed(args));
-        }
-    }
-
-    protected <T> T existAsync(final CMessage message, final ProceedingJoinPoint point) {
-        /*
-         * Get method definition
-         */
-        final Method method = L1Analyzer.method(point);
-        /*
-         * Class<?>, returnType
-         */
-        final Class<?> returnType = method.getReturnType();
-        final String name = method.getName();
-        /*
-         * Args of Object[]
-         */
-        final Object[] args = point.getArgs();
-        if (Future.class == returnType) {
-            /*
-             * Async calling
-             */
-            this.logger().info("( Aop ) `{0}` aspecting... ( Async ) {1}", name, Ut.fromJoin(args));
-            return (T) this.executor.existAsync(message, () -> (Future<Boolean>) point.proceed(args));
-        } else {
-            /*
-             * Sync calling
-             */
-            this.logger().info("( Aop ) `{0}` aspecting... ( Sync ) {1}", name, Ut.fromJoin(args));
-            return (T) this.executor.exist(message, () -> (Boolean) point.proceed(args));
         }
     }
 }

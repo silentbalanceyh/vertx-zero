@@ -37,13 +37,13 @@ public interface L1Cache {
      * - by unique condition
      *
      */
-    void write(CMessage message);
+    void write(CMessage... message);
 
     /*
      * L1 Algorithm for deleting data from cache here, but the deleting processing depend on
      * implementation of sub-set here.
      */
-    void delete(CMessage message);
+    void delete(CMessage... message);
 
     /*
      * Read data with callback refresh the cache

@@ -13,7 +13,7 @@ import org.aspectj.lang.annotation.Before;
  */
 @Aspect
 @SuppressWarnings("all")
-public class AsideCheck extends AbstractAsideReading {
+public class AsideCheck extends L1AsideReading {
     @Before(value = "initialization(io.vertx.up.uca.jooq.UxJooq.new(..)) && args(clazz,dao)", argNames = "clazz,dao")
     public void init(final Class<?> clazz, final VertxDAO dao) {
         super.initialize(clazz, dao);
@@ -55,7 +55,7 @@ public class AsideCheck extends AbstractAsideReading {
              * exist(JsonObject)
              * existAsync(JsonObject)
              */
-            final CMessage message = this.messageList(point);
+            final CMessage message = this.messagesCond(point);
             return this.existAsync(message, point);
         } else {
             return (T) point.proceed(point.getArgs());

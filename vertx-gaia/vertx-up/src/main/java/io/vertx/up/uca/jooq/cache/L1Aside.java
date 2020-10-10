@@ -8,6 +8,7 @@ import io.vertx.tp.plugin.cache.util.CacheFn;
 import io.vertx.up.fn.RunSupplier;
 import io.vertx.up.uca.jooq.JqAnalyzer;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.function.Supplier;
 
@@ -40,11 +41,43 @@ public class L1Aside {
         }
     }
 
-    void deleteCache(final CMessage message) {
+    void deleteCache(final List<CMessage> message) {
         if (Objects.nonNull(this.cacheL1)) {
-            this.cacheL1.delete(message);
+            this.cacheL1.delete(message.toArray(new CMessage[]{}));
         }
     }
+
+    /*
+     * -- read
+     *    readAsync
+     * Read information such as T & List<T> returned from cache here
+     */
+    <T> T read(final CMessage message, final RunSupplier<T> executor) {
+        return CacheFn.in(this.defend(() -> this.cacheL1.read(message)), executor,
+                /* Fullfill Message with returned data */
+                entity -> this.writeCache(message.data(entity)));
+    }
+
+    <T> Future<T> readAsync(final CMessage message, final RunSupplier<Future<T>> executor) {
+        return CacheFn.in(this.defendAsync(() -> this.cacheL1.readAsync(message)), executor,
+                /* Fullfill Message with returned data */
+                entity -> this.writeCache(message.data(entity)));
+    }
+
+    /*
+     *
+     * -- exist
+     *    existAsync
+     * Exist such as T & List<T>, the different point is returned type is Boolean
+     */
+    Boolean exist(final CMessage message, final RunSupplier<Boolean> executor) {
+        return CacheFn.in(this.defend(() -> this.cacheL1.exist(message)), executor);
+    }
+
+    Future<Boolean> existAsync(final CMessage message, final RunSupplier<Future<Boolean>> executor) {
+        return CacheFn.in(this.defendAsync(() -> this.cacheL1.existAsync(message)), executor);
+    }
+
 
     /*
      * Defined for null checking
@@ -61,24 +94,4 @@ public class L1Aside {
         } else return executor;
     }
 
-
-    <T> T read(final CMessage message, final RunSupplier<T> executor) {
-        return CacheFn.in(this.defend(() -> this.cacheL1.read(message)), executor,
-                /* Fullfill Message with returned data */
-                entity -> this.writeCache(message.data(entity)));
-    }
-
-    <T> Future<T> readAsync(final CMessage message, final RunSupplier<Future<T>> executor) {
-        return CacheFn.in(this.defendAsync(() -> this.cacheL1.readAsync(message)), executor,
-                /* Fullfill Message with returned data */
-                entity -> this.writeCache(message.data(entity)));
-    }
-
-    Boolean exist(final CMessage message, final RunSupplier<Boolean> executor) {
-        return CacheFn.in(this.defend(() -> this.cacheL1.exist(message)), executor);
-    }
-
-    Future<Boolean> existAsync(final CMessage message, final RunSupplier<Future<Boolean>> executor) {
-        return CacheFn.in(this.defendAsync(() -> this.cacheL1.existAsync(message)), executor);
-    }
 }

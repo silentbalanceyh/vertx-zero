@@ -12,6 +12,7 @@ import io.vertx.up.log.Annal;
 import io.vertx.up.util.Ut;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
@@ -20,6 +21,7 @@ import java.util.Objects;
  * @author <a href="http://www.origin-x.cn">lang</a>
  * Abstract class for uniform processing for L1 cache
  */
+@SuppressWarnings("all")
 public abstract class AbstractL1 implements L1Cache {
     protected transient Vertx vertx;
     protected transient L1Config config;
@@ -45,23 +47,13 @@ public abstract class AbstractL1 implements L1Cache {
      * Actual the cache will be deleted
      */
     @Override
-    public void write(final CMessage message) {
-        /*
-         * Address processing
-         */
-        final String address = this.config.getAddress();
-        if (Ut.notNil(address)) {
-            final EventBus eventBus = this.vertx.eventBus();
-            /*
-             * Delivery Message extraction
-             */
-            eventBus.publish(address, message.dataDelivery(ChangeFlag.UPDATE));
-        }
+    public void write(final CMessage... messages) {
+        this.publish(ChangeFlag.UPDATE, messages);
     }
 
     @Override
-    public void delete(final CMessage message) {
-
+    public void delete(final CMessage... messages) {
+        this.publish(ChangeFlag.DELETE, messages);
     }
 
     @Override
@@ -93,7 +85,22 @@ public abstract class AbstractL1 implements L1Cache {
         return this.readAsync(message).compose(item -> Future.succeededFuture(Objects.nonNull(item)));
     }
 
-    @SuppressWarnings("all")
+    // ------------------ Private Method -------------------------
+    private void publish(final ChangeFlag flag, final CMessage... messages) {
+        final String address = this.config.getAddress();
+        if (Ut.notNil(address)) {
+            final EventBus eventBus = this.vertx.eventBus();
+            /*
+             * Delivery Message extraction
+             */
+            Arrays.asList(messages)
+                    /*
+                     * Publish message to event bus
+                     */
+                    .forEach(message -> eventBus.publish(address, message.dataDelivery(flag)));
+        }
+    }
+
     private <T> T deserialize(final Object response, final Class<?> dataType) {
         if (Objects.isNull(response)) {
             return null;
@@ -118,6 +125,8 @@ public abstract class AbstractL1 implements L1Cache {
     protected Annal logger() {
         return Annal.get(this.getClass());
     }
+
+    // ------------------ Abstract Method -------------------------
 
     public abstract <T> Future<T> readCacheAsync(String key);
 

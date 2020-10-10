@@ -14,7 +14,7 @@ import org.aspectj.lang.annotation.Before;
  */
 @Aspect
 @SuppressWarnings("all")
-public class AsideFetch extends AbstractAsideReading {
+public class AsideFetch extends L1AsideReading {
     @Before(value = "initialization(io.vertx.up.uca.jooq.UxJooq.new(..)) && args(clazz,dao)", argNames = "clazz,dao")
     public void init(final Class<?> clazz, final VertxDAO dao) {
         super.initialize(clazz, dao);
@@ -128,7 +128,7 @@ public class AsideFetch extends AbstractAsideReading {
             /*
              * fetch(JsonObject)
              */
-            final CMessage message = this.messageList(point);
+            final CMessage message = this.messagesCond(point);
             return this.readAsync(message, point);
         } else {
             if (L1Analyzer.isMatch(point, JsonObject.class, String.class)) {
@@ -155,7 +155,7 @@ public class AsideFetch extends AbstractAsideReading {
             /*
              * fetchAsync(JsonObject)
              */
-            final CMessage message = this.messageList(point);
+            final CMessage message = this.messagesCond(point);
             return this.readAsync(message, point);
         } else {
             if (L1Analyzer.isMatch(point, JsonObject.class, String.class)) {
@@ -201,7 +201,7 @@ public class AsideFetch extends AbstractAsideReading {
              * fetchOne(JsonObject)
              * fetchOneAsync(JsonObject)
              */
-            final CMessage message = this.messageUnique(point);
+            final CMessage message = this.messageCond(point);
             return this.readAsync(message, point);
         } else {
             if (L1Analyzer.isMatch(point, JsonObject.class, String.class)) {
