@@ -43,19 +43,10 @@ class ActionDelete extends AbstractAction {
     }
 
     /* By Id */
-    <T, ID> Boolean deleteById(final ID... id) {
-        this.vertxDAO.deleteById(id);
-        return Boolean.TRUE;
-    }
 
     <T, ID> Boolean deleteById(final Collection<ID> ids) {
         this.vertxDAO.deleteById(ids);
         return Boolean.TRUE;
-    }
-
-    <T, ID> Future<Boolean> deleteByIdAsync(final ID... id) {
-        final CompletableFuture<Void> future = this.vertxDAO.deleteByIdAsync(id);
-        return this.successed(future, Boolean.TRUE);
     }
 
     <T, ID> Future<Boolean> deleteByIdAsync(final Collection<ID> ids) {

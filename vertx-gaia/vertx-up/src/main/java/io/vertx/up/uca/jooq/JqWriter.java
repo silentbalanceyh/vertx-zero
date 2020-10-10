@@ -108,16 +108,8 @@ class JqWriter {
         return this.delete.delete(entity);
     }
 
-    <ID> Future<Boolean> deleteByIdAsync(final ID... ids) {
-        return this.delete.deleteByIdAsync(ids);
-    }
-
     <ID> Future<Boolean> deleteByIdAsync(final Collection<ID> ids) {
         return this.delete.deleteByIdAsync(ids);
-    }
-
-    <ID> Boolean deleteById(final ID... ids) {
-        return this.delete.deleteById(ids);
     }
 
     <ID> Boolean deleteById(final Collection<ID> ids) {

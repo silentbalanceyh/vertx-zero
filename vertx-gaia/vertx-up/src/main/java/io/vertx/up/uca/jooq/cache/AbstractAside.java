@@ -33,30 +33,6 @@ abstract class AbstractAside {
         return Annal.get(this.getClass());
     }
 
-
-    // ------------------ Sub-class Method -------------------------
-    /*
-     * Argument extraction here based on `index`
-     *
-     * For example:
-     * - method(arg1,arg2,arg3,....)
-     *
-     * The parameters are:
-     * - arg1 ( index = 0 )
-     * - arg2 ( index = 1 )
-     * - arg3 ( index = 2 )
-     * ......
-     * - argN ( index = N - 1 )
-     */
-    protected <T> T argument(final Integer index, final ProceedingJoinPoint point) {
-        final Object[] args = point.getArgs();
-        if (index < args.length) {
-            return (T) args[index];
-        } else {
-            return null;
-        }
-    }
-
     /*
      * CMessage object creation here, there are two format
      * 1) The parameter is `ProceedingJoinPoint` only
@@ -70,14 +46,14 @@ abstract class AbstractAside {
      *         |--> (String, Object)
      */
     protected CMessage messageField(final ProceedingJoinPoint point) {
-        final String field = this.argument(0, point);
-        final Object value = this.argument(1, point);
+        final String field = L1Analyzer.argument(0, point);
+        final Object value = L1Analyzer.argument(1, point);
         return this.message(field, value);
     }
 
     protected CMessage messagesField(final ProceedingJoinPoint point) {
-        final String field = this.argument(0, point);
-        final Object value = this.argument(1, point);
+        final String field = L1Analyzer.argument(0, point);
+        final Object value = L1Analyzer.argument(1, point);
         return this.messages(field, value);
     }
 
@@ -88,12 +64,12 @@ abstract class AbstractAside {
      *         |--> (JsonObject)
      */
     protected CMessage messageCond(final ProceedingJoinPoint point) {
-        final JsonObject condition = this.argument(0, point);
+        final JsonObject condition = L1Analyzer.argument(0, point);
         return this.message(condition);
     }
 
     protected CMessage messagesCond(final ProceedingJoinPoint point) {
-        final JsonObject condition = this.argument(0, point);
+        final JsonObject condition = L1Analyzer.argument(0, point);
         return this.messages(condition);
     }
 
