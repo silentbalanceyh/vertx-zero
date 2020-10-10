@@ -45,7 +45,7 @@ public abstract class AbstractL1 implements L1Cache {
      * Actual the cache will be deleted
      */
     @Override
-    public <T> void write(final CMessage message, final ChangeFlag flag) {
+    public void write(final CMessage message, final ChangeFlag flag) {
         /*
          * Address processing
          */
@@ -76,6 +76,16 @@ public abstract class AbstractL1 implements L1Cache {
         final String uk = message.dataUnique();
         final Object response = this.readCache(uk);
         return this.deserialize(response, message.dataType());
+    }
+
+    @Override
+    public Boolean exist(final CMessage message) {
+        return Objects.nonNull(this.read(message));
+    }
+
+    @Override
+    public Future<Boolean> existAsync(final CMessage message) {
+        return this.readAsync(message).compose(item -> Future.succeededFuture(Objects.nonNull(item)));
     }
 
     @SuppressWarnings("all")

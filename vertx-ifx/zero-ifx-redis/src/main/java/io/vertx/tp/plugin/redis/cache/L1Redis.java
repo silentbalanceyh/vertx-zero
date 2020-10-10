@@ -43,7 +43,7 @@ class L1Redis {
     List<Request> requestDataAppend(final ConcurrentMap<String, Object> dataMap) {
         final List<Request> requests = new ArrayList<>();
         dataMap.forEach((k, data) -> {
-            final Request request = Request.cmd(Command.APPEND);
+            final Request request = Request.cmd(Command.SADD);
             if (Objects.nonNull(data)) {
                 request.arg(k);
                 request.arg(data.toString() + ",");

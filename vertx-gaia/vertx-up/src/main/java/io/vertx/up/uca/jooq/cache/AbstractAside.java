@@ -73,6 +73,35 @@ abstract class AbstractAside {
         }
     }
 
+    protected <T> T existAsync(final CMessage message, final ProceedingJoinPoint point) {
+        /*
+         * Get method definition
+         */
+        final Method method = L1Analyzer.method(point);
+        /*
+         * Class<?>, returnType
+         */
+        final Class<?> returnType = method.getReturnType();
+        final String name = method.getName();
+        /*
+         * Args of Object[]
+         */
+        final Object[] args = point.getArgs();
+        if (Future.class == returnType) {
+            /*
+             * Async calling
+             */
+            logger().info("( Aop ) `{0}` aspecting... ( Async ) {1}", name, Ut.fromJoin(args));
+            return (T) this.executor.existAsync(message, () -> (Future<Boolean>) point.proceed(args));
+        } else {
+            /*
+             * Sync calling
+             */
+            logger().info("( Aop ) `{0}` aspecting... ( Sync ) {1}", name, Ut.fromJoin(args));
+            return (T) this.executor.exist(message, () -> (Boolean) point.proceed(args));
+        }
+    }
+
     protected <T> T argument(final Integer index, final ProceedingJoinPoint point) {
         final Object[] args = point.getArgs();
         if (index < args.length) {

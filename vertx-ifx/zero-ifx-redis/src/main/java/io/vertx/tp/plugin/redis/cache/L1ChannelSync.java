@@ -36,8 +36,10 @@ class L1ChannelSync {
                     /*
                      * Data Found
                      */
+                    LOGGER.info(CacheMsg.HIT_DATA, key);
                     return (T) Ut.toJObject(literal);
                 } else if (Ut.isJArray(literal)) {
+                    LOGGER.info(CacheMsg.HIT_DATA, key);
                     return (T) Ut.toJArray(literal);
                 } else {
                     /*

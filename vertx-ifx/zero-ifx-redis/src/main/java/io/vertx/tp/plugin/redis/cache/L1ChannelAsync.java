@@ -88,6 +88,11 @@ class L1ChannelAsync {
                 LOGGER.info(CacheMsg.HIT_SECONDARY, item, key);
                 return this.readAsync(item.toString());
             } else {
+                if (Objects.nonNull(item)) {
+                    LOGGER.info(CacheMsg.HIT_DATA, key);
+                } else {
+                    LOGGER.info(CacheMsg.HIT_FAILURE, key);
+                }
                 return Future.succeededFuture((T) item);
             }
         }).otherwise(error -> {

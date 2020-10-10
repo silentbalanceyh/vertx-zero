@@ -38,9 +38,25 @@ public interface L1Cache {
      * - by unique condition
      *
      */
-    <T> void write(CMessage message, ChangeFlag flag);
+    void write(CMessage message, ChangeFlag flag);
 
+    /*
+     * Read data with callback refresh the cache
+     * 1. Read data from cache first
+     * 2. If hit, returned directly
+     * 3. If failure, call on database to get data
+     */
     <T> Future<T> readAsync(CMessage message);
 
     <T> T read(CMessage message);
+
+    /*
+     * Exist data without callback refresh the cache
+     * 1. Read data from cache first
+     * 2. If hit, returned directly
+     * 3. If failure, call on database to get data
+     */
+    Future<Boolean> existAsync(CMessage message);
+
+    Boolean exist(CMessage message);
 }

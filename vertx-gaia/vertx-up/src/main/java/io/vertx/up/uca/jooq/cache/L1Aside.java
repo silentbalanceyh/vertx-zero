@@ -73,4 +73,12 @@ public class L1Aside {
                 /* Fullfill Message with returned data */
                 entity -> this.writeCache(message.data(entity)));
     }
+
+    Boolean exist(final CMessage message, final RunSupplier<Boolean> executor) {
+        return CacheFn.in(this.defend(() -> this.cacheL1.exist(message)), executor);
+    }
+
+    Future<Boolean> existAsync(final CMessage message, final RunSupplier<Future<Boolean>> executor) {
+        return CacheFn.in(this.defendAsync(() -> this.cacheL1.existAsync(message)), executor);
+    }
 }
