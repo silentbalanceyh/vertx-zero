@@ -1,6 +1,5 @@
 package io.vertx.tp.plugin.redis.cache;
 
-import io.vertx.core.json.JsonObject;
 import io.vertx.tp.plugin.redis.RedisInfix;
 import io.vertx.up.log.Annal;
 import io.vertx.up.util.Ut;
@@ -19,7 +18,8 @@ class L1ChannelSync {
         this.jedis = RedisInfix.getJClient();
     }
 
-    JsonObject read(final String key) {
+    @SuppressWarnings("all")
+    <T> T read(final String key) {
         /*
          * Async convert to type
          */
@@ -36,7 +36,9 @@ class L1ChannelSync {
                     /*
                      * Data Found
                      */
-                    return Ut.toJObject(literal);
+                    return (T) Ut.toJObject(literal);
+                } else if (Ut.isJArray(literal)) {
+                    return (T) Ut.toJArray(literal);
                 } else {
                     /*
                      * Secondary read

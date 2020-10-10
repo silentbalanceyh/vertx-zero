@@ -1,7 +1,6 @@
 package io.vertx.tp.plugin.redis.cache;
 
 import io.vertx.core.Future;
-import io.vertx.core.json.JsonObject;
 import io.vertx.up.eon.em.ChangeFlag;
 
 import java.util.concurrent.ConcurrentMap;
@@ -31,11 +30,11 @@ class L1Channel {
         this.channelAsync.append(dataMap);
     }
 
-    JsonObject read(final String key) {
+    <T> T read(final String key) {
         return this.channelSync.read(key);
     }
 
-    Future<JsonObject> readAsync(final String key) {
+    <T> Future<T> readAsync(final String key) {
         return this.channelAsync.readAsync(key);
     }
 }

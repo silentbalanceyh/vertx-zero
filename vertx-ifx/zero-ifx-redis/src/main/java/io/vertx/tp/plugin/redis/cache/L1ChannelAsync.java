@@ -2,6 +2,7 @@ package io.vertx.tp.plugin.redis.cache;
 
 import io.vertx.core.Future;
 import io.vertx.core.buffer.Buffer;
+import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.redis.client.Command;
 import io.vertx.redis.client.Request;
@@ -21,7 +22,6 @@ class L1ChannelAsync {
     private final transient L1Redis redis = new L1Redis();
 
     L1ChannelAsync() {
-
     }
 
     void write(final ConcurrentMap<String, Object> dataMap, final ChangeFlag flag) {
@@ -51,7 +51,8 @@ class L1ChannelAsync {
         });
     }
 
-    Future<JsonObject> readAsync(final String key) {
+    @SuppressWarnings("all")
+    <T> Future<T> readAsync(final String key) {
         final Request request = Request.cmd(Command.GET);
         request.arg(key);
         return this.redis.requestAsync(request, response -> {
@@ -66,14 +67,19 @@ class L1ChannelAsync {
                     final String literal = buffer.toString();
                     if (Ut.isJObject(literal)) {
                         /*
-                         * Data Found
+                         * Single Record
                          */
                         return new JsonObject(literal);
+                    } else if (Ut.isJArray(literal)) {
+                        /*
+                         * Collection
+                         */
+                        return new JsonArray(literal);
                     } else {
                         /*
                          * Call self
                          */
-                        return Future.succeededFuture(literal);
+                        return literal;
                     }
                 }
             } else return null;
@@ -82,8 +88,11 @@ class L1ChannelAsync {
                 LOGGER.info(CacheMsg.HIT_SECONDARY, item, key);
                 return this.readAsync(item.toString());
             } else {
-                return Future.succeededFuture((JsonObject) item);
+                return Future.succeededFuture((T) item);
             }
+        }).otherwise(error -> {
+            error.printStackTrace();
+            return null;
         });
     }
 }
