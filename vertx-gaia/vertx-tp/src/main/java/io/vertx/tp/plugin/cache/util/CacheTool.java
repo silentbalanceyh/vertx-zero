@@ -109,9 +109,6 @@ public class CacheTool {
      */
     private static String keyUniform(final String type, final String prefix, final TreeMap<String, String> treeMap) {
         final StringBuilder key = new StringBuilder();
-        /*
-         * Group Redis by : character here
-         */
         key.append(type).append(":").append(prefix).append(":");
         treeMap.forEach((k, v) -> key.append(k).append("=").append(v).append(","));
         return key.toString();

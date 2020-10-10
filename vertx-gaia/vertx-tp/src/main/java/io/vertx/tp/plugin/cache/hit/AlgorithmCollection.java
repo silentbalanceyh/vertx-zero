@@ -11,7 +11,7 @@ public class AlgorithmCollection extends AbstractL1Algorithm {
 
     @Override
     public String dataType() {
-        return "LIST";
+        return CNODE_LIST;
     }
 
     @Override

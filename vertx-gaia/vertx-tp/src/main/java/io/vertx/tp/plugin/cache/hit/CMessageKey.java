@@ -34,7 +34,7 @@ public class CMessageKey extends AbstractCMessage {
          * Single Record
          */
         final L1Algorithm algorithm = Ut.singleton(AlgorithmRecord.class);
-        return algorithm.dataUnique(this.typeName(), treeMap);
+        return algorithm.dataKey(this.typeName(), treeMap);
     }
 
     @Override

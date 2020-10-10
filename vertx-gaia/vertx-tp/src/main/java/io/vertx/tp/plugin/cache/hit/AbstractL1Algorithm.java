@@ -14,17 +14,15 @@ import java.util.concurrent.ConcurrentMap;
  * @author <a href="http://www.origin-x.cn">lang</a>
  */
 abstract class AbstractL1Algorithm implements L1Algorithm {
-    protected static final String KEY_DATA = "DATA";
-    protected static final String KEY_DATA_REF = "DATA_REF";
 
     /*
      * Get DATA_REF record
      * Non-Primary Key processing
      */
     @Override
-    public String dataUnique(final String type, final JsonObject condition) {
+    public String dataKey(final String type, final JsonObject condition) {
         final TreeMap<String, String> treeMap = this.dataMap(condition);
-        return this.dataUnique(type, KEY_DATA_REF, treeMap);
+        return this.dataKey(type, CACHE_DATA_REF, treeMap);
     }
 
     /*
@@ -32,8 +30,8 @@ abstract class AbstractL1Algorithm implements L1Algorithm {
      * Primary Key processing
      */
     @Override
-    public String dataUnique(final String type, final TreeMap<String, String> treeMap) {
-        return this.dataUnique(type, KEY_DATA, treeMap);
+    public String dataKey(final String type, final TreeMap<String, String> treeMap) {
+        return this.dataKey(type, CACHE_DATA, treeMap);
     }
 
     @Override
@@ -42,7 +40,7 @@ abstract class AbstractL1Algorithm implements L1Algorithm {
         /*
          * Get refer attribute to check whether contains `reference`
          */
-        final Boolean isRefer = jsonBody.getBoolean("refer", Boolean.FALSE);
+        final Boolean isRefer = jsonBody.getBoolean(FIELD_REFER, Boolean.FALSE);
         /*
          * Data processing for different data part
          * 1) JsonObject - Single Record
@@ -52,7 +50,7 @@ abstract class AbstractL1Algorithm implements L1Algorithm {
         /*
          * Data refer processing
          */
-        if (isRefer) {
+        if (isRefer && Ut.notNil(jsonBody.getJsonObject(FIELD_CONDITION))) {
             /*
              * Call refer here
              * cacheKey = dataKey here
@@ -69,7 +67,7 @@ abstract class AbstractL1Algorithm implements L1Algorithm {
          * Get refer attribute to check whether need `dataKey` step
          * refer = true will trigger this method
          */
-        final Boolean isRefer = jsonBody.getBoolean("refer", Boolean.FALSE);
+        final Boolean isRefer = jsonBody.getBoolean(FIELD_REFER, Boolean.FALSE);
         if (isRefer) {
             /*
              * Data Tree processing
@@ -83,7 +81,7 @@ abstract class AbstractL1Algorithm implements L1Algorithm {
      * The same for original calculation
      * on element of map ( key = value )
      */
-    protected String dataUnique(final String type, final String prefix, final TreeMap<String, String> dataMap) {
+    protected String dataKey(final String type, final String prefix, final TreeMap<String, String> dataMap) {
         final StringBuilder key = new StringBuilder();
         /*
          * Group Redis by : character here
@@ -91,6 +89,10 @@ abstract class AbstractL1Algorithm implements L1Algorithm {
         key.append(type).append(":").append(this.dataType()).append(":").append(prefix).append(":");
         dataMap.forEach((k, v) -> key.append(k).append("=").append(v).append(","));
         return key.toString();
+    }
+
+    protected String dataTreeKey(final String dataKey, final JsonObject jsonBody) {
+        return jsonBody.getString(FIELD_TYPE) + ":" + this.dataType() + ":" + CACHE_DATA_TREE + ":" + dataKey;
     }
 
     /*

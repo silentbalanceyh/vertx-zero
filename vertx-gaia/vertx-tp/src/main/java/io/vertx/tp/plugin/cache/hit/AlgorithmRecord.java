@@ -1,7 +1,6 @@
 package io.vertx.tp.plugin.cache.hit;
 
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.util.Ut;
 
 import java.util.TreeMap;
 import java.util.concurrent.ConcurrentMap;
@@ -13,55 +12,60 @@ public class AlgorithmRecord extends AbstractL1Algorithm {
 
     @Override
     public String dataType() {
-        return "RECORD";
+        return CNODE_RECORD;
     }
 
     @Override
     public void dataProcess(final ConcurrentMap<String, Object> resultMap, final JsonObject jsonBody, final boolean isRefer) {
-        final Object dataPart = jsonBody.getValue("data");
-        if (dataPart instanceof JsonObject) {
-            /*
-             * DATA
-             */
-            final String cacheKey = this.calculateKey(jsonBody);
-            /*
-             * Cache Communication
-             */
-            resultMap.put(cacheKey, dataPart);           // Cache Write
-        }
+        final Object dataPart = jsonBody.getValue(FIELD_DATA);
+        /*
+         * DATA
+         */
+        final String cacheKey = this.calculateKey(jsonBody);
+        /*
+         * Cache Communication
+         */
+        resultMap.put(cacheKey, dataPart);           // Cache Write
     }
 
     @Override
     public void dataRefer(final ConcurrentMap<String, Object> resultMap, final JsonObject jsonBody) {
-        final JsonObject condition = jsonBody.getJsonObject("condition");
-        if (Ut.notNil(condition)) {
-            /*
-             * Tree for cache
-             */
-            final String cacheKey = this.calculateKey(jsonBody);
-            /*
-             * Condition building
-             */
-            final String revertKey = this.dataUnique(jsonBody.getString("type"), condition);
-            resultMap.put(revertKey, cacheKey);
-        }
+        final JsonObject condition = jsonBody.getJsonObject(FIELD_CONDITION);
+        /*
+         * conditionKey = dataKey
+         */
+        final String cacheKey = this.calculateKey(jsonBody);
+        /*
+         * conditionKey will put into
+         */
+        final String conditionKey = this.dataKey(jsonBody.getString(FIELD_TYPE), condition);
+        resultMap.put(conditionKey, cacheKey);
     }
 
     @Override
     public void dataTree(final ConcurrentMap<String, Object> resultMap, final JsonObject jsonBody) {
-
+        /*
+         * dataKey = conditionKey
+         */
+        final JsonObject condition = jsonBody.getJsonObject(FIELD_CONDITION);
+        final String conditionKey = this.dataKey(jsonBody.getString(FIELD_TYPE), condition);
+        final String cacheKey = this.calculateKey(jsonBody);
+        /*
+         * Condition Key will append
+         */
+        resultMap.put(this.dataTreeKey(cacheKey, jsonBody), conditionKey);
     }
 
     private String calculateKey(final JsonObject jsonBody) {
         /*
          * Data Processing
          */
-        final Object dataPart = jsonBody.getValue("data");
-        final TreeMap<String, String> dataMap = this.dataMap((JsonObject) dataPart, jsonBody.getJsonArray("key"));
+        final Object dataPart = jsonBody.getValue(FIELD_DATA);
+        final TreeMap<String, String> dataMap = this.dataMap((JsonObject) dataPart, jsonBody.getJsonArray(FIELD_KEY));
 
         /*
          * Cache Key
          */
-        return this.dataUnique(jsonBody.getString("type"), KEY_DATA, dataMap);
+        return this.dataKey(jsonBody.getString(FIELD_TYPE), CACHE_DATA, dataMap);
     }
 }

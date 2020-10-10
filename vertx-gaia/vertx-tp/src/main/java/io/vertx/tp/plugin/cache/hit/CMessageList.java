@@ -29,7 +29,7 @@ public class CMessageList extends AbstractCMessage {
          * Single Record
          */
         final L1Algorithm algorithm = Ut.singleton(AlgorithmCollection.class);
-        return algorithm.dataUnique(this.typeName(), this.condition);
+        return algorithm.dataKey(this.typeName(), this.condition);
     }
 
     @Override
