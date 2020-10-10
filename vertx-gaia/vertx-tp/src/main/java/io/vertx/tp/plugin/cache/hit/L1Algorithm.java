@@ -22,6 +22,7 @@ public interface L1Algorithm {
 
     String CNODE_RECORD = "RECORD";
     String CNODE_LIST = "LIST";
+    String CNODE_CONNECTOR = "+";
 
     /*
      * Common usage to generate cache key

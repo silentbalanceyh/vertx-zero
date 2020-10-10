@@ -16,7 +16,7 @@ public class AlgorithmRecord extends AbstractL1Algorithm {
     }
 
     @Override
-    public void dataProcess(final ConcurrentMap<String, Object> resultMap, final JsonObject jsonBody, final boolean isRefer) {
+    public void dataProcess(final ConcurrentMap<String, Object> resultMap, final JsonObject jsonBody) {
         final Object dataPart = jsonBody.getValue(FIELD_DATA);
         /*
          * DATA

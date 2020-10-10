@@ -46,7 +46,7 @@ class L1Redis {
             final Request request = Request.cmd(Command.APPEND);
             if (Objects.nonNull(data)) {
                 request.arg(k);
-                request.arg(data.toString());
+                request.arg(data.toString() + ",");
                 requests.add(request);
             }
         });

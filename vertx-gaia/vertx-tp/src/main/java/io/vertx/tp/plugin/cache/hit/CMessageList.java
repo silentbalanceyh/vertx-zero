@@ -41,4 +41,9 @@ public class CMessageList extends AbstractCMessage {
     public boolean isRef() {
         return Boolean.TRUE;
     }
+
+    @Override
+    public JsonObject dataCondition() {
+        return this.condition.copy();
+    }
 }

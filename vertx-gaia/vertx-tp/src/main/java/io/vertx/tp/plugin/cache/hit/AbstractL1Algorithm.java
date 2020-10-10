@@ -46,7 +46,7 @@ abstract class AbstractL1Algorithm implements L1Algorithm {
          * 1) JsonObject - Single Record
          * 2) JsonArray - Collection Data
          */
-        this.dataProcess(resultMap, jsonBody, isRefer);
+        this.dataProcess(resultMap, jsonBody);
         /*
          * Data refer processing
          */
@@ -77,22 +77,30 @@ abstract class AbstractL1Algorithm implements L1Algorithm {
         return resultMap;
     }
 
+    public void dataRefer(final ConcurrentMap<String, Object> resultMap, final JsonObject jsonBody) {
+        // Optional for RECORD / COLLECTION in different processing workflow
+    }
+
     /*
      * The same for original calculation
      * on element of map ( key = value )
      */
     protected String dataKey(final String type, final String prefix, final TreeMap<String, String> dataMap) {
+        return this.dataKey(type, prefix, this.dataType(), dataMap);
+    }
+
+    protected String dataKey(final String type, final String prefix, final String dataType, final TreeMap<String, String> dataMap) {
         final StringBuilder key = new StringBuilder();
         /*
          * Group Redis by : character here
          */
-        key.append(type).append(":").append(this.dataType()).append(":").append(prefix).append(":");
-        dataMap.forEach((k, v) -> key.append(k).append("=").append(v).append(","));
+        key.append(type).append(":").append(dataType).append(":").append(prefix).append(":");
+        dataMap.forEach((k, v) -> key.append(k).append("=").append(v).append(CNODE_CONNECTOR));
         return key.toString();
     }
 
     protected String dataTreeKey(final String dataKey, final JsonObject jsonBody) {
-        return jsonBody.getString(FIELD_TYPE) + ":" + this.dataType() + ":" + CACHE_DATA_TREE + ":" + dataKey;
+        return jsonBody.getString(FIELD_TYPE) + /* ":" + this.dataType() + */ ":" + CACHE_DATA_TREE + ":" + dataKey;
     }
 
     /*
@@ -108,7 +116,6 @@ abstract class AbstractL1Algorithm implements L1Algorithm {
         });
         return treeMap;
     }
-
 
     protected TreeMap<String, String> dataMap(final JsonObject record, final JsonArray key) {
         final TreeSet<String> primaryKey = new TreeSet<>(Ut.toSet(key));
@@ -131,9 +138,7 @@ abstract class AbstractL1Algorithm implements L1Algorithm {
     /*
      * Abstract Processing data body
      */
-    public abstract void dataProcess(ConcurrentMap<String, Object> resultMap, JsonObject jsonBody, boolean isRefer);
-
-    public abstract void dataRefer(ConcurrentMap<String, Object> resultMap, JsonObject jsonBody);
+    public abstract void dataProcess(ConcurrentMap<String, Object> resultMap, JsonObject jsonBody);
 
     public abstract void dataTree(ConcurrentMap<String, Object> resultMap, JsonObject jsonBody);
 }
