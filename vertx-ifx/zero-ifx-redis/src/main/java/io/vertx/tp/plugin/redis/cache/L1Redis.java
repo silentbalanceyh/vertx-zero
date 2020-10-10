@@ -15,6 +15,7 @@ import io.vertx.up.eon.em.ChangeFlag;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 import java.util.concurrent.ConcurrentMap;
 import java.util.function.Function;
 
@@ -28,6 +29,18 @@ class L1Redis {
         this.redis = RedisInfix.getClient();
     }
 
+    List<Request> requestData(final Set<String> eraseKeys) {
+        final List<Request> requests = new ArrayList<>();
+        eraseKeys.forEach(key -> {
+            final Request request = Request.cmd(Command.DEL);
+            request.arg(key);
+            /*
+             * ERR wrong number of arguments for 'del' command
+             */
+            requests.add(request);
+        });
+        return requests;
+    }
 
     List<Request> requestData(final ConcurrentMap<String, Object> dataMap, final ChangeFlag flag) {
         final List<Request> requests = new ArrayList<>();

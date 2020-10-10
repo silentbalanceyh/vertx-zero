@@ -1,5 +1,6 @@
 package io.vertx.tp.plugin.cache.hit;
 
+import io.vertx.core.json.JsonObject;
 import io.vertx.up.util.Ut;
 
 import java.util.Objects;
@@ -33,5 +34,15 @@ public class CMessageTree extends AbstractCMessage {
     @Override
     public boolean isList() {
         return Boolean.TRUE;
+    }
+
+    @Override
+    public JsonObject dataOverwrite() {
+        /*
+         * {
+         *      "data": "The tree key that will be removed."
+         * }
+         */
+        return new JsonObject().put("data", this.dataKey());
     }
 }

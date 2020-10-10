@@ -61,6 +61,17 @@ public class L1Worker extends AbstractVerticle {
         final ChangeFlag flag = Ut.toEnum(() -> jsonBody.getString("flag"), ChangeFlag.class, ChangeFlag.NONE);
         if (ChangeFlag.DELETE == flag) {
             // Delete Cache for L1
+            final Object cacheKey = jsonBody.getValue("data");
+            if (Objects.nonNull(cacheKey)) {
+                /*
+                 * Deleted by key with `L1Channel`
+                 */
+                final L1Channel channel = new L1Channel();
+                /*
+                 * Call erase
+                 */
+                channel.eraseTree(cacheKey.toString());
+            }
         }
     }
 

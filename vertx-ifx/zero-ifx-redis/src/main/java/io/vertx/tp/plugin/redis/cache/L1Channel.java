@@ -16,6 +16,13 @@ class L1Channel {
     L1Channel() {
     }
 
+    void eraseTree(final String cacheKey) {
+        /*
+         * Returned void
+         */
+        this.channelAsync.eraseTree(cacheKey);
+    }
+
     void write(final ConcurrentMap<String, Object> dataMap, final ChangeFlag flag) {
         /*
          * Returned void

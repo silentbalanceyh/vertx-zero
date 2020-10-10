@@ -6,12 +6,15 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.redis.client.Command;
 import io.vertx.redis.client.Request;
+import io.vertx.redis.client.Response;
 import io.vertx.up.eon.em.ChangeFlag;
 import io.vertx.up.log.Annal;
 import io.vertx.up.util.Ut;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 import java.util.concurrent.ConcurrentMap;
 
 /**
@@ -48,6 +51,33 @@ class L1ChannelAsync {
             if (Objects.nonNull(response)) {
                 LOGGER.info(CacheMsg.DATA_TREE, Ut.toJArray(dataMap.keySet()));
             }
+        });
+    }
+
+    void eraseTree(final String treeKey) {
+        final Request request = Request.cmd(Command.SMEMBERS);
+        request.arg(treeKey);
+        this.redis.requestAsync(request, response -> {
+            final Set<String> eraseKeys = new HashSet<>();
+            /*
+             * Tree Major Key
+             */
+            if (0 < response.size()) {
+                eraseKeys.add(treeKey);
+                response.stream().filter(Objects::nonNull).map(Response::toString).forEach(eraseKeys::add);
+            }
+            return eraseKeys;
+        }).onSuccess(eraseKeys -> {
+            /*
+             * Collect all keys and remove all
+             * Command, DEL
+             */
+            final List<Request> requests = this.redis.requestData(eraseKeys);
+            this.redis.requestAsync(requests, deletion -> deletion).onSuccess(deletion -> {
+                if (Objects.nonNull(deletion)) {
+                    LOGGER.info(CacheMsg.HIT_REMOVE, String.valueOf(eraseKeys.size()), Ut.toJArray(eraseKeys));
+                }
+            });
         });
     }
 

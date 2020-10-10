@@ -138,7 +138,7 @@ abstract class AbstractAside {
 
     private CMessage messageTree(final Object id) {
         final CMessage message = new CMessageTree(id, this.analyzer.type());
-        message.bind(this.analyzer.primarySet());
+        message.bind(this.analyzer.primarySet());      // Bind data here
         return message;
     }
 }
