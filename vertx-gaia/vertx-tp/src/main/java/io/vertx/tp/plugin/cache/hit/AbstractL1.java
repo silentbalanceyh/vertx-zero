@@ -55,26 +55,26 @@ public abstract class AbstractL1 implements L1Cache {
     }
 
     @Override
-    public <T> Future<T> readAsync(final CMessage key) {
+    public <T> Future<T> readAsync(final CMessage message) {
         // Get key
-        final String uk = key.dataUnique();
+        final String uk = message.dataUnique();
         this.logger().info("( Cache ) L1 reader will read data by `{0}` ", uk);
         return this.readAsync(uk).compose(response -> {
-            final T ret = Ut.deserialize(response, null);
+            final T ret = Ut.deserialize(response, message.dataType());
             return Future.succeededFuture(ret);
         });
     }
 
     @Override
-    public <T> T read(final CMessage key) {
+    public <T> T read(final CMessage message) {
         // Get key
-        final String uk = key.dataUnique();
+        final String uk = message.dataUnique();
         this.logger().info("( Cache ) L1 reader will read data by `{0}` ", uk);
         final JsonObject data = this.read(uk);
         if (Ut.isNil(data)) {
             return null;
         } else {
-            return Ut.deserialize(data, null);
+            return Ut.deserialize(data, message.dataType());
         }
     }
 

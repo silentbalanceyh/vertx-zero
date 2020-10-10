@@ -22,14 +22,25 @@ public interface CMessage {
     <T> CMessage data(T data);
 
     // -------------- Get Data -------------
+    /*
+     * Data Delivery to Event Bus
+     */
     Buffer dataDelivery(ChangeFlag flag);
 
+    /*
+     * Data Part get
+     */
     <T> T data();
 
     /*
-     * Matrix store
+     * Cache Key unique here
      */
     String dataUnique();
+
+    /*
+     * Data Type
+     */
+    <T> Class<T> dataType();
 
     /*
      * Check whether current message is collection

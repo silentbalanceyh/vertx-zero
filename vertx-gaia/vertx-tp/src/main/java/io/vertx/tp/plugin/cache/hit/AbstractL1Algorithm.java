@@ -17,12 +17,20 @@ abstract class AbstractL1Algorithm implements L1Algorithm {
     protected static final String KEY_DATA = "DATA";
     protected static final String KEY_DATA_REF = "DATA_REF";
 
+    /*
+     * Get DATA_REF record
+     * Non-Primary Key processing
+     */
     @Override
     public String dataUnique(final String type, final JsonObject condition) {
         final TreeMap<String, String> treeMap = this.dataMap(condition);
         return this.dataUnique(type, KEY_DATA_REF, treeMap);
     }
 
+    /*
+     * Get DATA directly
+     * Primary Key processing
+     */
     @Override
     public String dataUnique(final String type, final TreeMap<String, String> treeMap) {
         return this.dataUnique(type, KEY_DATA, treeMap);

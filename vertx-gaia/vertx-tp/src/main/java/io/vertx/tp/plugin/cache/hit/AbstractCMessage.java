@@ -22,7 +22,8 @@ public abstract class AbstractCMessage implements CMessage {
         this.type = type;
     }
 
-    protected <T> Class<T> type() {
+    @Override
+    public <T> Class<T> dataType() {
         return Objects.nonNull(this.type) ? (Class<T>) this.type : null;
     }
 
