@@ -15,7 +15,7 @@ public class AlgorithmCollection extends AbstractL1Algorithm {
     }
 
     @Override
-    public void dataProcess(final ConcurrentMap<String, Object> resultMap, final JsonObject jsonBody) {
+    public void dataProcess(final ConcurrentMap<String, Object> resultMap, final JsonObject jsonBody, final boolean isRefer) {
     }
 
     @Override

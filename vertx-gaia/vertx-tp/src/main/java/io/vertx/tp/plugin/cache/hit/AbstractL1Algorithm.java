@@ -1,9 +1,12 @@
 package io.vertx.tp.plugin.cache.hit;
 
+import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
+import io.vertx.up.util.Ut;
 
 import java.util.Objects;
 import java.util.TreeMap;
+import java.util.TreeSet;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
@@ -11,13 +14,13 @@ import java.util.concurrent.ConcurrentMap;
  * @author <a href="http://www.origin-x.cn">lang</a>
  */
 abstract class AbstractL1Algorithm implements L1Algorithm {
-    private static final String KEY_DATA = "DATA";
-    private static final String KEY_DATA_REF = "DATA_REF";
+    protected static final String KEY_DATA = "DATA";
+    protected static final String KEY_DATA_REF = "DATA_REF";
 
     @Override
     public String dataUnique(final String type, final JsonObject condition) {
-        final TreeMap<String, String> treeMap = this.dataUnique(condition);
-        return this.dataUnique(type, KEY_DATA, treeMap);
+        final TreeMap<String, String> treeMap = this.dataMap(condition);
+        return this.dataUnique(type, KEY_DATA_REF, treeMap);
     }
 
     @Override
@@ -37,7 +40,7 @@ abstract class AbstractL1Algorithm implements L1Algorithm {
          * 1) JsonObject - Single Record
          * 2) JsonArray - Collection Data
          */
-        this.dataProcess(resultMap, jsonBody);
+        this.dataProcess(resultMap, jsonBody, isRefer);
         /*
          * Data refer processing
          */
@@ -77,12 +80,15 @@ abstract class AbstractL1Algorithm implements L1Algorithm {
         /*
          * Group Redis by : character here
          */
-        key.append(type).append(":").append(prefix).append(":").append(this.dataType()).append(":");
+        key.append(type).append(":").append(this.dataType()).append(":").append(prefix).append(":");
         dataMap.forEach((k, v) -> key.append(k).append("=").append(v).append(","));
         return key.toString();
     }
 
-    protected TreeMap<String, String> dataUnique(final JsonObject condition) {
+    /*
+     * Convert to TreeMap here
+     */
+    protected TreeMap<String, String> dataMap(final JsonObject condition) {
         final TreeMap<String, String> treeMap = new TreeMap<>();
         condition.fieldNames().forEach(field -> {
             final Object value = condition.getValue(field);
@@ -93,6 +99,20 @@ abstract class AbstractL1Algorithm implements L1Algorithm {
         return treeMap;
     }
 
+
+    protected TreeMap<String, String> dataMap(final JsonObject record, final JsonArray key) {
+        final TreeSet<String> primaryKey = new TreeSet<>(Ut.toSet(key));
+        final TreeMap<String, String> treeMap = new TreeMap<>();
+        primaryKey.forEach(field -> {
+            final Object value = record.getValue(field);
+            if (Objects.nonNull(value)) {
+                treeMap.put(field, value.toString());
+            }
+        });
+        return treeMap;
+    }
+
+
     /*
      * Abstract Processing data
      */
@@ -101,7 +121,7 @@ abstract class AbstractL1Algorithm implements L1Algorithm {
     /*
      * Abstract Processing data body
      */
-    public abstract void dataProcess(ConcurrentMap<String, Object> resultMap, JsonObject jsonBody);
+    public abstract void dataProcess(ConcurrentMap<String, Object> resultMap, JsonObject jsonBody, boolean isRefer);
 
     public abstract void dataRefer(ConcurrentMap<String, Object> resultMap, JsonObject jsonBody);
 
