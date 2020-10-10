@@ -117,19 +117,28 @@ abstract class AbstractAside {
                 /*
                  * Collection of id set
                  */
-                ((Collection) args).forEach(id ->
-                        messageList.add(new CMessageTree(id, this.analyzer.type())));
+                ((Collection) args).forEach(id -> messageList.add(this.messageTree(id)));
             } else {
                 final Class<?> type = args.getClass();
                 if (type.isArray()) {
                     /*
                      * Array of id set
                      */
-                    Arrays.asList((Object[]) args).forEach(id ->
-                            messageList.add(new CMessageTree(id, this.analyzer.type())));
+                    Arrays.asList((Object[]) args).forEach(id -> messageList.add(this.messageTree(id)));
+                } else {
+                    /*
+                     * Object ( reference )
+                     */
+                    messageList.add(this.messageTree(args));
                 }
             }
         }
         return messageList;
+    }
+
+    private CMessage messageTree(final Object id) {
+        final CMessage message = new CMessageTree(id, this.analyzer.type());
+        message.bind(this.analyzer.primarySet());
+        return message;
     }
 }
