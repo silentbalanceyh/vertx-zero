@@ -91,9 +91,7 @@ public abstract class AbstractL1 implements L1Cache {
                  * Combine single and multi
                  */
                 final List resultList = new ArrayList();
-                Ut.itJArray((JsonArray) response).forEach(json -> {
-                    resultList.add(Ut.deserialize(json, dataType));
-                });
+                Ut.itJArray((JsonArray) response).forEach(json -> resultList.add(Ut.deserialize(json, dataType)));
                 ret = (T) resultList;
             } else {
                 ret = null;
