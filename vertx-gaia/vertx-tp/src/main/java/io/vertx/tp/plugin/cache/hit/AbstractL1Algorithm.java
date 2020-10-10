@@ -22,7 +22,7 @@ abstract class AbstractL1Algorithm implements L1Algorithm {
     @Override
     public String dataRefKey(final String type, final JsonObject condition) {
         final TreeMap<String, String> treeMap = this.dataMap(condition);
-        return this.dataKey(type, CACHE_DATA_REF, treeMap);
+        return this.dataKey(type, CACHE_DATA_REF, null, treeMap);
     }
 
     /*
@@ -37,7 +37,7 @@ abstract class AbstractL1Algorithm implements L1Algorithm {
 
     @Override
     public String dataKey(final String type, final TreeMap<String, String> treeMap) {
-        return this.dataKey(type, CACHE_DATA, treeMap);
+        return this.dataKey(type, CACHE_DATA, this.dataType(), treeMap);
     }
 
     @Override
@@ -91,16 +91,17 @@ abstract class AbstractL1Algorithm implements L1Algorithm {
      * The same for original calculation
      * on element of map ( key = value )
      */
-    protected String dataKey(final String type, final String prefix, final TreeMap<String, String> dataMap) {
-        return this.dataKey(type, prefix, this.dataType(), dataMap);
-    }
 
     protected String dataKey(final String type, final String prefix, final String dataType, final TreeMap<String, String> dataMap) {
         final StringBuilder key = new StringBuilder();
         /*
          * Group Redis by : character here
          */
-        key.append(type).append(":").append(dataType).append(":").append(prefix).append(":");
+        key.append(type).append(":");
+        key.append(prefix).append(":");
+        if (Ut.notNil(dataType)) {
+            key.append(dataType).append(":");
+        }
         dataMap.forEach((k, v) -> key.append(k).append("=").append(v).append(CNODE_CONNECTOR));
         return key.toString();
     }

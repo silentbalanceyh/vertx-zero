@@ -17,8 +17,8 @@ public interface L1Algorithm {
     String FIELD_KEY = "key";
 
     String CACHE_DATA = "DATA";
-    String CACHE_DATA_REF = "DATA_REF";
-    String CACHE_DATA_TREE = "DATA_TREE";
+    String CACHE_DATA_REF = "REFERENCE";
+    String CACHE_DATA_TREE = "TREE";
 
     String CNODE_RECORD = "RECORD";
     String CNODE_LIST = "LIST";

@@ -66,6 +66,6 @@ public class AlgorithmRecord extends AbstractL1Algorithm {
         /*
          * Cache Key
          */
-        return this.dataKey(jsonBody.getString(FIELD_TYPE), CACHE_DATA, dataMap);
+        return this.dataKey(jsonBody.getString(FIELD_TYPE), CACHE_DATA, this.dataType(), dataMap);
     }
 }
