@@ -1,6 +1,8 @@
 package io.vertx.up.uca.jooq.cache;
 
 import io.github.jklingsporn.vertx.jooq.future.VertxDAO;
+import org.aspectj.lang.ProceedingJoinPoint;
+import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 
@@ -54,4 +56,13 @@ public class AsideDelete extends AbstractAside {
      * deleteByAsync(JsonObject)
      * deleteByAsync(JsonObject, pojo)
      */
+
+    /*
+     * deleteById
+     * deleteByIdAsync
+     */
+    @Around(value = "execution(* io.vertx.up.uca.jooq.UxJooq.deleteById*(..)) && args(id)", argNames = "id")
+    public <T> T deleteById(final ProceedingJoinPoint point, final Object id) throws Throwable {
+        return null;
+    }
 }

@@ -35,13 +35,14 @@ public interface CMessage {
     /*
      * Cache Key unique here
      */
-    String dataUnique();
+    String dataKey();
 
     /*
      * Data Type
      */
     <T> Class<T> dataType();
 
+    // -------------- Checking Method -------------
     /*
      * Check whether current message is collection
      */

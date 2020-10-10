@@ -32,6 +32,8 @@ public interface L1Algorithm {
      */
     String dataKey(String type, TreeMap<String, String> treeMap);
 
+    String dataTreeKey(String type, TreeMap<String, String> treeMap);
+
     String dataKey(String type, JsonObject condition);
 
     String dataRefKey(String type, JsonObject condition);
@@ -39,10 +41,10 @@ public interface L1Algorithm {
     /*
      * Phase 2: Cache Data Generation
      */
-    ConcurrentMap<String, Object> dataCache(JsonObject jsonBody);
+    ConcurrentMap<String, Object> buildData(JsonObject jsonBody);
 
     /*
      * Phase 3: Cache Data Tree Generation
      */
-    ConcurrentMap<String, Object> dataKey(JsonObject jsonBody);
+    ConcurrentMap<String, Object> buildReference(JsonObject jsonBody);
 }

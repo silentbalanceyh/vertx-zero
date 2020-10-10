@@ -3,7 +3,6 @@ package io.vertx.tp.plugin.cache.l1;
 import io.vertx.core.Future;
 import io.vertx.core.Vertx;
 import io.vertx.tp.plugin.cache.hit.CMessage;
-import io.vertx.up.eon.em.ChangeFlag;
 
 /**
  * @author <a href="http://www.origin-x.cn">lang</a>
@@ -38,7 +37,13 @@ public interface L1Cache {
      * - by unique condition
      *
      */
-    void write(CMessage message, ChangeFlag flag);
+    void write(CMessage message);
+
+    /*
+     * L1 Algorithm for deleting data from cache here, but the deleting processing depend on
+     * implementation of sub-set here.
+     */
+    void delete(CMessage message);
 
     /*
      * Read data with callback refresh the cache

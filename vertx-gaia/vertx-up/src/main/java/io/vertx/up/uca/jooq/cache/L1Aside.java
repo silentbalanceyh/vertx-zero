@@ -5,7 +5,6 @@ import io.vertx.tp.plugin.cache.Harp;
 import io.vertx.tp.plugin.cache.hit.CMessage;
 import io.vertx.tp.plugin.cache.l1.L1Cache;
 import io.vertx.tp.plugin.cache.util.CacheFn;
-import io.vertx.up.eon.em.ChangeFlag;
 import io.vertx.up.fn.RunSupplier;
 import io.vertx.up.uca.jooq.JqAnalyzer;
 
@@ -35,15 +34,15 @@ public class L1Aside {
     /*
      * Private method for write
      */
-    private <T> void writeCache(final CMessage message) {
+    void writeCache(final CMessage message) {
         if (Objects.nonNull(this.cacheL1)) {
-            this.cacheL1.write(message, ChangeFlag.UPDATE);
+            this.cacheL1.write(message);
         }
     }
 
-    private <T> void deleteCache(final CMessage message) {
+    void deleteCache(final CMessage message) {
         if (Objects.nonNull(this.cacheL1)) {
-            this.cacheL1.write(message, ChangeFlag.DELETE);
+            this.cacheL1.delete(message);
         }
     }
 
@@ -61,6 +60,7 @@ public class L1Aside {
             return null;
         } else return executor;
     }
+
 
     <T> T read(final CMessage message, final RunSupplier<T> executor) {
         return CacheFn.in(this.defend(() -> this.cacheL1.read(message)), executor,

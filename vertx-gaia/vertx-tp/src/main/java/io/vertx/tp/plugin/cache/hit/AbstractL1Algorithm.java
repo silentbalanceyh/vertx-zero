@@ -40,8 +40,18 @@ abstract class AbstractL1Algorithm implements L1Algorithm {
         return this.dataKey(type, CACHE_DATA, this.dataType(), treeMap);
     }
 
+    /*
+     * Get TREE directly
+     */
+
     @Override
-    public ConcurrentMap<String, Object> dataCache(final JsonObject jsonBody) {
+    public String dataTreeKey(final String type, final TreeMap<String, String> treeMap) {
+        final String dataKey = this.dataKey(type, treeMap);
+        return this.dataTreeKey(dataKey, type);
+    }
+
+    @Override
+    public ConcurrentMap<String, Object> buildData(final JsonObject jsonBody) {
         final ConcurrentMap<String, Object> resultMap = new ConcurrentHashMap<>();
         /*
          * Get refer attribute to check whether contains `reference`
@@ -67,7 +77,7 @@ abstract class AbstractL1Algorithm implements L1Algorithm {
     }
 
     @Override
-    public ConcurrentMap<String, Object> dataKey(final JsonObject jsonBody) {
+    public ConcurrentMap<String, Object> buildReference(final JsonObject jsonBody) {
         final ConcurrentMap<String, Object> resultMap = new ConcurrentHashMap<>();
         /*
          * Get refer attribute to check whether need `dataKey` step
@@ -107,7 +117,11 @@ abstract class AbstractL1Algorithm implements L1Algorithm {
     }
 
     protected String dataTreeKey(final String dataKey, final JsonObject jsonBody) {
-        return jsonBody.getString(FIELD_TYPE) + /* ":" + this.dataType() + */ ":" + CACHE_DATA_TREE + ":" + dataKey;
+        return this.dataTreeKey(dataKey, jsonBody.getString(FIELD_TYPE));
+    }
+
+    protected String dataTreeKey(final String dataKey, final String type) {
+        return type + /* ":" + this.dataType() + */ ":" + CACHE_DATA_TREE + ":" + dataKey;
     }
 
     /*

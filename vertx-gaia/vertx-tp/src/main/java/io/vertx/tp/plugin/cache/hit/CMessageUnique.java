@@ -24,7 +24,7 @@ public class CMessageUnique extends AbstractCMessage {
     }
 
     @Override
-    public String dataUnique() {
+    public String dataKey() {
         /*
          * Single Record
          */
@@ -43,7 +43,7 @@ public class CMessageUnique extends AbstractCMessage {
     }
 
     @Override
-    public JsonObject dataCondition() {
-        return this.condition.copy();
+    public JsonObject dataOverwrite() {
+        return new JsonObject().put("condition", this.condition.copy());
     }
 }

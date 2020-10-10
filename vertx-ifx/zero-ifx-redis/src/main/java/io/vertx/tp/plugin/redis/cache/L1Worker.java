@@ -35,27 +35,38 @@ public class L1Worker extends AbstractVerticle {
                  * Processing
                  */
                 final Buffer body = handler.body();
+                /*
+                 * Flag must not be NONE
+                 */
                 if (Objects.nonNull(body)) {
                     /*
                      * Buffer converted to data
                      */
                     final JsonObject jsonBody = body.toJsonObject();
+                    /*
+                     * Data Updating
+                     */
+                    this.updateCache(jsonBody);
 
                     /*
-                     * Consume
+                     * Data Deleting
                      */
-                    this.consumeData(jsonBody);
+                    this.deleteCache(jsonBody);
                 }
             });
         }
     }
 
-    private void consumeData(final JsonObject jsonBody) {
-        /*
-         * Flag must not be NONE
-         */
+    private void deleteCache(final JsonObject jsonBody) {
         final ChangeFlag flag = Ut.toEnum(() -> jsonBody.getString("flag"), ChangeFlag.class, ChangeFlag.NONE);
-        if (ChangeFlag.NONE != flag) {
+        if (ChangeFlag.DELETE == flag) {
+            // Delete Cache for L1
+        }
+    }
+
+    private void updateCache(final JsonObject jsonBody) {
+        final ChangeFlag flag = Ut.toEnum(() -> jsonBody.getString("flag"), ChangeFlag.class, ChangeFlag.NONE);
+        if (ChangeFlag.UPDATE == flag) {
             /*
              * L1Channel created
              */
@@ -65,13 +76,13 @@ public class L1Worker extends AbstractVerticle {
              * L1Algorithm
              */
             final L1Algorithm algorithm = this.create(jsonBody);
-            final ConcurrentMap<String, Object> mapped = algorithm.dataCache(jsonBody);
+            final ConcurrentMap<String, Object> mapped = algorithm.buildData(jsonBody);
             channel.write(mapped, flag);
 
             /*
              * Key Processing
              */
-            final ConcurrentMap<String, Object> mappedKey = algorithm.dataKey(jsonBody);
+            final ConcurrentMap<String, Object> mappedKey = algorithm.buildReference(jsonBody);
             /*
              * Calculate the prefix of current type
              */

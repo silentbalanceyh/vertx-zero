@@ -22,17 +22,8 @@ public class CMessageKey extends AbstractCMessage {
     }
 
     @Override
-    public String dataUnique() {
-        final TreeMap<String, String> treeMap = new TreeMap<>();
-        /*
-         * Primary Key
-         */
-        final StringBuilder key = new StringBuilder();
-        this.primarySet.forEach(key::append);
-        treeMap.put(key.toString(), this.id);
-        /*
-         * Single Record
-         */
+    public String dataKey() {
+        final TreeMap<String, String> treeMap = this.dataMap(this.id);
         final L1Algorithm algorithm = Ut.singleton(AlgorithmRecord.class);
         return algorithm.dataKey(this.typeName(), treeMap);
     }
@@ -45,5 +36,18 @@ public class CMessageKey extends AbstractCMessage {
     @Override
     public boolean isRef() {
         return Boolean.FALSE;
+    }
+
+    @Override
+    public boolean equals(final Object o) {
+        if (this == o) return true;
+        if (o == null || this.getClass() != o.getClass()) return false;
+        final CMessageKey that = (CMessageKey) o;
+        return this.id.equals(that.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(this.id);
     }
 }

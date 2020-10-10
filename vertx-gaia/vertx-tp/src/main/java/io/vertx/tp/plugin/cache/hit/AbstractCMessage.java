@@ -7,6 +7,7 @@ import io.vertx.up.eon.em.ChangeFlag;
 import io.vertx.up.util.Ut;
 
 import java.util.Objects;
+import java.util.TreeMap;
 import java.util.TreeSet;
 
 /**
@@ -14,8 +15,17 @@ import java.util.TreeSet;
  */
 @SuppressWarnings("all")
 public abstract class AbstractCMessage implements CMessage {
+    /*
+     * Entity type of current message
+     */
     protected transient final Class<?> type;
+    /*
+     * Primary Set
+     */
     protected transient final TreeSet<String> primarySet = new TreeSet<>();
+    /*
+     * Data Reference if it's ok
+     */
     protected transient Object data;
 
     protected AbstractCMessage(final Class<?> type) {
@@ -81,11 +91,28 @@ public abstract class AbstractCMessage implements CMessage {
                 delivery.put("collection", Boolean.FALSE);
             }
         }
-        delivery.mergeIn(new JsonObject().put("condition", this.dataCondition()));
+        /*
+         * Overite Part
+         */
+        final JsonObject overite = this.dataOverwrite();
+        if (Ut.notNil(overite)) {
+            delivery.mergeIn(overite, true);
+        }
         return delivery.toBuffer();
     }
 
-    public JsonObject dataCondition() {
+    public JsonObject dataOverwrite() {
         return new JsonObject();
+    }
+
+    protected TreeMap<String, String> dataMap(final String id) {
+        final TreeMap<String, String> treeMap = new TreeMap<>();
+        /*
+         * Primary Key
+         */
+        final StringBuilder key = new StringBuilder();
+        this.primarySet.forEach(key::append);
+        treeMap.put(key.toString(), id);
+        return treeMap;
     }
 }
