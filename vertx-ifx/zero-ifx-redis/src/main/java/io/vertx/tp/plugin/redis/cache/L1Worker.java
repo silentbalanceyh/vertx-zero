@@ -75,7 +75,7 @@ public class L1Worker extends AbstractVerticle {
             /*
              * Calculate the prefix of current type
              */
-            channel.combine(mappedKey);
+            channel.append(mappedKey);
         }
     }
 

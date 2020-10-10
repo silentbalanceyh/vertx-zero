@@ -1,199 +1,41 @@
 package io.vertx.tp.plugin.redis.cache;
 
 import io.vertx.core.Future;
-import io.vertx.core.Promise;
-import io.vertx.core.buffer.Buffer;
-import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.redis.client.Command;
-import io.vertx.redis.client.Redis;
-import io.vertx.redis.client.Request;
-import io.vertx.redis.client.Response;
-import io.vertx.tp.plugin.redis.RedisInfix;
 import io.vertx.up.eon.em.ChangeFlag;
-import io.vertx.up.log.Annal;
-import io.vertx.up.util.Ut;
-import redis.clients.jedis.Jedis;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
 import java.util.concurrent.ConcurrentMap;
-import java.util.function.Function;
 
 /**
  * @author <a href="http://www.origin-x.cn">lang</a>
  */
 class L1Channel {
-    private final static Annal LOGGER = Annal.get(L1Channel.class);
 
-    private final transient Redis redis;
-    private final transient Jedis jedis;
+    private final transient L1ChannelSync channelSync = new L1ChannelSync();
+    private final transient L1ChannelAsync channelAsync = new L1ChannelAsync();
 
     L1Channel() {
-        this.redis = RedisInfix.getClient();
-        this.jedis = RedisInfix.getJClient();
     }
 
     void write(final ConcurrentMap<String, Object> dataMap, final ChangeFlag flag) {
-        final List<Request> requests = new ArrayList<>();
-        dataMap.forEach((k, data) -> {
-            final Request request = this.requestData(k, data, flag);
-            if (Objects.nonNull(request)) {
-                requests.add(request);
-            }
-        });
-        if (!requests.isEmpty() && Objects.nonNull(this.redis)) {
-            this.redis.batch(requests, res -> {
-                if (res.succeeded()) {
-                    LOGGER.info("( Cache ) The key `{0}` has been refreshed.", Ut.toJArray(dataMap.keySet()));
-                } else {
-                    if (Objects.nonNull(res.cause())) {
-                        res.cause().printStackTrace();
-                    }
-                }
-            });
-        }
+        /*
+         * Returned void
+         */
+        this.channelAsync.write(dataMap, flag);
     }
 
-    void combine(final ConcurrentMap<String, Object> dataMap) {
+    void append(final ConcurrentMap<String, Object> dataMap) {
         /*
-         * Read and Write ( Merged )
+         * Returned void
          */
-        dataMap.forEach((key, value) -> {
-            /*
-             * Write Tree Combine
-             */
-            if (Objects.nonNull(this.redis)) {
-                /*
-                 * Get by key
-                 */
-                final Request request = Request.cmd(Command.APPEND);
-                request.arg(key);
-                request.arg(value.toString());
-                this.redis.send(request, res -> {
-                    if (res.succeeded()) {
-                        LOGGER.info("( Cache ) The key `{0}` has been synced.", key);
-                    } else {
-                        if (Objects.nonNull(res.cause())) {
-                            res.cause().printStackTrace();
-                        }
-                    }
-                });
-            }
-        });
+        this.channelAsync.append(dataMap);
     }
 
     JsonObject read(final String key) {
-        /*
-         * Async convert to sync
-         */
-        if (Objects.nonNull(this.jedis)) {
-            final String literal = this.jedis.get(key);
-            if (Ut.isNil(literal)) {
-                LOGGER.info("( Cache ) The key `{0}` has not been Hit !!!.", key);
-                return null;
-            } else {
-                return Ut.toJObject(literal);
-            }
-        } else {
-            return null;
-        }
+        return this.channelSync.read(key);
     }
 
     Future<JsonObject> readAsync(final String key) {
-        final Request request = Request.cmd(Command.GET);
-        request.arg(key);
-        return this.requestAsync(request, response -> {
-            if (Objects.nonNull(response)) {
-                final Buffer buffer = response.toBuffer();
-                /*
-                 * Whether it's refer
-                 */
-                if (Objects.isNull(buffer)) {
-                    return null;
-                } else {
-                    final String literal = buffer.toString();
-                    if (Ut.isJObject(literal)) {
-                        /*
-                         * Data Found
-                         */
-                        return new JsonObject(literal);
-                    } else {
-                        /*
-                         * Call self
-                         */
-                        return literal;
-                    }
-                }
-            } else return null;
-        }).compose(item -> {
-            if (Objects.isNull(item)) {
-                return Future.succeededFuture();
-            } else {
-                if (item instanceof JsonObject) {
-                    /*
-                     * Data Found
-                     */
-                    return Future.succeededFuture((JsonObject) item);
-                } else {
-                    LOGGER.info("( Cache ) L1 reader will read data by secondary key `{0}`.", item.toString());
-                    /*
-                     * Call self key and continue to get data
-                     */
-                    return this.readAsync(item.toString());
-                }
-            }
-        });
-    }
-
-    private Request requestData(final String key, final Object input, final ChangeFlag flag) {
-        final String dataString;
-        if (input instanceof String) {
-            dataString = input.toString();
-        } else if (input instanceof JsonObject) {
-            dataString = ((JsonObject) input).encode();
-        } else if (input instanceof JsonArray) {
-            dataString = ((JsonArray) input).encode();
-        } else {
-            dataString = null;
-        }
-        if (Objects.isNull(dataString)) {
-            return null;
-        }
-        final Request request;
-        switch (flag) {
-            case ADD:
-            case UPDATE: {
-                request = Request.cmd(Command.SET);
-                request.arg(key);
-                request.arg(dataString);
-            }
-            break;
-            case DELETE: {
-                request = Request.cmd(Command.DEL);
-                request.arg(key);
-            }
-            break;
-            default:
-                request = null;
-                break;
-        }
-        return request;
-    }
-
-    private <T> Future<T> requestAsync(final Request request, final Function<Response, T> consumer) {
-        final Promise<T> promise = Promise.promise();
-        if (Objects.nonNull(this.redis)) {
-            this.redis.send(request, res -> {
-                if (res.succeeded()) {
-                    final T data = consumer.apply(res.result());
-                    promise.complete(data);
-                } else {
-                    promise.fail(res.cause());
-                }
-            });
-            return promise.future();
-        } else return Future.succeededFuture();
+        return this.channelAsync.readAsync(key);
     }
 }
