@@ -5,6 +5,7 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.tp.plugin.cache.hit.*;
 import io.vertx.up.log.Annal;
 import io.vertx.up.uca.jooq.JqAnalyzer;
+import io.vertx.up.uca.jooq.util.JqTool;
 import org.aspectj.lang.ProceedingJoinPoint;
 
 import java.util.*;
@@ -54,7 +55,7 @@ abstract class AbstractAside {
     protected CMessage messagesField(final ProceedingJoinPoint point) {
         final String field = this.argument(0, point);
         final Object value = this.argument(1, point);
-        return this.messages(field, value);
+        return this.messageList(field, value);
     }
 
     /*
@@ -96,7 +97,7 @@ abstract class AbstractAside {
     }
 
     /* CMessage -> CMessageList -> <T> List<T> method(String, Object) */
-    protected CMessage messages(final String field, final Object value) {
+    protected CMessage messageList(final String field, final Object value) {
         final CMessage message = new CMessageList(field, value, this.analyzer.type());
         message.bind(this.analyzer.primarySet());
         return message;
@@ -142,7 +143,28 @@ abstract class AbstractAside {
         return message;
     }
 
+    // ------------------ Pojo Processing -------------------------
+
+
+    protected CMessage messagePojo(final ProceedingJoinPoint point) {
+        return this.message(this.argumentPojo(0, point));
+    }
+
+    protected CMessage messagesPojo(final ProceedingJoinPoint point) {
+        return this.messages(this.argumentPojo(0, point));
+    }
     // ------------------ Argument processing -------------------------
+
+    /*
+     * Condition + Pojo
+     */
+    private JsonObject argumentPojo(final int start, final ProceedingJoinPoint point) {
+        final JsonObject condition = this.argument(start, point);
+        final Object[] args = point.getArgs();
+        final String pojo = this.argument(args.length - 1, point);
+        return JqTool.criteria(condition, pojo);
+    }
+
     /*
      * Argument extraction here based on `index`
      *
@@ -178,6 +200,16 @@ abstract class AbstractAside {
         final Object[] args = point.getArgs();
         if (1 == args.length) {
             final Object input = args[0];
+            return this.argumentTValue(input);
+        } else {
+            return null;
+        }
+    }
+
+    private Object argumentTValue(final Object input) {
+        if (Objects.isNull(input)) {
+            return null;
+        } else {
             if (input instanceof Collection) {
                 /*
                  * Process Collection
@@ -186,13 +218,12 @@ abstract class AbstractAside {
                 ((Collection) input).stream().map(this.analyzer::primaryValue).forEach(idSet::add);
                 return idSet;
             } else {
-                /*
-                 * Process Single
-                 */
-                return this.analyzer.primaryValue(input);
+                if (input instanceof String) {
+                    return input;
+                } else {
+                    return this.analyzer.primaryValue(input);
+                }
             }
-        } else {
-            return null;
         }
     }
 }

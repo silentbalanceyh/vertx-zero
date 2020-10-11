@@ -9,7 +9,6 @@ import io.vertx.up.uca.jooq.JqAnalyzer;
 import io.vertx.up.unity.Ux;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
@@ -62,12 +61,11 @@ public class JqFlow {
     }
 
     public Inquiry inputQr(final JsonObject input) {
-        return JqTool.getInquiry(input, this.pojo);
+        return JqTool.inquiry(input, this.pojo);
     }
 
     public JsonObject inputQrJ(final JsonObject criteria) {
-        final Inquiry inquiry = JqTool.getInquiry(new JsonObject().put(Inquiry.KEY_CRITERIA, criteria), this.pojo);
-        return Objects.isNull(inquiry.getCriteria()) ? new JsonObject() : inquiry.getCriteria().toJson();
+        return JqTool.criteria(criteria, pojo);
     }
 
     public Future<Inquiry> inputQrAsync(final JsonObject input) {

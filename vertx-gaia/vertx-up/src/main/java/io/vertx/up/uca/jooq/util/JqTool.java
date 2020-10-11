@@ -13,6 +13,7 @@ import io.vertx.up.log.Annal;
 import io.vertx.up.util.Ut;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.ConcurrentMap;
 
 public class JqTool {
@@ -31,7 +32,7 @@ public class JqTool {
         return CompositeFuture.join(criteriaFuture, dataFuture);
     }
 
-    public static Inquiry getInquiry(final JsonObject envelop, final String pojo) {
+    public static Inquiry inquiry(final JsonObject envelop, final String pojo) {
         return Fn.getNull(Inquiry.create(new JsonObject()), () -> {
             final JsonObject data = envelop.copy();
             if (Ut.isNil(pojo)) {
@@ -39,12 +40,17 @@ public class JqTool {
             } else {
                 // Projection Process
                 final Mojo mojo = Mirror.create(JqTool.class).mount(pojo).mojo();
-                return getInquiry(data, mojo);
+                return inquiry(data, mojo);
             }
         }, envelop);
     }
 
-    public static Inquiry getInquiry(final JsonObject data, final Mojo mojo) {
+    public static JsonObject criteria(final JsonObject criteria, final String pojo) {
+        final Inquiry inquiry = inquiry(new JsonObject().put(Inquiry.KEY_CRITERIA, criteria), pojo);
+        return Objects.isNull(inquiry.getCriteria()) ? new JsonObject() : inquiry.getCriteria().toJson();
+    }
+
+    public static Inquiry inquiry(final JsonObject data, final Mojo mojo) {
         if (data.containsKey("projection")) {
             data.put("projection", projection(data.getJsonArray("projection"), mojo));
         }

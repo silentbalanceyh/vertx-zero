@@ -1,8 +1,14 @@
 package io.vertx.up.uca.jooq.cache;
 
 import io.github.jklingsporn.vertx.jooq.future.VertxDAO;
+import io.vertx.core.Future;
+import io.vertx.tp.plugin.cache.hit.CMessage;
+import org.aspectj.lang.ProceedingJoinPoint;
+import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
+
+import java.util.List;
 
 /**
  * @author <a href="http://www.origin-x.cn">lang</a>
@@ -78,4 +84,134 @@ public class AsideUpdate extends L1AsideWriting {
      *      <-- updateJAsync(criteria, T, pojo)
      *      <-- updateJAsync(criteria, JsonObject, pojo)
      */
+
+    /*
+     * update(T)
+     */
+    @Around(value = "execution(* io.vertx.up.uca.jooq.UxJooq.update(T))")
+    public <T> T update(final ProceedingJoinPoint point) throws Throwable {
+        /*
+         *  T
+         */
+        final Object idSet = this.argumentT(point);
+        final List<CMessage> messages = this.messageList(idSet);
+        return this.writeAsync(messages, point);
+    }
+
+    /*
+     * updateAsync(T)
+     */
+    @Around(value = "execution(* io.vertx.up.uca.jooq.UxJooq.updateAsync(T))")
+    public <T> Future<T> updateAsync(final ProceedingJoinPoint point) throws Throwable {
+        /*
+         *  Future<T>
+         */
+        final Object idSet = this.argumentT(point);
+        final List<CMessage> messages = this.messageList(idSet);
+        return this.writeAsync(messages, point);
+    }
+
+    /*
+     * update(List<T>)
+     */
+    @Around(value = "execution(* io.vertx.up.uca.jooq.UxJooq.update(java.util.List))")
+    public <T> List<T> updateList(final ProceedingJoinPoint point) throws Throwable {
+        /*
+         *  List<T>
+         */
+        final Object idSet = this.argumentT(point);
+        final List<CMessage> messages = this.messageList(idSet);
+        return this.writeAsync(messages, point);
+    }
+
+    /*
+     * updateAsync(List<T>)
+     */
+    @Around(value = "execution(* io.vertx.up.uca.jooq.UxJooq.updateAsync(java.util.List))")
+    public <T> Future<List<T>> updateListAsync(final ProceedingJoinPoint point) throws Throwable {
+        /*
+         *  Future<List<T>>
+         */
+        final Object idSet = this.argumentT(point);
+        final List<CMessage> messages = this.messageList(idSet);
+        return this.writeAsync(messages, point);
+    }
+
+    /*
+     * update(id, T)
+     */
+    @Around(value = "execution(* io.vertx.up.uca.jooq.UxJooq.update(Object, T))")
+    public <T> T updateById(final ProceedingJoinPoint point) throws Throwable {
+        /*
+         * T
+         */
+        final Object idSet = this.argumentT(point);
+        final List<CMessage> messages = this.messageList(idSet);
+        return this.writeAsync(messages, point);
+    }
+
+    /*
+     * updateAsync(id, T)
+     */
+    @Around(value = "execution(* io.vertx.up.uca.jooq.UxJooq.updateAsync(Object, T))")
+    public <T> T updateByIdAsync(final ProceedingJoinPoint point) throws Throwable {
+        /*
+         * Future<T>
+         */
+        final Object idSet = this.argumentT(point);
+        final List<CMessage> messages = this.messageList(idSet);
+        return this.writeAsync(messages, point);
+    }
+
+    /*
+     * update(JsonObject, T)
+     */
+    @Around(value = "execution(* io.vertx.up.uca.jooq.UxJooq.update(io.vertx.core.json.JsonObject, T))")
+    public <T> T updateByCond(final ProceedingJoinPoint point) throws Throwable {
+        /*
+         * T
+         */
+        final Object idSet = this.argumentCond(point);
+        final List<CMessage> messages = this.messageList(idSet);
+        return this.writeAsync(messages, point);
+    }
+
+    /*
+     * updateAsync(JsonObject, T)
+     */
+    @Around(value = "execution(* io.vertx.up.uca.jooq.UxJooq.updateAsync(io.vertx.core.json.JsonObject, T))")
+    public <T> T updateByCondAsync(final ProceedingJoinPoint point) throws Throwable {
+        /*
+         * Future<T>
+         */
+        final Object idSet = this.argumentCond(point);
+        final List<CMessage> messages = this.messageList(idSet);
+        return this.writeAsync(messages, point);
+    }
+
+    /*
+     * update(JsonObject, T, String)
+     */
+    @Around(value = "execution(* io.vertx.up.uca.jooq.UxJooq.update(io.vertx.core.json.JsonObject, T, String))")
+    public <T> T updateByCondPojo(final ProceedingJoinPoint point) throws Throwable {
+        /*
+         * T
+         */
+        final Object idSet = this.argumentCond(point, 0);
+        final List<CMessage> messages = this.messageList(idSet);
+        return this.writeAsync(messages, point);
+    }
+
+    /*
+     * updateAsync(JsonObject, T, String)
+     */
+    @Around(value = "execution(* io.vertx.up.uca.jooq.UxJooq.updateAsync(io.vertx.core.json.JsonObject, T, String))")
+    public <T> T updateByCondPojoAsync(final ProceedingJoinPoint point) throws Throwable {
+        /*
+         * Future<T>
+         */
+        final Object idSet = this.argumentCond(point, 0);
+        final List<CMessage> messages = this.messageList(idSet);
+        return this.writeAsync(messages, point);
+    }
 }

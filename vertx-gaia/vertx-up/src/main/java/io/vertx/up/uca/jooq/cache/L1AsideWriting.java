@@ -5,6 +5,7 @@ import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.plugin.cache.hit.CMessage;
 import io.vertx.up.uca.jooq.ActionQr;
+import io.vertx.up.uca.jooq.util.JqTool;
 import io.vertx.up.util.Ut;
 import org.aspectj.lang.ProceedingJoinPoint;
 
@@ -30,7 +31,7 @@ class L1AsideWriting extends AbstractAside {
      * Async / Sync calling in uniform form here
      *
      */
-    protected <T, R> T deleteAsync(final List<CMessage> messages, final ProceedingJoinPoint point) {
+    protected <T, R> T writeAsync(final List<CMessage> messages, final ProceedingJoinPoint point) {
         /*
          * Get method definition
          */
@@ -68,6 +69,23 @@ class L1AsideWriting extends AbstractAside {
                  * Get primaryValues
                  */
                 return actionQr.searchPrimary((JsonObject) input);
+            } else {
+                return null;
+            }
+        } else {
+            return null;
+        }
+    }
+
+    protected Object argumentCond(final ProceedingJoinPoint point, final int index) {
+        final Object[] args = point.getArgs();
+        if (index < args.length) {
+            final Object input = args[index];
+            if (input instanceof JsonObject) {
+                final JsonObject condition = (JsonObject) input;
+                final String pojo = (String) args[args.length - 1];
+                final JsonObject criteria = JqTool.criteria(condition, pojo);
+                return actionQr.searchPrimary(criteria);
             } else {
                 return null;
             }

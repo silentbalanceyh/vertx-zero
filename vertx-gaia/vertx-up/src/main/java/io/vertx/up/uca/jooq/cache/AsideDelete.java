@@ -72,7 +72,7 @@ public class AsideDelete extends L1AsideWriting {
          * Object[] / Collection
          */
         final List<CMessage> messages = this.messageList(id);
-        return this.deleteAsync(messages, point);
+        return this.writeAsync(messages, point);
     }
 
     /*
@@ -83,15 +83,19 @@ public class AsideDelete extends L1AsideWriting {
         if (L1Analyzer.isMatch(point, JsonObject.class)) {
             /*
              * Get all ids
+             * deleteBy(JsonObject)
              */
             final Object idSet = this.argumentCond(point);
             final List<CMessage> messages = this.messageList(idSet);
-            return this.deleteAsync(messages, point);
+            return this.writeAsync(messages, point);
         } else {
             /*
              * Pojo mode ignored
+             * deleteBy(JsonObject, pojo)
              */
-            return (Boolean) point.proceed(point.getArgs());
+            final Object idSet = this.argumentCond(point, 0);
+            final List<CMessage> messages = this.messageList(idSet);
+            return this.writeAsync(messages, point);
         }
     }
 
@@ -103,15 +107,19 @@ public class AsideDelete extends L1AsideWriting {
         if (L1Analyzer.isMatch(point, JsonObject.class)) {
             /*
              * Get all ids
+             * deleteByAsync(JsonObject)
              */
             final Object idSet = this.argumentCond(point);
             final List<CMessage> messages = this.messageList(idSet);
-            return this.deleteAsync(messages, point);
+            return this.writeAsync(messages, point);
         } else {
             /*
              * Pojo mode ignored
+             * deleteByAsync(JsonObject, pojo)
              */
-            return (Future<Boolean>) point.proceed(point.getArgs());
+            final Object idSet = this.argumentCond(point, 0);
+            final List<CMessage> messages = this.messageList(idSet);
+            return this.writeAsync(messages, point);
         }
     }
 
@@ -121,24 +129,24 @@ public class AsideDelete extends L1AsideWriting {
     @Around(value = "execution(* io.vertx.up.uca.jooq.UxJooq.delete(T))")
     public <T> T delete(final ProceedingJoinPoint point) throws Throwable {
         /*
-         *  T / List<T>
+         *  T
          */
         final Object idSet = this.argumentT(point);
         final List<CMessage> messages = this.messageList(idSet);
-        return this.deleteAsync(messages, point);
+        return this.writeAsync(messages, point);
     }
 
     /*
-     * delete(T)
+     * delete(List<T>)
      */
     @Around(value = "execution(* io.vertx.up.uca.jooq.UxJooq.delete(java.util.List))")
     public <T> List<T> deleteList(final ProceedingJoinPoint point) throws Throwable {
         /*
-         *  T / List<T>
+         *  List<T>
          */
         final Object idSet = this.argumentT(point);
         final List<CMessage> messages = this.messageList(idSet);
-        return this.deleteAsync(messages, point);
+        return this.writeAsync(messages, point);
     }
 
     /*
@@ -147,11 +155,11 @@ public class AsideDelete extends L1AsideWriting {
     @Around(value = "execution(* io.vertx.up.uca.jooq.UxJooq.deleteAsync(T))")
     public <T> Future<T> deleteAsync(final ProceedingJoinPoint point) throws Throwable {
         /*
-         *  T / List<T>
+         *  Future<T>
          */
         final Object idSet = this.argumentT(point);
         final List<CMessage> messages = this.messageList(idSet);
-        return this.deleteAsync(messages, point);
+        return this.writeAsync(messages, point);
     }
 
     /*
@@ -160,10 +168,10 @@ public class AsideDelete extends L1AsideWriting {
     @Around(value = "execution(* io.vertx.up.uca.jooq.UxJooq.deleteAsync(java.util.List))")
     public <T> Future<List<T>> deleteListAsync(final ProceedingJoinPoint point) throws Throwable {
         /*
-         *  T / List<T>
+         *  Future<List<T>>
          */
         final Object idSet = this.argumentT(point);
         final List<CMessage> messages = this.messageList(idSet);
-        return this.deleteAsync(messages, point);
+        return this.writeAsync(messages, point);
     }
 }

@@ -94,7 +94,7 @@ public final class UxJoin {
     }
 
     private Inquiry toInquiry(final JsonObject params) {
-        return Objects.isNull(this.merged) ? Inquiry.create(params) : JqTool.getInquiry(params, this.merged);
+        return Objects.isNull(this.merged) ? Inquiry.create(params) : JqTool.inquiry(params, this.merged);
     }
 
     public Future<JsonObject> searchAsync(final Inquiry inquiry) {
