@@ -122,13 +122,13 @@ public class AsideFetch extends L1AsideReading {
             /*
              * fetch(String,Object)
              */
-            final CMessage message = this.messagesField(point);
+            final CMessage message = this.messageListField(point);
             return this.readAsync(message, point);
         } else if (L1Analyzer.isMatch(point, JsonObject.class)) {
             /*
              * fetch(JsonObject)
              */
-            final CMessage message = this.messagesCond(point);
+            final CMessage message = this.messageListCond(point);
             return this.readAsync(message, point);
         } else {
             if (L1Analyzer.isMatch(point, JsonObject.class, String.class)) {
@@ -136,7 +136,7 @@ public class AsideFetch extends L1AsideReading {
                  * 「POJO」
                  * fetch(JsonObject, String)
                  */
-                final CMessage message = this.messagesPojo(point);
+                final CMessage message = this.messageListPojo(point);
                 return this.readAsync(message, point);
             }
             return (T) point.proceed(point.getArgs());
@@ -152,13 +152,13 @@ public class AsideFetch extends L1AsideReading {
             /*
              * fetchAsync(String,Object)
              */
-            final CMessage message = this.messagesField(point);
+            final CMessage message = this.messageListField(point);
             return this.readAsync(message, point);
         } else if (L1Analyzer.isMatch(point, JsonObject.class)) {
             /*
              * fetchAsync(JsonObject)
              */
-            final CMessage message = this.messagesCond(point);
+            final CMessage message = this.messageListCond(point);
             return this.readAsync(message, point);
         } else {
             if (L1Analyzer.isMatch(point, JsonObject.class, String.class)) {
@@ -166,7 +166,7 @@ public class AsideFetch extends L1AsideReading {
                  * 「POJO」
                  * fetchAsync(JsonObject, String)
                  */
-                final CMessage message = this.messagesPojo(point);
+                final CMessage message = this.messageListPojo(point);
                 return this.readAsync(message, point);
             }
             return (T) point.proceed(point.getArgs());
@@ -183,7 +183,7 @@ public class AsideFetch extends L1AsideReading {
         /*
          * Returned Type checked only, two signatures
          */
-        final CMessage message = this.message(id);
+        final CMessage message = this.messageKey(id);
         return this.readAsync(message, point);
     }
 
@@ -200,14 +200,14 @@ public class AsideFetch extends L1AsideReading {
              * fetchOne(String,Object)
              * fetchOneAsync(String,Object)
              */
-            final CMessage message = this.messageField(point);
+            final CMessage message = this.messageUniqueField(point);
             return this.readAsync(message, point);
         } else if (L1Analyzer.isMatch(point, JsonObject.class)) {
             /*
              * fetchOne(JsonObject)
              * fetchOneAsync(JsonObject)
              */
-            final CMessage message = this.messageCond(point);
+            final CMessage message = this.messageUniqueCond(point);
             return this.readAsync(message, point);
         } else {
             if (L1Analyzer.isMatch(point, JsonObject.class, String.class)) {
@@ -219,7 +219,7 @@ public class AsideFetch extends L1AsideReading {
                  * In current version, Pojo mode is for old system, it will be removed in future,
                  * so it does not support cache feature here.
                  */
-                final CMessage message = this.messagePojo(point);
+                final CMessage message = this.messageUniquePojo(point);
                 return this.readAsync(message, point);
             }
             return (T) point.proceed(point.getArgs());

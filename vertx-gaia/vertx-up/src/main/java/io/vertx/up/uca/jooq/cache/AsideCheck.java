@@ -44,7 +44,7 @@ public class AsideCheck extends L1AsideReading {
         /*
          * Returned Type checked only
          */
-        final CMessage message = this.message(id);
+        final CMessage message = this.messageKey(id);
         return this.existSync(message, point);
     }
 
@@ -56,7 +56,7 @@ public class AsideCheck extends L1AsideReading {
         /*
          * Returned Type checked only
          */
-        final CMessage message = this.message(id);
+        final CMessage message = this.messageKey(id);
         return this.existAsync(message, point);
     }
 
@@ -69,10 +69,14 @@ public class AsideCheck extends L1AsideReading {
             /*
              * exist(JsonObject)
              */
-            final CMessage message = this.messagesCond(point);
+            final CMessage message = this.messageListCond(point);
             return this.existSync(message, point);
         } else {
-            return (Boolean) point.proceed(point.getArgs());
+            /*
+             * exist(JsonObject, pojo)
+             */
+            final CMessage message = this.messageListPojo(point);
+            return this.existSync(message, point);
         }
     }
 
@@ -86,10 +90,14 @@ public class AsideCheck extends L1AsideReading {
             /*
              * existAsync(JsonObject)
              */
-            final CMessage message = this.messagesCond(point);
+            final CMessage message = this.messageListCond(point);
             return this.existAsync(message, point);
         } else {
-            return (Future<Boolean>) point.proceed(point.getArgs());
+            /*
+             * existAsync(JsonObject, pojo)
+             */
+            final CMessage message = this.messageListPojo(point);
+            return this.existAsync(message, point);
         }
     }
 }

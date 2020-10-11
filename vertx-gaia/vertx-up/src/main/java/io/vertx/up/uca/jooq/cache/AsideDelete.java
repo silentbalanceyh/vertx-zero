@@ -71,7 +71,7 @@ public class AsideDelete extends L1AsideWriting {
         /*
          * Object[] / Collection
          */
-        final List<CMessage> messages = this.messageList(id);
+        final List<CMessage> messages = this.messages(id);
         return this.writeAsync(messages, point);
     }
 
@@ -85,16 +85,14 @@ public class AsideDelete extends L1AsideWriting {
              * Get all ids
              * deleteBy(JsonObject)
              */
-            final Object idSet = this.argumentCond(point);
-            final List<CMessage> messages = this.messageList(idSet);
+            final List<CMessage> messages = this.messagesCond(point);
             return this.writeAsync(messages, point);
         } else {
             /*
              * Pojo mode ignored
              * deleteBy(JsonObject, pojo)
              */
-            final Object idSet = this.argumentCond(point, 0);
-            final List<CMessage> messages = this.messageList(idSet);
+            final List<CMessage> messages = this.messagesPojo(point, 0);
             return this.writeAsync(messages, point);
         }
     }
@@ -109,16 +107,14 @@ public class AsideDelete extends L1AsideWriting {
              * Get all ids
              * deleteByAsync(JsonObject)
              */
-            final Object idSet = this.argumentCond(point);
-            final List<CMessage> messages = this.messageList(idSet);
+            final List<CMessage> messages = this.messagesCond(point);
             return this.writeAsync(messages, point);
         } else {
             /*
              * Pojo mode ignored
              * deleteByAsync(JsonObject, pojo)
              */
-            final Object idSet = this.argumentCond(point, 0);
-            final List<CMessage> messages = this.messageList(idSet);
+            final List<CMessage> messages = this.messagesPojo(point, 0);
             return this.writeAsync(messages, point);
         }
     }
@@ -131,8 +127,7 @@ public class AsideDelete extends L1AsideWriting {
         /*
          *  T
          */
-        final Object idSet = this.argumentT(point);
-        final List<CMessage> messages = this.messageList(idSet);
+        final List<CMessage> messages = this.messagesT(point);
         return this.writeAsync(messages, point);
     }
 
@@ -144,8 +139,7 @@ public class AsideDelete extends L1AsideWriting {
         /*
          *  List<T>
          */
-        final Object idSet = this.argumentT(point);
-        final List<CMessage> messages = this.messageList(idSet);
+        final List<CMessage> messages = this.messagesT(point);
         return this.writeAsync(messages, point);
     }
 
@@ -157,8 +151,7 @@ public class AsideDelete extends L1AsideWriting {
         /*
          *  Future<T>
          */
-        final Object idSet = this.argumentT(point);
-        final List<CMessage> messages = this.messageList(idSet);
+        final List<CMessage> messages = this.messagesT(point);
         return this.writeAsync(messages, point);
     }
 
@@ -170,8 +163,7 @@ public class AsideDelete extends L1AsideWriting {
         /*
          *  Future<List<T>>
          */
-        final Object idSet = this.argumentT(point);
-        final List<CMessage> messages = this.messageList(idSet);
+        final List<CMessage> messages = this.messagesT(point);
         return this.writeAsync(messages, point);
     }
 }
