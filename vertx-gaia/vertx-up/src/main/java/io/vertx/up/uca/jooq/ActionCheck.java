@@ -19,11 +19,11 @@ class ActionCheck extends AbstractAction {
         this.fetch = new ActionFetch(analyzer);
     }
 
-    <ID> Boolean existById(final ID id) {
+    Boolean existById(final Object id) {
         return this.vertxDAO.existsById(id);
     }
 
-    <ID> Future<Boolean> existByIdAsync(final ID id) {
+    Future<Boolean> existByIdAsync(final Object id) {
         return this.successed(this.vertxDAO.existsByIdAsync(id));
     }
 

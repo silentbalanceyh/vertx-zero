@@ -122,18 +122,15 @@ class L1Redis {
     private <T, R> void handle(final Promise<T> promise, final Function<R, T> consumer,
                                final AsyncResult<R> res) {
         if (res.succeeded()) {
-            T data;
-            try {
-                data = consumer.apply(res.result());
-            } catch (final Throwable ex) {
-                data = null;
-            }
+            final T data = consumer.apply(res.result());
             promise.complete(data);
         } else {
             if (Objects.nonNull(res.cause())) {
                 res.cause().printStackTrace();
+                promise.fail(res.cause());
+            } else {
+                promise.complete(null);
             }
-            promise.fail(res.cause());
         }
     }
 }

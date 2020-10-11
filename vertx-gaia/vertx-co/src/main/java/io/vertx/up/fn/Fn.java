@@ -190,11 +190,11 @@ public final class Fn {
     }
 
     // ------ Function Processing
-    public static <T> Supplier<T> wrap(final RunSupplier<T> supplier, final T defaultValue) {
+    public static <T> T wrap(final RunSupplier<T> supplier, final T defaultValue) {
         return Wrapper.wrapper(supplier, defaultValue);
     }
 
-    public static <T> Supplier<Future<T>> wrapAsync(final RunSupplier<Future<T>> supplier, final T defaultValue) {
+    public static <T> Future<T> wrapAsync(final RunSupplier<Future<T>> supplier, final T defaultValue) {
         return Wrapper.wrapperAsync(supplier, defaultValue);
     }
 

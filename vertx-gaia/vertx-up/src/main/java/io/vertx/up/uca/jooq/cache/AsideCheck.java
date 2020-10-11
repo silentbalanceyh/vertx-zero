@@ -1,6 +1,7 @@
 package io.vertx.up.uca.jooq.cache;
 
 import io.github.jklingsporn.vertx.jooq.future.VertxDAO;
+import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.plugin.cache.hit.CMessage;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -37,10 +38,21 @@ public class AsideCheck extends L1AsideReading {
 
     /*
      * existById
+     */
+    @Around(value = "execution(* io.vertx.up.uca.jooq.UxJooq.existById(..)) && args(id)", argNames = "id")
+    public Boolean existById(final ProceedingJoinPoint point, final Object id) throws Throwable {
+        /*
+         * Returned Type checked only
+         */
+        final CMessage message = this.message(id);
+        return this.existSync(message, point);
+    }
+
+    /*
      * existByIdAsync
      */
-    @Around(value = "execution(* io.vertx.up.uca.jooq.UxJooq.existById*(..)) && args(id)", argNames = "id")
-    public <T> T existById(final ProceedingJoinPoint point, final Object id) throws Throwable {
+    @Around(value = "execution(* io.vertx.up.uca.jooq.UxJooq.existByIdAsync(..)) && args(id)", argNames = "id")
+    public Future<Boolean> existByIdAsync(final ProceedingJoinPoint point, final Object id) throws Throwable {
         /*
          * Returned Type checked only
          */
@@ -48,17 +60,36 @@ public class AsideCheck extends L1AsideReading {
         return this.existAsync(message, point);
     }
 
-    @Around(value = "execution(* io.vertx.up.uca.jooq.UxJooq.exist*(..))")
-    public <T> T exist(final ProceedingJoinPoint point) throws Throwable {
+    /*
+     * exist
+     */
+    @Around(value = "execution(* io.vertx.up.uca.jooq.UxJooq.exist(..))")
+    public Boolean exist(final ProceedingJoinPoint point) throws Throwable {
         if (L1Analyzer.isMatch(point, JsonObject.class)) {
             /*
              * exist(JsonObject)
+             */
+            final CMessage message = this.messagesCond(point);
+            return this.existSync(message, point);
+        } else {
+            return (Boolean) point.proceed(point.getArgs());
+        }
+    }
+
+    /*
+     * existAsync
+     */
+
+    @Around(value = "execution(* io.vertx.up.uca.jooq.UxJooq.existAsync(..))")
+    public Future<Boolean> existAsync(final ProceedingJoinPoint point) throws Throwable {
+        if (L1Analyzer.isMatch(point, JsonObject.class)) {
+            /*
              * existAsync(JsonObject)
              */
             final CMessage message = this.messagesCond(point);
             return this.existAsync(message, point);
         } else {
-            return (T) point.proceed(point.getArgs());
+            return (Future<Boolean>) point.proceed(point.getArgs());
         }
     }
 }

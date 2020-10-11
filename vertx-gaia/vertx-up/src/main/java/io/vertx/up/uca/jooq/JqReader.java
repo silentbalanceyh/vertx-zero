@@ -93,11 +93,11 @@ class JqReader {
     }
 
     // ============ Exist Operation =============
-    <ID> Future<Boolean> existByIdAsync(final ID id) {
+    Future<Boolean> existByIdAsync(final Object id) {
         return this.check.existByIdAsync(id);
     }
 
-    <ID> Boolean existById(final ID id) {
+    Boolean existById(final Object id) {
         return this.check.existById(id);
     }
 

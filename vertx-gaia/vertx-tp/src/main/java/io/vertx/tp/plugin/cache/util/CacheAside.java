@@ -89,10 +89,16 @@ public class CacheAside {
                                              final Supplier<Future<Boolean>> actualSupplier) {
         return cacheSupplier.get().compose(reference -> {
             if (reference) {
+                /*
+                 * Existing Here
+                 */
                 return Future.succeededFuture(Boolean.TRUE);
             } else {
                 LOGGER.info("[ Cache ] ( Async ) Actual operation will execute because failure to hit cache.");
-                return actualSupplier.get();
+                return actualSupplier.get().compose(result -> {
+                    System.err.println(result);
+                    return Future.succeededFuture(result);
+                });
             }
         });
     }

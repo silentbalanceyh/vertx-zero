@@ -48,7 +48,7 @@ class L1ChannelAsync {
          */
         final List<Request> requests = this.redis.requestDataAppend(dataMap);
         this.redis.requestAsync(requests, response -> response).onComplete(response -> {
-            if (Objects.nonNull(response)) {
+            if (Objects.nonNull(response) && !dataMap.keySet().isEmpty()) {
                 LOGGER.info(CacheMsg.DATA_TREE, Ut.toJArray(dataMap.keySet()));
             }
         });
@@ -123,14 +123,12 @@ class L1ChannelAsync {
             } else {
                 if (Objects.nonNull(item)) {
                     LOGGER.info(CacheMsg.HIT_DATA, key);
+                    return Future.succeededFuture((T) item);
                 } else {
                     LOGGER.info(CacheMsg.HIT_FAILURE, key);
+                    return Future.succeededFuture();
                 }
-                return Future.succeededFuture((T) item);
             }
-        }).otherwise(error -> {
-            error.printStackTrace();
-            return null;
         });
     }
 }

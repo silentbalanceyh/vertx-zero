@@ -54,33 +54,33 @@ public class L1Aside {
         }
     }
 
-    private <T> T wrapRead(final CMessage message, final T defaultValue) {
+    private <T> T wrapRead(final CMessage message) {
         if (Objects.isNull(this.cacheL1)) {
-            return defaultValue;
+            return null;
         } else {
             return this.cacheL1.read(message);
         }
     }
 
-    private <T> Future<T> wrapReadAsync(final CMessage message, final T defaultValue) {
+    private <T> Future<T> wrapReadAsync(final CMessage message) {
         if (Objects.isNull(this.cacheL1)) {
-            return Future.succeededFuture(defaultValue);
+            return Future.succeededFuture();
         } else {
             return this.cacheL1.readAsync(message);
         }
     }
 
-    private Boolean wrapExist(final CMessage message, final Boolean defaultValue) {
+    private Boolean wrapExist(final CMessage message) {
         if (Objects.isNull(this.cacheL1)) {
-            return defaultValue;
+            return Boolean.FALSE;
         } else {
             return this.cacheL1.exist(message);
         }
     }
 
-    private Future<Boolean> wrapExistAsync(final CMessage message, final Boolean defaultValue) {
+    private Future<Boolean> wrapExistAsync(final CMessage message) {
         if (Objects.isNull(this.cacheL1)) {
-            return Future.succeededFuture(defaultValue);
+            return Future.succeededFuture(Boolean.FALSE);
         } else {
             return this.cacheL1.existAsync(message);
         }
@@ -94,7 +94,7 @@ public class L1Aside {
      */
     <T> T delete(final List<CMessage> messages, final RunSupplier<T> actualSupplier) {
         /* Actual Supplier */
-        final Supplier<T> wrapActual = Fn.wrap(actualSupplier, null);
+        final Supplier<T> wrapActual = () -> Fn.wrap(actualSupplier, null);
 
         /* After Callback */
         return CacheAside.after(wrapActual, ret -> this.deleteCache(messages));
@@ -102,7 +102,7 @@ public class L1Aside {
 
     <T> Future<T> deleteAsync(final List<CMessage> messages, final RunSupplier<Future<T>> actualSupplier) {
         /* Actual Supplier */
-        final Supplier<Future<T>> wrapActual = Fn.wrapAsync(actualSupplier, null);
+        final Supplier<Future<T>> wrapActual = () -> Fn.wrapAsync(actualSupplier, null);
 
         /* After Callback */
         return CacheAside.afterAsync(wrapActual, ret -> this.deleteCache(messages));
@@ -115,10 +115,10 @@ public class L1Aside {
      */
     <T> T read(final CMessage message, final RunSupplier<T> actualSupplier) {
         /* Actual Supplier */
-        final Supplier<T> wrapActual = Fn.wrap(actualSupplier, null);
+        final Supplier<T> wrapActual = () -> Fn.wrap(actualSupplier, null);
 
         /* Cache Supplier */
-        final Supplier<T> wrapCache = () -> this.wrapRead(message, null);
+        final Supplier<T> wrapCache = () -> this.wrapRead(message);
 
         /* Read with callback */
         return CacheAside.before(wrapCache, wrapActual, entity -> this.writeCache(message.data(entity)));
@@ -126,10 +126,10 @@ public class L1Aside {
 
     <T> Future<T> readAsync(final CMessage message, final RunSupplier<Future<T>> actualSupplier) {
         /* Actual Supplier */
-        final Supplier<Future<T>> wrapActual = Fn.wrapAsync(actualSupplier, null);
+        final Supplier<Future<T>> wrapActual = () -> Fn.wrapAsync(actualSupplier, null);
 
         /* Cache Supplier */
-        final Supplier<Future<T>> wrapCache = () -> this.wrapReadAsync(message, null);
+        final Supplier<Future<T>> wrapCache = () -> this.wrapReadAsync(message);
 
         /* Read with callback */
         return CacheAside.beforeAsync(wrapCache, wrapActual, entity -> this.writeCache(message.data(entity)));
@@ -143,10 +143,10 @@ public class L1Aside {
      */
     Boolean exist(final CMessage message, final RunSupplier<Boolean> actualSupplier) {
         /* Actual Supplier */
-        final Supplier<Boolean> wrapActual = Fn.wrap(actualSupplier, Boolean.FALSE);
+        final Supplier<Boolean> wrapActual = () -> Fn.wrap(actualSupplier, Boolean.FALSE);
 
         /* Cache Supplier */
-        final Supplier<Boolean> wrapCache = () -> this.wrapExist(message, Boolean.FALSE);
+        final Supplier<Boolean> wrapCache = () -> this.wrapExist(message);
 
         /* Read with callback */
         return CacheAside.check(wrapCache, wrapActual);
@@ -154,10 +154,10 @@ public class L1Aside {
 
     Future<Boolean> existAsync(final CMessage message, final RunSupplier<Future<Boolean>> actualSupplier) {
         /* Build to supplier */
-        final Supplier<Future<Boolean>> wrapActual = Fn.wrapAsync(actualSupplier, Boolean.FALSE);
+        final Supplier<Future<Boolean>> wrapActual = () -> Fn.wrapAsync(actualSupplier, Boolean.FALSE);
 
         /* Cache Supplier */
-        final Supplier<Future<Boolean>> wrapCache = () -> this.wrapExistAsync(message, Boolean.FALSE);
+        final Supplier<Future<Boolean>> wrapCache = () -> this.wrapExistAsync(message);
 
         return CacheAside.checkAsync(wrapCache, wrapActual);
     }
