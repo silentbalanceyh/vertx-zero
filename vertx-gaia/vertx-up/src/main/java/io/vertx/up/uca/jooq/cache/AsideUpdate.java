@@ -149,7 +149,7 @@ public class AsideUpdate extends L1AsideWriting {
      * updateAsync(id, T)
      */
     @Around(value = "execution(* io.vertx.up.uca.jooq.UxJooq.updateAsync(Object, T))")
-    public <T> T updateByIdAsync(final ProceedingJoinPoint point) throws Throwable {
+    public <T> Future<T> updateByIdAsync(final ProceedingJoinPoint point) throws Throwable {
         /*
          * Future<T>
          */
@@ -173,7 +173,7 @@ public class AsideUpdate extends L1AsideWriting {
      * updateAsync(JsonObject, T)
      */
     @Around(value = "execution(* io.vertx.up.uca.jooq.UxJooq.updateAsync(io.vertx.core.json.JsonObject, T))")
-    public <T> T updateByCondAsync(final ProceedingJoinPoint point) throws Throwable {
+    public <T> Future<T> updateByCondAsync(final ProceedingJoinPoint point) throws Throwable {
         /*
          * Future<T>
          */
@@ -197,7 +197,7 @@ public class AsideUpdate extends L1AsideWriting {
      * updateAsync(JsonObject, T, String)
      */
     @Around(value = "execution(* io.vertx.up.uca.jooq.UxJooq.updateAsync(io.vertx.core.json.JsonObject, T, String))")
-    public <T> T updateByCondPojoAsync(final ProceedingJoinPoint point) throws Throwable {
+    public <T> Future<T> updateByCondPojoAsync(final ProceedingJoinPoint point) throws Throwable {
         /*
          * Future<T>
          */

@@ -1,8 +1,14 @@
 package io.vertx.up.uca.jooq.cache;
 
 import io.github.jklingsporn.vertx.jooq.future.VertxDAO;
+import io.vertx.core.Future;
+import io.vertx.tp.plugin.cache.hit.CMessage;
+import org.aspectj.lang.ProceedingJoinPoint;
+import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
+
+import java.util.List;
 
 /**
  * @author <a href="http://www.origin-x.cn">lang</a>
@@ -15,6 +21,7 @@ public class AsideUpsert extends L1AsideWriting {
     public void init(final Class<?> clazz, final VertxDAO dao) {
         super.initialize(clazz, dao);
     }
+
     /*
      * upsert(id, T)
      *      <-- upsert(id, JsonObject)
@@ -50,11 +57,6 @@ public class AsideUpsert extends L1AsideWriting {
      *      <-- upsertJAsync(criteria, T, pojo)
      *      <-- upsertJAsync(criteria, JsonObject, pojo)
      *
-     * update(criteria, T)
-     *      <-- update(criteria, JsonObject)
-     *      <-- updateJ(criteria, T)
-     *      <-- updateJ(criteria, JsonObject)
-     *
      * upsert(criteria, list, finder)
      *      <-- upsert(criteria, JsonArray, finder)
      *      <-- upsertJ(criteria, list, finder)
@@ -75,4 +77,124 @@ public class AsideUpsert extends L1AsideWriting {
      *      <-- upsertJAsync(criteria, list, finder, pojo)
      *      <-- upsertJAsync(criteria, JsonArray, finder, pojo)
      */
+    /*
+     * upsert(id, T)
+     */
+    @Around(value = "execution(* io.vertx.up.uca.jooq.UxJooq.upsert(Object,T))")
+    public <T> T upsert(final ProceedingJoinPoint point) throws Throwable {
+        /*
+         *  T
+         */
+        final List<CMessage> messages = this.messagesT(point);
+        return this.writeAsync(messages, point);
+    }
+
+    /*
+     * upsertAsync(id, T)
+     */
+    @Around(value = "execution(* io.vertx.up.uca.jooq.UxJooq.upsertAsync(Object,T))")
+    public <T> Future<T> upsertAsync(final ProceedingJoinPoint point) throws Throwable {
+        /*
+         *  Future<T>
+         */
+        final List<CMessage> messages = this.messagesT(point);
+        return this.writeAsync(messages, point);
+    }
+
+    /*
+     * upsert(JsonObject, T)
+     */
+    @Around(value = "execution(* io.vertx.up.uca.jooq.UxJooq.upsert(io.vertx.core.json.JsonObject, T))")
+    public <T> T upsertByCond(final ProceedingJoinPoint point) throws Throwable {
+        /*
+         * T
+         */
+        final List<CMessage> messages = this.messagesCond(point);
+        return this.writeAsync(messages, point);
+    }
+
+    /*
+     * upsertAsync(JsonObject, T)
+     */
+    @Around(value = "execution(* io.vertx.up.uca.jooq.UxJooq.upsertAsync(io.vertx.core.json.JsonObject, T))")
+    public <T> Future<T> upsertByCondAsync(final ProceedingJoinPoint point) throws Throwable {
+        /*
+         *  Future<T>
+         */
+        final List<CMessage> messages = this.messagesCond(point);
+        return this.writeAsync(messages, point);
+    }
+
+    /*
+     * upsert(JsonObject, T)
+     */
+    @Around(value = "execution(* io.vertx.up.uca.jooq.UxJooq.upsert(io.vertx.core.json.JsonObject, T, String))")
+    public <T> T upsertByPojo(final ProceedingJoinPoint point) throws Throwable {
+        /*
+         * T
+         */
+        final List<CMessage> messages = this.messagesPojo(point, 0);
+        return this.writeAsync(messages, point);
+    }
+
+    /*
+     * upsertAsync(JsonObject, T)
+     */
+    @Around(value = "execution(* io.vertx.up.uca.jooq.UxJooq.upsertAsync(io.vertx.core.json.JsonObject, T, String))")
+    public <T> Future<T> upsertByPojoAsync(final ProceedingJoinPoint point) throws Throwable {
+        /*
+         *  Future<T>
+         */
+        final List<CMessage> messages = this.messagesPojo(point, 0);
+        return this.writeAsync(messages, point);
+    }
+
+    /*
+     * upsert(JsonObject, T, BiPredicate)
+     */
+    @Around(value = "execution(* io.vertx.up.uca.jooq.UxJooq.upsert(io.vertx.core.json.JsonObject, java.util.List, java.util.function.BiPredicate))")
+    public <T> List<T> upsertList(final ProceedingJoinPoint point) throws Throwable {
+        /*
+         * List<T>
+         */
+        final List<CMessage> messages = this.messagesCond(point);
+        return this.writeAsync(messages, point);
+    }
+
+    /*
+     * upsertAsync(JsonObject, T, BiPredicate)
+     */
+    @Around(value = "execution(* io.vertx.up.uca.jooq.UxJooq.upsertAsync(io.vertx.core.json.JsonObject, java.util.List, java.util.function.BiPredicate))")
+    public <T> Future<List<T>> upsertListAsync(final ProceedingJoinPoint point) throws Throwable {
+        /*
+         * Future<List<T>>
+         */
+        final List<CMessage> messages = this.messagesCond(point);
+        return this.writeAsync(messages, point);
+    }
+
+
+    /*
+     * upsert(JsonObject, T, BiPredicate, String)
+     */
+    @Around(value = "execution(* io.vertx.up.uca.jooq.UxJooq.upsert(io.vertx.core.json.JsonObject, java.util.List, java.util.function.BiPredicate, String))")
+    public <T> List<T> upsertListFn(final ProceedingJoinPoint point) throws Throwable {
+        /*
+         * List<T>
+         */
+        final List<CMessage> messages = this.messagesPojo(point, 0);
+        return this.writeAsync(messages, point);
+    }
+
+    /*
+     * upsertAsync(JsonObject, T, BiPredicate,  String)
+     */
+    @Around(value = "execution(* io.vertx.up.uca.jooq.UxJooq.upsertAsync(io.vertx.core.json.JsonObject, java.util.List, java.util.function.BiPredicate, String))")
+    public <T> Future<List<T>> upsertListFnAsync(final ProceedingJoinPoint point) throws Throwable {
+        /*
+         * Future<List<T>>
+         */
+        final List<CMessage> messages = this.messagesPojo(point, 0);
+        return this.writeAsync(messages, point);
+    }
 }
