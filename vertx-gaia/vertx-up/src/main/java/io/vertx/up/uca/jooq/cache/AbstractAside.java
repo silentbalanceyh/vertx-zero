@@ -73,20 +73,6 @@ abstract class AbstractAside {
         return this.messageUnique(this.argumentPojo(point, 0));
     }
 
-    /* CMessage -> CMessageUnique -> <T> T method(JsonObject) */
-    private CMessage messageUnique(final JsonObject condition) {
-        final CMessage message = new CMessageUnique(condition, this.analyzer.type());
-        message.bind(this.analyzer.primarySet());
-        return message;
-    }
-
-    /* CMessage -> CMessageUnique -> <T> T method(String, Object) */
-    private CMessage messageUnique(final String field, final Object value) {
-        final CMessage message = new CMessageUnique(field, value, this.analyzer.type());
-        message.bind(this.analyzer.primarySet());
-        return message;
-    }
-
     /*
      * MessageList
      */
@@ -96,23 +82,9 @@ abstract class AbstractAside {
         return this.messageList(field, value);
     }
 
-    /* CMessage -> CMessageList -> <T> List<T> method(String, Object) */
-    private CMessage messageList(final String field, final Object value) {
-        final CMessage message = new CMessageList(field, value, this.analyzer.type());
-        message.bind(this.analyzer.primarySet());
-        return message;
-    }
-
     protected CMessage messageListCond(final ProceedingJoinPoint point) {
         final JsonObject condition = this.argument(point, 0);
         return this.messageList(condition);
-    }
-
-    /* CMessage -> CMessageList -> <T> List<T> method(JsonObject) */
-    private CMessage messageList(final JsonObject condition) {
-        final CMessage message = new CMessageList(condition, this.analyzer.type());
-        message.bind(this.analyzer.primarySet());
-        return message;
     }
 
     protected CMessage messageListPojo(final ProceedingJoinPoint point) {
@@ -126,11 +98,6 @@ abstract class AbstractAside {
         return message;
     }
 
-    private CMessage messageTree(final Object id) {
-        final CMessage message = new CMessageTree(id, this.analyzer.type());
-        message.bind(this.analyzer.primarySet());      // Bind data here
-        return message;
-    }
     // ------------------ CMessage Collection -------------------------
 
     protected List<CMessage> messagesCond(final ProceedingJoinPoint point) {
@@ -174,8 +141,45 @@ abstract class AbstractAside {
         }
         return messageList;
     }
+    // ------------------ Message Private -----------------------------
 
-    // ------------------ Argument processing -------------------------
+    /* CMessageUnique */
+    /* CMessage -> CMessageUnique -> <T> T method(JsonObject) */
+    private CMessage messageUnique(final JsonObject condition) {
+        final CMessage message = new CMessageUnique(condition, this.analyzer.type());
+        message.bind(this.analyzer.primarySet());
+        return message;
+    }
+
+    /* CMessage -> CMessageUnique -> <T> T method(String, Object) */
+    private CMessage messageUnique(final String field, final Object value) {
+        final CMessage message = new CMessageUnique(field, value, this.analyzer.type());
+        message.bind(this.analyzer.primarySet());
+        return message;
+    }
+
+    /* CMessageList */
+    /* CMessage -> CMessageList -> <T> List<T> method(JsonObject) */
+    private CMessage messageList(final JsonObject condition) {
+        final CMessage message = new CMessageList(condition, this.analyzer.type());
+        message.bind(this.analyzer.primarySet());
+        return message;
+    }
+
+    /* CMessage -> CMessageList -> <T> List<T> method(String, Object) */
+    private CMessage messageList(final String field, final Object value) {
+        final CMessage message = new CMessageList(field, value, this.analyzer.type());
+        message.bind(this.analyzer.primarySet());
+        return message;
+    }
+
+    /* CMessageTree */
+    private CMessage messageTree(final Object id) {
+        final CMessage message = new CMessageTree(id, this.analyzer.type());
+        message.bind(this.analyzer.primarySet());      // Bind data here
+        return message;
+    }
+    // ------------------ Argument Private ----------------------------
 
     /*
      * Condition + Pojo
