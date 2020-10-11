@@ -1,11 +1,11 @@
 package io.vertx.tp.plugin.cache.util;
 
 import io.vertx.core.Future;
-import io.vertx.up.fn.RunSupplier;
 import io.vertx.up.log.Annal;
 
 import java.util.Objects;
 import java.util.function.Consumer;
+import java.util.function.Predicate;
 import java.util.function.Supplier;
 
 /**
@@ -15,11 +15,11 @@ import java.util.function.Supplier;
 public class CacheAside {
     private static final Annal LOGGER = Annal.get(CacheAside.class);
 
-    public static <T> T after(final RunSupplier<T> executor, final Consumer<T> consumer) {
+    public static <T> T after(final Supplier<T> executor, final Consumer<T> consumer) {
         /*
          * 1. Get T reference
          */
-        final T reference = execute(executor);
+        final T reference = executor.get();
         if (Objects.nonNull(reference)) {
             /*
              * 2. Call after function
@@ -29,12 +29,11 @@ public class CacheAside {
         return reference;
     }
 
-    public static <T> Future<T> afterAsync(final RunSupplier<Future<T>> executor, final Consumer<T> consumer) {
+    public static <T> Future<T> afterAsync(final Supplier<Future<T>> executor, final Consumer<T> consumer) {
         /*
          * 1. Get T reference in async way
          */
-        final Supplier<Future<T>> actual = () -> execute(executor);
-        return actual.get().compose(reference -> {
+        return executor.get().compose(reference -> {
             if (Objects.nonNull(reference)) {
                 /*
                  * 2. Call after function
@@ -48,55 +47,32 @@ public class CacheAside {
     /*
      * T -> T
      */
-    public static <T> T before(final RunSupplier<T> cacheSupplier,
-                               final RunSupplier<T> actual) {
-        return before(cacheSupplier, actual, null);
-    }
-
-    public static <T> T before(final RunSupplier<T> cacheSupplier,
-                               final RunSupplier<T> actualSupplier,
+    public static <T> T before(final Supplier<T> cacheSupplier,
+                               final Supplier<T> actualSupplier,
                                final Consumer<T> callback) {
-        final Supplier<T> supplier = () -> execute(cacheSupplier);
-        final Supplier<T> actual = () -> execute(actualSupplier);
+        return beforeSync(cacheSupplier, actualSupplier, Objects::isNull, callback);
+    }
+
+    public static <T> T check(final Supplier<T> cacheSupplier,
+                              final Supplier<T> actualSupplier) {
+        return beforeSync(cacheSupplier, actualSupplier,
+                (existing) -> Objects.nonNull(existing) && Boolean.FALSE == existing, null);
+    }
+
+
+    public static <T> Future<T> beforeAsync(final Supplier<Future<T>> cacheSupplier,
+                                            final Supplier<Future<T>> actualSupplier,
+                                            final Consumer<T> callback) {
         /*
          * 1. Get T reference from cache
          */
-        T reference = supplier.get();
-        if (Objects.isNull(reference)) {
-            /*
-             * 2. When T reference is null
-             */
-            LOGGER.info("[ Cache ] ( Sync ) Actual operation will execute because failure to hit cache.");
-            reference = actual.get();
-            if (Objects.nonNull(callback) && Objects.nonNull(reference)) {
-                /*
-                 * 3. When callback is not null
-                 */
-                callback.accept(reference);
-            }
-        }
-        return reference;
-    }
-
-    public static <T> Future<T> before(final Supplier<Future<T>> cacheSupplier,
-                                       final RunSupplier<Future<T>> actualSupplier) {
-        return before(cacheSupplier, actualSupplier, null);
-    }
-
-    public static <T> Future<T> before(final Supplier<Future<T>> cacheSupplier,
-                                       final RunSupplier<Future<T>> actualSupplier,
-                                       final Consumer<T> callback) {
-        /*
-         * 1. Get T reference from cache
-         */
-        final Supplier<Future<T>> actual = () -> execute(actualSupplier);
         return cacheSupplier.get().compose(reference -> {
             if (Objects.isNull(reference)) {
                 /*
                  * 2. When T reference is null
                  */
                 LOGGER.info("[ Cache ] ( Async ) Actual operation will execute because failure to hit cache.");
-                return actual.get().compose(actualRef -> {
+                return actualSupplier.get().compose(actualRef -> {
                     if (Objects.nonNull(callback) && Objects.nonNull(actualRef)) {
                         /*
                          * 3. When callback is not null
@@ -109,13 +85,40 @@ public class CacheAside {
         });
     }
 
-    private static <T> T execute(final RunSupplier<T> supplier) {
-        T reference;
-        try {
-            reference = supplier.get();
-        } catch (final Throwable ex) {
-            ex.printStackTrace();
-            reference = null;
+    public static Future<Boolean> checkAsync(final Supplier<Future<Boolean>> cacheSupplier,
+                                             final Supplier<Future<Boolean>> actualSupplier) {
+        return cacheSupplier.get().compose(reference -> {
+            if (reference) {
+                return Future.succeededFuture(Boolean.TRUE);
+            } else {
+                LOGGER.info("[ Cache ] ( Async ) Actual operation will execute because failure to hit cache.");
+                return actualSupplier.get();
+            }
+        });
+    }
+
+
+    // ------------------ Private Processing -------------------------
+    private static <T> T beforeSync(final Supplier<T> supplier,
+                                    final Supplier<T> actual,
+                                    final Predicate<T> predicate,
+                                    final Consumer<T> callback) {
+        /*
+         * 1. Get T reference from cache
+         */
+        T reference = supplier.get();
+        if (predicate.test(reference)) {
+            /*
+             * 2. When T reference is null
+             */
+            LOGGER.info("[ Cache ] ( Sync ) Actual operation will execute because failure to hit cache.");
+            reference = actual.get();
+            if (Objects.nonNull(callback) && Objects.nonNull(reference)) {
+                /*
+                 * 3. When callback is not null
+                 */
+                callback.accept(reference);
+            }
         }
         return reference;
     }

@@ -19,8 +19,7 @@ final class Defend {
      * @param actuator Jvm Executor
      * @param logger   Zero logger
      */
-    static void jvmVoid(final JvmActuator actuator,
-                        final Annal logger) {
+    static void jvmVoid(final JvmActuator actuator, final Annal logger) {
         try {
             actuator.execute();
         } catch (final Throwable ex) {
@@ -36,10 +35,10 @@ final class Defend {
      * @param supplier Jvm Supplier
      * @param logger   Zero logger
      * @param <T>      returned supplier T
+     *
      * @return T supplier or null
      */
-    static <T> T jvmReturn(final JvmSupplier<T> supplier,
-                           final Annal logger) {
+    static <T> T jvmReturn(final JvmSupplier<T> supplier, final Annal logger) {
         T reference = null;
         try {
             reference = supplier.get();
@@ -55,8 +54,7 @@ final class Defend {
      * @param actuator Zero executor
      * @param logger   Zero logger
      */
-    static void zeroVoid(final ZeroActuator actuator,
-                         final Annal logger) {
+    static void zeroVoid(final ZeroActuator actuator, final Annal logger) {
         try {
             actuator.execute();
         } catch (final ZeroException ex) {
@@ -74,10 +72,10 @@ final class Defend {
      * @param supplier Zero Supplier
      * @param logger   Zero Logger
      * @param <T>      Element of supplier ( T )
+     *
      * @return T or throw out zero run exception
      */
-    static <T> T zeroReturn(final ZeroSupplier<T> supplier,
-                            final Annal logger) {
+    static <T> T zeroReturn(final ZeroSupplier<T> supplier, final Annal logger) {
         T ret = null;
         try {
             ret = supplier.get();

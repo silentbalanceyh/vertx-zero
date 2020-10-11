@@ -5,6 +5,7 @@ import io.vertx.tp.plugin.cache.Harp;
 import io.vertx.tp.plugin.cache.hit.CMessage;
 import io.vertx.tp.plugin.cache.l1.L1Cache;
 import io.vertx.tp.plugin.cache.util.CacheAside;
+import io.vertx.up.fn.Fn;
 import io.vertx.up.fn.RunSupplier;
 import io.vertx.up.uca.jooq.JqAnalyzer;
 
@@ -32,6 +33,12 @@ public class L1Aside {
         this.cacheL1 = Harp.cacheL1();
     }
 
+    // ------------------ Private Processing -------------------------
+    /*
+     * 1) writeCache
+     * 2) deleteCache
+     * 2) wrapRead/wrapReadAsync
+     */
     /*
      * Private method for write
      */
@@ -47,17 +54,58 @@ public class L1Aside {
         }
     }
 
+    private <T> T wrapRead(final CMessage message, final T defaultValue) {
+        if (Objects.isNull(this.cacheL1)) {
+            return defaultValue;
+        } else {
+            return this.cacheL1.read(message);
+        }
+    }
+
+    private <T> Future<T> wrapReadAsync(final CMessage message, final T defaultValue) {
+        if (Objects.isNull(this.cacheL1)) {
+            return Future.succeededFuture(defaultValue);
+        } else {
+            return this.cacheL1.readAsync(message);
+        }
+    }
+
+    private Boolean wrapExist(final CMessage message, final Boolean defaultValue) {
+        if (Objects.isNull(this.cacheL1)) {
+            return defaultValue;
+        } else {
+            return this.cacheL1.exist(message);
+        }
+    }
+
+    private Future<Boolean> wrapExistAsync(final CMessage message, final Boolean defaultValue) {
+        if (Objects.isNull(this.cacheL1)) {
+            return Future.succeededFuture(defaultValue);
+        } else {
+            return this.cacheL1.existAsync(message);
+        }
+    }
+
+    // ------------------ Usage interface -------------------------
     /*
      * -- delete
      *    deleteAsync
      * Delete cache information
      */
-    <T> T delete(final List<CMessage> messages, final RunSupplier<T> executor) {
-        return CacheAside.after(executor, ret -> this.deleteCache(messages));
+    <T> T delete(final List<CMessage> messages, final RunSupplier<T> actualSupplier) {
+        /* Actual Supplier */
+        final Supplier<T> wrapActual = Fn.wrap(actualSupplier, null);
+
+        /* After Callback */
+        return CacheAside.after(wrapActual, ret -> this.deleteCache(messages));
     }
 
-    <T> Future<T> deleteAsync(final List<CMessage> messages, final RunSupplier<Future<T>> executor) {
-        return CacheAside.afterAsync(executor, ret -> this.deleteCache(messages));
+    <T> Future<T> deleteAsync(final List<CMessage> messages, final RunSupplier<Future<T>> actualSupplier) {
+        /* Actual Supplier */
+        final Supplier<Future<T>> wrapActual = Fn.wrapAsync(actualSupplier, null);
+
+        /* After Callback */
+        return CacheAside.afterAsync(wrapActual, ret -> this.deleteCache(messages));
     }
 
     /*
@@ -65,16 +113,26 @@ public class L1Aside {
      *    readAsync
      * Read information such as T & List<T> returned from cache here
      */
-    <T> T read(final CMessage message, final RunSupplier<T> executor) {
-        return CacheAside.before(this.defend(() -> this.cacheL1.read(message)), executor,
-                /* Fullfill Message with returned data */
-                entity -> this.writeCache(message.data(entity)));
+    <T> T read(final CMessage message, final RunSupplier<T> actualSupplier) {
+        /* Actual Supplier */
+        final Supplier<T> wrapActual = Fn.wrap(actualSupplier, null);
+
+        /* Cache Supplier */
+        final Supplier<T> wrapCache = () -> this.wrapRead(message, null);
+
+        /* Read with callback */
+        return CacheAside.before(wrapCache, wrapActual, entity -> this.writeCache(message.data(entity)));
     }
 
-    <T> Future<T> readAsync(final CMessage message, final RunSupplier<Future<T>> executor) {
-        return CacheAside.before(this.defendAsync(() -> this.cacheL1.readAsync(message)), executor,
-                /* Fullfill Message with returned data */
-                entity -> this.writeCache(message.data(entity)));
+    <T> Future<T> readAsync(final CMessage message, final RunSupplier<Future<T>> actualSupplier) {
+        /* Actual Supplier */
+        final Supplier<Future<T>> wrapActual = Fn.wrapAsync(actualSupplier, null);
+
+        /* Cache Supplier */
+        final Supplier<Future<T>> wrapCache = () -> this.wrapReadAsync(message, null);
+
+        /* Read with callback */
+        return CacheAside.beforeAsync(wrapCache, wrapActual, entity -> this.writeCache(message.data(entity)));
     }
 
     /*
@@ -83,28 +141,24 @@ public class L1Aside {
      *    existAsync
      * Exist such as T & List<T>, the different point is returned type is Boolean
      */
-    Boolean exist(final CMessage message, final RunSupplier<Boolean> executor) {
-        return CacheAside.before(this.defend(() -> this.cacheL1.exist(message)), executor);
+    Boolean exist(final CMessage message, final RunSupplier<Boolean> actualSupplier) {
+        /* Actual Supplier */
+        final Supplier<Boolean> wrapActual = Fn.wrap(actualSupplier, Boolean.FALSE);
+
+        /* Cache Supplier */
+        final Supplier<Boolean> wrapCache = () -> this.wrapExist(message, Boolean.FALSE);
+
+        /* Read with callback */
+        return CacheAside.check(wrapCache, wrapActual);
     }
 
-    Future<Boolean> existAsync(final CMessage message, final RunSupplier<Future<Boolean>> executor) {
-        return CacheAside.before(this.defendAsync(() -> this.cacheL1.existAsync(message)), executor);
+    Future<Boolean> existAsync(final CMessage message, final RunSupplier<Future<Boolean>> actualSupplier) {
+        /* Build to supplier */
+        final Supplier<Future<Boolean>> wrapActual = Fn.wrapAsync(actualSupplier, Boolean.FALSE);
+
+        /* Cache Supplier */
+        final Supplier<Future<Boolean>> wrapCache = () -> this.wrapExistAsync(message, Boolean.FALSE);
+
+        return CacheAside.checkAsync(wrapCache, wrapActual);
     }
-
-
-    /*
-     * Defined for null checking
-     */
-    private <T> Supplier<Future<T>> defendAsync(final Supplier<Future<T>> executor) {
-        if (Objects.isNull(this.cacheL1)) {
-            return Future::succeededFuture;
-        } else return executor;
-    }
-
-    private <T> RunSupplier<T> defend(final RunSupplier<T> executor) {
-        if (Objects.isNull(this.cacheL1)) {
-            return null;
-        } else return executor;
-    }
-
 }

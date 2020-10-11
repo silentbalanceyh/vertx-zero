@@ -102,18 +102,18 @@ class L1Redis {
     }
 
     <T> Future<T> requestAsync(final Request request, final Function<Response, T> consumer) {
-        final Promise<T> promise = Promise.promise();
         if (Objects.nonNull(this.redis)) {
+            final Promise<T> promise = Promise.promise();
             this.redis.send(request, res -> this.handle(promise, consumer, res));
             return promise.future();
         } else return Future.succeededFuture();
     }
 
     <T> Future<T> requestAsync(final List<Request> requests, final Function<List<Response>, T> consumer) {
-        final Promise<T> promise = Promise.promise();
         if (requests.isEmpty() || Objects.isNull(this.redis)) {
             return Future.succeededFuture();
         } else {
+            final Promise<T> promise = Promise.promise();
             this.redis.batch(requests, res -> this.handle(promise, consumer, res));
             return promise.future();
         }
@@ -122,7 +122,12 @@ class L1Redis {
     private <T, R> void handle(final Promise<T> promise, final Function<R, T> consumer,
                                final AsyncResult<R> res) {
         if (res.succeeded()) {
-            final T data = consumer.apply(res.result());
+            T data;
+            try {
+                data = consumer.apply(res.result());
+            } catch (final Throwable ex) {
+                data = null;
+            }
             promise.complete(data);
         } else {
             if (Objects.nonNull(res.cause())) {

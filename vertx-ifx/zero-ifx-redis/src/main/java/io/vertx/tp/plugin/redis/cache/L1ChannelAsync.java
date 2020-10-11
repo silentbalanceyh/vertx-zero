@@ -35,7 +35,7 @@ class L1ChannelAsync {
         /*
          * Batch processing
          */
-        this.redis.requestAsync(requests, response -> response).onSuccess(response -> {
+        this.redis.requestAsync(requests, response -> response).onComplete(response -> {
             if (Objects.nonNull(response)) {
                 LOGGER.info(CacheMsg.DATA_REFRESHED, Ut.toJArray(dataMap.keySet()));
             }
@@ -47,7 +47,7 @@ class L1ChannelAsync {
          * Write cache ( APPEND )
          */
         final List<Request> requests = this.redis.requestDataAppend(dataMap);
-        this.redis.requestAsync(requests, response -> response).onSuccess(response -> {
+        this.redis.requestAsync(requests, response -> response).onComplete(response -> {
             if (Objects.nonNull(response)) {
                 LOGGER.info(CacheMsg.DATA_TREE, Ut.toJArray(dataMap.keySet()));
             }
@@ -67,17 +67,20 @@ class L1ChannelAsync {
                 response.stream().filter(Objects::nonNull).map(Response::toString).forEach(eraseKeys::add);
             }
             return eraseKeys;
-        }).onSuccess(eraseKeys -> {
+        }).onComplete(completed -> {
             /*
              * Collect all keys and remove all
              * Command, DEL
              */
-            final List<Request> requests = this.redis.requestData(eraseKeys);
-            this.redis.requestAsync(requests, deletion -> deletion).onSuccess(deletion -> {
-                if (Objects.nonNull(deletion)) {
-                    LOGGER.info(CacheMsg.HIT_REMOVE, String.valueOf(eraseKeys.size()), Ut.toJArray(eraseKeys));
-                }
-            });
+            if (completed.succeeded()) {
+                final Set<String> eraseKeys = completed.result();
+                final List<Request> requests = this.redis.requestData(eraseKeys);
+                this.redis.requestAsync(requests, deletion -> deletion).onComplete(deletion -> {
+                    if (Objects.nonNull(deletion) && deletion.succeeded()) {
+                        LOGGER.info(CacheMsg.HIT_REMOVE, String.valueOf(eraseKeys.size()), Ut.toJArray(eraseKeys));
+                    }
+                });
+            }
         });
     }
 
