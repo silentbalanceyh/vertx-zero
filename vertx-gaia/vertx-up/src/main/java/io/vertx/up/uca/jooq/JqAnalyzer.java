@@ -103,6 +103,32 @@ public class JqAnalyzer {
         return primary.isEmpty() ? null : primary.iterator().next();
     }
 
+    /*
+     * Primary key value collect
+     * 1) Object
+     * 2) List<Object>
+     */
+    public <T> Object primaryValue(final T input) {
+        final String primaryField = this.primary();
+        if (Objects.isNull(primaryField)) {
+            /*
+             * null returned
+             */
+            return null;
+        } else {
+            /*
+             * extract primary
+             */
+            return Ut.field(input, primaryField);
+        }
+    }
+
+    public <T> List<Object> primaryValue(final List<T> list) {
+        final List<Object> values = new ArrayList<>();
+        list.stream().map(this::primaryValue).forEach(values::add);
+        return values;
+    }
+
     public List<TreeSet<String>> uniqueKey() {
         /*
          * keys include

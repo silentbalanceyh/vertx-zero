@@ -45,26 +45,4 @@ class L1Analyzer {
             return false;
         }
     }
-
-    /*
-     * Argument extraction here based on `index`
-     *
-     * For example:
-     * - method(arg1,arg2,arg3,....)
-     *
-     * The parameters are:
-     * - arg1 ( index = 0 )
-     * - arg2 ( index = 1 )
-     * - arg3 ( index = 2 )
-     * ......
-     * - argN ( index = N - 1 )
-     */
-    static <T> T argument(final Integer index, final ProceedingJoinPoint point) {
-        final Object[] args = point.getArgs();
-        if (index < args.length) {
-            return (T) args[index];
-        } else {
-            return null;
-        }
-    }
 }

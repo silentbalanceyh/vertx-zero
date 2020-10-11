@@ -1,6 +1,8 @@
 package io.vertx.up.uca.jooq.cache;
 
 import io.github.jklingsporn.vertx.jooq.future.VertxDAO;
+import io.vertx.core.Future;
+import io.vertx.core.json.JsonObject;
 import io.vertx.tp.plugin.cache.hit.CMessage;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -70,6 +72,98 @@ public class AsideDelete extends L1AsideWriting {
          * Object[] / Collection
          */
         final List<CMessage> messages = this.messageList(id);
+        return this.deleteAsync(messages, point);
+    }
+
+    /*
+     * deleteBy
+     */
+    @Around(value = "execution(* io.vertx.up.uca.jooq.UxJooq.deleteBy(..))")
+    public Boolean deleteBy(final ProceedingJoinPoint point) throws Throwable {
+        if (L1Analyzer.isMatch(point, JsonObject.class)) {
+            /*
+             * Get all ids
+             */
+            final Object idSet = this.argumentCond(point);
+            final List<CMessage> messages = this.messageList(idSet);
+            return this.deleteAsync(messages, point);
+        } else {
+            /*
+             * Pojo mode ignored
+             */
+            return (Boolean) point.proceed(point.getArgs());
+        }
+    }
+
+    /*
+     * deleteByAsync
+     */
+    @Around(value = "execution(* io.vertx.up.uca.jooq.UxJooq.deleteByAsync(..))")
+    public Future<Boolean> deleteByAsync(final ProceedingJoinPoint point) throws Throwable {
+        if (L1Analyzer.isMatch(point, JsonObject.class)) {
+            /*
+             * Get all ids
+             */
+            final Object idSet = this.argumentCond(point);
+            final List<CMessage> messages = this.messageList(idSet);
+            return this.deleteAsync(messages, point);
+        } else {
+            /*
+             * Pojo mode ignored
+             */
+            return (Future<Boolean>) point.proceed(point.getArgs());
+        }
+    }
+
+    /*
+     * delete(T)
+     */
+    @Around(value = "execution(* io.vertx.up.uca.jooq.UxJooq.delete(T))")
+    public <T> T delete(final ProceedingJoinPoint point) throws Throwable {
+        /*
+         *  T / List<T>
+         */
+        final Object idSet = this.argumentT(point);
+        final List<CMessage> messages = this.messageList(idSet);
+        return this.deleteAsync(messages, point);
+    }
+
+    /*
+     * delete(T)
+     */
+    @Around(value = "execution(* io.vertx.up.uca.jooq.UxJooq.delete(java.util.List))")
+    public <T> List<T> deleteList(final ProceedingJoinPoint point) throws Throwable {
+        /*
+         *  T / List<T>
+         */
+        final Object idSet = this.argumentT(point);
+        final List<CMessage> messages = this.messageList(idSet);
+        return this.deleteAsync(messages, point);
+    }
+
+    /*
+     * deleteAsync(T)
+     */
+    @Around(value = "execution(* io.vertx.up.uca.jooq.UxJooq.deleteAsync(T))")
+    public <T> Future<T> deleteAsync(final ProceedingJoinPoint point) throws Throwable {
+        /*
+         *  T / List<T>
+         */
+        final Object idSet = this.argumentT(point);
+        final List<CMessage> messages = this.messageList(idSet);
+        return this.deleteAsync(messages, point);
+    }
+
+    /*
+     * deleteAsync(List<T>)
+     */
+    @Around(value = "execution(* io.vertx.up.uca.jooq.UxJooq.deleteAsync(java.util.List))")
+    public <T> Future<List<T>> deleteListAsync(final ProceedingJoinPoint point) throws Throwable {
+        /*
+         *  T / List<T>
+         */
+        final Object idSet = this.argumentT(point);
+        final List<CMessage> messages = this.messageList(idSet);
         return this.deleteAsync(messages, point);
     }
 }

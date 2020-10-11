@@ -59,7 +59,11 @@ class L1Redis {
             final Request request = Request.cmd(Command.SADD);
             if (Objects.nonNull(data)) {
                 request.arg(k);
-                request.arg(data.toString() + ",");
+                /*
+                 * Here we convert to Set, instead, no "," needed
+                 */
+                request.arg(data.toString());
+                // Old: request.arg(data.toString() + ",");
                 requests.add(request);
             }
         });

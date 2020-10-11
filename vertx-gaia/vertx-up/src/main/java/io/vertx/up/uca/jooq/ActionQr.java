@@ -19,8 +19,8 @@ import java.util.function.Function;
  * @author <a href="http://www.origin-x.cn">lang</a>
  */
 @SuppressWarnings("all")
-class ActionQr extends AbstractAction {
-    ActionQr(final JqAnalyzer analyzer) {
+public class ActionQr extends AbstractAction {
+    public ActionQr(final JqAnalyzer analyzer) {
         super(analyzer);
     }
 
@@ -32,6 +32,13 @@ class ActionQr extends AbstractAction {
         return this.successed(this.vertxDAO.executeAsync(executor));
     }
 
+    /*
+     * Common usage for search engine calling.
+     * These methos could help to do query based on Zero Query Engine.
+     * Here are two situations:
+     * 1): Full query:  pager, sorter, projection, criteria
+     * 2): Simple query: criteria only
+     */
     <T> Future<List<T>> searchAsync(final JsonObject criteria) {
         final Function<DSLContext, List<T>> executor = context -> this.searchInternal(context, criteria);
         return this.successed(this.vertxDAO.executeAsync(executor));
@@ -44,13 +51,18 @@ class ActionQr extends AbstractAction {
     <T> List<T> search(final JsonObject criteria) {
         return this.searchInternal(this.context(), criteria);
     }
+
     /*
-     * Common usage for search engine calling.
-     * These methos could help to do query based on Zero Query Engine.
-     * Here are two situations:
-     * 1): Full query:  pager, sorter, projection, criteria
-     * 2): Simple query: criteria only
+     * The interface to call `public` only
+     * The Aop Cache should call this method to get original data from database
      */
+    public <T> List<Object> searchPrimary(final JsonObject criteria) {
+        final List<T> entities = this.search(criteria);
+        /*
+         * Process entity ids here
+         */
+        return this.analyzer.primaryValue(entities);
+    }
 
     /*
      * 「Sync method」

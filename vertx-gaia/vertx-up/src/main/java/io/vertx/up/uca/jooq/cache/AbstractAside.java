@@ -46,14 +46,14 @@ abstract class AbstractAside {
      *         |--> (String, Object)
      */
     protected CMessage messageField(final ProceedingJoinPoint point) {
-        final String field = L1Analyzer.argument(0, point);
-        final Object value = L1Analyzer.argument(1, point);
+        final String field = this.argument(0, point);
+        final Object value = this.argument(1, point);
         return this.message(field, value);
     }
 
     protected CMessage messagesField(final ProceedingJoinPoint point) {
-        final String field = L1Analyzer.argument(0, point);
-        final Object value = L1Analyzer.argument(1, point);
+        final String field = this.argument(0, point);
+        final Object value = this.argument(1, point);
         return this.messages(field, value);
     }
 
@@ -64,12 +64,12 @@ abstract class AbstractAside {
      *         |--> (JsonObject)
      */
     protected CMessage messageCond(final ProceedingJoinPoint point) {
-        final JsonObject condition = L1Analyzer.argument(0, point);
+        final JsonObject condition = this.argument(0, point);
         return this.message(condition);
     }
 
     protected CMessage messagesCond(final ProceedingJoinPoint point) {
-        final JsonObject condition = L1Analyzer.argument(0, point);
+        final JsonObject condition = this.argument(0, point);
         return this.messages(condition);
     }
 
@@ -140,5 +140,59 @@ abstract class AbstractAside {
         final CMessage message = new CMessageTree(id, this.analyzer.type());
         message.bind(this.analyzer.primarySet());      // Bind data here
         return message;
+    }
+
+    // ------------------ Argument processing -------------------------
+    /*
+     * Argument extraction here based on `index`
+     *
+     * For example:
+     * - method(arg1,arg2,arg3,....)
+     *
+     * The parameters are:
+     * - arg1 ( index = 0 )
+     * - arg2 ( index = 1 )
+     * - arg3 ( index = 2 )
+     * ......
+     * - argN ( index = N - 1 )
+     */
+    private <T> T argument(final Integer index, final ProceedingJoinPoint point) {
+        final Object[] args = point.getArgs();
+        if (index < args.length) {
+            return (T) args[index];
+        } else {
+            return null;
+        }
+    }
+
+    /*
+     * Process two mode arguments in method definition such as:
+     *
+     * <T> T method(T)
+     * <T> List<T> method(List<T>)
+     *
+     * Here this method process:
+     * List<T> / T ----> List<Object> / Object ( ID Set )
+     */
+    protected Object argumentT(final ProceedingJoinPoint point) {
+        final Object[] args = point.getArgs();
+        if (1 == args.length) {
+            final Object input = args[0];
+            if (input instanceof Collection) {
+                /*
+                 * Process Collection
+                 */
+                final List<Object> idSet = new ArrayList<>();
+                ((Collection) input).stream().map(this.analyzer::primaryValue).forEach(idSet::add);
+                return idSet;
+            } else {
+                /*
+                 * Process Single
+                 */
+                return this.analyzer.primaryValue(input);
+            }
+        } else {
+            return null;
+        }
     }
 }
