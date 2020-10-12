@@ -96,7 +96,8 @@ public class ActionQr extends AbstractAction {
         // Condition set
         SelectConditionStep conditionStep = null;
         if (null != inquiry.getCriteria()) {
-            final Condition condition = JooqCond.transform(inquiry.getCriteria().toJson(), this.analyzer::column);
+            final JsonObject criteria = inquiry.getCriteria().toJson();
+            final Condition condition = JooqCond.transform(criteria, this.analyzer::column);
             conditionStep = started.where(condition);
         }
         // Sorted Enabled

@@ -2,9 +2,10 @@ package io.vertx.up.uca.jooq;
 
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.util.Ut;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 /**
@@ -59,26 +60,13 @@ class ActionDelete extends AbstractAction {
             /*
              * Extract primary key for eatch entities
              */
-            final Set<ID> keySet = this.primaryKeys(list);
-            return this.deleteByIdAsync(keySet);
+            return this.deleteAsync(list).compose(nil -> Future.succeededFuture(Boolean.TRUE));
         });
     }
 
     <T, ID> Boolean deleteBy(final JsonObject criteria) {
         final List<T> entities = this.fetch.<T>fetch(criteria);
-        final Set<ID> keySet = this.primaryKeys(entities);
-        return this.deleteById(keySet);
-    }
-
-    private <T, ID> Set<ID> primaryKeys(final List<T> list) {
-        final Set<ID> keySet = new TreeSet<>();
-        final String fieldName = this.analyzer.primary();
-        list.forEach(entity -> {
-            final Object value = Ut.field(entity, fieldName);
-            if (Objects.nonNull(value)) {
-                keySet.add((ID) value);
-            }
-        });
-        return keySet;
+        this.delete(entities);
+        return Boolean.TRUE;
     }
 }

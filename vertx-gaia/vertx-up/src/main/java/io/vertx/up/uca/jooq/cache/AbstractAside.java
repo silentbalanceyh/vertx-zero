@@ -28,7 +28,7 @@ abstract class AbstractAside {
         final JqAnalyzer analyzer = JqAnalyzer.create(vertxDAO);
         this.analyzer = analyzer;
         this.executor = new L1Aside(analyzer);
-        this.actionQr = new ActionQr(this.analyzer);
+        this.actionQr = new ActionQr(analyzer);
     }
 
     /*
@@ -261,7 +261,9 @@ abstract class AbstractAside {
                 /*
                  * Get primaryValues
                  */
-                return actionQr.searchPrimary((JsonObject) input);
+                final JsonObject condition = ((JsonObject) input);
+                System.err.println(actionQr.hashCode() + "," + this.analyzer.hashCode() + "," + this.analyzer.table() + "," + condition);
+                return actionQr.searchPrimary(condition);
             } else {
                 return null;
             }

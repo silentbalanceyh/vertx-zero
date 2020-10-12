@@ -556,6 +556,7 @@ public final class UxJooq {
     }
 
     public <T> Future<T> fetchOneAsync(final JsonObject criteria) {
+        criteria.put(Strings.EMPTY, Boolean.TRUE);                                                  // Unique Forced
         return this.workflow.inputQrJAsync(criteria).compose(this.reader::fetchOneAsync);
     }
 
@@ -564,6 +565,7 @@ public final class UxJooq {
     }
 
     public <T> T fetchOne(final JsonObject criteria) {
+        criteria.put(Strings.EMPTY, Boolean.TRUE);                                                  // Unique Forced
         return this.reader.fetchOne(this.workflow.inputQrJ(criteria));
     }
 
@@ -572,6 +574,7 @@ public final class UxJooq {
     }
 
     public <T> Future<T> fetchOneAsync(final JsonObject criteria, final String pojo) {
+        criteria.put(Strings.EMPTY, Boolean.TRUE);                                                  // Unique Forced
         return JqFlow.create(this.analyzer, pojo).inputQrJAsync(criteria).compose(this.reader::fetchOneAsync);
     }
 
@@ -580,6 +583,7 @@ public final class UxJooq {
     }
 
     public <T> T fetchOne(final JsonObject criteria, final String pojo) {
+        criteria.put(Strings.EMPTY, Boolean.TRUE);                                                  // Unique Forced
         return this.reader.fetchOne(JqFlow.create(this.analyzer, pojo).inputQrJ(criteria));
     }
 
@@ -797,6 +801,7 @@ public final class UxJooq {
      *      <-- updateJ(criteria, JsonObject, pojo)
      */
     public <T> T update(final JsonObject criteria, final T updated) {
+        criteria.put(Strings.EMPTY, Boolean.TRUE);                                                  // Unique Forced
         return this.writer.update(this.workflow.inputQrJ(criteria), updated);
     }
 
@@ -813,6 +818,7 @@ public final class UxJooq {
     }
 
     public <T> T update(final JsonObject criteria, final T updated, final String pojo) {
+        criteria.put(Strings.EMPTY, Boolean.TRUE);                                                  // Unique Forced
         return this.writer.update(JqFlow.create(this.analyzer, pojo).inputQrJ(criteria), updated);
     }
 
@@ -840,6 +846,7 @@ public final class UxJooq {
      *      <-- updateJAsync(criteria, JsonObject, pojo)
      */
     public <T> Future<T> updateAsync(final JsonObject criteria, final T updated) {
+        criteria.put(Strings.EMPTY, Boolean.TRUE);                                                  // Unique Forced
         return this.workflow.inputQrJAsync(criteria).compose(normalized -> this.writer.updateAsync(normalized, updated));
     }
 
@@ -859,22 +866,23 @@ public final class UxJooq {
     }
 
     public <T> Future<T> updateAsync(final JsonObject criteria, final T updated, final String pojo) {
+        criteria.put(Strings.EMPTY, Boolean.TRUE);                                                  // Unique Forced
         return JqFlow.create(this.analyzer, pojo).inputQrJAsync(criteria).compose(normalized -> this.writer.updateAsync(normalized, updated));
     }
 
     public <T> Future<T> updateAsync(final JsonObject criteria, final JsonObject data, final String pojo) {
         return JqTool.joinAsync(criteria, data, JqFlow.create(this.analyzer, pojo))
-                .compose(response -> this.updateAsync(response.resultAt(Values.IDX), (T) response.resultAt(Values.ONE)));
+                .compose(response -> this.updateAsync(response.resultAt(Values.IDX), (T) response.resultAt(Values.ONE), pojo));
     }
 
     public <T> Future<JsonObject> updateJAsync(final JsonObject criteria, final T updated, final String pojo) {
-        return this.updateAsync(criteria, updated).compose(JqFlow.create(this.analyzer, pojo)::outputAsync);
+        return this.updateAsync(criteria, updated, pojo).compose(JqFlow.create(this.analyzer, pojo)::outputAsync);
     }
 
     public <T> Future<JsonObject> updateJAsync(final JsonObject criteria, final JsonObject data, final String pojo) {
         final JqFlow flow = JqFlow.create(this.analyzer, pojo);
         return JqTool.joinAsync(criteria, data, flow)
-                .compose(response -> this.updateAsync(response.resultAt(Values.IDX), (T) response.resultAt(Values.ONE)))
+                .compose(response -> this.updateAsync(response.resultAt(Values.IDX), (T) response.resultAt(Values.ONE), pojo))
                 .compose(flow::outputAsync);
     }
 
@@ -957,6 +965,7 @@ public final class UxJooq {
      *      <-- upsertJ(criteria, JsonObject, pojo)
      */
     public <T> T upsert(final JsonObject criteria, final T updated) {
+        criteria.put(Strings.EMPTY, Boolean.TRUE);                                                  // Unique Forced
         return this.writer.upsert(this.workflow.inputQrJ(criteria), updated);
     }
 
@@ -973,6 +982,7 @@ public final class UxJooq {
     }
 
     public <T> T upsert(final JsonObject criteria, final T updated, final String pojo) {
+        criteria.put(Strings.EMPTY, Boolean.TRUE);                                                  // Unique Forced
         return this.writer.upsert(JqFlow.create(this.analyzer, pojo).inputQrJ(criteria), updated);
     }
 
@@ -1000,6 +1010,7 @@ public final class UxJooq {
      *      <-- upsertJAsync(criteria, JsonObject, pojo)
      */
     public <T> Future<T> upsertAsync(final JsonObject criteria, final T updated) {
+        criteria.put(Strings.EMPTY, Boolean.TRUE);                                                  // Unique Forced
         return this.workflow.inputQrJAsync(criteria).compose(normalized -> this.writer.upsertAsync(normalized, updated));
     }
 
@@ -1019,6 +1030,7 @@ public final class UxJooq {
     }
 
     public <T> Future<T> upsertAsync(final JsonObject criteria, final T updated, final String pojo) {
+        criteria.put(Strings.EMPTY, Boolean.TRUE);                                                  // Unique Forced
         return JqFlow.create(this.analyzer, pojo).inputQrJAsync(criteria).compose(normalized -> this.writer.upsertAsync(normalized, updated));
     }
 
@@ -1295,6 +1307,7 @@ public final class UxJooq {
      */
     /* (Async / Sync) Delete by Filters */
     public Future<Boolean> deleteByAsync(final JsonObject criteria) {
+        criteria.put(Strings.EMPTY, Boolean.TRUE);                                                  // Unique Forced
         return this.workflow.inputQrJAsync(criteria).compose(this.writer::deleteByAsync);
     }
 
@@ -1303,6 +1316,7 @@ public final class UxJooq {
     }
 
     public Boolean deleteBy(final JsonObject criteria) {
+        criteria.put(Strings.EMPTY, Boolean.TRUE);                                                  // Unique Forced
         return this.writer.deleteBy(this.workflow.inputQrJ(criteria));
     }
 

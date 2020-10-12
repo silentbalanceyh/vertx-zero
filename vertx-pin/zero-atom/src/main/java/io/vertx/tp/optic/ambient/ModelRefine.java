@@ -29,11 +29,11 @@ class ModelRefine implements AoRefine {
     @Override
     public Function<JsonObject, Future<JsonObject>> apply() {
         return appJson -> {
-            Ao.infoUca(this.getClass(), "3. AoRefine.model(): {0}", appJson.encode());
             // 读取上一个流程中处理完成的 models
             final JsonArray modelJson = appJson.getJsonArray(KeField.Modeling.MODELS);
             final String name = appJson.getString(KeField.NAME);
             final Set<Model> models = this.toModels(modelJson, Model.namespace(name));
+            Ao.infoUca(this.getClass(), "3. AoRefine.model(): {0}", String.valueOf(models.size()));
             // 1. 更新某一个模型
             final List<Future<JsonObject>> futures = new ArrayList<>();
             models.stream().map(this::saveModel).forEach(futures::add);
@@ -91,6 +91,7 @@ class ModelRefine implements AoRefine {
                 .compose(Ux::futureJ))
                 .forEach(futures::add);
         // Model -> 插入 Model
+        Ao.infoUca(this.getClass(), "3.1. Processing model: {0}", model.identifier());
         /*
          * 旧代码：final List<Future<JsonObject>> schemata = new ArrayList<>();
          * 旧代码：model.getSchemata().stream().map(OxInit::saveSchema).forEach(schemata::add);
@@ -98,10 +99,10 @@ class ModelRefine implements AoRefine {
         // Model -> Nexus处理关系
         model.getJoins().stream().map(nexus -> Ux.Jooq.on(MJoinDao.class)
                 // 先删除原始关系
-                .<MJoin, String>deleteAsync(this.onCriteria(nexus))
+                // 新的 API 调用：deleteAsync -> deleteByAsync
+                .deleteByAsync(this.onCriteria(nexus))
                 // 再插入新关系
-                .compose(nil -> Ux.Jooq.on(MJoinDao.class)
-                        .insertAsync(nexus))
+                .compose(nil -> Ux.Jooq.on(MJoinDao.class).insertAsync(nexus))
                 .compose(Ux::futureJ))
                 .forEach(futures::add);
         /*
