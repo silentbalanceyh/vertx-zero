@@ -6,6 +6,7 @@ import io.vertx.tp.plugin.excel.ExcelClient;
 import io.vertx.tp.plugin.excel.ExcelInfix;
 import io.vertx.tp.plugin.excel.atom.ExTable;
 import io.vertx.tp.plugin.jooq.JooqInfix;
+import io.vertx.tp.plugin.redis.RedisInfix;
 import io.vertx.up.log.Annal;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
@@ -27,6 +28,8 @@ class BtLoader {
         ExcelInfix.init(Ux.nativeVertx());
         /* Jooq Init */
         JooqInfix.init(Ux.nativeVertx());
+        /* Redis Infix to disabled */
+        RedisInfix.disabled();
     }
 
     /*

@@ -98,6 +98,11 @@ public class RedisInfix implements Infix {
         return CLIENTS_SYNC.get(NAME);
     }
 
+    public static void disabled() {
+        CLIENTS.clear();
+        CLIENTS_SYNC.clear();
+    }
+
     @Override
     public Redis get() {
         return getClient();

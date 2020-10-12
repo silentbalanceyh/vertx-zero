@@ -29,6 +29,10 @@ class L1Redis {
         this.redis = RedisInfix.getClient();
     }
 
+    boolean enabled() {
+        return Objects.nonNull(this.redis);
+    }
+
     List<Request> requestData(final Set<String> eraseKeys) {
         final List<Request> requests = new ArrayList<>();
         eraseKeys.forEach(key -> {

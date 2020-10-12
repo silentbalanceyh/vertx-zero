@@ -28,66 +28,69 @@ class L1ChannelAsync {
     }
 
     void write(final ConcurrentMap<String, Object> dataMap, final ChangeFlag flag) {
-        /*
-         * Write cache
-         */
-        final List<Request> requests = this.redis.requestData(dataMap, flag);
-        /*
-         * Batch processing
-         */
-        this.redis.requestAsync(requests, response -> response).onComplete(response -> {
-            if (Objects.nonNull(response)) {
-                LOGGER.info(CacheMsg.DATA_REFRESHED, Ut.toJArray(dataMap.keySet()));
-            }
-        });
+        if (this.redis.enabled()) {
+            /*
+             * Write cache
+             */
+            final List<Request> requests = this.redis.requestData(dataMap, flag);
+            this.redis.requestAsync(requests, response -> response).onComplete(response -> {
+                if (Objects.nonNull(response) && !dataMap.keySet().isEmpty()) {
+                    LOGGER.info(CacheMsg.DATA_REFRESHED, Ut.toJArray(dataMap.keySet()));
+                }
+            });
+        }
     }
 
     void append(final ConcurrentMap<String, Object> dataMap) {
-        /*
-         * Write cache ( APPEND )
-         */
-        final List<Request> requests = this.redis.requestDataAppend(dataMap);
-        this.redis.requestAsync(requests, response -> response).onComplete(response -> {
-            if (Objects.nonNull(response) && !dataMap.keySet().isEmpty()) {
-                LOGGER.info(CacheMsg.DATA_TREE, Ut.toJArray(dataMap.keySet()));
-            }
-        });
+        if (this.redis.enabled()) {
+            /*
+             * Write cache ( APPEND )
+             */
+            final List<Request> requests = this.redis.requestDataAppend(dataMap);
+            this.redis.requestAsync(requests, response -> response).onComplete(response -> {
+                if (Objects.nonNull(response) && !dataMap.keySet().isEmpty()) {
+                    LOGGER.info(CacheMsg.DATA_TREE, Ut.toJArray(dataMap.keySet()));
+                }
+            });
+        }
     }
 
     void eraseTree(final String treeKey) {
-        final Request request = Request.cmd(Command.SMEMBERS);
-        request.arg(treeKey);
-        this.redis.requestAsync(request, response -> {
-            final Set<String> eraseKeys = new HashSet<>();
-            /*
-             * Tree Major Key
-             */
-            if (0 < response.size()) {
-                eraseKeys.add(treeKey);
-                response.stream().filter(Objects::nonNull).map(Response::toString).forEach(eraseKeys::add);
-            }
-            return eraseKeys;
-        }).onComplete(completed -> {
-            /*
-             * Collect all keys and remove all
-             * Command, DEL
-             */
-            if (completed.succeeded()) {
-                final Set<String> eraseKeys = completed.result();
-                if (Objects.nonNull(eraseKeys)) {
-                    /*
-                     * Set<String>
-                     * Key is null, when it's not null here should execute
-                     */
-                    final List<Request> requests = this.redis.requestData(eraseKeys);
-                    this.redis.requestAsync(requests, deletion -> deletion).onComplete(deletion -> {
-                        if (Objects.nonNull(deletion) && deletion.succeeded()) {
-                            LOGGER.info(CacheMsg.HIT_REMOVE, String.valueOf(eraseKeys.size()), Ut.toJArray(eraseKeys));
-                        }
-                    });
+        if (this.redis.enabled()) {
+            final Request request = Request.cmd(Command.SMEMBERS);
+            request.arg(treeKey);
+            this.redis.requestAsync(request, response -> {
+                final Set<String> eraseKeys = new HashSet<>();
+                /*
+                 * Tree Major Key
+                 */
+                if (0 < response.size()) {
+                    eraseKeys.add(treeKey);
+                    response.stream().filter(Objects::nonNull).map(Response::toString).forEach(eraseKeys::add);
                 }
-            }
-        });
+                return eraseKeys;
+            }).onComplete(completed -> {
+                /*
+                 * Collect all keys and remove all
+                 * Command, DEL
+                 */
+                if (completed.succeeded()) {
+                    final Set<String> eraseKeys = completed.result();
+                    if (Objects.nonNull(eraseKeys) && !eraseKeys.isEmpty()) {
+                        /*
+                         * Set<String>
+                         * Key is null, when it's not null here should execute
+                         */
+                        final List<Request> requests = this.redis.requestData(eraseKeys);
+                        this.redis.requestAsync(requests, deletion -> deletion).onComplete(deletion -> {
+                            if (Objects.nonNull(deletion) && deletion.succeeded()) {
+                                LOGGER.info(CacheMsg.HIT_REMOVE, String.valueOf(eraseKeys.size()), Ut.toJArray(eraseKeys));
+                            }
+                        });
+                    }
+                }
+            });
+        }
     }
 
     @SuppressWarnings("all")

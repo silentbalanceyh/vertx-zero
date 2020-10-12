@@ -8,10 +8,7 @@ import io.vertx.up.log.Annal;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -93,15 +90,20 @@ final class InstanceField {
                      final String name) {
         return Fn.getNull(() -> Fn.safeJvm(() -> {
                     final Field field = get(instance.getClass(), name);
-                    if (!field.isAccessible()) {
-                        field.setAccessible(true);
-                    }
-                    final Object result = field.get(instance);
-                    if (null != result) {
-                        return (T) result;
-                    } else {
-                        return null;
-                    }
+                    if (Objects.nonNull(field)) {
+                        /*
+                         * Field valid
+                         */
+                        if (!field.isAccessible()) {
+                            field.setAccessible(true);
+                        }
+                        final Object result = field.get(instance);
+                        if (null != result) {
+                            return (T) result;
+                        } else {
+                            return null;
+                        }
+                    } else return null;
                 }, LOGGER)
                 , instance, name);
     }
