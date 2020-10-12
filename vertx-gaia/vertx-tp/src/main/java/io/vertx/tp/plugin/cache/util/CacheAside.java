@@ -95,10 +95,7 @@ public class CacheAside {
                 return Future.succeededFuture(Boolean.TRUE);
             } else {
                 LOGGER.debug("[ Cache ] ( Async ) Actual operation will execute because failure to hit cache.");
-                return actualSupplier.get().compose(result -> {
-                    System.err.println(result);
-                    return Future.succeededFuture(result);
-                });
+                return actualSupplier.get();
             }
         });
     }
