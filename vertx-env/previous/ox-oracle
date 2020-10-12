@@ -1,0 +1,2 @@
+FROM absolutapps/oracle-12c-ee:latest
+ENV ORACLE_SID itsmdb

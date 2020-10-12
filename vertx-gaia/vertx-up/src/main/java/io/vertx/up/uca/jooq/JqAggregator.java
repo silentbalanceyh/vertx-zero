@@ -1,21 +1,13 @@
 package io.vertx.up.uca.jooq;
 
-import io.github.jklingsporn.vertx.jooq.future.VertxDAO;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.plugin.jooq.JooqInfix;
-import io.vertx.tp.plugin.jooq.condition.JooqCond;
 import io.vertx.up.atom.query.Inquiry;
-import io.vertx.up.util.Ut;
-import org.jooq.DSLContext;
-import org.jooq.Field;
-import org.jooq.impl.DSL;
 
-import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
+import java.math.BigDecimal;
+import java.util.List;
 import java.util.concurrent.ConcurrentMap;
-import java.util.function.Function;
 
 /**
  * @author <a href="http://www.origin-x.cn">lang</a>
@@ -23,44 +15,60 @@ import java.util.function.Function;
 @SuppressWarnings("all")
 class JqAggregator {
 
-    private static final String FIELD_COUNT = "COUNT";
+    private transient final AggregatorCount counter;
+    private transient final AggregatorSum sum;
+    private transient final AggregatorMax max;
+    private transient final AggregatorMin min;
+    private transient final AggregatorAvg avg;
 
-    private transient final VertxDAO vertxDAO;
+    private transient final ActionGroup group;
 
-    private transient JqAnalyzer analyzer;
-
-    private JqAggregator(final VertxDAO vertxDAO, final JqAnalyzer analyzer) {
-        this.vertxDAO = vertxDAO;
-        this.analyzer = analyzer;
+    private JqAggregator(final JqAnalyzer analyzer) {
+        this.group = new ActionGroup(analyzer);
+        /*
+         * Aggr
+         */
+        this.counter = new AggregatorCount(analyzer);
+        this.sum = new AggregatorSum(analyzer);
+        this.min = new AggregatorMin(analyzer);
+        this.max = new AggregatorMax(analyzer);
+        this.avg = new AggregatorAvg(analyzer);
     }
 
-    static JqAggregator create(final VertxDAO vertxDAO, final JqAnalyzer analyzer) {
-        return new JqAggregator(vertxDAO, analyzer);
+    public static JqAggregator create(final JqAnalyzer analyzer) {
+        return new JqAggregator(analyzer);
     }
 
     // -------------------- Count Operation ------------
-    <T> Integer count(final Inquiry inquiry) {
+    /*
+     * Internal Call and do not export this Programming API
+     */
+    Long count(final Inquiry inquiry) {
         return this.count(null == inquiry.getCriteria() ? new JsonObject() : inquiry.getCriteria().toJson());
     }
 
-    <T> Integer count(final JsonObject filters) {
-        final DSLContext context = JooqInfix.getDSL();
-        return null == filters ? context.fetchCount(this.vertxDAO.getTable()) :
-                context.fetchCount(this.vertxDAO.getTable(), JooqCond.transform(filters, this.analyzer::column));
-    }
-
-    /*
-     * Basic Method for low tier search/count pair
-     */
-    <T> Future<Integer> countAsync(final Inquiry inquiry) {
+    <T> Future<Long> countAsync(final Inquiry inquiry) {
         return this.countAsync(null == inquiry.getCriteria() ? new JsonObject() : inquiry.getCriteria().toJson());
     }
 
-    <T> Future<Integer> countAsync(final JsonObject filters) {
-        final Function<DSLContext, Integer> function
-                = dslContext -> null == filters ? dslContext.fetchCount(this.vertxDAO.getTable()) :
-                dslContext.fetchCount(this.vertxDAO.getTable(), JooqCond.transform(filters, this.analyzer::column));
-        return JqTool.future(this.vertxDAO.executeAsync(function));
+    /*
+     * AgCount class for count
+     * 1) countAll / countAllAsync
+     */
+    Long countAll() {
+        return this.counter.count();
+    }
+
+    Future<Long> countAllAsync() {
+        return this.counter.countAsync();
+    }
+
+    <T> Long count(final JsonObject criteria) {
+        return this.counter.count(criteria);
+    }
+
+    <T> Future<Long> countAsync(final JsonObject criteria) {
+        return this.counter.countAsync(criteria);
     }
 
     /*
@@ -76,14 +84,13 @@ class JqAggregator {
      *
      * The limitation is that the grouped field should be only one
      */
-    <T> Future<ConcurrentMap<String, Integer>> countByAsync(final JsonObject filters, final String field) {
-        final List<Map<String, Object>> queried = queryGrouped(filters, field);
-        return Future.succeededFuture(this.toMap(queried, field));
+
+    <T> ConcurrentMap<String, Integer> countBy(final JsonObject criteria, final String field) {
+        return this.counter.countBy(criteria, field);
     }
 
-    // -------------------- Group Operation ------------
     /*
-     * Group Fields here
+     * Count function by group Fields here
      * The aggregation result is List<Map<String,Object>> reference here,
      * Here the result should be:
      *
@@ -96,86 +103,68 @@ class JqAggregator {
      *     "count": "COUNT"
      * }
      */
-    Future<JsonArray> groupByAsync(final JsonObject filters, final String... fields) {
-        final List<Map<String, Object>> queried = queryGrouped(filters, fields);
-        return Future.succeededFuture(toArray(queried, fields));
+    <T> JsonArray countBy(final JsonObject criteria, final String... fields) {
+        return this.counter.countBy(criteria, fields);
     }
 
-    // -------------------- Private Function for defined operation ------------
-    private JsonArray toArray(final List<Map<String, Object>> queried, final String... fields) {
-        final JsonArray result = new JsonArray();
-        queried.forEach(record -> {
-            final JsonObject json = new JsonObject();
-            Arrays.stream(fields).forEach(field -> {
-                final Field hitField = this.analyzer.column(field);
-                final String fieldKey = hitField.getName();
-                /*
-                 * Json Object building
-                 */
-                json.put(field, record.get(fieldKey));
-            });
-            json.put("count", record.get(FIELD_COUNT));
-            result.add(json);
-        });
-        return result;
+    // -------------------- Group Operation ------------
+    <T> ConcurrentMap<String, List<T>> group(final String field) {
+        return this.group.group(field);
     }
 
-    private <A> ConcurrentMap<String, A> toMap(final List<Map<String, Object>> queried, final String keyField) {
-        final ConcurrentMap<String, A> result = new ConcurrentHashMap<>();
-        final Field hitField = this.analyzer.column(keyField);
-        final String metaKey = hitField.getName();
-        queried.forEach(record -> {
-            final Object key = record.get(metaKey);
-            final Object value = record.get(FIELD_COUNT);
-            if (Objects.nonNull(key) && Objects.nonNull(value)) {
-                result.put(key.toString(), (A) value);
-            }
-        });
-        return result;
+    <T> ConcurrentMap<String, List<T>> group(final JsonObject criteria, final String field) {
+        return this.group.group(criteria, field);
     }
 
-    private <A> List<Map<String, Object>> queryGrouped(final JsonObject filters,
-                                                       final String... fields) {
-        /*
-         * Field[] building
-         */
-        final List<Field> fieldList = new ArrayList<>();
-        Arrays.asList(fields).forEach(field -> {
-            /*
-             * Column Field
-             */
-            final Field columnField = this.analyzer.column(field);
-            if (Objects.nonNull(columnField)) {
-                fieldList.add(columnField);
-            }
-        });
-        /*
-         * Count Here
-         */
-        final Field countField = DSL.field("*").count().as(FIELD_COUNT);
-        final List<Field> selectedList = new ArrayList<>(fieldList);
-        selectedList.add(countField);
-        /*
-         * Get `DSLContext` from environment `Jooq Infix` plugin here
-         */
-        final DSLContext context = JooqInfix.getDSL();
+    // -------------------- Sum Operation ------------
+    BigDecimal sum(final String field, final JsonObject criteria) {
+        return this.sum.sum(field, criteria);
+    }
 
-        /*
-         * Select Part Processing here
-         */
-        final List<Map<String, Object>> queried;
-        final Field[] groupedFields = fieldList.toArray(new Field[]{});
-        final Field[] selectedFields = selectedList.toArray(new Field[]{});
-        if (Ut.isNil(filters)) {
-            queried = context.select(selectedFields)
-                    .from(this.vertxDAO.getTable())
-                    .where(JooqCond.transform(filters, this.analyzer::column))
-                    .groupBy(groupedFields).fetchMaps();
-        } else {
-            queried = context.select(selectedFields)
-                    .from(this.vertxDAO.getTable())
-                    .groupBy(groupedFields).fetchMaps();
-        }
-        return queried;
+    ConcurrentMap<String, BigDecimal> sum(final String field, final JsonObject criteria, final String groupField) {
+        return this.sum.sum(field, criteria, groupField);
+    }
+
+    JsonArray sum(final String field, final JsonObject criteria, final String... groupFields) {
+        return this.sum.sum(field, criteria, groupFields);
+    }
+
+    // ---------------------- Max Operation -------------
+    BigDecimal max(final String field, final JsonObject criteria) {
+        return this.max.max(field, criteria);
+    }
+
+    ConcurrentMap<String, BigDecimal> max(final String field, final JsonObject criteria, final String groupField) {
+        return this.max.max(field, criteria, groupField);
+    }
+
+    JsonArray max(final String field, final JsonObject criteria, final String... groupFields) {
+        return this.max.max(field, criteria, groupFields);
+    }
+
+    // ---------------------- Min Operation -------------
+    BigDecimal min(final String field, final JsonObject criteria) {
+        return this.min.min(field, criteria);
+    }
+
+    ConcurrentMap<String, BigDecimal> min(final String field, final JsonObject criteria, final String groupField) {
+        return this.min.min(field, criteria, groupField);
+    }
+
+    JsonArray min(final String field, final JsonObject criteria, final String... groupFields) {
+        return this.min.min(field, criteria, groupFields);
+    }
+
+    // ---------------------- Avg Operation -------------
+    BigDecimal avg(final String field, final JsonObject criteria) {
+        return this.avg.avg(field, criteria);
+    }
+
+    ConcurrentMap<String, BigDecimal> avg(final String field, final JsonObject criteria, final String groupField) {
+        return this.avg.avg(field, criteria, groupField);
+    }
+
+    JsonArray avg(final String field, final JsonObject criteria, final String... groupFields) {
+        return this.avg.avg(field, criteria, groupFields);
     }
 }

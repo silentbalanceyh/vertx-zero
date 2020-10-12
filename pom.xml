@@ -66,8 +66,8 @@
         <stack.version>3.9.3</stack.version>
 
         <jcabi.version>0.22.6</jcabi.version>
-        <jackson.version>2.11.2</jackson.version>
-        <jackson.extension.version>2.11.2</jackson.extension.version>
+        <jackson.version>2.11.3</jackson.version>
+        <jackson.extension.version>2.11.3</jackson.extension.version>
         <jersey.version>2.30.1</jersey.version>
         <javax.el.version>3.0.1-b06</javax.el.version>
         <glassfish.el.version>3.0.1-b11</glassfish.el.version>
@@ -82,7 +82,7 @@
 
         <!-- Java Reflection -->
         <reflect.asm.version>1.11.9</reflect.asm.version>
-        <lombok.version>1.18.12</lombok.version>
+        <lombok.version>1.18.14</lombok.version>
         <asm.version>9.0</asm.version>
         <cglib.version>3.3.0</cglib.version>
         <reflection.version>0.9.12</reflection.version>
@@ -93,7 +93,7 @@
         <!-- Bean Validation -->
         <hibernate.validator.version>6.1.2.Final</hibernate.validator.version>
 
-        <jwt.version>3.10.3</jwt.version>
+        <jwt.version>3.11.0</jwt.version>
         <jetbrains.version>19.0.0</jetbrains.version>
         <guice.version>4.1.0</guice.version>
         <scala.version>2.13.3</scala.version>
@@ -117,12 +117,12 @@
         <common.jexl.version>3.1</common.jexl.version>
         <common.lang3.version>3.11</common.lang3.version>
         <common.logging.version>1.2</common.logging.version>
-        <common.net.version>3.7</common.net.version>
+        <common.net.version>3.7.1</common.net.version>
         <common.codec.version>1.15</common.codec.version>
         <common.cli.version>1.4</common.cli.version>
 
         <http.async.client.version>4.1.4</http.async.client.version>
-        <http.client.version>4.5.12</http.client.version>
+        <http.client.version>4.5.13</http.client.version>
         <http.core.version>4.4.13</http.core.version>
 
         <!-- Liquibase -->
@@ -140,7 +140,7 @@
         <hdr.version>2.1.12</hdr.version>
 
         <!-- Vert.x Addition -->
-        <rxjava2.version>2.2.19</rxjava2.version>
+        <rxjava2.version>2.2.20</rxjava2.version>
         <netty.tcnative.version>2.0.34.Final</netty.tcnative.version>
         <netty.version>4.1.52.Final</netty.version>
         <hazelcast.version>3.12.4</hazelcast.version>
@@ -564,12 +564,6 @@
                 <groupId>io.reactivex.rxjava2</groupId>
                 <artifactId>rxjava</artifactId>
                 <version>${rxjava2.version}</version>
-            </dependency>
-            <!-- Demo Project -->
-            <dependency>
-                <groupId>cn.vertxup</groupId>
-                <artifactId>vertx-zeus</artifactId>
-                <version>${project.version}</version>
             </dependency>
             <!-- https://mvnrepository.com/artifact/org.apache.commons/commons-lang3 -->
             <dependency>

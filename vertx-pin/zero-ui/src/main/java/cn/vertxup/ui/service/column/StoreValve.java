@@ -25,7 +25,7 @@ class StoreValve implements UiValve {
         filters.put("controlId", controlId);
         filters.put("sigma", sigma);
         return Ux.Jooq.on(UiColumnDao.class)
-                .<UiColumn>findAsync(filters)
+                .<UiColumn>fetchAsync(filters)
                 .compose(list -> Ux.future(list.stream()
                         /*
                          * Position Sorting

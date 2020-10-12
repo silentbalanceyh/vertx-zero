@@ -11,9 +11,9 @@ interface AoBatch {
     Record[] insert(Record... records);
 
     /* 按主键批量读取 */
-    <ID> Future<Record[]> fetchByIdsAsync(ID... ids);
+    <ID> Future<Record[]> fetchByIdAsync(ID... ids);
 
-    <ID> Record[] fetchByIds(ID... ids);
+    <ID> Record[] fetchById(ID... ids);
 
     /* 批量删除 */
     Future<Boolean> deleteAsync(Record... records);

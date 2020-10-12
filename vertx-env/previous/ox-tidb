@@ -1,0 +1,1 @@
+FROM pingcap/tidb:latest

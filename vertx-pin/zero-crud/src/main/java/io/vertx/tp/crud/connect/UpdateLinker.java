@@ -50,7 +50,7 @@ class UpdateLinker implements IxLinker {
                                         final String key = input.getString(config.getField().getKey());
                                         Ix.infoDao(LOGGER, "Update Linker id = {0}, data = {1}",
                                                 key, input.encodePrettily());
-                                        return dao.saveAsync(key, entity);
+                                        return dao.updateAsync(key, entity);
                                     })
                             )
                             /* 200, Envelop */

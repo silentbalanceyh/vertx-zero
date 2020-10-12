@@ -14,15 +14,15 @@ public class ExEmployeeEpic implements ExEmployee {
     @Override
     public Future<JsonObject> fetchAsync(final String id) {
         return Ux.Jooq.on(EEmployeeDao.class)
-                .findByIdAsync(id)
-                .compose(Ux::fnJObject);
+                .fetchByIdAsync(id)
+                .compose(Ux::futureJ);
     }
 
     @Override
     public Future<JsonObject> updateAsync(final String id, final JsonObject params) {
         final EEmployee employee = Ux.fromJson(params, EEmployee.class);
         return Ux.Jooq.on(EEmployeeDao.class)
-                .saveAsync(id, employee)
-                .compose(Ux::fnJObject);
+                .updateAsync(id, employee)
+                .compose(Ux::futureJ);
     }
 }

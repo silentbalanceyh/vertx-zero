@@ -35,9 +35,9 @@ public class CriterionActor {
 
     @Address(Addr.Rule.FETCH_RULE_ITEMS)
     public Future<JsonArray> fetchItems(final String ruleId) {
-        return Fn.getEmpty(Ux.futureJArray(), () -> Ux.Jooq.on(SPacketDao.class)
+        return Fn.getEmpty(Ux.futureA(), () -> Ux.Jooq.on(SPacketDao.class)
                 .fetchAsync("pathId", ruleId)
-                .compose(Ux::fnJArray).compose(Ke.mounts(
+                .compose(Ux::futureA).compose(Ke.mounts(
                         /*
                          * rows configuration
                          * When rows contains more than one, it need complex config

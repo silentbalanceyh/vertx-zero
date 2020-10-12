@@ -32,7 +32,7 @@ public class GetActor {
         return Ix.create(this.getClass()).input(request).envelop((dao, config) -> {
             /* Key */
             final String key = Ux.getString1(request);
-            return dao.findByIdAsync(key)
+            return dao.fetchByIdAsync(key)
                     .compose(queried -> null == queried ?
                             /* 204 */
                             IxHttp.success204(queried) :
@@ -69,10 +69,8 @@ public class GetActor {
                 /*
                  * Get List<T> from database that `active = true`
                  */
-                return dao.findAsync(filters)
-                        .compose(item -> Ut.isNil(pojo) ?
-                                Ux.fnJArray(item) :
-                                Ux.fnJArray(pojo).apply(item))
+                return dao.fetchAsync(filters)
+                        .compose(list -> Ux.futureA(list, pojo))
                         .compose(Ix::query)
                         .compose(IxHttp::success200);
             }

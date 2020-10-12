@@ -2,9 +2,7 @@ package io.vertx.tp.plugin.cache.l1;
 
 import io.vertx.core.Future;
 import io.vertx.core.Vertx;
-import io.vertx.tp.plugin.cache.hit.HKey;
-import io.vertx.tp.plugin.cache.hit.HMeta;
-import io.vertx.up.eon.em.ChangeFlag;
+import io.vertx.tp.plugin.cache.hit.CMessage;
 
 /**
  * @author <a href="http://www.origin-x.cn">lang</a>
@@ -37,10 +35,33 @@ public interface L1Cache {
      * - by key
      * - by field
      * - by unique condition
+     *
      */
-    <T> void flushAsync(T input, ChangeFlag type, HMeta meta);
+    void write(CMessage... message);
 
-    <T> Future<T> hitAsync(HKey key, HMeta meta);
+    /*
+     * L1 Algorithm for deleting data from cache here, but the deleting processing depend on
+     * implementation of sub-set here.
+     */
+    void delete(CMessage... message);
 
-    <T> T hit(HKey key, HMeta meta);
+    /*
+     * Read data with callback refresh the cache
+     * 1. Read data from cache first
+     * 2. If hit, returned directly
+     * 3. If failure, call on database to get data
+     */
+    <T> Future<T> readAsync(CMessage message);
+
+    <T> T read(CMessage message);
+
+    /*
+     * Exist data without callback refresh the cache
+     * 1. Read data from cache first
+     * 2. If hit, returned directly
+     * 3. If failure, call on database to get data
+     */
+    Future<Boolean> existAsync(CMessage message);
+
+    Boolean exist(CMessage message);
 }

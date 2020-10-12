@@ -33,7 +33,7 @@ public class EmployeeService implements EmployeeStub {
 
     private Future<JsonObject> insertAsync(final EEmployee employee, final JsonObject data) {
         return Ux.Jooq.on(EEmployeeDao.class).insertAsync(employee)
-                .compose(Ux::fnJObject)
+                .compose(Ux::futureJ)
                 .compose(inserted -> {
                     /*
                      * If data contains `userId`, it means that current employee will relate to
@@ -53,22 +53,22 @@ public class EmployeeService implements EmployeeStub {
 
     @Override
     public Future<JsonObject> fetchAsync(final String key) {
-        return Ux.Jooq.on(EEmployeeDao.class).findByIdAsync(key)
-                .compose(Ux::fnJObject)
+        return Ux.Jooq.on(EEmployeeDao.class).fetchByIdAsync(key)
+                .compose(Ux::futureJ)
                 .compose(this::fetchRef);
     }
 
     @Override
     public Future<JsonArray> fetchAsync(final Set<String> keys) {
         return Ux.Jooq.on(EEmployeeDao.class).fetchInAsync(KeField.KEY, Ut.toJArray(keys))
-                .compose(Ux::fnJArray)
+                .compose(Ux::futureA)
                 .compose(this::fetchRef);
     }
 
     @Override
     public Future<JsonArray> fetchAsync(final JsonObject condition) {
-        return Ux.Jooq.on(EEmployeeDao.class).findAsync(condition)
-                .compose(Ux::fnJArray)
+        return Ux.Jooq.on(EEmployeeDao.class).fetchAsync(condition)
+                .compose(Ux::futureA)
                 .compose(this::fetchRef);
     }
 
@@ -131,7 +131,7 @@ public class EmployeeService implements EmployeeStub {
         final EEmployee employee = Ut.deserialize(data, EEmployee.class);
         return Ux.Jooq.on(EEmployeeDao.class)
                 .upsertAsync(uniques, employee)
-                .compose(Ux::fnJObject);
+                .compose(Ux::futureJ);
     }
 
     @Override

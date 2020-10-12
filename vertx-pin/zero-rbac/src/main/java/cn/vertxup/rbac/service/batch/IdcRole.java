@@ -104,7 +104,7 @@ class IdcRole {
                 });
                 return Ux.Jooq.on(RUserRoleDao.class).insertAsync(relationList)
                         .compose(inserted -> Ux.future(users))
-                        .compose(Ux::fnJArray);
+                        .compose(Ux::futureA);
             });
         }
     }

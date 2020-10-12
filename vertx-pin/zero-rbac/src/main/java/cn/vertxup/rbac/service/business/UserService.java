@@ -32,7 +32,7 @@ public class UserService implements UserStub {
     public Future<JsonObject> fetchOUser(final String userKey) {
         return Ux.Jooq.on(OUserDao.class)
                 .fetchOneAsync(AuthKey.F_CLIENT_ID, userKey)
-                .compose(Ux::fnJObject);
+                .compose(Ux::futureJ);
     }
 
     @Override
@@ -51,7 +51,7 @@ public class UserService implements UserStub {
     public Future<JsonObject> fetchEmployee(final String userId) {
         return Ux.Jooq.on(SUserDao.class)
                 /* User Information */
-                .<SUser>findByIdAsync(userId)
+                .<SUser>fetchByIdAsync(userId)
                 /* Employee Information */
                 .compose(UserHelper::fetchEmployee);
     }
@@ -64,7 +64,7 @@ public class UserService implements UserStub {
         user.setKey(userId);
         return Ux.Jooq.on(SUserDao.class)
                 /* User Saving here */
-                .saveAsync(userId, user)
+                .updateAsync(userId, user)
                 .compose(entity -> this.updateRoles(userId, Ux.toJson(entity), roles))
                 .compose(entity -> this.updateGroups(userId, Ux.toJson(entity), groups));
     }
@@ -74,14 +74,14 @@ public class UserService implements UserStub {
         final SUser user = Ux.fromJson(params, SUser.class);
         user.setKey(userId);
         return Ux.Jooq.on(SUserDao.class)
-                .saveAsync(userId, user)
+                .updateAsync(userId, user)
                 .compose(userInfo -> UserHelper.updateEmployee(userInfo, params));
     }
 
     @Override
     public Future<JsonObject> fetchUser(final String userKey) {
         return Ux.Jooq.on(SUserDao.class)
-                .findByIdAsync(userKey)
+                .fetchByIdAsync(userKey)
                 .compose(userInfo -> this.fulfillUserWithRolesAndGroups(userKey, Ux.toJson(userInfo)));
     }
 
@@ -132,7 +132,7 @@ public class UserService implements UserStub {
         return Ux.Jooq.on(OUserDao.class)
                 .insertAsync(oUser)
                 // delete attribute: password from user information
-                .compose(entity -> Ux.fnJObject(user.setPassword("")));
+                .compose(entity -> Ux.futureJ(user.setPassword("")));
     }
 
     /**

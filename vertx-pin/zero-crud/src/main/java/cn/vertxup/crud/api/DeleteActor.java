@@ -26,7 +26,7 @@ public class DeleteActor {
         return Ix.create(this.getClass()).input(request).envelop((dao, config) -> {
             /* Key */
             final String key = Ux.getString1(request);
-            return dao.findByIdAsync(key).compose(result -> null == result ?
+            return dao.fetchByIdAsync(key).compose(result -> null == result ?
                     /* 204 */
                     IxHttp.success204(Boolean.TRUE) :
                     /* Backup future */

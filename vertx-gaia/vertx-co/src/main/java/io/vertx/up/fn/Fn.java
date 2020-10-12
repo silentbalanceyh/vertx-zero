@@ -189,6 +189,15 @@ public final class Fn {
         return Zero.getEmpty(defaultValue, supplier, input);
     }
 
+    // ------ Function Processing
+    public static <T> T wrap(final RunSupplier<T> supplier, final T defaultValue) {
+        return Wrapper.wrapper(supplier, defaultValue);
+    }
+
+    public static <T> Future<T> wrapAsync(final RunSupplier<Future<T>> supplier, final T defaultValue) {
+        return Wrapper.wrapperAsync(supplier, defaultValue);
+    }
+
     // ------ Semi Safe
     public static void safeSemi(final boolean condition, final Annal logger, final Actuator tSupplier, final Actuator fSupplier) {
         Semi.exec(condition, logger, tSupplier, fSupplier);

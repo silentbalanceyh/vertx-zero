@@ -28,12 +28,12 @@ class SchemaRefine implements AoRefine {
     @Override
     public Function<JsonObject, Future<JsonObject>> apply() {
         return appJson -> {
-            Ao.infoUca(this.getClass(), "2. AoRefine.schema(): {0}", appJson.encode());
 
             // 读取上一个流程中处理完成的 models
             final JsonArray models = appJson.getJsonArray(KeField.Modeling.MODELS);
             final String name = appJson.getString(KeField.NAME);
             final Set<Schema> schemata = this.toSchemata(models, Model.namespace(name));
+            Ao.infoUca(this.getClass(), "2. AoRefine.schema(): {0}", String.valueOf(schemata.size()));
 
             // 1. 处理 Schema 的同步
             final JsonObject source = appJson.getJsonObject(KeField.SOURCE);
@@ -129,18 +129,18 @@ class SchemaRefine implements AoRefine {
                     // Schema -> Field
                     Arrays.stream(schema.getFields()).map(field -> Ux.Jooq.on(MFieldDao.class)
                             .upsertAsync(this.onCriteria(field.getName(), entity), field)
-                            .compose(Ux::fnJObject))
+                            .compose(Ux::futureJ))
                             .forEach(futures::add);
 
                     // Schema -> Key
                     Arrays.stream(schema.getKeys()).map(key -> Ux.Jooq.on(MKeyDao.class)
                             .upsertAsync(this.onCriteria(key.getName(), entity), key)
-                            .compose(Ux::fnJObject))
+                            .compose(Ux::futureJ))
                             .forEach(futures::add);
                     // Schema -> Index
                     return Ux.thenCombine(futures)
                             .compose(nil -> Ux.future(entity))
-                            .compose(Ux::fnJObject);
+                            .compose(Ux::futureJ);
                 });
     }
 }

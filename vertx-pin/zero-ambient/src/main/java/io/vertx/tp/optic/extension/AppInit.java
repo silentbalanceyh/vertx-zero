@@ -31,7 +31,7 @@ public class AppInit implements Init {
                      * Init first step: UPSERT ( Insert / Update )
                      */
                     .upsertAsync(this.whereUnique(appJson), app)
-                    .compose(Ux::fnJObject)
+                    .compose(Ux::futureJ)
                     /*
                      * Result Building
                      */

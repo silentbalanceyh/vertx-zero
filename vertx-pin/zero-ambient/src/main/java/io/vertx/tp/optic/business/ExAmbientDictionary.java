@@ -87,7 +87,7 @@ public class ExAmbientDictionary implements Dictionary {
         final String sigma = paramMap.get(KeField.SIGMA);
         return Ux.Jooq.on(XTabularDao.class)
                 .fetchAndAsync(this.toFilters(source, sigma))
-                .compose(Ux::fnJMapType);
+                .compose(Ux::futureG);
     }
 
     private Future<ConcurrentMap<String, JsonArray>> fetchCategory(final DictSource source,
@@ -95,7 +95,7 @@ public class ExAmbientDictionary implements Dictionary {
         final String sigma = paramMap.get(KeField.SIGMA);
         return Ux.Jooq.on(XCategoryDao.class)
                 .fetchAndAsync(this.toFilters(source, sigma))
-                .compose(Ux::fnJMapType);
+                .compose(Ux::futureG);
     }
 
     private Future<ConcurrentMap<String, JsonArray>> fetchAssist(final DictSource source,

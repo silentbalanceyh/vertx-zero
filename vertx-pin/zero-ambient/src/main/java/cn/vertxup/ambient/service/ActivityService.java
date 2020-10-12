@@ -33,7 +33,7 @@ public class ActivityService implements ActivityStub {
         filters.put(KeField.ACTIVE, Boolean.TRUE);  // 只搜索合法的
         return Ux.Jooq.on(XActivityDao.class)
                 .fetchAndAsync(filters)
-                .compose(Ux::fnJArray)
+                .compose(Ux::futureA)
                 .compose(response -> {
                     Ut.itJArray(response).forEach(each -> {
                         Ke.mount(each, KeField.RECORD_NEW);
@@ -66,20 +66,20 @@ public class ActivityService implements ActivityStub {
             final JsonObject criteria = new JsonObject();
             criteria.put("activityId,i", Ut.toJArray(activityIds));
             criteria.put("fieldName", field);
-            return Ux.Jooq.on(XActivityChangeDao.class).fetchAndAsync(criteria).compose(Ux::fnJArray);
+            return Ux.Jooq.on(XActivityChangeDao.class).fetchAndAsync(criteria).compose(Ux::futureA);
         });
     }
 
     @Override
     public Future<JsonArray> fetchChanges(final String activityId) {
         return this.fetchChangeList(activityId)
-                .compose(Ux::fnJArray);
+                .compose(Ux::futureA);
     }
 
     @Override
     public Future<JsonObject> fetchActivity(final String id) {
         return Ux.Jooq.on(XActivityDao.class)
-                .<XActivity>findByIdAsync(id)
+                .<XActivity>fetchByIdAsync(id)
                 .compose(Ut.ifNil(JsonObject::new, (activity) -> this.fetchChanges(activity.getKey())
                         .compose(changes -> {
                             final JsonObject activityJson = Ux.toJson(activity);
@@ -133,7 +133,7 @@ public class ActivityService implements ActivityStub {
                     });
                     return Ux.Jooq.on(XActivityChangeDao.class)
                             .updateAsync(changes)
-                            .compose(Ux::fnJArray);
+                            .compose(Ux::futureA);
                 });
     }
 }

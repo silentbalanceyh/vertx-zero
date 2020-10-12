@@ -6,6 +6,7 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.up.atom.pojo.Mirror;
 import io.vertx.up.atom.pojo.Mojo;
 import io.vertx.up.atom.query.Inquiry;
+import io.vertx.up.uca.jooq.util.JqTool;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
@@ -14,7 +15,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
 @SuppressWarnings("all")
-public class UxJoin {
+public final class UxJoin {
 
     private transient final JsonObject configuration = new JsonObject();
     private transient final JqJoinder joinder = new JqJoinder();
@@ -93,7 +94,7 @@ public class UxJoin {
     }
 
     private Inquiry toInquiry(final JsonObject params) {
-        return Objects.isNull(this.merged) ? Inquiry.create(params) : JqTool.getInquiry(params, this.merged);
+        return Objects.isNull(this.merged) ? Inquiry.create(params) : JqTool.inquiry(params, this.merged);
     }
 
     public Future<JsonObject> searchAsync(final Inquiry inquiry) {
@@ -101,12 +102,12 @@ public class UxJoin {
         return this.joinder.searchPaginationAsync(inquiry, this.merged);
     }
 
-    public Future<JsonArray> findAsync(final Inquiry inquiry) {
+    public Future<JsonArray> fetchAsync(final Inquiry inquiry) {
         this.POJO_MAP.forEach(this.joinder::pojo);
         return Ux.future(this.joinder.searchArray(inquiry, this.merged));
     }
 
-    public Future<JsonArray> findAsync(final JsonObject params) {
-        return findAsync(toInquiry(params));
+    public Future<JsonArray> fetchAsync(final JsonObject params) {
+        return fetchAsync(toInquiry(params));
     }
 }

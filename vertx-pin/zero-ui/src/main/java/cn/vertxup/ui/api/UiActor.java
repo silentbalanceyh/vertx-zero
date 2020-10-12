@@ -49,7 +49,7 @@ public class UiActor {
                 return this.formStub.fetchById(control);
             }
         } else {
-            return Ux.fnJObject(new JsonObject());
+            return Ux.futureJ(new JsonObject());
         }
     }
 

@@ -1,0 +1,13 @@
+version: '2'
+services:
+    elasticsearch:
+        image: elasticsearch:2.4.6
+        container_name: ox_es
+        ports:
+            - 9200:9200
+            - 9300:9300
+        environment:
+            - cluster.name=elasticearch
+            - discovery.type=single-node
+        volumes:
+            - /tmp/ox-engine/elasticsearch/data:/usr/share/elasticsearch/data

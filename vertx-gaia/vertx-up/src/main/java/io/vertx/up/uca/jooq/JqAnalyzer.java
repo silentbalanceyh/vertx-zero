@@ -1,6 +1,7 @@
 package io.vertx.up.uca.jooq;
 
 import io.github.jklingsporn.vertx.jooq.future.VertxDAO;
+import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.atom.pojo.Mirror;
 import io.vertx.up.atom.pojo.Mojo;
@@ -17,10 +18,7 @@ import org.jooq.TableField;
 import org.jooq.UniqueKey;
 import org.jooq.impl.DSL;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.TreeSet;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
@@ -83,11 +81,55 @@ public class JqAnalyzer {
         return new JqAnalyzer(vertxDAO);
     }
 
+    public VertxDAO vertxDAO() {
+        return this.vertxDAO;
+    }
+
+    public Vertx vertx() {
+        return Objects.isNull(this.vertxDAO) ? null : vertxDAO.vertx();
+    }
+
     public String table() {
         return this.table.getName();
     }
 
-    public List<TreeSet<String>> keys() {
+    public TreeSet<String> primarySet() {
+        TreeSet<String> primary = this.keySet(this.table.getPrimaryKey());
+        return primary.isEmpty() ? new TreeSet<>() : primary;
+    }
+
+    public String primary() {
+        TreeSet<String> primary = this.keySet(this.table.getPrimaryKey());
+        return primary.isEmpty() ? null : primary.iterator().next();
+    }
+
+    /*
+     * Primary key value collect
+     * 1) Object
+     * 2) List<Object>
+     */
+    public <T> Object primaryValue(final T input) {
+        final String primaryField = this.primary();
+        if (Objects.isNull(primaryField)) {
+            /*
+             * null returned
+             */
+            return null;
+        } else {
+            /*
+             * extract primary
+             */
+            return Ut.field(input, primaryField);
+        }
+    }
+
+    public <T> List<Object> primaryValue(final List<T> list) {
+        final List<Object> values = new ArrayList<>();
+        list.stream().map(this::primaryValue).forEach(values::add);
+        return values;
+    }
+
+    public List<TreeSet<String>> uniqueKey() {
         /*
          * keys include
          * - PrimaryKey
@@ -98,21 +140,26 @@ public class JqAnalyzer {
             /*
              *  UniqueKey
              */
-            final TreeSet<String> keySet = new TreeSet<>();
-            ukey.getFields().forEach(column -> {
-                /*
-                 * Column to Field converting
-                 */
-                final String field = this.revert.getOrDefault(column.getName(), null);
-                if (Objects.nonNull(field)) {
-                    keySet.add(field);
-                }
-            });
+            final TreeSet<String> keySet = this.keySet(ukey);
             if (!keySet.isEmpty()) {
                 keys.add(keySet);
             }
         });
         return keys;
+    }
+
+    private TreeSet<String> keySet(final UniqueKey<?> uk) {
+        final TreeSet<String> keySet = new TreeSet<>();
+        uk.getFields().forEach(column -> {
+            /*
+             * Column to Field converting
+             */
+            final String field = this.revert.getOrDefault(column.getName(), null);
+            if (Objects.nonNull(field)) {
+                keySet.add(field);
+            }
+        });
+        return keySet;
     }
 
     public Class<?> type() {
@@ -233,6 +280,28 @@ public class JqAnalyzer {
         return found;
     }
 
+    /*
+     * Pick all columns that match input String[] field
+     * This operation could be used in different aggr
+     */
+    public Field[] column(final String... fields) {
+        /*
+         * List<Field> building
+         */
+        final List<Field> columnList = new ArrayList<>();
+        Arrays.asList(fields).forEach(field -> {
+            /*
+             * Column field
+             */
+            final Field columnField = this.column(field);
+            if (Objects.nonNull(columnField)) {
+                columnList.add(columnField);
+            }
+        });
+        // The style is for Jooq
+        return columnList.toArray(new Field[]{});
+    }
+
     public void on(final String pojo, final Class<?> clazz) {
         if (Ut.isNil(pojo)) {
             this.pojo = null;
@@ -270,10 +339,26 @@ public class JqAnalyzer {
     }
 
     public String pojoFile() {
-        if (Objects.isNull(this.pojo)) {
-            return Strings.EMPTY;
+        return this.pojoFile(null);
+    }
+
+    public String pojoFile(final String pojoExternal) {
+        if (Objects.isNull(pojoExternal)) {
+            if (Objects.isNull(this.pojo)) {
+                /*
+                 * If current analyzer is null pojo
+                 * return "" instead of other pojo file
+                 */
+                return Strings.EMPTY;
+            } else {
+                return this.pojo.getPojoFile();
+            }
         } else {
-            return this.pojo.getPojoFile();
+            /*
+             * External is high priority
+             * -- !!!! Do not replace the pojo file that bind to analyzer
+             */
+            return pojoExternal;
         }
     }
 

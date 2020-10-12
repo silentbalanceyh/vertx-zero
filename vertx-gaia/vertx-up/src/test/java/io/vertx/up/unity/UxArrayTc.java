@@ -32,7 +32,7 @@ public class UxArrayTc extends ZeroBase {
         json.setEmail("lang.yu@hpe.com");
         json.setName("Lang.Yu");
         user.add(json);
-        Ux.fnJArray(user).onComplete(item -> {
+        Ux.futureA(user).onComplete(item -> {
             System.out.println(item.result());
         });
     }

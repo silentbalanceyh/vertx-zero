@@ -55,7 +55,7 @@ public class FieldService implements FieldStub {
         return this.deleteByControlId(controlId)
                 .compose(result -> Ux.Jooq.on(UiFieldDao.class)
                         .insertAsync(fields)
-                        .compose(Ux::fnJArray)
+                        .compose(Ux::futureA)
                         // 3. mountOut
                         .compose(updatedFields -> {
                             final List<JsonObject> list = Ut.itJArray(updatedFields)

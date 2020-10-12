@@ -81,6 +81,6 @@ public abstract class AbstractInvoker implements Invoker {
             final T result
     ) {
         final UddiClient client = Uddi.client(getClass());
-        return client.bind(vertx).bind(method).connect(Ux.envelop(result));
+        return client.bind(vertx).bind(method).connect(Ux.fromEnvelop(result));
     }
 }

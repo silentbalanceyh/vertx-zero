@@ -33,7 +33,7 @@ public class GroupService implements GroupStub {
         Sc.infoAuth(LOGGER, AuthMsg.RELATION_GROUP_ROLE, groupKey, "Sync");
         final List<RGroupRole> relations = Ux.Jooq.on(RGroupRoleDao.class)
                 .fetch(AuthKey.F_GROUP_ID, groupKey);
-        return Uarr.create(Ux.toJArray(relations))
+        return Uarr.create(Ux.toJson(relations))
                 .remove(AuthKey.F_GROUP_ID).to();
     }
 
@@ -43,9 +43,9 @@ public class GroupService implements GroupStub {
         if (null == dao) {
             return null;
         }
-        final SGroup current = dao.findById(groupKey);
+        final SGroup current = dao.fetchById(groupKey);
         return null == current ? null :
-                dao.findById(current.getParentId());
+                dao.fetchById(current.getParentId());
     }
 
     @Override
@@ -63,6 +63,6 @@ public class GroupService implements GroupStub {
                 /* Fetch by sigma */
                 .<SGroup>fetchAsync(KeField.SIGMA, sigma)
                 /* Get Result */
-                .compose(Ux::fnJArray);
+                .compose(Ux::futureA);
     }
 }

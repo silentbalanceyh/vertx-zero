@@ -23,7 +23,7 @@ public class FormService implements FormStub {
 
     @Override
     public Future<JsonObject> fetchById(final String formId) {
-        return Ux.Jooq.on(UiFormDao.class).<UiForm>findByIdAsync(formId)
+        return Ux.Jooq.on(UiFormDao.class).<UiForm>fetchByIdAsync(formId)
                 .compose(form -> {
                     if (Objects.isNull(form)) {
                         Ui.infoWarn(FormService.LOGGER, " Form not found, id = {0}", formId);
@@ -45,7 +45,7 @@ public class FormService implements FormStub {
         condition.put(KeField.SIGMA, sigma);
         return Ux.Jooq.on(UiFormDao.class).<UiForm>fetchAndAsync(condition)
                 /* List<UiForm> */
-                .compose(Ux::fnJArray)
+                .compose(Ux::futureA)
                 .compose(forms -> {
                     Ut.itJArray(forms).forEach(form -> {
                         Ke.mountArray(form, KeField.Ui.HIDDEN);
@@ -88,8 +88,8 @@ public class FormService implements FormStub {
         final UiForm uiForm = Ux.fromJson(form, UiForm.class);
         // 2. save ui-form record
         return Ux.Jooq.on(UiFormDao.class)
-                .saveAsync(key, uiForm)
-                .compose(Ux::fnJObject)
+                .updateAsync(key, uiForm)
+                .compose(Ux::futureJ)
                 // 3. mountOut
                 .compose(updatedForm -> Ux.future(this.mountOut(updatedForm)));
     }
@@ -148,6 +148,7 @@ public class FormService implements FormStub {
         Ke.mountString(data, KeField.METADATA);
         return data;
     }
+
     private JsonObject mountOut(final JsonObject data) {
         Ke.mountArray(data, KeField.Ui.HIDDEN);
         Ke.mount(data, KeField.Ui.ROW);

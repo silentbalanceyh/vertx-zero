@@ -33,4 +33,12 @@ class Where {
         }
         return filters;
     }
+
+    static JsonObject whereAnd() {
+        return new JsonObject().put(Strings.EMPTY, Boolean.TRUE);
+    }
+
+    static JsonObject whereOr() {
+        return new JsonObject().put(Strings.EMPTY, Boolean.FALSE);
+    }
 }

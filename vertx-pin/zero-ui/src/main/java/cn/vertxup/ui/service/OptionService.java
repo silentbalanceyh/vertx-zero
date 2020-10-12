@@ -20,8 +20,8 @@ public class OptionService implements OptionStub {
     @Override
     public Future<JsonObject> fetchQuery(final String id) {
         return Ux.Jooq.on(VQueryDao.class)
-                .<VQuery>findByIdAsync(id)
-                .compose(Ux::fnJObject)
+                .<VQuery>fetchByIdAsync(id)
+                .compose(Ux::futureJ)
                 .compose(Ke.mount(FIELD_QUERY_CRITERIA))
                 .compose(Ke.mountArray(FIELD_QUERY_PROJECTION));
     }
@@ -29,8 +29,8 @@ public class OptionService implements OptionStub {
     @Override
     public Future<JsonObject> fetchSearch(final String id) {
         return Ux.Jooq.on(VSearchDao.class)
-                .<VSearch>findByIdAsync(id)
-                .compose(Ux::fnJObject)
+                .<VSearch>fetchByIdAsync(id)
+                .compose(Ux::futureJ)
                 .compose(Ke.mount(FIELD_SEARCH_NOTICE))
                 .compose(Ke.mountArray(FIELD_SEARCH_COND));
     }
@@ -38,8 +38,8 @@ public class OptionService implements OptionStub {
     @Override
     public Future<JsonObject> fetchFragment(final String id) {
         return Ux.Jooq.on(VFragmentDao.class)
-                .<VFragment>findByIdAsync(id)
-                .compose(Ux::fnJObject)
+                .<VFragment>fetchByIdAsync(id)
+                .compose(Ux::futureJ)
                 .compose(Ke.mount(FIELD_FRAGMENT_MODEL))
                 .compose(Ke.mount(FIELD_FRAGMENT_NOTICE))
                 .compose(Ke.mount(FIELD_FRAGMENT_CONFIG))
@@ -49,8 +49,8 @@ public class OptionService implements OptionStub {
     @Override
     public Future<JsonObject> fetchTable(final String id) {
         return Ux.Jooq.on(VTableDao.class)
-                .<VTable>findByIdAsync(id)
-                .compose(Ux::fnJObject)
+                .<VTable>fetchByIdAsync(id)
+                .compose(Ux::futureJ)
                 .compose(Ke.mountArray(FIELD_TABLE_OP_CONFIG));
     }
 
@@ -69,10 +69,10 @@ public class OptionService implements OptionStub {
         return this.deleteByControlId(controlId)
                 .compose(result -> Ux.Jooq.on(UiOpDao.class)
                         .insertAsync(ops)
-                        .compose(Ux::fnJArray)
+                        .compose(Ux::futureA)
                         // 3. mountOut
                         .compose(updatedOps -> {
-                            List<JsonObject> list = Ut.itJArray(updatedOps)
+                            final List<JsonObject> list = Ut.itJArray(updatedOps)
                                     .map(this::mountOut)
                                     .collect(Collectors.toList());
                             return Ux.future(new JsonArray(list));
@@ -80,7 +80,7 @@ public class OptionService implements OptionStub {
     }
 
     @Override
-    public Future<Boolean> deleteByControlId(String controlId) {
+    public Future<Boolean> deleteByControlId(final String controlId) {
         return Ux.Jooq.on(UiOpDao.class)
                 .deleteAsync(new JsonObject().put(KeField.Ui.CONTROL_ID, controlId));
     }
@@ -91,6 +91,7 @@ public class OptionService implements OptionStub {
         Ke.mountString(data, KeField.METADATA);
         return data;
     }
+
     private JsonObject mountOut(final JsonObject data) {
         Ke.mount(data, OptionStub.FIELD_OP_CONFIG);
         Ke.mount(data, OptionStub.FIELD_OP_PLUGIN);

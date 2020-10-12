@@ -200,6 +200,12 @@
                 <artifactId>zero-ifx-shell</artifactId>
                 <version>${zero.version}</version>
             </dependency>
+            <!-- Isito -->
+            <dependency>
+                <groupId>cn.vertxup</groupId>
+                <artifactId>zero-iproxy</artifactId>
+                <version>${zero.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
     <build>

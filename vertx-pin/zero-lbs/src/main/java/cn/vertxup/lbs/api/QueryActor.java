@@ -21,43 +21,43 @@ public class QueryActor {
     @Address(Addr.PickUp.COUNTRIES)
     public Future<JsonArray> queryCountries(final Envelop request) {
         return Ux.Jooq.on(LCountryDao.class)
-                .findAllAsync()
-                .compose(Ux::fnJArray);
+                .fetchAllAsync()
+                .compose(Ux::futureA);
     }
 
     @Address(Addr.PickUp.STATE_BY_COUNTRY)
     public Future<JsonArray> queryStates(final String countryId) {
         return Ux.Jooq.on(LStateDao.class)
                 .fetchAsync("countryId", countryId)
-                .compose(Ux::fnJArray);
+                .compose(Ux::futureA);
     }
 
     @Address(Addr.PickUp.CITY_BY_STATE)
     public Future<JsonArray> queryCities(final String stateId) {
         return Ux.Jooq.on(LCityDao.class)
                 .fetchAsync("stateId", stateId)
-                .compose(Ux::fnJArray);
+                .compose(Ux::futureA);
     }
 
     @Address(Addr.PickUp.REGION_BY_CITY)
     public Future<JsonArray> queryRegions(final String cityId) {
         return Ux.Jooq.on(LRegionDao.class)
                 .fetchAsync("cityId", cityId)
-                .compose(Ux::fnJArray);
+                .compose(Ux::futureA);
     }
 
     @Address(Addr.PickUp.TENT_BY_SIGMA)
     public Future<JsonArray> getTents(final String sigma) {
         return Ux.Jooq.on(LTentDao.class)
                 .fetchAsync("sigma", sigma)
-                .compose(Ux::fnJArray);
+                .compose(Ux::futureA);
     }
 
     @Address(Addr.PickUp.FLOOR_BY_SIGMA)
     public Future<JsonArray> getFloors(final String sigma) {
         return Ux.Jooq.on(LFloorDao.class)
                 .fetchAsync("sigma", sigma)
-                .compose(Ux::fnJArray);
+                .compose(Ux::futureA);
     }
 
     @Address(Addr.PickUp.REGION_META)
@@ -73,7 +73,7 @@ public class QueryActor {
                 .compose(regionId -> this.combine(response, "regionId",
                         () -> regionId))
                 .compose(regionId -> Ux.Jooq.on(LRegionDao.class)
-                        .<LRegion>findByIdAsync(regionId)
+                        .<LRegion>fetchByIdAsync(regionId)
                 )
                 /*
                  * Region -> City
@@ -81,7 +81,7 @@ public class QueryActor {
                 .compose(region -> this.combine(response, "cityId",
                         region::getCityId))
                 .compose(cityId -> Ux.Jooq.on(LCityDao.class)
-                        .<LCity>findByIdAsync(cityId)
+                        .<LCity>fetchByIdAsync(cityId)
                 )
                 /*
                  * City -> State
@@ -89,7 +89,7 @@ public class QueryActor {
                 .compose(city -> this.combine(response, "stateId",
                         city::getStateId))
                 .compose(stateId -> Ux.Jooq.on(LStateDao.class)
-                        .<LState>findByIdAsync(stateId)
+                        .<LState>fetchByIdAsync(stateId)
                 )
                 /*
                  * State -> Country

@@ -55,11 +55,11 @@ public abstract class AbstractDao implements AoDao {
     public AbstractDao(final AoConnection conn) {
         this.conn = conn;
         // 前期绑定
-        this.partakor.on(this.conn).on(this.getSentence());
-        this.uniqueor.on(this.conn).on(this.getSentence());
-        this.listor.on(this.conn).on(this.getSentence());
-        this.searchor.on(this.conn).on(this.getSentence());
-        this.aggregator.on(this.conn).on(this.getSentence());
+        this.partakor.on(this.conn).on(this.sentence());
+        this.uniqueor.on(this.conn).on(this.sentence());
+        this.listor.on(this.conn).on(this.sentence());
+        this.searchor.on(this.conn).on(this.sentence());
+        this.aggregator.on(this.conn).on(this.sentence());
     }
 
     @Override
@@ -73,9 +73,6 @@ public abstract class AbstractDao implements AoDao {
         return this;
     }
 
-    /* 行语句构造器 */
-    public abstract AoSentence getSentence();
-
     // AoDao
     /*
      * 直接执行 sql 语句的专用方法，同步执行相关 SQL 语句
@@ -88,7 +85,7 @@ public abstract class AbstractDao implements AoDao {
     // AoAggregator / AoPredicate
     @Override
     public Long count(final Criteria criteria) {
-        return Ao.doCount(this.getLogger(), this.aggregator::count).apply(criteria);
+        return Ao.doCount(this.logger(), this.aggregator::count).apply(criteria);
     }
 
     @Override
@@ -97,23 +94,23 @@ public abstract class AbstractDao implements AoDao {
     }
 
     @Override
-    public Boolean existing(final Criteria criteria) {
-        return Ao.doBoolean(this.getLogger(), this.aggregator::existing).apply(criteria);
+    public Boolean exist(final Criteria criteria) {
+        return Ao.doBoolean(this.logger(), this.aggregator::existing).apply(criteria);
     }
 
     @Override
-    public Future<Boolean> existingAsync(final Criteria criteria) {
-        return Ux.future(this.existing(criteria));
+    public Future<Boolean> existAsync(final Criteria criteria) {
+        return Ux.future(this.exist(criteria));
     }
 
     @Override
-    public Boolean missing(final Criteria criteria) {
-        return Ao.doBoolean(this.getLogger(), this.aggregator::missing).apply(criteria);
+    public Boolean miss(final Criteria criteria) {
+        return Ao.doBoolean(this.logger(), this.aggregator::missing).apply(criteria);
     }
 
     @Override
-    public Future<Boolean> missingAsync(final Criteria criteria) {
-        return Ux.future(this.missing(criteria));
+    public Future<Boolean> missAsync(final Criteria criteria) {
+        return Ux.future(this.miss(criteria));
     }
 
     // AoWriter
@@ -148,12 +145,12 @@ public abstract class AbstractDao implements AoDao {
 
     @Override
     public Record insert(final Record record) {
-        return Ao.<Record>doFluent(this.getLogger(), this.partakor::insert).apply(record); // 防 null
+        return Ao.<Record>doFluent(this.logger(), this.partakor::insert).apply(record); // 防 null
     }
 
     @Override
     public Record[] insert(final Record... records) {
-        return Ao.<Record[]>doFluent(this.getLogger(), this.partakor::insert).apply(records);
+        return Ao.<Record[]>doFluent(this.logger(), this.partakor::insert).apply(records);
     }
 
     @Override
@@ -194,7 +191,7 @@ public abstract class AbstractDao implements AoDao {
 
     @Override
     public Record[] update(final Record... records) {
-        return Ao.<Record[]>doFluent(this.getLogger(), this.partakor::update).apply(records);
+        return Ao.<Record[]>doFluent(this.logger(), this.partakor::update).apply(records);
     }
 
     @Override
@@ -204,7 +201,7 @@ public abstract class AbstractDao implements AoDao {
 
     @Override
     public Record update(final Record record) {
-        return Ao.<Record>doFluent(this.getLogger(), this.partakor::update).apply(record); // 防 null
+        return Ao.<Record>doFluent(this.logger(), this.partakor::update).apply(record); // 防 null
     }
 
     /*
@@ -227,7 +224,7 @@ public abstract class AbstractDao implements AoDao {
      */
     @Override
     public <ID> Record fetchById(final ID id) {
-        return Ao.<ID, Record>doStandard(this.getLogger(), this.uniqueor::fetchById).apply(id);// 防 null
+        return Ao.<ID, Record>doStandard(this.logger(), this.uniqueor::fetchById).apply(id);// 防 null
     }
 
     @Override
@@ -237,19 +234,19 @@ public abstract class AbstractDao implements AoDao {
 
     @Override
     @SuppressWarnings("unchecked")
-    public <ID> Record[] fetchByIds(final ID... ids) {
-        return Ao.<ID[], Record[]>doStandard(this.getLogger(), this.listor::fetchByIds).apply(ids);
+    public <ID> Record[] fetchById(final ID... ids) {
+        return Ao.<ID[], Record[]>doStandard(this.logger(), this.listor::fetchByIds).apply(ids);
     }
 
     @Override
     @SuppressWarnings("unchecked")
-    public <ID> Future<Record[]> fetchByIdsAsync(final ID... ids) {
-        return Ux.future(this.fetchByIds(ids));
+    public <ID> Future<Record[]> fetchByIdAsync(final ID... ids) {
+        return Ux.future(this.fetchById(ids));
     }
 
     @Override
     public Record[] fetchAll() {
-        return Ao.doSupplier(this.getLogger(), this.listor::fetchAll).get();
+        return Ao.doSupplier(this.logger(), this.listor::fetchAll).get();
     }
 
     @Override
@@ -277,17 +274,17 @@ public abstract class AbstractDao implements AoDao {
      */
     @Override
     public Record fetchOne(final Criteria criteria) {
-        return Ao.doStandard(this.getLogger(), this.uniqueor::fetchOne).apply(criteria);
+        return Ao.doStandard(this.logger(), this.uniqueor::fetchOne).apply(criteria);
     }
 
     @Override
     public JsonObject search(final JsonObject query) {
-        return Ao.doStandard(this.getLogger(), this.searchor::search).apply(query);
+        return Ao.doStandard(this.logger(), this.searchor::search).apply(query);
     }
 
     @Override
     public Record[] fetch(final JsonObject criteria) {
-        return Ao.doStandard(this.getLogger(), this.searchor::query).apply(criteria);
+        return Ao.doStandard(this.logger(), this.searchor::query).apply(criteria);
     }
 
     @Override
@@ -330,7 +327,7 @@ public abstract class AbstractDao implements AoDao {
 
     @Override
     public boolean delete(final Record record) {
-        return Ao.<Record>doBoolean(this.getLogger(), this.partakor::delete).apply(record); // 防 null
+        return Ao.<Record>doBoolean(this.logger(), this.partakor::delete).apply(record); // 防 null
     }
 
     @Override
@@ -340,11 +337,14 @@ public abstract class AbstractDao implements AoDao {
 
     @Override
     public Boolean delete(final Record... records) {
-        return Ao.<Record[]>doBoolean(this.getLogger(), this.partakor::delete).apply(records); // 防 null
+        return Ao.<Record[]>doBoolean(this.logger(), this.partakor::delete).apply(records); // 防 null
     }
 
     // Logger
-    protected Annal getLogger() {
+    protected Annal logger() {
         return Annal.get(this.getClass());
     }
+
+    /* 行语句构造器 */
+    public abstract AoSentence sentence();
 }

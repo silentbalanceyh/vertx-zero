@@ -90,7 +90,7 @@ class AtEnv {
         AtLog.infoEnv(LOGGER, AtMsg.SOURCE, appId);
         return Ux.Jooq.on(XSourceDao.class)
                 .fetchOneAsync(KeField.APP_ID, appId)
-                .compose(Ux::fnJObject)
+                .compose(Ux::futureJ)
                 .compose(AtEnv::fromJsonAsync);
     }
 }

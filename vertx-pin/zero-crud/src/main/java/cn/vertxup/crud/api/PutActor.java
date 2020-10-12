@@ -28,7 +28,7 @@ public class PutActor {
             /* Data Get */
             final JsonObject body = Ux.getJson2(request);
             final String key = Ux.getString1(request);
-            return dao.findByIdAsync(key).compose(queried -> null == queried ?
+            return dao.fetchByIdAsync(key).compose(queried -> null == queried ?
                     /* 204, No Content */
                     IxHttp.success204(null) :
                     /* Save */
@@ -38,7 +38,7 @@ public class PutActor {
                             /* T */
                             .compose(input -> Ix.entityAsync(input, config))
                             /* Save */
-                            .compose(entity -> dao.saveAsync(key, entity))
+                            .compose(entity -> dao.updateAsync(key, entity))
                             /* 200, Envelop */
                             .compose(entity -> IxHttp.success200(entity, config)))
                     /* Must merged */

@@ -22,7 +22,7 @@ public class TeamDict implements DictionaryPlugin {
         if (Ut.notNil(sigma)) {
             return Ux.Jooq.on(ETeamDao.class)
                     .fetchAsync(KeField.SIGMA, sigma)
-                    .compose(Ux::fnJArray);
+                    .compose(Ux::futureA);
         } else {
             return Ux.future(new JsonArray());
         }

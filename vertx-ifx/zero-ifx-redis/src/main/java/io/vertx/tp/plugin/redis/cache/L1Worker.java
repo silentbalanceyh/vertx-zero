@@ -4,8 +4,10 @@ import io.vertx.core.AbstractVerticle;
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.eventbus.EventBus;
 import io.vertx.core.json.JsonObject;
+import io.vertx.tp.plugin.cache.hit.AlgorithmCollection;
+import io.vertx.tp.plugin.cache.hit.AlgorithmRecord;
+import io.vertx.tp.plugin.cache.hit.L1Algorithm;
 import io.vertx.tp.plugin.cache.l1.L1Config;
-import io.vertx.tp.plugin.cache.l1.L1Kit;
 import io.vertx.up.eon.em.ChangeFlag;
 import io.vertx.up.util.Ut;
 
@@ -33,25 +35,80 @@ public class L1Worker extends AbstractVerticle {
                  * Processing
                  */
                 final Buffer body = handler.body();
+                /*
+                 * Flag must not be NONE
+                 */
                 if (Objects.nonNull(body)) {
                     /*
                      * Buffer converted to data
                      */
                     final JsonObject jsonBody = body.toJsonObject();
                     /*
-                     * Mapped data
+                     * Data Updating
                      */
-                    final ConcurrentMap<String, JsonObject> mapped = L1Kit.dataConsumer(jsonBody, config.copy());
+                    this.updateCache(jsonBody);
+
                     /*
-                     * Redis
+                     * Data Deleting
                      */
-                    final ChangeFlag flag = Ut.toEnum(() -> jsonBody.getString("flag"), ChangeFlag.class, ChangeFlag.NONE);
-                    if (ChangeFlag.NONE != flag) {
-                        final L1Channel channel = new L1Channel();
-                        channel.refresh(mapped, flag);
-                    }
+                    this.deleteCache(jsonBody);
                 }
             });
         }
+    }
+
+    private void deleteCache(final JsonObject jsonBody) {
+        final ChangeFlag flag = Ut.toEnum(() -> jsonBody.getString("flag"), ChangeFlag.class, ChangeFlag.NONE);
+        if (ChangeFlag.DELETE == flag) {
+            // Delete Cache for L1
+            final Object cacheKey = jsonBody.getValue("data");
+            if (Objects.nonNull(cacheKey)) {
+                /*
+                 * Deleted by key with `L1Channel`
+                 */
+                final L1Channel channel = new L1Channel();
+                /*
+                 * Call erase
+                 */
+                channel.eraseTree(cacheKey.toString());
+            }
+        }
+    }
+
+    private void updateCache(final JsonObject jsonBody) {
+        final ChangeFlag flag = Ut.toEnum(() -> jsonBody.getString("flag"), ChangeFlag.class, ChangeFlag.NONE);
+        if (ChangeFlag.UPDATE == flag) {
+            /*
+             * L1Channel created
+             */
+            final L1Channel channel = new L1Channel();
+
+            /*
+             * L1Algorithm
+             */
+            final L1Algorithm algorithm = this.create(jsonBody);
+            final ConcurrentMap<String, Object> mapped = algorithm.buildData(jsonBody);
+            channel.write(mapped, flag);
+
+            /*
+             * Key Processing
+             */
+            final ConcurrentMap<String, Object> mappedKey = algorithm.buildReference(jsonBody);
+            /*
+             * Calculate the prefix of current type
+             */
+            channel.append(mappedKey);
+        }
+    }
+
+    private L1Algorithm create(final JsonObject jsonBody) {
+        final Boolean isCollection = jsonBody.getBoolean("collection", Boolean.FALSE);
+        final L1Algorithm algorithm;
+        if (isCollection) {
+            algorithm = Ut.singleton(AlgorithmCollection.class);
+        } else {
+            algorithm = Ut.singleton(AlgorithmRecord.class);
+        }
+        return algorithm;
     }
 }

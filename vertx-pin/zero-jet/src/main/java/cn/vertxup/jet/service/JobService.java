@@ -73,7 +73,7 @@ public class JobService implements JobStub {
     @Override
     public Future<JsonObject> fetchByKey(final String key) {
         return Ux.Jooq.on(IJobDao.class)
-                .<IJob>findByIdAsync(key)
+                .<IJob>fetchByIdAsync(key)
                 /*
                  * 1) Supplier here for `JsonObject` generated
                  * 2) Mission conversation here to JsonObject directly

@@ -16,23 +16,23 @@ import java.util.UUID;
 public class ResourceService implements ResourceStub {
 
     @Override
-    public Future<JsonObject> fetchResource(String resourceId) {
+    public Future<JsonObject> fetchResource(final String resourceId) {
         return Ux.Jooq.on(SResourceDao.class)
-                .findByIdAsync(resourceId)
-                .compose(Ux::fnJObject)
+                .fetchByIdAsync(resourceId)
+                .compose(Ux::futureJ)
                 .compose(resource -> Ux.Jooq.on(SActionDao.class)
                         .fetchOneAsync(KeField.RESOURCE_ID, resourceId)
-                            .compose(Ux::fnJObject)
-                            .compose(action -> Ux.future(resource.put("action", action))));
+                        .compose(Ux::futureJ)
+                        .compose(action -> Ux.future(resource.put("action", action))));
     }
 
     @Override
-    public Future<JsonObject> createResource(JsonObject params) {
+    public Future<JsonObject> createResource(final JsonObject params) {
         final SResource sResource = Ux.fromJson(params, SResource.class);
 
         return Ux.Jooq.on(SResourceDao.class)
                 .insertAsync(sResource)
-                .compose(Ux::fnJObject)
+                .compose(Ux::futureJ)
                 .compose(resource -> {
                     // handle action node if present
                     if (params.containsKey("action") && Ut.notNil(params.getJsonObject("action"))) {
@@ -46,7 +46,7 @@ public class ResourceService implements ResourceStub {
                                 .setLanguage(Optional.ofNullable(sAction.getLanguage()).orElse(resource.getString(KeField.LANGUAGE)));
                         return Ux.Jooq.on(SActionDao.class)
                                 .insertAsync(sAction)
-                                .compose(Ux::fnJObject)
+                                .compose(Ux::futureJ)
                                 .compose(action -> Ux.future(resource.put("action", action)));
                     } else {
                         return Ux.future(resource);
@@ -55,19 +55,19 @@ public class ResourceService implements ResourceStub {
     }
 
     @Override
-    public Future<JsonObject> updateResource(String resourceId, JsonObject params) {
+    public Future<JsonObject> updateResource(final String resourceId, final JsonObject params) {
         final SResource sResource = Ux.fromJson(params, SResource.class);
 
         return Ux.Jooq.on(SResourceDao.class)
                 .upsertAsync(resourceId, sResource)
-                .compose(Ux::fnJObject)
+                .compose(Ux::futureJ)
                 .compose(resource -> {
                     // handle action node if present
                     if (params.containsKey("action") && Ut.notNil(params.getJsonObject("action"))) {
                         final SAction sAction = Ux.fromJson(params.getJsonObject("action"), SAction.class);
                         return Ux.Jooq.on(SActionDao.class)
                                 .upsertAsync(new JsonObject().put(KeField.RESOURCE_ID, resourceId), sAction)
-                                .compose(Ux::fnJObject)
+                                .compose(Ux::futureJ)
                                 .compose(action -> Ux.future(resource.put("action", action)));
                     } else {
                         return Ux.future(resource);
@@ -76,7 +76,7 @@ public class ResourceService implements ResourceStub {
     }
 
     @Override
-    public Future<Boolean> deleteResource(String resourceId) {
+    public Future<Boolean> deleteResource(final String resourceId) {
         return Ux.Jooq.on(SActionDao.class)
                 .deleteAsync(new JsonObject().put(KeField.RESOURCE_ID, resourceId))
                 .compose(result -> Ux.Jooq.on(SResourceDao.class)

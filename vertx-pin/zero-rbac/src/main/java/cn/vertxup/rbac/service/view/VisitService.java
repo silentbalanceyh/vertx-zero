@@ -27,7 +27,7 @@ public class VisitService implements VisitStub {
         final String resourceId = input.getString(KeField.RESOURCE_ID);
         final String type = input.getString(KeField.TYPE);
         if (Ut.isNilOr(resourceId, type)) {
-            return Ux.futureJObject();
+            return Ux.futureJ();
         } else {
             /*
              * Check the branch between
@@ -40,7 +40,7 @@ public class VisitService implements VisitStub {
                 /*
                  * identifier
                  */
-                return Ux.futureJObject();
+                return Ux.futureJ();
             } else {
                 /*
                  * basic condition to fetch view
@@ -56,7 +56,7 @@ public class VisitService implements VisitStub {
                         /*
                          * No view defined
                          */
-                        return Ux.futureJObject();
+                        return Ux.futureJ();
                     } else {
                         /*
                          * new condition for visitant
@@ -84,7 +84,7 @@ public class VisitService implements VisitStub {
                         }
                         Sc.infoView(this.getClass(), "Visitant Record: {0}", criteria.encode());
                         return Ux.Jooq.on(SVisitantDao.class).fetchOneAsync(criteria)
-                                .compose(Ux::fnJObject)
+                                .compose(Ux::futureJ)
                                 .compose(Ut.ifJObject(
                                         "aclVisible",
                                         "aclView",
@@ -141,7 +141,7 @@ public class VisitService implements VisitStub {
                  * Insert and update
                  */
                 .upsertAsync(criteria, visitant)
-                .compose(Ux::fnJObject)
+                .compose(Ux::futureJ)
                 .compose(Ut.ifJObject(
                         "aclVisible",
                         "aclView",

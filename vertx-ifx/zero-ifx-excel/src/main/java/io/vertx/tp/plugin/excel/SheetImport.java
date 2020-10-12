@@ -70,7 +70,7 @@ class SheetImport {
                          * Double check to avoid issue:
                          * java.sql.SQLIntegrityConstraintViolationException: Duplicate entry 'xxx' for key 'PRIMARY'
                          */
-                        final T fetched = jooq.findById(key);
+                        final T fetched = jooq.fetchById(key);
                         if (null == fetched) {
                             /*
                              * In this situation, it common workflow to do data loading.

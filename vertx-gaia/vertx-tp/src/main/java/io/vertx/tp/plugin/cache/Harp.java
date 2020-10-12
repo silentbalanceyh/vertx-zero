@@ -8,6 +8,8 @@ import io.vertx.up.uca.yaml.Node;
 import io.vertx.up.uca.yaml.ZeroUniform;
 import io.vertx.up.util.Ut;
 
+import java.util.Objects;
+
 /**
  * @author <a href="http://www.origin-x.cn">lang</a>
  * Life Cycle for cache when processing in
@@ -28,12 +30,12 @@ public class Harp {
              * Cache enabled
              */
             final JsonObject config = options.getJsonObject(KEY_CACHE);
-            LOGGER.info("( Cache ) L1,L2,L3 has been configured: {0}", config);
+            LOGGER.info("[ Cache ] L1,L2,L3 has been configured: {0}", config);
             BUS_HARP = HarpBus.create(vertx, config);
         }
     }
 
     public static L1Cache cacheL1() {
-        return BUS_HARP.cacheL1();
+        return Objects.isNull(BUS_HARP) ? null : BUS_HARP.cacheL1();
     }
 }

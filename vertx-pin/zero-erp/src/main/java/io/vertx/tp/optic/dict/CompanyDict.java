@@ -22,7 +22,7 @@ public class CompanyDict implements DictionaryPlugin {
         if (Ut.notNil(sigma)) {
             return Ux.Jooq.on(ECompanyDao.class)
                     .fetchAsync(KeField.SIGMA, sigma)
-                    .compose(Ux::fnJArray);
+                    .compose(Ux::futureA);
         } else {
             return Ux.future(new JsonArray());
         }

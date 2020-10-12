@@ -23,7 +23,7 @@ class KeyModeler implements AoModeler {
             // 读取所有的Keys
             return Ux.Jooq.on(MKeyDao.class)
                     .<MKey>fetchAndAsync(this.onCriteria(entityJson))
-                    .compose(Ux::fnJArray)
+                    .compose(Ux::futureA)
                     .compose(keys -> Ux.future(this.onResult(schemaJson, keys)));
         };
     }
@@ -36,7 +36,7 @@ class KeyModeler implements AoModeler {
         final List<MKey> keyList = Ux.Jooq.on(MKeyDao.class)
                 .fetchAnd(this.onCriteria(entityJson));
         // Array
-        final JsonArray keys = Ux.toJArray(keyList);
+        final JsonArray keys = Ux.toJson(keyList);
         return this.onResult(schemaJson, keys);
     }
 

@@ -17,5 +17,10 @@
             <artifactId>zero-ifx-excel</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <dependency>
+            <groupId>cn.vertxup</groupId>
+            <artifactId>zero-ifx-redis</artifactId>
+            <version>${project.version}</version>
+        </dependency>
     </dependencies>
 </project>

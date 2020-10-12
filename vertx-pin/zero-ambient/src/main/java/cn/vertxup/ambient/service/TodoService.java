@@ -49,7 +49,7 @@ public class TodoService implements TodoStub {
         final XTodo todo = Ut.deserialize(inputData, XTodo.class);
         return Ux.Jooq.on(XTodoDao.class)
                 .insertAsync(todo)
-                .compose(Ux::fnJObject);
+                .compose(Ux::futureJ);
     }
 
     @Override
@@ -60,20 +60,20 @@ public class TodoService implements TodoStub {
             filters.put("type", type);
         }
         filters.put("status,i", statues);
-        return Ux.Jooq.on(XTodoDao.class).fetchAndAsync(filters).compose(Ux::fnJArray);
+        return Ux.Jooq.on(XTodoDao.class).fetchAndAsync(filters).compose(Ux::futureA);
     }
 
     @Override
     public Future<JsonArray> fetchTodos(final String sigma, final JsonArray types, final JsonArray statues) {
         final JsonObject filters = this.toFilters(sigma, types, statues);
-        return Ux.Jooq.on(XTodoDao.class).fetchAndAsync(filters).compose(Ux::fnJArray);
+        return Ux.Jooq.on(XTodoDao.class).fetchAndAsync(filters).compose(Ux::futureA);
     }
 
     @Override
     public Future<JsonArray> fetchTodos(final String sigma, final JsonArray types, final JsonArray statues, final JsonArray codes) {
         final JsonObject filters = this.toFilters(sigma, types, statues);
         filters.put("code,i", codes);
-        return Ux.Jooq.on(XTodoDao.class).fetchAndAsync(filters).compose(Ux::fnJArray);
+        return Ux.Jooq.on(XTodoDao.class).fetchAndAsync(filters).compose(Ux::futureA);
     }
 
     private JsonObject toFilters(final String sigma, final JsonArray types, final JsonArray statues) {
@@ -90,7 +90,7 @@ public class TodoService implements TodoStub {
     public Future<JsonArray> updateStatus(final Set<String> keys, final JsonObject params) {
         return Ux.Jooq.on(XTodoDao.class)
                 .<XTodo>fetchInAsync(KeField.KEY, Ut.toJArray(keys))
-                .compose(Ux::fnJArray)
+                .compose(Ux::futureA)
                 .compose(Ut.ifNil(JsonArray::new, (todoArray) -> {
                     /*
                      * Update status of XTodo
@@ -106,15 +106,15 @@ public class TodoService implements TodoStub {
                     }
                     return Ux.Jooq.on(XTodoDao.class)
                             .updateAsync(todoList)
-                            .compose(Ux::fnJArray);
+                            .compose(Ux::futureA);
                 }));
     }
 
     @Override
     public Future<JsonObject> updateStatus(final String key, final JsonObject params) {
         return Ux.Jooq.on(XTodoDao.class)
-                .<XTodo>findByIdAsync(key)
-                .compose(Ux::fnJObject)
+                .<XTodo>fetchByIdAsync(key)
+                .compose(Ux::futureJ)
                 .compose(Ut.ifJNil((todoJson) -> {
                     /*
                      * Update status of XTodo
@@ -125,7 +125,7 @@ public class TodoService implements TodoStub {
                     }
                     return Ux.Jooq.on(XTodoDao.class)
                             .updateAsync(todo)
-                            .compose(Ux::fnJObject);
+                            .compose(Ux::futureJ);
                 }));
     }
 
@@ -167,8 +167,8 @@ public class TodoService implements TodoStub {
     @Override
     public Future<JsonObject> fetchTodo(final String key) {
         return Ux.Jooq.on(XTodoDao.class)
-                .<XTodo>findByIdAsync(key)
-                .compose(Ux::fnJObject)
+                .<XTodo>fetchByIdAsync(key)
+                .compose(Ux::futureJ)
                 .compose(Ut.ifNil(JsonObject::new, (todo) -> Ke.channel(ExTodo.class, () -> todo, channel -> {
                     At.infoInit(LOGGER, AtMsg.CHANNEL_TODO, channel.getClass().getName());
                     /*

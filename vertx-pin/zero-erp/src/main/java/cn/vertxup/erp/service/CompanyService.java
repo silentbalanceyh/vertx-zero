@@ -13,10 +13,10 @@ public class CompanyService implements CompanyStub {
     @Override
     public Future<JsonObject> fetchByEmployee(final String employeeId) {
         return Ux.Jooq.on(EEmployeeDao.class)
-                .<EEmployee>findByIdAsync(employeeId)
+                .<EEmployee>fetchByIdAsync(employeeId)
                 .compose(employee -> Ux.Jooq.on(ECompanyDao.class)
-                        .findByIdAsync(Objects.isNull(employee) ?
+                        .fetchByIdAsync(Objects.isNull(employee) ?
                                 null : employee.getCompanyId()))
-                .compose(Ux::fnJObject);
+                .compose(Ux::futureJ);
     }
 }

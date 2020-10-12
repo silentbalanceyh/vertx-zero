@@ -57,8 +57,8 @@ class IdcService extends AbstractIdc {
                     condition.put(KeField.SIGMA, this.sigma);
                     condition.put(Strings.EMPTY, Boolean.TRUE);
                     Sc.infoWeb(this.getClass(), "Unique filters: {0}", condition.encode());
-                    return Ux.Jooq.on(SUserDao.class).findAsync(condition)
-                            .compose(Ux::fnJArray)
+                    return Ux.Jooq.on(SUserDao.class).fetchAsync(condition)
+                            .compose(Ux::futureA)
                             .compose(original -> {
                                 /*
                                  * Unique `username` ensure in database

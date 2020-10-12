@@ -8,10 +8,10 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.tp.ambient.cv.Addr;
 import io.vertx.tp.ambient.cv.AtMsg;
 import io.vertx.tp.ambient.refine.At;
-import io.vertx.up.unity.Ux;
 import io.vertx.up.annotations.Address;
 import io.vertx.up.annotations.Queue;
 import io.vertx.up.log.Annal;
+import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
 import java.util.Objects;
@@ -27,7 +27,7 @@ public class AttachActor {
         final XAttachment attachment = Ut.deserialize(content, XAttachment.class);
         return Ux.Jooq.on(XAttachmentDao.class)
                 .insertAsync(attachment)
-                .compose(Ux::fnJObject);
+                .compose(Ux::futureJ);
     }
 
     @Address(Addr.File.DOWNLOAD)

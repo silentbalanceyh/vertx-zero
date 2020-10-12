@@ -17,8 +17,8 @@ public class TplService implements TplStub {
          * Enable Cache for Layout
          */
         return Ke.poolAsync(LAYOUT_POOL, layoutId, () -> Ux.Jooq.on(UiLayoutDao.class)
-                .findByIdAsync(layoutId)
-                .compose(Ux::fnJObject)
+                .fetchByIdAsync(layoutId)
+                .compose(Ux::futureJ)
                 /*
                  * Configuration converted to Json
                  */
