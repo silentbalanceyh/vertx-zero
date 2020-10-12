@@ -28,12 +28,12 @@ class SchemaRefine implements AoRefine {
     @Override
     public Function<JsonObject, Future<JsonObject>> apply() {
         return appJson -> {
-            Ao.infoUca(this.getClass(), "2. AoRefine.schema(): {0}", appJson.encode());
 
             // 读取上一个流程中处理完成的 models
             final JsonArray models = appJson.getJsonArray(KeField.Modeling.MODELS);
             final String name = appJson.getString(KeField.NAME);
             final Set<Schema> schemata = this.toSchemata(models, Model.namespace(name));
+            Ao.infoUca(this.getClass(), "2. AoRefine.schema(): {0}", String.valueOf(schemata.size()));
 
             // 1. 处理 Schema 的同步
             final JsonObject source = appJson.getJsonObject(KeField.SOURCE);
