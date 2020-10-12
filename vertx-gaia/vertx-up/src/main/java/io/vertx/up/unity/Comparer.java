@@ -87,11 +87,11 @@ class Comparer {
                 /*
                  * Convert old entity to json
                  */
-                final JsonObject combineJson = Ut.sureJObject(To.toJson(old, pojo));
+                final JsonObject combineJson = Ut.sureJObject(To.toJObject(old, pojo));
                 /*
                  * Convert current entity to json
                  */
-                final JsonObject latestJson = Ut.sureJObject(To.toJson(latest, pojo));
+                final JsonObject latestJson = Ut.sureJObject(To.toJObject(latest, pojo));
                 if (latestJson.containsKey("key")) {
                     /*
                      * Because here it will combine previous/current json object

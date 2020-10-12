@@ -51,7 +51,7 @@ class ReturnTransit {
                 // Future<JsonObject> or Future<JsonArray>
                 LOGGER.info(Info.MSG_FLOW, "Future<T>", clazz);
                 final Future future = (Future) returnValue;
-                return future.compose(item -> Future.succeededFuture(Ux.envelop(item)));
+                return future.compose(item -> Future.succeededFuture(Ux.fromEnvelop(item)));
             }
         } else {
             if (Envelop.class == clazz) {

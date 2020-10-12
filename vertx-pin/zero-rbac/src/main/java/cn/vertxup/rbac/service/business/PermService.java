@@ -74,7 +74,7 @@ public class PermService implements PermStub {
                                 return permDao.updateAsync(permission.getKey(), permission);
                             }
                         })).forEach(futures::add);
-                return Ux.thenCombineT(futures).compose(Ux::fnJArray);
+                return Ux.thenCombineT(futures).compose(Ux::futureA);
             });
         });
     }

@@ -14,6 +14,6 @@ public class ExCompanyEpic implements ExCompany {
     public Future<JsonObject> fetchAsync(final String id) {
         return Ux.Jooq.on(ECompanyDao.class)
                 .fetchByIdAsync(id)
-                .compose(Ux::fnJObject);
+                .compose(Ux::futureJ);
     }
 }

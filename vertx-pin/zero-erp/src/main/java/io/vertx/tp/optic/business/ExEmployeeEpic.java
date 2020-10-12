@@ -15,7 +15,7 @@ public class ExEmployeeEpic implements ExEmployee {
     public Future<JsonObject> fetchAsync(final String id) {
         return Ux.Jooq.on(EEmployeeDao.class)
                 .fetchByIdAsync(id)
-                .compose(Ux::fnJObject);
+                .compose(Ux::futureJ);
     }
 
     @Override
@@ -23,6 +23,6 @@ public class ExEmployeeEpic implements ExEmployee {
         final EEmployee employee = Ux.fromJson(params, EEmployee.class);
         return Ux.Jooq.on(EEmployeeDao.class)
                 .updateAsync(id, employee)
-                .compose(Ux::fnJObject);
+                .compose(Ux::futureJ);
     }
 }

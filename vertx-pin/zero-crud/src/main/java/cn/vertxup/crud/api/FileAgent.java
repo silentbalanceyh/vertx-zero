@@ -38,7 +38,7 @@ public class FileAgent {
         /* File stored */
         final String filename = fileUpload.uploadedFileName();
         Ix.infoDao(LOGGER, IxMsg.FILE_UPLOAD, fileUpload.fileName(), filename);
-        return Ux.toToggle(actor, filename);
+        return Ux.toZip(actor, filename);
     }
 
     @Path("/{actor}/export")
@@ -71,6 +71,6 @@ public class FileAgent {
          *     ......
          * }
          */
-        return Ux.toToggle(actor, query, columns);
+        return Ux.toZip(actor, query, columns);
     }
 }

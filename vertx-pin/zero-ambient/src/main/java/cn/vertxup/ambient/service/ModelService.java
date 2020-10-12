@@ -22,7 +22,7 @@ public class ModelService implements ModelStub {
          */
         return AcCache.getModule(filters, () -> Ux.Jooq.on(XModuleDao.class)
                 .fetchOneAsync(filters)
-                .compose(Ux::fnJObject)
+                .compose(Ux::futureJ)
                 /* Metadata field usage */
                 .compose(Ke.mount(KeField.METADATA)));
     }

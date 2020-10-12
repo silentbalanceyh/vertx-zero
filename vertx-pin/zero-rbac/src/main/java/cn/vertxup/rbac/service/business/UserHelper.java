@@ -34,7 +34,7 @@ class UserHelper {
     }
 
     private static Future<JsonObject> applyUser(final SUser user) {
-        return Ux.future(user).compose(Ux::fnJObject);
+        return Ux.future(user).compose(Ux::futureJ);
     }
 
     private static Future<JsonObject> applyTunnel(final SUser user, final Function<ExEmployee, Future<JsonObject>> fnTunnel) {

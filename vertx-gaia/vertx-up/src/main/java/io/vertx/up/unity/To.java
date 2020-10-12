@@ -27,59 +27,62 @@ class To {
                 entity);
     }
 
-    static <T> JsonObject toJson(
+    static <T> JsonObject toJObject(
             final T entity,
             final String pojo) {
         return Fn.getNull(new JsonObject(),
                 () -> Fn.getSemi(Ut.isNil(pojo), null,
                         () -> Ut.serializeJson(entity),
-                        () -> Mirror.create(To.class)
-                                .mount(pojo)
-                                .connect(Ut.serializeJson(entity))
-                                .to().result()),
+                        () -> Mirror.create(To.class).mount(pojo).connect(Ut.serializeJson(entity)).to().result()),
                 entity);
     }
 
-    static <T> JsonObject toJson(
+    static <T> JsonObject toJObject(
             final T entity,
             final Function<JsonObject, JsonObject> convert
     ) {
         return Fn.getSemi(null == convert, null,
-                () -> toJson(entity, ""),
-                () -> convert.apply(toJson(entity, "")));
+                () -> toJObject(entity, ""),
+                () -> convert.apply(toJObject(entity, "")));
     }
 
     static <T> JsonArray toJArray(
             final List<T> list,
             final Function<JsonObject, JsonObject> convert
     ) {
-        final JsonArray array = new JsonArray();
-        Observable.fromIterable(list)
-                .filter(Objects::nonNull)
-                .map(item -> toJson(item, convert))
-                .subscribe(array::add);
-        return array;
+        return Fn.getNull(new JsonArray(), () -> {
+            final JsonArray array = new JsonArray();
+            Observable.fromIterable(list)
+                    .filter(Objects::nonNull)
+                    .map(item -> toJObject(item, convert))
+                    .subscribe(array::add);
+            return array;
+        }, list);
     }
 
     static <T> JsonArray toJArray(
             final List<T> list,
             final String pojo
     ) {
-        final JsonArray array = new JsonArray();
-        Observable.fromIterable(list)
-                .filter(Objects::nonNull)
-                .map(item -> toJson(item, pojo))
-                .subscribe(array::add);
-        return array;
+        return Fn.getNull(new JsonArray(), () -> {
+            final JsonArray array = new JsonArray();
+            Observable.fromIterable(list)
+                    .filter(Objects::nonNull)
+                    .map(item -> toJObject(item, pojo))
+                    .subscribe(array::add);
+            return array;
+        }, list);
     }
 
     static <T> List<JsonObject> toJList(
             final List<T> list,
             final String pojo
     ) {
-        final List<JsonObject> jlist = new ArrayList<>();
-        Ut.itJArray(toJArray(list, pojo)).forEach(jlist::add);
-        return jlist;
+        return Fn.getNull(new ArrayList<>(), () -> {
+            final List<JsonObject> jlist = new ArrayList<>();
+            Ut.itJArray(toJArray(list, pojo)).forEach(jlist::add);
+            return jlist;
+        }, list);
     }
 
     @SuppressWarnings("all")
@@ -151,8 +154,8 @@ class To {
             final String pojo
     ) {
         return Fn.getSemi(null == array || array.isEmpty(), null,
-                () -> toJson(null, pojo),
-                () -> toJson(array.getValue(0), pojo));
+                () -> toJObject(null, pojo),
+                () -> toJObject(array.getValue(0), pojo));
     }
 
     static JsonObject toToggle(final Object... args) {

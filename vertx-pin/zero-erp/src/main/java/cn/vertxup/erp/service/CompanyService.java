@@ -17,6 +17,6 @@ public class CompanyService implements CompanyStub {
                 .compose(employee -> Ux.Jooq.on(ECompanyDao.class)
                         .fetchByIdAsync(Objects.isNull(employee) ?
                                 null : employee.getCompanyId()))
-                .compose(Ux::fnJObject);
+                .compose(Ux::futureJ);
     }
 }

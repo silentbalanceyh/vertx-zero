@@ -32,7 +32,7 @@ public class SourceInit implements Init {
                      * Init second step: appId as condition, save X_APP
                      */
                     .upsertAsync(this.whereUnique(appJson), source)
-                    .compose(Ux::fnJObject)
+                    .compose(Ux::futureJ)
                     /*
                      * Result Building
                      */

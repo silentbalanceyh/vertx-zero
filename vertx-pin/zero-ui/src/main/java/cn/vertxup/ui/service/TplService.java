@@ -18,7 +18,7 @@ public class TplService implements TplStub {
          */
         return Ke.poolAsync(LAYOUT_POOL, layoutId, () -> Ux.Jooq.on(UiLayoutDao.class)
                 .fetchByIdAsync(layoutId)
-                .compose(Ux::fnJObject)
+                .compose(Ux::futureJ)
                 /*
                  * Configuration converted to Json
                  */

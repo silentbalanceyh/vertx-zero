@@ -32,7 +32,7 @@ public class UserService implements UserStub {
     public Future<JsonObject> fetchOUser(final String userKey) {
         return Ux.Jooq.on(OUserDao.class)
                 .fetchOneAsync(AuthKey.F_CLIENT_ID, userKey)
-                .compose(Ux::fnJObject);
+                .compose(Ux::futureJ);
     }
 
     @Override
@@ -132,7 +132,7 @@ public class UserService implements UserStub {
         return Ux.Jooq.on(OUserDao.class)
                 .insertAsync(oUser)
                 // delete attribute: password from user information
-                .compose(entity -> Ux.fnJObject(user.setPassword("")));
+                .compose(entity -> Ux.futureJ(user.setPassword("")));
     }
 
     /**

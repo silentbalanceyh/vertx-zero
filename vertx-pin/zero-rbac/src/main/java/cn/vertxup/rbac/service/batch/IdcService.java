@@ -58,7 +58,7 @@ class IdcService extends AbstractIdc {
                     condition.put(Strings.EMPTY, Boolean.TRUE);
                     Sc.infoWeb(this.getClass(), "Unique filters: {0}", condition.encode());
                     return Ux.Jooq.on(SUserDao.class).fetchAsync(condition)
-                            .compose(Ux::fnJArray)
+                            .compose(Ux::futureA)
                             .compose(original -> {
                                 /*
                                  * Unique `username` ensure in database

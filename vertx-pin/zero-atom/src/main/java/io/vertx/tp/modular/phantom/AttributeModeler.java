@@ -21,7 +21,7 @@ class AttributeModeler implements AoModeler {
             LOGGER.debug("[ Ox ] 2. AoModeler.attribute() ：{0}", modelJson.encode());
             return Ux.Jooq.on(MAttributeDao.class)
                     .fetchAsync(KeField.MODEL_ID, this.getModelId(modelJson))
-                    .compose(Ux::fnJArray)
+                    .compose(Ux::futureA)
                     .compose(attributes -> Ux.future(modelJson.put(KeField.Modeling.ATTRIBUTES, attributes)));
         };
     }

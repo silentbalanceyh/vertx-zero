@@ -48,7 +48,7 @@ public class ListService implements ListStub {
         condition.put(KeField.SIGMA, sigma);
         return Ux.Jooq.on(UiListDao.class).<UiList>fetchAndAsync(condition)
                 /* List<UiList> */
-                .compose(Ux::fnJArray);
+                .compose(Ux::futureA);
     }
 
     private Future<JsonObject> attachConfig(final JsonObject listJson) {

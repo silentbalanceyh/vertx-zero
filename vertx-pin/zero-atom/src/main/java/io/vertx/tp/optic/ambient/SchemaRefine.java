@@ -129,18 +129,18 @@ class SchemaRefine implements AoRefine {
                     // Schema -> Field
                     Arrays.stream(schema.getFields()).map(field -> Ux.Jooq.on(MFieldDao.class)
                             .upsertAsync(this.onCriteria(field.getName(), entity), field)
-                            .compose(Ux::fnJObject))
+                            .compose(Ux::futureJ))
                             .forEach(futures::add);
 
                     // Schema -> Key
                     Arrays.stream(schema.getKeys()).map(key -> Ux.Jooq.on(MKeyDao.class)
                             .upsertAsync(this.onCriteria(key.getName(), entity), key)
-                            .compose(Ux::fnJObject))
+                            .compose(Ux::futureJ))
                             .forEach(futures::add);
                     // Schema -> Index
                     return Ux.thenCombine(futures)
                             .compose(nil -> Ux.future(entity))
-                            .compose(Ux::fnJObject);
+                            .compose(Ux::futureJ);
                 });
     }
 }

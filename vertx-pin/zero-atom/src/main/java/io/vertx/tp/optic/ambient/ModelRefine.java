@@ -88,7 +88,7 @@ class ModelRefine implements AoRefine {
         final List<Future<JsonObject>> futures = new ArrayList<>();
         model.getAttributes().stream().map(attr -> Ux.Jooq.on(MAttributeDao.class)
                 .upsertAsync(this.onCriteria(attr), attr)
-                .compose(Ux::fnJObject))
+                .compose(Ux::futureJ))
                 .forEach(futures::add);
         // Model -> 插入 Model
         /*
@@ -102,7 +102,7 @@ class ModelRefine implements AoRefine {
                 // 再插入新关系
                 .compose(nil -> Ux.Jooq.on(MJoinDao.class)
                         .insertAsync(nexus))
-                .compose(Ux::fnJObject))
+                .compose(Ux::futureJ))
                 .forEach(futures::add);
         /*
          * 同时插入
@@ -113,6 +113,6 @@ class ModelRefine implements AoRefine {
                  */
                 .compose(nil -> Ux.Jooq.on(MModelDao.class)
                         .upsertAsync(this.onCriteria(model.getModel()), model.getModel()))
-                .compose(Ux::fnJObject);
+                .compose(Ux::futureJ);
     }
 }

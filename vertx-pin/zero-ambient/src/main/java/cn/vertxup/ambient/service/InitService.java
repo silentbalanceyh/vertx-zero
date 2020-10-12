@@ -46,7 +46,7 @@ public class InitService implements InitStub {
         return Ux.Jooq.on(XAppDao.class)
                 /* X_APP Fetching */
                 .fetchOneAsync(KeField.NAME, appName)
-                .compose(Ux::fnJObject)
+                .compose(Ux::futureJ)
                 /* X_SOURCE fetching, Fetching skip Database initialization */
                 .compose(appJson -> this.stub.fetchSource(appJson.getString(KeField.KEY))
                         .compose(source -> Uson.create(appJson).append(KeField.SOURCE, source).toFuture())

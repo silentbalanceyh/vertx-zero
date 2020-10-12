@@ -63,6 +63,6 @@ public class GroupService implements GroupStub {
                 /* Fetch by sigma */
                 .<SGroup>fetchAsync(KeField.SIGMA, sigma)
                 /* Get Result */
-                .compose(Ux::fnJArray);
+                .compose(Ux::futureA);
     }
 }

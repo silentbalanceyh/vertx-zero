@@ -87,17 +87,17 @@ public final class Ux {
     /*
      * Entity ( Pojo ) to JsonObject, support pojo file here
      * 1) toJObject / fromJson
-     * 2) toToggle:  Toggle switch from interface style to worker here, the key should be "0", "1", "2", "3", ....
+     * 2) toZip:  Toggle switch from interface style to worker here, the key should be "0", "1", "2", "3", ....
      * 3) toJArray
      * ( Business Part, support `pojoFile` conversation )
      * 4) toFile
      */
     public static <T> JsonObject toJson(final T entity) {
-        return To.toJson(entity, "");
+        return To.toJObject(entity, "");
     }
 
     public static <T> JsonObject toJson(final T entity, final String pojo) {
-        return To.toJson(entity, pojo);
+        return To.toJObject(entity, pojo);
     }
 
     public static <T> JsonArray toJson(final List<T> list) {
@@ -108,7 +108,7 @@ public final class Ux {
         return To.toJArray(list, pojo);
     }
 
-    public static JsonObject toToggle(final Object... args) {
+    public static JsonObject toZip(final Object... args) {
         return To.toToggle(args);
     }
 
@@ -181,15 +181,15 @@ public final class Ux {
      *    - JsonObject -> condition -> executor
      *    - JsonArray -> condition -> grouper -> executor
      */
-    public static Envelop envelop(final Class<? extends WebException> clazz, final Object... args) {
+    public static Envelop fromEnvelop(final Class<? extends WebException> clazz, final Object... args) {
         return To.toEnvelop(clazz, args);
     }
 
-    public static <T> Envelop envelop(final T entity) {
+    public static <T> Envelop fromEnvelop(final T entity) {
         return To.toEnvelop(entity);
     }
 
-    public static <T> Envelop envelop(final T entity, final WebException error) {
+    public static <T> Envelop fromEnvelop(final T entity, final WebException error) {
         return To.toEnvelop(entity, error);
     }
 
@@ -203,18 +203,6 @@ public final class Ux {
 
     public static <T> Future<T> future() {
         return To.future(null);
-    }
-
-    public static Future<JsonArray> futureJArray() {
-        return To.future(new JsonArray());
-    }
-
-    public static <T> Future<JsonArray> futureJArray(final List<T> list, final String pojo) {
-        return Future.succeededFuture(To.toJArray(list, pojo));
-    }
-
-    public static Future<JsonObject> futureJObject() {
-        return To.future(new JsonObject());
     }
 
     public static Future<JsonObject> complex(final JsonObject input, final Predicate<JsonObject> predicate, final Supplier<Future<JsonObject>> executor) {
@@ -250,47 +238,106 @@ public final class Ux {
     }
 
     /*
-     * Flatting method for `Function Reference`
-     * 2) fnJObject / fnJArray
-     * 3) fnJList
-     * 4) fnJMap
-     * 5) fnJMapType
+     *  future prefix processing here
+     * 1) futureA
+     * -- futureA()
+     * -- futureA(List)
+     * -- futureA(List, pojo)
+     * -- futureA(String)
+     * -- futureA(Record[])
+     * 2) futureJ
+     * -- futureJ()
+     * -- futureJ(T)
+     * -- futureJ(T, pojo)
+     * -- futureJ(String)
+     * -- futureJ(Record)
+     * 3) futureL
+     * -- futureL()
+     * -- futureL(List)
+     * -- futureL(List, pojo)
+     * -- futureL(String)
+     * 4) futureG
+     * -- futureG(List, String)
+     * -- futureG(T, String)
+     * -- futureG(List)
+     * -- futureG(T)
      */
 
-    public static <T> Future<JsonObject> fnJObject(final T item) {
-        return Future.succeededFuture(To.toJson(item, ""));
+    public static <T> Future<JsonArray> futureA(final List<T> list, final String pojo) {
+        return Future.succeededFuture(To.toJArray(list, pojo));
     }
 
-    public static <T> Future<JsonArray> fnJArray(final List<T> item) {
-        return Future.succeededFuture(To.toJArray(item, ""));
+    public static Future<JsonArray> futureA() {
+        return futureA(new ArrayList<>(), Strings.EMPTY);
     }
 
-    public static <T> Future<List<JsonObject>> fnJList(final List<T> item) {
-        return Future.succeededFuture(To.toJList(item, ""));
+    public static <T> Future<JsonArray> futureA(final List<T> list) {
+        return futureA(list, Strings.EMPTY);
     }
 
-    public static Future<JsonArray> fnJArray(final Record[] records) {
-        return Fn.getNull(futureJArray(), () -> To.future(Ut.toJArray(records)), records);
+    public static <T> Function<List<T>, Future<JsonArray>> futureA(final String pojo) {
+        return list -> futureA(list, pojo);
     }
 
-    public static Future<JsonObject> fnJObject(final Record record) {
-        return Fn.getNull(futureJObject(), () -> To.future(record.toJson()), record);
+    // --------------- T of entity processing -----------------
+
+    public static <T> Future<JsonObject> futureJ(final T entity, final String pojo) {
+        return Future.succeededFuture(To.toJObject(entity, pojo));
     }
 
-    public static <T> Future<ConcurrentMap<String, JsonArray>> fnJMap(final List<T> item, final String field) {
-        return fnJMap(To.toJArray(item, ""), field);
+    public static Future<JsonObject> futureJ() {
+        return futureJ(new JsonObject(), Strings.EMPTY);
     }
 
-    public static Future<ConcurrentMap<String, JsonArray>> fnJMap(final JsonArray item, final String field) {
+    public static <T> Future<JsonObject> futureJ(final T entity) {
+        return futureJ(entity, Strings.EMPTY);
+    }
+
+    public static <T> Function<T, Future<JsonObject>> futureJ(final String pojo) {
+        return entity -> futureJ(entity, pojo);
+    }
+
+    // --------------- List<T> of future processing -----------------
+    public static <T> Future<List<JsonObject>> futureL(final List<T> list, final String pojo) {
+        return Future.succeededFuture(To.toJList(list, pojo));
+    }
+
+    public static <T> Future<List<JsonObject>> futureL() {
+        return futureL(new ArrayList<>(), Strings.EMPTY);
+    }
+
+    public static <T> Future<List<JsonObject>> futureL(final List<T> list) {
+        return futureL(list, Strings.EMPTY);
+    }
+
+    public static <T> Function<List<T>, Future<List<JsonObject>>> futureL(final String pojo) {
+        return list -> futureL(list, pojo);
+    }
+
+    // --------------- Record processing -----------------
+    public static Future<JsonObject> futureJ(final Record record) {
+        return Fn.getNull(futureJ(), () -> To.future(record.toJson()), record);
+    }
+
+    public static Future<JsonArray> futureA(final Record[] records) {
+        return Fn.getNull(futureA(), () -> To.future(Ut.toJArray(records)), records);
+    }
+
+    // --------------- Future of Map -----------------
+    public static <T> Future<ConcurrentMap<String, JsonArray>> futureG(final List<T> item, final String field) {
+        return futureG(To.toJArray(item, ""), field);
+    }
+
+    public static Future<ConcurrentMap<String, JsonArray>> futureG(final JsonArray item, final String field) {
         return Future.succeededFuture(Ut.elementGroup(item, field));
     }
 
-    public static <T> Future<ConcurrentMap<String, JsonArray>> fnJMapType(final List<T> item) {
-        return fnJMap(To.toJArray(item, ""), "type");
+    public static <T> Future<ConcurrentMap<String, JsonArray>> futureG(final List<T> item) {
+        return futureG(To.toJArray(item, ""), "type");
     }
 
-    public static Future<ConcurrentMap<String, JsonArray>> fnJMapType(final JsonArray item) {
-        return fnJMap(item, "type");
+    public static Future<ConcurrentMap<String, JsonArray>> futureG(final JsonArray item) {
+        return futureG(item, "type");
     }
 
     /*

@@ -17,7 +17,7 @@ class ScFn {
 
     static <T> Future<JsonArray> relation(final String field, final String key, final Class<?> daoCls) {
         return Ux.Jooq.on(daoCls).<T>fetchAsync(field, key)
-                .compose(Ux::fnJArray)
+                .compose(Ux::futureA)
                 .compose(relation -> Uarr.create(relation)
                         .remove(field).toFuture());
     }

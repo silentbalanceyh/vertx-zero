@@ -23,7 +23,7 @@ class IndexModeler implements AoModeler {
             // 读取所有的indexes
             return Ux.Jooq.on(MIndexDao.class)
                     .<MIndex>fetchAndAsync(this.onCriteria(entityJson))
-                    .compose(Ux::fnJArray)
+                    .compose(Ux::futureA)
                     .compose(indexes -> Ux.future(this.onResult(schemaJson, indexes)));
         };
     }

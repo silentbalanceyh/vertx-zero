@@ -37,7 +37,7 @@ public class PageService implements PageStub {
                              */
                             return this.fetchLayout(page);
                         } else {
-                            return Ux.fnJObject(page);
+                            return Ux.futureJ(page);
                         }
                     } else {
                         /*

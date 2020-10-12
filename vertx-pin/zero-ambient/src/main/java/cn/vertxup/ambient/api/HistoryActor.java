@@ -25,7 +25,7 @@ public class HistoryActor {
     @Address(Addr.History.HISTORIES)
     public Future<JsonArray> fetchHistory(final String identifier, final String key) {
         if (Ut.isNilOr(identifier, key)) {
-            return Ux.futureJArray();
+            return Ux.futureA();
         } else {
             return this.activityStub.fetchActivities(identifier, key);
         }
@@ -40,7 +40,7 @@ public class HistoryActor {
     public Future<JsonArray> fetchChangeBy(final String modelId, final String modelKey,
                                            final String modelField) {
         if (Ut.isNilOr(modelId, modelKey, modelField)) {
-            return Ux.futureJArray();
+            return Ux.futureA();
         } else {
             return this.activityStub.fetchActivities(modelId, modelKey, modelField);
         }
@@ -55,7 +55,7 @@ public class HistoryActor {
     public Future<JsonObject> fetchActivity(final String key) {
         return Ux.Jooq.on(XActivityDao.class).<XActivity>fetchByIdAsync(key).compose(activity -> {
             if (Objects.isNull(activity)) {
-                return Ux.futureJObject();
+                return Ux.futureJ();
             } else {
                 return this.activityStub.fetchChanges(activity.getKey()).compose(changes -> {
                     final JsonObject data = Ux.toJson(activity);

@@ -23,12 +23,12 @@ public class ActionActor {
     @Address(Addr.Authority.ACTION_SEEK)
     public Future<JsonArray> searchAuthorized(final String sigma, final JsonObject params) {
         final String keyword = params.getString("keyword");
-        return this.actionStub.searchAuthorized(keyword, sigma).compose(Ux::fnJArray);
+        return this.actionStub.searchAuthorized(keyword, sigma).compose(Ux::futureA);
     }
 
     @Address(Addr.Authority.ACTION_READY)
     public Future<JsonArray> searchAll(final String sigma, final JsonObject params) {
         final String keyword = params.getString("keyword");
-        return this.actionStub.searchAll(keyword, sigma).compose(Ux::fnJArray);
+        return this.actionStub.searchAll(keyword, sigma).compose(Ux::futureA);
     }
 }

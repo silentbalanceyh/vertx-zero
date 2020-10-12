@@ -22,7 +22,7 @@ public class OpService implements OpStub {
     public Future<JsonArray> fetchDynamic(final String control) {
         return Ux.Jooq.on(UiOpDao.class)
                 .<UiOp>fetchAsync(KeField.Ui.CONTROL_ID, control)
-                .compose(Ux::fnJArray)
+                .compose(Ux::futureA)
                 .compose(array -> {
                     Ut.itJArray(array).forEach(each ->
                             Ke.mount(each, KeField.Ui.CONFIG));

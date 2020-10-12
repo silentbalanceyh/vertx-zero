@@ -83,14 +83,14 @@ public class PermActor {
 
     @Address(Addr.Authority.PERMISSION_BY_ROLE)
     public Future<JsonArray> fetchAsync(final String roleId) {
-        return Fn.getEmpty(Ux.futureJArray(), () -> Ux.Jooq.on(RRolePermDao.class)
+        return Fn.getEmpty(Ux.futureA(), () -> Ux.Jooq.on(RRolePermDao.class)
                 .fetchAsync(KeField.ROLE_ID, roleId)
-                .compose(Ux::fnJArray), roleId);
+                .compose(Ux::futureA), roleId);
     }
 
     @Address(Addr.Authority.PERMISSION_SAVE)
     public Future<JsonArray> savePerm(final String roleId, final JsonArray permissions) {
-        return Fn.getEmpty(Ux.futureJArray(), () -> {
+        return Fn.getEmpty(Ux.futureA(), () -> {
             final JsonObject condition = new JsonObject();
             condition.put(KeField.ROLE_ID, roleId);
             /*
@@ -115,7 +115,7 @@ public class PermActor {
                      */
                     return Sc.cachePermission(roleId, permissions)
                             .compose(nil -> Ux.future(inserted));
-                }).compose(Ux::fnJArray);
+                }).compose(Ux::futureA);
             });
         }, roleId);
     }

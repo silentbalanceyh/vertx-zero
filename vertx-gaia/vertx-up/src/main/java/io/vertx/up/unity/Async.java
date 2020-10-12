@@ -74,7 +74,7 @@ class Async {
                 () -> completableFuture.thenAcceptAsync((item) -> Fn.safeSemi(
                         null == item, null,
                         () -> future.complete(new JsonObject()),
-                        () -> future.complete(To.toJson(item, pojo))
+                        () -> future.complete(To.toJObject(item, pojo))
                 )).exceptionally((ex) -> {
                     LOGGER.jvm(ex);
                     future.fail(ex);
@@ -108,7 +108,7 @@ class Async {
                                                  final Supplier<Future<JsonObject>> supplier,
                                                  final Function<JsonObject, JsonObject> updateFun) {
         return Fn.match(
-                Fn.fork(() -> Future.succeededFuture(To.toJson(entity, pojo))
+                Fn.fork(() -> Future.succeededFuture(To.toJObject(entity, pojo))
                         .compose(item -> null == updateFun ?
                                 Future.succeededFuture(item) :
                                 Future.succeededFuture(updateFun.apply(item))

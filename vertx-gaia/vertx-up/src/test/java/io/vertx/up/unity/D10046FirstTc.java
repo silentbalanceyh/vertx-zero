@@ -34,7 +34,7 @@ public class D10046FirstTc extends EpicBase {
     @Test
     public void testUx() {
         final JsonObject input = this.ioJObject("d10046.json");
-        final Envelop envelop = Ux.envelop(input);
+        final Envelop envelop = Ux.fromEnvelop(input);
         Assert.assertNotNull(envelop.data());
         System.err.println(envelop.data(JsonObject.class));
     }

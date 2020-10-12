@@ -147,7 +147,7 @@ public class FileActor {
                                                         .compose(item -> Ux.future(item.mergeIn(record)))
                                                         .compose(json -> Ix.entityAsync(json, config))
                                                         .compose(jooq::updateAsync)
-                                                        .compose(Ux::fnJObject)
+                                                        .compose(Ux::futureJ)
                                                 :
                                                 /* Insert UUID */
                                                 IxActor.uuid().procAsync(record, config)
@@ -157,7 +157,7 @@ public class FileActor {
                                                         /* Final Insert */
                                                         .compose(json -> Ix.entityAsync(json, config))
                                                         .compose(jooq::insertAsync)
-                                                        .compose(Ux::fnJObject)
+                                                        .compose(Ux::futureJ)
                                         )
                                 );
                             });

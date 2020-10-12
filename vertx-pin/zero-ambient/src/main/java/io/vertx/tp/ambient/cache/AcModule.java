@@ -24,7 +24,7 @@ class AcModule {
         final String appId = condition.getString("appId");
         final String entry = condition.getString("entry");
         if (Ut.isNilOr(appId, entry)) {
-            return Ux.futureJObject();
+            return Ux.futureJ();
         } else {
             final String cacheKey = appId + ":" + entry;
             final JsonObject cachedData = CACHE_MODULE.getOrDefault(cacheKey, null);

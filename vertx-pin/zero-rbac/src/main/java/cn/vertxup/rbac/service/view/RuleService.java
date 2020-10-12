@@ -31,7 +31,7 @@ public class RuleService implements RuleStub {
     @Override
     public Future<JsonArray> procAsync(final List<SPath> paths) {
         final List<SPath> filtered = paths.stream().filter(Objects::nonNull).collect(Collectors.toList());
-        return Ux.thenCombineT(filtered, RuleRobin::procRule).compose(Ux::fnJArray);
+        return Ux.thenCombineT(filtered, RuleRobin::procRule).compose(Ux::futureA);
     }
 
     @Override
@@ -42,7 +42,7 @@ public class RuleService implements RuleStub {
         condition.put("ownerType", ownerType);
         condition.put("resourceId,i", keys);
         condition.put("name", view);
-        return Ux.Jooq.on(SViewDao.class).fetchAndAsync(condition).compose(Ux::fnJArray)
+        return Ux.Jooq.on(SViewDao.class).fetchAndAsync(condition).compose(Ux::futureA)
                 .compose(Ke.mounts("rows", "criteria"))
                 .compose(result -> {
                     Ut.itJArray(result).forEach(json -> Ke.mountArray(json, "projection"));
@@ -108,7 +108,7 @@ public class RuleService implements RuleStub {
             final UxJooq jooq = Ux.Jooq.on(SViewDao.class);
             final JsonArray response = new JsonArray();
             return jooq.updateAsync(upQueue)
-                    .compose(Ux::fnJArray)
+                    .compose(Ux::futureA)
                     .compose(updated -> {
                         /*
                          * Stored data into updated queue
@@ -117,7 +117,7 @@ public class RuleService implements RuleStub {
                         return Ux.future();
                     })
                     .compose(nil -> jooq.insertAsync(addQueue))
-                    .compose(Ux::fnJArray)
+                    .compose(Ux::futureA)
                     .compose(Ke.mounts("rows", "criteria"))
                     .compose(result -> {
                         Ut.itJArray(result).forEach(json -> Ke.mountArray(json, "projection"));

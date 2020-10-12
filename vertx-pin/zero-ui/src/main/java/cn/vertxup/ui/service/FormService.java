@@ -45,7 +45,7 @@ public class FormService implements FormStub {
         condition.put(KeField.SIGMA, sigma);
         return Ux.Jooq.on(UiFormDao.class).<UiForm>fetchAndAsync(condition)
                 /* List<UiForm> */
-                .compose(Ux::fnJArray)
+                .compose(Ux::futureA)
                 .compose(forms -> {
                     Ut.itJArray(forms).forEach(form -> {
                         Ke.mountArray(form, KeField.Ui.HIDDEN);
@@ -89,7 +89,7 @@ public class FormService implements FormStub {
         // 2. save ui-form record
         return Ux.Jooq.on(UiFormDao.class)
                 .updateAsync(key, uiForm)
-                .compose(Ux::fnJObject)
+                .compose(Ux::futureJ)
                 // 3. mountOut
                 .compose(updatedForm -> Ux.future(this.mountOut(updatedForm)));
     }

@@ -47,7 +47,7 @@ public class LoginService implements LoginStub {
                                 () -> Ux.log(this.getClass()).on(AuthMsg.LOGIN_PWD).info(username, password),
                                 () -> Ux.thenError(_401PasswordWrongException.class, this.getClass(), username))
                 ))
-                .compose(Ux::fnJObject)
+                .compose(Ux::futureJ)
                 .compose(item -> Ux.thenCombine(item,
                         // Secondar query
                         (user) -> Arrays.asList(

@@ -51,14 +51,14 @@ public class DatumService implements DatumStub {
     public Future<JsonObject> tabular(final String appId, final String type, final String code) {
         return Ux.Jooq.on(XTabularDao.class)
                 .fetchOneAsync(At.filters(appId, type, code))
-                .compose(Ux::fnJObject);
+                .compose(Ux::futureJ);
     }
 
     @Override
     public Future<JsonObject> category(final String appId, final String type, final String code) {
         return Ux.Jooq.on(XCategoryDao.class)
                 .fetchOneAsync(At.filters(appId, type, code))
-                .compose(Ux::fnJObject);
+                .compose(Ux::futureJ);
     }
 
     @Override
@@ -125,7 +125,7 @@ public class DatumService implements DatumStub {
     }
 
     private Future<JsonArray> fetchArray(final Class<?> daoCls, final JsonObject filters) {
-        return Ux.Jooq.on(daoCls).fetchAndAsync(filters).compose(Ux::fnJArray)
+        return Ux.Jooq.on(daoCls).fetchAndAsync(filters).compose(Ux::futureA)
                 .compose(array -> {
                     Ut.itJArray(array).forEach(json -> Ke.mount(json, KeField.METADATA));
                     return Ux.future(array);

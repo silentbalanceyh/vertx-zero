@@ -22,42 +22,42 @@ public class QueryActor {
     public Future<JsonArray> queryCountries(final Envelop request) {
         return Ux.Jooq.on(LCountryDao.class)
                 .fetchAllAsync()
-                .compose(Ux::fnJArray);
+                .compose(Ux::futureA);
     }
 
     @Address(Addr.PickUp.STATE_BY_COUNTRY)
     public Future<JsonArray> queryStates(final String countryId) {
         return Ux.Jooq.on(LStateDao.class)
                 .fetchAsync("countryId", countryId)
-                .compose(Ux::fnJArray);
+                .compose(Ux::futureA);
     }
 
     @Address(Addr.PickUp.CITY_BY_STATE)
     public Future<JsonArray> queryCities(final String stateId) {
         return Ux.Jooq.on(LCityDao.class)
                 .fetchAsync("stateId", stateId)
-                .compose(Ux::fnJArray);
+                .compose(Ux::futureA);
     }
 
     @Address(Addr.PickUp.REGION_BY_CITY)
     public Future<JsonArray> queryRegions(final String cityId) {
         return Ux.Jooq.on(LRegionDao.class)
                 .fetchAsync("cityId", cityId)
-                .compose(Ux::fnJArray);
+                .compose(Ux::futureA);
     }
 
     @Address(Addr.PickUp.TENT_BY_SIGMA)
     public Future<JsonArray> getTents(final String sigma) {
         return Ux.Jooq.on(LTentDao.class)
                 .fetchAsync("sigma", sigma)
-                .compose(Ux::fnJArray);
+                .compose(Ux::futureA);
     }
 
     @Address(Addr.PickUp.FLOOR_BY_SIGMA)
     public Future<JsonArray> getFloors(final String sigma) {
         return Ux.Jooq.on(LFloorDao.class)
                 .fetchAsync("sigma", sigma)
-                .compose(Ux::fnJArray);
+                .compose(Ux::futureA);
     }
 
     @Address(Addr.PickUp.REGION_META)

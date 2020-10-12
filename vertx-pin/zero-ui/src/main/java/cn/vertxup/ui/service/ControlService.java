@@ -17,7 +17,7 @@ public class ControlService implements ControlStub {
     public Future<JsonArray> fetchControls(final String pageId) {
         return Ux.Jooq.on(UiControlDao.class)
                 .<UiControl>fetchAsync("pageId", pageId)
-                .compose(Ux::fnJArray)
+                .compose(Ux::futureA)
                 .compose(list -> {
                     /*
                      * Convert JsonArray field of Control
@@ -38,7 +38,7 @@ public class ControlService implements ControlStub {
     public Future<JsonObject> fetchById(final String control) {
         return Ux.Jooq.on(UiControlDao.class)
                 .<UiControl>fetchByIdAsync(control)
-                .compose(Ux::fnJObject)
+                .compose(Ux::futureJ)
                 .compose(Ke.mount(KeField.Ui.CONTAINER_CONFIG))
                 .compose(Ke.mount(KeField.Ui.COMPONENT_CONFIG))
                 .compose(Ke.mount(KeField.Ui.ASSIST))

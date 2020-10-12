@@ -22,7 +22,7 @@ public class AppService implements AppStub {
                 /* Fetch By Name */
                 .<XApp>fetchOneAsync(KeField.NAME, name)
                 /* Convert to Json */
-                .compose(Ux::fnJObject)
+                .compose(Ux::futureJ)
                 /* Before App Initialized ( Public Api ) */
                 .compose(appData -> Uson.create(appData).remove(KeField.APP_KEY).toFuture())
                 /* Image field: logo */
@@ -35,7 +35,7 @@ public class AppService implements AppStub {
                 /* Fetch By Id */
                 .<XApp>fetchByIdAsync(appId)
                 /* Convert to Json */
-                .compose(Ux::fnJObject)
+                .compose(Ux::futureJ)
                 /* Image field: logo */
                 .compose(Ke.image(KeField.App.LOGO))
                 /* App options: options for application */
@@ -50,7 +50,7 @@ public class AppService implements AppStub {
                 /* Fetch by appId */
                 .<XMenu>fetchAsync(KeField.APP_ID, appId)
                 /* Get Result */
-                .compose(Ux::fnJArray);
+                .compose(Ux::futureA);
     }
 
     @Override
@@ -59,6 +59,6 @@ public class AppService implements AppStub {
                 /* Fetch One by appId */
                 .fetchOneAsync(KeField.APP_ID, appId)
                 /* Get Result */
-                .compose(Ux::fnJObject);
+                .compose(Ux::futureJ);
     }
 }
