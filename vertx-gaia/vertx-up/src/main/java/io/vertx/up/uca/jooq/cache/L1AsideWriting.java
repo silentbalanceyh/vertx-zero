@@ -35,13 +35,13 @@ class L1AsideWriting extends AbstractAside {
             /*
              * Async calling
              */
-            this.logger().debug("( Aop ) `{0}` delete aspecting... ( Async ) {1}", name, Ut.fromJoin(args));
+            this.logger().debug(Info.AOP_WRITE_ASYNC, name, Ut.fromJoin(args));
             return (T) this.executor.deleteAsync(messages, () -> (Future<R>) point.proceed(args));
         } else {
             /*
              * Sync calling
              */
-            this.logger().debug("( Aop ) `{0}` delete aspecting... ( Sync ) {1}", name, Ut.fromJoin(args));
+            this.logger().debug(Info.AOP_WRITE_SYNC, name, Ut.fromJoin(args));
             return (T) this.executor.delete(messages, () -> (R) point.proceed(args));
         }
     }

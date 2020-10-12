@@ -31,14 +31,16 @@ class L1Redis {
 
     List<Request> requestData(final Set<String> eraseKeys) {
         final List<Request> requests = new ArrayList<>();
-        eraseKeys.forEach(key -> {
-            final Request request = Request.cmd(Command.DEL);
-            request.arg(key);
-            /*
-             * ERR wrong number of arguments for 'del' command
-             */
-            requests.add(request);
-        });
+        if (Objects.nonNull(eraseKeys)) {
+            eraseKeys.forEach(key -> {
+                final Request request = Request.cmd(Command.DEL);
+                request.arg(key);
+                /*
+                 * ERR wrong number of arguments for 'del' command
+                 */
+                requests.add(request);
+            });
+        }
         return requests;
     }
 

@@ -43,7 +43,7 @@ class L1AsideReading extends AbstractAside {
         /*
          * Async calling
          */
-        this.logger().debug("( Aop ) `{0}` exist aspecting... ( Async ) {1}", name, Ut.fromJoin(args));
+        this.logger().debug(Info.AOP_EXIST_ASYNC, name, Ut.fromJoin(args));
         return this.executor.existAsync(message, () -> (Future<Boolean>) point.proceed(args));
     }
 
@@ -60,7 +60,7 @@ class L1AsideReading extends AbstractAside {
         /*
          * Sync calling
          */
-        this.logger().debug("( Aop ) `{0}` exist aspecting... ( Sync ) {1}", name, Ut.fromJoin(args));
+        this.logger().debug(Info.AOP_EXIST_SYNC, name, Ut.fromJoin(args));
         return this.executor.exist(message, () -> (Boolean) point.proceed(args));
     }
 
@@ -85,13 +85,13 @@ class L1AsideReading extends AbstractAside {
             /*
              * Async calling
              */
-            this.logger().debug("( Aop ) `{0}` read aspecting... ( Async ) {1}", name, Ut.fromJoin(args));
+            this.logger().debug(Info.AOP_READ_ASYNC, name, Ut.fromJoin(args));
             return (T) this.executor.readAsync(message, () -> (Future<T>) point.proceed(args));
         } else {
             /*
              * Sync calling
              */
-            this.logger().debug("( Aop ) `{0}` read aspecting... ( Sync ) {1}", name, Ut.fromJoin(args));
+            this.logger().debug(Info.AOP_READ_SYNC, name, Ut.fromJoin(args));
             return (T) this.executor.read(message, () -> (T) point.proceed(args));
         }
     }
