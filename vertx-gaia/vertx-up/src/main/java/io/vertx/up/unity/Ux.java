@@ -86,7 +86,7 @@ public final class Ux {
 
     /*
      * Entity ( Pojo ) to JsonObject, support pojo file here
-     * 1) toJObject / fromJson
+     * 1) toJson / fromJson
      * 2) toZip:  Toggle switch from interface style to worker here, the key should be "0", "1", "2", "3", ....
      * 3) toJArray
      * ( Business Part, support `pojoFile` conversation )
