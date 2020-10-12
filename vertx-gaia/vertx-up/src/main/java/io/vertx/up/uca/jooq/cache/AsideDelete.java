@@ -1,13 +1,11 @@
 package io.vertx.up.uca.jooq.cache;
 
-import io.github.jklingsporn.vertx.jooq.future.VertxDAO;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.plugin.cache.hit.CMessage;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
-import org.aspectj.lang.annotation.Before;
 
 import java.util.List;
 
@@ -18,10 +16,10 @@ import java.util.List;
 @Aspect
 @SuppressWarnings("all")
 public class AsideDelete extends L1AsideWriting {
-    @Before(value = "initialization(io.vertx.up.uca.jooq.UxJooq.new(..)) && args(clazz,dao)", argNames = "clazz,dao")
+/*    @Before(value = "initialization(io.vertx.up.uca.jooq.UxJooq.new(..)) && args(clazz,dao)", argNames = "clazz,dao")
     public void init(final Class<?> clazz, final VertxDAO dao) {
         super.initialize(clazz, dao);
-    }
+    }*/
     /*
      * delete(T)
      *      <-- delete(JsonObject)
@@ -71,7 +69,7 @@ public class AsideDelete extends L1AsideWriting {
         /*
          * Object[] / Collection
          */
-        final List<CMessage> messages = this.messages(id);
+        final List<CMessage> messages = this.messages(id, point);
         return this.writeAsync(messages, point);
     }
 

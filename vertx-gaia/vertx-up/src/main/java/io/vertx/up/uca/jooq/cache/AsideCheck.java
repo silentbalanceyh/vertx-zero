@@ -1,13 +1,11 @@
 package io.vertx.up.uca.jooq.cache;
 
-import io.github.jklingsporn.vertx.jooq.future.VertxDAO;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.plugin.cache.hit.CMessage;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
-import org.aspectj.lang.annotation.Before;
 
 /**
  * @author <a href="http://www.origin-x.cn">lang</a>
@@ -15,10 +13,10 @@ import org.aspectj.lang.annotation.Before;
 @Aspect
 @SuppressWarnings("all")
 public class AsideCheck extends L1AsideReading {
-    @Before(value = "initialization(io.vertx.up.uca.jooq.UxJooq.new(..)) && args(clazz,dao)", argNames = "clazz,dao")
+    /*    @Before(value = "initialization(io.vertx.up.uca.jooq.UxJooq.new(..)) && args(clazz,dao)", argNames = "clazz,dao")
     public void init(final Class<?> clazz, final VertxDAO dao) {
         super.initialize(clazz, dao);
-    }
+    }*/
     /*
      * All method of existing/missing
      *
@@ -44,7 +42,7 @@ public class AsideCheck extends L1AsideReading {
         /*
          * Returned Type checked only
          */
-        final CMessage message = this.messageKey(id);
+        final CMessage message = this.messageKey(id, point);
         return this.existSync(message, point);
     }
 
@@ -56,7 +54,7 @@ public class AsideCheck extends L1AsideReading {
         /*
          * Returned Type checked only
          */
-        final CMessage message = this.messageKey(id);
+        final CMessage message = this.messageKey(id, point);
         return this.existAsync(message, point);
     }
 

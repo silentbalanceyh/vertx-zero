@@ -1,12 +1,10 @@
 package io.vertx.up.uca.jooq.cache;
 
-import io.github.jklingsporn.vertx.jooq.future.VertxDAO;
 import io.vertx.core.Future;
 import io.vertx.tp.plugin.cache.hit.CMessage;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
-import org.aspectj.lang.annotation.Before;
 
 import java.util.List;
 
@@ -17,10 +15,12 @@ import java.util.List;
 @Aspect
 @SuppressWarnings("all")
 public class AsideUpsert extends L1AsideWriting {
+/*
     @Before(value = "initialization(io.vertx.up.uca.jooq.UxJooq.new(..)) && args(clazz,dao)", argNames = "clazz,dao")
     public void init(final Class<?> clazz, final VertxDAO dao) {
         super.initialize(clazz, dao);
     }
+*/
 
     /*
      * upsert(id, T)

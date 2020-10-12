@@ -76,6 +76,10 @@ public final class UxJooq {
         return this;
     }
 
+    public JqAnalyzer analyzer() {
+        return this.analyzer;
+    }
+
     public Set<String> columns() {
         return this.analyzer.columns().keySet();
     }

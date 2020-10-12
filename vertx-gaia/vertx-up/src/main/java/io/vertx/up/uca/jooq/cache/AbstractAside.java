@@ -1,11 +1,11 @@
 package io.vertx.up.uca.jooq.cache;
 
-import io.github.jklingsporn.vertx.jooq.future.VertxDAO;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.plugin.cache.hit.*;
 import io.vertx.up.log.Annal;
 import io.vertx.up.uca.jooq.ActionQr;
 import io.vertx.up.uca.jooq.JqAnalyzer;
+import io.vertx.up.uca.jooq.UxJooq;
 import io.vertx.up.uca.jooq.util.JqTool;
 import org.aspectj.lang.ProceedingJoinPoint;
 
@@ -16,20 +16,6 @@ import java.util.*;
  */
 @SuppressWarnings("all")
 abstract class AbstractAside {
-    /*
-     * L1 Aside executing for cache
-     */
-    protected transient L1Aside executor;
-    protected transient JqAnalyzer analyzer;
-    private transient ActionQr actionQr;
-
-
-    protected void initialize(final Class<?> clazz, final VertxDAO vertxDAO) {
-        final JqAnalyzer analyzer = JqAnalyzer.create(vertxDAO);
-        this.analyzer = analyzer;
-        this.executor = new L1Aside(analyzer);
-        this.actionQr = new ActionQr(analyzer);
-    }
 
     /*
      * Logger that will be used in L1 cache sub-classes
@@ -61,16 +47,16 @@ abstract class AbstractAside {
     protected CMessage messageUniqueField(final ProceedingJoinPoint point) {
         final String field = this.argument(point, 0);
         final Object value = this.argument(point, 1);
-        return this.messageUnique(field, value);
+        return this.messageUnique(field, value, point);
     }
 
     protected CMessage messageUniqueCond(final ProceedingJoinPoint point) {
         final JsonObject condition = this.argument(point, 0);
-        return this.messageUnique(condition);
+        return this.messageUnique(condition, point);
     }
 
     protected CMessage messageUniquePojo(final ProceedingJoinPoint point) {
-        return this.messageUnique(this.argumentPojo(point, 0));
+        return this.messageUnique(this.argumentPojo(point, 0), point);
     }
 
     /*
@@ -79,22 +65,23 @@ abstract class AbstractAside {
     protected CMessage messageListField(final ProceedingJoinPoint point) {
         final String field = this.argument(point, 0);
         final Object value = this.argument(point, 1);
-        return this.messageList(field, value);
+        return this.messageList(field, value, point);
     }
 
     protected CMessage messageListCond(final ProceedingJoinPoint point) {
         final JsonObject condition = this.argument(point, 0);
-        return this.messageList(condition);
+        return this.messageList(condition, point);
     }
 
     protected CMessage messageListPojo(final ProceedingJoinPoint point) {
-        return this.messageList(this.argumentPojo(point, 0));
+        return this.messageList(this.argumentPojo(point, 0), point);
     }
 
     /* CMessage -> CMessageKey -> <T> T method(Object) */
-    protected CMessage messageKey(final Object id) {
-        final CMessage message = new CMessageKey(id, this.analyzer.type());
-        message.bind(this.analyzer.primarySet());
+    protected CMessage messageKey(final Object id, final ProceedingJoinPoint point) {
+        final JqAnalyzer analyzer = this.analyzer(point);
+        final CMessage message = new CMessageKey(id, analyzer.type());
+        message.bind(analyzer.primarySet());
         return message;
     }
 
@@ -102,40 +89,40 @@ abstract class AbstractAside {
 
     protected List<CMessage> messagesCond(final ProceedingJoinPoint point) {
         final Object idSet = this.argumentCond(point);
-        return this.messages(idSet);
+        return this.messages(idSet, point);
     }
 
     protected List<CMessage> messagesPojo(final ProceedingJoinPoint point, final int index) {
         final Object idSet = this.argumentCond(point, 0);
-        return this.messages(idSet);
+        return this.messages(idSet, point);
     }
 
     protected List<CMessage> messagesT(final ProceedingJoinPoint point) {
         final Object idSet = this.argumentT(point);
-        return this.messages(idSet);
+        return this.messages(idSet, point);
     }
 
     /* List<CMessage> -> List<CMessageTree> -> method(Object) */
-    protected List<CMessage> messages(final Object args) {
+    protected List<CMessage> messages(final Object args, final ProceedingJoinPoint point) {
         final List<CMessage> messageList = new ArrayList<>();
         if (Objects.nonNull(args)) {
             if (args instanceof Collection) {
                 /*
                  * Collection of id set
                  */
-                ((Collection) args).forEach(id -> messageList.add(this.messageTree(id)));
+                ((Collection) args).forEach(id -> messageList.add(this.messageTree(id, point)));
             } else {
                 final Class<?> type = args.getClass();
                 if (type.isArray()) {
                     /*
                      * Array of id set
                      */
-                    Arrays.asList((Object[]) args).forEach(id -> messageList.add(this.messageTree(id)));
+                    Arrays.asList((Object[]) args).forEach(id -> messageList.add(this.messageTree(id, point)));
                 } else {
                     /*
                      * Object ( reference )
                      */
-                    messageList.add(this.messageTree(args));
+                    messageList.add(this.messageTree(args, point));
                 }
             }
         }
@@ -145,38 +132,43 @@ abstract class AbstractAside {
 
     /* CMessageUnique */
     /* CMessage -> CMessageUnique -> <T> T method(JsonObject) */
-    private CMessage messageUnique(final JsonObject condition) {
-        final CMessage message = new CMessageUnique(condition, this.analyzer.type());
-        message.bind(this.analyzer.primarySet());
+    private CMessage messageUnique(final JsonObject condition, final ProceedingJoinPoint point) {
+        final JqAnalyzer analyzer = this.analyzer(point);
+        final CMessage message = new CMessageUnique(condition, analyzer.type());
+        message.bind(analyzer.primarySet());
         return message;
     }
 
     /* CMessage -> CMessageUnique -> <T> T method(String, Object) */
-    private CMessage messageUnique(final String field, final Object value) {
-        final CMessage message = new CMessageUnique(field, value, this.analyzer.type());
-        message.bind(this.analyzer.primarySet());
+    private CMessage messageUnique(final String field, final Object value, final ProceedingJoinPoint point) {
+        final JqAnalyzer analyzer = this.analyzer(point);
+        final CMessage message = new CMessageUnique(field, value, analyzer.type());
+        message.bind(analyzer.primarySet());
         return message;
     }
 
     /* CMessageList */
     /* CMessage -> CMessageList -> <T> List<T> method(JsonObject) */
-    private CMessage messageList(final JsonObject condition) {
-        final CMessage message = new CMessageList(condition, this.analyzer.type());
-        message.bind(this.analyzer.primarySet());
+    private CMessage messageList(final JsonObject condition, final ProceedingJoinPoint point) {
+        final JqAnalyzer analyzer = this.analyzer(point);
+        final CMessage message = new CMessageList(condition, analyzer.type());
+        message.bind(analyzer.primarySet());
         return message;
     }
 
     /* CMessage -> CMessageList -> <T> List<T> method(String, Object) */
-    private CMessage messageList(final String field, final Object value) {
-        final CMessage message = new CMessageList(field, value, this.analyzer.type());
-        message.bind(this.analyzer.primarySet());
+    private CMessage messageList(final String field, final Object value, final ProceedingJoinPoint point) {
+        final JqAnalyzer analyzer = this.analyzer(point);
+        final CMessage message = new CMessageList(field, value, analyzer.type());
+        message.bind(analyzer.primarySet());
         return message;
     }
 
     /* CMessageTree */
-    private CMessage messageTree(final Object id) {
-        final CMessage message = new CMessageTree(id, this.analyzer.type());
-        message.bind(this.analyzer.primarySet());      // Bind data here
+    private CMessage messageTree(final Object id, final ProceedingJoinPoint point) {
+        final JqAnalyzer analyzer = this.analyzer(point);
+        final CMessage message = new CMessageTree(id, analyzer.type());
+        message.bind(analyzer.primarySet());      // Bind data here
         return message;
     }
     // ------------------ Argument Private ----------------------------
@@ -229,18 +221,19 @@ abstract class AbstractAside {
             if (Objects.isNull(input)) {
                 return null;
             } else {
+                final JqAnalyzer analyzer = this.analyzer(point);
                 if (input instanceof Collection) {
                     /*
                      * Process Collection
                      */
                     final List<Object> idSet = new ArrayList<>();
-                    ((Collection) input).stream().map(this.analyzer::primaryValue).forEach(idSet::add);
+                    ((Collection) input).stream().map(analyzer::primaryValue).forEach(idSet::add);
                     return idSet;
                 } else {
                     if (input instanceof String) {
                         return input;
                     } else {
-                        return this.analyzer.primaryValue(input);
+                        return analyzer.primaryValue(input);
                     }
                 }
             }
@@ -262,8 +255,7 @@ abstract class AbstractAside {
                  * Get primaryValues
                  */
                 final JsonObject condition = ((JsonObject) input);
-                System.err.println(actionQr.hashCode() + "," + this.analyzer.hashCode() + "," + this.analyzer.table() + "," + condition);
-                return actionQr.searchPrimary(condition);
+                return actionQr(point).searchPrimary(condition);
             } else {
                 return null;
             }
@@ -280,12 +272,30 @@ abstract class AbstractAside {
                 final JsonObject condition = (JsonObject) input;
                 final String pojo = (String) args[args.length - 1];
                 final JsonObject criteria = JqTool.criteria(condition, pojo);
-                return actionQr.searchPrimary(criteria);
+                return actionQr(point).searchPrimary(criteria);
             } else {
                 return null;
             }
         } else {
             return null;
         }
+    }
+
+    protected L1Aside executor(final ProceedingJoinPoint point) {
+        final JqAnalyzer analyzer = this.analyzer(point);
+        return new L1Aside(analyzer);
+    }
+
+    private ActionQr actionQr(final ProceedingJoinPoint point) {
+        final JqAnalyzer analyzer = this.analyzer(point);
+        return new ActionQr(analyzer);
+    }
+
+    /*
+     * Extract analyzer from target call
+     * UxJooq object to avoid aspect duplicated
+     */
+    private JqAnalyzer analyzer(final ProceedingJoinPoint point) {
+        return ((UxJooq) point.getTarget()).analyzer();
     }
 }
