@@ -74,12 +74,18 @@ class L1ChannelAsync {
              */
             if (completed.succeeded()) {
                 final Set<String> eraseKeys = completed.result();
-                final List<Request> requests = this.redis.requestData(eraseKeys);
-                this.redis.requestAsync(requests, deletion -> deletion).onComplete(deletion -> {
-                    if (Objects.nonNull(deletion) && deletion.succeeded()) {
-                        LOGGER.info(CacheMsg.HIT_REMOVE, String.valueOf(eraseKeys.size()), Ut.toJArray(eraseKeys));
-                    }
-                });
+                if (Objects.nonNull(eraseKeys)) {
+                    /*
+                     * Set<String>
+                     * Key is null, when it's not null here should execute
+                     */
+                    final List<Request> requests = this.redis.requestData(eraseKeys);
+                    this.redis.requestAsync(requests, deletion -> deletion).onComplete(deletion -> {
+                        if (Objects.nonNull(deletion) && deletion.succeeded()) {
+                            LOGGER.info(CacheMsg.HIT_REMOVE, String.valueOf(eraseKeys.size()), Ut.toJArray(eraseKeys));
+                        }
+                    });
+                }
             }
         });
     }
