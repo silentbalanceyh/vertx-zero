@@ -163,7 +163,7 @@
         <jsr338.version>2.2</jsr338.version>
 
         <!-- Testing -->
-        <junit.version>4.13</junit.version>
+        <junit.version>4.13.1</junit.version>
 
         <!-- AspectJ -->
         <aspectj.version>1.9.6</aspectj.version>
