@@ -1,5 +1,6 @@
 package io.vertx.tp.plugin.elasticsearch;
 
+import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.error._404ConfigurationMissingExceptionn;
 import io.vertx.up.fn.Fn;
@@ -123,7 +124,15 @@ public class ElasticSearchHelper {
         // process rest fields
         mappings.forEach((key, val) -> {
             final Map<String, Object> props = new HashMap<>();
-            if (val == String.class) {
+            if (val == JsonObject.class || val == JsonArray.class) {
+                /*
+                 * Default un-index JsonObject/JsonArray two types
+                 * Disabled JsonObject / JsonArray index workflow for Elastic Search
+                 * It will be enabled in future, but in current version, disabled
+                 */
+                props.put("type", "text");
+                props.put("index", "false");
+            } else if (val == String.class) {
                 props.put("type", "text");
                 props.put("index", "true");
                 props.put("analyzer", "ik_max_word");
@@ -145,7 +154,6 @@ public class ElasticSearchHelper {
             } else if (val == java.lang.Boolean.class) {
                 props.put("type", "boolean");
                 props.put("index", "true");
-                ;
             } else {
                 props.put("type", "text");
                 props.put("index", "true");
