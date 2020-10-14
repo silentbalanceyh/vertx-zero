@@ -4,6 +4,7 @@ import io.vertx.core.Future;
 import io.vertx.core.Promise;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
+import io.vertx.up.atom.Refer;
 import io.vertx.up.eon.Values;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
@@ -43,6 +44,9 @@ class Async {
                      *    .compose(future[2])
                      *    .compose(...)
                      */
+                    final Refer response = new Refer();
+                    response.add(input);
+
                     for (int idx = 1; idx < queues.size(); idx++) {
                         final int current = idx;
                         first = first.compose(json -> {
@@ -53,9 +57,20 @@ class Async {
                                  */
                                 return To.future(json);
                             } else {
-                                return future;
+                                return future
+                                        /*
+                                         * Replace the result with successed item here
+                                         * If success
+                                         * -- replace previous response with next
+                                         * If failure
+                                         * -- returned current json and replace previous response with current
+                                         *
+                                         * The step stopped
+                                         */
+                                        .compose(response::future)
+                                        .otherwise(Ux.otherwise(() -> response.add(json).get()));
                             }
-                        });
+                        }).otherwise(Ux.otherwise(() -> response.get()));
                     }
                     return first;
                 }

@@ -238,11 +238,17 @@ abstract class AbstractAggregator extends AbstractAction {
          */
         final DSLContext context = JooqInfix.getDSL();
         /*
+         * Combine Field: Group + Aggr Fields
+         */
+        final List<Field> selectedList = new ArrayList<>();
+        selectedList.addAll(Arrays.asList(columns));
+        selectedList.addAll(Arrays.asList(selectedFields));
+        /*
          * Result here, the type is:
          * List<Map<String, Object>>
          */
         final SelectJoinStep selected = context
-                .select(selectedFields)
+                .select(selectedList.toArray(new Field[]{}))
                 .from(this.vertxDAO.getTable());
         /*
          * Result calculation

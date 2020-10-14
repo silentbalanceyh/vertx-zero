@@ -32,6 +32,7 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.ConcurrentMap;
 import java.util.function.*;
@@ -271,6 +272,13 @@ public final class Ux {
         return futureA(new ArrayList<>(), Strings.EMPTY);
     }
 
+    public static Future<JsonArray> futureA(Throwable ex) {
+        if (Objects.nonNull(ex)) {
+            ex.printStackTrace();
+        }
+        return futureA();
+    }
+
     public static <T> Future<JsonArray> futureA(final List<T> list) {
         return futureA(list, Strings.EMPTY);
     }
@@ -287,6 +295,13 @@ public final class Ux {
 
     public static Future<JsonObject> futureJ() {
         return futureJ(new JsonObject(), Strings.EMPTY);
+    }
+
+    public static Future<JsonObject> futureJ(Throwable ex) {
+        if (Objects.nonNull(ex)) {
+            ex.printStackTrace();
+        }
+        return futureJ();
     }
 
     public static <T> Future<JsonObject> futureJ(final T entity) {
@@ -315,6 +330,7 @@ public final class Ux {
     }
 
     // --------------- Record processing -----------------
+
     public static Future<JsonObject> futureJ(final Record record) {
         return Fn.getNull(futureJ(), () -> To.future(record.toJson()), record);
     }
