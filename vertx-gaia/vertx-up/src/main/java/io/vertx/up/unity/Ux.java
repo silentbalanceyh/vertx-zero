@@ -32,7 +32,6 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.ConcurrentMap;
 import java.util.function.*;
@@ -83,6 +82,10 @@ public final class Ux {
 
     public static <T> Function<Throwable, T> otherwise(Supplier<T> supplier) {
         return Debug.otherwise(supplier);
+    }
+
+    public static <T> Function<Throwable, T> otherwise(T input) {
+        return otherwise(() -> input);
     }
 
     /*
@@ -262,7 +265,18 @@ public final class Ux {
      * -- futureG(T, String)
      * -- futureG(List)
      * -- futureG(T)
+     * 5) futureE
+     * -- futureE(T)
+     * -- futureE(Supplier)
      */
+
+    public static <T> Function<Throwable, Future<T>> futureE(final T input) {
+        return Async.toErrorFuture(() -> input);
+    }
+
+    public static <T> Function<Throwable, Future<T>> futureE(final Supplier<T> supplier) {
+        return Async.toErrorFuture(supplier);
+    }
 
     public static <T> Future<JsonArray> futureA(final List<T> list, final String pojo) {
         return Future.succeededFuture(To.toJArray(list, pojo));
@@ -273,10 +287,7 @@ public final class Ux {
     }
 
     public static Future<JsonArray> futureA(Throwable ex) {
-        if (Objects.nonNull(ex)) {
-            ex.printStackTrace();
-        }
-        return futureA();
+        return Async.<JsonArray>toErrorFuture(JsonArray::new).apply(ex);
     }
 
     public static <T> Future<JsonArray> futureA(final List<T> list) {
@@ -298,10 +309,7 @@ public final class Ux {
     }
 
     public static Future<JsonObject> futureJ(Throwable ex) {
-        if (Objects.nonNull(ex)) {
-            ex.printStackTrace();
-        }
-        return futureJ();
+        return Async.<JsonObject>toErrorFuture(JsonObject::new).apply(ex);
     }
 
     public static <T> Future<JsonObject> futureJ(final T entity) {
