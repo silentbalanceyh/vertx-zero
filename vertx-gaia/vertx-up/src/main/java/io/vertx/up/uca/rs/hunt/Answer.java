@@ -99,6 +99,7 @@ public final class Answer {
         final HttpServerResponse response = context.response();
         /*
          * FIX: java.lang.IllegalStateException: Response is closed
+         * The response has been sent here
          */
         if (!response.closed()) {
             /*

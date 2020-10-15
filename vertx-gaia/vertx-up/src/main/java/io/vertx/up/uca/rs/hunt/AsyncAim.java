@@ -67,6 +67,10 @@ public class AsyncAim extends BaseAim implements Aim<RoutingContext> {
                     if (Objects.nonNull(dataRes.cause())) {
                         dataRes.cause().printStackTrace();
                     }
+                    /*
+                     * Error Replying
+                     */
+                    Answer.reply(context, Envelop.failure(dataRes.cause()));
                 }
             });
         }, context, event), event);
