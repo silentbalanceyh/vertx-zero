@@ -14,8 +14,10 @@ import java.util.Objects;
 public class DyeCell implements Serializable {
     private final transient XSSFFont font;
     private final transient XSSFCellStyle style;
+    private final transient Workbook workbook;
 
     private DyeCell(final Workbook workbook) {
+        this.workbook = workbook;
         this.style = (XSSFCellStyle) workbook.createCellStyle();
         this.font = (XSSFFont) workbook.createFont();
     }
@@ -153,6 +155,17 @@ public class DyeCell implements Serializable {
         if (Objects.nonNull(name)) {
             this.font.setFontName(name);
         }
+        return this;
+    }
+
+    public DyeCell dateFormat(final boolean datetime) {
+        final short formatIndex;
+        if (datetime) {
+            formatIndex = this.workbook.createDataFormat().getFormat("yyyy-MM-dd HH:mm");
+        } else {
+            formatIndex = this.workbook.createDataFormat().getFormat("yyyy-MM-dd");
+        }
+        this.style.setDataFormat(formatIndex);
         return this;
     }
 

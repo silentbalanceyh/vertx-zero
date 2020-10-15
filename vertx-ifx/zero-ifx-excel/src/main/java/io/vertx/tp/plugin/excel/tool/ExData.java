@@ -175,6 +175,7 @@ class ExData {
             final Cell cell = row.createCell(index, cellType);
             /* All type should be OK for set String */
             ExIo.value(cell, type, value);
+            /* Datetime cell format */
         }
     }
 }

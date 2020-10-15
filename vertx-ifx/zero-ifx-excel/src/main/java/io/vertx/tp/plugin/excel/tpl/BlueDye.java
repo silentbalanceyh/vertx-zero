@@ -1,8 +1,13 @@
 package io.vertx.tp.plugin.excel.tpl;
 
 import io.vertx.up.fn.Fn;
+import io.vertx.up.util.Ut;
 import org.apache.poi.ss.usermodel.*;
 
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.util.Date;
+import java.util.TimeZone;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
@@ -77,12 +82,56 @@ class BlueDye {
         cell.setCellStyle(dyeCell.build());
     }
 
+    /*
+     * Here are simple rule for excel exporting
+     * 1) When the cell is NUMERIC, we should determine whether the value is Number or Date
+     * -- NUMBER, the style pool is DATA-VALUE, the same as other date type
+     * -- Date, when time equal the min ( 00:00 ), use format of `yyyy-MM-dd`, otherwise: `yyyy-MM-dd HH:mm`
+     *    The pool name is DATA-DATE & DATA-DATETIME
+     * 2) Other date type should be pool of DATA-VALUE also.
+     */
     void onData(final Cell cell) {
-        final DyeCell dyeCell = Fn.pool(this.stylePool, "DATA",
+        final DyeCell dye;
+        if (CellType.NUMERIC == cell.getCellType()) {
+            /*
+             * Buf for date exporting here
+             */
+            final double cellValue = cell.getNumericCellValue();
+            if (DateUtil.isValidExcelDate(cellValue)) {
+                final Date value = DateUtil.getJavaDate(cellValue, TimeZone.getDefault());
+                final LocalDateTime datetime = Ut.toDateTime(value);
+                final LocalTime time = datetime.toLocalTime();
+                if (LocalTime.MIN == time) {
+                    /*
+                     * LocalDate
+                     */
+                    dye = this.onDataValue("DATA-DATE").dateFormat(false);
+                } else {
+                    /*
+                     * LocalDateTime
+                     */
+                    dye = this.onDataValue("DATA-DATETIME").dateFormat(true);
+                }
+            } else {
+                /*
+                 * Number
+                 */
+                dye = this.onDataValue("DATA-VALUE");
+            }
+        } else {
+            /*
+             * Other
+             */
+            dye = this.onDataValue("DATA-VALUE");
+        }
+        cell.setCellStyle(dye.build());
+    }
+
+    private DyeCell onDataValue(final String key) {
+        return Fn.pool(this.stylePool, key,
                 () -> DyeCell.create(this.workbook)
                         .border(BorderStyle.THIN)
                         .align(null, VerticalAlignment.TOP)
                         .font(13, false));
-        cell.setCellStyle(dyeCell.build());
     }
 }
