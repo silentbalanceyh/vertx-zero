@@ -32,6 +32,6 @@ public class RoleService implements RoleStub {
     @Override
     public Future<Boolean> deleteByRoleId(final String roleId) {
         return Ux.Jooq.on(RRolePermDao.class)
-                .deleteAsync(new JsonObject().put(KeField.Rbac.ROLE_ID, roleId));
+                .deleteByAsync(new JsonObject().put(KeField.Rbac.ROLE_ID, roleId));
     }
 }

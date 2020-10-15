@@ -98,7 +98,7 @@ public class PermActor {
              * that the user provided here
              * */
             final UxJooq dao = Ux.Jooq.on(RRolePermDao.class);
-            return dao.deleteAsync(condition).compose(processed -> {
+            return dao.deleteByAsync(condition).compose(processed -> {
                 /*
                  * Build new relations that belong to the role
                  */

@@ -62,7 +62,7 @@ public class DeleteActor {
             /* ID */
             return Ix.inKeys(keys, config)
                     /* List */
-                    .compose(dao::deleteAsync)
+                    .compose(dao::deleteByAsync)
                     /* Boolean */
                     .compose(IxHttp::success200);
         });

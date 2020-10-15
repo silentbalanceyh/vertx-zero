@@ -78,7 +78,7 @@ public class ResourceService implements ResourceStub {
     @Override
     public Future<Boolean> deleteResource(final String resourceId) {
         return Ux.Jooq.on(SActionDao.class)
-                .deleteAsync(new JsonObject().put(KeField.RESOURCE_ID, resourceId))
+                .deleteByAsync(new JsonObject().put(KeField.RESOURCE_ID, resourceId))
                 .compose(result -> Ux.Jooq.on(SResourceDao.class)
                         .deleteByIdAsync(resourceId));
     }

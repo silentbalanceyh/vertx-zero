@@ -71,7 +71,7 @@ public class LoginService implements LoginStub {
          * Delete Token from `ACCESS_TOKEN`
          */
         return Ux.Jooq.on(OAccessTokenDao.class)
-                .deleteAsync(new JsonObject().put("token", token))
+                .deleteByAsync(new JsonObject().put("token", token))
                 .compose(nil -> ScPrivilege.open(habitus))
                 .compose(ScPrivilege::clear);
     }

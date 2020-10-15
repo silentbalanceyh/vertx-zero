@@ -68,6 +68,16 @@ public final class UxJooq {
      */
     public UxJooq on(final String pojo) {
         this.analyzer.on(pojo, this.clazz);
+        /*
+         * Because the JqAnalyzer has been changed here, instead we should
+         * re-create the workflow component.
+         *
+         * This feature is used in old system of previous version,
+         * 1) The entity is correct in our system and no error here.
+         * 2) There exists `pojo` file that bind to this entity for data conversation
+         * 3) The `pojo` will impact all the interface API that contains `pojo` parameters
+         */
+        this.workflow.on(this.analyzer);
         return this;
     }
 

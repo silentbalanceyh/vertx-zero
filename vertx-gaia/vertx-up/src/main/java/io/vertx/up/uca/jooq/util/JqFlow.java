@@ -17,8 +17,8 @@ import java.util.concurrent.ConcurrentMap;
  */
 @SuppressWarnings("all")
 public class JqFlow {
-    private transient final JqAnalyzer analyzer;
-    private transient final String pojo;
+    private transient JqAnalyzer analyzer;
+    private transient String pojo;
 
     private JqFlow(final JqAnalyzer analyzer, final String pojo) {
         this.analyzer = analyzer;
@@ -26,7 +26,10 @@ public class JqFlow {
     }
 
     public static JqFlow create(final JqAnalyzer analyzer) {
-        return create(analyzer, null);
+        /*
+         * Pojo resolutation
+         */
+        return create(analyzer, analyzer.pojoFile());
     }
 
     public static JqFlow create(final JqAnalyzer analyzer, final String pojo) {
@@ -38,6 +41,14 @@ public class JqFlow {
         final Class<?> entityCls = analyzer.type();
         final String normalized = analyzer.pojoFile(pojo);
         return Fn.pool(Pool.POOL_FLOW, entityCls.getName() + "," + normalized, () -> new JqFlow(analyzer, normalized));
+    }
+
+    // ============ JqFlow re-bind and calculation =========
+
+    public JqFlow on(final JqAnalyzer analyzer) {
+        this.analyzer = analyzer;
+        this.pojo = analyzer.pojoFile();
+        return this;
     }
 
     // ============ Input Conversation =============

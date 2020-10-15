@@ -82,7 +82,7 @@ public class OptionService implements OptionStub {
     @Override
     public Future<Boolean> deleteByControlId(final String controlId) {
         return Ux.Jooq.on(UiOpDao.class)
-                .deleteAsync(new JsonObject().put(KeField.Ui.CONTROL_ID, controlId));
+                .deleteByAsync(new JsonObject().put(KeField.Ui.CONTROL_ID, controlId));
     }
 
     private JsonObject mountIn(final JsonObject data) {
