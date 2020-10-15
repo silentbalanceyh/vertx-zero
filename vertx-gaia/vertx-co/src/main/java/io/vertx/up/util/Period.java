@@ -41,6 +41,7 @@ final class Period {
      * Convert to datetime
      *
      * @param literal the literal that will be
+     *
      * @return null or valid DateTime
      */
     static LocalDateTime toDateTime(final String literal) {
@@ -68,6 +69,7 @@ final class Period {
      * Convert to date
      *
      * @param date input java.util.Date
+     *
      * @return parsed LocalDateTime
      */
     static LocalDateTime toDateTime(final Date date) {
@@ -83,32 +85,39 @@ final class Period {
      * Convert to date
      *
      * @param literal literal that will be parsed
+     *
      * @return parsed LocalDate
      */
     static LocalDate toDate(final String literal) {
-        return DATES.stream()
+        /*
+         * Directly Parsing
+         */
+        final LocalDate date = DATES.stream()
                 .map(formatter -> parseEach(literal, formatter, LocalDate::parse))
                 .filter(Objects::nonNull)
                 .findAny()
                 .orElse(null);
-        /*
-        final Optional<DateTimeFormatter> hit =
-                Fn.getNull(Optional.empty(),
-                        () -> DATES.stream()
-                                .filter(formatter ->
-                                        null != Fn.getJvm(
-                                                null,
-                                                () -> LocalDate.parse(literal, formatter),
-                                                literal))
-                                .findFirst(), literal);
-        return hit.isPresent() ? LocalDate.parse(literal, hit.get()) : null
-         */
+        if (Objects.isNull(date)) {
+            final LocalDateTime datetime = toDateTime(literal);
+            if (Objects.nonNull(datetime)) {
+                /*
+                 * LocalDateTime -> LocalDate
+                 */
+                return datetime.toLocalDate();
+            } else return null;
+        } else {
+            /*
+             * Valid Parsing
+             */
+            return date;
+        }
     }
 
     /**
      * Convert to date
      *
      * @param date input Date
+     *
      * @return LocalDate parsed
      */
     static LocalDate toDate(final Date date) {
@@ -125,6 +134,7 @@ final class Period {
      * Convert to time
      *
      * @param literal input literal
+     *
      * @return LocalTime parsed
      */
     static LocalTime toTime(final String literal) {
@@ -151,6 +161,7 @@ final class Period {
      * Convert to date
      *
      * @param date input Date
+     *
      * @return LocalTime parsed
      */
     static LocalTime toTime(final Date date) {
@@ -205,6 +216,7 @@ final class Period {
      * Check whether it's valid
      *
      * @param literal input literal
+     *
      * @return checked result whether it's valid date
      */
     static boolean isValid(final String literal) {
@@ -283,6 +295,7 @@ final class Period {
      * 「Not Recommend」directly for deep parsing
      *
      * @param literal Date/DateTime/Time literal value here.
+     *
      * @return null or valid `java.util.Date` object
      */
     static Date parseFull(final String literal) {
