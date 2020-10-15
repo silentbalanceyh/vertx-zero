@@ -197,8 +197,9 @@ class SheetExport {
                 /*
                  * Iterator on first
                  * Calculate region for `null`
+                 * Should not be `null` value to avoid: java.lang.NullPointerException
                  */
-                String found = null;
+                String found = Strings.EMPTY;
                 final int length = fields.size();
                 for (int idx = 0; idx < length; idx++) {
                     final Object item = fields.getValue(idx);
