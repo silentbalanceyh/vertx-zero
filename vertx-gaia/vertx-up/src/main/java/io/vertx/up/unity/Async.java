@@ -131,4 +131,11 @@ class Async {
                 ),
                 Fn.branch(null == entity, supplier));
     }
+
+    static <T> Function<Throwable, Future<T>> toErrorFuture(final Supplier<T> input) {
+        return ex -> {
+            if (Objects.nonNull(ex)) ex.printStackTrace();
+            return Future.succeededFuture(input.get());
+        };
+    }
 }
