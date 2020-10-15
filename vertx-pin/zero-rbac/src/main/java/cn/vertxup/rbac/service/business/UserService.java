@@ -104,9 +104,9 @@ public class UserService implements UserStub {
                 /* delete OUser record */
                 .compose(item -> oUserDao.deleteByIdAsync(Ux.toJson(item).getString("key")))
                 /* delete related role records */
-                .compose(oUserFlag -> rUserRoleDao.deleteAsync(new JsonObject().put("USER_ID", userKey)))
+                .compose(oUserFlag -> rUserRoleDao.deleteByAsync(new JsonObject().put("USER_ID", userKey)))
                 /* delete related group records */
-                .compose(rUserRoleFlag -> rUserGroupDao.deleteAsync(new JsonObject().put("USER_ID", userKey)))
+                .compose(rUserRoleFlag -> rUserGroupDao.deleteByAsync(new JsonObject().put("USER_ID", userKey)))
                 /* delete SUser record */
                 .compose(rUserGroupFlag -> sUserDao.deleteByIdAsync(userKey));
     }
@@ -174,7 +174,7 @@ public class UserService implements UserStub {
             final List<String> roleIds = roles.getList();
             return Ux.Jooq.on(RUserRoleDao.class)
                     /* delete related roles */
-                    .deleteAsync(new JsonObject().put("userId", userKey))
+                    .deleteByAsync(new JsonObject().put("userId", userKey))
                     /* insert related roles */
                     .compose(roleFlag -> Ux.future(roleIds.stream().map((roleId -> {
                         RUserRole rUserRole = new RUserRole()
@@ -193,8 +193,7 @@ public class UserService implements UserStub {
         } else {
             final List<String> groupIds = groups.getList();
             return Ux.Jooq.on(RUserGroupDao.class)
-                    .deleteAsync(new JsonObject().put("userId", userKey)
-                    )
+                    .deleteByAsync(new JsonObject().put("userId", userKey))
                     /* insert related roles */
                     .compose(groupFlag -> Ux.future(groupIds.stream().map(groupId -> {
                         RUserGroup rUserGroup = new RUserGroup()

@@ -94,7 +94,7 @@ public class PermService implements PermStub {
                  */
                 final JsonObject condition = new JsonObject();
                 condition.put("permId,i", Ut.toJArray(removedKeys));
-                return Ux.Jooq.on(RRolePermDao.class).deleteAsync(condition).compose(relationTrue -> {
+                return Ux.Jooq.on(RRolePermDao.class).deleteByAsync(condition).compose(relationTrue -> {
                     /*
                      * 3. Update all SAction of permission that set to null
                      */

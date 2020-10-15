@@ -21,7 +21,7 @@ class DeleteLinker implements IxLinker {
              * 2) Could not fetch, returned to 204
              */
             final JsonObject filters = OxSwitcher.getCondition(original, module);
-            return dao.deleteAsync(filters)
+            return dao.deleteByAsync(filters)
                     .compose(deleted -> Ux.future(Envelop.success(deleted)));
         });
     }

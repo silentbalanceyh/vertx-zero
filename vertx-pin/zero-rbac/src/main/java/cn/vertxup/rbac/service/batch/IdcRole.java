@@ -82,7 +82,7 @@ class IdcRole {
              * Remove old relation ship between ( role - user )
              */
             condition.put(KeField.USER_ID + ",i", Ut.toJArray(userKeys));
-            return Ux.Jooq.on(RUserRoleDao.class).deleteAsync(condition).compose(deleted -> {
+            return Ux.Jooq.on(RUserRoleDao.class).deleteByAsync(condition).compose(deleted -> {
                 /*
                  * Build for each user
                  */
