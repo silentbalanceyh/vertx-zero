@@ -12,7 +12,6 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.tp.atom.modeling.Model;
 import io.vertx.tp.atom.modeling.Schema;
 import io.vertx.tp.atom.refine.Ao;
-import io.vertx.tp.ke.booter.Bt;
 import io.vertx.tp.ke.cv.KeField;
 import io.vertx.tp.modular.jdbc.Pin;
 import io.vertx.tp.modular.metadata.AoBuilder;
@@ -85,7 +84,7 @@ class SchemaRefine implements AoRefine {
      */
     private Future<JsonObject> saveSchemaAsync(final Schema schema) {
         final Promise<JsonObject> promise = Promise.promise();
-        final WorkerExecutor executor = Bt.getWorker("schema - " + schema.identifier());
+        final WorkerExecutor executor = Ux.nativeWorker("schema - " + schema.identifier());
         executor.<JsonObject>executeBlocking(
                 pre -> pre.handle(this.saveSchema(schema)),
                 post -> promise.complete(post.result())

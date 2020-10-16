@@ -13,7 +13,6 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.atom.modeling.Model;
 import io.vertx.tp.atom.refine.Ao;
-import io.vertx.tp.ke.booter.Bt;
 import io.vertx.tp.ke.cv.KeField;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
@@ -75,7 +74,7 @@ class ModelRefine implements AoRefine {
      */
     private Future<JsonObject> saveModelAsync(final Model model) {
         final Promise<JsonObject> promise = Promise.promise();
-        final WorkerExecutor executor = Bt.getWorker("model - " + model.identifier());
+        final WorkerExecutor executor = Ux.nativeWorker("model - " + model.identifier());
         executor.<JsonObject>executeBlocking(
                 pre -> pre.handle(this.saveModel(model)),
                 post -> promise.complete(post.result())

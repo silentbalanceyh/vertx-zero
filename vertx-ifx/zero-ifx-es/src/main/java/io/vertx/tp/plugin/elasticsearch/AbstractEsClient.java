@@ -10,6 +10,8 @@ import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.RestHighLevelClient;
 
 import java.io.IOException;
+import java.util.Map;
+import java.util.TreeMap;
 import java.util.function.Supplier;
 
 /**
@@ -68,5 +70,19 @@ public abstract class AbstractEsClient {
             this.helper.closeClient(client);
             return result;
         }
+    }
+
+    protected Map<String, Object> toDocument(final JsonObject json) {
+        final Map<String, Object> originalMap = json.getMap();
+        final Map<String, Object> processedMap = new TreeMap<>();
+        originalMap.forEach((key, value) -> {
+            /*
+             * Exclude JsonObject / JsonArray
+             */
+            if (!(value instanceof JsonObject || value instanceof JsonArray)) {
+                processedMap.put(key, value);
+            }
+        });
+        return processedMap;
     }
 }

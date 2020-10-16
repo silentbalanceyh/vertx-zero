@@ -8,7 +8,6 @@ import io.vertx.tp.ambient.atom.AtConfig;
 import io.vertx.tp.ambient.cv.AtMsg;
 import io.vertx.tp.ambient.init.AtPin;
 import io.vertx.tp.ambient.refine.At;
-import io.vertx.tp.ke.booter.Bt;
 import io.vertx.tp.ke.cv.KeField;
 import io.vertx.tp.ke.refine.Ke;
 import io.vertx.tp.plugin.excel.ExcelClient;
@@ -68,11 +67,11 @@ public class DatumInit implements Init {
 
     private Future<JsonObject> doLoading(final String filename) {
         final Promise<JsonObject> promise = Promise.promise();
-        final WorkerExecutor executor = Bt.getWorker(filename);
+        final WorkerExecutor executor = Ux.nativeWorker(filename);
         executor.<JsonObject>executeBlocking(
                 pre -> {
                     /* ExcelClient */
-                    final ExcelClient client = ExcelInfix.createClient(Bt.getVertx());
+                    final ExcelClient client = ExcelInfix.createClient(Ux.nativeVertx());
                     client.importAsync(filename, result -> {
                         At.infoApp(LOGGER, AtMsg.INIT_DATUM_EACH, filename);
                         if (result.succeeded()) {
