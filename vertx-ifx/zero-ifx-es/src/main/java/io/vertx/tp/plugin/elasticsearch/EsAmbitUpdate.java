@@ -32,7 +32,7 @@ public class EsAmbitUpdate extends AbstractEsClient implements EsAmbit {
             final UpdateRequest request = new UpdateRequest()
                     .index(this.index)
                     .id(documentId)
-                    .doc(body.getMap());
+                    .doc(this.toDocument(body));
 
             final UpdateResponse response = client.update(request, RequestOptions.DEFAULT);
 
@@ -58,7 +58,7 @@ public class EsAmbitUpdate extends AbstractEsClient implements EsAmbit {
                     final UpdateRequest indexRequest = new UpdateRequest()
                             .index(this.index)
                             .id(documentId)
-                            .doc(json.getMap());
+                            .doc(this.toDocument(json));
                     request.add(indexRequest);
                 }
             });

@@ -31,7 +31,7 @@ public class EsAmbitAdd extends AbstractEsClient implements EsAmbit {
         try {
             final IndexRequest request = new IndexRequest(this.index)
                     .id(documentId)
-                    .source(body.getMap());
+                    .source(this.toDocument(body));
 
             final IndexResponse response = client.index(request, RequestOptions.DEFAULT);
 
@@ -54,7 +54,7 @@ public class EsAmbitAdd extends AbstractEsClient implements EsAmbit {
                 if (Ut.notNil(documentId)) {
                     final IndexRequest indexRequest = new IndexRequest(this.index)
                             .id(documentId)
-                            .source(json.getMap());
+                            .source(this.toDocument(json));
                     request.add(indexRequest);
                 }
             });
