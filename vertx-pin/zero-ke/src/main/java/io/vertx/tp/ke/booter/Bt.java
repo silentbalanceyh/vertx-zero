@@ -1,8 +1,9 @@
 package io.vertx.tp.ke.booter;
 
-import io.vertx.core.*;
+import io.vertx.core.AsyncResult;
+import io.vertx.core.Future;
+import io.vertx.core.Handler;
 import io.vertx.tp.plugin.excel.atom.ExTable;
-import io.vertx.up.unity.Ux;
 
 import java.util.List;
 import java.util.Set;
@@ -12,14 +13,6 @@ import java.util.Set;
  * 1) Loader
  */
 public class Bt {
-
-    public static WorkerExecutor getWorker(final String name) {
-        return Ux.nativeWorker(name);
-    }
-
-    public static Vertx getVertx() {
-        return Ux.nativeVertx();
-    }
 
     /*
      * doImport
