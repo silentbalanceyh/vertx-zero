@@ -106,6 +106,15 @@ public final class Answer {
              * Set http status information on response, all information came from `Envelop`
              * 1) Status Code
              * 2) Status Message
+             * Old code
+             *
+             *
+             *
+             * Above code will be put into
+             * Outcome.out(response, processed, mediaTypes);
+             *
+             * It's not needed for current position to set or here will cause following bug:
+             *   java.lang.IllegalStateException: Response head already sent
              */
             final HttpStatusCode code = envelop.status();
             response.setStatusCode(code.code());

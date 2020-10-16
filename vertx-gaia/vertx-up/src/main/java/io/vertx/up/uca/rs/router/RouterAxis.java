@@ -46,7 +46,7 @@ public class RouterAxis implements Axis<Router> {
         /*
          * Timeout for blocked issue
          */
-        this.mountTimeout(router);
+        // this.mountTimeout(router);
         /*
          * Body, Content
          */
@@ -57,6 +57,9 @@ public class RouterAxis implements Axis<Router> {
     }
 
     private void mountTimeout(final Router router) {
+        /*
+         * 10s time out issue
+         */
         router.route().order(Orders.TIMEOUT).handler(TimeoutHandler.create(10000L));
     }
 
