@@ -110,9 +110,12 @@ public class DataQRule implements Serializable {
         this.condition(this.condition).forEach(field -> {
             // 目标字段
             final String target = this.condition.getString(field);
-            final Object value = record.get(target);
-            if (Objects.nonNull(value)) {
-                tpl.put(field, value);
+            if (Objects.nonNull(record)) {
+                // Null Pointer for record
+                final Object value = record.get(target);
+                if (Objects.nonNull(value)) {
+                    tpl.put(field, value);
+                }
             }
         });
         tpl.put(Strings.EMPTY, this.condition.getBoolean(Strings.EMPTY, Boolean.FALSE));
