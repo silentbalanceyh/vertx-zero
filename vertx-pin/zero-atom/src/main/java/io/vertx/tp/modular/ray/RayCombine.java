@@ -81,7 +81,7 @@ class RayCombine {
     static void combine(final Record record, final String field, final JAmb amb, final DataQRule rule) {
         // 读取 single
         final Boolean single = amb.isSingle();
-        if (Objects.nonNull(single)) {
+        if (Objects.nonNull(single) && Objects.nonNull(record)) {
             if (single) {
                 final JAmb normalized = RayRuler.required(amb, rule);
                 if (Objects.nonNull(normalized)) {
