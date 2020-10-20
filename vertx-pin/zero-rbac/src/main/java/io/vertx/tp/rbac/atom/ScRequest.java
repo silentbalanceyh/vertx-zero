@@ -74,6 +74,10 @@ public class ScRequest implements Serializable {
         return this.uri;
     }
 
+    public boolean normalized() {
+        return !this.requestUri.equals(this.uri);
+    }
+
     public String getRequestUri() {
         return this.requestUri;
     }

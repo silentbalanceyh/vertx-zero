@@ -9,12 +9,28 @@ import io.vertx.up.eon.Values;
 import io.vertx.up.fn.Fn;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
 final class To {
 
     private To() {
+    }
+
+    @SuppressWarnings("all")
+    static <V> ConcurrentMap<String, V> toMap(final JsonObject data) {
+        final ConcurrentMap<String, V> map = new ConcurrentHashMap<>();
+        if (Objects.nonNull(data)) {
+            data.fieldNames().forEach(field -> {
+                final Object value = data.getValue(field);
+                if (Objects.nonNull(value)) {
+                    map.put(field, (V) value);
+                }
+            });
+        }
+        return map;
     }
 
     static <T extends Enum<T>> T toEnum(final Class<T> clazz, final String input) {

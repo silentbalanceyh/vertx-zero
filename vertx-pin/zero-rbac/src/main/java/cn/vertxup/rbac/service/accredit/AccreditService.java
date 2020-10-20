@@ -9,6 +9,7 @@ import io.vertx.up.atom.Refer;
 import io.vertx.up.unity.Ux;
 
 import javax.inject.Inject;
+import java.util.Objects;
 import java.util.function.Supplier;
 
 public class AccreditService implements AccreditStub {
@@ -25,7 +26,7 @@ public class AccreditService implements AccreditStub {
         /* Refer for action / resource */
         final Refer actionHod = new Refer();
         final Refer resourceHod = new Refer();
-        return this.authorizedWithCache(request, () -> this.actionStub.fetchAction(request.getNormalizedUri(), request.getMethod(), request.getSigma())
+        return this.authorizedWithCache(request, () -> this.fetchAction(request)
 
                 /* SAction checking for ( Uri + Method ) */
                 .compose(action -> AccreditFlow.inspectAction(this.getClass(), action, request))
@@ -47,6 +48,23 @@ public class AccreditService implements AccreditStub {
 
                 /* The Final steps to execute matrix data here. */
                 .compose(result -> this.authorized(result, request, resourceHod.get(), actionHod.get())));
+    }
+
+    private Future<SAction> fetchAction(final ScRequest request) {
+        return this.actionStub.fetchAction(request.getNormalizedUri(), request.getMethod(), request.getSigma())
+                .compose(action -> {
+                    /*
+                     * Fix issue for (AccreditService) Web Exception occus: (403) - (RBAC) The action for request ( PUT /api/:actor/:key ) is missing.
+                     */
+                    if (Objects.isNull(action) && request.normalized()) {
+                        /*
+                         * Secondary fetch
+                         */
+                        return this.actionStub.fetchAction(request.getRequestUri(), request.getMethod(), request.getSigma());
+                    } else {
+                        return Ux.future(action);
+                    }
+                });
     }
 
     private Future<Boolean> authorizedWithCache(final ScRequest request, final Supplier<Future<Boolean>> supplier) {

@@ -1060,6 +1060,7 @@ public final class Ut {
      * 8) toDateTime / toDate / toTime
      * 9) toBytes
      * 10) toSet
+     * 11) toMap
      */
     public static Set<String> toSet(final String input, final String separator) {
         return StringUtil.split(input, separator);
@@ -1187,6 +1188,10 @@ public final class Ut {
 
     public static LocalDateTime toDateTime(final Instant date) {
         return Period.toDateTime(date);
+    }
+
+    public static <V> ConcurrentMap<String, V> toMap(final JsonObject data) {
+        return To.toMap(data);
     }
 
     /*
