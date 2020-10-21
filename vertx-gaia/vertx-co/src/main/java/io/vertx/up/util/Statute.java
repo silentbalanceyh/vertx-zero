@@ -121,6 +121,27 @@ final class Statute {
         return grouped;
     }
 
+    static <K, V> ConcurrentMap<K, List<V>> compress(final List<ConcurrentMap<K, List<V>>> dataList) {
+        final ConcurrentMap<K, List<V>> resultMap = new ConcurrentHashMap<>();
+        dataList.forEach(each -> each.forEach((k, vList) -> {
+            /*
+             * Original Key Extraction
+             */
+            if (Objects.nonNull(k)) {
+                /*
+                 * Contains k checking for result map
+                 */
+                if (!resultMap.containsKey(k)) {
+                    resultMap.put(k, new ArrayList<>());
+                }
+                final List<V> ref = resultMap.get(k);
+                vList.stream().filter(Objects::nonNull).forEach(ref::add);
+                resultMap.put(k, ref);  // Replace
+            }
+        }));
+        return resultMap;
+    }
+
     static <K, V, E> ConcurrentMap<K, List<V>> group(final Collection<E> object, final Function<E, K> keyFn, final Function<E, V> valueFn) {
         final ConcurrentMap<K, List<V>> ret = new ConcurrentHashMap<>();
         if (Objects.nonNull(object) && !object.isEmpty()) {

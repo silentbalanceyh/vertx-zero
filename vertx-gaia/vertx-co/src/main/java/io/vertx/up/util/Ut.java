@@ -94,6 +94,7 @@ public final class Ut {
      * 8) elementChild
      * 9) elementEach
      * 10) elementFlat
+     * 11) elementCompress
      */
     public static JsonArray elementFlat(final JsonArray input) {
         return ArrayUtil.flat(input);
@@ -219,6 +220,10 @@ public final class Ut {
 
     public static ConcurrentMap<String, JsonArray> elementGroup(final JsonArray source, final Function<JsonObject, String> executor) {
         return Statute.group(source, executor);
+    }
+
+    public static <K, V> ConcurrentMap<K, List<V>> elementCompress(final List<ConcurrentMap<K, List<V>>> dataList) {
+        return Statute.compress(dataList);
     }
 
     /*
