@@ -102,16 +102,16 @@
         <scala.version>2.13.3</scala.version>
         <feign.version>8.18.0</feign.version>
         <guava.version>30.0-jre</guava.version>
-        <joda.version>2.10.6</joda.version>
+        <joda.version>2.10.7</joda.version>
         <codehaus.janino.version>3.2.1</codehaus.janino.version>
         <codehaus.mojo.version>1.19</codehaus.mojo.version>
-        <ignite.version>2.8.1</ignite.version>
+        <ignite.version>2.9.0</ignite.version>
         <mongodb.async.version>3.12.7</mongodb.async.version>
         <poi.version>4.1.2</poi.version>
         <jedis.version>3.3.0</jedis.version>
 
         <!-- elasticsearch version -->
-        <elasticsearch.version>7.9.2</elasticsearch.version>
+        <elasticsearch.version>7.9.3</elasticsearch.version>
 
         <!-- neo4j search -->
         <neo4j.version>4.1.1</neo4j.version>
