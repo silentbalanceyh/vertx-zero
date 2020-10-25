@@ -97,15 +97,15 @@ public final class Ut {
      * 11) elementCompress
      */
     public static JsonArray elementFlat(final JsonArray input) {
-        return ArrayUtil.flat(input);
+        return ArrayJ.flat(input);
     }
 
     public static <T> T[] elementAdd(final T[] array, final T element) {
-        return ArrayUtil.add(array, element);
+        return ArrayJ.add(array, element);
     }
 
     public static JsonArray elementAdd(final JsonArray array, final JsonObject jsonObject, final String field) {
-        return ArrayUtil.add(array, jsonObject, field);
+        return ArrayJ.add(array, jsonObject, field);
     }
 
     public static JsonObject elementAdd(final JsonObject target, final JsonObject source, final String field) {
@@ -119,35 +119,35 @@ public final class Ut {
     }
 
     public static JsonArray elementSave(final JsonArray array, final JsonArray json, final String field) {
-        return ArrayUtil.save(array, json, field);
+        return ArrayJ.save(array, json, field);
     }
 
     public static JsonArray elementSave(final JsonArray array, final JsonObject json, final String field) {
-        return ArrayUtil.save(array, json, field);
+        return ArrayJ.save(array, json, field);
     }
 
     public static JsonArray elementClimb(final JsonArray children, final JsonArray tree) {
-        return ArrayUtil.climb(children, tree, null);
+        return ArrayJ.climb(children, tree, null);
     }
 
     public static JsonArray elementClimb(final JsonObject child, final JsonArray tree) {
-        return ArrayUtil.climb(child, tree, null);
+        return ArrayJ.climb(child, tree, null);
     }
 
     public static JsonArray elementChild(final JsonArray children, final JsonArray tree) {
-        return ArrayUtil.child(children, tree, null);
+        return ArrayJ.child(children, tree, null);
     }
 
     public static JsonArray elementChild(final JsonObject child, final JsonArray tree) {
-        return ArrayUtil.child(child, tree, null);
+        return ArrayJ.child(child, tree, null);
     }
 
     public static JsonObject elementFind(final JsonArray input, final String field, final Object value) {
-        return ArrayUtil.find(input, field, value);
+        return ArrayJ.find(input, field, value);
     }
 
     public static <T> T elementFind(final List<T> list, final Predicate<T> fnFilter) {
-        return Statute.find(list, fnFilter);
+        return ArrayL.find(list, fnFilter);
     }
 
     public static JsonArray elementZip(final JsonArray source, final JsonArray target, final String sourceKey, final String targetKey) {
@@ -163,67 +163,80 @@ public final class Ut {
     }
 
     public static <F, S, T> List<T> elementZip(final List<F> first, final List<S> second, final BiFunction<F, S, T> function) {
-        return Statute.zipper(first, second, function);
+        return ArrayL.zipper(first, second, function);
     }
 
     public static <F, T> ConcurrentMap<F, T> elementZip(final List<F> keys, final List<T> values) {
-        return Statute.zipper(keys, values);
+        return ArrayL.zipper(keys, values);
     }
 
     public static <K, V, E> ConcurrentMap<K, V> elementZip(final Collection<E> object, final Function<E, K> keyFn, final Function<E, V> valueFn) {
-        return Statute.zipper(object, keyFn, valueFn);
+        return ArrayL.zipper(object, keyFn, valueFn);
     }
 
     public static <K, V, E> ConcurrentMap<K, V> elementZip(final E[] object, final Function<E, K> keyFn, final Function<E, V> valueFn) {
-        return Statute.zipper(Arrays.asList(object), keyFn, valueFn);
+        return ArrayL.zipper(Arrays.asList(object), keyFn, valueFn);
     }
 
     public static <K, T, V> ConcurrentMap<K, V> elementZip(final ConcurrentMap<K, T> source, final ConcurrentMap<T, V> target) {
-        return Statute.zipper(source, target);
+        return ArrayL.zipper(source, target);
     }
 
     public static JsonObject elementZip(final JsonArray array, final String field) {
-        return Statute.zipper(array, field);
+        return ArrayL.zipper(array, field);
     }
 
     public static JsonObject elementSubset(final JsonObject input, final String... fields) {
-        return Statute.subset(input, fields);
+        return ArrayL.subset(input, fields);
     }
 
     public static JsonObject elementSubset(final JsonObject input, final Set<String> set) {
-        return Statute.subset(input, set);
+        return ArrayL.subset(input, set);
     }
 
     public static JsonArray elementSubset(final JsonArray input, final Function<JsonObject, Boolean> fnFilter) {
-        return Statute.subset(input, fnFilter);
+        return ArrayL.subset(input, fnFilter);
     }
 
     public static <K, V, E> ConcurrentMap<K, List<V>> elementGroup(final Collection<E> object, final Function<E, K> keyFn, final Function<E, V> valueFn) {
-        return Statute.group(object, keyFn, valueFn);
+        return ArrayL.group(object, keyFn, valueFn);
     }
 
     public static <K, V> ConcurrentMap<K, V> elementMap(final List<V> dataList, final Function<V, K> keyFn) {
-        return Statute.map(dataList, keyFn, item -> item);
+        return ArrayL.map(dataList, keyFn, item -> item);
     }
 
     public static <K, V, E> ConcurrentMap<K, V> elementMap(final List<E> dataList, final Function<E, K> keyFn, final Function<E, V> valueFn) {
-        return Statute.map(dataList, keyFn, valueFn);
+        return ArrayL.map(dataList, keyFn, valueFn);
     }
 
     public static ConcurrentMap<String, JsonObject> elementMap(final JsonArray dataArray, final String field) {
-        return Statute.map(dataArray, field);
+        return ArrayL.map(dataArray, field);
     }
 
     public static ConcurrentMap<String, JsonArray> elementGroup(final JsonArray source, final String field) {
-        return Statute.group(source, field);
+        return ArrayL.group(source, field);
     }
 
     public static ConcurrentMap<String, JsonArray> elementGroup(final JsonArray source, final Function<JsonObject, String> executor) {
-        return Statute.group(source, executor);
+        return ArrayL.group(source, executor);
     }
 
     public static <K, V> ConcurrentMap<K, List<V>> elementCompress(final List<ConcurrentMap<K, List<V>>> dataList) {
-        return Statute.compress(dataList);
+        return ArrayL.compress(dataList);
+    }
+
+    /*
+     *
+     * 1) inverseCount
+     * 2) inverseSet
+     */
+    public static <K, V> ConcurrentMap<V, Integer> inverseCount(final ConcurrentMap<K, V> input) {
+        return ArrayL.inverse(input, Set::size);
+    }
+
+    public static <K, V> ConcurrentMap<V, Set<K>> inverseSet(final ConcurrentMap<K, V> input) {
+        return ArrayL.inverse(input, set -> set);
     }
 
     /*
@@ -637,7 +650,7 @@ public final class Ut {
     }
 
     public static void ioOut(final String file, final OutputStream output) {
-        IOBig.writeTo(file, output);
+        Out.writeBig(file, output);
     }
 
     /*
@@ -838,11 +851,11 @@ public final class Ut {
      * 1) reduce
      */
     public static <K, T, V> ConcurrentMap<K, V> reduce(final ConcurrentMap<K, T> from, final ConcurrentMap<T, V> to) {
-        return Statute.reduce(from, to);
+        return ArrayL.reduce(from, to);
     }
 
     public static <K, V> ConcurrentMap<K, V> reduce(final Set<K> from, final ConcurrentMap<K, V> to) {
-        return Statute.reduce(from, to);
+        return ArrayL.reduce(from, to);
     }
 
     /*
