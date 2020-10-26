@@ -202,8 +202,8 @@ class Is {
 
     private static boolean isIn(final JsonArray source, final JsonObject value, final Set<String> diffSet) {
         return Ut.itJArray(source).anyMatch(item -> {
-            final JsonObject checked = Statute.subset(item, diffSet);
-            final JsonObject pending = Statute.subset(value, diffSet);
+            final JsonObject checked = ArrayL.subset(item, diffSet);
+            final JsonObject pending = ArrayL.subset(value, diffSet);
             return checked.equals(pending);
         });
     }

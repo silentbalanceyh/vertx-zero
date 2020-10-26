@@ -13,9 +13,9 @@ import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.Collectors;
 
-final class ArrayUtil {
+final class ArrayJ {
 
-    private ArrayUtil() {
+    private ArrayJ() {
     }
 
     @SuppressWarnings("all")
