@@ -31,7 +31,8 @@ interface InfixTool {
             final JsonObject config,
             final Function<JsonObject, R> executor) {
         Fn.outUp(() -> Ruler.verify(key, config), logger);
-        return executor.apply(config);
+        // Copy the JsonObject of configuration
+        return executor.apply(config.copy());
     }
 }
 

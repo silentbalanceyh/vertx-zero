@@ -20,13 +20,14 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import java.io.InputStream;
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 /*
  * Excel Helper to help ExcelClient to do some object building
  */
 class ExcelHelper {
 
-    private static final Map<String, FormulaEvaluator> REFERENCES = new HashMap<>();
+    private static final Map<String, Workbook> WORKBOOKS = new ConcurrentHashMap<>();
     private transient final Class<?> target;
     private transient ExTpl tpl;
 
@@ -70,6 +71,8 @@ class ExcelHelper {
             workbook = Fn.pool(Pool.WORKBOOKS_STREAM, in.hashCode(),
                     () -> Fn.getJvm(() -> new HSSFWorkbook(in)));
         }
+        /* Force to recalculation for evaluator */
+        workbook.setForceFormulaRecalculation(Boolean.TRUE);
         return workbook;
     }
 
@@ -80,21 +83,32 @@ class ExcelHelper {
         return Fn.getNull(new HashSet<>(), () -> {
             /* FormulaEvaluator reference */
             final FormulaEvaluator evaluator = workbook.getCreationHelper().createFormulaEvaluator();
-            /* FormulaEvaluator reference for external files here */
-            final Map<String, FormulaEvaluator> references = new HashMap<>(REFERENCES);
-            if (!references.isEmpty()) {
+
+            /*
+             * Workbook pool for FormulaEvaluator
+             * 1）Local variable to replace global
+             **/
+            final Map<String, FormulaEvaluator> references = new ConcurrentHashMap<>();
+            WORKBOOKS.forEach((field, workbookRef) -> {
                 /*
+                 * Reference executor processing
                  * Here you must put self reference evaluator and all related here.
                  * It should fix issue: Could not set environment etc.
                  */
-                references.put(workbook.createName().getNameName(), evaluator);
-                /*
-                 * Above one line code resolved following issue:
-                 * org.apache.poi.ss.formula.CollaboratingWorkbooksEnvironment$WorkbookNotFoundException:
-                 * Could not resolve external workbook name 'environment.ambient.xlsx'. Workbook environment has not been set up.
-                 */
-                evaluator.setupReferencedWorkbooks(references);
-            }
+                final FormulaEvaluator executorRef = workbookRef.getCreationHelper().createFormulaEvaluator();
+                references.put(field, executorRef);
+            });
+            /*
+             * Self evaluator for current calculation
+             */
+            references.put(workbook.createName().getNameName(), evaluator);
+
+            /*
+             * Above one line code resolved following issue:
+             * org.apache.poi.ss.formula.CollaboratingWorkbooksEnvironment$WorkbookNotFoundException:
+             * Could not resolve external workbook name 'environment.ambient.xlsx'. Workbook environment has not been set up.
+             */
+            evaluator.setupReferencedWorkbooks(references);
             /*
              * Sheet process
              */
@@ -157,10 +171,7 @@ class ExcelHelper {
                     /*
                      * Reference Evaluator
                      */
-                    final FormulaEvaluator evaluator = workbook.getCreationHelper().createFormulaEvaluator();
-                    if (Objects.nonNull(evaluator)) {
-                        REFERENCES.put(key, evaluator);
-                    }
+                    WORKBOOKS.put(key, workbook);
                 });
     }
 }
