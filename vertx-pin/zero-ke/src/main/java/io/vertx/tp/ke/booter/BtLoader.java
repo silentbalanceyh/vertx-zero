@@ -152,7 +152,10 @@ class BtLoader {
 
     private static Future<String> importFuture(final String filename) {
         final Promise<String> promise = Promise.promise();
-        doImport(filename, handler -> promise.complete(handler.result()));
+        doImport(filename, handler -> {
+            promise.complete(handler.result());
+            out(filename);
+        });
         return promise.future();
     }
 }
