@@ -85,11 +85,27 @@ class BtLoader {
         /*
          * Build more excel client
          */
+        /*
         final ExcelClient client = ExcelInfix.getClient();
         client.importAsync(filename, handler -> {
             out(filename);
             callback.handle(Future.succeededFuture(filename));
-        });
+        });*/
+
+        final WorkerExecutor executor = Ux.nativeWorker(filename);
+        executor.<String>executeBlocking(
+                pre -> {
+                    final ExcelClient client = ExcelInfix.createClient();
+                    client.importAsync(filename, handler -> {
+                        if (handler.succeeded()) {
+                            pre.complete(filename);
+                        } else {
+                            pre.fail(handler.cause());
+                        }
+                    });
+                },
+                post -> callback.handle(Future.succeededFuture(post.result()))
+        );
     }
 
     /*

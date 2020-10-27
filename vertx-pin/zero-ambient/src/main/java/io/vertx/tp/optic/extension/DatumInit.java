@@ -71,7 +71,7 @@ public class DatumInit implements Init {
         executor.<JsonObject>executeBlocking(
                 pre -> {
                     /* ExcelClient */
-                    final ExcelClient client = ExcelInfix.createClient(Ux.nativeVertx());
+                    final ExcelClient client = ExcelInfix.createClient();
                     client.importAsync(filename, result -> {
                         At.infoApp(LOGGER, AtMsg.INIT_DATUM_EACH, filename);
                         if (result.succeeded()) {
