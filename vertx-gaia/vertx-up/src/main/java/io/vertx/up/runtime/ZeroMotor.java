@@ -66,9 +66,10 @@ public final class ZeroMotor {
     /**
      * Agent calculation
      *
-     * @param defaultAgents
-     * @param internals
-     * @return
+     * @param defaultAgents default agent classes array
+     * @param internals     default internal agent class
+     *
+     * @return The map to stored agent class for each ServerType here
      */
     public static ConcurrentMap<ServerType, Class<?>> agents(
             final ServerType category,
