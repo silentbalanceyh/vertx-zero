@@ -17,8 +17,9 @@ class Atomic {
     static {
         /* Prepare vertx instance for standalone execution */
         final VertxOptions options = new VertxOptions();
-        options.setMaxEventLoopExecuteTime(3000000000000L);
-        options.setMaxWorkerExecuteTime(3000000000000L);
+        options.setMaxEventLoopExecuteTime(3000_000_000_000L);
+        options.setMaxWorkerExecuteTime(3000_000_000_000L);
+        options.setBlockedThreadCheckInterval(10000);
         VERTX = Vertx.vertx(options);
     }
 
