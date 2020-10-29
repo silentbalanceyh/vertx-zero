@@ -202,6 +202,12 @@ public class DataAtom {
      * isConfirm
      * isSyncIn
      * isSyncOut
+     *
+     * 关于这四个属性需要详细说明
+     * 1. Track：是否生成变更历史, 001
+     * 2. Confirm：是否生成待确认, 002
+     * 3. SyncIn：同步拉取, 003
+     * 4. SyncOut：同步推送, 004
      */
     public Set<String> falseTrack() {
         return this.marker.track(Boolean.FALSE);
@@ -215,6 +221,9 @@ public class DataAtom {
         return this.marker.in(Boolean.FALSE);
     }
 
+    /*
+     * 集成过程中引入
+     */
     public Set<String> trueIn() {
         return this.marker.in(Boolean.TRUE);
     }
