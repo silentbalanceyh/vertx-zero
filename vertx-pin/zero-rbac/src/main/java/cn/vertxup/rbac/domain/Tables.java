@@ -14,6 +14,7 @@ import cn.vertxup.rbac.domain.tables.SAction;
 import cn.vertxup.rbac.domain.tables.SGroup;
 import cn.vertxup.rbac.domain.tables.SPacket;
 import cn.vertxup.rbac.domain.tables.SPath;
+import cn.vertxup.rbac.domain.tables.SPermSet;
 import cn.vertxup.rbac.domain.tables.SPermission;
 import cn.vertxup.rbac.domain.tables.SResource;
 import cn.vertxup.rbac.domain.tables.SRole;
@@ -91,6 +92,11 @@ public class Tables {
      * The table <code>DB_ETERNAL.S_PERMISSION</code>.
      */
     public static final SPermission S_PERMISSION = cn.vertxup.rbac.domain.tables.SPermission.S_PERMISSION;
+
+    /**
+     * The table <code>DB_ETERNAL.S_PERM_SET</code>.
+     */
+    public static final SPermSet S_PERM_SET = cn.vertxup.rbac.domain.tables.SPermSet.S_PERM_SET;
 
     /**
      * The table <code>DB_ETERNAL.S_RESOURCE</code>.

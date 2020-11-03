@@ -54,16 +54,6 @@ public interface ISPermission extends Serializable {
     public String getCode();
 
     /**
-     * Setter for <code>DB_ETERNAL.S_PERMISSION.GROUP</code>. 「group」- 权限组名（中文，用来分类）
-     */
-    public ISPermission setGroup(String value);
-
-    /**
-     * Getter for <code>DB_ETERNAL.S_PERMISSION.GROUP</code>. 「group」- 权限组名（中文，用来分类）
-     */
-    public String getGroup();
-
-    /**
      * Setter for <code>DB_ETERNAL.S_PERMISSION.IDENTIFIER</code>. 「identifier」- 当前权限所属的Model的标识
      */
     public ISPermission setIdentifier(String value);
@@ -181,7 +171,6 @@ public interface ISPermission extends Serializable {
         setKey(json.getString("KEY"));
         setName(json.getString("NAME"));
         setCode(json.getString("CODE"));
-        setGroup(json.getString("GROUP"));
         setIdentifier(json.getString("IDENTIFIER"));
         setSigma(json.getString("SIGMA"));
         setLanguage(json.getString("LANGUAGE"));
@@ -201,7 +190,6 @@ public interface ISPermission extends Serializable {
         json.put("KEY",getKey());
         json.put("NAME",getName());
         json.put("CODE",getCode());
-        json.put("GROUP",getGroup());
         json.put("IDENTIFIER",getIdentifier());
         json.put("SIGMA",getSigma());
         json.put("LANGUAGE",getLanguage());

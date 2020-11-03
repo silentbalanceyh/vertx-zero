@@ -14,6 +14,7 @@ import cn.vertxup.rbac.domain.tables.SAction;
 import cn.vertxup.rbac.domain.tables.SGroup;
 import cn.vertxup.rbac.domain.tables.SPacket;
 import cn.vertxup.rbac.domain.tables.SPath;
+import cn.vertxup.rbac.domain.tables.SPermSet;
 import cn.vertxup.rbac.domain.tables.SPermission;
 import cn.vertxup.rbac.domain.tables.SResource;
 import cn.vertxup.rbac.domain.tables.SRole;
@@ -70,6 +71,8 @@ public class Indexes {
     public static final Index S_PATH_PRIMARY = Indexes0.S_PATH_PRIMARY;
     public static final Index S_PERMISSION_CODE = Indexes0.S_PERMISSION_CODE;
     public static final Index S_PERMISSION_PRIMARY = Indexes0.S_PERMISSION_PRIMARY;
+    public static final Index S_PERM_SET_NAME = Indexes0.S_PERM_SET_NAME;
+    public static final Index S_PERM_SET_PRIMARY = Indexes0.S_PERM_SET_PRIMARY;
     public static final Index S_RESOURCE_CODE = Indexes0.S_RESOURCE_CODE;
     public static final Index S_RESOURCE_PRIMARY = Indexes0.S_RESOURCE_PRIMARY;
     public static final Index S_ROLE_CODE = Indexes0.S_ROLE_CODE;
@@ -114,6 +117,8 @@ public class Indexes {
         public static Index S_PATH_PRIMARY = Internal.createIndex("PRIMARY", SPath.S_PATH, new OrderField[] { SPath.S_PATH.KEY }, true);
         public static Index S_PERMISSION_CODE = Internal.createIndex("CODE", SPermission.S_PERMISSION, new OrderField[] { SPermission.S_PERMISSION.CODE, SPermission.S_PERMISSION.SIGMA }, true);
         public static Index S_PERMISSION_PRIMARY = Internal.createIndex("PRIMARY", SPermission.S_PERMISSION, new OrderField[] { SPermission.S_PERMISSION.KEY }, true);
+        public static Index S_PERM_SET_NAME = Internal.createIndex("NAME", SPermSet.S_PERM_SET, new OrderField[] { SPermSet.S_PERM_SET.NAME, SPermSet.S_PERM_SET.CODE, SPermSet.S_PERM_SET.SIGMA }, true);
+        public static Index S_PERM_SET_PRIMARY = Internal.createIndex("PRIMARY", SPermSet.S_PERM_SET, new OrderField[] { SPermSet.S_PERM_SET.KEY }, true);
         public static Index S_RESOURCE_CODE = Internal.createIndex("CODE", SResource.S_RESOURCE, new OrderField[] { SResource.S_RESOURCE.CODE, SResource.S_RESOURCE.SIGMA }, true);
         public static Index S_RESOURCE_PRIMARY = Internal.createIndex("PRIMARY", SResource.S_RESOURCE, new OrderField[] { SResource.S_RESOURCE.KEY }, true);
         public static Index S_ROLE_CODE = Internal.createIndex("CODE", SRole.S_ROLE, new OrderField[] { SRole.S_ROLE.CODE, SRole.S_ROLE.SIGMA }, true);

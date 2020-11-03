@@ -35,7 +35,7 @@ public class SPermission extends TableImpl<SPermissionRecord> {
      * The reference instance of <code>DB_ETERNAL.S_PERMISSION</code>
      */
     public static final SPermission S_PERMISSION = new SPermission();
-    private static final long serialVersionUID = 1925250364;
+    private static final long serialVersionUID = -1669858205;
     /**
      * The column <code>DB_ETERNAL.S_PERMISSION.KEY</code>. 「key」- 权限ID
      */
@@ -48,10 +48,6 @@ public class SPermission extends TableImpl<SPermissionRecord> {
      * The column <code>DB_ETERNAL.S_PERMISSION.CODE</code>. 「code」- 权限系统码
      */
     public final TableField<SPermissionRecord, String> CODE = createField("CODE", org.jooq.impl.SQLDataType.VARCHAR(255), this, "「code」- 权限系统码");
-    /**
-     * The column <code>DB_ETERNAL.S_PERMISSION.GROUP</code>. 「group」- 权限组名（中文，用来分类）
-     */
-    public final TableField<SPermissionRecord, String> GROUP = createField("GROUP", org.jooq.impl.SQLDataType.VARCHAR(60), this, "「group」- 权限组名（中文，用来分类）");
     /**
      * The column <code>DB_ETERNAL.S_PERMISSION.IDENTIFIER</code>. 「identifier」- 当前权限所属的Model的标识
      */
