@@ -24,13 +24,12 @@ import javax.annotation.Generated;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class SPermSet implements ISPermSet {
 
-    private static final long serialVersionUID = 2037737545;
+    private static final long serialVersionUID = 1014732406;
 
     private String        key;
     private String        name;
     private String        code;
     private String        type;
-    private String        module;
     private String        sigma;
     private String        language;
     private Boolean       active;
@@ -48,7 +47,6 @@ public class SPermSet implements ISPermSet {
         this.name = value.name;
         this.code = value.code;
         this.type = value.type;
-        this.module = value.module;
         this.sigma = value.sigma;
         this.language = value.language;
         this.active = value.active;
@@ -65,7 +63,6 @@ public class SPermSet implements ISPermSet {
         String        name,
         String        code,
         String        type,
-        String        module,
         String        sigma,
         String        language,
         Boolean       active,
@@ -80,7 +77,6 @@ public class SPermSet implements ISPermSet {
         this.name = name;
         this.code = code;
         this.type = type;
-        this.module = module;
         this.sigma = sigma;
         this.language = language;
         this.active = active;
@@ -133,17 +129,6 @@ public class SPermSet implements ISPermSet {
     @Override
     public SPermSet setType(String type) {
         this.type = type;
-        return this;
-    }
-
-    @Override
-    public String getModule() {
-        return this.module;
-    }
-
-    @Override
-    public SPermSet setModule(String module) {
-        this.module = module;
         return this;
     }
 
@@ -254,7 +239,6 @@ public class SPermSet implements ISPermSet {
         sb.append(", ").append(name);
         sb.append(", ").append(code);
         sb.append(", ").append(type);
-        sb.append(", ").append(module);
         sb.append(", ").append(sigma);
         sb.append(", ").append(language);
         sb.append(", ").append(active);
@@ -282,7 +266,6 @@ public class SPermSet implements ISPermSet {
         setName(from.getName());
         setCode(from.getCode());
         setType(from.getType());
-        setModule(from.getModule());
         setSigma(from.getSigma());
         setLanguage(from.getLanguage());
         setActive(from.getActive());

@@ -91,13 +91,6 @@ public class SPermSetDao extends DAOImpl<SPermSetRecord, cn.vertxup.rbac.domain.
     }
 
     /**
-     * Fetch records that have <code>MODULE IN (values)</code>
-     */
-    public List<cn.vertxup.rbac.domain.tables.pojos.SPermSet> fetchByModule(String... values) {
-        return fetch(SPermSet.S_PERM_SET.MODULE, values);
-    }
-
-    /**
      * Fetch records that have <code>SIGMA IN (values)</code>
      */
     public List<cn.vertxup.rbac.domain.tables.pojos.SPermSet> fetchBySigma(String... values) {
@@ -193,13 +186,6 @@ public class SPermSetDao extends DAOImpl<SPermSetRecord, cn.vertxup.rbac.domain.
      */
     public CompletableFuture<List<cn.vertxup.rbac.domain.tables.pojos.SPermSet>> fetchByTypeAsync(List<String> values) {
         return fetchAsync(SPermSet.S_PERM_SET.TYPE,values);
-    }
-
-    /**
-     * Fetch records that have <code>MODULE IN (values)</code> asynchronously
-     */
-    public CompletableFuture<List<cn.vertxup.rbac.domain.tables.pojos.SPermSet>> fetchByModuleAsync(List<String> values) {
-        return fetchAsync(SPermSet.S_PERM_SET.MODULE,values);
     }
 
     /**

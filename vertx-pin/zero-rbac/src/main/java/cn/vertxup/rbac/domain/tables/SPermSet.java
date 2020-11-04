@@ -35,7 +35,7 @@ public class SPermSet extends TableImpl<SPermSetRecord> {
      * The reference instance of <code>DB_ETERNAL.S_PERM_SET</code>
      */
     public static final SPermSet S_PERM_SET = new SPermSet();
-    private static final long serialVersionUID = -1763362463;
+    private static final long serialVersionUID = -1700358776;
     /**
      * The column <code>DB_ETERNAL.S_PERM_SET.KEY</code>. 「key」- 权限集ID
      */
@@ -52,10 +52,6 @@ public class SPermSet extends TableImpl<SPermSetRecord> {
      * The column <code>DB_ETERNAL.S_PERM_SET.TYPE</code>. 「type」- 权限集类型
      */
     public final TableField<SPermSetRecord, String> TYPE = createField("TYPE", org.jooq.impl.SQLDataType.VARCHAR(255), this, "「type」- 权限集类型");
-    /**
-     * The column <code>DB_ETERNAL.S_PERM_SET.MODULE</code>. 「module」- 所属模块名称
-     */
-    public final TableField<SPermSetRecord, String> MODULE = createField("MODULE", org.jooq.impl.SQLDataType.VARCHAR(255), this, "「module」- 所属模块名称");
     /**
      * The column <code>DB_ETERNAL.S_PERM_SET.SIGMA</code>. 「sigma」- 绑定的统一标识
      */

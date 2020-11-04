@@ -12,9 +12,9 @@ CREATE TABLE IF NOT EXISTS S_PERM_SET
     -- 权限基础信息
     -- 三层维度处理
     -- 1）type，基本权限类型：系统权限，开发权限，业务权限
-    -- 2）module，所属模块权限：模块权限
+    -- 2）name，权限集
+    -- 3）三级，直接在name中支持：<level1>/<level2>/<level3> 实现分类排序（约定，非必须）
     `TYPE`       VARCHAR(255) COMMENT '「type」- 权限集类型',
-    `MODULE`     VARCHAR(255) COMMENT '「module」- 所属模块名称',
 
     -- 特殊字段
     `SIGMA`      VARCHAR(128) COMMENT '「sigma」- 绑定的统一标识',

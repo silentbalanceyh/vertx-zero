@@ -64,16 +64,6 @@ public interface ISPermSet extends Serializable {
     public String getType();
 
     /**
-     * Setter for <code>DB_ETERNAL.S_PERM_SET.MODULE</code>. 「module」- 所属模块名称
-     */
-    public ISPermSet setModule(String value);
-
-    /**
-     * Getter for <code>DB_ETERNAL.S_PERM_SET.MODULE</code>. 「module」- 所属模块名称
-     */
-    public String getModule();
-
-    /**
      * Setter for <code>DB_ETERNAL.S_PERM_SET.SIGMA</code>. 「sigma」- 绑定的统一标识
      */
     public ISPermSet setSigma(String value);
@@ -182,7 +172,6 @@ public interface ISPermSet extends Serializable {
         setName(json.getString("NAME"));
         setCode(json.getString("CODE"));
         setType(json.getString("TYPE"));
-        setModule(json.getString("MODULE"));
         setSigma(json.getString("SIGMA"));
         setLanguage(json.getString("LANGUAGE"));
         setActive(json.getBoolean("ACTIVE"));
@@ -202,7 +191,6 @@ public interface ISPermSet extends Serializable {
         json.put("NAME",getName());
         json.put("CODE",getCode());
         json.put("TYPE",getType());
-        json.put("MODULE",getModule());
         json.put("SIGMA",getSigma());
         json.put("LANGUAGE",getLanguage());
         json.put("ACTIVE",getActive());

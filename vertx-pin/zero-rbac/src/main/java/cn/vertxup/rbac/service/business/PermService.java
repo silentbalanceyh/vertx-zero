@@ -2,6 +2,7 @@ package cn.vertxup.rbac.service.business;
 
 import cn.vertxup.rbac.domain.tables.daos.RRolePermDao;
 import cn.vertxup.rbac.domain.tables.daos.SActionDao;
+import cn.vertxup.rbac.domain.tables.daos.SPermSetDao;
 import cn.vertxup.rbac.domain.tables.daos.SPermissionDao;
 import cn.vertxup.rbac.domain.tables.pojos.SAction;
 import cn.vertxup.rbac.domain.tables.pojos.SPermission;
@@ -32,9 +33,12 @@ public class PermService implements PermStub {
         condition.put(KeField.SIGMA, sigma);
         /*
          * Permission Groups processing
+         *「Upgrade」
+         * Old method because `GROUP` is in S_PERMISSION
+         * return Ux.Jooq.on(SPermissionDao.class).countByAsync(condition, "group", "identifier");
+         * New version: S_PERM_SET processing
          */
-        return Ux.Jooq.on(SPermissionDao.class)
-                .countByAsync(condition, "group", "identifier");
+        return Ux.Jooq.on(SPermSetDao.class).fetchJAsync(condition);
     }
 
     @Override
