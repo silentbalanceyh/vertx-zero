@@ -42,4 +42,15 @@ public interface PermStub {
      * }
      */
     Future<JsonArray> syncPerm(JsonArray permission, String group, String sigma);
+
+    /*
+     * Permission Sync with `roleId` provided
+     */
+    Future<JsonArray> syncPerm(JsonArray permissions, String roleId);
+
+    /*
+     * Query engine processing
+     * - sigma for S_PERM_SET table here
+     */
+    Future<JsonObject> searchUnReady(JsonObject query, String sigma);
 }

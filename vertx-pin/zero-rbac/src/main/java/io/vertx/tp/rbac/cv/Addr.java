@@ -77,6 +77,8 @@ public interface Addr {
         String PERMISSION_BY_ROLE = Prefix._EVENT + "X-PERMISSION/BY/ROLE";
         /* Save all relation between role & permission */
         String PERMISSION_SAVE = Prefix._EVENT + "X-PERMISSION/SAVING";
+        /* Search all permissions that are not related */
+        String PERMISSION_UN_READY = Prefix._EVENT + "X-PERMISSION/UN-READY";
 
         /* Resource get with action */
         String RESOURCE_GET_CASCADE = Prefix._EVENT + "X-RESOURCE/GET-CASCADE";
