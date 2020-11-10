@@ -1,7 +1,6 @@
 package cn.vertxup.rbac.api;
 
 import cn.vertxup.rbac.domain.tables.daos.RRolePermDao;
-import cn.vertxup.rbac.domain.tables.pojos.RRolePerm;
 import cn.vertxup.rbac.service.business.PermStub;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
@@ -13,13 +12,10 @@ import io.vertx.up.annotations.Address;
 import io.vertx.up.annotations.Queue;
 import io.vertx.up.commune.config.XHeader;
 import io.vertx.up.fn.Fn;
-import io.vertx.up.uca.jooq.UxJooq;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
 import javax.inject.Inject;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * @author <a href="http://www.origin-x.cn">lang</a>
@@ -61,6 +57,7 @@ public class PermActor {
          * {
          *     "group": "xxxx",
          *     "data": [
+         *
          *     ]
          * }
          *
@@ -68,6 +65,19 @@ public class PermActor {
          *
          * 1. Permission Sync ( Removed, Add New, Update )
          * 2. Action Sync ( Add New, Relation Processing )
+         *
+         * The old workflow is 3 tables:
+         * S_PERMISSION / S_ACTION / S_RESOURCE
+         *
+         * The new workflow is 4 tables calculation:
+         * S_PERMISSION / S_ACTION / S_RESOURCE / S_PERM_SET
+         *
+         * The detail workflow should be as following:
+         *** 1）Check whether current S_PERM_SET here, the unique condition is ( name + code, here code is permissions code )
+         *** -- If existing, update current S_PERM_SET
+         *** -- If missing, create new S_PERM_SET
+         ***
+         *** 2) Remove all permissions from current S_PERM_SET only
          */
         // Permission Data
         final JsonArray permissions = Ut.sureJArray(processed.getJsonArray(KeField.DATA));
@@ -90,33 +100,14 @@ public class PermActor {
 
     @Address(Addr.Authority.PERMISSION_SAVE)
     public Future<JsonArray> savePerm(final String roleId, final JsonArray permissions) {
-        return Fn.getEmpty(Ux.futureA(), () -> {
-            final JsonObject condition = new JsonObject();
-            condition.put(KeField.ROLE_ID, roleId);
-            /*
-             * Delete all the relations that belong to roleId
-             * that the user provided here
-             * */
-            final UxJooq dao = Ux.Jooq.on(RRolePermDao.class);
-            return dao.deleteByAsync(condition).compose(processed -> {
-                /*
-                 * Build new relations that belong to the role
-                 */
-                final List<RRolePerm> relations = new ArrayList<>();
-                Ut.itJArray(permissions, String.class, (permissionId, index) -> {
-                    final RRolePerm item = new RRolePerm();
-                    item.setRoleId(roleId);
-                    item.setPermId(permissionId);
-                    relations.add(item);
-                });
-                return dao.insertAsync(relations).compose(inserted -> {
-                    /*
-                     * Refresh cache pool with Sc interface directly
-                     */
-                    return Sc.cachePermission(roleId, permissions)
-                            .compose(nil -> Ux.future(inserted));
-                }).compose(Ux::futureA);
-            });
-        }, roleId);
+        /*
+         * Sync operation on permissions
+         */
+        return this.stub.syncPerm(permissions, roleId);
+    }
+
+    @Address(Addr.Authority.PERMISSION_UN_READY)
+    public Future<JsonObject> searchUnReady(final JsonObject query, final XHeader header) {
+        return this.stub.searchUnReady(query, header.getSigma());
     }
 }

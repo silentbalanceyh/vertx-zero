@@ -9,7 +9,6 @@ CREATE TABLE IF NOT EXISTS S_PERMISSION
     `NAME`       VARCHAR(255) COMMENT '「name」- 权限名称',
     `CODE`       VARCHAR(255) COMMENT '「code」- 权限系统码',
     -- 权限属性
-    `GROUP`      VARCHAR(60) COMMENT '「group」- 权限组名（中文，用来分类）',
     `IDENTIFIER` VARCHAR(255) COMMENT '「identifier」- 当前权限所属的Model的标识',
 
     -- 特殊字段
