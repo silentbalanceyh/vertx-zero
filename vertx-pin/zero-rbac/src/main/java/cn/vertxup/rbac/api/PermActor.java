@@ -106,8 +106,29 @@ public class PermActor {
         return this.stub.syncPerm(permissions, roleId);
     }
 
-    @Address(Addr.Authority.PERMISSION_UN_READY)
+    // ======================= CRUD Replace =============================
+    @Address(Addr.Perm.PERMISSION_UN_READY)
     public Future<JsonObject> searchUnReady(final JsonObject query, final XHeader header) {
-        return this.stub.searchUnReady(query, header.getSigma());
+        return this.stub.searchAsync(query, header.getSigma());
+    }
+
+    @Address(Addr.Perm.BY_ID)
+    public Future<JsonObject> fetch(final String key) {
+        return this.stub.fetchAsync(key);
+    }
+
+    @Address(Addr.Perm.ADD)
+    public Future<JsonObject> add(final JsonObject body) {
+        return this.stub.createAsync(body);
+    }
+
+    @Address(Addr.Perm.EDIT)
+    public Future<JsonObject> edit(final String key, final JsonObject body) {
+        return this.stub.updateAsync(key, body);
+    }
+
+    @Address(Addr.Perm.DELETE)
+    public Future<Boolean> delete(final String key) {
+        return this.stub.deleteAsync(key);
     }
 }

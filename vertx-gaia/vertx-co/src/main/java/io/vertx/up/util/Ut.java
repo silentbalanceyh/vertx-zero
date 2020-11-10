@@ -691,7 +691,7 @@ public final class Ut {
     /*
      * Flatting method for function executing
      * 1) ifMerge
-     * 2) ifNil / applyJNil
+     * 2) ifNil / ifJNil / ifTNil
      * 3) ifEmpty / ifJEmpty
      * 4) ifJValue -> JsonObject field filling of value
      * 5) ifJCopy -> JsonObject copy self
@@ -749,6 +749,10 @@ public final class Ut {
 
     public static <T> Function<T, Future<T>> ifNil(final Function<T, Future<T>> executor) {
         return Apply.applyNil(executor);
+    }
+
+    public static <T> Function<T, Future<JsonObject>> ifTNil(final Function<T, Future<JsonObject>> executor) {
+        return Apply.<T, JsonObject>applyNil(JsonObject::new, executor);
     }
 
     public static Function<JsonObject, Future<JsonObject>> ifJNil(final Function<JsonObject, Future<JsonObject>> executor) {

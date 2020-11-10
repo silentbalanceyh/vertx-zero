@@ -8,6 +8,7 @@ import cn.vertxup.rbac.domain.tables.pojos.RRolePerm;
 import cn.vertxup.rbac.domain.tables.pojos.SAction;
 import cn.vertxup.rbac.domain.tables.pojos.SPermSet;
 import cn.vertxup.rbac.domain.tables.pojos.SPermission;
+import cn.vertxup.rbac.service.accredit.ActionStub;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
@@ -21,6 +22,7 @@ import io.vertx.up.uca.jooq.UxJooq;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
+import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -31,6 +33,9 @@ import java.util.stream.Collectors;
  * @author <a href="http://www.origin-x.cn">lang</a>
  */
 public class PermService implements PermStub {
+    @Inject
+    private transient ActionStub actionStub;
+
     @Override
     public Future<JsonArray> groupAsync(final String sigma) {
         /*
@@ -129,7 +134,7 @@ public class PermService implements PermStub {
     }
 
     @Override
-    public Future<JsonObject> searchUnReady(final JsonObject query, final String sigma) {
+    public Future<JsonObject> searchAsync(final JsonObject query, final String sigma) {
         /*
          * Result for searching on S_PERMISSIONS
          */
@@ -164,6 +169,52 @@ public class PermService implements PermStub {
              */
             return Ux.Jooq.on(SPermissionDao.class).searchAsync(query);
         });
+    }
+
+    @Override
+    public Future<JsonObject> fetchAsync(final String key) {
+
+        /* Read permission and actions */
+        return Ux.Jooq.on(SPermissionDao.class).<SPermission>fetchByIdAsync(key)
+
+                /* Secondary Fetching, Fetch action here */
+                .compose(permission -> this.actionStub.fetchAction(permission.getKey())
+
+                        /* futureJM to combine two result to JsonObject */
+                        .compose(Ux.futureJM(permission, KeField.ACTIONS))
+                );
+    }
+
+    @Override
+    public Future<JsonObject> createAsync(final JsonObject body) {
+        final JsonArray actions = body.getJsonArray(KeField.ACTIONS);
+        return Ux.Jooq.on(SPermissionDao.class).<SPermission>insertAsync(body)
+
+                /* Synced Action */
+                .compose(permission -> this.actionStub.saveAction(permission, actions)
+
+                        /* futureJM to combine two result to JsonObject */
+                        .compose(Ux.futureJM(permission, KeField.ACTIONS))
+                );
+    }
+
+    @Override
+    public Future<JsonObject> updateAsync(final String key, final JsonObject body) {
+        final JsonArray actions = body.getJsonArray(KeField.ACTIONS);
+        return Ux.Jooq.on(SPermissionDao.class).<SPermission, String>updateAsync(key, body)
+
+                /* Synced Action */
+                .compose(permission -> this.actionStub.saveAction(permission, actions)
+
+                        /* futureJM to combine two result to JsonObject */
+                        .compose(Ux.futureJM(permission, KeField.ACTIONS))
+                );
+    }
+
+    @Override
+    public Future<Boolean> deleteAsync(final String key) {
+        return Ux.Jooq.on(SPermissionDao.class).deleteByIdAsync(key)
+                .compose(nil -> this.actionStub.removeAction(key));
     }
 
     // =============================== Private Method for Permissions ===============================

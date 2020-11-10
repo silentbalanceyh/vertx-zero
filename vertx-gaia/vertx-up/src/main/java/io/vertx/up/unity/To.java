@@ -166,4 +166,17 @@ class To {
         }
         return params;
     }
+
+    static <T, R> JsonObject toMerge(final T input, final String field, final List<R> list) {
+        if (Objects.isNull(input)) {
+            return new JsonObject();
+        } else {
+            final JsonObject serialized = Ut.serializeJson(input);
+            if (Objects.nonNull(list)) {
+                final JsonArray listData = Ut.serializeJson(list);
+                serialized.put(field, listData);
+            }
+            return serialized;
+        }
+    }
 }
