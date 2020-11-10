@@ -188,6 +188,7 @@ public class PermService implements PermStub {
     @Override
     public Future<JsonObject> createAsync(final JsonObject body) {
         final JsonArray actions = body.getJsonArray(KeField.ACTIONS);
+        body.remove(KeField.ACTIONS);
         return Ux.Jooq.on(SPermissionDao.class).<SPermission>insertAsync(body)
 
                 /* Synced Action */
@@ -201,6 +202,7 @@ public class PermService implements PermStub {
     @Override
     public Future<JsonObject> updateAsync(final String key, final JsonObject body) {
         final JsonArray actions = body.getJsonArray(KeField.ACTIONS);
+        body.remove(KeField.ACTIONS);
         return Ux.Jooq.on(SPermissionDao.class).<SPermission, String>updateAsync(key, body)
 
                 /* Synced Action */

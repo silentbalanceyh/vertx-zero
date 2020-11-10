@@ -34,7 +34,7 @@ public class ActionService implements ActionStub {
 
     @Override
     public Future<List<SAction>> fetchAction(final String permissionId) {
-        return Ux.Jooq.on(SActionDao.class).fetchAsync(KeField.ACTIONS, permissionId);
+        return Ux.Jooq.on(SActionDao.class).fetchAsync(KeField.PERMISSION_ID, permissionId);
     }
 
     @Override
