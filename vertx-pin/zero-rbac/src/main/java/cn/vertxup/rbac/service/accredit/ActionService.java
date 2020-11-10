@@ -160,9 +160,19 @@ public class ActionService implements ActionStub {
     }
 
     @Override
-    public Future<Boolean> removeAction(final String permissionId) {
-        final JsonObject criteria = new JsonObject();
-        criteria.put(KeField.PERMISSION_ID, permissionId);
-        return Ux.Jooq.on(SActionDao.class).deleteByAsync(criteria);
+    public Future<Boolean> removeAction(final String permissionId, final String userKey) {
+        return Ux.Jooq.on(SActionDao.class).<SAction>fetchAsync(KeField.PERMISSION_ID, permissionId)
+                .compose(actions -> {
+                    /*
+                     * actions modification, no createdBy processing here
+                     */
+                    actions.forEach(action -> {
+                        action.setPermissionId(null);
+                        action.setUpdatedAt(LocalDateTime.now());
+                        action.setUpdatedBy(userKey);
+                    });
+                    return Ux.Jooq.on(SActionDao.class).updateAsync(actions);
+                })
+                .compose(nil -> Ux.future(Boolean.TRUE));
     }
 }

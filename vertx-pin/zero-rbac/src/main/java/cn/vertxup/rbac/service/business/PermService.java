@@ -214,9 +214,9 @@ public class PermService implements PermStub {
     }
 
     @Override
-    public Future<Boolean> deleteAsync(final String key) {
+    public Future<Boolean> deleteAsync(final String key, final String userKey) {
         return Ux.Jooq.on(SPermissionDao.class).deleteByIdAsync(key)
-                .compose(nil -> this.actionStub.removeAction(key));
+                .compose(nil -> this.actionStub.removeAction(key, userKey));
     }
 
     // =============================== Private Method for Permissions ===============================

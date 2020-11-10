@@ -64,5 +64,5 @@ public interface PermStub {
 
     Future<JsonObject> updateAsync(String key, JsonObject body);
 
-    Future<Boolean> deleteAsync(String key);
+    Future<Boolean> deleteAsync(String key, String userKey);
 }

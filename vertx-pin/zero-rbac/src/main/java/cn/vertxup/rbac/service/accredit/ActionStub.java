@@ -39,7 +39,7 @@ public interface ActionStub {
 
     Future<List<SAction>> fetchAction(String permissionId);
 
-    Future<Boolean> removeAction(String permissionId);
+    Future<Boolean> removeAction(String permissionId, String userKey);
 
     /*
      * Api selector for action to get all authorized apis here.
