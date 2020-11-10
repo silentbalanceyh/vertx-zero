@@ -243,28 +243,39 @@ public final class Ux {
 
     /*
      *  future prefix processing here
+     *
+     * JsonArray
      * 1) futureA
      * -- futureA()
      * -- futureA(List)
      * -- futureA(List, pojo)
      * -- futureA(String)
      * -- futureA(Record[])
+     *
+     * JsonObject
      * 2) futureJ
      * -- futureJ()
      * -- futureJ(T)
      * -- futureJ(T, pojo)
      * -- futureJ(String)
      * -- futureJ(Record)
+     * -- futureJM(T, String)
+     *
+     * List
      * 3) futureL
      * -- futureL()
      * -- futureL(List)
      * -- futureL(List, pojo)
      * -- futureL(String)
+     *
+     * Grouped
      * 4) futureG
      * -- futureG(List, String)
      * -- futureG(T, String)
      * -- futureG(List)
      * -- futureG(T)
+     *
+     * Error Future
      * 5) futureE
      * -- futureE(T)
      * -- futureE(Supplier)
@@ -302,6 +313,10 @@ public final class Ux {
 
     public static <T> Future<JsonObject> futureJ(final T entity, final String pojo) {
         return Future.succeededFuture(To.toJObject(entity, pojo));
+    }
+
+    public static <T, R> Function<List<R>, Future<JsonObject>> futureJM(final T entity, final String field) {
+        return list -> Future.succeededFuture(To.toMerge(entity, field, list));
     }
 
     public static Future<JsonObject> futureJ() {

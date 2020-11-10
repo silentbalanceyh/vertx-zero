@@ -3,6 +3,7 @@ package cn.vertxup.rbac.service.accredit;
 import cn.vertxup.rbac.domain.tables.daos.SActionDao;
 import cn.vertxup.rbac.domain.tables.daos.SResourceDao;
 import cn.vertxup.rbac.domain.tables.pojos.SAction;
+import cn.vertxup.rbac.domain.tables.pojos.SPermission;
 import cn.vertxup.rbac.domain.tables.pojos.SResource;
 import io.vertx.core.Future;
 import io.vertx.core.http.HttpMethod;
@@ -17,9 +18,11 @@ import io.vertx.up.runtime.soul.UriMeta;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.concurrent.ConcurrentMap;
 
 public class ActionService implements ActionStub {
 
@@ -27,6 +30,11 @@ public class ActionService implements ActionStub {
     public Future<SAction> fetchAction(final String normalizedUri,
                                        final HttpMethod method) {
         return this.fetchAction(normalizedUri, method, null);
+    }
+
+    @Override
+    public Future<List<SAction>> fetchAction(final String permissionId) {
+        return Ux.Jooq.on(SActionDao.class).fetchAsync(KeField.PERMISSION_ID, permissionId);
     }
 
     @Override
@@ -100,5 +108,71 @@ public class ActionService implements ActionStub {
             resultList.sort(Comparator.comparing(UriMeta::getUri));
             return Ux.future(resultList);
         });
+    }
+
+    @Override
+    public Future<List<SAction>> saveAction(final SPermission permission, final JsonArray actionData) {
+        /*
+         * Read action list of original
+         */
+        return Ux.Jooq.on(SActionDao.class).<SAction>fetchAsync(KeField.PERMISSION_ID, permission.getKey())
+                .compose(oldList -> {
+                    /*
+                     * Get actions of input
+                     */
+                    final List<SAction> inputList = Ux.fromJson(actionData, SAction.class);
+
+                    final ConcurrentMap<String, SAction> mapInput = Ut.elementMap(inputList, SAction::getKey);
+                    final ConcurrentMap<String, SAction> mapStored = Ut.elementMap(oldList, SAction::getKey);
+                    /*
+                     * Remove link
+                     */
+                    final List<SAction> updated = new ArrayList<>();
+                    oldList.forEach(original -> {
+                        /*
+                         * Existing in inputMap but not in original
+                         * Here should remove link between Permission / Action
+                         */
+                        if (!mapInput.containsKey(original.getKey())) {
+                            this.setAction(original, permission, null);
+                            updated.add(original);
+                        }
+                    });
+                    /*
+                     * Add link
+                     */
+                    mapInput.keySet().stream().filter(key -> !mapStored.containsKey(key)).forEach(actionKey -> {
+                        final SAction action = mapInput.get(actionKey);
+                        this.setAction(action, permission, permission.getKey());
+                        updated.add(action);
+                    });
+                    return Ux.Jooq.on(SActionDao.class).updateAsync(updated);
+                });
+    }
+
+    private void setAction(final SAction action, final SPermission permission, final String permissionId) {
+        action.setPermissionId(permissionId);
+        action.setUpdatedAt(LocalDateTime.now());
+        action.setUpdatedBy(permission.getUpdatedBy());
+        action.setActive(Boolean.TRUE);
+        action.setLanguage(permission.getLanguage());
+        action.setSigma(permission.getSigma());
+    }
+
+    @Override
+    public Future<Boolean> removeAction(final String permissionId, final String userKey) {
+        return Ux.Jooq.on(SActionDao.class).<SAction>fetchAsync(KeField.PERMISSION_ID, permissionId)
+                .compose(actions -> {
+                    /*
+                     * actions modification, no createdBy processing here
+                     */
+                    actions.forEach(action -> {
+                        action.setPermissionId(null);
+                        action.setUpdatedAt(LocalDateTime.now());
+                        action.setUpdatedBy(userKey);
+                    });
+                    return Ux.Jooq.on(SActionDao.class).updateAsync(actions);
+                })
+                .compose(nil -> Ux.future(Boolean.TRUE));
     }
 }

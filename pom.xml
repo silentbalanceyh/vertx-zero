@@ -156,7 +156,7 @@
             <jsr311.version>1.1.1</jsr311.version>          Replaced by Jersey-Common
             <jws.version>2.1.1</jws.version>                Replaced by Jersey-Common
         -->
-        <jsr311.version>2.1.6</jsr311.version>
+        <jsr311.version>2.1.1</jsr311.version>
         <jsr330.version>1</jsr330.version>
         <jsr303.version>2.0.1.Final</jsr303.version>
         <jcache.version>1.1.1</jcache.version>
@@ -173,7 +173,7 @@
         <mdoclet.version>1.4</mdoclet.version>
 
         <!-- Logging -->
-        <log4j2.version>2.13.3</log4j2.version>
+        <log4j2.version>2.14.0</log4j2.version>
         <logback.version>1.2.3</logback.version>
         <logback.cal10n.version>0.8.1</logback.cal10n.version>
         <slf4j.version>1.7.25</slf4j.version>
@@ -826,10 +826,10 @@
                 <artifactId>jersey-common</artifactId>
                 <version>${jersey.version}</version>
             </dependency>
-            <!-- https://mvnrepository.com/artifact/jakarta.ws.rs/jakarta.ws.rs-api -->
+            <!-- https://mvnrepository.com/artifact/javax.ws.rs/javax.ws.rs-api -->
             <dependency>
-                <groupId>jakarta.ws.rs</groupId>
-                <artifactId>jakarta.ws.rs-api</artifactId>
+                <groupId>javax.ws.rs</groupId>
+                <artifactId>javax.ws.rs-api</artifactId>
                 <version>${jsr311.version}</version>
             </dependency>
             <!-- http://mvnrepository.com/artifact/org.projectlombok/lombok -->

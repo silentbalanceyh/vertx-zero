@@ -5,7 +5,9 @@ import cn.vertxup.rbac.service.business.PermStub;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
+import io.vertx.ext.auth.User;
 import io.vertx.tp.ke.cv.KeField;
+import io.vertx.tp.ke.refine.Ke;
 import io.vertx.tp.rbac.cv.Addr;
 import io.vertx.tp.rbac.refine.Sc;
 import io.vertx.up.annotations.Address;
@@ -106,8 +108,30 @@ public class PermActor {
         return this.stub.syncPerm(permissions, roleId);
     }
 
-    @Address(Addr.Authority.PERMISSION_UN_READY)
+    // ======================= CRUD Replace =============================
+    @Address(Addr.Perm.PERMISSION_UN_READY)
     public Future<JsonObject> searchUnReady(final JsonObject query, final XHeader header) {
-        return this.stub.searchUnReady(query, header.getSigma());
+        return this.stub.searchAsync(query, header.getSigma());
+    }
+
+    @Address(Addr.Perm.BY_ID)
+    public Future<JsonObject> fetch(final String key) {
+        return this.stub.fetchAsync(key);
+    }
+
+    @Address(Addr.Perm.ADD)
+    public Future<JsonObject> add(final JsonObject body) {
+        return this.stub.createAsync(body);
+    }
+
+    @Address(Addr.Perm.EDIT)
+    public Future<JsonObject> edit(final String key, final JsonObject body) {
+        return this.stub.updateAsync(key, body);
+    }
+
+    @Address(Addr.Perm.DELETE)
+    public Future<Boolean> delete(final String key, final User user) {
+        final String userKey = Ke.keyUser(user);
+        return this.stub.deleteAsync(key, userKey);
     }
 }

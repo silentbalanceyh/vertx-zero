@@ -48,9 +48,21 @@ public interface PermStub {
      */
     Future<JsonArray> syncPerm(JsonArray permissions, String roleId);
 
+    // ======================= CRUD Replace =============================
     /*
      * Query engine processing
      * - sigma for S_PERM_SET table here
      */
-    Future<JsonObject> searchUnReady(JsonObject query, String sigma);
+    Future<JsonObject> searchAsync(JsonObject query, String sigma);
+
+    /*
+     * Crud
+     */
+    Future<JsonObject> fetchAsync(String key);
+
+    Future<JsonObject> createAsync(JsonObject body);
+
+    Future<JsonObject> updateAsync(String key, JsonObject body);
+
+    Future<Boolean> deleteAsync(String key, String userKey);
 }

@@ -1,9 +1,11 @@
 package cn.vertxup.rbac.service.accredit;
 
 import cn.vertxup.rbac.domain.tables.pojos.SAction;
+import cn.vertxup.rbac.domain.tables.pojos.SPermission;
 import cn.vertxup.rbac.domain.tables.pojos.SResource;
 import io.vertx.core.Future;
 import io.vertx.core.http.HttpMethod;
+import io.vertx.core.json.JsonArray;
 import io.vertx.up.runtime.soul.UriMeta;
 
 import java.util.List;
@@ -20,11 +22,24 @@ import java.util.List;
  */
 public interface ActionStub {
 
+
     Future<SAction> fetchAction(String normalizedUri, HttpMethod method);
 
     Future<SAction> fetchAction(String normalizedUri, HttpMethod method, String sigma);
 
     Future<SResource> fetchResource(String key);
+
+    /*
+     * Action Sync based on permission
+     * 1) Add
+     * 2) Update
+     * 3) Delete
+     */
+    Future<List<SAction>> saveAction(SPermission permission, JsonArray actionData);
+
+    Future<List<SAction>> fetchAction(String permissionId);
+
+    Future<Boolean> removeAction(String permissionId, String userKey);
 
     /*
      * Api selector for action to get all authorized apis here.

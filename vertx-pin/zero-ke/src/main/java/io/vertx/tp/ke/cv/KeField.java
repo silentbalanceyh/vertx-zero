@@ -110,6 +110,8 @@ public interface KeField {
     String SEEKER = "seeker";                   /* Acl Seeker */
     String SYNTAX = "syntax";                   /* Acl Syntax */
     String VIEW_ID = "viewId";                  /* View Id */
+    String PERMISSION_ID = "permissionId";      /* Security: permissionId */
+    String ACTIONS = "actions";                 /* Security: actions */
 
     /*
      * X_APP
