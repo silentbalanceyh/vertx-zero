@@ -22,6 +22,7 @@ import java.util.function.Function;
 /*
  * Specific checking
  */
+@SuppressWarnings("all")
 class Is {
     /*
      * Low performance processing, be careful to use
@@ -60,6 +61,25 @@ class Is {
 
     static boolean isSame(final Object left, final Object right, final Class<?> type) {
         return isSame(left, right, type, new HashSet<>());
+    }
+
+    static <T, V> Boolean isSame(final T left, final T right, final Function<T, V> fnGet) {
+        if (Objects.nonNull(left) && Objects.nonNull(right)) {
+            final V leftValue = fnGet.apply(left);
+            final V rightValue = fnGet.apply(right);
+            return isSame(leftValue, rightValue);
+        } else {
+            return Objects.isNull(left) && Objects.isNull(right);
+        }
+    }
+
+    static <T> Boolean isSame(final T left, final T right) {
+        if (Objects.nonNull(left) && Objects.nonNull(right)) {
+            final Class<?> clazz = left.getClass();
+            return isSame(left, right, clazz, new HashSet<>());
+        } else {
+            return Objects.isNull(left) && Objects.isNull(right);
+        }
     }
 
     static <T> boolean isEqual(final JsonObject record, final String field, final T expected) {

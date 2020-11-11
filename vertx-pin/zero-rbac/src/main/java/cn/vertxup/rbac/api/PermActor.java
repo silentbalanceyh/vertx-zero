@@ -96,7 +96,7 @@ public class PermActor {
 
         final String userKey = Ke.keyUser(user);
 
-        return this.setStub.saveDefinition(permissions, group, sigma)                // Permission Process
+        return this.setStub.saveDefinition(permissions, group, sigma, userKey)               // Permission Process
                 .compose(nil -> this.stub.syncAsync(removed, relation, userKey))             // Action Process
                 .compose(nil -> Ux.future(relation));
     }

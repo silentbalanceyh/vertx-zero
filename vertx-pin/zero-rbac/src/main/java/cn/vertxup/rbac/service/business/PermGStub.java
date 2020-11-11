@@ -26,5 +26,5 @@ public interface PermGStub {
      *     "data": []
      * }
      */
-    Future<JsonArray> saveDefinition(JsonArray permission, String group, String sigma);
+    Future<JsonArray> saveDefinition(JsonArray permission, String group, String sigma, String userKey);
 }

@@ -111,7 +111,7 @@
         <jedis.version>3.3.0</jedis.version>
 
         <!-- elasticsearch version -->
-        <elasticsearch.version>7.9.3</elasticsearch.version>
+        <elasticsearch.version>7.10.0</elasticsearch.version>
 
         <!-- neo4j search -->
         <neo4j.version>4.1.1</neo4j.version>
@@ -144,7 +144,7 @@
         <!-- Vert.x Addition -->
         <rxjava2.version>2.2.20</rxjava2.version>
         <netty.tcnative.version>2.0.34.Final</netty.tcnative.version>
-        <netty.version>4.1.53.Final</netty.version>
+        <netty.version>4.1.54.Final</netty.version>
         <hazelcast.version>3.12.4</hazelcast.version>
         <swagger.version>1.6.0</swagger.version>
         <error.prone.version>2.4.0</error.prone.version>
