@@ -8,14 +8,6 @@ import io.vertx.core.json.JsonObject;
  * @author <a href="http://www.origin-x.cn">lang</a>
  */
 public interface PermStub {
-    /*
-     * Get permission groups service
-     * There are two fields that stored data
-     *
-     * group - Permission Group
-     * identifier - Model Identifier
-     */
-    Future<JsonArray> groupAsync(String sigma);
 
     /*
      * Permission removed here
@@ -31,22 +23,18 @@ public interface PermStub {
      *         "action5": "permission2"
      *     }
      * }
+     *
+     * Process relation between `Action` and `Permission`
+     * -- Action & Permission
      */
-    Future<JsonObject> savingPerm(JsonArray removed, JsonObject relation);
-
-    /*
-     * Permission Sync with `group` provided
-     * {
-     *     "group": "xxx",
-     *     "data": []
-     * }
-     */
-    Future<JsonArray> syncPerm(JsonArray permission, String group, String sigma);
+    Future<JsonObject> syncAsync(JsonArray removed, JsonObject relation, String userKey);
 
     /*
      * Permission Sync with `roleId` provided
+     * Process relation between `Role` and `Permission`
+     * -- Role & Permission
      */
-    Future<JsonArray> syncPerm(JsonArray permissions, String roleId);
+    Future<JsonArray> syncAsync(JsonArray permissions, String roleId);
 
     // ======================= CRUD Replace =============================
     /*

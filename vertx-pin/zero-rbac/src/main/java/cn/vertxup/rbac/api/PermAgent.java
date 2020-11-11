@@ -14,7 +14,9 @@ import javax.ws.rs.*;
 @EndPoint
 @Path("/api")
 public interface PermAgent {
-
+    /*
+     * permission set fetching
+     */
     @Path("/permission/groups/by/sigma")
     @GET
     @Address(Addr.Authority.PERMISSION_GROUP)
