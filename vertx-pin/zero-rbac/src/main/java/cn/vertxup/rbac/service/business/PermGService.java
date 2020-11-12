@@ -83,7 +83,7 @@ public class PermGService implements PermGStub {
             final JsonObject criteria = new JsonObject();
             criteria.put(KeField.SIGMA, sigma);
             criteria.put(KeField.NAME, permSet.getName());
-            return Ux.Jooq.on(SPermSetDao.class).<SPermSet>fetchAsync(criteria);
+            return Ux.Jooq.on(SPermSetDao.class).<SPermSet>fetchAndAsync(criteria);
         }).compose(originalSet -> {
             /*
              * 3) Processing for ( ADD, UPDATE ) records of Perm Set
@@ -116,7 +116,7 @@ public class PermGService implements PermGStub {
         final JsonObject criteria = new JsonObject();
         criteria.put(KeField.SIGMA, permSet.getSigma());
         criteria.put(KeField.NAME, permSet.getName());
-        criteria.put("permissionId,i", Ut.toJArray(
+        criteria.put("code,i", Ut.toJArray(
                 permissions.stream().map(SPermission::getCode).collect(Collectors.toSet())
         ));
         criteria.put(Strings.EMPTY, Boolean.TRUE);
