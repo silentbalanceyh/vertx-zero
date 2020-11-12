@@ -1,5 +1,6 @@
 package cn.vertxup.rbac.service.business;
 
+import cn.vertxup.rbac.domain.tables.pojos.SPermSet;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 
@@ -26,5 +27,5 @@ public interface PermGStub {
      *     "data": []
      * }
      */
-    Future<JsonArray> saveDefinition(JsonArray permission, String group, String sigma, String userKey);
+    Future<JsonArray> saveDefinition(JsonArray permission, SPermSet permSet);
 }

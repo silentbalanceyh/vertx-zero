@@ -1,6 +1,7 @@
 package cn.vertxup.rbac.api;
 
 import cn.vertxup.rbac.domain.tables.daos.RRolePermDao;
+import cn.vertxup.rbac.domain.tables.pojos.SPermSet;
 import cn.vertxup.rbac.service.business.PermGStub;
 import cn.vertxup.rbac.service.business.PermStub;
 import io.vertx.core.Future;
@@ -19,6 +20,7 @@ import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
 import javax.inject.Inject;
+import java.time.LocalDateTime;
 
 /**
  * @author <a href="http://www.origin-x.cn">lang</a>
@@ -78,6 +80,11 @@ public class PermActor {
      *** -- If missing, create new S_PERM_SET
      ***
      *** 2) Remove all permissions from current S_PERM_SET only
+     ***
+     *** Build new based SPermSet entity that include
+     *** a）name
+     *** b) createdAt / createdBy
+     *** c) language / sigma
      */
     @Address(Addr.Authority.PERMISSION_DEFINITION_SAVE)
     public Future<JsonObject> saveDefinition(final JsonObject processed,
@@ -96,8 +103,17 @@ public class PermActor {
 
         final String userKey = Ke.keyUser(user);
 
-        return this.setStub.saveDefinition(permissions, group, sigma, userKey)               // Permission Process
-                .compose(nil -> this.stub.syncAsync(removed, relation, userKey))             // Action Process
+        // SPermSet
+        final SPermSet permSet = new SPermSet();
+        permSet.setName(group);
+        permSet.setActive(Boolean.TRUE);
+        permSet.setSigma(sigma);
+        permSet.setLanguage(header.getLanguage());
+        permSet.setUpdatedAt(LocalDateTime.now());
+        permSet.setUpdatedBy(userKey);
+
+        return this.setStub.saveDefinition(permissions, permSet)                       // Permission Process
+                .compose(nil -> this.stub.syncAsync(removed, relation, userKey))       // Action Process
                 .compose(nil -> Ux.future(relation));
     }
 

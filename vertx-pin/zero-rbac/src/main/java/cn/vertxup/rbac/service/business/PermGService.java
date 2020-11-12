@@ -9,14 +9,17 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.ke.cv.KeField;
 import io.vertx.up.atom.Refer;
+import io.vertx.up.eon.Strings;
 import io.vertx.up.eon.em.ChangeFlag;
 import io.vertx.up.uca.jooq.UxJooq;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 import java.util.concurrent.ConcurrentMap;
 import java.util.stream.Collectors;
 
@@ -46,11 +49,19 @@ public class PermGService implements PermGStub {
      *
      * 1) Permission combine ( key as unique )
      * 2) PermSet combine ( name, code as unique )
+     *
      */
     @Override
-    public Future<JsonArray> saveDefinition(final JsonArray permissions, final String group,
-                                            final String sigma, final String userKey) {
-        return this.calcPermission(permissions, sigma).compose(compared -> {
+    public Future<JsonArray> saveDefinition(final JsonArray permissions, final SPermSet permSet) {
+        final String sigma = permSet.getSigma();
+
+        /*
+         * 1) Permission Compared ( Update / Add )
+         * -- Combined for final on PERM_SET
+         */
+        final Refer permSetRef = new Refer();
+        final Refer mapRef = new Refer();
+        return this.calcPermission(permissions, sigma).compose(mapRef::future).compose(compared -> {
             /*
              * ADD / UPDATE ( Processing )
              */
@@ -58,33 +69,90 @@ public class PermGService implements PermGStub {
             final UxJooq jooq = Ux.Jooq.on(SPermissionDao.class);
             combined.add(jooq.insertAsync(compared.get(ChangeFlag.ADD)));
             combined.add(jooq.updateAsync(compared.get(ChangeFlag.UPDATE)));
+            return Ux.thenCombineArrayT(combined).compose(processed ->
+                    /*
+                     * Codes here for future usage
+                     */
+                    permSetRef.future(processed.stream().map(SPermission::getCode).collect(Collectors.toSet()))
+            );
+        }).compose(nil -> {
+
             /*
-             * Combined for final on PERM_SET
+             * 2) Perm Set fetching here for original
              */
-            final Refer permSetRef = new Refer();
-            return Ux.thenCombineArrayT(combined)
-                    .compose(processed -> {
-                        /*
-                         * Calculate to permission codes
-                         */
-                        final Set<String> permCodes = processed.stream()
-                                .map(SPermission::getCode).collect(Collectors.toSet());
-                        return Ux.future(permCodes);
-                    })
-                    .compose(permSetRef::future)
-                    .compose(nil -> {
-                        /*
-                         * Fetch PERM_SET by group
-                         */
-                        final JsonObject criteria = new JsonObject();
-                        criteria.put(KeField.SIGMA, sigma);
-                        criteria.put(KeField.NAME, group);
-                        return Ux.Jooq.on(SPermSetDao.class).<SPermSet>fetchAsync(criteria);
-                    })
-                    .compose(permSet -> {
-                        return null;
-                    });
+            final JsonObject criteria = new JsonObject();
+            criteria.put(KeField.SIGMA, sigma);
+            criteria.put(KeField.NAME, permSet.getName());
+            return Ux.Jooq.on(SPermSetDao.class).<SPermSet>fetchAsync(criteria);
+        }).compose(originalSet -> {
+            /*
+             * 3) Processing for ( ADD, UPDATE ) records of Perm Set
+             */
+            final Set<String> current = permSetRef.get();
+            final Set<String> original = originalSet.stream().map(SPermSet::getCode).collect(Collectors.toSet());
+            /*
+             * Add New ( current - original )
+             * Update ( current & original )
+             */
+            final Set<String> added = Ut.diff(current, original);
+            final Set<String> updated = Ut.intersect(current, original);
+            /*
+             * Future queue for ( ADD / UPDATE )
+             */
+            final List<Future<List<SPermSet>>> futures = new ArrayList<>();
+            futures.add(this.insertPerm(permSet, added));
+            futures.add(this.updatePerm(permSet, originalSet, updated));
+
+            final ConcurrentMap<ChangeFlag, List<SPermission>> map = mapRef.get();
+            final List<SPermission> deleted = map.get(ChangeFlag.DELETE);
+            futures.add(this.deletePerm(permSet, deleted));
+
+            return Ux.thenCombineArrayT(futures);
+        }).compose(Ux::futureA);
+    }
+
+    // ======================= Basic Three Method =============================
+    private Future<List<SPermSet>> deletePerm(final SPermSet permSet, final List<SPermission> permissions) {
+        final JsonObject criteria = new JsonObject();
+        criteria.put(KeField.SIGMA, permSet.getSigma());
+        criteria.put(KeField.NAME, permSet.getName());
+        criteria.put("permissionId,i", Ut.toJArray(
+                permissions.stream().map(SPermission::getCode).collect(Collectors.toSet())
+        ));
+        criteria.put(Strings.EMPTY, Boolean.TRUE);
+        return Ux.Jooq.on(SPermSetDao.class).deleteByAsync(criteria).compose(nil -> Ux.future(new ArrayList<>()));
+    }
+
+    private Future<List<SPermSet>> updatePerm(final SPermSet permSet, final List<SPermSet> permSetList,
+                                              final Set<String> codes) {
+        permSetList.forEach(each -> {
+            each.setUpdatedBy(permSet.getUpdatedBy());
+            each.setUpdatedAt(permSet.getUpdatedAt());
         });
+        return Ux.Jooq.on(SPermSetDao.class).updateAsync(permSetList.stream()
+                .filter(item -> codes.contains(item.getCode()))
+                .collect(Collectors.toList())
+        );
+    }
+
+    private Future<List<SPermSet>> insertPerm(final SPermSet permSet, final Set<String> codes) {
+        final List<SPermSet> list = new ArrayList<>();
+        codes.forEach(each -> {
+            final SPermSet inserted = new SPermSet();
+            inserted.setKey(UUID.randomUUID().toString());
+            inserted.setCode(each);
+            /*
+             * Copy
+             */
+            inserted.setName(permSet.getName());
+            inserted.setActive(Boolean.TRUE);
+            inserted.setSigma(permSet.getSigma());
+            inserted.setLanguage(permSet.getLanguage());
+            inserted.setCreatedAt(LocalDateTime.now());
+            inserted.setCreatedBy(permSet.getUpdatedBy());
+            list.add(inserted);
+        });
+        return Ux.Jooq.on(SPermSetDao.class).insertAsync(list);
     }
 
     /*
