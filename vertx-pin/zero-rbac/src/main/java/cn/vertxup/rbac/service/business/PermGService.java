@@ -67,6 +67,10 @@ public class PermGService implements PermGStub {
              */
             final List<Future<List<SPermission>>> combined = new ArrayList<>();
             final UxJooq jooq = Ux.Jooq.on(SPermissionDao.class);
+
+            /*
+             * ADD / UPDATE evaluation
+             */
             combined.add(jooq.insertAsync(compared.get(ChangeFlag.ADD)));
             combined.add(jooq.updateAsync(compared.get(ChangeFlag.UPDATE)));
             return Ux.thenCombineArrayT(combined).compose(processed ->
