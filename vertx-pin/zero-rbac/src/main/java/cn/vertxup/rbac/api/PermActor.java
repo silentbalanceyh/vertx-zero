@@ -96,6 +96,7 @@ public class PermActor {
         // Permission Data
         final JsonArray permissions = Ut.sureJArray(processed.getJsonArray(KeField.DATA));
         final String group = processed.getString("group");
+        final String type = processed.getString("type");
 
         // Action Data
         final JsonArray removed = Ut.sureJArray(processed.getJsonArray("removed"));
@@ -106,6 +107,7 @@ public class PermActor {
         // SPermSet
         final SPermSet permSet = new SPermSet();
         permSet.setName(group);
+        permSet.setType(type);
         permSet.setActive(Boolean.TRUE);
         permSet.setSigma(sigma);
         permSet.setLanguage(header.getLanguage());

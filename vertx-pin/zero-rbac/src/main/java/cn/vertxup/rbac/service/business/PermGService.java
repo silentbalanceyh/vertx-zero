@@ -145,6 +145,7 @@ public class PermGService implements PermGStub {
             final SPermSet inserted = new SPermSet();
             inserted.setKey(UUID.randomUUID().toString());
             inserted.setCode(each);
+            inserted.setType(permSet.getType());
             /*
              * Copy
              */
