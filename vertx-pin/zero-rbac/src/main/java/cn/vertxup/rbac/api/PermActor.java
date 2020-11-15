@@ -1,6 +1,8 @@
 package cn.vertxup.rbac.api;
 
 import cn.vertxup.rbac.domain.tables.daos.RRolePermDao;
+import cn.vertxup.rbac.domain.tables.pojos.SPermSet;
+import cn.vertxup.rbac.service.business.PermGStub;
 import cn.vertxup.rbac.service.business.PermStub;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
@@ -18,6 +20,7 @@ import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
 import javax.inject.Inject;
+import java.time.LocalDateTime;
 
 /**
  * @author <a href="http://www.origin-x.cn">lang</a>
@@ -28,68 +31,91 @@ public class PermActor {
     @Inject
     private transient PermStub stub;
 
+    @Inject
+    private transient PermGStub setStub;
+
     /*
      * Calculate Permission Groups
      */
     @Address(Addr.Authority.PERMISSION_GROUP)
     public Future<JsonArray> calculate(final XHeader header) {
-        return this.stub.groupAsync(header.getSigma());
+        return this.setStub.fetchAsync(header.getSigma());
     }
 
+    /*
+     * Two steps, the input json is:
+     * Action Part:
+     * {
+     *     "removed": [
+     *         "action1",
+     *         "action2"
+     *     ],
+     *     "relation":{
+     *         "action3": "permission1",
+     *         "action4": "permission2"
+     *     }
+     * }
+     * Permission Part:
+     * {
+     *     "group": "xxxx",
+     *     "data": [
+     *
+     *     ]
+     * }
+     *
+     * The steps is as following:
+     *
+     * 1. Permission Sync ( Removed, Add New, Update )
+     * 2. Action Sync ( Add New, Relation Processing )
+     *
+     * The old workflow is 3 tables:
+     * S_PERMISSION / S_ACTION / S_RESOURCE
+     *
+     * The new workflow is 4 tables calculation:
+     * S_PERMISSION / S_ACTION / S_RESOURCE / S_PERM_SET
+     *
+     * The detail workflow should be as following:
+     *** 1）Check whether current S_PERM_SET here, the unique condition is ( name + code, here code is permissions code )
+     *** -- If existing, update current S_PERM_SET
+     *** -- If missing, create new S_PERM_SET
+     ***
+     *** 2) Remove all permissions from current S_PERM_SET only
+     ***
+     *** Build new based SPermSet entity that include
+     *** a）name
+     *** b) createdAt / createdBy
+     *** c) language / sigma
+     */
     @Address(Addr.Authority.PERMISSION_DEFINITION_SAVE)
     public Future<JsonObject> saveDefinition(final JsonObject processed,
-                                             final XHeader header) {
+                                             final XHeader header, final User user) {
         final String sigma = header.getSigma();
         Sc.infoWeb(this.getClass(), "Permission Update: {0}, sigma = {1}",
                 processed.encode(), sigma);
-        /*
-         * Two steps, the input json is:
-         * Action Part:
-         * {
-         *     "removed": [
-         *         "action1",
-         *         "action2"
-         *     ],
-         *     "relation":{
-         *         "action3": "permission1",
-         *         "action4": "permission2"
-         *     }
-         * }
-         * Permission Part:
-         * {
-         *     "group": "xxxx",
-         *     "data": [
-         *
-         *     ]
-         * }
-         *
-         * The steps is as following:
-         *
-         * 1. Permission Sync ( Removed, Add New, Update )
-         * 2. Action Sync ( Add New, Relation Processing )
-         *
-         * The old workflow is 3 tables:
-         * S_PERMISSION / S_ACTION / S_RESOURCE
-         *
-         * The new workflow is 4 tables calculation:
-         * S_PERMISSION / S_ACTION / S_RESOURCE / S_PERM_SET
-         *
-         * The detail workflow should be as following:
-         *** 1）Check whether current S_PERM_SET here, the unique condition is ( name + code, here code is permissions code )
-         *** -- If existing, update current S_PERM_SET
-         *** -- If missing, create new S_PERM_SET
-         ***
-         *** 2) Remove all permissions from current S_PERM_SET only
-         */
+
         // Permission Data
         final JsonArray permissions = Ut.sureJArray(processed.getJsonArray(KeField.DATA));
         final String group = processed.getString("group");
+        final String type = processed.getString("type");
+
         // Action Data
         final JsonArray removed = Ut.sureJArray(processed.getJsonArray("removed"));
         final JsonObject relation = Ut.sureJObject(processed.getJsonObject("relation"));
 
-        return this.stub.syncPerm(permissions, group, sigma)                // Permission Process
-                .compose(nil -> this.stub.savingPerm(removed, relation))    // Action Process
+        final String userKey = Ke.keyUser(user);
+
+        // SPermSet
+        final SPermSet permSet = new SPermSet();
+        permSet.setName(group);
+        permSet.setType(type);
+        permSet.setActive(Boolean.TRUE);
+        permSet.setSigma(sigma);
+        permSet.setLanguage(header.getLanguage());
+        permSet.setUpdatedAt(LocalDateTime.now());
+        permSet.setUpdatedBy(userKey);
+
+        return this.setStub.saveDefinition(permissions, permSet)                       // Permission Process
+                .compose(nil -> this.stub.syncAsync(removed, relation, userKey))       // Action Process
                 .compose(nil -> Ux.future(relation));
     }
 
@@ -105,7 +131,7 @@ public class PermActor {
         /*
          * Sync operation on permissions
          */
-        return this.stub.syncPerm(permissions, roleId);
+        return this.stub.syncAsync(permissions, roleId);
     }
 
     // ======================= CRUD Replace =============================
