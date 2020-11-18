@@ -48,7 +48,15 @@ class TrashBuilder {
 
     TrashBuilder(final String identifier) {
         this.identifier = identifier;
-        this.tableName = "HIS_" + this.identifier.toUpperCase().replace('.', '_');
+        final String tableName = this.identifier.toUpperCase()
+                /*
+                 * Here two format
+                 * 1) such as `ci.server` that contains `.`;
+                 * 2) such as `x-tabular` that contains `-`;
+                 */
+                .replace('.', '_')
+                .replace('-', '_');
+        this.tableName = "HIS_" + tableName;
         this.context = JooqInfix.getDSL(Constants.DEFAULT_JOOQ_HISTORY);
     }
 
