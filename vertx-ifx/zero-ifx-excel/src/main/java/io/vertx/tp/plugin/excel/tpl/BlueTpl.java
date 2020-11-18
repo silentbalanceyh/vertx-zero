@@ -66,7 +66,7 @@ public class BlueTpl implements ExTpl {
             final int num = sheet.getPhysicalNumberOfRows();
             for (int idx = dataStart; idx < num; idx++) {
                 final Row data = sheet.getRow(idx);
-                this.applyData(data);
+                this.applyData(data, shape);
             }
         }
     }
@@ -98,11 +98,12 @@ public class BlueTpl implements ExTpl {
         }
     }
 
-    private void applyData(final Row dataRow) {
+    private void applyData(final Row dataRow, final Shape shape) {
         final int enCells = dataRow.getPhysicalNumberOfCells();
         for (int idx = 0; idx < enCells; idx++) {
             final Cell cell = dataRow.getCell(idx);
-            this.dye.onData(cell);
+            final Class<?> type = shape.type(idx);
+            this.dye.onData(cell, type);
         }
     }
 }

@@ -7,6 +7,7 @@ import org.apache.poi.ss.usermodel.*;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.Date;
+import java.util.Objects;
 import java.util.TimeZone;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
@@ -90,16 +91,20 @@ class BlueDye {
      *    The pool name is DATA-DATE & DATA-DATETIME
      * 2) Other date type should be pool of DATA-VALUE also.
      */
-    void onData(final Cell cell) {
+    void onData(final Cell cell, final Class<?> type) {
         final DyeCell dye;
         if (CellType.NUMERIC == cell.getCellType()) {
             /*
              * Buf for date exporting here
              */
             final double cellValue = cell.getNumericCellValue();
-            if (DateUtil.isValidExcelDate(cellValue)) {
+            if (Objects.nonNull(type)                                   // not null type
+                    && Ut.isDate(type)                                  // type is date time definition
+                    && DateUtil.isValidExcelDate(cellValue)             // the value is valid excel date
+            ) {
                 final Date value = DateUtil.getJavaDate(cellValue, TimeZone.getDefault());
                 final LocalDateTime datetime = Ut.toDateTime(value);
+
                 final LocalTime time = datetime.toLocalTime();
                 if (LocalTime.MIN == time) {
                     /*
