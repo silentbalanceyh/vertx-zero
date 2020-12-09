@@ -68,7 +68,7 @@ public interface ExValue {
              */
             final CellValue value = evaluator.evaluate(cell);
             final String exprValue = value.getStringValue();
-            if (ExKey.VALUE_NULL.equalsIgnoreCase(exprValue.trim())) {
+            if (Objects.nonNull(exprValue) && ExKey.VALUE_NULL.equalsIgnoreCase(exprValue.trim())) {
                 exprOr = null;
             } else {
                 exprOr = exprValue;
