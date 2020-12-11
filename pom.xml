@@ -108,10 +108,10 @@
         <ignite.version>2.9.0</ignite.version>
         <mongodb.async.version>3.12.7</mongodb.async.version>
         <poi.version>4.1.2</poi.version>
-        <jedis.version>3.3.0</jedis.version>
+        <jedis.version>3.4.0</jedis.version>
 
         <!-- elasticsearch version -->
-        <elasticsearch.version>7.10.0</elasticsearch.version>
+        <elasticsearch.version>7.10.1</elasticsearch.version>
 
         <!-- neo4j search -->
         <neo4j.version>4.2.0</neo4j.version>
