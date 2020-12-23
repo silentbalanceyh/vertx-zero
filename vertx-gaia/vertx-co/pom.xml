@@ -92,10 +92,6 @@
         <!-- Codec -->
         <dependency>
             <groupId>io.netty</groupId>
-            <artifactId>netty-resolver-dns-native-macos</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>io.netty</groupId>
             <artifactId>netty-transport</artifactId>
             <exclusions>
                 <exclusion>
