@@ -1011,6 +1011,12 @@
                 <artifactId>netty-resolver-dns</artifactId>
                 <version>${netty.version}</version>
             </dependency>
+            <!-- https://mvnrepository.com/artifact/io.netty/netty-resolver-dns-native-macos -->
+            <dependency>
+                <groupId>io.netty</groupId>
+                <artifactId>netty-resolver-dns-native-macos</artifactId>
+                <version>${netty.version}</version>
+            </dependency>
             <dependency>
                 <groupId>io.netty</groupId>
                 <artifactId>netty-transport</artifactId>
