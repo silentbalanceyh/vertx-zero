@@ -97,7 +97,7 @@
         <hibernate.validator.version>6.1.2.Final</hibernate.validator.version>
 
         <jwt.version>3.12.0</jwt.version>
-        <jetbrains.version>19.0.0</jetbrains.version>
+        <jetbrains.version>20.1.0</jetbrains.version>
         <guice.version>4.1.0</guice.version>
         <scala.version>2.13.4</scala.version>
         <feign.version>8.18.0</feign.version>
@@ -108,7 +108,7 @@
         <ignite.version>2.9.0</ignite.version>
         <mongodb.async.version>3.12.7</mongodb.async.version>
         <poi.version>4.1.2</poi.version>
-        <jedis.version>3.4.0</jedis.version>
+        <jedis.version>3.4.1</jedis.version>
 
         <!-- elasticsearch version -->
         <elasticsearch.version>7.10.1</elasticsearch.version>
