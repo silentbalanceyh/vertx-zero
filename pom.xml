@@ -96,19 +96,19 @@
         <!-- Bean Validation -->
         <hibernate.validator.version>6.1.2.Final</hibernate.validator.version>
 
-        <jwt.version>3.11.0</jwt.version>
-        <jetbrains.version>19.0.0</jetbrains.version>
+        <jwt.version>3.12.0</jwt.version>
+        <jetbrains.version>20.1.0</jetbrains.version>
         <guice.version>4.1.0</guice.version>
         <scala.version>2.13.4</scala.version>
         <feign.version>8.18.0</feign.version>
         <guava.version>30.1-jre</guava.version>
-        <joda.version>2.10.8</joda.version>
+        <joda.version>2.10.9</joda.version>
         <codehaus.janino.version>3.2.1</codehaus.janino.version>
         <codehaus.mojo.version>1.19</codehaus.mojo.version>
-        <ignite.version>2.9.0</ignite.version>
+        <ignite.version>2.9.1</ignite.version>
         <mongodb.async.version>3.12.7</mongodb.async.version>
         <poi.version>4.1.2</poi.version>
-        <jedis.version>3.4.0</jedis.version>
+        <jedis.version>3.4.1</jedis.version>
 
         <!-- elasticsearch version -->
         <elasticsearch.version>7.10.1</elasticsearch.version>
@@ -135,7 +135,7 @@
         <vertx.grpc.version>1.6.1</vertx.grpc.version>
         <grpc.version>1.34.1</grpc.version>
         <gson.version>2.8.6</gson.version>
-        <picoli.version>4.5.2</picoli.version>
+        <picoli.version>4.6.1</picoli.version>
 
         <!-- Yaml -->
         <yaml.version>1.27</yaml.version>
@@ -143,8 +143,8 @@
 
         <!-- Vert.x Addition -->
         <rxjava2.version>2.2.20</rxjava2.version>
-        <netty.tcnative.version>2.0.35.Final</netty.tcnative.version>
-        <netty.version>4.1.56.Final</netty.version>
+        <netty.tcnative.version>2.0.34.Final</netty.tcnative.version>
+        <netty.version>4.1.54.Final</netty.version>
         <hazelcast.version>3.12.4</hazelcast.version>
         <swagger.version>1.6.0</swagger.version>
         <error.prone.version>2.4.0</error.prone.version>
@@ -1009,6 +1009,12 @@
             <dependency>
                 <groupId>io.netty</groupId>
                 <artifactId>netty-resolver-dns</artifactId>
+                <version>${netty.version}</version>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/io.netty/netty-resolver-dns-native-macos -->
+            <dependency>
+                <groupId>io.netty</groupId>
+                <artifactId>netty-resolver-dns-native-macos</artifactId>
                 <version>${netty.version}</version>
             </dependency>
             <dependency>

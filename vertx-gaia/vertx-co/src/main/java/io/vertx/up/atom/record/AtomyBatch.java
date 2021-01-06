@@ -12,10 +12,9 @@ import java.util.concurrent.ConcurrentMap;
 class AtomyBatch implements AtomyOp<JsonArray> {
     private transient final JsonArray original;
     private transient final JsonArray current;
-    private transient final ChangeFlag flag;
-
     private transient final JsonArray data = new JsonArray();
     private transient final ConcurrentMap<ChangeFlag, JsonArray> combine;
+    private transient ChangeFlag flag;
 
     AtomyBatch(final JsonArray original, final JsonArray current, final String field) {
         this.original = Ut.sureJArray(original);
@@ -108,12 +107,26 @@ class AtomyBatch implements AtomyOp<JsonArray> {
         return this.flag;
     }
 
+    /*
+     * This operation will convert the flat to UPDATE directly
+     * It means that only UPDATE flag could trigger the operation
+     * update(input)
+     *
+     * 1) The situation is that JsonArray merged JsonObject
+     *    Here the initialization may be DELETE, original = data, current = empty
+     *    If you call update method it means that the original will be updated
+     *    The flag could convert from DELETE to update
+     *
+     * 2) When here are DELETE operation, the update method will be ignored and could not
+     *    be call here.
+     */
     @Override
     public AtomyOp<JsonArray> update(final JsonObject input) {
         final JsonObject inputData = Ut.sureJObject(input);
         if (Ut.notNil(inputData)) {
             /*
              * Update current JsonArray by
+             *
              */
             final JsonArray normalized = new JsonArray();
             Ut.itJArray(this.data).forEach(json -> {
@@ -123,7 +136,14 @@ class AtomyBatch implements AtomyOp<JsonArray> {
             });
 
             this.data.clear();
-            this.data.addAll(normalized);
+            this.data.addAll(normalized.copy());
+            /*
+             * DELETE -> UPDATE
+             */
+            if (this.current.isEmpty()) {
+                this.flag = ChangeFlag.UPDATE;
+                this.current.addAll(normalized.copy());
+            }
         }
         return this;
     }
