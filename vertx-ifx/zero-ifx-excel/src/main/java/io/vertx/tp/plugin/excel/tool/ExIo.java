@@ -8,9 +8,7 @@ import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellType;
 
 import java.math.BigDecimal;
-import java.time.Instant;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.time.*;
 import java.util.Date;
 import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
@@ -22,6 +20,8 @@ import java.util.function.BiConsumer;
  */
 public class ExIo {
     private static final ConcurrentMap<Class<?>, CellType> TYPE_MAP = new ConcurrentHashMap<Class<?>, CellType>() {
+        private static final long serialVersionUID = 3360878434696227455L;
+
         {
             this.put(String.class, CellType.STRING);
             this.put(char.class, CellType.STRING);
@@ -43,6 +43,8 @@ public class ExIo {
     };
     private static final ConcurrentMap<Class<?>, BiConsumer<Cell, Object>> VALUE_MAP =
             new ConcurrentHashMap<Class<?>, BiConsumer<Cell, Object>>() {
+                private static final long serialVersionUID = 5714357194532329854L;
+
                 {
                     this.put(String.class, ExIo::outString);
                     this.put(char.class, ExIo::outString);
@@ -82,7 +84,7 @@ public class ExIo {
      * setCellValue(LocalDate)
      */
     private static void outLocalDate(final Cell cell, final Object value) {
-        final LocalDate date = Ut.toDate(value.toString());
+        final LocalDate date = outLocalDateTime(value.toString()).toLocalDate();
         cell.setCellValue(date);
     }
 
@@ -90,8 +92,14 @@ public class ExIo {
      * setCellValue(LocalDateTime)
      */
     private static void outLocalDateTime(final Cell cell, final Object value) {
-        final LocalDateTime dateTime = Ut.toDateTime(value.toString());
+        final LocalDateTime dateTime = outLocalDateTime(value.toString());
         cell.setCellValue(dateTime);
+    }
+
+    private static LocalDateTime outLocalDateTime(final String value) {
+        final LocalDateTime dateTime = Ut.toDateTime(value.toString());
+        // 修正
+        return LocalDateTime.ofInstant(dateTime.toInstant(ZoneOffset.UTC), ZoneId.systemDefault());
     }
 
     /*
