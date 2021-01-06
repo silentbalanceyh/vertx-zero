@@ -16,8 +16,8 @@ CREATE TABLE IF NOT EXISTS X_ACTIVITY
     `MODEL_KEY`   VARCHAR(36) COMMENT '「modelKey」- 组所关联的模型记录ID，用于描述哪一个Model中的记录',
 
     -- 是否变更记录
-    `RECORD_OLD`  TEXT COMMENT '「recordOld」- 变更之前的数据（用于回滚）',
-    `RECORD_NEW`  TEXT COMMENT '「recordNew」- 变更之后的数据（用于更新）',
+    `RECORD_OLD`  LONGTEXT COMMENT '「recordOld」- 变更之前的数据（用于回滚）',
+    `RECORD_NEW`  LONGTEXT COMMENT '「recordNew」- 变更之后的数据（用于更新）',
 
     `SIGMA`       VARCHAR(128) COMMENT '「sigma」- 用户组绑定的统一标识',
     `LANGUAGE`    VARCHAR(10) COMMENT '「language」- 使用的语言',
@@ -32,4 +32,4 @@ CREATE TABLE IF NOT EXISTS X_ACTIVITY
     PRIMARY KEY (`KEY`)
 );
 ALTER TABLE X_ACTIVITY
-    ADD INDEX IDXM_X_ACTIVITY_MODEL_ID_MODEL_KEY (`MODEL_ID`,`MODEL_KEY`);
+    ADD INDEX IDXM_X_ACTIVITY_MODEL_ID_MODEL_KEY (`MODEL_ID`, `MODEL_KEY`);
