@@ -127,9 +127,7 @@ class AtomyBatch implements AtomyOp<JsonArray> {
             /*
              * Update current JsonArray by
              *
-             * DELETE -> UPDATE
              */
-            this.flag = ChangeFlag.UPDATE;
             final JsonArray normalized = new JsonArray();
             Ut.itJArray(this.data).forEach(json -> {
                 final JsonObject reference = json.copy();
@@ -138,7 +136,14 @@ class AtomyBatch implements AtomyOp<JsonArray> {
             });
 
             this.data.clear();
-            this.data.addAll(normalized);
+            this.data.addAll(normalized.copy());
+            /*
+             * DELETE -> UPDATE
+             */
+            if (this.current.isEmpty()) {
+                this.flag = ChangeFlag.UPDATE;
+                this.current.addAll(normalized.copy());
+            }
         }
         return this;
     }
