@@ -94,10 +94,11 @@ class Is {
              */
             final Object value = record.getValue(field);
             if (Objects.isNull(value)) {
-                /*
-                 * Also `null`
-                 */
-                return false;
+                if (Objects.isNull(expected)) {
+                    return true;
+                } else {
+                    return false;
+                }
             } else {
                 /*
                  * Compared
