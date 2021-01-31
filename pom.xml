@@ -76,7 +76,7 @@
         <glassfish.el.version>3.0.1-b12</glassfish.el.version>
 
         <!-- Database Needed -->
-        <hikari.cp.version>4.0.0</hikari.cp.version>
+        <hikari.cp.version>4.0.1</hikari.cp.version>
         <jooq.version>3.10.8</jooq.version>
         <vertx.jooq.version>2.4.1</vertx.jooq.version>
         <vertx.jooq.code.version>2.4.1</vertx.jooq.code.version>
@@ -85,7 +85,7 @@
 
         <!-- Java Reflection -->
         <reflect.asm.version>1.11.9</reflect.asm.version>
-        <lombok.version>1.18.16</lombok.version>
+        <lombok.version>1.18.18</lombok.version>
         <asm.version>9.0</asm.version>
         <cglib.version>3.3.0</cglib.version>
         <reflection.version>0.9.12</reflection.version>
@@ -96,7 +96,7 @@
         <!-- Bean Validation -->
         <hibernate.validator.version>6.1.2.Final</hibernate.validator.version>
 
-        <jwt.version>3.12.0</jwt.version>
+        <jwt.version>3.12.1</jwt.version>
         <jetbrains.version>20.1.0</jetbrains.version>
         <guice.version>4.1.0</guice.version>
         <scala.version>2.13.4</scala.version>
