@@ -57,8 +57,8 @@
     </distributionManagement>
     <properties>
         <!-- RC Version Ok -->
-        <jackson.version>2.12.1</jackson.version>
-        <jackson.extension.version>2.12.1</jackson.extension.version>
+        <jackson.version>2.12.2</jackson.version>
+        <jackson.extension.version>2.12.2</jackson.extension.version>
         <protobuf.version>4.0.0-rc-2</protobuf.version>
 
         <!-- Java Projection Basic Configuration -->
@@ -76,7 +76,7 @@
         <glassfish.el.version>3.0.1-b12</glassfish.el.version>
 
         <!-- Database Needed -->
-        <hikari.cp.version>4.0.2</hikari.cp.version>
+        <hikari.cp.version>4.0.3</hikari.cp.version>
         <jooq.version>3.10.8</jooq.version>
         <vertx.jooq.version>2.4.1</vertx.jooq.version>
         <vertx.jooq.code.version>2.4.1</vertx.jooq.code.version>
@@ -96,7 +96,7 @@
         <!-- Bean Validation -->
         <hibernate.validator.version>6.1.2.Final</hibernate.validator.version>
 
-        <jwt.version>3.13.0</jwt.version>
+        <jwt.version>3.14.0</jwt.version>
         <jetbrains.version>20.1.0</jetbrains.version>
         <guice.version>4.1.0</guice.version>
         <scala.version>2.13.5</scala.version>
@@ -114,7 +114,7 @@
         <elasticsearch.version>7.11.1</elasticsearch.version>
 
         <!-- neo4j search -->
-        <neo4j.version>4.2.1</neo4j.version>
+        <neo4j.version>4.2.3</neo4j.version>
 
         <!-- Apache Common -->
         <common.jexl.version>3.1</common.jexl.version>
