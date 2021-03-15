@@ -358,7 +358,7 @@ public final class UxJooq {
         return this.fetchAsync(field, values.getList());
     }
 
-    public <T> Future<List<T>> fetchInAsync(final String field, final Collection<Object> collection) {
+    public <T, K> Future<List<T>> fetchInAsync(final String field, final Collection<K> collection) {
         return this.fetchAsync(field, collection);
     }
 
@@ -374,7 +374,7 @@ public final class UxJooq {
         return this.fetchAsync(field, values.getList()).compose(this.workflow::outputAsync);
     }
 
-    public Future<JsonArray> fetchJInAsync(final String field, final Collection<Object> collection) {
+    public <K> Future<JsonArray> fetchJInAsync(final String field, final Collection<K> collection) {
         return this.fetchAsync(field, collection).compose(this.workflow::outputAsync);
     }
 
@@ -391,7 +391,7 @@ public final class UxJooq {
         return this.fetch(field, values.getList());
     }
 
-    public <T> List<T> fetchIn(final String field, final Collection<Object> collection) {
+    public <T, K> List<T> fetchIn(final String field, final Collection<K> collection) {
         return this.fetch(field, collection);
     }
 
@@ -407,7 +407,7 @@ public final class UxJooq {
         return this.workflow.output(this.fetch(field, values.getList()));
     }
 
-    public JsonArray fetchJIn(final String field, final Collection<Object> collection) {
+    public <K> JsonArray fetchJIn(final String field, final Collection<K> collection) {
         return this.workflow.output(this.fetch(field, collection));
     }
 
