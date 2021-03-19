@@ -105,10 +105,10 @@
         <joda.version>2.10.10</joda.version>
         <codehaus.janino.version>3.2.1</codehaus.janino.version>
         <codehaus.mojo.version>1.20</codehaus.mojo.version>
-        <ignite.version>2.9.1</ignite.version>
+        <ignite.version>2.10.0</ignite.version>
         <mongodb.async.version>3.12.8</mongodb.async.version>
         <poi.version>4.1.2</poi.version>
-        <jedis.version>3.5.1</jedis.version>
+        <jedis.version>3.5.2</jedis.version>
 
         <!-- elasticsearch version -->
         <elasticsearch.version>7.11.2</elasticsearch.version>
