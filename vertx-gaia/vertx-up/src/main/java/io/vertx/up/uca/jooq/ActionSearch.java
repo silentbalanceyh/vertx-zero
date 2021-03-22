@@ -26,24 +26,22 @@ class ActionSearch extends AbstractAction {
     }
 
     <T> Future<JsonObject> searchAsync(final JsonObject query, final JqFlow workflow) {
-        final JsonObject response = new JsonObject();
+        return workflow.inputQrAsync(query).compose(inquiry -> {
+            final JsonObject response = new JsonObject();
+            // Search Result
+            final Future<JsonArray> dataFuture = this.qr.searchAsync(inquiry)   // execute
+                    .compose(workflow::outputAsync);                            // after : pojo processing
+            // Count Result
+            final Future<Long> countFuture = this.counter.countAsync(inquiry.getCriteria().toJson());  // execute
 
-        // before : pojo processing
-        final Inquiry inquiry = workflow.inputQr(query);
-        System.err.println(inquiry.toJson());
-        // Search Result
-        final Future<JsonArray> dataFuture = this.qr.searchAsync(inquiry)   // execute
-                .compose(workflow::outputAsync);                            // after : pojo processing
-        // Count Result
-        final Future<Long> countFuture = this.counter.countAsync(inquiry.getCriteria().toJson());  // execute
-
-        return CompositeFuture.join(dataFuture, countFuture).compose(result -> {
-            // Processing result
-            final JsonArray list = result.resultAt(Values.IDX);
-            final Long count = result.resultAt(Values.ONE);
-            // Result here
-            response.put(FIELD_COUNT, count).put(FIELD_LIST, list);
-            return Future.succeededFuture(response);
+            return CompositeFuture.join(dataFuture, countFuture).compose(result -> {
+                // Processing result
+                final JsonArray list = result.resultAt(Values.IDX);
+                final Long count = result.resultAt(Values.ONE);
+                // Result here
+                response.put(FIELD_COUNT, count).put(FIELD_LIST, list);
+                return Future.succeededFuture(response);
+            });
         }).otherwise(Ux.otherwise(new JsonObject()));
     }
 
