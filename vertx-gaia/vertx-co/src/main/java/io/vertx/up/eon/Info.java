@@ -22,7 +22,7 @@ public interface Info {
 
     String INF_A_VERIFY = "( node = {0}, type = {1} ) filtered configuration port set = {2}.";
 
-    String AGENT_DEFINED = "z-User defined agent {0} of type = {1}, " +
+    String AGENT_DEFINED = "User defined agent {0} of type = {1}, " +
             "the default will be overwritten.";
 
     String SCANED_ENDPOINT = "( {0} EndPoint ) The Zero system has found " +
