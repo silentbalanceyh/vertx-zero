@@ -16,9 +16,7 @@
         <java.version>1.8</java.version>
         <encoding>UTF-8</encoding>
         <zero.version>0.6.0-SNAPSHOT</zero.version>
-        <hazelcast.version>3.12.4</hazelcast.version>
         <maven.javadoc.skip>true</maven.javadoc.skip>
-        <aspectj.version>1.9.6</aspectj.version>
     </properties>
     <dependencies>
         <!-- Switch to Up -->
