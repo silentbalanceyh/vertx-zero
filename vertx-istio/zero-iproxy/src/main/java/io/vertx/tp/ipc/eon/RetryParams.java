@@ -6,7 +6,7 @@ package io.vertx.tp.ipc.eon;
 /**
  * Protobuf type {@code io.vertx.tp.ipc.eon.RetryParams}
  */
-public final class RetryParams extends
+public  final class RetryParams extends
     com.google.protobuf.GeneratedMessageV3 implements
     // @@protoc_insertion_point(message_implements:io.vertx.tp.ipc.eon.RetryParams)
     RetryParamsOrBuilder {
@@ -95,7 +95,6 @@ private static final long serialVersionUID = 0L;
    * <code>int32 max_reconnect = 1;</code>
    * @return The maxReconnect.
    */
-  @java.lang.Override
   public int getMaxReconnect() {
     return maxReconnect_;
   }
@@ -411,7 +410,6 @@ private static final long serialVersionUID = 0L;
      * <code>int32 max_reconnect = 1;</code>
      * @return The maxReconnect.
      */
-    @java.lang.Override
     public int getMaxReconnect() {
       return maxReconnect_;
     }

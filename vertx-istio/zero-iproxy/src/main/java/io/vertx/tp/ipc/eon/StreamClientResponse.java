@@ -6,7 +6,7 @@ package io.vertx.tp.ipc.eon;
 /**
  * Protobuf type {@code io.vertx.tp.ipc.eon.StreamClientResponse}
  */
-public final class StreamClientResponse extends
+public  final class StreamClientResponse extends
     com.google.protobuf.GeneratedMessageV3 implements
     // @@protoc_insertion_point(message_implements:io.vertx.tp.ipc.eon.StreamClientResponse)
     StreamClientResponseOrBuilder {
@@ -91,7 +91,6 @@ private static final long serialVersionUID = 0L;
    * <code>int32 aggregated_size = 1;</code>
    * @return The aggregatedSize.
    */
-  @java.lang.Override
   public int getAggregatedSize() {
     return aggregatedSize_;
   }
@@ -403,7 +402,6 @@ private static final long serialVersionUID = 0L;
      * <code>int32 aggregated_size = 1;</code>
      * @return The aggregatedSize.
      */
-    @java.lang.Override
     public int getAggregatedSize() {
       return aggregatedSize_;
     }
