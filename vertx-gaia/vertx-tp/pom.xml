@@ -19,41 +19,15 @@
         <dependency>
             <groupId>com.zaxxer</groupId>
             <artifactId>HikariCP</artifactId>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.slf4j</groupId>
-                    <artifactId>slf4j-api</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
         <!-- JooQ -->
         <dependency>
             <groupId>io.github.jklingsporn</groupId>
             <artifactId>vertx-jooq-future</artifactId>
-            <exclusions>
-                <exclusion>
-                    <groupId>io.vertx</groupId>
-                    <artifactId>vertx-core</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.jooq</groupId>
-                    <artifactId>jooq</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
         <dependency>
             <groupId>io.github.jklingsporn</groupId>
             <artifactId>vertx-jooq-generate</artifactId>
-            <exclusions>
-                <exclusion>
-                    <groupId>io.vertx</groupId>
-                    <artifactId>vertx-core</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.jooq</groupId>
-                    <artifactId>jooq</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.jooq</groupId>
@@ -64,32 +38,21 @@
         <dependency>
             <groupId>io.vertx</groupId>
             <artifactId>vertx-health-check</artifactId>
-            <exclusions>
-                <exclusion>
-                    <groupId>io.vertx</groupId>
-                    <artifactId>vertx-core</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>io.vertx</groupId>
-                    <artifactId>vertx-web</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>io.vertx</groupId>
-                    <artifactId>vertx-auth-common</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
 
         <!-- Jwt -->
         <dependency>
             <groupId>io.vertx</groupId>
             <artifactId>vertx-auth-jwt</artifactId>
-            <exclusions>
-                <exclusion>
-                    <groupId>io.vertx</groupId>
-                    <artifactId>vertx-core</artifactId>
-                </exclusion>
-            </exclusions>
+        </dependency>
+        <!-- Jooq -->
+        <dependency>
+            <groupId>org.jooq</groupId>
+            <artifactId>jooq-codegen</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.jooq</groupId>
+            <artifactId>jooq-meta</artifactId>
         </dependency>
     </dependencies>
 </project>
