@@ -6,7 +6,7 @@ package io.vertx.tp.ipc.eon;
 /**
  * Protobuf type {@code io.vertx.tp.ipc.eon.ResponseParams}
  */
-public final class ResponseParams extends
+public  final class ResponseParams extends
     com.google.protobuf.GeneratedMessageV3 implements
     // @@protoc_insertion_point(message_implements:io.vertx.tp.ipc.eon.ResponseParams)
     ResponseParamsOrBuilder {
@@ -100,7 +100,6 @@ private static final long serialVersionUID = 0L;
    * <code>int32 size = 1;</code>
    * @return The size.
    */
-  @java.lang.Override
   public int getSize() {
     return size_;
   }
@@ -115,7 +114,6 @@ private static final long serialVersionUID = 0L;
    * <code>int32 interval_us = 2;</code>
    * @return The intervalUs.
    */
-  @java.lang.Override
   public int getIntervalUs() {
     return intervalUs_;
   }
@@ -448,7 +446,6 @@ private static final long serialVersionUID = 0L;
      * <code>int32 size = 1;</code>
      * @return The size.
      */
-    @java.lang.Override
     public int getSize() {
       return size_;
     }
@@ -491,7 +488,6 @@ private static final long serialVersionUID = 0L;
      * <code>int32 interval_us = 2;</code>
      * @return The intervalUs.
      */
-    @java.lang.Override
     public int getIntervalUs() {
       return intervalUs_;
     }

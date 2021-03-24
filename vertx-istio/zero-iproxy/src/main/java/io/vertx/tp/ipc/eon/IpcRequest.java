@@ -6,7 +6,7 @@ package io.vertx.tp.ipc.eon;
 /**
  * Protobuf type {@code io.vertx.tp.ipc.eon.IpcRequest}
  */
-public final class IpcRequest extends
+public  final class IpcRequest extends
     com.google.protobuf.GeneratedMessageV3 implements
     // @@protoc_insertion_point(message_implements:io.vertx.tp.ipc.eon.IpcRequest)
     IpcRequestOrBuilder {
@@ -152,7 +152,7 @@ private static final long serialVersionUID = 0L;
    * <code>.io.vertx.tp.ipc.eon.em.Format response_format = 1;</code>
    * @return The enum numeric value on the wire for responseFormat.
    */
-  @java.lang.Override public int getResponseFormatValue() {
+  public int getResponseFormatValue() {
     return responseFormat_;
   }
   /**
@@ -163,7 +163,7 @@ private static final long serialVersionUID = 0L;
    * <code>.io.vertx.tp.ipc.eon.em.Format response_format = 1;</code>
    * @return The responseFormat.
    */
-  @java.lang.Override public io.vertx.tp.ipc.eon.em.Format getResponseFormat() {
+  public io.vertx.tp.ipc.eon.em.Format getResponseFormat() {
     @SuppressWarnings("deprecation")
     io.vertx.tp.ipc.eon.em.Format result = io.vertx.tp.ipc.eon.em.Format.valueOf(responseFormat_);
     return result == null ? io.vertx.tp.ipc.eon.em.Format.UNRECOGNIZED : result;
@@ -179,7 +179,7 @@ private static final long serialVersionUID = 0L;
    * <code>.io.vertx.tp.ipc.eon.em.Category response_category = 2;</code>
    * @return The enum numeric value on the wire for responseCategory.
    */
-  @java.lang.Override public int getResponseCategoryValue() {
+  public int getResponseCategoryValue() {
     return responseCategory_;
   }
   /**
@@ -190,7 +190,7 @@ private static final long serialVersionUID = 0L;
    * <code>.io.vertx.tp.ipc.eon.em.Category response_category = 2;</code>
    * @return The responseCategory.
    */
-  @java.lang.Override public io.vertx.tp.ipc.eon.em.Category getResponseCategory() {
+  public io.vertx.tp.ipc.eon.em.Category getResponseCategory() {
     @SuppressWarnings("deprecation")
     io.vertx.tp.ipc.eon.em.Category result = io.vertx.tp.ipc.eon.em.Category.valueOf(responseCategory_);
     return result == null ? io.vertx.tp.ipc.eon.em.Category.UNRECOGNIZED : result;
@@ -206,7 +206,6 @@ private static final long serialVersionUID = 0L;
    * <code>int32 response_size = 3;</code>
    * @return The responseSize.
    */
-  @java.lang.Override
   public int getResponseSize() {
     return responseSize_;
   }
@@ -221,7 +220,6 @@ private static final long serialVersionUID = 0L;
    * <code>.io.vertx.tp.ipc.eon.IpcEnvelop envelop = 4;</code>
    * @return Whether the envelop field is set.
    */
-  @java.lang.Override
   public boolean hasEnvelop() {
     return envelop_ != null;
   }
@@ -233,7 +231,6 @@ private static final long serialVersionUID = 0L;
    * <code>.io.vertx.tp.ipc.eon.IpcEnvelop envelop = 4;</code>
    * @return The envelop.
    */
-  @java.lang.Override
   public io.vertx.tp.ipc.eon.IpcEnvelop getEnvelop() {
     return envelop_ == null ? io.vertx.tp.ipc.eon.IpcEnvelop.getDefaultInstance() : envelop_;
   }
@@ -244,7 +241,6 @@ private static final long serialVersionUID = 0L;
    *
    * <code>.io.vertx.tp.ipc.eon.IpcEnvelop envelop = 4;</code>
    */
-  @java.lang.Override
   public io.vertx.tp.ipc.eon.IpcEnvelopOrBuilder getEnvelopOrBuilder() {
     return getEnvelop();
   }
@@ -259,7 +255,6 @@ private static final long serialVersionUID = 0L;
    * <code>bool is_client_id = 5;</code>
    * @return The isClientId.
    */
-  @java.lang.Override
   public boolean getIsClientId() {
     return isClientId_;
   }
@@ -274,7 +269,6 @@ private static final long serialVersionUID = 0L;
    * <code>bool is_oauth_scope = 6;</code>
    * @return The isOauthScope.
    */
-  @java.lang.Override
   public boolean getIsOauthScope() {
     return isOauthScope_;
   }
@@ -289,7 +283,7 @@ private static final long serialVersionUID = 0L;
    * <code>.io.vertx.tp.ipc.eon.em.Compression algorithm = 7;</code>
    * @return The enum numeric value on the wire for algorithm.
    */
-  @java.lang.Override public int getAlgorithmValue() {
+  public int getAlgorithmValue() {
     return algorithm_;
   }
   /**
@@ -300,7 +294,7 @@ private static final long serialVersionUID = 0L;
    * <code>.io.vertx.tp.ipc.eon.em.Compression algorithm = 7;</code>
    * @return The algorithm.
    */
-  @java.lang.Override public io.vertx.tp.ipc.eon.em.Compression getAlgorithm() {
+  public io.vertx.tp.ipc.eon.em.Compression getAlgorithm() {
     @SuppressWarnings("deprecation")
     io.vertx.tp.ipc.eon.em.Compression result = io.vertx.tp.ipc.eon.em.Compression.valueOf(algorithm_);
     return result == null ? io.vertx.tp.ipc.eon.em.Compression.UNRECOGNIZED : result;
@@ -316,7 +310,6 @@ private static final long serialVersionUID = 0L;
    * <code>.io.vertx.tp.ipc.eon.IpcStatus response_status = 8;</code>
    * @return Whether the responseStatus field is set.
    */
-  @java.lang.Override
   public boolean hasResponseStatus() {
     return responseStatus_ != null;
   }
@@ -328,7 +321,6 @@ private static final long serialVersionUID = 0L;
    * <code>.io.vertx.tp.ipc.eon.IpcStatus response_status = 8;</code>
    * @return The responseStatus.
    */
-  @java.lang.Override
   public io.vertx.tp.ipc.eon.IpcStatus getResponseStatus() {
     return responseStatus_ == null ? io.vertx.tp.ipc.eon.IpcStatus.getDefaultInstance() : responseStatus_;
   }
@@ -339,7 +331,6 @@ private static final long serialVersionUID = 0L;
    *
    * <code>.io.vertx.tp.ipc.eon.IpcStatus response_status = 8;</code>
    */
-  @java.lang.Override
   public io.vertx.tp.ipc.eon.IpcStatusOrBuilder getResponseStatusOrBuilder() {
     return getResponseStatus();
   }
@@ -799,7 +790,7 @@ private static final long serialVersionUID = 0L;
      * <code>.io.vertx.tp.ipc.eon.em.Format response_format = 1;</code>
      * @return The enum numeric value on the wire for responseFormat.
      */
-    @java.lang.Override public int getResponseFormatValue() {
+    public int getResponseFormatValue() {
       return responseFormat_;
     }
     /**
@@ -812,7 +803,6 @@ private static final long serialVersionUID = 0L;
      * @return This builder for chaining.
      */
     public Builder setResponseFormatValue(int value) {
-      
       responseFormat_ = value;
       onChanged();
       return this;
@@ -825,7 +815,6 @@ private static final long serialVersionUID = 0L;
      * <code>.io.vertx.tp.ipc.eon.em.Format response_format = 1;</code>
      * @return The responseFormat.
      */
-    @java.lang.Override
     public io.vertx.tp.ipc.eon.em.Format getResponseFormat() {
       @SuppressWarnings("deprecation")
       io.vertx.tp.ipc.eon.em.Format result = io.vertx.tp.ipc.eon.em.Format.valueOf(responseFormat_);
@@ -873,7 +862,7 @@ private static final long serialVersionUID = 0L;
      * <code>.io.vertx.tp.ipc.eon.em.Category response_category = 2;</code>
      * @return The enum numeric value on the wire for responseCategory.
      */
-    @java.lang.Override public int getResponseCategoryValue() {
+    public int getResponseCategoryValue() {
       return responseCategory_;
     }
     /**
@@ -886,7 +875,6 @@ private static final long serialVersionUID = 0L;
      * @return This builder for chaining.
      */
     public Builder setResponseCategoryValue(int value) {
-      
       responseCategory_ = value;
       onChanged();
       return this;
@@ -899,7 +887,6 @@ private static final long serialVersionUID = 0L;
      * <code>.io.vertx.tp.ipc.eon.em.Category response_category = 2;</code>
      * @return The responseCategory.
      */
-    @java.lang.Override
     public io.vertx.tp.ipc.eon.em.Category getResponseCategory() {
       @SuppressWarnings("deprecation")
       io.vertx.tp.ipc.eon.em.Category result = io.vertx.tp.ipc.eon.em.Category.valueOf(responseCategory_);
@@ -947,7 +934,6 @@ private static final long serialVersionUID = 0L;
      * <code>int32 response_size = 3;</code>
      * @return The responseSize.
      */
-    @java.lang.Override
     public int getResponseSize() {
       return responseSize_;
     }
@@ -1145,7 +1131,6 @@ private static final long serialVersionUID = 0L;
      * <code>bool is_client_id = 5;</code>
      * @return The isClientId.
      */
-    @java.lang.Override
     public boolean getIsClientId() {
       return isClientId_;
     }
@@ -1188,7 +1173,6 @@ private static final long serialVersionUID = 0L;
      * <code>bool is_oauth_scope = 6;</code>
      * @return The isOauthScope.
      */
-    @java.lang.Override
     public boolean getIsOauthScope() {
       return isOauthScope_;
     }
@@ -1231,7 +1215,7 @@ private static final long serialVersionUID = 0L;
      * <code>.io.vertx.tp.ipc.eon.em.Compression algorithm = 7;</code>
      * @return The enum numeric value on the wire for algorithm.
      */
-    @java.lang.Override public int getAlgorithmValue() {
+    public int getAlgorithmValue() {
       return algorithm_;
     }
     /**
@@ -1244,7 +1228,6 @@ private static final long serialVersionUID = 0L;
      * @return This builder for chaining.
      */
     public Builder setAlgorithmValue(int value) {
-      
       algorithm_ = value;
       onChanged();
       return this;
@@ -1257,7 +1240,6 @@ private static final long serialVersionUID = 0L;
      * <code>.io.vertx.tp.ipc.eon.em.Compression algorithm = 7;</code>
      * @return The algorithm.
      */
-    @java.lang.Override
     public io.vertx.tp.ipc.eon.em.Compression getAlgorithm() {
       @SuppressWarnings("deprecation")
       io.vertx.tp.ipc.eon.em.Compression result = io.vertx.tp.ipc.eon.em.Compression.valueOf(algorithm_);

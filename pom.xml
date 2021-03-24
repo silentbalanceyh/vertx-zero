@@ -59,7 +59,7 @@
         <!-- RC Version Ok -->
         <jackson.version>2.12.2</jackson.version>
         <jackson.extension.version>2.12.2</jackson.extension.version>
-        <protobuf.version>4.0.0-rc-2</protobuf.version>
+        <protobuf.version>3.11.4</protobuf.version>
 
         <!-- Java Projection Basic Configuration -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -71,7 +71,7 @@
         <stack.version>3.9.6</stack.version>
 
         <jcabi.version>0.22.6</jcabi.version>
-        <jersey.version>2.30.1</jersey.version>
+        <jersey.version>2.33</jersey.version>
         <javax.el.version>3.0.1-b06</javax.el.version>
         <glassfish.el.version>3.0.1-b12</glassfish.el.version>
 
@@ -94,14 +94,14 @@
         <etcd.version>2.18.0</etcd.version>
 
         <!-- Bean Validation -->
-        <hibernate.validator.version>6.1.2.Final</hibernate.validator.version>
+        <hibernate.validator.version>6.2.0.Final</hibernate.validator.version>
 
         <jwt.version>3.14.0</jwt.version>
         <jetbrains.version>20.1.0</jetbrains.version>
         <guice.version>4.1.0</guice.version>
         <scala.version>2.13.5</scala.version>
         <feign.version>8.18.0</feign.version>
-        <guava.version>30.1-jre</guava.version>
+        <guava.version>25.1-jre</guava.version>
         <joda.version>2.10.10</joda.version>
         <codehaus.janino.version>3.2.1</codehaus.janino.version>
         <codehaus.mojo.version>1.20</codehaus.mojo.version>
@@ -109,9 +109,11 @@
         <mongodb.async.version>3.12.8</mongodb.async.version>
         <poi.version>4.1.2</poi.version>
         <jedis.version>3.5.2</jedis.version>
+        <j2objc.version>1.3</j2objc.version>
+        <checker.version>3.11.0</checker.version>
 
         <!-- elasticsearch version -->
-        <elasticsearch.version>7.11.2</elasticsearch.version>
+        <elasticsearch.version>7.12.0</elasticsearch.version>
 
         <!-- neo4j search -->
         <neo4j.version>4.2.3</neo4j.version>
@@ -129,7 +131,7 @@
         <http.core.version>4.4.14</http.core.version>
 
         <!-- Liquibase -->
-        <liquibase.version>3.8.9</liquibase.version>
+        <liquibase.version>3.10.3</liquibase.version>
 
         <!-- Rpc -->
         <vertx.grpc.version>1.6.1</vertx.grpc.version>
@@ -144,8 +146,8 @@
         <!-- Vert.x Addition -->
         <rxjava2.version>2.2.21</rxjava2.version>
         <netty.tcnative.version>2.0.36.Final</netty.tcnative.version>
-        <netty.version>4.1.54.Final</netty.version>
-        <hazelcast.version>3.12.4</hazelcast.version>
+        <netty.version>4.1.49.Final</netty.version>
+        <hazelcast.version>3.12.12</hazelcast.version>
         <swagger.version>1.6.0</swagger.version>
         <error.prone.version>2.5.1</error.prone.version>
         <reactive.streams.version>1.0.3</reactive.streams.version>
@@ -176,40 +178,40 @@
         <log4j2.version>2.14.1</log4j2.version>
         <logback.version>1.2.3</logback.version>
         <logback.cal10n.version>0.8.1</logback.cal10n.version>
-        <slf4j.version>1.7.25</slf4j.version>
+        <slf4j.version>1.7.30</slf4j.version>
 
         <!-- Plugin -->
-        <maven.plugin.assembly>3.2.0</maven.plugin.assembly>
+        <maven.plugin.assembly>3.3.0</maven.plugin.assembly>
         <maven.plugin.compiler>3.8.1</maven.plugin.compiler>
-        <maven.plugin.surefire>3.0.0-M4</maven.plugin.surefire>
+        <maven.plugin.surefire>3.0.0-M5</maven.plugin.surefire>
         <maven.plugin.clean>3.1.0</maven.plugin.clean>
-        <maven.plugin.version>2.7</maven.plugin.version>
+        <maven.plugin.version>2.8.1</maven.plugin.version>
         <maven.plugin.install>3.0.0-M1</maven.plugin.install>
         <maven.plugin.deploy>3.0.0-M1</maven.plugin.deploy>
         <maven.plugin.jar>3.0.2</maven.plugin.jar>
-        <maven.plugin.resource>3.1.0</maven.plugin.resource>
-        <maven.plugin.site>3.9.0</maven.plugin.site>
+        <maven.plugin.resource>3.2.0</maven.plugin.resource>
+        <maven.plugin.site>3.9.1</maven.plugin.site>
         <maven.plugin.enforcer>3.0.0-M3</maven.plugin.enforcer>
         <maven.plugin.lombok>1.18.18.0</maven.plugin.lombok>
-        <maven.plugin.processor>3.3.3</maven.plugin.processor>
+        <maven.plugin.processor>4.5-jdk8</maven.plugin.processor>
         <maven.plugin.source>3.2.1</maven.plugin.source>
-        <maven.plugin.javadoc>3.1.1</maven.plugin.javadoc>
+        <maven.plugin.javadoc>3.2.0</maven.plugin.javadoc>
         <maven.plugin.staging>1.6.8</maven.plugin.staging>
         <maven.plugin.pgp>1.6</maven.plugin.pgp>
-        <maven.plugin.fabric8>4.4.0</maven.plugin.fabric8>
+        <maven.plugin.fabric8>4.4.1</maven.plugin.fabric8>
         <maven.plugin.coveralls>4.3.0</maven.plugin.coveralls>
         <maven.plugin.cobertura>2.7</maven.plugin.cobertura>
         <maven.plugin.spotify>1.2.2</maven.plugin.spotify>
         <maven.plugin.protobuf>0.6.1</maven.plugin.protobuf>
         <maven.plugin.os>1.5.0.Final</maven.plugin.os>
-        <maven.plugin.antrun>1.8</maven.plugin.antrun>
+        <maven.plugin.antrun>3.0.0</maven.plugin.antrun>
         <maven.plugin.aspectj>1.11</maven.plugin.aspectj>
         <maven.plugin.jcabi>0.14.1</maven.plugin.jcabi>
         <maven.plugin.jar>3.2.0</maven.plugin.jar>
 
     </properties>
     <prerequisites>
-        <maven>3.5.0</maven>
+        <maven>3.6.0</maven>
     </prerequisites>
     <dependencyManagement>
         <dependencies>
@@ -260,11 +262,31 @@
                 <groupId>io.vertx</groupId>
                 <artifactId>vertx-codegen</artifactId>
                 <version>${vertx.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>com.fasterxml.jackson.core</groupId>
+                        <artifactId>jackson-core</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>com.fasterxml.jackson.core</groupId>
+                        <artifactId>jackson-databind</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
             <dependency>
                 <groupId>io.vertx</groupId>
                 <artifactId>vertx-web</artifactId>
                 <version>${vertx.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>io.vertx</groupId>
+                        <artifactId>vertx-core</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>io.vertx</groupId>
+                        <artifactId>vertx-auth-common</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
             <dependency>
                 <groupId>io.vertx</groupId>
@@ -280,11 +302,75 @@
                 <groupId>io.vertx</groupId>
                 <artifactId>vertx-config-yaml</artifactId>
                 <version>${vertx.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>io.vertx</groupId>
+                        <artifactId>vertx-core</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>com.fasterxml.jackson.dataformat</groupId>
+                        <artifactId>jackson-dataformat-yaml</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
             <dependency>
                 <groupId>io.vertx</groupId>
                 <artifactId>vertx-core</artifactId>
                 <version>${vertx.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>com.fasterxml.jackson.core</groupId>
+                        <artifactId>jackson-databind</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>com.fasterxml.jackson.core</groupId>
+                        <artifactId>jackson-core</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>com.fasterxml.jackson.core</groupId>
+                        <artifactId>jackson-annotations</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>io.netty</groupId>
+                        <artifactId>netty-codec</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>io.netty</groupId>
+                        <artifactId>netty-transport</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>io.netty</groupId>
+                        <artifactId>netty-handler-proxy</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>io.netty</groupId>
+                        <artifactId>netty-codec-http</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>io.netty</groupId>
+                        <artifactId>netty-codec-http2</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>io.netty</groupId>
+                        <artifactId>netty-handler</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>io.netty</groupId>
+                        <artifactId>netty-common</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>io.netty</groupId>
+                        <artifactId>netty-resolver</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>io.netty</groupId>
+                        <artifactId>netty-resolver-dns</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>io.netty</groupId>
+                        <artifactId>netty-buffer</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
             <dependency>
                 <groupId>io.vertx</groupId>
@@ -295,11 +381,27 @@
                 <groupId>io.vertx</groupId>
                 <artifactId>vertx-hazelcast</artifactId>
                 <version>${vertx.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>com.hazelcast</groupId>
+                        <artifactId>hazelcast</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>io.vertx</groupId>
+                        <artifactId>vertx-core</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
             <dependency>
                 <groupId>io.vertx</groupId>
                 <artifactId>vertx-unit</artifactId>
                 <version>${vertx.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>io.vertx</groupId>
+                        <artifactId>vertx-core</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
             <dependency>
                 <groupId>io.vertx</groupId>
@@ -320,10 +422,29 @@
                 <groupId>io.vertx</groupId>
                 <artifactId>vertx-health-check</artifactId>
                 <version>${vertx.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>io.vertx</groupId>
+                        <artifactId>vertx-core</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>io.vertx</groupId>
+                        <artifactId>vertx-web</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>io.vertx</groupId>
+                        <artifactId>vertx-auth-common</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
             <dependency>
                 <groupId>io.vertx</groupId>
                 <artifactId>vertx-auth</artifactId>
+                <version>${vertx.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.vertx</groupId>
+                <artifactId>vertx-auth-common</artifactId>
                 <version>${vertx.version}</version>
             </dependency>
             <dependency>
@@ -335,6 +456,16 @@
                 <groupId>io.vertx</groupId>
                 <artifactId>vertx-auth-jwt</artifactId>
                 <version>${vertx.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>io.vertx</groupId>
+                        <artifactId>vertx-core</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>io.vertx</groupId>
+                        <artifactId>vertx-auth-common</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
             <dependency>
                 <groupId>io.vertx</groupId>
@@ -410,6 +541,12 @@
                 <groupId>org.apache.commons</groupId>
                 <artifactId>commons-jexl3</artifactId>
                 <version>${common.jexl.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>commons-logging</groupId>
+                        <artifactId>commons-logging</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
             <!-- https://mvnrepository.com/artifact/com.auth0/java-jwt -->
             <dependency>
@@ -483,6 +620,16 @@
                 <groupId>io.github.jklingsporn</groupId>
                 <artifactId>vertx-jooq-future</artifactId>
                 <version>${vertx.jooq.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>io.vertx</groupId>
+                        <artifactId>vertx-core</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.jooq</groupId>
+                        <artifactId>jooq</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
             <dependency>
                 <groupId>io.github.jklingsporn</groupId>
@@ -492,6 +639,18 @@
                     <exclusion>
                         <groupId>io.github.jklingsporn</groupId>
                         <artifactId>vertx-jooq-shared</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>io.vertx</groupId>
+                        <artifactId>vertx-core</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.jooq</groupId>
+                        <artifactId>jooq</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.jooq</groupId>
+                        <artifactId>jooq-codegen</artifactId>
                     </exclusion>
                 </exclusions>
             </dependency>
@@ -584,6 +743,16 @@
                 <groupId>com.hazelcast</groupId>
                 <artifactId>hazelcast</artifactId>
                 <version>${hazelcast.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>io.vertx</groupId>
+                        <artifactId>vertx-core</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>com.hazelcast</groupId>
+                        <artifactId>hazelcast</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
             <!-- https://mvnrepository.com/artifact/io.netty/netty-tcnative-boringssl-static -->
             <dependency>
@@ -664,7 +833,15 @@
                 <exclusions>
                     <exclusion>
                         <groupId>com.fasterxml.jackson.core</groupId>
+                        <artifactId>jackson-databind</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>com.fasterxml.jackson.core</groupId>
                         <artifactId>jackson-core</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.yaml</groupId>
+                        <artifactId>snakeyaml</artifactId>
                     </exclusion>
                 </exclusions>
             </dependency>
@@ -677,6 +854,10 @@
                         <groupId>com.fasterxml.jackson.core</groupId>
                         <artifactId>jackson-core</artifactId>
                     </exclusion>
+                    <exclusion>
+                        <groupId>com.fasterxml.jackson.core</groupId>
+                        <artifactId>jackson-databind</artifactId>
+                    </exclusion>
                 </exclusions>
             </dependency>
             <dependency>
@@ -684,6 +865,10 @@
                 <artifactId>jackson-dataformat-cbor</artifactId>
                 <version>${jackson.extension.version}</version>
                 <exclusions>
+                    <exclusion>
+                        <groupId>com.fasterxml.jackson.core</groupId>
+                        <artifactId>jackson-databind</artifactId>
+                    </exclusion>
                     <exclusion>
                         <groupId>com.fasterxml.jackson.core</groupId>
                         <artifactId>jackson-core</artifactId>
@@ -694,28 +879,82 @@
                 <groupId>com.fasterxml.jackson.module</groupId>
                 <artifactId>jackson-module-parameter-names</artifactId>
                 <version>${jackson.extension.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>com.fasterxml.jackson.core</groupId>
+                        <artifactId>jackson-databind</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>com.fasterxml.jackson.core</groupId>
+                        <artifactId>jackson-core</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
             <dependency>
                 <groupId>com.fasterxml.jackson.datatype</groupId>
                 <artifactId>jackson-datatype-jdk8</artifactId>
                 <version>${jackson.extension.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>com.fasterxml.jackson.core</groupId>
+                        <artifactId>jackson-databind</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>com.fasterxml.jackson.core</groupId>
+                        <artifactId>jackson-core</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
             <dependency>
                 <groupId>com.fasterxml.jackson.datatype</groupId>
                 <artifactId>jackson-datatype-jsr310</artifactId>
                 <version>${jackson.extension.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>com.fasterxml.jackson.core</groupId>
+                        <artifactId>jackson-databind</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>com.fasterxml.jackson.core</groupId>
+                        <artifactId>jackson-annotations</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>com.fasterxml.jackson.core</groupId>
+                        <artifactId>jackson-core</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
             <!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.module/jackson-module-afterburner -->
             <dependency>
                 <groupId>com.fasterxml.jackson.module</groupId>
                 <artifactId>jackson-module-afterburner</artifactId>
                 <version>${jackson.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>com.fasterxml.jackson.core</groupId>
+                        <artifactId>jackson-databind</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>com.fasterxml.jackson.core</groupId>
+                        <artifactId>jackson-core</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
             <!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind -->
             <dependency>
                 <groupId>com.fasterxml.jackson.core</groupId>
                 <artifactId>jackson-databind</artifactId>
                 <version>${jackson.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>com.fasterxml.jackson.core</groupId>
+                        <artifactId>jackson-annotations</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>com.fasterxml.jackson.core</groupId>
+                        <artifactId>jackson-core</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
             <!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-core -->
             <dependency>
@@ -741,6 +980,12 @@
                 <groupId>org.reflections</groupId>
                 <artifactId>reflections</artifactId>
                 <version>${reflection.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.javassist</groupId>
+                        <artifactId>javassist</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
             <!-- http://mvnrepository.com/artifact/junit/junit -->
             <dependency>
@@ -849,6 +1094,20 @@
                 <groupId>com.google.guava</groupId>
                 <artifactId>guava</artifactId>
                 <version>${guava.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>com.google.errorprone</groupId>
+                        <artifactId>error_prone_annotations</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>com.google.j2objc</groupId>
+                        <artifactId>j2objc-annotations</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.checkerframework</groupId>
+                        <artifactId>checker-qual</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
             <!-- https://mvnrepository.com/artifact/com.netflix.feign/feign-core -->
             <dependency>
@@ -883,6 +1142,14 @@
                         <groupId>com.google.protobuf</groupId>
                         <artifactId>protobuf-java</artifactId>
                     </exclusion>
+                    <exclusion>
+                        <groupId>com.google.guava</groupId>
+                        <artifactId>guava</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>com.google.errorprone</groupId>
+                        <artifactId>error_prone_annotations</artifactId>
+                    </exclusion>
                 </exclusions>
             </dependency>
             <!-- https://mvnrepository.com/artifact/cglib/cglib -->
@@ -890,6 +1157,12 @@
                 <groupId>cglib</groupId>
                 <artifactId>cglib</artifactId>
                 <version>${cglib.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.ow2.asm</groupId>
+                        <artifactId>asm</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
             <!-- https://mvnrepository.com/artifact/javax.cache/cache-api -->
             <dependency>
@@ -938,17 +1211,39 @@
                 <groupId>com.zaxxer</groupId>
                 <artifactId>HikariCP</artifactId>
                 <version>${hikari.cp.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.slf4j</groupId>
+                        <artifactId>slf4j-api</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
             <!-- https://mvnrepository.com/artifact/org.jooq/jooq-codegen -->
             <dependency>
                 <groupId>org.jooq</groupId>
                 <artifactId>jooq-codegen</artifactId>
                 <version>${jooq.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.jooq</groupId>
+                        <artifactId>jooq</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.jooq</groupId>
+                        <artifactId>jooq-meta</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
             <dependency>
                 <groupId>org.jooq</groupId>
                 <artifactId>jooq-meta</artifactId>
                 <version>${jooq.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.jooq</groupId>
+                        <artifactId>jooq</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
             <dependency>
                 <groupId>org.jooq</groupId>
@@ -960,6 +1255,12 @@
                 <groupId>io.netty</groupId>
                 <artifactId>netty-codec</artifactId>
                 <version>${netty.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>io.netty</groupId>
+                        <artifactId>netty-transport</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
             <dependency>
                 <groupId>io.netty</groupId>
@@ -995,11 +1296,23 @@
                 <groupId>io.netty</groupId>
                 <artifactId>netty-handler</artifactId>
                 <version>${netty.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>io.netty</groupId>
+                        <artifactId>netty-resolver</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
             <dependency>
                 <groupId>io.netty</groupId>
                 <artifactId>netty-handler-proxy</artifactId>
                 <version>${netty.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>io.netty</groupId>
+                        <artifactId>netty-codec-http</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
             <dependency>
                 <groupId>io.netty</groupId>
@@ -1022,6 +1335,16 @@
                 <groupId>io.netty</groupId>
                 <artifactId>netty-transport</artifactId>
                 <version>${netty.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>io.netty</groupId>
+                        <artifactId>netty-resolver</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>io.netty</groupId>
+                        <artifactId>netty-buffer</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
             <dependency>
                 <groupId>io.netty</groupId>
@@ -1044,12 +1367,32 @@
                 <groupId>org.apache.httpcomponents</groupId>
                 <artifactId>httpclient</artifactId>
                 <version>${http.client.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>commons-logging</groupId>
+                        <artifactId>commons-logging</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>commons-codec</groupId>
+                        <artifactId>commons-codec</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.apache.httpcomponents</groupId>
+                        <artifactId>httpcore</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
             <!-- https://mvnrepository.com/artifact/org.apache.httpcomponents/httpmime -->
             <dependency>
                 <groupId>org.apache.httpcomponents</groupId>
                 <artifactId>httpmime</artifactId>
                 <version>${http.client.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.apache.httpcomponents</groupId>
+                        <artifactId>httpclient</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
             <!-- https://mvnrepository.com/artifact/org.apache.httpcomponents/httpcore -->
             <dependency>
@@ -1091,6 +1434,18 @@
                 <groupId>redis.clients</groupId>
                 <artifactId>jedis</artifactId>
                 <version>${jedis.version}</version>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/com.google.j2objc/j2objc-annotations -->
+            <dependency>
+                <groupId>com.google.j2objc</groupId>
+                <artifactId>j2objc-annotations</artifactId>
+                <version>${j2objc.version}</version>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/org.checkerframework/checker-qual -->
+            <dependency>
+                <groupId>org.checkerframework</groupId>
+                <artifactId>checker-qual</artifactId>
+                <version>${checker.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
@@ -1366,6 +1721,9 @@
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>versions-maven-plugin</artifactId>
+                <configuration>
+                    <rulesUri>file://${project.basedir}/pom-update.xml</rulesUri>
+                </configuration>
             </plugin>
         </plugins>
     </build>

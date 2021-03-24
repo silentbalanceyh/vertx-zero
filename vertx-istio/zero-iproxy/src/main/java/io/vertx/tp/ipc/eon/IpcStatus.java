@@ -6,7 +6,7 @@ package io.vertx.tp.ipc.eon;
 /**
  * Protobuf type {@code io.vertx.tp.ipc.eon.IpcStatus}
  */
-public final class IpcStatus extends
+public  final class IpcStatus extends
     com.google.protobuf.GeneratedMessageV3 implements
     // @@protoc_insertion_point(message_implements:io.vertx.tp.ipc.eon.IpcStatus)
     IpcStatusOrBuilder {
@@ -102,7 +102,6 @@ private static final long serialVersionUID = 0L;
    * <code>int32 code = 1;</code>
    * @return The code.
    */
-  @java.lang.Override
   public int getCode() {
     return code_;
   }
@@ -117,7 +116,6 @@ private static final long serialVersionUID = 0L;
    * <code>string message = 2;</code>
    * @return The message.
    */
-  @java.lang.Override
   public java.lang.String getMessage() {
     java.lang.Object ref = message_;
     if (ref instanceof java.lang.String) {
@@ -138,7 +136,6 @@ private static final long serialVersionUID = 0L;
    * <code>string message = 2;</code>
    * @return The bytes for message.
    */
-  @java.lang.Override
   public com.google.protobuf.ByteString
       getMessageBytes() {
     java.lang.Object ref = message_;
@@ -481,7 +478,6 @@ private static final long serialVersionUID = 0L;
      * <code>int32 code = 1;</code>
      * @return The code.
      */
-    @java.lang.Override
     public int getCode() {
       return code_;
     }
