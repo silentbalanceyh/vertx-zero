@@ -1583,7 +1583,7 @@
                         <!-- Release configuration -->
                         <additionalOptions>--allow-script-in-comments</additionalOptions>
                         <header><![CDATA[
-                            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.7.1/styles/idea.min.css">
+                            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.7.1/styles/a11y-light.min.css">
                             <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.7.1/highlight.min.js"></script>
                             <script type="text/javascript">
                                 hljs.initHighlightingOnLoad();
