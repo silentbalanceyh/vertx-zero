@@ -6,7 +6,7 @@ package io.vertx.tp.ipc.eon;
 /**
  * Protobuf type {@code io.vertx.tp.ipc.eon.RetryInfo}
  */
-public  final class RetryInfo extends
+public final class RetryInfo extends
     com.google.protobuf.GeneratedMessageV3 implements
     // @@protoc_insertion_point(message_implements:io.vertx.tp.ipc.eon.RetryInfo)
     RetryInfoOrBuilder {
@@ -121,6 +121,7 @@ private static final long serialVersionUID = 0L;
    * <code>bool passed = 1;</code>
    * @return The passed.
    */
+  @java.lang.Override
   public boolean getPassed() {
     return passed_;
   }
@@ -135,6 +136,7 @@ private static final long serialVersionUID = 0L;
    * <code>repeated int32 backoff_ms = 2;</code>
    * @return A list containing the backoffMs.
    */
+  @java.lang.Override
   public java.util.List<java.lang.Integer>
       getBackoffMsList() {
     return backoffMs_;
@@ -523,6 +525,7 @@ private static final long serialVersionUID = 0L;
      * <code>bool passed = 1;</code>
      * @return The passed.
      */
+    @java.lang.Override
     public boolean getPassed() {
       return passed_;
     }
