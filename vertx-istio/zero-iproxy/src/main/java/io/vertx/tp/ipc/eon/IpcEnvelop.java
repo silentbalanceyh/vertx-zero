@@ -6,7 +6,7 @@ package io.vertx.tp.ipc.eon;
 /**
  * Protobuf type {@code io.vertx.tp.ipc.eon.IpcEnvelop}
  */
-public  final class IpcEnvelop extends
+public final class IpcEnvelop extends
     com.google.protobuf.GeneratedMessageV3 implements
     // @@protoc_insertion_point(message_implements:io.vertx.tp.ipc.eon.IpcEnvelop)
     IpcEnvelopOrBuilder {
@@ -117,7 +117,7 @@ private static final long serialVersionUID = 0L;
    * <code>.io.vertx.tp.ipc.eon.em.Format type = 1;</code>
    * @return The enum numeric value on the wire for type.
    */
-  public int getTypeValue() {
+  @java.lang.Override public int getTypeValue() {
     return type_;
   }
   /**
@@ -128,7 +128,7 @@ private static final long serialVersionUID = 0L;
    * <code>.io.vertx.tp.ipc.eon.em.Format type = 1;</code>
    * @return The type.
    */
-  public io.vertx.tp.ipc.eon.em.Format getType() {
+  @java.lang.Override public io.vertx.tp.ipc.eon.em.Format getType() {
     @SuppressWarnings("deprecation")
     io.vertx.tp.ipc.eon.em.Format result = io.vertx.tp.ipc.eon.em.Format.valueOf(type_);
     return result == null ? io.vertx.tp.ipc.eon.em.Format.UNRECOGNIZED : result;
@@ -144,6 +144,7 @@ private static final long serialVersionUID = 0L;
    * <code>string body = 2;</code>
    * @return The body.
    */
+  @java.lang.Override
   public java.lang.String getBody() {
     java.lang.Object ref = body_;
     if (ref instanceof java.lang.String) {
@@ -164,6 +165,7 @@ private static final long serialVersionUID = 0L;
    * <code>string body = 2;</code>
    * @return The bytes for body.
    */
+  @java.lang.Override
   public com.google.protobuf.ByteString
       getBodyBytes() {
     java.lang.Object ref = body_;
@@ -188,6 +190,7 @@ private static final long serialVersionUID = 0L;
    * <code>bytes stream = 3;</code>
    * @return The stream.
    */
+  @java.lang.Override
   public com.google.protobuf.ByteString getStream() {
     return stream_;
   }
@@ -202,6 +205,7 @@ private static final long serialVersionUID = 0L;
    * <code>string name = 4;</code>
    * @return The name.
    */
+  @java.lang.Override
   public java.lang.String getName() {
     java.lang.Object ref = name_;
     if (ref instanceof java.lang.String) {
@@ -222,6 +226,7 @@ private static final long serialVersionUID = 0L;
    * <code>string name = 4;</code>
    * @return The bytes for name.
    */
+  @java.lang.Override
   public com.google.protobuf.ByteString
       getNameBytes() {
     java.lang.Object ref = name_;
@@ -597,7 +602,7 @@ private static final long serialVersionUID = 0L;
      * <code>.io.vertx.tp.ipc.eon.em.Format type = 1;</code>
      * @return The enum numeric value on the wire for type.
      */
-    public int getTypeValue() {
+    @java.lang.Override public int getTypeValue() {
       return type_;
     }
     /**
@@ -610,6 +615,7 @@ private static final long serialVersionUID = 0L;
      * @return This builder for chaining.
      */
     public Builder setTypeValue(int value) {
+      
       type_ = value;
       onChanged();
       return this;
@@ -622,6 +628,7 @@ private static final long serialVersionUID = 0L;
      * <code>.io.vertx.tp.ipc.eon.em.Format type = 1;</code>
      * @return The type.
      */
+    @java.lang.Override
     public io.vertx.tp.ipc.eon.em.Format getType() {
       @SuppressWarnings("deprecation")
       io.vertx.tp.ipc.eon.em.Format result = io.vertx.tp.ipc.eon.em.Format.valueOf(type_);
@@ -765,6 +772,7 @@ private static final long serialVersionUID = 0L;
      * <code>bytes stream = 3;</code>
      * @return The stream.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString getStream() {
       return stream_;
     }

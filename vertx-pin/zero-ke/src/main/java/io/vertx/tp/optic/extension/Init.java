@@ -7,7 +7,9 @@ import io.vertx.up.util.Ut;
 
 import java.util.function.Function;
 
-/*
+/**
+ * ## 「Init」Initializing Uniform Interface
+ *
  * OOB Data initialization for The whole application.
  * 1) XApp: Application Data
  * 2) XSource: Data Source Data
