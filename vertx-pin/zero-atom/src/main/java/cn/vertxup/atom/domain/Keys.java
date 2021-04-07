@@ -12,6 +12,7 @@ import cn.vertxup.atom.domain.tables.MJoin;
 import cn.vertxup.atom.domain.tables.MKey;
 import cn.vertxup.atom.domain.tables.MModel;
 import cn.vertxup.atom.domain.tables.MRelation;
+import cn.vertxup.atom.domain.tables.MTpl;
 import cn.vertxup.atom.domain.tables.records.MAttributeRecord;
 import cn.vertxup.atom.domain.tables.records.MEntityRecord;
 import cn.vertxup.atom.domain.tables.records.MFieldRecord;
@@ -20,6 +21,7 @@ import cn.vertxup.atom.domain.tables.records.MJoinRecord;
 import cn.vertxup.atom.domain.tables.records.MKeyRecord;
 import cn.vertxup.atom.domain.tables.records.MModelRecord;
 import cn.vertxup.atom.domain.tables.records.MRelationRecord;
+import cn.vertxup.atom.domain.tables.records.MTplRecord;
 
 import javax.annotation.Generated;
 
@@ -68,6 +70,8 @@ public class Keys {
     public static final UniqueKey<MModelRecord> KEY_M_MODEL_NAMESPACE_2 = UniqueKeys0.KEY_M_MODEL_NAMESPACE_2;
     public static final UniqueKey<MRelationRecord> KEY_M_RELATION_PRIMARY = UniqueKeys0.KEY_M_RELATION_PRIMARY;
     public static final UniqueKey<MRelationRecord> KEY_M_RELATION_TYPE = UniqueKeys0.KEY_M_RELATION_TYPE;
+    public static final UniqueKey<MTplRecord> KEY_M_TPL_PRIMARY = UniqueKeys0.KEY_M_TPL_PRIMARY;
+    public static final UniqueKey<MTplRecord> KEY_M_TPL_CODE = UniqueKeys0.KEY_M_TPL_CODE;
 
     // -------------------------------------------------------------------------
     // FOREIGN KEY definitions
@@ -97,5 +101,7 @@ public class Keys {
         public static final UniqueKey<MModelRecord> KEY_M_MODEL_NAMESPACE_2 = Internal.createUniqueKey(MModel.M_MODEL, "KEY_M_MODEL_NAMESPACE_2", MModel.M_MODEL.NAMESPACE, MModel.M_MODEL.NAME);
         public static final UniqueKey<MRelationRecord> KEY_M_RELATION_PRIMARY = Internal.createUniqueKey(MRelation.M_RELATION, "KEY_M_RELATION_PRIMARY", MRelation.M_RELATION.KEY);
         public static final UniqueKey<MRelationRecord> KEY_M_RELATION_TYPE = Internal.createUniqueKey(MRelation.M_RELATION, "KEY_M_RELATION_TYPE", MRelation.M_RELATION.TYPE, MRelation.M_RELATION.UPSTREAM, MRelation.M_RELATION.DOWNSTREAM, MRelation.M_RELATION.SIGMA);
+        public static final UniqueKey<MTplRecord> KEY_M_TPL_PRIMARY = Internal.createUniqueKey(MTpl.M_TPL, "KEY_M_TPL_PRIMARY", MTpl.M_TPL.KEY);
+        public static final UniqueKey<MTplRecord> KEY_M_TPL_CODE = Internal.createUniqueKey(MTpl.M_TPL, "KEY_M_TPL_CODE", MTpl.M_TPL.CODE, MTpl.M_TPL.SIGMA);
     }
 }

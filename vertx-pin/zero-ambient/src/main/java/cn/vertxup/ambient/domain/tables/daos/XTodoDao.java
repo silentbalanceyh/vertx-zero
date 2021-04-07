@@ -196,6 +196,13 @@ public class XTodoDao extends DAOImpl<XTodoRecord, cn.vertxup.ambient.domain.tab
     }
 
     /**
+     * Fetch records that have <code>PARENT_ID IN (values)</code>
+     */
+    public List<cn.vertxup.ambient.domain.tables.pojos.XTodo> fetchByParentId(String... values) {
+        return fetch(XTodo.X_TODO.PARENT_ID, values);
+    }
+
+    /**
      * Fetch records that have <code>ACTIVE IN (values)</code>
      */
     public List<cn.vertxup.ambient.domain.tables.pojos.XTodo> fetchByActive(Boolean... values) {
@@ -389,6 +396,13 @@ public class XTodoDao extends DAOImpl<XTodoRecord, cn.vertxup.ambient.domain.tab
      */
     public CompletableFuture<List<cn.vertxup.ambient.domain.tables.pojos.XTodo>> fetchByTraceIdAsync(List<String> values) {
         return fetchAsync(XTodo.X_TODO.TRACE_ID,values);
+    }
+
+    /**
+     * Fetch records that have <code>PARENT_ID IN (values)</code> asynchronously
+     */
+    public CompletableFuture<List<cn.vertxup.ambient.domain.tables.pojos.XTodo>> fetchByParentIdAsync(List<String> values) {
+        return fetchAsync(XTodo.X_TODO.PARENT_ID,values);
     }
 
     /**

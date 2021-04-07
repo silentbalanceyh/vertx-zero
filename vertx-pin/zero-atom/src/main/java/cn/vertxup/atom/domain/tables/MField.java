@@ -31,95 +31,126 @@ import java.util.List;
 @SuppressWarnings({"all", "unchecked", "rawtypes"})
 public class MField extends TableImpl<MFieldRecord> {
 
+    private static final long serialVersionUID = -105074854;
+
     /**
      * The reference instance of <code>DB_ETERNAL.M_FIELD</code>
      */
     public static final MField M_FIELD = new MField();
-    private static final long serialVersionUID = -105074854;
+
+    /**
+     * The class holding records for this type
+     */
+    @Override
+    public Class<MFieldRecord> getRecordType() {
+        return MFieldRecord.class;
+    }
+
     /**
      * The column <code>DB_ETERNAL.M_FIELD.KEY</code>. 「key」- 字段ID
      */
     public final TableField<MFieldRecord, String> KEY = createField("KEY", org.jooq.impl.SQLDataType.VARCHAR(36).nullable(false), this, "「key」- 字段ID");
+
     /**
      * The column <code>DB_ETERNAL.M_FIELD.NAME</code>. 「name」- 属性名（非列）
      */
     public final TableField<MFieldRecord, String> NAME = createField("NAME", org.jooq.impl.SQLDataType.VARCHAR(255), this, "「name」- 属性名（非列）");
+
     /**
      * The column <code>DB_ETERNAL.M_FIELD.TYPE</code>. 「type」- OX核心类型
      */
     public final TableField<MFieldRecord, String> TYPE = createField("TYPE", org.jooq.impl.SQLDataType.VARCHAR(64), this, "「type」- OX核心类型");
+
     /**
      * The column <code>DB_ETERNAL.M_FIELD.COLUMN_NAME</code>. 「columnName」- 数据库列名
      */
     public final TableField<MFieldRecord, String> COLUMN_NAME = createField("COLUMN_NAME", org.jooq.impl.SQLDataType.VARCHAR(255), this, "「columnName」- 数据库列名");
+
     /**
      * The column <code>DB_ETERNAL.M_FIELD.COLUMN_TYPE</code>. 「columnType」- 数据库转换过后的类型
      */
     public final TableField<MFieldRecord, String> COLUMN_TYPE = createField("COLUMN_TYPE", org.jooq.impl.SQLDataType.VARCHAR(255), this, "「columnType」- 数据库转换过后的类型");
+
     /**
      * The column <code>DB_ETERNAL.M_FIELD.IS_PRIMARY</code>. 「isPrimary」- 是否为主键
      */
     public final TableField<MFieldRecord, Boolean> IS_PRIMARY = createField("IS_PRIMARY", org.jooq.impl.SQLDataType.BIT, this, "「isPrimary」- 是否为主键");
+
     /**
      * The column <code>DB_ETERNAL.M_FIELD.IS_NULLABLE</code>. 「isNullable」- 是否可为空
      */
     public final TableField<MFieldRecord, Boolean> IS_NULLABLE = createField("IS_NULLABLE", org.jooq.impl.SQLDataType.BIT, this, "「isNullable」- 是否可为空");
+
     /**
      * The column <code>DB_ETERNAL.M_FIELD.LENGTH</code>. 「length」- String类型的长度
      */
     public final TableField<MFieldRecord, Integer> LENGTH = createField("LENGTH", org.jooq.impl.SQLDataType.INTEGER, this, "「length」- String类型的长度");
+
     /**
      * The column <code>DB_ETERNAL.M_FIELD.PRECISION</code>. 「precision」- Decimal类型的精度
      */
     public final TableField<MFieldRecord, Integer> PRECISION = createField("PRECISION", org.jooq.impl.SQLDataType.INTEGER, this, "「precision」- Decimal类型的精度");
+
     /**
      * The column <code>DB_ETERNAL.M_FIELD.FORMAT</code>. 「format」- 当前数据列的格式，String或Date类型
      */
     public final TableField<MFieldRecord, String> FORMAT = createField("FORMAT", org.jooq.impl.SQLDataType.VARCHAR(255), this, "「format」- 当前数据列的格式，String或Date类型");
+
     /**
      * The column <code>DB_ETERNAL.M_FIELD.IN_COMPONENT</code>. 「inComponent」- 写入插件
      */
     public final TableField<MFieldRecord, String> IN_COMPONENT = createField("IN_COMPONENT", org.jooq.impl.SQLDataType.VARCHAR(255), this, "「inComponent」- 写入插件");
+
     /**
      * The column <code>DB_ETERNAL.M_FIELD.OUT_COMPONENT</code>. 「outComponent」- 读取插件
      */
     public final TableField<MFieldRecord, String> OUT_COMPONENT = createField("OUT_COMPONENT", org.jooq.impl.SQLDataType.VARCHAR(255), this, "「outComponent」- 读取插件");
+
     /**
      * The column <code>DB_ETERNAL.M_FIELD.ENTITY_ID</code>. 「entityId」- 关联的实体ID
      */
     public final TableField<MFieldRecord, String> ENTITY_ID = createField("ENTITY_ID", org.jooq.impl.SQLDataType.VARCHAR(36), this, "「entityId」- 关联的实体ID");
+
     /**
      * The column <code>DB_ETERNAL.M_FIELD.COMMENTS</code>. 「comments」- 当前属性的描述信息
      */
     public final TableField<MFieldRecord, String> COMMENTS = createField("COMMENTS", org.jooq.impl.SQLDataType.CLOB, this, "「comments」- 当前属性的描述信息");
+
     /**
      * The column <code>DB_ETERNAL.M_FIELD.SIGMA</code>. 「sigma」- 统一标识
      */
     public final TableField<MFieldRecord, String> SIGMA = createField("SIGMA", org.jooq.impl.SQLDataType.VARCHAR(32), this, "「sigma」- 统一标识");
+
     /**
      * The column <code>DB_ETERNAL.M_FIELD.LANGUAGE</code>. 「language」- 使用的语言
      */
     public final TableField<MFieldRecord, String> LANGUAGE = createField("LANGUAGE", org.jooq.impl.SQLDataType.VARCHAR(10), this, "「language」- 使用的语言");
+
     /**
      * The column <code>DB_ETERNAL.M_FIELD.ACTIVE</code>. 「active」- 是否启用
      */
     public final TableField<MFieldRecord, Boolean> ACTIVE = createField("ACTIVE", org.jooq.impl.SQLDataType.BIT, this, "「active」- 是否启用");
+
     /**
      * The column <code>DB_ETERNAL.M_FIELD.METADATA</code>. 「metadata」- 附加配置数据
      */
     public final TableField<MFieldRecord, String> METADATA = createField("METADATA", org.jooq.impl.SQLDataType.CLOB, this, "「metadata」- 附加配置数据");
+
     /**
      * The column <code>DB_ETERNAL.M_FIELD.CREATED_AT</code>. 「createdAt」- 创建时间
      */
     public final TableField<MFieldRecord, LocalDateTime> CREATED_AT = createField("CREATED_AT", org.jooq.impl.SQLDataType.LOCALDATETIME, this, "「createdAt」- 创建时间");
+
     /**
      * The column <code>DB_ETERNAL.M_FIELD.CREATED_BY</code>. 「createdBy」- 创建人
      */
     public final TableField<MFieldRecord, String> CREATED_BY = createField("CREATED_BY", org.jooq.impl.SQLDataType.VARCHAR(36), this, "「createdBy」- 创建人");
+
     /**
      * The column <code>DB_ETERNAL.M_FIELD.UPDATED_AT</code>. 「updatedAt」- 更新时间
      */
     public final TableField<MFieldRecord, LocalDateTime> UPDATED_AT = createField("UPDATED_AT", org.jooq.impl.SQLDataType.LOCALDATETIME, this, "「updatedAt」- 更新时间");
+
     /**
      * The column <code>DB_ETERNAL.M_FIELD.UPDATED_BY</code>. 「updatedBy」- 更新人
      */
@@ -152,14 +183,6 @@ public class MField extends TableImpl<MFieldRecord> {
 
     private MField(Name alias, Table<MFieldRecord> aliased, Field<?>[] parameters) {
         super(alias, null, aliased, parameters, "");
-    }
-
-    /**
-     * The class holding records for this type
-     */
-    @Override
-    public Class<MFieldRecord> getRecordType() {
-        return MFieldRecord.class;
     }
 
     /**

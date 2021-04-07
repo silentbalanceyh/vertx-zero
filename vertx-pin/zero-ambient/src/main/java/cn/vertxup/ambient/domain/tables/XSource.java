@@ -31,91 +31,121 @@ import java.util.List;
 @SuppressWarnings({"all", "unchecked", "rawtypes"})
 public class XSource extends TableImpl<XSourceRecord> {
 
+    private static final long serialVersionUID = 1355113502;
+
     /**
      * The reference instance of <code>DB_ETERNAL.X_SOURCE</code>
      */
     public static final XSource X_SOURCE = new XSource();
-    private static final long serialVersionUID = 1355113502;
+
+    /**
+     * The class holding records for this type
+     */
+    @Override
+    public Class<XSourceRecord> getRecordType() {
+        return XSourceRecord.class;
+    }
+
     /**
      * The column <code>DB_ETERNAL.X_SOURCE.KEY</code>. 「key」- 数据源主键
      */
     public final TableField<XSourceRecord, String> KEY = createField("KEY", org.jooq.impl.SQLDataType.VARCHAR(36).nullable(false), this, "「key」- 数据源主键");
+
     /**
      * The column <code>DB_ETERNAL.X_SOURCE.IP_V4</code>. 「ipV4」- IP v4地址
      */
     public final TableField<XSourceRecord, String> IP_V4 = createField("IP_V4", org.jooq.impl.SQLDataType.VARCHAR(15), this, "「ipV4」- IP v4地址");
+
     /**
      * The column <code>DB_ETERNAL.X_SOURCE.IP_V6</code>. 「ipV6」- IP v6地址
      */
     public final TableField<XSourceRecord, String> IP_V6 = createField("IP_V6", org.jooq.impl.SQLDataType.VARCHAR(40), this, "「ipV6」- IP v6地址");
+
     /**
      * The column <code>DB_ETERNAL.X_SOURCE.HOSTNAME</code>. 「hostname」- 主机地址
      */
     public final TableField<XSourceRecord, String> HOSTNAME = createField("HOSTNAME", org.jooq.impl.SQLDataType.VARCHAR(255), this, "「hostname」- 主机地址");
+
     /**
      * The column <code>DB_ETERNAL.X_SOURCE.PORT</code>. 「port」- 端口号
      */
     public final TableField<XSourceRecord, Integer> PORT = createField("PORT", org.jooq.impl.SQLDataType.INTEGER, this, "「port」- 端口号");
+
     /**
      * The column <code>DB_ETERNAL.X_SOURCE.CATEGORY</code>. 「category」- 数据库类型
      */
     public final TableField<XSourceRecord, String> CATEGORY = createField("CATEGORY", org.jooq.impl.SQLDataType.VARCHAR(32), this, "「category」- 数据库类型");
+
     /**
      * The column <code>DB_ETERNAL.X_SOURCE.DRIVER_CLASS_NAME</code>. 「driverClassName」- 数据库驱动指定，JDBC4之前
      */
     public final TableField<XSourceRecord, String> DRIVER_CLASS_NAME = createField("DRIVER_CLASS_NAME", org.jooq.impl.SQLDataType.VARCHAR(255), this, "「driverClassName」- 数据库驱动指定，JDBC4之前");
+
     /**
      * The column <code>DB_ETERNAL.X_SOURCE.JDBC_URL</code>. 「jdbcUrl」- JDBC连接字符串
      */
     public final TableField<XSourceRecord, String> JDBC_URL = createField("JDBC_URL", org.jooq.impl.SQLDataType.VARCHAR(1024), this, "「jdbcUrl」- JDBC连接字符串");
+
     /**
      * The column <code>DB_ETERNAL.X_SOURCE.JDBC_CONFIG</code>. 「jdbcConfig」- 连接字符串中的配置key=value
      */
     public final TableField<XSourceRecord, String> JDBC_CONFIG = createField("JDBC_CONFIG", org.jooq.impl.SQLDataType.CLOB, this, "「jdbcConfig」- 连接字符串中的配置key=value");
+
     /**
      * The column <code>DB_ETERNAL.X_SOURCE.INSTANCE</code>. 「instance」- 实例名称
      */
     public final TableField<XSourceRecord, String> INSTANCE = createField("INSTANCE", org.jooq.impl.SQLDataType.VARCHAR(255), this, "「instance」- 实例名称");
+
     /**
      * The column <code>DB_ETERNAL.X_SOURCE.USERNAME</code>. 「username」- 账号
      */
     public final TableField<XSourceRecord, String> USERNAME = createField("USERNAME", org.jooq.impl.SQLDataType.VARCHAR(255), this, "「username」- 账号");
+
     /**
      * The column <code>DB_ETERNAL.X_SOURCE.PASSWORD</code>. 「password」- 密码
      */
     public final TableField<XSourceRecord, String> PASSWORD = createField("PASSWORD", org.jooq.impl.SQLDataType.VARCHAR(255), this, "「password」- 密码");
+
     /**
      * The column <code>DB_ETERNAL.X_SOURCE.APP_ID</code>. 「appId」- 关联的应用程序ID
      */
     public final TableField<XSourceRecord, String> APP_ID = createField("APP_ID", org.jooq.impl.SQLDataType.VARCHAR(255), this, "「appId」- 关联的应用程序ID");
+
     /**
      * The column <code>DB_ETERNAL.X_SOURCE.ACTIVE</code>. 「active」- 是否启用
      */
     public final TableField<XSourceRecord, Boolean> ACTIVE = createField("ACTIVE", org.jooq.impl.SQLDataType.BIT, this, "「active」- 是否启用");
+
     /**
      * The column <code>DB_ETERNAL.X_SOURCE.SIGMA</code>. 「sigma」- 统一标识
      */
     public final TableField<XSourceRecord, String> SIGMA = createField("SIGMA", org.jooq.impl.SQLDataType.VARCHAR(32), this, "「sigma」- 统一标识");
+
     /**
      * The column <code>DB_ETERNAL.X_SOURCE.METADATA</code>. 「metadata」- 附加配置
      */
     public final TableField<XSourceRecord, String> METADATA = createField("METADATA", org.jooq.impl.SQLDataType.CLOB, this, "「metadata」- 附加配置");
+
     /**
      * The column <code>DB_ETERNAL.X_SOURCE.LANGUAGE</code>. 「language」- 使用的语言
      */
     public final TableField<XSourceRecord, String> LANGUAGE = createField("LANGUAGE", org.jooq.impl.SQLDataType.VARCHAR(8), this, "「language」- 使用的语言");
+
     /**
      * The column <code>DB_ETERNAL.X_SOURCE.CREATED_AT</code>. 「createdAt」- 创建时间
      */
     public final TableField<XSourceRecord, LocalDateTime> CREATED_AT = createField("CREATED_AT", org.jooq.impl.SQLDataType.LOCALDATETIME, this, "「createdAt」- 创建时间");
+
     /**
      * The column <code>DB_ETERNAL.X_SOURCE.CREATED_BY</code>. 「createdBy」- 创建人
      */
     public final TableField<XSourceRecord, String> CREATED_BY = createField("CREATED_BY", org.jooq.impl.SQLDataType.VARCHAR(36), this, "「createdBy」- 创建人");
+
     /**
      * The column <code>DB_ETERNAL.X_SOURCE.UPDATED_AT</code>. 「updatedAt」- 更新时间
      */
     public final TableField<XSourceRecord, LocalDateTime> UPDATED_AT = createField("UPDATED_AT", org.jooq.impl.SQLDataType.LOCALDATETIME, this, "「updatedAt」- 更新时间");
+
     /**
      * The column <code>DB_ETERNAL.X_SOURCE.UPDATED_BY</code>. 「updatedBy」- 更新人
      */
@@ -148,14 +178,6 @@ public class XSource extends TableImpl<XSourceRecord> {
 
     private XSource(Name alias, Table<XSourceRecord> aliased, Field<?>[] parameters) {
         super(alias, null, aliased, parameters, "");
-    }
-
-    /**
-     * The class holding records for this type
-     */
-    @Override
-    public Class<XSourceRecord> getRecordType() {
-        return XSourceRecord.class;
     }
 
     /**
