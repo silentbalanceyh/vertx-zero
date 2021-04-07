@@ -31,67 +31,91 @@ import java.util.List;
 @SuppressWarnings({"all", "unchecked", "rawtypes"})
 public class MEntity extends TableImpl<MEntityRecord> {
 
+    private static final long serialVersionUID = 219336947;
+
     /**
      * The reference instance of <code>DB_ETERNAL.M_ENTITY</code>
      */
     public static final MEntity M_ENTITY = new MEntity();
-    private static final long serialVersionUID = 219336947;
+
+    /**
+     * The class holding records for this type
+     */
+    @Override
+    public Class<MEntityRecord> getRecordType() {
+        return MEntityRecord.class;
+    }
+
     /**
      * The column <code>DB_ETERNAL.M_ENTITY.KEY</code>. 「key」- 实体ID
      */
     public final TableField<MEntityRecord, String> KEY = createField("KEY", org.jooq.impl.SQLDataType.VARCHAR(36).nullable(false), this, "「key」- 实体ID");
+
     /**
      * The column <code>DB_ETERNAL.M_ENTITY.IDENTIFIER</code>. 「identifier」- 当前实体全局唯一ID
      */
     public final TableField<MEntityRecord, String> IDENTIFIER = createField("IDENTIFIER", org.jooq.impl.SQLDataType.VARCHAR(255), this, "「identifier」- 当前实体全局唯一ID");
+
     /**
      * The column <code>DB_ETERNAL.M_ENTITY.NAMESPACE</code>. 「namespace」- 当前实体使用的名空间
      */
     public final TableField<MEntityRecord, String> NAMESPACE = createField("NAMESPACE", org.jooq.impl.SQLDataType.VARCHAR(255), this, "「namespace」- 当前实体使用的名空间");
+
     /**
      * The column <code>DB_ETERNAL.M_ENTITY.NAME</code>. 「name」- 当前实体的名称
      */
     public final TableField<MEntityRecord, String> NAME = createField("NAME", org.jooq.impl.SQLDataType.VARCHAR(255), this, "「name」- 当前实体的名称");
+
     /**
      * The column <code>DB_ETERNAL.M_ENTITY.TYPE</code>. 「type」- 实体类型：ENTITY/RELATION
      */
     public final TableField<MEntityRecord, String> TYPE = createField("TYPE", org.jooq.impl.SQLDataType.VARCHAR(20), this, "「type」- 实体类型：ENTITY/RELATION");
+
     /**
      * The column <code>DB_ETERNAL.M_ENTITY.TABLE_NAME</code>. 「tableName」- 实体对应的数据库表
      */
     public final TableField<MEntityRecord, String> TABLE_NAME = createField("TABLE_NAME", org.jooq.impl.SQLDataType.VARCHAR(255), this, "「tableName」- 实体对应的数据库表");
+
     /**
      * The column <code>DB_ETERNAL.M_ENTITY.COMMENTS</code>. 「comments」- 数据库表备注
      */
     public final TableField<MEntityRecord, String> COMMENTS = createField("COMMENTS", org.jooq.impl.SQLDataType.CLOB, this, "「comments」- 数据库表备注");
+
     /**
      * The column <code>DB_ETERNAL.M_ENTITY.SIGMA</code>. 「sigma」- 统一标识
      */
     public final TableField<MEntityRecord, String> SIGMA = createField("SIGMA", org.jooq.impl.SQLDataType.VARCHAR(32), this, "「sigma」- 统一标识");
+
     /**
      * The column <code>DB_ETERNAL.M_ENTITY.LANGUAGE</code>. 「language」- 使用的语言
      */
     public final TableField<MEntityRecord, String> LANGUAGE = createField("LANGUAGE", org.jooq.impl.SQLDataType.VARCHAR(10), this, "「language」- 使用的语言");
+
     /**
      * The column <code>DB_ETERNAL.M_ENTITY.ACTIVE</code>. 「active」- 是否启用
      */
     public final TableField<MEntityRecord, Boolean> ACTIVE = createField("ACTIVE", org.jooq.impl.SQLDataType.BIT, this, "「active」- 是否启用");
+
     /**
      * The column <code>DB_ETERNAL.M_ENTITY.METADATA</code>. 「metadata」- 附加配置数据
      */
     public final TableField<MEntityRecord, String> METADATA = createField("METADATA", org.jooq.impl.SQLDataType.CLOB, this, "「metadata」- 附加配置数据");
+
     /**
      * The column <code>DB_ETERNAL.M_ENTITY.CREATED_AT</code>. 「createdAt」- 创建时间
      */
     public final TableField<MEntityRecord, LocalDateTime> CREATED_AT = createField("CREATED_AT", org.jooq.impl.SQLDataType.LOCALDATETIME, this, "「createdAt」- 创建时间");
+
     /**
      * The column <code>DB_ETERNAL.M_ENTITY.CREATED_BY</code>. 「createdBy」- 创建人
      */
     public final TableField<MEntityRecord, String> CREATED_BY = createField("CREATED_BY", org.jooq.impl.SQLDataType.VARCHAR(36), this, "「createdBy」- 创建人");
+
     /**
      * The column <code>DB_ETERNAL.M_ENTITY.UPDATED_AT</code>. 「updatedAt」- 更新时间
      */
     public final TableField<MEntityRecord, LocalDateTime> UPDATED_AT = createField("UPDATED_AT", org.jooq.impl.SQLDataType.LOCALDATETIME, this, "「updatedAt」- 更新时间");
+
     /**
      * The column <code>DB_ETERNAL.M_ENTITY.UPDATED_BY</code>. 「updatedBy」- 更新人
      */
@@ -124,14 +148,6 @@ public class MEntity extends TableImpl<MEntityRecord> {
 
     private MEntity(Name alias, Table<MEntityRecord> aliased, Field<?>[] parameters) {
         super(alias, null, aliased, parameters, "");
-    }
-
-    /**
-     * The class holding records for this type
-     */
-    @Override
-    public Class<MEntityRecord> getRecordType() {
-        return MEntityRecord.class;
     }
 
     /**

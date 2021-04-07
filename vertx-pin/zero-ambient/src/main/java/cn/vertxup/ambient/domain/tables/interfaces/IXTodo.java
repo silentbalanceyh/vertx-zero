@@ -214,6 +214,16 @@ public interface IXTodo extends Serializable {
     public String getTraceId();
 
     /**
+     * Setter for <code>DB_ETERNAL.X_TODO.PARENT_ID</code>. 「parentId」- 待办支持父子集结构，父待办执行时候子待办同样执行
+     */
+    public IXTodo setParentId(String value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.X_TODO.PARENT_ID</code>. 「parentId」- 待办支持父子集结构，父待办执行时候子待办同样执行
+     */
+    public String getParentId();
+
+    /**
      * Setter for <code>DB_ETERNAL.X_TODO.ACTIVE</code>. 「active」- 是否启用
      */
     public IXTodo setActive(Boolean value);
@@ -327,6 +337,7 @@ public interface IXTodo extends Serializable {
         setAcceptedBy(json.getString("ACCEPTED_BY"));
         setFinishedBy(json.getString("FINISHED_BY"));
         setTraceId(json.getString("TRACE_ID"));
+        setParentId(json.getString("PARENT_ID"));
         setActive(json.getBoolean("ACTIVE"));
         setSigma(json.getString("SIGMA"));
         setMetadata(json.getString("METADATA"));
@@ -360,6 +371,7 @@ public interface IXTodo extends Serializable {
         json.put("ACCEPTED_BY",getAcceptedBy());
         json.put("FINISHED_BY",getFinishedBy());
         json.put("TRACE_ID",getTraceId());
+        json.put("PARENT_ID",getParentId());
         json.put("ACTIVE",getActive());
         json.put("SIGMA",getSigma());
         json.put("METADATA",getMetadata());

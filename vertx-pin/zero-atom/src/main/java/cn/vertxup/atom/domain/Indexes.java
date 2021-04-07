@@ -12,6 +12,7 @@ import cn.vertxup.atom.domain.tables.MJoin;
 import cn.vertxup.atom.domain.tables.MKey;
 import cn.vertxup.atom.domain.tables.MModel;
 import cn.vertxup.atom.domain.tables.MRelation;
+import cn.vertxup.atom.domain.tables.MTpl;
 
 import javax.annotation.Generated;
 
@@ -60,6 +61,8 @@ public class Indexes {
     public static final Index M_MODEL_PRIMARY = Indexes0.M_MODEL_PRIMARY;
     public static final Index M_RELATION_PRIMARY = Indexes0.M_RELATION_PRIMARY;
     public static final Index M_RELATION_TYPE = Indexes0.M_RELATION_TYPE;
+    public static final Index M_TPL_CODE = Indexes0.M_TPL_CODE;
+    public static final Index M_TPL_PRIMARY = Indexes0.M_TPL_PRIMARY;
 
     // -------------------------------------------------------------------------
     // [#1459] distribute members to avoid static initialisers > 64kb
@@ -89,5 +92,7 @@ public class Indexes {
         public static Index M_MODEL_PRIMARY = Internal.createIndex("PRIMARY", MModel.M_MODEL, new OrderField[] { MModel.M_MODEL.KEY }, true);
         public static Index M_RELATION_PRIMARY = Internal.createIndex("PRIMARY", MRelation.M_RELATION, new OrderField[] { MRelation.M_RELATION.KEY }, true);
         public static Index M_RELATION_TYPE = Internal.createIndex("TYPE", MRelation.M_RELATION, new OrderField[] { MRelation.M_RELATION.TYPE, MRelation.M_RELATION.UPSTREAM, MRelation.M_RELATION.DOWNSTREAM, MRelation.M_RELATION.SIGMA }, true);
+        public static Index M_TPL_CODE = Internal.createIndex("CODE", MTpl.M_TPL, new OrderField[] { MTpl.M_TPL.CODE, MTpl.M_TPL.SIGMA }, true);
+        public static Index M_TPL_PRIMARY = Internal.createIndex("PRIMARY", MTpl.M_TPL, new OrderField[] { MTpl.M_TPL.KEY }, true);
     }
 }

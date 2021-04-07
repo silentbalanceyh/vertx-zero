@@ -31,63 +31,86 @@ import java.util.List;
 @SuppressWarnings({"all", "unchecked", "rawtypes"})
 public class MKey extends TableImpl<MKeyRecord> {
 
+    private static final long serialVersionUID = 2047428929;
+
     /**
      * The reference instance of <code>DB_ETERNAL.M_KEY</code>
      */
     public static final MKey M_KEY = new MKey();
-    private static final long serialVersionUID = 2047428929;
+
+    /**
+     * The class holding records for this type
+     */
+    @Override
+    public Class<MKeyRecord> getRecordType() {
+        return MKeyRecord.class;
+    }
+
     /**
      * The column <code>DB_ETERNAL.M_KEY.KEY</code>. 「key」- 键ID
      */
     public final TableField<MKeyRecord, String> KEY = createField("KEY", org.jooq.impl.SQLDataType.VARCHAR(36).nullable(false), this, "「key」- 键ID");
+
     /**
      * The column <code>DB_ETERNAL.M_KEY.NAME</code>. 「name」- 键名称
      */
     public final TableField<MKeyRecord, String> NAME = createField("NAME", org.jooq.impl.SQLDataType.VARCHAR(255), this, "「name」- 键名称");
+
     /**
      * The column <code>DB_ETERNAL.M_KEY.TYPE</code>. 「type」- 键类型
      */
     public final TableField<MKeyRecord, String> TYPE = createField("TYPE", org.jooq.impl.SQLDataType.VARCHAR(20), this, "「type」- 键类型");
+
     /**
      * The column <code>DB_ETERNAL.M_KEY.COLUMNS</code>. 「columns」- JsonArray格式，键覆盖的列集合
      */
     public final TableField<MKeyRecord, String> COLUMNS = createField("COLUMNS", org.jooq.impl.SQLDataType.CLOB, this, "「columns」- JsonArray格式，键覆盖的列集合");
+
     /**
      * The column <code>DB_ETERNAL.M_KEY.ENTITY_ID</code>. 「entityId」- 关联的实体ID
      */
     public final TableField<MKeyRecord, String> ENTITY_ID = createField("ENTITY_ID", org.jooq.impl.SQLDataType.VARCHAR(36), this, "「entityId」- 关联的实体ID");
+
     /**
      * The column <code>DB_ETERNAL.M_KEY.COMMENTS</code>. 「comments」- 当前属性的描述信息
      */
     public final TableField<MKeyRecord, String> COMMENTS = createField("COMMENTS", org.jooq.impl.SQLDataType.CLOB, this, "「comments」- 当前属性的描述信息");
+
     /**
      * The column <code>DB_ETERNAL.M_KEY.SIGMA</code>. 「sigma」- 统一标识
      */
     public final TableField<MKeyRecord, String> SIGMA = createField("SIGMA", org.jooq.impl.SQLDataType.VARCHAR(32), this, "「sigma」- 统一标识");
+
     /**
      * The column <code>DB_ETERNAL.M_KEY.LANGUAGE</code>. 「language」- 使用的语言
      */
     public final TableField<MKeyRecord, String> LANGUAGE = createField("LANGUAGE", org.jooq.impl.SQLDataType.VARCHAR(10), this, "「language」- 使用的语言");
+
     /**
      * The column <code>DB_ETERNAL.M_KEY.ACTIVE</code>. 「active」- 是否启用
      */
     public final TableField<MKeyRecord, Boolean> ACTIVE = createField("ACTIVE", org.jooq.impl.SQLDataType.BIT, this, "「active」- 是否启用");
+
     /**
      * The column <code>DB_ETERNAL.M_KEY.METADATA</code>. 「metadata」- 附加配置数据
      */
     public final TableField<MKeyRecord, String> METADATA = createField("METADATA", org.jooq.impl.SQLDataType.CLOB, this, "「metadata」- 附加配置数据");
+
     /**
      * The column <code>DB_ETERNAL.M_KEY.CREATED_AT</code>. 「createdAt」- 创建时间
      */
     public final TableField<MKeyRecord, LocalDateTime> CREATED_AT = createField("CREATED_AT", org.jooq.impl.SQLDataType.LOCALDATETIME, this, "「createdAt」- 创建时间");
+
     /**
      * The column <code>DB_ETERNAL.M_KEY.CREATED_BY</code>. 「createdBy」- 创建人
      */
     public final TableField<MKeyRecord, String> CREATED_BY = createField("CREATED_BY", org.jooq.impl.SQLDataType.VARCHAR(36), this, "「createdBy」- 创建人");
+
     /**
      * The column <code>DB_ETERNAL.M_KEY.UPDATED_AT</code>. 「updatedAt」- 更新时间
      */
     public final TableField<MKeyRecord, LocalDateTime> UPDATED_AT = createField("UPDATED_AT", org.jooq.impl.SQLDataType.LOCALDATETIME, this, "「updatedAt」- 更新时间");
+
     /**
      * The column <code>DB_ETERNAL.M_KEY.UPDATED_BY</code>. 「updatedBy」- 更新人
      */
@@ -120,14 +143,6 @@ public class MKey extends TableImpl<MKeyRecord> {
 
     private MKey(Name alias, Table<MKeyRecord> aliased, Field<?>[] parameters) {
         super(alias, null, aliased, parameters, "");
-    }
-
-    /**
-     * The class holding records for this type
-     */
-    @Override
-    public Class<MKeyRecord> getRecordType() {
-        return MKeyRecord.class;
     }
 
     /**

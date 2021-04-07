@@ -29,11 +29,13 @@ import java.util.List;
 @SuppressWarnings({"all", "unchecked", "rawtypes"})
 public class Db extends SchemaImpl {
 
+    private static final long serialVersionUID = 2061042512;
+
     /**
      * The reference instance of <code>DB_ETERNAL</code>
      */
     public static final Db DB_ETERNAL = new Db();
-    private static final long serialVersionUID = 2061042512;
+
     /**
      * The table <code>DB_ETERNAL.X_ACTIVITY</code>.
      */
