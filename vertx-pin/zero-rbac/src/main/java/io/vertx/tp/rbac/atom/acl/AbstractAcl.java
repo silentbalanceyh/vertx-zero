@@ -3,7 +3,7 @@ package io.vertx.tp.rbac.atom.acl;
 import io.vertx.up.commune.secure.AclView;
 
 /**
- * @author <a href="http://www.origin-x.cn">lang</a>
+ * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 public abstract class AbstractAcl implements AclView {
     protected final String field;

@@ -9,7 +9,7 @@ import java.util.Objects;
 import java.util.function.Supplier;
 
 /**
- * @author <a href="http://www.origin-x.cn">lang</a>
+ * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 class SlMessage {
     static final JsonObject WELCOME = SlConfig.welcome();

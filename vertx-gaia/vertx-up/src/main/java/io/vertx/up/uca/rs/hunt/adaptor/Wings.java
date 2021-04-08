@@ -24,7 +24,7 @@ import io.vertx.up.commune.Envelop;
  * 1. Build response by `Accept` and `Content-Type`, set the media type
  * 2. Convert media type to actual response data.
  *
- * @author <a href="http://www.origin-x.cn">lang</a>
+ * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 public interface Wings {
     /**

@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.concurrent.ConcurrentMap;
 
 /**
- * @author <a href="http://www.origin-x.cn">lang</a>
+ * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 class ActionGroup extends AbstractAggregator {
     private transient final ActionFetch fetch;

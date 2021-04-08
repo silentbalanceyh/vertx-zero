@@ -18,7 +18,7 @@ import java.util.concurrent.ConcurrentMap;
 /**
  * # 「Co」Command of Help
  *
- * @author <a href="http://www.origin-x.cn">lang</a>
+ * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 public class HelpCommander extends AbstractCommander {
 

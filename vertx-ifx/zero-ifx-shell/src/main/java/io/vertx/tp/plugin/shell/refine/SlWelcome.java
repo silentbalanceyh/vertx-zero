@@ -6,7 +6,7 @@ import io.vertx.up.eon.em.Environment;
 import io.vertx.up.log.Log;
 
 /**
- * @author <a href="http://www.origin-x.cn">lang</a>
+ * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 class SlWelcome {
     static final JsonObject WELCOME = SlConfig.welcome();

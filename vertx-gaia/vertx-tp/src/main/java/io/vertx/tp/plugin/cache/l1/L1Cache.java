@@ -5,7 +5,7 @@ import io.vertx.core.Vertx;
 import io.vertx.tp.plugin.cache.hit.CMessage;
 
 /**
- * @author <a href="http://www.origin-x.cn">lang</a>
+ * @author <a href="http://www.origin-x.cn">Lang</a>
  * The first Level for cache, this interface is used by Jooq
  * between `Dao` and `Database`, here are situation in current version:
  *

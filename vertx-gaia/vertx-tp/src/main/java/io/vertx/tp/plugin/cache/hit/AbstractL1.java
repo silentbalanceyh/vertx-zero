@@ -18,7 +18,7 @@ import java.util.Objects;
 
 
 /**
- * @author <a href="http://www.origin-x.cn">lang</a>
+ * @author <a href="http://www.origin-x.cn">Lang</a>
  * Abstract class for uniform processing for L1 cache
  */
 @SuppressWarnings("all")

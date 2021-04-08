@@ -12,7 +12,7 @@ import org.aspectj.lang.ProceedingJoinPoint;
 import java.util.*;
 
 /**
- * @author <a href="http://www.origin-x.cn">lang</a>
+ * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 @SuppressWarnings("all")
 abstract class AbstractAside {

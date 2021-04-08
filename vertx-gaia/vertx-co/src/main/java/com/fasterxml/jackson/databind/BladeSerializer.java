@@ -25,7 +25,7 @@ import java.io.IOException;
  *  * // </code></pre>
  * * ```
  *
- * @author <a href="http://www.origin-x.cn">lang</a>
+ * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 public class BladeSerializer extends JsonSerializer<Uson> {
     @Override

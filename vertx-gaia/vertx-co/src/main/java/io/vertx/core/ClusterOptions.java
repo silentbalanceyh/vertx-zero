@@ -40,7 +40,7 @@ import java.io.Serializable;
  * > NOTE: The generator will be ignored because of `ClusterManager` serialization with specific
  * code logical.
  *
- * @author <a href="http://www.origin-x.cn">lang</a>
+ * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 // @DataObject(generateConverter = true, publicConverter = false)
 public class ClusterOptions implements Serializable {

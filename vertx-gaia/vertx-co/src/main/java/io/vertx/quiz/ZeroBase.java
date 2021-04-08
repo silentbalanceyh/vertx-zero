@@ -23,7 +23,7 @@ import org.junit.runner.RunWith;
  *
  * From this class, it provide vertx environment instead of JUnit purely.
  *
- * @author <a href="http://www.origin-x.cn">lang</a>
+ * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 @RunWith(VertxUnitRunner.class)
 public abstract class ZeroBase extends EpicBase {

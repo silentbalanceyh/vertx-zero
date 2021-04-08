@@ -4,7 +4,7 @@ import io.vertx.up.log.Annal;
 import org.apache.poi.ss.util.CellRangeAddress;
 
 /**
- * @author <a href="http://www.origin-x.cn">lang</a>
+ * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 public class ExPos {
     private static final Annal LOGGER = Annal.get(ExPos.class);

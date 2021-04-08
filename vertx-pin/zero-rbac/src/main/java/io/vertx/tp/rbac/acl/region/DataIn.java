@@ -11,7 +11,7 @@ import io.vertx.up.eon.em.AclPhase;
 import java.util.Objects;
 
 /**
- * @author <a href="http://www.origin-x.cn">lang</a>
+ * @author <a href="http://www.origin-x.cn">Lang</a>
  * In processing for analyzing `syntax` for calculation
  */
 class DataIn {

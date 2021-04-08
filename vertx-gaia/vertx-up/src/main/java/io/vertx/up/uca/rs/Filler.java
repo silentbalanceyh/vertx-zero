@@ -22,7 +22,7 @@ import java.util.concurrent.ConcurrentMap;
  *
  * For Standard JSR311, it support most parameter annotations and extend JSR311 for business requirement.
  *
- * @author <a href="http://www.origin-x.cn">lang</a>
+ * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 public interface Filler {
     /**

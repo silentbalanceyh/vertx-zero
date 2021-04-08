@@ -15,7 +15,7 @@ import java.util.TreeMap;
 import java.util.function.Supplier;
 
 /**
- * @author <a href="http://www.origin-x.cn">lang</a>
+ * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 public abstract class AbstractEsClient {
 

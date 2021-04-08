@@ -7,7 +7,7 @@ package io.vertx.up.eon.em;
  * 2. Development: Dev Environment for development;
  * 3. Mockito: Mockito Environment for `integration` debug to mock environment
  *
- * @author <a href="http://www.origin-x.cn">lang</a>
+ * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 public enum Environment {
     Production,

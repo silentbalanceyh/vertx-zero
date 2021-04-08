@@ -16,7 +16,7 @@ import java.util.Set;
 import java.util.function.Function;
 
 /**
- * @author <a href="http://www.origin-x.cn">lang</a>
+ * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 @SuppressWarnings("all")
 public class ActionQr extends AbstractAction {

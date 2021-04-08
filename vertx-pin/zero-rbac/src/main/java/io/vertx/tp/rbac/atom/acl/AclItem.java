@@ -3,7 +3,7 @@ package io.vertx.tp.rbac.atom.acl;
 import io.vertx.core.json.JsonObject;
 
 /**
- * @author <a href="http://www.origin-x.cn">lang</a>
+ * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 public class AclItem extends AbstractAcl {
     private final boolean access;

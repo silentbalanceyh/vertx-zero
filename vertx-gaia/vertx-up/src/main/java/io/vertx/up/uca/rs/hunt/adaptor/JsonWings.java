@@ -8,7 +8,7 @@ import io.vertx.up.eon.Strings;
 import java.util.Objects;
 
 /**
- * @author <a href="http://www.origin-x.cn">lang</a>
+ * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 public class JsonWings extends AbstractWings {
     @Override

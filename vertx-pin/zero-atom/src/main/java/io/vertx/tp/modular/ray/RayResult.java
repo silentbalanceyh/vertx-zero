@@ -13,9 +13,9 @@ import java.util.Objects;
 import java.util.concurrent.ConcurrentMap;
 
 /**
- * @author <a href="http://www.origin-x.cn">lang</a>
+ * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-class RayCombine {
+class RayResult {
 
     static Record combine(final Record record, final ConcurrentMap<String, JAmb> ambMap,
                           final ConcurrentMap<String, DataQRule> ruleMap) {

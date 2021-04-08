@@ -4,7 +4,7 @@ import io.vertx.core.Future;
 import io.vertx.tp.plugin.cache.hit.AbstractL1;
 
 /**
- * @author <a href="http://www.origin-x.cn">lang</a>
+ * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 public class L1 extends AbstractL1 {
     private transient final L1Channel channel;

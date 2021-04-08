@@ -14,7 +14,7 @@ import java.util.Objects;
  * 2. Address ( deployment address )
  * 3. Worker ( Critical component that bridged vert.x and zero )
  *
- * @author <a href="http://www.origin-x.cn">lang</a>
+ * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 public class UriMeta implements Serializable {
     /*

@@ -13,7 +13,7 @@ import java.util.concurrent.ConcurrentMap;
 import java.util.function.Function;
 
 /**
- * @author <a href="http://www.origin-x.cn">lang</a>
+ * @author <a href="http://www.origin-x.cn">Lang</a>
  * SQL Statement:
  * -- SELECT COUNT(*) FROM <TABLE_NAME>
  */

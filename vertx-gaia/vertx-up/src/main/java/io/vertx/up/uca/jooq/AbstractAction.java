@@ -17,7 +17,7 @@ import java.util.Collection;
 import java.util.concurrent.CompletableFuture;
 
 /**
- * @author <a href="http://www.origin-x.cn">lang</a>
+ * @author <a href="http://www.origin-x.cn">Lang</a>
  * Two mode:
  *
  * 1) Dim1: Sync / Async

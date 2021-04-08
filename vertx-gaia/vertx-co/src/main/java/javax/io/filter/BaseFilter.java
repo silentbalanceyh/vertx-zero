@@ -25,7 +25,7 @@ import java.io.File;
  *
  * You can write your own file name filter for different file reading.
  *
- * @author <a href="http://www.origin-x.cn">lang</a>
+ * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 abstract class BaseFilter {
 

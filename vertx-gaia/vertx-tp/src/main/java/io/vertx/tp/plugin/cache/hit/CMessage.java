@@ -6,7 +6,7 @@ import io.vertx.up.eon.em.ChangeFlag;
 import java.util.TreeSet;
 
 /**
- * @author <a href="http://www.origin-x.cn">lang</a>
+ * @author <a href="http://www.origin-x.cn">Lang</a>
  * Calculated cache key based on L1Config etc
  */
 public interface CMessage {

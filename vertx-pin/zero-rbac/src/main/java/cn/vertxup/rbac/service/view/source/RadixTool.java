@@ -12,7 +12,7 @@ import io.vertx.up.util.Ut;
 import java.util.Objects;
 
 /**
- * @author <a href="http://www.origin-x.cn">lang</a>
+ * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 class RadixTool {
 

@@ -1,7 +1,7 @@
 package io.vertx.up.uca.jooq.cache;
 
 /**
- * @author <a href="http://www.origin-x.cn">lang</a>
+ * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 interface Info {
     String AOP_EXIST_ASYNC = "[ Aop ]  `{0}` exist aspecting... ( Async ) {1}";

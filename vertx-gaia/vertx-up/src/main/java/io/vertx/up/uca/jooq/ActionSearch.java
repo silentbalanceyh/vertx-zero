@@ -10,7 +10,7 @@ import io.vertx.up.uca.jooq.util.JqFlow;
 import io.vertx.up.unity.Ux;
 
 /**
- * @author <a href="http://www.origin-x.cn">lang</a>
+ * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 class ActionSearch extends AbstractAction {
     private static final String FIELD_LIST = "list";

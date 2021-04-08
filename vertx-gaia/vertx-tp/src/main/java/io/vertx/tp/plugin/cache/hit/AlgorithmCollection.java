@@ -10,7 +10,7 @@ import java.util.TreeMap;
 import java.util.concurrent.ConcurrentMap;
 
 /**
- * @author <a href="http://www.origin-x.cn">lang</a>
+ * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 public class AlgorithmCollection extends AbstractL1Algorithm {
 

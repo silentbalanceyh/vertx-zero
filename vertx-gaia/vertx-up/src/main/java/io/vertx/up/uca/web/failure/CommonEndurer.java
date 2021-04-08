@@ -8,7 +8,7 @@ import io.vertx.ext.web.RoutingContext;
  *
  * Common handler to handle failure
  *
- * @author <a href="http://www.origin-x.cn">lang</a>
+ * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 public class CommonEndurer implements Handler<RoutingContext> {
 

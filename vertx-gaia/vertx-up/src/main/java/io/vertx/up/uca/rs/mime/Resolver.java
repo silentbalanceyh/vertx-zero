@@ -14,7 +14,7 @@ import io.vertx.up.exception.WebException;
  *
  * @param <T> generic type
  *
- * @author <a href="http://www.origin-x.cn">lang</a>
+ * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 public interface Resolver<T> {
     /**

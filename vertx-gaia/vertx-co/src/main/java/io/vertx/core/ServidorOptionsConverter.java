@@ -16,7 +16,7 @@ import io.vertx.core.json.JsonObject;
  *
  * Converter for {@link io.vertx.core.ServidorOptions}
  *
- * @author <a href="http://www.origin-x.cn">lang</a>
+ * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 final class ServidorOptionsConverter {
 
