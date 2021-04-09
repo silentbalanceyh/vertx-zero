@@ -1,8 +1,8 @@
 package io.vertx.tp.crud.actor;
 
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.crud.atom.IxColumn;
-import io.vertx.tp.crud.atom.IxModule;
+import io.vertx.tp.ke.atom.metadata.KColumn;
+import io.vertx.tp.ke.atom.metadata.KModule;
 import io.vertx.tp.ke.cv.KeField;
 
 import java.util.Objects;
@@ -16,9 +16,9 @@ import java.util.Objects;
  */
 class ApeakActor extends AbstractActor {
     @Override
-    public JsonObject proc(final JsonObject data, final IxModule module) {
+    public JsonObject proc(final JsonObject data, final KModule module) {
         /* Column Definition */
-        final IxColumn column = module.getColumn();
+        final KColumn column = module.getColumn();
         if (Objects.nonNull(column)) {
             /*
              * In static mode, identifier could found ui file

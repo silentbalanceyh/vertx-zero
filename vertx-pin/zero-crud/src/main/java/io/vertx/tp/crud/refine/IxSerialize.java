@@ -2,8 +2,8 @@ package io.vertx.tp.crud.refine;
 
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.crud.atom.IxField;
-import io.vertx.tp.crud.atom.IxModule;
+import io.vertx.tp.ke.atom.metadata.KField;
+import io.vertx.tp.ke.atom.metadata.KModule;
 import io.vertx.tp.ke.cv.KeField;
 import io.vertx.tp.ke.refine.Ke;
 import io.vertx.up.atom.unity.Uarr;
@@ -33,8 +33,8 @@ class IxSerialize {
         return list;
     }
 
-    static JsonArray zipper(final JsonArray from, final JsonArray to, final IxModule config) {
-        final IxField field = config.getField();
+    static JsonArray zipper(final JsonArray from, final JsonArray to, final KModule config) {
+        final KField field = config.getField();
         final String keyField = field.getKey();
         return Uarr.create(to)
                 .zip(from, keyField, keyField)
@@ -42,7 +42,7 @@ class IxSerialize {
     }
 
     @SuppressWarnings("all")
-    static <T> T entity(final JsonObject data, final IxModule config) {
+    static <T> T entity(final JsonObject data, final KModule config) {
         IxLog.infoDao(LOGGER, "Normalized: \n{0}", data.encodePrettily());
         /*
          * JsonObject / JsonArray must be converted to string
@@ -57,7 +57,7 @@ class IxSerialize {
     }
 
     @SuppressWarnings("all")
-    static <T> List<T> entity(final JsonArray data, final IxModule config) {
+    static <T> List<T> entity(final JsonArray data, final KModule config) {
         final List<T> list = new ArrayList<>();
         data.stream()
                 .filter(Objects::nonNull)

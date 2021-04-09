@@ -1,15 +1,14 @@
-package io.vertx.tp.crud.atom;
+package io.vertx.tp.ke.atom.metadata;
 
 import com.fasterxml.jackson.databind.JsonObjectDeserializer;
 import com.fasterxml.jackson.databind.JsonObjectSerializer;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.crud.init.IxPin;
-import io.vertx.tp.ke.cv.KeField;
 
 import java.io.Serializable;
 import java.util.Objects;
+import java.util.function.Function;
 
 /*
  * New configuration in `IxModule` here
@@ -28,7 +27,7 @@ import java.util.Objects;
  *     }
  * }
  */
-public class IxJoin implements Serializable {
+public class KJoin implements Serializable {
     /*
      * Joined identifier
      */
@@ -78,7 +77,7 @@ public class IxJoin implements Serializable {
         this.mapped = mapped;
     }
 
-    public IxModule getModule(final String identifier) {
+    public KModule getModule(final String identifier, final Function<String, KModule> executor) {
         if (Objects.isNull(this.joined)) {
             return null;
         } else {
@@ -86,7 +85,7 @@ public class IxJoin implements Serializable {
             if (Objects.isNull(joinedId)) {
                 return null;
             } else {
-                return IxPin.getActor(joinedId);
+                return executor.apply(joinedId);
             }
         }
     }
@@ -102,7 +101,7 @@ public class IxJoin implements Serializable {
             /*
              * The default key is key
              */
-            return KeField.KEY;
+            return "key";
         } else {
             return this.mapped.getString(identifier);
         }

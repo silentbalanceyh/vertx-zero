@@ -1,11 +1,11 @@
-package io.vertx.tp.crud.atom;
+package io.vertx.tp.ke.atom.metadata;
 
 import com.fasterxml.jackson.databind.*;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.crud.cv.em.DsMode;
+import io.vertx.tp.ke.cv.em.DSMode;
 import io.vertx.up.commune.exchange.DictConfig;
 import io.vertx.up.commune.exchange.DictEpsilon;
 import io.vertx.up.unity.Ux;
@@ -15,17 +15,17 @@ import java.io.Serializable;
 import java.util.Objects;
 import java.util.concurrent.ConcurrentMap;
 
-public class IxModule implements Serializable {
+public class KModule implements Serializable {
 
     private String name;
     private String table;
     private String pojo;
     private String mode;
     private String modeKey;     // mode = EXTENSION
-    private IxField field;
-    private IxColumn column;
+    private KField field;
+    private KColumn column;
 
-    private IxJoin connect;     // connect for 1 join 1
+    private KJoin connect;     // connect for 1 join 1
 
     @JsonSerialize(using = JsonObjectSerializer.class)
     @JsonDeserialize(using = JsonObjectDeserializer.class)
@@ -47,11 +47,11 @@ public class IxModule implements Serializable {
     @JsonDeserialize(using = JsonObjectDeserializer.class)
     private JsonObject header;
 
-    public IxField getField() {
+    public KField getField() {
         return this.field;
     }
 
-    public void setField(final IxField field) {
+    public void setField(final KField field) {
         this.field = field;
     }
 
@@ -101,11 +101,11 @@ public class IxModule implements Serializable {
         this.header = header;
     }
 
-    public IxColumn getColumn() {
+    public KColumn getColumn() {
         return this.column;
     }
 
-    public void setColumn(final IxColumn column) {
+    public void setColumn(final KColumn column) {
         this.column = column;
     }
 
@@ -117,11 +117,11 @@ public class IxModule implements Serializable {
         this.table = table;
     }
 
-    public IxJoin getConnect() {
+    public KJoin getConnect() {
         return this.connect;
     }
 
-    public void setConnect(final IxJoin connect) {
+    public void setConnect(final KJoin connect) {
         this.connect = connect;
     }
 
@@ -142,17 +142,17 @@ public class IxModule implements Serializable {
         this.source = source;
     }
 
-    public DsMode getMode() {
+    public DSMode getMode() {
         if (Objects.isNull(this.mode)) {
-            return DsMode.PRIMARY;
+            return DSMode.PRIMARY;
         } else {
-            return Ut.toEnum(() -> this.mode, DsMode.class, DsMode.PRIMARY);
+            return Ut.toEnum(() -> this.mode, DSMode.class, DSMode.PRIMARY);
         }
     }
 
-    public void setMode(final DsMode mode) {
+    public void setMode(final DSMode mode) {
         if (Objects.isNull(mode)) {
-            this.mode = DsMode.PRIMARY.name();
+            this.mode = DSMode.PRIMARY.name();
         } else {
             this.mode = mode.name();
         }

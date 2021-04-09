@@ -1,4 +1,4 @@
-package io.vertx.tp.crud.atom;
+package io.vertx.tp.ke.atom.metadata;
 
 import com.fasterxml.jackson.databind.JsonArrayDeserializer;
 import com.fasterxml.jackson.databind.JsonArraySerializer;
@@ -11,7 +11,7 @@ import io.vertx.core.json.JsonObject;
 
 import java.io.Serializable;
 
-public class IxField implements Serializable {
+public class KField implements Serializable {
 
     private String key;
 

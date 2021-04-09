@@ -1,10 +1,10 @@
-package io.vertx.tp.crud.atom;
+package io.vertx.tp.ke.atom.metadata;
 
 import io.vertx.up.util.Ut;
 
 import java.io.Serializable;
 
-public class IxColumn implements Serializable {
+public class KColumn implements Serializable {
 
     private transient Boolean dynamic = Boolean.FALSE;
     private transient String identifier;

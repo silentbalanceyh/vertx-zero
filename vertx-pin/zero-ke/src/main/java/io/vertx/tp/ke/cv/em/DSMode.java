@@ -1,6 +1,6 @@
-package io.vertx.tp.crud.cv.em;
+package io.vertx.tp.ke.cv.em;
 
-public enum DsMode {
+public enum DSMode {
     // Default Value ( Major Database configured by 'provider' )
     PRIMARY,
     // History Value ( configured by 'orbit' )

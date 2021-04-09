@@ -1,7 +1,7 @@
 package io.vertx.tp.crud.actor;
 
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.crud.atom.IxModule;
+import io.vertx.tp.ke.atom.metadata.KModule;
 import io.vertx.tp.ke.cv.KeField;
 
 /*
@@ -9,7 +9,7 @@ import io.vertx.tp.ke.cv.KeField;
  */
 class UriActor extends AbstractActor {
     @Override
-    public JsonObject proc(final JsonObject data, final IxModule module) {
+    public JsonObject proc(final JsonObject data, final KModule module) {
         final JsonObject metadata = this.getMetadata();
         /*
          * Replace uri and method to refresh parameters.

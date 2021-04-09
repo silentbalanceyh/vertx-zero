@@ -1,9 +1,9 @@
 package io.vertx.tp.crud.actor;
 
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.crud.atom.IxField;
-import io.vertx.tp.crud.atom.IxModule;
 import io.vertx.tp.crud.refine.Ix;
+import io.vertx.tp.ke.atom.metadata.KField;
+import io.vertx.tp.ke.atom.metadata.KModule;
 import io.vertx.up.util.Ut;
 
 /*
@@ -16,11 +16,11 @@ import io.vertx.up.util.Ut;
 class CreateActor extends AbstractActor {
 
     @Override
-    public JsonObject proc(final JsonObject data, final IxModule config) {
+    public JsonObject proc(final JsonObject data, final KModule config) {
         /* UserId */
         final String userId = this.getUser();
         if (Ut.notNil(userId)) {
-            final IxField field = config.getField();
+            final KField field = config.getField();
             /* Created */
             Ix.audit(data, field.getCreated(), userId);
         }

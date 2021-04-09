@@ -3,8 +3,8 @@ package io.vertx.tp.crud.refine;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.crud.atom.IxMeta;
-import io.vertx.tp.crud.atom.IxModule;
+import io.vertx.tp.crud.atom.IxProc;
+import io.vertx.tp.ke.atom.metadata.KModule;
 import io.vertx.up.log.Annal;
 import io.vertx.up.uca.jooq.UxJooq;
 import io.vertx.up.unity.Ux;
@@ -32,15 +32,15 @@ public class Ix {
     /*
      * search operation
      */
-    public static Function<UxJooq, Future<JsonObject>> search(final JsonObject filters, final IxModule config) {
+    public static Function<UxJooq, Future<JsonObject>> search(final JsonObject filters, final KModule config) {
         return IxFn.search(filters, config);
     }
 
-    public static Function<UxJooq, Future<JsonObject>> query(final JsonObject filters, final IxModule config) {
+    public static Function<UxJooq, Future<JsonObject>> query(final JsonObject filters, final KModule config) {
         return IxFn.query(filters, config);
     }
 
-    public static Function<UxJooq, Future<Boolean>> existing(final JsonObject filters, final IxModule config) {
+    public static Function<UxJooq, Future<Boolean>> existing(final JsonObject filters, final KModule config) {
         return IxFn.existing(filters, config);
     }
 
@@ -52,8 +52,8 @@ public class Ix {
     /*
      * IxIn reference
      */
-    public static IxMeta create(final Class<?> clazz) {
-        return IxMeta.create(clazz);
+    public static IxProc create(final Class<?> clazz) {
+        return IxProc.create(clazz);
     }
 
     // Serialization for entity/list
@@ -71,21 +71,21 @@ public class Ix {
     /*
      * Deserialize to T
      */
-    public static <T> Future<T> entityAsync(final JsonObject data, final IxModule config) {
+    public static <T> Future<T> entityAsync(final JsonObject data, final KModule config) {
         final T reference = IxSerialize.entity(data, config);
         return Ux.future(reference);
     }
 
-    public static <T> Future<List<T>> entityAsync(final JsonArray data, final IxModule config) {
+    public static <T> Future<List<T>> entityAsync(final JsonArray data, final KModule config) {
         return Ux.future(IxSerialize.entity(data, config));
     }
 
-    public static Future<JsonArray> zipperAsync(final JsonArray from, final JsonArray to, final IxModule config) {
+    public static Future<JsonArray> zipperAsync(final JsonArray from, final JsonArray to, final KModule config) {
         return Ux.future(IxSerialize.zipper(from, to, config));
     }
 
     // JqTool
-    public static Future<JsonObject> inKeys(final JsonArray array, final IxModule config) {
+    public static Future<JsonObject> inKeys(final JsonArray array, final KModule config) {
         return Ux.future(IxQuery.inKeys(array, config));
     }
 

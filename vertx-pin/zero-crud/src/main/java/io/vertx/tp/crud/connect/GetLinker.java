@@ -3,7 +3,7 @@ package io.vertx.tp.crud.connect;
 import cn.vertxup.crud.api.IxHttp;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.crud.atom.IxModule;
+import io.vertx.tp.ke.atom.metadata.KModule;
 import io.vertx.tp.ke.cv.KeField;
 import io.vertx.tp.ke.refine.Ke;
 import io.vertx.up.commune.Envelop;
@@ -13,7 +13,7 @@ import io.vertx.up.commune.Envelop;
  */
 class GetLinker implements IxLinker {
     @Override
-    public Future<Envelop> procAsync(final Envelop request, final JsonObject original, final IxModule module) {
+    public Future<Envelop> procAsync(final Envelop request, final JsonObject original, final KModule module) {
         /*
          * Ke mount
          * `metadata` field processing

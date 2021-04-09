@@ -2,9 +2,9 @@ package io.vertx.tp.crud.actor;
 
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.crud.atom.IxField;
-import io.vertx.tp.crud.atom.IxModule;
 import io.vertx.tp.crud.refine.Ix;
+import io.vertx.tp.ke.atom.metadata.KField;
+import io.vertx.tp.ke.atom.metadata.KModule;
 import io.vertx.up.eon.Strings;
 import io.vertx.up.eon.Values;
 import io.vertx.up.util.Ut;
@@ -12,9 +12,9 @@ import io.vertx.up.util.Ut;
 class UniqueActor extends AbstractActor {
 
     @Override
-    public JsonObject proc(final JsonObject data, final IxModule config) {
+    public JsonObject proc(final JsonObject data, final KModule config) {
         /* Unique Keys */
-        final IxField field = config.getField();
+        final KField field = config.getField();
         final JsonArray unique = field.getUnique();
         /* Each Unique */
         final JsonObject filters = new JsonObject();

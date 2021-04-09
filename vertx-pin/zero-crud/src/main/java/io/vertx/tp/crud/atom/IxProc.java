@@ -5,6 +5,7 @@ import io.vertx.core.http.HttpMethod;
 import io.vertx.tp.crud.init.IxPin;
 import io.vertx.tp.crud.refine.Ix;
 import io.vertx.tp.error._404ModuleMissingException;
+import io.vertx.tp.ke.atom.metadata.KModule;
 import io.vertx.up.commune.Envelop;
 import io.vertx.up.exception.WebException;
 import io.vertx.up.log.Annal;
@@ -13,18 +14,18 @@ import io.vertx.up.unity.Ux;
 
 import java.util.function.BiFunction;
 
-public class IxMeta {
+public class IxProc {
     private final transient Class<?> target;
-    private transient IxModule config;
+    private transient KModule config;
     private transient UxJooq jooq;
     private transient WebException ex;
 
-    private IxMeta(final Class<?> clazz) {
+    private IxProc(final Class<?> clazz) {
         this.target = clazz;
     }
 
-    public static IxMeta create(final Class<?> clazz) {
-        return new IxMeta(clazz);
+    public static IxProc create(final Class<?> clazz) {
+        return new IxProc(clazz);
     }
 
     private void logRequest(final Envelop envelop) {
@@ -35,7 +36,7 @@ public class IxMeta {
         Ix.infoRest(logger, "---> Uri Addr: {0} {1}", method, uri);
     }
 
-    public IxMeta input(final Envelop envelop) {
+    public IxProc input(final Envelop envelop) {
         /*
          * Actor value here for extracted from `Envelop`
          */
@@ -61,7 +62,7 @@ public class IxMeta {
         return this;
     }
 
-    public Future<Envelop> envelop(final BiFunction<UxJooq, IxModule, Future<Envelop>> actuator) {
+    public Future<Envelop> envelop(final BiFunction<UxJooq, KModule, Future<Envelop>> actuator) {
         final WebException error = this.ex;
         if (null == error) {
             try {

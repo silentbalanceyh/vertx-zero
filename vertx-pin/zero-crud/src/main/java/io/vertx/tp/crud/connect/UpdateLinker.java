@@ -4,8 +4,8 @@ import cn.vertxup.crud.api.IxHttp;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.crud.actor.IxActor;
-import io.vertx.tp.crud.atom.IxModule;
 import io.vertx.tp.crud.refine.Ix;
+import io.vertx.tp.ke.atom.metadata.KModule;
 import io.vertx.up.commune.Envelop;
 import io.vertx.up.log.Annal;
 import io.vertx.up.unity.Ux;
@@ -18,7 +18,7 @@ class UpdateLinker implements IxLinker {
 
     @Override
     public Future<Envelop> procAsync(final Envelop request, final JsonObject original,
-                                     final IxModule module) {
+                                     final KModule module) {
         return OxSwitcher.moveOn(original, request.headers(), module, (dao, config) -> {
             /*
              * In updated, not needed to get key
@@ -59,7 +59,7 @@ class UpdateLinker implements IxLinker {
         });
     }
 
-    private JsonObject procAsync(final Object original, final JsonObject inputData, final IxModule config) {
+    private JsonObject procAsync(final Object original, final JsonObject inputData, final KModule config) {
         /*
          * Here must bind pojo file
          */
