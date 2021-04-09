@@ -10,11 +10,20 @@ import java.io.Serializable;
 import java.util.Objects;
 import java.util.function.Function;
 
-/*
+/**
+ * ## 「UxJoin」One-Many
+ *
+ * ### 1. Intro
+ *
  * New configuration in `IxModule` here
- * 1) field -> it means that the configuration dispatched
- * 2) joined -> Join configuration of `IxModule`
+ *
+ * 1. field -> it means that the configuration dispatched
+ * 2. joined -> Join configuration of `IxModule`
+ *
  * The data structure is as following:
+ *
+ * ```json
+ * // <pre><code class="json">
  * {
  *     "joinedBy": "<identifier>",
  *     "joined": {
@@ -26,8 +35,22 @@ import java.util.function.Function;
  *         "<identifier1>": "joinedField1"
  *     }
  * }
+ * // </code></pre>
+ * ```
+ *
+ * ### 2. Workflow
+ *
+ * The workflow is as following
+ *
+ * #### 2.1. Joined Definition
+ *
+ * 1. Get field name of `joinedBy` first to calculate module key such as `id1`.
+ * 2. Here must be a key of `id1` in `joined` configuration data.
+ * 3. Get the related data configured from `joined, id1` to generate another `KModule` ( Whole configuration ).
+ *
+ * #### 2.2. Response Calculation
  */
-public class KJoin implements Serializable {
+public class KOneMany implements Serializable {
     /*
      * Joined identifier
      */
@@ -91,8 +114,8 @@ public class KJoin implements Serializable {
     }
 
     public String getJoined(final JsonObject data) {
-        final String moduleName = this.getJoinedBy();
-        final String identifier = data.getString(moduleName);
+        final String joinedField = this.getJoinedBy();
+        final String identifier = data.getString(joinedField);
         return this.getMapped(identifier);
     }
 

@@ -25,7 +25,7 @@ public class KModule implements Serializable {
     private KField field;
     private KColumn column;
 
-    private KJoin connect;     // connect for 1 join 1
+    private KOneMany connect;     // connect for 1 join 1
 
     @JsonSerialize(using = JsonObjectSerializer.class)
     @JsonDeserialize(using = JsonObjectDeserializer.class)
@@ -117,11 +117,11 @@ public class KModule implements Serializable {
         this.table = table;
     }
 
-    public KJoin getConnect() {
+    public KOneMany getConnect() {
         return this.connect;
     }
 
-    public void setConnect(final KJoin connect) {
+    public void setConnect(final KOneMany connect) {
         this.connect = connect;
     }
 

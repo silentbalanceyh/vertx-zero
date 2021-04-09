@@ -5,8 +5,8 @@ import io.vertx.core.MultiMap;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.crud.init.IxPin;
 import io.vertx.tp.crud.refine.Ix;
-import io.vertx.tp.ke.atom.metadata.KJoin;
 import io.vertx.tp.ke.atom.metadata.KModule;
+import io.vertx.tp.ke.atom.metadata.KOneMany;
 import io.vertx.tp.ke.cv.KeField;
 import io.vertx.up.commune.Envelop;
 import io.vertx.up.log.Annal;
@@ -30,7 +30,7 @@ interface OxSwitcher {
         /*
          * Safe call because of MoveOn
          */
-        final KJoin connect = module.getConnect();
+        final KOneMany connect = module.getConnect();
         /*
          * Remove primary key, it will generate new.
          */
@@ -51,7 +51,7 @@ interface OxSwitcher {
          * Safe call because of MoveOn
          */
         final JsonObject filters = new JsonObject();
-        final KJoin connect = module.getConnect();
+        final KOneMany connect = module.getConnect();
         final String mapped = connect.getJoined(original);
         if (Ut.notNil(mapped)) {
             /*
@@ -77,7 +77,7 @@ interface OxSwitcher {
         /*
          * Linker data preparing
          */
-        final KJoin connect = module.getConnect();
+        final KOneMany connect = module.getConnect();
         final Annal LOGGER = Annal.get(OxSwitcher.class);
         if (Objects.isNull(connect)) {
             /*
