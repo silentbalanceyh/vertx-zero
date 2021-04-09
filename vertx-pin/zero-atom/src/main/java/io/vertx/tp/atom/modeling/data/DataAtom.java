@@ -3,6 +3,7 @@ package io.vertx.tp.atom.modeling.data;
 import io.vertx.tp.atom.cv.AoCache;
 import io.vertx.tp.atom.cv.AoMsg;
 import io.vertx.tp.atom.modeling.Model;
+import io.vertx.tp.atom.modeling.reference.DataQKey;
 import io.vertx.tp.atom.modeling.reference.DataQRule;
 import io.vertx.tp.atom.modeling.reference.DataQuote;
 import io.vertx.tp.atom.refine.Ao;
@@ -15,7 +16,6 @@ import io.vertx.up.fn.Fn;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
 /**
@@ -134,7 +134,7 @@ public class DataAtom {
         return this.metadata.type(field);
     }
 
-    // ------------ 比对专用方法 ----------
+    // ------------ 比对专用方法/引用部分 ----------
 
     /** 返回 CParam 对象 */
     public CParam diff() {
@@ -147,6 +147,14 @@ public class DataAtom {
 
     public Set<String> diffSet(final String field) {
         return this.reference.ruleDiff().getOrDefault(field, new HashSet<>());
+    }
+
+    public ConcurrentMap<DataQKey, DataQuote> ref() {
+        return this.reference.references(this.appName);
+    }
+
+    public ConcurrentMap<String, DataQRule> refRules() {
+        return this.reference.rules();
     }
     // ------------ 标识规则 ----------
 
@@ -169,23 +177,6 @@ public class DataAtom {
     public DataAtom ruleConnect(final RuleUnique channelRule) {
         this.ruler.connect(channelRule);
         return this;
-    }
-
-    // ------------ 引用部分 ------------
-    public ConcurrentMap<DataAtom, DataQuote> ref() {
-        final ConcurrentMap<DataAtom, DataQuote> switched = new ConcurrentHashMap<>();
-        this.reference.references().forEach((source, quote) -> {
-            /*
-             * DataAtom 交换
-             */
-            final DataAtom atomRef = DataAtom.get(this.appName, source);
-            switched.put(atomRef, quote);
-        });
-        return switched;
-    }
-
-    public ConcurrentMap<String, DataQRule> refRules() {
-        return this.reference.rules();
     }
 
     // ------------ 属性检查的特殊功能，收集相关属性 ----------

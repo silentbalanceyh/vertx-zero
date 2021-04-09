@@ -62,10 +62,9 @@ public abstract class AbstractRay<T> implements AoRay<T> {
         if (Objects.isNull(atom)) {
             throw new _501AnonymousAtomException(tpl.getClass());
         }
-
-        atom.ref().forEach((atomRef, dataQuote) -> {
-            final RaySource raySource = RaySource.create(dataQuote, atomRef);
-            this.refer.put(atomRef.identifier(), raySource);
+        atom.ref().forEach((qKey, dataQuote) -> {
+            final RaySource raySource = RaySource.create(dataQuote, qKey);
+            this.refer.put(qKey.source(), raySource);
         });
         this.referRules.putAll(atom.refRules());
         return this;
@@ -82,7 +81,6 @@ public abstract class AbstractRay<T> implements AoRay<T> {
      */
     @Override
     public T attach(final T input) {
-        /* Tpl 中的 DataQuote 检查 */
         if (this.refer.isEmpty()) {
             return input;
         } else {

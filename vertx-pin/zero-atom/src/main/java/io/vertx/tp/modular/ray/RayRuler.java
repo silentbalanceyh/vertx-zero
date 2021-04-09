@@ -16,12 +16,16 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
 /**
+ * ## Rule Applier
+ *
+ * ### 1. Intro
+ *
+ * This class validate each record related to current attribute.
+ *
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 class RayRuler {
-    /*
-     * Grouped by joined key
-     */
+    
     static ConcurrentMap<String, JAmb> group(final JsonArray source, final List<Kv<String, String>> joined,
                                              final Class<?> type) {
         final ConcurrentMap<String, JAmb> grouped = new ConcurrentHashMap<>();
