@@ -16,7 +16,7 @@ import java.util.Objects;
  *
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-public class AoService implements Serializable {
+public class AoSource implements Serializable {
     /**
      * {@link java.lang.Class} is for Elementary processing.
      */
@@ -35,7 +35,7 @@ public class AoService implements Serializable {
      *
      * @param attribute {@link cn.vertxup.atom.domain.tables.pojos.MAttribute} `M_ATTRIBUTE` referred
      */
-    public AoService(final MAttribute attribute) {
+    public AoSource(final MAttribute attribute) {
         /* type */
         final AttributeType type = Ut.toEnum(attribute::getType, AttributeType.class, AttributeType.INTERNAL);
         final JsonObject sourceConfig = Ut.toJObject(attribute.getSourceConfig());

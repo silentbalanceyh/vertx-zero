@@ -4,7 +4,7 @@ import cn.vertxup.atom.domain.tables.pojos.MAttribute;
 import cn.vertxup.atom.domain.tables.pojos.MModel;
 import io.vertx.tp.atom.cv.em.FieldSource;
 import io.vertx.tp.atom.modeling.Model;
-import io.vertx.tp.atom.modeling.config.AoService;
+import io.vertx.tp.atom.modeling.config.AoSource;
 import io.vertx.up.commune.element.CParam;
 import io.vertx.up.commune.element.Shape;
 import io.vertx.up.util.Ut;
@@ -37,7 +37,7 @@ class MetaInfo {
             final String alias = attr.getAlias();
             if (Ut.notNil(name)) {
                 /* sourceConfig */
-                final AoService service = new AoService(attr);
+                final AoSource service = new AoSource(attr);
                 if (FieldSource.Elementary == service.fieldSource()) {
                     /*
                      * Simple for Flatted

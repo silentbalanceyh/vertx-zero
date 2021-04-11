@@ -3,7 +3,7 @@ package io.vertx.tp.atom.modeling.reference;
 import cn.vertxup.atom.domain.tables.pojos.MAttribute;
 import io.vertx.codegen.annotations.Fluent;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.atom.modeling.config.AoService;
+import io.vertx.tp.atom.modeling.config.AoSource;
 import io.vertx.tp.atom.modeling.data.DataAtom;
 import io.vertx.tp.ke.cv.KeField;
 import io.vertx.up.util.Ut;
@@ -58,7 +58,7 @@ public class RQuote implements Serializable {
      * Stored `attr -> sourceConfig`.
      * This hash map has been reserved, it's for EXTERNAL/INTERNAL
      */
-    private transient final ConcurrentMap<String, AoService> sourceConfig = new ConcurrentHashMap<>();
+    private transient final ConcurrentMap<String, AoSource> sourceConfig = new ConcurrentHashMap<>();
     /**
      * Stored `attr -> sourceReference`.
      * This hash map is for REFERENCE only in current version.
@@ -121,7 +121,7 @@ public class RQuote implements Serializable {
          * JsonArray / JsonObject
          */
         final String name = attribute.getName();
-        final AoService service = new AoService(attribute);
+        final AoSource service = new AoSource(attribute);
         this.sourceConfig.put(name, service);
         this.typeMap.put(name, service.type());
         /*
