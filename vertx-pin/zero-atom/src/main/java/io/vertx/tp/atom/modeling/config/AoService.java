@@ -3,6 +3,7 @@ package io.vertx.tp.atom.modeling.config;
 import cn.vertxup.atom.domain.tables.pojos.MAttribute;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
+import io.vertx.tp.atom.cv.em.AttributeType;
 import io.vertx.tp.atom.cv.em.FieldSource;
 import io.vertx.tp.ke.cv.KeField;
 import io.vertx.up.util.Ut;
@@ -36,6 +37,7 @@ public class AoService implements Serializable {
      */
     public AoService(final MAttribute attribute) {
         /* type */
+        final AttributeType type = Ut.toEnum(attribute::getType, AttributeType.class, AttributeType.INTERNAL);
         final JsonObject sourceConfig = Ut.toJObject(attribute.getSourceConfig());
 
         /* Three field to calculation */
@@ -68,8 +70,11 @@ public class AoService implements Serializable {
             final String dataType = sourceConfig.getString(KeField.TYPE);
             this.type = Ut.clazz(dataType, String.class);
         } else {
-            this.fields.clear();
-            this.fields.addAll(sourceConfig.getJsonArray(KeField.FIELDS));
+            /* fields is only ok when INTERNAL because other types are defined by self */
+            if (AttributeType.INTERNAL == type) {
+                this.fields.clear();
+                this.fields.addAll(sourceConfig.getJsonArray(KeField.FIELDS));
+            }
             if (FieldSource.JsonArray == fieldService) {
                 this.type = JsonArray.class;
             } else {
