@@ -130,7 +130,13 @@ final class StringUtil {
             // Parameter
             final JexlContext context = new MapContext();
             Ut.itJObject(params, (value, key) -> context.set(key, value));
-            return expression.evaluate(context).toString();
+            // Processed
+            final Object result = expression.evaluate(context);
+            if (Objects.nonNull(result)) {
+                return result.toString();
+            } else {
+                return null;
+            }
         } catch (final JexlException ex) {
             // ex.printStackTrace();    // For Debug
             return null;                // Get null

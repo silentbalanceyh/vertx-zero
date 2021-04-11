@@ -1,6 +1,8 @@
 package io.vertx.tp.ke.atom.metadata;
 
 import io.vertx.core.json.JsonObject;
+import io.vertx.tp.error._404IndentParsingException;
+import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import io.vertx.up.util.Ut;
 
@@ -21,7 +23,7 @@ public class KJoin implements Serializable {
     /**
      * `identifier` field of join configuration
      */
-    private String targetIndent;
+    private volatile String targetIndent;
     /**
      * `source` field of join configuration
      */
@@ -57,20 +59,11 @@ public class KJoin implements Serializable {
 
     public KPoint procTarget(final JsonObject data) {
         /*
-         * Expr / Non-Expr
-         */
-        if (Ut.isNil(this.targetIndent)) {
-            LOGGER.warn("The `targetIndent` field is null");
-            return null;
-        }
-        /*
          * Joined configuration read
          */
-        final String identifier;
-        if (this.targetIndent.contains("`")) {
-            identifier = Ut.fromExpression(this.targetIndent, data);
-        } else {
-            identifier = this.targetIndent;
+        final String identifier = this.procIdentifier(data);
+        if (Ut.isNil(identifier)) {
+            return null;
         }
         final KPoint target = this.target.getOrDefault(identifier, null);
         if (Objects.isNull(target)) {
@@ -78,6 +71,27 @@ public class KJoin implements Serializable {
             return null;
         }
         return target.indent(identifier);
+    }
+
+    private String procIdentifier(final JsonObject data) {
+        /*
+         * Search by `field`
+         */
+        final String identifier;
+        if (Ut.isNil(this.targetIndent)) {
+            LOGGER.warn("The `targetIndent` field is null");
+            return null;
+        }
+        if (data.containsKey(this.targetIndent)) {
+            /*
+             * Data Processing
+             */
+            identifier = data.getString(this.targetIndent);
+        } else {
+            identifier = this.targetIndent;
+        }
+        Fn.out(Ut.isNil(identifier), _404IndentParsingException.class, this.getClass(), this.targetIndent, data);
+        return identifier;
     }
 
     public <T> T procTarget(final JsonObject data, final Function<KPoint, T> fnProcess) {

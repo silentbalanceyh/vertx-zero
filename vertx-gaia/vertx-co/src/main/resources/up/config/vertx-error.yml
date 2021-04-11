@@ -190,6 +190,7 @@ E80217: "(501) - (Ke) Your Class<T> is null or `UxJooq` has not been bind here!"
 E80218: "(501) - (Ke) This api is not supported or implemented, please check your specification"
 E80219: "(403) - (Ke) You have no access to create cross `application` account tokens, token generation error, now size = {0}"
 E80542: "(409) - (Ke) You want to seek `target` configuration in JOIN, but now the fields ( one of `crud, classDao, classDefine` ) is missing."
+E80543: "(404) - (Ke) You parsed targetIndent = `{0}` in Join workflow, but now get null. data = `{1}`."
 
 # Ambient Module
 E80300: "(500) - (Ambient) The application environment error, could not get app data"
