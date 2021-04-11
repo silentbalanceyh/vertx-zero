@@ -1,10 +1,12 @@
-package io.vertx.tp.ke.atom.metadata;
+package io.vertx.tp.crud.atom;
 
 import com.fasterxml.jackson.databind.*;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
+import io.vertx.tp.ke.atom.metadata.KField;
+import io.vertx.tp.ke.atom.metadata.KJoin;
 import io.vertx.tp.ke.cv.em.DSMode;
 import io.vertx.up.commune.exchange.DictConfig;
 import io.vertx.up.commune.exchange.DictEpsilon;
@@ -15,7 +17,7 @@ import java.io.Serializable;
 import java.util.Objects;
 import java.util.concurrent.ConcurrentMap;
 
-public class KModule implements Serializable {
+public class IxModule implements Serializable {
 
     private String name;
     private String table;
@@ -23,9 +25,9 @@ public class KModule implements Serializable {
     private String mode;
     private String modeKey;     // mode = EXTENSION
     private KField field;
-    private KColumn column;
+    private IxViewParam column;
 
-    private KOneMany connect;     // connect for 1 join 1
+    private KJoin connect;     // connect for 1 join 1
 
     @JsonSerialize(using = JsonObjectSerializer.class)
     @JsonDeserialize(using = JsonObjectDeserializer.class)
@@ -101,11 +103,11 @@ public class KModule implements Serializable {
         this.header = header;
     }
 
-    public KColumn getColumn() {
+    public IxViewParam getColumn() {
         return this.column;
     }
 
-    public void setColumn(final KColumn column) {
+    public void setColumn(final IxViewParam column) {
         this.column = column;
     }
 
@@ -117,11 +119,11 @@ public class KModule implements Serializable {
         this.table = table;
     }
 
-    public KOneMany getConnect() {
+    public KJoin getConnect() {
         return this.connect;
     }
 
-    public void setConnect(final KOneMany connect) {
+    public void setConnect(final KJoin connect) {
         this.connect = connect;
     }
 

@@ -5,7 +5,6 @@ import io.vertx.core.http.HttpMethod;
 import io.vertx.tp.crud.init.IxPin;
 import io.vertx.tp.crud.refine.Ix;
 import io.vertx.tp.error._404ModuleMissingException;
-import io.vertx.tp.ke.atom.metadata.KModule;
 import io.vertx.up.commune.Envelop;
 import io.vertx.up.exception.WebException;
 import io.vertx.up.log.Annal;
@@ -16,7 +15,7 @@ import java.util.function.BiFunction;
 
 public class IxProc {
     private final transient Class<?> target;
-    private transient KModule config;
+    private transient IxModule config;
     private transient UxJooq jooq;
     private transient WebException ex;
 
@@ -62,7 +61,7 @@ public class IxProc {
         return this;
     }
 
-    public Future<Envelop> envelop(final BiFunction<UxJooq, KModule, Future<Envelop>> actuator) {
+    public Future<Envelop> envelop(final BiFunction<UxJooq, IxModule, Future<Envelop>> actuator) {
         final WebException error = this.ex;
         if (null == error) {
             try {

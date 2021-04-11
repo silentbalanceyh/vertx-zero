@@ -3,7 +3,7 @@ package cn.vertxup.rbac.service.batch;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.ke.atom.KeIdc;
+import io.vertx.tp.ke.atom.KCredential;
 import io.vertx.tp.ke.cv.KeField;
 import io.vertx.tp.ke.refine.Ke;
 import io.vertx.tp.optic.Credential;
@@ -28,7 +28,7 @@ public abstract class AbstractIdc implements IdcStub {
      * Credential channel
      */
     protected <T> Future<T> credential(final Supplier<Future<T>> supplier,
-                                       final Function<KeIdc, Future<T>> executor) {
+                                       final Function<KCredential, Future<T>> executor) {
         return Ke.channelAsync(Credential.class, supplier,
                 stub -> stub.fetchAsync(this.sigma)
                         .compose(executor));

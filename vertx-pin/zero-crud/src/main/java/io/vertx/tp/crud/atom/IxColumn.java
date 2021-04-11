@@ -8,7 +8,7 @@ import io.vertx.core.json.JsonArray;
 
 import java.io.Serializable;
 
-public class IxConfig implements Serializable {
+public class IxColumn implements Serializable {
     @JsonSerialize(using = JsonArraySerializer.class)
     @JsonDeserialize(using = JsonArrayDeserializer.class)
     private transient JsonArray patterns;

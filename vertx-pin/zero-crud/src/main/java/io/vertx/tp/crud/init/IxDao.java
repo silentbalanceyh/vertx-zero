@@ -2,10 +2,10 @@ package io.vertx.tp.crud.init;
 
 import io.vertx.core.MultiMap;
 import io.vertx.core.json.JsonObject;
+import io.vertx.tp.crud.atom.IxModule;
 import io.vertx.tp.crud.cv.IxFolder;
 import io.vertx.tp.crud.cv.IxMsg;
 import io.vertx.tp.crud.refine.Ix;
-import io.vertx.tp.ke.atom.metadata.KModule;
 import io.vertx.tp.ke.cv.em.DSMode;
 import io.vertx.tp.ke.refine.Ke;
 import io.vertx.tp.optic.DS;
@@ -32,7 +32,7 @@ class IxDao {
      */
     private static final Annal LOGGER = Annal.get(IxDao.class);
 
-    private static final ConcurrentMap<String, KModule> CONFIG_MAP =
+    private static final ConcurrentMap<String, IxModule> CONFIG_MAP =
             new ConcurrentHashMap<>();
 
     static void init() {
@@ -51,7 +51,7 @@ class IxDao {
 
             Fn.safeNull(() -> {
                 /* 2. Deserialize to IxConfig object */
-                final KModule config = Ut.deserialize(configDao, KModule.class);
+                final IxModule config = Ut.deserialize(configDao, IxModule.class);
                 /* 3. Processed key */
                 final String key = file.replace(Strings.DOT + FileSuffix.JSON, Strings.EMPTY);
                 if (file.contains(config.getName())) {
@@ -73,13 +73,13 @@ class IxDao {
                 CONFIG_MAP.size(), IxConfiguration.getUris().size());
     }
 
-    static KModule get(final String actor) {
+    static IxModule get(final String actor) {
         Ix.debugRest(LOGGER, "Actor = {0}", actor);
-        final KModule config = CONFIG_MAP.get(actor);
+        final IxModule config = CONFIG_MAP.get(actor);
         return Fn.getNull(null, () -> config, config);
     }
 
-    static UxJooq get(final KModule config, final MultiMap headers) {
+    static UxJooq get(final IxModule config, final MultiMap headers) {
         return Fn.getNull(null, () -> {
             final Class<?> daoCls = config.getDaoCls();
             assert null != daoCls : " Should not be null, check configuration";
@@ -96,7 +96,7 @@ class IxDao {
         }, config);
     }
 
-    private static UxJooq get(final KModule module, final Class<?> clazz, final MultiMap headers) {
+    private static UxJooq get(final IxModule module, final Class<?> clazz, final MultiMap headers) {
         final UxJooq dao;
         /*
          * 1. Extract Mode from `IxModule` for data source switching

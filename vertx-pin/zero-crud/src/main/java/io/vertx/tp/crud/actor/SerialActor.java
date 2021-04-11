@@ -2,9 +2,8 @@ package io.vertx.tp.crud.actor;
 
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
+import io.vertx.tp.crud.atom.IxModule;
 import io.vertx.tp.ke.atom.metadata.KField;
-import io.vertx.tp.ke.atom.metadata.KModule;
-import io.vertx.tp.ke.cv.KeField;
 import io.vertx.tp.ke.refine.Ke;
 import io.vertx.tp.optic.business.ExSerial;
 import io.vertx.up.log.Annal;
@@ -20,12 +19,12 @@ class SerialActor extends AbstractActor {
     private static final Annal LOGGER = Annal.get(SerialActor.class);
 
     @Override
-    public JsonObject proc(final JsonObject data, final KModule config) {
+    public JsonObject proc(final JsonObject data, final IxModule config) {
         throw new RuntimeException("Do not support this method here.");
     }
 
     @Override
-    public Future<JsonObject> procAsync(final JsonObject data, final KModule config) {
+    public Future<JsonObject> procAsync(final JsonObject data, final IxModule config) {
         final KField field = config.getField();
         final JsonObject numbers = field.getNumbers();
         if (Ut.isNil(numbers)) {
@@ -41,7 +40,7 @@ class SerialActor extends AbstractActor {
             return Ke.channelAsync(ExSerial.class,
                     () -> Ux.future(data),
                     serial -> {
-                        final String sigma = data.getString(KeField.SIGMA);
+                        final String sigma = data.getString(io.vertx.tp.ke.cv.KeField.SIGMA);
                         if (Ut.isNil(sigma)) {
                             return Ux.future(data);
                         } else {

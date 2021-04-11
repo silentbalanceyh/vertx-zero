@@ -3,7 +3,7 @@ package io.vertx.tp.ke.refine;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.ke.atom.KeMetadata;
+import io.vertx.tp.ke.atom.KMetadata;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
@@ -85,6 +85,6 @@ class KeElement {
         /*
          * Structure that will be parsed here.
          */
-        return new KeMetadata(metadata).toJson();
+        return new KMetadata(metadata).toJson();
     }
 }

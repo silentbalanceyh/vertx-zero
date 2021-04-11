@@ -5,13 +5,13 @@ import io.vertx.core.Promise;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.crud.actor.IxActor;
+import io.vertx.tp.crud.atom.IxModule;
 import io.vertx.tp.crud.cv.Addr;
 import io.vertx.tp.crud.cv.IxMsg;
 import io.vertx.tp.crud.init.IxPin;
 import io.vertx.tp.crud.refine.Ix;
 import io.vertx.tp.error._409ModuleConflictException;
 import io.vertx.tp.error._409MultiModuleException;
-import io.vertx.tp.ke.atom.metadata.KModule;
 import io.vertx.tp.ke.cv.KeField;
 import io.vertx.tp.ke.refine.Ke;
 import io.vertx.tp.plugin.excel.ExcelClient;
@@ -56,7 +56,7 @@ public class FileActor {
         final File file = new File(filename);
         if (file.exists()) {
             /* IxConfig */
-            final KModule config = IxPin.getActor(actor);
+            final IxModule config = IxPin.getActor(actor);
             /* IxDao */
             final UxJooq jooq = IxPin.getDao(config, request.headers());
 
