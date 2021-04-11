@@ -11,13 +11,14 @@ import io.vertx.codegen.annotations.Fluent;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.atom.refine.Ao;
-import io.vertx.up.atom.Kv;
 import io.vertx.up.commune.Record;
 import io.vertx.up.eon.Strings;
 import io.vertx.up.util.Ut;
 
 import java.io.Serializable;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Objects;
+import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -39,7 +40,6 @@ import java.util.stream.Stream;
  *             "conditions": {},
  *             "condition": {},
  *             "required": [],
- *             "joined": {},
  *             "diff": []
  *         }
  *     }
@@ -56,11 +56,10 @@ import java.util.stream.Stream;
  * |condition|Input|The criteria condition to fetch data ( Single ), result is {@link io.vertx.core.json.JsonObject}.|
  * |required|Rule|When fetched data source, this rule will check whether each record valid. |
  * |diff|Rule|When fetched data array, this rule will combine by fields, compress the duplicated records. |
- * |joined|Rule|When fetched data array, this rule will connect current record to fetched Array. |
  *
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-public class DataQRule implements Serializable {
+public class RRule implements Serializable {
     /**
      * The field `condition`.
      */
@@ -80,13 +79,6 @@ public class DataQRule implements Serializable {
     @JsonSerialize(using = JsonArraySerializer.class)
     @JsonDeserialize(using = JsonArrayDeserializer.class)
     private transient JsonArray required;
-
-    /**
-     * The rule `joined`.
-     */
-    @JsonSerialize(using = JsonObjectSerializer.class)
-    @JsonDeserialize(using = JsonObjectDeserializer.class)
-    private transient JsonObject joined;
 
     /**
      * The rule `diff`.
@@ -146,20 +138,6 @@ public class DataQRule implements Serializable {
     }
 
     /**
-     * @return {@link io.vertx.core.json.JsonObject}
-     */
-    public JsonObject getJoined() {
-        return this.joined;
-    }
-
-    /**
-     * @param joined {@link io.vertx.core.json.JsonObject}
-     */
-    public void setJoined(final JsonObject joined) {
-        this.joined = joined;
-    }
-
-    /**
      * @return {@link io.vertx.core.json.JsonArray}
      */
     public JsonArray getDiff() {
@@ -188,20 +166,9 @@ public class DataQRule implements Serializable {
      * @return this
      */
     @Fluent
-    public DataQRule type(final Class<?> type) {
+    public RRule type(final Class<?> type) {
         this.type = type;
         return this;
-    }
-
-    /**
-     * Returned the `key = value` of `joined` rule, flat the object to array.
-     *
-     * @return {@link java.util.List}<{@link io.vertx.up.atom.Kv}>
-     */
-    public List<Kv<String, String>> joined() {
-        final List<Kv<String, String>> joinedKeys = new ArrayList<>();
-        Ut.<String>itJObject(this.joined, (value, key) -> joinedKeys.add(Kv.create(key, value)));
-        return joinedKeys;
     }
 
     /**

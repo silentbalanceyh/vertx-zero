@@ -3,9 +3,9 @@ package io.vertx.tp.modular.ray;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.atom.modeling.data.DataAtom;
-import io.vertx.tp.atom.modeling.reference.DataQKey;
-import io.vertx.tp.atom.modeling.reference.DataQRule;
-import io.vertx.tp.atom.modeling.reference.DataQuote;
+import io.vertx.tp.atom.modeling.reference.RDao;
+import io.vertx.tp.atom.modeling.reference.RQuote;
+import io.vertx.tp.atom.modeling.reference.RRule;
 import io.vertx.tp.atom.refine.Ao;
 import io.vertx.tp.ke.refine.Ke;
 import io.vertx.tp.modular.dao.AoDao;
@@ -28,15 +28,15 @@ import java.util.function.Function;
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 class RaySource {
-    private transient final DataQuote quote;
+    private transient final RQuote quote;
     private transient final DataAtom atom;
 
-    private RaySource(final DataQuote quote, final DataQKey qKey) {
+    private RaySource(final RQuote quote, final RDao qKey) {
         this.quote = quote;
         this.atom = qKey.atom();
     }
 
-    static RaySource create(final DataQuote quote, final DataQKey qKey) {
+    static RaySource create(final RQuote quote, final RDao qKey) {
         return new RaySource(quote, qKey);
     }
 
@@ -56,7 +56,7 @@ class RaySource {
         return this.fetchData(rule -> rule.condition(records));
     }
 
-    private ConcurrentMap<String, JAmb> fetchData(final Function<DataQRule, JsonObject> supplier) {
+    private ConcurrentMap<String, JAmb> fetchData(final Function<RRule, JsonObject> supplier) {
         final ConcurrentMap<String, JAmb> data = new ConcurrentHashMap<>();
         this.quote.rules().forEach((field, rule) -> {
             /*

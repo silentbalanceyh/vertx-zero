@@ -2,7 +2,7 @@ package io.vertx.tp.modular.ray;
 
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.atom.modeling.reference.DataQRule;
+import io.vertx.tp.atom.modeling.reference.RRule;
 import io.vertx.up.atom.Kv;
 import io.vertx.up.commune.Record;
 import io.vertx.up.commune.element.JAmb;
@@ -32,9 +32,9 @@ class RayResult {
      * @return {@link io.vertx.up.commune.Record}
      */
     static Record combine(final Record record, final ConcurrentMap<String, JAmb> ambMap,
-                          final ConcurrentMap<String, DataQRule> ruleMap) {
+                          final ConcurrentMap<String, RRule> ruleMap) {
         ambMap.forEach((field, each) -> {
-            final DataQRule rule = ruleMap.get(field);
+            final RRule rule = ruleMap.get(field);
             combine(record, field, each, rule);
         });
         return record;
@@ -51,9 +51,9 @@ class RayResult {
      */
     static Record[] combine(final Record[] records,
                             final ConcurrentMap<String, JAmb> ambMap,
-                            final ConcurrentMap<String, DataQRule> ruleMap) {
+                            final ConcurrentMap<String, RRule> ruleMap) {
         ambMap.forEach((field, each) -> {
-            final DataQRule rule = ruleMap.get(field);
+            final RRule rule = ruleMap.get(field);
             if (Objects.nonNull(rule)) {
                 combine(records, field, each, rule);
             }
@@ -67,10 +67,10 @@ class RayResult {
      * @param records {@link io.vertx.up.commune.Record}[] Result records
      * @param field   {@link java.lang.String} Input attribute name
      * @param amb     {@link io.vertx.up.commune.element.JAmb} The data map stored reference data
-     * @param rule    {@link io.vertx.tp.atom.modeling.reference.DataQRule} The rule applied to current attribute
+     * @param rule    {@link RRule} The rule applied to current attribute
      */
-    private static void combine(final Record[] records, final String field, final JAmb amb, final DataQRule rule) {
-        final List<Kv<String, String>> ruleJoined = rule.joined();
+    private static void combine(final Record[] records, final String field, final JAmb amb, final RRule rule) {
+        final List<Kv<String, String>> ruleJoined = null;// rule.joined();
         final Boolean single = amb.isSingle();
         if (Objects.nonNull(single) && !single) {
             /*
@@ -114,9 +114,9 @@ class RayResult {
      * @param record {@link io.vertx.up.commune.Record} Result records
      * @param field  {@link java.lang.String} Input attribute name
      * @param amb    {@link io.vertx.up.commune.element.JAmb} The data map stored reference data
-     * @param rule   {@link io.vertx.tp.atom.modeling.reference.DataQRule} The rule applied to current attribute
+     * @param rule   {@link RRule} The rule applied to current attribute
      */
-    private static void combine(final Record record, final String field, final JAmb amb, final DataQRule rule) {
+    private static void combine(final Record record, final String field, final JAmb amb, final RRule rule) {
         final Boolean single = amb.isSingle();
         if (Objects.nonNull(single) && Objects.nonNull(record)) {
             if (single) {

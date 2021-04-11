@@ -2,11 +2,10 @@ package io.vertx.tp.atom.modeling.reference;
 
 import cn.vertxup.atom.domain.tables.pojos.MAttribute;
 import io.vertx.codegen.annotations.Fluent;
-import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.error._409ReferenceDaoException;
+import io.vertx.tp.atom.modeling.config.AoService;
+import io.vertx.tp.atom.modeling.data.DataAtom;
 import io.vertx.tp.ke.cv.KeField;
-import io.vertx.up.fn.Fn;
 import io.vertx.up.util.Ut;
 
 import java.io.Serializable;
@@ -38,21 +37,14 @@ import java.util.concurrent.ConcurrentMap;
  *
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-public class DataQuote implements Serializable {
+public class RQuote implements Serializable {
     /**
      * Bind the identifier of defined Model
      *
      * - Static Model
      * - Dynamic Model
      */
-    private transient final String source;
-    /**
-     * Bind the daoCls of defined Model of static.
-     *
-     * - Static Model
-     * - Dynamic Model
-     */
-    private transient Class<?> daoCls;
+    private transient final DataAtom atomRef;
     /**
      * Stored `attr -> type`
      *
@@ -66,7 +58,7 @@ public class DataQuote implements Serializable {
      * Stored `attr -> sourceConfig`.
      * This hash map has been reserved, it's for EXTERNAL/INTERNAL
      */
-    private transient final ConcurrentMap<String, JsonObject> sourceConfig = new ConcurrentHashMap<>();
+    private transient final ConcurrentMap<String, AoService> sourceConfig = new ConcurrentHashMap<>();
     /**
      * Stored `attr -> sourceReference`.
      * This hash map is for REFERENCE only in current version.
@@ -76,27 +68,32 @@ public class DataQuote implements Serializable {
     /**
      * Extract `rule` from input json config and build `attr -> DataQRule` of current model.
      */
-    private transient final ConcurrentMap<String, DataQRule> sourceRule = new ConcurrentHashMap<>();
+    private transient final ConcurrentMap<String, RRule> sourceRule = new ConcurrentHashMap<>();
+
+
+    // ----------------------- Factory Method Start ----------------------
 
     /**
      * Private constructor to prevent `new ...` creation.
      *
-     * @param source The table name or identifier of entity.
+     * @param atomRef The table name or identifier of entity.
      */
-    private DataQuote(final String source) {
-        this.source = source;
+    private RQuote(final DataAtom atomRef) {
+        this.atomRef = atomRef;
     }
 
     /**
      * The factory method to create new instance.
      *
-     * @param source The table name or identifier of entity.
+     * @param atomRef The table name or identifier of entity.
      *
-     * @return {@link io.vertx.tp.atom.modeling.reference.DataQuote}
+     * @return {@link RQuote}
      */
-    public static DataQuote create(final String source) {
-        return new DataQuote(source);
+    public static RQuote create(final DataAtom atomRef) {
+        return new RQuote(atomRef);
     }
+    // ----------------------- Factory Method End ----------------------
+
 
     /**
      * 「Fluent」Add new attribute in current Quote instance.
@@ -116,27 +113,17 @@ public class DataQuote implements Serializable {
      *
      * @param attribute {@link cn.vertxup.atom.domain.tables.pojos.MAttribute} Input attribute object
      *
-     * @return {@link io.vertx.tp.atom.modeling.reference.DataQuote}
+     * @return {@link RQuote}
      */
     @Fluent
-    public DataQuote add(final MAttribute attribute) {
+    public RQuote add(final MAttribute attribute) {
         /*
          * JsonArray / JsonObject
          */
-        final Boolean isArray = attribute.getIsArray();
         final String name = attribute.getName();
-        if (Objects.nonNull(isArray) && isArray) {
-            this.typeMap.put(name, JsonArray.class);
-        } else {
-            this.typeMap.put(name, JsonObject.class);
-        }
-        /*
-         * sourceConfig
-         */
-        if (Objects.nonNull(attribute.getSourceConfig())) {
-            final JsonObject sourceConfig = Ut.toJObject(attribute.getSourceConfig());
-            this.sourceConfig.put(name, sourceConfig);
-        }
+        final AoService service = new AoService(attribute);
+        this.sourceConfig.put(name, service);
+        this.typeMap.put(name, service.type());
         /*
          * sourceReference
          */
@@ -148,24 +135,12 @@ public class DataQuote implements Serializable {
              */
             final JsonObject ruleData = Ut.sureJObject(sourceReference.getJsonObject(KeField.RULE));
             if (Ut.notNil(ruleData)) {
-                final DataQRule rule = Ut.deserialize(ruleData, DataQRule.class);
+                final RRule rule = Ut.deserialize(ruleData, RRule.class);
                 this.sourceRule.put(name, rule.type(this.typeMap.get(name)));
             }
             /*
-             * daoCls null
+             *
              */
-            if (sourceReference.containsKey("dao")) {
-                final String daoCls = sourceReference.getString("dao");
-                if (Objects.isNull(this.daoCls)) {
-                    this.daoCls = Ut.clazz(daoCls);
-                } else {
-                    /*
-                     * Ensure this.daoCls and sourceReference.dao
-                     * When duplicated, throw out _409ReferenceDaoException class
-                     */
-                    Fn.out(!daoCls.equals(this.daoCls.getName()), _409ReferenceDaoException.class, this.getClass(), this.source, attribute.getName());
-                }
-            }
         }
         return this;
     }
@@ -173,7 +148,7 @@ public class DataQuote implements Serializable {
     /**
      * @return Hash map of rules
      */
-    public ConcurrentMap<String, DataQRule> rules() {
+    public ConcurrentMap<String, RRule> rules() {
         return this.sourceRule;
     }
 
@@ -183,13 +158,6 @@ public class DataQuote implements Serializable {
      * @return Data type of attribute
      */
     public Class<?> type(final String field) {
-        return this.typeMap.getOrDefault(field, null);
-    }
-
-    /**
-     * @return {@link java.lang.Class}
-     */
-    public Class<?> typeDao() {
-        return this.daoCls;
+        return this.typeMap.getOrDefault(field, java.lang.String.class);
     }
 }

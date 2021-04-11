@@ -2,7 +2,7 @@ package io.vertx.tp.modular.ray;
 
 import io.vertx.tp.atom.modeling.data.DataAtom;
 import io.vertx.tp.atom.modeling.element.DataTpl;
-import io.vertx.tp.atom.modeling.reference.DataQRule;
+import io.vertx.tp.atom.modeling.reference.RRule;
 import io.vertx.tp.error._501AnonymousAtomException;
 
 import java.util.Objects;
@@ -36,9 +36,9 @@ public abstract class AbstractRay<T> implements AoRay<T> {
     protected transient ConcurrentMap<String, RaySource> refer =
             new ConcurrentHashMap<>();
     /**
-     * The hashmap reference of `field = {@link io.vertx.tp.atom.modeling.reference.DataQRule}`.
+     * The hashmap reference of `field = {@link RRule}`.
      */
-    protected transient ConcurrentMap<String, DataQRule> referRules =
+    protected transient ConcurrentMap<String, RRule> referRules =
             new ConcurrentHashMap<>();
 
     /**

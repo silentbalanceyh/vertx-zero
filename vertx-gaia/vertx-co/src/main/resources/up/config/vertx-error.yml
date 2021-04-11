@@ -256,4 +256,5 @@ E80537: "(417) - (Mod) Sorry, the entity = {0} definition could not be found in 
 E80538: "(417) - (Mod) Current model: {0} related schema counter {1} or joins number {2} is invalid ( joins >= schema >= 1 )"
 E80539: "(501) - (Web) Current `DictFabric` is null, but it''s required"
 E80540: "(501) - (Web) The model of `DataTpl` is null and could not be found in your environment, Anonymous error"
-E80541: "(409) - (Web) The model `{0}` defined static references, but found more than one dao in field `{1}`, please check \"sourceReference\" configuration."
+E80541: "(409) - (Ref) The model `{0}` defined static references, but found more than one dao in field `{1}`, please check \"sourceReference\" configuration."
+E80544: "(500) - (Ref) Please bind `DataAtom` first and then you can call `bind(Model)` method for this current model ( identifier = `{0}` ). "

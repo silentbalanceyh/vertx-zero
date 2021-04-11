@@ -3,9 +3,9 @@ package io.vertx.tp.atom.modeling.data;
 import io.vertx.tp.atom.cv.AoCache;
 import io.vertx.tp.atom.cv.AoMsg;
 import io.vertx.tp.atom.modeling.Model;
-import io.vertx.tp.atom.modeling.reference.DataQKey;
-import io.vertx.tp.atom.modeling.reference.DataQRule;
-import io.vertx.tp.atom.modeling.reference.DataQuote;
+import io.vertx.tp.atom.modeling.reference.RDao;
+import io.vertx.tp.atom.modeling.reference.RQuote;
+import io.vertx.tp.atom.modeling.reference.RRule;
 import io.vertx.tp.atom.refine.Ao;
 import io.vertx.tp.modular.phantom.AoPerformer;
 import io.vertx.up.commune.element.CParam;
@@ -53,7 +53,7 @@ public class DataAtom {
         this.metadata = Fn.pool(Pool.META_INFO, modelCode, () -> new MetaInfo(model));
         this.ruler = Fn.pool(Pool.META_RULE, modelCode, () -> new MetaRule(model));
         this.marker = Fn.pool(Pool.META_MARKER, modelCode, () -> new MetaMarker(model));
-        this.reference = Fn.pool(Pool.META_REFERENCE, modelCode, () -> new MetaReference(model));
+        this.reference = Fn.pool(Pool.META_REFERENCE, modelCode, () -> new MetaReference().opps(this).bind(model));
 
         /* LOG: 日志处理 */
         Ao.infoAtom(this.getClass(), AoMsg.DATA_ATOM, unique, model.toJson().encode());
@@ -87,6 +87,10 @@ public class DataAtom {
          */
         final String unique = Model.namespace(appName) + "-" + identifier;
         return new DataAtom(appName, identifier, unique);
+    }
+
+    public DataAtom getAnother(final String identifier) {
+        return get(this.appName, identifier);
     }
 
     // ------------ 基础模型部分 ------------
@@ -149,11 +153,11 @@ public class DataAtom {
         return this.reference.ruleDiff().getOrDefault(field, new HashSet<>());
     }
 
-    public ConcurrentMap<DataQKey, DataQuote> ref() {
+    public ConcurrentMap<RDao, RQuote> ref() {
         return this.reference.references(this.appName);
     }
 
-    public ConcurrentMap<String, DataQRule> refRules() {
+    public ConcurrentMap<String, RRule> refRules() {
         return this.reference.rules();
     }
     // ------------ 标识规则 ----------

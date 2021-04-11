@@ -2,7 +2,7 @@ package io.vertx.tp.modular.ray;
 
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.atom.modeling.reference.DataQRule;
+import io.vertx.tp.atom.modeling.reference.RRule;
 import io.vertx.up.atom.Kv;
 import io.vertx.up.commune.Record;
 import io.vertx.up.commune.element.JAmb;
@@ -25,7 +25,7 @@ import java.util.concurrent.ConcurrentMap;
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 class RayRuler {
-    
+
     static ConcurrentMap<String, JAmb> group(final JsonArray source, final List<Kv<String, String>> joined,
                                              final Class<?> type) {
         final ConcurrentMap<String, JAmb> grouped = new ConcurrentHashMap<>();
@@ -62,7 +62,7 @@ class RayRuler {
     /*
      * Required
      */
-    static JAmb required(final JAmb amb, final DataQRule rule) {
+    static JAmb required(final JAmb amb, final RRule rule) {
         /* required 字段提取 */
         final Boolean isSingle = amb.isSingle();
         if (Objects.isNull(isSingle)) {
@@ -118,7 +118,7 @@ class RayRuler {
         return key.toString();
     }
 
-    private static JsonObject compress(final JsonObject item, final DataQRule rule) {
+    private static JsonObject compress(final JsonObject item, final RRule rule) {
         /* required 字段提取 */
         final JsonArray required = rule.getRequired();
         if (Ut.notNil(required)) {

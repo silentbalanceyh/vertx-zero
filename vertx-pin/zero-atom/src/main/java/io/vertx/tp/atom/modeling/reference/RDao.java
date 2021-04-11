@@ -3,8 +3,8 @@ package io.vertx.tp.atom.modeling.reference;
 import io.vertx.codegen.annotations.Fluent;
 import io.vertx.tp.atom.modeling.data.DataAtom;
 import io.vertx.tp.error._404ModelNotFoundException;
+import io.vertx.up.uca.jooq.UxJoin;
 import io.vertx.up.uca.jooq.UxJooq;
-import io.vertx.up.unity.Ux;
 
 import java.util.Objects;
 
@@ -13,7 +13,7 @@ import java.util.Objects;
  *
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-public class DataQKey {
+public class RDao {
     /**
      * 「Dynamic」When dynamic source triggered, this reference stored model definition in `M_MODEL / M_ATTRIBUTE`
      */
@@ -25,11 +25,17 @@ public class DataQKey {
      */
     private transient UxJooq jooq;
     /**
+     * 「Static」When static source triggered, this reference stored initialized Join Dao class.
+     *
+     * The Dao class came from 'serviceReference`
+     */
+    private transient UxJoin join;
+    /**
      * Source identifier that has been mapped `source` field of `M_ATTRIBUTE`.
      */
     private final transient String source;
 
-    public DataQKey(final String appName, final String source) {
+    public RDao(final String appName, final String source) {
         this.source = source;
         try {
             this.atom = DataAtom.get(appName, source);
@@ -46,9 +52,9 @@ public class DataQKey {
     }
 
     @Fluent
-    public DataQKey connect(final DataQuote quote) {
+    public RDao connect(final RQuote quote) {
         if (Objects.nonNull(quote) && Objects.isNull(this.atom)) {
-            this.jooq = Ux.Jooq.on(quote.typeDao());
+            // this.jooq = Ux.Jooq.on(quote.typeDao());
         }
         return this;
     }
@@ -57,8 +63,8 @@ public class DataQKey {
     public boolean equals(final Object o) {
         if (this == o) return true;
         if (o == null || this.getClass() != o.getClass()) return false;
-        final DataQKey dataQKey = (DataQKey) o;
-        return this.source.equals(dataQKey.source);
+        final RDao rDao = (RDao) o;
+        return this.source.equals(rDao.source);
     }
 
     @Override
