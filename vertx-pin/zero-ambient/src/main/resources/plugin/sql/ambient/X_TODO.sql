@@ -48,6 +48,10 @@ CREATE TABLE IF NOT EXISTS X_TODO
     `ACCEPTED_BY`    VARCHAR(36) COMMENT '「acceptedBy」- 待办接收人',
     `FINISHED_BY`    VARCHAR(36) COMMENT '「finishedBy」- 待办完成人',
     `TRACE_ID`       VARCHAR(36) COMMENT '「traceId」- 同一个流程的待办执行分组',
+    /*
+     * 分离配置项待办和关系待办，形成不同类型
+     */
+    `PARENT_ID`      VARCHAR(36) COMMENT '「parentId」- 待办支持父子集结构，父待办执行时候子待办同样执行',
 
     -- 特殊字段
     `ACTIVE`         BIT         DEFAULT NULL COMMENT '「active」- 是否启用',
@@ -71,6 +75,6 @@ ALTER TABLE X_TODO
     ADD UNIQUE (`SIGMA`, `SERIAL`);
 
 ALTER TABLE X_TODO
-    ADD INDEX IDXM_X_TODO_SIGMA_STATUS (`SIGMA`,`STATUS`);
+    ADD INDEX IDXM_X_TODO_SIGMA_STATUS (`SIGMA`, `STATUS`);
 ALTER TABLE X_TODO
-    ADD INDEX IDXM_X_TODO_SIGMA_TYPE_STATUS (`SIGMA`,`STATUS`,`TYPE`);
+    ADD INDEX IDXM_X_TODO_SIGMA_TYPE_STATUS (`SIGMA`, `STATUS`, `TYPE`);

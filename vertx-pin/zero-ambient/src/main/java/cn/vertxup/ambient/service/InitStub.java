@@ -3,21 +3,79 @@ package cn.vertxup.ambient.service;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 
+/**
+ * ## Application initializer
+ *
+ * ### 1. Intro
+ *
+ * This interface provide different mode to initialize application data that stored in `X_APP` & `X_SOURCE` table.
+ * Here provide three ways to initialize application with configuration.
+ *
+ * This service implementation called `At.initX` apis for the whole initialization workflow.
+ *
+ * ### 2. Workflow
+ *
+ * Please refer following table to check the workflow details:
+ *
+ * |Phase|Related|Comments|
+ * |:---|---|:---|
+ * |1. Application|`X_APP`|Combine or Fetch application basic data.|
+ * |2. Database|`X_SOURCE`|Re-calculate the database source configuration and convert to Database.|
+ * |3. Extension|None|Call `AtPin.getInit()` to get extension `Init` ( initializer ) and then call it.|
+ * |4. Data Loading|None|Trigger data loading workflow to process OOB data.|
+ *
+ * ### 3. API
+ *
+ * For more details please refer each API document to check details.
+ *
+ * @author <a href="http://www.origin-x.cn">Lang</a>
+ */
 public interface InitStub {
-    /*
-     * Initializing X_APP
+    // ----------------- Creation / Edition for Application ----------------------
+
+    /**
+     * 「Async」( Creation ) This api is for application initialization at first time.
      *
+     * Related Interface: {@link io.vertx.tp.optic.extension.Init}
+     *
+     * @param appId {@link java.lang.String} The application primary key that stored in `KEY` field of `X_APP`.
+     * @param data  {@link io.vertx.core.json.JsonObject} The data that will create application instance.
+     *
+     * @return {@link io.vertx.core.Future}<{@link io.vertx.core.json.JsonObject}>
      */
-    Future<JsonObject> initApp(String appId, JsonObject data);
+    Future<JsonObject> initCreation(String appId, JsonObject data);
 
-    /*
-     * Initializing on existing X_APP
-     * name as parameter instead of app key, name is unique field in X_APP
+
+    /**
+     * 「Async」( Edition ) This api is for application initialization at any time after 1st.
+     *
+     * Related Interface: {@link io.vertx.tp.optic.extension.Init}
+     *
+     * @param appName {@link java.lang.String} The application name that stored in `NAME` field of `X_APP`.
+     *
+     * @return {@link io.vertx.core.Future}<{@link io.vertx.core.json.JsonObject}>
      */
-    Future<JsonObject> initExtension(String appName);
+    Future<JsonObject> initEdition(String appName);
 
-    /*
-     * Prerequisite Interface extension.
+    /**
+     * 「Async」( Modeling Only ) This api is new for modeling initialization.
+     *
+     * Related Interface: {@link io.vertx.tp.optic.extension.Init}
+     *
+     * @param appName {@link java.lang.String} The application name that stored in `NAME` field of `X_APP`.
+     *
+     * @return {@link io.vertx.core.Future}<{@link io.vertx.core.json.JsonObject}>
+     */
+    Future<JsonObject> initModeling(String appName);
+
+    /**
+     * 「Async」Pre-Workflow before initialization when call this method.
+     *
+     * Related Interface: {@link io.vertx.tp.optic.extension.Prerequisite}
+     *
+     * @param appName {@link java.lang.String} The application name that stored in `NAME` field of `X_APP`.
+     *
+     * @return {@link io.vertx.core.Future}<{@link io.vertx.core.json.JsonObject}>
      */
     Future<JsonObject> prerequisite(String appName);
 }

@@ -12,6 +12,7 @@ import cn.vertxup.atom.domain.tables.MJoin;
 import cn.vertxup.atom.domain.tables.MKey;
 import cn.vertxup.atom.domain.tables.MModel;
 import cn.vertxup.atom.domain.tables.MRelation;
+import cn.vertxup.atom.domain.tables.MTpl;
 
 import javax.annotation.Generated;
 
@@ -68,4 +69,9 @@ public class Tables {
      * The table <code>DB_ETERNAL.M_RELATION</code>.
      */
     public static final MRelation M_RELATION = cn.vertxup.atom.domain.tables.MRelation.M_RELATION;
+
+    /**
+     * The table <code>DB_ETERNAL.M_TPL</code>.
+     */
+    public static final MTpl M_TPL = cn.vertxup.atom.domain.tables.MTpl.M_TPL;
 }

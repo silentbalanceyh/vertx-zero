@@ -20,12 +20,12 @@ public class InitActor {
 
     @Address(Addr.Init.INIT)
     public Future<JsonObject> initApp(final String appId, final JsonObject data) {
-        return stub.initApp(appId, data);
+        return this.stub.initCreation(appId, data);
     }
 
     @Address(Addr.Init.PREPARE)
     public Future<JsonObject> prepare(final String appName) {
-        return stub.prerequisite(appName);
+        return this.stub.prerequisite(appName);
     }
 
     @Address(Addr.Init.CONNECT)

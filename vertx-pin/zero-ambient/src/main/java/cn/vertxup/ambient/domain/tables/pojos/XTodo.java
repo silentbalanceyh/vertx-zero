@@ -24,7 +24,7 @@ import javax.annotation.Generated;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class XTodo implements IXTodo {
 
-    private static final long serialVersionUID = 790278665;
+    private static final long serialVersionUID = -887932512;
 
     private String        key;
     private String        serial;
@@ -45,6 +45,7 @@ public class XTodo implements IXTodo {
     private String        acceptedBy;
     private String        finishedBy;
     private String        traceId;
+    private String        parentId;
     private Boolean       active;
     private String        sigma;
     private String        metadata;
@@ -76,6 +77,7 @@ public class XTodo implements IXTodo {
         this.acceptedBy = value.acceptedBy;
         this.finishedBy = value.finishedBy;
         this.traceId = value.traceId;
+        this.parentId = value.parentId;
         this.active = value.active;
         this.sigma = value.sigma;
         this.metadata = value.metadata;
@@ -106,6 +108,7 @@ public class XTodo implements IXTodo {
         String        acceptedBy,
         String        finishedBy,
         String        traceId,
+        String        parentId,
         Boolean       active,
         String        sigma,
         String        metadata,
@@ -134,6 +137,7 @@ public class XTodo implements IXTodo {
         this.acceptedBy = acceptedBy;
         this.finishedBy = finishedBy;
         this.traceId = traceId;
+        this.parentId = parentId;
         this.active = active;
         this.sigma = sigma;
         this.metadata = metadata;
@@ -354,6 +358,17 @@ public class XTodo implements IXTodo {
     }
 
     @Override
+    public String getParentId() {
+        return this.parentId;
+    }
+
+    @Override
+    public XTodo setParentId(String parentId) {
+        this.parentId = parentId;
+        return this;
+    }
+
+    @Override
     public Boolean getActive() {
         return this.active;
     }
@@ -464,6 +479,7 @@ public class XTodo implements IXTodo {
         sb.append(", ").append(acceptedBy);
         sb.append(", ").append(finishedBy);
         sb.append(", ").append(traceId);
+        sb.append(", ").append(parentId);
         sb.append(", ").append(active);
         sb.append(", ").append(sigma);
         sb.append(", ").append(metadata);
@@ -505,6 +521,7 @@ public class XTodo implements IXTodo {
         setAcceptedBy(from.getAcceptedBy());
         setFinishedBy(from.getFinishedBy());
         setTraceId(from.getTraceId());
+        setParentId(from.getParentId());
         setActive(from.getActive());
         setSigma(from.getSigma());
         setMetadata(from.getMetadata());

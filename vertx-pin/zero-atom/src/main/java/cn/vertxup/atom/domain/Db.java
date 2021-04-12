@@ -29,11 +29,13 @@ import java.util.List;
 @SuppressWarnings({"all", "unchecked", "rawtypes"})
 public class Db extends SchemaImpl {
 
+    private static final long serialVersionUID = 211006034;
+
     /**
      * The reference instance of <code>DB_ETERNAL</code>
      */
     public static final Db DB_ETERNAL = new Db();
-    private static final long serialVersionUID = 202338835;
+
     /**
      * The table <code>DB_ETERNAL.M_ATTRIBUTE</code>.
      */
@@ -75,6 +77,11 @@ public class Db extends SchemaImpl {
     public final MRelation M_RELATION = cn.vertxup.atom.domain.tables.MRelation.M_RELATION;
 
     /**
+     * The table <code>DB_ETERNAL.M_TPL</code>.
+     */
+    public final MTpl M_TPL = cn.vertxup.atom.domain.tables.MTpl.M_TPL;
+
+    /**
      * No further instances allowed
      */
     private Db() {
@@ -106,6 +113,7 @@ public class Db extends SchemaImpl {
                 MJoin.M_JOIN,
                 MKey.M_KEY,
                 MModel.M_MODEL,
-                MRelation.M_RELATION);
+                MRelation.M_RELATION,
+                MTpl.M_TPL);
     }
 }
