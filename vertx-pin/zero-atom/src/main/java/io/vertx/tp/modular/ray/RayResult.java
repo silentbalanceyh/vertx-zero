@@ -72,11 +72,26 @@ class RayResult {
 
     private static void combine(final Record record, final String field, final ConcurrentMap<String, JAmb> groupData, final RResult result) {
         /* Key */
-        final String keyRecord = keyRecord(record, result.joinedList());
+        final String keyRecord = keyRecord(record, result.joined());
         /* Combined */
         final JAmb amb = groupData.get(keyRecord);
-        if (Objects.nonNull(amb) && amb.isValid()) {
-            combine(record, field, amb, result);
+        if (Objects.isNull(amb)) {
+            /*
+             * Apply Default Value
+             *
+             * 1. Object = {}
+             * 2. Array = []
+             * */
+            final DataFormat format = result.format();
+            if (DataFormat.JsonArray == format) {
+                record.add(field, new JsonArray());
+            } else if (DataFormat.JsonObject == format) {
+                record.add(field, new JsonObject());
+            }
+        } else {
+            if (amb.isValid()) {
+                combine(record, field, amb, result);
+            }
         }
     }
 
@@ -88,9 +103,7 @@ class RayResult {
              * JsonArray extract.
              */
             final JsonArray extract = amb.dataT();
-            if (Ut.notNil(extract)) {
-                record.add(field, extract);
-            }
+            record.add(field, extract);
         } else {
             /*
              * JsonObject extract.
@@ -102,12 +115,10 @@ class RayResult {
                     record.add(field, extract);
                 } else {
                     /* Elementary */
-                    final Kv<String, String> kv = result.joinedKv();
-                    if (Objects.nonNull(kv)) {
-                        final Object value = extract.getValue(kv.getKey());
-                        if (Objects.nonNull(value)) {
-                            record.add(kv.getValue(), value);
-                        }
+                    final String sourceField = result.sourceField();
+                    final Object value = extract.getValue(sourceField);
+                    if (Objects.nonNull(value)) {
+                        record.add(field, value);
                     }
                 }
             }
@@ -133,7 +144,7 @@ class RayResult {
              * field = JsonArray
              */
             Ut.itJArray(data).forEach(json -> {
-                final String key = keyReference(json, result.joinedList());
+                final String key = keyReference(json, result.joined());
                 if (Ut.notNil(key)) {
                     Fn.pool(groupedData, key, () -> new JAmb().data(new JsonArray())).add(json);
                 }
@@ -143,7 +154,7 @@ class RayResult {
              * field = JsonObject
              */
             Ut.itJArray(data).forEach(json -> {
-                final String key = keyReference(json, result.joinedList());
+                final String key = keyReference(json, result.joined());
                 if (Ut.notNil(key)) {
                     groupedData.put(key, new JAmb().data(json));
                 }

@@ -7,7 +7,6 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.tp.atom.modeling.config.AoSource;
 import io.vertx.tp.ke.cv.KeField;
 import io.vertx.up.atom.Kv;
-import io.vertx.up.eon.Values;
 import io.vertx.up.eon.em.DataFormat;
 import io.vertx.up.util.Ut;
 
@@ -30,27 +29,7 @@ import java.util.function.Predicate;
  *
  * ### 2. connect
  *
- * #### 2.1. No definition
- *
- * There is no `connect` field defined in current json configuration.
- *
- * ```json
- * // <pre><code class="json">
- *     {
- *         "sourceField": "name"
- *     }
- * // </code></pre>
- * ```
- *
- * > One to One, single field value calculation
- *
- * 1. Pick data from reference data by `sourceField` name.
- * 2. Convert `sourceField` data to another data value based on `name` and `type` came from {@link RRule}.
- * 3. Build new attribute key-pair `name = value`.
- *
- * > JoinField = SourceField, Name. Result: `name = literal value`.
- *
- * #### 2.2. Single Pair
+ * #### 2.1. Single Pair
  *
  * There is `connect` of {@link java.lang.String} defined in json configuration such as following segment.
  *
@@ -70,7 +49,7 @@ import java.util.function.Predicate;
  *
  * > JoinField, SourceField, Name. Result: `name = JsonObject / JsonArray`.
  *
- * #### 2.3. Multi Join
+ * #### 2.2. Multi Join
  *
  * There is `connect` of {@link io.vertx.core.json.JsonObject} defined in json configuration such as following segment.
  *
@@ -112,26 +91,33 @@ public class RResult implements Serializable {
 
     private final transient List<Kv<String, String>> joined = new ArrayList<>();
 
+    private final transient String sourceField;
+
     public RResult(final MAttribute attribute) {
         final AoSource source = new AoSource(attribute);
         this.type = source.type();
         this.format = source.format();
+        this.sourceField = attribute.getSourceField();
         /* Joined calculation */
         final JsonObject sourceReference = Ut.toJObject(attribute.getSourceReference());
         final Object connect = sourceReference.getValue(KeField.CONNECT);
-        if (Objects.isNull(connect)) {
-            /*
-             * No connect defined.
-             *
-             * sourceField = name
-             */
-            final String currentField = attribute.getName();
-            final String referenceField = attribute.getSourceField();
-            this.joined.add(Kv.create(referenceField, currentField));
-        } else {
+        if (Objects.nonNull(connect)) {
             if (connect instanceof String) {
                 /*
                  * Single mode.
+                 * Example:
+                 *
+                 * name, sourceField, connect
+                 *
+                 * up, targetGlobalId = globalId
+                 *
+                 * supportAName, realname = workNumber
+                 *
+                 * 1. field = JsonObject/JsonArray, ( Mode 1 )
+                 * 2. field = Elementary, ( Mode 2 )
+                 *
+                 * reference key: targetGlobalId
+                 * record key: globalId
                  */
                 final String currentField = (String) connect;
                 final String referenceField = attribute.getSourceField();
@@ -139,6 +125,9 @@ public class RResult implements Serializable {
             } else if (connect instanceof JsonObject) {
                 /*
                  * Multi mode
+                 *
+                 * reference key: workNumber
+                 * record key: supportANo
                  */
                 final JsonObject mapping = (JsonObject) connect;
                 Ut.<String>itJObject(mapping,
@@ -155,14 +144,12 @@ public class RResult implements Serializable {
         return this.type;
     }
 
-    public List<Kv<String, String>> joinedList() {
+    public List<Kv<String, String>> joined() {
         return this.joined;
     }
 
-    public Kv<String, String> joinedKv() {
-        if (Values.ONE == this.joined.size()) {
-            return this.joined.get(Values.IDX);
-        } else return null;
+    public String sourceField() {
+        return this.sourceField;
     }
 
     @Fluent
