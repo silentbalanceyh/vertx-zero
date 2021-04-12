@@ -102,12 +102,20 @@ public final class UxJoin {
         return this.joinder.searchPaginationAsync(inquiry, this.merged);
     }
 
-    public Future<JsonArray> fetchAsync(final Inquiry inquiry) {
+    public JsonArray fetch(final Inquiry inquiry) {
         this.POJO_MAP.forEach(this.joinder::pojo);
-        return Ux.future(this.joinder.searchArray(inquiry, this.merged));
+        return this.joinder.searchArray(inquiry, this.merged);
+    }
+
+    public JsonArray fetch(final JsonObject params) {
+        return this.fetch(toInquiry(new JsonObject().put(Inquiry.KEY_CRITERIA, params)));
+    }
+
+    public Future<JsonArray> fetchAsync(final Inquiry inquiry) {
+        return Ux.future(this.fetch(inquiry));
     }
 
     public Future<JsonArray> fetchAsync(final JsonObject params) {
-        return fetchAsync(toInquiry(params));
+        return fetchAsync(toInquiry(new JsonObject().put(Inquiry.KEY_CRITERIA, params)));
     }
 }

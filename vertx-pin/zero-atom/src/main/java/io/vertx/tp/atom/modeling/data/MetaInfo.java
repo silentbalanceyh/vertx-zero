@@ -2,11 +2,11 @@ package io.vertx.tp.atom.modeling.data;
 
 import cn.vertxup.atom.domain.tables.pojos.MAttribute;
 import cn.vertxup.atom.domain.tables.pojos.MModel;
-import io.vertx.tp.atom.cv.em.FieldSource;
 import io.vertx.tp.atom.modeling.Model;
 import io.vertx.tp.atom.modeling.config.AoSource;
 import io.vertx.up.commune.element.CParam;
 import io.vertx.up.commune.element.Shape;
+import io.vertx.up.eon.em.DataFormat;
 import io.vertx.up.util.Ut;
 
 import java.util.Objects;
@@ -38,7 +38,7 @@ class MetaInfo {
             if (Ut.notNil(name)) {
                 /* sourceConfig */
                 final AoSource service = new AoSource(attr);
-                if (FieldSource.Elementary == service.fieldSource()) {
+                if (DataFormat.Elementary == service.format()) {
                     /*
                      * Simple for Flatted
                      */

@@ -4,15 +4,41 @@ import cn.vertxup.atom.domain.tables.pojos.MAttribute;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.atom.cv.em.AttributeType;
-import io.vertx.tp.atom.cv.em.FieldSource;
 import io.vertx.tp.ke.cv.KeField;
+import io.vertx.up.eon.em.DataFormat;
 import io.vertx.up.util.Ut;
 
 import java.io.Serializable;
 import java.util.Objects;
 
 /**
- * ## 「Pojo」ServiceConfig
+ * ## 「Pojo」SourceConfig
+ *
+ * ### 1. Intro
+ *
+ * Here are the parsing workflow:
+ *
+ * 1. When <strong>isArray</strong> = true, the dataFormat is `JsonArray`.
+ * 2. Otherwise, extract `type` field of `sourceConfig` to get actual dataFormat.
+ *
+ * ### 2. Limitation
+ *
+ * #### 2.1. JsonArray
+ *
+ * 1. INTERNAL: Must contains `fields` configuration for sub-elements.
+ * 2. REFERENCE/EXTERNAL: No.
+ * 3. The `type` is {@link io.vertx.core.json.JsonArray};
+ *
+ * #### 2.2. JsonObject
+ *
+ * 1. INTERNAL: Must contains `fields` configuration for sub-elements.
+ * 2. REFERENCE/EXTERNAL: No.
+ * 3. The `type` is {@link io.vertx.core.json.JsonObject};
+ *
+ * #### 2.3. Elementary
+ *
+ * 1. The config must contains `type` field to define java class type name.
+ * 2. It's default value here. `type = {@link java.lang.String}`, `source = Elementary`.
  *
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
@@ -22,9 +48,9 @@ public class AoSource implements Serializable {
      */
     private final transient Class<?> type;
     /**
-     * {@link io.vertx.tp.atom.cv.em.FieldSource} is for fieldSource
+     * {@link DataFormat} is for fieldSource
      */
-    private final transient FieldSource fieldSource;
+    private final transient DataFormat dataFormat;
     /**
      * The `fields` attribute is for {@link io.vertx.core.json.JsonArray} definition.
      */
@@ -44,16 +70,16 @@ public class AoSource implements Serializable {
         final Boolean isArray = Objects.isNull(attribute.getIsArray()) ? Boolean.FALSE : attribute.getIsArray();
 
         /* sourceConfig must contains configuration. */
-        final FieldSource source = Ut.toEnum(() -> sourceConfig.getString(KeField.SOURCE), FieldSource.class, FieldSource.Elementary);
+        final DataFormat source = Ut.toEnum(() -> sourceConfig.getString(KeField.FORMAT), DataFormat.class, DataFormat.Elementary);
 
         /*
          * 1. Priority 1: isArray = true, The Data Type is `JsonArray`.
          * 2. Priority 2: isArray must be `false`, get source value.
          */
-        final FieldSource fieldService;
+        final DataFormat fieldService;
         if (isArray) {
             // - JsonArray
-            fieldService = FieldSource.JsonArray;
+            fieldService = DataFormat.JsonArray;
         } else {
             // - JsonObject
             // - Elementary
@@ -66,7 +92,7 @@ public class AoSource implements Serializable {
          * 2. source = JsonObject, JsonObject.class, fields = JsonObject
          * 3. source = Elementary, `Ut.clazz`
          */
-        if (FieldSource.Elementary == fieldService) {
+        if (DataFormat.Elementary == fieldService) {
             final String dataType = sourceConfig.getString(KeField.TYPE);
             this.type = Ut.clazz(dataType, String.class);
         } else {
@@ -75,13 +101,13 @@ public class AoSource implements Serializable {
                 this.fields.clear();
                 this.fields.addAll(sourceConfig.getJsonArray(KeField.FIELDS));
             }
-            if (FieldSource.JsonArray == fieldService) {
+            if (DataFormat.JsonArray == fieldService) {
                 this.type = JsonArray.class;
             } else {
                 this.type = JsonObject.class;
             }
         }
-        this.fieldSource = fieldService;
+        this.dataFormat = fieldService;
     }
 
     /**
@@ -103,10 +129,10 @@ public class AoSource implements Serializable {
     }
 
     /**
-     * @return {@link io.vertx.tp.atom.cv.em.FieldSource}
+     * @return {@link DataFormat}
      */
-    public FieldSource fieldSource() {
-        return this.fieldSource;
+    public DataFormat format() {
+        return this.dataFormat;
     }
 
     /**

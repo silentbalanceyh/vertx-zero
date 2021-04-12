@@ -4,6 +4,8 @@ import io.vertx.codegen.annotations.Fluent;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 
+import java.util.Objects;
+
 /**
  * ## 「Pojo」Uniform Data Object Container
  *
@@ -73,15 +75,37 @@ public class JAmb {
     }
 
     /**
+     * 「Fluent」Add new element in {@link io.vertx.core.json.JsonArray}.
+     *
+     * @param item {@link io.vertx.core.json.JsonObject}
+     *
+     * @return Reference of this
+     */
+    @Fluent
+    public JAmb add(final JsonObject item) {
+        if (!this.single) {
+            ((JsonArray) this.data).add(item);
+        }
+        return this;
+    }
+
+    /**
      * Here are three values for `this.single`.
      *
      * - TRUE: The data is {@link io.vertx.core.json.JsonObject} type.
      * - FALSE: The data is {@link io.vertx.core.json.JsonArray} type.
      * - null: Invalid of current, the data part is null or invalid format.
      *
-     * @return The flag of current object.
+     * @return {@link java.lang.Boolean} The flag of current object.
      */
     public Boolean isSingle() {
         return this.single;
+    }
+
+    /**
+     * @return {@link java.lang.Boolean} The flag of current object.
+     */
+    public Boolean isValid() {
+        return Objects.nonNull(this.data);
     }
 }

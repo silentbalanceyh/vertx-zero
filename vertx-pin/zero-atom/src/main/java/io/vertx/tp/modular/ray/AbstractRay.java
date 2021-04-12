@@ -2,6 +2,7 @@ package io.vertx.tp.modular.ray;
 
 import io.vertx.tp.atom.modeling.data.DataAtom;
 import io.vertx.tp.atom.modeling.element.DataTpl;
+import io.vertx.tp.atom.modeling.reference.RResult;
 import io.vertx.tp.atom.modeling.reference.RRule;
 import io.vertx.tp.error._501AnonymousAtomException;
 
@@ -33,12 +34,12 @@ public abstract class AbstractRay<T> implements AoRay<T> {
     /**
      * The hashmap reference of `field = {@link io.vertx.tp.modular.ray.RaySource}`.
      */
-    protected transient ConcurrentMap<String, RaySource> refer =
+    protected transient ConcurrentMap<String, RaySource> input =
             new ConcurrentHashMap<>();
     /**
      * The hashmap reference of `field = {@link RRule}`.
      */
-    protected transient ConcurrentMap<String, RRule> referRules =
+    protected transient ConcurrentMap<String, RResult> output =
             new ConcurrentHashMap<>();
 
     /**
@@ -62,11 +63,12 @@ public abstract class AbstractRay<T> implements AoRay<T> {
         if (Objects.isNull(atom)) {
             throw new _501AnonymousAtomException(tpl.getClass());
         }
-        atom.ref().forEach((qKey, dataQuote) -> {
-            final RaySource raySource = RaySource.create(dataQuote, qKey);
-            this.refer.put(qKey.source(), raySource);
+        atom.refInput().forEach((identifier, quote) -> {
+            /* RaySource */
+            final RaySource source = RaySource.create(quote);
+            this.input.put(identifier, source);
         });
-        this.referRules.putAll(atom.refRules());
+        this.output.putAll(atom.refOutput());
         return this;
     }
 
@@ -81,7 +83,7 @@ public abstract class AbstractRay<T> implements AoRay<T> {
      */
     @Override
     public T attach(final T input) {
-        if (this.refer.isEmpty()) {
+        if (this.input.isEmpty()) {
             return input;
         } else {
             return this.doAttach(input);

@@ -2,7 +2,7 @@ package io.vertx.tp.modular.sql;
 
 import cn.vertxup.atom.domain.tables.pojos.MField;
 import cn.vertxup.atom.domain.tables.pojos.MKey;
-import io.vertx.tp.atom.cv.em.FieldCheckResult;
+import io.vertx.tp.atom.cv.em.CheckResult;
 import io.vertx.tp.atom.cv.em.KeyType;
 import io.vertx.tp.atom.modeling.Schema;
 import io.vertx.tp.error.*;
@@ -72,7 +72,7 @@ public final class SqlDDLProvider {
         final ConcurrentMap<ChangeFlag, Collection<String>> statusMap = this.getColumnStatus(schema);
         // DELETE COLUMN
         // 不删除实体表字段，采用rename的方式  2020/01/10 HuaRui
-//        lines.addAll(this.prepareDropColumns(schema, statusMap.get(ChangeFlag.DELETE)));
+        //        lines.addAll(this.prepareDropColumns(schema, statusMap.get(ChangeFlag.DELETE)));
         lines.addAll(this.prepareDropRenameColumns(schema, statusMap.get(ChangeFlag.DELETE)));
         // ADD COLUMN
         lines.addAll(this.prepareAddColumns(schema, statusMap.get(ChangeFlag.ADD)));
@@ -133,11 +133,11 @@ public final class SqlDDLProvider {
             do {
                 final MField field = schema.getFieldByColumn(column);
                 final ConcurrentMap<String, Object> columnDetail = this.reflector.getColumnDetails(column, columnDetailList);
-                final FieldCheckResult checkResult = this.sentence.checkFieldType(field, columnDetail);
+                final CheckResult checkResult = this.sentence.checkFieldType(field, columnDetail);
                 // 检查结果为 SKIP 则直接跳过不生成语句，FAILED则报异常
-                if (checkResult == FieldCheckResult.SKIP) {
+                if (checkResult == CheckResult.SKIP) {
                     continue;
-                } else if (checkResult == FieldCheckResult.FAILED) {
+                } else if (checkResult == CheckResult.FAILED) {
                     Fn.outWeb(true, _500TypeAlterException.class, this.getClass(),
                             /* ARG1：被修改的表名 */ table,
                             /* ARG2：被修改的列名 */ column);

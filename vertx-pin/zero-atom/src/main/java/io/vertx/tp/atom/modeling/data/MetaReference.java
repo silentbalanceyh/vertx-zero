@@ -1,14 +1,11 @@
 package io.vertx.tp.atom.modeling.data;
 
 import cn.vertxup.atom.domain.tables.pojos.MAttribute;
-import io.vertx.codegen.annotations.Fluent;
 import io.vertx.tp.atom.cv.em.AttributeType;
 import io.vertx.tp.atom.modeling.Model;
-import io.vertx.tp.atom.modeling.reference.RDao;
 import io.vertx.tp.atom.modeling.reference.RQuote;
 import io.vertx.tp.atom.modeling.reference.RResult;
 import io.vertx.tp.atom.modeling.reference.RRule;
-import io.vertx.tp.error._500AtomFirstException;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.util.Ut;
 
@@ -96,28 +93,16 @@ class MetaReference {
     private final transient ConcurrentMap<String, RResult> result
             = new ConcurrentHashMap<>();
 
-    private transient DataAtom atomRef;
-
-    MetaReference opps(final DataAtom atomRef) {
-        this.atomRef = atomRef;
-        return this;
-    }
-
-    @Deprecated
-    private final transient ConcurrentMap<String, RRule> rules
-            = new ConcurrentHashMap<>();
-    @Deprecated
-    private final transient ConcurrentMap<String, Set<String>> ruleDiff
+    private final transient ConcurrentMap<String, Set<String>> diffFieldMap
             = new ConcurrentHashMap<>();
 
     /**
      * 「Fluent」Build reference metadata information based on `Model`.
      *
      * @param modelRef {@link io.vertx.tp.atom.modeling.Model} Input `M_MODEL` definition.
+     * @param appName  {@link java.lang.String} The application name.
      */
-    @Fluent
-    public MetaReference bind(final Model modelRef) {
-        Fn.out(Objects.isNull(this.atomRef), _500AtomFirstException.class, this.getClass(), modelRef.identifier());
+    public MetaReference(final Model modelRef, final String appName) {
         /* type = REFERENCE */
         final Set<MAttribute> attributes = modelRef.getAttributes();
         attributes.stream()
@@ -137,8 +122,7 @@ class MetaReference {
                      *  Based on DataAtom reference to create
                      */
                     final String source = attribute.getSource();
-                    final DataAtom another = this.atomRef.getAnother(source);
-                    Fn.pool(this.references, source, () -> RQuote.create(another)).add(attribute);
+                    Fn.pool(this.references, source, () -> RQuote.create(appName, source)).add(attribute);
 
 
                     /*
@@ -147,47 +131,38 @@ class MetaReference {
                      *  Based on DataAtom reference to create
                      */
                     final String field = attribute.getName();
-                    Fn.pool(this.result, field, RResult::new).add(attribute);
+                    Fn.pool(this.result, field, () -> new RResult(attribute));
                 });
         /*
          * DataQuote之后处理
          */
-        this.references.values().forEach(source -> {
-            /* Rules added */
-            this.rules.putAll(source.rules());
-            /* Source mount */
-        });
+        final ConcurrentMap<String, RRule> rules = new ConcurrentHashMap<>();
+        this.references.values().forEach(source -> rules.putAll(source.rules()));
 
-        this.rules.forEach((field, rule) -> {
+        rules.forEach((field, rule) -> {
+            /* Diff fields combine here. */
             final Set<String> diffFields = Ut.toSet(rule.getDiff());
             if (!diffFields.isEmpty()) {
-                this.ruleDiff.put(field, diffFields);
+                this.diffFieldMap.put(field, diffFields);
+            }
+            /* result bind rule for response building. */
+            final RResult result = this.result.getOrDefault(field, null);
+            if (Objects.nonNull(result)) {
+                result.bind(rule);
             }
         });
-        return this;
     }
 
-
-    /*
-     * 模板中增加引用
-     * source -> DataQuote
-     */
-    ConcurrentMap<String, RRule> rules() {
-        return this.rules;
+    ConcurrentMap<String, Set<String>> fieldDiff() {
+        return this.diffFieldMap;
     }
 
-    ConcurrentMap<String, Set<String>> ruleDiff() {
-        return this.ruleDiff;
+    ConcurrentMap<String, RQuote> refInput() {
+        return this.references;
     }
 
-    ConcurrentMap<RDao, RQuote> references(final String appName) {
-        final ConcurrentMap<RDao, RQuote> switched = new ConcurrentHashMap<>();
-        this.references.forEach((source, quote) -> {
-            /* DataAtom 交换 */
-            final RDao qKey = new RDao(appName, source);
-            qKey.connect(quote);
-            switched.put(qKey, quote);
-        });
-        return switched;
+    ConcurrentMap<String, RResult> refOutput() {
+        return this.result;
     }
+
 }

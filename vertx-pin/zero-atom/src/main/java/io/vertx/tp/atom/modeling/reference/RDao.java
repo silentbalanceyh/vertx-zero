@@ -1,12 +1,24 @@
 package io.vertx.tp.atom.modeling.reference;
 
 import io.vertx.codegen.annotations.Fluent;
+import io.vertx.core.json.JsonArray;
+import io.vertx.core.json.JsonObject;
 import io.vertx.tp.atom.modeling.data.DataAtom;
+import io.vertx.tp.atom.refine.Ao;
 import io.vertx.tp.error._404ModelNotFoundException;
+import io.vertx.tp.ke.atom.metadata.KJoin;
+import io.vertx.tp.ke.atom.metadata.KPoint;
+import io.vertx.tp.ke.refine.Ke;
+import io.vertx.tp.modular.dao.AoDao;
+import io.vertx.tp.optic.DS;
+import io.vertx.tp.plugin.database.DataPool;
+import io.vertx.up.commune.config.Database;
 import io.vertx.up.uca.jooq.UxJoin;
 import io.vertx.up.uca.jooq.UxJooq;
+import io.vertx.up.unity.Ux;
 
 import java.util.Objects;
+import java.util.function.Function;
 
 /**
  * ##「Pojo」DataAtom Key Replaced
@@ -31,6 +43,10 @@ public class RDao {
      */
     private transient UxJoin join;
     /**
+     * 「Static」joinDef in current RDao.
+     */
+    private transient KJoin kJoin;
+    /**
      * Source identifier that has been mapped `source` field of `M_ATTRIBUTE`.
      */
     private final transient String source;
@@ -51,10 +67,14 @@ public class RDao {
         return this.source;
     }
 
+    public boolean isStatic() {
+        return Objects.isNull(this.atom);
+    }
+
     @Fluent
-    public RDao connect(final RQuote quote) {
-        if (Objects.nonNull(quote) && Objects.isNull(this.atom)) {
-            // this.jooq = Ux.Jooq.on(quote.typeDao());
+    public RDao bind(final KJoin kJoin) {
+        if (Objects.nonNull(kJoin) && Objects.isNull(this.atom)) {
+            this.kJoin = kJoin;
         }
         return this;
     }
@@ -70,5 +90,39 @@ public class RDao {
     @Override
     public int hashCode() {
         return Objects.hash(this.source);
+    }
+
+    public Function<JsonObject, JsonArray> executor() {
+        return condition -> {
+            if (1 == condition.size()) {
+                return new JsonArray();
+            } else {
+                final KPoint source = this.kJoin.getSource();
+                final KPoint target = this.kJoin.procTarget(condition);
+                if (Objects.isNull(target)) {
+                    return Ux.Jooq.on(source.getClassDao()).fetchJ(condition);
+                } else {
+                    return Ux.Join.on()
+                            /*
+                             * Join source / target.
+                             */
+                            .add(source.getClassDao(), source.getKeyJoin())
+                            .join(target.getClassDao(), target.getKeyJoin())
+                            .fetch(condition);
+                }
+            }
+        };
+    }
+
+    public AoDao daoD() {
+        return Ke.channelSync(DS.class, () -> null, ds -> {
+            /* 连接池绑定数据库 */
+            final DataPool pool = ds.switchDs(this.atom.sigma());
+            if (Objects.nonNull(pool)) {
+                /* 返回AoDao */
+                final Database database = pool.getDatabase();
+                return Ao.toDao(database, this.atom);
+            } else return null;
+        });
     }
 }

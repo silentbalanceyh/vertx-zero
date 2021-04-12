@@ -1,13 +1,13 @@
-package io.vertx.tp.atom.cv.em;
+package io.vertx.up.eon.em;
 
 /**
  * ## For Complex Usage.
  *
  * ### 1. Type Defined
  *
- * 1. JsonArray: The final
- * 2. JsonObject
- * 3. Elementary
+ * 1. JsonArray: The final format is [].
+ * 2. JsonObject: The final format is {}.
+ * 3. Elementary: The final format is other.
  *
  * ### 2. Code Sample
  *
@@ -22,8 +22,17 @@ package io.vertx.tp.atom.cv.em;
  *
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-public enum FieldSource {
+public enum DataFormat {
+    /**
+     * Common Json Array format.
+     */
     JsonArray,
+    /**
+     * Common Json Object format.
+     */
     JsonObject,
+    /**
+     * Elementary data format.
+     */
     Elementary,
 }

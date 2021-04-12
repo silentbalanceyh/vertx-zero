@@ -2,15 +2,20 @@ package io.vertx.tp.modular.ray;
 
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.atom.modeling.reference.RRule;
+import io.vertx.tp.atom.modeling.reference.RResult;
 import io.vertx.up.atom.Kv;
 import io.vertx.up.commune.Record;
 import io.vertx.up.commune.element.JAmb;
+import io.vertx.up.eon.em.DataFormat;
+import io.vertx.up.fn.Fn;
+import io.vertx.up.util.Ut;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
+import java.util.function.Function;
 
 /**
  * ## Reference Result Processor
@@ -25,115 +30,169 @@ class RayResult {
     /**
      * Combine single record based on defined code logical
      *
-     * @param record  {@link io.vertx.up.commune.Record} Result records
-     * @param ambMap  {@link java.util.concurrent.ConcurrentMap} Reference data map
-     * @param ruleMap {@link java.util.concurrent.ConcurrentMap} Reference rule map
+     * @param record     {@link io.vertx.up.commune.Record} Result records
+     * @param joinData   {@link java.util.concurrent.ConcurrentMap} Reference data map
+     * @param joinResult {@link java.util.concurrent.ConcurrentMap} Reference rule map
      *
      * @return {@link io.vertx.up.commune.Record}
      */
-    static Record combine(final Record record, final ConcurrentMap<String, JAmb> ambMap,
-                          final ConcurrentMap<String, RRule> ruleMap) {
-        ambMap.forEach((field, each) -> {
-            final RRule rule = ruleMap.get(field);
-            combine(record, field, each, rule);
+    static Record combine(final Record record, final ConcurrentMap<String, JsonArray> joinData,
+                          final ConcurrentMap<String, RResult> joinResult) {
+        compressData(joinData, joinResult).forEach((field, processed) -> {
+            final RResult result = joinResult.get(field);
+            /* JAmb */
+            final ConcurrentMap<String, JAmb> grouped = groupData(processed, result);
+            /* Combine */
+            combine(record, field, grouped, result);
         });
         return record;
     }
 
     /**
-     * Combine multi record baseed on defined code logical
+     * Combine multi record based on defined code logical
      *
-     * @param records {@link io.vertx.up.commune.Record}[] Result records
-     * @param ambMap  {@link java.util.concurrent.ConcurrentMap} Reference data map
-     * @param ruleMap {@link java.util.concurrent.ConcurrentMap} Reference rule map
+     * @param records    {@link io.vertx.up.commune.Record}[] Result records
+     * @param joinData   {@link java.util.concurrent.ConcurrentMap} Reference data map
+     * @param joinResult {@link java.util.concurrent.ConcurrentMap} Reference rule map
      *
      * @return {@link io.vertx.up.commune.Record}[]
      */
     static Record[] combine(final Record[] records,
-                            final ConcurrentMap<String, JAmb> ambMap,
-                            final ConcurrentMap<String, RRule> ruleMap) {
-        ambMap.forEach((field, each) -> {
-            final RRule rule = ruleMap.get(field);
-            if (Objects.nonNull(rule)) {
-                combine(records, field, each, rule);
-            }
+                            final ConcurrentMap<String, JsonArray> joinData,
+                            final ConcurrentMap<String, RResult> joinResult) {
+        compressData(joinData, joinResult).forEach((field, processed) -> {
+            final RResult result = joinResult.get(field);
+            /* JAmb */
+            final ConcurrentMap<String, JAmb> grouped = groupData(processed, result);
+            /* Iterator for each record */
+            Arrays.stream(records).forEach(record -> combine(record, field, grouped, result));
         });
         return records;
     }
 
-    /**
-     * Element based on single attribute calculation.
-     *
-     * @param records {@link io.vertx.up.commune.Record}[] Result records
-     * @param field   {@link java.lang.String} Input attribute name
-     * @param amb     {@link io.vertx.up.commune.element.JAmb} The data map stored reference data
-     * @param rule    {@link RRule} The rule applied to current attribute
-     */
-    private static void combine(final Record[] records, final String field, final JAmb amb, final RRule rule) {
-        final List<Kv<String, String>> ruleJoined = null;// rule.joined();
-        final Boolean single = amb.isSingle();
-        if (Objects.nonNull(single) && !single) {
+    private static void combine(final Record record, final String field, final ConcurrentMap<String, JAmb> groupData, final RResult result) {
+        /* Key */
+        final String keyRecord = keyRecord(record, result.joinedList());
+        /* Combined */
+        final JAmb amb = groupData.get(keyRecord);
+        if (Objects.nonNull(amb) && amb.isValid()) {
+            combine(record, field, amb, result);
+        }
+    }
+
+    private static void combine(final Record record, final String field, final JAmb amb, final RResult result) {
+        /* Amb */
+        final DataFormat format = result.format();
+        if (DataFormat.JsonArray == format) {
             /*
-             * Only valid for batch operations
-             * also include empty json array
+             * JsonArray extract.
              */
-            final JAmb normalized = RayRuler.required(amb, rule);
-            if (Objects.nonNull(normalized)) {
-                final JsonArray source = normalized.dataT();
-                /*
-                 * Element find by joined
-                 */
-                final Class<?> returnType = rule.type();
-                /*
-                 * Grouped by returnType
-                 */
-                final ConcurrentMap<String, JAmb> grouped = RayRuler.group(source, ruleJoined, returnType);
-                /*
-                 * Process records
-                 */
-                Arrays.stream(records).forEach(record -> {
-                    /*
-                     * Process joined data
-                     */
-                    final String joinedKey = RayRuler.joinedKey(record, ruleJoined);
-                    if (grouped.containsKey(joinedKey)) {
-                        /*
-                         * Extract data
-                         */
-                        final JAmb item = grouped.get(joinedKey);
-                        combine(record, field, item, rule);
+            final JsonArray extract = amb.dataT();
+            if (Ut.notNil(extract)) {
+                record.add(field, extract);
+            }
+        } else {
+            /*
+             * JsonObject extract.
+             */
+            final JsonObject extract = amb.dataT();
+            if (Ut.notNil(extract)) {
+                if (DataFormat.JsonObject == format) {
+                    /* JsonObject */
+                    record.add(field, extract);
+                } else {
+                    /* Elementary */
+                    final Kv<String, String> kv = result.joinedKv();
+                    if (Objects.nonNull(kv)) {
+                        final Object value = extract.getValue(kv.getKey());
+                        if (Objects.nonNull(value)) {
+                            record.add(kv.getValue(), value);
+                        }
                     }
-                });
+                }
             }
         }
     }
 
     /**
-     * Single record checking for data processing.
+     * Grouped Data based on definition.
      *
-     * @param record {@link io.vertx.up.commune.Record} Result records
-     * @param field  {@link java.lang.String} Input attribute name
-     * @param amb    {@link io.vertx.up.commune.element.JAmb} The data map stored reference data
-     * @param rule   {@link RRule} The rule applied to current attribute
+     * @param data   {@link JsonArray}
+     * @param result {@link RResult}
+     *
+     * @return {@link java.util.concurrent.ConcurrentMap}
      */
-    private static void combine(final Record record, final String field, final JAmb amb, final RRule rule) {
-        final Boolean single = amb.isSingle();
-        if (Objects.nonNull(single) && Objects.nonNull(record)) {
-            if (single) {
-                // Required
-                final JAmb normalized = RayRuler.required(amb, rule);
-                if (Objects.nonNull(normalized)) {
-                    final JsonObject data = amb.dataT();
-                    record.add(field, data);
+    private static ConcurrentMap<String, JAmb> groupData(final JsonArray data, final RResult result) {
+        /*
+         * Result type came from `result`.
+         */
+        final ConcurrentMap<String, JAmb> groupedData = new ConcurrentHashMap<>();
+        final Class<?> type = result.typeData();
+        if (JsonArray.class == type) {
+            /*
+             * field = JsonArray
+             */
+            Ut.itJArray(data).forEach(json -> {
+                final String key = keyReference(json, result.joinedList());
+                if (Ut.notNil(key)) {
+                    Fn.pool(groupedData, key, () -> new JAmb().data(new JsonArray())).add(json);
                 }
-            } else {
-                // Required
-                final JAmb normalized = RayRuler.required(amb, rule);
-                if (Objects.nonNull(normalized)) {
-                    final JsonArray data = amb.dataT();
-                    record.add(field, data);
+            });
+        } else {
+            /*
+             * field = JsonObject
+             */
+            Ut.itJArray(data).forEach(json -> {
+                final String key = keyReference(json, result.joinedList());
+                if (Ut.notNil(key)) {
+                    groupedData.put(key, new JAmb().data(json));
                 }
-            }
+            });
         }
+        return groupedData;
+    }
+
+    private static String keyReference(final JsonObject item, final List<Kv<String, String>> joined) {
+        return keyJoin(item::getValue, Kv::getKey, joined);
+    }
+
+    private static String keyRecord(final Record record, final List<Kv<String, String>> joined) {
+        return keyJoin(record::get, Kv::getValue, joined);
+    }
+
+    private static String keyJoin(final Function<String, Object> function,
+                                  final Function<Kv<String, String>, String> supplier,
+                                  final List<Kv<String, String>> joined) {
+        final StringBuilder key = new StringBuilder();
+        joined.forEach(kv -> {
+            final Object value = function.apply(supplier.apply(kv));
+            if (Objects.nonNull(value)) {
+                key.append(value);
+            }
+        });
+        return key.toString();
+    }
+
+    /**
+     * Run ruler for the data array.
+     *
+     * @param joinData   {@link java.util.concurrent.ConcurrentMap} join data
+     * @param joinResult {@link java.util.concurrent.ConcurrentMap} join result definition.
+     *
+     * @return {@link java.util.concurrent.ConcurrentMap}
+     */
+    private static ConcurrentMap<String, JsonArray> compressData(
+            final ConcurrentMap<String, JsonArray> joinData,
+            final ConcurrentMap<String, RResult> joinResult
+    ) {
+        final ConcurrentMap<String, JsonArray> compressed = new ConcurrentHashMap<>();
+        joinData.forEach((field, each) -> {
+            final RResult result = joinResult.get(field);
+            final JsonArray dataArray = joinData.getOrDefault(field, new JsonArray());
+            assert Objects.nonNull(result) : "Here result should not be null.";
+            final JsonArray processed = result.runRuler(dataArray);
+            compressed.put(field, processed);
+        });
+        return compressed;
     }
 }

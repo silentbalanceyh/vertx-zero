@@ -1,7 +1,7 @@
 package io.vertx.tp.modular.ray;
 
+import io.vertx.core.json.JsonArray;
 import io.vertx.up.commune.Record;
-import io.vertx.up.commune.element.JAmb;
 
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
@@ -23,8 +23,8 @@ public class RayBatch extends AbstractRay<Record[]> {
      */
     @Override
     public Record[] doAttach(final Record[] input) {
-        final ConcurrentMap<String, JAmb> data = new ConcurrentHashMap<>();
-        this.refer.values().forEach(source -> data.putAll(source.fetchBatch(input)));
-        return RayResult.combine(input, data, this.referRules);
+        final ConcurrentMap<String, JsonArray> data = new ConcurrentHashMap<>();
+        this.input.values().forEach(source -> data.putAll(source.fetchBatch(input)));
+        return RayResult.combine(input, data, this.output);
     }
 }

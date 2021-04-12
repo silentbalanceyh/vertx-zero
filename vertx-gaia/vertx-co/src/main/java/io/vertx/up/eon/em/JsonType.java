@@ -1,6 +1,6 @@
 package io.vertx.up.eon.em;
 
-public enum DataType {
+public enum JsonType {
     STRING,
     INTEGER,
     DECIMAL,

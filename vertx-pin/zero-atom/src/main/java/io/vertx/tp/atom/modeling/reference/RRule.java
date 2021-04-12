@@ -17,6 +17,7 @@ import io.vertx.up.util.Ut;
 
 import java.io.Serializable;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -55,7 +56,8 @@ import java.util.stream.Stream;
  * |conditions|Input|The criteria condition to fetch data ( Batch ), result is {@link io.vertx.core.json.JsonArray}.|
  * |condition|Input|The criteria condition to fetch data ( Single ), result is {@link io.vertx.core.json.JsonObject}.|
  * |required|Rule|When fetched data source, this rule will check whether each record valid. |
- * |diff|Rule|When fetched data array, this rule will combine by fields, compress the duplicated records. |
+ * |unique|Rule|When fetched data source, this rule will compress duplicated records ( pick first ). |
+ * |diff|Compare|When fetched data array, this rule will combine by fields, compress the duplicated records. |
  *
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
@@ -81,6 +83,13 @@ public class RRule implements Serializable {
     private transient JsonArray required;
 
     /**
+     * The rule 'unique`.
+     */
+    @JsonSerialize(using = JsonArraySerializer.class)
+    @JsonDeserialize(using = JsonArrayDeserializer.class)
+    private transient JsonArray unique;
+
+    /**
      * The rule `diff`.
      */
     @JsonSerialize(using = JsonArraySerializer.class)
@@ -94,6 +103,22 @@ public class RRule implements Serializable {
      */
     @JsonIgnore
     private transient Class<?> type;
+
+    /**
+     * @return {@link java.util.Set}
+     */
+    public Set<String> getUnique() {
+        if (Ut.notNil(this.unique)) {
+            return Ut.toSet(this.unique);
+        } else return new HashSet<>();
+    }
+
+    /**
+     * @param unique {@link io.vertx.core.json.JsonArray}
+     */
+    public void setUnique(final JsonArray unique) {
+        this.unique = unique;
+    }
 
     /**
      * @return {@link io.vertx.core.json.JsonObject}
@@ -124,10 +149,12 @@ public class RRule implements Serializable {
     }
 
     /**
-     * @return {@link io.vertx.core.json.JsonArray}
+     * @return {@link java.util.Set}
      */
-    public JsonArray getRequired() {
-        return this.required;
+    public Set<String> getRequired() {
+        if (Ut.notNil(this.required)) {
+            return Ut.toSet(this.required);
+        } else return new HashSet<>();
     }
 
     /**
@@ -172,6 +199,15 @@ public class RRule implements Serializable {
     }
 
     /**
+     * Return to daoKey of current item.
+     *
+     * @return {@link java.lang.String}
+     */
+    public String keyDao() {
+        return "condition:" + this.condition.hashCode() + ":" + "conditions:" + this.conditions.hashCode();
+    }
+
+    /**
      * Build criteria condition based on data record.
      *
      * @param record {@link io.vertx.up.commune.Record} Input data record
@@ -186,13 +222,13 @@ public class RRule implements Serializable {
             if (Objects.nonNull(record)) {
                 // Null Pointer for record
                 final Object value = record.get(target);
-                if (Objects.nonNull(value)) {
+                if (Objects.nonNull(value) && Ut.notNil(value.toString())) {
                     tpl.put(field, value);
                 }
             }
         });
         // If null of "", the AND operator will be set.
-        tpl.put(Strings.EMPTY, this.condition.getBoolean(Strings.EMPTY, Boolean.FALSE));
+        tpl.put(Strings.EMPTY, this.condition.getBoolean(Strings.EMPTY, Boolean.TRUE));
         Ao.infoUca(this.getClass(), "Single condition building: {0}", tpl.encode());
         return tpl;
     }
@@ -213,7 +249,8 @@ public class RRule implements Serializable {
                     .filter(Objects::nonNull).collect(Collectors.toSet());
             tpl.put(field, Ut.toJArray(values));
         });
-        tpl.put(Strings.EMPTY, this.conditions.getBoolean(Strings.EMPTY, Boolean.FALSE));
+        // If null of "", the AND operator will be set.
+        tpl.put(Strings.EMPTY, this.conditions.getBoolean(Strings.EMPTY, Boolean.TRUE));
         Ao.infoUca(this.getClass(), "Batch condition building: {0}", tpl.encode());
         return tpl;
     }

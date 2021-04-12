@@ -4,8 +4,9 @@ import cn.vertxup.atom.domain.tables.pojos.MAttribute;
 import io.vertx.codegen.annotations.Fluent;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.atom.modeling.config.AoSource;
-import io.vertx.tp.atom.modeling.data.DataAtom;
+import io.vertx.tp.ke.atom.metadata.KJoin;
 import io.vertx.tp.ke.cv.KeField;
+import io.vertx.up.fn.Fn;
 import io.vertx.up.util.Ut;
 
 import java.io.Serializable;
@@ -44,7 +45,11 @@ public class RQuote implements Serializable {
      * - Static Model
      * - Dynamic Model
      */
-    private transient final DataAtom atomRef;
+    private transient final String source;
+    /**
+     * The application name for DataAtom create.
+     */
+    private transient final String appName;
     /**
      * Stored `attr -> type`
      *
@@ -69,6 +74,10 @@ public class RQuote implements Serializable {
      * Extract `rule` from input json config and build `attr -> DataQRule` of current model.
      */
     private transient final ConcurrentMap<String, RRule> sourceRule = new ConcurrentHashMap<>();
+    /**
+     * Extract `dao` by condition `hashCode()`.
+     */
+    private transient final ConcurrentMap<String, RDao> sourceDao = new ConcurrentHashMap<>();
 
 
     // ----------------------- Factory Method Start ----------------------
@@ -76,21 +85,24 @@ public class RQuote implements Serializable {
     /**
      * Private constructor to prevent `new ...` creation.
      *
-     * @param atomRef The table name or identifier of entity.
+     * @param source  The table name or identifier of entity.
+     * @param appName {@link java.lang.String} application name.
      */
-    private RQuote(final DataAtom atomRef) {
-        this.atomRef = atomRef;
+    private RQuote(final String appName, final String source) {
+        this.source = source;
+        this.appName = appName;
     }
 
     /**
      * The factory method to create new instance.
      *
-     * @param atomRef The table name or identifier of entity.
+     * @param source  {@link java.lang.String} The table name or identifier of entity.
+     * @param appName {@link java.lang.String} application name.
      *
      * @return {@link RQuote}
      */
-    public static RQuote create(final DataAtom atomRef) {
-        return new RQuote(atomRef);
+    public static RQuote create(final String appName, final String source) {
+        return new RQuote(appName, source);
     }
     // ----------------------- Factory Method End ----------------------
 
@@ -134,13 +146,19 @@ public class RQuote implements Serializable {
              * Json data format, here defined `rule` field and convert to `DataQRule`
              */
             final JsonObject ruleData = Ut.sureJObject(sourceReference.getJsonObject(KeField.RULE));
-            if (Ut.notNil(ruleData)) {
-                final RRule rule = Ut.deserialize(ruleData, RRule.class);
-                this.sourceRule.put(name, rule.type(this.typeMap.get(name)));
-            }
+            final RRule rule = Ut.deserialize(ruleData, RRule.class);
+            this.sourceRule.put(name, rule.type(this.typeMap.get(name)));
             /*
-             *
+             * RDao processing
              */
+            final RDao dao = Fn.pool(this.sourceDao, rule.keyDao(), () -> new RDao(this.appName, this.source));
+            if (dao.isStatic() && sourceReference.containsKey(KeField.DAO)) {
+                /*
+                 * KJoin processing based on `dao` configuration.
+                 */
+                final KJoin join = Ut.deserialize(sourceReference.getJsonObject(KeField.DAO), KJoin.class);
+                dao.bind(join);
+            }
         }
         return this;
     }
@@ -150,6 +168,16 @@ public class RQuote implements Serializable {
      */
     public ConcurrentMap<String, RRule> rules() {
         return this.sourceRule;
+    }
+
+    /**
+     * @param field {@link java.lang.String} Input attribute name.
+     *
+     * @return {@link io.vertx.tp.atom.modeling.reference.RDao}
+     */
+    public RDao dao(final String field) {
+        final RRule rule = this.sourceRule.getOrDefault(field, null);
+        return this.sourceDao.getOrDefault(rule.keyDao(), null);
     }
 
     /**

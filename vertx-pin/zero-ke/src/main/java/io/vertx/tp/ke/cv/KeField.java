@@ -81,6 +81,7 @@ public interface KeField {
     String COMPONENTS = "components";           /* Definition: components */
 
     String SOURCE = "source";                   /* Database ( X_SOURCE ) related field */
+    String FORMAT = "format";                   /* DataFormat json configuration of uniform */
 
     String METHOD = "method";                   /* Web: http method */
     String URI = "uri";                         /* Web: http path */
@@ -112,6 +113,9 @@ public interface KeField {
     String VIEW_ID = "viewId";                  /* View Id */
     String PERMISSION_ID = "permissionId";      /* Security: permissionId */
     String ACTIONS = "actions";                 /* Security: actions */
+
+    String DAO = "dao";                         /* Dao field in json configuration */
+    String CONNECT = "connect";                 /* Connect field in json configuration */
 
     /*
      * X_APP
