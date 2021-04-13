@@ -45,6 +45,7 @@ public class Pager implements Serializable {
      *
      * @param page page index + 1
      * @param size page size
+     *
      * @return valid Pager of new
      */
     public static Pager create(final Integer page, final Integer size) {
@@ -55,6 +56,7 @@ public class Pager implements Serializable {
      * Another mode to create Pager
      *
      * @param pageJson parsed pager
+     *
      * @return valid Pager
      */
     public static Pager create(final JsonObject pageJson) {
@@ -72,9 +74,9 @@ public class Pager implements Serializable {
         Fn.outWeb(!pageJson.containsKey(SIZE), LOGGER,
                 _400PagerInvalidException.class, this.getClass(), SIZE);
         // Types
-        Inquiry.ensureType(pageJson, PAGE, Integer.class,
+        Qr.ensureType(pageJson, PAGE, Integer.class,
                 Ut::isInteger, this.getClass());
-        Inquiry.ensureType(pageJson, SIZE, Integer.class,
+        Qr.ensureType(pageJson, SIZE, Integer.class,
                 Ut::isInteger, this.getClass());
     }
 

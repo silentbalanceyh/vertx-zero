@@ -6,7 +6,7 @@ import io.vertx.tp.rbac.acl.rapid.Dwarf;
 import io.vertx.tp.rbac.cv.AuthMsg;
 import io.vertx.tp.rbac.cv.em.RegionType;
 import io.vertx.tp.rbac.refine.Sc;
-import io.vertx.up.atom.query.Inquiry;
+import io.vertx.up.atom.query.Qr;
 import io.vertx.up.commune.Envelop;
 import io.vertx.up.commune.secure.Acl;
 import io.vertx.up.eon.Values;
@@ -30,7 +30,7 @@ class DataOut {
     @SuppressWarnings("all")
     static void dwarfRecord(final Envelop envelop, final JsonObject matrix) {
         final Acl acl = envelop.acl();
-        final JsonArray projection = Sc.aclOn(matrix.getJsonArray(Inquiry.KEY_PROJECTION), acl);
+        final JsonArray projection = Sc.aclOn(matrix.getJsonArray(Qr.KEY_PROJECTION), acl);
         dwarfUniform(envelop, projection, new HashSet<RegionType>() {
             {
                 this.add(RegionType.RECORD);
@@ -56,7 +56,7 @@ class DataOut {
 
     @SuppressWarnings("all")
     static void dwarfCollection(final Envelop envelop, final JsonObject matrix) {
-        final JsonArray prjection = Sc.aclOn(matrix.getJsonArray(Inquiry.KEY_PROJECTION), envelop.acl());
+        final JsonArray prjection = Sc.aclOn(matrix.getJsonArray(Qr.KEY_PROJECTION), envelop.acl());
         dwarfUniform(envelop, prjection, new HashSet<RegionType>() {
             {
                 this.add(RegionType.ARRAY);

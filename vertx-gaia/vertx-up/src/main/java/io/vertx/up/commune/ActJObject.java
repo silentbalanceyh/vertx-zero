@@ -1,7 +1,7 @@
 package io.vertx.up.commune;
 
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.atom.query.Inquiry;
+import io.vertx.up.atom.query.Qr;
 import io.vertx.up.commune.exchange.DualMapping;
 import io.vertx.up.eon.Constants;
 import io.vertx.up.eon.ID;
@@ -101,11 +101,11 @@ class ActJObject extends ActMapping implements Serializable {
              * isQuery ? criteria
              * Until now the system has calculated the body data here
              */
-            if (body.containsKey(Inquiry.KEY_CRITERIA) || body.containsKey(Inquiry.KEY_PROJECTION)) {
+            if (body.containsKey(Qr.KEY_CRITERIA) || body.containsKey(Qr.KEY_PROJECTION)) {
                 /*
                  * JqTool part
                  */
-                Arrays.stream(Inquiry.KEY_QUERY).filter(field -> Objects.nonNull(body.getValue(field)))
+                Arrays.stream(Qr.KEY_QUERY).filter(field -> Objects.nonNull(body.getValue(field)))
                         .forEach(field -> {
                             this.query.put(field, body.getValue(field));
                             /*
@@ -121,8 +121,8 @@ class ActJObject extends ActMapping implements Serializable {
                         });
             }
             // fill criteria field when query is not empty
-            if (Ut.notNil(this.query) && !this.query.containsKey(Inquiry.KEY_CRITERIA)) {
-                this.query.put(Inquiry.KEY_CRITERIA, new JsonObject());
+            if (Ut.notNil(this.query) && !this.query.containsKey(Qr.KEY_CRITERIA)) {
+                this.query.put(Qr.KEY_CRITERIA, new JsonObject());
             }
             if (Ut.notNil(body)) {
                 /*

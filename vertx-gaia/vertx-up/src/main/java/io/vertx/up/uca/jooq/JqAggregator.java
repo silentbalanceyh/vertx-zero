@@ -3,7 +3,7 @@ package io.vertx.up.uca.jooq;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.atom.query.Inquiry;
+import io.vertx.up.atom.query.Qr;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -43,12 +43,12 @@ class JqAggregator {
     /*
      * Internal Call and do not export this Programming API
      */
-    Long count(final Inquiry inquiry) {
-        return this.count(null == inquiry.getCriteria() ? new JsonObject() : inquiry.getCriteria().toJson());
+    Long count(final Qr qr) {
+        return this.count(null == qr.getCriteria() ? new JsonObject() : qr.getCriteria().toJson());
     }
 
-    <T> Future<Long> countAsync(final Inquiry inquiry) {
-        return this.countAsync(null == inquiry.getCriteria() ? new JsonObject() : inquiry.getCriteria().toJson());
+    <T> Future<Long> countAsync(final Qr qr) {
+        return this.countAsync(null == qr.getCriteria() ? new JsonObject() : qr.getCriteria().toJson());
     }
 
     /*

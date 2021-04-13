@@ -10,7 +10,7 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.jet.refine.Jt;
 import io.vertx.tp.ke.cv.KeField;
-import io.vertx.up.atom.query.Inquiry;
+import io.vertx.up.atom.query.Qr;
 import io.vertx.up.log.Annal;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
@@ -28,9 +28,9 @@ public class JobService implements JobStub {
 
     @Override
     public Future<JsonObject> searchJobs(final String sigma, final JsonObject body, final boolean grouped) {
-        final Inquiry inquiry = Inquiry.create(body);
-        inquiry.getCriteria().add("sigma", sigma);
-        final JsonObject condition = inquiry.toJson();
+        final Qr qr = Qr.create(body);
+        qr.getCriteria().add("sigma", sigma);
+        final JsonObject condition = qr.toJson();
         LOGGER.info("Job condition: {0}", condition);
         return Ux.Jooq.on(IJobDao.class)
                 .searchAsync(condition)
@@ -55,7 +55,7 @@ public class JobService implements JobStub {
                          * count group
                          * */
                         if (grouped) {
-                            final JsonObject criteria = inquiry.getCriteria().toJson();
+                            final JsonObject criteria = qr.getCriteria().toJson();
                             return Ux.Jooq.on(IJobDao.class).countByAsync(criteria, "group")
                                     .compose(aggregation -> {
                                         final JsonObject aggregationJson = new JsonObject();

@@ -45,9 +45,9 @@ public class QLinear {
             op = field.split(Strings.COMMA)[1];
         } else {
             filterField = field;
-            op = Inquiry.Op.EQ;
+            op = Qr.Op.EQ;
         }
-        Fn.outWeb(!Inquiry.Op.VALUES.contains(op), LOGGER,
+        Fn.outWeb(!Qr.Op.VALUES.contains(op), LOGGER,
                 _400OpUnsupportException.class, this.getClass(), op);
         final Kv<String, Object> condition = Kv.create(op, value);
         final Kv<String, Kv<String, Object>> item = Kv.create(filterField, condition);

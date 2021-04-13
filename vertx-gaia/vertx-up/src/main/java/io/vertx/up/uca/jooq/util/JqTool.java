@@ -6,7 +6,7 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.atom.pojo.Mirror;
 import io.vertx.up.atom.pojo.Mojo;
-import io.vertx.up.atom.query.Inquiry;
+import io.vertx.up.atom.query.Qr;
 import io.vertx.up.eon.Strings;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
@@ -32,11 +32,11 @@ public class JqTool {
         return CompositeFuture.join(criteriaFuture, dataFuture);
     }
 
-    public static Inquiry inquiry(final JsonObject envelop, final String pojo) {
-        return Fn.getNull(Inquiry.create(new JsonObject()), () -> {
+    public static Qr inquiry(final JsonObject envelop, final String pojo) {
+        return Fn.getNull(Qr.create(new JsonObject()), () -> {
             final JsonObject data = envelop.copy();
             if (Ut.isNil(pojo)) {
-                return Inquiry.create(data);
+                return Qr.create(data);
             } else {
                 // Projection Process
                 final Mojo mojo = Mirror.create(JqTool.class).mount(pojo).mojo();
@@ -46,11 +46,11 @@ public class JqTool {
     }
 
     public static JsonObject criteria(final JsonObject criteria, final String pojo) {
-        final Inquiry inquiry = inquiry(new JsonObject().put(Inquiry.KEY_CRITERIA, criteria), pojo);
-        return Objects.isNull(inquiry.getCriteria()) ? new JsonObject() : inquiry.getCriteria().toJson();
+        final Qr qr = inquiry(new JsonObject().put(Qr.KEY_CRITERIA, criteria), pojo);
+        return Objects.isNull(qr.getCriteria()) ? new JsonObject() : qr.getCriteria().toJson();
     }
 
-    public static Inquiry inquiry(final JsonObject data, final Mojo mojo) {
+    public static Qr inquiry(final JsonObject data, final Mojo mojo) {
         if (data.containsKey("projection")) {
             data.put("projection", projection(data.getJsonArray("projection"), mojo));
         }
@@ -61,7 +61,7 @@ public class JqTool {
             data.put("criteria", criteria(data.getJsonObject("criteria"), mojo));
         }
         LOGGER.info(Info.INQUIRY_MESSAGE, data.encode());
-        return Inquiry.create(data);
+        return Qr.create(data);
     }
 
     public static JsonObject criteria(final JsonObject criteria, final Mojo mojo) {

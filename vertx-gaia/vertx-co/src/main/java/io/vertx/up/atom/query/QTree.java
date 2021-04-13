@@ -14,7 +14,7 @@ public class QTree {
     private final transient Set<QTree> trees = new HashSet<>();
     private final transient Set<String> linearKeys = new HashSet<>();
     private final transient JsonObject raw = new JsonObject();
-    private transient Inquiry.Connector op;
+    private transient Qr.Connector op;
     private transient QLinear linear;   // The same level linear;
 
     private QTree(final JsonObject data) {
@@ -55,10 +55,10 @@ public class QTree {
 
     private void initConnector(final JsonObject data) {
         if (!data.containsKey(Strings.EMPTY)) {
-            this.op = Inquiry.Connector.OR;
+            this.op = Qr.Connector.OR;
         } else {
             final boolean isAnd = Boolean.parseBoolean(data.getValue(Strings.EMPTY).toString());
-            this.op = isAnd ? Inquiry.Connector.AND : Inquiry.Connector.OR;
+            this.op = isAnd ? Qr.Connector.AND : Qr.Connector.OR;
         }
         LOGGER.debug(Info.Q_STR, this.op);
     }

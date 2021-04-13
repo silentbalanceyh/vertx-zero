@@ -9,7 +9,7 @@ import io.vertx.tp.ke.cv.KeField;
 import io.vertx.tp.rbac.cv.AuthMsg;
 import io.vertx.tp.rbac.cv.em.OwnerType;
 import io.vertx.tp.rbac.refine.Sc;
-import io.vertx.up.atom.query.Inquiry;
+import io.vertx.up.atom.query.Qr;
 import io.vertx.up.eon.Strings;
 import io.vertx.up.log.Annal;
 import io.vertx.up.unity.Ux;
@@ -67,11 +67,11 @@ public class ViewService implements ViewStub {
 
     private SView toView(final JsonObject filters, final JsonArray projection) {
         final JsonObject data = filters.copy()
-                .put(Inquiry.KEY_PROJECTION, projection.encode());
+                .put(Qr.KEY_PROJECTION, projection.encode());
         data.put(KeField.KEY, UUID.randomUUID().toString());
         data.put(KeField.ACTIVE, Boolean.TRUE);
         data.put("rows", new JsonObject().encode());
-        data.put(Inquiry.KEY_CRITERIA, new JsonObject().encode());
+        data.put(Qr.KEY_CRITERIA, new JsonObject().encode());
         return Ut.deserialize(data, SView.class);
     }
 }

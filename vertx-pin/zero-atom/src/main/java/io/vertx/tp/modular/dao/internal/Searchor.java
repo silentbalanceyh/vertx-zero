@@ -4,7 +4,7 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.tp.atom.refine.Ao;
 import io.vertx.tp.modular.jooq.internal.Jq;
 import io.vertx.up.atom.query.Criteria;
-import io.vertx.up.atom.query.Inquiry;
+import io.vertx.up.atom.query.Qr;
 import io.vertx.up.commune.Record;
 
 /**
@@ -30,7 +30,7 @@ public class Searchor extends AbstractUtil<Searchor> {
 
     public JsonObject search(final JsonObject filters) {
         Ao.infoSQL(this.getLogger(), "执行方法：Searcher.search");
-        return Jq.onPagination(this.irInquiry(Inquiry.create(filters)), this.jooq::search);
+        return Jq.onPagination(this.irInquiry(Qr.create(filters)), this.jooq::search);
     }
 
     public Record[] query(final JsonObject criteriaJson) {

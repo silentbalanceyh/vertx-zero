@@ -14,7 +14,7 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.ke.cv.KeField;
 import io.vertx.tp.rbac.refine.Sc;
-import io.vertx.up.atom.query.Inquiry;
+import io.vertx.up.atom.query.Qr;
 import io.vertx.up.eon.Strings;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.uca.jooq.UxJooq;
@@ -132,7 +132,7 @@ public class PermService implements PermStub {
             /*
              * Search permissions that related current
              */
-            final JsonObject criteriaRef = query.getJsonObject(Inquiry.KEY_CRITERIA);
+            final JsonObject criteriaRef = query.getJsonObject(Qr.KEY_CRITERIA);
             /*
              * Combine condition here
              */
@@ -147,7 +147,7 @@ public class PermService implements PermStub {
              * criteria ->
              * SIGMA = ??? AND CODE NOT IN (???)
              * */
-            query.put(Inquiry.KEY_CRITERIA, criteria);
+            query.put(Qr.KEY_CRITERIA, criteria);
 
             /*
              * Replace for criteria

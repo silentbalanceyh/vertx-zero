@@ -2,20 +2,20 @@ package io.vertx.up.atom.query;
 
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.util.Ut;
 import io.vertx.up.fn.Fn;
+import io.vertx.up.util.Ut;
 
 import java.util.HashSet;
 import java.util.Set;
 
-class IrInquiry implements Inquiry {
+class IrQr implements Qr {
 
     private transient Pager pager;
     private transient Sorter sorter;
     private transient Set<String> projection;
     private transient Criteria criteria;
 
-    IrInquiry(final JsonObject input) {
+    IrQr(final JsonObject input) {
         this.ensure(input);
         // Building
         this.init(input);
@@ -35,13 +35,13 @@ class IrInquiry implements Inquiry {
 
     private void ensure(final JsonObject input) {
         // Sorter checking
-        Inquiry.ensureType(input, KEY_SORTER, JsonArray.class, Ut::isJArray, this.getClass());
+        Qr.ensureType(input, KEY_SORTER, JsonArray.class, Ut::isJArray, this.getClass());
         // Projection checking
-        Inquiry.ensureType(input, KEY_PROJECTION, JsonArray.class, Ut::isJArray, this.getClass());
+        Qr.ensureType(input, KEY_PROJECTION, JsonArray.class, Ut::isJArray, this.getClass());
         // Pager checking
-        Inquiry.ensureType(input, KEY_PAGER, JsonObject.class, Ut::isJObject, this.getClass());
+        Qr.ensureType(input, KEY_PAGER, JsonObject.class, Ut::isJObject, this.getClass());
         // Criteria
-        Inquiry.ensureType(input, KEY_CRITERIA, JsonObject.class, Ut::isJObject, this.getClass());
+        Qr.ensureType(input, KEY_CRITERIA, JsonObject.class, Ut::isJObject, this.getClass());
     }
 
     @Override

@@ -15,8 +15,8 @@ import io.vertx.tp.modular.ray.AoRay;
 import io.vertx.tp.modular.ray.RayBatch;
 import io.vertx.tp.modular.ray.RaySingle;
 import io.vertx.up.atom.query.Criteria;
-import io.vertx.up.atom.query.Inquiry;
 import io.vertx.up.atom.query.Pager;
+import io.vertx.up.atom.query.Qr;
 import io.vertx.up.atom.query.Sorter;
 import io.vertx.up.commune.Record;
 import io.vertx.up.eon.Values;
@@ -41,7 +41,7 @@ public class DataEvent implements Serializable {
     // private transient DataInOut input;
     private transient AoIo io;
     private transient Criteria criteria;
-    private transient Inquiry inquiry;
+    private transient Qr qr;
     private transient long counter;
 
     private DataEvent(final DataAtom atom, final AoSentence sentence) {
@@ -132,14 +132,14 @@ public class DataEvent implements Serializable {
         return this;
     }
 
-    public DataEvent inquiry(final Inquiry inquiry) {
-        this.inquiry = inquiry;
-        if (Objects.nonNull(inquiry)) {
+    public DataEvent inquiry(final Qr qr) {
+        this.qr = qr;
+        if (Objects.nonNull(qr)) {
             /*
              * Inquiry 和 Criteria 的关系嵌套
              */
-            this.criteria = inquiry.getCriteria();
-            final Set<String> projections = Optional.ofNullable(inquiry.getProjection()).orElse(new HashSet<>());
+            this.criteria = qr.getCriteria();
+            final Set<String> projections = Optional.ofNullable(qr.getProjection()).orElse(new HashSet<>());
             if (!projections.isEmpty()) {
                 this.projection.addAll(projections);
             }
@@ -175,16 +175,16 @@ public class DataEvent implements Serializable {
     }
 
     public Pager getPager() {
-        if (Objects.nonNull(this.inquiry)) {
-            return this.inquiry.getPager();
+        if (Objects.nonNull(this.qr)) {
+            return this.qr.getPager();
         } else {
             return null;
         }
     }
 
     public Sorter getSorter() {
-        if (Objects.nonNull(this.inquiry)) {
-            return this.inquiry.getSorter();
+        if (Objects.nonNull(this.qr)) {
+            return this.qr.getSorter();
         } else {
             return null;
         }
