@@ -1,6 +1,7 @@
 package io.vertx.up.atom.query;
 
 import io.vertx.core.json.JsonObject;
+import io.vertx.up.atom.query.engine.Qr;
 import io.vertx.up.exception.web._400PagerInvalidException;
 import io.vertx.up.exception.web._500QueryMetaNullException;
 import io.vertx.up.fn.Fn;

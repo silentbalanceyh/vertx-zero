@@ -133,12 +133,7 @@ public class DataAtom {
         return this.metadata.type(field);
     }
 
-    // ------------ 比对专用方法/引用部分 ----------
-
-    /** 返回 CParam 对象 */
-    public CParam diff() {
-        return this.metadata.diff().diff(this.reference.fieldDiff());
-    }
+    // ------------ 比对专用方法 ----------
 
     public CParam diff(final Set<String> ignoreSet) {
         return this.metadata.diff(ignoreSet).diff(this.reference.fieldDiff());
@@ -147,6 +142,8 @@ public class DataAtom {
     public Set<String> diffSet(final String field) {
         return this.reference.fieldDiff().getOrDefault(field, new HashSet<>());
     }
+
+    // ------------ 引用专用方法 ----------
 
     public ConcurrentMap<String, RQuote> refInput() {
         return this.reference.refInput();

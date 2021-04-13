@@ -5,7 +5,7 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.atom.pojo.Mirror;
 import io.vertx.up.atom.pojo.Mojo;
-import io.vertx.up.atom.query.Qr;
+import io.vertx.up.atom.query.engine.Qr;
 import io.vertx.up.uca.jooq.util.JqTool;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
@@ -90,11 +90,11 @@ public final class UxJoin {
     /* (Async / Sync) Sort, Projection, Criteria, Pager Search Operations */
 
     public Future<JsonObject> searchAsync(final JsonObject params) {
-        return searchAsync(toInquiry(params));
+        return searchAsync(toQr(params));
     }
 
-    private Qr toInquiry(final JsonObject params) {
-        return Objects.isNull(this.merged) ? Qr.create(params) : JqTool.inquiry(params, this.merged);
+    private Qr toQr(final JsonObject params) {
+        return Objects.isNull(this.merged) ? Qr.create(params) : JqTool.qr(params, this.merged);
     }
 
     public Future<JsonObject> searchAsync(final Qr qr) {
@@ -108,7 +108,7 @@ public final class UxJoin {
     }
 
     public JsonArray fetch(final JsonObject params) {
-        return this.fetch(toInquiry(new JsonObject().put(Qr.KEY_CRITERIA, params)));
+        return this.fetch(toQr(new JsonObject().put(Qr.KEY_CRITERIA, params)));
     }
 
     public Future<JsonArray> fetchAsync(final Qr qr) {
@@ -116,6 +116,6 @@ public final class UxJoin {
     }
 
     public Future<JsonArray> fetchAsync(final JsonObject params) {
-        return fetchAsync(toInquiry(new JsonObject().put(Qr.KEY_CRITERIA, params)));
+        return fetchAsync(toQr(new JsonObject().put(Qr.KEY_CRITERIA, params)));
     }
 }

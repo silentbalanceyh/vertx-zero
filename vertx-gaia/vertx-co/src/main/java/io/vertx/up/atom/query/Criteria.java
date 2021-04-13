@@ -1,6 +1,10 @@
 package io.vertx.up.atom.query;
 
 import io.vertx.core.json.JsonObject;
+import io.vertx.up.atom.query.engine.Qr;
+import io.vertx.up.atom.query.engine.QrDo;
+import io.vertx.up.atom.query.engine.QrLinear;
+import io.vertx.up.atom.query.engine.QrTree;
 import io.vertx.up.exception.web._500QueryMetaNullException;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
@@ -36,11 +40,11 @@ public class Criteria implements Serializable {
     /**
      * The LINEAR analyzer.
      */
-    private transient QLinear linear;
+    private transient QrDo linear;
     /**
      * The TREE analyzer
      */
-    private transient QTree tree;
+    private transient QrDo tree;
 
     /**
      * Create criteria based on json object.
@@ -52,9 +56,9 @@ public class Criteria implements Serializable {
         assert data != null : "If null pointer, the exception will be thrown out.";
         this.mode = this.parseMode(data);
         if (Qr.Mode.LINEAR == this.mode) {
-            this.linear = QLinear.create(data);
+            this.linear = QrLinear.create(data);
         } else {
-            this.tree = QTree.create(data);
+            this.tree = QrTree.create(data);
         }
     }
 
@@ -74,7 +78,7 @@ public class Criteria implements Serializable {
      *
      * @param data {@link io.vertx.core.json.JsonObject}
      *
-     * @return {@link io.vertx.up.atom.query.Qr.Mode}
+     * @return {@link Qr.Mode}
      */
     private Qr.Mode parseMode(final JsonObject data) {
         Qr.Mode mode = Qr.Mode.LINEAR;
@@ -92,18 +96,18 @@ public class Criteria implements Serializable {
      *
      * @return {@link java.lang.Boolean}
      */
-    public boolean isValid() {
+    public boolean valid() {
         if (Qr.Mode.LINEAR == this.mode) {
-            return this.linear.isValid();
+            return this.linear.valid();
         } else {
-            return this.tree.isValid();
+            return this.tree.valid();
         }
     }
 
     /**
      * Get the json query condition mode.
      *
-     * @return {@link io.vertx.up.atom.query.Qr.Mode}
+     * @return {@link Qr.Mode}
      */
     public Qr.Mode getMode() {
         return this.mode;
@@ -118,6 +122,8 @@ public class Criteria implements Serializable {
     public Criteria add(final String field, final Object value) {
         if (Qr.Mode.LINEAR == this.mode) {
             this.linear.add(field, value);
+        } else {
+            this.tree.add(field, value);
         }
         return this;
     }

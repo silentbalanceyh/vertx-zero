@@ -9,7 +9,7 @@ import io.vertx.tp.plugin.jooq.condition.JooqCond;
 import io.vertx.up.atom.Kv;
 import io.vertx.up.atom.pojo.Mojo;
 import io.vertx.up.atom.query.Pager;
-import io.vertx.up.atom.query.Qr;
+import io.vertx.up.atom.query.engine.Qr;
 import io.vertx.up.uca.jooq.util.JqOut;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;

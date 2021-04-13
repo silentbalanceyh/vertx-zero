@@ -1,7 +1,7 @@
 package io.vertx.up.exception.zero;
 
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.atom.query.Qr;
+import io.vertx.up.atom.query.engine.Qr;
 import io.vertx.up.exception.UpException;
 
 public class JooqModeConflictException extends UpException {

@@ -10,7 +10,7 @@ import io.vertx.up.annotations.Address;
 import io.vertx.up.annotations.Adjust;
 import io.vertx.up.annotations.Codex;
 import io.vertx.up.annotations.EndPoint;
-import io.vertx.up.atom.query.Qr;
+import io.vertx.up.atom.query.engine.Qr;
 import io.vertx.up.eon.Orders;
 import io.vertx.up.log.Annal;
 import io.vertx.up.unity.Ux;

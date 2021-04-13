@@ -20,7 +20,7 @@ import io.vertx.tp.plugin.excel.atom.ExTable;
 import io.vertx.up.annotations.Address;
 import io.vertx.up.annotations.Plugin;
 import io.vertx.up.annotations.Queue;
-import io.vertx.up.atom.query.Qr;
+import io.vertx.up.atom.query.engine.Qr;
 import io.vertx.up.commune.Envelop;
 import io.vertx.up.commune.exchange.DictFabric;
 import io.vertx.up.fn.Fn;

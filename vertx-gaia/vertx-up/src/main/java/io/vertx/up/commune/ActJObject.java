@@ -1,7 +1,7 @@
 package io.vertx.up.commune;
 
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.atom.query.Qr;
+import io.vertx.up.atom.query.engine.Qr;
 import io.vertx.up.commune.exchange.DualMapping;
 import io.vertx.up.eon.Constants;
 import io.vertx.up.eon.ID;

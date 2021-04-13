@@ -3,7 +3,7 @@ package io.vertx.up.uca.jooq.util;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.atom.query.Qr;
+import io.vertx.up.atom.query.engine.Qr;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.uca.jooq.JqAnalyzer;
 import io.vertx.up.unity.Ux;
@@ -72,7 +72,7 @@ public class JqFlow {
     }
 
     public Qr inputQr(final JsonObject input) {
-        return JqTool.inquiry(input, this.pojo);
+        return JqTool.qr(input, this.pojo);
     }
 
     public JsonObject inputQrJ(final JsonObject criteria) {

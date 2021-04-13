@@ -1,7 +1,10 @@
-package io.vertx.up.atom.query;
+package io.vertx.up.atom.query.engine;
 
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
+import io.vertx.up.atom.query.Criteria;
+import io.vertx.up.atom.query.Pager;
+import io.vertx.up.atom.query.Sorter;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.util.Ut;
 
@@ -65,7 +68,7 @@ class IrQr implements Qr {
     }
 
     @Override
-    public void setInquiry(final String field, final Object value) {
+    public void setQr(final String field, final Object value) {
         if (null == this.criteria) {
             this.criteria = Criteria.create(new JsonObject());
         }

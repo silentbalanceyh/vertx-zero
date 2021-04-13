@@ -8,7 +8,7 @@ import io.vertx.tp.modular.jdbc.AoConnection;
 import io.vertx.tp.modular.jooq.JQEngine;
 import io.vertx.tp.modular.metadata.AoSentence;
 import io.vertx.up.atom.query.Criteria;
-import io.vertx.up.atom.query.Qr;
+import io.vertx.up.atom.query.engine.Qr;
 import io.vertx.up.commune.Record;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
@@ -117,8 +117,8 @@ public abstract class AbstractUtil<T extends AoBinder> implements AoBinder<T> {
         return this.event().criteria(criteria);
     }
 
-    DataEvent irInquiry(final Qr qr) {
-        return this.event().inquiry(qr);
+    DataEvent irQr(final Qr qr) {
+        return this.event().qr(qr);
     }
 
     protected Annal getLogger() {

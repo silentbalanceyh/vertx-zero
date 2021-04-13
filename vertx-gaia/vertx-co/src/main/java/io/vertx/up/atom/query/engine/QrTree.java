@@ -1,4 +1,4 @@
-package io.vertx.up.atom.query;
+package io.vertx.up.atom.query.engine;
 
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.eon.Strings;
@@ -8,36 +8,36 @@ import io.vertx.up.util.Ut;
 import java.util.HashSet;
 import java.util.Set;
 
-public class QTree {
+public class QrTree implements QrDo {
 
-    private static final Annal LOGGER = Annal.get(QTree.class);
-    private final transient Set<QTree> trees = new HashSet<>();
+    private static final Annal LOGGER = Annal.get(QrTree.class);
+    private final transient Set<QrTree> trees = new HashSet<>();
     private final transient Set<String> linearKeys = new HashSet<>();
     private final transient JsonObject raw = new JsonObject();
     private transient Qr.Connector op;
-    private transient QLinear linear;   // The same level linear;
+    private transient QrLinear linear;   // The same level linear;
 
-    private QTree(final JsonObject data) {
+    private QrTree(final JsonObject data) {
         this.raw.mergeIn(data);
         // calc op
         this.initConnector(data);
         // extract linear
-        this.initLinearKey(data);
+        this.initQrTree(data);
         // keys
-        this.initLinear(data);
+        this.initQrLinear(data);
     }
 
-    public static QTree create(final JsonObject data) {
-        return new QTree(data);
+    public static QrTree create(final JsonObject data) {
+        return new QrTree(data);
     }
 
-    private void initLinear(final JsonObject data) {
+    private void initQrLinear(final JsonObject data) {
         final JsonObject linear = new JsonObject();
         this.linearKeys.forEach(key -> linear.put(key, data.getValue(key)));
-        this.linear = QLinear.create(linear);
+        this.linear = QrLinear.create(linear);
     }
 
-    private void initLinearKey(final JsonObject data) {
+    private void initQrTree(final JsonObject data) {
         final JsonObject linear = data.copy();
         linear.remove(Strings.EMPTY);
         final Set<String> treeKeys = new HashSet<>();
@@ -46,7 +46,7 @@ public class QTree {
                 this.linearKeys.add(field);
             } else {
                 final JsonObject item = linear.getJsonObject(field);
-                this.trees.add(QTree.create(item));
+                this.trees.add(QrTree.create(item));
                 treeKeys.add(field);
             }
         }
@@ -63,11 +63,34 @@ public class QTree {
         LOGGER.debug(Info.Q_STR, this.op);
     }
 
-    public boolean isValid() {
+    /**
+     * Check current QTree to see whether it's valid.
+     *
+     * @return {@link java.lang.Boolean};
+     */
+    @Override
+    public boolean valid() {
         return null != this.linear || !this.trees.isEmpty();
     }
 
+    /**
+     * Serialized current instance to Json
+     *
+     * @return {@link JsonObject}
+     */
+    @Override
     public JsonObject toJson() {
         return this.raw;
+    }
+
+    /**
+     * @param fieldExpr {@link java.lang.String}
+     * @param value     {@link java.lang.Object}
+     *
+     * @return {@link QrLinear}
+     */
+    @Override
+    public QrTree add(final String fieldExpr, final Object value) {
+        return this;
     }
 }

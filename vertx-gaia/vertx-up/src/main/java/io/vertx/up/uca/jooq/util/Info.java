@@ -7,7 +7,7 @@ import java.util.concurrent.ConcurrentMap;
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 interface Info {
-    String INQUIRY_MESSAGE = "( Inquiry ) Processed metadata = {0}.";
+    String INQUIRY_MESSAGE = "( Qr ) Processed metadata = {0}.";
 }
 
 interface Pool {

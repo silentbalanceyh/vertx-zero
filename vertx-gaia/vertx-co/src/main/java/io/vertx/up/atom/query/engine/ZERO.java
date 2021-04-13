@@ -1,4 +1,4 @@
-package io.vertx.up.atom.query;
+package io.vertx.up.atom.query.engine;
 
 interface Info {
 

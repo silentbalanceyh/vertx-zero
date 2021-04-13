@@ -1,6 +1,9 @@
-package io.vertx.up.atom.query;
+package io.vertx.up.atom.query.engine;
 
 import io.vertx.core.json.JsonObject;
+import io.vertx.up.atom.query.Criteria;
+import io.vertx.up.atom.query.Pager;
+import io.vertx.up.atom.query.Sorter;
 import io.vertx.up.exception.web._400QueryKeyTypeException;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
@@ -85,7 +88,7 @@ public interface Qr {
     String[] KEY_QUERY = new String[]{KEY_CRITERIA, KEY_PAGER, KEY_PROJECTION, KEY_SORTER};
 
     /**
-     * Create Qr instance ( The default implementation class is {@link io.vertx.up.atom.query.IrQr} )
+     * Create Qr instance ( The default implementation class is {@link IrQr} )
      *
      * The implementation class name meaning is `IrQr` - Internal Reactive Query Engine
      *
@@ -123,7 +126,7 @@ public interface Qr {
      * @param field {@link java.lang.String} field that will be added.
      * @param value {@link java.lang.Object} value that will be added.
      */
-    void setInquiry(String field, Object value);
+    void setQr(String field, Object value);
 
     /**
      * Get projection

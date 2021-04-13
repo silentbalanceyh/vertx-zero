@@ -6,7 +6,7 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.atom.pojo.Mirror;
 import io.vertx.up.atom.pojo.Mojo;
-import io.vertx.up.atom.query.Qr;
+import io.vertx.up.atom.query.engine.Qr;
 import io.vertx.up.eon.Strings;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
@@ -32,7 +32,7 @@ public class JqTool {
         return CompositeFuture.join(criteriaFuture, dataFuture);
     }
 
-    public static Qr inquiry(final JsonObject envelop, final String pojo) {
+    public static Qr qr(final JsonObject envelop, final String pojo) {
         return Fn.getNull(Qr.create(new JsonObject()), () -> {
             final JsonObject data = envelop.copy();
             if (Ut.isNil(pojo)) {
@@ -40,17 +40,17 @@ public class JqTool {
             } else {
                 // Projection Process
                 final Mojo mojo = Mirror.create(JqTool.class).mount(pojo).mojo();
-                return inquiry(data, mojo);
+                return qr(data, mojo);
             }
         }, envelop);
     }
 
     public static JsonObject criteria(final JsonObject criteria, final String pojo) {
-        final Qr qr = inquiry(new JsonObject().put(Qr.KEY_CRITERIA, criteria), pojo);
+        final Qr qr = qr(new JsonObject().put(Qr.KEY_CRITERIA, criteria), pojo);
         return Objects.isNull(qr.getCriteria()) ? new JsonObject() : qr.getCriteria().toJson();
     }
 
-    public static Qr inquiry(final JsonObject data, final Mojo mojo) {
+    public static Qr qr(final JsonObject data, final Mojo mojo) {
         if (data.containsKey("projection")) {
             data.put("projection", projection(data.getJsonArray("projection"), mojo));
         }

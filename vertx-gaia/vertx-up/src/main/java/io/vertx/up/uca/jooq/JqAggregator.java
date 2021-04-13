@@ -3,7 +3,7 @@ package io.vertx.up.uca.jooq;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.atom.query.Qr;
+import io.vertx.up.atom.query.engine.Qr;
 
 import java.math.BigDecimal;
 import java.util.List;

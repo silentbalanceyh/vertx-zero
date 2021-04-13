@@ -16,8 +16,8 @@ import io.vertx.tp.modular.ray.RayBatch;
 import io.vertx.tp.modular.ray.RaySingle;
 import io.vertx.up.atom.query.Criteria;
 import io.vertx.up.atom.query.Pager;
-import io.vertx.up.atom.query.Qr;
 import io.vertx.up.atom.query.Sorter;
+import io.vertx.up.atom.query.engine.Qr;
 import io.vertx.up.commune.Record;
 import io.vertx.up.eon.Values;
 import io.vertx.up.exception.WebException;
@@ -132,11 +132,11 @@ public class DataEvent implements Serializable {
         return this;
     }
 
-    public DataEvent inquiry(final Qr qr) {
+    public DataEvent qr(final Qr qr) {
         this.qr = qr;
         if (Objects.nonNull(qr)) {
             /*
-             * Inquiry 和 Criteria 的关系嵌套
+             * Qr 和 Criteria 的关系嵌套
              */
             this.criteria = qr.getCriteria();
             final Set<String> projections = Optional.ofNullable(qr.getProjection()).orElse(new HashSet<>());

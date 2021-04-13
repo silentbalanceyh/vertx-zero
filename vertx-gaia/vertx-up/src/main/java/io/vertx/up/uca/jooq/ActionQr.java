@@ -5,7 +5,7 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.plugin.jooq.condition.JooqCond;
 import io.vertx.up.atom.query.Pager;
-import io.vertx.up.atom.query.Qr;
+import io.vertx.up.atom.query.engine.Qr;
 import io.vertx.up.uca.jooq.util.JqOut;
 import io.vertx.up.util.Ut;
 import org.jooq.*;

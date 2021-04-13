@@ -1,6 +1,6 @@
 package io.vertx.tp.plugin.jooq.condition;
 
-import io.vertx.up.atom.query.Qr;
+import io.vertx.up.atom.query.engine.Qr;
 import io.vertx.up.util.Ut;
 import org.jooq.Condition;
 import org.jooq.impl.DSL;

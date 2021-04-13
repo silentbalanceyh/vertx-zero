@@ -1,12 +1,10 @@
 package io.vertx.tp.modular.jooq;
 
-import io.vertx.tp.atom.modeling.data.DataAtom;
 import io.vertx.tp.atom.modeling.data.DataEvent;
 import io.vertx.tp.atom.modeling.element.DataTpl;
 import io.vertx.tp.atom.refine.Ao;
 import io.vertx.tp.modular.metadata.AoSentence;
 import io.vertx.tp.modular.query.Ingest;
-import io.vertx.up.atom.query.Criteria;
 import io.vertx.up.atom.query.Pager;
 import io.vertx.up.atom.query.Sorter;
 import io.vertx.up.eon.Values;
@@ -152,25 +150,13 @@ class JQToolkit {
         final Condition condition;
         final DataTpl tpl = event.getTpl();
         if (map.isEmpty()) {
-            condition = ingest.onCondition(tpl, getCondition(tpl.atom(), event.getCriteria()));
+            condition = ingest.onCondition(tpl, JQPre.prepare(tpl.atom(), event.getCriteria()));
             Ao.infoSQL(LOGGER, "单表, 最终条件：{0}", condition);
         } else {
-            condition = ingest.onCondition(tpl, getCondition(tpl.atom(), event.getCriteria()), map);
+            condition = ingest.onCondition(tpl, JQPre.prepare(tpl.atom(), event.getCriteria()), map);
             Ao.infoSQL(LOGGER, "多表, 最终条件：{0}", condition);
         }
         return condition;
-    }
-
-    /**
-     * Process for `REFERENCE` condition based on DataAtom
-     *
-     * @param atom     {@link DataAtom} The model definition.
-     * @param criteria {@link Criteria} the criteria object to stored query condition.
-     *
-     * @return The new modified criteria
-     */
-    private static Criteria getCondition(final DataAtom atom, final Criteria criteria) {
-        return criteria;
     }
 
     static ConcurrentMap<String, String> getMap(final Set<String> tables) {

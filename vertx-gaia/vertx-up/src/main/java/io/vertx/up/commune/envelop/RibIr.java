@@ -2,7 +2,7 @@ package io.vertx.up.commune.envelop;
 
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.atom.query.Qr;
+import io.vertx.up.atom.query.engine.Qr;
 import io.vertx.up.eon.ID;
 import io.vertx.up.eon.Strings;
 import io.vertx.up.log.Annal;
