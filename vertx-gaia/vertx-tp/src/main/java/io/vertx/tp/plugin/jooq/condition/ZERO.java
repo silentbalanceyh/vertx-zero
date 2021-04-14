@@ -1,7 +1,7 @@
 package io.vertx.tp.plugin.jooq.condition;
 
 import io.vertx.tp.plugin.jooq.condition.date.*;
-import io.vertx.up.atom.query.Inquiry;
+import io.vertx.up.atom.query.engine.Qr;
 import io.vertx.up.util.Ut;
 
 import java.time.LocalDate;
@@ -35,31 +35,31 @@ interface Pool {
 
     ConcurrentMap<String, Term> TERM_OBJECT_MAP = new ConcurrentHashMap<String, Term>() {
         {
-            this.put(Inquiry.Op.LT, Ut.instance(TermLt.class));
-            this.put(Inquiry.Op.LE, Ut.instance(TermLe.class));
-            this.put(Inquiry.Op.GT, Ut.instance(TermGt.class));
-            this.put(Inquiry.Op.GE, Ut.instance(TermGe.class));
-            this.put(Inquiry.Op.EQ, Ut.instance(TermEq.class));
-            this.put(Inquiry.Op.NEQ, Ut.instance(TermNeq.class));
-            this.put(Inquiry.Op.NULL, Ut.instance(TermNull.class));
-            this.put(Inquiry.Op.NOT_NULL, Ut.instance(TermNotNull.class));
-            this.put(Inquiry.Op.TRUE, Ut.instance(TermTrue.class));
-            this.put(Inquiry.Op.FALSE, Ut.instance(TermFalse.class));
-            this.put(Inquiry.Op.IN, Ut.instance(TermIn.class));
-            this.put(Inquiry.Op.NOT_IN, Ut.instance(TermNotIn.class));
-            this.put(Inquiry.Op.START, Ut.instance(TermStart.class));
-            this.put(Inquiry.Op.END, Ut.instance(TermEnd.class));
-            this.put(Inquiry.Op.CONTAIN, Ut.instance(TermContain.class));
+            this.put(Qr.Op.LT, Ut.instance(TermLt.class));
+            this.put(Qr.Op.LE, Ut.instance(TermLe.class));
+            this.put(Qr.Op.GT, Ut.instance(TermGt.class));
+            this.put(Qr.Op.GE, Ut.instance(TermGe.class));
+            this.put(Qr.Op.EQ, Ut.instance(TermEq.class));
+            this.put(Qr.Op.NEQ, Ut.instance(TermNeq.class));
+            this.put(Qr.Op.NULL, Ut.instance(TermNull.class));
+            this.put(Qr.Op.NOT_NULL, Ut.instance(TermNotNull.class));
+            this.put(Qr.Op.TRUE, Ut.instance(TermTrue.class));
+            this.put(Qr.Op.FALSE, Ut.instance(TermFalse.class));
+            this.put(Qr.Op.IN, Ut.instance(TermIn.class));
+            this.put(Qr.Op.NOT_IN, Ut.instance(TermNotIn.class));
+            this.put(Qr.Op.START, Ut.instance(TermStart.class));
+            this.put(Qr.Op.END, Ut.instance(TermEnd.class));
+            this.put(Qr.Op.CONTAIN, Ut.instance(TermContain.class));
         }
     };
 
     ConcurrentMap<String, Term> TERM_DATE_MAP = new ConcurrentHashMap<String, Term>() {
         {
-            this.put(Inquiry.Op.LT, Ut.instance(TermDLt.class));
-            this.put(Inquiry.Op.LE, Ut.instance(TermDLe.class));
-            this.put(Inquiry.Op.GT, Ut.instance(TermDGt.class));
-            this.put(Inquiry.Op.GE, Ut.instance(TermDGe.class));
-            this.put(Inquiry.Op.EQ, Ut.instance(TermDEq.class));
+            this.put(Qr.Op.LT, Ut.instance(TermDLt.class));
+            this.put(Qr.Op.LE, Ut.instance(TermDLe.class));
+            this.put(Qr.Op.GT, Ut.instance(TermDGt.class));
+            this.put(Qr.Op.GE, Ut.instance(TermDGe.class));
+            this.put(Qr.Op.EQ, Ut.instance(TermDEq.class));
         }
     };
 }

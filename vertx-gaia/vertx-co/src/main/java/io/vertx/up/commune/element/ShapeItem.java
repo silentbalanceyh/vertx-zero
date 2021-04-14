@@ -12,7 +12,7 @@ import java.util.concurrent.ConcurrentMap;
 import java.util.function.Function;
 
 /**
- * @author <a href="http://www.origin-x.cn">lang</a>
+ * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 public class ShapeItem implements Serializable {
     private final transient List<ShapeItem> children = new ArrayList<>();

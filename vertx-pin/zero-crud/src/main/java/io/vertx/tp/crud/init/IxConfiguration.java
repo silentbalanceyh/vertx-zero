@@ -2,7 +2,7 @@ package io.vertx.tp.crud.init;
 
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.crud.atom.IxConfig;
+import io.vertx.tp.crud.atom.IxColumn;
 import io.vertx.tp.crud.cv.IxFolder;
 import io.vertx.tp.crud.refine.Ix;
 import io.vertx.up.log.Annal;
@@ -23,7 +23,7 @@ class IxConfiguration {
     /* Module Registry */
     private static final Set<String> MODULE_REG =
             new HashSet<>();
-    private static IxConfig CONFIG = null;
+    private static IxColumn CONFIG = null;
 
     static void init() {
         /*
@@ -32,7 +32,7 @@ class IxConfiguration {
         if (null == CONFIG) {
             final JsonObject configData = Ut.ioJObject(IxFolder.CONFIG_FILE);
             Ix.infoInit(LOGGER, "Ix Json Data: {0}", configData.encode());
-            CONFIG = Ut.deserialize(configData, IxConfig.class);
+            CONFIG = Ut.deserialize(configData, IxColumn.class);
             Ix.infoInit(LOGGER, "Ix Configuration: {0}", CONFIG.toString());
         }
     }

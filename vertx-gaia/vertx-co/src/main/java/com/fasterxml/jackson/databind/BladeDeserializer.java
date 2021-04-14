@@ -36,7 +36,7 @@ import java.io.IOException;
  * // </code></pre>
  * ```
  *
- * @author <a href="http://www.origin-x.cn">lang</a>
+ * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 public class BladeDeserializer extends JsonDeserializer<Uson> { // NOPMD
 

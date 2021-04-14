@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 /**
- * @author <a href="http://www.origin-x.cn">lang</a>
+ * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 @SuppressWarnings("all")
 class ActionDelete extends AbstractAction {

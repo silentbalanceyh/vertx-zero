@@ -5,7 +5,7 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.atom.pojo.Mirror;
 import io.vertx.up.atom.pojo.Mojo;
-import io.vertx.up.atom.query.Inquiry;
+import io.vertx.up.atom.query.engine.Qr;
 import io.vertx.up.uca.jooq.util.JqTool;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
@@ -90,24 +90,32 @@ public final class UxJoin {
     /* (Async / Sync) Sort, Projection, Criteria, Pager Search Operations */
 
     public Future<JsonObject> searchAsync(final JsonObject params) {
-        return searchAsync(toInquiry(params));
+        return searchAsync(toQr(params));
     }
 
-    private Inquiry toInquiry(final JsonObject params) {
-        return Objects.isNull(this.merged) ? Inquiry.create(params) : JqTool.inquiry(params, this.merged);
+    private Qr toQr(final JsonObject params) {
+        return Objects.isNull(this.merged) ? Qr.create(params) : JqTool.qr(params, this.merged);
     }
 
-    public Future<JsonObject> searchAsync(final Inquiry inquiry) {
+    public Future<JsonObject> searchAsync(final Qr qr) {
         this.POJO_MAP.forEach(this.joinder::pojo);
-        return this.joinder.searchPaginationAsync(inquiry, this.merged);
+        return this.joinder.searchPaginationAsync(qr, this.merged);
     }
 
-    public Future<JsonArray> fetchAsync(final Inquiry inquiry) {
+    public JsonArray fetch(final Qr qr) {
         this.POJO_MAP.forEach(this.joinder::pojo);
-        return Ux.future(this.joinder.searchArray(inquiry, this.merged));
+        return this.joinder.searchArray(qr, this.merged);
+    }
+
+    public JsonArray fetch(final JsonObject params) {
+        return this.fetch(toQr(new JsonObject().put(Qr.KEY_CRITERIA, params)));
+    }
+
+    public Future<JsonArray> fetchAsync(final Qr qr) {
+        return Ux.future(this.fetch(qr));
     }
 
     public Future<JsonArray> fetchAsync(final JsonObject params) {
-        return fetchAsync(toInquiry(params));
+        return fetchAsync(toQr(new JsonObject().put(Qr.KEY_CRITERIA, params)));
     }
 }

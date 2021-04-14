@@ -11,7 +11,7 @@ import io.vertx.up.util.Ut;
 import java.util.Objects;
 
 /**
- * @author <a href="http://www.origin-x.cn">lang</a>
+ * @author <a href="http://www.origin-x.cn">Lang</a>
  * Life Cycle for cache when processing in
  */
 public class Harp {

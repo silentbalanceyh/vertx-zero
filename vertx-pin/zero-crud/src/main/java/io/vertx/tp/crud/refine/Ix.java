@@ -3,8 +3,8 @@ package io.vertx.tp.crud.refine;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.crud.atom.IxMeta;
 import io.vertx.tp.crud.atom.IxModule;
+import io.vertx.tp.crud.atom.IxProc;
 import io.vertx.up.log.Annal;
 import io.vertx.up.uca.jooq.UxJooq;
 import io.vertx.up.unity.Ux;
@@ -52,8 +52,8 @@ public class Ix {
     /*
      * IxIn reference
      */
-    public static IxMeta create(final Class<?> clazz) {
-        return IxMeta.create(clazz);
+    public static IxProc create(final Class<?> clazz) {
+        return IxProc.create(clazz);
     }
 
     // Serialization for entity/list

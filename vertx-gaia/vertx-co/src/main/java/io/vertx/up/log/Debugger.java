@@ -8,7 +8,7 @@ import io.vertx.up.util.Ut;
 /**
  * # 「Co」Zero Extension for Debugger to process logs
  *
- * @author <a href="http://www.origin-x.cn">lang</a>
+ * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 public class Debugger {
     private static final Node<JsonObject> VISITOR = Ut.singleton(ZeroUniform.class);

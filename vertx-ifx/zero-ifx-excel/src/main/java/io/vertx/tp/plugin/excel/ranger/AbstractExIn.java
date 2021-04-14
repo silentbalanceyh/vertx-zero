@@ -14,7 +14,7 @@ import java.util.concurrent.ConcurrentMap;
 import java.util.function.BiConsumer;
 
 /**
- * @author <a href="http://www.origin-x.cn">lang</a>
+ * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 public abstract class AbstractExIn implements ExIn {
     protected transient Sheet sheet;

@@ -12,7 +12,7 @@ import org.apache.poi.ss.usermodel.Workbook;
 import java.util.Objects;
 
 /**
- * @author <a href="http://www.origin-x.cn">lang</a>
+ * @author <a href="http://www.origin-x.cn">Lang</a>
  * 风格插件，直接为 sheet 增加 Style 相关信息
  */
 public class BlueTpl implements ExTpl {

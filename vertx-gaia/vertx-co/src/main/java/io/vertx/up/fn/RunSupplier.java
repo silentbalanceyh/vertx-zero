@@ -1,7 +1,7 @@
 package io.vertx.up.fn;
 
 /**
- * @author <a href="http://www.origin-x.cn">lang</a>
+ * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 @FunctionalInterface
 public interface RunSupplier<T> {

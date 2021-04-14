@@ -7,7 +7,7 @@ import java.util.Objects;
 import java.util.TreeMap;
 
 /**
- * @author <a href="http://www.origin-x.cn">lang</a>
+ * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 public class CMessageTree extends AbstractCMessage {
     private transient String id;

@@ -24,7 +24,7 @@ import io.vertx.up.util.Ut;
  *
  * This class is for JUnit purely
  *
- * @author <a href="http://www.origin-x.cn">lang</a>
+ * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 public class EpicBase {
     /**

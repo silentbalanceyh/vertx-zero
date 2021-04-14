@@ -2,8 +2,8 @@ package io.vertx.tp.crud.refine;
 
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.crud.atom.IxField;
 import io.vertx.tp.crud.atom.IxModule;
+import io.vertx.tp.ke.atom.metadata.KField;
 import io.vertx.up.util.Ut;
 
 import java.util.Objects;
@@ -11,7 +11,7 @@ import java.util.Objects;
 class IxQuery {
 
     static JsonObject inKeys(final JsonArray array, final IxModule config) {
-        final IxField field = config.getField();
+        final KField field = config.getField();
         final String keyField = field.getKey();
         /* Filters */
         final JsonObject filters = new JsonObject();

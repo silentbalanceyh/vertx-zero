@@ -9,7 +9,7 @@ import org.jooq.Operator;
 import java.util.List;
 
 /**
- * @author <a href="http://www.origin-x.cn">lang</a>
+ * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 @SuppressWarnings("all")
 class ActionFetch extends AbstractAction {

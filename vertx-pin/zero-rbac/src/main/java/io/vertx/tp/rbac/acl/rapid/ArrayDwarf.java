@@ -3,7 +3,7 @@ package io.vertx.tp.rbac.acl.rapid;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.rbac.refine.Sc;
-import io.vertx.up.atom.query.Inquiry;
+import io.vertx.up.atom.query.engine.Qr;
 import io.vertx.up.commune.secure.Acl;
 import io.vertx.up.util.Ut;
 
@@ -54,12 +54,12 @@ class ArrayDwarf implements Dwarf {
 
                 /* projection: for After Get only */
                 updated = SiftCol.onProjection(updated,
-                        Sc.aclOn(matrix.getJsonArray(Inquiry.KEY_PROJECTION), acl));
+                        Sc.aclOn(matrix.getJsonArray(Qr.KEY_PROJECTION), acl));
             } else {
 
                 /* pick up projection in S_VIEW only */
                 updated = SiftCol.onProjection(updated,
-                        matrix.getJsonArray(Inquiry.KEY_PROJECTION));
+                        matrix.getJsonArray(Qr.KEY_PROJECTION));
 
                 /*
                  * Produce rows configuration

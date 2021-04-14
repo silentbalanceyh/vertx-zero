@@ -10,7 +10,7 @@ import io.vertx.up.annotations.Address;
 import io.vertx.up.annotations.Adjust;
 import io.vertx.up.annotations.Codex;
 import io.vertx.up.annotations.EndPoint;
-import io.vertx.up.atom.query.Inquiry;
+import io.vertx.up.atom.query.engine.Qr;
 import io.vertx.up.eon.Orders;
 import io.vertx.up.log.Annal;
 import io.vertx.up.unity.Ux;
@@ -58,7 +58,7 @@ public class FileAgent {
          * Here extract query by `criteria` node, it will be synced with
          * dynamic exporting here.
          **/
-        JsonObject query = condition.getJsonObject(Inquiry.KEY_CRITERIA);
+        JsonObject query = condition.getJsonObject(Qr.KEY_CRITERIA);
         if (Ut.isNil(query)) {
             query = new JsonObject();
         }

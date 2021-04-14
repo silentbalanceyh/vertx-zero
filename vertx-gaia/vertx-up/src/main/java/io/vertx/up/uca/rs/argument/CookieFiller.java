@@ -11,7 +11,7 @@ import java.util.Objects;
  *
  * This `Filler` is for cookie attributes extracting
  *
- * @author <a href="http://www.origin-x.cn">lang</a>
+ * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 public class CookieFiller implements Filler {
     @Override

@@ -5,7 +5,6 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.ext.unit.TestContext;
 import io.vertx.quiz.ZeroBase;
 import io.vertx.up.eon.Values;
-import org.jetbrains.annotations.NotNull;
 import org.junit.Test;
 
 import java.io.File;
@@ -24,7 +23,7 @@ public class OutTc extends ZeroBase {
             '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'};
 
     @Test
-    public void testWriteAll(@NotNull final TestContext context) throws IOException {
+    public void testWriteAll(final TestContext context) throws IOException {
         final String strInput = "1qaz2wsx" + Instant.EPOCH;
         final String strPath = "12345";
         Out.write(strPath, strInput);

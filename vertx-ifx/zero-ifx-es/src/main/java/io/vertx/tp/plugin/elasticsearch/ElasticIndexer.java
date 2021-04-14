@@ -20,7 +20,7 @@ import java.util.Arrays;
 import java.util.concurrent.ConcurrentMap;
 
 /**
- * @author <a href="http://www.origin-x.cn">lang</a>
+ * @author <a href="http://www.origin-x.cn">Lang</a>
  * Index processor for index operations here to split the code
  * logical here for future usage
  *

@@ -6,7 +6,7 @@ import io.vertx.up.commune.Envelop;
 import io.vertx.up.unity.Ux;
 
 /**
- * @author <a href="http://www.origin-x.cn">lang</a>
+ * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 public class CommonCosmo implements Cosmo {
     @Override

@@ -14,7 +14,7 @@ import io.vertx.up.unity.Ux;
 import javax.inject.Inject;
 
 /**
- * @author <a href="http://www.origin-x.cn">lang</a>
+ * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 @Queue
 public class ResourceActor {

@@ -41,9 +41,6 @@ public interface Model extends AoShared, AoConnect {
 
     RuleUnique getUnique();
 
-    /*
-     * 特殊时间格式
-     */
     ConcurrentMap<String, Class<?>> types();
 }
 

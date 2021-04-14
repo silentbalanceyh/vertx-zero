@@ -25,7 +25,7 @@ import io.vertx.up.util.Ut;
  * using Vert.x codegen, but there exist `Class<?>` type attribute, the automatic generator has
  * been ignored.
  *
- * @author <a href="http://www.origin-x.cn">lang</a>
+ * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 final class ClusterOptionsConverter {
 

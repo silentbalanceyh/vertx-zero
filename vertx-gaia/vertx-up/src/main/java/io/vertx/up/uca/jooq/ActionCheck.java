@@ -6,7 +6,7 @@ import io.vertx.core.json.JsonObject;
 import java.util.List;
 
 /**
- * @author <a href="http://www.origin-x.cn">lang</a>
+ * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 @SuppressWarnings("all")
 class ActionCheck extends AbstractAction {

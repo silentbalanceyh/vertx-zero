@@ -39,7 +39,7 @@ import java.io.Serializable;
  * 1. RPC server host and port, the port must be different from http server port, the host `0.0.0.0` means wildly used.
  * 2. `jks` and `password` defined the communication mode of SSL here, when you defined ssl mode, each client must be over the same SSL cert.
  *
- * @author <a href="http://www.origin-x.cn">lang</a>
+ * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 public class ServidorOptions implements Serializable {
 

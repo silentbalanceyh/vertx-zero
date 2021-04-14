@@ -8,7 +8,7 @@ import io.vertx.up.annotations.Queue;
 import io.vertx.up.runtime.soul.UriAeon;
 
 /**
- * @author <a href="http://www.origin-x.cn">lang</a>
+ * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 @Queue
 public class UriActor {

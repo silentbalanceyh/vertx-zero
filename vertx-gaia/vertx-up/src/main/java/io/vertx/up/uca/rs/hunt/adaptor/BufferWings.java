@@ -4,7 +4,7 @@ import io.vertx.core.http.HttpServerResponse;
 import io.vertx.up.commune.Envelop;
 
 /**
- * @author <a href="http://www.origin-x.cn">lang</a>
+ * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 public class BufferWings extends AbstractWings {
     @Override

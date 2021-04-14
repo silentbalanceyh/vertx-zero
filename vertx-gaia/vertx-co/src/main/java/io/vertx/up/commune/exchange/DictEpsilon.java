@@ -38,7 +38,7 @@ import java.io.Serializable;
  * 3. When the field names are different, it should be different concept.
  * 4. 「Limitation」When the field names are the same, it mustn't be different concept.
  *
- * @author <a href="http://www.origin-x.cn">lang</a>
+ * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 public class DictEpsilon implements Serializable, Json {
 

@@ -1,6 +1,7 @@
 package io.vertx.tp.modular.jooq;
 
 import io.vertx.tp.atom.modeling.data.DataEvent;
+import io.vertx.tp.atom.modeling.element.DataTpl;
 import io.vertx.tp.atom.refine.Ao;
 import io.vertx.tp.modular.metadata.AoSentence;
 import io.vertx.tp.modular.query.Ingest;
@@ -147,11 +148,12 @@ class JQToolkit {
                                   final Ingest ingest,
                                   final ConcurrentMap<String, String> map) {
         final Condition condition;
+        final DataTpl tpl = event.getTpl();
         if (map.isEmpty()) {
-            condition = ingest.onCondition(event.getTpl(), event.getCriteria());
+            condition = ingest.onCondition(tpl, JQPre.prepare(tpl.atom(), event.getCriteria()));
             Ao.infoSQL(LOGGER, "单表, 最终条件：{0}", condition);
         } else {
-            condition = ingest.onCondition(event.getTpl(), event.getCriteria(), map);
+            condition = ingest.onCondition(tpl, JQPre.prepare(tpl.atom(), event.getCriteria()), map);
             Ao.infoSQL(LOGGER, "多表, 最终条件：{0}", condition);
         }
         return condition;

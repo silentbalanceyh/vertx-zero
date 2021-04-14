@@ -1,6 +1,6 @@
 package io.vertx.tp.plugin.jooq.condition;
 
-import io.vertx.up.atom.query.Inquiry;
+import io.vertx.up.atom.query.engine.Qr;
 import io.vertx.up.util.Ut;
 import org.jooq.Condition;
 import org.jooq.impl.DSL;
@@ -27,12 +27,12 @@ class JooqAnder {
     private static final ConcurrentMap<String, BiFunction<String, Instant, Condition>> EQ_OPS =
             new ConcurrentHashMap<String, BiFunction<String, Instant, Condition>>() {
                 {
-                    this.put(Inquiry.Instant.DAY, (field, value) -> {
+                    this.put(Qr.Instant.DAY, (field, value) -> {
                         // Time for locale
                         final LocalDate date = Ut.toDate(value);
                         return DSL.field(field).between(date.atStartOfDay(), date.plusDays(1).atStartOfDay());
                     });
-                    this.put(Inquiry.Instant.DATE, (field, value) -> {
+                    this.put(Qr.Instant.DATE, (field, value) -> {
                         final LocalDate date = Ut.toDate(value);
                         final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
                         return DSL.field(field).eq(date.format(formatter));
@@ -45,7 +45,7 @@ class JooqAnder {
     private static final ConcurrentMap<String, ConcurrentMap<String, BiFunction<String, Instant, Condition>>> EXECUTOR =
             new ConcurrentHashMap<String, ConcurrentMap<String, BiFunction<String, Instant, Condition>>>() {
                 {
-                    this.put(Inquiry.Op.EQ, EQ_OPS);
+                    this.put(Qr.Op.EQ, EQ_OPS);
                 }
             };
 

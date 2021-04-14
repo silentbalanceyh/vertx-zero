@@ -27,7 +27,7 @@ import java.lang.annotation.*;
  *
  * In this kind of situation, you want use this infix class to process it.
  *
- * @author <a href="http://www.origin-x.cn">lang</a>
+ * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 @Target({ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)

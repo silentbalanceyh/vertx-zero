@@ -9,7 +9,7 @@ import io.vertx.up.annotations.EndPoint;
 import javax.ws.rs.*;
 
 /**
- * @author <a href="http://www.origin-x.cn">lang</a>
+ * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 @EndPoint
 @Path("/api")
@@ -34,7 +34,7 @@ public interface ResourceAgent {
     @PUT
     @Address(Addr.Authority.RESOURCE_UPDATE_CASCADE)
     JsonObject updateResourceById(@PathParam("key") String key,
-                               @BodyParam JsonObject data);
+                                  @BodyParam JsonObject data);
 
     @Path("resource/{key}")
     @DELETE

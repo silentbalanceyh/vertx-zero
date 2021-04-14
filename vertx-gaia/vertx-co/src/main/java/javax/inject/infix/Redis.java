@@ -31,7 +31,7 @@ import java.lang.annotation.*;
  * When you use zero version `< 0.5.2`, you can still use `io.vertx.redis.RedisClient` to
  * access Redis.
  *
- * @author <a href="http://www.origin-x.cn">lang</a>
+ * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 @Target({ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)

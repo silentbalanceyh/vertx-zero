@@ -15,7 +15,7 @@ import java.io.Serializable;
  *    3.1. primary: active component
  *    3.2. secondary: stand by component
  */
-public class KeSwitcher implements Serializable {
+public class KSwitcher implements Serializable {
 
     @JsonSerialize(using = ClassSerializer.class)
     @JsonDeserialize(using = ClassDeserializer.class)

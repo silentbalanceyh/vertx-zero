@@ -3,7 +3,7 @@ package io.vertx.tp.modular.metadata;
 import cn.vertxup.atom.domain.tables.pojos.MField;
 import cn.vertxup.atom.domain.tables.pojos.MKey;
 import io.vertx.core.json.JsonArray;
-import io.vertx.tp.atom.cv.em.FieldCheckResult;
+import io.vertx.tp.atom.cv.em.CheckResult;
 
 import java.util.concurrent.ConcurrentMap;
 
@@ -45,5 +45,5 @@ public interface AoSentence {
 
     JsonArray mappingList(final String key);
 
-    FieldCheckResult checkFieldType(MField field, ConcurrentMap<String, Object> columnDetail);
+    CheckResult checkFieldType(MField field, ConcurrentMap<String, Object> columnDetail);
 }

@@ -1,7 +1,7 @@
 package io.vertx.tp.plugin.shell.cv.em;
 
 /**
- * @author <a href="http://www.origin-x.cn">lang</a>
+ * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 public enum TermStatus {
     SUCCESS,    // Success capture input line

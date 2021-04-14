@@ -10,7 +10,7 @@ import java.util.function.Supplier;
 /**
  * The tool class for Shell
  *
- * @author <a href="http://www.origin-x.cn">lang</a>
+ * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 public class Sl {
     /*

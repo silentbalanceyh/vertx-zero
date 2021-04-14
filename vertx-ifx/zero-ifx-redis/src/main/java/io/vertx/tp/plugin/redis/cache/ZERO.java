@@ -1,7 +1,7 @@
 package io.vertx.tp.plugin.redis.cache;
 
 /**
- * @author <a href="http://www.origin-x.cn">lang</a>
+ * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 interface CacheMsg {
     String HIT_FAILURE = "[ Cache ] L1: The key `{0}` has not been Hit !!!.";

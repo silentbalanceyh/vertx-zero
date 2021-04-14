@@ -13,7 +13,7 @@ import org.elasticsearch.client.RestHighLevelClient;
 import java.io.IOException;
 
 /**
- * @author <a href="http://www.origin-x.cn">lang</a>
+ * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 public class EsAmbitUpdate extends AbstractEsClient implements EsAmbit {
     private transient final String index;

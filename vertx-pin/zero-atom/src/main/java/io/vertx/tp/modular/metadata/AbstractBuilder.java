@@ -3,7 +3,7 @@ package io.vertx.tp.modular.metadata;
 import cn.vertxup.atom.domain.tables.pojos.MField;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.atom.cv.em.FieldCheckResult;
+import io.vertx.tp.atom.cv.em.CheckResult;
 import io.vertx.tp.atom.cv.sql.SqlStatement;
 import io.vertx.tp.atom.modeling.Schema;
 import io.vertx.tp.ke.cv.KeField;
@@ -88,7 +88,7 @@ public abstract class AbstractBuilder implements AoBuilder, SqlStatement {
     }
 
     @Override
-    public JsonObject report(Schema schema) {
+    public JsonObject report(final Schema schema) {
         final String table = schema.getTable();
         final AoReflector reflector = this.getReflector();
         final AoSentence sentence = this.getSentence();
@@ -101,10 +101,10 @@ public abstract class AbstractBuilder implements AoBuilder, SqlStatement {
         schema.getColumnNames().forEach(column -> {
             final MField field = schema.getFieldByColumn(column);
             final ConcurrentMap<String, Object> columnDetail = reflector.getColumnDetails(column, columnDetailList);
-            final FieldCheckResult checkResult = sentence.checkFieldType(field, columnDetail);
+            final CheckResult checkResult = sentence.checkFieldType(field, columnDetail);
             final JsonObject fieldResult = new JsonObject()
                     // 对比结果为 SKIP 时，代表一致
-                    .put("same", checkResult == FieldCheckResult.SKIP)
+                    .put("same", checkResult == CheckResult.SKIP)
                     .put("name", field.getName()).put("columnName", field.getColumnName())
                     .put("type", sentence.columnType(field).toUpperCase()).put("oldType", columnDetail.get(reflector.getDataTypeWord()).toString().toUpperCase())
                     .put("length", null != field.getLength() ? field.getLength() : 0).put("oldLength", columnDetail.get(reflector.getLengthWord()).toString().equalsIgnoreCase("NULL") ? "0" : columnDetail.get(reflector.getLengthWord()).toString());

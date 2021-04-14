@@ -6,7 +6,7 @@ import io.vertx.up.eon.em.ChangeFlag;
 import java.util.concurrent.ConcurrentMap;
 
 /**
- * @author <a href="http://www.origin-x.cn">lang</a>
+ * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 class L1Channel {
 
