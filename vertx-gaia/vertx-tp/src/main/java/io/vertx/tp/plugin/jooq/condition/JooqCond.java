@@ -90,9 +90,9 @@ public class JooqCond {
          */
         if (!Ut.isNil(filters)) {
             LOGGER.debug("( JqTool ) Mode selected {0}, filters raw = {1}",
-                    criteria.getMode(), filters);
+                    criteria.mode(), filters);
         }
-        if (Qr.Mode.LINEAR == criteria.getMode()) {
+        if (Qr.Mode.LINEAR == criteria.mode()) {
             JsonObject inputFilters = filters;
             if (null == operator) {
                 /*

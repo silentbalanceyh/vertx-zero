@@ -8,7 +8,7 @@ import io.vertx.core.json.JsonObject;
 public interface QrDo {
 
     /**
-     * Add new condition to LINEAR component.
+     * Save new condition to LINEAR component.
      *
      * The parameters are following format:
      *
@@ -20,7 +20,15 @@ public interface QrDo {
      *
      * @return {@link QrDo}
      */
-    QrDo add(String fieldExpr, Object value);
+    QrDo save(String fieldExpr, Object value);
+
+    /**
+     * @param fieldExpr {@link java.lang.String} Removed fieldExpr
+     * @param fully     {@link java.lang.Boolean} Removed fully or ?
+     *
+     * @return {@link QrDo}
+     */
+    QrDo remove(String fieldExpr, boolean fully);
 
     /**
      * Serialized current instance to Json
@@ -30,9 +38,27 @@ public interface QrDo {
     JsonObject toJson();
 
     /**
-     * Check current QTree to see whether it's valid.
+     * Create new QrDo reference.
      *
-     * @return {@link java.lang.Boolean};
+     * @param data {@link io.vertx.core.json.JsonObject} Input json object.
+     *
+     * @return {@link QrDo}
      */
-    boolean valid();
+    static QrDo create(final JsonObject data) {
+        return new QrAnalyzer(data);
+    }
+
+    /**
+     * Check whether json object is complex
+     *
+     * 1. When any one value is `JsonObject`, it's true.
+     * 2. otherwise the result is false.
+     *
+     * @param source {@link io.vertx.core.json.JsonObject} input json
+     *
+     * @return {@link java.lang.Boolean}
+     */
+    static boolean isComplex(final JsonObject source) {
+        return QrAnalyzer.isComplex(source);
+    }
 }
