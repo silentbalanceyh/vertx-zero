@@ -3,11 +3,13 @@ package io.vertx.up.atom.query;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.atom.query.engine.Qr;
 import io.vertx.up.atom.query.engine.QrDo;
+import io.vertx.up.atom.query.engine.QrItem;
 import io.vertx.up.exception.web._500QueryMetaNullException;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 
 import java.io.Serializable;
+import java.util.function.BiConsumer;
 
 /**
  * ## 「Pojo」Criteria Object
@@ -106,10 +108,19 @@ public class Criteria implements Serializable {
     }
 
     /**
+     * @param field    {@link java.lang.String} The field name
+     * @param consumer {@link java.util.function.BiConsumer} The qr item consumed
+     */
+    public void match(final String field, final BiConsumer<QrItem, JsonObject> consumer) {
+        this.analyzer.match(field, consumer);
+    }
+
+    /**
      * @param fieldExpr {@link java.lang.String} Removed fieldExpr
      *
      * @return {@link Criteria}
      */
+    @SuppressWarnings("all")
     public Criteria removeBy(final String fieldExpr) {
         this.analyzer.remove(fieldExpr, true);
         return this;

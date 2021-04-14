@@ -5,9 +5,7 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.tp.atom.modeling.reference.RDao;
 import io.vertx.tp.atom.modeling.reference.RQuote;
 import io.vertx.tp.atom.modeling.reference.RRule;
-import io.vertx.tp.modular.dao.AoDao;
 import io.vertx.up.commune.Record;
-import io.vertx.up.util.Ut;
 
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
@@ -56,21 +54,8 @@ class RaySource {
              * RDao
              */
             final RDao dao = this.quote.dao(field);
-            if (dao.isStatic()) {
-                /*
-                 * Static
-                 */
-                final Function<JsonObject, JsonArray> executor = dao.executor();
-                final JsonArray records = executor.apply(condition);
-                data.put(field, records);
-            } else {
-                /*
-                 * Dynamic
-                 */
-                final AoDao daoD = dao.daoD();
-                final Record[] records = daoD.fetch(condition);
-                data.put(field, Ut.toJArray(records));
-            }
+            final JsonArray records = dao.fetchBy(condition);
+            data.put(field, records);
         });
         return data;
     }

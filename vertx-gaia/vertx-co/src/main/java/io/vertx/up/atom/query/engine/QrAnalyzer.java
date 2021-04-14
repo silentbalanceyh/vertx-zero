@@ -6,7 +6,6 @@ import io.vertx.up.eon.Strings;
 import io.vertx.up.eon.Values;
 import io.vertx.up.util.Ut;
 
-import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.BiConsumer;
@@ -153,6 +152,11 @@ class QrAnalyzer implements QrDo {
         return this;
     }
 
+    @Override
+    public void match(final String field, final BiConsumer<QrItem, JsonObject> consumer) {
+        this.itExist(this.raw, (fieldExpr, value) -> fieldExpr.startsWith(field), consumer);
+    }
+
     /**
      * 1. REPLACE
      *
@@ -212,15 +216,7 @@ class QrAnalyzer implements QrDo {
             }
             raw.put(newItem.field() + ",i", in);
         } else if (Qr.Op.IN.equals(newItem.op())) {
-            // The operator will not be changed.
-            final JsonArray newSet = (JsonArray) newItem.value();
-            final JsonArray oldSet = (JsonArray) oldItem.value();
-            final List result = isAnd ?
-                    // Two collection and
-                    Ut.intersect(newSet.getList(), oldSet.getList()) :
-                    // Two collection union
-                    Ut.union(newSet.getList(), oldSet.getList());
-            raw.put(newItem.qrKey(), new JsonArray(result));
+            raw.put(newItem.qrKey(), QrDo.combine(newItem.value(), oldItem.value(), isAnd));
         }
     }
 

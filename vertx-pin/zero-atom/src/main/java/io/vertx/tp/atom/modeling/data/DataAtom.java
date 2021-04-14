@@ -3,6 +3,7 @@ package io.vertx.tp.atom.modeling.data;
 import io.vertx.tp.atom.cv.AoCache;
 import io.vertx.tp.atom.cv.AoMsg;
 import io.vertx.tp.atom.modeling.Model;
+import io.vertx.tp.atom.modeling.reference.RQuery;
 import io.vertx.tp.atom.modeling.reference.RQuote;
 import io.vertx.tp.atom.modeling.reference.RResult;
 import io.vertx.tp.atom.refine.Ao;
@@ -151,6 +152,10 @@ public class DataAtom {
 
     public ConcurrentMap<String, RResult> refOutput() {
         return this.reference.refOutput();
+    }
+
+    public ConcurrentMap<String, RQuery> refQuery() {
+        return this.reference.refQr();
     }
     // ------------ 标识规则 ----------
 

@@ -12,10 +12,13 @@ import io.vertx.tp.ke.refine.Ke;
 import io.vertx.tp.modular.dao.AoDao;
 import io.vertx.tp.optic.DS;
 import io.vertx.tp.plugin.database.DataPool;
+import io.vertx.up.commune.Record;
 import io.vertx.up.commune.config.Database;
+import io.vertx.up.eon.Strings;
 import io.vertx.up.uca.jooq.UxJoin;
 import io.vertx.up.uca.jooq.UxJooq;
 import io.vertx.up.unity.Ux;
+import io.vertx.up.util.Ut;
 
 import java.util.Objects;
 import java.util.function.Function;
@@ -92,9 +95,28 @@ public class RDao {
         return Objects.hash(this.source);
     }
 
-    public Function<JsonObject, JsonArray> executor() {
+    public JsonArray fetchBy(final JsonObject condition) {
+        if (this.isStatic()) {
+            /*
+             * Static
+             */
+            final Function<JsonObject, JsonArray> executor = this.executor();
+            return executor.apply(condition);
+        } else {
+            /*
+             * Dynamic
+             */
+            final AoDao daoD = this.daoD();
+            final Record[] records = daoD.fetch(condition);
+            return Ut.toJArray(records);
+        }
+    }
+
+    private Function<JsonObject, JsonArray> executor() {
         return condition -> {
-            if (1 == condition.size()) {
+            final JsonObject normalized = condition.copy();
+            normalized.remove(Strings.EMPTY);
+            if (Ut.isNil(normalized)) {
                 return new JsonArray();
             } else {
                 final KPoint source = this.kJoin.getSource();
@@ -114,7 +136,7 @@ public class RDao {
         };
     }
 
-    public AoDao daoD() {
+    private AoDao daoD() {
         return Ke.channelSync(DS.class, () -> null, ds -> {
             /* 连接池绑定数据库 */
             final DataPool pool = ds.switchDs(this.atom.sigma());

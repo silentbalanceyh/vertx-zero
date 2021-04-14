@@ -3,9 +3,12 @@ package io.vertx.tp.atom.modeling.data;
 import cn.vertxup.atom.domain.tables.pojos.MAttribute;
 import io.vertx.tp.atom.cv.em.AttributeType;
 import io.vertx.tp.atom.modeling.Model;
+import io.vertx.tp.atom.modeling.config.AoSource;
+import io.vertx.tp.atom.modeling.reference.RQuery;
 import io.vertx.tp.atom.modeling.reference.RQuote;
 import io.vertx.tp.atom.modeling.reference.RResult;
 import io.vertx.tp.atom.modeling.reference.RRule;
+import io.vertx.up.eon.em.DataFormat;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.util.Ut;
 
@@ -96,6 +99,12 @@ class MetaReference {
     private final transient ConcurrentMap<String, Set<String>> diffFieldMap
             = new ConcurrentHashMap<>();
 
+    /*
+     * Query Attribute
+     */
+    private final transient ConcurrentMap<String, RQuery> queries
+            = new ConcurrentHashMap<>();
+
     /**
      * 「Fluent」Build reference metadata information based on `Model`.
      *
@@ -122,7 +131,8 @@ class MetaReference {
                      *  Based on DataAtom reference to create
                      */
                     final String source = attribute.getSource();
-                    Fn.pool(this.references, source, () -> RQuote.create(appName, source)).add(attribute);
+                    final AoSource service = new AoSource(attribute);
+                    final RQuote quote = Fn.pool(this.references, source, () -> RQuote.create(appName, source)).add(attribute, service);
 
 
                     /*
@@ -131,7 +141,20 @@ class MetaReference {
                      *  Based on DataAtom reference to create
                      */
                     final String field = attribute.getName();
-                    Fn.pool(this.result, field, () -> new RResult(attribute));
+                    final RResult result = Fn.pool(this.result, field, () -> new RResult(attribute, service));
+
+                    /*
+                     * Qr Engine, stored quote reference map.
+                     *
+                     * field1 = query1,
+                     * field2 = query2
+                     */
+                    if (DataFormat.Elementary == service.format()) {
+                        Fn.pool(this.queries, field,
+                                () -> new RQuery(field, attribute.getSourceField())
+                                        .bind(quote.dao(field))
+                                        .bind(result.joined()));
+                    }
                 });
         /*
          * DataQuote之后处理
@@ -159,6 +182,10 @@ class MetaReference {
 
     ConcurrentMap<String, RQuote> refInput() {
         return this.references;
+    }
+
+    ConcurrentMap<String, RQuery> refQr() {
+        return this.queries;
     }
 
     ConcurrentMap<String, RResult> refOutput() {

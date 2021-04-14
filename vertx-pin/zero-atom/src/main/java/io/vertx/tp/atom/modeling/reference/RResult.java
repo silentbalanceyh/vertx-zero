@@ -93,8 +93,7 @@ public class RResult implements Serializable {
 
     private final transient String sourceField;
 
-    public RResult(final MAttribute attribute) {
-        final AoSource source = new AoSource(attribute);
+    public RResult(final MAttribute attribute, final AoSource source) {
         this.type = source.type();
         this.format = source.format();
         this.sourceField = attribute.getSourceField();

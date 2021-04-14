@@ -124,16 +124,16 @@ public class RQuote implements Serializable {
      * > Here are specification that only one source must be unique dao class instead.
      *
      * @param attribute {@link cn.vertxup.atom.domain.tables.pojos.MAttribute} Input attribute object
+     * @param service   {@link AoSource}
      *
      * @return {@link RQuote}
      */
     @Fluent
-    public RQuote add(final MAttribute attribute) {
+    public RQuote add(final MAttribute attribute, final AoSource service) {
         /*
          * JsonArray / JsonObject
          */
         final String name = attribute.getName();
-        final AoSource service = new AoSource(attribute);
         this.sourceConfig.put(name, service);
         this.typeMap.put(name, service.type());
         /*
@@ -168,6 +168,10 @@ public class RQuote implements Serializable {
      */
     public ConcurrentMap<String, RRule> rules() {
         return this.sourceRule;
+    }
+
+    public RRule rule(final String field) {
+        return this.sourceRule.getOrDefault(field, null);
     }
 
     /**

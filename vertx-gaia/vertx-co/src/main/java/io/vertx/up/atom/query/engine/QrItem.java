@@ -1,6 +1,6 @@
 package io.vertx.up.atom.query.engine;
 
-import io.vertx.up.atom.Kv;
+import io.vertx.core.json.JsonArray;
 import io.vertx.up.eon.Strings;
 import io.vertx.up.exception.web._400OpUnsupportException;
 import io.vertx.up.exception.web._500QueryMetaNullException;
@@ -32,8 +32,6 @@ public class QrItem implements Serializable {
      * The value of current kv.
      */
     private transient Object value;
-
-    private transient Kv<String, Kv<String, Object>> item;
 
     public QrItem(final String fieldExpr) {
         /* First checking for `fieldExpr` literal */
@@ -71,17 +69,11 @@ public class QrItem implements Serializable {
      */
     public QrItem value(final Object value) {
         this.value = value;
-        final Kv<String, Object> condition = Kv.create(this.op, value);
-        this.item = Kv.create(this.field, condition);
         return this;
     }
 
     public Object value() {
         return this.value;
-    }
-
-    public Kv<String, Kv<String, Object>> item() {
-        return this.item;
     }
 
     public boolean valueEq(final QrItem target) {
@@ -91,5 +83,12 @@ public class QrItem implements Serializable {
             // All null
             return value == valueTarget;
         } else return value.equals(valueTarget);
+    }
+
+    public QrItem add(final JsonArray value, final boolean isAnd) {
+        if (this.value instanceof JsonArray) {
+            this.value = QrDo.combine(value, this.value, isAnd);
+        }
+        return this;
     }
 }
