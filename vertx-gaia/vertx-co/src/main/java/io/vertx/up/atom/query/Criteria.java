@@ -79,8 +79,19 @@ public class Criteria implements Serializable {
      *
      * @return {@link Criteria}
      */
-    public Criteria add(final String fieldExpr, final Object value) {
+    public Criteria save(final String fieldExpr, final Object value) {
         this.analyzer.save(fieldExpr, value);
+        return this;
+    }
+
+    /**
+     * @param fieldExpr {@link java.lang.String}
+     * @param value     {@link java.lang.Object}
+     *
+     * @return {@link Criteria}
+     */
+    public Criteria update(final String fieldExpr, final Object value) {
+        this.analyzer.update(fieldExpr, value);
         return this;
     }
 

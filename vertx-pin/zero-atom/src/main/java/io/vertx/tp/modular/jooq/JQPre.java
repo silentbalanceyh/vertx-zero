@@ -1,9 +1,7 @@
 package io.vertx.tp.modular.jooq;
 
-import io.vertx.core.json.JsonObject;
 import io.vertx.tp.atom.modeling.data.DataAtom;
 import io.vertx.up.atom.query.Criteria;
-import io.vertx.up.util.Ut;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
@@ -23,7 +21,7 @@ class JQPre {
          * 1. Attribute must be Elementary
          * 2. Execute query processing
          */
-        final JsonObject input = Ut.sureJObject(criteria.toJson());
+        
 
         return criteria;
     }

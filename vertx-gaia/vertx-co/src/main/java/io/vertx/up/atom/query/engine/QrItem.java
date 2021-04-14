@@ -8,6 +8,7 @@ import io.vertx.up.fn.Fn;
 import io.vertx.up.util.Ut;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 /**
  * ## Field
@@ -81,5 +82,14 @@ public class QrItem implements Serializable {
 
     public Kv<String, Kv<String, Object>> item() {
         return this.item;
+    }
+
+    public boolean valueEq(final QrItem target) {
+        final Object value = this.value;
+        final Object valueTarget = target.value;
+        if (Objects.isNull(value) || Objects.isNull(valueTarget)) {
+            // All null
+            return value == valueTarget;
+        } else return value.equals(valueTarget);
     }
 }

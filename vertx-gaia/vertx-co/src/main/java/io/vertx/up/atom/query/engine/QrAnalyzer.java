@@ -1,11 +1,14 @@
 package io.vertx.up.atom.query.engine;
 
+import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.eon.Strings;
 import io.vertx.up.eon.Values;
 import io.vertx.up.util.Ut;
 
+import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.BiConsumer;
 import java.util.function.BiPredicate;
 
@@ -92,20 +95,45 @@ class QrAnalyzer implements QrDo {
         this.raw.mergeIn(input, true);
     }
 
+    /**
+     * @param fieldExpr {@link java.lang.String}
+     * @param value     {@link java.lang.Object}
+     *
+     * @return {@link QrDo}
+     */
     @Override
     public QrDo save(final String fieldExpr, final Object value) {
         final QrItem item = new QrItem(fieldExpr).value(value);
-        if (Ut.isNil(this.raw)) {
+        /*
+         * Boolean for internal execution
+         */
+        final AtomicBoolean existing = new AtomicBoolean();
+        existing.set(Boolean.FALSE);
+        this.itExist(this.raw, item, (qr, ref) -> {
             /*
-             * Empty add new key directly here.
+             * Flat processing.
              */
-            this.raw.put(item.qrKey(), item.value());
-        } else {
-
+            existing.set(Boolean.TRUE);
+            /*
+             * Save Operation
+             */
+            this.saveWhere(ref, item, qr);
+        });
+        if (!existing.get()) {
+            /*
+             * Add Operation.
+             */
+            this.addWhere(this.raw, item);
         }
         return this;
     }
 
+    /**
+     * @param fieldExpr {@link java.lang.String} Removed fieldExpr
+     * @param fully     {@link java.lang.Boolean} Removed fully or ?
+     *
+     * @return {@link QrDo}
+     */
     @Override
     public QrDo remove(final String fieldExpr, final boolean fully) {
         /*
@@ -125,31 +153,130 @@ class QrAnalyzer implements QrDo {
         return this;
     }
 
+    /**
+     * 1. REPLACE
+     *
+     * @param fieldExpr {@link java.lang.String}
+     * @param newValue  {@link java.lang.Object}
+     *
+     * @return {@link QrDo}
+     */
+    @Override
+    public QrDo update(final String fieldExpr, final Object newValue) {
+        /*
+         * Existing the QrItem
+         */
+        final QrItem item = new QrItem(fieldExpr).value(newValue);
+        this.itExist(this.raw, item, (qr, ref) -> ref.put(qr.qrKey(), item.value()));
+        return this;
+    }
+
     @Override
     public JsonObject toJson() {
         return this.raw;
     }
 
     /**
-     * 1. REPLACE
+     * Combine two `QrItem` based on different operator`, current version
      *
-     * @param source {@link io.vertx.core.json.JsonObject} The criteria source
-     * @param item   {@link QrItem} The item that will be added / saved
+     * 1. = combine
+     * 2. in combine
+     *
+     * Other operator could not be support
+     *
+     * @param raw     {@link io.vertx.core.json.JsonObject} The input json object
+     * @param newItem {@link QrItem} the new added item to current object.
+     * @param oldItem {@link QrItem} the original added item to current object.
      */
-    static void update(final JsonObject source, final QrItem item) {
+    @SuppressWarnings("all")
+    private void saveWhere(final JsonObject raw, final QrItem newItem, final QrItem oldItem) {
+        if (newItem.valueEq(oldItem)) {
+            /* value equal, no change detect, skip */
+            return;
+        }
+        /*
+         * Here the qrKey is the same between newItem and oldItem
+         */
+        final Boolean isAnd = raw.getBoolean(Strings.EMPTY, Boolean.FALSE);
+        if (Qr.Op.EQ.equals(newItem.op())) {        // =
+            // field,= or field
+            raw.remove(newItem.qrKey());
+            raw.remove(newItem.field());
 
+            final JsonArray in = new JsonArray();
+            // A = x OR A = y -> A in [x,y]
+            // A = x AND A = y -> A in []
+            if (!isAnd) {
+                in.add(newItem.value());
+                in.add(oldItem.value());
+            }
+            raw.put(newItem.field() + ",i", in);
+        } else if (Qr.Op.IN.equals(newItem.op())) {
+            // The operator will not be changed.
+            final JsonArray newSet = (JsonArray) newItem.value();
+            final JsonArray oldSet = (JsonArray) oldItem.value();
+            final List result = isAnd ?
+                    // Two collection and
+                    Ut.intersect(newSet.getList(), oldSet.getList()) :
+                    // Two collection union
+                    Ut.union(newSet.getList(), oldSet.getList());
+            raw.put(newItem.qrKey(), new JsonArray(result));
+        }
     }
 
-    /**
-     * 1. DELETE original condition
-     * 2. APPEND current condition
-     *
-     * @param source {@link io.vertx.core.json.JsonObject} The criteria source
-     * @param from   {@link QrItem} The item that will be removed.
-     * @param to     {@link QrItem} The item that will be append.
-     */
-    static void transfer(final JsonObject source, final QrItem from, final QrItem to) {
 
+    /**
+     * Add new `QrItem` to current json criteria object.
+     *
+     * @param raw  {@link io.vertx.core.json.JsonObject} The input json object
+     * @param item {@link QrItem} the new added item to current object.
+     */
+    private void addWhere(final JsonObject raw, final QrItem item) {
+        if (Ut.isNil(raw)) {
+            /*
+             * Empty add new key directly here, because there is no condition,
+             * in this kind of situation, the system will add `qrKey = value` to current
+             * json object as the unique condition.
+             */
+            raw.put(item.qrKey(), item.value());
+        } else {
+            if (Values.ONE == raw.size()) {
+                /*
+                 * If raw size = 1, add the condition to let the size to be 3.
+                 * Here the connector will be `AND` auto.
+                 */
+                raw.put(Strings.EMPTY, Boolean.TRUE);
+                raw.put(item.qrKey(), item.value());
+            } else {
+                /*
+                 * The raw size > 1, check connector
+                 * 1. If And, add directly.
+                 * 2. If Or, Convert the whole or condition to get the new one.
+                 */
+                final Boolean isAnd = raw.getBoolean(Strings.EMPTY, Boolean.FALSE);
+                if (isAnd) {
+                    raw.put(item.qrKey(), item.value());
+                } else {
+                    /*
+                     * Or connector
+                     */
+                    final JsonObject replaced = new JsonObject();
+                    replaced.put(Strings.EMPTY, Boolean.TRUE);
+                    replaced.put(item.qrKey(), item.value());
+                    replaced.put("$0", raw.copy());
+                    /*
+                     * Current raw will be replaced by new object.
+                     */
+                    raw.clear();
+                    raw.mergeIn(replaced, true);
+                }
+            }
+        }
+    }
+
+    private void itExist(final JsonObject source, final QrItem item,
+                         final BiConsumer<QrItem, JsonObject> consumer) {
+        this.itExist(source, (field, value) -> field.equals(item.qrKey()), consumer);
     }
 
     private void itExist(final JsonObject source,

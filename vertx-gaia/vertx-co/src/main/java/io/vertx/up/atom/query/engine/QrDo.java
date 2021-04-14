@@ -31,6 +31,14 @@ public interface QrDo {
     QrDo remove(String fieldExpr, boolean fully);
 
     /**
+     * @param fieldExpr {@link java.lang.String}
+     * @param value     {@link java.lang.Object}
+     *
+     * @return {@link QrDo}
+     */
+    QrDo update(String fieldExpr, Object value);
+
+    /**
      * Serialized current instance to Json
      *
      * @return {@link JsonObject}

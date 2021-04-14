@@ -29,7 +29,7 @@ public class JobService implements JobStub {
     @Override
     public Future<JsonObject> searchJobs(final String sigma, final JsonObject body, final boolean grouped) {
         final Qr qr = Qr.create(body);
-        qr.getCriteria().add("sigma", sigma);
+        qr.getCriteria().save("sigma", sigma);
         final JsonObject condition = qr.toJson();
         LOGGER.info("Job condition: {0}", condition);
         return Ux.Jooq.on(IJobDao.class)

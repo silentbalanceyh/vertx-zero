@@ -1,5 +1,6 @@
 package io.vertx.up.atom.query;
 
+import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.quiz.ZeroBase;
 import org.junit.Test;
@@ -32,6 +33,24 @@ public class QrTc extends ZeroBase {
         // Removed ( Tree )
         criteria = this.criteria("cond-complex.json");
         criteria.removeBy("field1,=");
+        System.out.println(criteria.toJson().encodePrettily());
+    }
+
+    @Test
+    public void testComplex() {
+        // Simple Add
+        Criteria criteria = this.criteria("cond-add.json");
+        criteria.save("field2,i", new JsonArray().add("C"));
+        System.out.println(criteria.toJson().encodePrettily());
+
+        // Update ( Replace )
+        criteria.update("field2,i", new JsonArray().add("D"));
+        System.out.println(criteria.toJson().encodePrettily());
+
+        criteria = Criteria.create(new JsonObject()).save("sigma", "xxx");
+        System.out.println(criteria.toJson().encodePrettily());
+
+        criteria.save("sigma2", "ext");
         System.out.println(criteria.toJson().encodePrettily());
     }
 }

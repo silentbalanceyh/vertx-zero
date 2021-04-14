@@ -72,7 +72,7 @@ class IrQr implements Qr {
         if (null == this.criteria) {
             this.criteria = Criteria.create(new JsonObject());
         }
-        this.criteria.add(field, value);
+        this.criteria.save(field, value);
     }
 
     @Override
