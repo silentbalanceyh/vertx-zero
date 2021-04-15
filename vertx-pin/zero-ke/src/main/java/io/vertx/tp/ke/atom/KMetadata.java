@@ -1,7 +1,7 @@
 package io.vertx.tp.ke.atom;
 
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.ke.cv.em.KeSource;
+import io.vertx.tp.ke.cv.em.JSource;
 import io.vertx.up.log.Annal;
 import io.vertx.up.util.Ut;
 
@@ -14,15 +14,15 @@ import java.util.function.Function;
  * 1) __type__
  * 2) __content__
  */
-public class KeMetadata implements Serializable {
-    private static final Annal LOGGER = Annal.get(KeMetadata.class);
+public class KMetadata implements Serializable {
+    private static final Annal LOGGER = Annal.get(KMetadata.class);
 
     private static final String KEY_TYPE = "__type__";
     private static final String KEY_CONTENT = "__content__";
 
     private final transient JsonObject content = new JsonObject();
 
-    public KeMetadata(final JsonObject input) {
+    public KMetadata(final JsonObject input) {
         /*
          * Whether input contains `__type__`
          */
@@ -30,8 +30,8 @@ public class KeMetadata implements Serializable {
             /*
              * Source parsed here.
              */
-            final KeSource source =
-                    Ut.toEnum(KeSource.class, input.getString(KEY_TYPE));
+            final JSource source =
+                    Ut.toEnum(JSource.class, input.getString(KEY_TYPE));
             final JsonObject content = input.getJsonObject(KEY_CONTENT);
             /*
              * Parser applying
@@ -53,8 +53,8 @@ public class KeMetadata implements Serializable {
         }
     }
 
-    private Function<JsonObject, JsonObject> getParser(final KeSource source) {
-        if (KeSource.FILE == source) {
+    private Function<JsonObject, JsonObject> getParser(final JSource source) {
+        if (JSource.FILE == source) {
             return this::fromFile;
         } else {
             return null;

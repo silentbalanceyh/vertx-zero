@@ -10,7 +10,7 @@ import io.vertx.up.exception.WebException;
  * * Code: -40068
  * * Status: 411
  *
- * @author <a href="http://www.origin-x.cn">lang</a>
+ * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 public class _411ContentLengthException extends WebException {
 

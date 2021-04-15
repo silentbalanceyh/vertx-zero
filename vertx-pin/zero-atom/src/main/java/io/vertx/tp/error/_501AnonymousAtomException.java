@@ -4,7 +4,7 @@ import io.vertx.core.http.HttpStatusCode;
 import io.vertx.up.exception.WebException;
 
 /**
- * @author <a href="http://www.origin-x.cn">lang</a>
+ * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 public class _501AnonymousAtomException extends WebException {
 

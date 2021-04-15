@@ -20,7 +20,7 @@ import io.vertx.tp.plugin.excel.atom.ExTable;
 import io.vertx.up.annotations.Address;
 import io.vertx.up.annotations.Plugin;
 import io.vertx.up.annotations.Queue;
-import io.vertx.up.atom.query.Inquiry;
+import io.vertx.up.atom.query.engine.Qr;
 import io.vertx.up.commune.Envelop;
 import io.vertx.up.commune.exchange.DictFabric;
 import io.vertx.up.fn.Fn;
@@ -235,8 +235,8 @@ public class FileActor {
                     /* Parameters Extraction */
                     final JsonObject body = new JsonObject();
                     final JsonObject criteria = Ux.getJson1(request);
-                    body.put(Inquiry.KEY_CRITERIA, criteria);
-                    body.put(Inquiry.KEY_PROJECTION, projection);
+                    body.put(Qr.KEY_CRITERIA, criteria);
+                    body.put(Qr.KEY_PROJECTION, projection);
                     /* Calculation for projection here */
                     return Ux.future(body);
                 })

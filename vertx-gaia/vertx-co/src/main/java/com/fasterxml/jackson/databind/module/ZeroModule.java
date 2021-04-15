@@ -56,7 +56,7 @@ import java.util.Iterator;
  *
  * Based on above code segments, you can registry new module instead of attributes settings for jackson serialization.
  *
- * @author <a href="http://www.origin-x.cn">lang</a>
+ * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 public class ZeroModule extends SimpleModule {
     private static final long serialVersionUID = 1L;

@@ -16,7 +16,7 @@ package io.vertx.core.http;
  * 4. Conditional query / searching.
  * 5. Web Security and plugin architecture for application.
  *
- * @author <a href="http://www.origin-x.cn">lang</a>
+ * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 public enum HttpStatusCode {
     // ~ 1xx =================================================

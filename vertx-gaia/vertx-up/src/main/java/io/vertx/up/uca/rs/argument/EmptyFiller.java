@@ -11,7 +11,7 @@ import io.vertx.up.uca.rs.Filler;
  * In current Filler, it do nothing because the body extracting will go through
  * `Resolver` for different MIME here.
  *
- * @author <a href="http://www.origin-x.cn">lang</a>
+ * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 public class EmptyFiller implements Filler {
     @Override

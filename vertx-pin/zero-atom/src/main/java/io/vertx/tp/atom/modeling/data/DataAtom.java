@@ -3,8 +3,9 @@ package io.vertx.tp.atom.modeling.data;
 import io.vertx.tp.atom.cv.AoCache;
 import io.vertx.tp.atom.cv.AoMsg;
 import io.vertx.tp.atom.modeling.Model;
-import io.vertx.tp.atom.modeling.reference.DataQRule;
-import io.vertx.tp.atom.modeling.reference.DataQuote;
+import io.vertx.tp.atom.modeling.reference.RQuery;
+import io.vertx.tp.atom.modeling.reference.RQuote;
+import io.vertx.tp.atom.modeling.reference.RResult;
 import io.vertx.tp.atom.refine.Ao;
 import io.vertx.tp.modular.phantom.AoPerformer;
 import io.vertx.up.commune.element.CParam;
@@ -15,7 +16,6 @@ import io.vertx.up.fn.Fn;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
 /**
@@ -53,7 +53,7 @@ public class DataAtom {
         this.metadata = Fn.pool(Pool.META_INFO, modelCode, () -> new MetaInfo(model));
         this.ruler = Fn.pool(Pool.META_RULE, modelCode, () -> new MetaRule(model));
         this.marker = Fn.pool(Pool.META_MARKER, modelCode, () -> new MetaMarker(model));
-        this.reference = Fn.pool(Pool.META_REFERENCE, modelCode, () -> new MetaReference(model));
+        this.reference = Fn.pool(Pool.META_REFERENCE, modelCode, () -> new MetaReference(model, appName));
 
         /* LOG: 日志处理 */
         Ao.infoAtom(this.getClass(), AoMsg.DATA_ATOM, unique, model.toJson().encode());
@@ -136,17 +136,26 @@ public class DataAtom {
 
     // ------------ 比对专用方法 ----------
 
-    /** 返回 CParam 对象 */
-    public CParam diff() {
-        return this.metadata.diff().diff(this.reference.ruleDiff());
-    }
-
     public CParam diff(final Set<String> ignoreSet) {
-        return this.metadata.diff(ignoreSet).diff(this.reference.ruleDiff());
+        return this.metadata.diff(ignoreSet).diff(this.reference.fieldDiff());
     }
 
     public Set<String> diffSet(final String field) {
-        return this.reference.ruleDiff().getOrDefault(field, new HashSet<>());
+        return this.reference.fieldDiff().getOrDefault(field, new HashSet<>());
+    }
+
+    // ------------ 引用专用方法 ----------
+
+    public ConcurrentMap<String, RQuote> refInput() {
+        return this.reference.refInput();
+    }
+
+    public ConcurrentMap<String, RResult> refOutput() {
+        return this.reference.refOutput();
+    }
+
+    public ConcurrentMap<String, RQuery> refQuery() {
+        return this.reference.refQr();
     }
     // ------------ 标识规则 ----------
 
@@ -169,23 +178,6 @@ public class DataAtom {
     public DataAtom ruleConnect(final RuleUnique channelRule) {
         this.ruler.connect(channelRule);
         return this;
-    }
-
-    // ------------ 引用部分 ------------
-    public ConcurrentMap<DataAtom, DataQuote> ref() {
-        final ConcurrentMap<DataAtom, DataQuote> switched = new ConcurrentHashMap<>();
-        this.reference.references().forEach((source, quote) -> {
-            /*
-             * DataAtom 交换
-             */
-            final DataAtom atomRef = DataAtom.get(this.appName, source);
-            switched.put(atomRef, quote);
-        });
-        return switched;
-    }
-
-    public ConcurrentMap<String, DataQRule> refRules() {
-        return this.reference.rules();
     }
 
     // ------------ 属性检查的特殊功能，收集相关属性 ----------

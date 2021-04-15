@@ -4,13 +4,13 @@ import io.vertx.core.CompositeFuture;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.atom.query.Inquiry;
+import io.vertx.up.atom.query.engine.Qr;
 import io.vertx.up.eon.Values;
 import io.vertx.up.uca.jooq.util.JqFlow;
 import io.vertx.up.unity.Ux;
 
 /**
- * @author <a href="http://www.origin-x.cn">lang</a>
+ * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 class ActionSearch extends AbstractAction {
     private static final String FIELD_LIST = "list";
@@ -49,10 +49,10 @@ class ActionSearch extends AbstractAction {
         final JsonObject response = new JsonObject();
         // Data Processing
 
-        final Inquiry inquiry = workflow.inputQr(query);
-        final JsonArray list = workflow.output(this.qr.search(inquiry));
+        final Qr qr = workflow.inputQr(query);
+        final JsonArray list = workflow.output(this.qr.search(qr));
         // Count Processing
-        final Long count = this.counter.count(inquiry.getCriteria().toJson());
+        final Long count = this.counter.count(qr.getCriteria().toJson());
         response.put(FIELD_COUNT, count).put(FIELD_LIST, list);
         return response;
     }

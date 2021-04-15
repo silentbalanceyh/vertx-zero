@@ -10,6 +10,7 @@ import io.vertx.tp.atom.cv.em.AttributeType;
 import io.vertx.tp.atom.cv.em.ModelType;
 import io.vertx.tp.atom.modeling.Model;
 import io.vertx.tp.atom.modeling.Schema;
+import io.vertx.tp.atom.modeling.config.AoSource;
 import io.vertx.tp.atom.modeling.element.DataKey;
 import io.vertx.tp.ke.cv.KeField;
 import io.vertx.tp.modular.apply.AoDefault;
@@ -109,11 +110,8 @@ public class JsonModel implements Model {
                      *
                      * 这种类型禁止使用在写操作中：添加、删除、修改
                      */
-                    if (attribute.getIsArray()) {
-                        this.attributeTypes.put(attribute.getName(), JsonArray.class);
-                    } else {
-                        this.attributeTypes.put(attribute.getName(), JsonObject.class);
-                    }
+                    final AoSource service = new AoSource(attribute);
+                    this.attributeTypes.put(attribute.getName(), service.type());
                 }
             });
 

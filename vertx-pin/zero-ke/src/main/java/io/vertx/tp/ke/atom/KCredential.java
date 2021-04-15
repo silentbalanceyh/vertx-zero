@@ -10,7 +10,7 @@ import java.io.Serializable;
 /*
  * Idc information for interface `Credential` specific
  */
-public class KeIdc implements Serializable, Json {
+public class KCredential implements Serializable, Json {
     private transient String appId;
     private transient String sigma;
     private transient String realm;

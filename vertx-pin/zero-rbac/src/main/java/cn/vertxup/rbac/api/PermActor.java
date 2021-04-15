@@ -23,7 +23,7 @@ import javax.inject.Inject;
 import java.time.LocalDateTime;
 
 /**
- * @author <a href="http://www.origin-x.cn">lang</a>
+ * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 @Queue
 public class PermActor {

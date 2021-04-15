@@ -7,7 +7,7 @@ import java.math.BigDecimal;
 import java.util.concurrent.ConcurrentMap;
 
 /**
- * @author <a href="http://www.origin-x.cn">lang</a>
+ * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 class AggregatorSum extends AbstractAggregator {
 

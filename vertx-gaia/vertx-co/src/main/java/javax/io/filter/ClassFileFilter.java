@@ -29,7 +29,7 @@ import java.io.FileFilter;
  *
  * Above code is in `package scanner` component of zero framework.
  *
- * @author <a href="http://www.origin-x.cn">lang</a>
+ * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 public class ClassFileFilter extends BaseFilter
         implements FileFilter {

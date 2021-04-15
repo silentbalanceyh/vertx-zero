@@ -26,7 +26,7 @@ import java.util.Objects;
 import java.util.UUID;
 
 /**
- * @author <a href="http://www.origin-x.cn">lang</a>
+ * @author <a href="http://www.origin-x.cn">Lang</a>
  * The package scope for exporting data based on Excel Client
  * This component is for data exporting only
  */

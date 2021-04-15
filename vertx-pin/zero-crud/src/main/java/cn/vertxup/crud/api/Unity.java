@@ -6,10 +6,9 @@ import io.vertx.core.http.HttpMethod;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.crud.actor.IxActor;
-import io.vertx.tp.crud.atom.IxField;
 import io.vertx.tp.crud.atom.IxModule;
 import io.vertx.tp.crud.refine.Ix;
-import io.vertx.tp.ke.cv.KeField;
+import io.vertx.tp.ke.atom.metadata.KField;
 import io.vertx.tp.ke.refine.Ke;
 import io.vertx.tp.optic.Apeak;
 import io.vertx.tp.optic.Pocket;
@@ -86,7 +85,7 @@ class Unity {
             final List<DictSource> sources = dict.getSource();
             final MultiMap paramMap = MultiMap.caseInsensitiveMultiMap();
             final JsonObject headers = request.headersX();
-            paramMap.add(KeField.SIGMA, headers.getString(KeField.SIGMA));
+            paramMap.add(io.vertx.tp.ke.cv.KeField.SIGMA, headers.getString(io.vertx.tp.ke.cv.KeField.SIGMA));
             /*
              * To avoid final in lambda expression
              */
@@ -98,7 +97,7 @@ class Unity {
         /*
          * Get unique rule of current module
          */
-        final IxField fieldConfig = module.getField();
+        final KField fieldConfig = module.getField();
         final JsonArray matrix = fieldConfig.getUnique();
         /*
          * Matrix may be multi group
@@ -148,7 +147,7 @@ class Unity {
         final String pattern = "/api/{0}/search";
         final String actor = Ux.getString(envelop);
         return new JsonObject()
-                .put(KeField.URI, MessageFormat.format(pattern, actor))
-                .put(KeField.METHOD, HttpMethod.POST.name());
+                .put(io.vertx.tp.ke.cv.KeField.URI, MessageFormat.format(pattern, actor))
+                .put(io.vertx.tp.ke.cv.KeField.METHOD, HttpMethod.POST.name());
     }
 }

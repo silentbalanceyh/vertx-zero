@@ -8,7 +8,7 @@ import org.aspectj.lang.ProceedingJoinPoint;
 import java.lang.reflect.Method;
 
 /**
- * @author <a href="http://www.origin-x.cn">lang</a>
+ * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 @SuppressWarnings("all")
 class L1AsideReading extends AbstractAside {

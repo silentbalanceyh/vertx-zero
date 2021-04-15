@@ -5,7 +5,7 @@ import io.vertx.up.util.Ut;
 import org.jooq.Converter;
 
 /**
- * @author <a href="http://www.origin-x.cn">lang</a>
+ * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 public class JsonArraySider implements Converter<String, JsonArray> {
     @Override

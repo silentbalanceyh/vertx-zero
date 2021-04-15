@@ -3,7 +3,7 @@ package io.vertx.tp.rbac.acl.region;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.rbac.refine.Sc;
-import io.vertx.up.atom.query.Inquiry;
+import io.vertx.up.atom.query.engine.Qr;
 import io.vertx.up.commune.Envelop;
 import io.vertx.up.commune.secure.Acl;
 import io.vertx.up.eon.em.AclPhase;
@@ -11,7 +11,7 @@ import io.vertx.up.eon.em.AclPhase;
 import java.util.Objects;
 
 /**
- * @author <a href="http://www.origin-x.cn">lang</a>
+ * @author <a href="http://www.origin-x.cn">Lang</a>
  * In processing for analyzing `syntax` for calculation
  */
 class DataIn {
@@ -20,7 +20,7 @@ class DataIn {
      * It means that you must get data based on ACL property
      */
     static void visitProjection(final Envelop envelop, final JsonObject matrix) {
-        JsonArray projection = matrix.getJsonArray(Inquiry.KEY_PROJECTION);
+        JsonArray projection = matrix.getJsonArray(Qr.KEY_PROJECTION);
         /*
          * Execute when phase = EAGER
          */
@@ -45,7 +45,7 @@ class DataIn {
      */
     static void visitCriteria(final Envelop envelop, final JsonObject matrix) {
         /* Criteria Modification */
-        final JsonObject criteria = matrix.getJsonObject(Inquiry.KEY_CRITERIA);
+        final JsonObject criteria = matrix.getJsonObject(Qr.KEY_CRITERIA);
         /* ACL do not control criteria */
         if (Objects.nonNull(criteria) && !criteria.isEmpty()) {
             envelop.onCriteria(criteria);

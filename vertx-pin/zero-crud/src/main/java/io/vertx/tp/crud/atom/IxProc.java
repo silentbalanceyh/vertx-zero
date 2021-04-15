@@ -13,18 +13,18 @@ import io.vertx.up.unity.Ux;
 
 import java.util.function.BiFunction;
 
-public class IxMeta {
+public class IxProc {
     private final transient Class<?> target;
     private transient IxModule config;
     private transient UxJooq jooq;
     private transient WebException ex;
 
-    private IxMeta(final Class<?> clazz) {
+    private IxProc(final Class<?> clazz) {
         this.target = clazz;
     }
 
-    public static IxMeta create(final Class<?> clazz) {
-        return new IxMeta(clazz);
+    public static IxProc create(final Class<?> clazz) {
+        return new IxProc(clazz);
     }
 
     private void logRequest(final Envelop envelop) {
@@ -35,7 +35,7 @@ public class IxMeta {
         Ix.infoRest(logger, "---> Uri Addr: {0} {1}", method, uri);
     }
 
-    public IxMeta input(final Envelop envelop) {
+    public IxProc input(final Envelop envelop) {
         /*
          * Actor value here for extracted from `Envelop`
          */

@@ -8,8 +8,8 @@ import io.vertx.tp.plugin.jooq.JooqInfix;
 import io.vertx.tp.plugin.jooq.condition.JooqCond;
 import io.vertx.up.atom.Kv;
 import io.vertx.up.atom.pojo.Mojo;
-import io.vertx.up.atom.query.Inquiry;
 import io.vertx.up.atom.query.Pager;
+import io.vertx.up.atom.query.engine.Qr;
 import io.vertx.up.uca.jooq.util.JqOut;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
@@ -165,17 +165,17 @@ class JqJoinder {
     /*
      * Pagination Searching
      */
-    Future<JsonObject> searchPaginationAsync(final Inquiry inquiry, final Mojo mojo) {
+    Future<JsonObject> searchPaginationAsync(final Qr qr, final Mojo mojo) {
         final JsonObject response = new JsonObject();
-        final JsonArray data = this.searchArray(inquiry, mojo);
+        final JsonArray data = this.searchArray(qr, mojo);
 
         response.put("list", data);
-        final Integer counter = this.searchCount(inquiry);
+        final Integer counter = this.searchCount(qr);
         response.put("count", counter);
         return Ux.future(response);
     }
 
-    private Integer searchCount(final Inquiry inquiry) {
+    private Integer searchCount(final Qr qr) {
         /*
          * DSLContext
          */
@@ -193,15 +193,15 @@ class JqJoinder {
         /*
          * Condition for "criteria"
          */
-        if (null != inquiry.getCriteria()) {
-            final Condition condition = JooqCond.transform(inquiry.getCriteria().toJson(),
+        if (null != qr.getCriteria()) {
+            final Condition condition = JooqCond.transform(qr.getCriteria().toJson(),
                     this::getColumn, this::getTable);
             started.where(condition);
         }
         return started.fetchCount();
     }
 
-    JsonArray searchArray(final Inquiry inquiry, final Mojo mojo) {
+    JsonArray searchArray(final Qr qr, final Mojo mojo) {
         /*
          * DSLContext
          */
@@ -217,30 +217,30 @@ class JqJoinder {
         /*
          * Condition for "criteria"
          */
-        if (null != inquiry.getCriteria()) {
-            final Condition condition = JooqCond.transform(inquiry.getCriteria().toJson(),
+        if (null != qr.getCriteria()) {
+            final Condition condition = JooqCond.transform(qr.getCriteria().toJson(),
                     this::getColumn, this::getTable);
             started.where(condition);
         }
         /*
          * Sort
          */
-        if (null != inquiry.getSorter()) {
-            final List<OrderField> orders = JooqCond.orderBy(inquiry.getSorter(), this::getColumn, this::getTable);
+        if (null != qr.getSorter()) {
+            final List<OrderField> orders = JooqCond.orderBy(qr.getSorter(), this::getColumn, this::getTable);
             started.orderBy(orders);
         }
         /*
          * Pager
          */
-        if (null != inquiry.getPager()) {
-            final Pager pager = inquiry.getPager();
+        if (null != qr.getPager()) {
+            final Pager pager = qr.getPager();
             started.offset(pager.getStart()).limit(pager.getSize());
         }
         final List<Record> records = started.fetch();
         /*
          * Result Only
          */
-        final Set<String> projectionSet = inquiry.getProjection();
+        final Set<String> projectionSet = qr.getProjection();
         final JsonArray projection = Objects.isNull(projectionSet) ? new JsonArray() : Ut.toJArray(projectionSet);
         return JqOut.toJoin(records, projection, this.COLUMN_MAP, mojo);
     }

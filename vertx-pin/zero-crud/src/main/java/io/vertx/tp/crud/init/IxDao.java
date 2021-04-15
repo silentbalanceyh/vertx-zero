@@ -5,8 +5,8 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.tp.crud.atom.IxModule;
 import io.vertx.tp.crud.cv.IxFolder;
 import io.vertx.tp.crud.cv.IxMsg;
-import io.vertx.tp.crud.cv.em.DsMode;
 import io.vertx.tp.crud.refine.Ix;
+import io.vertx.tp.ke.cv.em.DSMode;
 import io.vertx.tp.ke.refine.Ke;
 import io.vertx.tp.optic.DS;
 import io.vertx.up.eon.FileSuffix;
@@ -101,8 +101,8 @@ class IxDao {
         /*
          * 1. Extract Mode from `IxModule` for data source switching
          */
-        final DsMode mode = module.getMode();
-        if (DsMode.DYNAMIC == mode) {
+        final DSMode mode = module.getMode();
+        if (DSMode.DYNAMIC == mode) {
             dao = Ke.channelSync(DS.class,
                     /*
                      * `provider` configured
@@ -114,12 +114,12 @@ class IxDao {
                     ds -> Ux.Jooq.on(clazz, ds.switchDs(headers))
             );
         } else {
-            if (DsMode.HISTORY == mode) {
+            if (DSMode.HISTORY == mode) {
                 /*
                  * `orbit` configured
                  */
                 dao = Ux.Jooq.ons(clazz);
-            } else if (DsMode.EXTENSION == mode) {
+            } else if (DSMode.EXTENSION == mode) {
                 final String modeKey = module.getModeKey();
                 if (Ut.isNil(modeKey)) {
                     /*

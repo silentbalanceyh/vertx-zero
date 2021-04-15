@@ -10,7 +10,7 @@ import org.junit.Ignore;
 import org.junit.Test;
 
 /**
- * @author <a href="http://www.origin-x.cn">lang</a>
+ * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 @Ignore
 public class JobTc extends JooqBase {

@@ -14,7 +14,7 @@ import static java.time.format.DateTimeFormatter.ISO_INSTANT;
  * `java.time.Instant` as uniform, in this situation it could provide developers to simplify `Date Format` processing
  * in json specification.
  *
- * @author <a href="http://www.origin-x.cn">lang</a>
+ * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 public class InstantSerializer extends JsonSerializer<Instant> {
     @Override

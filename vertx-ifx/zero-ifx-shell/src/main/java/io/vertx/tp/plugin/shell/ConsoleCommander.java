@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.function.BiConsumer;
 
 /**
- * @author <a href="http://www.origin-x.cn">lang</a>
+ * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 public class ConsoleCommander extends AbstractCommander {
 

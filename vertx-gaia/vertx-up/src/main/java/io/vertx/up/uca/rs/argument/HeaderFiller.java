@@ -17,7 +17,7 @@ import io.vertx.up.uca.rs.Filler;
  * // </code></pre>
  * ```
  *
- * @author <a href="http://www.origin-x.cn">lang</a>
+ * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 public class HeaderFiller implements Filler {
     @Override

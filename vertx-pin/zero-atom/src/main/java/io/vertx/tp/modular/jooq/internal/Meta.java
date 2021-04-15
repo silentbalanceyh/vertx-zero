@@ -156,7 +156,7 @@ class Meta {
          * Fn.outWeb(null == matrix, _500ConditionFieldException.class, Meta.class, field);
          */
         if (null == matrix) {
-            Ao.infoSQL(LOGGER, "模型中无法找到条件字段：`{0}`，省略……", field);
+            Ao.infoSQL(LOGGER, "模型中无法找到条件字段（INTERNAL）：`{0}`，省略……", field);
             return null;
         } else {
             final String column = matrix.getColumn(field);

@@ -3,7 +3,7 @@ package io.vertx.up.uca.jooq.util;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.atom.query.Inquiry;
+import io.vertx.up.atom.query.engine.Qr;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.uca.jooq.JqAnalyzer;
 import io.vertx.up.unity.Ux;
@@ -13,7 +13,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
 /**
- * @author <a href="http://www.origin-x.cn">lang</a>
+ * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 @SuppressWarnings("all")
 public class JqFlow {
@@ -71,15 +71,15 @@ public class JqFlow {
         return Future.succeededFuture(this.input(data));
     }
 
-    public Inquiry inputQr(final JsonObject input) {
-        return JqTool.inquiry(input, this.pojo);
+    public Qr inputQr(final JsonObject input) {
+        return JqTool.qr(input, this.pojo);
     }
 
     public JsonObject inputQrJ(final JsonObject criteria) {
         return JqTool.criteria(criteria, pojo);
     }
 
-    public Future<Inquiry> inputQrAsync(final JsonObject input) {
+    public Future<Qr> inputQrAsync(final JsonObject input) {
         return Future.succeededFuture(this.inputQr(input));
     }
 

@@ -18,7 +18,7 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentMap;
 
 /**
- * @author <a href="http://www.origin-x.cn">lang</a>
+ * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 class L1ChannelAsync {
     private final static Annal LOGGER = Annal.get(L1ChannelAsync.class);

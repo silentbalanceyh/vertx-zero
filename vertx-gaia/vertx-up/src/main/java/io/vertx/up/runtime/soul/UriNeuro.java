@@ -6,7 +6,7 @@ import io.vertx.ext.web.Router;
 import io.vertx.up.eon.Orders;
 
 /**
- * @author <a href="http://www.origin-x.cn">lang</a>
+ * @author <a href="http://www.origin-x.cn">Lang</a>
  *
  * The data structure to store following data ( Each thread )
  */

@@ -14,7 +14,7 @@ import java.util.concurrent.ConcurrentMap;
 import java.util.stream.Collectors;
 
 /**
- * @author <a href="http://www.origin-x.cn">lang</a>
+ * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 class UriStore {
     private static final ConcurrentMap<String, UriMeta> URIS = new ConcurrentHashMap<>();

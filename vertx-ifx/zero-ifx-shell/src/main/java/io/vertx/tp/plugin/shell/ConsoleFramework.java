@@ -12,7 +12,7 @@ import java.util.concurrent.ConcurrentMap;
 import java.util.function.Consumer;
 
 /**
- * @author <a href="http://www.origin-x.cn">lang</a>
+ * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 public class ConsoleFramework {
     private static final Annal LOGGER = Annal.get(ConsoleFramework.class);

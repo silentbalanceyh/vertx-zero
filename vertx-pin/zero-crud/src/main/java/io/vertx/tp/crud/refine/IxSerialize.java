@@ -2,9 +2,8 @@ package io.vertx.tp.crud.refine;
 
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.crud.atom.IxField;
 import io.vertx.tp.crud.atom.IxModule;
-import io.vertx.tp.ke.cv.KeField;
+import io.vertx.tp.ke.atom.metadata.KField;
 import io.vertx.tp.ke.refine.Ke;
 import io.vertx.up.atom.unity.Uarr;
 import io.vertx.up.eon.Values;
@@ -34,7 +33,7 @@ class IxSerialize {
     }
 
     static JsonArray zipper(final JsonArray from, final JsonArray to, final IxModule config) {
-        final IxField field = config.getField();
+        final KField field = config.getField();
         final String keyField = field.getKey();
         return Uarr.create(to)
                 .zip(from, keyField, keyField)
@@ -47,7 +46,7 @@ class IxSerialize {
         /*
          * JsonObject / JsonArray must be converted to string
          */
-        Ke.mountString(data, KeField.METADATA);
+        Ke.mountString(data, io.vertx.tp.ke.cv.KeField.METADATA);
         final String pojo = config.getPojo();
         final T reference = Ut.isNil(pojo) ?
                 Ux.fromJson(data, (Class<T>) config.getPojoCls()) :

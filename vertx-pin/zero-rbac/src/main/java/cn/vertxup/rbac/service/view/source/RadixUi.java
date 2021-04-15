@@ -11,7 +11,7 @@ import io.vertx.up.unity.Ux;
 import java.util.Objects;
 
 /**
- * @author <a href="http://www.origin-x.cn">lang</a>
+ * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 public class RadixUi implements RuleSource {
     private static final Annal LOGGER = Annal.get(RadixUi.class);

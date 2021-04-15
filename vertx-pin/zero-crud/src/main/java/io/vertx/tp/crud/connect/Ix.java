@@ -3,16 +3,17 @@ package io.vertx.tp.crud.connect;
 import io.vertx.core.Future;
 import io.vertx.core.MultiMap;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.crud.atom.IxJoin;
 import io.vertx.tp.crud.atom.IxModule;
 import io.vertx.tp.crud.init.IxPin;
 import io.vertx.tp.crud.refine.Ix;
+import io.vertx.tp.ke.atom.metadata.KJoin;
+import io.vertx.tp.ke.atom.metadata.KPoint;
 import io.vertx.tp.ke.cv.KeField;
+import io.vertx.tp.ke.cv.em.JoinMode;
 import io.vertx.up.commune.Envelop;
 import io.vertx.up.log.Annal;
 import io.vertx.up.uca.jooq.UxJooq;
 import io.vertx.up.unity.Ux;
-import io.vertx.up.util.Ut;
 
 import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
@@ -30,19 +31,13 @@ interface OxSwitcher {
         /*
          * Safe call because of MoveOn
          */
-        final IxJoin connect = module.getConnect();
+        final KJoin connect = module.getConnect();
         /*
          * Remove primary key, it will generate new.
          */
         final JsonObject inputData = original.copy();
-        final String mapped = connect.getJoined(original);
-        if (Ut.notNil(mapped)) {
-            /*
-             * data is response data, here the code will generate final response
-             */
-            final String joinedValue = original.getString(connect.getMappedBy());
-            inputData.put(mapped, joinedValue);
-        }
+        final KPoint target = connect.procTarget(original);
+        connect.procFilters(original, target, inputData);
         return inputData;
     }
 
@@ -51,15 +46,9 @@ interface OxSwitcher {
          * Safe call because of MoveOn
          */
         final JsonObject filters = new JsonObject();
-        final IxJoin connect = module.getConnect();
-        final String mapped = connect.getJoined(original);
-        if (Ut.notNil(mapped)) {
-            /*
-             * joinedValue
-             */
-            final String joinedValue = original.getString(connect.getMappedBy());
-            filters.put(mapped, joinedValue);
-        }
+        final KJoin connect = module.getConnect();
+        final KPoint target = connect.procTarget(original);
+        connect.procFilters(original, target, filters);
         /*
          * Append `Sigma` Here
          */
@@ -77,33 +66,23 @@ interface OxSwitcher {
         /*
          * Linker data preparing
          */
-        final IxJoin connect = module.getConnect();
+        final KJoin connect = module.getConnect();
         final Annal LOGGER = Annal.get(OxSwitcher.class);
         if (Objects.isNull(connect)) {
             /*
-             * IxJoin null, could not identify connect
+             * KJoin null, could not identify connect
              */
-            Ix.infoDao(LOGGER, "IxJoin is null");
+            Ix.infoDao(LOGGER, "KJoin is null");
             return Ux.future(Envelop.success(data));
         } else {
-            final String moduleName = connect.getJoinedBy();
-            if (Ut.isNil(moduleName)) {
-                Ix.infoDao(LOGGER, "The `joinedBy` field is null");
+            final KPoint target = connect.procTarget(data);
+            if (Objects.isNull(target) || JoinMode.CRUD != target.modeTarget()) {
                 return Ux.future(Envelop.success(data));
             } else {
-                final String identifier = data.getString(moduleName);
-                /*
-                 * Get the data of module, data -> `moduleName` value
-                 */
-                final IxModule config = connect.getModule(identifier);
-                if (Objects.isNull(config)) {
-                    Ix.infoDao(LOGGER, "System could not find configuration for `{0}`, data = {1}",
-                            identifier, connect.getJoined());
-                    return Ux.future(Envelop.success(data));
-                } else {
-                    final UxJooq dao = IxPin.getDao(config, headers);
-                    return function.apply(dao, config);
-                }
+                assert Objects.nonNull(target.getCrud()) : "Here the 'crud' field could not be null, because of passed 'modeTarget' checking.";
+                final IxModule joinedModule = IxPin.getActor(target.getCrud());
+                final UxJooq dao = IxPin.getDao(joinedModule, headers);
+                return function.apply(dao, joinedModule);
             }
         }
     }

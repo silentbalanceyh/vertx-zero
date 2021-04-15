@@ -2,10 +2,11 @@ package io.vertx.tp.atom.modeling.data;
 
 import cn.vertxup.atom.domain.tables.pojos.MAttribute;
 import cn.vertxup.atom.domain.tables.pojos.MModel;
-import io.vertx.tp.atom.cv.em.AttributeType;
 import io.vertx.tp.atom.modeling.Model;
+import io.vertx.tp.atom.modeling.config.AoSource;
 import io.vertx.up.commune.element.CParam;
 import io.vertx.up.commune.element.Shape;
+import io.vertx.up.eon.em.DataFormat;
 import io.vertx.up.util.Ut;
 
 import java.util.Objects;
@@ -15,7 +16,7 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 /**
- * @author <a href="http://www.origin-x.cn">lang</a>
+ * @author <a href="http://www.origin-x.cn">Lang</a>
  * 模型基本信息
  */
 class MetaInfo {
@@ -35,29 +36,18 @@ class MetaInfo {
             final String name = attr.getName();
             final String alias = attr.getAlias();
             if (Ut.notNil(name)) {
-                /* isArray 判断集合 */
-                Boolean isArray = attr.getIsArray();
-                if (Objects.isNull(isArray)) {
-                    isArray = Boolean.FALSE;
-                }
-                /* type */
-                final AttributeType type = Ut.toEnum(attr::getType, AttributeType.class, AttributeType.INTERNAL);
-                /*
-                 * 添加操作
-                 * 由于引入了 up / down 类型，所以这里还需要另外一个条件
-                 * 1. type = INTERNAL
-                 * 2. isArray = true
-                 * */
-                if (isArray && AttributeType.INTERNAL == type) {
-                    /*
-                     * Complex for Array
-                     */
-                    this.shape.add(name, alias, Bridge.toShape(attr, MAttribute::getSourceConfig));
-                } else {
+                /* sourceConfig */
+                final AoSource service = new AoSource(attr);
+                if (DataFormat.Elementary == service.format()) {
                     /*
                      * Simple for Flatted
                      */
                     this.shape.add(name, alias, this.type(name));
+                } else {
+                    /*
+                     * Complex for Array
+                     */
+                    this.shape.add(name, alias, Bridge.toShape(service));
                 }
             }
         });

@@ -12,7 +12,7 @@ import javax.ws.rs.core.MediaType;
  * * Code: -40069
  * * Status: 415
  *
- * @author <a href="http://www.origin-x.cn">lang</a>
+ * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 public class _415MediaDeclareException extends WebException {
     public _415MediaDeclareException(final Class<?> clazz,

@@ -2,7 +2,7 @@ package io.vertx.tp.rbac.acl.rapid;
 
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.rbac.refine.Sc;
-import io.vertx.up.atom.query.Inquiry;
+import io.vertx.up.atom.query.engine.Qr;
 import io.vertx.up.commune.secure.Acl;
 
 /*
@@ -42,7 +42,7 @@ class RecordDwarf implements Dwarf {
 
         /* projection only */
         final JsonObject updated = SiftCol.onProjection(record,
-                Sc.aclOn(matrix.getJsonArray(Inquiry.KEY_PROJECTION), acl));
+                Sc.aclOn(matrix.getJsonArray(Qr.KEY_PROJECTION), acl));
 
         /* Updated */
         dataReference.put("data", updated);

@@ -189,6 +189,8 @@ E80216: "(501) - (Ke) Your channel is not implemented {0}, but you called this c
 E80217: "(501) - (Ke) Your Class<T> is null or `UxJooq` has not been bind here!"
 E80218: "(501) - (Ke) This api is not supported or implemented, please check your specification"
 E80219: "(403) - (Ke) You have no access to create cross `application` account tokens, token generation error, now size = {0}"
+E80542: "(409) - (Ke) You want to seek `target` configuration in JOIN, but now the fields ( one of `crud, classDao, classDefine` ) is missing."
+E80543: "(404) - (Ke) You parsed targetIndent = `{0}` in Join workflow, but now get null. data = `{1}`."
 
 # Ambient Module
 E80300: "(500) - (Ambient) The application environment error, could not get app data"
@@ -254,3 +256,5 @@ E80537: "(417) - (Mod) Sorry, the entity = {0} definition could not be found in 
 E80538: "(417) - (Mod) Current model: {0} related schema counter {1} or joins number {2} is invalid ( joins >= schema >= 1 )"
 E80539: "(501) - (Web) Current `DictFabric` is null, but it''s required"
 E80540: "(501) - (Web) The model of `DataTpl` is null and could not be found in your environment, Anonymous error"
+E80541: "(409) - (Ref) The model `{0}` defined static references, but found more than one dao in field `{1}`, please check \"sourceReference\" configuration."
+E80544: "(500) - (Ref) Please bind `DataAtom` first and then you can call `bind(Model)` method for this current model ( identifier = `{0}` ). "

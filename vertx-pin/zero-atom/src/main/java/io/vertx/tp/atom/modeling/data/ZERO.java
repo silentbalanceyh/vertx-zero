@@ -4,9 +4,9 @@ import cn.vertxup.atom.domain.tables.pojos.MAttribute;
 import cn.vertxup.atom.domain.tables.pojos.MField;
 import cn.vertxup.atom.domain.tables.pojos.MJoin;
 import io.vertx.core.json.JsonArray;
-import io.vertx.core.json.JsonObject;
 import io.vertx.tp.atom.modeling.Model;
 import io.vertx.tp.atom.modeling.Schema;
+import io.vertx.tp.atom.modeling.config.AoSource;
 import io.vertx.tp.atom.modeling.element.DataKey;
 import io.vertx.tp.atom.modeling.element.DataRow;
 import io.vertx.tp.atom.modeling.element.DataTpl;
@@ -112,9 +112,8 @@ class Bridge {
         return toAttribute(schema, field, field.getName());
     }
 
-    static List<ShapeItem> toShape(final MAttribute attribute, final Function<MAttribute, String> consumer) {
-        final JsonObject sourceConfig = Ut.toJObject(consumer.apply(attribute));
-        final JsonArray fields = Ut.sureJArray(sourceConfig.getJsonArray(KeField.FIELDS));
+    static List<ShapeItem> toShape(final AoSource service) {
+        final JsonArray fields = service.fields();
         final List<ShapeItem> result = new ArrayList<>();
         if (Ut.notNil(fields)) {
             /*
