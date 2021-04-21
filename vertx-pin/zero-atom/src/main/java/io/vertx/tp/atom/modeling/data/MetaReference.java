@@ -122,6 +122,8 @@ class MetaReference {
                 /*
                  * condition3, remove self reference to avoid memory out
                  * This condition is critical because of Memory Out Issue of deadLock in reference
+                 * Current model identifier must not be `source` because it will trigger
+                 * Self deal lock here. To avoid this kind of situation, filtered this item.
                  */
                 .filter(attr -> !modelRef.identifier().equals(attr.getSource()))
                 // condition4, type = REFERENCE
