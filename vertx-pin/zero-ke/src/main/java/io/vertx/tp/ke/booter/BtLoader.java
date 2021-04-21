@@ -19,6 +19,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 class BtLoader {
+    private static final Annal LOGGER = Annal.get(BtLoader.class);
 
     /*
      * Environment Init for Split Booter
@@ -82,20 +83,11 @@ class BtLoader {
     }
 
     static void doImport(final String filename, final Handler<AsyncResult<String>> callback) {
-        /*
-         * Build more excel client
-         */
-        /*
-        final ExcelClient client = ExcelInfix.getClient();
-        client.importAsync(filename, handler -> {
-            out(filename);
-            callback.handle(Future.succeededFuture(filename));
-        });*/
-
         final WorkerExecutor executor = Ux.nativeWorker(filename);
         executor.<String>executeBlocking(
                 pre -> {
                     final ExcelClient client = ExcelInfix.createClient();
+                    Ke.infoKe(LOGGER, "Excel importing file = {0}", filename);
                     client.importAsync(filename, handler -> {
                         if (handler.succeeded()) {
                             pre.complete(filename);

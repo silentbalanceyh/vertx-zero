@@ -30,19 +30,31 @@ import java.util.List;
 @SuppressWarnings({"all", "unchecked", "rawtypes"})
 public class RCompanyCustomer extends TableImpl<RCompanyCustomerRecord> {
 
+    private static final long serialVersionUID = 1906778758;
+
     /**
      * The reference instance of <code>DB_ETERNAL.R_COMPANY_CUSTOMER</code>
      */
     public static final RCompanyCustomer R_COMPANY_CUSTOMER = new RCompanyCustomer();
-    private static final long serialVersionUID = 1906778758;
+
+    /**
+     * The class holding records for this type
+     */
+    @Override
+    public Class<RCompanyCustomerRecord> getRecordType() {
+        return RCompanyCustomerRecord.class;
+    }
+
     /**
      * The column <code>DB_ETERNAL.R_COMPANY_CUSTOMER.COMPANY_ID</code>. 「companyId」- 企业的ID
      */
     public final TableField<RCompanyCustomerRecord, String> COMPANY_ID = createField("COMPANY_ID", org.jooq.impl.SQLDataType.VARCHAR(36).nullable(false), this, "「companyId」- 企业的ID");
+
     /**
      * The column <code>DB_ETERNAL.R_COMPANY_CUSTOMER.CUSTOMER_ID</code>. 「customerId」- 客户信息的ID
      */
     public final TableField<RCompanyCustomerRecord, String> CUSTOMER_ID = createField("CUSTOMER_ID", org.jooq.impl.SQLDataType.VARCHAR(36).nullable(false), this, "「customerId」- 客户信息的ID");
+
     /**
      * The column <code>DB_ETERNAL.R_COMPANY_CUSTOMER.COMMENT</code>. 「comment」- 关系备注
      */
@@ -75,14 +87,6 @@ public class RCompanyCustomer extends TableImpl<RCompanyCustomerRecord> {
 
     private RCompanyCustomer(Name alias, Table<RCompanyCustomerRecord> aliased, Field<?>[] parameters) {
         super(alias, null, aliased, parameters, "");
-    }
-
-    /**
-     * The class holding records for this type
-     */
-    @Override
-    public Class<RCompanyCustomerRecord> getRecordType() {
-        return RCompanyCustomerRecord.class;
     }
 
     /**
