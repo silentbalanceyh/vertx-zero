@@ -29,11 +29,18 @@ import java.util.List;
 @SuppressWarnings({"all", "unchecked", "rawtypes"})
 public class Db extends SchemaImpl {
 
+    private static final long serialVersionUID = -1590744427;
+
     /**
      * The reference instance of <code>DB_ETERNAL</code>
      */
     public static final Db DB_ETERNAL = new Db();
-    private static final long serialVersionUID = -699398690;
+
+    /**
+     * The table <code>DB_ETERNAL.E_BRAND</code>.
+     */
+    public final EBrand E_BRAND = cn.vertxup.erp.domain.tables.EBrand.E_BRAND;
+
     /**
      * The table <code>DB_ETERNAL.E_COMPANY</code>.
      */
@@ -104,6 +111,7 @@ public class Db extends SchemaImpl {
 
     private final List<Table<?>> getTables0() {
         return Arrays.<Table<?>>asList(
+                EBrand.E_BRAND,
                 ECompany.E_COMPANY,
                 EContract.E_CONTRACT,
                 ECustomer.E_CUSTOMER,

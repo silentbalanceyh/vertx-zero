@@ -30,19 +30,31 @@ import java.util.List;
 @SuppressWarnings({"all", "unchecked", "rawtypes"})
 public class RTeamEmployee extends TableImpl<RTeamEmployeeRecord> {
 
+    private static final long serialVersionUID = 1513421266;
+
     /**
      * The reference instance of <code>DB_ETERNAL.R_TEAM_EMPLOYEE</code>
      */
     public static final RTeamEmployee R_TEAM_EMPLOYEE = new RTeamEmployee();
-    private static final long serialVersionUID = 1513421266;
+
+    /**
+     * The class holding records for this type
+     */
+    @Override
+    public Class<RTeamEmployeeRecord> getRecordType() {
+        return RTeamEmployeeRecord.class;
+    }
+
     /**
      * The column <code>DB_ETERNAL.R_TEAM_EMPLOYEE.TEAM_ID</code>. 「teamId」- 组的ID
      */
     public final TableField<RTeamEmployeeRecord, String> TEAM_ID = createField("TEAM_ID", org.jooq.impl.SQLDataType.VARCHAR(36).nullable(false), this, "「teamId」- 组的ID");
+
     /**
      * The column <code>DB_ETERNAL.R_TEAM_EMPLOYEE.EMPLOYEE_ID</code>. 「employeeId」- 员工ID
      */
     public final TableField<RTeamEmployeeRecord, String> EMPLOYEE_ID = createField("EMPLOYEE_ID", org.jooq.impl.SQLDataType.VARCHAR(36).nullable(false), this, "「employeeId」- 员工ID");
+
     /**
      * The column <code>DB_ETERNAL.R_TEAM_EMPLOYEE.COMMENT</code>. 「comment」- 关系备注
      */
@@ -75,14 +87,6 @@ public class RTeamEmployee extends TableImpl<RTeamEmployeeRecord> {
 
     private RTeamEmployee(Name alias, Table<RTeamEmployeeRecord> aliased, Field<?>[] parameters) {
         super(alias, null, aliased, parameters, "");
-    }
-
-    /**
-     * The class holding records for this type
-     */
-    @Override
-    public Class<RTeamEmployeeRecord> getRecordType() {
-        return RTeamEmployeeRecord.class;
     }
 
     /**
