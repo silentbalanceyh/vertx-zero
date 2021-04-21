@@ -31,18 +31,6 @@ class AoData {
     };
 
     /*
-     * 数据设置
-     * Record -> 数据部分 dataMatrix
-     */
-    static void connect(
-            final Record record,
-            final ConcurrentMap<String, DataMatrix> dataMatrix) {
-        dataMatrix.values().forEach(matrix ->
-                matrix.getAttributes().forEach(attribute ->
-                        matrix.set(attribute, record.get(attribute))));
-    }
-
-    /*
      * 主键设置
      * Record -> 内部 keyMatrix
      * 1. 从 Record 中提取主键信息

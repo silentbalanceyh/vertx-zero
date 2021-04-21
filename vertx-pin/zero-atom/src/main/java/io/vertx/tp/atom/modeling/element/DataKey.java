@@ -11,7 +11,8 @@ import java.util.concurrent.ConcurrentMap;
  * 一个模型中的唯一标识，根据主键属性计算出来的内容
  */
 public class DataKey implements Serializable {
-
+    /* 主键专用管理 */
+    private static final ConcurrentMap<String, DataKey> KEYS = new ConcurrentHashMap<>();
     private final transient String unique;
     private transient IdMode mode = IdMode.DIRECT;    // 模式
 
@@ -23,7 +24,7 @@ public class DataKey implements Serializable {
     }
 
     public static DataKey create(final String unique) {
-        return Fn.pool(Pool.KEYS, unique, () -> new DataKey(unique));
+        return Fn.pool(KEYS, unique, () -> new DataKey(unique));
     }
 
     public String getUnique() {
