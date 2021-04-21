@@ -7,6 +7,7 @@ import io.vertx.tp.atom.modeling.reference.RQuery;
 import io.vertx.tp.atom.modeling.reference.RQuote;
 import io.vertx.tp.atom.modeling.reference.RResult;
 import io.vertx.tp.atom.refine.Ao;
+import io.vertx.tp.error._404ModelNotFoundException;
 import io.vertx.tp.modular.phantom.AoPerformer;
 import io.vertx.up.commune.element.CParam;
 import io.vertx.up.commune.element.Shape;
@@ -86,7 +87,11 @@ public class DataAtom {
          * 所以，每次get的时候会读取一个新的 DataAtom 而共享其他数据结构。
          */
         final String unique = Model.namespace(appName) + "-" + identifier;
-        return new DataAtom(appName, identifier, unique);
+        try {
+            return new DataAtom(appName, identifier, unique);
+        } catch (final _404ModelNotFoundException ignored) {
+            return null;
+        }
     }
 
     // ------------ 基础模型部分 ------------

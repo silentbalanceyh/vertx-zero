@@ -119,7 +119,12 @@ class MetaReference {
                 .filter(Objects::nonNull)
                 // condition2, source is not Null
                 .filter(attr -> Objects.nonNull(attr.getSource()))
-                // condition3, type = REFERENCE
+                /*
+                 * condition3, remove self reference to avoid memory out
+                 * This condition is critical because of Memory Out Issue of deadLock in reference
+                 */
+                .filter(attr -> !modelRef.identifier().equals(attr.getSource()))
+                // condition4, type = REFERENCE
                 .filter(attr -> AttributeType.REFERENCE.name().equals(attr.getType()))
                 // Processing workflow on result.
                 .forEach(attribute -> {
@@ -133,8 +138,6 @@ class MetaReference {
                     final String source = attribute.getSource();
                     final AoSource service = new AoSource(attribute);
                     final RQuote quote = Fn.pool(this.references, source, () -> RQuote.create(appName, source)).add(attribute, service);
-
-
                     /*
                      *  Hash Map `result` calculation
                      *      - field = RResult
