@@ -11,9 +11,7 @@ import io.vertx.tp.atom.refine.Ao;
 import io.vertx.tp.error._417DataRowNullException;
 import io.vertx.tp.modular.io.AoIo;
 import io.vertx.tp.modular.metadata.AoSentence;
-import io.vertx.tp.modular.ray.AoRay;
-import io.vertx.tp.modular.ray.RayBatch;
-import io.vertx.tp.modular.ray.RaySingle;
+import io.vertx.tp.modular.plugin.IoHub;
 import io.vertx.up.atom.query.Criteria;
 import io.vertx.up.atom.query.Pager;
 import io.vertx.up.atom.query.Sorter;
@@ -235,10 +233,10 @@ public class DataEvent implements Serializable {
             }
         }
         /*
-         * Reference 引用流程
+         * IoHub Output Single
          */
-        final AoRay<Record> ray = new RaySingle().on(this.tpl);
-        return ray.attach(record);
+        final IoHub hub = IoHub.instance();
+        return hub.out(record, this.tpl);
     }
 
     /*
@@ -252,10 +250,10 @@ public class DataEvent implements Serializable {
                 .collect(Collectors.toList())
                 .toArray(new Record[]{});
         /*
-         * Reference 引用流程
+         * IoHub Output Batch
          */
-        final AoRay<Record[]> ray = new RayBatch().on(this.tpl);
-        return ray.attach(response);
+        final IoHub hub = IoHub.instance();
+        return hub.out(response, this.tpl);
     }
 
     /*

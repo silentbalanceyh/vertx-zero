@@ -1,4 +1,4 @@
-package io.vertx.tp.modular.ray;
+package io.vertx.tp.modular.reference;
 
 import io.vertx.tp.atom.modeling.element.DataTpl;
 
@@ -47,7 +47,7 @@ public interface AoRay<T> {
      *
      * @param tpl {@link io.vertx.tp.atom.modeling.element.DataTpl} The template that will be bind.
      *
-     * @return {@link io.vertx.tp.modular.ray.AoRay} The component reference
+     * @return {@link io.vertx.tp.modular.reference.AoRay} The component reference
      */
     AoRay<T> on(DataTpl tpl);
 

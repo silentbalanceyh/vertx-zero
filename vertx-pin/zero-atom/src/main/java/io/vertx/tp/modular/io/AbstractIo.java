@@ -59,6 +59,10 @@ public abstract class AbstractIo implements AoIo {
         return new DataRow(this.tpl);
     }
 
+    DataTpl tpl() {
+        return this.tpl;
+    }
+
     // 针对数据行的处理
     private void saveRow(final DataRow row) {
         final Object id = row.getId();
