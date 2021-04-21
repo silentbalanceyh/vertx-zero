@@ -56,6 +56,7 @@ public class DataRow implements Serializable {
                 this.record.set(attribute, record.get(attribute)));
         // 设置 matrix 中 主键信息
         Ao.connect(this.record, this.matrix);
+
         // this.record.matrix(this.matrix);
         return this;
     }

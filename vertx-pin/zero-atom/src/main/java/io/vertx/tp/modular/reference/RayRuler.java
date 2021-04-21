@@ -1,4 +1,4 @@
-package io.vertx.tp.modular.ray;
+package io.vertx.tp.modular.reference;
 
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;

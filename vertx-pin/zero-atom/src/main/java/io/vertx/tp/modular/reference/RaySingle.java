@@ -1,4 +1,4 @@
-package io.vertx.tp.modular.ray;
+package io.vertx.tp.modular.reference;
 
 import io.vertx.core.json.JsonArray;
 import io.vertx.up.commune.Record;
@@ -9,7 +9,7 @@ import java.util.concurrent.ConcurrentMap;
 /**
  * ## Single Reference Processor
  *
- * It's the sub-class of {@link io.vertx.tp.modular.ray.AbstractRay} with {@link io.vertx.up.commune.Record} element.
+ * It's the sub-class of {@link io.vertx.tp.modular.reference.AbstractRay} with {@link io.vertx.up.commune.Record} element.
  *
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */

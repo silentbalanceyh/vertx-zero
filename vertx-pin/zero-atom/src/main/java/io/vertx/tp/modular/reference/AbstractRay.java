@@ -1,4 +1,4 @@
-package io.vertx.tp.modular.ray;
+package io.vertx.tp.modular.reference;
 
 import io.vertx.tp.atom.modeling.data.DataAtom;
 import io.vertx.tp.atom.modeling.element.DataTpl;
@@ -32,7 +32,7 @@ public abstract class AbstractRay<T> implements AoRay<T> {
      */
     protected transient DataTpl tpl;
     /**
-     * The hashmap reference of `field = {@link io.vertx.tp.modular.ray.RaySource}`.
+     * The hashmap reference of `field = {@link io.vertx.tp.modular.reference.RaySource}`.
      */
     protected transient ConcurrentMap<String, RaySource> input =
             new ConcurrentHashMap<>();
@@ -53,7 +53,7 @@ public abstract class AbstractRay<T> implements AoRay<T> {
      *
      * @param tpl {@link io.vertx.tp.atom.modeling.element.DataTpl} The template that will be bind.
      *
-     * @return {@link io.vertx.tp.modular.ray.AoRay} The component reference
+     * @return {@link io.vertx.tp.modular.reference.AoRay} The component reference
      * @throws io.vertx.tp.error._501AnonymousAtomException Atom in tpl contains errors.
      */
     @Override
