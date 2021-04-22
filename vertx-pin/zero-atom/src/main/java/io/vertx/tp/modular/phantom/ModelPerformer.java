@@ -43,7 +43,6 @@ public class ModelPerformer implements AoPerformer {
         final MModel model = Ux.Jooq.on(MModelDao.class)
                 .fetchOne(this.tool.onCriteria(identifier));
         Fn.outWeb(null == model, _404ModelNotFoundException.class, this.getClass(), this.namespace, identifier);
-
         JsonObject json = Ut.serializeJson(model);
         // 1. 初始化
         json = AoModeler.init().executor(json);
