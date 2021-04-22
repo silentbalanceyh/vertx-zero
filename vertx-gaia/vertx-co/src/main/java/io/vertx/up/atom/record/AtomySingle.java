@@ -71,6 +71,12 @@ class AtomySingle implements AtomyOp<JsonObject> {
     public JsonObject current(final JsonObject current) {
         this.current.clear();
         this.current.mergeIn(current, true);
+        /*
+         * Combine for UPDATE
+         */
+        if (ChangeFlag.UPDATE == this.flag && this.combine.containsKey(ChangeFlag.UPDATE)) {
+            this.combine.put(ChangeFlag.UPDATE, current.copy());
+        }
         return this.current;
     }
 
