@@ -30,8 +30,10 @@ public class DataAtom {
     private transient final MetaMarker marker;
     private transient final MetaReference reference;
     private transient final String unique;
+    private transient final String appName;
 
     private DataAtom(final Model model, final String appName) {
+        this.appName = appName;
         this.unique = Model.namespace(appName) + "-" + model.identifier();
         /*
          * 1. 基础模型信息
@@ -96,6 +98,9 @@ public class DataAtom {
     }
 
     // ------------ 基础模型部分 ------------
+    public DataAtom atom(final String identifier) {
+        return get(this.appName, identifier);
+    }
 
     /** 返回当前 Model 中的所有属性集 */
     public Set<String> attributes() {
