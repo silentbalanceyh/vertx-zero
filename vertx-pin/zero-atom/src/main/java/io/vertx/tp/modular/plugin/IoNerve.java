@@ -6,6 +6,8 @@ import io.vertx.tp.modular.reference.RayBatch;
 import io.vertx.tp.modular.reference.RaySingle;
 import io.vertx.up.commune.Record;
 
+import java.util.Objects;
+
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
@@ -22,9 +24,11 @@ public class IoNerve implements IoHub {
 
     @Override
     public Record out(final Record record, final DataTpl tpl) {
-        /*
-         * Reference
-         */
+        if (Objects.isNull(record)) {
+            /* Null Record */
+            return null;
+        }
+        /* Reference */
         final AoRay<Record> ray = new RaySingle().on(tpl);
         return ray.attach(record);
     }
