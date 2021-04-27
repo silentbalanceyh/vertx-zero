@@ -75,10 +75,13 @@ class AoImpl {
         if (Objects.isNull(database)) {
             return null;
         } else {
-            final Pin pin = Pin.getInstance();
             final DataAtom atom = supplier.get();
-            return Fn.pool(AoCache.POOL_T_DAO, atom.identifier(),
-                    () -> pin.getDao(database).mount(atom));
+            if (Objects.isNull(atom)) {
+                return null;
+            } else {
+                final Pin pin = Pin.getInstance();
+                return Fn.pool(AoCache.POOL_T_DAO, atom.identifier(), () -> pin.getDao(database).mount(atom));
+            }
         }
     }
 }

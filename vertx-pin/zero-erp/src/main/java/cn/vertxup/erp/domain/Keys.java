@@ -4,6 +4,7 @@
 package cn.vertxup.erp.domain;
 
 
+import cn.vertxup.erp.domain.tables.EBrand;
 import cn.vertxup.erp.domain.tables.ECompany;
 import cn.vertxup.erp.domain.tables.EContract;
 import cn.vertxup.erp.domain.tables.ECustomer;
@@ -13,6 +14,7 @@ import cn.vertxup.erp.domain.tables.EIdentity;
 import cn.vertxup.erp.domain.tables.ETeam;
 import cn.vertxup.erp.domain.tables.RCompanyCustomer;
 import cn.vertxup.erp.domain.tables.RTeamEmployee;
+import cn.vertxup.erp.domain.tables.records.EBrandRecord;
 import cn.vertxup.erp.domain.tables.records.ECompanyRecord;
 import cn.vertxup.erp.domain.tables.records.EContractRecord;
 import cn.vertxup.erp.domain.tables.records.ECustomerRecord;
@@ -52,6 +54,10 @@ public class Keys {
     // UNIQUE and PRIMARY KEY definitions
     // -------------------------------------------------------------------------
 
+    public static final UniqueKey<EBrandRecord> KEY_E_BRAND_PRIMARY = UniqueKeys0.KEY_E_BRAND_PRIMARY;
+    public static final UniqueKey<EBrandRecord> KEY_E_BRAND_CODE = UniqueKeys0.KEY_E_BRAND_CODE;
+    public static final UniqueKey<EBrandRecord> KEY_E_BRAND_NAME = UniqueKeys0.KEY_E_BRAND_NAME;
+    public static final UniqueKey<EBrandRecord> KEY_E_BRAND_ALIAS = UniqueKeys0.KEY_E_BRAND_ALIAS;
     public static final UniqueKey<ECompanyRecord> KEY_E_COMPANY_PRIMARY = UniqueKeys0.KEY_E_COMPANY_PRIMARY;
     public static final UniqueKey<ECompanyRecord> KEY_E_COMPANY_NAME = UniqueKeys0.KEY_E_COMPANY_NAME;
     public static final UniqueKey<ECompanyRecord> KEY_E_COMPANY_CODE = UniqueKeys0.KEY_E_COMPANY_CODE;
@@ -84,6 +90,10 @@ public class Keys {
     // -------------------------------------------------------------------------
 
     private static class UniqueKeys0 {
+        public static final UniqueKey<EBrandRecord> KEY_E_BRAND_PRIMARY = Internal.createUniqueKey(EBrand.E_BRAND, "KEY_E_BRAND_PRIMARY", EBrand.E_BRAND.KEY);
+        public static final UniqueKey<EBrandRecord> KEY_E_BRAND_CODE = Internal.createUniqueKey(EBrand.E_BRAND, "KEY_E_BRAND_CODE", EBrand.E_BRAND.CODE, EBrand.E_BRAND.SIGMA);
+        public static final UniqueKey<EBrandRecord> KEY_E_BRAND_NAME = Internal.createUniqueKey(EBrand.E_BRAND, "KEY_E_BRAND_NAME", EBrand.E_BRAND.NAME, EBrand.E_BRAND.SIGMA);
+        public static final UniqueKey<EBrandRecord> KEY_E_BRAND_ALIAS = Internal.createUniqueKey(EBrand.E_BRAND, "KEY_E_BRAND_ALIAS", EBrand.E_BRAND.ALIAS, EBrand.E_BRAND.SIGMA);
         public static final UniqueKey<ECompanyRecord> KEY_E_COMPANY_PRIMARY = Internal.createUniqueKey(ECompany.E_COMPANY, "KEY_E_COMPANY_PRIMARY", ECompany.E_COMPANY.KEY);
         public static final UniqueKey<ECompanyRecord> KEY_E_COMPANY_NAME = Internal.createUniqueKey(ECompany.E_COMPANY, "KEY_E_COMPANY_NAME", ECompany.E_COMPANY.NAME, ECompany.E_COMPANY.SIGMA);
         public static final UniqueKey<ECompanyRecord> KEY_E_COMPANY_CODE = Internal.createUniqueKey(ECompany.E_COMPANY, "KEY_E_COMPANY_CODE", ECompany.E_COMPANY.CODE, ECompany.E_COMPANY.SIGMA);

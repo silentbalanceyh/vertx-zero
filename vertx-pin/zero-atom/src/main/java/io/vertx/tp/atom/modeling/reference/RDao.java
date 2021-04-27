@@ -5,7 +5,6 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.atom.modeling.data.DataAtom;
 import io.vertx.tp.atom.refine.Ao;
-import io.vertx.tp.error._404ModelNotFoundException;
 import io.vertx.tp.ke.atom.metadata.KJoin;
 import io.vertx.tp.ke.atom.metadata.KPoint;
 import io.vertx.tp.ke.refine.Ke;
@@ -32,7 +31,7 @@ public class RDao {
     /**
      * 「Dynamic」When dynamic source triggered, this reference stored model definition in `M_MODEL / M_ATTRIBUTE`
      */
-    private transient DataAtom atom;
+    private final transient DataAtom atom;
     /**
      * 「Static」When static source triggered, this reference stored initialized Dao class.
      *
@@ -56,10 +55,7 @@ public class RDao {
 
     public RDao(final String appName, final String source) {
         this.source = source;
-        try {
-            this.atom = DataAtom.get(appName, source);
-        } catch (final _404ModelNotFoundException ignored) {
-        }
+        this.atom = DataAtom.get(appName, source);
     }
 
     public DataAtom atom() {

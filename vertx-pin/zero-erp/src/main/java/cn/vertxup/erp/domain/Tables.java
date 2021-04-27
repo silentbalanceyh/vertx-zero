@@ -4,6 +4,7 @@
 package cn.vertxup.erp.domain;
 
 
+import cn.vertxup.erp.domain.tables.EBrand;
 import cn.vertxup.erp.domain.tables.ECompany;
 import cn.vertxup.erp.domain.tables.EContract;
 import cn.vertxup.erp.domain.tables.ECustomer;
@@ -29,6 +30,11 @@ import javax.annotation.Generated;
 )
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Tables {
+
+    /**
+     * The table <code>DB_ETERNAL.E_BRAND</code>.
+     */
+    public static final EBrand E_BRAND = cn.vertxup.erp.domain.tables.EBrand.E_BRAND;
 
     /**
      * The table <code>DB_ETERNAL.E_COMPANY</code>.

@@ -7,6 +7,7 @@ import io.vertx.tp.atom.modeling.reference.RQuery;
 import io.vertx.tp.atom.modeling.reference.RQuote;
 import io.vertx.tp.atom.modeling.reference.RResult;
 import io.vertx.tp.atom.refine.Ao;
+import io.vertx.tp.error._404ModelNotFoundException;
 import io.vertx.tp.modular.phantom.AoPerformer;
 import io.vertx.up.commune.element.CParam;
 import io.vertx.up.commune.element.Shape;
@@ -24,25 +25,16 @@ import java.util.concurrent.ConcurrentMap;
  */
 public class DataAtom {
 
-    private transient final AoPerformer performer;
-
-    private transient final String unique;
-    private transient final String appName;
-
     private transient final MetaInfo metadata;
     private transient final MetaRule ruler;
     private transient final MetaMarker marker;
     private transient final MetaReference reference;
+    private transient final String unique;
+    private transient final String appName;
 
-    private DataAtom(final String appName,
-                     final String identifier,
-                     final String unique) {
-        /* Performer池化（每个App不一样）*/
+    private DataAtom(final Model model, final String appName) {
         this.appName = appName;
-        this.performer = AoPerformer.getInstance(appName);
-        /* 构造当前模型的唯一值，从外置传入 */
-        this.unique = unique;
-        final Model model = Fn.pool(AoCache.POOL_MODELS, unique, () -> this.performer.fetchModel(identifier));
+        this.unique = Model.namespace(appName) + "-" + model.identifier();
         /*
          * 1. 基础模型信息
          * 2. 标识规则信息
@@ -54,9 +46,6 @@ public class DataAtom {
         this.ruler = Fn.pool(Pool.META_RULE, modelCode, () -> new MetaRule(model));
         this.marker = Fn.pool(Pool.META_MARKER, modelCode, () -> new MetaMarker(model));
         this.reference = Fn.pool(Pool.META_REFERENCE, modelCode, () -> new MetaReference(model, appName));
-
-        /* LOG: 日志处理 */
-        Ao.infoAtom(this.getClass(), AoMsg.DATA_ATOM, unique, model.toJson().encode());
     }
 
     public static DataAtom get(final String appName,
@@ -85,11 +74,33 @@ public class DataAtom {
          *
          * 所以，每次get的时候会读取一个新的 DataAtom 而共享其他数据结构。
          */
-        final String unique = Model.namespace(appName) + "-" + identifier;
-        return new DataAtom(appName, identifier, unique);
+        try {
+            /*
+             * Performer processing to expose exception
+             */
+            final String unique = Model.namespace(appName) + "-" + identifier;
+            final AoPerformer performer = AoPerformer.getInstance(appName);
+            final Model model = Fn.pool(AoCache.POOL_MODELS, unique, () -> performer.fetchModel(identifier));
+            /*
+             * Log for data atom and return to the reference.
+             */
+            final DataAtom atom = new DataAtom(model, appName);
+            Ao.infoAtom(DataAtom.class, AoMsg.DATA_ATOM, unique, model.toJson().encode());
+            return atom;
+        } catch (final _404ModelNotFoundException ignored) {
+            /*
+             * 这里的改动主要基于动静态模型同时操作导致，如果可以找到Model则证明模型存在于系统中，这种
+             * 情况下可直接初始化DataAtom走标准流程，否则直接返回null引用，使得系统无法返回正常模型，
+             * 但不影响模型本身的执行。
+             */
+            return null;
+        }
     }
 
     // ------------ 基础模型部分 ------------
+    public DataAtom atom(final String identifier) {
+        return get(this.appName, identifier);
+    }
 
     /** 返回当前 Model 中的所有属性集 */
     public Set<String> attributes() {

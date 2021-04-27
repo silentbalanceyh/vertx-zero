@@ -166,13 +166,6 @@ public class Ao {
         return AoStore.clazzPin();
     }
 
-    /*
-     * Record conversation
-     */
-    public static void connect(final Record record, final ConcurrentMap<String, DataMatrix> dataMatrix) {
-        AoData.connect(record, dataMatrix);
-    }
-
     public static void connect(final Record record, final ConcurrentMap<String, DataMatrix> keyMatrix, final ConcurrentMap<String, DataMatrix> dataMatrix, final Set<String> joins) {
         AoData.connect(record, keyMatrix, dataMatrix, joins);
     }
