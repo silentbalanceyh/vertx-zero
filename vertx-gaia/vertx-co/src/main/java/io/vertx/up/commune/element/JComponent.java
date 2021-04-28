@@ -1,7 +1,6 @@
 package io.vertx.up.commune.element;
 
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.atom.Kv;
 import io.vertx.up.log.Annal;
 import io.vertx.up.util.Ut;
 
@@ -33,11 +32,6 @@ public class JComponent implements Serializable {
         this.componentCls = componentCls;
     }
 
-    public JComponent rebind(final JsonObject config) {
-        this.config.clear();
-        return this.bind(config);
-    }
-
     public JComponent bind(final JsonObject config) {
         if (Ut.notNil(config)) {
             this.config.mergeIn(config, true);
@@ -66,7 +60,16 @@ public class JComponent implements Serializable {
         return Ut.isImplement(this.componentCls, interfaceCls);
     }
 
-    public Kv<String, JsonObject> config() {
-        return Kv.create(this.key, this.config);
+    public JsonObject config() {
+        return this.config.copy();
+    }
+
+    public String source() {
+        /*
+         * Source Key = Component Name + Configuration
+         * 1. Component Name means the same component
+         * 2. Configuration means different configuration.
+         */
+        return this.componentCls.getName() + ":" + this.config.hashCode();
     }
 }

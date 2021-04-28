@@ -5,7 +5,6 @@ import io.vertx.tp.modular.reference.AoRay;
 import io.vertx.tp.modular.reference.RayBatch;
 import io.vertx.tp.modular.reference.RaySingle;
 import io.vertx.up.commune.Record;
-import io.vertx.up.commune.element.JComponent;
 import io.vertx.up.fn.Fn;
 
 import java.util.Objects;
@@ -35,25 +34,29 @@ public class IoNerve implements IoHub {
 
     @Override
     public Record in(final Record record, final DataTpl tpl) {
-        /*
-         * inComponent
-         */
-        final ConcurrentMap<String, JComponent> inComponent = IoArranger.pluginIn(tpl);
-        
+        /* inComponent */
+        IoArranger.runIn(record, IoArranger.pluginIn(tpl));
+        /* normalizer */
+        IoArranger.runNorm(record, IoArranger.pluginNormalize(tpl));
         return record;
     }
 
     @Override
     public Record[] in(final Record[] records, final DataTpl tpl) {
-
+        /* inComponent */
+        IoArranger.runIn(records, IoArranger.pluginIn(tpl));
+        /* normalizer */
+        IoArranger.runNorm(records, IoArranger.pluginNormalize(tpl));
         return records;
     }
 
     @Override
     public Record out(final Record record, final DataTpl tpl) {
         if (Objects.isNull(record))/* Null Record */ return null;
-
-        /* Reference */
+        /* outComponent */
+        IoArranger.runOut(record, IoArranger.pluginOut(tpl));
+        /* expression */
+        IoArranger.runExpr(record, IoArranger.pluginExpression(tpl));
         final AoRay<Record> ray = Fn.pool(POOL_RAY, tpl.identifier(), () -> new RaySingle().on(tpl));
         return ray.attach(record);
     }
@@ -61,6 +64,10 @@ public class IoNerve implements IoHub {
     @Override
     public Record[] out(final Record[] records, final DataTpl tpl) {
         /* Reference */
+        /* outComponent */
+        IoArranger.runOut(records, IoArranger.pluginOut(tpl));
+        /* expression */
+        IoArranger.runExpr(records, IoArranger.pluginExpression(tpl));
         final AoRay<Record[]> ray = Fn.pool(this.POOL_RAY_BATCH, tpl.identifier(), () -> new RayBatch().on(tpl));
         return ray.attach(records);
     }
