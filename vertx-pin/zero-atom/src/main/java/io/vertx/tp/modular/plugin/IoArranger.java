@@ -119,14 +119,20 @@ class IoArranger {
      */
     private static JsonObject componentConfig(final MAttribute attribute, final Class<?> componentCls) {
         final JsonObject sourceConfig = Ut.toJObject(attribute.getSourceConfig());
+        final JsonObject combine;
         if (sourceConfig.containsKey(PLUGIN_CONFIG)) {
             final JsonObject pluginConfig = Ut.toJObject(sourceConfig.getValue(PLUGIN_CONFIG));
             if (pluginConfig.containsKey(componentCls.getName())) {
-                return Ut.toJObject(pluginConfig.getValue(componentCls.getName()));
-            } else return new JsonObject();
+                combine = Ut.toJObject(pluginConfig.getValue(componentCls.getName()));
+            } else {
+                combine = new JsonObject();
+            }
         } else {
-            return new JsonObject();
+            combine = new JsonObject();
         }
+        combine.put(KeField.SOURCE, attribute.getSource());
+        combine.put(KeField.SOURCE_FIELD, attribute.getSourceField());
+        return combine;
     }
 
     // --------------------------- Execute The Workflow ------------------------
@@ -233,7 +239,7 @@ class IoArranger {
             final JsonObject dataMap = sourceData(inMap, interfaceCls);
             inMap.forEach((field, component) -> {
                 final JsonObject config = component.config();
-                config.put(KeField.SOURCE, dataMap);
+                config.put(KeField.SOURCE_DATA, dataMap);
                 consumer.accept(input, component, config);
             });
         }
