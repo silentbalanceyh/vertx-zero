@@ -40,6 +40,9 @@ public class DataTpl implements Serializable {
         return new DataTpl();
     }
 
+    public String identifier() {
+        return Objects.isNull(this.atom) ? null : this.atom.identifier();
+    }
 
     public DataTpl on(final AoSentence sentence) {
         this.sentence = sentence;

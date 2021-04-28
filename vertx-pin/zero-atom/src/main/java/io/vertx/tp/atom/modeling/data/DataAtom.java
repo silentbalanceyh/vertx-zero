@@ -9,7 +9,7 @@ import io.vertx.tp.atom.modeling.reference.RResult;
 import io.vertx.tp.atom.refine.Ao;
 import io.vertx.tp.error._404ModelNotFoundException;
 import io.vertx.tp.modular.phantom.AoPerformer;
-import io.vertx.up.commune.element.CParam;
+import io.vertx.up.commune.element.JDiff;
 import io.vertx.up.commune.element.Shape;
 import io.vertx.up.commune.rule.RuleUnique;
 import io.vertx.up.fn.Fn;
@@ -147,7 +147,7 @@ public class DataAtom {
 
     // ------------ 比对专用方法 ----------
 
-    public CParam diff(final Set<String> ignoreSet) {
+    public JDiff diff(final Set<String> ignoreSet) {
         return this.metadata.diff(ignoreSet).diff(this.reference.fieldDiff());
     }
 
