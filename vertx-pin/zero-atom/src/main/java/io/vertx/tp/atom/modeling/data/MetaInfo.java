@@ -4,7 +4,7 @@ import cn.vertxup.atom.domain.tables.pojos.MAttribute;
 import cn.vertxup.atom.domain.tables.pojos.MModel;
 import io.vertx.tp.atom.modeling.Model;
 import io.vertx.tp.atom.modeling.config.AoSource;
-import io.vertx.up.commune.element.CParam;
+import io.vertx.up.commune.element.JDiff;
 import io.vertx.up.commune.element.Shape;
 import io.vertx.up.eon.em.DataFormat;
 import io.vertx.up.util.Ut;
@@ -97,12 +97,12 @@ class MetaInfo {
         return this.shape;
     }
 
-    CParam diff() {
+    JDiff diff() {
         /* 构造 CParam */
-        return CParam.create(this.modelRef.types());
+        return JDiff.create(this.modelRef.types());
     }
 
-    CParam diff(final Set<String> ignoreSet) {
+    JDiff diff(final Set<String> ignoreSet) {
         return this.diff().ignores(ignoreSet);
     }
 
