@@ -154,7 +154,7 @@ class IoArranger {
                     /*
                      * Source Data Extract ( Code Logical )
                      */
-                    componentInstance.source().forEach(sourceData::put);
+                    componentInstance.source(component.configSource()).forEach(sourceData::put);
                 }
             });
         }
