@@ -39,9 +39,7 @@ public class Indexes {
     // INDEX definitions
     // -------------------------------------------------------------------------
 
-    public static final Index E_BRAND_ALIAS = Indexes0.E_BRAND_ALIAS;
     public static final Index E_BRAND_CODE = Indexes0.E_BRAND_CODE;
-    public static final Index E_BRAND_NAME = Indexes0.E_BRAND_NAME;
     public static final Index E_BRAND_PRIMARY = Indexes0.E_BRAND_PRIMARY;
     public static final Index E_COMPANY_CODE = Indexes0.E_COMPANY_CODE;
     public static final Index E_COMPANY_CUSTOMER_ID = Indexes0.E_COMPANY_CUSTOMER_ID;
@@ -76,9 +74,7 @@ public class Indexes {
     // -------------------------------------------------------------------------
 
     private static class Indexes0 {
-        public static Index E_BRAND_ALIAS = Internal.createIndex("ALIAS", EBrand.E_BRAND, new OrderField[] { EBrand.E_BRAND.ALIAS, EBrand.E_BRAND.SIGMA }, true);
         public static Index E_BRAND_CODE = Internal.createIndex("CODE", EBrand.E_BRAND, new OrderField[] { EBrand.E_BRAND.CODE, EBrand.E_BRAND.SIGMA }, true);
-        public static Index E_BRAND_NAME = Internal.createIndex("NAME", EBrand.E_BRAND, new OrderField[] { EBrand.E_BRAND.NAME, EBrand.E_BRAND.SIGMA }, true);
         public static Index E_BRAND_PRIMARY = Internal.createIndex("PRIMARY", EBrand.E_BRAND, new OrderField[] { EBrand.E_BRAND.KEY }, true);
         public static Index E_COMPANY_CODE = Internal.createIndex("CODE", ECompany.E_COMPANY, new OrderField[] { ECompany.E_COMPANY.CODE, ECompany.E_COMPANY.SIGMA }, true);
         public static Index E_COMPANY_CUSTOMER_ID = Internal.createIndex("CUSTOMER_ID", ECompany.E_COMPANY, new OrderField[] { ECompany.E_COMPANY.CUSTOMER_ID, ECompany.E_COMPANY.SIGMA }, true);
