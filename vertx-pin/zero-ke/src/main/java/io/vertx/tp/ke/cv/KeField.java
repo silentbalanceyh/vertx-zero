@@ -87,6 +87,7 @@ public interface KeField {
     String SOURCE_PARAMS = "sourceParams";      /* sourceParams */
     String SOURCE_CONSUMER = "sourceConsumer";  /* sourceConsumer */
     String SOURCE_NORM = "sourceNorm";          /* sourceNorm */
+    String SOURCE_EXPR = "sourceExpression";    /* sourceExpression */
 
     String FORMAT = "format";                   /* DataFormat json configuration of uniform */
 
