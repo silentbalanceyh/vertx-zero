@@ -143,6 +143,12 @@ class IoArranger {
         }
         combine.put(KeField.SOURCE, attribute.getSource());
         combine.put(KeField.SOURCE_FIELD, attribute.getSourceField());
+        /*
+         *  sourceParams
+         */
+        final JsonObject params = new JsonObject();
+        params.put(KeField.SIGMA, attribute.getSigma());
+        combine.put(KeField.SOURCE_PARAMS, params);
         return combine;
     }
 
