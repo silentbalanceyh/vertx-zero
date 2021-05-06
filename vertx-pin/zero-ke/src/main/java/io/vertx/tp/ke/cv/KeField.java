@@ -81,6 +81,8 @@ public interface KeField {
     String COMPONENTS = "components";           /* Definition: components */
 
     String SOURCE = "source";                   /* Database ( X_SOURCE ) related field */
+    String SOURCE_DATA = "sourceData";          /* sourceData */
+    String SOURCE_FIELD = "sourceField";        /* sourceField */
     String FORMAT = "format";                   /* DataFormat json configuration of uniform */
 
     String METHOD = "method";                   /* Web: http method */

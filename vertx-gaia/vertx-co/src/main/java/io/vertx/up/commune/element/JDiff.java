@@ -14,41 +14,41 @@ import java.util.concurrent.ConcurrentMap;
  * @author <a href="http://www.origin-x.cn">Lang</a>
  * Diff for two record comparing
  */
-public class CParam implements Serializable {
+public class JDiff implements Serializable {
     private transient final ConcurrentMap<String, Class<?>> typeMap = new ConcurrentHashMap<>();
     private transient final ConcurrentMap<String, Set<String>> diffMap = new ConcurrentHashMap<>();
     private transient final Set<String> ignoreSet = new HashSet<>();
     private transient JsonObject oldRecord;
     private transient JsonObject newRecord;
 
-    private CParam(final ConcurrentMap<String, Class<?>> typeMap) {
+    private JDiff(final ConcurrentMap<String, Class<?>> typeMap) {
         if (Objects.nonNull(typeMap)) {
             this.typeMap.putAll(typeMap);
         }
     }
 
-    public static CParam create(final ConcurrentMap<String, Class<?>> typeMap) {
-        return new CParam(typeMap);
+    public static JDiff create(final ConcurrentMap<String, Class<?>> typeMap) {
+        return new JDiff(typeMap);
     }
 
-    public static CParam create(final JsonObject oldRecord, final JsonObject newRecord) {
-        return new CParam(new ConcurrentHashMap<>()).data(oldRecord, newRecord);
+    public static JDiff create(final JsonObject oldRecord, final JsonObject newRecord) {
+        return new JDiff(new ConcurrentHashMap<>()).data(oldRecord, newRecord);
     }
 
-    public static CParam create(final JsonObject oldRecord, final JsonObject newRecord,
-                                final ConcurrentMap<String, Class<?>> typeMap) {
-        return new CParam(typeMap).data(oldRecord, newRecord);
+    public static JDiff create(final JsonObject oldRecord, final JsonObject newRecord,
+                               final ConcurrentMap<String, Class<?>> typeMap) {
+        return new JDiff(typeMap).data(oldRecord, newRecord);
     }
 
     @Fluent
-    public CParam data(final JsonObject oldRecord, final JsonObject newRecord) {
+    public JDiff data(final JsonObject oldRecord, final JsonObject newRecord) {
         this.oldRecord = oldRecord;
         this.newRecord = newRecord;
         return this;
     }
 
     @Fluent
-    public CParam ignores(final Set<String> ignoreSet) {
+    public JDiff ignores(final Set<String> ignoreSet) {
         if (Objects.nonNull(ignoreSet)) {
             this.ignoreSet.addAll(ignoreSet);
         }
@@ -56,7 +56,7 @@ public class CParam implements Serializable {
     }
 
     @Fluent
-    public CParam type(final ConcurrentMap<String, Class<?>> typeMap) {
+    public JDiff type(final ConcurrentMap<String, Class<?>> typeMap) {
         if (Objects.nonNull(typeMap)) {
             this.typeMap.putAll(typeMap);
         }
@@ -64,7 +64,7 @@ public class CParam implements Serializable {
     }
 
     @Fluent
-    public CParam diff(final ConcurrentMap<String, Set<String>> diffMap) {
+    public JDiff diff(final ConcurrentMap<String, Set<String>> diffMap) {
         if (Objects.nonNull(diffMap)) {
             this.diffMap.putAll(diffMap);
         }
