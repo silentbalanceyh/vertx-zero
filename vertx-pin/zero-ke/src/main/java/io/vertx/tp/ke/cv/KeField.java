@@ -118,6 +118,7 @@ public interface KeField {
 
     String DAO = "dao";                         /* Dao field in json configuration */
     String CONNECT = "connect";                 /* Connect field in json configuration */
+    String PLUGIN_IO = "plugin.io";             /* Attribute Plugin for "io" of source config */
 
     /*
      * X_APP

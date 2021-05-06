@@ -64,19 +64,6 @@ public class JComponent implements Serializable {
         return this.config.copy();
     }
 
-    public JsonObject configSource() {
-        if (this.config.containsKey("source")) {
-            final JsonObject source = this.config.getJsonObject("source");
-            if (Ut.notNil(source)) {
-                return source.copy();
-            } else {
-                return new JsonObject();
-            }
-        } else {
-            return new JsonObject();
-        }
-    }
-
     public String source() {
         /*
          * Source Key = Component Name + Configuration
