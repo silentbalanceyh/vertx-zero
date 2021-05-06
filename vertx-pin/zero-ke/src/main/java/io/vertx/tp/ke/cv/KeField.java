@@ -86,6 +86,7 @@ public interface KeField {
     String SOURCE_DICT = "sourceDict";          /* sourceDict */
     String SOURCE_PARAMS = "sourceParams";      /* sourceParams */
     String SOURCE_CONSUMER = "sourceConsumer";  /* sourceConsumer */
+    String SOURCE_NORM = "sourceNorm";          /* sourceNorm */
 
     String FORMAT = "format";                   /* DataFormat json configuration of uniform */
 

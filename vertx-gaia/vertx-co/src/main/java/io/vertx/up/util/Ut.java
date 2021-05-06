@@ -258,6 +258,10 @@ public final class Ut {
         return ArrayL.group(source, field);
     }
 
+    public static List<JsonArray> elementGroup(final JsonArray source, final Integer size) {
+        return ArrayL.group(source, size);
+    }
+
     public static ConcurrentMap<String, JsonArray> elementGroup(final JsonArray source, final Function<JsonObject, String> executor) {
         return ArrayL.group(source, executor);
     }

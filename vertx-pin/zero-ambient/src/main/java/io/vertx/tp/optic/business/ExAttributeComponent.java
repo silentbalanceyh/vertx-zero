@@ -81,7 +81,8 @@ public abstract class ExAttributeComponent {
             return null;
         }
         final JsonObject data = this.translateData(definition, false);
-        return data.getValue(value.toString(), value);
+        final Object processed = data.getValue(value.toString(), value);
+        return this.normalizeValue(processed, definition);
     }
 
     protected Object translateFrom(final Object value, final JsonObject definition) {
@@ -89,7 +90,8 @@ public abstract class ExAttributeComponent {
             return null;
         }
         final JsonObject data = this.translateData(definition, true);
-        return data.getValue(value.toString(), value);
+        final Object processed = data.getValue(value.toString(), value);
+        return this.normalizeValue(processed, definition);
     }
 
     private JsonObject translateData(final JsonObject definition, final boolean isFrom) {
@@ -122,5 +124,16 @@ public abstract class ExAttributeComponent {
             });
         }
         return result;
+    }
+
+    private Object normalizeValue(final Object value, final JsonObject definition) {
+        if (Objects.isNull(value)) {
+            return null;
+        } else {
+            if (definition.containsKey(KeField.SOURCE_NORM)) {
+                final JsonObject normData = Ut.sureJObject(definition.getJsonObject(KeField.SOURCE_NORM));
+                return normData.getValue(value.toString(), value);
+            } else return value;
+        }
     }
 }
