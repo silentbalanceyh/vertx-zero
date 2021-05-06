@@ -127,8 +127,17 @@ class BtLoader {
      */
     private static Stream<String> stream(final String folder) {
         return Ut.ioFiles(folder).stream()
-                .filter(file -> !file.startsWith("~"))
+                .filter(BtLoader::ensureFile)
                 .map(file -> folder + file);
+    }
+
+    private static boolean ensureFile(final String filename) {
+        // File not null
+        if (Ut.isNil(filename)) return false;
+        // Ignore "~" start
+        if (filename.startsWith("~")) return false;
+        // Excel only
+        return filename.endsWith("xlsx") || filename.endsWith("xls");
     }
 
     private static void out(final String filename) {
