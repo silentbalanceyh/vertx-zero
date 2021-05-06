@@ -38,7 +38,7 @@ public class DictSource implements Serializable {
 
     private transient Class<?> component;
 
-    DictSource(final JsonObject definition) {
+    public DictSource(final JsonObject definition) {
         /*
          * Source normalize for `source type`
          */

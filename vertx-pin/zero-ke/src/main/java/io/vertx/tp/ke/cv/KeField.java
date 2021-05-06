@@ -83,6 +83,10 @@ public interface KeField {
     String SOURCE = "source";                   /* Database ( X_SOURCE ) related field */
     String SOURCE_DATA = "sourceData";          /* sourceData */
     String SOURCE_FIELD = "sourceField";        /* sourceField */
+    String SOURCE_DICT = "sourceDict";          /* sourceDict */
+    String SOURCE_PARAMS = "sourceParams";      /* sourceParams */
+    String SOURCE_CONSUMER = "sourceConsumer";  /* sourceConsumer */
+
     String FORMAT = "format";                   /* DataFormat json configuration of uniform */
 
     String METHOD = "method";                   /* Web: http method */
