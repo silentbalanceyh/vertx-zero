@@ -47,11 +47,16 @@ public interface Record extends Serializable, Meta, Check, Clone, Json {
     Record add(JsonObject data);
 
     /*
+     * 「Add Virtual Mode」
+     */
+    <V> Record attach(String field, V value);
+
+    /*
      * Remove by field / field
      */
     Record remove(String field);
 
-    Record remove(final String... fields);
+    Record remove(String... fields);
 }
 
 /*
@@ -71,6 +76,11 @@ interface Check {
      *    2.2 ) The data may be dirty
      */
     boolean isPersist();
+
+    /*
+     *
+     */
+    boolean isValue(String field);
 }
 
 /*
