@@ -228,6 +228,23 @@ final class ArrayL {
         return group(source, item -> item.getString(field));
     }
 
+    static List<JsonArray> group(final JsonArray source, final Integer size) {
+        final List<JsonArray> groupData = new ArrayList<>();
+        final JsonArray container = new JsonArray();
+        Ut.itJArray(source, (json, index) -> {
+            container.add(json);
+            if (0 == (index + 1) % size) {
+                groupData.add(container.copy());
+                container.clear();
+            }
+        });
+        if (!container.isEmpty()) {
+            groupData.add(container);
+            container.clear();
+        }
+        return groupData;
+    }
+
     static <K, T, V> ConcurrentMap<K, V> zipper(final ConcurrentMap<K, T> source, final ConcurrentMap<T, V> target) {
         final ConcurrentMap<K, V> resultMap = new ConcurrentHashMap<>();
         if (Objects.nonNull(source) && Objects.nonNull(target)) {

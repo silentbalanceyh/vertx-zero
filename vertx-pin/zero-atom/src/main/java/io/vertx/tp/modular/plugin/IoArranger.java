@@ -25,7 +25,6 @@ import java.util.function.Function;
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 class IoArranger {
-    private static final String PLUGIN_CONFIG = "plugin.config";
 
     /**
      * Extract `IComponent` here.
@@ -112,6 +111,18 @@ class IoArranger {
      * 1. sourceConfig stored component configuration.
      * 2. The json configuration came from `field = componentCls`.
      *
+     * ```json
+     * // <pre><code class="json">
+     * {
+     *     "source": "来源模型identifier",
+     *     "sourceField": "来源属性信息",
+     *     "plugin.config": {
+     *
+     *     }
+     * }
+     * // </code></pre>
+     * ```
+     *
      * @param attribute    {@link MAttribute} Processed attribute that are related to `M_ATTRIBUTE`
      * @param componentCls {@link java.lang.Class} The component class of type
      *
@@ -120,8 +131,8 @@ class IoArranger {
     private static JsonObject componentConfig(final MAttribute attribute, final Class<?> componentCls) {
         final JsonObject sourceConfig = Ut.toJObject(attribute.getSourceConfig());
         final JsonObject combine;
-        if (sourceConfig.containsKey(PLUGIN_CONFIG)) {
-            final JsonObject pluginConfig = Ut.toJObject(sourceConfig.getValue(PLUGIN_CONFIG));
+        if (sourceConfig.containsKey(KeField.PLUGIN_IO)) {
+            final JsonObject pluginConfig = Ut.toJObject(sourceConfig.getValue(KeField.PLUGIN_IO));
             if (pluginConfig.containsKey(componentCls.getName())) {
                 combine = Ut.toJObject(pluginConfig.getValue(componentCls.getName()));
             } else {
@@ -132,6 +143,12 @@ class IoArranger {
         }
         combine.put(KeField.SOURCE, attribute.getSource());
         combine.put(KeField.SOURCE_FIELD, attribute.getSourceField());
+        /*
+         *  sourceParams
+         */
+        final JsonObject params = new JsonObject();
+        params.put(KeField.SIGMA, attribute.getSigma());
+        combine.put(KeField.SOURCE_PARAMS, params);
         return combine;
     }
 
@@ -154,7 +171,7 @@ class IoArranger {
                     /*
                      * Source Data Extract ( Code Logical )
                      */
-                    componentInstance.source(component.configSource()).forEach(sourceData::put);
+                    componentInstance.source(component.config()).forEach(sourceData::put);
                 }
             });
         }

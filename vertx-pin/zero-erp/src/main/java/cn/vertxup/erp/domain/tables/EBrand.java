@@ -31,7 +31,7 @@ import java.util.List;
 @SuppressWarnings({"all", "unchecked", "rawtypes"})
 public class EBrand extends TableImpl<EBrandRecord> {
 
-    private static final long serialVersionUID = -329857806;
+    private static final long serialVersionUID = -322015180;
 
     /**
      * The reference instance of <code>DB_ETERNAL.E_BRAND</code>
@@ -178,7 +178,7 @@ public class EBrand extends TableImpl<EBrandRecord> {
      */
     @Override
     public List<Index> getIndexes() {
-        return Arrays.<Index>asList(Indexes.E_BRAND_ALIAS, Indexes.E_BRAND_CODE, Indexes.E_BRAND_NAME, Indexes.E_BRAND_PRIMARY);
+        return Arrays.<Index>asList(Indexes.E_BRAND_CODE, Indexes.E_BRAND_PRIMARY);
     }
 
     /**
@@ -194,7 +194,7 @@ public class EBrand extends TableImpl<EBrandRecord> {
      */
     @Override
     public List<UniqueKey<EBrandRecord>> getKeys() {
-        return Arrays.<UniqueKey<EBrandRecord>>asList(Keys.KEY_E_BRAND_PRIMARY, Keys.KEY_E_BRAND_CODE, Keys.KEY_E_BRAND_NAME, Keys.KEY_E_BRAND_ALIAS);
+        return Arrays.<UniqueKey<EBrandRecord>>asList(Keys.KEY_E_BRAND_PRIMARY, Keys.KEY_E_BRAND_CODE);
     }
 
     /**

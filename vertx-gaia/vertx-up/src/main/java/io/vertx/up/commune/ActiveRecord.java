@@ -47,6 +47,11 @@ public abstract class ActiveRecord implements Record {
         return false;
     }
 
+    @Override
+    public boolean isValue(final String field) {
+        return this.data.containsKey(field);
+    }
+
     // -------------- Data Get/Set ---------------
     /*
      * Get the value by field ( field = value ) of record
@@ -97,6 +102,12 @@ public abstract class ActiveRecord implements Record {
             this.getLogger().debug("The field `{0}` has not been defined in model: `{1}`",
                     field, this.identifier());
         }
+        return this;
+    }
+
+    @Override
+    public <V> Record attach(final String field, final V value) {
+        this.data.put(field, value);
         return this;
     }
 
