@@ -28,7 +28,6 @@ final class ArrayL {
      * @param list     The target list
      * @param fnFilter the filter for list search.
      * @param <T>      The generic type of list element.
-     *
      * @return Found type for target generic type.
      */
     static <T> T find(final List<T> list, final Predicate<T> fnFilter) {
@@ -228,18 +227,22 @@ final class ArrayL {
         return group(source, item -> item.getString(field));
     }
 
+    /**
+     * @debugStory
+     */
     static List<JsonArray> group(final JsonArray source, final Integer size) {
         final List<JsonArray> groupData = new ArrayList<>();
         final JsonArray container = new JsonArray();
         Ut.itJArray(source, (json, index) -> {
             container.add(json);
             if (0 == (index + 1) % size) {
+                //使用了copy方法，以避免紧接着的第二步清空刚添加的container；下方的if内同理
                 groupData.add(container.copy());
                 container.clear();
             }
         });
         if (!container.isEmpty()) {
-            groupData.add(container);
+            groupData.add(container.copy());
             container.clear();
         }
         return groupData;
