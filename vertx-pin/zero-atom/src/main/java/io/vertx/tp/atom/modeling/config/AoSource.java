@@ -99,7 +99,7 @@ public class AoSource implements Serializable {
             /* fields is only ok when INTERNAL because other types are defined by self */
             if (AttributeType.INTERNAL == type) {
                 this.fields.clear();
-                this.fields.addAll(sourceConfig.getJsonArray(KeField.FIELDS));
+                this.fields.addAll(Ut.sureJArray(sourceConfig.getJsonArray(KeField.FIELDS)));
             }
             if (DataFormat.JsonArray == fieldService) {
                 this.type = JsonArray.class;

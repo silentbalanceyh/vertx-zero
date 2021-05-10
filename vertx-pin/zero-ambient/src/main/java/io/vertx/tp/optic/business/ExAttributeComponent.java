@@ -7,7 +7,7 @@ import io.vertx.tp.ambient.uca.dict.Dpm;
 import io.vertx.tp.ke.cv.KeField;
 import io.vertx.up.commune.exchange.DictEpsilon;
 import io.vertx.up.commune.exchange.DictSource;
-import io.vertx.up.eon.em.SourceType;
+import io.vertx.up.eon.em.GlossaryType;
 import io.vertx.up.util.Ut;
 
 import java.util.Objects;
@@ -56,7 +56,7 @@ public abstract class ExAttributeComponent {
             /*
              * Dpm
              */
-            final SourceType type = sourceDict.getSourceType();
+            final GlossaryType type = sourceDict.getSourceType();
             final Dpm dpm = Dpm.get(type);
             if (Objects.nonNull(dpm)) {
                 /*

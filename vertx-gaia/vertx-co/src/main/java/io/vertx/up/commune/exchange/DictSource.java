@@ -2,7 +2,7 @@ package io.vertx.up.commune.exchange;
 
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.eon.em.SourceType;
+import io.vertx.up.eon.em.GlossaryType;
 import io.vertx.up.log.Annal;
 import io.vertx.up.util.Ut;
 
@@ -25,7 +25,7 @@ public class DictSource implements Serializable {
     /*
      * SourceType of current source definition
      */
-    private final transient SourceType source;
+    private final transient GlossaryType source;
     private final transient Set<String> types = new HashSet<>();
     /*
      * JsonObject
@@ -43,8 +43,8 @@ public class DictSource implements Serializable {
          * Source normalize for `source type`
          */
         final String source = definition.getString("source");
-        this.source = Ut.toEnum(() -> source, SourceType.class, SourceType.NONE);
-        if (SourceType.CATEGORY == this.source || SourceType.TABULAR == this.source) {
+        this.source = Ut.toEnum(() -> source, GlossaryType.class, GlossaryType.NONE);
+        if (GlossaryType.CATEGORY == this.source || GlossaryType.TABULAR == this.source) {
             /*
              * Different definition for
              * 1) CATEGORY / TABULAR
@@ -55,7 +55,7 @@ public class DictSource implements Serializable {
                         .map(item -> (String) item)
                         .forEach(this.types::add);
             }
-        } else if (SourceType.ASSIST == this.source) {
+        } else if (GlossaryType.ASSIST == this.source) {
             /*
              * Different definition for
              * ASSIST
@@ -75,7 +75,7 @@ public class DictSource implements Serializable {
         }
     }
 
-    public SourceType getSourceType() {
+    public GlossaryType getSourceType() {
         return this.source;
     }
 

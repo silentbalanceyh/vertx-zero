@@ -4,7 +4,7 @@ import io.vertx.core.Future;
 import io.vertx.core.MultiMap;
 import io.vertx.core.json.JsonArray;
 import io.vertx.up.commune.exchange.DictSource;
-import io.vertx.up.eon.em.SourceType;
+import io.vertx.up.eon.em.GlossaryType;
 
 import java.util.concurrent.ConcurrentMap;
 
@@ -47,7 +47,7 @@ public interface Dpm {
      */
     ConcurrentMap<String, JsonArray> fetch(DictSource source, MultiMap params);
 
-    static Dpm get(final SourceType type) {
+    static Dpm get(final GlossaryType type) {
         return DpmTool.POOL_DPM.getOrDefault(type, null);
     }
 }
