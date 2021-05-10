@@ -5,7 +5,7 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.tp.ke.cv.KeField;
 import io.vertx.up.commune.exchange.DictSource;
 import io.vertx.up.eon.Strings;
-import io.vertx.up.eon.em.SourceType;
+import io.vertx.up.eon.em.GlossaryType;
 import io.vertx.up.util.Ut;
 
 import java.util.Set;
@@ -17,11 +17,11 @@ import java.util.concurrent.ConcurrentMap;
  */
 class DpmTool {
 
-    static final ConcurrentMap<SourceType, Dpm> POOL_DPM = new ConcurrentHashMap<SourceType, Dpm>() {
+    static final ConcurrentMap<GlossaryType, Dpm> POOL_DPM = new ConcurrentHashMap<GlossaryType, Dpm>() {
         {
-            this.put(SourceType.ASSIST, Ut.instance(DpmAssist.class));
-            this.put(SourceType.CATEGORY, Ut.instance(DpmCategory.class));
-            this.put(SourceType.TABULAR, Ut.instance(DpmTabular.class));
+            this.put(GlossaryType.ASSIST, Ut.instance(DpmAssist.class));
+            this.put(GlossaryType.CATEGORY, Ut.instance(DpmCategory.class));
+            this.put(GlossaryType.TABULAR, Ut.instance(DpmTabular.class));
         }
     };
 

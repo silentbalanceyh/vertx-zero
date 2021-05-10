@@ -7,7 +7,7 @@ import io.vertx.tp.ambient.refine.At;
 import io.vertx.tp.ambient.uca.dict.Dpm;
 import io.vertx.tp.optic.component.Dictionary;
 import io.vertx.up.commune.exchange.DictSource;
-import io.vertx.up.eon.em.SourceType;
+import io.vertx.up.eon.em.GlossaryType;
 import io.vertx.up.unity.Ux;
 
 import java.util.ArrayList;
@@ -37,7 +37,7 @@ public class ExAmbientDictionary implements Dictionary {
              */
             final List<Future<ConcurrentMap<String, JsonArray>>> futures = new ArrayList<>();
             sources.forEach(source -> {
-                final SourceType type = source.getSourceType();
+                final GlossaryType type = source.getSourceType();
                 final Dpm dpm = Dpm.get(type);
                 if (Objects.nonNull(dpm)) {
                     futures.add(dpm.fetchAsync(source, paramMap));
