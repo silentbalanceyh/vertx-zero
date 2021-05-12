@@ -7,6 +7,8 @@ import org.apache.commons.jexl3.*;
 
 import java.util.*;
 import java.util.function.Supplier;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * @author lang
@@ -155,5 +157,16 @@ final class StringUtil {
 
     static boolean notNil(final String input) {
         return !isNil(input);
+    }
+
+    static Set<String> matched(final String input, final String regex) {
+        final Pattern pattern = Pattern.compile(regex, Pattern.MULTILINE);
+        final Matcher matcher = pattern.matcher(input);
+        final Set<String> matchSet = new HashSet<>();
+        while (matcher.find()) {
+            final String found = matcher.group();
+            matchSet.add(found);
+        }
+        return matchSet;
     }
 }
