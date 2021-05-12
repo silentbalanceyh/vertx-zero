@@ -81,7 +81,7 @@
         <vertx.jooq.version>2.4.1</vertx.jooq.version>
         <vertx.jooq.code.version>2.4.1</vertx.jooq.code.version>
         <vertx.jooq.async.version>0.4</vertx.jooq.async.version>
-        <mysql.version>8.0.24</mysql.version>
+        <mysql.version>8.0.25</mysql.version>
 
         <!-- Java Reflection -->
         <reflect.asm.version>1.11.9</reflect.asm.version>
@@ -96,7 +96,7 @@
         <!-- Bean Validation -->
         <hibernate.validator.version>6.2.0.Final</hibernate.validator.version>
 
-        <jwt.version>3.15.0</jwt.version>
+        <jwt.version>3.16.0</jwt.version>
         <jetbrains.version>20.1.0</jetbrains.version>
         <guice.version>4.1.0</guice.version>
         <scala.version>2.13.5</scala.version>

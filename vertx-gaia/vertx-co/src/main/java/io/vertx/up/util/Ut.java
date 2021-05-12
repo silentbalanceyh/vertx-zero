@@ -1135,9 +1135,14 @@ public final class Ut {
      * 9) toBytes
      * 10) toSet
      * 11) toMap
+     * 12) toMatched
      */
     public static Set<String> toSet(final String input, final String separator) {
         return StringUtil.split(input, separator);
+    }
+
+    public static Set<String> toMatched(final String input, final String regex) {
+        return StringUtil.matched(input, regex);
     }
 
     public static Set<String> toSet(final JsonArray keys) {

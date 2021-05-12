@@ -94,8 +94,8 @@ final class Numeric {
             max.append(9);
         }
         // 3. min/max
-        final Integer minValue = Integer.parseInt(min.toString()) / 10;
-        final Integer maxValue = Integer.parseInt(max.toString());
+        final int minValue = Integer.parseInt(min.toString()) / 10;
+        final int maxValue = Integer.parseInt(max.toString());
         final Random random = new Random();
         return minValue + random.nextInt(maxValue - minValue);
     }

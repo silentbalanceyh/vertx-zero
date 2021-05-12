@@ -5,6 +5,7 @@ public interface KeField {
     String GLOBAL_ID = "globalId";              /* Third part global id of primary key */
 
     String FIELD = "field";                     /* Model definition field */
+    String ATTRIBUTE = "attribute";             /* Attribute */
     String FIELDS = "fields";                   /* Model definition fields */
     String FORM = "form";                       /* Form */
     String MODEL = "model";                     /* Model definition field */
@@ -29,7 +30,7 @@ public interface KeField {
     String DYNAMIC = "dynamic";                 /* View security of field for dynamic view name */
     String VIEW = "view";                       /* View security of view name */
 
-    String ROLE_ID = "roleId";                  /* Security Object: role id ( X_ROLE key ) field */
+    // String ROLE_ID = "roleId";                  /* Security Object: role id ( X_ROLE key ) field */
     String USER_ID = "userId";                  /* Security Object: user id ( X_USER key ) field */
     String USERNAME = "username";               /* Security Object: user name ( X_USER username) field*/
     String REAL_NAME = "realname";              /* Security Object: user real name field */
