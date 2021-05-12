@@ -157,7 +157,7 @@ class IoArranger {
      */
     private static boolean isAopAfter(final MAttribute attribute) {
         final String sourceField = attribute.getSourceField();
-        return "BEFORE".equals(sourceField);
+        return "AFTER".equals(sourceField);
     }
 
 
