@@ -34,7 +34,29 @@ class IoArranger {
      * @return {@link java.util.concurrent.ConcurrentMap} The JComponent map for each field.
      */
     static ConcurrentMap<String, JComponent> pluginIn(final DataTpl tpl) {
-        return extractPlugin(tpl, MAttribute::getInComponent, IComponent.class);
+        return extractPlugin(tpl, MAttribute::getInComponent, IoArranger::notAop, IComponent.class);
+    }
+
+    /**
+     * Extract `IComponent` here. ( Before )
+     *
+     * @param tpl {@link DataTpl}
+     *
+     * @return {@link java.util.concurrent.ConcurrentMap} The JComponent map for each field.
+     */
+    static ConcurrentMap<String, JComponent> pluginInBefore(final DataTpl tpl) {
+        return extractPlugin(tpl, MAttribute::getInComponent, IoArranger::isAopBefore, IComponent.class);
+    }
+
+    /**
+     * Extract `IComponent` here. ( After )
+     *
+     * @param tpl {@link DataTpl}
+     *
+     * @return {@link java.util.concurrent.ConcurrentMap} The JComponent map for each field.
+     */
+    static ConcurrentMap<String, JComponent> pluginInAfter(final DataTpl tpl) {
+        return extractPlugin(tpl, MAttribute::getInComponent, IoArranger::isAopAfter, IComponent.class);
     }
 
     /**
@@ -45,7 +67,29 @@ class IoArranger {
      * @return {@link java.util.concurrent.ConcurrentMap} The JComponent map for each field.
      */
     static ConcurrentMap<String, JComponent> pluginOut(final DataTpl tpl) {
-        return extractPlugin(tpl, MAttribute::getOutComponent, OComponent.class);
+        return extractPlugin(tpl, MAttribute::getOutComponent, IoArranger::notAop, OComponent.class);
+    }
+
+    /**
+     * Extract `OComponent` here.( Before )
+     *
+     * @param tpl {@link DataTpl}
+     *
+     * @return {@link java.util.concurrent.ConcurrentMap} The JComponent map for each field.
+     */
+    static ConcurrentMap<String, JComponent> pluginOutBefore(final DataTpl tpl) {
+        return extractPlugin(tpl, MAttribute::getOutComponent, IoArranger::isAopBefore, OComponent.class);
+    }
+
+    /**
+     * Extract `OComponent` here.( After )
+     *
+     * @param tpl {@link DataTpl}
+     *
+     * @return {@link java.util.concurrent.ConcurrentMap} The JComponent map for each field.
+     */
+    static ConcurrentMap<String, JComponent> pluginOutAfter(final DataTpl tpl) {
+        return extractPlugin(tpl, MAttribute::getOutComponent, IoArranger::isAopAfter, OComponent.class);
     }
 
     /**
@@ -56,7 +100,7 @@ class IoArranger {
      * @return {@link java.util.concurrent.ConcurrentMap} The JComponent map for each field.
      */
     static ConcurrentMap<String, JComponent> pluginNormalize(final DataTpl tpl) {
-        return extractPlugin(tpl, MAttribute::getNormalize, INormalizer.class);
+        return extractPlugin(tpl, MAttribute::getNormalize, IoArranger::notAop, INormalizer.class);
     }
 
     /**
@@ -67,19 +111,67 @@ class IoArranger {
      * @return {@link java.util.concurrent.ConcurrentMap} The JComponent map for each field.
      */
     static ConcurrentMap<String, JComponent> pluginExpression(final DataTpl tpl) {
-        return extractPlugin(tpl, MAttribute::getExpression, OExpression.class);
+        return extractPlugin(tpl, MAttribute::getExpression, IoArranger::notAop, OExpression.class);
+    }
+
+    /**
+     * Not AOP configuration ( sourceField != BEFORE && AFTER )
+     *
+     * @param attribute {@link MAttribute} Input attribute object that will be checked.
+     *
+     * @return {@link java.lang.Boolean}
+     */
+    private static boolean notAop(final MAttribute attribute) {
+        return !isAop(attribute);
+    }
+
+    /**
+     * AOP configuration ( sourceField == BEFORE || AFTER )
+     *
+     * @param attribute {@link MAttribute} Input attribute object that will be checked.
+     *
+     * @return {@link java.lang.Boolean}
+     */
+    private static boolean isAop(final MAttribute attribute) {
+        return isAopAfter(attribute) || isAopBefore(attribute);
+    }
+
+    /**
+     * AOP configuration ( sourceField == BEFORE  )
+     *
+     * @param attribute {@link MAttribute} Input attribute object that will be checked.
+     *
+     * @return {@link java.lang.Boolean}
+     */
+    private static boolean isAopBefore(final MAttribute attribute) {
+        final String sourceField = attribute.getSourceField();
+        return "BEFORE".equals(sourceField);
+    }
+
+    /**
+     * AOP configuration ( sourceField == BEFORE  )
+     *
+     * @param attribute {@link MAttribute} Input attribute object that will be checked.
+     *
+     * @return {@link java.lang.Boolean}
+     */
+    private static boolean isAopAfter(final MAttribute attribute) {
+        final String sourceField = attribute.getSourceField();
+        return "BEFORE".equals(sourceField);
     }
 
 
     /**
      * @param tpl          {@link DataTpl} The model definition template in data event
      * @param fnComponent  {@link java.util.function.Function} The component name extract from.
+     * @param fnFilter     {@link java.util.function.Function} The filter for attribute processing.
      * @param interfaceCls {@link java.lang.Class} required interface class
      *
      * @return {@link java.util.concurrent.ConcurrentMap} The JComponent map for each field.
      */
     private static ConcurrentMap<String, JComponent> extractPlugin(
-            final DataTpl tpl, final Function<MAttribute, String> fnComponent, final Class<?> interfaceCls) {
+            final DataTpl tpl, final Function<MAttribute, String> fnComponent,
+            final Function<MAttribute, Boolean> fnFilter, final Class<?> interfaceCls) {
         /*
          * 1. Iterate tpl attributes.
          */
