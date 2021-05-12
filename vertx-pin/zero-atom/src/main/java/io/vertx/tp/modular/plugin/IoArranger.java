@@ -177,7 +177,8 @@ class IoArranger {
          */
         final Model model = tpl.atom().getModel();
         final ConcurrentMap<String, JComponent> pluginMap = new ConcurrentHashMap<>();
-        model.getAttributes().forEach(attribute -> {
+        final Function<MAttribute, Boolean> fnSelect = Objects.isNull(fnFilter) ? attribute -> Boolean.TRUE : fnFilter;
+        model.getAttributes().stream().filter(fnSelect::apply).forEach(attribute -> {
             /*
              * 2. Attribute
              */
