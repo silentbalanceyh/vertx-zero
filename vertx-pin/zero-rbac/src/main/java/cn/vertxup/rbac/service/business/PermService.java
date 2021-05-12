@@ -90,7 +90,7 @@ public class PermService implements PermStub {
     public Future<JsonArray> syncAsync(final JsonArray permissions, final String roleId) {
         return Fn.getEmpty(Ux.futureA(), () -> {
             final JsonObject condition = new JsonObject();
-            condition.put(KeField.ROLE_ID, roleId);
+            condition.put(KeField.Rbac.ROLE_ID, roleId);
             /*
              * Delete all the relations that belong to roleId
              * that the user provided here

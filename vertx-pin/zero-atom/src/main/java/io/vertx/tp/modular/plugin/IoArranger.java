@@ -3,6 +3,7 @@ package io.vertx.tp.modular.plugin;
 import cn.vertxup.atom.domain.tables.pojos.MAttribute;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.atom.modeling.Model;
+import io.vertx.tp.atom.modeling.config.AoSource;
 import io.vertx.tp.atom.modeling.element.DataTpl;
 import io.vertx.tp.ke.cv.KeField;
 import io.vertx.up.atom.Kv;
@@ -207,9 +208,14 @@ class IoArranger {
      * ```json
      * // <pre><code class="json">
      * {
+     *     "attribute": {
+     *          "name": "xxx",
+     *          "alias": "Text",
+     *          "format": "JsonArray | JsonObject | Elementary"
+     *     },
      *     "source": "来源模型identifier",
      *     "sourceField": "来源属性信息",
-     *     "plugin.config": {
+     *     "plugin.io": {
      *
      *     }
      * }
@@ -234,6 +240,13 @@ class IoArranger {
         } else {
             combine = new JsonObject();
         }
+        final AoSource source = new AoSource(attribute);
+        final JsonObject attrJson = new JsonObject();
+        attrJson.put(KeField.NAME, attribute.getName());
+        attrJson.put(KeField.ALIAS, attribute.getAlias());
+        attrJson.put(KeField.FORMAT, source.format());
+
+        combine.put(KeField.ATTRIBUTE, attrJson);
         combine.put(KeField.SOURCE, attribute.getSource());
         combine.put(KeField.SOURCE_FIELD, attribute.getSourceField());
         /*
