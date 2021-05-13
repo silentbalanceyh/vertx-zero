@@ -59,7 +59,7 @@
         <!-- RC Version Ok -->
         <jackson.version>2.12.3</jackson.version>
         <jackson.extension.version>2.12.3</jackson.extension.version>
-        <protobuf.version>3.16.0</protobuf.version>
+        <protobuf.version>3.17.0</protobuf.version>
 
         <!-- Java Projection Basic Configuration -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
