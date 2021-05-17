@@ -100,7 +100,7 @@ Response ( Pure Parameters )
     "brief": "Bad Request",
     "status": 400,
     "code": -60000,
-    "message": "[ERR-60000] (Verifier) ZeroException occus: (400) - Request validation failure, class = class io.vertx.up.example.api.jsr303.UserActor, method = public abstract java.lang.String io.vertx.up.example.api.jsr303.UserApi.login(java.lang.String,java.lang.String), information = 用户名不能为空.",
+    "message": "[ERR-60000] (Verifier) ZeroException occurs: (400) - Request validation failure, class = class io.vertx.up.example.api.jsr303.UserActor, method = public abstract java.lang.String io.vertx.up.example.api.jsr303.UserApi.login(java.lang.String,java.lang.String), information = 用户名不能为空.",
     "info": "用户名不能为空"
 }
 
@@ -110,7 +110,7 @@ Response ( POJO )
     "brief": "Bad Request",
     "status": 400,
     "code": -60000,
-    "message": "[ERR-60000] (Verifier) ZeroException occus: (400) - Request validation failure, class = class io.vertx.up.example.api.jsr303.UserActor, method = public abstract io.vertx.up.example.domain.Demo io.vertx.up.example.api.jsr303.UserApi.authorize(io.vertx.up.example.domain.Demo), information = Email地址不可为空.",
+    "message": "[ERR-60000] (Verifier) ZeroException occurs: (400) - Request validation failure, class = class io.vertx.up.example.api.jsr303.UserActor, method = public abstract io.vertx.up.example.domain.Demo io.vertx.up.example.api.jsr303.UserApi.authorize(io.vertx.up.example.domain.Demo), information = Email地址不可为空.",
     "info": "Email地址不可为空"
 }
 ```
