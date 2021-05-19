@@ -67,7 +67,7 @@ You'll see following error response:
 ```json
 {
     "code": -100001,
-    "message": "[ERR-100001] (UserWorker) ZeroException occus: User defined Error Lang, details = Detail."
+    "message": "[ERR-100001] (UserWorker) ZeroException occurs: User defined Error Lang, details = Detail."
 }
 ```
 
