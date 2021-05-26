@@ -70,6 +70,6 @@ You'll see following error response:
     "brief": "Bad Request",
     "status": 400,
     "code": -100001,
-    "message": "[ERR-100001] (UserWorker) ZeroException occus: User defined Error Lang, details = Detail."
+    "message": "[ERR-100001] (UserWorker) ZeroException occurs: User defined Error Lang, details = Detail."
 }
 ```
