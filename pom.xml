@@ -59,7 +59,7 @@
         <!-- RC Version Ok -->
         <jackson.version>2.12.3</jackson.version>
         <jackson.extension.version>2.12.3</jackson.extension.version>
-        <protobuf.version>3.17.0</protobuf.version>
+        <protobuf.version>3.17.1</protobuf.version>
 
         <!-- Java Projection Basic Configuration -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -70,7 +70,7 @@
         <vertx.version>3.9.7</vertx.version>
         <stack.version>3.9.7</stack.version>
 
-        <jcabi.version>0.22.6</jcabi.version>
+        <jcabi.version>0.23.1</jcabi.version>
         <jersey.version>2.34</jersey.version>
         <javax.el.version>3.0.1-b06</javax.el.version>
         <glassfish.el.version>3.0.1-b12</glassfish.el.version>
@@ -99,7 +99,7 @@
         <jwt.version>3.16.0</jwt.version>
         <jetbrains.version>20.1.0</jetbrains.version>
         <guice.version>4.1.0</guice.version>
-        <scala.version>2.13.5</scala.version>
+        <scala.version>2.13.6</scala.version>
         <feign.version>8.18.0</feign.version>
         <guava.version>30.1.1-jre</guava.version>
         <joda.version>2.10.10</joda.version>
@@ -113,7 +113,7 @@
         <checker.version>3.13.0</checker.version>
 
         <!-- elasticsearch version -->
-        <elasticsearch.version>7.12.1</elasticsearch.version>
+        <elasticsearch.version>7.13.0</elasticsearch.version>
 
         <!-- neo4j search -->
         <neo4j.version>4.2.5</neo4j.version>
@@ -135,8 +135,8 @@
 
         <!-- Rpc -->
         <vertx.grpc.version>1.6.1</vertx.grpc.version>
-        <grpc.version>1.37.0</grpc.version>
-        <gson.version>2.8.6</gson.version>
+        <grpc.version>1.38.0</grpc.version>
+        <gson.version>2.8.7</gson.version>
         <picoli.version>4.6.1</picoli.version>
 
         <!-- Yaml -->
@@ -149,7 +149,7 @@
         <netty.version>4.1.49.Final</netty.version>
         <hazelcast.version>3.12.12</hazelcast.version>
         <swagger.version>1.6.0</swagger.version>
-        <error.prone.version>2.6.0</error.prone.version>
+        <error.prone.version>2.7.1</error.prone.version>
         <reactive.streams.version>1.0.3</reactive.streams.version>
         <zookeeper.version>3.7.0</zookeeper.version>
 
