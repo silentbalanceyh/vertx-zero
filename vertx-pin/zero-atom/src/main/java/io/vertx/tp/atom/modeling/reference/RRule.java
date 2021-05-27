@@ -227,9 +227,11 @@ public class RRule implements Serializable {
                 }
             }
         });
+        if (Ut.notNil(tpl)) {
+            Ao.infoUca(this.getClass(), "Single condition building: {0}", tpl.encode());
+        }
         // If null of "", the AND operator will be set.
         tpl.put(Strings.EMPTY, this.condition.getBoolean(Strings.EMPTY, Boolean.TRUE));
-        Ao.infoUca(this.getClass(), "Single condition building: {0}", tpl.encode());
         return tpl;
     }
 
@@ -247,11 +249,16 @@ public class RRule implements Serializable {
             final Set<Object> values = Arrays.stream(records)
                     .map(record -> record.get(target))
                     .filter(Objects::nonNull).collect(Collectors.toSet());
-            tpl.put(field, Ut.toJArray(values));
+            final JsonArray valueArray = Ut.toJArray(values);
+            if (Ut.notNil(valueArray)) {
+                tpl.put(field, Ut.toJArray(values));
+            }
         });
+        if (Ut.notNil(tpl)) {
+            Ao.infoUca(this.getClass(), "Batch condition building: {0}", tpl.encode());
+        }
         // If null of "", the AND operator will be set.
         tpl.put(Strings.EMPTY, this.conditions.getBoolean(Strings.EMPTY, Boolean.TRUE));
-        Ao.infoUca(this.getClass(), "Batch condition building: {0}", tpl.encode());
         return tpl;
     }
 

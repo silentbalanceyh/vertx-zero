@@ -33,13 +33,20 @@ public class GraphActor {
             return Ux.future(new JsonObject());
         } else {
             LOGGER.info("[ ZERO ] Graphic analyzing for graph = {0}, key = {1}", graphName, key);
-            return this.client.connect(graphName).graphicByKey(key, level).compose(graphic -> {
-                final JsonArray nodeRef = graphic.getJsonArray(KeField.Graphic.NODES);
-                Ut.itJArray(nodeRef).forEach(node -> Ke.mount(node, KeField.DATA));
-                final JsonArray edgeRef = graphic.getJsonArray(KeField.Graphic.EDGES);
-                Ut.itJArray(edgeRef).forEach(node -> Ke.mount(node, KeField.DATA));
-                return Ux.future(graphic);
-            });
+            if (this.client.connected()) {
+                return this.client.connect(graphName).graphicByKey(key, level).compose(graphic -> {
+                    final JsonArray nodeRef = graphic.getJsonArray(KeField.Graphic.NODES);
+                    Ut.itJArray(nodeRef).forEach(node -> Ke.mount(node, KeField.DATA));
+                    final JsonArray edgeRef = graphic.getJsonArray(KeField.Graphic.EDGES);
+                    Ut.itJArray(edgeRef).forEach(node -> Ke.mount(node, KeField.DATA));
+                    return Ux.future(graphic);
+                });
+            } else {
+                return Ux.future(new JsonObject()
+                        .put(KeField.Graphic.NODES, new JsonArray())
+                        .put(KeField.Graphic.EDGES, new JsonArray())
+                );
+            }
         }
     }
 }
