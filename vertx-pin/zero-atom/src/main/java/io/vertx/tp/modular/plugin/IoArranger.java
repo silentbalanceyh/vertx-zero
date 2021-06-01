@@ -349,8 +349,10 @@ class IoArranger {
         if (Objects.nonNull(processedValue)) {
             /*
              * Replace original data
+             * debugStory: change record.set to record.attach, because processedValue could be
+             *  in a different class with kv.value
              */
-            record.set(field, processedValue);
+            record.attach(field, processedValue);
         }
     }
 
