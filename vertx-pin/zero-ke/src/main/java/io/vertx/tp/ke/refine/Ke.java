@@ -6,7 +6,7 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.ext.auth.User;
 import io.vertx.ext.web.Session;
 import io.vertx.tp.ke.cv.KeField;
-import io.vertx.up.atom.record.Atomy;
+import io.vertx.up.atom.record.Apt;
 import io.vertx.up.commune.Envelop;
 import io.vertx.up.commune.element.Shape;
 import io.vertx.up.log.Annal;
@@ -170,15 +170,15 @@ public class Ke {
         return KeCache.session(session, sessionKey, dataKey, value);
     }
 
-    public static Atomy compmared(final Atomy atomy, final String user) {
-        return KeCompare.compared(atomy, KeField.CODE, user);
+    public static Apt compmared(final Apt apt, final String user) {
+        return KeCompare.compared(apt, KeField.CODE, user);
     }
 
-    public static Atomy compmared(final Atomy atomy, final String field, final String user) {
-        return KeCompare.compared(atomy, field, user);
+    public static Apt compmared(final Apt apt, final String field, final String user) {
+        return KeCompare.compared(apt, field, user);
     }
 
-    public static BiFunction<Function<JsonArray, Future<JsonArray>>, Function<JsonArray, Future<JsonArray>>, Future<JsonArray>> atomyFn(final Class<?> clazz, final Atomy compared) {
+    public static BiFunction<Function<JsonArray, Future<JsonArray>>, Function<JsonArray, Future<JsonArray>>, Future<JsonArray>> atomyFn(final Class<?> clazz, final Apt compared) {
         return KeCompare.atomyFn(clazz, compared);
     }
 

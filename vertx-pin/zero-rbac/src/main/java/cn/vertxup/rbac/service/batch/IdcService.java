@@ -13,7 +13,7 @@ import io.vertx.tp.ke.cv.KeField;
 import io.vertx.tp.ke.refine.Ke;
 import io.vertx.tp.rbac.refine.Sc;
 import io.vertx.up.atom.Refer;
-import io.vertx.up.atom.record.Atomy;
+import io.vertx.up.atom.record.Apt;
 import io.vertx.up.eon.Strings;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
@@ -63,8 +63,8 @@ class IdcService extends AbstractIdc {
                                 /*
                                  * Unique `username` ensure in database
                                  */
-                                final Atomy atomy = Atomy.create(original, filtered);
-                                final Atomy created = Ke.compmared(atomy, KeField.USERNAME, by);
+                                final Apt apt = Apt.create(original, filtered);
+                                final Apt created = Ke.compmared(apt, KeField.USERNAME, by);
                                 /*
                                  * ConcurrentMap<String, Role> roles here
                                  */

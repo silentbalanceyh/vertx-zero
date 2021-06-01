@@ -13,62 +13,75 @@ import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
-/*
- * This data structure is for different compare
+/**
+ * ## Compared Apt Tool
+ *
+ * ### 1. Intro
+ *
+ * This tool is for calculation of two data source ( original & current ).
+ *
+ * ### 2. Critical Api
+ *
+ * 1. original: The old data
+ * 2. current: The new data
+ *
+ * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 @SuppressWarnings("unchecked")
-public class Atomy {
-    private final static Annal LOGGER = Annal.get(Atomy.class);
+public class Apt {
+    private final static Annal LOGGER = Annal.get(Apt.class);
 
-    private final static String MSG_ATOMY_BATCH = "Current api does not support `isBatch = false`.";
+    private final static String MSG_APT_BATCH = "Current api does not support `isBatch = false`. Method = {0}";
 
     private final transient boolean isBatch;
-    private transient AtomyOp<JsonObject> single;
-    private transient AtomyOp<JsonArray> batch;
+    private transient AptOp<JsonObject> single;
+    private transient AptOp<JsonArray> batch;
 
-    private Atomy(final JsonObject original, final JsonObject current) {
-        this.single = new AtomySingle(original, current);
+    // -------------  Private Construct Function --------------
+    private Apt(final JsonObject original, final JsonObject current) {
+        this.single = new AptSingle(original, current);
         this.isBatch = false;
     }
 
-    private Atomy(final JsonArray original, final JsonArray current) {
-        this.batch = new AtomyBatch(original, current, null);
+    private Apt(final JsonArray original, final JsonArray current) {
+        this.batch = new AptBatch(original, current, null);
         this.isBatch = true;
     }
 
-    private Atomy(final JsonArray original, final JsonArray current, final String field) {
-        this.batch = new AtomyBatch(original, current, field);
+    private Apt(final JsonArray original, final JsonArray current, final String field) {
+        this.batch = new AptBatch(original, current, field);
         this.isBatch = true;
     }
 
-    public static Atomy create(final JsonArray original, final JsonArray current, final String field) {
+    // -------------  Static Method for creation here --------------
+    public static Apt create(final JsonArray original, final JsonArray current, final String field) {
         /*
          * Ok for update only
          */
         if (Objects.isNull(original) || Objects.isNull(current)) {
             throw new AtomyParameterException();
         }
-        return new Atomy(original, current, field);
+        return new Apt(original, current, field);
     }
 
-    public static Atomy create(final JsonObject original, final JsonObject current) {
+    public static Apt create(final JsonObject original, final JsonObject current) {
         if (Objects.isNull(original) && Objects.isNull(current)) {
             throw new AtomyParameterException();
         }
-        return new Atomy(original, current);
+        return new Apt(original, current);
     }
 
-    public static Atomy create(final JsonArray original, final JsonArray current) {
+    public static Apt create(final JsonArray original, final JsonArray current) {
         if (Ut.isNil(original) && Ut.isNil(current)) {
             /*
              * Prevent null only
              */
             throw new AtomyParameterException();
         }
-        return new Atomy(original, current);
+        return new Apt(original, current);
     }
 
-    // -------------  Common Api for data getting --------------
+    // -------------  Extract data here --------------
     /*
      * JsonObject / JsonArray
      * Return to original data T
@@ -79,12 +92,7 @@ public class Atomy {
         if (this.isBatch) {
             reference = (T) this.batch.original();
         } else {
-            final JsonObject dataRef = this.single.original();
-            if (Objects.isNull(dataRef)) {
-                reference = null;
-            } else {
-                reference = (T) dataRef;
-            }
+            reference = (T) this.single.original();
         }
         return reference;
     }
@@ -111,12 +119,7 @@ public class Atomy {
         if (this.isBatch) {
             reference = (T) this.batch.current();
         } else {
-            final JsonObject dataRef = this.single.current();
-            if (Objects.isNull(dataRef)) {
-                reference = null;
-            } else {
-                reference = (T) dataRef;
-            }
+            reference = (T) this.single.current();
         }
         return reference;
     }
@@ -175,13 +178,13 @@ public class Atomy {
     }
 
     @Fluent
-    public <T> Atomy next(final T updated) {
+    public <T> Apt next(final T updated) {
         this.current(updated);
         return this;
     }
 
     @Fluent
-    public <T> Future<Atomy> nextAsync(final T updated) {
+    public <T> Future<Apt> nextAsync(final T updated) {
         this.current(updated);
         return Future.succeededFuture(this);
     }
@@ -201,7 +204,7 @@ public class Atomy {
         if (this.isBatch) {
             return this.batch.compared();
         } else {
-            LOGGER.warn(MSG_ATOMY_BATCH);
+            LOGGER.warn(MSG_APT_BATCH, "compared()");
             return new ConcurrentHashMap<>();
         }
     }
@@ -211,17 +214,17 @@ public class Atomy {
     }
 
     @Fluent
-    public Atomy compared(final ConcurrentMap<ChangeFlag, JsonArray> compared) {
+    public Apt compared(final ConcurrentMap<ChangeFlag, JsonArray> compared) {
         if (this.isBatch) {
             this.batch.compared(compared);
         } else {
-            LOGGER.warn(MSG_ATOMY_BATCH);
+            LOGGER.warn(MSG_APT_BATCH, "compared(ConcurrentMap)");
         }
         return this;
     }
 
     @Fluent
-    public Atomy add(final JsonArray inserted) {
+    public Apt add(final JsonArray inserted) {
         if (this.isBatch) {
             final JsonArray normalized = Ut.sureJArray(inserted);
             this.batch.compared().put(ChangeFlag.ADD, normalized);
@@ -234,7 +237,7 @@ public class Atomy {
     }
 
     @Fluent
-    public Atomy update(final JsonArray updated) {
+    public Apt update(final JsonArray updated) {
         if (this.isBatch) {
             final JsonArray normalized = Ut.sureJArray(updated);
             this.batch.compared().put(ChangeFlag.UPDATE, normalized);
@@ -242,7 +245,7 @@ public class Atomy {
         return this;
     }
 
-    public Atomy update(final JsonObject updated) {
+    public Apt update(final JsonObject updated) {
         if (this.isBatch) {
             this.batch.update(updated);
         } else {
@@ -251,7 +254,7 @@ public class Atomy {
         return this;
     }
 
-    public Future<Atomy> updateAsync(final JsonObject updated) {
+    public Future<Apt> updateAsync(final JsonObject updated) {
         return Future.succeededFuture(this.update(updated));
     }
 

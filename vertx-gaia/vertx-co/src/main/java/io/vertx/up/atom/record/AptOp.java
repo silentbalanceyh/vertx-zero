@@ -8,7 +8,7 @@ import java.util.concurrent.ConcurrentMap;
 /*
  * Package scope
  */
-interface AtomyOp<T> {
+interface AptOp<T> {
     /*
      * Original data here
      */
@@ -34,7 +34,7 @@ interface AtomyOp<T> {
     /*
      * Update data based on `current`.
      */
-    AtomyOp<T> update(JsonObject data);
+    AptOp<T> update(JsonObject data);
 
     /*
      * Get compared data here
@@ -51,7 +51,7 @@ interface AtomyOp<T> {
     /*
      * Write compared map data here
      */
-    default AtomyOp<T> compared(final ConcurrentMap<ChangeFlag, T> input) {
+    default AptOp<T> compared(final ConcurrentMap<ChangeFlag, T> input) {
         final ConcurrentMap<ChangeFlag, T> map = this.compared();
         map.clear();
         map.putAll(input);

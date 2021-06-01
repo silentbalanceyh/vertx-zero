@@ -5,7 +5,7 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.ke.cv.KeField;
 import io.vertx.tp.optic.fantom.Fabric;
-import io.vertx.up.atom.record.Atomy;
+import io.vertx.up.atom.record.Apt;
 import io.vertx.up.log.Annal;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
@@ -36,13 +36,13 @@ class KeCompare {
      * insert
      * update
      */
-    static Atomy compared(final Atomy atomy, final String fieldName, final String user) {
+    static Apt compared(final Apt apt, final String fieldName, final String user) {
         final JsonArray inserted = new JsonArray();
         final JsonArray updated = new JsonArray();
         final JsonArray originalArray = new JsonArray();
 
-        final JsonArray original = atomy.original();
-        final JsonArray latest = atomy.current();
+        final JsonArray original = apt.original();
+        final JsonArray latest = apt.current();
 
         Ut.itJArray(latest).forEach(each -> {
             final String value = each.getString(fieldName);
@@ -61,12 +61,12 @@ class KeCompare {
                 updated.add(dataItem);
             }
         });
-        return Atomy.create(originalArray, latest).add(inserted).update(updated);
+        return Apt.create(originalArray, latest).add(inserted).update(updated);
     }
 
     static BiFunction<Function<JsonArray, Future<JsonArray>>, Function<JsonArray, Future<JsonArray>>, Future<JsonArray>> atomyFn(
             final Class<?> clazz,
-            final Atomy compared) {
+            final Apt compared) {
         return (iFun, uFun) -> {
             final JsonArray inserted = compared.add();
             final JsonArray updated = compared.update();

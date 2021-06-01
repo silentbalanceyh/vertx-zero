@@ -11,13 +11,13 @@ import java.util.concurrent.ConcurrentMap;
 /*
  * Package scope usage for json data here.
  */
-class AtomySingle implements AtomyOp<JsonObject> {
+class AptSingle implements AptOp<JsonObject> {
     private final transient ChangeFlag flag;
     private final transient JsonObject original;
     private final transient JsonObject current = new JsonObject();
     private final transient ConcurrentMap<ChangeFlag, JsonObject> combine;
 
-    AtomySingle(final JsonObject original, final JsonObject current) {
+    AptSingle(final JsonObject original, final JsonObject current) {
         this.original = original;
         this.combine = new ConcurrentHashMap<>();
         if (Objects.isNull(original)) {
@@ -48,7 +48,7 @@ class AtomySingle implements AtomyOp<JsonObject> {
     }
 
     @Override
-    public AtomyOp<JsonObject> update(final JsonObject input) {
+    public AptOp<JsonObject> update(final JsonObject input) {
         final JsonObject normalized = Ut.sureJObject(input);
         final JsonObject dataRef = this.combine.get(this.flag);
         dataRef.mergeIn(normalized, true);

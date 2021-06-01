@@ -9,14 +9,14 @@ import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
-class AtomyBatch implements AtomyOp<JsonArray> {
+class AptBatch implements AptOp<JsonArray> {
     private transient final JsonArray original;
     private transient final JsonArray current;
     private transient final JsonArray data = new JsonArray();
     private transient final ConcurrentMap<ChangeFlag, JsonArray> combine;
     private transient ChangeFlag flag;
 
-    AtomyBatch(final JsonArray original, final JsonArray current, final String field) {
+    AptBatch(final JsonArray original, final JsonArray current, final String field) {
         this.original = Ut.sureJArray(original);
         this.current = Ut.sureJArray(current);
         this.combine = new ConcurrentHashMap<>();
@@ -121,7 +121,7 @@ class AtomyBatch implements AtomyOp<JsonArray> {
      *    be call here.
      */
     @Override
-    public AtomyOp<JsonArray> update(final JsonObject input) {
+    public AptOp<JsonArray> update(final JsonObject input) {
         final JsonObject inputData = Ut.sureJObject(input);
         if (Ut.notNil(inputData)) {
             /*
