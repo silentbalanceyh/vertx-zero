@@ -21,7 +21,12 @@ class KeExcel {
                                           final List<String> columns,
                                           final Shape shape) {
         final JsonArray combined = new JsonArray();
-        final boolean complex = shape.isComplex();
+        final boolean complex;
+        if (shape == null) {
+            complex = false;
+        } else {
+            complex = shape.isComplex();
+        }
         /*
          * Header
          * To keep the template is the same as importing, here provide some correction
