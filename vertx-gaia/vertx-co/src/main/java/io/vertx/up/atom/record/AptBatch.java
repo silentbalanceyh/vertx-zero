@@ -125,6 +125,8 @@ class AptBatch implements AptOp<JsonArray> {
         final JsonArray dataDft = new JsonArray();
         dataDft.addAll(this.array.delete());
         dataDft.addAll(this.array.replace());
+        this.combine.put(ChangeFlag.ADD, this.array.add());
         this.combine.put(ChangeFlag.UPDATE, dataDft);
+        this.combine.put(ChangeFlag.DELETE, this.array.delete());
     }
 }
