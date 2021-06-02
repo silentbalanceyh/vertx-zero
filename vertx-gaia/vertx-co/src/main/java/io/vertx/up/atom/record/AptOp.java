@@ -9,17 +9,13 @@ import java.util.concurrent.ConcurrentMap;
  * Package scope
  */
 interface AptOp<T> {
-    /*
-     * Original data here
-     */
-    T original();
+    /* Original data here */
+    T dataO();
 
-    /*
-     * Current data here
-     */
-    T current();
+    /* Current data here */
+    T dataN();
 
-    T current(T dataArray);
+    T dataN(T dataArray);
 
     /*
      * Current data ( Maybe update )

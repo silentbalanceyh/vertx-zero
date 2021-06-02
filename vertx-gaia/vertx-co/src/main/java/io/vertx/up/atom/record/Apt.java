@@ -69,12 +69,12 @@ public class Apt {
     // -------------  Extract data here --------------
     /* JsonObject / JsonArray Return to original data T */
     @SuppressWarnings("unchecked")
-    public <T> T original() {
+    public <T> T dataO() {
         final T reference;
         if (this.isBatch) {
-            reference = (T) this.batch.original();
+            reference = (T) this.batch.dataO();
         } else {
-            reference = (T) this.single.original();
+            reference = (T) this.single.dataO();
         }
         return reference;
     }
@@ -89,12 +89,12 @@ public class Apt {
     }
 
     /* JsonObject / JsonArray Read current data T */
-    public <T> T current() {
+    public <T> T dataN() {
         final T reference;
         if (this.isBatch) {
-            reference = (T) this.batch.current();
+            reference = (T) this.batch.dataN();
         } else {
-            reference = (T) this.single.current();
+            reference = (T) this.single.dataN();
         }
         return reference;
     }
@@ -135,30 +135,71 @@ public class Apt {
     }
 
     /*  `io` method is for current data updating, it will replace the latest data ( JsonObject / JsonArray ) */
-    public <T> T current(final T updated) {
+    public <T> T dataN(final T updated) {
         final T reference;
         if (this.isBatch) {
-            reference = (T) this.batch.current((JsonArray) updated);
+            reference = (T) this.batch.dataN((JsonArray) updated);
         } else {
-            reference = (T) this.single.current((JsonObject) updated);
+            reference = (T) this.single.dataN((JsonObject) updated);
         }
         return reference;
     }
 
-    public <T> Future<T> currentAsync(final T updated) {
-        return Future.succeededFuture(this.current(updated));
+    public <T> Future<T> dataNAsync(final T updated) {
+        return Future.succeededFuture(this.dataN(updated));
     }
 
+    public JsonArray dataAdd() {
+        return this.batch.compared(ChangeFlag.ADD);
+    }
+
+
+    public JsonArray dataEdit() {
+        return this.batch.compared(ChangeFlag.UPDATE);
+    }
+
+    // =============================================================
     @Fluent
-    public <T> Apt next(final T updated) {
-        this.current(updated);
+    public Apt add(final JsonArray inserted) {
+        if (this.isBatch) {
+            final JsonArray normalized = Ut.sureJArray(inserted);
+            this.batch.compared().put(ChangeFlag.ADD, normalized);
+        }
         return this;
     }
 
     @Fluent
-    public <T> Future<Apt> nextAsync(final T updated) {
-        this.current(updated);
+    public Apt edit(final JsonArray updated) {
+        if (this.isBatch) {
+            final JsonArray normalized = Ut.sureJArray(updated);
+            this.batch.compared().put(ChangeFlag.UPDATE, normalized);
+        }
+        return this;
+    }
+
+    public Apt edit(final JsonObject updated) {
+        if (this.isBatch) {
+            this.batch.update(updated);
+        } else {
+            this.single.update(updated);
+        }
+        return this;
+    }
+    
+    @Fluent
+    public <T> Apt set(final T updated) {
+        this.dataN(updated);
+        return this;
+    }
+
+    @Fluent
+    public <T> Future<Apt> setAsync(final T updated) {
+        this.dataN(updated);
         return Future.succeededFuture(this);
+    }
+
+    public Future<Apt> editAsync(final JsonObject updated) {
+        return Future.succeededFuture(this.edit(updated));
     }
 
     /*
@@ -193,44 +234,5 @@ public class Apt {
             LOGGER.warn(MSG_APT_BATCH, "compared(ConcurrentMap)");
         }
         return this;
-    }
-
-    @Fluent
-    public Apt add(final JsonArray inserted) {
-        if (this.isBatch) {
-            final JsonArray normalized = Ut.sureJArray(inserted);
-            this.batch.compared().put(ChangeFlag.ADD, normalized);
-        }
-        return this;
-    }
-
-    public JsonArray add() {
-        return this.batch.compared(ChangeFlag.ADD);
-    }
-
-    @Fluent
-    public Apt update(final JsonArray updated) {
-        if (this.isBatch) {
-            final JsonArray normalized = Ut.sureJArray(updated);
-            this.batch.compared().put(ChangeFlag.UPDATE, normalized);
-        }
-        return this;
-    }
-
-    public Apt update(final JsonObject updated) {
-        if (this.isBatch) {
-            this.batch.update(updated);
-        } else {
-            this.single.update(updated);
-        }
-        return this;
-    }
-
-    public Future<Apt> updateAsync(final JsonObject updated) {
-        return Future.succeededFuture(this.update(updated));
-    }
-
-    public JsonArray update() {
-        return this.batch.compared(ChangeFlag.UPDATE);
     }
 }

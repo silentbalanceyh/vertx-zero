@@ -58,17 +58,17 @@ class AptSingle implements AptOp<JsonObject> {
     }
 
     @Override
-    public JsonObject original() {
+    public JsonObject dataO() {
         return this.original;
     }
 
     @Override
-    public JsonObject current() {
+    public JsonObject dataN() {
         return this.current;
     }
 
     @Override
-    public JsonObject current(final JsonObject current) {
+    public JsonObject dataN(final JsonObject current) {
         this.current.clear();
         this.current.mergeIn(current, true);
         /*
