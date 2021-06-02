@@ -91,7 +91,7 @@ class AptBatch implements AptOp<JsonArray> {
     }
 
     @Override
-    public JsonArray dataN(final JsonArray current) {
+    public JsonArray set(final JsonArray current) {
         this.current.clear();
         this.current.addAll(current);
         return this.current;

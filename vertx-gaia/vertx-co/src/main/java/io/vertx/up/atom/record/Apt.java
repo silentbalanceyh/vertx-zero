@@ -138,9 +138,9 @@ public class Apt {
     public <T> T dataN(final T updated) {
         final T reference;
         if (this.isBatch) {
-            reference = (T) this.batch.dataN((JsonArray) updated);
+            reference = (T) this.batch.set((JsonArray) updated);
         } else {
-            reference = (T) this.single.dataN((JsonObject) updated);
+            reference = (T) this.single.set((JsonObject) updated);
         }
         return reference;
     }
@@ -150,12 +150,21 @@ public class Apt {
     }
 
     public JsonArray dataAdd() {
-        return this.batch.compared(ChangeFlag.ADD);
+        return this.batch.compared().get(ChangeFlag.ADD);
     }
 
 
     public JsonArray dataEdit() {
-        return this.batch.compared(ChangeFlag.UPDATE);
+        return this.batch.compared().get(ChangeFlag.UPDATE);
+    }
+
+    public ConcurrentMap<ChangeFlag, JsonArray> dataCompared() {
+        if (this.isBatch) {
+            return this.batch.compared();
+        } else {
+            LOGGER.warn(MSG_APT_BATCH, "compared()");
+            return new ConcurrentHashMap<>();
+        }
     }
 
     // =============================================================
@@ -168,6 +177,10 @@ public class Apt {
         return this;
     }
 
+    public Future<Apt> addAsync(final JsonArray inserted) {
+        return Future.succeededFuture(this.add(inserted));
+    }
+
     @Fluent
     public Apt edit(final JsonArray updated) {
         if (this.isBatch) {
@@ -177,6 +190,11 @@ public class Apt {
         return this;
     }
 
+    public Future<Apt> editAsync(final JsonArray updated) {
+        return Future.succeededFuture(this.edit(updated));
+    }
+
+    @Fluent
     public Apt edit(final JsonObject updated) {
         if (this.isBatch) {
             this.batch.update(updated);
@@ -185,7 +203,11 @@ public class Apt {
         }
         return this;
     }
-    
+
+    public Future<Apt> editAsync(final JsonObject updated) {
+        return Future.succeededFuture(this.edit(updated));
+    }
+
     @Fluent
     public <T> Apt set(final T updated) {
         this.dataN(updated);
@@ -193,46 +215,20 @@ public class Apt {
     }
 
     @Fluent
-    public <T> Future<Apt> setAsync(final T updated) {
-        this.dataN(updated);
-        return Future.succeededFuture(this);
-    }
-
-    public Future<Apt> editAsync(final JsonObject updated) {
-        return Future.succeededFuture(this.edit(updated));
-    }
-
-    /*
-     * Batch operation api here
-     * - compared                   - Read Io
-     * - comparedAsync              - Read Io
-     * - compared(compared)         - Write Io
-     * - add(JsonArray)             - Replace flag = ADD queue
-     * - update(JsonArray)          - Replace flag = UPDATE queue
-     * - update(JsonObject)         - Update data based on `JsonObject`
-     *
-     * @return
-     */
-    public ConcurrentMap<ChangeFlag, JsonArray> compared() {
+    public Apt set(final ConcurrentMap<ChangeFlag, JsonArray> compared) {
         if (this.isBatch) {
-            return this.batch.compared();
-        } else {
-            LOGGER.warn(MSG_APT_BATCH, "compared()");
-            return new ConcurrentHashMap<>();
-        }
-    }
-
-    public Future<ConcurrentMap<ChangeFlag, JsonArray>> comparedAsync() {
-        return Future.succeededFuture(this.compared());
-    }
-
-    @Fluent
-    public Apt compared(final ConcurrentMap<ChangeFlag, JsonArray> compared) {
-        if (this.isBatch) {
-            this.batch.compared(compared);
+            final ConcurrentMap<ChangeFlag, JsonArray> mapRef = this.dataCompared();
+            mapRef.clear();
+            mapRef.putAll(compared);
         } else {
             LOGGER.warn(MSG_APT_BATCH, "compared(ConcurrentMap)");
         }
         return this;
     }
+
+    public <T> Future<Apt> setAsync(final T updated) {
+        this.dataN(updated);
+        return Future.succeededFuture(this);
+    }
+
 }

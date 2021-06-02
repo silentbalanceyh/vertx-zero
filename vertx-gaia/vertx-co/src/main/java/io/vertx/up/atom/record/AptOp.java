@@ -15,42 +15,17 @@ interface AptOp<T> {
     /* Current data here */
     T dataN();
 
-    T dataN(T dataArray);
-
-    /*
-     * Current data ( Maybe update )
-     */
+    /* Current data ( Maybe update ) */
     T data();
 
-    /*
-     * Return current type of Change
-     */
+    /* Return current type of Change */
     ChangeFlag type();
 
-    /*
-     * Update data based on `current`.
-     */
+    T set(T dataArray);
+
+    /* Update data based on `current`. */
     AptOp<T> update(JsonObject data);
 
-    /*
-     * Get compared data here
-     */
+    /* Get compared data here */
     ConcurrentMap<ChangeFlag, T> compared();
-
-    /*
-     * Get T by `ChangeFlag`
-     */
-    default T compared(final ChangeFlag flag) {
-        return this.compared().get(flag);
-    }
-
-    /*
-     * Write compared map data here
-     */
-    default AptOp<T> compared(final ConcurrentMap<ChangeFlag, T> input) {
-        final ConcurrentMap<ChangeFlag, T> map = this.compared();
-        map.clear();
-        map.putAll(input);
-        return this;
-    }
 }
