@@ -148,16 +148,6 @@ public final class Ut {
         return ArrayJ.add(array, jsonObject, field);
     }
 
-    public static JsonObject elementAdd(final JsonObject target, final JsonObject source, final String field) {
-        Jackson.append(target, source, field);
-        return target;
-    }
-
-    public static JsonObject elementAdd(final JsonObject target, final JsonObject source, final String... fields) {
-        Arrays.stream(fields).forEach(field -> Jackson.append(target, source, field));
-        return target;
-    }
-
     public static JsonArray elementSave(final JsonArray array, final JsonArray json, final String field) {
         return ArrayJ.save(array, json, field);
     }
@@ -476,7 +466,6 @@ public final class Ut {
      * 7) field / fields
      * 8) contract / contractAsync ( @Contract )
      * 9) plugin
-     * 10) assign
      */
     public static <T> T plugin(final JsonObject options, final String pluginKey, final Class<T> interfaceCls) {
         return Instance.plugin(options, pluginKey, interfaceCls);
@@ -571,8 +560,23 @@ public final class Ut {
         return Future.succeededFuture(Boolean.TRUE);
     }
 
-    public static void assign(final JsonObject target, final JsonObject source, final String... fields) {
-        Jackson.assign(target, source, fields);
+    /*
+     * 1) jsonCopy
+     * 2) jsonAppend ( The old name is ifMerge )
+     * 3) jsonMerge
+     */
+    public static void jsonCopy(final JsonObject target, final JsonObject source, final String... fields) {
+        Jackson.jsonCopy(target, source, fields);
+    }
+
+    public static JsonObject jsonAppend(final JsonObject target, final JsonObject... sources) {
+        Arrays.stream(sources).forEach(source -> Jackson.jsonAppend(target, source, true));
+        return target;
+    }
+
+    public static JsonObject jsonMerge(final JsonObject target, final JsonObject... sources) {
+        Arrays.stream(sources).forEach(source -> Jackson.jsonMerge(target, source, true));
+        return target;
     }
 
     /*
@@ -773,10 +777,6 @@ public final class Ut {
 
     public static void ifJArray(final JsonArray array, final String... fields) {
         It.itJArray(array).forEach(json -> Apply.ifJson(json, fields));
-    }
-
-    public static JsonObject ifMerge(final JsonObject target, final JsonObject source) {
-        return Jackson.flatMerge(target, source);
     }
 
     public static <T> Function<T, Future<JsonObject>> ifMerge(final JsonObject input) {

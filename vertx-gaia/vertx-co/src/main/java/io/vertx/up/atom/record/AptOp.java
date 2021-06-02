@@ -3,20 +3,24 @@ package io.vertx.up.atom.record;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.eon.em.ChangeFlag;
 
-import java.util.concurrent.ConcurrentMap;
-
 /*
  * Package scope
  */
 interface AptOp<T> {
-    /* Original data here */
+    /* Old */
     T dataO();
 
-    /* Current data here */
+    /* New */
     T dataN();
 
+    /* Replace */
+    T dataR();
+
+    /* Append */
+    T dataA();
+
     /* Current data ( Maybe update ) */
-    T data();
+    T dataDft();
 
     /* Return current type of Change */
     ChangeFlag type();
@@ -25,7 +29,4 @@ interface AptOp<T> {
 
     /* Update data based on `current`. */
     AptOp<T> update(JsonObject data);
-
-    /* Get compared data here */
-    ConcurrentMap<ChangeFlag, T> compared();
 }

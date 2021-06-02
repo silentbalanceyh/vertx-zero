@@ -61,15 +61,15 @@ class KeCompare {
                 updated.add(dataItem);
             }
         });
-        return Apt.create(originalArray, latest).add(inserted).edit(updated);
+        return Apt.create(originalArray, latest).comparedA(inserted).comparedU(updated);
     }
 
     static BiFunction<Function<JsonArray, Future<JsonArray>>, Function<JsonArray, Future<JsonArray>>, Future<JsonArray>> atomyFn(
             final Class<?> clazz,
             final Apt compared) {
         return (iFun, uFun) -> {
-            final JsonArray inserted = compared.dataAdd();
-            final JsonArray updated = compared.dataEdit();
+            final JsonArray inserted = compared.comparedA();
+            final JsonArray updated = compared.comparedU();
 
             final Annal LOGGER = Annal.get(clazz);
             KeLog.infoKe(LOGGER, "Result of calculated, Insert = {0}, Update = {1}",

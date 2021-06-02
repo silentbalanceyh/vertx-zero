@@ -5,78 +5,36 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.up.eon.em.ChangeFlag;
 import io.vertx.up.util.Ut;
 
-import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
 class AptBatch implements AptOp<JsonArray> {
     private transient final JsonArray original;
     private transient final JsonArray current;
-    private transient final JsonArray data = new JsonArray();
-    private transient final ConcurrentMap<ChangeFlag, JsonArray> combine;
-    private transient ChangeFlag flag;
+
+    private transient final ConcurrentMap<ChangeFlag, JsonArray> combine = new ConcurrentHashMap<>();
+
+    // Refer the same as the UPDATE in combine
+    private final transient AptArray array = new AptArray();
+    private final transient ChangeFlag flag;
 
     AptBatch(final JsonArray original, final JsonArray current, final String field) {
         this.original = Ut.sureJArray(original);
         this.current = Ut.sureJArray(current);
-        this.combine = new ConcurrentHashMap<>();
+        this.array.setField(field);
         if (Ut.isNil(original)) {
-            /*
-             * ADD
-             */
+            /* ADD */
             this.flag = ChangeFlag.ADD;
-            this.data.addAll(this.current.copy());
+            this.combine.put(ChangeFlag.ADD, this.current.copy());
         } else if (Ut.isNil(current)) {
-            /*
-             * DELETE
-             */
+            /* DELETE */
             this.flag = ChangeFlag.DELETE;
-            this.data.addAll(this.original.copy());
+            this.combine.put(ChangeFlag.DELETE, this.original.copy());
         } else {
-            /*
-             * UPDATE
-             * the `data` won't be initialized
-             */
+            /* UPDATE the `data` won't be initialized */
             this.flag = ChangeFlag.UPDATE;
-            /*
-             * Mode compared by field
-             */
-            if (Ut.isNil(field)) {
-                this.data.addAll(this.original.copy());
-            } else {
-                /*
-                 * original / current
-                 * must be updated for element here, it means that
-                 * 1) data is ( original + current )
-                 * 2) Append mode, the original is base elements
-                 */
-                final JsonArray data = new JsonArray();
-                Ut.itJArray(original).forEach(old -> {
-                    /*
-                     * 1) Get fieldValue from each old element
-                     * 2) Try to find in current data.
-                     */
-                    final Object fieldValue = old.getValue(field);
-                    if (Objects.nonNull(fieldValue)) {
-                        final JsonObject found = Ut.itJArray(current).filter(item ->
-                                fieldValue.equals(item.getValue(field))).findAny().orElse(null);
-                        if (Ut.isNil(found)) {
-                            /*
-                             * Not found
-                             */
-                            data.add(old.copy());
-                        } else {
-                            /*
-                             * Found merged ( old, found )
-                             */
-                            final JsonObject element = new JsonObject();
-                            element.mergeIn(old.copy(), true).mergeIn(found, true);
-                            data.add(element);
-                        }
-                    }
-                });
-                this.data.addAll(data);
-            }
+            // Calculate
+            this.setInternal(current);
         }
     }
 
@@ -91,15 +49,35 @@ class AptBatch implements AptOp<JsonArray> {
     }
 
     @Override
+    public JsonArray dataR() {
+        return this.array.replace();
+    }
+
+    @Override
+    public JsonArray dataA() {
+        return this.array.append();
+    }
+
+    public JsonArray dataDelete() {
+        return this.array.delete();
+    }
+
+    public JsonArray dataAdd() {
+        return this.array.add();
+    }
+
+    @Override
     public JsonArray set(final JsonArray current) {
         this.current.clear();
         this.current.addAll(current);
+        // Calculate
+        this.setInternal(this.current);
         return this.current;
     }
 
     @Override
-    public JsonArray data() {
-        return this.data;
+    public JsonArray dataDft() {
+        return this.combine.get(this.flag);
     }
 
     @Override
@@ -124,32 +102,29 @@ class AptBatch implements AptOp<JsonArray> {
     public AptOp<JsonArray> update(final JsonObject input) {
         final JsonObject inputData = Ut.sureJObject(input);
         if (Ut.notNil(inputData)) {
-            /*
-             * Update current JsonArray by
-             *
-             */
-            final JsonArray normalized = new JsonArray();
-            Ut.itJArray(this.data).forEach(json -> {
-                final JsonObject reference = json.copy();
-                reference.mergeIn(inputData.copy(), true);
-                normalized.add(reference);
-            });
-
-            this.data.clear();
-            this.data.addAll(normalized.copy());
-            /*
-             * DELETE -> UPDATE
-             */
-            if (this.current.isEmpty()) {
-                this.flag = ChangeFlag.UPDATE;
-                this.current.addAll(normalized.copy());
-            }
+            /* DELETE -> UPDATE */
+            // if (this.current.isEmpty()) {
+            // this.flag = ChangeFlag.UPDATE;
+            // this.current.addAll(normalized.copy());
+            // }
+            this.array.update(inputData);
         }
         return this;
     }
 
-    @Override
-    public ConcurrentMap<ChangeFlag, JsonArray> compared() {
-        return this.combine;
+    private void setInternal(final JsonArray current) {
+        /*
+         * UPDATE
+         * Calculate the complex situations
+         *
+         * 1. UPDATE means compared result
+         * 2. Replaced
+         * 3. Appended
+         */
+        this.array.calculate(this.original, current);
+        final JsonArray dataDft = new JsonArray();
+        dataDft.addAll(this.array.delete());
+        dataDft.addAll(this.array.replace());
+        this.combine.put(ChangeFlag.UPDATE, dataDft);
     }
 }
