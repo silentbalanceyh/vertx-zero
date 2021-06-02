@@ -43,49 +43,31 @@ public class Apt {
         this.isBatch = false;
     }
 
-    private Apt(final JsonArray original, final JsonArray current) {
-        this.batch = new AptBatch(original, current, null);
-        this.isBatch = true;
-    }
-
     private Apt(final JsonArray original, final JsonArray current, final String field) {
         this.batch = new AptBatch(original, current, field);
         this.isBatch = true;
     }
 
     // -------------  Static Method for creation here --------------
+    /* Ok for update only */
     public static Apt create(final JsonArray original, final JsonArray current, final String field) {
-        /*
-         * Ok for update only
-         */
-        if (Objects.isNull(original) || Objects.isNull(current)) {
-            throw new AtomyParameterException();
-        }
+        if (Objects.isNull(original) || Objects.isNull(current)) throw new AtomyParameterException();
         return new Apt(original, current, field);
     }
 
     public static Apt create(final JsonObject original, final JsonObject current) {
-        if (Objects.isNull(original) && Objects.isNull(current)) {
-            throw new AtomyParameterException();
-        }
+        if (Objects.isNull(original) && Objects.isNull(current)) throw new AtomyParameterException();
         return new Apt(original, current);
     }
 
     public static Apt create(final JsonArray original, final JsonArray current) {
-        if (Ut.isNil(original) && Ut.isNil(current)) {
-            /*
-             * Prevent null only
-             */
-            throw new AtomyParameterException();
-        }
-        return new Apt(original, current);
+        return create(original, current, null);
     }
 
+    // =============================================================
+
     // -------------  Extract data here --------------
-    /*
-     * JsonObject / JsonArray
-     * Return to original data T
-     */
+    /* JsonObject / JsonArray Return to original data T */
     @SuppressWarnings("unchecked")
     public <T> T original() {
         final T reference;
@@ -97,11 +79,7 @@ public class Apt {
         return reference;
     }
 
-    /*
-     * ChangeFlag
-     * Return to change flag here
-     * ADD / UPDATE / DELETE
-     */
+    /* ChangeFlag, Return to change flag here, ADD / UPDATE / DELETE */
     public ChangeFlag type() {
         if (this.isBatch) {
             return this.batch.type();
@@ -110,10 +88,7 @@ public class Apt {
         }
     }
 
-    /*
-     * JsonObject / JsonArray
-     * Read current data T
-     */
+    /* JsonObject / JsonArray Read current data T */
     public <T> T current() {
         final T reference;
         if (this.isBatch) {
@@ -159,10 +134,7 @@ public class Apt {
         }
     }
 
-    /*
-     * `io` method is for current data updating, it will replace the
-     *  latest data ( JsonObject / JsonArray )
-     */
+    /*  `io` method is for current data updating, it will replace the latest data ( JsonObject / JsonArray ) */
     public <T> T current(final T updated) {
         final T reference;
         if (this.isBatch) {
