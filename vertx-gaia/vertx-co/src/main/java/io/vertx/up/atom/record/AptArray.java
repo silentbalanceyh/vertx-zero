@@ -88,12 +88,15 @@ public class AptArray implements Serializable {
 
         Ut.itJArray(current).forEach(json -> {
             final Object fieldValue = json.getValue(this.field);
+            final JsonObject element = json.copy();
             if (Objects.nonNull(fieldValue)) {
                 final JsonObject found = Ut.elementFind(original, this.field, fieldValue);
                 if (Ut.isNil(found)) {
-                    final JsonObject element = json.copy();
                     this.add.add(element);
                 }
+            } else {
+                // If the critical field value is null, marked as add
+                this.add.add(element);
             }
         });
     }
