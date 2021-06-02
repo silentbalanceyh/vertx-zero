@@ -156,6 +156,20 @@ public class Apt {
     }
 
     @Fluent
+    public Apt compared(final ConcurrentMap<ChangeFlag, JsonArray> compared) {
+        this.doBatch(() -> {
+            final ConcurrentMap<ChangeFlag, JsonArray> mapRef = this.compared();
+            mapRef.clear();
+            mapRef.putAll(compared);
+        }, "compared(ConcurrentMap)");
+        return this;
+    }
+
+    public Future<Apt> comparedAsync(final ConcurrentMap<ChangeFlag, JsonArray> compared) {
+        return Future.succeededFuture(this.compared(compared));
+    }
+
+    @Fluent
     public Apt comparedA(final JsonArray inserted) {
         this.doBatch(() -> {
             final JsonArray normalized = Ut.sureJArray(inserted);
@@ -198,16 +212,6 @@ public class Apt {
     @Fluent
     public <T> Apt set(final T updated) {
         this.dataN(updated);
-        return this;
-    }
-
-    @Fluent
-    public Apt set(final ConcurrentMap<ChangeFlag, JsonArray> compared) {
-        this.doBatch(() -> {
-            final ConcurrentMap<ChangeFlag, JsonArray> mapRef = this.compared();
-            mapRef.clear();
-            mapRef.putAll(compared);
-        }, "compared(ConcurrentMap)");
         return this;
     }
 
