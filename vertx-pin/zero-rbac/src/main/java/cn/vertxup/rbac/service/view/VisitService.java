@@ -107,14 +107,14 @@ public class VisitService implements VisitStub {
          * sigma
          * viewId
          */
-        Ut.assign(request, view,
+        Ut.jsonCopy(request, view,
                 KeField.SIGMA, KeField.LANGUAGE, KeField.ACTIVE);
         request.put("viewId", view.getValue(KeField.KEY));
         /*
          * Distinguish INSERT / UPDATE
          */
         final JsonObject criteria = new JsonObject();
-        Ut.assign(criteria, request,
+        Ut.jsonCopy(criteria, request,
                 "viewId", KeField.TYPE, KeField.SIGMA);
         /*
          * If `configKey` provide

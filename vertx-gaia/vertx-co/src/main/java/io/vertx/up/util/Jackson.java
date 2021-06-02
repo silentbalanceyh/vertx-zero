@@ -222,29 +222,27 @@ final class Jackson {
                 () -> Fn.getJvm(() -> Jackson.MAPPER.readValue(value, type)), value);
     }
 
-    static JsonObject flatMerge(final JsonObject target, final JsonObject source) {
-        Observable.fromIterable(source.fieldNames())
-                .filter(key -> !target.containsKey(key))
-                .subscribe(key -> target.put(key, source.getValue(key)))
-                .dispose();
-        return target;
+    // ---------------------- Json Tool ----------------------------
+    static JsonObject jsonMerge(final JsonObject target, final JsonObject source, boolean isRef) {
+        final JsonObject reference = isRef ? target : target.copy();
+        reference.mergeIn(source, true);
+        return reference;
     }
 
-    static void append(final JsonObject target, final JsonObject source, final String field) {
-        Fn.safeNull(() -> {
+    static JsonObject jsonAppend(final JsonObject target, final JsonObject source, boolean isRef) {
+        final JsonObject reference = isRef ? target : target.copy();
+        source.fieldNames().stream()
+                .filter(field -> !reference.containsKey(field))
+                .forEach(field -> reference.put(field, source.getValue(field)));
+        return reference;
+    }
+
+    static void jsonCopy(final JsonObject target, final JsonObject source, final String... fields) {
+        Arrays.stream(fields).forEach(field -> Fn.safeNull(() -> {
             final Object value = source.getValue(field);
             if (Objects.nonNull(value)) {
                 target.put(field, value);
             }
-        }, target, source, field);
-    }
-
-    static void assign(final JsonObject target, final JsonObject source, final String... fields) {
-        if (0 < fields.length) {
-            Arrays.stream(fields)
-                    .filter(source::containsKey)
-                    .filter(field -> Objects.nonNull(source.getValue(field)))
-                    .forEach(field -> target.put(field, source.getValue(field)));
-        }
+        }, target, source, field));
     }
 }

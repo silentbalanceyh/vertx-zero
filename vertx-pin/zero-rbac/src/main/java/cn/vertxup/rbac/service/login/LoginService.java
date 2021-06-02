@@ -54,7 +54,7 @@ public class LoginService implements LoginStub {
                                 // Fetch Oauth user
                                 this.userStub.fetchOUser(user.getString(KeField.KEY))
                         ),
-                        Ut::ifMerge // SUser / OUser - Avoid duplicated merging
+                        Ut::jsonAppend // SUser / OUser - Avoid duplicated merging
                 ))
                 .compose(item -> Uson.create(item).pickup(
                         KeField.KEY,                /* client_id parameter */
