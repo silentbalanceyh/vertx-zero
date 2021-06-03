@@ -2,9 +2,9 @@ package io.vertx.up.exception.heart;
 
 import io.vertx.up.exception.ZeroRunException;
 
-public class AtpParameterException extends ZeroRunException {
+public class AptParameterException extends ZeroRunException {
 
-    public AtpParameterException() {
+    public AptParameterException() {
         super(Info.ATP_MSG);
     }
 }
