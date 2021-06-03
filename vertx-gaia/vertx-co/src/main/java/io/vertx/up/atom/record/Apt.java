@@ -5,7 +5,7 @@ import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.eon.em.ChangeFlag;
-import io.vertx.up.exception.heart.AtpParameterException;
+import io.vertx.up.exception.heart.AptParameterException;
 import io.vertx.up.fn.Actuator;
 import io.vertx.up.log.Annal;
 import io.vertx.up.util.Ut;
@@ -55,12 +55,12 @@ public class Apt {
     // -------------  Static Method for creation here --------------
     /* Ok for update only */
     public static Apt create(final JsonArray original, final JsonArray current, final String field) {
-        if (Ut.isNil(original) && Ut.isNil(current)) throw new AtpParameterException();
+        if (Ut.isNil(original) && Ut.isNil(current)) throw new AptParameterException();
         return new Apt(original, current, field);
     }
 
     public static Apt create(final JsonObject original, final JsonObject current) {
-        if (Ut.isNil(original) && Ut.isNil(current)) throw new AtpParameterException();
+        if (Ut.isNil(original) && Ut.isNil(current)) throw new AptParameterException();
         return new Apt(original, current);
     }
 
