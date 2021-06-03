@@ -68,6 +68,10 @@ public class Apt {
         return create(original, current, null);
     }
 
+    public static Apt create(final JsonArray original) {
+        return create(original, original.copy(), null);
+    }
+
     // =============================================================
 
     // -------------  Extract data here --------------
@@ -196,7 +200,7 @@ public class Apt {
     }
 
     @Fluent
-    public Apt comparedU(final JsonObject updated) {
+    public Apt update(final JsonObject updated) {
         if (this.isBatch) {
             this.batch.update(updated);
         } else {
@@ -205,8 +209,8 @@ public class Apt {
         return this;
     }
 
-    public Future<Apt> comparedUAsync(final JsonObject updated) {
-        return Future.succeededFuture(this.comparedU(updated));
+    public Future<Apt> updateAsync(final JsonObject updated) {
+        return Future.succeededFuture(this.update(updated));
     }
 
     @Fluent
