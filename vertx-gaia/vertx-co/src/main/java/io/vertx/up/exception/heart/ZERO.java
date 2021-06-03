@@ -24,7 +24,7 @@ interface Info {
 
     String DATE_MSG = "The input `{0}` could not be parsed to valid date";
 
-    String ATOMY_MSG = "The arguments could not be both null to build `io.vertx.up.atom.record.Atomy`";
+    String ATP_MSG = "The arguments could not be both null to build `io.vertx.up.atom.record.Atp`";
 
     String POOL_KEY_MSG = "The input key of `Pool` is null, it''s conflict in current environment";
 
