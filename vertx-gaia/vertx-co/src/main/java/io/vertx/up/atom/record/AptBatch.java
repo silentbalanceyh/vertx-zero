@@ -25,17 +25,15 @@ class AptBatch implements AptOp<JsonArray> {
         if (Ut.isNil(original)) {
             /* ADD */
             this.flag = ChangeFlag.ADD;
-            this.combine.put(ChangeFlag.ADD, this.current.copy());
         } else if (Ut.isNil(current)) {
             /* DELETE */
             this.flag = ChangeFlag.DELETE;
-            this.combine.put(ChangeFlag.DELETE, this.original.copy());
         } else {
             /* UPDATE the `data` won't be initialized */
             this.flag = ChangeFlag.UPDATE;
-            // Calculate
-            this.setInternal(current);
         }
+        // Calculate
+        this.setInternal(current);
     }
 
     @Override
