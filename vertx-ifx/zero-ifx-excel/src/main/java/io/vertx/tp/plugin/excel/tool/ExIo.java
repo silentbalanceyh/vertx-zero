@@ -97,7 +97,7 @@ public class ExIo {
     }
 
     private static LocalDateTime outLocalDateTime(final String value) {
-        final LocalDateTime dateTime = Ut.toDateTime(value.toString());
+        final LocalDateTime dateTime = Ut.toDateTime(value);
         // 修正
         return LocalDateTime.ofInstant(dateTime.toInstant(ZoneOffset.UTC), ZoneId.systemDefault());
     }

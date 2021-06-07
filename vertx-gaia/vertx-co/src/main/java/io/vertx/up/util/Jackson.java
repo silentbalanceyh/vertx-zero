@@ -163,11 +163,15 @@ final class Jackson {
                 result.addAll((JsonArray) value);
             } else {
                 final JsonArray direct = To.toJArray(value.toString());
-                if (direct.isEmpty()) {
+                // Fix issue of ["[]"] String literal
+                if (!direct.isEmpty()) {
+                    result.addAll(direct);
+                }
+/*                if (direct.isEmpty()) {
                     result.add(value.toString());
                 } else {
                     result.addAll(direct);
-                }
+                }*/
             }
         }, value);
         return result;
