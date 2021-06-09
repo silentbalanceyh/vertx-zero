@@ -2,6 +2,7 @@ package io.vertx.tp.plugin.excel.ranger;
 
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
+import io.vertx.tp.plugin.excel.atom.ExRecord;
 import io.vertx.tp.plugin.excel.cell.ExValue;
 import io.vertx.up.commune.element.Shape;
 import io.vertx.up.log.Annal;
@@ -58,7 +59,9 @@ public abstract class AbstractExIn implements ExIn {
             if (Objects.isNull(original)) {
                 original = new JsonArray();
             }
-            original.add(record);
+            if (!ExRecord.isEmpty(record)) {
+                original.add(record);
+            }
             complexMap.put(field, original);
         });
         /* Add only once */
