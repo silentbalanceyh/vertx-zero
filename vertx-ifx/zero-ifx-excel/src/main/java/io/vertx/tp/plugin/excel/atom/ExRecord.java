@@ -4,6 +4,7 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.tp.plugin.excel.cell.ExValue;
 import io.vertx.up.commune.Json;
 import io.vertx.up.eon.Strings;
+import io.vertx.up.util.Ut;
 
 import java.io.Serializable;
 import java.util.HashMap;
@@ -27,7 +28,23 @@ public class ExRecord implements Serializable, Json {
     }
 
     public boolean isEmpty() {
-        return this.toJson().isEmpty();
+        return isEmpty(this.toJson());
+    }
+
+    public static boolean isEmpty(final JsonObject recordRef) {
+        final boolean isEmpty = recordRef.isEmpty();
+        if (isEmpty) {
+            return true;
+        } else {
+            /*
+             * Remove ""
+             */
+            final long counter = recordRef.fieldNames().stream()
+                    .filter(field -> Objects.nonNull(recordRef.getValue(field)))
+                    .filter(field -> Ut.notNil(recordRef.getValue(field).toString()))
+                    .count();
+            return 0 == counter;
+        }
     }
 
     @Override
