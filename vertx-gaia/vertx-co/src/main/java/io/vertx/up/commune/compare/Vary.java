@@ -1,4 +1,4 @@
-package io.vertx.up.commune.element;
+package io.vertx.up.commune.compare;
 
 import io.vertx.codegen.annotations.Fluent;
 import io.vertx.core.json.JsonObject;
@@ -11,44 +11,73 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
 /**
+ * ## Diff Container
+ *
+ * ### 1. Intro
+ *
+ * Store definition of each model for diff ( comparing workflow )
+ *
  * @author <a href="http://www.origin-x.cn">Lang</a>
- * Diff for two record comparing
  */
-public class JDiff implements Serializable {
+public class Vary implements Serializable {
+    /**
+     * Attribute Stored
+     * name = type
+     *
+     * 1. name is the attribute name of model ( `M_ATTRIBUTE` ).
+     * 2. type is the java type that could be reflect.
+     */
     private transient final ConcurrentMap<String, Class<?>> typeMap = new ConcurrentHashMap<>();
+
+    /**
+     * Subset Attribute Stored
+     * name = Set
+     *
+     * 1. name is the attribute name of model ( `M_ATTRIBUTE` ).
+     * 2. The data type is fixed: JsonObject / JsonArray.
+     * 3. The `Set` means the attribute names of JsonObject or JsonArray here.
+     */
     private transient final ConcurrentMap<String, Set<String>> diffMap = new ConcurrentHashMap<>();
+
+    /**
+     * Ignored field that could be set from object.
+     *
+     * 1. Default ignore set
+     * 2. System ignore set that could not be compared.
+     * 3. The ignore fields that could be set by developer.
+     */
     private transient final Set<String> ignoreSet = new HashSet<>();
     private transient JsonObject oldRecord;
     private transient JsonObject newRecord;
 
-    private JDiff(final ConcurrentMap<String, Class<?>> typeMap) {
+    private Vary(final ConcurrentMap<String, Class<?>> typeMap) {
         if (Objects.nonNull(typeMap)) {
             this.typeMap.putAll(typeMap);
         }
     }
 
-    public static JDiff create(final ConcurrentMap<String, Class<?>> typeMap) {
-        return new JDiff(typeMap);
+    public static Vary create(final ConcurrentMap<String, Class<?>> typeMap) {
+        return new Vary(typeMap);
     }
 
-    public static JDiff create(final JsonObject oldRecord, final JsonObject newRecord) {
-        return new JDiff(new ConcurrentHashMap<>()).data(oldRecord, newRecord);
+    public static Vary create(final JsonObject oldRecord, final JsonObject newRecord) {
+        return new Vary(new ConcurrentHashMap<>()).data(oldRecord, newRecord);
     }
 
-    public static JDiff create(final JsonObject oldRecord, final JsonObject newRecord,
-                               final ConcurrentMap<String, Class<?>> typeMap) {
-        return new JDiff(typeMap).data(oldRecord, newRecord);
+    public static Vary create(final JsonObject oldRecord, final JsonObject newRecord,
+                              final ConcurrentMap<String, Class<?>> typeMap) {
+        return new Vary(typeMap).data(oldRecord, newRecord);
     }
 
     @Fluent
-    public JDiff data(final JsonObject oldRecord, final JsonObject newRecord) {
+    public Vary data(final JsonObject oldRecord, final JsonObject newRecord) {
         this.oldRecord = oldRecord;
         this.newRecord = newRecord;
         return this;
     }
 
     @Fluent
-    public JDiff ignores(final Set<String> ignoreSet) {
+    public Vary ignores(final Set<String> ignoreSet) {
         if (Objects.nonNull(ignoreSet)) {
             this.ignoreSet.addAll(ignoreSet);
         }
@@ -56,7 +85,7 @@ public class JDiff implements Serializable {
     }
 
     @Fluent
-    public JDiff type(final ConcurrentMap<String, Class<?>> typeMap) {
+    public Vary type(final ConcurrentMap<String, Class<?>> typeMap) {
         if (Objects.nonNull(typeMap)) {
             this.typeMap.putAll(typeMap);
         }
@@ -64,7 +93,7 @@ public class JDiff implements Serializable {
     }
 
     @Fluent
-    public JDiff diff(final ConcurrentMap<String, Set<String>> diffMap) {
+    public Vary diff(final ConcurrentMap<String, Set<String>> diffMap) {
         if (Objects.nonNull(diffMap)) {
             this.diffMap.putAll(diffMap);
         }

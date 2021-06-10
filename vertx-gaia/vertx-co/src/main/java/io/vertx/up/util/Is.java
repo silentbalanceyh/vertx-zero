@@ -2,7 +2,7 @@ package io.vertx.up.util;
 
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.commune.element.JDiff;
+import io.vertx.up.commune.compare.Vary;
 import io.vertx.up.eon.Strings;
 
 import java.time.Instant;
@@ -122,7 +122,7 @@ class Is {
         return fields.size() == counter;
     }
 
-    static boolean isChanged(final JDiff param,
+    static boolean isChanged(final Vary param,
                              final BiFunction<String, Class<?>, BiPredicate<Object, Object>> fnPredicate) {
         final Set<String> ignores = param.ignores();
         /*

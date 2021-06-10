@@ -9,7 +9,7 @@ import io.vertx.core.buffer.Buffer;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.commune.Record;
-import io.vertx.up.commune.element.JDiff;
+import io.vertx.up.commune.compare.Vary;
 import io.vertx.up.fn.Actuator;
 
 import java.io.File;
@@ -1083,23 +1083,15 @@ public final class Ut {
      * 4) - arrayDiff: It contains array diff configuration instead of fixed
      */
     public static boolean isChanged(
-            final JDiff JDiff,
+            final Vary jdiff,
             /* */
             final BiFunction<String, Class<?>, BiPredicate<Object, Object>> fnPredicate) {
-        return Is.isChanged(JDiff, fnPredicate);
+        return Is.isChanged(jdiff, fnPredicate);
     }
 
     public static boolean isSame(final Object oldValue, final Object newValue,
                                  final Class<?> type, final Set<String> diffSet) {
         return Is.isSame(oldValue, newValue, type, diffSet);
-    }
-
-    public static <T> boolean isSame(final T left, final T right) {
-        return Is.isSame(left, right);
-    }
-
-    public static <T, V> boolean isSame(final T left, final T right, final Function<T, V> fnGet) {
-        return Is.isSame(left, right, fnGet);
     }
 
     /*
