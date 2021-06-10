@@ -7,9 +7,4 @@ final class VsBoolean extends AbstractSame {
     public VsBoolean() {
         super(Boolean.class);
     }
-
-    @Override
-    public boolean isAnd(final Object valueOld, final Object valueNew) {
-        return false;
-    }
 }

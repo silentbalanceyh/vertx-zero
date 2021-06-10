@@ -9,9 +9,4 @@ final class VsJsonObject extends AbstractSame {
     public VsJsonObject() {
         super(JsonObject.class);
     }
-
-    @Override
-    public boolean isAnd(final Object valueOld, final Object valueNew) {
-        return false;
-    }
 }

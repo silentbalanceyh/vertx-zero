@@ -66,7 +66,14 @@ abstract class AbstractSame implements VsSame {
         }
     }
 
-    public abstract boolean isAnd(final Object valueOld, final Object valueNew);
+    public boolean isAnd(final Object valueOld, final Object valueNew) {
+        final boolean isSame = valueOld.equals(valueNew);
+        if (isSame) {
+            return Boolean.TRUE;
+        } else {
+            return valueOld.toString().equals(valueNew.toString());
+        }
+    }
 }
 
 interface Pool {

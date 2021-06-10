@@ -5,13 +5,13 @@ import java.time.LocalDateTime;
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-final class VsLocalDateTime extends AbstractSame {
+final class VsLocalDateTime extends AbstractSameDate {
     public VsLocalDateTime() {
         super(LocalDateTime.class);
     }
 
     @Override
-    public boolean isAnd(final Object valueOld, final Object valueNew) {
-        return false;
+    public boolean eqDate(final LocalDateTime datetimeOld, final LocalDateTime datetimeNew) {
+        return this.eqMinute(datetimeOld, datetimeNew);
     }
 }

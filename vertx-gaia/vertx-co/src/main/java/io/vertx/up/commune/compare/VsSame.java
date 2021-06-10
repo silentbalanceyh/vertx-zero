@@ -43,7 +43,7 @@ interface VsSame {
      *
      * @return {@link Boolean} true when Same.
      */
-    default boolean isOr(final Object valueOld, final Object valueNew) {
+    default boolean isXor(final Object valueOld, final Object valueNew) {
         return false;
     }
 }

@@ -1081,10 +1081,6 @@ public final class Ut {
      * 4) - arrayDiff: It contains array diff configuration instead of fixed
      */
 
-    public static boolean isSame(final Object oldValue, final Object newValue,
-                                 final Class<?> type, final Set<String> diffSet) {
-        return Is.isSame(oldValue, newValue, type, diffSet);
-    }
 
     /*
      * Ai analyzing for type based on

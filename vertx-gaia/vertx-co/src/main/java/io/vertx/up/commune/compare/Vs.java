@@ -149,7 +149,6 @@ public class Vs implements Serializable {
              * 2. subset ( JsonArray Only )
              * */
             final VsSame same = Objects.requireNonNull(VsSame.get(type)).bind(subset);
-            assert Objects.nonNull(same) : "Here the VsSame could not be null";
             if (Objects.nonNull(valueOld) && Objects.nonNull(valueNew)) {
                 /*
                  * Standard workflow here
@@ -159,7 +158,7 @@ public class Vs implements Serializable {
                 /*
                  * Non Standard workflow here
                  */
-                return same.isOr(valueOld, valueNew);
+                return same.isXor(valueOld, valueNew);
             }
         }
     }
