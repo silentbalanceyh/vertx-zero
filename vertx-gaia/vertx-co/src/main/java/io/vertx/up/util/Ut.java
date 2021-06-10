@@ -927,7 +927,7 @@ public final class Ut {
     }
 
     public static boolean isUUID(final String literal) {
-        return Is.isUUID(literal);
+        return Types.isUUID(literal);
     }
 
     public static boolean isBoolean(final Class<?> clazz) {

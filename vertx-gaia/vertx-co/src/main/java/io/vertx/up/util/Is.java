@@ -14,7 +14,6 @@ import java.time.temporal.TemporalUnit;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
-import java.util.UUID;
 import java.util.function.BiFunction;
 import java.util.function.BiPredicate;
 import java.util.function.Function;
@@ -24,18 +23,6 @@ import java.util.function.Function;
  */
 @SuppressWarnings("all")
 class Is {
-    /*
-     * Low performance processing, be careful to use
-     */
-    static boolean isUUID(final String literal) {
-        UUID converted;
-        try {
-            converted = UUID.fromString(literal);
-        } catch (final IllegalArgumentException ex) {
-            converted = null;
-        }
-        return Objects.nonNull(converted);
-    }
 
     static boolean isSameBy(final Object left, final Object right, final String field) {
         if (Objects.isNull(left) && Objects.isNull(right)) {
@@ -57,10 +44,6 @@ class Is {
                 }
             }
         }
-    }
-
-    static boolean isSame(final Object left, final Object right, final Class<?> type) {
-        return isSame(left, right, type, new HashSet<>());
     }
 
     static <T, V> Boolean isSame(final T left, final T right, final Function<T, V> fnGet) {

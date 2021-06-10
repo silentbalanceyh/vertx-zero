@@ -12,10 +12,7 @@ import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.Collection;
-import java.util.Date;
-import java.util.LinkedHashMap;
-import java.util.Objects;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
@@ -37,6 +34,19 @@ final class Types {
     private static final Annal LOGGER = Annal.get(Types.class);
 
     private Types() {
+    }
+
+    /*
+     * Low performance processing, be careful to use
+     */
+    static boolean isUUID(final String literal) {
+        UUID converted;
+        try {
+            converted = UUID.fromString(literal);
+        } catch (final IllegalArgumentException ex) {
+            converted = null;
+        }
+        return Objects.nonNull(converted);
     }
 
     static boolean isJArray(final String literal) {
