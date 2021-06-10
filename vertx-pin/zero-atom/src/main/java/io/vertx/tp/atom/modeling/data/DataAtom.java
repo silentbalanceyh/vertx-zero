@@ -9,7 +9,6 @@ import io.vertx.tp.atom.modeling.reference.RResult;
 import io.vertx.tp.atom.refine.Ao;
 import io.vertx.tp.error._404ModelNotFoundException;
 import io.vertx.tp.modular.phantom.AoPerformer;
-import io.vertx.up.commune.compare.Vary;
 import io.vertx.up.commune.compare.Vs;
 import io.vertx.up.commune.element.Shape;
 import io.vertx.up.commune.rule.RuleUnique;
@@ -150,16 +149,8 @@ public class DataAtom {
 
     // ------------ 比对专用方法 ----------
 
-    public Vary diff(final Set<String> ignoreSet) {
-        return this.metadata.diff(ignoreSet).diff(this.reference.fieldDiff());
-    }
-
-    public Vs diff() {
+    public Vs vs() {
         return this.vs;
-    }
-
-    public Set<String> vsSubs(final String field) {
-        return this.vs.subFields(field);
     }
 
     // ------------ 引用专用方法 ----------

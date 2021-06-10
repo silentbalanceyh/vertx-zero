@@ -2,7 +2,6 @@ package io.vertx.up.util;
 
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.commune.compare.Vary;
 import io.vertx.up.eon.Strings;
 
 import java.time.Instant;
@@ -14,8 +13,6 @@ import java.time.temporal.TemporalUnit;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
-import java.util.function.BiFunction;
-import java.util.function.BiPredicate;
 import java.util.function.Function;
 
 /*
@@ -63,52 +60,6 @@ class Is {
         } else {
             return Objects.isNull(left) && Objects.isNull(right);
         }
-    }
-
-    static boolean isChanged(final Vary param,
-                             final BiFunction<String, Class<?>, BiPredicate<Object, Object>> fnPredicate) {
-        final Set<String> ignores = param.ignores();
-        /*
-         * copy each compared json object and remove
-         * all fields that will not be compared here.
-         */
-        final JsonObject oldCopy = param.original().copy();
-        final JsonObject newCopy = param.current().copy();
-        if (Objects.nonNull(ignores) && !ignores.isEmpty()) {
-            ignores.forEach(oldCopy::remove);
-            ignores.forEach(newCopy::remove);
-        }
-        final Function<String, Boolean> isSame = (field) -> {
-            /*
-             * Extract value from each record
-             */
-            final Object oldValue = oldCopy.getValue(field);
-            final Object newValue = newCopy.getValue(field);
-            final Class<?> type = param.type(field);
-            final boolean basic = isSame(oldValue, newValue, type, param.diff(field));
-            if (basic) {
-                return Boolean.TRUE;
-            } else {
-                if (Objects.isNull(fnPredicate)) {
-                    return Boolean.FALSE;
-                } else {
-                    final BiPredicate<Object, Object> predicate = fnPredicate.apply(field, type);
-                    return predicate.test(oldValue, newValue);
-                }
-            }
-        };
-        /*
-         * Get the final result of calculation.
-         * 1) From old calculation
-         */
-        final boolean unchanged = oldCopy.fieldNames().stream().allMatch(isSame::apply);
-        /*
-         * 2) From new calculation
-         */
-        final Set<String> newLefts = new HashSet<>(newCopy.fieldNames());
-        newLefts.removeAll(oldCopy.fieldNames());
-        final boolean additional = newLefts.stream().allMatch(isSame::apply);
-        return !(unchanged && additional);
     }
 
     static boolean isSame(final Object oldValue, final Object newValue,

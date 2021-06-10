@@ -9,7 +9,6 @@ import io.vertx.core.buffer.Buffer;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.commune.Record;
-import io.vertx.up.commune.compare.Vary;
 import io.vertx.up.fn.Actuator;
 
 import java.io.File;
@@ -1081,12 +1080,6 @@ public final class Ut {
      * 3) - fnPredicate: Function to check when standard comparing return FALSE
      * 4) - arrayDiff: It contains array diff configuration instead of fixed
      */
-    public static boolean isChanged(
-            final Vary jdiff,
-            /* */
-            final BiFunction<String, Class<?>, BiPredicate<Object, Object>> fnPredicate) {
-        return Is.isChanged(jdiff, fnPredicate);
-    }
 
     public static boolean isSame(final Object oldValue, final Object newValue,
                                  final Class<?> type, final Set<String> diffSet) {
