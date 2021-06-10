@@ -11,7 +11,32 @@ import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.TimeZone;
 
-class DateValue {
+class DataValue {
+
+    static Object toBoolean(final Cell cell) {
+        if (CellType.BOOLEAN == cell.getCellType()) {
+            return cell.getBooleanCellValue();
+        } else {
+            final String literal = cell.getStringCellValue();
+            if (Ut.isNil(literal)) {
+                return Boolean.FALSE;
+            } else {
+                return Boolean.valueOf(literal);
+            }
+        }
+    }
+
+    static Object toString(final Cell cell) {
+        if (CellType.NUMERIC == cell.getCellType()) {
+            /*
+             * Fix issue of user operation:
+             * Cannot get a STRING value from a NUMERIC cell
+             */
+            return String.valueOf(cell.getNumericCellValue());
+        } else {
+            return cell.getStringCellValue();
+        }
+    }
 
     static Object toNumeric(final Cell cell) {
         if (CellType.NUMERIC == cell.getCellType()) {

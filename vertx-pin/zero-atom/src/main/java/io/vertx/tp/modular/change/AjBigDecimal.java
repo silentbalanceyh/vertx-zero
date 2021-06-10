@@ -3,10 +3,10 @@ package io.vertx.tp.modular.change;
 import java.math.BigDecimal;
 import java.util.Objects;
 
-final class BigDecimalAj extends AbstractAdjuster {
+final class AjBigDecimal extends AbstractAdjuster {
 
-    public BigDecimalAj(final Class<?> type) {
-        super(type);
+    public AjBigDecimal() {
+        super(BigDecimal.class);
     }
 
     @Override

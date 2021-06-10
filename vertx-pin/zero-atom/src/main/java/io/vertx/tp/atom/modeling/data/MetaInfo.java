@@ -4,7 +4,6 @@ import cn.vertxup.atom.domain.tables.pojos.MAttribute;
 import cn.vertxup.atom.domain.tables.pojos.MModel;
 import io.vertx.tp.atom.modeling.Model;
 import io.vertx.tp.atom.modeling.config.AoSource;
-import io.vertx.up.commune.element.JDiff;
 import io.vertx.up.commune.element.Shape;
 import io.vertx.up.eon.em.DataFormat;
 import io.vertx.up.util.Ut;
@@ -95,15 +94,6 @@ class MetaInfo {
     Shape shape() {
         /* 构造 Shape */
         return this.shape;
-    }
-
-    JDiff diff() {
-        /* 构造 CParam */
-        return JDiff.create(this.modelRef.types());
-    }
-
-    JDiff diff(final Set<String> ignoreSet) {
-        return this.diff().ignores(ignoreSet);
     }
 
     ConcurrentMap<String, Class<?>> type() {

@@ -1,5 +1,7 @@
 package io.vertx.up.util;
 
+import io.vertx.up.commune.compare.Vs;
+
 import java.util.*;
 import java.util.function.Consumer;
 import java.util.function.Function;
@@ -130,7 +132,7 @@ final class Arithmetic {
 
     private static <T, V> T findBy(final Set<T> source, final T original, final Function<T, V> fnGet) {
         return source.stream()
-                .filter(current -> Is.isSame(original, current, fnGet))
+                .filter(current -> Vs.isSame(original, current, fnGet))
                 .findAny().orElse(null);
     }
 }

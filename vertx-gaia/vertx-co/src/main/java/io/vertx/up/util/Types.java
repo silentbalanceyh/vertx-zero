@@ -12,10 +12,7 @@ import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.Collection;
-import java.util.Date;
-import java.util.LinkedHashMap;
-import java.util.Objects;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
@@ -37,6 +34,60 @@ final class Types {
     private static final Annal LOGGER = Annal.get(Types.class);
 
     private Types() {
+    }
+
+    private static boolean equal(final Object left, final Object right) {
+        if (null == left && null == right) {
+            return true;
+        } else if (null == left && null != right) {
+            return false;
+        } else if (null != left && null == right) {
+            return false;
+        } else {
+            return left.equals(right);
+        }
+    }
+
+    /*
+     * Whether record contains all the data in cond.
+     * JsonObject subset here for checking
+     */
+    static boolean isSubset(final JsonObject cond, final JsonObject record) {
+        final Set<String> fields = cond.fieldNames();
+        final long counter = fields.stream()
+                /* record contains all cond */
+                .filter(record::containsKey)
+                .filter(field -> equal(record.getValue(field), cond.getValue(field)))
+                .count();
+        return fields.size() == counter;
+    }
+
+    static <T> boolean isEqual(final JsonObject record, final String field, final T expected) {
+        if (isEmpty(record)) {
+            /*
+             * If record is null or empty, return `false`
+             */
+            return false;
+        } else {
+            /*
+             * Object reference
+             */
+            final Object value = record.getValue(field);
+            return equal(value, expected);
+        }
+    }
+
+    /*
+     * Low performance processing, be careful to use
+     */
+    static boolean isUUID(final String literal) {
+        UUID converted;
+        try {
+            converted = UUID.fromString(literal);
+        } catch (final IllegalArgumentException ex) {
+            converted = null;
+        }
+        return Objects.nonNull(converted);
     }
 
     static boolean isJArray(final String literal) {

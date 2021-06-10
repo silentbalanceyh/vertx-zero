@@ -208,9 +208,6 @@ public interface KeField {
 
         String JOINS = "joins";
         String ATTRIBUTES = "attributes";
-
-        String RECORD_OLD = "__OLD__";
-        String RECORD_NEW = "__NEW__";
     }
 
     interface Graphic {

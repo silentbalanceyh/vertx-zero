@@ -33,16 +33,4 @@ final class Compare {
             return compare.apply(left, right);
         }
     }
-
-    static boolean equal(final Object left, final Object right) {
-        if (null == left && null == right) {
-            return true;
-        } else if (null == left && null != right) {
-            return false;
-        } else if (null != left && null == right) {
-            return false;
-        } else {
-            return left.equals(right);
-        }
-    }
 }
