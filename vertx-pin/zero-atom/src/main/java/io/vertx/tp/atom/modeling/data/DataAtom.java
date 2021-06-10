@@ -10,11 +10,11 @@ import io.vertx.tp.atom.refine.Ao;
 import io.vertx.tp.error._404ModelNotFoundException;
 import io.vertx.tp.modular.phantom.AoPerformer;
 import io.vertx.up.commune.compare.Vary;
+import io.vertx.up.commune.compare.Vs;
 import io.vertx.up.commune.element.Shape;
 import io.vertx.up.commune.rule.RuleUnique;
 import io.vertx.up.fn.Fn;
 
-import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.ConcurrentMap;
@@ -29,6 +29,8 @@ public class DataAtom {
     private transient final MetaRule ruler;
     private transient final MetaMarker marker;
     private transient final MetaReference reference;
+
+    private transient final Vs vs;
     private transient final String unique;
     private transient final String appName;
 
@@ -46,6 +48,7 @@ public class DataAtom {
         this.ruler = Fn.pool(Pool.META_RULE, modelCode, () -> new MetaRule(model));
         this.marker = Fn.pool(Pool.META_MARKER, modelCode, () -> new MetaMarker(model));
         this.reference = Fn.pool(Pool.META_REFERENCE, modelCode, () -> new MetaReference(model, appName));
+        this.vs = Vs.create(this.unique, this.metadata.type(), this.reference.fieldDiff());
     }
 
     public static DataAtom get(final String appName,
@@ -151,8 +154,12 @@ public class DataAtom {
         return this.metadata.diff(ignoreSet).diff(this.reference.fieldDiff());
     }
 
-    public Set<String> diffSet(final String field) {
-        return this.reference.fieldDiff().getOrDefault(field, new HashSet<>());
+    public Vs diff() {
+        return this.vs;
+    }
+
+    public Set<String> vsSubs(final String field) {
+        return this.vs.subFields(field);
     }
 
     // ------------ 引用专用方法 ----------

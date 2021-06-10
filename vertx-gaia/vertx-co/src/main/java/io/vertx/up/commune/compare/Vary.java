@@ -19,6 +19,7 @@ import java.util.concurrent.ConcurrentMap;
  *
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
+@Deprecated
 public class Vary implements Serializable {
     /**
      * Attribute Stored

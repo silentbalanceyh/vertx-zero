@@ -97,13 +97,8 @@ class MetaInfo {
         return this.shape;
     }
 
-    Vary diff() {
-        /* 构造 CParam */
-        return Vary.create(this.modelRef.types());
-    }
-
     Vary diff(final Set<String> ignoreSet) {
-        return this.diff().ignores(ignoreSet);
+        return Vary.create(this.modelRef.types()).ignores(ignoreSet);
     }
 
     ConcurrentMap<String, Class<?>> type() {

@@ -65,46 +65,6 @@ class Is {
         }
     }
 
-    static <T> boolean isEqual(final JsonObject record, final String field, final T expected) {
-        if (Types.isEmpty(record)) {
-            /*
-             * If record is null or empty, return `false`
-             */
-            return false;
-        } else {
-            /*
-             * Object reference
-             */
-            final Object value = record.getValue(field);
-            if (Objects.isNull(value)) {
-                if (Objects.isNull(expected)) {
-                    return true;
-                } else {
-                    return false;
-                }
-            } else {
-                /*
-                 * Compared
-                 */
-                return value.equals(expected);
-            }
-        }
-    }
-
-    /*
-     * Whether record contains all the data in cond.
-     * JsonObject subset here for checking
-     */
-    static boolean isSubset(final JsonObject cond, final JsonObject record) {
-        final Set<String> fields = cond.fieldNames();
-        final long counter = fields.stream()
-                /* record contains all cond */
-                .filter(record::containsKey)
-                .filter(field -> Compare.equal(record.getValue(field), cond.getValue(field)))
-                .count();
-        return fields.size() == counter;
-    }
-
     static boolean isChanged(final Vary param,
                              final BiFunction<String, Class<?>, BiPredicate<Object, Object>> fnPredicate) {
         final Set<String> ignores = param.ignores();

@@ -999,9 +999,8 @@ public final class Ut {
     }
 
     public static boolean isSubset(final JsonObject cond, final JsonObject record) {
-        return Is.isSubset(cond, record);
+        return Types.isSubset(cond, record);
     }
-
 
     public static boolean isJArray(final String literal) {
         return Types.isJArray(literal);
@@ -1056,7 +1055,7 @@ public final class Ut {
     }
 
     public static <T> boolean isEqual(final JsonObject record, final String field, final T expected) {
-        return Is.isEqual(record, field, expected);
+        return Types.isEqual(record, field, expected);
     }
 
     public static boolean notNil(final String input) {
