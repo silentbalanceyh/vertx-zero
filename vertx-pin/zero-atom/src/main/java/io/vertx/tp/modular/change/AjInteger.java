@@ -2,10 +2,10 @@ package io.vertx.tp.modular.change;
 
 import io.vertx.up.util.Ut;
 
-final class IntegerAj extends AbstractAdjuster {
+final class AjInteger extends AbstractAdjuster {
 
-    public IntegerAj(final Class<?> type) {
-        super(type);
+    public AjInteger() {
+        super(Integer.class);
     }
 
     @Override
@@ -29,12 +29,12 @@ final class IntegerAj extends AbstractAdjuster {
         /*
          * 去掉 GB, TB, MB, G, T, M 等单位
          */
-        if(Ut.notNil(literal)){
+        if (Ut.notNil(literal)) {
             final String normalized = literal.replaceAll(
                     "(GB|TB|MB|G|T|M)", ""
             ).trim();
-            return Ut.notNil(normalized)?Integer.parseInt(normalized):0;
-        }else{
+            return Ut.notNil(normalized) ? Integer.parseInt(normalized) : 0;
+        } else {
             return 0;
         }
     }

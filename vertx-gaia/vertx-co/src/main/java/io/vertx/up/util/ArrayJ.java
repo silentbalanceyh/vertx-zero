@@ -150,7 +150,7 @@ final class ArrayJ {
         return Fn.getNull(new JsonArray(), () -> {
             final AtomicBoolean isFound = new AtomicBoolean(Boolean.FALSE);
             It.itJArray(array).forEach(each -> {
-                final boolean isSame = Is.isSameBy(each, json, field);
+                final boolean isSame = isSameBy(each, json, field);
                 if (isSame) {
                     each.mergeIn(json, true);
                     isFound.set(Boolean.TRUE);
@@ -235,5 +235,27 @@ final class ArrayJ {
             target.mergeIn(options);
         }
         return target;
+    }
+
+    private static boolean isSameBy(final Object left, final Object right, final String field) {
+        if (Objects.isNull(left) && Objects.isNull(right)) {
+            return true;
+        } else {
+            if (Objects.isNull(left) || Objects.isNull(right)) {
+                return false;
+            } else {
+                if (left.getClass() != right.getClass()) {
+                    return false;
+                } else {
+                    if (left instanceof JsonObject && right instanceof JsonObject) {
+                        final Object leftValue = ((JsonObject) left).getValue(field);
+                        final Object rightValue = ((JsonObject) right).getValue(field);
+                        return isSameBy(leftValue, rightValue, field);
+                    } else {
+                        return left.equals(right);
+                    }
+                }
+            }
+        }
     }
 }

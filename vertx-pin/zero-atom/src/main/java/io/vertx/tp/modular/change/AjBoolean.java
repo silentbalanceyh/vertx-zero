@@ -4,10 +4,10 @@ import io.vertx.core.json.JsonObject;
 
 import java.util.Objects;
 
-final class BooleanAj extends AbstractAdjuster {
+final class AjBoolean extends AbstractAdjuster {
 
-    public BooleanAj(final Class<?> type) {
-        super(type);
+    public AjBoolean() {
+        super(Boolean.class);
     }
 
     @Override

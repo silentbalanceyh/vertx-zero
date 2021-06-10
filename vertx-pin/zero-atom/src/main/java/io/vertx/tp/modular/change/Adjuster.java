@@ -12,11 +12,7 @@ public interface Adjuster {
      * 根据定义类型读取 Adjust 的信息
      */
     static Adjuster get(final Class<?> clazz) {
-        if (Objects.isNull(clazz)) {
-            return null;
-        } else {
-            return Pool.POOL_ADJUST.get(clazz);
-        }
+        return Objects.isNull(clazz) ? null : Pool.POOL_ADJUST.getOrDefault(clazz, null);
     }
 
     /*

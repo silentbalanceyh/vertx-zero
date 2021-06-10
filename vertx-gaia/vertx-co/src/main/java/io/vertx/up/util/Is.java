@@ -10,57 +10,14 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
 import java.time.temporal.TemporalUnit;
-import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
-import java.util.function.Function;
 
 /*
  * Specific checking
  */
 @SuppressWarnings("all")
 class Is {
-
-    static boolean isSameBy(final Object left, final Object right, final String field) {
-        if (Objects.isNull(left) && Objects.isNull(right)) {
-            return true;
-        } else {
-            if (Objects.isNull(left) || Objects.isNull(right)) {
-                return false;
-            } else {
-                if (left.getClass() != right.getClass()) {
-                    return false;
-                } else {
-                    if (left instanceof JsonObject && right instanceof JsonObject) {
-                        final Object leftValue = ((JsonObject) left).getValue(field);
-                        final Object rightValue = ((JsonObject) right).getValue(field);
-                        return isSameBy(leftValue, rightValue, field);
-                    } else {
-                        return left.equals(right);
-                    }
-                }
-            }
-        }
-    }
-
-    static <T, V> Boolean isSame(final T left, final T right, final Function<T, V> fnGet) {
-        if (Objects.nonNull(left) && Objects.nonNull(right)) {
-            final V leftValue = fnGet.apply(left);
-            final V rightValue = fnGet.apply(right);
-            return isSame(leftValue, rightValue);
-        } else {
-            return Objects.isNull(left) && Objects.isNull(right);
-        }
-    }
-
-    static <T> Boolean isSame(final T left, final T right) {
-        if (Objects.nonNull(left) && Objects.nonNull(right)) {
-            final Class<?> clazz = left.getClass();
-            return isSame(left, right, clazz, new HashSet<>());
-        } else {
-            return Objects.isNull(left) && Objects.isNull(right);
-        }
-    }
 
     static boolean isSame(final Object oldValue, final Object newValue,
                           final Class<?> clazz, final Set<String> diffSet) {
