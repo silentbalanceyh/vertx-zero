@@ -69,6 +69,13 @@ abstract class AbstractSame implements VsSame {
 
     @Override
     public boolean ok(final Object value) {
+        /*
+         * Bug Fix:
+         * 删除类的旧记录中必须包含非空的值
+         * 过滤空的字符串，空字符串不纳入到新增历史中
+         *
+         * [NOT NULL]
+         */
         return Objects.nonNull(value) && Ut.notNil(value.toString());
     }
 
