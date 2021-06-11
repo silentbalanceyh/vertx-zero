@@ -2,6 +2,7 @@ package io.vertx.up.commune.compare;
 
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
+import io.vertx.up.util.Ut;
 
 import java.math.BigDecimal;
 import java.time.Instant;
@@ -64,6 +65,11 @@ abstract class AbstractSame implements VsSame {
                 return this.found.is(valueOld, valueNew, this.type);
             }
         }
+    }
+
+    @Override
+    public boolean ok(final Object value) {
+        return Objects.nonNull(value) && Ut.notNil(value.toString());
     }
 
     public boolean isAnd(final Object valueOld, final Object valueNew) {
