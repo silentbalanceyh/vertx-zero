@@ -9,6 +9,7 @@ import io.vertx.core.buffer.Buffer;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.commune.Record;
+import io.vertx.up.eon.em.ChangeFlag;
 import io.vertx.up.fn.Actuator;
 
 import java.io.File;
@@ -1100,6 +1101,10 @@ public final class Ut {
 
     public static Object aiValue(final Object input) {
         return Value.aiValue(input, null);
+    }
+
+    public static ChangeFlag aiFlag(final JsonObject recordO, final JsonObject recordN) {
+        return Jackson.flag(recordO, recordN);
     }
 
     /*

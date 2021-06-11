@@ -10,6 +10,7 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.eon.Strings;
 import io.vertx.up.eon.Values;
+import io.vertx.up.eon.em.ChangeFlag;
 import io.vertx.up.fn.Fn;
 
 import java.util.ArrayList;
@@ -249,7 +250,7 @@ final class Jackson {
             }
         }, target, source, field));
     }
-    
+
     static JsonArray sureJArray(final JsonArray array) {
         if (Ut.isNil(array)) {
             return new JsonArray();
@@ -263,6 +264,24 @@ final class Jackson {
             return new JsonObject();
         } else {
             return object;
+        }
+    }
+    
+    static ChangeFlag flag(final JsonObject recordO, final JsonObject recordR) {
+        if (Objects.isNull(recordO)) {
+            if (Objects.isNull(recordR)) {
+                return ChangeFlag.NONE;
+            } else {
+                /* Old = null, New = not null, ADD */
+                return ChangeFlag.ADD;
+            }
+        } else {
+            if (Objects.isNull(recordR)) {
+                /* Old = not null, New = null, DELETE */
+                return ChangeFlag.DELETE;
+            } else {
+                return ChangeFlag.UPDATE;
+            }
         }
     }
 }
