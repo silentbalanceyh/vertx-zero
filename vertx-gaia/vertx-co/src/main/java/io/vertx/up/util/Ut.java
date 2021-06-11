@@ -224,6 +224,10 @@ public final class Ut {
         return ArrayL.subset(input, set);
     }
 
+    public static JsonArray elementSubset(final JsonArray input, final Set<String> set) {
+        return ArrayL.subset(input, set);
+    }
+
     public static JsonArray elementSubset(final JsonArray input, final Function<JsonObject, Boolean> fnFilter) {
         return ArrayL.subset(input, fnFilter);
     }

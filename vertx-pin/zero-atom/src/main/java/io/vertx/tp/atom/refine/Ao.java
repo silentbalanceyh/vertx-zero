@@ -12,6 +12,7 @@ import io.vertx.tp.plugin.excel.atom.ExTable;
 import io.vertx.up.commune.Record;
 import io.vertx.up.commune.config.Database;
 import io.vertx.up.commune.config.Identity;
+import io.vertx.up.eon.em.ChangeFlag;
 import io.vertx.up.log.Annal;
 import org.jooq.Converter;
 
@@ -51,6 +52,11 @@ public class Ao {
         AoLog.info(logger, "UCA", pattern, args);
     }
 
+    public static void infoDiff(final Class<?> clazz, final String pattern, final Object... args) {
+        final Annal logger = Annal.get(clazz);
+        AoLog.info(logger, "Diff", pattern, args);
+    }
+
     public static void infoPlugin(final Class<?> clazz, final String pattern, final Object... args) {
         final Annal logger = Annal.get(clazz);
         AoLog.info(logger, "Plugin", pattern, args);
@@ -58,6 +64,21 @@ public class Ao {
 
     public static void infoSQL(final Annal logger, final String pattern, final Object... args) {
         AoLog.info(logger, "Sql", pattern, args);
+    }
+
+    /*
+     * Diff
+     */
+    public static ConcurrentMap<ChangeFlag, JsonArray> diffPure(final JsonArray queueOld, final JsonArray queueNew, final DataAtom atom, final Set<String> ignoreSet) {
+        return AoCompare.diffPure(queueOld, queueNew, atom, ignoreSet);
+    }
+
+    public static ConcurrentMap<ChangeFlag, JsonArray> diffPush(final JsonArray queueOld, final JsonArray queueNew, final DataAtom atom, final Set<String> ignoreSet) {
+        return AoCompare.diffPush(queueOld, queueNew, atom, ignoreSet);
+    }
+
+    public static ConcurrentMap<ChangeFlag, JsonArray> diffPull(final JsonArray queueOld, final JsonArray queueNew, final DataAtom atom, final Set<String> ignoreSet) {
+        return AoCompare.diffPull(queueOld, queueNew, atom, ignoreSet);
     }
 
     /*

@@ -533,7 +533,7 @@ public final class Ux {
         return Combine.thenCombineT(futures);
     }
 
-    public static <T> Future<ConcurrentMap<String, T>> thenCombine(final ConcurrentMap<String, Future<T>> futureMap) {
+    public static <K, T> Future<ConcurrentMap<K, T>> thenCombine(final ConcurrentMap<K, Future<T>> futureMap) {
         return Combine.thenCombine(futureMap);
     }
 

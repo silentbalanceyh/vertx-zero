@@ -28,6 +28,7 @@ final class ArrayL {
      * @param list     The target list
      * @param fnFilter the filter for list search.
      * @param <T>      The generic type of list element.
+     *
      * @return Found type for target generic type.
      */
     static <T> T find(final List<T> list, final Predicate<T> fnFilter) {
@@ -78,13 +79,22 @@ final class ArrayL {
     }
 
     static JsonObject subset(final JsonObject input, final Set<String> pickedKeys) {
-        if (Objects.isNull(input)) {
+        if (Objects.isNull(input) || Objects.isNull(pickedKeys) || pickedKeys.isEmpty()) {
             return new JsonObject();
         } else {
             final JsonObject normalized = new JsonObject(); // input.copy();
             pickedKeys.forEach(field -> normalized.put(field, input.getValue(field)));
             return normalized;
         }
+    }
+
+    static JsonArray subset(final JsonArray array, final Set<String> pickedKeys) {
+        final JsonArray updated = new JsonArray();
+        Ut.itJArray(array).filter(Objects::nonNull)
+                .map(item -> subset(item, pickedKeys))
+                .filter(Ut::notNil)
+                .forEach(updated::add);
+        return updated;
     }
 
     static JsonArray subset(final JsonArray array, final Function<JsonObject, Boolean> fnFilter) {
@@ -228,7 +238,7 @@ final class ArrayL {
     }
 
     /**
-     * @debugStory
+     *
      */
     static List<JsonArray> group(final JsonArray source, final Integer size) {
         final List<JsonArray> groupData = new ArrayList<>();
