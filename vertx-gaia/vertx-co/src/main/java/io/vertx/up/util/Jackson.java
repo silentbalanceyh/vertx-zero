@@ -249,4 +249,20 @@ final class Jackson {
             }
         }, target, source, field));
     }
+    
+    static JsonArray sureJArray(final JsonArray array) {
+        if (Ut.isNil(array)) {
+            return new JsonArray();
+        } else {
+            return array;
+        }
+    }
+
+    static JsonObject sureJObject(final JsonObject object) {
+        if (Ut.isNil(object)) {
+            return new JsonObject();
+        } else {
+            return object;
+        }
+    }
 }

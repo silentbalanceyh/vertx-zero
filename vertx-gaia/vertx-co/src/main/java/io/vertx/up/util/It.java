@@ -23,7 +23,7 @@ class It {
     }
 
     static java.util.stream.Stream<JsonObject> itJArray(final JsonArray array) {
-        final JsonArray source = Define.sureJArray(array);
+        final JsonArray source = Jackson.sureJArray(array);
         return source.stream().filter(item -> item instanceof JsonObject).map(item -> (JsonObject) item);
     }
 
@@ -32,7 +32,7 @@ class It {
     }
 
     static java.util.stream.Stream<String> itJString(final JsonArray array) {
-        final JsonArray source = Define.sureJArray(array);
+        final JsonArray source = Jackson.sureJArray(array);
         return source.stream().filter(item -> item instanceof String).map(item -> (String) item);
     }
 

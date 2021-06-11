@@ -39,11 +39,11 @@ public final class Ut {
     }
 
     public static JsonArray sureJArray(final JsonArray array) {
-        return Define.sureJArray(array);
+        return Jackson.sureJArray(array);
     }
 
     public static JsonObject sureJObject(final JsonObject object) {
-        return Define.sureJObject(object);
+        return Jackson.sureJObject(object);
     }
 
     /*
@@ -321,7 +321,7 @@ public final class Ut {
     }
 
     public static String encryptUrl(final JsonObject input) {
-        final JsonObject sure = Define.sureJObject(input);
+        final JsonObject sure = Jackson.sureJObject(input);
         return Codec.url(input.encode(), true);
     }
 
@@ -615,7 +615,7 @@ public final class Ut {
     }
 
     public static JsonArray ioJArray(final String filename) {
-        return Define.sureJArray(IO.getJArray(filename));
+        return Jackson.sureJArray(IO.getJArray(filename));
     }
 
     public static boolean ioRm(final String filename) {
@@ -623,7 +623,7 @@ public final class Ut {
     }
 
     public static JsonObject ioJObject(final String filename) {
-        return Define.sureJObject(IO.getJObject(filename));
+        return Jackson.sureJObject(IO.getJObject(filename));
     }
 
     public static String ioString(final InputStream in) {
