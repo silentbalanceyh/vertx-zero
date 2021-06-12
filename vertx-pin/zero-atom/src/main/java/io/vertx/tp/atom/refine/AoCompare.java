@@ -8,8 +8,9 @@ import io.vertx.up.eon.em.ChangeFlag;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.ConcurrentMap;
 
 /**
@@ -17,6 +18,26 @@ import java.util.concurrent.ConcurrentMap;
  */
 class AoCompare {
     private AoCompare() {
+    }
+
+    static <T> ConcurrentMap<ChangeFlag, List<T>> initMList() {
+        return new ConcurrentHashMap<ChangeFlag, List<T>>() {
+            {
+                this.put(ChangeFlag.DELETE, new ArrayList<>());
+                this.put(ChangeFlag.ADD, new ArrayList<>());
+                this.put(ChangeFlag.UPDATE, new ArrayList<>());
+            }
+        };
+    }
+
+    static <T> ConcurrentMap<ChangeFlag, Queue<T>> initMQueue() {
+        return new ConcurrentHashMap<ChangeFlag, Queue<T>>() {
+            {
+                this.put(ChangeFlag.DELETE, new ConcurrentLinkedQueue<>());
+                this.put(ChangeFlag.ADD, new ConcurrentLinkedQueue<>());
+                this.put(ChangeFlag.UPDATE, new ConcurrentLinkedQueue<>());
+            }
+        };
     }
 
     /*
@@ -175,7 +196,7 @@ class AoCompare {
                      */
                     final JsonObject found = Ux.ruleAny(rule.rulePush(), queueNew, recordO);
                     if (Objects.nonNull(found)) {
-                        
+
                     }
                 }
             }

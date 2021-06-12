@@ -17,6 +17,7 @@ import io.vertx.up.log.Annal;
 import org.jooq.Converter;
 
 import java.util.List;
+import java.util.Queue;
 import java.util.Set;
 import java.util.concurrent.ConcurrentMap;
 import java.util.function.BiFunction;
@@ -79,6 +80,14 @@ public class Ao {
 
     public static ConcurrentMap<ChangeFlag, JsonArray> diffPull(final JsonArray queueOld, final JsonArray queueNew, final DataAtom atom, final Set<String> ignoreSet) {
         return AoCompare.diffPull(queueOld, queueNew, atom, ignoreSet);
+    }
+
+    public static <T> ConcurrentMap<ChangeFlag, List<T>> initMList() {
+        return AoCompare.initMList();
+    }
+
+    public static <T> ConcurrentMap<ChangeFlag, Queue<T>> initMQueue() {
+        return AoCompare.initMQueue();
     }
 
     /*
