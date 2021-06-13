@@ -1107,8 +1107,8 @@ public final class Ut {
         return Value.aiValue(input, null);
     }
 
-    public static ChangeFlag aiFlag(final JsonObject recordO, final JsonObject recordN) {
-        return Jackson.flag(recordO, recordN);
+    public static ChangeFlag aiFlag(final JsonObject recordN, final JsonObject recordO) {
+        return Jackson.flag(recordN, recordO);
     }
 
     /*

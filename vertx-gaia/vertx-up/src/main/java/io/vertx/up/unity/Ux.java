@@ -13,6 +13,7 @@ import io.vertx.ext.web.FileUpload;
 import io.vertx.tp.plugin.database.DataPool;
 import io.vertx.tp.plugin.jooq.JooqInfix;
 import io.vertx.up.atom.query.Pagination;
+import io.vertx.up.atom.record.Apt;
 import io.vertx.up.commune.Envelop;
 import io.vertx.up.commune.Record;
 import io.vertx.up.commune.exchange.DictConfig;
@@ -31,10 +32,7 @@ import io.vertx.up.util.Ut;
 
 import java.time.Instant;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.ConcurrentMap;
 import java.util.function.*;
 
@@ -132,8 +130,16 @@ public final class Ux {
         return Unique.ruleTwins(recordO, recordN);
     }
 
-    public static JsonObject ruleTwinsJ(final JsonObject twins, final ChangeFlag flag) {
-        return Unique.ruleTwinsJ(twins, flag);
+    public static JsonObject ruleNil(final JsonObject twins, final ChangeFlag flag) {
+        return Unique.ruleNil(twins, flag);
+    }
+
+    public static JsonObject ruleNil(final JsonObject recordN, final JsonObject recordO) {
+        return Objects.isNull(recordN) ? recordO : recordN;
+    }
+
+    public static Apt ruleApt(final JsonArray twins, final boolean isReplaced) {
+        return Unique.ruleApt(twins, isReplaced);
     }
 
     /*

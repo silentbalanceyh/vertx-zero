@@ -2,6 +2,7 @@ package io.vertx.up.unity;
 
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
+import io.vertx.up.atom.record.Apt;
 import io.vertx.up.commune.rule.RuleTerm;
 import io.vertx.up.eon.Values;
 import io.vertx.up.eon.em.ChangeFlag;
@@ -66,7 +67,69 @@ class Unique {
         return data;
     }
 
-    static JsonObject ruleTwinsJ(final JsonObject twins, final ChangeFlag flag) {
+    static Apt ruleApt(final JsonArray twins, final boolean isReplaced) {
+        final JsonArray oldQueue = new JsonArray();
+        final JsonArray newQueue = new JsonArray();
+        final JsonArray updatedQueue = new JsonArray();
+        final JsonArray addQueue = new JsonArray();
+        Ut.itJArray(twins).forEach(json -> {
+            final JsonObject oldRecord = json.getJsonObject(Values.VS.OLD);
+            final JsonObject newRecord = json.getJsonObject(Values.VS.NEW);
+            /*
+             * 新旧任意一个不为空
+             */
+            if (Objects.nonNull(oldRecord) && Objects.nonNull(newRecord)) {
+                /*
+                 * oldRecord != null, newRecord != null
+                 * UPDATE - 编辑
+                 */
+                oldQueue.add(oldRecord);
+                newQueue.add(newRecord);
+                /*
+                 * Accomplish 中使用
+                 */
+                if (isReplaced) {
+                    /*
+                     * Replace mode
+                     */
+                    updatedQueue.add(oldRecord.copy().mergeIn(newRecord, true));
+                } else {
+                    /*
+                     * Append mode ( Remove new record `null` )
+                     */
+                    final JsonObject merged = oldRecord.copy();
+                    newRecord.fieldNames().stream().filter(key -> Objects.nonNull(newRecord.getValue(key)))
+                            .forEach(key -> merged.put(key, newRecord.getValue(key)));
+                    updatedQueue.add(merged);
+                }
+            }
+            if (Objects.nonNull(oldRecord) && Objects.isNull(newRecord)) {
+                /*
+                 * oldRecord != null, newRecord == null
+                 * DELETE - 删除
+                 */
+                oldQueue.add(oldRecord);
+            }
+            if (Objects.isNull(oldRecord) && Objects.nonNull(newRecord)) {
+                /*
+                 * oldRecord = null, newRecord != null
+                 * ADD - 添加
+                 */
+                newQueue.add(newRecord);
+                addQueue.add(newRecord);
+            }
+        });
+        final Apt apt = Apt.create(oldQueue, newQueue);
+        if (!addQueue.isEmpty()) {
+            apt.comparedA(addQueue);
+        }
+        if (!updatedQueue.isEmpty()) {
+            apt.comparedU(updatedQueue);
+        }
+        return apt;
+    }
+
+    static JsonObject ruleNil(final JsonObject twins, final ChangeFlag flag) {
         final JsonObject oldRecord = twins.getJsonObject(Values.VS.OLD);
         final JsonObject newRecord = twins.getJsonObject(Values.VS.NEW);
         final JsonObject normalized = new JsonObject();

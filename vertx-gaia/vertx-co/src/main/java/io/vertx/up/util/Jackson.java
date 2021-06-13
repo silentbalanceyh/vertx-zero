@@ -266,17 +266,17 @@ final class Jackson {
             return object;
         }
     }
-    
-    static ChangeFlag flag(final JsonObject recordO, final JsonObject recordR) {
+
+    static ChangeFlag flag(final JsonObject recordN, final JsonObject recordO) {
         if (Objects.isNull(recordO)) {
-            if (Objects.isNull(recordR)) {
+            if (Objects.isNull(recordN)) {
                 return ChangeFlag.NONE;
             } else {
                 /* Old = null, New = not null, ADD */
                 return ChangeFlag.ADD;
             }
         } else {
-            if (Objects.isNull(recordR)) {
+            if (Objects.isNull(recordN)) {
                 /* Old = not null, New = null, DELETE */
                 return ChangeFlag.DELETE;
             } else {
