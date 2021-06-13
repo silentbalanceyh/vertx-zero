@@ -40,6 +40,16 @@ class AoCompare {
         };
     }
 
+    static ConcurrentMap<ChangeFlag, JsonArray> initMArray() {
+        return new ConcurrentHashMap<ChangeFlag, JsonArray>() {
+            {
+                this.put(ChangeFlag.DELETE, new JsonArray());
+                this.put(ChangeFlag.ADD, new JsonArray());
+                this.put(ChangeFlag.UPDATE, new JsonArray());
+            }
+        };
+    }
+
     /*
      * Database Change
      */

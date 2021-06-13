@@ -90,6 +90,10 @@ public class Ao {
         return AoCompare.initMQueue();
     }
 
+    public static ConcurrentMap<ChangeFlag, JsonArray> initMArray() {
+        return AoCompare.initMArray();
+    }
+
     /*
      * Calculate current modular `namespace`
      * - Each application has only one namespace
