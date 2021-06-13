@@ -9,6 +9,7 @@ import io.vertx.tp.atom.modeling.element.DataMatrix;
 import io.vertx.tp.modular.dao.AoDao;
 import io.vertx.tp.optic.robin.Switcher;
 import io.vertx.tp.plugin.excel.atom.ExTable;
+import io.vertx.up.atom.record.Apt;
 import io.vertx.up.commune.Record;
 import io.vertx.up.commune.config.Database;
 import io.vertx.up.commune.config.Identity;
@@ -74,12 +75,36 @@ public class Ao {
         return AoCompare.diffPure(queueOld, queueNew, atom, ignoreSet);
     }
 
+    public static JsonObject diffPure(final JsonObject recordO, final JsonObject recordN, final DataAtom atom, final Set<String> ignoreSet) {
+        return AoCompare.diffPure(recordO, recordN, atom, ignoreSet);
+    }
+
+    public static Apt diffPure(final Apt apt, final DataAtom atom, final Set<String> ignoreSet) {
+        return AoCompare.diffPure(apt, atom, ignoreSet);
+    }
+
     public static ConcurrentMap<ChangeFlag, JsonArray> diffPush(final JsonArray queueOld, final JsonArray queueNew, final DataAtom atom, final Set<String> ignoreSet) {
         return AoCompare.diffPush(queueOld, queueNew, atom, ignoreSet);
     }
 
+    public static JsonObject diffPush(final JsonObject recordO, final JsonObject recordN, final DataAtom atom, final Set<String> ignoreSet) {
+        return AoCompare.diffPush(recordO, recordN, atom, ignoreSet);
+    }
+
+    public static Apt diffPush(final Apt apt, final DataAtom atom, final Set<String> ignoreSet) {
+        return AoCompare.diffPush(apt, atom, ignoreSet);
+    }
+
     public static ConcurrentMap<ChangeFlag, JsonArray> diffPull(final JsonArray queueOld, final JsonArray queueNew, final DataAtom atom, final Set<String> ignoreSet) {
         return AoCompare.diffPull(queueOld, queueNew, atom, ignoreSet);
+    }
+
+    public static JsonObject diffPull(final JsonObject recordO, final JsonObject recordN, final DataAtom atom, final Set<String> ignoreSet) {
+        return AoCompare.diffPull(recordO, recordN, atom, ignoreSet);
+    }
+
+    public static Apt diffPull(final Apt apt, final DataAtom atom, final Set<String> ignoreSet) {
+        return AoCompare.diffPull(apt, atom, ignoreSet);
     }
 
     public static <T> ConcurrentMap<ChangeFlag, List<T>> initMList() {

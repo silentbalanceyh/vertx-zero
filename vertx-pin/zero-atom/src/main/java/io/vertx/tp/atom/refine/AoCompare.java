@@ -3,7 +3,11 @@ package io.vertx.tp.atom.refine;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.atom.modeling.data.DataAtom;
+import io.vertx.up.atom.Kv;
+import io.vertx.up.atom.record.Apt;
+import io.vertx.up.commune.compare.Vs;
 import io.vertx.up.commune.rule.RuleUnique;
+import io.vertx.up.eon.Values;
 import io.vertx.up.eon.em.ChangeFlag;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
@@ -62,6 +66,42 @@ class AoCompare {
         return null;
     }
 
+    static JsonObject diffPure(
+            final JsonObject recordO, final JsonObject recordN,
+            final DataAtom atom, final Set<String> ignoreSet
+    ) {
+        final JsonArray queueN = new JsonArray().add(recordN);
+        final JsonArray queueO = new JsonArray().add(recordO);
+        final ConcurrentMap<ChangeFlag, JsonArray> processed = diffPure(queueO, queueN, atom, ignoreSet);
+        final Kv<ChangeFlag, JsonObject> changed = Kv.create();
+        processed.forEach((flag, items) -> {
+            if (Values.ONE == items.size()) {
+                changed.set(flag, items.getJsonObject(Values.IDX));
+            }
+        });
+        final ChangeFlag flag = changed.getKey();
+        Ao.infoUca(AoCompare.class, "（Pure）计算变更结果：{0} = {1}", flag, changed.getValue());
+        if (ChangeFlag.UPDATE == flag) {
+            return recordN;
+        } else {
+            return null;
+        }
+    }
+
+    static Apt diffPure(final Apt apt, final DataAtom atom,
+                        final Set<String> ignoreSet) {
+        final JsonArray queueO = apt.dataO();
+        final JsonArray queueN = apt.dataN();
+        Ao.infoUca(AoCompare.class, "（Pure）新旧数量：（{2} vs {3}），新数据：{1}, 旧数据：{0}",
+                queueO.encode(), queueN.encode(),
+                String.valueOf(queueN.size()), String.valueOf(queueO.size()));
+        /*
+         * 变更历史的判断，是否生成变更历史
+         */
+        final ConcurrentMap<ChangeFlag, JsonArray> calculated = diffPure(queueO, queueN, atom, ignoreSet);
+        return apt.compared(calculated);
+    }
+
     /*
      * Database -> Integration
      */
@@ -72,6 +112,42 @@ class AoCompare {
         final RuleUnique unique = atom.ruleSmart();
         Ao.infoUca(AoCompare.class, "（Push）对比用标识规则：\n{0}", unique.toString());
         return null;
+    }
+
+    static JsonObject diffPush(
+            final JsonObject recordO, final JsonObject recordN,
+            final DataAtom atom, final Set<String> ignoreSet
+    ) {
+        final JsonArray queueN = new JsonArray().add(recordN);
+        final JsonArray queueO = new JsonArray().add(recordO);
+        final ConcurrentMap<ChangeFlag, JsonArray> processed = diffPush(queueO, queueN, atom, ignoreSet);
+        final Kv<ChangeFlag, JsonObject> changed = Kv.create();
+        processed.forEach((flag, items) -> {
+            if (Values.ONE == items.size()) {
+                changed.set(flag, items.getJsonObject(Values.IDX));
+            }
+        });
+        final ChangeFlag flag = changed.getKey();
+        Ao.infoUca(AoCompare.class, "（Push）计算变更结果：{0} = {1}", flag, changed.getValue());
+        if (ChangeFlag.UPDATE == flag) {
+            return recordN;
+        } else {
+            return null;
+        }
+    }
+
+    static Apt diffPush(final Apt apt, final DataAtom atom,
+                        final Set<String> ignoreSet) {
+        final JsonArray queueO = apt.dataO();
+        final JsonArray queueN = apt.dataN();
+        Ao.infoUca(AoCompare.class, "（Push）新旧数量：（{2} vs {3}），新数据：{1}, 旧数据：{0}",
+                queueO.encode(), queueN.encode(),
+                String.valueOf(queueN.size()), String.valueOf(queueO.size()));
+        /*
+         * 变更历史的判断，是否生成变更历史
+         */
+        final ConcurrentMap<ChangeFlag, JsonArray> calculated = diffPush(queueO, queueN, atom, ignoreSet);
+        return apt.compared(calculated);
     }
 
     /*
@@ -89,8 +165,8 @@ class AoCompare {
          * -- 第三方集成执行通道内的标识规则（Rule来自通道）
          * 2. 只有集成拉取数据会遇到 Strong / Weak 的强弱连接
          */
-        final RuleUnique rule = atom.ruleSmart();
-        Ao.infoDiff(AoCompare.class, "（Pull）对比用标识规则：\n{0}", rule.toString());
+        final RuleUnique rules = atom.ruleSmart();
+        Ao.infoDiff(AoCompare.class, "（Pull）对比用标识规则：\n{0}", rules.toString());
         final JsonArray queueA = new JsonArray();
         final JsonArray queueUTemp = new JsonArray();
         final JsonArray queueD = new JsonArray();
@@ -122,7 +198,7 @@ class AoCompare {
              *
              * 旧数据，同时满足 RULE-1 AND RULE-3
              */
-            final JsonObject twinO = Ux.ruleAll(rule.rulePush(), recordO);
+            final JsonObject twinO = Ux.ruleAll(rules.rulePush(), recordO);
             if (Objects.isNull(twinO)) {
                 /*
                  * 单独的草稿
@@ -154,7 +230,7 @@ class AoCompare {
                  * 旧记录在 priority 中按序查找数据，看是否可以找到，如果可以找到，则
                  * 旧记录直接更新不推送。
                  */
-                final JsonObject draft = Ux.ruleAny(rule.rulePure(), queueNew, recordO);
+                final JsonObject draft = Ux.ruleAny(rules.rulePure(), queueNew, recordO);
                 if (Objects.nonNull(draft)) {
                     /*
                      *「小概率」
@@ -182,8 +258,8 @@ class AoCompare {
                  *
                  * 推送检查，record 是推送专用规则，旧记录已经满足了推送规则，旧记录是否满足了优先级（按顺序查找）
                  */
-                final JsonObject foundO = Ux.ruleAll(rule.rulePull(), recordO);
-                if (Objects.isNull(foundO)) {
+                final JsonObject branch = Ux.ruleAll(rules.rulePure(), recordO);
+                if (Objects.isNull(branch)) {
                     /*
                      * （未推送）, RULE-2 = null 的情况
                      *
@@ -204,13 +280,214 @@ class AoCompare {
                      * 1）RULE-1 无值，RULE-3 必定有值（正常情况）
                      * 2）RULE-1 有值，RULE-3 必定有值（异常情况）
                      */
-                    final JsonObject found = Ux.ruleAny(rule.rulePush(), queueNew, recordO);
+                    // 有序查找，List带优先级模式
+                    final JsonObject found = Ux.ruleAny(rules.rulePush(), queueNew, recordO);
                     if (Objects.nonNull(found)) {
+                        /*
+                         * 当前数据是匹配的
+                         * RULE-1, RULE-3 任意有一条规则是匹配的
+                         *
+                         * 1）如果 code 存在，则按 code 创建连接
+                         * 2）如果 code 不存在，则按 name 第三规则创建连接
+                         * UPDATE 添加（合并添加）
+                         * 一条新记录覆盖旧记录中的可关联的基础数据
+                         *
+                         * 限制：如果出现了 name 匹配上，code 匹配不上（提供了code）-- ！！！超小概率处理
+                         *
+                         * Solution：
+                         * 在集成的 mapping 中控制 code，最好不配置
+                         */
+                        final JsonObject foundAny = Ux.ruleAny(new HashSet<>(rules.rulePush()), queueNew, recordO);
+                        if (Objects.isNull(foundAny)) {
+                            /*
+                             * 新数据：只有 name，没有 code
+                             * 更新平台内的 code 数据
+                             */
+                            queueUTemp.add(found);
+                        } else {
+                            /*
+                             * 新数据：有 name， 有 code
+                             * 忽略：超小概率，直接忽略
+                             */
+                            Ao.infoDiff(AoCompare.class, "第三方提供了 code，数据异常：{0}", recordO.encode());
+                        }
+                    }
+                } else {
+                    /*
+                     * （已推送），RULE-2 = value 的情况
+                     *
+                     * 旧数据：标识规则全满足
+                     * 新数据：
+                     * 1）RULE-3 - value，RULE-2/RULE-1 = value
+                     * 2）RULE-3 - value, RULE-2 = value, RULE-1 = null;
+                     * 3）RULE-3 - value, RULE-2 = null, RULE-1 = value;
+                     *
+                     * UCMDB为源头：RULE-2
+                     * 情况1：推送过一次的更新
+                     * 情况2：自动发现的更新（不太容易发生）
+                     * 情况3：不会发生，RULE-2 必须存在
+                     *
+                     *
+                     * 可推送、同步状态（可执行删除）
+                     * v v v - v x v, v v v
+                     * Strong有一个连接上就标识为可连接
+                     *
+                     * 旧记录满足了 priority 的标识规则（合法）
+                     */
+                    final JsonObject foundStrong = Ux.ruleAny(rules.getStrong(), queueNew, recordO);
+                    if (Objects.isNull(foundStrong)) {
+                        /*
+                         * 新数据
+                         * DDI为源头：RULE-3
+                         * 情况1：不可能
+                         * 情况2：不可能
+                         * 情况3：不可能
+                         * RULE-1: null, RULE-2: null
+                         *
+                         */
 
+                        /*
+                         * 强连接失效、那么执行弱连接操作
+                         */
+                        final JsonObject foundWeak = Ux.ruleAny(rules.getWeak(), queueNew, recordO);
+                        if (Objects.isNull(foundWeak)) {
+                            /*
+                             * 弱连接未匹配，直接删除
+                             */
+                            queueD.add(Ux.ruleTwins(recordO, null));
+                        } else {
+                            /*
+                             * 强连接失效，弱连接生效，那么需要针对新旧数据执行替换
+                             * 强连接字段不执行替换（按弱连接不更新强连接）
+                             */
+                            final JsonObject newRef = foundWeak.getJsonObject(Values.VS.NEW);
+                            final JsonObject oldRef = foundWeak.getJsonObject(Values.VS.OLD);
+                            rules.getStrong().forEach(rule -> rule.getFields().forEach(field -> {
+                                /*
+                                 * 以旧数据中的强连接字段为主
+                                 */
+                                final Object oldV = oldRef.getValue(field);
+                                final Object newV = newRef.getValue(field);
+                                if (Objects.nonNull(oldV) || Objects.nonNull(newV)) {
+                                    /*
+                                     * 新 = null，旧 = value
+                                     * 新 = value, 旧 = null
+                                     * 新 = value1, 旧 = value2
+                                     * 最终旧值维持不变，而新的值Strong中的（Strong和Weak互斥）全部按旧值处理
+                                     */
+                                    newRef.put(field, oldV);
+                                }
+                            }));
+                            /*
+                             * 更新过后的内容
+                             */
+                            queueUTemp.add(foundWeak);
+                        }
+                    } else {
+                        /*
+                         * 强连接生效：旧记录直接通过强连接连接上了，证明该记录可执行更新合并操作，整体生效
+                         */
+                        queueUTemp.add(foundStrong);
                     }
                 }
             }
         });
-        return null;
+        /*
+         * 遍历剩余的 updated，生成纯添加队列：ADD
+         * 新记录 newRecord / oldRecord 旧队列
+         * v v v
+         * v x v
+         * 旧记录状态：x v x, x v v, v v v
+         */
+        Ut.itJArray(queueNew).map(recordN -> {
+            final JsonObject processed = Ux.ruleAny(rules.rulePure(), queueOld, recordN);
+            if (Objects.isNull(processed)) {
+                return Ux.ruleTwins(null, recordN);
+            } else {
+                final JsonObject weakFound = Ux.ruleAny(rules.getWeak(), queueOld, recordN);
+                if (Objects.isNull(weakFound)) {
+                    /*
+                     * 如果弱连接找不到
+                     * 不添加
+                     */
+                    return null;
+                } else {
+                    /*
+                     * 反向（新旧交换）
+                     */
+                    final JsonObject revert = new JsonObject();
+                    revert.put(Values.VS.NEW, weakFound.getValue(Values.VS.OLD));
+                    revert.put(Values.VS.OLD, weakFound.getValue(Values.VS.NEW));
+                    if (queueD.contains(revert)) {
+                        /*
+                         * 弱连接可以找到，但原始的被删除了，添加新的
+                         */
+                        revert.remove(Values.VS.OLD);
+                        return revert;
+                    } else {
+                        /*
+                         * 弱连接可以找到，但原始的并未被删除，不添加新的
+                         */
+                        return null;
+                    }
+                }
+            }
+        }).filter(Objects::nonNull).forEach(queueA::add);
+        /*
+         * updateQueue 压缩：如果没有变更则不处理
+         */
+        final JsonArray queueU = new JsonArray();
+        /*
+         * ATOM-02: ignore 中还包含 track = false 的字段
+         */
+        final Vs vs = atom.vs().ignores(ignoreSet);
+
+        Ut.itJArray(queueUTemp).filter(vs::isChange).forEach(queueU::add);
+        /*
+         * 最终响应结果
+         */
+        return new ConcurrentHashMap<ChangeFlag, JsonArray>() {
+            {
+                this.put(ChangeFlag.ADD, queueA);
+                this.put(ChangeFlag.DELETE, queueD);
+                this.put(ChangeFlag.UPDATE, queueU);
+            }
+        };
+    }
+
+    static JsonObject diffPull(
+            final JsonObject recordO, final JsonObject recordN,
+            final DataAtom atom, final Set<String> ignoreSet
+    ) {
+        final JsonArray queueN = new JsonArray().add(recordN);
+        final JsonArray queueO = new JsonArray().add(recordO);
+        final ConcurrentMap<ChangeFlag, JsonArray> processed = diffPull(queueO, queueN, atom, ignoreSet);
+        final Kv<ChangeFlag, JsonObject> changed = Kv.create();
+        processed.forEach((flag, items) -> {
+            if (Values.ONE == items.size()) {
+                changed.set(flag, items.getJsonObject(Values.IDX));
+            }
+        });
+        final ChangeFlag flag = changed.getKey();
+        Ao.infoUca(AoCompare.class, "（Pull）计算变更结果：{0} = {1}", flag, changed.getValue());
+        if (ChangeFlag.UPDATE == flag) {
+            return recordN;
+        } else {
+            return null;
+        }
+    }
+
+    static Apt diffPull(final Apt apt, final DataAtom atom,
+                        final Set<String> ignoreSet) {
+        final JsonArray queueO = apt.dataO();
+        final JsonArray queueN = apt.dataN();
+        Ao.infoUca(AoCompare.class, "（Pull）新旧数量：（{2} vs {3}），新数据：{1}, 旧数据：{0}",
+                queueO.encode(), queueN.encode(),
+                String.valueOf(queueN.size()), String.valueOf(queueO.size()));
+        /*
+         * 变更历史的判断，是否生成变更历史
+         */
+        final ConcurrentMap<ChangeFlag, JsonArray> calculated = diffPull(queueO, queueN, atom, ignoreSet);
+        return apt.compared(calculated);
     }
 }
