@@ -35,6 +35,15 @@ interface VsSame {
     boolean is(Object valueOld, Object valueNew);
 
     /**
+     * Check value is ok
+     *
+     * @param value {@link Object}
+     *
+     * @return {@link Boolean}
+     */
+    boolean ok(Object value);
+
+    /**
      * 1. Any one input is `null`
      * 2. Both are not be null at the same time.
      *

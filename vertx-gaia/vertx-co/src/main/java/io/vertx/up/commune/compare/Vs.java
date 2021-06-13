@@ -68,7 +68,6 @@ public class Vs implements Serializable {
 
     private Vs(final ConcurrentMap<String, Class<?>> mapType, final ConcurrentMap<String, Set<String>> mapSubtype) {
         if (Objects.nonNull(mapType) && !mapType.isEmpty()) {
-            this.mapType.clear();
             this.mapType.putAll(mapType);
         }
         if (Objects.nonNull(mapSubtype) && !mapSubtype.isEmpty()) {
@@ -134,7 +133,17 @@ public class Vs implements Serializable {
         return isChange(valueOld, valueNew, type, subset);
     }
 
+    public boolean isValue(final Object value, final String attribute) {
+        final Class<?> type = this.mapType.get(attribute);
+        return isValue(value, type);
+    }
+
     // ============================ Static Comparing Change ===============================
+    public static boolean isValue(final Object value, final Class<?> type) {
+        final VsSame same = Objects.requireNonNull(VsSame.get(type));
+        return same.ok(value);
+    }
+
     public static boolean isChange(final Object valueOld, final Object valueNew, final Class<?> type, final Set<String> subset) {
         return !isSame(valueOld, valueNew, type, subset);
     }

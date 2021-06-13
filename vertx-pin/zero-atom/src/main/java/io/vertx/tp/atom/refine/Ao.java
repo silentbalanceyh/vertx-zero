@@ -9,13 +9,16 @@ import io.vertx.tp.atom.modeling.element.DataMatrix;
 import io.vertx.tp.modular.dao.AoDao;
 import io.vertx.tp.optic.robin.Switcher;
 import io.vertx.tp.plugin.excel.atom.ExTable;
+import io.vertx.up.atom.record.Apt;
 import io.vertx.up.commune.Record;
 import io.vertx.up.commune.config.Database;
 import io.vertx.up.commune.config.Identity;
+import io.vertx.up.eon.em.ChangeFlag;
 import io.vertx.up.log.Annal;
 import org.jooq.Converter;
 
 import java.util.List;
+import java.util.Queue;
 import java.util.Set;
 import java.util.concurrent.ConcurrentMap;
 import java.util.function.BiFunction;
@@ -51,6 +54,11 @@ public class Ao {
         AoLog.info(logger, "UCA", pattern, args);
     }
 
+    public static void infoDiff(final Class<?> clazz, final String pattern, final Object... args) {
+        final Annal logger = Annal.get(clazz);
+        AoLog.info(logger, "Diff", pattern, args);
+    }
+
     public static void infoPlugin(final Class<?> clazz, final String pattern, final Object... args) {
         final Annal logger = Annal.get(clazz);
         AoLog.info(logger, "Plugin", pattern, args);
@@ -58,6 +66,45 @@ public class Ao {
 
     public static void infoSQL(final Annal logger, final String pattern, final Object... args) {
         AoLog.info(logger, "Sql", pattern, args);
+    }
+
+    /*
+     * Diff
+     */
+    public static ConcurrentMap<ChangeFlag, JsonArray> diffPure(final JsonArray queueOld, final JsonArray queueNew, final DataAtom atom, final Set<String> ignoreSet) {
+        return AoCompare.diffPure(queueOld, queueNew, atom, ignoreSet);
+    }
+
+    public static JsonObject diffPure(final JsonObject recordO, final JsonObject recordN, final DataAtom atom, final Set<String> ignoreSet) {
+        return AoCompare.diffPure(recordO, recordN, atom, ignoreSet);
+    }
+
+    public static Apt diffPure(final Apt apt, final DataAtom atom, final Set<String> ignoreSet) {
+        return AoCompare.diffPure(apt, atom, ignoreSet);
+    }
+
+    public static ConcurrentMap<ChangeFlag, JsonArray> diffPull(final JsonArray queueOld, final JsonArray queueNew, final DataAtom atom, final Set<String> ignoreSet) {
+        return AoCompare.diffPull(queueOld, queueNew, atom, ignoreSet);
+    }
+
+    public static JsonObject diffPull(final JsonObject recordO, final JsonObject recordN, final DataAtom atom, final Set<String> ignoreSet) {
+        return AoCompare.diffPull(recordO, recordN, atom, ignoreSet);
+    }
+
+    public static Apt diffPull(final Apt apt, final DataAtom atom, final Set<String> ignoreSet) {
+        return AoCompare.diffPull(apt, atom, ignoreSet);
+    }
+
+    public static <T> ConcurrentMap<ChangeFlag, List<T>> initMList() {
+        return AoCompare.initMList();
+    }
+
+    public static <T> ConcurrentMap<ChangeFlag, Queue<T>> initMQueue() {
+        return AoCompare.initMQueue();
+    }
+
+    public static ConcurrentMap<ChangeFlag, JsonArray> initMArray() {
+        return AoCompare.initMArray();
     }
 
     /*

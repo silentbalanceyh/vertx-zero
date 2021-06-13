@@ -4,6 +4,8 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.util.Ut;
 
+import java.util.Objects;
+
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
@@ -28,6 +30,29 @@ final class VsJsonArray extends AbstractSame {
                 return checkedNew.equals(checkedOld);
             }));
         }
+    }
+
+    @Override
+    public boolean isXor(final Object valueOld, final Object valueNew) {
+        final Object valueSelect = Objects.isNull(valueOld) ? valueNew : valueOld;
+        final JsonArray normalized;
+        if (valueSelect instanceof String) {
+            normalized = new JsonArray(valueSelect.toString());
+        } else if (valueSelect instanceof JsonArray) {
+            normalized = (JsonArray) valueSelect;
+        } else {
+            normalized = new JsonArray();
+        }
+        return normalized.isEmpty();
+    }
+
+    @Override
+    public boolean ok(final Object value) {
+        final boolean result = super.ok(value);
+        if (result) {
+            final JsonArray array = this.toJArray(value);
+            return !array.isEmpty();
+        } else return Boolean.FALSE;
     }
 
     private JsonArray toJArray(final Object valueOld) {

@@ -51,7 +51,7 @@ final class To {
     }
 
     static Set<String> toSet(final JsonArray keys) {
-        final JsonArray keysData = Define.sureJArray(keys);
+        final JsonArray keysData = Jackson.sureJArray(keys);
         final Set<String> keySet = new HashSet<>();
         It.itJString(keysData).forEach(keySet::add);
         return keySet;

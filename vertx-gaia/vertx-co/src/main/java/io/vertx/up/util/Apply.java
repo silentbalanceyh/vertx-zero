@@ -15,7 +15,7 @@ class Apply {
     @SuppressWarnings("all")
     static <T, V> Consumer<JsonObject> applyField(final String field, final Function<V, T> function) {
         return (json) -> {
-            json = Define.sureJObject(json);
+            json = Jackson.sureJObject(json);
             if (json.containsKey(field)) {
                 final Object value = json.getValue(field);
                 if (Objects.nonNull(value)) {

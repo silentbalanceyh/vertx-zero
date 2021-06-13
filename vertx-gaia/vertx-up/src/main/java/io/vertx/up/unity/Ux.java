@@ -13,11 +13,13 @@ import io.vertx.ext.web.FileUpload;
 import io.vertx.tp.plugin.database.DataPool;
 import io.vertx.tp.plugin.jooq.JooqInfix;
 import io.vertx.up.atom.query.Pagination;
+import io.vertx.up.atom.record.Apt;
 import io.vertx.up.commune.Envelop;
 import io.vertx.up.commune.Record;
 import io.vertx.up.commune.exchange.DictConfig;
 import io.vertx.up.commune.exchange.DictEpsilon;
 import io.vertx.up.commune.exchange.DictFabric;
+import io.vertx.up.commune.rule.RuleTerm;
 import io.vertx.up.eon.Constants;
 import io.vertx.up.eon.Strings;
 import io.vertx.up.eon.em.ChangeFlag;
@@ -30,9 +32,7 @@ import io.vertx.up.util.Ut;
 
 import java.time.Instant;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.ConcurrentMap;
 import java.util.function.*;
 
@@ -86,6 +86,60 @@ public final class Ux {
 
     public static <T> Function<Throwable, T> otherwise(T input) {
         return otherwise(() -> input);
+    }
+
+    /*
+     * Rule Match
+     * 1. single checking
+     * 2. double checking
+     * 3. array checking
+     */
+    public static JsonObject ruleAll(final Collection<RuleTerm> rules, final JsonObject input) {
+        return Unique.ruleAll(rules, input);
+    }
+
+    public static ConcurrentMap<Boolean, JsonArray> ruleAll(final Collection<RuleTerm> rules, final JsonArray input) {
+        return Unique.ruleAll(rules, input);
+    }
+
+    public static JsonObject ruleAll(final Collection<RuleTerm> rules, final JsonObject recordO, final JsonObject recordN) {
+        return Unique.ruleAll(rules, recordO, recordN);
+    }
+
+    public static JsonObject ruleAll(final Collection<RuleTerm> rules, final JsonArray source, final JsonObject record) {
+        return Unique.ruleAll(rules, source, record);
+    }
+
+    public static JsonObject ruleAny(final Collection<RuleTerm> rules, final JsonObject input) {
+        return Unique.ruleAny(rules, input);
+    }
+
+    public static JsonObject ruleAny(final Collection<RuleTerm> rules, final JsonObject record0, final JsonObject recordN) {
+        return Unique.ruleAny(rules, record0, recordN);
+    }
+
+    public static JsonObject ruleAny(final Collection<RuleTerm> rules, final JsonArray source, final JsonObject record) {
+        return Unique.ruleAny(rules, source, record);
+    }
+
+    public static ConcurrentMap<Boolean, JsonArray> ruleAny(final Collection<RuleTerm> rules, final JsonArray input) {
+        return Unique.ruleAny(rules, input);
+    }
+
+    public static JsonObject ruleTwins(final JsonObject recordO, final JsonObject recordN) {
+        return Unique.ruleTwins(recordO, recordN);
+    }
+
+    public static JsonObject ruleNil(final JsonObject twins, final ChangeFlag flag) {
+        return Unique.ruleNil(twins, flag);
+    }
+
+    public static JsonObject ruleNil(final JsonObject recordN, final JsonObject recordO) {
+        return Objects.isNull(recordN) ? recordO : recordN;
+    }
+
+    public static Apt ruleApt(final JsonArray twins, final boolean isReplaced) {
+        return Unique.ruleApt(twins, isReplaced);
     }
 
     /*
@@ -485,7 +539,7 @@ public final class Ux {
         return Combine.thenCombineT(futures);
     }
 
-    public static <T> Future<ConcurrentMap<String, T>> thenCombine(final ConcurrentMap<String, Future<T>> futureMap) {
+    public static <K, T> Future<ConcurrentMap<K, T>> thenCombine(final ConcurrentMap<K, Future<T>> futureMap) {
         return Combine.thenCombine(futureMap);
     }
 
