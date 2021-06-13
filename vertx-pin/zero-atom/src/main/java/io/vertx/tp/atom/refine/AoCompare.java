@@ -58,12 +58,39 @@ class AoCompare {
      * Database Change
      */
     static ConcurrentMap<ChangeFlag, JsonArray> diffPure(
-            final JsonArray queueOld, final JsonArray queueNew,
+            final JsonArray queueO, final JsonArray queueN,
             final DataAtom atom, final Set<String> ignoreSet
     ) {
-        final RuleUnique unique = atom.ruleSmart();
-        Ao.infoUca(AoCompare.class, "（Pure）对比用标识规则：\n{0}", unique.toString());
-        return null;
+        final RuleUnique rules = atom.ruleSmart();
+        Ao.infoUca(AoCompare.class, "（Pure）对比用标识规则：\n{0}", rules.toString());
+        final JsonArray queueA = new JsonArray();
+        final JsonArray queueUTemp = new JsonArray();
+        final JsonArray queueD = new JsonArray();
+        // DELETE / UPDATE
+        Ut.itJArray(queueO).forEach(recordO -> {
+            final JsonObject found = Ux.ruleAny(rules.rulePure(), queueN, recordO);
+            if (Objects.isNull(found)) {
+                // DELETE
+                queueD.add(Ux.ruleTwins(recordO, null));
+            } else {
+                queueUTemp.add(found);
+            }
+        });
+        // ADD
+        Ut.itJArray(queueN).forEach(recordN -> {
+            final JsonObject found = Ux.ruleAny(rules.rulePure(), queueO, recordN);
+            if (Objects.isNull(found)) {
+                queueA.add(Ux.ruleTwins(null, recordN));
+            }
+        });
+        final JsonArray queueU = updateQueue(queueUTemp, atom, ignoreSet);
+        return new ConcurrentHashMap<ChangeFlag, JsonArray>() {
+            {
+                this.put(ChangeFlag.ADD, queueA);
+                this.put(ChangeFlag.DELETE, queueD);
+                this.put(ChangeFlag.UPDATE, queueU);
+            }
+        };
     }
 
     static JsonObject diffPure(
@@ -73,12 +100,7 @@ class AoCompare {
         final JsonArray queueN = new JsonArray().add(recordN);
         final JsonArray queueO = new JsonArray().add(recordO);
         final ConcurrentMap<ChangeFlag, JsonArray> processed = diffPure(queueO, queueN, atom, ignoreSet);
-        final Kv<ChangeFlag, JsonObject> changed = Kv.create();
-        processed.forEach((flag, items) -> {
-            if (Values.ONE == items.size()) {
-                changed.set(flag, items.getJsonObject(Values.IDX));
-            }
-        });
+        final Kv<ChangeFlag, JsonObject> changed = updateKv(processed);
         final ChangeFlag flag = changed.getKey();
         Ao.infoUca(AoCompare.class, "（Pure）计算变更结果：{0} = {1}", flag, changed.getValue());
         if (ChangeFlag.UPDATE == flag) {
@@ -99,54 +121,6 @@ class AoCompare {
          * 变更历史的判断，是否生成变更历史
          */
         final ConcurrentMap<ChangeFlag, JsonArray> calculated = diffPure(queueO, queueN, atom, ignoreSet);
-        return apt.compared(calculated);
-    }
-
-    /*
-     * Database -> Integration
-     */
-    static ConcurrentMap<ChangeFlag, JsonArray> diffPush(
-            final JsonArray queueOld, final JsonArray queueNew,
-            final DataAtom atom, final Set<String> ignoreSet
-    ) {
-        final RuleUnique unique = atom.ruleSmart();
-        Ao.infoUca(AoCompare.class, "（Push）对比用标识规则：\n{0}", unique.toString());
-        return null;
-    }
-
-    static JsonObject diffPush(
-            final JsonObject recordO, final JsonObject recordN,
-            final DataAtom atom, final Set<String> ignoreSet
-    ) {
-        final JsonArray queueN = new JsonArray().add(recordN);
-        final JsonArray queueO = new JsonArray().add(recordO);
-        final ConcurrentMap<ChangeFlag, JsonArray> processed = diffPush(queueO, queueN, atom, ignoreSet);
-        final Kv<ChangeFlag, JsonObject> changed = Kv.create();
-        processed.forEach((flag, items) -> {
-            if (Values.ONE == items.size()) {
-                changed.set(flag, items.getJsonObject(Values.IDX));
-            }
-        });
-        final ChangeFlag flag = changed.getKey();
-        Ao.infoUca(AoCompare.class, "（Push）计算变更结果：{0} = {1}", flag, changed.getValue());
-        if (ChangeFlag.UPDATE == flag) {
-            return recordN;
-        } else {
-            return null;
-        }
-    }
-
-    static Apt diffPush(final Apt apt, final DataAtom atom,
-                        final Set<String> ignoreSet) {
-        final JsonArray queueO = apt.dataO();
-        final JsonArray queueN = apt.dataN();
-        Ao.infoUca(AoCompare.class, "（Push）新旧数量：（{2} vs {3}），新数据：{1}, 旧数据：{0}",
-                queueO.encode(), queueN.encode(),
-                String.valueOf(queueN.size()), String.valueOf(queueO.size()));
-        /*
-         * 变更历史的判断，是否生成变更历史
-         */
-        final ConcurrentMap<ChangeFlag, JsonArray> calculated = diffPush(queueO, queueN, atom, ignoreSet);
         return apt.compared(calculated);
     }
 
@@ -433,19 +407,8 @@ class AoCompare {
                 }
             }
         }).filter(Objects::nonNull).forEach(queueA::add);
-        /*
-         * updateQueue 压缩：如果没有变更则不处理
-         */
-        final JsonArray queueU = new JsonArray();
-        /*
-         * ATOM-02: ignore 中还包含 track = false 的字段
-         */
-        final Vs vs = atom.vs().ignores(ignoreSet);
 
-        Ut.itJArray(queueUTemp).filter(vs::isChange).forEach(queueU::add);
-        /*
-         * 最终响应结果
-         */
+        final JsonArray queueU = updateQueue(queueUTemp, atom, ignoreSet);
         return new ConcurrentHashMap<ChangeFlag, JsonArray>() {
             {
                 this.put(ChangeFlag.ADD, queueA);
@@ -462,12 +425,7 @@ class AoCompare {
         final JsonArray queueN = new JsonArray().add(recordN);
         final JsonArray queueO = new JsonArray().add(recordO);
         final ConcurrentMap<ChangeFlag, JsonArray> processed = diffPull(queueO, queueN, atom, ignoreSet);
-        final Kv<ChangeFlag, JsonObject> changed = Kv.create();
-        processed.forEach((flag, items) -> {
-            if (Values.ONE == items.size()) {
-                changed.set(flag, items.getJsonObject(Values.IDX));
-            }
-        });
+        final Kv<ChangeFlag, JsonObject> changed = updateKv(processed);
         final ChangeFlag flag = changed.getKey();
         Ao.infoUca(AoCompare.class, "（Pull）计算变更结果：{0} = {1}", flag, changed.getValue());
         if (ChangeFlag.UPDATE == flag) {
@@ -489,5 +447,28 @@ class AoCompare {
          */
         final ConcurrentMap<ChangeFlag, JsonArray> calculated = diffPull(queueO, queueN, atom, ignoreSet);
         return apt.compared(calculated);
+    }
+
+    private static Kv<ChangeFlag, JsonObject> updateKv(final ConcurrentMap<ChangeFlag, JsonArray> processed) {
+        final Kv<ChangeFlag, JsonObject> changed = Kv.create();
+        processed.forEach((flag, items) -> {
+            if (Values.ONE == items.size()) {
+                changed.set(flag, items.getJsonObject(Values.IDX));
+            }
+        });
+        return changed;
+    }
+
+    private static JsonArray updateQueue(final JsonArray queueUTemp, final DataAtom atom, final Set<String> ignoreSet) {
+        /*
+         * updateQueue 压缩：如果没有变更则不处理
+         */
+        final JsonArray queueU = new JsonArray();
+        /*
+         * ATOM-02: ignore 中还包含 track = false 的字段
+         */
+        final Vs vs = atom.vs().ignores(ignoreSet);
+        Ut.itJArray(queueUTemp).filter(vs::isChange).forEach(queueU::add);
+        return queueU;
     }
 }

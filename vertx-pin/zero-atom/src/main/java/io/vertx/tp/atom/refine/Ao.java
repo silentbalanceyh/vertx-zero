@@ -83,18 +83,6 @@ public class Ao {
         return AoCompare.diffPure(apt, atom, ignoreSet);
     }
 
-    public static ConcurrentMap<ChangeFlag, JsonArray> diffPush(final JsonArray queueOld, final JsonArray queueNew, final DataAtom atom, final Set<String> ignoreSet) {
-        return AoCompare.diffPush(queueOld, queueNew, atom, ignoreSet);
-    }
-
-    public static JsonObject diffPush(final JsonObject recordO, final JsonObject recordN, final DataAtom atom, final Set<String> ignoreSet) {
-        return AoCompare.diffPush(recordO, recordN, atom, ignoreSet);
-    }
-
-    public static Apt diffPush(final Apt apt, final DataAtom atom, final Set<String> ignoreSet) {
-        return AoCompare.diffPush(apt, atom, ignoreSet);
-    }
-
     public static ConcurrentMap<ChangeFlag, JsonArray> diffPull(final JsonArray queueOld, final JsonArray queueNew, final DataAtom atom, final Set<String> ignoreSet) {
         return AoCompare.diffPull(queueOld, queueNew, atom, ignoreSet);
     }
