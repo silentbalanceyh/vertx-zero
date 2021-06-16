@@ -83,8 +83,8 @@ class Combine {
         });
     }
 
-    static <T> Future<ConcurrentMap<String, T>> thenCombine(final ConcurrentMap<String, Future<T>> futureMap) {
-        final List<String> keys = new ArrayList<>();
+    static <K, T> Future<ConcurrentMap<K, T>> thenCombine(final ConcurrentMap<K, Future<T>> futureMap) {
+        final List<K> keys = new ArrayList<>();
         final List<Future> futures = new ArrayList<>();
         futureMap.forEach((key, future) -> {
             keys.add(key);
@@ -96,11 +96,11 @@ class Combine {
              * Index mapping
              */
             final int size = list.size();
-            final ConcurrentMap<String, T> resultMap = new ConcurrentHashMap<>();
+            final ConcurrentMap<K, T> resultMap = new ConcurrentHashMap<>();
             for (int idx = Values.IDX; idx < size; idx++) {
-                final String key = keys.get(idx);
+                final K key = keys.get(idx);
                 final T result = list.get(idx);
-                if (Ut.notNil(key)) {
+                if (Objects.nonNull(key)) {
                     resultMap.put(key, result);
                 }
             }

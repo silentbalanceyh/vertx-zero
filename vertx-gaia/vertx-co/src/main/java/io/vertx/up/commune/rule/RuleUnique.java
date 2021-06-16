@@ -148,6 +148,19 @@ public class RuleUnique implements Serializable {
         this.weak = weak;
     }
 
+
+    public Set<RuleTerm> rulePull() {
+        return this.integration;
+    }
+
+    public List<RuleTerm> rulePure() {
+        return this.priority;
+    }
+
+    public List<RuleTerm> rulePush() {
+        return this.record;
+    }
+
     public RuleUnique child(final String identifier) {
         return this.children.get(identifier);
     }

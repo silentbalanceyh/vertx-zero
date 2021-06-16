@@ -40,7 +40,7 @@ public class RuleTerm implements Serializable {
         return this.fields;
     }
 
-    public JsonObject toRule(final JsonObject input) {
+    public JsonObject dataRule(final JsonObject input) {
         final JsonObject cond = new JsonObject();
         this.fields.stream().filter(input::containsKey)
                 .forEach(field -> cond.put(field, input.getValue(field)));
@@ -51,26 +51,22 @@ public class RuleTerm implements Serializable {
      * 内置逻辑
      * 使用当前的 RuleTerm 检查输入数据是否符合当前标识规则
      */
-    public JsonObject toData(final JsonObject input) {
+    public JsonObject dataMatch(final JsonObject input) {
         if (Objects.isNull(input)) {
             return null;
         } else {
-            final JsonObject nonNull = new JsonObject();
+            final JsonObject compress = new JsonObject();
             input.fieldNames().stream()
                     .filter(field -> Objects.nonNull(input.getValue(field)))
-                    .forEach(field -> nonNull.put(field, input.getValue(field)));
-            /*
-             * 传入数据本身的 fields
-             */
-            final Set<String> dataFields = nonNull.fieldNames();
+                    .forEach(field -> compress.put(field, input.getValue(field)));
+            /* 传入数据本身的 fields */
+            final Set<String> dataFields = compress.fieldNames();
             final long counter = this.fields.stream()
                     .filter(dataFields::contains)
                     .count();
-            /*
-             * 相等证明 fields 中所有的字段都包含在了 dataFields 中
-             */
+            /* 相等证明 fields 中所有的字段都包含在了 dataFields 中 */
             if (counter == this.fields.size()) {
-                return nonNull.copy();
+                return compress.copy();
             } else {
                 return null;
             }
