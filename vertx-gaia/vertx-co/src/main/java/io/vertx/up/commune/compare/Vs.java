@@ -2,6 +2,7 @@ package io.vertx.up.commune.compare;
 
 import io.vertx.codegen.annotations.Fluent;
 import io.vertx.core.json.JsonObject;
+import io.vertx.up.eon.Strings;
 import io.vertx.up.eon.Values;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.util.Ut;
@@ -140,8 +141,9 @@ public class Vs implements Serializable {
 
     // ============================ Static Comparing Change ===============================
     public static boolean isValue(final Object value, final Class<?> type) {
-        final VsSame same = Objects.requireNonNull(VsSame.get(type));
-        return same.ok(value);
+        // Fix Null Pointer Exception for Unknown Type comparing.
+        final VsSame same = VsSame.get(type);
+        return Objects.isNull(same) ? Objects.nonNull(value) : same.ok(value);
     }
 
     public static boolean isChange(final Object valueOld, final Object valueNew, final Class<?> type, final Set<String> subset) {
@@ -157,17 +159,24 @@ public class Vs implements Serializable {
              * 1. type
              * 2. subset ( JsonArray Only )
              * */
-            final VsSame same = Objects.requireNonNull(VsSame.get(type)).bind(subset);
-            if (Objects.nonNull(valueOld) && Objects.nonNull(valueNew)) {
-                /*
-                 * Standard workflow here
-                 */
-                return same.is(valueOld, valueNew);
+            final VsSame same = VsSame.get(type);
+            if (Objects.isNull(same)) {
+                final String strOld = Objects.nonNull(valueOld) ? valueOld.toString() : Strings.EMPTY;
+                final String strNew = Objects.nonNull(valueNew) ? valueNew.toString() : Strings.EMPTY;
+                return strOld.equals(strNew);
             } else {
-                /*
-                 * Non Standard workflow here
-                 */
-                return same.isXor(valueOld, valueNew);
+                same.bind(subset);
+                if (Objects.nonNull(valueOld) && Objects.nonNull(valueNew)) {
+                    /*
+                     * Standard workflow here
+                     */
+                    return same.is(valueOld, valueNew);
+                } else {
+                    /*
+                     * Non Standard workflow here
+                     */
+                    return same.isXor(valueOld, valueNew);
+                }
             }
         }
     }
