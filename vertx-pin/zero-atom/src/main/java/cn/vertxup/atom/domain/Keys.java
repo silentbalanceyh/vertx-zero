@@ -4,6 +4,7 @@
 package cn.vertxup.atom.domain;
 
 
+import cn.vertxup.atom.domain.tables.MAcc;
 import cn.vertxup.atom.domain.tables.MAttribute;
 import cn.vertxup.atom.domain.tables.MEntity;
 import cn.vertxup.atom.domain.tables.MField;
@@ -13,6 +14,7 @@ import cn.vertxup.atom.domain.tables.MKey;
 import cn.vertxup.atom.domain.tables.MModel;
 import cn.vertxup.atom.domain.tables.MRelation;
 import cn.vertxup.atom.domain.tables.MTpl;
+import cn.vertxup.atom.domain.tables.records.MAccRecord;
 import cn.vertxup.atom.domain.tables.records.MAttributeRecord;
 import cn.vertxup.atom.domain.tables.records.MEntityRecord;
 import cn.vertxup.atom.domain.tables.records.MFieldRecord;
@@ -52,6 +54,8 @@ public class Keys {
     // UNIQUE and PRIMARY KEY definitions
     // -------------------------------------------------------------------------
 
+    public static final UniqueKey<MAccRecord> KEY_M_ACC_PRIMARY = UniqueKeys0.KEY_M_ACC_PRIMARY;
+    public static final UniqueKey<MAccRecord> KEY_M_ACC_SIGMA = UniqueKeys0.KEY_M_ACC_SIGMA;
     public static final UniqueKey<MAttributeRecord> KEY_M_ATTRIBUTE_PRIMARY = UniqueKeys0.KEY_M_ATTRIBUTE_PRIMARY;
     public static final UniqueKey<MAttributeRecord> KEY_M_ATTRIBUTE_NAME = UniqueKeys0.KEY_M_ATTRIBUTE_NAME;
     public static final UniqueKey<MEntityRecord> KEY_M_ENTITY_PRIMARY = UniqueKeys0.KEY_M_ENTITY_PRIMARY;
@@ -83,6 +87,8 @@ public class Keys {
     // -------------------------------------------------------------------------
 
     private static class UniqueKeys0 {
+        public static final UniqueKey<MAccRecord> KEY_M_ACC_PRIMARY = Internal.createUniqueKey(MAcc.M_ACC, "KEY_M_ACC_PRIMARY", MAcc.M_ACC.KEY);
+        public static final UniqueKey<MAccRecord> KEY_M_ACC_SIGMA = Internal.createUniqueKey(MAcc.M_ACC, "KEY_M_ACC_SIGMA", MAcc.M_ACC.SIGMA, MAcc.M_ACC.MODEL_KEY);
         public static final UniqueKey<MAttributeRecord> KEY_M_ATTRIBUTE_PRIMARY = Internal.createUniqueKey(MAttribute.M_ATTRIBUTE, "KEY_M_ATTRIBUTE_PRIMARY", MAttribute.M_ATTRIBUTE.KEY);
         public static final UniqueKey<MAttributeRecord> KEY_M_ATTRIBUTE_NAME = Internal.createUniqueKey(MAttribute.M_ATTRIBUTE, "KEY_M_ATTRIBUTE_NAME", MAttribute.M_ATTRIBUTE.NAME, MAttribute.M_ATTRIBUTE.MODEL_ID);
         public static final UniqueKey<MEntityRecord> KEY_M_ENTITY_PRIMARY = Internal.createUniqueKey(MEntity.M_ENTITY, "KEY_M_ENTITY_PRIMARY", MEntity.M_ENTITY.KEY);

@@ -4,6 +4,7 @@
 package cn.vertxup.atom.domain;
 
 
+import cn.vertxup.atom.domain.tables.MAcc;
 import cn.vertxup.atom.domain.tables.MAttribute;
 import cn.vertxup.atom.domain.tables.MEntity;
 import cn.vertxup.atom.domain.tables.MField;
@@ -38,6 +39,9 @@ public class Indexes {
     // INDEX definitions
     // -------------------------------------------------------------------------
 
+    public static final Index M_ACC_PRIMARY = Indexes0.M_ACC_PRIMARY;
+    public static final Index M_ACC_SIGMA = Indexes0.M_ACC_SIGMA;
+    public static final Index M_ACC_SIGMA_2 = Indexes0.M_ACC_SIGMA_2;
     public static final Index M_ATTRIBUTE_IDX_M_ATTRIBUTE_MODEL_ID = Indexes0.M_ATTRIBUTE_IDX_M_ATTRIBUTE_MODEL_ID;
     public static final Index M_ATTRIBUTE_NAME = Indexes0.M_ATTRIBUTE_NAME;
     public static final Index M_ATTRIBUTE_PRIMARY = Indexes0.M_ATTRIBUTE_PRIMARY;
@@ -69,6 +73,9 @@ public class Indexes {
     // -------------------------------------------------------------------------
 
     private static class Indexes0 {
+        public static Index M_ACC_PRIMARY = Internal.createIndex("PRIMARY", MAcc.M_ACC, new OrderField[] { MAcc.M_ACC.KEY }, true);
+        public static Index M_ACC_SIGMA = Internal.createIndex("SIGMA", MAcc.M_ACC, new OrderField[] { MAcc.M_ACC.SIGMA, MAcc.M_ACC.MODEL_KEY }, true);
+        public static Index M_ACC_SIGMA_2 = Internal.createIndex("SIGMA_2", MAcc.M_ACC, new OrderField[] { MAcc.M_ACC.SIGMA, MAcc.M_ACC.MODEL_ID }, false);
         public static Index M_ATTRIBUTE_IDX_M_ATTRIBUTE_MODEL_ID = Internal.createIndex("IDX_M_ATTRIBUTE_MODEL_ID", MAttribute.M_ATTRIBUTE, new OrderField[] { MAttribute.M_ATTRIBUTE.MODEL_ID }, false);
         public static Index M_ATTRIBUTE_NAME = Internal.createIndex("NAME", MAttribute.M_ATTRIBUTE, new OrderField[] { MAttribute.M_ATTRIBUTE.NAME, MAttribute.M_ATTRIBUTE.MODEL_ID }, true);
         public static Index M_ATTRIBUTE_PRIMARY = Internal.createIndex("PRIMARY", MAttribute.M_ATTRIBUTE, new OrderField[] { MAttribute.M_ATTRIBUTE.KEY }, true);
