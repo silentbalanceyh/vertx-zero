@@ -29,12 +29,17 @@ import java.util.List;
 @SuppressWarnings({"all", "unchecked", "rawtypes"})
 public class Db extends SchemaImpl {
 
-    private static final long serialVersionUID = 211006034;
+    private static final long serialVersionUID = 88375277;
 
     /**
      * The reference instance of <code>DB_ETERNAL</code>
      */
     public static final Db DB_ETERNAL = new Db();
+
+    /**
+     * The table <code>DB_ETERNAL.M_ACC</code>.
+     */
+    public final MAcc M_ACC = cn.vertxup.atom.domain.tables.MAcc.M_ACC;
 
     /**
      * The table <code>DB_ETERNAL.M_ATTRIBUTE</code>.
@@ -106,6 +111,7 @@ public class Db extends SchemaImpl {
 
     private final List<Table<?>> getTables0() {
         return Arrays.<Table<?>>asList(
+                MAcc.M_ACC,
                 MAttribute.M_ATTRIBUTE,
                 MEntity.M_ENTITY,
                 MField.M_FIELD,

@@ -4,6 +4,7 @@
 package cn.vertxup.atom.domain;
 
 
+import cn.vertxup.atom.domain.tables.MAcc;
 import cn.vertxup.atom.domain.tables.MAttribute;
 import cn.vertxup.atom.domain.tables.MEntity;
 import cn.vertxup.atom.domain.tables.MField;
@@ -29,6 +30,11 @@ import javax.annotation.Generated;
 )
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Tables {
+
+    /**
+     * The table <code>DB_ETERNAL.M_ACC</code>.
+     */
+    public static final MAcc M_ACC = cn.vertxup.atom.domain.tables.MAcc.M_ACC;
 
     /**
      * The table <code>DB_ETERNAL.M_ATTRIBUTE</code>.
