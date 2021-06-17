@@ -40,6 +40,8 @@ class AoKey {
         joins.stream().map(MJoin::getEntityKey)
                 .filter(Objects::nonNull)
                 .filter(attribute -> record.fields().contains(attribute))
+                // Null Pointer Exception
+                .filter(attribute -> Objects.nonNull(record.get(attribute)))
                 .forEach(attribute -> keyMap.put(attribute, record.get(attribute)));
         return keyMap;
     }
