@@ -102,7 +102,8 @@ public abstract class ExAttributeComponent {
 
         /* Data */
         final JsonObject dictData = Ut.sureJObject(definition.getJsonObject(KeField.SOURCE_DATA));
-        final JsonArray data = dictData.getJsonArray(epsilon.getSource());
+        final String key = epsilon.getSource();
+        final JsonArray data = Ut.notNil(key) ? dictData.getJsonArray(key) : new JsonArray();
         final JsonObject result = new JsonObject();
         if (epsilon.isValid()) {
             Ut.itJArray(data).forEach(item -> {
