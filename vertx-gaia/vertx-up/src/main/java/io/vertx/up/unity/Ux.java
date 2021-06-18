@@ -523,6 +523,16 @@ public final class Ux {
         return Combine.thenCombine(futures);
     }
 
+    public static <F, S, T> Future<T> thenCombine(final Supplier<Future<F>> futureF, final Supplier<Future<S>> futureS,
+                                                  final BiFunction<F, S, Future<T>> consumer) {
+        return Combine.thenCombine(futureF, futureS, consumer);
+    }
+
+    public static <F, S, T> Future<T> thenCombine(final Future<F> futureF, final Future<S> futureS,
+                                                  final BiFunction<F, S, Future<T>> consumer) {
+        return Combine.thenCombine(() -> futureF, () -> futureS, consumer);
+    }
+
     public static Future<JsonArray> thenCombine(final JsonArray input, final Function<JsonObject, Future<JsonObject>> function) {
         final List<Future<JsonObject>> futures = new ArrayList<>();
         Ut.itJArray(input).map(function).forEach(futures::add);

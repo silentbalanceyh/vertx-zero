@@ -16,10 +16,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
-import java.util.function.BiConsumer;
-import java.util.function.BinaryOperator;
-import java.util.function.Function;
-import java.util.function.Supplier;
+import java.util.function.*;
 
 @SuppressWarnings("all")
 class Combine {
@@ -143,6 +140,11 @@ class Combine {
             final JsonArray result = null == finished ? new JsonArray() : new JsonArray(finished.list());
             return Future.succeededFuture(result);
         });
+    }
+
+    static <F, S, T> Future<T> thenCombine(final Supplier<Future<F>> futureF, final Supplier<Future<S>> futureS,
+                                           final BiFunction<F, S, Future<T>> consumer) {
+        return futureF.get().compose(f -> futureS.get().compose(s -> consumer.apply(f, s)));
     }
 
     static <T> Future<T> thenError(final Class<? extends WebException> clazz, final Object... args) {

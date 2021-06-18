@@ -2,6 +2,7 @@ package io.vertx.tp.atom.refine;
 
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
+import io.vertx.tp.atom.modeling.config.AoBag;
 import io.vertx.tp.atom.modeling.data.DataAtom;
 import io.vertx.tp.atom.modeling.data.DataRecord;
 import io.vertx.tp.atom.modeling.element.DataMatrix;
@@ -112,5 +113,18 @@ class AoData {
     @SuppressWarnings("all")
     static Converter converter(final Class<?> type) {
         return CONVERT_MAP.getOrDefault(type, null);
+    }
+
+    static List<AoBag> bagSplit(final AoBag pbData, final Integer size) {
+        final List<JsonArray> dataList = Ut.elementGroup(pbData.getData(), size);
+        final List<AoBag> dataPbList = new ArrayList<>();
+        dataList.forEach(each -> {
+            final AoBag data = new AoBag();
+            data.setIdentifier(pbData.getIdentifier());
+            data.setData(each);
+            data.setSize(each.size());
+            dataPbList.add(data);
+        });
+        return dataPbList;
     }
 }

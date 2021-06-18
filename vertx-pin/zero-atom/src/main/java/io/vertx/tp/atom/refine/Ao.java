@@ -4,6 +4,7 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.atom.modeling.Model;
 import io.vertx.tp.atom.modeling.Schema;
+import io.vertx.tp.atom.modeling.config.AoBag;
 import io.vertx.tp.atom.modeling.data.DataAtom;
 import io.vertx.tp.atom.modeling.element.DataMatrix;
 import io.vertx.tp.modular.dao.AoDao;
@@ -275,6 +276,10 @@ public class Ao {
     @SuppressWarnings("all")
     public static Converter converter(final Class<?> type) {
         return AoData.converter(type);
+    }
+
+    public static List<AoBag> split(final AoBag bag, final Integer size) {
+        return AoData.bagSplit(bag, size);
     }
 
     /*
