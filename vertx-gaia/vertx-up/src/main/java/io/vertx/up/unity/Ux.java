@@ -950,6 +950,16 @@ public final class Ux {
             final VertxDAO vertxDAO = (VertxDAO) JooqInfix.getDao(clazz, key);
             return Fn.pool(Cache.JOOQ_POOL, clazz, () -> new UxJooq(clazz, vertxDAO));
         }
+
+        public static boolean isEmpty(final JsonObject condition) {
+            if (Ut.isNil(condition)) {
+                return true;
+            } else {
+                final JsonObject normalized = condition.copy();
+                normalized.remove(Strings.EMPTY);
+                return Ut.isNil(normalized);
+            }
+        }
     }
 
     // -> Jooq -> Multi

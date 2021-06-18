@@ -13,7 +13,6 @@ import io.vertx.tp.optic.DS;
 import io.vertx.tp.plugin.database.DataPool;
 import io.vertx.up.commune.Record;
 import io.vertx.up.commune.config.Database;
-import io.vertx.up.eon.Strings;
 import io.vertx.up.uca.jooq.UxJoin;
 import io.vertx.up.uca.jooq.UxJooq;
 import io.vertx.up.unity.Ux;
@@ -92,42 +91,40 @@ public class RDao {
     }
 
     public JsonArray fetchBy(final JsonObject condition) {
-        if (this.isStatic()) {
-            /*
-             * Static
-             */
-            final Function<JsonObject, JsonArray> executor = this.executor();
-            return executor.apply(condition);
+        if (Ux.Jooq.isEmpty(condition)) {
+            return new JsonArray();
         } else {
-            /*
-             * Dynamic
-             */
-            final AoDao daoD = this.daoD();
-            final Record[] records = daoD.fetch(condition);
-            return Ut.toJArray(records);
+            if (this.isStatic()) {
+                /*
+                 * Static
+                 */
+                final Function<JsonObject, JsonArray> executor = this.executor();
+                return executor.apply(condition);
+            } else {
+                /*
+                 * Dynamic
+                 */
+                final AoDao daoD = this.daoD();
+                final Record[] records = daoD.fetch(condition);
+                return Ut.toJArray(records);
+            }
         }
     }
 
     private Function<JsonObject, JsonArray> executor() {
         return condition -> {
-            final JsonObject normalized = condition.copy();
-            normalized.remove(Strings.EMPTY);
-            if (Ut.isNil(normalized)) {
-                return new JsonArray();
+            final KPoint source = this.kJoin.getSource();
+            final KPoint target = this.kJoin.procTarget(condition);
+            if (Objects.isNull(target)) {
+                return Ux.Jooq.on(source.getClassDao()).fetchJ(condition);
             } else {
-                final KPoint source = this.kJoin.getSource();
-                final KPoint target = this.kJoin.procTarget(condition);
-                if (Objects.isNull(target)) {
-                    return Ux.Jooq.on(source.getClassDao()).fetchJ(condition);
-                } else {
-                    return Ux.Join.on()
-                            /*
-                             * Join source / target.
-                             */
-                            .add(source.getClassDao(), source.getKeyJoin())
-                            .join(target.getClassDao(), target.getKeyJoin())
-                            .fetch(condition);
-                }
+                return Ux.Join.on()
+                        /*
+                         * Join source / target.
+                         */
+                        .add(source.getClassDao(), source.getKeyJoin())
+                        .join(target.getClassDao(), target.getKeyJoin())
+                        .fetch(condition);
             }
         };
     }
