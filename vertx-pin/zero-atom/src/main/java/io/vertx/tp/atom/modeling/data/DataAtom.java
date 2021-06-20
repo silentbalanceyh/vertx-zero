@@ -13,7 +13,9 @@ import io.vertx.tp.modular.phantom.AoPerformer;
 import io.vertx.up.commune.compare.Vs;
 import io.vertx.up.commune.element.Shape;
 import io.vertx.up.commune.rule.RuleUnique;
+import io.vertx.up.eon.Strings;
 import io.vertx.up.fn.Fn;
+import io.vertx.up.util.Ut;
 
 import java.util.Objects;
 import java.util.Set;
@@ -35,7 +37,8 @@ public class DataAtom {
     private transient final String appName;
 
     public String key(final JsonObject options) {
-        return identifier() + "-" + options.hashCode();
+        final String hashCode = Ut.isNil(options) ? Strings.EMPTY : String.valueOf(options.hashCode());
+        return this.metadata.identifier() + "-" + hashCode;
     }
 
     private DataAtom(final Model model, final String appName) {

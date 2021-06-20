@@ -17,10 +17,6 @@ public interface Rise {
         return Fn.poolThread(Pool.POOL_RAPID, RiseRapid::new);
     }
 
-    static String key(final JsonObject cond, final DataAtom atom) {
-        return atom.identifier() + "-" + cond.hashCode();
-    }
-
     Rise bind(Database database);
 
     /*
