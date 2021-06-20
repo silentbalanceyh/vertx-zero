@@ -1,5 +1,6 @@
 package io.vertx.tp.atom.modeling.data;
 
+import io.vertx.core.json.JsonObject;
 import io.vertx.tp.atom.cv.AoCache;
 import io.vertx.tp.atom.cv.AoMsg;
 import io.vertx.tp.atom.modeling.Model;
@@ -32,6 +33,10 @@ public class DataAtom {
     private transient final Vs vs;
     private transient final String unique;
     private transient final String appName;
+
+    public String key(final JsonObject options) {
+        return identifier() + "-" + options.hashCode();
+    }
 
     private DataAtom(final Model model, final String appName) {
         this.appName = appName;
