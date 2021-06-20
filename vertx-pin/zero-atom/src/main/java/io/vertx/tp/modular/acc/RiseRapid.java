@@ -81,7 +81,7 @@ class RiseRapid implements Rise {
     }
 
     private Future<JsonArray> inputAcc(final JsonObject criteria, final DataAtom atom) {
-        final String modelKey = Rise.key(criteria, atom);
+        final String modelKey = atom.key(criteria);
         return this.fetchAcc(modelKey, atom).compose(acc -> {
             if (Objects.isNull(acc)) {
                 return Ux.futureA();
