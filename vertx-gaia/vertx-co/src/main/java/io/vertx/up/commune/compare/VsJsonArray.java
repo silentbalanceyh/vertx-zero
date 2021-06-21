@@ -16,20 +16,24 @@ final class VsJsonArray extends AbstractSame {
 
     @Override
     public boolean isAnd(final Object valueOld, final Object valueNew) {
-        final JsonArray arrayOld = this.toJArray(valueOld);
-        final JsonArray arrayNew = this.toJArray(valueNew);
-        if (arrayNew.size() != arrayOld.size()) {
-            /*
-             * size is different, not the same ( Fast Checking )
-             */
-            return Boolean.FALSE;
-        } else {
-            return Ut.itJArray(arrayOld).allMatch(jsonOld -> Ut.itJArray(arrayNew).anyMatch(jsonNew -> {
-                final JsonObject checkedNew = Ut.elementSubset(jsonNew, this.subset);
-                final JsonObject checkedOld = Ut.elementSubset(jsonOld, this.subset);
-                return checkedNew.equals(checkedOld);
-            }));
-        }
+        final String valueOStr = valueOld.toString();
+        final String valueNStr = valueNew.toString();
+        if (Ut.isJArray(valueOStr) && Ut.isJArray(valueNStr)) {
+            final JsonArray arrayOld = this.toJArray(valueOld);
+            final JsonArray arrayNew = this.toJArray(valueNew);
+            if (arrayNew.size() != arrayOld.size()) {
+                /*
+                 * size is different, not the same ( Fast Checking )
+                 */
+                return Boolean.FALSE;
+            } else {
+                return Ut.itJArray(arrayOld).allMatch(jsonOld -> Ut.itJArray(arrayNew).anyMatch(jsonNew -> {
+                    final JsonObject checkedNew = Ut.elementSubset(jsonNew, this.subset);
+                    final JsonObject checkedOld = Ut.elementSubset(jsonOld, this.subset);
+                    return checkedNew.equals(checkedOld);
+                }));
+            }
+        } else return valueOStr.equals(valueNStr);
     }
 
     @Override
