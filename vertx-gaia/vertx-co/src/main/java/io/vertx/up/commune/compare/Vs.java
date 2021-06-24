@@ -1,6 +1,7 @@
 package io.vertx.up.commune.compare;
 
 import io.vertx.codegen.annotations.Fluent;
+import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.eon.Strings;
 import io.vertx.up.eon.Values;
@@ -14,6 +15,7 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.function.Function;
+import java.util.stream.Stream;
 
 /**
  * ## Diff Container ( New Version )
@@ -159,13 +161,26 @@ public class Vs implements Serializable {
              * 1. type
              * 2. subset ( JsonArray Only )
              * */
-            final VsSame same = VsSame.get(type);
+            /* This line is used to process null type, it will try to get one type.
+             * When a model attribution has a null source field in entity, the variable type will be evaluated as null.
+             * The entity field that set to AFTER will also evaluate type to null.
+             * */
+            Class<?> realType = tryTypeIfNil(type, valueOld, valueNew);
+
+            final VsSame same = VsSame.get(realType);
             if (Objects.isNull(same)) {
                 final String strOld = Objects.nonNull(valueOld) ? valueOld.toString() : Strings.EMPTY;
                 final String strNew = Objects.nonNull(valueNew) ? valueNew.toString() : Strings.EMPTY;
                 return strOld.equals(strNew);
             } else {
-                same.bind(subset);
+                /* This line is used to process null subset, it will try to get one subset.
+                 * In some application scenario, when a model attribution has a null source field in entity, the variable type will be evaluated as
+                 * null. The entity field that set to AFTER will also get a null subset. This will cause it to
+                 * incomparable.
+                 * */
+                Set<String> realSubset = trySubsetIfNil(realType, subset, valueOld, valueNew);
+
+                same.bind(realSubset);
                 if (Objects.nonNull(valueOld) && Objects.nonNull(valueNew)) {
                     /*
                      * Standard workflow here
@@ -179,6 +194,33 @@ public class Vs implements Serializable {
                 }
             }
         }
+    }
+
+    private static Set<String> trySubsetIfNil(Class<?> type, Set<String> subset, Object... values) {
+        Set<String> realSubset = subset;
+        if (subset.isEmpty()) {
+            Object value = Stream.of(values).filter(Objects::nonNull).findFirst().orElse(null);
+            if (type.equals(JsonArray.class)) {
+                JsonArray jsonArray = Ut.sureJArray((JsonArray) value);
+                JsonObject item = jsonArray.stream().filter(Objects::nonNull)
+                        .filter(Ut::isJObject).map(JsonObject::mapFrom).findFirst().orElse(null);
+                realSubset = Ut.sureJObject(item).getMap().keySet();
+            }
+        }
+        return realSubset;
+    }
+
+    private static Class<?> tryTypeIfNil(Class<?> type, Object... values) {
+        Object value = Stream.of(values).filter(Objects::nonNull).findFirst().orElse(null);
+        Class<?> realType = null;
+        if (Objects.isNull(type)) {
+            if (Ut.isJArray(value)) {
+                realType = JsonArray.class;
+            } else if (Ut.isJObject(value)) {
+                realType = JsonObject.class;
+            }
+        }
+        return realType;
     }
 
     public static <T, V> boolean isChange(final T left, final T right, final Function<T, V> fnGet) {
