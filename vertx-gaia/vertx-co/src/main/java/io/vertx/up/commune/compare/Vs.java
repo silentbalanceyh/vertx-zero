@@ -211,9 +211,9 @@ public class Vs implements Serializable {
     }
 
     private static Class<?> tryTypeIfNil(Class<?> type, Object... values) {
-        Object value = Stream.of(values).filter(Objects::nonNull).findFirst().orElse(null);
         Class<?> realType = null;
         if (Objects.isNull(type)) {
+            Object value = Stream.of(values).filter(Objects::nonNull).findFirst().orElse(null);
             if (Ut.isJArray(value)) {
                 realType = JsonArray.class;
             } else if (Ut.isJObject(value)) {
