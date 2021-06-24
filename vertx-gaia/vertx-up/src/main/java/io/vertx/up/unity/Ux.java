@@ -259,6 +259,10 @@ public final class Ux {
         return Async.future(input, functions);
     }
 
+    public static <T> Future<T> future(final T input, final Set<Function<T, Future<T>>> functions) {
+        return Async.future(input, functions);
+    }
+
     public static <T> Future<T> future() {
         return To.future(null);
     }
