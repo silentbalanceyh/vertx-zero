@@ -8,7 +8,7 @@ import io.vertx.tp.plugin.excel.atom.ExConnect;
 import io.vertx.tp.plugin.excel.atom.ExTable;
 import io.vertx.tp.plugin.excel.ranger.ExBound;
 import io.vertx.tp.plugin.excel.ranger.RowBound;
-import io.vertx.up.commune.element.Shape;
+import io.vertx.up.commune.element.JType;
 import io.vertx.up.eon.FileSuffix;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.util.Ut;
@@ -79,7 +79,7 @@ class ExcelHelper {
     /*
      * Get Set<ExSheet> collection based on workbook
      */
-    Set<ExTable> getExTables(final Workbook workbook, final Shape shape) {
+    Set<ExTable> getExTables(final Workbook workbook, final JType JType) {
         return Fn.getNull(new HashSet<>(), () -> {
             /* FormulaEvaluator reference */
             final FormulaEvaluator evaluator = workbook.getCreationHelper().createFormulaEvaluator();
@@ -122,16 +122,16 @@ class ExcelHelper {
 
                 final SheetAnalyzer exSheet = new SheetAnalyzer(sheet).on(evaluator);
                 /* Build Set */
-                sheets.addAll(exSheet.analyzed(range, shape));
+                sheets.addAll(exSheet.analyzed(range, JType));
             }
             return sheets;
         }, workbook);
     }
 
-    void brush(final Workbook workbook, final Sheet sheet, final Shape shape) {
+    void brush(final Workbook workbook, final Sheet sheet, final JType JType) {
         if (Objects.nonNull(this.tpl)) {
             this.tpl.bind(workbook);
-            this.tpl.applyStyle(sheet, shape);
+            this.tpl.applyStyle(sheet, JType);
         }
     }
 

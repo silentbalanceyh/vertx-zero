@@ -3,22 +3,21 @@ package io.vertx.tp.atom.modeling.data;
 import cn.vertxup.atom.domain.tables.pojos.MAttribute;
 import cn.vertxup.atom.domain.tables.pojos.MField;
 import cn.vertxup.atom.domain.tables.pojos.MJoin;
-import io.vertx.core.json.JsonArray;
 import io.vertx.tp.atom.modeling.Model;
 import io.vertx.tp.atom.modeling.Schema;
-import io.vertx.tp.atom.modeling.config.AoSource;
 import io.vertx.tp.atom.modeling.element.DataKey;
 import io.vertx.tp.atom.modeling.element.DataRow;
 import io.vertx.tp.atom.modeling.element.DataTpl;
 import io.vertx.tp.error._417RelatedFieldMissingException;
 import io.vertx.tp.error._417RelatedSchemaMissingException;
-import io.vertx.tp.ke.cv.KeField;
-import io.vertx.up.commune.element.ShapeItem;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import io.vertx.up.util.Ut;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Objects;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.function.BiConsumer;
@@ -110,34 +109,6 @@ class Bridge {
 
     private static MAttribute toAttribute(final Schema schema, final MField field) {
         return toAttribute(schema, field, field.getName());
-    }
-
-    static List<ShapeItem> toShape(final AoSource service) {
-        final JsonArray fields = service.fields();
-        final List<ShapeItem> result = new ArrayList<>();
-        if (Ut.notNil(fields)) {
-            /*
-             * [
-             *      {
-             *          "field": "xxx",
-             *          "alias": "xxx",
-             *          "type": "java type class"
-             *      }
-             * ]
-             */
-            Ut.itJArray(fields).forEach(item -> {
-                /*
-                 * field, alias, type
-                 */
-                final String field = item.getString(KeField.FIELD);
-                final String alias = item.getString(KeField.ALIAS);
-                final Class<?> type = Ut.clazz(item.getString(KeField.TYPE), String.class);
-                if (Ut.notNil(field)) {
-                    result.add(ShapeItem.create(field, alias, type));
-                }
-            });
-        }
-        return result;
     }
 
     @SuppressWarnings("all")

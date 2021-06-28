@@ -9,7 +9,7 @@ import io.vertx.core.buffer.Buffer;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.plugin.excel.atom.ExTable;
-import io.vertx.up.commune.element.Shape;
+import io.vertx.up.commune.element.JType;
 import io.vertx.up.log.Annal;
 
 import java.io.InputStream;
@@ -76,8 +76,8 @@ public class ExcelClientImpl implements ExcelClient {
     }
 
     @Override
-    public Set<ExTable> ingest(final String filename, final Shape shape) {
-        return this.ingest.ingest(filename, shape);
+    public Set<ExTable> ingest(final String filename, final JType JType) {
+        return this.ingest.ingest(filename, JType);
     }
 
     @Override
@@ -86,8 +86,8 @@ public class ExcelClientImpl implements ExcelClient {
     }
 
     @Override
-    public Set<ExTable> ingest(final InputStream in, final boolean isXlsx, final Shape shape) {
-        return this.ingest.ingest(in, isXlsx, shape);
+    public Set<ExTable> ingest(final InputStream in, final boolean isXlsx, final JType JType) {
+        return this.ingest.ingest(in, isXlsx, JType);
     }
 
     @Override
@@ -96,8 +96,8 @@ public class ExcelClientImpl implements ExcelClient {
     }
 
     @Override
-    public Future<Set<ExTable>> ingestAsync(final String filename, final Shape shape) {
-        return Future.succeededFuture(this.ingest(filename, shape));
+    public Future<Set<ExTable>> ingestAsync(final String filename, final JType JType) {
+        return Future.succeededFuture(this.ingest(filename, JType));
     }
 
     @Override
@@ -106,8 +106,8 @@ public class ExcelClientImpl implements ExcelClient {
     }
 
     @Override
-    public Future<Set<ExTable>> ingestAsync(final InputStream in, final boolean isXlsx, final Shape shape) {
-        return Future.succeededFuture(this.ingest(in, isXlsx, shape));
+    public Future<Set<ExTable>> ingestAsync(final InputStream in, final boolean isXlsx, final JType JType) {
+        return Future.succeededFuture(this.ingest(in, isXlsx, JType));
     }
 
     @Override
@@ -119,8 +119,8 @@ public class ExcelClientImpl implements ExcelClient {
 
     @Override
     @Fluent
-    public ExcelClient ingest(final String filename, final Shape shape, final Handler<AsyncResult<Set<ExTable>>> handler) {
-        handler.handle(this.ingestAsync(filename, shape));
+    public ExcelClient ingest(final String filename, final JType JType, final Handler<AsyncResult<Set<ExTable>>> handler) {
+        handler.handle(this.ingestAsync(filename, JType));
         return this;
     }
 
@@ -133,8 +133,8 @@ public class ExcelClientImpl implements ExcelClient {
 
     @Override
     @Fluent
-    public ExcelClient ingest(final InputStream in, final boolean isXlsx, final Shape shape, final Handler<AsyncResult<Set<ExTable>>> handler) {
-        handler.handle(this.ingestAsync(in, isXlsx, shape));
+    public ExcelClient ingest(final InputStream in, final boolean isXlsx, final JType JType, final Handler<AsyncResult<Set<ExTable>>> handler) {
+        handler.handle(this.ingestAsync(in, isXlsx, JType));
         return this;
     }
 
@@ -168,13 +168,13 @@ public class ExcelClientImpl implements ExcelClient {
     }
 
     @Override
-    public <T> ExcelClient importAsync(final String filename, final Shape shape, final Handler<AsyncResult<Set<T>>> handler) {
-        return this.ingest(filename, shape, res -> handler.handle(this.importer.importAsync(res)));
+    public <T> ExcelClient importAsync(final String filename, final JType JType, final Handler<AsyncResult<Set<T>>> handler) {
+        return this.ingest(filename, JType, res -> handler.handle(this.importer.importAsync(res)));
     }
 
     @Override
-    public <T> ExcelClient importAsync(final InputStream in, final boolean isXlsx, final Shape shape, final Handler<AsyncResult<Set<T>>> handler) {
-        return this.ingest(in, isXlsx, shape, res -> handler.handle(this.importer.importAsync(res)));
+    public <T> ExcelClient importAsync(final InputStream in, final boolean isXlsx, final JType JType, final Handler<AsyncResult<Set<T>>> handler) {
+        return this.ingest(in, isXlsx, JType, res -> handler.handle(this.importer.importAsync(res)));
     }
 
     @Override
@@ -183,8 +183,8 @@ public class ExcelClientImpl implements ExcelClient {
     }
 
     @Override
-    public <T> Future<Set<T>> importAsync(final String filename, final Shape shape) {
-        return this.ingestAsync(filename, shape).compose(this.importer::importAsync);
+    public <T> Future<Set<T>> importAsync(final String filename, final JType JType) {
+        return this.ingestAsync(filename, JType).compose(this.importer::importAsync);
     }
 
     @Override
@@ -193,8 +193,8 @@ public class ExcelClientImpl implements ExcelClient {
     }
 
     @Override
-    public <T> Future<Set<T>> importAsync(final InputStream in, final boolean isXlsx, final Shape shape) {
-        return this.ingestAsync(in, isXlsx, shape).compose(this.importer::importAsync);
+    public <T> Future<Set<T>> importAsync(final InputStream in, final boolean isXlsx, final JType JType) {
+        return this.ingestAsync(in, isXlsx, JType).compose(this.importer::importAsync);
     }
 
     @Override
@@ -203,8 +203,8 @@ public class ExcelClientImpl implements ExcelClient {
     }
 
     @Override
-    public <T> ExcelClient importAsync(final String filename, final Shape shape, final Handler<AsyncResult<Set<T>>> handler, final String... includes) {
-        return this.ingest(filename, shape, res -> handler.handle(this.importer.importAsync(this.ingest.compressAsync(res.result(), includes))));
+    public <T> ExcelClient importAsync(final String filename, final JType JType, final Handler<AsyncResult<Set<T>>> handler, final String... includes) {
+        return this.ingest(filename, JType, res -> handler.handle(this.importer.importAsync(this.ingest.compressAsync(res.result(), includes))));
     }
 
     @Override
@@ -213,8 +213,8 @@ public class ExcelClientImpl implements ExcelClient {
     }
 
     @Override
-    public <T> ExcelClient importAsync(final InputStream in, final boolean isXlsx, final Shape shape, final Handler<AsyncResult<Set<T>>> handler, final String... includes) {
-        return this.ingest(in, isXlsx, shape, res -> handler.handle(this.importer.importAsync(this.ingest.compressAsync(res.result(), includes))));
+    public <T> ExcelClient importAsync(final InputStream in, final boolean isXlsx, final JType JType, final Handler<AsyncResult<Set<T>>> handler, final String... includes) {
+        return this.ingest(in, isXlsx, JType, res -> handler.handle(this.importer.importAsync(this.ingest.compressAsync(res.result(), includes))));
     }
 
     @Override
@@ -223,8 +223,8 @@ public class ExcelClientImpl implements ExcelClient {
     }
 
     @Override
-    public <T> Future<Set<T>> importAsync(final String filename, final Shape shape, final String... includes) {
-        return this.ingestAsync(filename, shape).compose(tables -> this.ingest.compressAsync(tables, includes)).compose(this.importer::importAsync);
+    public <T> Future<Set<T>> importAsync(final String filename, final JType JType, final String... includes) {
+        return this.ingestAsync(filename, JType).compose(tables -> this.ingest.compressAsync(tables, includes)).compose(this.importer::importAsync);
     }
 
     @Override
@@ -233,33 +233,33 @@ public class ExcelClientImpl implements ExcelClient {
     }
 
     @Override
-    public <T> Future<Set<T>> importAsync(final InputStream in, final boolean isXlsx, final Shape shape, final String... includes) {
-        return this.ingestAsync(in, isXlsx, shape).compose(tables -> this.ingest.compressAsync(tables, includes)).compose(this.importer::importAsync);
+    public <T> Future<Set<T>> importAsync(final InputStream in, final boolean isXlsx, final JType JType, final String... includes) {
+        return this.ingestAsync(in, isXlsx, JType).compose(tables -> this.ingest.compressAsync(tables, includes)).compose(this.importer::importAsync);
     }
 
     // --------------------- ExTable Exporting -----------------------
     @Override
     public ExcelClient exportAsync(final String identifier, final JsonArray data, final Handler<AsyncResult<Buffer>> handler) {
-        this.exporter.exportData(identifier, data, Shape.create(), handler);
+        this.exporter.exportData(identifier, data, JType.create(), handler);
         return this;
     }
 
     @Override
     public ExcelClient exportAsync(final String identifier, final JsonArray data,
-                                   final Shape shape, final Handler<AsyncResult<Buffer>> handler) {
-        this.exporter.exportData(identifier, data, shape, handler);
+                                   final JType JType, final Handler<AsyncResult<Buffer>> handler) {
+        this.exporter.exportData(identifier, data, JType, handler);
         return this;
     }
 
     @Override
     public Future<Buffer> exportAsync(final String identifier, final JsonArray data,
-                                      final Shape shape) {
-        return this.exporter.exportData(identifier, data, shape);
+                                      final JType JType) {
+        return this.exporter.exportData(identifier, data, JType);
     }
 
     @Override
     public Future<Buffer> exportAsync(final String identifier, final JsonArray data) {
-        return this.exporter.exportData(identifier, data, Shape.create());
+        return this.exporter.exportData(identifier, data, JType.create());
     }
 
     // --------------------- Save Entity -----------------------

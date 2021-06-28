@@ -14,32 +14,32 @@ import java.util.function.Function;
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-public class ShapeItem implements Serializable {
-    private final transient List<ShapeItem> children = new ArrayList<>();
-    private final transient ConcurrentMap<String, ShapeItem> childMap = new ConcurrentHashMap<>();
+public class JTypeItem implements Serializable {
+    private final transient List<JTypeItem> children = new ArrayList<>();
+    private final transient ConcurrentMap<String, JTypeItem> childMap = new ConcurrentHashMap<>();
     private final transient String name;
     private final transient String alias;
     private final transient Class<?> type;
 
-    private ShapeItem(final String name, final String alias) {
+    private JTypeItem(final String name, final String alias) {
         this(name, alias, String.class);
     }
 
-    private ShapeItem(final String name, final String alias, final Class<?> type) {
+    private JTypeItem(final String name, final String alias, final Class<?> type) {
         this.name = name;
         this.alias = alias;
         this.type = Objects.isNull(type) ? String.class : type;
     }
 
-    public static ShapeItem create(final String name, final String alias, final Class<?> type) {
-        return new ShapeItem(name, alias, type);
+    public static JTypeItem create(final String name, final String alias, final Class<?> type) {
+        return new JTypeItem(name, alias, type);
     }
 
-    public static ShapeItem create(final String name, final String alias) {
-        return new ShapeItem(name, alias);
+    public static JTypeItem create(final String name, final String alias) {
+        return new JTypeItem(name, alias);
     }
 
-    void add(final List<ShapeItem> children) {
+    void add(final List<JTypeItem> children) {
         if (Objects.nonNull(children) && JsonArray.class == this.type) {
             children.forEach(item -> {
                 /*
@@ -61,7 +61,7 @@ public class ShapeItem implements Serializable {
     }
 
     public String getName(final String field) {
-        return this.children(field, ShapeItem::getName);
+        return this.children(field, JTypeItem::getName);
     }
 
     public String getAlias() {
@@ -69,7 +69,7 @@ public class ShapeItem implements Serializable {
     }
 
     public String getAlias(final String field) {
-        return this.children(field, ShapeItem::getAlias);
+        return this.children(field, JTypeItem::getAlias);
     }
 
     public Class<?> getType() {
@@ -77,18 +77,18 @@ public class ShapeItem implements Serializable {
     }
 
     public Class<?> getType(final String field) {
-        return this.children(field, ShapeItem::getType);
+        return this.children(field, JTypeItem::getType);
     }
 
-    public List<ShapeItem> children() {
+    public List<JTypeItem> children() {
         return this.children;
     }
 
-    private <T> T children(final String field, final Function<ShapeItem, T> function) {
+    private <T> T children(final String field, final Function<JTypeItem, T> function) {
         if (Ut.isNil(field)) {
             return null;
         } else {
-            final ShapeItem item = this.childMap.getOrDefault(field, null);
+            final JTypeItem item = this.childMap.getOrDefault(field, null);
             if (Objects.isNull(item)) {
                 return null;
             } else {

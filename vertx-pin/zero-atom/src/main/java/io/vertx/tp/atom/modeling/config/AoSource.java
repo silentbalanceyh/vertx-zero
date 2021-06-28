@@ -5,10 +5,13 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.atom.cv.em.AttributeType;
 import io.vertx.tp.ke.cv.KeField;
+import io.vertx.up.commune.element.JTypeItem;
 import io.vertx.up.eon.em.DataFormat;
 import io.vertx.up.util.Ut;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -52,9 +55,9 @@ public class AoSource implements Serializable {
      */
     private final transient DataFormat dataFormat;
     /**
-     * The `fields` attribute is for {@link io.vertx.core.json.JsonArray} definition.
+     * The `shapes` that mapped to `fields` attribute
      */
-    private final transient JsonArray fields = new JsonArray();
+    private final transient List<JTypeItem> shapes = new ArrayList<>();
 
     /**
      * Create new AoService
@@ -92,14 +95,15 @@ public class AoSource implements Serializable {
          * 2. source = JsonObject, JsonObject.class, fields = JsonObject
          * 3. source = Elementary, `Ut.clazz`
          */
+        final JsonArray fields = new JsonArray();
         if (DataFormat.Elementary == fieldService) {
             final String dataType = sourceConfig.getString(KeField.TYPE);
             this.type = Ut.clazz(dataType, String.class);
         } else {
             /* fields is only ok when INTERNAL because other types are defined by self */
             if (AttributeType.INTERNAL == type) {
-                this.fields.clear();
-                this.fields.addAll(Ut.sureJArray(sourceConfig.getJsonArray(KeField.FIELDS)));
+                fields.clear();
+                fields.addAll(Ut.sureJArray(sourceConfig.getJsonArray(KeField.FIELDS)));
             }
             if (DataFormat.JsonArray == fieldService) {
                 this.type = JsonArray.class;
@@ -108,6 +112,29 @@ public class AoSource implements Serializable {
             }
         }
         this.dataFormat = fieldService;
+        /*
+         * Fill `shapes` here
+         * [
+         *      {
+         *          "field": "xxx",
+         *          "alias": "xxx",
+         *          "type": "java type class"
+         *      }
+         * ]
+         */
+        if (Ut.notNil(fields)) {
+            Ut.itJArray(fields).forEach(item -> {
+                /*
+                 * field, alias, type
+                 */
+                final String field = item.getString(KeField.FIELD);
+                final String alias = item.getString(KeField.ALIAS);
+                final Class<?> subType = Ut.clazz(item.getString(KeField.TYPE), String.class);
+                if (Ut.notNil(field)) {
+                    this.shapes.add(JTypeItem.create(field, alias, subType));
+                }
+            });
+        }
     }
 
     /**
@@ -117,6 +144,15 @@ public class AoSource implements Serializable {
      */
     public Class<?> type() {
         return this.type;
+    }
+
+    /**
+     * Return to `fields`
+     *
+     * @return {@link List}
+     */
+    public List<JTypeItem> types() {
+        return this.shapes;
     }
 
     /**
@@ -135,12 +171,4 @@ public class AoSource implements Serializable {
         return this.dataFormat;
     }
 
-    /**
-     * Return to `fields` data configuration.
-     *
-     * @return {@link io.vertx.core.json.JsonArray}
-     */
-    public JsonArray fields() {
-        return this.fields;
-    }
 }

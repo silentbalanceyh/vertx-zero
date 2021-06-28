@@ -4,7 +4,7 @@ import cn.vertxup.atom.domain.tables.pojos.MAttribute;
 import cn.vertxup.atom.domain.tables.pojos.MModel;
 import io.vertx.tp.atom.modeling.Model;
 import io.vertx.tp.atom.modeling.config.AoSource;
-import io.vertx.up.commune.element.Shape;
+import io.vertx.up.commune.element.JType;
 import io.vertx.up.eon.em.DataFormat;
 import io.vertx.up.util.Ut;
 
@@ -22,7 +22,7 @@ class MetaInfo {
 
     private transient final Model modelRef;
     private transient final String identifier;
-    private transient final Shape shape = Shape.create();
+    private transient final JType JType = this.JType.create();
 
     MetaInfo(final Model modelRef) {
         /* 模型引用信息 */
@@ -41,12 +41,12 @@ class MetaInfo {
                     /*
                      * Simple for Flatted
                      */
-                    this.shape.add(name, alias, this.type(name));
+                    this.JType.add(name, alias, this.type(name));
                 } else {
                     /*
                      * Complex for Array
                      */
-                    this.shape.add(name, alias, Bridge.toShape(service));
+                    this.JType.add(name, alias, service.types());
                 }
             }
         });
@@ -82,7 +82,7 @@ class MetaInfo {
 
     /* 属性 name = alias */
     ConcurrentMap<String, String> alias() {
-        return this.shape.alias();
+        return this.JType.alias();
     }
 
     // ------------------ 计算型处理 -----------------
@@ -91,9 +91,9 @@ class MetaInfo {
      * 返回当前DataAtom中的类型
      * Shape 是复杂的类型数据，和 type 的返回值比较近似，但 Shape 中包含了更加丰富的类型数据相关信息
      * */
-    Shape shape() {
+    JType shape() {
         /* 构造 Shape */
-        return this.shape;
+        return this.JType;
     }
 
     ConcurrentMap<String, Class<?>> type() {

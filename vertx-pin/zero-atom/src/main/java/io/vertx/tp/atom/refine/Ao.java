@@ -4,7 +4,6 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.atom.modeling.Model;
 import io.vertx.tp.atom.modeling.Schema;
-import io.vertx.tp.atom.modeling.config.AoBag;
 import io.vertx.tp.atom.modeling.data.DataAtom;
 import io.vertx.tp.atom.modeling.element.DataMatrix;
 import io.vertx.tp.modular.dao.AoDao;
@@ -14,6 +13,7 @@ import io.vertx.up.atom.record.Apt;
 import io.vertx.up.commune.Record;
 import io.vertx.up.commune.config.Database;
 import io.vertx.up.commune.config.Identity;
+import io.vertx.up.commune.element.JBag;
 import io.vertx.up.eon.em.ChangeFlag;
 import io.vertx.up.log.Annal;
 import org.jooq.Converter;
@@ -278,7 +278,7 @@ public class Ao {
         return AoData.converter(type);
     }
 
-    public static List<AoBag> split(final AoBag bag, final Integer size) {
+    public static List<JBag> split(final JBag bag, final Integer size) {
         return AoData.bagSplit(bag, size);
     }
 

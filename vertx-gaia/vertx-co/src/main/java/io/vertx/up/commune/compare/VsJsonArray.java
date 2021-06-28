@@ -5,6 +5,7 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.up.util.Ut;
 
 import java.util.Objects;
+import java.util.Set;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
@@ -27,9 +28,10 @@ final class VsJsonArray extends AbstractSame {
                  */
                 return Boolean.FALSE;
             } else {
+                final Set<String> diffSet = this.subset.fieldDiff();
                 return Ut.itJArray(arrayOld).allMatch(jsonOld -> Ut.itJArray(arrayNew).anyMatch(jsonNew -> {
-                    final JsonObject checkedNew = Ut.elementSubset(jsonNew, this.subset);
-                    final JsonObject checkedOld = Ut.elementSubset(jsonOld, this.subset);
+                    final JsonObject checkedNew = Ut.elementSubset(jsonNew, diffSet);
+                    final JsonObject checkedOld = Ut.elementSubset(jsonOld, diffSet);
                     return checkedNew.equals(checkedOld);
                 }));
             }

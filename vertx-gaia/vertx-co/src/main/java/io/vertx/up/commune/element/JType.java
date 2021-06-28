@@ -17,23 +17,23 @@ import java.util.concurrent.ConcurrentMap;
  * @author <a href="http://www.origin-x.cn">Lang</a>
  * Type for data structure
  */
-public class Shape implements Serializable {
+public class JType implements Serializable {
     /*
      * When complex = true, mapping
      */
-    private final transient ConcurrentMap<String, ShapeItem> shapeMap = new ConcurrentHashMap<>();
+    private final transient ConcurrentMap<String, JTypeItem> shapeMap = new ConcurrentHashMap<>();
     private final transient List<Class<?>> typeList = new ArrayList<>();
 
     private transient boolean complex = Boolean.FALSE;
 
-    private Shape() {
+    private JType() {
     }
 
-    public static Shape create() {
-        return new Shape();
+    public static JType create() {
+        return new JType();
     }
 
-    public Shape add(final String name, final String alias, final List<ShapeItem> children) {
+    public JType add(final String name, final String alias, final List<JTypeItem> children) {
         if (Objects.nonNull(name)) {
             this.complex = true;
             /*
@@ -43,7 +43,7 @@ public class Shape implements Serializable {
             /*
              * Here should contains type
              */
-            final ShapeItem added = this.shapeMap.getOrDefault(name, null);
+            final JTypeItem added = this.shapeMap.getOrDefault(name, null);
             if (Objects.nonNull(added)) {
                 /*
                  * Add children
@@ -54,12 +54,11 @@ public class Shape implements Serializable {
         return this;
     }
 
-    public Shape add(final String name, final String alias, final Class<?> type) {
+    public JType add(final String name, final String alias, final Class<?> type) {
         if (Objects.nonNull(name)) {
-
             /* JsonArray */
-            final ShapeItem shapeItem = ShapeItem.create(name, alias, type);
-            this.shapeMap.put(name, shapeItem);
+            final JTypeItem typeItem = JTypeItem.create(name, alias, type);
+            this.shapeMap.put(name, typeItem);
         }
         return this;
     }
@@ -73,7 +72,7 @@ public class Shape implements Serializable {
     }
 
     public boolean isComplex(final String name) {
-        final ShapeItem item = this.shapeMap.getOrDefault(name, null);
+        final JTypeItem item = this.shapeMap.getOrDefault(name, null);
         if (Objects.isNull(item)) {
             return false;
         } else {
@@ -82,7 +81,7 @@ public class Shape implements Serializable {
     }
 
     public int size(final String name) {
-        final ShapeItem typeItem = this.shapeMap.getOrDefault(name, null);
+        final JTypeItem typeItem = this.shapeMap.getOrDefault(name, null);
         if (Objects.nonNull(typeItem)) {
             return typeItem.children().size();
         } else return Values.ZERO;
@@ -92,7 +91,7 @@ public class Shape implements Serializable {
         return this.shapeMap.size();
     }
 
-    public ShapeItem item(final String name) {
+    public JTypeItem item(final String name) {
         return this.shapeMap.getOrDefault(name, null);
     }
 
@@ -103,12 +102,12 @@ public class Shape implements Serializable {
     }
 
     public Class<?> type(final String field) {
-        final ShapeItem item = this.shapeMap.getOrDefault(field, null);
+        final JTypeItem item = this.shapeMap.getOrDefault(field, null);
         return Objects.isNull(item) ? null : item.getType();
     }
 
     public Class<?> type(final String field, final String childField) {
-        final ShapeItem item = this.shapeMap.getOrDefault(field, null);
+        final JTypeItem item = this.shapeMap.getOrDefault(field, null);
         if (Objects.isNull(item)) {
             return null;
         } else {
@@ -141,7 +140,7 @@ public class Shape implements Serializable {
      *
      * Flatted for complex type here
      */
-    public Shape analyzed(final JsonArray data) {
+    public JType analyzed(final JsonArray data) {
         this.typeList.clear();
         if (this.complex) {
             // index = 2

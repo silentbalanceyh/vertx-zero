@@ -2,6 +2,7 @@ package io.vertx.up.commune.compare;
 
 import io.vertx.codegen.annotations.Fluent;
 import io.vertx.core.json.JsonObject;
+import io.vertx.up.commune.element.JVs;
 import io.vertx.up.eon.Strings;
 import io.vertx.up.eon.Values;
 import io.vertx.up.fn.Fn;
@@ -47,7 +48,7 @@ public class Vs implements Serializable {
      * 2. The data type is fixed: JsonObject / JsonArray.
      * 3. The `Set` means the attribute names of JsonObject or JsonArray here.
      */
-    private transient final ConcurrentMap<String, Set<String>> mapSubtype = new ConcurrentHashMap<>();
+    private transient final ConcurrentMap<String, JVs> mapSubtype = new ConcurrentHashMap<>();
     /**
      * Ignored field that could be set from object.
      *
@@ -70,7 +71,7 @@ public class Vs implements Serializable {
         return this.ignores;
     }
 
-    private Vs(final ConcurrentMap<String, Class<?>> mapType, final ConcurrentMap<String, Set<String>> mapSubtype) {
+    private Vs(final ConcurrentMap<String, Class<?>> mapType, final ConcurrentMap<String, JVs> mapSubtype) {
         if (Objects.nonNull(mapType) && !mapType.isEmpty()) {
             this.mapType.putAll(mapType);
         }
@@ -80,7 +81,7 @@ public class Vs implements Serializable {
         }
     }
 
-    public static Vs create(final String identifier, final ConcurrentMap<String, Class<?>> mapType, final ConcurrentMap<String, Set<String>> mapSubtype) {
+    public static Vs create(final String identifier, final ConcurrentMap<String, Class<?>> mapType, final ConcurrentMap<String, JVs> mapSubtype) {
         return Fn.pool(POOL_VS, identifier, () -> new Vs(mapType, mapSubtype));
     }
 
@@ -133,7 +134,7 @@ public class Vs implements Serializable {
 
     public boolean isChange(final Object valueOld, final Object valueNew, final String attribute) {
         final Class<?> type = this.mapType.get(attribute);
-        final Set<String> subset = this.mapSubtype.getOrDefault(attribute, new HashSet<>());
+        final JVs subset = this.mapSubtype.getOrDefault(attribute, null);
         final boolean isChanged = isChange(valueOld, valueNew, type, subset);
         LOGGER.info("Field compared: name = {0}, type = {1}, result = {2}",
                 attribute, type, isChanged);
@@ -152,11 +153,11 @@ public class Vs implements Serializable {
         return Objects.isNull(same) ? Objects.nonNull(value) : same.ok(value);
     }
 
-    public static boolean isChange(final Object valueOld, final Object valueNew, final Class<?> type, final Set<String> subset) {
+    public static boolean isChange(final Object valueOld, final Object valueNew, final Class<?> type, final JVs subset) {
         return !isSame(valueOld, valueNew, type, subset);
     }
 
-    public static boolean isSame(final Object valueOld, final Object valueNew, final Class<?> type, final Set<String> subset) {
+    public static boolean isSame(final Object valueOld, final Object valueNew, final Class<?> type, final JVs subset) {
         if (Objects.isNull(valueOld) && Objects.isNull(valueNew)) {
             /* ( Unchanged ) When `new` and `old` are both null */
             return true;
@@ -171,7 +172,9 @@ public class Vs implements Serializable {
                 final String strNew = Objects.nonNull(valueNew) ? valueNew.toString() : Strings.EMPTY;
                 return strOld.equals(strNew);
             } else {
-                same.bind(subset);
+                if (Objects.nonNull(subset)) {
+                    same.bind(subset);
+                }
                 if (Objects.nonNull(valueOld) && Objects.nonNull(valueNew)) {
                     /*
                      * Standard workflow here
@@ -198,7 +201,7 @@ public class Vs implements Serializable {
             final V rightValue = fnGet.apply(right);
             if (Objects.nonNull(leftValue) && Objects.nonNull(rightValue)) {
                 final Class<?> type = leftValue.getClass();
-                return isSame(leftValue, rightValue, type, new HashSet<>());
+                return isSame(leftValue, rightValue, type, null);
             } else {
                 return Objects.isNull(leftValue) && Objects.isNull(rightValue);
             }

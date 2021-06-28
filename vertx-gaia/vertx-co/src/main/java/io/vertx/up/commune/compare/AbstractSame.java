@@ -2,6 +2,7 @@ package io.vertx.up.commune.compare;
 
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
+import io.vertx.up.commune.element.JVs;
 import io.vertx.up.util.Ut;
 
 import java.math.BigDecimal;
@@ -9,10 +10,8 @@ import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.HashSet;
 import java.util.Objects;
 import java.util.ServiceLoader;
-import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
@@ -20,7 +19,7 @@ import java.util.concurrent.ConcurrentMap;
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 abstract class AbstractSame implements VsSame {
-    protected transient final Set<String> subset = new HashSet<>();
+    protected transient JVs subset;
     protected transient final Class<?> type;
     private transient VsExtension found;
 
@@ -36,10 +35,9 @@ abstract class AbstractSame implements VsSame {
     }
 
     @Override
-    public VsSame bind(final Set<String> subset) {
-        if (Objects.nonNull(subset) && !subset.isEmpty()) {
-            this.subset.clear();
-            this.subset.addAll(subset);
+    public VsSame bind(final JVs subset) {
+        if (Objects.nonNull(subset)) {
+            this.subset = subset;
         }
         return this;
     }

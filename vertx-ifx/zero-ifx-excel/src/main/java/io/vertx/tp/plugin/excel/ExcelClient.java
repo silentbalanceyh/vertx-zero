@@ -9,7 +9,7 @@ import io.vertx.core.buffer.Buffer;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.plugin.excel.atom.ExTable;
-import io.vertx.up.commune.element.Shape;
+import io.vertx.up.commune.element.JType;
 import io.vertx.up.plugin.TpClient;
 
 import java.io.InputStream;
@@ -37,44 +37,44 @@ public interface ExcelClient extends TpClient<ExcelClient> {
 
     Future<Set<ExTable>> ingestAsync(String filename);
 
-    Future<Set<ExTable>> ingestAsync(String filename, Shape shape);
+    Future<Set<ExTable>> ingestAsync(String filename, JType JType);
 
     Future<Set<ExTable>> ingestAsync(InputStream in, boolean isXlsx);
 
-    Future<Set<ExTable>> ingestAsync(InputStream in, boolean isXlsx, Shape shape);
+    Future<Set<ExTable>> ingestAsync(InputStream in, boolean isXlsx, JType JType);
 
     Set<ExTable> ingest(String filename);
 
-    Set<ExTable> ingest(String filename, Shape shape);
+    Set<ExTable> ingest(String filename, JType JType);
 
     Set<ExTable> ingest(InputStream in, boolean isXlsx);
 
-    Set<ExTable> ingest(InputStream in, boolean isXlsx, Shape shape);
+    Set<ExTable> ingest(InputStream in, boolean isXlsx, JType JType);
 
     @Fluent
     ExcelClient ingest(String filename, Handler<AsyncResult<Set<ExTable>>> handler);
 
     @Fluent
-    ExcelClient ingest(String filename, Shape shape, Handler<AsyncResult<Set<ExTable>>> handler);
+    ExcelClient ingest(String filename, JType JType, Handler<AsyncResult<Set<ExTable>>> handler);
 
     @Fluent
     ExcelClient ingest(InputStream in, boolean isXlsx, Handler<AsyncResult<Set<ExTable>>> handler);
 
     @Fluent
-    ExcelClient ingest(InputStream in, boolean isXlsx, Shape shape, Handler<AsyncResult<Set<ExTable>>> handler);
+    ExcelClient ingest(InputStream in, boolean isXlsx, JType JType, Handler<AsyncResult<Set<ExTable>>> handler);
 
 
     // --------------------- ExTable Exporting -----------------------
 
     Future<Buffer> exportAsync(String identifier, JsonArray data);
 
-    Future<Buffer> exportAsync(String identifier, JsonArray data, Shape shape);
+    Future<Buffer> exportAsync(String identifier, JsonArray data, JType JType);
 
     @Fluent
     ExcelClient exportAsync(String identifier, JsonArray data, Handler<AsyncResult<Buffer>> handler);
 
     @Fluent
-    ExcelClient exportAsync(String identifier, JsonArray data, Shape shape, Handler<AsyncResult<Buffer>> handler);
+    ExcelClient exportAsync(String identifier, JsonArray data, JType JType, Handler<AsyncResult<Buffer>> handler);
 
     // --------------------- ExTable Loading / Importing -----------------------
 
@@ -82,21 +82,21 @@ public interface ExcelClient extends TpClient<ExcelClient> {
     <T> ExcelClient importAsync(String filename, Handler<AsyncResult<Set<T>>> handler);
 
     @Fluent
-    <T> ExcelClient importAsync(String filename, Shape shape, Handler<AsyncResult<Set<T>>> handler);
+    <T> ExcelClient importAsync(String filename, JType JType, Handler<AsyncResult<Set<T>>> handler);
 
     @Fluent
     <T> ExcelClient importAsync(InputStream in, boolean isXlsx, Handler<AsyncResult<Set<T>>> handler);
 
     @Fluent
-    <T> ExcelClient importAsync(InputStream in, boolean isXlsx, Shape shape, Handler<AsyncResult<Set<T>>> handler);
+    <T> ExcelClient importAsync(InputStream in, boolean isXlsx, JType JType, Handler<AsyncResult<Set<T>>> handler);
 
     <T> Future<Set<T>> importAsync(String filename);
 
-    <T> Future<Set<T>> importAsync(String filename, Shape shape);
+    <T> Future<Set<T>> importAsync(String filename, JType JType);
 
     <T> Future<Set<T>> importAsync(InputStream in, boolean isXlsx);
 
-    <T> Future<Set<T>> importAsync(InputStream in, boolean isXlsx, Shape shape);
+    <T> Future<Set<T>> importAsync(InputStream in, boolean isXlsx, JType JType);
 
     /*
      * Filtered by `includes`
@@ -105,21 +105,21 @@ public interface ExcelClient extends TpClient<ExcelClient> {
     <T> ExcelClient importAsync(String filename, Handler<AsyncResult<Set<T>>> handler, String... includes);
 
     @Fluent
-    <T> ExcelClient importAsync(String filename, Shape shape, Handler<AsyncResult<Set<T>>> handler, String... includes);
+    <T> ExcelClient importAsync(String filename, JType JType, Handler<AsyncResult<Set<T>>> handler, String... includes);
 
     @Fluent
     <T> ExcelClient importAsync(InputStream in, boolean isXlsx, Handler<AsyncResult<Set<T>>> handler, String... includes);
 
     @Fluent
-    <T> ExcelClient importAsync(InputStream in, boolean isXlsx, Shape shape, Handler<AsyncResult<Set<T>>> handler, String... includes);
+    <T> ExcelClient importAsync(InputStream in, boolean isXlsx, JType JType, Handler<AsyncResult<Set<T>>> handler, String... includes);
 
     <T> Future<Set<T>> importAsync(String filename, String... includes);
 
-    <T> Future<Set<T>> importAsync(String filename, Shape shape, String... includes);
+    <T> Future<Set<T>> importAsync(String filename, JType JType, String... includes);
 
     <T> Future<Set<T>> importAsync(InputStream in, boolean isXlsx, String... includes);
 
-    <T> Future<Set<T>> importAsync(InputStream in, boolean isXlsx, Shape shape, String... includes);
+    <T> Future<Set<T>> importAsync(InputStream in, boolean isXlsx, JType JType, String... includes);
 
     /**
      * Save entity ( table -> data )

@@ -8,7 +8,7 @@ import io.vertx.core.buffer.Buffer;
 import io.vertx.core.json.JsonArray;
 import io.vertx.tp.error._500ExportingErrorException;
 import io.vertx.tp.plugin.excel.tool.ExFn;
-import io.vertx.up.commune.element.Shape;
+import io.vertx.up.commune.element.JType;
 import io.vertx.up.eon.FileSuffix;
 import io.vertx.up.eon.Strings;
 import io.vertx.up.exception.WebException;
@@ -42,7 +42,7 @@ class SheetExport {
     }
 
     void exportData(final String identifier, final JsonArray data,
-                    final Shape shape, final Handler<AsyncResult<Buffer>> handler) {
+                    final JType JType, final Handler<AsyncResult<Buffer>> handler) {
         /*
          * 1. Workbook created first
          * Each time if you want to export the data to excel file, here you must create
@@ -73,7 +73,7 @@ class SheetExport {
          * 1) When shape is null, the data type of each cell is detected by data literal
          * 2) When shape contains value, the data type of each cell is defined by Shape
          * */
-        final boolean headed = ExFn.generateHeader(sheet, identifier, data, shape);
+        final boolean headed = ExFn.generateHeader(sheet, identifier, data, JType);
 
         /*
          * 4. Data Part of current excel file
@@ -82,8 +82,8 @@ class SheetExport {
         /*
          * Type processing
          */
-        if (Objects.nonNull(shape)) {
-            shape.analyzed(data);
+        if (Objects.nonNull(JType)) {
+            JType.analyzed(data);
         }
         Ut.itJArray(data, JsonArray.class, (rowData, index) -> {
             /*
@@ -95,7 +95,7 @@ class SheetExport {
             /*
              * Generate banner of title for usage
              */
-            if (shape.isComplex()) {
+            if (JType.isComplex()) {
                 /*
                  * 1,2,3,4
                  */
@@ -109,7 +109,7 @@ class SheetExport {
                     /*
                      * Data Part
                      */
-                    ExFn.generateData(sheet, actualIdx, rowData, shape.types());
+                    ExFn.generateData(sheet, actualIdx, rowData, JType.types());
                 }
             } else {
                 if (actualIdx <= 2) {
@@ -122,7 +122,7 @@ class SheetExport {
                     /*
                      * Data Part
                      */
-                    ExFn.generateData(sheet, actualIdx, rowData, shape.types());
+                    ExFn.generateData(sheet, actualIdx, rowData, JType.types());
                 }
             }
 
@@ -132,7 +132,7 @@ class SheetExport {
         /*
          * 5. Apply for style based on Tpl extraction
          */
-        this.helper.brush(workbook, sheet, shape);
+        this.helper.brush(workbook, sheet, JType);
 
         /*
          * 6. Adjust column width
@@ -164,9 +164,9 @@ class SheetExport {
     }
 
     Future<Buffer> exportData(final String identifier, final JsonArray data,
-                              final Shape shape) {
+                              final JType JType) {
         final Promise<Buffer> promise = Promise.promise();
-        this.exportData(identifier, data, shape, this.callback(promise));
+        this.exportData(identifier, data, JType, this.callback(promise));
         return promise.future();
     }
 

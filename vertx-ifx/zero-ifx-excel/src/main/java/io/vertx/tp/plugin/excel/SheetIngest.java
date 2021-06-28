@@ -2,7 +2,7 @@ package io.vertx.tp.plugin.excel;
 
 import io.vertx.core.Future;
 import io.vertx.tp.plugin.excel.atom.ExTable;
-import io.vertx.up.commune.element.Shape;
+import io.vertx.up.commune.element.JType;
 import org.apache.poi.ss.usermodel.Workbook;
 
 import java.io.InputStream;
@@ -30,21 +30,21 @@ class SheetIngest {
      * 2. Iterator for Sheet ( By Analyzer )
      */
     Set<ExTable> ingest(final InputStream in, final boolean isXlsx) {
-        return this.ingest(in, isXlsx, Shape.create());
+        return this.ingest(in, isXlsx, JType.create());
     }
 
     Set<ExTable> ingest(final String filename) {
-        return this.ingest(filename, Shape.create());
+        return this.ingest(filename, JType.create());
     }
 
-    Set<ExTable> ingest(final InputStream in, final boolean isXlsx, final Shape shape) {
+    Set<ExTable> ingest(final InputStream in, final boolean isXlsx, final JType JType) {
         final Workbook workbook = this.helper.getWorkbook(in, isXlsx);
-        return this.helper.getExTables(workbook, shape);
+        return this.helper.getExTables(workbook, JType);
     }
 
-    Set<ExTable> ingest(final String filename, final Shape shape) {
+    Set<ExTable> ingest(final String filename, final JType JType) {
         final Workbook workbook = this.helper.getWorkbook(filename);
-        return this.helper.getExTables(workbook, shape);
+        return this.helper.getExTables(workbook, JType);
     }
 
     private Set<ExTable> compress(final Set<ExTable> processed, final String... includes) {

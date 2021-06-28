@@ -11,7 +11,7 @@ import io.vertx.tp.atom.refine.Ao;
 import io.vertx.tp.error._404ModelNotFoundException;
 import io.vertx.tp.modular.phantom.AoPerformer;
 import io.vertx.up.commune.compare.Vs;
-import io.vertx.up.commune.element.Shape;
+import io.vertx.up.commune.element.JType;
 import io.vertx.up.commune.rule.RuleUnique;
 import io.vertx.up.eon.Strings;
 import io.vertx.up.fn.Fn;
@@ -55,7 +55,7 @@ public class DataAtom {
         this.ruler = Fn.pool(Pool.META_RULE, modelCode, () -> new MetaRule(model));
         this.marker = Fn.pool(Pool.META_MARKER, modelCode, () -> new MetaMarker(model));
         this.reference = Fn.pool(Pool.META_REFERENCE, modelCode, () -> new MetaReference(model, appName));
-        this.vs = Vs.create(this.unique, this.metadata.type(), this.reference.fieldDiff());
+        this.vs = Vs.create(this.unique, this.metadata.type(), this.reference.mpx());
     }
 
     public static DataAtom get(final String appName,
@@ -147,7 +147,7 @@ public class DataAtom {
     }
 
     /** 返回 Shape 对象 */
-    public Shape shape() {
+    public JType shape() {
         return this.metadata.shape();
     }
 

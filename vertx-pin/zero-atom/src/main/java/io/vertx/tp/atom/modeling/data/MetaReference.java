@@ -8,9 +8,9 @@ import io.vertx.tp.atom.modeling.reference.RQuery;
 import io.vertx.tp.atom.modeling.reference.RQuote;
 import io.vertx.tp.atom.modeling.reference.RResult;
 import io.vertx.tp.atom.modeling.reference.RRule;
+import io.vertx.up.commune.element.JVs;
 import io.vertx.up.eon.em.DataFormat;
 import io.vertx.up.fn.Fn;
-import io.vertx.up.util.Ut;
 
 import java.util.Objects;
 import java.util.Set;
@@ -96,7 +96,7 @@ class MetaReference {
     private final transient ConcurrentMap<String, RResult> result
             = new ConcurrentHashMap<>();
 
-    private final transient ConcurrentMap<String, Set<String>> diffFieldMap
+    private final transient ConcurrentMap<String, JVs> mpxMap
             = new ConcurrentHashMap<>();
 
     /*
@@ -114,6 +114,7 @@ class MetaReference {
     public MetaReference(final Model modelRef, final String appName) {
         /* type = REFERENCE */
         final Set<MAttribute> attributes = modelRef.getAttributes();
+        final ConcurrentMap<String, AoSource> sourceMap = new ConcurrentHashMap<>();
         attributes.stream()
                 // condition1, Not Null
                 .filter(Objects::nonNull)
@@ -138,7 +139,7 @@ class MetaReference {
                      *  Based on DataAtom reference to create
                      */
                     final String source = attribute.getSource();
-                    final AoSource service = new AoSource(attribute);
+                    final AoSource service = Fn.pool(sourceMap, attribute.getName(), () -> new AoSource(attribute));
                     final RQuote quote = Fn.pool(this.references, source, () -> RQuote.create(appName, source)).add(attribute, service);
                     /*
                      *  Hash Map `result` calculation
@@ -169,9 +170,10 @@ class MetaReference {
 
         rules.forEach((field, rule) -> {
             /* Diff fields combine here. */
-            final Set<String> diffFields = Ut.toSet(rule.getDiff());
-            if (!diffFields.isEmpty()) {
-                this.diffFieldMap.put(field, diffFields);
+            final JVs mpxRef = Fn.pool(this.mpxMap, field, () -> new JVs(field).bind(rule.getDiff()));
+            final AoSource sourceRef = sourceMap.getOrDefault(field, null);
+            if (Objects.nonNull(sourceRef)) {
+                mpxRef.bind(sourceRef.types());
             }
             /* result bind rule for response building. */
             final RResult result = this.result.getOrDefault(field, null);
@@ -181,8 +183,8 @@ class MetaReference {
         });
     }
 
-    ConcurrentMap<String, Set<String>> fieldDiff() {
-        return this.diffFieldMap;
+    ConcurrentMap<String, JVs> mpx() {
+        return this.mpxMap;
     }
 
     ConcurrentMap<String, RQuote> refInput() {

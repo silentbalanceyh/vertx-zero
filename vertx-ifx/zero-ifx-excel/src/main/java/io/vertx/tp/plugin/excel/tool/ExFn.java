@@ -2,7 +2,7 @@ package io.vertx.tp.plugin.excel.tool;
 
 import io.vertx.core.json.JsonArray;
 import io.vertx.tp.plugin.excel.ranger.ExBound;
-import io.vertx.up.commune.element.Shape;
+import io.vertx.up.commune.element.JType;
 import io.vertx.up.util.Ut;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellType;
@@ -206,8 +206,8 @@ public class ExFn {
     }
 
     public static boolean generateHeader(final Sheet sheet, final String identifier,
-                                         final JsonArray tableData, final Shape shape) {
-        return ExData.generateHeader(sheet, identifier, tableData, shape);
+                                         final JsonArray tableData, final JType JType) {
+        return ExData.generateHeader(sheet, identifier, tableData, JType);
     }
 
     public static void generateHeader(final Sheet sheet, final Integer index,
