@@ -1,16 +1,13 @@
 package io.vertx.tp.optic.modeling;
 
 import cn.vertxup.atom.domain.tables.pojos.MAttribute;
-import cn.vertxup.atom.domain.tables.pojos.MField;
 import cn.vertxup.atom.domain.tables.pojos.MJoin;
 import cn.vertxup.atom.domain.tables.pojos.MModel;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.atom.cv.em.AttributeType;
 import io.vertx.tp.atom.cv.em.ModelType;
 import io.vertx.tp.atom.modeling.Model;
 import io.vertx.tp.atom.modeling.Schema;
-import io.vertx.tp.atom.modeling.config.AoSource;
 import io.vertx.tp.atom.modeling.element.DataKey;
 import io.vertx.tp.ke.cv.KeField;
 import io.vertx.tp.modular.apply.AoDefault;
@@ -30,16 +27,12 @@ import java.util.concurrent.ConcurrentMap;
  * 3. 包含多个Schema
  */
 public class JsonModel implements Model {
-    private final transient Set<Schema> schemata
-            = new HashSet<>();
+    private final transient Set<Schema> schemata = new HashSet<>();
     /* 所有关联的Entity的ID */
-    private final transient Set<MJoin> joins
-            = new HashSet<>();
+    private final transient Set<MJoin> joins = new HashSet<>();
     /* 延迟填充 */
-    private final transient ConcurrentMap<String, Class<?>> attributeTypes
-            = new ConcurrentHashMap<>();
-    private final transient ConcurrentMap<String, MAttribute> attributes
-            = new ConcurrentHashMap<>();
+    private final transient ConcurrentMap<String, Class<?>> attributeTypes = new ConcurrentHashMap<>();
+    private final transient ConcurrentMap<String, MAttribute> attributes = new ConcurrentHashMap<>();
 
     private final transient String namespace;
     /* 当前Model关联的模型 */
@@ -69,52 +62,21 @@ public class JsonModel implements Model {
 
     @Override
     public Schema getSchema(final String identifier) {
-        return Ut.isNil(identifier) ? null :
-                this.schemata.stream()
-                        .filter(schema -> identifier.equals(schema.identifier()))
-                        .findFirst().orElse(null);
+        return Ut.isNil(identifier) ? null : this.schemata.stream()
+                .filter(schema -> identifier.equals(schema.identifier()))
+                .findFirst().orElse(null);
     }
 
     @Override
     public ConcurrentMap<String, Class<?>> types() {
         if (this.attributeTypes.isEmpty()) {
-            /*
-             * 读取所有 MAttribute
-             */
+            /* 读取所有 MAttribute */
             this.getAttributes().forEach(attribute -> {
-                /*
-                 * 属性构造
-                 */
-                final AttributeType type = Ut.toEnum(attribute::getType, AttributeType.class, AttributeType.INTERNAL);
-                if (AttributeType.INTERNAL == type) {
-                    /*
-                     * type = INTERNAL 属性
-                     */
-                    final Schema schema = this.getSchema(attribute.getSource());
-                    final MField field = schema.getField(attribute.getSourceField());
-                    if (Objects.nonNull(field)) {
-                        /*
-                         * 属性 Map 处理
-                         */
-                        this.attributeTypes.put(attribute.getName(), Ut.clazz(field.getType()));
-                    }
-                } else if (AttributeType.REFERENCE == type) {
-                    /*
-                     * REFERENCE 新增类型，用于引用不同类型，主要应用于
-                     * 1）读取
-                     * 2）查询
-                     *
-                     * type = REFERENCE 属性
-                     * 只支持两种数据类型
-                     * JsonObject / JsonArray
-                     *
-                     * 这种类型禁止使用在写操作中：添加、删除、修改
-                     */
-                    final AoSource service = new AoSource(attribute);
-                    this.attributeTypes.put(attribute.getName(), service.type());
+                final Class<?> type = AnyType.analyze(attribute, this::getSchema);
+                if (Objects.nonNull(type)) {
+                    this.attributeTypes.put(attribute.getName(), type);
                 }
             });
-
         }
         return this.attributeTypes;
     }

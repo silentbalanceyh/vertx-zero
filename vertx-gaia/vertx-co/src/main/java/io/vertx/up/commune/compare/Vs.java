@@ -1,11 +1,11 @@
 package io.vertx.up.commune.compare;
 
 import io.vertx.codegen.annotations.Fluent;
-import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.eon.Strings;
 import io.vertx.up.eon.Values;
 import io.vertx.up.fn.Fn;
+import io.vertx.up.log.Annal;
 import io.vertx.up.util.Ut;
 
 import java.io.Serializable;
@@ -15,7 +15,6 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.function.Function;
-import java.util.stream.Stream;
 
 /**
  * ## Diff Container ( New Version )
@@ -27,6 +26,8 @@ import java.util.stream.Stream;
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 public class Vs implements Serializable {
+
+    private static final Annal LOGGER = Annal.get(Vs.class);
 
     private static final ConcurrentMap<String, Vs> POOL_VS = new ConcurrentHashMap<>();
     /**
@@ -133,7 +134,10 @@ public class Vs implements Serializable {
     public boolean isChange(final Object valueOld, final Object valueNew, final String attribute) {
         final Class<?> type = this.mapType.get(attribute);
         final Set<String> subset = this.mapSubtype.getOrDefault(attribute, new HashSet<>());
-        return isChange(valueOld, valueNew, type, subset);
+        final boolean isChanged = isChange(valueOld, valueNew, type, subset);
+        LOGGER.info("Field compared: name = {0}, type = {1}, result = {2}",
+                attribute, type, isChanged);
+        return isChanged;
     }
 
     public boolean isValue(final Object value, final String attribute) {
@@ -161,26 +165,13 @@ public class Vs implements Serializable {
              * 1. type
              * 2. subset ( JsonArray Only )
              * */
-            /* This line is used to process null type, it will try to get one type.
-             * When a model attribution has a null source field in entity, the variable type will be evaluated as null.
-             * The entity field that set to AFTER will also evaluate type to null.
-             * */
-            Class<?> realType = tryTypeIfNil(type, valueOld, valueNew);
-
-            final VsSame same = VsSame.get(realType);
+            final VsSame same = VsSame.get(type);
             if (Objects.isNull(same)) {
                 final String strOld = Objects.nonNull(valueOld) ? valueOld.toString() : Strings.EMPTY;
                 final String strNew = Objects.nonNull(valueNew) ? valueNew.toString() : Strings.EMPTY;
                 return strOld.equals(strNew);
             } else {
-                /* This line is used to process null subset, it will try to get one subset.
-                 * In some application scenario, when a model attribution has a null source field in entity, the variable type will be evaluated as
-                 * null. The entity field that set to AFTER will also get a null subset. This will cause it to
-                 * incomparable.
-                 * */
-                Set<String> realSubset = trySubsetIfNil(realType, subset, valueOld, valueNew);
-
-                same.bind(realSubset);
+                same.bind(subset);
                 if (Objects.nonNull(valueOld) && Objects.nonNull(valueNew)) {
                     /*
                      * Standard workflow here
@@ -194,33 +185,6 @@ public class Vs implements Serializable {
                 }
             }
         }
-    }
-
-    private static Set<String> trySubsetIfNil(Class<?> type, Set<String> subset, Object... values) {
-        Set<String> realSubset = subset;
-        if (subset.isEmpty()) {
-            Object value = Stream.of(values).filter(Objects::nonNull).findFirst().orElse(null);
-            if (type.equals(JsonArray.class)) {
-                JsonArray jsonArray = Ut.sureJArray((JsonArray) value);
-                JsonObject item = jsonArray.stream().filter(Objects::nonNull)
-                        .filter(Ut::isJObject).map(JsonObject::mapFrom).findFirst().orElse(null);
-                realSubset = Ut.sureJObject(item).getMap().keySet();
-            }
-        }
-        return realSubset;
-    }
-
-    private static Class<?> tryTypeIfNil(Class<?> type, Object... values) {
-        Class<?> realType = null;
-        if (Objects.isNull(type)) {
-            Object value = Stream.of(values).filter(Objects::nonNull).findFirst().orElse(null);
-            if (Ut.isJArray(value)) {
-                realType = JsonArray.class;
-            } else if (Ut.isJObject(value)) {
-                realType = JsonObject.class;
-            }
-        }
-        return realType;
     }
 
     public static <T, V> boolean isChange(final T left, final T right, final Function<T, V> fnGet) {

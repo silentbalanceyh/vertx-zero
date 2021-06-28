@@ -146,7 +146,7 @@ class IoArranger {
      */
     private static boolean isAopBefore(final MAttribute attribute) {
         final String sourceField = attribute.getSourceField();
-        return "BEFORE".equals(sourceField);
+        return KeField.Modeling.VALUE_BEFORE.equals(sourceField);
     }
 
     /**
@@ -158,7 +158,7 @@ class IoArranger {
      */
     private static boolean isAopAfter(final MAttribute attribute) {
         final String sourceField = attribute.getSourceField();
-        return "AFTER".equals(sourceField);
+        return KeField.Modeling.VALUE_AFTER.equals(sourceField);
     }
 
 
