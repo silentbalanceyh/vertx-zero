@@ -62,21 +62,21 @@ class CombineRefine implements AoRefine {
          * 检查新的MModel的主键是否相同
          * 不相同则表示数据库中的主键需要同步到json中
          */
-        if (!stored.getModel().getKey().equals(json.getModel().getKey())) {
-            json.setRelation(stored.getModel().getKey());
+        if (!stored.dbModel().getKey().equals(json.dbModel().getKey())) {
+            json.relation(stored.dbModel().getKey());
         }
         /*
          * 除了检查MModel以外还要检查 Schema的内容
          */
-        final Set<Schema> storedSchemata = stored.getSchemata();
+        final Set<Schema> storedSchemata = stored.schemata();
         // 两边查找对比
-        final Set<Schema> jsonSchemata = json.getSchemata();
+        final Set<Schema> jsonSchemata = json.schemata();
         jsonSchemata.stream().filter(storedSchemata::contains).forEach(jsonRef -> storedSchemata
                 // 先查找相匹配的Schema
                 .stream().filter(jsonRef::equals).findFirst()
                 // 再过滤发生了主键变化的Schema
                 .filter(storedRef -> !storedRef.getEntity().getKey().equals(jsonRef.getEntity().getKey()))
                 // 如果找到就执行关联关系的重新设置
-                .ifPresent(storedRef -> jsonRef.setRelation(storedRef.getEntity().getKey())));
+                .ifPresent(storedRef -> jsonRef.relation(storedRef.getEntity().getKey())));
     }
 }

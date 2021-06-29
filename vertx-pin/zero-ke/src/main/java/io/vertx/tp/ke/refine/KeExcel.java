@@ -3,8 +3,8 @@ package io.vertx.tp.ke.refine;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.commune.element.JType;
-import io.vertx.up.commune.element.JTypeItem;
+import io.vertx.up.commune.element.TypeAtom;
+import io.vertx.up.commune.element.TypeField;
 import io.vertx.up.eon.Values;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
@@ -19,13 +19,13 @@ class KeExcel {
 
     static Future<JsonArray> combineAsync(final JsonArray data, final ConcurrentMap<String, String> headers,
                                           final List<String> columns,
-                                          final JType JType) {
+                                          final TypeAtom TypeAtom) {
         final JsonArray combined = new JsonArray();
         final boolean complex;
-        if (JType == null) {
+        if (TypeAtom == null) {
             complex = false;
         } else {
-            complex = JType.isComplex();
+            complex = TypeAtom.isComplex();
         }
         /*
          * Header
@@ -51,15 +51,15 @@ class KeExcel {
                 /*
                  * New Data Structure
                  */
-                if (JType.isComplex(column)) {
+                if (TypeAtom.isComplex(column)) {
                     complexField.add(column);
                     // Complex that belong to data array
-                    final int columnSize = JType.size(column);
+                    final int columnSize = TypeAtom.size(column);
                     firstCnHeader.add(itemColumn(headers.get(column), columnSize));
                     firstEnHeader.add(itemColumn(column, columnSize));
 
                     // Children column here
-                    final JTypeItem item = JType.item(column);
+                    final TypeField item = TypeAtom.item(column);
                     if (Objects.nonNull(item)) {
                         /*
                          * Adjust
@@ -72,8 +72,8 @@ class KeExcel {
                             firstEnHeader.addNull();
                         });
                         item.children().forEach(child -> {
-                            secondCnHeader.add(child.getAlias());
-                            secondEnHeader.add(child.getName());
+                            secondCnHeader.add(child.alias());
+                            secondEnHeader.add(child.name());
                         });
                     }
                 } else {
@@ -96,13 +96,13 @@ class KeExcel {
                 /* Data Part */
                 final JsonArray row = new JsonArray();
                 columns.forEach(column -> {
-                    if (JType.isComplex(column)) {
+                    if (TypeAtom.isComplex(column)) {
                         /* If complex */
                         final JsonArray columnValue = each.getJsonArray(column);
                         /*
                          * children field
                          */
-                        final JTypeItem item = JType.item(column);
+                        final TypeField item = TypeAtom.item(column);
                         /*
                          * Only pick first
                          */
@@ -140,8 +140,8 @@ class KeExcel {
                     final JsonArray addOn = new JsonArray();
                     final int maxIdx = idx;
                     columns.forEach(column -> {
-                        if (JType.isComplex(column)) {
-                            final JTypeItem item = JType.item(column);
+                        if (TypeAtom.isComplex(column)) {
+                            final TypeField item = TypeAtom.item(column);
                             final JsonArray columnValue = each.getJsonArray(column);
                             final int valueLength = columnValue.size();
                             if (Ut.notNil(columnValue) && 1 < columnValue.size()) {
@@ -209,7 +209,7 @@ class KeExcel {
         return itemString;
     }
 
-    private static void rowChild(final JTypeItem item, final JsonObject value, final JsonArray row) {
+    private static void rowChild(final TypeField item, final JsonObject value, final JsonArray row) {
         /*
          * children field
          */
@@ -219,7 +219,7 @@ class KeExcel {
                 row.addNull();
             } else {
                 // Child value here
-                final String childField = shapeItem.getName();
+                final String childField = shapeItem.name();
                 final Object childValue = value.getValue(childField);
                 row.add(childValue);
             }

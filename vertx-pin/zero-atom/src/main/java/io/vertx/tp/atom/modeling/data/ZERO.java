@@ -25,13 +25,13 @@ import java.util.function.Function;
 
 interface Pool {
     // 基础模型池
-    ConcurrentMap<Integer, MetaInfo> META_INFO = new ConcurrentHashMap<>();
+    ConcurrentMap<Integer, AoDefine> META_INFO = new ConcurrentHashMap<>();
     // 标识规则信息
-    ConcurrentMap<Integer, MetaRule> META_RULE = new ConcurrentHashMap<>();
+    ConcurrentMap<Integer, AoUnique> META_RULE = new ConcurrentHashMap<>();
     // 基础标识信息
-    ConcurrentMap<Integer, MetaMarker> META_MARKER = new ConcurrentHashMap<>();
+    ConcurrentMap<Integer, AoMarker> META_MARKER = new ConcurrentHashMap<>();
     // 数据引用信息
-    ConcurrentMap<Integer, MetaReference> META_REFERENCE = new ConcurrentHashMap<>();
+    ConcurrentMap<Integer, AoReference> META_REFERENCE = new ConcurrentHashMap<>();
 }
 
 /**
@@ -46,7 +46,7 @@ class Bridge {
          * 1. 遍历当前模型中的 Schema
          * 2. 二层遍历当前模型中的 Attribute
          */
-        Ut.itCollection(model.getSchemata(), nil -> model.getAttributes(),
+        Ut.itCollection(model.schemata(), nil -> model.dbAttributes(),
                 /*
                  * 核心逻辑，用于填充 arguments
                  */
@@ -75,7 +75,7 @@ class Bridge {
          * 1. 对于 JOIN_MULTI 这种情况，在这里初始化 Matrix 的时候，有可能出现主键没有被记录到 Matrix的情况
          * 2. 如果属性中的值不包括主键，也会出现主键不在的情况，所以需要将各自的主键补充到对应的 Matrix 中
          * */
-        model.getSchemata().forEach(schema -> schema.getPrimaryKeys()
+        model.schemata().forEach(schema -> schema.getPrimaryKeys()
                 .forEach(field -> consumer.apply(schema)
                         .accept(field, toAttribute(schema, field))));
 
@@ -84,10 +84,10 @@ class Bridge {
          * 1. 对于 JOIN_MULTI 的情况，还有一个特殊点就是 Join 部分的内容同样需要添加到 Matrix 中
          * 2. 这种只适应于 Join 部分中的内容不属于主键的情况
          */
-        model.getJoins().forEach(join -> {
+        model.dbJoins().forEach(join -> {
             /* 读取模型 */
             final String identifier = join.getEntity();
-            final Schema schema = model.getSchema(identifier);
+            final Schema schema = model.schema(identifier);
             if (null != schema) {
                 /* 模型字段 */
                 final String fieldKey = join.getEntityKey();
@@ -114,10 +114,10 @@ class Bridge {
     @SuppressWarnings("all")
     static void join(final Model model,
                      final Function<Schema, BiConsumer<MField, MAttribute>> consumer) {
-        final Set<MJoin> joins = model.getJoins();
-        final DataKey key = model.getKey();
+        final Set<MJoin> joins = model.dbJoins();
+        final DataKey key = model.key();
         joins.forEach(join -> {
-            final Schema schema = model.getSchema(join.getEntity());
+            final Schema schema = model.schema(join.getEntity());
 
             /* 找不到实体报错 */
             final String unique = model.namespace() + "-" + model.identifier();
@@ -147,14 +147,14 @@ class Debug {
     public static void tpl(final DataTpl tpl) {
         /* DataAtom 处理 */
         final DataAtom atom = tpl.atom();
-        final Model model = atom.getModel();
+        final Model model = atom.model();
         /* 打印主体 */
         final StringBuilder source = new StringBuilder();
         source.append("\n<TPL> -- 主键模式：")
-                .append(model.getKey().getMode())
+                .append(model.key().getMode())
                 .append("\n");
         source.append("模型类型：")
-                .append(model.getModel().getType())
+                .append(model.dbModel().getType())
                 .append("\n");
         source.append("映射关系 -> \n\n");
         source.append(String.format("%-20s", "属性名"))

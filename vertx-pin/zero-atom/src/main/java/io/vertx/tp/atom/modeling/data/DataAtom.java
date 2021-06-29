@@ -4,6 +4,7 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.tp.atom.cv.AoCache;
 import io.vertx.tp.atom.cv.AoMsg;
 import io.vertx.tp.atom.modeling.Model;
+import io.vertx.tp.atom.modeling.config.AoAttribute;
 import io.vertx.tp.atom.modeling.reference.RQuery;
 import io.vertx.tp.atom.modeling.reference.RQuote;
 import io.vertx.tp.atom.modeling.reference.RResult;
@@ -11,7 +12,7 @@ import io.vertx.tp.atom.refine.Ao;
 import io.vertx.tp.error._404ModelNotFoundException;
 import io.vertx.tp.modular.phantom.AoPerformer;
 import io.vertx.up.commune.compare.Vs;
-import io.vertx.up.commune.element.JType;
+import io.vertx.up.commune.element.TypeAtom;
 import io.vertx.up.commune.rule.RuleUnique;
 import io.vertx.up.eon.Strings;
 import io.vertx.up.fn.Fn;
@@ -27,10 +28,10 @@ import java.util.concurrent.ConcurrentMap;
  */
 public class DataAtom {
 
-    private transient final MetaInfo metadata;
-    private transient final MetaRule ruler;
-    private transient final MetaMarker marker;
-    private transient final MetaReference reference;
+    private transient final AoDefine metadata;
+    private transient final AoUnique ruler;
+    private transient final AoMarker marker;
+    private transient final AoReference reference;
 
     private transient final Vs vs;
     private transient final String unique;
@@ -51,11 +52,11 @@ public class DataAtom {
          * 4. 数据引用信息
          */
         final Integer modelCode = model.hashCode();
-        this.metadata = Fn.pool(Pool.META_INFO, modelCode, () -> new MetaInfo(model));
-        this.ruler = Fn.pool(Pool.META_RULE, modelCode, () -> new MetaRule(model));
-        this.marker = Fn.pool(Pool.META_MARKER, modelCode, () -> new MetaMarker(model));
-        this.reference = Fn.pool(Pool.META_REFERENCE, modelCode, () -> new MetaReference(model, appName));
-        this.vs = Vs.create(this.unique, this.metadata.type(), this.reference.mpx());
+        this.metadata = Fn.pool(Pool.META_INFO, modelCode, () -> new AoDefine(model));
+        this.ruler = Fn.pool(Pool.META_RULE, modelCode, () -> new AoUnique(model));
+        this.marker = Fn.pool(Pool.META_MARKER, modelCode, () -> new AoMarker(model));
+        this.reference = Fn.pool(Pool.META_REFERENCE, modelCode, () -> new AoReference(model, appName));
+        this.vs = Vs.create(this.unique, this.metadata.typeCls(), this.metadata.types());
     }
 
     public static DataAtom get(final String appName,
@@ -113,8 +114,12 @@ public class DataAtom {
     }
 
     /** 返回当前 Model 中的所有属性集 */
-    public Set<String> attributes() {
-        return this.metadata.attributes();
+    public Set<String> attributeNames() {
+        return this.metadata.attributeNames();
+    }
+
+    public AoAttribute attribute(final String name) {
+        return this.metadata.attribute(name);
     }
 
     /** 返回 name = alias */
@@ -122,8 +127,8 @@ public class DataAtom {
         return this.metadata.alias();
     }
 
-    public Model getModel() {
-        return this.metadata.reference();
+    public Model model() {
+        return this.metadata.model();
     }
 
     /* 返回当前记录关联的 identifier */
@@ -143,11 +148,11 @@ public class DataAtom {
 
     /* 属性类型 */
     public ConcurrentMap<String, Class<?>> type() {
-        return this.metadata.type();
+        return this.metadata.typeCls();
     }
 
     /** 返回 Shape 对象 */
-    public JType shape() {
+    public TypeAtom shape() {
         return this.metadata.shape();
     }
 

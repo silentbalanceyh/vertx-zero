@@ -2,7 +2,7 @@ package io.vertx.up.commune.compare;
 
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.commune.element.JVs;
+import io.vertx.up.commune.element.TypeField;
 import io.vertx.up.util.Ut;
 
 import java.math.BigDecimal;
@@ -19,7 +19,7 @@ import java.util.concurrent.ConcurrentMap;
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 abstract class AbstractSame implements VsSame {
-    protected transient JVs subset;
+    protected transient TypeField fieldType;
     protected transient final Class<?> type;
     private transient VsExtension found;
 
@@ -35,9 +35,9 @@ abstract class AbstractSame implements VsSame {
     }
 
     @Override
-    public VsSame bind(final JVs subset) {
-        if (Objects.nonNull(subset)) {
-            this.subset = subset;
+    public VsSame bind(final TypeField fieldType) {
+        if (Objects.nonNull(fieldType)) {
+            this.fieldType = fieldType;
         }
         return this;
     }

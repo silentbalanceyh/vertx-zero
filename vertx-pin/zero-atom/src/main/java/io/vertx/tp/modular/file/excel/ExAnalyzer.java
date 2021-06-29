@@ -67,7 +67,7 @@ public class ExAnalyzer {
             /*
              * Model 连接上 Schema
              */
-            modelSet.add(Ao.toModel(this.appName, modelJson).onJson(schemaSet));
+            modelSet.add(Ao.toModel(this.appName, modelJson).bind(schemaSet));
         });
         return modelSet;
     }

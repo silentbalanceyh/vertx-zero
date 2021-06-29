@@ -1,6 +1,7 @@
 package io.vertx.tp.optic.modeling;
 
 import cn.vertxup.atom.domain.tables.pojos.MAttribute;
+import cn.vertxup.atom.domain.tables.pojos.MField;
 import cn.vertxup.atom.domain.tables.pojos.MJoin;
 import cn.vertxup.atom.domain.tables.pojos.MModel;
 import io.vertx.core.json.JsonArray;
@@ -8,10 +9,13 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.tp.atom.cv.em.ModelType;
 import io.vertx.tp.atom.modeling.Model;
 import io.vertx.tp.atom.modeling.Schema;
+import io.vertx.tp.atom.modeling.config.AoAttribute;
 import io.vertx.tp.atom.modeling.element.DataKey;
 import io.vertx.tp.ke.cv.KeField;
 import io.vertx.tp.modular.apply.AoDefault;
+import io.vertx.up.commune.element.TypeField;
 import io.vertx.up.commune.rule.RuleUnique;
+import io.vertx.up.fn.Fn;
 import io.vertx.up.util.Ut;
 
 import java.util.HashSet;
@@ -33,6 +37,7 @@ public class JsonModel implements Model {
     /* 延迟填充 */
     private final transient ConcurrentMap<String, Class<?>> attributeTypes = new ConcurrentHashMap<>();
     private final transient ConcurrentMap<String, MAttribute> attributes = new ConcurrentHashMap<>();
+    private final transient ConcurrentMap<String, AoAttribute> attributeMap = new ConcurrentHashMap<>();
 
     private final transient String namespace;
     /* 当前Model关联的模型 */
@@ -51,7 +56,7 @@ public class JsonModel implements Model {
     }
 
     @Override
-    public MModel getModel() {
+    public MModel dbModel() {
         return this.model;
     }
 
@@ -61,24 +66,36 @@ public class JsonModel implements Model {
     }
 
     @Override
-    public Schema getSchema(final String identifier) {
+    public Schema schema(final String identifier) {
         return Ut.isNil(identifier) ? null : this.schemata.stream()
                 .filter(schema -> identifier.equals(schema.identifier()))
                 .findFirst().orElse(null);
     }
 
     @Override
-    public ConcurrentMap<String, Class<?>> types() {
+    public ConcurrentMap<String, Class<?>> typeCls() {
+        this.sureTypes();
+        return this.attributeTypes;
+    }
+
+    private void sureTypes() {
         if (this.attributeTypes.isEmpty()) {
             /* 读取所有 MAttribute */
-            this.getAttributes().forEach(attribute -> {
-                final Class<?> type = AnyType.analyze(attribute, this::getSchema);
+            this.dbAttributes().forEach(attribute -> {
+                /*
+                 * 根据 source, sourceField 读取 MField 来执行
+                 * AoAttribute的构造
+                 * */
+                final Schema schema = this.schema(attribute.getSource());
+                final MField field = Objects.isNull(schema) ? null : schema.getField(attribute.getSourceField());
+
+                final AoAttribute aoAttr = Fn.pool(this.attributeMap, attribute.getName(), () -> new AoAttribute(attribute, field));
+                final Class<?> type = aoAttr.typeCls();
                 if (Objects.nonNull(type)) {
                     this.attributeTypes.put(attribute.getName(), type);
                 }
             });
         }
-        return this.attributeTypes;
     }
 
     @Override
@@ -92,39 +109,53 @@ public class JsonModel implements Model {
     }
 
     @Override
-    public Set<Schema> getSchemata() {
+    public Set<Schema> schemata() {
         return this.schemata;
     }
 
     @Override
-    public DataKey getKey() {
+    public DataKey key() {
         return this.key;
     }
 
     @Override
-    public void setKey(final DataKey key) {
+    public void key(final DataKey key) {
         this.key = key;
     }
 
     @Override
-    public ModelType getType() {
+    public ModelType type() {
         final String typeStr = this.model.getType();
         final ModelType type = Ut.toEnum(ModelType.class, typeStr);
         return null == type ? ModelType.DIRECT : type;
     }
 
     @Override
-    public Set<MAttribute> getAttributes() {
+    public Set<MAttribute> dbAttributes() {
         return new HashSet<>(this.attributes.values());
     }
 
     @Override
-    public MAttribute getAttribute(final String attributeName) {
+    public AoAttribute attribute(final String attributeName) {
+        this.sureTypes();
+        return this.attributeMap.getOrDefault(attributeName, null);
+    }
+
+    @Override
+    public ConcurrentMap<String, TypeField> types() {
+        this.sureTypes();
+        final ConcurrentMap<String, TypeField> typeMap = new ConcurrentHashMap<>();
+        this.attributeMap.forEach((name, aoAttr) -> typeMap.put(name, aoAttr.type()));
+        return typeMap;
+    }
+
+    @Override
+    public MAttribute dbAttribute(final String attributeName) {
         return this.attributes.get(attributeName);
     }
 
     @Override
-    public Model onJson(final Set<Schema> schemas) {
+    public Model bind(final Set<Schema> schemas) {
         // 从Json文件中读取时：需要检查joins
         if (!this.joins.isEmpty()) {
             // 桥接
@@ -135,12 +166,12 @@ public class JsonModel implements Model {
     }
 
     @Override
-    public Set<MJoin> getJoins() {
+    public Set<MJoin> dbJoins() {
         return this.joins;
     }
 
     @Override
-    public void setRelation(final String key) {
+    public void relation(final String key) {
         // 修改 MModel 主键
         this.model.setKey(key);
         // 修改 MAttribute 关联主键
@@ -148,7 +179,7 @@ public class JsonModel implements Model {
     }
 
     @Override
-    public void onDatabase(final Set<Schema> schemas) {
+    public void bindDirect(final Set<Schema> schemas) {
         // 从数据库中读取时：schemas 和 foundSchemas 相等
         Bridge.connect(this, schemas);
     }
@@ -162,7 +193,7 @@ public class JsonModel implements Model {
     }
 
     @Override
-    public RuleUnique getUnique() {
+    public RuleUnique unique() {
         if (Objects.isNull(this.unique)) {
             final String content = this.model.getRuleUnique();
             if (Ut.notNil(content)) {

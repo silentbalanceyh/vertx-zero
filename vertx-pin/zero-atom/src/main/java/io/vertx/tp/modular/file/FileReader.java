@@ -28,7 +28,7 @@ public class FileReader implements AoFile {
         final Set<String> files = this.readFiles("model");
         return files.stream()
                 .map(file -> Ao.toModel(appName, file))
-                .map(model -> model.onJson(schemata))
+                .map(model -> model.bind(schemata))
                 .collect(Collectors.toSet());
     }
 

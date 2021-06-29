@@ -2,7 +2,7 @@ package io.vertx.up.commune.compare;
 
 import io.vertx.codegen.annotations.Fluent;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.commune.element.JVs;
+import io.vertx.up.commune.element.TypeField;
 import io.vertx.up.eon.Strings;
 import io.vertx.up.eon.Values;
 import io.vertx.up.fn.Fn;
@@ -48,7 +48,7 @@ public class Vs implements Serializable {
      * 2. The data type is fixed: JsonObject / JsonArray.
      * 3. The `Set` means the attribute names of JsonObject or JsonArray here.
      */
-    private transient final ConcurrentMap<String, JVs> mapSubtype = new ConcurrentHashMap<>();
+    private transient final ConcurrentMap<String, TypeField> mapSubtype = new ConcurrentHashMap<>();
     /**
      * Ignored field that could be set from object.
      *
@@ -71,7 +71,7 @@ public class Vs implements Serializable {
         return this.ignores;
     }
 
-    private Vs(final ConcurrentMap<String, Class<?>> mapType, final ConcurrentMap<String, JVs> mapSubtype) {
+    private Vs(final ConcurrentMap<String, Class<?>> mapType, final ConcurrentMap<String, TypeField> mapSubtype) {
         if (Objects.nonNull(mapType) && !mapType.isEmpty()) {
             this.mapType.putAll(mapType);
         }
@@ -81,7 +81,7 @@ public class Vs implements Serializable {
         }
     }
 
-    public static Vs create(final String identifier, final ConcurrentMap<String, Class<?>> mapType, final ConcurrentMap<String, JVs> mapSubtype) {
+    public static Vs create(final String identifier, final ConcurrentMap<String, Class<?>> mapType, final ConcurrentMap<String, TypeField> mapSubtype) {
         return Fn.pool(POOL_VS, identifier, () -> new Vs(mapType, mapSubtype));
     }
 
@@ -134,8 +134,8 @@ public class Vs implements Serializable {
 
     public boolean isChange(final Object valueOld, final Object valueNew, final String attribute) {
         final Class<?> type = this.mapType.get(attribute);
-        final JVs subset = this.mapSubtype.getOrDefault(attribute, null);
-        final boolean isChanged = isChange(valueOld, valueNew, type, subset);
+        final TypeField fieldType = this.mapSubtype.getOrDefault(attribute, null);
+        final boolean isChanged = isChange(valueOld, valueNew, type, fieldType);
         LOGGER.info("Field compared: name = {0}, type = {1}, result = {2}",
                 attribute, type, isChanged);
         return isChanged;
@@ -153,11 +153,11 @@ public class Vs implements Serializable {
         return Objects.isNull(same) ? Objects.nonNull(value) : same.ok(value);
     }
 
-    public static boolean isChange(final Object valueOld, final Object valueNew, final Class<?> type, final JVs subset) {
+    public static boolean isChange(final Object valueOld, final Object valueNew, final Class<?> type, final TypeField subset) {
         return !isSame(valueOld, valueNew, type, subset);
     }
 
-    public static boolean isSame(final Object valueOld, final Object valueNew, final Class<?> type, final JVs subset) {
+    public static boolean isSame(final Object valueOld, final Object valueNew, final Class<?> type, final TypeField subset) {
         if (Objects.isNull(valueOld) && Objects.isNull(valueNew)) {
             /* ( Unchanged ) When `new` and `old` are both null */
             return true;

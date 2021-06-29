@@ -4,7 +4,7 @@ import io.vertx.tp.plugin.excel.atom.ExRecord;
 import io.vertx.tp.plugin.excel.atom.ExTable;
 import io.vertx.tp.plugin.excel.tool.ExFn;
 import io.vertx.up.atom.Refer;
-import io.vertx.up.commune.element.JType;
+import io.vertx.up.commune.element.TypeAtom;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -36,7 +36,7 @@ public class PureIn extends AbstractExIn {
     }
 
     @Override
-    public ExTable applyData(final ExTable table, final ExBound dataRange, final Cell cell, final JType JType) {
+    public ExTable applyData(final ExTable table, final ExBound dataRange, final Cell cell, final TypeAtom TypeAtom) {
         /* Data Range */
         ExFn.itSheet(this.sheet, dataRange, (dataRow, rowIndex) -> {
             /* Build Data Col Range */
@@ -49,7 +49,7 @@ public class PureIn extends AbstractExIn {
                 /* Field / Value */
                 final String field = table.field(cellIndex);
                 if (Objects.nonNull(field)) {
-                    final Class<?> type = JType.type(field);
+                    final Class<?> type = TypeAtom.type(field);
                     final Object value = this.extractValue(dataCell, type);
 
                     /* Stored into record */

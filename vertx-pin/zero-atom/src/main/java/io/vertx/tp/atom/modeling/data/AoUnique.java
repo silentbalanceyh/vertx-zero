@@ -9,7 +9,7 @@ import java.util.Objects;
  * @author <a href="http://www.origin-x.cn">Lang</a>
  * 标识规则专用
  */
-class MetaRule {
+class AoUnique {
     private transient final Model modelRef;
     /*
      * Running Rule
@@ -17,7 +17,7 @@ class MetaRule {
      */
     private transient RuleUnique rule;
 
-    MetaRule(final Model modelRef) {
+    AoUnique(final Model modelRef) {
         /* 模型引用信息 */
         this.modelRef = modelRef;
     }
@@ -26,7 +26,7 @@ class MetaRule {
      * 直接返回模型中存储的标识规则
      */
     RuleUnique rule() {
-        return this.modelRef.getUnique();
+        return this.modelRef.unique();
     }
 
     /*
@@ -44,7 +44,7 @@ class MetaRule {
         if (Objects.nonNull(this.rule)) {
             return this.rule;
         } else {
-            return this.modelRef.getUnique();
+            return this.modelRef.unique();
         }
     }
 

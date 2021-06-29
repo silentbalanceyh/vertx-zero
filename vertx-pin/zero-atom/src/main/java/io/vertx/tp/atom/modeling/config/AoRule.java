@@ -1,4 +1,4 @@
-package io.vertx.tp.atom.modeling.reference;
+package io.vertx.tp.atom.modeling.config;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.JsonArrayDeserializer;
@@ -61,7 +61,7 @@ import java.util.stream.Stream;
  *
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-public class RRule implements Serializable {
+public class AoRule implements Serializable {
     /**
      * The field `condition`.
      */
@@ -193,7 +193,7 @@ public class RRule implements Serializable {
      * @return this
      */
     @Fluent
-    public RRule type(final Class<?> type) {
+    public AoRule type(final Class<?> type) {
         this.type = type;
         return this;
     }

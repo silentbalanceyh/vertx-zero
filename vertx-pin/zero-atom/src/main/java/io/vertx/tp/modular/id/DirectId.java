@@ -45,7 +45,7 @@ class DirectId extends AbstractId {
     }
 
     private void ensure(final Model model) {
-        final Set<MJoin> joinSet = model.getJoins();
+        final Set<MJoin> joinSet = model.dbJoins();
         /*
          * 一对一的模式，不执行 Join，keyMap的尺寸必须等于 1
          */
