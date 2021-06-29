@@ -8,7 +8,7 @@ import io.vertx.ext.web.Session;
 import io.vertx.tp.ke.cv.KeField;
 import io.vertx.up.atom.record.Apt;
 import io.vertx.up.commune.Envelop;
-import io.vertx.up.commune.element.Shape;
+import io.vertx.up.commune.element.TypeAtom;
 import io.vertx.up.log.Annal;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
@@ -89,8 +89,8 @@ public class Ke {
 
     public static Future<JsonArray> combineAsync(final JsonArray data, final ConcurrentMap<String, String> headers,
                                                  final List<String> columns,
-                                                 final Shape shape) {
-        return KeExcel.combineAsync(data, headers, columns, shape);
+                                                 final TypeAtom TypeAtom) {
+        return KeExcel.combineAsync(data, headers, columns, TypeAtom);
     }
 
     public static Function<JsonObject, Future<JsonObject>> fabricAsync(final String field) {

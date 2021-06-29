@@ -2,7 +2,6 @@ package io.vertx.tp.atom.refine;
 
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.atom.modeling.config.AoBag;
 import io.vertx.tp.atom.modeling.data.DataAtom;
 import io.vertx.tp.atom.modeling.data.DataRecord;
 import io.vertx.tp.atom.modeling.element.DataMatrix;
@@ -11,6 +10,7 @@ import io.vertx.tp.modular.jooq.convert.JsonObjectSider;
 import io.vertx.tp.plugin.excel.atom.ExRecord;
 import io.vertx.tp.plugin.excel.atom.ExTable;
 import io.vertx.up.commune.Record;
+import io.vertx.up.commune.element.JBag;
 import io.vertx.up.util.Ut;
 import org.jooq.Converter;
 
@@ -115,11 +115,11 @@ class AoData {
         return CONVERT_MAP.getOrDefault(type, null);
     }
 
-    static List<AoBag> bagSplit(final AoBag pbData, final Integer size) {
+    static List<JBag> bagSplit(final JBag pbData, final Integer size) {
         final List<JsonArray> dataList = Ut.elementGroup(pbData.getData(), size);
-        final List<AoBag> dataPbList = new ArrayList<>();
+        final List<JBag> dataPbList = new ArrayList<>();
         dataList.forEach(each -> {
-            final AoBag data = new AoBag();
+            final JBag data = new JBag();
             data.setIdentifier(pbData.getIdentifier());
             data.setData(each);
             data.setSize(each.size());

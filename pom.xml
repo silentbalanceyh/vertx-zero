@@ -86,7 +86,7 @@
         <!-- Java Reflection -->
         <reflect.asm.version>1.11.9</reflect.asm.version>
         <lombok.version>1.18.20</lombok.version>
-        <asm.version>9.1</asm.version>
+        <asm.version>9.2</asm.version>
         <cglib.version>3.3.0</cglib.version>
         <reflection.version>0.9.12</reflection.version>
 
@@ -96,7 +96,7 @@
         <!-- Bean Validation -->
         <hibernate.validator.version>6.2.0.Final</hibernate.validator.version>
 
-        <jwt.version>3.16.0</jwt.version>
+        <jwt.version>3.17.0</jwt.version>
         <jetbrains.version>21.0.1</jetbrains.version>
         <guice.version>4.1.0</guice.version>
         <scala.version>2.13.6</scala.version>
@@ -119,7 +119,7 @@
         <neo4j.version>4.3.2</neo4j.version>
 
         <!-- Apache Common -->
-        <common.jexl.version>3.2</common.jexl.version>
+        <common.jexl.version>3.2.1</common.jexl.version>
         <common.lang3.version>3.12.0</common.lang3.version>
         <common.logging.version>1.2</common.logging.version>
         <common.net.version>3.8.0</common.net.version>
@@ -170,7 +170,7 @@
         <junit.version>4.13.2</junit.version>
 
         <!-- AspectJ -->
-        <aspectj.version>1.9.6</aspectj.version>
+        <aspectj.version>1.9.7</aspectj.version>
         <javassist.version>3.28.0-GA</javassist.version>
         <mdoclet.version>1.4</mdoclet.version>
 

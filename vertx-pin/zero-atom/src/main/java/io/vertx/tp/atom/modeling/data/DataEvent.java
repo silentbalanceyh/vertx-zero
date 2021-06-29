@@ -50,7 +50,7 @@ public class DataEvent implements Serializable {
          * 1. AoIo 中的数据依靠 DataTpl 来实现数据本身的初始化动作
          * 2. DataTpl 保存了当前系统中需要使用的 Table 以及 Matrix
          */
-        final Model model = atom.getModel();
+        final Model model = atom.model();
         this.tpl = DataTpl.create()
                 .on(sentence)
                 .on(atom);
@@ -189,7 +189,7 @@ public class DataEvent implements Serializable {
     }
 
     public ModelType getType() {
-        return this.atom.getModel().getType();
+        return this.atom.model().type();
     }
 
     // --------------- 数据获取环节 ----------------

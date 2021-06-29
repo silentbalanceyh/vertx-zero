@@ -60,7 +60,7 @@ class SchemaRefine implements AoRefine {
         final Set<Schema> schemata = new HashSet<>();
         Ut.itJArray(models)
                 .map(data -> Model.instance(namespace, data))
-                .map(Model::getSchemata)
+                .map(Model::schemata)
                 .forEach(schemata::addAll);
         return schemata;
     }
@@ -123,7 +123,7 @@ class SchemaRefine implements AoRefine {
                 .upsertAsync(this.onCriteria(updated), updated)
                 .compose(entity -> {
                     // 设置关系信息重建
-                    schema.setRelation(entity.getKey());
+                    schema.relation(entity.getKey());
                     final List<Future<JsonObject>> futures = new ArrayList<>();
                     // Schema -> Field
                     Arrays.stream(schema.getFields()).map(field -> Ux.Jooq.on(MFieldDao.class)

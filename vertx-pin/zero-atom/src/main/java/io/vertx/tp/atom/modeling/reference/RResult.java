@@ -1,10 +1,10 @@
 package io.vertx.tp.atom.modeling.reference;
 
 import cn.vertxup.atom.domain.tables.pojos.MAttribute;
-import io.vertx.codegen.annotations.Fluent;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.atom.modeling.config.AoSource;
+import io.vertx.tp.atom.modeling.config.AoAttribute;
+import io.vertx.tp.atom.modeling.config.AoRule;
 import io.vertx.tp.ke.cv.KeField;
 import io.vertx.up.atom.Kv;
 import io.vertx.up.eon.em.DataFormat;
@@ -83,7 +83,7 @@ import java.util.function.Predicate;
  */
 public class RResult implements Serializable {
 
-    private transient RRule rule;
+    private final transient AoRule rule;
 
     private final transient DataFormat format;
 
@@ -93,9 +93,10 @@ public class RResult implements Serializable {
 
     private final transient String sourceField;
 
-    public RResult(final MAttribute attribute, final AoSource source) {
-        this.type = source.type();
-        this.format = source.format();
+    public RResult(final MAttribute attribute, final AoAttribute aoAttr) {
+        this.type = aoAttr.typeCls();
+        this.format = aoAttr.format();
+        this.rule = aoAttr.rule();
         this.sourceField = attribute.getSourceField();
         /* Joined calculation */
         final JsonObject sourceReference = Ut.toJObject(attribute.getSourceReference());
@@ -151,12 +152,6 @@ public class RResult implements Serializable {
         return this.sourceField;
     }
 
-    @Fluent
-    public RResult bind(final RRule rule) {
-        this.rule = rule;
-        return this;
-    }
-
     public JsonArray runRuler(final JsonArray source) {
         /* 1. `required` rule */
         JsonArray processed = RRuler.required(source, this.rule);
@@ -171,12 +166,12 @@ final class RRuler {
     private RRuler() {
     }
 
-    public static JsonArray required(final JsonArray source, final RRule rule) {
+    public static JsonArray required(final JsonArray source, final AoRule rule) {
         /* required fields */
         return rulerAnd(source, rule.getRequired(), value -> Ut.notNil(value.toString()));
     }
 
-    public static JsonArray duplicated(final JsonArray source, final RRule rule) {
+    public static JsonArray duplicated(final JsonArray source, final AoRule rule) {
         /* unique field */
         final Set<JsonObject> added = new HashSet<>();
         return ruler(source, rule.getUnique(), json -> {

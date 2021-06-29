@@ -3,7 +3,8 @@ package io.vertx.tp.modular.plugin;
 import cn.vertxup.atom.domain.tables.pojos.MAttribute;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.atom.modeling.Model;
-import io.vertx.tp.atom.modeling.config.AoSource;
+import io.vertx.tp.atom.modeling.config.AoAttribute;
+import io.vertx.tp.atom.modeling.data.DataAtom;
 import io.vertx.tp.atom.modeling.element.DataTpl;
 import io.vertx.tp.ke.cv.KeField;
 import io.vertx.up.atom.Kv;
@@ -146,7 +147,7 @@ class IoArranger {
      */
     private static boolean isAopBefore(final MAttribute attribute) {
         final String sourceField = attribute.getSourceField();
-        return "BEFORE".equals(sourceField);
+        return KeField.Modeling.VALUE_BEFORE.equals(sourceField);
     }
 
     /**
@@ -158,7 +159,7 @@ class IoArranger {
      */
     private static boolean isAopAfter(final MAttribute attribute) {
         final String sourceField = attribute.getSourceField();
-        return "AFTER".equals(sourceField);
+        return KeField.Modeling.VALUE_AFTER.equals(sourceField);
     }
 
 
@@ -176,10 +177,10 @@ class IoArranger {
         /*
          * 1. Iterate tpl attributes.
          */
-        final Model model = tpl.atom().getModel();
+        final Model model = tpl.atom().model();
         final ConcurrentMap<String, JComponent> pluginMap = new ConcurrentHashMap<>();
         final Function<MAttribute, Boolean> fnSelect = Objects.isNull(fnFilter) ? attribute -> Boolean.TRUE : fnFilter;
-        model.getAttributes().stream().filter(fnSelect::apply).forEach(attribute -> {
+        model.dbAttributes().stream().filter(fnSelect::apply).forEach(attribute -> {
             /*
              * 2. Attribute
              */
@@ -191,7 +192,7 @@ class IoArranger {
                  */
                 final JComponent component = new JComponent(attribute.getName(), componentCls);
                 if (component.valid(interfaceCls)) {
-                    final JsonObject config = componentConfig(attribute, componentCls);
+                    final JsonObject config = componentConfig(attribute, tpl.atom(), componentCls);
                     pluginMap.put(attribute.getName(), component.bind(config));
                 }
             }
@@ -227,7 +228,7 @@ class IoArranger {
      *
      * @return {@link JsonObject} The extracted configuration of current component.
      */
-    private static JsonObject componentConfig(final MAttribute attribute, final Class<?> componentCls) {
+    private static JsonObject componentConfig(final MAttribute attribute, final DataAtom atom, final Class<?> componentCls) {
         final JsonObject sourceConfig = Ut.toJObject(attribute.getSourceConfig());
         final JsonObject combine;
         if (sourceConfig.containsKey(KeField.PLUGIN_IO)) {
@@ -240,11 +241,11 @@ class IoArranger {
         } else {
             combine = new JsonObject();
         }
-        final AoSource source = new AoSource(attribute);
+        final AoAttribute aoAttr = atom.attribute(attribute.getName());
         final JsonObject attrJson = new JsonObject();
         attrJson.put(KeField.NAME, attribute.getName());
         attrJson.put(KeField.ALIAS, attribute.getAlias());
-        attrJson.put(KeField.FORMAT, source.format());
+        attrJson.put(KeField.FORMAT, aoAttr.format());
 
         combine.put(KeField.ATTRIBUTE, attrJson);
         combine.put(KeField.SOURCE, attribute.getSource());

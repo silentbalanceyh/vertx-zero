@@ -4,7 +4,7 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.plugin.excel.atom.ExKey;
 import io.vertx.tp.plugin.excel.atom.ExPos;
-import io.vertx.up.commune.element.Shape;
+import io.vertx.up.commune.element.TypeAtom;
 import io.vertx.up.eon.Strings;
 import io.vertx.up.eon.Values;
 import io.vertx.up.fn.Fn;
@@ -57,7 +57,7 @@ class ExData {
     }
 
     static boolean generateHeader(final Sheet sheet, final String identifier,
-                                  final JsonArray tableData, final Shape shape) {
+                                  final JsonArray tableData, final TypeAtom TypeAtom) {
         final Consumer<Integer> consumer = width -> {
             /*
              * Row creation
@@ -85,7 +85,7 @@ class ExData {
                 Fn.safeJvm(() -> sheet.addMergedRegion(region));
             }
         };
-        if (shape.isComplex()) {
+        if (TypeAtom.isComplex()) {
             /*
              * Complex workflow processing
              */

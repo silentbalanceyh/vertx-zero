@@ -34,7 +34,7 @@ public class DataRecord extends ActiveRecord {
      */
     @Override
     public Set<String> joins() {
-        return this.atom.getModel().getJoins().stream()
+        return this.atom.model().dbJoins().stream()
                 .map(MJoin::getEntityKey)
                 .filter(Objects::nonNull)
                 .collect(Collectors.toSet());
@@ -45,7 +45,7 @@ public class DataRecord extends ActiveRecord {
      */
     @Override
     public Set<String> declaredFields() {
-        return this.atom.attributes();
+        return this.atom.attributeNames();
     }
 
     @Override
@@ -56,7 +56,7 @@ public class DataRecord extends ActiveRecord {
     // ------------- 主键处理 --------------
     @Override
     public <ID> ID key() {
-        return this.id().key(this, this.atom.getModel());
+        return this.id().key(this, this.atom.model());
     }
 
     @Override
@@ -66,12 +66,12 @@ public class DataRecord extends ActiveRecord {
 
     @Override
     public <ID> void key(final ID key) {
-        this.id().key(this, this.atom.getModel(), key);
+        this.id().key(this, this.atom.model(), key);
     }
 
     private AoId id() {
-        final Model model = this.atom.getModel();
-        final DataKey keyRef = model.getKey();
+        final Model model = this.atom.model();
+        final DataKey keyRef = model.key();
         return AoId.get(keyRef.getMode());
     }
 

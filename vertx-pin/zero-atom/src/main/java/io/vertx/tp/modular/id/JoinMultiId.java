@@ -32,7 +32,7 @@ class JoinMultiId extends AbstractId {
         // 检查定义
         this.ensure(model);
         // 非唯一主键设置，包括关联键也需要设置
-        model.getJoins().stream()
+        model.dbJoins().stream()
                 .map(MJoin::getEntityKey)
                 .filter(Objects::nonNull)
                 .forEach(field -> record.set(field, Ao.toKey(id)));

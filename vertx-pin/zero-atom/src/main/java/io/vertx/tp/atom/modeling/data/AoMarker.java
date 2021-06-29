@@ -13,15 +13,15 @@ import java.util.stream.Collectors;
  * @author <a href="http://www.origin-x.cn">Lang</a>
  * 专用开关变量，用于处理所有 DataAtom 中的开关操作
  */
-class MetaMarker {
+class AoMarker {
     private transient final Model modelRef;
 
-    MetaMarker(final Model modelRef) {
+    AoMarker(final Model modelRef) {
         this.modelRef = modelRef;
     }
 
     boolean trackable() {
-        final Boolean result = this.modelRef.getModel().getIsTrack();
+        final Boolean result = this.modelRef.dbModel().getIsTrack();
         return Objects.isNull(result) ? Boolean.FALSE : Boolean.TRUE;
     }
 
@@ -62,7 +62,7 @@ class MetaMarker {
     }
 
     private Set<String> audit(final Predicate<MAttribute> predicate) {
-        return this.modelRef.getAttributes().stream()
+        return this.modelRef.dbAttributes().stream()
                 .filter(Objects::nonNull)
                 .filter(predicate)
                 .map(MAttribute::getName)

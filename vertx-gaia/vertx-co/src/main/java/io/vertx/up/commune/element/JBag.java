@@ -1,4 +1,4 @@
-package io.vertx.tp.atom.modeling.config;
+package io.vertx.up.commune.element;
 
 import io.vertx.core.json.JsonArray;
 
@@ -7,7 +7,7 @@ import java.io.Serializable;
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-public class AoBag implements Serializable {
+public class JBag implements Serializable {
     /** Model identifier for data bag */
     private transient String identifier;
     /** The data in current package */

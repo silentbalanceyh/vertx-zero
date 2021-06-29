@@ -1,5 +1,8 @@
 package io.vertx.tp.ke.cv;
 
+import java.util.HashSet;
+import java.util.Set;
+
 public interface KeField {
     String ID = "id";                            /* Third Part integration primary key */
     String GLOBAL_ID = "globalId";               /* Third part global id of primary key */
@@ -209,6 +212,16 @@ public interface KeField {
 
         String JOINS = "joins";
         String ATTRIBUTES = "attributes";
+
+        String VALUE_BEFORE = "BEFORE";
+        String VALUE_AFTER = "AFTER";
+
+        Set<String> VALUE_SET = new HashSet<String>() {
+            {
+                this.add(VALUE_BEFORE);
+                this.add(VALUE_AFTER);
+            }
+        };
     }
 
     interface Graphic {

@@ -2,9 +2,9 @@ package io.vertx.tp.modular.reference;
 
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
+import io.vertx.tp.atom.modeling.config.AoRule;
 import io.vertx.tp.atom.modeling.reference.RDao;
 import io.vertx.tp.atom.modeling.reference.RQuote;
-import io.vertx.tp.atom.modeling.reference.RRule;
 import io.vertx.up.commune.Record;
 
 import java.util.concurrent.ConcurrentHashMap;
@@ -43,7 +43,7 @@ class RaySource {
         return this.fetchData(rule -> rule.condition(records));
     }
 
-    private ConcurrentMap<String, JsonArray> fetchData(final Function<RRule, JsonObject> supplier) {
+    private ConcurrentMap<String, JsonArray> fetchData(final Function<AoRule, JsonObject> supplier) {
         final ConcurrentMap<String, JsonArray> data = new ConcurrentHashMap<>();
         this.quote.rules().forEach((field, rule) -> {
             /*

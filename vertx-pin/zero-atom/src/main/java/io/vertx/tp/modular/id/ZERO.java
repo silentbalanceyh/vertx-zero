@@ -34,7 +34,7 @@ Ensurer {
      */
     static Set<Boolean> join(final Class<?> clazz,
                              final Model model) {
-        final Set<MJoin> joins = model.getJoins();
+        final Set<MJoin> joins = model.dbJoins();
         /*
          * 第一检查条件：一对多的 Join 模式，keyMap的尺寸必须大于 1
          */
@@ -48,8 +48,8 @@ Ensurer {
          * key -> Entity1 / key
          * key -> Entity2 / ciKey / key
          */
-        Fn.outWeb(joins.size() < model.getSchemata().size(), _417PrimaryKeySizeException.class, clazz,
-                /* ARG1：实际的主键数量 */ model.getSchemata().size(), // 没个 Schema 一个主键
+        Fn.outWeb(joins.size() < model.schemata().size(), _417PrimaryKeySizeException.class, clazz,
+                /* ARG1：实际的主键数量 */ model.schemata().size(), // 没个 Schema 一个主键
                 /* ARG2：期望的主键数量 */ String.valueOf(joins.size()));
 
         final Set<Boolean> valid = new HashSet<>();
@@ -57,7 +57,7 @@ Ensurer {
             final String identifier = entry.getEntity();
             final String keyField = entry.getEntityKey();
 
-            final Schema schema = model.getSchema(identifier);
+            final Schema schema = model.schema(identifier);
             final List<MField> keys = schema.getPrimaryKeys();
 
             /*

@@ -3,9 +3,9 @@ package io.vertx.tp.atom.modeling.data;
 import cn.vertxup.atom.domain.tables.pojos.MAttribute;
 import cn.vertxup.atom.domain.tables.pojos.MModel;
 import io.vertx.tp.atom.modeling.Model;
-import io.vertx.tp.atom.modeling.config.AoSource;
-import io.vertx.up.commune.element.Shape;
-import io.vertx.up.eon.em.DataFormat;
+import io.vertx.tp.atom.modeling.config.AoAttribute;
+import io.vertx.up.commune.element.TypeAtom;
+import io.vertx.up.commune.element.TypeField;
 import io.vertx.up.util.Ut;
 
 import java.util.Objects;
@@ -18,42 +18,38 @@ import java.util.stream.Collectors;
  * @author <a href="http://www.origin-x.cn">Lang</a>
  * 模型基本信息
  */
-class MetaInfo {
+class AoDefine {
 
     private transient final Model modelRef;
     private transient final String identifier;
-    private transient final Shape shape = Shape.create();
+    private transient final TypeAtom typeAtom = TypeAtom.create();
 
-    MetaInfo(final Model modelRef) {
+    AoDefine(final Model modelRef) {
         /* 模型引用信息 */
         this.modelRef = modelRef;
         /* 直接从模型中读取 identifier */
         this.identifier = modelRef.identifier();
         /* 直接计算 */
-        modelRef.getAttributes().forEach(attr -> {
+        modelRef.dbAttributes().forEach(attr -> {
             /* 提取 name */
             final String name = attr.getName();
-            final String alias = attr.getAlias();
             if (Ut.notNil(name)) {
-                /* sourceConfig */
-                final AoSource service = new AoSource(attr);
-                if (DataFormat.Elementary == service.format()) {
-                    /*
-                     * Simple for Flatted
-                     */
-                    this.shape.add(name, alias, this.type(name));
+                /* AoAttribute Extract from Model */
+                final AoAttribute aoAttr = modelRef.attribute(name);
+                final TypeField typeField;
+                if (Objects.isNull(aoAttr)) {
+                    // Fix Common issue here for type checking
+                    typeField = TypeField.create(name, attr.getAlias());
                 } else {
-                    /*
-                     * Complex for Array
-                     */
-                    this.shape.add(name, alias, Bridge.toShape(service));
+                    typeField = aoAttr.type();
                 }
+                if (Objects.nonNull(typeField)) this.typeAtom.add(typeField);
             }
         });
     }
 
     /* 读取底层存储的模型信息 */
-    Model reference() {
+    Model model() {
         return this.modelRef;
     }
 
@@ -71,10 +67,13 @@ class MetaInfo {
         return this.sure(MModel::getLanguage);
     }
 
+    AoAttribute attribute(final String attributeName) {
+        return this.modelRef.attribute(attributeName);
+    }
 
     /* 读取模型中的属性信息 */
-    Set<String> attributes() {
-        return this.modelRef.getAttributes().stream()
+    Set<String> attributeNames() {
+        return this.modelRef.dbAttributes().stream()
                 .map(MAttribute::getName)
                 .filter(Ut::notNil)
                 .collect(Collectors.toSet());
@@ -82,7 +81,7 @@ class MetaInfo {
 
     /* 属性 name = alias */
     ConcurrentMap<String, String> alias() {
-        return this.shape.alias();
+        return this.typeAtom.alias();
     }
 
     // ------------------ 计算型处理 -----------------
@@ -91,21 +90,25 @@ class MetaInfo {
      * 返回当前DataAtom中的类型
      * Shape 是复杂的类型数据，和 type 的返回值比较近似，但 Shape 中包含了更加丰富的类型数据相关信息
      * */
-    Shape shape() {
+    TypeAtom shape() {
         /* 构造 Shape */
-        return this.shape;
+        return this.typeAtom;
     }
 
-    ConcurrentMap<String, Class<?>> type() {
+    ConcurrentMap<String, Class<?>> typeCls() {
+        return this.modelRef.typeCls();
+    }
+
+    ConcurrentMap<String, TypeField> types() {
         return this.modelRef.types();
     }
 
     Class<?> type(final String field) {
-        return this.modelRef.types().getOrDefault(field, null);
+        return this.modelRef.typeCls().getOrDefault(field, null);
     }
 
     private <T> T sure(final Function<MModel, T> function) {
-        final MModel model = this.reference().getModel();
+        final MModel model = this.model().dbModel();
         if (Objects.isNull(model)) {
             return null;
         } else {

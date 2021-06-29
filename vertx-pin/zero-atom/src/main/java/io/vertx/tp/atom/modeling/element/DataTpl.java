@@ -56,7 +56,7 @@ public class DataTpl implements Serializable {
 
     /* 创建一个新的主键 */
     DataKey createKey() {
-        final DataKey key = this.atom.getModel().getKey();
+        final DataKey key = this.atom.model().key();
         return key.cloneKey();
     }
 
@@ -71,7 +71,7 @@ public class DataTpl implements Serializable {
      * Join时的主表
      */
     public MJoin joinLeader() {
-        if (ModelType.JOINED != this.atom.getModel().getType()) {
+        if (ModelType.JOINED != this.atom.model().type()) {
             /*
              * leader只有join会有效，如果是 DIRECT 属于单表处理，则不需要
              * 类似 leader 的角色出现
@@ -79,7 +79,7 @@ public class DataTpl implements Serializable {
              */
             return null;
         } else {
-            final Set<MJoin> joins = this.atom.getModel().getJoins();
+            final Set<MJoin> joins = this.atom.model().dbJoins();
             /*
              * 此时 joins 的尺寸 > 1
              * 默认的 JOIN 模式下会筛选 leader 来处理
@@ -102,7 +102,7 @@ public class DataTpl implements Serializable {
      */
     public ConcurrentMap<String, String> joinVoters(final Predicate<MJoin> predicate) {
         final ConcurrentMap<String, String> pointer = new ConcurrentHashMap<>();
-        this.atom.getModel().getJoins()
+        this.atom.model().dbJoins()
                 .stream().filter(predicate)
                 .forEach(join -> pointer.put(join.getEntity(), join.getEntityKey()));
         return pointer;
@@ -116,8 +116,8 @@ public class DataTpl implements Serializable {
      * 根据 identifier 查找对应的 table 名
      */
     public Schema schema(final String identifier) {
-        final Model model = this.atom.getModel();
-        return model.getSchema(identifier);
+        final Model model = this.atom.model();
+        return model.schema(identifier);
     }
 
     // -------------- 处理 ----------------
@@ -137,7 +137,7 @@ public class DataTpl implements Serializable {
     }
 
     public DataKey getKey() {
-        return this.atom.getModel().getKey();
+        return this.atom.model().key();
     }
 
     public DataAtom atom() {

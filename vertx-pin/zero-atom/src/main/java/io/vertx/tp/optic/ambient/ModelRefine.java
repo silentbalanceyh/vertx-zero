@@ -85,7 +85,7 @@ class ModelRefine implements AoRefine {
     private Future<JsonObject> saveModel(final Model model) {
         // Model -> Attributes下边的属性
         final List<Future<JsonObject>> futures = new ArrayList<>();
-        model.getAttributes().stream().map(attr -> Ux.Jooq.on(MAttributeDao.class)
+        model.dbAttributes().stream().map(attr -> Ux.Jooq.on(MAttributeDao.class)
                 .upsertAsync(this.onCriteria(attr), attr)
                 .compose(Ux::futureJ))
                 .forEach(futures::add);
@@ -96,7 +96,7 @@ class ModelRefine implements AoRefine {
          * 旧代码：model.getSchemata().stream().map(OxInit::saveSchema).forEach(schemata::add);
          */
         // Model -> Nexus处理关系
-        model.getJoins().stream().map(nexus -> Ux.Jooq.on(MJoinDao.class)
+        model.dbJoins().stream().map(nexus -> Ux.Jooq.on(MJoinDao.class)
                 // 先删除原始关系
                 // 新的 API 调用：deleteAsync -> deleteByAsync
                 .deleteByAsync(this.onCriteria(nexus))
@@ -112,7 +112,7 @@ class ModelRefine implements AoRefine {
                  * 旧代码：.compose(nil -> Ux.thenComposite(schemata))
                  */
                 .compose(nil -> Ux.Jooq.on(MModelDao.class)
-                        .upsertAsync(this.onCriteria(model.getModel()), model.getModel()))
+                        .upsertAsync(this.onCriteria(model.dbModel()), model.dbModel()))
                 .compose(Ux::futureJ);
     }
 }

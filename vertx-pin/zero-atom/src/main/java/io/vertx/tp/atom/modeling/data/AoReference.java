@@ -3,11 +3,10 @@ package io.vertx.tp.atom.modeling.data;
 import cn.vertxup.atom.domain.tables.pojos.MAttribute;
 import io.vertx.tp.atom.cv.em.AttributeType;
 import io.vertx.tp.atom.modeling.Model;
-import io.vertx.tp.atom.modeling.config.AoSource;
+import io.vertx.tp.atom.modeling.config.AoAttribute;
 import io.vertx.tp.atom.modeling.reference.RQuery;
 import io.vertx.tp.atom.modeling.reference.RQuote;
 import io.vertx.tp.atom.modeling.reference.RResult;
-import io.vertx.tp.atom.modeling.reference.RRule;
 import io.vertx.up.eon.em.DataFormat;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.util.Ut;
@@ -84,7 +83,7 @@ import java.util.concurrent.ConcurrentMap;
  *
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-class MetaReference {
+class AoReference {
     /**
      * The hash map to store `source = {@link io.vertx.tp.atom.modeling.reference.RQuote}`.
      */
@@ -94,9 +93,6 @@ class MetaReference {
      * The hash map to store `field = {@link io.vertx.tp.atom.modeling.reference.RResult}`.
      */
     private final transient ConcurrentMap<String, RResult> result
-            = new ConcurrentHashMap<>();
-
-    private final transient ConcurrentMap<String, Set<String>> diffFieldMap
             = new ConcurrentHashMap<>();
 
     /*
@@ -111,9 +107,9 @@ class MetaReference {
      * @param modelRef {@link io.vertx.tp.atom.modeling.Model} Input `M_MODEL` definition.
      * @param appName  {@link java.lang.String} The application name.
      */
-    public MetaReference(final Model modelRef, final String appName) {
+    public AoReference(final Model modelRef, final String appName) {
         /* type = REFERENCE */
-        final Set<MAttribute> attributes = modelRef.getAttributes();
+        final Set<MAttribute> attributes = modelRef.dbAttributes();
         attributes.stream()
                 // condition1, Not Null
                 .filter(Objects::nonNull)
@@ -127,7 +123,7 @@ class MetaReference {
                  */
                 .filter(attr -> !modelRef.identifier().equals(attr.getSource()))
                 // condition4, type = REFERENCE
-                .filter(attr -> AttributeType.REFERENCE.name().equals(attr.getType()))
+                // .filter(attr -> AttributeType.REFERENCE.name().equals(attr.getType()))
                 // Processing workflow on result.
                 .forEach(attribute -> {
                     /*
@@ -137,52 +133,34 @@ class MetaReference {
                      *          - condition2 = RDao
                      *  Based on DataAtom reference to create
                      */
-                    final String source = attribute.getSource();
-                    final AoSource service = new AoSource(attribute);
-                    final RQuote quote = Fn.pool(this.references, source, () -> RQuote.create(appName, source)).add(attribute, service);
-                    /*
-                     *  Hash Map `result` calculation
-                     *      - field = RResult
-                     *  Based on DataAtom reference to create
-                     */
-                    final String field = attribute.getName();
-                    final RResult result = Fn.pool(this.result, field, () -> new RResult(attribute, service));
+                    final AoAttribute aoAttr = modelRef.attribute(attribute.getName());
+                    final AttributeType type = Ut.toEnum(attribute::getType, AttributeType.class, AttributeType.INTERNAL);
 
-                    /*
-                     * Qr Engine, stored quote reference map.
-                     *
-                     * field1 = query1,
-                     * field2 = query2
-                     */
-                    if (DataFormat.Elementary == service.format()) {
-                        Fn.pool(this.queries, field,
-                                () -> new RQuery(field, attribute.getSourceField())
-                                        .bind(quote.dao(field))
-                                        .bind(result.joined()));
+
+                    final String source = attribute.getSource();
+
+                    if (AttributeType.REFERENCE == type) {
+                        final RQuote quote = Fn.pool(this.references, source, () -> RQuote.create(appName, source)).add(attribute, aoAttr);
+                        /*
+                         *  Hash Map `result` calculation
+                         *      - field = RResult
+                         *  Based on DataAtom reference to create
+                         */
+                        final String field = attribute.getName();
+                        final RResult result = Fn.pool(this.result, field, () -> new RResult(attribute, aoAttr));
+                        /*
+                         * Qr Engine, stored quote reference map.
+                         *
+                         * field1 = query1,
+                         * field2 = query2
+                         */
+                        if (DataFormat.Elementary == aoAttr.format()) {
+                            Fn.pool(this.queries, field, () -> new RQuery(field, attribute.getSourceField())
+                                    .bind(quote.dao(field))
+                                    .bind(result.joined()));
+                        }
                     }
                 });
-        /*
-         * DataQuote之后处理
-         */
-        final ConcurrentMap<String, RRule> rules = new ConcurrentHashMap<>();
-        this.references.values().forEach(source -> rules.putAll(source.rules()));
-
-        rules.forEach((field, rule) -> {
-            /* Diff fields combine here. */
-            final Set<String> diffFields = Ut.toSet(rule.getDiff());
-            if (!diffFields.isEmpty()) {
-                this.diffFieldMap.put(field, diffFields);
-            }
-            /* result bind rule for response building. */
-            final RResult result = this.result.getOrDefault(field, null);
-            if (Objects.nonNull(result)) {
-                result.bind(rule);
-            }
-        });
-    }
-
-    ConcurrentMap<String, Set<String>> fieldDiff() {
-        return this.diffFieldMap;
     }
 
     ConcurrentMap<String, RQuote> refInput() {
