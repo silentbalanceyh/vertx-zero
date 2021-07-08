@@ -55,7 +55,7 @@
         <!-- jooq 3.10.x -->
         <rule groupId="org.jooq" comparisonMethod="maven">
             <ignoreVersions>
-                <ignoreVersion type="regex">3.(11|12|13|14).*</ignoreVersion>
+                <ignoreVersion type="regex">3.(11|12|13|14|15).*</ignoreVersion>
             </ignoreVersions>
         </rule>
 

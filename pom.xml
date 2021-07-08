@@ -57,8 +57,8 @@
     </distributionManagement>
     <properties>
         <!-- RC Version Ok -->
-        <jackson.version>2.12.3</jackson.version>
-        <jackson.extension.version>2.12.3</jackson.extension.version>
+        <jackson.version>2.12.4</jackson.version>
+        <jackson.extension.version>2.12.4</jackson.extension.version>
         <protobuf.version>3.17.3</protobuf.version>
 
         <!-- Java Projection Basic Configuration -->
@@ -96,7 +96,7 @@
         <!-- Bean Validation -->
         <hibernate.validator.version>6.2.0.Final</hibernate.validator.version>
 
-        <jwt.version>3.17.0</jwt.version>
+        <jwt.version>3.18.1</jwt.version>
         <jetbrains.version>21.0.1</jetbrains.version>
         <guice.version>4.1.0</guice.version>
         <scala.version>2.13.6</scala.version>
@@ -113,7 +113,7 @@
         <checker.version>3.15.0</checker.version>
 
         <!-- elasticsearch version -->
-        <elasticsearch.version>7.13.2</elasticsearch.version>
+        <elasticsearch.version>7.13.3</elasticsearch.version>
 
         <!-- neo4j search -->
         <neo4j.version>4.3.3</neo4j.version>
