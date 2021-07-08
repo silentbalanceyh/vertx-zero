@@ -43,7 +43,7 @@ final class VsJsonArray extends AbstractSame {
         final Object valueSelect = Objects.isNull(valueOld) ? valueNew : valueOld;
         final JsonArray normalized;
         if (valueSelect instanceof String) {
-            normalized = new JsonArray(valueSelect.toString());
+            normalized = this.toJArray(valueSelect);
         } else if (valueSelect instanceof JsonArray) {
             normalized = (JsonArray) valueSelect;
         } else {
@@ -61,11 +61,13 @@ final class VsJsonArray extends AbstractSame {
         } else return Boolean.FALSE;
     }
 
-    private JsonArray toJArray(final Object valueOld) {
-        if (valueOld instanceof JsonArray) {
-            return (JsonArray) valueOld;
+    private JsonArray toJArray(final Object value) {
+        if (value instanceof JsonArray) {
+            return (JsonArray) value;
+        } else if (Ut.isJArray(value)) {
+            return new JsonArray(value.toString());
         } else {
-            return new JsonArray(valueOld.toString());
+            return new JsonArray().add(value);
         }
     }
 }
