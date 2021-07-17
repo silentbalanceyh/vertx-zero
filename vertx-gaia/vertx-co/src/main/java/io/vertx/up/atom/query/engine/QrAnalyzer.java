@@ -102,27 +102,34 @@ class QrAnalyzer implements QrDo {
      */
     @Override
     public QrDo save(final String fieldExpr, final Object value) {
-        final QrItem item = new QrItem(fieldExpr).value(value);
-        /*
-         * Boolean for internal execution
-         */
-        final AtomicBoolean existing = new AtomicBoolean();
-        existing.set(Boolean.FALSE);
-        this.itExist(this.raw, item, (qr, ref) -> {
+        if (Strings.EMPTY.equals(fieldExpr)) {
             /*
-             * Flat processing.
+             * "" for AND / OR
              */
-            existing.set(Boolean.TRUE);
+            this.raw.put(fieldExpr, value);
+        } else {
+            final QrItem item = new QrItem(fieldExpr).value(value);
             /*
-             * Save Operation
+             * Boolean for internal execution
              */
-            this.saveWhere(ref, item, qr);
-        });
-        if (!existing.get()) {
-            /*
-             * Add Operation.
-             */
-            this.addWhere(this.raw, item);
+            final AtomicBoolean existing = new AtomicBoolean();
+            existing.set(Boolean.FALSE);
+            this.itExist(this.raw, item, (qr, ref) -> {
+                /*
+                 * Flat processing.
+                 */
+                existing.set(Boolean.TRUE);
+                /*
+                 * Save Operation
+                 */
+                this.saveWhere(ref, item, qr);
+            });
+            if (!existing.get()) {
+                /*
+                 * Add Operation.
+                 */
+                this.addWhere(this.raw, item);
+            }
         }
         return this;
     }
