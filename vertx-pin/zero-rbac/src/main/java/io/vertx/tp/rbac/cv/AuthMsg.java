@@ -13,7 +13,9 @@ public interface AuthMsg {
 
     String LOGIN_SUCCESS = "[ Ακριβώς ] User ( username = {0} ) login successfully.";
     String LOGIN_USER = "[ Ακριβώς ] username = {0} does not exist.";
+    String LOGIN_LOCKED = "[ Ακριβώς ] username = {0} has been locked / disabled";
     String LOGIN_PWD = "[ Ακριβώς ] username = {0}, the password ( {1} ) you provided is wrong.";
+    String LOGIN_INIT = "[ Ακριβώς ] username = {0}, the password ( {1} ) is default and contains risk";
     String LOGIN_INPUT = "Login processing execute ( username = {0} )";
 
     String TOKEN_STORE = "The system will singleton user''s principle information. user key: {0}.";
@@ -44,7 +46,7 @@ public interface AuthMsg {
     String SEEKER_RESOURCE = "Seeking Resource with uri = {0}, method = {1}, sigma = {2}";
     String POOL_RESOURCE = "Pool = {0} has been initialized to `habitus` = {1}";
     String VIEW_PROCESS = "My View Operation: {0}, filters = {1}";
-    
+
     // -- visitant process for additional
     String VISITANT_PROCESS = "My Visitant Op: {0}, filters = {1}";
 }

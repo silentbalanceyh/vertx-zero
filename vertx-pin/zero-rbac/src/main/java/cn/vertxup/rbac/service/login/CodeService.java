@@ -7,8 +7,9 @@ import io.vertx.tp.error._401CodeWrongException;
 import io.vertx.tp.rbac.cv.AuthKey;
 import io.vertx.tp.rbac.refine.Sc;
 import io.vertx.up.atom.unity.Uson;
-import io.vertx.up.fn.Fn;
 import io.vertx.up.unity.Ux;
+
+import java.util.Objects;
 
 public class CodeService implements CodeStub {
 
@@ -29,14 +30,18 @@ public class CodeService implements CodeStub {
     @Override
     @SuppressWarnings("all")
     public Future<String> verify(final String clientId, final String code) {
-        // Shared
-        return Sc.cacheCode(clientId).compose(item -> Fn.match(
-                // Successfully
-                () -> Fn.fork(() -> Ux.future(clientId)),
-                // Authorization Code Expired
-                Fn.branch(null == item, () -> Ux.thenError(_401CodeExpiredException.class, this.getClass(), clientId, code)),
-                // Wrong
-                Fn.branch(null != item && !code.equals(item), () -> Ux.thenError(_401CodeWrongException.class, this.getClass(), code))
-        ));
+        // Shared code in pool here to get code
+        return Sc.cacheCode(clientId).compose(item -> {
+            if (Objects.isNull(item)) {
+                // 401: Authorization Code Expired, The item is null, it means that code is expired
+                return Ux.thenError(_401CodeExpiredException.class, this.getClass(), clientId, code);
+            }
+            if (!code.equals(item)) {
+                // 401: Wrong code provided ( Api Client )
+                return Ux.thenError(_401CodeWrongException.class, this.getClass(), code);
+            }
+            // Successfully
+            return Ux.future(clientId);
+        });
     }
 }

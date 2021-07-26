@@ -9,12 +9,12 @@ import io.vertx.tp.error._401CodeGenerationException;
 import io.vertx.tp.rbac.cv.AuthKey;
 import io.vertx.tp.rbac.cv.AuthMsg;
 import io.vertx.tp.rbac.refine.Sc;
-import io.vertx.up.unity.Ux;
 import io.vertx.up.log.Annal;
 import io.vertx.up.secure.Security;
-import io.vertx.up.fn.Fn;
+import io.vertx.up.unity.Ux;
 
 import javax.inject.Inject;
+import java.util.Objects;
 
 public class AuthService implements AuthStub {
 
@@ -32,16 +32,16 @@ public class AuthService implements AuthStub {
     @SuppressWarnings("all")
     public Future<JsonObject> authorize(final JsonObject filters) {
         Sc.infoAuth(LOGGER, AuthMsg.CODE_FILTER, filters.encode());
-        return Ux.Jooq.on(OUserDao.class).<OUser>fetchOneAsync(filters).compose(item -> Fn.match(
-
-                // Provide correct parameters, OUser record existing.
-                () -> Fn.fork(() -> this.codeStub.authorize(item.getClientId())),
-
+        return Ux.Jooq.on(OUserDao.class).<OUser>fetchOneAsync(filters).compose(item -> {
+            if (Objects.isNull(item)) {
                 // Could not identify OUser record, error throw.
-                Fn.branch(null == item,
-                        () -> Ux.thenError(_401CodeGenerationException.class, this.getClass(),
-                                filters.getString(AuthKey.F_CLIENT_ID), filters.getString(AuthKey.F_CLIENT_SECRET)))
-        ));
+                return Ux.thenError(_401CodeGenerationException.class, this.getClass(),
+                        filters.getString(AuthKey.F_CLIENT_ID), filters.getString(AuthKey.F_CLIENT_SECRET));
+            } else {
+                // Provide correct parameters, OUser record existing.
+                return this.codeStub.authorize(item.getClientId());
+            }
+        });
     }
 
     @Override
@@ -49,9 +49,9 @@ public class AuthService implements AuthStub {
         final String code = params.getString(AuthKey.AUTH_CODE);
         final String clientId = params.getString(AuthKey.CLIENT_ID);
         Sc.infoAuth(LOGGER, AuthMsg.CODE_VERIFY, clientId, code);
-        return tokenStub.execute(clientId, code, session)
+        return this.tokenStub.execute(clientId, code, session)
                 // Store token information
-                .compose(security::store);
+                .compose(this.security::store);
     }
 
     @Override
@@ -59,6 +59,6 @@ public class AuthService implements AuthStub {
         final String username = params.getString(AuthKey.USER_NAME);
         final String password = params.getString(AuthKey.PASSWORD);
         Sc.infoAuth(LOGGER, AuthMsg.LOGIN_INPUT, username);
-        return loginStub.execute(username, password);
+        return this.loginStub.execute(username, password);
     }
 }

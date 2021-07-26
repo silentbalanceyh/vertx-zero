@@ -182,6 +182,8 @@ E80211: "(403) - (RBAC) The resource level is {0}, action level is {0} and lower
 E80212: "(403) - (RBAC) The user = `{0}` of profile = `{1}` has no permission for access any resource"
 E80213: "(403) - (RBAC) Sorry, you have no access to visit the resource that you required, action = `{0}`, permissionId = `{1}`"
 E80215: "(500) - (RBAC) Dwarf instance is null when analyzed result type = {0}"
+E80216: "(401) - (RBAC) The user `{0}` that you have provided is locked, please contact administrator"
+E80217: "(403) - (RBAC) It's the first time that you (account = {0}) logged into the system, please modify your password"
 
 # Kernel Module
 E80214: "(409) - (Ke) Zero system could not identify the session you provided `{0}`, maybe it''s expired or destroyed"

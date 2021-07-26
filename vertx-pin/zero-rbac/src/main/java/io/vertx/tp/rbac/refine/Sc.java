@@ -116,6 +116,10 @@ public class Sc {
         return ScTool.generateProfileKey(resource);
     }
 
+    public static String generatePwd() {
+        return ScTool.generatePwd();
+    }
+
     /*
      * Jwt token process
      * 1) Build jwt token response
