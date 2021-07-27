@@ -8,8 +8,10 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
+import io.vertx.up.util.Ut;
 
 import java.io.Serializable;
+import java.util.Set;
 
 /**
  * 「Pojo」Critical Fields
@@ -101,6 +103,20 @@ public class KField implements Serializable {
     @JsonDeserialize(using = JsonObjectDeserializer.class)
     private JsonObject numbers;
 
+    /**
+     * `jobject` information
+     */
+    @JsonSerialize(using = JsonArraySerializer.class)
+    @JsonDeserialize(using = JsonArrayDeserializer.class)
+    private JsonArray object;
+
+    /**
+     * `jarray` information
+     */
+    @JsonSerialize(using = JsonArraySerializer.class)
+    @JsonDeserialize(using = JsonArrayDeserializer.class)
+    private JsonArray array;
+
     public String getKey() {
         return this.key;
     }
@@ -141,6 +157,30 @@ public class KField implements Serializable {
         this.numbers = numbers;
     }
 
+    public JsonArray getObject() {
+        return this.object;
+    }
+
+    public void setObject(final JsonArray object) {
+        this.object = object;
+    }
+
+    public JsonArray getArray() {
+        return this.array;
+    }
+
+    public void setArray(final JsonArray array) {
+        this.array = array;
+    }
+
+    public Set<String> fieldArray() {
+        return Ut.toSet(this.array);
+    }
+
+    public Set<String> fieldObject() {
+        return Ut.toSet(this.object);
+    }
+
     @Override
     public String toString() {
         return "KField{" +
@@ -149,6 +189,8 @@ public class KField implements Serializable {
                 ", created=" + this.created +
                 ", updated=" + this.updated +
                 ", numbers=" + this.numbers +
+                ", object=" + this.object +
+                ", array=" + this.array +
                 '}';
     }
 }

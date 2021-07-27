@@ -140,12 +140,12 @@ public class FileActor {
                                         /* Result confirmed */
                                         .compose(queried -> Ix.isExist(queried) ?
                                                 /* Update Flow */
-                                                Ix.unique(queried)
+                                                Ix.serializePO(queried, config)
                                                         /* Audit: Update */
                                                         .compose(item -> IxActor.update().bind(request).procAsync(item, config))
                                                         /* Final Update */
                                                         .compose(item -> Ux.future(item.mergeIn(record)))
-                                                        .compose(json -> Ix.entityAsync(json, config))
+                                                        .compose(json -> Ix.deserializeT(json, config))
                                                         .compose(jooq::updateAsync)
                                                         .compose(Ux::futureJ)
                                                 :
@@ -155,7 +155,7 @@ public class FileActor {
                                                         .compose(item -> IxActor.create().bind(request).procAsync(item, config))
                                                         .compose(item -> IxActor.update().bind(request).procAsync(item, config))
                                                         /* Final Insert */
-                                                        .compose(json -> Ix.entityAsync(json, config))
+                                                        .compose(json -> Ix.deserializeT(json, config))
                                                         .compose(jooq::insertAsync)
                                                         .compose(Ux::futureJ)
                                         )

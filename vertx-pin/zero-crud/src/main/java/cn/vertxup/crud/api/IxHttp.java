@@ -12,15 +12,11 @@ import io.vertx.up.unity.Ux;
 public class IxHttp {
 
     /* 201 */
-    public static <T> Future<Envelop> success201(final T entity) {
-        return Ux.future(Envelop.success(entity, HttpStatusCode.CREATED));
-    }
-
     public static <T> Future<Envelop> success201(final T entity, final IxModule config) {
         final JsonObject serializedJson = Ux.toJson(entity, config.getPojo());
         /* metadata must be converted */
         Ke.mount(serializedJson, KeField.METADATA);
-        return success201(serializedJson);
+        return Ux.future(Envelop.success(entity, HttpStatusCode.CREATED));
     }
 
     /* 200 */
@@ -32,7 +28,7 @@ public class IxHttp {
         final JsonObject serializedJson = Ux.toJson(entity, config.getPojo());
         /* metadata must be converted */
         Ke.mount(serializedJson, KeField.METADATA);
-        return success200(serializedJson);
+        return Ux.future(Envelop.success(entity));
     }
 
     /* 204 */

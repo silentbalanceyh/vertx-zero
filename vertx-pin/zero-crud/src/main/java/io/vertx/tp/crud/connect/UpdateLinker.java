@@ -44,7 +44,7 @@ class UpdateLinker implements IxLinker {
                             /* Verify */
                             .compose(input -> IxActor.verify().bind(request).procAsync(input, config))
                             /* T */
-                            .compose(input -> Ix.entityAsync(input, config)
+                            .compose(input -> Ix.deserializeT(input, config)
                                     /* Save */
                                     .compose(entity -> {
                                         final String key = input.getString(config.getField().getKey());
