@@ -26,26 +26,22 @@ public class Ix {
      * auditor setting
      */
     public static void audit(final JsonObject auditor, final JsonObject config, final String userId) {
-        IxFn.audit(auditor, config, userId);
+        IxQuery.audit(auditor, config, userId);
     }
 
     /*
      * search operation
      */
     public static Function<UxJooq, Future<JsonObject>> search(final JsonObject filters, final IxModule config) {
-        return IxFn.search(filters, config);
-    }
-
-    public static Function<UxJooq, Future<JsonObject>> query(final JsonObject filters, final IxModule config) {
-        return IxFn.query(filters, config);
+        return IxQuery.search(filters, config);
     }
 
     public static Function<UxJooq, Future<Boolean>> existing(final JsonObject filters, final IxModule config) {
-        return IxFn.existing(filters, config);
+        return IxQuery.existing(filters, config);
     }
 
-    public static Future<JsonArray> query(final JsonArray data) {
-        return IxFn.queryResult(data);
+    public static Function<UxJooq, Future<JsonObject>> query(final JsonObject filters, final IxModule config) {
+        return IxQuery.query(filters, config);
     }
 
     // Atom creation
@@ -60,28 +56,36 @@ public class Ix {
     /*
      * analyze unique record
      */
-    public static Future<JsonObject> unique(final JsonObject result) {
-        return Ux.future(IxSerialize.unique(result));
+    public static Future<JsonObject> serializePO(final JsonObject result, final IxModule config) {
+        return Ux.future(IxSerialize.serializePO(result, config));
     }
 
-    public static Future<JsonArray> list(final JsonObject result) {
-        return Ux.future(IxSerialize.list(result));
+    public static Future<JsonArray> serializePL(final JsonObject result, final IxModule config) {
+        return Ux.future(IxSerialize.serializePL(result, config));
     }
 
     /*
      * Deserialize to T
      */
-    public static <T> Future<T> entityAsync(final JsonObject data, final IxModule config) {
-        final T reference = IxSerialize.entity(data, config);
+    public static <T> Future<T> deserializeT(final JsonObject data, final IxModule config) {
+        final T reference = IxSerialize.deserializeT(data, config);
         return Ux.future(reference);
     }
 
-    public static <T> Future<List<T>> entityAsync(final JsonArray data, final IxModule config) {
-        return Ux.future(IxSerialize.entity(data, config));
+    public static <T> Future<List<T>> deserializeT(final JsonArray data, final IxModule config) {
+        return Ux.future(IxSerialize.deserializeT(data, config));
     }
 
-    public static Future<JsonArray> zipperAsync(final JsonArray from, final JsonArray to, final IxModule config) {
-        return Ux.future(IxSerialize.zipper(from, to, config));
+    public static Future<JsonArray> serializeA(final JsonArray data, final IxModule config) {
+        return Ux.future(IxSerialize.serializeA(data, config));
+    }
+
+    public static Future<JsonObject> serializeJ(final JsonObject data, final IxModule config) {
+        return Ux.future(IxSerialize.serializeJ(data, config));
+    }
+
+    public static Future<JsonArray> serializeA(final JsonArray from, final JsonArray to, final IxModule config) {
+        return Ux.future(IxSerialize.serializeA(from, to, config));
     }
 
     // JqTool
