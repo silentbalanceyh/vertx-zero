@@ -4,8 +4,7 @@ import io.vertx.core.Future;
 import io.vertx.core.http.HttpStatusCode;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.crud.atom.IxModule;
-import io.vertx.tp.ke.cv.KeField;
-import io.vertx.tp.ke.refine.Ke;
+import io.vertx.tp.crud.refine.Ix;
 import io.vertx.up.commune.Envelop;
 import io.vertx.up.unity.Ux;
 
@@ -15,8 +14,8 @@ public class IxHttp {
     public static <T> Future<Envelop> success201(final T entity, final IxModule config) {
         final JsonObject serializedJson = Ux.toJson(entity, config.getPojo());
         /* metadata must be converted */
-        Ke.mount(serializedJson, KeField.METADATA);
-        return Ux.future(Envelop.success(entity, HttpStatusCode.CREATED));
+        Ix.serializeJ(serializedJson, config);
+        return Ux.future(Envelop.success(serializedJson, HttpStatusCode.CREATED));
     }
 
     /* 200 */
@@ -27,8 +26,8 @@ public class IxHttp {
     public static <T> Future<Envelop> success200(final T entity, final IxModule config) {
         final JsonObject serializedJson = Ux.toJson(entity, config.getPojo());
         /* metadata must be converted */
-        Ke.mount(serializedJson, KeField.METADATA);
-        return Ux.future(Envelop.success(entity));
+        Ix.serializeJ(serializedJson, config);
+        return Ux.future(Envelop.success(serializedJson));
     }
 
     /* 204 */
