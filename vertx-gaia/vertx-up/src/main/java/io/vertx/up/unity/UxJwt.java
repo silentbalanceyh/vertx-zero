@@ -75,8 +75,13 @@ class UxJwt {
     }
 
     static JsonObject extract(final String jwt, final JsonObject options) {
-        final JWT reference = create(new JWTAuthOptions(options), Ut::ioBuffer);
-        return reference.decode(jwt);
+        if (Ut.isNil(jwt)) {
+            // Fix Issue: java.lang.RuntimeException: Not enough or too many segments
+            return new JsonObject();
+        } else {
+            final JWT reference = create(new JWTAuthOptions(options), Ut::ioBuffer);
+            return reference.decode(jwt);
+        }
     }
 
     /**
@@ -84,6 +89,7 @@ class UxJwt {
      *
      * @param config     JWT configuration
      * @param funcBuffer IO function
+     *
      * @return Valid JWT reference
      */
     static JWT create(final JWTAuthOptions config, final Function<String, Buffer> funcBuffer) {

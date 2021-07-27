@@ -14,7 +14,7 @@ public class _401UserDisabledException extends WebException {
 
     @Override
     public int getCode() {
-        return -80216;
+        return -80220;
     }
 
     @Override

@@ -182,8 +182,7 @@ E80211: "(403) - (RBAC) The resource level is {0}, action level is {0} and lower
 E80212: "(403) - (RBAC) The user = `{0}` of profile = `{1}` has no permission for access any resource"
 E80213: "(403) - (RBAC) Sorry, you have no access to visit the resource that you required, action = `{0}`, permissionId = `{1}`"
 E80215: "(500) - (RBAC) Dwarf instance is null when analyzed result type = {0}"
-E80216: "(401) - (RBAC) The user `{0}` that you have provided is locked, please contact administrator"
-E80217: "(403) - (RBAC) It's the first time that you (account = {0}) logged into the system, please modify your password"
+E80220: "(401) - (RBAC) The user `{0}` that you have provided is locked, please contact administrator"
 
 # Kernel Module
 E80214: "(409) - (Ke) Zero system could not identify the session you provided `{0}`, maybe it''s expired or destroyed"
@@ -191,6 +190,7 @@ E80216: "(501) - (Ke) Your channel is not implemented {0}, but you called this c
 E80217: "(501) - (Ke) Your Class<T> is null or `UxJooq` has not been bind here!"
 E80218: "(501) - (Ke) This api is not supported or implemented, please check your specification"
 E80219: "(403) - (Ke) You have no access to create cross `application` account tokens, token generation error, now size = {0}"
+
 E80542: "(409) - (Ke) You want to seek `target` configuration in JOIN, but now the fields ( one of `crud, classDao, classDefine` ) is missing."
 E80543: "(404) - (Ke) You parsed targetIndent = `{0}` in Join workflow, but now get null. data = `{1}`."
 

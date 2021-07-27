@@ -8,7 +8,6 @@ import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.error._401PasswordWrongException;
 import io.vertx.tp.error._401UserDisabledException;
-import io.vertx.tp.error._403PasswordInitException;
 import io.vertx.tp.error._449UserNotFoundException;
 import io.vertx.tp.ke.cv.KeField;
 import io.vertx.tp.rbac.cv.AuthKey;
@@ -51,16 +50,10 @@ public class LoginService implements LoginStub {
                 Sc.warnAuth(LOGGER, AuthMsg.LOGIN_PWD, username);
                 return Ux.thenError(_401PasswordWrongException.class, this.getClass(), username);
             }
-            /* Password Init */
-            final String initPwd = Sc.generatePwd();
-            if (initPwd.equals(password)) {
-                Sc.warnAuth(LOGGER, AuthMsg.LOGIN_INIT, username, password);
-                return Ux.thenError(_403PasswordInitException.class, this.getClass(), username);
-            }
             Sc.infoAudit(LOGGER, AuthMsg.LOGIN_SUCCESS, username);
             return Ux.future(fetched);
         }).compose(user -> this.userStub.fetchOUser(user.getKey()).compose(Ux::futureJ).compose(ouserJson -> {
-            final JsonObject userJson = Ut.toJObject(user);
+            final JsonObject userJson = Ut.serializeJson(user);
             final JsonObject merged = Ut.jsonAppend(userJson, ouserJson);
             return Uson.create(merged).pickup(
                     KeField.KEY,                /* client_id parameter */
@@ -69,6 +62,13 @@ public class LoginService implements LoginStub {
                     AuthKey.F_CLIENT_SECRET,    /* client_secret parameter */
                     AuthKey.F_GRANT_TYPE        /* grant_type parameter */
             ).denull().toFuture();
+        }).compose(response -> {
+            final String initPwd = Sc.generatePwd();
+            if (initPwd.equals(user.getPassword())) {
+                /* Password Init */
+                response.put(KeField.PASSWORD, false);
+            }
+            return Ux.future(response);
         }));
     }
 
