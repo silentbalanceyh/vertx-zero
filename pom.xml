@@ -81,7 +81,7 @@
         <vertx.jooq.version>2.4.1</vertx.jooq.version>
         <vertx.jooq.code.version>2.4.1</vertx.jooq.code.version>
         <vertx.jooq.async.version>0.4</vertx.jooq.async.version>
-        <mysql.version>8.0.25</mysql.version>
+        <mysql.version>8.0.26</mysql.version>
 
         <!-- Java Reflection -->
         <reflect.asm.version>1.11.9</reflect.asm.version>
@@ -108,12 +108,12 @@
         <ignite.version>2.10.0</ignite.version>
         <mongodb.async.version>3.12.9</mongodb.async.version>
         <poi.version>4.1.2</poi.version>
-        <jedis.version>3.6.2</jedis.version>
+        <jedis.version>3.6.3</jedis.version>
         <j2objc.version>1.3</j2objc.version>
         <checker.version>3.16.0</checker.version>
 
         <!-- elasticsearch version -->
-        <elasticsearch.version>7.13.3</elasticsearch.version>
+        <elasticsearch.version>7.13.4</elasticsearch.version>
 
         <!-- neo4j search -->
         <neo4j.version>4.3.3</neo4j.version>
@@ -149,7 +149,7 @@
         <netty.version>4.1.49.Final</netty.version>
         <hazelcast.version>3.12.12</hazelcast.version>
         <swagger.version>1.6.0</swagger.version>
-        <error.prone.version>2.7.1</error.prone.version>
+        <error.prone.version>2.8.0</error.prone.version>
         <reactive.streams.version>1.0.3</reactive.streams.version>
         <zookeeper.version>3.7.0</zookeeper.version>
 
@@ -176,9 +176,9 @@
 
         <!-- Logging -->
         <log4j2.version>2.14.1</log4j2.version>
-        <logback.version>1.2.3</logback.version>
+        <logback.version>1.2.5</logback.version>
         <logback.cal10n.version>0.8.1</logback.cal10n.version>
-        <slf4j.version>1.7.31</slf4j.version>
+        <slf4j.version>1.7.32</slf4j.version>
 
         <!-- Plugin -->
         <maven.plugin.assembly>3.3.0</maven.plugin.assembly>

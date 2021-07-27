@@ -53,6 +53,18 @@ public class ScConfig implements Serializable {
      * Role Pool when secondary cache enabled.
      */
     private String permissionPool;
+    /*
+     * Password Init
+     */
+    private String passwordInit;
+
+    public String getPasswordInit() {
+        return this.passwordInit;
+    }
+
+    public void setPasswordInit(final String passwordInit) {
+        this.passwordInit = passwordInit;
+    }
 
     public ScCondition getCondition() {
         return this.condition;
@@ -151,6 +163,7 @@ public class ScConfig implements Serializable {
                 ", supportSecondary=" + this.supportSecondary +
                 ", supportMultiApp=" + this.supportMultiApp +
                 ", permissionPool='" + this.permissionPool + '\'' +
+                ", passwordInit='" + this.passwordInit + '\'' +
                 '}';
     }
 }

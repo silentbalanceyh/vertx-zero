@@ -19,6 +19,10 @@ class ScTool {
         return authCode;
     }
 
+    static String generatePwd() {
+        return CONFIG.getPasswordInit();
+    }
+
     static String generateProfileKey(final SResource resource) {
         /*
          * Get Role/Group/Tree modes
