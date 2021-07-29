@@ -71,7 +71,7 @@ public class GetActor {
                  */
                 return dao.fetchAsync(filters)
                         .compose(list -> Ux.futureA(list, pojo))
-                        .compose(Ix::query)
+                        .compose(result -> Ix.serializeA(result, config))
                         .compose(IxHttp::success200);
             }
         });

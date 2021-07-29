@@ -37,11 +37,11 @@ public class IxHub {
                 /* Unique Extract from { list, count } */
                 .compose(result -> Ix.isExist(result) ?
                         /* Unique */
-                        Ix.unique(result)
+                        Ix.serializePO(result, config)
                                 /* Update */
                                 .compose(input -> IxActor.update().bind(request).procAsync(input, config))
                                 /* Deserialize */
-                                .compose(json -> Ix.entityAsync(json, config))
+                                .compose(json -> Ix.deserializeT(json, config))
                                 /* 201, Envelop */
                                 .compose(entity -> IxHttp.success201(entity, config)) :
                         /* Primary Key Add */
@@ -51,7 +51,7 @@ public class IxHub {
                                 /* Update */
                                 .compose(input -> IxActor.update().bind(request).procAsync(input, config))
                                 /* Build Data */
-                                .compose(input -> Ix.entityAsync(input, config))
+                                .compose(input -> Ix.deserializeT(input, config))
                                 /* T */
                                 .compose(dao::insertAsync)
                                 /* 200, Envelop */

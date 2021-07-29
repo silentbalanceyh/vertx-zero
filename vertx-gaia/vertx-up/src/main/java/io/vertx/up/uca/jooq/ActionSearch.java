@@ -9,6 +9,8 @@ import io.vertx.up.eon.Values;
 import io.vertx.up.uca.jooq.util.JqFlow;
 import io.vertx.up.unity.Ux;
 
+import java.util.Objects;
+
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
@@ -32,7 +34,9 @@ class ActionSearch extends AbstractAction {
             final Future<JsonArray> dataFuture = this.qr.searchAsync(inquiry)   // execute
                     .compose(workflow::outputAsync);                            // after : pojo processing
             // Count Result
-            final Future<Long> countFuture = this.counter.countAsync(inquiry.getCriteria().toJson());  // execute
+            final JsonObject criteria = Objects.nonNull(inquiry.getCriteria()) ?
+                    inquiry.getCriteria().toJson() : new JsonObject();
+            final Future<Long> countFuture = this.counter.countAsync(criteria);  // execute
 
             return CompositeFuture.join(dataFuture, countFuture).compose(result -> {
                 // Processing result

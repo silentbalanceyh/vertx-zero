@@ -4,6 +4,7 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.up.util.Ut;
 
 import java.util.Objects;
+import java.util.Set;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
@@ -20,7 +21,14 @@ public class CMessageList extends AbstractCMessage {
 
     public CMessageList(final String field, final Object value, final Class<?> type) {
         super(type);
-        this.condition.put(field, value);
+        // Fix BUG: Illegal type in JsonObject: class java.util.HashSet
+        final Object normValue;
+        if (value instanceof Set) {
+            normValue = Ut.toJArray(value);
+        } else {
+            normValue = value;
+        }
+        this.condition.put(field, normValue);
     }
 
     @Override

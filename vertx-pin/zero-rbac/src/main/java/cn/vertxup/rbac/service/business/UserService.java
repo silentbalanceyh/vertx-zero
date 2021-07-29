@@ -88,6 +88,13 @@ public class UserService implements UserStub {
     @Override
     public Future<JsonObject> createUser(final JsonObject params) {
         final SUser user = Ux.fromJson(params, SUser.class);
+        /*
+         * 创建账号时如果没有密码则设置初始密码
+         * 初始密码配置位置：plugin/rbac/configuration.json
+         */
+        if (Objects.isNull(user.getPassword())) {
+            user.setPassword(Sc.generatePwd());
+        }
         return Ux.Jooq.on(SUserDao.class)
                 .insertAsync(user)
                 .compose(this::createOUser);

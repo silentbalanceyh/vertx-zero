@@ -36,7 +36,7 @@ public class PutActor {
                             /* Verify */
                             .compose(input -> IxActor.verify().bind(request).procAsync(input, config))
                             /* T */
-                            .compose(input -> Ix.entityAsync(input, config))
+                            .compose(input -> Ix.deserializeT(input, config))
                             /* Save */
                             .compose(entity -> dao.updateAsync(key, entity))
                             /* 200, Envelop */
@@ -57,11 +57,11 @@ public class PutActor {
                     /* Search List */
                     .compose(filters -> Ix.search(filters, config).apply(dao))
                     /* Extract List */
-                    .compose(Ix::list)
+                    .compose(data -> Ix.serializePL(data, config))
                     /* JsonArray */
-                    .compose(queried -> Ix.zipperAsync(queried, array, config))
+                    .compose(queried -> Ix.serializeA(queried, array, config))
                     /* JsonArray */
-                    .compose(dataArr -> Ix.entityAsync(dataArr, config))
+                    .compose(dataArr -> Ix.deserializeT(dataArr, config))
                     /* List<T> */
                     .compose(dao::updateAsync)
                     /* JsonArray */
