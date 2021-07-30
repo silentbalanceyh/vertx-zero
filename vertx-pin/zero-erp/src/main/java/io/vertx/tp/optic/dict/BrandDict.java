@@ -11,7 +11,7 @@ import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
 /*
- * Dict for `resource.departments` here
+ * Dict for `resource.brands` here
  */
 public class BrandDict implements DictionaryPlugin {
 
@@ -25,6 +25,18 @@ public class BrandDict implements DictionaryPlugin {
                     .compose(Ux::futureA);
         } else {
             return Ux.future(new JsonArray());
+        }
+    }
+
+    @Override
+    public JsonArray fetch(final DictSource source,
+                           final MultiMap paramMap) {
+        final String sigma = paramMap.get(KeField.SIGMA);
+        if (Ut.notNil(sigma)) {
+            return Ux.Jooq.on(EBrandDao.class)
+                    .fetchJ(KeField.SIGMA, sigma);
+        } else {
+            return new JsonArray();
         }
     }
 }
