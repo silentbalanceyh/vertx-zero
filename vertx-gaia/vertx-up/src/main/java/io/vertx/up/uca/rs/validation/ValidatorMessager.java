@@ -1,7 +1,6 @@
 package io.vertx.up.uca.rs.validation;
 
 import io.vertx.up.log.Annal;
-import io.vertx.up.eon.Values;
 import org.hibernate.validator.internal.engine.messageinterpolation.InterpolationTermType;
 import org.hibernate.validator.internal.engine.messageinterpolation.LocalizedMessage;
 import org.hibernate.validator.internal.engine.messageinterpolation.parser.MessageDescriptorFormatException;
@@ -13,7 +12,6 @@ import org.hibernate.validator.spi.resourceloading.ResourceBundleLocator;
 
 import javax.validation.MessageInterpolator;
 import javax.validation.ValidationException;
-import java.io.UnsupportedEncodingException;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -201,14 +199,14 @@ public abstract class ValidatorMessager implements MessageInterpolator {
         String parameterValue;
         try {
             if (bundle != null) {
-                parameterValue = new String(bundle.getString(this.removeCurlyBraces(parameterName)).getBytes(Values.ENCODING_ISO_8859_1), Values.ENCODING);
+                parameterValue = bundle.getString(this.removeCurlyBraces(parameterName));
                 if (recursive) {
                     parameterValue = this.interpolateBundleMessage(parameterValue, bundle, locale, recursive);
                 }
             } else {
                 parameterValue = parameterName;
             }
-        } catch (final MissingResourceException | UnsupportedEncodingException var7) {
+        } catch (final MissingResourceException var7) {
             parameterValue = parameterName;
         }
 

@@ -106,7 +106,6 @@ public class ValidatorBundleLocator implements ResourceBundleLocator {
         } catch (final MissingResourceException var6) {
             LOGGER.debug(var6.getMessage());
         }
-
         return rb;
     }
 
@@ -135,7 +134,6 @@ public class ValidatorBundleLocator implements ResourceBundleLocator {
                 properties.load(url.openStream());
                 aggregatedProperties.putAll(properties);
             }
-
             return aggregatedProperties;
         }
     }
