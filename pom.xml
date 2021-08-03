@@ -1695,7 +1695,7 @@
                 </configuration>
             </plugin>
             <!-- Deploy Only -->
-
+            <!--
             <plugin>
                 <artifactId>maven-gpg-plugin</artifactId>
                 <version>${maven.plugin.pgp}</version>
@@ -1714,7 +1714,7 @@
                     </execution>
                 </executions>
             </plugin>
-
+            -->
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>versions-maven-plugin</artifactId>
