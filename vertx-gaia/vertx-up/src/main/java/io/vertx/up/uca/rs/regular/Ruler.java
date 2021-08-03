@@ -6,18 +6,6 @@ import io.vertx.up.exception.WebException;
 import java.util.Collection;
 
 public interface Ruler {
-    /**
-     * Verify each field for @BodyParam
-     *
-     * @param field
-     * @param value
-     * @param rule
-     * @return
-     */
-    WebException verify(final String field,
-                        final Object value,
-                        final Rule rule);
-
     static Ruler get(final String type) {
         return Pool.RULERS.get(type);
     }
@@ -38,4 +26,17 @@ public interface Ruler {
         }
         return error;
     }
+
+    /**
+     * Verify each field for @BodyParam
+     *
+     * @param field Input field of the data structure
+     * @param value The input field reflect value literal
+     * @param rule  The rule that has been defined.
+     *
+     * @return WebException that the validated error here.
+     */
+    WebException verify(final String field,
+                        final Object value,
+                        final Rule rule);
 }
