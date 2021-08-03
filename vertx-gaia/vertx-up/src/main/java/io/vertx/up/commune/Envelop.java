@@ -151,16 +151,16 @@ public class Envelop implements Serializable {
     }
 
     /* Set value in `data` part */
-    public void setValue(final String field, final Object value) {
+    public void value(final String field, final Object value) {
         Rib.set(this.data, field, value, null);
     }
 
     /* Set value in `data` part ( with Index ) */
-    public void setValue(final Integer argIndex, final String field, final Object value) {
+    public void value(final Integer argIndex, final String field, final Object value) {
         Rib.set(this.data, field, value, argIndex);
     }
 
-    public void attach(final String field, final Object value) {
+    public void valueOn(final String field, final Object value) {
         if (Objects.nonNull(this.data)) {
             this.data.put(field, value);
         }
@@ -276,7 +276,7 @@ public class Envelop implements Serializable {
         return this.assist.user();
     }
 
-    public void setUser(final User user) {
+    public void user(final User user) {
         this.assist.user(user);
     }
 
@@ -312,39 +312,39 @@ public class Envelop implements Serializable {
         return headerData;
     }
 
-    public void setHeaders(final MultiMap headers) {
+    public void headers(final MultiMap headers) {
         this.assist.headers(headers);
     }
 
     /* Session */
-    public Session getSession() {
+    public Session session() {
         return this.assist.session();
     }
 
-    public void setSession(final Session session) {
+    public void session(final Session session) {
         this.assist.session(session);
     }
 
     /* Uri */
-    public String getUri() {
+    public String uri() {
         return this.assist.uri();
     }
 
-    public void setUri(final String uri) {
+    public void uri(final String uri) {
         this.assist.uri(uri);
     }
 
     /* Method of Http */
-    public HttpMethod getMethod() {
+    public HttpMethod method() {
         return this.assist.method();
     }
 
-    public void setMethod(final HttpMethod method) {
+    public void method(final HttpMethod method) {
         this.assist.method(method);
     }
 
     /* Context Set */
-    public void setContext(final Map<String, Object> data) {
+    public void content(final Map<String, Object> data) {
         this.assist.context(data);
     }
 
@@ -381,11 +381,11 @@ public class Envelop implements Serializable {
         if (Objects.isNull(to)) {
             return to;
         } else {
-            to.setMethod(this.getMethod());
-            to.setUri(this.getUri());
-            to.setUser(this.user());
-            to.setSession(this.getSession());
-            to.setHeaders(this.headers());
+            to.method(this.method());
+            to.uri(this.uri());
+            to.user(this.user());
+            to.session(this.session());
+            to.headers(this.headers());
             /*
              * Spec
              */
@@ -401,11 +401,11 @@ public class Envelop implements Serializable {
      */
     public Envelop from(final Envelop from) {
         if (Objects.nonNull(from)) {
-            this.setMethod(from.getMethod());
-            this.setUri(from.getUri());
-            this.setUser(from.user());
-            this.setSession(from.getSession());
-            this.setHeaders(from.headers());
+            this.method(from.method());
+            this.uri(from.uri());
+            this.user(from.user());
+            this.session(from.session());
+            this.headers(from.headers());
             /*
              * Spec
              */

@@ -41,7 +41,7 @@ public class DataRegion extends AbstractRegion {
                      * Select cosmo by matrix
                      */
 
-                    final HttpMethod method = envelop.getMethod();
+                    final HttpMethod method = envelop.method();
                     if (HttpMethod.POST == method || HttpMethod.GET == method) {
                         final Cosmo cosmo = this.cosmo(matrix);
                         return cosmo.before(envelop, matrix);

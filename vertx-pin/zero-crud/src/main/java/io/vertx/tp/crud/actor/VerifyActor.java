@@ -45,8 +45,8 @@ class VerifyActor extends AbstractActor {
     private String getKey(final JsonObject data, final IxModule config) {
         final Envelop request = this.getRequest();
         /* 1.method, uri */
-        String uri = request.getUri();
-        final String method = request.getMethod().name();
+        String uri = request.uri();
+        final String method = request.method().name();
         /* 2.uri 中处理 key 相关的情况 */
         final String keyField = config.getField().getKey();
         final String keyValue = data.getString(keyField);

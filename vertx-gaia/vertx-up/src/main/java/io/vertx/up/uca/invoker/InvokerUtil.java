@@ -27,6 +27,7 @@ public class InvokerUtil {
      * Whether this method is void
      *
      * @param method checked method
+     *
      * @return checked result
      */
     static boolean isVoid(final Method method) {
@@ -75,7 +76,7 @@ public class InvokerUtil {
              * 1) Provide username / password to get data from remote server.
              * 2) Request temp authorization code ( Required Session ).
              */
-            value = envelop.getSession();
+            value = envelop.session();
         } else {
             value = defaultSupplier.get();
             final Object argument = null == value ? null : ZeroSerializer.getValue(type, value.toString());

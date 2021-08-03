@@ -35,13 +35,13 @@ class BodyIngest implements JtIngest {
         final String body = context.getBodyAsString();
         if (Ut.isJArray(body)) {
             // JsonArray格式
-            envelop.setValue(ID.PARAM_BODY, new JsonArray(body));
+            envelop.value(ID.PARAM_BODY, new JsonArray(body));
         } else if (Ut.isJObject(body)) {
             // JsonObject格式
-            envelop.setValue(ID.PARAM_BODY, new JsonObject(body));
+            envelop.value(ID.PARAM_BODY, new JsonObject(body));
         } else {
             // String格式
-            envelop.setValue(ID.PARAM_BODY, body);
+            envelop.value(ID.PARAM_BODY, body);
         }
         return envelop;
     }

@@ -45,7 +45,7 @@ public class TypedArgument {
              * 1) Provide username / password to get data from remote server.
              * 2) Request temp authorization code ( Required Session ).
              */
-            returnValue = envelop.getSession();
+            returnValue = envelop.session();
         } else if (is(type, XHeader.class)) {
             /*
              * XHeader for
