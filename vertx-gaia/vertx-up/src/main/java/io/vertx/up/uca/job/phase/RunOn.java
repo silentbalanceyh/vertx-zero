@@ -115,7 +115,7 @@ class RunOn {
             /*
              * 「ONCE Only」Session
              */
-            return envelop.getSession();
+            return envelop.session();
         } else if (Ut.isImplement(clazz, User.class)) {
             /*
              * 「ONCE Only」User

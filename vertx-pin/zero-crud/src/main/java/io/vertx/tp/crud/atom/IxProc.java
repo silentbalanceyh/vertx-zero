@@ -28,8 +28,8 @@ public class IxProc {
     }
 
     private void logRequest(final Envelop envelop) {
-        final HttpMethod method = envelop.getMethod();
-        final String uri = envelop.getUri();
+        final HttpMethod method = envelop.method();
+        final String uri = envelop.uri();
         final Annal logger = Annal.get(this.target);
 
         Ix.infoRest(logger, "---> Uri Addr: {0} {1}", method, uri);

@@ -96,7 +96,7 @@ public class SeekCosmo implements Cosmo {
                  * 2) edition, The fields that you could edit
                  * 3) record, The fields of all current record
                  */
-                if (Objects.nonNull(acl)) response.attach("acl", acl.acl());
+                if (Objects.nonNull(acl)) response.valueOn("acl", acl.acl());
                 return Ux.future(response);
             }).otherwise(Ux.otherwise());
         }

@@ -110,7 +110,7 @@ final class Outcome {
              * The mime type has been set before this step ( mime ( HttpServerResponse, Set<MediaType> )
              */
             if (!response.ended()) {
-                if (HttpMethod.HEAD == envelop.getMethod()) {
+                if (HttpMethod.HEAD == envelop.method()) {
                     /*
                      * Whether the method is header
                      * When it's header, here process header request in special situation

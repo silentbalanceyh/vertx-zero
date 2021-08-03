@@ -68,7 +68,7 @@ class In {
     ) {
         return Fn.getSemi(null == envelop, null, () -> null,
                 () -> {
-                    final Session session = envelop.getSession();
+                    final Session session = envelop.session();
                     return null == session ? null : session.get(field);
                 });
     }

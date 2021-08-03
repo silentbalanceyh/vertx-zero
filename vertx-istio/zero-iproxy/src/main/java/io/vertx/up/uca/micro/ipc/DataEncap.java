@@ -61,6 +61,7 @@ public class DataEncap {
 
     /**
      * @param data
+     *
      * @return
      */
     public static IpcRequest in(final IpcData data) {
@@ -97,6 +98,7 @@ public class DataEncap {
      * Final hitted
      *
      * @param data
+     *
      * @return
      */
     public static Envelop consume(final IpcData data) {
@@ -130,11 +132,11 @@ public class DataEncap {
                         headers.set(key, value.toString());
                     }
                 }
-                envelop.setHeaders(headers);
+                envelop.headers(headers);
             }
             // 4.User
             if (null != json.getValue("user")) {
-                envelop.setUser(new VirtualUser(json.getJsonObject("user")));
+                envelop.user(new VirtualUser(json.getJsonObject("user")));
             }
         }
         return envelop;
