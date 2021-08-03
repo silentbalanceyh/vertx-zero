@@ -5,8 +5,8 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.Session;
 import io.vertx.up.commune.Envelop;
-import io.vertx.up.util.Ut;
 import io.vertx.up.fn.Fn;
+import io.vertx.up.util.Ut;
 
 import java.time.Instant;
 import java.util.Objects;
@@ -96,12 +96,12 @@ class In {
             final Envelop envelop = (Envelop) reference;
             final String user = requestUser(envelop, "user");
             if (isUpdate) {
-                envelop.setValue("updateBy", user);
-                envelop.setValue("udpateTime", Instant.now());
+                envelop.value("updateBy", user);
+                envelop.value("udpateTime", Instant.now());
             } else {
-                envelop.setValue("key", UUID.randomUUID().toString());
-                envelop.setValue("createBy", user);
-                envelop.setValue("createTime", Instant.now());
+                envelop.value("key", UUID.randomUUID().toString());
+                envelop.value("createBy", user);
+                envelop.value("createTime", Instant.now());
             }
         }
     }

@@ -49,10 +49,10 @@ public class AuditorPin implements PlugAuditor {
                  * The method definition
                  * method(JsonObject data)
                  */
-                envelop.setValue(KeField.CREATED_BY, userId);
-                envelop.setValue(KeField.CREATED_AT, instant);
-                envelop.setValue(KeField.UPDATED_BY, userId);
-                envelop.setValue(KeField.UPDATED_AT, instant);
+                envelop.value(KeField.CREATED_BY, userId);
+                envelop.value(KeField.CREATED_AT, instant);
+                envelop.value(KeField.UPDATED_BY, userId);
+                envelop.value(KeField.UPDATED_AT, instant);
                 Sc.infoAudit(LOGGER, "Full auditing: userId = `{0}`, at = `{1}`", userId, instant.toString());
             } else {
                 /*
@@ -60,8 +60,8 @@ public class AuditorPin implements PlugAuditor {
                  * The method definition
                  * method(String, JsonObject)
                  */
-                envelop.setValue(KeField.UPDATED_BY, userId);
-                envelop.setValue(KeField.UPDATED_AT, instant);
+                envelop.value(KeField.UPDATED_BY, userId);
+                envelop.value(KeField.UPDATED_AT, instant);
                 Sc.infoAudit(LOGGER, "Update auditing: userId = `{0}`, at = `{1}`", userId, instant.toString());
             }
         } else {
