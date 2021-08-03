@@ -113,10 +113,7 @@ public class AsyncAim extends BaseAim implements Aim<RoutingContext> {
              * Context
              * It's critical for Envelop object when communication
              */
-            response.setHeaders(context.request().headers());
-            response.setUser(context.user());
-            response.setSession(context.session());
-            response.setContext(context.data());
+            response.bind(context);
             return Ux.future(response);
         });
     }
