@@ -32,7 +32,7 @@ public interface ID {
     String REQUEST_ACL = "$$CONTEXT_ACL$$";
 
     String PARAM_BODY = "$$__BODY__$$";
-    String PARAM_STREAM = "$$_STREAM__$$";
+    String PARAM_STREAM = "$$__STREAM__$$";
     String PARAM_HEADER = "$$__HEADER__$$";
     /*
      * When criteria object merged,
