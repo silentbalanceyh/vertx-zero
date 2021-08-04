@@ -54,15 +54,42 @@ class RibData {
 
     /*
      * Extract Data by Index
+     * Here are complex situation in new version here
      */
+    @SuppressWarnings("unchecked")
     static <T> T get(final JsonObject data, final Class<?> clazz, final Integer index) {
         T reference = null;
         if (data.containsKey(Key.DATA)) {
-            final JsonObject raw = data.getJsonObject(Key.DATA);
-            if (!Ut.isNil(raw)) {
+            final Object rawData = data.getValue(Key.DATA);
+            /* Check whether data is complex object */
+            if (rawData instanceof JsonObject) {
+                final JsonObject raw = (JsonObject) rawData;
+                if (Ut.isNil(raw)) {
+                    /* Shorten */
+                    return null;
+                }
                 /* Key */
                 final String key = Constants.INDEXES.get(index);
-                reference = Rib.deserialize(raw.getValue(key), clazz);
+                /* Index Checking */
+                if (raw.containsKey(key)) {
+                    /* Interface Style */
+                    reference = Rib.deserialize(raw.getValue(key), clazz);
+                } else {
+                    /*
+                     * If JsonObject.class
+                     * Spec Situation
+                     * {
+                     *      "data": {
+                     *      }
+                     * }
+                     *  */
+                    if (JsonObject.class == clazz) {
+                        reference = (T) raw;
+                    }
+                }
+            } else {
+                /* */
+                reference = (T) rawData;
             }
         }
         return reference;
