@@ -1,10 +1,14 @@
 package io.vertx.up.uca.container;
 
+import io.vertx.up.fn.Fn;
+
 import java.lang.reflect.Proxy;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
 public class VInstance {
-
-    private static VInstance INSTANCE = null;
+    private static final ConcurrentMap<Class<?>, VInstance> V_POOL =
+            new ConcurrentHashMap<>();
     private transient final Class<?> interfaceCls;
 
     private VInstance(final Class<?> interfaceCls) {
@@ -12,14 +16,7 @@ public class VInstance {
     }
 
     public static VInstance create(final Class<?> interfaceCls) {
-        if (null == INSTANCE) {
-            synchronized (VInstance.class) {
-                if (null == INSTANCE) {
-                    INSTANCE = new VInstance(interfaceCls);
-                }
-            }
-        }
-        return INSTANCE;
+        return Fn.pool(V_POOL, interfaceCls, () -> new VInstance(interfaceCls));
     }
 
     @SuppressWarnings("unchecked")
