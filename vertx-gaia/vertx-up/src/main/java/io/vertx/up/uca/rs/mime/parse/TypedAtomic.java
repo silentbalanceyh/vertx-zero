@@ -12,7 +12,7 @@ public class TypedAtomic<T> implements Atomic<T> {
                              final Epsilon<T> income)
             throws WebException {
         final Class<?> paramType = income.getArgType();
-        final Object returnValue = TypedArgument.analyze(context, paramType);
+        final Object returnValue = TypedArgument.analyzeAgent(context, paramType);
         return null == returnValue ? income.setValue(null) : income.setValue((T) returnValue);
     }
 }

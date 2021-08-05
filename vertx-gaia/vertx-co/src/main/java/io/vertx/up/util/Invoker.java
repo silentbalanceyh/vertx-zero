@@ -28,12 +28,10 @@ final class Invoker {
         return Fn.getNull(() -> {
             final MethodAccess access = MethodAccess.get(instance.getClass());
             // Direct invoke, multi overwrite for unbox/box issue still existing.
-            // TODO: Unbox/Box type issue
             Object result;
             try {
                 result = access.invoke(instance, name, args);
             } catch (final Throwable ex) {
-                ex.printStackTrace();
                 // Could not call, re-find the method by index
                 // Search method by argument index because could not call directly
                 final int index;
@@ -130,7 +128,6 @@ final class Invoker {
                 }
             }
         } catch (final Throwable ex) {
-            // TODO: DEBUG for JVM
             ex.printStackTrace();
             return Future.failedFuture(ex);
         }
@@ -140,23 +137,5 @@ final class Invoker {
 
     private static boolean isEqualAnd(final Class<?> clazz, final Class<?> interfaceCls) {
         return clazz == interfaceCls || Instance.isMatch(clazz, interfaceCls);
-    }
-
-    static <T> T invokeInterface(
-            final Class<?> interfaceCls,
-            final String name,
-            final Object... args) {
-        final Object delegate = getProxy(interfaceCls);
-        return Fn.getJvm(() -> invokeObject(delegate, name, args), delegate);
-    }
-
-    static <T> T getProxy(
-            final Class<?> interfaceCls
-    ) {
-        return Fn.getNull(() -> {
-            // TODO: Generate interface proxy
-
-            return null;
-        }, interfaceCls);
     }
 }

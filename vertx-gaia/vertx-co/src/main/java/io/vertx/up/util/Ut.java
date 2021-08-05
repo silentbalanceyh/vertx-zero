@@ -495,10 +495,6 @@ public final class Ut {
         return Invoker.invokeObject(instance, name, args);
     }
 
-    public static <T> T invoke(final Class<?> interfaceCls, final String name, final Object... args) {
-        return Invoker.invokeInterface(interfaceCls, name, args);
-    }
-
     public static <T> Future<T> invokeAsync(final Object instance, final Method method, final Object... args) {
         return Invoker.invokeAsync(instance, method, args);
     }
@@ -517,10 +513,6 @@ public final class Ut {
 
     public static boolean isImplement(final Class<?> clazz, final Class<?> interfaceCls) {
         return Instance.isMatch(clazz, interfaceCls);
-    }
-
-    public static <T> T proxy(final Method method) {
-        return Instance.getProxy(method);
     }
 
     public static boolean withNoArgConstructor(final Class<?> clazz) {

@@ -652,12 +652,6 @@ public final class Ux {
         return In.request(envelop, 2, JsonArray.class);
     }
 
-    // -> Message<Envelop> -> T ( Interface mode )
-
-    public static JsonArray getArray3(final Envelop envelop) {
-        return In.request(envelop, 3, JsonArray.class);
-    }
-
     // -> Message<Envelop> -> String ( Interface mode )
 
     public static String getString(final Envelop envelop, final int index) {

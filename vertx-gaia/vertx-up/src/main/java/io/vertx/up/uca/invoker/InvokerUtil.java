@@ -123,7 +123,7 @@ public class InvokerUtil {
              * (String, String,<T>) -> (idx, current), (0, 0), (1, 1), (2, ?)
              *                                                          adjust = 1
              */
-            final Object analyzed = TypedArgument.analyze(envelop, type);
+            final Object analyzed = TypedArgument.analyzeWorker(envelop, type);
             if (Objects.isNull(analyzed)) {
                 final int current = idx - adjust;
                 final Object value = json.getValue(String.valueOf(current));
@@ -154,10 +154,10 @@ public class InvokerUtil {
                                final Envelop envelop) {
         final Class<?> argType = method.getParameterTypes()[Values.IDX];
         // Append single argument
-        final Object analyzed = TypedArgument.analyze(envelop, argType);
+        final Object analyzed = TypedArgument.analyzeWorker(envelop, argType);
         if (Objects.isNull(analyzed)) {
             // One type dynamic here
-            final Object reference = Objects.nonNull(envelop) ? envelop.data() : new JsonObject();
+            final Object reference = envelop.data();
             // Non Direct
             Object parameters = reference;
             if (JsonObject.class == reference.getClass()) {

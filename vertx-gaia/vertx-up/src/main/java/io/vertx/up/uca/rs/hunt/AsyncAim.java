@@ -9,7 +9,7 @@ import io.vertx.ext.web.RoutingContext;
 import io.vertx.up.atom.agent.Event;
 import io.vertx.up.commune.Envelop;
 import io.vertx.up.fn.Fn;
-import io.vertx.up.uca.container.Virtual;
+import io.vertx.up.uca.container.VInstance;
 import io.vertx.up.uca.rs.Aim;
 import io.vertx.up.unity.Ux;
 
@@ -87,7 +87,7 @@ public class AsyncAim extends BaseAim implements Aim<RoutingContext> {
          * Whether it's interface mode or agent mode
          */
         final Future<Envelop> invoked;
-        if (Virtual.is(proxy)) {
+        if (proxy instanceof VInstance) {
             final JsonObject message = new JsonObject();
             for (int idx = 0; idx < arguments.length; idx++) {
                 message.put(String.valueOf(idx), arguments[idx]);

@@ -9,7 +9,6 @@ import io.vertx.up.log.Annal;
 import io.vertx.up.runtime.ZeroPack;
 
 import java.lang.reflect.Constructor;
-import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.Arrays;
@@ -177,12 +176,6 @@ final class Instance {
             }
         }
         return match;
-    }
-
-    static <T> T getProxy(
-            final Method method) {
-        final Class<?> interfaceCls = method.getDeclaringClass();
-        return Invoker.getProxy(interfaceCls);
     }
 
     /**
