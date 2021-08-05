@@ -14,7 +14,7 @@ import io.vertx.up.exception.WebException;
 import io.vertx.up.exception.web._411ContentLengthException;
 import io.vertx.up.extension.pointer.PluginExtension;
 import io.vertx.up.log.Annal;
-import io.vertx.up.uca.container.Virtual;
+import io.vertx.up.uca.container.VInstance;
 import io.vertx.up.uca.rs.announce.Rigor;
 import io.vertx.up.uca.rs.validation.Validator;
 
@@ -119,15 +119,16 @@ class Flower {
         final Method method = event.getAction();
         WebException error = null;
         try {
-            if (Virtual.is(proxy)) {
-                // TODO: Wait for proxy generation
+            final Object delegate;
+            if (proxy instanceof VInstance) {
                 // Validation for dynamic proxy
-                // final Object delegate = Instance.getProxy(method);
-                // verifier.verifyMethod(delegate, method, args);
+                final VInstance vInstance = (VInstance) proxy;
+                delegate = vInstance.proxy();
             } else {
                 // Validation for proxy
-                verifier.verifyMethod(proxy, method, args);
+                delegate = proxy;
             }
+            verifier.verifyMethod(delegate, method, args);
         } catch (final WebException ex) {
             // Basic validation failure
             error = ex;

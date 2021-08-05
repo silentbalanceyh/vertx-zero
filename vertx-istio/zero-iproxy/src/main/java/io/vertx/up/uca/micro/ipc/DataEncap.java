@@ -14,7 +14,7 @@ import io.vertx.up.commune.Envelop;
 import io.vertx.up.eon.em.IpcType;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
-import io.vertx.up.uca.container.VirtualUser;
+import io.vertx.up.uca.container.VUser;
 import io.vertx.up.util.Ut;
 
 /**
@@ -136,7 +136,7 @@ public class DataEncap {
             }
             // 4.User
             if (null != json.getValue("user")) {
-                envelop.user(new VirtualUser(json.getJsonObject("user")));
+                envelop.user(new VUser(json.getJsonObject("user")));
             }
         }
         return envelop;

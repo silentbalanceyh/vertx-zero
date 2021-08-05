@@ -10,9 +10,9 @@ import io.vertx.up.annotations.EndPoint;
 import io.vertx.up.atom.agent.Event;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
-import io.vertx.up.uca.rs.Extractor;
 import io.vertx.up.runtime.ZeroHelper;
-import io.vertx.up.uca.container.Virtual;
+import io.vertx.up.uca.container.VInstance;
+import io.vertx.up.uca.rs.Extractor;
 import io.vertx.up.util.Ut;
 import io.vertx.zero.exception.EventSourceException;
 
@@ -35,7 +35,7 @@ public class EventExtractor implements Extractor<Set<Event>> {
     public Set<Event> extract(final Class<?> clazz) {
         return Fn.getNull(new ConcurrentHashSet<>(), () -> {
             // 1. Class verify
-            verify(clazz);
+            this.verify(clazz);
             // 2. Check whether clazz annotated with @PATH
             final Set<Event> result = new ConcurrentHashSet<>();
             Fn.safeSemi(clazz.isAnnotationPresent(Path.class), LOGGER,
@@ -43,11 +43,11 @@ public class EventExtractor implements Extractor<Set<Event>> {
                         // 3.1. Append Root Path
                         final Path path = ZeroHelper.getPath(clazz);
                         assert null != path : "Path should not be null.";
-                        result.addAll(extract(clazz, PathResolver.resolve(path)));
+                        result.addAll(this.extract(clazz, PathResolver.resolve(path)));
                     },
                     () -> {
                         // 3.2. Use method Path directly
-                        result.addAll(extract(clazz, null));
+                        result.addAll(this.extract(clazz, null));
                     });
             return result;
         }, clazz);
@@ -57,13 +57,13 @@ public class EventExtractor implements Extractor<Set<Event>> {
         // Check basic specification: No Arg Constructor
         if (!clazz.isInterface()) {
             // Class direct.
-            Verifier.noArg(clazz, getClass());
+            Verifier.noArg(clazz, this.getClass());
         }
-        Verifier.modifier(clazz, getClass());
+        Verifier.modifier(clazz, this.getClass());
         // Event Source Checking
         Fn.outUp(!clazz.isAnnotationPresent(EndPoint.class),
                 LOGGER, EventSourceException.class,
-                getClass(), clazz.getName());
+                this.getClass(), clazz.getName());
     }
 
     @SuppressWarnings("all")
@@ -95,6 +95,7 @@ public class EventExtractor implements Extractor<Set<Event>> {
      *
      * @param method single method that will be scanned.
      * @param root   root path calculation
+     *
      * @return Standard Event object
      */
     private Event extract(final Method method, final String root) {
@@ -142,7 +143,7 @@ public class EventExtractor implements Extractor<Set<Event>> {
                  * send to event bus direct. It's not needed to set
                  * implementation class.
                  */
-                proxy = Virtual.create();
+                proxy = VInstance.create(clazz);
             }
         } else {
             proxy = Ut.singleton(method.getDeclaringClass());
