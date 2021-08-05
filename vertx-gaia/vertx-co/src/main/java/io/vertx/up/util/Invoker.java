@@ -28,12 +28,10 @@ final class Invoker {
         return Fn.getNull(() -> {
             final MethodAccess access = MethodAccess.get(instance.getClass());
             // Direct invoke, multi overwrite for unbox/box issue still existing.
-            // TODO: Unbox/Box type issue
             Object result;
             try {
                 result = access.invoke(instance, name, args);
             } catch (final Throwable ex) {
-                ex.printStackTrace();
                 // Could not call, re-find the method by index
                 // Search method by argument index because could not call directly
                 final int index;

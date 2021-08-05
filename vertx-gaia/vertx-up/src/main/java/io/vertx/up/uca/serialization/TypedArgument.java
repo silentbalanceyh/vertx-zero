@@ -32,21 +32,10 @@ public class TypedArgument {
      *
      * Worker Component
      */
-    public static Object analyze(final Envelop envelop, final Class<?> type) {
+    public static Object analyzeWorker(final Envelop envelop, final Class<?> type) {
         final Object returnValue;
-        if (is(type, User.class)) {
-            /*
-             * User type
-             */
-            returnValue = envelop.user();
-        } else if (is(type, Session.class)) {
-            /*
-             * RBAC required ( When Authenticate )
-             * 1) Provide username / password to get data from remote server.
-             * 2) Request temp authorization code ( Required Session ).
-             */
-            returnValue = envelop.session();
-        } else if (is(type, XHeader.class)) {
+        final RoutingContext context = envelop.context();
+        if (is(type, XHeader.class)) {
             /*
              * XHeader for
              * - sigma
@@ -58,6 +47,30 @@ public class TypedArgument {
             final XHeader header = new XHeader();
             header.fromHeader(headers);
             returnValue = header;
+        } else if (is(type, Session.class)) {
+            /*
+             * RBAC required ( When Authenticate )
+             * 1) Provide username / password to get data from remote server.
+             * 2) Request temp authorization code ( Required Session ).
+             */
+            returnValue = envelop.session();
+        } else if (is(type, HttpServerRequest.class)) {
+            /* HttpServerRequest type */
+            returnValue = context.request();
+        } else if (is(type, HttpServerResponse.class)) {
+            /* HttpServerResponse type */
+            returnValue = context.response();
+        } else if (is(type, Vertx.class)) {
+            /* Vertx type */
+            returnValue = context.vertx();
+        } else if (is(type, EventBus.class)) {
+            /* EventBus type */
+            returnValue = context.vertx().eventBus();
+        } else if (is(type, User.class)) {
+            /*
+             * User type
+             */
+            returnValue = envelop.user();
         } else {
             /*
              * Typed failure
@@ -73,7 +86,7 @@ public class TypedArgument {
      *
      * Agent Component
      */
-    public static Object analyze(final RoutingContext context, final Class<?> type) {
+    public static Object analyzeAgent(final RoutingContext context, final Class<?> type) {
         Object returnValue = null;
         if (is(type, XHeader.class)) {
             /*
@@ -89,34 +102,22 @@ public class TypedArgument {
             header.fromHeader(headers);
             returnValue = header;
         } else if (is(type, Session.class)) {
-            /*
-             * Http Session
-             */
+            /* Http Session */
             returnValue = context.session();
         } else if (is(type, HttpServerRequest.class)) {
-            /*
-             * ( Agent Only ) HttpServerRequest type
-             */
+            /* HttpServerRequest type */
             returnValue = context.request();
         } else if (is(type, HttpServerResponse.class)) {
-            /*
-             *  ( Agent Only ) HttpServerResponse type
-             */
+            /* HttpServerResponse type */
             returnValue = context.response();
         } else if (is(type, Vertx.class)) {
-            /*
-             *  ( Agent Only ) Vertx type
-             */
+            /* Vertx type */
             returnValue = context.vertx();
         } else if (is(type, EventBus.class)) {
-            /*
-             *  ( Agent Only ) EventBus type
-             */
+            /* EventBus type */
             returnValue = context.vertx().eventBus();
         } else if (is(type, User.class)) {
-            /*
-             * User Type
-             */
+            /* User type */
             returnValue = context.user();
         } else if (is(type, Set.class)) {
             /*
