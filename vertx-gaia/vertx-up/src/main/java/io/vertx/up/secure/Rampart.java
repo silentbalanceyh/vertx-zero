@@ -2,29 +2,26 @@ package io.vertx.up.secure;
 
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.atom.secure.Cliff;
-import io.vertx.up.eon.Plugins;
 import io.vertx.up.eon.em.WallType;
-import io.vertx.up.plugin.Infix;
+import io.vertx.up.fn.Fn;
 import io.vertx.up.secure.jwt.JwtWall;
 import io.vertx.up.uca.marshal.Transformer;
-import io.vertx.up.fn.Fn;
 import io.vertx.up.util.Ut;
 
-import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
 public class Rampart implements Transformer<Cliff> {
     private static final ConcurrentMap<WallType, Transformer<Cliff>> WALL_TRANSFORMER =
             new ConcurrentHashMap<WallType, Transformer<Cliff>>() {
-        {
-            this.put(WallType.JWT, Ut.singleton(JwtWall.class));
-        }
-    };
+                {
+                    this.put(WallType.JWT, Ut.singleton(JwtWall.class));
+                }
+            };
 
-    static {
-        Ut.clazzIf(Plugins.Default.WALL_MONGO, clazz -> WALL_TRANSFORMER.put(WallType.MONGO, Ut.singleton(clazz)));
-    }
+    //    static {
+    //        Ut.clazzIf(Plugins.Default.WALL_MONGO, clazz -> WALL_TRANSFORMER.put(WallType.MONGO, Ut.singleton(clazz)));
+    //    }
 
     @Override
     public Cliff transform(final JsonObject input) {
