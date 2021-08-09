@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ruleset comparisonMethod="maven"
+<ruleset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         comparisonMethod="maven"
          xmlns="http://mojo.codehaus.org/versions-maven-plugin/rule/2.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://mojo.codehaus.org/versions-maven-plugin/rule/2.0.0
                              http://mojo.codehaus.org/versions-maven-plugin/xsd/rule-2.0.0.xsd">
     <ignoreVersions>
@@ -73,5 +73,10 @@
             </ignoreVersions>
         </rule>
         <rule groupId="*.maven" comparisonMethod="mercury"/>
+        <rule groupId="org.scala-lang" comparisonMethod="maven">
+            <ignoreVersions>
+                <ignoreVersion type="regex">2.13.*</ignoreVersion>
+            </ignoreVersions>
+        </rule>
     </rules>
 </ruleset>
