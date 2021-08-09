@@ -44,6 +44,8 @@ public interface SharedClient<K, V> {
 
     V get(K key, boolean once);
 
+    boolean clear();
+
     int size();
 
     Set<K> keys();
