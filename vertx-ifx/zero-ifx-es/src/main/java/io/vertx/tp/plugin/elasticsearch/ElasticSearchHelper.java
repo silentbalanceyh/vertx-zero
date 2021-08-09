@@ -17,7 +17,7 @@ import org.elasticsearch.client.RestClient;
 import org.elasticsearch.client.RestClientBuilder;
 import org.elasticsearch.client.RestHighLevelClient;
 import org.elasticsearch.common.settings.Settings;
-import org.elasticsearch.common.unit.TimeValue;
+import org.elasticsearch.core.TimeValue;
 import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.index.query.MatchPhraseQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
@@ -61,8 +61,8 @@ public class ElasticSearchHelper {
 
         return new RestHighLevelClient(
                 RestClient.builder(
-                        new HttpHost(options.getString("hostname"), options.getInteger("port"), options.getString("scheme"))
-                )
+                                new HttpHost(options.getString("hostname"), options.getInteger("port"), options.getString("scheme"))
+                        )
                         .setHttpClientConfigCallback(new RestClientBuilder.HttpClientConfigCallback() {
                             @Override
                             public HttpAsyncClientBuilder customizeHttpClient(final HttpAsyncClientBuilder httpAsyncClientBuilder) {

@@ -169,6 +169,12 @@ public class SharedClientImpl<K, V> implements SharedClient<K, V> {
     }
 
     @Override
+    public boolean clear() {
+        this.syncMap.clear();
+        return true;
+    }
+
+    @Override
     public V get(final K key, final boolean once) {
         final V value = this.get(key);
         if (once) {

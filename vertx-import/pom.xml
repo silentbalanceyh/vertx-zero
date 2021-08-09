@@ -190,6 +190,11 @@
             </dependency>
             <dependency>
                 <groupId>cn.vertxup</groupId>
+                <artifactId>zero-ifx-native</artifactId>
+                <version>${zero.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.vertxup</groupId>
                 <artifactId>zero-ifx-neo4j</artifactId>
                 <version>${zero.version}</version>
             </dependency>
