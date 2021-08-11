@@ -11,6 +11,7 @@ import io.vertx.up.eon.KResult;
 import io.vertx.tp.modular.jdbc.AoConnection;
 import io.vertx.tp.modular.sql.SqlDDLBuilder;
 import io.vertx.tp.modular.sql.SqlDDLProvider;
+import io.vertx.up.eon.KResult;
 import io.vertx.up.log.Annal;
 import io.vertx.up.util.Ut;
 

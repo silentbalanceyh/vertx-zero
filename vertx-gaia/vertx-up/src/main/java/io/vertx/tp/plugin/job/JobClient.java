@@ -18,21 +18,17 @@ public interface JobClient {
         return new JobClientImpl(vertx, new JsonObject());
     }
 
-    /**
-     * Start new job
-     */
+    /** Start new job */
     @Fluent
     JobClient start(final String name, final Handler<AsyncResult<Long>> handler);
 
-    /**
-     * Stop running job
-     */
+    /** Stop running job */
     @Fluent
     JobClient stop(final Long timerId, final Handler<AsyncResult<Boolean>> handler);
 
-    /**
-     * Resume a failure job
-     */
+    /** Resume a failure job */
     @Fluent
     JobClient resume(final Long timeId, final Handler<AsyncResult<Long>> handler);
+
+
 }
