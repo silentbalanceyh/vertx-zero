@@ -9,7 +9,7 @@ import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.jet.refine.Jt;
-import io.vertx.tp.ke.cv.KeField;
+import io.vertx.up.eon.KName;
 import io.vertx.up.atom.query.engine.Qr;
 import io.vertx.up.log.Annal;
 import io.vertx.up.unity.Ux;
@@ -87,12 +87,12 @@ public class JobService implements JobStub {
         /*
          * 1. Service / Job Split
          */
-        JsonObject serviceJson = data.getJsonObject(KeField.SERVICE);
+        JsonObject serviceJson = data.getJsonObject(KName.SERVICE);
         if (Ut.isNil(serviceJson)) {
             serviceJson = new JsonObject();
         } else {
             serviceJson = serviceJson.copy();
-            data.remove(KeField.SERVICE);
+            data.remove(KName.SERVICE);
         }
         /*
          * 2. Upsert by Key for Job instance

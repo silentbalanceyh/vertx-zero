@@ -5,7 +5,7 @@ import cn.vertxup.ui.domain.tables.pojos.UiControl;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.ke.cv.KeField;
+import io.vertx.up.eon.KName;
 import io.vertx.tp.ke.refine.Ke;
 import io.vertx.up.unity.Ux;
 
@@ -25,10 +25,10 @@ public class ControlService implements ControlStub {
                     final JsonArray result = new JsonArray();
                     list.stream().filter(Objects::nonNull)
                             .map(item -> (JsonObject) item)
-                            .map(item -> Ke.mount(item, KeField.Ui.CONTAINER_CONFIG))
-                            .map(item -> Ke.mount(item, KeField.Ui.COMPONENT_CONFIG))
-                            .map(item -> Ke.mount(item, KeField.Ui.ASSIST))
-                            .map(item -> Ke.mount(item, KeField.Ui.GRID))
+                            .map(item -> Ke.mount(item, KName.Ui.CONTAINER_CONFIG))
+                            .map(item -> Ke.mount(item, KName.Ui.COMPONENT_CONFIG))
+                            .map(item -> Ke.mount(item, KName.Ui.ASSIST))
+                            .map(item -> Ke.mount(item, KName.Ui.GRID))
                             .forEach(result::add);
                     return Ux.future(result);
                 });
@@ -39,9 +39,9 @@ public class ControlService implements ControlStub {
         return Ux.Jooq.on(UiControlDao.class)
                 .<UiControl>fetchByIdAsync(control)
                 .compose(Ux::futureJ)
-                .compose(Ke.mount(KeField.Ui.CONTAINER_CONFIG))
-                .compose(Ke.mount(KeField.Ui.COMPONENT_CONFIG))
-                .compose(Ke.mount(KeField.Ui.ASSIST))
-                .compose(Ke.mount(KeField.Ui.GRID));
+                .compose(Ke.mount(KName.Ui.CONTAINER_CONFIG))
+                .compose(Ke.mount(KName.Ui.COMPONENT_CONFIG))
+                .compose(Ke.mount(KName.Ui.ASSIST))
+                .compose(Ke.mount(KName.Ui.GRID));
     }
 }

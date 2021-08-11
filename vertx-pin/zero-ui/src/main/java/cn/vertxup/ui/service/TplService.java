@@ -3,7 +3,7 @@ package cn.vertxup.ui.service;
 import cn.vertxup.ui.domain.tables.daos.UiLayoutDao;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.ke.cv.KeField;
+import io.vertx.up.eon.KName;
 import io.vertx.tp.ke.refine.Ke;
 import io.vertx.up.unity.Ux;
 
@@ -22,6 +22,6 @@ public class TplService implements TplStub {
                 /*
                  * Configuration converted to Json
                  */
-                .compose(Ke.mount(KeField.Ui.CONFIG)));
+                .compose(Ke.mount(KName.Ui.CONFIG)));
     }
 }

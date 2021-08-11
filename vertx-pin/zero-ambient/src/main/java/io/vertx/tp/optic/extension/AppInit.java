@@ -7,7 +7,7 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.ambient.cv.AtMsg;
 import io.vertx.tp.ambient.refine.At;
-import io.vertx.tp.ke.cv.KeField;
+import io.vertx.up.eon.KName;
 import io.vertx.up.log.Annal;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
@@ -48,7 +48,7 @@ public class AppInit implements Init {
         }
         /* Data Source Input */
         if (!Ut.isNil(input)) {
-            result.put(KeField.SOURCE, input.getValue(KeField.SOURCE));
+            result.put(KName.SOURCE, input.getValue(KName.SOURCE));
         }
         return result;
     }
@@ -56,19 +56,19 @@ public class AppInit implements Init {
     @Override
     public JsonObject whereUnique(final JsonObject input) {
         final JsonObject filters = new JsonObject();
-        filters.put(KeField.KEY, input.getValue(KeField.KEY));
+        filters.put(KName.KEY, input.getValue(KName.KEY));
         return filters;
     }
 
     private XApp init(final JsonObject input) {
         /* appKey generation */
-        if (!input.containsKey(KeField.APP_KEY)) {
-            input.put(KeField.APP_KEY, Ut.randomString(64));
+        if (!input.containsKey(KName.APP_KEY)) {
+            input.put(KName.APP_KEY, Ut.randomString(64));
         }
         /* logo */
-        final JsonArray files = input.getJsonArray(KeField.App.LOGO);
+        final JsonArray files = input.getJsonArray(KName.App.LOGO);
         if (null != files) {
-            input.put(KeField.App.LOGO, files.encode());
+            input.put(KName.App.LOGO, files.encode());
         }
         final XApp app = Ut.deserialize(input.copy(), XApp.class);
         /* active = true */

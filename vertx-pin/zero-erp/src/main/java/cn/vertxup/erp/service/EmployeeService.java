@@ -5,7 +5,7 @@ import cn.vertxup.erp.domain.tables.pojos.EEmployee;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.ke.cv.KeField;
+import io.vertx.up.eon.KName;
 import io.vertx.tp.ke.refine.Ke;
 import io.vertx.tp.optic.Trash;
 import io.vertx.tp.optic.business.ExSerial;
@@ -22,7 +22,7 @@ public class EmployeeService implements EmployeeStub {
         final EEmployee employee = Ut.deserialize(data, EEmployee.class);
         if (Ut.isNil(employee.getWorkNumber())) {
             return Ke.channelAsync(ExSerial.class, () -> this.insertAsync(employee, data),
-                    serial -> serial.serial(data.getString(KeField.SIGMA), "NUM.EMPLOYEE").compose(workNum -> {
+                    serial -> serial.serial(data.getString(KName.SIGMA), "NUM.EMPLOYEE").compose(workNum -> {
                         employee.setWorkNumber(workNum);
                         return this.insertAsync(employee, data);
                     }));
@@ -60,7 +60,7 @@ public class EmployeeService implements EmployeeStub {
 
     @Override
     public Future<JsonArray> fetchAsync(final Set<String> keys) {
-        return Ux.Jooq.on(EEmployeeDao.class).fetchInAsync(KeField.KEY, Ut.toJArray(keys))
+        return Ux.Jooq.on(EEmployeeDao.class).fetchInAsync(KName.KEY, Ut.toJArray(keys))
                 .compose(Ux::futureA)
                 .compose(this::fetchRef);
     }
@@ -127,7 +127,7 @@ public class EmployeeService implements EmployeeStub {
 
     private Future<JsonObject> updateEmployee(final String key, final JsonObject data) {
         final JsonObject uniques = new JsonObject();
-        uniques.put(KeField.KEY, key);
+        uniques.put(KName.KEY, key);
         final EEmployee employee = Ut.deserialize(data, EEmployee.class);
         return Ux.Jooq.on(EEmployeeDao.class)
                 .upsertAsync(uniques, employee)
@@ -153,14 +153,14 @@ public class EmployeeService implements EmployeeStub {
     private Future<JsonObject> updateRef(final String key, final JsonObject data) {
         return this.switchJ(data, (user, filters) -> user.updateRef(key, filters)
                 .compose(Ut.ifJNil(response ->
-                        Ux.future(data.put(KeField.USER_ID, response.getString(KeField.KEY))))));
+                        Ux.future(data.put(KName.USER_ID, response.getString(KName.KEY))))));
     }
 
     private Future<JsonObject> fetchRef(final JsonObject input) {
         return this.switchJ(input, ExUser::fetchRef).compose(Ut.ifJNil(response -> {
-            final String userId = response.getString(KeField.KEY);
+            final String userId = response.getString(KName.KEY);
             if (Ut.notNil(userId)) {
-                return Ux.future(input.put(KeField.USER_ID, userId));
+                return Ux.future(input.put(KName.USER_ID, userId));
             } else {
                 return Ux.future(input);
             }
@@ -169,10 +169,10 @@ public class EmployeeService implements EmployeeStub {
 
     private Future<JsonArray> fetchRef(final JsonArray input) {
         return this.switchA(input, (user, data) -> {
-            final Set<String> keys = Ut.mapString(data, KeField.KEY);
+            final Set<String> keys = Ut.mapString(data, KName.KEY);
             return user.fetchRef(keys);
         }).compose(employee -> {
-            final JsonArray merged = Ut.elementZip(input, employee, KeField.KEY, KeField.MODEL_KEY);
+            final JsonArray merged = Ut.elementZip(input, employee, KName.KEY, KName.MODEL_KEY);
             return Ux.future(merged);
         });
     }
@@ -184,9 +184,9 @@ public class EmployeeService implements EmployeeStub {
                 return Ux.future(new JsonObject());
             } else {
                 final JsonObject filters = new JsonObject();
-                filters.put(KeField.IDENTIFIER, "employee");
-                filters.put(KeField.SIGMA, input.getString(KeField.SIGMA));
-                filters.put(KeField.KEY, input.getString(KeField.KEY));
+                filters.put(KName.IDENTIFIER, "employee");
+                filters.put(KName.SIGMA, input.getString(KName.SIGMA));
+                filters.put(KName.KEY, input.getString(KName.KEY));
                 return executor.apply(user, filters);
             }
         });

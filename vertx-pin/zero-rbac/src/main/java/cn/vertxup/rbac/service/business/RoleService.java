@@ -5,7 +5,7 @@ import cn.vertxup.rbac.domain.tables.pojos.RRolePerm;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.ke.cv.KeField;
+import io.vertx.up.eon.KName;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
@@ -18,7 +18,7 @@ public class RoleService implements RoleStub {
         // 1. make up role-perm entity
         final List<RRolePerm> rolePerms = Ut.itJString(data)
                 .filter(Ut::notNil)
-                .map(perm -> new JsonObject().put(KeField.Rbac.PERM_ID, perm).put(KeField.Rbac.ROLE_ID, roleId))
+                .map(perm -> new JsonObject().put(KName.Rbac.PERM_ID, perm).put(KName.Rbac.ROLE_ID, roleId))
                 .map(rolePerm -> Ux.fromJson(rolePerm, RRolePerm.class))
                 .collect(Collectors.toList());
         // 2. delete old ones and insert new ones
@@ -32,6 +32,6 @@ public class RoleService implements RoleStub {
     @Override
     public Future<Boolean> deleteByRoleId(final String roleId) {
         return Ux.Jooq.on(RRolePermDao.class)
-                .deleteByAsync(new JsonObject().put(KeField.Rbac.ROLE_ID, roleId));
+                .deleteByAsync(new JsonObject().put(KName.Rbac.ROLE_ID, roleId));
     }
 }

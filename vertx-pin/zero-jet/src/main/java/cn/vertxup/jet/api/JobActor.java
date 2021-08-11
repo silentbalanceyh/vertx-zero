@@ -4,7 +4,7 @@ import cn.vertxup.jet.service.JobStub;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.jet.cv.JtAddr;
-import io.vertx.tp.ke.cv.KeField;
+import io.vertx.up.eon.KName;
 import io.vertx.tp.plugin.job.JobPool;
 import io.vertx.up.annotations.Address;
 import io.vertx.up.annotations.Queue;
@@ -55,8 +55,8 @@ public class JobActor {
              * Processing
              */
             final JsonObject instance = new JsonObject();
-            instance.put(KeField.NAME, mission.getName());
-            instance.put(KeField.STATUS, mission.getStatus().name());
+            instance.put(KName.NAME, mission.getName());
+            instance.put(KName.STATUS, mission.getStatus().name());
             /*
              * Timer
              */

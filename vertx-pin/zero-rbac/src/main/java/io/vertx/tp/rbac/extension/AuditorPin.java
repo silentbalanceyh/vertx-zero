@@ -6,7 +6,7 @@ import io.vertx.core.http.HttpServerRequest;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.RoutingContext;
-import io.vertx.tp.ke.cv.KeField;
+import io.vertx.up.eon.KName;
 import io.vertx.tp.ke.refine.Ke;
 import io.vertx.tp.rbac.refine.Sc;
 import io.vertx.up.commune.Envelop;
@@ -49,10 +49,10 @@ public class AuditorPin implements PlugAuditor {
                  * The method definition
                  * method(JsonObject data)
                  */
-                envelop.value(KeField.CREATED_BY, userId);
-                envelop.value(KeField.CREATED_AT, instant);
-                envelop.value(KeField.UPDATED_BY, userId);
-                envelop.value(KeField.UPDATED_AT, instant);
+                envelop.value(KName.CREATED_BY, userId);
+                envelop.value(KName.CREATED_AT, instant);
+                envelop.value(KName.UPDATED_BY, userId);
+                envelop.value(KName.UPDATED_AT, instant);
                 Sc.infoAudit(LOGGER, "Full auditing: userId = `{0}`, at = `{1}`", userId, instant.toString());
             } else {
                 /*
@@ -60,8 +60,8 @@ public class AuditorPin implements PlugAuditor {
                  * The method definition
                  * method(String, JsonObject)
                  */
-                envelop.value(KeField.UPDATED_BY, userId);
-                envelop.value(KeField.UPDATED_AT, instant);
+                envelop.value(KName.UPDATED_BY, userId);
+                envelop.value(KName.UPDATED_AT, instant);
                 Sc.infoAudit(LOGGER, "Update auditing: userId = `{0}`, at = `{1}`", userId, instant.toString());
             }
         } else {

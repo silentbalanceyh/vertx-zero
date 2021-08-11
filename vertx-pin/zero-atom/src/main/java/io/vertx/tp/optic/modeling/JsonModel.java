@@ -11,7 +11,7 @@ import io.vertx.tp.atom.modeling.Model;
 import io.vertx.tp.atom.modeling.Schema;
 import io.vertx.tp.atom.modeling.config.AoAttribute;
 import io.vertx.tp.atom.modeling.element.DataKey;
-import io.vertx.tp.ke.cv.KeField;
+import io.vertx.up.eon.KName;
 import io.vertx.tp.modular.apply.AoDefault;
 import io.vertx.up.commune.element.TypeField;
 import io.vertx.up.commune.rule.RuleUnique;
@@ -210,18 +210,18 @@ public class JsonModel implements Model {
         this.joins.clear();
         this.schemata.clear();
         // 直接从JsonObject中读取数据
-        final JsonObject model = json.getJsonObject(KeField.MODEL);
+        final JsonObject model = json.getJsonObject(KName.MODEL);
         AoDefault.model().applyJson(model);
         // 针对 ruleUnique
         {
-            final Object uniqueRef = model.getValue(KeField.RULE_UNIQUE);
+            final Object uniqueRef = model.getValue(KName.RULE_UNIQUE);
             if (uniqueRef instanceof JsonObject) {
                 /*
                  * 反序列化成 RuleUnique
                  */
                 final JsonObject content = (JsonObject) uniqueRef;
                 this.unique = Ut.deserialize(content, RuleUnique.class);
-                model.put(KeField.RULE_UNIQUE, content.encode());
+                model.put(KName.RULE_UNIQUE, content.encode());
             }
         }
         {
@@ -232,7 +232,7 @@ public class JsonModel implements Model {
         }
 
         // 填充属性
-        final JsonArray attributes = json.getJsonArray(KeField.Modeling.ATTRIBUTES);
+        final JsonArray attributes = json.getJsonArray(KName.Modeling.ATTRIBUTES);
         Ut.itJArray(attributes, (attribute, index) -> {
             // 设置attribute的默认值
             AoDefault.attribute().mount(this.model).applyJson(attribute);
@@ -242,7 +242,7 @@ public class JsonModel implements Model {
             }
         });
         // 读取join，并且通过 join 计算关系
-        final JsonArray joins = json.getJsonArray(KeField.Modeling.JOINS);
+        final JsonArray joins = json.getJsonArray(KName.Modeling.JOINS);
         Ut.itJArray(joins, (join, index) -> {
             // 设置join的值
             AoDefault.join().mount(this.model).applyJson(join);
@@ -252,7 +252,7 @@ public class JsonModel implements Model {
             }
         });
         // 读取schemata
-        final JsonArray schemata = json.getJsonArray(KeField.Modeling.SCHEMATA);
+        final JsonArray schemata = json.getJsonArray(KName.Modeling.SCHEMATA);
         if (null != schemata) {
             /* 在填充 Schema 的过程中直接处理 DataKey */
             Ut.itJArray(schemata, (schema, index) -> {
@@ -272,25 +272,25 @@ public class JsonModel implements Model {
         final JsonObject model = Ut.serializeJson(this.model);
         // 针对Unique
         {
-            final Object uniqueRef = model.getValue(KeField.RULE_UNIQUE);
+            final Object uniqueRef = model.getValue(KName.RULE_UNIQUE);
             if (uniqueRef instanceof String) {
-                model.put(KeField.RULE_UNIQUE, new JsonObject((String) uniqueRef));
+                model.put(KName.RULE_UNIQUE, new JsonObject((String) uniqueRef));
             }
         }
-        content.put(KeField.MODEL, model);
+        content.put(KName.MODEL, model);
 
         // 属性处理
         final JsonArray attributes = Ut.serializeJson(this.attributes.values());
-        content.put(KeField.Modeling.ATTRIBUTES, attributes);
+        content.put(KName.Modeling.ATTRIBUTES, attributes);
 
         // Join专用
         final JsonArray joins = Ut.serializeJson(this.joins);
-        content.put(KeField.Modeling.JOINS, joins);
+        content.put(KName.Modeling.JOINS, joins);
 
         // Schema 信息
         final JsonArray schemata = new JsonArray();
         this.schemata.stream().map(Schema::toJson).forEach(schemata::add);
-        content.put(KeField.Modeling.SCHEMATA, schemata);
+        content.put(KName.Modeling.SCHEMATA, schemata);
         return content;
     }
 

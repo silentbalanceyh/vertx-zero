@@ -2,7 +2,7 @@ package io.vertx.tp.modular.phantom;
 
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.ke.cv.KeField;
+import io.vertx.up.eon.KName;
 import io.vertx.up.log.Annal;
 import io.vertx.up.unity.Ux;
 
@@ -17,7 +17,7 @@ class InitModeler implements AoModeler {
         return entityJson -> {
             LOGGER.debug("[ Ox ] 1. AoModeler.init() ：{0}", entityJson.encode());
             final JsonObject modelJson = new JsonObject();
-            modelJson.put(KeField.MODEL, entityJson);
+            modelJson.put(KName.MODEL, entityJson);
             return Ux.future(modelJson);
         };
     }
@@ -26,7 +26,7 @@ class InitModeler implements AoModeler {
     public JsonObject executor(final JsonObject entityJson) {
         LOGGER.debug("[ Ox ] (Sync) 1. AoModeler.init() ：{0}", entityJson.encode());
         final JsonObject modelJson = new JsonObject();
-        modelJson.put(KeField.MODEL, entityJson);
+        modelJson.put(KName.MODEL, entityJson);
         return modelJson;
     }
 }

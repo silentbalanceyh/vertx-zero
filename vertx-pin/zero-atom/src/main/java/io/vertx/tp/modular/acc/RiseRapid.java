@@ -7,7 +7,7 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.atom.modeling.data.DataAtom;
 import io.vertx.tp.atom.refine.Ao;
-import io.vertx.tp.ke.cv.KeField;
+import io.vertx.up.eon.KName;
 import io.vertx.tp.modular.dao.AoDao;
 import io.vertx.up.atom.record.Apt;
 import io.vertx.up.commune.config.Database;
@@ -94,8 +94,8 @@ class RiseRapid implements Rise {
 
     private Future<MAcc> fetchAcc(final String modelKey, final DataAtom atom) {
         final JsonObject condition = new JsonObject();
-        condition.put(KeField.MODEL_KEY, modelKey);
-        condition.put(KeField.SIGMA, atom.sigma());
+        condition.put(KName.MODEL_KEY, modelKey);
+        condition.put(KName.SIGMA, atom.sigma());
         return Ux.Jooq.on(MAccDao.class).fetchOneAsync(condition);
     }
 }

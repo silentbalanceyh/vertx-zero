@@ -8,7 +8,7 @@ import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.auth.User;
-import io.vertx.tp.ke.cv.KeField;
+import io.vertx.up.eon.KName;
 import io.vertx.tp.ke.refine.Ke;
 import io.vertx.tp.rbac.cv.Addr;
 import io.vertx.tp.rbac.refine.Sc;
@@ -94,7 +94,7 @@ public class PermActor {
                 processed.encode(), sigma);
 
         // Permission Data
-        final JsonArray permissions = Ut.sureJArray(processed.getJsonArray(KeField.DATA));
+        final JsonArray permissions = Ut.sureJArray(processed.getJsonArray(KName.DATA));
         final String group = processed.getString("group");
         final String type = processed.getString("type");
 
@@ -122,7 +122,7 @@ public class PermActor {
     @Address(Addr.Authority.PERMISSION_BY_ROLE)
     public Future<JsonArray> fetchAsync(final String roleId) {
         return Fn.getEmpty(Ux.futureA(), () -> Ux.Jooq.on(RRolePermDao.class)
-                .fetchAsync(KeField.Rbac.ROLE_ID, roleId)
+                .fetchAsync(KName.Rbac.ROLE_ID, roleId)
                 .compose(Ux::futureA), roleId);
     }
 

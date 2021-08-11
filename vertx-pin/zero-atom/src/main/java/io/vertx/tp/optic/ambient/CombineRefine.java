@@ -6,7 +6,7 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.tp.atom.modeling.Model;
 import io.vertx.tp.atom.modeling.Schema;
 import io.vertx.tp.atom.refine.Ao;
-import io.vertx.tp.ke.cv.KeField;
+import io.vertx.up.eon.KName;
 import io.vertx.tp.modular.file.AoFile;
 import io.vertx.tp.modular.file.FileReader;
 import io.vertx.tp.modular.phantom.AoPerformer;
@@ -26,7 +26,7 @@ class CombineRefine implements AoRefine {
             /* UCA日志 */
             Ao.infoUca(this.getClass(), "1. AoRefine.combine(): {0}", appJson.encode());
             // 从响应信息中读取应用程序名称
-            final String name = appJson.getString(KeField.NAME);
+            final String name = appJson.getString(KName.NAME);
             final AoPerformer performer = AoPerformer.getInstance(name);
             return performer.fetchModelsAsync().compose(storedSet -> {
                 // 读取文件中的
@@ -48,12 +48,12 @@ class CombineRefine implements AoRefine {
         models.stream().map(Model::toJson)
                 .map(this::onAttribute)
                 .forEach(modelArray::add);
-        appJson.put(KeField.Modeling.MODELS, modelArray);
+        appJson.put(KName.Modeling.MODELS, modelArray);
         return Ux.future(appJson);
     }
 
     private JsonObject onAttribute(final JsonObject model) {
-        model.put(KeField.Modeling.ATTRIBUTES, model.getJsonArray(KeField.Modeling.ATTRIBUTES));
+        model.put(KName.Modeling.ATTRIBUTES, model.getJsonArray(KName.Modeling.ATTRIBUTES));
         return model;
     }
 

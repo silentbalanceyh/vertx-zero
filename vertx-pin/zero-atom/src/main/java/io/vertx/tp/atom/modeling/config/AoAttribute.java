@@ -5,7 +5,7 @@ import cn.vertxup.atom.domain.tables.pojos.MField;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.atom.cv.em.AttributeType;
-import io.vertx.tp.ke.cv.KeField;
+import io.vertx.up.eon.KName;
 import io.vertx.up.commune.element.TypeField;
 import io.vertx.up.eon.em.DataFormat;
 import io.vertx.up.util.Ut;
@@ -79,7 +79,7 @@ public class AoAttribute implements Serializable {
         final Boolean isArray = Objects.isNull(attribute.getIsArray()) ? Boolean.FALSE : attribute.getIsArray();
         final JsonObject config = Ut.toJObject(attribute.getSourceConfig());
         final JsonObject reference = Ut.toJObject(attribute.getSourceReference());
-        DataFormat format = Ut.toEnum(() -> config.getString(KeField.FORMAT), DataFormat.class, DataFormat.Elementary);
+        DataFormat format = Ut.toEnum(() -> config.getString(KName.FORMAT), DataFormat.class, DataFormat.Elementary);
 
         /*
          * format adjusting
@@ -97,7 +97,7 @@ public class AoAttribute implements Serializable {
          */
         final Class<?> configType;
         if (DataFormat.Elementary == format) {
-            configType = Ut.clazz(config.getString(KeField.TYPE), String.class);
+            configType = Ut.clazz(config.getString(KName.TYPE), String.class);
         } else {
             configType = DataFormat.JsonArray == format ? JsonArray.class : JsonObject.class;
         }
@@ -107,7 +107,7 @@ public class AoAttribute implements Serializable {
             /*
              * type = INTERNAL ( Stored / Virtual )
              */
-            if (KeField.Modeling.VALUE_SET.contains(attribute.getSourceField())) {
+            if (KName.Modeling.VALUE_SET.contains(attribute.getSourceField())) {
                 /*
                  * BEFORE / AFTER
                  * Default type is: String
@@ -134,12 +134,12 @@ public class AoAttribute implements Serializable {
         this.type = TypeField.create(attribute.getName(), attribute.getAlias(), attributeType);
 
         // Expand the `fields` lookup range
-        final JsonArray fields = Ut.sureJArray(config.getJsonArray(KeField.FIELDS));
+        final JsonArray fields = Ut.sureJArray(config.getJsonArray(KName.FIELDS));
         Ut.itJArray(fields).forEach(item -> {
-            final String field = item.getString(KeField.FIELD);
+            final String field = item.getString(KName.FIELD);
             if (Ut.notNil(field)) {
-                final String alias = item.getString(KeField.ALIAS, null);
-                final Class<?> subType = Ut.clazz(item.getString(KeField.TYPE), String.class);
+                final String alias = item.getString(KName.ALIAS, null);
+                final Class<?> subType = Ut.clazz(item.getString(KName.TYPE), String.class);
                 this.shapes.add(TypeField.create(field, alias, subType));
             }
         });
@@ -153,8 +153,8 @@ public class AoAttribute implements Serializable {
          *  Be careful of that the `rule` should be configured in `sourceReference` field instead of
          * `sourceConfig` here
          */
-        if (reference.containsKey(KeField.RULE)) {
-            final JsonObject ruleData = Ut.sureJObject(reference.getJsonObject(KeField.RULE));
+        if (reference.containsKey(KName.RULE)) {
+            final JsonObject ruleData = Ut.sureJObject(reference.getJsonObject(KName.RULE));
             this.rule = Ut.deserialize(ruleData, AoRule.class);
             /* Bind type into rule */
             this.rule.type(attributeType);

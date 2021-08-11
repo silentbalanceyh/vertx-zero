@@ -4,7 +4,7 @@ import io.vertx.core.MultiMap;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.ambient.uca.dict.Dpm;
-import io.vertx.tp.ke.cv.KeField;
+import io.vertx.up.eon.KName;
 import io.vertx.up.commune.exchange.DictEpsilon;
 import io.vertx.up.commune.exchange.DictSource;
 import io.vertx.up.eon.em.GlossaryType;
@@ -46,7 +46,7 @@ public abstract class ExAttributeComponent {
      * @return {@link ConcurrentMap} The dict source map ( key = JsonArray )
      */
     public ConcurrentMap<String, JsonArray> source(final JsonObject definition) {
-        final JsonObject sourceDictJson = definition.getJsonObject(KeField.SOURCE_DICT);
+        final JsonObject sourceDictJson = definition.getJsonObject(KName.SOURCE_DICT);
         final ConcurrentMap<String, JsonArray> sourceData = new ConcurrentHashMap<>();
         if (Ut.notNil(sourceDictJson)) {
             /*
@@ -63,7 +63,7 @@ public abstract class ExAttributeComponent {
                  * Build parameters for processing
                  */
                 final MultiMap paramMap = MultiMap.caseInsensitiveMultiMap();
-                final JsonObject sourceParams = definition.getJsonObject(KeField.SOURCE_PARAMS);
+                final JsonObject sourceParams = definition.getJsonObject(KName.SOURCE_PARAMS);
                 if (Ut.notNil(sourceParams)) {
                     sourceParams.stream()
                             .filter(Objects::nonNull)
@@ -96,12 +96,12 @@ public abstract class ExAttributeComponent {
 
     private JsonObject translateData(final JsonObject definition, final boolean isFrom) {
         /* Consumer */
-        final JsonObject consumer = definition.getJsonObject(KeField.SOURCE_CONSUMER);
+        final JsonObject consumer = definition.getJsonObject(KName.SOURCE_CONSUMER);
         final DictEpsilon epsilon = new DictEpsilon();
         epsilon.fromJson(consumer);
 
         /* Data */
-        final JsonObject dictData = Ut.sureJObject(definition.getJsonObject(KeField.SOURCE_DATA));
+        final JsonObject dictData = Ut.sureJObject(definition.getJsonObject(KName.SOURCE_DATA));
         final String key = epsilon.getSource();
         final JsonArray data = Ut.notNil(key) ? dictData.getJsonArray(key) : new JsonArray();
         final JsonObject result = new JsonObject();
@@ -131,8 +131,8 @@ public abstract class ExAttributeComponent {
         if (Objects.isNull(value)) {
             return null;
         } else {
-            if (definition.containsKey(KeField.SOURCE_NORM)) {
-                final JsonObject normData = Ut.sureJObject(definition.getJsonObject(KeField.SOURCE_NORM));
+            if (definition.containsKey(KName.SOURCE_NORM)) {
+                final JsonObject normData = Ut.sureJObject(definition.getJsonObject(KName.SOURCE_NORM));
                 return normData.getValue(value.toString(), value);
             } else return value;
         }

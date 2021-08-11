@@ -1,8 +1,6 @@
-package io.vertx.tp.ke.cv;
+package io.vertx.up.eon;
 
-import io.vertx.up.eon.Values;
-
-public interface KeResult {
+public interface KResult {
 
     int RC_SUCCESS = Values.ZERO;
 

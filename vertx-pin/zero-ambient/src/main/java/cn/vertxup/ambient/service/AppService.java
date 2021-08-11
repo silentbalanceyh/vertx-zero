@@ -8,7 +8,7 @@ import cn.vertxup.ambient.domain.tables.pojos.XMenu;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.ke.cv.KeField;
+import io.vertx.up.eon.KName;
 import io.vertx.tp.ke.refine.Ke;
 import io.vertx.tp.optic.business.ExApp;
 import io.vertx.up.atom.unity.Uson;
@@ -20,13 +20,13 @@ public class AppService implements AppStub {
     public Future<JsonObject> fetchByName(final String name) {
         return Ux.Jooq.on(XAppDao.class)
                 /* Fetch By Name */
-                .<XApp>fetchOneAsync(KeField.NAME, name)
+                .<XApp>fetchOneAsync(KName.NAME, name)
                 /* Convert to Json */
                 .compose(Ux::futureJ)
                 /* Before App Initialized ( Public Api ) */
-                .compose(appData -> Uson.create(appData).remove(KeField.APP_KEY).toFuture())
+                .compose(appData -> Uson.create(appData).remove(KName.APP_KEY).toFuture())
                 /* Image field: logo */
-                .compose(Ke.image(KeField.App.LOGO));
+                .compose(Ke.image(KName.App.LOGO));
     }
 
     @Override
@@ -37,7 +37,7 @@ public class AppService implements AppStub {
                 /* Convert to Json */
                 .compose(Ux::futureJ)
                 /* Image field: logo */
-                .compose(Ke.image(KeField.App.LOGO))
+                .compose(Ke.image(KName.App.LOGO))
                 /* App options: options for application */
                 .compose(appJson -> Ke.channelAsync(ExApp.class,
                         () -> Ux.future(appJson),
@@ -48,7 +48,7 @@ public class AppService implements AppStub {
     public Future<JsonArray> fetchMenus(final String appId) {
         return Ux.Jooq.on(XMenuDao.class)
                 /* Fetch by appId */
-                .<XMenu>fetchAsync(KeField.APP_ID, appId)
+                .<XMenu>fetchAsync(KName.APP_ID, appId)
                 /* Get Result */
                 .compose(Ux::futureA);
     }
@@ -57,7 +57,7 @@ public class AppService implements AppStub {
     public Future<JsonObject> fetchSource(final String appId) {
         return Ux.Jooq.on(XSourceDao.class)
                 /* Fetch One by appId */
-                .fetchOneAsync(KeField.APP_ID, appId)
+                .fetchOneAsync(KName.APP_ID, appId)
                 /* Get Result */
                 .compose(Ux::futureJ);
     }

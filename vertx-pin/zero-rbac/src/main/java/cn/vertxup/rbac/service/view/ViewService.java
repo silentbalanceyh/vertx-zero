@@ -5,7 +5,7 @@ import cn.vertxup.rbac.domain.tables.pojos.SView;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.ke.cv.KeField;
+import io.vertx.up.eon.KName;
 import io.vertx.tp.rbac.cv.AuthMsg;
 import io.vertx.tp.rbac.cv.em.OwnerType;
 import io.vertx.tp.rbac.refine.Sc;
@@ -68,8 +68,8 @@ public class ViewService implements ViewStub {
     private SView toView(final JsonObject filters, final JsonArray projection) {
         final JsonObject data = filters.copy()
                 .put(Qr.KEY_PROJECTION, projection.encode());
-        data.put(KeField.KEY, UUID.randomUUID().toString());
-        data.put(KeField.ACTIVE, Boolean.TRUE);
+        data.put(KName.KEY, UUID.randomUUID().toString());
+        data.put(KName.ACTIVE, Boolean.TRUE);
         data.put("rows", new JsonObject().encode());
         data.put(Qr.KEY_CRITERIA, new JsonObject().encode());
         return Ut.deserialize(data, SView.class);

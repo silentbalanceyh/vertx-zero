@@ -1,6 +1,6 @@
 package io.vertx.tp.modular.file.excel;
 
-import io.vertx.tp.ke.cv.KeField;
+import io.vertx.up.eon.KName;
 import io.vertx.tp.plugin.excel.atom.ExRecord;
 import io.vertx.tp.plugin.excel.atom.ExTable;
 
@@ -35,9 +35,9 @@ class ExIn {
      * （带 entityId 的表都可以用这个方法）
      */
     static Set<ExRecord> searchEntity(final Set<ExRecord> records, final ExRecord record) {
-        final String key = record.get(KeField.KEY);
+        final String key = record.get(KName.KEY);
         return records.stream()
-                .filter(each -> key.equals(each.get(KeField.ENTITY_ID)))
+                .filter(each -> key.equals(each.get(KName.ENTITY_ID)))
                 .collect(Collectors.toSet());
     }
 
@@ -47,14 +47,14 @@ class ExIn {
      */
     static Set<ExRecord> join(final Set<ExRecord> records, final ExRecord record) {
         /* 获取模型标识 identifier 和名空间 */
-        final String identifier = record.get(KeField.IDENTIFIER);
-        final String namespace = record.get(KeField.NAMESPACE);
+        final String identifier = record.get(KName.IDENTIFIER);
+        final String namespace = record.get(KName.NAMESPACE);
         /* 查找同一名空间下的关联关系 */
         return records.stream()
                 /* model = identifier */
-                .filter(each -> identifier.equals(each.get(KeField.MODEL)))
+                .filter(each -> identifier.equals(each.get(KName.MODEL)))
                 /* namespace = namespace */
-                .filter(each -> namespace.equals(each.get(KeField.NAMESPACE)))
+                .filter(each -> namespace.equals(each.get(KName.NAMESPACE)))
                 .collect(Collectors.toSet());
     }
 
@@ -64,9 +64,9 @@ class ExIn {
      * （带 modelId 的表都可以用这个方法）
      */
     static Set<ExRecord> searchModel(final Set<ExRecord> records, final ExRecord record) {
-        final String key = record.get(KeField.KEY);
+        final String key = record.get(KName.KEY);
         return records.stream()
-                .filter(each -> key.equals(each.get(KeField.MODEL_ID)))
+                .filter(each -> key.equals(each.get(KName.MODEL_ID)))
                 .collect(Collectors.toSet());
     }
 
@@ -77,12 +77,12 @@ class ExIn {
         final Set<ExRecord> schemaSet = new HashSet<>();
         joins.forEach(join -> {
             /* 1. 读取 Schema */
-            final String namespace = join.get(KeField.NAMESPACE);
-            final String identifier = join.get(KeField.ENTITY);
+            final String namespace = join.get(KName.NAMESPACE);
+            final String identifier = join.get(KName.ENTITY);
             /* 2. 过滤唯一的 ExRecord */
             final ExRecord record = records.stream()
-                    .filter(each -> namespace.equals(each.get(KeField.NAMESPACE)))
-                    .filter(each -> identifier.equals(each.get(KeField.IDENTIFIER)))
+                    .filter(each -> namespace.equals(each.get(KName.NAMESPACE)))
+                    .filter(each -> identifier.equals(each.get(KName.IDENTIFIER)))
                     .findFirst().orElse(null);
             if (Objects.nonNull(record)) {
                 schemaSet.add(record);

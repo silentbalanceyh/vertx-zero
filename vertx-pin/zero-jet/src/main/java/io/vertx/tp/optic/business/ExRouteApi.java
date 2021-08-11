@@ -7,7 +7,7 @@ import io.vertx.core.http.HttpMethod;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.jet.atom.JtApp;
 import io.vertx.tp.jet.refine.Jt;
-import io.vertx.tp.ke.cv.KeField;
+import io.vertx.up.eon.KName;
 import io.vertx.tp.optic.environment.Ambient;
 import io.vertx.up.runtime.soul.UriMeta;
 import io.vertx.up.unity.Ux;
@@ -32,7 +32,7 @@ public class ExRouteApi implements ExRoute {
                 return Ux.future(new ArrayList<>());
             } else {
                 final JsonObject condition = new JsonObject();
-                condition.put(KeField.SIGMA, sigma);
+                condition.put(KName.SIGMA, sigma);
                 /*
                  * Criteria for `keyword`
                  */

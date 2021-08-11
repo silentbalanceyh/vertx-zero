@@ -5,7 +5,7 @@ import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.jet.atom.JtApp;
 import io.vertx.tp.jet.refine.Jt;
-import io.vertx.tp.ke.cv.KeField;
+import io.vertx.up.eon.KName;
 import io.vertx.tp.optic.environment.Ambient;
 import io.vertx.up.atom.Refer;
 import io.vertx.up.atom.worker.Mission;
@@ -90,7 +90,7 @@ public abstract class AbstractJob implements Service {
      */
     protected IService service() {
         final JsonObject metadata = this.mission().getMetadata();
-        return Ut.deserialize(metadata.getJsonObject(KeField.SERVICE), IService.class);
+        return Ut.deserialize(metadata.getJsonObject(KName.SERVICE), IService.class);
     }
 
     /*

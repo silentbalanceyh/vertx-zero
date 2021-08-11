@@ -8,7 +8,7 @@ import io.vertx.tp.crud.init.IxPin;
 import io.vertx.tp.crud.refine.Ix;
 import io.vertx.tp.ke.atom.metadata.KJoin;
 import io.vertx.tp.ke.atom.metadata.KPoint;
-import io.vertx.tp.ke.cv.KeField;
+import io.vertx.up.eon.KName;
 import io.vertx.tp.ke.cv.em.JoinMode;
 import io.vertx.up.commune.Envelop;
 import io.vertx.up.log.Annal;
@@ -52,9 +52,9 @@ interface OxSwitcher {
         /*
          * Append `Sigma` Here
          */
-        if (original.containsKey(KeField.SIGMA)) {
+        if (original.containsKey(KName.SIGMA)) {
             filters.put("", Boolean.TRUE);
-            filters.put(KeField.SIGMA, original.getString(KeField.SIGMA));
+            filters.put(KName.SIGMA, original.getString(KName.SIGMA));
         }
         return filters;
     }
@@ -101,7 +101,7 @@ interface OxSwitcher {
             createdJoined = new JsonObject();
         } else {
             final String joinedField = config.getField().getKey();
-            createdJoined.put(KeField.JOINED_KEY, createdJoined.getString(joinedField));
+            createdJoined.put(KName.JOINED_KEY, createdJoined.getString(joinedField));
         }
         createdJoined.mergeIn(original, true);
         return Ux.future(Envelop.success(createdJoined));

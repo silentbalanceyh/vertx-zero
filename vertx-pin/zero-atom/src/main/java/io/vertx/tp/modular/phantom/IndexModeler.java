@@ -5,7 +5,7 @@ import cn.vertxup.atom.domain.tables.pojos.MIndex;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.ke.cv.KeField;
+import io.vertx.up.eon.KName;
 import io.vertx.up.log.Annal;
 import io.vertx.up.unity.Ux;
 
@@ -43,12 +43,12 @@ class IndexModeler implements AoModeler {
 
     private JsonObject onResult(final JsonObject schemaJson,
                                 final JsonArray indexes) {
-        return schemaJson.put(KeField.Modeling.INDEXES, indexes);
+        return schemaJson.put(KName.Modeling.INDEXES, indexes);
     }
 
     private JsonObject onCriteria(final JsonObject entityJson) {
         final JsonObject filters = new JsonObject();
-        filters.put(KeField.ENTITY_ID, entityJson.getString(KeField.KEY));
+        filters.put(KName.ENTITY_ID, entityJson.getString(KName.KEY));
         return filters;
     }
 }

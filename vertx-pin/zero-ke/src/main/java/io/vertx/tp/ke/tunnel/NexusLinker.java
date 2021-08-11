@@ -4,7 +4,7 @@ import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.error._501JooqReferenceException;
-import io.vertx.tp.ke.cv.KeField;
+import io.vertx.up.eon.KName;
 import io.vertx.up.uca.jooq.UxJooq;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
@@ -40,7 +40,7 @@ class NexusLinker implements Nexus {
     public Future<JsonObject> fetchNexus(final JsonObject filters) {
         return this.execute(filters, (condition) -> {
             condition.put("", Boolean.TRUE);
-            condition.put(KeField.SIGMA, filters.getString(KeField.SIGMA));
+            condition.put(KName.SIGMA, filters.getString(KName.SIGMA));
             return this.jooq.fetchOneAsync(condition)
                     .compose(Ux::futureJ);
         });
@@ -50,8 +50,8 @@ class NexusLinker implements Nexus {
     public Future<JsonArray> fetchNexus(final Set<String> keys) {
         return this.execute(() -> {
             final JsonObject condition = new JsonObject();
-            condition.put(KeField.MODEL_KEY + ",i", Ut.toJArray(keys));
-            return this.jooq.fetchInAsync(KeField.MODEL_KEY, Ut.toJArray(keys))
+            condition.put(KName.MODEL_KEY + ",i", Ut.toJArray(keys));
+            return this.jooq.fetchInAsync(KName.MODEL_KEY, Ut.toJArray(keys))
                     .compose(Ux::futureA);
         });
     }
@@ -95,8 +95,8 @@ class NexusLinker implements Nexus {
             return null;
         } else {
             final JsonObject nexusData = new JsonObject();
-            nexusData.put(KeField.MODEL_ID, json.getString(KeField.IDENTIFIER));
-            nexusData.put(KeField.MODEL_KEY, json.getString(KeField.KEY));
+            nexusData.put(KName.MODEL_ID, json.getString(KName.IDENTIFIER));
+            nexusData.put(KName.MODEL_KEY, json.getString(KName.KEY));
             return nexusData;
         }
     }

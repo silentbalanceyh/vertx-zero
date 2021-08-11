@@ -1,9 +1,9 @@
-package io.vertx.tp.ke.cv;
+package io.vertx.up.eon;
 
 import java.util.HashSet;
 import java.util.Set;
 
-public interface KeField {
+public interface KName {
     String ID = "id";                            /* Third Part integration primary key */
     String GLOBAL_ID = "globalId";               /* Third part global id of primary key */
 

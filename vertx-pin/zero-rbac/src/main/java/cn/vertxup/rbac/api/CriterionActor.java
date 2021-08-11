@@ -6,7 +6,7 @@ import cn.vertxup.rbac.domain.tables.pojos.SPath;
 import cn.vertxup.rbac.service.view.RuleStub;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
-import io.vertx.tp.ke.cv.KeField;
+import io.vertx.up.eon.KName;
 import io.vertx.tp.ke.refine.Ke;
 import io.vertx.tp.rbac.cv.Addr;
 import io.vertx.up.annotations.Address;
@@ -29,7 +29,7 @@ public class CriterionActor {
     @Address(Addr.Rule.FETCH_BY_SIGMA)
     public Future<JsonArray> fetchAsync(final XHeader header) {
         return Ux.Jooq.on(SPathDao.class)
-                .<SPath>fetchAsync(KeField.SIGMA, header.getSigma())
+                .<SPath>fetchAsync(KName.SIGMA, header.getSigma())
                 .compose(this.stub::procAsync);
     }
 

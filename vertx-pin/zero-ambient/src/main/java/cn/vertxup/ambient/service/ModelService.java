@@ -5,7 +5,7 @@ import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.ambient.cache.AcCache;
-import io.vertx.tp.ke.cv.KeField;
+import io.vertx.up.eon.KName;
 import io.vertx.tp.ke.refine.Ke;
 import io.vertx.tp.optic.business.ExModel;
 import io.vertx.up.unity.Ux;
@@ -24,7 +24,7 @@ public class ModelService implements ModelStub {
                 .fetchOneAsync(filters)
                 .compose(Ux::futureJ)
                 /* Metadata field usage */
-                .compose(Ke.mount(KeField.METADATA)));
+                .compose(Ke.mount(KName.METADATA)));
     }
 
     @Override

@@ -7,7 +7,7 @@ import cn.vertxup.rbac.domain.tables.pojos.SPermission;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.ke.cv.KeField;
+import io.vertx.up.eon.KName;
 import io.vertx.up.atom.Refer;
 import io.vertx.up.eon.Strings;
 import io.vertx.up.eon.em.ChangeFlag;
@@ -33,7 +33,7 @@ public class PermGService implements PermGStub {
          * Build condition of `sigma`
          */
         final JsonObject condition = new JsonObject();
-        condition.put(KeField.SIGMA, sigma);
+        condition.put(KName.SIGMA, sigma);
         /*
          * Permission Groups processing
          *「Upgrade」
@@ -86,8 +86,8 @@ public class PermGService implements PermGStub {
              * 2) Perm Set fetching here for original
              */
             final JsonObject criteria = new JsonObject();
-            criteria.put(KeField.SIGMA, sigma);
-            criteria.put(KeField.NAME, permSet.getName());
+            criteria.put(KName.SIGMA, sigma);
+            criteria.put(KName.NAME, permSet.getName());
             return Ux.Jooq.on(SPermSetDao.class).<SPermSet>fetchAndAsync(criteria);
         }).compose(originalSet -> {
             /*
@@ -119,8 +119,8 @@ public class PermGService implements PermGStub {
     // ======================= Basic Three Method =============================
     private Future<List<SPermSet>> deletePerm(final SPermSet permSet, final List<SPermission> permissions) {
         final JsonObject criteria = new JsonObject();
-        criteria.put(KeField.SIGMA, permSet.getSigma());
-        criteria.put(KeField.NAME, permSet.getName());
+        criteria.put(KName.SIGMA, permSet.getSigma());
+        criteria.put(KName.NAME, permSet.getName());
         criteria.put("code,i", Ut.toJArray(
                 permissions.stream().map(SPermission::getCode).collect(Collectors.toSet())
         ));
@@ -170,9 +170,9 @@ public class PermGService implements PermGStub {
      * -- DELETE ( No Permission because of condition, code in here )
      */
     private Future<ConcurrentMap<ChangeFlag, List<SPermission>>> calcPermission(final JsonArray permissions, final String sigma) {
-        final Set<String> permCodes = Ut.mapString(permissions, KeField.CODE);
+        final Set<String> permCodes = Ut.mapString(permissions, KName.CODE);
         final JsonObject criteria = new JsonObject();
-        criteria.put(KeField.SIGMA, sigma);
+        criteria.put(KName.SIGMA, sigma);
         criteria.put("code,i", Ut.toJArray(permCodes));
         return Ux.Jooq.on(SPermissionDao.class).<SPermission>fetchAndAsync(criteria).compose(original -> {
             final List<SPermission> current = Ux.fromJson(permissions, SPermission.class);

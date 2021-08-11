@@ -3,7 +3,7 @@ package io.vertx.tp.modular.phantom;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.atom.cv.AoCache;
-import io.vertx.tp.ke.cv.KeField;
+import io.vertx.up.eon.KName;
 import io.vertx.tp.optic.ambient.AoRefine;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.util.Ut;
@@ -56,7 +56,7 @@ public interface AoModeler extends AoRefine {
     }
 
     static JsonObject getEntity(final JsonObject schemaJson) {
-        JsonObject entity = schemaJson.getJsonObject(KeField.ENTITY);
+        JsonObject entity = schemaJson.getJsonObject(KName.ENTITY);
         if (null == entity) {
             entity = new JsonObject();
         }
@@ -64,12 +64,12 @@ public interface AoModeler extends AoRefine {
     }
 
     static JsonArray getSchemata(final JsonObject modelJson) {
-        JsonArray schemata = modelJson.getJsonArray(KeField.Modeling.SCHEMATA);
+        JsonArray schemata = modelJson.getJsonArray(KName.Modeling.SCHEMATA);
         if (null == schemata) {
             schemata = new JsonArray();
         }
         final JsonArray entities = new JsonArray();
-        Ut.itJArray(schemata).forEach(entityJson -> entities.add(new JsonObject().put(KeField.ENTITY, entityJson)));
+        Ut.itJArray(schemata).forEach(entityJson -> entities.add(new JsonObject().put(KName.ENTITY, entityJson)));
         return entities;
     }
 

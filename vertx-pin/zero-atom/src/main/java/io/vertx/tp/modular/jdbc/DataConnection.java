@@ -1,10 +1,10 @@
 package io.vertx.tp.modular.jdbc;
 
 import io.vertx.tp.error._500EmptySQLException;
-import io.vertx.tp.ke.cv.KeResult;
 import io.vertx.tp.modular.sql.SqlOutput;
 import io.vertx.tp.plugin.database.DataPool;
 import io.vertx.up.commune.config.Database;
+import io.vertx.up.eon.KResult;
 import io.vertx.up.eon.Values;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
@@ -38,7 +38,7 @@ public class DataConnection implements AoConnection {
         final DSLContext context = this.getDSL();
         final Query query = context.query(sql);
         final int ret = query.execute();
-        return Values.ZERO <= ret ? ret : KeResult.RC_FAILURE;
+        return Values.ZERO <= ret ? ret : KResult.RC_FAILURE;
     }
 
     @Override
@@ -60,18 +60,18 @@ public class DataConnection implements AoConnection {
     @Override
     public List<ConcurrentMap<String, Object>> select(final String sql,
                                                       final String[] columns) {
-        final Result<Record> queries = this.fetch(sql);
+        final org.jooq.Result queries = this.fetch(sql);
         return SqlOutput.toMatrix(queries, columns);
     }
 
     @Override
     public <T> List<T> select(final String sql,
                               final String column) {
-        final Result<Record> queries = this.fetch(sql);
+        final org.jooq.Result queries = this.fetch(sql);
         return SqlOutput.toList(queries, column);
     }
 
-    private Result<Record> fetch(final String sql) {
+    private org.jooq.Result fetch(final String sql) {
         Fn.outWeb(Ut.isNil(sql), _500EmptySQLException.class, this.getClass());
         this.getLogger().debug("[DB] 执行SQL select：{0}", sql);
         final DSLContext context = this.getDSL();

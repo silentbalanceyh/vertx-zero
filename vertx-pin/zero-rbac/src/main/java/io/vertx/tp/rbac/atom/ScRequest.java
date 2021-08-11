@@ -4,7 +4,7 @@ import io.vertx.core.Future;
 import io.vertx.core.http.HttpMethod;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.ke.cv.KeDefault;
-import io.vertx.tp.ke.cv.KeField;
+import io.vertx.up.eon.KName;
 import io.vertx.tp.ke.refine.Ke;
 import io.vertx.tp.rbac.cv.AuthKey;
 import io.vertx.tp.rbac.init.ScPin;
@@ -67,7 +67,7 @@ public class ScRequest implements Serializable {
         final String token = data.getString("jwt");
         final JsonObject userData = Ux.Jwt.extract(token);
         this.user = userData.getString("user");
-        this.sessionId = userData.getString(KeField.HABITUS);
+        this.sessionId = userData.getString(KName.HABITUS);
     }
 
     public String getNormalizedUri() {

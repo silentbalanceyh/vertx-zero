@@ -12,7 +12,7 @@ import io.vertx.tp.crud.init.IxPin;
 import io.vertx.tp.crud.refine.Ix;
 import io.vertx.tp.error._409ModuleConflictException;
 import io.vertx.tp.error._409MultiModuleException;
-import io.vertx.tp.ke.cv.KeField;
+import io.vertx.up.eon.KName;
 import io.vertx.tp.ke.refine.Ke;
 import io.vertx.tp.plugin.excel.ExcelClient;
 import io.vertx.tp.plugin.excel.atom.ExRecord;
@@ -129,7 +129,7 @@ public class FileActor {
                             final List<Future<JsonObject>> futures = new ArrayList<>();
                             prepared.forEach(record -> {
                                 /* Active = true */
-                                record.put(KeField.ACTIVE, Boolean.TRUE);
+                                record.put(KName.ACTIVE, Boolean.TRUE);
                                 /* Serial */
                                 futures.add(IxActor.serial().bind(request).procAsync(record, config)
                                         .compose(fabric::inFrom)

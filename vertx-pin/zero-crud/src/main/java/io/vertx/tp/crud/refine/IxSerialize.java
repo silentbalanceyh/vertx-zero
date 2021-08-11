@@ -4,7 +4,7 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.crud.atom.IxModule;
 import io.vertx.tp.ke.atom.metadata.KField;
-import io.vertx.tp.ke.cv.KeField;
+import io.vertx.up.eon.KName;
 import io.vertx.tp.ke.refine.Ke;
 import io.vertx.up.atom.unity.Uarr;
 import io.vertx.up.eon.Values;
@@ -56,7 +56,7 @@ class IxSerialize {
         /*
          * Deserialize First
          */
-        Ke.mount(data, KeField.METADATA);
+        Ke.mount(data, KName.METADATA);
         final KField field = config.getField();
         field.fieldObject().forEach(each -> Ke.mount(data, each));
         field.fieldArray().forEach(each -> Ke.mountArray(data, each));
@@ -81,7 +81,7 @@ class IxSerialize {
              * New feature for serialization on
              * `array, object` fields for future usage
              */
-            Ke.mountString(data, KeField.METADATA);
+            Ke.mountString(data, KName.METADATA);
             final KField field = config.getField();
             field.fieldArray().forEach(each -> Ke.mountString(data, each));         // JsonArray defined
             field.fieldObject().forEach(each -> Ke.mountString(data, each));        // JsonObject defined

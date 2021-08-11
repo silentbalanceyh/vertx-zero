@@ -6,7 +6,7 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.tp.atom.modeling.config.AoAttribute;
 import io.vertx.tp.atom.modeling.config.AoRule;
 import io.vertx.tp.ke.atom.metadata.KJoin;
-import io.vertx.tp.ke.cv.KeField;
+import io.vertx.up.eon.KName;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.util.Ut;
 
@@ -152,11 +152,11 @@ public class RQuote implements Serializable {
              * RDao processing
              */
             final RDao dao = Fn.pool(this.sourceDao, rule.keyDao(), () -> new RDao(this.appName, this.source));
-            if (dao.isStatic() && sourceReference.containsKey(KeField.DAO)) {
+            if (dao.isStatic() && sourceReference.containsKey(KName.DAO)) {
                 /*
                  * KJoin processing based on `dao` configuration.
                  */
-                final KJoin join = Ut.deserialize(sourceReference.getJsonObject(KeField.DAO), KJoin.class);
+                final KJoin join = Ut.deserialize(sourceReference.getJsonObject(KName.DAO), KJoin.class);
                 dao.bind(join);
             }
         }

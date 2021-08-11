@@ -7,7 +7,7 @@ import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.ke.cv.KeDefault;
-import io.vertx.tp.ke.cv.KeField;
+import io.vertx.up.eon.KName;
 import io.vertx.tp.ke.refine.Ke;
 import io.vertx.up.uca.jooq.UxJooq;
 import io.vertx.up.unity.Ux;
@@ -53,7 +53,7 @@ public class RuleService implements RuleStub {
     @Override
     public Future<JsonArray> saveViews(final String ownerType, final String ownerId,
                                        final JsonArray views, final String view) {
-        final Set<String> keySet = Ut.mapString(views, KeField.RESOURCE_ID);
+        final Set<String> keySet = Ut.mapString(views, KName.RESOURCE_ID);
         /*
          * owner, ownerType, resourceId, name are unique
          * Because of here:
@@ -63,9 +63,9 @@ public class RuleService implements RuleStub {
          *
          * In this kind of situation, we could consider resourceId as unique key
          */
-        final ConcurrentMap<String, JsonObject> newMap = Ut.elementMap(views, KeField.RESOURCE_ID);
+        final ConcurrentMap<String, JsonObject> newMap = Ut.elementMap(views, KName.RESOURCE_ID);
         return this.fetchViews(ownerType, ownerId, Ut.toJArray(keySet), view).compose(original -> {
-            final ConcurrentMap<String, JsonObject> oldMap = Ut.elementMap(original, KeField.RESOURCE_ID);
+            final ConcurrentMap<String, JsonObject> oldMap = Ut.elementMap(original, KName.RESOURCE_ID);
             /*
              * Calculate new data here for processing
              *
@@ -150,7 +150,7 @@ public class RuleService implements RuleStub {
              * view is S_VIEW record
              * resourceMap is request data here
              */
-            final String resourceId = view.getString(KeField.RESOURCE_ID);
+            final String resourceId = view.getString(KName.RESOURCE_ID);
             if (Ut.notNil(resourceId) && resourceMap.containsKey(resourceId)) {
                 final JsonObject requestData = resourceMap.get(resourceId);
                 if (requestData.containsKey("visitantData")) {
