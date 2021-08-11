@@ -33,7 +33,7 @@ to [https://github.com/silentbalanceyh/vertx-zero-example](https://github.com/si
 
 ## 0. Features
 
-In 2019, Zero Framework has been re-factor to new version `0.5.x` and here I provide the feature list to let developers
+In 2019, Zero Framework has been re-factor to new version `0.6.x` and here I provide the feature list to let developers
 know more details in Zero Framework: [Feature List](FEATURES.md).
 
 ## 1. Documentation
@@ -62,7 +62,7 @@ If you want to use Zero framework, you can add following dependency into you `po
 <parent>
     <artifactId>vertx-import</artifactId>
     <groupId>cn.vertxup</groupId>
-    <version>0.6.1</version>
+    <version>0.6.2</version>
 </parent>
 ```
 
@@ -142,6 +142,7 @@ public final class Statute {
 1. TLK Video Mobile System ( 0.4.6 )
 2. Micro Hotel Platform ( > 0.6.0 )
 3. CMDB/ITSM Platform ( > 0.6.0 )
+4. Training Demo ( latest )
 
 ### 3.2. WeChat Group
 
