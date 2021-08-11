@@ -1214,6 +1214,10 @@ public final class Ut {
         return Period.toDateTime(literal);
     }
 
+    public static LocalDateTime toDuration(final long millSeconds) {
+        return Period.toDuration(millSeconds);
+    }
+
     public static LocalDate toDate(final String literal) {
         return Period.toDate(literal);
     }

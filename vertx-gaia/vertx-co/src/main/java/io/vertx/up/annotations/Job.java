@@ -42,7 +42,7 @@ public @interface Job {
 
     /**
      * Threshold value of current job
-     * 300 s
+     * 900 s
      */
     long threshold() default 900;
 

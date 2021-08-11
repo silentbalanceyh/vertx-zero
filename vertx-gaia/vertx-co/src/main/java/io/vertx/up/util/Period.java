@@ -425,6 +425,12 @@ final class Period {
         return Date.from(datetime.atStartOfDay(zoneId).toInstant());
     }
 
+    static LocalDateTime toDuration(final long millSeconds) {
+        final Instant instant = Instant.ofEpochMilli(millSeconds);
+        final OffsetDateTime offsetTime = instant.atOffset(ZoneOffset.UTC);
+        return offsetTime.toLocalDateTime();
+    }
+
     /**
      * 1. D,00:00, per day
      * 3. W,00:00,3, per week
