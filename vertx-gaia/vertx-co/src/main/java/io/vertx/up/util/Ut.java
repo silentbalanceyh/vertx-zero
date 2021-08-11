@@ -1330,8 +1330,9 @@ public final class Ut {
      * 2) fromObject
      * 3) fromJObject
      * 4) fromJoin
-     * 5) fromAequilatus
+     * 5) fromAdjust
      * 6) fromExpression
+     * 7) fromAt
      */
     public static <T> T fromBuffer(final int pos, final Buffer buffer) {
         return Stream.from(pos, buffer);
@@ -1387,6 +1388,10 @@ public final class Ut {
 
     public static String fromExpression(final String expr, final JsonObject data) {
         return StringUtil.expression(expr, data);
+    }
+
+    public static Instant fromAt(final String expr) {
+        return Period.parseAt(expr);
     }
 
     /*

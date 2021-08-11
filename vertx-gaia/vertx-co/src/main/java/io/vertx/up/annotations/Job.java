@@ -55,4 +55,12 @@ public @interface Job {
      * Threshold unit ( time unit ) for current job
      */
     TimeUnit thresholdUnit() default TimeUnit.SECONDS;
+
+    /**
+     * Smart timestamp for per mode
+     * 1. D,00:00, per day
+     * 3. W,00:00,3, per week
+     * 2. M,00:00,11, per month
+     */
+    String runAt() default Strings.EMPTY;
 }

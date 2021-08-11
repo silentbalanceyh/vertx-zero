@@ -87,6 +87,9 @@ public class JobInquirer implements Inquirer<Set<Mission>> {
             LOGGER.warn(Info.JOB_IGNORE, clazz.getName());
             return null;
         }
+        /* runAt calculate */
+        final String expr = Ut.invoke(annotation, "runAt");
+        mission.setInstant(Ut.fromAt(expr));
         return mission;
     }
 
