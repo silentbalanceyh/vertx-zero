@@ -1,24 +1,24 @@
 package io.vertx.tp.plugin.job;
 
+import io.vertx.core.json.JsonObject;
 import io.vertx.up.atom.worker.Mission;
+import io.vertx.up.eon.KName;
 import io.vertx.up.eon.em.JobStatus;
 import io.vertx.up.log.Annal;
 import io.vertx.up.util.Ut;
 
 import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.function.Consumer;
-import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 /**
  * Job Pool in memory or storage
  * Static pool for sync here.
  */
-public class JobPool {
+class JobPool {
 
     private static final Annal LOGGER = Annal.get(JobPool.class);
 
@@ -26,63 +26,37 @@ public class JobPool {
     /* RUNNING Reference */
     private static final ConcurrentMap<Long, String> RUNNING = new ConcurrentHashMap<>();
 
-    public static ConcurrentMap<String, Mission> mapJobs() {
-        return JOBS;
+    static void remove(final String code) {
+        JOBS.remove(code);
     }
 
-    public static ConcurrentMap<Long, String> mapRuns() {
-        return RUNNING;
+    static void save(final Mission mission) {
+        if (Objects.nonNull(mission)) {
+            JOBS.put(mission.getCode(), mission);
+        }
     }
 
-    public static void put(final Set<Mission> missions) {
-        missions.forEach(mission -> JOBS.put(mission.getCode(), mission));
+
+    static void bind(final Long timeId, final String code) {
+        RUNNING.put(timeId, code);
     }
 
-    public static Mission get(final String code, final Supplier<Mission> supplier) {
-        return JOBS.getOrDefault(code, supplier.get());
-    }
 
-    public static Mission get(final String code) {
-        return JOBS.get(code);
-    }
-
-    public static List<Mission> get() {
+    static List<Mission> get() {
         return JOBS.values().stream()
                 .filter(Objects::nonNull)
                 .collect(Collectors.toList());
     }
 
-    public static String code(final Long timeId) {
-        return RUNNING.get(timeId);
-    }
-
-    public static Long timeId(final String code) {
-        return RUNNING.keySet().stream()
-                .filter(key -> code.equals(RUNNING.get(key)))
-                .findFirst().orElse(null);
-    }
-
-    public static void remove(final String code) {
-        JOBS.remove(code);
-    }
-
-    public static void save(final Mission mission) {
-        JOBS.put(mission.getCode(), mission);
-    }
-
-    public static boolean valid(final Mission mission) {
-        return JOBS.containsKey(mission.getCode());
-    }
-
-    public static void mount(final Long timeId, final String code) {
-        RUNNING.put(timeId, code);
+    static Mission get(final String code) {
+        return JOBS.get(code);
     }
 
     /*
      * Started job
      * --> RUNNING
      */
-    public static void start(final Long timeId, final String code) {
+    static void start(final Long timeId, final String code) {
         uniform(code, mission -> {
             final JobStatus status = mission.getStatus();
             if (JobStatus.RUNNING == status) {
@@ -116,11 +90,8 @@ public class JobPool {
         });
     }
 
-    /*
-     * Stop job
-     * -->
-     */
-    public static void stop(final Long timeId) {
+    /* Stop job --> Package Range */
+    static void stop(final Long timeId) {
         uniform(timeId, mission -> {
             final JobStatus status = mission.getStatus();
             if (JobStatus.RUNNING == status || JobStatus.READY == status) {
@@ -140,7 +111,8 @@ public class JobPool {
         });
     }
 
-    public static void resume(final Long timeId) {
+    /* Package Range */
+    static void resume(final Long timeId) {
         uniform(timeId, mission -> {
             final JobStatus status = mission.getStatus();
             if (JobStatus.ERROR == status) {
@@ -153,6 +125,41 @@ public class JobPool {
                 mission.setStatus(JobStatus.READY);
             }
         });
+    }
+
+    static JsonObject status(final String namespace) {
+        /*
+         * Revert
+         */
+        final ConcurrentMap<String, Long> runsRevert =
+                new ConcurrentHashMap<>();
+        RUNNING.forEach((timer, code) -> runsRevert.put(code, timer));
+        final JsonObject response = new JsonObject();
+        JOBS.forEach((code, mission) -> {
+            /*
+             * Processing
+             */
+            final JsonObject instance = new JsonObject();
+            instance.put(KName.NAME, mission.getName());
+            instance.put(KName.STATUS, mission.getStatus().name());
+            /*
+             * Timer
+             */
+            instance.put(KName.TIMER, runsRevert.get(mission.getCode()));
+            response.put(mission.getCode(), instance);
+        });
+        return response;
+    }
+
+    static String code(final Long timeId) {
+        return RUNNING.get(timeId);
+    }
+
+    /* Package Range */
+    static Long timeId(final String code) {
+        return RUNNING.keySet().stream()
+                .filter(key -> code.equals(RUNNING.get(key)))
+                .findFirst().orElse(null);
     }
 
     private static void uniform(final Long timeId, final Consumer<Mission> consumer) {
