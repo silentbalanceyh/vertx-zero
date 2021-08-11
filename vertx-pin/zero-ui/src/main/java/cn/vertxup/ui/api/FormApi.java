@@ -1,7 +1,7 @@
 package cn.vertxup.ui.api;
 
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.ke.cv.KeField;
+import io.vertx.up.eon.KName;
 import io.vertx.tp.ui.cv.Addr;
 import io.vertx.up.annotations.Address;
 import io.vertx.up.annotations.EndPoint;
@@ -17,7 +17,7 @@ public interface FormApi {
     @Path("/ui-form/cascade/:key")
     @PUT
     @Address(Addr.Control.PUT_FORM_CASCADE)
-    JsonObject putFormCascade(@PathParam(KeField.KEY) String key,
+    JsonObject putFormCascade(@PathParam(KName.KEY) String key,
                          @BodyParam JsonObject body);
 
     /*
@@ -26,6 +26,6 @@ public interface FormApi {
     @Path("/ui-form/:key")
     @DELETE
     @Address(Addr.Control.DELETE_FORM)
-    Boolean deleteForm(@PathParam(KeField.KEY) String key);
+    Boolean deleteForm(@PathParam(KName.KEY) String key);
 
 }

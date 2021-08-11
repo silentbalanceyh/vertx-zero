@@ -9,7 +9,7 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.tp.error._401PasswordWrongException;
 import io.vertx.tp.error._401UserDisabledException;
 import io.vertx.tp.error._449UserNotFoundException;
-import io.vertx.tp.ke.cv.KeField;
+import io.vertx.up.eon.KName;
 import io.vertx.tp.rbac.cv.AuthKey;
 import io.vertx.tp.rbac.cv.AuthMsg;
 import io.vertx.tp.rbac.permission.ScPrivilege;
@@ -56,7 +56,7 @@ public class LoginService implements LoginStub {
             final JsonObject userJson = Ut.serializeJson(user);
             final JsonObject merged = Ut.jsonAppend(userJson, ouserJson);
             return Uson.create(merged).pickup(
-                    KeField.KEY,                /* client_id parameter */
+                    KName.KEY,                /* client_id parameter */
                     AuthKey.SCOPE,              /* scope parameter */
                     AuthKey.STATE,              /* state parameter */
                     AuthKey.F_CLIENT_SECRET,    /* client_secret parameter */
@@ -66,7 +66,7 @@ public class LoginService implements LoginStub {
             final String initPwd = Sc.generatePwd();
             if (initPwd.equals(user.getPassword())) {
                 /* Password Init */
-                response.put(KeField.PASSWORD, false);
+                response.put(KName.PASSWORD, false);
             }
             return Ux.future(response);
         }));

@@ -3,7 +3,7 @@ package cn.vertxup.ambient.api;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.ambient.cv.Addr;
-import io.vertx.tp.ke.cv.KeField;
+import io.vertx.up.eon.KName;
 import io.vertx.up.annotations.Address;
 import io.vertx.up.annotations.EndPoint;
 import io.vertx.up.eon.ID;
@@ -22,7 +22,7 @@ public interface ModelAgent {
     @Path("/model/fields/:identifier")
     @GET
     @Address(Addr.Module.MODEL_FIELDS)
-    JsonArray modelAttributes(@PathParam(KeField.IDENTIFIER) String identifier);
+    JsonArray modelAttributes(@PathParam(KName.IDENTIFIER) String identifier);
 
     @Path("/model")
     @GET

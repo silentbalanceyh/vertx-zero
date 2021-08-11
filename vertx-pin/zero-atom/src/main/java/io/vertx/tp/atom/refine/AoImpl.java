@@ -5,7 +5,7 @@ import io.vertx.tp.atom.cv.AoCache;
 import io.vertx.tp.atom.modeling.Model;
 import io.vertx.tp.atom.modeling.Schema;
 import io.vertx.tp.atom.modeling.data.DataAtom;
-import io.vertx.tp.ke.cv.KeField;
+import io.vertx.up.eon.KName;
 import io.vertx.tp.modular.dao.AoDao;
 import io.vertx.tp.modular.jdbc.Pin;
 import io.vertx.tp.optic.robin.Switcher;
@@ -61,8 +61,8 @@ class AoImpl {
     }
 
     static DataAtom toAtom(final JsonObject options) {
-        final String identifier = options.getString(KeField.IDENTIFIER);
-        final String name = options.getString(KeField.NAME);
+        final String identifier = options.getString(KName.IDENTIFIER);
+        final String name = options.getString(KName.NAME);
         return DataAtom.get(name, identifier);
     }
 

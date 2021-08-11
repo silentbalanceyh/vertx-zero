@@ -1,7 +1,7 @@
 package io.vertx.tp.modular.apply;
 
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.ke.cv.KeField;
+import io.vertx.up.eon.KName;
 import io.vertx.up.fn.Fn;
 
 import java.util.UUID;
@@ -55,10 +55,10 @@ public interface AoDefault {
 
     static void apply(final JsonObject entity) {
         // 这四个字段基本一致
-        apply(entity, KeField.KEY, UUID.randomUUID().toString());
-        apply(entity, KeField.ACTIVE, Boolean.TRUE);
-        apply(entity, KeField.LANGUAGE, "cn");  // 默认使用cn
-        apply(entity, KeField.METADATA, new JsonObject().encode());
+        apply(entity, KName.KEY, UUID.randomUUID().toString());
+        apply(entity, KName.ACTIVE, Boolean.TRUE);
+        apply(entity, KName.LANGUAGE, "cn");  // 默认使用cn
+        apply(entity, KName.METADATA, new JsonObject().encode());
     }
 
     /**

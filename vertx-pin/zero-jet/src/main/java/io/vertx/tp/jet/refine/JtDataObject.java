@@ -7,7 +7,7 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.tp.jet.atom.JtApp;
 import io.vertx.tp.jet.cv.JtConstant;
 import io.vertx.tp.jet.cv.em.WorkerType;
-import io.vertx.tp.ke.cv.KeField;
+import io.vertx.up.eon.KName;
 import io.vertx.tp.optic.environment.Ambient;
 import io.vertx.up.commune.config.Database;
 import io.vertx.up.commune.config.Integration;
@@ -126,9 +126,9 @@ class JtDataObject {
         final JsonObject options = Ut.toJObject(service.getServiceConfig());
         {
             /* default options, you can add more */
-            options.put(KeField.NAME, app.getName());
-            options.put(KeField.SIGMA, app.getSigma());
-            options.put(KeField.IDENTIFIER, service.getIdentifier());
+            options.put(KName.NAME, app.getName());
+            options.put(KName.SIGMA, app.getSigma());
+            options.put(KName.IDENTIFIER, service.getIdentifier());
         }
         return options;
     }

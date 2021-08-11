@@ -7,7 +7,7 @@ import cn.vertxup.rbac.domain.tables.pojos.SVisitant;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.ke.cv.KeDefault;
-import io.vertx.tp.ke.cv.KeField;
+import io.vertx.up.eon.KName;
 import io.vertx.tp.rbac.refine.Sc;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
@@ -24,8 +24,8 @@ public class VisitService implements VisitStub {
                                             final JsonObject request) {
         final JsonObject input = Ut.sureJObject(request);
         Sc.infoView(this.getClass(), "Visitant Request: {0}", input);
-        final String resourceId = input.getString(KeField.RESOURCE_ID);
-        final String type = input.getString(KeField.TYPE);
+        final String resourceId = input.getString(KName.RESOURCE_ID);
+        final String type = input.getString(KName.TYPE);
         if (Ut.isNilOr(resourceId, type)) {
             return Ux.futureJ();
         } else {
@@ -34,7 +34,7 @@ public class VisitService implements VisitStub {
              *
              * identifier / configKey
              * */
-            final String identifier = request.getString(KeField.IDENTIFIER);
+            final String identifier = request.getString(KName.IDENTIFIER);
             final String configKey = request.getString("configKey");
             if (Ut.isNil(identifier) && Ut.isNil(configKey)) {
                 /*
@@ -48,8 +48,8 @@ public class VisitService implements VisitStub {
                 final JsonObject condition = new JsonObject();
                 condition.put("owner", ownerId);
                 condition.put("ownerType", ownerType);
-                condition.put(KeField.NAME, KeDefault.VIEW_DEFAULT);
-                condition.put(KeField.RESOURCE_ID, resourceId);
+                condition.put(KName.NAME, KeDefault.VIEW_DEFAULT);
+                condition.put(KName.RESOURCE_ID, resourceId);
                 Sc.infoView(this.getClass(), "Visitant View: {0}", condition.encode());
                 return Ux.Jooq.on(SViewDao.class).<SView>fetchOneAsync(condition).compose(view -> {
                     if (Objects.isNull(view)) {
@@ -63,8 +63,8 @@ public class VisitService implements VisitStub {
                          */
                         final JsonObject criteria = new JsonObject();
                         criteria.put("viewId", view.getKey());
-                        criteria.put(KeField.TYPE, type);
-                        criteria.put(KeField.SIGMA, view.getSigma());
+                        criteria.put(KName.TYPE, type);
+                        criteria.put(KName.SIGMA, view.getSigma());
                         if (Ut.notNil(identifier)) {
                             /*
                              * identifier as condition
@@ -73,7 +73,7 @@ public class VisitService implements VisitStub {
                              * must provide additional condition ( configKey = DEFAULT ), it means
                              * master form in your interface.
                              */
-                            criteria.put(KeField.IDENTIFIER, identifier);
+                            criteria.put(KName.IDENTIFIER, identifier);
                             criteria.put("configKey", KeDefault.VIEW_DEFAULT);
                         } else {
                             /*
@@ -108,20 +108,20 @@ public class VisitService implements VisitStub {
          * viewId
          */
         Ut.jsonCopy(request, view,
-                KeField.SIGMA, KeField.LANGUAGE, KeField.ACTIVE);
-        request.put("viewId", view.getValue(KeField.KEY));
+                KName.SIGMA, KName.LANGUAGE, KName.ACTIVE);
+        request.put("viewId", view.getValue(KName.KEY));
         /*
          * Distinguish INSERT / UPDATE
          */
         final JsonObject criteria = new JsonObject();
         Ut.jsonCopy(criteria, request,
-                "viewId", KeField.TYPE, KeField.SIGMA);
+                "viewId", KName.TYPE, KName.SIGMA);
         /*
          * If `configKey` provide
          */
         final String configKey = request.getString("configKey");
         if (Ut.isNil(configKey)) {
-            criteria.put(KeField.IDENTIFIER, request.getValue(KeField.IDENTIFIER));
+            criteria.put(KName.IDENTIFIER, request.getValue(KName.IDENTIFIER));
             criteria.put("configKey", KeDefault.VIEW_DEFAULT);
         } else {
             criteria.put("configKey", configKey);

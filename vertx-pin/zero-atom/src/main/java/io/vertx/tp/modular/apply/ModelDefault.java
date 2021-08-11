@@ -3,7 +3,7 @@ package io.vertx.tp.modular.apply;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.atom.cv.em.ModelType;
 import io.vertx.tp.atom.refine.Ao;
-import io.vertx.tp.ke.cv.KeField;
+import io.vertx.up.eon.KName;
 
 class ModelDefault implements AoDefault {
 
@@ -20,7 +20,7 @@ class ModelDefault implements AoDefault {
          * metadata
          */
         AoDefault.apply(model, "type", ModelType.DIRECT.name());
-        AoDefault.apply(model, "keyField", KeField.KEY);
+        AoDefault.apply(model, "keyField", KName.KEY);
         AoDefault.apply(model);
     }
 }

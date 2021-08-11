@@ -10,7 +10,7 @@ import io.vertx.tp.ambient.cv.AtMsg;
 import io.vertx.tp.ambient.cv.em.TodoStatus;
 import io.vertx.tp.ambient.init.AtPin;
 import io.vertx.tp.ambient.refine.At;
-import io.vertx.tp.ke.cv.KeField;
+import io.vertx.up.eon.KName;
 import io.vertx.tp.ke.refine.Ke;
 import io.vertx.tp.optic.business.ExTodo;
 import io.vertx.up.log.Annal;
@@ -38,12 +38,12 @@ public class TodoService implements TodoStub {
              * Expression for defaultTodo
              */
             final JsonObject params = data.copy();
-            final String name = Ut.fromExpression(defaultTodo.getString(KeField.NAME), params);
-            final String code = Ut.fromExpression(defaultTodo.getString(KeField.CODE), params);
+            final String name = Ut.fromExpression(defaultTodo.getString(KName.NAME), params);
+            final String code = Ut.fromExpression(defaultTodo.getString(KName.CODE), params);
             final String url = Ut.fromExpression(defaultTodo.getString("todoUrl"), params);
             inputData.mergeIn(defaultTodo);
-            inputData.put(KeField.NAME, name);
-            inputData.put(KeField.CODE, code);
+            inputData.put(KName.NAME, name);
+            inputData.put(KName.CODE, code);
             inputData.put("todoUrl", url);
         }
         final XTodo todo = Ut.deserialize(inputData, XTodo.class);
@@ -89,7 +89,7 @@ public class TodoService implements TodoStub {
     @Override
     public Future<JsonArray> updateStatus(final Set<String> keys, final JsonObject params) {
         return Ux.Jooq.on(XTodoDao.class)
-                .<XTodo>fetchInAsync(KeField.KEY, Ut.toJArray(keys))
+                .<XTodo>fetchInAsync(KName.KEY, Ut.toJArray(keys))
                 .compose(Ux::futureA)
                 .compose(Ut.ifNil(JsonArray::new, (todoArray) -> {
                     /*
@@ -136,7 +136,7 @@ public class TodoService implements TodoStub {
             /*
              * XTodo Auditor setting
              */
-            final String userId = params.getString(KeField.USER_ID);
+            final String userId = params.getString(KName.USER_ID);
             if (Ut.notNil(userId)) {
                 todo.setUpdatedBy(userId);
                 todo.setUpdatedAt(LocalDateTime.now());
@@ -150,8 +150,8 @@ public class TodoService implements TodoStub {
             /*
              * Status
              */
-            if (params.containsKey(KeField.STATUS)) {
-                final String status = params.getString(KeField.STATUS);
+            if (params.containsKey(KName.STATUS)) {
+                final String status = params.getString(KName.STATUS);
                 todo.setStatus(status);
                 if (TodoStatus.FINISHED.name().equals(status)) {
                     /*
@@ -175,7 +175,7 @@ public class TodoService implements TodoStub {
                      * X_TODO channel and data merged.
                      */
                     final JsonObject params = Ut.elementSubset(todo,
-                            KeField.MODEL_ID, KeField.MODEL_CATEGORY, KeField.MODEL_KEY, KeField.SIGMA);
+                            KName.MODEL_ID, KName.MODEL_CATEGORY, KName.MODEL_KEY, KName.SIGMA);
                     return channel.fetchAsync(key, params)
                             .compose(Ut.ifMerge(todo));
                 })));

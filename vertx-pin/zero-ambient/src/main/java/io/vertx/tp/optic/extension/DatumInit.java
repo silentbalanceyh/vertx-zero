@@ -8,7 +8,7 @@ import io.vertx.tp.ambient.atom.AtConfig;
 import io.vertx.tp.ambient.cv.AtMsg;
 import io.vertx.tp.ambient.init.AtPin;
 import io.vertx.tp.ambient.refine.At;
-import io.vertx.tp.ke.cv.KeField;
+import io.vertx.up.eon.KName;
 import io.vertx.tp.ke.refine.Ke;
 import io.vertx.tp.plugin.excel.ExcelClient;
 import io.vertx.tp.plugin.excel.ExcelInfix;
@@ -60,7 +60,7 @@ public class DatumInit implements Init {
                 .collect(Collectors.toList());
         return Ux.thenCombine(futures)
                 /* Stored each result */
-                .compose(results -> Uson.create().append(KeField.RESULT, results)
+                .compose(results -> Uson.create().append(KName.RESULT, results)
                         .toFuture())
                 .compose(results -> Ux.future(this.result(results, appJson)));
     }

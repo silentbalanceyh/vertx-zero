@@ -3,7 +3,7 @@ package io.vertx.tp.optic.environment;
 import cn.vertxup.ambient.domain.tables.pojos.XApp;
 import cn.vertxup.ambient.domain.tables.pojos.XSource;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.ke.cv.KeField;
+import io.vertx.up.eon.KName;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.util.Ut;
 
@@ -35,7 +35,7 @@ public class UnityAmbient implements UnityApp {
                 .filter(appId -> Objects.nonNull(sources.get(appId)))
                 /* JsonObject converted here for app & source data */
                 .map(appId -> this.connect(apps.get(appId), sources.get(appId)))
-                .forEach(item -> UnityAmbient.UNITY_POOL.put(item.getString(KeField.APP_ID), item));
+                .forEach(item -> UnityAmbient.UNITY_POOL.put(item.getString(KName.APP_ID), item));
     }
 
     @Override
@@ -53,9 +53,9 @@ public class UnityAmbient implements UnityApp {
              * appId - Inner ambient environment to identify application.
              * appKey - Ox engine used as dynamic identifier here.
              */
-            normalized.put(KeField.APP_ID, app.getKey());
-            normalized.put(KeField.APP_KEY, app.getAppKey());
-            normalized.put(KeField.SIGMA, app.getSigma());
+            normalized.put(KName.APP_ID, app.getKey());
+            normalized.put(KName.APP_KEY, app.getAppKey());
+            normalized.put(KName.SIGMA, app.getSigma());
         }
         /* Unique */
         {
@@ -67,16 +67,16 @@ public class UnityAmbient implements UnityApp {
              * language - language of this application
              * active - Whether enabled ( it's for future )
              */
-            normalized.put(KeField.NAME, app.getName());
-            normalized.put(KeField.CODE, app.getCode());
-            normalized.put(KeField.LANGUAGE, app.getLanguage());
-            normalized.put(KeField.ACTIVE, app.getActive());
+            normalized.put(KName.NAME, app.getName());
+            normalized.put(KName.CODE, app.getCode());
+            normalized.put(KName.LANGUAGE, app.getLanguage());
+            normalized.put(KName.ACTIVE, app.getActive());
         }
         /* Business information */
         {
             /* Major: Logo and Title */
-            normalized.put(KeField.App.LOGO, app.getLogo());
-            normalized.put(KeField.App.TITLE, app.getTitle());
+            normalized.put(KName.App.LOGO, app.getLogo());
+            normalized.put(KName.App.TITLE, app.getTitle());
             /*
              * Business information
              * title - display the information on front app
@@ -86,9 +86,9 @@ public class UnityAmbient implements UnityApp {
              * email - administrator email that could be contacted
              */
             final JsonObject business = new JsonObject();
-            business.put(KeField.App.ICP, app.getIcp());
-            business.put(KeField.App.EMAIL, app.getEmail());
-            business.put(KeField.App.COPY_RIGHT, app.getCopyRight());
+            business.put(KName.App.ICP, app.getIcp());
+            business.put(KName.App.EMAIL, app.getEmail());
+            business.put(KName.App.COPY_RIGHT, app.getCopyRight());
             normalized.put("business", business);
         }
         /* Deployment information */
@@ -101,9 +101,9 @@ public class UnityAmbient implements UnityApp {
              * route - application sub routing information
              */
             final JsonObject backend = new JsonObject();
-            backend.put(KeField.App.DOMAIN, app.getDomain());
-            backend.put(KeField.App.APP_PORT, app.getAppPort());
-            backend.put(KeField.App.ROUTE, app.getRoute());
+            backend.put(KName.App.DOMAIN, app.getDomain());
+            backend.put(KName.App.APP_PORT, app.getAppPort());
+            backend.put(KName.App.ROUTE, app.getRoute());
             normalized.put("backend", backend);
             /*
              * Front-End
@@ -113,9 +113,9 @@ public class UnityAmbient implements UnityApp {
              *
              */
             final JsonObject frontend = new JsonObject();
-            frontend.put(KeField.App.PATH, app.getPath());
-            frontend.put(KeField.App.URL_ENTRY, app.getUrlEntry());
-            frontend.put(KeField.App.URL_MAIN, app.getUrlMain());
+            frontend.put(KName.App.PATH, app.getPath());
+            frontend.put(KName.App.URL_ENTRY, app.getUrlEntry());
+            frontend.put(KName.App.URL_MAIN, app.getUrlMain());
             normalized.put("frontend", frontend);
         }
         /* Auditor information */
@@ -126,10 +126,10 @@ public class UnityAmbient implements UnityApp {
              * updatedAt, updatedBy
              */
             final JsonObject auditor = new JsonObject();
-            auditor.put(KeField.CREATED_BY, app.getCreatedBy());
-            Fn.safeNull(() -> auditor.put(KeField.CREATED_AT, Ut.parse(app.getCreatedAt()).toInstant()), app.getCreatedAt());
-            auditor.put(KeField.UPDATED_BY, app.getUpdatedBy());
-            Fn.safeNull(() -> auditor.put(KeField.UPDATED_AT, Ut.parse(app.getUpdatedAt()).toInstant()), app.getUpdatedAt());
+            auditor.put(KName.CREATED_BY, app.getCreatedBy());
+            Fn.safeNull(() -> auditor.put(KName.CREATED_AT, Ut.parse(app.getCreatedAt()).toInstant()), app.getCreatedAt());
+            auditor.put(KName.UPDATED_BY, app.getUpdatedBy());
+            Fn.safeNull(() -> auditor.put(KName.UPDATED_AT, Ut.parse(app.getUpdatedAt()).toInstant()), app.getUpdatedAt());
             normalized.put("auditor", auditor);
         }
         /* Database information */
@@ -149,16 +149,16 @@ public class UnityAmbient implements UnityApp {
             sourceJson.put("hostname", source.getHostname());
             sourceJson.put("instance", source.getInstance());
             sourceJson.put("port", source.getPort());
-            sourceJson.put(KeField.CATEGORY, source.getCategory());
+            sourceJson.put(KName.CATEGORY, source.getCategory());
             sourceJson.put("jdbcUrl", source.getJdbcUrl());
-            sourceJson.put(KeField.USERNAME, source.getUsername());
-            sourceJson.put(KeField.PASSWORD, source.getPassword());
+            sourceJson.put(KName.USERNAME, source.getUsername());
+            sourceJson.put(KName.PASSWORD, source.getPassword());
             sourceJson.put("driverClassName", source.getDriverClassName());
             final String jdbcConfig = source.getJdbcConfig();
             if (Ut.notNil(jdbcConfig)) {
-                sourceJson.put(KeField.OPTIONS, Ut.toJObject(jdbcConfig));
+                sourceJson.put(KName.OPTIONS, Ut.toJObject(jdbcConfig));
             }
-            normalized.put(KeField.SOURCE, sourceJson);
+            normalized.put(KName.SOURCE, sourceJson);
         }
         return normalized;
     }

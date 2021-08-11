@@ -5,7 +5,7 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.tp.ambient.cv.AtConstant;
 import io.vertx.tp.ambient.cv.AtMsg;
 import io.vertx.tp.ambient.refine.At;
-import io.vertx.tp.ke.cv.KeField;
+import io.vertx.up.eon.KName;
 import io.vertx.up.commune.config.Database;
 import io.vertx.up.log.Annal;
 import io.vertx.up.unity.Ux;
@@ -21,13 +21,13 @@ public class DatabaseInit implements Init {
         return appJson -> {
             At.infoApp(LOGGER, AtMsg.INIT_DATABASE, appJson.encode());
             /* Database Json */
-            final JsonObject databaseJson = appJson.getJsonObject(KeField.SOURCE);
+            final JsonObject databaseJson = appJson.getJsonObject(KName.SOURCE);
             final Database database = new Database();
             database.fromJson(databaseJson);
             /*
              * Init third step: X_SOURCE stored into pool
              */
-            return Ux.Pool.on(AtConstant.POOL_DATABASE).put(appJson.getString(KeField.KEY), database)
+            return Ux.Pool.on(AtConstant.POOL_DATABASE).put(appJson.getString(KName.KEY), database)
                     .compose(item -> Ux.future(item.getValue()))
                     .compose(item -> Ux.future(item.toJson()))
                     .compose(item -> Ux.future(this.result(appJson, item)));

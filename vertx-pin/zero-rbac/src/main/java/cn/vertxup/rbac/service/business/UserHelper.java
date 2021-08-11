@@ -3,7 +3,7 @@ package cn.vertxup.rbac.service.business;
 import cn.vertxup.rbac.domain.tables.pojos.SUser;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.ke.cv.KeField;
+import io.vertx.up.eon.KName;
 import io.vertx.tp.ke.refine.Ke;
 import io.vertx.tp.optic.business.ExEmployee;
 import io.vertx.tp.rbac.cv.AuthMsg;
@@ -66,7 +66,7 @@ class UserHelper {
                                     .create(Ux.toJson(user).copy())
                                     .append(employee)
                                     /* Model Key -> Employee Id */
-                                    .convert(KeField.MODEL_KEY, "employeeId")
+                                    .convert(KName.MODEL_KEY, "employeeId")
                                     .toFuture()
                             );
                 });

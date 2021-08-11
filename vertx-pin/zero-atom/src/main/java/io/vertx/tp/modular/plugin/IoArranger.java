@@ -6,7 +6,7 @@ import io.vertx.tp.atom.modeling.Model;
 import io.vertx.tp.atom.modeling.config.AoAttribute;
 import io.vertx.tp.atom.modeling.data.DataAtom;
 import io.vertx.tp.atom.modeling.element.DataTpl;
-import io.vertx.tp.ke.cv.KeField;
+import io.vertx.up.eon.KName;
 import io.vertx.up.atom.Kv;
 import io.vertx.up.commune.Record;
 import io.vertx.up.commune.element.JComponent;
@@ -147,7 +147,7 @@ class IoArranger {
      */
     private static boolean isAopBefore(final MAttribute attribute) {
         final String sourceField = attribute.getSourceField();
-        return KeField.Modeling.VALUE_BEFORE.equals(sourceField);
+        return KName.Modeling.VALUE_BEFORE.equals(sourceField);
     }
 
     /**
@@ -159,7 +159,7 @@ class IoArranger {
      */
     private static boolean isAopAfter(final MAttribute attribute) {
         final String sourceField = attribute.getSourceField();
-        return KeField.Modeling.VALUE_AFTER.equals(sourceField);
+        return KName.Modeling.VALUE_AFTER.equals(sourceField);
     }
 
 
@@ -231,8 +231,8 @@ class IoArranger {
     private static JsonObject componentConfig(final MAttribute attribute, final DataAtom atom, final Class<?> componentCls) {
         final JsonObject sourceConfig = Ut.toJObject(attribute.getSourceConfig());
         final JsonObject combine;
-        if (sourceConfig.containsKey(KeField.PLUGIN_IO)) {
-            final JsonObject pluginConfig = Ut.toJObject(sourceConfig.getValue(KeField.PLUGIN_IO));
+        if (sourceConfig.containsKey(KName.PLUGIN_IO)) {
+            final JsonObject pluginConfig = Ut.toJObject(sourceConfig.getValue(KName.PLUGIN_IO));
             if (pluginConfig.containsKey(componentCls.getName())) {
                 combine = Ut.toJObject(pluginConfig.getValue(componentCls.getName()));
             } else {
@@ -243,19 +243,19 @@ class IoArranger {
         }
         final AoAttribute aoAttr = atom.attribute(attribute.getName());
         final JsonObject attrJson = new JsonObject();
-        attrJson.put(KeField.NAME, attribute.getName());
-        attrJson.put(KeField.ALIAS, attribute.getAlias());
-        attrJson.put(KeField.FORMAT, aoAttr.format());
+        attrJson.put(KName.NAME, attribute.getName());
+        attrJson.put(KName.ALIAS, attribute.getAlias());
+        attrJson.put(KName.FORMAT, aoAttr.format());
 
-        combine.put(KeField.ATTRIBUTE, attrJson);
-        combine.put(KeField.SOURCE, attribute.getSource());
-        combine.put(KeField.SOURCE_FIELD, attribute.getSourceField());
+        combine.put(KName.ATTRIBUTE, attrJson);
+        combine.put(KName.SOURCE, attribute.getSource());
+        combine.put(KName.SOURCE_FIELD, attribute.getSourceField());
         /*
          *  sourceParams
          */
         final JsonObject params = new JsonObject();
-        params.put(KeField.SIGMA, attribute.getSigma());
-        combine.put(KeField.SOURCE_PARAMS, params);
+        params.put(KName.SIGMA, attribute.getSigma());
+        combine.put(KName.SOURCE_PARAMS, params);
         return combine;
     }
 
@@ -365,7 +365,7 @@ class IoArranger {
             final JsonObject dataMap = sourceData(inMap, interfaceCls);
             inMap.forEach((field, component) -> {
                 final JsonObject config = component.config();
-                config.put(KeField.SOURCE_DATA, dataMap);
+                config.put(KName.SOURCE_DATA, dataMap);
                 consumer.accept(input, component, config);
             });
         }

@@ -12,7 +12,7 @@ import cn.vertxup.rbac.service.accredit.ActionStub;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.ke.cv.KeField;
+import io.vertx.up.eon.KName;
 import io.vertx.tp.rbac.refine.Sc;
 import io.vertx.up.atom.query.engine.Qr;
 import io.vertx.up.eon.Strings;
@@ -90,7 +90,7 @@ public class PermService implements PermStub {
     public Future<JsonArray> syncAsync(final JsonArray permissions, final String roleId) {
         return Fn.getEmpty(Ux.futureA(), () -> {
             final JsonObject condition = new JsonObject();
-            condition.put(KeField.Rbac.ROLE_ID, roleId);
+            condition.put(KName.Rbac.ROLE_ID, roleId);
             /*
              * Delete all the relations that belong to roleId
              * that the user provided here
@@ -123,7 +123,7 @@ public class PermService implements PermStub {
         /*
          * Result for searching on S_PERMISSIONS
          */
-        return Ux.Jooq.on(SPermSetDao.class).<SPermSet>fetchAsync(KeField.SIGMA, sigma).compose(setList -> {
+        return Ux.Jooq.on(SPermSetDao.class).<SPermSet>fetchAsync(KName.SIGMA, sigma).compose(setList -> {
             /*
              * Extract perm codes to set
              */
@@ -137,7 +137,7 @@ public class PermService implements PermStub {
              * Combine condition here
              */
             final JsonObject criteria = new JsonObject();
-            criteria.put(KeField.SIGMA, sigma);
+            criteria.put(KName.SIGMA, sigma);
             criteria.put("code,!i", Ut.toJArray(codes));
             criteria.put(Strings.EMPTY, Boolean.TRUE);
             if (Ut.notNil(criteriaRef)) {
@@ -166,35 +166,35 @@ public class PermService implements PermStub {
                 .compose(permission -> this.actionStub.fetchAction(permission.getKey())
 
                         /* futureJM to combine two result to JsonObject */
-                        .compose(Ux.futureJM(permission, KeField.ACTIONS))
+                        .compose(Ux.futureJM(permission, KName.ACTIONS))
                 );
     }
 
     @Override
     public Future<JsonObject> createAsync(final JsonObject body) {
-        final JsonArray actions = body.getJsonArray(KeField.ACTIONS);
-        body.remove(KeField.ACTIONS);
+        final JsonArray actions = body.getJsonArray(KName.ACTIONS);
+        body.remove(KName.ACTIONS);
         return Ux.Jooq.on(SPermissionDao.class).<SPermission>insertAsync(body)
 
                 /* Synced Action */
                 .compose(permission -> this.actionStub.saveAction(permission, actions)
 
                         /* futureJM to combine two result to JsonObject */
-                        .compose(Ux.futureJM(permission, KeField.ACTIONS))
+                        .compose(Ux.futureJM(permission, KName.ACTIONS))
                 );
     }
 
     @Override
     public Future<JsonObject> updateAsync(final String key, final JsonObject body) {
-        final JsonArray actions = body.getJsonArray(KeField.ACTIONS);
-        body.remove(KeField.ACTIONS);
+        final JsonArray actions = body.getJsonArray(KName.ACTIONS);
+        body.remove(KName.ACTIONS);
         return Ux.Jooq.on(SPermissionDao.class).<SPermission, String>updateAsync(key, body)
 
                 /* Synced Action */
                 .compose(permission -> this.actionStub.saveAction(permission, actions)
 
                         /* futureJM to combine two result to JsonObject */
-                        .compose(Ux.futureJM(permission, KeField.ACTIONS))
+                        .compose(Ux.futureJM(permission, KName.ACTIONS))
                 );
     }
 

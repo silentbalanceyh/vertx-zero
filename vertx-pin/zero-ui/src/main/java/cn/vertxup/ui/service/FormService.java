@@ -5,7 +5,7 @@ import cn.vertxup.ui.domain.tables.pojos.UiForm;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.ke.cv.KeField;
+import io.vertx.up.eon.KName;
 import io.vertx.tp.ke.refine.Ke;
 import io.vertx.tp.ui.refine.Ui;
 import io.vertx.up.log.Annal;
@@ -41,15 +41,15 @@ public class FormService implements FormStub {
     @Override
     public Future<JsonArray> fetchByIdentifier(final String identifier, final String sigma) {
         final JsonObject condition = new JsonObject();
-        condition.put(KeField.IDENTIFIER, identifier);
-        condition.put(KeField.SIGMA, sigma);
+        condition.put(KName.IDENTIFIER, identifier);
+        condition.put(KName.SIGMA, sigma);
         return Ux.Jooq.on(UiFormDao.class).<UiForm>fetchAndAsync(condition)
                 /* List<UiForm> */
                 .compose(Ux::futureA)
                 .compose(forms -> {
                     Ut.itJArray(forms).forEach(form -> {
-                        Ke.mountArray(form, KeField.Ui.HIDDEN);
-                        Ke.mount(form, KeField.METADATA);
+                        Ke.mountArray(form, KName.Ui.HIDDEN);
+                        Ke.mount(form, KName.METADATA);
                     });
                     return Ux.future(forms);
                 });
@@ -58,8 +58,8 @@ public class FormService implements FormStub {
     @Override
     public Future<JsonObject> fetchByCode(final String code, final String sigma) {
         final JsonObject filters = new JsonObject();
-        filters.put(KeField.CODE, code);
-        filters.put(KeField.SIGMA, sigma);
+        filters.put(KName.CODE, code);
+        filters.put(KName.SIGMA, sigma);
         filters.put("", Boolean.TRUE);
         return Ux.Jooq.on(UiFormDao.class)
                 .<UiForm>fetchOneAsync(filters)
@@ -102,57 +102,57 @@ public class FormService implements FormStub {
 
     private Future<JsonObject> attachConfig(final JsonObject formJson) {
         final JsonObject config = new JsonObject();
-        Ke.mount(formJson, KeField.METADATA);
+        Ke.mount(formJson, KName.METADATA);
         /*
          * Form configuration
          * window and columns are required
          */
         final JsonObject form = new JsonObject();
-        form.put(KeField.Ui.WINDOW, formJson.getValue(KeField.Ui.WINDOW));
-        form.put(KeField.Ui.COLUMNS, formJson.getValue(KeField.Ui.COLUMNS));
-        if (formJson.containsKey(KeField.Ui.CLASS_NAME)) {
-            form.put(KeField.Ui.CLASS_NAME, formJson.getValue(KeField.Ui.CLASS_NAME));
+        form.put(KName.Ui.WINDOW, formJson.getValue(KName.Ui.WINDOW));
+        form.put(KName.Ui.COLUMNS, formJson.getValue(KName.Ui.COLUMNS));
+        if (formJson.containsKey(KName.Ui.CLASS_NAME)) {
+            form.put(KName.Ui.CLASS_NAME, formJson.getValue(KName.Ui.CLASS_NAME));
         }
         /*
          * hidden: JsonArray
          */
-        if (formJson.containsKey(KeField.Ui.HIDDEN)) {
-            form.put(KeField.Ui.HIDDEN, formJson.getValue(KeField.Ui.HIDDEN));
-            Ke.mountArray(form, KeField.Ui.HIDDEN);
+        if (formJson.containsKey(KName.Ui.HIDDEN)) {
+            form.put(KName.Ui.HIDDEN, formJson.getValue(KName.Ui.HIDDEN));
+            Ke.mountArray(form, KName.Ui.HIDDEN);
         }
         /*
          * row: JsonObject
          */
-        if (formJson.containsKey(KeField.Ui.ROW)) {
-            form.put(KeField.Ui.ROW, formJson.getValue(KeField.Ui.ROW));
-            Ke.mount(form, KeField.Ui.ROW);
+        if (formJson.containsKey(KName.Ui.ROW)) {
+            form.put(KName.Ui.ROW, formJson.getValue(KName.Ui.ROW));
+            Ke.mount(form, KName.Ui.ROW);
         }
         /*
          * metadata: JsonObject
          */
-        if (formJson.containsKey(KeField.METADATA)) {
-            final JsonObject metadata = formJson.getJsonObject(KeField.METADATA);
-            if (metadata.containsKey(KeField.Ui.INITIAL)) {
-                form.put(KeField.Ui.INITIAL, metadata.getJsonObject(KeField.Ui.INITIAL));
+        if (formJson.containsKey(KName.METADATA)) {
+            final JsonObject metadata = formJson.getJsonObject(KName.METADATA);
+            if (metadata.containsKey(KName.Ui.INITIAL)) {
+                form.put(KName.Ui.INITIAL, metadata.getJsonObject(KName.Ui.INITIAL));
             }
         }
-        final String formId = formJson.getString(KeField.KEY);
+        final String formId = formJson.getString(KName.KEY);
         return this.fieldStub.fetchUi(formId)
                 /* Put `ui` to form configuration */
                 .compose(ui -> Ux.future(config.put("form", form.put("ui", ui))));
     }
 
     private JsonObject mountIn(final JsonObject data) {
-        Ke.mountString(data, KeField.Ui.HIDDEN);
-        Ke.mountString(data, KeField.Ui.ROW);
-        Ke.mountString(data, KeField.METADATA);
+        Ke.mountString(data, KName.Ui.HIDDEN);
+        Ke.mountString(data, KName.Ui.ROW);
+        Ke.mountString(data, KName.METADATA);
         return data;
     }
 
     private JsonObject mountOut(final JsonObject data) {
-        Ke.mountArray(data, KeField.Ui.HIDDEN);
-        Ke.mount(data, KeField.Ui.ROW);
-        Ke.mount(data, KeField.METADATA);
+        Ke.mountArray(data, KName.Ui.HIDDEN);
+        Ke.mount(data, KName.Ui.ROW);
+        Ke.mount(data, KName.METADATA);
         return data;
     }
 }

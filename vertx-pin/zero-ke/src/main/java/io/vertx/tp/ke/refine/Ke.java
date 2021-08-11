@@ -5,7 +5,7 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.auth.User;
 import io.vertx.ext.web.Session;
-import io.vertx.tp.ke.cv.KeField;
+import io.vertx.up.eon.KName;
 import io.vertx.up.atom.record.Apt;
 import io.vertx.up.commune.Envelop;
 import io.vertx.up.commune.element.TypeAtom;
@@ -171,7 +171,7 @@ public class Ke {
     }
 
     public static Apt compmared(final Apt apt, final String user) {
-        return KeCompare.compared(apt, KeField.CODE, user);
+        return KeCompare.compared(apt, KName.CODE, user);
     }
 
     public static Apt compmared(final Apt apt, final String field, final String user) {
@@ -200,7 +200,7 @@ public class Ke {
         }
 
         static JsonObject bool(final boolean checked) {
-            return KeResult.bool(KeField.RESULT, checked);
+            return KeResult.bool(KName.RESULT, checked);
         }
 
         static JsonObject bool(final String key, final boolean checked) {

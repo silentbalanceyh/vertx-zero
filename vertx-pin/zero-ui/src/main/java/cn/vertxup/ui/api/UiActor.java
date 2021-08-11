@@ -4,7 +4,7 @@ import cn.vertxup.ui.service.*;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.ke.cv.KeField;
+import io.vertx.up.eon.KName;
 import io.vertx.tp.ui.cv.Addr;
 import io.vertx.tp.ui.cv.em.ControlType;
 import io.vertx.up.annotations.Address;
@@ -65,7 +65,7 @@ public class UiActor {
             /*
              * fetch data plugin/ui/ops.json
              */
-            final String identifier = body.getString(KeField.IDENTIFIER);
+            final String identifier = body.getString(KName.IDENTIFIER);
             return this.opStub.fetchFixed(identifier);
         }
     }

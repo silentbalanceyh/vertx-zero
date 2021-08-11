@@ -4,7 +4,7 @@ import cn.vertxup.ambient.domain.tables.daos.XAppDao;
 import cn.vertxup.ambient.domain.tables.pojos.XApp;
 import io.vertx.tp.error._500AmbientErrorException;
 import io.vertx.tp.error._500ApplicationInitException;
-import io.vertx.tp.ke.cv.KeField;
+import io.vertx.up.eon.KName;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.uca.jooq.UxJooq;
 import io.vertx.up.unity.Ux;
@@ -34,7 +34,7 @@ public class AtApp {
         final UxJooq jooq = Ux.Jooq.on(XAppDao.class);
         Fn.outWeb(null == jooq, _500AmbientErrorException.class, this.getClass());
         /* Current */
-        this.app = jooq.fetchOne(KeField.NAME, name);
+        this.app = jooq.fetchOne(KName.NAME, name);
         Fn.outWeb(null == this.app, _500ApplicationInitException.class,
                 this.getClass(), name);
     }

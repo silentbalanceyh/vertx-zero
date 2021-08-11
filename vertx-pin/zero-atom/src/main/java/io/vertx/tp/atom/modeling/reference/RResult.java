@@ -5,7 +5,7 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.atom.modeling.config.AoAttribute;
 import io.vertx.tp.atom.modeling.config.AoRule;
-import io.vertx.tp.ke.cv.KeField;
+import io.vertx.up.eon.KName;
 import io.vertx.up.atom.Kv;
 import io.vertx.up.eon.em.DataFormat;
 import io.vertx.up.util.Ut;
@@ -100,7 +100,7 @@ public class RResult implements Serializable {
         this.sourceField = attribute.getSourceField();
         /* Joined calculation */
         final JsonObject sourceReference = Ut.toJObject(attribute.getSourceReference());
-        final Object connect = sourceReference.getValue(KeField.CONNECT);
+        final Object connect = sourceReference.getValue(KName.CONNECT);
         if (Objects.nonNull(connect)) {
             if (connect instanceof String) {
                 /*

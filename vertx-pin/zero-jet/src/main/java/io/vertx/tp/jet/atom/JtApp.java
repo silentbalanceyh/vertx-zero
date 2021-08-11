@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.JsonObjectSerializer;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.ke.cv.KeField;
+import io.vertx.up.eon.KName;
 import io.vertx.up.commune.config.Database;
 
 import java.io.Serializable;
@@ -169,7 +169,7 @@ public class JtApp implements Serializable {
      * Defined Method
      */
     public String getRoute() {
-        return this.backend.getString(KeField.App.ROUTE);
+        return this.backend.getString(KName.App.ROUTE);
     }
 
     public Database getSource() {

@@ -8,7 +8,7 @@ import io.vertx.tp.crud.connect.IxLinker;
 import io.vertx.tp.crud.cv.Addr;
 import io.vertx.tp.crud.cv.IxMsg;
 import io.vertx.tp.crud.refine.Ix;
-import io.vertx.tp.ke.cv.KeField;
+import io.vertx.up.eon.KName;
 import io.vertx.tp.ke.refine.Ke;
 import io.vertx.tp.optic.ApeakMy;
 import io.vertx.up.annotations.Address;
@@ -95,9 +95,9 @@ public class PutActor {
 
     private Future<JsonObject> prepareDataKey(final JsonObject original, final Envelop request) {
         final JsonObject params = Unity.initMy(request);
-        final String sessionKey = Ke.keySession(params.getString(KeField.METHOD), params.getString(KeField.URI));
+        final String sessionKey = Ke.keySession(params.getString(KName.METHOD), params.getString(KName.URI));
         Ix.infoDao(LOGGER, IxMsg.CACHE_KEY_PROJECTION, sessionKey);
-        original.put(KeField.DATA_KEY, sessionKey);
+        original.put(KName.DATA_KEY, sessionKey);
         return Ux.future(original);
     }
 }

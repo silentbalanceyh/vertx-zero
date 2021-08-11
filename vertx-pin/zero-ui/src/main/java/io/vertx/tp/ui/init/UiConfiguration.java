@@ -2,7 +2,7 @@ package io.vertx.tp.ui.init;
 
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.ke.cv.KeField;
+import io.vertx.up.eon.KName;
 import io.vertx.tp.ui.atom.UiConfig;
 import io.vertx.tp.ui.cv.UiFolder;
 import io.vertx.tp.ui.refine.Ui;
@@ -87,8 +87,8 @@ class UiConfiguration {
              */
             final ConcurrentMap<String, String> attributeMap = new ConcurrentHashMap<>();
             Ut.itJArray(columns).forEach(json -> {
-                if (json.containsKey(KeField.METADATA)) {
-                    final String unparsed = json.getString(KeField.METADATA);
+                if (json.containsKey(KName.METADATA)) {
+                    final String unparsed = json.getString(KName.METADATA);
                     final String[] parsed = unparsed.split(",");
                     if (2 < parsed.length) {
                         final String name = parsed[Values.IDX];
@@ -117,8 +117,8 @@ class UiConfiguration {
             final JsonArray attributes = new JsonArray();
             attributeMap.forEach((name, alias) -> {
                 final JsonObject attribute = new JsonObject();
-                attribute.put(KeField.NAME, name);
-                attribute.put(KeField.ALIAS, alias);
+                attribute.put(KName.NAME, name);
+                attribute.put(KName.ALIAS, alias);
                 attributes.add(attribute);
             });
             return attributes;

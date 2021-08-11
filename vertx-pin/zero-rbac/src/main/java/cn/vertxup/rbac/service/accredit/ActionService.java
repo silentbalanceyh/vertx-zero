@@ -9,7 +9,7 @@ import io.vertx.core.Future;
 import io.vertx.core.http.HttpMethod;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.ke.cv.KeField;
+import io.vertx.up.eon.KName;
 import io.vertx.tp.ke.refine.Ke;
 import io.vertx.tp.optic.business.ExRoute;
 import io.vertx.up.eon.Strings;
@@ -34,7 +34,7 @@ public class ActionService implements ActionStub {
 
     @Override
     public Future<List<SAction>> fetchAction(final String permissionId) {
-        return Ux.Jooq.on(SActionDao.class).fetchAsync(KeField.PERMISSION_ID, permissionId);
+        return Ux.Jooq.on(SActionDao.class).fetchAsync(KName.PERMISSION_ID, permissionId);
     }
 
     @Override
@@ -43,11 +43,11 @@ public class ActionService implements ActionStub {
                                        final String sigma) {
         final JsonObject actionFilters = new JsonObject();
         actionFilters.put(Strings.EMPTY, Boolean.TRUE);
-        actionFilters.put(KeField.URI, normalizedUri);
+        actionFilters.put(KName.URI, normalizedUri);
         if (Ut.notNil(sigma)) {
-            actionFilters.put(KeField.SIGMA, sigma);
+            actionFilters.put(KName.SIGMA, sigma);
         }
-        actionFilters.put(KeField.METHOD, method.name());
+        actionFilters.put(KName.METHOD, method.name());
         return Ux.Jooq.on(SActionDao.class)
                 .fetchOneAsync(actionFilters);
     }
@@ -70,18 +70,18 @@ public class ActionService implements ActionStub {
              * 2. The records must belong to application with the same `sigma`
              */
             final JsonObject condition = new JsonObject();
-            condition.put(KeField.SIGMA, sigma);
+            condition.put(KName.SIGMA, sigma);
             final JsonArray methods = new JsonArray();
             methods.add(HttpMethod.POST.name());
             methods.add(HttpMethod.GET.name());
-            condition.put(KeField.METHOD, methods);
+            condition.put(KName.METHOD, methods);
             /*
              * 3. keyword processing
              */
             final JsonObject criteria = new JsonObject();
-            criteria.put(KeField.NAME + ",c", keyword);
-            criteria.put(KeField.CODE + ",c", keyword);
-            criteria.put(KeField.URI + ",c", keyword);
+            criteria.put(KName.NAME + ",c", keyword);
+            criteria.put(KName.CODE + ",c", keyword);
+            criteria.put(KName.URI + ",c", keyword);
             condition.put("$0", criteria);
             return Ux.Jooq.on(SActionDao.class).fetchAndAsync(condition);
         }
@@ -115,7 +115,7 @@ public class ActionService implements ActionStub {
         /*
          * Read action list of original
          */
-        return Ux.Jooq.on(SActionDao.class).<SAction>fetchAsync(KeField.PERMISSION_ID, permission.getKey())
+        return Ux.Jooq.on(SActionDao.class).<SAction>fetchAsync(KName.PERMISSION_ID, permission.getKey())
                 .compose(oldList -> {
                     /*
                      * Get actions of input
@@ -161,7 +161,7 @@ public class ActionService implements ActionStub {
 
     @Override
     public Future<Boolean> removeAction(final String permissionId, final String userKey) {
-        return Ux.Jooq.on(SActionDao.class).<SAction>fetchAsync(KeField.PERMISSION_ID, permissionId)
+        return Ux.Jooq.on(SActionDao.class).<SAction>fetchAsync(KName.PERMISSION_ID, permissionId)
                 .compose(actions -> {
                     /*
                      * actions modification, no createdBy processing here

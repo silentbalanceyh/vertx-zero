@@ -6,7 +6,7 @@ import io.vertx.core.MultiMap;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.jet.atom.JtApp;
-import io.vertx.tp.ke.cv.KeField;
+import io.vertx.up.eon.KName;
 import io.vertx.tp.optic.environment.Ambient;
 import io.vertx.up.commune.exchange.DualMapping;
 import io.vertx.up.commune.config.Identity;
@@ -95,11 +95,11 @@ class JtBusiness {
          * Params here for different situations
          */
         final MultiMap paramMap = MultiMap.caseInsensitiveMultiMap();
-        paramMap.add(KeField.IDENTIFIER, identifier);
+        paramMap.add(KName.IDENTIFIER, identifier);
         final JtApp app = Ambient.getApp(key);
         if (Objects.nonNull(app)) {
-            paramMap.add(KeField.SIGMA, app.getSigma());
-            paramMap.add(KeField.APP_ID, app.getAppId());
+            paramMap.add(KName.SIGMA, app.getSigma());
+            paramMap.add(KName.APP_ID, app.getAppId());
         }
         return Ux.dictCalc(dict, paramMap);
 
