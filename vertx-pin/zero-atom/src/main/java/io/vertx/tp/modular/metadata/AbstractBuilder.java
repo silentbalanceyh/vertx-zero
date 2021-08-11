@@ -6,8 +6,8 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.tp.atom.cv.em.CheckResult;
 import io.vertx.tp.atom.cv.sql.SqlStatement;
 import io.vertx.tp.atom.modeling.Schema;
-import io.vertx.tp.ke.cv.KeField;
-import io.vertx.tp.ke.cv.KeResult;
+import io.vertx.up.eon.KName;
+import io.vertx.up.eon.KResult;
 import io.vertx.tp.modular.jdbc.AoConnection;
 import io.vertx.tp.modular.sql.SqlDDLBuilder;
 import io.vertx.tp.modular.sql.SqlDDLProvider;
@@ -68,13 +68,13 @@ public abstract class AbstractBuilder implements AoBuilder, SqlStatement {
         }
         final String[] segments = sql.split(";");
         this.getLogger().info("[ Ox ] sql: {0}", sql);
-        int respCode = KeResult.RC_SUCCESS;
+        int respCode = KResult.RC_SUCCESS;
         for (final String segment : segments) {
             if (Ut.notNil(segment)) {
                 respCode = this.conn.execute(segment);
             }
         }
-        return KeResult.RC_SUCCESS == respCode;
+        return KResult.RC_SUCCESS == respCode;
     }
 
     @Override
@@ -111,7 +111,7 @@ public abstract class AbstractBuilder implements AoBuilder, SqlStatement {
             resultList.add(fieldResult);
         });
         return resultObj
-                .put(KeField.IDENTIFIER, schema.getEntity().getIdentifier())
+                .put(KName.IDENTIFIER, schema.getEntity().getIdentifier())
                 .put("details", resultList);
     }
 
@@ -126,11 +126,11 @@ public abstract class AbstractBuilder implements AoBuilder, SqlStatement {
             return Boolean.TRUE;
         }
         this.getLogger().info("[ Ox ] sql: {0}", sql);
-        int respCode = KeResult.RC_SUCCESS;
+        int respCode = KResult.RC_SUCCESS;
         if (Ut.notNil(sql)) {
             respCode = this.conn.execute(sql);
         }
-        return KeResult.RC_SUCCESS == respCode;
+        return KResult.RC_SUCCESS == respCode;
     }
 
     @Override

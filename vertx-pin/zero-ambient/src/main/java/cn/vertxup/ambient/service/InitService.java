@@ -5,7 +5,7 @@ import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.ambient.init.AtPin;
 import io.vertx.tp.ambient.refine.At;
-import io.vertx.tp.ke.cv.KeField;
+import io.vertx.up.eon.KName;
 import io.vertx.tp.ke.refine.Ke;
 import io.vertx.tp.optic.extension.Init;
 import io.vertx.tp.optic.extension.Prerequisite;
@@ -48,7 +48,7 @@ public class InitService implements InitStub {
     public Future<JsonObject> initCreation(final String appId,
                                            final JsonObject data) {
         /* Default Future */
-        return Ux.future(data.put(KeField.KEY, appId))
+        return Ux.future(data.put(KName.KEY, appId))
                 /* X_APP initialization */
                 .compose(At.initApp().apply())
                 /* X_SOURCE initialization */
@@ -60,7 +60,7 @@ public class InitService implements InitStub {
                 /* Data Loading */
                 .compose(At.initData().apply())
                 /* Image */
-                .compose(Ke.image(KeField.App.LOGO));
+                .compose(Ke.image(KName.App.LOGO));
     }
 
     /**
@@ -115,13 +115,13 @@ public class InitService implements InitStub {
         /* Fetch App */
         return Ux.Jooq.on(XAppDao.class)
                 /* X_APP Fetching */
-                .fetchOneAsync(KeField.NAME, appName)
+                .fetchOneAsync(KName.NAME, appName)
                 .compose(Ux::futureJ)
                 /* X_SOURCE fetching, Fetching skip Database initialization */
                 .compose(this::initCombine)
                 .compose(this::initDefined)
                 /* Image */
-                .compose(Ke.image(KeField.App.LOGO));
+                .compose(Ke.image(KName.App.LOGO));
     }
 
     /**
@@ -132,8 +132,8 @@ public class InitService implements InitStub {
      * @return {@link io.vertx.core.Future}<{@link io.vertx.core.json.JsonObject}>
      */
     private Future<JsonObject> initCombine(final JsonObject appJson) {
-        return this.stub.fetchSource(appJson.getString(KeField.KEY))
-                .compose(source -> Uson.create(appJson).append(KeField.SOURCE, source).toFuture());
+        return this.stub.fetchSource(appJson.getString(KName.KEY))
+                .compose(source -> Uson.create(appJson).append(KName.SOURCE, source).toFuture());
     }
 
     /**

@@ -2,7 +2,7 @@ package io.vertx.tp.crud.actor;
 
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.auth.User;
-import io.vertx.tp.ke.cv.KeField;
+import io.vertx.up.eon.KName;
 import io.vertx.tp.ke.refine.Ke;
 import io.vertx.up.commune.Envelop;
 import io.vertx.up.log.Annal;
@@ -30,8 +30,8 @@ public abstract class AbstractActor implements IxActor {
     private void initLogged(final User user) {
         final JsonObject principle = user.principal();
         /* Metadata processing */
-        if (principle.containsKey(KeField.METADATA)) {
-            this.metadata.mergeIn(principle.getJsonObject(KeField.METADATA));
+        if (principle.containsKey(KName.METADATA)) {
+            this.metadata.mergeIn(principle.getJsonObject(KName.METADATA));
         }
         /* User id */
         this.user = Ke.keyUser(this.envelop);

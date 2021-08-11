@@ -3,9 +3,9 @@ package io.vertx.tp.crud.actor;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.crud.atom.IxModule;
-import io.vertx.tp.ke.atom.metadata.KField;
 import io.vertx.tp.ke.refine.Ke;
 import io.vertx.tp.optic.business.ExSerial;
+import io.vertx.up.eon.KName;
 import io.vertx.up.log.Annal;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
@@ -25,7 +25,7 @@ class SerialActor extends AbstractActor {
 
     @Override
     public Future<JsonObject> procAsync(final JsonObject data, final IxModule config) {
-        final KField field = config.getField();
+        final io.vertx.tp.ke.atom.metadata.KField field = config.getField();
         final JsonObject numbers = field.getNumbers();
         if (Ut.isNil(numbers)) {
             /*
@@ -40,7 +40,7 @@ class SerialActor extends AbstractActor {
             return Ke.channelAsync(ExSerial.class,
                     () -> Ux.future(data),
                     serial -> {
-                        final String sigma = data.getString(io.vertx.tp.ke.cv.KeField.SIGMA);
+                        final String sigma = data.getString(KName.SIGMA);
                         if (Ut.isNil(sigma)) {
                             return Ux.future(data);
                         } else {

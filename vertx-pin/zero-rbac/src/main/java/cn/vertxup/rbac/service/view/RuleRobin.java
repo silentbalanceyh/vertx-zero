@@ -3,7 +3,7 @@ package cn.vertxup.rbac.service.view;
 import cn.vertxup.rbac.domain.tables.pojos.SPath;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.ke.cv.KeField;
+import io.vertx.up.eon.KName;
 import io.vertx.tp.ke.refine.Ke;
 import io.vertx.tp.rbac.cv.em.SourceGroup;
 import io.vertx.tp.rbac.cv.em.SourceType;
@@ -73,7 +73,7 @@ class RuleRobin {
                     /*
                      * group node for group source
                      */
-                    processed.put(KeField.GROUP, ui);
+                    processed.put(KName.GROUP, ui);
                     processed.remove("groupComponent");
                     processed.remove("groupCondition");
                     processed.remove("groupType");
@@ -105,8 +105,8 @@ class RuleRobin {
 
     private static JsonObject toCriteria(final SPath path) {
         final JsonObject inputData = new JsonObject();
-        inputData.put(KeField.SIGMA, path.getSigma());
-        inputData.put(KeField.LANGUAGE, path.getLanguage());
+        inputData.put(KName.SIGMA, path.getSigma());
+        inputData.put(KName.LANGUAGE, path.getLanguage());
         return inputData;
     }
 }

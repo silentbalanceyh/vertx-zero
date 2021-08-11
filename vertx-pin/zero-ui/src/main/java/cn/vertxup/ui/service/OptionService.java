@@ -5,7 +5,7 @@ import cn.vertxup.ui.domain.tables.pojos.*;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.ke.cv.KeField;
+import io.vertx.up.eon.KName;
 import io.vertx.tp.ke.refine.Ke;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
@@ -62,7 +62,7 @@ public class OptionService implements OptionStub {
                 // filter(deduplicate) by action
                 .filter(item -> Ut.notNil(item.getString("action")) && null == seen.putIfAbsent(item.getString("action"), Boolean.TRUE))
                 .map(this::mountIn)
-                .map(field -> field.put(KeField.Ui.CONTROL_ID, Optional.ofNullable(field.getString(KeField.Ui.CONTROL_ID)).orElse(controlId)))
+                .map(field -> field.put(KName.Ui.CONTROL_ID, Optional.ofNullable(field.getString(KName.Ui.CONTROL_ID)).orElse(controlId)))
                 .map(field -> Ux.fromJson(field, UiOp.class))
                 .collect(Collectors.toList());
         // 2. delete old ones and insert new ones
@@ -82,20 +82,20 @@ public class OptionService implements OptionStub {
     @Override
     public Future<Boolean> deleteByControlId(final String controlId) {
         return Ux.Jooq.on(UiOpDao.class)
-                .deleteByAsync(new JsonObject().put(KeField.Ui.CONTROL_ID, controlId));
+                .deleteByAsync(new JsonObject().put(KName.Ui.CONTROL_ID, controlId));
     }
 
     private JsonObject mountIn(final JsonObject data) {
         Ke.mountString(data, OptionStub.FIELD_OP_CONFIG);
         Ke.mountString(data, OptionStub.FIELD_OP_PLUGIN);
-        Ke.mountString(data, KeField.METADATA);
+        Ke.mountString(data, KName.METADATA);
         return data;
     }
 
     private JsonObject mountOut(final JsonObject data) {
         Ke.mount(data, OptionStub.FIELD_OP_CONFIG);
         Ke.mount(data, OptionStub.FIELD_OP_PLUGIN);
-        Ke.mount(data, KeField.METADATA);
+        Ke.mount(data, KName.METADATA);
         return data;
     }
 }

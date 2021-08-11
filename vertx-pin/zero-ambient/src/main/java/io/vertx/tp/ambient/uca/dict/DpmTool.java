@@ -2,7 +2,7 @@ package io.vertx.tp.ambient.uca.dict;
 
 import io.vertx.core.MultiMap;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.ke.cv.KeField;
+import io.vertx.up.eon.KName;
 import io.vertx.up.commune.exchange.DictSource;
 import io.vertx.up.eon.Strings;
 import io.vertx.up.eon.em.GlossaryType;
@@ -37,13 +37,13 @@ class DpmTool {
         /* Result */
         final JsonObject condition = new JsonObject();
         /* Sigma for each application */
-        final String sigma = params.get(KeField.SIGMA);
-        condition.put(KeField.SIGMA, sigma);
+        final String sigma = params.get(KName.SIGMA);
+        condition.put(KName.SIGMA, sigma);
 
         /* Types */
         final Set<String> typeSet = source.getTypes();
         if (!typeSet.isEmpty()) {
-            condition.put(KeField.TYPE + ",i", Ut.toJArray(typeSet));
+            condition.put(KName.TYPE + ",i", Ut.toJArray(typeSet));
             condition.put(Strings.EMPTY, Boolean.TRUE);
         }
         return condition;

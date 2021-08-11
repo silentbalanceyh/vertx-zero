@@ -12,7 +12,7 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.tp.atom.modeling.Model;
 import io.vertx.tp.atom.modeling.Schema;
 import io.vertx.tp.atom.refine.Ao;
-import io.vertx.tp.ke.cv.KeField;
+import io.vertx.up.eon.KName;
 import io.vertx.tp.modular.jdbc.Pin;
 import io.vertx.tp.modular.metadata.AoBuilder;
 import io.vertx.up.commune.config.Database;
@@ -29,13 +29,13 @@ class SchemaRefine implements AoRefine {
         return appJson -> {
 
             // 读取上一个流程中处理完成的 models
-            final JsonArray models = appJson.getJsonArray(KeField.Modeling.MODELS);
-            final String name = appJson.getString(KeField.NAME);
+            final JsonArray models = appJson.getJsonArray(KName.Modeling.MODELS);
+            final String name = appJson.getString(KName.NAME);
             final Set<Schema> schemata = this.toSchemata(models, Model.namespace(name));
             Ao.infoUca(this.getClass(), "2. AoRefine.schema(): {0}", String.valueOf(schemata.size()));
 
             // 1. 处理 Schema 的同步
-            final JsonObject source = appJson.getJsonObject(KeField.SOURCE);
+            final JsonObject source = appJson.getJsonObject(KName.SOURCE);
             this.syncDatabase(source, schemata);
 
             // 2. 更新 MEntity 相关内容
@@ -67,15 +67,15 @@ class SchemaRefine implements AoRefine {
 
     private JsonObject onCriteria(final String name, final MEntity entity) {
         final JsonObject filters = new JsonObject();
-        filters.put(KeField.NAME, name);
-        filters.put(KeField.ENTITY_ID, entity.getKey());
+        filters.put(KName.NAME, name);
+        filters.put(KName.ENTITY_ID, entity.getKey());
         return filters;
     }
 
     private JsonObject onCriteria(final MEntity entity) {
         final JsonObject filters = new JsonObject();
-        filters.put(KeField.NAMESPACE, entity.getNamespace());
-        filters.put(KeField.IDENTIFIER, entity.getIdentifier());
+        filters.put(KName.NAMESPACE, entity.getNamespace());
+        filters.put(KName.IDENTIFIER, entity.getIdentifier());
         return filters;
     }
 

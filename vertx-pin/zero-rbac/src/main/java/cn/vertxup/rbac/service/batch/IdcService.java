@@ -9,7 +9,7 @@ import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.error._403TokenGenerationException;
-import io.vertx.tp.ke.cv.KeField;
+import io.vertx.up.eon.KName;
 import io.vertx.tp.ke.refine.Ke;
 import io.vertx.tp.rbac.refine.Sc;
 import io.vertx.up.atom.Refer;
@@ -41,20 +41,20 @@ class IdcService extends AbstractIdc {
                     final JsonArray filtered = new JsonArray();
                     final Set<String> nameSet = new HashSet<>();
                     Ut.itJArray(user).forEach(each -> {
-                        if (!nameSet.contains(each.getString(KeField.USERNAME))) {
+                        if (!nameSet.contains(each.getString(KName.USERNAME))) {
                             filtered.add(each);
-                            nameSet.add(KeField.USERNAME);
+                            nameSet.add(KName.USERNAME);
                         } else {
                             Sc.infoWeb(this.getClass(), "User ( username = {0} ) duplicated and will be ignored: {1}",
-                                    each.getString(KeField.USERNAME), each.encode());
+                                    each.getString(KName.USERNAME), each.encode());
                         }
                     });
                     /*
                      * Batch user fetching
                      */
                     final JsonObject condition = new JsonObject();
-                    condition.put(KeField.USERNAME + ",i", Ut.toJArray(Ut.mapString(filtered, KeField.USERNAME)));
-                    condition.put(KeField.SIGMA, this.sigma);
+                    condition.put(KName.USERNAME + ",i", Ut.toJArray(Ut.mapString(filtered, KName.USERNAME)));
+                    condition.put(KName.SIGMA, this.sigma);
                     condition.put(Strings.EMPTY, Boolean.TRUE);
                     Sc.infoWeb(this.getClass(), "Unique filters: {0}", condition.encode());
                     return Ux.Jooq.on(SUserDao.class).fetchAsync(condition)
@@ -64,7 +64,7 @@ class IdcService extends AbstractIdc {
                                  * Unique `username` ensure in database
                                  */
                                 final Apt apt = Apt.create(original, filtered);
-                                final Apt created = Ke.compmared(apt, KeField.USERNAME, by);
+                                final Apt created = Ke.compmared(apt, KName.USERNAME, by);
                                 /*
                                  * ConcurrentMap<String, Role> roles here
                                  */

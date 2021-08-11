@@ -10,7 +10,7 @@ import io.vertx.tp.ambient.atom.AtConfig;
 import io.vertx.tp.ambient.cv.AtConstant;
 import io.vertx.tp.ambient.cv.AtMsg;
 import io.vertx.tp.ambient.init.AtPin;
-import io.vertx.tp.ke.cv.KeField;
+import io.vertx.up.eon.KName;
 import io.vertx.tp.ke.refine.Ke;
 import io.vertx.up.commune.config.Database;
 import io.vertx.up.log.Annal;
@@ -89,7 +89,7 @@ class AtEnv {
     private static Future<Database> getDatabase(final String appId) {
         AtLog.infoEnv(LOGGER, AtMsg.SOURCE, appId);
         return Ux.Jooq.on(XSourceDao.class)
-                .fetchOneAsync(KeField.APP_ID, appId)
+                .fetchOneAsync(KName.APP_ID, appId)
                 .compose(Ux::futureJ)
                 .compose(AtEnv::fromJsonAsync);
     }

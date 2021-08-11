@@ -8,7 +8,7 @@ import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.ambient.cv.em.ActivityStatus;
-import io.vertx.tp.ke.cv.KeField;
+import io.vertx.up.eon.KName;
 import io.vertx.tp.ke.refine.Ke;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
@@ -28,16 +28,16 @@ public class ActivityService implements ActivityStub {
     @Override
     public Future<JsonArray> fetchActivities(final String identifier, final String key) {
         final JsonObject filters = new JsonObject();
-        filters.put(KeField.MODEL_ID, identifier);
-        filters.put(KeField.MODEL_KEY, key);
-        filters.put(KeField.ACTIVE, Boolean.TRUE);  // 只搜索合法的
+        filters.put(KName.MODEL_ID, identifier);
+        filters.put(KName.MODEL_KEY, key);
+        filters.put(KName.ACTIVE, Boolean.TRUE);  // 只搜索合法的
         return Ux.Jooq.on(XActivityDao.class)
                 .fetchAndAsync(filters)
                 .compose(Ux::futureA)
                 .compose(response -> {
                     Ut.itJArray(response).forEach(each -> {
-                        Ke.mount(each, KeField.RECORD_NEW);
-                        Ke.mount(each, KeField.RECORD_OLD);
+                        Ke.mount(each, KName.RECORD_NEW);
+                        Ke.mount(each, KName.RECORD_OLD);
                     });
                     /*
                      * Order by created By
@@ -50,9 +50,9 @@ public class ActivityService implements ActivityStub {
     public Future<JsonArray> fetchActivities(final String identifier, final String key,
                                              final String field) {
         final JsonObject filters = new JsonObject();
-        filters.put(KeField.MODEL_ID, identifier);
-        filters.put(KeField.MODEL_KEY, key);
-        filters.put(KeField.ACTIVE, Boolean.TRUE);  // 只搜索合法的
+        filters.put(KName.MODEL_ID, identifier);
+        filters.put(KName.MODEL_KEY, key);
+        filters.put(KName.ACTIVE, Boolean.TRUE);  // 只搜索合法的
         /*
          * Created By should be synced from system
          * Read all valid activities
@@ -86,9 +86,9 @@ public class ActivityService implements ActivityStub {
                             /*
                              * Json Serialization for recordNew / recordOld
                              */
-                            Ke.mount(activityJson, KeField.RECORD_NEW);
-                            Ke.mount(activityJson, KeField.RECORD_OLD);
-                            activityJson.put(KeField.CHANGES, changes);
+                            Ke.mount(activityJson, KName.RECORD_NEW);
+                            Ke.mount(activityJson, KName.RECORD_OLD);
+                            activityJson.put(KName.CHANGES, changes);
                             return Ux.future(activityJson);
                         })));
     }

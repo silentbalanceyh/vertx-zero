@@ -2,7 +2,7 @@ package io.vertx.tp.optic;
 
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.ke.cv.KeField;
+import io.vertx.up.eon.KName;
 import io.vertx.up.uca.jooq.UxJooq;
 
 /*
@@ -12,9 +12,9 @@ import io.vertx.up.uca.jooq.UxJooq;
  */
 public interface Seeker {
 
-    String ARG0 = KeField.URI;
-    String ARG1 = KeField.METHOD;
-    String ARG2 = KeField.SIGMA;
+    String ARG0 = KName.URI;
+    String ARG1 = KName.METHOD;
+    String ARG2 = KName.SIGMA;
 
     Seeker on(UxJooq jooq);
 

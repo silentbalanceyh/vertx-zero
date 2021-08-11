@@ -8,7 +8,6 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.tp.crud.actor.IxActor;
 import io.vertx.tp.crud.atom.IxModule;
 import io.vertx.tp.crud.refine.Ix;
-import io.vertx.tp.ke.atom.metadata.KField;
 import io.vertx.tp.ke.refine.Ke;
 import io.vertx.tp.optic.Apeak;
 import io.vertx.tp.optic.Pocket;
@@ -19,6 +18,7 @@ import io.vertx.up.commune.exchange.DictConfig;
 import io.vertx.up.commune.exchange.DictEpsilon;
 import io.vertx.up.commune.exchange.DictFabric;
 import io.vertx.up.commune.exchange.DictSource;
+import io.vertx.up.eon.KName;
 import io.vertx.up.log.Annal;
 import io.vertx.up.uca.jooq.UxJooq;
 import io.vertx.up.unity.Ux;
@@ -85,7 +85,7 @@ class Unity {
             final List<DictSource> sources = dict.getSource();
             final MultiMap paramMap = MultiMap.caseInsensitiveMultiMap();
             final JsonObject headers = request.headersX();
-            paramMap.add(io.vertx.tp.ke.cv.KeField.SIGMA, headers.getString(io.vertx.tp.ke.cv.KeField.SIGMA));
+            paramMap.add(KName.SIGMA, headers.getString(KName.SIGMA));
             /*
              * To avoid final in lambda expression
              */
@@ -97,7 +97,7 @@ class Unity {
         /*
          * Get unique rule of current module
          */
-        final KField fieldConfig = module.getField();
+        final io.vertx.tp.ke.atom.metadata.KField fieldConfig = module.getField();
         final JsonArray matrix = fieldConfig.getUnique();
         /*
          * Matrix may be multi group
@@ -147,7 +147,7 @@ class Unity {
         final String pattern = "/api/{0}/search";
         final String actor = Ux.getString(envelop);
         return new JsonObject()
-                .put(io.vertx.tp.ke.cv.KeField.URI, MessageFormat.format(pattern, actor))
-                .put(io.vertx.tp.ke.cv.KeField.METHOD, HttpMethod.POST.name());
+                .put(KName.URI, MessageFormat.format(pattern, actor))
+                .put(KName.METHOD, HttpMethod.POST.name());
     }
 }

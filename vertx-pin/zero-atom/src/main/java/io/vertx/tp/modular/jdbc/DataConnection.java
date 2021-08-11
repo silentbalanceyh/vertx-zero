@@ -1,7 +1,7 @@
 package io.vertx.tp.modular.jdbc;
 
 import io.vertx.tp.error._500EmptySQLException;
-import io.vertx.tp.ke.cv.KeResult;
+import io.vertx.up.eon.KResult;
 import io.vertx.tp.modular.sql.SqlOutput;
 import io.vertx.tp.plugin.database.DataPool;
 import io.vertx.up.commune.config.Database;
@@ -38,7 +38,7 @@ public class DataConnection implements AoConnection {
         final DSLContext context = this.getDSL();
         final Query query = context.query(sql);
         final int ret = query.execute();
-        return Values.ZERO <= ret ? ret : KeResult.RC_FAILURE;
+        return Values.ZERO <= ret ? ret : KResult.RC_FAILURE;
     }
 
     @Override

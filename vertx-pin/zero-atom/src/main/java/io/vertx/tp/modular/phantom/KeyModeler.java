@@ -5,7 +5,7 @@ import cn.vertxup.atom.domain.tables.pojos.MKey;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.ke.cv.KeField;
+import io.vertx.up.eon.KName;
 import io.vertx.up.log.Annal;
 import io.vertx.up.unity.Ux;
 
@@ -42,12 +42,12 @@ class KeyModeler implements AoModeler {
 
     private JsonObject onResult(final JsonObject schemaJson,
                                 final JsonArray keys) {
-        return schemaJson.put(KeField.Modeling.KEYS, keys);
+        return schemaJson.put(KName.Modeling.KEYS, keys);
     }
 
     private JsonObject onCriteria(final JsonObject entityJson) {
         final JsonObject filters = new JsonObject();
-        filters.put(KeField.ENTITY_ID, entityJson.getString(KeField.KEY));
+        filters.put(KName.ENTITY_ID, entityJson.getString(KName.KEY));
         return filters;
     }
 }

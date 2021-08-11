@@ -7,7 +7,7 @@ import io.vertx.tp.crud.actor.IxActor;
 import io.vertx.tp.crud.connect.IxLinker;
 import io.vertx.tp.crud.cv.Addr;
 import io.vertx.tp.crud.refine.Ix;
-import io.vertx.tp.ke.cv.KeField;
+import io.vertx.up.eon.KName;
 import io.vertx.tp.ke.refine.Ke;
 import io.vertx.tp.optic.ApeakMy;
 import io.vertx.up.annotations.Address;
@@ -52,7 +52,7 @@ public class GetActor {
         return Ix.create(this.getClass()).input(request).envelop((dao, config) -> {
             /* Headers */
             final JsonObject headers = request.headersX();
-            final String sigma = headers.getString(KeField.SIGMA);
+            final String sigma = headers.getString(KName.SIGMA);
             Ix.infoFilters(GetActor.LOGGER, "All data by sigma: {0}", sigma);
             if (Ut.isNil(sigma)) {
                 return Ux.future(Envelop.success(new JsonArray()));
@@ -63,9 +63,9 @@ public class GetActor {
                  * For `/api/{actor}/by/sigma`
                  * Only support extract the data that active = true
                  */
-                filters.put(KeField.SIGMA, sigma);
+                filters.put(KName.SIGMA, sigma);
                 filters.put(Strings.EMPTY, Boolean.TRUE);
-                filters.put(KeField.ACTIVE, Boolean.TRUE);
+                filters.put(KName.ACTIVE, Boolean.TRUE);
                 /*
                  * Get List<T> from database that `active = true`
                  */

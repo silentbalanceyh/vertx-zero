@@ -4,7 +4,7 @@ import cn.vertxup.jet.domain.tables.pojos.IService;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.ke.cv.KeField;
+import io.vertx.up.eon.KName;
 import io.vertx.tp.ke.refine.Ke;
 import io.vertx.tp.plugin.job.JobPool;
 import io.vertx.up.atom.worker.Mission;
@@ -51,28 +51,28 @@ public class JobKit {
     }
 
     public static IService fromJson(final JsonObject serviceJson) {
-        Ke.mountString(serviceJson, KeField.METADATA);
-        Ke.mountString(serviceJson, KeField.RULE_UNIQUE);
+        Ke.mountString(serviceJson, KName.METADATA);
+        Ke.mountString(serviceJson, KName.RULE_UNIQUE);
 
-        Ke.mountString(serviceJson, KeField.Api.CONFIG_INTEGRATION);
-        Ke.mountString(serviceJson, KeField.Api.CONFIG_DATABASE);
+        Ke.mountString(serviceJson, KName.Api.CONFIG_INTEGRATION);
+        Ke.mountString(serviceJson, KName.Api.CONFIG_DATABASE);
 
-        Ke.mountString(serviceJson, KeField.Api.CHANNEL_CONFIG);
-        Ke.mountString(serviceJson, KeField.Api.SERVICE_CONFIG);
-        Ke.mountString(serviceJson, KeField.Api.MAPPING_CONFIG);
-        Ke.mountString(serviceJson, KeField.Api.DICT_EPSILON);
-        Ke.mountString(serviceJson, KeField.Api.DICT_CONFIG);
+        Ke.mountString(serviceJson, KName.Api.CHANNEL_CONFIG);
+        Ke.mountString(serviceJson, KName.Api.SERVICE_CONFIG);
+        Ke.mountString(serviceJson, KName.Api.MAPPING_CONFIG);
+        Ke.mountString(serviceJson, KName.Api.DICT_EPSILON);
+        Ke.mountString(serviceJson, KName.Api.DICT_CONFIG);
         return Ux.fromJson(serviceJson, IService.class);
     }
 
     public static JsonObject toJson(final Mission mission) {
         final JsonObject serialized = Ut.serializeJson(mission);
-        final JsonObject metadata = serialized.getJsonObject(KeField.METADATA);
+        final JsonObject metadata = serialized.getJsonObject(KName.METADATA);
         if (Ut.notNil(metadata)) {
-            final JsonObject service = metadata.getJsonObject(KeField.SERVICE);
+            final JsonObject service = metadata.getJsonObject(KName.SERVICE);
             if (Ut.notNil(service)) {
-                Ke.mount(service, KeField.METADATA);
-                Ke.mount(service, KeField.RULE_UNIQUE);
+                Ke.mount(service, KName.METADATA);
+                Ke.mount(service, KName.RULE_UNIQUE);
 
                 /*
                  * Zero standard configuration
@@ -80,8 +80,8 @@ public class JobKit {
                  * 2) Database
                  * Here should be configuration for `Database` & `Integration`
                  */
-                Ke.mount(service, KeField.Api.CONFIG_INTEGRATION);
-                Ke.mount(service, KeField.Api.CONFIG_DATABASE);
+                Ke.mount(service, KName.Api.CONFIG_INTEGRATION);
+                Ke.mount(service, KName.Api.CONFIG_DATABASE);
 
                 /*
                  * 1) channelConfig - Channel Component configuration
@@ -89,11 +89,11 @@ public class JobKit {
                  * 3) dictConfig = Dict Component configuration
                  * 4) mappingConfig = Mapping Component configuration
                  */
-                Ke.mount(service, KeField.Api.CHANNEL_CONFIG);
-                Ke.mount(service, KeField.Api.SERVICE_CONFIG);
-                Ke.mount(service, KeField.Api.MAPPING_CONFIG);
-                Ke.mount(service, KeField.Api.DICT_EPSILON);
-                Ke.mountArray(service, KeField.Api.DICT_CONFIG);
+                Ke.mount(service, KName.Api.CHANNEL_CONFIG);
+                Ke.mount(service, KName.Api.SERVICE_CONFIG);
+                Ke.mount(service, KName.Api.MAPPING_CONFIG);
+                Ke.mount(service, KName.Api.DICT_EPSILON);
+                Ke.mountArray(service, KName.Api.DICT_CONFIG);
             }
         }
         return serialized;

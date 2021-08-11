@@ -8,7 +8,7 @@ import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.ambient.refine.At;
-import io.vertx.tp.ke.cv.KeField;
+import io.vertx.up.eon.KName;
 import io.vertx.tp.ke.refine.Ke;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
@@ -82,8 +82,8 @@ public class DatumService implements DatumStub {
         At.infoFlow(this.getClass(), "Number parameters: sigma = {0}, code = {1}, count = {2}",
                 sigma, code, count);
         final JsonObject filters = new JsonObject();
-        filters.put(KeField.SIGMA, sigma);
-        filters.put(KeField.CODE, code);
+        filters.put(KName.SIGMA, sigma);
+        filters.put(KName.CODE, code);
         return this.numbers(filters, count);
     }
 
@@ -92,8 +92,8 @@ public class DatumService implements DatumStub {
         At.infoFlow(this.getClass(), "Number parameters: sigma = {0}, identifier = {1}, count = {2}",
                 sigma, identifier, count);
         final JsonObject filters = new JsonObject();
-        filters.put(KeField.SIGMA, sigma);
-        filters.put(KeField.IDENTIFIER, identifier);
+        filters.put(KName.SIGMA, sigma);
+        filters.put(KName.IDENTIFIER, identifier);
         return this.numbers(filters, count);
     }
 
@@ -127,7 +127,7 @@ public class DatumService implements DatumStub {
     private Future<JsonArray> fetchArray(final Class<?> daoCls, final JsonObject filters) {
         return Ux.Jooq.on(daoCls).fetchAndAsync(filters).compose(Ux::futureA)
                 .compose(array -> {
-                    Ut.itJArray(array).forEach(json -> Ke.mount(json, KeField.METADATA));
+                    Ut.itJArray(array).forEach(json -> Ke.mount(json, KName.METADATA));
                     return Ux.future(array);
                 });
     }

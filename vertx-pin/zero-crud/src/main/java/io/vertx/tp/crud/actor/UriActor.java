@@ -2,7 +2,7 @@ package io.vertx.tp.crud.actor;
 
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.crud.atom.IxModule;
-import io.vertx.tp.ke.cv.KeField;
+import io.vertx.up.eon.KName;
 
 /*
  * Uri information
@@ -17,8 +17,8 @@ class UriActor extends AbstractActor {
          *    requestUri --> uri
          * Here the result is different
          */
-        data.put(KeField.URI, metadata.getString(KeField.URI_REQUEST));
-        data.put(KeField.METHOD, metadata.getString(KeField.METHOD));
+        data.put(KName.URI, metadata.getString(KName.URI_REQUEST));
+        data.put(KName.METHOD, metadata.getString(KName.METHOD));
         return data;
     }
 }

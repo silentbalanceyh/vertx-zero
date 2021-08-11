@@ -5,7 +5,7 @@ import io.vertx.core.Future;
 import io.vertx.core.Promise;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.ke.cv.KeField;
+import io.vertx.up.eon.KName;
 import io.vertx.tp.ke.refine.Ke;
 import io.vertx.tp.plugin.excel.ExcelClient;
 import io.vertx.tp.plugin.excel.atom.ExRecord;
@@ -78,15 +78,15 @@ public class FileActor {
                     /*
                      * Required: username, mobile, email
                      */
-                    if (Ke.isIn(record, KeField.USERNAME)) {
+                    if (Ke.isIn(record, KName.USERNAME)) {
                         // TODO:
-                        record.put(KeField.LANGUAGE, "cn");
+                        record.put(KName.LANGUAGE, "cn");
                         prepared.add(record);
                     } else {
                         Sc.warnWeb(this.getClass(), "Ignored record: {0}", record.encode());
                     }
                 });
-                final String sigma = headers.getString(KeField.SIGMA);
+                final String sigma = headers.getString(KName.SIGMA);
                 final IdcStub stub = IdcStub.create(sigma);
 
                 final String user = Ke.keyUser(request);

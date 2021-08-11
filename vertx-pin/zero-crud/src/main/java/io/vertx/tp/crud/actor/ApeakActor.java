@@ -3,7 +3,7 @@ package io.vertx.tp.crud.actor;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.crud.atom.IxModule;
 import io.vertx.tp.crud.atom.IxViewParam;
-import io.vertx.tp.ke.cv.KeField;
+import io.vertx.up.eon.KName;
 
 import java.util.Objects;
 
@@ -26,9 +26,9 @@ class ApeakActor extends AbstractActor {
              * from database directly.
              * Here add new parameter `view` for future usage to support multi views
              */
-            data.put(KeField.IDENTIFIER, column.getIdentifier());
-            data.put(KeField.DYNAMIC, column.getDynamic());
-            data.put(KeField.VIEW, column.getView());
+            data.put(KName.IDENTIFIER, column.getIdentifier());
+            data.put(KName.DYNAMIC, column.getDynamic());
+            data.put(KName.VIEW, column.getView());
         }
         return data;
     }

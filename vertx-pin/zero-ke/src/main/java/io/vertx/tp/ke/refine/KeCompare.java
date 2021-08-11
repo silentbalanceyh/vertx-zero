@@ -3,7 +3,7 @@ package io.vertx.tp.ke.refine;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.ke.cv.KeField;
+import io.vertx.up.eon.KName;
 import io.vertx.tp.optic.fantom.Fabric;
 import io.vertx.up.atom.record.Apt;
 import io.vertx.up.log.Annal;
@@ -49,14 +49,14 @@ class KeCompare {
             final JsonObject item = Ut.elementFind(original, fieldName, value);
             if (Objects.isNull(item)) {
                 final JsonObject record = each.copy();
-                record.put(KeField.CREATED_AT, Instant.now());
-                record.put(KeField.CREATED_BY, user);
+                record.put(KName.CREATED_AT, Instant.now());
+                record.put(KName.CREATED_BY, user);
                 inserted.add(record);
             } else {
                 final JsonObject dataItem = new JsonObject();
                 dataItem.mergeIn(item.copy(), true).mergeIn(each.copy());
-                dataItem.put(KeField.UPDATED_AT, Instant.now());
-                dataItem.put(KeField.UPDATED_BY, user);
+                dataItem.put(KName.UPDATED_AT, Instant.now());
+                dataItem.put(KName.UPDATED_BY, user);
                 originalArray.add(item.copy());
                 updated.add(dataItem);
             }

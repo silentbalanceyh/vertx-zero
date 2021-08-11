@@ -3,7 +3,7 @@ package io.vertx.tp.optic;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.ke.cv.KeField;
+import io.vertx.up.eon.KName;
 import io.vertx.up.uca.jooq.UxJooq;
 
 /*
@@ -13,12 +13,12 @@ import io.vertx.up.uca.jooq.UxJooq;
  */
 public interface ApeakMy {
 
-    String ARG0 = KeField.RESOURCE_ID;
+    String ARG0 = KName.RESOURCE_ID;
     String ARG1 = "user";
-    String ARG2 = KeField.VIEW;
+    String ARG2 = KName.VIEW;
 
     String ARG3 = "habitus";
-    String ARG4 = KeField.DATA_KEY;
+    String ARG4 = KName.DATA_KEY;
 
     ApeakMy on(UxJooq jooq);
 

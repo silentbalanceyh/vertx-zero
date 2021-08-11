@@ -13,7 +13,7 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.atom.modeling.Model;
 import io.vertx.tp.atom.refine.Ao;
-import io.vertx.tp.ke.cv.KeField;
+import io.vertx.up.eon.KName;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
@@ -29,8 +29,8 @@ class ModelRefine implements AoRefine {
     public Function<JsonObject, Future<JsonObject>> apply() {
         return appJson -> {
             // 读取上一个流程中处理完成的 models
-            final JsonArray modelJson = appJson.getJsonArray(KeField.Modeling.MODELS);
-            final String name = appJson.getString(KeField.NAME);
+            final JsonArray modelJson = appJson.getJsonArray(KName.Modeling.MODELS);
+            final String name = appJson.getString(KName.NAME);
             final Set<Model> models = this.toModels(modelJson, Model.namespace(name));
             Ao.infoUca(this.getClass(), "3. AoRefine.model(): {0}", String.valueOf(models.size()));
             // 1. 更新某一个模型
@@ -50,22 +50,22 @@ class ModelRefine implements AoRefine {
 
     private JsonObject onCriteria(final MAttribute attribute) {
         final JsonObject filters = new JsonObject();
-        filters.put(KeField.NAME, attribute.getName());
-        filters.put(KeField.MODEL_ID, attribute.getModelId());
+        filters.put(KName.NAME, attribute.getName());
+        filters.put(KName.MODEL_ID, attribute.getModelId());
         return filters;
     }
 
     private JsonObject onCriteria(final MModel entity) {
         final JsonObject filters = new JsonObject();
-        filters.put(KeField.NAMESPACE, entity.getNamespace());
-        filters.put(KeField.IDENTIFIER, entity.getIdentifier());
+        filters.put(KName.NAMESPACE, entity.getNamespace());
+        filters.put(KName.IDENTIFIER, entity.getIdentifier());
         return filters;
     }
 
     private JsonObject onCriteria(final MJoin nexus) {
         final JsonObject filters = new JsonObject();
-        filters.put(KeField.NAMESPACE, nexus.getNamespace());
-        filters.put(KeField.MODEL, nexus.getModel());
+        filters.put(KName.NAMESPACE, nexus.getNamespace());
+        filters.put(KName.MODEL, nexus.getModel());
         return filters;
     }
 

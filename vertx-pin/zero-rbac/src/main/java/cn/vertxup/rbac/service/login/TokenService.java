@@ -6,7 +6,7 @@ import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.Session;
-import io.vertx.tp.ke.cv.KeField;
+import io.vertx.up.eon.KName;
 import io.vertx.tp.rbac.atom.ScConfig;
 import io.vertx.tp.rbac.cv.AuthKey;
 import io.vertx.tp.rbac.init.ScPin;
@@ -48,7 +48,7 @@ public class TokenService implements TokenStub {
                          * when user logged into the system.
                          * 4) Let's habitus length be 128 and it will be a key of logged user here.
                          * */
-                        .append(KeField.HABITUS, Ut.randomString(128))
+                        .append(KName.HABITUS, Ut.randomString(128))
                         /*
                          * Store session id instead of habitus in future
                          */
