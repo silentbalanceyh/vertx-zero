@@ -7,6 +7,7 @@ import io.vertx.tp.atom.cv.em.CheckResult;
 import io.vertx.tp.atom.cv.sql.SqlStatement;
 import io.vertx.tp.atom.modeling.Schema;
 import io.vertx.up.eon.KName;
+import io.vertx.up.eon.KResult;
 import io.vertx.tp.modular.jdbc.AoConnection;
 import io.vertx.tp.modular.sql.SqlDDLBuilder;
 import io.vertx.tp.modular.sql.SqlDDLProvider;

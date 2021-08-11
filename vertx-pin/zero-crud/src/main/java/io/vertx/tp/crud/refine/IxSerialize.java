@@ -35,7 +35,7 @@ class IxSerialize {
     }
 
     static JsonArray serializeA(final JsonArray from, final JsonArray to, final IxModule config) {
-        final KField field = config.getField();
+        final io.vertx.tp.ke.atom.metadata.KField field = config.getField();
         final String keyField = field.getKey();
         return Uarr.create(to).zip(from, keyField, keyField).to();
     }

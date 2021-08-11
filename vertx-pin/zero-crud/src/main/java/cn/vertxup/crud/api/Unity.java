@@ -8,7 +8,6 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.tp.crud.actor.IxActor;
 import io.vertx.tp.crud.atom.IxModule;
 import io.vertx.tp.crud.refine.Ix;
-import io.vertx.tp.ke.atom.metadata.KField;
 import io.vertx.tp.ke.refine.Ke;
 import io.vertx.tp.optic.Apeak;
 import io.vertx.tp.optic.Pocket;
@@ -98,7 +97,7 @@ class Unity {
         /*
          * Get unique rule of current module
          */
-        final KField fieldConfig = module.getField();
+        final io.vertx.tp.ke.atom.metadata.KField fieldConfig = module.getField();
         final JsonArray matrix = fieldConfig.getUnique();
         /*
          * Matrix may be multi group
