@@ -1,6 +1,7 @@
 package io.vertx.up.unity;
 
 import io.vertx.core.Future;
+import io.vertx.core.json.JsonObject;
 import io.vertx.tp.plugin.job.JobClient;
 import io.vertx.tp.plugin.job.JobInfix;
 import io.vertx.up.fn.Fn;
@@ -38,5 +39,9 @@ public class UxJob {
                     LOGGER.info(Info.JOB_RESUME, code);
                     future.complete(Boolean.TRUE);
                 }));
+    }
+
+    public Future<JsonObject> statusAsync(final String namespace) {
+        return this.client.statusAsync(namespace);
     }
 }

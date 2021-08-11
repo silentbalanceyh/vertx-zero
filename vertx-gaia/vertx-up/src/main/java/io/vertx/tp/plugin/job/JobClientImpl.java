@@ -178,4 +178,20 @@ public class JobClientImpl implements JobClient {
         missions.forEach(this::save);
         return missions;
     }
+
+    @Override
+    public JsonObject status(final String namespace) {
+        return JobPool.status(namespace);
+    }
+
+    @Override
+    public Future<JsonObject> statusAsync(final String namespace) {
+        return Ux.future(this.status(namespace));
+    }
+
+    @Override
+    public JobClient statusAsync(final String namespace, final Handler<AsyncResult<JsonObject>> handler) {
+        handler.handle(this.statusAsync(namespace));
+        return this;
+    }
 }

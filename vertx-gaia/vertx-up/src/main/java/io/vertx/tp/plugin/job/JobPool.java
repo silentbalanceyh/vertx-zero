@@ -1,6 +1,8 @@
 package io.vertx.tp.plugin.job;
 
+import io.vertx.core.json.JsonObject;
 import io.vertx.up.atom.worker.Mission;
+import io.vertx.up.eon.KName;
 import io.vertx.up.eon.em.JobStatus;
 import io.vertx.up.log.Annal;
 import io.vertx.up.util.Ut;
@@ -16,21 +18,13 @@ import java.util.stream.Collectors;
  * Job Pool in memory or storage
  * Static pool for sync here.
  */
-public class JobPool {
+class JobPool {
 
     private static final Annal LOGGER = Annal.get(JobPool.class);
 
     private static final ConcurrentMap<String, Mission> JOBS = new ConcurrentHashMap<>();
     /* RUNNING Reference */
     private static final ConcurrentMap<Long, String> RUNNING = new ConcurrentHashMap<>();
-
-    public static ConcurrentMap<String, Mission> mapJobs() {
-        return JOBS;
-    }
-
-    public static ConcurrentMap<Long, String> mapRuns() {
-        return RUNNING;
-    }
 
     static void remove(final String code) {
         JOBS.remove(code);
@@ -43,7 +37,7 @@ public class JobPool {
     }
 
 
-    public static void mount(final Long timeId, final String code) {
+    static void bind(final Long timeId, final String code) {
         RUNNING.put(timeId, code);
     }
 
@@ -56,10 +50,6 @@ public class JobPool {
 
     static Mission get(final String code) {
         return JOBS.get(code);
-    }
-
-    static String code(final Long timeId) {
-        return RUNNING.get(timeId);
     }
 
     /*
@@ -135,6 +125,34 @@ public class JobPool {
                 mission.setStatus(JobStatus.READY);
             }
         });
+    }
+
+    static JsonObject status(final String namespace) {
+        /*
+         * Revert
+         */
+        final ConcurrentMap<String, Long> runsRevert =
+                new ConcurrentHashMap<>();
+        RUNNING.forEach((timer, code) -> runsRevert.put(code, timer));
+        final JsonObject response = new JsonObject();
+        JOBS.forEach((code, mission) -> {
+            /*
+             * Processing
+             */
+            final JsonObject instance = new JsonObject();
+            instance.put(KName.NAME, mission.getName());
+            instance.put(KName.STATUS, mission.getStatus().name());
+            /*
+             * Timer
+             */
+            instance.put(KName.TIMER, runsRevert.get(mission.getCode()));
+            response.put(mission.getCode(), instance);
+        });
+        return response;
+    }
+
+    static String code(final Long timeId) {
+        return RUNNING.get(timeId);
     }
 
     /* Package Range */

@@ -24,6 +24,10 @@ public interface JobClient {
         return new JobClientImpl(vertx, new JsonObject());
     }
 
+    static void bind(final Long timerId, final String code) {
+        JobPool.bind(timerId, code);
+    }
+
     // ========================== UxJob mount
     /* Start new job */
     @Fluent
@@ -90,4 +94,11 @@ public interface JobClient {
     Future<Mission> removeAsync(String code);
 
     Mission remove(String code);
+
+    JsonObject status(String namespace);
+
+    Future<JsonObject> statusAsync(String namespace);
+
+    @Fluent
+    JobClient statusAsync(String namespace, Handler<AsyncResult<JsonObject>> handler);
 }
