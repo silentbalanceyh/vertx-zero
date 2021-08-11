@@ -130,6 +130,7 @@ public interface KName {
     String DAO = "dao";                          /* Dao field in json configuration */
     String CONNECT = "connect";                  /* Connect field in json configuration */
     String PLUGIN_IO = "plugin.io";              /* Attribute Plugin for "io" of source config */
+    String TIMER = "timer";                      /* Timer in Job */
 
     /*
      * X_APP

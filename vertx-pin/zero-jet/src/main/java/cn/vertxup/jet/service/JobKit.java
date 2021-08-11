@@ -4,14 +4,14 @@ import cn.vertxup.jet.domain.tables.pojos.IService;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.eon.KName;
 import io.vertx.tp.ke.refine.Ke;
-import io.vertx.tp.plugin.job.JobPool;
+import io.vertx.tp.plugin.job.JobClient;
+import io.vertx.tp.plugin.job.JobInfix;
 import io.vertx.up.atom.worker.Mission;
+import io.vertx.up.eon.KName;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
-import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
@@ -19,35 +19,29 @@ import java.util.Set;
  *  Job kit here for configuration
  */
 public class JobKit {
+    private static final JobClient CLIENT = JobInfix.getClient();
+
     /*
      * Could not use old code here
      *
      * private static final List<Mission> MISSION_LIST = JobPool.get();
      */
     static Future<JsonArray> fetchMission(final Set<String> codes) {
-        final List<Mission> missionList = JobPool.get();
-        if (Objects.isNull(codes) || codes.isEmpty()) {
-            return Ux.future(new JsonArray());
-        } else {
+        return CLIENT.fetchAsync(codes).compose(missionList -> {
             final JsonArray response = new JsonArray();
-            missionList.stream()
-                    .filter(mission -> codes.contains(mission.getCode()))
-                    .map(JobKit::toJson)
-                    .forEach(response::add);
+            missionList.forEach(item -> response.add(JobKit.toJson(item)));
             return Ux.future(response);
-        }
+        });
     }
 
     static Future<JsonObject> fetchMission(final String code) {
-        final List<Mission> missionList = JobPool.get();
-        final Mission found = missionList.stream()
-                .filter(mission -> code.equals(mission.getCode()))
-                .findFirst().orElse(null);
-        if (Objects.isNull(found)) {
-            return Ux.future(new JsonObject());
-        } else {
-            return Ux.future(toJson(found));
-        }
+        return CLIENT.fetchAsync(code).compose(found -> {
+            if (Objects.isNull(found)) {
+                return Ux.future(new JsonObject());
+            } else {
+                return Ux.future(toJson(found));
+            }
+        });
     }
 
     public static IService fromJson(final JsonObject serviceJson) {

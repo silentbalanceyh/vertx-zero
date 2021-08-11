@@ -4,11 +4,11 @@ import cn.vertxup.jet.service.JobStub;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.jet.cv.JtAddr;
-import io.vertx.up.eon.KName;
 import io.vertx.tp.plugin.job.JobPool;
 import io.vertx.up.annotations.Address;
 import io.vertx.up.annotations.Queue;
 import io.vertx.up.atom.worker.Mission;
+import io.vertx.up.eon.KName;
 import io.vertx.up.unity.Ux;
 
 import javax.inject.Inject;
@@ -23,17 +23,17 @@ public class JobActor {
 
     @Address(JtAddr.Job.START)
     public Future<Boolean> start(final String code) {
-        return Ux.Job.on().start(code);
+        return Ux.Job.on().startAsync(code);
     }
 
     @Address(JtAddr.Job.STOP)
     public Future<Boolean> stop(final String code) {
-        return Ux.Job.on().stop(code);
+        return Ux.Job.on().stopAsync(code);
     }
 
     @Address(JtAddr.Job.RESUME)
     public Future<Boolean> resume(final String code) {
-        return Ux.Job.on().resume(code);
+        return Ux.Job.on().resumeAsync(code);
     }
 
     @Address(JtAddr.Job.STATUS)

@@ -17,8 +17,8 @@ interface Info {
     String POOL_CLEAR = "( Shared ) pool = {0} has been cleared successfully.";
 
     String JOB_START = "( UxJob ) The job {0} has been started with timeId: {1}.";
-    String JOB_STOP = "( UxJob ) The job {0} has been stopped and timeId: {1} removed.";
-    String JOB_RESUME = "( UxJob ) The job {0} will be resume and new timeId generated: {1}.";
+    String JOB_STOP = "( UxJob ) The job {0} has been stopped and removed.";
+    String JOB_RESUME = "( UxJob ) The job {0} will be resume.";
 }
 
 interface Cache {

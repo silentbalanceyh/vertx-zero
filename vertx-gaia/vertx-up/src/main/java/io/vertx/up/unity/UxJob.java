@@ -3,7 +3,6 @@ package io.vertx.up.unity;
 import io.vertx.core.Future;
 import io.vertx.tp.plugin.job.JobClient;
 import io.vertx.tp.plugin.job.JobInfix;
-import io.vertx.tp.plugin.job.JobPool;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 
@@ -16,29 +15,27 @@ public class UxJob {
     }
 
     // Start job
-    public Future<Boolean> start(final String code) {
-        return Fn.thenGeneric(future -> this.client.start(code, res -> {
+    public Future<Boolean> startAsync(final String code) {
+        return Fn.thenGeneric(future -> this.client.startAsync(code, res -> {
             LOGGER.info(Info.JOB_START, code, res.result());
             future.complete(Boolean.TRUE);
         }));
     }
 
     // Stop job
-    public Future<Boolean> stop(final String code) {
-        final long timeId = JobPool.timeId(code);
-        return Fn.thenGeneric(future -> this.client.stop(timeId,
+    public Future<Boolean> stopAsync(final String code) {
+        return Fn.thenGeneric(future -> this.client.stopAsync(code,
                 res -> {
-                    LOGGER.info(Info.JOB_STOP, code, timeId);
+                    LOGGER.info(Info.JOB_STOP, code);
                     future.complete(Boolean.TRUE);
                 }));
     }
 
     // Resume job
-    public Future<Boolean> resume(final String code) {
-        final long timeId = JobPool.timeId(code);
-        return Fn.thenGeneric(future -> this.client.resume(timeId,
+    public Future<Boolean> resumeAsync(final String code) {
+        return Fn.thenGeneric(future -> this.client.resumeAsync(code,
                 res -> {
-                    LOGGER.info(Info.JOB_RESUME, code, timeId);
+                    LOGGER.info(Info.JOB_RESUME, code);
                     future.complete(Boolean.TRUE);
                 }));
     }

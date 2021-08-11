@@ -2,10 +2,16 @@ package io.vertx.tp.plugin.job;
 
 import io.vertx.codegen.annotations.Fluent;
 import io.vertx.core.AsyncResult;
+import io.vertx.core.Future;
 import io.vertx.core.Handler;
 import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonObject;
+import io.vertx.up.atom.worker.Mission;
 
+import java.util.List;
+import java.util.Set;
+
+@SuppressWarnings("all")
 public interface JobClient {
     /*
      * Create local session store bind data
@@ -18,17 +24,70 @@ public interface JobClient {
         return new JobClientImpl(vertx, new JsonObject());
     }
 
-    /** Start new job */
+    // ========================== UxJob mount
+    /* Start new job */
     @Fluent
-    JobClient start(final String name, final Handler<AsyncResult<Long>> handler);
+    JobClient startAsync(String code, Handler<AsyncResult<Long>> handler);
 
-    /** Stop running job */
+    /* Start */
+    Future<Long> startAsync(String code);
+
+    /* Stop running job */
     @Fluent
-    JobClient stop(final Long timerId, final Handler<AsyncResult<Boolean>> handler);
+    JobClient stopAsync(String code, Handler<AsyncResult<Boolean>> handler);
 
-    /** Resume a failure job */
+    /* Stop */
+    Future<Boolean> stopAsync(String code);
+
+    /* Resume a failure job */
     @Fluent
-    JobClient resume(final Long timeId, final Handler<AsyncResult<Long>> handler);
+    JobClient resumeAsync(String code, Handler<AsyncResult<Long>> handler);
+
+    /* Resume */
+    Future<Long> resumeAsync(String timerId);
+
+    // ========================== UxJob crud
+    /* Fetch Single **/
+    @Fluent
+    JobClient fetchAsync(String code, Handler<AsyncResult<Mission>> handler);
+
+    /* Fetch List */
+    @Fluent
+    JobClient fetchAsync(Set<String> code, Handler<AsyncResult<List<Mission>>> handler);
+
+    /* Fetch */
+    Future<Mission> fetchAsync(String code);
+
+    /* Fetch List */
+    Future<List<Mission>> fetchAsync(Set<String> codes);
+
+    Mission fetch(String code);
+
+    List<Mission> fetch(Set<String> codes);
+
+    @Fluent
+    JobClient saveAsync(Set<Mission> missions, Handler<AsyncResult<Set<Mission>>> handler);
+
+    Future<Set<Mission>> saveAsync(Set<Mission> missions);
+
+    /* Save Mission */
+    @Fluent
+    JobClient saveAsync(Mission mission, Handler<AsyncResult<Mission>> handler);
+
+    /* Save */
+    Future<Mission> saveAsync(Mission mission);
 
 
+    Set<Mission> save(Set<Mission> missions);
+
+    Mission save(Mission mission);
+
+    /* Remove */
+    @Fluent
+    JobClient removeAsync(String code, Handler<AsyncResult<Mission>> handler);
+
+    /* Delete */
+    Future<Mission> removeAsync(String code);
+
+    Mission remove(String code);
 }
