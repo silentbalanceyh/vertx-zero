@@ -1,6 +1,7 @@
 package io.vertx.up.uca.job.store;
 
 import io.vertx.tp.plugin.job.JobClient;
+import io.vertx.tp.plugin.job.JobClientImpl;
 import io.vertx.tp.plugin.job.JobInfix;
 import io.vertx.up.atom.worker.Mission;
 import io.vertx.up.eon.Info;
@@ -27,10 +28,6 @@ class UnityStore implements JobStore {
      * Storage for job definition ( Could be modified )
      */
     private final transient JobStore store = new ExtensionStore();
-    /*
-     * Job client
-     */
-    private final transient JobClient client = JobInfix.getClient();
 
     @Override
     public Set<Mission> fetch() {
@@ -71,19 +68,20 @@ class UnityStore implements JobStore {
                 .forEach(mission -> mission.setStatus(JobStatus.STOPPED));
 
         /* Job Pool Sync */
-        this.client.save(result);
+        JobClient.Pre.save(result);
         return result;
     }
 
     @Override
     public JobStore add(final Mission mission) {
-        this.client.save(mission);
+        JobClient.Pre.save(mission);
         return this.store.add(mission);
     }
 
     @Override
     public Mission fetch(final String code) {
-        Mission mission = this.client.fetch(code);
+        final JobClient client = JobInfix.getClient();
+        Mission mission = client.fetch(code);
         if (Objects.isNull(mission)) {
             mission = this.reader.fetch(code);
             if (Objects.isNull(mission)) {
@@ -95,13 +93,14 @@ class UnityStore implements JobStore {
 
     @Override
     public JobStore remove(final Mission mission) {
-        this.client.remove(mission.getCode());
+        final JobClient client = JobInfix.getClient();
+        client.remove(mission.getCode());
         return this.store.remove(mission);
     }
 
     @Override
     public JobStore update(final Mission mission) {
-        this.client.save(mission);
+        JobClient.Pre.save(mission);
         return this.store.update(mission);
     }
 }
