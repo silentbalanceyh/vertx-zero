@@ -8,8 +8,9 @@ import io.vertx.up.eon.Info;
 import io.vertx.up.log.Debugger;
 import io.vertx.up.util.Ut;
 
-import java.text.SimpleDateFormat;
 import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 
 class FixedAgha extends AbstractAgha {
@@ -49,8 +50,11 @@ class FixedAgha extends AbstractAgha {
         final Instant start = Instant.now();
         final long delay = ChronoUnit.MILLIS.between(start, end);
         if (0 < delay) {
-            final SimpleDateFormat format = new SimpleDateFormat("HH:mm:ss.SSS");
-            this.getLogger().info(Info.JOB_DELAY, mission.getCode(), format.format(delay));
+            final DateTimeFormatter format = DateTimeFormatter.ofPattern("HH:mm:ss.SSS");
+            // Local
+            final LocalDateTime datetime = Ut.toDuration(delay);
+            this.getLogger().info(Info.JOB_DELAY, mission.getCode(),
+                    format.format(datetime));
         }
         return delay < 0 ? 0L : delay;
     }

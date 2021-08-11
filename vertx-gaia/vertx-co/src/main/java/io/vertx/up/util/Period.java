@@ -1,5 +1,6 @@
 package io.vertx.up.util;
 
+import io.vertx.up.eon.Strings;
 import io.vertx.up.fn.Fn;
 
 import java.time.*;
@@ -422,5 +423,52 @@ final class Period {
 
     private static Date parse(final LocalDate datetime, final ZoneId zoneId) {
         return Date.from(datetime.atStartOfDay(zoneId).toInstant());
+    }
+
+    static LocalDateTime toDuration(final long millSeconds) {
+        final Instant instant = Instant.ofEpochMilli(millSeconds);
+        final OffsetDateTime offsetTime = instant.atOffset(ZoneOffset.UTC);
+        return offsetTime.toLocalDateTime();
+    }
+
+    /**
+     * 1. D,00:00, per day
+     * 3. W,00:00,3, per week
+     * 2. M,00:00,11, per month
+     */
+    static Instant parseAt(final String expr) {
+        final String[] splitted = expr.split(Strings.COMMA);
+        final LocalDate nowDate = LocalDate.now();
+        final LocalDateTime nowDateTime = LocalDateTime.now();
+        if (2 == splitted.length) {
+            // D,00:00
+            final LocalTime time = LocalTime.parse(splitted[1]);
+            LocalDateTime datetime = LocalDateTime.of(nowDate, time);
+            if (datetime.isBefore(nowDateTime)) {
+                datetime = datetime.plusDays(1);
+            }
+            return parse(datetime).toInstant();
+        } else if (3 == splitted.length) {
+            final String flag = splitted[0].trim();
+            final LocalTime time = LocalTime.parse(splitted[1]);
+            final int day = Integer.parseInt(splitted[2]);
+            if ("W".equals(flag)) {
+                // W,00:00,3
+                final LocalDate date = nowDate.with(DayOfWeek.of(day));
+                LocalDateTime datetime = LocalDateTime.of(date, time);
+                if (datetime.isBefore(nowDateTime)) {
+                    datetime = datetime.plusWeeks(1);
+                }
+                return parse(datetime).toInstant();
+            } else {
+                // M,00:00,11, per month
+                final LocalDate date = nowDate.withDayOfMonth(day);
+                LocalDateTime datetime = LocalDateTime.of(date, time);
+                if (datetime.isBefore(nowDateTime)) {
+                    datetime = datetime.plusMonths(1);
+                }
+                return parse(datetime).toInstant();
+            }
+        } else return null;
     }
 }
