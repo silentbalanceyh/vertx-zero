@@ -2,7 +2,7 @@ package io.vertx.up.uca.job.center;
 
 import io.vertx.core.Future;
 import io.vertx.core.Promise;
-import io.vertx.tp.plugin.job.JobPool;
+import io.vertx.tp.plugin.job.JobClient;
 import io.vertx.up.atom.worker.Mission;
 import io.vertx.up.eon.Info;
 import io.vertx.up.log.Debugger;
@@ -35,7 +35,7 @@ class OnceAgha extends AbstractAgha {
              */
             this.moveOn(mission, true);
         }));
-        JobPool.mount(jobId, mission.getCode());
+        JobClient.bind(jobId, mission.getCode());
         if (Debugger.onJooqCondition()) {
             this.getLogger().info(Info.JOB_INTERVAL, mission.getCode(),
                     String.valueOf(0), String.valueOf(-1), String.valueOf(jobId));

@@ -4,16 +4,11 @@ import cn.vertxup.jet.service.JobStub;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.jet.cv.JtAddr;
-import io.vertx.up.eon.KName;
-import io.vertx.tp.plugin.job.JobPool;
 import io.vertx.up.annotations.Address;
 import io.vertx.up.annotations.Queue;
-import io.vertx.up.atom.worker.Mission;
 import io.vertx.up.unity.Ux;
 
 import javax.inject.Inject;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
 
 @Queue
 public class JobActor {
@@ -23,47 +18,22 @@ public class JobActor {
 
     @Address(JtAddr.Job.START)
     public Future<Boolean> start(final String code) {
-        return Ux.Job.on().start(code);
+        return Ux.Job.on().startAsync(code);
     }
 
     @Address(JtAddr.Job.STOP)
     public Future<Boolean> stop(final String code) {
-        return Ux.Job.on().stop(code);
+        return Ux.Job.on().stopAsync(code);
     }
 
     @Address(JtAddr.Job.RESUME)
     public Future<Boolean> resume(final String code) {
-        return Ux.Job.on().resume(code);
+        return Ux.Job.on().resumeAsync(code);
     }
 
     @Address(JtAddr.Job.STATUS)
-    public JsonObject status(final String namespace) {
-        /*
-         * JtApp ( namespace processing )
-         */
-        final ConcurrentMap<String, Mission> jobs = JobPool.mapJobs();
-        final ConcurrentMap<Long, String> runs = JobPool.mapRuns();
-        /*
-         * Revert
-         */
-        final ConcurrentMap<String, Long> runsRevert =
-                new ConcurrentHashMap<>();
-        runs.forEach((timer, code) -> runsRevert.put(code, timer));
-        final JsonObject response = new JsonObject();
-        jobs.forEach((code, mission) -> {
-            /*
-             * Processing
-             */
-            final JsonObject instance = new JsonObject();
-            instance.put(KName.NAME, mission.getName());
-            instance.put(KName.STATUS, mission.getStatus().name());
-            /*
-             * Timer
-             */
-            instance.put("timer", runsRevert.get(mission.getCode()));
-            response.put(mission.getCode(), instance);
-        });
-        return response;
+    public Future<JsonObject> status(final String namespace) {
+        return Ux.Job.on().statusAsync(namespace);
     }
 
     /*
