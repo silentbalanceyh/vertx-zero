@@ -75,7 +75,8 @@ public class JobInquirer implements Inquirer<Set<Mission>> {
         }
         /* Time of threshold */
         if (Values.RANGE == mission.getThreshold()) {
-            mission.setThreshold(this.time(annotation, "threshold", "thresholdUnit"));
+            final long millSec = this.time(annotation, "threshold", "thresholdUnit");
+            mission.setThreshold(TimeUnit.MILLISECONDS.toNanos(millSec));
         }
         /* code sync */
         if (Ut.isNil(mission.getCode())) {
@@ -86,6 +87,11 @@ public class JobInquirer implements Inquirer<Set<Mission>> {
         if (Objects.isNull(mission.getOn())) {
             LOGGER.warn(Info.JOB_IGNORE, clazz.getName());
             return null;
+        }
+        /* runAt calculate */
+        if (JobType.FIXED == type) {
+            final String expr = Ut.invoke(annotation, "runAt");
+            mission.setInstant(Ut.fromAt(expr));
         }
         return mission;
     }

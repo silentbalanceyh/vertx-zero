@@ -7,6 +7,8 @@ import io.vertx.core.Handler;
 import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.atom.worker.Mission;
+import io.vertx.up.eon.Constants;
+import io.vertx.up.eon.Strings;
 
 import java.util.List;
 import java.util.Set;
@@ -26,6 +28,10 @@ public interface JobClient {
 
     static void bind(final Long timerId, final String code) {
         JobPool.bind(timerId, code);
+    }
+
+    static String code(final String name) {
+        return Constants.DEFAULT_JOB_NAMESPACE + Strings.DASH + name;
     }
 
     // ========================== UxJob mount

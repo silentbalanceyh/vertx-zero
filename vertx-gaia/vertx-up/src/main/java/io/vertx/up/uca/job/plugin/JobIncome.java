@@ -3,6 +3,7 @@ package io.vertx.up.uca.job.plugin;
 import io.vertx.core.Future;
 import io.vertx.up.atom.Refer;
 import io.vertx.up.commune.Envelop;
+import io.vertx.up.unity.Ux;
 
 /*
  * Job income before, this income interface should provide Future<JobIn> to Job to consume
@@ -18,5 +19,8 @@ public interface JobIncome {
      * It's underway data passing from
      * Income -> Job -> Outcome
      */
-    Future<Refer> underway();
+    default Future<Refer> underway() {
+        final Refer refer = new Refer();
+        return Ux.future(refer);
+    }
 }
