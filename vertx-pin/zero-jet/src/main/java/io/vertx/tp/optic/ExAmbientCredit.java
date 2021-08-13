@@ -4,8 +4,8 @@ import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.jet.atom.JtApp;
 import io.vertx.tp.ke.atom.KCredential;
-import io.vertx.up.eon.KName;
 import io.vertx.tp.optic.environment.Ambient;
+import io.vertx.up.eon.KName;
 import io.vertx.up.unity.Ux;
 
 import java.util.Objects;
@@ -20,6 +20,7 @@ public class ExAmbientCredit implements Credential {
             credential.put(KName.SIGMA, sigma);
             credential.put(KName.APP_ID, app.getAppId());
             credential.put(KName.REALM, app.getName());
+            credential.put(KName.LANGUAGE, app.getLanguage());
             credential.put(KName.GRANT_TYPE, "authorization_code");
             idc.fromJson(credential);
         }

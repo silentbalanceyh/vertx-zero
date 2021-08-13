@@ -1,8 +1,8 @@
 package io.vertx.tp.ke.atom;
 
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.eon.KName;
 import io.vertx.up.commune.Json;
+import io.vertx.up.eon.KName;
 import io.vertx.up.util.Ut;
 
 import java.io.Serializable;
@@ -13,6 +13,7 @@ import java.io.Serializable;
 public class KCredential implements Serializable, Json {
     private transient String appId;
     private transient String sigma;
+    private transient String language;
     private transient String realm;
     private transient String grantType;
 
@@ -48,6 +49,14 @@ public class KCredential implements Serializable, Json {
         this.grantType = grantType;
     }
 
+    public String getLanguage() {
+        return this.language;
+    }
+
+    public void setLanguage(final String language) {
+        this.language = language;
+    }
+
     @Override
     public JsonObject toJson() {
         final JsonObject credential = new JsonObject();
@@ -55,6 +64,7 @@ public class KCredential implements Serializable, Json {
         credential.put(KName.REALM, this.realm);
         credential.put(KName.GRANT_TYPE, this.grantType);
         credential.put(KName.APP_ID, this.appId);
+        credential.put(KName.LANGUAGE, this.language);
         return credential;
     }
 
@@ -64,6 +74,7 @@ public class KCredential implements Serializable, Json {
         this.sigma = data.getString(KName.SIGMA);
         this.appId = data.getString(KName.APP_ID);
         this.realm = data.getString(KName.REALM);
+        this.language = data.getString(KName.LANGUAGE);
         this.grantType = data.getString(KName.GRANT_TYPE);
     }
 }
