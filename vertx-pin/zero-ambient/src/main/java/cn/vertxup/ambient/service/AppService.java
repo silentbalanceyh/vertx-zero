@@ -8,10 +8,10 @@ import cn.vertxup.ambient.domain.tables.pojos.XMenu;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.eon.KName;
 import io.vertx.tp.ke.refine.Ke;
 import io.vertx.tp.optic.business.ExApp;
 import io.vertx.up.atom.unity.Uson;
+import io.vertx.up.eon.KName;
 import io.vertx.up.unity.Ux;
 
 public class AppService implements AppStub {
@@ -26,7 +26,7 @@ public class AppService implements AppStub {
                 /* Before App Initialized ( Public Api ) */
                 .compose(appData -> Uson.create(appData).remove(KName.APP_KEY).toFuture())
                 /* Image field: logo */
-                .compose(Ke.image(KName.App.LOGO));
+                .compose(Ke.mountArray(KName.App.LOGO));
     }
 
     @Override
@@ -37,7 +37,7 @@ public class AppService implements AppStub {
                 /* Convert to Json */
                 .compose(Ux::futureJ)
                 /* Image field: logo */
-                .compose(Ke.image(KName.App.LOGO))
+                .compose(Ke.mountArray(KName.App.LOGO))
                 /* App options: options for application */
                 .compose(appJson -> Ke.channelAsync(ExApp.class,
                         () -> Ux.future(appJson),
