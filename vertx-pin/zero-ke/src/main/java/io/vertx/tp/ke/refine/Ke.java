@@ -5,10 +5,10 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.auth.User;
 import io.vertx.ext.web.Session;
-import io.vertx.up.eon.KName;
 import io.vertx.up.atom.record.Apt;
 import io.vertx.up.commune.Envelop;
 import io.vertx.up.commune.element.TypeAtom;
+import io.vertx.up.eon.KName;
 import io.vertx.up.log.Annal;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
@@ -32,13 +32,6 @@ public class Ke {
 
     public static boolean isIn(final JsonObject json, final String... fields) {
         return KeIs.isIn(json, fields);
-    }
-
-    /*
-     * Process image field.
-     */
-    public static Function<JsonObject, Future<JsonObject>> image(final String field) {
-        return KeImage.image(field);
     }
 
     public static JsonObject mount(final JsonObject response, final String field) {

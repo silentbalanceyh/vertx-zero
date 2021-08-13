@@ -9,11 +9,11 @@ import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.error._403TokenGenerationException;
-import io.vertx.up.eon.KName;
 import io.vertx.tp.ke.refine.Ke;
 import io.vertx.tp.rbac.refine.Sc;
 import io.vertx.up.atom.Refer;
 import io.vertx.up.atom.record.Apt;
+import io.vertx.up.eon.KName;
 import io.vertx.up.eon.Strings;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
@@ -95,7 +95,8 @@ class IdcService extends AbstractIdc {
                 user.setKey(UUID.randomUUID().toString());
                 user.setActive(Boolean.TRUE);
                 /* 12345678 */
-                user.setPassword("25D55AD283AA400AF464C76D713C07AD");
+                final String initPwd = Sc.generatePwd();
+                user.setPassword(initPwd);
                 user.setSigma(this.sigma);
                 user.setLanguage("cn");
             });
@@ -121,13 +122,13 @@ class IdcService extends AbstractIdc {
                      */
                     final List<OUser> ousers = new ArrayList<>();
                     users.stream().map(user -> new OUser()
-                            .setActive(Boolean.TRUE)
-                            .setKey(UUID.randomUUID().toString())
-                            .setClientId(user.getKey())
-                            .setClientSecret(Ut.randomString(64))
-                            .setScope(credential.getRealm())
-                            .setLanguage(user.getLanguage())
-                            .setGrantType(credential.getGrantType()))
+                                    .setActive(Boolean.TRUE)
+                                    .setKey(UUID.randomUUID().toString())
+                                    .setClientId(user.getKey())
+                                    .setClientSecret(Ut.randomString(64))
+                                    .setScope(credential.getRealm())
+                                    .setLanguage(credential.getLanguage())
+                                    .setGrantType(credential.getGrantType()))
                             .forEach(ousers::add);
                     return Ux.Jooq.on(OUserDao.class).insertAsync(ousers)
                             .compose(created -> Ux.future(users));
