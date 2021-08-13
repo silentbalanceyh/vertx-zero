@@ -33,7 +33,9 @@ public interface KName {
     String DYNAMIC = "dynamic";                  /* View security of field for dynamic view name */
     String VIEW = "view";                        /* View security of view name */
 
-    // String ROLE_ID = "roleId";                   /* Security Object: role id ( X_ROLE key ) field */
+    String ROLE = "role";                        /* Security Object: role field */
+    String ROLE_ID = "roleId";                   /* Security Object: role id ( X_ROLE key ) field */
+    String USER = "user";                        /* Security Object: user field */
     String USER_ID = "userId";                   /* Security Object: user id ( X_USER key ) field */
     String USERNAME = "username";                /* Security Object: user name ( X_USER username) field*/
     String REAL_NAME = "realname";               /* Security Object: user real name field */

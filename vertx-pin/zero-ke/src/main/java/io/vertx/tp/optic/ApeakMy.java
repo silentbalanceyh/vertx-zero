@@ -14,10 +14,9 @@ import io.vertx.up.uca.jooq.UxJooq;
 public interface ApeakMy {
 
     String ARG0 = KName.RESOURCE_ID;
-    String ARG1 = "user";
+    String ARG1 = KName.USER;
     String ARG2 = KName.VIEW;
-
-    String ARG3 = "habitus";
+    String ARG3 = KName.HABITUS;
     String ARG4 = KName.DATA_KEY;
 
     ApeakMy on(UxJooq jooq);
