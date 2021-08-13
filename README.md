@@ -1,4 +1,4 @@
-# Zero Epic Fabric
+# Zero Framework
 
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/cn.vertxup/vertx-zero/badge.svg?style=plastic)](https://maven-badges.herokuapp.com/maven-central/cn.vertxup/vertx-zero/)  [![Apache License 2](https://img.shields.io/badge/license-ASF2-blue.svg)](https://www.apache.org/licenses/LICENSE-2.0.txt)  [![Build Status](https://travis-ci.org/silentbalanceyh/vertx-zero.svg?branch=master)](https://travis-ci.org/silentbalanceyh/vertx-zero) [![Gitter](https://badges.gitter.im/Join Chat.svg)](https://gitter.im/vertx-up/Lobby)
 
@@ -24,10 +24,9 @@ This framework contains four sub-projects, all these projects are located under 
 
 In latest version, examples have been moved
 to [https://github.com/silentbalanceyh/vertx-zero-example](https://github.com/silentbalanceyh/vertx-zero-example)
+The chinese training book is [《Zero思然汀》](https://lang-yu.gitbook.io/zero/)
 
-* `vertx-zeus/*`: Zero Examples, it contains all the code tutorials of this framework
-
-> If your wan't to study vert.x development skill, you can refer chinese tutorial:[《Vert.x逐陆记》](https://silentbalanceyh.gitbooks.io/vert-x/content/). ( In Progress )
+> If your wan't to study vert.x development skill, you can refer chinese tutorial:[《Vert.x逐陆记》](https://lang-yu.gitbook.io/vert-x/). ( In Progress )
 
 ![](doc/image/zero-up.png)
 
