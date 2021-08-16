@@ -2,6 +2,7 @@ package io.vertx.up.util;
 
 import io.vertx.up.eon.FileSuffix;
 import io.vertx.up.eon.Protocols;
+import io.vertx.up.eon.Strings;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 
@@ -19,16 +20,56 @@ final class Folder {
     private Folder() {
     }
 
-    static List<String> listFiles(final String folder) {
-        return listFiles(folder, null);
-    }
-
     static List<String> listFiles(final String folder, final String extension) {
         return Fn.getNull(new ArrayList<>(), () -> list(folder, extension, false), folder);
     }
 
     static List<String> listDirectories(final String folder) {
         return Fn.getNull(new ArrayList<>(), () -> list(folder, null, true), folder);
+    }
+
+    static List<String> listFilesN(final String folder, final String extension) {
+        final List<String> folders = listDirectoriesN(folder);
+        return folders.stream()
+                .flatMap(single -> list(single, extension, false)
+                        .stream().map(file -> single + "/" + file))
+                .collect(Collectors.toList());
+    }
+
+    static List<String> listDirectoriesN(final String folder) {
+        final String root = listRoot();
+        return Fn.getNull(new ArrayList<>(), () -> listDirectoriesN(folder, root), folder);
+    }
+
+    private static List<String> listDirectoriesN(final String folder, final String root) {
+        final List<String> folders = new ArrayList<>();
+        final URL url = IO.getURL(folder);
+        if (Objects.nonNull(url)) {
+            // Url Processing to File
+            final File folderObj = new File(url.getPath());
+            if (folderObj.isDirectory()) {
+                folders.add(folder);
+                // Else
+                final String[] folderList = folderObj.list();
+                assert folderList != null;
+                Arrays.stream(folderList).forEach(folderS -> {
+                    String relatedPath = folderObj.getAbsolutePath();
+                    relatedPath = relatedPath.replace(root, Strings.EMPTY);
+                    folders.addAll(listDirectoriesN(relatedPath + "/" + folderS, root));
+                });
+            }
+        }
+        return folders;
+    }
+
+    private static String listRoot() {
+        final URL rootUrl = Folder.class.getResource("/");
+        if (Objects.isNull(rootUrl)) {
+            return Strings.EMPTY;
+        } else {
+            final File rootFile = new File(rootUrl.getFile());
+            return rootFile.getAbsolutePath() + "/";
+        }
     }
 
     private static List<String> list(final String folder,

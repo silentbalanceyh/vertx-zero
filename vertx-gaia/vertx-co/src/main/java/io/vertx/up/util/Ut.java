@@ -588,15 +588,27 @@ public final class Ut {
      * `input` operation
      */
     public static List<String> ioFiles(final String folder) {
-        return Folder.listFiles(folder);
+        return Folder.listFiles(folder, null);
     }
 
     public static List<String> ioFiles(final String folder, final String extension) {
         return Folder.listFiles(folder, extension);
     }
 
+    public static List<String> ioFilesN(final String folder) {
+        return Folder.listFilesN(folder, null);
+    }
+
+    public static List<String> ioFilesN(final String folder, final String extension) {
+        return Folder.listFilesN(folder, extension);
+    }
+
     public static List<String> ioDirectories(final String folder) {
         return Folder.listDirectories(folder);
+    }
+
+    public static List<String> ioDirectoriesN(final String folder) {
+        return Folder.listDirectoriesN(folder);
     }
 
     public static <T> T ioYaml(final String filename) {
