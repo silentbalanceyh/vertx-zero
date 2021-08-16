@@ -5,7 +5,6 @@ import io.vertx.core.Future;
 import io.vertx.core.Handler;
 import io.vertx.tp.plugin.excel.atom.ExTable;
 
-import java.util.List;
 import java.util.Set;
 
 /*
@@ -19,7 +18,7 @@ public class Bt {
      * doImport: with prefix to do filter
      */
     public static void doImports(final String folder) {
-        BtLoader.doImports(folder);
+        BtLoader.impAsync(folder).onComplete(BtLoader.handlerComplete(folder, null));
     }
 
     public static Future<Boolean> impAsync(final String folder) {
@@ -31,11 +30,7 @@ public class Bt {
     }
 
     public static void doImports(final String folder, final String prefix) {
-        BtLoader.doImports(folder, prefix);
-    }
-
-    public static void doImports(final String folder, final Handler<AsyncResult<List<String>>> callback) {
-        BtLoader.doImports(folder, callback);
+        BtLoader.impAsync(folder, prefix).onComplete(BtLoader.handlerComplete(folder, prefix));
     }
 
     public static void ingestExcels(final String folder, final Handler<AsyncResult<Set<ExTable>>> callback) {

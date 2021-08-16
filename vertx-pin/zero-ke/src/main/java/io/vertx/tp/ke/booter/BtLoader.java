@@ -11,10 +11,7 @@ import io.vertx.up.log.Annal;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -33,20 +30,19 @@ class BtLoader {
         RedisInfix.disabled();
     }
 
-    /*
-     * Import batch operation here
-     * 1) Import all excel data under `folder`
-     * 2) Import all excel files with `prefix` named under `folder`
-     * 3) Import all excel data with `Handler` callback
-     */
-    static void doImports(final String folder) {
-        stream(folder).forEach(BtLoader::doImport);
-    }
-
-    static void doImports(final String folder, final String prefix) {
-        stream(folder)
-                .filter(filename -> filename.startsWith(folder + prefix))
-                .forEach(BtLoader::doImport);
+    static Handler<AsyncResult<Boolean>> handlerComplete(final String folder, final String prefix) {
+        return handler -> {
+            if (handler.succeeded()) {
+                if (Objects.isNull(prefix)) {
+                    Ke.infoKe(LOGGER, "The data folder `{0}` has been imported successfully!", folder);
+                } else {
+                    Ke.infoKe(LOGGER, "The data folder `{0}` with `{1}` has been imported successfully!", folder, prefix);
+                }
+                System.exit(0);
+            } else {
+                handler.cause().printStackTrace();
+            }
+        };
     }
 
     static Future<Boolean> impAsync(final String folder) {
@@ -61,25 +57,6 @@ class BtLoader {
                 .filter(filename -> filename.startsWith(folder + prefix))
                 .map(BtLoader::importFuture).forEach(futures::add);
         return Ux.thenCombineT(futures).compose(nil -> Future.succeededFuture(Boolean.TRUE));
-    }
-
-    @SuppressWarnings("all")
-    static void doImports(final String folder, final Handler<AsyncResult<List<String>>> callback) {
-        final List<Future> futures = stream(folder)
-                .map(BtLoader::importFuture)
-                .collect(Collectors.toList());
-        CompositeFuture.join(futures).compose(result -> {
-            final List<String> async = result.list();
-            callback.handle(Future.succeededFuture(async));
-            return Future.succeededFuture(Boolean.TRUE);
-        });
-    }
-
-    /*
-     * Import single file data here
-     */
-    private static void doImport(final String filename) {
-        doImport(filename, handler -> out(handler.result()));
     }
 
     static void doImport(final String filename, final Handler<AsyncResult<String>> callback) {
@@ -122,27 +99,26 @@ class BtLoader {
         client.ingest(filename, handler -> callback.handle(Future.succeededFuture(handler.result())));
     }
 
-    /*
-     * Private methods
-     */
     private static Stream<String> stream(final String folder) {
-        return Ut.ioFiles(folder).stream()
-                .filter(BtLoader::ensureFile)
-                .map(file -> folder + file);
+        return Ut.ioFilesN(folder).stream()
+                .filter(BtLoader::ensureFile);
     }
 
     private static boolean ensureFile(final String filename) {
         // File not null
-        if (Ut.isNil(filename)) return false;
+        if (Ut.isNil(filename)) {
+            return false;
+        }
         // Ignore "~" start
-        if (filename.startsWith("~")) return false;
+        if (filename.contains("~")) {
+            return false;
+        }
         // Excel only
         return filename.endsWith("xlsx") || filename.endsWith("xls");
     }
 
     private static void out(final String filename) {
-        final Annal logger = Annal.get(BtLoader.class);
-        Ke.infoKe(logger, "Successfully to finish loading ! data file = {0}", filename);
+        Ke.infoKe(LOGGER, "Successfully to finish loading ! data file = {0}", filename);
     }
 
     private static Future<Set<ExTable>> ingestFuture(final String filename) {
