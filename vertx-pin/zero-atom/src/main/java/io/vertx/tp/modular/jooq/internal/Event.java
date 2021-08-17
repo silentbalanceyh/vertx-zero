@@ -60,9 +60,9 @@ class Event {
         event.consoleAll();
         final DataEvent response = executor.apply(event);
         if (isArray) {
-            return null;
+            return (Future<T>) response.dataAAsync();
         } else {
-            return null;
+            return (Future<T>) response.dataRAsync();
         }
     }
 
@@ -72,6 +72,6 @@ class Event {
     ) {
         event.consoleAll();
         final DataEvent response = executor.apply(event);
-        return null;
+        return response.dataPAsync();
     }
 }
