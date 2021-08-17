@@ -26,12 +26,6 @@ public class DataIngest implements JtIngest {
         /* Inner assert */
         assert null != supplier : "Function must not be null here.";
         final JtIngest ingest = supplier.get();
-
-        /*
-         * Monitor information here
-         */
-        this.monitor.ingestParam(mode, ingest);
-
         /*
          * Verifier on request data
          */
@@ -40,8 +34,6 @@ public class DataIngest implements JtIngest {
          * Monitor here
          */
         final JsonObject params = envelop.data();
-        this.monitor.ingestFinal(params);
-
         final Envelop error = this.validate(envelop, uri);
         return Objects.isNull(error) ? envelop : error;
     }

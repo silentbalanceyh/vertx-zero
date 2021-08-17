@@ -67,9 +67,11 @@ class RaySource {
             execMap.forEach((hashCode, kv) -> {
                 final JsonObject condition = kv.getKey();
                 final RDao dao = kv.getValue();
-                Ao.infoUca(this.getClass(), "Async Batch condition building: {0}",
-                        condition.encode());
-                futureMap.put(hashCode, this.dataAsync(hashCode, () -> dao.fetchByAsync(condition)));
+                futureMap.put(hashCode, this.dataAsync(hashCode, () -> {
+                    Ao.infoUca(this.getClass(), "Async Batch condition building: {0}",
+                            condition.encode());
+                    return dao.fetchByAsync(condition);
+                }));
             });
             return Ux.thenCombine(futureMap).compose(queriedMap -> {
                 final ConcurrentMap<String, JsonArray> data = new ConcurrentHashMap<>();
