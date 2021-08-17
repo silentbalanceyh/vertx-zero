@@ -46,6 +46,13 @@ public class Log4JAnnal implements Annal {
     }
 
     @Override
+    public void info(final boolean condition, final String key, final Object... args) {
+        if (condition) {
+            Log.info(this.logger, key, args);
+        }
+    }
+
+    @Override
     public void debug(final String key, final Object... args) {
         Log.debug(this.logger, key, args);
     }

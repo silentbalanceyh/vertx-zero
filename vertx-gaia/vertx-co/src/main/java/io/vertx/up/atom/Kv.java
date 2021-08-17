@@ -1,5 +1,7 @@
 package io.vertx.up.atom;
 
+import io.vertx.core.Future;
+
 import java.util.Map;
 import java.util.Objects;
 
@@ -26,12 +28,16 @@ public final class Kv<K, V> {
         return new Kv<>(key, value);
     }
 
-    public final K getKey() {
+    public K getKey() {
         return this.key;
     }
 
-    public final V getValue() {
+    public V getValue() {
         return this.value;
+    }
+
+    public Future<V> value() {
+        return Future.succeededFuture(this.value);
     }
 
     public void set(final K key, final V value) {
@@ -40,12 +46,12 @@ public final class Kv<K, V> {
     }
 
     @Override
-    public final int hashCode() {
+    public int hashCode() {
         return Objects.hashCode(this.key) ^ Objects.hashCode(this.value);
     }
 
     @Override
-    public final boolean equals(final Object o) {
+    public boolean equals(final Object o) {
         if (o == this) {
             return true;
         }

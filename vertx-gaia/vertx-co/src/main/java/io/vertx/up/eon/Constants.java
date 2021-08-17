@@ -45,5 +45,7 @@ public interface Constants {
         String HABITUS = "vertx-web.sessions.habitus";
         /* Deployment */
         String DEPLOYMENT = "zero.deployment";
+        /* Directory */
+        String DIRECTORY = "zero.directory";
     }
 }
