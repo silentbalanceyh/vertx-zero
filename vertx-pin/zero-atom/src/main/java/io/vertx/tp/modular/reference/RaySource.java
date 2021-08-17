@@ -94,7 +94,6 @@ class RaySource {
                         .compose(actual -> pool.put(hashCode, actual, Constants.DEFAULT_EXPIRED_DATA))
                         .compose(Kv::value);
             } else {
-                Ao.infoPlugin(RaySource.class, " [ PT ] Cached Hit = {0}", String.valueOf(hashCode));
                 return Ux.future(queried);
             }
         });
