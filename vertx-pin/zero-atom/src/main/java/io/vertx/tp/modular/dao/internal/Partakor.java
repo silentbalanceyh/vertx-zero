@@ -22,34 +22,34 @@ public class Partakor extends AbstractUtil<Partakor> {
     public Record insert(final Record record) {
         Ao.infoSQL(this.getLogger(), "执行方法：Partakor.insert(Record)");
 
-        return Jq.onRecord(this.idUUID(record), this.jooq::insert);
+        return Jq.outRecord(this.idUUID(record), this.jooq::insert);
     }
 
     public Record[] insert(final Record... records) {
         Ao.infoSQL(this.getLogger(), "执行方法：Partakor.insert(Record...)");
 
-        return Jq.onRecords(this.idUUIDs(records), this.jooq::insertBatch);
+        return Jq.outRecords(this.idUUIDs(records), this.jooq::insertBatch);
     }
 
     public Record update(final Record record) {
         Ao.infoSQL(this.getLogger(), "执行方法：Partakor.update(Record)");
-        return Jq.onRecord(this.record(record), this.jooq::update);
+        return Jq.outRecord(this.record(record), this.jooq::update);
     }
 
     public Record[] update(final Record... records) {
         Ao.infoSQL(this.getLogger(), "执行方法：Partakor.update(Record...)");
-        return Jq.onRecords(this.records(records), this.jooq::updateBatch);
+        return Jq.outRecords(this.records(records), this.jooq::updateBatch);
     }
 
     public Boolean delete(final Record record) {
         Ao.infoSQL(this.getLogger(), "执行方法：Partakor.delete(Record)");
 
-        return Jq.onBoolean(this.idRecord(record), this.jooq::delete);
+        return Jq.outBoolean(this.idRecord(record), this.jooq::delete);
     }
 
     public Boolean delete(final Record... records) {
         Ao.infoSQL(this.getLogger(), "执行方法：Partakor.delete(Record...)");
         /* 解析参数，生成 Arguments */
-        return Jq.onBoolean(this.idRecords(records), this.jooq::deleteBatch);
+        return Jq.outBoolean(this.idRecords(records), this.jooq::deleteBatch);
     }
 }

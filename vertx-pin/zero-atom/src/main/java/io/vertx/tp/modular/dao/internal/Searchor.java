@@ -1,5 +1,6 @@
 package io.vertx.tp.modular.dao.internal;
 
+import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.atom.refine.Ao;
 import io.vertx.tp.modular.jooq.internal.Jq;
@@ -32,12 +33,25 @@ public class Searchor extends AbstractUtil<Searchor> {
     public JsonObject search(final JsonObject qr) {
         final JsonObject criteria = Ut.sureJObject(qr);
         Ao.infoSQL(this.getLogger(), Ut.notNil(qr), "执行方法：Searcher.search: {0}", criteria.encode());
-        return Jq.onPagination(this.irQr(Qr.create(criteria)), this.jooq::search);
+        return Jq.outPagination(this.irQr(Qr.create(criteria)), this.jooq::search);
     }
 
     public Record[] query(final JsonObject qr) {
         final JsonObject criteria = Ut.sureJObject(qr);
         Ao.infoSQL(this.getLogger(), Ut.notNil(qr), "执行方法：Searcher.query: {0}", criteria.encode());
-        return Jq.onRecords(this.irCond(Criteria.create(criteria)), this.jooq::query);
+        return Jq.outRecords(this.irCond(Criteria.create(criteria)), this.jooq::query);
+    }
+
+    // ----------------------- Async ----------------------
+    public Future<JsonObject> searchAsync(final JsonObject qr) {
+        final JsonObject criteria = Ut.sureJObject(qr);
+        Ao.infoSQL(this.getLogger(), Ut.notNil(qr), "执行方法：Searcher.searchAsync: {0}", criteria.encode());
+        return Jq.outPaginationAsync(this.irQr(Qr.create(criteria)), this.jooq::search);
+    }
+
+    public Future<Record[]> queryAsync(final JsonObject qr) {
+        final JsonObject criteria = Ut.sureJObject(qr);
+        Ao.infoSQL(this.getLogger(), Ut.notNil(qr), "执行方法：Searcher.queryAsync: {0}", criteria.encode());
+        return Jq.outRecordsAsync(this.irCond(Criteria.create(criteria)), this.jooq::query);
     }
 }

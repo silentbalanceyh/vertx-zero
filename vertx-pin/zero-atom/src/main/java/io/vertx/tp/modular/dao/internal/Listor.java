@@ -1,5 +1,6 @@
 package io.vertx.tp.modular.dao.internal;
 
+import io.vertx.core.Future;
 import io.vertx.tp.atom.refine.Ao;
 import io.vertx.tp.modular.jooq.internal.Jq;
 import io.vertx.up.commune.Record;
@@ -23,11 +24,23 @@ public class Listor extends AbstractUtil<Listor> {
     @SuppressWarnings("unchecked")
     public <ID> Record[] fetchByIds(final ID... ids) {
         Ao.infoSQL(this.getLogger(), "执行方法：Listor.fetchByIds");
-        return Jq.onRecords(this.idInputs(ids), this.jooq::fetchByIds);
+        return Jq.outRecords(this.idInputs(ids), this.jooq::fetchByIds);
     }
 
     public Record[] fetchAll() {
         Ao.infoSQL(this.getLogger(), "执行方法：Listor.fetchAll");
-        return Jq.onRecords(this.events(), this.jooq::fetchAll);
+        return Jq.outRecords(this.events(), this.jooq::fetchAll);
+    }
+
+    // ----------------------- Async ----------------------
+    @SafeVarargs
+    public final <ID> Future<Record[]> fetchByIdsAsync(final ID... ids) {
+        Ao.infoSQL(this.getLogger(), "执行方法：Listor.fetchByIdsAsync");
+        return Jq.outRecordsAsync(this.idInputs(ids), this.jooq::fetchByIds);
+    }
+
+    public Future<Record[]> fetchAllAsync() {
+        Ao.infoSQL(this.getLogger(), "执行方法：Listor.fetchAllAsync");
+        return Jq.outRecordsAsync(this.events(), this.jooq::fetchAll);
     }
 }

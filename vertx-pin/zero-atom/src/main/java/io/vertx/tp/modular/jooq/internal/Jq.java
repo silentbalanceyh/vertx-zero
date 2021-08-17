@@ -1,5 +1,6 @@
 package io.vertx.tp.modular.jooq.internal;
 
+import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.atom.modeling.data.DataEvent;
 import io.vertx.tp.atom.modeling.element.DataMatrix;
@@ -118,24 +119,35 @@ public class Jq {
         return Query.doQuery(clazz, event, actor, null);
     }
 
-    public static Boolean onBoolean(final DataEvent event, final Function<DataEvent, DataEvent> executor) {
-        return Event.onBoolean(event, executor);
+    public static Boolean outBoolean(final DataEvent event, final Function<DataEvent, DataEvent> executor) {
+        return Event.bool(event, executor);
     }
 
-    public static Long onCount(final DataEvent event, final Function<DataEvent, DataEvent> executor) {
-        return Event.onCount(event, executor);
+    public static Long outCount(final DataEvent event, final Function<DataEvent, DataEvent> executor) {
+        return Event.count(event, executor);
     }
 
-    public static io.vertx.up.commune.Record onRecord(final DataEvent event, final Function<DataEvent, DataEvent> executor) {
-        return Event.onRecord(event, executor, false);
+    public static io.vertx.up.commune.Record outRecord(final DataEvent event, final Function<DataEvent, DataEvent> executor) {
+        return Event.record(event, executor, false);
     }
 
-    public static io.vertx.up.commune.Record[] onRecords(final DataEvent event, final Function<DataEvent, DataEvent> executor) {
-        return Event.onRecord(event, executor, true);
+    public static io.vertx.up.commune.Record[] outRecords(final DataEvent event, final Function<DataEvent, DataEvent> executor) {
+        return Event.record(event, executor, true);
     }
 
-    public static JsonObject onPagination(final DataEvent event, final Function<DataEvent, DataEvent> executor) {
-        return Event.onPagination(event, executor);
+    public static JsonObject outPagination(final DataEvent event, final Function<DataEvent, DataEvent> executor) {
+        return Event.pagination(event, executor);
     }
 
+    public static Future<io.vertx.up.commune.Record> outRecordAsync(final DataEvent event, final Function<DataEvent, DataEvent> executor) {
+        return Event.recordAsync(event, executor, false);
+    }
+
+    public static Future<io.vertx.up.commune.Record[]> outRecordsAsync(final DataEvent event, final Function<DataEvent, DataEvent> executor) {
+        return Event.recordAsync(event, executor, true);
+    }
+
+    public static Future<JsonObject> outPaginationAsync(final DataEvent event, final Function<DataEvent, DataEvent> executor) {
+        return Event.paginationAsync(event, executor);
+    }
 }

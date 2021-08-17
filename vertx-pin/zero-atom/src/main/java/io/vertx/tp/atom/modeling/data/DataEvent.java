@@ -201,7 +201,7 @@ public class DataEvent implements Serializable {
      * 获取独立行，单记录操作必须
      */
     @SuppressWarnings("all")
-    public DataRow getRow() {
+    public DataRow dataRow() {
         /* DataRow 不能为空，有操作旧必须保证 rows 中有数据 */
         final List<DataRow> rows = this.io.getRows();
 
@@ -219,7 +219,7 @@ public class DataEvent implements Serializable {
     /*
      * 获取行集合，批量操作必须
      */
-    public List<DataRow> getRows() {
+    public List<DataRow> dataRows() {
         return this.io.getRows();
     }
 
@@ -227,7 +227,7 @@ public class DataEvent implements Serializable {
      * 获取独立行，单记录操作必须的方法
      * 对于 Record 的读取而言，不能抛出 getRow 中的核心异常，所以这里需要重写
      */
-    public Record getRecord() {
+    public Record dataR() {
         final List<DataRow> rows = this.io.getRows();
         Record record = Ao.record(this.atom);
         if (null != rows && !rows.isEmpty()) {
@@ -246,8 +246,8 @@ public class DataEvent implements Serializable {
     /*
      * 获取记录集合，批量操作：第二层
      */
-    public Record[] getRecords() {
-        final List<DataRow> rows = this.getRows();
+    public Record[] dataRs() {
+        final List<DataRow> rows = this.dataRows();
         final Record[] response = rows.stream()
                 .map(DataRow::getRecord)
                 .filter(Objects::nonNull)
@@ -267,8 +267,8 @@ public class DataEvent implements Serializable {
      *     "count": 1
      * }
      */
-    public JsonObject getPagination() {
-        final Record[] records = this.getRecords();
+    public JsonObject dataPage() {
+        final Record[] records = this.dataRs();
         final JsonArray list = new JsonArray();
         Arrays.stream(records).map(Record::toJson).forEach(list::add);
         final JsonObject pagination = new JsonObject();
@@ -290,7 +290,7 @@ public class DataEvent implements Serializable {
     }
 
     public Boolean succeed() {
-        final List<DataRow> rows = this.getRows();
+        final List<DataRow> rows = this.dataRows();
         final long counter = rows.stream().filter(DataRow::succeed)
                 .count();
         /*

@@ -1,5 +1,6 @@
 package io.vertx.tp.modular.dao.internal;
 
+import io.vertx.core.Future;
 import io.vertx.tp.atom.refine.Ao;
 import io.vertx.tp.modular.jooq.internal.Jq;
 import io.vertx.up.atom.query.Criteria;
@@ -26,14 +27,24 @@ public class Uniqueor extends AbstractUtil<Uniqueor> {
     }
 
     public <ID> Record fetchById(final ID id) {
-        Ao.infoSQL(this.getLogger(), "执行方法：Uniqueor.fetchById");
+        Ao.infoSQL(this.getLogger(), "执行方法：Uniqueor.fetchById, {0}", id);
 
-        return Jq.onRecord(this.idInput(id), this.jooq::fetchById);
+        return Jq.outRecord(this.idInput(id), this.jooq::fetchById);
     }
 
     public Record fetchOne(final Criteria criteria) {
         Ao.infoSQL(this.getLogger(), "执行方法：Uniqueor.fetchOne");
+        return Jq.outRecord(this.irCond(criteria), this.jooq::fetchOne);
+    }
 
-        return Jq.onRecord(this.irCond(criteria), this.jooq::fetchOne);
+    // ----------------------- Async ----------------------
+    public <ID> Future<Record> fetchByIdAsync(final ID id) {
+        Ao.infoSQL(this.getLogger(), "执行方法：Uniqueor.fetchByIdAsync, {0}", id);
+        return Jq.outRecordAsync(this.idInput(id), this.jooq::fetchById);
+    }
+
+    public Future<Record> fetchOneAsync(final Criteria criteria) {
+        Ao.infoSQL(this.getLogger(), "执行方法：Uniqueor.fetchOneAsync");
+        return Jq.outRecordAsync(this.irCond(criteria), this.jooq::fetchOne);
     }
 }

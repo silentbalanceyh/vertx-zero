@@ -229,7 +229,7 @@ public abstract class AbstractDao implements AoDao {
 
     @Override
     public <ID> Future<Record> fetchByIdAsync(final ID id) {
-        return Ux.future(this.fetchById(id));
+        return Ao.<ID, Future<Record>>doStandard(this.logger(), this.uniqueor::fetchByIdAsync).apply(id);
     }
 
     @Override
@@ -241,7 +241,7 @@ public abstract class AbstractDao implements AoDao {
     @Override
     @SuppressWarnings("unchecked")
     public <ID> Future<Record[]> fetchByIdAsync(final ID... ids) {
-        return Ux.future(this.fetchById(ids));
+        return Ao.<ID[], Future<Record[]>>doStandard(this.logger(), this.listor::fetchByIdsAsync).apply(ids);
     }
 
     @Override
@@ -251,7 +251,7 @@ public abstract class AbstractDao implements AoDao {
 
     @Override
     public Future<Record[]> fetchAllAsync() {
-        return Ux.future(this.fetchAll());
+        return Ao.doSupplier(this.logger(), this.listor::fetchAllAsync).get();
     }
 
     /*
@@ -289,17 +289,17 @@ public abstract class AbstractDao implements AoDao {
 
     @Override
     public Future<Record> fetchOneAsync(final Criteria criteria) {
-        return Ux.future(this.fetchOne(criteria));
+        return Ao.doStandard(this.logger(), this.uniqueor::fetchOneAsync).apply(criteria);
     }
 
     @Override
     public Future<JsonObject> searchAsync(final JsonObject query) {
-        return Ux.future(this.search(query));
+        return Ao.doStandard(this.logger(), this.searchor::searchAsync).apply(query);
     }
 
     @Override
     public Future<Record[]> fetchAsync(final JsonObject criteria) {
-        return Ux.future(this.fetch(criteria));
+        return Ao.doStandard(this.logger(), this.searchor::queryAsync).apply(criteria);
     }
 
     /*

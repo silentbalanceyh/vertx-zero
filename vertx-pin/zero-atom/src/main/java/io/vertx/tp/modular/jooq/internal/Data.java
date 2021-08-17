@@ -45,7 +45,7 @@ class Data {
                           final Consumer<List<DataRow>> consumer) {
         final Annal logger = Annal.get(clazz);
         try {
-            final List<DataRow> rows = event.getRows();
+            final List<DataRow> rows = event.dataRows();
             if (null == rows || rows.isEmpty()) {
                 /* 读取不了DataRow，第一层处理 */
                 LOGGER.error("[ Ox ] 行引用为空，DataRow = null。");

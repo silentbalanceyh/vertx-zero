@@ -1,5 +1,6 @@
 package io.vertx.tp.modular.jooq.internal;
 
+import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.atom.modeling.data.DataEvent;
 
@@ -8,7 +9,7 @@ import java.util.function.Function;
 @SuppressWarnings("unchecked")
 class Event {
 
-    static <T> T onBoolean(
+    static <T> T bool(
             final DataEvent event,
             final Function<DataEvent, DataEvent> executor
     ) {
@@ -18,7 +19,7 @@ class Event {
         return (T) response.succeed();
     }
 
-    static <T> T onRecord(
+    static <T> T record(
             final DataEvent event,
             final Function<DataEvent, DataEvent> executor,
             final boolean isArray
@@ -26,13 +27,13 @@ class Event {
         event.consoleAll();
         final DataEvent response = executor.apply(event);
         if (isArray) {
-            return (T) response.getRecords();
+            return (T) response.dataRs();
         } else {
-            return (T) response.getRecord();
+            return (T) response.dataR();
         }
     }
 
-    static Long onCount(
+    static Long count(
             final DataEvent event,
             final Function<DataEvent, DataEvent> executor
     ) {
@@ -41,12 +42,36 @@ class Event {
         return response.getCounter();
     }
 
-    static JsonObject onPagination(
+    static JsonObject pagination(
             final DataEvent event,
             final Function<DataEvent, DataEvent> executor
     ) {
         event.consoleAll();
         final DataEvent response = executor.apply(event);
-        return response.getPagination();
+        return response.dataPage();
+    }
+
+    // ----------------------- Async ----------------------
+    static <T> Future<T> recordAsync(
+            final DataEvent event,
+            final Function<DataEvent, DataEvent> executor,
+            final boolean isArray
+    ) {
+        event.consoleAll();
+        final DataEvent response = executor.apply(event);
+        if (isArray) {
+            return null;
+        } else {
+            return null;
+        }
+    }
+
+    static Future<JsonObject> paginationAsync(
+            final DataEvent event,
+            final Function<DataEvent, DataEvent> executor
+    ) {
+        event.consoleAll();
+        final DataEvent response = executor.apply(event);
+        return null;
     }
 }
