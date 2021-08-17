@@ -1,5 +1,6 @@
 package io.vertx.tp.modular.plugin;
 
+import io.vertx.core.Future;
 import io.vertx.tp.atom.modeling.element.DataTpl;
 import io.vertx.tp.modular.reference.AoRay;
 import io.vertx.tp.modular.reference.RayBatch;
@@ -24,6 +25,7 @@ public class IoNerve implements IoHub {
      * 2. The value is `AoRay` reference with content `Record`.
      */
     private static final ConcurrentMap<String, AoRay<Record>> POOL_RAY = new ConcurrentHashMap<>();
+    private static final ConcurrentMap<String, AoRay<Record>> POOL_RAY_ASYNC = new ConcurrentHashMap<>();
     /**
      * The Pool of Tpl definition of `Ray` ( Batch )
      *
@@ -31,6 +33,7 @@ public class IoNerve implements IoHub {
      * 2. The value is `AoRay` reference with content `Records`.
      */
     private final ConcurrentMap<String, AoRay<Record[]>> POOL_RAY_BATCH = new ConcurrentHashMap<>();
+    private final ConcurrentMap<String, AoRay<Record[]>> POOL_RAY_BATCH_ASYNC = new ConcurrentHashMap<>();
 
     @Override
     public Record in(final Record record, final DataTpl tpl) {
@@ -60,7 +63,43 @@ public class IoNerve implements IoHub {
 
     @Override
     public Record out(final Record record, final DataTpl tpl) {
-        if (Objects.isNull(record))/* Null Record */ return null;
+        if (Objects.isNull(record))/* Null Record */ {
+            return null;
+        }
+        this.runOut(record, tpl);
+        /* reference */
+        final AoRay<Record> ray = Fn.pool(POOL_RAY, tpl.identifier(), () -> new RaySingle().on(tpl));
+        return ray.doRay(record);
+    }
+
+    @Override
+    public Record[] out(final Record[] records, final DataTpl tpl) {
+        this.runOut(records, tpl);
+        /* reference */
+        final AoRay<Record[]> ray = Fn.pool(this.POOL_RAY_BATCH, tpl.identifier(), () -> new RayBatch().on(tpl));
+        return ray.doRay(records);
+    }
+
+    @Override
+    public Future<Record> outAsync(final Record record, final DataTpl tpl) {
+        if (Objects.isNull(record))/* Null Record */ {
+            return null;
+        }
+        this.runOut(record, tpl);
+        /* reference */
+        final AoRay<Record> ray = Fn.pool(POOL_RAY_ASYNC, tpl.identifier(), () -> new RaySingle().on(tpl));
+        return ray.doRayAsync(record);
+    }
+
+    @Override
+    public Future<Record[]> outAsync(final Record[] records, final DataTpl tpl) {
+        this.runOut(records, tpl);
+        /* reference */
+        final AoRay<Record[]> ray = Fn.pool(this.POOL_RAY_BATCH_ASYNC, tpl.identifier(), () -> new RayBatch().on(tpl));
+        return ray.doRayAsync(records);
+    }
+
+    private void runOut(final Record record, final DataTpl tpl) {
         /* outComponent ( Before ) */
         IoArranger.runOut(record, IoArranger.pluginOutBefore(tpl));
         /* outComponent */
@@ -69,14 +108,9 @@ public class IoNerve implements IoHub {
         IoArranger.runExpr(record, IoArranger.pluginExpression(tpl));
         /* outComponent ( After ) */
         IoArranger.runOut(record, IoArranger.pluginOutAfter(tpl));
-
-        /* reference */
-        final AoRay<Record> ray = Fn.pool(POOL_RAY, tpl.identifier(), () -> new RaySingle().on(tpl));
-        return ray.attach(record);
     }
 
-    @Override
-    public Record[] out(final Record[] records, final DataTpl tpl) {
+    private void runOut(final Record[] records, final DataTpl tpl) {
         /* outComponent ( Before ) */
         IoArranger.runOut(records, IoArranger.pluginOutBefore(tpl));
         /* outComponent */
@@ -85,10 +119,6 @@ public class IoNerve implements IoHub {
         IoArranger.runExpr(records, IoArranger.pluginExpression(tpl));
         /* outComponent ( After ) */
         IoArranger.runOut(records, IoArranger.pluginOutAfter(tpl));
-
-        /* reference */
-        final AoRay<Record[]> ray = Fn.pool(this.POOL_RAY_BATCH, tpl.identifier(), () -> new RayBatch().on(tpl));
-        return ray.attach(records);
     }
 }
 

@@ -1,5 +1,6 @@
 package io.vertx.tp.atom.modeling.data;
 
+import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.atom.cv.em.EventType;
@@ -20,6 +21,7 @@ import io.vertx.up.commune.Record;
 import io.vertx.up.eon.Values;
 import io.vertx.up.exception.WebException;
 import io.vertx.up.fn.Fn;
+import io.vertx.up.unity.Ux;
 
 import java.io.Serializable;
 import java.util.*;
@@ -226,38 +228,34 @@ public class DataEvent implements Serializable {
     /*
      * 获取独立行，单记录操作必须的方法
      * 对于 Record 的读取而言，不能抛出 getRow 中的核心异常，所以这里需要重写
+     * IoHub Output Single
      */
     public Record dataR() {
-        final List<DataRow> rows = this.io.getRows();
-        Record record = Ao.record(this.atom);
-        if (null != rows && !rows.isEmpty()) {
-            final DataRow row = rows.get(Values.IDX);
-            if (null != row) {
-                record = row.getRecord();
-            }
-        }
-        /*
-         * IoHub Output Single
-         */
+        final Record record = this.record();
         final IoHub hub = IoHub.instance();
         return hub.out(record, this.tpl);
     }
 
+    public Future<Record> dataRAsync() {
+        final Record record = this.record();
+        final IoHub hub = IoHub.instance();
+        return hub.outAsync(record, this.tpl);
+    }
+
     /*
      * 获取记录集合，批量操作：第二层
+     * IoHub Output Batch
      */
-    public Record[] dataRs() {
-        final List<DataRow> rows = this.dataRows();
-        final Record[] response = rows.stream()
-                .map(DataRow::getRecord)
-                .filter(Objects::nonNull)
-                .collect(Collectors.toList())
-                .toArray(new Record[]{});
-        /*
-         * IoHub Output Batch
-         */
+    public Record[] dataA() {
+        final Record[] response = this.records();
         final IoHub hub = IoHub.instance();
         return hub.out(response, this.tpl);
+    }
+
+    public Future<Record[]> dataAAsync() {
+        final Record[] response = this.records();
+        final IoHub hub = IoHub.instance();
+        return hub.outAsync(response, this.tpl);
     }
 
     /*
@@ -267,8 +265,39 @@ public class DataEvent implements Serializable {
      *     "count": 1
      * }
      */
-    public JsonObject dataPage() {
-        final Record[] records = this.dataRs();
+    public JsonObject dataP() {
+        final Record[] records = this.dataA();
+        return this.dataP(records);
+    }
+
+    public Future<JsonObject> dataPAsync() {
+        return this.dataAAsync()
+                .compose(records -> Ux.future(this.dataP(records)));
+    }
+
+    // Private ----------------------
+    private Record record() {
+        final List<DataRow> rows = this.io.getRows();
+        Record record = Ao.record(this.atom);
+        if (null != rows && !rows.isEmpty()) {
+            final DataRow row = rows.get(Values.IDX);
+            if (null != row) {
+                record = row.getRecord();
+            }
+        }
+        return record;
+    }
+
+    private Record[] records() {
+        final List<DataRow> rows = this.dataRows();
+        return rows.stream()
+                .map(DataRow::getRecord)
+                .filter(Objects::nonNull)
+                .collect(Collectors.toList())
+                .toArray(new Record[]{});
+    }
+
+    private JsonObject dataP(final Record[] records) {
         final JsonArray list = new JsonArray();
         Arrays.stream(records).map(Record::toJson).forEach(list::add);
         final JsonObject pagination = new JsonObject();

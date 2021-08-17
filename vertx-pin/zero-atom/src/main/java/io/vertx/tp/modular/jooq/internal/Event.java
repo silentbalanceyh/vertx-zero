@@ -27,7 +27,7 @@ class Event {
         event.consoleAll();
         final DataEvent response = executor.apply(event);
         if (isArray) {
-            return (T) response.dataRs();
+            return (T) response.dataA();
         } else {
             return (T) response.dataR();
         }
@@ -48,7 +48,7 @@ class Event {
     ) {
         event.consoleAll();
         final DataEvent response = executor.apply(event);
-        return response.dataPage();
+        return response.dataP();
     }
 
     // ----------------------- Async ----------------------

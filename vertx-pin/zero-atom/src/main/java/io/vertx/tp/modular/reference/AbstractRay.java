@@ -1,11 +1,15 @@
 package io.vertx.tp.modular.reference;
 
+import io.vertx.core.Future;
+import io.vertx.core.json.JsonArray;
 import io.vertx.tp.atom.modeling.config.AoRule;
 import io.vertx.tp.atom.modeling.data.DataAtom;
 import io.vertx.tp.atom.modeling.element.DataTpl;
 import io.vertx.tp.atom.modeling.reference.RResult;
 import io.vertx.tp.error._501AnonymousAtomException;
+import io.vertx.up.unity.Ux;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
@@ -82,11 +86,20 @@ public abstract class AbstractRay<T> implements AoRay<T> {
      * @return Return the modified data record(s).
      */
     @Override
-    public T attach(final T input) {
+    public T doRay(final T input) {
         if (this.input.isEmpty()) {
             return input;
         } else {
-            return this.doAttach(input);
+            return this.exec(input);
+        }
+    }
+
+    @Override
+    public Future<T> doRayAsync(final T input) {
+        if (this.input.isEmpty()) {
+            return Ux.future(input);
+        } else {
+            return this.execAsync(input);
         }
     }
 
@@ -97,5 +110,15 @@ public abstract class AbstractRay<T> implements AoRay<T> {
      *
      * @return Return the modified data record(s).
      */
-    public abstract T doAttach(T input);
+    public abstract T exec(T input);
+
+    public abstract Future<T> execAsync(T input);
+
+    protected Future<ConcurrentMap<String, JsonArray>> thenCombine(final List<Future<ConcurrentMap<String, JsonArray>>> futures) {
+        return Ux.thenCombineT(futures).compose(listMap -> {
+            final ConcurrentMap<String, JsonArray> response = new ConcurrentHashMap<>();
+            listMap.forEach(response::putAll);
+            return Ux.future(response);
+        });
+    }
 }

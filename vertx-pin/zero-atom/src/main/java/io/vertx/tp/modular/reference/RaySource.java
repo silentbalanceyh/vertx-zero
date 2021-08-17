@@ -1,5 +1,6 @@
 package io.vertx.tp.modular.reference;
 
+import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.atom.modeling.config.AoRule;
@@ -12,6 +13,7 @@ import io.vertx.up.commune.Record;
 import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
+import java.util.function.BiFunction;
 import java.util.function.Function;
 
 /**
@@ -35,19 +37,60 @@ class RaySource {
      * field1 -> DataQRule
      * field2 -> DataQRule
      */
-    public ConcurrentMap<String, JsonArray> fetchSingle(final Record record) {
-        return this.fetchData(rule -> rule.condition(record));
+    public ConcurrentMap<String, JsonArray> single(final Record record) {
+        return this.data(rule -> rule.condition(record));
+    }
+
+    public Future<ConcurrentMap<String, JsonArray>> singleAsync(final Record record) {
+        return this.dataAsync(rule -> rule.condition(record));
     }
 
     /*
      * 批量运算
      */
-    public ConcurrentMap<String, JsonArray> fetchBatch(final Record[] records) {
-        return this.fetchData(rule -> rule.condition(records));
+    public ConcurrentMap<String, JsonArray> batch(final Record[] records) {
+        return this.data(rule -> rule.condition(records));
     }
 
-    private ConcurrentMap<String, JsonArray> fetchData(final Function<AoRule, JsonObject> supplier) {
-        final ConcurrentMap<String, JsonArray> data = new ConcurrentHashMap<>();
+    public Future<ConcurrentMap<String, JsonArray>> batchAsync(final Record[] records) {
+        return this.dataAsync(rule -> rule.condition(records));
+    }
+
+
+    private Future<ConcurrentMap<String, JsonArray>> dataAsync(final Function<AoRule, JsonObject> supplier) {
+        return this.ready(supplier, (fieldCodes, execMap) -> {
+            final ConcurrentMap<String, Future<JsonArray>> futureMap = new ConcurrentHashMap<>();
+            execMap.forEach((hashCode, kv) -> {
+                final JsonObject condition = kv.getKey();
+                final RDao dao = kv.getValue();
+            });
+            return null;
+        });
+    }
+
+    private ConcurrentMap<String, JsonArray> data(final Function<AoRule, JsonObject> supplier) {
+        return this.ready(supplier, (fieldCodes, execMap) -> {
+            final ConcurrentMap<String, JsonArray> data = new ConcurrentHashMap<>();
+            execMap.forEach((hashCode, kv) -> {
+                final JsonObject condition = kv.getKey();
+                final RDao dao = kv.getValue();
+                final JsonArray queried = dao.fetchBy(condition);
+                /* 反向运算 */
+                Ao.infoUca(this.getClass(), "Batch condition building: {0}, size = {1}",
+                        condition.encode(), String.valueOf(queried.size()));
+                fieldCodes.forEach((field, codeKey) -> {
+                    if (Objects.equals(hashCode, codeKey)) {
+                        data.put(field, queried);
+                    }
+                });
+            });
+            return data;
+        });
+    }
+
+    private <T> T ready(
+            final Function<AoRule, JsonObject> supplier,
+            final BiFunction<ConcurrentMap<String, Integer>, ConcurrentMap<Integer, Kv<JsonObject, RDao>>, T> executor) {
         /*
          * 换一种算法
          */
@@ -64,19 +107,6 @@ class RaySource {
                 execMap.put(hashCode, Kv.create(condition, dao));
             }
         });
-        execMap.forEach((hashCode, kv) -> {
-            final JsonObject condition = kv.getKey();
-            final RDao dao = kv.getValue();
-            final JsonArray queried = dao.fetchBy(condition);
-            /* 反向运算 */
-            Ao.infoUca(this.getClass(), "Batch condition building: {0}, size = {1}",
-                    condition.encode(), String.valueOf(queried.size()));
-            fieldCodes.forEach((field, codeKey) -> {
-                if (Objects.equals(hashCode, codeKey)) {
-                    data.put(field, queried);
-                }
-            });
-        });
-        return data;
+        return executor.apply(fieldCodes, execMap);
     }
 }
