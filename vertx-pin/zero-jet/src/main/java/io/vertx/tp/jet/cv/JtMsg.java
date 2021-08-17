@@ -12,7 +12,7 @@ public interface JtMsg {
     String WORKER_DEPLOY = "Workers will be deployed in background async ......";
     String WORKER_FAILURE = "Ambient XHeader booting error, initialized failure";
     String WORKER_DEPLOYING = "Worker instance = {0}, class = {1}";
-    String WORKER_DEPLOYED = "Worker `{0}` has been deployed successfully!!!";
+    String WORKER_DEPLOYED = "Worker `{0}` has been deployed successfully!!! ( instance = {1} )";
 
     String CONSUME_MESSAGE = "Api interface: id = {0}, method = {1}, path = {2}";
     String CONSUME_API = "---> Api Json: {0}";

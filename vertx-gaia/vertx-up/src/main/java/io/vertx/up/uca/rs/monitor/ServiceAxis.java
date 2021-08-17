@@ -1,4 +1,4 @@
-package io.vertx.up.uca.rs.router.monitor;
+package io.vertx.up.uca.rs.monitor;
 
 import io.vertx.core.Vertx;
 import io.vertx.ext.healthchecks.HealthCheckHandler;
@@ -7,8 +7,10 @@ import io.vertx.ext.web.Router;
 import io.vertx.up.eon.ID;
 import io.vertx.up.eon.Orders;
 import io.vertx.up.uca.rs.Axis;
+import io.vertx.up.uca.rs.monitor.meansure.Quota;
 
 import javax.ws.rs.core.MediaType;
+import java.util.concurrent.ConcurrentMap;
 
 public class ServiceAxis implements Axis<Router> {
 
@@ -17,15 +19,16 @@ public class ServiceAxis implements Axis<Router> {
 
     public ServiceAxis(final Vertx vertx) {
         this.vertx = vertx;
-        healthChecks = HealthChecks.create(vertx);
+        this.healthChecks = HealthChecks.create(vertx);
         /* First for UxPool */
-        healthChecks.register("pool/habitus", Quota.pool(vertx, "vertx-web.sessions.habitus"));
+        final ConcurrentMap<String, Quota> registryMap = Quota.getRegistry(vertx);
+        registryMap.forEach(this.healthChecks::register);
     }
 
     @Override
     public void mount(final Router router) {
         final HealthCheckHandler handler = HealthCheckHandler
-                .createWithHealthChecks(healthChecks);
+                .createWithHealthChecks(this.healthChecks);
         /*
          * Monitor Address
          */

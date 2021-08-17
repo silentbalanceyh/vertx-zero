@@ -68,6 +68,7 @@ public interface KName {
     String CODE = "code";                        /* Common: code */
     String VALUE = "value";                      /* Common: value */
     String TYPE = "type";                        /* Common: type for different model */
+    String DEPLOY_ID = "deployID";               /* */
     String CATEGORY = "category";                /* Common: category */
     String SERVICE = "service";                  /* Common: service */
     String DATA = "data";                        /* Common: data */

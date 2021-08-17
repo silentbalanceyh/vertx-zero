@@ -64,10 +64,10 @@ public class DeployRotate implements Rotate {
     public DeploymentOptions spinAgent(final Class<?> clazz) {
         /* @Agent */
         final Annotation annotation = clazz.getDeclaredAnnotation(Agent.class);
-        final DeploymentOptions options = spinOpts(annotation);
+        final DeploymentOptions options = this.spinOpts(annotation);
 
         /* Clazz Deployment Options */
-        spinConfig(clazz, options);
+        this.spinConfig(clazz, options);
 
         /* Worker = false */
         options.setWorker(false);
@@ -80,10 +80,10 @@ public class DeployRotate implements Rotate {
     public DeploymentOptions spinWorker(final Class<?> clazz) {
         /* @Agent */
         final Annotation annotation = clazz.getDeclaredAnnotation(Worker.class);
-        final DeploymentOptions options = spinOpts(annotation);
+        final DeploymentOptions options = this.spinOpts(annotation);
 
         /* Clazz Deployment Options */
-        spinConfig(clazz, options);
+        this.spinConfig(clazz, options);
 
         /* Worker = false */
         options.setWorker(true);
@@ -102,6 +102,10 @@ public class DeployRotate implements Rotate {
             /* Updated */
             codeOpts.mergeIn(configOpts, true);
             options.fromJson(codeOpts);
+            /* workerPoolSize is not in fromJson */
+            if (configOpts.containsKey("workerPoolSize")) {
+                options.setWorkerPoolSize(configOpts.getInteger("workerPoolSize"));
+            }
         }
     }
 

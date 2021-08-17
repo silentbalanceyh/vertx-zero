@@ -1,4 +1,4 @@
-package io.vertx.up.uca.rs.router.monitor;
+package io.vertx.up.uca.rs.monitor;
 
 import io.vertx.core.Vertx;
 import io.vertx.ext.web.Router;
@@ -10,14 +10,14 @@ public class MeansureAxis implements Axis<Router> {
 
     public MeansureAxis(final Vertx vertx, final boolean isGateway) {
         if (isGateway) {
-            axiser = new GatewayAxis(vertx);
+            this.axiser = new GatewayAxis(vertx);
         } else {
-            axiser = new ServiceAxis(vertx);
+            this.axiser = new ServiceAxis(vertx);
         }
     }
 
     @Override
     public void mount(final Router router) {
-        axiser.mount(router);
+        this.axiser.mount(router);
     }
 }

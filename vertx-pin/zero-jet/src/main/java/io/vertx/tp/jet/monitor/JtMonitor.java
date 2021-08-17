@@ -1,6 +1,5 @@
 package io.vertx.tp.jet.monitor;
 
-import io.vertx.core.AsyncResult;
 import io.vertx.core.http.HttpMethod;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.jet.atom.JtUri;
@@ -8,10 +7,10 @@ import io.vertx.tp.jet.cv.JtMsg;
 import io.vertx.tp.jet.cv.em.ParamMode;
 import io.vertx.tp.jet.refine.Jt;
 import io.vertx.tp.optic.jet.JtIngest;
-import io.vertx.up.log.Annal;
-import io.vertx.up.util.Ut;
 import io.vertx.up.fn.Fn;
+import io.vertx.up.log.Annal;
 import io.vertx.up.runtime.Runner;
+import io.vertx.up.util.Ut;
 
 /*
  * The monitor of workflow here.
@@ -49,8 +48,8 @@ public class JtMonitor {
         this.atomic.workerDeploying(this.logger, instances, name);
     }
 
-    public void workerDeployed(final AsyncResult<String> handler, final String name) {
-        this.atomic.workerDeployed(this.logger, handler, name);
+    public void workerDeployed(final Integer instances, final String name) {
+        this.atomic.workerDeployed(this.logger, instances, name);
     }
 
     public void receiveData(final String identifier, final JtUri uri) {
@@ -92,8 +91,8 @@ public class JtMonitor {
 
     public void componentHit(final Class<?> componentClass, final Class<?> recordClass) {
         Runner.run(() -> Jt.infoWeb(this.logger, JtMsg.COMPONENT_SELECT,
-                null == componentClass ? null : componentClass.getName(),
-                null == recordClass ? null : recordClass.getName()),
+                        null == componentClass ? null : componentClass.getName(),
+                        null == recordClass ? null : recordClass.getName()),
                 "jet-component-record");
     }
 }

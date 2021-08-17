@@ -137,6 +137,10 @@ public class DataEvent implements Serializable {
              * Qr 和 Criteria 的关系嵌套
              */
             this.criteria = qr.getCriteria();
+            // java.lang.NullPointerException for Qr
+            if (Objects.isNull(this.criteria)) {
+                this.criteria = Criteria.create(new JsonObject());
+            }
             final Set<String> projections = Optional.ofNullable(qr.getProjection()).orElse(new HashSet<>());
             if (!projections.isEmpty()) {
                 this.projection.addAll(projections);

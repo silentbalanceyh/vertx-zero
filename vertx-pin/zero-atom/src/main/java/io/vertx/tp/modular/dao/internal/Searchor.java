@@ -6,6 +6,7 @@ import io.vertx.tp.modular.jooq.internal.Jq;
 import io.vertx.up.atom.query.Criteria;
 import io.vertx.up.atom.query.engine.Qr;
 import io.vertx.up.commune.Record;
+import io.vertx.up.util.Ut;
 
 /**
  * 工具类
@@ -28,14 +29,15 @@ public class Searchor extends AbstractUtil<Searchor> {
         return new Searchor();
     }
 
-    public JsonObject search(final JsonObject filters) {
-        Ao.infoSQL(this.getLogger(), "执行方法：Searcher.search");
-        return Jq.onPagination(this.irQr(Qr.create(filters)), this.jooq::search);
+    public JsonObject search(final JsonObject qr) {
+        final JsonObject criteria = Ut.sureJObject(qr);
+        Ao.infoSQL(this.getLogger(), "执行方法：Searcher.search: {0}", criteria.encode());
+        return Jq.onPagination(this.irQr(Qr.create(criteria)), this.jooq::search);
     }
 
-    public Record[] query(final JsonObject criteriaJson) {
-        Ao.infoSQL(this.getLogger(), "执行方法：Searcher.query");
-        final Criteria criteria = Criteria.create(criteriaJson);
-        return Jq.onRecords(this.irCond(criteria), this.jooq::query);
+    public Record[] query(final JsonObject qr) {
+        final JsonObject criteria = Ut.sureJObject(qr);
+        Ao.infoSQL(this.getLogger(), "执行方法：Searcher.query: {0}", criteria.encode());
+        return Jq.onRecords(this.irCond(Criteria.create(criteria)), this.jooq::query);
     }
 }

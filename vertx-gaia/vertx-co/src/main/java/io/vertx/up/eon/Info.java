@@ -93,4 +93,8 @@ public interface Info {
     String JOB_SCANNED = "[ Job ] The system scanned {0} jobs with type {1}";
 
     String JOB_OFF = "[ Job ] Current job `{0}` has defined @Off method.";
+
+    // ------------- Meansure
+    String MEANSURE_REMOVE = "[ Meansure ] The {0} has been removed. ( instances = {1} )";
+    String MEANSURE_ADD = "[ Meansure ] The {0} has been added. ( instances = {1} ), worker = {2}";
 }
