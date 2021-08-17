@@ -47,11 +47,10 @@ public class JQEngine {
         final boolean isSql = Ao.isDebug();
         if (isSql) {
             context.settings().setDebugInfoOnStackTrace(Boolean.TRUE);
-            // Support for JsonArray / JsonObject
         }
     }
-    // UPDATE
 
+    // UPDATE
     public DataEvent update(final DataEvent event) {
         return this.updateTool.update(event);
     }

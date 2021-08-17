@@ -14,7 +14,6 @@ import io.vertx.up.unity.Ux;
 import io.vertx.up.unity.UxPool;
 import io.vertx.up.util.Ut;
 
-import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
@@ -81,15 +80,8 @@ class DpmTool {
             /*
              *  Calculated the
              */
-            final ConcurrentMap<String, JsonArray> processed = new ConcurrentHashMap<>();
-            final Set<String> newSet = new HashSet<>();
-            cachedMap.forEach((key, value) -> {
-                if (Ut.isNil(value)) {
-                    newSet.add(key);
-                } else {
-                    processed.put(key, value);
-                }
-            });
+            final Set<String> newSet = Ut.diff(typeSet, cachedMap.keySet());
+            final ConcurrentMap<String, JsonArray> processed = new ConcurrentHashMap<>(cachedMap);
             if (newSet.isEmpty()) {
                 return Ux.future(processed);
             } else {

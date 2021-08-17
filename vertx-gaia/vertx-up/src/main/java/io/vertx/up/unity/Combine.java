@@ -97,7 +97,7 @@ class Combine {
             for (int idx = Values.IDX; idx < size; idx++) {
                 final K key = keys.get(idx);
                 final T result = list.get(idx);
-                if (Objects.nonNull(key)) {
+                if (Objects.nonNull(key) && Objects.nonNull(result)) {
                     resultMap.put(key, result);
                 }
             }
