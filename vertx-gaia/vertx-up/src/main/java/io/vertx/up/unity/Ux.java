@@ -291,12 +291,20 @@ public final class Ux {
         return Web.toFuture(handler);
     }
 
-    public static <T, R> ConcurrentMap<ChangeFlag, List<T>> compare(final List<T> original, final List<T> current, final Function<T, R> fnValue, final String mergedPojo) {
-        return Comparer.compare(original, current, fnValue, mergedPojo);
+    public static <T, R> ConcurrentMap<ChangeFlag, List<T>> compare(final List<T> original, final List<T> current, final Function<T, R> fnValue, final String pojoFile) {
+        return Comparer.compare(original, current, fnValue, pojoFile);
     }
 
     public static <T, R> ConcurrentMap<ChangeFlag, List<T>> compare(final List<T> original, final List<T> current, final Function<T, R> fnValue) {
         return Comparer.compare(original, current, fnValue, Strings.EMPTY);
+    }
+
+    public static <T, R> ConcurrentMap<ChangeFlag, List<T>> compare(final List<T> original, final List<T> current, final Set<String> uniqueSet, final String pojoFile) {
+        return Comparer.compare(original, current, uniqueSet, pojoFile);
+    }
+
+    public static <T, R> ConcurrentMap<ChangeFlag, List<T>> compare(final List<T> original, final List<T> current, final Set<String> uniqueSet) {
+        return Comparer.compare(original, current, uniqueSet, Strings.EMPTY);
     }
 
     /*

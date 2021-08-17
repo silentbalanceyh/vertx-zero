@@ -596,11 +596,15 @@ public final class Ut {
     }
 
     public static List<String> ioFilesN(final String folder) {
-        return Folder.listFilesN(folder, null);
+        return Folder.listFilesN(folder, null, null);
     }
 
     public static List<String> ioFilesN(final String folder, final String extension) {
-        return Folder.listFilesN(folder, extension);
+        return Folder.listFilesN(folder, extension, null);
+    }
+
+    public static List<String> ioFilesN(final String folder, final String extension, final String prefix) {
+        return Folder.listFilesN(folder, extension, prefix);
     }
 
     public static List<String> ioDirectories(final String folder) {
