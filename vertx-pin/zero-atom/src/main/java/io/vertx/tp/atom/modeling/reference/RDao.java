@@ -32,6 +32,10 @@ public class RDao {
      */
     private final transient DataAtom atom;
     /**
+     * Source identifier that has been mapped `source` field of `M_ATTRIBUTE`.
+     */
+    private final transient String source;
+    /**
      * 「Static」When static source triggered, this reference stored initialized Dao class.
      *
      * The Dao class came from `serviceReference`
@@ -47,10 +51,6 @@ public class RDao {
      * 「Static」joinDef in current RDao.
      */
     private transient KJoin kJoin;
-    /**
-     * Source identifier that has been mapped `source` field of `M_ATTRIBUTE`.
-     */
-    private final transient String source;
 
     public RDao(final String appName, final String source) {
         this.source = source;
@@ -79,8 +79,12 @@ public class RDao {
 
     @Override
     public boolean equals(final Object o) {
-        if (this == o) return true;
-        if (o == null || this.getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || this.getClass() != o.getClass()) {
+            return false;
+        }
         final RDao rDao = (RDao) o;
         return this.source.equals(rDao.source);
     }
@@ -137,7 +141,9 @@ public class RDao {
                 /* 返回AoDao */
                 final Database database = pool.getDatabase();
                 return Ao.toDao(database, this.atom);
-            } else return null;
+            } else {
+                return null;
+            }
         });
     }
 }

@@ -27,7 +27,7 @@ class DirectIngest implements Ingest {
                                  final Criteria criteria) {
         /* 构造查询树 */
         final QTree tree = QTree.create(criteria);
-        Ao.infoSQL(LOGGER, "（Direct模式）查询分析树：\n{0}", tree.toString());
+        Ao.infoSQL(LOGGER, tree.hasValue(), "（Direct模式）查询分析树：\n{0}", tree.toString());
         final DataMatrix matrix = this.getMatrix(tpl);
         return QVisitor.analyze(tree, matrix);
     }
@@ -45,7 +45,7 @@ class DirectIngest implements Ingest {
                 orders.add(isAsc ? column.asc() : column.desc());
             }
         }
-        Ao.infoSQL(LOGGER, "（Direct模式）排序条件：{0}, size = {1}", data.encode(), orders.size());
+        Ao.infoSQL(LOGGER, 0 < orders.size(), "（Direct模式）排序条件：{0}, size = {1}", data.encode(), orders.size());
         return orders;
     }
 

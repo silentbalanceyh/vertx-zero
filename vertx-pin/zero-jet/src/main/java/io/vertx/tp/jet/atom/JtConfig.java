@@ -89,6 +89,10 @@ public class JtConfig implements Serializable {
          */
         options.setWorker(true);
         options.setHa(true);
+        /* BUG: workerPoolSize is not in fromJson */
+        if (this.worker.containsKey("workerPoolSize")) {
+            options.setWorkerPoolSize(this.worker.getInteger("workerPoolSize"));
+        }
         return options;
     }
 

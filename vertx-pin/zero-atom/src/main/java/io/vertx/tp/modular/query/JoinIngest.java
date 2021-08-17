@@ -31,7 +31,7 @@ class JoinIngest implements Ingest {
                                  final ConcurrentMap<String, String> aliasMap) {
         /* 构造查询树 */
         final QTree tree = QTree.create(criteria);
-        Ao.infoSQL(LOGGER, "（Join模式）查询分析树：\n{0}", tree.toString());
+        Ao.infoSQL(LOGGER, tree.hasValue(), "（Join模式）查询分析树：\n{0}", tree.toString());
         /* 抽取Tpl中的查询条件，Join模式考虑多表 */
         final ConcurrentMap<String, DataMatrix> matrixs = tpl.matrixData();
         final ConcurrentMap<String, String> prefixMap = this.calculatePrefix(matrixs, aliasMap);
@@ -125,7 +125,7 @@ class JoinIngest implements Ingest {
                 orders.add(isAsc ? column.asc() : column.desc());
             }
         }
-        Ao.infoSQL(LOGGER, "（Join模式）排序条件：{0}, size = {1}", data.encode(), orders.size());
+        Ao.infoSQL(LOGGER, 0 < orders.size(), "（Join模式）排序条件：{0}, size = {1}", data.encode(), orders.size());
         return orders;
     }
 

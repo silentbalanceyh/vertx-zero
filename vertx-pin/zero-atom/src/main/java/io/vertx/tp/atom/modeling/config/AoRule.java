@@ -110,7 +110,9 @@ public class AoRule implements Serializable {
     public Set<String> getUnique() {
         if (Ut.notNil(this.unique)) {
             return Ut.toSet(this.unique);
-        } else return new HashSet<>();
+        } else {
+            return new HashSet<>();
+        }
     }
 
     /**
@@ -154,7 +156,9 @@ public class AoRule implements Serializable {
     public Set<String> getRequired() {
         if (Ut.notNil(this.required)) {
             return Ut.toSet(this.required);
-        } else return new HashSet<>();
+        } else {
+            return new HashSet<>();
+        }
     }
 
     /**
@@ -254,9 +258,6 @@ public class AoRule implements Serializable {
                 tpl.put(field, Ut.toJArray(values));
             }
         });
-        if (Ut.notNil(tpl)) {
-            Ao.infoUca(this.getClass(), "Batch condition building: {0}", tpl.encode());
-        }
         // If null of "", the AND operator will be set.
         tpl.put(Strings.EMPTY, this.conditions.getBoolean(Strings.EMPTY, Boolean.TRUE));
         return tpl;

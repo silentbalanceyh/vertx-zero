@@ -14,6 +14,8 @@ import io.vertx.up.extension.pointer.PluginExtension;
 import io.vertx.up.uca.rs.hunt.Answer;
 import io.vertx.up.unity.Ux;
 
+import java.util.Objects;
+
 public class SendAim implements JtAim {
 
     private transient final JtMonitor monitor = JtMonitor.create(this.getClass());
@@ -65,6 +67,10 @@ public class SendAim implements JtAim {
                             Answer.reply(context, error);
                         }
                     });
+                } else {
+                    if (Objects.nonNull(res.cause())) {
+                        res.cause().printStackTrace();
+                    }
                 }
             });
 

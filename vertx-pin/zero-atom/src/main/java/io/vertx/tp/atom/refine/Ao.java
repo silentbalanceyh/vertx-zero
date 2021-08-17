@@ -69,6 +69,12 @@ public class Ao {
         AoLog.info(logger, "Sql", pattern, args);
     }
 
+    public static void infoSQL(final Annal logger, final boolean condition, final String pattern, final Object... args) {
+        if (condition) {
+            infoSQL(logger, pattern, args);
+        }
+    }
+
     /*
      * Diff
      */

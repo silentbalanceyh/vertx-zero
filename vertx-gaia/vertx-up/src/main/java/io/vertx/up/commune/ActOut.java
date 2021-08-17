@@ -114,10 +114,11 @@ public class ActOut extends ActMapping implements Serializable {
                 final DualItem dualItem;
                 if (Objects.isNull(this.identifier)) {
                     dualItem = mapping.child();
-                    // LOGGER.info("identifier is null, root mapping will be used. {0}", dualItem.toString());
                 } else {
                     dualItem = mapping.child(this.identifier);
-                    LOGGER.info("identifier `{0}`, extract child mapping. {1}", this.identifier, dualItem.toString());
+                    if (!dualItem.isEmpty()) {
+                        LOGGER.info("identifier `{0}`, extract child mapping. {1}", this.identifier, dualItem.toString());
+                    }
                 }
                 final HttpStatusCode status = this.envelop.status();
                 if (response instanceof JsonObject) {
@@ -135,7 +136,11 @@ public class ActOut extends ActMapping implements Serializable {
                             .forEach(normalized::add);
                     return Envelop.success(normalized, status).from(this.envelop);
                 }
-            } else return this.envelop;
-        } else return this.envelop;
+            } else {
+                return this.envelop;
+            }
+        } else {
+            return this.envelop;
+        }
     }
 }

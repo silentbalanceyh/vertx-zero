@@ -102,7 +102,7 @@ public class DeployRotate implements Rotate {
             /* Updated */
             codeOpts.mergeIn(configOpts, true);
             options.fromJson(codeOpts);
-            /* workerPoolSize is not in fromJson */
+            /* BUG: workerPoolSize is not in fromJson */
             if (configOpts.containsKey("workerPoolSize")) {
                 options.setWorkerPoolSize(configOpts.getInteger("workerPoolSize"));
             }

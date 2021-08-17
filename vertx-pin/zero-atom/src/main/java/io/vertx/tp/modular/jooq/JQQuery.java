@@ -27,7 +27,6 @@ class JQQuery {
         return this.context.transactionResult(configuration -> Jq.doQueryAll(this.getClass(), events, (tables, ingest) -> {
             /* 查询条件一致 */
             final SelectWhereStep query = this.term.getSelectSample(events, tables, ingest);
-
             return query.fetchArray();
         }));
     }

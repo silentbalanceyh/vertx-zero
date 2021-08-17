@@ -151,10 +151,14 @@ class JQToolkit {
         final DataTpl tpl = event.getTpl();
         if (map.isEmpty()) {
             condition = ingest.onCondition(tpl, JQPre.prepare(tpl.atom(), event.getCriteria()));
-            Ao.infoSQL(LOGGER, "单表, 最终条件：{0}", condition);
+            if (Objects.nonNull(condition)) {
+                Ao.infoSQL(LOGGER, "单表, 最终条件：{0}", condition);
+            }
         } else {
             condition = ingest.onCondition(tpl, JQPre.prepare(tpl.atom(), event.getCriteria()), map);
-            Ao.infoSQL(LOGGER, "多表, 最终条件：{0}", condition);
+            if (Objects.nonNull(condition)) {
+                Ao.infoSQL(LOGGER, "多表, 最终条件：{0}", condition);
+            }
         }
         return condition;
     }
