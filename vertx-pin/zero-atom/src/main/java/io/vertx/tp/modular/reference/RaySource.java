@@ -9,12 +9,16 @@ import io.vertx.tp.atom.modeling.reference.RQuote;
 import io.vertx.tp.atom.refine.Ao;
 import io.vertx.up.atom.Kv;
 import io.vertx.up.commune.Record;
+import io.vertx.up.eon.Constants;
+import io.vertx.up.unity.Ux;
+import io.vertx.up.unity.UxPool;
 
 import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.function.BiFunction;
 import java.util.function.Function;
+import java.util.function.Supplier;
 
 /**
  * ## Data Fetcher
@@ -59,12 +63,40 @@ class RaySource {
 
     private Future<ConcurrentMap<String, JsonArray>> dataAsync(final Function<AoRule, JsonObject> supplier) {
         return this.ready(supplier, (fieldCodes, execMap) -> {
-            final ConcurrentMap<String, Future<JsonArray>> futureMap = new ConcurrentHashMap<>();
+            final ConcurrentMap<Integer, Future<JsonArray>> futureMap = new ConcurrentHashMap<>();
             execMap.forEach((hashCode, kv) -> {
                 final JsonObject condition = kv.getKey();
                 final RDao dao = kv.getValue();
+                Ao.infoUca(this.getClass(), "Async Batch condition building: {0}",
+                        condition.encode());
+                futureMap.put(hashCode, this.dataAsync(hashCode, () -> dao.fetchByAsync(condition)));
             });
-            return null;
+            return Ux.thenCombine(futureMap).compose(queriedMap -> {
+                final ConcurrentMap<String, JsonArray> data = new ConcurrentHashMap<>();
+                queriedMap.forEach((hashCode, dataArray) -> {
+                    fieldCodes.forEach((field, codeKey) -> {
+                        if (Objects.equals(hashCode, codeKey)) {
+                            data.put(field, dataArray);
+                        }
+                    });
+                });
+                return Ux.future(data);
+            });
+        });
+    }
+
+    private Future<JsonArray> dataAsync(final Integer hashCode, final Supplier<Future<JsonArray>> executor) {
+        final UxPool pool = Ux.Pool.on(Constants.Pool.REFERENCE);
+        return pool.<Integer, JsonArray>get(hashCode).compose(queried -> {
+            if (Objects.isNull(queried)) {
+                return executor.get()
+                        // 5 min
+                        .compose(actual -> pool.put(hashCode, actual, Constants.DEFAULT_EXPIRED_DATA))
+                        .compose(Kv::value);
+            } else {
+                Ao.infoPlugin(RaySource.class, " [ PT ] Cached Hit = {0}", String.valueOf(hashCode));
+                return Ux.future(queried);
+            }
         });
     }
 

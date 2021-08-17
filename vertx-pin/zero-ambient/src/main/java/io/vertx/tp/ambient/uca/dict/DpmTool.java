@@ -63,7 +63,7 @@ class DpmTool {
             if (Objects.isNull(queried)) {
                 return executor.get()
                         // 15 min
-                        .compose(actual -> pool.put(key, actual, 900))
+                        .compose(actual -> pool.put(key, actual, Constants.DEFAULT_EXPIRED_DATA))
                         .compose(Kv::value);
             } else {
                 At.infoFlow(DpmTool.class, " [ PT ] Cached Hit = {0}", key);
@@ -87,7 +87,7 @@ class DpmTool {
             } else {
                 return executor.apply(newSet).compose(queried -> {
                     final ConcurrentMap<String, Future<JsonArray>> futureMap = new ConcurrentHashMap<>();
-                    queried.forEach((key, data) -> futureMap.put(key, pool.put(key, data, 900)
+                    queried.forEach((key, data) -> futureMap.put(key, pool.put(key, data, Constants.DEFAULT_EXPIRED_DATA)
                             .compose(Kv::value)));
                     return Ux.thenCombine(futureMap);
                 }).compose(newAdded -> {
