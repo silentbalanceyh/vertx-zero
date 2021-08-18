@@ -22,8 +22,6 @@ import java.util.List;
 import java.util.Queue;
 import java.util.Set;
 import java.util.concurrent.ConcurrentMap;
-import java.util.function.BiFunction;
-import java.util.function.Function;
 import java.util.function.Supplier;
 
 public class Ao {
@@ -224,41 +222,6 @@ public class Ao {
         AoData.connect(record, keyMatrix, dataMatrix, joins);
     }
 
-    /*
-     * Do common workflow
-     */
-    public static <T> Function<T, Boolean> doBoolean(final Annal logger, final Function<T, Boolean> function) {
-        return AoDo.doBoolean(logger, function);
-    }
-
-    public static <T> Supplier<T> doSupplier(final Annal logger, final Supplier<T> supplier) {
-        return AoDo.doSupplier(logger, supplier);
-    }
-
-    public static <T> Function<T, Long> doCount(final Annal logger, final Function<T, Long> function) {
-        return AoDo.doStandard(logger, function);
-    }
-
-    public static <T> Function<T, Boolean[]> doBooleans(final Annal logger, final Function<T, Boolean[]> function) {
-        return AoDo.doBooleans(logger, function);
-    }
-
-    public static <T> Function<T, T> doFluent(final Annal logger, final Function<T, T> function) {
-        return AoDo.doFluent(logger, function);
-    }
-
-    public static <T, S> BiFunction<T, S, T> doBiFluent(final Annal logger, final BiFunction<T, S, T> function) {
-        return AoDo.doBiFluent(logger, function);
-    }
-
-    public static <T, R> Function<T, R> doStandard(final Annal logger, final Function<T, R> function) {
-        return AoDo.doStandard(logger, function);
-    }
-
-    public static <F, S, R> BiFunction<F, S, R> doBiStandard(final Annal logger,
-                                                             final BiFunction<F, S, R> function) {
-        return AoDo.doBiStandard(logger, function);
-    }
 
     /*
      * Record Building

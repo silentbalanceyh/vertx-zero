@@ -3,7 +3,6 @@ package io.vertx.tp.modular.dao;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.atom.modeling.data.DataAtom;
-import io.vertx.tp.atom.refine.Ao;
 import io.vertx.tp.modular.dao.internal.*;
 import io.vertx.tp.modular.jdbc.AoConnection;
 import io.vertx.tp.modular.metadata.AoSentence;
@@ -305,17 +304,17 @@ public abstract class AbstractDao implements AoDao {
 
     @Override
     public Future<Record> fetchOneAsync(final Criteria criteria) {
-        return Fn.getNull(null, () -> this.uniqueor.fetchOneAsync(criteria), criteria);
+        return Fn.getNull(Ux.future(), () -> this.uniqueor.fetchOneAsync(criteria), criteria);
     }
 
     @Override
     public Future<JsonObject> searchAsync(final JsonObject query) {
-        return Ao.doStandard(this.logger(), this.searchor::searchAsync).apply(query);
+        return Fn.getNull(Ux.futureJ(), () -> this.searchor.searchAsync(query), query);
     }
 
     @Override
     public Future<Record[]> fetchAsync(final JsonObject criteria) {
-        return Ao.doStandard(this.logger(), this.searchor::queryAsync).apply(criteria);
+        return Fn.getNull(Ux.future(new Record[]{}), () -> this.searchor.queryAsync(criteria), criteria);
     }
 
     /*
@@ -343,7 +342,7 @@ public abstract class AbstractDao implements AoDao {
 
     @Override
     public boolean delete(final Record record) {
-        return Ao.<Record>doBoolean(this.logger(), this.partakor::delete).apply(record); // 防 null
+        return Fn.getNull(Boolean.FALSE, () -> this.partakor.delete(record), record);
     }
 
     @Override
@@ -353,7 +352,10 @@ public abstract class AbstractDao implements AoDao {
 
     @Override
     public Boolean delete(final Record... records) {
-        return Ao.<Record[]>doBoolean(this.logger(), this.partakor::delete).apply(records); // 防 null
+        if (Objects.isNull(records)) {
+            return Boolean.FALSE;
+        }
+        return this.partakor.delete(records);
     }
 
     // Logger
