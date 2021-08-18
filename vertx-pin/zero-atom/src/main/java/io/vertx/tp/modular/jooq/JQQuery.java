@@ -9,12 +9,11 @@ import org.jooq.DSLContext;
 import org.jooq.SelectWhereStep;
 
 @SuppressWarnings("all")
-class JQQuery {
-    private final transient DSLContext context;
+class JQQuery extends AbstractJQCrud {
     private final transient JQTerm term;
 
     JQQuery(final DSLContext context) {
-        this.context = context;
+        super(context);
         this.term = new JQTerm(context);
     }
 
@@ -44,8 +43,7 @@ class JQQuery {
      */
     DataEvent fetchById(final DataEvent event) {
         /* 1. 读取当前DataMatrix 中的数据 */
-        return this.context.transactionResult(configuration -> Jq.doRead(this.getClass(), event, (table, matrix) -> {
-
+        return this.read(event, (table, matrix) -> {
             /* 2. 执行条件处理 */
             final SelectWhereStep query = this.context.selectFrom(Jq.toTable(table));
 
@@ -54,7 +52,7 @@ class JQQuery {
 
             /* 3. 执行结果 */
             return query.fetchOne();
-        }));
+        });
     }
 
     Future<DataEvent> fetchByIdAsync(final DataEvent event) {
@@ -63,16 +61,15 @@ class JQQuery {
 
     DataEvent fetchByIds(final DataEvent events) {
         /* 1. 读取当前 DataMatrix 中的数据 */
-        return this.context.transactionResult(configuration -> Jq.doReads(this.getClass(), events, (table, matrixList) -> {
-
+        return this.readBatch(events, (table, matrix) -> {
             /* 2. 执行条件处理 */
             final SelectWhereStep query = this.context.selectFrom(Jq.toTable(table));
-            final Condition condition = Jq.inWhere(matrixList);
+            final Condition condition = Jq.inWhere(matrix);
             query.where(condition);
 
             /* 3. 执行结果 */
             return query.fetchArray();
-        }));
+        });
     }
 
     Future<DataEvent> fetchByIdsAsync(final DataEvent event) {

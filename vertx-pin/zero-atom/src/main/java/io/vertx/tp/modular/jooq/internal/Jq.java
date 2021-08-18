@@ -92,13 +92,8 @@ public class Jq {
         OSync.doImpact(expected, predicate, actuator, supplier);
     }
 
-    // 数据库读操作
-    public static DataEvent doRead(final Class<?> clazz, final DataEvent event, final BiFunction<String, DataMatrix, Record> actor) {
-        return DReader.doRead(clazz, event, actor);
-    }
-
-    public static DataEvent doReads(final Class<?> clazz, final DataEvent event, final BiFunction<String, List<DataMatrix>, Record[]> actor) {
-        return DReader.doReads(clazz, event, actor);
+    public static Consumer<String> output(final List<DataRow> rows, final Record[] records) {
+        return OSync.doJoin(rows, records);
     }
 
     public static DataEvent doCount(final Class<?> clazz, final DataEvent event, final BiFunction<Set<String>, Ingest, Long> actor) {
