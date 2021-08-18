@@ -11,6 +11,7 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.tp.plugin.excel.atom.ExTable;
 import io.vertx.up.commune.element.TypeAtom;
 import io.vertx.up.log.Annal;
+import io.vertx.up.util.Ut;
 
 import java.io.InputStream;
 import java.util.Set;
@@ -45,6 +46,13 @@ public class ExcelClientImpl implements ExcelClient {
             final String componentStr = config.getString(ExcelClient.PEN);
             this.helper.initPen(componentStr);
             LOGGER.debug("[ Έξοδος ] Configuration pen for Exporting: {0}", componentStr);
+        }
+        if (config.containsKey(ExcelClient.TENANT)) {
+            final JsonObject tenant = Ut.ioJObject(config.getString(ExcelClient.TENANT));
+            if (Ut.notNil(tenant)) {
+                this.importer.initTenant(tenant);
+                LOGGER.debug("[ Έξοδος ] Configuration tenant for Importing: {0}", tenant.encode());
+            }
         }
         return this;
     }

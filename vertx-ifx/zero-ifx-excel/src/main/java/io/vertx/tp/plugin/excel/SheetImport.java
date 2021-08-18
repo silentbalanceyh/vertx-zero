@@ -23,6 +23,7 @@ import java.util.concurrent.ConcurrentMap;
 class SheetImport {
     private static final Annal LOGGER = Annal.get(ExcelClientImpl.class);
     private transient final ExcelHelper helper;
+    private transient final JsonObject tenant = new JsonObject();
 
     private SheetImport(final ExcelHelper helper) {
         this.helper = helper;
@@ -35,52 +36,60 @@ class SheetImport {
     <T> Set<T> saveEntity(final JsonArray data, final ExTable table) {
         final Set<T> resultSet = new HashSet<>();
         if (Objects.nonNull(table.classPojo()) && Objects.nonNull(table.classDao())) {
-            final JsonObject filters = table.whereUnique(data);
-            LOGGER.debug("[ Έξοδος ]  Table: {1}, Filters: {0}", filters.encode(), table.getName());
-            final List<T> entities = Ux.fromJson(data, table.classPojo(), table.filePojo());
-            final UxJooq jooq = this.jooq(table);
-            assert null != jooq;
-            final List<T> queried = jooq.fetch(filters);
-            LOGGER.info("[ Έξοδος ]  Table: {0}, Queried: {1}, Input: {2}",
-                    table.getName(), String.valueOf(queried.size()), String.valueOf(entities.size()));
-            /*
-             * Compare by unique
-             */
-            ConcurrentMap<ChangeFlag, List<T>> compared =
-                    Ux.compare(queried, entities, table.fieldUnique(), table.filePojo());
-            final List<T> qUpdate = compared.getOrDefault(ChangeFlag.UPDATE, new ArrayList<>());
-            final List<T> qInsert = compared.getOrDefault(ChangeFlag.ADD, new ArrayList<>());
-            if (!qInsert.isEmpty()) {
+            try {
+                final JsonObject filters = table.whereUnique(data);
+                LOGGER.debug("[ Έξοδος ]  Table: {1}, Filters: {0}", filters.encode(), table.getName());
+                final List<T> entities = Ux.fromJson(data, table.classPojo(), table.filePojo());
+                final UxJooq jooq = this.jooq(table);
+                assert null != jooq;
+                final List<T> queried = jooq.fetch(filters);
+                LOGGER.info("[ Έξοδος ]  Table: {0}, Queried: {1}, Input: {2}",
+                        table.getName(), String.valueOf(queried.size()), String.valueOf(entities.size()));
                 /*
-                 * Compare by keys
+                 * Compare by unique
                  */
-                final Set<String> keys = new HashSet<>();
-                qInsert.forEach(item -> {
-                    final Object value = Ut.field(item, table.fieldKey());
-                    if (Objects.nonNull(value)) {
-                        keys.add(value.toString());
+                ConcurrentMap<ChangeFlag, List<T>> compared =
+                        Ux.compare(queried, entities, table.fieldUnique(), table.filePojo());
+                final List<T> qUpdate = compared.getOrDefault(ChangeFlag.UPDATE, new ArrayList<>());
+                final List<T> qInsert = compared.getOrDefault(ChangeFlag.ADD, new ArrayList<>());
+                if (!qInsert.isEmpty()) {
+                    /*
+                     * Compare by keys
+                     */
+                    final String entityKey = table.fieldKey();
+                    if (Objects.nonNull(entityKey)) {
+                        final Set<String> keys = new HashSet<>();
+                        qInsert.forEach(item -> {
+                            final Object value = Ut.field(item, entityKey);
+                            if (Objects.nonNull(value)) {
+                                keys.add(value.toString());
+                            }
+                        });
+                        final List<T> qKeys = jooq.fetchIn(entityKey, keys);
+                        if (!qKeys.isEmpty()) {
+                            compared = Ux.compare(qKeys, qInsert, table.fieldUnique(), table.filePojo());
+                            qUpdate.addAll(compared.getOrDefault(ChangeFlag.UPDATE, new ArrayList<>()));
+                            // qInsert reset
+                            qInsert.clear();
+                            qInsert.addAll(compared.getOrDefault(ChangeFlag.ADD, new ArrayList<>()));
+                        }
                     }
-                });
-                final List<T> qKeys = jooq.fetchIn(table.fieldKey(), keys);
-                if (!qKeys.isEmpty()) {
-                    compared = Ux.compare(qKeys, qInsert, table.fieldUnique(), table.filePojo());
-                    qUpdate.addAll(compared.getOrDefault(ChangeFlag.UPDATE, new ArrayList<>()));
-                    // qInsert reset
-                    qInsert.clear();
-                    qInsert.addAll(compared.getOrDefault(ChangeFlag.ADD, new ArrayList<>()));
                 }
+                /*
+                 * Batch operation
+                 */
+                List<T> batchDone = jooq.insert(this.helper.compress(qInsert, table));
+                LOGGER.info("[ Έξοδος ]  (ADD) Table: {0}, Inserted: {1}",
+                        table.getName(), String.valueOf(batchDone.size()));
+                resultSet.addAll(batchDone);
+                batchDone = jooq.update(qUpdate);
+                LOGGER.info("[ Έξοδος ]  (UPDATE) Table: {0}, Updated: {1}",
+                        table.getName(), String.valueOf(batchDone.size()));
+                resultSet.addAll(batchDone);
+            } catch (final Throwable ex) {
+                ex.printStackTrace();
+                LOGGER.jvm(ex);
             }
-            /*
-             * Batch operation
-             */
-            List<T> batchDone = jooq.insert(this.helper.compress(qInsert, table));
-            LOGGER.info("[ Έξοδος ]  (ADD) Table: {0}, Inserted: {1}",
-                    table.getName(), String.valueOf(batchDone.size()));
-            resultSet.addAll(batchDone);
-            batchDone = jooq.update(qUpdate);
-            LOGGER.info("[ Έξοδος ]  (UPDATE) Table: {0}, Updated: {1}",
-                    table.getName(), String.valueOf(batchDone.size()));
-            resultSet.addAll(batchDone);
         }
         return resultSet;
     }
@@ -189,8 +198,17 @@ class SheetImport {
         final JsonArray dataArray = new JsonArray();
         records.stream().filter(Objects::nonNull)
                 .map(ExRecord::toJson)
+                .peek(data -> {
+                    if (Ut.notNil(this.tenant)) {
+                        data.mergeIn(this.tenant.copy(), true);
+                    }
+                })
                 .forEach(dataArray::add);
         return dataArray;
+    }
+
+    void initTenant(final JsonObject tenant) {
+        this.tenant.mergeIn(tenant);
     }
 
     private UxJooq jooq(final ExTable table) {

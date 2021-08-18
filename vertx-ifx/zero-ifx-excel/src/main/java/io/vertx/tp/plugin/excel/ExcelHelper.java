@@ -10,6 +10,8 @@ import io.vertx.tp.plugin.excel.ranger.ExBound;
 import io.vertx.tp.plugin.excel.ranger.RowBound;
 import io.vertx.up.commune.element.TypeAtom;
 import io.vertx.up.eon.FileSuffix;
+import io.vertx.up.eon.KName;
+import io.vertx.up.eon.Strings;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.util.Ut;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
@@ -18,6 +20,7 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
+import java.io.File;
 import java.io.InputStream;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
@@ -27,7 +30,7 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 class ExcelHelper {
 
-    private static final Map<String, Workbook> WORKBOOKS = new ConcurrentHashMap<>();
+    private static final Map<String, Workbook> REFERENCES = new ConcurrentHashMap<>();
     private transient final Class<?> target;
     private transient ExTpl tpl;
 
@@ -89,7 +92,7 @@ class ExcelHelper {
              * 1）Local variable to replace global
              **/
             final Map<String, FormulaEvaluator> references = new ConcurrentHashMap<>();
-            WORKBOOKS.forEach((field, workbookRef) -> {
+            REFERENCES.forEach((field, workbookRef) -> {
                 /*
                  * Reference executor processing
                  * Here you must put self reference evaluator and all related here.
@@ -160,19 +163,34 @@ class ExcelHelper {
                 .map(item -> (JsonObject) item)
                 .forEach(each -> {
                     /*
-                     * name for map key
-                     */
-                    final String key = each.getString("name");
-                    /*
                      * Build reference
                      */
                     final String path = each.getString("path");
-                    final Workbook workbook = this.getWorkbook(path);
                     /*
                      * Reference Evaluator
                      */
-                    WORKBOOKS.put(key, workbook);
+                    final String name = each.getString("name");
+                    final Workbook workbook = this.getWorkbook(path);
+                    REFERENCES.put(name, workbook);
+                    this.initEnvironment(each, workbook);
                 });
+    }
+
+    private void initEnvironment(final JsonObject each, final Workbook workbook) {
+        /*
+         * Alias Parsing
+         */
+        if (each.containsKey(KName.ALIAS)) {
+            final JsonArray alias = each.getJsonArray(KName.ALIAS);
+            final File current = new File(Strings.EMPTY);
+            Ut.itJArray(alias, String.class, (item, index) -> {
+                final String filename = current.getAbsolutePath() + item;
+                final File file = new File(filename);
+                if (file.exists()) {
+                    REFERENCES.put(file.getAbsolutePath(), workbook);
+                }
+            });
+        }
     }
 
     /*
