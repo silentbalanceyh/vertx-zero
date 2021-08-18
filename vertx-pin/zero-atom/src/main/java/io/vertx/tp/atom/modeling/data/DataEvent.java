@@ -300,10 +300,7 @@ public class DataEvent implements Serializable {
     private JsonObject dataP(final Record[] records) {
         final JsonArray list = new JsonArray();
         Arrays.stream(records).map(Record::toJson).forEach(list::add);
-        final JsonObject pagination = new JsonObject();
-        pagination.put("list", list);
-        pagination.put("count", this.counter);
-        return pagination;
+        return Ux.pageData(list, this.counter);
     }
     // ------------ 事件执行结果处理 --------------
 

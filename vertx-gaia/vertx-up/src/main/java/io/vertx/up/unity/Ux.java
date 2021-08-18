@@ -21,6 +21,7 @@ import io.vertx.up.commune.exchange.DictEpsilon;
 import io.vertx.up.commune.exchange.DictFabric;
 import io.vertx.up.commune.rule.RuleTerm;
 import io.vertx.up.eon.Constants;
+import io.vertx.up.eon.KName;
 import io.vertx.up.eon.Strings;
 import io.vertx.up.eon.em.ChangeFlag;
 import io.vertx.up.exception.WebException;
@@ -176,6 +177,10 @@ public final class Ux {
 
     public static <T> List<T> fromJson(final JsonArray array, final Class<T> clazz) {
         return From.fromJson(array, clazz, "");
+    }
+
+    public static <T> List<T> fromPage(final JsonObject data, final Class<T> clazz) {
+        return fromJson(pageData(data), clazz);
     }
 
     public static <T> T fromJson(final JsonObject data, final Class<T> clazz, final String pojo) {
@@ -447,20 +452,38 @@ public final class Ux {
 
     /*
      * Flatting method for function executing
-     * 1) applyMount -> JsonObject ( field )
-     * 2) applyMount -> Advanced JsonObject ( field )
-     * 4) applyBool
+     * 1) attach -> JsonObject ( field )
+     * 2) attachJ -> Advanced JsonObject ( field )
      */
-    public static <T> Function<JsonObject, Future<JsonObject>> applyMount(final String field, final Function<T, Future<JsonObject>> function) {
+    public static <T> Function<JsonObject, Future<JsonObject>> attach(final String field, final Function<T, Future<JsonObject>> function) {
         return Web.toAttach(field, function);
     }
 
-    public static <T> Function<JsonObject, Future<JsonObject>> applyMountJson(final String field, final Function<T, Future<JsonObject>> function) {
-        return Web.toAttachJson(field, function);
+    public static <T> Function<JsonObject, Future<JsonObject>> attachJ(final String field, final Function<T, Future<JsonObject>> function) {
+        return Web.toAttachJ(field, function);
     }
 
-    public static Future<JsonObject> applyBool(final Boolean result) {
-        return Future.succeededFuture(new JsonObject().put(Strings.J_RESULT, result));
+    /*
+     * Normalize pageData in framework
+     * {
+     *      "list": [],
+     *      "count": xx
+     * }
+     */
+    public static JsonObject pageData() {
+        return Web.pageData(new JsonArray(), 0L);
+    }
+
+    public static JsonObject pageData(final JsonArray data, final long size) {
+        return Web.pageData(data, size);
+    }
+
+    public static JsonArray pageData(final JsonObject data) {
+        return Ut.sureJArray(data.getJsonArray(KName.LIST));
+    }
+
+    public static JsonObject pageData(final JsonObject pageData, final Function<JsonArray, JsonArray> function) {
+        return Web.pageData(pageData, function);
     }
 
     /*

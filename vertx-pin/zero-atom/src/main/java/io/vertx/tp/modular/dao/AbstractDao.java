@@ -9,8 +9,12 @@ import io.vertx.tp.modular.jdbc.AoConnection;
 import io.vertx.tp.modular.metadata.AoSentence;
 import io.vertx.up.atom.query.Criteria;
 import io.vertx.up.commune.Record;
+import io.vertx.up.eon.Values;
+import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import io.vertx.up.unity.Ux;
+
+import java.util.Objects;
 
 /**
  * 数据库核心操作，操作名称命名为：
@@ -85,7 +89,7 @@ public abstract class AbstractDao implements AoDao {
     // AoAggregator / AoPredicate
     @Override
     public Long count(final Criteria criteria) {
-        return Ao.doCount(this.logger(), this.aggregator::count).apply(criteria);
+        return Fn.getNull((long) Values.RANGE, () -> this.aggregator.count(criteria), criteria);
     }
 
     @Override
@@ -95,7 +99,7 @@ public abstract class AbstractDao implements AoDao {
 
     @Override
     public Boolean exist(final Criteria criteria) {
-        return Ao.doBoolean(this.logger(), this.aggregator::existing).apply(criteria);
+        return Fn.getNull(Boolean.FALSE, () -> this.aggregator.existing(criteria), criteria);
     }
 
     @Override
@@ -105,7 +109,7 @@ public abstract class AbstractDao implements AoDao {
 
     @Override
     public Boolean miss(final Criteria criteria) {
-        return Ao.doBoolean(this.logger(), this.aggregator::missing).apply(criteria);
+        return Fn.getNull(Boolean.FALSE, () -> this.aggregator.missing(criteria), criteria);
     }
 
     @Override
@@ -145,12 +149,15 @@ public abstract class AbstractDao implements AoDao {
 
     @Override
     public Record insert(final Record record) {
-        return Ao.<Record>doFluent(this.logger(), this.partakor::insert).apply(record); // 防 null
+        return Fn.getNull(null, () -> this.partakor.insert(record), record);
     }
 
     @Override
     public Record[] insert(final Record... records) {
-        return Ao.<Record[]>doFluent(this.logger(), this.partakor::insert).apply(records);
+        if (Objects.isNull(records)) {
+            return new Record[]{};
+        }
+        return this.partakor.insert(records);
     }
 
     @Override
@@ -191,7 +198,10 @@ public abstract class AbstractDao implements AoDao {
 
     @Override
     public Record[] update(final Record... records) {
-        return Ao.<Record[]>doFluent(this.logger(), this.partakor::update).apply(records);
+        if (Objects.isNull(records)) {
+            return new Record[]{};
+        }
+        return this.partakor.update(records);
     }
 
     @Override
@@ -201,7 +211,7 @@ public abstract class AbstractDao implements AoDao {
 
     @Override
     public Record update(final Record record) {
-        return Ao.<Record>doFluent(this.logger(), this.partakor::update).apply(record); // 防 null
+        return Fn.getNull(null, () -> this.partakor.update(record), record);
     }
 
     /*
@@ -224,34 +234,40 @@ public abstract class AbstractDao implements AoDao {
      */
     @Override
     public <ID> Record fetchById(final ID id) {
-        return Ao.<ID, Record>doStandard(this.logger(), this.uniqueor::fetchById).apply(id);// 防 null
+        return Fn.getNull(null, () -> this.uniqueor.fetchById(id), id);
     }
 
     @Override
     public <ID> Future<Record> fetchByIdAsync(final ID id) {
-        return Ao.<ID, Future<Record>>doStandard(this.logger(), this.uniqueor::fetchByIdAsync).apply(id);
+        return Fn.getNull(Ux.future(), () -> this.uniqueor.fetchByIdAsync(id), id);
     }
 
     @Override
     @SuppressWarnings("unchecked")
     public <ID> Record[] fetchById(final ID... ids) {
-        return Ao.<ID[], Record[]>doStandard(this.logger(), this.listor::fetchByIds).apply(ids);
+        if (Objects.isNull(ids)) {
+            return new Record[]{};
+        }
+        return this.listor.fetchByIds(ids);
     }
 
     @Override
     @SuppressWarnings("unchecked")
     public <ID> Future<Record[]> fetchByIdAsync(final ID... ids) {
-        return Ao.<ID[], Future<Record[]>>doStandard(this.logger(), this.listor::fetchByIdsAsync).apply(ids);
+        if (Objects.isNull(ids)) {
+            return Ux.future(new Record[]{});
+        }
+        return this.listor.fetchByIdsAsync(ids);
     }
 
     @Override
     public Record[] fetchAll() {
-        return Ao.doSupplier(this.logger(), this.listor::fetchAll).get();
+        return this.listor.fetchAll();
     }
 
     @Override
     public Future<Record[]> fetchAllAsync() {
-        return Ao.doSupplier(this.logger(), this.listor::fetchAllAsync).get();
+        return this.listor.fetchAllAsync();
     }
 
     /*
@@ -274,22 +290,22 @@ public abstract class AbstractDao implements AoDao {
      */
     @Override
     public Record fetchOne(final Criteria criteria) {
-        return Ao.doStandard(this.logger(), this.uniqueor::fetchOne).apply(criteria);
+        return Fn.getNull(null, () -> this.uniqueor.fetchOne(criteria), criteria);
     }
 
     @Override
     public JsonObject search(final JsonObject query) {
-        return Ao.doStandard(this.logger(), this.searchor::search).apply(query);
+        return Fn.getNull(Ux.pageData(), () -> this.searchor.search(query), query);
     }
 
     @Override
     public Record[] fetch(final JsonObject criteria) {
-        return Ao.doStandard(this.logger(), this.searchor::query).apply(criteria);
+        return Fn.getNull(new Record[]{}, () -> this.searchor.query(criteria), criteria);
     }
 
     @Override
     public Future<Record> fetchOneAsync(final Criteria criteria) {
-        return Ao.doStandard(this.logger(), this.uniqueor::fetchOneAsync).apply(criteria);
+        return Fn.getNull(null, () -> this.uniqueor.fetchOneAsync(criteria), criteria);
     }
 
     @Override

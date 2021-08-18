@@ -135,6 +135,9 @@ public interface KName {
     String PLUGIN_IO = "plugin.io";              /* Attribute Plugin for "io" of source config */
     String TIMER = "timer";                      /* Timer in Job */
 
+    String LIST = "list";                        /* Page Data */
+    String COUNT = "count";                      /* Page Count */
+
     /*
      * X_APP
      */

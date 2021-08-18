@@ -4,9 +4,9 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.crud.atom.IxModule;
 import io.vertx.tp.ke.atom.metadata.KField;
-import io.vertx.up.eon.KName;
 import io.vertx.tp.ke.refine.Ke;
 import io.vertx.up.atom.unity.Uarr;
+import io.vertx.up.eon.KName;
 import io.vertx.up.eon.Values;
 import io.vertx.up.log.Annal;
 import io.vertx.up.unity.Ux;
@@ -21,17 +21,13 @@ class IxSerialize {
     private static final Annal LOGGER = Annal.get(IxSerialize.class);
 
     static JsonObject serializePO(final JsonObject result, final IxModule config) {
-        final JsonArray list = result.getJsonArray("list");
+        final JsonArray list = Ux.pageData(result);
         final JsonObject queried = list.getJsonObject(Values.IDX);
         return serializeJ(queried, config);
     }
 
     static JsonArray serializePL(final JsonObject result, final IxModule config) {
-        JsonArray list = result.getJsonArray("list");
-        if (Objects.isNull(list)) {
-            list = new JsonArray();
-        }
-        return serializeA(list, config);
+        return serializeA(Ux.pageData(result), config);
     }
 
     static JsonArray serializeA(final JsonArray from, final JsonArray to, final IxModule config) {
@@ -47,9 +43,7 @@ class IxSerialize {
      * }
      */
     static JsonObject serializeP(final JsonObject data, final IxModule config) {
-        final JsonArray ref = Ut.sureJArray(data.getJsonArray("list"));
-        data.put("list", serializeA(ref, config));
-        return data;
+        return Ux.pageData(data, ref -> serializeA(ref, config));
     }
 
     static JsonObject serializeJ(final JsonObject data, final IxModule config) {

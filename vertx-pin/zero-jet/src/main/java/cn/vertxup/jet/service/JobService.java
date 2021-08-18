@@ -6,11 +6,10 @@ import cn.vertxup.jet.domain.tables.daos.IServiceDao;
 import cn.vertxup.jet.domain.tables.pojos.IJob;
 import cn.vertxup.jet.domain.tables.pojos.IService;
 import io.vertx.core.Future;
-import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.jet.refine.Jt;
-import io.vertx.up.eon.KName;
 import io.vertx.up.atom.query.engine.Qr;
+import io.vertx.up.eon.KName;
 import io.vertx.up.log.Annal;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
@@ -35,11 +34,10 @@ public class JobService implements JobStub {
         return Ux.Jooq.on(IJobDao.class)
                 .searchAsync(condition)
                 .compose(jobs -> {
-                    final JsonArray array = Ut.sureJArray(jobs.getJsonArray("list"));
                     /*
                      * Result for all jobs that are belong to current sigma here.
                      */
-                    final List<IJob> jobList = Ux.fromJson(array, IJob.class);
+                    final List<IJob> jobList = Ux.fromPage(jobs, IJob.class);
                     final Set<String> codes = jobList.stream()
                             .filter(Objects::nonNull)
                             /*
