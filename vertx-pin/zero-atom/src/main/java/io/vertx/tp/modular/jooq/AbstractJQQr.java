@@ -1,5 +1,7 @@
 package io.vertx.tp.modular.jooq;
 
+import io.vertx.core.Future;
+import io.vertx.core.Promise;
 import io.vertx.tp.atom.cv.em.ModelType;
 import io.vertx.tp.atom.modeling.data.DataAtom;
 import io.vertx.tp.atom.modeling.data.DataEvent;
@@ -12,6 +14,7 @@ import io.vertx.tp.modular.query.Ingest;
 import io.vertx.up.eon.Values;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
+import io.vertx.up.unity.Ux;
 import org.jooq.DSLContext;
 import org.jooq.Record;
 
@@ -19,8 +22,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
+import java.util.concurrent.CompletionStage;
 import java.util.concurrent.ConcurrentMap;
 import java.util.function.BiFunction;
+import java.util.function.Function;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
@@ -32,7 +37,7 @@ abstract class AbstractJQQr {
         this.context = context;
     }
 
-    protected DataEvent aggregate(
+    protected DataEvent aggr(
             final DataEvent event,
             final BiFunction<Set<String>, Ingest, Long> queryFn
     ) {
@@ -42,6 +47,20 @@ abstract class AbstractJQQr {
             final Long counter = queryFn.apply(matrix.keySet(), ingest);
             event.stored(counter);
             return event;
+        });
+    }
+
+    protected Future<DataEvent> aggrAsync(
+            final DataEvent input,
+            final BiFunction<Set<String>, Ingest, CompletionStage<Long>> queryFn
+    ) {
+        return this.runAsync(input, (event) -> {
+            final Ingest ingest = this.ingest(event);
+            final ConcurrentMap<String, DataMatrix> matrix = this.matrix(this.getClass(), event);
+            return queryFn.apply(matrix.keySet(), ingest);
+        }, (counter) -> {
+            input.stored(counter);
+            return input;
         });
     }
 
@@ -58,6 +77,22 @@ abstract class AbstractJQQr {
             final Record record = queryFn.apply(matrix.keySet(), ingest);
             event.stored(this.output(matrix.keySet(), new Record[]{record}, tpl, projection));
             return event;
+        });
+    }
+
+    protected Future<DataEvent> qrAsync(
+            final DataEvent input,
+            final BiFunction<Set<String>, Ingest, CompletionStage<Record>> queryFn) {
+        final ConcurrentMap<String, DataMatrix> matrix = this.matrix(this.getClass(), input);
+        return this.runAsync(input, (event) -> {
+            final Ingest ingest = this.ingest(event);
+            return queryFn.apply(matrix.keySet(), ingest);
+        }, (record) -> {
+            // Query部分
+            final DataTpl tpl = input.getTpl();
+            final Set<String> projection = input.getProjection();
+            input.stored(this.output(matrix.keySet(), new Record[]{record}, tpl, projection));
+            return input;
         });
     }
 
@@ -83,7 +118,53 @@ abstract class AbstractJQQr {
         });
     }
 
+    protected Future<DataEvent> qrBatchAsync(
+            final DataEvent input,
+            final BiFunction<Set<String>, Ingest, CompletionStage<Record[]>> queryFn,
+            final BiFunction<Set<String>, Ingest, CompletionStage<Long>> countFn
+    ) {
+        final ConcurrentMap<String, DataMatrix> matrix = this.matrix(this.getClass(), input);
+        final Ingest ingest = this.ingest(input);
+
+        return this.runAsync(input, (event -> {
+            return queryFn.apply(matrix.keySet(), ingest);
+        }), (records) -> {
+            // Query部分
+            final DataTpl tpl = input.getTpl();
+            final Set<String> projection = input.getProjection();
+            input.stored(this.output(matrix.keySet(), records, tpl, projection));
+            return input;
+        }).compose(event -> {
+            if (Objects.isNull(countFn)) {
+                return Ux.future(event);
+            } else {
+                return Ux.future(countFn.apply(matrix.keySet(), ingest))
+                        .compose(counter -> {
+                            input.stored(counter);
+                            return Ux.future(input);
+                        });
+            }
+        });
+    }
+
     //  ---------------- Private ------------------
+    private <R> Future<DataEvent> runAsync(final DataEvent input,
+                                           final Function<DataEvent, CompletionStage<R>> executor,
+                                           final Function<R, DataEvent> convertFn) {
+        final Promise<DataEvent> promise = Promise.promise();
+        this.context.transactionAsync(configuration -> {
+            final Future<R> future = Ux.future(executor.apply(input));
+            future.onComplete(nil -> {
+                if (nil.succeeded()) {
+                    promise.complete(convertFn.apply(nil.result()));
+                } else {
+                    promise.fail(nil.cause());
+                }
+            });
+        });
+        return promise.future();
+    }
+
     private Ingest ingest(final DataEvent event) {
         /* 1. 读取模型类型 */
         final ModelType type = event.getType();

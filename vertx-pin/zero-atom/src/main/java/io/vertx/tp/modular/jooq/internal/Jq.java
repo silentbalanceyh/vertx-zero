@@ -1,21 +1,17 @@
 package io.vertx.tp.modular.jooq.internal;
 
-import io.vertx.tp.atom.modeling.data.DataEvent;
 import io.vertx.tp.atom.modeling.element.DataMatrix;
 import io.vertx.tp.atom.modeling.element.DataRow;
+import io.vertx.up.eon.Values;
 import io.vertx.up.log.Annal;
-import org.jooq.Condition;
-import org.jooq.Field;
-import org.jooq.Record;
-import org.jooq.Table;
+import org.jooq.*;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
-import java.util.concurrent.CompletionStage;
 import java.util.concurrent.ConcurrentMap;
 import java.util.function.BiFunction;
-import java.util.function.Consumer;
-import java.util.function.Function;
 import java.util.function.Supplier;
 
 /**
@@ -36,6 +32,20 @@ public class Jq {
     /* 构造表 */
     public static Table<Record> toTable(final String name) {
         return Meta.table(name);
+    }
+
+    public static Record toRecord(final Result<Record> result) {
+        if (Objects.isNull(result) || result.isEmpty()) {
+            return null;
+        } else {
+            return result.get(Values.IDX);
+        }
+    }
+
+    public static Record[] toRecords(final Result<Record> result) {
+        final List<Record> records = new ArrayList<>();
+        result.forEach(records::add);
+        return records.toArray(new Record[]{});
     }
 
     /*
@@ -78,14 +88,5 @@ public class Jq {
         final Condition condition = supplier.get();
         LOGGER.debug("[ Ox ] 方法：{0}，查询条件：{1}", method, condition);
         return condition;
-    }
-
-    // ----------------------- Output --------------------
-    public static DataEvent run(final Class<?> clazz, final DataEvent event, final Consumer<List<DataRow>> consumer) {
-        return OFlow.doSync(clazz, event, consumer);
-    }
-
-    public static <R> CompletionStage<R> runAsync(final Class<?> clazz, final DataEvent event, final Function<List<DataRow>, CompletionStage<R>> executor) {
-        return OFlow.doAsync(clazz, event, executor);
     }
 }

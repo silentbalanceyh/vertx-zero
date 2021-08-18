@@ -28,7 +28,12 @@ class JQDelete extends AbstractJQCrud {
     }
 
     Future<DataEvent> deleteAsync(final DataEvent event) {
-        return null;
+        return this.writeAsync(event, (table, matrix) -> {
+            final DeleteWhereStep query = this.context.deleteFrom(Jq.toTable(table));
+            final Condition condition = Jq.inWhere(matrix);
+            query.where(condition);
+            return query.executeAsync();
+        }, null);
     }
 
     DataEvent deleteBatch(final DataEvent event) {
@@ -44,6 +49,11 @@ class JQDelete extends AbstractJQCrud {
     }
 
     Future<DataEvent> deleteBatchAsync(final DataEvent event) {
-        return null;
+        return this.<Integer>writeAsync(event, (table, matrix) -> {
+            final DeleteWhereStep query = this.context.deleteFrom(Jq.toTable(table));
+            final Condition condition = Jq.inWhere(matrix);
+            query.where(condition);
+            return query.executeAsync();
+        }, null);
     }
 }

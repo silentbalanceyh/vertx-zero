@@ -2,8 +2,10 @@ package io.vertx.tp.modular.jooq;
 
 import io.vertx.core.Future;
 import io.vertx.tp.atom.modeling.data.DataEvent;
+import io.vertx.tp.modular.jooq.internal.Jq;
 import io.vertx.tp.modular.metadata.AoSentence;
 import org.jooq.DSLContext;
+import org.jooq.Record;
 import org.jooq.SelectWhereStep;
 
 @SuppressWarnings("all")
@@ -30,7 +32,11 @@ class JQQuery extends AbstractJQQr {
     }
 
     Future<DataEvent> queryAsync(final DataEvent events) {
-        return null;
+        return this.qrBatchAsync(events, (tables, ingest) -> {
+            /* 查询条件一致 */
+            final SelectWhereStep<Record> query = this.term.getSelectSample(events, tables, ingest);
+            return query.fetchAsync().<Record[]>thenApplyAsync(Jq::toRecords);
+        }, null);
     }
 
 
@@ -44,7 +50,10 @@ class JQQuery extends AbstractJQQr {
     }
 
     Future<DataEvent> fetchOneAsync(final DataEvent event) {
-        return null;
+        return this.qrAsync(event, (tables, ingest) -> {
+            final SelectWhereStep<Record> query = this.term.getSelectSample(event, tables, ingest);
+            return query.fetchAsync().<Record>thenApplyAsync(Jq::toRecord);
+        });
     }
 
     DataEvent fetchAll(final DataEvent event) {
@@ -57,7 +66,10 @@ class JQQuery extends AbstractJQQr {
 
 
     Future<DataEvent> fetchAllAsync(final DataEvent event) {
-        return null;
+        return this.qrBatchAsync(event, (tables, ingest) -> {
+            final SelectWhereStep<Record> query = this.term.getSelectAll(event, tables, ingest);
+            return query.fetchAsync().<Record[]>thenApplyAsync(Jq::toRecords);
+        }, null);
     }
 
     DataEvent search(final DataEvent event) {
@@ -77,7 +89,15 @@ class JQQuery extends AbstractJQQr {
     }
 
     Future<DataEvent> searchAsync(final DataEvent event) {
-        return null;
+        return this.qrBatchAsync(event,
+                (tables, ingest) -> {
+                    final SelectWhereStep<Record> query = this.term.getSelectComplex(event, tables, ingest);
+                    return query.fetchAsync().<Record[]>thenApplyAsync(Jq::toRecords);
+                },
+                (tables, ingest) -> {
+                    final SelectWhereStep<Record> query = this.term.getSelectSample(event, tables, ingest);
+                    return query.fetchAsync().<Long>thenApplyAsync(result -> Long.valueOf(result.size()));
+                });
     }
 
 }

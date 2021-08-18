@@ -4,6 +4,7 @@ import io.vertx.core.Future;
 import io.vertx.tp.atom.modeling.data.DataEvent;
 import io.vertx.tp.atom.modeling.element.DataMatrix;
 import io.vertx.tp.modular.jooq.internal.Jq;
+import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 import org.jooq.*;
 
@@ -34,7 +35,11 @@ class JQInsert extends AbstractJQCrud {
     }
 
     Future<DataEvent> insertAsync(final DataEvent event) {
-        return null;
+        return this.writeAsync(event, (table, matrix) -> {
+            /* 执行单表插入 */
+            final InsertReturningStep step = this.stepInsert(table, matrix);
+            return step.executeAsync();
+        }, Ut::isPositive);
     }
 
     DataEvent insertBatch(final DataEvent event) {
@@ -49,7 +54,7 @@ class JQInsert extends AbstractJQCrud {
     }
 
     Future<DataEvent> insertBatchAsync(final DataEvent event) {
-        return null;
+        return Ux.future(this.insertBatch(event));
     }
 
     private Batch prepareBatch(final String table, final List<DataMatrix> matrices) {

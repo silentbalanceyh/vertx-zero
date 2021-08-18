@@ -15,7 +15,7 @@ class JQAggregate extends AbstractJQQr {
     }
 
     DataEvent count(final DataEvent event) {
-        return this.aggregate(event, (tables, ingest) -> {
+        return this.aggr(event, (tables, ingest) -> {
             final SelectWhereStep query = this.term.getSelectSample(event, tables, ingest);
             return (long) query.fetch().size();
         });
