@@ -1,6 +1,7 @@
 package io.vertx.tp.modular.dao.internal;
 
 import io.vertx.core.Future;
+import io.vertx.tp.atom.modeling.data.DataEvent;
 import io.vertx.tp.atom.refine.Ao;
 import io.vertx.tp.modular.jooq.internal.Jq;
 import io.vertx.up.atom.query.Criteria;
@@ -17,13 +18,13 @@ import io.vertx.up.commune.Record;
  * * field2: xx
  * }
  */
-public class Uniqueor extends AbstractUtil<Uniqueor> {
+public class UUnique extends AbstractUtil<UUnique> {
 
-    private Uniqueor() {
+    private UUnique() {
     }
 
-    public static Uniqueor create() {
-        return new Uniqueor();
+    public static UUnique create() {
+        return new UUnique();
     }
 
     public <ID> Record fetchById(final ID id) {
@@ -46,5 +47,13 @@ public class Uniqueor extends AbstractUtil<Uniqueor> {
     public Future<Record> fetchOneAsync(final Criteria criteria) {
         Ao.infoSQL(this.getLogger(), "执行方法：Uniqueor.fetchOneAsync");
         return Jq.outRAsync(this.irCond(criteria), this.jooq::fetchOne);
+    }
+
+    // ----------------------- Private ----------------------
+    /*
+     * 起点：仅生成绑定了 ids 的 DataEvent
+     */
+    private <ID> DataEvent idInput(final ID ids) {
+        return this.event().keys(ids);
     }
 }

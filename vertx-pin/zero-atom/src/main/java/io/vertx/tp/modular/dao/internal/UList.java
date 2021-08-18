@@ -13,18 +13,18 @@ import io.vertx.up.commune.Record;
  * 4. 返回结果必须是固定格式：
  * [] 数组格式
  */
-public class Listor extends AbstractUtil<Listor> {
-    private Listor() {
+public class UList extends AbstractUtil<UList> {
+    private UList() {
     }
 
-    public static Listor create() {
-        return new Listor();
+    public static UList create() {
+        return new UList();
     }
 
     @SuppressWarnings("unchecked")
     public <ID> Record[] fetchByIds(final ID... ids) {
         Ao.infoSQL(this.getLogger(), "执行方法：Listor.fetchByIds");
-        return Jq.outRs(this.idInputs(ids), this.jooq::fetchByIds);
+        return Jq.outRs(this.irIDs(ids), this.jooq::fetchByIds);
     }
 
     public Record[] fetchAll() {
@@ -36,7 +36,7 @@ public class Listor extends AbstractUtil<Listor> {
     @SafeVarargs
     public final <ID> Future<Record[]> fetchByIdsAsync(final ID... ids) {
         Ao.infoSQL(this.getLogger(), "执行方法：Listor.fetchByIdsAsync");
-        return Jq.outRsAsync(this.idInputs(ids), this.jooq::fetchByIds);
+        return Jq.outRsAsync(this.irIDs(ids), this.jooq::fetchByIds);
     }
 
     public Future<Record[]> fetchAllAsync() {

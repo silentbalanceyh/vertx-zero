@@ -9,13 +9,13 @@ import io.vertx.up.atom.query.Criteria;
  * 1. 聚集函数处理
  * 2. 复杂的分组统计类
  */
-public class Aggregator extends AbstractUtil<Aggregator> {
+public class UAggr extends AbstractUtil<UAggr> {
 
-    private Aggregator() {
+    private UAggr() {
     }
 
-    public static Aggregator create() {
-        return new Aggregator();
+    public static UAggr create() {
+        return new UAggr();
     }
 
     public Long count(final Criteria criteria) {

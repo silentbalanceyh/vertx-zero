@@ -27,15 +27,15 @@ public abstract class AbstractDao implements AoDao {
     /*
      * 插入/删除专用
      */
-    private final transient Partakor partakor = Partakor.create();
+    private final transient UFlush partakor = UFlush.create();
     /*
      * 唯一记录读取，返回 Record
      */
-    private final transient Uniqueor uniqueor = Uniqueor.create();
+    private final transient UUnique uniqueor = UUnique.create();
     /*
      * 列表读取，返回 Record[]
      */
-    private final transient Listor listor = Listor.create();
+    private final transient UList listor = UList.create();
     /*
      * 分页搜索读取，返回 JsonObject
      * {
@@ -43,9 +43,9 @@ public abstract class AbstractDao implements AoDao {
      *     "count",
      * }
      */
-    private final transient Searchor searchor = Searchor.create();
+    private final transient USearch searchor = USearch.create();
 
-    private final transient Aggregator aggregator = Aggregator.create();
+    private final transient UAggr aggregator = UAggr.create();
 
     /*
      * 本类中的挂载有两个方法：

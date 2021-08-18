@@ -2,6 +2,7 @@ package io.vertx.tp.modular.dao.internal;
 
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
+import io.vertx.tp.atom.modeling.data.DataEvent;
 import io.vertx.tp.atom.refine.Ao;
 import io.vertx.tp.modular.jooq.internal.Jq;
 import io.vertx.up.atom.query.Criteria;
@@ -21,19 +22,19 @@ import io.vertx.up.util.Ut;
  * * ]
  * }
  */
-public class Searchor extends AbstractUtil<Searchor> {
+public class USearch extends AbstractUtil<USearch> {
 
-    private Searchor() {
+    private USearch() {
     }
 
-    public static Searchor create() {
-        return new Searchor();
+    public static USearch create() {
+        return new USearch();
     }
 
     public JsonObject search(final JsonObject qr) {
         final JsonObject criteria = Ut.sureJObject(qr);
         Ao.infoSQL(this.getLogger(), Ut.notNil(qr), "执行方法：Searcher.search: {0}", criteria.encode());
-        return Jq.outP(this.irQr(Qr.create(criteria)), this.jooq::search);
+        return Jq.outP(this.irQr(criteria), this.jooq::search);
     }
 
     public Record[] query(final JsonObject qr) {
@@ -46,12 +47,21 @@ public class Searchor extends AbstractUtil<Searchor> {
     public Future<JsonObject> searchAsync(final JsonObject qr) {
         final JsonObject criteria = Ut.sureJObject(qr);
         Ao.infoSQL(this.getLogger(), Ut.notNil(qr), "执行方法：Searcher.searchAsync: {0}", criteria.encode());
-        return Jq.outPAsync(this.irQr(Qr.create(criteria)), this.jooq::search);
+        return Jq.outPAsync(this.irQr(criteria), this.jooq::search);
     }
 
     public Future<Record[]> queryAsync(final JsonObject qr) {
         final JsonObject criteria = Ut.sureJObject(qr);
         Ao.infoSQL(this.getLogger(), Ut.notNil(qr), "执行方法：Searcher.queryAsync: {0}", criteria.encode());
         return Jq.outRsAsync(this.irCond(Criteria.create(criteria)), this.jooq::query);
+    }
+
+    // ----------------------- Private ----------------------
+    /*
+     * 构造JsonObject中的 criteria
+     */
+    private DataEvent irQr(final JsonObject criteria) {
+        final Qr qr = Qr.create(criteria);
+        return this.event().qr(qr);
     }
 }

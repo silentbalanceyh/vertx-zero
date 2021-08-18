@@ -11,100 +11,99 @@ import org.jooq.DSLContext;
  * 使用Jooq处理
  */
 public class JQEngine {
-    private final transient JQInsert insertTool;
-    private final transient JQDelete deleteTool;
-    private final transient JQQuery queryTool;
-    private final transient JQUpdate updateTool;
-    private final transient JQAggregate aggregateTool;
+    private final transient JQInsert insertT;
+    private final transient JQDelete deleteT;
+    private final transient JQQuery queryT;
+    private final transient JQUpdate updateT;
+    private final transient JQAggregate aggrT;
 
     private JQEngine(final DSLContext context) {
-        // 设置数据库配置
-        this.initSetting(context);
-        /* Insert */
-        this.insertTool = new JQInsert(context);
-        /* Delete */
-        this.deleteTool = new JQDelete(context);
-        /* JqTool */
-        this.queryTool = new JQQuery(context);
-        /* Update */
-        this.updateTool = new JQUpdate(context);
-        /* Aggregate */
-        this.aggregateTool = new JQAggregate(context);
-    }
-
-    public static JQEngine create(final DSLContext context) {
-        return Fn.pool(AoCache.POOL_ENGINES, context.hashCode(), () -> new JQEngine(context));
-    }
-
-    public JQEngine bind(final AoSentence sentence) {
-        /* JqTool */
-        this.queryTool.bind(sentence);
-        return this;
-    }
-
-    private void initSetting(final DSLContext context) {
-        // SQL 调试
+        // 设置数据库配置, SQL 调试
         final boolean isSql = Ao.isDebug();
         if (isSql) {
             context.settings().setDebugInfoOnStackTrace(Boolean.TRUE);
         }
+        /* Insert */
+        this.insertT = new JQInsert(context);
+        /* Delete */
+        this.deleteT = new JQDelete(context);
+        /* JqTool */
+        this.queryT = new JQQuery(context);
+        /* Update */
+        this.updateT = new JQUpdate(context);
+        /* Aggregate */
+        this.aggrT = new JQAggregate(context);
+    }
+
+    public static JQEngine create(final DSLContext context) {
+        return Fn.poolThread(AoCache.POOL_ENGINES, () -> new JQEngine(context), String.valueOf(context.hashCode()));
+    }
+
+    public JQEngine bind(final AoSentence sentence) {
+        /* JqTool */
+        this.queryT.bind(sentence);
+        return this;
     }
 
     // UPDATE
     public DataEvent update(final DataEvent event) {
-        return this.updateTool.update(event);
+        return this.updateT.update(event);
     }
 
     public DataEvent updateBatch(final DataEvent event) {
-        return this.updateTool.updateBatch(event);
+        return this.updateT.updateBatch(event);
     }
 
     // INSERT
     public DataEvent insert(final DataEvent event) {
-        return this.insertTool.insert(event);
+        return this.insertT.insert(event);
+    }
+
+    public DataEvent insertAsync(final DataEvent event) {
+        return null;
     }
 
     public DataEvent insertBatch(final DataEvent events) {
-        return this.insertTool.insertBatch(events);
+        return this.insertT.insertBatch(events);
     }
 
     // SELECT
     public DataEvent fetchByIds(final DataEvent events) {
-        return this.queryTool.fetchByIds(events);
+        return this.queryT.fetchByIds(events);
     }
 
     public DataEvent fetchById(final DataEvent event) {
-        return this.queryTool.fetchById(event);
+        return this.queryT.fetchById(event);
     }
 
     public DataEvent fetchOne(final DataEvent event) {
-        return this.queryTool.fetchOne(event);
+        return this.queryT.fetchOne(event);
     }
 
     public DataEvent fetchAll(final DataEvent event) {
-        return this.queryTool.fetchAll(event);
+        return this.queryT.fetchAll(event);
     }
 
     // SEARCH
     public DataEvent search(final DataEvent event) {
-        return this.queryTool.search(event);
+        return this.queryT.search(event);
     }
 
     public DataEvent query(final DataEvent event) {
-        return this.queryTool.query(event);
+        return this.queryT.query(event);
     }
 
     // DELETE
     public DataEvent delete(final DataEvent event) {
-        return this.deleteTool.delete(event);
+        return this.deleteT.delete(event);
     }
 
     public DataEvent deleteBatch(final DataEvent event) {
-        return this.deleteTool.deleteBatch(event);
+        return this.deleteT.deleteBatch(event);
     }
 
     // COUNT
     public DataEvent count(final DataEvent event) {
-        return this.aggregateTool.count(event);
+        return this.aggrT.count(event);
     }
 }
