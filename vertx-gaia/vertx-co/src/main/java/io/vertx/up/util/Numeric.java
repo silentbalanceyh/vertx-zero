@@ -67,6 +67,13 @@ final class Numeric {
         return counter == numbers.length;
     }
 
+    static boolean isPositive(final Integer[] numbers) {
+        final long counter = Arrays.stream(numbers)
+                .filter(Numeric::isPositive)
+                .count();
+        return counter == numbers.length;
+    }
+
     static boolean isNegative(final String original) {
         return isMatch("^-[0-9]\\d*", original);
     }

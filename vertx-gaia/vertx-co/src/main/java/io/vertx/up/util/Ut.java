@@ -962,6 +962,10 @@ public final class Ut {
         return Numeric.isPositive(numbers);
     }
 
+    public static boolean isPositive(final Integer[] numbers) {
+        return Numeric.isPositive(numbers);
+    }
+
     public static boolean isNegative(final String original) {
         return Numeric.isNegative(original);
     }

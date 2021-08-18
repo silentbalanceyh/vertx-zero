@@ -2,7 +2,10 @@ package io.vertx.tp.modular.jooq.internal;
 
 import io.vertx.tp.atom.modeling.data.DataEvent;
 import io.vertx.tp.atom.modeling.element.DataMatrix;
+import io.vertx.tp.atom.modeling.element.DataRow;
 import io.vertx.tp.modular.query.Ingest;
+import io.vertx.up.exception.WebException;
+import io.vertx.up.fn.Actuator;
 import io.vertx.up.log.Annal;
 import org.jooq.Condition;
 import org.jooq.Field;
@@ -13,6 +16,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.concurrent.ConcurrentMap;
 import java.util.function.BiFunction;
+import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
 
@@ -55,8 +59,12 @@ public class Jq {
 
     // ----------------------- Input --------------------
     // 参数设置：in前缀
-    public static <T> void inArgument(final DataMatrix matrix, final BiFunction<Field, Object, T> function) {
+    public static <T> void argSet(final DataMatrix matrix, final BiFunction<Field, Object, T> function) {
         IArgument.inSet(matrix, function);
+    }
+
+    public static ConcurrentMap<String, List<DataMatrix>> argBatch(final List<DataRow> rows) {
+        return IArgument.inBatch(rows);
     }
 
     public static Condition inWhere(final DataMatrix matrix) {
@@ -74,25 +82,14 @@ public class Jq {
         return condition;
     }
 
-    // ----------------------- Input --------------------
-    
-
-    // ----------------------- Do --------------------
-    // 数据库批量操作
-    public static DataEvent doWrite(final Class<?> clazz, final DataEvent event, final BiFunction<String, DataMatrix, Integer> actor) {
-        return DWriter.doWrite(clazz, event, actor, null);
+    // ----------------------- Output --------------------
+    public static DataEvent doExec(final Class<?> clazz, final DataEvent event, final Consumer<List<DataRow>> consumer) {
+        OSync.doExecute(clazz, event, consumer);
+        return OSync.doFinal(event);
     }
 
-    public static DataEvent doWrite(final Class<?> clazz, final DataEvent event, final BiFunction<String, DataMatrix, Integer> actor, final Predicate<Integer> predicate) {
-        return DWriter.doWrite(clazz, event, actor, predicate);
-    }
-
-    public static DataEvent doWrites(final Class<?> clazz, final DataEvent event, final BiFunction<String, List<DataMatrix>, int[]> actor) {
-        return DWriter.doWrites(clazz, event, actor, null);
-    }
-
-    public static DataEvent doWrites(final Class<?> clazz, final DataEvent event, final BiFunction<String, List<DataMatrix>, int[]> actor, final Predicate<int[]> predicate) {
-        return DWriter.doWrites(clazz, event, actor, predicate);
+    public static <T> void output(final T expected, final Predicate<T> predicate, final Actuator actuator, final Supplier<WebException> supplier/* 使用函数为延迟调用 */) {
+        OSync.doImpact(expected, predicate, actuator, supplier);
     }
 
     // 数据库读操作
