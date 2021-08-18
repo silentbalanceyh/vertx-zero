@@ -33,6 +33,7 @@ final class Stream {
      *
      * @param message The java object that will be converted from.
      * @param <T>     Target java object that will be converted to.
+     *
      * @return Target java object ( Generic Type )
      */
     static <T> byte[] to(final T message) {
@@ -51,6 +52,7 @@ final class Stream {
      * @param pos    The position of reading
      * @param buffer The buffer to hold the data from reading.
      * @param <T>    The converted java object type, Generic Type
+     *
      * @return Return to converted java object.
      */
     @SuppressWarnings("unchecked")
@@ -65,6 +67,7 @@ final class Stream {
 
     /**
      * @param filename The filename to describe source path
+     *
      * @return Return the InputStream object mount to source path.
      */
     static InputStream read(final String filename) {
@@ -77,7 +80,6 @@ final class Stream {
 
     static byte[] readBytes(final String filename) {
         final InputStream in = read(filename);
-        final BufferedInputStream input = new BufferedInputStream(in);
         return Fn.getJvm(() -> {
             final ByteArrayOutputStream out = new ByteArrayOutputStream(Values.CACHE_SIZE);
 
@@ -99,6 +101,7 @@ final class Stream {
      *
      * @param filename The filename to describe source path
      * @param clazz    The class loader related class
+     *
      * @return Return the InputStream object mount to source path.
      */
     private static InputStream read(final String filename,
@@ -139,7 +142,9 @@ final class Stream {
                 if (Protocols.JAR.equals(protocol)) {
                     final JarURLConnection jarCon = (JarURLConnection) url.openConnection();
                     return jarCon.getInputStream();
-                } else return null; // Jar Error
+                } else {
+                    return null; // Jar Error
+                }
             } catch (final IOException e) {
                 Log.jvm(LOGGER, e);
                 return null;
@@ -161,6 +166,7 @@ final class Stream {
      * new FileInputStream(up.god.file)
      *
      * @param file The up.god.file object to describe source path
+     *
      * @return Return the InputStream object mount to source path.
      */
     static InputStream in(final File file) {
@@ -174,6 +180,7 @@ final class Stream {
      *
      * @param filename The filename to describe source path
      * @param clazz    The class loader related class
+     *
      * @return Return the InputStream object mount to source path.
      */
     static InputStream in(final String filename,
@@ -187,6 +194,7 @@ final class Stream {
      * Thread.currentThread().getContextClassLoader()
      *
      * @param filename The filename to describe source path
+     *
      * @return Return the InputStream object mount to source path.
      */
     static InputStream in(final String filename) {

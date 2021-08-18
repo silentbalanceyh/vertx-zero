@@ -98,7 +98,6 @@ class BtLoader {
     }
 
     private static Stream<String> stream(final String folder, final String prefix) {
-        System.out.println(Ut.ioFilesN(folder, null, prefix));
         return Ut.ioFilesN(folder, null, prefix).stream()
                 .filter(BtLoader::ensureFile);
     }
