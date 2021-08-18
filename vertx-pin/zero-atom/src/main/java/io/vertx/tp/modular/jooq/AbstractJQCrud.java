@@ -2,9 +2,13 @@ package io.vertx.tp.modular.jooq;
 
 import io.vertx.tp.atom.modeling.data.DataEvent;
 import io.vertx.tp.atom.modeling.element.DataMatrix;
+import io.vertx.tp.atom.modeling.element.DataRow;
 import io.vertx.tp.error._417ConditionEmptyException;
 import io.vertx.tp.error._417DataUnexpectException;
 import io.vertx.tp.modular.jooq.internal.Jq;
+import io.vertx.up.eon.Values;
+import io.vertx.up.exception.WebException;
+import io.vertx.up.fn.Actuator;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import org.jooq.DSLContext;
@@ -12,8 +16,10 @@ import org.jooq.Record;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.function.BiFunction;
 import java.util.function.Predicate;
+import java.util.function.Supplier;
 
 @SuppressWarnings("all")
 abstract class AbstractJQCrud {
@@ -32,7 +38,8 @@ abstract class AbstractJQCrud {
                     // 执行结果（单表）
                     final R expected = actorFn.apply(table, matrix);
                     // 执行结果（检查）
-                    Jq.output(expected, testFn, /* 成功 */ () -> row.success(table),
+                    output(expected, testFn,
+                            /* 成功 */ () -> row.success(table),
                             /* 失败 */ () -> new _417DataUnexpectException(getClass(), table, String.valueOf(expected)));
                 })))
         );
@@ -60,7 +67,7 @@ abstract class AbstractJQCrud {
                     /* 执行结果 */
                     final Record[] records = actorFn.apply(table, values);
                     // 合并结果集
-                    Jq.output(rows, records).accept(table);
+                    output(table, rows, records);
                 }))
         );
     }
@@ -74,8 +81,10 @@ abstract class AbstractJQCrud {
                     /* 执行结果（单表）*/
                     final R[] expected = actorFn.apply(table, values);
                     /* 单张表检查结果 */
-                    Jq.output(expected, testFn, /*  成功 */ () -> rows.forEach(row -> row.success(table)),
-                            /* 失败 */ () -> new _417DataUnexpectException(getClass(), table, expected.toString()));
+                    output(expected, testFn,
+                            /* 成功 */ () -> rows.forEach(row -> row.success(table)),
+                            /* 失败 */ () -> new _417DataUnexpectException(getClass(), table, expected.toString())
+                    );
                 }))
         );
     }
@@ -87,6 +96,36 @@ abstract class AbstractJQCrud {
     private void ensure(final String table, final List<DataMatrix> matrixes) {
         matrixes.forEach(matrix -> ensure(table, matrix));
     }
+
+    private <T> void output(final T expected,
+                            final Predicate<T> predicate,
+                            final Actuator actuator,
+                            final Supplier<WebException> supplier/* 使用函数为延迟调用 */) {
+        if (Objects.isNull(predicate)) {            /* 不关心执行结果影响多少行 */
+            actuator.execute();
+        } else {
+            if (predicate.test(expected)) {         /* 关心结果，执行条件检查 */
+                actuator.execute();
+            } else {
+                throw supplier.get();               /* 检查不通过抛出异常 */
+            }
+        }
+    }
+
+    private void output(final String table, final List<DataRow> rows, final Record[] records) {
+        for (int idx = Values.IDX; idx < rows.size(); idx++) {              /* 两个数据集按索引合并 */
+            final DataRow row = rows.get(idx);
+            if (null != row) {
+                if (idx < records.length) {
+                    final Record record = records[idx];
+                    row.success(table, record, new HashSet<>());            /* 直接调用内置方法 */
+                } else {
+                    row.success(table, null, new HashSet<>());       /* 空数据返回 */
+                }
+            }
+        }
+    }
+
 
     private Annal logger() {
         return Annal.get(this.getClass());

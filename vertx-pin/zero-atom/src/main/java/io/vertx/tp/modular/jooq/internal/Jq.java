@@ -4,8 +4,6 @@ import io.vertx.tp.atom.modeling.data.DataEvent;
 import io.vertx.tp.atom.modeling.element.DataMatrix;
 import io.vertx.tp.atom.modeling.element.DataRow;
 import io.vertx.tp.modular.query.Ingest;
-import io.vertx.up.exception.WebException;
-import io.vertx.up.fn.Actuator;
 import io.vertx.up.log.Annal;
 import org.jooq.Condition;
 import org.jooq.Field;
@@ -17,7 +15,6 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentMap;
 import java.util.function.BiFunction;
 import java.util.function.Consumer;
-import java.util.function.Predicate;
 import java.util.function.Supplier;
 
 /**
@@ -86,14 +83,6 @@ public class Jq {
     public static DataEvent doExec(final Class<?> clazz, final DataEvent event, final Consumer<List<DataRow>> consumer) {
         OSync.doExecute(clazz, event, consumer);
         return OSync.doFinal(event);
-    }
-
-    public static <T> void output(final T expected, final Predicate<T> predicate, final Actuator actuator, final Supplier<WebException> supplier/* 使用函数为延迟调用 */) {
-        OSync.doImpact(expected, predicate, actuator, supplier);
-    }
-
-    public static Consumer<String> output(final List<DataRow> rows, final Record[] records) {
-        return OSync.doJoin(rows, records);
     }
 
     public static DataEvent doCount(final Class<?> clazz, final DataEvent event, final BiFunction<Set<String>, Ingest, Long> actor) {

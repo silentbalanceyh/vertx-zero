@@ -1,26 +1,18 @@
 package io.vertx.tp.modular.jooq.internal;
 
 import io.vertx.tp.atom.modeling.data.DataEvent;
-import io.vertx.tp.atom.modeling.element.DataMatrix;
 import io.vertx.tp.atom.modeling.element.DataRow;
 import io.vertx.tp.atom.modeling.element.DataTpl;
-import io.vertx.tp.error._417ConditionEmptyException;
 import io.vertx.tp.error._417DataTransactionException;
-import io.vertx.up.eon.Values;
 import io.vertx.up.exception.WebException;
-import io.vertx.up.fn.Actuator;
-import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import org.jooq.Record;
 import org.jooq.exception.DataAccessException;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.function.Consumer;
-import java.util.function.Predicate;
-import java.util.function.Supplier;
 
 class OSync {
 
@@ -61,45 +53,6 @@ class OSync {
         }
     }
 
-    static <T> void doImpact(final T expected,
-                             final Predicate<T> predicate,
-                             final Actuator actuator,
-                             final Supplier<WebException> supplier/* 使用函数为延迟调用 */) {
-        if (null == predicate) {
-            /* 不关心执行结果影响多少行 */
-            actuator.execute();
-        } else {
-            /* 关心结果，执行条件检查 */
-            if (predicate.test(expected)) {
-                actuator.execute();
-            } else {
-                /* 检查不通过抛出异常 */
-                throw supplier.get();
-            }
-        }
-    }
-
-    static Consumer<String> doJoin(
-            final List<DataRow> rows,
-            final Record[] records) {
-        return table -> {
-            /* 两个数据集按索引合并 */
-            for (int idx = Values.IDX; idx < rows.size(); idx++) {
-                final DataRow row = rows.get(idx);
-                if (null != row) {
-                    if (idx < records.length) {
-                        final Record record = records[idx];
-                        /* 直接调用内置方法 */
-                        row.success(table, record, new HashSet<>());
-                    } else {
-                        /* 空数据返回 */
-                        row.success(table, null, new HashSet<>());
-                    }
-                }
-            }
-        };
-    }
-
     static List<DataRow> doJoin(
             final Set<String> tableSet,
             final Record[] records,
@@ -113,14 +66,5 @@ class OSync {
             rows.add(row);
         }
         return rows;
-    }
-
-    static void doInput(final String table, final DataMatrix matrix) {
-        Fn.outWeb(matrix.getAttributes().isEmpty(), LOGGER,
-                _417ConditionEmptyException.class, OSync.class, table);
-    }
-
-    static void doInput(final String table, final List<DataMatrix> matrixList) {
-        matrixList.forEach(matrix -> doInput(table, matrix));
     }
 }
