@@ -1,5 +1,6 @@
 package io.vertx.tp.modular.jooq;
 
+import io.vertx.core.Future;
 import io.vertx.tp.atom.cv.AoCache;
 import io.vertx.tp.atom.modeling.data.DataEvent;
 import io.vertx.tp.atom.refine.Ao;
@@ -59,10 +60,6 @@ public class JQEngine {
         return this.insertT.insert(event);
     }
 
-    public DataEvent insertAsync(final DataEvent event) {
-        return null;
-    }
-
     public DataEvent insertBatch(final DataEvent events) {
         return this.insertT.insertBatch(events);
     }
@@ -105,5 +102,64 @@ public class JQEngine {
     // COUNT
     public DataEvent count(final DataEvent event) {
         return this.aggrT.count(event);
+    }
+    // -------------------- Async -------------------------
+
+    // UPDATE
+    public Future<DataEvent> updateAsync(final DataEvent event) {
+        return null;
+    }
+
+    public Future<DataEvent> updateBatchAsync(final DataEvent event) {
+        return null;
+    }
+
+    // INSERT
+    public Future<DataEvent> insertAsync(final DataEvent event) {
+        return null;
+    }
+
+    public Future<DataEvent> insertBatchAsync(final DataEvent event) {
+        return null;
+    }
+
+    // SELECT
+    public Future<DataEvent> fetchByIdsAsync(final DataEvent event) {
+        return null;
+    }
+
+    public Future<DataEvent> fetchByIdAsync(final DataEvent event) {
+        return null;
+    }
+
+    public Future<DataEvent> fetchOneAsync(final DataEvent event) {
+        return null;
+    }
+
+    public Future<DataEvent> fetchAllAsync(final DataEvent event) {
+        return null;
+    }
+
+    // SEARCH
+    public Future<DataEvent> searchAsync(final DataEvent event) {
+        return null;
+    }
+
+    public Future<DataEvent> queryAsync(final DataEvent event) {
+        return null;
+    }
+
+    // DELETE
+    public Future<DataEvent> deleteAsync(final DataEvent event) {
+        return null;
+    }
+
+    public Future<DataEvent> deleteBatchAsync(final DataEvent event) {
+        return null;
+    }
+
+    // COUNT
+    public Future<DataEvent> countAsync(final DataEvent event) {
+        return null;
     }
 }

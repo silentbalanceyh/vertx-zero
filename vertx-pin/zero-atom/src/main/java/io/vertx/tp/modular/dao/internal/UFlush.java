@@ -1,9 +1,10 @@
 package io.vertx.tp.modular.dao.internal;
 
+import io.vertx.core.Future;
 import io.vertx.tp.atom.modeling.data.DataEvent;
 import io.vertx.tp.atom.refine.Ao;
-import io.vertx.tp.modular.jooq.internal.Jq;
 import io.vertx.up.commune.Record;
+import io.vertx.up.unity.Ux;
 
 import java.util.Arrays;
 
@@ -23,37 +24,101 @@ public class UFlush extends AbstractUtil<UFlush> {
     }
 
     public Record insert(final Record record) {
-        Ao.infoSQL(this.getLogger(), "执行方法：Partakor.insert(Record)");
+        Ao.infoSQL(this.getLogger(), "执行方法：UFlush.insert(Record)");
+        // Input
+        final DataEvent input = this.uuid(record);
+        // Output
+        return this.output(input, this.jooq::insert, false);
+    }
 
-        return Jq.outR(this.uuid(record), this.jooq::insert);
+    public Future<Record> insertAsync(final Record record) {
+        Ao.infoSQL(this.getLogger(), "执行方法：UFlush.insertAsync(Record)");
+        // Input
+        final DataEvent input = this.uuid(record);
+        // Output
+        return this.jooq.insertAsync(input).compose(DataEvent::dataRAsync);
     }
 
     public Record[] insert(final Record... records) {
-        Ao.infoSQL(this.getLogger(), "执行方法：Partakor.insert(Record...)");
+        Ao.infoSQL(this.getLogger(), "执行方法：UFlush.insert(Record...)");
+        // Input
+        final DataEvent input = this.uuids(records);
+        // Output
+        return this.output(input, this.jooq::insertBatch, true);
+    }
 
-        return Jq.outRs(this.uuids(records), this.jooq::insertBatch);
+    public Future<Record[]> insertAsync(final Record... records) {
+        Ao.infoSQL(this.getLogger(), "执行方法：UFlush.insertAsync(Record...)");
+        // Input
+        final DataEvent input = this.uuids(records);
+        // Output
+        return this.jooq.insertBatchAsync(input).compose(DataEvent::dataAAsync);
     }
 
     public Record update(final Record record) {
-        Ao.infoSQL(this.getLogger(), "执行方法：Partakor.update(Record)");
-        return Jq.outR(this.record(record), this.jooq::update);
+        Ao.infoSQL(this.getLogger(), "执行方法：UFlush.update(Record)");
+        // Input
+        final DataEvent input = this.record(record);
+        // Output
+        return this.output(input, this.jooq::update, false);
+    }
+
+    public Future<Record> updateAsync(final Record record) {
+        Ao.infoSQL(this.getLogger(), "执行方法：UFlush.updateAsync(Record)");
+        // Input
+        final DataEvent input = this.record(record);
+        // Output
+        return this.jooq.updateAsync(input).compose(DataEvent::dataRAsync);
     }
 
     public Record[] update(final Record... records) {
-        Ao.infoSQL(this.getLogger(), "执行方法：Partakor.update(Record...)");
-        return Jq.outRs(this.records(records), this.jooq::updateBatch);
+        Ao.infoSQL(this.getLogger(), "执行方法：UFlush.update(Record...)");
+        // Input
+        final DataEvent input = this.records(records);
+        // Output
+        return this.output(input, this.jooq::updateBatch, true);
+    }
+
+    public Future<Record[]> updateAsync(final Record... records) {
+        Ao.infoSQL(this.getLogger(), "执行方法：UFlush.updateAsync(Record...)");
+        // Input
+        final DataEvent input = this.records(records);
+        // Output
+        return this.jooq.updateBatchAsync(input).compose(DataEvent::dataAAsync);
     }
 
     public Boolean delete(final Record record) {
-        Ao.infoSQL(this.getLogger(), "执行方法：Partakor.delete(Record)");
+        Ao.infoSQL(this.getLogger(), "执行方法：UFlush.delete(Record)");
+        // Input
+        final DataEvent input = this.key(record);
+        // Output
+        return this.jooq.delete(input).succeed();
+    }
 
-        return Jq.outB(this.key(record), this.jooq::delete);
+    public Future<Boolean> deleteAsync(final Record record) {
+        Ao.infoSQL(this.getLogger(), "执行方法：UFlush.deleteAsync(Record)");
+        // Input
+        final DataEvent input = this.key(record);
+        // Output
+        return this.jooq.deleteAsync(input)
+                .compose(event -> Ux.future(event.succeed()));
     }
 
     public Boolean delete(final Record... records) {
-        Ao.infoSQL(this.getLogger(), "执行方法：Partakor.delete(Record...)");
-        /* 解析参数，生成 Arguments */
-        return Jq.outB(this.keys(records), this.jooq::deleteBatch);
+        Ao.infoSQL(this.getLogger(), "执行方法：UFlush.delete(Record...)");
+        /* Input 解析参数，生成 Arguments */
+        final DataEvent input = this.keys(records);
+
+        return this.jooq.deleteBatch(input).succeed();
+    }
+
+    public Future<Boolean> deleteAsync(final Record... records) {
+        Ao.infoSQL(this.getLogger(), "执行方法：UFlush.deleteAsync(Record...)");
+        // Input
+        final DataEvent input = this.keys(records);
+        // Output
+        return this.jooq.deleteBatchAsync(input)
+                .compose(event -> Ux.future(event.succeed()));
     }
 
     // ----------------------- Private ----------------------

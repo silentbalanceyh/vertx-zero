@@ -1,7 +1,5 @@
 package io.vertx.tp.modular.jooq.internal;
 
-import io.vertx.core.Future;
-import io.vertx.core.json.JsonObject;
 import io.vertx.tp.atom.modeling.data.DataEvent;
 import io.vertx.tp.atom.modeling.element.DataMatrix;
 import io.vertx.tp.modular.query.Ingest;
@@ -15,7 +13,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.concurrent.ConcurrentMap;
 import java.util.function.BiFunction;
-import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
 
@@ -118,38 +115,5 @@ public class Jq {
 
     public static DataEvent doAll(final Class<?> clazz, final DataEvent event, final BiFunction<Set<String>, Ingest, Record[]> actor) {
         return DQuery.doQuery(clazz, event, actor, null);
-    }
-
-    // ----------------------- Output --------------------
-    public static Boolean outB(final DataEvent event, final Function<DataEvent, DataEvent> executor) {
-        return OEvent.bool(event, executor);
-    }
-
-    public static Long outC(final DataEvent event, final Function<DataEvent, DataEvent> executor) {
-        return OEvent.count(event, executor);
-    }
-
-    public static io.vertx.up.commune.Record outR(final DataEvent event, final Function<DataEvent, DataEvent> executor) {
-        return OEvent.record(event, executor, false);
-    }
-
-    public static io.vertx.up.commune.Record[] outRs(final DataEvent event, final Function<DataEvent, DataEvent> executor) {
-        return OEvent.record(event, executor, true);
-    }
-
-    public static JsonObject outP(final DataEvent event, final Function<DataEvent, DataEvent> executor) {
-        return OEvent.pagination(event, executor);
-    }
-
-    public static Future<io.vertx.up.commune.Record> outRAsync(final DataEvent event, final Function<DataEvent, DataEvent> executor) {
-        return OEvent.recordAsync(event, executor, false);
-    }
-
-    public static Future<io.vertx.up.commune.Record[]> outRsAsync(final DataEvent event, final Function<DataEvent, DataEvent> executor) {
-        return OEvent.recordAsync(event, executor, true);
-    }
-
-    public static Future<JsonObject> outPAsync(final DataEvent event, final Function<DataEvent, DataEvent> executor) {
-        return OEvent.paginationAsync(event, executor);
     }
 }

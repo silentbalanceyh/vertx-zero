@@ -3,7 +3,6 @@ package io.vertx.tp.modular.dao.internal;
 import io.vertx.core.Future;
 import io.vertx.tp.atom.modeling.data.DataEvent;
 import io.vertx.tp.atom.refine.Ao;
-import io.vertx.tp.modular.jooq.internal.Jq;
 import io.vertx.up.atom.query.Criteria;
 import io.vertx.up.commune.Record;
 
@@ -28,25 +27,36 @@ public class UUnique extends AbstractUtil<UUnique> {
     }
 
     public <ID> Record fetchById(final ID id) {
-        Ao.infoSQL(this.getLogger(), "执行方法：Uniqueor.fetchById, {0}", id);
-
-        return Jq.outR(this.idInput(id), this.jooq::fetchById);
+        Ao.infoSQL(this.getLogger(), "执行方法：UUnique.fetchById, {0}", id);
+        // Input
+        final DataEvent input = this.idInput(id);
+        // Output
+        return this.output(input, this.jooq::fetchById, false);
     }
 
     public Record fetchOne(final Criteria criteria) {
-        Ao.infoSQL(this.getLogger(), "执行方法：Uniqueor.fetchOne");
-        return Jq.outR(this.irCond(criteria), this.jooq::fetchOne);
+        Ao.infoSQL(this.getLogger(), "执行方法：UUnique.fetchOne");
+        // Input
+        final DataEvent input = this.irCond(criteria);
+        // Output
+        return this.output(input, this.jooq::fetchOne, false);
     }
 
     // ----------------------- Async ----------------------
     public <ID> Future<Record> fetchByIdAsync(final ID id) {
-        Ao.infoSQL(this.getLogger(), "执行方法：Uniqueor.fetchByIdAsync, {0}", id);
-        return Jq.outRAsync(this.idInput(id), this.jooq::fetchById);
+        Ao.infoSQL(this.getLogger(), "执行方法：UUnique.fetchByIdAsync, {0}", id);
+        // Input
+        final DataEvent input = this.idInput(id);
+        // Output
+        return this.jooq.fetchByIdAsync(input).compose(DataEvent::dataRAsync);
     }
 
     public Future<Record> fetchOneAsync(final Criteria criteria) {
-        Ao.infoSQL(this.getLogger(), "执行方法：Uniqueor.fetchOneAsync");
-        return Jq.outRAsync(this.irCond(criteria), this.jooq::fetchOne);
+        Ao.infoSQL(this.getLogger(), "执行方法：UUnique.fetchOneAsync");
+        // Input
+        final DataEvent input = this.irCond(criteria);
+        // Output
+        return this.jooq.fetchOneAsync(input).compose(DataEvent::dataRAsync);
     }
 
     // ----------------------- Private ----------------------

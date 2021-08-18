@@ -4,7 +4,6 @@ import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.atom.modeling.data.DataEvent;
 import io.vertx.tp.atom.refine.Ao;
-import io.vertx.tp.modular.jooq.internal.Jq;
 import io.vertx.up.atom.query.Criteria;
 import io.vertx.up.atom.query.engine.Qr;
 import io.vertx.up.commune.Record;
@@ -33,27 +32,40 @@ public class USearch extends AbstractUtil<USearch> {
 
     public JsonObject search(final JsonObject qr) {
         final JsonObject criteria = Ut.sureJObject(qr);
-        Ao.infoSQL(this.getLogger(), Ut.notNil(qr), "执行方法：Searcher.search: {0}", criteria.encode());
-        return Jq.outP(this.irQr(criteria), this.jooq::search);
+        Ao.infoSQL(this.getLogger(), Ut.notNil(qr), "执行方法：USearch.search: {0}", criteria.encode());
+        // Input
+        final DataEvent input = this.irQr(criteria);
+        // Output
+        final DataEvent output = this.jooq.search(input);
+        return output.dataP();
     }
 
     public Record[] query(final JsonObject qr) {
         final JsonObject criteria = Ut.sureJObject(qr);
-        Ao.infoSQL(this.getLogger(), Ut.notNil(qr), "执行方法：Searcher.query: {0}", criteria.encode());
-        return Jq.outRs(this.irCond(Criteria.create(criteria)), this.jooq::query);
+        Ao.infoSQL(this.getLogger(), Ut.notNil(qr), "执行方法：USearch.query: {0}", criteria.encode());
+        // Input
+        final DataEvent input = this.irCond(Criteria.create(criteria));
+        // Output
+        return this.output(input, this.jooq::query, true);
     }
 
     // ----------------------- Async ----------------------
     public Future<JsonObject> searchAsync(final JsonObject qr) {
         final JsonObject criteria = Ut.sureJObject(qr);
-        Ao.infoSQL(this.getLogger(), Ut.notNil(qr), "执行方法：Searcher.searchAsync: {0}", criteria.encode());
-        return Jq.outPAsync(this.irQr(criteria), this.jooq::search);
+        Ao.infoSQL(this.getLogger(), Ut.notNil(qr), "执行方法：USearch.searchAsync: {0}", criteria.encode());
+        // Input
+        final DataEvent input = this.irQr(criteria);
+        // Output
+        return this.jooq.searchAsync(input).compose(DataEvent::dataPAsync);
     }
 
     public Future<Record[]> queryAsync(final JsonObject qr) {
         final JsonObject criteria = Ut.sureJObject(qr);
-        Ao.infoSQL(this.getLogger(), Ut.notNil(qr), "执行方法：Searcher.queryAsync: {0}", criteria.encode());
-        return Jq.outRsAsync(this.irCond(Criteria.create(criteria)), this.jooq::query);
+        Ao.infoSQL(this.getLogger(), Ut.notNil(qr), "执行方法：USearch.queryAsync: {0}", criteria.encode());
+        // Input
+        final DataEvent input = this.irCond(Criteria.create(criteria));
+        // Output
+        return this.jooq.queryAsync(input).compose(DataEvent::dataAAsync);
     }
 
     // ----------------------- Private ----------------------

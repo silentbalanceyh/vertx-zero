@@ -11,6 +11,8 @@ import io.vertx.up.atom.query.Criteria;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 
+import java.util.function.Function;
+
 /**
  * 抽象工具类
  */
@@ -52,18 +54,31 @@ public abstract class AbstractUtil<T extends AoBinder> implements AoBinder<T> {
         return DataEvent.create(this.atom, this.sentence).init(EventType.SINGLE);
     }
 
-    DataEvent events() {
+    protected DataEvent events() {
         Fn.outWeb(null == this.atom, _417DataAtomNullException.class, this.getClass());
         return DataEvent.create(this.atom, this.sentence).init(EventType.BATCH);
     }
 
-    <ID> DataEvent irIDs(final ID... ids) {
+    protected <ID> DataEvent irIDs(final ID... ids) {
         return this.events().keys(ids);
     }
 
-    DataEvent irCond(final Criteria criteria) {
+    protected DataEvent irCond(final Criteria criteria) {
         return this.event().criteria(criteria);
     }
+
+    // Output Record, Record[]
+    @SuppressWarnings("all")
+    protected <T> T output(final DataEvent event, final Function<DataEvent, DataEvent> executor, final boolean isArray) {
+        event.consoleAll();
+        final DataEvent response = executor.apply(event);
+        if (isArray) {
+            return (T) response.dataA();
+        } else {
+            return (T) response.dataR();
+        }
+    }
+
 
     protected Annal getLogger() {
         return Annal.get(this.getClass());

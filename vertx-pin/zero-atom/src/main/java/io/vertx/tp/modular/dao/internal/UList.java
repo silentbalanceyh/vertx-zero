@@ -1,8 +1,8 @@
 package io.vertx.tp.modular.dao.internal;
 
 import io.vertx.core.Future;
+import io.vertx.tp.atom.modeling.data.DataEvent;
 import io.vertx.tp.atom.refine.Ao;
-import io.vertx.tp.modular.jooq.internal.Jq;
 import io.vertx.up.commune.Record;
 
 /**
@@ -23,24 +23,36 @@ public class UList extends AbstractUtil<UList> {
 
     @SuppressWarnings("unchecked")
     public <ID> Record[] fetchByIds(final ID... ids) {
-        Ao.infoSQL(this.getLogger(), "执行方法：Listor.fetchByIds");
-        return Jq.outRs(this.irIDs(ids), this.jooq::fetchByIds);
+        Ao.infoSQL(this.getLogger(), "执行方法：UList.fetchByIds");
+        // Input
+        final DataEvent input = this.irIDs(ids);
+        // Output
+        return this.output(input, this.jooq::fetchByIds, true);
     }
 
     public Record[] fetchAll() {
-        Ao.infoSQL(this.getLogger(), "执行方法：Listor.fetchAll");
-        return Jq.outRs(this.events(), this.jooq::fetchAll);
+        Ao.infoSQL(this.getLogger(), "执行方法：UList.fetchAll");
+        // Input
+        final DataEvent input = this.events();
+        // Output
+        return this.output(input, this.jooq::fetchAll, true);
     }
 
     // ----------------------- Async ----------------------
     @SafeVarargs
     public final <ID> Future<Record[]> fetchByIdsAsync(final ID... ids) {
-        Ao.infoSQL(this.getLogger(), "执行方法：Listor.fetchByIdsAsync");
-        return Jq.outRsAsync(this.irIDs(ids), this.jooq::fetchByIds);
+        Ao.infoSQL(this.getLogger(), "执行方法：UList.fetchByIdsAsync");
+        // Input
+        final DataEvent input = this.irIDs(ids);
+        // Output
+        return this.jooq.fetchByIdsAsync(input).compose(DataEvent::dataAAsync);
     }
 
     public Future<Record[]> fetchAllAsync() {
-        Ao.infoSQL(this.getLogger(), "执行方法：Listor.fetchAllAsync");
-        return Jq.outRsAsync(this.events(), this.jooq::fetchAll);
+        Ao.infoSQL(this.getLogger(), "执行方法：UList.fetchAllAsync");
+        // Input
+        final DataEvent input = this.events();
+        // Output
+        return this.jooq.fetchAllAsync(input).compose(DataEvent::dataAAsync);
     }
 }
