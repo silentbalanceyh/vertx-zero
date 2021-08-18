@@ -47,6 +47,9 @@ public interface Constants {
         String HABITUS = "vertx-web.sessions.habitus";
         /* Deployment */
         String DEPLOYMENT = "zero.pool.deployment";
+        /* Component Memory Hash Map */
+        String COMPONENT = "zero.pool.component";
+
         /* Directory */
         String DIRECTORY = "zero.pool.directory";
         /* Reference */
