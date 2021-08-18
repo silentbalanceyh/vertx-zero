@@ -47,15 +47,13 @@ class BtLoader {
 
     static Future<Boolean> impAsync(final String folder) {
         final List<Future<String>> futures = new ArrayList<>();
-        stream(folder).map(BtLoader::importFuture).forEach(futures::add);
+        stream(folder, null).map(BtLoader::importFuture).forEach(futures::add);
         return Ux.thenCombineT(futures).compose(nil -> Future.succeededFuture(Boolean.TRUE));
     }
 
     static Future<Boolean> impAsync(final String folder, final String prefix) {
         final List<Future<String>> futures = new ArrayList<>();
-        stream(folder)
-                .filter(filename -> filename.startsWith(folder + prefix))
-                .map(BtLoader::importFuture).forEach(futures::add);
+        stream(folder, prefix).map(BtLoader::importFuture).forEach(futures::add);
         return Ux.thenCombineT(futures).compose(nil -> Future.succeededFuture(Boolean.TRUE));
     }
 
@@ -82,7 +80,7 @@ class BtLoader {
      */
     @SuppressWarnings("all")
     static void doIngests(final String folder, final Handler<AsyncResult<Set<ExTable>>> callback) {
-        final List<Future> futures = stream(folder)
+        final List<Future> futures = stream(folder, null)
                 .map(BtLoader::ingestFuture)
                 .collect(Collectors.toList());
         CompositeFuture.join(futures).compose(result -> {
@@ -99,8 +97,9 @@ class BtLoader {
         client.ingest(filename, handler -> callback.handle(Future.succeededFuture(handler.result())));
     }
 
-    private static Stream<String> stream(final String folder) {
-        return Ut.ioFilesN(folder).stream()
+    private static Stream<String> stream(final String folder, final String prefix) {
+        System.out.println(Ut.ioFilesN(folder, null, prefix));
+        return Ut.ioFilesN(folder, null, prefix).stream()
                 .filter(BtLoader::ensureFile);
     }
 

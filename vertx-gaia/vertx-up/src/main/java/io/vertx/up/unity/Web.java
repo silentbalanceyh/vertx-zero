@@ -5,8 +5,10 @@ import io.vertx.core.Future;
 import io.vertx.core.Handler;
 import io.vertx.core.Promise;
 import io.vertx.core.eventbus.Message;
+import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.commune.Envelop;
+import io.vertx.up.eon.KName;
 import io.vertx.up.util.Ut;
 
 import java.util.ArrayList;
@@ -85,7 +87,7 @@ class Web {
                 });
     }
 
-    static <T> Function<JsonObject, Future<JsonObject>> toAttachJson(
+    static <T> Function<JsonObject, Future<JsonObject>> toAttachJ(
             final String field,
             final Function<T, Future<JsonObject>> function
     ) {
@@ -129,5 +131,26 @@ class Web {
                 }
             }
         };
+    }
+
+    static JsonObject pageData(JsonArray data, Long count) {
+        if (Ut.isNil(data)) {
+            data = new JsonArray();
+        }
+        if (Objects.isNull(count) || 0 > count) {
+            count = 0L;
+        }
+        return new JsonObject().put(KName.LIST, data).put(KName.COUNT, count);
+    }
+
+    static JsonObject pageData(final JsonObject pageData, final Function<JsonArray, JsonArray> function) {
+        final JsonArray data = Ut.sureJArray(pageData.getJsonArray(KName.LIST));
+        final JsonArray updated;
+        if (Objects.nonNull(function)) {
+            updated = function.apply(data);
+        } else {
+            updated = data;
+        }
+        return pageData.put(KName.LIST, updated);
     }
 }

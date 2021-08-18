@@ -1,8 +1,9 @@
 package io.vertx.tp.rbac.acl.rapid;
 
-import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.commune.secure.Acl;
+import io.vertx.up.eon.KName;
+import io.vertx.up.unity.Ux;
 
 /*
  * Here are the pagination list filter `Dwarf`
@@ -40,13 +41,8 @@ class PaginationDwarf implements Dwarf {
     @Override
     public void minimize(final JsonObject dataReference, final JsonObject matrix, final Acl acl) {
         /* inputArray */
-        final JsonObject pagination = dataReference.getJsonObject("data");
-        final JsonArray inputArray = pagination.getJsonArray("list");
-
+        final JsonObject pagination = dataReference.getJsonObject(KName.DATA);
         /* rows */
-        final JsonArray updated = SiftRow.onRows(inputArray, matrix.getJsonObject("rows"));
-
-        /* Updated, be careful there should modify list node */
-        pagination.put("list", updated);
+        Ux.pageData(pagination, inputArray -> SiftRow.onRows(inputArray, matrix.getJsonObject("rows")));
     }
 }

@@ -596,11 +596,15 @@ public final class Ut {
     }
 
     public static List<String> ioFilesN(final String folder) {
-        return Folder.listFilesN(folder, null);
+        return Folder.listFilesN(folder, null, null);
     }
 
     public static List<String> ioFilesN(final String folder, final String extension) {
-        return Folder.listFilesN(folder, extension);
+        return Folder.listFilesN(folder, extension, null);
+    }
+
+    public static List<String> ioFilesN(final String folder, final String extension, final String prefix) {
+        return Folder.listFilesN(folder, extension, prefix);
     }
 
     public static List<String> ioDirectories(final String folder) {
@@ -955,6 +959,10 @@ public final class Ut {
     }
 
     public static boolean isPositive(final int[] numbers) {
+        return Numeric.isPositive(numbers);
+    }
+
+    public static boolean isPositive(final Integer[] numbers) {
         return Numeric.isPositive(numbers);
     }
 

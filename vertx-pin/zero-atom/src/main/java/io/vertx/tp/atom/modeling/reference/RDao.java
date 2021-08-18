@@ -1,6 +1,7 @@
 package io.vertx.tp.atom.modeling.reference;
 
 import io.vertx.codegen.annotations.Fluent;
+import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.atom.modeling.data.DataAtom;
@@ -13,8 +14,6 @@ import io.vertx.tp.optic.DS;
 import io.vertx.tp.plugin.database.DataPool;
 import io.vertx.up.commune.Record;
 import io.vertx.up.commune.config.Database;
-import io.vertx.up.uca.jooq.UxJoin;
-import io.vertx.up.uca.jooq.UxJooq;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
@@ -32,25 +31,13 @@ public class RDao {
      */
     private final transient DataAtom atom;
     /**
-     * 「Static」When static source triggered, this reference stored initialized Dao class.
-     *
-     * The Dao class came from `serviceReference`
+     * Source identifier that has been mapped `source` field of `M_ATTRIBUTE`.
      */
-    private transient UxJooq jooq;
-    /**
-     * 「Static」When static source triggered, this reference stored initialized Join Dao class.
-     *
-     * The Dao class came from 'serviceReference`
-     */
-    private transient UxJoin join;
+    private final transient String source;
     /**
      * 「Static」joinDef in current RDao.
      */
     private transient KJoin kJoin;
-    /**
-     * Source identifier that has been mapped `source` field of `M_ATTRIBUTE`.
-     */
-    private final transient String source;
 
     public RDao(final String appName, final String source) {
         this.source = source;
@@ -79,8 +66,12 @@ public class RDao {
 
     @Override
     public boolean equals(final Object o) {
-        if (this == o) return true;
-        if (o == null || this.getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || this.getClass() != o.getClass()) {
+            return false;
+        }
         final RDao rDao = (RDao) o;
         return this.source.equals(rDao.source);
     }
@@ -111,6 +102,27 @@ public class RDao {
         }
     }
 
+    public Future<JsonArray> fetchByAsync(final JsonObject condition) {
+        if (Ux.Jooq.isEmpty(condition)) {
+            return Ux.futureA();
+        } else {
+            if (this.isStatic()) {
+                /*
+                 * Static
+                 */
+                final Function<JsonObject, Future<JsonArray>> executor = this.executorAsync();
+                return executor.apply(condition);
+            } else {
+                /*
+                 * Dynamic
+                 */
+                final AoDao daoD = this.daoD();
+                return daoD.fetchAsync(condition)
+                        .compose(Ux::futureA);
+            }
+        }
+    }
+
     private Function<JsonObject, JsonArray> executor() {
         return condition -> {
             final KPoint source = this.kJoin.getSource();
@@ -129,6 +141,24 @@ public class RDao {
         };
     }
 
+    private Function<JsonObject, Future<JsonArray>> executorAsync() {
+        return condition -> {
+            final KPoint source = this.kJoin.getSource();
+            final KPoint target = this.kJoin.procTarget(condition);
+            if (Objects.isNull(target)) {
+                return Ux.Jooq.on(source.getClassDao()).fetchJAsync(condition);
+            } else {
+                return Ux.Join.on()
+                        /*
+                         * Join source / target.
+                         */
+                        .add(source.getClassDao(), source.getKeyJoin())
+                        .join(target.getClassDao(), target.getKeyJoin())
+                        .fetchAsync(condition);
+            }
+        };
+    }
+
     private AoDao daoD() {
         return Ke.channelSync(DS.class, () -> null, ds -> {
             /* 连接池绑定数据库 */
@@ -137,7 +167,9 @@ public class RDao {
                 /* 返回AoDao */
                 final Database database = pool.getDatabase();
                 return Ao.toDao(database, this.atom);
-            } else return null;
+            } else {
+                return null;
+            }
         });
     }
 }

@@ -1,13 +1,11 @@
 package io.vertx.tp.jet.monitor;
 
-import io.vertx.core.AsyncResult;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.jet.cv.JtMsg;
 import io.vertx.tp.jet.refine.Jt;
 import io.vertx.up.log.Annal;
 import io.vertx.up.runtime.Runner;
 
-import java.util.Objects;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 class JtAtomic {
@@ -46,19 +44,10 @@ class JtAtomic {
         }
     }
 
-    void workerDeployed(final Annal logger, final AsyncResult<String> handler, final String name) {
-        if (handler.succeeded()) {
-            if (!WORKER_DEPLOYED.getAndSet(Boolean.TRUE)) {
-                Runner.run(() -> Jt.infoWorker(logger, JtMsg.WORKER_DEPLOYED,
-                        name), "jet-worker-deployed");
-            }
-        } else {
-            final Throwable ex = handler.cause();
-            if (Objects.nonNull(ex)) {
-                // TODO: Debug
-                ex.printStackTrace();
-            }
-
+    void workerDeployed(final Annal logger, final Integer instances, final String name) {
+        if (!WORKER_DEPLOYED.getAndSet(Boolean.TRUE)) {
+            Runner.run(() -> Jt.infoWorker(logger, JtMsg.WORKER_DEPLOYED,
+                    name, String.valueOf(instances)), "jet-worker-deployed");
         }
     }
 }

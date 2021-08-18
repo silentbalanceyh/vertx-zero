@@ -28,11 +28,19 @@ final class Folder {
         return Fn.getNull(new ArrayList<>(), () -> list(folder, null, true), folder);
     }
 
-    static List<String> listFilesN(final String folder, final String extension) {
+    static List<String> listFilesN(final String folder, final String extension, final String prefix) {
         final List<String> folders = listDirectoriesN(folder);
         return folders.stream()
                 .flatMap(single -> list(single, extension, false)
-                        .stream().map(file -> single + "/" + file))
+                        .stream()
+                        .filter(file -> Ut.isNil(prefix) || file.startsWith(prefix))
+                        .map(file -> {
+                            if (single.endsWith("/")) {
+                                return single + file;
+                            } else {
+                                return single + "/" + file;
+                            }
+                        }))
                 .collect(Collectors.toList());
     }
 

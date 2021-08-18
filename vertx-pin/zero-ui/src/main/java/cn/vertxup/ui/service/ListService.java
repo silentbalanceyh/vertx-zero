@@ -5,9 +5,9 @@ import cn.vertxup.ui.domain.tables.pojos.UiList;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.eon.KName;
 import io.vertx.tp.ke.refine.Ke;
 import io.vertx.tp.ui.refine.Ui;
+import io.vertx.up.eon.KName;
 import io.vertx.up.log.Annal;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
@@ -61,13 +61,13 @@ public class ListService implements ListStub {
         Ke.mount(listJson, ListStub.FIELD_V_SEGMENT);
         return Ux.future(listJson)
                 /* vQuery */
-                .compose(Ux.applyMount(ListStub.FIELD_V_QUERY, this.optionStub::fetchQuery))
+                .compose(Ux.attach(ListStub.FIELD_V_QUERY, this.optionStub::fetchQuery))
                 /* vSearch */
-                .compose(Ux.applyMount(ListStub.FIELD_V_SEARCH, this.optionStub::fetchSearch))
+                .compose(Ux.attach(ListStub.FIELD_V_SEARCH, this.optionStub::fetchSearch))
                 /* vTable */
-                .compose(Ux.applyMount(ListStub.FIELD_V_TABLE, this.optionStub::fetchTable))
+                .compose(Ux.attach(ListStub.FIELD_V_TABLE, this.optionStub::fetchTable))
                 /* vSegment */
-                .compose(Ux.applyMountJson(ListStub.FIELD_V_SEGMENT, this.optionStub::fetchFragment))
+                .compose(Ux.attachJ(ListStub.FIELD_V_SEGMENT, this.optionStub::fetchFragment))
                 /* Combiner for final processing */
                 .compose(Ke.fabricAsync("classCombiner"));
     }

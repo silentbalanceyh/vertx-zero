@@ -3,8 +3,9 @@ package io.vertx.up.uca.web.anima;
 import io.vertx.core.DeploymentOptions;
 import io.vertx.core.Vertx;
 import io.vertx.up.eon.Info;
-import io.vertx.up.log.Annal;
 import io.vertx.up.fn.Fn;
+import io.vertx.up.log.Annal;
+import io.vertx.up.log.Log;
 
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
@@ -25,9 +26,6 @@ class Verticles {
         final String name = clazz.getName();
         final String flag = option.isWorker() ? "Worker" : "Agent";
         // Multi Thread worker enabled for trying.
-        if (option.isWorker()) {
-            option.setMultiThreaded(true);
-        }
         vertx.deployVerticle(name, option, (result) -> {
             // Success or Failed.
             if (result.succeeded()) {
@@ -35,6 +33,7 @@ class Verticles {
                         name, option.getInstances(), result.result(),
                         flag);
                 INSTANCES.put(clazz, result.result());
+                Log.Health.on(vertx).add(name, option, result.result());
             } else {
                 if (null != result.cause()) {
                     result.cause().printStackTrace();
@@ -57,6 +56,7 @@ class Verticles {
         Fn.safeNull(() -> vertx.undeploy(id, result -> {
             if (result.succeeded()) {
                 logger.info(Info.VTC_STOPPED, name, id, flag);
+                Log.Health.on(vertx).remove(clazz, option);
             }
         }), id);
     }

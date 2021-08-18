@@ -23,6 +23,7 @@ public interface Constants {
 
     String DEFAULT_JWT_AUTH_POOL = "JWT_AUTH_TOKEN_POOL";
 
+    int DEFAULT_EXPIRED_DATA = 600;
     /**
      * Scanned data to distinguish mode
      * 1) Only Interface Style could have the indexes key such as 0,1,2 consider as data key.
@@ -40,4 +41,18 @@ public interface Constants {
             this.put(7, "7");
         }
     };
+
+    interface Pool {
+        /* RBAC Pool */
+        String HABITUS = "vertx-web.sessions.habitus";
+        /* Deployment */
+        String DEPLOYMENT = "zero.pool.deployment";
+        /* Component Memory Hash Map */
+        String COMPONENT = "zero.pool.component";
+
+        /* Directory */
+        String DIRECTORY = "zero.pool.directory";
+        /* Reference */
+        String REFERENCE = "zero.pool.reference";
+    }
 }

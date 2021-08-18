@@ -36,7 +36,7 @@ public interface AoCache {
     /* AoDao 池化管理 */
     ConcurrentMap<String, AoDao> POOL_T_DAO = new ConcurrentHashMap<>();
     /* JqEngine 池化 */
-    ConcurrentMap<Integer, JQEngine> POOL_ENGINES = new ConcurrentHashMap<>();
+    ConcurrentMap<String, JQEngine> POOL_ENGINES = new ConcurrentHashMap<>();
 
     // （内部）
     /* OxModeler资源池 */

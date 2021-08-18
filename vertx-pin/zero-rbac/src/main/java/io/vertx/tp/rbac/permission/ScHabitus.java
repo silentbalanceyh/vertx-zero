@@ -4,6 +4,7 @@ import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.rbac.cv.AuthMsg;
 import io.vertx.tp.rbac.refine.Sc;
+import io.vertx.up.eon.Constants;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import io.vertx.up.unity.Ux;
@@ -29,7 +30,6 @@ public class ScHabitus {
      *               "HABITUS-" + <habitus> + "-SESSION"
      * Each habitus keep a pool
      */
-    public static final String POOL_HABITUS = "vertx-web.sessions.habitus";
     private static final Annal LOGGER = Annal.get(ScHabitus.class);
     private static final ConcurrentMap<String, ScHabitus> POOLS =
             new ConcurrentHashMap<>();
@@ -37,9 +37,9 @@ public class ScHabitus {
     private final transient String habitus;
 
     private ScHabitus(final String habitus) {
-        Sc.infoResource(ScHabitus.LOGGER, AuthMsg.POOL_RESOURCE, ScHabitus.POOL_HABITUS, habitus);
+        Sc.infoResource(ScHabitus.LOGGER, AuthMsg.POOL_RESOURCE, Constants.Pool.HABITUS, habitus);
         this.habitus = habitus;
-        this.pool = Ux.Pool.on(ScHabitus.POOL_HABITUS);
+        this.pool = Ux.Pool.on(Constants.Pool.HABITUS);
     }
 
     public static ScHabitus initialize(final String habitus) {

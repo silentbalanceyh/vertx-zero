@@ -9,6 +9,8 @@ import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
 /**
  * Shared Data for pool usage in utility X
@@ -58,6 +60,12 @@ public class UxPool {
             LOGGER.debug(Info.POOL_GET, key, this.name, false);
             Fn.thenGeneric(res, future, To.toError(_500PoolInternalException.class, this.getClass(), this.name, "get"));
         }));
+    }
+
+    public <K, V> Future<ConcurrentMap<K, V>> get(final Set<K> keys) {
+        final ConcurrentMap<K, Future<V>> futureMap = new ConcurrentHashMap<>();
+        keys.forEach(key -> futureMap.put(key, this.get(key)));
+        return Combine.thenCombine(futureMap);
     }
 
     public <K, V> Future<V> get(final K key, final boolean once) {

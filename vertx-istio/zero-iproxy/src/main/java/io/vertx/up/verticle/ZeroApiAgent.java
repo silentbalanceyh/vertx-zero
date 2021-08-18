@@ -12,10 +12,10 @@ import io.vertx.up.log.Annal;
 import io.vertx.up.uca.options.DynamicVisitor;
 import io.vertx.up.uca.options.ServerVisitor;
 import io.vertx.up.uca.rs.Axis;
+import io.vertx.up.uca.rs.monitor.MeansureAxis;
 import io.vertx.up.uca.rs.router.PointAxis;
 import io.vertx.up.uca.rs.router.RouterAxis;
 import io.vertx.up.uca.rs.router.WallAxis;
-import io.vertx.up.uca.rs.router.monitor.MeansureAxis;
 import io.vertx.up.util.Ut;
 
 import java.text.MessageFormat;
@@ -53,24 +53,24 @@ public class ZeroApiAgent extends AbstractVerticle {
     public void start() {
         /* 1.Call router hub to mount commont **/
         final Axis<Router> routerAxiser = Fn.poolThread(Pool.ROUTERS,
-                () -> new RouterAxis(vertx));
+                () -> new RouterAxis(this.vertx));
         /* 2.Call route hub to mount walls **/
         final Axis<Router> wallAxiser = Fn.poolThread(Pool.WALLS,
-                () -> Ut.instance(WallAxis.class, vertx));
+                () -> Ut.instance(WallAxis.class, this.vertx));
         /* 3.Health route */
         final Axis<Router> montiorAxiser = Fn.poolThread(Pool.MEANSURES,
-                () -> new MeansureAxis(vertx, true));
+                () -> new MeansureAxis(this.vertx, true));
         Fn.outUp(() -> {
 
             // Set breaker for each server
             ZeroAtomic.API_OPTS.forEach((port, option) -> {
                 /* Mount to api hub **/
                 final Axis<Router> axiser = Fn.poolThread(Pool.APIS,
-                        () -> Ut.instance(PointAxis.class, option, vertx));
+                        () -> Ut.instance(PointAxis.class, option, this.vertx));
                 /* Single server processing **/
-                final HttpServer server = vertx.createHttpServer(option);
+                final HttpServer server = this.vertx.createHttpServer(option);
                 /* Router **/
-                final Router router = Router.router(vertx);
+                final Router router = Router.router(this.vertx);
                 routerAxiser.mount(router);
                 // Wall
                 wallAxiser.mount(router);
@@ -82,7 +82,7 @@ public class ZeroApiAgent extends AbstractVerticle {
                 /* Listening **/
                 server.requestHandler(router).listen();
                 {
-                    registryServer(option);
+                    this.registryServer(option);
                 }
             });
         }, LOGGER);
@@ -93,12 +93,12 @@ public class ZeroApiAgent extends AbstractVerticle {
         final AtomicInteger out = API_START_LOGS.get(port);
         if (Values.ZERO == out.getAndIncrement()) {
             final String portLiteral = String.valueOf(port);
-            LOGGER.info(Info.API_GATEWAY, getClass().getSimpleName(), deploymentID(),
+            LOGGER.info(Info.API_GATEWAY, this.getClass().getSimpleName(), this.deploymentID(),
                     portLiteral);
             final String address =
                     MessageFormat.format("http://{0}:{1}/",
                             options.getHost(), portLiteral);
-            LOGGER.info(Info.API_LISTEN, getClass().getSimpleName(), address);
+            LOGGER.info(Info.API_LISTEN, this.getClass().getSimpleName(), address);
         }
     }
 }

@@ -1,5 +1,6 @@
 package io.vertx.tp.modular.plugin;
 
+import io.vertx.core.Future;
 import io.vertx.tp.atom.modeling.element.DataTpl;
 import io.vertx.up.commune.Record;
 import io.vertx.up.fn.Fn;
@@ -68,6 +69,8 @@ public interface IoHub {
      */
     Record out(Record record, DataTpl tpl);
 
+    Future<Record> outAsync(Record record, DataTpl tpl);
+
     /**
      * Processing output data records in response
      *
@@ -77,4 +80,6 @@ public interface IoHub {
      * @return {@link Record}[]
      */
     Record[] out(Record[] records, DataTpl tpl);
+
+    Future<Record[]> outAsync(Record[] records, DataTpl tpl);
 }

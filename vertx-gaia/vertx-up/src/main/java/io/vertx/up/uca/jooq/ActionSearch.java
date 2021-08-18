@@ -15,8 +15,6 @@ import java.util.Objects;
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 class ActionSearch extends AbstractAction {
-    private static final String FIELD_LIST = "list";
-    private static final String FIELD_COUNT = "count";
     private transient final ActionQr qr;
     private transient final AggregatorCount counter;
 
@@ -29,7 +27,6 @@ class ActionSearch extends AbstractAction {
 
     <T> Future<JsonObject> searchAsync(final JsonObject query, final JqFlow workflow) {
         return workflow.inputQrAsync(query).compose(inquiry -> {
-            final JsonObject response = new JsonObject();
             // Search Result
             final Future<JsonArray> dataFuture = this.qr.searchAsync(inquiry)   // execute
                     .compose(workflow::outputAsync);                            // after : pojo processing
@@ -43,21 +40,17 @@ class ActionSearch extends AbstractAction {
                 final JsonArray list = result.resultAt(Values.IDX);
                 final Long count = result.resultAt(Values.ONE);
                 // Result here
-                response.put(FIELD_COUNT, count).put(FIELD_LIST, list);
-                return Future.succeededFuture(response);
+                return Future.succeededFuture(Ux.pageData(list, count));
             });
         }).otherwise(Ux.otherwise(new JsonObject()));
     }
 
     <T> JsonObject search(final JsonObject query, final JqFlow workflow) {
-        final JsonObject response = new JsonObject();
         // Data Processing
-
         final Qr qr = workflow.inputQr(query);
         final JsonArray list = workflow.output(this.qr.search(qr));
         // Count Processing
         final Long count = this.counter.count(qr.getCriteria().toJson());
-        response.put(FIELD_COUNT, count).put(FIELD_LIST, list);
-        return response;
+        return Ux.pageData(list, count);
     }
 }

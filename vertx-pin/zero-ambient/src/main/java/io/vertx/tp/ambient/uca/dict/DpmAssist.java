@@ -25,8 +25,10 @@ public class DpmAssist implements Dpm {
         if (Objects.isNull(plugin) || Ut.isNil(source.getKey())) {
             return Ux.future(uniqueMap);
         } else {
-            plugin.configuration(source.getPluginConfig());
-            return plugin.fetchAsync(source, params).compose(result -> {
+            return DpmTool.cachedBy(source.getKey(), () -> {
+                plugin.configuration(source.getPluginConfig());
+                return plugin.fetchAsync(source, params);
+            }).compose(result -> {
                 uniqueMap.put(source.getKey(), result);
                 return Ux.future(uniqueMap);
             });

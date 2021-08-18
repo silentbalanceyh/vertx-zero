@@ -12,7 +12,6 @@ import io.vertx.tp.crud.init.IxPin;
 import io.vertx.tp.crud.refine.Ix;
 import io.vertx.tp.error._409ModuleConflictException;
 import io.vertx.tp.error._409MultiModuleException;
-import io.vertx.up.eon.KName;
 import io.vertx.tp.ke.refine.Ke;
 import io.vertx.tp.plugin.excel.ExcelClient;
 import io.vertx.tp.plugin.excel.atom.ExRecord;
@@ -23,6 +22,7 @@ import io.vertx.up.annotations.Queue;
 import io.vertx.up.atom.query.engine.Qr;
 import io.vertx.up.commune.Envelop;
 import io.vertx.up.commune.exchange.DictFabric;
+import io.vertx.up.eon.KName;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import io.vertx.up.uca.jooq.UxJooq;
@@ -250,10 +250,7 @@ public class FileActor {
                 /* Dict */
                 .compose(response -> {
                     /* Data for ExTable */
-                    JsonArray data = response.getJsonArray("list");
-                    if (Objects.isNull(data)) {
-                        data = new JsonArray();
-                    }
+                    JsonArray data = Ux.pageData(response);
                     /*
                      * To avoid final in lambda expression
                      */

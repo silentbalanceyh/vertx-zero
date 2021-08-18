@@ -5,14 +5,11 @@ import io.vertx.up.atom.query.Criteria;
 import io.vertx.up.eon.Strings;
 import io.vertx.up.util.Ut;
 
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
+import java.util.Objects;
 
 public class QTree {
 
     private final transient QNode current;
-    private final transient ConcurrentMap<String, String> fieldInfo
-            = new ConcurrentHashMap<>();
 
     private QTree(final Criteria criteria) {
         /* 1. Linear or Tree */
@@ -38,6 +35,14 @@ public class QTree {
 
     public QNode getData() {
         return this.current;
+    }
+
+    public boolean hasValue() {
+        if (this.current instanceof QTier) {
+            return 0 < ((QTier) this.current).nodes().size();
+        } else {
+            return Objects.nonNull(this.current);
+        }
     }
 
     private QValue initValue(final String field, final Object value) {

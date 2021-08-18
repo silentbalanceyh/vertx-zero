@@ -1,7 +1,6 @@
 package io.vertx.tp.modular.query;
 
 import io.vertx.tp.atom.modeling.element.DataMatrix;
-import io.vertx.tp.atom.refine.Ao;
 import io.vertx.tp.modular.jooq.internal.Jq;
 import io.vertx.tp.plugin.jooq.condition.Clause;
 import io.vertx.up.atom.query.tree.*;
@@ -68,7 +67,6 @@ class QVisitor {
             return null;
         } else {
             final Clause clause = Clause.get(column.getType());
-            Ao.infoPlugin(QVisitor.class, "语句选择：Clause = {0}", clause.getClass());
             return clause.where(column, column.getName(),
                     /* 特殊 op 处理 */
                     leaf.op().value(), leaf.value());

@@ -7,6 +7,7 @@ import io.vertx.up.util.Ut;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.function.Function;
@@ -18,10 +19,28 @@ import java.util.function.Function;
  * 3) Get `DELETE` operation
  */
 class Comparer {
+    /*
+     * The uniqueSet contains all unique fields
+     */
+    static <T> ConcurrentMap<ChangeFlag, List<T>> compare(final List<T> original, final List<T> current,
+                                                          final Set<String> uniqueSet,
+                                                          final String pojoFile) {
+        return compare(original, current, (entity) -> {
+            /*
+             * The fnValue should calculate unique value subset
+             */
+            final JsonObject uniqueValue = new JsonObject();
+            uniqueSet.forEach(field -> {
+                final Object fieldValue = Ut.field(entity, field);
+                uniqueValue.put(field, fieldValue);
+            });
+            return uniqueValue;
+        }, pojoFile);
+    }
 
     static <T, R> ConcurrentMap<ChangeFlag, List<T>> compare(final List<T> original, final List<T> current,
                                                              final Function<T, R> fnValue,
-                                                             final String mergedPojo) {
+                                                             final String pojoFile) {
         final ConcurrentMap<ChangeFlag, List<T>> comparedMap = new ConcurrentHashMap<ChangeFlag, List<T>>() {
             {
                 this.put(ChangeFlag.DELETE, new ArrayList<>());
@@ -66,7 +85,7 @@ class Comparer {
                      * original / current contains
                      * UPDATE
                      */
-                    final T updated = combine(previous, latestItem, mergedPojo);
+                    final T updated = combine(previous, latestItem, pojoFile);
                     comparedMap.get(ChangeFlag.UPDATE).add(updated);
                 }
             });

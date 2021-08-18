@@ -22,7 +22,7 @@ public interface DataPool {
         return Fn.pool(Pool.POOL_DYNAMIC, database.getJdbcUrl(), () -> {
             final Annal logger = Annal.get(DataPool.class);
             final DataPool ds = new HikariDataPool(database);
-            logger.info("[ DP ] Data Pool Hash : {0}", ds.hashCode());
+            logger.info("[ DP ] Data Pool Hash : {0}", String.valueOf(ds.hashCode()));
             return ds;
         });
     }

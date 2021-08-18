@@ -83,8 +83,12 @@ class ActJObject extends ActMapping implements Serializable {
                              * NON, $$__BODY__$$
                              */
                             .forEach(field -> this.data.put(field, inputData.getValue(field)));
-
-                    cross = body.getJsonObject(ID.PARAM_BODY);
+                    final Object bodyData = body.getValue(ID.PARAM_BODY);
+                    if (bodyData instanceof JsonObject) {
+                        cross = (JsonObject) bodyData;
+                    } else {
+                        cross = new JsonObject();
+                    }
                 }
                 /*
                  * $$__BODY__$$ is null
@@ -147,6 +151,8 @@ class ActJObject extends ActMapping implements Serializable {
     JsonObject getJson(final DualMapping mapping) {
         if (this.isBefore(mapping)) {
             return this.mapper().in(this.data, mapping.child());
-        } else return this.data;
+        } else {
+            return this.data;
+        }
     }
 }

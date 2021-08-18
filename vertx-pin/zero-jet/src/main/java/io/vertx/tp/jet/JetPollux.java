@@ -80,7 +80,6 @@ public class JetPollux implements PlugRouter {
             /*
              * 「Starting」
              */
-            this.monitor.workerStart();
             if (Objects.nonNull(this.castor)) {
                 /*
                  * Worker deployment
@@ -91,6 +90,7 @@ public class JetPollux implements PlugRouter {
                  * Each time the `vert.x` insteance will set worker threads here.
                  */
                 if (UNREADY.getAndSet(Boolean.FALSE)) {
+                    this.monitor.workerStart();
                     this.castor.startWorkers(uriSet);
                 }
             }

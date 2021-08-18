@@ -11,6 +11,7 @@ import io.vertx.up.exception.ZeroException;
 import io.vertx.up.exception.ZeroRunException;
 import io.vertx.up.fn.wait.Case;
 import io.vertx.up.log.Annal;
+import io.vertx.up.util.Ut;
 
 import java.util.concurrent.ConcurrentMap;
 import java.util.function.Consumer;
@@ -276,7 +277,15 @@ public final class Fn {
      * Speicial function to pool by thread name instead of other key here, for multi-thread environment
      */
     public static <V> V poolThread(final ConcurrentMap<String, V> pool, final Supplier<V> poolFn) {
+        return poolThread(pool, poolFn, null);
+    }
+
+    public static <V> V poolThread(final ConcurrentMap<String, V> pool, final Supplier<V> poolFn, final String root) {
         final String threadName = Thread.currentThread().getName();
-        return Deliver.exec(pool, threadName, poolFn);
+        if (Ut.isNil(root)) {
+            return Deliver.exec(pool, threadName, poolFn);
+        } else {
+            return Deliver.exec(pool, root + "/" + threadName, poolFn);
+        }
     }
 }

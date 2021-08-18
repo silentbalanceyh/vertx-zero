@@ -43,6 +43,8 @@ public interface Annal {
 
     void info(String key, Object... args);
 
+    void info(boolean condition, String key, Object... args);
+
     void debug(String key, Object... args);
 }
 
@@ -94,6 +96,13 @@ class CommonAnnal implements Annal {
     @Override
     public void info(final String key, final Object... args) {
         this.logger.info(key, args);
+    }
+
+    @Override
+    public void info(final boolean condition, final String key, final Object... args) {
+        if (condition) {
+            this.info(key, args);
+        }
     }
 
     @Override

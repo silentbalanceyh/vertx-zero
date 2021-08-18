@@ -7,6 +7,7 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.tp.plugin.cache.l1.L1Cache;
 import io.vertx.tp.plugin.cache.l1.L1Config;
 import io.vertx.up.fn.Fn;
+import io.vertx.up.log.Log;
 import io.vertx.up.util.Ut;
 
 import java.util.Objects;
@@ -48,7 +49,15 @@ public class HarpBus {
              * Configuration
              */
             workerOptions.setConfig(options.copy());
-            vertx.deployVerticle(worker.getName(), workerOptions);
+            vertx.deployVerticle(worker.getName(), workerOptions, result -> {
+                if (result.succeeded()) {
+                    Log.Health.on(vertx).add(worker.getName(), workerOptions, result.result());
+                } else {
+                    if (null != result.cause()) {
+                        result.cause().printStackTrace();
+                    }
+                }
+            });
         }
     }
 

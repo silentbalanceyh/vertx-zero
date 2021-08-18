@@ -66,7 +66,7 @@ public interface ID {
         /*
          * Monitor Path of Address
          */
-        String MONITOR_PATH = "/zero/ipc/health*";
+        String MONITOR_PATH = "/zero/health*";
     }
 
     /*

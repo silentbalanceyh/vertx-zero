@@ -21,6 +21,7 @@ import io.vertx.up.commune.exchange.DictEpsilon;
 import io.vertx.up.commune.exchange.DictFabric;
 import io.vertx.up.commune.rule.RuleTerm;
 import io.vertx.up.eon.Constants;
+import io.vertx.up.eon.KName;
 import io.vertx.up.eon.Strings;
 import io.vertx.up.eon.em.ChangeFlag;
 import io.vertx.up.exception.WebException;
@@ -33,6 +34,7 @@ import io.vertx.up.util.Ut;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.*;
+import java.util.concurrent.CompletionStage;
 import java.util.concurrent.ConcurrentMap;
 import java.util.function.*;
 
@@ -178,6 +180,10 @@ public final class Ux {
         return From.fromJson(array, clazz, "");
     }
 
+    public static <T> List<T> fromPage(final JsonObject data, final Class<T> clazz) {
+        return fromJson(pageData(data), clazz);
+    }
+
     public static <T> T fromJson(final JsonObject data, final Class<T> clazz, final String pojo) {
         return From.fromJson(data, clazz, pojo);
     }
@@ -255,6 +261,10 @@ public final class Ux {
         return To.future(entity);
     }
 
+    public static <T> Future<T> future(final CompletionStage<T> state) {
+        return Async.future(state);
+    }
+
     public static <T> Future<T> future(final T input, final List<Function<T, Future<T>>> functions) {
         return Async.future(input, functions);
     }
@@ -291,12 +301,20 @@ public final class Ux {
         return Web.toFuture(handler);
     }
 
-    public static <T, R> ConcurrentMap<ChangeFlag, List<T>> compare(final List<T> original, final List<T> current, final Function<T, R> fnValue, final String mergedPojo) {
-        return Comparer.compare(original, current, fnValue, mergedPojo);
+    public static <T, R> ConcurrentMap<ChangeFlag, List<T>> compare(final List<T> original, final List<T> current, final Function<T, R> fnValue, final String pojoFile) {
+        return Comparer.compare(original, current, fnValue, pojoFile);
     }
 
     public static <T, R> ConcurrentMap<ChangeFlag, List<T>> compare(final List<T> original, final List<T> current, final Function<T, R> fnValue) {
         return Comparer.compare(original, current, fnValue, Strings.EMPTY);
+    }
+
+    public static <T, R> ConcurrentMap<ChangeFlag, List<T>> compare(final List<T> original, final List<T> current, final Set<String> uniqueSet, final String pojoFile) {
+        return Comparer.compare(original, current, uniqueSet, pojoFile);
+    }
+
+    public static <T, R> ConcurrentMap<ChangeFlag, List<T>> compare(final List<T> original, final List<T> current, final Set<String> uniqueSet) {
+        return Comparer.compare(original, current, uniqueSet, Strings.EMPTY);
     }
 
     /*
@@ -439,20 +457,38 @@ public final class Ux {
 
     /*
      * Flatting method for function executing
-     * 1) applyMount -> JsonObject ( field )
-     * 2) applyMount -> Advanced JsonObject ( field )
-     * 4) applyBool
+     * 1) attach -> JsonObject ( field )
+     * 2) attachJ -> Advanced JsonObject ( field )
      */
-    public static <T> Function<JsonObject, Future<JsonObject>> applyMount(final String field, final Function<T, Future<JsonObject>> function) {
+    public static <T> Function<JsonObject, Future<JsonObject>> attach(final String field, final Function<T, Future<JsonObject>> function) {
         return Web.toAttach(field, function);
     }
 
-    public static <T> Function<JsonObject, Future<JsonObject>> applyMountJson(final String field, final Function<T, Future<JsonObject>> function) {
-        return Web.toAttachJson(field, function);
+    public static <T> Function<JsonObject, Future<JsonObject>> attachJ(final String field, final Function<T, Future<JsonObject>> function) {
+        return Web.toAttachJ(field, function);
     }
 
-    public static Future<JsonObject> applyBool(final Boolean result) {
-        return Future.succeededFuture(new JsonObject().put(Strings.J_RESULT, result));
+    /*
+     * Normalize pageData in framework
+     * {
+     *      "list": [],
+     *      "count": xx
+     * }
+     */
+    public static JsonObject pageData() {
+        return Web.pageData(new JsonArray(), 0L);
+    }
+
+    public static JsonObject pageData(final JsonArray data, final long size) {
+        return Web.pageData(data, size);
+    }
+
+    public static JsonArray pageData(final JsonObject data) {
+        return Ut.sureJArray(data.getJsonArray(KName.LIST));
+    }
+
+    public static JsonObject pageData(final JsonObject pageData, final Function<JsonArray, JsonArray> function) {
+        return Web.pageData(pageData, function);
     }
 
     /*

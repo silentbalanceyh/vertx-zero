@@ -174,4 +174,24 @@ class ExcelHelper {
                     WORKBOOKS.put(key, workbook);
                 });
     }
+
+    /*
+     * For Insert to avoid duplicated situation
+     * 1. Key duplicated
+     * 2. Unique duplicated
+     */
+    <T> List<T> compress(final List<T> input, final ExTable table) {
+        final String key = table.fieldKey();
+        final List<T> keyList = new ArrayList<>();
+        final Set<Object> keys = new HashSet<>();
+        input.forEach(item -> {
+            final Object value = Ut.field(item, key);
+            if (Objects.nonNull(value) && !keys.contains(value)) {
+                keys.add(value);
+                keyList.add(item);
+            }
+        });
+        // Release
+        return keyList;
+    }
 }

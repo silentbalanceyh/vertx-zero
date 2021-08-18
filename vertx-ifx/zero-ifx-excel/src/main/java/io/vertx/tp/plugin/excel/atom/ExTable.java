@@ -49,16 +49,24 @@ public class ExTable implements Serializable {
      * Dao / Pojo
      */
     @SuppressWarnings("all")
-    public <T> Class<T> getPojo() {
+    public <T> Class<T> classPojo() {
         return (Class<T>) this.getConnect().getPojo();
     }
 
-    public Class<?> getDao() {
+    public Class<?> classDao() {
         return this.getConnect().getDao();
     }
 
-    public String getPojoFile() {
+    public String filePojo() {
         return this.getConnect().getPojoFile();
+    }
+
+    public Set<String> fieldUnique() {
+        return Ut.toSet(this.getConnect().getUnique());
+    }
+
+    public String fieldKey() {
+        return this.getConnect().getKey();
     }
 
     /*
@@ -76,12 +84,22 @@ public class ExTable implements Serializable {
         return filters;
     }
 
+    public JsonObject whereUnique(final JsonArray data) {
+        final JsonObject filters = new JsonObject();
+        filters.put(Strings.EMPTY, Boolean.FALSE);
+        Ut.itJArray(data, JsonObject.class, (item, index) -> {
+            final String indexKey = "$" + index;
+            filters.put(indexKey, this.whereUnique(item).put(Strings.EMPTY, Boolean.TRUE));
+        });
+        return filters;
+    }
+
     /*
      * System Unique
      */
     @SuppressWarnings("unchecked")
     public <ID> ID whereKey(final JsonObject data) {
-        final String keyField = this.getConnect().getKey();
+        final String keyField = this.fieldKey();
         if (Objects.nonNull(keyField)) {
             final Object id = data.getValue(keyField);
             return null == id ? null : (ID) id;

@@ -27,6 +27,10 @@ import java.util.concurrent.ConcurrentMap;
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 public interface Dpm {
+    static Dpm get(final GlossaryType type) {
+        return DpmTool.POOL_DPM.getOrDefault(type, null);
+    }
+
     /**
      * Async source
      *
@@ -46,8 +50,4 @@ public interface Dpm {
      * @return {@link ConcurrentMap}
      */
     ConcurrentMap<String, JsonArray> fetch(DictSource source, MultiMap params);
-
-    static Dpm get(final GlossaryType type) {
-        return DpmTool.POOL_DPM.getOrDefault(type, null);
-    }
 }

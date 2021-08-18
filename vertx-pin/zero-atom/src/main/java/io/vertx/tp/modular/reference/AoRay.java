@@ -1,5 +1,6 @@
 package io.vertx.tp.modular.reference;
 
+import io.vertx.core.Future;
 import io.vertx.tp.atom.modeling.element.DataTpl;
 
 /**
@@ -58,5 +59,7 @@ public interface AoRay<T> {
      *
      * @return Return the modified data record(s).
      */
-    T attach(T input);
+    T doRay(T input);
+
+    Future<T> doRayAsync(final T input);
 }
