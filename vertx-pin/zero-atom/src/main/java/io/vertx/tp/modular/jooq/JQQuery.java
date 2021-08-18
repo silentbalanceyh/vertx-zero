@@ -1,5 +1,6 @@
 package io.vertx.tp.modular.jooq;
 
+import io.vertx.core.Future;
 import io.vertx.tp.atom.modeling.data.DataEvent;
 import io.vertx.tp.modular.jooq.internal.Jq;
 import io.vertx.tp.modular.metadata.AoSentence;
@@ -31,6 +32,10 @@ class JQQuery {
         }));
     }
 
+    Future<DataEvent> queryAsync(final DataEvent events) {
+        return null;
+    }
+
     /*
      * 单条件处理，这里读取的最终数据只有一条，所以直接操作即可
      * 数据结构如：
@@ -44,12 +49,16 @@ class JQQuery {
             /* 2. 执行条件处理 */
             final SelectWhereStep query = this.context.selectFrom(Jq.toTable(table));
 
-            final Condition condition = Jq.onKey(matrix);
+            final Condition condition = Jq.inWhere(matrix);
             query.where(condition);
 
             /* 3. 执行结果 */
             return query.fetchOne();
         }));
+    }
+
+    Future<DataEvent> fetchByIdAsync(final DataEvent event) {
+        return null;
     }
 
     DataEvent fetchByIds(final DataEvent events) {
@@ -58,12 +67,16 @@ class JQQuery {
 
             /* 2. 执行条件处理 */
             final SelectWhereStep query = this.context.selectFrom(Jq.toTable(table));
-            final Condition condition = Jq.onKeys(matrixList);
+            final Condition condition = Jq.inWhere(matrixList);
             query.where(condition);
 
             /* 3. 执行结果 */
             return query.fetchArray();
         }));
+    }
+
+    Future<DataEvent> fetchByIdsAsync(final DataEvent event) {
+        return null;
     }
 
     DataEvent fetchOne(final DataEvent event) {
@@ -75,6 +88,10 @@ class JQQuery {
         }));
     }
 
+    Future<DataEvent> fetchOneAsync(final DataEvent event) {
+        return null;
+    }
+
     DataEvent fetchAll(final DataEvent event) {
         /* 1. 读取当前DataMatrix 中的数据 */
         return this.context.transactionResult(configuration -> Jq.doAll(this.getClass(), event, (tables, ingest) -> {
@@ -82,6 +99,11 @@ class JQQuery {
             final SelectWhereStep query = this.term.getSelectAll(event, tables, ingest);
             return query.fetchArray();
         }));
+    }
+
+
+    Future<DataEvent> fetchAllAsync(final DataEvent event) {
+        return null;
     }
 
     DataEvent search(final DataEvent event) {
@@ -96,4 +118,9 @@ class JQQuery {
             return (long) query.fetch().size();
         }));
     }
+
+    Future<DataEvent> searchAsync(final DataEvent event) {
+        return null;
+    }
+
 }

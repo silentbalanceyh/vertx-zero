@@ -65,7 +65,7 @@ class DQuery {
         final Record record = consumer.apply(matrix.keySet(), ingest);
 
         /* 6. 处理行数据 */
-        event.stored(ONorm.doJoin(matrix.keySet(), new Record[]{record}, tpl, projection));
+        event.stored(OSync.doJoin(matrix.keySet(), new Record[]{record}, tpl, projection));
         return event;
     }
 
@@ -89,7 +89,7 @@ class DQuery {
         final Set<String> projection = event.getProjection();
 
         final Record[] records = consumer.apply(matrix.keySet(), ingest);
-        event.stored(ONorm.doJoin(matrix.keySet(), records, tpl, projection));
+        event.stored(OSync.doJoin(matrix.keySet(), records, tpl, projection));
         if (Objects.nonNull(counter)) {
             final Long count = counter.apply(matrix.keySet(), ingest);
             event.stored(count);

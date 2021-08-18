@@ -40,7 +40,7 @@ public class Jq {
      * 自然连接
      * SELECT * FROM T1,T2
      *  */
-    public static Table<Record> natureJoin(final ConcurrentMap<String, String> aliasMap) {
+    public static Table<Record> joinNature(final ConcurrentMap<String, String> aliasMap) {
         return Meta.natureJoin(aliasMap);
     }
 
@@ -48,7 +48,7 @@ public class Jq {
      * 左连接
      * SELECT * FROM T1 LEFT JOIN T2 ON T1.x = T2.y
      */
-    public static Table<Record> leftJoin(final String leader, final ConcurrentMap<String, String> vectors,
+    public static Table<Record> joinLeft(final String leader, final ConcurrentMap<String, String> vectors,
                                          final ConcurrentMap<String, String> aliasMap) {
         return Meta.leftJoin(leader, vectors, aliasMap);
     }
@@ -59,20 +59,23 @@ public class Jq {
         IArgument.inSet(matrix, function);
     }
 
-    public static Condition onKey(final DataMatrix matrix) {
-        return onMonitor(() -> IWhere.key(matrix), "onKey");
+    public static Condition inWhere(final DataMatrix matrix) {
+        return inMonitor(() -> IWhere.key(matrix), "onKey");
     }
 
-    public static Condition onKeys(final List<DataMatrix> matrixList) {
-        return onMonitor(() -> IWhere.keys(matrixList), "onKeys");
+    public static Condition inWhere(final List<DataMatrix> matrixList) {
+        return inMonitor(() -> IWhere.keys(matrixList), "onKeys");
     }
 
-    private static Condition onMonitor(final Supplier<Condition> supplier,
+    private static Condition inMonitor(final Supplier<Condition> supplier,
                                        final String method) {
         final Condition condition = supplier.get();
         LOGGER.debug("[ Ox ] 方法：{0}，查询条件：{1}", method, condition);
         return condition;
     }
+
+    // ----------------------- Input --------------------
+    
 
     // ----------------------- Do --------------------
     // 数据库批量操作

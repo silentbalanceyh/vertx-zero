@@ -22,9 +22,9 @@ import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
 
-class ONorm {
+class OSync {
 
-    private static final Annal LOGGER = Annal.get(ONorm.class);
+    private static final Annal LOGGER = Annal.get(OSync.class);
 
     /* 执行结果处理 */
     static DataEvent doFinal(final DataEvent event) {
@@ -117,7 +117,7 @@ class ONorm {
 
     static void doInput(final String table, final DataMatrix matrix) {
         Fn.outWeb(matrix.getAttributes().isEmpty(), LOGGER,
-                _417ConditionEmptyException.class, ONorm.class, table);
+                _417ConditionEmptyException.class, OSync.class, table);
     }
 
     static void doInput(final String table, final List<DataMatrix> matrixList) {

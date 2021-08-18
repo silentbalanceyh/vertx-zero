@@ -71,7 +71,7 @@ class JoinIngest implements Ingest {
              * 直接使用自然连接
              * join 中的 priority 全部为 null 的情况，直接使用自然连接
              */
-            return Jq.natureJoin(aliasMap);
+            return Jq.joinNature(aliasMap);
         } else {
             /*
              * 否则使用左连接，使用 leader 当主表
@@ -106,7 +106,7 @@ class JoinIngest implements Ingest {
             /*
              * 列专用处理
              */
-            return Jq.leftJoin(primary, joinedCols, aliasMap);
+            return Jq.joinLeft(primary, joinedCols, aliasMap);
         }
     }
 

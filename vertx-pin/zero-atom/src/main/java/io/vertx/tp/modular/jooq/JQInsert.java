@@ -1,5 +1,6 @@
 package io.vertx.tp.modular.jooq;
 
+import io.vertx.core.Future;
 import io.vertx.tp.atom.modeling.data.DataEvent;
 import io.vertx.tp.atom.modeling.element.DataMatrix;
 import io.vertx.tp.modular.jooq.internal.Jq;
@@ -36,6 +37,10 @@ class JQInsert {
         }, Ut::isPositive));
     }
 
+    Future<DataEvent> insertAsync(final DataEvent event) {
+        return null;
+    }
+
     DataEvent insertBatch(final DataEvent event) {
         return this.context.transactionResult(configuration -> Jq.doWrites(this.getClass(), event, (table, matrixList) -> {
             /* 执行批量插入 */
@@ -43,6 +48,10 @@ class JQInsert {
             /* 执行批量 */
             return batch.execute();
         }, Ut::isPositive));
+    }
+
+    Future<DataEvent> insertBatchAsync(final DataEvent event) {
+        return null;
     }
 
     private Batch prepareBatch(final String table, final List<DataMatrix> matrices) {

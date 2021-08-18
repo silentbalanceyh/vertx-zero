@@ -99,67 +99,67 @@ public class JQEngine {
         return this.deleteT.deleteBatch(event);
     }
 
-    // COUNT
-    public DataEvent count(final DataEvent event) {
-        return this.aggrT.count(event);
-    }
     // -------------------- Async -------------------------
 
     // UPDATE
     public Future<DataEvent> updateAsync(final DataEvent event) {
-        return null;
+        return this.updateT.updateAsync(event);
     }
 
     public Future<DataEvent> updateBatchAsync(final DataEvent event) {
-        return null;
+        return this.updateT.updateBatchAsync(event);
     }
 
     // INSERT
     public Future<DataEvent> insertAsync(final DataEvent event) {
-        return null;
+        return this.insertT.insertAsync(event);
     }
 
     public Future<DataEvent> insertBatchAsync(final DataEvent event) {
-        return null;
+        return this.insertT.insertBatchAsync(event);
     }
 
     // SELECT
     public Future<DataEvent> fetchByIdsAsync(final DataEvent event) {
-        return null;
+        return this.queryT.fetchByIdsAsync(event);
     }
 
     public Future<DataEvent> fetchByIdAsync(final DataEvent event) {
-        return null;
+        return this.queryT.fetchByIdAsync(event);
     }
 
     public Future<DataEvent> fetchOneAsync(final DataEvent event) {
-        return null;
+        return this.queryT.fetchOneAsync(event);
     }
 
     public Future<DataEvent> fetchAllAsync(final DataEvent event) {
-        return null;
+        return this.queryT.fetchAllAsync(event);
     }
 
     // SEARCH
     public Future<DataEvent> searchAsync(final DataEvent event) {
-        return null;
+        return this.queryT.searchAsync(event);
     }
 
     public Future<DataEvent> queryAsync(final DataEvent event) {
-        return null;
+        return this.queryT.queryAsync(event);
     }
 
     // DELETE
     public Future<DataEvent> deleteAsync(final DataEvent event) {
-        return null;
+        return this.deleteT.deleteAsync(event);
     }
 
     public Future<DataEvent> deleteBatchAsync(final DataEvent event) {
-        return null;
+        return this.deleteT.deleteBatchAsync(event);
     }
 
     // COUNT
     public Future<DataEvent> countAsync(final DataEvent event) {
-        return null;
+        return this.aggrT.countAsync(event);
+    }
+
+    public DataEvent count(final DataEvent event) {
+        return this.aggrT.count(event);
     }
 }

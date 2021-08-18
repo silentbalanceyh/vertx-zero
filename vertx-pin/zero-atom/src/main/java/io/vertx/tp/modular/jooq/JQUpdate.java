@@ -1,5 +1,6 @@
 package io.vertx.tp.modular.jooq;
 
+import io.vertx.core.Future;
 import io.vertx.tp.atom.modeling.data.DataEvent;
 import io.vertx.tp.atom.modeling.element.DataMatrix;
 import io.vertx.tp.modular.jooq.internal.Jq;
@@ -29,12 +30,20 @@ class JQUpdate {
         }, Ut::isPositive));
     }
 
+    Future<DataEvent> updateAsync(final DataEvent event) {
+        return null;
+    }
+
     DataEvent updateBatch(final DataEvent event) {
         return this.context.transactionResult(configuration -> Jq.doWrites(this.getClass(), event, (table, matrixList) -> {
             /* 批量更新 */
             final Batch batch = this.prepareBatch(table, matrixList);
             return batch.execute();
         }));
+    }
+
+    Future<DataEvent> updateBatchAsync(final DataEvent event) {
+        return null;
     }
 
     private Batch prepareBatch(final String table, final List<DataMatrix> matrices) {
@@ -48,7 +57,7 @@ class JQUpdate {
 
         Jq.inArgument(matrix, steps::set);
 
-        final Condition condition = Jq.onKey(matrix);
+        final Condition condition = Jq.inWhere(matrix);
         steps.where(condition);
 
         return steps;

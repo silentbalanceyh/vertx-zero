@@ -34,14 +34,14 @@ class DWriter {
             final Predicate<Integer> predicate
     ) {
         /* 读取所有的数据行（单表也按照多表处理） */
-        ONorm.doExecute(clazz, event, (rows) -> rows.forEach(row -> row.matrixData().forEach((table, matrix) -> {
+        OSync.doExecute(clazz, event, (rows) -> rows.forEach(row -> row.matrixData().forEach((table, matrix) -> {
 
-            ONorm.doInput(table, matrix);
+            OSync.doInput(table, matrix);
             /* 执行结果（单表） */
             final int impacts = actor.apply(table, matrix);
 
             /* 执行结果（检查）*/
-            ONorm.doImpact(impacts, predicate,
+            OSync.doImpact(impacts, predicate,
 
                     /* 检查通过的结果 */
                     () -> row.success(table),
@@ -50,7 +50,7 @@ class DWriter {
                     () -> new _417DataUnexpectException(clazz, table, String.valueOf(impacts)));
         })));
         /* 执行最终返回 */
-        return ONorm.doFinal(event);
+        return OSync.doFinal(event);
     }
 
     static DataEvent doWrites(
@@ -66,7 +66,7 @@ class DWriter {
             /* 如果为空则不检查结果，如果期待结果则需要四参 */
             final Predicate<int[]> predicate
     ) {
-        ONorm.doExecute(clazz, event, (rows) -> {
+        OSync.doExecute(clazz, event, (rows) -> {
             /* 按表转换，转换成 Table -> List<DataMatrix> 的结构 */
             final ConcurrentMap<String, List<DataMatrix>> batch = IArgument.inBatch(rows);
 
@@ -76,13 +76,13 @@ class DWriter {
                 /* 执行单表记录 */
                 final List<DataMatrix> values = batch.get(table);
 
-                ONorm.doInput(table, values);
+                OSync.doInput(table, values);
                 final int[] expected = actor.apply(table, values);
 
                 /* 针对单张表的检查 */
                 final JsonArray expectedArray = new JsonArray();
                 Arrays.stream(expected).forEach(expectedArray::add);
-                ONorm.doImpact(expected, predicate,
+                OSync.doImpact(expected, predicate,
 
                         /* 设置每一个结果 */
                         () -> rows.forEach(row -> row.success(table)),
@@ -91,6 +91,6 @@ class DWriter {
                         () -> new _417DataUnexpectException(clazz, table, expectedArray.encode()));
             });
         });
-        return ONorm.doFinal(event);
+        return OSync.doFinal(event);
     }
 }
