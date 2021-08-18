@@ -11,9 +11,11 @@ import org.jooq.Table;
 
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.CompletionStage;
 import java.util.concurrent.ConcurrentMap;
 import java.util.function.BiFunction;
 import java.util.function.Consumer;
+import java.util.function.Function;
 import java.util.function.Supplier;
 
 /**
@@ -79,8 +81,11 @@ public class Jq {
     }
 
     // ----------------------- Output --------------------
-    public static DataEvent doExec(final Class<?> clazz, final DataEvent event, final Consumer<List<DataRow>> consumer) {
-        OSync.doExecute(clazz, event, consumer);
-        return OSync.doFinal(event);
+    public static DataEvent run(final Class<?> clazz, final DataEvent event, final Consumer<List<DataRow>> consumer) {
+        return OFlow.doSync(clazz, event, consumer);
+    }
+
+    public static <R> CompletionStage<R> runAsync(final Class<?> clazz, final DataEvent event, final Function<List<DataRow>, CompletionStage<R>> executor) {
+        return OFlow.doAsync(clazz, event, executor);
     }
 }

@@ -34,6 +34,7 @@ import io.vertx.up.util.Ut;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.*;
+import java.util.concurrent.CompletionStage;
 import java.util.concurrent.ConcurrentMap;
 import java.util.function.*;
 
@@ -258,6 +259,10 @@ public final class Ux {
 
     public static <T> Future<T> future(final T entity) {
         return To.future(entity);
+    }
+
+    public static <T> Future<T> future(final CompletionStage<T> state) {
+        return Async.future(state);
     }
 
     public static <T> Future<T> future(final T input, final List<Function<T, Future<T>>> functions) {

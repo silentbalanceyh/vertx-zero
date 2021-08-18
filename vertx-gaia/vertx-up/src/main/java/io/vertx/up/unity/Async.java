@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.CompletionStage;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
@@ -29,6 +30,18 @@ class Async {
             return Ux.future(nil);
         });
         return Ux.future(input);
+    }
+
+    static <T> Future<T> future(final CompletionStage<T> state) {
+        final Promise<T> promise = Promise.promise();
+        state.whenComplete((result, error) -> {
+            if (Objects.isNull(error)) {
+                promise.complete(result);
+            } else {
+                promise.fail(error);
+            }
+        });
+        return promise.future();
     }
 
     @SuppressWarnings("all")
@@ -146,7 +159,9 @@ class Async {
 
     static <T> Function<Throwable, Future<T>> toErrorFuture(final Supplier<T> input) {
         return ex -> {
-            if (Objects.nonNull(ex)) ex.printStackTrace();
+            if (Objects.nonNull(ex)) {
+                ex.printStackTrace();
+            }
             return Future.succeededFuture(input.get());
         };
     }
