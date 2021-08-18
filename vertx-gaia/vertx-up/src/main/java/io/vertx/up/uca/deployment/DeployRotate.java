@@ -1,10 +1,12 @@
 package io.vertx.up.uca.deployment;
 
 import io.vertx.core.DeploymentOptions;
+import io.vertx.core.eventbus.DeliveryOptions;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.annotations.Agent;
 import io.vertx.up.annotations.Worker;
 import io.vertx.up.atom.agent.Arrange;
+import io.vertx.up.eon.KName;
 import io.vertx.up.eon.em.DeployMode;
 import io.vertx.up.log.Annal;
 import io.vertx.up.uca.yaml.Node;
@@ -12,6 +14,7 @@ import io.vertx.up.uca.yaml.ZeroUniform;
 import io.vertx.up.util.Ut;
 
 import java.lang.annotation.Annotation;
+import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
@@ -22,18 +25,18 @@ import java.util.concurrent.ConcurrentMap;
  */
 public class DeployRotate implements Rotate {
 
-    private static final String KEY_DEPLOYMENT = "deployment";
     private static final Annal LOGGER = Annal.get(DeployRotate.class);
     private static final ConcurrentMap<Class<?>, JsonObject> OPTIONS
             = new ConcurrentHashMap<>();
     private static final Node<JsonObject> VISITOR = Ut.singleton(ZeroUniform.class);
+    private static final JsonObject delivery = new JsonObject();
 
     static {
         /* OPTIONS INIT */
         final JsonObject options = VISITOR.read();
         /* Deployment Options */
-        if (options.containsKey(KEY_DEPLOYMENT)) {
-            final JsonObject deployOptions = options.getJsonObject(KEY_DEPLOYMENT);
+        if (options.containsKey(KName.DEPLOYMENT)) {
+            final JsonObject deployOptions = options.getJsonObject(KName.DEPLOYMENT);
             /* Arrange */
             final Arrange arrange = Ut.deserialize(deployOptions, Arrange.class);
             /* DeployMode */
@@ -42,6 +45,9 @@ public class DeployRotate implements Rotate {
                 LOGGER.info(Info.INFO_ROTATE, mode);
                 /* Options initialized */
                 initOptions(arrange.getOptions());
+            }
+            if (Objects.nonNull(arrange.getDelivery())) {
+                delivery.mergeIn(arrange.getDelivery());
             }
         }
     }
@@ -73,6 +79,13 @@ public class DeployRotate implements Rotate {
         options.setWorker(false);
 
         LOGGER.info(Info.VTC_OPT, options.getInstances(), options.getIsolationGroup(), options.isHa(), options.toJson());
+        return options;
+    }
+
+    @Override
+    public DeliveryOptions spinDelivery() {
+        final DeliveryOptions options = new DeliveryOptions();
+        options.setSendTimeout(delivery.getLong("timeout", options.getSendTimeout()));
         return options;
     }
 

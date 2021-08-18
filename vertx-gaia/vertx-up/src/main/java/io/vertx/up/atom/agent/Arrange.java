@@ -16,6 +16,10 @@ public class Arrange implements Serializable {
     @JsonSerialize(using = JsonObjectSerializer.class)
     @JsonDeserialize(using = JsonObjectDeserializer.class)
     private transient JsonObject options;
+    /* Options */
+    @JsonSerialize(using = JsonObjectSerializer.class)
+    @JsonDeserialize(using = JsonObjectDeserializer.class)
+    private transient JsonObject delivery;
 
     public DeployMode getMode() {
         return this.mode;
@@ -33,11 +37,20 @@ public class Arrange implements Serializable {
         this.options = options;
     }
 
+    public JsonObject getDelivery() {
+        return this.delivery;
+    }
+
+    public void setDelivery(final JsonObject delivery) {
+        this.delivery = delivery;
+    }
+
     @Override
     public String toString() {
         return "Arrange{" +
                 "mode=" + this.mode +
                 ", options=" + this.options +
+                ", delivery=" + this.delivery +
                 '}';
     }
 }

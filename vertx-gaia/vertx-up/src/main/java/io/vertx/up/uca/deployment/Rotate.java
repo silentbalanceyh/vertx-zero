@@ -1,6 +1,7 @@
 package io.vertx.up.uca.deployment;
 
 import io.vertx.core.DeploymentOptions;
+import io.vertx.core.eventbus.DeliveryOptions;
 
 /*
  * Deployment options for agent and worker
@@ -17,4 +18,9 @@ public interface Rotate {
      * Get worker options
      */
     DeploymentOptions spinWorker(Class<?> clazz);
+
+    /*
+     * Delivery options
+     */
+    DeliveryOptions spinDelivery();
 }
