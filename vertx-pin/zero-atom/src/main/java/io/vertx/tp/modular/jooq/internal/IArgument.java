@@ -16,13 +16,13 @@ import java.util.function.BiFunction;
  * 条件工具类
  */
 @SuppressWarnings("all")
-class Argument {
+class IArgument {
 
     /**
      * 根据 DataMatrix中的信息设置参数
      */
-    static <T> void set(final DataMatrix matrix,
-                        final BiFunction<Field, Object, T> function) {
+    static <T> void inSet(final DataMatrix matrix,
+                          final BiFunction<Field, Object, T> function) {
         matrix.getAttributes().forEach(field -> {
             final Field column = Meta.field(field, matrix);
             final Object value = matrix.getValue(field);
@@ -65,7 +65,7 @@ class Argument {
     /**
      * 一转多个
      */
-    static ConcurrentMap<String, List<DataMatrix>> batch(
+    static ConcurrentMap<String, List<DataMatrix>> inBatch(
             final List<DataRow> rows
     ) {
         /* 按表转换，批量专用 */

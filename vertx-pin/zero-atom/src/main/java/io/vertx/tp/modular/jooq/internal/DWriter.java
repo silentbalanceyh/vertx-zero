@@ -11,7 +11,7 @@ import java.util.concurrent.ConcurrentMap;
 import java.util.function.BiFunction;
 import java.util.function.Predicate;
 
-class Writer {
+class DWriter {
     /**
      * 满足条件的时候就执行
      *
@@ -34,14 +34,14 @@ class Writer {
             final Predicate<Integer> predicate
     ) {
         /* 读取所有的数据行（单表也按照多表处理） */
-        Data.doExecute(clazz, event, (rows) -> rows.forEach(row -> row.matrixData().forEach((table, matrix) -> {
+        ONorm.doExecute(clazz, event, (rows) -> rows.forEach(row -> row.matrixData().forEach((table, matrix) -> {
 
-            Data.doInput(table, matrix);
+            ONorm.doInput(table, matrix);
             /* 执行结果（单表） */
             final int impacts = actor.apply(table, matrix);
 
             /* 执行结果（检查）*/
-            Data.doImpact(impacts, predicate,
+            ONorm.doImpact(impacts, predicate,
 
                     /* 检查通过的结果 */
                     () -> row.success(table),
@@ -50,7 +50,7 @@ class Writer {
                     () -> new _417DataUnexpectException(clazz, table, String.valueOf(impacts)));
         })));
         /* 执行最终返回 */
-        return Data.doFinal(event);
+        return ONorm.doFinal(event);
     }
 
     static DataEvent doWrites(
@@ -66,9 +66,9 @@ class Writer {
             /* 如果为空则不检查结果，如果期待结果则需要四参 */
             final Predicate<int[]> predicate
     ) {
-        Data.doExecute(clazz, event, (rows) -> {
+        ONorm.doExecute(clazz, event, (rows) -> {
             /* 按表转换，转换成 Table -> List<DataMatrix> 的结构 */
-            final ConcurrentMap<String, List<DataMatrix>> batch = Argument.batch(rows);
+            final ConcurrentMap<String, List<DataMatrix>> batch = IArgument.inBatch(rows);
 
             /* 生成按表批量 */
             batch.keySet().forEach(table -> {
@@ -76,13 +76,13 @@ class Writer {
                 /* 执行单表记录 */
                 final List<DataMatrix> values = batch.get(table);
 
-                Data.doInput(table, values);
+                ONorm.doInput(table, values);
                 final int[] expected = actor.apply(table, values);
 
                 /* 针对单张表的检查 */
                 final JsonArray expectedArray = new JsonArray();
                 Arrays.stream(expected).forEach(expectedArray::add);
-                Data.doImpact(expected, predicate,
+                ONorm.doImpact(expected, predicate,
 
                         /* 设置每一个结果 */
                         () -> rows.forEach(row -> row.success(table)),
@@ -91,6 +91,6 @@ class Writer {
                         () -> new _417DataUnexpectException(clazz, table, expectedArray.encode()));
             });
         });
-        return Data.doFinal(event);
+        return ONorm.doFinal(event);
     }
 }

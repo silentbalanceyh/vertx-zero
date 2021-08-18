@@ -24,7 +24,7 @@ class JQQuery {
 
     DataEvent query(final DataEvent events) {
         /* 1. 读取当前 DataMatrix 中的数据 */
-        return this.context.transactionResult(configuration -> Jq.doQueryAll(this.getClass(), events, (tables, ingest) -> {
+        return this.context.transactionResult(configuration -> Jq.doAll(this.getClass(), events, (tables, ingest) -> {
             /* 查询条件一致 */
             final SelectWhereStep query = this.term.getSelectSample(events, tables, ingest);
             return query.fetchArray();
@@ -77,7 +77,7 @@ class JQQuery {
 
     DataEvent fetchAll(final DataEvent event) {
         /* 1. 读取当前DataMatrix 中的数据 */
-        return this.context.transactionResult(configuration -> Jq.doQueryAll(this.getClass(), event, (tables, ingest) -> {
+        return this.context.transactionResult(configuration -> Jq.doAll(this.getClass(), event, (tables, ingest) -> {
             /* 查询条件一致 */
             final SelectWhereStep query = this.term.getSelectAll(event, tables, ingest);
             return query.fetchArray();

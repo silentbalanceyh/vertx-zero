@@ -29,22 +29,22 @@ public class Uniqueor extends AbstractUtil<Uniqueor> {
     public <ID> Record fetchById(final ID id) {
         Ao.infoSQL(this.getLogger(), "执行方法：Uniqueor.fetchById, {0}", id);
 
-        return Jq.outRecord(this.idInput(id), this.jooq::fetchById);
+        return Jq.outR(this.idInput(id), this.jooq::fetchById);
     }
 
     public Record fetchOne(final Criteria criteria) {
         Ao.infoSQL(this.getLogger(), "执行方法：Uniqueor.fetchOne");
-        return Jq.outRecord(this.irCond(criteria), this.jooq::fetchOne);
+        return Jq.outR(this.irCond(criteria), this.jooq::fetchOne);
     }
 
     // ----------------------- Async ----------------------
     public <ID> Future<Record> fetchByIdAsync(final ID id) {
         Ao.infoSQL(this.getLogger(), "执行方法：Uniqueor.fetchByIdAsync, {0}", id);
-        return Jq.outRecordAsync(this.idInput(id), this.jooq::fetchById);
+        return Jq.outRAsync(this.idInput(id), this.jooq::fetchById);
     }
 
     public Future<Record> fetchOneAsync(final Criteria criteria) {
         Ao.infoSQL(this.getLogger(), "执行方法：Uniqueor.fetchOneAsync");
-        return Jq.outRecordAsync(this.irCond(criteria), this.jooq::fetchOne);
+        return Jq.outRAsync(this.irCond(criteria), this.jooq::fetchOne);
     }
 }

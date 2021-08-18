@@ -33,25 +33,25 @@ public class Searchor extends AbstractUtil<Searchor> {
     public JsonObject search(final JsonObject qr) {
         final JsonObject criteria = Ut.sureJObject(qr);
         Ao.infoSQL(this.getLogger(), Ut.notNil(qr), "执行方法：Searcher.search: {0}", criteria.encode());
-        return Jq.outPagination(this.irQr(Qr.create(criteria)), this.jooq::search);
+        return Jq.outP(this.irQr(Qr.create(criteria)), this.jooq::search);
     }
 
     public Record[] query(final JsonObject qr) {
         final JsonObject criteria = Ut.sureJObject(qr);
         Ao.infoSQL(this.getLogger(), Ut.notNil(qr), "执行方法：Searcher.query: {0}", criteria.encode());
-        return Jq.outRecords(this.irCond(Criteria.create(criteria)), this.jooq::query);
+        return Jq.outRs(this.irCond(Criteria.create(criteria)), this.jooq::query);
     }
 
     // ----------------------- Async ----------------------
     public Future<JsonObject> searchAsync(final JsonObject qr) {
         final JsonObject criteria = Ut.sureJObject(qr);
         Ao.infoSQL(this.getLogger(), Ut.notNil(qr), "执行方法：Searcher.searchAsync: {0}", criteria.encode());
-        return Jq.outPaginationAsync(this.irQr(Qr.create(criteria)), this.jooq::search);
+        return Jq.outPAsync(this.irQr(Qr.create(criteria)), this.jooq::search);
     }
 
     public Future<Record[]> queryAsync(final JsonObject qr) {
         final JsonObject criteria = Ut.sureJObject(qr);
         Ao.infoSQL(this.getLogger(), Ut.notNil(qr), "执行方法：Searcher.queryAsync: {0}", criteria.encode());
-        return Jq.outRecordsAsync(this.irCond(Criteria.create(criteria)), this.jooq::query);
+        return Jq.outRsAsync(this.irCond(Criteria.create(criteria)), this.jooq::query);
     }
 }

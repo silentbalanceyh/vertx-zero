@@ -7,7 +7,7 @@ import io.vertx.tp.atom.modeling.data.DataEvent;
 import java.util.function.Function;
 
 @SuppressWarnings("unchecked")
-class Event {
+class OEvent {
 
     static <T> T bool(
             final DataEvent event,

@@ -9,29 +9,29 @@ import org.jooq.Field;
 import java.util.Iterator;
 import java.util.List;
 
-class Where {
+class IWhere {
     static Condition unique(final DataMatrix matrix) {
         final Iterator<String> it = matrix.getAttributes().iterator();
-        Condition condition = Where.Cond.eq(it.next(), matrix);
+        Condition condition = IWhere.Cond.eq(it.next(), matrix);
         while (it.hasNext()) {
-            condition = condition.and(Where.Cond.eq(it.next(), matrix));
+            condition = condition.and(IWhere.Cond.eq(it.next(), matrix));
         }
         return condition;
     }
 
     static Condition key(final DataMatrix matrix) {
         final Iterator<String> it = matrix.getKeys().iterator();
-        Fn.outWeb(!it.hasNext(), _417ConditionWhereException.class, Where.class);
-        Condition condition = Where.Cond.eq(it.next(), matrix);
+        Fn.outWeb(!it.hasNext(), _417ConditionWhereException.class, IWhere.class);
+        Condition condition = IWhere.Cond.eq(it.next(), matrix);
         while (it.hasNext()) {
-            condition = condition.and(Where.Cond.eq(it.next(), matrix));
+            condition = condition.and(IWhere.Cond.eq(it.next(), matrix));
         }
         return condition;
     }
 
     static Condition keys(final List<DataMatrix> matrixList) {
         final Iterator<DataMatrix> it = matrixList.iterator();
-        Fn.outWeb(!it.hasNext(), _417ConditionWhereException.class, Where.class);
+        Fn.outWeb(!it.hasNext(), _417ConditionWhereException.class, IWhere.class);
         Condition condition = key(it.next());
         while (it.hasNext()) {
             condition = condition.or(key(it.next()));

@@ -56,17 +56,18 @@ public class Jq {
         return Meta.leftJoin(leader, vectors, aliasMap);
     }
 
+    // ----------------------- Input --------------------
     // 参数设置：in前缀
     public static <T> void inArgument(final DataMatrix matrix, final BiFunction<Field, Object, T> function) {
-        Argument.set(matrix, function);
+        IArgument.inSet(matrix, function);
     }
 
     public static Condition onKey(final DataMatrix matrix) {
-        return onMonitor(() -> Where.key(matrix), "onKey");
+        return onMonitor(() -> IWhere.key(matrix), "onKey");
     }
 
     public static Condition onKeys(final List<DataMatrix> matrixList) {
-        return onMonitor(() -> Where.keys(matrixList), "onKeys");
+        return onMonitor(() -> IWhere.keys(matrixList), "onKeys");
     }
 
     private static Condition onMonitor(final Supplier<Condition> supplier,
@@ -75,79 +76,80 @@ public class Jq {
         LOGGER.debug("[ Ox ] 方法：{0}，查询条件：{1}", method, condition);
         return condition;
     }
-    /* 检查专用 */
 
+    // ----------------------- Do --------------------
     // 数据库批量操作
     public static DataEvent doWrite(final Class<?> clazz, final DataEvent event, final BiFunction<String, DataMatrix, Integer> actor) {
-        return Writer.doWrite(clazz, event, actor, null);
+        return DWriter.doWrite(clazz, event, actor, null);
     }
 
     public static DataEvent doWrite(final Class<?> clazz, final DataEvent event, final BiFunction<String, DataMatrix, Integer> actor, final Predicate<Integer> predicate) {
-        return Writer.doWrite(clazz, event, actor, predicate);
+        return DWriter.doWrite(clazz, event, actor, predicate);
     }
 
     public static DataEvent doWrites(final Class<?> clazz, final DataEvent event, final BiFunction<String, List<DataMatrix>, int[]> actor) {
-        return Writer.doWrites(clazz, event, actor, null);
+        return DWriter.doWrites(clazz, event, actor, null);
     }
 
     public static DataEvent doWrites(final Class<?> clazz, final DataEvent event, final BiFunction<String, List<DataMatrix>, int[]> actor, final Predicate<int[]> predicate) {
-        return Writer.doWrites(clazz, event, actor, predicate);
+        return DWriter.doWrites(clazz, event, actor, predicate);
     }
 
     // 数据库读操作
     public static DataEvent doRead(final Class<?> clazz, final DataEvent event, final BiFunction<String, DataMatrix, Record> actor) {
-        return Reader.doRead(clazz, event, actor);
+        return DReader.doRead(clazz, event, actor);
     }
 
     public static DataEvent doReads(final Class<?> clazz, final DataEvent event, final BiFunction<String, List<DataMatrix>, Record[]> actor) {
-        return Reader.doReads(clazz, event, actor);
+        return DReader.doReads(clazz, event, actor);
     }
 
     public static DataEvent doCount(final Class<?> clazz, final DataEvent event, final BiFunction<Set<String>, Ingest, Long> actor) {
-        return Query.doCount(clazz, event, actor);
+        return DQuery.doCount(clazz, event, actor);
     }
 
     public static DataEvent doQuery(final Class<?> clazz, final DataEvent event, final BiFunction<Set<String>, Ingest, Record> actor) {
-        return Query.doQuery(clazz, event, actor);
+        return DQuery.doQuery(clazz, event, actor);
     }
 
     public static DataEvent doQuery(final Class<?> clazz, final DataEvent event, final BiFunction<Set<String>, Ingest, Record[]> actor, final BiFunction<Set<String>, Ingest, Long> counter) {
-        return Query.doQuery(clazz, event, actor, counter);
+        return DQuery.doQuery(clazz, event, actor, counter);
     }
 
-    public static DataEvent doQueryAll(final Class<?> clazz, final DataEvent event, final BiFunction<Set<String>, Ingest, Record[]> actor) {
-        return Query.doQuery(clazz, event, actor, null);
+    public static DataEvent doAll(final Class<?> clazz, final DataEvent event, final BiFunction<Set<String>, Ingest, Record[]> actor) {
+        return DQuery.doQuery(clazz, event, actor, null);
     }
 
-    public static Boolean outBoolean(final DataEvent event, final Function<DataEvent, DataEvent> executor) {
-        return Event.bool(event, executor);
+    // ----------------------- Output --------------------
+    public static Boolean outB(final DataEvent event, final Function<DataEvent, DataEvent> executor) {
+        return OEvent.bool(event, executor);
     }
 
-    public static Long outCount(final DataEvent event, final Function<DataEvent, DataEvent> executor) {
-        return Event.count(event, executor);
+    public static Long outC(final DataEvent event, final Function<DataEvent, DataEvent> executor) {
+        return OEvent.count(event, executor);
     }
 
-    public static io.vertx.up.commune.Record outRecord(final DataEvent event, final Function<DataEvent, DataEvent> executor) {
-        return Event.record(event, executor, false);
+    public static io.vertx.up.commune.Record outR(final DataEvent event, final Function<DataEvent, DataEvent> executor) {
+        return OEvent.record(event, executor, false);
     }
 
-    public static io.vertx.up.commune.Record[] outRecords(final DataEvent event, final Function<DataEvent, DataEvent> executor) {
-        return Event.record(event, executor, true);
+    public static io.vertx.up.commune.Record[] outRs(final DataEvent event, final Function<DataEvent, DataEvent> executor) {
+        return OEvent.record(event, executor, true);
     }
 
-    public static JsonObject outPagination(final DataEvent event, final Function<DataEvent, DataEvent> executor) {
-        return Event.pagination(event, executor);
+    public static JsonObject outP(final DataEvent event, final Function<DataEvent, DataEvent> executor) {
+        return OEvent.pagination(event, executor);
     }
 
-    public static Future<io.vertx.up.commune.Record> outRecordAsync(final DataEvent event, final Function<DataEvent, DataEvent> executor) {
-        return Event.recordAsync(event, executor, false);
+    public static Future<io.vertx.up.commune.Record> outRAsync(final DataEvent event, final Function<DataEvent, DataEvent> executor) {
+        return OEvent.recordAsync(event, executor, false);
     }
 
-    public static Future<io.vertx.up.commune.Record[]> outRecordsAsync(final DataEvent event, final Function<DataEvent, DataEvent> executor) {
-        return Event.recordAsync(event, executor, true);
+    public static Future<io.vertx.up.commune.Record[]> outRsAsync(final DataEvent event, final Function<DataEvent, DataEvent> executor) {
+        return OEvent.recordAsync(event, executor, true);
     }
 
-    public static Future<JsonObject> outPaginationAsync(final DataEvent event, final Function<DataEvent, DataEvent> executor) {
-        return Event.paginationAsync(event, executor);
+    public static Future<JsonObject> outPAsync(final DataEvent event, final Function<DataEvent, DataEvent> executor) {
+        return OEvent.paginationAsync(event, executor);
     }
 }

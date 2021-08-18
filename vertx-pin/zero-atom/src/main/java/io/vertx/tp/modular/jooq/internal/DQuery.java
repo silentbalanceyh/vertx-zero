@@ -20,7 +20,7 @@ import java.util.function.BiFunction;
 /*
  * 查询专用，解析查询树
  */
-class Query {
+class DQuery {
 
     static DataEvent doCount(
             /* 当前操作类 */
@@ -65,7 +65,7 @@ class Query {
         final Record record = consumer.apply(matrix.keySet(), ingest);
 
         /* 6. 处理行数据 */
-        event.stored(Data.doJoin(matrix.keySet(), new Record[]{record}, tpl, projection));
+        event.stored(ONorm.doJoin(matrix.keySet(), new Record[]{record}, tpl, projection));
         return event;
     }
 
@@ -89,7 +89,7 @@ class Query {
         final Set<String> projection = event.getProjection();
 
         final Record[] records = consumer.apply(matrix.keySet(), ingest);
-        event.stored(Data.doJoin(matrix.keySet(), records, tpl, projection));
+        event.stored(ONorm.doJoin(matrix.keySet(), records, tpl, projection));
         if (Objects.nonNull(counter)) {
             final Long count = counter.apply(matrix.keySet(), ingest);
             event.stored(count);
@@ -104,7 +104,7 @@ class Query {
         final Ingest ingest = Ingest.create(type);
         final DataAtom atomRef = event.getTpl().atom();
         /* 3. 生成 Condition */
-        Ao.infoUca(Query.class, "查询解析器：{0}，操作模型：{1}",
+        Ao.infoUca(DQuery.class, "查询解析器：{0}，操作模型：{1}",
                 null == ingest ? null : ingest.getClass().getName(), atomRef.identifier());
         return ingest;
     }

@@ -24,23 +24,23 @@ public class Listor extends AbstractUtil<Listor> {
     @SuppressWarnings("unchecked")
     public <ID> Record[] fetchByIds(final ID... ids) {
         Ao.infoSQL(this.getLogger(), "执行方法：Listor.fetchByIds");
-        return Jq.outRecords(this.idInputs(ids), this.jooq::fetchByIds);
+        return Jq.outRs(this.idInputs(ids), this.jooq::fetchByIds);
     }
 
     public Record[] fetchAll() {
         Ao.infoSQL(this.getLogger(), "执行方法：Listor.fetchAll");
-        return Jq.outRecords(this.events(), this.jooq::fetchAll);
+        return Jq.outRs(this.events(), this.jooq::fetchAll);
     }
 
     // ----------------------- Async ----------------------
     @SafeVarargs
     public final <ID> Future<Record[]> fetchByIdsAsync(final ID... ids) {
         Ao.infoSQL(this.getLogger(), "执行方法：Listor.fetchByIdsAsync");
-        return Jq.outRecordsAsync(this.idInputs(ids), this.jooq::fetchByIds);
+        return Jq.outRsAsync(this.idInputs(ids), this.jooq::fetchByIds);
     }
 
     public Future<Record[]> fetchAllAsync() {
         Ao.infoSQL(this.getLogger(), "执行方法：Listor.fetchAllAsync");
-        return Jq.outRecordsAsync(this.events(), this.jooq::fetchAll);
+        return Jq.outRsAsync(this.events(), this.jooq::fetchAll);
     }
 }
