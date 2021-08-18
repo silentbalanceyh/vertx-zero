@@ -29,7 +29,7 @@ abstract class AbstractJQCrud {
         this.context = context;
     }
 
-    <R> DataEvent write(final DataEvent event, final BiFunction<String, DataMatrix, R> actorFn, final Predicate<R> testFn) {
+    protected <R> DataEvent write(final DataEvent event, final BiFunction<String, DataMatrix, R> actorFn, final Predicate<R> testFn) {
         /* 读取所有的数据行（单表也按照多表处理） */
         return this.context.transactionResult(configuration -> Jq.doExec(this.getClass(), event,
                 (rows) -> rows.forEach(row -> row.matrixData().forEach((table, matrix) -> {
@@ -45,7 +45,7 @@ abstract class AbstractJQCrud {
         );
     }
 
-    <R> DataEvent read(final DataEvent event, final BiFunction<String, DataMatrix, Record> actorFn) {
+    protected <R> DataEvent read(final DataEvent event, final BiFunction<String, DataMatrix, Record> actorFn) {
         return this.context.transactionResult(configuration -> Jq.doExec(this.getClass(), event,
                 (rows) -> rows.forEach(row -> row.matrixData().forEach((table, matrix) -> {
                     // 输入检查
@@ -58,7 +58,7 @@ abstract class AbstractJQCrud {
         );
     }
 
-    <R> DataEvent readBatch(final DataEvent event, final BiFunction<String, List<DataMatrix>, Record[]> actorFn) {
+    protected <R> DataEvent readBatch(final DataEvent event, final BiFunction<String, List<DataMatrix>, Record[]> actorFn) {
         return this.context.transactionResult(configuration -> Jq.doExec(this.getClass(), event,
                 /* 按表转换，转换成 Table -> List<DataMatrix> 的结构 */
                 (rows) -> Jq.argBatch(rows).forEach((table, values) -> {
@@ -72,7 +72,7 @@ abstract class AbstractJQCrud {
         );
     }
 
-    <R> DataEvent writeBatch(final DataEvent event, final BiFunction<String, List<DataMatrix>, R[]> actorFn, final Predicate<R[]> testFn) {
+    protected <R> DataEvent writeBatch(final DataEvent event, final BiFunction<String, List<DataMatrix>, R[]> actorFn, final Predicate<R[]> testFn) {
         return this.context.transactionResult(configuration -> Jq.doExec(this.getClass(), event,
                 /* 按表转换，转换成 Table -> List<DataMatrix> 的结构 */
                 (rows) -> Jq.argBatch(rows).forEach((table, values) -> {
@@ -89,6 +89,7 @@ abstract class AbstractJQCrud {
         );
     }
 
+    //  ---------------- Private ------------------
     private void ensure(final String table, final DataMatrix matrix) {
         Fn.outWeb(matrix.getAttributes().isEmpty(), logger(), _417ConditionEmptyException.class, getClass(), table);
     }
@@ -125,7 +126,6 @@ abstract class AbstractJQCrud {
             }
         }
     }
-
 
     private Annal logger() {
         return Annal.get(this.getClass());

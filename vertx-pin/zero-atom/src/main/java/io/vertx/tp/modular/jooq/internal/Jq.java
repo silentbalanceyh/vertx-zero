@@ -3,7 +3,6 @@ package io.vertx.tp.modular.jooq.internal;
 import io.vertx.tp.atom.modeling.data.DataEvent;
 import io.vertx.tp.atom.modeling.element.DataMatrix;
 import io.vertx.tp.atom.modeling.element.DataRow;
-import io.vertx.tp.modular.query.Ingest;
 import io.vertx.up.log.Annal;
 import org.jooq.Condition;
 import org.jooq.Field;
@@ -83,21 +82,5 @@ public class Jq {
     public static DataEvent doExec(final Class<?> clazz, final DataEvent event, final Consumer<List<DataRow>> consumer) {
         OSync.doExecute(clazz, event, consumer);
         return OSync.doFinal(event);
-    }
-
-    public static DataEvent doCount(final Class<?> clazz, final DataEvent event, final BiFunction<Set<String>, Ingest, Long> actor) {
-        return DQuery.doCount(clazz, event, actor);
-    }
-
-    public static DataEvent doQuery(final Class<?> clazz, final DataEvent event, final BiFunction<Set<String>, Ingest, Record> actor) {
-        return DQuery.doQuery(clazz, event, actor);
-    }
-
-    public static DataEvent doQuery(final Class<?> clazz, final DataEvent event, final BiFunction<Set<String>, Ingest, Record[]> actor, final BiFunction<Set<String>, Ingest, Long> counter) {
-        return DQuery.doQuery(clazz, event, actor, counter);
-    }
-
-    public static DataEvent doAll(final Class<?> clazz, final DataEvent event, final BiFunction<Set<String>, Ingest, Record[]> actor) {
-        return DQuery.doQuery(clazz, event, actor, null);
     }
 }

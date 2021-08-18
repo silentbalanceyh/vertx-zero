@@ -17,6 +17,7 @@ public class JQEngine {
     private final transient JQQuery queryT;
     private final transient JQUpdate updateT;
     private final transient JQAggregate aggrT;
+    private final transient JQRead readT;
 
     private JQEngine(final DSLContext context) {
         // 设置数据库配置, SQL 调试
@@ -24,16 +25,15 @@ public class JQEngine {
         if (isSql) {
             context.settings().setDebugInfoOnStackTrace(Boolean.TRUE);
         }
-        /* Insert */
+        /* Insert, Delete, Update, Read */
         this.insertT = new JQInsert(context);
-        /* Delete */
         this.deleteT = new JQDelete(context);
-        /* JqTool */
-        this.queryT = new JQQuery(context);
-        /* Update */
         this.updateT = new JQUpdate(context);
-        /* Aggregate */
+        this.readT = new JQRead(context);
+
+        /* Aggregate, Query */
         this.aggrT = new JQAggregate(context);
+        this.queryT = new JQQuery(context);
     }
 
     public static JQEngine create(final DSLContext context) {
@@ -66,13 +66,15 @@ public class JQEngine {
 
     // SELECT
     public DataEvent fetchByIds(final DataEvent events) {
-        return this.queryT.fetchByIds(events);
+        return this.readT.fetchByIds(events);
     }
 
     public DataEvent fetchById(final DataEvent event) {
-        return this.queryT.fetchById(event);
+        return this.readT.fetchById(event);
     }
 
+
+    // SELECT Query
     public DataEvent fetchOne(final DataEvent event) {
         return this.queryT.fetchOne(event);
     }
@@ -81,7 +83,6 @@ public class JQEngine {
         return this.queryT.fetchAll(event);
     }
 
-    // SEARCH
     public DataEvent search(final DataEvent event) {
         return this.queryT.search(event);
     }
@@ -121,12 +122,14 @@ public class JQEngine {
 
     // SELECT
     public Future<DataEvent> fetchByIdsAsync(final DataEvent event) {
-        return this.queryT.fetchByIdsAsync(event);
+        return this.readT.fetchByIdsAsync(event);
     }
 
     public Future<DataEvent> fetchByIdAsync(final DataEvent event) {
-        return this.queryT.fetchByIdAsync(event);
+        return this.readT.fetchByIdAsync(event);
     }
+
+    // SELECT Query
 
     public Future<DataEvent> fetchOneAsync(final DataEvent event) {
         return this.queryT.fetchOneAsync(event);
@@ -136,7 +139,6 @@ public class JQEngine {
         return this.queryT.fetchAllAsync(event);
     }
 
-    // SEARCH
     public Future<DataEvent> searchAsync(final DataEvent event) {
         return this.queryT.searchAsync(event);
     }
