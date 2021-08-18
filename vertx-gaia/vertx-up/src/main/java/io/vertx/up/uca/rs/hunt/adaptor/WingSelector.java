@@ -47,8 +47,8 @@ public class WingSelector {
             selected = Objects.isNull(wings) ? new JsonWings() : wings.get();
         }
         final Annal logger = Annal.get(WingSelector.class);
-        logger.info("Wings response selected `{0}` for content type {1}, mime = {2}",
-                selected.getClass().getName(), contentType, type.toString());
+        logger.info("Wings response selected `{0}` for content type {1}, mime = {2}, hashCode = {3}",
+                selected.getClass().getName(), contentType, type.toString(), String.valueOf(selected.hashCode()));
         return selected;
     }
 }
