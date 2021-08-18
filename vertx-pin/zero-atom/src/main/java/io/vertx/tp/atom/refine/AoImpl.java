@@ -5,12 +5,12 @@ import io.vertx.tp.atom.cv.AoCache;
 import io.vertx.tp.atom.modeling.Model;
 import io.vertx.tp.atom.modeling.Schema;
 import io.vertx.tp.atom.modeling.data.DataAtom;
-import io.vertx.up.eon.KName;
 import io.vertx.tp.modular.dao.AoDao;
 import io.vertx.tp.modular.jdbc.Pin;
 import io.vertx.tp.optic.robin.Switcher;
 import io.vertx.up.commune.config.Database;
 import io.vertx.up.commune.config.Identity;
+import io.vertx.up.eon.KName;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.util.Ut;
 
@@ -80,7 +80,7 @@ class AoImpl {
                 return null;
             } else {
                 final Pin pin = Pin.getInstance();
-                return Fn.pool(AoCache.POOL_T_DAO, atom.identifier(), () -> pin.getDao(database).mount(atom));
+                return Fn.poolThread(AoCache.POOL_T_DAO, () -> pin.getDao(database).mount(atom), atom.identifier());
             }
         }
     }
