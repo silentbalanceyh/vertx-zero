@@ -48,6 +48,19 @@ public class Jq {
         return records.toArray(new Record[]{});
     }
 
+    public static Long toCount(final Result<Record> result) {
+        if (Objects.isNull(result) || result.isEmpty()) {
+            return 0L;
+        } else {
+            final Record record = result.get(Values.IDX);
+            if (Objects.isNull(record)) {
+                return 0L;
+            } else {
+                return record.get(0, Long.class);
+            }
+        }
+    }
+
     /*
      * 自然连接
      * SELECT * FROM T1,T2

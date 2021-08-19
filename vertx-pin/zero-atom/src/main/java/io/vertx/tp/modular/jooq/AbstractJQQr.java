@@ -138,7 +138,7 @@ abstract class AbstractJQQr {
             if (Objects.isNull(countFn)) {
                 return Ux.future(event);
             } else {
-                return Ux.future(countFn.apply(matrix.keySet(), ingest))
+                return Ux.fromAsync(countFn.apply(matrix.keySet(), ingest))
                         .compose(counter -> {
                             input.stored(counter);
                             return Ux.future(input);
@@ -153,7 +153,7 @@ abstract class AbstractJQQr {
                                            final Function<R, DataEvent> convertFn) {
         final Promise<DataEvent> promise = Promise.promise();
         this.context.transactionAsync(configuration -> {
-            final Future<R> future = Ux.future(executor.apply(input));
+            final Future<R> future = Ux.fromAsync(executor.apply(input));
             future.onComplete(nil -> {
                 if (nil.succeeded()) {
                     promise.complete(convertFn.apply(nil.result()));
