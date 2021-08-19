@@ -6,15 +6,15 @@
     <groupId>cn.vertxup</groupId>
     <artifactId>vertx-zero</artifactId>
     <version>0.7.0-SNAPSHOT</version>
-    <name>vertx-zero: Vertx Up Zero Framework</name>
+    <name>Zero Framework「vertx-zero」</name>
     <description>Vertx Zero Framework is a tool for Service Mesh Micro Service.</description>
     <url>http://www.vertxup.cn</url>
     <modules>
-        <module>vertx-import</module>
         <module>vertx-gaia</module>
-        <module>vertx-pin</module>
         <module>vertx-ifx</module>
         <module>vertx-istio</module>
+        <module>vertx-pin</module>
+        <module>vertx-import</module>
     </modules>
     <packaging>pom</packaging>
     <!-- License -->

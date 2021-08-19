@@ -10,7 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>zero-atom</artifactId>
-    <name>( Extension ) - Md: Fabric Modular</name>
+    <name>Extension: Ao - Modular「zero-atom」</name>
     <dependencies>
         <!-- Kern -->
         <dependency>

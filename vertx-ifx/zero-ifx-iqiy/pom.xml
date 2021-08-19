@@ -9,7 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <artifactId>zero-ifx-iqiy</artifactId>
-    <name>( Zero Infix ) Iqi Video SDK</name>
+    <name>Infix - CN: Qiy「zero-ifx-iqiy」</name>
     <dependencies>
         <!-- Feign Client -->
         <dependency>

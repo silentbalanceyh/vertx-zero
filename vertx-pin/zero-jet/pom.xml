@@ -10,7 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>zero-jet</artifactId>
-    <name>( Extension ) - Jt: Fabric Dynamic Api/Job</name>
+    <name>Extension: Jt - Dynamic Api/Job「zero-jet」</name>
     <dependencies>
         <!-- Kern -->
         <dependency>

@@ -10,7 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>zero-ui</artifactId>
-    <name>( Extension ) - Ui: Fabric WebUI</name>
+    <name>Extension: Ui - Web UI ( React )「zero-ui」</name>
     <dependencies>
         <!-- Kern -->
         <dependency>

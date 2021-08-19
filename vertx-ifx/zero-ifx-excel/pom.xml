@@ -10,7 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>zero-ifx-excel</artifactId>
-    <name>( Zero Infix ) Excel Export/Import</name>
+    <name>Infix - Excel「zero-ifx-excel」</name>
     <dependencies>
         <dependency>
             <groupId>org.apache.poi</groupId>
