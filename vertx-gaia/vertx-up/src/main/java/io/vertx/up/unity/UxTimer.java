@@ -34,7 +34,7 @@ public class UxTimer {
     public String value() {
         final long start = this.timer.getKey();
         final long end = this.timer.getValue();
-        final long duration = (end - start) / 1000 / 1000;
+        final long duration = (end - start) / 1000_000;
         final LocalDateTime datetime = Ut.toDuration(duration);
         final DateTimeFormatter format = DateTimeFormatter.ofPattern("HH:mm:ss.SSS");
         return format.format(datetime);
