@@ -78,14 +78,13 @@ class SheetImport {
                 /*
                  * Batch operation
                  */
-                List<T> batchDone = jooq.insert(this.helper.compress(qInsert, table));
-                LOGGER.info("[ Έξοδος ]  (ADD) Table: {0}, Inserted: {1}",
-                        table.getName(), String.valueOf(batchDone.size()));
-                resultSet.addAll(batchDone);
-                batchDone = jooq.update(qUpdate);
-                LOGGER.info("[ Έξοδος ]  (UPDATE) Table: {0}, Updated: {1}",
-                        table.getName(), String.valueOf(batchDone.size()));
-                resultSet.addAll(batchDone);
+                final List<T> batchInsert = jooq.insert(this.helper.compress(qInsert, table));
+                resultSet.addAll(batchInsert);
+                final List<T> batchUpdate = jooq.update(qUpdate);
+                resultSet.addAll(batchUpdate);
+                final int total = batchUpdate.size() + batchInsert.size();
+                LOGGER.info("[ Έξοδος ]  (UPDATE) Table: {0}( {1} ), Inserted: {2}, Updated: {3}",
+                        table.getName(), String.valueOf(total), String.valueOf(batchInsert.size()), String.valueOf(batchUpdate.size()));
             } catch (final Throwable ex) {
                 ex.printStackTrace();
                 LOGGER.jvm(ex);
@@ -193,7 +192,6 @@ class SheetImport {
     private JsonArray extract(final ExTable table) {
         /* Records extracting */
         final List<ExRecord> records = table.get();
-        LOGGER.info("[ Έξοδος ]  ---> Table: {0}, Data Size: {1}", table.getName(), records.size());
         /* Pojo Processing */
         final JsonArray dataArray = new JsonArray();
         records.stream().filter(Objects::nonNull)

@@ -9,6 +9,7 @@ import io.vertx.tp.plugin.jooq.JooqInfix;
 import io.vertx.tp.plugin.redis.RedisInfix;
 import io.vertx.up.log.Annal;
 import io.vertx.up.unity.Ux;
+import io.vertx.up.unity.UxTimer;
 import io.vertx.up.util.Ut;
 
 import java.util.*;
@@ -30,7 +31,7 @@ class BtLoader {
         RedisInfix.disabled();
     }
 
-    static Handler<AsyncResult<Boolean>> handlerComplete(final String folder, final String prefix) {
+    static Handler<AsyncResult<Boolean>> handlerComplete(final String folder, final String prefix, final UxTimer timer) {
         return handler -> {
             if (handler.succeeded()) {
                 if (Objects.isNull(prefix)) {
@@ -38,6 +39,8 @@ class BtLoader {
                 } else {
                     Ke.infoKe(LOGGER, "The data folder `{0}` with `{1}` has been imported successfully!", folder, prefix);
                 }
+                timer.end();
+                Ke.infoKe(LOGGER, "TOTAL EXECUTION TIME = The total execution time = {0}!", timer.value());
                 System.exit(0);
             } else {
                 handler.cause().printStackTrace();

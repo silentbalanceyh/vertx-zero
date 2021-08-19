@@ -1035,6 +1035,12 @@ public final class Ux {
         }
     }
 
+    public static class Timer {
+        public static UxTimer on() {
+            return new UxTimer();
+        }
+    }
+
     // -> Jwt
     public static class Jwt {
 
@@ -1073,10 +1079,5 @@ public final class Ux {
         public static JWT create(final JsonObject config, final Function<String, Buffer> funcBuffer) {
             return UxJwt.create(new JWTAuthOptions(config), funcBuffer);
         }
-    }
-
-    // -> Mongo
-    public static class Mongo {
-
     }
 }
