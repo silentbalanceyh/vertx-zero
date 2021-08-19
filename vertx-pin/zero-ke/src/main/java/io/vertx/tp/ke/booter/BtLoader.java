@@ -39,7 +39,7 @@ class BtLoader {
                 } else {
                     Ke.infoKe(LOGGER, "The data folder `{0}` with `{1}` has been imported successfully!", folder, prefix);
                 }
-                timer.end();
+                timer.end(System.currentTimeMillis());
                 Ke.infoKe(LOGGER, "TOTAL EXECUTION TIME = The total execution time = {0}!", timer.value());
                 System.exit(0);
             } else {

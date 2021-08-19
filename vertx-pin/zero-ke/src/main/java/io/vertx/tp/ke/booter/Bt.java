@@ -20,7 +20,7 @@ public class Bt {
      * doImport: with prefix to do filter
      */
     public static void doImports(final String folder) {
-        final UxTimer timer = Ux.Timer.on();
+        final UxTimer timer = Ux.Timer.on().start(System.currentTimeMillis());
         BtLoader.impAsync(folder).onComplete(BtLoader.handlerComplete(folder, null, timer));
     }
 
@@ -33,7 +33,7 @@ public class Bt {
     }
 
     public static void doImports(final String folder, final String prefix) {
-        final UxTimer timer = Ux.Timer.on();
+        final UxTimer timer = Ux.Timer.on().start(System.currentTimeMillis());
         BtLoader.impAsync(folder, prefix).onComplete(BtLoader.handlerComplete(folder, prefix, timer));
     }
 
