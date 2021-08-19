@@ -25,8 +25,8 @@ databaseChangeLog:
       file: plugin/sql/atom/M_RELATION.sql
       relativeToChangelogFile: false
   - include:
-      file: plugin/sql/atom/M_TPL.sql
+      file: plugin/sql/atom/M_ACC.sql
       relativeToChangelogFile: false
   - include:
-      file: plugin/sql/atom/M_ACC.sql
+      file: plugin/sql/atom/M_TPL.sql
       relativeToChangelogFile: false

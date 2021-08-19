@@ -17,6 +17,7 @@
         <module>zero-atom</module>              <!-- Modeling -->
         <module>zero-crud</module>              <!-- CRUD -->
         <module>zero-erp</module>               <!-- ERP -->
+        <module>zero-fmd</module>               <!-- Finance -->
         <module>zero-graphic</module>           <!-- Graphic -->
         <module>zero-jet</module>               <!-- Api / Service / Job definition -->
         <module>zero-ke</module>                <!-- Kernel Engine -->
