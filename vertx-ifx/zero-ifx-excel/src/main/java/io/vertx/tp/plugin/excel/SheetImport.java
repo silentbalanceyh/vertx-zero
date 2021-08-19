@@ -43,8 +43,6 @@ class SheetImport {
                 final UxJooq jooq = this.jooq(table);
                 assert null != jooq;
                 final List<T> queried = jooq.fetch(filters);
-                LOGGER.info("[ Έξοδος ]  Table: {0}, Queried: {1}, Input: {2}",
-                        table.getName(), String.valueOf(queried.size()), String.valueOf(entities.size()));
                 /*
                  * Compare by unique
                  */
