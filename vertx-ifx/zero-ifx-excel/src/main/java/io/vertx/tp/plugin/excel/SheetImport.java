@@ -81,7 +81,7 @@ class SheetImport {
                 final List<T> batchUpdate = jooq.update(qUpdate);
                 resultSet.addAll(batchUpdate);
                 final int total = batchUpdate.size() + batchInsert.size();
-                LOGGER.info("[ Έξοδος ]  (UPDATE) Table: {0}( {1} ), Inserted: {2}, Updated: {3}",
+                LOGGER.info("[ Έξοδος ] `{0}` -- ( {1} ), Inserted: {2}, Updated: {3}",
                         table.getName(), String.valueOf(total), String.valueOf(batchInsert.size()), String.valueOf(batchUpdate.size()));
             } catch (final Throwable ex) {
                 ex.printStackTrace();
