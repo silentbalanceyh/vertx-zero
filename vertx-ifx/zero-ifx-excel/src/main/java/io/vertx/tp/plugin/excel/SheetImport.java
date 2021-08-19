@@ -84,7 +84,6 @@ class SheetImport {
                 LOGGER.info("[ Έξοδος ] `{0}` -- ( {1} ), Inserted: {2}, Updated: {3}",
                         table.getName(), String.valueOf(total), String.valueOf(batchInsert.size()), String.valueOf(batchUpdate.size()));
             } catch (final Throwable ex) {
-                ex.printStackTrace();
                 LOGGER.jvm(ex);
             }
         }
