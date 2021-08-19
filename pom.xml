@@ -6,15 +6,15 @@
     <groupId>cn.vertxup</groupId>
     <artifactId>vertx-zero</artifactId>
     <version>0.7.0-SNAPSHOT</version>
-    <name>vertx-zero: Vertx Up Zero Framework</name>
+    <name>Zero Framework「vertx-zero」</name>
     <description>Vertx Zero Framework is a tool for Service Mesh Micro Service.</description>
     <url>http://www.vertxup.cn</url>
     <modules>
-        <module>vertx-import</module>
         <module>vertx-gaia</module>
-        <module>vertx-pin</module>
         <module>vertx-ifx</module>
         <module>vertx-istio</module>
+        <module>vertx-pin</module>
+        <module>vertx-import</module>
     </modules>
     <packaging>pom</packaging>
     <!-- License -->
@@ -1567,56 +1567,6 @@
                     <groupId>org.bsc.maven</groupId>
                     <artifactId>maven-processor-plugin</artifactId>
                     <version>${maven.plugin.processor}</version>
-                </plugin>
-                <plugin>
-                    <artifactId>maven-javadoc-plugin</artifactId>
-                    <version>${maven.plugin.javadoc}</version>
-                    <configuration>
-                        <doclet>ch.raffael.mddoclet.MarkdownDoclet</doclet>
-                        <docletArtifact>
-                            <groupId>ch.raffael.markdown-doclet</groupId>
-                            <artifactId>markdown-doclet</artifactId>
-                            <version>${mdoclet.version}</version>
-                        </docletArtifact>
-                        <useStandardDocletOptions>true</useStandardDocletOptions>
-                        <!-- Release configuration -->
-                        <additionalOptions>--allow-script-in-comments</additionalOptions>
-                        <header><![CDATA[
-                            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.7.1/styles/idea.min.css">
-                            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.7.1/highlight.min.js"></script>
-                            <script type="text/javascript">
-                                hljs.initHighlightingOnLoad();
-                            </script>
-                            <style type="text/css">
-                            body{
-                                font-family: "Verdana"
-                            }
-                            code{
-                                font-size: 13px;
-                                font-family: "PT Mono","Menlo","Monaco";
-                            }
-                            div.block {
-                                font-family: "JetBrains Mono","Verdana", Georgia, "Times New Roman", Times, serif;
-                            }
-                            div.block pre .java{
-                                background-color:#f8f8f8;
-                            }
-                            li.blockList > pre {
-                                font-size: 14px;
-                            }
-                            .bar{
-                                font-size: 13px!important;
-                            }
-                            </style>
-                        ]]></header>
-                    </configuration>
-                    <executions>
-                        <execution>
-                            <goals>
-                                <goal>javadoc</goal>
-                            </goals>
-                        </execution>
-                    </executions>
                 </plugin>
                 <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-source-plugin -->
                 <plugin>

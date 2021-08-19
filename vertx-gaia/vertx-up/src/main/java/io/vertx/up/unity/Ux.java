@@ -257,12 +257,12 @@ public final class Ux {
         return To.toEnvelop(entity, error);
     }
 
-    public static <T> Future<T> future(final T entity) {
-        return To.future(entity);
+    public static <T> Future<T> fromAsync(final CompletionStage<T> state) {
+        return Async.fromAsync(state);
     }
 
-    public static <T> Future<T> future(final CompletionStage<T> state) {
-        return Async.future(state);
+    public static <T> Future<T> future(final T entity) {
+        return To.future(entity);
     }
 
     public static <T> Future<T> future(final T input, final List<Function<T, Future<T>>> functions) {
@@ -1035,6 +1035,12 @@ public final class Ux {
         }
     }
 
+    public static class Timer {
+        public static UxTimer on() {
+            return new UxTimer();
+        }
+    }
+
     // -> Jwt
     public static class Jwt {
 
@@ -1073,10 +1079,5 @@ public final class Ux {
         public static JWT create(final JsonObject config, final Function<String, Buffer> funcBuffer) {
             return UxJwt.create(new JWTAuthOptions(config), funcBuffer);
         }
-    }
-
-    // -> Mongo
-    public static class Mongo {
-
     }
 }

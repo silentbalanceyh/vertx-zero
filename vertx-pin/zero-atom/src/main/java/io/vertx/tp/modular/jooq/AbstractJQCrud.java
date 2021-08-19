@@ -54,7 +54,7 @@ abstract class AbstractJQCrud {
             this.run(event, (rows) -> rows.forEach(row -> row.matrixData().forEach((table, matrix) -> {
                 this.ensure(table, matrix);
                 final CompletionStage<R> result = actorFn.apply(table, matrix);
-                futures.add(Ux.future(result).compose(expected -> {
+                futures.add(Ux.fromAsync(result).compose(expected -> {
                     output(expected, testFn,
                             /* 成功 */ () -> row.success(table),
                             /* 失败 */ () -> new _417DataUnexpectException(getClass(), table, String.valueOf(expected)));
@@ -83,7 +83,7 @@ abstract class AbstractJQCrud {
                 // 输入检查
                 this.ensure(table, matrix);
                 // 执行结果
-                futures.add(Ux.future(actorFn.apply(table, matrix)).compose(record -> {
+                futures.add(Ux.fromAsync(actorFn.apply(table, matrix)).compose(record -> {
                     // 反向同步记录
                     row.success(table, record, new HashSet<>());
                     return Ux.future(record);
@@ -111,7 +111,7 @@ abstract class AbstractJQCrud {
                 /* 执行单表记录 */
                 this.ensure(table, values);
                 /* 执行结果 */
-                futures.add(Ux.future(actorFn.apply(table, values)).compose(records -> {
+                futures.add(Ux.fromAsync(actorFn.apply(table, values)).compose(records -> {
                     output(table, rows, records);
                     return Ux.future(records);
                 }));
@@ -126,7 +126,7 @@ abstract class AbstractJQCrud {
             this.run(event, (rows) -> Jq.argBatch(rows).forEach((table, values) -> {
                 this.ensure(table, values);
                 final CompletionStage<R[]> result = actorFn.apply(table, values);
-                futures.add(Ux.future(result).compose(expected -> {
+                futures.add(Ux.fromAsync(result).compose(expected -> {
                     /* 单张表检查结果 */
                     output(expected, testFn,
                             /* 成功 */ () -> rows.forEach(row -> row.success(table)),

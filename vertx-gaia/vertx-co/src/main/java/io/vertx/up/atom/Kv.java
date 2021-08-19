@@ -45,6 +45,10 @@ public final class Kv<K, V> {
         this.value = value;
     }
 
+    public void set(final V value) {
+        this.value = value;
+    }
+
     @Override
     public int hashCode() {
         return Objects.hashCode(this.key) ^ Objects.hashCode(this.value);

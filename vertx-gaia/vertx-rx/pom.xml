@@ -8,7 +8,7 @@
         <version>0.7.0-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
-    <name>( Vertx Core ) vertx-rx: Reactive Engine</name>
+    <name>Kernel - Reactive Container「vertx-rx」</name>
     <artifactId>vertx-rx</artifactId>
     <dependencies>
         <dependency>

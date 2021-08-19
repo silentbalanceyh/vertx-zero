@@ -22,17 +22,7 @@ class Async {
 
     private static final Annal LOGGER = Annal.get(Async.class);
 
-    static <T> Future<T> future(final T input, final Set<Function<T, Future<T>>> set) {
-        final List<Future<T>> futures = new ArrayList<>();
-        set.stream().map(consumer -> consumer.apply(input)).forEach(futures::add);
-        Ux.thenCombineT(futures).compose(nil -> {
-            LOGGER.info("「Job Plugin」 There are `{0}` jobs that are finished successfully!", String.valueOf(set.size()));
-            return Ux.future(nil);
-        });
-        return Ux.future(input);
-    }
-
-    static <T> Future<T> future(final CompletionStage<T> state) {
+    static <T> Future<T> fromAsync(final CompletionStage<T> state) {
         final Promise<T> promise = Promise.promise();
         state.whenComplete((result, error) -> {
             if (Objects.isNull(error)) {
@@ -42,6 +32,16 @@ class Async {
             }
         });
         return promise.future();
+    }
+
+    static <T> Future<T> future(final T input, final Set<Function<T, Future<T>>> set) {
+        final List<Future<T>> futures = new ArrayList<>();
+        set.stream().map(consumer -> consumer.apply(input)).forEach(futures::add);
+        Ux.thenCombineT(futures).compose(nil -> {
+            LOGGER.info("「Job Plugin」 There are `{0}` jobs that are finished successfully!", String.valueOf(set.size()));
+            return Ux.future(nil);
+        });
+        return Ux.future(input);
     }
 
     @SuppressWarnings("all")

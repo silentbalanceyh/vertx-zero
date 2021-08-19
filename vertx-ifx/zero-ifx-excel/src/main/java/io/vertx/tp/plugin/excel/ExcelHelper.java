@@ -200,6 +200,10 @@ class ExcelHelper {
      */
     <T> List<T> compress(final List<T> input, final ExTable table) {
         final String key = table.fieldKey();
+        if (Objects.isNull(key)) {
+            // Relation Table
+            return input;
+        }
         final List<T> keyList = new ArrayList<>();
         final Set<Object> keys = new HashSet<>();
         input.forEach(item -> {
@@ -209,7 +213,7 @@ class ExcelHelper {
                 keyList.add(item);
             }
         });
-        // Release
+        // Entity Release
         return keyList;
     }
 }

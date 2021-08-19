@@ -10,7 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>zero-router</artifactId>
-    <name>( Extension ) - Rt: Micro Gateway</name>
+    <name>Extension: Rt - Micro Api Gateway「zero-router」</name>
     <dependencies>
         <!-- Kern -->
         <dependency>

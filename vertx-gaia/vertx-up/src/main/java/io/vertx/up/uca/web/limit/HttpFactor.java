@@ -1,7 +1,10 @@
 package io.vertx.up.uca.web.limit;
 
+import io.vertx.core.json.JsonObject;
 import io.vertx.up.eon.Plugins;
 import io.vertx.up.eon.em.ServerType;
+import io.vertx.up.uca.yaml.Node;
+import io.vertx.up.uca.yaml.ZeroUniform;
 import io.vertx.up.util.Ut;
 import io.vertx.up.verticle.ZeroHttpAgent;
 import io.vertx.up.verticle.ZeroSockAgent;
@@ -18,10 +21,10 @@ import java.util.concurrent.ConcurrentMap;
  */
 public class HttpFactor extends AbstractFactor {
 
-    private static final Set<Class<?>> AGENT_SET = new HashSet<Class<?>>(){
+    private static final Set<Class<?>> AGENT_SET = new HashSet<Class<?>>() {
         {
-            add(ZeroHttpAgent.class);
-            add(ZeroSockAgent.class);
+            this.add(ZeroHttpAgent.class);
+            this.add(ZeroSockAgent.class);
         }
     };
     private static final ConcurrentMap<ServerType, Class<?>> INTERNALS
@@ -31,8 +34,10 @@ public class HttpFactor extends AbstractFactor {
             this.put(ServerType.SOCK, ZeroSockAgent.class);
         }
     };
+    private static final Node<JsonObject> VISITOR = Ut.singleton(ZeroUniform.class);
 
     static {
+        final JsonObject data = VISITOR.read();
         Ut.clazzIf(Plugins.Default.AGENT_RPC, clazz -> {
             /*
              * Plugin In

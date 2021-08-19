@@ -59,6 +59,8 @@ class ModelRefine implements AoRefine {
         final JsonObject filters = new JsonObject();
         filters.put(KName.NAMESPACE, entity.getNamespace());
         filters.put(KName.IDENTIFIER, entity.getIdentifier());
+        Ao.infoUca(this.getClass(), "5. AoRefine.model(): Model `{0}`, Upsert Criteria = `{1}`",
+                entity.getIdentifier(), filters.encode());
         return filters;
     }
 
@@ -66,6 +68,7 @@ class ModelRefine implements AoRefine {
         final JsonObject filters = new JsonObject();
         filters.put(KName.NAMESPACE, nexus.getNamespace());
         filters.put(KName.MODEL, nexus.getModel());
+        Ao.infoUca(this.getClass(), "4. AoRefine.model(): Delete Criteria = `{0}`", filters.encode());
         return filters;
     }
 
@@ -86,8 +89,8 @@ class ModelRefine implements AoRefine {
         // Model -> Attributes下边的属性
         final List<Future<JsonObject>> futures = new ArrayList<>();
         model.dbAttributes().stream().map(attr -> Ux.Jooq.on(MAttributeDao.class)
-                .upsertAsync(this.onCriteria(attr), attr)
-                .compose(Ux::futureJ))
+                        .upsertAsync(this.onCriteria(attr), attr)
+                        .compose(Ux::futureJ))
                 .forEach(futures::add);
         // Model -> 插入 Model
         Ao.infoUca(this.getClass(), "3.1. Processing model: {0}", model.identifier());
@@ -97,12 +100,12 @@ class ModelRefine implements AoRefine {
          */
         // Model -> Nexus处理关系
         model.dbJoins().stream().map(nexus -> Ux.Jooq.on(MJoinDao.class)
-                // 先删除原始关系
-                // 新的 API 调用：deleteAsync -> deleteByAsync
-                .deleteByAsync(this.onCriteria(nexus))
-                // 再插入新关系
-                .compose(nil -> Ux.Jooq.on(MJoinDao.class).insertAsync(nexus))
-                .compose(Ux::futureJ))
+                        // 先删除原始关系
+                        // 新的 API 调用：deleteAsync -> deleteByAsync
+                        .deleteByAsync(this.onCriteria(nexus))
+                        // 再插入新关系
+                        .compose(nil -> Ux.Jooq.on(MJoinDao.class).insertAsync(nexus))
+                        .compose(Ux::futureJ))
                 .forEach(futures::add);
         /*
          * 同时插入

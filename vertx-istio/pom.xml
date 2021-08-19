@@ -11,7 +11,7 @@
 
     <artifactId>vertx-istio</artifactId>
     <packaging>pom</packaging>
-    <name>vertx-istio: Micro Architecture</name>
+    <name>Zero Micro「vertx-istio」</name>
     <modules>
         <module>zero-iproxy</module>
     </modules>
