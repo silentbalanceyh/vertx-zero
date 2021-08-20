@@ -53,8 +53,8 @@ CREATE TABLE `E_CONTRACT`
     `CREATED_BY`  VARCHAR(36) COMMENT '「createdBy」- 创建人',
     `UPDATED_AT`  DATETIME COMMENT '「updatedAt」- 更新时间',
     `UPDATED_BY`  VARCHAR(36) COMMENT '「updatedBy」- 更新人',
-    PRIMARY KEY (`KEY`)
+    PRIMARY KEY (`KEY`) USING BTREE
 );
 -- changeset Lang:h-contract-2
 ALTER TABLE E_CONTRACT
-    ADD UNIQUE (`CODE`, `SIGMA`);
+    ADD UNIQUE (`CODE`, `SIGMA`) USING BTREE;

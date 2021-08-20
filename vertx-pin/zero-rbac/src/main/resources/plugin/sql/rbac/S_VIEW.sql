@@ -63,22 +63,37 @@ CREATE TABLE IF NOT EXISTS S_VIEW
     `VISITANT`              BIT COMMENT '「visitant」- 是否包含了视图访问者',
 
     -- 特殊字段
-    `SIGMA`       VARCHAR(128) COMMENT '「sigma」- 用户组绑定的统一标识',
-    `LANGUAGE`    VARCHAR(10) COMMENT '「language」- 使用的语言',
-    `ACTIVE`      BIT COMMENT '「active」- 是否启用',
-    `METADATA`    TEXT COMMENT '「metadata」- 附加配置数据',
+    `SIGMA` VARCHAR
+(
+    128
+) COMMENT '「sigma」- 用户组绑定的统一标识',
+    `LANGUAGE` VARCHAR
+(
+    10
+) COMMENT '「language」- 使用的语言',
+    `ACTIVE` BIT COMMENT '「active」- 是否启用',
+    `METADATA` TEXT COMMENT '「metadata」- 附加配置数据',
 
     -- Auditor字段
-    `CREATED_AT`  DATETIME COMMENT '「createdAt」- 创建时间',
-    `CREATED_BY`  VARCHAR(36) COMMENT '「createdBy」- 创建人',
-    `UPDATED_AT`  DATETIME COMMENT '「updatedAt」- 更新时间',
-    `UPDATED_BY`  VARCHAR(36) COMMENT '「updatedBy」- 更新人',
-    PRIMARY KEY (`KEY`)
-);
+    `CREATED_AT` DATETIME COMMENT '「createdAt」- 创建时间',
+    `CREATED_BY` VARCHAR
+(
+    36
+) COMMENT '「createdBy」- 创建人',
+    `UPDATED_AT` DATETIME COMMENT '「updatedAt」- 更新时间',
+    `UPDATED_BY` VARCHAR
+(
+    36
+) COMMENT '「updatedBy」- 更新人',
+    PRIMARY KEY
+(
+    `KEY`
+) USING BTREE
+    );
 
 -- changeset Lang:ox-view-2
 -- Unique
 -- 用户、资源：唯一记录：高优先级
 -- 角色、资源：唯一记录：低优先级
 ALTER TABLE S_VIEW
-    ADD UNIQUE (`OWNER`, `OWNER_TYPE`, `RESOURCE_ID`, `NAME`);
+    ADD UNIQUE (`OWNER`, `OWNER_TYPE`, `RESOURCE_ID`, `NAME`) USING BTREE;

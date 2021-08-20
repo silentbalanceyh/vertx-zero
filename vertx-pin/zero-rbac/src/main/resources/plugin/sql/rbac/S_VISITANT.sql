@@ -55,22 +55,37 @@ CREATE TABLE IF NOT EXISTS S_VISITANT
     `ACL_VERGE`            TEXT COMMENT '「aclVerge」- 依赖属性集',
 
     -- 特殊字段
-    `SIGMA`       VARCHAR(128) COMMENT '「sigma」- 用户组绑定的统一标识',
-    `LANGUAGE`    VARCHAR(10) COMMENT '「language」- 使用的语言',
-    `ACTIVE`      BIT COMMENT '「active」- 是否启用',
-    `METADATA`    TEXT COMMENT '「metadata」- 附加配置数据',
+    `SIGMA` VARCHAR
+(
+    128
+) COMMENT '「sigma」- 用户组绑定的统一标识',
+    `LANGUAGE` VARCHAR
+(
+    10
+) COMMENT '「language」- 使用的语言',
+    `ACTIVE` BIT COMMENT '「active」- 是否启用',
+    `METADATA` TEXT COMMENT '「metadata」- 附加配置数据',
 
     -- Auditor字段
-    `CREATED_AT`  DATETIME COMMENT '「createdAt」- 创建时间',
-    `CREATED_BY`  VARCHAR(36) COMMENT '「createdBy」- 创建人',
-    `UPDATED_AT`  DATETIME COMMENT '「updatedAt」- 更新时间',
-    `UPDATED_BY`  VARCHAR(36) COMMENT '「updatedBy」- 更新人',
-    PRIMARY KEY (`KEY`)
-);
+    `CREATED_AT` DATETIME COMMENT '「createdAt」- 创建时间',
+    `CREATED_BY` VARCHAR
+(
+    36
+) COMMENT '「createdBy」- 创建人',
+    `UPDATED_AT` DATETIME COMMENT '「updatedAt」- 更新时间',
+    `UPDATED_BY` VARCHAR
+(
+    36
+) COMMENT '「updatedBy」- 更新人',
+    PRIMARY KEY
+(
+    `KEY`
+) USING BTREE
+    );
 
 -- changeset Lang:ox-visitant-2
 ALTER TABLE S_VISITANT
-    ADD UNIQUE (`VIEW_ID`,`TYPE`,`CONFIG_KEY`);
+    ADD UNIQUE (`VIEW_ID`, `TYPE`, `CONFIG_KEY`) USING BTREE;
 /*
  * 关于唯一性描述
  * 1）读取配置，如表单读取
@@ -88,7 +103,9 @@ ALTER TABLE S_VISITANT
  * -- VIEW_ID：读取操作的资源接口
  * -- DYNAMIC_ID：动态类型，映射到 identifier 的模型 ID
  */
-ALTER TABLE S_VISITANT ADD INDEX
-    IDXM_S_VISITANT_VIEW_ID_TYPE_CONFIG (`VIEW_ID`,`TYPE`,`CONFIG_KEY`);
-ALTER TABLE S_VISITANT ADD INDEX
-    IDXM_S_VISITANT_VIEW_ID_TYPE_IDENTIFIER (`VIEW_ID`,`TYPE`,`IDENTIFIER`);
+ALTER TABLE S_VISITANT
+    ADD INDEX
+        IDXM_S_VISITANT_VIEW_ID_TYPE_CONFIG (`VIEW_ID`,`TYPE`,`CONFIG_KEY`) USING BTREE;
+ALTER TABLE S_VISITANT
+    ADD INDEX
+        IDXM_S_VISITANT_VIEW_ID_TYPE_IDENTIFIER (`VIEW_ID`,`TYPE`,`IDENTIFIER`) USING BTREE;

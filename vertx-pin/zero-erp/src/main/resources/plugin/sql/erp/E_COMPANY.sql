@@ -53,14 +53,14 @@ CREATE TABLE `E_COMPANY`
     `CREATED_BY`        VARCHAR(36) COMMENT '「createdBy」- 创建人',
     `UPDATED_AT`        DATETIME COMMENT '「updatedAt」- 更新时间',
     `UPDATED_BY`        VARCHAR(36) COMMENT '「updatedBy」- 更新人',
-    PRIMARY KEY (`KEY`)
+    PRIMARY KEY (`KEY`) USING BTREE
 );
 -- changeset Lang:h-company-2
 ALTER TABLE E_COMPANY
-    ADD UNIQUE (`CODE`, `SIGMA`);
+    ADD UNIQUE (`CODE`, `SIGMA`) USING BTREE;
 ALTER TABLE E_COMPANY
-    ADD UNIQUE (`NAME`, `SIGMA`);
+    ADD UNIQUE (`NAME`, `SIGMA`) USING BTREE;
 ALTER TABLE E_COMPANY
-    ADD UNIQUE (`TAX_CODE`, `SIGMA`);
+    ADD UNIQUE (`TAX_CODE`, `SIGMA`) USING BTREE;
 ALTER TABLE E_COMPANY
-    ADD UNIQUE (`CUSTOMER_ID`, `SIGMA`); -- 当一个公司作为客户时，它的客户信息是唯一的，1:1 的关系
+    ADD UNIQUE (`CUSTOMER_ID`, `SIGMA`) USING BTREE; -- 当一个公司作为客户时，它的客户信息是唯一的，1:1 的关系

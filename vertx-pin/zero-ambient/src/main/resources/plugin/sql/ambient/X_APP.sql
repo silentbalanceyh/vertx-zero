@@ -28,29 +28,46 @@ CREATE TABLE IF NOT EXISTS X_APP
     `APP_KEY`    VARCHAR(128) COMMENT '「appKey」- 应用程序专用唯一hashKey',
 
     -- 特殊字段
-    `ACTIVE`     BIT         DEFAULT NULL COMMENT '「active」- 是否启用',
-    `SIGMA`      VARCHAR(32) DEFAULT NULL COMMENT '「sigma」- 统一标识',
-    `METADATA`   TEXT COMMENT '「metadata」- 附加配置',
-    `LANGUAGE`   VARCHAR(8)  DEFAULT NULL COMMENT '「language」- 使用的语言',
+    `ACTIVE` BIT DEFAULT NULL COMMENT '「active」- 是否启用',
+    `SIGMA` VARCHAR
+(
+    32
+) DEFAULT NULL COMMENT '「sigma」- 统一标识',
+    `METADATA` TEXT COMMENT '「metadata」- 附加配置',
+    `LANGUAGE` VARCHAR
+(
+    8
+) DEFAULT NULL COMMENT '「language」- 使用的语言',
 
     -- Auditor字段
     `CREATED_AT` DATETIME COMMENT '「createdAt」- 创建时间',
-    `CREATED_BY` VARCHAR(36) COMMENT '「createdBy」- 创建人',
+    `CREATED_BY` VARCHAR
+(
+    36
+) COMMENT '「createdBy」- 创建人',
     `UPDATED_AT` DATETIME COMMENT '「updatedAt」- 更新时间',
-    `UPDATED_BY` VARCHAR(36) COMMENT '「updatedBy」- 更新人',
-    PRIMARY KEY (`KEY`)
-);
+    `UPDATED_BY` VARCHAR
+(
+    36
+) COMMENT '「updatedBy」- 更新人',
+    PRIMARY KEY
+(
+    `KEY`
+) USING BTREE
+    );
 
 -- changeset Lang:ox-app-2
 -- Unique JsonKeys：独立唯一键定义
 ALTER TABLE X_APP
-    ADD UNIQUE (`CODE`);
+    ADD UNIQUE (`CODE`) USING BTREE;
 ALTER TABLE X_APP
-    ADD UNIQUE (`PATH`, `URL_ENTRY`); -- 应用唯一入口
+    ADD UNIQUE (`PATH`, `URL_ENTRY`) USING BTREE; -- 应用唯一入口
 ALTER TABLE X_APP
-    ADD UNIQUE (`PATH`, `URL_MAIN`); -- 应用唯一主页
+    ADD UNIQUE (`PATH`, `URL_MAIN`) USING BTREE; -- 应用唯一主页
 ALTER TABLE X_APP
-    ADD UNIQUE (`NAME`); -- 应用程序名称唯一（这是系统名称）
+    ADD UNIQUE (`NAME`) USING BTREE;
+-- 应用程序名称唯一（这是系统名称）
 
 -- /app/name/:name
-ALTER TABLE X_APP ADD INDEX IDX_X_APP_NAME (`NAME`);
+ALTER TABLE X_APP
+    ADD INDEX IDX_X_APP_NAME (`NAME`) USING BTREE;

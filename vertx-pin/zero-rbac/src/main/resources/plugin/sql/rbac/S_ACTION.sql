@@ -28,33 +28,49 @@ CREATE TABLE IF NOT EXISTS S_ACTION
     `RENEWAL_CREDIT` TEXT COMMENT '「renewalCredit」- 被刷新的凭证',
 
     -- 特殊字段
-    `LANGUAGE`       VARCHAR(10) COMMENT '「language」- 使用的语言',
-    `ACTIVE`         BIT COMMENT '「active」- 是否启用',
-    `METADATA`       TEXT COMMENT '「metadata」- 附加配置数据',
-    `COMMENT`        TEXT COMMENT '「action」- 操作说明',
+    `LANGUAGE` VARCHAR
+(
+    10
+) COMMENT '「language」- 使用的语言',
+    `ACTIVE` BIT COMMENT '「active」- 是否启用',
+    `METADATA` TEXT COMMENT '「metadata」- 附加配置数据',
+    `COMMENT` TEXT COMMENT '「action」- 操作说明',
 
     -- Auditor字段
-    `CREATED_AT`     DATETIME COMMENT '「createdAt」- 创建时间',
-    `CREATED_BY`     VARCHAR(36) COMMENT '「createdBy」- 创建人',
-    `UPDATED_AT`     DATETIME COMMENT '「updatedAt」- 更新时间',
-    `UPDATED_BY`     VARCHAR(36) COMMENT '「updatedBy」- 更新人',
-    PRIMARY KEY (`KEY`)
-);
+    `CREATED_AT` DATETIME COMMENT '「createdAt」- 创建时间',
+    `CREATED_BY` VARCHAR
+(
+    36
+) COMMENT '「createdBy」- 创建人',
+    `UPDATED_AT` DATETIME COMMENT '「updatedAt」- 更新时间',
+    `UPDATED_BY` VARCHAR
+(
+    36
+) COMMENT '「updatedBy」- 更新人',
+    PRIMARY KEY
+(
+    `KEY`
+) USING BTREE
+    );
 
 -- changeset Lang:ox-action-2
 -- Unique Key：独立唯一主键
 ALTER TABLE S_ACTION
-    ADD UNIQUE (`CODE`, `SIGMA`);
+    ADD UNIQUE (`CODE`, `SIGMA`) USING BTREE;
 ALTER TABLE S_ACTION
-    ADD UNIQUE (`RESOURCE_ID`); -- 操作和资源一对一绑定
+    ADD UNIQUE (`RESOURCE_ID`) USING BTREE; -- 操作和资源一对一绑定
 ALTER TABLE S_ACTION
-    ADD UNIQUE (`URI`, `METHOD`, `SIGMA`); -- 操作和资源一对一绑定
+    ADD UNIQUE (`URI`, `METHOD`, `SIGMA`) USING BTREE;
+-- 操作和资源一对一绑定
 
 -- S_ACTION，读取 ACTION，由于这里有 uri 做保证，所以不需用 sigma
-ALTER TABLE S_ACTION ADD
-    INDEX IDXM_S_ACTION_URI_METHOD (`URI`,`METHOD`);
-ALTER TABLE S_ACTION ADD
-    INDEX IDXM_S_ACTION_SIGMA_URI_METHOD (`SIGMA`,`URI`,`METHOD`);
+ALTER TABLE S_ACTION
+    ADD
+        INDEX IDXM_S_ACTION_URI_METHOD (`URI`,`METHOD`) USING BTREE;
+ALTER TABLE S_ACTION
+    ADD
+        INDEX IDXM_S_ACTION_SIGMA_URI_METHOD (`SIGMA`,`URI`,`METHOD`) USING BTREE;
 -- 按权限查询
-ALTER TABLE S_ACTION ADD
-    INDEX IDX_S_ACTION_PERMISSION_ID (`PERMISSION_ID`);
+ALTER TABLE S_ACTION
+    ADD
+        INDEX IDX_S_ACTION_PERMISSION_ID (`PERMISSION_ID`) USING BTREE;

@@ -18,18 +18,30 @@ CREATE TABLE IF NOT EXISTS S_PERM_SET
 
     -- 特殊字段
     `SIGMA`      VARCHAR(128) COMMENT '「sigma」- 绑定的统一标识',
-    `LANGUAGE`   VARCHAR(10) COMMENT '「language」- 使用的语言',
-    `ACTIVE`     BIT COMMENT '「active」- 是否启用',
-    `COMMENT`    TEXT COMMENT '「comment」- 权限集说明',
-    `METADATA`   TEXT COMMENT '「metadata」- 附加配置数据',
+    `LANGUAGE` VARCHAR
+(
+    10
+) COMMENT '「language」- 使用的语言',
+    `ACTIVE` BIT COMMENT '「active」- 是否启用',
+    `COMMENT` TEXT COMMENT '「comment」- 权限集说明',
+    `METADATA` TEXT COMMENT '「metadata」- 附加配置数据',
 
     -- Auditor字段
     `CREATED_AT` DATETIME COMMENT '「createdAt」- 创建时间',
-    `CREATED_BY` VARCHAR(36) COMMENT '「createdBy」- 创建人',
+    `CREATED_BY` VARCHAR
+(
+    36
+) COMMENT '「createdBy」- 创建人',
     `UPDATED_AT` DATETIME COMMENT '「updatedAt」- 更新时间',
-    `UPDATED_BY` VARCHAR(36) COMMENT '「updatedBy」- 更新人',
-    PRIMARY KEY (`KEY`)
-);
+    `UPDATED_BY` VARCHAR
+(
+    36
+) COMMENT '「updatedBy」- 更新人',
+    PRIMARY KEY
+(
+    `KEY`
+) USING BTREE
+    );
 
 -- changeset Lang:ox-perm-set-2
 -- Unique Key：独立唯一键定义
@@ -38,4 +50,4 @@ CREATE TABLE IF NOT EXISTS S_PERM_SET
 -- 2）资源定义好过后，权限集在新版本中作为过滤菜单处理
 -- 3）管理界面的第一部分直接使用权限集和权限关联关系执行
 ALTER TABLE S_PERM_SET
-    ADD UNIQUE (`NAME`, `CODE`, `SIGMA`);
+    ADD UNIQUE (`NAME`, `CODE`, `SIGMA`) USING BTREE;

@@ -67,19 +67,34 @@ CREATE TABLE IF NOT EXISTS S_PATH
     `UI_CONDITION`  TEXT COMMENT '「uiCondition」- 查询模板',
     `UI_COMPONENT`  VARCHAR(255) COMMENT '「uiComponent」- 在 DAO/OX/DEF 时的特殊组件',
 
-    `SIGMA`      VARCHAR(32) COMMENT '「sigma」- 统一标识',
-    `LANGUAGE`   VARCHAR(10) COMMENT '「language」- 使用的语言',
-    `ACTIVE`     BIT COMMENT '「active」- 是否启用',
-    `METADATA`   TEXT COMMENT '「metadata」- 附加配置数据',
+    `SIGMA` VARCHAR
+(
+    32
+) COMMENT '「sigma」- 统一标识',
+    `LANGUAGE` VARCHAR
+(
+    10
+) COMMENT '「language」- 使用的语言',
+    `ACTIVE` BIT COMMENT '「active」- 是否启用',
+    `METADATA` TEXT COMMENT '「metadata」- 附加配置数据',
 
     -- Auditor字段
     `CREATED_AT` DATETIME COMMENT '「createdAt」- 创建时间',
-    `CREATED_BY` VARCHAR(36) COMMENT '「createdBy」- 创建人',
+    `CREATED_BY` VARCHAR
+(
+    36
+) COMMENT '「createdBy」- 创建人',
     `UPDATED_AT` DATETIME COMMENT '「updatedAt」- 更新时间',
-    `UPDATED_BY` VARCHAR(36) COMMENT '「updatedBy」- 更新人',
-    PRIMARY KEY (`KEY`)
-);
+    `UPDATED_BY` VARCHAR
+(
+    36
+) COMMENT '「updatedBy」- 更新人',
+    PRIMARY KEY
+(
+    `KEY`
+) USING BTREE
+    );
 -- changeset Lang:ox-path-2
 -- Unique Key：独立唯一主键
 ALTER TABLE S_PATH
-    ADD UNIQUE (`CODE`, `SIGMA`);
+    ADD UNIQUE (`CODE`, `SIGMA`) USING BTREE;
