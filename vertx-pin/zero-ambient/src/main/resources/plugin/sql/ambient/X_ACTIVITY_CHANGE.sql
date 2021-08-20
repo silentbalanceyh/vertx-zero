@@ -18,19 +18,34 @@ CREATE TABLE IF NOT EXISTS X_ACTIVITY_CHANGE
     `VALUE_OLD`   TEXT COMMENT '「valueOld」- 旧值',
     `VALUE_NEW`   TEXT COMMENT '「valueNew」- 新值',
 
-    `SIGMA`       VARCHAR(128) COMMENT '「sigma」- 用户组绑定的统一标识',
-    `LANGUAGE`    VARCHAR(10) COMMENT '「language」- 使用的语言',
-    `ACTIVE`      BIT COMMENT '「active」- 是否启用',
-    `METADATA`    TEXT COMMENT '「metadata」- 附加配置数据',
+    `SIGMA` VARCHAR
+(
+    128
+) COMMENT '「sigma」- 用户组绑定的统一标识',
+    `LANGUAGE` VARCHAR
+(
+    10
+) COMMENT '「language」- 使用的语言',
+    `ACTIVE` BIT COMMENT '「active」- 是否启用',
+    `METADATA` TEXT COMMENT '「metadata」- 附加配置数据',
 
     -- Auditor字段
-    `CREATED_AT`  DATETIME COMMENT '「createdAt」- 创建时间',
-    `CREATED_BY`  VARCHAR(36) COMMENT '「createdBy」- 创建人',
-    `UPDATED_AT`  DATETIME COMMENT '「updatedAt」- 更新时间',
-    `UPDATED_BY`  VARCHAR(36) COMMENT '「updatedBy」- 更新人',
-    PRIMARY KEY (`KEY`)
-);
+    `CREATED_AT` DATETIME COMMENT '「createdAt」- 创建时间',
+    `CREATED_BY` VARCHAR
+(
+    36
+) COMMENT '「createdBy」- 创建人',
+    `UPDATED_AT` DATETIME COMMENT '「updatedAt」- 更新时间',
+    `UPDATED_BY` VARCHAR
+(
+    36
+) COMMENT '「updatedBy」- 更新人',
+    PRIMARY KEY
+(
+    `KEY`
+) USING BTREE
+    );
 ALTER TABLE X_ACTIVITY_CHANGE
-    ADD INDEX IDX_X_ACTIVITY_CHANGE_ACTIVITY_ID (`ACTIVITY_ID`);
+    ADD INDEX IDX_X_ACTIVITY_CHANGE_ACTIVITY_ID (`ACTIVITY_ID`) USING BTREE;
 ALTER TABLE X_ACTIVITY_CHANGE
-    ADD INDEX IDX_X_ACTIVITY_CHANGE_CREATED_AT (`CREATED_AT`);
+    ADD INDEX IDX_X_ACTIVITY_CHANGE_CREATED_AT (`CREATED_AT`) USING BTREE;

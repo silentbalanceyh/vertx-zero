@@ -28,13 +28,22 @@ CREATE TABLE IF NOT EXISTS X_SOURCE
     `LANGUAGE`          VARCHAR(8)  DEFAULT NULL COMMENT '「language」- 使用的语言',
 
     -- Auditor字段
-    `CREATED_AT`        DATETIME COMMENT '「createdAt」- 创建时间',
-    `CREATED_BY`        VARCHAR(36) COMMENT '「createdBy」- 创建人',
-    `UPDATED_AT`        DATETIME COMMENT '「updatedAt」- 更新时间',
-    `UPDATED_BY`        VARCHAR(36) COMMENT '「updatedBy」- 更新人',
-    PRIMARY KEY (`KEY`)
-);
+    `CREATED_AT` DATETIME COMMENT '「createdAt」- 创建时间',
+    `CREATED_BY` VARCHAR
+(
+    36
+) COMMENT '「createdBy」- 创建人',
+    `UPDATED_AT` DATETIME COMMENT '「updatedAt」- 更新时间',
+    `UPDATED_BY` VARCHAR
+(
+    36
+) COMMENT '「updatedBy」- 更新人',
+    PRIMARY KEY
+(
+    `KEY`
+)
+    );
 
 -- changeset Lang:ox-source-2
 ALTER TABLE X_SOURCE
-    ADD UNIQUE (`APP_ID`); -- 目前应用程序和数据源一对一，暂定
+    ADD UNIQUE (`APP_ID`) USING BTREE; -- 目前应用程序和数据源一对一，暂定

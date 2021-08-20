@@ -24,17 +24,32 @@ CREATE TABLE IF NOT EXISTS G_GRAPHIC
     `MODEL_CATEGORY`    VARCHAR(36) COMMENT '「modelCategory」- 关联的category记录，只包含叶节点',
 
     -- 特殊字段
-    `SIGMA`             VARCHAR(32) COMMENT '「sigma」- 统一标识',
-    `LANGUAGE`          VARCHAR(10) COMMENT '「language」- 使用的语言',
-    `ACTIVE`            BIT COMMENT '「active」- 是否启用',
-    `METADATA`          TEXT COMMENT '「metadata」- 附加配置数据',
+    `SIGMA` VARCHAR
+(
+    32
+) COMMENT '「sigma」- 统一标识',
+    `LANGUAGE` VARCHAR
+(
+    10
+) COMMENT '「language」- 使用的语言',
+    `ACTIVE` BIT COMMENT '「active」- 是否启用',
+    `METADATA` TEXT COMMENT '「metadata」- 附加配置数据',
 
     -- Auditor字段
-    `CREATED_AT`        DATETIME COMMENT '「createdAt」- 创建时间',
-    `CREATED_BY`        VARCHAR(36) COMMENT '「createdBy」- 创建人',
-    `UPDATED_AT`        DATETIME COMMENT '「updatedAt」- 更新时间',
-    `UPDATED_BY`        VARCHAR(36) COMMENT '「updatedBy」- 更新人',
-    PRIMARY KEY (`KEY`)
-);
+    `CREATED_AT` DATETIME COMMENT '「createdAt」- 创建时间',
+    `CREATED_BY` VARCHAR
+(
+    36
+) COMMENT '「createdBy」- 创建人',
+    `UPDATED_AT` DATETIME COMMENT '「updatedAt」- 更新时间',
+    `UPDATED_BY` VARCHAR
+(
+    36
+) COMMENT '「updatedBy」- 更新人',
+    PRIMARY KEY
+(
+    `KEY`
+) USING BTREE
+    );
 ALTER TABLE G_GRAPHIC
-    ADD UNIQUE (`CODE`, `SIGMA`);
+    ADD UNIQUE (`CODE`, `SIGMA`) USING BTREE;

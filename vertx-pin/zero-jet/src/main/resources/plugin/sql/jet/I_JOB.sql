@@ -39,34 +39,49 @@ CREATE TABLE IF NOT EXISTS I_JOB
     `SERVICE_ID`        VARCHAR(36) COMMENT '「serviceId」- 关联的服务ID',
 
     -- 特殊字段
-    `SIGMA`             VARCHAR(32) COMMENT '「sigma」- 统一标识',
-    `LANGUAGE`          VARCHAR(10) COMMENT '「language」- 使用的语言',
-    `ACTIVE`            BIT COMMENT '「active」- 是否启用',
-    `METADATA`          TEXT COMMENT '「metadata」- 附加配置数据',
+    `SIGMA` VARCHAR
+(
+    32
+) COMMENT '「sigma」- 统一标识',
+    `LANGUAGE` VARCHAR
+(
+    10
+) COMMENT '「language」- 使用的语言',
+    `ACTIVE` BIT COMMENT '「active」- 是否启用',
+    `METADATA` TEXT COMMENT '「metadata」- 附加配置数据',
 
     -- Auditor字段
-    `CREATED_AT`        DATETIME COMMENT '「createdAt」- 创建时间',
-    `CREATED_BY`        VARCHAR(36) COMMENT '「createdBy」- 创建人',
-    `UPDATED_AT`        DATETIME COMMENT '「updatedAt」- 更新时间',
-    `UPDATED_BY`        VARCHAR(36) COMMENT '「updatedBy」- 更新人',
-    PRIMARY KEY (`KEY`)
-);
+    `CREATED_AT` DATETIME COMMENT '「createdAt」- 创建时间',
+    `CREATED_BY` VARCHAR
+(
+    36
+) COMMENT '「createdBy」- 创建人',
+    `UPDATED_AT` DATETIME COMMENT '「updatedAt」- 更新时间',
+    `UPDATED_BY` VARCHAR
+(
+    36
+) COMMENT '「updatedBy」- 更新人',
+    PRIMARY KEY
+(
+    `KEY`
+) USING BTREE
+    );
 -- changeset Lang:ox-job-2
 ALTER TABLE I_JOB
-    ADD UNIQUE (`SIGMA`,`CODE`);
+    ADD UNIQUE (`SIGMA`, `CODE`) USING BTREE;
 ALTER TABLE I_JOB
-    ADD UNIQUE (`SIGMA`,`NAME`);
+    ADD UNIQUE (`SIGMA`, `NAME`) USING BTREE;
 ALTER TABLE I_JOB
-    ADD UNIQUE (`NAMESPACE`, `NAME`);
+    ADD UNIQUE (`NAMESPACE`, `NAME`) USING BTREE;
 
 -- 用 sigma 查询
 ALTER TABLE I_JOB
-    ADD INDEX IDX_I_JOB_SIGMA (`SIGMA`);
+    ADD INDEX IDX_I_JOB_SIGMA (`SIGMA`) USING BTREE;
 ALTER TABLE I_JOB
-    ADD INDEX IDX_I_JOB_SERVICE_ID (`SERVICE_ID`);
+    ADD INDEX IDX_I_JOB_SERVICE_ID (`SERVICE_ID`) USING BTREE;
 ALTER TABLE I_JOB
-    ADD INDEX IDXM_I_JOB_GROUP_SIGMA (`SIGMA`,`GROUP`);
+    ADD INDEX IDXM_I_JOB_GROUP_SIGMA (`SIGMA`,`GROUP`) USING BTREE;
 ALTER TABLE I_JOB
-    ADD INDEX IDXM_I_JOB_TYPE_SIGMA (`SIGMA`,`TYPE`);
+    ADD INDEX IDXM_I_JOB_TYPE_SIGMA (`SIGMA`,`TYPE`) USING BTREE;
 ALTER TABLE I_JOB
-    ADD INDEX IDXM_I_JOB_GROUP_TYPE_SIGMA (`SIGMA`,`GROUP`,`TYPE`);
+    ADD INDEX IDXM_I_JOB_GROUP_TYPE_SIGMA (`SIGMA`,`GROUP`,`TYPE`) USING BTREE;

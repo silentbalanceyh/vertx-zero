@@ -29,21 +29,36 @@ CREATE TABLE IF NOT EXISTS M_MODEL
     `SPIDER_COMPONENT` VARCHAR(255) COMMENT '「spiderComponent」- 在主图格式上存在的插件信息，用于处理主图格式的内容',
 
     -- 特殊字段
-    `SIGMA`         VARCHAR(32) COMMENT '「sigma」- 统一标识',
-    `LANGUAGE`      VARCHAR(10) COMMENT '「language」- 使用的语言',
-    `ACTIVE`        BIT COMMENT '「active」- 是否启用',
-    `METADATA`      TEXT COMMENT '「metadata」- 附加配置数据',
+    `SIGMA` VARCHAR
+(
+    32
+) COMMENT '「sigma」- 统一标识',
+    `LANGUAGE` VARCHAR
+(
+    10
+) COMMENT '「language」- 使用的语言',
+    `ACTIVE` BIT COMMENT '「active」- 是否启用',
+    `METADATA` TEXT COMMENT '「metadata」- 附加配置数据',
 
     -- Auditor字段
-    `CREATED_AT`    DATETIME COMMENT '「createdAt」- 创建时间',
-    `CREATED_BY`    VARCHAR(36) COMMENT '「createdBy」- 创建人',
-    `UPDATED_AT`    DATETIME COMMENT '「updatedAt」- 更新时间',
-    `UPDATED_BY`    VARCHAR(36) COMMENT '「updatedBy」- 更新人',
-    PRIMARY KEY (`KEY`)
-);
+    `CREATED_AT` DATETIME COMMENT '「createdAt」- 创建时间',
+    `CREATED_BY` VARCHAR
+(
+    36
+) COMMENT '「createdBy」- 创建人',
+    `UPDATED_AT` DATETIME COMMENT '「updatedAt」- 更新时间',
+    `UPDATED_BY` VARCHAR
+(
+    36
+) COMMENT '「updatedBy」- 更新人',
+    PRIMARY KEY
+(
+    `KEY`
+) USING BTREE
+    );
 
 -- changeset Lang:ox-model-2
 ALTER TABLE M_MODEL
-    ADD UNIQUE (`NAMESPACE`, `IDENTIFIER`); -- 应用name作为identifier前缀：多应用处理专用
+    ADD UNIQUE (`NAMESPACE`, `IDENTIFIER`) USING BTREE; -- 应用name作为identifier前缀：多应用处理专用
 ALTER TABLE M_MODEL
-    ADD UNIQUE (`NAMESPACE`, `NAME`);
+    ADD UNIQUE (`NAMESPACE`, `NAME`) USING BTREE;

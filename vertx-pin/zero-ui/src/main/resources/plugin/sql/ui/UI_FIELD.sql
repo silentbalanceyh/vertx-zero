@@ -30,23 +30,38 @@ CREATE TABLE IF NOT EXISTS UI_FIELD
 
     -- 特殊字段
     `ROW_TYPE`      VARCHAR(20) DEFAULT NULL COMMENT '「rowType」- 行类型',
-    `ACTIVE`        BIT         DEFAULT NULL COMMENT '「active」- 是否启用',
-    `SIGMA`         VARCHAR(32) DEFAULT NULL COMMENT '「sigma」- 统一标识',
-    `METADATA`      TEXT COMMENT '「metadata」- 附加配置',
-    `LANGUAGE`      VARCHAR(8)  DEFAULT NULL COMMENT '「language」- 使用的语言',
+    `ACTIVE` BIT DEFAULT NULL COMMENT '「active」- 是否启用',
+    `SIGMA` VARCHAR
+(
+    32
+) DEFAULT NULL COMMENT '「sigma」- 统一标识',
+    `METADATA` TEXT COMMENT '「metadata」- 附加配置',
+    `LANGUAGE` VARCHAR
+(
+    8
+) DEFAULT NULL COMMENT '「language」- 使用的语言',
 
     -- Auditor字段
-    `CREATED_AT`    DATETIME COMMENT '「createdAt」- 创建时间',
-    `CREATED_BY`    VARCHAR(36) COMMENT '「createdBy」- 创建人',
-    `UPDATED_AT`    DATETIME COMMENT '「updatedAt」- 更新时间',
-    `UPDATED_BY`    VARCHAR(36) COMMENT '「updatedBy」- 更新人',
-    PRIMARY KEY (`KEY`)
-);
+    `CREATED_AT` DATETIME COMMENT '「createdAt」- 创建时间',
+    `CREATED_BY` VARCHAR
+(
+    36
+) COMMENT '「createdBy」- 创建人',
+    `UPDATED_AT` DATETIME COMMENT '「updatedAt」- 更新时间',
+    `UPDATED_BY` VARCHAR
+(
+    36
+) COMMENT '「updatedBy」- 更新人',
+    PRIMARY KEY
+(
+    `KEY`
+) USING BTREE
+    );
 -- changeset Lang:ox-field-2
 ALTER TABLE UI_FIELD
-    ADD UNIQUE (`CONTROL_ID`, `NAME`);
+    ADD UNIQUE (`CONTROL_ID`, `NAME`) USING BTREE;
 
 ALTER TABLE UI_FIELD
-    ADD INDEX IDX_UI_FIELD_CONTROL_ID (`CONTROL_ID`);
+    ADD INDEX IDX_UI_FIELD_CONTROL_ID (`CONTROL_ID`) USING BTREE;
 ALTER TABLE UI_FIELD
-    ADD INDEX IDXM_UI_FIELD_CONTROL_ID_X_Y (`CONTROL_ID`,`X_POINT`,`Y_POINT`);
+    ADD INDEX IDXM_UI_FIELD_CONTROL_ID_X_Y (`CONTROL_ID`,`X_POINT`,`Y_POINT`) USING BTREE;

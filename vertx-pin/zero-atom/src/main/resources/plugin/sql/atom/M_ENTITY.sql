@@ -14,23 +14,38 @@ CREATE TABLE IF NOT EXISTS M_ENTITY
     `COMMENTS`   TEXT COMMENT '「comments」- 数据库表备注',
 
     -- 特殊字段
-    `SIGMA`      VARCHAR(32) COMMENT '「sigma」- 统一标识',
-    `LANGUAGE`   VARCHAR(10) COMMENT '「language」- 使用的语言',
-    `ACTIVE`     BIT COMMENT '「active」- 是否启用',
-    `METADATA`   TEXT COMMENT '「metadata」- 附加配置数据',
+    `SIGMA` VARCHAR
+(
+    32
+) COMMENT '「sigma」- 统一标识',
+    `LANGUAGE` VARCHAR
+(
+    10
+) COMMENT '「language」- 使用的语言',
+    `ACTIVE` BIT COMMENT '「active」- 是否启用',
+    `METADATA` TEXT COMMENT '「metadata」- 附加配置数据',
 
     -- Auditor字段
     `CREATED_AT` DATETIME COMMENT '「createdAt」- 创建时间',
-    `CREATED_BY` VARCHAR(36) COMMENT '「createdBy」- 创建人',
+    `CREATED_BY` VARCHAR
+(
+    36
+) COMMENT '「createdBy」- 创建人',
     `UPDATED_AT` DATETIME COMMENT '「updatedAt」- 更新时间',
-    `UPDATED_BY` VARCHAR(36) COMMENT '「updatedBy」- 更新人',
-    PRIMARY KEY (`KEY`)
-);
+    `UPDATED_BY` VARCHAR
+(
+    36
+) COMMENT '「updatedBy」- 更新人',
+    PRIMARY KEY
+(
+    `KEY`
+) USING BTREE
+    );
 
 -- changeset Lang:ox-entity-2
 ALTER TABLE M_ENTITY
-    ADD UNIQUE (`NAMESPACE`, `IDENTIFIER`);
+    ADD UNIQUE (`NAMESPACE`, `IDENTIFIER`) USING BTREE;
 ALTER TABLE M_ENTITY
-    ADD UNIQUE (`SIGMA`, `TABLE_NAME`); -- 防止出现表混用（表名必须唯一，理论上不同企业应该分库）
+    ADD UNIQUE (`SIGMA`, `TABLE_NAME`) USING BTREE; -- 防止出现表混用（表名必须唯一，理论上不同企业应该分库）
 ALTER TABLE M_ENTITY
-    ADD UNIQUE (`NAMESPACE`, `NAME`);
+    ADD UNIQUE (`NAMESPACE`, `NAME`) USING BTREE;

@@ -52,9 +52,9 @@ CREATE TABLE `E_CUSTOMER`
     `CREATED_BY`     VARCHAR(36) COMMENT '「createdBy」- 创建人',
     `UPDATED_AT`     DATETIME COMMENT '「updatedAt」- 更新时间',
     `UPDATED_BY`     VARCHAR(36) COMMENT '「updatedBy」- 更新人',
-    PRIMARY KEY (`KEY`)
+    PRIMARY KEY (`KEY`) USING BTREE
 );
 
 -- changeset Lang:h-customer-2
 ALTER TABLE E_CUSTOMER
-    ADD UNIQUE (`TAX_CODE`, `SIGMA`);
+    ADD UNIQUE (`TAX_CODE`, `SIGMA`) USING BTREE;
