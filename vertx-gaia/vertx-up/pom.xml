@@ -9,7 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <artifactId>vertx-up</artifactId>
-    <name>Kernel - Web Container「vertx-up」</name>
+    <name>Kernel:「vertx-up」Web Container</name>
     <dependencies>
         <!-- Service Discovery -->
         <dependency>

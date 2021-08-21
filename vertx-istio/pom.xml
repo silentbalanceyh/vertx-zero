@@ -11,7 +11,7 @@
 
     <artifactId>vertx-istio</artifactId>
     <packaging>pom</packaging>
-    <name>Zero Micro「vertx-istio」</name>
+    <name>「vertx-istio」Zero Micro</name>
     <modules>
         <module>zero-iproxy</module>
     </modules>

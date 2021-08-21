@@ -10,7 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>zero-graphic</artifactId>
-    <name>Extension: Gc - Graphic Module「zero-graphic」</name>
+    <name>Extension:「zero-graphic」Gc - Graphic Module</name>
     <dependencies>
         <!-- Kern -->
         <dependency>

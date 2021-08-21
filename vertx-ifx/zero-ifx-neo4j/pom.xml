@@ -10,7 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>zero-ifx-neo4j</artifactId>
-    <name>Infix - Neo4j「zero-ifx-neo4j」</name>
+    <name>Infix:「zero-ifx-neo4j」Neo4j</name>
     <dependencies>
         <dependency>
             <groupId>org.neo4j.driver</groupId>

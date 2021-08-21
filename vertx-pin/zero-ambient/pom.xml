@@ -10,7 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>zero-ambient</artifactId>
-    <name>Extension: At - Ambient「zero-ambient」</name>
+    <name>Extension:「zero-ambient」At - Ambient</name>
     <dependencies>
         <!-- Kern -->
         <dependency>

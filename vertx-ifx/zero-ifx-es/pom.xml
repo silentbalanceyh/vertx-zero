@@ -10,7 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>zero-ifx-es</artifactId>
-    <name>Infix - Elastic Search「zero-ifx-es」</name>
+    <name>Infix:「zero-ifx-es」Elastic Search</name>
     <dependencies>
         <!-- elasticsearch dependencies -->
         <!--        <dependency>

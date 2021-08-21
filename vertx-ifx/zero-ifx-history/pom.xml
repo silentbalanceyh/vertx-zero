@@ -11,5 +11,5 @@
 
     <artifactId>zero-ifx-history</artifactId>
     <!-- Higher dependency -->
-    <name>Infix - History Trash「zero-ifx-history」</name>
+    <name>Infix:「zero-ifx-history」History Trash</name>
 </project>

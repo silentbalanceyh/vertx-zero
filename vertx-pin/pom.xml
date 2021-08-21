@@ -11,7 +11,7 @@
 
     <artifactId>vertx-pin</artifactId>
     <packaging>pom</packaging>
-    <name>Zero Extension「vertx-pin」</name>
+    <name>「vertx-pin」Zero Extension</name>
     <modules>
         <module>zero-ambient</module>           <!-- Environment -->
         <module>zero-atom</module>              <!-- Modeling -->

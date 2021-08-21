@@ -8,7 +8,7 @@
         <version>0.7.0-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
-    <name>Kernel - Reactive Container「vertx-rx」</name>
+    <name>Kernel:「vertx-rx」Reactive Container</name>
     <artifactId>vertx-rx</artifactId>
     <dependencies>
         <dependency>

@@ -6,7 +6,7 @@
     <groupId>cn.vertxup</groupId>
     <artifactId>vertx-zero</artifactId>
     <version>0.7.0-SNAPSHOT</version>
-    <name>Zero Framework「vertx-zero」</name>
+    <name>「vertx-zero」Zero Framework</name>
     <description>Vertx Zero Framework is a tool for Service Mesh Micro Service.</description>
     <url>http://www.vertxup.cn</url>
     <modules>

@@ -10,7 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>zero-lbs</artifactId>
-    <name>Extension: Lb - Location Base「zero-lbs」</name>
+    <name>Extension:「zero-lbs」Lb - Location Base</name>
     <dependencies>
         <!-- Kern -->
         <dependency>
