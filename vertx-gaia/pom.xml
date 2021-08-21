@@ -10,7 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
     <artifactId>vertx-gaia</artifactId>
     <packaging>pom</packaging>
-    <name>Zero Kernel Engine「vertx-gaia」</name>
+    <name>「vertx-gaia」Zero Kernel Engine</name>
     <modules>
         <module>vertx-up</module>
         <module>vertx-co</module>

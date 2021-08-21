@@ -10,7 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>zero-ifx-mongo</artifactId>
-    <name>Infix - Mongo Client「zero-ifx-mongo」</name>
+    <name>Infix:「zero-ifx-mongo」Mongo Client</name>
     <dependencies>
         <!-- Mongo Db Client & Provider -->
         <dependency>

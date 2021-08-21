@@ -10,7 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>zero-ifx-native</artifactId>
-    <name>Infix - Vert.x Native「zero-ifx-native」</name>
+    <name>Infix:「zero-ifx-native」Vert.x Native</name>
     <dependencies>
         <!-- Higher dependency -->
         <dependency>

@@ -10,7 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>zero-ifx-shell</artifactId>
-    <name>Infix - Shell Framework「zero-ifx-shell」</name>
+    <name>Infix:「zero-ifx-shell」Shell Framework</name>
     <dependencies>
         <dependency>
             <groupId>commons-cli</groupId>

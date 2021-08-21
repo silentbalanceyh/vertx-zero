@@ -10,7 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>zero-fmd</artifactId>
-    <name>Extension: Fd - Finance「zero-fmd」</name>
+    <name>Extension:「zero-fmd」Fd - Finance</name>
     <dependencies>
         <!-- Kern -->
         <dependency>

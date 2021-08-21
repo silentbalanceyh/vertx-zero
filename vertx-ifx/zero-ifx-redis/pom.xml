@@ -10,7 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>zero-ifx-redis</artifactId>
-    <name>Infix - Redis「zero-ifx-redis」</name>
+    <name>Infix:「zero-ifx-redis」Redis</name>
     <dependencies>
         <!-- Sync -->
         <dependency>
