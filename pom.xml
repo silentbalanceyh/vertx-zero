@@ -1568,6 +1568,10 @@
                     <artifactId>maven-processor-plugin</artifactId>
                     <version>${maven.plugin.processor}</version>
                 </plugin>
+                <plugin>
+                    <artifactId>maven-javadoc-plugin</artifactId>
+                    <version>${maven.plugin.javadoc}</version>
+                </plugin>
                 <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-source-plugin -->
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
