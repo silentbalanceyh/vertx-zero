@@ -11,7 +11,7 @@
 
     <artifactId>vertx-ifx</artifactId>
     <packaging>pom</packaging>
-    <name>Zero Plugins「vertx-ifx」</name>
+    <name>「vertx-ifx」Zero Plugins</name>
     <modules>
         <module>zero-ifx-es</module>
         <module>zero-ifx-excel</module>

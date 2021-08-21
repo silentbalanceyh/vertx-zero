@@ -8,7 +8,7 @@
         <version>0.7.0-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
-    <name>Kernel - Integration「vertx-tp」</name>
+    <name>Kernel:「vertx-tp」Integration</name>
     <artifactId>vertx-tp</artifactId>
     <dependencies>
         <dependency>

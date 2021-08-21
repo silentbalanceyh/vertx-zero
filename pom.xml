@@ -6,7 +6,7 @@
     <groupId>cn.vertxup</groupId>
     <artifactId>vertx-zero</artifactId>
     <version>0.7.0-SNAPSHOT</version>
-    <name>Zero Framework「vertx-zero」</name>
+    <name>「vertx-zero」Zero Framework</name>
     <description>Vertx Zero Framework is a tool for Service Mesh Micro Service.</description>
     <url>http://www.vertxup.cn</url>
     <modules>
@@ -136,7 +136,7 @@
         <!-- Rpc -->
         <vertx.grpc.version>1.6.1</vertx.grpc.version>
         <grpc.version>1.40.0</grpc.version>
-        <gson.version>2.8.7</gson.version>
+        <gson.version>2.8.8</gson.version>
         <picoli.version>4.6.1</picoli.version>
 
         <!-- Yaml -->
@@ -149,7 +149,7 @@
         <netty.version>4.1.49.Final</netty.version>
         <hazelcast.version>3.12.12</hazelcast.version>
         <swagger.version>1.6.0</swagger.version>
-        <error.prone.version>2.8.1</error.prone.version>
+        <error.prone.version>2.9.0</error.prone.version>
         <reactive.streams.version>1.0.3</reactive.streams.version>
         <zookeeper.version>3.7.0</zookeeper.version>
 

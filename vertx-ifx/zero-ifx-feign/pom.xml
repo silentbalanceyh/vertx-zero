@@ -10,7 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>zero-ifx-feign</artifactId>
-    <name>Infix - Feign Client「zero-ifx-feign」</name>
+    <name>Infix:「zero-ifx-feign」Feign Client</name>
     <dependencies>
         <!-- Feign client configuration -->
         <dependency>

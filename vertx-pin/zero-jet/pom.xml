@@ -10,7 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>zero-jet</artifactId>
-    <name>Extension: Jt - Dynamic Api/Job「zero-jet」</name>
+    <name>Extension:「zero-jet」Jt - Dynamic Api/Job</name>
     <dependencies>
         <!-- Kern -->
         <dependency>
