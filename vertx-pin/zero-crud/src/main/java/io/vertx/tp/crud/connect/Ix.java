@@ -3,14 +3,14 @@ package io.vertx.tp.crud.connect;
 import io.vertx.core.Future;
 import io.vertx.core.MultiMap;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.crud.atom.IxModule;
 import io.vertx.tp.crud.init.IxPin;
 import io.vertx.tp.crud.refine.Ix;
-import io.vertx.tp.ke.atom.metadata.KJoin;
-import io.vertx.tp.ke.atom.metadata.KPoint;
-import io.vertx.up.eon.KName;
+import io.vertx.tp.ke.atom.KModule;
+import io.vertx.tp.ke.atom.connect.KJoin;
+import io.vertx.tp.ke.atom.connect.KPoint;
 import io.vertx.tp.ke.cv.em.JoinMode;
 import io.vertx.up.commune.Envelop;
+import io.vertx.up.eon.KName;
 import io.vertx.up.log.Annal;
 import io.vertx.up.uca.jooq.UxJooq;
 import io.vertx.up.unity.Ux;
@@ -25,9 +25,9 @@ interface Pool {
             new ConcurrentHashMap<>();
 }
 
-interface OxSwitcher {
+interface IxSwitcher {
 
-    static JsonObject getData(final JsonObject original, final IxModule module) {
+    static JsonObject getData(final JsonObject original, final KModule module) {
         /*
          * Safe call because of MoveOn
          */
@@ -41,7 +41,7 @@ interface OxSwitcher {
         return inputData;
     }
 
-    static JsonObject getCondition(final JsonObject original, final IxModule module) {
+    static JsonObject getCondition(final JsonObject original, final KModule module) {
         /*
          * Safe call because of MoveOn
          */
@@ -61,13 +61,13 @@ interface OxSwitcher {
 
     static Future<Envelop> moveOn(final JsonObject data,
                                   final MultiMap headers,
-                                  final IxModule module,
-                                  final BiFunction<UxJooq, IxModule, Future<Envelop>> function) {
+                                  final KModule module,
+                                  final BiFunction<UxJooq, KModule, Future<Envelop>> function) {
         /*
          * Linker data preparing
          */
         final KJoin connect = module.getConnect();
-        final Annal LOGGER = Annal.get(OxSwitcher.class);
+        final Annal LOGGER = Annal.get(IxSwitcher.class);
         if (Objects.isNull(connect)) {
             /*
              * KJoin null, could not identify connect
@@ -80,7 +80,7 @@ interface OxSwitcher {
                 return Ux.future(Envelop.success(data));
             } else {
                 assert Objects.nonNull(target.getCrud()) : "Here the 'crud' field could not be null, because of passed 'modeTarget' checking.";
-                final IxModule joinedModule = IxPin.getActor(target.getCrud());
+                final KModule joinedModule = IxPin.getActor(target.getCrud());
                 final UxJooq dao = IxPin.getDao(joinedModule, headers);
                 return function.apply(dao, joinedModule);
             }
@@ -88,7 +88,7 @@ interface OxSwitcher {
     }
 
     static Future<Envelop> moveEnd(final JsonObject original, final Envelop response,
-                                   final IxModule config) {
+                                   final KModule config) {
         JsonObject createdJoined = response.data();
         /*
          * Merged two data here,

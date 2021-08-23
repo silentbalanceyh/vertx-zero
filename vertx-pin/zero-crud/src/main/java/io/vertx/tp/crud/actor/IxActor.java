@@ -2,7 +2,7 @@ package io.vertx.tp.crud.actor;
 
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.crud.atom.IxModule;
+import io.vertx.tp.ke.atom.KModule;
 import io.vertx.up.commune.Envelop;
 import io.vertx.up.exception.WebException;
 import io.vertx.up.fn.Fn;
@@ -86,7 +86,7 @@ public interface IxActor {
      * Input data here ( Async )
      */
     default Future<JsonObject> procAsync(final JsonObject data,
-                                         final IxModule config) {
+                                         final KModule config) {
         try {
             return Ux.future(this.proc(data, config));
         } catch (final WebException error) {
@@ -97,7 +97,7 @@ public interface IxActor {
     /*
      * Input data here
      */
-    JsonObject proc(JsonObject data, IxModule config);
+    JsonObject proc(JsonObject data, KModule config);
 
     /*
      * Bind

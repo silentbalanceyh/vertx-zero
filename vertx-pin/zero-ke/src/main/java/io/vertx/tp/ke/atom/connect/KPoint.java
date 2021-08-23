@@ -1,4 +1,4 @@
-package io.vertx.tp.ke.atom.metadata;
+package io.vertx.tp.ke.atom.connect;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.ClassDeserializer;

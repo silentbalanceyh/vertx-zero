@@ -3,15 +3,15 @@ package cn.vertxup.crud.api;
 import io.vertx.core.Future;
 import io.vertx.core.http.HttpStatusCode;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.crud.atom.IxModule;
 import io.vertx.tp.crud.refine.Ix;
+import io.vertx.tp.ke.atom.KModule;
 import io.vertx.up.commune.Envelop;
 import io.vertx.up.unity.Ux;
 
 public class IxHttp {
 
     /* 201 */
-    public static <T> Future<Envelop> success201(final T entity, final IxModule config) {
+    public static <T> Future<Envelop> success201(final T entity, final KModule config) {
         final JsonObject serializedJson = Ux.toJson(entity, config.getPojo());
         /* metadata must be converted */
         Ix.serializeJ(serializedJson, config);
@@ -23,7 +23,7 @@ public class IxHttp {
         return Ux.future(Envelop.success(entity));
     }
 
-    public static <T> Future<Envelop> success200(final T entity, final IxModule config) {
+    public static <T> Future<Envelop> success200(final T entity, final KModule config) {
         final JsonObject serializedJson = Ux.toJson(entity, config.getPojo());
         /* metadata must be converted */
         Ix.serializeJ(serializedJson, config);

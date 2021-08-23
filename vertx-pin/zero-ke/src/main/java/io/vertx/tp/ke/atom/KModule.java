@@ -1,12 +1,12 @@
-package io.vertx.tp.crud.atom;
+package io.vertx.tp.ke.atom;
 
 import com.fasterxml.jackson.databind.*;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.ke.atom.metadata.KField;
-import io.vertx.tp.ke.atom.metadata.KJoin;
+import io.vertx.tp.ke.atom.connect.KJoin;
+import io.vertx.tp.ke.atom.view.KParamView;
 import io.vertx.tp.ke.cv.em.DSMode;
 import io.vertx.up.commune.exchange.DictConfig;
 import io.vertx.up.commune.exchange.DictEpsilon;
@@ -17,7 +17,7 @@ import java.io.Serializable;
 import java.util.Objects;
 import java.util.concurrent.ConcurrentMap;
 
-public class IxModule implements Serializable {
+public class KModule implements Serializable {
 
     private String name;
     private String table;
@@ -25,7 +25,7 @@ public class IxModule implements Serializable {
     private String mode;
     private String modeKey;     // mode = EXTENSION
     private KField field;
-    private IxViewParam column;
+    private KParamView column;
 
     private KJoin connect;     // connect for 1 join 1
 
@@ -68,7 +68,9 @@ public class IxModule implements Serializable {
     public String getIdentifier() {
         if (Objects.nonNull(this.column)) {
             return this.column.getIdentifier();
-        } else return null;
+        } else {
+            return null;
+        }
     }
 
     public String getPojo() {
@@ -103,11 +105,11 @@ public class IxModule implements Serializable {
         this.header = header;
     }
 
-    public IxViewParam getColumn() {
+    public KParamView getColumn() {
         return this.column;
     }
 
-    public void setColumn(final IxViewParam column) {
+    public void setColumn(final KParamView column) {
         this.column = column;
     }
 

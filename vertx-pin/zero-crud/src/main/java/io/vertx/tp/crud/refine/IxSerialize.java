@@ -2,8 +2,8 @@ package io.vertx.tp.crud.refine;
 
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.crud.atom.IxModule;
-import io.vertx.tp.ke.atom.metadata.KField;
+import io.vertx.tp.ke.atom.KField;
+import io.vertx.tp.ke.atom.KModule;
 import io.vertx.tp.ke.refine.Ke;
 import io.vertx.up.atom.unity.Uarr;
 import io.vertx.up.eon.KName;
@@ -20,18 +20,18 @@ class IxSerialize {
 
     private static final Annal LOGGER = Annal.get(IxSerialize.class);
 
-    static JsonObject serializePO(final JsonObject result, final IxModule config) {
+    static JsonObject serializePO(final JsonObject result, final KModule config) {
         final JsonArray list = Ux.pageData(result);
         final JsonObject queried = list.getJsonObject(Values.IDX);
         return serializeJ(queried, config);
     }
 
-    static JsonArray serializePL(final JsonObject result, final IxModule config) {
+    static JsonArray serializePL(final JsonObject result, final KModule config) {
         return serializeA(Ux.pageData(result), config);
     }
 
-    static JsonArray serializeA(final JsonArray from, final JsonArray to, final IxModule config) {
-        final io.vertx.tp.ke.atom.metadata.KField field = config.getField();
+    static JsonArray serializeA(final JsonArray from, final JsonArray to, final KModule config) {
+        final KField field = config.getField();
         final String keyField = field.getKey();
         return Uarr.create(to).zip(from, keyField, keyField).to();
     }
@@ -42,11 +42,11 @@ class IxSerialize {
      *     "list": []
      * }
      */
-    static JsonObject serializeP(final JsonObject data, final IxModule config) {
+    static JsonObject serializeP(final JsonObject data, final KModule config) {
         return Ux.pageData(data, ref -> serializeA(ref, config));
     }
 
-    static JsonObject serializeJ(final JsonObject data, final IxModule config) {
+    static JsonObject serializeJ(final JsonObject data, final KModule config) {
         /*
          * Deserialize First
          */
@@ -57,7 +57,7 @@ class IxSerialize {
         return data;
     }
 
-    static JsonArray serializeA(final JsonArray data, final IxModule config) {
+    static JsonArray serializeA(final JsonArray data, final KModule config) {
         if (Ut.isNil(data)) {
             return new JsonArray();
         } else {
@@ -67,7 +67,7 @@ class IxSerialize {
     }
 
     @SuppressWarnings("all")
-    static <T> T deserializeT(final JsonObject data, final IxModule config) {
+    static <T> T deserializeT(final JsonObject data, final KModule config) {
         IxLog.infoDao(LOGGER, "Normalized: \n{0}", data.encodePrettily());
         {
             /*
@@ -89,7 +89,7 @@ class IxSerialize {
     }
 
     @SuppressWarnings("all")
-    static <T> List<T> deserializeT(final JsonArray data, final IxModule config) {
+    static <T> List<T> deserializeT(final JsonArray data, final KModule config) {
         final List<T> list = new ArrayList<>();
         data.stream()
                 .filter(Objects::nonNull)

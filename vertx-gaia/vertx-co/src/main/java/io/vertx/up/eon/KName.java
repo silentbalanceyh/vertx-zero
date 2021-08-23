@@ -139,6 +139,10 @@ public interface KName {
     String LIST = "list";                        /* Page Data */
     String COUNT = "count";                      /* Page Count */
 
+    interface Micro {
+        String ETCD = "etcd";
+    }
+
     /*
      * X_APP
      */

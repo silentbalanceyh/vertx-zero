@@ -7,12 +7,12 @@ import io.vertx.tp.crud.actor.IxActor;
 import io.vertx.tp.crud.connect.IxLinker;
 import io.vertx.tp.crud.cv.Addr;
 import io.vertx.tp.crud.refine.Ix;
-import io.vertx.up.eon.KName;
 import io.vertx.tp.ke.refine.Ke;
 import io.vertx.tp.optic.ApeakMy;
 import io.vertx.up.annotations.Address;
 import io.vertx.up.annotations.Queue;
 import io.vertx.up.commune.Envelop;
+import io.vertx.up.eon.KName;
 import io.vertx.up.eon.Strings;
 import io.vertx.up.log.Annal;
 import io.vertx.up.unity.Ux;
@@ -38,7 +38,7 @@ public class GetActor {
                             IxHttp.success204(queried) :
                             /* 200 */
                             IxHttp.success200(queried, config))
-                    .compose(response -> IxLinker.get().procAsync(request,
+                    .compose(response -> IxLinker.get().joinJAsync(request,
                             response.data(), config));
         });
     }
@@ -82,11 +82,13 @@ public class GetActor {
      */
     @Address(Addr.Get.COLUMN_FULL)
     public Future<Envelop> getFull(final Envelop request) {
-        return Ix.create(this.getClass()).input(request).envelop(
-                /* Search full column and it will be used in another method */
-                (dao, config) -> Unity.fetchFull(dao, request, config)
-                        /* Result Wrapper to Envelop */
-                        .compose(IxHttp::success200));
+        /* Search full column and it will be used in another method */
+        return Ix.create(this.getClass()).input(request).envelop((dao, config) -> {
+            /* Defined KModule */
+            return Unity.fetchFull(dao, request, config)
+                    .compose(response -> IxLinker.full().joinAAsync(request,
+                            response, config));
+        });
     }
 
     /*

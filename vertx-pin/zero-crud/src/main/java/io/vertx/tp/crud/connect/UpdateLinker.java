@@ -4,8 +4,8 @@ import cn.vertxup.crud.api.IxHttp;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.crud.actor.IxActor;
-import io.vertx.tp.crud.atom.IxModule;
 import io.vertx.tp.crud.refine.Ix;
+import io.vertx.tp.ke.atom.KModule;
 import io.vertx.up.commune.Envelop;
 import io.vertx.up.log.Annal;
 import io.vertx.up.unity.Ux;
@@ -17,30 +17,30 @@ class UpdateLinker implements IxLinker {
     private static final Annal LOGGER = Annal.get(UpdateLinker.class);
 
     @Override
-    public Future<Envelop> procAsync(final Envelop request, final JsonObject original,
-                                     final IxModule module) {
-        return OxSwitcher.moveOn(original, request.headers(), module, (dao, config) -> {
+    public Future<Envelop> joinJAsync(final Envelop request, final JsonObject original,
+                                      final KModule module) {
+        return IxSwitcher.moveOn(original, request.headers(), module, (dao, config) -> {
             /*
              * In updated, not needed to get key
              */
-            final JsonObject inputData = OxSwitcher.getData(original, module);
+            final JsonObject inputData = IxSwitcher.getData(original, module);
             /*
              * Get mapped to value here.
              */
-            final JsonObject filters = OxSwitcher.getCondition(original, module);
+            final JsonObject filters = IxSwitcher.getCondition(original, module);
 
             return dao.fetchOneAsync(filters).compose(queried -> null == queried ?
                     /* Create New Record */
-                    IxLinker.create().procAsync(request, inputData, module) :
+                    IxLinker.create().joinJAsync(request, inputData, module) :
                     /* Save */
                     IxActor.key().bind(request).procAsync(
-                            /*
-                             * 1. Get key from current json data
-                             * 2. Merged data here.
-                             * 3. Update data
-                             */
-                            this.procAsync(queried, inputData, config),
-                            config)
+                                    /*
+                                     * 1. Get key from current json data
+                                     * 2. Merged data here.
+                                     * 3. Update data
+                                     */
+                                    this.procAsync(queried, inputData, config),
+                                    config)
                             /* Verify */
                             .compose(input -> IxActor.verify().bind(request).procAsync(input, config))
                             /* T */
@@ -59,7 +59,7 @@ class UpdateLinker implements IxLinker {
         });
     }
 
-    private JsonObject procAsync(final Object original, final JsonObject inputData, final IxModule config) {
+    private JsonObject procAsync(final Object original, final JsonObject inputData, final KModule config) {
         /*
          * Here must bind pojo file
          */

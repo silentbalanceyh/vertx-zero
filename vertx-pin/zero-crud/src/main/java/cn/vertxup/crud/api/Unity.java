@@ -6,9 +6,9 @@ import io.vertx.core.http.HttpMethod;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.crud.actor.IxActor;
-import io.vertx.tp.crud.atom.IxModule;
 import io.vertx.tp.crud.refine.Ix;
-import io.vertx.tp.ke.atom.metadata.KField;
+import io.vertx.tp.ke.atom.KField;
+import io.vertx.tp.ke.atom.KModule;
 import io.vertx.tp.ke.refine.Ke;
 import io.vertx.tp.optic.Apeak;
 import io.vertx.tp.optic.Pocket;
@@ -37,7 +37,7 @@ class Unity {
 
     private static final Annal LOGGER = Annal.get(Unity.class);
 
-    static DictFabric fetchFabric(final ConcurrentMap<String, JsonArray> dictData, final IxModule config) {
+    static DictFabric fetchFabric(final ConcurrentMap<String, JsonArray> dictData, final KModule config) {
         return DictFabric.create().dictionary(dictData).epsilon(config.getEpsilon());
     }
 
@@ -47,7 +47,7 @@ class Unity {
      * 2. Sigma from header
      * 3. Find impact resourcedId that will be related to view.
      */
-    static Future<JsonObject> fetchView(final UxJooq dao, final Envelop request, final IxModule config) {
+    static Future<JsonObject> fetchView(final UxJooq dao, final Envelop request, final KModule config) {
         /* init parameters */
         final JsonObject params = Unity.initMy(request);
         return Ke.channel(Seeker.class, JsonObject::new, seeker -> Ux.future(params)
@@ -57,7 +57,7 @@ class Unity {
                 .compose(seeker.on(dao)::fetchImpact));
     }
 
-    static Future<JsonArray> fetchFull(final UxJooq dao, final Envelop request, final IxModule config) {
+    static Future<JsonArray> fetchFull(final UxJooq dao, final Envelop request, final KModule config) {
         /* Get Stub */
         return Ke.channel(Apeak.class, JsonArray::new, stub -> IxActor.start()
                 /* Apeak column definition here */
@@ -68,7 +68,7 @@ class Unity {
                 .compose(stub.on(dao)::fetchFull));
     }
 
-    static Future<ConcurrentMap<String, JsonArray>> fetchDict(final Envelop request, final IxModule config) {
+    static Future<ConcurrentMap<String, JsonArray>> fetchDict(final Envelop request, final KModule config) {
         /* Epsilon */
         final ConcurrentMap<String, DictEpsilon> epsilonMap = config.getEpsilon();
         /* Channel Plugin */
@@ -94,7 +94,7 @@ class Unity {
         }
     }
 
-    static boolean isMatch(final JsonObject record, final IxModule module) {
+    static boolean isMatch(final JsonObject record, final KModule module) {
         /*
          * Get unique rule of current module
          */

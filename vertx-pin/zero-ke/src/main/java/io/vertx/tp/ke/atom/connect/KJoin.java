@@ -1,4 +1,4 @@
-package io.vertx.tp.ke.atom.metadata;
+package io.vertx.tp.ke.atom.connect;
 
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.error._404IndentParsingException;

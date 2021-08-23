@@ -5,8 +5,11 @@ import com.fasterxml.jackson.databind.JsonArraySerializer;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import io.vertx.core.json.JsonArray;
+import io.vertx.up.atom.pojo.Mirror;
+import io.vertx.up.atom.pojo.Mojo;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 /**
  * Connect configuration data to
@@ -48,9 +51,13 @@ public class ExConnect implements Serializable {
         this.dao = dao;
     }
 
-    public String getPojoFile() { return pojoFile; }
+    public String getPojoFile() {
+        return this.pojoFile;
+    }
 
-    public void setPojoFile(String pojoFile) { this.pojoFile = pojoFile; }
+    public void setPojoFile(final String pojoFile) {
+        this.pojoFile = pojoFile;
+    }
 
     public JsonArray getUnique() {
         return this.unique;
@@ -61,7 +68,17 @@ public class ExConnect implements Serializable {
     }
 
     public String getKey() {
-        return this.key;
+        /*
+         * Calculated for Pojo Part
+         */
+        if (Objects.isNull(this.pojoFile)) {
+            return this.key;
+        } else {
+            final Mojo mojo = Mirror.create(this.getClass())
+                    .mount(this.pojoFile)
+                    .type(this.getDao()).mojo();
+            return mojo.getOut(this.key);
+        }
     }
 
     public void setKey(final String key) {
@@ -71,12 +88,12 @@ public class ExConnect implements Serializable {
     @Override
     public String toString() {
         return "ExConnect{" +
-                "table='" + table + '\'' +
-                ", pojo=" + pojo +
-                ", dao=" + dao +
-                ", pojoFile='" + pojoFile + '\'' +
-                ", unique=" + unique +
-                ", key='" + key + '\'' +
+                "table='" + this.table + '\'' +
+                ", pojo=" + this.pojo +
+                ", dao=" + this.dao +
+                ", pojoFile='" + this.pojoFile + '\'' +
+                ", unique=" + this.unique +
+                ", key='" + this.key + '\'' +
                 '}';
     }
 }

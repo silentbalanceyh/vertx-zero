@@ -8,12 +8,12 @@ import io.vertx.tp.crud.connect.IxLinker;
 import io.vertx.tp.crud.cv.Addr;
 import io.vertx.tp.crud.cv.IxMsg;
 import io.vertx.tp.crud.refine.Ix;
-import io.vertx.up.eon.KName;
 import io.vertx.tp.ke.refine.Ke;
 import io.vertx.tp.optic.ApeakMy;
 import io.vertx.up.annotations.Address;
 import io.vertx.up.annotations.Queue;
 import io.vertx.up.commune.Envelop;
+import io.vertx.up.eon.KName;
 import io.vertx.up.log.Annal;
 import io.vertx.up.unity.Ux;
 
@@ -29,20 +29,20 @@ public class PutActor {
             final JsonObject body = Ux.getJson2(request);
             final String key = Ux.getString1(request);
             return dao.fetchByIdAsync(key).compose(queried -> null == queried ?
-                    /* 204, No Content */
-                    IxHttp.success204(null) :
-                    /* Save */
-                    IxActor.key().bind(request).procAsync(body, config)
-                            /* Verify */
-                            .compose(input -> IxActor.verify().bind(request).procAsync(input, config))
-                            /* T */
-                            .compose(input -> Ix.deserializeT(input, config))
+                            /* 204, No Content */
+                            IxHttp.success204(null) :
                             /* Save */
-                            .compose(entity -> dao.updateAsync(key, entity))
-                            /* 200, Envelop */
-                            .compose(entity -> IxHttp.success200(entity, config)))
+                            IxActor.key().bind(request).procAsync(body, config)
+                                    /* Verify */
+                                    .compose(input -> IxActor.verify().bind(request).procAsync(input, config))
+                                    /* T */
+                                    .compose(input -> Ix.deserializeT(input, config))
+                                    /* Save */
+                                    .compose(entity -> dao.updateAsync(key, entity))
+                                    /* 200, Envelop */
+                                    .compose(entity -> IxHttp.success200(entity, config)))
                     /* Must merged */
-                    .compose(response -> IxLinker.update().procAsync(request,
+                    .compose(response -> IxLinker.update().joinJAsync(request,
                             body.mergeIn(response.data()), config));
         });
     }
