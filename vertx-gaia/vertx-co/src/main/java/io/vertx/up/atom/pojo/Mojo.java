@@ -66,6 +66,10 @@ public class Mojo implements Serializable {
         return this.config;
     }
 
+    public String getOut(final String key) {
+        return this.getOut().getOrDefault(key, null);
+    }
+
     /*
      * outField -> field
      * Reverted into `getOut`, it does not store
@@ -83,6 +87,10 @@ public class Mojo implements Serializable {
                 new ConcurrentHashMap<>();
         config.forEach((key, value) -> mapper.put(value, key));
         return mapper;
+    }
+
+    public String getIn(final String key) {
+        return this.getIn().getOrDefault(key, null);
     }
 
     /*
