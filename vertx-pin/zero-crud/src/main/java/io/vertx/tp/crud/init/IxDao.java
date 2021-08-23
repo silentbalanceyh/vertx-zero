@@ -10,7 +10,6 @@ import io.vertx.tp.ke.cv.em.DSMode;
 import io.vertx.tp.ke.refine.Ke;
 import io.vertx.tp.optic.DS;
 import io.vertx.up.eon.FileSuffix;
-import io.vertx.up.eon.Strings;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import io.vertx.up.log.Debugger;
@@ -53,17 +52,16 @@ class IxDao {
                 /* 2. Deserialize to IxConfig object */
                 final KModule config = Ut.deserialize(configDao, KModule.class);
                 /* 3. Processed key */
-                final String key = file.replace(Strings.DOT + FileSuffix.JSON, Strings.EMPTY);
                 if (file.contains(config.getName())) {
                     /* 4. Logger */
                     if (Debugger.isEnabled("curd.dao.file")) {
-                        Ix.infoInit(LOGGER, IxMsg.INIT_INFO, path, key);
+                        Ix.infoInit(LOGGER, IxMsg.INIT_INFO, path, config.getName());
                     }
                     /*
                      * Resolution for resource key calculation
                      */
-                    IxConfiguration.addUrs(key);
-                    CONFIG_MAP.put(key, config);
+                    IxConfiguration.addUrs(config.getName());
+                    CONFIG_MAP.put(config.getName(), config);
                 } else {
                     Ix.errorInit(LOGGER, IxMsg.INIT_ERROR, path, config.getName());
                 }
