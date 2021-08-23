@@ -13,7 +13,7 @@ import io.vertx.up.eon.KName;
  */
 class GetLinker implements IxLinker {
     @Override
-    public Future<Envelop> procAsync(final Envelop request, final JsonObject original, final KModule module) {
+    public Future<Envelop> joinJAsync(final Envelop request, final JsonObject original, final KModule module) {
         /*
          * Ke mount
          * `metadata` field processing

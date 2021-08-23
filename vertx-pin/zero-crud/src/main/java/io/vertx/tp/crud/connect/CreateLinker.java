@@ -12,7 +12,7 @@ import io.vertx.up.commune.Envelop;
 class CreateLinker implements IxLinker {
 
     @Override
-    public Future<Envelop> procAsync(final Envelop request, final JsonObject original, final KModule module) {
+    public Future<Envelop> joinJAsync(final Envelop request, final JsonObject original, final KModule module) {
 
         return IxSwitcher.moveOn(original, request.headers(), module, (dao, config) -> {
             /*

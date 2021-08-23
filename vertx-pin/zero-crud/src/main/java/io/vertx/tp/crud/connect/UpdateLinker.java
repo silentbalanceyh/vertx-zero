@@ -17,8 +17,8 @@ class UpdateLinker implements IxLinker {
     private static final Annal LOGGER = Annal.get(UpdateLinker.class);
 
     @Override
-    public Future<Envelop> procAsync(final Envelop request, final JsonObject original,
-                                     final KModule module) {
+    public Future<Envelop> joinJAsync(final Envelop request, final JsonObject original,
+                                      final KModule module) {
         return IxSwitcher.moveOn(original, request.headers(), module, (dao, config) -> {
             /*
              * In updated, not needed to get key
@@ -31,7 +31,7 @@ class UpdateLinker implements IxLinker {
 
             return dao.fetchOneAsync(filters).compose(queried -> null == queried ?
                     /* Create New Record */
-                    IxLinker.create().procAsync(request, inputData, module) :
+                    IxLinker.create().joinJAsync(request, inputData, module) :
                     /* Save */
                     IxActor.key().bind(request).procAsync(
                                     /*

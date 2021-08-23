@@ -33,7 +33,7 @@ public class PostActor {
             final JsonObject body = Ux.getJson1(request);
             return IxHub.createAsync(request, body, dao, config)
                     /* Extension by connect here for creation */
-                    .compose(response -> IxLinker.create().procAsync(request,
+                    .compose(response -> IxLinker.create().joinJAsync(request,
                             /* Must merged */
                             body.mergeIn(response.data()), config));
         });

@@ -37,7 +37,7 @@ public class DeleteActor {
                                     stub -> stub.backupAsync(config.getIdentifier(), original))
                             )
                             /* 200, IxLinker deleted first and then deleted current record */
-                            .compose(original -> IxLinker.delete().procAsync(request, Ut.serializeJson(original), config)
+                            .compose(original -> IxLinker.delete().joinJAsync(request, Ut.serializeJson(original), config)
                                     .compose(nil ->
                                             /*
                                              * Delete current record

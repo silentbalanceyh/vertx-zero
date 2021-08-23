@@ -11,8 +11,8 @@ import io.vertx.up.unity.Ux;
  */
 class DeleteLinker implements IxLinker {
     @Override
-    public Future<Envelop> procAsync(final Envelop request, final JsonObject original,
-                                     final KModule module) {
+    public Future<Envelop> joinJAsync(final Envelop request, final JsonObject original,
+                                      final KModule module) {
         return IxSwitcher.moveOn(original, request.headers(), module, (dao, config) -> {
             /*
              * Extract identifier from original json data
