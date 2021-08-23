@@ -1,4 +1,4 @@
-package io.vertx.tp.crud.atom;
+package io.vertx.tp.ke.atom.view;
 
 import com.fasterxml.jackson.databind.JsonArrayDeserializer;
 import com.fasterxml.jackson.databind.JsonArraySerializer;
@@ -8,7 +8,7 @@ import io.vertx.core.json.JsonArray;
 
 import java.io.Serializable;
 
-public class IxColumn implements Serializable {
+public class KColumn implements Serializable {
     @JsonSerialize(using = JsonArraySerializer.class)
     @JsonDeserialize(using = JsonArrayDeserializer.class)
     private transient JsonArray patterns;

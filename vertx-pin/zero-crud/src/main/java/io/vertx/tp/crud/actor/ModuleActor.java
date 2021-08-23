@@ -1,7 +1,7 @@
 package io.vertx.tp.crud.actor;
 
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.crud.atom.IxModule;
+import io.vertx.tp.ke.atom.KModule;
 import io.vertx.up.eon.KName;
 import io.vertx.up.unity.Ux;
 
@@ -12,7 +12,7 @@ import io.vertx.up.unity.Ux;
  */
 class ModuleActor extends AbstractActor {
     @Override
-    public JsonObject proc(final JsonObject data, final IxModule module) {
+    public JsonObject proc(final JsonObject data, final KModule module) {
         final String actor = Ux.getString(this.getRequest());
         data.put(KName.ACTOR, actor);
         return data;

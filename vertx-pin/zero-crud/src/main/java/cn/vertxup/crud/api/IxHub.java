@@ -3,8 +3,8 @@ package cn.vertxup.crud.api;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.crud.actor.IxActor;
-import io.vertx.tp.crud.atom.IxModule;
 import io.vertx.tp.crud.refine.Ix;
+import io.vertx.tp.ke.atom.KModule;
 import io.vertx.up.commune.Envelop;
 import io.vertx.up.uca.jooq.UxJooq;
 import io.vertx.up.unity.Ux;
@@ -22,7 +22,7 @@ public class IxHub {
      * -- Create joined object: 2 tables
      */
     public static Future<Envelop> createAsync(final Envelop request, final JsonObject body,
-                                              final UxJooq dao, final IxModule config) {
+                                              final UxJooq dao, final KModule config) {
         return Ux.future(body)
                 /* Header */
                 .compose(input -> IxActor.header().bind(request).procAsync(input, config))

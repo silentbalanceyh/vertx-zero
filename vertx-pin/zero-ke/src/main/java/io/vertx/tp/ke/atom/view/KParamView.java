@@ -1,10 +1,10 @@
-package io.vertx.tp.crud.atom;
+package io.vertx.tp.ke.atom.view;
 
 import io.vertx.up.util.Ut;
 
 import java.io.Serializable;
 
-public class IxViewParam implements Serializable {
+public class KParamView implements Serializable {
 
     private transient Boolean dynamic = Boolean.FALSE;
     private transient String identifier;

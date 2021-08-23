@@ -2,7 +2,7 @@ package io.vertx.tp.crud.connect;
 
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.crud.atom.IxModule;
+import io.vertx.tp.ke.atom.KModule;
 import io.vertx.up.commune.Envelop;
 import io.vertx.up.fn.Fn;
 
@@ -30,5 +30,5 @@ public interface IxLinker {
                 UpdateLinker::new);
     }
 
-    Future<Envelop> procAsync(Envelop request, JsonObject original, IxModule module);
+    Future<Envelop> procAsync(Envelop request, JsonObject original, KModule module);
 }

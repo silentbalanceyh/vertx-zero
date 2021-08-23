@@ -3,8 +3,8 @@ package io.vertx.tp.crud.refine;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.crud.atom.IxModule;
 import io.vertx.tp.crud.atom.IxProc;
+import io.vertx.tp.ke.atom.KModule;
 import io.vertx.up.log.Annal;
 import io.vertx.up.uca.jooq.UxJooq;
 import io.vertx.up.unity.Ux;
@@ -32,15 +32,15 @@ public class Ix {
     /*
      * search operation
      */
-    public static Function<UxJooq, Future<JsonObject>> search(final JsonObject filters, final IxModule config) {
+    public static Function<UxJooq, Future<JsonObject>> search(final JsonObject filters, final KModule config) {
         return IxQuery.search(filters, config);
     }
 
-    public static Function<UxJooq, Future<Boolean>> existing(final JsonObject filters, final IxModule config) {
+    public static Function<UxJooq, Future<Boolean>> existing(final JsonObject filters, final KModule config) {
         return IxQuery.existing(filters, config);
     }
 
-    public static Function<UxJooq, Future<JsonObject>> query(final JsonObject filters, final IxModule config) {
+    public static Function<UxJooq, Future<JsonObject>> query(final JsonObject filters, final KModule config) {
         return IxQuery.query(filters, config);
     }
 
@@ -56,40 +56,40 @@ public class Ix {
     /*
      * analyze unique record
      */
-    public static Future<JsonObject> serializePO(final JsonObject result, final IxModule config) {
+    public static Future<JsonObject> serializePO(final JsonObject result, final KModule config) {
         return Ux.future(IxSerialize.serializePO(result, config));
     }
 
-    public static Future<JsonArray> serializePL(final JsonObject result, final IxModule config) {
+    public static Future<JsonArray> serializePL(final JsonObject result, final KModule config) {
         return Ux.future(IxSerialize.serializePL(result, config));
     }
 
     /*
      * Deserialize to T
      */
-    public static <T> Future<T> deserializeT(final JsonObject data, final IxModule config) {
+    public static <T> Future<T> deserializeT(final JsonObject data, final KModule config) {
         final T reference = IxSerialize.deserializeT(data, config);
         return Ux.future(reference);
     }
 
-    public static <T> Future<List<T>> deserializeT(final JsonArray data, final IxModule config) {
+    public static <T> Future<List<T>> deserializeT(final JsonArray data, final KModule config) {
         return Ux.future(IxSerialize.deserializeT(data, config));
     }
 
-    public static Future<JsonArray> serializeA(final JsonArray data, final IxModule config) {
+    public static Future<JsonArray> serializeA(final JsonArray data, final KModule config) {
         return Ux.future(IxSerialize.serializeA(data, config));
     }
 
-    public static Future<JsonObject> serializeJ(final JsonObject data, final IxModule config) {
+    public static Future<JsonObject> serializeJ(final JsonObject data, final KModule config) {
         return Ux.future(IxSerialize.serializeJ(data, config));
     }
 
-    public static Future<JsonArray> serializeA(final JsonArray from, final JsonArray to, final IxModule config) {
+    public static Future<JsonArray> serializeA(final JsonArray from, final JsonArray to, final KModule config) {
         return Ux.future(IxSerialize.serializeA(from, to, config));
     }
 
     // JqTool
-    public static Future<JsonObject> inKeys(final JsonArray array, final IxModule config) {
+    public static Future<JsonObject> inKeys(final JsonArray array, final KModule config) {
         return Ux.future(IxQuery.inKeys(array, config));
     }
 

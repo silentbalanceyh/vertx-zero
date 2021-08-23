@@ -3,8 +3,8 @@ package io.vertx.tp.crud.refine;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.crud.atom.IxModule;
-import io.vertx.tp.ke.atom.metadata.KField;
+import io.vertx.tp.ke.atom.KField;
+import io.vertx.tp.ke.atom.KModule;
 import io.vertx.up.log.Annal;
 import io.vertx.up.uca.jooq.UxJooq;
 import io.vertx.up.unity.Ux;
@@ -18,7 +18,7 @@ class IxQuery {
 
     private static final Annal LOGGER = Annal.get(IxQuery.class);
 
-    static JsonObject inKeys(final JsonArray array, final IxModule config) {
+    static JsonObject inKeys(final JsonArray array, final KModule config) {
         final KField field = config.getField();
         final String keyField = field.getKey();
         /* Filters */
@@ -40,7 +40,7 @@ class IxQuery {
     }
 
     static Function<UxJooq, Future<JsonObject>> query(
-            final JsonObject criteria, final IxModule config) {
+            final JsonObject criteria, final KModule config) {
         final String pojo = config.getPojo();
         return dao -> {
             IxLog.infoDao(LOGGER, "( JqTool ) Dao -> {0}, pojo = {1}", config.getDaoCls(), pojo);
@@ -53,7 +53,7 @@ class IxQuery {
         };
     }
 
-    static Function<UxJooq, Future<JsonObject>> search(final JsonObject filters, final IxModule config) {
+    static Function<UxJooq, Future<JsonObject>> search(final JsonObject filters, final KModule config) {
         final String pojo = config.getPojo();
         return dao -> {
             IxLog.debugDao(LOGGER, "( Search ) Dao -> {0}, pojo = {1}", dao.getClass(), pojo);
@@ -68,7 +68,7 @@ class IxQuery {
         };
     }
 
-    static Function<UxJooq, Future<Boolean>> existing(final JsonObject criteria, final IxModule config) {
+    static Function<UxJooq, Future<Boolean>> existing(final JsonObject criteria, final KModule config) {
         final String pojo = config.getPojo();
         final JsonObject parameters = new JsonObject();
         if (Ut.notNil(pojo)) {

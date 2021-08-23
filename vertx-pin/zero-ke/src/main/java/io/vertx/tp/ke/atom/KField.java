@@ -1,4 +1,4 @@
-package io.vertx.tp.ke.atom.metadata;
+package io.vertx.tp.ke.atom;
 
 import com.fasterxml.jackson.databind.JsonArrayDeserializer;
 import com.fasterxml.jackson.databind.JsonArraySerializer;

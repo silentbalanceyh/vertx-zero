@@ -1,8 +1,8 @@
 package io.vertx.tp.crud.init;
 
 import io.vertx.core.MultiMap;
-import io.vertx.tp.crud.atom.IxModule;
 import io.vertx.tp.crud.refine.Ix;
+import io.vertx.tp.ke.atom.KModule;
 import io.vertx.tp.ke.refine.Ke;
 import io.vertx.up.atom.Rule;
 import io.vertx.up.log.Annal;
@@ -35,11 +35,11 @@ public class IxPin {
         IxValidator.init();
     }
 
-    public static IxModule getActor(final String actor) {
+    public static KModule getActor(final String actor) {
         return IxDao.get(actor);
     }
 
-    public static UxJooq getDao(final IxModule config, final MultiMap headers) {
+    public static UxJooq getDao(final KModule config, final MultiMap headers) {
         return IxDao.get(config, headers);
     }
 

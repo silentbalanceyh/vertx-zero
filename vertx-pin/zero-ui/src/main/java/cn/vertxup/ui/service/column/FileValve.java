@@ -17,6 +17,7 @@ class FileValve implements UiValve {
         /* Default column JsonArray */
         final JsonArray columns = UiPin.getColumn(identifier);
         /* Identifier Column for connect */
+
         Ui.infoUi(LOGGER, UiMsg.COLUMN_STATIC, sigma, columns.size(), columns.encode());
         return Ux.future(columns);
     }
