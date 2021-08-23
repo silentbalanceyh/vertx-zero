@@ -14,11 +14,13 @@ Api -> Sender ( Agent Area ) -> ( Event Bus ) -> Consumer ( Worker Area )
 Api -> ( Event Bus ) -> Consumer ( Worker Area )
 ```
 
-Actually interface style is often used in our real projects and based on our experience it's very popular to face real business requirements.
+Actually interface style is often used in our real projects and based on our experience it's very popular to face real
+business requirements.
 
 ## 1. Introduction
 
-In zero system we have designed many methods to extract data from api interface, for different data types we defined the common usage methods:
+In zero system we have designed many methods to extract data from api interface, for different data types we defined the
+common usage methods:
 
 * `static String getString(Message<Envelop> message)`
 * `static String getString(Envelop envelop)`
@@ -73,7 +75,9 @@ In zero system we have designed many methods to extract data from api interface,
 
 Here are the basic rules to understand above methods:
 
-1. The parameters are two types: the one is `Message<Envelop>`, and another one is `Envelop`, it's for different style writing, you can refer previous **Consumer** writing style to know which kind of method you want to choose. In our real project we often use `Message<Envelop>` type.
+1. The parameters are two types: the one is `Message<Envelop>`, and another one is `Envelop`, it's for different style
+   writing, you can refer previous **Consumer** writing style to know which kind of method you want to choose. In our
+   real project we often use `Message<Envelop>` type.
 2. There are five types for your to extract parameters: String, JsonObject, Long, Integer and generic type T.
 3. The last thing is that about the index, the index means that the definition sequence in your interface.
 
@@ -83,13 +87,17 @@ Please consider following codes
 String sayHello(String first, Integer second, String third);
 ```
 
-If you defined above method in your api interface, it means that you should have a method to extract the three parameters: `first, second, third`, how to do it?  You can do with Utility X as following:
+If you defined above method in your api interface, it means that you should have a method to extract the three
+parameters: `first, second, third`, how to do it? You can do with Utility X as following:
 
 * Call `getString(Message<Envelop>)` to extract "first";
 * Call `getInteger1(Message<Envelop>)` to extract "second";
 * Call`getString2(Message<Envelop>)` to extract "third";
 
-Here the digit in the method name is the index of your definition parameters, in our design we consider that your interface api should not contain more than 4 parameters, then you could use `getX, getX1, getX2, getX3` to extract all the parameter data, it could avoid you provide wrong index. If your parameter length is greater than 4, you can use the method with `index` continue to extract the rest parameters.
+Here the digit in the method name is the index of your definition parameters, in our design we consider that your
+interface api should not contain more than 4 parameters, then you could use `getX, getX1, getX2, getX3` to extract all
+the parameter data, it could avoid you provide wrong index. If your parameter length is greater than 4, you can use the
+method with `index` continue to extract the rest parameters.
 
 ## 2. Source Code
 
@@ -98,9 +106,9 @@ Here the digit in the method name is the index of your definition parameters, in
 ### 2.1. Sender
 
 ```java
-package com.htl.micro.user;
+package com.needee.micro.user;
 
-import com.htl.up.god.cv.Addr;
+import com.needee.up.god.cv.Addr;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.annotations.Address;
 import io.vertx.up.annotations.Codex;
@@ -125,10 +133,10 @@ public interface SelfApi {
 ### 2.2. Consumer
 
 ```java
-package com.htl.micro.user;
+package com.needee.micro.user;
 
-import com.htl.up.god.cv.Addr;
-import com.htl.micro.login.LoginStub;
+import com.needee.up.god.cv.Addr;
+import com.needee.micro.login.LoginStub;
 import io.vertx.core.eventbus.Message;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.unity.Ux;
@@ -148,7 +156,7 @@ public class SelfWorker {
     public void change(final Message<Envelop> message) {
         final JsonObject data = Ux.getJson(message);
         this.stub.modifyPassword(data.getString("key"),
-                data.getString("opassword"), data.getString("npassword"))
+                        data.getString("opassword"), data.getString("npassword"))
                 .setHandler(Ux.toHandler(message));
     }
 }
@@ -156,7 +164,9 @@ public class SelfWorker {
 
 ## 3. Summary
 
-From above code you could see that we used `Ux.getJson` api to get the data that you defined in interface. We also need to mention that, interface style could not support JSR303 Bean Validation, but it could support our Zero JSR303 validation. It's the core point that you should know.
+From above code you could see that we used `Ux.getJson` api to get the data that you defined in interface. We also need
+to mention that, interface style could not support JSR303 Bean Validation, but it could support our Zero JSR303
+validation. It's the core point that you should know.
 
 
 

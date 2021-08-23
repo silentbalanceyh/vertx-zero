@@ -1,6 +1,7 @@
 # D10097 - Jooq/CURI, Save/Existing Operation
 
-In many business scenarios, we often need to merge `Save/Upsert/Existing` operations here, in this kind of situations, we provide following Apis in Utility X package:
+In many business scenarios, we often need to merge `Save/Upsert/Existing` operations here, in this kind of situations,
+we provide following Apis in Utility X package:
 
 * `<T> Future<T> saveAsync(Object id, T updated)`
 * `<T> Future<T> saveAsync(Object id, Function<T, T> copyFun)`
@@ -18,9 +19,9 @@ Based on the method signature you should know the usage here.
 ### 1.1. ShopApi
 
 ```java
-package com.htl.micro.shop;
+package com.needee.micro.shop;
 
-import com.htl.up.god.cv.Addr;
+import com.needee.up.god.cv.Addr;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.annotations.Address;
 import io.vertx.up.annotations.EndPoint;
@@ -58,9 +59,9 @@ You can focus on the last method named `post` here to check the details:
 ### 1.2. ShopWorker
 
 ```java
-package com.htl.micro.shop;
+package com.needee.micro.shop;
 
-import com.htl.up.god.cv.Addr;
+import com.needee.up.god.cv.Addr;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.unity.Ux;
@@ -106,7 +107,7 @@ public class ShopWorker {
 ### 1.3. ShopStub \( Service Interface \)
 
 ```java
-package com.htl.micro.shop;
+package com.needee.micro.shop;
 
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
@@ -134,10 +135,10 @@ public interface ShopStub {
 ### 1.4. Shop Service \( Service Implementation \)
 
 ```java
-package com.htl.micro.shop;
+package com.needee.micro.shop;
 
-import com.htl.domain.tables.daos.HtlShopDao;
-import com.htl.domain.tables.pojos.HtlShop;
+import com.needee.domain.tables.daos.HtlShopDao;
+import com.needee.domain.tables.pojos.HtlShop;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;

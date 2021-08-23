@@ -32,7 +32,7 @@ E90002: "[401] The user''s ( username = {0} ) password that you provided is wron
 ### 1.2. Exception Definition
 
 ```java
-package com.htl.exception;
+package com.needee.exception;
 
 import io.vertx.core.http.HttpStatusCode;
 import io.vertx.up.exception.WebException;
@@ -59,7 +59,9 @@ public class UserNotFoundException extends WebException {
 
 ## 2. Summary
 
-Once you have finished above configuration and exception define, you should see the response information contains `info` node to say: `登陆失败，您提供的用户名（或ID）找不到！`, it could help UI client to extract normalized information and provide to UI to show to customers.
+Once you have finished above configuration and exception define, you should see the response information contains `info`
+node to say: `登陆失败，您提供的用户名（或ID）找不到！`, it could help UI client to extract normalized information and provide to UI to
+show to customers.
 
 
 
