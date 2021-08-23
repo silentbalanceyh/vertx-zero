@@ -61,9 +61,10 @@ final class Folder {
                 final String[] folderList = folderObj.list();
                 assert folderList != null;
                 Arrays.stream(folderList).forEach(folderS -> {
-//                    String relatedPath = folderObj.getAbsolutePath();
-//                    relatedPath = relatedPath.replace(root, Strings.EMPTY);
-                    folders.addAll(listDirectoriesN(folder + folderS, root));
+                    String rootCopy = root.replace("\\", "/");
+                    String relatedPath = folderObj.getAbsolutePath().replace("\\", "/");
+                    relatedPath = relatedPath.replace(rootCopy, Strings.EMPTY);
+                    folders.addAll(listDirectoriesN(relatedPath + "/" + folderS, root));
                 });
             }
         }
