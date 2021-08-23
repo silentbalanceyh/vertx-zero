@@ -136,7 +136,11 @@
                 <artifactId>zero-quiz</artifactId>
                 <version>${zero.version}</version>
             </dependency>
-
+            <dependency>
+                <groupId>cn.vertxup</groupId>
+                <artifactId>zero-fmd</artifactId>
+                <version>${zero.version}</version>
+            </dependency>
             <!-- Zero Infix -->
             <dependency>
                 <groupId>cn.vertxup</groupId>
