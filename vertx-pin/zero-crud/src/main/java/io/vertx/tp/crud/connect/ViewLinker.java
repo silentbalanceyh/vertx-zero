@@ -13,11 +13,16 @@ import io.vertx.tp.ke.cv.em.JoinMode;
 import io.vertx.tp.ke.refine.Ke;
 import io.vertx.tp.optic.Apeak;
 import io.vertx.up.commune.Envelop;
+import io.vertx.up.eon.Constants;
 import io.vertx.up.eon.KName;
+import io.vertx.up.eon.Values;
 import io.vertx.up.uca.jooq.UxJooq;
 import io.vertx.up.unity.Ux;
+import io.vertx.up.util.Ut;
 
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 class ViewLinker implements IxLinker {
     @Override
@@ -27,13 +32,12 @@ class ViewLinker implements IxLinker {
         params.put(KName.IDENTIFIER, Ux.getString1(request));
 
         final KJoin connect = module.getConnect();
-        final Envelop response = Envelop.success(columns);
         if (Objects.isNull(connect)) {
-            return Ux.future(response);
+            return this.singleAsync(columns);
         } else {
             final KPoint target = connect.procTarget(params);
             if (Objects.isNull(target) || JoinMode.CRUD != target.modeTarget()) {
-                return Ux.future(response);
+                return this.singleAsync(columns);
             } else {
                 final KModule joinedModule = IxPin.getActor(target.getCrud());
                 final UxJooq dao = IxPin.getDao(joinedModule, request.headers());
@@ -41,8 +45,79 @@ class ViewLinker implements IxLinker {
                                 .compose(original -> IxActor.apeak().bind(request).procAsync(original, joinedModule))
                                 .compose(stub.on(dao)::fetchFull)
                         )
-                        .compose(columnsLinked -> Ux.future(columns.copy().addAll(columnsLinked)))
-                        .compose(combine -> Ux.future(Envelop.success(combine)));
+                        .compose(linked -> this.joinAsync(columns, linked));
+            }
+        }
+    }
+
+    // Single Table
+    private Future<Envelop> singleAsync(final JsonArray columns) {
+        final JsonArray filtered = new JsonArray();
+        final Set<String> fieldSet = new HashSet<>();
+        columns.forEach(item -> this.addColumn(filtered, item, fieldSet));
+        return Ux.future(Envelop.success(filtered));
+    }
+
+    // Join Table
+    private Future<Envelop> joinAsync(final JsonArray columns, final JsonArray linked) {
+        // Major Field
+        final Set<String> majorSet = this.fieldName(columns);
+
+        final JsonArray filtered = new JsonArray();
+        // Duplicated Column Parsing
+        final Set<String> fieldSet = new HashSet<>();
+        for (int idx = Values.IDX; idx < columns.size(); idx++) {
+            final Object value = columns.getValue(idx);
+            if (Objects.isNull(value)) {
+                // Continue for current loop
+                continue;
+            }
+            if (Constants.DEFAULT_HOLDER.equals(value)) {
+                // HOLDER Collection
+                linked.forEach(item -> this.addColumn(filtered, item, majorSet));
+            } else {
+                // Add column here
+                this.addColumn(filtered, value, fieldSet);
+            }
+        }
+        return Ux.future(Envelop.success(filtered));
+    }
+
+    private String fieldName(final Object value) {
+        final String field;
+        if (value instanceof String) {
+            // metadata
+            field = value.toString().split(",")[0];
+        } else {
+            final JsonObject column = (JsonObject) value;
+            if (column.containsKey(KName.METADATA)) {
+                // metadata
+                final String metadata = column.getString(KName.METADATA);
+                if (Ut.notNil(metadata)) {
+                    field = metadata.split(",")[0];
+                } else {
+                    field = null;
+                }
+            } else {
+                // dataIndex
+                field = column.getString("dataIndex");
+            }
+        }
+        return field;
+    }
+
+    private Set<String> fieldName(final JsonArray columns) {
+        final Set<String> fieldSet = new HashSet<>();
+        columns.stream().map(this::fieldName).forEach(fieldSet::add);
+        return fieldSet;
+    }
+
+    private void addColumn(final JsonArray columns, final Object value, final Set<String> fieldSet) {
+        final String field = this.fieldName(value);
+        if (Objects.nonNull(field)) {
+            if (!fieldSet.contains(field)) {
+                columns.add(value);
+                fieldSet.add(field);
             }
         }
     }
