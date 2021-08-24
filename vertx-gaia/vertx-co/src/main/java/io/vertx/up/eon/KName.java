@@ -98,6 +98,7 @@ public interface KName {
     String SOURCE_EXPR = "sourceExpression";     /* sourceExpression */
     String SOURCE_EXPR_CHAIN = "sourceExprChain";/* sourceExpressionChain */
 
+    String EPSILON = "epsilon";                  /* Dictionary Consumer */
     String FORMAT = "format";                    /* DataFormat json configuration of uniform */
 
     String METHOD = "method";                    /* Web: http method */
@@ -138,6 +139,9 @@ public interface KName {
 
     String LIST = "list";                        /* Page Data */
     String COUNT = "count";                      /* Page Count */
+
+    String AT = "at";                            /* at field */
+    String BY = "by";                            /* by field */
 
     interface Micro {
         String ETCD = "etcd";

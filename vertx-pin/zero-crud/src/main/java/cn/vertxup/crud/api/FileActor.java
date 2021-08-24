@@ -21,7 +21,6 @@ import io.vertx.up.annotations.Plugin;
 import io.vertx.up.annotations.Queue;
 import io.vertx.up.atom.query.engine.Qr;
 import io.vertx.up.commune.Envelop;
-import io.vertx.up.commune.exchange.DictFabric;
 import io.vertx.up.eon.KName;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
@@ -121,8 +120,7 @@ public class FileActor {
                         /*
                          * Read dict only once
                          */
-                        final Future<JsonArray> result = Unity.fetchDict(request, config).compose(dictMap -> {
-                            final DictFabric fabric = Unity.fetchFabric(dictMap, config);
+                        final Future<JsonArray> result = Unity.fabric(request, config).compose(fabric -> {
                             /*
                              * Apply default value
                              */
@@ -255,9 +253,9 @@ public class FileActor {
                      * To avoid final in lambda expression
                      */
                     final JsonArray inputData = data.copy();
-                    return Unity.fetchDict(request, config).compose(Ut.ifNil(
+                    return Unity.fabric(request, config).compose(Ut.ifNil(
                             () -> inputData,
-                            dictMap -> Unity.fetchFabric(dictMap, config).inTo(inputData))
+                            fabric -> fabric.inTo(inputData))
                     );
                 })
                 /* Data Exporting */

@@ -5,12 +5,15 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.tp.crud.cv.IxFolder;
 import io.vertx.tp.crud.cv.IxMsg;
 import io.vertx.tp.crud.refine.Ix;
+import io.vertx.tp.ke.atom.KField;
 import io.vertx.tp.ke.atom.KModule;
 import io.vertx.tp.ke.atom.view.KColumn;
 import io.vertx.tp.ke.cv.em.DSMode;
 import io.vertx.tp.ke.refine.Ke;
 import io.vertx.tp.optic.DS;
 import io.vertx.up.eon.FileSuffix;
+import io.vertx.up.eon.ID;
+import io.vertx.up.eon.KName;
 import io.vertx.up.eon.Strings;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
@@ -58,14 +61,8 @@ class IxDao {
                 if (Debugger.isEnabled("curd.dao.file")) {
                     Ix.infoInit(LOGGER, IxMsg.INIT_INFO, path, config.getName());
                 }
-                /* 4. Default Column */
-                final String identifier = file.replace(Strings.DOT + FileSuffix.JSON, Strings.EMPTY);
-                if (Objects.isNull(config.getColumn())) {
-                    final KColumn column = new KColumn();
-                    column.setDynamic(Boolean.FALSE);
-                    column.setIdentifier(identifier);
-                    config.setColumn(column);
-                }
+                /* 4. Default Values */
+                initValues(config, file);
                 /* 5. Url & Map */
                 IxConfiguration.addUrs(config.getName());
                 CONFIG_MAP.put(config.getName(), config);
@@ -96,6 +93,46 @@ class IxDao {
             }
             return dao;
         }, config);
+    }
+
+    private static void initValues(final KModule module, final String file) {
+        /* Default Column */
+        final String identifier = file.replace(Strings.DOT + FileSuffix.JSON, Strings.EMPTY);
+        if (Objects.isNull(module.getColumn())) {
+            final KColumn column = new KColumn();
+            column.setDynamic(Boolean.FALSE);
+            column.setIdentifier(identifier);
+            module.setColumn(column);
+        }
+
+        /* Header Processing */
+        final JsonObject header = Ut.sureJObject(module.getHeader());
+        /* sigma -> X-Sigma */
+        Fn.safeSemi(!header.containsKey(KName.SIGMA),
+                () -> header.put(KName.SIGMA, ID.Header.X_SIGMA));
+        /* language -> X-Lang */
+        Fn.safeSemi(!header.containsKey(KName.LANGUAGE),
+                () -> header.put(KName.LANGUAGE, ID.Header.X_LANG));
+        module.setHeader(header);
+
+        /* Auditor Processing */
+        final KField field = module.getField();
+        if (Objects.nonNull(field)) {
+            // key -> key
+            Fn.safeSemi(Objects.isNull(field.getKey()), () -> field.setKey(KName.KEY));
+            // created
+            final JsonObject created = Ut.sureJObject(field.getCreated());
+            Fn.safeSemi(!created.containsKey(KName.AT), () -> created.put(KName.AT, KName.CREATED_AT));
+            Fn.safeSemi(!created.containsKey(KName.BY), () -> created.put(KName.BY, KName.CREATED_BY));
+            field.setCreated(created);
+            // updated
+            final JsonObject updated = Ut.sureJObject(field.getUpdated());
+            Fn.safeSemi(!updated.containsKey(KName.AT), () -> updated.put(KName.AT, KName.UPDATED_AT));
+            Fn.safeSemi(!updated.containsKey(KName.BY), () -> updated.put(KName.BY, KName.UPDATED_BY));
+            field.setUpdated(updated);
+            // Module field setting workflow for default
+            module.setField(field);
+        }
     }
 
     private static UxJooq get(final KModule module, final Class<?> clazz, final MultiMap headers) {

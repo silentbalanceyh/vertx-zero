@@ -1,15 +1,18 @@
 package io.vertx.tp.ke.atom;
 
-import com.fasterxml.jackson.databind.*;
+import com.fasterxml.jackson.databind.ClassDeserializer;
+import com.fasterxml.jackson.databind.ClassSerializer;
+import com.fasterxml.jackson.databind.JsonObjectDeserializer;
+import com.fasterxml.jackson.databind.JsonObjectSerializer;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.ke.atom.connect.KJoin;
 import io.vertx.tp.ke.atom.view.KColumn;
 import io.vertx.tp.ke.cv.em.DSMode;
 import io.vertx.up.commune.exchange.DictConfig;
 import io.vertx.up.commune.exchange.DictEpsilon;
+import io.vertx.up.eon.KName;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
@@ -29,14 +32,6 @@ public class KModule implements Serializable {
 
     private KJoin connect;     // connect for 1 join 1
 
-    @JsonSerialize(using = JsonObjectSerializer.class)
-    @JsonDeserialize(using = JsonObjectDeserializer.class)
-    private JsonObject epsilon; // dict / consume
-
-    @JsonSerialize(using = JsonArraySerializer.class)
-    @JsonDeserialize(using = JsonArrayDeserializer.class)
-    private JsonArray source;   // dict / source
-
     @JsonSerialize(using = ClassSerializer.class)
     @JsonDeserialize(using = ClassDeserializer.class)
     private Class<?> pojoCls;
@@ -48,6 +43,10 @@ public class KModule implements Serializable {
     @JsonSerialize(using = JsonObjectSerializer.class)
     @JsonDeserialize(using = JsonObjectDeserializer.class)
     private JsonObject header;
+
+    @JsonSerialize(using = JsonObjectSerializer.class)
+    @JsonDeserialize(using = JsonObjectDeserializer.class)
+    private JsonObject fabric;
 
     public KField getField() {
         return this.field;
@@ -129,23 +128,6 @@ public class KModule implements Serializable {
         this.connect = connect;
     }
 
-    public ConcurrentMap<String, DictEpsilon> getEpsilon() {
-        return Ux.dictEpsilon(Objects.isNull(this.epsilon) ? new JsonObject() : this.epsilon);
-    }
-
-    public void setEpsilon(final JsonObject epsilon) {
-        this.epsilon = epsilon;
-    }
-
-    public DictConfig getSource() {
-        final JsonArray source = Objects.isNull(this.source) ? new JsonArray() : this.source;
-        return new DictConfig(source);
-    }
-
-    public void setSource(final JsonArray source) {
-        this.source = source;
-    }
-
     public DSMode getMode() {
         if (Objects.isNull(this.mode)) {
             return DSMode.PRIMARY;
@@ -160,6 +142,24 @@ public class KModule implements Serializable {
         } else {
             this.mode = mode.name();
         }
+    }
+
+    public JsonObject getFabric() {
+        return this.fabric;
+    }
+
+    public void setFabric(final JsonObject fabric) {
+        this.fabric = fabric;
+    }
+
+    public ConcurrentMap<String, DictEpsilon> epsilon() {
+        final JsonObject dictionary = Ut.sureJObject(this.fabric);
+        return Ux.dictEpsilon(Ut.sureJObject(dictionary.getJsonObject(KName.EPSILON)));
+    }
+
+    public DictConfig source() {
+        final JsonObject dictionary = Ut.sureJObject(this.fabric);
+        return new DictConfig(Ut.sureJArray(dictionary.getJsonArray(KName.SOURCE)));
     }
 
     public String getModeKey() {
@@ -181,11 +181,10 @@ public class KModule implements Serializable {
                 ", field=" + this.field +
                 ", column=" + this.column +
                 ", connect=" + this.connect +
-                ", epsilon=" + this.epsilon +
-                ", source=" + this.source +
                 ", pojoCls=" + this.pojoCls +
                 ", daoCls=" + this.daoCls +
                 ", header=" + this.header +
+                ", fabric=" + this.fabric +
                 '}';
     }
 }
