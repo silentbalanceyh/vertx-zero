@@ -37,10 +37,6 @@ class Unity {
 
     private static final Annal LOGGER = Annal.get(Unity.class);
 
-    static DictFabric fetchFabric(final ConcurrentMap<String, JsonArray> dictData, final KModule config) {
-        return DictFabric.create().dictionary(dictData).epsilon(config.getEpsilon());
-    }
-
     /*
      * Seeker for lookup target resource
      * 1. Provide uri, method to find target resource of personal
@@ -68,13 +64,18 @@ class Unity {
                 .compose(stub.on(dao)::fetchFull));
     }
 
-    static Future<ConcurrentMap<String, JsonArray>> fetchDict(final Envelop request, final KModule config) {
+    static Future<DictFabric> fabric(final Envelop envelop, final KModule config) {
+        return fetchDict(envelop, config)
+                .compose(dictData -> Ux.future(DictFabric.create().dictionary(dictData).epsilon(config.epsilon())));
+    }
+
+    private static Future<ConcurrentMap<String, JsonArray>> fetchDict(final Envelop request, final KModule config) {
         /* Epsilon */
-        final ConcurrentMap<String, DictEpsilon> epsilonMap = config.getEpsilon();
-        /* Channel Plugin */
+        final ConcurrentMap<String, DictEpsilon> epsilonMap = config.epsilon();
+        /* Channel Plugin, Here will enable Pool */
         final Dictionary plugin = Pocket.lookup(Dictionary.class);
         /* Dict */
-        final DictConfig dict = config.getSource();
+        final DictConfig dict = config.source();
         if (epsilonMap.isEmpty() || Objects.isNull(plugin) || !dict.validSource()) {
             /*
              * Direct returned

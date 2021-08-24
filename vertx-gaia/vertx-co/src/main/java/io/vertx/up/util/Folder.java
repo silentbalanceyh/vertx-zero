@@ -61,7 +61,7 @@ final class Folder {
                 final String[] folderList = folderObj.list();
                 assert folderList != null;
                 Arrays.stream(folderList).forEach(folderS -> {
-                    String rootCopy = root.replace("\\", "/");
+                    final String rootCopy = root.replace("\\", "/");
                     String relatedPath = folderObj.getAbsolutePath().replace("\\", "/");
                     relatedPath = relatedPath.replace(rootCopy, Strings.EMPTY);
                     folders.addAll(listDirectoriesN(relatedPath + "/" + folderS, root));
@@ -89,13 +89,13 @@ final class Folder {
          * /folder here
          */
         final File folderObj = new File(folder);
-        final List<String> retList = new ArrayList<>();
+        final Set<String> retSet = new TreeSet<>();
         if (folderObj.exists()) {
             /*
              * Related path here, it means that
              * such as /folder/extra/ etc.
              */
-            retList.addAll(getFiles(folderObj, extension, isDirectory));
+            retSet.addAll(getFiles(folderObj, extension, isDirectory));
         } else {
             URL url = IO.getURL(folder);
             if (Objects.isNull(url)) {
@@ -120,18 +120,18 @@ final class Folder {
                     /*
                      * Common file
                      */
-                    retList.addAll(getFiles(url, extension, isDirectory));
+                    retSet.addAll(getFiles(url, extension, isDirectory));
                 } else if (Protocols.JAR.equals(protocol)) {
                     /*
                      * Jar File
                      */
-                    retList.addAll(getJars(url, extension, isDirectory));
+                    retSet.addAll(getJars(url, extension, isDirectory));
                 } else {
                     LOGGER.error("protocol error! protocol = {0}, url = {1}", protocol, url);
                 }
             }
         }
-        return retList;
+        return new ArrayList<>(retSet);
     }
 
     private static List<String> getJars(final URL url, final String extension, final boolean isDirectory) {

@@ -46,9 +46,6 @@ public class IxProc {
              * IxModule extracting by `actor`
              */
             this.config = IxPin.getActor(actor);
-            /*
-             *
-             */
             this.jooq = IxPin.getDao(this.config, envelop.headers());
             if (null == this.jooq) {
                 this.ex = new _404ModuleMissingException(this.target, actor);

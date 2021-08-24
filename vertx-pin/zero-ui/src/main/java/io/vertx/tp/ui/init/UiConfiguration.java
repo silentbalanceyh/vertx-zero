@@ -2,14 +2,17 @@ package io.vertx.tp.ui.init;
 
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.eon.KName;
 import io.vertx.tp.ui.atom.UiConfig;
 import io.vertx.tp.ui.cv.UiFolder;
 import io.vertx.tp.ui.refine.Ui;
+import io.vertx.up.eon.FileSuffix;
+import io.vertx.up.eon.KName;
+import io.vertx.up.eon.Strings;
 import io.vertx.up.eon.Values;
 import io.vertx.up.log.Annal;
 import io.vertx.up.util.Ut;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
@@ -54,21 +57,33 @@ class UiConfiguration {
     }
 
     private static void initColumn(final UiConfig config) {
+        /* Original `mapping` read */
         final JsonObject mapping = config.getMapping();
-        if (!Ut.isNil(mapping)) {
-            final String configPath = config.getDefinition();
-            mapping.fieldNames().forEach(fileKey -> {
-                final String file = mapping.getString(fileKey);
-                final String filePath = configPath + '/' + file;
-                /*
-                 * Read column from configuration path
-                 */
-                final JsonArray columns = Ut.ioJArray(filePath);
-                if (Objects.nonNull(columns) && !columns.isEmpty()) {
-                    COLUMN_MAP.put(fileKey, columns);
-                }
-            });
+        final JsonObject combine = new JsonObject();
+        if (Ut.notNil(mapping)) {
+            combine.mergeIn(mapping, true);
         }
+        /* Re-Calculate `mapping` configuration */
+        final String configPath = config.getDefinition();
+        final List<String> files = Ut.ioFiles(configPath, Strings.DOT + FileSuffix.JSON);
+        files.forEach(file -> {
+            final String identifier = file.replace(Strings.DOT + FileSuffix.JSON, Strings.EMPTY);
+            combine.put(identifier, file);
+        });
+        /* Combine File Processing */
+        combine.fieldNames().forEach(fileKey -> {
+            final String file = combine.getString(fileKey);
+            final String filePath = configPath + '/' + file;
+            /*
+             * Read column from configuration path
+             */
+            final JsonArray columns = Ut.ioJArray(filePath);
+            if (Objects.nonNull(columns) && !columns.isEmpty()) {
+                COLUMN_MAP.put(fileKey, columns);
+            }
+        });
+        /* Re-Write mapping */
+        CONFIG.setMapping(combine);
     }
 
     static JsonArray getColumn(final String key) {
@@ -122,6 +137,8 @@ class UiConfiguration {
                 attributes.add(attribute);
             });
             return attributes;
-        } else return new JsonArray();
+        } else {
+            return new JsonArray();
+        }
     }
 }
