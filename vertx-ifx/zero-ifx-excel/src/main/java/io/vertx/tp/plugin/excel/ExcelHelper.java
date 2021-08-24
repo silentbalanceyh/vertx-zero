@@ -13,6 +13,7 @@ import io.vertx.up.eon.FileSuffix;
 import io.vertx.up.eon.KName;
 import io.vertx.up.eon.Strings;
 import io.vertx.up.fn.Fn;
+import io.vertx.up.log.Annal;
 import io.vertx.up.util.Ut;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.FormulaEvaluator;
@@ -24,6 +25,7 @@ import java.io.File;
 import java.io.InputStream;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /*
  * Excel Helper to help ExcelClient to do some object building
@@ -206,13 +208,19 @@ class ExcelHelper {
         }
         final List<T> keyList = new ArrayList<>();
         final Set<Object> keys = new HashSet<>();
+        final AtomicInteger counter = new AtomicInteger(0);
         input.forEach(item -> {
             final Object value = Ut.field(item, key);
             if (Objects.nonNull(value) && !keys.contains(value)) {
                 keys.add(value);
                 keyList.add(item);
+            } else {
+                counter.incrementAndGet();
             }
         });
+        final int ignored = counter.get();
+        final Annal annal = Annal.get(this.target);
+        annal.debug("[ Έξοδος ] Ignore table `{0}` with size `{1}`", table.getName(), ignored);
         // Entity Release
         return keyList;
     }
