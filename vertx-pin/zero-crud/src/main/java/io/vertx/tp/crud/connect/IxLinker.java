@@ -11,6 +11,7 @@ import io.vertx.up.unity.Ux;
 /*
  * Configuration for linker `connect` configuration
  */
+@Deprecated
 public interface IxLinker {
     static IxLinker create() {
         return Fn.pool(Pool.LINKER_MAP, CreateLinker.class.getName(),

@@ -14,7 +14,9 @@ import io.vertx.up.unity.Ux;
 
 import java.util.function.BiFunction;
 
+@Deprecated
 public class IxProc {
+    /* Execution Class */
     private final transient Class<?> target;
     private transient KModule config;
     private transient UxJooq jooq;

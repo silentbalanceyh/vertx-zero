@@ -11,6 +11,7 @@ import io.vertx.up.unity.Ux;
 /*
  * Actor workflow for each Envelop
  */
+@Deprecated
 public interface IxActor {
 
     static IxActor user() {

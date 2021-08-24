@@ -127,4 +127,11 @@ public class Ix {
     public static void errorInit(final Annal logger, final String pattern, final Object... args) {
         IxLog.errorInit(logger, pattern, args);
     }
+
+    public static class Log {
+        public static void rest(final Class<?> clazz, final String pattern, final Object... args) {
+            final Annal logger = Annal.get(clazz);
+            IxLog.infoRest(logger, pattern, args);
+        }
+    }
 }

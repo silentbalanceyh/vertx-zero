@@ -3,12 +3,9 @@ package cn.vertxup.crud.api;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.crud.actor.IxActor;
 import io.vertx.tp.crud.connect.IxLinker;
 import io.vertx.tp.crud.cv.Addr;
 import io.vertx.tp.crud.refine.Ix;
-import io.vertx.tp.ke.refine.Ke;
-import io.vertx.tp.optic.ApeakMy;
 import io.vertx.up.annotations.Address;
 import io.vertx.up.annotations.Queue;
 import io.vertx.up.commune.Envelop;
@@ -77,39 +74,4 @@ public class GetActor {
         });
     }
 
-    /*
-     * GET: /api/columns/{actor}/full
-     */
-    @Address(Addr.Get.COLUMN_FULL)
-    public Future<Envelop> getFull(final Envelop request) {
-        /* Search full column and it will be used in another method */
-        return Ix.create(this.getClass()).input(request).envelop((dao, config) -> {
-            /* Defined KModule */
-            return Unity.fetchFull(dao, request, config)
-                    .compose(response -> IxLinker.full().joinAAsync(request,
-                            response, config));
-        });
-    }
-
-    /*
-     * GET: /api/columns/{actor}/my
-     */
-    @Address(Addr.Get.COLUMN_MY)
-    @SuppressWarnings("all")
-    public Future<Envelop> getMy(final Envelop request) {
-        return Ix.create(this.getClass()).input(request).envelop((dao, config) ->
-                /* Get Stub */
-                Ke.channelAsync(ApeakMy.class, () -> Ux.future(new JsonArray()).compose(IxHttp::success200),
-                        stub -> Unity.fetchView(dao, request, config)
-                                /* View parameters filling */
-                                .compose(input -> IxActor.view().procAsync(input, config))
-                                /* Uri filling, replace inited information: uri , method */
-                                .compose(input -> IxActor.uri().bind(request).procAsync(input, config))
-                                /* User filling */
-                                .compose(input -> IxActor.user().bind(request).procAsync(input, config))
-                                /* Fetch My Columns */
-                                .compose(stub.on(dao)::fetchMy)
-                                /* Return Result */
-                                .compose(IxHttp::success200)));
-    }
 }
