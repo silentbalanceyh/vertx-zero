@@ -116,23 +116,21 @@ class IxDao {
         module.setHeader(header);
 
         /* Auditor Processing */
-        final KField field = module.getField();
-        if (Objects.nonNull(field)) {
-            // key -> key
-            Fn.safeSemi(Objects.isNull(field.getKey()), () -> field.setKey(KName.KEY));
-            // created
-            final JsonObject created = Ut.sureJObject(field.getCreated());
-            Fn.safeSemi(!created.containsKey(KName.AT), () -> created.put(KName.AT, KName.CREATED_AT));
-            Fn.safeSemi(!created.containsKey(KName.BY), () -> created.put(KName.BY, KName.CREATED_BY));
-            field.setCreated(created);
-            // updated
-            final JsonObject updated = Ut.sureJObject(field.getUpdated());
-            Fn.safeSemi(!updated.containsKey(KName.AT), () -> updated.put(KName.AT, KName.UPDATED_AT));
-            Fn.safeSemi(!updated.containsKey(KName.BY), () -> updated.put(KName.BY, KName.UPDATED_BY));
-            field.setUpdated(updated);
-            // Module field setting workflow for default
-            module.setField(field);
-        }
+        final KField field = Objects.isNull(module.getField()) ? new KField() : module.getField();
+        // key -> key
+        Fn.safeSemi(Objects.isNull(field.getKey()), () -> field.setKey(KName.KEY));
+        // created
+        final JsonObject created = Ut.sureJObject(field.getCreated());
+        Fn.safeSemi(!created.containsKey(KName.AT), () -> created.put(KName.AT, KName.CREATED_AT));
+        Fn.safeSemi(!created.containsKey(KName.BY), () -> created.put(KName.BY, KName.CREATED_BY));
+        field.setCreated(created);
+        // updated
+        final JsonObject updated = Ut.sureJObject(field.getUpdated());
+        Fn.safeSemi(!updated.containsKey(KName.AT), () -> updated.put(KName.AT, KName.UPDATED_AT));
+        Fn.safeSemi(!updated.containsKey(KName.BY), () -> updated.put(KName.BY, KName.UPDATED_BY));
+        field.setUpdated(updated);
+        // Module field setting workflow for default
+        module.setField(field);
     }
 
     private static UxJooq get(final KModule module, final Class<?> clazz, final MultiMap headers) {
