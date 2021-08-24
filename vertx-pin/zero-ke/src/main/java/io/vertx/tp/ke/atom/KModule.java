@@ -6,7 +6,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.ke.atom.connect.KJoin;
-import io.vertx.tp.ke.atom.view.KParamView;
+import io.vertx.tp.ke.atom.view.KColumn;
 import io.vertx.tp.ke.cv.em.DSMode;
 import io.vertx.up.commune.exchange.DictConfig;
 import io.vertx.up.commune.exchange.DictEpsilon;
@@ -25,7 +25,7 @@ public class KModule implements Serializable {
     private String mode;
     private String modeKey;     // mode = EXTENSION
     private KField field;
-    private KParamView column;
+    private KColumn column;
 
     private KJoin connect;     // connect for 1 join 1
 
@@ -105,11 +105,11 @@ public class KModule implements Serializable {
         this.header = header;
     }
 
-    public KParamView getColumn() {
+    public KColumn getColumn() {
         return this.column;
     }
 
-    public void setColumn(final KParamView column) {
+    public void setColumn(final KColumn column) {
         this.column = column;
     }
 

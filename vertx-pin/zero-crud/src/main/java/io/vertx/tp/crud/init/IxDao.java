@@ -6,10 +6,12 @@ import io.vertx.tp.crud.cv.IxFolder;
 import io.vertx.tp.crud.cv.IxMsg;
 import io.vertx.tp.crud.refine.Ix;
 import io.vertx.tp.ke.atom.KModule;
+import io.vertx.tp.ke.atom.view.KColumn;
 import io.vertx.tp.ke.cv.em.DSMode;
 import io.vertx.tp.ke.refine.Ke;
 import io.vertx.tp.optic.DS;
 import io.vertx.up.eon.FileSuffix;
+import io.vertx.up.eon.Strings;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import io.vertx.up.log.Debugger;
@@ -18,6 +20,7 @@ import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
@@ -51,20 +54,21 @@ class IxDao {
             Fn.safeNull(() -> {
                 /* 2. Deserialize to IxConfig object */
                 final KModule config = Ut.deserialize(configDao, KModule.class);
-                /* 3. Processed key */
-                if (file.contains(config.getName())) {
-                    /* 4. Logger */
-                    if (Debugger.isEnabled("curd.dao.file")) {
-                        Ix.infoInit(LOGGER, IxMsg.INIT_INFO, path, config.getName());
-                    }
-                    /*
-                     * Resolution for resource key calculation
-                     */
-                    IxConfiguration.addUrs(config.getName());
-                    CONFIG_MAP.put(config.getName(), config);
-                } else {
-                    Ix.errorInit(LOGGER, IxMsg.INIT_ERROR, path, config.getName());
+                /* 3. Logger */
+                if (Debugger.isEnabled("curd.dao.file")) {
+                    Ix.infoInit(LOGGER, IxMsg.INIT_INFO, path, config.getName());
                 }
+                /* 4. Default Column */
+                final String identifier = file.replace(Strings.DOT + FileSuffix.JSON, Strings.EMPTY);
+                if (Objects.isNull(config.getColumn())) {
+                    final KColumn column = new KColumn();
+                    column.setDynamic(Boolean.FALSE);
+                    column.setIdentifier(identifier);
+                    config.setColumn(column);
+                }
+                /* 5. Url & Map */
+                IxConfiguration.addUrs(config.getName());
+                CONFIG_MAP.put(config.getName(), config);
             }, configDao);
         });
         Ix.infoInit(LOGGER, "IxDao Finished ! Size = {0}, Uris = {0}",

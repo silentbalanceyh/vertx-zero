@@ -1,51 +1,48 @@
 package io.vertx.tp.ke.atom.view;
 
-import com.fasterxml.jackson.databind.JsonArrayDeserializer;
-import com.fasterxml.jackson.databind.JsonArraySerializer;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import io.vertx.core.json.JsonArray;
+import io.vertx.up.util.Ut;
 
 import java.io.Serializable;
 
 public class KColumn implements Serializable {
-    @JsonSerialize(using = JsonArraySerializer.class)
-    @JsonDeserialize(using = JsonArrayDeserializer.class)
-    private transient JsonArray patterns;
 
-    private transient String columnKeyField = "dataIndex";  // Render for column
-    private transient String columnLabelField = "title";
+    private transient Boolean dynamic = Boolean.FALSE;
+    private transient String identifier;
+    private transient String view = "DEFAULT";  // Default name
 
-    public JsonArray getPatterns() {
-        return this.patterns;
+    public Boolean getDynamic() {
+        /* Basic calculation for column analyze mode */
+        this.dynamic = Ut.isNil(this.identifier);
+        return this.dynamic;
     }
 
-    public void setPatterns(final JsonArray patterns) {
-        this.patterns = patterns;
+    public void setDynamic(final Boolean dynamic) {
+        this.dynamic = dynamic;
     }
 
-    public String getColumnKeyField() {
-        return this.columnKeyField;
+    public String getIdentifier() {
+        return this.identifier;
     }
 
-    public void setColumnKeyField(final String columnKeyField) {
-        this.columnKeyField = columnKeyField;
+    public void setIdentifier(final String identifier) {
+        this.identifier = identifier;
     }
 
-    public String getColumnLabelField() {
-        return this.columnLabelField;
+    public String getView() {
+        return this.view;
     }
 
-    public void setColumnLabelField(final String columnLabelField) {
-        this.columnLabelField = columnLabelField;
+    public void setView(final String view) {
+        this.view = view;
     }
 
     @Override
     public String toString() {
-        return "IxConfig{" +
-                "patterns=" + this.patterns +
-                ", columnKeyField='" + this.columnKeyField + '\'' +
-                ", columnLabelField='" + this.columnLabelField + '\'' +
+        return "IxColumn{" +
+                "dynamic=" + this.dynamic +
+                ", identifier='" + this.identifier + '\'' +
+                ", view='" + this.view + '\'' +
                 '}';
     }
+
 }
