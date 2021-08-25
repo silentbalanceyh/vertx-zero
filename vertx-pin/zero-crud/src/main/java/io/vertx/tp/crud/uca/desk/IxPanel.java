@@ -28,7 +28,7 @@ public class IxPanel {
     private transient BiFunction standByFn;
 
     private transient BiFunction outputFn = null;
-    private transient Function nextFn = null;
+    private transient BiFunction nextFn = null;
 
     private IxPanel(final Envelop envelop, final String module) {
         this.active = IxIn.active(envelop);
@@ -36,7 +36,7 @@ public class IxPanel {
         /* Build Connect */
         this.active.connect(this.standBy.module());
         this.outputFn = (a, s) -> Ux.future(s);
-        this.nextFn = (s) -> Ux.future(s);
+        this.nextFn = (i, a) -> Ux.future(a);
     }
 
     public static IxPanel on(final Envelop envelop, final String module) {
@@ -86,8 +86,8 @@ public class IxPanel {
         return this;
     }
 
-    public <A, O> IxPanel next(final Function<A, Future<O>> nextFn) {
-        this.nextFn = nextFn;
+    public <I, A> IxPanel next(final Function<IxIn, BiFunction<I, A, Future<I>>> nextFn) {
+        this.nextFn = nextFn.apply(this.active);
         return this;
     }
 
@@ -169,7 +169,8 @@ public class IxPanel {
             /*
              * After active, the result should be <A>
              */
-            Future activeFuture = activeFn.apply(input).compose(this.nextFn);
+            Future activeFuture = activeFn.apply(input)
+                    .compose(a -> (Future<I>) this.nextFn.<I, A>apply(input, a));
             /*
              * Suppose the A = S
              * ( I -> A ), ( A -> S )

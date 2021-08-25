@@ -42,10 +42,7 @@ public class ViewActor {
                  * }
                  */
                 .parallel(/* Active */Angle.apeak(false)::runAsync)
-                .output(
-                        /* Columns connected */
-                        Post.apeak(false)::outAsync
-                )
+                .output(/* Columns connected */Post.apeak(false)::outAsync)
                 .runJ(params);
     }
 
@@ -76,10 +73,7 @@ public class ViewActor {
                  * }
                  */
                 .parallel(/* Active */Angle.apeak(true)::runAsync, null)
-                .output(
-                        /* Columns connected */
-                        Post.apeak(true)::outAsync
-                )
+                .output(/* Columns connected */Post.apeak(true)::outAsync)
                 .runJ(params);
     }
 }

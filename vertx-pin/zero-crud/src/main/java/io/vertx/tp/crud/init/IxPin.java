@@ -4,6 +4,7 @@ import io.vertx.core.MultiMap;
 import io.vertx.tp.crud.refine.Ix;
 import io.vertx.tp.crud.uca.desk.IxIn;
 import io.vertx.tp.ke.atom.KModule;
+import io.vertx.tp.ke.atom.connect.KPoint;
 import io.vertx.tp.ke.refine.Ke;
 import io.vertx.up.atom.Rule;
 import io.vertx.up.commune.Envelop;
@@ -51,6 +52,10 @@ public class IxPin {
 
     public static UxJoin join(final IxIn in, final KModule connect) {
         return IxDao.get(in.module(), connect);
+    }
+
+    public static KPoint point(final IxIn in) {
+        return IxDao.getPoint(in);
     }
 
     public static Set<String> getUris() {

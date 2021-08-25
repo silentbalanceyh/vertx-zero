@@ -5,6 +5,7 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.tp.crud.cv.Addr;
 import io.vertx.tp.crud.uca.desk.IxPanel;
 import io.vertx.tp.crud.uca.input.Pre;
+import io.vertx.tp.crud.uca.next.WJoin;
 import io.vertx.tp.crud.uca.op.Agonic;
 import io.vertx.up.annotations.Address;
 import io.vertx.up.annotations.Queue;
@@ -41,10 +42,7 @@ public class PostActor {
                         /* Number */
                         Pre.serial()::inAsync
                 )
-                .next(item -> {
-                    System.out.println(item);
-                    return Ux.future(item);
-                })
+                .next(in -> WJoin.on(in)::runAsync)
                 .passion(Agonic.create()::runAsync)
                 .runJ(body);
     }
