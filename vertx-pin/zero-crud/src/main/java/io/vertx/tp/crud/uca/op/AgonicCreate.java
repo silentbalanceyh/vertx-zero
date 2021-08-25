@@ -14,7 +14,7 @@ import io.vertx.up.unity.Ux;
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-public class AgonicCreate implements Agonic {
+class AgonicCreate implements Agonic {
     @Override
     public Future<JsonObject> runAsync(final JsonObject input, final IxIn in) {
         final KModule module = in.module();

@@ -16,8 +16,12 @@ import io.vertx.up.unity.Ux;
 @SuppressWarnings("all")
 public interface Post<T> {
 
-    static Post apeak() {
-        return Fn.poolThread(Pooled.POST_MAP, ApeakPost::new, ApeakPost.class.getName());
+    static Post apeak(final boolean isMy) {
+        if (isMy) {
+            return Fn.poolThread(Pooled.POST_MAP, ApeakMyPost::new, ApeakMyPost.class.getName());
+        } else {
+            return Fn.poolThread(Pooled.POST_MAP, ApeakPost::new, ApeakPost.class.getName());
+        }
     }
 
     static Future<Envelop> success201(final JsonObject input, final KModule module) {
@@ -36,5 +40,5 @@ public interface Post<T> {
         return Ux.future(serializedJson);
     }
 
-    Future<T> outAsync(T active, T standBy);
+    Future<T> outAsync(Object active, Object standBy);
 }

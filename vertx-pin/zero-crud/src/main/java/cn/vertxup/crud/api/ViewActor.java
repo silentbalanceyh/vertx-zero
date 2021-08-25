@@ -20,7 +20,6 @@ public class ViewActor {
      * GET: /api/columns/{actor}/full
      */
     @Address(Addr.Get.COLUMN_FULL)
-    @SuppressWarnings("unchecked")
     public Future<JsonArray> getFull(final Envelop envelop) {
         final JsonObject params = new JsonObject();
         params.put(KName.VIEW, Ux.getString1(envelop));         // view
@@ -45,7 +44,7 @@ public class ViewActor {
                 .parallel(/* Active */Angle.apeak(false)::runAsync)
                 .output(
                         /* Columns connected */
-                        Post.apeak()::outAsync
+                        Post.apeak(false)::outAsync
                 )
                 .runJ(params);
     }
@@ -77,6 +76,10 @@ public class ViewActor {
                  * }
                  */
                 .parallel(/* Active */Angle.apeak(true)::runAsync, null)
+                .output(
+                        /* Columns connected */
+                        Post.apeak(true)::outAsync
+                )
                 .runJ(params);
     }
 }

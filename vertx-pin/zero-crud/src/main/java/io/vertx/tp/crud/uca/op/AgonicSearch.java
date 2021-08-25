@@ -8,7 +8,7 @@ import io.vertx.tp.crud.uca.desk.IxIn;
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-public class AgonicSearch implements Agonic {
+class AgonicSearch implements Agonic {
     @Override
     public Future<JsonObject> runAsync(final JsonObject input, final IxIn in) {
         return Ix.searchFn(in).apply(input);

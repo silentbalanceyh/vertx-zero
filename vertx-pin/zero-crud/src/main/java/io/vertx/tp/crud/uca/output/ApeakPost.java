@@ -18,8 +18,10 @@ import java.util.Set;
  */
 class ApeakPost implements Post<JsonArray> {
     @Override
-    public Future<JsonArray> outAsync(final JsonArray columns, final JsonArray linked) {
+    public Future<JsonArray> outAsync(final Object columnsObj, final Object linkedObj) {
         // Major Field
+        final JsonArray columns = (JsonArray) columnsObj;
+        final JsonArray linked = (JsonArray) linkedObj;
         final Set<String> majorSet = this.field(columns);
 
         final JsonArray filtered = new JsonArray();

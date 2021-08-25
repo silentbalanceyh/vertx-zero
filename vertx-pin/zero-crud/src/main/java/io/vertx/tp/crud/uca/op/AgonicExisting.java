@@ -10,7 +10,7 @@ import io.vertx.up.unity.Ux;
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-public class AgonicExisting implements Agonic {
+class AgonicExisting implements Agonic {
     @Override
     public Future<JsonObject> runAsync(final JsonObject input, final IxIn in) {
         return Ix.countFn(in).apply(input)
