@@ -26,10 +26,6 @@ public interface Post<T> {
         }
     }
 
-    static Post all() {
-        return Fn.poolThread(Pooled.POST_MAP, AllPost::new, AllPost.class.getName());
-    }
-
     /* STATUS Code */
     static Future<Envelop> successPost(final JsonObject input) {
         final HttpStatusCode statusCode;
