@@ -2,12 +2,14 @@ package io.vertx.tp.crud.uca.normalize;
 
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.crud.atom.IxIn;
+import io.vertx.tp.crud.uca.desk.IxIn;
 import io.vertx.tp.ke.atom.KModule;
 import io.vertx.tp.ke.atom.view.KColumn;
 import io.vertx.up.eon.KName;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.unity.Ux;
+
+import java.util.Objects;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
@@ -34,7 +36,7 @@ class ApeakPre implements Pre {
          */
         data.put(KName.IDENTIFIER, column.getIdentifier());
         data.put(KName.DYNAMIC, column.getDynamic());
-        Fn.safeSemi(!data.containsKey(KName.VIEW), () -> data.put(KName.VIEW, column.getView()));
+        Fn.safeSemi(Objects.isNull(data.getValue(KName.VIEW)), () -> data.put(KName.VIEW, column.getView()));
         return Ux.future(data);
     }
 }

@@ -29,9 +29,11 @@ public interface KName {
     String REALM = "realm";                      /* Authorization realm field for security */
     String GRANT_TYPE = "grantType";             /* OAuth grant type field */
     String RESOURCE_ID = "resourceId";           /* Security Action related resource field */
+
     String HABITUS = "habitus";                  /* Authorization header to store current logged user session data, Permission Pool */
     String DYNAMIC = "dynamic";                  /* View security of field for dynamic view name */
     String VIEW = "view";                        /* View security of view name */
+    String MODULE = "module";                    /* View sub-module picking up */
 
     String ROLE = "role";                        /* Security Object: role field */
     String ROLE_ID = "roleId";                   /* Security Object: role id ( X_ROLE key ) field */

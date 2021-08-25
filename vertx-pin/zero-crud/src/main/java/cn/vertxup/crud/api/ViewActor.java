@@ -4,10 +4,11 @@ import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.crud.actor.IxActor;
-import io.vertx.tp.crud.atom.IxIn;
 import io.vertx.tp.crud.cv.Addr;
 import io.vertx.tp.crud.refine.Ix;
+import io.vertx.tp.crud.uca.desk.IxPanel;
 import io.vertx.tp.crud.uca.normalize.Pre;
+import io.vertx.tp.crud.uca.op.Angle;
 import io.vertx.tp.ke.refine.Ke;
 import io.vertx.tp.optic.ApeakMy;
 import io.vertx.up.annotations.Address;
@@ -23,15 +24,26 @@ public class ViewActor {
      */
     @Address(Addr.Get.COLUMN_FULL)
     public Future<Envelop> getFull(final Envelop envelop) {
-        final String view = Ux.getString2(envelop);
         final JsonObject params = new JsonObject();
-        params.put(KName.VIEW, view);
+        params.put(KName.VIEW, Ux.getString1(envelop));         // view
 
-        /* Search full column and it will be used in another method */
-        return IxIn.request(this.getClass(), envelop).readyJ(params,
-                Pre.head()::setUp,      /* Header */
-                Pre.Apeak()::setUp      /* Apeak */
-        ).compose(nil -> null);
+        final String module = Ux.getString2(envelop);           // module
+        return IxPanel.on(envelop, module)
+                .input(
+                        Pre.head()::setUp,      /* Header */
+                        Pre.Apeak()::setUp      /* Apeak */
+                )
+                /*
+                 * {
+                 *     "identifier": "Model identifier",
+                 *     "view": "The view name, if not put DEFAULT",
+                 *     "dynamic": "true if use dynamic",
+                 *     "sigma": "The application uniform"
+                 * }
+                 */
+                .parallel(Angle.full()::procAsync)
+                .runJ(params, (s, a) -> null);
+
     }
 
     /*

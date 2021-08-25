@@ -2,7 +2,7 @@ package io.vertx.tp.crud.uca.normalize;
 
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.crud.atom.IxIn;
+import io.vertx.tp.crud.uca.desk.IxIn;
 import io.vertx.up.fn.Fn;
 
 import java.util.concurrent.ConcurrentHashMap;

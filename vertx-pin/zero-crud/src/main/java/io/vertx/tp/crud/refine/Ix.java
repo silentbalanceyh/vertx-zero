@@ -133,5 +133,10 @@ public class Ix {
             final Annal logger = Annal.get(clazz);
             IxLog.infoRest(logger, pattern, args);
         }
+
+        public static void dao(final Class<?> clazz, final String pattern, final Object... args) {
+            final Annal logger = Annal.get(clazz);
+            IxLog.infoDao(logger, pattern, args);
+        }
     }
 }
