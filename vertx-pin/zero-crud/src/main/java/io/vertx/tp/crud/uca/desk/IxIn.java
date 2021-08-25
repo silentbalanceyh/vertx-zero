@@ -1,6 +1,7 @@
 package io.vertx.tp.crud.uca.desk;
 
 import io.vertx.core.Future;
+import io.vertx.ext.auth.User;
 import io.vertx.tp.crud.init.IxPin;
 import io.vertx.tp.error._404ModuleMissingException;
 import io.vertx.tp.ke.atom.KModule;
@@ -84,6 +85,10 @@ public class IxIn {
 
     public Envelop envelop() {
         return this.envelop;
+    }
+
+    public User user() {
+        return this.envelop.user();
     }
 
     public KModule module() {

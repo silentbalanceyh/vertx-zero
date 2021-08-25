@@ -71,7 +71,7 @@ class IxDao {
     }
 
     static KModule get(final String actor) {
-        Ix.Log.restW(IxDao.class, "Actor = {0}", actor);
+        Ix.Log.rest(IxDao.class, "Actor = {0}", actor);
         final KModule config = CONFIG_MAP.get(actor);
         return Fn.getNull(null, () -> config, config);
     }

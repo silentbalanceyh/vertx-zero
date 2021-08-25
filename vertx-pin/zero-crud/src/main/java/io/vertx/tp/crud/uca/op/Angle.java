@@ -16,8 +16,12 @@ import io.vertx.up.fn.Fn;
  */
 public interface Angle {
 
-    static Angle full() {
-        return Fn.poolThread(Pooled.ANGLE_MAP, FullAngle::new, FullAngle.class.getName());
+    static Angle apeak(final boolean isMy) {
+        if (isMy) {
+            return Fn.poolThread(Pooled.ANGLE_MAP, MyAngle::new, MyAngle.class.getName());
+        } else {
+            return Fn.poolThread(Pooled.ANGLE_MAP, FullAngle::new, FullAngle.class.getName());
+        }
     }
 
     Future<JsonArray> runAsync(JsonObject input, IxIn module);

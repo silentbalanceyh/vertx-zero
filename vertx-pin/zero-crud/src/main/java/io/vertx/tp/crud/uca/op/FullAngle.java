@@ -12,7 +12,7 @@ import io.vertx.up.uca.jooq.UxJooq;
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-public class FullAngle implements Angle {
+class FullAngle implements Angle {
     @Override
     public Future<JsonArray> runAsync(final JsonObject input, final IxIn module) {
         /* Get Stub */

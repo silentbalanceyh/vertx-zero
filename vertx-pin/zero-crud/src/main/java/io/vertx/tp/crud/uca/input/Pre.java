@@ -14,8 +14,20 @@ public interface Pre {
         return Fn.poolThread(Pooled.PRE_MAP, HeadPre::new, HeadPre.class.getName());
     }
 
-    static Pre apeak() {
-        return Fn.poolThread(Pooled.PRE_MAP, ApeakPre::new, ApeakPre.class.getName());
+    static Pre uri() {
+        return Fn.poolThread(Pooled.PRE_MAP, UriPre::new, UriPre.class.getName());
+    }
+
+    static Pre user() {
+        return Fn.poolThread(Pooled.PRE_MAP, UserPre::new, UserPre.class.getName());
+    }
+
+    static Pre apeak(final boolean isMy) {
+        if (isMy) {
+            return Fn.poolThread(Pooled.PRE_MAP, ApeakMyPre::new, ApeakMyPre.class.getName());
+        } else {
+            return Fn.poolThread(Pooled.PRE_MAP, ApeakPre::new, ApeakPre.class.getName());
+        }
     }
 
     Future<JsonObject> inAsync(JsonObject data, IxIn in);

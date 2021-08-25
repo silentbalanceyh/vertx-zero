@@ -31,6 +31,7 @@ public class IxPanel {
     private IxPanel(final Envelop envelop, final String module) {
         this.active = IxIn.active(envelop);
         this.standBy = IxIn.standBy(envelop, module);
+        this.outputFn = (s, a) -> Ux.future(s);
     }
 
     public static IxPanel on(final Envelop envelop, final String module) {

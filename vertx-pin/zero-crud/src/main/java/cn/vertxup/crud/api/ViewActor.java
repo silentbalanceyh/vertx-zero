@@ -3,15 +3,11 @@ package cn.vertxup.crud.api;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.crud.actor.IxActor;
 import io.vertx.tp.crud.cv.Addr;
-import io.vertx.tp.crud.refine.Ix;
 import io.vertx.tp.crud.uca.desk.IxPanel;
 import io.vertx.tp.crud.uca.input.Pre;
 import io.vertx.tp.crud.uca.op.Angle;
 import io.vertx.tp.crud.uca.output.Post;
-import io.vertx.tp.ke.refine.Ke;
-import io.vertx.tp.optic.ApeakMy;
 import io.vertx.up.annotations.Address;
 import io.vertx.up.annotations.Queue;
 import io.vertx.up.commune.Envelop;
@@ -25,7 +21,7 @@ public class ViewActor {
      */
     @Address(Addr.Get.COLUMN_FULL)
     @SuppressWarnings("unchecked")
-    public Future<Envelop> getFull(final Envelop envelop) {
+    public Future<JsonArray> getFull(final Envelop envelop) {
         final JsonObject params = new JsonObject();
         params.put(KName.VIEW, Ux.getString1(envelop));         // view
 
@@ -33,10 +29,10 @@ public class ViewActor {
 
         return IxPanel.on(envelop, module)
                 .input(
-                        /* Header */
-                        Pre.head()::inAsync,
                         /* Apeak */
-                        Pre.apeak()::inAsync
+                        Pre.apeak(false)::inAsync,
+                        /* Header */
+                        Pre.head()::inAsync
                 )
                 /*
                  * {
@@ -46,10 +42,7 @@ public class ViewActor {
                  *     "sigma": "The application uniform"
                  * }
                  */
-                .parallel(
-                        /* Active */
-                        Angle.full()::runAsync
-                )
+                .parallel(/* Active */Angle.apeak(false)::runAsync)
                 .output(
                         /* Columns connected */
                         Post.apeak()::outAsync
@@ -62,20 +55,28 @@ public class ViewActor {
      */
     @Address(Addr.Get.COLUMN_MY)
     @SuppressWarnings("all")
-    public Future<Envelop> getMy(final Envelop request) {
-        return Ix.create(this.getClass()).input(request).envelop((dao, config) ->
-                /* Get Stub */
-                Ke.channelAsync(ApeakMy.class, () -> Ux.future(new JsonArray()).compose(IxHttp::success200),
-                        stub -> Unity.fetchView(dao, request, config)
-                                /* View parameters filling */
-                                .compose(input -> IxActor.view().procAsync(input, config))
-                                /* Uri filling, replace inited information: uri , method */
-                                .compose(input -> IxActor.uri().bind(request).procAsync(input, config))
-                                /* User filling */
-                                .compose(input -> IxActor.user().bind(request).procAsync(input, config))
-                                /* Fetch My Columns */
-                                .compose(stub.on(dao)::fetchMy)
-                                /* Return Result */
-                                .compose(IxHttp::success200)));
+    public Future<JsonArray> getMy(final Envelop envelop) {
+        final JsonObject params = new JsonObject();
+        params.put(KName.VIEW, Ux.getString1(envelop));         // view
+
+        final String module = Ux.getString2(envelop);           // module
+
+        return IxPanel.on(envelop, module)
+                .input(
+                        /* Apeak */
+                        Pre.apeak(true)::inAsync,
+                        /* Header */
+                        Pre.head()::inAsync
+                )
+                /*
+                 * {
+                 *     "view": "The view name, if not put DEFAULT",
+                 *     "uri": "http path",
+                 *     "method": "http method",
+                 *     "sigma": "The application uniform"
+                 * }
+                 */
+                .parallel(/* Active */Angle.apeak(true)::runAsync, null)
+                .runJ(params);
     }
 }

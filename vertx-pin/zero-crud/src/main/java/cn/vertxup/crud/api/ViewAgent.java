@@ -31,5 +31,7 @@ public interface ViewAgent {
     @Path("/columns/{actor}/my")
     @Address(Addr.Get.COLUMN_MY)
     @Adjust(Orders.MODULE)
-    JsonArray getMy(@PathParam(KName.ACTOR) String actor);
+    JsonArray getMy(@PathParam(KName.ACTOR) String actor,
+                    @QueryParam(KName.VIEW) String view,
+                    @QueryParam(KName.MODULE) String module);
 }
