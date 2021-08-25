@@ -96,24 +96,21 @@ public class Ix {
     /*
      * Log
      */
-
     public static void infoFilters(final Annal logger, final String pattern, final Object... args) {
         IxLog.infoFilters(logger, pattern, args);
-    }
-
-    public static void infoVerify(final Annal logger, final String pattern, final Object... args) {
-        IxLog.infoVerify(logger, pattern, args);
     }
 
     public static void infoDao(final Annal logger, final String pattern, final Object... args) {
         IxLog.infoDao(logger, pattern, args);
     }
 
-    public static void errorInit(final Annal logger, final String pattern, final Object... args) {
-        IxLog.errorInit(logger, pattern, args);
-    }
-
     public static class Log {
+
+        public static void filters(final Class<?> clazz, final String pattern, final Object... args) {
+            final Annal logger = Annal.get(clazz);
+            IxLog.infoFilters(logger, pattern, args);
+        }
+
         public static void init(final Class<?> clazz, final String pattern, final Object... args) {
             final Annal logger = Annal.get(clazz);
             IxLog.infoInit(logger, pattern, args);
@@ -132,6 +129,11 @@ public class Ix {
         public static void dao(final Class<?> clazz, final String pattern, final Object... args) {
             final Annal logger = Annal.get(clazz);
             IxLog.infoDao(logger, pattern, args);
+        }
+
+        public static void verify(final Class<?> clazz, final String pattern, final Object... args) {
+            final Annal logger = Annal.get(clazz);
+            IxLog.infoVerify(logger, pattern, args);
         }
     }
 }

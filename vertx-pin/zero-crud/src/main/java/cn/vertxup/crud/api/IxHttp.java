@@ -8,6 +8,7 @@ import io.vertx.tp.ke.atom.KModule;
 import io.vertx.up.commune.Envelop;
 import io.vertx.up.unity.Ux;
 
+@Deprecated
 public class IxHttp {
 
     /* 201 */

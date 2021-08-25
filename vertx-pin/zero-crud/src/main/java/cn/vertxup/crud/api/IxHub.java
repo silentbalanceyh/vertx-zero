@@ -9,6 +9,7 @@ import io.vertx.up.commune.Envelop;
 import io.vertx.up.uca.jooq.UxJooq;
 import io.vertx.up.unity.Ux;
 
+@Deprecated
 public class IxHub {
     /*
      * Split code logical

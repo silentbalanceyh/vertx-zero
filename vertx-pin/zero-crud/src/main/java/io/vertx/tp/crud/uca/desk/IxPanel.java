@@ -109,7 +109,7 @@ public class IxPanel {
         return this.<JsonObject, A, S, O>runInternal(sure.copy(), outputFn);
     }
 
-    public <A, S, O> Future<O> runA(final JsonArray input, final BiFunction<A, S, Future<O>> outputFn) {
+    public <A, S, O> Future<O> runA(final JsonArray input) {
         final JsonArray sure = Ut.sureJArray(input);
         return this.<JsonArray, A, S, O>runInternal(sure.copy(), outputFn);
     }
@@ -130,7 +130,7 @@ public class IxPanel {
                     .otherwise(Ux::otherwise);
         }
         if (this.sequence) {
-            return activeFn.apply(input).compose(a -> standFn.apply(input).compose(s -> outputFn.apply(a, s)));
+            return activeFn.apply(input).compose(a -> standFn.apply((I) a).compose(s -> outputFn.apply(a, s)));
         } else {
             return CompositeFuture.join(activeFn.apply(input), standFn.apply(input)).compose(composite -> {
                 final List result = composite.list();
