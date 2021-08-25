@@ -7,6 +7,8 @@ import io.vertx.tp.crud.cv.IxMsg;
 import io.vertx.tp.crud.refine.Ix;
 import io.vertx.tp.ke.atom.KField;
 import io.vertx.tp.ke.atom.KModule;
+import io.vertx.tp.ke.atom.connect.KJoin;
+import io.vertx.tp.ke.atom.connect.KPoint;
 import io.vertx.tp.ke.atom.view.KColumn;
 import io.vertx.tp.ke.cv.em.DSMode;
 import io.vertx.tp.ke.refine.Ke;
@@ -17,6 +19,7 @@ import io.vertx.up.eon.KName;
 import io.vertx.up.eon.Strings;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Debugger;
+import io.vertx.up.uca.jooq.UxJoin;
 import io.vertx.up.uca.jooq.UxJooq;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
@@ -74,6 +77,28 @@ class IxDao {
         Ix.Log.rest(IxDao.class, "Actor = {0}", actor);
         final KModule config = CONFIG_MAP.get(actor);
         return Fn.getNull(null, () -> config, config);
+    }
+
+    static UxJoin get(final KModule module, final KModule connect) {
+        return Fn.getNull(null, () -> {
+            /* 1. Build UxJoin Object */
+            final UxJoin dao = Ux.Join.on();
+            /* 2. Module */
+            final String pojo = module.getPojo();
+            dao.add(module.getDaoCls());
+            if (Ut.notNil(pojo)) {
+                dao.pojo(module.getDaoCls(), pojo);
+            }
+            /* 3. Connect */
+            final KJoin join = module.getConnect();
+            final KPoint point = join.procTarget(connect.getName());
+            dao.join(connect.getDaoCls(), point.getKeyJoin());
+            final String pojoS = connect.getPojo();
+            if (Ut.notNil(pojoS)) {
+                dao.pojo(connect.getDaoCls(), pojoS);
+            }
+            return dao;
+        }, module, connect);
     }
 
     static UxJooq get(final KModule config, final MultiMap headers) {

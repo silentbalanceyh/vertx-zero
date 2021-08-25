@@ -148,6 +148,10 @@ public class JqAnalyzer {
         return keys;
     }
 
+    public TreeSet<String> fieldSet() {
+        return new TreeSet<>(this.mapping.keySet());
+    }
+
     private TreeSet<String> keySet(final UniqueKey<?> uk) {
         final TreeSet<String> keySet = new TreeSet<>();
         uk.getFields().forEach(column -> {

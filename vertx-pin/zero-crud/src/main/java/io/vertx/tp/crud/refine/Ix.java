@@ -4,29 +4,32 @@ import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.crud.atom.IxProc;
+import io.vertx.tp.crud.uca.desk.IxIn;
 import io.vertx.tp.ke.atom.KModule;
 import io.vertx.up.log.Annal;
 import io.vertx.up.uca.jooq.UxJooq;
 import io.vertx.up.unity.Ux;
 
 import java.util.List;
+import java.util.function.BiFunction;
 import java.util.function.Function;
 
 public class Ix {
+    // Business Logical
+    public static void audit(final JsonObject auditor, final JsonObject config, final String userId) {
+        IxData.audit(auditor, config, userId);
+    }
+
     // Is --- Checking the result, return boolean
     /*
      * is existing for result
      */
     public static boolean isExist(final JsonObject result) {
-        return IxIs.isExist(result);
+        return IxFn.isExist(result);
     }
 
-    // Business Logical
-    /*
-     * auditor setting
-     */
-    public static void audit(final JsonObject auditor, final JsonObject config, final String userId) {
-        IxQuery.audit(auditor, config, userId);
+    public static Function<JsonObject, Future<JsonObject>> search(final IxIn in) {
+        return IxQuery.search(in);
     }
 
     /*
@@ -88,9 +91,15 @@ public class Ix {
         return Ux.future(IxSerialize.serializeA(from, to, config));
     }
 
-    // JqTool
+
     public static Future<JsonObject> inKeys(final JsonArray array, final KModule config) {
         return Ux.future(IxQuery.inKeys(array, config));
+    }
+
+    // JqTool
+    @SafeVarargs
+    public static <T> Future<T> passion(final T input, final IxIn in, final BiFunction<T, IxIn, Future<T>>... executors) {
+        return IxFn.passion(input, in, executors);
     }
 
     /*

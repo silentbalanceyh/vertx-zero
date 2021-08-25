@@ -3,6 +3,7 @@ package io.vertx.tp.crud.uca.desk;
 import io.vertx.core.Future;
 import io.vertx.ext.auth.User;
 import io.vertx.tp.crud.init.IxPin;
+import io.vertx.tp.crud.refine.Ix;
 import io.vertx.tp.error._404ModuleMissingException;
 import io.vertx.tp.ke.atom.KModule;
 import io.vertx.tp.ke.atom.connect.KJoin;
@@ -25,6 +26,7 @@ import java.util.function.BiFunction;
 public class IxIn {
     private final transient Envelop envelop;
     private transient KModule module;
+    private transient KModule connect;
     private transient WebException error;
 
     private IxIn(final Envelop envelop, final String identifier) {
@@ -95,6 +97,15 @@ public class IxIn {
         return this.module;
     }
 
+    public KModule connect() {
+        return this.connect;
+    }
+
+    public IxIn connect(final KModule connect) {
+        this.connect = connect;
+        return this;
+    }
+
     @SafeVarargs
     public final <T> Future<T> ready(
             final T input,
@@ -103,14 +114,6 @@ public class IxIn {
         if (Objects.nonNull(this.error)) {
             return Future.failedFuture(this.error);
         }
-
-        // Sequence for future management
-        Future<T> future = Future.succeededFuture(input);
-        for (final BiFunction<T, IxIn, Future<T>> executor : executors) {
-            if (Objects.nonNull(executor)) {
-                future = future.compose(data -> executor.apply(data, this));
-            }
-        }
-        return future;
+        return Ix.passion(input, this, executors);
     }
 }

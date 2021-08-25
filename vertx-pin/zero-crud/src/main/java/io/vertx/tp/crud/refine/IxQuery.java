@@ -3,15 +3,16 @@ package io.vertx.tp.crud.refine;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
+import io.vertx.tp.crud.init.IxPin;
+import io.vertx.tp.crud.uca.desk.IxIn;
 import io.vertx.tp.ke.atom.KField;
 import io.vertx.tp.ke.atom.KModule;
-import io.vertx.up.eon.KName;
 import io.vertx.up.log.Annal;
+import io.vertx.up.uca.jooq.UxJoin;
 import io.vertx.up.uca.jooq.UxJooq;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
-import java.time.Instant;
 import java.util.Objects;
 import java.util.function.Function;
 
@@ -69,6 +70,22 @@ class IxQuery {
         };
     }
 
+    static Function<JsonObject, Future<JsonObject>> search(final IxIn in) {
+        return condition -> {
+            // KModule
+            final KModule connect = in.connect();
+            if (Objects.isNull(connect)) {
+                // Direct
+                final UxJooq jooq = IxPin.jooq(in);
+                return jooq.searchAsync(condition);
+            } else {
+                // Join
+                final UxJoin join = IxPin.join(in, connect);
+                return join.searchAsync(condition);
+            }
+        };
+    }
+
     static Function<UxJooq, Future<Boolean>> existing(final JsonObject criteria, final KModule config) {
         final String pojo = config.getPojo();
         final JsonObject parameters = new JsonObject();
@@ -84,21 +101,4 @@ class IxQuery {
         };
     }
 
-    static void audit(final JsonObject auditor, final JsonObject config, final String userId) {
-        if (Objects.nonNull(config) && Ut.notNil(userId)) {
-            /* User By */
-            final String by = config.getString(KName.BY);
-            if (Ut.notNil(by)) {
-                /* Audit Process */
-                IxLog.infoDao(LOGGER, "( Audit ) By -> \"{0}\" = {1}", by, userId);
-                auditor.put(by, userId);
-            }
-            final String at = config.getString(KName.AT);
-            if (Ut.notNil(at)) {
-                IxLog.infoDao(LOGGER, "( Audit ) At Field -> {0}", at);
-                auditor.put(at, Instant.now());
-            }
-
-        }
-    }
 }

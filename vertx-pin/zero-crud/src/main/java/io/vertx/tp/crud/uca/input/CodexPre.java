@@ -49,6 +49,9 @@ class CodexPre implements Pre {
         final KModule module = in.module();
         /* 1.method, uri */
         String uri = envelop.uri();
+        if (uri.contains("?")) {
+            uri = uri.split("\\?")[0];
+        }
         final String method = envelop.method().name();
         /* 2.uri 中处理 key 相关的情况 */
         final String keyField = module.getField().getKey();

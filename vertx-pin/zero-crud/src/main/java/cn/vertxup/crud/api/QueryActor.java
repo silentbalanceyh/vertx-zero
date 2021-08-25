@@ -5,6 +5,9 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.tp.crud.actor.IxActor;
 import io.vertx.tp.crud.cv.Addr;
 import io.vertx.tp.crud.refine.Ix;
+import io.vertx.tp.crud.uca.desk.IxPanel;
+import io.vertx.tp.crud.uca.input.Pre;
+import io.vertx.tp.crud.uca.op.Agonic;
 import io.vertx.tp.ke.atom.KModule;
 import io.vertx.up.annotations.Address;
 import io.vertx.up.annotations.Queue;
@@ -37,18 +40,17 @@ public class QueryActor {
      *      200: Search Record
      */
     @Address(Addr.Post.SEARCH)
-    public Future<Envelop> search(final Envelop request) {
-        return Ix.create(this.getClass()).input(request).envelop((dao, config) -> {
-            /* Parameters Extraction */
-            final JsonObject body = Ux.getJson1(request);
-            return Ux.future(body)
-                    /* Verify */
-                    .compose(input -> IxActor.verify().bind(request).procAsync(input, config))
-                    /* Execution */
-                    .compose(params -> Ix.query(params, config).apply(dao))
-                    /* Completed */
-                    .compose(IxHttp::success200);
-        });
+    public Future<Envelop> search(final Envelop envelop) {
+        final JsonObject body = Ux.getJson1(envelop);
+        final String module = Ux.getString(envelop, 3);           // module
+
+        return IxPanel.on(envelop, module)
+                .input(
+                        /* Codex */
+                        Pre.codex()::inAsync
+                )
+                .passion(Agonic.search()::runAsync, null)
+                .runJ(body);
     }
 
     @Address(Addr.Post.EXISTING)

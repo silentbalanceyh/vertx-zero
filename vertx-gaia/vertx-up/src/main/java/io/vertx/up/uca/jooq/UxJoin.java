@@ -11,8 +11,10 @@ import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
 import java.util.Objects;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
+import java.util.stream.Collectors;
 
 @SuppressWarnings("all")
 public final class UxJoin {
@@ -48,7 +50,21 @@ public final class UxJoin {
     }
 
     public <T> UxJoin pojo(final Class<?> daoCls, final String pojo) {
+        return pojo(daoCls, pojo, true);
+    }
+
+    public <T> UxJoin pojo(final Class<?> daoCls, final String pojo, final boolean append) {
         final Mojo created = Mirror.create(UxJoin.class).mount(pojo).mojo();
+        if (append) {
+            // Clean the same field between T1 and T2
+            final ConcurrentMap<String, String> mapping = created.getOut();
+            final Set<String> firstSet = this.joinder.firstFields();
+            // Key Set for final
+            final Set<String> keySet = mapping.keySet().stream()
+                    .filter(key -> firstSet.contains(mapping.get(key)))
+                    .collect(Collectors.toSet());
+            keySet.forEach(mapping::remove);
+        }
         this.POJO_MAP.put(daoCls, pojo);
         if (Objects.isNull(this.merged)) {
             this.merged = new Mojo();

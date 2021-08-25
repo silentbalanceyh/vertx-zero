@@ -5,6 +5,7 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.crud.cv.Pooled;
 import io.vertx.tp.crud.uca.desk.IxIn;
+import io.vertx.up.commune.Envelop;
 import io.vertx.up.fn.Fn;
 
 /**
@@ -15,10 +16,14 @@ import io.vertx.up.fn.Fn;
 public interface Agonic {
 
     static Agonic creation() {
-        return Fn.poolThread(Pooled.AGONIC_MAP, CAgonic::new, CAgonic.class.getName());
+        return Fn.poolThread(Pooled.AGONIC_MAP, AgonicCreate::new, AgonicCreate.class.getName());
     }
 
-    Future<JsonObject> runAsync(JsonObject input, IxIn module);
+    static Agonic search() {
+        return Fn.poolThread(Pooled.AGONIC_MAP, AgonicSearch::new, AgonicSearch.class.getName());
+    }
 
-    Future<JsonArray> runAsync(JsonArray input, IxIn module);
+    Future<Envelop> runAsync(JsonObject input, IxIn in);
+
+    Future<Envelop> runBAsync(JsonArray input, IxIn in);
 }

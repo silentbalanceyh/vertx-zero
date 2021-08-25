@@ -16,7 +16,7 @@ import java.util.Objects;
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-class UPre implements Pre {
+class CreatePre implements Pre {
     @Override
     public Future<JsonObject> inAsync(final JsonObject data, final IxIn in) {
         /* UserId */
@@ -26,8 +26,8 @@ class UPre implements Pre {
             final String userId = Ke.keyUser(user);
             if (Ut.notNil(userId)) {
                 final KField field = module.getField();
-                /* Updated */
-                Ix.audit(data, field.getUpdated(), userId);
+                /* Created */
+                Ix.audit(data, field.getCreated(), userId);
             }
         }
         return Ux.future(data);

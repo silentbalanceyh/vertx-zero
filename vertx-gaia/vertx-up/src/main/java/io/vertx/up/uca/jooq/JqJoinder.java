@@ -62,6 +62,7 @@ class JqJoinder {
     private transient final List<JqEdge> EDGES = new ArrayList<>();
 
     private transient Kv<String, String> first;
+    private transient JqAnalyzer firstAnalyzer;
     private JqJoinder talbe;
 
     JqJoinder() {
@@ -77,7 +78,12 @@ class JqJoinder {
          */
         final String firstTable = this.CLASS_MAP.get(daoCls);
         this.first = Kv.create(firstTable, field);
+        this.firstAnalyzer = this.ANALYZERS.get(daoCls);
         return this;
+    }
+
+    Set<String> firstFields() {
+        return this.firstAnalyzer.fieldSet();
     }
 
     <T> JqJoinder join(final Class<?> daoCls, final String field) {

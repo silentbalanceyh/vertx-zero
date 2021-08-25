@@ -68,7 +68,7 @@ public class Mirror {
     private void convert(final ConcurrentMap<String, String> mapper) {
         Observable.fromIterable(this.data.fieldNames())
                 .groupBy(mapper::containsKey)
-                .map(contain -> contain.getKey() ?
+                .map(contain -> Boolean.TRUE.equals(contain.getKey()) ?
                         contain.subscribe(from -> {
                             // Existing in mapper
                             final String to = mapper.get(from);

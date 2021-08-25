@@ -31,6 +31,8 @@ public class IxPanel {
     private IxPanel(final Envelop envelop, final String module) {
         this.active = IxIn.active(envelop);
         this.standBy = IxIn.standBy(envelop, module);
+        /* Build Connect */
+        this.active.connect(this.standBy.module());
         this.outputFn = (s, a) -> Ux.future(s);
     }
 
@@ -104,6 +106,13 @@ public class IxPanel {
         return this;
     }
 
+    public <I, O> IxPanel passion(final BiFunction<I, IxIn, Future<O>> activeAndStandFn) {
+        this.sequence = true;
+        this.activeFn = activeAndStandFn;
+        this.standByFn = activeAndStandFn;
+        return this;
+    }
+
     public <A, S, O> Future<O> runJ(final JsonObject input) {
         final JsonObject sure = Ut.sureJObject(input);
         return this.<JsonObject, A, S, O>runInternal(sure.copy(), outputFn);
@@ -137,7 +146,7 @@ public class IxPanel {
                 final A firstR = (A) result.get(Values.IDX);
                 final S secondR = (S) result.get(Values.ONE);
                 return outputFn.apply(firstR, secondR);
-            });
+            }).otherwise(Ux.otherwise(() -> null));
         }
     }
 }
