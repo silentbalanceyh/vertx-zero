@@ -16,6 +16,8 @@ import io.vertx.up.unity.Ux;
 @SuppressWarnings("all")
 public interface Post<T> {
 
+    String STATUS = "$STATUS$";
+
     static Post apeak(final boolean isMy) {
         if (isMy) {
             return Fn.poolThread(Pooled.POST_MAP, ApeakMyPost::new, ApeakMyPost.class.getName());
@@ -24,18 +26,36 @@ public interface Post<T> {
         }
     }
 
-    static Future<Envelop> success201(final JsonObject input, final KModule module) {
-        return Ux.future(Envelop.success(Ix.serializeJ(input, module), HttpStatusCode.CREATED));
+    /* STATUS Code */
+    static Future<Envelop> successPost(final JsonObject input) {
+        final HttpStatusCode statusCode;
+        if (input.containsKey(STATUS)) {
+            final int status = input.getInteger(STATUS);
+            statusCode = HttpStatusCode.fromCode(status);
+            input.remove(STATUS);
+        } else {
+            statusCode = HttpStatusCode.OK;
+        }
+        return Ux.future(Envelop.success(input, statusCode));
     }
 
-    static <T> Future<Envelop> success200(final T input, final KModule module) {
-        final JsonObject serializedJson = Ux.toJson(input, module.getPojo());
-        Ix.serializeJ(serializedJson, module);
-        return Ux.future(Envelop.success(serializedJson));
+    static <T> Future<JsonObject> success201Pre(final T input, final KModule module) {
+        return successJ(input, module).compose(item -> {
+            item.put(STATUS, 201);
+            return Ux.future(item);
+        });
     }
 
-    static <T> Future<JsonObject> success200J(final T input, final KModule module) {
-        final JsonObject serializedJson = Ux.toJson(input, module.getPojo());
+    /*
+     *  T -> JsonObject based by module
+     */
+    static <T> Future<JsonObject> successJ(final T input, final KModule module) {
+        final JsonObject serializedJson;
+        if (input instanceof JsonObject) {
+            serializedJson = (JsonObject) input;
+        } else {
+            serializedJson = Ux.toJson(input, module.getPojo());
+        }
         Ix.serializeJ(serializedJson, module);
         return Ux.future(serializedJson);
     }

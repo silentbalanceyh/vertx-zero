@@ -9,7 +9,6 @@ import io.vertx.tp.crud.uca.input.Pre;
 import io.vertx.tp.crud.uca.output.Post;
 import io.vertx.tp.ke.atom.KModule;
 import io.vertx.up.uca.jooq.UxJooq;
-import io.vertx.up.unity.Ux;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
@@ -22,7 +21,7 @@ class AgonicCreate implements Agonic {
         return Pre.unique().inAsync(input, in)
                 .compose(condition -> Ix.existing(condition, in.module()).apply(jooq)).compose(existing -> existing ?
                         // Unique Existing
-                        Ux.future(input)
+                        Post.success201Pre(input, module)
                         :
                         // Primary Key
                         Ix.passion(input, in,
@@ -32,7 +31,7 @@ class AgonicCreate implements Agonic {
                                 )
                                 .compose(processed -> Ix.deserializeT(processed, module))
                                 .compose(jooq::insertAsync)
-                                .compose(entity -> Post.success200J(entity, module))
+                                .compose(entity -> Post.successJ(entity, module))
                 );
     }
 }

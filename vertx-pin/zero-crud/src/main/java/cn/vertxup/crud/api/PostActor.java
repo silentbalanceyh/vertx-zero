@@ -7,6 +7,7 @@ import io.vertx.tp.crud.uca.desk.IxPanel;
 import io.vertx.tp.crud.uca.input.Pre;
 import io.vertx.tp.crud.uca.next.WJoin;
 import io.vertx.tp.crud.uca.op.Agonic;
+import io.vertx.tp.crud.uca.output.Post;
 import io.vertx.up.annotations.Address;
 import io.vertx.up.annotations.Queue;
 import io.vertx.up.commune.Envelop;
@@ -44,6 +45,10 @@ public class PostActor {
                 )
                 .next(in -> WJoin.on(in)::runAsync)
                 .passion(Agonic.create()::runAsync)
-                .runJ(body);
+                .<JsonObject, JsonObject, JsonObject>runJ(body)
+                /*
+                 * 201 / 200
+                 */
+                .compose(Post::successPost);
     }
 }

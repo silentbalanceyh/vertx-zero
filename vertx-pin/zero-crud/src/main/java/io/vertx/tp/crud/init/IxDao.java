@@ -81,13 +81,13 @@ class IxDao {
         if (Objects.isNull(config)) {
             final String name = ALIAS_MAP.get(actor);
             if (Ut.notNil(name)) {
-                Ix.Log.rest(IxDao.class, "Actor = {0}, Identifier = {1}", name, actor);
+                Ix.Log.rest(IxDao.class, "Actor: name = `{0}`, identifier = `{1}`", name, actor);
                 return CONFIG_MAP.get(name);
             } else {
                 return null;
             }
         } else {
-            Ix.Log.rest(IxDao.class, "Actor = {0}", actor);
+            Ix.Log.rest(IxDao.class, "Actor: name = `{0}`", actor);
             return config;
         }
     }
