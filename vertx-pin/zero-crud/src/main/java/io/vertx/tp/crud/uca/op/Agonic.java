@@ -24,7 +24,7 @@ public interface Agonic {
     }
 
     static Agonic count() {
-        return Fn.poolThread(Pooled.AGONIC_MAP, AgonicExisting::new, AgonicExisting.class.getName());
+        return Fn.poolThread(Pooled.AGONIC_MAP, AgonicCount::new, AgonicCount.class.getName());
     }
 
     static Agonic get() {

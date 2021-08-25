@@ -15,7 +15,7 @@ import io.vertx.up.util.Ut;
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-class UniquePre implements Pre {
+class QUkPre implements Pre {
     @Override
     public Future<JsonObject> inAsync(final JsonObject data, final IxIn in) {
         /* Unique Keys */

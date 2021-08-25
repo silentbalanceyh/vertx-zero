@@ -24,5 +24,9 @@ public interface Angle {
         }
     }
 
-    Future<JsonArray> runAsync(JsonObject input, IxIn module);
+    static Angle all() {
+        return Fn.poolThread(Pooled.ANGLE_MAP, AngleAll::new, AngleAll.class.getName());
+    }
+
+    Future<JsonArray> runAsync(JsonObject input, IxIn in);
 }

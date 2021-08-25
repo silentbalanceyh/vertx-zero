@@ -117,6 +117,7 @@ class IxDao {
             /* 3. Connect */
             final KJoin join = module.getConnect();
             final KPoint point = join.procTarget(connect.getIdentifier());
+            assert null != point;
             dao.join(connect.getDaoCls(), point.getKeyJoin());
 
             /* 4. Connect Joined pojo */

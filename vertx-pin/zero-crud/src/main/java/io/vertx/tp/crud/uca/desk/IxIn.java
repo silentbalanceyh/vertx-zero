@@ -85,6 +85,12 @@ public class IxIn {
         return new IxIn(envelop, identifier);
     }
 
+    public boolean canJoin() {
+        final KJoin join = this.module.getConnect();
+        final KPoint point = join.procTarget(this.connect.getIdentifier());
+        return Objects.nonNull(point);
+    }
+
     public Envelop envelop() {
         return this.envelop;
     }

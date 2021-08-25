@@ -82,8 +82,12 @@ public interface Pre {
         }
     }
 
-    static Pre unique() {
-        return Fn.poolThread(Pooled.PRE_MAP, UniquePre::new, UniquePre.class.getName());
+    static Pre qUk() {
+        return Fn.poolThread(Pooled.PRE_MAP, QUkPre::new, QUkPre.class.getName());
+    }
+
+    static Pre qAll() {
+        return Fn.poolThread(Pooled.PRE_MAP, QAllPre::new, QAllPre.class.getName());
     }
 
     Future<JsonObject> inAsync(JsonObject data, IxIn in);

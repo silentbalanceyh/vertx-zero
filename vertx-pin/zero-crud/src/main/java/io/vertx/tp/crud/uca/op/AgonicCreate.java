@@ -18,20 +18,19 @@ class AgonicCreate implements Agonic {
     public Future<JsonObject> runAsync(final JsonObject input, final IxIn in) {
         final KModule module = in.module();
         final UxJooq jooq = IxPin.jooq(in);
-        return Pre.unique().inAsync(input, in)
-                .compose(condition -> Ix.existing(condition, in.module()).apply(jooq)).compose(existing -> existing ?
-                        // Unique Existing
-                        Post.success201Pre(input, module)
-                        :
-                        // Primary Key
-                        Ix.passion(input, in,
-                                        Pre.key(true)::inAsync,             // UUID Generated
-                                        Pre.auditor(true)::inAsync,         // createdAt, createdBy
-                                        Pre.auditor(false)::inAsync         // updatedAt, updatedBy
-                                )
-                                .compose(processed -> Ix.deserializeT(processed, module))
-                                .compose(jooq::insertAsync)
-                                .compose(entity -> Post.successJ(entity, module))
-                );
+        return Pre.qUk().inAsync(input, in).compose(condition -> Ix.countFn(in).apply(condition).compose(counter -> 0 < counter ?
+                // Unique Existing
+                Post.success201Pre(input, module)
+                :
+                // Primary Key
+                Ix.passion(input, in,
+                                Pre.key(true)::inAsync,             // UUID Generated
+                                Pre.auditor(true)::inAsync,         // createdAt, createdBy
+                                Pre.auditor(false)::inAsync         // updatedAt, updatedBy
+                        )
+                        .compose(processed -> Ix.deserializeT(processed, module))
+                        .compose(jooq::insertAsync)
+                        .compose(entity -> Post.successJ(entity, module))
+        ));
     }
 }

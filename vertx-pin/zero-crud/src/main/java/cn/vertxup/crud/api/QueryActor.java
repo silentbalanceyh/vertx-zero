@@ -28,6 +28,7 @@ import io.vertx.up.unity.Ux;
  *          "page":1
  *      }
  * }
+ * 「新版定制完成」
  */
 @Queue
 public class QueryActor {

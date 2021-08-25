@@ -20,22 +20,20 @@ public class Ix {
         IxData.audit(auditor, config, userId);
     }
 
-    /*
-     * Criteria -> Pagination Json
-     */
     public static Function<JsonObject, Future<JsonObject>> searchFn(final IxIn in) {
-        return IxQuery.search(in);
+        return IxQr.searchFn(in);
     }
 
-    /*
-     * Criteria -> Long
-     */
     public static Function<JsonObject, Future<Long>> countFn(final IxIn in) {
-        return IxQuery.count(in);
+        return IxQr.countFn(in);
     }
 
     public static Function<JsonObject, Future<JsonObject>> seekFn(final IxIn in) {
-        return IxQuery.seek(in);
+        return IxQr.seekFn(in);
+    }
+
+    public static Function<JsonObject, Future<JsonArray>> fetchFn(final IxIn in) {
+        return IxQr.fetchFn(in);
     }
 
     // JqTool

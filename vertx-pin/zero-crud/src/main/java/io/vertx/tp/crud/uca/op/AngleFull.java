@@ -14,9 +14,9 @@ import io.vertx.up.uca.jooq.UxJooq;
  */
 class AngleFull implements Angle {
     @Override
-    public Future<JsonArray> runAsync(final JsonObject input, final IxIn module) {
+    public Future<JsonArray> runAsync(final JsonObject input, final IxIn in) {
         /* Get Stub */
-        final UxJooq jooq = IxPin.jooq(module);
+        final UxJooq jooq = IxPin.jooq(in);
         return Ke.channel(Apeak.class, JsonArray::new, stub -> stub.on(jooq).fetchFull(input));
     }
 }

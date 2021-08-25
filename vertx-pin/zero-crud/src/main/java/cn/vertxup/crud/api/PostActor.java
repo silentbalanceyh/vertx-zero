@@ -20,6 +20,7 @@ import io.vertx.up.unity.Ux;
  *      `plugin/crud/module/`
  * The validation rule file are stored under
  *      `plugin/crud/validator/`
+ * 「新版定制完成」
  */
 @Queue
 public class PostActor {

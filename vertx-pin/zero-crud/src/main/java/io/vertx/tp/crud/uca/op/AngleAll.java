@@ -1,6 +1,7 @@
 package io.vertx.tp.crud.uca.op;
 
 import io.vertx.core.Future;
+import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.crud.init.IxPin;
 import io.vertx.tp.crud.refine.Ix;
@@ -10,15 +11,15 @@ import io.vertx.up.uca.jooq.UxJooq;
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-class AgonicSearch implements Agonic {
+public class AngleAll implements Angle {
     @Override
-    public Future<JsonObject> runAsync(final JsonObject input, final IxIn in) {
-        Ix.Log.filters(this.getClass(), "( Search ) Condition: {0}", input);
+    public Future<JsonArray> runAsync(final JsonObject input, final IxIn in) {
+        Ix.Log.filters(this.getClass(), "( All ) Condition: {0}", input);
         if (in.canJoin()) {
-            return Ix.searchFn(in).apply(input);
+            return Ix.fetchFn(in).apply(input);
         } else {
             final UxJooq jooq = IxPin.jooq(in);
-            return jooq.searchAsync(input);
+            return jooq.fetchJAsync(input);
         }
     }
 }

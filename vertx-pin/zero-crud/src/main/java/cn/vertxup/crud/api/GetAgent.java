@@ -11,6 +11,7 @@ import io.vertx.up.eon.Orders;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
+import javax.ws.rs.QueryParam;
 
 /*
  * Http Method: Get
@@ -30,5 +31,6 @@ public interface GetAgent {
     @Path("/{actor}/by/sigma")
     @Address(Addr.Get.BY_SIGMA)
     @Adjust(Orders.MODULE)
-    JsonArray getAll(@PathParam("actor") String actor);
+    JsonArray getAll(@PathParam("actor") String actor,
+                     @QueryParam("module") String module);
 }
