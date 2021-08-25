@@ -33,8 +33,9 @@ public class JqOut {
         return toResult(list, projections, analyzer.type());
     }
 
-    public static JsonArray toJoin(final List<Record> records, final JsonArray projection,
-                                   final ConcurrentMap<String, String> fields, final Mojo mojo) {
+    public static JsonArray toJoin(
+            final List<Record> records, final JsonArray projection,
+            final ConcurrentMap<String, String> fields, final Mojo mojo) {
         final JsonArray joinResult = new JsonArray();
         records.forEach(record -> {
             final int size = record.size();

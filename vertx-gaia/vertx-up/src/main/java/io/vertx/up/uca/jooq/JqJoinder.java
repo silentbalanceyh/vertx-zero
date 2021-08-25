@@ -78,6 +78,9 @@ class JqJoinder {
          */
         final String firstTable = this.CLASS_MAP.get(daoCls);
         this.first = Kv.create(firstTable, field);
+        /*
+         * Assist for joining here
+         */
         this.firstAnalyzer = this.ANALYZERS.get(daoCls);
         return this;
     }

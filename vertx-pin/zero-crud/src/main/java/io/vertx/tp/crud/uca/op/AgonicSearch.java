@@ -15,7 +15,6 @@ public class AgonicSearch implements Agonic {
     @Override
     public Future<Envelop> runAsync(final JsonObject input, final IxIn in) {
         return Ix.search(in).apply(input)
-                .compose(Ux::debug)
                 .compose(item -> Ux.future(Envelop.success(item)));
     }
 

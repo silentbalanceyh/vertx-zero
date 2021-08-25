@@ -10,11 +10,11 @@ import io.vertx.up.uca.jooq.util.JqTool;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
-import java.util.stream.Collectors;
 
 @SuppressWarnings("all")
 public final class UxJoin {
@@ -25,6 +25,7 @@ public final class UxJoin {
     private transient final ConcurrentMap<Class<?>, String> POJO_MAP
             = new ConcurrentHashMap<>();
     private transient Mojo merged = null;
+    private transient Set<String> fieldSet = new HashSet<>();
 
     public UxJoin(final String file) {
         if (Ut.notNil(file)) {
@@ -50,21 +51,7 @@ public final class UxJoin {
     }
 
     public <T> UxJoin pojo(final Class<?> daoCls, final String pojo) {
-        return pojo(daoCls, pojo, true);
-    }
-
-    public <T> UxJoin pojo(final Class<?> daoCls, final String pojo, final boolean append) {
         final Mojo created = Mirror.create(UxJoin.class).mount(pojo).mojo();
-        if (append) {
-            // Clean the same field between T1 and T2
-            final ConcurrentMap<String, String> mapping = created.getOut();
-            final Set<String> firstSet = this.joinder.firstFields();
-            // Key Set for final
-            final Set<String> keySet = mapping.keySet().stream()
-                    .filter(key -> firstSet.contains(mapping.get(key)))
-                    .collect(Collectors.toSet());
-            keySet.forEach(mapping::remove);
-        }
         this.POJO_MAP.put(daoCls, pojo);
         if (Objects.isNull(this.merged)) {
             this.merged = new Mojo();
@@ -110,7 +97,11 @@ public final class UxJoin {
     }
 
     private Qr toQr(final JsonObject params) {
-        return Objects.isNull(this.merged) ? Qr.create(params) : JqTool.qr(params, this.merged);
+        return Objects.isNull(this.merged) ? Qr.create(params) : JqTool.qr(
+                params,
+                this.merged,
+                this.joinder.firstFields()              // The first major jooq should be ignored
+        );
     }
 
     public Future<JsonObject> searchAsync(final Qr qr) {
