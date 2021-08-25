@@ -38,8 +38,9 @@ class IxDao {
     /*
      * Logger for IxDao
      */
-
     private static final ConcurrentMap<String, KModule> CONFIG_MAP =
+            new ConcurrentHashMap<>();
+    private static final ConcurrentMap<String, String> ALIAS_MAP =
             new ConcurrentHashMap<>();
 
     static void init() {
@@ -64,10 +65,11 @@ class IxDao {
                     Ix.Log.init(IxDao.class, IxMsg.INIT_INFO, path, config.getName());
                 }
                 /* 4. Default Values */
-                initValues(config, file);
+                final String identifier = initValues(config, file);
                 /* 5. Url & Map */
                 IxConfiguration.addUrs(config.getName());
                 CONFIG_MAP.put(config.getName(), config);
+                ALIAS_MAP.put(identifier, config.getName());
             }, configDao);
         });
         Ix.Log.init(IxDao.class, "IxDao Finished ! Size = {0}, Uris = {0}",
@@ -75,9 +77,19 @@ class IxDao {
     }
 
     static KModule get(final String actor) {
-        Ix.Log.rest(IxDao.class, "Actor = {0}", actor);
         final KModule config = CONFIG_MAP.get(actor);
-        return Fn.getNull(null, () -> config, config);
+        if (Objects.isNull(config)) {
+            final String name = ALIAS_MAP.get(actor);
+            if (Ut.notNil(name)) {
+                Ix.Log.rest(IxDao.class, "Actor = {0}, Identifier = {1}", name, actor);
+                return CONFIG_MAP.get(name);
+            } else {
+                return null;
+            }
+        } else {
+            Ix.Log.rest(IxDao.class, "Actor = {0}", actor);
+            return config;
+        }
     }
 
     static KPoint getPoint(final IxIn in) {
@@ -85,7 +97,7 @@ class IxDao {
         final KModule connect = in.connect();
 
         final KJoin join = module.getConnect();
-        final KPoint point = join.procTarget(connect.getName());
+        final KPoint point = join.procTarget(connect.getIdentifier());
         Ix.Log.rest(IxDao.class, "Point = {0}", point);
         return point;
     }
@@ -104,7 +116,7 @@ class IxDao {
 
             /* 3. Connect */
             final KJoin join = module.getConnect();
-            final KPoint point = join.procTarget(connect.getName());
+            final KPoint point = join.procTarget(connect.getIdentifier());
             dao.join(connect.getDaoCls(), point.getKeyJoin());
 
             /* 4. Connect Joined pojo */
@@ -133,7 +145,7 @@ class IxDao {
         }, config);
     }
 
-    private static void initValues(final KModule module, final String file) {
+    private static String initValues(final KModule module, final String file) {
         /* Default Column */
         final String identifier = file.replace(Strings.DOT + FileSuffix.JSON, Strings.EMPTY);
         if (Objects.isNull(module.getColumn())) {
@@ -169,6 +181,7 @@ class IxDao {
         field.setUpdated(updated);
         // Module field setting workflow for default
         module.setField(field);
+        return identifier;
     }
 
     private static UxJooq get(final KModule module, final Class<?> clazz, final MultiMap headers) {
