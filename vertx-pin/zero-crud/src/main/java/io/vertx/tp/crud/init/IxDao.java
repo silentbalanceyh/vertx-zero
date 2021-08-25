@@ -16,7 +16,6 @@ import io.vertx.up.eon.ID;
 import io.vertx.up.eon.KName;
 import io.vertx.up.eon.Strings;
 import io.vertx.up.fn.Fn;
-import io.vertx.up.log.Annal;
 import io.vertx.up.log.Debugger;
 import io.vertx.up.uca.jooq.UxJooq;
 import io.vertx.up.unity.Ux;
@@ -35,7 +34,6 @@ class IxDao {
     /*
      * Logger for IxDao
      */
-    private static final Annal LOGGER = Annal.get(IxDao.class);
 
     private static final ConcurrentMap<String, KModule> CONFIG_MAP =
             new ConcurrentHashMap<>();
@@ -59,7 +57,7 @@ class IxDao {
                 final KModule config = Ut.deserialize(configDao, KModule.class);
                 /* 3. Logger */
                 if (Debugger.isEnabled("curd.dao.file")) {
-                    Ix.infoInit(LOGGER, IxMsg.INIT_INFO, path, config.getName());
+                    Ix.Log.init(IxDao.class, IxMsg.INIT_INFO, path, config.getName());
                 }
                 /* 4. Default Values */
                 initValues(config, file);
@@ -68,12 +66,12 @@ class IxDao {
                 CONFIG_MAP.put(config.getName(), config);
             }, configDao);
         });
-        Ix.infoInit(LOGGER, "IxDao Finished ! Size = {0}, Uris = {0}",
+        Ix.Log.init(IxDao.class, "IxDao Finished ! Size = {0}, Uris = {0}",
                 CONFIG_MAP.size(), IxConfiguration.getUris().size());
     }
 
     static KModule get(final String actor) {
-        Ix.debugRest(LOGGER, "Actor = {0}", actor);
+        Ix.Log.restW(IxDao.class, "Actor = {0}", actor);
         final KModule config = CONFIG_MAP.get(actor);
         return Fn.getNull(null, () -> config, config);
     }

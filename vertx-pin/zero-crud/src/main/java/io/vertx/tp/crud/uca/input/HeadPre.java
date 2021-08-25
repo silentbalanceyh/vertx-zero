@@ -1,4 +1,4 @@
-package io.vertx.tp.crud.uca.normalize;
+package io.vertx.tp.crud.uca.input;
 
 import io.vertx.core.Future;
 import io.vertx.core.MultiMap;
@@ -26,7 +26,7 @@ class HeadPre implements Pre {
      * Request[to] -> Data[from]
      */
     @Override
-    public Future<JsonObject> setUp(final JsonObject data, final IxIn in) {
+    public Future<JsonObject> inAsync(final JsonObject data, final IxIn in) {
         /* Header */
         final Envelop envelop = in.envelop();
         final KModule module = in.module();

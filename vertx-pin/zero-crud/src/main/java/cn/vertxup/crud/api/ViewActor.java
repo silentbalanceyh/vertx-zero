@@ -7,8 +7,9 @@ import io.vertx.tp.crud.actor.IxActor;
 import io.vertx.tp.crud.cv.Addr;
 import io.vertx.tp.crud.refine.Ix;
 import io.vertx.tp.crud.uca.desk.IxPanel;
-import io.vertx.tp.crud.uca.normalize.Pre;
+import io.vertx.tp.crud.uca.input.Pre;
 import io.vertx.tp.crud.uca.op.Angle;
+import io.vertx.tp.crud.uca.output.Post;
 import io.vertx.tp.ke.refine.Ke;
 import io.vertx.tp.optic.ApeakMy;
 import io.vertx.up.annotations.Address;
@@ -23,15 +24,19 @@ public class ViewActor {
      * GET: /api/columns/{actor}/full
      */
     @Address(Addr.Get.COLUMN_FULL)
+    @SuppressWarnings("unchecked")
     public Future<Envelop> getFull(final Envelop envelop) {
         final JsonObject params = new JsonObject();
         params.put(KName.VIEW, Ux.getString1(envelop));         // view
 
         final String module = Ux.getString2(envelop);           // module
+
         return IxPanel.on(envelop, module)
                 .input(
-                        Pre.head()::setUp,      /* Header */
-                        Pre.Apeak()::setUp      /* Apeak */
+                        /* Header */
+                        Pre.head()::inAsync,
+                        /* Apeak */
+                        Pre.apeak()::inAsync
                 )
                 /*
                  * {
@@ -41,9 +46,15 @@ public class ViewActor {
                  *     "sigma": "The application uniform"
                  * }
                  */
-                .parallel(Angle.full()::procAsync)
-                .runJ(params, (s, a) -> null);
-
+                .parallel(
+                        /* Active */
+                        Angle.full()::runAsync
+                )
+                .output(
+                        /* Columns connected */
+                        Post.apeak()::outAsync
+                )
+                .runJ(params);
     }
 
     /*

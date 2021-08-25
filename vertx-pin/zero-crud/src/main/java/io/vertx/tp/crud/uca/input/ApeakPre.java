@@ -1,4 +1,4 @@
-package io.vertx.tp.crud.uca.normalize;
+package io.vertx.tp.crud.uca.input;
 
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
@@ -23,7 +23,7 @@ class ApeakPre implements Pre {
      * }
      */
     @Override
-    public Future<JsonObject> setUp(final JsonObject data, final IxIn in) {
+    public Future<JsonObject> inAsync(final JsonObject data, final IxIn in) {
         final KModule module = in.module();
         /* Column definition */
         final KColumn column = module.getColumn();

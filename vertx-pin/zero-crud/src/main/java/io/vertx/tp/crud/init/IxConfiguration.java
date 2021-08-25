@@ -5,7 +5,6 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.tp.crud.atom.IxConfig;
 import io.vertx.tp.crud.cv.IxFolder;
 import io.vertx.tp.crud.refine.Ix;
-import io.vertx.up.log.Annal;
 import io.vertx.up.util.Ut;
 
 import java.text.MessageFormat;
@@ -19,7 +18,6 @@ import java.util.Set;
  */
 class IxConfiguration {
 
-    private static final Annal LOGGER = Annal.get(IxConfiguration.class);
     /* Module Registry */
     private static final Set<String> MODULE_REG =
             new HashSet<>();
@@ -31,9 +29,9 @@ class IxConfiguration {
          */
         if (null == CONFIG) {
             final JsonObject configData = Ut.ioJObject(IxFolder.CONFIG_FILE);
-            Ix.infoInit(LOGGER, "Ix Json Data: {0}", configData.encode());
+            Ix.Log.init(IxConfiguration.class, "Ix Json Data: {0}", configData.encode());
             CONFIG = Ut.deserialize(configData, IxConfig.class);
-            Ix.infoInit(LOGGER, "Ix Configuration: {0}", CONFIG.toString());
+            Ix.Log.init(IxConfiguration.class, "Ix Configuration: {0}", CONFIG.toString());
         }
     }
 

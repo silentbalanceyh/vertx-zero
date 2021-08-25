@@ -20,7 +20,6 @@ import io.vertx.up.commune.exchange.DictEpsilon;
 import io.vertx.up.commune.exchange.DictFabric;
 import io.vertx.up.commune.exchange.DictSource;
 import io.vertx.up.eon.KName;
-import io.vertx.up.log.Annal;
 import io.vertx.up.uca.jooq.UxJooq;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
@@ -34,8 +33,6 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
 class Unity {
-
-    private static final Annal LOGGER = Annal.get(Unity.class);
 
     /*
      * Seeker for lookup target resource
@@ -80,7 +77,7 @@ class Unity {
             /*
              * Direct returned
              */
-            Ix.infoRest(LOGGER, "Plugin condition failure, {0}, {1}, {2}",
+            Ix.Log.rest(Unity.class, "Plugin condition failure, {0}, {1}, {2}",
                     epsilonMap.isEmpty(), Objects.isNull(plugin), !dict.validSource());
             return Ux.future(new ConcurrentHashMap<>());
         } else {
@@ -115,7 +112,7 @@ class Unity {
                         .forEach(fields::add);
                 final boolean match = fields.stream().allMatch(field -> Objects.nonNull(record.getValue(field)));
                 if (!match) {
-                    Ix.warnRest(LOGGER, "Unique checking failure, check fields: `{0}`, data = {1}",
+                    Ix.Log.restW(Unity.class, "Unique checking failure, check fields: `{0}`, data = {1}",
                             Ut.fromJoin(fields), record.encode());
                     return false;
                 }

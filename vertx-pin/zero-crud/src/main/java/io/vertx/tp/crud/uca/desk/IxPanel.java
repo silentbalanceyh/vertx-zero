@@ -26,6 +26,7 @@ public class IxPanel {
     private transient BiFunction[] executors;
     private transient BiFunction activeFn;
     private transient BiFunction standByFn;
+    private transient BiFunction outputFn;
 
     private IxPanel(final Envelop envelop, final String module) {
         this.active = IxIn.active(envelop);
@@ -74,6 +75,11 @@ public class IxPanel {
         return this;
     }
 
+    public <A, S, O> IxPanel output(final BiFunction<A, S, Future<O>> outputFn) {
+        this.outputFn = outputFn;
+        return this;
+    }
+
     public <I, O> IxPanel parallel(final BiFunction<I, IxIn, Future<O>> activeFn,
                                    final BiFunction<I, IxIn, Future<O>> standFn) {
         this.sequence = false;
@@ -97,7 +103,7 @@ public class IxPanel {
         return this;
     }
 
-    public <A, S, O> Future<O> runJ(final JsonObject input, final BiFunction<A, S, Future<O>> outputFn) {
+    public <A, S, O> Future<O> runJ(final JsonObject input) {
         final JsonObject sure = Ut.sureJObject(input);
         return this.<JsonObject, A, S, O>runInternal(sure.copy(), outputFn);
     }
@@ -110,13 +116,17 @@ public class IxPanel {
     private <I, A, S, O> Future<O> runInternal(final I input, final BiFunction<A, S, Future<O>> outputFn) {
         final Function<I, Future<A>> activeFn =
                 (inputActive) -> this.active.ready(inputActive, this.executors)
-                        .compose(normalized -> this.activeFn.apply(normalized, this.active));
+                        .otherwise(Ux::otherwise)
+                        .compose(normalized -> this.activeFn.apply(normalized, this.active))
+                        .otherwise(Ux::otherwise);
         final Function<I, Future<S>> standFn;
         if (Objects.isNull(this.standByFn)) {
             standFn = (inputStand) -> (Future<S>) Ux.future(inputStand);
         } else {
             standFn = (inputStand) -> this.standBy.ready(inputStand, this.executors)
-                    .compose(normalized -> (Future<S>) this.standByFn.apply(normalized, this.standBy));
+                    .otherwise(Ux::otherwise)
+                    .compose(normalized -> (Future<S>) this.standByFn.apply(normalized, this.standBy))
+                    .otherwise(Ux::otherwise);
         }
         if (this.sequence) {
             return activeFn.apply(input).compose(a -> standFn.apply(input).compose(s -> outputFn.apply(a, s)));

@@ -96,21 +96,6 @@ public class Ix {
     /*
      * Log
      */
-    public static void infoInit(final Annal logger, final String pattern, final Object... args) {
-        IxLog.infoInit(logger, pattern, args);
-    }
-
-    public static void infoRest(final Annal logger, final String pattern, final Object... args) {
-        IxLog.infoRest(logger, pattern, args);
-    }
-
-    public static void debugRest(final Annal logger, final String pattern, final Object... args) {
-        IxLog.debugRest(logger, pattern, args);
-    }
-
-    public static void warnRest(final Annal logger, final String pattern, final Object... args) {
-        IxLog.warnRest(logger, pattern, args);
-    }
 
     public static void infoFilters(final Annal logger, final String pattern, final Object... args) {
         IxLog.infoFilters(logger, pattern, args);
@@ -129,9 +114,19 @@ public class Ix {
     }
 
     public static class Log {
+        public static void init(final Class<?> clazz, final String pattern, final Object... args) {
+            final Annal logger = Annal.get(clazz);
+            IxLog.infoInit(logger, pattern, args);
+        }
+
         public static void rest(final Class<?> clazz, final String pattern, final Object... args) {
             final Annal logger = Annal.get(clazz);
             IxLog.infoRest(logger, pattern, args);
+        }
+
+        public static void restW(final Class<?> clazz, final String pattern, final Object... args) {
+            final Annal logger = Annal.get(clazz);
+            IxLog.warnRest(logger, pattern, args);
         }
 
         public static void dao(final Class<?> clazz, final String pattern, final Object... args) {

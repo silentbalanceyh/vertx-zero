@@ -3,7 +3,6 @@ package io.vertx.tp.crud.atom;
 import io.vertx.core.Future;
 import io.vertx.core.http.HttpMethod;
 import io.vertx.tp.crud.init.IxPin;
-import io.vertx.tp.crud.refine.Ix;
 import io.vertx.tp.error._404ModuleMissingException;
 import io.vertx.tp.ke.atom.KModule;
 import io.vertx.up.commune.Envelop;
@@ -34,8 +33,6 @@ public class IxProc {
         final HttpMethod method = envelop.method();
         final String uri = envelop.uri();
         final Annal logger = Annal.get(this.target);
-
-        Ix.infoRest(logger, "---> Uri Addr: {0} {1}", method, uri);
     }
 
     public IxProc input(final Envelop envelop) {

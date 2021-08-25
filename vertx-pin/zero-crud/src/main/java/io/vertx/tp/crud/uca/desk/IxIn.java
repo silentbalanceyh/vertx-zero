@@ -1,9 +1,7 @@
 package io.vertx.tp.crud.uca.desk;
 
 import io.vertx.core.Future;
-import io.vertx.core.http.HttpMethod;
 import io.vertx.tp.crud.init.IxPin;
-import io.vertx.tp.crud.refine.Ix;
 import io.vertx.tp.error._404ModuleMissingException;
 import io.vertx.tp.ke.atom.KModule;
 import io.vertx.tp.ke.atom.connect.KJoin;
@@ -30,11 +28,6 @@ public class IxIn {
 
     private IxIn(final Envelop envelop, final String identifier) {
         this.envelop = envelop;
-        {
-            final HttpMethod method = envelop.method();
-            final String uri = envelop.uri();
-            Ix.Log.rest(this.getClass(), "---> Uri: {0} {1}", method, uri);
-        }
         /* 1. Actor value here from `Envelop` */
         final String actor = Ux.getString(envelop);
         KModule module;

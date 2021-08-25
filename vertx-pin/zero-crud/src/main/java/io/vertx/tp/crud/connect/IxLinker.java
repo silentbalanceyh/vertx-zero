@@ -33,11 +33,6 @@ public interface IxLinker {
                 UpdateLinker::new);
     }
 
-    static IxLinker full() {
-        return Fn.pool(Pool.LINKER_MAP, UpdateLinker.class.getName(),
-                ViewLinker::new);
-    }
-
     /* Default Implementation for JsonArray and JsonObject */
 
     default Future<Envelop> joinJAsync(final Envelop request, final JsonObject original, final KModule module) {
