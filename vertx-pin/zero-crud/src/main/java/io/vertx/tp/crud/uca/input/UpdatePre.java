@@ -27,7 +27,7 @@ class UpdatePre implements Pre {
             if (Ut.notNil(userId)) {
                 final KField field = module.getField();
                 /* Updated */
-                Ix.audit(data, field.getUpdated(), userId);
+                Ix.onAuditor(data, field.getUpdated(), userId);
             }
         }
         return Ux.future(data);

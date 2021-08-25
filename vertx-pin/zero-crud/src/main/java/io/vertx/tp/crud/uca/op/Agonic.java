@@ -27,6 +27,10 @@ public interface Agonic {
         return Fn.poolThread(Pooled.AGONIC_MAP, AgonicExisting::new, AgonicExisting.class.getName());
     }
 
+    static Agonic get() {
+        return Fn.poolThread(Pooled.AGONIC_MAP, AgonicByID::new, AgonicByID.class.getName());
+    }
+
     Future<JsonObject> runAsync(JsonObject input, IxIn in);
 
     default Future<JsonArray> runBAsync(final JsonArray input, final IxIn in) {

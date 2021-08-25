@@ -27,7 +27,7 @@ class CreatePre implements Pre {
             if (Ut.notNil(userId)) {
                 final KField field = module.getField();
                 /* Created */
-                Ix.audit(data, field.getCreated(), userId);
+                Ix.onAuditor(data, field.getCreated(), userId);
             }
         }
         return Ux.future(data);

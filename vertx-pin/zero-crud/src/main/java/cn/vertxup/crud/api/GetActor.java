@@ -3,9 +3,11 @@ package cn.vertxup.crud.api;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.crud.connect.IxLinker;
 import io.vertx.tp.crud.cv.Addr;
 import io.vertx.tp.crud.refine.Ix;
+import io.vertx.tp.crud.uca.desk.IxPanel;
+import io.vertx.tp.crud.uca.op.Agonic;
+import io.vertx.tp.crud.uca.output.Post;
 import io.vertx.up.annotations.Address;
 import io.vertx.up.annotations.Queue;
 import io.vertx.up.commune.Envelop;
@@ -25,19 +27,15 @@ public class GetActor {
      *     204: JqTool No Data
      */
     @Address(Addr.Get.BY_ID)
-    public Future<Envelop> getById(final Envelop request) {
-        return Ix.create(this.getClass()).input(request).envelop((dao, config) -> {
-            /* Key */
-            final String key = Ux.getString1(request);
-            return dao.fetchByIdAsync(key)
-                    .compose(queried -> null == queried ?
-                            /* 204 */
-                            IxHttp.success204(queried) :
-                            /* 200 */
-                            IxHttp.success200(queried, config))
-                    .compose(response -> IxLinker.get().joinJAsync(request,
-                            response.data(), config));
-        });
+    public Future<Envelop> getById(final Envelop envelop) {
+        final String key = Ux.getString1(envelop);
+        return IxPanel.on(envelop, null)
+                .passion(Agonic.get()::runAsync, null)
+                .<JsonObject, JsonObject, JsonObject>runJ(new JsonObject().put(KName.KEY, key))
+                /*
+                 * 204 / 200
+                 */
+                .compose(Post::successPost);
     }
 
     /*

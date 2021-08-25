@@ -22,7 +22,7 @@ class CreateActor extends AbstractActor {
         if (Ut.notNil(userId)) {
             final KField field = config.getField();
             /* Created */
-            Ix.audit(data, field.getCreated(), userId);
+            Ix.onAuditor(data, field.getCreated(), userId);
         }
         return data;
     }

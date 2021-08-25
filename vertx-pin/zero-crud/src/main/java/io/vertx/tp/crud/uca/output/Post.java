@@ -46,6 +46,10 @@ public interface Post<T> {
         });
     }
 
+    static <T> Future<JsonObject> success204Pre() {
+        return Ux.future(new JsonObject().put(STATUS, 204));
+    }
+
     /*
      *  T -> JsonObject based by module
      */

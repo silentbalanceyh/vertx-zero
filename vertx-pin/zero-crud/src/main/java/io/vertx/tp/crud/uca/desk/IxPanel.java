@@ -20,13 +20,13 @@ import java.util.function.Function;
 @SuppressWarnings("all")
 public class IxPanel {
     private final transient IxIn active;
-    private final transient IxIn standBy;
+    private transient IxIn standBy;
 
     private transient boolean sequence = Boolean.TRUE;
-    private transient BiFunction[] executors;
     private transient BiFunction activeFn;
     private transient BiFunction standByFn;
 
+    private transient BiFunction[] executors = new BiFunction[]{};
     private transient BiFunction outputFn = null;
     private transient BiFunction nextFn = null;
 

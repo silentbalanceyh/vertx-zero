@@ -7,6 +7,8 @@ import io.vertx.tp.crud.init.IxPin;
 import io.vertx.tp.crud.uca.desk.IxIn;
 import io.vertx.tp.ke.atom.KField;
 import io.vertx.tp.ke.atom.KModule;
+import io.vertx.tp.ke.atom.connect.KJoin;
+import io.vertx.tp.ke.atom.connect.KPoint;
 import io.vertx.up.log.Annal;
 import io.vertx.up.uca.jooq.UxJoin;
 import io.vertx.up.uca.jooq.UxJooq;
@@ -98,6 +100,32 @@ class IxQuery {
                 // Join
                 final UxJoin join = IxPin.join(in, connect);
                 return join.countAsync(condition);
+            }
+        };
+    }
+
+    static Function<JsonObject, Future<JsonObject>> seek(final IxIn in) {
+        return entityJson -> {
+            final KModule module = in.module();
+            final KJoin join = module.getConnect();
+            if (Objects.isNull(join)) {
+                return Ux.future(new JsonObject());
+            } else {
+                final KPoint point = join.procTarget(entityJson);
+                /*
+                 * IxDao for Jooq
+                 * */
+                final KModule switched = IxPin.getActor(point.getCrud());
+                final UxJooq switchedJq = IxPin.jooq(switched, in.envelop());
+                /*
+                 * Filters
+                 */
+                final JsonObject filters = new JsonObject();
+                join.procFilters(entityJson, point, filters);
+                if (Ut.isNil(switched.getPojo())) {
+                    switchedJq.on(switched.getPojo());
+                }
+                return switchedJq.fetchJOneAsync(filters);
             }
         };
     }

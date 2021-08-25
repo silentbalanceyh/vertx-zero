@@ -21,7 +21,7 @@ class UpdateActor extends AbstractActor {
         if (Ut.notNil(userId)) {
             final KField field = config.getField();
             /* Created */
-            Ix.audit(data, field.getUpdated(), userId);
+            Ix.onAuditor(data, field.getUpdated(), userId);
         }
         return data;
     }

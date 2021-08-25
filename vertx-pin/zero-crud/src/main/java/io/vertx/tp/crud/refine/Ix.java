@@ -15,11 +15,36 @@ import java.util.function.BiFunction;
 import java.util.function.Function;
 
 public class Ix {
-    // Business Logical
-    public static void audit(final JsonObject auditor, final JsonObject config, final String userId) {
+    // --------------------------------- New Version
+    public static void onAuditor(final JsonObject auditor, final JsonObject config, final String userId) {
         IxData.audit(auditor, config, userId);
     }
 
+    /*
+     * Criteria -> Pagination Json
+     */
+    public static Function<JsonObject, Future<JsonObject>> searchFn(final IxIn in) {
+        return IxQuery.search(in);
+    }
+
+    /*
+     * Criteria -> Long
+     */
+    public static Function<JsonObject, Future<Long>> countFn(final IxIn in) {
+        return IxQuery.count(in);
+    }
+
+    public static Function<JsonObject, Future<JsonObject>> seekFn(final IxIn in) {
+        return IxQuery.seek(in);
+    }
+
+    // JqTool
+    @SafeVarargs
+    public static <T> Future<T> passion(final T input, final IxIn in, final BiFunction<T, IxIn, Future<T>>... executors) {
+        return IxFn.passion(input, in, executors);
+    }
+
+    // --------------------------------- Old Version
     // Is --- Checking the result, return boolean
     /*
      * is existing for result
@@ -28,13 +53,6 @@ public class Ix {
         return IxFn.isExist(result);
     }
 
-    public static Function<JsonObject, Future<JsonObject>> searchFn(final IxIn in) {
-        return IxQuery.search(in);
-    }
-
-    public static Function<JsonObject, Future<Long>> countFn(final IxIn in) {
-        return IxQuery.count(in);
-    }
 
     /*
      * search operation
@@ -98,12 +116,6 @@ public class Ix {
 
     public static Future<JsonObject> inKeys(final JsonArray array, final KModule config) {
         return Ux.future(IxQuery.inKeys(array, config));
-    }
-
-    // JqTool
-    @SafeVarargs
-    public static <T> Future<T> passion(final T input, final IxIn in, final BiFunction<T, IxIn, Future<T>>... executors) {
-        return IxFn.passion(input, in, executors);
     }
 
     /*

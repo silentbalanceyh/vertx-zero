@@ -50,6 +50,10 @@ public class IxPin {
         return IxDao.get(in.module(), envelop.headers());
     }
 
+    public static UxJooq jooq(final KModule module, final Envelop envelop) {
+        return IxDao.get(module, envelop.headers());
+    }
+
     public static UxJoin join(final IxIn in, final KModule connect) {
         return IxDao.get(in.module(), connect);
     }
