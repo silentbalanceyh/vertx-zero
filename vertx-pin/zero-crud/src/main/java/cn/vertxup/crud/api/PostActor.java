@@ -41,7 +41,11 @@ public class PostActor {
                         /* Number */
                         Pre.serial()::inAsync
                 )
-                .passion(Agonic.creation()::runAsync)
+                .next(item -> {
+                    System.out.println(item);
+                    return Ux.future(item);
+                })
+                .passion(Agonic.create()::runAsync)
                 .runJ(body);
     }
 }

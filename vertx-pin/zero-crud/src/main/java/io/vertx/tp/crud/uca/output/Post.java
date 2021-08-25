@@ -30,5 +30,11 @@ public interface Post<T> {
         return Ux.future(Envelop.success(serializedJson));
     }
 
+    static <T> Future<JsonObject> success200J(final T input, final KModule module) {
+        final JsonObject serializedJson = Ux.toJson(input, module.getPojo());
+        Ix.serializeJ(serializedJson, module);
+        return Ux.future(serializedJson);
+    }
+
     Future<T> outAsync(T active, T standBy);
 }

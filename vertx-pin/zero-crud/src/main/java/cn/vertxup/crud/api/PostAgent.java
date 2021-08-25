@@ -46,12 +46,14 @@ public interface PostAgent {
     @Address(Addr.Post.EXISTING)
     @Adjust(Orders.MODULE)
     Boolean existing(@PathParam("actor") String actor,
-                     @BodyParam JsonObject criteria);
+                     @BodyParam JsonObject criteria,
+                     @QueryParam(KName.MODULE) String module);
 
     @POST
     @Path("/{actor}/missing")
     @Address(Addr.Post.MISSING)
     @Adjust(Orders.MODULE)
     Boolean missing(@PathParam("actor") String actor,
-                    @BodyParam JsonObject criteria);
+                    @BodyParam JsonObject criteria,
+                    @QueryParam(KName.MODULE) String module);
 }

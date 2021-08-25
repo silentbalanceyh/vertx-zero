@@ -86,6 +86,22 @@ class IxQuery {
         };
     }
 
+    static Function<JsonObject, Future<Long>> count(final IxIn in) {
+        return condition -> {
+            // KModule
+            final KModule connect = in.connect();
+            if (Objects.isNull(connect)) {
+                // Direct
+                final UxJooq jooq = IxPin.jooq(in);
+                return jooq.countAsync(condition);
+            } else {
+                // Join
+                final UxJoin join = IxPin.join(in, connect);
+                return join.countAsync(condition);
+            }
+        };
+    }
+
     static Function<UxJooq, Future<Boolean>> existing(final JsonObject criteria, final KModule config) {
         final String pojo = config.getPojo();
         final JsonObject parameters = new JsonObject();

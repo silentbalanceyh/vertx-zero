@@ -18,9 +18,9 @@ public interface Angle {
 
     static Angle apeak(final boolean isMy) {
         if (isMy) {
-            return Fn.poolThread(Pooled.ANGLE_MAP, MyAngle::new, MyAngle.class.getName());
+            return Fn.poolThread(Pooled.ANGLE_MAP, AngleMy::new, AngleMy.class.getName());
         } else {
-            return Fn.poolThread(Pooled.ANGLE_MAP, FullAngle::new, FullAngle.class.getName());
+            return Fn.poolThread(Pooled.ANGLE_MAP, AngleFull::new, AngleFull.class.getName());
         }
     }
 

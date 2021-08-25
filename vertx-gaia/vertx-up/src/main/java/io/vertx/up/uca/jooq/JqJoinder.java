@@ -179,12 +179,16 @@ class JqJoinder {
         final JsonArray data = this.searchArray(qr, mojo);
 
         response.put("list", data);
-        final Integer counter = this.searchCount(qr);
+        final Long counter = this.searchCount(qr);
         response.put("count", counter);
         return Ux.future(response);
     }
 
-    private Integer searchCount(final Qr qr) {
+    Future<Long> countPaginationAsync(final Qr qr) {
+        return Future.succeededFuture(this.searchCount(qr));
+    }
+
+    private Long searchCount(final Qr qr) {
         /*
          * DSLContext
          */
@@ -207,7 +211,7 @@ class JqJoinder {
                     this::getColumn, this::getTable);
             started.where(condition);
         }
-        return started.fetchCount();
+        return Long.valueOf(started.fetchCount());
     }
 
     JsonArray searchArray(final Qr qr, final Mojo mojo) {

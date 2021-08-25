@@ -14,7 +14,7 @@ import io.vertx.up.uca.jooq.UxJooq;
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-class MyAngle implements Angle {
+class AngleMy implements Angle {
     /*
      * {
      *     "view": "The view name, if not put DEFAULT",

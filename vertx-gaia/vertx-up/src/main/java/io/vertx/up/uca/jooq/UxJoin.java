@@ -109,6 +109,15 @@ public final class UxJoin {
         return this.joinder.searchPaginationAsync(qr, this.merged);
     }
 
+    public Future<Long> countAsync(final JsonObject params) {
+        return countAsync(toQr(params));
+    }
+
+    public Future<Long> countAsync(final Qr qr) {
+        this.POJO_MAP.forEach(this.joinder::pojo);
+        return this.joinder.countPaginationAsync(qr);
+    }
+
     public JsonArray fetch(final Qr qr) {
         this.POJO_MAP.forEach(this.joinder::pojo);
         return this.joinder.searchArray(qr, this.merged);

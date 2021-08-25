@@ -28,8 +28,12 @@ public class Ix {
         return IxFn.isExist(result);
     }
 
-    public static Function<JsonObject, Future<JsonObject>> search(final IxIn in) {
+    public static Function<JsonObject, Future<JsonObject>> searchFn(final IxIn in) {
         return IxQuery.search(in);
+    }
+
+    public static Function<JsonObject, Future<Long>> countFn(final IxIn in) {
+        return IxQuery.count(in);
     }
 
     /*

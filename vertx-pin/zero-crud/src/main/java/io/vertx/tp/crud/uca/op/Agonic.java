@@ -5,7 +5,7 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.crud.cv.Pooled;
 import io.vertx.tp.crud.uca.desk.IxIn;
-import io.vertx.up.commune.Envelop;
+import io.vertx.tp.error._501NotSupportException;
 import io.vertx.up.fn.Fn;
 
 /**
@@ -15,7 +15,7 @@ import io.vertx.up.fn.Fn;
  */
 public interface Agonic {
 
-    static Agonic creation() {
+    static Agonic create() {
         return Fn.poolThread(Pooled.AGONIC_MAP, AgonicCreate::new, AgonicCreate.class.getName());
     }
 
@@ -23,7 +23,13 @@ public interface Agonic {
         return Fn.poolThread(Pooled.AGONIC_MAP, AgonicSearch::new, AgonicSearch.class.getName());
     }
 
-    Future<Envelop> runAsync(JsonObject input, IxIn in);
+    static Agonic count() {
+        return Fn.poolThread(Pooled.AGONIC_MAP, AgonicExisting::new, AgonicExisting.class.getName());
+    }
 
-    Future<Envelop> runBAsync(JsonArray input, IxIn in);
+    Future<JsonObject> runAsync(JsonObject input, IxIn in);
+
+    default Future<JsonArray> runBAsync(final JsonArray input, final IxIn in) {
+        return Future.failedFuture(new _501NotSupportException(this.getClass()));
+    }
 }
