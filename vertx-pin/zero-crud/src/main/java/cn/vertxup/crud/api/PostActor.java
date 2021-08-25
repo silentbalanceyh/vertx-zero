@@ -12,6 +12,7 @@ import io.vertx.up.annotations.Address;
 import io.vertx.up.annotations.Queue;
 import io.vertx.up.commune.Envelop;
 import io.vertx.up.eon.KName;
+import io.vertx.up.eon.em.ChangeFlag;
 import io.vertx.up.unity.Ux;
 
 /*
@@ -45,7 +46,7 @@ public class PostActor {
                         Pre.serial()::inAsync
                 )
                 .next(in -> WJoin.on(in)::runAsync)
-                .passion(Agonic.create()::runAsync)
+                .passion(Agonic.write(ChangeFlag.ADD)::runAsync)
                 .<JsonObject, JsonObject, JsonObject>runJ(body)
                 /*
                  * 201 / 200

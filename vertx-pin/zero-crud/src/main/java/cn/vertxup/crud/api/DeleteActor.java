@@ -3,16 +3,17 @@ package cn.vertxup.crud.api;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.crud.connect.IxLinker;
 import io.vertx.tp.crud.cv.Addr;
 import io.vertx.tp.crud.refine.Ix;
-import io.vertx.tp.ke.refine.Ke;
-import io.vertx.tp.optic.Trash;
+import io.vertx.tp.crud.uca.desk.IxPanel;
+import io.vertx.tp.crud.uca.op.Agonic;
+import io.vertx.tp.crud.uca.output.Post;
 import io.vertx.up.annotations.Address;
 import io.vertx.up.annotations.Queue;
 import io.vertx.up.commune.Envelop;
+import io.vertx.up.eon.KName;
+import io.vertx.up.eon.em.ChangeFlag;
 import io.vertx.up.unity.Ux;
-import io.vertx.up.util.Ut;
 
 @Queue
 public class DeleteActor {
@@ -22,31 +23,15 @@ public class DeleteActor {
      *     204: Second deleting, The record has been gone
      */
     @Address(Addr.Delete.BY_ID)
-    public Future<Envelop> delete(final Envelop request) {
-        return Ix.create(this.getClass()).input(request).envelop((dao, config) -> {
-            /* Key */
-            final String key = Ux.getString1(request);
-            return dao.fetchByIdAsync(key).compose(result -> null == result ?
-                    /* 204 */
-                    IxHttp.success204(Boolean.TRUE) :
-                    /* Backup future */
-                    Ux.future((JsonObject) Ut.serializeJson(result))
-                            /* Connect Trash to back Up */
-                            .compose(original -> Ke.channelAsync(Trash.class,
-                                    () -> Ux.future(original),
-                                    stub -> stub.backupAsync(config.getIdentifier(), original))
-                            )
-                            /* 200, IxLinker deleted first and then deleted current record */
-                            .compose(original -> IxLinker.delete().joinJAsync(request, Ut.serializeJson(original), config)
-                                    .compose(nil ->
-                                            /*
-                                             * Delete current record
-                                             */
-                                            dao.deleteByIdAsync(key).compose(IxHttp::success200)))
-            );
-
-
-        });
+    public Future<Envelop> delete(final Envelop envelop) {
+        final String key = Ux.getString1(envelop);
+        return IxPanel.on(envelop, null)
+                .passion(Agonic.write(ChangeFlag.DELETE)::runAsync, null)
+                .<JsonObject, JsonObject, JsonObject>runJ(new JsonObject().put(KName.KEY, key))
+                /*
+                 * 204 / 200
+                 */
+                .compose(Post::successPostB);
     }
 
     /*

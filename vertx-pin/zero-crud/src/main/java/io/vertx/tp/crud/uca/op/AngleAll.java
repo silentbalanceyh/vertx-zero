@@ -11,7 +11,7 @@ import io.vertx.up.uca.jooq.UxJooq;
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-public class AngleAll implements Angle {
+class AngleAll implements Angle {
     @Override
     public Future<JsonArray> runAsync(final JsonObject input, final IxIn in) {
         Ix.Log.filters(this.getClass(), "( All ) Condition: {0}", input);

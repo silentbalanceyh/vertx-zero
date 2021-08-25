@@ -13,6 +13,7 @@ import io.vertx.up.unity.Ux;
 import java.util.List;
 import java.util.function.BiFunction;
 import java.util.function.Function;
+import java.util.function.Supplier;
 
 public class Ix {
     // --------------------------------- New Version
@@ -28,7 +29,7 @@ public class Ix {
         return IxQr.countFn(in);
     }
 
-    public static Function<JsonObject, Future<JsonObject>> seekFn(final IxIn in) {
+    public static <T> Function<JsonObject, BiFunction<Supplier<T>, BiFunction<UxJooq, JsonObject, Future<T>>, Future<T>>> seekFn(final IxIn in) {
         return IxQr.seekFn(in);
     }
 

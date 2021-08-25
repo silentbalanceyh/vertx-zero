@@ -14,7 +14,9 @@ import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
 import java.util.Objects;
+import java.util.function.BiFunction;
 import java.util.function.Function;
+import java.util.function.Supplier;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
@@ -68,14 +70,14 @@ class IxQr {
         };
     }
 
-    static Function<JsonObject, Future<JsonObject>> seekFn(final IxIn in) {
-        return entityJson -> {
+    static <T> Function<JsonObject, BiFunction<Supplier<T>, BiFunction<UxJooq, JsonObject, Future<T>>, Future<T>>> seekFn(final IxIn in) {
+        return json -> (supplier, executor) -> {
             final KModule module = in.module();
             final KJoin join = module.getConnect();
             if (Objects.isNull(join)) {
-                return Ux.future(new JsonObject());
+                return Ux.future(supplier.get());
             } else {
-                final KPoint point = join.procTarget(entityJson);
+                final KPoint point = join.procTarget(json);
                 /*
                  * IxDao for Jooq
                  * */
@@ -85,11 +87,11 @@ class IxQr {
                  * Filters
                  */
                 final JsonObject filters = new JsonObject();
-                join.procFilters(entityJson, point, filters);
+                join.procFilters(json, point, filters);
                 if (Ut.isNil(switched.getPojo())) {
                     switchedJq.on(switched.getPojo());
                 }
-                return switchedJq.fetchJOneAsync(filters);
+                return executor.apply(switchedJq, filters);
             }
         };
     }

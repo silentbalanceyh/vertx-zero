@@ -17,6 +17,7 @@ import io.vertx.up.unity.Ux;
 public interface Post<T> {
 
     String STATUS = "$STATUS$";
+    String RESULT = "$RESULT$";
 
     static Post apeak(final boolean isMy) {
         if (isMy) {
@@ -28,6 +29,17 @@ public interface Post<T> {
 
     /* STATUS Code */
     static Future<Envelop> successPost(final JsonObject input) {
+        final HttpStatusCode statusCode = getStatus(input);
+        return Ux.future(Envelop.success(input, statusCode));
+    }
+
+    static Future<Envelop> successPostB(final JsonObject input) {
+        final HttpStatusCode statusCode = getStatus(input);
+        final Boolean result = input.getBoolean(RESULT, Boolean.FALSE);
+        return Ux.future(Envelop.success(result, statusCode));
+    }
+
+    static HttpStatusCode getStatus(final JsonObject input) {
         final HttpStatusCode statusCode;
         if (input.containsKey(STATUS)) {
             final int status = input.getInteger(STATUS);
@@ -36,7 +48,7 @@ public interface Post<T> {
         } else {
             statusCode = HttpStatusCode.OK;
         }
-        return Ux.future(Envelop.success(input, statusCode));
+        return statusCode;
     }
 
     static <T> Future<JsonObject> success201Pre(final T input, final KModule module) {
@@ -48,6 +60,14 @@ public interface Post<T> {
 
     static <T> Future<JsonObject> success204Pre() {
         return Ux.future(new JsonObject().put(STATUS, 204));
+    }
+
+    static Future<JsonObject> success200Pre(final boolean result) {
+        return Ux.future(new JsonObject().put(STATUS, 200).put(RESULT, result));
+    }
+
+    static Future<JsonObject> success204Pre(final boolean result) {
+        return Ux.future(new JsonObject().put(STATUS, 204).put(RESULT, result));
     }
 
     /*

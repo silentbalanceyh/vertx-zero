@@ -6,6 +6,7 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.tp.crud.cv.Pooled;
 import io.vertx.tp.crud.uca.desk.IxIn;
 import io.vertx.tp.error._501NotSupportException;
+import io.vertx.up.eon.em.ChangeFlag;
 import io.vertx.up.fn.Fn;
 
 /**
@@ -15,8 +16,18 @@ import io.vertx.up.fn.Fn;
  */
 public interface Agonic {
 
-    static Agonic create() {
-        return Fn.poolThread(Pooled.AGONIC_MAP, AgonicCreate::new, AgonicCreate.class.getName());
+    static Agonic write(final ChangeFlag flag) {
+        if (ChangeFlag.ADD == flag) {
+            return Fn.poolThread(Pooled.AGONIC_MAP, AgonicCreate::new, AgonicCreate.class.getName());
+        } else if (ChangeFlag.DELETE == flag) {
+            return Fn.poolThread(Pooled.AGONIC_MAP, AgonicDelete::new, AgonicDelete.class.getName());
+        } else {
+            return Fn.poolThread(Pooled.AGONIC_MAP, AgonicUpdate::new, AgonicUpdate.class.getName());
+        }
+    }
+
+    static Agonic get() {
+        return Fn.poolThread(Pooled.AGONIC_MAP, AgonicByID::new, AgonicByID.class.getName());
     }
 
     static Agonic search() {
@@ -25,10 +36,6 @@ public interface Agonic {
 
     static Agonic count() {
         return Fn.poolThread(Pooled.AGONIC_MAP, AgonicCount::new, AgonicCount.class.getName());
-    }
-
-    static Agonic get() {
-        return Fn.poolThread(Pooled.AGONIC_MAP, AgonicByID::new, AgonicByID.class.getName());
     }
 
     Future<JsonObject> runAsync(JsonObject input, IxIn in);
