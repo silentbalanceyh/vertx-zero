@@ -35,8 +35,10 @@ class AgonicDelete implements Agonic {
                         /* 200, IxLinker deleted first and then delete related record */
                         .compose(processed -> Ix.<Boolean>seekFn(in)
                                 .apply(processed)
-                                .apply(() -> Boolean.FALSE, UxJooq::deleteByAsync)
-                                .compose(Post::success200Pre));
+                                .apply(() -> Boolean.FALSE, UxJooq::deleteByAsync))
+                        /* 200, Current Item */
+                        .compose(nil -> jooq.deleteByAsync(input))
+                        .compose(Post::success200Pre);
             }
         });
     }
