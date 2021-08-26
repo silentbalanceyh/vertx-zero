@@ -9,21 +9,14 @@ import io.vertx.tp.crud.uca.input.Pre;
 import io.vertx.tp.ke.refine.Ke;
 import io.vertx.tp.optic.ApeakMy;
 import io.vertx.tp.optic.Seeker;
+import io.vertx.up.eon.KName;
 import io.vertx.up.uca.jooq.UxJooq;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-class AngleMy implements Agonic {
-    /*
-     * {
-     *     "view": "The view name, if not put DEFAULT",
-     *     "uri": "http path",
-     *     "method": "http method",
-     *     "sigma": "The application uniform",
-     *     "resourceId": "Seeker result"
-     * }
-     */
+public class AgonicView implements Agonic {
+
     @Override
     public Future<JsonArray> runJAAsync(final JsonObject input, final IxIn in) {
         final UxJooq jooq = IxPin.jooq(in);
@@ -45,8 +38,10 @@ class AngleMy implements Agonic {
              */
             .compose(params -> Pre.user().inJAsync(params, in))
             /*
-             * Critical workflow
+             * data_key calculation
              */
-            .compose(params -> Ke.channel(ApeakMy.class, JsonArray::new, stub -> stub.on(jooq).fetchMy(params)));
+            .compose(params -> Pre.qVk().inJAsync(params, in))
+            .compose(params -> Ke.channel(ApeakMy.class, JsonArray::new,
+                stub -> stub.on(jooq).saveMy(params, params.getJsonArray(KName.DATA))));
     }
 }

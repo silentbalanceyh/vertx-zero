@@ -48,14 +48,18 @@ public interface Agonic {
 
     static Agonic apeak(final boolean isMy) {
         if (isMy) {
-            return Fn.poolThread(Pooled.AGONIC_MAP, AngleMy::new, AngleMy.class.getName());
+            return Fn.poolThread(Pooled.AGONIC_MAP, AgonicMy::new, AgonicMy.class.getName());
         } else {
-            return Fn.poolThread(Pooled.AGONIC_MAP, AngleFull::new, AngleFull.class.getName());
+            return Fn.poolThread(Pooled.AGONIC_MAP, AgonicFull::new, AgonicFull.class.getName());
         }
     }
 
+    static Agonic view() {
+        return Fn.poolThread(Pooled.AGONIC_MAP, AgonicView::new, AgonicView.class.getName());
+    }
+
     static Agonic all() {
-        return Fn.poolThread(Pooled.AGONIC_MAP, AngleAll::new, AngleAll.class.getName());
+        return Fn.poolThread(Pooled.AGONIC_MAP, AgonicAll::new, AgonicAll.class.getName());
     }
 
     default Future<JsonObject> runJAsync(final JsonObject input, final IxIn in) {

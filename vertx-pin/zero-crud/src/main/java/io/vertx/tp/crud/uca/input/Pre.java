@@ -86,7 +86,12 @@ public interface Pre {
      * 1) UniqueKey condition
      * 2) All key condition: sigma = xxx
      * 3) PrimaryKey condition
+     * 4) View key
      */
+    static Pre qVk() {
+        return Fn.poolThread(Pooled.PRE_MAP, QVkPre::new, QVkPre.class.getName());
+    }
+
     static Pre qUk() {
         return Fn.poolThread(Pooled.PRE_MAP, QUkPre::new, QUkPre.class.getName());
     }

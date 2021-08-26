@@ -8,10 +8,7 @@ import io.vertx.up.annotations.Adjust;
 import io.vertx.up.annotations.EndPoint;
 import io.vertx.up.eon.Orders;
 
-import javax.ws.rs.BodyParam;
-import javax.ws.rs.PUT;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
+import javax.ws.rs.*;
 
 /*
  * HTTP Method: Put
@@ -39,5 +36,7 @@ public interface PutAgent {
     @Address(Addr.Put.COLUMN_MY)
     @Adjust(Orders.MODULE)
     JsonArray getMy(@PathParam("actor") String actor,
+                    @QueryParam("view") String view,
+                    @QueryParam("module") String module,
                     @BodyParam JsonArray projection);
 }
