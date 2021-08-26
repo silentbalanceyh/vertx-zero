@@ -20,7 +20,7 @@ public class ZeroLime implements Node<ConcurrentMap<String, String>> {
     private static final Annal LOGGER = Annal.get(ZeroLime.class);
 
     private static final ConcurrentMap<String, String> INTERNALS
-            = new ConcurrentHashMap<String, String>() {
+        = new ConcurrentHashMap<String, String>() {
         {
             this.put("error", ZeroTool.produce("error"));
             this.put("inject", ZeroTool.produce("inject"));
@@ -29,7 +29,7 @@ public class ZeroLime implements Node<ConcurrentMap<String, String>> {
         }
     };
     private transient final Node<JsonObject> node
-            = Ut.singleton(ZeroVertx.class);
+        = Ut.singleton(ZeroVertx.class);
 
     @Override
     public ConcurrentMap<String, String> read() {
@@ -43,9 +43,9 @@ public class ZeroLime implements Node<ConcurrentMap<String, String>> {
         final Set<String> sets = Ut.toSet(literal, Strings.COMMA);
         LOGGER.debug("Lime node parsing \"{0}\" and size is = {1}", literal, sets.size());
         Fn.safeNull(() -> Observable.fromIterable(sets)
-                .filter(Objects::nonNull)
-                .subscribe(item -> Fn.pool(INTERNALS, item,
-                        () -> ZeroTool.produce(item))).dispose(), literal);
+            .filter(Objects::nonNull)
+            .subscribe(item -> Fn.pool(INTERNALS, item,
+                () -> ZeroTool.produce(item))).dispose(), literal);
         return INTERNALS;
     }
 }

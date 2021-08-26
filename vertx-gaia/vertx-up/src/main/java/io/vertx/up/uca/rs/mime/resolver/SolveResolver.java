@@ -24,7 +24,7 @@ public class SolveResolver<T> implements Resolver<T> {
             // Default content from `context`
             final String content = context.getBodyAsString();
             LOGGER.info("( Resolver ) Solve Type: {0}, Content = {1}",
-                    this.internalResolver.getClass(), content);
+                this.internalResolver.getClass(), content);
             final T processed = this.internalResolver.resolve(content);
             income.setValue(processed);
         }

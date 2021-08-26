@@ -39,10 +39,10 @@ public class KColumn implements Serializable {
     @Override
     public String toString() {
         return "IxColumn{" +
-                "dynamic=" + this.dynamic +
-                ", identifier='" + this.identifier + '\'' +
-                ", view='" + this.view + '\'' +
-                '}';
+            "dynamic=" + this.dynamic +
+            ", identifier='" + this.identifier + '\'' +
+            ", view='" + this.view + '\'' +
+            '}';
     }
 
 }

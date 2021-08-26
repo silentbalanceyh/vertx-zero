@@ -17,7 +17,7 @@ public class JsonObjectDeserializer extends JsonDeserializer<JsonObject> {
     @Override
     public JsonObject deserialize(final JsonParser parser,
                                   final DeserializationContext context)
-            throws IOException {
+        throws IOException {
         final JsonNode node = parser.getCodec().readTree(parser);
         return new JsonObject(node.toString());
     }

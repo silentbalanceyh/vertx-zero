@@ -31,14 +31,14 @@ class AgonicDelete implements Agonic {
                 final JsonObject json = Ux.toJson(entity, module.getPojo());
                 /* BackUp future */
                 return Ke.channelAsync(Trash.class, () -> Ux.future(json),
-                                (stub) -> stub.backupAsync(module.getIdentifier(), json))
+                        (stub) -> stub.backupAsync(module.getIdentifier(), json))
 
-                        /* 200, IxLinker deleted first and then delete related record */
-                        .compose(processed -> Ix.<Boolean>seekFn(in, processed)
-                                .apply(() -> Boolean.FALSE, UxJooq::deleteByAsync))
-                        /* 200, Current Item */
-                        .compose(nil -> jooq.deleteByAsync(criteria))
-                        .compose(Post::success200Pre);
+                    /* 200, IxLinker deleted first and then delete related record */
+                    .compose(processed -> Ix.<Boolean>seekFn(in, processed)
+                        .apply(() -> Boolean.FALSE, UxJooq::deleteByAsync))
+                    /* 200, Current Item */
+                    .compose(nil -> jooq.deleteByAsync(criteria))
+                    .compose(Post::success200Pre);
             }
         });
     }
@@ -54,14 +54,14 @@ class AgonicDelete implements Agonic {
                 final JsonArray array = Ux.toJson(queried, module.getPojo());
                 /* BackUp future */
                 return Ke.channelAsync(Trash.class, () -> Ux.future(array),
-                                stub -> stub.backupAsync(module.getIdentifier(), array))
+                        stub -> stub.backupAsync(module.getIdentifier(), array))
 
-                        /* 200, IxLinker deleted first and then delete related records */
-                        .compose(processed -> Ix.<Boolean>seekFn(in, processed)
-                                .apply(() -> Boolean.FALSE, UxJooq::deleteByAsync))
-                        /* 200, Current Item */
-                        .compose(nil -> jooq.deleteByAsync(criteria))
-                        .compose(nil -> Ux.future(array));
+                    /* 200, IxLinker deleted first and then delete related records */
+                    .compose(processed -> Ix.<Boolean>seekFn(in, processed)
+                        .apply(() -> Boolean.FALSE, UxJooq::deleteByAsync))
+                    /* 200, Current Item */
+                    .compose(nil -> jooq.deleteByAsync(criteria))
+                    .compose(nil -> Ux.future(array));
             }
         });
     }

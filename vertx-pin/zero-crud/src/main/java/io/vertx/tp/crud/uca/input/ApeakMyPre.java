@@ -48,7 +48,7 @@ class ApeakMyPre implements Pre {
         final String pattern = "/api/{0}/search";
         final String actor = module.getName();
         return Ux.future(data
-                .put(KName.URI, MessageFormat.format(pattern, actor))
-                .put(KName.METHOD, HttpMethod.POST.name()));
+            .put(KName.URI, MessageFormat.format(pattern, actor))
+            .put(KName.METHOD, HttpMethod.POST.name()));
     }
 }

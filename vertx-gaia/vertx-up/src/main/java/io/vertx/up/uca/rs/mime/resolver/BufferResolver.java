@@ -12,7 +12,7 @@ public class BufferResolver<T> implements Resolver<T> {
     @SuppressWarnings("all")
     public Epsilon<T> resolve(final RoutingContext context,
                               final Epsilon<T> income)
-            throws WebException {
+        throws WebException {
         final Class<?> clazz = income.getArgType();
         if (Buffer.class == clazz) {
             final Buffer body = context.getBody();

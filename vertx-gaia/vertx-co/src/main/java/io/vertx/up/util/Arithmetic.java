@@ -50,9 +50,9 @@ final class Arithmetic {
          */
         final Set<T> result = new HashSet<>();
         left.stream()
-                .map(original -> findBy(right, original, fnGet))
-                .filter(Objects::nonNull)
-                .forEach(result::add);
+            .map(original -> findBy(right, original, fnGet))
+            .filter(Objects::nonNull)
+            .forEach(result::add);
         return result;
     }
 
@@ -132,7 +132,7 @@ final class Arithmetic {
 
     private static <T, V> T findBy(final Set<T> source, final T original, final Function<T, V> fnGet) {
         return source.stream()
-                .filter(current -> Vs.isSame(original, current, fnGet))
-                .findAny().orElse(null);
+            .filter(current -> Vs.isSame(original, current, fnGet))
+            .findAny().orElse(null);
     }
 }

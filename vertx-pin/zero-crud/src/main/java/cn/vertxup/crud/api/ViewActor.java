@@ -26,27 +26,24 @@ public class ViewActor {
     public Future<JsonArray> getFull(final Envelop envelop) {
         final JsonObject params = new JsonObject();
         params.put(KName.VIEW, Ux.getString1(envelop));         // view
-
         final String module = Ux.getString2(envelop);           // module
 
         return IxPanel.on(envelop, module)
-                .input(
-                        /* Apeak */
-                        Pre.apeak(false)::inJAsync,
-                        /* Header */
-                        Pre.head()::inJAsync
-                )
-                /*
-                 * {
-                 *     "identifier": "Model identifier",
-                 *     "view": "The view name, if not put DEFAULT",
-                 *     "dynamic": "true if use dynamic",
-                 *     "sigma": "The application uniform"
-                 * }
-                 */
-                .parallel(/* Active */Agonic.apeak(false)::runJAAsync)
-                .output(/* Columns connected */Post.apeak(false)::outAsync)
-                .runJ(params);
+            .input(
+                Pre.apeak(false)::inJAsync,             /* Apeak */
+                Pre.head()::inJAsync                    /* Header */
+            )
+            /*
+             * {
+             *     "identifier": "Model identifier",
+             *     "view": "The view name, if not put DEFAULT",
+             *     "dynamic": "true if use dynamic",
+             *     "sigma": "The application uniform"
+             * }
+             */
+            .parallel(/* Active */Agonic.apeak(false)::runJAAsync)
+            .output(/* Columns connected */Post.apeak(false)::outAsync)
+            .runJ(params);
     }
 
     /*
@@ -57,26 +54,23 @@ public class ViewActor {
     public Future<JsonArray> getMy(final Envelop envelop) {
         final JsonObject params = new JsonObject();
         params.put(KName.VIEW, Ux.getString1(envelop));         // view
-
         final String module = Ux.getString2(envelop);           // module
 
         return IxPanel.on(envelop, module)
-                .input(
-                        /* Apeak */
-                        Pre.apeak(true)::inJAsync,
-                        /* Header */
-                        Pre.head()::inJAsync
-                )
-                /*
-                 * {
-                 *     "view": "The view name, if not put DEFAULT",
-                 *     "uri": "http path",
-                 *     "method": "http method",
-                 *     "sigma": "The application uniform"
-                 * }
-                 */
-                .parallel(/* Active */Agonic.apeak(true)::runJAAsync, null)
-                .output(/* Columns connected */Post.apeak(true)::outAsync)
-                .runJ(params);
+            .input(
+                Pre.apeak(true)::inJAsync,              /* Apeak */
+                Pre.head()::inJAsync                    /* Header */
+            )
+            /*
+             * {
+             *     "view": "The view name, if not put DEFAULT",
+             *     "uri": "http path",
+             *     "method": "http method",
+             *     "sigma": "The application uniform"
+             * }
+             */
+            .parallel(/* Active */Agonic.apeak(true)::runJAAsync, null)
+            .output(/* Columns connected */Post.apeak(true)::outAsync)
+            .runJ(params);
     }
 }

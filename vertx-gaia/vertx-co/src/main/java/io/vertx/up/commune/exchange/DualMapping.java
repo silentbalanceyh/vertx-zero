@@ -32,7 +32,7 @@ public class DualMapping implements Serializable {
      */
     private final transient DualItem root = new DualItem();
     private final transient ConcurrentMap<String, DualItem> mapping =
-            new ConcurrentHashMap<>();
+        new ConcurrentHashMap<>();
     /*
      * Configured `MappingMode` and `Class<?>`
      */
@@ -61,17 +61,17 @@ public class DualMapping implements Serializable {
              * Content mapping `Map` here
              */
             input.fieldNames().stream()
-                    /* Only stored JsonObject value here */
-                    .filter(field -> input.getValue(field) instanceof JsonObject)
-                    .forEach(field -> {
-                        final JsonObject fieldValue = input.getJsonObject(field);
-                        /* Init here */
-                        if (Ut.notNil(fieldValue)) {
-                            /* Json mapping here */
-                            final DualItem item = new DualItem(fieldValue);
-                            this.mapping.put(field, item);
-                        }
-                    });
+                /* Only stored JsonObject value here */
+                .filter(field -> input.getValue(field) instanceof JsonObject)
+                .forEach(field -> {
+                    final JsonObject fieldValue = input.getJsonObject(field);
+                    /* Init here */
+                    if (Ut.notNil(fieldValue)) {
+                        /* Json mapping here */
+                        final DualItem item = new DualItem(fieldValue);
+                        this.mapping.put(field, item);
+                    }
+                });
         }
         return this;
     }
@@ -182,10 +182,10 @@ public class DualMapping implements Serializable {
     @Override
     public String toString() {
         return "DualMapping{" +
-                "root=" + this.root +
-                ", mapping=" + this.mapping +
-                ", mode=" + this.mode +
-                ", component=" + this.component +
-                '}';
+            "root=" + this.root +
+            ", mapping=" + this.mapping +
+            ", mode=" + this.mode +
+            ", component=" + this.component +
+            '}';
     }
 }

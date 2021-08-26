@@ -26,17 +26,17 @@ public class EventAxis implements Axis<Router> {
      * Extract all events that will be generated route.
      */
     private static final Set<Event> EVENTS =
-            ZeroAnno.getEvents();
+        ZeroAnno.getEvents();
     /**
      * Splitter
      */
     private transient final ModeSplitter splitter =
-            Fn.poolThread(Pool.THREADS, () -> Ut.instance(ModeSplitter.class));
+        Fn.poolThread(Pool.THREADS, () -> Ut.instance(ModeSplitter.class));
     /**
      * Sentry
      */
     private transient final Sentry<RoutingContext> verifier =
-            Fn.poolThread(Pool.VERIFIERS, () -> Ut.instance(StandardVerifier.class));
+        Fn.poolThread(Pool.VERIFIERS, () -> Ut.instance(StandardVerifier.class));
 
     /**
      * Secreter for security limitation
@@ -57,38 +57,38 @@ public class EventAxis implements Axis<Router> {
          * Extract Event foreach
          */
         EVENTS.forEach(event -> Fn.safeSemi(null == event, LOGGER,
-                () -> LOGGER.warn(Info.NULL_EVENT, this.getClass().getName()),
-                () -> {
-                    // 1. Verify
-                    Verifier.verify(event);
+            () -> LOGGER.warn(Info.NULL_EVENT, this.getClass().getName()),
+            () -> {
+                // 1. Verify
+                Verifier.verify(event);
 
-                    final Route route = router.route();
+                final Route route = router.route();
 
-                    // 2. Path, Method, Order
-                    Hub<Route> hub = Fn.poolThread(Pool.URIHUBS,
-                            () -> Ut.instance(UriHub.class));
-                    hub.mount(route, event);
-                    // 3. Consumes/Produces
-                    hub = Fn.poolThread(Pool.MEDIAHUBS,
-                            () -> Ut.instance(MediaHub.class));
-                    hub.mount(route, event);
+                // 2. Path, Method, Order
+                Hub<Route> hub = Fn.poolThread(Pool.URIHUBS,
+                    () -> Ut.instance(UriHub.class));
+                hub.mount(route, event);
+                // 3. Consumes/Produces
+                hub = Fn.poolThread(Pool.MEDIAHUBS,
+                    () -> Ut.instance(MediaHub.class));
+                hub.mount(route, event);
 
-                    // 4. Request validation
-                    final Depot depot = Depot.create(event);
-                    // 5. Request workflow executor: handler
-                    final Aim<RoutingContext> aim = this.splitter.distribute(event);
+                // 4. Request validation
+                final Depot depot = Depot.create(event);
+                // 5. Request workflow executor: handler
+                final Aim<RoutingContext> aim = this.splitter.distribute(event);
 
-                    /*
-                     * 6. Handler chain
-                     * 1) Mime Analyzer ( Build arguments )
-                     * 2) Validation
-                     * 3) Execute handler ( Code Logical )
-                     * 4) Uniform failure handler
-                     */
-                    route.blockingHandler(this.verifier.signal(depot))
-                            .failureHandler(CommonEndurer.create())
-                            .blockingHandler(aim.attack(event))
-                            .failureHandler(CommonEndurer.create());
-                }));
+                /*
+                 * 6. Handler chain
+                 * 1) Mime Analyzer ( Build arguments )
+                 * 2) Validation
+                 * 3) Execute handler ( Code Logical )
+                 * 4) Uniform failure handler
+                 */
+                route.blockingHandler(this.verifier.signal(depot))
+                    .failureHandler(CommonEndurer.create())
+                    .blockingHandler(aim.attack(event))
+                    .failureHandler(CommonEndurer.create());
+            }));
     }
 }

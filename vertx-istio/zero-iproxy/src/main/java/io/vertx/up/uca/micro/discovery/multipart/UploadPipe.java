@@ -60,7 +60,7 @@ public class UploadPipe implements Pipe<HttpResponse> {
          * Only support post method in uploading HttpPipe
          */
         if (HttpMethod.POST == this.request.method() &&
-                this.request.isExpectMultipart()) {
+            this.request.isExpectMultipart()) {
             /*
              * https://github.com/vert-x/vertx-examples/blob/master/src/raw/java/upload/UploadClient.java
              * Preparing for uploading
@@ -155,14 +155,14 @@ public class UploadPipe implements Pipe<HttpResponse> {
          * https://github.com/vert-x3/vertx-web/issues/1137
          */
         final String disposition = "form-data; name=\"file\"; "
-                + "filename=\"" + fileUpload.fileName() + "";
+            + "filename=\"" + fileUpload.fileName() + "";
         final FormBodyPart bodyPart = FormBodyPartBuilder.create()
-                .setName("file")
-                .addField("Content-Type", fileUpload.contentType())
-                .addField("Content-Transfer-Encoding", fileUpload.contentTransferEncoding())
-                .addField("Content-Disposition", disposition)
-                .setBody(fileBody)
-                .build();
+            .setName("file")
+            .addField("Content-Type", fileUpload.contentType())
+            .addField("Content-Transfer-Encoding", fileUpload.contentTransferEncoding())
+            .addField("Content-Disposition", disposition)
+            .setBody(fileBody)
+            .build();
         builder.addPart(bodyPart);
         final HttpEntity entity = builder.build();
         request.setEntity(entity);
@@ -173,7 +173,7 @@ public class UploadPipe implements Pipe<HttpResponse> {
          * Extract Server Request headers
          */
         this.request.headers().forEach(entry ->
-                LOGGER.info("Client header: {0} = {1}", entry.getKey(), entry.getValue()));
+            LOGGER.info("Client header: {0} = {1}", entry.getKey(), entry.getValue()));
         /*
          * User Agent Switch, Fix value
          */
@@ -188,7 +188,7 @@ public class UploadPipe implements Pipe<HttpResponse> {
         if (this.request.headers().contains(key)) {
             // Security header
             request.setHeader(key.toString(),
-                    this.request.headers().get(key));
+                this.request.headers().get(key));
         }
     }
 

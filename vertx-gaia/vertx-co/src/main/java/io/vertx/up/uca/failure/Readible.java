@@ -21,6 +21,7 @@ public interface Readible {
      * Fill the field "readible" for web exception
      *
      * @param error
+     *
      * @return
      */
     void interpret(WebException error);

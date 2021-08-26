@@ -18,10 +18,9 @@ import io.vertx.up.uca.micro.ipc.server.Tunnel;
 @Worker(value = MessageModel.REQUEST_MICRO_WORKER, instances = 1)
 public class ZeroRpcRegistry extends AbstractVerticle {
 
-    private transient final ZeroRegistry registry
-            = ZeroRegistry.create(getClass());
-
     private static final Annal LOGGER = Annal.get(ZeroRpcRegistry.class);
+    private transient final ZeroRegistry registry
+        = ZeroRegistry.create(getClass());
 
     @Override
     public void start() {
@@ -34,7 +33,7 @@ public class ZeroRpcRegistry extends AbstractVerticle {
             this.registry.registryIpcs(options, Tunnel.IPCS.keySet());
 
             LOGGER.info(Info.MICRO_REGISTRY_CONSUME, getClass().getSimpleName(),
-                    options.getName(), ID.Addr.IPC_START);
+                options.getName(), ID.Addr.IPC_START);
         });
     }
 }

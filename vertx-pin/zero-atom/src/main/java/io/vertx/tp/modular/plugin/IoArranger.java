@@ -6,10 +6,10 @@ import io.vertx.tp.atom.modeling.Model;
 import io.vertx.tp.atom.modeling.config.AoAttribute;
 import io.vertx.tp.atom.modeling.data.DataAtom;
 import io.vertx.tp.atom.modeling.element.DataTpl;
-import io.vertx.up.eon.KName;
 import io.vertx.up.atom.Kv;
 import io.vertx.up.commune.Record;
 import io.vertx.up.commune.element.JComponent;
+import io.vertx.up.eon.KName;
 import io.vertx.up.fn.TiConsumer;
 import io.vertx.up.util.Ut;
 
@@ -172,8 +172,8 @@ class IoArranger {
      * @return {@link java.util.concurrent.ConcurrentMap} The JComponent map for each field.
      */
     private static ConcurrentMap<String, JComponent> extractPlugin(
-            final DataTpl tpl, final Function<MAttribute, String> fnComponent,
-            final Function<MAttribute, Boolean> fnFilter, final Class<?> interfaceCls) {
+        final DataTpl tpl, final Function<MAttribute, String> fnComponent,
+        final Function<MAttribute, Boolean> fnFilter, final Class<?> interfaceCls) {
         /*
          * 1. Iterate tpl attributes.
          */

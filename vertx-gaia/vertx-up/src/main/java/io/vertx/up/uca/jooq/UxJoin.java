@@ -23,7 +23,7 @@ public final class UxJoin {
     private transient final JqJoinder joinder = new JqJoinder();
 
     private transient final ConcurrentMap<Class<?>, String> POJO_MAP
-            = new ConcurrentHashMap<>();
+        = new ConcurrentHashMap<>();
     private transient Mojo merged = null;
     private transient Set<String> fieldSet = new HashSet<>();
 
@@ -98,9 +98,9 @@ public final class UxJoin {
 
     private Qr toQr(final JsonObject params) {
         return Objects.isNull(this.merged) ? Qr.create(params) : JqTool.qr(
-                params,
-                this.merged,
-                this.joinder.firstFields()              // The first major jooq should be ignored
+            params,
+            this.merged,
+            this.joinder.firstFields()              // The first major jooq should be ignored
         );
     }
 

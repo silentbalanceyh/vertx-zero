@@ -35,22 +35,18 @@ public class PostActor {
     public Future<Envelop> create(final Envelop envelop) {
         /* Actor Extraction */
         final JsonObject body = Ux.getJson1(envelop);
-        final String module = body.getString(KName.IDENTIFIER); // module
+        final String module = body.getString(KName.IDENTIFIER);     // module
         return IxPanel.on(envelop, module)
-                .input(
-                        /* Header */
-                        Pre.head()::inJAsync,
-                        /* Codex */
-                        Pre.codex()::inJAsync,
-                        /* Number */
-                        Pre.serial()::inJAsync
-                )
-                .next(in -> WJoin.on(in)::runAsync)
-                .passion(Agonic.write(ChangeFlag.ADD)::runJAsync)
-                .<JsonObject, JsonObject, JsonObject>runJ(body)
-                /*
-                 * 201 / 200
-                 */
-                .compose(Post::successPost);
+            .input(
+                Pre.head()::inJAsync,                       /* Header */
+                Pre.codex()::inJAsync                       /* Codex */
+            )
+            .next(in -> WJoin.on(in)::runAsync)
+            .passion(Agonic.write(ChangeFlag.ADD)::runJAsync)
+            .<JsonObject, JsonObject, JsonObject>runJ(body)
+            /*
+             * 201 / 200
+             */
+            .compose(Post::successPost);
     }
 }

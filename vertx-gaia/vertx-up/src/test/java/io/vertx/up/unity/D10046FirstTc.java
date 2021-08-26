@@ -15,7 +15,7 @@ public class D10046FirstTc extends EpicBase {
         final JsonObject input = this.ioJObject("d10046.json");
         // Uson usage
         final JsonObject ret = Uson.create(input)
-                .convert("password", "updated").to();
+            .convert("password", "updated").to();
         System.err.println(ret.encodePrettily());
         Assert.assertEquals("111111", ret.getString("updated"));
     }
@@ -25,7 +25,7 @@ public class D10046FirstTc extends EpicBase {
         final JsonArray input = this.ioJArray("d10046-arr.json");
         // Uson usage
         final JsonArray ret = Uarr.create(input)
-                .convert("password", "updated").to();
+            .convert("password", "updated").to();
         System.err.println(ret.encodePrettily());
         Assert.assertEquals("111111", ret.getJsonObject(0).getString("updated"));
         Assert.assertEquals("222222", ret.getJsonObject(1).getString("updated"));

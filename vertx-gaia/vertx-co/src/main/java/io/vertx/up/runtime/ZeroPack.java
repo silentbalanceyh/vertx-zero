@@ -68,18 +68,18 @@ public final class ZeroPack {
      * It's turning performance for scanner.
      */
     private static Set<Class<?>> multiClasses(
-            final String[] packageDir) {
+        final String[] packageDir) {
         /*
          * Counter of all references of `PackThread`
          */
         final Set<PackThread> references = new HashSet<>();
         final Disposable disposable = Observable.fromArray(packageDir)
-                .map(PackThread::new)
-                .map(item -> {
-                    references.add(item);
-                    return item;
-                })
-                .subscribe(Thread::start);
+            .map(PackThread::new)
+            .map(item -> {
+                references.add(item);
+                return item;
+            })
+            .subscribe(Thread::start);
 
         /*
          * Main thread wait for sub-threads scanned results.

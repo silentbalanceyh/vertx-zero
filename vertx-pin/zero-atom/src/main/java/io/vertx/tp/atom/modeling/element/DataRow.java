@@ -25,11 +25,11 @@ public class DataRow implements Serializable {
      * Table -> Row
      */
     private final transient ConcurrentMap<String, DataMatrix> matrix =
-            new ConcurrentHashMap<>();
+        new ConcurrentHashMap<>();
     private final transient ConcurrentMap<String, DataMatrix> keys =
-            new ConcurrentHashMap<>();
+        new ConcurrentHashMap<>();
     private final transient ConcurrentMap<String, Boolean> rowResult =
-            new ConcurrentHashMap<>();
+        new ConcurrentHashMap<>();
     /*
      * 数据行的结果，两种处理模式
      * 1. 直接 Record -> DataRow
@@ -98,9 +98,9 @@ public class DataRow implements Serializable {
          * 响应结果，会返回 null
          */
         final Set<String> primaryKeys = this.matrix.keySet().stream()
-                .map(this.matrix::get)
-                .flatMap(matrixItem -> matrixItem.getKeys().stream())
-                .collect(Collectors.toSet());
+            .map(this.matrix::get)
+            .flatMap(matrixItem -> matrixItem.getKeys().stream())
+            .collect(Collectors.toSet());
         if (primaryKeys.size() == this.record.size()) {
             return null;
         } else {
@@ -208,7 +208,7 @@ public class DataRow implements Serializable {
      */
     public boolean succeed() {
         final long results = this.rowResult.values()
-                .stream().filter(item -> item).count();
+            .stream().filter(item -> item).count();
         return this.rowResult.keySet().size() == results;
     }
 
@@ -232,8 +232,8 @@ public class DataRow implements Serializable {
     public void appendConsole(final StringBuilder source) {
         /* 头部信息读取 */
         source.append("------------------------- 记录：")
-                .append(this.getId())
-                .append(" -----------------------\n");
+            .append(this.getId())
+            .append(" -----------------------\n");
         this.keys.forEach((table, matrix) -> {
             final DataMatrix data = this.matrix.get(table);
             source.append("--------------------- 来源：").append(table).append("\n");

@@ -12,10 +12,10 @@ interface Info {
     String JSON_MSG = "The system met decoding/encoding up.god.file {0} exception, caused = {1}.";
 
     String ECODE_MSG = "The code = {0} of error is missing in your up.god.file: " +
-            "vertx-error.yml, callee = {1}.";
+        "vertx-error.yml, callee = {1}.";
 
     String ARG_MSG = "The method \"{0}\" of class \"{1}\" accept " +
-            "({3} {2}) arguments only, the length is conflict";
+        "({3} {2}) arguments only, the length is conflict";
     String LIME_FILE = "Lime node configured up.god.file = \"{0}\"" + " is missing, please check the missed up.god.file";
 
     String OP_MSG = "This operation is not supported! " + "( method = {0}, class = {1} )";

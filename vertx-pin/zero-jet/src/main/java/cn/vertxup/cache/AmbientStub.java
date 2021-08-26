@@ -17,6 +17,7 @@ public interface AmbientStub {
      * Job information updating by `AmbientStub`
      */
     Future<JsonObject> updateJob(IJob job, IService service);
+
     /*
      * Uri information updating by `AmbientStub`
      */

@@ -15,10 +15,10 @@ public class MicroFilter extends HttpFilter {
     @Override
     public void doFilter(final HttpServerRequest request,
                          final HttpServerResponse response)
-            throws IOException, VertxException {
+        throws IOException, VertxException {
         final String token = request.getHeader(HttpHeaders.AUTHORIZATION);
         if (Ut.notNil(token) && token.contains(" ")) {
-            final String tokenString = token.substring(token.lastIndexOf(' '));
+            final String tokenString = token.substring(token.lastIndexOf(' ' ));
             put("token", tokenString);
         }
     }

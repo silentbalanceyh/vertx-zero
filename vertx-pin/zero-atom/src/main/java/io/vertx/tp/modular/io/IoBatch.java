@@ -15,8 +15,8 @@ public class IoBatch extends AbstractIo {
         return this.saveRows(() -> {
             final List<DataRow> rows = new ArrayList<>();
             Arrays.stream(keys)
-                    .map(key -> this.newRow().setKey(key))
-                    .forEach(rows::add);
+                .map(key -> this.newRow().setKey(key))
+                .forEach(rows::add);
             return rows;
         });
     }
@@ -29,8 +29,8 @@ public class IoBatch extends AbstractIo {
         return this.saveRows(() -> {
             final List<DataRow> rows = new ArrayList<>();
             Arrays.stream(processed)
-                    .map(record -> this.newRow().request(record))
-                    .forEach(rows::add);
+                .map(record -> this.newRow().request(record))
+                .forEach(rows::add);
             return rows;
         });
     }

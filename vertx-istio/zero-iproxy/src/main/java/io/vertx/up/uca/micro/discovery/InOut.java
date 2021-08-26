@@ -44,7 +44,7 @@ public final class InOut {
                              final RoutingContext context) {
         final HttpServerRequest request = context.request();
         final WebException exception = new _404ServiceNotFoundException(clazz, request.uri(),
-                request.method());
+            request.method());
         Answer.reply(context, Envelop.failure(exception));
     }
 
@@ -55,7 +55,7 @@ public final class InOut {
                                     final RoutingContext context) {
         final HttpServerRequest request = context.request();
         final WebException exception = new _405MethodForbiddenException(clazz, request.method(),
-                request.uri());
+            request.uri());
         Answer.reply(context, Envelop.failure(exception));
     }
 
@@ -63,7 +63,7 @@ public final class InOut {
                                     final RoutingContext context,
                                     final Throwable ex) {
         final WebException exception = new _500InternalServerException(clazz,
-                null == ex ? "Server Error" : ex.getMessage());
+            null == ex ? "Server Error" : ex.getMessage());
         Answer.reply(context, Envelop.failure(exception));
     }
 
@@ -71,21 +71,21 @@ public final class InOut {
      * Success ( 200 )
      */
     private static void syncSuccess(
-            final HttpServerResponse response,
-            final HttpResponse<Buffer> clientResponse) {
+        final HttpServerResponse response,
+        final HttpResponse<Buffer> clientResponse) {
         final Buffer data = clientResponse.bodyAsBuffer();
         // Copy header
         syncSuccess(response,
-                clientResponse.headers(),
-                clientResponse.statusCode(),
-                clientResponse.statusMessage(),
-                data);
+            clientResponse.headers(),
+            clientResponse.statusCode(),
+            clientResponse.statusMessage(),
+            data);
     }
 
     static Handler<AsyncResult<HttpResponse<Buffer>>> replyWeb(
-            final Class<?> clazz,
-            final RoutingContext context,
-            final Consumer<Void> consumer
+        final Class<?> clazz,
+        final RoutingContext context,
+        final Consumer<Void> consumer
     ) {
         return response -> {
             if (response.succeeded()) {
@@ -112,9 +112,9 @@ public final class InOut {
     }
 
     static Handler<org.apache.http.HttpResponse> replyHttp(
-            final Class<?> clazz,
-            final RoutingContext context,
-            final Consumer<Void> consumer
+        final Class<?> clazz,
+        final RoutingContext context,
+        final Consumer<Void> consumer
     ) {
         return response -> {
             /*
@@ -144,8 +144,8 @@ public final class InOut {
     }
 
     private static void syncSuccess(
-            final RoutingContext context,
-            final org.apache.http.HttpResponse clientResponse
+        final RoutingContext context,
+        final org.apache.http.HttpResponse clientResponse
     ) {
         final StatusLine line = clientResponse.getStatusLine();
         final HttpServerResponse response = context.response();
@@ -166,7 +166,7 @@ public final class InOut {
                 final MultiMap headers = MultiMap.caseInsensitiveMultiMap();
                 for (final Header header : clientResponse.getAllHeaders()) {
                     LOGGER.info("[ Zero ] Response header: {0} = {1}",
-                            header.getName(), header.getValue());
+                        header.getName(), header.getValue());
                     headers.set(header.getName(), header.getValue());
                 }
                 // Cors copy switch here
@@ -180,19 +180,19 @@ public final class InOut {
                 }
                 // Bridge to Vert.x response
                 syncSuccess(response, headers,
-                        line.getStatusCode(),
-                        line.getReasonPhrase(),
-                        buffer);
+                    line.getStatusCode(),
+                    line.getReasonPhrase(),
+                    buffer);
             }
         });
     }
 
     private static void syncSuccess(
-            final HttpServerResponse response,
-            final MultiMap headers,
-            final int statusCode,
-            final String statusMessage,
-            final Buffer data
+        final HttpServerResponse response,
+        final MultiMap headers,
+        final int statusCode,
+        final String statusMessage,
+        final Buffer data
     ) {
         response.headers().setAll(headers);
         response.setStatusCode(statusCode);
@@ -219,7 +219,7 @@ public final class InOut {
         options.setHost(location.getString("host"));
         options.setPort(location.getInteger("port"));
         LOGGER.info("Found remote host: {0}, port: {1}, uri: {2}",
-                options.getHost(), String.valueOf(options.getPort()), options.getURI());
+            options.getHost(), String.valueOf(options.getPort()), options.getURI());
         return options;
     }
 }

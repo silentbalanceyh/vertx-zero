@@ -26,12 +26,12 @@ import java.util.concurrent.ConcurrentMap;
 public class Validator {
 
     private static final javax.validation.Validator VALIDATOR
-            = Validation.buildDefaultValidatorFactory().usingContext().messageInterpolator(
-            new ValidatorInterpolator()
+        = Validation.buildDefaultValidatorFactory().usingContext().messageInterpolator(
+        new ValidatorInterpolator()
     ).getValidator();
 
     private static final ConcurrentMap<String, Map<String, List<Rule>>>
-            RULERS = new ConcurrentHashMap<>();
+        RULERS = new ConcurrentHashMap<>();
 
     private static Validator INSTANCE;
 
@@ -55,15 +55,15 @@ public class Validator {
      * @param <T>    The target object type: Generic types.
      */
     public <T> void verifyMethod(
-            final T proxy,
-            final Method method,
-            final Object[] args) {
+        final T proxy,
+        final Method method,
+        final Object[] args) {
         // 1. Get method validator
         final ExecutableValidator validatorParam
-                = VALIDATOR.forExecutables();
+            = VALIDATOR.forExecutables();
         // 2. Create new params that wait for validation
         final Set<ConstraintViolation<T>> constraints
-                = validatorParam.validateParameters(proxy, method, args);
+            = validatorParam.validateParameters(proxy, method, args);
         // 3. Throw out exception
         if (!constraints.isEmpty()) {
             final ConstraintViolation<T> item = constraints.iterator().next();
@@ -75,8 +75,8 @@ public class Validator {
                                 final ConstraintViolation<T> item) {
         if (null != item) {
             final WebException error
-                    = new _400ValidationException(getClass(),
-                    proxy.getClass(), method, item.getMessage());
+                = new _400ValidationException(getClass(),
+                proxy.getClass(), method, item.getMessage());
             error.setReadible(item.getMessage());
             throw error;
         }
@@ -86,23 +86,24 @@ public class Validator {
      * Advanced ruler building for Body content validation based on yml configuration.
      *
      * @param depot The container to contains event, configuration, ruler.
+     *
      * @return The configured rulers.
      */
     public Map<String, List<Rule>> buildRulers(
-            final Depot depot) {
+        final Depot depot) {
         final Map<String, List<Rule>> rulers
-                = new LinkedHashMap<>();
+            = new LinkedHashMap<>();
         final ConcurrentMap<String, Class<? extends Annotation>>
-                annotions = depot.getAnnotations();
+            annotions = depot.getAnnotations();
         Observable.fromIterable(annotions.keySet())
-                .filter(ID.DIRECT::equals)
-                .map(annotions::get)
-                // 1. Check whether contains @BodyParam
-                .any(item -> BodyParam.class == item)
-                // 2. Build rulers
-                .map(item -> buildKey(depot.getEvent()))
-                .map(this::buildRulers)
-                .subscribe(rulers::putAll).dispose();
+            .filter(ID.DIRECT::equals)
+            .map(annotions::get)
+            // 1. Check whether contains @BodyParam
+            .any(item -> BodyParam.class == item)
+            // 2. Build rulers
+            .map(item -> buildKey(depot.getEvent()))
+            .map(this::buildRulers)
+            .subscribe(rulers::putAll).dispose();
         return rulers;
     }
 
@@ -112,7 +113,7 @@ public class Validator {
         } else {
             final JsonObject rule = ZeroCodex.getCodex(key);
             final Map<String, List<Rule>> ruler
-                    = new LinkedHashMap<>();
+                = new LinkedHashMap<>();
             if (null != rule) {
                 Ut.itJObject(rule, (value, field) -> {
                     // Checked valid rule config

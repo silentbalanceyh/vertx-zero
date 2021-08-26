@@ -1,6 +1,7 @@
 package io.vertx.tp.crud.uca.input;
 
 import io.vertx.core.Future;
+import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.crud.uca.desk.IxIn;
 import io.vertx.tp.ke.atom.KField;
@@ -12,9 +13,12 @@ import io.vertx.up.log.Annal;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
+import java.util.List;
 import java.util.Objects;
+import java.util.Queue;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
+import java.util.concurrent.LinkedBlockingDeque;
 import java.util.function.Function;
 
 /**
@@ -32,21 +36,50 @@ public class SerialPre implements Pre {
         }
         /* Number generation */
         return this.run(data, in, (numbers) -> Ke.channelAsync(ExSerial.class, () -> Ux.future(data), stub -> {
-            Ke.infoKe(LOGGER, "Table here {0}, Serial numbers {0}", in.module().getTable(), numbers.encode());
+            Ke.infoKe(LOGGER, "Table here {0}, Serial numbers {1}", in.module().getTable(), numbers.encode());
             /* Channel */
             final ConcurrentMap<String, Future<String>> numberMap = new ConcurrentHashMap<>();
             numbers.fieldNames().stream()
-                    .filter(numberField -> !data.containsKey(numberField))
-                    .filter(numberField -> Objects.nonNull(numbers.getString(numberField)))
-                    .forEach(numberField -> {
-                        final String code = numbers.getString(numberField);
-                        numberMap.put(numberField, stub.serial(sigma, code));
-                    });
-            /*
-             * Combine number map here for generation
-             */
+                .filter(numberField -> !data.containsKey(numberField))
+                .filter(numberField -> Objects.nonNull(numbers.getString(numberField)))
+                .forEach(numberField -> {
+                    final String code = numbers.getString(numberField);
+                    numberMap.put(numberField, stub.serial(sigma, code));
+                });
+            /* Combine number map here for generation */
             return Ux.thenCombine(numberMap).compose(generated -> {
                 generated.forEach(data::put);
+                return Ux.future(data);
+            });
+        }));
+    }
+
+    @Override
+    public Future<JsonArray> inAAsync(final JsonArray data, final IxIn in) {
+        /* Compress all sigma no value */
+        final String sigma = Ut.mapOneS(data, KName.SIGMA);
+        if (Ut.notNil(sigma) || Ut.isNil(data)) {
+            return Ux.future(data);
+        }
+        /* Number generation */
+        return this.run(data, in, (numbers) -> Ke.channelAsync(ExSerial.class, () -> Ux.future(data), stub -> {
+            Ke.infoKe(LOGGER, "Table here {0}, Size {1}, Serial numbers {2}", in.module().getTable(), data.size(), numbers.encode());
+            /* Queue<String> */
+            final ConcurrentMap<String, Future<List<String>>> numberMap = new ConcurrentHashMap<>();
+            numbers.fieldNames().stream()
+                .filter(numberField -> Objects.nonNull(numbers.getString(numberField)))
+                .forEach(numberField -> {
+                    final String code = numbers.getString(numberField);
+                    numberMap.put(numberField, stub.serial(sigma, code, data.size()));
+                });
+            /* Combine */
+            return Ux.thenCombine(numberMap).compose(generated -> {
+                generated.forEach((numberField, numberList) -> {
+                    final Queue<String> numberQueue = new LinkedBlockingDeque<>(numberList);
+                    if (numberQueue.size() == data.size()) {
+                        Ut.itJArray(data).forEach(json -> json.put(numberField, numberQueue.poll()));
+                    }
+                });
                 return Ux.future(data);
             });
         }));

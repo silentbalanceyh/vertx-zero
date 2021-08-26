@@ -75,8 +75,8 @@ public class ExConnect implements Serializable {
             return this.key;
         } else {
             final Mojo mojo = Mirror.create(this.getClass())
-                    .mount(this.pojoFile)
-                    .type(this.getDao()).mojo();
+                .mount(this.pojoFile)
+                .type(this.getDao()).mojo();
             return mojo.getOut(this.key);
         }
     }
@@ -88,12 +88,12 @@ public class ExConnect implements Serializable {
     @Override
     public String toString() {
         return "ExConnect{" +
-                "table='" + this.table + '\'' +
-                ", pojo=" + this.pojo +
-                ", dao=" + this.dao +
-                ", pojoFile='" + this.pojoFile + '\'' +
-                ", unique=" + this.unique +
-                ", key='" + this.key + '\'' +
-                '}';
+            "table='" + this.table + '\'' +
+            ", pojo=" + this.pojo +
+            ", dao=" + this.dao +
+            ", pojoFile='" + this.pojoFile + '\'' +
+            ", unique=" + this.unique +
+            ", key='" + this.key + '\'' +
+            '}';
     }
 }

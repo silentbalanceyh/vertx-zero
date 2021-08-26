@@ -30,16 +30,16 @@ public class EsAmbitUpdate extends AbstractEsClient implements EsAmbit {
 
         try {
             final UpdateRequest request = new UpdateRequest()
-                    .index(this.index)
-                    .id(documentId)
-                    .doc(this.toDocument(body));
+                .index(this.index)
+                .id(documentId)
+                .doc(this.toDocument(body));
 
             final UpdateResponse response = client.update(request, RequestOptions.DEFAULT);
 
             result
-                    .put("index", response.getIndex())
-                    .put("id", response.getId())
-                    .put("result", response.getResult() == DocWriteResponse.Result.UPDATED);
+                .put("index", response.getIndex())
+                .put("id", response.getId())
+                .put("result", response.getResult() == DocWriteResponse.Result.UPDATED);
         } catch (final IOException ioe) {
             this.logger().jvm(ioe);
         }
@@ -56,9 +56,9 @@ public class EsAmbitUpdate extends AbstractEsClient implements EsAmbit {
                 final String documentId = json.getString(idField);
                 if (Ut.notNil(documentId)) {
                     final UpdateRequest indexRequest = new UpdateRequest()
-                            .index(this.index)
-                            .id(documentId)
-                            .doc(this.toDocument(json));
+                        .index(this.index)
+                        .id(documentId)
+                        .doc(this.toDocument(json));
                     request.add(indexRequest);
                 }
             });

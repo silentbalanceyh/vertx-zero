@@ -31,7 +31,7 @@ public class JwtWall implements Security {
     public AuthHandler authenticate(final Vertx vertx,
                                     final JsonObject config) {
         return JwtOstium.create(JwtAuth.create(vertx, new JWTAuthOptions(config))
-                .bind(() -> this));
+            .bind(() -> this));
     }
 
     @Override

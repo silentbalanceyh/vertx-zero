@@ -37,11 +37,6 @@ public class DataAtom {
     private transient final String unique;
     private transient final String appName;
 
-    public String key(final JsonObject options) {
-        final String hashCode = Ut.isNil(options) ? Strings.EMPTY : String.valueOf(options.hashCode());
-        return this.metadata.identifier() + "-" + hashCode;
-    }
-
     private DataAtom(final Model model, final String appName) {
         this.appName = appName;
         this.unique = Model.namespace(appName) + "-" + model.identifier();
@@ -106,6 +101,11 @@ public class DataAtom {
              */
             return null;
         }
+    }
+
+    public String key(final JsonObject options) {
+        final String hashCode = Ut.isNil(options) ? Strings.EMPTY : String.valueOf(options.hashCode());
+        return this.metadata.identifier() + "-" + hashCode;
     }
 
     // ------------ 基础模型部分 ------------

@@ -21,9 +21,9 @@ class UnityAsker {
     private static final Annal LOGGER = Annal.get(UnityAsker.class);
 
     private static final ConcurrentMap<String, XApp> APP_POOL =
-            new ConcurrentHashMap<>();
+        new ConcurrentHashMap<>();
     private static final ConcurrentMap<String, XSource> SOURCE_POOL =
-            new ConcurrentHashMap<>();
+        new ConcurrentHashMap<>();
 
     /*
      * Be careful, in this step there is no Vert.x instance available, it means that you must

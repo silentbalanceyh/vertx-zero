@@ -191,7 +191,7 @@ public class ExTable implements Serializable {
         }
         final ExTable table = (ExTable) o;
         return this.name.equals(table.name) &&
-                this.sheet.equals(table.sheet);
+            this.sheet.equals(table.sheet);
     }
 
     @Override

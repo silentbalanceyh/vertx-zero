@@ -9,12 +9,12 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.tp.error._401PasswordWrongException;
 import io.vertx.tp.error._401UserDisabledException;
 import io.vertx.tp.error._449UserNotFoundException;
-import io.vertx.up.eon.KName;
 import io.vertx.tp.rbac.cv.AuthKey;
 import io.vertx.tp.rbac.cv.AuthMsg;
 import io.vertx.tp.rbac.permission.ScPrivilege;
 import io.vertx.tp.rbac.refine.Sc;
 import io.vertx.up.atom.unity.Uson;
+import io.vertx.up.eon.KName;
 import io.vertx.up.log.Annal;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
@@ -24,10 +24,9 @@ import java.util.Objects;
 
 public class LoginService implements LoginStub {
 
+    private static final Annal LOGGER = Annal.get(LoginService.class);
     @Inject
     private transient UserStub userStub;
-
-    private static final Annal LOGGER = Annal.get(LoginService.class);
 
     @Override
     @SuppressWarnings("all")
@@ -56,11 +55,11 @@ public class LoginService implements LoginStub {
             final JsonObject userJson = Ut.serializeJson(user);
             final JsonObject merged = Ut.jsonAppend(userJson, ouserJson);
             return Uson.create(merged).pickup(
-                    KName.KEY,                /* client_id parameter */
-                    AuthKey.SCOPE,              /* scope parameter */
-                    AuthKey.STATE,              /* state parameter */
-                    AuthKey.F_CLIENT_SECRET,    /* client_secret parameter */
-                    AuthKey.F_GRANT_TYPE        /* grant_type parameter */
+                KName.KEY,                /* client_id parameter */
+                AuthKey.SCOPE,              /* scope parameter */
+                AuthKey.STATE,              /* state parameter */
+                AuthKey.F_CLIENT_SECRET,    /* client_secret parameter */
+                AuthKey.F_GRANT_TYPE        /* grant_type parameter */
             ).denull().toFuture();
         }).compose(response -> {
             final String initPwd = Sc.generatePwd();
@@ -78,8 +77,8 @@ public class LoginService implements LoginStub {
          * Delete Token from `ACCESS_TOKEN`
          */
         return Ux.Jooq.on(OAccessTokenDao.class)
-                .deleteByAsync(new JsonObject().put("token", token))
-                .compose(nil -> ScPrivilege.open(habitus))
-                .compose(ScPrivilege::clear);
+            .deleteByAsync(new JsonObject().put("token", token))
+            .compose(nil -> ScPrivilege.open(habitus))
+            .compose(ScPrivilege::clear);
     }
 }

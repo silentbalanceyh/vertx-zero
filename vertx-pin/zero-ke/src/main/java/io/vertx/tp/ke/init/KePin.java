@@ -18,7 +18,7 @@ public class KePin {
     private static final Annal LOGGER = Annal.get(KePin.class);
 
     private static final ConcurrentMap<String, Object> REF =
-            new ConcurrentHashMap<>();
+        new ConcurrentHashMap<>();
 
     @SuppressWarnings("unchecked")
     public static <T> Lexeme<T> get(final Class<T> interfaceCls) {
@@ -33,7 +33,7 @@ public class KePin {
                  * META-INF/services/<interfaceCls Name> file
                  */
                 final ServiceLoader<T> loader =
-                        ServiceLoader.load(interfaceCls, interfaceCls.getClassLoader());
+                    ServiceLoader.load(interfaceCls, interfaceCls.getClassLoader());
 
                 /*
                  * New data structure to put interface class into LEXEME_MAP
@@ -57,7 +57,7 @@ public class KePin {
                          */
                         final String cacheKey = interfaceCls.getName();
                         LOGGER.info("Lexeme<T>: interface = {0} <-------- impl = {1}",
-                                cacheKey, reference.getClass().getName());
+                            cacheKey, reference.getClass().getName());
                         REF.put(cacheKey, found);
                         break;
                     }

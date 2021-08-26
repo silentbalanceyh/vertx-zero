@@ -17,7 +17,7 @@ import java.util.function.Consumer;
 public class ConsoleFramework {
     private static final Annal LOGGER = Annal.get(ConsoleFramework.class);
     private static final ConcurrentMap<String, Consumer<String>> INTERNAL =
-            new ConcurrentHashMap<>();
+        new ConcurrentHashMap<>();
 
     static {
         Sl.init();

@@ -52,8 +52,8 @@ class It {
                 final JsonArray normalized = new JsonArray();
                 final JsonArray reference = (JsonArray) data;
                 itJArray(reference)
-                        .map(each -> itJson(each, (json) -> executor.apply(json)))
-                        .forEach(normalized::add);
+                    .map(each -> itJson(each, (json) -> executor.apply(json)))
+                    .forEach(normalized::add);
                 return (T) normalized;
             } else return data;
         }

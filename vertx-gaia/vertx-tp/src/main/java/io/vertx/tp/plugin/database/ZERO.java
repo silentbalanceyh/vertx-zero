@@ -11,7 +11,7 @@ interface Pool {
     ConcurrentMap<String, DataPool> POOL_DYNAMIC = new ConcurrentHashMap<>();
 
     ConcurrentMap<DatabaseType, SQLDialect> DIALECT
-            = new ConcurrentHashMap<DatabaseType, SQLDialect>() {
+        = new ConcurrentHashMap<DatabaseType, SQLDialect>() {
         {
             this.put(DatabaseType.MYSQL5, SQLDialect.MYSQL_5_7);
             this.put(DatabaseType.ORACLE12, SQLDialect.DEFAULT);

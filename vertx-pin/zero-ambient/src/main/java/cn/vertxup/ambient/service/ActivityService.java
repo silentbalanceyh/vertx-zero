@@ -8,8 +8,8 @@ import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.ambient.cv.em.ActivityStatus;
-import io.vertx.up.eon.KName;
 import io.vertx.tp.ke.refine.Ke;
+import io.vertx.up.eon.KName;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
@@ -32,18 +32,18 @@ public class ActivityService implements ActivityStub {
         filters.put(KName.MODEL_KEY, key);
         filters.put(KName.ACTIVE, Boolean.TRUE);  // 只搜索合法的
         return Ux.Jooq.on(XActivityDao.class)
-                .fetchAndAsync(filters)
-                .compose(Ux::futureA)
-                .compose(response -> {
-                    Ut.itJArray(response).forEach(each -> {
-                        Ke.mount(each, KName.RECORD_NEW);
-                        Ke.mount(each, KName.RECORD_OLD);
-                    });
-                    /*
-                     * Order by created By
-                     */
-                    return Ux.future(response);
+            .fetchAndAsync(filters)
+            .compose(Ux::futureA)
+            .compose(response -> {
+                Ut.itJArray(response).forEach(each -> {
+                    Ke.mount(each, KName.RECORD_NEW);
+                    Ke.mount(each, KName.RECORD_OLD);
                 });
+                /*
+                 * Order by created By
+                 */
+                return Ux.future(response);
+            });
     }
 
     @Override
@@ -62,7 +62,7 @@ public class ActivityService implements ActivityStub {
              * Continue for finding of all fields
              */
             final Set<String> activityIds = activities.stream().map(XActivity::getKey)
-                    .collect(Collectors.toSet());
+                .collect(Collectors.toSet());
             final JsonObject criteria = new JsonObject();
             criteria.put("activityId,i", Ut.toJArray(activityIds));
             criteria.put("fieldName", field);
@@ -73,24 +73,24 @@ public class ActivityService implements ActivityStub {
     @Override
     public Future<JsonArray> fetchChanges(final String activityId) {
         return this.fetchChangeList(activityId)
-                .compose(Ux::futureA);
+            .compose(Ux::futureA);
     }
 
     @Override
     public Future<JsonObject> fetchActivity(final String id) {
         return Ux.Jooq.on(XActivityDao.class)
-                .<XActivity>fetchByIdAsync(id)
-                .compose(Ut.ifNil(JsonObject::new, (activity) -> this.fetchChanges(activity.getKey())
-                        .compose(changes -> {
-                            final JsonObject activityJson = Ux.toJson(activity);
-                            /*
-                             * Json Serialization for recordNew / recordOld
-                             */
-                            Ke.mount(activityJson, KName.RECORD_NEW);
-                            Ke.mount(activityJson, KName.RECORD_OLD);
-                            activityJson.put(KName.CHANGES, changes);
-                            return Ux.future(activityJson);
-                        })));
+            .<XActivity>fetchByIdAsync(id)
+            .compose(Ut.ifNil(JsonObject::new, (activity) -> this.fetchChanges(activity.getKey())
+                .compose(changes -> {
+                    final JsonObject activityJson = Ux.toJson(activity);
+                    /*
+                     * Json Serialization for recordNew / recordOld
+                     */
+                    Ke.mount(activityJson, KName.RECORD_NEW);
+                    Ke.mount(activityJson, KName.RECORD_OLD);
+                    activityJson.put(KName.CHANGES, changes);
+                    return Ux.future(activityJson);
+                })));
     }
 
     private Future<List<XActivityChange>> fetchChangeList(final String activityId) {
@@ -100,40 +100,40 @@ public class ActivityService implements ActivityStub {
     @Override
     public Future<JsonArray> saveChanges(final String id, final ActivityStatus status) {
         return this.fetchChangeList(id)
-                .compose(changes -> {
-                    /*
-                     * Iterate `ActivityChanges`
-                     */
-                    final List<XActivityChange> original = new ArrayList<>(changes);
-                    Ut.itList(original, (change, index) -> {
-                        final String oldStatus = change.getStatus();
-                        final XActivityChange itemRef = changes.get(index);
-                        if (Ut.isNil(oldStatus)) {
-                            itemRef.setStatus(status.name());
-                        } else {
-                            if (ActivityStatus.CONFIRMED == status) {
-                                /*
-                                 * -> CONFIRMED
-                                 * Only `PENDING` allowed, system keeped
-                                 */
-                                final ActivityStatus old =
-                                        Ut.toEnum(change::getStatus, ActivityStatus.class, ActivityStatus.SYSTEM);
-                                if (ActivityStatus.PENDING == old) {
-                                    itemRef.setStatus(ActivityStatus.CONFIRMED.name());
-                                }
-                            } else {
-                                /*
-                                 * -> PENDING or SYSTEM
-                                 * It's allowed directly
-                                 */
-                                itemRef.setStatus(status.name());
+            .compose(changes -> {
+                /*
+                 * Iterate `ActivityChanges`
+                 */
+                final List<XActivityChange> original = new ArrayList<>(changes);
+                Ut.itList(original, (change, index) -> {
+                    final String oldStatus = change.getStatus();
+                    final XActivityChange itemRef = changes.get(index);
+                    if (Ut.isNil(oldStatus)) {
+                        itemRef.setStatus(status.name());
+                    } else {
+                        if (ActivityStatus.CONFIRMED == status) {
+                            /*
+                             * -> CONFIRMED
+                             * Only `PENDING` allowed, system keeped
+                             */
+                            final ActivityStatus old =
+                                Ut.toEnum(change::getStatus, ActivityStatus.class, ActivityStatus.SYSTEM);
+                            if (ActivityStatus.PENDING == old) {
+                                itemRef.setStatus(ActivityStatus.CONFIRMED.name());
                             }
-
+                        } else {
+                            /*
+                             * -> PENDING or SYSTEM
+                             * It's allowed directly
+                             */
+                            itemRef.setStatus(status.name());
                         }
-                    });
-                    return Ux.Jooq.on(XActivityChangeDao.class)
-                            .updateAsync(changes)
-                            .compose(Ux::futureA);
+
+                    }
                 });
+                return Ux.Jooq.on(XActivityChangeDao.class)
+                    .updateAsync(changes)
+                    .compose(Ux::futureA);
+            });
     }
 }

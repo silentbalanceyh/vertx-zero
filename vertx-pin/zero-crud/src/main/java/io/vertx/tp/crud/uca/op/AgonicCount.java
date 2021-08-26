@@ -19,7 +19,7 @@ class AgonicCount implements Agonic {
     public Future<JsonObject> runJAsync(final JsonObject input, final IxIn in) {
         Ix.Log.filters(this.getClass(), "( Count ) Condition: {0}", input);
         final Function<Long, Future<JsonObject>> outFn =
-                counter -> Ux.future(new JsonObject().put(KName.COUNT, counter));
+            counter -> Ux.future(new JsonObject().put(KName.COUNT, counter));
         if (in.canJoin()) {
             return Ix.countFn(in).apply(input).compose(outFn);
         } else {

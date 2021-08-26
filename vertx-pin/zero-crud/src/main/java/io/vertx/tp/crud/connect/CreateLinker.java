@@ -21,7 +21,7 @@ class CreateLinker implements IxLinker {
             final JsonObject inputData = IxSwitcher.getData(original, module);
             inputData.remove(module.getField().getKey());
             return IxHub.createAsync(request, inputData, dao, config)
-                    .compose(response -> IxSwitcher.moveEnd(original, response, config));
+                .compose(response -> IxSwitcher.moveEnd(original, response, config));
         });
     }
 }

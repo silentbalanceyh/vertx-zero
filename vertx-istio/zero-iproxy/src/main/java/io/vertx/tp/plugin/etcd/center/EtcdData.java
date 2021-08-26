@@ -38,7 +38,7 @@ public class EtcdData {
     private static final Annal LOGGER = Annal.get(EtcdData.class);
     private static final Node<JsonObject> NODE = Ut.singleton(ZeroUniform.class);
     private static final ConcurrentMap<Class<?>, EtcdData> POOL
-            = new ConcurrentHashMap<>();
+        = new ConcurrentHashMap<>();
     /**
      * Config data
      */
@@ -72,7 +72,7 @@ public class EtcdData {
             final JsonObject root = config.getJsonObject(KEY);
             // Verify the data
             Fn.outUp(() -> Fn.onZero(() -> Ruler.verify(KEY, root), root),
-                    LOGGER);
+                LOGGER);
             if (root.containsKey(TIMEOUT)) {
                 this.timeout = root.getLong(TIMEOUT);
             }
@@ -84,31 +84,31 @@ public class EtcdData {
                 this.config.addAll(root.getJsonArray(NODES));
             }
             LOGGER.info(Info.ETCD_TIMEOUT,
-                    this.application, this.timeout, this.config.size());
+                this.application, this.timeout, this.config.size());
         }
         Fn.outUp(this.config.isEmpty(), logger,
-                EtcdConfigEmptyException.class, this.clazz);
+            EtcdConfigEmptyException.class, this.clazz);
 
         final Set<URI> uris = new HashSet<>();
         final ConcurrentMap<Integer, String> networks
-                = new ConcurrentHashMap<>();
+            = new ConcurrentHashMap<>();
         Observable.fromIterable(this.config)
-                .filter(Objects::nonNull)
-                .map(item -> (JsonObject) item)
-                .filter(item -> item.containsKey(PORT) && item.containsKey(HOST))
-                .map(item -> {
-                    final Integer port = item.getInteger(PORT);
-                    final String host = item.getString(HOST);
-                    networks.put(port, host);
-                    return "http://" + host + ":" + port;
-                })
-                .map(URI::create)
-                .subscribe(uris::add)
-                .dispose();
+            .filter(Objects::nonNull)
+            .map(item -> (JsonObject) item)
+            .filter(item -> item.containsKey(PORT) && item.containsKey(HOST))
+            .map(item -> {
+                final Integer port = item.getInteger(PORT);
+                final String host = item.getString(HOST);
+                networks.put(port, host);
+                return "http://" + host + ":" + port;
+            })
+            .map(URI::create)
+            .subscribe(uris::add)
+            .dispose();
         // Network checking
         networks.forEach((port, host) ->
-                Fn.outUp(!Ut.netOk(host, port), LOGGER,
-                        EtcdNetworkException.class, this.getClass(), host, port));
+            Fn.outUp(!Ut.netOk(host, port), LOGGER,
+                EtcdNetworkException.class, this.getClass(), host, port));
         LOGGER.info(Info.ETCD_NETWORK);
         this.client = new EtcdClient(uris.toArray(new URI[]{}));
     }
@@ -118,7 +118,7 @@ public class EtcdData {
             LOGGER.info(Info.ETCD_ENABLE);
         }
         return Fn.pool(POOL, clazz, () ->
-                Fn.getNull(null, () -> new EtcdData(clazz), clazz));
+            Fn.getNull(null, () -> new EtcdData(clazz), clazz));
     }
 
     /**
@@ -144,8 +144,8 @@ public class EtcdData {
     }
 
     public ConcurrentMap<String, String> readDir(
-            final String path,
-            final boolean shiftted) {
+        final String path,
+        final boolean shiftted) {
         /*
          * Ensure Path created when read exception
          */
@@ -171,33 +171,33 @@ public class EtcdData {
 
     @SuppressWarnings("unused")
     private void ensurePath(final String path) {
-        if (0 <= path.lastIndexOf('/')) {
-            final String parent = path.substring(0, path.lastIndexOf('/'));
+        if (0 <= path.lastIndexOf('/' )) {
+            final String parent = path.substring(0, path.lastIndexOf('/' ));
             try {
                 // Trigger Key not found
                 final EtcdKeysResponse response =
-                        this.client.getDir(parent).send().get();
+                    this.client.getDir(parent).send().get();
                 if (null != response) {
                     this.client.putDir(path).send();
                     this.ensurePath(parent);
                 }
             } catch (final EtcdException | EtcdAuthenticationException
-                    | IOException | TimeoutException ex) {
+                | IOException | TimeoutException ex) {
                 this.ensurePath(parent);
             }
         }
     }
 
     public String readData(
-            final String path
+        final String path
     ) {
         return Fn.getJvm(Strings.EMPTY,
-                () -> this.readNode(path, this.client::get).getValue(), path);
+            () -> this.readNode(path, this.client::get).getValue(), path);
     }
 
     private EtcdKeysResponse.EtcdNode readNode(
-            final String path,
-            final Function<String, EtcdKeyGetRequest> executor) {
+        final String path,
+        final Function<String, EtcdKeyGetRequest> executor) {
 
         return Fn.getJvm(null, () -> {
             final EtcdKeyGetRequest request = executor.apply(path);
@@ -230,10 +230,10 @@ public class EtcdData {
     public <T> JsonObject write(final String path, final T data, final int ttl) {
         return Fn.getJvm(null, () -> {
             final EtcdKeyPutRequest request = this.client.put(path,
-                    Fn.getSemi(data instanceof JsonObject || data instanceof JsonArray,
-                            LOGGER,
-                            () -> Ut.invoke(data, "encode"),
-                            data::toString));
+                Fn.getSemi(data instanceof JsonObject || data instanceof JsonArray,
+                    LOGGER,
+                    () -> Ut.invoke(data, "encode"),
+                    data::toString));
             if (Values.ZERO != ttl) {
                 request.ttl(ttl);
             }

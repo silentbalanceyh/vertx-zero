@@ -6,11 +6,11 @@ import cn.vertxup.rbac.domain.tables.pojos.RGroupRole;
 import cn.vertxup.rbac.domain.tables.pojos.SGroup;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
-import io.vertx.up.eon.KName;
 import io.vertx.tp.rbac.cv.AuthKey;
 import io.vertx.tp.rbac.cv.AuthMsg;
 import io.vertx.tp.rbac.refine.Sc;
 import io.vertx.up.atom.unity.Uarr;
+import io.vertx.up.eon.KName;
 import io.vertx.up.log.Annal;
 import io.vertx.up.uca.jooq.UxJooq;
 import io.vertx.up.unity.Ux;
@@ -32,9 +32,9 @@ public class GroupService implements GroupStub {
     public JsonArray fetchRoleIds(final String groupKey) {
         Sc.infoAuth(LOGGER, AuthMsg.RELATION_GROUP_ROLE, groupKey, "Sync");
         final List<RGroupRole> relations = Ux.Jooq.on(RGroupRoleDao.class)
-                .fetch(AuthKey.F_GROUP_ID, groupKey);
+            .fetch(AuthKey.F_GROUP_ID, groupKey);
         return Uarr.create(Ux.toJson(relations))
-                .remove(AuthKey.F_GROUP_ID).to();
+            .remove(AuthKey.F_GROUP_ID).to();
     }
 
     @Override
@@ -45,7 +45,7 @@ public class GroupService implements GroupStub {
         }
         final SGroup current = dao.fetchById(groupKey);
         return null == current ? null :
-                dao.fetchById(current.getParentId());
+            dao.fetchById(current.getParentId());
     }
 
     @Override
@@ -60,9 +60,9 @@ public class GroupService implements GroupStub {
     @Override
     public Future<JsonArray> fetchGroups(final String sigma) {
         return Ux.Jooq.on(SGroupDao.class)
-                /* Fetch by sigma */
-                .<SGroup>fetchAsync(KName.SIGMA, sigma)
-                /* Get Result */
-                .compose(Ux::futureA);
+            /* Fetch by sigma */
+            .<SGroup>fetchAsync(KName.SIGMA, sigma)
+            /* Get Result */
+            .compose(Ux::futureA);
     }
 }

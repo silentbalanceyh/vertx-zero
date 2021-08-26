@@ -1,8 +1,8 @@
 package io.vertx.rx.web.limit;
 
 import io.vertx.rx.micro.ZeroRxAgent;
-import io.vertx.up.runtime.ZeroMotor;
 import io.vertx.up.eon.em.ServerType;
+import io.vertx.up.runtime.ZeroMotor;
 import io.vertx.up.uca.web.limit.Factor;
 
 import java.util.HashSet;
@@ -18,11 +18,11 @@ import java.util.concurrent.ConcurrentMap;
 public class RxFactor implements Factor {
 
     private static final Class<?>[] DEFAULT_AGENTS = new Class<?>[]{
-            ZeroRxAgent.class
+        ZeroRxAgent.class
     };
 
     private static final ConcurrentMap<ServerType, Class<?>> INTERNALS
-            = new ConcurrentHashMap<ServerType, Class<?>>() {
+        = new ConcurrentHashMap<ServerType, Class<?>>() {
         {
             this.put(ServerType.RX, ZeroRxAgent.class);
         }
@@ -32,7 +32,7 @@ public class RxFactor implements Factor {
     public ConcurrentMap<ServerType, Class<?>> agents() {
         /** 1.Find Agent for deploy **/
         final ConcurrentMap<ServerType, Class<?>> agents
-                = ZeroMotor.agents(ServerType.RX, DEFAULT_AGENTS, INTERNALS);
+            = ZeroMotor.agents(ServerType.RX, DEFAULT_AGENTS, INTERNALS);
         // 3. Filter invalid agents
         final Set<ServerType> scanned = new HashSet<>(agents.keySet());
         final Set<ServerType> keeped = INTERNALS.keySet();

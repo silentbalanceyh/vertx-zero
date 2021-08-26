@@ -39,36 +39,36 @@ class SerialActor extends AbstractActor {
              */
             Ke.infoKe(LOGGER, "Table here {0}, Serial numbers {0}", config.getTable(), numbers.encodePrettily());
             return Ke.channelAsync(ExSerial.class,
-                    () -> Ux.future(data),
-                    serial -> {
-                        final String sigma = data.getString(KName.SIGMA);
-                        if (Ut.isNil(sigma)) {
-                            return Ux.future(data);
-                        } else {
-                            final ConcurrentMap<String, Future<String>> numberMap =
-                                    new ConcurrentHashMap<>();
-                            numbers.fieldNames().stream()
-                                    .filter(numberField -> !data.containsKey(numberField))
-                                    .filter(numberField -> Objects.nonNull(numbers.getString(numberField)))
-                                    .forEach(numberField -> {
-                                        final String code = numbers.getString(numberField);
-                                        numberMap.put(numberField, serial.serial(sigma, code));
-                                    });
+                () -> Ux.future(data),
+                serial -> {
+                    final String sigma = data.getString(KName.SIGMA);
+                    if (Ut.isNil(sigma)) {
+                        return Ux.future(data);
+                    } else {
+                        final ConcurrentMap<String, Future<String>> numberMap =
+                            new ConcurrentHashMap<>();
+                        numbers.fieldNames().stream()
+                            .filter(numberField -> !data.containsKey(numberField))
+                            .filter(numberField -> Objects.nonNull(numbers.getString(numberField)))
+                            .forEach(numberField -> {
+                                final String code = numbers.getString(numberField);
+                                numberMap.put(numberField, serial.serial(sigma, code));
+                            });
+                        /*
+                         * Future combine
+                         */
+                        return Ux.thenCombine(numberMap)
                             /*
-                             * Future combine
+                             * Combine number map here for generation
+                             * 1) Current should be `account-item` instead of others
                              */
-                            return Ux.thenCombine(numberMap)
-                                    /*
-                                     * Combine number map here for generation
-                                     * 1) Current should be `account-item` instead of others
-                                     */
-                                    .compose(generated -> {
-                                        final Set<String> generatedFields = generated.keySet();
-                                        generatedFields.forEach(generatedField -> data.put(generatedField, generated.get(generatedField)));
-                                        return Ux.future(data);
-                                    });
-                        }
-                    });
+                            .compose(generated -> {
+                                final Set<String> generatedFields = generated.keySet();
+                                generatedFields.forEach(generatedField -> data.put(generatedField, generated.get(generatedField)));
+                                return Ux.future(data);
+                            });
+                    }
+                });
         }
     }
 

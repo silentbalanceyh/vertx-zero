@@ -143,9 +143,9 @@ abstract class AbstractAggregator extends AbstractAction {
      * - More than 1 group
      */
     protected <T> JsonArray aggregateBy(
-            final String fieldName, final JsonObject criteria,
-            /* Critical Function Processing */
-            final Function<Field, Field> aggrFun, final String... groupFields) {
+        final String fieldName, final JsonObject criteria,
+        /* Critical Function Processing */
+        final Function<Field, Field> aggrFun, final String... groupFields) {
         return this.aggregateBy(fieldName, new JsonArray(), field -> {
             /*
              * Field process
@@ -163,9 +163,9 @@ abstract class AbstractAggregator extends AbstractAction {
      * - Only one group
      */
     protected <T> ConcurrentMap<String, T> aggregateBy(
-            final String fieldName, final JsonObject criteria,
-            /* Critical Function Processing */
-            final Function<Field, Field> aggrFun, final String groupField) {
+        final String fieldName, final JsonObject criteria,
+        /* Critical Function Processing */
+        final Function<Field, Field> aggrFun, final String groupField) {
         return this.aggregateBy(fieldName, new ConcurrentHashMap<>(), field -> {
             /*
              * Field process
@@ -182,9 +182,9 @@ abstract class AbstractAggregator extends AbstractAction {
      * Aggregation to single result, -> T
      */
     protected <T> T aggregateBy(
-            final String fieldName, final JsonObject criteria,
-            /* Critical Function Processing */
-            final Function<Field, Field> aggrFun, final T defaultValue) {
+        final String fieldName, final JsonObject criteria,
+        /* Critical Function Processing */
+        final Function<Field, Field> aggrFun, final T defaultValue) {
         return this.aggregateBy(fieldName, defaultValue, field -> {
             /*
              * Field process
@@ -248,8 +248,8 @@ abstract class AbstractAggregator extends AbstractAction {
          * List<Map<String, Object>>
          */
         final SelectJoinStep selected = context
-                .select(selectedList.toArray(new Field[]{}))
-                .from(this.vertxDAO.getTable());
+            .select(selectedList.toArray(new Field[]{}))
+            .from(this.vertxDAO.getTable());
         /*
          * Result calculation
          */
@@ -268,11 +268,11 @@ abstract class AbstractAggregator extends AbstractAction {
                  * Condition of criteria only
                  */
                 groupResult = selected
-                        /*
-                         * Where condition for result
-                         */
-                        .where(JooqCond.transform(criteria, this.analyzer::column))
-                        .fetchMaps();
+                    /*
+                     * Where condition for result
+                     */
+                    .where(JooqCond.transform(criteria, this.analyzer::column))
+                    .fetchMaps();
             }
         } else {
             if (Ut.isNil(criteria)) {
@@ -280,14 +280,14 @@ abstract class AbstractAggregator extends AbstractAction {
                  * Group field passed only
                  */
                 groupResult = selected
-                        .groupBy(columns).fetchMaps();
+                    .groupBy(columns).fetchMaps();
             } else {
                 groupResult = selected
-                        /*
-                         * Where condition for result
-                         */
-                        .where(JooqCond.transform(criteria, this.analyzer::column))
-                        .groupBy(columns).fetchMaps();
+                    /*
+                     * Where condition for result
+                     */
+                    .where(JooqCond.transform(criteria, this.analyzer::column))
+                    .groupBy(columns).fetchMaps();
             }
         }
         return groupResult;

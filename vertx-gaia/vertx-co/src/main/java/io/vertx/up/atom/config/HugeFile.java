@@ -15,6 +15,7 @@ import java.util.Objects;
  */
 public class HugeFile {
     private final StringBuilder prefix = new StringBuilder();
+    private final long processLength = 0;
     private MappedByteBuffer[] mappedByteBuffers;
     private FileInputStream inputStream;
     private FileChannel fileChannel;
@@ -22,7 +23,6 @@ public class HugeFile {
     private int byteBufferSize;
     private int bufferCountIndex = 0;
     private byte[] byteBuffer;
-    private final long processLength = 0;
     private long fileSize;
 
     public HugeFile(final String filename) {

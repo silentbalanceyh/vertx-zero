@@ -35,8 +35,8 @@ public class UiJson {
     public UiJson removeWith(final String prefix) {
         final JsonObject processed = this.input.copy();
         processed.fieldNames().stream()
-                .filter(key -> key.startsWith(prefix))
-                .forEach(this.input::remove);
+            .filter(key -> key.startsWith(prefix))
+            .forEach(this.input::remove);
         return this;
     }
 
@@ -51,8 +51,8 @@ public class UiJson {
         final JsonObject processed = this.input.copy();
         this.input.clear();
         processed.fieldNames().stream()
-                .filter(key -> key.startsWith(prefix))
-                .forEach(key -> this.input.put(key, processed.getValue(key)));
+            .filter(key -> key.startsWith(prefix))
+            .forEach(key -> this.input.put(key, processed.getValue(key)));
         return this;
     }
 
@@ -60,11 +60,11 @@ public class UiJson {
         final JsonObject processed = this.input.copy();
         this.input.clear();
         processed.fieldNames().stream()
-                .filter(key -> key.startsWith(from))
-                .forEach(key -> {
-                    final String replaced = key.replace(from, to);
-                    this.input.put(replaced, processed.getValue(key));
-                });
+            .filter(key -> key.startsWith(from))
+            .forEach(key -> {
+                final String replaced = key.replace(from, to);
+                this.input.put(replaced, processed.getValue(key));
+            });
         return this;
     }
 

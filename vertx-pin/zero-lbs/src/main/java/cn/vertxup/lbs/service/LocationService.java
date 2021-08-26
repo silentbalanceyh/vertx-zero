@@ -10,7 +10,7 @@ public class LocationService implements LocationStub {
     @Override
     public Future<JsonObject> fetchAsync(final String locationId) {
         return Ux.Jooq.on(LLocationDao.class)
-                .fetchByIdAsync(locationId)
-                .compose(Ux::futureJ);
+            .fetchByIdAsync(locationId)
+            .compose(Ux::futureJ);
     }
 }

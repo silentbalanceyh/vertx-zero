@@ -83,17 +83,17 @@ class Async {
                                 return To.future(json);
                             } else {
                                 return future
-                                        /*
-                                         * Replace the result with successed item here
-                                         * If success
-                                         * -- replace previous response with next
-                                         * If failure
-                                         * -- returned current json and replace previous response with current
-                                         *
-                                         * The step stopped
-                                         */
-                                        .compose(response::future)
-                                        .otherwise(Ux.otherwise(() -> response.add(json).get()));
+                                    /*
+                                     * Replace the result with successed item here
+                                     * If success
+                                     * -- replace previous response with next
+                                     * If failure
+                                     * -- returned current json and replace previous response with current
+                                     *
+                                     * The step stopped
+                                     */
+                                    .compose(response::future)
+                                    .otherwise(Ux.otherwise(() -> response.add(json).get()));
                             }
                         }).otherwise(Ux.otherwise(() -> response.get()));
                     }
@@ -105,41 +105,41 @@ class Async {
 
     @SuppressWarnings("all")
     static <T> Future<JsonObject> toJsonFuture(
-            final String pojo,
-            final CompletableFuture<T> completableFuture
+        final String pojo,
+        final CompletableFuture<T> completableFuture
     ) {
         final Promise<JsonObject> future = Promise.promise();
         Fn.safeSemi(null == completableFuture, null,
+            () -> future.complete(new JsonObject()),
+            () -> completableFuture.thenAcceptAsync((item) -> Fn.safeSemi(
+                null == item, null,
                 () -> future.complete(new JsonObject()),
-                () -> completableFuture.thenAcceptAsync((item) -> Fn.safeSemi(
-                        null == item, null,
-                        () -> future.complete(new JsonObject()),
-                        () -> future.complete(To.toJObject(item, pojo))
-                )).exceptionally((ex) -> {
-                    LOGGER.jvm(ex);
-                    future.fail(ex);
-                    return null;
-                }));
+                () -> future.complete(To.toJObject(item, pojo))
+            )).exceptionally((ex) -> {
+                LOGGER.jvm(ex);
+                future.fail(ex);
+                return null;
+            }));
         return future.future();
     }
 
     @SuppressWarnings("all")
     static <T> Future<JsonArray> toArrayFuture(
-            final String pojo,
-            final CompletableFuture<List<T>> completableFuture
+        final String pojo,
+        final CompletableFuture<List<T>> completableFuture
     ) {
         final Promise<JsonArray> future = Promise.promise();
         Fn.safeSemi(null == completableFuture, null,
+            () -> future.complete(new JsonArray()),
+            () -> completableFuture.thenAcceptAsync((item) -> Fn.safeSemi(
+                null == item, null,
                 () -> future.complete(new JsonArray()),
-                () -> completableFuture.thenAcceptAsync((item) -> Fn.safeSemi(
-                        null == item, null,
-                        () -> future.complete(new JsonArray()),
-                        () -> future.complete(To.toJArray(item, pojo))
-                )).exceptionally((ex) -> {
-                    LOGGER.jvm(ex);
-                    future.fail(ex);
-                    return null;
-                }));
+                () -> future.complete(To.toJArray(item, pojo))
+            )).exceptionally((ex) -> {
+                LOGGER.jvm(ex);
+                future.fail(ex);
+                return null;
+            }));
         return future.future();
     }
 
@@ -148,13 +148,13 @@ class Async {
                                                  final Supplier<Future<JsonObject>> supplier,
                                                  final Function<JsonObject, JsonObject> updateFun) {
         return Fn.match(
-                Fn.fork(() -> Future.succeededFuture(To.toJObject(entity, pojo))
-                        .compose(item -> null == updateFun ?
-                                Future.succeededFuture(item) :
-                                Future.succeededFuture(updateFun.apply(item))
-                        )
-                ),
-                Fn.branch(null == entity, supplier));
+            Fn.fork(() -> Future.succeededFuture(To.toJObject(entity, pojo))
+                .compose(item -> null == updateFun ?
+                    Future.succeededFuture(item) :
+                    Future.succeededFuture(updateFun.apply(item))
+                )
+            ),
+            Fn.branch(null == entity, supplier));
     }
 
     static <T> Function<Throwable, Future<T>> toErrorFuture(final Supplier<T> input) {

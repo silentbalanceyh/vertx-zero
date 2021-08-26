@@ -15,10 +15,10 @@ public class AuthenticateFilter extends HttpFilter {
     @Override
     public void doFilter(final HttpServerRequest request,
                          final HttpServerResponse response)
-            throws VertxException {
+        throws VertxException {
         final String token = request.getHeader(HttpHeaders.AUTHORIZATION);
         if (Ut.notNil(token) && token.contains(" ")) {
-            final String tokenString = token.substring(token.lastIndexOf(' '));
+            final String tokenString = token.substring(token.lastIndexOf(' ' ));
             /* Put Data into session instead of context */
             this.getLogger().debug("Parse token string: {0}", tokenString);
             this.put("token", tokenString);

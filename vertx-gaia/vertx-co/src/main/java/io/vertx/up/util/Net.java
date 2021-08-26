@@ -19,6 +19,7 @@ final class Net {
      *
      * @param host checked host
      * @param port checked port
+     *
      * @return whether it's reached
      */
     static boolean isReach(final String host, final int port) {
@@ -29,7 +30,7 @@ final class Net {
         return Fn.getJvm(() -> {
             // 1.Check whether host is reachalbe
             final Boolean hostOk =
-                    Fn.getJvm(Boolean.FALSE, () -> InetAddress.getByName(host).isReachable(timeOut), host, timeOut);
+                Fn.getJvm(Boolean.FALSE, () -> InetAddress.getByName(host).isReachable(timeOut), host, timeOut);
             // 2.Check whether host/port could be connected.
             return hostOk ? (Fn.getJvm(Boolean.FALSE, () -> {
                 final Socket socket = new Socket();

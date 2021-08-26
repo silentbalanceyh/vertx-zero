@@ -24,7 +24,7 @@ public abstract class JsonSaber extends BaseSaber {
                         throw new _400ParameterFromStringException(getClass(), paramType, literal);
                     }
                 }, () -> null),
-                paramType, literal);
+            paramType, literal);
     }
 
     protected abstract boolean isValid(final Class<?> paramType);

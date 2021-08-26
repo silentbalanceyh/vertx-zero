@@ -34,7 +34,7 @@ public class DataBound implements Serializable {
     private final transient JsonObject criteria = new JsonObject();
     private final transient JsonArray credit = new JsonArray();
     private final transient ConcurrentMap<String, Set<String>> rows =
-            new ConcurrentHashMap<>();
+        new ConcurrentHashMap<>();
 
     private final transient JsonObject seeker = new JsonObject();
     private final transient JsonObject viewData = new JsonObject();
@@ -72,8 +72,8 @@ public class DataBound implements Serializable {
     public DataBound addProjection(final String projection) {
         final JsonArray array = Ut.toJArray(projection);
         array.stream().filter(Objects::nonNull)
-                .map(item -> (String) item)
-                .forEach(this.projection::add);
+            .map(item -> (String) item)
+            .forEach(this.projection::add);
         return this;
     }
 
@@ -102,13 +102,13 @@ public class DataBound implements Serializable {
     public DataBound addCredit(final String credit) {
         final JsonArray array = Ut.toJArray(credit);
         array.stream().filter(Objects::nonNull)
-                .map(item -> (String) item)
-                .map(literal -> literal.split(" "))
-                .filter(splitted -> Values.TWO == splitted.length)
-                .map(splitted -> new JsonObject()
-                        .put("method", splitted[0])
-                        .put("uri", splitted[1])
-                ).forEach(this.credit::add);
+            .map(item -> (String) item)
+            .map(literal -> literal.split(" "))
+            .filter(splitted -> Values.TWO == splitted.length)
+            .map(splitted -> new JsonObject()
+                .put("method", splitted[0])
+                .put("uri", splitted[1])
+            ).forEach(this.credit::add);
         return this;
     }
 

@@ -26,8 +26,8 @@ class KeTool {
         return Ux.Pool.on(name).<String, T>get(key).compose(item -> {
             if (null == item) {
                 return value.get().compose(updated ->
-                        Ux.Pool.on(name).put(key, updated)
-                                .compose(kv -> Ux.future(kv.getValue())));
+                    Ux.Pool.on(name).put(key, updated)
+                        .compose(kv -> Ux.future(kv.getValue())));
             } else {
                 return Ux.future(item);
             }

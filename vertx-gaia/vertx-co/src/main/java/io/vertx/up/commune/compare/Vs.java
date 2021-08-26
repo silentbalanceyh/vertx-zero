@@ -58,19 +58,6 @@ public class Vs implements Serializable {
      */
     private transient final Set<String> ignores = new HashSet<>();
 
-    @Fluent
-    public Vs ignores(final Set<String> ignoreSet) {
-        if (Objects.nonNull(ignoreSet) && !ignoreSet.isEmpty()) {
-            this.ignores.clear();
-            this.ignores.addAll(ignoreSet);
-        }
-        return this;
-    }
-
-    public Set<String> ignores() {
-        return this.ignores;
-    }
-
     private Vs(final ConcurrentMap<String, Class<?>> mapType, final ConcurrentMap<String, TypeField> mapSubtype) {
         if (Objects.nonNull(mapType) && !mapType.isEmpty()) {
             this.mapType.putAll(mapType);
@@ -85,67 +72,6 @@ public class Vs implements Serializable {
         return Fn.pool(POOL_VS, identifier, () -> new Vs(mapType, mapSubtype));
     }
 
-    // ============================ Complex Comparing Change ===============================
-
-    public boolean isChange(final JsonObject previous, final JsonObject current) {
-        // Copy each compared json object
-        final JsonObject oldCopy = Ut.sureJObject(previous).copy();
-        final JsonObject newCopy = Ut.sureJObject(current).copy();
-
-        /*
-         * Remove ignore fields, iterating once only, old code ( Twice iterating )
-         * 1. ignores.forEach(oldCopy::remove);
-         * 2. ignores.forEach(newCopy::remove);
-         */
-        if (!this.ignores.isEmpty()) {
-            this.ignores.forEach(field -> {
-                oldCopy.remove(field);
-                newCopy.remove(field);
-            });
-        }
-
-        /*
-         * Function building here to call `VsInternal`
-         */
-        final Function<String, Boolean> isSame = field -> {
-            /*
-             * Extract value here
-             */
-            final Object valueOld = oldCopy.getValue(field);
-            final Object valueNew = newCopy.getValue(field);
-            return !this.isChange(valueOld, valueNew, field);
-        };
-        /*
-         * Get the final result of calculation.
-         * 1) From old Re-calculation
-         * 2) From new Re-calculation
-         */
-        final boolean unchanged = oldCopy.fieldNames().stream().allMatch(isSame::apply);
-        final Set<String> newLefts = new HashSet<>(newCopy.fieldNames());
-        newLefts.removeAll(oldCopy.fieldNames());
-        final boolean additional = newLefts.stream().allMatch(isSame::apply);
-        return !(unchanged && additional);
-    }
-
-    public boolean isChange(final JsonObject twins) {
-        final JsonObject secure = Ut.sureJObject(twins);
-        return this.isChange(secure.getJsonObject(Values.VS.OLD), secure.getJsonObject(Values.VS.NEW));
-    }
-
-    public boolean isChange(final Object valueOld, final Object valueNew, final String attribute) {
-        final Class<?> type = this.mapType.get(attribute);
-        final TypeField fieldType = this.mapSubtype.getOrDefault(attribute, null);
-        final boolean isChanged = isChange(valueOld, valueNew, type, fieldType);
-        LOGGER.info("Field compared: name = {0}, type = {1}, result = {2}",
-                attribute, type, isChanged);
-        return isChanged;
-    }
-
-    public boolean isValue(final Object value, final String attribute) {
-        final Class<?> type = this.mapType.get(attribute);
-        return isValue(value, type);
-    }
-
     // ============================ Static Comparing Change ===============================
     public static boolean isValue(final Object value, final Class<?> type) {
         // Fix Null Pointer Exception for Unknown Type comparing.
@@ -156,6 +82,8 @@ public class Vs implements Serializable {
     public static boolean isChange(final Object valueOld, final Object valueNew, final Class<?> type, final TypeField subset) {
         return !isSame(valueOld, valueNew, type, subset);
     }
+
+    // ============================ Complex Comparing Change ===============================
 
     public static boolean isSame(final Object valueOld, final Object valueNew, final Class<?> type, final TypeField subset) {
         if (Objects.isNull(valueOld) && Objects.isNull(valueNew)) {
@@ -208,5 +136,77 @@ public class Vs implements Serializable {
         } else {
             return Objects.isNull(left) && Objects.isNull(right);
         }
+    }
+
+    @Fluent
+    public Vs ignores(final Set<String> ignoreSet) {
+        if (Objects.nonNull(ignoreSet) && !ignoreSet.isEmpty()) {
+            this.ignores.clear();
+            this.ignores.addAll(ignoreSet);
+        }
+        return this;
+    }
+
+    public Set<String> ignores() {
+        return this.ignores;
+    }
+
+    public boolean isChange(final JsonObject previous, final JsonObject current) {
+        // Copy each compared json object
+        final JsonObject oldCopy = Ut.sureJObject(previous).copy();
+        final JsonObject newCopy = Ut.sureJObject(current).copy();
+
+        /*
+         * Remove ignore fields, iterating once only, old code ( Twice iterating )
+         * 1. ignores.forEach(oldCopy::remove);
+         * 2. ignores.forEach(newCopy::remove);
+         */
+        if (!this.ignores.isEmpty()) {
+            this.ignores.forEach(field -> {
+                oldCopy.remove(field);
+                newCopy.remove(field);
+            });
+        }
+
+        /*
+         * Function building here to call `VsInternal`
+         */
+        final Function<String, Boolean> isSame = field -> {
+            /*
+             * Extract value here
+             */
+            final Object valueOld = oldCopy.getValue(field);
+            final Object valueNew = newCopy.getValue(field);
+            return !this.isChange(valueOld, valueNew, field);
+        };
+        /*
+         * Get the final result of calculation.
+         * 1) From old Re-calculation
+         * 2) From new Re-calculation
+         */
+        final boolean unchanged = oldCopy.fieldNames().stream().allMatch(isSame::apply);
+        final Set<String> newLefts = new HashSet<>(newCopy.fieldNames());
+        newLefts.removeAll(oldCopy.fieldNames());
+        final boolean additional = newLefts.stream().allMatch(isSame::apply);
+        return !(unchanged && additional);
+    }
+
+    public boolean isChange(final JsonObject twins) {
+        final JsonObject secure = Ut.sureJObject(twins);
+        return this.isChange(secure.getJsonObject(Values.VS.OLD), secure.getJsonObject(Values.VS.NEW));
+    }
+
+    public boolean isChange(final Object valueOld, final Object valueNew, final String attribute) {
+        final Class<?> type = this.mapType.get(attribute);
+        final TypeField fieldType = this.mapSubtype.getOrDefault(attribute, null);
+        final boolean isChanged = isChange(valueOld, valueNew, type, fieldType);
+        LOGGER.info("Field compared: name = {0}, type = {1}, result = {2}",
+            attribute, type, isChanged);
+        return isChanged;
+    }
+
+    public boolean isValue(final Object value, final String attribute) {
+        final Class<?> type = this.mapType.get(attribute);
+        return isValue(value, type);
     }
 }

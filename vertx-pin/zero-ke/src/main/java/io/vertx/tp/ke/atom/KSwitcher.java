@@ -43,8 +43,8 @@ public class KSwitcher implements Serializable {
     @Override
     public String toString() {
         return "KeSwitcher{" +
-                "primary=" + this.primary +
-                ", secondary=" + this.secondary +
-                '}';
+            "primary=" + this.primary +
+            ", secondary=" + this.secondary +
+            '}';
     }
 }

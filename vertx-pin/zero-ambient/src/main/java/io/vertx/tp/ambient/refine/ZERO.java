@@ -7,5 +7,5 @@ import java.util.concurrent.ConcurrentMap;
 
 interface Pool {
     ConcurrentMap<String, Init> INIT_POOL
-            = new ConcurrentHashMap<>();
+        = new ConcurrentHashMap<>();
 }

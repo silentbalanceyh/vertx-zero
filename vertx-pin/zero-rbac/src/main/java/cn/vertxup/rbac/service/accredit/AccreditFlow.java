@@ -28,14 +28,14 @@ class AccreditFlow {
      * If action missing, throw 403 exception
      */
     static Future<SAction> inspectAction(
-            final Class<?> clazz, final SAction action, final ScRequest request) {
+        final Class<?> clazz, final SAction action, final ScRequest request) {
         if (Objects.isNull(action)) {
             final String requestUri = request.getMethod() + " " + request.getNormalizedUri();
             final WebException error = new _403ActionMissingException(clazz, requestUri);
             return Future.failedFuture(error);
         } else {
             Sc.debugCredit(LOGGER, AuthMsg.CREDIT_ACTION,
-                    request.getRequestUri(), request.getMethod(), request.getNormalizedUri());
+                request.getRequestUri(), request.getMethod(), request.getNormalizedUri());
             return Future.succeededFuture(action);
         }
     }
@@ -45,7 +45,7 @@ class AccreditFlow {
      * If resource missing, throw 404 exception
      */
     static Future<SResource> inspectResource(
-            final Class<?> clazz, final SResource resource, final ScRequest request, final SAction action) {
+        final Class<?> clazz, final SResource resource, final ScRequest request, final SAction action) {
         if (Objects.isNull(resource)) {
             final String requestUri = request.getMethod() + " " + request.getNormalizedUri();
             final WebException error = new _404ResourceMissingException(clazz, action.getResourceId(), requestUri);
@@ -60,7 +60,7 @@ class AccreditFlow {
      * 3. Action Level / Resource Level comparing.
      */
     static Future<SResource> inspectLevel(
-            final Class<?> clazz, final SResource resource, final SAction action
+        final Class<?> clazz, final SResource resource, final SAction action
     ) {
         final Integer required = resource.getLevel();
         final Integer actual = action.getLevel();
@@ -77,29 +77,29 @@ class AccreditFlow {
      * 4. Extract fetchProfile information from Cached
      */
     static Future<JsonArray> inspectPermission(
-            final Class<?> clazz, final SResource resource, final ScRequest request
+        final Class<?> clazz, final SResource resource, final ScRequest request
     ) {
         final String profileKey = Sc.generateProfileKey(resource);
         return request.openSession()
-                /* Get Permission from Privilege */
-                .compose(privilege -> privilege.fetchPermissions(profileKey))
-                .compose(permissions -> {
-                    /* Profile Key */
-                    if (Objects.isNull(permissions) || permissions.isEmpty()) {
-                        final WebException error = new _403NoPermissionException(clazz, request.getUser(), profileKey);
-                        return Future.failedFuture(error);
-                    } else {
-                        Sc.debugCredit(LOGGER, AuthMsg.CREDIT_PERMISSION, profileKey);
-                        return Future.succeededFuture(permissions);
-                    }
-                });
+            /* Get Permission from Privilege */
+            .compose(privilege -> privilege.fetchPermissions(profileKey))
+            .compose(permissions -> {
+                /* Profile Key */
+                if (Objects.isNull(permissions) || permissions.isEmpty()) {
+                    final WebException error = new _403NoPermissionException(clazz, request.getUser(), profileKey);
+                    return Future.failedFuture(error);
+                } else {
+                    Sc.debugCredit(LOGGER, AuthMsg.CREDIT_PERMISSION, profileKey);
+                    return Future.succeededFuture(permissions);
+                }
+            });
     }
 
     /*
      * 5. Permission / Action comparing
      */
     static Future<Boolean> inspectAuthorized(
-            final Class<?> clazz, final SAction action, final JsonArray permission
+        final Class<?> clazz, final SAction action, final JsonArray permission
     ) {
         final String permissionId = action.getPermissionId();
         if (Objects.nonNull(permissionId)) {
@@ -125,7 +125,7 @@ class AccreditFlow {
         final String cacheKey = request.getCacheKey();
         Sc.debugCredit(LOGGER, AuthMsg.CREDIT_BOUND, data.encode(), cacheKey);
         return request.openSession()
-                .compose(privilege -> privilege.storedBound(cacheKey, data));
+            .compose(privilege -> privilege.storedBound(cacheKey, data));
     }
 
     /*
@@ -136,6 +136,6 @@ class AccreditFlow {
         final String authorizedKey = request.getAuthorizedKey();
         Sc.debugCredit(LOGGER, AuthMsg.CREDIT_SUCCESS, authorizedKey, request.getSessionId());
         return request.openSession()
-                .compose(privilege -> privilege.storedAuthorized(authorizedKey, Boolean.TRUE));
+            .compose(privilege -> privilege.storedAuthorized(authorizedKey, Boolean.TRUE));
     }
 }

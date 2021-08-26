@@ -2,6 +2,7 @@ package io.vertx.tp.crud.uca.output;
 
 import io.vertx.core.Future;
 import io.vertx.core.http.HttpStatusCode;
+import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.crud.cv.Pooled;
 import io.vertx.tp.crud.refine.Ix;
@@ -9,6 +10,9 @@ import io.vertx.tp.ke.atom.KModule;
 import io.vertx.up.commune.Envelop;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.unity.Ux;
+import io.vertx.up.util.Ut;
+
+import java.util.List;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
@@ -62,6 +66,10 @@ public interface Post<T> {
         return Ux.future(new JsonObject().put(STATUS, 204));
     }
 
+    static <T> Future<JsonObject> success404Pre() {
+        return Ux.future(new JsonObject().put(STATUS, 404));
+    }
+
     static Future<JsonObject> success200Pre(final boolean result) {
         return Ux.future(new JsonObject().put(STATUS, 200).put(RESULT, result));
     }
@@ -74,14 +82,25 @@ public interface Post<T> {
      *  T -> JsonObject based by module
      */
     static <T> Future<JsonObject> successJ(final T input, final KModule module) {
-        final JsonObject serializedJson;
+        final JsonObject serializedJ;
         if (input instanceof JsonObject) {
-            serializedJson = (JsonObject) input;
+            serializedJ = (JsonObject) input;
         } else {
-            serializedJson = Ux.toJson(input, module.getPojo());
+            serializedJ = Ux.toJson(input, module.getPojo());
         }
-        Ix.serializeJ(serializedJson, module);
-        return Ux.future(serializedJson);
+        Ix.serializeJ(serializedJ, module);
+        return Ux.future(serializedJ);
+    }
+
+    static <T> Future<JsonArray> successA(final T input, final KModule module) {
+        final JsonArray serializedA;
+        if (input instanceof JsonArray) {
+            serializedA = (JsonArray) input;
+        } else {
+            serializedA = Ux.toJson((List<T>) input, module.getPojo());
+        }
+        Ut.itJArray(serializedA).forEach(json -> Ix.serializeJ(json, module));
+        return Ux.future(serializedA);
     }
 
     Future<T> outAsync(Object active, Object standBy);

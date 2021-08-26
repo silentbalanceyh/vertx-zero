@@ -28,12 +28,12 @@ public class DeleteActor {
         // JsonObject Required
         final JsonObject params = new JsonObject().put(KName.KEY, key);
         return IxPanel.on(envelop, null)
-                .passion(Agonic.write(ChangeFlag.DELETE)::runJAsync, null)
-                .<JsonObject, JsonObject, JsonObject>runJ(params)
-                /*
-                 * 204 / 200
-                 */
-                .compose(Post::successPostB);
+            .passion(Agonic.write(ChangeFlag.DELETE)::runJAsync, null)
+            .<JsonObject, JsonObject, JsonObject>runJ(params)
+            /*
+             * 204 / 200
+             */
+            .compose(Post::successPostB);
     }
 
     /*
@@ -45,11 +45,10 @@ public class DeleteActor {
     public Future<Envelop> deleteBatch(final Envelop envelop) {
         final JsonArray keys = Ux.getArray1(envelop);
         return IxPanel.on(envelop, null)
-                .input(
-                        /* keys,in */
-                        Pre.qPk()::inAJAsync
-                )
-                .passion(Agonic.write(ChangeFlag.DELETE)::runJAAsync, null)
-                .runA(keys);
+            .input(
+                Pre.qPk()::inAJAsync                        /* keys,in */
+            )
+            .passion(Agonic.write(ChangeFlag.DELETE)::runJAAsync, null)
+            .runA(keys);
     }
 }

@@ -74,14 +74,14 @@ public class UxMongo {
                                       final BinaryOperator<JsonObject> operatorFun) {
         final JsonObject data = new JsonObject();
         return this.findOne(collection, filter)
-                .compose(result -> {
-                    data.mergeIn(result);
-                    final JsonObject joinedFilter = (null == additional) ? new JsonObject() : additional.copy();
-                    // MongoDB only
-                    joinedFilter.put(joinedKey, result.getValue("_id"));
-                    return this.findOne(joinedCollection, joinedFilter);
-                })
-                .compose(second -> Future.succeededFuture(operatorFun.apply(data, second)));
+            .compose(result -> {
+                data.mergeIn(result);
+                final JsonObject joinedFilter = (null == additional) ? new JsonObject() : additional.copy();
+                // MongoDB only
+                joinedFilter.put(joinedKey, result.getValue("_id"));
+                return this.findOne(joinedCollection, joinedFilter);
+            })
+            .compose(second -> Future.succeededFuture(operatorFun.apply(data, second)));
     }
 
     public Future<JsonObject> findOneAndReplace(final String collection, final JsonObject filter,
@@ -113,9 +113,9 @@ public class UxMongo {
         return Fn.thenGeneric(future -> CLIENT.findWithOptions(collection, filter, options, res -> {
             final JsonArray result = new JsonArray();
             Observable.fromIterable(res.result())
-                    .filter(Objects::nonNull)
-                    .subscribe(result::add)
-                    .dispose();
+                .filter(Objects::nonNull)
+                .subscribe(result::add)
+                .dispose();
             LOGGER.debug(Info.MONGO_FIND, collection, filter, options.toJson(), result);
             future.complete(result);
         }));
@@ -126,11 +126,11 @@ public class UxMongo {
                                              final String joinedCollection, final String joinedKey, final JsonObject additional,
                                              final BinaryOperator<JsonObject> operatorFun) {
         return Ux.thenCombine(this.findWithOptions(collection, filter, options),
-                item -> {
-                    final JsonObject joinedFilter = (null == additional) ? new JsonObject() : additional.copy();
-                    // MongoDB only
-                    joinedFilter.put(joinedKey, item.getValue("_id"));
-                    return this.findOne(joinedCollection, joinedFilter);
-                }, operatorFun);
+            item -> {
+                final JsonObject joinedFilter = (null == additional) ? new JsonObject() : additional.copy();
+                // MongoDB only
+                joinedFilter.put(joinedKey, item.getValue("_id"));
+                return this.findOne(joinedCollection, joinedFilter);
+            }, operatorFun);
     }
 }

@@ -17,7 +17,7 @@ public class UxArrayTc extends ZeroBase {
         final JsonArray source = this.ioJArray("source.json");
         final JsonArray target = this.ioJArray("target.json");
         final JsonArray result =
-                Uarr.create(source).zip(target, "key", "roomId").to();
+            Uarr.create(source).zip(target, "key", "roomId").to();
         for (int idx = 0; idx < result.size(); idx++) {
             final JsonObject item = result.getJsonObject(idx);
             Assert.assertNotNull(item);

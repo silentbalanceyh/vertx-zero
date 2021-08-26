@@ -34,8 +34,8 @@ public class JqOut {
     }
 
     public static JsonArray toJoin(
-            final List<Record> records, final JsonArray projection,
-            final ConcurrentMap<String, String> fields, final Mojo mojo) {
+        final List<Record> records, final JsonArray projection,
+        final ConcurrentMap<String, String> fields, final Mojo mojo) {
         final JsonArray joinResult = new JsonArray();
         records.forEach(record -> {
             final int size = record.size();
@@ -85,13 +85,13 @@ public class JqOut {
              * Get all fields here
              */
             final String[] fields = Arrays.stream(Ut.fields(type))
-                    .map(java.lang.reflect.Field::getName)
-                    .filter(Objects::nonNull)
-                    /*
-                     * Calculated filtered fields by projections
-                     */
-                    .filter(item -> !projections.contains(item))
-                    .collect(Collectors.toSet()).toArray(new String[]{});
+                .map(java.lang.reflect.Field::getName)
+                .filter(Objects::nonNull)
+                /*
+                 * Calculated filtered fields by projections
+                 */
+                .filter(item -> !projections.contains(item))
+                .collect(Collectors.toSet()).toArray(new String[]{});
             for (String filtered : fields) {
                 list.forEach(entity -> Ut.field(entity, filtered, null));
             }
@@ -103,11 +103,11 @@ public class JqOut {
         if (!projections.isEmpty() && !Ut.isNil(data)) {
             Ut.itJArray(data).forEach(record -> {
                 final Set<String> filters = new HashSet<>(record.fieldNames()).stream()
-                        /*
-                         * Calculated filtered fields by projections
-                         */
-                        .filter(item -> !projections.contains(item))
-                        .collect(Collectors.toSet());
+                    /*
+                     * Calculated filtered fields by projections
+                     */
+                    .filter(item -> !projections.contains(item))
+                    .collect(Collectors.toSet());
                 filters.forEach(filtered -> record.remove(filtered));
             });
         }
@@ -119,10 +119,10 @@ public class JqOut {
         if (Objects.nonNull(mojo)) {
             /* Pojo file bind */
             projection.stream()
-                    .filter(Objects::nonNull)
-                    .map(field -> (String) field)
-                    .map(field -> mojo.getIn().get(field))
-                    .forEach(filters::add);
+                .filter(Objects::nonNull)
+                .map(field -> (String) field)
+                .map(field -> mojo.getIn().get(field))
+                .forEach(filters::add);
         } else {
             /* No Pojo file */
             filters.addAll(projection.getList());

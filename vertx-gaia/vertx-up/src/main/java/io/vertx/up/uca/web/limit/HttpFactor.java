@@ -29,7 +29,7 @@ public class HttpFactor extends AbstractFactor {
         }
     };
     private static final ConcurrentMap<ServerType, Class<?>> INTERNALS
-            = new ConcurrentHashMap<ServerType, Class<?>>() {
+        = new ConcurrentHashMap<ServerType, Class<?>>() {
         {
             this.put(ServerType.HTTP, ZeroHttpAgent.class);
             this.put(ServerType.SOCK, ZeroSockAgent.class);

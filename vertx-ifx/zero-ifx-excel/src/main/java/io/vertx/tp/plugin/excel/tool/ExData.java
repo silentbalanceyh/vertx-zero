@@ -25,7 +25,7 @@ class ExData {
     static void generateAdjust(final Sheet sheet, final List<Integer> sizeList) {
         // Adjust column width first
         final IntSummaryStatistics statistics =
-                sizeList.stream().mapToInt(Integer::intValue).summaryStatistics();
+            sizeList.stream().mapToInt(Integer::intValue).summaryStatistics();
         final int max = statistics.getMax();
         for (int idx = 0; idx < max; idx++) {
             sheet.autoSizeColumn(idx, true);

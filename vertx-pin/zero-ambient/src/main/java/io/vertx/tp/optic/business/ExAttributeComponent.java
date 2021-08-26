@@ -4,9 +4,9 @@ import io.vertx.core.MultiMap;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.ambient.uca.dict.Dpm;
-import io.vertx.up.eon.KName;
 import io.vertx.up.commune.exchange.DictEpsilon;
 import io.vertx.up.commune.exchange.DictSource;
+import io.vertx.up.eon.KName;
 import io.vertx.up.eon.em.GlossaryType;
 import io.vertx.up.util.Ut;
 
@@ -66,9 +66,9 @@ public abstract class ExAttributeComponent {
                 final JsonObject sourceParams = definition.getJsonObject(KName.SOURCE_PARAMS);
                 if (Ut.notNil(sourceParams)) {
                     sourceParams.stream()
-                            .filter(Objects::nonNull)
-                            .filter(entry -> Objects.nonNull(entry.getValue()))
-                            .forEach(entry -> paramMap.add(entry.getKey(), entry.getValue().toString()));
+                        .filter(Objects::nonNull)
+                        .filter(entry -> Objects.nonNull(entry.getValue()))
+                        .forEach(entry -> paramMap.add(entry.getKey(), entry.getValue().toString()));
                 }
                 sourceData.putAll(dpm.fetch(sourceDict, paramMap));
             }

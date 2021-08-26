@@ -36,10 +36,9 @@ public class Apt {
     private final static String MSG_APT_BATCH = "Current api does not support `isBatch = false`. Method = {0}";
 
     private final transient boolean isBatch;
+    private transient final ConcurrentMap<ChangeFlag, JsonArray> compared = new ConcurrentHashMap<>();
     private transient AptOp<JsonObject> single;
     private transient AptOp<JsonArray> batch;
-
-    private transient final ConcurrentMap<ChangeFlag, JsonArray> compared = new ConcurrentHashMap<>();
 
     // -------------  Private Construct Function --------------
     private Apt(final JsonObject original, final JsonObject current) {
@@ -79,8 +78,8 @@ public class Apt {
     @SuppressWarnings("unchecked")
     public <T> T dataO() {
         return this.isBatch ?
-                (T) this.batch.dataO() :
-                (T) this.single.dataO();
+            (T) this.batch.dataO() :
+            (T) this.single.dataO();
     }
 
     /* ChangeFlag, Return to change flag here, ADD / UPDATE / DELETE */
@@ -91,22 +90,22 @@ public class Apt {
     /* JsonObject / JsonArray Read current data T */
     public <T> T dataN() {
         return this.isBatch ?
-                (T) this.batch.dataN() :
-                (T) this.single.dataN();
+            (T) this.batch.dataN() :
+            (T) this.single.dataN();
     }
 
     /* Old Refer */
     public <T> T dataDft() {
         return this.isBatch ?
-                (T) this.batch.dataDft() :
-                (T) this.single.dataDft();
+            (T) this.batch.dataDft() :
+            (T) this.single.dataDft();
     }
 
     /*  `io` method is for current data updating, it will replace the latest data ( JsonObject / JsonArray ) */
     public <T> T dataN(final T updated) {
         return this.isBatch ?
-                (T) this.batch.set((JsonArray) updated) :
-                (T) this.single.set((JsonObject) updated);
+            (T) this.batch.set((JsonArray) updated) :
+            (T) this.single.set((JsonObject) updated);
     }
 
     public JsonArray dataS() {

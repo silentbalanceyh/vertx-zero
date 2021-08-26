@@ -37,7 +37,7 @@ class UiConfiguration {
      * Dynamic: read column information from database ( skip file )
      */
     private static final ConcurrentMap<String, JsonArray> COLUMN_MAP =
-            new ConcurrentHashMap<>();
+        new ConcurrentHashMap<>();
     private static UiConfig CONFIG = null;
 
     static void init() {

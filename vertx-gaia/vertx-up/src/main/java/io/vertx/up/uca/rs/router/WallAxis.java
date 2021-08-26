@@ -26,7 +26,7 @@ public class WallAxis implements Axis<Router> {
      * Extract all walls that will be generated route.
      */
     private static final Set<Cliff> WALLS =
-            ZeroAnno.getWalls();
+        ZeroAnno.getWalls();
 
     static {
         WALLS.forEach(wall -> {
@@ -58,8 +58,8 @@ public class WallAxis implements Axis<Router> {
             // 2. Path/Order to set Router
             if (null != handler) {
                 router.route(path).order(Orders.SECURE).handler(handler)
-                        // Shared Failure Handler
-                        .failureHandler(AuthenticateEndurer.create());
+                    // Shared Failure Handler
+                    .failureHandler(AuthenticateEndurer.create());
             }
             // 3. Wall Advanced, For user data filling.
             /*
@@ -76,6 +76,7 @@ public class WallAxis implements Axis<Router> {
      * Two mode for handler supported.
      *
      * @param cliffes Cliff in zero system.
+     *
      * @return Auth Handler that will be mount to vertx router.
      */
     private AuthHandler create(final Vertx vertx, final Set<Cliff> cliffes) {
@@ -84,8 +85,8 @@ public class WallAxis implements Axis<Router> {
             // 1 < handler
             final ChainAuthHandler chain = ChainAuthHandler.create();
             Observable.fromIterable(cliffes)
-                    .map(item -> bolt.mount(vertx, item))
-                    .subscribe(chain::append).dispose();
+                .map(item -> bolt.mount(vertx, item))
+                .subscribe(chain::append).dispose();
             resultHandler = chain;
         } else {
             // 1 = handler

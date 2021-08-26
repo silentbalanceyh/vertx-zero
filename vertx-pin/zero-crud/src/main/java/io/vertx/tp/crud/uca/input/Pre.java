@@ -47,6 +47,7 @@ public interface Pre {
     /*
      * 1) User information: user, habitus
      * 2) Auditor: createdAt / createdBy / updatedAt / updatedBy
+     * 3) Fabric for DictFabric
      */
     static Pre user() {
         return Fn.poolThread(Pooled.PRE_MAP, UserPre::new, UserPre.class.getName());
@@ -58,6 +59,10 @@ public interface Pre {
         } else {
             return Fn.poolThread(Pooled.PRE_MAP, UpdatePre::new, UpdatePre.class.getName());
         }
+    }
+
+    static Pre fabric() {
+        return Fn.poolThread(Pooled.PRE_MAP, FabricPre::new, FabricPre.class.getName());
     }
 
 

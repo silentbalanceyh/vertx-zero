@@ -12,12 +12,12 @@ public class BufferSaber extends BaseSaber {
     public Object from(final Class<?> paramType,
                        final String literal) {
         return Fn.getNull(() ->
-                        Fn.getSemi(Buffer.class == paramType, getLogger(),
-                                () -> {
-                                    final Buffer buffer = Buffer.buffer();
-                                    buffer.appendBytes(literal.getBytes(Values.DEFAULT_CHARSET));
-                                    return buffer;
-                                }, Buffer::buffer),
-                paramType, literal);
+                Fn.getSemi(Buffer.class == paramType, getLogger(),
+                    () -> {
+                        final Buffer buffer = Buffer.buffer();
+                        buffer.appendBytes(literal.getBytes(Values.DEFAULT_CHARSET));
+                        return buffer;
+                    }, Buffer::buffer),
+            paramType, literal);
     }
 }

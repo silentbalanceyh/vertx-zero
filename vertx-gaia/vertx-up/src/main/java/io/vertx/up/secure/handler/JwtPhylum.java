@@ -55,8 +55,8 @@ public class JwtPhylum extends AuthorizationAuthPhylum implements JwtOstium {
                      * }
                      */
                     handler.handle(Future.succeededFuture((new JsonObject())
-                            .put("jwt", parseAuthorization.result())
-                            .put("options", this.options)));
+                        .put("jwt", parseAuthorization.result())
+                        .put("options", this.options)));
                 }
             });
         }

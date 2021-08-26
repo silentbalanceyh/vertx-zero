@@ -113,7 +113,7 @@ public class JqTool {
         final JsonArray result = new JsonArray();
         final ConcurrentMap<String, String> mapping = joinMapping(mojo, ignoreSet);
         Ut.itJArray(projections, String.class, (item, index) ->
-                result.add((null == mapping.get(item)) ? item : mapping.get(item)));
+            result.add((null == mapping.get(item)) ? item : mapping.get(item)));
         return result;
     }
 

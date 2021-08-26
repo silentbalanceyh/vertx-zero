@@ -40,7 +40,7 @@ class FixedAgha extends AbstractAgha {
         JobClient.bind(jobId, mission.getCode());
         if (Debugger.onJooqCondition()) {
             this.getLogger().info(Info.JOB_INTERVAL, mission.getCode(),
-                    String.valueOf(delay), String.valueOf(mission.getDuration()), String.valueOf(jobId));
+                String.valueOf(delay), String.valueOf(mission.getDuration()), String.valueOf(jobId));
         }
         return future.future();
     }
@@ -54,7 +54,7 @@ class FixedAgha extends AbstractAgha {
             // Local
             final LocalDateTime datetime = Ut.toDuration(delay);
             this.getLogger().info(Info.JOB_DELAY, mission.getCode(),
-                    format.format(datetime));
+                format.format(datetime));
         }
         return delay < 0 ? 0L : delay;
     }

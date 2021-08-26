@@ -13,14 +13,14 @@ interface Pool {
     ConcurrentMap<Integer, Rotator> POOL_ROTATOR = new ConcurrentHashMap<>();
 
     ConcurrentMap<HttpMethod, Function<Integration, Rotator>> POOL_ROTATOR_FN =
-            new ConcurrentHashMap<HttpMethod, Function<Integration, Rotator>>() {
-                {
-                    this.put(HttpMethod.GET, GetRotator::new);
-                    this.put(HttpMethod.DELETE, DeleteRotator::new);
-                    this.put(HttpMethod.POST, PostRotator::new);
-                    this.put(HttpMethod.PUT, PutRotator::new);
-                }
-            };
+        new ConcurrentHashMap<HttpMethod, Function<Integration, Rotator>>() {
+            {
+                this.put(HttpMethod.GET, GetRotator::new);
+                this.put(HttpMethod.DELETE, DeleteRotator::new);
+                this.put(HttpMethod.POST, PostRotator::new);
+                this.put(HttpMethod.PUT, PutRotator::new);
+            }
+        };
 }
 
 interface Message {

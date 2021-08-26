@@ -22,9 +22,9 @@ class AoKey {
      */
     static String joinKey(final Model model) {
         return model.dbJoins().stream()
-                .map(MJoin::getEntityKey)
-                .filter(Objects::nonNull)
-                .findFirst().orElse(null);
+            .map(MJoin::getEntityKey)
+            .filter(Objects::nonNull)
+            .findFirst().orElse(null);
     }
 
     /*
@@ -38,11 +38,11 @@ class AoKey {
         // 2. 返回 join 中的主键部分的值
         final ConcurrentMap<String, Object> keyMap = new ConcurrentHashMap<>();
         joins.stream().map(MJoin::getEntityKey)
-                .filter(Objects::nonNull)
-                .filter(attribute -> record.fields().contains(attribute))
-                // Null Pointer Exception
-                .filter(attribute -> Objects.nonNull(record.get(attribute)))
-                .forEach(attribute -> keyMap.put(attribute, record.get(attribute)));
+            .filter(Objects::nonNull)
+            .filter(attribute -> record.fields().contains(attribute))
+            // Null Pointer Exception
+            .filter(attribute -> Objects.nonNull(record.get(attribute)))
+            .forEach(attribute -> keyMap.put(attribute, record.get(attribute)));
         return keyMap;
     }
 

@@ -23,8 +23,8 @@ public class QueueInquirer implements Inquirer<Set<Class<?>>> {
     @Override
     public Set<Class<?>> scan(final Set<Class<?>> classes) {
         final Set<Class<?>> queues = classes.stream()
-                .filter((item) -> item.isAnnotationPresent(Queue.class))
-                .collect(Collectors.toSet());
+            .filter((item) -> item.isAnnotationPresent(Queue.class))
+            .collect(Collectors.toSet());
         LOGGER.info(Info.SCANED_QUEUE, queues.size());
         this.ensure(queues);
         return queues;
@@ -32,17 +32,17 @@ public class QueueInquirer implements Inquirer<Set<Class<?>>> {
 
     private void ensure(final Set<Class<?>> clazzes) {
         Observable.fromIterable(clazzes)
-                .map(Class::getDeclaredMethods)
-                .flatMap(Observable::fromArray)
-                .filter(method -> method.isAnnotationPresent(Address.class))
-                .subscribe(method -> {
-                    final Class<?> returnType = method.getReturnType();
-                    final Class<?> parameterTypes = method.getParameterTypes()[0];
-                    if (Message.class.isAssignableFrom(parameterTypes)) {
-                        Fn.outUp(void.class != returnType && Void.class != returnType, LOGGER,
-                                WorkerConflictException.class, this.getClass(), method);
-                    }
-                })
-                .dispose();
+            .map(Class::getDeclaredMethods)
+            .flatMap(Observable::fromArray)
+            .filter(method -> method.isAnnotationPresent(Address.class))
+            .subscribe(method -> {
+                final Class<?> returnType = method.getReturnType();
+                final Class<?> parameterTypes = method.getParameterTypes()[0];
+                if (Message.class.isAssignableFrom(parameterTypes)) {
+                    Fn.outUp(void.class != returnType && Void.class != returnType, LOGGER,
+                        WorkerConflictException.class, this.getClass(), method);
+                }
+            })
+            .dispose();
     }
 }

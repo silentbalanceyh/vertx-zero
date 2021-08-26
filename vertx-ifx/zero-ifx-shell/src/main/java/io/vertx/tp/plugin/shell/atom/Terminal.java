@@ -22,7 +22,7 @@ import java.util.concurrent.ConcurrentMap;
 public class Terminal {
 
     private static final transient UpException ERROR_ARG_MISSING =
-            new CommandMissingException(Terminal.class);
+        new CommandMissingException(Terminal.class);
     private static final ConcurrentMap<Integer, Scanner> POOL_SCANNER = new ConcurrentHashMap<>();
 
     private final transient Scanner scanner;
@@ -106,8 +106,8 @@ public class Terminal {
              * Normalize
              */
             normalized = Arrays.stream(interactArgs)
-                    .map(String::trim)
-                    .toArray(String[]::new);
+                .map(String::trim)
+                .toArray(String[]::new);
         } else {
             normalized = interactArgs;
         }

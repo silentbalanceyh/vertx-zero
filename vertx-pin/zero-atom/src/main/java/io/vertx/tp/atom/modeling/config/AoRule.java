@@ -251,8 +251,8 @@ public class AoRule implements Serializable {
         this.condition(this.conditions).forEach(field -> {
             final String target = this.conditions.getString(field);
             final Set<Object> values = Arrays.stream(records)
-                    .map(record -> record.get(target))
-                    .filter(Objects::nonNull).collect(Collectors.toSet());
+                .map(record -> record.get(target))
+                .filter(Objects::nonNull).collect(Collectors.toSet());
             final JsonArray valueArray = Ut.toJArray(values);
             if (Ut.notNil(valueArray)) {
                 tpl.put(field, Ut.toJArray(values));
@@ -272,11 +272,11 @@ public class AoRule implements Serializable {
      */
     private Stream<String> condition(final JsonObject condition) {
         return condition.fieldNames().stream()
-                // 过滤条件
-                .filter(Ut::notNil)
-                // 过滤空
-                .filter(field -> Objects.nonNull(condition.getValue(field)))
-                // 过滤非String类型
-                .filter(field -> condition.getValue(field) instanceof String);
+            // 过滤条件
+            .filter(Ut::notNil)
+            // 过滤空
+            .filter(field -> Objects.nonNull(condition.getValue(field)))
+            // 过滤非String类型
+            .filter(field -> condition.getValue(field) instanceof String);
     }
 }

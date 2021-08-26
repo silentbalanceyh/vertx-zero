@@ -25,9 +25,10 @@ public interface Analyzer extends Income<Object[]> {
      *
      * @param envelop
      * @param event
+     *
      * @return
      * @throws WebException
      */
     Envelop out(Envelop envelop, Event event)
-            throws WebException;
+        throws WebException;
 }

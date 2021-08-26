@@ -5,8 +5,8 @@ import cn.vertxup.atom.domain.tables.pojos.MField;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.atom.cv.em.AttributeType;
-import io.vertx.up.eon.KName;
 import io.vertx.up.commune.element.TypeField;
+import io.vertx.up.eon.KName;
 import io.vertx.up.eon.em.DataFormat;
 import io.vertx.up.util.Ut;
 

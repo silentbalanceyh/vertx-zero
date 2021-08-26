@@ -53,7 +53,7 @@ class KeyDefault implements AoDefault {
         final KeyType type = Ut.toEnum(KeyType.class, key.getString("type"));
         final StringBuilder name = new StringBuilder();
         name.append(KeyType.PRIMARY == type ? "PK_" : "UK_");
-        name.append(this.entity.getTableName()).append('_');
+        name.append(this.entity.getTableName()).append('_' );
         // 列名
         final JsonArray columns = this.getColumns(key);
         final Set<String> columnSet = new TreeSet<>();

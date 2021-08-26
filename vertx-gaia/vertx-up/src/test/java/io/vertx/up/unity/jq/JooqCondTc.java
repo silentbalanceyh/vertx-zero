@@ -25,7 +25,7 @@ public class JooqCondTc extends JooqBase {
         final Condition condition = this.condAnd("existsOneAsync.json");
         // Expected
         final Condition expected = this.eq("name", "Lang")
-                .and(this.eq("code", "Test"));
+            .and(this.eq("code", "Test"));
         Assert.assertEquals(condition, expected);
     }
 
@@ -35,7 +35,7 @@ public class JooqCondTc extends JooqBase {
         final Condition condition = this.condAnd("existsOneAsync2.json");
         // Expected
         final Condition expected = this.eq("name", "Lang")
-                .and(this.eq("code", "Test"));
+            .and(this.eq("code", "Test"));
         Assert.assertEquals(condition, expected);
     }
 
@@ -44,7 +44,7 @@ public class JooqCondTc extends JooqBase {
         final Condition condition = this.condAnd("fetchOneAnyAsync.json");
         // Expected
         final Condition expected = this.eq("name", "Lang")
-                .and(this.eq("code", "Test"));
+            .and(this.eq("code", "Test"));
         Assert.assertEquals(condition, expected);
     }
 }

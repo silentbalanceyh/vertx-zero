@@ -63,8 +63,8 @@ public class HelpCommander extends AbstractCommander {
 
     private CommandAtom findAtom(final List<CommandAtom> atomList, final String command) {
         return atomList.stream()
-                .filter(atom -> command.equals(atom.getName()) || command.equals(atom.getSimple()))
-                .findAny().orElse(null);
+            .filter(atom -> command.equals(atom.getName()) || command.equals(atom.getSimple()))
+            .findAny().orElse(null);
     }
 
     private void printCommands(final List<CommandAtom> atoms) {
@@ -106,11 +106,11 @@ public class HelpCommander extends AbstractCommander {
         final String header = Sl.message("header", () -> "Zero Framework Console/Shell!");
         /* command */
         String usage = Sl.message("usage", () -> "Basic Syntax: <command> [options...]" +
-                "\tCommand Name: {0}, Command Type: {1}" +
-                "\tOptions Format: [-opt1 value1 -opt2 value2]");
+            "\tCommand Name: {0}, Command Type: {1}" +
+            "\tOptions Format: [-opt1 value1 -opt2 value2]");
         usage = MessageFormat.format(usage,
-                Log.color(atom.getName(), Log.COLOR_CYAN, true),
-                Log.color(atom.getType().name(), Log.COLOR_CYAN, true));
+            Log.color(atom.getName(), Log.COLOR_CYAN, true),
+            Log.color(atom.getType().name(), Log.COLOR_CYAN, true));
 
         /* Help */
         final HelpFormatter formatter = new HelpFormatter();

@@ -7,42 +7,49 @@ public interface RetryInfoOrBuilder extends
     // @@protoc_insertion_point(interface_extends:io.vertx.tp.ipc.eon.RetryInfo)
     com.google.protobuf.MessageOrBuilder {
 
-  /**
-   * <pre>
-   * Whether authorized
-   * </pre>
-   *
-   * <code>bool passed = 1;</code>
-   * @return The passed.
-   */
-  boolean getPassed();
+    /**
+     * <pre>
+     * Whether authorized
+     * </pre>
+     *
+     * <code>bool passed = 1;</code>
+     *
+     * @return The passed.
+     */
+    boolean getPassed();
 
-  /**
-   * <pre>
-   * Backoff
-   * </pre>
-   *
-   * <code>repeated int32 backoff_ms = 2;</code>
-   * @return A list containing the backoffMs.
-   */
-  java.util.List<java.lang.Integer> getBackoffMsList();
-  /**
-   * <pre>
-   * Backoff
-   * </pre>
-   *
-   * <code>repeated int32 backoff_ms = 2;</code>
-   * @return The count of backoffMs.
-   */
-  int getBackoffMsCount();
-  /**
-   * <pre>
-   * Backoff
-   * </pre>
-   *
-   * <code>repeated int32 backoff_ms = 2;</code>
-   * @param index The index of the element to return.
-   * @return The backoffMs at the given index.
-   */
-  int getBackoffMs(int index);
+    /**
+     * <pre>
+     * Backoff
+     * </pre>
+     *
+     * <code>repeated int32 backoff_ms = 2;</code>
+     *
+     * @return A list containing the backoffMs.
+     */
+    java.util.List<java.lang.Integer> getBackoffMsList();
+
+    /**
+     * <pre>
+     * Backoff
+     * </pre>
+     *
+     * <code>repeated int32 backoff_ms = 2;</code>
+     *
+     * @return The count of backoffMs.
+     */
+    int getBackoffMsCount();
+
+    /**
+     * <pre>
+     * Backoff
+     * </pre>
+     *
+     * <code>repeated int32 backoff_ms = 2;</code>
+     *
+     * @param index The index of the element to return.
+     *
+     * @return The backoffMs at the given index.
+     */
+    int getBackoffMs(int index);
 }

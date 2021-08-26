@@ -43,11 +43,11 @@ class Plugin {
     }
 
     static Future<Envelop> mountPlugin(
-            final String key,
-            /* No plugin, returned original Future<Envelop> */
-            final Envelop envelop,
-            /* Internal function for generation of Envelop */
-            final BiFunction<Class<?>, JsonObject, Future<Envelop>> function) {
+        final String key,
+        /* No plugin, returned original Future<Envelop> */
+        final Envelop envelop,
+        /* Internal function for generation of Envelop */
+        final BiFunction<Class<?>, JsonObject, Future<Envelop>> function) {
         if (PLUGIN_CONFIG.containsKey(key)) {
             final JsonObject metadata = PLUGIN_CONFIG.getJsonObject(key);
             final Class<?> pluginCls = Ut.clazz(metadata.getString("component"));

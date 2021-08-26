@@ -10,7 +10,7 @@ import io.vertx.up.util.Ut;
 public class JArrayOpts implements Visitor<JsonArray> {
 
     private static final Node<JsonObject> NODE
-            = Ut.singleton(ZeroVertx.class);
+        = Ut.singleton(ZeroVertx.class);
 
     @Override
     public JsonArray visit(final String... nodes) {

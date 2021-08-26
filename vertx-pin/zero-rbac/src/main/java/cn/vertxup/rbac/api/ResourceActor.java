@@ -32,25 +32,29 @@ public class ResourceActor {
          * - The permissionId ( S_ACTION ) could be null when the new resource created.
          */
         Sc.infoWeb(this.getClass(),
-                "The criteria of input parameters: {0}", query.encode());
+            "The criteria of input parameters: {0}", query.encode());
         return Ux.Join.on()
-                /*
-                 * Join in jooq here:
-                 *
-                 * S_RESOURCE ( key )
-                 *      JOIN
-                 * S_ACTION ( resourceId )
-                 */
-                .add(SResourceDao.class)
-                .join(SActionDao.class, "resourceId")
-                .searchAsync(query);
+            /*
+             * Join in jooq here:
+             *
+             * S_RESOURCE ( key )
+             *      JOIN
+             * S_ACTION ( resourceId )
+             */
+            .add(SResourceDao.class)
+            .join(SActionDao.class, "resourceId")
+            .searchAsync(query);
     }
 
     @Address(Addr.Authority.RESOURCE_GET_CASCADE)
-    public Future<JsonObject> getById(String key) {return this.resourceStub.fetchResource(key);}
+    public Future<JsonObject> getById(String key) {
+        return this.resourceStub.fetchResource(key);
+    }
 
     @Address(Addr.Authority.RESOURCE_ADD_CASCADE)
-    public Future<JsonObject> create(final JsonObject data) {return this.resourceStub.createResource(data);}
+    public Future<JsonObject> create(final JsonObject data) {
+        return this.resourceStub.createResource(data);
+    }
 
     @Address(Addr.Authority.RESOURCE_UPDATE_CASCADE)
     public Future<JsonObject> update(final String key, final JsonObject data) {
@@ -58,5 +62,7 @@ public class ResourceActor {
     }
 
     @Address(Addr.Authority.RESOURCE_DELETE_CASCADE)
-    public Future<Boolean> delete(final String key) {return this.resourceStub.deleteResource(key);}
+    public Future<Boolean> delete(final String key) {
+        return this.resourceStub.deleteResource(key);
+    }
 }

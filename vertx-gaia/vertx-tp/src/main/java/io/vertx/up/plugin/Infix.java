@@ -14,22 +14,22 @@ import java.util.function.Function;
 interface InfixTool {
 
     static JsonObject init(
-            final Annal logger,
-            final String key,
-            final Class<?> clazz) {
+        final Annal logger,
+        final String key,
+        final Class<?> clazz) {
         final Node<JsonObject> node = Ut.instance(ZeroUniform.class);
         final JsonObject options = node.read();
         Fn.outUp(null == options || !options.containsKey(key)
-                , logger, ConfigKeyMissingException.class,
-                clazz, key);
+            , logger, ConfigKeyMissingException.class,
+            clazz, key);
         return options;
     }
 
     static <R> R init(
-            final Annal logger,
-            final String key,
-            final JsonObject config,
-            final Function<JsonObject, R> executor) {
+        final Annal logger,
+        final String key,
+        final JsonObject config,
+        final Function<JsonObject, R> executor) {
         Fn.outUp(() -> Ruler.verify(key, config), logger);
         // Copy the JsonObject of configuration
         return executor.apply(config.copy());
@@ -59,7 +59,7 @@ public interface Infix {
         final Annal logger = Annal.get(clazz);
         final JsonObject options = InfixTool.init(logger, key, clazz);
         return InfixTool.init(logger, key,
-                Ut.sureJObject(options.getJsonObject(key)), executor);
+            Ut.sureJObject(options.getJsonObject(key)), executor);
     }
 
     <T> T get();

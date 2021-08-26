@@ -27,15 +27,15 @@ public class AppInit implements Init {
             /* Deserialization */
             final XApp app = this.init(appJson);
             return Ux.Jooq.on(XAppDao.class)
-                    /*
-                     * Init first step: UPSERT ( Insert / Update )
-                     */
-                    .upsertAsync(this.whereUnique(appJson), app)
-                    .compose(Ux::futureJ)
-                    /*
-                     * Result Building
-                     */
-                    .compose(input -> Ux.future(this.result(input, appJson)));
+                /*
+                 * Init first step: UPSERT ( Insert / Update )
+                 */
+                .upsertAsync(this.whereUnique(appJson), app)
+                .compose(Ux::futureJ)
+                /*
+                 * Result Building
+                 */
+                .compose(input -> Ux.future(this.result(input, appJson)));
         };
     }
 

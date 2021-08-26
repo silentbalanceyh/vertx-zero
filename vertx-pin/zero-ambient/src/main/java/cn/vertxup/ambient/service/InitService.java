@@ -49,18 +49,18 @@ public class InitService implements InitStub {
                                            final JsonObject data) {
         /* Default Future */
         return Ux.future(data.put(KName.KEY, appId))
-                /* X_APP initialization */
-                .compose(At.initApp().apply())
-                /* X_SOURCE initialization */
-                .compose(At.initSource().apply())
-                /* Database initialization */
-                .compose(At.initDatabase().apply())
-                /* Extension initialization */
-                .compose(this::initDefined)
-                /* Data Loading */
-                .compose(At.initData().apply())
-                /* Image */
-                .compose(Ke.mountArray(KName.App.LOGO));
+            /* X_APP initialization */
+            .compose(At.initApp().apply())
+            /* X_SOURCE initialization */
+            .compose(At.initSource().apply())
+            /* Database initialization */
+            .compose(At.initDatabase().apply())
+            /* Extension initialization */
+            .compose(this::initDefined)
+            /* Data Loading */
+            .compose(At.initData().apply())
+            /* Image */
+            .compose(Ke.mountArray(KName.App.LOGO));
     }
 
     /**
@@ -75,8 +75,8 @@ public class InitService implements InitStub {
     @Override
     public Future<JsonObject> initEdition(final String appName) {
         return this.initModeling(appName)
-                /* Data Loading */
-                .compose(At.initData().apply());
+            /* Data Loading */
+            .compose(At.initData().apply());
     }
 
     /**
@@ -114,14 +114,14 @@ public class InitService implements InitStub {
     public Future<JsonObject> initModeling(final String appName) {
         /* Fetch App */
         return Ux.Jooq.on(XAppDao.class)
-                /* X_APP Fetching */
-                .fetchOneAsync(KName.NAME, appName)
-                .compose(Ux::futureJ)
-                /* X_SOURCE fetching, Fetching skip Database initialization */
-                .compose(this::initCombine)
-                .compose(this::initDefined)
-                /* Image */
-                .compose(Ke.mountArray(KName.App.LOGO));
+            /* X_APP Fetching */
+            .fetchOneAsync(KName.NAME, appName)
+            .compose(Ux::futureJ)
+            /* X_SOURCE fetching, Fetching skip Database initialization */
+            .compose(this::initCombine)
+            .compose(this::initDefined)
+            /* Image */
+            .compose(Ke.mountArray(KName.App.LOGO));
     }
 
     /**
@@ -133,7 +133,7 @@ public class InitService implements InitStub {
      */
     private Future<JsonObject> initCombine(final JsonObject appJson) {
         return this.stub.fetchSource(appJson.getString(KName.KEY))
-                .compose(source -> Uson.create(appJson).append(KName.SOURCE, source).toFuture());
+            .compose(source -> Uson.create(appJson).append(KName.SOURCE, source).toFuture());
     }
 
     /**

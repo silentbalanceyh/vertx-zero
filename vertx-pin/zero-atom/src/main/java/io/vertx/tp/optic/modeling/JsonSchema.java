@@ -7,8 +7,8 @@ import cn.vertxup.atom.domain.tables.pojos.MKey;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.atom.modeling.Schema;
-import io.vertx.up.eon.KName;
 import io.vertx.tp.modular.apply.AoDefault;
+import io.vertx.up.eon.KName;
 import io.vertx.up.util.Ut;
 import org.jooq.tools.StringUtils;
 
@@ -22,11 +22,11 @@ import java.util.stream.Collectors;
 public class JsonSchema implements Schema {
 
     private final transient ConcurrentMap<String, MKey> keys =
-            new ConcurrentHashMap<>();
+        new ConcurrentHashMap<>();
     private final transient ConcurrentMap<String, MField> fields =
-            new ConcurrentHashMap<>();
+        new ConcurrentHashMap<>();
     private final transient ConcurrentMap<String, MIndex> indexes =
-            new ConcurrentHashMap<>();
+        new ConcurrentHashMap<>();
 
     private final transient String namespace;
     private transient String identifier;
@@ -44,8 +44,8 @@ public class JsonSchema implements Schema {
     @Override
     public Set<String> getFieldNames() {
         return this.fields.values().stream()
-                .map(MField::getName)
-                .collect(Collectors.toSet());
+            .map(MField::getName)
+            .collect(Collectors.toSet());
     }
 
     @Override
@@ -66,8 +66,8 @@ public class JsonSchema implements Schema {
     @Override
     public MField getFieldByColumn(final String column) {
         return this.fields.values().stream()
-                .filter(field -> StringUtils.equals(field.getColumnName(), column))
-                .findFirst().orElse(null);
+            .filter(field -> StringUtils.equals(field.getColumnName(), column))
+            .findFirst().orElse(null);
     }
 
     @Override
@@ -81,8 +81,8 @@ public class JsonSchema implements Schema {
     @Override
     public Set<String> getColumnNames() {
         return this.fields.values().stream()
-                .map(MField::getColumnName)
-                .collect(Collectors.toSet());
+            .map(MField::getColumnName)
+            .collect(Collectors.toSet());
     }
 
     /**
@@ -91,8 +91,8 @@ public class JsonSchema implements Schema {
     @Override
     public List<MField> getPrimaryKeys() {
         return this.fields.values().stream()
-                .filter(MField::getIsPrimary)
-                .collect(Collectors.toList());
+            .filter(MField::getIsPrimary)
+            .collect(Collectors.toList());
     }
 
     /**
@@ -215,11 +215,11 @@ public class JsonSchema implements Schema {
         content.append("\n\t").append(this.entity.toString());
         content.append("\nkeys :");
         this.keys.forEach((k, v) -> content.append("\n\t")
-                .append(k).append(" = ").append(v.toString())
+            .append(k).append(" = ").append(v.toString())
         );
         content.append("\nfields :");
         this.fields.forEach((k, v) -> content.append("\n\t")
-                .append(k).append(" = ").append(v.toString())
+            .append(k).append(" = ").append(v.toString())
         );
         content.append("\n-- Schema End --------------------------------\n");
         return content.toString();
@@ -236,7 +236,7 @@ public class JsonSchema implements Schema {
         }
         final JsonSchema that = (JsonSchema) o;
         return Objects.equals(this.identifier, that.identifier) &&
-                Objects.equals(this.entity.getNamespace(), that.entity.getNamespace());
+            Objects.equals(this.entity.getNamespace(), that.entity.getNamespace());
     }
 
     @Override

@@ -171,14 +171,14 @@ public class ZeroSerializationTc extends ZeroBase {
     @Test
     public void testSet3() {
         get(Set.class, "[\n" +
-                "\t{\n" +
-                "\t\t\"username\":\"Lang\",\n" +
-                "\t\t\"age\":33\n" +
-                "\t},\n" +
-                "\t{\n" +
-                "\t\t\"username\":\"Xi\",\n" +
-                "\t\t\"email\":\"lang.xi@hpe.com\"\n" +
-                "\t}\n" +
-                "]");
+            "\t{\n" +
+            "\t\t\"username\":\"Lang\",\n" +
+            "\t\t\"age\":33\n" +
+            "\t},\n" +
+            "\t{\n" +
+            "\t\t\"username\":\"Xi\",\n" +
+            "\t\t\"email\":\"lang.xi@hpe.com\"\n" +
+            "\t}\n" +
+            "]");
     }
 }

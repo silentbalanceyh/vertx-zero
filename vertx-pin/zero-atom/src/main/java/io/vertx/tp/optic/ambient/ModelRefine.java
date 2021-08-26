@@ -38,13 +38,13 @@ class ModelRefine implements AoRefine {
             final String namespace = Model.namespace(name);
             final Set<Model> models = new HashSet<>();
             Ut.itJArray(modelJson).map(data -> Model.instance(namespace, data))
-                    .forEach(models::add);
+                .forEach(models::add);
             Ao.infoUca(this.getClass(), "3. AoRefine.model(): {0}", String.valueOf(models.size()));
             // 1. 更新某一个模型
             final List<Future<JsonObject>> futures = new ArrayList<>();
             models.stream().map(this::saveModelAsync).forEach(futures::add);
             return Ux.thenCombine(futures)
-                    .compose(nil -> Ux.future(appJson));
+                .compose(nil -> Ux.future(appJson));
         };
     }
 
@@ -55,25 +55,25 @@ class ModelRefine implements AoRefine {
         final Promise<JsonObject> promise = Promise.promise();
         final WorkerExecutor executor = Ux.nativeWorker("model - " + model.identifier());
         executor.<JsonObject>executeBlocking(
-                pre -> {
-                    // Model -> Attributes 批量执行
-                    final List<Future<JsonArray>> futures = new ArrayList<>();
-                    futures.add(this.saveAttrAsync(model));
-                    // Model -> 插入 Model
-                    futures.add(this.saveJoinAsync(model));
-                    // Entity
-                    final MModel entity = model.dbModel();
-                    final JsonObject criteria = new JsonObject();
-                    criteria.put(KName.NAMESPACE, entity.getNamespace());
-                    criteria.put(KName.IDENTIFIER, entity.getIdentifier());
-                    Ao.infoUca(this.getClass(), "3. AoRefine.model(): Model `{0}`, Upsert Criteria = `{1}`",
-                            entity.getIdentifier(), criteria.encode());
-                    final Future<JsonObject> execute = Ux.thenCombineArray(futures)
-                            .compose(nil -> Ux.Jooq.on(MModelDao.class).upsertAsync(criteria, model.dbModel()))
-                            .compose(Ux::futureJ);
-                    execute.onSuccess(pre::complete);
-                },
-                post -> promise.complete(post.result())
+            pre -> {
+                // Model -> Attributes 批量执行
+                final List<Future<JsonArray>> futures = new ArrayList<>();
+                futures.add(this.saveAttrAsync(model));
+                // Model -> 插入 Model
+                futures.add(this.saveJoinAsync(model));
+                // Entity
+                final MModel entity = model.dbModel();
+                final JsonObject criteria = new JsonObject();
+                criteria.put(KName.NAMESPACE, entity.getNamespace());
+                criteria.put(KName.IDENTIFIER, entity.getIdentifier());
+                Ao.infoUca(this.getClass(), "3. AoRefine.model(): Model `{0}`, Upsert Criteria = `{1}`",
+                    entity.getIdentifier(), criteria.encode());
+                final Future<JsonObject> execute = Ux.thenCombineArray(futures)
+                    .compose(nil -> Ux.Jooq.on(MModelDao.class).upsertAsync(criteria, model.dbModel()))
+                    .compose(Ux::futureJ);
+                execute.onSuccess(pre::complete);
+            },
+            post -> promise.complete(post.result())
         );
         return promise.future();
     }
@@ -92,7 +92,7 @@ class ModelRefine implements AoRefine {
         // 1. 构造属性专用条件
         final JsonObject criteria = new JsonObject();
         model.dbAttributes().stream().map(fnQuery)
-                .forEach(each -> criteria.put("$" + each.hashCode(), each));
+            .forEach(each -> criteria.put("$" + each.hashCode(), each));
         criteria.put(Strings.EMPTY, Boolean.FALSE);
         // 2. 从数据库中读取原始属性
         final UxJooq jooqAttr = Ux.Jooq.on(MAttributeDao.class);
@@ -121,7 +121,7 @@ class ModelRefine implements AoRefine {
         // 1. 构造链接条件
         final JsonObject criteria = new JsonObject();
         model.dbJoins().stream().map(fnQuery)
-                .forEach(each -> criteria.put("$" + each.hashCode(), each));
+            .forEach(each -> criteria.put("$" + each.hashCode(), each));
         // 2. 从数据库中读取初始属性
         final UxJooq jooqJoin = Ux.Jooq.on(MJoinDao.class);
         return jooqJoin.<MJoin>fetchAsync(criteria).compose(original -> {

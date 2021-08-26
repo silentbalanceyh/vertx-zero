@@ -118,7 +118,7 @@ public class RDao {
                  */
                 final AoDao daoD = this.daoD();
                 return daoD.fetchAsync(condition)
-                        .compose(Ux::futureA);
+                    .compose(Ux::futureA);
             }
         }
     }
@@ -131,12 +131,12 @@ public class RDao {
                 return Ux.Jooq.on(source.getClassDao()).fetchJ(condition);
             } else {
                 return Ux.Join.on()
-                        /*
-                         * Join source / target.
-                         */
-                        .add(source.getClassDao(), source.getKeyJoin())
-                        .join(target.getClassDao(), target.getKeyJoin())
-                        .fetch(condition);
+                    /*
+                     * Join source / target.
+                     */
+                    .add(source.getClassDao(), source.getKeyJoin())
+                    .join(target.getClassDao(), target.getKeyJoin())
+                    .fetch(condition);
             }
         };
     }
@@ -149,12 +149,12 @@ public class RDao {
                 return Ux.Jooq.on(source.getClassDao()).fetchJAsync(condition);
             } else {
                 return Ux.Join.on()
-                        /*
-                         * Join source / target.
-                         */
-                        .add(source.getClassDao(), source.getKeyJoin())
-                        .join(target.getClassDao(), target.getKeyJoin())
-                        .fetchAsync(condition);
+                    /*
+                     * Join source / target.
+                     */
+                    .add(source.getClassDao(), source.getKeyJoin())
+                    .join(target.getClassDao(), target.getKeyJoin())
+                    .fetchAsync(condition);
             }
         };
     }

@@ -4,10 +4,10 @@ import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.ke.atom.KCredential;
-import io.vertx.up.eon.KName;
 import io.vertx.tp.ke.refine.Ke;
 import io.vertx.tp.optic.Credential;
 import io.vertx.tp.optic.business.ExModel;
+import io.vertx.up.eon.KName;
 import io.vertx.up.exception.web._400BadRequestException;
 import io.vertx.up.exception.web._400SigmaMissingException;
 import io.vertx.up.unity.Ux;
@@ -30,8 +30,8 @@ public abstract class AbstractIdc implements IdcStub {
     protected <T> Future<T> credential(final Supplier<Future<T>> supplier,
                                        final Function<KCredential, Future<T>> executor) {
         return Ke.channelAsync(Credential.class, supplier,
-                stub -> stub.fetchAsync(this.sigma)
-                        .compose(executor));
+            stub -> stub.fetchAsync(this.sigma)
+                .compose(executor));
     }
 
     /*
@@ -39,29 +39,29 @@ public abstract class AbstractIdc implements IdcStub {
      */
     protected Future<JsonArray> model(final JsonArray userJson) {
         return Ke.channelAsync(ExModel.class,
-                () -> Ux.future(userJson),
-                stub -> stub.keyAsync(this.sigma, userJson).compose(keyMap -> {
+            () -> Ux.future(userJson),
+            stub -> stub.keyAsync(this.sigma, userJson).compose(keyMap -> {
+                /*
+                 * Reference modification
+                 */
+                Ut.itJArray(userJson).forEach(user -> {
                     /*
-                     * Reference modification
+                     * Fix issue of `modelKey` injection
                      */
-                    Ut.itJArray(userJson).forEach(user -> {
+                    final String username = user.getString(KName.USERNAME);
+                    final JsonObject data = keyMap.get(username);
+                    if (Ut.notNil(data)) {
                         /*
-                         * Fix issue of `modelKey` injection
+                         * Replace
+                         * - modelKey
+                         * - modelId
+                         * .etc here
                          */
-                        final String username = user.getString(KName.USERNAME);
-                        final JsonObject data = keyMap.get(username);
-                        if (Ut.notNil(data)) {
-                            /*
-                             * Replace
-                             * - modelKey
-                             * - modelId
-                             * .etc here
-                             */
-                            user.mergeIn(data.copy(), true);
-                        }
-                    });
-                    return Ux.future(userJson);
-                })
+                        user.mergeIn(data.copy(), true);
+                    }
+                });
+                return Ux.future(userJson);
+            })
         );
     }
 

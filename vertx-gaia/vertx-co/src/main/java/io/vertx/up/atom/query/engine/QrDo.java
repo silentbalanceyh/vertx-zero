@@ -13,6 +13,44 @@ import java.util.function.BiConsumer;
 public interface QrDo {
 
     /**
+     * Create new QrDo reference.
+     *
+     * @param data {@link io.vertx.core.json.JsonObject} Input json object.
+     *
+     * @return {@link QrDo}
+     */
+    static QrDo create(final JsonObject data) {
+        return new QrAnalyzer(data);
+    }
+
+    /**
+     * Check whether json object is complex
+     *
+     * 1. When any one value is `JsonObject`, it's true.
+     * 2. otherwise the result is false.
+     *
+     * @param source {@link io.vertx.core.json.JsonObject} input json
+     *
+     * @return {@link java.lang.Boolean}
+     */
+    static boolean isComplex(final JsonObject source) {
+        return QrAnalyzer.isComplex(source);
+    }
+
+    @SuppressWarnings("all")
+    static JsonArray combine(final Object newItem, final Object oldItem, final Boolean isAnd) {
+        // The operator will not be changed.
+        final JsonArray newSet = (JsonArray) newItem;
+        final JsonArray oldSet = (JsonArray) oldItem;
+        final List result = isAnd ?
+            // Two collection and
+            Ut.intersect(newSet.getList(), oldSet.getList()) :
+            // Two collection union
+            Ut.union(newSet.getList(), oldSet.getList());
+        return new JsonArray(result);
+    }
+
+    /**
      * Save new condition to LINEAR component.
      *
      * The parameters are following format:
@@ -55,42 +93,4 @@ public interface QrDo {
      * @return {@link JsonObject}
      */
     JsonObject toJson();
-
-    /**
-     * Create new QrDo reference.
-     *
-     * @param data {@link io.vertx.core.json.JsonObject} Input json object.
-     *
-     * @return {@link QrDo}
-     */
-    static QrDo create(final JsonObject data) {
-        return new QrAnalyzer(data);
-    }
-
-    /**
-     * Check whether json object is complex
-     *
-     * 1. When any one value is `JsonObject`, it's true.
-     * 2. otherwise the result is false.
-     *
-     * @param source {@link io.vertx.core.json.JsonObject} input json
-     *
-     * @return {@link java.lang.Boolean}
-     */
-    static boolean isComplex(final JsonObject source) {
-        return QrAnalyzer.isComplex(source);
-    }
-
-    @SuppressWarnings("all")
-    static JsonArray combine(final Object newItem, final Object oldItem, final Boolean isAnd) {
-        // The operator will not be changed.
-        final JsonArray newSet = (JsonArray) newItem;
-        final JsonArray oldSet = (JsonArray) oldItem;
-        final List result = isAnd ?
-                // Two collection and
-                Ut.intersect(newSet.getList(), oldSet.getList()) :
-                // Two collection union
-                Ut.union(newSet.getList(), oldSet.getList());
-        return new JsonArray(result);
-    }
 }

@@ -28,10 +28,10 @@ public class AgentScatter implements Scatter<Vertx> {
         /* 1.Find Agent for deploy **/
         final ConcurrentMap<ServerType, Class<?>> agents = this.factor.agents();
         final Extractor<DeploymentOptions> extractor =
-                Ut.instance(AgentExtractor.class);
+            Ut.instance(AgentExtractor.class);
         /* 2.Record options**/
         final ConcurrentMap<Class<?>, DeploymentOptions> options =
-                new ConcurrentHashMap<>();
+            new ConcurrentHashMap<>();
         Ut.itMap(agents, (type, clazz) -> {
             // 3.1 Agent deployment options
             final DeploymentOptions option = extractor.extract(clazz);
@@ -41,10 +41,10 @@ public class AgentScatter implements Scatter<Vertx> {
         });
         // Runtime hooker
         Runtime.getRuntime().addShutdownHook(new Thread(() ->
-                Ut.itMap(agents, (type, clazz) -> {
-                    // 4. Undeploy Agent.
-                    final DeploymentOptions opt = options.get(clazz);
-                    Verticles.undeploy(vertx, clazz, opt, LOGGER);
-                })));
+            Ut.itMap(agents, (type, clazz) -> {
+                // 4. Undeploy Agent.
+                final DeploymentOptions opt = options.get(clazz);
+                Verticles.undeploy(vertx, clazz, opt, LOGGER);
+            })));
     }
 }

@@ -63,8 +63,8 @@ public class BasicPhylum extends AuthorizationAuthPhylum {
              * }
              */
             handler.handle(Future.succeededFuture(new JsonObject()
-                    .put("username", suser)
-                    .put("password", spass)));
+                .put("username", suser)
+                .put("password", spass)));
         });
     }
 

@@ -7,9 +7,9 @@ import io.vertx.up.exception.UpException;
 public class JooqModeConflictException extends UpException {
 
     public JooqModeConflictException(
-            final Class<?> clazz,
-            final Qr.Mode required,
-            final JsonObject filters) {
+        final Class<?> clazz,
+        final Qr.Mode required,
+        final JsonObject filters) {
         super(clazz, required, filters.encode());
     }
 

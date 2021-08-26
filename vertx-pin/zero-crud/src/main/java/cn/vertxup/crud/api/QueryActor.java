@@ -39,15 +39,14 @@ public class QueryActor {
     @Address(Addr.Post.SEARCH)
     public Future<Envelop> search(final Envelop envelop) {
         final JsonObject body = Ux.getJson1(envelop);
-        final String module = Ux.getString(envelop, 3);           // module
+        final String module = Ux.getString(envelop, 3);   // module
 
         return IxPanel.on(envelop, module)
-                .input(
-                        /* Codex */
-                        Pre.codex()::inJAsync
-                )
-                .passion(Agonic.search()::runJAsync, null)
-                .runJ(body);
+            .input(
+                Pre.codex()::inJAsync                   /* Codex */
+            )
+            .passion(Agonic.search()::runJAsync, null)
+            .runJ(body);
     }
 
     @Address(Addr.Post.EXISTING)
@@ -55,12 +54,11 @@ public class QueryActor {
         final JsonObject body = Ux.getJson1(envelop);
         final String module = Ux.getString2(envelop);           // module
         return IxPanel.on(envelop, module)
-                .input(
-                        /* Codex */
-                        Pre.codex()::inJAsync
-                )
-                .passion(Agonic.count()::runJAsync, null)
-                .runJ(body);
+            .input(
+                Pre.codex()::inJAsync                   /* Codex */
+            )
+            .passion(Agonic.count()::runJAsync, null)
+            .runJ(body);
     }
 
     @Address(Addr.Post.MISSING)
@@ -68,11 +66,10 @@ public class QueryActor {
         final JsonObject body = Ux.getJson1(envelop);
         final String module = Ux.getString2(envelop);           // module
         return IxPanel.on(envelop, module)
-                .input(
-                        /* Codex */
-                        Pre.codex()::inJAsync
-                )
-                .passion(Agonic.count()::runJAsync, null)
-                .runJ(body);
+            .input(
+                Pre.codex()::inJAsync                   /* Codex */
+            )
+            .passion(Agonic.count()::runJAsync, null)
+            .runJ(body);
     }
 }

@@ -14,14 +14,14 @@ import java.util.concurrent.ConcurrentMap;
 public class RxJavaTc extends ZeroBase {
 
     private static final ConcurrentMap<String, String> MAP =
-            new ConcurrentHashMap<String, String>() {{
-                this.put("key1", "Windows1");
-                this.put("key2", "Windows2");
-                this.put("key3", "Windows3");
-                this.put("field1", "Mac1");
-                this.put("field2", "Mac2");
-                this.put("field3", "Mac3");
-            }};
+        new ConcurrentHashMap<String, String>() {{
+            this.put("key1", "Windows1");
+            this.put("key2", "Windows2");
+            this.put("key3", "Windows3");
+            this.put("field1", "Mac1");
+            this.put("field2", "Mac2");
+            this.put("field3", "Mac3");
+        }};
 
     private static final Set<String> SETS = new HashSet<String>() {{
         this.add("key1");
@@ -33,19 +33,19 @@ public class RxJavaTc extends ZeroBase {
     @Test
     public void testRxSet(final TestContext context) {
         final ConcurrentMap<String, String> result =
-                new ConcurrentHashMap<>();
+            new ConcurrentHashMap<>();
         Observable.fromIterable(MAP.keySet())
-                .filter(Objects::nonNull)
-                .groupBy(SETS::contains)
-                .subscribe(item -> {
-                    if (item.getKey()) {
-                        this.getLogger().info("Contains");
-                        item.subscribe(value -> this.getLogger().info(value));
-                    } else {
-                        this.getLogger().info("None");
-                        item.subscribe(value -> this.getLogger().info(value));
-                    }
-                });
+            .filter(Objects::nonNull)
+            .groupBy(SETS::contains)
+            .subscribe(item -> {
+                if (item.getKey()) {
+                    this.getLogger().info("Contains");
+                    item.subscribe(value -> this.getLogger().info(value));
+                } else {
+                    this.getLogger().info("None");
+                    item.subscribe(value -> this.getLogger().info(value));
+                }
+            });
 
     }
 }

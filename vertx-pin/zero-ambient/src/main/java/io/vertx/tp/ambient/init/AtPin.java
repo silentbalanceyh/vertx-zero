@@ -109,7 +109,7 @@ public class AtPin {
             return null;
         } else {
             Fn.outWeb(!Ut.isImplement(initClass, Init.class), _500InitSpecificationException.class,
-                    AtPin.class, initClass.getName());
+                AtPin.class, initClass.getName());
             return Init.generate(initClass);
         }
     }
@@ -126,7 +126,7 @@ public class AtPin {
             return null;
         } else {
             Fn.outWeb(!Ut.isImplement(prerequisite, Prerequisite.class), _500PrerequisiteSpecException.class,
-                    AtPin.class, prerequisite.getName());
+                AtPin.class, prerequisite.getName());
             return Prerequisite.generate(prerequisite);
         }
     }

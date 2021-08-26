@@ -3,7 +3,6 @@ package io.vertx.tp.crud.uca.input;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.crud.refine.Ix;
 import io.vertx.tp.crud.uca.desk.IxIn;
 import io.vertx.tp.error._409ModuleConflictException;
 import io.vertx.tp.error._409MultiModuleException;
@@ -15,7 +14,6 @@ import io.vertx.up.eon.KName;
 import io.vertx.up.exception.web._500InternalServerException;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.unity.Ux;
-import io.vertx.up.util.Ut;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -60,11 +58,7 @@ class ExcelPre implements Pre {
 
         /* ExTable Data Extraction */
         final JsonArray source = ExcelClient.fromTable(content.getValue());
-        final JsonArray normalized = new JsonArray();
-        Ut.itJArray(source)
-                .filter(json -> Ix.isMatch(json, in.module()))
-                .forEach(normalized::add);
-        return Ux.future(normalized);
+        return Ux.future(source);
     }
 
     private Kv<String, Set<ExTable>> readFile(final File file) {
@@ -77,14 +71,14 @@ class ExcelPre implements Pre {
              * Filtered the tables that equal module in table
              */
             tables.stream()
-                    .filter(Objects::nonNull)
-                    .filter(item -> Objects.nonNull(item.getName()))
-                    .forEach(item -> {
-                        if (!tableMap.containsKey(item.getName())) {
-                            tableMap.put(item.getName(), new HashSet<>());
-                        }
-                        tableMap.get(item.getName()).add(item);
-                    });
+                .filter(Objects::nonNull)
+                .filter(item -> Objects.nonNull(item.getName()))
+                .forEach(item -> {
+                    if (!tableMap.containsKey(item.getName())) {
+                        tableMap.put(item.getName(), new HashSet<>());
+                    }
+                    tableMap.get(item.getName()).add(item);
+                });
             Fn.out(1 != tableMap.size(), _409MultiModuleException.class, this.getClass(), tableMap.size());
             final String tableName = tableMap.keySet().iterator().next();
             kv.set(tableName, tableMap.get(tableName));

@@ -30,13 +30,13 @@ public class EsAmbitAdd extends AbstractEsClient implements EsAmbit {
 
         try {
             final IndexRequest request = new IndexRequest(this.index)
-                    .id(documentId)
-                    .source(this.toDocument(body));
+                .id(documentId)
+                .source(this.toDocument(body));
 
             final IndexResponse response = client.index(request, RequestOptions.DEFAULT);
 
             result.put("index", response.getIndex()).put("id", response.getId())
-                    .put("result", response.getResult() == DocWriteResponse.Result.CREATED);
+                .put("result", response.getResult() == DocWriteResponse.Result.CREATED);
         } catch (final IOException ioe) {
             this.logger().jvm(ioe);
         }
@@ -53,8 +53,8 @@ public class EsAmbitAdd extends AbstractEsClient implements EsAmbit {
                 final String documentId = json.getString(idField);
                 if (Ut.notNil(documentId)) {
                     final IndexRequest indexRequest = new IndexRequest(this.index)
-                            .id(documentId)
-                            .source(this.toDocument(json));
+                        .id(documentId)
+                        .source(this.toDocument(json));
                     request.add(indexRequest);
                 }
             });

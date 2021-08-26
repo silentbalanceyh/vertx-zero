@@ -49,13 +49,13 @@ class TrashBuilder {
     TrashBuilder(final String identifier) {
         this.identifier = identifier;
         final String tableName = this.identifier.toUpperCase()
-                /*
-                 * Here two format
-                 * 1) such as `ci.server` that contains `.`;
-                 * 2) such as `x-tabular` that contains `-`;
-                 */
-                .replace('.', '_')
-                .replace('-', '_');
+            /*
+             * Here two format
+             * 1) such as `ci.server` that contains `.`;
+             * 2) such as `x-tabular` that contains `-`;
+             */
+            .replace('.', '_' )
+            .replace('-', '_' );
         this.tableName = "HIS_" + tableName;
         this.context = JooqInfix.getDSL(Constants.DEFAULT_JOOQ_HISTORY);
     }
@@ -63,20 +63,20 @@ class TrashBuilder {
     @Fluent
     public TrashBuilder init() {
         this.context.createTableIfNotExists(DSL.name(this.tableName))
-                /* Primary Key */
-                .column("KEY", SQLDataType.VARCHAR(36).nullable(false))
-                .column("IDENTIFIER", SQLDataType.VARCHAR(255))
-                .column("RECORD", SQLDataType.CLOB)
-                /* Uniform */
-                .column("SIGMA", SQLDataType.VARCHAR(255))
-                .column("LANGUAGE", SQLDataType.VARCHAR(20))
-                .column("ACTIVE", SQLDataType.BOOLEAN)
-                /* Auditor */
-                .column("CREATED_AT", SQLDataType.LOCALDATETIME)
-                .column("CREATED_BY", SQLDataType.VARCHAR(36))
-                /* PRIMARY KEY */
-                .constraint(DSL.constraint("PK_" + this.tableName).primaryKey(DSL.name("KEY")))
-                .execute();
+            /* Primary Key */
+            .column("KEY", SQLDataType.VARCHAR(36).nullable(false))
+            .column("IDENTIFIER", SQLDataType.VARCHAR(255))
+            .column("RECORD", SQLDataType.CLOB)
+            /* Uniform */
+            .column("SIGMA", SQLDataType.VARCHAR(255))
+            .column("LANGUAGE", SQLDataType.VARCHAR(20))
+            .column("ACTIVE", SQLDataType.BOOLEAN)
+            /* Auditor */
+            .column("CREATED_AT", SQLDataType.LOCALDATETIME)
+            .column("CREATED_BY", SQLDataType.VARCHAR(36))
+            /* PRIMARY KEY */
+            .constraint(DSL.constraint("PK_" + this.tableName).primaryKey(DSL.name("KEY")))
+            .execute();
         LOGGER.info("[ ZERO-HIS ] The table `{0}` has been created successfully!", this.tableName);
         return this;
     }

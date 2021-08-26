@@ -31,14 +31,14 @@ public class TunnelClient implements UddiClient {
 
     private static final Origin ORIGIN = Ut.singleton(IpcOrigin.class);
     private static final ConcurrentMap<IpcType, Spear> STUBS =
-            new ConcurrentHashMap<IpcType, Spear>() {
-                {
-                    this.put(IpcType.UNITY, Ut.singleton(UnitySpear.class));
-                    // put(IpcType.CONSUME, Ut.singleton(ConsumeStub.class));
-                    // put(IpcType.DUPLIEX, Ut.singleton(DupliexStub.class));
-                    // put(IpcType.PRODUCE, Ut.singleton(ProduceStub.class));
-                }
-            };
+        new ConcurrentHashMap<IpcType, Spear>() {
+            {
+                this.put(IpcType.UNITY, Ut.singleton(UnitySpear.class));
+                // put(IpcType.CONSUME, Ut.singleton(ConsumeStub.class));
+                // put(IpcType.DUPLIEX, Ut.singleton(DupliexStub.class));
+                // put(IpcType.PRODUCE, Ut.singleton(ProduceStub.class));
+            }
+        };
     private final transient Annal logger;
     private transient Vertx vertx;
     private transient Method event;
@@ -102,16 +102,16 @@ public class TunnelClient implements UddiClient {
         final List<Record> records = this.findRecords();
         final Record record = records.stream().filter(item ->
                 target.equals(item.getMetadata().getString("path")))
-                .findAny().orElse(null);
+            .findAny().orElse(null);
         // Service Name
         Fn.outWeb(null == record, this.logger,
-                _501RpcImplementException.class, this.getClass(),
-                name, target, this.event);
+            _501RpcImplementException.class, this.getClass(),
+            name, target, this.event);
         // Address Wrong
         Fn.outWeb(null == record.getMetadata() ||
-                        !target.equals(record.getMetadata().getString("path")), this.logger,
-                _501RpcAddressWrongException.class, this.getClass(),
-                target, name);
+                !target.equals(record.getMetadata().getString("path")), this.logger,
+            _501RpcAddressWrongException.class, this.getClass(),
+            target, name);
         this.logger.info(Info.RECORD_FOUND, record.toJson());
         return record;
     }
@@ -121,7 +121,7 @@ public class TunnelClient implements UddiClient {
         final String name = this.getValue("name");
         // Find service records
         return address.values().stream()
-                .filter(item -> name.equals(item.getName()))
-                .collect(Collectors.toList());
+            .filter(item -> name.equals(item.getName()))
+            .collect(Collectors.toList());
     }
 }

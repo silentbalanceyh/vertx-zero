@@ -18,12 +18,12 @@ public class ResourceService implements ResourceStub {
     @Override
     public Future<JsonObject> fetchResource(final String resourceId) {
         return Ux.Jooq.on(SResourceDao.class)
-                .fetchByIdAsync(resourceId)
+            .fetchByIdAsync(resourceId)
+            .compose(Ux::futureJ)
+            .compose(resource -> Ux.Jooq.on(SActionDao.class)
+                .fetchOneAsync(KName.RESOURCE_ID, resourceId)
                 .compose(Ux::futureJ)
-                .compose(resource -> Ux.Jooq.on(SActionDao.class)
-                        .fetchOneAsync(KName.RESOURCE_ID, resourceId)
-                        .compose(Ux::futureJ)
-                        .compose(action -> Ux.future(resource.put("action", action))));
+                .compose(action -> Ux.future(resource.put("action", action))));
     }
 
     @Override
@@ -31,27 +31,27 @@ public class ResourceService implements ResourceStub {
         final SResource sResource = Ux.fromJson(params, SResource.class);
 
         return Ux.Jooq.on(SResourceDao.class)
-                .insertAsync(sResource)
-                .compose(Ux::futureJ)
-                .compose(resource -> {
-                    // handle action node if present
-                    if (params.containsKey("action") && Ut.notNil(params.getJsonObject("action"))) {
-                        final SAction sAction = Ux.fromJson(params.getJsonObject("action"), SAction.class);
-                        // verify important fields
-                        sAction.setKey(Optional.ofNullable(sAction.getKey()).orElse(UUID.randomUUID().toString()))
-                                .setActive(Optional.ofNullable(sAction.getActive()).orElse(Boolean.TRUE))
-                                .setResourceId(Optional.ofNullable(sAction.getResourceId()).orElse(resource.getString(KName.KEY)))
-                                .setLevel(Optional.ofNullable(sAction.getLevel()).orElse(resource.getInteger("level")))
-                                .setSigma(Optional.ofNullable(sAction.getSigma()).orElse(resource.getString(KName.SIGMA)))
-                                .setLanguage(Optional.ofNullable(sAction.getLanguage()).orElse(resource.getString(KName.LANGUAGE)));
-                        return Ux.Jooq.on(SActionDao.class)
-                                .insertAsync(sAction)
-                                .compose(Ux::futureJ)
-                                .compose(action -> Ux.future(resource.put("action", action)));
-                    } else {
-                        return Ux.future(resource);
-                    }
-                });
+            .insertAsync(sResource)
+            .compose(Ux::futureJ)
+            .compose(resource -> {
+                // handle action node if present
+                if (params.containsKey("action") && Ut.notNil(params.getJsonObject("action"))) {
+                    final SAction sAction = Ux.fromJson(params.getJsonObject("action"), SAction.class);
+                    // verify important fields
+                    sAction.setKey(Optional.ofNullable(sAction.getKey()).orElse(UUID.randomUUID().toString()))
+                        .setActive(Optional.ofNullable(sAction.getActive()).orElse(Boolean.TRUE))
+                        .setResourceId(Optional.ofNullable(sAction.getResourceId()).orElse(resource.getString(KName.KEY)))
+                        .setLevel(Optional.ofNullable(sAction.getLevel()).orElse(resource.getInteger("level")))
+                        .setSigma(Optional.ofNullable(sAction.getSigma()).orElse(resource.getString(KName.SIGMA)))
+                        .setLanguage(Optional.ofNullable(sAction.getLanguage()).orElse(resource.getString(KName.LANGUAGE)));
+                    return Ux.Jooq.on(SActionDao.class)
+                        .insertAsync(sAction)
+                        .compose(Ux::futureJ)
+                        .compose(action -> Ux.future(resource.put("action", action)));
+                } else {
+                    return Ux.future(resource);
+                }
+            });
     }
 
     @Override
@@ -59,27 +59,27 @@ public class ResourceService implements ResourceStub {
         final SResource sResource = Ux.fromJson(params, SResource.class);
 
         return Ux.Jooq.on(SResourceDao.class)
-                .upsertAsync(resourceId, sResource)
-                .compose(Ux::futureJ)
-                .compose(resource -> {
-                    // handle action node if present
-                    if (params.containsKey("action") && Ut.notNil(params.getJsonObject("action"))) {
-                        final SAction sAction = Ux.fromJson(params.getJsonObject("action"), SAction.class);
-                        return Ux.Jooq.on(SActionDao.class)
-                                .upsertAsync(new JsonObject().put(KName.RESOURCE_ID, resourceId), sAction)
-                                .compose(Ux::futureJ)
-                                .compose(action -> Ux.future(resource.put("action", action)));
-                    } else {
-                        return Ux.future(resource);
-                    }
-                });
+            .upsertAsync(resourceId, sResource)
+            .compose(Ux::futureJ)
+            .compose(resource -> {
+                // handle action node if present
+                if (params.containsKey("action") && Ut.notNil(params.getJsonObject("action"))) {
+                    final SAction sAction = Ux.fromJson(params.getJsonObject("action"), SAction.class);
+                    return Ux.Jooq.on(SActionDao.class)
+                        .upsertAsync(new JsonObject().put(KName.RESOURCE_ID, resourceId), sAction)
+                        .compose(Ux::futureJ)
+                        .compose(action -> Ux.future(resource.put("action", action)));
+                } else {
+                    return Ux.future(resource);
+                }
+            });
     }
 
     @Override
     public Future<Boolean> deleteResource(final String resourceId) {
         return Ux.Jooq.on(SActionDao.class)
-                .deleteByAsync(new JsonObject().put(KName.RESOURCE_ID, resourceId))
-                .compose(result -> Ux.Jooq.on(SResourceDao.class)
-                        .deleteByIdAsync(resourceId));
+            .deleteByAsync(new JsonObject().put(KName.RESOURCE_ID, resourceId))
+            .compose(result -> Ux.Jooq.on(SResourceDao.class)
+                .deleteByIdAsync(resourceId));
     }
 }

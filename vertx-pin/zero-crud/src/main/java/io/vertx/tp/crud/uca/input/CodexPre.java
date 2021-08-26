@@ -61,7 +61,7 @@ class CodexPre implements Pre {
         }
         /* 3.Final Rule */
         return uri.toLowerCase(Locale.getDefault()).replace('/', '.' )
-                .substring(1) + Strings.DOT
-                + method.toLowerCase(Locale.getDefault());
+            .substring(1) + Strings.DOT
+            + method.toLowerCase(Locale.getDefault());
     }
 }

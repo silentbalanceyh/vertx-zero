@@ -18,7 +18,7 @@ public class SyncInvoker extends AbstractInvoker {
                        final Class<?> paramCls) {
         // Verify
         final boolean valid =
-                Envelop.class == returnType && paramCls == Envelop.class;
+            Envelop.class == returnType && paramCls == Envelop.class;
         InvokerUtil.verify(!valid, returnType, paramCls, this.getClass());
     }
 
@@ -41,6 +41,6 @@ public class SyncInvoker extends AbstractInvoker {
         this.getLogger().info(Info.MSG_FUTURE, this.getClass(), method.getReturnType(), true);
         final Envelop result = Ut.invoke(proxy, method.getName(), envelop);
         this.nextEnvelop(vertx, method, result)
-                .onComplete(Ux.handler(message));
+            .onComplete(Ux.handler(message));
     }
 }

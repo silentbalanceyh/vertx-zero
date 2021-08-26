@@ -17,21 +17,21 @@ public class RoleService implements RoleStub {
     public Future<JsonArray> updateRolePerm(final String roleId, final JsonArray data) {
         // 1. make up role-perm entity
         final List<RRolePerm> rolePerms = Ut.itJString(data)
-                .filter(Ut::notNil)
-                .map(perm -> new JsonObject().put(KName.Rbac.PERM_ID, perm).put(KName.Rbac.ROLE_ID, roleId))
-                .map(rolePerm -> Ux.fromJson(rolePerm, RRolePerm.class))
-                .collect(Collectors.toList());
+            .filter(Ut::notNil)
+            .map(perm -> new JsonObject().put(KName.Rbac.PERM_ID, perm).put(KName.Rbac.ROLE_ID, roleId))
+            .map(rolePerm -> Ux.fromJson(rolePerm, RRolePerm.class))
+            .collect(Collectors.toList());
         // 2. delete old ones and insert new ones
         return this.deleteByRoleId(roleId)
-                .compose(result -> Ux.Jooq.on(RRolePermDao.class)
-                        .insertAsync(rolePerms)
-                        .compose(Ux::futureA)
-                );
+            .compose(result -> Ux.Jooq.on(RRolePermDao.class)
+                .insertAsync(rolePerms)
+                .compose(Ux::futureA)
+            );
     }
 
     @Override
     public Future<Boolean> deleteByRoleId(final String roleId) {
         return Ux.Jooq.on(RRolePermDao.class)
-                .deleteByAsync(new JsonObject().put(KName.Rbac.ROLE_ID, roleId));
+            .deleteByAsync(new JsonObject().put(KName.Rbac.ROLE_ID, roleId));
     }
 }

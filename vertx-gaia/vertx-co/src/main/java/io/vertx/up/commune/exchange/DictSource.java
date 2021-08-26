@@ -52,8 +52,8 @@ public class DictSource implements Serializable {
             final JsonArray typeJson = definition.getJsonArray("types");
             if (Objects.nonNull(typeJson)) {
                 typeJson.stream().filter(Objects::nonNull)
-                        .map(item -> (String) item)
-                        .forEach(this.types::add);
+                    .map(item -> (String) item)
+                    .forEach(this.types::add);
             }
         } else if (GlossaryType.ASSIST == this.source) {
             /*

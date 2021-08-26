@@ -22,19 +22,19 @@ public interface Plugins {
     String RESOLVER = "resolver";
 
     String[] DATA = new String[]{
-            INJECT, ERROR, SERVER,
-            RESOLVER
+        INJECT, ERROR, SERVER,
+        RESOLVER
     };
     ConcurrentMap<Class<? extends Annotation>, String> INFIX_MAP =
-            new ConcurrentHashMap<Class<? extends Annotation>, String>() {
-                {
-                    this.put(Mongo.class, Infix.MONGO);
-                    this.put(MySql.class, Infix.MYSQL);
-                    this.put(Jooq.class, Infix.JOOQ);
-                    this.put(Rpc.class, Infix.RPC);
-                    this.put(Redis.class, Infix.REDIS);
-                }
-            };
+        new ConcurrentHashMap<Class<? extends Annotation>, String>() {
+            {
+                this.put(Mongo.class, Infix.MONGO);
+                this.put(MySql.class, Infix.MYSQL);
+                this.put(Jooq.class, Infix.JOOQ);
+                this.put(Rpc.class, Infix.RPC);
+                this.put(Redis.class, Infix.REDIS);
+            }
+        };
     Set<Class<? extends Annotation>> INJECT_ANNOTATIONS = new HashSet<Class<? extends Annotation>>() {
         {
             this.addAll(INFIX_MAP.keySet());

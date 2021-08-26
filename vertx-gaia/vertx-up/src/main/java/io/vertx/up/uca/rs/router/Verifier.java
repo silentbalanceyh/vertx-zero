@@ -1,13 +1,13 @@
 package io.vertx.up.uca.rs.router;
 
 import io.vertx.up.atom.agent.Event;
+import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import io.vertx.up.uca.rs.Filler;
+import io.vertx.up.util.Ut;
 import io.vertx.zero.exception.AnnotationRepeatException;
 import io.vertx.zero.exception.EventActionNoneException;
 import io.vertx.zero.exception.ParamAnnotationException;
-import io.vertx.up.util.Ut;
-import io.vertx.up.fn.Fn;
 
 import javax.ws.rs.BodyParam;
 import javax.ws.rs.StreamParam;
@@ -27,7 +27,7 @@ public class Verifier {
     public static void verify(final Event event) {
         final Method method = event.getAction();
         Fn.outUp(null == method, LOGGER, EventActionNoneException.class,
-                Verifier.class, event);
+            Verifier.class, event);
         /* Specification **/
         verify(method, BodyParam.class);
         verify(method, StreamParam.class);
@@ -48,17 +48,17 @@ public class Verifier {
         final int occurs = integer.get();
 
         Fn.outUp(1 < occurs, LOGGER, AnnotationRepeatException.class,
-                Verifier.class, method.getName(), annoCls, occurs);
+            Verifier.class, method.getName(), annoCls, occurs);
     }
 
     public static void verify(final Parameter parameter) {
         final Annotation[] annotations = parameter.getDeclaredAnnotations();
         final List<Annotation> annotationList = Arrays.stream(annotations)
-                .filter(item -> Filler.PARAMS.containsKey(item.annotationType()))
-                .collect(Collectors.toList());
+            .filter(item -> Filler.PARAMS.containsKey(item.annotationType()))
+            .collect(Collectors.toList());
 
         final int multi = annotationList.size();
         Fn.outUp(1 < multi, LOGGER, ParamAnnotationException.class,
-                Verifier.class, parameter.getName(), multi);
+            Verifier.class, parameter.getName(), multi);
     }
 }

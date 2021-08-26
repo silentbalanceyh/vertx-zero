@@ -22,7 +22,7 @@ public class ZeroSerializerTc extends ZeroBase {
         final JsonObject data = new JsonObject();
         data.put("request", ZeroSerializer.toSupport(input));
         this.getLogger().info("[TEST] Data = {0}, Type = {1}.",
-                data.encode(), null == input ? "null" : input.getClass().getName());
+            data.encode(), null == input ? "null" : input.getClass().getName());
     }
 
     @Test

@@ -58,8 +58,8 @@ class AoCompare {
      * Database Change
      */
     static ConcurrentMap<ChangeFlag, JsonArray> diffPure(
-            final JsonArray queueO, final JsonArray queueN,
-            final DataAtom atom, final Set<String> ignoreSet
+        final JsonArray queueO, final JsonArray queueN,
+        final DataAtom atom, final Set<String> ignoreSet
     ) {
         final RuleUnique rules = atom.ruleSmart();
         Ao.infoUca(AoCompare.class, "（Pure）对比用标识规则：\n{0}", rules.toString());
@@ -94,8 +94,8 @@ class AoCompare {
     }
 
     static JsonObject diffPure(
-            final JsonObject recordO, final JsonObject recordN,
-            final DataAtom atom, final Set<String> ignoreSet
+        final JsonObject recordO, final JsonObject recordN,
+        final DataAtom atom, final Set<String> ignoreSet
     ) {
         final JsonArray queueN = new JsonArray().add(recordN);
         final JsonArray queueO = new JsonArray().add(recordO);
@@ -115,8 +115,8 @@ class AoCompare {
         final JsonArray queueO = apt.dataO();
         final JsonArray queueN = apt.dataN();
         Ao.infoUca(AoCompare.class, "（Pure）新旧数量：（{2} vs {3}），新数据：{1}, 旧数据：{0}",
-                queueO.encode(), queueN.encode(),
-                String.valueOf(queueN.size()), String.valueOf(queueO.size()));
+            queueO.encode(), queueN.encode(),
+            String.valueOf(queueN.size()), String.valueOf(queueO.size()));
         /*
          * 变更历史的判断，是否生成变更历史
          */
@@ -130,8 +130,8 @@ class AoCompare {
      * 「TP」= UCMDB
      */
     static ConcurrentMap<ChangeFlag, JsonArray> diffPull(
-            final JsonArray queueOld, final JsonArray queueNew,
-            final DataAtom atom, final Set<String> ignoreSet
+        final JsonArray queueOld, final JsonArray queueNew,
+        final DataAtom atom, final Set<String> ignoreSet
     ) {
         /*
          * 1. 任务接入
@@ -419,8 +419,8 @@ class AoCompare {
     }
 
     static JsonObject diffPull(
-            final JsonObject recordO, final JsonObject recordN,
-            final DataAtom atom, final Set<String> ignoreSet
+        final JsonObject recordO, final JsonObject recordN,
+        final DataAtom atom, final Set<String> ignoreSet
     ) {
         final JsonArray queueN = new JsonArray().add(recordN);
         final JsonArray queueO = new JsonArray().add(recordO);
@@ -440,8 +440,8 @@ class AoCompare {
         final JsonArray queueO = apt.dataO();
         final JsonArray queueN = apt.dataN();
         Ao.infoUca(AoCompare.class, "（Pull）新旧数量：（{2} vs {3}），新数据：{1}, 旧数据：{0}",
-                queueO.encode(), queueN.encode(),
-                String.valueOf(queueN.size()), String.valueOf(queueO.size()));
+            queueO.encode(), queueN.encode(),
+            String.valueOf(queueN.size()), String.valueOf(queueO.size()));
         /*
          * 变更历史的判断，是否生成变更历史
          */

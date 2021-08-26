@@ -28,9 +28,9 @@ import java.util.concurrent.ConcurrentMap;
  */
 public class DataRegion extends AbstractRegion {
     private static final ConcurrentMap<String, Cosmo> POOL_COMMON =
-            new ConcurrentHashMap<>();
+        new ConcurrentHashMap<>();
     private static final ConcurrentMap<String, Cosmo> POOL_SEEK =
-            new ConcurrentHashMap<>();
+        new ConcurrentHashMap<>();
 
     @Override
     public Future<Envelop> before(final RoutingContext context, final Envelop envelop) {
@@ -39,7 +39,7 @@ public class DataRegion extends AbstractRegion {
             return Sc.cacheBound(context, envelop).compose(matrix -> {
                 if (this.hasValue(matrix)) {
                     Sc.infoAuth(this.getLogger(), context.request().path(),
-                            AuthMsg.REGION_BEFORE, matrix.encode());
+                        AuthMsg.REGION_BEFORE, matrix.encode());
                     /*
                      * Select cosmo by matrix
                      */

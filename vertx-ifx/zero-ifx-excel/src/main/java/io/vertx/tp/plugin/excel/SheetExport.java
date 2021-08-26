@@ -153,7 +153,7 @@ class SheetExport {
              * This file object refer to created temp file and output to buffer
              */
             final String filename = identifier + Strings.DOT + UUID.randomUUID() +
-                    Strings.DOT + FileSuffix.EXCEL_2007;
+                Strings.DOT + FileSuffix.EXCEL_2007;
             final OutputStream out = new FileOutputStream(filename);
             workbook.write(out);
             /*
@@ -181,7 +181,7 @@ class SheetExport {
                     promise.fail(failure);
                 } else {
                     promise.fail(new _500InternalServerException(this.getClass(),
-                            "Unexpected Error when Exporting"));
+                        "Unexpected Error when Exporting"));
                 }
             }
         };

@@ -43,6 +43,10 @@ public class IxPanel {
         return new IxPanel(envelop, module);
     }
 
+    public IxIn active() {
+        return active;
+    }
+
     /*
      * Input:     active ( Json )     standBy ( Json )
      *                \                  /
@@ -150,8 +154,8 @@ public class IxPanel {
          * standByFn is null, return A
          */
         final Function<I, Future<A>> activeFn =
-                (inputActive) -> this.active.ready(inputActive, this.executors)
-                        .compose(normalized -> this.activeFn.apply(normalized, this.active));
+            (inputActive) -> this.active.ready(inputActive, this.executors)
+                .compose(normalized -> this.activeFn.apply(normalized, this.active));
         final Function<I, Future<S>> standFn;
         if (Objects.isNull(this.standByFn)) {
             /*
@@ -163,29 +167,29 @@ public class IxPanel {
              * standByFn return S.
              */
             standFn = (inputStand) -> this.standBy.ready(inputStand, this.executors)
-                    .compose(normalized -> (Future<S>) this.standByFn.apply(normalized, this.standBy));
+                .compose(normalized -> (Future<S>) this.standByFn.apply(normalized, this.standBy));
         }
         if (this.sequence) {
             /*
              * After active, the result should be <A>
              */
             Future activeFuture = activeFn.apply(input)
-                    .compose(a -> (Future<I>) this.nextFn.<I, A>apply(input, a));
+                .compose(a -> (Future<I>) this.nextFn.<I, A>apply(input, a));
             /*
              * Suppose the A = S
              * ( I -> A ), ( A -> S )
              */
             return activeFuture.compose(a -> standFn.apply((I) a)
-                    .compose(s -> {
-                        /*
-                         * Check whether outputFn has value
-                         */
-                        if (Objects.isNull(outputFn)) {
-                            return outputFn.apply((A) a, s);
-                        } else {
-                            return Ux.future((O) s);
-                        }
-                    })
+                .compose(s -> {
+                    /*
+                     * Check whether outputFn has value
+                     */
+                    if (Objects.isNull(outputFn)) {
+                        return outputFn.apply((A) a, s);
+                    } else {
+                        return Ux.future((O) s);
+                    }
+                })
             );
         } else {
             return CompositeFuture.join(activeFn.apply(input), standFn.apply(input)).compose(composite -> {

@@ -15,22 +15,22 @@ import io.vertx.up.unity.Ux;
 public interface IxLinker {
     static IxLinker create() {
         return Fn.pool(Pool.LINKER_MAP, CreateLinker.class.getName(),
-                CreateLinker::new);
+            CreateLinker::new);
     }
 
     static IxLinker get() {
         return Fn.pool(Pool.LINKER_MAP, GetLinker.class.getName(),
-                GetLinker::new);
+            GetLinker::new);
     }
 
     static IxLinker delete() {
         return Fn.pool(Pool.LINKER_MAP, DeleteLinker.class.getName(),
-                DeleteLinker::new);
+            DeleteLinker::new);
     }
 
     static IxLinker update() {
         return Fn.pool(Pool.LINKER_MAP, UpdateLinker.class.getName(),
-                UpdateLinker::new);
+            UpdateLinker::new);
     }
 
     /* Default Implementation for JsonArray and JsonObject */

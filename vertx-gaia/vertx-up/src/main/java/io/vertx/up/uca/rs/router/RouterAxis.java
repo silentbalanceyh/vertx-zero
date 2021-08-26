@@ -95,27 +95,27 @@ public class RouterAxis implements Axis<Router> {
 
     private void mountCors(final Router router) {
         router.route().order(Orders.CORS).handler(CorsHandler.create(CONFIG.getOrigin())
-                .allowCredentials(CONFIG.getCredentials())
-                .allowedHeaders(this.getAllowedHeaders(CONFIG.getHeaders()))
-                .allowedMethods(this.getAllowedMethods(CONFIG.getMethods())));
+            .allowCredentials(CONFIG.getCredentials())
+            .allowedHeaders(this.getAllowedHeaders(CONFIG.getHeaders()))
+            .allowedMethods(this.getAllowedMethods(CONFIG.getMethods())));
     }
 
     private Set<String> getAllowedHeaders(final JsonArray array) {
         final Set<String> headerSet = new HashSet<>();
         array.stream()
-                .filter(Objects::nonNull)
-                .map(item -> (String) item)
-                .forEach(headerSet::add);
+            .filter(Objects::nonNull)
+            .map(item -> (String) item)
+            .forEach(headerSet::add);
         return headerSet;
     }
 
     private Set<HttpMethod> getAllowedMethods(final JsonArray array) {
         final Set<HttpMethod> methodSet = new HashSet<>();
         array.stream()
-                .filter(Objects::nonNull)
-                .map(item -> (String) item)
-                .map(item -> Ut.toEnum(() -> item, HttpMethod.class, HttpMethod.GET))
-                .forEach(methodSet::add);
+            .filter(Objects::nonNull)
+            .map(item -> (String) item)
+            .map(item -> Ut.toEnum(() -> item, HttpMethod.class, HttpMethod.GET))
+            .forEach(methodSet::add);
         return methodSet;
     }
 }

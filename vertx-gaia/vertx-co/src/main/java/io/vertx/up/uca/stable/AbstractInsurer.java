@@ -17,7 +17,7 @@ public abstract class AbstractInsurer implements Insurer {
     @Override
     public void flumen(final JsonArray array,
                        final JsonObject elementRule)
-            throws ZeroException {
+        throws ZeroException {
         Fn.onZero(() -> {
             // 1. Verify the element must be json object for each
             final int size = array.size();
@@ -25,8 +25,8 @@ public abstract class AbstractInsurer implements Insurer {
                 final Object value = array.getValue(idx);
                 // 2. Call check method to confirm JsonObject
                 Fn.outZero(!Ut.isJObject(value), this.getLogger(),
-                        JObjectElementException.class,
-                        this.getClass(), idx, value);
+                    JObjectElementException.class,
+                    this.getClass(), idx, value);
 
                 final JsonObject item = (JsonObject) value;
                 // 3. Apply the rule to each object.

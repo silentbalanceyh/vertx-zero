@@ -20,7 +20,7 @@ import java.util.concurrent.ConcurrentMap;
 public class DiScanner {
 
     private static final ConcurrentMap<Class<?>, ConcurrentMap<String, Class<?>>>
-            PENDINGS = ZeroAnno.getPlugins();
+        PENDINGS = ZeroAnno.getPlugins();
 
     private static final DiAnchor INJECTOR = new DiAnchor(DiScanner.class);
 
@@ -59,12 +59,12 @@ public class DiScanner {
              * Scanned in started up for target
              */
             final ConcurrentMap<String, Class<?>> injections =
-                    PENDINGS.getOrDefault(clazz, new ConcurrentHashMap<>());
+                PENDINGS.getOrDefault(clazz, new ConcurrentHashMap<>());
             injections.forEach((fieldName, type) ->
-                    /*
-                     * initialization for field injection
-                     */
-                    this.singleton(instance, fieldName, type));
+                /*
+                 * initialization for field injection
+                 */
+                this.singleton(instance, fieldName, type));
         }
     }
 

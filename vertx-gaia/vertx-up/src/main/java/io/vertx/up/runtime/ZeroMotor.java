@@ -29,11 +29,11 @@ public final class ZeroMotor {
     private static final Annal LOGGER = Annal.get(ZeroMotor.class);
 
     public static <T> void start(
-            final Class<?> clazz,
-            final Consumer<T> consumer,
-            final Consumer<Consumer<T>> fnSingle,
-            final BiConsumer<ClusterManager, Consumer<T>> fnCluster,
-            final Annal logger) {
+        final Class<?> clazz,
+        final Consumer<T> consumer,
+        final Consumer<Consumer<T>> fnSingle,
+        final BiConsumer<ClusterManager, Consumer<T>> fnCluster,
+        final Annal logger) {
         if (null == consumer) {
             throw new VertxCallbackException(clazz);
         }
@@ -43,7 +43,7 @@ public final class ZeroMotor {
             // 2.1. Clustered
             final ClusterManager manager = cluster.getManager();
             logger.info(Info.APP_CLUSTERD, manager.getClass().getName(),
-                    manager.getNodeID(), manager.isActive());
+                manager.getNodeID(), manager.isActive());
             fnCluster.accept(manager, consumer);
         } else {
             // 2.2. Standalone
@@ -52,15 +52,15 @@ public final class ZeroMotor {
     }
 
     public static void each(
-            final BiConsumer<String, VertxOptions> consumer) {
+        final BiConsumer<String, VertxOptions> consumer) {
         final ConcurrentMap<String, VertxOptions> vertxOptions
-                = ZeroGrid.getVertxOptions();
+            = ZeroGrid.getVertxOptions();
         vertxOptions.forEach(consumer);
     }
 
     public static void codec(final EventBus eventBus) {
         eventBus.registerDefaultCodec(Envelop.class,
-                Ut.singleton(EnvelopCodec.class));
+            Ut.singleton(EnvelopCodec.class));
     }
 
     /**
@@ -72,44 +72,44 @@ public final class ZeroMotor {
      * @return The map to stored agent class for each ServerType here
      */
     public static ConcurrentMap<ServerType, Class<?>> agents(
-            final ServerType category,
-            final Class<?>[] defaultAgents,
-            final ConcurrentMap<ServerType, Class<?>> internals
+        final ServerType category,
+        final Class<?>[] defaultAgents,
+        final ConcurrentMap<ServerType, Class<?>> internals
     ) {
         final ConcurrentMap<ServerType, List<Class<?>>> agents =
-                getMergedAgents(category, internals);
+            getMergedAgents(category, internals);
         final ConcurrentMap<ServerType, Boolean> defines =
-                ZeroHelper.isAgentDefined(agents, defaultAgents);
+            ZeroHelper.isAgentDefined(agents, defaultAgents);
         final ConcurrentMap<ServerType, Class<?>> ret =
-                new ConcurrentHashMap<>();
+            new ConcurrentHashMap<>();
         // Fix Boot
         // 1. If defined, use default
         Ut.itMap(agents, (type, list) -> {
             // 2. Defined -> You have defined
             Fn.safeSemi(defines.containsKey(type) && defines.get(type), LOGGER,
-                    () -> {
-                        // Use user-defined Agent instead.
-                        final Class<?> found = Ut.elementFind(list,
-                                (item) -> internals.get(type) != item);
-                        if (null != found) {
-                            ret.put(type, found);
-                        }
-                    }, () -> {
-                        // Use internal defined ( system defaults )
-                        final Class<?> found = Ut.elementFind(list,
-                                (item) -> internals.get(type) == item);
-                        if (null != found) {
-                            LOGGER.info(Info.AGENT_DEFINED, found, type);
-                            ret.put(type, found);
-                        }
-                    });
+                () -> {
+                    // Use user-defined Agent instead.
+                    final Class<?> found = Ut.elementFind(list,
+                        (item) -> internals.get(type) != item);
+                    if (null != found) {
+                        ret.put(type, found);
+                    }
+                }, () -> {
+                    // Use internal defined ( system defaults )
+                    final Class<?> found = Ut.elementFind(list,
+                        (item) -> internals.get(type) == item);
+                    if (null != found) {
+                        LOGGER.info(Info.AGENT_DEFINED, found, type);
+                        ret.put(type, found);
+                    }
+                });
         });
         // 2.Filter
         return filterAgents(ret);
     }
 
     private static ConcurrentMap<ServerType, Class<?>> filterAgents(
-            final ConcurrentMap<ServerType, Class<?>> agents) {
+        final ConcurrentMap<ServerType, Class<?>> agents) {
         // Check Rpc Enabled
         if (ZeroGrid.getRpcOptions().isEmpty()) {
             agents.remove(ServerType.IPC);
@@ -126,8 +126,8 @@ public final class ZeroMotor {
     }
 
     private static ConcurrentMap<ServerType, List<Class<?>>> getMergedAgents(
-            final ServerType category,
-            final ConcurrentMap<ServerType, Class<?>> internals
+        final ServerType category,
+        final ConcurrentMap<ServerType, Class<?>> internals
     ) {
         final ConcurrentMap<ServerType, List<Class<?>>> agents = ZeroAnno.getAgents();
         if (agents.isEmpty()) {

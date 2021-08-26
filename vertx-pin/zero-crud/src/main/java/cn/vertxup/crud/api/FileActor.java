@@ -9,6 +9,7 @@ import io.vertx.tp.crud.init.IxPin;
 import io.vertx.tp.crud.refine.Ix;
 import io.vertx.tp.crud.uca.desk.IxPanel;
 import io.vertx.tp.crud.uca.input.Pre;
+import io.vertx.tp.crud.uca.op.Agonic;
 import io.vertx.tp.ke.refine.Ke;
 import io.vertx.tp.plugin.excel.ExcelClient;
 import io.vertx.up.annotations.Address;
@@ -42,13 +43,18 @@ public class FileActor {
          *  Extract `filename` as file
          */
         final String filename = Ux.getString1(envelop);
+        final String module = Ux.getString2(envelop);
         final JsonObject params = new JsonObject().put(KName.FILE_NAME, filename);
-        return IxPanel.on(envelop, null)
+
+        final IxPanel panel = IxPanel.on(envelop, module);
+        return Pre.excel(this.client).inJAAsync(params, panel.active()).compose(data ->
+            IxPanel.on(envelop, module)
                 .input(
-                        /* FileData */
-                        Pre.excel(this.client)::inJAAsync
+                    Pre.fabric()::inAAsync      /* Dict */
                 )
-                .runJ(params);
+                .passion(Agonic.file(false)::runAAsync)
+                .runA(data)
+        );
 
     }
 
@@ -63,89 +69,89 @@ public class FileActor {
         /* Search full column and it will be used in another method */
         return Ix.create(this.getClass()).input(request).envelop((dao, config) -> Unity.fetchFull(dao, request, config)
 
-                /* Column initialization */
-                .compose(columns -> {
-                    final Set<String> columnSet = new HashSet<>();
-                    Ut.itJArray(columns, (column, index) -> {
-                        /* Key */
-                        final String columnKey = column.getString(IxPin.getColumnKey());
-                        /* Name */
-                        final String columnLabel = column.getString(IxPin.getColumnLabel());
-                        if (Ut.notNil(columnKey) && Ut.notNil(columnLabel)) {
-                            exportedHeaders.put(columnKey, columnLabel);
-                            /* All columns */
-                            columnSet.add(columnKey);
-                        }
-                    });
-                    return Ux.future(columnSet);
-                })
-
-                /* Column calculation */
-                .compose(columnSet -> {
-                    /* Expected columns */
-                    final JsonArray expected = Ux.getArray2(request);
-                    columnSet.removeAll(expected.stream()
-                            .filter(Objects::nonNull)
-                            .map(column -> (String) column)
-                            .collect(Collectors.toSet()));
-                    /* Column sequence */
-                    expected.stream()
-                            .filter(Objects::nonNull)
-                            .map(column -> (String) column)
-                            .forEach(columnList::add);
-                    /* projection calculation */
-                    return Ux.future(Ut.toJArray(columnSet));
-                })
-
-                /* Projection calculation */
-                .compose(projection -> {
-                    {
-                        /* Removed will be used in future */
-                        removed.addAll(projection);
+            /* Column initialization */
+            .compose(columns -> {
+                final Set<String> columnSet = new HashSet<>();
+                Ut.itJArray(columns, (column, index) -> {
+                    /* Key */
+                    final String columnKey = column.getString(IxPin.getColumnKey());
+                    /* Name */
+                    final String columnLabel = column.getString(IxPin.getColumnLabel());
+                    if (Ut.notNil(columnKey) && Ut.notNil(columnLabel)) {
+                        exportedHeaders.put(columnKey, columnLabel);
+                        /* All columns */
+                        columnSet.add(columnKey);
                     }
-                    /* Parameters Extraction */
-                    final JsonObject body = new JsonObject();
-                    final JsonObject criteria = Ux.getJson1(request);
-                    body.put(Qr.KEY_CRITERIA, criteria);
-                    body.put(Qr.KEY_PROJECTION, projection);
-                    /* Calculation for projection here */
-                    return Ux.future(body);
-                })
+                });
+                return Ux.future(columnSet);
+            })
 
-                /* Verify */
-                .compose(input -> IxActor.verify().bind(request).procAsync(input, config))
+            /* Column calculation */
+            .compose(columnSet -> {
+                /* Expected columns */
+                final JsonArray expected = Ux.getArray2(request);
+                columnSet.removeAll(expected.stream()
+                    .filter(Objects::nonNull)
+                    .map(column -> (String) column)
+                    .collect(Collectors.toSet()));
+                /* Column sequence */
+                expected.stream()
+                    .filter(Objects::nonNull)
+                    .map(column -> (String) column)
+                    .forEach(columnList::add);
+                /* projection calculation */
+                return Ux.future(Ut.toJArray(columnSet));
+            })
 
-                /* Execution */
-                .compose(params -> Ix.query(params, config).apply(dao))
+            /* Projection calculation */
+            .compose(projection -> {
+                {
+                    /* Removed will be used in future */
+                    removed.addAll(projection);
+                }
+                /* Parameters Extraction */
+                final JsonObject body = new JsonObject();
+                final JsonObject criteria = Ux.getJson1(request);
+                body.put(Qr.KEY_CRITERIA, criteria);
+                body.put(Qr.KEY_PROJECTION, projection);
+                /* Calculation for projection here */
+                return Ux.future(body);
+            })
 
-                /* Dict */
-                .compose(response -> {
-                    /* Data for ExTable */
-                    JsonArray data = Ux.pageData(response);
-                    /*
-                     * To avoid final in lambda expression
-                     */
-                    final JsonArray inputData = data.copy();
-                    return Unity.fabric(request, config).compose(Ut.ifNil(
-                            () -> inputData,
-                            fabric -> fabric.inTo(inputData))
-                    );
-                })
-                /* Data Exporting */
-                .compose(data -> {
-                    /* Left columns, removed useless column */
-                    removed.stream().map(item -> (String) item).forEach(exportedHeaders::remove);
+            /* Verify */
+            .compose(input -> IxActor.verify().bind(request).procAsync(input, config))
 
-                    /* Combine and build data of excel */
-                    return Ke.combineAsync(data, exportedHeaders, columnList);
-                })
+            /* Execution */
+            .compose(params -> Ix.query(params, config).apply(dao))
 
-                /* Final exporting her for excel download */
-                .compose(data -> {
-                    final String actor = Ux.getString(request);
-                    return this.client.exportAsync(actor, data);
-                })
-                .compose(buffer -> Ux.future(Envelop.success(buffer)))
+            /* Dict */
+            .compose(response -> {
+                /* Data for ExTable */
+                JsonArray data = Ux.pageData(response);
+                /*
+                 * To avoid final in lambda expression
+                 */
+                final JsonArray inputData = data.copy();
+                return Unity.fabric(request, config).compose(Ut.ifNil(
+                    () -> inputData,
+                    fabric -> fabric.inTo(inputData))
+                );
+            })
+            /* Data Exporting */
+            .compose(data -> {
+                /* Left columns, removed useless column */
+                removed.stream().map(item -> (String) item).forEach(exportedHeaders::remove);
+
+                /* Combine and build data of excel */
+                return Ke.combineAsync(data, exportedHeaders, columnList);
+            })
+
+            /* Final exporting her for excel download */
+            .compose(data -> {
+                final String actor = Ux.getString(request);
+                return this.client.exportAsync(actor, data);
+            })
+            .compose(buffer -> Ux.future(Envelop.success(buffer)))
         );
     }
 

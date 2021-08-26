@@ -34,8 +34,8 @@ class ActJObject extends ActMapping implements Serializable {
         final JsonObject rawJson = envelop.data();
         if (!Ut.isNil(rawJson)) {
             final long counter = rawJson.fieldNames().stream()
-                    .filter(Constants.INDEXES::containsValue)
-                    .count();
+                .filter(Constants.INDEXES::containsValue)
+                .count();
             final JsonObject body;
             if (0 < counter) {
                 /*
@@ -49,15 +49,15 @@ class ActJObject extends ActMapping implements Serializable {
                  * }
                  */
                 final JsonObject found = rawJson.fieldNames().stream()
-                        .filter(Objects::nonNull)
-                        .map(rawJson::getValue)
-                        /*
-                         * Predicate to test whether value is JsonObject
-                         * If JsonObject, then find the first JsonObject as body
-                         */
-                        .filter(value -> value instanceof JsonObject)
-                        .map(item -> (JsonObject) item)
-                        .findFirst().orElse(null);
+                    .filter(Objects::nonNull)
+                    .map(rawJson::getValue)
+                    /*
+                     * Predicate to test whether value is JsonObject
+                     * If JsonObject, then find the first JsonObject as body
+                     */
+                    .filter(value -> value instanceof JsonObject)
+                    .map(item -> (JsonObject) item)
+                    .findFirst().orElse(null);
 
                 /* Copy new data structure */
                 body = null == found ? new JsonObject() : found.copy();
@@ -78,11 +78,11 @@ class ActJObject extends ActMapping implements Serializable {
                      */
                     final JsonObject inputData = body.copy();
                     body.fieldNames().stream()
-                            .filter(field -> !ID.PARAM_BODY.equals(field))
-                            /*
-                             * NON, $$__BODY__$$
-                             */
-                            .forEach(field -> this.data.put(field, inputData.getValue(field)));
+                        .filter(field -> !ID.PARAM_BODY.equals(field))
+                        /*
+                         * NON, $$__BODY__$$
+                         */
+                        .forEach(field -> this.data.put(field, inputData.getValue(field)));
                     final Object bodyData = body.getValue(ID.PARAM_BODY);
                     if (bodyData instanceof JsonObject) {
                         cross = (JsonObject) bodyData;
@@ -110,19 +110,19 @@ class ActJObject extends ActMapping implements Serializable {
                  * JqTool part
                  */
                 Arrays.stream(Qr.KEY_QUERY).filter(field -> Objects.nonNull(body.getValue(field)))
-                        .forEach(field -> {
-                            this.query.put(field, body.getValue(field));
-                            /*
-                             * The criteria parameters does't occurs in future body here.
-                             * {
-                             *     pager,
-                             *     sorter,
-                             *     projection,
-                             *     criteria
-                             * }
-                             */
-                            body.remove(field);
-                        });
+                    .forEach(field -> {
+                        this.query.put(field, body.getValue(field));
+                        /*
+                         * The criteria parameters does't occurs in future body here.
+                         * {
+                         *     pager,
+                         *     sorter,
+                         *     projection,
+                         *     criteria
+                         * }
+                         */
+                        body.remove(field);
+                    });
             }
             // fill criteria field when query is not empty
             if (Ut.notNil(this.query) && !this.query.containsKey(Qr.KEY_CRITERIA)) {

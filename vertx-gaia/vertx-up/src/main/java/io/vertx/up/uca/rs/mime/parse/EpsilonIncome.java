@@ -28,12 +28,12 @@ public class EpsilonIncome implements Income<List<Epsilon<Object>>> {
     private static final Annal LOGGER = Annal.get(EpsilonIncome.class);
 
     private transient final Atomic<Object> atomic
-            = Ut.singleton(MimeAtomic.class);
+        = Ut.singleton(MimeAtomic.class);
 
     @Override
     public List<Epsilon<Object>> in(final RoutingContext context,
                                     final Event event)
-            throws WebException {
+        throws WebException {
         final Method method = event.getAction();
         final Class<?>[] paramTypes = method.getParameterTypes();
         final Annotation[][] annoTypes = method.getParameterAnnotations();
@@ -59,31 +59,31 @@ public class EpsilonIncome implements Income<List<Epsilon<Object>>> {
     @SuppressWarnings("all")
     private String getName(final Annotation annotation) {
         return Fn.getSemi(null == annotation, LOGGER,
-                () -> ID.IGNORE,
-                () -> Fn.getSemi(!Filler.NO_VALUE.contains(annotation.annotationType()),
-                        LOGGER,
-                        () -> Ut.invoke(annotation, "value"),
-                        () -> ID.DIRECT));
+            () -> ID.IGNORE,
+            () -> Fn.getSemi(!Filler.NO_VALUE.contains(annotation.annotationType()),
+                LOGGER,
+                () -> Ut.invoke(annotation, "value"),
+                () -> ID.DIRECT));
     }
 
     private Annotation getAnnotation(final Annotation[] annotations) {
         final List<Annotation> annotationList = Arrays.stream(annotations)
-                .filter(item -> Filler.PARAMS.containsKey(item.annotationType()))
-                .collect(Collectors.toList());
+            .filter(item -> Filler.PARAMS.containsKey(item.annotationType()))
+            .collect(Collectors.toList());
         return annotationList.isEmpty() ? null : annotationList.get(Values.IDX);
     }
 
     private Object getDefault(final Annotation[] annotations,
                               final Class<?> paramType) {
         final List<Annotation> annotationList = Arrays.stream(annotations)
-                .filter(item -> item.annotationType() == DefaultValue.class)
-                .collect(Collectors.toList());
+            .filter(item -> item.annotationType() == DefaultValue.class)
+            .collect(Collectors.toList());
         return Fn.getSemi(annotationList.isEmpty(), LOGGER,
-                () -> null,
-                () -> {
-                    final Annotation annotation = annotationList.get(Values.IDX);
-                    return ZeroSerializer.getValue(paramType,
-                            Ut.invoke(annotation, "value"));
-                });
+            () -> null,
+            () -> {
+                final Annotation annotation = annotationList.get(Values.IDX);
+                return ZeroSerializer.getValue(paramType,
+                    Ut.invoke(annotation, "value"));
+            });
     }
 }

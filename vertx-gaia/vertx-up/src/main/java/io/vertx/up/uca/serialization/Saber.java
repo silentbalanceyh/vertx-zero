@@ -9,6 +9,7 @@ public interface Saber {
      *
      * @param type
      * @param literal
+     *
      * @return
      */
     Object from(Class<?> type, String literal);
@@ -18,6 +19,7 @@ public interface Saber {
      *
      * @param input
      * @param <T>
+     *
      * @return
      */
     <T> Object from(T input);

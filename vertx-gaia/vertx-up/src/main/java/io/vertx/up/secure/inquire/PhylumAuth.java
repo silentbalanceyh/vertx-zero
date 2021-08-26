@@ -4,9 +4,9 @@ import io.vertx.tp.error.WallMethodMultiException;
 import io.vertx.up.annotations.Authenticate;
 import io.vertx.up.annotations.Authorize;
 import io.vertx.up.atom.secure.Cliff;
+import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import io.vertx.up.util.Ut;
-import io.vertx.up.fn.Fn;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
@@ -32,11 +32,11 @@ public class PhylumAuth {
     public PhylumAuth verify() {
         // Duplicated Method checking
         Fn.outUp(this.verifyMethod(this.methods, Authenticate.class), this.logger,
-                WallMethodMultiException.class, this.getClass(),
-                Authenticate.class.getSimpleName(), this.clazz.getName());
+            WallMethodMultiException.class, this.getClass(),
+            Authenticate.class.getSimpleName(), this.clazz.getName());
         Fn.outUp(this.verifyMethod(this.methods, Authorize.class), this.logger,
-                WallMethodMultiException.class, this.getClass(),
-                Authorize.class.getSimpleName(), this.clazz.getName());
+            WallMethodMultiException.class, this.getClass(),
+            Authorize.class.getSimpleName(), this.clazz.getName());
         return this;
     }
 
@@ -45,15 +45,15 @@ public class PhylumAuth {
         reference.setProxy(Ut.singleton(this.clazz));
         // Find the first: Authenticate
         final Optional<Method> authenticateMethod
-                = Arrays.stream(this.methods).filter(
+            = Arrays.stream(this.methods).filter(
                 item -> item.isAnnotationPresent(Authenticate.class))
-                .findFirst();
+            .findFirst();
         reference.getAuthorizer().setAuthenticate(authenticateMethod.orElse(null));
         // Find the second: Authorize
         final Optional<Method> authorizeMethod
-                = Arrays.stream(this.methods).filter(
+            = Arrays.stream(this.methods).filter(
                 item -> item.isAnnotationPresent(Authorize.class))
-                .findFirst();
+            .findFirst();
         reference.getAuthorizer().setAuthorize(authorizeMethod.orElse(null));
     }
 
@@ -61,8 +61,8 @@ public class PhylumAuth {
                                  final Class<? extends Annotation> clazz) {
 
         final long found = Arrays.stream(methods)
-                .filter(method -> method.isAnnotationPresent(clazz))
-                .count();
+            .filter(method -> method.isAnnotationPresent(clazz))
+            .count();
         // If found = 0, 1, OK
         // If > 1, duplicated
         return 1 < found;

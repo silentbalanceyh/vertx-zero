@@ -44,21 +44,21 @@ final class AjBoolean extends AbstractAdjuster {
     public boolean isSame(final Object oldValue, final Object newValue) {
         final JsonObject mapping = this.configIn();
         return this.isSame(oldValue, newValue,
+            /*
+             * 基本比较
+             */
+            () -> {
                 /*
-                 * 基本比较
+                 * 使用 newValue 读取
                  */
-                () -> {
-                    /*
-                     * 使用 newValue 读取
-                     */
-                    final String normNew = newValue.toString().trim();
-                    if (mapping.containsKey(normNew.toLowerCase())) {
-                        final Boolean newConvert = mapping.getBoolean(normNew.toLowerCase());
-                        return newConvert.equals(oldValue);
-                    } else {
-                        return oldValue.toString().trim()
-                                .equalsIgnoreCase(normNew);
-                    }
-                });
+                final String normNew = newValue.toString().trim();
+                if (mapping.containsKey(normNew.toLowerCase())) {
+                    final Boolean newConvert = mapping.getBoolean(normNew.toLowerCase());
+                    return newConvert.equals(oldValue);
+                } else {
+                    return oldValue.toString().trim()
+                        .equalsIgnoreCase(normNew);
+                }
+            });
     }
 }

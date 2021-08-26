@@ -48,18 +48,18 @@ public class ExcelReader implements AoFile {
          * 先构造 Schema 处理实体
          */
         final Set<Schema> schemas = ExModello.create(files)
-                .on(appName).build();
+            .on(appName).build();
         Ao.infoUca(this.getClass(), "合计构造了模型：{0}", schemas.size());
         /*
          * 将 Model 和 Schema 连接
          */
         final Set<Model> models = new HashSet<>();
         files.stream().map(ExAnalyzer::create)
-                // 和应用绑定
-                .map(analyzer -> analyzer.on(appName))
-                //  构造最终的Model
-                .map(analyzer -> analyzer.build(schemas))
-                .forEach(models::addAll);
+            // 和应用绑定
+            .map(analyzer -> analyzer.on(appName))
+            //  构造最终的Model
+            .map(analyzer -> analyzer.build(schemas))
+            .forEach(models::addAll);
         return models;
     }
 
@@ -78,7 +78,7 @@ public class ExcelReader implements AoFile {
         final String root = this.rootPath + folder;
         final List<String> files = Ut.ioFiles(root);
         return files.stream()
-                .filter(file -> !file.startsWith("~"))  // 过滤Office的临时文件
-                .map(item -> root + "/" + item).collect(Collectors.toSet());
+            .filter(file -> !file.startsWith("~"))  // 过滤Office的临时文件
+            .map(item -> root + "/" + item).collect(Collectors.toSet());
     }
 }

@@ -32,52 +32,52 @@ public class JobService implements JobStub {
         final JsonObject condition = qr.toJson();
         LOGGER.info("Job condition: {0}", condition);
         return Ux.Jooq.on(IJobDao.class)
-                .searchAsync(condition)
-                .compose(jobs -> {
+            .searchAsync(condition)
+            .compose(jobs -> {
+                /*
+                 * Result for all jobs that are belong to current sigma here.
+                 */
+                final List<IJob> jobList = Ux.fromPage(jobs, IJob.class);
+                final Set<String> codes = jobList.stream()
+                    .filter(Objects::nonNull)
                     /*
-                     * Result for all jobs that are belong to current sigma here.
+                     * Job name calculation for appending namespace
                      */
-                    final List<IJob> jobList = Ux.fromPage(jobs, IJob.class);
-                    final Set<String> codes = jobList.stream()
-                            .filter(Objects::nonNull)
-                            /*
-                             * Job name calculation for appending namespace
-                             */
-                            .map(Jt::jobCode)
-                            .collect(Collectors.toSet());
-                    Jt.infoWeb(LOGGER, "Job fetched from database: {0}, input sigma: {1}",
-                            codes.size(), sigma);
-                    return JobKit.fetchMission(codes).compose(normalized -> {
-                        jobs.put("list", normalized);
-                        /*
-                         * count group
-                         * */
-                        if (grouped) {
-                            final JsonObject criteria = qr.getCriteria().toJson();
-                            return Ux.Jooq.on(IJobDao.class).countByAsync(criteria, "group")
-                                    .compose(aggregation -> {
-                                        final JsonObject aggregationJson = new JsonObject();
-                                        aggregation.forEach(aggregationJson::put);
-                                        jobs.put("aggregation", aggregationJson);
-                                        return Ux.future(jobs);
-                                    });
-                        } else {
-                            return Ux.future(jobs);
-                        }
-                    });
+                    .map(Jt::jobCode)
+                    .collect(Collectors.toSet());
+                Jt.infoWeb(LOGGER, "Job fetched from database: {0}, input sigma: {1}",
+                    codes.size(), sigma);
+                return JobKit.fetchMission(codes).compose(normalized -> {
+                    jobs.put("list", normalized);
+                    /*
+                     * count group
+                     * */
+                    if (grouped) {
+                        final JsonObject criteria = qr.getCriteria().toJson();
+                        return Ux.Jooq.on(IJobDao.class).countByAsync(criteria, "group")
+                            .compose(aggregation -> {
+                                final JsonObject aggregationJson = new JsonObject();
+                                aggregation.forEach(aggregationJson::put);
+                                jobs.put("aggregation", aggregationJson);
+                                return Ux.future(jobs);
+                            });
+                    } else {
+                        return Ux.future(jobs);
+                    }
                 });
+            });
     }
 
     @Override
     public Future<JsonObject> fetchByKey(final String key) {
         return Ux.Jooq.on(IJobDao.class)
-                .<IJob>fetchByIdAsync(key)
-                /*
-                 * 1) Supplier here for `JsonObject` generated
-                 * 2) Mission conversation here to JsonObject directly
-                 */
-                .compose(Ut.ifNil(JsonObject::new,
-                        job -> JobKit.fetchMission(Jt.jobCode(job))));
+            .<IJob>fetchByIdAsync(key)
+            /*
+             * 1) Supplier here for `JsonObject` generated
+             * 2) Mission conversation here to JsonObject directly
+             */
+            .compose(Ut.ifNil(JsonObject::new,
+                job -> JobKit.fetchMission(Jt.jobCode(job))));
     }
 
     @Override
@@ -98,18 +98,18 @@ public class JobService implements JobStub {
         final IJob job = Ux.fromJson(data, IJob.class);
         final IService service = JobKit.fromJson(serviceJson);
         return Ux.Jooq.on(IJobDao.class)
+            /*
+             * 3. Upsert by Key for Service instance
+             */
+            .upsertAsync(job.getKey(), job)
+            .compose(updatedJob -> Ux.Jooq.on(IServiceDao.class)
+                .upsertAsync(service.getKey(), service)
                 /*
-                 * 3. Upsert by Key for Service instance
+                 * 4. Merge updatedJob / updatedService
+                 * -- Call `AmbientService` to updateJob cache
+                 * -- Cache updating ( IJob / IService )
                  */
-                .upsertAsync(job.getKey(), job)
-                .compose(updatedJob -> Ux.Jooq.on(IServiceDao.class)
-                        .upsertAsync(service.getKey(), service)
-                        /*
-                         * 4. Merge updatedJob / updatedService
-                         * -- Call `AmbientService` to updateJob cache
-                         * -- Cache updating ( IJob / IService )
-                         */
-                        .compose(updatedSev ->
-                                this.ambient.updateJob(updatedJob, updatedSev)));
+                .compose(updatedSev ->
+                    this.ambient.updateJob(updatedJob, updatedSev)));
     }
 }

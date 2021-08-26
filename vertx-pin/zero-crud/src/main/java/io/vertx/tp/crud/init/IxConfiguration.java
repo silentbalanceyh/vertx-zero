@@ -20,7 +20,7 @@ class IxConfiguration {
 
     /* Module Registry */
     private static final Set<String> MODULE_REG =
-            new HashSet<>();
+        new HashSet<>();
     private static IxConfig CONFIG = null;
 
     static void init() {
@@ -38,9 +38,9 @@ class IxConfiguration {
     static void addUrs(final String key) {
         final JsonArray patterns = CONFIG.getPatterns();
         patterns.stream()
-                .map(item -> (String) item)
-                .map(pattern -> MessageFormat.format(pattern, key))
-                .forEach(MODULE_REG::add);
+            .map(item -> (String) item)
+            .map(pattern -> MessageFormat.format(pattern, key))
+            .forEach(MODULE_REG::add);
     }
 
     static Set<String> getUris() {

@@ -19,16 +19,16 @@ class AggregatorAvg extends AbstractAggregator {
 
     BigDecimal avg(final String field, final JsonObject criteria) {
         return this.aggregateBy(field, criteria,
-                column -> column.avg().as(FIELD_AVG), BigDecimal.ZERO);
+            column -> column.avg().as(FIELD_AVG), BigDecimal.ZERO);
     }
 
     ConcurrentMap<String, BigDecimal> avg(final String field, final JsonObject criteria, final String groupField) {
         return this.aggregateBy(field, criteria,
-                column -> column.avg().as(FIELD_AVG), groupField);
+            column -> column.avg().as(FIELD_AVG), groupField);
     }
 
     JsonArray avg(final String field, final JsonObject criteria, final String... groupFields) {
         return this.aggregateBy(field, criteria,
-                column -> column.avg().as(FIELD_AVG), groupFields);
+            column -> column.avg().as(FIELD_AVG), groupFields);
     }
 }

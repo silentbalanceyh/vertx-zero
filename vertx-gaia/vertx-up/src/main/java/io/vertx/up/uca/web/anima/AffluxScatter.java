@@ -20,19 +20,19 @@ public class AffluxScatter implements Scatter<Vertx> {
         // Extract all events.
         final Set<Event> events = ZeroAnno.getEvents();
         Ut.itSet(events, (item, index) ->
-                Runner.run(() -> injector.singleton(item.getProxy())
-                        , "event-afflux-" + index));
+            Runner.run(() -> injector.singleton(item.getProxy())
+                , "event-afflux-" + index));
 
         // Extract all receipts.
         final Set<Receipt> receipts = ZeroAnno.getReceipts();
         Ut.itSet(receipts, (item, index) ->
-                Runner.run(() -> injector.singleton(item.getProxy())
-                        , "receipt-afflux-" + index));
+            Runner.run(() -> injector.singleton(item.getProxy())
+                , "receipt-afflux-" + index));
 
         // Extract non - event/receipts Objects
         final Set<Class<?>> injects = ZeroAnno.getInjects();
         Ut.itSet(injects, (item, index) ->
-                Runner.run(() -> injector.singleton(item),
-                        "injects-afflux-" + index));
+            Runner.run(() -> injector.singleton(item),
+                "injects-afflux-" + index));
     }
 }

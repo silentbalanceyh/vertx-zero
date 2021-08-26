@@ -43,9 +43,9 @@ public final class Errors {
                 final String error = MessageFormat.format(pattern, args);
                 // 3. Format
                 return MessageFormat.format(
-                        tpl, String.valueOf(code),
-                        clazz.getSimpleName(),
-                        error
+                    tpl, String.valueOf(code),
+                    clazz.getSimpleName(),
+                    error
                 );
             } else {
                 throw new ErrorMissingException(code, clazz.getName());
@@ -62,7 +62,7 @@ public final class Errors {
             final String clazz = methods[idx].getClassName();
             final String method = methods[idx].getMethodName();
             if (clazz.equals(clazzPos.getName())
-                    && method.equals(methodPos)) {
+                && method.equals(methodPos)) {
                 position = idx + 1;
             }
         }

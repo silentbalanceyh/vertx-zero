@@ -18,17 +18,17 @@ import java.util.stream.Collectors;
  */
 public class DualItem implements Serializable {
     private final transient ConcurrentMap<String, String> vector =
-            new ConcurrentHashMap<>();
+        new ConcurrentHashMap<>();
     private final transient ConcurrentMap<String, String> revert =
-            new ConcurrentHashMap<>();
+        new ConcurrentHashMap<>();
     /*
      * Involve expression for type parsing here
      * It means that we need type attribute to do conversation
      */
     private final transient ConcurrentMap<String, Class<?>> vectorType =
-            new ConcurrentHashMap<>();
+        new ConcurrentHashMap<>();
     private final transient ConcurrentMap<String, Class<?>> revertType =
-            new ConcurrentHashMap<>();
+        new ConcurrentHashMap<>();
 
     DualItem() {
     }
@@ -44,35 +44,35 @@ public class DualItem implements Serializable {
     void init(final JsonObject input) {
         if (Ut.notNil(input)) {
             input.fieldNames().stream()
-                    /* Only stored string value here */
-                    .filter(field -> input.getValue(field) instanceof String)
-                    .forEach(field -> {
-                        final String to = input.getString(field);
-                        if (0 < to.indexOf(',')) {
-                            /* To expression */
-                            final String[] toArray = to.split(",");
-                            final String toField = Objects.isNull(toArray[0]) ? null : toArray[0].trim();
-                            final String typeFlag = Objects.isNull(toArray[1]) ? "" : toArray[1].trim();
-                            if (Objects.nonNull(toField)) {
-                                /*
-                                 * Type here
-                                 */
-                                final Class<?> type = DualType.type(typeFlag);
-                                /* mapping type */
-                                this.vectorType.put(field, type);
-                                this.revertType.put(toField, type);
-                                /* mapping */
-                                this.vector.put(field, toField);
-                                /* revert */
-                                this.revert.put(toField, field);
-                            }
-                        } else {
+                /* Only stored string value here */
+                .filter(field -> input.getValue(field) instanceof String)
+                .forEach(field -> {
+                    final String to = input.getString(field);
+                    if (0 < to.indexOf(',' )) {
+                        /* To expression */
+                        final String[] toArray = to.split(",");
+                        final String toField = Objects.isNull(toArray[0]) ? null : toArray[0].trim();
+                        final String typeFlag = Objects.isNull(toArray[1]) ? "" : toArray[1].trim();
+                        if (Objects.nonNull(toField)) {
+                            /*
+                             * Type here
+                             */
+                            final Class<?> type = DualType.type(typeFlag);
+                            /* mapping type */
+                            this.vectorType.put(field, type);
+                            this.revertType.put(toField, type);
                             /* mapping */
-                            this.vector.put(field, to);
+                            this.vector.put(field, toField);
                             /* revert */
-                            this.revert.put(to, field);
+                            this.revert.put(toField, field);
                         }
-                    });
+                    } else {
+                        /* mapping */
+                        this.vector.put(field, to);
+                        /* revert */
+                        this.revert.put(to, field);
+                    }
+                });
         }
     }
 
@@ -100,16 +100,16 @@ public class DualItem implements Serializable {
 
     public Set<String> to(final JsonArray keys) {
         return keys.stream().filter(item -> item instanceof String)
-                .map(item -> (String) item)
-                .map(this.vector::get)
-                .collect(Collectors.toSet());
+            .map(item -> (String) item)
+            .map(this.vector::get)
+            .collect(Collectors.toSet());
     }
 
     public Set<String> from(final JsonArray keys) {
         return keys.stream().filter(item -> item instanceof String)
-                .map(item -> (String) item)
-                .map(this.revert::get)
-                .collect(Collectors.toSet());
+            .map(item -> (String) item)
+            .map(this.revert::get)
+            .collect(Collectors.toSet());
     }
 
     /*
@@ -153,8 +153,8 @@ public class DualItem implements Serializable {
     @Override
     public String toString() {
         return "DualItem{" +
-                "vector=" + this.vector +
-                ", revert=" + this.revert +
-                '}';
+            "vector=" + this.vector +
+            ", revert=" + this.revert +
+            '}';
     }
 }

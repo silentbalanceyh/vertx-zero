@@ -207,10 +207,10 @@ public class ServidorOptions implements Serializable {
     @Override
     public String toString() {
         return "ServidorOptions{" +
-                "name='" + this.name + '\'' +
-                ", host='" + this.host + '\'' +
-                ", port=" + this.port +
-                ", options=" + this.options +
-                '}';
+            "name='" + this.name + '\'' +
+            ", host='" + this.host + '\'' +
+            ", port=" + this.port +
+            ", options=" + this.options +
+            '}';
     }
 }

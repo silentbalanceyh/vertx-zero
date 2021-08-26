@@ -22,9 +22,9 @@ public class CodeService implements CodeStub {
         final JsonObject response = new JsonObject();
         // Enable SharedClient to store authCode
         return Sc.cacheCode(clientId, authCode)
-                .compose(item -> Uson.create(response)
-                        .append(AuthKey.AUTH_CODE, item)
-                        .toFuture());
+            .compose(item -> Uson.create(response)
+                .append(AuthKey.AUTH_CODE, item)
+                .toFuture());
     }
 
     @Override

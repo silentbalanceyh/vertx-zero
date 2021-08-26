@@ -26,9 +26,9 @@ public class DataTpl implements Serializable {
      * 模板专用，在初始化时使用，只需要
      */
     private final transient ConcurrentMap<String, DataMatrix> tpl
-            = new ConcurrentHashMap<>();
+        = new ConcurrentHashMap<>();
     private final transient ConcurrentMap<String, String> sources
-            = new ConcurrentHashMap<>();
+        = new ConcurrentHashMap<>();
 
     private transient AoSentence sentence;
     private transient DataAtom atom;
@@ -88,10 +88,10 @@ public class DataTpl implements Serializable {
              * 2）priority 最小的执行 LEFT 左连接
              */
             final MJoin join = joins.stream()
-                    .filter(item -> Objects.nonNull(item.getPriority()))
-                    .filter(item -> 0 < item.getPriority())     // 0 表示没有优先级
-                    .min(Comparator.comparing(MJoin::getPriority))
-                    .orElse(null);
+                .filter(item -> Objects.nonNull(item.getPriority()))
+                .filter(item -> 0 < item.getPriority())     // 0 表示没有优先级
+                .min(Comparator.comparing(MJoin::getPriority))
+                .orElse(null);
             return Objects.isNull(join) ? null : join;
         }
     }
@@ -103,8 +103,8 @@ public class DataTpl implements Serializable {
     public ConcurrentMap<String, String> joinVoters(final Predicate<MJoin> predicate) {
         final ConcurrentMap<String, String> pointer = new ConcurrentHashMap<>();
         this.atom.model().dbJoins()
-                .stream().filter(predicate)
-                .forEach(join -> pointer.put(join.getEntity(), join.getEntityKey()));
+            .stream().filter(predicate)
+            .forEach(join -> pointer.put(join.getEntity(), join.getEntityKey()));
         return pointer;
     }
 
@@ -123,9 +123,9 @@ public class DataTpl implements Serializable {
     // -------------- 处理 ----------------
     public String column(final String field) {
         return this.tpl.values().stream()
-                .filter(matrix -> Objects.nonNull(matrix.getColumn(field)))
-                .map(matrix -> matrix.getColumn(field))
-                .findAny().orElse(null);
+            .filter(matrix -> Objects.nonNull(matrix.getColumn(field)))
+            .map(matrix -> matrix.getColumn(field))
+            .findAny().orElse(null);
     }
 
     public ConcurrentMap<String, DataMatrix> matrixData() {
@@ -175,8 +175,8 @@ public class DataTpl implements Serializable {
 
     public void appendConsole(final StringBuilder buffer) {
         this.sources.forEach((attribute, tableName) -> buffer.append(String.format("%-20s", attribute))
-                .append(String.format("%-20s", tableName))
-                .append("\n"));
+            .append(String.format("%-20s", tableName))
+            .append("\n"));
         final DataKey key = this.getKey();
         if (null != key) {
             buffer.append("\n [Key] 主键，DataMatrix -> : \n");

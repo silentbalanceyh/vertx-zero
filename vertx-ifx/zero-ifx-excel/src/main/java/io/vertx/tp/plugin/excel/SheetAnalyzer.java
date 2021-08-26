@@ -51,20 +51,20 @@ public class SheetAnalyzer implements Serializable {
         ExFn.itSheet(this.sheet, bound, (row, index) -> {
             final ExBound colBound = new ColBound(row);
             ExFn.itRow(row, colBound,
-                    /* {Table} Cell */
-                    (cell, colIndex) -> tableCell.add(cell),
-                    /* Predicate Here */
-                    cell -> CellType.STRING == cell.getCellType()
-                            /* Do not check blank / empty cell here */
-                            && Ut.notNil(cell.getStringCellValue())
-                            /* Fix issue of {TABLE} here for BLANK CELL */
-                            && cell.getStringCellValue().equals(ExKey.EXPR_TABLE));
+                /* {Table} Cell */
+                (cell, colIndex) -> tableCell.add(cell),
+                /* Predicate Here */
+                cell -> CellType.STRING == cell.getCellType()
+                    /* Do not check blank / empty cell here */
+                    && Ut.notNil(cell.getStringCellValue())
+                    /* Fix issue of {TABLE} here for BLANK CELL */
+                    && cell.getStringCellValue().equals(ExKey.EXPR_TABLE));
         });
         /* analyzedBounds */
         if (!tableCell.isEmpty()) {
             if (Debugger.onExcelRange()) {
                 LOGGER.info("[ Έξοδος ] Scanned sheet: {0}, tableCell = {1}",
-                        this.sheet.getSheetName(), String.valueOf(tableCell.size()));
+                    this.sheet.getSheetName(), String.valueOf(tableCell.size()));
             }
             /* Range scaned */
             final ConcurrentMap<Integer, Integer> range = this.getRange(tableCell);
@@ -130,9 +130,9 @@ public class SheetAnalyzer implements Serializable {
         final ExTable table = new ExTable(this.sheet.getSheetName());
         /* Name, Connect, Description - Cell */
         ExFn.onCell(row, cell.getColumnIndex() + 1,
-                found -> table.setName(found.getStringCellValue()));
+            found -> table.setName(found.getStringCellValue()));
         ExFn.onCell(row, cell.getColumnIndex() + 2,
-                found -> table.setDescription(found.getStringCellValue()));
+            found -> table.setDescription(found.getStringCellValue()));
         /* Calculation */
         if (Objects.nonNull(table.getName()) && Pool.CONNECTS.containsKey(table.getName())) {
             final ExConnect connect = Pool.CONNECTS.get(table.getName());

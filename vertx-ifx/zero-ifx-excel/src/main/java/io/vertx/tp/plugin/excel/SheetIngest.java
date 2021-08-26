@@ -50,8 +50,8 @@ class SheetIngest {
     private Set<ExTable> compress(final Set<ExTable> processed, final String... includes) {
         final Set<String> tables = new HashSet<>(Arrays.asList(includes));
         return processed.stream()
-                .filter(table -> tables.contains(table.getName()))
-                .collect(Collectors.toSet());
+            .filter(table -> tables.contains(table.getName()))
+            .collect(Collectors.toSet());
     }
 
     Future<Set<ExTable>> compressAsync(final Set<ExTable> processed, final String... includes) {

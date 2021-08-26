@@ -31,17 +31,17 @@ final class Folder {
     static List<String> listFilesN(final String folder, final String extension, final String prefix) {
         final List<String> folders = listDirectoriesN(folder);
         return folders.stream()
-                .flatMap(single -> list(single, extension, false)
-                        .stream()
-                        .filter(file -> Ut.isNil(prefix) || file.startsWith(prefix))
-                        .map(file -> {
-                            if (single.endsWith("/")) {
-                                return single + file;
-                            } else {
-                                return single + "/" + file;
-                            }
-                        }))
-                .collect(Collectors.toList());
+            .flatMap(single -> list(single, extension, false)
+                .stream()
+                .filter(file -> Ut.isNil(prefix) || file.startsWith(prefix))
+                .map(file -> {
+                    if (single.endsWith("/")) {
+                        return single + file;
+                    } else {
+                        return single + "/" + file;
+                    }
+                }))
+            .collect(Collectors.toList());
     }
 
     static List<String> listDirectoriesN(final String folder) {
@@ -159,7 +159,7 @@ final class Folder {
                             /*
                              * The condition is ok to pickup folder only
                              */
-                            retList.add(entry.getName().substring(entry.getName().lastIndexOf('/') + 1));
+                            retList.add(entry.getName().substring(entry.getName().lastIndexOf('/' ) + 1));
                         }
                     } else {
                         if (!entry.isDirectory()) {
@@ -167,13 +167,13 @@ final class Folder {
                                 /*
                                  * No Extension
                                  */
-                                retList.add(entry.getName().substring(entry.getName().lastIndexOf('/') + 1));
+                                retList.add(entry.getName().substring(entry.getName().lastIndexOf('/' ) + 1));
                             } else {
                                 if (entry.getName().endsWith(extension)) {
                                     /*
                                      * Extension enabled
                                      */
-                                    retList.add(entry.getName().substring(entry.getName().lastIndexOf('/') + 1));
+                                    retList.add(entry.getName().substring(entry.getName().lastIndexOf('/' ) + 1));
                                 }
                             }
                         }
@@ -188,15 +188,15 @@ final class Folder {
         final List<String> retList = new ArrayList<>();
         if (directory.isDirectory() && directory.exists()) {
             final File[] files = (isDirectory) ?
-                    directory.listFiles(File::isDirectory) :
-                    (null == extension ?
-                            directory.listFiles(File::isFile) :
-                            directory.listFiles((item) -> item.isFile()
-                                    && item.getName().endsWith(extension)));
+                directory.listFiles(File::isDirectory) :
+                (null == extension ?
+                    directory.listFiles(File::isFile) :
+                    directory.listFiles((item) -> item.isFile()
+                        && item.getName().endsWith(extension)));
             if (null != files) {
                 retList.addAll(Arrays.stream(files)
-                        .map(File::getName)
-                        .collect(Collectors.toList()));
+                    .map(File::getName)
+                    .collect(Collectors.toList()));
             }
         } else {
             LOGGER.error("The file doest not exist, file = `{0}`", directory.getAbsolutePath());

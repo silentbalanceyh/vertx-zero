@@ -63,10 +63,10 @@ class AoMarker {
 
     private Set<String> audit(final Predicate<MAttribute> predicate) {
         return this.modelRef.dbAttributes().stream()
-                .filter(Objects::nonNull)
-                .filter(predicate)
-                .map(MAttribute::getName)
-                .filter(Objects::nonNull)
-                .collect(Collectors.toSet());
+            .filter(Objects::nonNull)
+            .filter(predicate)
+            .map(MAttribute::getName)
+            .filter(Objects::nonNull)
+            .collect(Collectors.toSet());
     }
 }

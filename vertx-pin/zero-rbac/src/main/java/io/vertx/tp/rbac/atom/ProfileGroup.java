@@ -31,7 +31,7 @@ public class ProfileGroup implements Serializable {
         this.priority = data.getInteger(AuthKey.PRIORITY);
         /* Role */
         this.role = null == data.getJsonArray("role")
-                ? new JsonArray() : data.getJsonArray("role");
+            ? new JsonArray() : data.getJsonArray("role");
     }
 
     Future<ProfileGroup> initAsync() {
@@ -84,27 +84,27 @@ public class ProfileGroup implements Serializable {
     private Future<List<ProfileRole>> fetchProfilesAsync() {
         final List futures = new ArrayList();
         this.role.stream().filter(Objects::nonNull)
-                .map(item -> (JsonObject) item)
-                .map(ProfileRole::new)
-                .map(ProfileRole::initAsync)
-                .forEach(futures::add);
+            .map(item -> (JsonObject) item)
+            .map(ProfileRole::new)
+            .map(ProfileRole::initAsync)
+            .forEach(futures::add);
         return CompositeFuture.join(futures)
-                /* Composite Result */
-                .compose(Sc::<ProfileRole>composite)
-                .compose(profiles -> {
-                    /* Bind each fetchProfile to group Id */
-                    profiles.forEach(profile -> profile.setGroup(this));
-                    return Future.succeededFuture(profiles);
-                });
+            /* Composite Result */
+            .compose(Sc::<ProfileRole>composite)
+            .compose(profiles -> {
+                /* Bind each fetchProfile to group Id */
+                profiles.forEach(profile -> profile.setGroup(this));
+                return Future.succeededFuture(profiles);
+            });
     }
 
     private List<ProfileRole> fetchProfiles() {
         return this.role.stream().filter(Objects::nonNull)
-                .map(item -> (JsonObject) item)
-                .map(ProfileRole::new)
-                .map(ProfileRole::init)
-                .map(role -> role.setGroup(this))
-                .collect(Collectors.toList());
+            .map(item -> (JsonObject) item)
+            .map(ProfileRole::new)
+            .map(ProfileRole::init)
+            .map(role -> role.setGroup(this))
+            .collect(Collectors.toList());
     }
 
     @Override
@@ -127,10 +127,10 @@ public class ProfileGroup implements Serializable {
     @Override
     public String toString() {
         return "ProfileGroup{" +
-                "groupId='" + this.groupId + '\'' +
-                ", priority=" + this.priority +
-                ", role=" + this.role +
-                ", reference='" + this.reference + '\'' +
-                '}';
+            "groupId='" + this.groupId + '\'' +
+            ", priority=" + this.priority +
+            ", role=" + this.role +
+            ", reference='" + this.reference + '\'' +
+            '}';
     }
 }

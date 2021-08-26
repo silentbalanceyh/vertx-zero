@@ -24,7 +24,7 @@ public class SharedClientImpl<K, V> implements SharedClient<K, V> {
     private static final Annal LOGGER = Annal.get(SharedClientImpl.class);
 
     private static final ConcurrentMap<String, SharedClient> CLIENTS =
-            new ConcurrentHashMap<>();
+        new ConcurrentHashMap<>();
 
     private final transient Vertx vertx;
     private transient LocalMap<K, V> syncMap;
@@ -38,7 +38,7 @@ public class SharedClientImpl<K, V> implements SharedClient<K, V> {
     SharedClient create(final JsonObject config, final String name) {
         return Fn.pool(CLIENTS, name, () -> {
             final boolean async = null != config && config.containsKey("async") ?
-                    config.getBoolean("async") : Boolean.FALSE;
+                config.getBoolean("async") : Boolean.FALSE;
             if (async) {
                 // Switch reference for async map to be sure it's initialized.
                 this.createAsync(name, res -> this.asyncMap = res.result().fetchAsync());
@@ -102,8 +102,8 @@ public class SharedClientImpl<K, V> implements SharedClient<K, V> {
         final V reference = this.syncMap.get(key);
         // Add & Replace
         Fn.safeSemi(null == reference, LOGGER,
-                () -> this.syncMap.put(key, value),
-                () -> this.syncMap.replace(key, value));
+            () -> this.syncMap.put(key, value),
+            () -> this.syncMap.replace(key, value));
         return Kv.create(key, value);
     }
 
@@ -131,16 +131,16 @@ public class SharedClientImpl<K, V> implements SharedClient<K, V> {
             if (res.succeeded()) {
                 final V reference = res.result();
                 Fn.safeSemi(null == reference, LOGGER,
-                        () -> this.asyncMap.put(key, value, added -> {
-                            if (added.succeeded()) {
-                                handler.handle(Future.succeededFuture(Kv.create(key, value)));
-                            }
-                        }),
-                        () -> this.asyncMap.replace(key, value, replaced -> {
-                            if (replaced.succeeded()) {
-                                handler.handle(Future.succeededFuture(Kv.create(key, value)));
-                            }
-                        }));
+                    () -> this.asyncMap.put(key, value, added -> {
+                        if (added.succeeded()) {
+                            handler.handle(Future.succeededFuture(Kv.create(key, value)));
+                        }
+                    }),
+                    () -> this.asyncMap.replace(key, value, replaced -> {
+                        if (replaced.succeeded()) {
+                            handler.handle(Future.succeededFuture(Kv.create(key, value)));
+                        }
+                    }));
             }
         });
         return this;
@@ -222,7 +222,7 @@ public class SharedClientImpl<K, V> implements SharedClient<K, V> {
 
     private void ensure(final boolean expected) {
         Fn.outWeb(this.isAsync != expected, LOGGER,
-                _501SharedDataModeException.class, this.getClass(), this.isAsync);
+            _501SharedDataModeException.class, this.getClass(), this.isAsync);
     }
 
     /*

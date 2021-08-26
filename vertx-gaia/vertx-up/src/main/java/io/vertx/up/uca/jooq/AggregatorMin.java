@@ -18,16 +18,16 @@ class AggregatorMin extends AbstractAggregator {
 
     BigDecimal min(final String field, final JsonObject criteria) {
         return this.aggregateBy(field, criteria,
-                column -> column.min().as(FIELD_MIN), BigDecimal.ZERO);
+            column -> column.min().as(FIELD_MIN), BigDecimal.ZERO);
     }
 
     ConcurrentMap<String, BigDecimal> min(final String field, final JsonObject criteria, final String groupField) {
         return this.aggregateBy(field, criteria,
-                column -> column.min().as(FIELD_MIN), groupField);
+            column -> column.min().as(FIELD_MIN), groupField);
     }
 
     JsonArray min(final String field, final JsonObject criteria, final String... groupFields) {
         return this.aggregateBy(field, criteria,
-                column -> column.min().as(FIELD_MIN), groupFields);
+            column -> column.min().as(FIELD_MIN), groupFields);
     }
 }

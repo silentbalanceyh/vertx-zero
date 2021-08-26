@@ -16,7 +16,7 @@ public class QueueThread extends Thread {
     private final Set<Receipt> receipts = new HashSet<>();
 
     private final transient Extractor<Set<Receipt>> extractor =
-            Ut.instance(ReceiptExtractor.class);
+        Ut.instance(ReceiptExtractor.class);
 
     private final transient Class<?> reference;
 
@@ -30,7 +30,7 @@ public class QueueThread extends Thread {
         if (null != this.reference) {
             this.receipts.addAll(this.extractor.extract(this.reference));
             LOGGER.info(Info.SCANNED_RECEIPTS, this.reference.getName(),
-                    this.receipts.size());
+                this.receipts.size());
         }
     }
 

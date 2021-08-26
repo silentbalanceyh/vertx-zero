@@ -41,7 +41,7 @@ public class Ostium implements Serializable {
     public void setAuthorize(final Method authorize) {
         this.authorize = authorize;
     }
-    
+
     @Override
     public boolean equals(final Object o) {
         if (this == o) {
@@ -52,8 +52,8 @@ public class Ostium implements Serializable {
         }
         final Ostium ostium = (Ostium) o;
         return Objects.equals(this.header, ostium.header) &&
-                Objects.equals(this.authenticate, ostium.authenticate) &&
-                Objects.equals(this.authorize, ostium.authorize);
+            Objects.equals(this.authenticate, ostium.authenticate) &&
+            Objects.equals(this.authorize, ostium.authorize);
     }
 
     @Override
@@ -65,9 +65,9 @@ public class Ostium implements Serializable {
     @Override
     public String toString() {
         return "Ostium{" +
-                "header=" + this.header +
-                ", authenticate=" + this.authenticate +
-                ", authorize=" + this.authorize +
-                '}';
+            "header=" + this.header +
+            ", authenticate=" + this.authenticate +
+            ", authorize=" + this.authorize +
+            '}';
     }
 }

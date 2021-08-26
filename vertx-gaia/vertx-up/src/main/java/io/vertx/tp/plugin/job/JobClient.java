@@ -29,19 +29,6 @@ public interface JobClient {
     static void bind(final Long timerId, final String code) {
         JobPool.bind(timerId, code);
     }
-    /*
-     * Because the JobStore started before JobClient initialized,
-     * In this kind of situation, the class `Pre` could control
-     * JobPool here
-     */
-    static final class Pre {
-        public static void save(final Set<Mission> missions){
-            missions.forEach(JobPool::save);
-        }
-        public static void save(final Mission mission){
-            JobPool.save(mission);
-        }
-    }
 
     static String code(final String name) {
         return Constants.DEFAULT_JOB_NAMESPACE + Strings.DASH + name;
@@ -100,7 +87,6 @@ public interface JobClient {
     /* Save */
     Future<Mission> saveAsync(Mission mission);
 
-
     Set<Mission> save(Set<Mission> missions);
 
     Mission save(Mission mission);
@@ -120,4 +106,19 @@ public interface JobClient {
 
     @Fluent
     JobClient statusAsync(String namespace, Handler<AsyncResult<JsonObject>> handler);
+
+    /*
+     * Because the JobStore started before JobClient initialized,
+     * In this kind of situation, the class `Pre` could control
+     * JobPool here
+     */
+    static final class Pre {
+        public static void save(final Set<Mission> missions) {
+            missions.forEach(JobPool::save);
+        }
+
+        public static void save(final Mission mission) {
+            JobPool.save(mission);
+        }
+    }
 }

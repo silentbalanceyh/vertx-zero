@@ -8,10 +8,10 @@ import java.util.Map;
 
 public interface Rigor {
 
-    WebException verify(final Map<String, List<Rule>> rulers,
-                        final Object value);
-
     static Rigor get(final Class<?> clazz) {
         return Pool.RIGORS.get(clazz);
     }
+
+    WebException verify(final Map<String, List<Rule>> rulers,
+                        final Object value);
 }

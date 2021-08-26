@@ -29,7 +29,7 @@ class ThreadQuota extends AbstractQuota {
              * map calculated
              */
             final ConcurrentMap<String, Future<JsonObject>> mapped =
-                    new ConcurrentHashMap<>();
+                new ConcurrentHashMap<>();
             map.keys(keyRes -> {
                 if (keyRes.succeeded()) {
                     final Set<String> keys = keyRes.result();

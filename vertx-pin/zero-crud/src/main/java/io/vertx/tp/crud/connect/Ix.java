@@ -22,7 +22,7 @@ import java.util.function.BiFunction;
 
 interface Pool {
     ConcurrentMap<String, IxLinker> LINKER_MAP =
-            new ConcurrentHashMap<>();
+        new ConcurrentHashMap<>();
 }
 
 interface IxSwitcher {

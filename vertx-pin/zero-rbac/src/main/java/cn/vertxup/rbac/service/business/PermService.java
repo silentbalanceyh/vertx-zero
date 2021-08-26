@@ -12,9 +12,9 @@ import cn.vertxup.rbac.service.accredit.ActionStub;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.eon.KName;
 import io.vertx.tp.rbac.refine.Sc;
 import io.vertx.up.atom.query.engine.Qr;
+import io.vertx.up.eon.KName;
 import io.vertx.up.eon.Strings;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.uca.jooq.UxJooq;
@@ -46,22 +46,22 @@ public class PermService implements PermStub {
         final UxJooq jooq = Ux.Jooq.on(SActionDao.class);
         Ut.itJString(removed).map(key -> jooq.<SAction>fetchByIdAsync(key)
 
-                /*
-                 * Set all queried permissionId of each action to null
-                 * Here should remove permissionId to set resource to freedom
-                 */
-                .compose(action -> {
+            /*
+             * Set all queried permissionId of each action to null
+             * Here should remove permissionId to set resource to freedom
+             */
+            .compose(action -> {
 
-                    /*
-                     * Remove relation between
-                     * Action / Permission
-                     */
-                    action.setPermissionId(null);
-                    action.setUpdatedBy(userKey);
-                    action.setUpdatedAt(LocalDateTime.now());
-                    return Ux.future(action);
-                })
-                .compose(jooq::updateAsync)
+                /*
+                 * Remove relation between
+                 * Action / Permission
+                 */
+                action.setPermissionId(null);
+                action.setUpdatedBy(userKey);
+                action.setUpdatedAt(LocalDateTime.now());
+                return Ux.future(action);
+            })
+            .compose(jooq::updateAsync)
         ).forEach(entities::add);
         return Ux.thenCombineT(entities).compose(actions -> {
 
@@ -70,17 +70,17 @@ public class PermService implements PermStub {
              */
             final List<Future<SAction>> actionList = new ArrayList<>();
             Ut.<String>itJObject(relation, (permissionId, actionId) -> actionList.add(
-                    jooq.<SAction>fetchByIdAsync(actionId).compose(action -> {
+                jooq.<SAction>fetchByIdAsync(actionId).compose(action -> {
 
-                        /*
-                         * Update relation between
-                         * Action / Permission
-                         */
-                        action.setPermissionId(permissionId);
-                        action.setUpdatedBy(userKey);
-                        action.setUpdatedAt(LocalDateTime.now());
-                        return Ux.future(action);
-                    }).compose(jooq::updateAsync)
+                    /*
+                     * Update relation between
+                     * Action / Permission
+                     */
+                    action.setPermissionId(permissionId);
+                    action.setUpdatedBy(userKey);
+                    action.setUpdatedAt(LocalDateTime.now());
+                    return Ux.future(action);
+                }).compose(jooq::updateAsync)
             ));
             return Ux.thenCombineT(actionList);
         }).compose(nil -> Ux.future(relation));
@@ -112,7 +112,7 @@ public class PermService implements PermStub {
                      * Refresh cache pool with Sc interface directly
                      */
                     return Sc.cachePermission(roleId, permissions)
-                            .compose(nil -> Ux.future(inserted));
+                        .compose(nil -> Ux.future(inserted));
                 }).compose(Ux::futureA);
             });
         }, roleId);
@@ -162,12 +162,12 @@ public class PermService implements PermStub {
         /* Read permission and actions */
         return Ux.Jooq.on(SPermissionDao.class).<SPermission>fetchByIdAsync(key)
 
-                /* Secondary Fetching, Fetch action here */
-                .compose(permission -> this.actionStub.fetchAction(permission.getKey())
+            /* Secondary Fetching, Fetch action here */
+            .compose(permission -> this.actionStub.fetchAction(permission.getKey())
 
-                        /* futureJM to combine two result to JsonObject */
-                        .compose(Ux.futureJM(permission, KName.ACTIONS))
-                );
+                /* futureJM to combine two result to JsonObject */
+                .compose(Ux.futureJM(permission, KName.ACTIONS))
+            );
     }
 
     @Override
@@ -176,12 +176,12 @@ public class PermService implements PermStub {
         body.remove(KName.ACTIONS);
         return Ux.Jooq.on(SPermissionDao.class).<SPermission>insertAsync(body)
 
-                /* Synced Action */
-                .compose(permission -> this.actionStub.saveAction(permission, actions)
+            /* Synced Action */
+            .compose(permission -> this.actionStub.saveAction(permission, actions)
 
-                        /* futureJM to combine two result to JsonObject */
-                        .compose(Ux.futureJM(permission, KName.ACTIONS))
-                );
+                /* futureJM to combine two result to JsonObject */
+                .compose(Ux.futureJM(permission, KName.ACTIONS))
+            );
     }
 
     @Override
@@ -190,17 +190,17 @@ public class PermService implements PermStub {
         body.remove(KName.ACTIONS);
         return Ux.Jooq.on(SPermissionDao.class).<SPermission, String>updateAsync(key, body)
 
-                /* Synced Action */
-                .compose(permission -> this.actionStub.saveAction(permission, actions)
+            /* Synced Action */
+            .compose(permission -> this.actionStub.saveAction(permission, actions)
 
-                        /* futureJM to combine two result to JsonObject */
-                        .compose(Ux.futureJM(permission, KName.ACTIONS))
-                );
+                /* futureJM to combine two result to JsonObject */
+                .compose(Ux.futureJM(permission, KName.ACTIONS))
+            );
     }
 
     @Override
     public Future<Boolean> deleteAsync(final String key, final String userKey) {
         return Ux.Jooq.on(SPermissionDao.class).deleteByIdAsync(key)
-                .compose(nil -> this.actionStub.removeAction(key, userKey));
+            .compose(nil -> this.actionStub.removeAction(key, userKey));
     }
 }

@@ -29,7 +29,7 @@ public class ExAnalyzer {
 
     private static final ExcelClient CLIENT = ExcelInfix.getClient();
     private transient final ConcurrentMap<String, Set<ExRecord>> recordMap
-            = new ConcurrentHashMap<>();
+        = new ConcurrentHashMap<>();
     /* 应用程序名称 */
     private transient String appName;
 

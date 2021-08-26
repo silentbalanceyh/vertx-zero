@@ -26,8 +26,8 @@ public class IntVto implements Vto<Integer> {
                  * String -> Integer
                  */
                 return Ut.isInteger(value.toString()) ?
-                        Integer.parseInt(value.toString()) :
-                        Values.RANGE;
+                    Integer.parseInt(value.toString()) :
+                    Values.RANGE;
             } else if (Tool.isInteger(type)) {
                 /*
                  * Long -> Integer

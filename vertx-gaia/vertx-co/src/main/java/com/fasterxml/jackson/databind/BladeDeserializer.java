@@ -43,7 +43,7 @@ public class BladeDeserializer extends JsonDeserializer<Uson> { // NOPMD
     @Override
     public Uson deserialize(final JsonParser parser,
                             final DeserializationContext context)
-            throws IOException {
+        throws IOException {
         final JsonNode node = parser.getCodec().readTree(parser);
         return Uson.create(new JsonObject(node.toString()));
     }

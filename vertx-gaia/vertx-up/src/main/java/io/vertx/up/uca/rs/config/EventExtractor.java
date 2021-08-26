@@ -39,16 +39,16 @@ public class EventExtractor implements Extractor<Set<Event>> {
             // 2. Check whether clazz annotated with @PATH
             final Set<Event> result = new ConcurrentHashSet<>();
             Fn.safeSemi(clazz.isAnnotationPresent(Path.class), LOGGER,
-                    () -> {
-                        // 3.1. Append Root Path
-                        final Path path = ZeroHelper.getPath(clazz);
-                        assert null != path : "Path should not be null.";
-                        result.addAll(this.extract(clazz, PathResolver.resolve(path)));
-                    },
-                    () -> {
-                        // 3.2. Use method Path directly
-                        result.addAll(this.extract(clazz, null));
-                    });
+                () -> {
+                    // 3.1. Append Root Path
+                    final Path path = ZeroHelper.getPath(clazz);
+                    assert null != path : "Path should not be null.";
+                    result.addAll(this.extract(clazz, PathResolver.resolve(path)));
+                },
+                () -> {
+                    // 3.2. Use method Path directly
+                    result.addAll(this.extract(clazz, null));
+                });
             return result;
         }, clazz);
     }
@@ -62,8 +62,8 @@ public class EventExtractor implements Extractor<Set<Event>> {
         Verifier.modifier(clazz, this.getClass());
         // Event Source Checking
         Fn.outUp(!clazz.isAnnotationPresent(EndPoint.class),
-                LOGGER, EventSourceException.class,
-                this.getClass(), clazz.getName());
+            LOGGER, EventSourceException.class,
+            this.getClass(), clazz.getName());
     }
 
     @SuppressWarnings("all")
@@ -73,20 +73,20 @@ public class EventExtractor implements Extractor<Set<Event>> {
         final Method[] methods = clazz.getDeclaredMethods();
         // 1.Validate Codex annotation appears
         final Long counter = Observable.fromArray(methods)
-                .map(Method::getParameterAnnotations)
-                .flatMap(Observable::fromArray)
-                .map(Arrays::asList)
-                .map(item -> item.stream().map(Annotation::annotationType).collect(Collectors.toList()))
-                .filter(item -> item.contains(Codex.class))
-                .count().blockingGet();
+            .map(Method::getParameterAnnotations)
+            .flatMap(Observable::fromArray)
+            .map(Arrays::asList)
+            .map(item -> item.stream().map(Annotation::annotationType).collect(Collectors.toList()))
+            .filter(item -> item.contains(Codex.class))
+            .count().blockingGet();
         Fn.outUp(methods.length < counter, LOGGER,
-                EventCodexMultiException.class,
-                this.getClass(), clazz);
+            EventCodexMultiException.class,
+            this.getClass(), clazz);
         // 2.Build Set
         events.addAll(Arrays.stream(methods).filter(MethodResolver::isValid)
-                .map(item -> this.extract(item, root))
-                .filter(Objects::nonNull)
-                .collect(Collectors.toSet()));
+            .map(item -> this.extract(item, root))
+            .filter(Objects::nonNull)
+            .collect(Collectors.toSet()));
         return events;
     }
 
@@ -120,7 +120,7 @@ public class EventExtractor implements Extractor<Set<Event>> {
                 }
             } else {
                 final String result = PathResolver.resolve(
-                        path, root);
+                    path, root);
                 event.setPath(result);
             }
         }

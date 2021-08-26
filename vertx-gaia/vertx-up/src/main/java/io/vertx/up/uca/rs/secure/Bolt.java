@@ -10,10 +10,10 @@ import io.vertx.up.atom.secure.Cliff;
  */
 public interface Bolt {
 
-    AuthHandler mount(final Vertx vertx,
-                      final Cliff cliff);
-
     static Bolt get() {
         return ShuntBolt.create();
     }
+
+    AuthHandler mount(final Vertx vertx,
+                      final Cliff cliff);
 }

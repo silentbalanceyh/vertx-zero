@@ -19,7 +19,7 @@ public class WorkerExtractor implements Extractor<DeploymentOptions> {
     private static final Annal LOGGER = Annal.get(WorkerExtractor.class);
 
     private static final ConcurrentMap<Class<?>, DeploymentOptions>
-            OPTIONS = new ConcurrentHashMap<>();
+        OPTIONS = new ConcurrentHashMap<>();
 
     @Override
     public DeploymentOptions extract(final Class<?> clazz) {

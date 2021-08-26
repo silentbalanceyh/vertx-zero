@@ -1,12 +1,12 @@
 package io.vertx.up.runtime;
 
 import io.vertx.up.annotations.Agent;
-import io.vertx.up.eon.em.ServerType;
-import io.vertx.up.log.Annal;
 import io.vertx.up.eon.Values;
-import io.vertx.zero.exception.AgentDuplicatedException;
-import io.vertx.up.util.Ut;
+import io.vertx.up.eon.em.ServerType;
 import io.vertx.up.fn.Fn;
+import io.vertx.up.log.Annal;
+import io.vertx.up.util.Ut;
+import io.vertx.zero.exception.AgentDuplicatedException;
 
 import javax.ws.rs.Path;
 import java.lang.annotation.Annotation;
@@ -31,34 +31,34 @@ public class ZeroHelper {
      **/
     public static ServerType getAgentKey(final Class<?> clazz) {
         return Fn.getSemi(clazz.isAnnotationPresent(Agent.class), LOGGER,
-                () -> Ut.invoke(clazz.getDeclaredAnnotation(Agent.class), "type"),
-                () -> null);
+            () -> Ut.invoke(clazz.getDeclaredAnnotation(Agent.class), "type"),
+            () -> null);
     }
 
     /**
      *
      **/
     public static ConcurrentMap<ServerType, Boolean> isAgentDefined(
-            final ConcurrentMap<ServerType, List<Class<?>>> agents,
-            final Class<?>... exclude) {
+        final ConcurrentMap<ServerType, List<Class<?>>> agents,
+        final Class<?>... exclude) {
         final Set<Class<?>> excludes = new HashSet<>(Arrays.asList(exclude));
         final ConcurrentMap<ServerType, Boolean> defined
-                = new ConcurrentHashMap<>();
+            = new ConcurrentHashMap<>();
         for (final ServerType server : agents.keySet()) {
             final List<Class<?>> item = agents.get(server);
             // Filter to result.
             final List<Class<?>> filtered =
-                    item.stream()
-                            .filter(each -> !excludes.contains(each))
-                            .collect(Collectors.toList());
+                item.stream()
+                    .filter(each -> !excludes.contains(each))
+                    .collect(Collectors.toList());
             // > 1 means duplicated defined
             final int size = filtered.size();
             Fn.outUp(1 < size,
-                    LOGGER, AgentDuplicatedException.class,
-                    ZeroHelper.class, server, size,
-                    filtered.stream()
-                            .map(Class::getName)
-                            .collect(Collectors.toSet()));
+                LOGGER, AgentDuplicatedException.class,
+                ZeroHelper.class, server, size,
+                filtered.stream()
+                    .map(Class::getName)
+                    .collect(Collectors.toSet()));
             // == 0 means undefined
             // == 1 means correct defined
             defined.put(server, Values.ONE == size);

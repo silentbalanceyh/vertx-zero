@@ -9,9 +9,9 @@ import io.vertx.core.Future;
 import io.vertx.core.http.HttpMethod;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.eon.KName;
 import io.vertx.tp.ke.refine.Ke;
 import io.vertx.tp.optic.business.ExRoute;
+import io.vertx.up.eon.KName;
 import io.vertx.up.eon.Strings;
 import io.vertx.up.runtime.soul.UriAeon;
 import io.vertx.up.runtime.soul.UriMeta;
@@ -49,13 +49,13 @@ public class ActionService implements ActionStub {
         }
         actionFilters.put(KName.METHOD, method.name());
         return Ux.Jooq.on(SActionDao.class)
-                .fetchOneAsync(actionFilters);
+            .fetchOneAsync(actionFilters);
     }
 
     @Override
     public Future<SResource> fetchResource(final String key) {
         return Ux.Jooq.on(SResourceDao.class)
-                .fetchByIdAsync(key);
+            .fetchByIdAsync(key);
     }
 
     @Override
@@ -116,38 +116,38 @@ public class ActionService implements ActionStub {
          * Read action list of original
          */
         return Ux.Jooq.on(SActionDao.class).<SAction>fetchAsync(KName.PERMISSION_ID, permission.getKey())
-                .compose(oldList -> {
-                    /*
-                     * Get actions of input
-                     */
-                    final List<SAction> inputList = Ux.fromJson(actionData, SAction.class);
+            .compose(oldList -> {
+                /*
+                 * Get actions of input
+                 */
+                final List<SAction> inputList = Ux.fromJson(actionData, SAction.class);
 
-                    final ConcurrentMap<String, SAction> mapInput = Ut.elementMap(inputList, SAction::getKey);
-                    final ConcurrentMap<String, SAction> mapStored = Ut.elementMap(oldList, SAction::getKey);
+                final ConcurrentMap<String, SAction> mapInput = Ut.elementMap(inputList, SAction::getKey);
+                final ConcurrentMap<String, SAction> mapStored = Ut.elementMap(oldList, SAction::getKey);
+                /*
+                 * Remove link
+                 */
+                final List<SAction> updated = new ArrayList<>();
+                oldList.forEach(original -> {
                     /*
-                     * Remove link
+                     * Existing in inputMap but not in original
+                     * Here should remove link between Permission / Action
                      */
-                    final List<SAction> updated = new ArrayList<>();
-                    oldList.forEach(original -> {
-                        /*
-                         * Existing in inputMap but not in original
-                         * Here should remove link between Permission / Action
-                         */
-                        if (!mapInput.containsKey(original.getKey())) {
-                            this.setAction(original, permission, null);
-                            updated.add(original);
-                        }
-                    });
-                    /*
-                     * Add link
-                     */
-                    mapInput.keySet().stream().filter(key -> !mapStored.containsKey(key)).forEach(actionKey -> {
-                        final SAction action = mapInput.get(actionKey);
-                        this.setAction(action, permission, permission.getKey());
-                        updated.add(action);
-                    });
-                    return Ux.Jooq.on(SActionDao.class).updateAsync(updated);
+                    if (!mapInput.containsKey(original.getKey())) {
+                        this.setAction(original, permission, null);
+                        updated.add(original);
+                    }
                 });
+                /*
+                 * Add link
+                 */
+                mapInput.keySet().stream().filter(key -> !mapStored.containsKey(key)).forEach(actionKey -> {
+                    final SAction action = mapInput.get(actionKey);
+                    this.setAction(action, permission, permission.getKey());
+                    updated.add(action);
+                });
+                return Ux.Jooq.on(SActionDao.class).updateAsync(updated);
+            });
     }
 
     private void setAction(final SAction action, final SPermission permission, final String permissionId) {
@@ -162,17 +162,17 @@ public class ActionService implements ActionStub {
     @Override
     public Future<Boolean> removeAction(final String permissionId, final String userKey) {
         return Ux.Jooq.on(SActionDao.class).<SAction>fetchAsync(KName.PERMISSION_ID, permissionId)
-                .compose(actions -> {
-                    /*
-                     * actions modification, no createdBy processing here
-                     */
-                    actions.forEach(action -> {
-                        action.setPermissionId(null);
-                        action.setUpdatedAt(LocalDateTime.now());
-                        action.setUpdatedBy(userKey);
-                    });
-                    return Ux.Jooq.on(SActionDao.class).updateAsync(actions);
-                })
-                .compose(nil -> Ux.future(Boolean.TRUE));
+            .compose(actions -> {
+                /*
+                 * actions modification, no createdBy processing here
+                 */
+                actions.forEach(action -> {
+                    action.setPermissionId(null);
+                    action.setUpdatedAt(LocalDateTime.now());
+                    action.setUpdatedBy(userKey);
+                });
+                return Ux.Jooq.on(SActionDao.class).updateAsync(actions);
+            })
+            .compose(nil -> Ux.future(Boolean.TRUE));
     }
 }

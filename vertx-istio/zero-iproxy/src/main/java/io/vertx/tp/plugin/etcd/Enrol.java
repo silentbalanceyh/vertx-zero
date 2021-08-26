@@ -12,6 +12,7 @@ public interface Enrol<T> {
      *
      * @param path
      * @param entity
+     *
      * @return
      */
     JsonObject write(final String path, final T entity);
@@ -20,6 +21,7 @@ public interface Enrol<T> {
      * Read data from path;
      *
      * @param path
+     *
      * @return
      */
     T read(final String path);

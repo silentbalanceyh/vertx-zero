@@ -45,12 +45,12 @@ public class ElasticIndexer extends AbstractEsClient {
 
         try {
             final GetIndexRequest request = new GetIndexRequest(index)
-                    .includeDefaults(true)
-                    .indicesOptions(IndicesOptions.lenientExpandOpen());
+                .includeDefaults(true)
+                .indicesOptions(IndicesOptions.lenientExpandOpen());
 
             final GetIndexResponse response = client
-                    .indices()
-                    .get(request, RequestOptions.DEFAULT);
+                .indices()
+                .get(request, RequestOptions.DEFAULT);
 
             this.toResultGet(response, result);
         } catch (final IOException ioe) {
@@ -68,7 +68,7 @@ public class ElasticIndexer extends AbstractEsClient {
 
         try {
             final UpdateSettingsRequest request = new UpdateSettingsRequest(index)
-                    .settings(this.helper.settingsBuilder(numberOfShards, numberOfReplicas));
+                .settings(this.helper.settingsBuilder(numberOfShards, numberOfReplicas));
 
             final AcknowledgedResponse response = client.indices().putSettings(request, RequestOptions.DEFAULT);
 
@@ -87,9 +87,9 @@ public class ElasticIndexer extends AbstractEsClient {
 
         try {
             final CreateIndexRequest request = new CreateIndexRequest(index)
-                    .alias(new Alias(this.getString("index")))
-                    .settings(this.helper.settingsBuilder(numberOfShards, numberOfReplicas))
-                    .mapping(this.helper.mappingsBuilder(mappings));
+                .alias(new Alias(this.getString("index")))
+                .settings(this.helper.settingsBuilder(numberOfShards, numberOfReplicas))
+                .mapping(this.helper.mappingsBuilder(mappings));
 
             final CreateIndexResponse response = client.indices().create(request, RequestOptions.DEFAULT);
 

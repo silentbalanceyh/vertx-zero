@@ -21,6 +21,7 @@ class ShuntBolt implements Bolt {
     /**
      * @param vertx Vertx reference
      * @param cliff Cliff reference
+     *
      * @return AuthHandler building
      */
     @Override

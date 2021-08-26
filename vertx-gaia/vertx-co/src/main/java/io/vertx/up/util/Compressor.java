@@ -36,7 +36,7 @@ class Compressor {
             inflater.setInput(data);
 
             final ByteArrayOutputStream outputStream = new ByteArrayOutputStream(
-                    data.length);
+                data.length);
             final byte[] buffer = new byte[Values.CACHE_SIZE];
             while (!inflater.finished()) {
                 final int count = inflater.inflate(buffer);

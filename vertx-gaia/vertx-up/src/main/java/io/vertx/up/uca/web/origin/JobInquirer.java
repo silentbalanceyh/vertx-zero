@@ -22,13 +22,13 @@ public class JobInquirer implements Inquirer<Set<Mission>> {
     @Override
     public Set<Mission> scan(final Set<Class<?>> clazzes) {
         final Set<Class<?>> jobs = clazzes.stream()
-                .filter(item -> item.isAnnotationPresent(Job.class))
-                .collect(Collectors.toSet());
+            .filter(item -> item.isAnnotationPresent(Job.class))
+            .collect(Collectors.toSet());
         /* All classes of jobs here */
         LOGGER.info(Info.SCANED_JOB, jobs.size());
         return jobs.stream().map(this::initialize)
-                .filter(Objects::nonNull)
-                .collect(Collectors.toSet());
+            .filter(Objects::nonNull)
+            .collect(Collectors.toSet());
     }
 
     private Mission initialize(final Class<?> clazz) {

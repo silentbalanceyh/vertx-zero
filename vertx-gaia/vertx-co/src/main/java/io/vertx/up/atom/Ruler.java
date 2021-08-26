@@ -25,9 +25,9 @@ public class Ruler {
     private static final Annal LOGGER = Annal.get(Ruler.class);
 
     private static final ConcurrentMap<String, JsonObject> RULE_MAP =
-            new ConcurrentHashMap<>();
+        new ConcurrentHashMap<>();
     private static final ConcurrentMap<String, Insurer> POOL_INSURER =
-            new ConcurrentHashMap<>();
+        new ConcurrentHashMap<>();
 
     /**
      * Verify data for each up.god.file

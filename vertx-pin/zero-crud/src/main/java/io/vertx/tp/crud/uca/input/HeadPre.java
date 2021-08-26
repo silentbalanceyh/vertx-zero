@@ -2,6 +2,7 @@ package io.vertx.tp.crud.uca.input;
 
 import io.vertx.core.Future;
 import io.vertx.core.MultiMap;
+import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.crud.uca.desk.IxIn;
 import io.vertx.tp.ke.atom.KModule;
@@ -32,15 +33,34 @@ class HeadPre implements Pre {
         final KModule module = in.module();
         final MultiMap headers = envelop.headers();
         /* Header Attached */
+        final JsonObject normalized = this.inJAsync(data, headers, module);
+        return Future.succeededFuture(normalized);
+    }
+
+    @Override
+    public Future<JsonArray> inAAsync(final JsonArray data, final IxIn in) {
+        /* Header */
+        final Envelop envelop = in.envelop();
+        final KModule module = in.module();
+        final MultiMap headers = envelop.headers();
+        /* Header Attached */
+        final JsonArray normalized = new JsonArray();
+        Ut.itJArray(data).map(json -> this.inJAsync(json, headers, module)).forEach(normalized::add);
+        return Future.succeededFuture(normalized);
+    }
+
+    private JsonObject inJAsync(final JsonObject json, final MultiMap headers,
+                                final KModule module) {
+        /* Header Attached */
         final JsonObject config = module.getHeader();
         if (Objects.nonNull(config)) {
             Ut.<String>itJObject(config, (to, from) -> {
                 final String value = headers.get(to);
                 if (Ut.notNil(value)) {
-                    data.put(from, value);
+                    json.put(from, value);
                 }
             });
         }
-        return Future.succeededFuture(data);
+        return json;
     }
 }

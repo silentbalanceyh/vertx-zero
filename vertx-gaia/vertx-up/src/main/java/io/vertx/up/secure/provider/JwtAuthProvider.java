@@ -75,10 +75,10 @@ public class JwtAuthProvider implements JwtAuth {
              */
             LOGGER.debug(Info.FLOW_NULL, token);
             this.prerequisite(token)
-                    /* 401 */
-                    .compose(nil -> this.securer.authenticate(authInfo))
-                    /* Mount Handler */
-                    .onComplete(this.authorized(token, handler));
+                /* 401 */
+                .compose(nil -> this.securer.authenticate(authInfo))
+                /* Mount Handler */
+                .onComplete(this.authorized(token, handler));
         } else {
             /*
              * Get token from sessionTokens
@@ -95,8 +95,8 @@ public class JwtAuthProvider implements JwtAuth {
                      * 403 Validation ( If So )
                      */
                     this.securer.authorize(authInfo)
-                            /* Mount Handler */
-                            .onComplete(this.authorized(token, handler));
+                        /* Mount Handler */
+                        .onComplete(this.authorized(token, handler));
                 } else {
                     LOGGER.debug(Info.MAP_MISSING, token);
                     /*
@@ -105,10 +105,10 @@ public class JwtAuthProvider implements JwtAuth {
                      * 2) 403 Validation ( If So )
                      */
                     this.prerequisite(token)
-                            /* 401 */
-                            .compose(nil -> this.securer.authenticate(authInfo))
-                            /* Mount Handler */
-                            .onComplete(this.authorized(token, handler));
+                        /* 401 */
+                        .compose(nil -> this.securer.authenticate(authInfo))
+                        /* Mount Handler */
+                        .onComplete(this.authorized(token, handler));
                 }
             });
         }

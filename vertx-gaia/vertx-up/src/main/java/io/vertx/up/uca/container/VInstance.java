@@ -8,7 +8,7 @@ import java.util.concurrent.ConcurrentMap;
 
 public class VInstance {
     private static final ConcurrentMap<Class<?>, VInstance> V_POOL =
-            new ConcurrentHashMap<>();
+        new ConcurrentHashMap<>();
     private transient final Class<?> interfaceCls;
 
     private VInstance(final Class<?> interfaceCls) {

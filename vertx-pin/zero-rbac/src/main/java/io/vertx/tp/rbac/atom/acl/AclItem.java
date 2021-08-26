@@ -19,7 +19,7 @@ public class AclItem extends AbstractAcl {
          * Default readonly, false
          */
         this(field, input.getBoolean("visible", Boolean.TRUE),
-                input.getBoolean("view", Boolean.FALSE)
+            input.getBoolean("view", Boolean.FALSE)
         );
     }
 

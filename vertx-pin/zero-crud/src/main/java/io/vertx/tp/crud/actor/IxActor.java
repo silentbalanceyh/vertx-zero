@@ -16,67 +16,67 @@ public interface IxActor {
 
     static IxActor user() {
         return Fn.pool(Pool.ACTOR_MAP, UserActor.class.getName(),
-                UserActor::new);
+            UserActor::new);
     }
 
     static IxActor uri() {
         return Fn.pool(Pool.ACTOR_MAP, UriActor.class.getName(),
-                UriActor::new);
+            UriActor::new);
     }
 
     static IxActor view() {
         return Fn.pool(Pool.ACTOR_MAP, ViewActor.class.getName(),
-                ViewActor::new);
+            ViewActor::new);
     }
 
     static IxActor actor() {
         return Fn.pool(Pool.ACTOR_MAP, ModuleActor.class.getName(),
-                ModuleActor::new);
+            ModuleActor::new);
     }
 
     static IxActor apeak() {
         return Fn.pool(Pool.ACTOR_MAP, ApeakActor.class.getName(),
-                ApeakActor::new);
+            ApeakActor::new);
     }
 
     static IxActor unique() {
         return Fn.pool(Pool.ACTOR_MAP, UniqueActor.class.getName(),
-                UniqueActor::new);
+            UniqueActor::new);
     }
 
     static IxActor header() {
         return Fn.pool(Pool.ACTOR_MAP, HeaderActor.class.getName(),
-                HeaderActor::new);
+            HeaderActor::new);
     }
 
     static IxActor verify() {
         return Fn.pool(Pool.ACTOR_MAP, VerifyActor.class.getName(),
-                VerifyActor::new);
+            VerifyActor::new);
     }
 
     static IxActor uuid() {
         return Fn.pool(Pool.ACTOR_MAP, UuidActor.class.getName(),
-                UuidActor::new);
+            UuidActor::new);
     }
 
     static IxActor key() {
         return Fn.pool(Pool.ACTOR_MAP, KeyActor.class.getName(),
-                KeyActor::new);
+            KeyActor::new);
     }
 
     static IxActor create() {
         return Fn.pool(Pool.ACTOR_MAP, CreateActor.class.getName(),
-                CreateActor::new);
+            CreateActor::new);
     }
 
     static IxActor update() {
         return Fn.pool(Pool.ACTOR_MAP, UpdateActor.class.getName(),
-                UpdateActor::new);
+            UpdateActor::new);
     }
 
     static IxActor serial() {
         return Fn.pool(Pool.ACTOR_MAP, SerialActor.class.getName(),
-                SerialActor::new);
+            SerialActor::new);
     }
 
     static Future<JsonObject> start() {

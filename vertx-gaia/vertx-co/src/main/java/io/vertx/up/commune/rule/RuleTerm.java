@@ -28,12 +28,12 @@ public class RuleTerm implements Serializable {
 
     public RuleTerm(final JsonArray rules) {
         rules.stream()
-                /* 过滤空 */
-                .filter(Objects::nonNull)
-                /* 只要String */
-                .filter(item -> item instanceof String)
-                .map(item -> (String) item)
-                .forEach(this.fields::add);
+            /* 过滤空 */
+            .filter(Objects::nonNull)
+            /* 只要String */
+            .filter(item -> item instanceof String)
+            .map(item -> (String) item)
+            .forEach(this.fields::add);
     }
 
     public Set<String> getFields() {
@@ -43,7 +43,7 @@ public class RuleTerm implements Serializable {
     public JsonObject dataRule(final JsonObject input) {
         final JsonObject cond = new JsonObject();
         this.fields.stream().filter(input::containsKey)
-                .forEach(field -> cond.put(field, input.getValue(field)));
+            .forEach(field -> cond.put(field, input.getValue(field)));
         return cond;
     }
 
@@ -57,13 +57,13 @@ public class RuleTerm implements Serializable {
         } else {
             final JsonObject compress = new JsonObject();
             input.fieldNames().stream()
-                    .filter(field -> Objects.nonNull(input.getValue(field)))
-                    .forEach(field -> compress.put(field, input.getValue(field)));
+                .filter(field -> Objects.nonNull(input.getValue(field)))
+                .forEach(field -> compress.put(field, input.getValue(field)));
             /* 传入数据本身的 fields */
             final Set<String> dataFields = compress.fieldNames();
             final long counter = this.fields.stream()
-                    .filter(dataFields::contains)
-                    .count();
+                .filter(dataFields::contains)
+                .count();
             /* 相等证明 fields 中所有的字段都包含在了 dataFields 中 */
             if (counter == this.fields.size()) {
                 return compress.copy();
@@ -92,7 +92,7 @@ public class RuleTerm implements Serializable {
     @Override
     public String toString() {
         return "RuleTerm{" +
-                "fields=" + this.fields +
-                '}';
+            "fields=" + this.fields +
+            '}';
     }
 }

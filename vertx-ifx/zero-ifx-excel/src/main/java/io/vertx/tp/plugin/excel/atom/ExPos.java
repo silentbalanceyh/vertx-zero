@@ -57,7 +57,7 @@ public class ExPos {
         final int colAcc = (colEnd - colStart);
         if (0 < rowAcc || 0 < colAcc) {
             LOGGER.debug("[ Έξοδος ] Region created: ( Row: {0} ~ {1}, Column: {2} ~ {3} )",
-                    rowStart, rowEnd, colStart, colEnd);
+                rowStart, rowEnd, colStart, colEnd);
             return new CellRangeAddress(rowStart, rowEnd, colStart, colEnd);
         } else return null;
     }

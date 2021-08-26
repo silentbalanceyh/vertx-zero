@@ -23,14 +23,14 @@ public class IpcServer {
     @Ipc(KeIpc.Sc.IPC_TOKEN_VERIFY)
     public Future<JsonObject> verify(final Envelop envelop) {
         return this.security.verify(envelop.data())
-                /* Token verified successfully */
-                .compose(Ke.Result::boolAsync);
+            /* Token verified successfully */
+            .compose(Ke.Result::boolAsync);
     }
 
     @Ipc(KeIpc.Sc.IPC_TOKEN_ACCESS)
     public Future<JsonObject> access(final Envelop envelop) {
         return this.security.access(envelop.data())
-                /* Token access */
-                .compose(Ke.Result::boolAsync);
+            /* Token access */
+            .compose(Ke.Result::boolAsync);
     }
 }

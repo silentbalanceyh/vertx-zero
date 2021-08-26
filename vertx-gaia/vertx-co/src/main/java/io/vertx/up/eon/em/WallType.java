@@ -14,7 +14,7 @@ public enum WallType {
     CUSTOM("custom");
 
     private static final ConcurrentMap<String, WallType> TYPE_MAP
-            = new ConcurrentHashMap<String, WallType>() {
+        = new ConcurrentHashMap<String, WallType>() {
         {
             this.put("mongo", MONGO);
             this.put("jwt", JWT);
@@ -28,15 +28,15 @@ public enum WallType {
         this.literal = literal;
     }
 
+    public static WallType from(final String literal) {
+        return TYPE_MAP.get(literal);
+    }
+
     public String key() {
         return this.literal;
     }
 
     public boolean match(final String literal) {
         return null != literal && this.literal.equals(literal);
-    }
-
-    public static WallType from(final String literal) {
-        return TYPE_MAP.get(literal);
     }
 }

@@ -36,16 +36,16 @@ public class MicroApplication {
     private MicroApplication(final Class<?> clazz) {
         // Must not null
         Fn.outUp(
-                null == clazz,
-                LOGGER,
-                UpClassArgsException.class, this.getClass());
+            null == clazz,
+            LOGGER,
+            UpClassArgsException.class, this.getClass());
         this.clazz = clazz;
         this.annotationMap = Anno.get(clazz);
         // Must be invalid
         Fn.outUp(
-                !this.annotationMap.containsKey(Up.class.getName()),
-                LOGGER,
-                UpClassInvalidException.class, this.getClass(), clazz.getName());
+            !this.annotationMap.containsKey(Up.class.getName()),
+            LOGGER,
+            UpClassInvalidException.class, this.getClass(), clazz.getName());
     }
 
     public static void run(final Class<?> clazz, final Object... args) {
@@ -58,7 +58,7 @@ public class MicroApplication {
     private void run(final Object... args) {
         // Check etcd server status, IPC Only
         Fn.outUp(!ZeroHeart.isEtcd(),
-                LOGGER, RpcPreparingException.class, this.getClass());
+            LOGGER, RpcPreparingException.class, this.getClass());
 
         final Launcher<Vertx> launcher = Ut.singleton(ZeroLauncher.class);
 

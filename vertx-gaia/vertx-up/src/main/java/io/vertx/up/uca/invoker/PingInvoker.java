@@ -17,7 +17,7 @@ public class PingInvoker extends AbstractInvoker {
     public void ensure(final Class<?> returnType,
                        final Class<?> paramCls) {
         final boolean valid = (void.class == returnType || Void.class == returnType)
-                && paramCls == Envelop.class;
+            && paramCls == Envelop.class;
         InvokerUtil.verify(!valid, returnType, paramCls, this.getClass());
     }
 

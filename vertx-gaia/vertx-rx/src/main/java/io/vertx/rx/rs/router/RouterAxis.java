@@ -13,7 +13,7 @@ public class RouterAxis implements Axis<Router> {
         // 2. Enabled by default
         // router.route().order(Orders.COOKIE).handler(CookieHandler.create());
         router.route().order(Orders.BODY)
-                .handler(BodyHandler.create());
+            .handler(BodyHandler.create());
         // 2. Session
     }
 }

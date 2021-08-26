@@ -56,9 +56,9 @@ public class JobConfig implements Serializable {
     @Override
     public String toString() {
         return "JobConfig{" +
-                "store=" + store +
-                ", interval=" + interval +
-                ", client=" + client +
-                '}';
+            "store=" + store +
+            ", interval=" + interval +
+            ", client=" + client +
+            '}';
     }
 }

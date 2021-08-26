@@ -35,9 +35,9 @@ class MatrixFlow {
              * Basic view configuration reading
              */
             bound.addProjection(matrix.getProjection())
-                    .addRows(matrix.getRows())
-                    .addCriteria(matrix.getCriteria())
-                    .addView(viewData);
+                .addRows(matrix.getRows())
+                .addCriteria(matrix.getCriteria())
+                .addView(viewData);
         });
         return Future.succeededFuture(bound);
     }

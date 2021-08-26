@@ -26,19 +26,19 @@ public class UxJob {
     // Stop job
     public Future<Boolean> stopAsync(final String code) {
         return Fn.thenGeneric(future -> this.client.stopAsync(code,
-                res -> {
-                    LOGGER.info(Info.JOB_STOP, code);
-                    future.complete(Boolean.TRUE);
-                }));
+            res -> {
+                LOGGER.info(Info.JOB_STOP, code);
+                future.complete(Boolean.TRUE);
+            }));
     }
 
     // Resume job
     public Future<Boolean> resumeAsync(final String code) {
         return Fn.thenGeneric(future -> this.client.resumeAsync(code,
-                res -> {
-                    LOGGER.info(Info.JOB_RESUME, code);
-                    future.complete(Boolean.TRUE);
-                }));
+            res -> {
+                LOGGER.info(Info.JOB_RESUME, code);
+                future.complete(Boolean.TRUE);
+            }));
     }
 
     public Future<JsonObject> statusAsync(final String namespace) {

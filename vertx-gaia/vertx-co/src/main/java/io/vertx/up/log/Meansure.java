@@ -30,7 +30,7 @@ class Meansure {
                     if (result.succeeded()) {
                         final Annal logger = Annal.get(Meansure.class);
                         logger.info(Info.MEANSURE_ADD, name,
-                                String.valueOf(options.getInstances()), options.isWorker());
+                            String.valueOf(options.getInstances()), options.isWorker());
                     }
                 });
             }

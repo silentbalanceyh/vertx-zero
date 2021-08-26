@@ -81,10 +81,10 @@ public class Mojo implements Serializable {
     @SuppressWarnings("all")
     public ConcurrentMap<String, String> getIn() {
         Fn.safeSemi(config.keySet().size() != config.values().size(), LOGGER,
-                () -> LOGGER.warn(Info.VALUE_SAME,
-                        config.keySet().size(), config.values().size()));
+            () -> LOGGER.warn(Info.VALUE_SAME,
+                config.keySet().size(), config.values().size()));
         final ConcurrentMap<String, String> mapper =
-                new ConcurrentHashMap<>();
+            new ConcurrentHashMap<>();
         config.forEach((key, value) -> mapper.put(value, key));
         return mapper;
     }
@@ -165,13 +165,13 @@ public class Mojo implements Serializable {
         final StringBuilder report = new StringBuilder();
         report.append("==> Column: \n");
         this.columns.forEach((column, field) -> report
-                .append(column).append('=').append(field).append('\n'));
+            .append(column).append('=' ).append(field).append('\n' ));
         /*
          *
          */
         report.append("==> Pojo: \n");
         this.config.forEach((actual, input) -> report
-                .append(actual).append('=').append(input).append('\n'));
+            .append(actual).append('=' ).append(input).append('\n' ));
         return report.toString();
     }
 }

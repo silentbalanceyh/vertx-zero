@@ -42,7 +42,7 @@ class ScTool {
         } else {
             final String modeTree = resource.getModeTree();
             final String group = modeGroup.toUpperCase(Locale.getDefault()) +
-                    "_" + modeRole.toUpperCase(Locale.getDefault());
+                "_" + modeRole.toUpperCase(Locale.getDefault());
             if (Ut.isNil(modeTree)) {
                 /*
                  * Group Mode
@@ -60,7 +60,7 @@ class ScTool {
                  * INHERIT_XXX
                  */
                 return modeTree.toUpperCase(Locale.getDefault()) +
-                        "_" + group;
+                    "_" + group;
             }
         }
     }

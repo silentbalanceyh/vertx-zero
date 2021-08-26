@@ -26,7 +26,7 @@ class IxValidator {
      *        field2 = List<Rule>
      */
     private static final ConcurrentMap<String, ConcurrentMap<String, List<Rule>>> RULE_MAP =
-            new ConcurrentHashMap<>();
+        new ConcurrentHashMap<>();
 
     static void init() {
         final List<String> files = Ut.ioFiles(IxFolder.VALIDATOR, FileSuffix.YML);

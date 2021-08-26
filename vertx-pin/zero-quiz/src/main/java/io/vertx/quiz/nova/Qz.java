@@ -45,6 +45,6 @@ public class Qz {
     @SuppressWarnings("all")
     public <T> void test(final TestContext context, final BiConsumer<T, T> consumer) {
         Fn.onTest(context, this.data.<Envelop>async(),
-                result -> consumer.accept((T) this.data.input(), (T) result));
+            result -> consumer.accept((T) this.data.input(), (T) result));
     }
 }

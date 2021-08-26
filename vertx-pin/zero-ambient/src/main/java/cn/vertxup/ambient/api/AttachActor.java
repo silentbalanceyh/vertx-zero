@@ -26,21 +26,21 @@ public class AttachActor {
         At.infoFile(LOGGER, AtMsg.FILE_UPLOAD, content.encodePrettily());
         final XAttachment attachment = Ut.deserialize(content, XAttachment.class);
         return Ux.Jooq.on(XAttachmentDao.class)
-                .insertAsync(attachment)
-                .compose(Ux::futureJ);
+            .insertAsync(attachment)
+            .compose(Ux::futureJ);
     }
 
     @Address(Addr.File.DOWNLOAD)
     public Future<Buffer> download(final JsonObject filters) {
         At.infoFile(LOGGER, AtMsg.FILE_DOWNLOAD, filters.encodePrettily());
         return Ux.Jooq.on(XAttachmentDao.class)
-                .<XAttachment>fetchOneAsync(filters)
-                .compose(entity -> {
-                    Buffer buffer = Buffer.buffer();
-                    if (Objects.nonNull(entity)) {
-                        buffer = Ut.ioBuffer(entity.getFilePath());
-                    }
-                    return Ux.future(buffer);
-                });
+            .<XAttachment>fetchOneAsync(filters)
+            .compose(entity -> {
+                Buffer buffer = Buffer.buffer();
+                if (Objects.nonNull(entity)) {
+                    buffer = Ut.ioBuffer(entity.getFilePath());
+                }
+                return Ux.future(buffer);
+            });
     }
 }

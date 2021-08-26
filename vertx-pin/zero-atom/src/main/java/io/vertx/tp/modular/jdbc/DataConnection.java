@@ -1,10 +1,10 @@
 package io.vertx.tp.modular.jdbc;
 
 import io.vertx.tp.error._500EmptySQLException;
-import io.vertx.up.eon.KResult;
 import io.vertx.tp.modular.sql.SqlOutput;
 import io.vertx.tp.plugin.database.DataPool;
 import io.vertx.up.commune.config.Database;
+import io.vertx.up.eon.KResult;
 import io.vertx.up.eon.Values;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
@@ -28,7 +28,7 @@ public class DataConnection implements AoConnection {
             this.database = database;
             // 初始化dbPool连接池，每一个Jdbc Url保证一个连接池
             this.dbPool = Fn.pool(Pool.POOL, database.getJdbcUrl(),
-                    () -> DataPool.create(database));
+                () -> DataPool.create(database));
         }
     }
 

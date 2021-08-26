@@ -32,16 +32,16 @@ public class RxApplication {
     private RxApplication(final Class<?> clazz) {
         // Must not null
         Fn.outUp(
-                null == clazz,
-                LOGGER,
-                UpClassArgsException.class, this.getClass());
+            null == clazz,
+            LOGGER,
+            UpClassArgsException.class, this.getClass());
         this.clazz = clazz;
         this.annotationMap = Anno.get(clazz);
         // Must be invalid
         Fn.outUp(
-                !this.annotationMap.containsKey(Up.class.getName()),
-                LOGGER,
-                UpClassInvalidException.class, this.getClass(), clazz.getName());
+            !this.annotationMap.containsKey(Up.class.getName()),
+            LOGGER,
+            UpClassInvalidException.class, this.getClass(), clazz.getName());
     }
 
     public static void run(final Class<?> clazz, final Object... args) {

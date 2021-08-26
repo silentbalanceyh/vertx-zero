@@ -171,18 +171,18 @@ public class RuleUnique implements Serializable {
 
     public boolean valid() {
         return !(this.record.isEmpty() &&
-                this.integration.isEmpty() &&
-                this.priority.isEmpty());
+            this.integration.isEmpty() &&
+            this.priority.isEmpty());
     }
 
     @Override
     public String toString() {
         return "RuleUnique{" +
-                "\n\trecord=" + this.record +
-                ",\n\tintegration=" + this.integration +
-                ",\n\tpriority=" + this.priority +
-                ",\n\tstrong=" + this.strong +
-                ",\n\tweak=" + this.weak +
-                "\n}";
+            "\n\trecord=" + this.record +
+            ",\n\tintegration=" + this.integration +
+            ",\n\tpriority=" + this.priority +
+            ",\n\tstrong=" + this.strong +
+            ",\n\tweak=" + this.weak +
+            "\n}";
     }
 }

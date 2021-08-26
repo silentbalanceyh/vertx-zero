@@ -17,7 +17,7 @@ import java.util.concurrent.ConcurrentMap;
 public class UnityAmbient implements UnityApp {
 
     private static final ConcurrentMap<String, JsonObject> UNITY_POOL =
-            new ConcurrentHashMap<>();
+        new ConcurrentHashMap<>();
 
     @Override
     public void initialize() {
@@ -31,11 +31,11 @@ public class UnityAmbient implements UnityApp {
         final ConcurrentMap<String, XApp> apps = UnityAsker.getApps();
         final ConcurrentMap<String, XSource> sources = UnityAsker.getSources();
         apps.keySet().stream()
-                .filter(appId -> Objects.nonNull(apps.get(appId)))
-                .filter(appId -> Objects.nonNull(sources.get(appId)))
-                /* JsonObject converted here for app & source data */
-                .map(appId -> this.connect(apps.get(appId), sources.get(appId)))
-                .forEach(item -> UnityAmbient.UNITY_POOL.put(item.getString(KName.APP_ID), item));
+            .filter(appId -> Objects.nonNull(apps.get(appId)))
+            .filter(appId -> Objects.nonNull(sources.get(appId)))
+            /* JsonObject converted here for app & source data */
+            .map(appId -> this.connect(apps.get(appId), sources.get(appId)))
+            .forEach(item -> UnityAmbient.UNITY_POOL.put(item.getString(KName.APP_ID), item));
     }
 
     @Override

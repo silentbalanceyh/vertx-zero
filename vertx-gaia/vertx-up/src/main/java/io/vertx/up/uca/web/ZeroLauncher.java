@@ -19,10 +19,10 @@ public class ZeroLauncher implements Launcher<Vertx> {
     @Override
     public void start(final Consumer<Vertx> callback) {
         ZeroMotor.start(getClass(),
-                callback,
-                this::startStandalone,
-                this::startCluster,
-                LOGGER);
+            callback,
+            this::startStandalone,
+            this::startCluster,
+            LOGGER);
     }
 
     @Override

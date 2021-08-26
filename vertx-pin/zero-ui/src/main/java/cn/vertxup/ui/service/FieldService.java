@@ -5,10 +5,10 @@ import cn.vertxup.ui.domain.tables.pojos.UiField;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.eon.KName;
 import io.vertx.tp.ke.refine.Ke;
 import io.vertx.tp.ui.cv.em.RowType;
 import io.vertx.tp.ui.refine.Ui;
+import io.vertx.up.eon.KName;
 import io.vertx.up.log.Annal;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
@@ -27,16 +27,16 @@ public class FieldService implements FieldStub {
     @Override
     public Future<JsonArray> fetchUi(final String formId) {
         return Ux.Jooq.on(UiFieldDao.class)
-                .<UiField>fetchAsync(KName.Ui.CONTROL_ID, formId)
-                .compose(ui -> {
-                    if (Objects.isNull(ui) || ui.isEmpty()) {
-                        Ui.infoWarn(FieldService.LOGGER, " Field not configured.");
-                        return Ux.future(new JsonArray());
-                    } else {
-                        final JsonArray uiJson = Ut.serializeJson(ui);
-                        return this.attachConfig(uiJson);
-                    }
-                });
+            .<UiField>fetchAsync(KName.Ui.CONTROL_ID, formId)
+            .compose(ui -> {
+                if (Objects.isNull(ui) || ui.isEmpty()) {
+                    Ui.infoWarn(FieldService.LOGGER, " Field not configured.");
+                    return Ux.future(new JsonArray());
+                } else {
+                    final JsonArray uiJson = Ut.serializeJson(ui);
+                    return this.attachConfig(uiJson);
+                }
+            });
     }
 
     @Override
@@ -44,31 +44,31 @@ public class FieldService implements FieldStub {
         final ConcurrentMap<Object, Boolean> seen = new ConcurrentHashMap<>();
         // 1. mountIn fields, convert those into object from string
         final List<UiField> fields = Ut.itJArray(data)
-                // filter(deduplicate) by name
-                .filter(item -> (!item.containsKey(KName.NAME)) ||
-                        (Ut.notNil(item.getString(KName.NAME)) && null == seen.putIfAbsent(item.getString(KName.NAME), Boolean.TRUE)))
-                .map(this::mountIn)
-                .map(field -> field.put(KName.Ui.CONTROL_ID, Optional.ofNullable(field.getString(KName.Ui.CONTROL_ID)).orElse(controlId)))
-                .map(field -> Ux.fromJson(field, UiField.class))
-                .collect(Collectors.toList());
+            // filter(deduplicate) by name
+            .filter(item -> (!item.containsKey(KName.NAME)) ||
+                (Ut.notNil(item.getString(KName.NAME)) && null == seen.putIfAbsent(item.getString(KName.NAME), Boolean.TRUE)))
+            .map(this::mountIn)
+            .map(field -> field.put(KName.Ui.CONTROL_ID, Optional.ofNullable(field.getString(KName.Ui.CONTROL_ID)).orElse(controlId)))
+            .map(field -> Ux.fromJson(field, UiField.class))
+            .collect(Collectors.toList());
         // 2. delete old ones and insert new ones
         return this.deleteByControlId(controlId)
-                .compose(result -> Ux.Jooq.on(UiFieldDao.class)
-                        .insertAsync(fields)
-                        .compose(Ux::futureA)
-                        // 3. mountOut
-                        .compose(updatedFields -> {
-                            final List<JsonObject> list = Ut.itJArray(updatedFields)
-                                    .map(this::mountOut)
-                                    .collect(Collectors.toList());
-                            return Ux.future(new JsonArray(list));
-                        }));
+            .compose(result -> Ux.Jooq.on(UiFieldDao.class)
+                .insertAsync(fields)
+                .compose(Ux::futureA)
+                // 3. mountOut
+                .compose(updatedFields -> {
+                    final List<JsonObject> list = Ut.itJArray(updatedFields)
+                        .map(this::mountOut)
+                        .collect(Collectors.toList());
+                    return Ux.future(new JsonArray(list));
+                }));
     }
 
     @Override
     public Future<Boolean> deleteByControlId(final String controlId) {
         return Ux.Jooq.on(UiFieldDao.class)
-                .deleteByAsync(new JsonObject().put(KName.Ui.CONTROL_ID, controlId));
+            .deleteByAsync(new JsonObject().put(KName.Ui.CONTROL_ID, controlId));
     }
 
     private Future<JsonArray> attachConfig(final JsonArray fieldJson) {
@@ -80,15 +80,15 @@ public class FieldService implements FieldStub {
          * Calculate row
          */
         final int rowIndex = Ut.itJArray(fieldJson)
-                .map(each -> each.getInteger("yPoint"))
-                .max(Comparator.naturalOrder())
-                .orElse(0);
+            .map(each -> each.getInteger("yPoint"))
+            .max(Comparator.naturalOrder())
+            .orElse(0);
         for (int idx = 0; idx <= rowIndex; idx++) {
             final Integer current = idx;
             final List<JsonObject> row = Ut.itJArray(fieldJson)
-                    .filter(item -> current.equals(item.getInteger("yPoint")))
-                    .sorted(Comparator.comparing(item -> item.getInteger("xPoint")))
-                    .collect(Collectors.toList());
+                .filter(item -> current.equals(item.getInteger("yPoint")))
+                .sorted(Comparator.comparing(item -> item.getInteger("xPoint")))
+                .collect(Collectors.toList());
             /*
              * Calculate columns
              */
@@ -98,7 +98,7 @@ public class FieldService implements FieldStub {
                  * Title row is special here
                  */
                 final RowType rowType = Ut.toEnum(() -> cell.getString("rowType"),
-                        RowType.class, RowType.FIELD);
+                    RowType.class, RowType.FIELD);
                 final JsonObject dataCell = new JsonObject();
                 if (RowType.TITLE == rowType) {
                     dataCell.put("title", cell.getValue("label"));
@@ -118,12 +118,12 @@ public class FieldService implements FieldStub {
                     Ke.mount(cell, FieldStub.OPTION_ITEM);
                     Ke.mountArray(cell, "rules");
                     final String render = Objects.isNull(cell.getString("render")) ? "" :
-                            cell.getString("render");
+                        cell.getString("render");
                     final String label = Objects.isNull(cell.getString("label")) ? "" :
-                            cell.getString("label");
+                        cell.getString("label");
                     final String metadata = cell.getString("name")
-                            + "," + label + "," + cell.getInteger("span")
-                            + ",," + render;
+                        + "," + label + "," + cell.getInteger("span")
+                        + ",," + render;
 
                     dataCell.put("metadata", metadata);
                     /*

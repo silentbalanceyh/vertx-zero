@@ -24,7 +24,7 @@ class UniqueActor extends AbstractActor {
         } else {
             filters.put(Strings.EMPTY, Boolean.FALSE);
             Ut.itJArray(unique, JsonArray.class,
-                    (each, index) -> filters.put("$" + index, this.getFilters(each, data)));
+                (each, index) -> filters.put("$" + index, this.getFilters(each, data)));
         }
         Ix.infoFilters(this.getLogger(), "\n{0}", filters.encodePrettily());
         return filters;

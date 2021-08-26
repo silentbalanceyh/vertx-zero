@@ -54,12 +54,12 @@ class ArrayDwarf implements Dwarf {
 
                 /* projection: for After Get only */
                 updated = SiftCol.onProjection(updated,
-                        Sc.aclOn(matrix.getJsonArray(Qr.KEY_PROJECTION), acl));
+                    Sc.aclOn(matrix.getJsonArray(Qr.KEY_PROJECTION), acl));
             } else {
 
                 /* pick up projection in S_VIEW only */
                 updated = SiftCol.onProjection(updated,
-                        matrix.getJsonArray(Qr.KEY_PROJECTION));
+                    matrix.getJsonArray(Qr.KEY_PROJECTION));
 
                 /*
                  * Produce rows configuration
@@ -69,7 +69,7 @@ class ArrayDwarf implements Dwarf {
                  * }
                  * */
                 final JsonObject rows = SiftRow.onAcl(
-                        config.getJsonObject("rows"), acl.aclVisible());
+                    config.getJsonObject("rows"), acl.aclVisible());
                 if (Objects.nonNull(rows)) {
                     updated = SiftRow.onRows(updated, rows);
                 }

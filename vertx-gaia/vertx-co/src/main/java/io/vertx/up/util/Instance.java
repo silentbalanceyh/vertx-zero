@@ -39,7 +39,7 @@ final class Instance {
     static <T> T instance(final Class<?> clazz,
                           final Object... params) {
         final Object created = Fn.getJvm(
-                () -> construct(clazz, params), clazz);
+            () -> construct(clazz, params), clazz);
         return Fn.getJvm(() -> (T) created, created);
     }
 
@@ -59,7 +59,7 @@ final class Instance {
     static <T> T singleton(final Class<?> clazz,
                            final Object... params) {
         final Object created = Fn.pool(Storage.SINGLETON, clazz.getName(),
-                () -> instance(clazz, params));
+            () -> instance(clazz, params));
         // Must reference to created first.
         return Fn.getJvm(() -> (T) created, created);
     }
@@ -73,7 +73,7 @@ final class Instance {
      */
     static Class<?> clazz(final String name) {
         return Fn.pool(Storage.CLASSES, name, () -> Fn.getJvm(() -> Thread.currentThread()
-                .getContextClassLoader().loadClass(name), name));
+            .getContextClassLoader().loadClass(name), name));
     }
 
     static void clazzIf(final String name, final Consumer<Class<?>> consumer) {
@@ -168,7 +168,7 @@ final class Instance {
     static boolean isMatch(final Class<?> clazz, final Class<?> interfaceCls) {
         final Class<?>[] interfaces = clazz.getInterfaces();
         boolean match = Arrays.stream(interfaces)
-                .anyMatch(item -> item.equals(interfaceCls));
+            .anyMatch(item -> item.equals(interfaceCls));
         if (!match) {
             /* continue to check parent */
             if (Objects.nonNull(clazz.getSuperclass())) {
@@ -202,14 +202,14 @@ final class Instance {
         return Fn.getNull(null, () -> {
             final Set<Class<?>> classes = ZeroPack.getClasses();
             final List<Class<?>> filtered = classes.stream()
-                    .filter(item -> interfaceCls.isAssignableFrom(item)
-                            && item != interfaceCls)
-                    .collect(Collectors.toList());
+                .filter(item -> interfaceCls.isAssignableFrom(item)
+                    && item != interfaceCls)
+                .collect(Collectors.toList());
             final int size = filtered.size();
             // Non-Unique throw error out.
             Fn.outUp(Values.ONE < size, LOGGER,
-                    DuplicatedImplException.class,
-                    Instance.class, interfaceCls);
+                DuplicatedImplException.class,
+                Instance.class, interfaceCls);
             // Null means direct interface only.
             return Values.ONE == size ? filtered.get(Values.IDX) : null;
         }, interfaceCls);

@@ -4,9 +4,9 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.FileUpload;
 import io.vertx.tp.ambient.cv.Addr;
 import io.vertx.tp.ambient.refine.At;
-import io.vertx.up.eon.KName;
 import io.vertx.up.annotations.Address;
 import io.vertx.up.annotations.EndPoint;
+import io.vertx.up.eon.KName;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;

@@ -25,17 +25,17 @@ public class PemCert implements CertPipe<JsonObject> {
     public Handler<TCPSSLOptions> parse(final JsonObject options) {
         return Fn.getNull(() -> {
             final PemKeyCertOptions pem = Fn.getSemi(
-                    null == options ||
-                            !options.containsKey(PATH_KEY) ||
-                            !options.containsKey(PATH_CERT), LOGGER,
-                    Cert.SERVER_PEM,
-                    () -> new PemKeyCertOptions().setKeyPath(PATH_KEY).setCertPath(PATH_CERT)
+                null == options ||
+                    !options.containsKey(PATH_KEY) ||
+                    !options.containsKey(PATH_CERT), LOGGER,
+                Cert.SERVER_PEM,
+                () -> new PemKeyCertOptions().setKeyPath(PATH_KEY).setCertPath(PATH_CERT)
             );
             return option -> option
-                    .setSsl(true)
-                    .setUseAlpn(true)
-                    .setPemKeyCertOptions(pem)
-                    .setOpenSslEngineOptions(new OpenSSLEngineOptions());
+                .setSsl(true)
+                .setUseAlpn(true)
+                .setPemKeyCertOptions(pem)
+                .setOpenSslEngineOptions(new OpenSSLEngineOptions());
         }, options);
     }
 }

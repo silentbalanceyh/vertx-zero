@@ -25,12 +25,12 @@ public class ExColumnApeakMy extends Anchoret<ApeakMy> implements ApeakMy {
         final String userId = params.getString(ARG1);
         final String view = params.getString(ARG2);
         return this.uniform(params, (resourceId) -> this.stub.fetchMatrix(userId, resourceId, view)
-                .compose(queried -> Objects.isNull(queried) ?
-                        /* No view found */
-                        Ux.future(new JsonArray()) :
-                        /* View found and get projection */
-                        Ux.future(Ut.toJArray(queried.getProjection()))
-                )
+            .compose(queried -> Objects.isNull(queried) ?
+                /* No view found */
+                Ux.future(new JsonArray()) :
+                /* View found and get projection */
+                Ux.future(Ut.toJArray(queried.getProjection()))
+            )
         );
     }
 
@@ -41,15 +41,15 @@ public class ExColumnApeakMy extends Anchoret<ApeakMy> implements ApeakMy {
         return this.uniform(params, (resourceId) -> this.stub.saveMatrix(userId, resourceId, view, projection)
                 /* New projection */
                 .compose(updated -> Ux.future(Ut.toJArray(updated.getProjection()))))
-                /*
-                 * Flush cache of session on impacted uri
-                 * This method is for projection refresh here
-                 * /api/columns/{actor}/my -> save projection on
-                 * /api/{actor}/search
-                 * This impact will be in time when this method called.
-                 * The method is used in this class only and could not be shared.
-                 */
-                .compose(flushed -> this.flush(params, flushed));
+            /*
+             * Flush cache of session on impacted uri
+             * This method is for projection refresh here
+             * /api/columns/{actor}/my -> save projection on
+             * /api/{actor}/search
+             * This impact will be in time when this method called.
+             * The method is used in this class only and could not be shared.
+             */
+            .compose(flushed -> this.flush(params, flushed));
     }
 
     private Future<JsonArray> flush(final JsonObject params, final JsonArray updated) {
@@ -69,11 +69,11 @@ public class ExColumnApeakMy extends Anchoret<ApeakMy> implements ApeakMy {
                 final JsonObject updatedJson = stored.copy();
                 updatedJson.put(Qr.KEY_PROJECTION, updated);
                 return habit.set(dataKey, updatedJson)
-                        .compose(retured -> {
-                            Sc.infoAuth(this.getLogger(), AuthMsg.REGION_FLUSH, habitus, dataKey,
-                                    stored.encodePrettily(), retured.encodePrettily());
-                            return Ux.future(updated);
-                        });
+                    .compose(retured -> {
+                        Sc.infoAuth(this.getLogger(), AuthMsg.REGION_FLUSH, habitus, dataKey,
+                            stored.encodePrettily(), retured.encodePrettily());
+                        return Ux.future(updated);
+                    });
             }
         });
     }

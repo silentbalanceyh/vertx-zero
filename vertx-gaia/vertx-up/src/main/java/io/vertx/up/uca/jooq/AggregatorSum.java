@@ -19,16 +19,16 @@ class AggregatorSum extends AbstractAggregator {
 
     BigDecimal sum(final String field, final JsonObject criteria) {
         return this.aggregateBy(field, criteria,
-                column -> column.sum().as(FIELD_SUM), BigDecimal.ZERO);
+            column -> column.sum().as(FIELD_SUM), BigDecimal.ZERO);
     }
 
     ConcurrentMap<String, BigDecimal> sum(final String field, final JsonObject criteria, final String groupField) {
         return this.aggregateBy(field, criteria,
-                column -> column.sum().as(FIELD_SUM), groupField);
+            column -> column.sum().as(FIELD_SUM), groupField);
     }
 
     JsonArray sum(final String field, final JsonObject criteria, final String... groupFields) {
         return this.aggregateBy(field, criteria,
-                column -> column.sum().as(FIELD_SUM), groupFields);
+            column -> column.sum().as(FIELD_SUM), groupFields);
     }
 }

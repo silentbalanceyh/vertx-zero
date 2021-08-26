@@ -34,11 +34,12 @@ public class FileAgent {
     @Address(Addr.File.IMPORT)
     @Adjust(Orders.MODULE)
     public JsonObject importFile(@PathParam("actor") final String actor,
+                                 @QueryParam("module") final String module,
                                  @StreamParam @Codex final FileUpload fileUpload) {
         /* File stored */
         final String filename = fileUpload.uploadedFileName();
         Ix.infoDao(LOGGER, IxMsg.FILE_UPLOAD, fileUpload.fileName(), filename);
-        return Ux.toZip(actor, filename);
+        return Ux.toZip(actor, filename, module);
     }
 
     @Path("/{actor}/export")

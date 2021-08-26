@@ -19,8 +19,8 @@ public class StandardVerifier extends BaseAim implements Sentry<RoutingContext> 
          * @Codex static validation for developed rules
          */
         final Map<String, List<Rule>> rulers
-                = this.verifier().buildRulers(depot);
+            = this.verifier().buildRulers(depot);
         return (context) ->
-                this.executeRequest(context.getDelegate(), rulers, depot);
+            this.executeRequest(context.getDelegate(), rulers, depot);
     }
 }

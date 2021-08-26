@@ -69,7 +69,7 @@ class RaySource {
                 final RDao dao = kv.getValue();
                 futureMap.put(hashCode, this.dataAsync(hashCode, () -> {
                     Ao.infoUca(this.getClass(), "Async Batch condition building: {0}",
-                            condition.encode());
+                        condition.encode());
                     return dao.fetchByAsync(condition);
                 }));
             });
@@ -92,9 +92,9 @@ class RaySource {
         return pool.<Integer, JsonArray>get(hashCode).compose(queried -> {
             if (Objects.isNull(queried)) {
                 return executor.get()
-                        // 5 min
-                        .compose(actual -> pool.put(hashCode, actual, Constants.DEFAULT_EXPIRED_DATA))
-                        .compose(Kv::value);
+                    // 5 min
+                    .compose(actual -> pool.put(hashCode, actual, Constants.DEFAULT_EXPIRED_DATA))
+                    .compose(Kv::value);
             } else {
                 return Ux.future(queried);
             }
@@ -110,7 +110,7 @@ class RaySource {
                 final JsonArray queried = dao.fetchBy(condition);
                 /* 反向运算 */
                 Ao.infoUca(this.getClass(), "Batch condition building: {0}, size = {1}",
-                        condition.encode(), String.valueOf(queried.size()));
+                    condition.encode(), String.valueOf(queried.size()));
                 fieldCodes.forEach((field, codeKey) -> {
                     if (Objects.equals(hashCode, codeKey)) {
                         data.put(field, queried);
@@ -122,8 +122,8 @@ class RaySource {
     }
 
     private <T> T ready(
-            final Function<AoRule, JsonObject> supplier,
-            final BiFunction<ConcurrentMap<String, Integer>, ConcurrentMap<Integer, Kv<JsonObject, RDao>>, T> executor) {
+        final Function<AoRule, JsonObject> supplier,
+        final BiFunction<ConcurrentMap<String, Integer>, ConcurrentMap<Integer, Kv<JsonObject, RDao>>, T> executor) {
         /*
          * 换一种算法
          */

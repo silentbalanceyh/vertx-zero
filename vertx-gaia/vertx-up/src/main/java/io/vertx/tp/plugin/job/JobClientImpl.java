@@ -115,8 +115,8 @@ public class JobClientImpl implements JobClient {
             return new ArrayList<>();
         } else {
             return missionList.stream()
-                    .filter(mission -> codes.contains(mission.getCode()))
-                    .collect(Collectors.toList());
+                .filter(mission -> codes.contains(mission.getCode()))
+                .collect(Collectors.toList());
         }
     }
 

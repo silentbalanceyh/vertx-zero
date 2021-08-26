@@ -46,23 +46,23 @@ class AoData {
 
         /* 2. 内部主键设置，keyMatrix */
         keyMatrix.values().forEach(matrix ->
-                matrix.getAttributes().forEach(attribute ->
-                        matrix.set(attribute, id)));
+            matrix.getAttributes().forEach(attribute ->
+                matrix.set(attribute, id)));
 
         /* 3. 数据主键设置，dataMatrix */
         dataMatrix.values().forEach(matrix -> matrix.getKeys().stream()
-                .filter(attribute -> Objects.nonNull(record.get(attribute)))
-                .forEach(attribute -> matrix.set(attribute, record.get(attribute))));
+            .filter(attribute -> Objects.nonNull(record.get(attribute)))
+            .forEach(attribute -> matrix.set(attribute, record.get(attribute))));
 
         /* 4. Join中的非主键设置，关联键同样需要设值 */
         dataMatrix.values().forEach(matrix -> {
             final Set<String> attributes = matrix.getAttributes();
             final Set<String> keys = matrix.getKeys();
             joins.stream().filter(attributes::contains)
-                    /* 非主键 */
-                    .filter(attribute -> !keys.contains(attribute))
-                    /* 特殊的设置，非定义主键 */
-                    .forEach(joinButNoPrimaryKey -> matrix.set(joinButNoPrimaryKey, id));
+                /* 非主键 */
+                .filter(attribute -> !keys.contains(attribute))
+                /* 特殊的设置，非定义主键 */
+                .forEach(joinButNoPrimaryKey -> matrix.set(joinButNoPrimaryKey, id));
         });
     }
 
@@ -99,7 +99,7 @@ class AoData {
     static Record[] records(final JsonArray data, final DataAtom atom) {
         final List<Record> recordList = new ArrayList<>();
         Ut.itJArray(data).map(each -> record(each, atom))
-                .forEach(recordList::add);
+            .forEach(recordList::add);
         return recordList.toArray(new Record[]{});
     }
 

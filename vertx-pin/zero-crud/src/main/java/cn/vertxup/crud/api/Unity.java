@@ -41,26 +41,26 @@ class Unity {
         /* init parameters */
         final JsonObject params = Unity.initMy(request);
         return Ke.channel(Seeker.class, JsonObject::new, seeker -> Ux.future(params)
-                /* Header */
-                .compose(input -> IxActor.header().bind(request).procAsync(input, config))
-                /* Fetch Impact */
-                .compose(seeker.on(dao)::fetchImpact));
+            /* Header */
+            .compose(input -> IxActor.header().bind(request).procAsync(input, config))
+            /* Fetch Impact */
+            .compose(seeker.on(dao)::fetchImpact));
     }
 
     static Future<JsonArray> fetchFull(final UxJooq dao, final Envelop request, final KModule config) {
         /* Get Stub */
         return Ke.channel(Apeak.class, JsonArray::new, stub -> IxActor.start()
-                /* Apeak column definition here */
-                .compose(input -> IxActor.apeak().bind(request).procAsync(input, config))
-                /* Header */
-                .compose(input -> IxActor.header().bind(request).procAsync(input, config))
-                /* Fetch Full Columns */
-                .compose(stub.on(dao)::fetchFull));
+            /* Apeak column definition here */
+            .compose(input -> IxActor.apeak().bind(request).procAsync(input, config))
+            /* Header */
+            .compose(input -> IxActor.header().bind(request).procAsync(input, config))
+            /* Fetch Full Columns */
+            .compose(stub.on(dao)::fetchFull));
     }
 
     static Future<DictFabric> fabric(final Envelop envelop, final KModule config) {
         return fetchDict(envelop, config)
-                .compose(dictData -> Ux.future(DictFabric.create().dictionary(dictData).epsilon(config.epsilon())));
+            .compose(dictData -> Ux.future(DictFabric.create().dictionary(dictData).epsilon(config.epsilon())));
     }
 
     private static Future<ConcurrentMap<String, JsonArray>> fetchDict(final Envelop request, final KModule config) {
@@ -75,7 +75,7 @@ class Unity {
              * Direct returned
              */
             Ix.Log.rest(Unity.class, "Plugin condition failure, {0}, {1}, {2}",
-                    epsilonMap.isEmpty(), Objects.isNull(plugin), !dict.validSource());
+                epsilonMap.isEmpty(), Objects.isNull(plugin), !dict.validSource());
             return Ux.future(new ConcurrentHashMap<>());
         } else {
             final List<DictSource> sources = dict.getSource();
@@ -114,7 +114,7 @@ class Unity {
         final String pattern = "/api/{0}/search";
         final String actor = Ux.getString(envelop);
         return new JsonObject()
-                .put(KName.URI, MessageFormat.format(pattern, actor))
-                .put(KName.METHOD, HttpMethod.POST.name());
+            .put(KName.URI, MessageFormat.format(pattern, actor))
+            .put(KName.METHOD, HttpMethod.POST.name());
     }
 }

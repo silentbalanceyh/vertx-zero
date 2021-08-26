@@ -16,13 +16,13 @@ class KeIs {
         } else {
             final Set<String> fieldSet = Arrays.stream(fields).collect(Collectors.toSet());
             final long counter = input.fieldNames().stream()
-                    .filter(Objects::nonNull)
-                    .filter(fieldSet::contains)
-                    .map(input::getValue)
-                    .filter(item -> item instanceof String)
-                    .map(item -> (String) item)
-                    .filter(Ut::notNil)
-                    .count();
+                .filter(Objects::nonNull)
+                .filter(fieldSet::contains)
+                .map(input::getValue)
+                .filter(item -> item instanceof String)
+                .map(item -> (String) item)
+                .filter(Ut::notNil)
+                .count();
             return counter == fields.length;
         }
     }

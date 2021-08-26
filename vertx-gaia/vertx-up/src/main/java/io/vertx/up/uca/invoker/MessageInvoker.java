@@ -17,8 +17,8 @@ public class MessageInvoker extends AbstractInvoker {
                        final Class<?> paramCls) {
         // Verify
         final boolean valid =
-                (void.class == returnType || Void.class == returnType)
-                        && Message.class.isAssignableFrom(paramCls);
+            (void.class == returnType || Void.class == returnType)
+                && Message.class.isAssignableFrom(paramCls);
         InvokerUtil.verify(!valid, returnType, paramCls, this.getClass());
     }
 

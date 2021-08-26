@@ -17,13 +17,13 @@ import java.util.concurrent.ConcurrentMap;
  */
 class BlueDye {
     private static final ConcurrentMap<Integer, BlueDye> PICKER_POOL =
-            new ConcurrentHashMap<>();
+        new ConcurrentHashMap<>();
     /*
      * Fix Issue:
      * The maximum number of Cell Styles was exceeded. You can define up to 64000 style in a .xlsx Workbook
      */
     private final ConcurrentMap<String, DyeCell> stylePool =
-            new ConcurrentHashMap<>();
+        new ConcurrentHashMap<>();
 
     private final transient Workbook workbook;
 
@@ -43,29 +43,29 @@ class BlueDye {
      */
     void onTable(final Cell cell) {
         final DyeCell dyeCell = Fn.pool(this.stylePool, "TABLE",
-                () -> DyeCell.create(this.workbook)
-                        .color("FFFFFF", "3EB7FF")
-                        .align(HorizontalAlignment.CENTER)
-                        .border(BorderStyle.THIN)
-                        .font(13, false));
+            () -> DyeCell.create(this.workbook)
+                .color("FFFFFF", "3EB7FF")
+                .align(HorizontalAlignment.CENTER)
+                .border(BorderStyle.THIN)
+                .font(13, false));
         cell.setCellStyle(dyeCell.build());
     }
 
     void onModel(final Cell cell) {
         final DyeCell dyeCell = Fn.pool(this.stylePool, "MODEL",
-                () -> DyeCell.create(this.workbook)
-                        .color("FFFFFF", "696969")
-                        .align(HorizontalAlignment.CENTER)
-                        .border(BorderStyle.THIN)
-                        .font(13, false));
+            () -> DyeCell.create(this.workbook)
+                .color("FFFFFF", "696969")
+                .align(HorizontalAlignment.CENTER)
+                .border(BorderStyle.THIN)
+                .font(13, false));
         cell.setCellStyle(dyeCell.build());
     }
 
     void onEmpty(final Cell cell) {
         final DyeCell dyeCell = Fn.pool(this.stylePool, "EMPTY",
-                () -> DyeCell.create(this.workbook)
-                        .align(HorizontalAlignment.CENTER)
-                        .border(BorderStyle.THIN));
+            () -> DyeCell.create(this.workbook)
+                .align(HorizontalAlignment.CENTER)
+                .border(BorderStyle.THIN));
         cell.setCellStyle(dyeCell.build());
     }
 
@@ -75,11 +75,11 @@ class BlueDye {
 
     void onEnHeader(final Cell cell) {
         final DyeCell dyeCell = Fn.pool(this.stylePool, "HEADER",
-                () -> DyeCell.create(this.workbook)
-                        .color("000000", "FFEC8B")
-                        .align(HorizontalAlignment.CENTER)
-                        .border(BorderStyle.THIN)
-                        .font(13, false));
+            () -> DyeCell.create(this.workbook)
+                .color("000000", "FFEC8B")
+                .align(HorizontalAlignment.CENTER)
+                .border(BorderStyle.THIN)
+                .font(13, false));
         cell.setCellStyle(dyeCell.build());
     }
 
@@ -99,8 +99,8 @@ class BlueDye {
              */
             final double cellValue = cell.getNumericCellValue();
             if (Objects.nonNull(type)                                   // not null type
-                    && Ut.isDate(type)                                  // type is date time definition
-                    && DateUtil.isValidExcelDate(cellValue)             // the value is valid excel date
+                && Ut.isDate(type)                                  // type is date time definition
+                && DateUtil.isValidExcelDate(cellValue)             // the value is valid excel date
             ) {
                 final Date value = DateUtil.getJavaDate(cellValue, TimeZone.getDefault());
                 final LocalDateTime datetime = Ut.toDateTime(value);
@@ -134,9 +134,9 @@ class BlueDye {
 
     private DyeCell onDataValue(final String key) {
         return Fn.pool(this.stylePool, key,
-                () -> DyeCell.create(this.workbook)
-                        .border(BorderStyle.THIN)
-                        .align(null, VerticalAlignment.TOP)
-                        .font(13, false));
+            () -> DyeCell.create(this.workbook)
+                .border(BorderStyle.THIN)
+                .align(null, VerticalAlignment.TOP)
+                .font(13, false));
     }
 }

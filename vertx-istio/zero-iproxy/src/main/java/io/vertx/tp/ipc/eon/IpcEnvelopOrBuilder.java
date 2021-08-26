@@ -7,72 +7,82 @@ public interface IpcEnvelopOrBuilder extends
     // @@protoc_insertion_point(interface_extends:io.vertx.tp.ipc.eon.IpcEnvelop)
     com.google.protobuf.MessageOrBuilder {
 
-  /**
-   * <pre>
-   * Envelop data format
-   * </pre>
-   *
-   * <code>.io.vertx.tp.ipc.eon.em.Format type = 1;</code>
-   * @return The enum numeric value on the wire for type.
-   */
-  int getTypeValue();
-  /**
-   * <pre>
-   * Envelop data format
-   * </pre>
-   *
-   * <code>.io.vertx.tp.ipc.eon.em.Format type = 1;</code>
-   * @return The type.
-   */
-  io.vertx.tp.ipc.eon.em.Format getType();
+    /**
+     * <pre>
+     * Envelop data format
+     * </pre>
+     *
+     * <code>.io.vertx.tp.ipc.eon.em.Format type = 1;</code>
+     *
+     * @return The enum numeric value on the wire for type.
+     */
+    int getTypeValue();
 
-  /**
-   * <pre>
-   * Body content
-   * </pre>
-   *
-   * <code>string body = 2;</code>
-   * @return The body.
-   */
-  java.lang.String getBody();
-  /**
-   * <pre>
-   * Body content
-   * </pre>
-   *
-   * <code>string body = 2;</code>
-   * @return The bytes for body.
-   */
-  com.google.protobuf.ByteString
-      getBodyBytes();
+    /**
+     * <pre>
+     * Envelop data format
+     * </pre>
+     *
+     * <code>.io.vertx.tp.ipc.eon.em.Format type = 1;</code>
+     *
+     * @return The type.
+     */
+    io.vertx.tp.ipc.eon.em.Format getType();
 
-  /**
-   * <pre>
-   * Stream content
-   * </pre>
-   *
-   * <code>bytes stream = 3;</code>
-   * @return The stream.
-   */
-  com.google.protobuf.ByteString getStream();
+    /**
+     * <pre>
+     * Body content
+     * </pre>
+     *
+     * <code>string body = 2;</code>
+     *
+     * @return The body.
+     */
+    java.lang.String getBody();
 
-  /**
-   * <pre>
-   * Service name for method calling, connect to method
-   * </pre>
-   *
-   * <code>string name = 4;</code>
-   * @return The name.
-   */
-  java.lang.String getName();
-  /**
-   * <pre>
-   * Service name for method calling, connect to method
-   * </pre>
-   *
-   * <code>string name = 4;</code>
-   * @return The bytes for name.
-   */
-  com.google.protobuf.ByteString
-      getNameBytes();
+    /**
+     * <pre>
+     * Body content
+     * </pre>
+     *
+     * <code>string body = 2;</code>
+     *
+     * @return The bytes for body.
+     */
+    com.google.protobuf.ByteString
+    getBodyBytes();
+
+    /**
+     * <pre>
+     * Stream content
+     * </pre>
+     *
+     * <code>bytes stream = 3;</code>
+     *
+     * @return The stream.
+     */
+    com.google.protobuf.ByteString getStream();
+
+    /**
+     * <pre>
+     * Service name for method calling, connect to method
+     * </pre>
+     *
+     * <code>string name = 4;</code>
+     *
+     * @return The name.
+     */
+    java.lang.String getName();
+
+    /**
+     * <pre>
+     * Service name for method calling, connect to method
+     * </pre>
+     *
+     * <code>string name = 4;</code>
+     *
+     * @return The bytes for name.
+     */
+    com.google.protobuf.ByteString
+    getNameBytes();
 }

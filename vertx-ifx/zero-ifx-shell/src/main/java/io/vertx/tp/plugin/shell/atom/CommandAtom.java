@@ -133,8 +133,8 @@ public class CommandAtom implements Serializable {
     @SuppressWarnings("unchecked")
     public <T> T getDefault(final String simple) {
         final CommandOption option = this.options.stream()
-                .filter(each -> simple.equals(each.getSimple()))
-                .findAny().orElse(null);
+            .filter(each -> simple.equals(each.getSimple()))
+            .findAny().orElse(null);
         if (Objects.isNull(option)) {
             return null;
         } else {
@@ -160,6 +160,6 @@ public class CommandAtom implements Serializable {
 
     public CommandOption option(final String name) {
         return this.options.stream().filter(item -> name.equals(item.getSimple()))
-                .findAny().orElse(null);
+            .findAny().orElse(null);
     }
 }

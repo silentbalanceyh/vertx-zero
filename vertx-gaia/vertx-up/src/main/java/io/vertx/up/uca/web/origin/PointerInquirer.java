@@ -16,19 +16,19 @@ public class PointerInquirer implements Inquirer<Set<Class<?>>> {
         final Set<Class<?>> pointers = new HashSet<>();
         // Filter Queue & Event
         Observable.fromIterable(allClasses)
-                .filter(clazz -> !clazz.isAnnotationPresent(Queue.class) &&
-                        !clazz.isAnnotationPresent(EndPoint.class))
-                .filter(this::isValid)
-                .subscribe(pointers::add)
-                .dispose();
+            .filter(clazz -> !clazz.isAnnotationPresent(Queue.class) &&
+                !clazz.isAnnotationPresent(EndPoint.class))
+            .filter(this::isValid)
+            .subscribe(pointers::add)
+            .dispose();
         return pointers;
     }
 
     private boolean isValid(final Class<?> clazz) {
         final Field[] fields = clazz.getDeclaredFields();
         final Long counter = Observable.fromArray(fields)
-                .filter(field -> field.isAnnotationPresent(Inject.class))
-                .count().blockingGet();
+            .filter(field -> field.isAnnotationPresent(Inject.class))
+            .count().blockingGet();
         return 0 < counter;
     }
 }

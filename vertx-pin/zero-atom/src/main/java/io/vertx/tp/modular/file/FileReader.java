@@ -22,14 +22,14 @@ public class FileReader implements AoFile {
         // 实体
         final Set<String> schemaFiles = this.readFiles("schema");
         final Set<Schema> schemata = schemaFiles.stream()
-                .map(file -> Ao.toSchema(appName, file))
-                .collect(Collectors.toSet());
+            .map(file -> Ao.toSchema(appName, file))
+            .collect(Collectors.toSet());
         // 模型
         final Set<String> files = this.readFiles("model");
         return files.stream()
-                .map(file -> Ao.toModel(appName, file))
-                .map(model -> model.bind(schemata))
-                .collect(Collectors.toSet());
+            .map(file -> Ao.toModel(appName, file))
+            .map(model -> model.bind(schemata))
+            .collect(Collectors.toSet());
     }
 
     @Override

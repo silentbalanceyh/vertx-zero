@@ -873,7 +873,7 @@ public final class UxJooq {
 
     public <T> Future<T> updateAsync(final JsonObject criteria, final JsonObject data) {
         return JqTool.joinAsync(criteria, data, this.workflow)
-                .compose(response -> this.updateAsync(response.resultAt(Values.IDX), (T) response.resultAt(Values.ONE)));
+            .compose(response -> this.updateAsync(response.resultAt(Values.IDX), (T) response.resultAt(Values.ONE)));
     }
 
     public <T> Future<JsonObject> updateJAsync(final JsonObject criteria, final T updated) {
@@ -882,8 +882,8 @@ public final class UxJooq {
 
     public <T> Future<JsonObject> updateJAsync(final JsonObject criteria, final JsonObject data) {
         return JqTool.joinAsync(criteria, data, this.workflow)
-                .compose(response -> this.updateAsync(response.resultAt(Values.IDX), (T) response.resultAt(Values.ONE)))
-                .compose(this.workflow::outputAsync);
+            .compose(response -> this.updateAsync(response.resultAt(Values.IDX), (T) response.resultAt(Values.ONE)))
+            .compose(this.workflow::outputAsync);
     }
 
     public <T> Future<T> updateAsync(final JsonObject criteria, final T updated, final String pojo) {
@@ -893,7 +893,7 @@ public final class UxJooq {
 
     public <T> Future<T> updateAsync(final JsonObject criteria, final JsonObject data, final String pojo) {
         return JqTool.joinAsync(criteria, data, JqFlow.create(this.analyzer, pojo))
-                .compose(response -> this.updateAsync(response.resultAt(Values.IDX), (T) response.resultAt(Values.ONE), pojo));
+            .compose(response -> this.updateAsync(response.resultAt(Values.IDX), (T) response.resultAt(Values.ONE), pojo));
     }
 
     public <T> Future<JsonObject> updateJAsync(final JsonObject criteria, final T updated, final String pojo) {
@@ -903,8 +903,8 @@ public final class UxJooq {
     public <T> Future<JsonObject> updateJAsync(final JsonObject criteria, final JsonObject data, final String pojo) {
         final JqFlow flow = JqFlow.create(this.analyzer, pojo);
         return JqTool.joinAsync(criteria, data, flow)
-                .compose(response -> this.updateAsync(response.resultAt(Values.IDX), (T) response.resultAt(Values.ONE), pojo))
-                .compose(flow::outputAsync);
+            .compose(response -> this.updateAsync(response.resultAt(Values.IDX), (T) response.resultAt(Values.ONE), pojo))
+            .compose(flow::outputAsync);
     }
 
     // -------------------- Upsert Operation ( INSERT / UPDATE ) ---------
@@ -1037,7 +1037,7 @@ public final class UxJooq {
 
     public <T> Future<T> upsertAsync(final JsonObject criteria, final JsonObject data) {
         return JqTool.joinAsync(criteria, data, this.workflow)
-                .compose(response -> this.upsertAsync(response.resultAt(Values.IDX), (T) response.resultAt(Values.ONE)));
+            .compose(response -> this.upsertAsync(response.resultAt(Values.IDX), (T) response.resultAt(Values.ONE)));
     }
 
     public <T> Future<JsonObject> upsertJAsync(final JsonObject criteria, final T updated) {
@@ -1046,8 +1046,8 @@ public final class UxJooq {
 
     public <T> Future<JsonObject> upsertJAsync(final JsonObject criteria, final JsonObject data) {
         return JqTool.joinAsync(criteria, data, this.workflow)
-                .compose(response -> this.upsertAsync(response.resultAt(Values.IDX), (T) response.resultAt(Values.ONE)))
-                .compose(this.workflow::outputAsync);
+            .compose(response -> this.upsertAsync(response.resultAt(Values.IDX), (T) response.resultAt(Values.ONE)))
+            .compose(this.workflow::outputAsync);
     }
 
     public <T> Future<T> upsertAsync(final JsonObject criteria, final T updated, final String pojo) {
@@ -1057,7 +1057,7 @@ public final class UxJooq {
 
     public <T> Future<T> upsertAsync(final JsonObject criteria, final JsonObject data, final String pojo) {
         return JqTool.joinAsync(criteria, data, JqFlow.create(this.analyzer, pojo))
-                .compose(response -> this.upsertAsync(response.resultAt(Values.IDX), (T) response.resultAt(Values.ONE), pojo));
+            .compose(response -> this.upsertAsync(response.resultAt(Values.IDX), (T) response.resultAt(Values.ONE), pojo));
     }
 
     public <T> Future<JsonObject> upsertJAsync(final JsonObject criteria, final T updated, final String pojo) {
@@ -1067,8 +1067,8 @@ public final class UxJooq {
     public <T> Future<JsonObject> upsertJAsync(final JsonObject criteria, final JsonObject data, final String pojo) {
         final JqFlow flow = JqFlow.create(this.analyzer, pojo);
         return JqTool.joinAsync(criteria, data, flow)
-                .compose(response -> this.upsertAsync(response.resultAt(Values.IDX), (T) response.resultAt(Values.ONE), pojo))
-                .compose(flow::outputAsync);
+            .compose(response -> this.upsertAsync(response.resultAt(Values.IDX), (T) response.resultAt(Values.ONE), pojo))
+            .compose(flow::outputAsync);
     }
 
     /*
@@ -1130,7 +1130,7 @@ public final class UxJooq {
 
     public <T> Future<List<T>> upsertAsync(final JsonObject criteria, final JsonArray data, final BiPredicate<T, T> finder) {
         return JqTool.joinAsync(criteria, data, this.workflow)
-                .compose(response -> this.upsertAsync(response.resultAt(Values.IDX), (List<T>) response.resultAt(Values.ONE), finder));
+            .compose(response -> this.upsertAsync(response.resultAt(Values.IDX), (List<T>) response.resultAt(Values.ONE), finder));
     }
 
     public <T> Future<JsonArray> upsertJAsync(final JsonObject criteria, final List<T> list, final BiPredicate<T, T> finder) {
@@ -1139,8 +1139,8 @@ public final class UxJooq {
 
     public <T> Future<JsonArray> upsertJAsync(final JsonObject criteria, final JsonArray data, final BiPredicate<T, T> finder) {
         return JqTool.joinAsync(criteria, data, this.workflow)
-                .compose(response -> this.upsertAsync(response.resultAt(Values.IDX), (List<T>) response.resultAt(Values.ONE), finder))
-                .compose(this.workflow::outputAsync);
+            .compose(response -> this.upsertAsync(response.resultAt(Values.IDX), (List<T>) response.resultAt(Values.ONE), finder))
+            .compose(this.workflow::outputAsync);
     }
 
     public <T> Future<List<T>> upsertAsync(final JsonObject criteria, final List<T> list, final BiPredicate<T, T> finder, final String pojo) {
@@ -1149,7 +1149,7 @@ public final class UxJooq {
 
     public <T> Future<List<T>> upsertAsync(final JsonObject criteria, final JsonArray data, final BiPredicate<T, T> finder, final String pojo) {
         return JqTool.joinAsync(criteria, data, JqFlow.create(this.analyzer, pojo))
-                .compose(response -> this.upsertAsync(response.resultAt(Values.IDX), (List<T>) response.resultAt(Values.ONE), finder, pojo));
+            .compose(response -> this.upsertAsync(response.resultAt(Values.IDX), (List<T>) response.resultAt(Values.ONE), finder, pojo));
     }
 
     public <T> Future<JsonArray> upsertJAsync(final JsonObject criteria, final List<T> list, final BiPredicate<T, T> finder, final String pojo) {
@@ -1159,8 +1159,8 @@ public final class UxJooq {
     public <T> Future<JsonArray> upsertJAsync(final JsonObject criteria, final JsonArray data, final BiPredicate<T, T> finder, final String pojo) {
         final JqFlow flow = JqFlow.create(this.analyzer, pojo);
         return JqTool.joinAsync(criteria, data, flow)
-                .compose(response -> this.upsertAsync(response.resultAt(Values.IDX), (List<T>) response.resultAt(Values.ONE), finder, pojo))
-                .compose(flow::outputAsync);
+            .compose(response -> this.upsertAsync(response.resultAt(Values.IDX), (List<T>) response.resultAt(Values.ONE), finder, pojo))
+            .compose(flow::outputAsync);
     }
 
     // -------------------- DELETE --------------------
@@ -1365,7 +1365,7 @@ public final class UxJooq {
 
     public Future<Boolean> missByIdAsync(final Object id) {
         return this.existByIdAsync(id)
-                .compose(result -> Future.succeededFuture(!result));
+            .compose(result -> Future.succeededFuture(!result));
     }
 
     /*
@@ -1556,7 +1556,7 @@ public final class UxJooq {
 
     public Future<BigDecimal> sumAsync(final String field, final JsonObject criteria) {
         return this.workflow.inputQrJAsync(criteria)
-                .compose(processed -> Future.succeededFuture(this.aggregator.sum(field, processed)));
+            .compose(processed -> Future.succeededFuture(this.aggregator.sum(field, processed)));
     }
 
     public BigDecimal sum(final String field, final JsonObject criteria, final String pojo) {
@@ -1565,7 +1565,7 @@ public final class UxJooq {
 
     public Future<BigDecimal> sumAsync(final String field, final JsonObject criteria, final String pojo) {
         return JqFlow.create(this.analyzer, pojo).inputQrJAsync(criteria)
-                .compose(processed -> Future.succeededFuture(this.aggregator.sum(field, processed)));
+            .compose(processed -> Future.succeededFuture(this.aggregator.sum(field, processed)));
     }
 
     /*
@@ -1634,7 +1634,7 @@ public final class UxJooq {
 
     public Future<BigDecimal> maxAsync(final String field, final JsonObject criteria) {
         return this.workflow.inputQrJAsync(criteria)
-                .compose(processed -> Future.succeededFuture(this.aggregator.max(field, processed)));
+            .compose(processed -> Future.succeededFuture(this.aggregator.max(field, processed)));
     }
 
     public BigDecimal max(final String field, final JsonObject criteria, final String pojo) {
@@ -1643,7 +1643,7 @@ public final class UxJooq {
 
     public Future<BigDecimal> maxAsync(final String field, final JsonObject criteria, final String pojo) {
         return JqFlow.create(this.analyzer, pojo).inputQrJAsync(criteria)
-                .compose(processed -> Future.succeededFuture(this.aggregator.max(field, processed)));
+            .compose(processed -> Future.succeededFuture(this.aggregator.max(field, processed)));
     }
 
     /*
@@ -1712,7 +1712,7 @@ public final class UxJooq {
 
     public Future<BigDecimal> minAsync(final String field, final JsonObject criteria) {
         return this.workflow.inputQrJAsync(criteria)
-                .compose(processed -> Future.succeededFuture(this.aggregator.min(field, processed)));
+            .compose(processed -> Future.succeededFuture(this.aggregator.min(field, processed)));
     }
 
     public BigDecimal min(final String field, final JsonObject criteria, final String pojo) {
@@ -1721,7 +1721,7 @@ public final class UxJooq {
 
     public Future<BigDecimal> minAsync(final String field, final JsonObject criteria, final String pojo) {
         return JqFlow.create(this.analyzer, pojo).inputQrJAsync(criteria)
-                .compose(processed -> Future.succeededFuture(this.aggregator.min(field, processed)));
+            .compose(processed -> Future.succeededFuture(this.aggregator.min(field, processed)));
     }
 
     /*
@@ -1791,7 +1791,7 @@ public final class UxJooq {
 
     public Future<BigDecimal> avgAsync(final String field, final JsonObject criteria) {
         return this.workflow.inputQrJAsync(criteria)
-                .compose(processed -> Future.succeededFuture(this.aggregator.avg(field, processed)));
+            .compose(processed -> Future.succeededFuture(this.aggregator.avg(field, processed)));
     }
 
     public BigDecimal avg(final String field, final JsonObject criteria, final String pojo) {
@@ -1800,7 +1800,7 @@ public final class UxJooq {
 
     public Future<BigDecimal> avgAsync(final String field, final JsonObject criteria, final String pojo) {
         return JqFlow.create(this.analyzer, pojo).inputQrJAsync(criteria)
-                .compose(processed -> Future.succeededFuture(this.aggregator.avg(field, processed)));
+            .compose(processed -> Future.succeededFuture(this.aggregator.avg(field, processed)));
     }
 
     /*

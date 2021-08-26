@@ -6,12 +6,12 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.grpc.VertxChannelBuilder;
 import io.vertx.up.atom.rpc.IpcData;
 import io.vertx.up.eon.em.CertType;
+import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import io.vertx.up.uca.micro.ssl.TrustPipe;
 import io.vertx.up.uca.yaml.Node;
 import io.vertx.up.uca.yaml.ZeroUniform;
 import io.vertx.up.util.Ut;
-import io.vertx.up.fn.Fn;
 
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
@@ -24,11 +24,12 @@ public class RpcSslTool {
     private static final Node<JsonObject> node = Ut.singleton(ZeroUniform.class);
 
     private static final ConcurrentMap<String, ManagedChannel> CHANNELS =
-            new ConcurrentHashMap<>();
+        new ConcurrentHashMap<>();
 
     /**
      * @param vertx  Vert.x instance
      * @param config configuration
+     *
      * @return ManagedChannel
      */
     public static ManagedChannel getChannel(final Vertx vertx,
@@ -38,8 +39,8 @@ public class RpcSslTool {
 
         return getChannel(rpcHost, rpcPort, () -> {
             final VertxChannelBuilder builder =
-                    VertxChannelBuilder
-                            .forAddress(vertx, rpcHost, rpcPort);
+                VertxChannelBuilder
+                    .forAddress(vertx, rpcHost, rpcPort);
             Fn.safeSemi(null != config.getValue(Key.SSL), LOGGER, () -> {
                 final JsonObject sslConfig = config.getJsonObject(Key.SSL);
                 if (null != sslConfig && !sslConfig.isEmpty()) {
@@ -70,8 +71,8 @@ public class RpcSslTool {
         return getChannel(grpcHost, grpcPort, () -> {
             LOGGER.info(Info.CLIENT_BUILD, grpcHost, String.valueOf(grpcPort));
             final VertxChannelBuilder builder =
-                    VertxChannelBuilder
-                            .forAddress(vertx, grpcHost, grpcPort);
+                VertxChannelBuilder
+                    .forAddress(vertx, grpcHost, grpcPort);
             // Ssl Required
             final JsonObject config = node.read();
 
@@ -96,7 +97,7 @@ public class RpcSslTool {
     private static TrustPipe<JsonObject> getPipe(final JsonObject ssl) {
         final Object type = ssl.getValue("type");
         final CertType certType = null == type ?
-                CertType.PEM : Ut.toEnum(CertType.class, type.toString());
+            CertType.PEM : Ut.toEnum(CertType.class, type.toString());
         return TrustPipe.get(certType);
     }
 }

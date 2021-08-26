@@ -40,16 +40,16 @@ public class UxToTc extends ZeroBase {
 
     private JsonObject getEntityJson() {
         return new JsonObject()
-                .put("age", 12)
-                .put("email", "lang.yu@hpe.com")
-                .put("name", "Lang");
+            .put("age", 12)
+            .put("email", "lang.yu@hpe.com")
+            .put("name", "Lang");
     }
 
     private JsonObject getEntityToJson() {
         return new JsonObject()
-                .put("age", 12)
-                .put("zEmail", "lang.yu@hpe.com")
-                .put("zName", "Lang");
+            .put("age", 12)
+            .put("zEmail", "lang.yu@hpe.com")
+            .put("zName", "Lang");
     }
 }
 

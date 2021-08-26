@@ -33,7 +33,7 @@ import java.util.function.Consumer;
 public class ServiceJet implements UddiJet {
     private static final Annal LOGGER = Annal.get(ServiceJet.class);
     private static final Visitor<CircuitBreakerOptions> VISITOR =
-            Ut.singleton(CircuitVisitor.class);
+        Ut.singleton(CircuitVisitor.class);
     private static CircuitBreakerOptions OPTIONS;
 
     static {
@@ -66,7 +66,7 @@ public class ServiceJet implements UddiJet {
     private Future<List<Record>> getEndPoints() {
         final Promise<List<Record>> promise = Promise.promise();
         this.discovery.getRecords(record -> record.getType().equals(HttpEndpoint.TYPE),
-                handler -> promise.complete(handler.result()));
+            handler -> promise.complete(handler.result()));
         return promise.future();
     }
 
@@ -154,7 +154,7 @@ public class ServiceJet implements UddiJet {
                  * because of issue of WebClient/HttpClient
                  */
                 final Pipe<org.apache.http.HttpResponse> pump = UploadPipe.create(
-                        context, reference, options);
+                    context, reference, options);
                 /*
                  * Http Request instead of Web Request here
                  */

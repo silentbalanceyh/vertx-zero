@@ -39,7 +39,7 @@ class IxQuery {
     }
 
     static Function<UxJooq, Future<JsonObject>> query(
-            final JsonObject criteria, final KModule config) {
+        final JsonObject criteria, final KModule config) {
         final String pojo = config.getPojo();
         return dao -> {
             IxLog.infoDao(LOGGER, "( JqTool ) Dao -> {0}, pojo = {1}", config.getDaoCls(), pojo);
@@ -48,7 +48,7 @@ class IxQuery {
                 dao.on(pojo);
             }
             return dao.searchAsync(criteria)
-                    .compose(response -> Ux.future(IxSerialize.serializeP(response, config)));
+                .compose(response -> Ux.future(IxSerialize.serializeP(response, config)));
         };
     }
 

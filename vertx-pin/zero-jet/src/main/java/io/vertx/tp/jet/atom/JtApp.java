@@ -5,8 +5,8 @@ import com.fasterxml.jackson.databind.JsonObjectSerializer;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.eon.KName;
 import io.vertx.up.commune.config.Database;
+import io.vertx.up.eon.KName;
 
 import java.io.Serializable;
 
@@ -60,21 +60,21 @@ public class JtApp implements Serializable {
     @Override
     public String toString() {
         return "JtEnv{" +
-                "appId='" + this.appId + '\'' +
-                ", appKey='" + this.appKey + '\'' +
-                ", sigma='" + this.sigma + '\'' +
-                ", name='" + this.name + '\'' +
-                ", code='" + this.code + '\'' +
-                ", language='" + this.language + '\'' +
-                ", active=" + this.active +
-                ", logo='" + this.logo + '\'' +
-                ", title='" + this.title + '\'' +
-                ", business=" + this.business +
-                ", backend=" + this.backend +
-                ", frontend=" + this.frontend +
-                ", auditor=" + this.auditor +
-                ", source=" + this.source +
-                '}';
+            "appId='" + this.appId + '\'' +
+            ", appKey='" + this.appKey + '\'' +
+            ", sigma='" + this.sigma + '\'' +
+            ", name='" + this.name + '\'' +
+            ", code='" + this.code + '\'' +
+            ", language='" + this.language + '\'' +
+            ", active=" + this.active +
+            ", logo='" + this.logo + '\'' +
+            ", title='" + this.title + '\'' +
+            ", business=" + this.business +
+            ", backend=" + this.backend +
+            ", frontend=" + this.frontend +
+            ", auditor=" + this.auditor +
+            ", source=" + this.source +
+            '}';
     }
 
     public String getAppId() {

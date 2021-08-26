@@ -28,25 +28,25 @@ class AngleMy implements Agonic {
     public Future<JsonArray> runJAAsync(final JsonObject input, final IxIn in) {
         final UxJooq jooq = IxPin.jooq(in);
         return Ke.channel(Seeker.class, JsonObject::new, seeker -> seeker.on(jooq).fetchImpact(input))
-                /* view has value, ignored, */
-                /*
-                 * url processing
-                 * {
-                 *      "requestUri": "xxx",
-                 *      "method": "method",
-                 * }
-                 * */
-                .compose(params -> Pre.uri().inJAsync(params, in))
-                /*
-                 * {
-                 *      "user": "xxx",
-                 *      "habitus": "xxx"
-                 * }
-                 */
-                .compose(params -> Pre.user().inJAsync(params, in))
-                /*
-                 * Critical workflow
-                 */
-                .compose(params -> Ke.channel(ApeakMy.class, JsonArray::new, stub -> stub.on(jooq).fetchMy(params)));
+            /* view has value, ignored, */
+            /*
+             * url processing
+             * {
+             *      "requestUri": "xxx",
+             *      "method": "method",
+             * }
+             * */
+            .compose(params -> Pre.uri().inJAsync(params, in))
+            /*
+             * {
+             *      "user": "xxx",
+             *      "habitus": "xxx"
+             * }
+             */
+            .compose(params -> Pre.user().inJAsync(params, in))
+            /*
+             * Critical workflow
+             */
+            .compose(params -> Ke.channel(ApeakMy.class, JsonArray::new, stub -> stub.on(jooq).fetchMy(params)));
     }
 }

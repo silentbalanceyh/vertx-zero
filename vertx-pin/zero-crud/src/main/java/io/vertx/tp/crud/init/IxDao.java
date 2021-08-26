@@ -39,9 +39,9 @@ class IxDao {
      * Logger for IxDao
      */
     private static final ConcurrentMap<String, KModule> CONFIG_MAP =
-            new ConcurrentHashMap<>();
+        new ConcurrentHashMap<>();
     private static final ConcurrentMap<String, String> ALIAS_MAP =
-            new ConcurrentHashMap<>();
+        new ConcurrentHashMap<>();
 
     static void init() {
         /*
@@ -73,7 +73,7 @@ class IxDao {
             }, configDao);
         });
         Ix.Log.init(IxDao.class, "IxDao Finished ! Size = {0}, Uris = {0}",
-                CONFIG_MAP.size(), IxConfiguration.getUris().size());
+            CONFIG_MAP.size(), IxConfiguration.getUris().size());
     }
 
     static KModule get(final String actor) {
@@ -160,10 +160,10 @@ class IxDao {
         final JsonObject header = Ut.sureJObject(module.getHeader());
         /* sigma -> X-Sigma */
         Fn.safeSemi(!header.containsKey(KName.SIGMA),
-                () -> header.put(KName.SIGMA, ID.Header.X_SIGMA));
+            () -> header.put(KName.SIGMA, ID.Header.X_SIGMA));
         /* language -> X-Lang */
         Fn.safeSemi(!header.containsKey(KName.LANGUAGE),
-                () -> header.put(KName.LANGUAGE, ID.Header.X_LANG));
+            () -> header.put(KName.LANGUAGE, ID.Header.X_LANG));
         module.setHeader(header);
 
         /* Auditor Processing */
@@ -193,14 +193,14 @@ class IxDao {
         final DSMode mode = module.getMode();
         if (DSMode.DYNAMIC == mode) {
             dao = Ke.channelSync(DS.class,
-                    /*
-                     * `provider` configured
-                     */
-                    () -> Ux.Jooq.on(clazz),
-                    /*
-                     * Dynamic Data Source here
-                     */
-                    ds -> Ux.Jooq.on(clazz, ds.switchDs(headers))
+                /*
+                 * `provider` configured
+                 */
+                () -> Ux.Jooq.on(clazz),
+                /*
+                 * Dynamic Data Source here
+                 */
+                ds -> Ux.Jooq.on(clazz, ds.switchDs(headers))
             );
         } else {
             if (DSMode.HISTORY == mode) {

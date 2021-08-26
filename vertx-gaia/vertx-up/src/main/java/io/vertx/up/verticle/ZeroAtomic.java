@@ -13,9 +13,9 @@ public interface ZeroAtomic {
      * Rpc constant
      */
     ConcurrentMap<Integer, ServidorOptions> RPC_OPTS =
-            ZeroGrid.getRpcOptions();
+        ZeroGrid.getRpcOptions();
     ConcurrentMap<Integer, AtomicInteger>
-            RPC_START_LOGS = new ConcurrentHashMap<Integer, AtomicInteger>() {
+        RPC_START_LOGS = new ConcurrentHashMap<Integer, AtomicInteger>() {
         {
             RPC_OPTS.forEach((port, option) -> this.put(port, new AtomicInteger(0)));
         }
@@ -24,9 +24,9 @@ public interface ZeroAtomic {
      * Http constants
      */
     ConcurrentMap<Integer, HttpServerOptions>
-            HTTP_OPTS = ZeroGrid.getServerOptions();
+        HTTP_OPTS = ZeroGrid.getServerOptions();
     ConcurrentMap<Integer, AtomicInteger>
-            HTTP_START_LOGS = new ConcurrentHashMap<Integer, AtomicInteger>() {
+        HTTP_START_LOGS = new ConcurrentHashMap<Integer, AtomicInteger>() {
         {
             HTTP_OPTS.forEach((port, option) -> this.put(port, new AtomicInteger(0)));
         }
@@ -35,9 +35,9 @@ public interface ZeroAtomic {
      * Rx constants
      */
     ConcurrentMap<Integer, HttpServerOptions>
-            RX_OPTS = ZeroGrid.getRxOptions();
+        RX_OPTS = ZeroGrid.getRxOptions();
     ConcurrentMap<Integer, AtomicInteger>
-            RX_START_LOGS = new ConcurrentHashMap<Integer, AtomicInteger>() {
+        RX_START_LOGS = new ConcurrentHashMap<Integer, AtomicInteger>() {
         {
             RX_OPTS.forEach((port, option) -> this.put(port, new AtomicInteger(0)));
         }
@@ -46,10 +46,10 @@ public interface ZeroAtomic {
      * Socket constants
      */
     ConcurrentMap<Integer, HttpServerOptions>
-            SOCK_OPTS = ZeroGrid.getSockOptions();
+        SOCK_OPTS = ZeroGrid.getSockOptions();
     /**
      * Api Gateay
      */
     ConcurrentMap<Integer, HttpServerOptions> API_OPTS =
-            new ConcurrentHashMap<>();
+        new ConcurrentHashMap<>();
 }

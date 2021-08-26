@@ -99,11 +99,11 @@ public class JtConfig implements Serializable {
     @Override
     public String toString() {
         return "JtConfig{" +
-                "wall='" + this.wall + '\'' +
-                ", worker=" + this.worker +
-                ", agent=" + this.agent +
-                ", options=" + this.options +
-                ", unity=" + this.unity +
-                '}';
+            "wall='" + this.wall + '\'' +
+            ", worker=" + this.worker +
+            ", agent=" + this.agent +
+            ", options=" + this.options +
+            ", unity=" + this.unity +
+            '}';
     }
 }

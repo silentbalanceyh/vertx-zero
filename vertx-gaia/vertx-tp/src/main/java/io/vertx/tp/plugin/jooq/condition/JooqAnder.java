@@ -25,36 +25,36 @@ class JooqAnder {
      * op is `=`
      */
     private static final ConcurrentMap<String, BiFunction<String, Instant, Condition>> EQ_OPS =
-            new ConcurrentHashMap<String, BiFunction<String, Instant, Condition>>() {
-                {
-                    this.put(Qr.Instant.DAY, (field, value) -> {
-                        // Time for locale
-                        final LocalDate date = Ut.toDate(value);
-                        return DSL.field(field).between(date.atStartOfDay(), date.plusDays(1).atStartOfDay());
-                    });
-                    this.put(Qr.Instant.DATE, (field, value) -> {
-                        final LocalDate date = Ut.toDate(value);
-                        final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-                        return DSL.field(field).eq(date.format(formatter));
-                    });
-                }
-            };
+        new ConcurrentHashMap<String, BiFunction<String, Instant, Condition>>() {
+            {
+                this.put(Qr.Instant.DAY, (field, value) -> {
+                    // Time for locale
+                    final LocalDate date = Ut.toDate(value);
+                    return DSL.field(field).between(date.atStartOfDay(), date.plusDays(1).atStartOfDay());
+                });
+                this.put(Qr.Instant.DATE, (field, value) -> {
+                    final LocalDate date = Ut.toDate(value);
+                    final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+                    return DSL.field(field).eq(date.format(formatter));
+                });
+            }
+        };
     /*
      * Major executor map
      */
     private static final ConcurrentMap<String, ConcurrentMap<String, BiFunction<String, Instant, Condition>>> EXECUTOR =
-            new ConcurrentHashMap<String, ConcurrentMap<String, BiFunction<String, Instant, Condition>>>() {
-                {
-                    this.put(Qr.Op.EQ, EQ_OPS);
-                }
-            };
+        new ConcurrentHashMap<String, ConcurrentMap<String, BiFunction<String, Instant, Condition>>>() {
+            {
+                this.put(Qr.Op.EQ, EQ_OPS);
+            }
+        };
 
     /*
      * This method will be called by `JooqCond`
      */
     static BiFunction<String, Instant, Condition> getExecutor(final String op, final String flag) {
         final ConcurrentMap<String, BiFunction<String, Instant, Condition>>
-                executors = EXECUTOR.get(op);
+            executors = EXECUTOR.get(op);
         if (Objects.nonNull(executors) && !executors.isEmpty()) {
             /*
              * 1) Not equal `null`

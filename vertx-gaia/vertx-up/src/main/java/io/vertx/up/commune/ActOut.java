@@ -133,7 +133,7 @@ public class ActOut extends ActMapping implements Serializable {
                      */
                     final JsonArray normalized = new JsonArray();
                     Ut.itJArray((JsonArray) response).map(item -> this.mapper().out(item, dualItem))
-                            .forEach(normalized::add);
+                        .forEach(normalized::add);
                     return Envelop.success(normalized, status).from(this.envelop);
                 }
             } else {

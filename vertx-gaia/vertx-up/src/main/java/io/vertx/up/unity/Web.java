@@ -23,7 +23,7 @@ import java.util.function.Function;
 class Web {
 
     static <T> Handler<AsyncResult<T>> toHandler(
-            final Message<Envelop> message
+        final Message<Envelop> message
     ) {
         return handler -> {
             if (handler.succeeded()) {
@@ -52,8 +52,8 @@ class Web {
 
     @SuppressWarnings("all")
     static <T> Future<JsonObject> toAttach(
-            final JsonObject input,
-            final Function<T, Future<JsonObject>> function) {
+        final JsonObject input,
+        final Function<T, Future<JsonObject>> function) {
         /*
          * Normalized key = index
          */
@@ -74,22 +74,22 @@ class Web {
             }
         }
         return Combine.thenCombine(futures.toArray(new Future[]{}))
-                .compose(response -> {
-                    final JsonObject finalJson = new JsonObject();
-                    final JsonObject reference = (JsonObject) response;
-                    indexMap.forEach((field, indexKey) -> {
-                        final JsonObject data = reference.getJsonObject(indexKey);
-                        if (Ut.notNil(data)) {
-                            finalJson.put(field, data.copy());
-                        }
-                    });
-                    return To.future(finalJson);
+            .compose(response -> {
+                final JsonObject finalJson = new JsonObject();
+                final JsonObject reference = (JsonObject) response;
+                indexMap.forEach((field, indexKey) -> {
+                    final JsonObject data = reference.getJsonObject(indexKey);
+                    if (Ut.notNil(data)) {
+                        finalJson.put(field, data.copy());
+                    }
                 });
+                return To.future(finalJson);
+            });
     }
 
     static <T> Function<JsonObject, Future<JsonObject>> toAttachJ(
-            final String field,
-            final Function<T, Future<JsonObject>> function
+        final String field,
+        final Function<T, Future<JsonObject>> function
     ) {
         return json -> {
             if (Ut.isNil(json) || !json.containsKey(field)) {
@@ -112,8 +112,8 @@ class Web {
 
     @SuppressWarnings("unchecked")
     static <T> Function<JsonObject, Future<JsonObject>> toAttach(
-            final String field,
-            final Function<T, Future<JsonObject>> function) {
+        final String field,
+        final Function<T, Future<JsonObject>> function) {
         return json -> {
             if (Ut.isNil(json) || !json.containsKey(field)) {
                 return To.future(json);

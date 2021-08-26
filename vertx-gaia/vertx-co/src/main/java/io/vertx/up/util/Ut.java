@@ -1403,11 +1403,11 @@ public final class Ut {
     }
 
     public static String fromAdjust(final String seed, final Integer width) {
-        return StringUtil.adjust(seed, width, ' ');
+        return StringUtil.adjust(seed, width, ' ' );
     }
 
     public static String fromAdjust(final Integer seed, final Integer width) {
-        return StringUtil.adjust(seed, width, '0');
+        return StringUtil.adjust(seed, width, '0' );
     }
 
     public static String fromExpression(final String expr, final JsonObject data) {
@@ -1448,8 +1448,8 @@ public final class Ut {
         return Epsilon.mapString(array, field);
     }
 
-    public static String mapStringOne(final JsonArray array, final String field) {
-        return Epsilon.mapStringOne(array, field);
+    public static String mapOneS(final JsonArray array, final String field) {
+        return Epsilon.mapOneS(array, field);
     }
 
     public static Set<JsonArray> mapArray(final JsonArray array, final String field) {

@@ -32,28 +32,28 @@ class JqJoinder {
      * Class -> Analyzer
      */
     private transient final ConcurrentMap<Class<?>, JqAnalyzer> ANALYZERS
-            = new ConcurrentHashMap<>();
+        = new ConcurrentHashMap<>();
     /*
      * Table prefix: Name -> Alias
      */
     private transient final ConcurrentMap<String, String> PREFIX_MAP
-            = new ConcurrentHashMap<>();
+        = new ConcurrentHashMap<>();
     /*
      * Mapping assist for calculation
      */
     private transient final ConcurrentMap<Class<?>, String> CLASS_MAP
-            = new ConcurrentHashMap<>();
+        = new ConcurrentHashMap<>();
     private transient final ConcurrentMap<String, Class<?>> NAME_MAP
-            = new ConcurrentHashMap<>();
+        = new ConcurrentHashMap<>();
     /*
      * Field Map
      */
     private transient final ConcurrentMap<String, String> FIELD_TABLE_MAP
-            = new ConcurrentHashMap<>();
+        = new ConcurrentHashMap<>();
     private transient final ConcurrentMap<String, String> COLUMN_MAP
-            = new ConcurrentHashMap<>();
+        = new ConcurrentHashMap<>();
     private transient final ConcurrentMap<String, Field> FIELD_MAP
-            = new ConcurrentHashMap<>();
+        = new ConcurrentHashMap<>();
     /*
      * Next table ( exclude the first added table here )
      */
@@ -208,7 +208,7 @@ class JqJoinder {
          */
         if (null != qr.getCriteria()) {
             final Condition condition = JooqCond.transform(qr.getCriteria().toJson(),
-                    this::getColumn, this::getTable);
+                this::getColumn, this::getTable);
             started.where(condition);
         }
         return Long.valueOf(started.fetchCount());
@@ -232,7 +232,7 @@ class JqJoinder {
          */
         if (null != qr.getCriteria()) {
             final Condition condition = JooqCond.transform(qr.getCriteria().toJson(),
-                    this::getColumn, this::getTable);
+                this::getColumn, this::getTable);
             started.where(condition);
         }
         /*
@@ -302,9 +302,9 @@ class JqJoinder {
     }
 
     private TableOnConditionStep<Record> buildCondition(
-            final Table<Record> from,
-            final Table<Record> to,
-            final JqEdge edge) {
+        final Table<Record> from,
+        final Table<Record> to,
+        final JqEdge edge) {
         /*
          * T1 join T2 on T1.Field1 = T2.Field2
          */

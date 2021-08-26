@@ -10,7 +10,7 @@ public class DefaultResolver<T> implements Resolver<T> {
     @Override
     public Epsilon<T> resolve(final RoutingContext context,
                               final Epsilon<T> income)
-            throws WebException {
+        throws WebException {
         // Buffer Resolver
         return income;
     }

@@ -53,8 +53,8 @@ final class Jackson {
     }
 
     static JsonObject visitJObject(
-            final JsonObject item,
-            final String... keys
+        final JsonObject item,
+        final String... keys
     ) {
 
         Fn.inLenMin(Jackson.class, 0, keys);
@@ -67,8 +67,8 @@ final class Jackson {
     }
 
     static JsonArray visitJArray(
-            final JsonObject item,
-            final String... keys
+        final JsonObject item,
+        final String... keys
     ) {
         Fn.inLenMin(Jackson.class, 0, keys);
         final JsonArray visited = Jackson.searchData(item, JsonArray.class, keys);
@@ -80,16 +80,16 @@ final class Jackson {
     }
 
     static Integer visitInt(
-            final JsonObject item,
-            final String... keys
+        final JsonObject item,
+        final String... keys
     ) {
         Fn.inLenMin(Jackson.class, 0, keys);
         return Jackson.searchData(item, Integer.class, keys);
     }
 
     static String visitString(
-            final JsonObject item,
-            final String... keys
+        final JsonObject item,
+        final String... keys
     ) {
         Fn.inLenMin(Jackson.class, 0, keys);
         return Jackson.searchData(item, String.class, keys);
@@ -107,42 +107,42 @@ final class Jackson {
         final String path = pathes[Values.IDX];
         /* 3. Continue searching if key existing, otherwise terminal. **/
         return Fn.getSemi(current.containsKey(path) && null != current.getValue(path),
-                null,
-                () -> {
-                    final Object curVal = current.getValue(path);
-                    T result = null;
-                    if (Values.ONE == pathes.length) {
-                        /* 3.1. Get the end node. **/
-                        if (clazz == curVal.getClass()) {
-                            result = (T) curVal;
-                        }
-                    } else {
-                        /* 3.2. Address the middle search **/
-                        if (Types.isJObject(curVal)) {
-                            final JsonObject continueNode = current.getJsonObject(path);
-                            /* 4.Extract new key **/
-                            final String[] continueKeys =
-                                    Arrays.copyOfRange(pathes,
-                                            Values.ONE,
-                                            pathes.length);
-                            result = Jackson.searchData(continueNode,
-                                    clazz,
-                                    continueKeys);
-                        }
+            null,
+            () -> {
+                final Object curVal = current.getValue(path);
+                T result = null;
+                if (Values.ONE == pathes.length) {
+                    /* 3.1. Get the end node. **/
+                    if (clazz == curVal.getClass()) {
+                        result = (T) curVal;
                     }
-                    return result;
-                },
-                () -> null);
+                } else {
+                    /* 3.2. Address the middle search **/
+                    if (Types.isJObject(curVal)) {
+                        final JsonObject continueNode = current.getJsonObject(path);
+                        /* 4.Extract new key **/
+                        final String[] continueKeys =
+                            Arrays.copyOfRange(pathes,
+                                Values.ONE,
+                                pathes.length);
+                        result = Jackson.searchData(continueNode,
+                            clazz,
+                            continueKeys);
+                    }
+                }
+                return result;
+            },
+            () -> null);
     }
 
     static JsonArray mergeZip(final JsonArray source, final JsonArray target,
                               final String sourceKey, final String targetKey) {
         final JsonArray result = new JsonArray();
         Fn.safeJvm(() -> Observable.fromIterable(source)
-                .filter(Objects::nonNull)
-                .map(item -> (JsonObject) item)
-                .map(item -> item.mergeIn(Jackson.findByKey(target, targetKey, item.getValue(sourceKey))))
-                .subscribe(result::add).dispose(), null);
+            .filter(Objects::nonNull)
+            .map(item -> (JsonObject) item)
+            .map(item -> item.mergeIn(Jackson.findByKey(target, targetKey, item.getValue(sourceKey))))
+            .subscribe(result::add).dispose(), null);
         return result;
     }
 
@@ -150,11 +150,11 @@ final class Jackson {
                                         final String key,
                                         final Object value) {
         return Fn.getJvm(() -> Observable.fromIterable(source)
-                .filter(Objects::nonNull)
-                .map(item -> (JsonObject) item)
-                .filter(item -> null != item.getValue(key))
-                .filter(item -> value == item.getValue(key) || item.getValue(key).equals(value))
-                .first(new JsonObject()).blockingGet(), source, key);
+            .filter(Objects::nonNull)
+            .map(item -> (JsonObject) item)
+            .filter(item -> null != item.getValue(key))
+            .filter(item -> value == item.getValue(key) || item.getValue(key).equals(value))
+            .first(new JsonObject()).blockingGet(), source, key);
     }
 
     static JsonArray toJArray(final Object value) {
@@ -193,9 +193,9 @@ final class Jackson {
     static <T, R extends Iterable> R serializeJson(final T t) {
         final String content = Jackson.serialize(t);
         return Fn.getJvm(null,
-                () -> Fn.getSemi(content.trim().startsWith(Strings.LEFT_BRACES), null,
-                        () -> (R) new JsonObject(content),
-                        () -> (R) new JsonArray(content)), content);
+            () -> Fn.getSemi(content.trim().startsWith(Strings.LEFT_BRACES), null,
+                () -> (R) new JsonObject(content),
+                () -> (R) new JsonArray(content)), content);
     }
 
     static <T> String serialize(final T t) {
@@ -204,27 +204,27 @@ final class Jackson {
 
     static <T> T deserialize(final JsonObject value, final Class<T> type) {
         return Fn.getNull(null,
-                () -> Jackson.deserialize(value.encode(), type), value);
+            () -> Jackson.deserialize(value.encode(), type), value);
     }
 
     static <T> T deserialize(final JsonArray value, final Class<T> type) {
         return Fn.getNull(null,
-                () -> Jackson.deserialize(value.encode(), type), value);
+            () -> Jackson.deserialize(value.encode(), type), value);
     }
 
     static <T> List<T> deserialize(final JsonArray value, final TypeReference<List<T>> type) {
         return Fn.getNull(new ArrayList<>(),
-                () -> Jackson.deserialize(value.encode(), type), value);
+            () -> Jackson.deserialize(value.encode(), type), value);
     }
 
     static <T> T deserialize(final String value, final Class<T> type) {
         return Fn.getNull(null,
-                () -> Fn.getJvm(() -> Jackson.MAPPER.readValue(value, type)), value);
+            () -> Fn.getJvm(() -> Jackson.MAPPER.readValue(value, type)), value);
     }
 
     static <T> T deserialize(final String value, final TypeReference<T> type) {
         return Fn.getNull(null,
-                () -> Fn.getJvm(() -> Jackson.MAPPER.readValue(value, type)), value);
+            () -> Fn.getJvm(() -> Jackson.MAPPER.readValue(value, type)), value);
     }
 
     // ---------------------- Json Tool ----------------------------
@@ -237,8 +237,8 @@ final class Jackson {
     static JsonObject jsonAppend(final JsonObject target, final JsonObject source, boolean isRef) {
         final JsonObject reference = isRef ? target : target.copy();
         source.fieldNames().stream()
-                .filter(field -> !reference.containsKey(field))
-                .forEach(field -> reference.put(field, source.getValue(field)));
+            .filter(field -> !reference.containsKey(field))
+            .forEach(field -> reference.put(field, source.getValue(field)));
         return reference;
     }
 

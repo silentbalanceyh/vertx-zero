@@ -25,12 +25,12 @@ class GetLinker implements IxLinker {
              */
             final JsonObject filters = IxSwitcher.getCondition(original, module);
             return dao.fetchOneAsync(filters)
-                    .compose(queried -> null == queried ?
-                            /* 204 */
-                            IxHttp.success204(queried) :
-                            /* 200 */
-                            IxHttp.success200(queried, config))
-                    .compose(response -> IxSwitcher.moveEnd(original, response, config));
+                .compose(queried -> null == queried ?
+                    /* 204 */
+                    IxHttp.success204(queried) :
+                    /* 200 */
+                    IxHttp.success200(queried, config))
+                .compose(response -> IxSwitcher.moveEnd(original, response, config));
         });
     }
 }

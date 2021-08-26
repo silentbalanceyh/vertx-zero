@@ -74,7 +74,7 @@ public class JtMonitor {
 
     public void componentHit(final Class<?> componentClass, final Class<?> recordClass) {
         Jt.infoWeb(this.logger, JtMsg.COMPONENT_SELECT,
-                null == componentClass ? null : componentClass.getName(),
-                null == recordClass ? null : recordClass.getName());
+            null == componentClass ? null : componentClass.getName(),
+            null == recordClass ? null : recordClass.getName());
     }
 }

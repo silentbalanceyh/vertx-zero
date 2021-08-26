@@ -29,7 +29,7 @@ public class AclData implements Acl {
      * 3) edit
      */
     private final ConcurrentMap<String, AclView> commonMap =
-            new ConcurrentHashMap<>();
+        new ConcurrentHashMap<>();
 
     /*
      * Acl complex
@@ -37,17 +37,17 @@ public class AclData implements Acl {
      * 2) vow
      */
     private final ConcurrentMap<AclType, ConcurrentMap<String, AclView>> complexMap =
-            new ConcurrentHashMap<AclType, ConcurrentMap<String, AclView>>() {
-                {
-                    this.put(AclType.DATA, new ConcurrentHashMap<>());
-                    this.put(AclType.REFERENCE, new ConcurrentHashMap<>());
-                }
-            };
+        new ConcurrentHashMap<AclType, ConcurrentMap<String, AclView>>() {
+            {
+                this.put(AclType.DATA, new ConcurrentHashMap<>());
+                this.put(AclType.REFERENCE, new ConcurrentHashMap<>());
+            }
+        };
 
     private final ConcurrentMap<String, JsonObject> dependMap =
-            new ConcurrentHashMap<>();
+        new ConcurrentHashMap<>();
     private final ConcurrentMap<String, AclType> complexType =
-            new ConcurrentHashMap<>();
+        new ConcurrentHashMap<>();
 
     private final AclPhase phase;
     private final JsonObject config = new JsonObject();
@@ -58,7 +58,7 @@ public class AclData implements Acl {
              * Depend processing
              */
             Ut.<JsonObject>itJObject(Ut.toJObject(visitant.getAclVerge()),
-                    (config, field) -> this.dependMap.put(field, config));
+                (config, field) -> this.dependMap.put(field, config));
             /*
              * Visible processing
              */

@@ -1,6 +1,7 @@
 package io.vertx.tp.crud.uca.input;
 
 import io.vertx.core.Future;
+import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.auth.User;
 import io.vertx.tp.crud.refine.Ix;
@@ -20,6 +21,12 @@ class CreatePre implements Pre {
     @Override
     public Future<JsonObject> inJAsync(final JsonObject data, final IxIn in) {
         /* UserId */
+        this.auditor(data, in);
+        return Ux.future(data);
+    }
+
+    private void auditor(final JsonObject data, final IxIn in) {
+        /* UserId */
         final User user = in.user();
         final KModule module = in.module();
         if (Objects.nonNull(user)) {
@@ -30,6 +37,11 @@ class CreatePre implements Pre {
                 Ix.onAuditor(data, field.getCreated(), userId);
             }
         }
+    }
+
+    @Override
+    public Future<JsonArray> inAAsync(final JsonArray data, final IxIn in) {
+        Ut.itJArray(data).forEach(json -> this.auditor(json, in));
         return Ux.future(data);
     }
 }

@@ -87,7 +87,7 @@ public final class SqlDDLProvider {
         final String table = schema.getTable();
         final List<String> segments = new ArrayList<>();
         columns.forEach(column -> this.addLine(segments,
-                this.sentence.columnDrop(table, column)));
+            this.sentence.columnDrop(table, column)));
         return segments;
     }
 
@@ -97,13 +97,13 @@ public final class SqlDDLProvider {
         // 数据库真实字段信息
         final List<ConcurrentMap<String, Object>> columnDetailList = this.reflector.getColumnDetail(table);
         columns.stream()
-                // 过滤那些已删除的字段，防止它们二次处理
-                .filter(column -> !column.endsWith(SqlDDLConstant.getDeleteFieldFlag()))
-                .forEach(column -> {
-                    final ConcurrentMap<String, Object> columnDetail = this.reflector.getColumnDetails(column, columnDetailList);
-                    final String fieldType = this.reflector.getFieldType(columnDetail);
-                    this.addLine(segments, this.sentence.columnDropRename(table, column, SqlDDLConstant.combineNewName(column), fieldType));
-                });
+            // 过滤那些已删除的字段，防止它们二次处理
+            .filter(column -> !column.endsWith(SqlDDLConstant.getDeleteFieldFlag()))
+            .forEach(column -> {
+                final ConcurrentMap<String, Object> columnDetail = this.reflector.getColumnDetails(column, columnDetailList);
+                final String fieldType = this.reflector.getFieldType(columnDetail);
+                this.addLine(segments, this.sentence.columnDropRename(table, column, SqlDDLConstant.combineNewName(column), fieldType));
+            });
         return segments;
     }
 
@@ -115,8 +115,8 @@ public final class SqlDDLProvider {
             final MField field = schema.getFieldByColumn(column);
             // NOT NULL，系统中有数据，不可添加非空字段
             Fn.outWeb(Values.ZERO < rows && !field.getIsNullable(), _500NullableAddException.class, this.getClass(),
-                    /* ARG1：被修改的表名 */ table,
-                    /* ARG2：被修改的列名 */ column);
+                /* ARG1：被修改的表名 */ table,
+                /* ARG2：被修改的列名 */ column);
             final String sql = this.sentence.columnAdd(table, field);
             this.addLine(segments, sql);
         });
@@ -139,16 +139,16 @@ public final class SqlDDLProvider {
                     continue;
                 } else if (checkResult == CheckResult.FAILED) {
                     Fn.outWeb(true, _500TypeAlterException.class, this.getClass(),
-                            /* ARG1：被修改的表名 */ table,
-                            /* ARG2：被修改的列名 */ column);
+                        /* ARG1：被修改的表名 */ table,
+                        /* ARG2：被修改的列名 */ column);
                 }
 
                 // 已存在NULL数据时，字段不可变更为 NOT NULL
                 if (Values.ZERO < rows) {
                     final long nullRows = this.reflector.getNullRows(table, this.sentence.columnDdl(column));
                     Fn.outWeb(Values.ZERO < nullRows && !field.getIsNullable(), _500NullableAlterException.class, this.getClass(),
-                            /* ARG1：被修改的表名 */ table,
-                            /* ARG2：被修改的列名 */ column);
+                        /* ARG1：被修改的表名 */ table,
+                        /* ARG2：被修改的列名 */ column);
                 }
                 final String sql = this.sentence.columnAlter(table, field);
                 this.addLine(segments, sql);

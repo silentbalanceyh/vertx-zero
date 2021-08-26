@@ -5,9 +5,9 @@ import cn.vertxup.ui.domain.tables.pojos.UiForm;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.eon.KName;
 import io.vertx.tp.ke.refine.Ke;
 import io.vertx.tp.ui.refine.Ui;
+import io.vertx.up.eon.KName;
 import io.vertx.up.log.Annal;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
@@ -24,18 +24,18 @@ public class FormService implements FormStub {
     @Override
     public Future<JsonObject> fetchById(final String formId) {
         return Ux.Jooq.on(UiFormDao.class).<UiForm>fetchByIdAsync(formId)
-                .compose(form -> {
-                    if (Objects.isNull(form)) {
-                        Ui.infoWarn(FormService.LOGGER, " Form not found, id = {0}", formId);
-                        return Ux.future(new JsonObject());
-                    } else {
-                        /*
-                         * form / fields combine here
-                         */
-                        final JsonObject formJson = Ut.serializeJson(form);
-                        return this.attachConfig(formJson);
-                    }
-                });
+            .compose(form -> {
+                if (Objects.isNull(form)) {
+                    Ui.infoWarn(FormService.LOGGER, " Form not found, id = {0}", formId);
+                    return Ux.future(new JsonObject());
+                } else {
+                    /*
+                     * form / fields combine here
+                     */
+                    final JsonObject formJson = Ut.serializeJson(form);
+                    return this.attachConfig(formJson);
+                }
+            });
     }
 
     @Override
@@ -44,15 +44,15 @@ public class FormService implements FormStub {
         condition.put(KName.IDENTIFIER, identifier);
         condition.put(KName.SIGMA, sigma);
         return Ux.Jooq.on(UiFormDao.class).<UiForm>fetchAndAsync(condition)
-                /* List<UiForm> */
-                .compose(Ux::futureA)
-                .compose(forms -> {
-                    Ut.itJArray(forms).forEach(form -> {
-                        Ke.mountArray(form, KName.Ui.HIDDEN);
-                        Ke.mount(form, KName.METADATA);
-                    });
-                    return Ux.future(forms);
+            /* List<UiForm> */
+            .compose(Ux::futureA)
+            .compose(forms -> {
+                Ut.itJArray(forms).forEach(form -> {
+                    Ke.mountArray(form, KName.Ui.HIDDEN);
+                    Ke.mount(form, KName.METADATA);
                 });
+                return Ux.future(forms);
+            });
     }
 
     @Override
@@ -62,23 +62,23 @@ public class FormService implements FormStub {
         filters.put(KName.SIGMA, sigma);
         filters.put("", Boolean.TRUE);
         return Ux.Jooq.on(UiFormDao.class)
-                .<UiForm>fetchOneAsync(filters)
-                .compose(form -> {
-                    if (Objects.isNull(form)) {
-                        Ui.infoWarn(FormService.LOGGER, " Form not found, code = {0}, sigma = {1}", code, sigma);
-                        return Ux.future(new JsonObject());
-                    } else {
+            .<UiForm>fetchOneAsync(filters)
+            .compose(form -> {
+                if (Objects.isNull(form)) {
+                    Ui.infoWarn(FormService.LOGGER, " Form not found, code = {0}, sigma = {1}", code, sigma);
+                    return Ux.future(new JsonObject());
+                } else {
+                    /*
+                     * form / fields combine here
+                     */
+                    final JsonObject formJson = Ut.serializeJson(form);
+                    return this.attachConfig(formJson)
                         /*
-                         * form / fields combine here
+                         * Adapter for form configuration
                          */
-                        final JsonObject formJson = Ut.serializeJson(form);
-                        return this.attachConfig(formJson)
-                                /*
-                                 * Adapter for form configuration
-                                 */
-                                .compose(config -> Ux.future(config.getJsonObject("form")));
-                    }
-                });
+                        .compose(config -> Ux.future(config.getJsonObject("form")));
+                }
+            });
     }
 
     @Override
@@ -88,16 +88,16 @@ public class FormService implements FormStub {
         final UiForm uiForm = Ux.fromJson(form, UiForm.class);
         // 2. save ui-form record
         return Ux.Jooq.on(UiFormDao.class)
-                .updateAsync(key, uiForm)
-                .compose(Ux::futureJ)
-                // 3. mountOut
-                .compose(updatedForm -> Ux.future(this.mountOut(updatedForm)));
+            .updateAsync(key, uiForm)
+            .compose(Ux::futureJ)
+            // 3. mountOut
+            .compose(updatedForm -> Ux.future(this.mountOut(updatedForm)));
     }
 
     @Override
     public Future<Boolean> delete(final String key) {
         return Ux.Jooq.on(UiFormDao.class)
-                .deleteByIdAsync(key);
+            .deleteByIdAsync(key);
     }
 
     private Future<JsonObject> attachConfig(final JsonObject formJson) {
@@ -138,8 +138,8 @@ public class FormService implements FormStub {
         }
         final String formId = formJson.getString(KName.KEY);
         return this.fieldStub.fetchUi(formId)
-                /* Put `ui` to form configuration */
-                .compose(ui -> Ux.future(config.put("form", form.put("ui", ui))));
+            /* Put `ui` to form configuration */
+            .compose(ui -> Ux.future(config.put("form", form.put("ui", ui))));
     }
 
     private JsonObject mountIn(final JsonObject data) {

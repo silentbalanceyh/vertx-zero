@@ -7,23 +7,25 @@ public interface ResponseParamsOrBuilder extends
     // @@protoc_insertion_point(interface_extends:io.vertx.tp.ipc.eon.ResponseParams)
     com.google.protobuf.MessageOrBuilder {
 
-  /**
-   * <pre>
-   * Size
-   * </pre>
-   *
-   * <code>int32 size = 1;</code>
-   * @return The size.
-   */
-  int getSize();
+    /**
+     * <pre>
+     * Size
+     * </pre>
+     *
+     * <code>int32 size = 1;</code>
+     *
+     * @return The size.
+     */
+    int getSize();
 
-  /**
-   * <pre>
-   * Interval us
-   * </pre>
-   *
-   * <code>int32 interval_us = 2;</code>
-   * @return The intervalUs.
-   */
-  int getIntervalUs();
+    /**
+     * <pre>
+     * Interval us
+     * </pre>
+     *
+     * <code>int32 interval_us = 2;</code>
+     *
+     * @return The intervalUs.
+     */
+    int getIntervalUs();
 }

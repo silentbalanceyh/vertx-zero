@@ -48,9 +48,9 @@ public class Arrange implements Serializable {
     @Override
     public String toString() {
         return "Arrange{" +
-                "mode=" + this.mode +
-                ", options=" + this.options +
-                ", delivery=" + this.delivery +
-                '}';
+            "mode=" + this.mode +
+            ", options=" + this.options +
+            ", delivery=" + this.delivery +
+            '}';
     }
 }

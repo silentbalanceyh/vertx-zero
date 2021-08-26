@@ -114,8 +114,8 @@ public class IxIn {
 
     @SafeVarargs
     public final <T> Future<T> ready(
-            final T input,
-            final BiFunction<T, IxIn, Future<T>>... executors) {
+        final T input,
+        final BiFunction<T, IxIn, Future<T>>... executors) {
         // Error Checking for request building
         if (Objects.nonNull(this.error)) {
             return Future.failedFuture(this.error);

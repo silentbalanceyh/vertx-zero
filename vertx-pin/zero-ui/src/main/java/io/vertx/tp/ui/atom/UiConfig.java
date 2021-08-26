@@ -64,10 +64,10 @@ public class UiConfig implements Serializable {
     @Override
     public String toString() {
         return "UiConfig{" +
-                "definition='" + this.definition + '\'' +
-                ", mapping=" + this.mapping +
-                ", attributes=" + this.attributes +
-                ", op=" + this.op +
-                '}';
+            "definition='" + this.definition + '\'' +
+            ", mapping=" + this.mapping +
+            ", attributes=" + this.attributes +
+            ", op=" + this.op +
+            '}';
     }
 }

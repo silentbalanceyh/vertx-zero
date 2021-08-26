@@ -82,8 +82,8 @@ class IxSerialize {
         }
         final String pojo = config.getPojo();
         final T reference = Ut.isNil(pojo) ?
-                Ux.fromJson(data, (Class<T>) config.getPojoCls()) :
-                Ux.fromJson(data, (Class<T>) config.getPojoCls(), config.getPojo());
+            Ux.fromJson(data, (Class<T>) config.getPojoCls()) :
+            Ux.fromJson(data, (Class<T>) config.getPojoCls(), config.getPojo());
         IxLog.infoDao(LOGGER, "Deserialized: {0}", reference);
         return reference;
     }
@@ -92,10 +92,10 @@ class IxSerialize {
     static <T> List<T> deserializeT(final JsonArray data, final KModule config) {
         final List<T> list = new ArrayList<>();
         data.stream()
-                .filter(Objects::nonNull)
-                .map(item -> (JsonObject) item)
-                .map(entity -> (T) deserializeT(entity, config))
-                .forEach(reference -> list.add(reference));
+            .filter(Objects::nonNull)
+            .map(item -> (JsonObject) item)
+            .map(entity -> (T) deserializeT(entity, config))
+            .forEach(reference -> list.add(reference));
         return list;
     }
 }

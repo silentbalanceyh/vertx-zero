@@ -18,7 +18,7 @@ import java.util.function.Function;
  * 2) Get `UPDATE` operation
  * 3) Get `DELETE` operation
  */
-class Comparer {
+class Compare {
     /*
      * The uniqueSet contains all unique fields
      */
@@ -149,9 +149,10 @@ class Comparer {
                 return null;
             } else {
                 return list.stream().filter(Objects::nonNull)
-                        .filter(each -> comparedValue.equals(fnValue.apply(each)))
-                        .findAny().orElse(null);
+                    .filter(each -> comparedValue.equals(fnValue.apply(each)))
+                    .findAny().orElse(null);
             }
         }
     }
+
 }

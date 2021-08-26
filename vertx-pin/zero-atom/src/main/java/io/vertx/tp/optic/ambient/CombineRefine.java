@@ -6,10 +6,10 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.tp.atom.modeling.Model;
 import io.vertx.tp.atom.modeling.Schema;
 import io.vertx.tp.atom.refine.Ao;
-import io.vertx.up.eon.KName;
 import io.vertx.tp.modular.file.AoFile;
 import io.vertx.tp.modular.file.FileReader;
 import io.vertx.tp.modular.phantom.AoPerformer;
+import io.vertx.up.eon.KName;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
@@ -33,9 +33,9 @@ class CombineRefine implements AoRefine {
                 final Set<Model> models = this.marshal.readModels(name);
                 // 两边查找对比，然后更新原始引用
                 models.stream().filter(storedSet::contains)
-                        .forEach(jsonRef -> storedSet
-                                .stream().filter(jsonRef::equals).findFirst()
-                                .ifPresent(stored -> this.updateRelation(stored, jsonRef)));
+                    .forEach(jsonRef -> storedSet
+                        .stream().filter(jsonRef::equals).findFirst()
+                        .ifPresent(stored -> this.updateRelation(stored, jsonRef)));
                 // 返回合并结果
                 return Ux.future(models);
             }).compose(models -> this.onResult(appJson, models));
@@ -46,8 +46,8 @@ class CombineRefine implements AoRefine {
                                         final Set<Model> models) {
         final JsonArray modelArray = new JsonArray();
         models.stream().map(Model::toJson)
-                .map(this::onAttribute)
-                .forEach(modelArray::add);
+            .map(this::onAttribute)
+            .forEach(modelArray::add);
         appJson.put(KName.Modeling.MODELS, modelArray);
         return Ux.future(appJson);
     }
@@ -72,11 +72,11 @@ class CombineRefine implements AoRefine {
         // 两边查找对比
         final Set<Schema> jsonSchemata = json.schemata();
         jsonSchemata.stream().filter(storedSchemata::contains).forEach(jsonRef -> storedSchemata
-                // 先查找相匹配的Schema
-                .stream().filter(jsonRef::equals).findFirst()
-                // 再过滤发生了主键变化的Schema
-                .filter(storedRef -> !storedRef.getEntity().getKey().equals(jsonRef.getEntity().getKey()))
-                // 如果找到就执行关联关系的重新设置
-                .ifPresent(storedRef -> jsonRef.relation(storedRef.getEntity().getKey())));
+            // 先查找相匹配的Schema
+            .stream().filter(jsonRef::equals).findFirst()
+            // 再过滤发生了主键变化的Schema
+            .filter(storedRef -> !storedRef.getEntity().getKey().equals(jsonRef.getEntity().getKey()))
+            // 如果找到就执行关联关系的重新设置
+            .ifPresent(storedRef -> jsonRef.relation(storedRef.getEntity().getKey())));
     }
 }

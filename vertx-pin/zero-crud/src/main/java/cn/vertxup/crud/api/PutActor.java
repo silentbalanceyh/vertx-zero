@@ -29,21 +29,21 @@ public class PutActor {
             final JsonObject body = Ux.getJson2(request);
             final String key = Ux.getString1(request);
             return dao.fetchByIdAsync(key).compose(queried -> null == queried ?
-                            /* 204, No Content */
-                            IxHttp.success204(null) :
-                            /* Save */
-                            IxActor.key().bind(request).procAsync(body, config)
-                                    /* Verify */
-                                    .compose(input -> IxActor.verify().bind(request).procAsync(input, config))
-                                    /* T */
-                                    .compose(input -> Ix.deserializeT(input, config))
-                                    /* Save */
-                                    .compose(entity -> dao.updateAsync(key, entity))
-                                    /* 200, Envelop */
-                                    .compose(entity -> IxHttp.success200(entity, config)))
-                    /* Must merged */
-                    .compose(response -> IxLinker.update().joinJAsync(request,
-                            body.mergeIn(response.data()), config));
+                    /* 204, No Content */
+                    IxHttp.success204(null) :
+                    /* Save */
+                    IxActor.key().bind(request).procAsync(body, config)
+                        /* Verify */
+                        .compose(input -> IxActor.verify().bind(request).procAsync(input, config))
+                        /* T */
+                        .compose(input -> Ix.deserializeT(input, config))
+                        /* Save */
+                        .compose(entity -> dao.updateAsync(key, entity))
+                        /* 200, Envelop */
+                        .compose(entity -> IxHttp.success200(entity, config)))
+                /* Must merged */
+                .compose(response -> IxLinker.update().joinJAsync(request,
+                    body.mergeIn(response.data()), config));
         });
     }
 
@@ -54,18 +54,18 @@ public class PutActor {
             /* Data Get */
             final JsonArray array = Ux.getArray1(request);
             return Ix.inKeys(array, config)
-                    /* Search List */
-                    .compose(filters -> Ix.search(filters, config).apply(dao))
-                    /* Extract List */
-                    .compose(data -> Ix.serializePL(data, config))
-                    /* JsonArray */
-                    .compose(queried -> Ix.serializeA(queried, array, config))
-                    /* JsonArray */
-                    .compose(dataArr -> Ix.deserializeT(dataArr, config))
-                    /* List<T> */
-                    .compose(dao::updateAsync)
-                    /* JsonArray */
-                    .compose(IxHttp::success200);
+                /* Search List */
+                .compose(filters -> Ix.search(filters, config).apply(dao))
+                /* Extract List */
+                .compose(data -> Ix.serializePL(data, config))
+                /* JsonArray */
+                .compose(queried -> Ix.serializeA(queried, array, config))
+                /* JsonArray */
+                .compose(dataArr -> Ix.deserializeT(dataArr, config))
+                /* List<T> */
+                .compose(dao::updateAsync)
+                /* JsonArray */
+                .compose(IxHttp::success200);
         });
     }
 
@@ -77,19 +77,19 @@ public class PutActor {
             final JsonArray projection = Ux.getArray1(request);
             /* Put Stub */
             return Ke.channelAsync(ApeakMy.class, () -> Ux.future(new JsonArray()).compose(IxHttp::success200),
-                    stub -> Unity.fetchView(dao, request, config)
-                            /* View parameters filling */
-                            .compose(input -> IxActor.view().procAsync(input, config))
-                            /* User filling */
-                            .compose(input -> IxActor.user().bind(request).procAsync(input, config))
-                            /* params `dataKey` calculation */
-                            .compose(params -> this.prepareDataKey(params, request))
-                            /* Fetch My Columns */
-                            .compose(params -> stub.on(dao).saveMy(params, projection))
-                            /* Flush Cache based on Ke */
-                            // .compose(updated -> flush(request, updated))
-                            /* Return Result */
-                            .compose(IxHttp::success200));
+                stub -> Unity.fetchView(dao, request, config)
+                    /* View parameters filling */
+                    .compose(input -> IxActor.view().procAsync(input, config))
+                    /* User filling */
+                    .compose(input -> IxActor.user().bind(request).procAsync(input, config))
+                    /* params `dataKey` calculation */
+                    .compose(params -> this.prepareDataKey(params, request))
+                    /* Fetch My Columns */
+                    .compose(params -> stub.on(dao).saveMy(params, projection))
+                    /* Flush Cache based on Ke */
+                    // .compose(updated -> flush(request, updated))
+                    /* Return Result */
+                    .compose(IxHttp::success200));
         });
     }
 

@@ -28,6 +28,7 @@ public interface Origin {
      * Erase record
      *
      * @param record discovery record that will be erased
+     *
      * @return whether erasing successfully
      */
     boolean erasing(Record record);

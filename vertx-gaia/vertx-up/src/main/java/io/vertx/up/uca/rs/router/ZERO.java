@@ -24,18 +24,18 @@ interface Info {
 
 interface Pool {
     ConcurrentMap<String, ModeSplitter> THREADS
-            = new ConcurrentHashMap<>();
+        = new ConcurrentHashMap<>();
     ConcurrentMap<String, Sentry<RoutingContext>> VERIFIERS
-            = new ConcurrentHashMap<>();
+        = new ConcurrentHashMap<>();
 
     ConcurrentMap<String, Hub<Route>> URIHUBS
-            = new ConcurrentHashMap<>();
+        = new ConcurrentHashMap<>();
 
     ConcurrentMap<String, Hub<Route>> MEDIAHUBS
-            = new ConcurrentHashMap<>();
+        = new ConcurrentHashMap<>();
 
     ConcurrentMap<String, Set<Cliff>> WALL_MAP =
-            new ConcurrentHashMap<>();
+        new ConcurrentHashMap<>();
 
     ConcurrentMap<String, PlugRouter> PLUGS = new ConcurrentHashMap<>();
 }

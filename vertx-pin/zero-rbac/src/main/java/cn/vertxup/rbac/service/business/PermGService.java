@@ -7,8 +7,8 @@ import cn.vertxup.rbac.domain.tables.pojos.SPermission;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.eon.KName;
 import io.vertx.up.atom.Refer;
+import io.vertx.up.eon.KName;
 import io.vertx.up.eon.Strings;
 import io.vertx.up.eon.em.ChangeFlag;
 import io.vertx.up.uca.jooq.UxJooq;
@@ -75,10 +75,10 @@ public class PermGService implements PermGStub {
             combined.add(jooq.insertAsync(compared.get(ChangeFlag.ADD)));
             combined.add(jooq.updateAsync(compared.get(ChangeFlag.UPDATE)));
             return Ux.thenCombineArrayT(combined).compose(processed ->
-                    /*
-                     * Codes here for future usage
-                     */
-                    permSetRef.future(processed.stream().map(SPermission::getCode).collect(Collectors.toSet()))
+                /*
+                 * Codes here for future usage
+                 */
+                permSetRef.future(processed.stream().map(SPermission::getCode).collect(Collectors.toSet()))
             );
         }).compose(nil -> {
 
@@ -122,7 +122,7 @@ public class PermGService implements PermGStub {
         criteria.put(KName.SIGMA, permSet.getSigma());
         criteria.put(KName.NAME, permSet.getName());
         criteria.put("code,i", Ut.toJArray(
-                permissions.stream().map(SPermission::getCode).collect(Collectors.toSet())
+            permissions.stream().map(SPermission::getCode).collect(Collectors.toSet())
         ));
         criteria.put(Strings.EMPTY, Boolean.TRUE);
         return Ux.Jooq.on(SPermSetDao.class).deleteByAsync(criteria).compose(nil -> Ux.future(new ArrayList<>()));
@@ -135,8 +135,8 @@ public class PermGService implements PermGStub {
             each.setUpdatedAt(permSet.getUpdatedAt());
         });
         return Ux.Jooq.on(SPermSetDao.class).updateAsync(permSetList.stream()
-                .filter(item -> codes.contains(item.getCode()))
-                .collect(Collectors.toList())
+            .filter(item -> codes.contains(item.getCode()))
+            .collect(Collectors.toList())
         );
     }
 

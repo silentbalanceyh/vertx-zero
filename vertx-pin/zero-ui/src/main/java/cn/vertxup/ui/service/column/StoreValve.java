@@ -25,15 +25,15 @@ class StoreValve implements UiValve {
         filters.put("controlId", controlId);
         filters.put("sigma", sigma);
         return Ux.Jooq.on(UiColumnDao.class)
-                .<UiColumn>fetchAsync(filters)
-                .compose(list -> Ux.future(list.stream()
-                        /*
-                         * Position Sorting
-                         */
-                        .sorted(Comparator.comparing(UiColumn::getPosition))
-                        .collect(Collectors.toList())))
-                .compose(list -> Ux.future(list.stream().map(this::procColumn).collect(Collectors.toList())))
-                .compose(jsonList -> Ux.future(new JsonArray(jsonList)));
+            .<UiColumn>fetchAsync(filters)
+            .compose(list -> Ux.future(list.stream()
+                /*
+                 * Position Sorting
+                 */
+                .sorted(Comparator.comparing(UiColumn::getPosition))
+                .collect(Collectors.toList())))
+            .compose(list -> Ux.future(list.stream().map(this::procColumn).collect(Collectors.toList())))
+            .compose(jsonList -> Ux.future(new JsonArray(jsonList)));
     }
 
     private JsonObject procColumn(final UiColumn column) {

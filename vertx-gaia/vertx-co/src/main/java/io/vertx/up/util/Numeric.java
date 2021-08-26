@@ -62,15 +62,15 @@ final class Numeric {
 
     static boolean isPositive(final int[] numbers) {
         final long counter = Arrays.stream(numbers)
-                .filter(Numeric::isPositive)
-                .count();
+            .filter(Numeric::isPositive)
+            .count();
         return counter == numbers.length;
     }
 
     static boolean isPositive(final Integer[] numbers) {
         final long counter = Arrays.stream(numbers)
-                .filter(Numeric::isPositive)
-                .count();
+            .filter(Numeric::isPositive)
+            .count();
         return counter == numbers.length;
     }
 
@@ -115,7 +115,7 @@ final class Numeric {
             return min <= value && value <= max;
         } else {
             return ((null != min) && min <= value) ||
-                    ((null != max) && value <= max);
+                ((null != max) && value <= max);
         }
     }
 

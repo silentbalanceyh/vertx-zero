@@ -27,7 +27,7 @@ public class DeployRotate implements Rotate {
 
     private static final Annal LOGGER = Annal.get(DeployRotate.class);
     private static final ConcurrentMap<Class<?>, JsonObject> OPTIONS
-            = new ConcurrentHashMap<>();
+        = new ConcurrentHashMap<>();
     private static final Node<JsonObject> VISITOR = Ut.singleton(ZeroUniform.class);
     private static final JsonObject delivery = new JsonObject();
 

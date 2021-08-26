@@ -27,15 +27,15 @@ public class JqAnalyzer {
 
     private static final Annal LOGGER = Annal.get(JqAnalyzer.class);
     private static final ConcurrentMap<Integer, VertxDAO> DAO_POOL =
-            new ConcurrentHashMap<>();
+        new ConcurrentHashMap<>();
 
     private transient final VertxDAO vertxDAO;
     /* Field to Column */
     private transient final ConcurrentMap<String, String> mapping =
-            new ConcurrentHashMap<>();
+        new ConcurrentHashMap<>();
     /* Column to Field */
     private transient final ConcurrentMap<String, String> revert =
-            new ConcurrentHashMap<>();
+        new ConcurrentHashMap<>();
 
     private transient Mojo pojo;
     private transient Table<?> table;
@@ -263,7 +263,7 @@ public class JqAnalyzer {
     public Field column(final String field) {
         String columnField = columnName(field);
         Fn.outUp(null == columnField, LOGGER,
-                JooqFieldMissingException.class, UxJooq.class, field, Ut.field(this.vertxDAO, "type"));
+            JooqFieldMissingException.class, UxJooq.class, field, Ut.field(this.vertxDAO, "type"));
         LOGGER.debug(Info.JOOQ_FIELD, field, columnField);
         /*
          * Old code for field construct, following code will caurse Type/DataType missing
@@ -312,7 +312,7 @@ public class JqAnalyzer {
         } else {
             LOGGER.debug(Info.JOOQ_BIND, pojo, clazz);
             this.pojo = Mirror.create(UxJooq.class).mount(pojo)
-                    .mojo().bindColumn(this.mapping);
+                .mojo().bindColumn(this.mapping);
             // When bind pojo, the system will analyze columns
             LOGGER.debug(Info.JOOQ_MOJO, this.pojo.getIn(), this.pojo.getInColumn());
         }
@@ -320,7 +320,7 @@ public class JqAnalyzer {
 
     public <T> T copyEntity(final T target, final T updated) {
         Fn.outUp(null == updated, LOGGER, JooqMergeException.class,
-                UxJooq.class, null == target ? null : target.getClass(), Ut.serialize(target));
+            UxJooq.class, null == target ? null : target.getClass(), Ut.serialize(target));
         return Fn.getSemi(null == target && null == updated, LOGGER, () -> null, () -> {
             final JsonObject targetJson = null == target ? new JsonObject() : Ut.serializeJson(target);
             /*
@@ -329,9 +329,9 @@ public class JqAnalyzer {
             final Table<?> tableField = Ut.field(this.vertxDAO, "table");
             final UniqueKey key = tableField.getPrimaryKey();
             key.getFields().stream().map(item -> ((TableField) item).getName())
-                    .filter(this.revert::containsKey)
-                    .map(this.revert::get)
-                    .forEach(item -> Ut.field(updated, item.toString(), null));
+                .filter(this.revert::containsKey)
+                .map(this.revert::get)
+                .forEach(item -> Ut.field(updated, item.toString(), null));
             /*
              * Deserialization
              */

@@ -31,13 +31,13 @@ public class KMetadata implements Serializable {
              * Source parsed here.
              */
             final JSource source =
-                    Ut.toEnum(JSource.class, input.getString(KEY_TYPE));
+                Ut.toEnum(JSource.class, input.getString(KEY_TYPE));
             final JsonObject content = input.getJsonObject(KEY_CONTENT);
             /*
              * Parser applying
              */
             final Function<JsonObject, JsonObject> parser =
-                    this.getParser(source);
+                this.getParser(source);
             if (Objects.nonNull(parser)) {
                 final JsonObject normalized = parser.apply(content);
                 if (Objects.nonNull(normalized)) {

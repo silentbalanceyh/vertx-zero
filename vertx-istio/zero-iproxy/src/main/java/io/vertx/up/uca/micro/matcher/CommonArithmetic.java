@@ -24,9 +24,9 @@ public class CommonArithmetic implements Arithmetic {
         // Input source
         final String uri = request.path();
         final Optional<Record> hitted =
-                records.stream()
-                        .filter(record -> this.isMatch(uri, record))
-                        .findAny();
+            records.stream()
+                .filter(record -> this.isMatch(uri, record))
+                .findAny();
         // Find valid;
         return hitted.orElse(null);
     }
@@ -36,6 +36,7 @@ public class CommonArithmetic implements Arithmetic {
      *
      * @param uri    real input from client include path variable
      * @param record discovery record in backend ( From etcd3 )
+     *
      * @return whether the uri match and could be found in etcd3
      */
     private boolean isMatch(final String uri, final Record record) {

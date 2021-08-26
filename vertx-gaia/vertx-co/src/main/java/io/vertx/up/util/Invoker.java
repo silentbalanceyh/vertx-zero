@@ -22,9 +22,9 @@ final class Invoker {
     }
 
     static <T> T invokeObject(
-            final Object instance,
-            final String name,
-            final Object... args) {
+        final Object instance,
+        final String name,
+        final Object... args) {
         return Fn.getNull(() -> {
             final MethodAccess access = MethodAccess.get(instance.getClass());
             // Direct invoke, multi overwrite for unbox/box issue still existing.
@@ -70,7 +70,7 @@ final class Invoker {
                  *    method declared length = args length + 1
                  */
                 Fn.out(method.getParameters().length != args.length + 1,
-                        InvokingSpecException.class, Invoker.class, method);
+                    InvokingSpecException.class, Invoker.class, method);
                 /*
                  * void.class, the system should provide secondary parameters
                  */

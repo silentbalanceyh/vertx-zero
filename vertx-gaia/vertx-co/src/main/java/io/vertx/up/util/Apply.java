@@ -121,7 +121,7 @@ class Apply {
     static Function<JsonArray, Future<JsonArray>> ifStrings(final String... fields) {
         return jarray -> {
             It.itJArray(jarray).forEach(json ->
-                    Arrays.stream(fields).forEach(field -> ifString(json, field)));
+                Arrays.stream(fields).forEach(field -> ifString(json, field)));
             return Future.succeededFuture(jarray);
         };
     }
@@ -143,7 +143,7 @@ class Apply {
     static Function<JsonArray, Future<JsonArray>> ifJArray(final String... fields) {
         return jarray -> {
             It.itJArray(jarray).forEach(json ->
-                    Arrays.stream(fields).forEach(field -> ifJson(json, field)));
+                Arrays.stream(fields).forEach(field -> ifJson(json, field)));
             return Future.succeededFuture(jarray);
         };
     }

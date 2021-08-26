@@ -57,22 +57,22 @@ public class ExFn {
              * For new row, at least there should be only one value existing
              */
             final boolean isPrevRow = indexSet.stream().map(row::getCell)
-                    .allMatch(cell -> {
+                .allMatch(cell -> {
+                    /*
+                     * Here are STRING / BLANK etc.
+                     */
+                    if (CellType.BLANK == cell.getCellType()) {
                         /*
-                         * Here are STRING / BLANK etc.
+                         * BLANK
                          */
-                        if (CellType.BLANK == cell.getCellType()) {
-                            /*
-                             * BLANK
-                             */
-                            return true;
-                        } else if (CellType.STRING == cell.getCellType()) {
-                            /*
-                             * STRING, the value should be ""
-                             */
-                            return Ut.isNil(cell.getStringCellValue());
-                        } else return false;
-                    });
+                        return true;
+                    } else if (CellType.STRING == cell.getCellType()) {
+                        /*
+                         * STRING, the value should be ""
+                         */
+                        return Ut.isNil(cell.getStringCellValue());
+                    } else return false;
+                });
             if (!isPrevRow) {
                 /*
                  * Other times for processing.
@@ -174,8 +174,8 @@ public class ExFn {
                              final int rowIndex, final int rowIndex1,
                              final BiConsumer<Row, Row> consumer) {
         onRow(sheet, rowIndex, row ->
-                onRow(sheet, rowIndex1,
-                        row1 -> consumer.accept(row, row1)), null);
+            onRow(sheet, rowIndex1,
+                row1 -> consumer.accept(row, row1)), null);
     }
 
     public static void onCell(final Row row,

@@ -1,9 +1,9 @@
 package io.vertx.up.uca.rs.config;
 
 import io.vertx.core.http.HttpMethod;
+import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import io.vertx.zero.exception.MethodNullException;
-import io.vertx.up.fn.Fn;
 
 import javax.ws.rs.*;
 import java.lang.annotation.Annotation;
@@ -20,23 +20,23 @@ class MethodResolver {
     private static final Annal LOGGER = Annal.get(MethodResolver.class);
 
     private static final ConcurrentMap<Class<?>, HttpMethod> METHODS =
-            new ConcurrentHashMap<Class<?>, HttpMethod>() {
-                {
-                    this.put(GET.class, HttpMethod.GET);
-                    this.put(POST.class, HttpMethod.POST);
-                    this.put(PUT.class, HttpMethod.PUT);
-                    this.put(DELETE.class, HttpMethod.DELETE);
-                    this.put(OPTIONS.class, HttpMethod.OPTIONS);
-                    this.put(HEAD.class, HttpMethod.HEAD);
-                    this.put(PATCH.class, HttpMethod.PATCH);
-                }
-            };
+        new ConcurrentHashMap<Class<?>, HttpMethod>() {
+            {
+                this.put(GET.class, HttpMethod.GET);
+                this.put(POST.class, HttpMethod.POST);
+                this.put(PUT.class, HttpMethod.PUT);
+                this.put(DELETE.class, HttpMethod.DELETE);
+                this.put(OPTIONS.class, HttpMethod.OPTIONS);
+                this.put(HEAD.class, HttpMethod.HEAD);
+                this.put(PATCH.class, HttpMethod.PATCH);
+            }
+        };
 
     @SuppressWarnings("all")
     public static HttpMethod resolve(final Method method) {
         // 1. Method checking.
         Fn.outUp(null == method, LOGGER,
-                MethodNullException.class, MethodResolver.class);
+            MethodNullException.class, MethodResolver.class);
         final Annotation[] annotations = method.getDeclaredAnnotations();
         // 2. Method ignore
         HttpMethod result = null;

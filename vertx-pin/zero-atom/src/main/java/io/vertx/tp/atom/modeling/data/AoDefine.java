@@ -74,9 +74,9 @@ class AoDefine {
     /* 读取模型中的属性信息 */
     Set<String> attributeNames() {
         return this.modelRef.dbAttributes().stream()
-                .map(MAttribute::getName)
-                .filter(Ut::notNil)
-                .collect(Collectors.toSet());
+            .map(MAttribute::getName)
+            .filter(Ut::notNil)
+            .collect(Collectors.toSet());
     }
 
     /* 属性 name = alias */

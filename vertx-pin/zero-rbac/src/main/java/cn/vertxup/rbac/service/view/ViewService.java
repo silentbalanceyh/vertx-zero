@@ -5,11 +5,11 @@ import cn.vertxup.rbac.domain.tables.pojos.SView;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.eon.KName;
 import io.vertx.tp.rbac.cv.AuthMsg;
 import io.vertx.tp.rbac.cv.em.OwnerType;
 import io.vertx.tp.rbac.refine.Sc;
 import io.vertx.up.atom.query.engine.Qr;
+import io.vertx.up.eon.KName;
 import io.vertx.up.eon.Strings;
 import io.vertx.up.log.Annal;
 import io.vertx.up.unity.Ux;
@@ -30,7 +30,7 @@ public class ViewService implements ViewStub {
         filters.put("ownerType", OwnerType.USER.name());
         Sc.infoResource(ViewService.LOGGER, AuthMsg.VIEW_PROCESS, "fetch", filters.encode());
         return Ux.Jooq.on(SViewDao.class)
-                .fetchOneAsync(new JsonObject().put("criteria", filters));
+            .fetchOneAsync(new JsonObject().put("criteria", filters));
     }
 
     @Override
@@ -44,7 +44,7 @@ public class ViewService implements ViewStub {
         Sc.infoResource(ViewService.LOGGER, AuthMsg.VIEW_PROCESS, "save", filters.encode());
         final SView myView = this.toView(filters, projection);
         return Ux.Jooq.on(SViewDao.class)
-                .upsertAsync(filters, myView);
+            .upsertAsync(filters, myView);
     }
 
     @Override
@@ -54,7 +54,7 @@ public class ViewService implements ViewStub {
         filters.put("owner,i", roleIds);
         filters.put("ownerType", OwnerType.ROLE.name());
         return Ux.Jooq.on(SViewDao.class)
-                .fetchAndAsync(new JsonObject().put("criteria", filters));
+            .fetchAndAsync(new JsonObject().put("criteria", filters));
     }
 
     private JsonObject toFilters(final String resourceId, final String view) {
@@ -67,7 +67,7 @@ public class ViewService implements ViewStub {
 
     private SView toView(final JsonObject filters, final JsonArray projection) {
         final JsonObject data = filters.copy()
-                .put(Qr.KEY_PROJECTION, projection.encode());
+            .put(Qr.KEY_PROJECTION, projection.encode());
         data.put(KName.KEY, UUID.randomUUID().toString());
         data.put(KName.ACTIVE, Boolean.TRUE);
         data.put("rows", new JsonObject().encode());

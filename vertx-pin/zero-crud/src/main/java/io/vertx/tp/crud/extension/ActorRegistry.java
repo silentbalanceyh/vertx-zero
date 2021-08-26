@@ -21,8 +21,8 @@ public class ActorRegistry implements PlugRegistry {
          * Remove :actor uri, put replaced here.
          */
         final Set<String> processed = routes.stream()
-                .filter(item -> !item.contains(":actor"))
-                .collect(Collectors.toSet());
+            .filter(item -> !item.contains(":actor"))
+            .collect(Collectors.toSet());
         /*
          * Add replaced uri with :actor parameters
          */

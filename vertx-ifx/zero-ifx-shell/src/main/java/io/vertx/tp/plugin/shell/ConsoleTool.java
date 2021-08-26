@@ -63,8 +63,8 @@ class ConsoleTool {
              * Create CommandArgs
              */
             final CommandInput input = getInput(parsed)
-                    .bind(command)
-                    .bind(commands);
+                .bind(command)
+                .bind(commands);
             /*
              * Commander
              */
@@ -85,7 +85,7 @@ class ConsoleTool {
                      * Could not be found
                      */
                     return Future.failedFuture(new PluginMissingException(ConsoleTool.class,
-                            command.getName() + ", ( " + command.getPlugin() + " )"));
+                        command.getName() + ", ( " + command.getPlugin() + " )"));
                 }
             }
             /*
@@ -110,11 +110,11 @@ class ConsoleTool {
 
     private static Future<CommandAtom> findAsync(final String commandName, final List<CommandAtom> commands) {
         final CommandAtom atom = commands.stream()
-                /*
-                 * Filter by commandName here
-                 */
-                .filter(each -> commandName.equals(each.getSimple()) || commandName.equals(each.getName()))
-                .findAny().orElse(null);
+            /*
+             * Filter by commandName here
+             */
+            .filter(each -> commandName.equals(each.getSimple()) || commandName.equals(each.getName()))
+            .findAny().orElse(null);
         if (Objects.isNull(atom)) {
             /*
              * Unknown command of input throw out exception

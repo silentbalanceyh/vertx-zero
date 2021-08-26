@@ -26,14 +26,14 @@ public class Align {
 
     public static ProfileGroup eager(final List<ProfileGroup> groups) {
         return groups.stream() /* High priority */
-                .min(Comparator.comparing(ProfileGroup::getPriority))
-                .orElse(null);
+            .min(Comparator.comparing(ProfileGroup::getPriority))
+            .orElse(null);
     }
 
     public static ProfileGroup lazy(final List<ProfileGroup> groups) {
         return groups.stream() /* Low priority */
-                .max(Comparator.comparing(ProfileGroup::getPriority))
-                .orElse(null);
+            .max(Comparator.comparing(ProfileGroup::getPriority))
+            .orElse(null);
     }
 
     /*
@@ -42,21 +42,21 @@ public class Align {
      */
     public static Future<List<ProfileRole>> flat(final List<ProfileGroup> profiles) {
         return Ux.future(profiles.stream()
-                .flatMap(group -> group.getRoles().stream())
-                .collect(Collectors.toList()));
+            .flatMap(group -> group.getRoles().stream())
+            .collect(Collectors.toList()));
     }
 
     public static Future<List<ProfileRole>> parent(final List<ProfileGroup> profiles) {
         return flat(profiles.stream().map(Align::findParent)
-                .filter(Objects::nonNull)
-                .collect(Collectors.toList()));
+            .filter(Objects::nonNull)
+            .collect(Collectors.toList()));
     }
 
     public static Future<List<ProfileRole>> children(final List<ProfileGroup> profiles) {
         return flat(profiles.stream().map(Align::findChildren)
-                .flatMap(List<ProfileGroup>::stream)
-                .filter(Objects::nonNull)
-                .collect(Collectors.toList()));
+            .flatMap(List<ProfileGroup>::stream)
+            .filter(Objects::nonNull)
+            .collect(Collectors.toList()));
     }
 
     private static List<ProfileGroup> findChildren(final ProfileGroup current) {
@@ -64,14 +64,14 @@ public class Align {
         final String groupId = current.getKey();
         final List<SGroup> groups = STUB.fetchChildren(groupId);
         return groups.stream().filter(Objects::nonNull)
-                .map(group -> toProfile(group, current))
-                .filter(Objects::nonNull)
-                /*
-                 * 「Connect」
-                 * Modification for result
-                 */
-                .map(children -> children.setReference(current.getKey()))
-                .collect(Collectors.toList());
+            .map(group -> toProfile(group, current))
+            .filter(Objects::nonNull)
+            /*
+             * 「Connect」
+             * Modification for result
+             */
+            .map(children -> children.setReference(current.getKey()))
+            .collect(Collectors.toList());
     }
 
     private static ProfileGroup findParent(final ProfileGroup current) {
@@ -103,7 +103,7 @@ public class Align {
             groupData.put("role", roles);
             /* Don't forget to call init() method to set role related permissions. */
             return new ProfileGroup(groupData)
-                    .init();
+                .init();
         }
     }
 }

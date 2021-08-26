@@ -15,7 +15,7 @@ public interface Tunnel {
      * IPC method annotated with @Ipc
      */
     ConcurrentMap<String, Method> IPCS
-            = ZeroAnno.getIpcs();
+        = ZeroAnno.getIpcs();
 
     /**
      * Create new Rpc Service by type

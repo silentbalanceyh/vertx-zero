@@ -25,7 +25,7 @@ public class AgentScatter implements Scatter<Vertx> {
         final ConcurrentMap<ServerType, Class<?>> agents = this.factor.agents();
 
         final Extractor<DeploymentOptions> extractor =
-                Ut.instance(AgentExtractor.class);
+            Ut.instance(AgentExtractor.class);
 
         Ut.itMap(agents, (type, clazz) -> {
             // 2.1. Agent deployment options

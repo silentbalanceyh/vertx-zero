@@ -193,8 +193,8 @@ class RayResult {
      * @return {@link java.util.concurrent.ConcurrentMap}
      */
     private static ConcurrentMap<String, JsonArray> compressData(
-            final ConcurrentMap<String, JsonArray> joinData,
-            final ConcurrentMap<String, RResult> joinResult
+        final ConcurrentMap<String, JsonArray> joinData,
+        final ConcurrentMap<String, RResult> joinResult
     ) {
         final ConcurrentMap<String, JsonArray> compressed = new ConcurrentHashMap<>();
         joinData.forEach((field, each) -> {

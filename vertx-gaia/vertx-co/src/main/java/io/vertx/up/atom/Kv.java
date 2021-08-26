@@ -66,7 +66,7 @@ public final class Kv<K, V> {
         if (o instanceof Map.Entry) {
             final Map.Entry<?, ?> e = (Map.Entry<?, ?>) o;
             return Objects.equals(this.key, e.getKey()) &&
-                    Objects.equals(this.value, e.getValue());
+                Objects.equals(this.value, e.getValue());
         }
         return false;
     }
@@ -74,8 +74,8 @@ public final class Kv<K, V> {
     @Override
     public String toString() {
         return "Kv{" +
-                "key=" + this.key +
-                ", value=" + this.value +
-                '}';
+            "key=" + this.key +
+            ", value=" + this.value +
+            '}';
     }
 }

@@ -25,13 +25,13 @@ class JooqPin {
 
     private static final Annal LOGGER = Annal.get(JooqPin.class);
     private static final ConcurrentMap<DatabaseType, SQLDialect> DIALECT =
-            new ConcurrentHashMap<DatabaseType, SQLDialect>() {
-                {
-                    this.put(DatabaseType.MYSQL, SQLDialect.MYSQL);
-                    this.put(DatabaseType.MYSQL5, SQLDialect.MYSQL_5_7);
-                    this.put(DatabaseType.MYSQL8, SQLDialect.MYSQL_8_0);
-                }
-            };
+        new ConcurrentHashMap<DatabaseType, SQLDialect>() {
+            {
+                this.put(DatabaseType.MYSQL, SQLDialect.MYSQL);
+                this.put(DatabaseType.MYSQL5, SQLDialect.MYSQL_5_7);
+                this.put(DatabaseType.MYSQL8, SQLDialect.MYSQL_8_0);
+            }
+        };
 
     private static DataPool initPool(final JsonObject databaseJson) {
         final Database database = new Database();
@@ -71,31 +71,31 @@ class JooqPin {
          *    orbit:
          */
         final ConcurrentMap<String, Configuration> configurationMap =
-                new ConcurrentHashMap<>();
+            new ConcurrentHashMap<>();
 
         Fn.outUp(Ut.isNil(config) || !config.containsKey(Constants.DEFAULT_JOOQ),
-                LOGGER, JooqConfigurationException.class, JooqPin.class);
+            LOGGER, JooqConfigurationException.class, JooqPin.class);
 
         if (Ut.notNil(config)) {
             config.fieldNames().stream()
-                    .filter(key -> Objects.nonNull(config.getValue(key)))
-                    .filter(key -> config.getValue(key) instanceof JsonObject)
-                    .forEach(key -> {
-                        final JsonObject options = config.getJsonObject(key);
-                        final Configuration configuration = initConfig(options);
-                        configurationMap.put(key, configuration);
+                .filter(key -> Objects.nonNull(config.getValue(key)))
+                .filter(key -> config.getValue(key) instanceof JsonObject)
+                .forEach(key -> {
+                    final JsonObject options = config.getJsonObject(key);
+                    final Configuration configuration = initConfig(options);
+                    configurationMap.put(key, configuration);
+                    /*
+                     * Process Jooq password by `debug` mode turn on
+                     */
+                    final JsonObject populated = options.copy();
+                    if (!Debugger.onJooqPassword()) {
                         /*
-                         * Process Jooq password by `debug` mode turn on
+                         * Hidden Password
                          */
-                        final JsonObject populated = options.copy();
-                        if (!Debugger.onJooqPassword()) {
-                            /*
-                             * Hidden Password
-                             */
-                            populated.remove("password");
-                        }
-                        LOGGER.info("Jooq options: \n{0}", populated.encodePrettily());
-                    });
+                        populated.remove("password");
+                    }
+                    LOGGER.info("Jooq options: \n{0}", populated.encodePrettily());
+                });
         }
         return configurationMap;
     }

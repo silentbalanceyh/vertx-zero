@@ -38,31 +38,31 @@ public class ZeroHttpAgent extends AbstractVerticle {
     private static final Annal LOGGER = Annal.get(ZeroHttpAgent.class);
 
     private static final ConcurrentMap<Integer, String> SERVICES =
-            ZeroGrid.getServerNames();
+        ZeroGrid.getServerNames();
 
     @Override
     public void start() {
         /* 1.Call router hub to mount commont **/
         final Axis<Router> routerAxiser = Fn.poolThread(Pool.ROUTERS,
-                () -> new RouterAxis(this.vertx));
+            () -> new RouterAxis(this.vertx));
 
         /* 2.Call route hub to mount defined **/
         final Axis<Router> axiser = Fn.poolThread(Pool.EVENTS,
-                EventAxis::new);
+            EventAxis::new);
         final Axis<Router> dynamic = Fn.poolThread(Pool.DYNAMICS,
-                DynamicAxis::new);
+            DynamicAxis::new);
 
         /* 3.Call route hub to mount walls **/
         final Axis<Router> wallAxiser = Fn.poolThread(Pool.WALLS,
-                () -> Ut.instance(WallAxis.class, this.vertx));
+            () -> Ut.instance(WallAxis.class, this.vertx));
 
         /* 4.Call route hub to mount filters **/
         final Axis<Router> filterAxiser = Fn.poolThread(Pool.FILTERS,
-                FilterAxis::new);
+            FilterAxis::new);
 
         /* 5.Call route to mount meansure **/
         final Axis<Router> monitorAxiser = Fn.poolThread(Pool.MEANSURES,
-                () -> new MeansureAxis(this.vertx, false));
+            () -> new MeansureAxis(this.vertx, false));
         /* Get the default HttpServer Options **/
         ZeroAtomic.HTTP_OPTS.forEach((port, option) -> {
             /* Single server processing **/
@@ -119,7 +119,7 @@ public class ZeroHttpAgent extends AbstractVerticle {
             // 1. Build logs for current server;
             final String portLiteral = String.valueOf(port);
             ZeroHttpAgent.LOGGER.info(Info.HTTP_SERVERS, this.getClass().getSimpleName(), this.deploymentID(),
-                    portLiteral);
+                portLiteral);
             final List<Route> routes = router.getRoutes();
             final Map<String, Set<Route>> routeMap = new TreeMap<>();
 
@@ -140,12 +140,12 @@ public class ZeroHttpAgent extends AbstractVerticle {
                 }
             }
             routeMap.forEach((path, routeSet) -> routeSet.forEach(route ->
-                    ZeroHttpAgent.LOGGER.info(Info.MAPPED_ROUTE, this.getClass().getSimpleName(), path,
-                            route.toString())));
+                ZeroHttpAgent.LOGGER.info(Info.MAPPED_ROUTE, this.getClass().getSimpleName(), path,
+                    route.toString())));
             // 3. Endpoint Publish
             final String address =
-                    MessageFormat.format("http://{0}:{1}/",
-                            Ut.netIPv4(), portLiteral);
+                MessageFormat.format("http://{0}:{1}/",
+                    Ut.netIPv4(), portLiteral);
             ZeroHttpAgent.LOGGER.info(Info.HTTP_LISTEN, this.getClass().getSimpleName(), address);
             // 4. Send configuration to Event bus
             final String name = ZeroHttpAgent.SERVICES.get(port);

@@ -5,11 +5,11 @@ import io.vertx.reactivex.ext.web.RoutingContext;
 
 public class ZeroRxEndurer implements Handler<RoutingContext> {
 
-    public static Handler<RoutingContext> create() {
-        return new ZeroRxEndurer();
+    private ZeroRxEndurer() {
     }
 
-    private ZeroRxEndurer() {
+    public static Handler<RoutingContext> create() {
+        return new ZeroRxEndurer();
     }
 
     @Override

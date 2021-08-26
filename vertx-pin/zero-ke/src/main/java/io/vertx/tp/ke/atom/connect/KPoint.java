@@ -170,11 +170,11 @@ public class KPoint implements Serializable {
     @Override
     public String toString() {
         return "KPoint{" +
-                "crud='" + this.crud + '\'' +
-                ", classDao=" + this.classDao +
-                ", classDefine=" + this.classDefine +
-                ", key='" + this.key + '\'' +
-                ", keyJoin='" + this.keyJoin + '\'' +
-                '}';
+            "crud='" + this.crud + '\'' +
+            ", classDao=" + this.classDao +
+            ", classDefine=" + this.classDefine +
+            ", key='" + this.key + '\'' +
+            ", keyJoin='" + this.keyJoin + '\'' +
+            '}';
     }
 }

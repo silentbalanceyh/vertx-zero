@@ -32,7 +32,7 @@ public class ScHabitus {
      */
     private static final Annal LOGGER = Annal.get(ScHabitus.class);
     private static final ConcurrentMap<String, ScHabitus> POOLS =
-            new ConcurrentHashMap<>();
+        new ConcurrentHashMap<>();
     private final transient UxPool pool;
     private final transient String habitus;
 
@@ -59,30 +59,30 @@ public class ScHabitus {
     @SuppressWarnings("unchecked")
     public <T> Future<T> get(final String dataKey) {
         return this.pool.<String, JsonObject>get(this.habitus)
-                .compose(item -> {
-                    /* To avoid Null Pointer Issue */
-                    if (Objects.isNull(item)) {
-                        return Future.succeededFuture(null);
-                    } else {
-                        return Ux.future((T) item.getValue(dataKey));
-                    }
-                });
+            .compose(item -> {
+                /* To avoid Null Pointer Issue */
+                if (Objects.isNull(item)) {
+                    return Future.succeededFuture(null);
+                } else {
+                    return Ux.future((T) item.getValue(dataKey));
+                }
+            });
     }
 
     public <T> Future<T> set(final String dataKey, final T value) {
         return this.pool.<String, JsonObject>get(this.habitus)
-                .compose(stored -> {
-                    if (Ut.isNil(stored)) {
-                        stored = new JsonObject();
-                    }
-                    /*
-                     * Store dataKey = value
-                     */
-                    final JsonObject updated = stored.copy();
-                    updated.put(dataKey, value);
-                    return this.pool.put(this.habitus, updated)
-                            .compose(nil -> Ux.future(value));
-                });
+            .compose(stored -> {
+                if (Ut.isNil(stored)) {
+                    stored = new JsonObject();
+                }
+                /*
+                 * Store dataKey = value
+                 */
+                final JsonObject updated = stored.copy();
+                updated.put(dataKey, value);
+                return this.pool.put(this.habitus, updated)
+                    .compose(nil -> Ux.future(value));
+            });
     }
 
     public Future<Boolean> clear() {
@@ -91,9 +91,9 @@ public class ScHabitus {
          */
         POOLS.remove(this.habitus);
         return this.pool.remove(this.habitus)
-                /*
-                 * Remove current habitus from pool ( Pool Structure )
-                 */
-                .compose(kv -> Future.succeededFuture(Boolean.TRUE));
+            /*
+             * Remove current habitus from pool ( Pool Structure )
+             */
+            .compose(kv -> Future.succeededFuture(Boolean.TRUE));
     }
 }

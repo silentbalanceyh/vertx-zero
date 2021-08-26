@@ -99,7 +99,7 @@ final class To {
         final JsonArray result = new JsonArray();
         if (Objects.nonNull(records)) {
             Arrays.stream(records).map(Record::toJson)
-                    .forEach(result::add);
+                .forEach(result::add);
         }
         return result;
     }
@@ -165,7 +165,7 @@ final class To {
     static JsonObject toJObject(final MultiMap multiMap) {
         final JsonObject params = new JsonObject();
         Fn.safeNull(() -> multiMap.forEach(
-                item -> params.put(item.getKey(), item.getValue())
+            item -> params.put(item.getKey(), item.getValue())
         ), multiMap);
         return params;
     }

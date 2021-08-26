@@ -28,12 +28,12 @@ public class ServiceAxis implements Axis<Router> {
     @Override
     public void mount(final Router router) {
         final HealthCheckHandler handler = HealthCheckHandler
-                .createWithHealthChecks(this.healthChecks);
+            .createWithHealthChecks(this.healthChecks);
         /*
          * Monitor Address
          */
         router.get(ID.Addr.MONITOR_PATH).order(Orders.MONITOR)
-                .produces(MediaType.APPLICATION_JSON)
-                .handler(handler);
+            .produces(MediaType.APPLICATION_JSON)
+            .handler(handler);
     }
 }

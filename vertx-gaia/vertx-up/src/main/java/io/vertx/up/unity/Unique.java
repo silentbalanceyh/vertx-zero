@@ -34,7 +34,7 @@ class Unique {
 
     static JsonObject ruleAll(final Collection<RuleTerm> rules, final JsonArray source, final JsonObject record) {
         return Ut.itJArray(source).map(recordR -> ruleAll(rules, record, recordR))
-                .filter(Objects::nonNull).findFirst().orElse(null);
+            .filter(Objects::nonNull).findFirst().orElse(null);
     }
 
     static JsonObject ruleAny(final Collection<RuleTerm> rules, final JsonObject input) {
@@ -49,7 +49,7 @@ class Unique {
 
     static JsonObject ruleAny(final Collection<RuleTerm> rules, final JsonArray source, final JsonObject record) {
         return Ut.itJArray(source).map(recordR -> ruleAny(rules, record, recordR))
-                .filter(Objects::nonNull).findFirst().orElse(null);
+            .filter(Objects::nonNull).findFirst().orElse(null);
     }
 
     static ConcurrentMap<Boolean, JsonArray> ruleAll(final Collection<RuleTerm> rules, final JsonArray input) {
@@ -99,7 +99,7 @@ class Unique {
                      */
                     final JsonObject merged = oldRecord.copy();
                     newRecord.fieldNames().stream().filter(key -> Objects.nonNull(newRecord.getValue(key)))
-                            .forEach(key -> merged.put(key, newRecord.getValue(key)));
+                        .forEach(key -> merged.put(key, newRecord.getValue(key)));
                     updatedQueue.add(merged);
                 }
             }

@@ -143,7 +143,7 @@ public abstract class AbstractSentence implements AoSentence, SqlStatement {
         if (null != field.getPrecision()) {
             if (this.getPrecisionMap().containsKey(actualType)) {
                 type.append(MessageFormat.format(this.getPrecisionMap().get(actualType), String.valueOf(field.getLength()),
-                        field.getPrecision()));
+                    field.getPrecision()));
             }
         } else if (this.getLengthMap().containsKey(actualType)) {
             type.append(MessageFormat.format(this.getLengthMap().get(actualType), String.valueOf(field.getLength())));
@@ -159,8 +159,8 @@ public abstract class AbstractSentence implements AoSentence, SqlStatement {
         final String type = this.getType(field);
         // 添加字段名
         segment.append(this.columnDdl(field.getColumnName()))
-                .append(" ")
-                .append(type).append(" ");
+            .append(" ")
+            .append(type).append(" ");
         return segment.toString();
     }
 

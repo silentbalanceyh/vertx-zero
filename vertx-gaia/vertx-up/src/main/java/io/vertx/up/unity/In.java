@@ -41,7 +41,7 @@ class In {
 
     static String requestUser(final Envelop envelop, final String field) {
         return Fn.getSemi(null == envelop, null, () -> null,
-                () -> envelop.identifier(field));
+            () -> envelop.identifier(field));
     }
 
     static String requestTokenData(final String tokenString, final String field) {
@@ -56,28 +56,28 @@ class In {
     }
 
     static Object requestSession(
-            final Message<Envelop> message,
-            final String field
+        final Message<Envelop> message,
+        final String field
     ) {
         return requestSession(message.body(), field);
     }
 
     static Object requestSession(
-            final Envelop envelop,
-            final String field
+        final Envelop envelop,
+        final String field
     ) {
         return Fn.getSemi(null == envelop, null, () -> null,
-                () -> {
-                    final Session session = envelop.session();
-                    return null == session ? null : session.get(field);
-                });
+            () -> {
+                final Session session = envelop.session();
+                return null == session ? null : session.get(field);
+            });
     }
 
     static JsonArray assignValue(
-            final JsonArray source,
-            final JsonArray target,
-            final String field,
-            final boolean override
+        final JsonArray source,
+        final JsonArray target,
+        final String field,
+        final boolean override
     ) {
         Ut.itJArray(source, JsonObject.class, (item, index) -> {
             if (override) {

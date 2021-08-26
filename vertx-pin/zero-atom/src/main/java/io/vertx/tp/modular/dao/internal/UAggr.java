@@ -49,13 +49,13 @@ public class UAggr extends AbstractUtil<UAggr> {
     public Future<Boolean> existingAsync(final Criteria criteria) {
         Ao.infoSQL(this.getLogger(), "执行方法：UAggr.existingAsync");
         return this.countAInternal(criteria)
-                .compose(counter -> Ux.future(0 < counter));
+            .compose(counter -> Ux.future(0 < counter));
     }
 
     public Future<Boolean> missingAsync(final Criteria criteria) {
         Ao.infoSQL(this.getLogger(), "执行方法：UAggr.missingAsync");
         return this.countAInternal(criteria)
-                .compose(counter -> Ux.future(0 == counter));
+            .compose(counter -> Ux.future(0 == counter));
     }
 
 
@@ -64,7 +64,7 @@ public class UAggr extends AbstractUtil<UAggr> {
         final DataEvent input = this.irCond(criteria);
         // Output
         return this.jooq.countAsync(input)
-                .compose(output -> Ux.future(output.getCounter()));
+            .compose(output -> Ux.future(output.getCounter()));
     }
 
     private Long countSInternal(final Criteria criteria) {

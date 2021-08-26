@@ -31,12 +31,12 @@ public class GetActor {
     public Future<Envelop> getById(final Envelop envelop) {
         final String key = Ux.getString1(envelop);
         return IxPanel.on(envelop, null)
-                .passion(Agonic.get()::runJAsync, null)
-                .<JsonObject, JsonObject, JsonObject>runJ(new JsonObject().put(KName.KEY, key))
-                /*
-                 * 204 / 200
-                 */
-                .compose(Post::successPost);
+            .passion(Agonic.get()::runJAsync, null)
+            .<JsonObject, JsonObject, JsonObject>runJ(new JsonObject().put(KName.KEY, key))
+            /*
+             * 204 / 200
+             */
+            .compose(Post::successPost);
     }
 
     /*
@@ -54,12 +54,12 @@ public class GetActor {
         }
         Ix.Log.filters(this.getClass(), "All data by sigma: `{0}`", sigma);
         return IxPanel.on(envelop, module)
-                .input(
-                        /* Build Condition for All */
-                        Pre.qAll()::inJAsync
-                )
-                .passion(Agonic.all()::runJAAsync, null)
-                .runJ(new JsonObject().put(KName.SIGMA, sigma));
+            .input(
+                /* Build Condition for All */
+                Pre.qAll()::inJAsync
+            )
+            .passion(Agonic.all()::runJAAsync, null)
+            .runJ(new JsonObject().put(KName.SIGMA, sigma));
     }
 
 }

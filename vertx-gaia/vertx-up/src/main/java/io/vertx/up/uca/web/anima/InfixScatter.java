@@ -34,7 +34,7 @@ public class InfixScatter implements Scatter<Vertx> {
     private static final Annal LOGGER = Annal.get(InfixScatter.class);
 
     private static final Node<ConcurrentMap<String, String>> LIME =
-            Ut.singleton(ZeroLime.class);
+        Ut.singleton(ZeroLime.class);
 
     private static final Set<Class<?>> PLUGINS = ZeroAnno.getTps();
 
@@ -46,33 +46,33 @@ public class InfixScatter implements Scatter<Vertx> {
         final ConcurrentMap<String, Class<?>> wholeInjections = ZeroAmbient.getInjections();
         /* Enabled **/
         final ConcurrentMap<String, Class<?>> enabled =
-                Ut.reduce(LIME.read().keySet(), wholeInjections);
+            Ut.reduce(LIME.read().keySet(), wholeInjections);
         /* Scan all Infix **/
         final ConcurrentMap<Class<? extends Annotation>, Class<?>> injections =
-                Ut.reduce(Plugins.INFIX_MAP, enabled);
+            Ut.reduce(Plugins.INFIX_MAP, enabled);
         injections.values().forEach(item -> {
             if (null != item && item.isAnnotationPresent(Plugin.class)) {
                 final Method method = findInit(item);
                 Fn.outUp(null == method, LOGGER,
-                        PluginSpecificationException.class,
-                        getClass(), item.getName());
+                    PluginSpecificationException.class,
+                    getClass(), item.getName());
                 Fn.safeJvm(() -> method.invoke(null, vertx), LOGGER);
             }
         });
         /* Scan all extension Infix **/
         Observable.fromIterable(wholeInjections.keySet())
-                .filter(key -> !Plugins.Infix.STANDAND.contains(key))
-                .map(wholeInjections::get)
-                .filter(Objects::nonNull)
-                .filter(item -> item.isAnnotationPresent(Plugin.class))
-                .subscribe(item -> {
-                    final Method method = findInit(item);
-                    Fn.outUp(null == method, LOGGER,
-                            PluginSpecificationException.class,
-                            getClass(), item.getName());
-                    Fn.safeJvm(() -> method.invoke(null, vertx), LOGGER);
-                })
-                .dispose();
+            .filter(key -> !Plugins.Infix.STANDAND.contains(key))
+            .map(wholeInjections::get)
+            .filter(Objects::nonNull)
+            .filter(item -> item.isAnnotationPresent(Plugin.class))
+            .subscribe(item -> {
+                final Method method = findInit(item);
+                Fn.outUp(null == method, LOGGER,
+                    PluginSpecificationException.class,
+                    getClass(), item.getName());
+                Fn.safeJvm(() -> method.invoke(null, vertx), LOGGER);
+            })
+            .dispose();
         /* After infix inject plugins **/
         Ut.itSet(PLUGINS, (clazz, index) -> Runner.run(() -> {
             /* Instance reference **/
@@ -90,15 +90,15 @@ public class InfixScatter implements Scatter<Vertx> {
         return Fn.getNull(() -> {
             final Method[] methods = clazz.getDeclaredMethods();
             final List<Method> found = Arrays.stream(methods)
-                    .filter(item -> "init".equals(item.getName()) && this.validMethod(item))
-                    .collect(Collectors.toList());
+                .filter(item -> "init".equals(item.getName()) && this.validMethod(item))
+                .collect(Collectors.toList());
             return Values.ONE == found.size() ? found.get(Values.IDX) : null;
         }, clazz);
     }
 
     private boolean validMethod(final Method method) {
         return (void.class == method.getReturnType() || Void.class == method.getReturnType())
-                && Modifier.isStatic(method.getModifiers())
-                && Modifier.isPublic(method.getModifiers());
+            && Modifier.isStatic(method.getModifiers())
+            && Modifier.isPublic(method.getModifiers());
     }
 }

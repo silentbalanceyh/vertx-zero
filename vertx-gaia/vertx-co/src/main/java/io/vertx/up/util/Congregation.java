@@ -71,13 +71,13 @@ final class Congregation {
 
     static <F, S> void exec(final Collection<F> firsts, final Function<F, Collection<S>> seconds, final BiConsumer<F, S> consumer) {
         firsts.forEach(first -> seconds.apply(first)
-                .forEach(second -> consumer.accept(first, second)));
+            .forEach(second -> consumer.accept(first, second)));
     }
 
     static <F, S> void exec(final Collection<F> firsts, final Function<F, Collection<S>> seconds, final BiConsumer<F, S> consumer, final BiPredicate<F, S> predicate) {
         firsts.forEach(first -> seconds.apply(first)
-                .stream().filter(second -> predicate.test(first, second))
-                .forEach(second -> consumer.accept(first, second)));
+            .stream().filter(second -> predicate.test(first, second))
+            .forEach(second -> consumer.accept(first, second)));
     }
 
     static void exec(final Integer times, final Actuator actuator) {

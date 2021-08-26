@@ -20,6 +20,7 @@ public interface Transit {
 
     /**
      * @param method
+     *
      * @return
      */
     @Fluent

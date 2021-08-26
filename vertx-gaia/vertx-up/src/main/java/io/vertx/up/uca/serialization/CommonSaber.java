@@ -9,10 +9,10 @@ public class CommonSaber extends BaseSaber {
     public Object from(final Class<?> paramType,
                        final String literal) {
         return Fn.getNull(() ->
-                        Fn.getSemi(!SaberTypes.isSupport(paramType), getLogger(),
-                                () -> Ut.deserialize(literal, paramType),
-                                () -> null),
-                paramType, literal);
+                Fn.getSemi(!SaberTypes.isSupport(paramType), getLogger(),
+                    () -> Ut.deserialize(literal, paramType),
+                    () -> null),
+            paramType, literal);
     }
 
     @Override

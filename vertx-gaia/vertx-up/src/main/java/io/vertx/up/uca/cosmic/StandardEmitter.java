@@ -72,7 +72,7 @@ class StandardEmitter extends AbstractEmitter {
              * Cached rotator, the default is integration request definition.
              */
             final Rotator rotator = Fn.pool(Pool.POOL_ROTATOR, request.hashCode(),
-                    () -> executor.apply(this.integration()).bind(this.client));
+                () -> executor.apply(this.integration()).bind(this.client));
             /*
              * 执行请求
              */

@@ -25,7 +25,7 @@ class RpcHelper {
     static Record getRecord(final JsonObject config) {
         /* Config Verify **/
         Fn.outUp(() -> Fn.onZero(() -> Ruler.verify(Key.RULE_KEY, config), config),
-                LOGGER);
+            LOGGER);
         // Connect remote etcd to check service
         final ConcurrentMap<String, Record> registryData = ORIGIN.getRegistryData();
         final String name = config.getString(Key.NAME);
@@ -33,27 +33,27 @@ class RpcHelper {
         LOGGER.debug(Info.RPC_SERVICE, name, address);
         // Empty Found
         Fn.outWeb(registryData.values().isEmpty(), LOGGER,
-                _424RpcServiceException.class, RpcHelper.class,
-                name, address);
+            _424RpcServiceException.class, RpcHelper.class,
+            name, address);
 
         // Service status checking
         final Refer container = new Refer();
         // Lookup Record instance
         Observable.fromIterable(registryData.values())
-                .filter(Objects::nonNull)
-                .filter(item -> Ut.notNil(item.getName()))
-                .filter(item -> name.equals(item.getName()) &&
-                        address.equals(item.getMetadata().getString(Key.PATH)))
-                .subscribe(container::add)
-                .dispose();
+            .filter(Objects::nonNull)
+            .filter(item -> Ut.notNil(item.getName()))
+            .filter(item -> name.equals(item.getName()) &&
+                address.equals(item.getMetadata().getString(Key.PATH)))
+            .subscribe(container::add)
+            .dispose();
         // Service Not Found
         Fn.outWeb(!container.successed(), LOGGER,
-                _424RpcServiceException.class, RpcHelper.class,
-                name, address);
+            _424RpcServiceException.class, RpcHelper.class,
+            name, address);
         // Address Not Found
         Fn.outWeb(!container.successed(), LOGGER,
-                _424RpcServiceException.class, RpcHelper.class,
-                name, address);
+            _424RpcServiceException.class, RpcHelper.class,
+            name, address);
         final Record record = container.get();
         LOGGER.debug(Info.RPC_FOUND, record.toJson());
         return container.get();
@@ -65,12 +65,13 @@ class RpcHelper {
      * @param name   service name
      * @param config current configuration
      * @param record found rpc record
+     *
      * @return normalized JsonObject for channel
      */
     static JsonObject normalize(
-            final String name,
-            final JsonObject config,
-            final Record record) {
+        final String name,
+        final JsonObject config,
+        final Record record) {
         // Parse
         final JsonObject ssl = getSslConfig(name, config);
         final JsonObject normalized = new JsonObject();
@@ -85,7 +86,7 @@ class RpcHelper {
         return Fn.getNull(new JsonObject(), () -> {
             final JsonObject sslConfig = new JsonObject();
             if (rpcConfig.containsKey(Key.SSL) &&
-                    Boolean.parseBoolean(rpcConfig.getValue(Key.SSL).toString())) {
+                Boolean.parseBoolean(rpcConfig.getValue(Key.SSL).toString())) {
                 if (rpcConfig.containsKey("extension")) {
                     // Non Uniform, Search by name
                     final JsonObject visited = Ut.visitJObject(rpcConfig, "extension", name);
@@ -106,6 +107,7 @@ class RpcHelper {
      * @param name service name
      * @param addr target address
      * @param type target type
+     *
      * @return JsonObject of config
      */
     static JsonObject on(final String name,

@@ -32,7 +32,7 @@ import java.io.FileFilter;
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 public class ClassFileFilter extends BaseFilter
-        implements FileFilter {
+    implements FileFilter {
     @Override
     public String getFileExtension() {
         return FileSuffix.CLASS;

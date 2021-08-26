@@ -16,14 +16,14 @@ public class JobInfix implements Infix {
     private static final String NAME = "ZERO_JOB_POOL";
 
     private static final ConcurrentMap<String, JobClient> CLIENTS
-            = new ConcurrentHashMap<>();
+        = new ConcurrentHashMap<>();
 
     private static void initInternal(final Vertx vertx,
                                      final String name) {
         Fn.pool(CLIENTS, name,
-                () -> Infix.init("job",
-                        (config) -> JobClient.createShared(vertx, config.getJsonObject("client")),
-                        SessionInfix.class));
+            () -> Infix.init("job",
+                (config) -> JobClient.createShared(vertx, config.getJsonObject("client")),
+                SessionInfix.class));
     }
 
     public static void init(final Vertx vertx) {

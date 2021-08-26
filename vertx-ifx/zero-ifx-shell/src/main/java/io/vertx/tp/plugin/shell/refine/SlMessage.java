@@ -16,19 +16,19 @@ class SlMessage {
 
     static void failEmpty() {
         Sl.output(message("empty",
-                () -> "Empty arguments here for redo"));
+            () -> "Empty arguments here for redo"));
     }
 
     static void failInvalid(final String command) {
         Sl.output(message("invalid",
-                () -> "Invalid command \"{0}\", it could not be recognised"), command);
+            () -> "Invalid command \"{0}\", it could not be recognised"), command);
     }
 
     static TermStatus failError(final Throwable ex) {
         final String error = Objects.isNull(ex) ? "Error" : ex.getMessage();
         Sl.output(message("error",
-                () -> Log.color("[ ERROR ]", Log.COLOR_RED, true) + " "
-                        + Log.color(" {0} ", Log.COLOR_RED)), error);
+            () -> Log.color("[ ERROR ]", Log.COLOR_RED, true) + " "
+                + Log.color(" {0} ", Log.COLOR_RED)), error);
         if (SlConfig.isDebug()) {
             ex.printStackTrace();
         }
@@ -37,7 +37,7 @@ class SlMessage {
 
     static void failWarn(final String message, final Object... args) {
         Sl.output(Log.color("[ WARN  ]", Log.COLOR_YELLOW, true) + " " +
-                Log.color(message, Log.COLOR_GRAY), args);
+            Log.color(message, Log.COLOR_GRAY), args);
     }
 
     static String message(final String key, final Supplier<String> defaultSupplier) {

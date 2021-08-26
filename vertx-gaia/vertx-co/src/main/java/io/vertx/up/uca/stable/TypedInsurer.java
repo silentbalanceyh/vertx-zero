@@ -17,7 +17,7 @@ import java.util.function.Function;
 public class TypedInsurer extends AbstractInsurer {
 
     private static final ConcurrentMap<JsonType, Function<Object, Boolean>>
-            FUNS = new ConcurrentHashMap<JsonType, Function<Object, Boolean>>() {
+        FUNS = new ConcurrentHashMap<JsonType, Function<Object, Boolean>>() {
         {
             this.put(JsonType.BOOLEAN, Ut::isBoolean);
             this.put(JsonType.STRING, (input) -> Boolean.TRUE);
@@ -39,7 +39,7 @@ public class TypedInsurer extends AbstractInsurer {
      */
     @Override
     public void flumen(final JsonObject data, final JsonObject rule)
-            throws ZeroException {
+        throws ZeroException {
         // 1. If rule is null, skip
         Fn.onZero(() -> {
             // 2. extract rule from rule, only required accept
@@ -48,16 +48,16 @@ public class TypedInsurer extends AbstractInsurer {
                 Fn.etJObject(fields, (item, name) -> {
                     // 3. extract key for field definition
                     final JsonType key = Ut.toEnum(JsonType.class,
-                            item.toString());
+                        item.toString());
                     final Function<Object, Boolean> fnTest
-                            = FUNS.getOrDefault(key, (input) -> Boolean.TRUE);
+                        = FUNS.getOrDefault(key, (input) -> Boolean.TRUE);
                     // 4. checking failure, the pre-condition is that data contains checked key.
                     if (data.containsKey(name)) {
                         final Object value = data.getValue(name);
 
                         Fn.outZero(!fnTest.apply(data.getValue(name)), this.getLogger(),
-                                DataTypeWrongException.class,
-                                this.getClass(), name, value, key);
+                            DataTypeWrongException.class,
+                            this.getClass(), name, value, key);
                     }
                 });
             }

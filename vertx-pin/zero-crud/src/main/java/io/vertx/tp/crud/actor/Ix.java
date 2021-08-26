@@ -6,5 +6,5 @@ import java.util.concurrent.ConcurrentMap;
 interface Pool {
 
     ConcurrentMap<String, IxActor> ACTOR_MAP =
-            new ConcurrentHashMap<>();
+        new ConcurrentHashMap<>();
 }

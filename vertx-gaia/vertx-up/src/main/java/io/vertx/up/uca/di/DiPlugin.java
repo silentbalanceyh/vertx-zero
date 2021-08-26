@@ -34,24 +34,24 @@ public class DiPlugin {
         final ConcurrentMap<Class<?>, Class<?>> binds = getBind();
         final Class<?> type = proxy.getClass();
         Observable.fromArray(type.getDeclaredFields())
-                .filter(field -> field.isAnnotationPresent(Plugin.class))
-                .subscribe(field -> {
-                    final Class<?> fieldType = field.getType();
-                    final Class<?> infixCls = binds.get(fieldType);
-                    if (null != infixCls) {
-                        if (Ut.isImplement(infixCls, Infix.class)) {
-                            final Infix reference = Ut.singleton(infixCls);
-                            final Object tpRef = Ut.invoke(reference, "get");
-                            final String fieldName = field.getName();
-                            Ut.field(proxy, fieldName, tpRef);
-                        } else {
-                            logger.warn(Info.INFIX_IMPL, infixCls.getName(), Infix.class.getName());
-                        }
+            .filter(field -> field.isAnnotationPresent(Plugin.class))
+            .subscribe(field -> {
+                final Class<?> fieldType = field.getType();
+                final Class<?> infixCls = binds.get(fieldType);
+                if (null != infixCls) {
+                    if (Ut.isImplement(infixCls, Infix.class)) {
+                        final Infix reference = Ut.singleton(infixCls);
+                        final Object tpRef = Ut.invoke(reference, "get");
+                        final String fieldName = field.getName();
+                        Ut.field(proxy, fieldName, tpRef);
                     } else {
-                        logger.warn(Info.INFIX_NULL, field.getType().getName(), field.getName(), type.getName());
+                        logger.warn(Info.INFIX_IMPL, infixCls.getName(), Infix.class.getName());
                     }
-                })
-                .dispose();
+                } else {
+                    logger.warn(Info.INFIX_NULL, field.getType().getName(), field.getName(), type.getName());
+                }
+            })
+            .dispose();
     }
 
     private ConcurrentMap<Class<?>, Class<?>> getBind() {
@@ -59,13 +59,13 @@ public class DiPlugin {
         final Set<Class<?>> infixes = new HashSet<>(ZeroAmbient.getInjections().values());
         final ConcurrentMap<Class<?>, Class<?>> binds = new ConcurrentHashMap<>();
         Observable.fromIterable(infixes)
-                .filter(Infix.class::isAssignableFrom)
-                .subscribe(item -> {
-                    final Method method = Fn.getJvm(() -> item.getDeclaredMethod("get"), item);
-                    final Class<?> type = method.getReturnType();
-                    binds.put(type, item);
-                })
-                .dispose();
+            .filter(Infix.class::isAssignableFrom)
+            .subscribe(item -> {
+                final Method method = Fn.getJvm(() -> item.getDeclaredMethod("get"), item);
+                final Class<?> type = method.getReturnType();
+                binds.put(type, item);
+            })
+            .dispose();
         return binds;
     }
 }

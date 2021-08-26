@@ -8,13 +8,13 @@ import io.vertx.grpc.VertxServer;
 import io.vertx.grpc.VertxServerBuilder;
 import io.vertx.up.annotations.Agent;
 import io.vertx.up.eon.ID;
+import io.vertx.up.eon.Values;
 import io.vertx.up.eon.em.Etat;
 import io.vertx.up.eon.em.ServerType;
 import io.vertx.up.log.Annal;
 import io.vertx.up.uca.micro.center.ZeroRegistry;
 import io.vertx.up.uca.micro.ipc.server.Tunnel;
 import io.vertx.up.uca.micro.ipc.server.UnityTunnel;
-import io.vertx.up.eon.Values;
 import io.vertx.up.util.Ut;
 
 import java.util.concurrent.atomic.AtomicInteger;
@@ -30,7 +30,7 @@ public class ZeroRpcAgent extends AbstractVerticle {
     private static final String SSL = "ssl";
 
     private final transient ZeroRegistry registry
-            = ZeroRegistry.create(this.getClass());
+        = ZeroRegistry.create(this.getClass());
 
     @Override
     public void start() {
@@ -38,7 +38,7 @@ public class ZeroRpcAgent extends AbstractVerticle {
         Ut.itMap(ZeroAtomic.RPC_OPTS, (port, config) -> {
             /* 2.Rcp server builder initialized **/
             final VertxServerBuilder builder = VertxServerBuilder
-                    .forAddress(this.vertx, config.getHost(), config.getPort());
+                .forAddress(this.vertx, config.getHost(), config.getPort());
             /*
              * 3.Service added.
              */

@@ -2,8 +2,8 @@ package io.vertx.tp.modular.file.excel;
 
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.eon.KName;
 import io.vertx.tp.plugin.excel.atom.ExRecord;
+import io.vertx.up.eon.KName;
 
 import java.util.Objects;
 import java.util.Set;
@@ -38,8 +38,8 @@ class ExOut {
     private static JsonArray toJson(final Set<ExRecord> records) {
         final JsonArray array = new JsonArray();
         records.stream().filter(Objects::nonNull)
-                .map(ExRecord::toJson)
-                .forEach(array::add);
+            .map(ExRecord::toJson)
+            .forEach(array::add);
         return array;
     }
 }
