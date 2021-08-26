@@ -7,80 +7,70 @@ public interface IpcResponseOrBuilder extends
     // @@protoc_insertion_point(interface_extends:io.vertx.tp.ipc.eon.IpcResponse)
     com.google.protobuf.MessageOrBuilder {
 
-    /**
-     * <pre>
-     * Response content
-     * </pre>
-     *
-     * <code>.io.vertx.tp.ipc.eon.IpcEnvelop envelop = 1;</code>
-     *
-     * @return Whether the envelop field is set.
-     */
-    boolean hasEnvelop();
+  /**
+   * <pre>
+   * Response content
+   * </pre>
+   *
+   * <code>.io.vertx.tp.ipc.eon.IpcEnvelop envelop = 1;</code>
+   * @return Whether the envelop field is set.
+   */
+  boolean hasEnvelop();
+  /**
+   * <pre>
+   * Response content
+   * </pre>
+   *
+   * <code>.io.vertx.tp.ipc.eon.IpcEnvelop envelop = 1;</code>
+   * @return The envelop.
+   */
+  io.vertx.tp.ipc.eon.IpcEnvelop getEnvelop();
+  /**
+   * <pre>
+   * Response content
+   * </pre>
+   *
+   * <code>.io.vertx.tp.ipc.eon.IpcEnvelop envelop = 1;</code>
+   */
+  io.vertx.tp.ipc.eon.IpcEnvelopOrBuilder getEnvelopOrBuilder();
 
-    /**
-     * <pre>
-     * Response content
-     * </pre>
-     *
-     * <code>.io.vertx.tp.ipc.eon.IpcEnvelop envelop = 1;</code>
-     *
-     * @return The envelop.
-     */
-    io.vertx.tp.ipc.eon.IpcEnvelop getEnvelop();
+  /**
+   * <pre>
+   * Passed client id
+   * </pre>
+   *
+   * <code>string client_id = 2;</code>
+   * @return The clientId.
+   */
+  java.lang.String getClientId();
+  /**
+   * <pre>
+   * Passed client id
+   * </pre>
+   *
+   * <code>string client_id = 2;</code>
+   * @return The bytes for clientId.
+   */
+  com.google.protobuf.ByteString
+      getClientIdBytes();
 
-    /**
-     * <pre>
-     * Response content
-     * </pre>
-     *
-     * <code>.io.vertx.tp.ipc.eon.IpcEnvelop envelop = 1;</code>
-     */
-    io.vertx.tp.ipc.eon.IpcEnvelopOrBuilder getEnvelopOrBuilder();
-
-    /**
-     * <pre>
-     * Passed client id
-     * </pre>
-     *
-     * <code>string client_id = 2;</code>
-     *
-     * @return The clientId.
-     */
-    java.lang.String getClientId();
-
-    /**
-     * <pre>
-     * Passed client id
-     * </pre>
-     *
-     * <code>string client_id = 2;</code>
-     *
-     * @return The bytes for clientId.
-     */
-    com.google.protobuf.ByteString
-    getClientIdBytes();
-
-    /**
-     * <pre>
-     * Passed scope
-     * </pre>
-     *
-     * <code>string oauth_scope = 3;</code>
-     *
-     * @return The oauthScope.
-     */
-    java.lang.String getOauthScope();
-
-    /**
-     * <pre>
-     * Passed scope
-     * </pre>
-     *
-     * <code>string oauth_scope = 3;</code>
-     *
-     * @return The bytes for oauthScope.
-     */
-    com.google.protobuf.ByteString
-    getOauthScopeBytes();
+  /**
+   * <pre>
+   * Passed scope
+   * </pre>
+   *
+   * <code>string oauth_scope = 3;</code>
+   * @return The oauthScope.
+   */
+  java.lang.String getOauthScope();
+  /**
+   * <pre>
+   * Passed scope
+   * </pre>
+   *
+   * <code>string oauth_scope = 3;</code>
+   * @return The bytes for oauthScope.
+   */
+  com.google.protobuf.ByteString
+      getOauthScopeBytes();
 }

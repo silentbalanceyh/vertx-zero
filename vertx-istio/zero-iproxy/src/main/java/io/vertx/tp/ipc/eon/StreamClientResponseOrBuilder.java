@@ -7,10 +7,9 @@ public interface StreamClientResponseOrBuilder extends
     // @@protoc_insertion_point(interface_extends:io.vertx.tp.ipc.eon.StreamClientResponse)
     com.google.protobuf.MessageOrBuilder {
 
-    /**
-     * <code>int32 aggregated_size = 1;</code>
-     *
-     * @return The aggregatedSize.
-     */
-    int getAggregatedSize();
+  /**
+   * <code>int32 aggregated_size = 1;</code>
+   * @return The aggregatedSize.
+   */
+  int getAggregatedSize();
 }
