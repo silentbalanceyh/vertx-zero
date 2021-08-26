@@ -94,11 +94,23 @@ public interface Pre {
         return Fn.poolThread(Pooled.PRE_MAP, QPkPre::new, QPkPre.class.getName());
     }
 
-    default Future<JsonObject> inAsync(final JsonObject data, final IxIn in) {
+    // JsonObject -> JsonObject
+    default Future<JsonObject> inJAsync(final JsonObject data, final IxIn in) {
         return Future.failedFuture(new _501NotSupportException(this.getClass()));
     }
 
-    default Future<JsonArray> inBAsync(final JsonArray data, final IxIn in) {
+    // JsonArray -> JsonArray
+    default Future<JsonArray> inAAsync(final JsonArray data, final IxIn in) {
+        return Future.failedFuture(new _501NotSupportException(this.getClass()));
+    }
+
+    // JsonArray -> JsonObject
+    default Future<JsonObject> inAJAsync(final JsonArray data, final IxIn in) {
+        return Future.failedFuture(new _501NotSupportException(this.getClass()));
+    }
+
+    // JsonObject -> JsonArray
+    default Future<JsonArray> inJAAsync(final JsonObject data, final IxIn in) {
         return Future.failedFuture(new _501NotSupportException(this.getClass()));
     }
 }

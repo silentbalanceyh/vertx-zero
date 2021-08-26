@@ -32,7 +32,7 @@ public class GetActor {
     public Future<Envelop> getById(final Envelop envelop) {
         final String key = Ux.getString1(envelop);
         return IxPanel.on(envelop, null)
-                .passion(Agonic.get()::runAsync, null)
+                .passion(Agonic.get()::runJAsync, null)
                 .<JsonObject, JsonObject, JsonObject>runJ(new JsonObject().put(KName.KEY, key))
                 /*
                  * 204 / 200
@@ -57,9 +57,9 @@ public class GetActor {
         return IxPanel.on(envelop, module)
                 .input(
                         /* Build Condition for All */
-                        Pre.qAll()::inAsync
+                        Pre.qAll()::inJAsync
                 )
-                .passion(Angle.all()::runAsync, null)
+                .passion(Angle.all()::runJAAsync, null)
                 .runJ(new JsonObject().put(KName.SIGMA, sigma));
     }
 

@@ -44,9 +44,9 @@ public class QueryActor {
         return IxPanel.on(envelop, module)
                 .input(
                         /* Codex */
-                        Pre.codex()::inAsync
+                        Pre.codex()::inJAsync
                 )
-                .passion(Agonic.search()::runAsync, null)
+                .passion(Agonic.search()::runJAsync, null)
                 .runJ(body);
     }
 
@@ -57,9 +57,9 @@ public class QueryActor {
         return IxPanel.on(envelop, module)
                 .input(
                         /* Codex */
-                        Pre.codex()::inAsync
+                        Pre.codex()::inJAsync
                 )
-                .passion(Agonic.count()::runAsync, null)
+                .passion(Agonic.count()::runJAsync, null)
                 .runJ(body);
     }
 
@@ -70,9 +70,9 @@ public class QueryActor {
         return IxPanel.on(envelop, module)
                 .input(
                         /* Codex */
-                        Pre.codex()::inAsync
+                        Pre.codex()::inJAsync
                 )
-                .passion(Agonic.count()::runAsync, null)
+                .passion(Agonic.count()::runJAsync, null)
                 .runJ(body);
     }
 }

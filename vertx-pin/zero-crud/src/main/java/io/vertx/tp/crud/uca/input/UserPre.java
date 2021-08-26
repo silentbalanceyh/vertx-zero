@@ -13,7 +13,7 @@ import io.vertx.up.unity.Ux;
  */
 class UserPre implements Pre {
     @Override
-    public Future<JsonObject> inAsync(final JsonObject data, final IxIn in) {
+    public Future<JsonObject> inJAsync(final JsonObject data, final IxIn in) {
         final Envelop envelop = in.envelop();
         data.put(KName.USER, Ke.keyUser(envelop));
         data.put(KName.HABITUS, Ke.keyHabitus(envelop));

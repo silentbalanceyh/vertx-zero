@@ -14,7 +14,7 @@ import java.util.Objects;
  */
 class UriPre implements Pre {
     @Override
-    public Future<JsonObject> inAsync(final JsonObject data, final IxIn in) {
+    public Future<JsonObject> inJAsync(final JsonObject data, final IxIn in) {
         final User user = in.user();
         /* Null user */
         if (Objects.isNull(user)) {

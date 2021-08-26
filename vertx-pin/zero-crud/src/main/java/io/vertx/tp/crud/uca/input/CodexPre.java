@@ -23,7 +23,7 @@ import java.util.concurrent.ConcurrentMap;
  */
 class CodexPre implements Pre {
     @Override
-    public Future<JsonObject> inAsync(final JsonObject data, final IxIn in) {
+    public Future<JsonObject> inJAsync(final JsonObject data, final IxIn in) {
         /* 1.method, uri */
         final String key = this.getKey(data, in);
 

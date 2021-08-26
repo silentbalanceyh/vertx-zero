@@ -5,6 +5,7 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.crud.cv.Pooled;
 import io.vertx.tp.crud.uca.desk.IxIn;
+import io.vertx.tp.error._501NotSupportException;
 import io.vertx.up.fn.Fn;
 
 /**
@@ -28,5 +29,11 @@ public interface Angle {
         return Fn.poolThread(Pooled.ANGLE_MAP, AngleAll::new, AngleAll.class.getName());
     }
 
-    Future<JsonArray> runAsync(JsonObject input, IxIn in);
+    default Future<JsonArray> runJAAsync(final JsonObject input, final IxIn in) {
+        return Future.failedFuture(new _501NotSupportException(this.getClass()));
+    }
+
+    default Future<JsonArray> runAJAsync(final JsonArray input, final IxIn in) {
+        return Future.failedFuture(new _501NotSupportException(this.getClass()));
+    }
 }

@@ -16,7 +16,7 @@ import java.util.function.Function;
  */
 class AgonicCount implements Agonic {
     @Override
-    public Future<JsonObject> runAsync(final JsonObject input, final IxIn in) {
+    public Future<JsonObject> runJAsync(final JsonObject input, final IxIn in) {
         Ix.Log.filters(this.getClass(), "( Count ) Condition: {0}", input);
         final Function<Long, Future<JsonObject>> outFn =
                 counter -> Ux.future(new JsonObject().put(KName.COUNT, counter));

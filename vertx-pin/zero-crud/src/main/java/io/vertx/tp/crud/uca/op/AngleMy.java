@@ -25,7 +25,7 @@ class AngleMy implements Angle {
      * }
      */
     @Override
-    public Future<JsonArray> runAsync(final JsonObject input, final IxIn in) {
+    public Future<JsonArray> runJAAsync(final JsonObject input, final IxIn in) {
         final UxJooq jooq = IxPin.jooq(in);
         return Ke.channel(Seeker.class, JsonObject::new, seeker -> seeker.on(jooq).fetchImpact(input))
                 /* view has value, ignored, */
@@ -36,14 +36,14 @@ class AngleMy implements Angle {
                  *      "method": "method",
                  * }
                  * */
-                .compose(params -> Pre.uri().inAsync(params, in))
+                .compose(params -> Pre.uri().inJAsync(params, in))
                 /*
                  * {
                  *      "user": "xxx",
                  *      "habitus": "xxx"
                  * }
                  */
-                .compose(params -> Pre.user().inAsync(params, in))
+                .compose(params -> Pre.user().inJAsync(params, in))
                 /*
                  * Critical workflow
                  */

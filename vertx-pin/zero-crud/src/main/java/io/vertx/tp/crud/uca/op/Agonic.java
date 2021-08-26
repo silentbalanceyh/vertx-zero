@@ -38,9 +38,11 @@ public interface Agonic {
         return Fn.poolThread(Pooled.AGONIC_MAP, AgonicCount::new, AgonicCount.class.getName());
     }
 
-    Future<JsonObject> runAsync(JsonObject input, IxIn in);
+    default Future<JsonObject> runJAsync(final JsonObject input, final IxIn in) {
+        return Future.failedFuture(new _501NotSupportException(this.getClass()));
+    }
 
-    default Future<JsonArray> runBAsync(final JsonArray input, final IxIn in) {
+    default Future<JsonArray> runAAsync(final JsonArray input, final IxIn in) {
         return Future.failedFuture(new _501NotSupportException(this.getClass()));
     }
 }

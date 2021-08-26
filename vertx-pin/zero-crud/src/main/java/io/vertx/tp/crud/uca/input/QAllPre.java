@@ -14,7 +14,7 @@ import io.vertx.up.unity.Ux;
  */
 public class QAllPre implements Pre {
     @Override
-    public Future<JsonObject> inAsync(final JsonObject data, final IxIn in) {
+    public Future<JsonObject> inJAsync(final JsonObject data, final IxIn in) {
         /*
          * For `/api/{actor}/by/sigma`
          * Only support extract the data that active = true

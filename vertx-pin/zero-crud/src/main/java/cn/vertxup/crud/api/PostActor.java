@@ -39,14 +39,14 @@ public class PostActor {
         return IxPanel.on(envelop, module)
                 .input(
                         /* Header */
-                        Pre.head()::inAsync,
+                        Pre.head()::inJAsync,
                         /* Codex */
-                        Pre.codex()::inAsync,
+                        Pre.codex()::inJAsync,
                         /* Number */
-                        Pre.serial()::inAsync
+                        Pre.serial()::inJAsync
                 )
                 .next(in -> WJoin.on(in)::runAsync)
-                .passion(Agonic.write(ChangeFlag.ADD)::runAsync)
+                .passion(Agonic.write(ChangeFlag.ADD)::runJAsync)
                 .<JsonObject, JsonObject, JsonObject>runJ(body)
                 /*
                  * 201 / 200

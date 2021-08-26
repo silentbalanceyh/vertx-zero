@@ -26,7 +26,7 @@ class HeadPre implements Pre {
      * Request[to] -> Data[from]
      */
     @Override
-    public Future<JsonObject> inAsync(final JsonObject data, final IxIn in) {
+    public Future<JsonObject> inJAsync(final JsonObject data, final IxIn in) {
         /* Header */
         final Envelop envelop = in.envelop();
         final KModule module = in.module();

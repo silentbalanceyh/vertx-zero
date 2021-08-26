@@ -15,7 +15,7 @@ import java.util.UUID;
  */
 class UuidPre implements Pre {
     @Override
-    public Future<JsonObject> inAsync(final JsonObject data, final IxIn in) {
+    public Future<JsonObject> inJAsync(final JsonObject data, final IxIn in) {
         final KModule module = in.module();
         final KField field = module.getField();
         /* Primary Key Add */

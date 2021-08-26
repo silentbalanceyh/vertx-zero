@@ -9,7 +9,7 @@ import io.vertx.tp.crud.uca.desk.IxIn;
  */
 class AgonicUpdate implements Agonic {
     @Override
-    public Future<JsonObject> runAsync(final JsonObject input, final IxIn in) {
+    public Future<JsonObject> runJAsync(final JsonObject input, final IxIn in) {
         return null;
     }
 }

@@ -72,7 +72,7 @@ public class IxPanel {
      * 3. The `outputFn` could combine two output data.
      */
     @SafeVarargs
-    public final <T> IxPanel input(final BiFunction<T, IxIn, Future<T>>... executors) {
+    public final <T, O> IxPanel input(final BiFunction<T, IxIn, Future<O>>... executors) {
         if (Objects.isNull(executors)) {
             this.executors = new BiFunction[]{};
         } else {

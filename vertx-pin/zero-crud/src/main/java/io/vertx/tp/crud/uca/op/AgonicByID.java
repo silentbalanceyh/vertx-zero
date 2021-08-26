@@ -17,7 +17,7 @@ import java.util.Objects;
  */
 public class AgonicByID implements Agonic {
     @Override
-    public Future<JsonObject> runAsync(final JsonObject input, final IxIn in) {
+    public Future<JsonObject> runJAsync(final JsonObject input, final IxIn in) {
         final UxJooq jooq = IxPin.jooq(in);
         return jooq.fetchOneAsync(input).compose(entity -> {
             if (Objects.isNull(entity)) {

@@ -12,7 +12,7 @@ import io.vertx.up.uca.jooq.UxJooq;
  */
 class AgonicSearch implements Agonic {
     @Override
-    public Future<JsonObject> runAsync(final JsonObject input, final IxIn in) {
+    public Future<JsonObject> runJAsync(final JsonObject input, final IxIn in) {
         Ix.Log.filters(this.getClass(), "( Search ) Condition: {0}", input);
         if (in.canJoin()) {
             return Ix.searchFn(in).apply(input);

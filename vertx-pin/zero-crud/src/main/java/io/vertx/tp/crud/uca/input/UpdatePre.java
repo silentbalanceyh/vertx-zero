@@ -18,7 +18,7 @@ import java.util.Objects;
  */
 class UpdatePre implements Pre {
     @Override
-    public Future<JsonObject> inAsync(final JsonObject data, final IxIn in) {
+    public Future<JsonObject> inJAsync(final JsonObject data, final IxIn in) {
         /* UserId */
         final User user = in.user();
         final KModule module = in.module();

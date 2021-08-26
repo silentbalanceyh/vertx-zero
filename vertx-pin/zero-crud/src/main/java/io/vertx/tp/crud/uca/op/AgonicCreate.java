@@ -15,10 +15,10 @@ import io.vertx.up.uca.jooq.UxJooq;
  */
 class AgonicCreate implements Agonic {
     @Override
-    public Future<JsonObject> runAsync(final JsonObject input, final IxIn in) {
+    public Future<JsonObject> runJAsync(final JsonObject input, final IxIn in) {
         final KModule module = in.module();
         final UxJooq jooq = IxPin.jooq(in);
-        return Pre.qUk().inAsync(input, in)
+        return Pre.qUk().inJAsync(input, in)
                 /*
                  * Here must use jooq directly instead of join because
                  * The creation step split to
@@ -31,9 +31,9 @@ class AgonicCreate implements Agonic {
                         :
                         // Primary Key
                         Ix.passion(input, in,
-                                        Pre.key(true)::inAsync,             // UUID Generated
-                                        Pre.auditor(true)::inAsync,         // createdAt, createdBy
-                                        Pre.auditor(false)::inAsync         // updatedAt, updatedBy
+                                        Pre.key(true)::inJAsync,             // UUID Generated
+                                        Pre.auditor(true)::inJAsync,         // createdAt, createdBy
+                                        Pre.auditor(false)::inJAsync         // updatedAt, updatedBy
                                 )
                                 .compose(processed -> Ix.deserializeT(processed, module))
                                 .compose(jooq::insertAsync)

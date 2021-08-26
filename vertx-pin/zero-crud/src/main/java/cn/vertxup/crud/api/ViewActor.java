@@ -32,9 +32,9 @@ public class ViewActor {
         return IxPanel.on(envelop, module)
                 .input(
                         /* Apeak */
-                        Pre.apeak(false)::inAsync,
+                        Pre.apeak(false)::inJAsync,
                         /* Header */
-                        Pre.head()::inAsync
+                        Pre.head()::inJAsync
                 )
                 /*
                  * {
@@ -44,7 +44,7 @@ public class ViewActor {
                  *     "sigma": "The application uniform"
                  * }
                  */
-                .parallel(/* Active */Angle.apeak(false)::runAsync)
+                .parallel(/* Active */Angle.apeak(false)::runJAAsync)
                 .output(/* Columns connected */Post.apeak(false)::outAsync)
                 .runJ(params);
     }
@@ -63,9 +63,9 @@ public class ViewActor {
         return IxPanel.on(envelop, module)
                 .input(
                         /* Apeak */
-                        Pre.apeak(true)::inAsync,
+                        Pre.apeak(true)::inJAsync,
                         /* Header */
-                        Pre.head()::inAsync
+                        Pre.head()::inJAsync
                 )
                 /*
                  * {
@@ -75,7 +75,7 @@ public class ViewActor {
                  *     "sigma": "The application uniform"
                  * }
                  */
-                .parallel(/* Active */Angle.apeak(true)::runAsync, null)
+                .parallel(/* Active */Angle.apeak(true)::runJAAsync, null)
                 .output(/* Columns connected */Post.apeak(true)::outAsync)
                 .runJ(params);
     }

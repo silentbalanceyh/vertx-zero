@@ -24,7 +24,7 @@ public class SerialPre implements Pre {
     private static final Annal LOGGER = Annal.get(SerialPre.class);
 
     @Override
-    public Future<JsonObject> inAsync(final JsonObject data, final IxIn in) {
+    public Future<JsonObject> inJAsync(final JsonObject data, final IxIn in) {
         /* Sigma Checking */
         final String sigma = data.getString(KName.SIGMA);
         if (Ut.notNil(sigma)) {
