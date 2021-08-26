@@ -14,6 +14,7 @@ import io.vertx.up.commune.exchange.DictConfig;
 import io.vertx.up.commune.exchange.DictEpsilon;
 import io.vertx.up.commune.exchange.DictFabric;
 import io.vertx.up.commune.exchange.DictSource;
+import io.vertx.up.eon.Constants;
 import io.vertx.up.eon.KName;
 import io.vertx.up.log.Annal;
 import io.vertx.up.unity.Ux;
@@ -49,6 +50,9 @@ class IxData {
     }
 
     static Kv<String, String> field(final Object value) {
+        if (Constants.DEFAULT_HOLDER.equals(value)) {
+            return null;
+        }
         final String field;
         final String fieldValue;
         if (value instanceof String) {

@@ -88,14 +88,15 @@ public class IxIn {
     }
 
     public boolean canJoin() {
-        final KJoin join = this.module.getConnect();
-        if (Objects.nonNull(join)) {
-            final KPoint point = join.procTarget(this.connect.getIdentifier());
-            return Objects.nonNull(point);
-        } else {
-            // No `connect` defined
+        if (Objects.isNull(this.connect)) {
             return false;
         }
+        final KJoin join = this.module.getConnect();
+        if (Objects.isNull(join)) {
+            return false;
+        }
+        final KPoint point = join.procTarget(this.connect.getIdentifier());
+        return Objects.nonNull(point);
     }
 
     public Envelop envelop() {
