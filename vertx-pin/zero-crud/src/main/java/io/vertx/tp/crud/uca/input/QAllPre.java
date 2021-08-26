@@ -12,7 +12,7 @@ import io.vertx.up.unity.Ux;
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-public class QAllPre implements Pre {
+class QAllPre implements Pre {
     @Override
     public Future<JsonObject> inJAsync(final JsonObject data, final IxIn in) {
         /*

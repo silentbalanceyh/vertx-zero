@@ -11,7 +11,7 @@ import io.vertx.up.uca.jooq.UxJooq;
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-class AgonicAll implements Agonic {
+class AgonicFetch implements Agonic {
     @Override
     public Future<JsonArray> runJAAsync(final JsonObject input, final IxIn in) {
         Ix.Log.filters(this.getClass(), "( All ) Condition: {0}", input);

@@ -58,7 +58,7 @@ public class GetActor {
                 /* Build Condition for All */
                 Pre.qAll()::inJAsync
             )
-            .passion(Agonic.all()::runJAAsync, null)
+            .passion(Agonic.fetch()::runJAAsync, null)
             .runJ(new JsonObject().put(KName.SIGMA, sigma));
     }
 

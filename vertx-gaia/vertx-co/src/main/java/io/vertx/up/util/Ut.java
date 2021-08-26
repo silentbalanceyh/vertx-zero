@@ -1150,6 +1150,10 @@ public final class Ut {
         return To.toSet(keys);
     }
 
+    public static List<String> toList(final JsonArray keys) {
+        return To.toList(keys);
+    }
+
     public static JsonArray toJArray(final Object value) {
         return Jackson.toJArray(value);
     }

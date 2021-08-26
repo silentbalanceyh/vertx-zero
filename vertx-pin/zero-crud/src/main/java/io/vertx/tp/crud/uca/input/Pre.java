@@ -41,7 +41,8 @@ public interface Pre {
     }
 
     static Pre excel(final ExcelClient client) {
-        return Fn.poolThread(Pooled.PRE_MAP, () -> new ExcelPre(client), ExcelPre.class.getName());
+        return Fn.poolThread(Pooled.PRE_MAP, () -> new ExcelPre(client),
+            ExcelPre.class.getName() + client.hashCode());
     }
 
     /*
@@ -61,8 +62,12 @@ public interface Pre {
         }
     }
 
-    static Pre fabric() {
-        return Fn.poolThread(Pooled.PRE_MAP, FabricPre::new, FabricPre.class.getName());
+    static Pre fabric(final boolean isFrom) {
+        if (isFrom) {
+            return Fn.poolThread(Pooled.PRE_MAP, FromPre::new, FromPre.class.getName());
+        } else {
+            return Fn.poolThread(Pooled.PRE_MAP, ToPre::new, ToPre.class.getName());
+        }
     }
 
 

@@ -18,7 +18,7 @@ import java.util.concurrent.ConcurrentMap;
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-public class AgonicImport implements Agonic {
+class AgonicImport implements Agonic {
     @Override
     public Future<JsonArray> runAAsync(final JsonArray input, final IxIn in) {
         final KField fieldConfig = in.module().getField();

@@ -19,6 +19,7 @@ import io.vertx.up.unity.Ux;
  */
 @Queue
 public class ViewActor {
+
     /*
      * GET: /api/columns/{actor}/full
      */
@@ -28,22 +29,7 @@ public class ViewActor {
         params.put(KName.VIEW, Ux.getString1(envelop));         // view
         final String module = Ux.getString2(envelop);           // module
 
-        return IxPanel.on(envelop, module)
-            .input(
-                Pre.apeak(false)::inJAsync,             /* Apeak */
-                Pre.head()::inJAsync                    /* Header */
-            )
-            /*
-             * {
-             *     "identifier": "Model identifier",
-             *     "view": "The view name, if not put DEFAULT",
-             *     "dynamic": "true if use dynamic",
-             *     "sigma": "The application uniform"
-             * }
-             */
-            .parallel(/* Active */Agonic.apeak(false)::runJAAsync)
-            .output(/* Columns connected */Post.apeak(false)::outAsync)
-            .runJ(params);
+        return T.fetchFull(envelop, module).runJ(params);
     }
 
     /*
@@ -72,5 +58,28 @@ public class ViewActor {
             .parallel(/* Active */Agonic.apeak(true)::runJAAsync, null)
             .output(/* Columns connected */Post.apeak(true)::outAsync)
             .runJ(params);
+    }
+}
+
+class T {
+    /*
+     * Shared Method mask as static method for two usage
+     */
+    static IxPanel fetchFull(final Envelop envelop, final String module) {
+        return IxPanel.on(envelop, module)
+            .input(
+                Pre.apeak(false)::inJAsync,             /* Apeak */
+                Pre.head()::inJAsync                    /* Header */
+            )
+            /*
+             * {
+             *     "identifier": "Model identifier",
+             *     "view": "The view name, if not put DEFAULT",
+             *     "dynamic": "true if use dynamic",
+             *     "sigma": "The application uniform"
+             * }
+             */
+            .parallel(/* Active */Agonic.apeak(false)::runJAAsync)
+            .output(/* Columns connected */Post.apeak(false)::outAsync);
     }
 }

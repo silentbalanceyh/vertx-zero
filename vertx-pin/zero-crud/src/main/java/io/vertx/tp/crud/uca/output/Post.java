@@ -31,6 +31,11 @@ public interface Post<T> {
         }
     }
 
+    static Post export(final List<String> columnList) {
+        return Fn.poolThread(Pooled.POST_MAP, () -> new ExportPost(columnList),
+            ExportPost.class.getName() + columnList.hashCode());
+    }
+
     /* STATUS Code */
     static Future<Envelop> successPost(final JsonObject input) {
         final HttpStatusCode statusCode = getStatus(input);

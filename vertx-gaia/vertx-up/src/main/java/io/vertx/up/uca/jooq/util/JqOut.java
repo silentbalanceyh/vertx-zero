@@ -29,7 +29,7 @@ public class JqOut {
          * convert projection to field
          */
         final Mojo mojo = analyzer.pojo();
-        final Set<String> projections = getProjections(projectionArray, mojo);
+        final Set<String> projections = Ut.toSet(projectionArray); // getProjections(projectionArray, mojo);
         return toResult(list, projections, analyzer.type());
     }
 

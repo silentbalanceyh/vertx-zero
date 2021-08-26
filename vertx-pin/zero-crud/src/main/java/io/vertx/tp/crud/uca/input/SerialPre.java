@@ -24,7 +24,7 @@ import java.util.function.Function;
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-public class SerialPre implements Pre {
+class SerialPre implements Pre {
     private static final Annal LOGGER = Annal.get(SerialPre.class);
 
     @Override

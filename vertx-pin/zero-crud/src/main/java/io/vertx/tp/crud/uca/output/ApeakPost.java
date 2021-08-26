@@ -2,9 +2,9 @@ package io.vertx.tp.crud.uca.output;
 
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
-import io.vertx.core.json.JsonObject;
+import io.vertx.tp.crud.refine.Ix;
+import io.vertx.up.atom.Kv;
 import io.vertx.up.eon.Constants;
-import io.vertx.up.eon.KName;
 import io.vertx.up.eon.Values;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
@@ -17,6 +17,8 @@ import java.util.Set;
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 class ApeakPost implements Post<JsonArray> {
+
+
     @Override
     public Future<JsonArray> outAsync(final Object columnsObj, final Object linkedObj) {
         // Major Field
@@ -60,43 +62,22 @@ class ApeakPost implements Post<JsonArray> {
         return Ux.future(filtered);
     }
 
-    private void add(final JsonArray columns, final Object value, final Set<String> fieldSet) {
-        final String field = this.field(value);
-        if (Objects.nonNull(field)) {
-            if (!fieldSet.contains(field)) {
-                columns.add(value);
-                fieldSet.add(field);
-            }
-        }
-    }
-
-    /* field name parsing */
-    private String field(final Object value) {
-        final String field;
-        if (value instanceof String) {
-            // metadata
-            field = value.toString().split(",")[0];
-        } else {
-            final JsonObject column = (JsonObject) value;
-            if (column.containsKey(KName.METADATA)) {
-                // metadata
-                final String metadata = column.getString(KName.METADATA);
-                if (Ut.notNil(metadata)) {
-                    field = metadata.split(",")[0];
-                } else {
-                    field = null;
-                }
-            } else {
-                // dataIndex
-                field = column.getString("dataIndex");
-            }
-        }
-        return field;
-    }
-
     private Set<String> field(final JsonArray columns) {
         final Set<String> fieldSet = new HashSet<>();
-        columns.stream().map(this::field).forEach(fieldSet::add);
+        columns.stream().map(Ix::toColumn)
+            .filter(Objects::nonNull)
+            .map(Kv::getKey)
+            .forEach(fieldSet::add);
         return fieldSet;
+    }
+
+    private void add(final JsonArray columns, final Object value, final Set<String> fieldSet) {
+        final Kv<String, String> kv = Ix.toColumn(value);
+        if (Objects.nonNull(kv)) {
+            if (!fieldSet.contains(kv.getKey())) {
+                columns.add(value);
+                fieldSet.add(kv.getKey());
+            }
+        }
     }
 }

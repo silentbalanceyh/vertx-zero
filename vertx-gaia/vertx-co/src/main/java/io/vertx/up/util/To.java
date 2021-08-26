@@ -57,6 +57,13 @@ final class To {
         return keySet;
     }
 
+    static List<String> toList(final JsonArray keys) {
+        final JsonArray keysData = Jackson.sureJArray(keys);
+        final List<String> keyList = new ArrayList<>();
+        It.itJString(keysData).forEach(keyList::add);
+        return keyList;
+    }
+
     static String toString(final Object reference) {
         return Fn.getNull("null", () -> {
             final String literal;

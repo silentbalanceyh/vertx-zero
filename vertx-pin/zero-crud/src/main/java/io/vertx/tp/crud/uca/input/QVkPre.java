@@ -12,7 +12,7 @@ import io.vertx.up.unity.Ux;
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-public class QVkPre implements Pre {
+class QVkPre implements Pre {
     @Override
     public Future<JsonObject> inJAsync(final JsonObject data, final IxIn in) {
         final String sessionKey = Ke.keySession(

@@ -15,7 +15,7 @@ import java.util.Objects;
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-public class AgonicByID implements Agonic {
+class AgonicByID implements Agonic {
     @Override
     public Future<JsonObject> runJAsync(final JsonObject input, final IxIn in) {
         final UxJooq jooq = IxPin.jooq(in);

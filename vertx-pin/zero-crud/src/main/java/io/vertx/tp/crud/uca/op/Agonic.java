@@ -58,8 +58,8 @@ public interface Agonic {
         return Fn.poolThread(Pooled.AGONIC_MAP, AgonicView::new, AgonicView.class.getName());
     }
 
-    static Agonic all() {
-        return Fn.poolThread(Pooled.AGONIC_MAP, AgonicAll::new, AgonicAll.class.getName());
+    static Agonic fetch() {
+        return Fn.poolThread(Pooled.AGONIC_MAP, AgonicFetch::new, AgonicFetch.class.getName());
     }
 
     default Future<JsonObject> runJAsync(final JsonObject input, final IxIn in) {
