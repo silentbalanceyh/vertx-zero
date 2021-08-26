@@ -21,23 +21,32 @@ class AgonicUpdate implements Agonic {
     public Future<JsonObject> runJAsync(final JsonObject input, final IxIn in) {
         final KModule module = in.module();
         final UxJooq jooq = IxPin.jooq(in);
-        return Pre.qUk().inJAsync(input, in)
-            /*
-             * Queried must
-             */
-            .compose(condition -> jooq.fetchJOneAsync(condition).compose(queryJ -> Ut.isNil(queryJ) ?
-                Post.success404Pre()
-                :
-                // Primary Key
-                Ux.future(queryJ.copy().mergeIn(input)).compose(json ->
-                    Ix.passion(json, in,
-                            Pre.auditor(false)::inJAsync         // updatedAt, updatedBy
-                        )
-                        .compose(processed -> Ix.deserializeT(processed, module))
-                        .compose(jooq::updateAsync)
-                        .compose(updated -> Post.successJ(updated, module))
-                )
-            ));
+        return this.runJUnique(input, in)
+            .compose(queryJ -> Ux.future(queryJ.copy().mergeIn(input)))
+            .compose(json -> Ix.passion(json, in,
+                        Pre.auditor(false)::inJAsync         // updatedAt, updatedBy
+                    )
+                    .compose(processed -> Ix.deserializeT(processed, module))
+                    .compose(jooq::updateAsync)
+                    .compose(updated -> Post.successJ(updated, module))
+            );
+    }
+
+    private Future<JsonObject> runJUnique(final JsonObject input, final IxIn in) {
+        final UxJooq jooq = IxPin.jooq(in);
+        // Query by `key` first
+        return Pre.qPk().inJAsync(input, in)
+            .compose(jooq::fetchJOneAsync)
+            .compose(queryJ -> Ut.isNil(queryJ) ?
+                // Query by `unique key` first
+                Pre.qUk().inJAsync(input, in)
+                    .compose(jooq::fetchJOneAsync)
+                    .compose(querySubJ -> Ut.isNil(querySubJ) ?
+                        Post.success404Pre()
+                        : Ux.future(querySubJ)
+                    )
+                : Ux.future(queryJ)
+            );
     }
 
     @Override

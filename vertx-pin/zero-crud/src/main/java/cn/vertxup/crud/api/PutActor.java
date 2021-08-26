@@ -66,7 +66,7 @@ public class PutActor {
                 Pre.apeak(true)::inJAsync,              /* Apeak */
                 Pre.head()::inJAsync                    /* Header */
             )
-            .passion(Agonic.view()::runJAsync, null)
+            .passion(Agonic.view()::runJAAsync, null)
             .runJ(params);
     }
 }

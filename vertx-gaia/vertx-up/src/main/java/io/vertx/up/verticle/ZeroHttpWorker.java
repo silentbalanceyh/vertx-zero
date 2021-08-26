@@ -86,6 +86,7 @@ public class ZeroHttpWorker extends AbstractVerticle {
                         /*
                          * Error Occurs and fire message
                          */
+                        ex.printStackTrace();
                         message.fail(0, ex.getMessage());
                     }
                 }

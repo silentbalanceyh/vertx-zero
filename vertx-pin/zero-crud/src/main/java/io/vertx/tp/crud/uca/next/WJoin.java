@@ -29,16 +29,23 @@ public class WJoin {
     }
 
     private JsonObject run(final JsonObject input, final JsonObject active) {
-        final KPoint point = IxPin.point(this.in);
-        final KJoin connect = this.in.module().getConnect();
-        /*
-         * Put joinedKey into data
-         * Remove key
-         */
-        final JsonObject data = input.copy().mergeIn(active, true);
-        connect.procFilters(data, point, data);
-        data.remove(this.in.module().getField().getKey());
-        return data;
+        if (this.in.canJoin()) {
+            final KPoint point = IxPin.point(this.in);
+            final KJoin connect = this.in.module().getConnect();
+            /*
+             * Put joinedKey into data
+             * Remove key
+             */
+            final JsonObject data = input.copy().mergeIn(active, true);
+            connect.procFilters(data, point, data);
+            data.remove(this.in.module().getField().getKey());
+            return data;
+        } else {
+            /*
+             * Returned Active executor result
+             */
+            return active.copy();
+        }
     }
 
     public Future<JsonArray> runAAsync(final JsonArray input, final JsonObject active) {

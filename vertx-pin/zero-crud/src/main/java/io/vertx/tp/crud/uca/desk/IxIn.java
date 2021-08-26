@@ -11,6 +11,7 @@ import io.vertx.tp.ke.atom.connect.KPoint;
 import io.vertx.tp.ke.cv.em.JoinMode;
 import io.vertx.up.commune.Envelop;
 import io.vertx.up.exception.WebException;
+import io.vertx.up.exception.web._500InternalServerException;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
@@ -61,7 +62,6 @@ public class IxIn {
                  * KJoin must not be null
                  */
                 final KJoin connect = module.getConnect();
-                Fn.out(Objects.isNull(connect), _404ModuleMissingException.class, this.getClass(), actor);
                 final KPoint target = connect.procTarget(identifier);
                 if (Objects.nonNull(target) && JoinMode.CRUD == target.modeTarget()) {
                     assert Objects.nonNull(target.getCrud());
@@ -71,9 +71,11 @@ public class IxIn {
                 }
             }
         } catch (final WebException error) {
-            // TODO: Exception here.
             error.printStackTrace();
             this.error = error;
+        } catch (final Throwable error) {
+            error.printStackTrace();
+            this.error = new _500InternalServerException(this.getClass(), error.getMessage());
         }
     }
 
@@ -87,8 +89,13 @@ public class IxIn {
 
     public boolean canJoin() {
         final KJoin join = this.module.getConnect();
-        final KPoint point = join.procTarget(this.connect.getIdentifier());
-        return Objects.nonNull(point);
+        if (Objects.nonNull(join)) {
+            final KPoint point = join.procTarget(this.connect.getIdentifier());
+            return Objects.nonNull(point);
+        } else {
+            // No `connect` defined
+            return false;
+        }
     }
 
     public Envelop envelop() {

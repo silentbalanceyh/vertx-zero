@@ -36,4 +36,18 @@ class QPkPre implements Pre {
         condition.put(keyField + ",i", keyArray);
         return Ux.future(condition);
     }
+
+    @Override
+    public Future<JsonObject> inJAsync(final JsonObject input, final IxIn in) {
+        if (Ut.isNil(input)) {
+            return Ux.futureJ();
+        }
+        // Module Processing
+        final String keyField = in.module().getField().getKey();
+        /* Key Value */
+        final String value = input.getString(keyField);
+        final JsonObject condition = new JsonObject();
+        condition.put(keyField, value);
+        return Ux.future(condition);
+    }
 }

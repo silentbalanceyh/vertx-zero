@@ -95,8 +95,10 @@ class IxDao {
     static KPoint getPoint(final IxIn in) {
         final KModule module = in.module();
         final KModule connect = in.connect();
-
         final KJoin join = module.getConnect();
+        if (Objects.isNull(join)) {
+            return null;
+        }
         final KPoint point = join.procTarget(connect.getIdentifier());
         Ix.Log.rest(IxDao.class, "Point = {0}", point);
         return point;

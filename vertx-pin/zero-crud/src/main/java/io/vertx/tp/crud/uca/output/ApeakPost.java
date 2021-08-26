@@ -21,7 +21,17 @@ class ApeakPost implements Post<JsonArray> {
     public Future<JsonArray> outAsync(final Object columnsObj, final Object linkedObj) {
         // Major Field
         final JsonArray columns = (JsonArray) columnsObj;
-        final JsonArray linked = (JsonArray) linkedObj;
+        /*
+         * Fix Bug:
+         * java.lang.ClassCastException: io.vertx.core.json.JsonObject cannot be cast to io.vertx.core.json.JsonArray
+         * Because standard sub-module ignored processing
+         */
+        final JsonArray linked;
+        if (linkedObj instanceof JsonArray) {
+            linked = (JsonArray) linkedObj;
+        } else {
+            linked = new JsonArray();
+        }
         final Set<String> majorSet = this.field(columns);
 
         final JsonArray filtered = new JsonArray();

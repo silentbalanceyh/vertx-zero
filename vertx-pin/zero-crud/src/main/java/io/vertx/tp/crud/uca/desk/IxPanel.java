@@ -32,9 +32,22 @@ public class IxPanel {
 
     private IxPanel(final Envelop envelop, final String module) {
         this.active = IxIn.active(envelop);
-        this.standBy = IxIn.standBy(envelop, module);
-        /* Build Connect */
-        this.active.connect(this.standBy.module());
+        /*
+         * module = value
+         * The value is the same as active module, it means that there is not needed
+         * standBy ( Secondary Module )
+         *
+         * Here are condition for secondary module
+         *
+         * 1. There must contain configuration.
+         * 2. The identifier should be not the same as active
+         */
+        if (Objects.nonNull(module) &&
+            !module.equals(this.active.module().getIdentifier()) &&
+            this.active.canJoin()) {
+            this.standBy = IxIn.standBy(envelop, module);/* Build Connect */
+            this.active.connect(this.standBy.module());
+        }
         this.outputFn = (a, s) -> Ux.future(s);
         this.nextFn = (i, a) -> Ux.future(a);
     }
@@ -157,9 +170,10 @@ public class IxPanel {
             (inputActive) -> this.active.ready(inputActive, this.executors)
                 .compose(normalized -> this.activeFn.apply(normalized, this.active));
         final Function<I, Future<S>> standFn;
-        if (Objects.isNull(this.standByFn)) {
+        if (Objects.isNull(this.standByFn) || Objects.isNull(this.standBy)) {
             /*
              * standByFn is null, directly return.
+             * standBy is null ( No sub module )
              */
             standFn = (inputStand) -> (Future<S>) Ux.future(inputStand);
         } else {
