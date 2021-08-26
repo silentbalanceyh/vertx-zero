@@ -41,7 +41,7 @@ public class PostActor {
                 Pre.head()::inJAsync,                       /* Header */
                 Pre.codex()::inJAsync                       /* Codex */
             )
-            .next(in -> WJoin.on(in)::runAsync)
+            .next(in -> WJoin.on(in)::runJAsync)
             .passion(Agonic.write(ChangeFlag.ADD)::runJAsync)
             .<JsonObject, JsonObject, JsonObject>runJ(body)
             /*

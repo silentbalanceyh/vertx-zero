@@ -7,11 +7,13 @@ import io.vertx.tp.crud.refine.Ix;
 import io.vertx.tp.crud.uca.desk.IxIn;
 import io.vertx.tp.crud.uca.input.Pre;
 import io.vertx.tp.ke.atom.KField;
+import io.vertx.up.eon.em.ChangeFlag;
 import io.vertx.up.uca.jooq.UxJooq;
 import io.vertx.up.unity.Ux;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ConcurrentMap;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
@@ -32,10 +34,21 @@ public class AgonicImport implements Agonic {
             .compose(jooq::fetchJAsync)
             /* Compared Data */
             .compose(original -> Ux.future(Ux.compareJ(original, processed, matrix)))
-        ).compose(compared -> {
-            final List<Future<JsonArray>> combine = new ArrayList<>();
-            return null;
-        });
+        ).compose(compared -> this.runSave(compared, in));
+    }
+
+    private Future<JsonArray> runSave(final ConcurrentMap<ChangeFlag, JsonArray> compared,
+                                      final IxIn in) {
+        final List<Future<JsonArray>> combine = new ArrayList<>();
+        final JsonArray inserted = compared.getOrDefault(ChangeFlag.ADD, new JsonArray());
+        if (!inserted.isEmpty()) {
+            combine.add(Agonic.write(ChangeFlag.ADD).runAAsync(inserted, in));
+        }
+        final JsonArray updated = compared.getOrDefault(ChangeFlag.UPDATE, new JsonArray());
+        if (!updated.isEmpty()) {
+            combine.add(Agonic.write(ChangeFlag.UPDATE).runAAsync(updated, in));
+        }
+        return Ux.thenCombineArray(combine);
     }
 
     private Future<JsonArray> runCompress(final JsonArray source, final IxIn in) {

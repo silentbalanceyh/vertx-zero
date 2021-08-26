@@ -1,6 +1,7 @@
 package io.vertx.tp.crud.uca.op;
 
 import io.vertx.core.Future;
+import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.crud.init.IxPin;
 import io.vertx.tp.crud.refine.Ix;
@@ -37,5 +38,17 @@ class AgonicUpdate implements Agonic {
                         .compose(updated -> Post.successJ(updated, module))
                 )
             ));
+    }
+
+    @Override
+    public Future<JsonArray> runAAsync(final JsonArray input, final IxIn in) {
+        final KModule module = in.module();
+        final UxJooq jooq = IxPin.jooq(in);
+        return Ix.passion(input, in,
+                Pre.auditor(false)::inAAsync         // updatedAt, updatedBy
+            )
+            .compose(processed -> Ix.deserializeT(processed, module))
+            .compose(jooq::updateAsync)
+            .compose(updated -> Post.successA(updated, module));
     }
 }

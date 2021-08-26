@@ -9,6 +9,7 @@ import io.vertx.tp.crud.init.IxPin;
 import io.vertx.tp.crud.refine.Ix;
 import io.vertx.tp.crud.uca.desk.IxPanel;
 import io.vertx.tp.crud.uca.input.Pre;
+import io.vertx.tp.crud.uca.next.WJoin;
 import io.vertx.tp.crud.uca.op.Agonic;
 import io.vertx.tp.ke.refine.Ke;
 import io.vertx.tp.plugin.excel.ExcelClient;
@@ -52,6 +53,7 @@ public class FileActor {
                 .input(
                     Pre.fabric()::inAAsync      /* Dict */
                 )
+                .next(in -> WJoin.on(in)::runAAsync)
                 .passion(Agonic.file(false)::runAAsync)
                 .runA(data)
         );

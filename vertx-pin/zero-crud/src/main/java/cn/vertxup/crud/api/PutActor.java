@@ -4,16 +4,21 @@ import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.crud.actor.IxActor;
-import io.vertx.tp.crud.connect.IxLinker;
 import io.vertx.tp.crud.cv.Addr;
 import io.vertx.tp.crud.cv.IxMsg;
 import io.vertx.tp.crud.refine.Ix;
+import io.vertx.tp.crud.uca.desk.IxPanel;
+import io.vertx.tp.crud.uca.input.Pre;
+import io.vertx.tp.crud.uca.next.WJoin;
+import io.vertx.tp.crud.uca.op.Agonic;
+import io.vertx.tp.crud.uca.output.Post;
 import io.vertx.tp.ke.refine.Ke;
 import io.vertx.tp.optic.ApeakMy;
 import io.vertx.up.annotations.Address;
 import io.vertx.up.annotations.Queue;
 import io.vertx.up.commune.Envelop;
 import io.vertx.up.eon.KName;
+import io.vertx.up.eon.em.ChangeFlag;
 import io.vertx.up.log.Annal;
 import io.vertx.up.unity.Ux;
 
@@ -22,51 +27,35 @@ public class PutActor {
     private static final Annal LOGGER = Annal.get(PutActor.class);
 
     @Address(Addr.Put.BY_ID)
-    public <T> Future<Envelop> update(final Envelop request) {
+    public <T> Future<Envelop> update(final Envelop envelop) {
         /* Module and Key Extract  */
-        return Ix.create(this.getClass()).input(request).envelop((dao, config) -> {
-            /* Data Get */
-            final JsonObject body = Ux.getJson2(request);
-            final String key = Ux.getString1(request);
-            return dao.fetchByIdAsync(key).compose(queried -> null == queried ?
-                    /* 204, No Content */
-                    IxHttp.success204(null) :
-                    /* Save */
-                    IxActor.key().bind(request).procAsync(body, config)
-                        /* Verify */
-                        .compose(input -> IxActor.verify().bind(request).procAsync(input, config))
-                        /* T */
-                        .compose(input -> Ix.deserializeT(input, config))
-                        /* Save */
-                        .compose(entity -> dao.updateAsync(key, entity))
-                        /* 200, Envelop */
-                        .compose(entity -> IxHttp.success200(entity, config)))
-                /* Must merged */
-                .compose(response -> IxLinker.update().joinJAsync(request,
-                    body.mergeIn(response.data()), config));
-        });
+        final JsonObject body = Ux.getJson2(envelop);
+        final String key = Ux.getString1(envelop);
+        body.put(KName.KEY, key);
+        return IxPanel.on(envelop, null)
+            .input(
+                Pre.head()::inJAsync,                       /* Header */
+                Pre.codex()::inJAsync                       /* Codex */
+            )
+            .next(in -> WJoin.on(in)::runJAsync)
+            .passion(Agonic.write(ChangeFlag.UPDATE)::runJAsync)
+            .<JsonObject, JsonObject, JsonObject>runJ(body)
+            /*
+             * 404 / 200
+             */
+            .compose(Post::successPost);
     }
 
     @Address(Addr.Put.BATCH)
-    public <T> Future<Envelop> updateBatch(final Envelop request) {
-        /* Batch Extract */
-        return Ix.create(this.getClass()).input(request).envelop((dao, config) -> {
-            /* Data Get */
-            final JsonArray array = Ux.getArray1(request);
-            return Ix.inKeys(array, config)
-                /* Search List */
-                .compose(filters -> Ix.search(filters, config).apply(dao))
-                /* Extract List */
-                .compose(data -> Ix.serializePL(data, config))
-                /* JsonArray */
-                .compose(queried -> Ix.serializeA(queried, array, config))
-                /* JsonArray */
-                .compose(dataArr -> Ix.deserializeT(dataArr, config))
-                /* List<T> */
-                .compose(dao::updateAsync)
-                /* JsonArray */
-                .compose(IxHttp::success200);
-        });
+    public <T> Future<Envelop> updateBatch(final Envelop envelop) {
+        final JsonArray array = Ux.getArray1(envelop);
+        return IxPanel.on(envelop, null)
+            .input(
+                Pre.qPk()::inAJAsync                        /* keys,in */
+            )
+            .next(in -> WJoin.on(in)::runAAsync)
+            .passion(Agonic.write(ChangeFlag.UPDATE)::runJAAsync)
+            .runA(array);
     }
 
     @Address(Addr.Put.COLUMN_MY)
