@@ -8,7 +8,6 @@ import io.vertx.tp.crud.refine.Ix;
 import io.vertx.tp.crud.uca.desk.IxPanel;
 import io.vertx.tp.crud.uca.input.Pre;
 import io.vertx.tp.crud.uca.op.Agonic;
-import io.vertx.tp.crud.uca.op.Angle;
 import io.vertx.tp.crud.uca.output.Post;
 import io.vertx.up.annotations.Address;
 import io.vertx.up.annotations.Queue;
@@ -59,7 +58,7 @@ public class GetActor {
                         /* Build Condition for All */
                         Pre.qAll()::inJAsync
                 )
-                .passion(Angle.all()::runJAAsync, null)
+                .passion(Agonic.all()::runJAAsync, null)
                 .runJ(new JsonObject().put(KName.SIGMA, sigma));
     }
 

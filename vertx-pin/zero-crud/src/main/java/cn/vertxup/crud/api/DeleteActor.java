@@ -49,7 +49,7 @@ public class DeleteActor {
                         /* keys,in */
                         Pre.qPk()::inAJAsync
                 )
-                .passion(Agonic.write(ChangeFlag.DELETE)::runAAsync, null)
+                .passion(Agonic.write(ChangeFlag.DELETE)::runJAAsync, null)
                 .runA(keys);
     }
 }

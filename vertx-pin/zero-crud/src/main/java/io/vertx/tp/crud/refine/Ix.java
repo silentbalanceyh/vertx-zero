@@ -29,8 +29,8 @@ public class Ix {
         return IxQr.countFn(in);
     }
 
-    public static <T> Function<JsonObject, BiFunction<Supplier<T>, BiFunction<UxJooq, JsonObject, Future<T>>, Future<T>>> seekFn(final IxIn in) {
-        return IxQr.seekFn(in);
+    public static <T> BiFunction<Supplier<T>, BiFunction<UxJooq, JsonObject, Future<T>>, Future<T>> seekFn(final IxIn in, final Object json) {
+        return IxQr.seekFn(in, json);
     }
 
     public static Function<JsonObject, Future<JsonArray>> fetchFn(final IxIn in) {

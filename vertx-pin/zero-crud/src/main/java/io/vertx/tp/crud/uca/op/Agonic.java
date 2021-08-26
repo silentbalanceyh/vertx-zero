@@ -38,11 +38,31 @@ public interface Agonic {
         return Fn.poolThread(Pooled.AGONIC_MAP, AgonicCount::new, AgonicCount.class.getName());
     }
 
+    static Agonic apeak(final boolean isMy) {
+        if (isMy) {
+            return Fn.poolThread(Pooled.AGONIC_MAP, AngleMy::new, AngleMy.class.getName());
+        } else {
+            return Fn.poolThread(Pooled.AGONIC_MAP, AngleFull::new, AngleFull.class.getName());
+        }
+    }
+
+    static Agonic all() {
+        return Fn.poolThread(Pooled.AGONIC_MAP, AngleAll::new, AngleAll.class.getName());
+    }
+
     default Future<JsonObject> runJAsync(final JsonObject input, final IxIn in) {
         return Future.failedFuture(new _501NotSupportException(this.getClass()));
     }
 
     default Future<JsonArray> runAAsync(final JsonArray input, final IxIn in) {
+        return Future.failedFuture(new _501NotSupportException(this.getClass()));
+    }
+
+    default Future<JsonArray> runJAAsync(final JsonObject input, final IxIn in) {
+        return Future.failedFuture(new _501NotSupportException(this.getClass()));
+    }
+
+    default Future<JsonArray> runAJAsync(final JsonArray input, final IxIn in) {
         return Future.failedFuture(new _501NotSupportException(this.getClass()));
     }
 }

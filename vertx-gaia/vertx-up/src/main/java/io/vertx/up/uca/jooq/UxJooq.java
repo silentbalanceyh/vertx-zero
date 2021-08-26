@@ -98,6 +98,13 @@ public final class UxJooq {
         return this.analyzer.table();
     }
 
+    private JsonObject andOr(final JsonObject criteria) {
+        if (!criteria.containsKey(Strings.EMPTY)) {
+            criteria.put(Strings.EMPTY, Boolean.TRUE);
+        }
+        return criteria;
+    }
+
     // -------------------- INSERT --------------------
     /*
      * Async Only
@@ -1320,22 +1327,20 @@ public final class UxJooq {
      * deleteByAsync(JsonObject, pojo)
      */
     /* (Async / Sync) Delete by Filters */
-    public Future<Boolean> deleteByAsync(final JsonObject criteria) {
-        criteria.put(Strings.EMPTY, Boolean.TRUE);                                                  // Unique Forced
-        return this.workflow.inputQrJAsync(criteria).compose(this.writer::deleteByAsync);
+    public Future<Boolean> deleteByAsync(final JsonObject criteria) {                                                 // Unique Forced
+        return this.workflow.inputQrJAsync(andOr(criteria)).compose(this.writer::deleteByAsync);
     }
 
     public Future<Boolean> deleteByAsync(final JsonObject criteria, final String pojo) {
-        return JqFlow.create(this.analyzer, pojo).inputQrJAsync(criteria).compose(this.writer::deleteByAsync);
+        return JqFlow.create(this.analyzer, pojo).inputQrJAsync(andOr(criteria)).compose(this.writer::deleteByAsync);
     }
 
-    public Boolean deleteBy(final JsonObject criteria) {
-        criteria.put(Strings.EMPTY, Boolean.TRUE);                                                  // Unique Forced
-        return this.writer.deleteBy(this.workflow.inputQrJ(criteria));
+    public Boolean deleteBy(final JsonObject criteria) {                                          // Unique Forced
+        return this.writer.deleteBy(this.workflow.inputQrJ(andOr(criteria)));
     }
 
     public Boolean deleteBy(final JsonObject criteria, final String pojo) {
-        return this.writer.deleteBy(JqFlow.create(this.analyzer, pojo).inputQrJ(criteria));
+        return this.writer.deleteBy(JqFlow.create(this.analyzer, pojo).inputQrJ(andOr(criteria)));
     }
 
     // -------------------- Exist Operation --------------------

@@ -6,7 +6,7 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.tp.crud.cv.Addr;
 import io.vertx.tp.crud.uca.desk.IxPanel;
 import io.vertx.tp.crud.uca.input.Pre;
-import io.vertx.tp.crud.uca.op.Angle;
+import io.vertx.tp.crud.uca.op.Agonic;
 import io.vertx.tp.crud.uca.output.Post;
 import io.vertx.up.annotations.Address;
 import io.vertx.up.annotations.Queue;
@@ -44,7 +44,7 @@ public class ViewActor {
                  *     "sigma": "The application uniform"
                  * }
                  */
-                .parallel(/* Active */Angle.apeak(false)::runJAAsync)
+                .parallel(/* Active */Agonic.apeak(false)::runJAAsync)
                 .output(/* Columns connected */Post.apeak(false)::outAsync)
                 .runJ(params);
     }
@@ -75,7 +75,7 @@ public class ViewActor {
                  *     "sigma": "The application uniform"
                  * }
                  */
-                .parallel(/* Active */Angle.apeak(true)::runJAAsync, null)
+                .parallel(/* Active */Agonic.apeak(true)::runJAAsync, null)
                 .output(/* Columns connected */Post.apeak(true)::outAsync)
                 .runJ(params);
     }

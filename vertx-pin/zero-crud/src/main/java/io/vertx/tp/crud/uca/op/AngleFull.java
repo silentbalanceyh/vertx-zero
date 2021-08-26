@@ -12,7 +12,7 @@ import io.vertx.up.uca.jooq.UxJooq;
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-class AngleFull implements Angle {
+class AngleFull implements Agonic {
     @Override
     public Future<JsonArray> runJAAsync(final JsonObject input, final IxIn in) {
         /* Get Stub */
