@@ -32,7 +32,7 @@ class QUkPre implements Pre {
             Ut.itJArray(unique, JsonArray.class,
                     (each, index) -> filters.put("$" + index, this.condition(each, data)));
         }
-        Ix.Log.filters(this.getClass(), "\n{0}", filters.encodePrettily());
+        Ix.Log.filters(this.getClass(), "{0}", filters.encode());
         return Ux.future(filters);
     }
 

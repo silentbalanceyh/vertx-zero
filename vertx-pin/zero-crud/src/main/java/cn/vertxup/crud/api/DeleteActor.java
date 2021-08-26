@@ -4,8 +4,8 @@ import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.crud.cv.Addr;
-import io.vertx.tp.crud.refine.Ix;
 import io.vertx.tp.crud.uca.desk.IxPanel;
+import io.vertx.tp.crud.uca.input.Pre;
 import io.vertx.tp.crud.uca.op.Agonic;
 import io.vertx.tp.crud.uca.output.Post;
 import io.vertx.up.annotations.Address;
@@ -25,9 +25,11 @@ public class DeleteActor {
     @Address(Addr.Delete.BY_ID)
     public Future<Envelop> delete(final Envelop envelop) {
         final String key = Ux.getString1(envelop);
+        // JsonObject Required
+        final JsonObject params = new JsonObject().put(KName.KEY, key);
         return IxPanel.on(envelop, null)
                 .passion(Agonic.write(ChangeFlag.DELETE)::runAsync, null)
-                .<JsonObject, JsonObject, JsonObject>runJ(new JsonObject().put(KName.KEY, key))
+                .<JsonObject, JsonObject, JsonObject>runJ(params)
                 /*
                  * 204 / 200
                  */
@@ -40,16 +42,14 @@ public class DeleteActor {
      *     204: Second deleting, The records have been gone
      */
     @Address(Addr.Delete.BATCH)
-    public Future<Envelop> deleteBatch(final Envelop request) {
-        return Ix.create(this.getClass()).input(request).envelop((dao, config) -> {
-            /* Keys */
-            final JsonArray keys = Ux.getArray1(request);
-            /* ID */
-            return Ix.inKeys(keys, config)
-                    /* List */
-                    .compose(dao::deleteByAsync)
-                    /* Boolean */
-                    .compose(IxHttp::success200);
-        });
+    public Future<Envelop> deleteBatch(final Envelop envelop) {
+        final JsonArray keys = Ux.getArray1(envelop);
+        return IxPanel.on(envelop, null)
+                .input(
+                        /* Filter Calculated */
+                        Pre.qPk()::inBAsync
+                )
+                .passion(Agonic.write(ChangeFlag.DELETE)::runBAsync)
+                .runA(keys);
     }
 }

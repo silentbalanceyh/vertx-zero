@@ -2,6 +2,7 @@ package io.vertx.tp.rbac.extension;
 
 import io.vertx.core.Future;
 import io.vertx.core.http.HttpMethod;
+import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.RoutingContext;
 import io.vertx.tp.rbac.acl.region.CommonCosmo;
@@ -9,10 +10,12 @@ import io.vertx.tp.rbac.acl.region.Cosmo;
 import io.vertx.tp.rbac.acl.region.SeekCosmo;
 import io.vertx.tp.rbac.cv.AuthMsg;
 import io.vertx.tp.rbac.refine.Sc;
+import io.vertx.up.atom.query.engine.Qr;
 import io.vertx.up.commune.Envelop;
 import io.vertx.up.extension.region.AbstractRegion;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.unity.Ux;
+import io.vertx.up.util.Ut;
 
 import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
@@ -34,7 +37,7 @@ public class DataRegion extends AbstractRegion {
         if (this.isEnabled(context)) {
             /* Get Critical parameters */
             return Sc.cacheBound(context, envelop).compose(matrix -> {
-                if (Objects.nonNull(matrix)) {
+                if (this.hasValue(matrix)) {
                     Sc.infoAuth(this.getLogger(), context.request().path(),
                             AuthMsg.REGION_BEFORE, matrix.encode());
                     /*
@@ -69,7 +72,7 @@ public class DataRegion extends AbstractRegion {
         if (this.isEnabled(context)) {
             /* Get Critical parameters */
             return Sc.cacheBound(context, response).compose(matrix -> {
-                if (Objects.nonNull(matrix)) {
+                if (this.hasValue(matrix)) {
                     Sc.infoAuth(this.getLogger(), AuthMsg.REGION_AFTER, matrix.encode());
                     /*
                      * Select cosmo by matrix
@@ -87,6 +90,25 @@ public class DataRegion extends AbstractRegion {
             // Data Region disabled
             return Ux.future(response);
         }
+    }
+
+    private boolean hasValue(final JsonObject matrix) {
+        if (Objects.isNull(matrix)) {
+            return false;
+        }
+        boolean hasValue = Ut.notNil(matrix.getJsonArray(Qr.KEY_PROJECTION, new JsonArray()));
+        if (hasValue) {
+            return true;
+        }
+        hasValue = Ut.notNil(matrix.getJsonArray("credit", new JsonArray()));
+        if (hasValue) {
+            return true;
+        }
+        hasValue = Ut.notNil(matrix.getJsonObject("rows", new JsonObject()));
+        if (hasValue) {
+            return true;
+        }
+        return Ut.notNil(matrix.getJsonObject(Qr.KEY_CRITERIA, new JsonObject()));
     }
 
     private Cosmo cosmo(final JsonObject matrix) {
