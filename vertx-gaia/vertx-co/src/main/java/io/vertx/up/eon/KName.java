@@ -55,6 +55,7 @@ public interface KName {
     String CODES = "codes";                      /* Batch operation, codes -> JsonArray ( element = String ) */
 
     String FILE_KEY = "fileKey";                 /* XAttachment belong-to field */
+    String FILE_NAME = "filename";               /* XAttachment filename */
     String DATA_KEY = "dataKey";                 /* Security belong-to field: Authorization data stored key for session storage */
 
     String APP_KEY = "appKey";                   /* XHeader for X-App-Key */

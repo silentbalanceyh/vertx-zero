@@ -7,7 +7,6 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.crud.actor.IxActor;
 import io.vertx.tp.crud.refine.Ix;
-import io.vertx.tp.ke.atom.KField;
 import io.vertx.tp.ke.atom.KModule;
 import io.vertx.tp.ke.refine.Ke;
 import io.vertx.tp.optic.Apeak;
@@ -22,13 +21,10 @@ import io.vertx.up.commune.exchange.DictSource;
 import io.vertx.up.eon.KName;
 import io.vertx.up.uca.jooq.UxJooq;
 import io.vertx.up.unity.Ux;
-import io.vertx.up.util.Ut;
 
 import java.text.MessageFormat;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
@@ -91,35 +87,6 @@ class Unity {
              */
             return plugin.fetchAsync(paramMap, sources);
         }
-    }
-
-    static boolean isMatch(final JsonObject record, final KModule module) {
-        /*
-         * Get unique rule of current module
-         */
-        final KField fieldConfig = module.getField();
-        final JsonArray matrix = fieldConfig.getUnique();
-        /*
-         * Matrix may be multi group
-         */
-        final int size = matrix.size();
-        for (int idx = 0; idx < size; idx++) {
-            final JsonArray group = matrix.getJsonArray(idx);
-            if (Ut.notNil(group)) {
-                final Set<String> fields = new HashSet<>();
-                group.stream().filter(Objects::nonNull)
-                        .map(item -> (String) item)
-                        .filter(Ut::notNil)
-                        .forEach(fields::add);
-                final boolean match = fields.stream().allMatch(field -> Objects.nonNull(record.getValue(field)));
-                if (!match) {
-                    Ix.Log.restW(Unity.class, "Unique checking failure, check fields: `{0}`, data = {1}",
-                            Ut.fromJoin(fields), record.encode());
-                    return false;
-                }
-            }
-        }
-        return true;
     }
 
     /*

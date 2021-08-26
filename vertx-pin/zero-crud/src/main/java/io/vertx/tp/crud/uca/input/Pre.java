@@ -6,6 +6,7 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.tp.crud.cv.Pooled;
 import io.vertx.tp.crud.uca.desk.IxIn;
 import io.vertx.tp.error._501NotSupportException;
+import io.vertx.tp.plugin.excel.ExcelClient;
 import io.vertx.up.fn.Fn;
 
 /**
@@ -13,50 +14,22 @@ import io.vertx.up.fn.Fn;
  */
 public interface Pre {
     /*
-     * Codex for validation
+     * 1) Codex for validation
+     * 2) Head values: sigma, appId, appKey, language
+     * 3) Uri calculation: uri, method
+     * 4) Primary Key calculation
+     * 5) Excel file calculation
      */
     static Pre codex() {
         return Fn.poolThread(Pooled.PRE_MAP, CodexPre::new, CodexPre.class.getName());
     }
 
-    /*
-     * sigma
-     * appId
-     * appKey
-     * language
-     */
     static Pre head() {
         return Fn.poolThread(Pooled.PRE_MAP, HeadPre::new, HeadPre.class.getName());
     }
 
-    /*
-     * uri
-     * method
-     */
     static Pre uri() {
         return Fn.poolThread(Pooled.PRE_MAP, UriPre::new, UriPre.class.getName());
-    }
-
-    /*
-     * user
-     * habitus
-     */
-    static Pre user() {
-        return Fn.poolThread(Pooled.PRE_MAP, UserPre::new, UserPre.class.getName());
-    }
-
-    /*
-     * createdAt
-     * createdBy
-     * updatedAt
-     * updatedBy
-     */
-    static Pre auditor(final boolean created) {
-        if (created) {
-            return Fn.poolThread(Pooled.PRE_MAP, CreatePre::new, CreatePre.class.getName());
-        } else {
-            return Fn.poolThread(Pooled.PRE_MAP, UpdatePre::new, UpdatePre.class.getName());
-        }
     }
 
     static Pre key(final boolean isNew) {
@@ -67,8 +40,30 @@ public interface Pre {
         }
     }
 
+    static Pre excel(final ExcelClient client) {
+        return Fn.poolThread(Pooled.PRE_MAP, () -> new ExcelPre(client), ExcelPre.class.getName());
+    }
+
     /*
-     * number definition for `X_NUMBER`
+     * 1) User information: user, habitus
+     * 2) Auditor: createdAt / createdBy / updatedAt / updatedBy
+     */
+    static Pre user() {
+        return Fn.poolThread(Pooled.PRE_MAP, UserPre::new, UserPre.class.getName());
+    }
+
+    static Pre auditor(final boolean created) {
+        if (created) {
+            return Fn.poolThread(Pooled.PRE_MAP, CreatePre::new, CreatePre.class.getName());
+        } else {
+            return Fn.poolThread(Pooled.PRE_MAP, UpdatePre::new, UpdatePre.class.getName());
+        }
+    }
+
+
+    /*
+     * 1) number definition for `X_NUMBER`
+     * 2) column calculation
      */
     static Pre serial() {
         return Fn.poolThread(Pooled.PRE_MAP, SerialPre::new, SerialPre.class.getName());
@@ -82,6 +77,11 @@ public interface Pre {
         }
     }
 
+    /*
+     * 1) UniqueKey condition
+     * 2) All key condition: sigma = xxx
+     * 3) PrimaryKey condition
+     */
     static Pre qUk() {
         return Fn.poolThread(Pooled.PRE_MAP, QUkPre::new, QUkPre.class.getName());
     }

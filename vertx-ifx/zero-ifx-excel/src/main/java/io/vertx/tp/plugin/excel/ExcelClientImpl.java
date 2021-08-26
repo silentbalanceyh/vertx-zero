@@ -271,8 +271,4 @@ public class ExcelClientImpl implements ExcelClient {
     }
 
     // --------------------- Save Entity -----------------------
-    @Override
-    public <T> T saveEntity(final JsonObject data, final ExTable table) {
-        return this.importer.saveEntity(data, table);
-    }
 }

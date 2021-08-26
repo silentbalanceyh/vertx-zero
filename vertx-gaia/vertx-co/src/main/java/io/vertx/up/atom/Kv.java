@@ -49,6 +49,10 @@ public final class Kv<K, V> {
         this.value = value;
     }
 
+    public boolean valid() {
+        return Objects.nonNull(this.key);
+    }
+
     @Override
     public int hashCode() {
         return Objects.hashCode(this.key) ^ Objects.hashCode(this.value);

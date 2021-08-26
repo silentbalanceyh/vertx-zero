@@ -21,6 +21,10 @@ public class Ix {
         IxData.audit(auditor, config, userId);
     }
 
+    public static boolean isMatch(final JsonObject json, final KModule module) {
+        return IxData.match(json, module);
+    }
+
     public static Function<JsonObject, Future<JsonObject>> searchFn(final IxIn in) {
         return IxQr.searchFn(in);
     }
