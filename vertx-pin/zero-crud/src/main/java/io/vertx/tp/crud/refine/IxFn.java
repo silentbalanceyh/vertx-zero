@@ -1,18 +1,12 @@
 package io.vertx.tp.crud.refine;
 
 import io.vertx.core.Future;
-import io.vertx.core.json.JsonObject;
 import io.vertx.tp.crud.uca.desk.IxIn;
 
 import java.util.Objects;
 import java.util.function.BiFunction;
 
 class IxFn {
-
-    static boolean isExist(final JsonObject result) {
-        final Long counter = result.getLong("count", 0L);
-        return 0 < counter;
-    }
 
     // JqFn
     @SafeVarargs

@@ -12,7 +12,6 @@ import io.vertx.up.annotations.Codex;
 import io.vertx.up.annotations.EndPoint;
 import io.vertx.up.atom.query.engine.Qr;
 import io.vertx.up.eon.Orders;
-import io.vertx.up.log.Annal;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
@@ -27,7 +26,6 @@ import java.util.Objects;
 @Path("/api")
 public class FileAgent {
 
-    private static final Annal LOGGER = Annal.get(FileAgent.class);
 
     @Path("/{actor}/import")
     @POST
@@ -38,7 +36,7 @@ public class FileAgent {
                                  @StreamParam @Codex final FileUpload fileUpload) {
         /* File stored */
         final String filename = fileUpload.uploadedFileName();
-        Ix.infoDao(LOGGER, IxMsg.FILE_UPLOAD, fileUpload.fileName(), filename);
+        Ix.Log.dao(this.getClass(), IxMsg.FILE_UPLOAD, fileUpload.fileName(), filename);
         return Ux.toZip(actor, filename, module);
     }
 
@@ -49,6 +47,7 @@ public class FileAgent {
     @Consumes(MediaType.APPLICATION_OCTET_STREAM)
     @Produces(MediaType.APPLICATION_OCTET_STREAM)
     public JsonObject exportFile(@PathParam("actor") final String actor,
+                                 @QueryParam("module") final String module,
                                  @BodyParam final JsonObject condition) {
         /* Exported columns here for future calculation */
         JsonArray columns = condition.getJsonArray("columns");
@@ -72,6 +71,6 @@ public class FileAgent {
          *     ......
          * }
          */
-        return Ux.toZip(actor, query, columns);
+        return Ux.toZip(actor, query, module, columns);
     }
 }

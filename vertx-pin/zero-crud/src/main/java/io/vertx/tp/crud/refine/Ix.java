@@ -3,7 +3,6 @@ package io.vertx.tp.crud.refine;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.crud.atom.IxProc;
 import io.vertx.tp.crud.uca.desk.IxIn;
 import io.vertx.tp.ke.atom.KModule;
 import io.vertx.up.log.Annal;
@@ -44,49 +43,6 @@ public class Ix {
     }
 
     // --------------------------------- Old Version
-    // Is --- Checking the result, return boolean
-    /*
-     * is existing for result
-     */
-    public static boolean isExist(final JsonObject result) {
-        return IxFn.isExist(result);
-    }
-
-
-    /*
-     * search operation
-     */
-    public static Function<UxJooq, Future<JsonObject>> search(final JsonObject filters, final KModule config) {
-        return IxQuery.search(filters, config);
-    }
-
-    public static Function<UxJooq, Future<Boolean>> existing(final JsonObject filters, final KModule config) {
-        return IxQuery.existing(filters, config);
-    }
-
-    public static Function<UxJooq, Future<JsonObject>> query(final JsonObject filters, final KModule config) {
-        return IxQuery.query(filters, config);
-    }
-
-    // Atom creation
-    /*
-     * IxIn reference
-     */
-    public static IxProc create(final Class<?> clazz) {
-        return IxProc.create(clazz);
-    }
-
-    // Serialization for entity/list
-    /*
-     * analyze unique record
-     */
-    public static Future<JsonObject> serializePO(final JsonObject result, final KModule config) {
-        return Ux.future(IxSerialize.serializePO(result, config));
-    }
-
-    public static Future<JsonArray> serializePL(final JsonObject result, final KModule config) {
-        return Ux.future(IxSerialize.serializePL(result, config));
-    }
 
     /*
      * Deserialize to T
@@ -100,32 +56,8 @@ public class Ix {
         return Ux.future(IxSerialize.deserializeT(data, config));
     }
 
-    public static Future<JsonArray> serializeA(final JsonArray data, final KModule config) {
-        return Ux.future(IxSerialize.serializeA(data, config));
-    }
-
-    public static Future<JsonObject> serializeJ(final JsonObject data, final KModule config) {
-        return Ux.future(IxSerialize.serializeJ(data, config));
-    }
-
-    public static Future<JsonArray> serializeA(final JsonArray from, final JsonArray to, final KModule config) {
-        return Ux.future(IxSerialize.serializeA(from, to, config));
-    }
-
-
-    public static Future<JsonObject> inKeys(final JsonArray array, final KModule config) {
-        return Ux.future(IxQuery.inKeys(array, config));
-    }
-
-    /*
-     * Log
-     */
-    public static void infoFilters(final Annal logger, final String pattern, final Object... args) {
-        IxLog.infoFilters(logger, pattern, args);
-    }
-
-    public static void infoDao(final Annal logger, final String pattern, final Object... args) {
-        IxLog.infoDao(logger, pattern, args);
+    public static void serializeJ(final JsonObject data, final KModule config) {
+        Ux.future(IxSerialize.serializeJ(data, config));
     }
 
     public static class Log {
