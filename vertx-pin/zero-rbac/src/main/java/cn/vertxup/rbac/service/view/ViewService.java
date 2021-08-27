@@ -50,8 +50,12 @@ public class ViewService implements ViewStub {
             myView.setKey(UUID.randomUUID().toString());
             myView.setActive(Boolean.TRUE);
             myView.setRows(new JsonObject().encode());
-            myView.setProjection(Ut.sureJArray(projection).encode());
-            myView.setCriteria(Ut.sureJObject(criteria).encode());
+            if (Ut.notNil(projection)) {
+                myView.setProjection(projection.encode());
+            }
+            if (Ut.notNil(criteria)) {
+                myView.setCriteria(criteria.encode());
+            }
         }
         {
             /* Auditor Information */

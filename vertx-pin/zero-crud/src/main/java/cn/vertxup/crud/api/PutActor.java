@@ -16,6 +16,7 @@ import io.vertx.up.commune.Envelop;
 import io.vertx.up.eon.KName;
 import io.vertx.up.eon.em.ChangeFlag;
 import io.vertx.up.unity.Ux;
+import io.vertx.up.util.Ut;
 
 @Queue
 public class PutActor {
@@ -63,15 +64,20 @@ public class PutActor {
     }
 
     @Address(Addr.Put.COLUMN_MY)
-    public Future<Envelop> updateColumn(final Envelop envelop) {
+    public Future<JsonObject> updateColumn(final Envelop envelop) {
         final String view = Ux.getString1(envelop);
-        final JsonObject viewData = Ux.getJson(envelop, 3);
+        final JsonObject viewJson = Ux.getJson(envelop, 3);
 
         final String module = Ux.getString2(envelop);
         /* Batch Extract */
         final JsonObject params = new JsonObject();
         params.put(KName.VIEW, view);
-        params.put(KName.DATA, viewData);
+        /*
+         * Fix issue of Data Region
+         * Because `projection` and `criteria` are both spec
+         * params
+         * */
+        params.put(KName.DATA, Ut.sureJObject(viewJson.getJsonObject("viewData")));
         return IxPanel.on(envelop, module)
             .input(
                 Pre.apeak(true)::inJAsync,              /* Apeak */

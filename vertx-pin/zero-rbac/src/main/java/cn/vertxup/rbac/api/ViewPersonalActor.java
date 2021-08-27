@@ -68,7 +68,7 @@ public class ViewPersonalActor {
         });
     }
 
-    @Address(Addr.View.VIEW_P_BY_USER)
+    @Address(Addr.View.VIEW_P_BY_ID)
     public Future<JsonObject> pViewById(final String key) {
         return this.personalStub.byId(key).compose(Ux::futureJ);
     }
