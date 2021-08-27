@@ -57,7 +57,7 @@ class ScPhase {
         uri = uri + ":" + view;
         final String cacheKey = Ke.keySession(request.method().name(), uri);
         /* Cache Data */
-        Sc.infoAuth(LOGGER, "Try cacheKey: {0}", cacheKey);
+        Sc.infoView(ScPhase.class, "Try cacheKey: {0}", cacheKey);
         return cacheKey;
     }
 
