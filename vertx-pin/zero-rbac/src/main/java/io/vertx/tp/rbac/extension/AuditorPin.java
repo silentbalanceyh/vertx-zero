@@ -12,6 +12,7 @@ import io.vertx.up.commune.Envelop;
 import io.vertx.up.eon.KName;
 import io.vertx.up.extension.PlugAuditor;
 import io.vertx.up.log.Annal;
+import io.vertx.up.runtime.ZeroAnno;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
@@ -71,6 +72,7 @@ public class AuditorPin implements PlugAuditor {
     }
 
     private boolean isValid(final HttpServerRequest request) {
+        final String recovery = ZeroAnno.recoveryUri(request.path(), request.method());
         final JsonArray include = this.config.getJsonArray("include");
         if (Objects.isNull(include) || include.isEmpty()) {
             /*
@@ -99,7 +101,7 @@ public class AuditorPin implements PlugAuditor {
         } else {
             final long except = exclude.stream().filter(Objects::nonNull)
                 .map(item -> (String) item)
-                .filter(path::startsWith)
+                .filter(recovery::startsWith)
                 .count();
             return 0 < counter && except <= 0;
         }
