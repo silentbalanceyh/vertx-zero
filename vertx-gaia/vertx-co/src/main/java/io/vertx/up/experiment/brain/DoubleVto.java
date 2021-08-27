@@ -17,7 +17,7 @@ public class DoubleVto implements Vto<Double> {
                 return (Double) value;
             } else if (String.class == type) {
 
-                return Ut.isDecimal(value.toString()) ? Double.parseDouble(value.toString()) : -1.0;
+                return Ut.isDecimal(value.toString()) || Ut.isInteger(value.toString()) ? Double.parseDouble(value.toString()) : -1.0;
             } else if (Tool.isInteger(type) || Tool.isDecimal(type)) {
 
                 return Double.parseDouble(value.toString());
