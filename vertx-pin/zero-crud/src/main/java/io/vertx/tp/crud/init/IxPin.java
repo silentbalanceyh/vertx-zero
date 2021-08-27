@@ -1,6 +1,5 @@
 package io.vertx.tp.crud.init;
 
-import io.vertx.core.MultiMap;
 import io.vertx.tp.crud.refine.Ix;
 import io.vertx.tp.crud.uca.desk.IxIn;
 import io.vertx.tp.ke.atom.KModule;
@@ -38,11 +37,6 @@ public class IxPin {
 
     public static KModule getActor(final String actor) {
         return IxDao.get(actor);
-    }
-
-    @Deprecated
-    public static UxJooq getDao(final KModule config, final MultiMap headers) {
-        return IxDao.get(config, headers);
     }
 
     public static UxJooq jooq(final IxIn in) {

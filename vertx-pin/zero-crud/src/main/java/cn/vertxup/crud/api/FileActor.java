@@ -5,6 +5,8 @@ import io.vertx.core.buffer.Buffer;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.crud.cv.Addr;
+import io.vertx.tp.crud.refine.Ix;
+import io.vertx.tp.crud.uca.desk.IxIn;
 import io.vertx.tp.crud.uca.desk.IxNext;
 import io.vertx.tp.crud.uca.desk.IxPanel;
 import io.vertx.tp.crud.uca.input.Pre;
@@ -17,6 +19,7 @@ import io.vertx.up.annotations.Plugin;
 import io.vertx.up.annotations.Queue;
 import io.vertx.up.atom.query.engine.Qr;
 import io.vertx.up.commune.Envelop;
+import io.vertx.up.commune.element.TypeAtom;
 import io.vertx.up.eon.KName;
 import io.vertx.up.log.Annal;
 import io.vertx.up.unity.Ux;
@@ -72,9 +75,6 @@ public class FileActor {
          * dynamic exporting here.
          **/
         JsonObject criteria = Ut.sureJObject(condition.getJsonObject(Qr.KEY_CRITERIA));
-        final JsonObject query = new JsonObject();
-        query.put(Qr.KEY_CRITERIA, criteria);
-        query.put(Qr.KEY_PROJECTION, projection);
         final IxPanel panel = IxPanel.on(envelop, module);
         return T.fetchFull(envelop, module).runJ(params)
             .compose(columns -> panel
@@ -84,15 +84,23 @@ public class FileActor {
                 .input(
                     Pre.codex()::inJAsync /* Rule Vrify */
                 )
-                .passion(Agonic.fetch()::runJAsync, null)
-                .<JsonArray, JsonObject, JsonArray>runJ(query)
+                .passion(Agonic.fetch()::runJAAsync, null)
+                .<JsonArray, JsonObject, JsonArray>runJ(criteria)
                 /* Dict Transfer to Export */
                 .compose(data -> Pre.fabric(false).inAAsync(data, panel.active()))
                 .compose(data -> Post.export(columnList).outAsync(data, columns))
                 .compose(data -> {
+                    /*
+                     * Data Extraction for file buffer here
+                     */
                     if (data instanceof JsonArray) {
-                        final KModule in = panel.active().module();
-                        return this.client.exportAsync(in.getIdentifier(), (JsonArray) data);
+                        final IxIn active = panel.active();
+                        final KModule in = active.module();
+                        /*
+                         * The system will calculate the type definition of static module
+                         */
+                        final TypeAtom atom = Ix.onAtom(active, (JsonArray) columns);
+                        return this.client.exportAsync(in.getIdentifier(), (JsonArray) data, atom);
                     } else {
                         return Ux.future(Buffer.buffer());
                     }

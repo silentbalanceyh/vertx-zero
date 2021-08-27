@@ -7,6 +7,7 @@ import io.vertx.tp.crud.uca.desk.IxIn;
 import io.vertx.tp.ke.atom.KField;
 import io.vertx.tp.ke.atom.KModule;
 import io.vertx.up.atom.Kv;
+import io.vertx.up.commune.element.TypeAtom;
 import io.vertx.up.commune.exchange.DictFabric;
 import io.vertx.up.log.Annal;
 import io.vertx.up.uca.jooq.UxJooq;
@@ -33,6 +34,10 @@ public class Ix {
 
     public static JsonArray onMatrix(final KField field) {
         return IxData.matrix(field);
+    }
+
+    public static TypeAtom onAtom(final IxIn active, final JsonArray columns) {
+        return IxType.atom(active, columns);
     }
 
     public static Function<JsonObject, Future<JsonObject>> searchFn(final IxIn in) {

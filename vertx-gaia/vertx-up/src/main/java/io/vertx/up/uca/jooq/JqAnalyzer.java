@@ -39,8 +39,15 @@ public class JqAnalyzer {
 
     private transient Mojo pojo;
     private transient Table<?> table;
-
+    /*
+     *  sigma -> zSigma -> Z_SIGMA
+     *  fieldMap
+     *     zSigma -> Field ( Jooq )
+     *  typeMap
+     *     sigma -> Type
+     */
     private transient ConcurrentMap<String, Field> fieldMap = new ConcurrentHashMap<>();
+    private transient ConcurrentMap<String, Class<?>> typeMap = new ConcurrentHashMap<>();
     private transient Class<?> entityCls;
 
     private JqAnalyzer(final VertxDAO vertxDAO) {
@@ -258,6 +265,23 @@ public class JqAnalyzer {
 
     public ConcurrentMap<String, Field> columns() {
         return this.fieldMap;
+    }
+
+    public ConcurrentMap<String, Class<?>> types() {
+        if (this.typeMap.isEmpty()) {
+            // Here are no pojo defined
+            if (Objects.isNull(this.pojo)) {
+                this.fieldMap.forEach((name, field) -> this.typeMap.put(name, field.getType()));
+            } else {
+                this.fieldMap.forEach((name, field) -> {
+                    final String fieldName = this.pojo.getOut(name);
+                    if (Ut.notNil(fieldName)) {
+                        this.typeMap.put(fieldName, field.getType());
+                    }
+                });
+            }
+        }
+        return this.typeMap;
     }
 
     public Field column(final String field) {
