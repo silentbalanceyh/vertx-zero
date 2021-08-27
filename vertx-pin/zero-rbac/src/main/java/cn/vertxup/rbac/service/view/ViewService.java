@@ -15,6 +15,7 @@ import io.vertx.up.log.Annal;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -34,17 +35,38 @@ public class ViewService implements ViewStub {
     }
 
     @Override
-    public Future<SView> saveMatrix(final String userId, final String resourceId,
-                                    final String view, final JsonArray projection) {
+    public Future<JsonObject> saveMatrix(final String userId, final JsonObject viewData,
+                                         final JsonArray projection, final JsonObject criteria) {
+        final String resourceId = viewData.getString(KName.RESOURCE_ID);
+        final String view = viewData.getString(KName.VIEW);
         /* Find user matrix */
         final JsonObject filters = this.toFilters(resourceId, view);
         filters.put("owner", userId);
         filters.put("ownerType", OwnerType.USER.name());
         /* SView projection */
         Sc.infoResource(ViewService.LOGGER, AuthMsg.VIEW_PROCESS, "save", filters.encode());
-        final SView myView = this.toView(filters, projection);
-        return Ux.Jooq.on(SViewDao.class)
-            .upsertAsync(filters, myView);
+        final SView myView = new SView();
+        {
+            myView.setKey(UUID.randomUUID().toString());
+            myView.setActive(Boolean.TRUE);
+            myView.setRows(new JsonObject().encode());
+            myView.setProjection(Ut.sureJArray(projection).encode());
+            myView.setCriteria(Ut.sureJObject(criteria).encode());
+        }
+        {
+            /* Auditor Information */
+            myView.setUpdatedAt(LocalDateTime.now());
+            myView.setUpdatedBy(userId);
+            /* language / sigma */
+            myView.setLanguage(viewData.getString(KName.LANGUAGE));
+            myView.setSigma(viewData.getString(KName.SIGMA));
+        }
+        return Ux.Jooq.on(SViewDao.class).upsertAsync(filters, myView).compose(upsert -> {
+            final JsonObject cached = new JsonObject();
+            cached.put(Qr.KEY_PROJECTION, Ut.toJArray(upsert.getProjection()));
+            cached.put(Qr.KEY_CRITERIA, Ut.toJObject(upsert.getCriteria()));
+            return Ux.future(cached);
+        });
     }
 
     @Override
@@ -63,15 +85,5 @@ public class ViewService implements ViewStub {
         filters.put("resourceId", resourceId);
         filters.put("name", view);
         return filters;
-    }
-
-    private SView toView(final JsonObject filters, final JsonArray projection) {
-        final JsonObject data = filters.copy()
-            .put(Qr.KEY_PROJECTION, projection.encode());
-        data.put(KName.KEY, UUID.randomUUID().toString());
-        data.put(KName.ACTIVE, Boolean.TRUE);
-        data.put("rows", new JsonObject().encode());
-        data.put(Qr.KEY_CRITERIA, new JsonObject().encode());
-        return Ut.deserialize(data, SView.class);
     }
 }

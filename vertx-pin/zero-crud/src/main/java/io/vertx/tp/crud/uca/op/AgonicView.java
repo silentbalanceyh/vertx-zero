@@ -1,7 +1,6 @@
 package io.vertx.tp.crud.uca.op;
 
 import io.vertx.core.Future;
-import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.crud.init.IxPin;
 import io.vertx.tp.crud.uca.desk.IxIn;
@@ -18,7 +17,7 @@ import io.vertx.up.uca.jooq.UxJooq;
 class AgonicView implements Agonic {
 
     @Override
-    public Future<JsonArray> runJAAsync(final JsonObject input, final IxIn in) {
+    public Future<JsonObject> runJAsync(final JsonObject input, final IxIn in) {
         final UxJooq jooq = IxPin.jooq(in);
         return Ke.channel(Seeker.class, JsonObject::new, seeker -> seeker.on(jooq).fetchImpact(input))
             /* view has value, ignored, */
@@ -41,7 +40,7 @@ class AgonicView implements Agonic {
              * data_key calculation
              */
             .compose(params -> Pre.qVk().inJAsync(params, in))
-            .compose(params -> Ke.channel(ApeakMy.class, JsonArray::new,
-                stub -> stub.on(jooq).saveMy(params, params.getJsonArray(KName.DATA))));
+            .compose(params -> Ke.channel(ApeakMy.class, JsonObject::new,
+                stub -> stub.on(jooq).saveMy(params, params.getJsonObject(KName.DATA))));
     }
 }

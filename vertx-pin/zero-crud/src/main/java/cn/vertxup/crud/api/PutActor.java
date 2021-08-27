@@ -65,19 +65,19 @@ public class PutActor {
     @Address(Addr.Put.COLUMN_MY)
     public Future<Envelop> updateColumn(final Envelop envelop) {
         final String view = Ux.getString1(envelop);
-        final JsonArray projection = Ux.getArray(envelop, 3);
+        final JsonObject viewData = Ux.getJson(envelop, 3);
 
         final String module = Ux.getString2(envelop);
         /* Batch Extract */
         final JsonObject params = new JsonObject();
         params.put(KName.VIEW, view);
-        params.put(KName.DATA, projection);
+        params.put(KName.DATA, viewData);
         return IxPanel.on(envelop, module)
             .input(
                 Pre.apeak(true)::inJAsync,              /* Apeak */
                 Pre.head()::inJAsync                    /* Header */
             )
-            .passion(Agonic.view()::runJAAsync, null)
+            .passion(Agonic.view()::runJAsync, null)
             .runJ(params);
     }
 }

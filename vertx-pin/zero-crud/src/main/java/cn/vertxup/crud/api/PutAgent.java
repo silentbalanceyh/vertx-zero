@@ -39,5 +39,5 @@ public interface PutAgent {
     JsonArray getMy(@PathParam("actor") String actor,
                     @QueryParam("view") String view,
                     @QueryParam("module") String module,
-                    @BodyParam JsonArray projection);
+                    @BodyParam JsonObject viewData);
 }

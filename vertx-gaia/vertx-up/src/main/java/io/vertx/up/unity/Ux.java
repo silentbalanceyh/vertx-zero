@@ -702,6 +702,7 @@ public final class Ux {
      * 1) whereDay
      * 2) whereAnd
      * 3) whereOr
+     * 4) whereKeys
      */
     public static JsonObject whereDay(final JsonObject filters, final String field, final Instant instant) {
         return Where.whereDay(filters, field, instant);
@@ -709,6 +710,14 @@ public final class Ux {
 
     public static JsonObject whereDay(final JsonObject filters, final String field, final LocalDateTime instant) {
         return Where.whereDay(filters, field, Ut.parse(instant).toInstant());
+    }
+
+    public static JsonObject whereKeys(final Set<String> keys) {
+        return Where.whereKeys(Ut.toJArray(keys));
+    }
+
+    public static JsonObject whereKeys(final JsonArray keys) {
+        return Where.whereKeys(keys);
     }
 
     public static JsonObject whereAnd() {

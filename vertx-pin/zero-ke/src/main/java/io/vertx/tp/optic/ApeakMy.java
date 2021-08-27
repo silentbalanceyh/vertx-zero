@@ -50,6 +50,10 @@ public interface ApeakMy {
      * -- 3.1) Select projection result ( calculation )
      * -- 3.2) Input select projection result
      * -- 3.3) Modification for identifier projection
+     * {
+     *     "projection": [],
+     *     "criteria": {}
+     * }
      */
-    Future<JsonArray> saveMy(JsonObject params, JsonArray projection);
+    Future<JsonObject> saveMy(JsonObject params, JsonObject viewData);
 }

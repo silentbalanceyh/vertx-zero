@@ -99,8 +99,20 @@ public interface Addr {
         String RESOURCE_UPDATE_CASCADE = Prefix._EVENT + "X-RESOURCE/UPDATE-CASCADE";
         /* Resource delete with action */
         String RESOURCE_DELETE_CASCADE = Prefix._EVENT + "X-RESOURCE/DELETE-CASCADE";
+    }
+
+    interface View {
 
         String VIEW_UPDATE_BY_TYPE = Prefix._EVENT + "S-VIEW-BY-TYPE/PUT";
+        /*
+         * View interface publish for `my view` instead of old `my`
+         */
+        String VIEW_P_BY_USER = Prefix._EVENT + "X-VIEW-P/GET/BY-USER";
+        String VIEW_P_ADD = Prefix._EVENT + "X-VIEW-P/ADD";
+        String VIEW_P_DELETE = Prefix._EVENT + "X-VIEW-PL/DELETE";
+        String VIEW_P_UPDATE = Prefix._EVENT + "X-VIEW-P/UPDATE";
+        String VIEW_P_BY_ID = Prefix._EVENT + "X-VIEW-P/GET/BY-ID";
+        String VIEW_P_BATCH_DELETE = Prefix._EVENT + "X-VIEW-P/BATCH/DELETE";
     }
 
     interface Group {
