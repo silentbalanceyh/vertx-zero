@@ -4,6 +4,7 @@ import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.crud.uca.desk.IxIn;
+import io.vertx.tp.ke.atom.KField;
 import io.vertx.tp.ke.atom.KModule;
 import io.vertx.up.atom.Kv;
 import io.vertx.up.commune.exchange.DictFabric;
@@ -22,8 +23,16 @@ public class Ix {
         IxData.audit(auditor, config, userId);
     }
 
-    public static Kv<String, String> toColumn(final Object value) {
+    public static Kv<String, String> onColumn(final Object value) {
         return IxData.field(value);
+    }
+
+    public static Future<DictFabric> onFabric(final IxIn in) {
+        return IxData.fabric(in);
+    }
+
+    public static JsonArray onMatrix(final KField field) {
+        return IxData.matrix(field);
     }
 
     public static Function<JsonObject, Future<JsonObject>> searchFn(final IxIn in) {
@@ -46,10 +55,6 @@ public class Ix {
     @SafeVarargs
     public static <T> Future<T> passion(final T input, final IxIn in, final BiFunction<T, IxIn, Future<T>>... executors) {
         return IxData.passion(input, in, executors);
-    }
-
-    public static Future<DictFabric> fabric(final IxIn in) {
-        return IxData.fabric(in);
     }
 
     /*

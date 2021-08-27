@@ -67,6 +67,21 @@ class CompareJ {
         return true;
     }
 
+    /*
+     * Here should be some comments for group unique rules
+     * 1. When you check whether the data is OK, here should be:
+     *    ----> Unique 1  --> Ok
+     *    ----> Unique 2  --> Ok   ----- All the rule should be Ok
+     *    ----> Unique 2  --> Ok
+     * 2. When you want to match whether the two record are equal, here should be:
+     *    ----> Unique 1  --> Match
+     *    ----> Unique 2  --> Not    ----- Any rule should be matched
+     *    ----> Unique 3  --> Match
+     *    Here are the priority of each Unique Rule,
+     *    The situation is often
+     *    1)  Primary Key
+     *    2)  Unique Key
+     */
     static boolean ruleJEqual(final JsonObject record, final JsonObject latest,
                               final JsonArray matrix) {
         /*
@@ -78,20 +93,23 @@ class CompareJ {
             final Set<String> fields = fieldSet(value);
             if (fields.isEmpty()) {
                 /*
-                 * Not unique defined
+                 * Not unique defined, check the next
+                 * rule here.
                  */
-                return false;
+                continue;
             }
-
             /*
              * Compare each group for matrix
+             * Find any one rule should be OK here for equal
+             * 1) Primary Key    - 0
+             * 2) Unique Key     - 1
              */
             final boolean equal = ruleJEqual(record, latest, fields);
-            if (!equal) {
-                return false;
+            if (equal) {
+                return true;
             }
         }
-        return true;
+        return false;
     }
 
     static boolean ruleJEqual(final JsonObject record, final JsonObject latest,

@@ -4,9 +4,9 @@ import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.crud.cv.Addr;
+import io.vertx.tp.crud.uca.desk.IxNext;
 import io.vertx.tp.crud.uca.desk.IxPanel;
 import io.vertx.tp.crud.uca.input.Pre;
-import io.vertx.tp.crud.uca.next.WJoin;
 import io.vertx.tp.crud.uca.op.Agonic;
 import io.vertx.tp.crud.uca.output.Post;
 import io.vertx.up.annotations.Address;
@@ -31,7 +31,7 @@ public class PutActor {
                 Pre.head()::inJAsync,                       /* Header */
                 Pre.codex()::inJAsync                       /* Codex */
             )
-            .next(in -> WJoin.on(in)::runJAsync)
+            .next(in -> IxNext.on(in)::runJJJ)
             .passion(Agonic.write(ChangeFlag.UPDATE)::runJAsync)
             .<JsonObject, JsonObject, JsonObject>runJ(body)
             /*
@@ -56,7 +56,8 @@ public class PutActor {
             params.put(KName.DATA, array);
             params.put(Qr.KEY_CRITERIA, condition);
             return panel
-                .passion(Agonic.write(ChangeFlag.UPDATE)::runJAsync)
+                .next(in -> IxNext.on(in)::runJAA)
+                .passion(Agonic.write(ChangeFlag.UPDATE)::runJAAsync)
                 .runJ(params);
         });
     }

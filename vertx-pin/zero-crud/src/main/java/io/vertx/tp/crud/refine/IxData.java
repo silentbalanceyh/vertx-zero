@@ -2,9 +2,11 @@ package io.vertx.tp.crud.refine;
 
 import io.vertx.core.Future;
 import io.vertx.core.MultiMap;
+import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.crud.init.IxPin;
 import io.vertx.tp.crud.uca.desk.IxIn;
+import io.vertx.tp.ke.atom.KField;
 import io.vertx.tp.ke.atom.KModule;
 import io.vertx.tp.optic.Pocket;
 import io.vertx.tp.optic.component.Dictionary;
@@ -82,6 +84,18 @@ class IxData {
         } else {
             return null;
         }
+    }
+
+    static JsonArray matrix(final KField field) {
+        final JsonArray priority = new JsonArray();
+        final String keyField = field.getKey();
+        /*
+         * Add key into group as the high est priority
+         */
+        priority.add(new JsonArray().add(keyField));
+        final JsonArray matrix = Ut.sureJArray(field.getUnique());
+        priority.addAll(matrix);
+        return priority;
     }
 
 

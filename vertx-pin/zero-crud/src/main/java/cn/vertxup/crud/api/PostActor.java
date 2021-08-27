@@ -3,9 +3,9 @@ package cn.vertxup.crud.api;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.crud.cv.Addr;
+import io.vertx.tp.crud.uca.desk.IxNext;
 import io.vertx.tp.crud.uca.desk.IxPanel;
 import io.vertx.tp.crud.uca.input.Pre;
-import io.vertx.tp.crud.uca.next.WJoin;
 import io.vertx.tp.crud.uca.op.Agonic;
 import io.vertx.tp.crud.uca.output.Post;
 import io.vertx.up.annotations.Address;
@@ -41,7 +41,7 @@ public class PostActor {
                 Pre.head()::inJAsync,                       /* Header */
                 Pre.codex()::inJAsync                       /* Codex */
             )
-            .next(in -> WJoin.on(in)::runJAsync)
+            .next(in -> IxNext.on(in)::runJJJ)
             .passion(Agonic.write(ChangeFlag.ADD)::runJAsync)
             .<JsonObject, JsonObject, JsonObject>runJ(body)
             /*

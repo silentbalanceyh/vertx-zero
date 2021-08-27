@@ -22,7 +22,7 @@ class AgonicImport implements Agonic {
     @Override
     public Future<JsonArray> runAAsync(final JsonArray input, final IxIn in) {
         final KField fieldConfig = in.module().getField();
-        final JsonArray matrix = fieldConfig.getUnique();
+        final JsonArray matrix = Ix.onMatrix(fieldConfig);
         /*
          * Header And Compress
          */
@@ -53,7 +53,7 @@ class AgonicImport implements Agonic {
 
     private Future<JsonArray> runCompress(final JsonArray source, final IxIn in) {
         final KField fieldConfig = in.module().getField();
-        final JsonArray matrix = fieldConfig.getUnique();
+        final JsonArray matrix = Ix.onMatrix(fieldConfig);
         final JsonArray normalized = Ux.ruleJReduce(source, matrix);
         return Ux.future(normalized);
     }

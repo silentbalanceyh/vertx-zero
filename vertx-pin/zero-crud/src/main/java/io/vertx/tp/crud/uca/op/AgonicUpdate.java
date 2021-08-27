@@ -64,7 +64,7 @@ class AgonicUpdate implements Agonic {
         return jooq.fetchJAsync(query)
             .compose(original -> {
                 final KField fieldConfig = in.module().getField();
-                final JsonArray matrix = fieldConfig.getUnique();
+                final JsonArray matrix = Ix.onMatrix(fieldConfig);
                 return Ux.compareJAsync(original, input.getJsonArray(KName.DATA), matrix);
             })
             .compose(compared -> {

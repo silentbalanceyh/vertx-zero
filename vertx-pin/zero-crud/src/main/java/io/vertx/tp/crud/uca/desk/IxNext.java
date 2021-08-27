@@ -1,10 +1,9 @@
-package io.vertx.tp.crud.uca.next;
+package io.vertx.tp.crud.uca.desk;
 
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.crud.init.IxPin;
-import io.vertx.tp.crud.uca.desk.IxIn;
 import io.vertx.tp.ke.atom.connect.KJoin;
 import io.vertx.tp.ke.atom.connect.KPoint;
 import io.vertx.up.unity.Ux;
@@ -13,18 +12,18 @@ import io.vertx.up.util.Ut;
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-public class WJoin {
+public class IxNext {
     private transient final IxIn in;
 
-    private WJoin(final IxIn in) {
+    private IxNext(final IxIn in) {
         this.in = in;
     }
 
-    public static WJoin on(final IxIn in) {
-        return new WJoin(in);
+    public static IxNext on(final IxIn in) {
+        return new IxNext(in);
     }
 
-    public Future<JsonObject> runJAsync(final JsonObject input, final JsonObject active) {
+    public Future<JsonObject> runJJJ(final JsonObject input, final JsonObject active) {
         return Ux.future(this.run(input, active));
     }
 
@@ -48,8 +47,13 @@ public class WJoin {
         }
     }
 
-    public Future<JsonArray> runAAsync(final JsonArray input, final JsonObject active) {
+    public Future<JsonArray> runAJA(final JsonArray input, final JsonObject active) {
         Ut.itJArray(input).forEach(data -> this.run(data, active));
         return Ux.future(input);
+    }
+
+    public Future<JsonArray> runJAA(final JsonObject input, final JsonArray array) {
+        Ut.itJArray(array).forEach(data -> this.run(data, new JsonObject()));
+        return Ux.future(array);
     }
 }

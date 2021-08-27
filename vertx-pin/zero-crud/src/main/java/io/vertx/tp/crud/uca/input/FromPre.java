@@ -16,7 +16,7 @@ import java.util.Objects;
 class FromPre implements Pre {
     @Override
     public Future<JsonObject> inJAsync(final JsonObject data, final IxIn in) {
-        final Future<DictFabric> future = Ix.fabric(in);
+        final Future<DictFabric> future = Ix.onFabric(in);
         if (Objects.isNull(future)) {
             return Ux.future(data);
         }
@@ -25,7 +25,7 @@ class FromPre implements Pre {
 
     @Override
     public Future<JsonArray> inAAsync(final JsonArray data, final IxIn in) {
-        final Future<DictFabric> future = Ix.fabric(in);
+        final Future<DictFabric> future = Ix.onFabric(in);
         if (Objects.isNull(future)) {
             return Ux.future(data);
         }

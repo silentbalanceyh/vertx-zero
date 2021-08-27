@@ -31,7 +31,7 @@ class ExportPost implements Post<JsonArray> {
              * Column initialization
              */
             final ConcurrentMap<String, String> headers = new ConcurrentHashMap<>();
-            columns.stream().map(Ix::toColumn).filter(Objects::nonNull).forEach(kv -> {
+            columns.stream().map(Ix::onColumn).filter(Objects::nonNull).forEach(kv -> {
                 /* Calculated */
                 if (!this.columnList.contains(kv.getKey())) {
                     headers.put(kv.getKey(), kv.getValue());

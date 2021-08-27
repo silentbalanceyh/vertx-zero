@@ -103,7 +103,7 @@ public class IxPanel {
         return this;
     }
 
-    public <I, A> IxPanel next(final Function<IxIn, BiFunction<I, A, Future<I>>> nextFn) {
+    public <I, A, O> IxPanel next(final Function<IxIn, BiFunction<I, A, Future<O>>> nextFn) {
         this.nextFn = nextFn.apply(this.active);
         return this;
     }
@@ -188,6 +188,10 @@ public class IxPanel {
              * After active, the result should be <A>
              */
             Future activeFuture = activeFn.apply(input)
+                /*
+                 * input: parameter of `activeFn`
+                 * a:     output data of `activeFn`
+                 */
                 .compose(a -> (Future<O>) this.nextFn.<I, A>apply(input, a));
             /*
              * Suppose the A = S

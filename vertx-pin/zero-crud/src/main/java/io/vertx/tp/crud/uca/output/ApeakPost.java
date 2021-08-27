@@ -64,7 +64,7 @@ class ApeakPost implements Post<JsonArray> {
 
     private Set<String> field(final JsonArray columns) {
         final Set<String> fieldSet = new HashSet<>();
-        columns.stream().map(Ix::toColumn)
+        columns.stream().map(Ix::onColumn)
             .filter(Objects::nonNull)
             .map(Kv::getKey)
             .forEach(fieldSet::add);
@@ -72,7 +72,7 @@ class ApeakPost implements Post<JsonArray> {
     }
 
     private void add(final JsonArray columns, final Object value, final Set<String> fieldSet) {
-        final Kv<String, String> kv = Ix.toColumn(value);
+        final Kv<String, String> kv = Ix.onColumn(value);
         if (Objects.nonNull(kv)) {
             if (!fieldSet.contains(kv.getKey())) {
                 columns.add(value);

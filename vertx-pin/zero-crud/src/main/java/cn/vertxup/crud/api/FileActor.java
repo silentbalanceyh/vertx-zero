@@ -5,9 +5,9 @@ import io.vertx.core.buffer.Buffer;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.crud.cv.Addr;
+import io.vertx.tp.crud.uca.desk.IxNext;
 import io.vertx.tp.crud.uca.desk.IxPanel;
 import io.vertx.tp.crud.uca.input.Pre;
-import io.vertx.tp.crud.uca.next.WJoin;
 import io.vertx.tp.crud.uca.op.Agonic;
 import io.vertx.tp.crud.uca.output.Post;
 import io.vertx.tp.ke.atom.KModule;
@@ -49,7 +49,7 @@ public class FileActor {
                 .input(
                     Pre.fabric(true)::inAAsync      /* Dict */
                 )
-                .next(in -> WJoin.on(in)::runAAsync)
+                .next(in -> IxNext.on(in)::runAJA)
                 .passion(Agonic.file()::runAAsync)
                 .runA(data)
         );
