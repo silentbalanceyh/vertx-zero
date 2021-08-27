@@ -66,7 +66,7 @@ public class PutActor {
     @Address(Addr.Put.COLUMN_MY)
     public Future<JsonObject> updateColumn(final Envelop envelop) {
         final String view = Ux.getString1(envelop);
-        final JsonObject viewJson = Ux.getJson(envelop, 3);
+        final JsonObject viewData = Ux.getJson(envelop, 3);
 
         final String module = Ux.getString2(envelop);
         /* Batch Extract */
@@ -77,7 +77,8 @@ public class PutActor {
          * Because `projection` and `criteria` are both spec
          * params
          * */
-        params.put(KName.DATA, Ut.sureJObject(viewJson.getJsonObject("viewData")));
+        params.put(KName.DATA, Ut.sureJObject(viewData));
+        params.put(KName.URI_IMPACT, viewData.getString(KName.URI_IMPACT));
         return IxPanel.on(envelop, module)
             .input(
                 Pre.apeak(true)::inJAsync,              /* Apeak */

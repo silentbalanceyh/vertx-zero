@@ -38,12 +38,11 @@ public class DataRegion extends AbstractRegion {
             /* Get Critical parameters */
             return Sc.cacheBound(context, envelop).compose(matrix -> {
                 if (this.hasValue(matrix)) {
-                    Sc.infoAuth(this.getLogger(), context.request().path(),
-                        AuthMsg.REGION_BEFORE, matrix.encode());
+                    Sc.infoAuth(this.getLogger(), AuthMsg.REGION_BEFORE,
+                        context.request().path(), matrix.encode());
                     /*
                      * Select cosmo by matrix
                      */
-
                     final HttpMethod method = envelop.method();
                     if (HttpMethod.POST == method || HttpMethod.GET == method) {
                         final Cosmo cosmo = this.cosmo(matrix);

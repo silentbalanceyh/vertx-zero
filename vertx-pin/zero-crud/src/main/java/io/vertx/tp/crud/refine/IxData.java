@@ -2,6 +2,7 @@ package io.vertx.tp.crud.refine;
 
 import io.vertx.core.Future;
 import io.vertx.core.MultiMap;
+import io.vertx.core.http.HttpMethod;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.crud.init.IxPin;
@@ -22,6 +23,7 @@ import io.vertx.up.log.Annal;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
+import java.text.MessageFormat;
 import java.time.Instant;
 import java.util.List;
 import java.util.Objects;
@@ -49,6 +51,13 @@ class IxData {
                 auditor.put(at, Instant.now());
             }
         }
+    }
+
+    static Kv<String, HttpMethod> flush(final IxIn in) {
+        final KModule module = in.module();
+        final String pattern = "/api/{0}/search";
+        final String actor = module.getName();
+        return Kv.create(MessageFormat.format(pattern, actor), HttpMethod.POST);
     }
 
     static Kv<String, String> field(final Object value) {

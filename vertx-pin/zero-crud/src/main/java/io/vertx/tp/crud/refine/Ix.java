@@ -1,6 +1,7 @@
 package io.vertx.tp.crud.refine;
 
 import io.vertx.core.Future;
+import io.vertx.core.http.HttpMethod;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.crud.uca.desk.IxIn;
@@ -26,6 +27,10 @@ public class Ix {
 
     public static Kv<String, String> onColumn(final Object value) {
         return IxData.field(value);
+    }
+
+    public static Kv<String, HttpMethod> onFlush(final IxIn in) {
+        return IxData.flush(in);
     }
 
     public static Future<DictFabric> onFabric(final IxIn in) {

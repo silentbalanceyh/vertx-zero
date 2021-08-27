@@ -3,14 +3,15 @@ package io.vertx.tp.crud.uca.input;
 import io.vertx.core.Future;
 import io.vertx.core.http.HttpMethod;
 import io.vertx.core.json.JsonObject;
+import io.vertx.tp.crud.refine.Ix;
 import io.vertx.tp.crud.uca.desk.IxIn;
 import io.vertx.tp.ke.atom.KModule;
 import io.vertx.tp.ke.atom.view.KColumn;
+import io.vertx.up.atom.Kv;
 import io.vertx.up.eon.KName;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.unity.Ux;
 
-import java.text.MessageFormat;
 import java.util.Objects;
 
 /**
@@ -45,10 +46,9 @@ class ApeakMyPre implements Pre {
         /*
          * Uri and method
          */
-        final String pattern = "/api/{0}/search";
-        final String actor = module.getName();
+        final Kv<String, HttpMethod> impactUri = Ix.onFlush(in);
         return Ux.future(data
-            .put(KName.URI, MessageFormat.format(pattern, actor))
-            .put(KName.METHOD, HttpMethod.POST.name()));
+            .put(KName.URI, impactUri.getKey())
+            .put(KName.METHOD, impactUri.getValue().name()));
     }
 }
