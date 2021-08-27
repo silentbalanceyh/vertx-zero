@@ -29,6 +29,7 @@ public interface PutAgent {
     @Address(Addr.Put.BATCH)
     @Adjust(Orders.MODULE)
     JsonArray updateBatch(@PathParam("actor") String actor,
+                          @QueryParam("module") String module,
                           @BodyParam JsonArray dataArray);
 
     @PUT

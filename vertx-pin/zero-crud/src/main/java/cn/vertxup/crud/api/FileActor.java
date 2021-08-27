@@ -50,7 +50,7 @@ public class FileActor {
                     Pre.fabric(true)::inAAsync      /* Dict */
                 )
                 .next(in -> WJoin.on(in)::runAAsync)
-                .passion(Agonic.file(false)::runAAsync)
+                .passion(Agonic.file()::runAAsync)
                 .runA(data)
         );
 
@@ -91,7 +91,6 @@ public class FileActor {
                 .compose(data -> Post.export(columnList).outAsync(data, columns))
                 .compose(data -> {
                     if (data instanceof JsonArray) {
-
                         final KModule in = panel.active().module();
                         return this.client.exportAsync(in.getIdentifier(), (JsonArray) data);
                     } else {

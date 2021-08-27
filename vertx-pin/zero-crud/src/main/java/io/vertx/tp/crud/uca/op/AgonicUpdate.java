@@ -8,7 +8,11 @@ import io.vertx.tp.crud.refine.Ix;
 import io.vertx.tp.crud.uca.desk.IxIn;
 import io.vertx.tp.crud.uca.input.Pre;
 import io.vertx.tp.crud.uca.output.Post;
+import io.vertx.tp.ke.atom.KField;
 import io.vertx.tp.ke.atom.KModule;
+import io.vertx.up.atom.query.engine.Qr;
+import io.vertx.up.eon.KName;
+import io.vertx.up.eon.em.ChangeFlag;
 import io.vertx.up.uca.jooq.UxJooq;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
@@ -19,9 +23,29 @@ import io.vertx.up.util.Ut;
 class AgonicUpdate implements Agonic {
     @Override
     public Future<JsonObject> runJAsync(final JsonObject input, final IxIn in) {
+        Ix.Log.filters(this.getClass(), "( Update ) Condition: {0}", input);
         final KModule module = in.module();
         final UxJooq jooq = IxPin.jooq(in);
-        return this.runJUnique(input, in)
+        // Query by `key` first
+        return Pre.qPk().inJAsync(input, in)
+            .compose(jooq::fetchJOneAsync)
+            .compose(queryJ -> Ut.isNil(queryJ) ?
+                // Query by `unique key` then
+                Pre.qUk().inJAsync(input, in)
+                    .compose(jooq::fetchJOneAsync)
+                    .compose(querySubJ -> Ut.isNil(querySubJ) ?
+                        Post.success404Pre()
+                        : Ux.future(querySubJ)
+                    )
+                : Ux.future(queryJ)
+            )
+            /*
+             * Here the queryJ is the record that has been stored
+             * in database, this api should re-write and merge the input
+             * data into `queryJ`
+             * 1. If the `field` exist, the field will be overwritten
+             * 2. If the `field` does not exist, the field will be ignored
+             * */
             .compose(queryJ -> Ux.future(queryJ.copy().mergeIn(input)))
             .compose(json -> Ix.passion(json, in,
                         Pre.auditor(false)::inJAsync         // updatedAt, updatedBy
@@ -32,21 +56,21 @@ class AgonicUpdate implements Agonic {
             );
     }
 
-    private Future<JsonObject> runJUnique(final JsonObject input, final IxIn in) {
+    @Override
+    public Future<JsonArray> runJAAsync(final JsonObject input, final IxIn in) {
+        final JsonObject query = input.getJsonObject(Qr.KEY_CRITERIA);
+        Ix.Log.filters(this.getClass(), "( Mass Update ) Condition: {0}", query);
         final UxJooq jooq = IxPin.jooq(in);
-        // Query by `key` first
-        return Pre.qPk().inJAsync(input, in)
-            .compose(jooq::fetchJOneAsync)
-            .compose(queryJ -> Ut.isNil(queryJ) ?
-                // Query by `unique key` first
-                Pre.qUk().inJAsync(input, in)
-                    .compose(jooq::fetchJOneAsync)
-                    .compose(querySubJ -> Ut.isNil(querySubJ) ?
-                        Post.success404Pre()
-                        : Ux.future(querySubJ)
-                    )
-                : Ux.future(queryJ)
-            );
+        return jooq.fetchJAsync(query)
+            .compose(original -> {
+                final KField fieldConfig = in.module().getField();
+                final JsonArray matrix = fieldConfig.getUnique();
+                return Ux.compareJAsync(original, input.getJsonArray(KName.DATA), matrix);
+            })
+            .compose(compared -> {
+                final JsonArray updateQueue = compared.get(ChangeFlag.UPDATE);
+                return this.runAAsync(updateQueue, in);
+            });
     }
 
     @Override

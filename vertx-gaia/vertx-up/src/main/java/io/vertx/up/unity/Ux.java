@@ -365,9 +365,19 @@ public final class Ux {
         return CompareJ.compareJ(original, current, fields);
     }
 
+    public static Future<ConcurrentMap<ChangeFlag, JsonArray>> compareJAsync(
+        final JsonArray original, final JsonArray current, final Set<String> fields) {
+        return To.future(CompareJ.compareJ(original, current, fields));
+    }
+
     public static ConcurrentMap<ChangeFlag, JsonArray> compareJ(
         final JsonArray original, final JsonArray current, final JsonArray matrix) {
         return CompareJ.compareJ(original, current, matrix);
+    }
+
+    public static Future<ConcurrentMap<ChangeFlag, JsonArray>> compareJAsync(
+        final JsonArray original, final JsonArray current, final JsonArray matrix) {
+        return To.future(CompareJ.compareJ(original, current, matrix));
     }
 
     /*

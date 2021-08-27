@@ -100,7 +100,7 @@ E60003: (500) - The event bus detect some error in receiving message on address 
 E60004: (400) - Zero system detect conversation from "{0}" to type "{1}", but it's conflict
 E60005: (400) - Request body validation failure, field = {0}, value = {1}, message = {2}
 E60006: (415) - Server could not accept the mime "{0}", expected should be one of {1}
-E60007: (500) - The system detected internal error, contact administrator and check details = {0}
+E60007: "(500) - The system detected internal error, contact administrator and check details = {1}, source = {0}"
 E60008: (404) - Zero system detect non record in storage, no record
 E60009: (400) - Zero system detect duplicated records in storage, size = {0}
 E60010: (404) - The request {0} of method {1} could not be found in zero system
@@ -187,7 +187,7 @@ E80220: "(401) - (RBAC) The user `{0}` that you have provided is locked, please 
 E80214: "(409) - (Ke) Zero system could not identify the session you provided `{0}`, maybe it''s expired or destroyed"
 E80216: "(501) - (Ke) Your channel is not implemented {0}, but you called this channel, please check your configuration"
 E80217: "(501) - (Ke) Your Class<T> is null or `UxJooq` has not been bind here!"
-E80218: "(501) - (Ke) This api is not supported or implemented, please check your specification"
+E80218: "(501) - (Ke) This api is not supported or implemented, please check your specification, source = {0}"
 E80219: "(403) - (Ke) You have no access to create cross `application` account tokens, token generation error, now size = {0}"
 
 E80542: "(409) - (Ke) You want to seek `target` configuration in JOIN, but now the fields ( one of `crud, classDao, classDefine` ) is missing."

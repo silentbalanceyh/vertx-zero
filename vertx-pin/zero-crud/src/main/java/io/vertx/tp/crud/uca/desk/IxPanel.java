@@ -188,7 +188,7 @@ public class IxPanel {
              * After active, the result should be <A>
              */
             Future activeFuture = activeFn.apply(input)
-                .compose(a -> (Future<I>) this.nextFn.<I, A>apply(input, a));
+                .compose(a -> (Future<O>) this.nextFn.<I, A>apply(input, a));
             /*
              * Suppose the A = S
              * ( I -> A ), ( A -> S )

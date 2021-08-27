@@ -11,6 +11,7 @@ import io.vertx.tp.crud.uca.op.Agonic;
 import io.vertx.tp.crud.uca.output.Post;
 import io.vertx.up.annotations.Address;
 import io.vertx.up.annotations.Queue;
+import io.vertx.up.atom.query.engine.Qr;
 import io.vertx.up.commune.Envelop;
 import io.vertx.up.eon.KName;
 import io.vertx.up.eon.em.ChangeFlag;
@@ -41,14 +42,23 @@ public class PutActor {
 
     @Address(Addr.Put.BATCH)
     public Future<Envelop> updateBatch(final Envelop envelop) {
-        final JsonArray array = Ux.getArray1(envelop);
-        return IxPanel.on(envelop, null)
-            .input(
-                Pre.qPk()::inAJAsync                        /* keys,in */
-            )
-            .next(in -> WJoin.on(in)::runAAsync)
-            .passion(Agonic.write(ChangeFlag.UPDATE)::runJAAsync)
-            .runA(array);
+        final String module = Ux.getString1(envelop);
+        final JsonArray array = Ux.getArray2(envelop);
+        /*
+         * IxPanel processing building to split mass update
+         * */
+        final IxPanel panel = IxPanel.on(envelop, module);
+        return Pre.qPk().inAJAsync(array, panel.active()).compose(condition -> {
+            final JsonObject params = new JsonObject();
+            /*
+             * IxPanel
+             */
+            params.put(KName.DATA, array);
+            params.put(Qr.KEY_CRITERIA, condition);
+            return panel
+                .passion(Agonic.write(ChangeFlag.UPDATE)::runJAsync)
+                .runJ(params);
+        });
     }
 
     @Address(Addr.Put.COLUMN_MY)

@@ -26,12 +26,8 @@ public interface Agonic {
         }
     }
 
-    static Agonic file(final boolean export) {
-        if (export) {
-            return Fn.poolThread(Pooled.AGONIC_MAP, AgonicExport::new, AgonicExport.class.getName());
-        } else {
-            return Fn.poolThread(Pooled.AGONIC_MAP, AgonicImport::new, AgonicImport.class.getName());
-        }
+    static Agonic file() {
+        return Fn.poolThread(Pooled.AGONIC_MAP, AgonicImport::new, AgonicImport.class.getName());
     }
 
     static Agonic get() {
@@ -74,7 +70,7 @@ public interface Agonic {
         return Future.failedFuture(new _501NotSupportException(this.getClass()));
     }
 
-    default Future<JsonArray> runAJAsync(final JsonArray input, final IxIn in) {
+    default Future<JsonObject> runAJAsync(final JsonArray input, final IxIn in) {
         return Future.failedFuture(new _501NotSupportException(this.getClass()));
     }
 }
