@@ -35,7 +35,7 @@ public class SView extends TableImpl<SViewRecord> {
      * The reference instance of <code>DB_ETERNAL.S_VIEW</code>
      */
     public static final SView S_VIEW = new SView();
-    private static final long serialVersionUID = -1183527180;
+    private static final long serialVersionUID = -1249587146;
     /**
      * The column <code>DB_ETERNAL.S_VIEW.KEY</code>. 「key」- 限定记录ID
      */
@@ -44,6 +44,10 @@ public class SView extends TableImpl<SViewRecord> {
      * The column <code>DB_ETERNAL.S_VIEW.NAME</code>. 「name」- 视图名称，每个 MATRIX 对应一个视图
      */
     public final TableField<SViewRecord, String> NAME = createField("NAME", org.jooq.impl.SQLDataType.VARCHAR(255), this, "「name」- 视图名称，每个 MATRIX 对应一个视图");
+    /**
+     * The column <code>DB_ETERNAL.S_VIEW.TITLE</code>. 「title」- 视图标题，用户输入，可选择
+     */
+    public final TableField<SViewRecord, String> TITLE = createField("TITLE", org.jooq.impl.SQLDataType.VARCHAR(255), this, "「title」- 视图标题，用户输入，可选择");
     /**
      * The column <code>DB_ETERNAL.S_VIEW.OWNER</code>. 「owner」- 用户 / 角色ID
      */

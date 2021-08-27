@@ -35,7 +35,7 @@ public class SUser extends TableImpl<SUserRecord> {
      * The reference instance of <code>DB_ETERNAL.S_USER</code>
      */
     public static final SUser S_USER = new SUser();
-    private static final long serialVersionUID = 1853007321;
+    private static final long serialVersionUID = 1899960993;
     /**
      * The column <code>DB_ETERNAL.S_USER.KEY</code>. 「key」- 用户ID
      */
@@ -159,7 +159,7 @@ public class SUser extends TableImpl<SUserRecord> {
      */
     @Override
     public List<Index> getIndexes() {
-        return Arrays.<Index>asList(Indexes.S_USER_EMAIL, Indexes.S_USER_PRIMARY, Indexes.S_USER_USERNAME);
+        return Arrays.<Index>asList(Indexes.S_USER_IDX_S_USER_USERNAME, Indexes.S_USER_PRIMARY, Indexes.S_USER_USERNAME);
     }
 
     /**
@@ -175,7 +175,7 @@ public class SUser extends TableImpl<SUserRecord> {
      */
     @Override
     public List<UniqueKey<SUserRecord>> getKeys() {
-        return Arrays.<UniqueKey<SUserRecord>>asList(Keys.KEY_S_USER_PRIMARY, Keys.KEY_S_USER_USERNAME, Keys.KEY_S_USER_EMAIL);
+        return Arrays.<UniqueKey<SUserRecord>>asList(Keys.KEY_S_USER_PRIMARY, Keys.KEY_S_USER_USERNAME);
     }
 
     /**

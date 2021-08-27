@@ -34,7 +34,7 @@ public class RUserGroup extends TableImpl<RUserGroupRecord> {
      * The reference instance of <code>DB_ETERNAL.R_USER_GROUP</code>
      */
     public static final RUserGroup R_USER_GROUP = new RUserGroup();
-    private static final long serialVersionUID = -1875432520;
+    private static final long serialVersionUID = 834425549;
     /**
      * The column <code>DB_ETERNAL.R_USER_GROUP.GROUP_ID</code>. 「groupId」- 关联组ID
      */
@@ -98,7 +98,7 @@ public class RUserGroup extends TableImpl<RUserGroupRecord> {
      */
     @Override
     public List<Index> getIndexes() {
-        return Arrays.<Index>asList(Indexes.R_USER_GROUP_PRIMARY);
+        return Arrays.<Index>asList(Indexes.R_USER_GROUP_IDX_R_USER_GROUP_USER_ID, Indexes.R_USER_GROUP_PRIMARY);
     }
 
     /**

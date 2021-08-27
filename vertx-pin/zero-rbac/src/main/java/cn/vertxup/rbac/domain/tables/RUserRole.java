@@ -34,7 +34,7 @@ public class RUserRole extends TableImpl<RUserRoleRecord> {
      * The reference instance of <code>DB_ETERNAL.R_USER_ROLE</code>
      */
     public static final RUserRole R_USER_ROLE = new RUserRole();
-    private static final long serialVersionUID = -508855731;
+    private static final long serialVersionUID = -1246185592;
     /**
      * The column <code>DB_ETERNAL.R_USER_ROLE.USER_ID</code>. 「userId」- 关联用户ID
      */
@@ -98,7 +98,7 @@ public class RUserRole extends TableImpl<RUserRoleRecord> {
      */
     @Override
     public List<Index> getIndexes() {
-        return Arrays.<Index>asList(Indexes.R_USER_ROLE_PRIMARY);
+        return Arrays.<Index>asList(Indexes.R_USER_ROLE_IDX_R_USER_ROLE_USER_ID, Indexes.R_USER_ROLE_PRIMARY);
     }
 
     /**
