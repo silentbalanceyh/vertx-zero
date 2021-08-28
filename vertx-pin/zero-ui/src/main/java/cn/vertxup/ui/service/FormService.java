@@ -5,7 +5,6 @@ import cn.vertxup.ui.domain.tables.pojos.UiForm;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.ke.refine.Ke;
 import io.vertx.tp.ui.refine.Ui;
 import io.vertx.up.eon.KName;
 import io.vertx.up.log.Annal;
@@ -46,13 +45,17 @@ public class FormService implements FormStub {
         return Ux.Jooq.on(UiFormDao.class).<UiForm>fetchAndAsync(condition)
             /* List<UiForm> */
             .compose(Ux::futureA)
-            .compose(forms -> {
-                Ut.itJArray(forms).forEach(form -> {
-                    Ke.mountArray(form, KName.Ui.HIDDEN);
-                    Ke.mount(form, KName.METADATA);
-                });
-                return Ux.future(forms);
-            });
+            .compose(Ut.ifJArray(
+                KName.Ui.HIDDEN,
+                KName.METADATA
+            ));
+        //            .compose(forms -> {
+        //                Ut.itJArray(forms).forEach(form -> {
+        //                    Ke.mountArray(form, KName.Ui.HIDDEN);
+        //                    Ke.mount(form, KName.METADATA);
+        //                });
+        //                return Ux.future(forms);
+        //            });
     }
 
     @Override
@@ -84,14 +87,22 @@ public class FormService implements FormStub {
     @Override
     public Future<JsonObject> update(final String key, final JsonObject data) {
         // 1. mountIn form, convert those into object from string
-        final JsonObject form = this.mountIn(data);
+        final JsonObject form = Ut.ifString(data,
+            KName.Ui.HIDDEN,
+            KName.Ui.ROW,
+            KName.METADATA
+        );
         final UiForm uiForm = Ux.fromJson(form, UiForm.class);
         // 2. save ui-form record
         return Ux.Jooq.on(UiFormDao.class)
             .updateAsync(key, uiForm)
             .compose(Ux::futureJ)
             // 3. mountOut
-            .compose(updatedForm -> Ux.future(this.mountOut(updatedForm)));
+            .compose(Ut.ifJObject(
+                KName.Ui.HIDDEN,
+                KName.Ui.ROW,
+                KName.METADATA
+            ));
     }
 
     @Override
@@ -102,7 +113,7 @@ public class FormService implements FormStub {
 
     private Future<JsonObject> attachConfig(final JsonObject formJson) {
         final JsonObject config = new JsonObject();
-        Ke.mount(formJson, KName.METADATA);
+        Ut.ifJObject(formJson, KName.METADATA);
         /*
          * Form configuration
          * window and columns are required
@@ -118,14 +129,14 @@ public class FormService implements FormStub {
          */
         if (formJson.containsKey(KName.Ui.HIDDEN)) {
             form.put(KName.Ui.HIDDEN, formJson.getValue(KName.Ui.HIDDEN));
-            Ke.mountArray(form, KName.Ui.HIDDEN);
+            Ut.ifJObject(form, KName.Ui.HIDDEN);
         }
         /*
          * row: JsonObject
          */
         if (formJson.containsKey(KName.Ui.ROW)) {
             form.put(KName.Ui.ROW, formJson.getValue(KName.Ui.ROW));
-            Ke.mount(form, KName.Ui.ROW);
+            Ut.ifJObject(form, KName.Ui.ROW);
         }
         /*
          * metadata: JsonObject
@@ -142,17 +153,17 @@ public class FormService implements FormStub {
             .compose(ui -> Ux.future(config.put("form", form.put("ui", ui))));
     }
 
-    private JsonObject mountIn(final JsonObject data) {
-        Ke.mountString(data, KName.Ui.HIDDEN);
-        Ke.mountString(data, KName.Ui.ROW);
-        Ke.mountString(data, KName.METADATA);
-        return data;
-    }
-
-    private JsonObject mountOut(final JsonObject data) {
-        Ke.mountArray(data, KName.Ui.HIDDEN);
-        Ke.mount(data, KName.Ui.ROW);
-        Ke.mount(data, KName.METADATA);
-        return data;
-    }
+    //    private JsonObject mountIn(final JsonObject data) {
+    //        Ke.mountString(data, KName.Ui.HIDDEN);
+    //        Ke.mountString(data, KName.Ui.ROW);
+    //        Ke.mountString(data, KName.METADATA);
+    //        return data;
+    //    }
+    //
+    //    private JsonObject mountOut(final JsonObject data) {
+    //        Ke.mountArray(data, KName.Ui.HIDDEN);
+    //        Ke.mount(data, KName.Ui.ROW);
+    //        Ke.mount(data, KName.METADATA);
+    //        return data;
+    //    }
 }

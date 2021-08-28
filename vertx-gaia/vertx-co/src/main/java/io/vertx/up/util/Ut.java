@@ -759,12 +759,14 @@ public final class Ut {
      * 7) ifString / ifStrings
      */
 
-    public static void ifStrings(final JsonArray array, final String... fields) {
+    public static JsonArray ifStrings(final JsonArray array, final String... fields) {
         It.itJArray(array).forEach(json -> Apply.ifString(json, fields));
+        return array;
     }
 
-    public static void ifString(final JsonObject json, final String... fields) {
+    public static JsonObject ifString(final JsonObject json, final String... fields) {
         Apply.ifString(json, fields);
+        return json;
     }
 
     public static Function<JsonArray, Future<JsonArray>> ifStrings(final String... fields) {
@@ -779,16 +781,18 @@ public final class Ut {
         return Apply.ifJObject(fields);
     }
 
-    public static void ifJObject(final JsonObject json, final String... fields) {
+    public static JsonObject ifJObject(final JsonObject json, final String... fields) {
         Apply.ifJson(json, fields);
+        return json;
     }
 
     public static Function<JsonArray, Future<JsonArray>> ifJArray(final String... fields) {
         return Apply.ifJArray(fields);
     }
 
-    public static void ifJArray(final JsonArray array, final String... fields) {
+    public static JsonArray ifJArray(final JsonArray array, final String... fields) {
         It.itJArray(array).forEach(json -> Apply.ifJson(json, fields));
+        return array;
     }
 
     public static <T> Function<T, Future<JsonObject>> ifMerge(final JsonObject input) {
@@ -1407,11 +1411,11 @@ public final class Ut {
     }
 
     public static String fromAdjust(final String seed, final Integer width) {
-        return StringUtil.adjust(seed, width, ' ' );
+        return StringUtil.adjust(seed, width, ' ');
     }
 
     public static String fromAdjust(final Integer seed, final Integer width) {
-        return StringUtil.adjust(seed, width, '0' );
+        return StringUtil.adjust(seed, width, '0');
     }
 
     public static String fromExpression(final String expr, final JsonObject data) {

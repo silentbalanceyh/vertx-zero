@@ -4,7 +4,6 @@ import cn.vertxup.jet.domain.tables.pojos.IService;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.ke.refine.Ke;
 import io.vertx.tp.plugin.job.JobClient;
 import io.vertx.tp.plugin.job.JobInfix;
 import io.vertx.up.atom.worker.Mission;
@@ -45,17 +44,40 @@ public class JobKit {
     }
 
     public static IService fromJson(final JsonObject serviceJson) {
-        Ke.mountString(serviceJson, KName.METADATA);
-        Ke.mountString(serviceJson, KName.RULE_UNIQUE);
-
-        Ke.mountString(serviceJson, KName.Api.CONFIG_INTEGRATION);
-        Ke.mountString(serviceJson, KName.Api.CONFIG_DATABASE);
-
-        Ke.mountString(serviceJson, KName.Api.CHANNEL_CONFIG);
-        Ke.mountString(serviceJson, KName.Api.SERVICE_CONFIG);
-        Ke.mountString(serviceJson, KName.Api.MAPPING_CONFIG);
-        Ke.mountString(serviceJson, KName.Api.DICT_EPSILON);
-        Ke.mountString(serviceJson, KName.Api.DICT_CONFIG);
+        //        Ke.mountString(serviceJson, KName.METADATA);
+        //        Ke.mountString(serviceJson, KName.RULE_UNIQUE);
+        //
+        //        Ke.mountString(serviceJson, KName.Api.CONFIG_INTEGRATION);
+        //        Ke.mountString(serviceJson, KName.Api.CONFIG_DATABASE);
+        //
+        //        Ke.mountString(serviceJson, KName.Api.CHANNEL_CONFIG);
+        //        Ke.mountString(serviceJson, KName.Api.SERVICE_CONFIG);
+        //        Ke.mountString(serviceJson, KName.Api.MAPPING_CONFIG);
+        //        Ke.mountString(serviceJson, KName.Api.DICT_EPSILON);
+        //        Ke.mountString(serviceJson, KName.Api.DICT_CONFIG);
+        Ut.ifString(serviceJson,
+            KName.METADATA,
+            KName.RULE_UNIQUE,
+            /*
+             * Zero standard configuration
+             * 1) Integration
+             * 2) Database
+             * Here should be configuration for `Database` & `Integration`
+             */
+            KName.Api.CONFIG_INTEGRATION,
+            KName.Api.CONFIG_DATABASE,
+            /*
+             * 1) channelConfig - Channel Component configuration
+             * 2) serviceConfig - Service Component configuration
+             * 3) dictConfig = Dict Component configuration
+             * 4) mappingConfig = Mapping Component configuration
+             */
+            KName.Api.CHANNEL_CONFIG,
+            KName.Api.SERVICE_CONFIG,
+            KName.Api.MAPPING_CONFIG,
+            KName.Api.DICT_EPSILON,
+            KName.Api.DICT_CONFIG
+        );
         return Ux.fromJson(serviceJson, IService.class);
     }
 
@@ -65,29 +87,43 @@ public class JobKit {
         if (Ut.notNil(metadata)) {
             final JsonObject service = metadata.getJsonObject(KName.SERVICE);
             if (Ut.notNil(service)) {
+                Ut.ifJObject(service,
+                    KName.METADATA,
+                    KName.RULE_UNIQUE,
+                    /*
+                     * Zero standard configuration
+                     * 1) Integration
+                     * 2) Database
+                     * Here should be configuration for `Database` & `Integration`
+                     */
+                    KName.Api.CONFIG_INTEGRATION,
+                    KName.Api.CONFIG_DATABASE,
+                    /*
+                     * 1) channelConfig - Channel Component configuration
+                     * 2) serviceConfig - Service Component configuration
+                     * 3) dictConfig = Dict Component configuration
+                     * 4) mappingConfig = Mapping Component configuration
+                     */
+                    KName.Api.CHANNEL_CONFIG,
+                    KName.Api.SERVICE_CONFIG,
+                    KName.Api.MAPPING_CONFIG,
+                    KName.Api.DICT_EPSILON,
+                    KName.Api.DICT_CONFIG
+                );
+                /*
                 Ke.mount(service, KName.METADATA);
                 Ke.mount(service, KName.RULE_UNIQUE);
 
-                /*
-                 * Zero standard configuration
-                 * 1) Integration
-                 * 2) Database
-                 * Here should be configuration for `Database` & `Integration`
-                 */
+
                 Ke.mount(service, KName.Api.CONFIG_INTEGRATION);
                 Ke.mount(service, KName.Api.CONFIG_DATABASE);
 
-                /*
-                 * 1) channelConfig - Channel Component configuration
-                 * 2) serviceConfig - Service Component configuration
-                 * 3) dictConfig = Dict Component configuration
-                 * 4) mappingConfig = Mapping Component configuration
-                 */
                 Ke.mount(service, KName.Api.CHANNEL_CONFIG);
                 Ke.mount(service, KName.Api.SERVICE_CONFIG);
                 Ke.mount(service, KName.Api.MAPPING_CONFIG);
                 Ke.mount(service, KName.Api.DICT_EPSILON);
                 Ke.mountArray(service, KName.Api.DICT_CONFIG);
+                */
             }
         }
         return serialized;

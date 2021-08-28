@@ -7,7 +7,7 @@ import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.ke.cv.KeDefault;
-import io.vertx.tp.ke.refine.Ke;
+import io.vertx.up.atom.query.engine.Qr;
 import io.vertx.up.eon.KName;
 import io.vertx.up.uca.jooq.UxJooq;
 import io.vertx.up.unity.Ux;
@@ -41,13 +41,9 @@ public class RuleService implements RuleStub {
         condition.put("owner", ownerId);
         condition.put("ownerType", ownerType);
         condition.put("resourceId,i", keys);
-        condition.put("name", view);
+        condition.put(KName.NAME, view);
         return Ux.Jooq.on(SViewDao.class).fetchAndAsync(condition).compose(Ux::futureA)
-            .compose(Ke.mounts("rows", "criteria"))
-            .compose(result -> {
-                Ut.itJArray(result).forEach(json -> Ke.mountArray(json, "projection"));
-                return Ux.future(result);
-            });
+            .compose(Ut.ifJArray("rows", Qr.KEY_CRITERIA, Qr.KEY_PROJECTION));
     }
 
     @Override
@@ -118,11 +114,12 @@ public class RuleService implements RuleStub {
                 })
                 .compose(nil -> jooq.insertAsync(addQueue))
                 .compose(Ux::futureA)
-                .compose(Ke.mounts("rows", "criteria"))
-                .compose(result -> {
-                    Ut.itJArray(result).forEach(json -> Ke.mountArray(json, "projection"));
-                    return Ux.future(result);
-                })
+                .compose(Ut.ifJArray("rows", Qr.KEY_CRITERIA, Qr.KEY_PROJECTION))
+                //                .compose(Ke.mounts("rows", "criteria"))
+                //                .compose(result -> {
+                //                    Ut.itJArray(result).forEach(json -> Ke.mountArray(json, "projection"));
+                //                    return Ux.future(result);
+                //                })
                 .compose(inserted -> {
                     /*
                      * Stored data into inserted queue here

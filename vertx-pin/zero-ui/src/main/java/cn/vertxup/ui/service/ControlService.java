@@ -5,9 +5,9 @@ import cn.vertxup.ui.domain.tables.pojos.UiControl;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.ke.refine.Ke;
 import io.vertx.up.eon.KName;
 import io.vertx.up.unity.Ux;
+import io.vertx.up.util.Ut;
 
 import java.util.Objects;
 
@@ -25,10 +25,16 @@ public class ControlService implements ControlStub {
                 final JsonArray result = new JsonArray();
                 list.stream().filter(Objects::nonNull)
                     .map(item -> (JsonObject) item)
-                    .map(item -> Ke.mount(item, KName.Ui.CONTAINER_CONFIG))
-                    .map(item -> Ke.mount(item, KName.Ui.COMPONENT_CONFIG))
-                    .map(item -> Ke.mount(item, KName.Ui.ASSIST))
-                    .map(item -> Ke.mount(item, KName.Ui.GRID))
+                    .map(item -> Ut.ifJObject(item,
+                        KName.Ui.CONTAINER_CONFIG,
+                        KName.Ui.COMPONENT_CONFIG,
+                        KName.Ui.ASSIST,
+                        KName.Ui.GRID
+                    ))
+                    //                    .map(item -> Ke.mount(item, KName.Ui.CONTAINER_CONFIG))
+                    //                    .map(item -> Ke.mount(item, KName.Ui.COMPONENT_CONFIG))
+                    //                    .map(item -> Ke.mount(item, KName.Ui.ASSIST))
+                    //                    .map(item -> Ke.mount(item, KName.Ui.GRID))
                     .forEach(result::add);
                 return Ux.future(result);
             });
@@ -39,9 +45,15 @@ public class ControlService implements ControlStub {
         return Ux.Jooq.on(UiControlDao.class)
             .<UiControl>fetchByIdAsync(control)
             .compose(Ux::futureJ)
-            .compose(Ke.mount(KName.Ui.CONTAINER_CONFIG))
-            .compose(Ke.mount(KName.Ui.COMPONENT_CONFIG))
-            .compose(Ke.mount(KName.Ui.ASSIST))
-            .compose(Ke.mount(KName.Ui.GRID));
+            .compose(Ut.ifJObject(
+                KName.Ui.CONTAINER_CONFIG,
+                KName.Ui.COMPONENT_CONFIG,
+                KName.Ui.ASSIST,
+                KName.Ui.GRID
+            ));
+        //            .compose(Ke.mount(KName.Ui.CONTAINER_CONFIG))
+        //            .compose(Ke.mount(KName.Ui.COMPONENT_CONFIG))
+        //            .compose(Ke.mount(KName.Ui.ASSIST))
+        //            .compose(Ke.mount(KName.Ui.GRID));
     }
 }

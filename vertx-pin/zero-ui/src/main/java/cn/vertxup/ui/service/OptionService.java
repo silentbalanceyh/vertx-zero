@@ -5,7 +5,6 @@ import cn.vertxup.ui.domain.tables.pojos.*;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.ke.refine.Ke;
 import io.vertx.up.eon.KName;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
@@ -22,8 +21,12 @@ public class OptionService implements OptionStub {
         return Ux.Jooq.on(VQueryDao.class)
             .<VQuery>fetchByIdAsync(id)
             .compose(Ux::futureJ)
-            .compose(Ke.mount(FIELD_QUERY_CRITERIA))
-            .compose(Ke.mountArray(FIELD_QUERY_PROJECTION));
+            .compose(Ut.ifJObject(
+                FIELD_QUERY_CRITERIA,
+                FIELD_QUERY_PROJECTION
+            ));
+        //            .compose(Ke.mount(FIELD_QUERY_CRITERIA))
+        //            .compose(Ke.mountArray(FIELD_QUERY_PROJECTION));
     }
 
     @Override
@@ -31,8 +34,12 @@ public class OptionService implements OptionStub {
         return Ux.Jooq.on(VSearchDao.class)
             .<VSearch>fetchByIdAsync(id)
             .compose(Ux::futureJ)
-            .compose(Ke.mount(FIELD_SEARCH_NOTICE))
-            .compose(Ke.mountArray(FIELD_SEARCH_COND));
+            .compose(Ut.ifJObject(
+                FIELD_SEARCH_NOTICE,
+                FIELD_SEARCH_COND
+            ));
+        //            .compose(Ke.mount(FIELD_SEARCH_NOTICE))
+        //            .compose(Ke.mountArray(FIELD_SEARCH_COND));
     }
 
     @Override
@@ -40,10 +47,16 @@ public class OptionService implements OptionStub {
         return Ux.Jooq.on(VFragmentDao.class)
             .<VFragment>fetchByIdAsync(id)
             .compose(Ux::futureJ)
-            .compose(Ke.mount(FIELD_FRAGMENT_MODEL))
-            .compose(Ke.mount(FIELD_FRAGMENT_NOTICE))
-            .compose(Ke.mount(FIELD_FRAGMENT_CONFIG))
-            .compose(Ke.mountArray(FIELD_FRAGMENT_BUTTON_GROUP));
+            .compose(Ut.ifJObject(
+                FIELD_FRAGMENT_MODEL,
+                FIELD_FRAGMENT_NOTICE,
+                FIELD_FRAGMENT_CONFIG,
+                FIELD_FRAGMENT_BUTTON_GROUP
+            ));
+        //            .compose(Ke.mount(FIELD_FRAGMENT_MODEL))
+        //            .compose(Ke.mount(FIELD_FRAGMENT_NOTICE))
+        //            .compose(Ke.mount(FIELD_FRAGMENT_CONFIG))
+        //            .compose(Ke.mountArray(FIELD_FRAGMENT_BUTTON_GROUP));
     }
 
     @Override
@@ -51,7 +64,10 @@ public class OptionService implements OptionStub {
         return Ux.Jooq.on(VTableDao.class)
             .<VTable>fetchByIdAsync(id)
             .compose(Ux::futureJ)
-            .compose(Ke.mountArray(FIELD_TABLE_OP_CONFIG));
+            .compose(Ut.ifJObject(
+                FIELD_TABLE_OP_CONFIG
+            ));
+        // .compose(Ke.mountArray(FIELD_TABLE_OP_CONFIG));
     }
 
     @Override
@@ -61,7 +77,11 @@ public class OptionService implements OptionStub {
         final List<UiOp> ops = Ut.itJArray(data)
             // filter(deduplicate) by action
             .filter(item -> Ut.notNil(item.getString("action")) && null == seen.putIfAbsent(item.getString("action"), Boolean.TRUE))
-            .map(this::mountIn)
+            .map(item -> Ut.ifString(item,
+                FIELD_OP_CONFIG,
+                FIELD_OP_PLUGIN,
+                KName.METADATA
+            ))
             .map(field -> field.put(KName.Ui.CONTROL_ID, Optional.ofNullable(field.getString(KName.Ui.CONTROL_ID)).orElse(controlId)))
             .map(field -> Ux.fromJson(field, UiOp.class))
             .collect(Collectors.toList());
@@ -71,12 +91,11 @@ public class OptionService implements OptionStub {
                 .insertAsync(ops)
                 .compose(Ux::futureA)
                 // 3. mountOut
-                .compose(updatedOps -> {
-                    final List<JsonObject> list = Ut.itJArray(updatedOps)
-                        .map(this::mountOut)
-                        .collect(Collectors.toList());
-                    return Ux.future(new JsonArray(list));
-                }));
+                .compose(Ut.ifJArray(
+                    FIELD_OP_CONFIG,
+                    FIELD_OP_PLUGIN,
+                    KName.METADATA
+                )));
     }
 
     @Override
@@ -85,17 +104,17 @@ public class OptionService implements OptionStub {
             .deleteByAsync(new JsonObject().put(KName.Ui.CONTROL_ID, controlId));
     }
 
-    private JsonObject mountIn(final JsonObject data) {
-        Ke.mountString(data, OptionStub.FIELD_OP_CONFIG);
-        Ke.mountString(data, OptionStub.FIELD_OP_PLUGIN);
-        Ke.mountString(data, KName.METADATA);
-        return data;
-    }
-
-    private JsonObject mountOut(final JsonObject data) {
-        Ke.mount(data, OptionStub.FIELD_OP_CONFIG);
-        Ke.mount(data, OptionStub.FIELD_OP_PLUGIN);
-        Ke.mount(data, KName.METADATA);
-        return data;
-    }
+    //    private JsonObject mountIn(final JsonObject data) {
+    //        Ke.mountString(data, OptionStub.FIELD_OP_CONFIG);
+    //        Ke.mountString(data, OptionStub.FIELD_OP_PLUGIN);
+    //        Ke.mountString(data, KName.METADATA);
+    //        return data;
+    //    }
+    //
+    //    private JsonObject mountOut(final JsonObject data) {
+    //        Ke.mount(data, OptionStub.FIELD_OP_CONFIG);
+    //        Ke.mount(data, OptionStub.FIELD_OP_PLUGIN);
+    //        Ke.mount(data, KName.METADATA);
+    //        return data;
+    //    }
 }

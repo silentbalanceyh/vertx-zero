@@ -9,6 +9,7 @@ import io.vertx.tp.ke.refine.Ke;
 import io.vertx.tp.optic.business.ExModel;
 import io.vertx.up.eon.KName;
 import io.vertx.up.unity.Ux;
+import io.vertx.up.util.Ut;
 
 public class ModelService implements ModelStub {
     @Override
@@ -24,7 +25,7 @@ public class ModelService implements ModelStub {
             .fetchOneAsync(filters)
             .compose(Ux::futureJ)
             /* Metadata field usage */
-            .compose(Ke.mount(KName.METADATA)));
+            .compose(Ut.ifJObject(KName.METADATA)));
     }
 
     @Override

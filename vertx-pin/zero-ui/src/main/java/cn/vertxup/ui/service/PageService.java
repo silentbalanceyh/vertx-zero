@@ -4,7 +4,6 @@ import cn.vertxup.ui.domain.tables.daos.UiPageDao;
 import cn.vertxup.ui.domain.tables.pojos.UiPage;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.ke.refine.Ke;
 import io.vertx.up.eon.KName;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
@@ -80,16 +79,20 @@ public class PageService implements PageStub {
             .compose(layout -> {
                 final JsonObject pageJson = Ux.toJson(page);
                 pageJson.put("layout", layout);
-                return Ux.future(pageJson)
-                    /*
-                     * Configuration converted to Json
-                     */
-                    .compose(Ke.mount(KName.Ui.CONTAINER_CONFIG))
-                    .compose(Ke.mount(KName.Ui.ASSIST))
-                    /*
-                     * Another method to convert JsonArray
-                     */
-                    .compose(Ke.mountArray(KName.Ui.GRID));
+                return Ut.ifJObject(
+                    KName.Ui.CONTAINER_CONFIG,
+                    KName.Ui.ASSIST,
+                    KName.Ui.GRID
+                ).apply(pageJson);
+                /*
+                 * Configuration converted to Json
+                 */
+                //.compose(Ke.mount(KName.Ui.CONTAINER_CONFIG))
+                //.compose(Ke.mount(KName.Ui.ASSIST))
+                /*
+                 * Another method to convert JsonArray
+                 */
+                //.compose(Ke.mountArray(KName.Ui.GRID));
             });
     }
 }

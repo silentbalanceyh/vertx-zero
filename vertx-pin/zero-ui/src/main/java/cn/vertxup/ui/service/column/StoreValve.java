@@ -7,6 +7,7 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.ke.refine.Ke;
 import io.vertx.up.unity.Ux;
+import io.vertx.up.util.Ut;
 
 import java.util.Comparator;
 import java.util.stream.Collectors;
@@ -73,7 +74,7 @@ class StoreValve implements UiValve {
         Ke.runString(column::getFilterType, (filterType) -> {
             columnJson.put("$filter.type", filterType);
             columnJson.put("$filter.config", column.getFilterConfig());
-            Ke.mount(columnJson, "$filter.config");
+            Ut.ifJObject(columnJson, "$filter.config");
         });
         /*
          * Zero Config
@@ -81,11 +82,11 @@ class StoreValve implements UiValve {
         Ke.runString(column::getEmpty, (empty) -> columnJson.put("$empty", empty));
         Ke.runString(column::getMapping, (mapping) -> {
             columnJson.put("$mapping", mapping);
-            Ke.mount(columnJson, "$mapping");
+            Ut.ifJObject(columnJson, "$mapping");
         });
         Ke.runString(column::getConfig, (config) -> {
             columnJson.put("$config", config);
-            Ke.mount(columnJson, "$config");
+            Ut.ifJObject(columnJson, "$config");
         });
         return columnJson;
     }

@@ -5,13 +5,13 @@ import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.ambient.init.AtPin;
 import io.vertx.tp.ambient.refine.At;
-import io.vertx.tp.ke.refine.Ke;
 import io.vertx.tp.optic.extension.Init;
 import io.vertx.tp.optic.extension.Prerequisite;
 import io.vertx.up.atom.unity.Uson;
 import io.vertx.up.eon.KName;
 import io.vertx.up.log.Annal;
 import io.vertx.up.unity.Ux;
+import io.vertx.up.util.Ut;
 
 import javax.inject.Inject;
 import java.util.Objects;
@@ -60,7 +60,7 @@ public class InitService implements InitStub {
             /* Data Loading */
             .compose(At.initData().apply())
             /* Image */
-            .compose(Ke.mountArray(KName.App.LOGO));
+            .compose(Ut.ifJObject(KName.App.LOGO));
     }
 
     /**
@@ -121,7 +121,7 @@ public class InitService implements InitStub {
             .compose(this::initCombine)
             .compose(this::initDefined)
             /* Image */
-            .compose(Ke.mountArray(KName.App.LOGO));
+            .compose(Ut.ifJObject(KName.App.LOGO));
     }
 
     /**

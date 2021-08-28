@@ -6,7 +6,6 @@ import cn.vertxup.rbac.domain.tables.pojos.SPath;
 import cn.vertxup.rbac.service.view.RuleStub;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
-import io.vertx.tp.ke.refine.Ke;
 import io.vertx.tp.rbac.cv.Addr;
 import io.vertx.up.annotations.Address;
 import io.vertx.up.annotations.Queue;
@@ -14,6 +13,7 @@ import io.vertx.up.commune.config.XHeader;
 import io.vertx.up.eon.KName;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.unity.Ux;
+import io.vertx.up.util.Ut;
 
 import javax.inject.Inject;
 
@@ -37,7 +37,7 @@ public class CriterionActor {
     public Future<JsonArray> fetchItems(final String ruleId) {
         return Fn.getEmpty(Ux.futureA(), () -> Ux.Jooq.on(SPacketDao.class)
             .fetchAsync("pathId", ruleId)
-            .compose(Ux::futureA).compose(Ke.mounts(
+            .compose(Ux::futureA).compose(Ut.ifJArray(
                 /*
                  * rows configuration
                  * When rows contains more than one, it need complex config

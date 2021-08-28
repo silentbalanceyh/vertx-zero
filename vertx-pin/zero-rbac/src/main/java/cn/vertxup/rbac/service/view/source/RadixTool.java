@@ -3,7 +3,6 @@ package cn.vertxup.rbac.service.view.source;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.ke.refine.Ke;
 import io.vertx.up.eon.KName;
 import io.vertx.up.uca.jooq.UxJooq;
 import io.vertx.up.unity.Ux;
@@ -17,7 +16,7 @@ import java.util.Objects;
 class RadixTool {
 
     static Future<JsonObject> toResponse(final JsonArray response) {
-        return Ux.future(response).compose(Ke.mounts(KName.METADATA)).compose(data -> {
+        return Ux.future(response).compose(Ut.ifJArray(KName.METADATA)).compose(data -> {
             final JsonObject normalized = new JsonObject();
             normalized.put(KName.DATUM, data);
             return Ux.future(normalized);

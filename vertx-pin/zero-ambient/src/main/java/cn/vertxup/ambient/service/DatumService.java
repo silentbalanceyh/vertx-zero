@@ -8,7 +8,6 @@ import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.ambient.refine.At;
-import io.vertx.tp.ke.refine.Ke;
 import io.vertx.up.eon.KName;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
@@ -126,9 +125,11 @@ public class DatumService implements DatumStub {
 
     private Future<JsonArray> fetchArray(final Class<?> daoCls, final JsonObject filters) {
         return Ux.Jooq.on(daoCls).fetchAndAsync(filters).compose(Ux::futureA)
+            .compose(Ut.ifJArray(KName.METADATA));
+            /*
             .compose(array -> {
                 Ut.itJArray(array).forEach(json -> Ke.mount(json, KName.METADATA));
                 return Ux.future(array);
-            });
+            });*/
     }
 }

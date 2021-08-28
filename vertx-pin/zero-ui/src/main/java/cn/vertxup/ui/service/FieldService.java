@@ -5,7 +5,6 @@ import cn.vertxup.ui.domain.tables.pojos.UiField;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.ke.refine.Ke;
 import io.vertx.tp.ui.cv.em.RowType;
 import io.vertx.tp.ui.refine.Ui;
 import io.vertx.up.eon.KName;
@@ -47,7 +46,13 @@ public class FieldService implements FieldStub {
             // filter(deduplicate) by name
             .filter(item -> (!item.containsKey(KName.NAME)) ||
                 (Ut.notNil(item.getString(KName.NAME)) && null == seen.putIfAbsent(item.getString(KName.NAME), Boolean.TRUE)))
-            .map(this::mountIn)
+            .map(item -> Ut.ifString(item,
+                FieldStub.OPTION_JSX,
+                FieldStub.OPTION_CONFIG,
+                FieldStub.OPTION_ITEM,
+                FieldStub.RULES,
+                KName.METADATA
+            ))
             .map(field -> field.put(KName.Ui.CONTROL_ID, Optional.ofNullable(field.getString(KName.Ui.CONTROL_ID)).orElse(controlId)))
             .map(field -> Ux.fromJson(field, UiField.class))
             .collect(Collectors.toList());
@@ -57,12 +62,13 @@ public class FieldService implements FieldStub {
                 .insertAsync(fields)
                 .compose(Ux::futureA)
                 // 3. mountOut
-                .compose(updatedFields -> {
-                    final List<JsonObject> list = Ut.itJArray(updatedFields)
-                        .map(this::mountOut)
-                        .collect(Collectors.toList());
-                    return Ux.future(new JsonArray(list));
-                }));
+                .compose(Ut.ifJArray(
+                    FieldStub.OPTION_JSX,
+                    FieldStub.OPTION_CONFIG,
+                    FieldStub.OPTION_ITEM,
+                    FieldStub.RULES,
+                    KName.METADATA
+                )));
     }
 
     @Override
@@ -108,15 +114,17 @@ public class FieldService implements FieldStub {
                     // Container type will be mapped to name field here
                     dataCell.put(KName.NAME, cell.getValue("container"));
                     // optionJsx -> config
-                    Ke.mount(cell, FieldStub.OPTION_JSX);
+                    Ut.ifJObject(cell, FieldStub.OPTION_JSX);
                     if (Objects.nonNull(cell.getValue(FieldStub.OPTION_JSX))) {
                         dataCell.put(KName.Ui.CONFIG, cell.getValue(FieldStub.OPTION_JSX));
                     }
                 } else {
-                    Ke.mount(cell, FieldStub.OPTION_JSX);
-                    Ke.mount(cell, FieldStub.OPTION_CONFIG);
-                    Ke.mount(cell, FieldStub.OPTION_ITEM);
-                    Ke.mountArray(cell, "rules");
+                    Ut.ifJObject(cell,
+                        FieldStub.OPTION_JSX,
+                        FieldStub.OPTION_CONFIG,
+                        FieldStub.OPTION_ITEM,
+                        "rules"
+                    );
                     final String render = Objects.isNull(cell.getString("render")) ? "" :
                         cell.getString("render");
                     final String label = Objects.isNull(cell.getString("label")) ? "" :
@@ -183,23 +191,5 @@ public class FieldService implements FieldStub {
             ui.add(rowArr);
         }
         return Ux.future(ui);
-    }
-
-    private JsonObject mountIn(final JsonObject data) {
-        Ke.mountString(data, FieldStub.OPTION_JSX);
-        Ke.mountString(data, FieldStub.OPTION_CONFIG);
-        Ke.mountString(data, FieldStub.OPTION_ITEM);
-        Ke.mountString(data, FieldStub.RULES);
-        Ke.mountString(data, KName.METADATA);
-        return data;
-    }
-
-    private JsonObject mountOut(final JsonObject data) {
-        Ke.mount(data, FieldStub.OPTION_JSX);
-        Ke.mount(data, FieldStub.OPTION_CONFIG);
-        Ke.mount(data, FieldStub.OPTION_ITEM);
-        Ke.mountArray(data, FieldStub.RULES);
-        Ke.mount(data, KName.METADATA);
-        return data;
     }
 }

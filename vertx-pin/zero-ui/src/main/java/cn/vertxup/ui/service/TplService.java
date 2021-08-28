@@ -6,6 +6,7 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.tp.ke.refine.Ke;
 import io.vertx.up.eon.KName;
 import io.vertx.up.unity.Ux;
+import io.vertx.up.util.Ut;
 
 public class TplService implements TplStub {
 
@@ -22,6 +23,6 @@ public class TplService implements TplStub {
             /*
              * Configuration converted to Json
              */
-            .compose(Ke.mount(KName.Ui.CONFIG)));
+            .compose(Ut.ifJObject(KName.Ui.CONFIG)));
     }
 }
