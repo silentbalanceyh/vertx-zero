@@ -1,6 +1,6 @@
-package io.vertx.tp.ke.cv.em;
+package io.vertx.up.eon.em;
 
-public enum JSource {
+public enum MetaSource {
     /*
      * __content__: {
      *     "path": "xxxxxx"

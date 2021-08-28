@@ -10,6 +10,7 @@ import io.vertx.tp.ke.refine.Ke;
 import io.vertx.tp.rbac.cv.Addr;
 import io.vertx.up.annotations.Address;
 import io.vertx.up.annotations.Queue;
+import io.vertx.up.atom.query.engine.Qr;
 import io.vertx.up.commune.Envelop;
 import io.vertx.up.eon.KName;
 import io.vertx.up.unity.Ux;
@@ -63,14 +64,17 @@ public class ViewPersonalActor {
                 return Ux.futureA();
             } else {
                 return this.personalStub.byUser(action.getResourceId(), userId)
-                    .compose(Ux::futureA);
+                    .compose(Ux::futureA)
+                    .compose(Ut.ifJArray(Qr.KEY_CRITERIA, Qr.KEY_PROJECTION, "rows"));
             }
         });
     }
 
     @Address(Addr.View.VIEW_P_BY_ID)
     public Future<JsonObject> pViewById(final String key) {
-        return this.personalStub.byId(key).compose(Ux::futureJ);
+        return this.personalStub.byId(key)
+            .compose(Ux::futureJ)
+            .compose(Ut.ifJObject(Qr.KEY_CRITERIA, Qr.KEY_PROJECTION, "rows"));
     }
 
     @Address(Addr.View.VIEW_P_UPDATE)
