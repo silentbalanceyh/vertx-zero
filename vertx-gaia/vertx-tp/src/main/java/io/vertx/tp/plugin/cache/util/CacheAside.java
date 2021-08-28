@@ -56,7 +56,7 @@ public class CacheAside {
     public static <T> T check(final Supplier<T> cacheSupplier,
                               final Supplier<T> actualSupplier) {
         return beforeSync(cacheSupplier, actualSupplier,
-                (existing) -> Objects.nonNull(existing) && Boolean.FALSE == existing, null);
+            (existing) -> Objects.nonNull(existing) && Boolean.FALSE == existing, null);
     }
 
 

@@ -7,6 +7,8 @@ public interface Constants {
 
     String DEFAULT_GROUP = "__VERTX_ZERO__";
 
+    String DEFAULT_HOLDER = "HOLDER";
+
     int DEFAULT_INSTANCES = 32;
 
     boolean DEFAULT_HA = true;

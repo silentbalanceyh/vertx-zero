@@ -10,7 +10,7 @@ class KeResult {
 
     static JsonObject bool(final String key, final boolean checked) {
         final KResult.Bool response = checked ?
-                KResult.Bool.SUCCESS : KResult.Bool.FAILURE;
+            KResult.Bool.SUCCESS : KResult.Bool.FAILURE;
         return new JsonObject().put(key, response.name());
     }
 

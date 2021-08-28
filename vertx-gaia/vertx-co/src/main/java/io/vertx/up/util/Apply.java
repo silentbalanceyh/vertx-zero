@@ -3,6 +3,7 @@ package io.vertx.up.util;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
+import io.vertx.up.atom.config.Metadata;
 
 import java.util.Arrays;
 import java.util.Objects;
@@ -121,7 +122,7 @@ class Apply {
     static Function<JsonArray, Future<JsonArray>> ifStrings(final String... fields) {
         return jarray -> {
             It.itJArray(jarray).forEach(json ->
-                    Arrays.stream(fields).forEach(field -> ifString(json, field)));
+                Arrays.stream(fields).forEach(field -> ifString(json, field)));
             return Future.succeededFuture(jarray);
         };
     }
@@ -143,7 +144,7 @@ class Apply {
     static Function<JsonArray, Future<JsonArray>> ifJArray(final String... fields) {
         return jarray -> {
             It.itJArray(jarray).forEach(json ->
-                    Arrays.stream(fields).forEach(field -> ifJson(json, field)));
+                Arrays.stream(fields).forEach(field -> ifJson(json, field)));
             return Future.succeededFuture(jarray);
         };
     }
@@ -174,7 +175,10 @@ class Apply {
                 final String literal = value.toString();
                 if (Types.isJObject(literal)) {
                     final JsonObject replaced = To.toJObject(literal);
-                    json.put(field, replaced);
+                    /*
+                     * Attached metadata workflow to replace mount
+                     */
+                    json.put(field, ifMetadata(replaced));
                 } else if (Types.isJArray(literal)) {
                     final JsonArray replaced = To.toJArray(literal);
                     json.put(field, replaced);
@@ -185,5 +189,16 @@ class Apply {
 
     static void ifJson(final JsonObject json, final String... fields) {
         Arrays.stream(fields).forEach(field -> ifJson(json, field));
+    }
+
+    /*
+     * Spec metadata data structure of Json normalized.
+     */
+    private static JsonObject ifMetadata(final JsonObject metadata) {
+        assert Objects.nonNull(metadata) : "Here input metadata should not be null";
+        /*
+         * Structure that will be parsed here.
+         */
+        return new Metadata(metadata).toJson();
     }
 }

@@ -139,9 +139,9 @@ public class TypeField implements Serializable {
     @Override
     public String toString() {
         return "ShapeItem{" +
-                "name='" + this.name + '\'' +
-                ", alias='" + this.alias + '\'' +
-                ", type=" + this.type +
-                '}';
+            "name='" + this.name + '\'' +
+            ", alias='" + this.alias + '\'' +
+            ", type=" + this.type +
+            '}';
     }
 }

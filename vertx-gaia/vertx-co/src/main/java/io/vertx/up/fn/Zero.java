@@ -32,7 +32,7 @@ final class Zero {
     }
 
     static void execZero(final ZeroActuator actuator, final Object... input)
-            throws ZeroException {
+        throws ZeroException {
         if (Zero.isSatisfy(input)) {
             actuator.execute();
         }

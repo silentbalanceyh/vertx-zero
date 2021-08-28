@@ -83,18 +83,18 @@ public class ScSession {
          * }
          **/
         return ScPrivilege.init(data).compose(reference ->
-                /*
-                 * ScPrivilege evaluation for current logged user
-                 */
-                reference.evaluate(profile -> ScSession.initRoles(profile, data.getJsonArray("role"))
-                        /* Initialize group information */
-                        .compose(processed -> ScSession.initGroups(processed, data.getJsonArray("group")))
-                        /* Refresh Cache */
-                        .compose(reference::storeProfile)
-                        /* Result Report */
-                        .compose(result -> Uson.create(data).append("profile", profile).toFuture())
-                        .compose(ScSession::onReport)
-                        .compose(nil -> Ux.future(Boolean.TRUE))));
+            /*
+             * ScPrivilege evaluation for current logged user
+             */
+            reference.evaluate(profile -> ScSession.initRoles(profile, data.getJsonArray("role"))
+                /* Initialize group information */
+                .compose(processed -> ScSession.initGroups(processed, data.getJsonArray("group")))
+                /* Refresh Cache */
+                .compose(reference::storeProfile)
+                /* Result Report */
+                .compose(result -> Uson.create(data).append("profile", profile).toFuture())
+                .compose(ScSession::onReport)
+                .compose(nil -> Ux.future(Boolean.TRUE))));
     }
 
     /*
@@ -109,15 +109,15 @@ public class ScSession {
         Sc.infoAuth(LOGGER, "Roles : {0}", roles.encode());
         final List futures = new ArrayList<>();
         roles.stream().filter(Objects::nonNull)
-                .map(item -> (JsonObject) item)
-                .map(ProfileRole::new)
-                .map(ProfileRole::initAsync)
-                .forEach(futures::add);
+            .map(item -> (JsonObject) item)
+            .map(ProfileRole::new)
+            .map(ProfileRole::initAsync)
+            .forEach(futures::add);
         return CompositeFuture.join(futures)
-                /* Composite Result */
-                .compose(Sc::<ProfileRole>composite)
-                /* User Process */
-                .compose(ScDetent.user(profile)::procAsync);
+            /* Composite Result */
+            .compose(Sc::<ProfileRole>composite)
+            /* User Process */
+            .compose(ScDetent.user(profile)::procAsync);
     }
 
     @SuppressWarnings("all")
@@ -125,35 +125,35 @@ public class ScSession {
         Sc.debugAuth(LOGGER, "Groups: {0}", groups.encode());
         final List futures = new ArrayList();
         groups.stream().filter(Objects::nonNull)
-                .map(item -> (JsonObject) item)
-                .map(ProfileGroup::new)
-                .map(ProfileGroup::initAsync)
-                .forEach(futures::add);
+            .map(item -> (JsonObject) item)
+            .map(ProfileGroup::new)
+            .map(ProfileGroup::initAsync)
+            .forEach(futures::add);
         final Refer parentHod = new Refer();
         final Refer childHod = new Refer();
         return CompositeFuture.join(futures).compose(Sc::<ProfileGroup>composite).compose(profiles -> Ux.future(profiles)
-                /* Group Direct Mode */
-                .compose(Align::flat)
-                .compose(ScDetent.group(profile)::procAsync)
-                .compose(nil -> Ux.future(profiles))
+            /* Group Direct Mode */
+            .compose(Align::flat)
+            .compose(ScDetent.group(profile)::procAsync)
+            .compose(nil -> Ux.future(profiles))
 
-                /* Group Parent Mode */
-                .compose(Align::parent)
-                .compose(parentHod::future)
-                /** Parent Only */
-                .compose(parents -> ScDetent.parent(profile, profiles).procAsync(parents))
-                /** Parent and Current */
-                .compose(nil -> ScDetent.inherit(profile, profiles).procAsync(parentHod.get()))
-                .compose(nil -> Ux.future(profiles))
+            /* Group Parent Mode */
+            .compose(Align::parent)
+            .compose(parentHod::future)
+            /** Parent Only */
+            .compose(parents -> ScDetent.parent(profile, profiles).procAsync(parents))
+            /** Parent and Current */
+            .compose(nil -> ScDetent.inherit(profile, profiles).procAsync(parentHod.get()))
+            .compose(nil -> Ux.future(profiles))
 
-                /* Group Child Mode */
-                .compose(Align::children)
-                .compose(childHod::future)
-                /** Child Only */
-                .compose(children -> ScDetent.children(profile, profiles).procAsync(children))
-                /** Child and Current */
-                .compose(nil -> ScDetent.extend(profile, profiles).procAsync(childHod.get()))
-                .compose(nil -> Ux.future(profiles))
+            /* Group Child Mode */
+            .compose(Align::children)
+            .compose(childHod::future)
+            /** Child Only */
+            .compose(children -> ScDetent.children(profile, profiles).procAsync(children))
+            /** Child and Current */
+            .compose(nil -> ScDetent.extend(profile, profiles).procAsync(childHod.get()))
+            .compose(nil -> Ux.future(profiles))
         ).compose(nil -> Ux.future(profile));
     }
 

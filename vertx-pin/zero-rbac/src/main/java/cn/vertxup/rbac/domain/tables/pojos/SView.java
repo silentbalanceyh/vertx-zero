@@ -24,10 +24,11 @@ import javax.annotation.Generated;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class SView implements ISView {
 
-    private static final long serialVersionUID = 883548249;
+    private static final long serialVersionUID = -932359475;
 
     private String        key;
     private String        name;
+    private String        title;
     private String        owner;
     private String        ownerType;
     private String        resourceId;
@@ -50,6 +51,7 @@ public class SView implements ISView {
     public SView(SView value) {
         this.key = value.key;
         this.name = value.name;
+        this.title = value.title;
         this.owner = value.owner;
         this.ownerType = value.ownerType;
         this.resourceId = value.resourceId;
@@ -71,6 +73,7 @@ public class SView implements ISView {
     public SView(
         String        key,
         String        name,
+        String        title,
         String        owner,
         String        ownerType,
         String        resourceId,
@@ -90,6 +93,7 @@ public class SView implements ISView {
     ) {
         this.key = key;
         this.name = name;
+        this.title = title;
         this.owner = owner;
         this.ownerType = ownerType;
         this.resourceId = resourceId;
@@ -127,6 +131,17 @@ public class SView implements ISView {
     @Override
     public SView setName(String name) {
         this.name = name;
+        return this;
+    }
+
+    @Override
+    public String getTitle() {
+        return this.title;
+    }
+
+    @Override
+    public SView setTitle(String title) {
+        this.title = title;
         return this;
     }
 
@@ -312,6 +327,7 @@ public class SView implements ISView {
 
         sb.append(key);
         sb.append(", ").append(name);
+        sb.append(", ").append(title);
         sb.append(", ").append(owner);
         sb.append(", ").append(ownerType);
         sb.append(", ").append(resourceId);
@@ -344,6 +360,7 @@ public class SView implements ISView {
     public void from(ISView from) {
         setKey(from.getKey());
         setName(from.getName());
+        setTitle(from.getTitle());
         setOwner(from.getOwner());
         setOwnerType(from.getOwnerType());
         setResourceId(from.getResourceId());

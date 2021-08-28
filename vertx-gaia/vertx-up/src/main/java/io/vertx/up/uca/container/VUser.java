@@ -21,8 +21,8 @@ public class VUser implements User {
 
     @Override
     public User isAuthorized(
-            final String authority,
-            final Handler<AsyncResult<Boolean>> resultHandler) {
+        final String authority,
+        final Handler<AsyncResult<Boolean>> resultHandler) {
         LOGGER.info(Info.VIRTUAL_USER, this.principal);
         return this;
     }
@@ -40,7 +40,7 @@ public class VUser implements User {
 
     @Override
     public void setAuthProvider(
-            final AuthProvider authProvider) {
+        final AuthProvider authProvider) {
         LOGGER.info(Info.VIRTUAL_USER, this.principal);
     }
 }

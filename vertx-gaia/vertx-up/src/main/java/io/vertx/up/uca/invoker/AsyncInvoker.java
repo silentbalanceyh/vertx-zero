@@ -19,7 +19,7 @@ public class AsyncInvoker extends AbstractInvoker {
     public void ensure(final Class<?> returnType, final Class<?> paramCls) {
         // Verify
         final boolean valid =
-                (void.class != returnType && Void.class != returnType);
+            (void.class != returnType && Void.class != returnType);
         InvokerUtil.verify(!valid, returnType, paramCls, this.getClass());
     }
 
@@ -77,7 +77,7 @@ public class AsyncInvoker extends AbstractInvoker {
                     .send(item))
                     .setHandler(Ux.handler(message)); */
             result.compose(this.nextEnvelop(vertx, method))
-                    .setHandler(Ux.handler(message));
+                .setHandler(Ux.handler(message));
         } else {
             final Future future = this.invokeJson(proxy, method, envelop);
             /* replaced old code
@@ -88,7 +88,7 @@ public class AsyncInvoker extends AbstractInvoker {
                     .compose(item -> Future.succeededFuture(Ux.to(item)))
                     .setHandler(Ux.handler(message)); */
             future.compose(this.nextEnvelop(vertx, method))
-                    .setHandler(Ux.handler(message));
+                .setHandler(Ux.handler(message));
         }
     }
 }

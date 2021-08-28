@@ -25,6 +25,7 @@ class Complex {
      * @param predicate Check whether the T reference is ok for `executor`
      * @param executor  The continue executor on T
      * @param <T>       The entity object, now it support JsonObject/JsonArray
+     *
      * @return Future<T> for result
      */
     static <T> Future<T> complex(final T input, final Predicate<T> predicate, final Supplier<Future<T>> executor) {
@@ -63,6 +64,7 @@ class Complex {
      * @param fnReduce        The combine function to calculate R + R -> R such as List.addAll(list)
      * @param <T>             The response of `pageConsumer`
      * @param <R>             The final result of `responseBuilder`
+     *
      * @return Final result for batch
      */
     static <T, R> Future<R> complex(final Pagination first,
@@ -75,37 +77,37 @@ class Complex {
          */
         final Refer firstResult = new Refer();
         return pageConsumer.apply(first)
-                /*
-                 * Get response R,
-                 */
-                .compose(response -> responseBuilder.apply(response)
-                        .compose(firstResult::future)
-                        .compose(nil -> totalConsumer.apply(response))
-                        .compose(total -> {
-                            first.setTotal(total);
-                            return Ux.future(first);
-                        })
-                )
-                .compose(Pagination::scatterAsync)
-                .compose(pageSet -> {
-                    if (pageSet.isEmpty()) {
-                        /*
-                         * No more page
-                         */
-                        return Ux.future(firstResult.get());
-                    } else {
-                        final List<Future<R>> futures = new ArrayList<>();
-                        pageSet.stream()
-                                .map(each -> pageConsumer.apply(each).compose(responseBuilder))
-                                .forEach(futures::add);
-                        return Ux.thenCombineT(futures).compose(list -> {
-                            final R result = list.stream().reduce(fnReduce).orElse(null);
-                            final R firstRef = firstResult.get();
-                            return Ux.future(fnReduce.apply(firstRef, result));
-                        });
-                    }
+            /*
+             * Get response R,
+             */
+            .compose(response -> responseBuilder.apply(response)
+                .compose(firstResult::future)
+                .compose(nil -> totalConsumer.apply(response))
+                .compose(total -> {
+                    first.setTotal(total);
+                    return Ux.future(first);
                 })
-                .otherwise(Ux.otherwise(() -> null));
+            )
+            .compose(Pagination::scatterAsync)
+            .compose(pageSet -> {
+                if (pageSet.isEmpty()) {
+                    /*
+                     * No more page
+                     */
+                    return Ux.future(firstResult.get());
+                } else {
+                    final List<Future<R>> futures = new ArrayList<>();
+                    pageSet.stream()
+                        .map(each -> pageConsumer.apply(each).compose(responseBuilder))
+                        .forEach(futures::add);
+                    return Ux.thenCombineT(futures).compose(list -> {
+                        final R result = list.stream().reduce(fnReduce).orElse(null);
+                        final R firstRef = firstResult.get();
+                        return Ux.future(fnReduce.apply(firstRef, result));
+                    });
+                }
+            })
+            .otherwise(Ux.otherwise(() -> null));
     }
 
     static Function<Pagination, Future<JsonArray>> complex(final Function<JsonObject, Future<Integer>> total, final Function<Pagination, Future<JsonObject>> page, final Function<JsonObject, Future<JsonArray>> result) {

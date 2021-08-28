@@ -29,10 +29,10 @@ public class AuthActor {
     @Address(Addr.Auth.AUTHORIZE)
     public Future<JsonObject> authorize(final JsonObject data) {
         return this.stub.authorize(Uson.create(data).denull()
-                .remove(AuthKey.RESPONSE_TYPE)
-                .convert(AuthKey.CLIENT_ID, AuthKey.F_CLIENT_ID)
-                .convert(AuthKey.CLIENT_SECRET, AuthKey.F_CLIENT_SECRET)
-                .to());
+            .remove(AuthKey.RESPONSE_TYPE)
+            .convert(AuthKey.CLIENT_ID, AuthKey.F_CLIENT_ID)
+            .convert(AuthKey.CLIENT_SECRET, AuthKey.F_CLIENT_SECRET)
+            .to());
     }
 
     @Address(Addr.Auth.TOKEN)

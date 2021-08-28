@@ -3,9 +3,9 @@ package io.vertx.tp.ke.refine;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.eon.KName;
 import io.vertx.tp.optic.fantom.Fabric;
 import io.vertx.up.atom.record.Apt;
+import io.vertx.up.eon.KName;
 import io.vertx.up.log.Annal;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
@@ -65,16 +65,16 @@ class KeCompare {
     }
 
     static BiFunction<Function<JsonArray, Future<JsonArray>>, Function<JsonArray, Future<JsonArray>>, Future<JsonArray>> atomyFn(
-            final Class<?> clazz,
-            final Apt compared) {
+        final Class<?> clazz,
+        final Apt compared) {
         return (iFun, uFun) -> {
             final JsonArray inserted = compared.comparedA();
             final JsonArray updated = compared.comparedU();
 
             final Annal LOGGER = Annal.get(clazz);
             KeLog.infoKe(LOGGER, "Result of calculated, Insert = {0}, Update = {1}",
-                    String.valueOf(inserted.size()),
-                    String.valueOf(updated.size()));
+                String.valueOf(inserted.size()),
+                String.valueOf(updated.size()));
 
             final List<Future<JsonArray>> futures = new ArrayList<>();
             futures.add(Ut.ifJEmpty(iFun).apply(inserted));

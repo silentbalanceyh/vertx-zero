@@ -45,8 +45,8 @@ public class IpcAim extends BaseAim implements Aim<RoutingContext> {
                      */
                     final UddiClient client = Uddi.client(this.getClass());
                     final Future<Envelop> handler = client
-                            .bind(context.vertx()).bind(event.getAction())
-                            .connect(data);
+                        .bind(context.vertx()).bind(event.getAction())
+                        .connect(data);
                     /*
                      * The last method is for
                      * 1) Standard Future workflow -> dataRest

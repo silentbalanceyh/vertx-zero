@@ -11,10 +11,10 @@ import io.vertx.tp.atom.modeling.Model;
 import io.vertx.tp.atom.modeling.Schema;
 import io.vertx.tp.atom.modeling.config.AoAttribute;
 import io.vertx.tp.atom.modeling.element.DataKey;
-import io.vertx.up.eon.KName;
 import io.vertx.tp.modular.apply.AoDefault;
 import io.vertx.up.commune.element.TypeField;
 import io.vertx.up.commune.rule.RuleUnique;
+import io.vertx.up.eon.KName;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.util.Ut;
 
@@ -68,8 +68,8 @@ public class JsonModel implements Model {
     @Override
     public Schema schema(final String identifier) {
         return Ut.isNil(identifier) ? null : this.schemata.stream()
-                .filter(schema -> identifier.equals(schema.identifier()))
-                .findFirst().orElse(null);
+            .filter(schema -> identifier.equals(schema.identifier()))
+            .findFirst().orElse(null);
     }
 
     @Override
@@ -160,7 +160,7 @@ public class JsonModel implements Model {
         if (!this.joins.isEmpty()) {
             // 桥接
             Bridge.connect(this, schemas,
-                    (found) -> Bridge.connect(this, found));
+                (found) -> Bridge.connect(this, found));
         }
         return this;
     }
@@ -304,15 +304,15 @@ public class JsonModel implements Model {
         content.append("\n\t").append(this.model.toString());
         content.append("\nattributes :");
         this.attributes.forEach((k, v) -> content.append("\n\t")
-                .append(k).append(" = ").append(v.toString()));
+            .append(k).append(" = ").append(v.toString()));
         content.append("\nschemas : [");
         this.schemata.forEach(schema -> content.append("\n")
-                .append(schema.toString()));
+            .append(schema.toString()));
         content.append("\n]\njoins :");
         this.joins.forEach(item -> content.append("\n\t")
-                .append(this.identifier).append("=")
-                .append(item.getEntity()).append(",")
-                .append(item.getEntityKey()));
+            .append(this.identifier).append("=")
+            .append(item.getEntity()).append(",")
+            .append(item.getEntityKey()));
         content.append("\n-- Model End --------------------------------\n");
         return content.toString();
     }
@@ -327,7 +327,7 @@ public class JsonModel implements Model {
         }
         final JsonModel that = (JsonModel) o;
         return Objects.equals(this.identifier, that.identifier) &&
-                Objects.equals(this.model.getNamespace(), that.model.getNamespace());
+            Objects.equals(this.model.getNamespace(), that.model.getNamespace());
     }
 
     @Override

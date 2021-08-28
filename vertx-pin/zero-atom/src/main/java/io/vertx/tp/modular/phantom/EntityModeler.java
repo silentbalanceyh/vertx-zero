@@ -22,9 +22,9 @@ class EntityModeler implements AoModeler {
             LOGGER.debug("[ Ox ] 4. AoModeler.entity() ：{0}", modelJson.encode());
             final JsonObject filters = modelJson.getJsonObject("entityFilters");
             return Ux.Jooq.on(MEntityDao.class)
-                    .<MEntity>fetchAndAsync(filters)
-                    .compose(Ux::futureA)
-                    .compose(list -> Ux.future(this.onResult(modelJson, list)));
+                .<MEntity>fetchAndAsync(filters)
+                .compose(Ux::futureA)
+                .compose(list -> Ux.future(this.onResult(modelJson, list)));
         };
     }
 
@@ -34,7 +34,7 @@ class EntityModeler implements AoModeler {
         final JsonObject filters = modelJson.getJsonObject("entityFilters");
         // List
         final List<MEntity> entities = Ux.Jooq.on(MEntityDao.class)
-                .fetchAnd(filters);
+            .fetchAnd(filters);
         // Array
         final JsonArray entityArr = Ux.toJson(entities);
         // JsonObject

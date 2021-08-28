@@ -7,5 +7,5 @@ import java.util.concurrent.ConcurrentMap;
 
 interface Pool {
     ConcurrentMap<RegionType, Dwarf> DWARF_POOL =
-            new ConcurrentHashMap<>();
+        new ConcurrentHashMap<>();
 }

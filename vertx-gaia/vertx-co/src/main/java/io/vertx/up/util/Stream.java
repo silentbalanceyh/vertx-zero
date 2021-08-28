@@ -111,8 +111,8 @@ final class Stream {
             Log.debug(LOGGER, Info.INF_CUR, file.exists());
         }
         InputStream in = readSupplier(() -> Fn.getSemi(file.exists(), null,
-                () -> in(file),
-                () -> (null == clazz) ? in(filename) : in(filename, clazz)), filename);
+            () -> in(file),
+            () -> (null == clazz) ? in(filename) : in(filename, clazz)), filename);
         // Stream.class get
         if (null == in) {
             in = readSupplier(() -> Stream.class.getResourceAsStream(filename), filename);
@@ -171,7 +171,7 @@ final class Stream {
      */
     static InputStream in(final File file) {
         return Fn.getJvm(() -> (file.exists() && file.isFile())
-                ? new FileInputStream(file) : null, file);
+            ? new FileInputStream(file) : null, file);
     }
 
     /**
@@ -186,7 +186,7 @@ final class Stream {
     static InputStream in(final String filename,
                           final Class<?> clazz) {
         return Fn.getJvm(
-                () -> clazz.getResourceAsStream(filename), clazz, filename);
+            () -> clazz.getResourceAsStream(filename), clazz, filename);
     }
 
     /**
@@ -200,6 +200,6 @@ final class Stream {
     static InputStream in(final String filename) {
         final ClassLoader loader = Thread.currentThread().getContextClassLoader();
         return Fn.getJvm(
-                () -> loader.getResourceAsStream(filename), filename);
+            () -> loader.getResourceAsStream(filename), filename);
     }
 }

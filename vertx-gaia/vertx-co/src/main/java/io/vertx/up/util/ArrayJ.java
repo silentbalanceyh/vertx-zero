@@ -76,7 +76,7 @@ final class ArrayJ {
                 final Object elementValue = element.getValue(field);
                 final Object value = jsonObject.getValue(field);
                 if (Objects.nonNull(elementValue) && Objects.nonNull(value)
-                        && elementValue.equals(value)) {
+                    && elementValue.equals(value)) {
                     targetIndex = idx;
                     break;
                 }
@@ -104,8 +104,8 @@ final class ArrayJ {
             final JsonArray parents = climb(child, tree, options);
             final String idField = opts.getString("key");
             parents.stream().filter(Objects::nonNull).map(found -> (JsonObject) found)
-                    .filter(found -> Objects.nonNull(found.getString(idField)))
-                    .forEach(found -> maps.put(found.getString(idField), found));
+                .filter(found -> Objects.nonNull(found.getString(idField)))
+                .forEach(found -> maps.put(found.getString(idField), found));
         });
         maps.values().forEach(result::add);
         return result;
@@ -122,8 +122,8 @@ final class ArrayJ {
             final JsonArray children = child(child, tree, options);
             final String idField = opts.getString("key");
             children.stream().filter(Objects::nonNull).map(found -> (JsonObject) found)
-                    .filter(found -> Objects.nonNull(found.getString(idField)))
-                    .forEach(found -> maps.put(found.getString(idField), found));
+                .filter(found -> Objects.nonNull(found.getString(idField)))
+                .forEach(found -> maps.put(found.getString(idField), found));
         });
         maps.values().forEach(result::add);
         return result;
@@ -131,14 +131,14 @@ final class ArrayJ {
 
     static JsonObject find(final JsonArray array, final String field, final Object value) {
         return It.itJArray(array)
-                .filter(item -> {
-                    if (Objects.isNull(value)) {
-                        return Objects.isNull(item.getValue(field));
-                    } else {
-                        return value.equals(item.getValue(field));
-                    }
-                })
-                .findAny().orElse(null);
+            .filter(item -> {
+                if (Objects.isNull(value)) {
+                    return Objects.isNull(item.getValue(field));
+                } else {
+                    return value.equals(item.getValue(field));
+                }
+            })
+            .findAny().orElse(null);
     }
 
     static JsonArray save(final JsonArray array, final JsonArray input, final String field) {
@@ -209,9 +209,9 @@ final class ArrayJ {
         final String parentField = opts.getString("parent");
         final String idField = opts.getString("key");
         final List<JsonObject> children = tree.stream().filter(Objects::nonNull).map(each -> (JsonObject) each)
-                .filter(each -> Objects.nonNull(each.getString(parentField)))
-                .filter(each -> each.getString(parentField).equals(item.getString(idField)))
-                .collect(Collectors.toList());
+            .filter(each -> Objects.nonNull(each.getString(parentField)))
+            .filter(each -> each.getString(parentField).equals(item.getString(idField)))
+            .collect(Collectors.toList());
         return new JsonArray(children);
     }
 
@@ -220,17 +220,17 @@ final class ArrayJ {
         final String parentField = opts.getString("parent");
         final String idField = opts.getString("key");
         return tree.stream().filter(Objects::nonNull).map(each -> (JsonObject) each)
-                .filter(each -> Objects.nonNull(each.getString(idField)))
-                .filter(each -> each.getString(idField).equals(item.getString(parentField)))
-                .findFirst().orElse(null);
+            .filter(each -> Objects.nonNull(each.getString(idField)))
+            .filter(each -> each.getString(idField).equals(item.getString(parentField)))
+            .findFirst().orElse(null);
     }
 
 
     private static JsonObject treeOption(final JsonObject options) {
         final JsonObject target = new JsonObject()
-                .put("parent", "parentId")
-                .put("key", "key")
-                .put("include", Boolean.TRUE);
+            .put("parent", "parentId")
+            .put("key", "key")
+            .put("include", Boolean.TRUE);
         if (Objects.nonNull(options)) {
             target.mergeIn(options);
         }

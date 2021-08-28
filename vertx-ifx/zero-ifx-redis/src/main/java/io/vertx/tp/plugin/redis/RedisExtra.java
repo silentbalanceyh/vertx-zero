@@ -56,11 +56,11 @@ public class RedisExtra implements Serializable {
     @Override
     public String toString() {
         return "RedisExtra{" +
-                "port=" + port +
-                ", host='" + host + '\'' +
-                ", retryTimeout=" + retryTimeout +
-                ", timeout=" + timeout +
-                ", auth='" + auth + '\'' +
-                '}';
+            "port=" + port +
+            ", host='" + host + '\'' +
+            ", retryTimeout=" + retryTimeout +
+            ", timeout=" + timeout +
+            ", auth='" + auth + '\'' +
+            '}';
     }
 }

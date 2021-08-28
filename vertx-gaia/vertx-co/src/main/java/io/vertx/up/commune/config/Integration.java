@@ -44,7 +44,7 @@ import java.util.concurrent.ConcurrentMap;
 public class Integration implements Json, Serializable {
 
     private final transient ConcurrentMap<String, IntegrationRequest> apis
-            = new ConcurrentHashMap<>();
+        = new ConcurrentHashMap<>();
     /*
      * Restful / Web Service information ( such as jdbcUrl )
      * The target service should be: endpoint + api ( IntegrationRequest )
@@ -205,7 +205,7 @@ public class Integration implements Json, Serializable {
         final IntegrationRequest original = this.apis.get(key);
         request.setHeaders(original.getHeaders().copy());
         request.setMethod(original.getMethod());
-        if (0 <= original.getPath().indexOf('`')) {
+        if (0 <= original.getPath().indexOf('`' )) {
             /*
              * Expression Path
              */
@@ -225,11 +225,11 @@ public class Integration implements Json, Serializable {
         if (!(o instanceof Integration)) return false;
         final Integration that = (Integration) o;
         return this.endpoint.equals(that.endpoint) &&
-                this.port.equals(that.port) &&
-                this.protocol.equals(that.protocol) &&
-                this.username.equals(that.username) &&
-                this.password.equals(that.password) &&
-                this.hostname.equals(that.hostname);
+            this.port.equals(that.port) &&
+            this.protocol.equals(that.protocol) &&
+            this.username.equals(that.username) &&
+            this.password.equals(that.password) &&
+            this.hostname.equals(that.hostname);
     }
 
     @Override
@@ -240,14 +240,14 @@ public class Integration implements Json, Serializable {
     @Override
     public String toString() {
         return "Integration{" +
-                "apis=" + this.apis +
-                ", endpoint='" + this.endpoint + '\'' +
-                ", port=" + this.port +
-                ", protocol='" + this.protocol + '\'' +
-                ", username='" + this.username + '\'' +
-                ", password='" + this.password + '\'' +
-                ", hostname='" + this.hostname + '\'' +
-                ", publicKeyFile='" + this.publicKeyFile + '\'' +
-                '}';
+            "apis=" + this.apis +
+            ", endpoint='" + this.endpoint + '\'' +
+            ", port=" + this.port +
+            ", protocol='" + this.protocol + '\'' +
+            ", username='" + this.username + '\'' +
+            ", password='" + this.password + '\'' +
+            ", hostname='" + this.hostname + '\'' +
+            ", publicKeyFile='" + this.publicKeyFile + '\'' +
+            '}';
     }
 }

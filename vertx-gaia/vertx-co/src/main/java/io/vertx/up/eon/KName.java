@@ -29,9 +29,11 @@ public interface KName {
     String REALM = "realm";                      /* Authorization realm field for security */
     String GRANT_TYPE = "grantType";             /* OAuth grant type field */
     String RESOURCE_ID = "resourceId";           /* Security Action related resource field */
+
     String HABITUS = "habitus";                  /* Authorization header to store current logged user session data, Permission Pool */
     String DYNAMIC = "dynamic";                  /* View security of field for dynamic view name */
     String VIEW = "view";                        /* View security of view name */
+    String MODULE = "module";                    /* View sub-module picking up */
 
     String ROLE = "role";                        /* Security Object: role field */
     String ROLE_ID = "roleId";                   /* Security Object: role id ( X_ROLE key ) field */
@@ -53,6 +55,7 @@ public interface KName {
     String CODES = "codes";                      /* Batch operation, codes -> JsonArray ( element = String ) */
 
     String FILE_KEY = "fileKey";                 /* XAttachment belong-to field */
+    String FILE_NAME = "filename";               /* XAttachment filename */
     String DATA_KEY = "dataKey";                 /* Security belong-to field: Authorization data stored key for session storage */
 
     String APP_KEY = "appKey";                   /* XHeader for X-App-Key */
@@ -103,6 +106,7 @@ public interface KName {
 
     String METHOD = "method";                    /* Web: http method */
     String URI = "uri";                          /* Web: http path */
+    String URI_IMPACT = "impactUri";             /* Web: http impact uri */
     String URI_REQUEST = "requestUri";           /* Web: http path ( normalized ) contains path such as `/api/:code/name` instead of actual */
     String RESULT = "result";                    /* Web: http response */
     String HEADER = "header";                    /* Web: http header */

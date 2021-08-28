@@ -127,7 +127,7 @@ class DataOut {
                 /* Distinguish between Pagination / Object */
                 final JsonObject json = (JsonObject) value;
                 if (json.containsKey("list") && json.containsKey("count")
-                        && Values.TWO == json.size()) {
+                    && Values.TWO == json.size()) {
                     return RegionType.PAGINATION;
                 } else {
                     return RegionType.RECORD;

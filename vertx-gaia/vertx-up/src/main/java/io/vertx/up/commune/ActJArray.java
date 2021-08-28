@@ -26,8 +26,8 @@ class ActJArray extends ActMapping implements Serializable {
         final JsonObject rawJson = envelop.data();
         if (!Ut.isNil(rawJson)) {
             final long counter = rawJson.fieldNames().stream()
-                    .filter(Constants.INDEXES::containsValue)
-                    .count();
+                .filter(Constants.INDEXES::containsValue)
+                .count();
             final JsonArray body;
             if (0 < counter) {
                 /*
@@ -41,15 +41,15 @@ class ActJArray extends ActMapping implements Serializable {
                  * }
                  */
                 final JsonArray found = rawJson.fieldNames().stream()
-                        .filter(Objects::nonNull)
-                        .map(rawJson::getValue)
-                        /*
-                         * Predicate to test whether value is JsonArray
-                         * If JsonObject, then find the first JsonArray as body
-                         */
-                        .filter(value -> value instanceof JsonArray)
-                        .map(item -> (JsonArray) item)
-                        .findFirst().orElse(null);
+                    .filter(Objects::nonNull)
+                    .map(rawJson::getValue)
+                    /*
+                     * Predicate to test whether value is JsonArray
+                     * If JsonObject, then find the first JsonArray as body
+                     */
+                    .filter(value -> value instanceof JsonArray)
+                    .map(item -> (JsonArray) item)
+                    .findFirst().orElse(null);
 
                 /* Copy new data structure */
                 body = null == found ? new JsonArray() : found.copy();
@@ -79,8 +79,8 @@ class ActJArray extends ActMapping implements Serializable {
                  * merged headers
                  */
                 inputData.stream().filter(item -> item instanceof JsonObject)
-                        .map(item -> (JsonObject) item)
-                        .forEach(item -> item.mergeIn(this.header.copy(), true));
+                    .map(item -> (JsonObject) item)
+                    .forEach(item -> item.mergeIn(this.header.copy(), true));
                 this.data.addAll(inputData);
             }
         }
@@ -106,8 +106,8 @@ class ActJArray extends ActMapping implements Serializable {
         if (this.isBefore(mapping)) {
             final JsonArray normalized = new JsonArray();
             Ut.itJArray(this.data)
-                    .map(item -> this.mapper().in(item, mapping.child()))
-                    .forEach(normalized::add);
+                .map(item -> this.mapper().in(item, mapping.child()))
+                .forEach(normalized::add);
             return normalized;
         } else return this.data;
     }

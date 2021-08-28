@@ -141,7 +141,7 @@ public class UriMeta implements Serializable {
         if (o == null || this.getClass() != o.getClass()) return false;
         final UriMeta uriMeta = (UriMeta) o;
         return this.uri.equals(uriMeta.uri) &&
-                this.method == uriMeta.method;
+            this.method == uriMeta.method;
     }
 
     @Override

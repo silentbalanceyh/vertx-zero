@@ -33,12 +33,12 @@ public class PackScan {
             final boolean recursive = true;
             // Get package name;
             final String packageDir = (Strings.DOT.equals(zeroScan)) ?
-                    zeroScan.replace(Strings.DOT, Strings.EMPTY)
-                    : zeroScan.replace(Strings.DOT, Strings.SLASH);
+                zeroScan.replace(Strings.DOT, Strings.EMPTY)
+                : zeroScan.replace(Strings.DOT, Strings.SLASH);
             Fn.safeJvm(() -> {
                 // Define enumeration
                 final Enumeration<URL> dirs = Thread.currentThread()
-                        .getContextClassLoader().getResources(packageDir);
+                    .getContextClassLoader().getResources(packageDir);
                 // While loop
                 while (dirs.hasMoreElements()) {
                     // Next element
@@ -69,8 +69,8 @@ public class PackScan {
         final Set<Class<?>> classes = new LinkedHashSet<>();
         Fn.getJvm(() -> {
             String packageName = (packName.startsWith(Strings.DOT)) ?
-                    packName.substring(1, packName.length()) :
-                    packName;
+                packName.substring(1, packName.length()) :
+                packName;
             // Get jar up.god.file
             final JarFile jar = ((JarURLConnection) url.openConnection()).getJarFile();
             // List all entries of this jar
@@ -80,15 +80,15 @@ public class PackScan {
                 final JarEntry entry = entries.nextElement();
                 String name = entry.getName();
                 // Start with /
-                if (name.charAt(0) == '/') {
+                if (name.charAt(0) == '/' ) {
                     name = name.substring(1);
                 }
                 // The same with package dir
                 if (name.startsWith(packageDir)) {
-                    final int idx = name.lastIndexOf('/');
+                    final int idx = name.lastIndexOf('/' );
                     // end with /, it's package.
                     if (idx != -1) {
-                        packageName = name.substring(0, idx).replace('/', '.');
+                        packageName = name.substring(0, idx).replace('/', '.' );
                     }
                     if ((idx != -1) || recursive) {
                         // .class and not directory
@@ -97,8 +97,8 @@ public class PackScan {
                             final String className = name.substring(packageName.length() + 1, name.length() - 6);
                             try {
                                 classes.add(Thread
-                                        .currentThread().getContextClassLoader()
-                                        .loadClass(packageName + Strings.DOT + className));
+                                    .currentThread().getContextClassLoader()
+                                    .loadClass(packageName + Strings.DOT + className));
                             } catch (final Throwable ex) {
                                 // LOGGER.info(ex.getMessage());
                             }
@@ -112,10 +112,10 @@ public class PackScan {
     }
 
     private static void findAndAdd(
-            final String packName,
-            final String packPath,
-            final boolean recursive,
-            final Set<Class<?>> classesRef
+        final String packName,
+        final String packPath,
+        final boolean recursive,
+        final Set<Class<?>> classesRef
     ) {
         // Read the folder of current packaqge
         final File file = new File(packPath);
@@ -127,8 +127,8 @@ public class PackScan {
         final File[] dirfiles = file.listFiles(new ClassFileFilter());
         // ZeroPack all files
         final String packageName = (packName.startsWith(Strings.DOT)) ?
-                packName.substring(1) :
-                packName;
+            packName.substring(1) :
+            packName;
         // Whether there exist another folder
         final String processedName = packageName.replace("/", Strings.DOT);
         if (null != dirfiles) {
@@ -136,16 +136,16 @@ public class PackScan {
                 // If directory, continue
                 if (classFile.isDirectory()) {
                     findAndAdd(processedName + Strings.DOT + classFile.getName(),
-                            classFile.getAbsolutePath(),
-                            recursive, classesRef);
+                        classFile.getAbsolutePath(),
+                        recursive, classesRef);
                 } else {
                     // If java, remove .class from name
                     final String className = classFile.getName().substring(0, classFile.getName().length() - 6);
                     try {
                         // Add into collection
                         classesRef.add(Thread
-                                .currentThread().getContextClassLoader()
-                                .loadClass(processedName + Strings.DOT + className));
+                            .currentThread().getContextClassLoader()
+                            .loadClass(processedName + Strings.DOT + className));
                     } catch (final Throwable ex) {
                         // LOGGER.info(ex.getMessage());
                     }

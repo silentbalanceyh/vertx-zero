@@ -174,9 +174,9 @@ public class ClusterOptions implements Serializable {
     @Override
     public String toString() {
         return "ClusterOptions{enabled=" + this.enabled
-                + ", manager=" +
-                ((null == this.manager) ? "null" : this.manager.getClass().getName())
-                + ", options="
-                + this.options.encode() + '}';
+            + ", manager=" +
+            ((null == this.manager) ? "null" : this.manager.getClass().getName())
+            + ", options="
+            + this.options.encode() + '}';
     }
 }

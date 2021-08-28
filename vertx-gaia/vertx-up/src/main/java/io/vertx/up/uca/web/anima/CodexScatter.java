@@ -5,10 +5,10 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.up.eon.FileSuffix;
 import io.vertx.up.eon.Info;
 import io.vertx.up.eon.Strings;
-import io.vertx.up.log.Annal;
-import io.vertx.up.util.Ut;
 import io.vertx.up.exception.heart.EmptyStreamException;
+import io.vertx.up.log.Annal;
 import io.vertx.up.runtime.ZeroCodex;
+import io.vertx.up.util.Ut;
 
 import java.util.List;
 

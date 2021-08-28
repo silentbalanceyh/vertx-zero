@@ -58,8 +58,8 @@ public class JetSelector {
             }
         }
         Fn.outUp(null == invoker, LOGGER,
-                InvokerNullException.class, JetSelector.class,
-                returnType, paramCls);
+            InvokerNullException.class, JetSelector.class,
+            returnType, paramCls);
         return invoker;
     }
 }

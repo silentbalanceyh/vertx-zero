@@ -31,10 +31,10 @@ public abstract class ZeroBase extends EpicBase {
      * Default vertx options to fix 2000ms issue
      */
     protected final static VertxOptions OPTIONS =
-            /* Block issue of 2000ms for testing of long time works */
-            new VertxOptions().setMaxEventLoopExecuteTime(1800_000_000_000L)
-                    .setMaxWorkerExecuteTime(1800_000_000_000L)
-                    .setBlockedThreadCheckInterval(10000);
+        /* Block issue of 2000ms for testing of long time works */
+        new VertxOptions().setMaxEventLoopExecuteTime(1800_000_000_000L)
+            .setMaxWorkerExecuteTime(1800_000_000_000L)
+            .setBlockedThreadCheckInterval(10000);
     /**
      * Default Vertx instance based on testing options
      */

@@ -95,6 +95,38 @@ class QrAnalyzer implements QrDo {
     }
 
     /**
+     * Check whether json object is complex
+     *
+     * 1. When any one value is `JsonObject`, it's true.
+     * 2. otherwise the result is false.
+     *
+     * @param source {@link io.vertx.core.json.JsonObject} input json
+     *
+     * @return {@link java.lang.Boolean}
+     */
+    static boolean isComplex(final JsonObject source) {
+        return source.fieldNames().stream()
+            .anyMatch(field -> isJson(source.getValue(field)));
+    }
+
+    /**
+     * Return true if the value type is {@link io.vertx.core.json.JsonObject}
+     *
+     * @param value {@link java.lang.Object} Input value that will be checked.
+     *
+     * @return {@link java.lang.Boolean}
+     */
+    private static boolean isJson(final Object value) {
+        if (Objects.isNull(value)) {
+            /* null pointer */
+            return false;
+        } else {
+            /* valid */
+            return Ut.isJObject(value.getClass());
+        }
+    }
+
+    /**
      * @param fieldExpr {@link java.lang.String}
      * @param value     {@link java.lang.Object}
      *
@@ -227,7 +259,6 @@ class QrAnalyzer implements QrDo {
         }
     }
 
-
     /**
      * Add new `QrItem` to current json criteria object.
      *
@@ -288,19 +319,19 @@ class QrAnalyzer implements QrDo {
         if (isComplex(source)) {
             /* Complex criteria ( Tree Mode ) */
             source.copy().fieldNames().stream()
-                    .filter(field -> isJson(source.getValue(field)))
-                    .forEach(field -> {
-                        final JsonObject itemJson = source.getJsonObject(field);
-                        this.itExist(itemJson, predicate, consumer);
-                        /*
-                         * If the linear operation happened.
-                         * Empty object processing
-                         * Remove `{}` condition instead of other here.
-                         * */
-                        if (Ut.isNil(itemJson)) {
-                            source.remove(field);
-                        }
-                    });
+                .filter(field -> isJson(source.getValue(field)))
+                .forEach(field -> {
+                    final JsonObject itemJson = source.getJsonObject(field);
+                    this.itExist(itemJson, predicate, consumer);
+                    /*
+                     * If the linear operation happened.
+                     * Empty object processing
+                     * Remove `{}` condition instead of other here.
+                     * */
+                    if (Ut.isNil(itemJson)) {
+                        source.remove(field);
+                    }
+                });
 
         }
         this.itLinear(source, predicate, consumer);
@@ -311,19 +342,19 @@ class QrAnalyzer implements QrDo {
                           final BiConsumer<QrItem, JsonObject> consumer) {
         /* Simple criteria ( Linear Mode ) */
         source.copy().fieldNames().stream()
-                /* Non complex json */
-                .filter(field -> !isJson(source.getValue(field)))
-                .filter(field -> {
-                    // Predicate for `field = Object`
-                    final Object value = source.getValue(field);
-                    return predicate.test(field, value);
-                })
-                .forEach(field -> {
-                    // TiConsumer
-                    final Object value = source.getValue(field);
-                    final QrItem item = new QrItem(field).value(value);
-                    consumer.accept(item, source);
-                });
+            /* Non complex json */
+            .filter(field -> !isJson(source.getValue(field)))
+            .filter(field -> {
+                // Predicate for `field = Object`
+                final Object value = source.getValue(field);
+                return predicate.test(field, value);
+            })
+            .forEach(field -> {
+                // TiConsumer
+                final Object value = source.getValue(field);
+                final QrItem item = new QrItem(field).value(value);
+                consumer.accept(item, source);
+            });
         /*
          * Post operation: When only one key existing: `"" = xx`, remove it.
          *
@@ -342,38 +373,6 @@ class QrAnalyzer implements QrDo {
         if (Values.ONE == source.size() && source.containsKey(Strings.EMPTY)) {
             /* Removed single "" condition */
             source.remove(Strings.EMPTY);
-        }
-    }
-
-    /**
-     * Check whether json object is complex
-     *
-     * 1. When any one value is `JsonObject`, it's true.
-     * 2. otherwise the result is false.
-     *
-     * @param source {@link io.vertx.core.json.JsonObject} input json
-     *
-     * @return {@link java.lang.Boolean}
-     */
-    static boolean isComplex(final JsonObject source) {
-        return source.fieldNames().stream()
-                .anyMatch(field -> isJson(source.getValue(field)));
-    }
-
-    /**
-     * Return true if the value type is {@link io.vertx.core.json.JsonObject}
-     *
-     * @param value {@link java.lang.Object} Input value that will be checked.
-     *
-     * @return {@link java.lang.Boolean}
-     */
-    private static boolean isJson(final Object value) {
-        if (Objects.isNull(value)) {
-            /* null pointer */
-            return false;
-        } else {
-            /* valid */
-            return Ut.isJObject(value.getClass());
         }
     }
 }

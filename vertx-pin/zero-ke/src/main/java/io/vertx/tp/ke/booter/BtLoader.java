@@ -63,18 +63,18 @@ class BtLoader {
     static void doImport(final String filename, final Handler<AsyncResult<String>> callback) {
         final WorkerExecutor executor = Ux.nativeWorker(filename);
         executor.<String>executeBlocking(
-                pre -> {
-                    final ExcelClient client = ExcelInfix.createClient();
-                    Ke.infoKe(LOGGER, "Excel importing file = {0}", filename);
-                    client.importAsync(filename, handler -> {
-                        if (handler.succeeded()) {
-                            pre.complete(filename);
-                        } else {
-                            pre.fail(handler.cause());
-                        }
-                    });
-                },
-                post -> callback.handle(Future.succeededFuture(post.result()))
+            pre -> {
+                final ExcelClient client = ExcelInfix.createClient();
+                Ke.infoKe(LOGGER, "Excel importing file = {0}", filename);
+                client.importAsync(filename, handler -> {
+                    if (handler.succeeded()) {
+                        pre.complete(filename);
+                    } else {
+                        pre.fail(handler.cause());
+                    }
+                });
+            },
+            post -> callback.handle(Future.succeededFuture(post.result()))
         );
     }
 
@@ -84,8 +84,8 @@ class BtLoader {
     @SuppressWarnings("all")
     static void doIngests(final String folder, final Handler<AsyncResult<Set<ExTable>>> callback) {
         final List<Future> futures = stream(folder, null)
-                .map(BtLoader::ingestFuture)
-                .collect(Collectors.toList());
+            .map(BtLoader::ingestFuture)
+            .collect(Collectors.toList());
         CompositeFuture.join(futures).compose(result -> {
             final List<Set<ExTable>> async = result.list();
             final Set<ExTable> tables = new HashSet<>();
@@ -102,7 +102,7 @@ class BtLoader {
 
     private static Stream<String> stream(final String folder, final String prefix) {
         return Ut.ioFilesN(folder, null, prefix).stream()
-                .filter(BtLoader::ensureFile);
+            .filter(BtLoader::ensureFile);
     }
 
     private static boolean ensureFile(final String filename) {

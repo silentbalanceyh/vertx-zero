@@ -28,15 +28,15 @@ public class SourceInit implements Init {
             final XSource source = this.init(sourceJson, appJson);
 
             return Ux.Jooq.on(XSourceDao.class)
-                    /*
-                     * Init second step: appId as condition, save X_APP
-                     */
-                    .upsertAsync(this.whereUnique(appJson), source)
-                    .compose(Ux::futureJ)
-                    /*
-                     * Result Building
-                     */
-                    .compose(updated -> Ux.future(this.result(appJson, updated)));
+                /*
+                 * Init second step: appId as condition, save X_APP
+                 */
+                .upsertAsync(this.whereUnique(appJson), source)
+                .compose(Ux::futureJ)
+                /*
+                 * Result Building
+                 */
+                .compose(updated -> Ux.future(this.result(appJson, updated)));
         };
     }
 

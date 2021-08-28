@@ -61,6 +61,7 @@ public class FeignDepot implements Serializable {
     /**
      * @param clazz Input FeignApi class.
      * @param <T>   FeignApi type
+     *
      * @return Feign Api reference.
      */
     public <T> T build(final Class<T> clazz) {
@@ -103,8 +104,8 @@ public class FeignDepot implements Serializable {
             normalized = normalized.mergeIn(options);
         }
         this.options = new Request.Options(
-                normalized.getInteger("connect"),
-                normalized.getInteger("read"));
+            normalized.getInteger("connect"),
+            normalized.getInteger("read"));
         // Defaults
         normalized = DEFAULTS;
         if (raw.containsKey("retry")) {
@@ -112,9 +113,9 @@ public class FeignDepot implements Serializable {
             normalized = normalized.mergeIn(defaults);
         }
         this.defaults = new Retryer.Default(
-                normalized.getInteger("period"),
-                normalized.getInteger("maxPeriod"),
-                normalized.getInteger("attempts")
+            normalized.getInteger("period"),
+            normalized.getInteger("maxPeriod"),
+            normalized.getInteger("attempts")
         );
     }
 }

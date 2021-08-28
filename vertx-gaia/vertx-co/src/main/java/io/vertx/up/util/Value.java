@@ -43,7 +43,7 @@ class Value {
             return null;
         } else {
             if ("null".equalsIgnoreCase(input.toString()) ||
-                    "undefined".equalsIgnoreCase(input.toString())) {
+                "undefined".equalsIgnoreCase(input.toString())) {
                 /*
                  * null, NULL -> null
                  * undefined, -> null
@@ -74,19 +74,19 @@ class Value {
     @SuppressWarnings("all")
     static Object aiJValue(final Object input, final Class<?> type) {
         return aiValue(input, type, Value::aiJType, (sourceType, targetType) -> aiExecute(sourceType, targetType, input,
-                (source) -> {
+            (source) -> {
+                /*
+                 * If String, check whether it's date
+                 */
+                if (String.class != type && Ut.isDate(source.toString())) {
                     /*
-                     * If String, check whether it's date
+                     * String to
                      */
-                    if (String.class != type && Ut.isDate(source.toString())) {
-                        /*
-                         * String to
-                         */
-                        return V.vInstant().to(source, sourceType);
-                    } else {
-                        return input.toString();
-                    }
-                }));
+                    return V.vInstant().to(source, sourceType);
+                } else {
+                    return input.toString();
+                }
+            }));
     }
 
     /*
@@ -95,19 +95,19 @@ class Value {
     @SuppressWarnings("all")
     static Object aiValue(final Object input, final Class<?> type) {
         return aiValue(input, type, Value::aiType, (sourceType, targetType) -> aiExecute(sourceType, targetType, input,
-                (source) -> {
+            (source) -> {
+                /*
+                 * If String, check whether it's date
+                 */
+                if (String.class != type && Ut.isDate(source.toString())) {
                     /*
-                     * If String, check whether it's date
+                     * String to
                      */
-                    if (String.class != type && Ut.isDate(source.toString())) {
-                        /*
-                         * String to
-                         */
-                        return V.vDate().to(source, sourceType);
-                    } else {
-                        return input.toString();
-                    }
-                }));
+                    return V.vDate().to(source, sourceType);
+                } else {
+                    return input.toString();
+                }
+            }));
     }
 
     private static Class<?> aiJType(final Class<?> type) {

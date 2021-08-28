@@ -10,9 +10,9 @@ import io.vertx.tp.ambient.atom.AtConfig;
 import io.vertx.tp.ambient.cv.AtConstant;
 import io.vertx.tp.ambient.cv.AtMsg;
 import io.vertx.tp.ambient.init.AtPin;
-import io.vertx.up.eon.KName;
 import io.vertx.tp.ke.refine.Ke;
 import io.vertx.up.commune.config.Database;
+import io.vertx.up.eon.KName;
 import io.vertx.up.log.Annal;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
@@ -55,7 +55,7 @@ class AtEnv {
         if (Ut.notNil(originalFile) && originalFile.contains(".")) {
             // Config Read
             final AtConfig config = AtPin.getConfig();
-            final int lastIndex = originalFile.lastIndexOf('.');
+            final int lastIndex = originalFile.lastIndexOf('.' );
             final String fileName = originalFile.substring(0, lastIndex);
             final String extension = originalFile.substring(lastIndex + 1);
             // File key
@@ -63,19 +63,19 @@ class AtEnv {
             // File Url
             final String downloadUrl = MessageFormat.format(AtConstant.DOWNLOAD_URI, key);
             uploaded.put("key", key)
-                    .put("storeWay", config.getFileStorage())
-                    .put("status", "PROGRESS")
-                    .put("name", originalFile)
-                    .put("fileKey", Ut.randomString(64))
-                    .put("fileName", fileName)
-                    .put("fileUrl", downloadUrl)
-                    .put("filePath", fileUpload.uploadedFileName())
-                    .put("extension", extension)
-                    .put("module", category)
-                    .put("mime", fileUpload.contentType())
-                    .put("size", fileUpload.size())
-                    .put("language", config.getFileLanguage())
-                    .put("metadata", new JsonObject().encode());
+                .put("storeWay", config.getFileStorage())
+                .put("status", "PROGRESS")
+                .put("name", originalFile)
+                .put("fileKey", Ut.randomString(64))
+                .put("fileName", fileName)
+                .put("fileUrl", downloadUrl)
+                .put("filePath", fileUpload.uploadedFileName())
+                .put("extension", extension)
+                .put("module", category)
+                .put("mime", fileUpload.contentType())
+                .put("size", fileUpload.size())
+                .put("language", config.getFileLanguage())
+                .put("metadata", new JsonObject().encode());
         }
         return uploaded;
     }
@@ -89,8 +89,8 @@ class AtEnv {
     private static Future<Database> getDatabase(final String appId) {
         AtLog.infoEnv(LOGGER, AtMsg.SOURCE, appId);
         return Ux.Jooq.on(XSourceDao.class)
-                .fetchOneAsync(KName.APP_ID, appId)
-                .compose(Ux::futureJ)
-                .compose(AtEnv::fromJsonAsync);
+            .fetchOneAsync(KName.APP_ID, appId)
+            .compose(Ux::futureJ)
+            .compose(AtEnv::fromJsonAsync);
     }
 }

@@ -7,8 +7,8 @@ import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.ke.cv.KeDefault;
+import io.vertx.up.atom.query.engine.Qr;
 import io.vertx.up.eon.KName;
-import io.vertx.tp.ke.refine.Ke;
 import io.vertx.up.uca.jooq.UxJooq;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
@@ -41,13 +41,9 @@ public class RuleService implements RuleStub {
         condition.put("owner", ownerId);
         condition.put("ownerType", ownerType);
         condition.put("resourceId,i", keys);
-        condition.put("name", view);
+        condition.put(KName.NAME, view);
         return Ux.Jooq.on(SViewDao.class).fetchAndAsync(condition).compose(Ux::futureA)
-                .compose(Ke.mounts("rows", "criteria"))
-                .compose(result -> {
-                    Ut.itJArray(result).forEach(json -> Ke.mountArray(json, "projection"));
-                    return Ux.future(result);
-                });
+            .compose(Ut.ifJArray("rows", Qr.KEY_CRITERIA, Qr.KEY_PROJECTION));
     }
 
     @Override
@@ -108,28 +104,29 @@ public class RuleService implements RuleStub {
             final UxJooq jooq = Ux.Jooq.on(SViewDao.class);
             final JsonArray response = new JsonArray();
             return jooq.updateAsync(upQueue)
-                    .compose(Ux::futureA)
-                    .compose(updated -> {
-                        /*
-                         * Stored data into updated queue
-                         */
-                        response.addAll(updated);
-                        return Ux.future();
-                    })
-                    .compose(nil -> jooq.insertAsync(addQueue))
-                    .compose(Ux::futureA)
-                    .compose(Ke.mounts("rows", "criteria"))
-                    .compose(result -> {
-                        Ut.itJArray(result).forEach(json -> Ke.mountArray(json, "projection"));
-                        return Ux.future(result);
-                    })
-                    .compose(inserted -> {
-                        /*
-                         * Stored data into inserted queue here
-                         */
-                        response.addAll(inserted);
-                        return Ux.future(response);
-                    });
+                .compose(Ux::futureA)
+                .compose(updated -> {
+                    /*
+                     * Stored data into updated queue
+                     */
+                    response.addAll(updated);
+                    return Ux.future();
+                })
+                .compose(nil -> jooq.insertAsync(addQueue))
+                .compose(Ux::futureA)
+                .compose(Ut.ifJArray("rows", Qr.KEY_CRITERIA, Qr.KEY_PROJECTION))
+                //                .compose(Ke.mounts("rows", "criteria"))
+                //                .compose(result -> {
+                //                    Ut.itJArray(result).forEach(json -> Ke.mountArray(json, "projection"));
+                //                    return Ux.future(result);
+                //                })
+                .compose(inserted -> {
+                    /*
+                     * Stored data into inserted queue here
+                     */
+                    response.addAll(inserted);
+                    return Ux.future(response);
+                });
         }).compose(viewData -> {
             /*
              * viewData -> JsonArray to store all views
@@ -157,10 +154,10 @@ public class RuleService implements RuleStub {
                     final JsonObject visitantData = requestData.getJsonObject("visitantData");
                     if (Ut.notNil(visitantData)) {
                         futures.add(this.visitStub.saveAsync(visitantData.copy(), view)
-                                /*
-                                 * Processed for views
-                                 */
-                                .compose(processed -> Ux.future(view.put("visitantData", processed)))
+                            /*
+                             * Processed for views
+                             */
+                            .compose(processed -> Ux.future(view.put("visitantData", processed)))
                         );
                     }
                 }

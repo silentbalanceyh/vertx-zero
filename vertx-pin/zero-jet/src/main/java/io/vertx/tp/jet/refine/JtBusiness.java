@@ -6,11 +6,11 @@ import io.vertx.core.MultiMap;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.jet.atom.JtApp;
-import io.vertx.up.eon.KName;
 import io.vertx.tp.optic.environment.Ambient;
-import io.vertx.up.commune.exchange.DualMapping;
 import io.vertx.up.commune.config.Identity;
 import io.vertx.up.commune.exchange.DictConfig;
+import io.vertx.up.commune.exchange.DualMapping;
+import io.vertx.up.eon.KName;
 import io.vertx.up.eon.em.MappingMode;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.unity.Ux;
@@ -36,7 +36,7 @@ class JtBusiness {
              */
             if (!dict.getSource().isEmpty()) {
                 final Class<?> component =
-                        Ut.clazz(service.getDictComponent(), null);
+                    Ut.clazz(service.getDictComponent(), null);
                 dict.bind(component);
                 /*
                  * dictEpsilon configuration

@@ -75,7 +75,7 @@ class Upload {
                  * It means that list only support Set<FileUpload> and List<FileUpload>
                  */
                 final Stream stream = fileUploads.stream()
-                        .map(fileUpload -> toFile(fileUpload, FileUpload.class, consumer));
+                    .map(fileUpload -> toFile(fileUpload, FileUpload.class, consumer));
                 if (List.class.isAssignableFrom(expected)) {
                     /*
                      * List<T>
@@ -125,8 +125,8 @@ class Upload {
                             return (T) files;
                         }
                         return (T) fileUploads.stream()
-                                .map(item -> toFile(item, componentCls, consumer))
-                                .toArray();
+                            .map(item -> toFile(item, componentCls, consumer))
+                            .toArray();
                     } else {
                         /*
                          * expected = Single
@@ -210,7 +210,7 @@ class Upload {
                 }
             } else {
                 LOGGER.warn("The array type support byte[]/Byte[] only in current version, current = {0}",
-                        componentCls.getName());
+                    componentCls.getName());
                 return null;
             }
         } else if (Buffer.class.isAssignableFrom(expected)) {

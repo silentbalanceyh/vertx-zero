@@ -46,7 +46,7 @@ public class AmbientService implements AmbientStub {
              * XHeader Flush Cache
              */
             final AmbientEnvironment environment =
-                    Ambient.getEnvironments().get(app.getAppId());
+                Ambient.getEnvironments().get(app.getAppId());
             environment.flushJob(instance);
             /*
              * Mission here for JobPool updating
@@ -84,7 +84,7 @@ public class AmbientService implements AmbientStub {
              * XHeader Flush Cache
              */
             final AmbientEnvironment environment =
-                    Ambient.getEnvironments().get(app.getAppId());
+                Ambient.getEnvironments().get(app.getAppId());
             environment.flushUri(instance);
             /*
              * Response build

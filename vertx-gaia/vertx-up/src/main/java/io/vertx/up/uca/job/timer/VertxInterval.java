@@ -24,7 +24,7 @@ public class VertxInterval implements Interval {
          *
          */
         return this.vertx.setTimer(delay + START_UP_MS, ignored ->
-                this.vertx.setPeriodic(START_UP_MS + duration, actuator));
+            this.vertx.setPeriodic(START_UP_MS + duration, actuator));
     }
 
     @Override

@@ -8,12 +8,12 @@ import io.vertx.servicediscovery.Record;
 import io.vertx.servicediscovery.ServiceDiscovery;
 import io.vertx.up.annotations.Worker;
 import io.vertx.up.eon.em.MessageModel;
+import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
+import io.vertx.up.runtime.Runner;
 import io.vertx.up.uca.micro.discovery.ApiOrigin;
 import io.vertx.up.uca.micro.discovery.Origin;
 import io.vertx.up.util.Ut;
-import io.vertx.up.fn.Fn;
-import io.vertx.up.runtime.Runner;
 
 import java.text.MessageFormat;
 import java.util.HashSet;
@@ -35,13 +35,13 @@ public class ZeroApiWorker extends AbstractVerticle {
     private static final Origin ORIGIN = Ut.singleton(ApiOrigin.class);
 
     private static final ConcurrentMap<String, Record> REGISTRITIONS
-            = new ConcurrentHashMap<>();
+        = new ConcurrentHashMap<>();
     private static final ConcurrentMap<String, String> ID_MAP
-            = new ConcurrentHashMap<>();
+        = new ConcurrentHashMap<>();
     private static final ConcurrentHashSet<String> REGISTRY = new ConcurrentHashSet<>();
 
     private static final AtomicBoolean initialized =
-            new AtomicBoolean(false);
+        new AtomicBoolean(false);
 
     @Override
     public void start() {
@@ -107,41 +107,41 @@ public class ZeroApiWorker extends AbstractVerticle {
                                final Set<String> ids) {
         // Delete service from current zero system.
         Observable.fromIterable(ids)
-                .subscribe(id -> {
-                    final String item = ID_MAP.get(id);
-                    discovery.unpublish(item, result -> {
-                        if (result.succeeded()) {
-                            // Delete successfully
-                            final Record record = REGISTRITIONS.get(id);
-                            this.successLog(record);
-                            // Sync deleted
-                            REGISTRITIONS.remove(id);
-                            ID_MAP.remove(id);
-                            // Remove from Set
-                            REGISTRY.remove(id);
-                        } else {
-                            LOGGER.info(Info.REG_FAILURE, result.cause().getMessage(), "Delete");
-                        }
-                    });
-                })
-                .dispose();
+            .subscribe(id -> {
+                final String item = ID_MAP.get(id);
+                discovery.unpublish(item, result -> {
+                    if (result.succeeded()) {
+                        // Delete successfully
+                        final Record record = REGISTRITIONS.get(id);
+                        this.successLog(record);
+                        // Sync deleted
+                        REGISTRITIONS.remove(id);
+                        ID_MAP.remove(id);
+                        // Remove from Set
+                        REGISTRY.remove(id);
+                    } else {
+                        LOGGER.info(Info.REG_FAILURE, result.cause().getMessage(), "Delete");
+                    }
+                });
+            })
+            .dispose();
     }
 
     private void updateService(final ServiceDiscovery discovery,
                                final Set<String> ids) {
         // Update service into current zero system.
         Observable.fromIterable(ids)
-                .map(REGISTRITIONS::get)
-                .subscribe(item -> discovery.update(item, result -> {
-                    if (result.succeeded()) {
-                        final Record record = result.result();
-                        // Update successfully
-                        this.successFinished(record);
-                    } else {
-                        LOGGER.info(Info.REG_FAILURE, result.cause().getMessage(), "Update");
-                    }
-                }))
-                .dispose();
+            .map(REGISTRITIONS::get)
+            .subscribe(item -> discovery.update(item, result -> {
+                if (result.succeeded()) {
+                    final Record record = result.result();
+                    // Update successfully
+                    this.successFinished(record);
+                } else {
+                    LOGGER.info(Info.REG_FAILURE, result.cause().getMessage(), "Update");
+                }
+            }))
+            .dispose();
     }
 
     private void addService(final ServiceDiscovery discovery,
@@ -149,16 +149,16 @@ public class ZeroApiWorker extends AbstractVerticle {
                             final ConcurrentMap<String, Record> services) {
         // Add service into current zero system.
         Observable.fromIterable(ids)
-                .map(services::get)
-                .subscribe(item -> this.publishSerivce(discovery, "Add").accept(item))
-                .dispose();
+            .map(services::get)
+            .subscribe(item -> this.publishSerivce(discovery, "Add").accept(item))
+            .dispose();
     }
 
     private Consumer<Record> publishSerivce(final ServiceDiscovery discovery, final String flag) {
         return (item) -> {
             // Avoid duplicated add
             if (null == item.getRegistration()
-                    || !REGISTRY.contains(item.getRegistration())) {
+                || !REGISTRY.contains(item.getRegistration())) {
                 discovery.publish(item, result -> {
                     if (result.succeeded()) {
                         final Record record = result.result();
@@ -179,17 +179,17 @@ public class ZeroApiWorker extends AbstractVerticle {
         // Read the services
         final Set<Record> services = new HashSet<>(ORIGIN.getRegistryData().values());
         Observable.fromIterable(services)
-                .subscribe(item -> this.publishSerivce(discovery, "Init").accept(item))
-                .dispose();
+            .subscribe(item -> this.publishSerivce(discovery, "Init").accept(item))
+            .dispose();
     }
 
     private ConcurrentMap<Flag, Set<String>> calculateServices(
-            final ConcurrentMap<String, Record> services) {
+        final ConcurrentMap<String, Record> services) {
         // Read new services.
         final Set<String> populated = new HashSet<>();
         Observable.fromIterable(services.keySet())
-                .subscribe(populated::add)
-                .dispose();
+            .subscribe(populated::add)
+            .dispose();
 
         // Existed = Yes, Populated = No
         final Set<String> deleted = new HashSet<>(REGISTRITIONS.keySet());
@@ -225,12 +225,12 @@ public class ZeroApiWorker extends AbstractVerticle {
         final String key = this.getID(record);
         final String id = record.getRegistration();
         final String endpoint = MessageFormat.format("http://{0}:{1}{2}",
-                record.getLocation().getString(Origin.HOST),
-                String.valueOf(record.getLocation().getInteger(Origin.PORT)),
-                record.getMetadata().getString(Origin.PATH));
+            record.getLocation().getString(Origin.HOST),
+            String.valueOf(record.getLocation().getInteger(Origin.PORT)),
+            record.getMetadata().getString(Origin.PATH));
         LOGGER.debug(Info.REG_SUCCESS, record.getStatus(),
-                record.getType(), record.getName(),
-                endpoint, key, id);
+            record.getType(), record.getName(),
+            endpoint, key, id);
     }
 
     private String getID(final Record record) {

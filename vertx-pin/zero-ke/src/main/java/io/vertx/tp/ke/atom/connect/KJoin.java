@@ -10,7 +10,6 @@ import java.io.Serializable;
 import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
-import java.util.function.Function;
 
 /**
  * ## 「Pojo」Join Configuration
@@ -61,19 +60,6 @@ public class KJoin implements Serializable {
         /*
          * Joined configuration read
          */
-        final String identifier = this.procIdentifier(data);
-        if (Ut.isNil(identifier)) {
-            return null;
-        }
-        final KPoint target = this.target.getOrDefault(identifier, null);
-        if (Objects.isNull(target)) {
-            LOGGER.warn("System could not find configuration for `{0}`, data = {1}", identifier, data.encode());
-            return null;
-        }
-        return target.indent(identifier);
-    }
-
-    private String procIdentifier(final JsonObject data) {
         /*
          * Search by `field`
          */
@@ -91,12 +77,19 @@ public class KJoin implements Serializable {
             identifier = this.targetIndent;
         }
         Fn.out(Ut.isNil(identifier), _404IndentParsingException.class, this.getClass(), this.targetIndent, data);
-        return identifier;
+        final KPoint result = this.procTarget(identifier);
+        if (Objects.isNull(result)) {
+            LOGGER.warn("System could not find configuration for `{0}` with data = {1}", identifier, data.encode());
+        }
+        return result;
     }
 
-    public <T> T procTarget(final JsonObject data, final Function<KPoint, T> fnProcess) {
-        final KPoint point = this.procTarget(data);
-        return fnProcess.apply(point);
+    public KPoint procTarget(final String identifier) {
+        final KPoint target = this.target.getOrDefault(identifier, null);
+        if (Objects.isNull(target)) {
+            return null;
+        }
+        return target.indent(identifier);
     }
 
     /**

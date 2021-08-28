@@ -36,12 +36,12 @@ public interface AuthMsg {
     String CREDIT_BOUND = "6. Accredit bound ( bound = {0} and key = {1} )";
     String CREDIT_SUCCESS = "7. Accredit authorized cache ( key = {0} ) stored into ( session = {1} )";
 
-    String REGION_BEFORE = "--> DataRegion Before: uri = {0}, region = {1}git";
+    String REGION_BEFORE = "--> DataRegion Before: uri = {0}, region = {1}";
     String REGION_AFTER = "<-- DataRegion After: {0}";
     String REGION_TYPE = "DataRegion Analyzed type: {0}, data = {1}";
     String REGION_ROWS = "DataRegion Rows -> {0}";
     String REGION_PROJECTION = "DataRegion Projection -> {0}";
-    String REGION_FLUSH = "DataRegion Flush -> habitus = {0}, dataKey = {1}, From \n{2} \nto \n{3}";
+    String REGION_FLUSH = "DataRegion Flush -> dataKey = {1}, habitus = {0}, From \n{2} \nto \n{3}";
 
     String SEEKER_RESOURCE = "Seeking Resource with uri = {0}, method = {1}, sigma = {2}";
     String POOL_RESOURCE = "Pool = {0} has been initialized to `habitus` = {1}";

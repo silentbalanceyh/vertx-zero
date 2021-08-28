@@ -13,7 +13,7 @@ public interface DictionaryPlugin {
     }
 
     Future<JsonArray> fetchAsync(DictSource source, MultiMap paramMap);
-    
+
     default JsonArray fetch(DictSource source, MultiMap paramMap) {
         return new JsonArray();
     }

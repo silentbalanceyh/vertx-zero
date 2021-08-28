@@ -27,7 +27,7 @@ public class AtApp {
         /* Context */
         this.app = this.dao.fetchOneByName(name);
         Fn.outWeb(null == this.app, _500ApplicationInitException.class,
-                this.getClass(), name);
+            this.getClass(), name);
     }
 
     private AtApp(final String name) {
@@ -36,7 +36,7 @@ public class AtApp {
         /* Current */
         this.app = jooq.fetchOne(KName.NAME, name);
         Fn.outWeb(null == this.app, _500ApplicationInitException.class,
-                this.getClass(), name);
+            this.getClass(), name);
     }
 
 

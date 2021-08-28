@@ -66,11 +66,11 @@ public class DataEncap {
      */
     public static IpcRequest in(final IpcData data) {
         final IpcEnvelop envelop = IpcEnvelop.newBuilder()
-                .setBody(data.getData().toString())
-                .setType(Format.JSON).build();
+            .setBody(data.getData().toString())
+            .setType(Format.JSON).build();
         return IpcRequest.newBuilder()
-                .setEnvelop(envelop)
-                .build();
+            .setEnvelop(envelop)
+            .build();
     }
 
     /**
@@ -108,9 +108,9 @@ public class DataEncap {
 
     public static IpcResponse out(final IpcData data) {
         final IpcEnvelop result = IpcEnvelop.newBuilder()
-                .setBody(data.getData().toString())
-                .setType(Format.JSON)
-                .build();
+            .setBody(data.getData().toString())
+            .setType(Format.JSON)
+            .build();
         return IpcResponse.newBuilder().setEnvelop(result).build();
     }
 
@@ -149,6 +149,6 @@ public class DataEncap {
     public static JsonObject outJson(final IpcResponse data) {
         final String json = data.getEnvelop().getBody();
         return Fn.getSemi(Ut.notNil(json), LOGGER,
-                () -> new JsonObject(json));
+            () -> new JsonObject(json));
     }
 }

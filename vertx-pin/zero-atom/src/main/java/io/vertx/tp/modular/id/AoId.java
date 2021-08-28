@@ -25,14 +25,14 @@ public interface AoId {
     static <T> String keyInfo(final ConcurrentMap<String, T> keyMap) {
         final StringBuilder keyInfo = new StringBuilder();
         keyMap.forEach((key, value) ->
-                keyInfo.append(key).append("=").append(value).append(","));
+            keyInfo.append(key).append("=").append(value).append(","));
         return keyInfo.toString();
     }
 
     static <T> String keyInfo(final Set<MJoin> joins) {
         final StringBuilder keyInfo = new StringBuilder();
         joins.forEach(item ->
-                keyInfo.append(item.getEntityKey()).append("=").append(item.getEntity()).append(","));
+            keyInfo.append(item.getEntityKey()).append("=").append(item.getEntity()).append(","));
         return keyInfo.toString();
     }
 

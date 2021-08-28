@@ -18,14 +18,14 @@ public class MySqlInfix implements Infix {
     private static final String NAME = "ZERO_MYSQL_POOL";
 
     private static final ConcurrentMap<String, SQLClient> CLIENTS
-            = new ConcurrentHashMap<>();
+        = new ConcurrentHashMap<>();
 
     private static void initInternal(final Vertx vertx,
                                      final String name) {
         Fn.pool(CLIENTS, name,
-                () -> Infix.init(Plugins.Infix.MYSQL,
-                        (config) -> MySQLClient.createShared(vertx, config, name),
-                        MySqlInfix.class));
+            () -> Infix.init(Plugins.Infix.MYSQL,
+                (config) -> MySQLClient.createShared(vertx, config, name),
+                MySqlInfix.class));
     }
 
     public static void init(final Vertx vertx) {

@@ -5,9 +5,9 @@ import io.vertx.up.exception.UpException;
 public class JooqFieldMissingException extends UpException {
 
     public JooqFieldMissingException(
-            final Class<?> clazz,
-            final String field,
-            final Class<?> type) {
+        final Class<?> clazz,
+        final String field,
+        final Class<?> type) {
         super(clazz, field, type.getName());
     }
 

@@ -6,11 +6,10 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.tp.atom.cv.em.CheckResult;
 import io.vertx.tp.atom.cv.sql.SqlStatement;
 import io.vertx.tp.atom.modeling.Schema;
-import io.vertx.up.eon.KName;
-import io.vertx.up.eon.KResult;
 import io.vertx.tp.modular.jdbc.AoConnection;
 import io.vertx.tp.modular.sql.SqlDDLBuilder;
 import io.vertx.tp.modular.sql.SqlDDLProvider;
+import io.vertx.up.eon.KName;
 import io.vertx.up.eon.KResult;
 import io.vertx.up.log.Annal;
 import io.vertx.up.util.Ut;
@@ -52,9 +51,9 @@ public abstract class AbstractBuilder implements AoBuilder, SqlStatement {
         if (exist) {
             // 如果存在则执行ALTER语句
             lines.addAll(this.provider
-                    .on(this.getSentence())
-                    .on(this.getReflector())
-                    .prepareAlterLines(schema));
+                .on(this.getSentence())
+                .on(this.getReflector())
+                .prepareAlterLines(schema));
             sql = Ut.fromJoin(lines, "");
         } else {
             final Set<String> fields = schema.getFieldNames();
@@ -63,8 +62,8 @@ public abstract class AbstractBuilder implements AoBuilder, SqlStatement {
             }
             // 表不存在，而且有表字段信息时，则执行CREATE语句
             lines.addAll(this.provider
-                    .on(this.getSentence())
-                    .prepareCreateLines(schema));
+                .on(this.getSentence())
+                .prepareCreateLines(schema));
             sql = this.builder.buildCreateTable(schema.getTable(), lines);
         }
         final String[] segments = sql.split(";");
@@ -104,16 +103,16 @@ public abstract class AbstractBuilder implements AoBuilder, SqlStatement {
             final ConcurrentMap<String, Object> columnDetail = reflector.getColumnDetails(column, columnDetailList);
             final CheckResult checkResult = sentence.checkFieldType(field, columnDetail);
             final JsonObject fieldResult = new JsonObject()
-                    // 对比结果为 SKIP 时，代表一致
-                    .put("same", checkResult == CheckResult.SKIP)
-                    .put("name", field.getName()).put("columnName", field.getColumnName())
-                    .put("type", sentence.columnType(field).toUpperCase()).put("oldType", columnDetail.get(reflector.getDataTypeWord()).toString().toUpperCase())
-                    .put("length", null != field.getLength() ? field.getLength() : 0).put("oldLength", columnDetail.get(reflector.getLengthWord()).toString().equalsIgnoreCase("NULL") ? "0" : columnDetail.get(reflector.getLengthWord()).toString());
+                // 对比结果为 SKIP 时，代表一致
+                .put("same", checkResult == CheckResult.SKIP)
+                .put("name", field.getName()).put("columnName", field.getColumnName())
+                .put("type", sentence.columnType(field).toUpperCase()).put("oldType", columnDetail.get(reflector.getDataTypeWord()).toString().toUpperCase())
+                .put("length", null != field.getLength() ? field.getLength() : 0).put("oldLength", columnDetail.get(reflector.getLengthWord()).toString().equalsIgnoreCase("NULL") ? "0" : columnDetail.get(reflector.getLengthWord()).toString());
             resultList.add(fieldResult);
         });
         return resultObj
-                .put(KName.IDENTIFIER, schema.getEntity().getIdentifier())
-                .put("details", resultList);
+            .put(KName.IDENTIFIER, schema.getEntity().getIdentifier())
+            .put("details", resultList);
     }
 
     @Override

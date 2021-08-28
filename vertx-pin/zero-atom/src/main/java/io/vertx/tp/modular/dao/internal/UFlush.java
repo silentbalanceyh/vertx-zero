@@ -101,7 +101,7 @@ public class UFlush extends AbstractUtil<UFlush> {
         final DataEvent input = this.key(record);
         // Output
         return this.jooq.deleteAsync(input)
-                .compose(event -> Ux.future(event.succeed()));
+            .compose(event -> Ux.future(event.succeed()));
     }
 
     public Boolean delete(final Record... records) {
@@ -118,7 +118,7 @@ public class UFlush extends AbstractUtil<UFlush> {
         final DataEvent input = this.keys(records);
         // Output
         return this.jooq.deleteBatchAsync(input)
-                .compose(event -> Ux.future(event.succeed()));
+            .compose(event -> Ux.future(event.succeed()));
     }
 
     // ----------------------- Private ----------------------
@@ -154,7 +154,7 @@ public class UFlush extends AbstractUtil<UFlush> {
 
     private DataEvent keys(final Record... records) {
         final Object[] ids = Arrays.stream(records)
-                .map(Record::key).toArray();
+            .map(Record::key).toArray();
         return this.events().keys(ids);
     }
 }

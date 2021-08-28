@@ -3,8 +3,8 @@ package io.vertx.tp.modular.phantom;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.atom.cv.AoCache;
-import io.vertx.up.eon.KName;
 import io.vertx.tp.optic.ambient.AoRefine;
+import io.vertx.up.eon.KName;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.util.Ut;
 
@@ -17,42 +17,42 @@ public interface AoModeler extends AoRefine {
 
     static AoModeler init() {
         return Fn.pool(AoCache.POOL_MODELER, InitModeler.class.getName(),
-                InitModeler::new);
+            InitModeler::new);
     }
 
     static AoModeler attribute() {
         return Fn.pool(AoCache.POOL_MODELER, AttributeModeler.class.getName(),
-                AttributeModeler::new);
+            AttributeModeler::new);
     }
 
     static AoModeler join() {
         return Fn.pool(AoCache.POOL_MODELER, JoinModeler.class.getName(),
-                JoinModeler::new);
+            JoinModeler::new);
     }
 
     static AoModeler entity() {
         return Fn.pool(AoCache.POOL_MODELER, EntityModeler.class.getName(),
-                EntityModeler::new);
+            EntityModeler::new);
     }
 
     static AoModeler scatter() {
         return Fn.pool(AoCache.POOL_MODELER, ScatterModeler.class.getName(),
-                ScatterModeler::new);
+            ScatterModeler::new);
     }
 
     static AoModeler field() {
         return Fn.pool(AoCache.POOL_MODELER, FieldModeler.class.getName(),
-                FieldModeler::new);
+            FieldModeler::new);
     }
 
     static AoModeler key() {
         return Fn.pool(AoCache.POOL_MODELER, KeyModeler.class.getName(),
-                KeyModeler::new);
+            KeyModeler::new);
     }
 
     static AoModeler index() {
         return Fn.pool(AoCache.POOL_MODELER, IndexModeler.class.getName(),
-                IndexModeler::new);
+            IndexModeler::new);
     }
 
     static JsonObject getEntity(final JsonObject schemaJson) {

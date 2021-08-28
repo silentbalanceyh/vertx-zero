@@ -64,10 +64,10 @@ public abstract class JooqBase extends AsyncBase {
     }
 
     protected void fetchOneAsync(
-            final TestContext context,
-            final Class<?> clazzDao,
-            final String pojo,
-            final Object... args) {
+        final TestContext context,
+        final Class<?> clazzDao,
+        final String pojo,
+        final Object... args) {
         final List<Kv<String, Object>> kvs = new ArrayList<>();
         final int length = args.length / 2;
         for (int idx = 0; idx < length; idx++) {
@@ -82,8 +82,8 @@ public abstract class JooqBase extends AsyncBase {
                 jooq = jooq.on(pojo);
             }
             this.async(context,
-                    jooq.fetchOneAsync(kv.getKey(), kv.getValue()),
-                    context::assertNotNull);
+                jooq.fetchOneAsync(kv.getKey(), kv.getValue()),
+                context::assertNotNull);
         });
     }
 /*

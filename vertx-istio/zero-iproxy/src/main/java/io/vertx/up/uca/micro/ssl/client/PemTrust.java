@@ -18,18 +18,18 @@ public class PemTrust implements TrustPipe<JsonObject> {
 
     @Override
     public Handler<ClientOptionsBase> parse(
-            final JsonObject options) {
+        final JsonObject options) {
         return Fn.getNull(() -> {
             final PemTrustOptions pem = Fn.getSemi(
-                    !options.containsKey(PATH_CERT), LOGGER,
-                    Trust.CLIENT_PEM,
-                    () -> new PemTrustOptions().addCertPath(PATH_CERT)
+                !options.containsKey(PATH_CERT), LOGGER,
+                Trust.CLIENT_PEM,
+                () -> new PemTrustOptions().addCertPath(PATH_CERT)
             );
             return option -> option
-                    .setSsl(true)
-                    .setUseAlpn(true)
-                    .setPemTrustOptions(pem)
-                    .setOpenSslEngineOptions(new OpenSSLEngineOptions());
+                .setSsl(true)
+                .setUseAlpn(true)
+                .setPemTrustOptions(pem)
+                .setOpenSslEngineOptions(new OpenSSLEngineOptions());
         }, options);
     }
 }

@@ -53,8 +53,8 @@ public class ExAmbientDictionary implements Dictionary {
                 final StringBuilder report = new StringBuilder();
                 report.append("[ PT ] Dictionary Total：").append(dict.size());
                 dict.forEach((key, array) -> report
-                        .append("\n\tkey = ").append(key)
-                        .append(", value size = ").append(array.size()));
+                    .append("\n\tkey = ").append(key)
+                    .append(", value size = ").append(array.size()));
                 At.infoFlow(this.getClass(), report.toString());
                 return Ux.future(dict);
             });

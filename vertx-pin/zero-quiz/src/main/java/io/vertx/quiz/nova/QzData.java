@@ -2,10 +2,10 @@ package io.vertx.quiz.nova;
 
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
+import io.vertx.quiz.cv.QzApi;
 import io.vertx.up.commune.Envelop;
 import io.vertx.up.log.Annal;
 import io.vertx.up.util.Ut;
-import io.vertx.quiz.cv.QzApi;
 
 import java.io.Serializable;
 

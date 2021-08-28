@@ -43,10 +43,10 @@ class JqEdge {
     @Override
     public String toString() {
         return "JqEdge{" +
-                "fromTable='" + this.fromTable + '\'' +
-                ", fromField='" + this.fromField + '\'' +
-                ", toTable='" + this.toTable + '\'' +
-                ", toField='" + this.toField + '\'' +
-                '}';
+            "fromTable='" + this.fromTable + '\'' +
+            ", fromField='" + this.fromField + '\'' +
+            ", toTable='" + this.toTable + '\'' +
+            ", toField='" + this.toField + '\'' +
+            '}';
     }
 }

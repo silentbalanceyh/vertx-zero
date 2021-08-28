@@ -95,9 +95,9 @@ public class RpcClientImpl implements RpcClient {
     }
 
     private RpcHolder lookupHolder(
-            final Vertx vertx,
-            final String ipcName,
-            final JsonObject config) {
+        final Vertx vertx,
+        final String ipcName,
+        final JsonObject config) {
         synchronized (this.vertx) {
             final String name = MessageFormat.format(DS_LOCAL_MAP_NAME, config.getString("type"));
             final LocalMap<String, RpcHolder> map = this.vertx.sharedData().getLocalMap(name);

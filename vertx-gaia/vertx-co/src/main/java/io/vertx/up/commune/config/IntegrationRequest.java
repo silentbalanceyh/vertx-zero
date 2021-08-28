@@ -87,7 +87,7 @@ public class IntegrationRequest implements Serializable {
         if (!(o instanceof IntegrationRequest)) return false;
         final IntegrationRequest request = (IntegrationRequest) o;
         return this.path.equals(request.path) &&
-                this.method == request.method;
+            this.method == request.method;
     }
 
     @Override
@@ -98,9 +98,9 @@ public class IntegrationRequest implements Serializable {
     @Override
     public String toString() {
         return "IntegrationRequest{" +
-                "path='" + this.path + '\'' +
-                ", method=" + this.method +
-                ", headers=" + this.headers +
-                '}';
+            "path='" + this.path + '\'' +
+            ", method=" + this.method +
+            ", headers=" + this.headers +
+            '}';
     }
 }

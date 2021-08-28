@@ -7,12 +7,12 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.tp.jet.atom.JtApp;
 import io.vertx.tp.jet.cv.JtConstant;
 import io.vertx.tp.jet.cv.em.WorkerType;
-import io.vertx.up.eon.KName;
 import io.vertx.tp.optic.environment.Ambient;
 import io.vertx.up.commune.config.Database;
 import io.vertx.up.commune.config.Integration;
 import io.vertx.up.commune.exchange.DictConfig;
 import io.vertx.up.commune.rule.RuleUnique;
+import io.vertx.up.eon.KName;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.util.Ut;
 
@@ -143,12 +143,12 @@ class JtDataObject {
          * workerJs
          */
         Fn.safeSemi(Ut.isNil(api.getWorkerClass()),
-                () -> api.setWorkerClass(JtConstant.COMPONENT_DEFAULT_WORKER.getName()));
+            () -> api.setWorkerClass(JtConstant.COMPONENT_DEFAULT_WORKER.getName()));
         Fn.safeSemi(Ut.isNil(api.getWorkerAddress()),
-                () -> api.setWorkerAddress(JtConstant.EVENT_ADDRESS));
+            () -> api.setWorkerAddress(JtConstant.EVENT_ADDRESS));
         Fn.safeSemi(Ut.isNil(api.getWorkerConsumer()),
-                () -> api.setWorkerConsumer(JtConstant.COMPONENT_DEFAULT_CONSUMER.getName()));
+            () -> api.setWorkerConsumer(JtConstant.COMPONENT_DEFAULT_CONSUMER.getName()));
         Fn.safeSemi(Ut.isNil(api.getWorkerType()),
-                () -> api.setWorkerType(WorkerType.STD.name()));
+            () -> api.setWorkerType(WorkerType.STD.name()));
     }
 }

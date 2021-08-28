@@ -14,11 +14,12 @@ public class MongoReadOpts {
      *
      * @param sortField
      * @param limit
+     *
      * @return
      */
     public static FindOptions toDescLimit(
-            final String sortField,
-            final int limit
+        final String sortField,
+        final int limit
     ) {
         return toFull(Pager.create(1, limit), Sorter.create(sortField, false));
     }
@@ -28,11 +29,12 @@ public class MongoReadOpts {
      *
      * @param sortField
      * @param limit
+     *
      * @return
      */
     public static FindOptions toAscLimit(
-            final String sortField,
-            final int limit
+        final String sortField,
+        final int limit
     ) {
         return toFull(Pager.create(1, limit), Sorter.create(sortField, true));
     }
@@ -41,10 +43,11 @@ public class MongoReadOpts {
      * JqTool all records by field Desc
      *
      * @param sortField
+     *
      * @return
      */
     public static FindOptions toDesc(
-            final String sortField
+        final String sortField
     ) {
         return toFull(null, Sorter.create(sortField, false));
     }
@@ -53,10 +56,11 @@ public class MongoReadOpts {
      * JqTool all records by field Asc
      *
      * @param sortField
+     *
      * @return
      */
     public static FindOptions toAsc(
-            final String sortField
+        final String sortField
     ) {
         return toFull(null, Sorter.create(sortField, true));
     }
@@ -66,11 +70,12 @@ public class MongoReadOpts {
      *
      * @param pager
      * @param sorter
+     *
      * @return
      */
     public static FindOptions toFull(
-            final Pager pager,
-            final Sorter sorter
+        final Pager pager,
+        final Sorter sorter
     ) {
         final FindOptions options = new FindOptions();
         Fn.safeNull(() -> {

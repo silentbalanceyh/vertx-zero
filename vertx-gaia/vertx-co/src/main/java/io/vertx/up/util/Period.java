@@ -47,10 +47,10 @@ final class Period {
      */
     static LocalDateTime toDateTime(final String literal) {
         return DATETIMES.stream()
-                .map(formatter -> parseEach(literal, formatter, LocalDateTime::parse))
-                .filter(Objects::nonNull)
-                .findAny()
-                .orElse(null);
+            .map(formatter -> parseEach(literal, formatter, LocalDateTime::parse))
+            .filter(Objects::nonNull)
+            .findAny()
+            .orElse(null);
     }
 
     private static <T> T parseEach(final String literal, final DateTimeFormatter formatter,
@@ -94,10 +94,10 @@ final class Period {
          * Directly Parsing
          */
         final LocalDate date = DATES.stream()
-                .map(formatter -> parseEach(literal, formatter, LocalDate::parse))
-                .filter(Objects::nonNull)
-                .findAny()
-                .orElse(null);
+            .map(formatter -> parseEach(literal, formatter, LocalDate::parse))
+            .filter(Objects::nonNull)
+            .findAny()
+            .orElse(null);
         if (Objects.isNull(date)) {
             final LocalDateTime datetime = toDateTime(literal);
             if (Objects.nonNull(datetime)) {
@@ -140,10 +140,10 @@ final class Period {
      */
     static LocalTime toTime(final String literal) {
         return TIMES.stream()
-                .map(formatter -> parseEach(literal, formatter, LocalTime::parse))
-                .filter(Objects::nonNull)
-                .findAny()
-                .orElse(null);
+            .map(formatter -> parseEach(literal, formatter, LocalTime::parse))
+            .filter(Objects::nonNull)
+            .findAny()
+            .orElse(null);
         /*
         final Optional<DateTimeFormatter> hit =
                 Fn.getNull(Optional.empty(),
@@ -244,7 +244,7 @@ final class Period {
         return Fn.getNull(null, () -> {
             String target = literal;
             if (target.contains("T")) {
-                target = target.replace('T', ' ');
+                target = target.replace('T', ' ' );
             }
             final int length = target.length();
             final String pattern = Storage.PATTERNS_MAP.get(length);

@@ -20,7 +20,7 @@ public class FutureInvoker extends AbstractInvoker {
                        final Class<?> paramCls) {
         // Verify
         final boolean valid =
-                Future.class.isAssignableFrom(returnType) && paramCls == Envelop.class;
+            Future.class.isAssignableFrom(returnType) && paramCls == Envelop.class;
         InvokerUtil.verify(!valid, returnType, paramCls, this.getClass());
     }
 
@@ -68,7 +68,7 @@ public class FutureInvoker extends AbstractInvoker {
                     .send(item))
                     .setHandler(Ux.handler(message)); */
             future.compose(this.nextEnvelop(vertx, method))
-                    .setHandler(Ux.handler(message));
+                .setHandler(Ux.handler(message));
         } else {
             final Future future = Ut.invoke(proxy, method.getName(), envelop);
             /*
@@ -79,7 +79,7 @@ public class FutureInvoker extends AbstractInvoker {
                     .compose(item -> Future.succeededFuture(Ux.to(item)))
                     .setHandler(Ux.handler(message)); */
             future.compose(this.nextEnvelop(vertx, method))
-                    .setHandler(Ux.handler(message));
+                .setHandler(Ux.handler(message));
         }
     }
 }

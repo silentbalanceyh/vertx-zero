@@ -57,10 +57,10 @@ class ExcelHelper {
         final Workbook workbook;
         if (filename.endsWith(FileSuffix.EXCEL_2003)) {
             workbook = Fn.pool(Pool.WORKBOOKS, filename,
-                    () -> Fn.getJvm(() -> new HSSFWorkbook(in)));
+                () -> Fn.getJvm(() -> new HSSFWorkbook(in)));
         } else {
             workbook = Fn.pool(Pool.WORKBOOKS, filename,
-                    () -> Fn.getJvm(() -> new XSSFWorkbook(in)));
+                () -> Fn.getJvm(() -> new XSSFWorkbook(in)));
         }
         return workbook;
     }
@@ -71,10 +71,10 @@ class ExcelHelper {
         final Workbook workbook;
         if (isXlsx) {
             workbook = Fn.pool(Pool.WORKBOOKS_STREAM, in.hashCode(),
-                    () -> Fn.getJvm(() -> new XSSFWorkbook(in)));
+                () -> Fn.getJvm(() -> new XSSFWorkbook(in)));
         } else {
             workbook = Fn.pool(Pool.WORKBOOKS_STREAM, in.hashCode(),
-                    () -> Fn.getJvm(() -> new HSSFWorkbook(in)));
+                () -> Fn.getJvm(() -> new HSSFWorkbook(in)));
         }
         /* Force to recalculation for evaluator */
         workbook.setForceFormulaRecalculation(Boolean.TRUE);
@@ -155,27 +155,27 @@ class ExcelHelper {
             final List<ExConnect> connectList = Ut.deserialize(connects, new TypeReference<List<ExConnect>>() {
             });
             connectList.stream().filter(Objects::nonNull)
-                    .filter(connect -> Objects.nonNull(connect.getTable()))
-                    .forEach(connect -> Pool.CONNECTS.put(connect.getTable(), connect));
+                .filter(connect -> Objects.nonNull(connect.getTable()))
+                .forEach(connect -> Pool.CONNECTS.put(connect.getTable(), connect));
         }
     }
 
     void initEnvironment(final JsonArray environments) {
         environments.stream().filter(Objects::nonNull)
-                .map(item -> (JsonObject) item)
-                .forEach(each -> {
-                    /*
-                     * Build reference
-                     */
-                    final String path = each.getString("path");
-                    /*
-                     * Reference Evaluator
-                     */
-                    final String name = each.getString("name");
-                    final Workbook workbook = this.getWorkbook(path);
-                    REFERENCES.put(name, workbook);
-                    this.initEnvironment(each, workbook);
-                });
+            .map(item -> (JsonObject) item)
+            .forEach(each -> {
+                /*
+                 * Build reference
+                 */
+                final String path = each.getString("path");
+                /*
+                 * Reference Evaluator
+                 */
+                final String name = each.getString("name");
+                final Workbook workbook = this.getWorkbook(path);
+                REFERENCES.put(name, workbook);
+                this.initEnvironment(each, workbook);
+            });
     }
 
     private void initEnvironment(final JsonObject each, final Workbook workbook) {
@@ -201,7 +201,7 @@ class ExcelHelper {
      * 2. Unique duplicated
      */
     <T> List<T> compress(final List<T> input, final ExTable table) {
-        final String key = table.fieldKey();
+        final String key = table.pkIn();
         if (Objects.isNull(key)) {
             // Relation Table
             return input;

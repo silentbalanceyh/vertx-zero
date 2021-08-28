@@ -88,18 +88,18 @@ class AoReference {
      * The hash map to store `source = {@link io.vertx.tp.atom.modeling.reference.RQuote}`.
      */
     private final transient ConcurrentMap<String, RQuote> references
-            = new ConcurrentHashMap<>();
+        = new ConcurrentHashMap<>();
     /**
      * The hash map to store `field = {@link io.vertx.tp.atom.modeling.reference.RResult}`.
      */
     private final transient ConcurrentMap<String, RResult> result
-            = new ConcurrentHashMap<>();
+        = new ConcurrentHashMap<>();
 
     /*
      * Query Attribute
      */
     private final transient ConcurrentMap<String, RQuery> queries
-            = new ConcurrentHashMap<>();
+        = new ConcurrentHashMap<>();
 
     /**
      * 「Fluent」Build reference metadata information based on `Model`.
@@ -111,56 +111,56 @@ class AoReference {
         /* type = REFERENCE */
         final Set<MAttribute> attributes = modelRef.dbAttributes();
         attributes.stream()
-                // condition1, Not Null
-                .filter(Objects::nonNull)
-                // condition2, source is not Null
-                .filter(attr -> Objects.nonNull(attr.getSource()))
+            // condition1, Not Null
+            .filter(Objects::nonNull)
+            // condition2, source is not Null
+            .filter(attr -> Objects.nonNull(attr.getSource()))
+            /*
+             * condition3, remove self reference to avoid memory out
+             * This condition is critical because of Memory Out Issue of deadLock in reference
+             * Current model identifier must not be `source` because it will trigger
+             * Self deal lock here. To avoid this kind of situation, filtered this item.
+             */
+            .filter(attr -> !modelRef.identifier().equals(attr.getSource()))
+            // condition4, type = REFERENCE
+            // .filter(attr -> AttributeType.REFERENCE.name().equals(attr.getType()))
+            // Processing workflow on result.
+            .forEach(attribute -> {
                 /*
-                 * condition3, remove self reference to avoid memory out
-                 * This condition is critical because of Memory Out Issue of deadLock in reference
-                 * Current model identifier must not be `source` because it will trigger
-                 * Self deal lock here. To avoid this kind of situation, filtered this item.
+                 *  Hash Map `references` calculation
+                 *      - source = RQuote
+                 *          - condition1 = RDao
+                 *          - condition2 = RDao
+                 *  Based on DataAtom reference to create
                  */
-                .filter(attr -> !modelRef.identifier().equals(attr.getSource()))
-                // condition4, type = REFERENCE
-                // .filter(attr -> AttributeType.REFERENCE.name().equals(attr.getType()))
-                // Processing workflow on result.
-                .forEach(attribute -> {
+                final AoAttribute aoAttr = modelRef.attribute(attribute.getName());
+                final AttributeType type = Ut.toEnum(attribute::getType, AttributeType.class, AttributeType.INTERNAL);
+
+
+                final String source = attribute.getSource();
+
+                if (AttributeType.REFERENCE == type) {
+                    final RQuote quote = Fn.pool(this.references, source, () -> RQuote.create(appName, source)).add(attribute, aoAttr);
                     /*
-                     *  Hash Map `references` calculation
-                     *      - source = RQuote
-                     *          - condition1 = RDao
-                     *          - condition2 = RDao
+                     *  Hash Map `result` calculation
+                     *      - field = RResult
                      *  Based on DataAtom reference to create
                      */
-                    final AoAttribute aoAttr = modelRef.attribute(attribute.getName());
-                    final AttributeType type = Ut.toEnum(attribute::getType, AttributeType.class, AttributeType.INTERNAL);
-
-
-                    final String source = attribute.getSource();
-
-                    if (AttributeType.REFERENCE == type) {
-                        final RQuote quote = Fn.pool(this.references, source, () -> RQuote.create(appName, source)).add(attribute, aoAttr);
-                        /*
-                         *  Hash Map `result` calculation
-                         *      - field = RResult
-                         *  Based on DataAtom reference to create
-                         */
-                        final String field = attribute.getName();
-                        final RResult result = Fn.pool(this.result, field, () -> new RResult(attribute, aoAttr));
-                        /*
-                         * Qr Engine, stored quote reference map.
-                         *
-                         * field1 = query1,
-                         * field2 = query2
-                         */
-                        if (DataFormat.Elementary == aoAttr.format()) {
-                            Fn.pool(this.queries, field, () -> new RQuery(field, attribute.getSourceField())
-                                    .bind(quote.dao(field))
-                                    .bind(result.joined()));
-                        }
+                    final String field = attribute.getName();
+                    final RResult result = Fn.pool(this.result, field, () -> new RResult(attribute, aoAttr));
+                    /*
+                     * Qr Engine, stored quote reference map.
+                     *
+                     * field1 = query1,
+                     * field2 = query2
+                     */
+                    if (DataFormat.Elementary == aoAttr.format()) {
+                        Fn.pool(this.queries, field, () -> new RQuery(field, attribute.getSourceField())
+                            .bind(quote.dao(field))
+                            .bind(result.joined()));
                     }
-                });
+                }
+            });
     }
 
     ConcurrentMap<String, RQuote> refInput() {

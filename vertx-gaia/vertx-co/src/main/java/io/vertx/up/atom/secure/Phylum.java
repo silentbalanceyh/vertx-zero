@@ -43,7 +43,7 @@ public class Phylum implements Serializable {
         }
         final Phylum phylum = (Phylum) o;
         return Objects.equals(this.authenticate, phylum.authenticate) &&
-                Objects.equals(this.authorize, phylum.authorize);
+            Objects.equals(this.authorize, phylum.authorize);
     }
 
     @Override
@@ -54,8 +54,8 @@ public class Phylum implements Serializable {
     @Override
     public String toString() {
         return "Phylum{" +
-                "authenticate=" + this.authenticate +
-                ", authorize=" + this.authorize +
-                '}';
+            "authenticate=" + this.authenticate +
+            ", authorize=" + this.authorize +
+            '}';
     }
 }

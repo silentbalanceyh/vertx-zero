@@ -43,8 +43,8 @@ abstract class AbstractJQCrud {
             final R expected = actorFn.apply(table, matrix);
             // 执行结果（检查）
             output(expected, testFn,
-                    /* 成功 */ () -> row.success(table),
-                    /* 失败 */ () -> new _417DataUnexpectException(getClass(), table, String.valueOf(expected)));
+                /* 成功 */ () -> row.success(table),
+                /* 失败 */ () -> new _417DataUnexpectException(getClass(), table, String.valueOf(expected)));
         }))));
     }
 
@@ -56,8 +56,8 @@ abstract class AbstractJQCrud {
                 final CompletionStage<R> result = actorFn.apply(table, matrix);
                 futures.add(Ux.fromAsync(result).compose(expected -> {
                     output(expected, testFn,
-                            /* 成功 */ () -> row.success(table),
-                            /* 失败 */ () -> new _417DataUnexpectException(getClass(), table, String.valueOf(expected)));
+                        /* 成功 */ () -> row.success(table),
+                        /* 失败 */ () -> new _417DataUnexpectException(getClass(), table, String.valueOf(expected)));
                     return Ux.future();
                 }));
             })));
@@ -129,8 +129,8 @@ abstract class AbstractJQCrud {
                 futures.add(Ux.fromAsync(result).compose(expected -> {
                     /* 单张表检查结果 */
                     output(expected, testFn,
-                            /* 成功 */ () -> rows.forEach(row -> row.success(table)),
-                            /* 失败 */ () -> new _417DataUnexpectException(getClass(), table, expected.toString())
+                        /* 成功 */ () -> rows.forEach(row -> row.success(table)),
+                        /* 失败 */ () -> new _417DataUnexpectException(getClass(), table, expected.toString())
                     );
                     return Ux.future();
                 }));
@@ -147,8 +147,8 @@ abstract class AbstractJQCrud {
             final R[] expected = actorFn.apply(table, values);
             /* 单张表检查结果 */
             output(expected, testFn,
-                    /* 成功 */ () -> rows.forEach(row -> row.success(table)),
-                    /* 失败 */ () -> new _417DataUnexpectException(getClass(), table, expected.toString())
+                /* 成功 */ () -> rows.forEach(row -> row.success(table)),
+                /* 失败 */ () -> new _417DataUnexpectException(getClass(), table, expected.toString())
             );
         })));
     }

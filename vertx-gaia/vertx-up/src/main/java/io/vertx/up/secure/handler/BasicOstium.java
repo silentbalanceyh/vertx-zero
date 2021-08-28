@@ -18,6 +18,7 @@ public interface BasicOstium extends AuthHandler {
      * Create a basic auth handler
      *
      * @param authProvider the auth provider to use
+     *
      * @return the auth handler
      */
     static AuthHandler create(final AuthProvider authProvider) {
@@ -29,6 +30,7 @@ public interface BasicOstium extends AuthHandler {
      *
      * @param authProvider the auth service to use
      * @param realm        the realm to use
+     *
      * @return the auth handler
      */
     static AuthHandler create(final AuthProvider authProvider, final String realm) {

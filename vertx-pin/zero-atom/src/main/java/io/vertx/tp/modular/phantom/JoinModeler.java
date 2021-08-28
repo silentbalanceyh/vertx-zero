@@ -25,9 +25,9 @@ class JoinModeler implements AoModeler {
             final JsonObject model = modelJson.getJsonObject(KName.MODEL);
             // 查询 join
             return Ux.Jooq.on(MJoinDao.class)
-                    .<MJoin>fetchAndAsync(this.onCriteria(model))
-                    .compose(nexuses -> Ux.future(this.onResult(modelJson, nexuses)))
-                    .compose(nexuses -> Ux.future(this.onNext(modelJson, nexuses)));
+                .<MJoin>fetchAndAsync(this.onCriteria(model))
+                .compose(nexuses -> Ux.future(this.onResult(modelJson, nexuses)))
+                .compose(nexuses -> Ux.future(this.onNext(modelJson, nexuses)));
         };
     }
 
@@ -37,7 +37,7 @@ class JoinModeler implements AoModeler {
         final JsonObject model = modelJson.getJsonObject(KName.MODEL);
         // List
         final List<MJoin> joins = Ux.Jooq.on(MJoinDao.class)
-                .fetchAnd(this.onCriteria(model));
+            .fetchAnd(this.onCriteria(model));
         // JsonArray
         this.onResult(modelJson, joins);
         // JsonObject
@@ -48,8 +48,8 @@ class JoinModeler implements AoModeler {
                                  final List<MJoin> nexusList) {
         final JsonArray joins = new JsonArray();
         nexusList.stream()
-                .map(join -> ((JsonObject) Ut.serializeJson(join)))
-                .forEach(joins::add);
+            .map(join -> ((JsonObject) Ut.serializeJson(join)))
+            .forEach(joins::add);
         modelJson.put(KName.Modeling.JOINS, joins);
         return nexusList;
     }
@@ -63,7 +63,7 @@ class JoinModeler implements AoModeler {
         // 设置entity的Id集合
         final JsonArray identifiers = new JsonArray();
         nexusList.stream().filter(Objects::nonNull).map(MJoin::getEntity)
-                .forEach(identifiers::add);
+            .forEach(identifiers::add);
         // 使用identifier查询
         filters.put("identifier,i", identifiers);
         modelJson.put("entityFilters", filters);

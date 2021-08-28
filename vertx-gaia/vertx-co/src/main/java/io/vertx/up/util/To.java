@@ -57,6 +57,13 @@ final class To {
         return keySet;
     }
 
+    static List<String> toList(final JsonArray keys) {
+        final JsonArray keysData = Jackson.sureJArray(keys);
+        final List<String> keyList = new ArrayList<>();
+        It.itJString(keysData).forEach(keyList::add);
+        return keyList;
+    }
+
     static String toString(final Object reference) {
         return Fn.getNull("null", () -> {
             final String literal;
@@ -99,7 +106,7 @@ final class To {
         final JsonArray result = new JsonArray();
         if (Objects.nonNull(records)) {
             Arrays.stream(records).map(Record::toJson)
-                    .forEach(result::add);
+                .forEach(result::add);
         }
         return result;
     }
@@ -165,7 +172,7 @@ final class To {
     static JsonObject toJObject(final MultiMap multiMap) {
         final JsonObject params = new JsonObject();
         Fn.safeNull(() -> multiMap.forEach(
-                item -> params.put(item.getKey(), item.getValue())
+            item -> params.put(item.getKey(), item.getValue())
         ), multiMap);
         return params;
     }

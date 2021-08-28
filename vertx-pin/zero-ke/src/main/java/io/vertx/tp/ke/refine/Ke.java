@@ -34,38 +34,6 @@ public class Ke {
         return KeIs.isIn(json, fields);
     }
 
-    public static JsonObject mount(final JsonObject response, final String field) {
-        return KeElement.mount(response, field);
-    }
-
-    public static Function<JsonObject, Future<JsonObject>> mount(final String field) {
-        return KeElement.mount(field);
-    }
-
-    public static Function<JsonArray, Future<JsonArray>> mounts(final String field) {
-        return KeElement.mounts(field);
-    }
-
-    public static Function<JsonObject, Future<JsonObject>> mount(final String... field) {
-        return KeElement.mount(field);
-    }
-
-    public static Function<JsonArray, Future<JsonArray>> mounts(final String... field) {
-        return KeElement.mounts(field);
-    }
-
-    public static JsonObject mountArray(final JsonObject response, final String field) {
-        return KeElement.mountArray(response, field);
-    }
-
-    public static JsonObject mountString(final JsonObject response, final String field) {
-        return KeElement.mountString(response, field);
-    }
-
-    public static Function<JsonObject, Future<JsonObject>> mountArray(final String field) {
-        return KeElement.mountArray(field);
-    }
-
 
     public static <T> Future<T> poolAsync(final String name, final String key, final Supplier<Future<T>> supplier) {
         return KeTool.poolAsync(name, key, supplier);

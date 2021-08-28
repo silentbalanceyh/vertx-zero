@@ -7,9 +7,12 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import io.vertx.core.json.JsonArray;
 import io.vertx.up.atom.pojo.Mirror;
 import io.vertx.up.atom.pojo.Mojo;
+import io.vertx.up.util.Ut;
 
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 /**
  * Connect configuration data to
@@ -68,32 +71,64 @@ public class ExConnect implements Serializable {
     }
 
     public String getKey() {
-        /*
-         * Calculated for Pojo Part
-         */
-        if (Objects.isNull(this.pojoFile)) {
-            return this.key;
-        } else {
-            final Mojo mojo = Mirror.create(this.getClass())
-                    .mount(this.pojoFile)
-                    .type(this.getDao()).mojo();
-            return mojo.getOut(this.key);
-        }
+        return this.key;
     }
 
     public void setKey(final String key) {
         this.key = key;
     }
 
+    public Set<String> ukIn() {
+        if (Objects.isNull(this.pojoFile)) {
+            return Ut.toSet(this.unique);
+        } else {
+            if (Ut.isNil(this.unique)) {
+                return new HashSet<>();
+            }
+            final Set<String> result = new HashSet<>();
+            final Mojo mojo = Mirror.create(this.getClass())
+                .mount(this.pojoFile)
+                .type(this.getDao()).mojo();
+            Ut.itJArray(this.unique, String.class, (field, index) -> {
+                final String converted = mojo.getIn(field);
+                if (Objects.isNull(converted)) {
+                    result.add(field);
+                } else {
+                    result.add(converted);
+                }
+            });
+            return result;
+        }
+    }
+
+    public String pkIn() {
+        /*
+         * Calculated for Pojo Part
+         * 1. When pojo file is null, return key directly.
+         * 2. Second situation, when this table is RELATION table, this.key is null.
+         */
+        if (Objects.isNull(this.pojoFile)) {
+            return this.key;
+        } else {
+            if (Objects.isNull(this.key)) {
+                return null;
+            }
+            final Mojo mojo = Mirror.create(this.getClass())
+                .mount(this.pojoFile)
+                .type(this.getDao()).mojo();
+            return mojo.getIn(this.key);
+        }
+    }
+
     @Override
     public String toString() {
         return "ExConnect{" +
-                "table='" + this.table + '\'' +
-                ", pojo=" + this.pojo +
-                ", dao=" + this.dao +
-                ", pojoFile='" + this.pojoFile + '\'' +
-                ", unique=" + this.unique +
-                ", key='" + this.key + '\'' +
-                '}';
+            "table='" + this.table + '\'' +
+            ", pojo=" + this.pojo +
+            ", dao=" + this.dao +
+            ", pojoFile='" + this.pojoFile + '\'' +
+            ", unique=" + this.unique +
+            ", key='" + this.key + '\'' +
+            '}';
     }
 }

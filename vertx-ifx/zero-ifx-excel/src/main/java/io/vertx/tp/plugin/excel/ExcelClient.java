@@ -8,11 +8,13 @@ import io.vertx.core.Vertx;
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
+import io.vertx.tp.plugin.excel.atom.ExRecord;
 import io.vertx.tp.plugin.excel.atom.ExTable;
 import io.vertx.up.commune.element.TypeAtom;
 import io.vertx.up.plugin.TpClient;
 
 import java.io.InputStream;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -30,11 +32,24 @@ public interface ExcelClient extends TpClient<ExcelClient> {
         return new ExcelClientImpl(vertx, config);
     }
 
+    // --------------------- ExTable Ingesting -----------------------
+
+    static JsonArray fromTable(final Set<ExTable> tableSet) {
+        final JsonArray records = new JsonArray();
+        tableSet.stream().map(ExcelClient::fromTable).forEach(records::addAll);
+        return records;
+    }
+
+    static JsonArray fromTable(final ExTable table) {
+        final JsonArray records = new JsonArray();
+        final List<ExRecord> recordList = table.get();
+        recordList.stream().map(ExRecord::toJson).forEach(records::add);
+        return records;
+    }
+
     @Fluent
     @Override
     ExcelClient init(JsonObject params);
-
-    // --------------------- ExTable Ingesting -----------------------
 
     Future<Set<ExTable>> ingestAsync(String filename);
 
@@ -55,6 +70,9 @@ public interface ExcelClient extends TpClient<ExcelClient> {
     @Fluent
     ExcelClient ingest(String filename, Handler<AsyncResult<Set<ExTable>>> handler);
 
+
+    // --------------------- ExTable Exporting -----------------------
+
     @Fluent
     ExcelClient ingest(String filename, TypeAtom TypeAtom, Handler<AsyncResult<Set<ExTable>>> handler);
 
@@ -64,10 +82,9 @@ public interface ExcelClient extends TpClient<ExcelClient> {
     @Fluent
     ExcelClient ingest(InputStream in, boolean isXlsx, TypeAtom TypeAtom, Handler<AsyncResult<Set<ExTable>>> handler);
 
-
-    // --------------------- ExTable Exporting -----------------------
-
     Future<Buffer> exportAsync(String identifier, JsonArray data);
+
+    // --------------------- ExTable Loading / Importing -----------------------
 
     Future<Buffer> exportAsync(String identifier, JsonArray data, TypeAtom TypeAtom);
 
@@ -76,8 +93,6 @@ public interface ExcelClient extends TpClient<ExcelClient> {
 
     @Fluent
     ExcelClient exportAsync(String identifier, JsonArray data, TypeAtom TypeAtom, Handler<AsyncResult<Buffer>> handler);
-
-    // --------------------- ExTable Loading / Importing -----------------------
 
     @Fluent
     <T> ExcelClient importAsync(String filename, Handler<AsyncResult<Set<T>>> handler);
@@ -121,9 +136,4 @@ public interface ExcelClient extends TpClient<ExcelClient> {
     <T> Future<Set<T>> importAsync(InputStream in, boolean isXlsx, String... includes);
 
     <T> Future<Set<T>> importAsync(InputStream in, boolean isXlsx, TypeAtom TypeAtom, String... includes);
-
-    /**
-     * Save entity ( table -> data )
-     */
-    <T> T saveEntity(final JsonObject data, final ExTable table);
 }

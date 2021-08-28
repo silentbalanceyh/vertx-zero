@@ -15,11 +15,11 @@ import java.util.regex.Pattern;
  */
 final class StringUtil {
     private static final JexlEngine EXPR = new JexlBuilder()
-            .cache(512).silent(false).create();
+        .cache(512).silent(false).create();
     private static final String SEED =
-            "01234567890qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM";
+        "01234567890qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM";
     private static final String CHAR =
-            "qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM";
+        "qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM";
 
     private StringUtil() {
     }
@@ -50,7 +50,7 @@ final class StringUtil {
     static String join(final Object[] input, final String separator) {
         final Set<String> hashSet = new HashSet<>();
         Arrays.stream(input).filter(Objects::nonNull)
-                .map(Object::toString).forEach(hashSet::add);
+            .map(Object::toString).forEach(hashSet::add);
         return join(hashSet, separator);
     }
 

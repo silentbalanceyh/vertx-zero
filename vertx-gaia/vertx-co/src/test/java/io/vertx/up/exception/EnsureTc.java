@@ -11,7 +11,7 @@ public class EnsureTc extends ZeroBase {
     @Test
     public void testRequired(final TestContext context) {
         final DemonException error =
-                new RequiredFieldException(getClass(), new JsonObject(), "name");
+            new RequiredFieldException(getClass(), new JsonObject(), "name");
 
     }
 }

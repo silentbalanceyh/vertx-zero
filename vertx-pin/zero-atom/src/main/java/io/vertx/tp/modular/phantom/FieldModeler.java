@@ -23,9 +23,9 @@ class FieldModeler implements AoModeler {
             // 读取所有的Fields
             final JsonObject entityJson = AoModeler.getEntity(schemaJson);
             return Ux.Jooq.on(MFieldDao.class)
-                    .<MField>fetchAndAsync(this.onCriteria(entityJson))
-                    .compose(Ux::futureA)
-                    .compose(fields -> Ux.future(this.onResult(schemaJson, fields)));
+                .<MField>fetchAndAsync(this.onCriteria(entityJson))
+                .compose(Ux::futureA)
+                .compose(fields -> Ux.future(this.onResult(schemaJson, fields)));
         };
     }
 
@@ -35,7 +35,7 @@ class FieldModeler implements AoModeler {
         final JsonObject entityJson = AoModeler.getEntity(schemaJson);
         // List
         final List<MField> fields = Ux.Jooq.on(MFieldDao.class)
-                .fetchAnd(this.onCriteria(entityJson));
+            .fetchAnd(this.onCriteria(entityJson));
         // JsonArray
         final JsonArray fieldArr = Ux.toJson(fields);
         return this.onResult(schemaJson, fieldArr);

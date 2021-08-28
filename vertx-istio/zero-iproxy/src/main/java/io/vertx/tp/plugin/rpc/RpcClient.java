@@ -22,6 +22,7 @@ public interface RpcClient {
     /**
      * @param vertx  the Vert.x instance
      * @param config the configuration
+     *
      * @return the client
      */
     static RpcClient createNonShared(final Vertx vertx, final JsonObject config) {
@@ -32,6 +33,7 @@ public interface RpcClient {
      * @param vertx  the Vert.x instance
      * @param config the configuration
      * @param name   the name
+     *
      * @return the client
      */
     static RpcClient createShared(final Vertx vertx, final JsonObject config, final String name) {
@@ -51,13 +53,14 @@ public interface RpcClient {
      *                }
      * @param data    send the data
      * @param handler async handler
+     *
      * @return Rpc client
      */
     @Fluent
     RpcClient connect(
-            JsonObject config,
-            JsonObject data,
-            Handler<AsyncResult<JsonObject>> handler);
+        JsonObject config,
+        JsonObject data,
+        Handler<AsyncResult<JsonObject>> handler);
 
     /**
      * Only support Unity Type
@@ -66,14 +69,15 @@ public interface RpcClient {
      * @param address service address
      * @param data    JsonObject data
      * @param handler async handler
+     *
      * @return Rpc client
      */
     @Fluent
     RpcClient connect(
-            String name,
-            String address,
-            JsonObject data,
-            Handler<AsyncResult<JsonObject>> handler);
+        String name,
+        String address,
+        JsonObject data,
+        Handler<AsyncResult<JsonObject>> handler);
 
     @Fluent
     RpcClient close();

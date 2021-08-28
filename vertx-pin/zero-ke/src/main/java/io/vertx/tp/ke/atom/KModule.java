@@ -173,18 +173,18 @@ public class KModule implements Serializable {
     @Override
     public String toString() {
         return "IxModule{" +
-                "name='" + this.name + '\'' +
-                ", table='" + this.table + '\'' +
-                ", pojo='" + this.pojo + '\'' +
-                ", mode='" + this.mode + '\'' +
-                ", modeKey='" + this.modeKey + '\'' +
-                ", field=" + this.field +
-                ", column=" + this.column +
-                ", connect=" + this.connect +
-                ", pojoCls=" + this.pojoCls +
-                ", daoCls=" + this.daoCls +
-                ", header=" + this.header +
-                ", fabric=" + this.fabric +
-                '}';
+            "name='" + this.name + '\'' +
+            ", table='" + this.table + '\'' +
+            ", pojo='" + this.pojo + '\'' +
+            ", mode='" + this.mode + '\'' +
+            ", modeKey='" + this.modeKey + '\'' +
+            ", field=" + this.field +
+            ", column=" + this.column +
+            ", connect=" + this.connect +
+            ", pojoCls=" + this.pojoCls +
+            ", daoCls=" + this.daoCls +
+            ", header=" + this.header +
+            ", fabric=" + this.fabric +
+            '}';
     }
 }

@@ -34,6 +34,6 @@ class ActionCheck extends AbstractAction {
 
     <T> Future<Boolean> existAsync(final JsonObject criteria) {
         return this.fetch.<T>fetchAsync(criteria)
-                .compose(list -> Future.succeededFuture(!list.isEmpty()));
+            .compose(list -> Future.succeededFuture(!list.isEmpty()));
     }
 }

@@ -96,12 +96,12 @@ public class IpcData implements Serializable {
     @Override
     public String toString() {
         return "IpcData{" +
-                "type=" + type +
-                ", port=" + port +
-                ", host='" + host + '\'' +
-                ", data=" + data +
-                ", address=" + address +
-                ", config=" + config +
-                '}';
+            "type=" + type +
+            ", port=" + port +
+            ", host='" + host + '\'' +
+            ", data=" + data +
+            ", address=" + address +
+            ", config=" + config +
+            '}';
     }
 }

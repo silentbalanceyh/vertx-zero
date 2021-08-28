@@ -24,11 +24,11 @@ import java.util.function.Function;
 public class Ambient {
     /* Each application has one environment */
     private static final ConcurrentMap<String, JtApp> APPS =
-            new ConcurrentHashMap<>();
+        new ConcurrentHashMap<>();
 
     /* XHeader information of Ambient */
     private static final ConcurrentMap<String, AmbientEnvironment> ENVIRONMENTS =
-            new ConcurrentHashMap<>();
+        new ConcurrentHashMap<>();
 
     private static final Annal LOGGER = Annal.get(Ambient.class);
 
@@ -117,9 +117,9 @@ public class Ambient {
 
     private static JtApp searchApp(final String key, final Function<JtApp, String> executor) {
         final JtApp app = APPS.values().stream()
-                .filter(Objects::nonNull)
-                .filter(appItem -> key.equals(executor.apply(appItem)))
-                .findFirst().orElse(null);
+            .filter(Objects::nonNull)
+            .filter(appItem -> key.equals(executor.apply(appItem)))
+            .findFirst().orElse(null);
         if (Objects.isNull(app)) {
             Jt.warnApp(LOGGER, "Ambient -> JtApp = null, input key = {0}", key);
         }

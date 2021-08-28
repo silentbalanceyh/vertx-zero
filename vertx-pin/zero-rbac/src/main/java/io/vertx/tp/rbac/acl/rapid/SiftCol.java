@@ -41,7 +41,7 @@ class SiftCol {
             final Set<String> projectionSet = new HashSet<>(projection.getList());
             // Old:  fields.stream().filter(projectionSet::contains)
             fields.stream().filter(item -> !projectionSet.contains(item))
-                    .forEach(input::remove);
+                .forEach(input::remove);
         }
         return input;
     }
@@ -52,9 +52,9 @@ class SiftCol {
     static JsonArray onProjection(final JsonArray input, final JsonArray projection) {
         final JsonArray result = new JsonArray();
         input.stream().filter(Objects::nonNull)
-                .map(item -> (JsonObject) item)
-                .map(item -> onProjection(item, projection))
-                .forEach(result::add);
+            .map(item -> (JsonObject) item)
+            .map(item -> onProjection(item, projection))
+            .forEach(result::add);
         return result;
     }
 }

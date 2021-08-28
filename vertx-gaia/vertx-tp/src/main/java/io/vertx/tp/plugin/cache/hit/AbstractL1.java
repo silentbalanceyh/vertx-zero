@@ -61,10 +61,10 @@ public abstract class AbstractL1 implements L1Cache {
         // Get key
         final String uk = message.dataKey();
         return this.readCacheAsync(uk).compose(response ->
-                /*
-                 * Future<T> returned
-                 */
-                Future.succeededFuture(this.deserialize(response, message.dataType())));
+            /*
+             * Future<T> returned
+             */
+            Future.succeededFuture(this.deserialize(response, message.dataType())));
     }
 
     @Override
@@ -94,10 +94,10 @@ public abstract class AbstractL1 implements L1Cache {
              * Delivery Message extraction
              */
             Arrays.asList(messages)
-                    /*
-                     * Publish message to event bus
-                     */
-                    .forEach(message -> eventBus.publish(address, message.dataDelivery(flag)));
+                /*
+                 * Publish message to event bus
+                 */
+                .forEach(message -> eventBus.publish(address, message.dataDelivery(flag)));
         }
     }
 

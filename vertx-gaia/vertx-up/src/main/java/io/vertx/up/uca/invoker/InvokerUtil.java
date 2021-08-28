@@ -50,19 +50,19 @@ public class InvokerUtil {
         final Annal logger = Annal.get(target);
         // 2. The parameters
         Fn.outUp(Values.ZERO == params.length,
-                logger, WorkerArgumentException.class,
-                target, method);
+            logger, WorkerArgumentException.class,
+            target, method);
     }
 
     static void verify(
-            final boolean condition,
-            final Class<?> returnType,
-            final Class<?> paramType,
-            final Class<?> target) {
+        final boolean condition,
+        final Class<?> returnType,
+        final Class<?> paramType,
+        final Class<?> target) {
         final Annal logger = Annal.get(target);
         Fn.outUp(condition, logger,
-                AsyncSignatureException.class, target,
-                returnType.getName(), paramType.getName());
+            AsyncSignatureException.class, target,
+            returnType.getName(), paramType.getName());
     }
 
     private static Object getValue(final Class<?> type,
@@ -186,7 +186,7 @@ public class InvokerUtil {
 
     private static boolean isInterface(final JsonObject json) {
         final long count = json.fieldNames().stream().filter(Ut::isInteger)
-                .count();
+            .count();
         // All json keys are numbers
         LOGGER.debug("( isInterface Mode ) Parameter count: {0}, json: {1}", count, json.encode());
         return count == json.fieldNames().size();

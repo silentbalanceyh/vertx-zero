@@ -19,8 +19,8 @@ public class ModelActor {
 
     @Address(Addr.Module.BY_NAME)
     public Future<JsonObject> fetchModule(
-            final String appId,
-            final String entry) {
+        final String appId,
+        final String entry) {
         return this.stub.fetchModule(appId, entry);
     }
 

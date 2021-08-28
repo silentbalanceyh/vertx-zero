@@ -3,10 +3,9 @@ package cn.vertxup.rbac.service.view;
 import cn.vertxup.rbac.domain.tables.pojos.SPath;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.eon.KName;
-import io.vertx.tp.ke.refine.Ke;
 import io.vertx.tp.rbac.cv.em.SourceGroup;
 import io.vertx.tp.rbac.cv.em.SourceType;
+import io.vertx.up.eon.KName;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
@@ -20,12 +19,12 @@ class RuleRobin {
 
     static Future<JsonObject> procRule(final SPath path) {
         final JsonObject serialized = Ut.serializeJson(path);
-        return Ke.mount(
-                "uiCondition",
-                "uiConfig",
-                "groupCondition",
-                "groupConfig",
-                "groupMapping"
+        return Ut.ifJObject(
+            "uiCondition",
+            "uiConfig",
+            "groupCondition",
+            "groupConfig",
+            "groupMapping"
         ).apply(serialized).compose(processed -> {
             /*
              * Group Process first, there are some conflicts between Group/Source

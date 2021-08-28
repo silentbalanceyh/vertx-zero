@@ -16,7 +16,7 @@ import java.util.concurrent.ConcurrentMap;
 class Verticles {
 
     private static final ConcurrentMap<Class<?>, String> INSTANCES =
-            new ConcurrentHashMap<>();
+        new ConcurrentHashMap<>();
 
     static void deploy(final Vertx vertx,
                        final Class<?> clazz,
@@ -30,8 +30,8 @@ class Verticles {
             // Success or Failed.
             if (result.succeeded()) {
                 logger.info(Info.VTC_END,
-                        name, option.getInstances(), result.result(),
-                        flag);
+                    name, option.getInstances(), result.result(),
+                    flag);
                 INSTANCES.put(clazz, result.result());
                 Log.Health.on(vertx).add(name, option, result.result());
             } else {
@@ -39,8 +39,8 @@ class Verticles {
                     result.cause().printStackTrace();
                 }
                 logger.warn(Info.VTC_FAIL,
-                        name, option.getInstances(), result.result(),
-                        null == result.cause() ? null : result.cause().getMessage(), flag);
+                    name, option.getInstances(), result.result(),
+                    null == result.cause() ? null : result.cause().getMessage(), flag);
             }
         });
     }

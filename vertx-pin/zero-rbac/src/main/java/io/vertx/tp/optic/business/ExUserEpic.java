@@ -14,22 +14,22 @@ public class ExUserEpic implements ExUser {
     @Override
     public Future<JsonObject> fetchRef(final JsonObject filters) {
         return Nexus.create(SUser.class)
-                .on(Ux.Jooq.on(SUserDao.class))
-                .fetchNexus(filters);
+            .on(Ux.Jooq.on(SUserDao.class))
+            .fetchNexus(filters);
     }
 
     @Override
     public Future<JsonObject> updateRef(final String key, final JsonObject params) {
         return Nexus.create(SUser.class)
-                .on(Ux.Jooq.on(SUserDao.class))
-                .updateNexus(key, params);
+            .on(Ux.Jooq.on(SUserDao.class))
+            .updateNexus(key, params);
     }
 
     @Override
     public Future<JsonArray> fetchRef(final Set<String> keys) {
         return Nexus.create(SUser.class)
-                .on(Ux.Jooq.on(SUserDao.class))
-                .fetchNexus(keys);
+            .on(Ux.Jooq.on(SUserDao.class))
+            .fetchNexus(keys);
 
     }
 }

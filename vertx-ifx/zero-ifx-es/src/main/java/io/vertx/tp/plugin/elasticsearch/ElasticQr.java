@@ -47,10 +47,10 @@ class ElasticQr {
             final SearchResponse response = client.search(request, RequestOptions.DEFAULT);
 
             result
-                    .put("index", this.options.getString("index"))
-                    .put("status", response.status().name())
-                    .put("took", response.getTook().seconds())
-                    .put("total", response.getHits().getTotalHits().value);
+                .put("index", this.options.getString("index"))
+                .put("status", response.status().name())
+                .put("took", response.getTook().seconds())
+                .put("total", response.getHits().getTotalHits().value);
             /*
              * Response Building
              */
@@ -66,10 +66,10 @@ class ElasticQr {
         final JsonArray hits = new JsonArray();
         Arrays.stream(response.getHits().getHits()).forEach(hit -> {
             final JsonObject data = new JsonObject()
-                    .put("index", hit.getIndex())
-                    .put("id", hit.getId())
-                    .put("score", hit.getScore())
-                    .put("source", hit.getSourceAsMap());
+                .put("index", hit.getIndex())
+                .put("id", hit.getId())
+                .put("score", hit.getScore())
+                .put("source", hit.getSourceAsMap());
             hits.add(data);
         });
         result.put("hits", hits);
@@ -78,10 +78,10 @@ class ElasticQr {
         final Aggregations aggres = response.getAggregations();
         final Terms customAggregation = aggres.get(Aggregations.AGGREGATIONS_FIELD);
         customAggregation.getBuckets()
-                .forEach(item -> aggregations.add(new JsonObject()
-                        .put("key", item.getKeyAsString())
-                        .put("count", item.getDocCount()))
-                );
+            .forEach(item -> aggregations.add(new JsonObject()
+                .put("key", item.getKeyAsString())
+                .put("count", item.getDocCount()))
+            );
         result.put("aggregations", aggregations);
     }
 

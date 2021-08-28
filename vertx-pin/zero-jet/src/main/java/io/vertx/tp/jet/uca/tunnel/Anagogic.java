@@ -7,10 +7,10 @@ import io.vertx.tp.optic.jet.JtComponent;
 import io.vertx.up.commune.Commercial;
 import io.vertx.up.commune.Envelop;
 import io.vertx.up.commune.config.Database;
-import io.vertx.up.commune.exchange.DualMapping;
 import io.vertx.up.commune.config.Identity;
 import io.vertx.up.commune.config.XHeader;
 import io.vertx.up.commune.exchange.DictFabric;
+import io.vertx.up.commune.exchange.DualMapping;
 import io.vertx.up.commune.rule.RuleUnique;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.unity.UxPool;
@@ -38,20 +38,20 @@ class Anagogic {
     static Future<Database> databaseAsync(final Commercial commercial) {
         final UxPool pool = Ux.Pool.on(JtConstant.DEFAULT_POOL_DATABASE);
         return pool.<String, Database>get(commercial.app())
+            /*
+             * Whether exist database in pool
+             */
+            .compose(cached -> Objects.isNull(cached) ?
                 /*
-                 * Whether exist database in pool
+                 * New database here
                  */
-                .compose(cached -> Objects.isNull(cached) ?
-                        /*
-                         * New database here
-                         */
-                        Ux.future(commercial.database()) :
-                        /*
-                         * Cached database
-                         */
-                        Ux.future(cached))
-                .compose(database -> pool.put(commercial.app(), database))
-                .compose(kv -> Ux.future(kv.getValue()));
+                Ux.future(commercial.database()) :
+                /*
+                 * Cached database
+                 */
+                Ux.future(cached))
+            .compose(database -> pool.put(commercial.app(), database))
+            .compose(kv -> Ux.future(kv.getValue()));
     }
 
     static Future<Boolean> componentAsync(final JtComponent component, final Envelop envelop) {

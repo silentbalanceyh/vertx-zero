@@ -3,42 +3,42 @@ package io.vertx.up.eon;
 public interface Info {
 
     String SCANED_RULE = "( {0} Rules ) Zero system scanned the folder /codex/ " +
-            "to pickup {0} rule definition files.";
+        "to pickup {0} rule definition files.";
     String INFIX_NULL = "The system scanned null infix for key = {0} " +
-            "on the field \"{1}\" of {2}";
+        "on the field \"{1}\" of {2}";
 
     String INFIX_IMPL = "The hitted class {0} does not implement the interface" +
-            "of {1}";
+        "of {1}";
 
     String VTC_END = "( {3} ) The verticle {0} has been deployed " +
-            "{1} instances successfully. id = {2}.";
+        "{1} instances successfully. id = {2}.";
     String VTC_FAIL = "( {3} ) The verticle {0} has been deployed " +
-            "{1} instances failed. id = {2}, cause = {3}.";
+        "{1} instances failed. id = {2}, cause = {3}.";
 
     String VTC_STOPPED = "( {2} ) The verticle {0} has been undeployed " +
-            " successfully, id = {1}.";
+        " successfully, id = {1}.";
 
     String INF_B_VERIFY = "The raw data ( node = {0}, type = {1} ) before validation is {2}.";
 
     String INF_A_VERIFY = "( node = {0}, type = {1} ) filtered configuration port set = {2}.";
 
     String AGENT_DEFINED = "User defined agent {0} of type = {1}, " +
-            "the default will be overwritten.";
+        "the default will be overwritten.";
 
     String SCANED_ENDPOINT = "( {0} EndPoint ) The Zero system has found " +
-            "{0} components of @EndPoint.";
+        "{0} components of @EndPoint.";
 
     String SCANED_JOB = "( {0} Job ) The Zero system has found " +
-            "{0} components of @Job.";
+        "{0} components of @Job.";
 
     String SCANED_QUEUE = "( {0} Queue ) The Zero system has found " +
-            "{0} components of @Queue.";
+        "{0} components of @Queue.";
 
     String SCANED_INJECTION = "( {1} Inject ) The Zero system has found \"{0}\" object contains " +
-            "{1} components of @Inject or ( javax.inject.infix.* ).";
+        "{1} components of @Inject or ( javax.inject.infix.* ).";
 
     String APP_CLUSTERD = "Current app is running in cluster mode, " +
-            "manager = {0} on node {1} with status = {2}.";
+        "manager = {0} on node {1} with status = {2}.";
 
     String SOCK_ENABLED = "( Micro -> Sock ) Zero system detected the socket server is Enabled.";
 

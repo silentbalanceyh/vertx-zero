@@ -40,8 +40,8 @@ class Assist implements Serializable {
         return Fn.getJvm(Strings.EMPTY, () -> {
             final JsonObject credential = this.user.principal();
             return Fn.getSemi(null != credential && credential.containsKey(field),
-                    () -> credential.getString(field),
-                    () -> Strings.EMPTY);
+                () -> credential.getString(field),
+                () -> Strings.EMPTY);
         }, this.user);
     }
 
@@ -101,13 +101,13 @@ class Assist implements Serializable {
     @Override
     public String toString() {
         return "Assist{" +
-                // Stack Overflow here
-                // "context=" + this.context +
-                ", headers=" + this.headers +
-                ", user=" + this.user +
-                ", uri='" + this.uri + '\'' +
-                ", method=" + this.method +
-                ", session=" + this.session +
-                '}';
+            // Stack Overflow here
+            // "context=" + this.context +
+            ", headers=" + this.headers +
+            ", user=" + this.user +
+            ", uri='" + this.uri + '\'' +
+            ", method=" + this.method +
+            ", session=" + this.session +
+            '}';
     }
 }

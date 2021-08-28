@@ -1,7 +1,6 @@
 package io.vertx.up.uca.job.store;
 
 import io.vertx.tp.plugin.job.JobClient;
-import io.vertx.tp.plugin.job.JobClientImpl;
 import io.vertx.tp.plugin.job.JobInfix;
 import io.vertx.up.atom.worker.Mission;
 import io.vertx.up.eon.Info;
@@ -38,15 +37,15 @@ class UnityStore implements JobStore {
          * 3) Double check jobs `readOnly` here ( Be sure readOnly set correctly )
          */
         final Set<Mission> missions = this.reader.fetch()
-                .stream()
-                .filter(Mission::isReadOnly)
-                .collect(Collectors.toSet());
+            .stream()
+            .filter(Mission::isReadOnly)
+            .collect(Collectors.toSet());
         LOGGER.info(Info.JOB_SCANNED, missions.size(), "Programming");
 
         final Set<Mission> storage = this.store.fetch()
-                .stream()
-                .filter(mission -> !mission.isReadOnly())
-                .collect(Collectors.toSet());
+            .stream()
+            .filter(mission -> !mission.isReadOnly())
+            .collect(Collectors.toSet());
         LOGGER.info(Info.JOB_SCANNED, storage.size(), "Dynamic/Stored");
 
         /* Merged */
@@ -58,14 +57,14 @@ class UnityStore implements JobStore {
          * Status Modification for ONCE
          * */
         result.stream()
-                .filter(mission -> JobType.ONCE == mission.getType())
-                /*
-                 * Once work is in `STARTING`, because it won't start
-                 * We must convert `STARTING` to `STOPPED` to stop the job
-                 * at that time here.
-                 */
-                .filter(mission -> JobStatus.STARTING == mission.getStatus())
-                .forEach(mission -> mission.setStatus(JobStatus.STOPPED));
+            .filter(mission -> JobType.ONCE == mission.getType())
+            /*
+             * Once work is in `STARTING`, because it won't start
+             * We must convert `STARTING` to `STOPPED` to stop the job
+             * at that time here.
+             */
+            .filter(mission -> JobStatus.STARTING == mission.getStatus())
+            .forEach(mission -> mission.setStatus(JobStatus.STOPPED));
 
         /* Job Pool Sync */
         JobClient.Pre.save(result);

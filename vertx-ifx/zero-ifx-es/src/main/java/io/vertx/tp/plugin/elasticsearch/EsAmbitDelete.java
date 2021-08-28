@@ -30,15 +30,15 @@ public class EsAmbitDelete extends AbstractEsClient implements EsAmbit {
 
         try {
             final DeleteRequest request = new DeleteRequest()
-                    .index(this.index)
-                    .id(documentId);
+                .index(this.index)
+                .id(documentId);
 
             final DeleteResponse response = client.delete(request, RequestOptions.DEFAULT);
 
             result
-                    .put("index", response.getIndex())
-                    .put("id", response.getId())
-                    .put("result", response.getResult() == DocWriteResponse.Result.DELETED);
+                .put("index", response.getIndex())
+                .put("id", response.getId())
+                .put("result", response.getResult() == DocWriteResponse.Result.DELETED);
         } catch (final IOException ioe) {
             this.logger().jvm(ioe);
         }
@@ -51,9 +51,9 @@ public class EsAmbitDelete extends AbstractEsClient implements EsAmbit {
         return this.doBatch(data, idField, () -> {
             final BulkRequest request = new BulkRequest();
             Ut.itJString(data).forEach(documentId ->
-                    request.add(new DeleteRequest()
-                            .index(this.index)
-                            .id(documentId)));
+                request.add(new DeleteRequest()
+                    .index(this.index)
+                    .id(documentId)));
             return request;
         });
     }

@@ -8,6 +8,7 @@ public interface RoleStub {
      * Update role perm relation information
      */
     Future<JsonArray> updateRolePerm(String roleId, JsonArray data);
+
     /*
      * delete by role id
      */

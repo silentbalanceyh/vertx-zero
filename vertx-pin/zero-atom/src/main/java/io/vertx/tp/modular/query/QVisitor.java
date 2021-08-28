@@ -48,8 +48,8 @@ class QVisitor {
             final List<Condition> conditions = new ArrayList<>();
             final QBranch branch = (QBranch) node;
             branch.nodes().stream().map(each -> analyze(each, matrix, fieldMap))
-                    .filter(Objects::nonNull)
-                    .forEach(conditions::add);
+                .filter(Objects::nonNull)
+                .forEach(conditions::add);
             /* 拼条件 */
             return analyze(conditions, node.op());
         }
@@ -68,8 +68,8 @@ class QVisitor {
         } else {
             final Clause clause = Clause.get(column.getType());
             return clause.where(column, column.getName(),
-                    /* 特殊 op 处理 */
-                    leaf.op().value(), leaf.value());
+                /* 特殊 op 处理 */
+                leaf.op().value(), leaf.value());
         }
     }
 

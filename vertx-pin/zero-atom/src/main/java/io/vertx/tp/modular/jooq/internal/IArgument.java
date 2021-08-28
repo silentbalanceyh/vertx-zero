@@ -66,11 +66,11 @@ class IArgument {
      * 一转多个
      */
     static ConcurrentMap<String, List<DataMatrix>> inBatch(
-            final List<DataRow> rows
+        final List<DataRow> rows
     ) {
         /* 按表转换，批量专用 */
         final ConcurrentMap<String, List<DataMatrix>> resultMap
-                = new ConcurrentHashMap<>();
+            = new ConcurrentHashMap<>();
         rows.forEach(row -> {
             /* 处理数据行 */
             final ConcurrentMap<String, DataMatrix> rowData = row.matrixData();

@@ -21,7 +21,7 @@ class Rsa {
      */
     static String encrypt(final String strText, final String keyPath) {
         return Fn.getJvm(() ->
-                encrypt(strText, loadRSAPublicKeyByFile(keyPath)), strText);
+            encrypt(strText, loadRSAPublicKeyByFile(keyPath)), strText);
     }
 
     static String encrypt(final String strText, final RSAPublicKey publicKey) {
@@ -33,7 +33,7 @@ class Rsa {
     }
 
     private static RSAPublicKey loadRSAPublicKeyByFile(final String keyPath)
-            throws Exception {
+        throws Exception {
         // 1. loading Public Key string by given path
         final String publicKeyStr = IO.getString(keyPath);
         //2. generate Public Key Object

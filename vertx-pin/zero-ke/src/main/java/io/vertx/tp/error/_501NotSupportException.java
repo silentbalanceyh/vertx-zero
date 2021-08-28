@@ -5,7 +5,7 @@ import io.vertx.up.exception.WebException;
 
 public class _501NotSupportException extends WebException {
     public _501NotSupportException(final Class<?> clazz) {
-        super(clazz);
+        super(clazz, clazz);
     }
 
     @Override

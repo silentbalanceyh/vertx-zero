@@ -11,7 +11,7 @@ public interface Filter {
 
     void doFilter(final HttpServerRequest request,
                   final HttpServerResponse response)
-            throws IOException, VertxException;
+        throws IOException, VertxException;
 
     default void init(final RoutingContext context) {
     }

@@ -12,7 +12,7 @@ public class ClusterStrada implements Transformer<ClusterOptions> {
     @Override
     public ClusterOptions transform(final JsonObject config) {
         return Fn.getSemi(null == config, LOGGER,
-                ClusterOptions::new,
-                () -> new ClusterOptions(config));
+            ClusterOptions::new,
+            () -> new ClusterOptions(config));
     }
 }

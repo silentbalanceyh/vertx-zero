@@ -43,12 +43,6 @@ import io.vertx.up.util.Ut;
  */
 final class AtConfiguration {
     /**
-     * The private constructor to let current class be Util only.
-     */
-    private AtConfiguration() {
-    }
-
-    /**
      * Zero standard logger of {@link io.vertx.up.log.Annal} instance.
      */
     private static final Annal LOGGER = Annal.get(AtConfiguration.class);
@@ -56,6 +50,11 @@ final class AtConfiguration {
      * The singleton instance of {@link io.vertx.tp.ambient.atom.AtConfig} to store configuration data.
      */
     private static AtConfig CONFIG = null;
+    /**
+     * The private constructor to let current class be Util only.
+     */
+    private AtConfiguration() {
+    }
 
     /**
      * 「Booting」This method will be called when zero container booting up.

@@ -146,15 +146,15 @@ class RibData {
              * Find the first value of type JsonObject
              */
             final JsonObject body = found.fieldNames().stream()
-                    .filter(Objects::nonNull)
-                    .map(found::getValue)
-                    /*
-                     * Predicate to test whether value is JsonObject
-                     * If JsonObject, then find the first JsonObject as body
-                     */
-                    .filter(value -> value instanceof JsonObject)
-                    .map(item -> (JsonObject) item)
-                    .findFirst().orElse(null);
+                .filter(Objects::nonNull)
+                .map(found::getValue)
+                /*
+                 * Predicate to test whether value is JsonObject
+                 * If JsonObject, then find the first JsonObject as body
+                 */
+                .filter(value -> value instanceof JsonObject)
+                .map(item -> (JsonObject) item)
+                .findFirst().orElse(null);
             if (!Ut.isNil(body)) {
                 /*
                  * Move reference and let found reference set

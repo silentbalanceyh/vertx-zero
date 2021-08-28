@@ -26,19 +26,19 @@ public class ListService implements ListStub {
          * Read list configuration for configuration
          */
         return Ux.Jooq.on(UiListDao.class).<UiList>fetchByIdAsync(listId)
-                .compose(list -> {
-                    if (Objects.isNull(list)) {
-                        Ui.infoWarn(ListService.LOGGER, " Form not found, id = {0}", listId);
-                        return Ux.future(new JsonObject());
-                    } else {
-                        /*
-                         * It means here are some additional configuration that should be
-                         * fetch then
-                         */
-                        final JsonObject listJson = Ut.serializeJson(list);
-                        return this.attachConfig(listJson);
-                    }
-                });
+            .compose(list -> {
+                if (Objects.isNull(list)) {
+                    Ui.infoWarn(ListService.LOGGER, " Form not found, id = {0}", listId);
+                    return Ux.future(new JsonObject());
+                } else {
+                    /*
+                     * It means here are some additional configuration that should be
+                     * fetch then
+                     */
+                    final JsonObject listJson = Ut.serializeJson(list);
+                    return this.attachConfig(listJson);
+                }
+            });
     }
 
     @Override
@@ -47,28 +47,34 @@ public class ListService implements ListStub {
         condition.put(KName.IDENTIFIER, identifier);
         condition.put(KName.SIGMA, sigma);
         return Ux.Jooq.on(UiListDao.class).<UiList>fetchAndAsync(condition)
-                /* List<UiList> */
-                .compose(Ux::futureA);
+            /* List<UiList> */
+            .compose(Ux::futureA);
     }
 
     private Future<JsonObject> attachConfig(final JsonObject listJson) {
         /*
          * Capture important configuration here
          */
-        Ke.mount(listJson, ListStub.FIELD_OPTIONS);
-        Ke.mount(listJson, ListStub.FIELD_OPTIONS_AJAX);
-        Ke.mount(listJson, ListStub.FIELD_OPTIONS_SUBMIT);
-        Ke.mount(listJson, ListStub.FIELD_V_SEGMENT);
+        //        Ke.mount(listJson, ListStub.FIELD_OPTIONS);
+        //        Ke.mount(listJson, ListStub.FIELD_OPTIONS_AJAX);
+        //        Ke.mount(listJson, ListStub.FIELD_OPTIONS_SUBMIT);
+        //        Ke.mount(listJson, ListStub.FIELD_V_SEGMENT);
+        Ut.ifJObject(listJson,
+            ListStub.FIELD_OPTIONS,
+            ListStub.FIELD_OPTIONS_AJAX,
+            ListStub.FIELD_OPTIONS_SUBMIT,
+            ListStub.FIELD_V_SEGMENT
+        );
         return Ux.future(listJson)
-                /* vQuery */
-                .compose(Ux.attach(ListStub.FIELD_V_QUERY, this.optionStub::fetchQuery))
-                /* vSearch */
-                .compose(Ux.attach(ListStub.FIELD_V_SEARCH, this.optionStub::fetchSearch))
-                /* vTable */
-                .compose(Ux.attach(ListStub.FIELD_V_TABLE, this.optionStub::fetchTable))
-                /* vSegment */
-                .compose(Ux.attachJ(ListStub.FIELD_V_SEGMENT, this.optionStub::fetchFragment))
-                /* Combiner for final processing */
-                .compose(Ke.fabricAsync("classCombiner"));
+            /* vQuery */
+            .compose(Ux.attach(ListStub.FIELD_V_QUERY, this.optionStub::fetchQuery))
+            /* vSearch */
+            .compose(Ux.attach(ListStub.FIELD_V_SEARCH, this.optionStub::fetchSearch))
+            /* vTable */
+            .compose(Ux.attach(ListStub.FIELD_V_TABLE, this.optionStub::fetchTable))
+            /* vSegment */
+            .compose(Ux.attachJ(ListStub.FIELD_V_SEGMENT, this.optionStub::fetchFragment))
+            /* Combiner for final processing */
+            .compose(Ke.fabricAsync("classCombiner"));
     }
 }

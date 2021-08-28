@@ -41,10 +41,10 @@ class SlCommand {
             final JsonArray commandJson = SlConfig.commands();
             final List<CommandAtom> commandsList = Ux.fromJson(commandJson, CommandAtom.class);
             commandsList.stream().filter(command -> COMMAND_PLUGINS.containsKey(command.getSimple())).forEach(item ->
-                    Sl.failWarn("The command will be ignored: name = {0}, description: {1}", item.getName(), item.getDescription()));
+                Sl.failWarn("The command will be ignored: name = {0}, description: {1}", item.getName(), item.getDescription()));
             final List<CommandAtom> filtered = commandsList.stream()
-                    .filter(item -> !COMMAND_PLUGINS.containsKey(item.getSimple()))
-                    .collect(Collectors.toList());
+                .filter(item -> !COMMAND_PLUGINS.containsKey(item.getSimple()))
+                .collect(Collectors.toList());
             commands.addAll(mountPlugin(filtered));
         }
         return commands;
@@ -56,10 +56,10 @@ class SlCommand {
          */
         final List<CommandAtom> source = Objects.isNull(commands) ? new ArrayList<>() : commands;
         source.stream().filter(command -> COMMAND_PLUGINS.containsKey(command.getSimple())).forEach(item ->
-                Sl.failWarn("The command will be ignored: name = {0}, description: {1}", item.getName(), item.getDescription()));
+            Sl.failWarn("The command will be ignored: name = {0}, description: {1}", item.getName(), item.getDescription()));
         final List<CommandAtom> normalized = source.stream()
-                .filter(command -> !COMMAND_PLUGINS.containsKey(command.getSimple()))
-                .collect(Collectors.toList());
+            .filter(command -> !COMMAND_PLUGINS.containsKey(command.getSimple()))
+            .collect(Collectors.toList());
         /*
          * Default Commands
          */
@@ -80,11 +80,11 @@ class SlCommand {
         /* Set contains */
         final Set<String> includeSet = new HashSet<>(Arrays.asList(includes));
         return commandsDefaultList.stream().filter(command -> includeSet.contains(command.getSimple()))
-                .peek(command -> {
-                    command.setArgs(false);
-                    command.setType(CommandType.DEFAULT);
-                    command.setPlugin(COMMAND_PLUGINS.get(command.getSimple()));
-                }).collect(Collectors.toList());
+            .peek(command -> {
+                command.setArgs(false);
+                command.setType(CommandType.DEFAULT);
+                command.setPlugin(COMMAND_PLUGINS.get(command.getSimple()));
+            }).collect(Collectors.toList());
     }
 
     private static List<CommandAtom> mountPlugin(final List<CommandAtom> commands) {

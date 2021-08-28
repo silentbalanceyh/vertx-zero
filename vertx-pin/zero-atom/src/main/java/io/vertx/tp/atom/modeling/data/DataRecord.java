@@ -35,9 +35,9 @@ public class DataRecord extends ActiveRecord {
     @Override
     public Set<String> joins() {
         return this.atom.model().dbJoins().stream()
-                .map(MJoin::getEntityKey)
-                .filter(Objects::nonNull)
-                .collect(Collectors.toSet());
+            .map(MJoin::getEntityKey)
+            .filter(Objects::nonNull)
+            .collect(Collectors.toSet());
     }
 
     /*
@@ -86,7 +86,7 @@ public class DataRecord extends ActiveRecord {
         }
         final DataRecord that = (DataRecord) o;
         return this.data().equals(that.data()) &&
-                this.atom.equals(that.atom);
+            this.atom.equals(that.atom);
     }
 
     @Override

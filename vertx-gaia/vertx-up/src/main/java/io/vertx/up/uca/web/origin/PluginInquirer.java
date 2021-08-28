@@ -14,9 +14,9 @@ public class PluginInquirer implements Inquirer<Set<Class<?>>> {
         final Set<Class<?>> plugins = new HashSet<>();
         // Filter Client
         Observable.fromIterable(allClasses)
-                .filter(this::isPlugin)
-                .subscribe(plugins::add)
-                .dispose();
+            .filter(this::isPlugin)
+            .subscribe(plugins::add)
+            .dispose();
         // Ensure Tp Client
         return plugins;
     }
@@ -24,8 +24,8 @@ public class PluginInquirer implements Inquirer<Set<Class<?>>> {
     private boolean isPlugin(final Class<?> clazz) {
         final Field[] fields = clazz.getDeclaredFields();
         final Long counter = Observable.fromArray(fields)
-                .filter(field -> field.isAnnotationPresent(Plugin.class))
-                .count().blockingGet();
+            .filter(field -> field.isAnnotationPresent(Plugin.class))
+            .count().blockingGet();
         return 0 < counter;
     }
 }

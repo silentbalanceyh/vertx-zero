@@ -41,9 +41,9 @@ public class RedisStore implements SessionStore {
         /* Redis options */
         final RedisOptions opts = new RedisOptions(options);
         LOGGER.info(RedisMsg.RD_OPTS,
-                /* Endpoint information for current */
-                opts.getEndpoint(),
-                opts.toJson().encode());
+            /* Endpoint information for current */
+            opts.getEndpoint(),
+            opts.toJson().encode());
 
         /* Client init, old version */
         this.client = Redis.createClient(vertx, opts);
@@ -193,7 +193,7 @@ public class RedisStore implements SessionStore {
                      */
                     if (oldSession.version() != newSession.version()) {
                         final WebException error = new _409SessionVersionException(getClass(),
-                                oldSession.version(), newSession.version());
+                            oldSession.version(), newSession.version());
                         handler.handle(Future.failedFuture(error));
                         return;
                     }
@@ -216,7 +216,7 @@ public class RedisStore implements SessionStore {
                             localMap.put(added, session);
                         }
                         LOGGER.info(RedisMsg.RS_AFTER, finalSession.id(),
-                                null == oldSession ? null : oldSession.id());
+                            null == oldSession ? null : oldSession.id());
                     } else {
                         /*
                          * ERROR throw out

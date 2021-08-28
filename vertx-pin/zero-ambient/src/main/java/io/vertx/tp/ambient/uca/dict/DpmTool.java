@@ -61,9 +61,9 @@ class DpmTool {
         return pool.<String, JsonArray>get(key).compose(queried -> {
             if (Objects.isNull(queried)) {
                 return executor.get()
-                        // 15 min
-                        .compose(actual -> pool.put(key, actual, Constants.DEFAULT_EXPIRED_DATA))
-                        .compose(Kv::value);
+                    // 15 min
+                    .compose(actual -> pool.put(key, actual, Constants.DEFAULT_EXPIRED_DATA))
+                    .compose(Kv::value);
             } else {
                 return Ux.future(queried);
             }
@@ -71,8 +71,8 @@ class DpmTool {
     }
 
     static Future<ConcurrentMap<String, JsonArray>> cachedDict(
-            final Set<String> typeSet,
-            final Function<Set<String>, Future<ConcurrentMap<String, JsonArray>>> executor) {
+        final Set<String> typeSet,
+        final Function<Set<String>, Future<ConcurrentMap<String, JsonArray>>> executor) {
         final UxPool pool = Ux.Pool.on(Constants.Pool.DIRECTORY);
         return pool.<String, JsonArray>get(typeSet).compose(cachedMap -> {
             /*
@@ -86,7 +86,7 @@ class DpmTool {
                 return executor.apply(newSet).compose(queried -> {
                     final ConcurrentMap<String, Future<JsonArray>> futureMap = new ConcurrentHashMap<>();
                     queried.forEach((key, data) -> futureMap.put(key, pool.put(key, data, Constants.DEFAULT_EXPIRED_DATA)
-                            .compose(Kv::value)));
+                        .compose(Kv::value)));
                     return Ux.thenCombine(futureMap);
                 }).compose(newAdded -> {
                     processed.putAll(newAdded);

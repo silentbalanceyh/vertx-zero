@@ -11,10 +11,10 @@ import io.vertx.tp.jet.atom.JtConfig;
 import io.vertx.tp.jet.atom.JtUri;
 import io.vertx.tp.jet.atom.JtWorker;
 import io.vertx.up.commune.config.Database;
-import io.vertx.up.commune.exchange.DualMapping;
 import io.vertx.up.commune.config.Identity;
 import io.vertx.up.commune.config.Integration;
 import io.vertx.up.commune.exchange.DictConfig;
+import io.vertx.up.commune.exchange.DualMapping;
 import io.vertx.up.commune.rule.RuleUnique;
 import io.vertx.up.eon.Strings;
 import io.vertx.up.eon.em.ChannelType;
@@ -75,8 +75,8 @@ public class Jt {
 
     public static Set<String> toMimeString(final Supplier<String> supplier) {
         return toMime(supplier).stream()
-                .map(type -> type.getType() + Strings.SLASH + type.getSubtype())
-                .collect(Collectors.toSet());
+            .map(type -> type.getType() + Strings.SLASH + type.getSubtype())
+            .collect(Collectors.toSet());
     }
 
     /*

@@ -9,6 +9,7 @@ CREATE TABLE IF NOT EXISTS S_VIEW
     `KEY`         VARCHAR(36) COMMENT '「key」- 限定记录ID',
     -- 用户优先模式，角色为默认（S_RESOURCE需要传入角色计算模式，多个角色处理时支持多角色的筛选字段需要保存在内
     `NAME`        VARCHAR(255) COMMENT '「name」- 视图名称，每个 MATRIX 对应一个视图',
+    `TITLE`       VARCHAR(255) COMMENT '「title」- 视图标题，用户输入，可选择',
     `OWNER`       VARCHAR(36) COMMENT '「owner」- 用户 / 角色ID',
     `OWNER_TYPE`  VARCHAR(5) COMMENT '「ownerType」- ROLE 角色，USER 用户',
     `RESOURCE_ID` VARCHAR(36) COMMENT '「resourceId」- 关联资源ID',
@@ -60,36 +61,24 @@ CREATE TABLE IF NOT EXISTS S_VIEW
      * 一旦启用了访问者，那么该视图中对应的 ROWS/CRITERIA/PROJECTION/POSITION 会纳入到系统中
      * 运算，运算时需要考虑访问者中的扩展属性
      */
-    `VISITANT`              BIT COMMENT '「visitant」- 是否包含了视图访问者',
+    `VISITANT`    BIT COMMENT '「visitant」- 是否包含了视图访问者',
 
     -- 特殊字段
-    `SIGMA` VARCHAR
-(
-    128
-) COMMENT '「sigma」- 用户组绑定的统一标识',
-    `LANGUAGE` VARCHAR
-(
-    10
-) COMMENT '「language」- 使用的语言',
-    `ACTIVE` BIT COMMENT '「active」- 是否启用',
-    `METADATA` TEXT COMMENT '「metadata」- 附加配置数据',
+    `SIGMA`       VARCHAR(128) COMMENT '「sigma」- 用户组绑定的统一标识',
+    `LANGUAGE`    VARCHAR(10) COMMENT '「language」- 使用的语言',
+    `ACTIVE`      BIT COMMENT '「active」- 是否启用',
+    `METADATA`    TEXT COMMENT '「metadata」- 附加配置数据',
 
     -- Auditor字段
-    `CREATED_AT` DATETIME COMMENT '「createdAt」- 创建时间',
-    `CREATED_BY` VARCHAR
-(
-    36
-) COMMENT '「createdBy」- 创建人',
-    `UPDATED_AT` DATETIME COMMENT '「updatedAt」- 更新时间',
-    `UPDATED_BY` VARCHAR
-(
-    36
-) COMMENT '「updatedBy」- 更新人',
+    `CREATED_AT`  DATETIME COMMENT '「createdAt」- 创建时间',
+    `CREATED_BY`  VARCHAR(36) COMMENT '「createdBy」- 创建人',
+    `UPDATED_AT`  DATETIME COMMENT '「updatedAt」- 更新时间',
+    `UPDATED_BY`  VARCHAR(36) COMMENT '「updatedBy」- 更新人',
     PRIMARY KEY
-(
-    `KEY`
-) USING BTREE
-    );
+        (
+         `KEY`
+            ) USING BTREE
+);
 
 -- changeset Lang:ox-view-2
 -- Unique

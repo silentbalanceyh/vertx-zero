@@ -21,9 +21,9 @@ public class ElasticSearchInfix implements Infix {
 
     private static void initInternal(final Vertx vertx) {
         Fn.pool(CLIENTS, NAME,
-                () -> Infix.init("elasticsearch",
-                        (config) -> ElasticSearchClient.createShared(vertx, config),
-                        ElasticSearchInfix.class));
+            () -> Infix.init("elasticsearch",
+                (config) -> ElasticSearchClient.createShared(vertx, config),
+                ElasticSearchInfix.class));
     }
 
     public static void init(final Vertx vertx) {

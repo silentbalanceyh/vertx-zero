@@ -5,10 +5,10 @@ import java.util.concurrent.ConcurrentMap;
 
 interface Info {
     String INFIX_NULL = "The system scanned null infix for key = {0} " +
-            "on the field \"{1}\" of {2}";
+        "on the field \"{1}\" of {2}";
 
     String INFIX_IMPL = "The hitted class {0} does not implement the interface" +
-            "of {1}";
+        "of {1}";
 }
 
 interface Pool {

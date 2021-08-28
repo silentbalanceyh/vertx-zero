@@ -19,7 +19,7 @@ public class StandardVerifier extends BaseAim implements Sentry<RoutingContext> 
     public Handler<RoutingContext> signal(final Depot depot) {
         // continue to verify JsonObject/JsonArray type
         final Map<String, List<Rule>> rulers
-                = this.verifier().buildRulers(depot);
+            = this.verifier().buildRulers(depot);
         return (context) -> this.executeRequest(context, rulers, depot);
     }
 }

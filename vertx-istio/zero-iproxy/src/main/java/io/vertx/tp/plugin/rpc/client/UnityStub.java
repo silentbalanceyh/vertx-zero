@@ -25,14 +25,14 @@ public class UnityStub implements RpcStub {
     public Future<JsonObject> traffic(final IpcData data) {
 
         final UnityServiceGrpc.UnityServiceVertxStub stub
-                = UnityServiceGrpc.newVertxStub(this.channel);
+            = UnityServiceGrpc.newVertxStub(this.channel);
         // Request
         final IpcRequest request = DataEncap.in(data);
         // Call and return to future
         final Promise<JsonObject> handler = Promise.promise();
         stub.unityCall(request, response ->
-                // Reply
-                RpcRepdor.create(this.getClass()).replyJson(handler, response));
+            // Reply
+            RpcRepdor.create(this.getClass()).replyJson(handler, response));
         return handler.future();
     }
 }

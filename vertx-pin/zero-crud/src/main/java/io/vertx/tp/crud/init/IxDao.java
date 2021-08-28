@@ -5,8 +5,11 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.tp.crud.cv.IxFolder;
 import io.vertx.tp.crud.cv.IxMsg;
 import io.vertx.tp.crud.refine.Ix;
+import io.vertx.tp.crud.uca.desk.IxIn;
 import io.vertx.tp.ke.atom.KField;
 import io.vertx.tp.ke.atom.KModule;
+import io.vertx.tp.ke.atom.connect.KJoin;
+import io.vertx.tp.ke.atom.connect.KPoint;
 import io.vertx.tp.ke.atom.view.KColumn;
 import io.vertx.tp.ke.cv.em.DSMode;
 import io.vertx.tp.ke.refine.Ke;
@@ -16,8 +19,8 @@ import io.vertx.up.eon.ID;
 import io.vertx.up.eon.KName;
 import io.vertx.up.eon.Strings;
 import io.vertx.up.fn.Fn;
-import io.vertx.up.log.Annal;
 import io.vertx.up.log.Debugger;
+import io.vertx.up.uca.jooq.UxJoin;
 import io.vertx.up.uca.jooq.UxJooq;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
@@ -35,10 +38,10 @@ class IxDao {
     /*
      * Logger for IxDao
      */
-    private static final Annal LOGGER = Annal.get(IxDao.class);
-
     private static final ConcurrentMap<String, KModule> CONFIG_MAP =
-            new ConcurrentHashMap<>();
+        new ConcurrentHashMap<>();
+    private static final ConcurrentMap<String, String> ALIAS_MAP =
+        new ConcurrentHashMap<>();
 
     static void init() {
         /*
@@ -59,23 +62,73 @@ class IxDao {
                 final KModule config = Ut.deserialize(configDao, KModule.class);
                 /* 3. Logger */
                 if (Debugger.isEnabled("curd.dao.file")) {
-                    Ix.infoInit(LOGGER, IxMsg.INIT_INFO, path, config.getName());
+                    Ix.Log.init(IxDao.class, IxMsg.INIT_INFO, path, config.getName());
                 }
                 /* 4. Default Values */
-                initValues(config, file);
+                final String identifier = initValues(config, file);
                 /* 5. Url & Map */
                 IxConfiguration.addUrs(config.getName());
                 CONFIG_MAP.put(config.getName(), config);
+                ALIAS_MAP.put(identifier, config.getName());
             }, configDao);
         });
-        Ix.infoInit(LOGGER, "IxDao Finished ! Size = {0}, Uris = {0}",
-                CONFIG_MAP.size(), IxConfiguration.getUris().size());
+        Ix.Log.init(IxDao.class, "IxDao Finished ! Size = {0}, Uris = {0}",
+            CONFIG_MAP.size(), IxConfiguration.getUris().size());
     }
 
     static KModule get(final String actor) {
-        Ix.debugRest(LOGGER, "Actor = {0}", actor);
         final KModule config = CONFIG_MAP.get(actor);
-        return Fn.getNull(null, () -> config, config);
+        if (Objects.isNull(config)) {
+            final String name = ALIAS_MAP.get(actor);
+            if (Ut.notNil(name)) {
+                Ix.Log.rest(IxDao.class, "Actor: name = `{0}`, identifier = `{1}`", name, actor);
+                return CONFIG_MAP.get(name);
+            } else {
+                return null;
+            }
+        } else {
+            Ix.Log.rest(IxDao.class, "Actor: name = `{0}`", actor);
+            return config;
+        }
+    }
+
+    static KPoint getPoint(final IxIn in) {
+        final KModule module = in.module();
+        final KModule connect = in.connect();
+        final KJoin join = module.getConnect();
+        if (Objects.isNull(join)) {
+            return null;
+        }
+        final KPoint point = join.procTarget(connect.getIdentifier());
+        Ix.Log.rest(IxDao.class, "Point = {0}", point);
+        return point;
+    }
+
+    static UxJoin get(final KModule module, final KModule connect) {
+        return Fn.getNull(null, () -> {
+            /* 1. Build UxJoin Object */
+            final UxJoin dao = Ux.Join.on();
+
+            /* 2. Module */
+            final String pojo = module.getPojo();
+            dao.add(module.getDaoCls());
+            if (Ut.notNil(pojo)) {
+                dao.pojo(module.getDaoCls(), pojo);
+            }
+
+            /* 3. Connect */
+            final KJoin join = module.getConnect();
+            final KPoint point = join.procTarget(connect.getIdentifier());
+            assert null != point;
+            dao.join(connect.getDaoCls(), point.getKeyJoin());
+
+            /* 4. Connect Joined pojo */
+            final String pojoS = connect.getPojo();
+            if (Ut.notNil(pojoS)) {
+                dao.pojo(connect.getDaoCls(), pojoS);
+            }
+            return dao;
+        }, module, connect);
     }
 
     static UxJooq get(final KModule config, final MultiMap headers) {
@@ -95,7 +148,7 @@ class IxDao {
         }, config);
     }
 
-    private static void initValues(final KModule module, final String file) {
+    private static String initValues(final KModule module, final String file) {
         /* Default Column */
         final String identifier = file.replace(Strings.DOT + FileSuffix.JSON, Strings.EMPTY);
         if (Objects.isNull(module.getColumn())) {
@@ -109,10 +162,10 @@ class IxDao {
         final JsonObject header = Ut.sureJObject(module.getHeader());
         /* sigma -> X-Sigma */
         Fn.safeSemi(!header.containsKey(KName.SIGMA),
-                () -> header.put(KName.SIGMA, ID.Header.X_SIGMA));
+            () -> header.put(KName.SIGMA, ID.Header.X_SIGMA));
         /* language -> X-Lang */
         Fn.safeSemi(!header.containsKey(KName.LANGUAGE),
-                () -> header.put(KName.LANGUAGE, ID.Header.X_LANG));
+            () -> header.put(KName.LANGUAGE, ID.Header.X_LANG));
         module.setHeader(header);
 
         /* Auditor Processing */
@@ -131,6 +184,7 @@ class IxDao {
         field.setUpdated(updated);
         // Module field setting workflow for default
         module.setField(field);
+        return identifier;
     }
 
     private static UxJooq get(final KModule module, final Class<?> clazz, final MultiMap headers) {
@@ -141,14 +195,14 @@ class IxDao {
         final DSMode mode = module.getMode();
         if (DSMode.DYNAMIC == mode) {
             dao = Ke.channelSync(DS.class,
-                    /*
-                     * `provider` configured
-                     */
-                    () -> Ux.Jooq.on(clazz),
-                    /*
-                     * Dynamic Data Source here
-                     */
-                    ds -> Ux.Jooq.on(clazz, ds.switchDs(headers))
+                /*
+                 * `provider` configured
+                 */
+                () -> Ux.Jooq.on(clazz),
+                /*
+                 * Dynamic Data Source here
+                 */
+                ds -> Ux.Jooq.on(clazz, ds.switchDs(headers))
             );
         } else {
             if (DSMode.HISTORY == mode) {

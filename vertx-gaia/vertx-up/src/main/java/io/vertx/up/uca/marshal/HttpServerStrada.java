@@ -14,7 +14,7 @@ public class HttpServerStrada implements Transformer<HttpServerOptions> {
     public HttpServerOptions transform(final JsonObject input) {
         final JsonObject config = input.getJsonObject(ServerVisitor.YKEY_CONFIG, null);
         return Fn.getSemi(null == config, LOGGER,
-                HttpServerOptions::new,
-                () -> new HttpServerOptions(config));
+            HttpServerOptions::new,
+            () -> new HttpServerOptions(config));
     }
 }

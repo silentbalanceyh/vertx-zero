@@ -59,8 +59,8 @@ public class DictConfig implements Serializable {
     private void init(final JsonArray input) {
         /* Normalize `DictSource` List */
         Ut.itJArray(input)
-                .map(DictSource::new)
-                .forEach(this.source::add);
+            .map(DictSource::new)
+            .forEach(this.source::add);
     }
 
     public DictConfig bind(final Class<?> component) {

@@ -42,28 +42,28 @@ public class ExIo {
         }
     };
     private static final ConcurrentMap<Class<?>, BiConsumer<Cell, Object>> VALUE_MAP =
-            new ConcurrentHashMap<Class<?>, BiConsumer<Cell, Object>>() {
-                private static final long serialVersionUID = 5714357194532329854L;
+        new ConcurrentHashMap<Class<?>, BiConsumer<Cell, Object>>() {
+            private static final long serialVersionUID = 5714357194532329854L;
 
-                {
-                    this.put(String.class, ExIo::outString);
-                    this.put(char.class, ExIo::outString);
-                    this.put(Instant.class, ExIo::outDate);
-                    this.put(LocalDate.class, ExIo::outLocalDate);
-                    this.put(LocalDateTime.class, ExIo::outLocalDateTime);
-                    this.put(BigDecimal.class, ExIo::outBigDecimal);
-                    this.put(Integer.class, ExIo::outNumeric);
-                    this.put(int.class, ExIo::outNumeric);
-                    this.put(Long.class, ExIo::outNumeric);
-                    this.put(long.class, ExIo::outNumeric);
-                    this.put(Short.class, ExIo::outNumeric);
-                    this.put(short.class, ExIo::outNumeric);
-                    this.put(boolean.class, ExIo::outBoolean);
-                    this.put(Boolean.class, ExIo::outBoolean);
-                    this.put(JsonArray.class, ExIo::outString);
-                    this.put(JsonObject.class, ExIo::outString);
-                }
-            };
+            {
+                this.put(String.class, ExIo::outString);
+                this.put(char.class, ExIo::outString);
+                this.put(Instant.class, ExIo::outDate);
+                this.put(LocalDate.class, ExIo::outLocalDate);
+                this.put(LocalDateTime.class, ExIo::outLocalDateTime);
+                this.put(BigDecimal.class, ExIo::outBigDecimal);
+                this.put(Integer.class, ExIo::outNumeric);
+                this.put(int.class, ExIo::outNumeric);
+                this.put(Long.class, ExIo::outNumeric);
+                this.put(long.class, ExIo::outNumeric);
+                this.put(Short.class, ExIo::outNumeric);
+                this.put(short.class, ExIo::outNumeric);
+                this.put(boolean.class, ExIo::outBoolean);
+                this.put(Boolean.class, ExIo::outBoolean);
+                this.put(JsonArray.class, ExIo::outString);
+                this.put(JsonObject.class, ExIo::outString);
+            }
+        };
 
     /*
      * setCellValue(String)

@@ -54,18 +54,18 @@ public class DataEvent implements Serializable {
          */
         final Model model = atom.model();
         this.tpl = DataTpl.create()
-                .on(sentence)
-                .on(atom);
+            .on(sentence)
+            .on(atom);
         // 初始化 Tpl 模板
         /* 连接专用填充 ItemMatrix */
         Bridge.connect(model,
-                // 字段基本函数
-                (schema) -> (field, attribute) -> this.tpl.initTpl(schema, field, attribute));
+            // 字段基本函数
+            (schema) -> (field, attribute) -> this.tpl.initTpl(schema, field, attribute));
         /* 连接专用填充 ItemMatrix - 主键类 */
         Bridge.join(model,
-                // 主键关联函数，虚拟键，不填充 this.sources
-                (schema) -> (field, attribute) ->
-                        this.tpl.initKey(schema, field, attribute));
+            // 主键关联函数，虚拟键，不填充 this.sources
+            (schema) -> (field, attribute) ->
+                this.tpl.initKey(schema, field, attribute));
     }
 
     public static DataEvent create(final DataAtom atom, final AoSentence sentence) {
@@ -208,12 +208,12 @@ public class DataEvent implements Serializable {
         final List<DataRow> rows = this.io.getRows();
 
         Fn.outWeb(null == rows || rows.isEmpty(), _417DataRowNullException.class, this.getClass(),
-                /* ARG1：当前 Model 的模型标识符 */ this.atom.identifier());
+            /* ARG1：当前 Model 的模型标识符 */ this.atom.identifier());
 
         final DataRow row = rows.get(Values.IDX);
 
         Fn.outWeb(null == row, _417DataRowNullException.class, this.getClass(),
-                /* ARG1：当前 Model 的模型标识符 */ this.atom.identifier());
+            /* ARG1：当前 Model 的模型标识符 */ this.atom.identifier());
 
         return row;
     }
@@ -272,7 +272,7 @@ public class DataEvent implements Serializable {
 
     public Future<JsonObject> dataPAsync() {
         return this.dataAAsync()
-                .compose(records -> Ux.future(this.dataP(records)));
+            .compose(records -> Ux.future(this.dataP(records)));
     }
 
     // Private ----------------------
@@ -291,10 +291,10 @@ public class DataEvent implements Serializable {
     private Record[] records() {
         final List<DataRow> rows = this.dataRows();
         return rows.stream()
-                .map(DataRow::getRecord)
-                .filter(Objects::nonNull)
-                .collect(Collectors.toList())
-                .toArray(new Record[]{});
+            .map(DataRow::getRecord)
+            .filter(Objects::nonNull)
+            .collect(Collectors.toList())
+            .toArray(new Record[]{});
     }
 
     private JsonObject dataP(final Record[] records) {
@@ -318,14 +318,14 @@ public class DataEvent implements Serializable {
     public Boolean succeed() {
         final List<DataRow> rows = this.dataRows();
         final long counter = rows.stream().filter(DataRow::succeed)
-                .count();
+            .count();
         /*
          * 两个条件：
          * 1. 每一行的处理结果 succeed
          * 2. 当前 WebException 为 null
          */
         return rows.size() == counter
-                && null == this.exception;
+            && null == this.exception;
     }
 
     // ------------ 私有函数 --------------

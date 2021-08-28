@@ -115,15 +115,15 @@ public class ElasticSearchClientImpl implements ElasticSearchClient {
 
         try {
             final GetRequest request = new GetRequest()
-                    .index(index)
-                    .id(documentId);
+                .index(index)
+                .id(documentId);
 
             final GetResponse response = client.get(request, RequestOptions.DEFAULT);
 
             result
-                    .put("index", response.getIndex())
-                    .put("id", response.getId())
-                    .put("result", response.isExists());
+                .put("index", response.getIndex())
+                .put("id", response.getId())
+                .put("result", response.isExists());
             if (response.isExists()) {
                 result.put("data", response.getSource());
             }

@@ -20,7 +20,7 @@ import java.util.concurrent.ConcurrentMap;
 public class HarpBus {
     private static final String KEY_L1 = "l1";
     private static final ConcurrentMap<String, L1Cache> POOL_L1
-            = new ConcurrentHashMap<>();
+        = new ConcurrentHashMap<>();
     private final transient Vertx vertx;
     private L1Config l1Config;
 

@@ -25,8 +25,8 @@ class RibIr {
             final Set<String> originalSet = originalProjection(reference);
             /* Add New */
             projection.copy().stream().filter(Objects::nonNull)
-                    .map(item -> (String) item)
-                    .forEach(originalSet::add);
+                .map(item -> (String) item)
+                .forEach(originalSet::add);
             /* Replace */
             reference.put(Qr.KEY_PROJECTION, Ut.toJArray(originalSet));
         }
@@ -61,7 +61,7 @@ class RibIr {
         final Set<String> projectionSet = new HashSet<>();
         if (reference.containsKey(Qr.KEY_PROJECTION)) {
             reference.getJsonArray(Qr.KEY_PROJECTION).stream()
-                    .map(item -> (String) item).forEach(projectionSet::add);
+                .map(item -> (String) item).forEach(projectionSet::add);
         }
         return projectionSet;
     }

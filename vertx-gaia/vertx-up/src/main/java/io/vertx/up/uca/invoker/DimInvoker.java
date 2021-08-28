@@ -13,7 +13,7 @@ public class DimInvoker extends AbstractInvoker {
     public void ensure(final Class<?> returnType, final Class<?> paramCls) {
         // Verify
         final boolean valid =
-                (void.class != returnType && Void.class != returnType);
+            (void.class != returnType && Void.class != returnType);
         InvokerUtil.verify(!valid, returnType, paramCls, this.getClass());
     }
 
@@ -37,6 +37,6 @@ public class DimInvoker extends AbstractInvoker {
         this.getLogger().info(Info.MSG_FUTURE, this.getClass(), method.getReturnType(), true);
         final Object returnValue = this.invokeInternal(proxy, method, envelop);
         this.nextEnvelop(vertx, method, returnValue)
-                .onComplete(Ux.handler(message));
+            .onComplete(Ux.handler(message));
     }
 }

@@ -24,16 +24,16 @@ class ScatterModeler implements AoModeler {
             // 并行处理 Fields, Index, Keys
             final List<Future<JsonObject>> futures = new ArrayList<>();
             Ut.itJArray(schemata).forEach(schema -> futures.add(
-                    Ux.future(schema)
-                            // Field
-                            .compose(AoModeler.field().apply())
-                            // Key
-                            .compose(AoModeler.key().apply())
-                            // Index
-                            .compose(AoModeler.index().apply())
+                Ux.future(schema)
+                    // Field
+                    .compose(AoModeler.field().apply())
+                    // Key
+                    .compose(AoModeler.key().apply())
+                    // Index
+                    .compose(AoModeler.index().apply())
             ));
             return Ux.thenCombine(futures)
-                    .compose(schemataJson -> Ux.future(this.onResult(modelJson, schemataJson)));
+                .compose(schemataJson -> Ux.future(this.onResult(modelJson, schemataJson)));
         };
     }
 

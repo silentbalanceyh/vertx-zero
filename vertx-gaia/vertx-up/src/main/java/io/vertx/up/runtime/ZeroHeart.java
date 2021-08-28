@@ -85,7 +85,7 @@ public class ZeroHeart {
         final Set<Integer> apiScanned = new HashSet<>();
         Fn.outUp(() -> {
             final ServerVisitor<HttpServerOptions> visitor =
-                    Ut.singleton(DynamicVisitor.class);
+                Ut.singleton(DynamicVisitor.class);
             apiScanned.addAll(visitor.visit(ServerType.API.toString()).keySet());
         }, LOGGER);
         return !apiScanned.isEmpty();

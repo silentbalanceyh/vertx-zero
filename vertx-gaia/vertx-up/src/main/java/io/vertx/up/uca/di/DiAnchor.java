@@ -26,7 +26,7 @@ class DiAnchor {
     }
 
     private Class<? extends Annotation> search(
-            final Field field
+        final Field field
     ) {
         final Annotation[] annotations = field.getDeclaredAnnotations();
         final Set<Class<? extends Annotation>> annotationCls = Plugins.INFIX_MAP.keySet();
@@ -52,8 +52,8 @@ class DiAnchor {
                 final JsonObject options = node.read();
 
                 Fn.outUp(!options.containsKey(pluginKey), this.logger,
-                        InjectionLimeKeyException.class,
-                        this.clazz, infixCls, pluginKey);
+                    InjectionLimeKeyException.class,
+                    this.clazz, infixCls, pluginKey);
 
                 final Infix reference = Ut.singleton(infixCls);
 

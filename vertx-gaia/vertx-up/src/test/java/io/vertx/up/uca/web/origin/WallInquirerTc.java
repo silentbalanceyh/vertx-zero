@@ -12,7 +12,7 @@ import java.util.Set;
 public class WallInquirerTc extends ScanBase {
 
     private final Inquirer<Set<Cliff>> walls =
-            Ut.singleton(WallInquirer.class);
+        Ut.singleton(WallInquirer.class);
 
     @Test(expected = WallDuplicatedException.class)
     public void testScan() {

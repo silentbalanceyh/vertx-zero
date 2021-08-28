@@ -24,8 +24,8 @@ public class RpcRepdor {
     }
 
     public void replyJson(
-            final Promise<JsonObject> handler,
-            final AsyncResult<IpcResponse> response) {
+        final Promise<JsonObject> handler,
+        final AsyncResult<IpcResponse> response) {
         if (response.succeeded()) {
             final Envelop json = DataEncap.out(response.result());
             final JsonObject data = json.data();
@@ -35,7 +35,7 @@ public class RpcRepdor {
             final Throwable ex = response.cause();
             if (null != ex) {
                 final Envelop envelop =
-                        Envelop.failure(new _500UnexpectedRpcException(this.clazz, ex));
+                    Envelop.failure(new _500UnexpectedRpcException(this.clazz, ex));
                 handler.complete(envelop.outJson());
                 // TODO: Debug Now, Remove In Future
                 ex.printStackTrace();
@@ -44,8 +44,8 @@ public class RpcRepdor {
     }
 
     public void reply(
-            final Promise<Envelop> handler,
-            final AsyncResult<IpcResponse> response
+        final Promise<Envelop> handler,
+        final AsyncResult<IpcResponse> response
     ) {
         if (response.succeeded()) {
             handler.complete(DataEncap.out(response.result()));
@@ -53,7 +53,7 @@ public class RpcRepdor {
             final Throwable ex = response.cause();
             if (null != ex) {
                 final Envelop envelop =
-                        Envelop.failure(new _500UnexpectedRpcException(this.clazz, ex));
+                    Envelop.failure(new _500UnexpectedRpcException(this.clazz, ex));
                 handler.complete(envelop);
                 // TODO: Debug Now, Remove In Future
                 ex.printStackTrace();

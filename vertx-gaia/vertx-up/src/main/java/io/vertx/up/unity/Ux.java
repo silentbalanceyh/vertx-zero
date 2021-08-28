@@ -144,6 +144,45 @@ public final class Ux {
         return Unique.ruleApt(twins, isReplaced);
     }
 
+    // ------------------------- Compare Json ------------------------
+    /*
+     *  1) ruleJOk
+     *  2) ruleJReduce
+     *  3) ruleJEqual
+     *  4) ruleJFind
+     */
+    public static boolean ruleJOk(final JsonObject record, final Set<String> fields) {
+        return CompareJ.ruleJOk(record, fields);
+    }
+
+    public static boolean ruleJOk(final JsonObject record, final JsonArray matrix) {
+        return CompareJ.ruleJOk(record, matrix);
+    }
+
+    public static JsonArray ruleJReduce(final JsonArray records, final Set<String> fields) {
+        return CompareJ.ruleJReduce(records, fields);
+    }
+
+    public static JsonArray ruleJReduce(final JsonArray records, final JsonArray matrix) {
+        return CompareJ.ruleJReduce(records, matrix);
+    }
+
+    public static boolean ruleJEqual(final JsonObject record, final JsonObject latest, final Set<String> fields) {
+        return CompareJ.ruleJEqual(record, latest, fields);
+    }
+
+    public static boolean ruleJEqual(final JsonObject record, final JsonObject latest, final JsonArray matrix) {
+        return CompareJ.ruleJEqual(record, latest, matrix);
+    }
+
+    public static JsonObject ruleJFind(final JsonArray source, final JsonObject expected, final Set<String> fields) {
+        return CompareJ.ruleJFind(source, expected, fields);
+    }
+
+    public static JsonObject ruleJFind(final JsonArray source, final JsonObject expected, final JsonArray matrix) {
+        return CompareJ.ruleJFind(source, expected, matrix);
+    }
+
     /*
      * Entity ( Pojo ) to JsonObject, support pojo file here
      * 1) toJson / fromJson
@@ -300,21 +339,45 @@ public final class Ux {
     public static <T> Future<T> handler(final Consumer<Handler<AsyncResult<T>>> handler) {
         return Web.toFuture(handler);
     }
+    /*
+     * 1) compare
+     * 2) compareJ
+     */
 
     public static <T, R> ConcurrentMap<ChangeFlag, List<T>> compare(final List<T> original, final List<T> current, final Function<T, R> fnValue, final String pojoFile) {
-        return Comparer.compare(original, current, fnValue, pojoFile);
+        return Compare.compare(original, current, fnValue, pojoFile);
     }
 
     public static <T, R> ConcurrentMap<ChangeFlag, List<T>> compare(final List<T> original, final List<T> current, final Function<T, R> fnValue) {
-        return Comparer.compare(original, current, fnValue, Strings.EMPTY);
+        return Compare.compare(original, current, fnValue, Strings.EMPTY);
     }
 
     public static <T, R> ConcurrentMap<ChangeFlag, List<T>> compare(final List<T> original, final List<T> current, final Set<String> uniqueSet, final String pojoFile) {
-        return Comparer.compare(original, current, uniqueSet, pojoFile);
+        return Compare.compare(original, current, uniqueSet, pojoFile);
     }
 
     public static <T, R> ConcurrentMap<ChangeFlag, List<T>> compare(final List<T> original, final List<T> current, final Set<String> uniqueSet) {
-        return Comparer.compare(original, current, uniqueSet, Strings.EMPTY);
+        return Compare.compare(original, current, uniqueSet, Strings.EMPTY);
+    }
+
+    public static ConcurrentMap<ChangeFlag, JsonArray> compareJ(
+        final JsonArray original, final JsonArray current, final Set<String> fields) {
+        return CompareJ.compareJ(original, current, fields);
+    }
+
+    public static Future<ConcurrentMap<ChangeFlag, JsonArray>> compareJAsync(
+        final JsonArray original, final JsonArray current, final Set<String> fields) {
+        return To.future(CompareJ.compareJ(original, current, fields));
+    }
+
+    public static ConcurrentMap<ChangeFlag, JsonArray> compareJ(
+        final JsonArray original, final JsonArray current, final JsonArray matrix) {
+        return CompareJ.compareJ(original, current, matrix);
+    }
+
+    public static Future<ConcurrentMap<ChangeFlag, JsonArray>> compareJAsync(
+        final JsonArray original, final JsonArray current, final JsonArray matrix) {
+        return To.future(CompareJ.compareJ(original, current, matrix));
     }
 
     /*
@@ -639,6 +702,7 @@ public final class Ux {
      * 1) whereDay
      * 2) whereAnd
      * 3) whereOr
+     * 4) whereKeys
      */
     public static JsonObject whereDay(final JsonObject filters, final String field, final Instant instant) {
         return Where.whereDay(filters, field, instant);
@@ -646,6 +710,14 @@ public final class Ux {
 
     public static JsonObject whereDay(final JsonObject filters, final String field, final LocalDateTime instant) {
         return Where.whereDay(filters, field, Ut.parse(instant).toInstant());
+    }
+
+    public static JsonObject whereKeys(final Set<String> keys) {
+        return Where.whereKeys(Ut.toJArray(keys));
+    }
+
+    public static JsonObject whereKeys(final JsonArray keys) {
+        return Where.whereKeys(keys);
     }
 
     public static JsonObject whereAnd() {

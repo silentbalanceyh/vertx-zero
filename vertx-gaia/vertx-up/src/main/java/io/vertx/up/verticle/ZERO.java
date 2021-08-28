@@ -15,13 +15,13 @@ interface Info {
     String HTTP_LISTEN = "( Http Server ) {0} Http Server has been started successfully. Endpoint: {1}.";
 
     String MICRO_REGISTRY_SEND = "---> {2} ( Http Server ) {0} ( name = {1} ) " +
-            "is sending data to internal address.";
+        "is sending data to internal address.";
 
     String IPC_REGISTRY_SEND = "---> {2} ( Rpc Server ) {0} ( name = {1} ) " +
-            "is sending data to internal address.";
+        "is sending data to internal address.";
 
     String MICRO_REGISTRY_CONSUME = "{2} <--- ( Micro Worker ) {0} ( name = {1} ) " +
-            "getNull data from internal address.";
+        "getNull data from internal address.";
 
     String RPC_LISTEN = "( Rpc Server ) Rpc Server has been started successfully. Channel: ---> grpc://{0}:{1}. ";
 
@@ -30,8 +30,8 @@ interface Info {
     String ETCD_SUCCESS = "( Etcd Center ) Zero system detected configuration {0}, begin to singleton Etcd Center.";
 
     String REG_SUCCESS = "( Discovery ) Record : ( name = {2}, uri = {3} ) " +
-            "key = {4}, id = {5}, status = {0}, type = {1} " +
-            "has been refreshed in Zero system.";
+        "key = {4}, id = {5}, status = {0}, type = {1} " +
+        "has been refreshed in Zero system.";
 
     String REG_REFRESHED = "( Discovery ) Records ( added = {0}, updated = {1}, deleted = {2} ) have been refreshed! ";
 
@@ -40,10 +40,10 @@ interface Info {
     String API_GATEWAY = "( Api Gateway ) {0} (id = {1}) has deployed on {2}.";
 
     String API_LISTEN = "( Api Gateway ) {0} has been started successfully. " +
-            "Endpoint: {1}.";
+        "Endpoint: {1}.";
 
     String MSG_INVOKER = "( Invoker ) Zero system selected {0} as invoker," +
-            "the metadata receipt hash code = {1}, invoker size = {2}.";
+        "the metadata receipt hash code = {1}, invoker size = {2}.";
 
     String JOB_EMPTY = "Zero system detect no jobs, the scheduler will be stopped.";
 

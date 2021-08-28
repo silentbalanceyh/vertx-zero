@@ -34,10 +34,10 @@ import java.util.Objects;
 public abstract class BaseAim {
 
     private transient final Validator verifier =
-            Validator.create();
+        Validator.create();
 
     private transient final Analyzer analyzer =
-            Ut.singleton(MediaAnalyzer.class);
+        Ut.singleton(MediaAnalyzer.class);
 
     /**
      * Template method
@@ -81,17 +81,17 @@ public abstract class BaseAim {
     protected Object invoke(final Event event, final Object[] args) {
         final Method method = event.getAction();
         this.getLogger().info("Class = {2}, Method = {0}, Args = {1}",
-                method.getName(), Ut.fromJoin(args), method.getDeclaringClass().getName());
+            method.getName(), Ut.fromJoin(args), method.getDeclaringClass().getName());
         return Ut.invoke(event.getProxy(), method.getName(), args);
     }
 
     protected Envelop failure(final String address,
                               final AsyncResult<Message<Envelop>> handler) {
         final WebException error
-                = new _500DeliveryErrorException(this.getClass(),
-                address,
-                Fn.getNull(null,
-                        () -> handler.cause().getMessage(), handler.cause()));
+            = new _500DeliveryErrorException(this.getClass(),
+            address,
+            Fn.getNull(null,
+                () -> handler.cause().getMessage(), handler.cause()));
         return Envelop.failure(error);
     }
 
@@ -104,8 +104,8 @@ public abstract class BaseAim {
             envelop = message.body();
         } catch (final Throwable ex) {
             final WebException error
-                    = new _500EntityCastException(this.getClass(),
-                    address, ex.getMessage());
+                = new _500EntityCastException(this.getClass(),
+                address, ex.getMessage());
             envelop = Envelop.failure(error);
         }
         return envelop;
@@ -146,7 +146,7 @@ public abstract class BaseAim {
                     // Fix: 3.9.1 cookie error of null pointer
                     final Cookie cookie = context.getCookie("vertx-web.session");
                     this.getLogger().info(Info.SESSION_ID, context.request().path(),
-                            session.id(), Objects.isNull(cookie) ? null : cookie.getValue());
+                        session.id(), Objects.isNull(cookie) ? null : cookie.getValue());
                 }
             }
             consumer.execute();

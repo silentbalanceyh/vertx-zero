@@ -161,7 +161,7 @@ public class DataMatrix implements Serializable {
             final String item = "%-" + keyWidth + "s";
             final Object value = this.getValue(field);
             builder.append(String.format(item, field))
-                    .append(String.format(item, value)).append("\n");
+                .append(String.format(item, value)).append("\n");
         });
     }
 }

@@ -6,12 +6,13 @@ import io.vertx.core.http.HttpServerRequest;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.RoutingContext;
-import io.vertx.up.eon.KName;
 import io.vertx.tp.ke.refine.Ke;
 import io.vertx.tp.rbac.refine.Sc;
 import io.vertx.up.commune.Envelop;
+import io.vertx.up.eon.KName;
 import io.vertx.up.extension.PlugAuditor;
 import io.vertx.up.log.Annal;
+import io.vertx.up.runtime.ZeroAnno;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
@@ -87,10 +88,11 @@ public class AuditorPin implements PlugAuditor {
         }
         final String path = request.path();
         final long counter = include.stream().filter(Objects::nonNull)
-                .map(item -> (String) item)
-                .filter(path::startsWith)
-                .count();
+            .map(item -> (String) item)
+            .filter(path::startsWith)
+            .count();
         final JsonArray exclude = this.config.getJsonArray("exclude");
+        final String recovery = ZeroAnno.recoveryUri(request.path(), request.method());
         if (Objects.isNull(exclude) || exclude.isEmpty()) {
             /*
              * Exclude counter = 0, only include valid
@@ -98,9 +100,9 @@ public class AuditorPin implements PlugAuditor {
             return 0 < counter;
         } else {
             final long except = exclude.stream().filter(Objects::nonNull)
-                    .map(item -> (String) item)
-                    .filter(path::startsWith)
-                    .count();
+                .map(item -> (String) item)
+                .filter(recovery::startsWith)
+                .count();
             return 0 < counter && except <= 0;
         }
     }

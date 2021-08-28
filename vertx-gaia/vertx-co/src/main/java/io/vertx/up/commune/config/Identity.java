@@ -43,8 +43,8 @@ public class Identity implements Serializable {
         if (!(o instanceof Identity)) return false;
         final Identity identity = (Identity) o;
         return this.identifier.equals(identity.identifier) &&
-                this.sigma.equals(identity.sigma) &&
-                this.identifierComponent.equals(identity.identifierComponent);
+            this.sigma.equals(identity.sigma) &&
+            this.identifierComponent.equals(identity.identifierComponent);
     }
 
     @Override
@@ -55,9 +55,9 @@ public class Identity implements Serializable {
     @Override
     public String toString() {
         return "Identity{" +
-                "identifier='" + this.identifier + '\'' +
-                ", sigma='" + this.sigma + '\'' +
-                ", identifierComponent=" + this.identifierComponent +
-                '}';
+            "identifier='" + this.identifier + '\'' +
+            ", sigma='" + this.sigma + '\'' +
+            ", identifierComponent=" + this.identifierComponent +
+            '}';
     }
 }

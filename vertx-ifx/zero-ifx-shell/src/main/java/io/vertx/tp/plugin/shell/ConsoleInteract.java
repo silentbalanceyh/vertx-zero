@@ -92,11 +92,11 @@ class ConsoleInteract {
         /* Parse Arguments */
         return ConsoleTool.parseAsync(args, commands)
 
-                /* Execute Command */
-                .compose(commandLine -> ConsoleTool.runAsync(commandLine, commands,
+            /* Execute Command */
+            .compose(commandLine -> ConsoleTool.runAsync(commandLine, commands,
 
-                        /* Binder Function */
-                        commander -> commander.bind(this.environment).bind(this.vertx)))
-                .otherwise(Sl::failError);
+                /* Binder Function */
+                commander -> commander.bind(this.environment).bind(this.vertx)))
+            .otherwise(Sl::failError);
     }
 }

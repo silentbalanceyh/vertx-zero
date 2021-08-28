@@ -14,12 +14,12 @@ public abstract class NumericSaber extends BaseSaber {
     public Object from(final Class<?> paramType,
                        final String literal) {
         return Fn.getNull(() ->
-                        Fn.getSemi(isValid(paramType), getLogger(),
-                                () -> {
-                                    verifyInput(!Ut.isInteger(literal), paramType, literal);
-                                    return getFun().apply(literal);
-                                }, () -> null),
-                paramType, literal);
+                Fn.getSemi(isValid(paramType), getLogger(),
+                    () -> {
+                        verifyInput(!Ut.isInteger(literal), paramType, literal);
+                        return getFun().apply(literal);
+                    }, () -> null),
+            paramType, literal);
     }
 
     protected abstract boolean isValid(final Class<?> paramType);

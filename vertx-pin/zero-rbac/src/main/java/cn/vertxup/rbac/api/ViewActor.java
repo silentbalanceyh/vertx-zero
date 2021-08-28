@@ -21,7 +21,7 @@ public class ViewActor {
     @Inject
     private transient VisitStub visitStub;
 
-    @Address(Addr.Authority.VIEW_UPDATE_BY_TYPE)
+    @Address(Addr.View.VIEW_UPDATE_BY_TYPE)
     public Future<JsonArray> saveViews(final String ownerType,
                                        final String owner,
                                        final JsonArray views) {

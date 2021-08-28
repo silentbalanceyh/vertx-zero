@@ -37,10 +37,10 @@ public class QiyClientImpl implements QiyClient {
     @Override
     public QiyClient authorize(final Handler<AsyncResult<JsonObject>> handler) {
         QiyRepdor.handle(this.authorizeApi.authorize(this.config.getClientId(), this.config.getClientSecret()))
-                .onComplete(res -> {
-                    this.config.setToken(res.result());
-                    handler.handle(Future.succeededFuture(res.result()));
-                });
+            .onComplete(res -> {
+                this.config.setToken(res.result());
+                handler.handle(Future.succeededFuture(res.result()));
+            });
         return this;
     }
 
@@ -48,10 +48,10 @@ public class QiyClientImpl implements QiyClient {
     public QiyClient refreshToken(final String refreshToken,
                                   final Handler<AsyncResult<JsonObject>> handler) {
         QiyRepdor.handle(this.authorizeApi.refreshToken(this.config.getClientId(), refreshToken))
-                .onComplete(res -> {
-                    this.config.setToken(res.result());
-                    handler.handle(Future.succeededFuture(res.result()));
-                });
+            .onComplete(res -> {
+                this.config.setToken(res.result());
+                handler.handle(Future.succeededFuture(res.result()));
+            });
         return this;
     }
 
@@ -61,11 +61,11 @@ public class QiyClientImpl implements QiyClient {
                                  final Handler<AsyncResult<JsonObject>> handler) {
         // Check whether the config is valid
         Fn.outWeb(null == this.config || !this.config.isValid(), LOGGER,
-                _401QiyTokenException.class, this.getClass(), this.config.getClientId());
+            _401QiyTokenException.class, this.getClass(), this.config.getClientId());
         // Request upload
         final QiyUpload uploadApi = this.config.getUpApi(QiyUpload.class);
         QiyRepdor.complete(uploadApi.requestUpload(fileType, fileSize, this.config.getAccessToken()))
-                .onComplete(res -> handler.handle(Future.succeededFuture(res.result())));
+            .onComplete(res -> handler.handle(Future.succeededFuture(res.result())));
         return this;
     }
 

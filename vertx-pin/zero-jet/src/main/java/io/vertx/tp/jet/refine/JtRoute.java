@@ -64,7 +64,7 @@ class JtRoute {
         if (Ut.notNil(mime) && Ut.isJArray(mime)) {
             final JsonArray mimeArr = new JsonArray(mime);
             mimeArr.stream().map(item -> (String) item)
-                    .map(MediaType::valueOf).forEach(mimeSet::add);
+                .map(MediaType::valueOf).forEach(mimeSet::add);
         }
         /* application/json */
         if (mimeSet.isEmpty()) {

@@ -13,22 +13,22 @@ import java.util.concurrent.ConcurrentMap;
 public interface AoSentence {
     /* 构造字段行 */
     String segmentField(
-            MField field);
+        MField field);
 
     /* 普通PK, UK */
     String segmentKey(
-            MKey key);
+        MKey key);
 
     /* 表是否存在 */
     String expectTable(
-            String tableName);
+        String tableName);
 
     /* 修改约束 */
     String constraintDrop(
-            String tableName, String constraintName);
+        String tableName, String constraintName);
 
     String constraintAdd(
-            String tableName, MKey key);
+        String tableName, MKey key);
 
     /* 修改列 */
     String columnDrop(String tableName, String columnName);

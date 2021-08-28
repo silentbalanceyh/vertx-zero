@@ -42,7 +42,7 @@ class RecordDwarf implements Dwarf {
 
         /* projection only */
         final JsonObject updated = SiftCol.onProjection(record,
-                Sc.aclOn(matrix.getJsonArray(Qr.KEY_PROJECTION), acl));
+            Sc.aclOn(matrix.getJsonArray(Qr.KEY_PROJECTION), acl));
 
         /* Updated */
         dataReference.put("data", updated);

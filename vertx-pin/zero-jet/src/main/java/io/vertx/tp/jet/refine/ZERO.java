@@ -4,9 +4,9 @@ import io.vertx.tp.jet.uca.tunnel.ActorChannel;
 import io.vertx.tp.jet.uca.tunnel.AdaptorChannel;
 import io.vertx.tp.jet.uca.tunnel.ConnectorChannel;
 import io.vertx.tp.jet.uca.tunnel.DirectorChannel;
-import io.vertx.up.commune.exchange.DualMapping;
 import io.vertx.up.commune.config.Identity;
 import io.vertx.up.commune.exchange.DictConfig;
+import io.vertx.up.commune.exchange.DualMapping;
 import io.vertx.up.eon.em.ChannelType;
 
 import java.util.concurrent.ConcurrentHashMap;

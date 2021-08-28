@@ -10,7 +10,7 @@ public class TypedAtomic<T> implements Atomic<T> {
     @Override
     public Epsilon<T> ingest(final RoutingContext context,
                              final Epsilon<T> income)
-            throws WebException {
+        throws WebException {
         final Class<?> paramType = income.getArgType();
         final Object returnValue = TypedArgument.analyzeAgent(context, paramType);
         return null == returnValue ? income.setValue(null) : income.setValue((T) returnValue);

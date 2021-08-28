@@ -19,7 +19,7 @@ public class CodecTe extends ZeroBase {
 
     public static String encodeBase64(final byte[] inputx) throws Exception {
         final Class clazz = Class
-                .forName("com.sun.org.apache.xerces.internal.impl.dv.util.Base64");
+            .forName("com.sun.org.apache.xerces.internal.impl.dv.util.Base64");
         final Method mainMethod = clazz.getMethod("encode", byte[].class);
         mainMethod.setAccessible(true);
         final Object retObj = mainMethod.invoke(null, new Object[]{inputx});
@@ -28,7 +28,7 @@ public class CodecTe extends ZeroBase {
 
     public static byte[] decodeBase64(final String inputx) throws Exception {
         final Class clazz = Class
-                .forName("com.sun.org.apache.xerces.internal.impl.dv.util.Base64");
+            .forName("com.sun.org.apache.xerces.internal.impl.dv.util.Base64");
         final Method mainMethod = clazz.getMethod("decode", String.class);
         mainMethod.setAccessible(true);
         final Object retObj = mainMethod.invoke(null, inputx);

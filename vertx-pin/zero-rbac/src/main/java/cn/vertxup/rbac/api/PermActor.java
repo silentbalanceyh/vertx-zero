@@ -8,13 +8,13 @@ import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.auth.User;
-import io.vertx.up.eon.KName;
 import io.vertx.tp.ke.refine.Ke;
 import io.vertx.tp.rbac.cv.Addr;
 import io.vertx.tp.rbac.refine.Sc;
 import io.vertx.up.annotations.Address;
 import io.vertx.up.annotations.Queue;
 import io.vertx.up.commune.config.XHeader;
+import io.vertx.up.eon.KName;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
@@ -91,7 +91,7 @@ public class PermActor {
                                              final XHeader header, final User user) {
         final String sigma = header.getSigma();
         Sc.infoWeb(this.getClass(), "Permission Update: {0}, sigma = {1}",
-                processed.encode(), sigma);
+            processed.encode(), sigma);
 
         // Permission Data
         final JsonArray permissions = Ut.sureJArray(processed.getJsonArray(KName.DATA));
@@ -115,15 +115,15 @@ public class PermActor {
         permSet.setUpdatedBy(userKey);
 
         return this.setStub.saveDefinition(permissions, permSet)                       // Permission Process
-                .compose(nil -> this.stub.syncAsync(removed, relation, userKey))       // Action Process
-                .compose(nil -> Ux.future(relation));
+            .compose(nil -> this.stub.syncAsync(removed, relation, userKey))       // Action Process
+            .compose(nil -> Ux.future(relation));
     }
 
     @Address(Addr.Authority.PERMISSION_BY_ROLE)
     public Future<JsonArray> fetchAsync(final String roleId) {
         return Fn.getEmpty(Ux.futureA(), () -> Ux.Jooq.on(RRolePermDao.class)
-                .fetchAsync(KName.Rbac.ROLE_ID, roleId)
-                .compose(Ux::futureA), roleId);
+            .fetchAsync(KName.Rbac.ROLE_ID, roleId)
+            .compose(Ux::futureA), roleId);
     }
 
     @Address(Addr.Authority.PERMISSION_SAVE)

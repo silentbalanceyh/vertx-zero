@@ -14,6 +14,7 @@ public class RequiredInsurer extends AbstractInsurer {
     /**
      * @param data input data that should be verified.
      * @param rule rule config data
+     *
      * @throws ZeroException Insure exception
      */
     @Override
@@ -27,8 +28,8 @@ public class RequiredInsurer extends AbstractInsurer {
                     // 3.Check if data contains field.
                     // Fast throw out
                     Fn.outZero(!data.containsKey(field), this.getLogger(),
-                            RequiredFieldException.class,
-                            this.getClass(), data, field);
+                        RequiredFieldException.class,
+                        this.getClass(), data, field);
                 });
             }
         }, rule, data);

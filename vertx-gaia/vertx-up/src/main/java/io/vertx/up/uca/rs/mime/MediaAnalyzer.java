@@ -20,23 +20,23 @@ public class MediaAnalyzer implements Analyzer {
     private static final Annal LOGGER = Annal.get(MediaAnalyzer.class);
 
     private final transient Income<List<Epsilon<Object>>> income =
-            Ut.singleton(EpsilonIncome.class);
+        Ut.singleton(EpsilonIncome.class);
 
     @Override
     public Object[] in(final RoutingContext context,
                        final Event event)
-            throws WebException {
+        throws WebException {
         /* Consume mime type matching **/
         final MediaType requestMedia = this.getMedia(context);
         MediaAtom.accept(event, requestMedia);
 
         /* Extract definition from method **/
         final List<Epsilon<Object>> epsilons =
-                this.income.in(context, event);
+            this.income.in(context, event);
 
         /* Extract value list **/
         return epsilons.stream()
-                .map(Epsilon::getValue).toArray();
+            .map(Epsilon::getValue).toArray();
     }
 
     @Override
@@ -49,8 +49,8 @@ public class MediaAnalyzer implements Analyzer {
     private MediaType getMedia(final RoutingContext context) {
         final String header = context.request().getHeader(HttpHeaders.CONTENT_TYPE);
         return Fn.getSemi(Ut.isNil(header), LOGGER,
-                () -> MediaType.WILDCARD_TYPE,
-                () -> MediaType.valueOf(header));
+            () -> MediaType.WILDCARD_TYPE,
+            () -> MediaType.valueOf(header));
     }
 
 }

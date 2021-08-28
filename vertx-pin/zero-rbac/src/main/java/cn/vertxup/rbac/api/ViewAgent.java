@@ -11,10 +11,13 @@ import javax.ws.rs.*;
 @Path("/api")
 @EndPoint
 public interface ViewAgent {
-
+    /*
+     * All interface is for DEFAULT view
+     * instead of personal views for future usage
+     */
     @Path("/view/:ownerType/:ownerId")
     @PUT
-    @Address(Addr.Authority.VIEW_UPDATE_BY_TYPE)
+    @Address(Addr.View.VIEW_UPDATE_BY_TYPE)
     JsonObject saveViews(@PathParam("ownerType") String ownerType,
                          @PathParam("ownerId") String key,
                          @BodyParam JsonArray data);
@@ -32,4 +35,42 @@ public interface ViewAgent {
     JsonObject fetchVisitant(@PathParam("ownerType") String ownerType,
                              @PathParam("ownerId") String ownerId,
                              @BodyParam JsonObject params);
+
+    /*
+     * View Add, DELETE, FETCH
+     * 1. Add ( Provide name, title, projection )
+     * 2. Delete ( By key )
+     * 3. Fetch ( method, uri, sigma, type )
+     */
+    @POST
+    @Path("/view-p/fetch")
+    @Address(Addr.View.VIEW_P_BY_USER)
+    JsonArray pViewByUser(@BodyParam JsonObject params);
+
+    @DELETE
+    @Path("/view-p/:key")
+    @Address(Addr.View.VIEW_P_DELETE)
+    Boolean pViewDelete(@PathParam("key") String key);
+
+    @PUT
+    @Path("/view-p/:key")
+    @Address(Addr.View.VIEW_P_UPDATE)
+    Boolean pViewById(@PathParam("key") String key,
+                      @BodyParam JsonObject params);
+
+    @GET
+    @Path("/view-p/:key")
+    @Address(Addr.View.VIEW_P_BY_ID)
+    Boolean pViewUpdate(@PathParam("key") String key);
+
+
+    @DELETE
+    @Path("/batch/view-p/delete")
+    @Address(Addr.View.VIEW_P_BATCH_DELETE)
+    Boolean pViewsDelete(@BodyParam JsonArray keys);
+
+    @POST
+    @Path("/view-p")
+    @Address(Addr.View.VIEW_P_ADD)
+    Boolean pViewCreate(@BodyParam JsonObject params);
 }

@@ -18,5 +18,5 @@ public interface RoleAgent {
     @PUT
     @Address(Addr.Role.ROLE_PERM_UPDATE)
     JsonArray updateRolePerm(@PathParam("roleId") String roleId,
-                              @BodyParam JsonArray data);
+                             @BodyParam JsonArray data);
 }

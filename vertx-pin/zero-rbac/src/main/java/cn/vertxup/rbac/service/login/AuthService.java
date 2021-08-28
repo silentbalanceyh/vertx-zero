@@ -36,7 +36,7 @@ public class AuthService implements AuthStub {
             if (Objects.isNull(item)) {
                 // Could not identify OUser record, error throw.
                 return Ux.thenError(_401CodeGenerationException.class, this.getClass(),
-                        filters.getString(AuthKey.F_CLIENT_ID), filters.getString(AuthKey.F_CLIENT_SECRET));
+                    filters.getString(AuthKey.F_CLIENT_ID), filters.getString(AuthKey.F_CLIENT_SECRET));
             } else {
                 // Provide correct parameters, OUser record existing.
                 return this.codeStub.authorize(item.getClientId());
@@ -50,8 +50,8 @@ public class AuthService implements AuthStub {
         final String clientId = params.getString(AuthKey.CLIENT_ID);
         Sc.infoAuth(LOGGER, AuthMsg.CODE_VERIFY, clientId, code);
         return this.tokenStub.execute(clientId, code, session)
-                // Store token information
-                .compose(this.security::store);
+            // Store token information
+            .compose(this.security::store);
     }
 
     @Override

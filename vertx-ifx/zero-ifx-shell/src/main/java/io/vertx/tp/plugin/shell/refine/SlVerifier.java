@@ -33,16 +33,16 @@ class SlVerifier {
              */
             final String argument = args[0];
             final Set<String> supported =
-                    Ut.toSet(Ut.sureJArray(SlConfig.validate().getJsonArray("args")));
+                Ut.toSet(Ut.sureJArray(SlConfig.validate().getJsonArray("args")));
             if (supported.contains(argument)) {
                 validated = true;
             } else {
                 if (input.containsKey("existing")) {
                     SlLog.output(input.getString("existing"),
-                            Ut.fromJoin(supported), argument);
+                        Ut.fromJoin(supported), argument);
                 } else {
                     LOGGER.warn("There are {0} supported commands {1}, but you provide none ?",
-                            supported.size(), Ut.fromJoin(supported));
+                        supported.size(), Ut.fromJoin(supported));
                     validated = true;
                 }
             }

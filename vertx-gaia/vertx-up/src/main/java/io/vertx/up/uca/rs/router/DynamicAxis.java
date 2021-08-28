@@ -37,13 +37,13 @@ public class DynamicAxis implements Axis<Router> {
             }
             // Mount dynamic router
             final PlugRouter plugRouter = Fn.poolThread(Pool.PLUGS,
-                    () -> Ut.instance(clazz));
+                () -> Ut.instance(clazz));
             plugRouter.bind(this.vertxRef);
             plugRouter.mount(router, routerConfig);
         } else {
             if (Values.ONE == LOG_FLAG_END.getAndIncrement()) {
                 LOGGER.info(Info.DY_SKIP, NAME,
-                        Fn.getNull(null, () -> null == clazz ? null : clazz.getName(), clazz));
+                    Fn.getNull(null, () -> null == clazz ? null : clazz.getName(), clazz));
             }
         }
     }

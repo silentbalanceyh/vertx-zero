@@ -3,8 +3,8 @@ package io.vertx.up.uca.web.origin;
 import io.vertx.up.eon.Info;
 import io.vertx.up.eon.Plugins;
 import io.vertx.up.log.Annal;
-import io.vertx.up.uca.web.thread.AffluxThread;
 import io.vertx.up.runtime.Anno;
+import io.vertx.up.uca.web.thread.AffluxThread;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,7 +14,7 @@ import java.util.concurrent.ConcurrentMap;
 import java.util.stream.Collectors;
 
 public class AffluxInquirer implements
-        Inquirer<ConcurrentMap<Class<?>, ConcurrentMap<String, Class<?>>>> {
+    Inquirer<ConcurrentMap<Class<?>, ConcurrentMap<String, Class<?>>>> {
 
     private static final Annal LOGGER = Annal.get(AffluxInquirer.class);
 
@@ -22,13 +22,13 @@ public class AffluxInquirer implements
     public ConcurrentMap<Class<?>, ConcurrentMap<String, Class<?>>> scan(final Set<Class<?>> classes) {
         // Find condition ok
         final Set<Class<?>> enabled = classes.stream()
-                .filter(item -> Anno.isMark(item, Plugins.INJECT_ANNOTATIONS))
-                .collect(Collectors.toSet());
+            .filter(item -> Anno.isMark(item, Plugins.INJECT_ANNOTATIONS))
+            .collect(Collectors.toSet());
         // Scan each class.
         final List<AffluxThread> threadReference = new ArrayList<>();
         for (final Class<?> clazz : enabled) {
             final AffluxThread thread = new
-                    AffluxThread(clazz, classes);
+                AffluxThread(clazz, classes);
             threadReference.add(thread);
             thread.start();
         }
@@ -40,7 +40,7 @@ public class AffluxInquirer implements
             }
         });
         final ConcurrentMap<Class<?>, ConcurrentMap<String, Class<?>>> affluxes
-                = new ConcurrentHashMap<>();
+            = new ConcurrentHashMap<>();
         for (final AffluxThread thread : threadReference) {
             if (!thread.isEmpty()) {
                 final Class<?> key = thread.getClassKey();

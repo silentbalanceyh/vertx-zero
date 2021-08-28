@@ -39,8 +39,8 @@ Ensurer {
          * 第一检查条件：一对多的 Join 模式，keyMap的尺寸必须大于 1
          */
         Fn.outWeb(1 >= joins.size(), _417PrimaryKeyResultException.class, clazz,
-                /* ARG1：出现该异常的目标类名 */ clazz.getName(),
-                /* ARG2：当前实体的主键信息 */ AoId.keyInfo(joins));
+            /* ARG1：出现该异常的目标类名 */ clazz.getName(),
+            /* ARG2：当前实体的主键信息 */ AoId.keyInfo(joins));
 
         /*
          * 第二检查条件：keyMap的尺寸 和 schema 的数量一致
@@ -49,8 +49,8 @@ Ensurer {
          * key -> Entity2 / ciKey / key
          */
         Fn.outWeb(joins.size() < model.schemata().size(), _417PrimaryKeySizeException.class, clazz,
-                /* ARG1：实际的主键数量 */ model.schemata().size(), // 没个 Schema 一个主键
-                /* ARG2：期望的主键数量 */ String.valueOf(joins.size()));
+            /* ARG1：实际的主键数量 */ model.schemata().size(), // 没个 Schema 一个主键
+            /* ARG2：期望的主键数量 */ String.valueOf(joins.size()));
 
         final Set<Boolean> valid = new HashSet<>();
         joins.forEach((entry) -> {
@@ -64,8 +64,8 @@ Ensurer {
              * 第三检查条件：没个 Schema 的主键只能是单字段主键
              */
             Fn.outWeb(1 < keys.size(), _417PrimaryKeySizeException.class, clazz,
-                    /* ARG1：实际的主键数量 */ keys.size(),
-                    /* ARG2：期望的主键数量 */ String.valueOf(1));
+                /* ARG1：实际的主键数量 */ keys.size(),
+                /* ARG2：期望的主键数量 */ String.valueOf(1));
 
             final MField field = schema.getField(keyField);
             valid.add(field.getIsPrimary());

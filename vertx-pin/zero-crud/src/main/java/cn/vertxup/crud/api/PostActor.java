@@ -2,12 +2,17 @@ package cn.vertxup.crud.api;
 
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.crud.connect.IxLinker;
 import io.vertx.tp.crud.cv.Addr;
-import io.vertx.tp.crud.refine.Ix;
+import io.vertx.tp.crud.uca.desk.IxNext;
+import io.vertx.tp.crud.uca.desk.IxPanel;
+import io.vertx.tp.crud.uca.input.Pre;
+import io.vertx.tp.crud.uca.op.Agonic;
+import io.vertx.tp.crud.uca.output.Post;
 import io.vertx.up.annotations.Address;
 import io.vertx.up.annotations.Queue;
 import io.vertx.up.commune.Envelop;
+import io.vertx.up.eon.KName;
+import io.vertx.up.eon.em.ChangeFlag;
 import io.vertx.up.unity.Ux;
 
 /*
@@ -16,6 +21,7 @@ import io.vertx.up.unity.Ux;
  *      `plugin/crud/module/`
  * The validation rule file are stored under
  *      `plugin/crud/validator/`
+ * 「新版定制完成」
  */
 @Queue
 public class PostActor {
@@ -26,16 +32,21 @@ public class PostActor {
      *     201: The record existing in database ( Could not do any things )
      */
     @Address(Addr.Post.ADD)
-    public Future<Envelop> create(final Envelop request) {
+    public Future<Envelop> create(final Envelop envelop) {
         /* Actor Extraction */
-        return Ix.create(this.getClass()).input(request).envelop((dao, config) -> {
-            /* Data Get */
-            final JsonObject body = Ux.getJson1(request);
-            return IxHub.createAsync(request, body, dao, config)
-                    /* Extension by connect here for creation */
-                    .compose(response -> IxLinker.create().joinJAsync(request,
-                            /* Must merged */
-                            body.mergeIn(response.data()), config));
-        });
+        final JsonObject body = Ux.getJson1(envelop);
+        final String module = body.getString(KName.IDENTIFIER);     // module
+        return IxPanel.on(envelop, module)
+            .input(
+                Pre.head()::inJAsync,                       /* Header */
+                Pre.codex()::inJAsync                       /* Codex */
+            )
+            .next(in -> IxNext.on(in)::runJJJ)
+            .passion(Agonic.write(ChangeFlag.ADD)::runJAsync)
+            .<JsonObject, JsonObject, JsonObject>runJ(body)
+            /*
+             * 201 / 200
+             */
+            .compose(Post::successPost);
     }
 }

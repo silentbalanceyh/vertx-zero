@@ -12,7 +12,7 @@ public class RpcServerStrada implements Transformer<ServidorOptions> {
     @Override
     public ServidorOptions transform(final JsonObject input) {
         return Fn.getSemi(null == input, LOGGER,
-                ServidorOptions::new,
-                () -> new ServidorOptions(input));
+            ServidorOptions::new,
+            () -> new ServidorOptions(input));
     }
 }

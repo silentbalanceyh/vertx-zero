@@ -44,9 +44,9 @@ public class JetCastor {
              * Preparing for Java workers
              */
             uriSet.stream().map(JtUri::worker)
-                    .filter(worker -> WorkerType.JS != worker.getWorkerType())
-                    .map(JtWorker::getWorkerClass)
-                    .forEach(Pool.WORKER_SET::add);
+                .filter(worker -> WorkerType.JS != worker.getWorkerType())
+                .map(JtWorker::getWorkerClass)
+                .forEach(Pool.WORKER_SET::add);
             /*
              * Configuration preparing
              */

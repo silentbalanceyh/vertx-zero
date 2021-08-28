@@ -56,21 +56,20 @@ import java.util.concurrent.ConcurrentMap;
  */
 final class AtTodo {
     /**
-     * The private constructor to let current class be Util only.
-     */
-    private AtTodo() {
-    }
-
-    /**
      * Zero standard logger of {@link io.vertx.up.log.Annal} instance.
      */
     private static final Annal LOGGER = Annal.get(AtTodo.class);
-
     /**
      * The todo definition of hash map `type = Json` format that stored todo configuration data here.
      */
     private static final ConcurrentMap<String, JsonObject> TODO_DEF =
-            new ConcurrentHashMap<>();
+        new ConcurrentHashMap<>();
+
+    /**
+     * The private constructor to let current class be Util only.
+     */
+    private AtTodo() {
+    }
 
     /**
      * 「Booting」This method will be called when zero container booting up.

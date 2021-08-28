@@ -27,7 +27,7 @@ public class RowBound implements ExBound {
         }
         final RowBound rowBound = (RowBound) o;
         return this.start == rowBound.start &&
-                this.end == rowBound.end;
+            this.end == rowBound.end;
     }
 
     @Override
@@ -38,9 +38,9 @@ public class RowBound implements ExBound {
     @Override
     public String toString() {
         return "RowBound{" +
-                "begin=" + this.start +
-                ", end=" + this.end +
-                '}';
+            "begin=" + this.start +
+            ", end=" + this.end +
+            '}';
     }
 
     @Override

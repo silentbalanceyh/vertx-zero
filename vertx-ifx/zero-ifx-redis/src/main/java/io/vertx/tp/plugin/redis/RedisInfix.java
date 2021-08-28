@@ -23,20 +23,20 @@ public class RedisInfix implements Infix {
     private static final Annal LOGGER = Annal.get(RedisInfix.class);
 
     private static final ConcurrentMap<String, Redis> CLIENTS
-            = new ConcurrentHashMap<>();
+        = new ConcurrentHashMap<>();
     private static final ConcurrentMap<String, Jedis> CLIENTS_SYNC
-            = new ConcurrentHashMap<>();
+        = new ConcurrentHashMap<>();
 
     private static void initInternal(final Vertx vertx,
                                      final String name) {
         final RedisOptions options = Infix.init(Plugins.Infix.REDIS,
-                /*
-                 * Two parts for
-                 * - Redis reference
-                 * - RedisOptions reference ( For Sync usage )
-                 */
-                (config) -> new RedisOptions(initSync(name, config)),
-                RedisInfix.class);
+            /*
+             * Two parts for
+             * - Redis reference
+             * - RedisOptions reference ( For Sync usage )
+             */
+            (config) -> new RedisOptions(initSync(name, config)),
+            RedisInfix.class);
         /*
          * Redis client processing, ping to check whether it's Ok
          */

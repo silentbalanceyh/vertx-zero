@@ -69,13 +69,13 @@ public class N4JSession extends AbstractN4JSession {
     @Override
     public Future<JsonObject> find(final JsonObject condition) {
         return this.doAsync(condition, ALIAS_FOUND,/* Command Supplier */
-                processed -> N4J.nodeFind(this.graph, processed, ALIAS_FOUND));
+            processed -> N4J.nodeFind(this.graph, processed, ALIAS_FOUND));
     }
 
     @Override
     public JsonObject findSync(final JsonObject condition) {
         return this.doSync(condition, ALIAS_FOUND,
-                processed -> N4J.nodeFind(this.graph, processed, ALIAS_FOUND));
+            processed -> N4J.nodeFind(this.graph, processed, ALIAS_FOUND));
     }
 
     @Override

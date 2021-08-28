@@ -1,7 +1,7 @@
 package io.vertx.up.fn;
 
-import io.vertx.up.log.Annal;
 import io.vertx.up.exception.ZeroException;
+import io.vertx.up.log.Annal;
 
 import java.util.function.Supplier;
 
@@ -21,21 +21,21 @@ final class Semi {
 
     static void exec(final boolean condition, final Annal logger, final Actuator tSupplier, final Actuator fSupplier) {
         Defend.zeroVoid(() -> execZero(condition,
-                () -> {
-                    if (null != tSupplier) {
-                        tSupplier.execute();
-                    }
-                    return null;
-                }, () -> {
-                    if (null != fSupplier) {
-                        fSupplier.execute();
-                    }
-                    return null;
-                }), logger);
+            () -> {
+                if (null != tSupplier) {
+                    tSupplier.execute();
+                }
+                return null;
+            }, () -> {
+                if (null != fSupplier) {
+                    fSupplier.execute();
+                }
+                return null;
+            }), logger);
     }
 
     static <T> T execZero(final boolean condition, final ZeroSupplier<T> tSupplier, final ZeroSupplier<T> fSupplier)
-            throws ZeroException {
+        throws ZeroException {
         T ret = null;
         if (condition) {
             if (null != tSupplier) {

@@ -183,13 +183,13 @@ public class AtConfig implements Serializable {
     @Override
     public String toString() {
         return "AtConfig{" +
-                "supportSource=" + this.supportSource +
-                ", initializer=" + this.initializer +
-                ", prerequisite=" + this.prerequisite +
-                ", loader=" + this.loader +
-                ", fileStorage='" + this.fileStorage + '\'' +
-                ", fileLanguage='" + this.fileLanguage + '\'' +
-                ", dataFolder='" + this.dataFolder + '\'' +
-                '}';
+            "supportSource=" + this.supportSource +
+            ", initializer=" + this.initializer +
+            ", prerequisite=" + this.prerequisite +
+            ", loader=" + this.loader +
+            ", fileStorage='" + this.fileStorage + '\'' +
+            ", fileLanguage='" + this.fileLanguage + '\'' +
+            ", dataFolder='" + this.dataFolder + '\'' +
+            '}';
     }
 }

@@ -22,8 +22,8 @@ public class JsonResolver<T> implements Resolver<T> {
                               final Epsilon<T> income) {
         // Json Resolver
         final String content = context.getBodyAsString();
-        LOGGER.info(Ut.notNil(content), "( Resolver ) Income Type: {0}, Content = \n{1}",
-                income.getArgType().getName(), content);
+        LOGGER.info(Ut.notNil(content), "( Resolver ) Income Type: {0}, Content = {1}",
+            income.getArgType().getName(), content);
         if (Ut.isNil(content)) {
             // Default Value set for BodyParam
             final T defaultValue = (T) income.getDefaultValue();

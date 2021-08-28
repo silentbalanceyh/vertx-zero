@@ -73,7 +73,7 @@ class ScToken {
     static JsonObject jwtToken(final JsonObject data) {
         /* Token Data Extract */
         final JsonObject tokenData = Uson.create(data.copy())
-                .remove("role", "group").to();
+            .remove("role", "group").to();
         Sc.infoAuth(LOGGER, AuthMsg.TOKEN_JWT, tokenData.encode());
         /* Token */
         final String token = Ux.Jwt.token(tokenData);
@@ -99,19 +99,19 @@ class ScToken {
         final byte[] refreshToken = jwt.getString(AuthKey.REFRESH_TOKEN).getBytes(Values.DEFAULT_CHARSET);
         final Long iat = jwt.getLong(AuthKey.IAT);
         return new OAccessToken()
-                .setKey(UUID.randomUUID().toString())
-                .setAuth(userKey.getBytes(Values.DEFAULT_CHARSET))
+            .setKey(UUID.randomUUID().toString())
+            .setAuth(userKey.getBytes(Values.DEFAULT_CHARSET))
 
-                /* Created Auditor */
-                .setCreatedBy(userKey)
-                .setCreatedAt(LocalDateTime.now())
+            /* Created Auditor */
+            .setCreatedBy(userKey)
+            .setCreatedAt(LocalDateTime.now())
 
-                /* Token Info */
-                .setToken(token)
-                .setRefreshToken(refreshToken)
-                .setExpiredTime(iat)
+            /* Token Info */
+            .setToken(token)
+            .setRefreshToken(refreshToken)
+            .setExpiredTime(iat)
 
-                /* Active */
-                .setActive(Boolean.TRUE);
+            /* Active */
+            .setActive(Boolean.TRUE);
     }
 }

@@ -3,9 +3,9 @@ package io.vertx.tp.rbac.permission;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.eon.KName;
 import io.vertx.tp.ke.refine.Ke;
 import io.vertx.tp.rbac.cv.AuthKey;
+import io.vertx.up.eon.KName;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
@@ -37,18 +37,18 @@ public class ScPrivilege implements Serializable {
              * Stored user
              */
             return habitus.set("user", data.getString("user"))
-                    /*
-                     * Stored role
-                     */
-                    .compose(nil -> habitus.set("role", data.getJsonArray("role")))
-                    /*
-                     * Stored group
-                     */
-                    .compose(nil -> habitus.set("group", data.getJsonArray("group")))
-                    /*
-                     * Return self reference here
-                     */
-                    .compose(nil -> Ux.future(self));
+                /*
+                 * Stored role
+                 */
+                .compose(nil -> habitus.set("role", data.getJsonArray("role")))
+                /*
+                 * Stored group
+                 */
+                .compose(nil -> habitus.set("group", data.getJsonArray("group")))
+                /*
+                 * Return self reference here
+                 */
+                .compose(nil -> Ux.future(self));
         });
     }
 
@@ -78,16 +78,16 @@ public class ScPrivilege implements Serializable {
     // ----------------
     public Future<Boolean> evaluate(final Function<JsonObject, Future<Boolean>> fnDirect) {
         return fetchProfile().compose(profile -> Ut.isNil(profile) ?
-                /*
-                 * Profile does not exist and no cached, in this situation
-                 * the system should go the whole flow
-                 */
-                fnDirect.apply(profile) :
-                /*
-                 * Profile exist, it's not needed to go the whole flow.
-                 * Return True directly.
-                 */
-                Future.succeededFuture(Boolean.TRUE));
+            /*
+             * Profile does not exist and no cached, in this situation
+             * the system should go the whole flow
+             */
+            fnDirect.apply(profile) :
+            /*
+             * Profile exist, it's not needed to go the whole flow.
+             * Return True directly.
+             */
+            Future.succeededFuture(Boolean.TRUE));
     }
 
     /*
@@ -95,10 +95,10 @@ public class ScPrivilege implements Serializable {
      * */
     private Future<JsonObject> fetchProfile() {
         return habitus.<JsonObject>get("profile")
-                /*
-                 * JsonObject safe calling here
-                 */
-                .compose(Ke.Result::jsonAsync);
+            /*
+             * JsonObject safe calling here
+             */
+            .compose(Ke.Result::jsonAsync);
     }
 
     public Future<JsonObject> storeProfile(final JsonObject profiles) {
@@ -110,7 +110,7 @@ public class ScPrivilege implements Serializable {
      */
     public Future<JsonArray> fetchPermissions(final String profileKey) {
         return fetchProfile()
-                .compose(extractAsync(profileKey, AuthKey.PROFILE_PERM));
+            .compose(extractAsync(profileKey, AuthKey.PROFILE_PERM));
     }
 
     /*
@@ -118,7 +118,7 @@ public class ScPrivilege implements Serializable {
      */
     public Future<JsonArray> fetchRoles(final String profileKey) {
         return fetchProfile()
-                .compose(extractAsync(profileKey, AuthKey.PROFILE_ROLE));
+            .compose(extractAsync(profileKey, AuthKey.PROFILE_ROLE));
     }
 
     /*
@@ -126,10 +126,10 @@ public class ScPrivilege implements Serializable {
      */
     public Future<Boolean> fetchAuthorized(final String authorizeKey) {
         return habitus.<Boolean>get(authorizeKey)
-                .compose(result -> Objects.isNull(result)
-                        ? Future.succeededFuture(Boolean.FALSE)
-                        : Future.succeededFuture(result)
-                );
+            .compose(result -> Objects.isNull(result)
+                ? Future.succeededFuture(Boolean.FALSE)
+                : Future.succeededFuture(result)
+            );
     }
 
 
@@ -146,7 +146,7 @@ public class ScPrivilege implements Serializable {
     }
 
     private Function<JsonObject, Future<JsonArray>> extractAsync(
-            final String profileKey, final String hitKey) {
+        final String profileKey, final String hitKey) {
         return profile -> {
             JsonObject single = profile.getJsonObject(profileKey);
             if (Ut.isNil(single)) {

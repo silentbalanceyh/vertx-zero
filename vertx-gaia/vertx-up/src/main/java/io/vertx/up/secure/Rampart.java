@@ -13,11 +13,11 @@ import java.util.concurrent.ConcurrentMap;
 
 public class Rampart implements Transformer<Cliff> {
     private static final ConcurrentMap<WallType, Transformer<Cliff>> WALL_TRANSFORMER =
-            new ConcurrentHashMap<WallType, Transformer<Cliff>>() {
-                {
-                    this.put(WallType.JWT, Ut.singleton(JwtWall.class));
-                }
-            };
+        new ConcurrentHashMap<WallType, Transformer<Cliff>>() {
+            {
+                this.put(WallType.JWT, Ut.singleton(JwtWall.class));
+            }
+        };
 
     //    static {
     //        Ut.clazzIf(Plugins.Default.WALL_MONGO, clazz -> WALL_TRANSFORMER.put(WallType.MONGO, Ut.singleton(clazz)));
@@ -30,7 +30,7 @@ public class Rampart implements Transformer<Cliff> {
             if (input.containsKey("type")) {
                 // Standard
                 final Transformer<Cliff> transformer =
-                        WALL_TRANSFORMER.get(WallType.from(input.getString("type")));
+                    WALL_TRANSFORMER.get(WallType.from(input.getString("type")));
                 return transformer.transform(input);
             } else {
                 // Non Standard

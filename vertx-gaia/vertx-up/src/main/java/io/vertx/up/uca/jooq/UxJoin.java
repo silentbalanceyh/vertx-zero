@@ -10,7 +10,9 @@ import io.vertx.up.uca.jooq.util.JqTool;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
@@ -21,8 +23,9 @@ public final class UxJoin {
     private transient final JqJoinder joinder = new JqJoinder();
 
     private transient final ConcurrentMap<Class<?>, String> POJO_MAP
-            = new ConcurrentHashMap<>();
+        = new ConcurrentHashMap<>();
     private transient Mojo merged = null;
+    private transient Set<String> fieldSet = new HashSet<>();
 
     public UxJoin(final String file) {
         if (Ut.notNil(file)) {
@@ -94,12 +97,25 @@ public final class UxJoin {
     }
 
     private Qr toQr(final JsonObject params) {
-        return Objects.isNull(this.merged) ? Qr.create(params) : JqTool.qr(params, this.merged);
+        return Objects.isNull(this.merged) ? Qr.create(params) : JqTool.qr(
+            params,
+            this.merged,
+            this.joinder.firstFields()              // The first major jooq should be ignored
+        );
     }
 
     public Future<JsonObject> searchAsync(final Qr qr) {
         this.POJO_MAP.forEach(this.joinder::pojo);
         return this.joinder.searchPaginationAsync(qr, this.merged);
+    }
+
+    public Future<Long> countAsync(final JsonObject params) {
+        return countAsync(toQr(params));
+    }
+
+    public Future<Long> countAsync(final Qr qr) {
+        this.POJO_MAP.forEach(this.joinder::pojo);
+        return this.joinder.countPaginationAsync(qr);
     }
 
     public JsonArray fetch(final Qr qr) {

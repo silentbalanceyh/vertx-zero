@@ -113,9 +113,9 @@ public class Cliff implements Serializable, Comparable<Cliff> {
         }
         final Cliff wall = (Cliff) o;
         return this.order == wall.order &&
-                Objects.equals(this.path, wall.path) &&
-                this.type == wall.type &&
-                Objects.equals(this.proxy, wall.proxy);
+            Objects.equals(this.path, wall.path) &&
+            this.type == wall.type &&
+            Objects.equals(this.proxy, wall.proxy);
     }
 
     @Override
@@ -139,12 +139,12 @@ public class Cliff implements Serializable, Comparable<Cliff> {
     @Override
     public String toString() {
         return "Cliff{" +
-                "path='" + this.path + '\'' +
-                ", order=" + this.order +
-                ", config=" + this.config +
-                ", type=" + this.type +
-                ", proxy=" + this.proxy +
-                ", defined=" + this.defined +
-                '}';
+            "path='" + this.path + '\'' +
+            ", order=" + this.order +
+            ", config=" + this.config +
+            ", type=" + this.type +
+            ", proxy=" + this.proxy +
+            ", defined=" + this.defined +
+            '}';
     }
 }

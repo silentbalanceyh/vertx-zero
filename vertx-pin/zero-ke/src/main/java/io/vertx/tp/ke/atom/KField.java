@@ -184,13 +184,13 @@ public class KField implements Serializable {
     @Override
     public String toString() {
         return "KField{" +
-                "key='" + this.key + '\'' +
-                ", unique=" + this.unique +
-                ", created=" + this.created +
-                ", updated=" + this.updated +
-                ", numbers=" + this.numbers +
-                ", object=" + this.object +
-                ", array=" + this.array +
-                '}';
+            "key='" + this.key + '\'' +
+            ", unique=" + this.unique +
+            ", created=" + this.created +
+            ", updated=" + this.updated +
+            ", numbers=" + this.numbers +
+            ", object=" + this.object +
+            ", array=" + this.array +
+            '}';
     }
 }

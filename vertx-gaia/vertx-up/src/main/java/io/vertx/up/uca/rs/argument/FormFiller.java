@@ -35,7 +35,7 @@ public class FormFiller implements Filler {
             return ZeroSerializer.getValue(paramType, value);
         } else {
             final ConcurrentMap<String, Set<FileUpload>> compressed
-                    = Ux.toFile(uploadSet);
+                = Ux.toFile(uploadSet);
             if (compressed.containsKey(name)) {
                 /*
                  * With uploading multi here

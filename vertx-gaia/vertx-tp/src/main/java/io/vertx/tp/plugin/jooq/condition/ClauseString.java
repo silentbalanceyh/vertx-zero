@@ -32,7 +32,7 @@ public class ClauseString implements Clause {
         if (value instanceof JsonArray) {
             final JsonArray result = new JsonArray();
             ((JsonArray) value).stream().map(convert)
-                    .filter(Objects::nonNull).forEach(result::add);
+                .filter(Objects::nonNull).forEach(result::add);
             return result;
         } else {
             return convert.apply(value);

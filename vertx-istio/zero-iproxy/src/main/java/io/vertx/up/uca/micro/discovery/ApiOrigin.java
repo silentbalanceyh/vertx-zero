@@ -5,10 +5,10 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.servicediscovery.Record;
 import io.vertx.servicediscovery.types.HttpEndpoint;
-import io.vertx.up.eon.em.EtcdPath;
-import io.vertx.up.uca.micro.center.ZeroRegistry;
 import io.vertx.up.eon.Strings;
 import io.vertx.up.eon.Values;
+import io.vertx.up.eon.em.EtcdPath;
+import io.vertx.up.uca.micro.center.ZeroRegistry;
 import io.vertx.up.util.Ut;
 
 import java.util.HashSet;
@@ -20,7 +20,7 @@ import java.util.concurrent.ConcurrentMap;
 public class ApiOrigin implements Origin {
 
     private final transient ZeroRegistry registry
-            = ZeroRegistry.create(this.getClass());
+        = ZeroRegistry.create(this.getClass());
 
     @Override
     public ConcurrentMap<String, Record> getRegistryData() {
@@ -48,18 +48,18 @@ public class ApiOrigin implements Origin {
         // Get records by results.
         final Set<JsonObject> routes = new HashSet<>();
         Observable.fromIterable(results)
-                .map(key -> this.registry.getData(path, key, this::getItem))
-                .subscribe(routes::addAll).dispose();
+            .map(key -> this.registry.getData(path, key, this::getItem))
+            .subscribe(routes::addAll).dispose();
         // Build discovery record with metadata to identifier the key.
         final ConcurrentMap<String, Record> map = new ConcurrentHashMap<>();
         // Convert to map
         Observable.fromIterable(routes)
-                .subscribe(item -> {
-                    final String key = item.getJsonObject(META)
-                            .getString(ID);
-                    final Record record = this.createRecord(item);
-                    map.put(key, record);
-                }).dispose();
+            .subscribe(item -> {
+                final String key = item.getJsonObject(META)
+                    .getString(ID);
+                final Record record = this.createRecord(item);
+                map.put(key, record);
+            }).dispose();
         return map;
     }
 
@@ -69,7 +69,7 @@ public class ApiOrigin implements Origin {
         final Integer port = item.getInteger(PORT);
         final JsonObject meta = item.getJsonObject(META);
         return HttpEndpoint.createRecord(
-                name, host, port, "/*", meta
+            name, host, port, "/*", meta
         );
     }
 
@@ -79,22 +79,22 @@ public class ApiOrigin implements Origin {
         final String[] meta = key.split(Strings.COLON);
         if (3 == meta.length) {
             Observable.fromIterable(value)
-                    .filter(Objects::nonNull)
-                    .map(Object::toString)
-                    .map(item -> {
-                        final String name = meta[Values.ZERO];
-                        final String host = meta[Values.ONE];
-                        final String port = meta[Values.TWO];
-                        final String id = Ut.encryptSHA256(key + item);
-                        return new JsonObject()
-                                .put(NAME, name)
-                                .put(HOST, host)
-                                .put(PORT, Integer.parseInt(port))
-                                .put(META, new JsonObject()
-                                        .put(ID, id)
-                                        .put(PATH, item));
-                    })
-                    .subscribe(sets::add).dispose();
+                .filter(Objects::nonNull)
+                .map(Object::toString)
+                .map(item -> {
+                    final String name = meta[Values.ZERO];
+                    final String host = meta[Values.ONE];
+                    final String port = meta[Values.TWO];
+                    final String id = Ut.encryptSHA256(key + item);
+                    return new JsonObject()
+                        .put(NAME, name)
+                        .put(HOST, host)
+                        .put(PORT, Integer.parseInt(port))
+                        .put(META, new JsonObject()
+                            .put(ID, id)
+                            .put(PATH, item));
+                })
+                .subscribe(sets::add).dispose();
         }
         return sets;
     }

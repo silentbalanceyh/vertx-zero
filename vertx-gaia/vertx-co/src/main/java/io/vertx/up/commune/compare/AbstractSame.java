@@ -15,12 +15,30 @@ import java.util.ServiceLoader;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
+interface Pool {
+    ConcurrentMap<Class<?>, VsSame> POOL_SAME = new ConcurrentHashMap<Class<?>, VsSame>() {
+        {
+            this.put(String.class, new VsString());
+            this.put(Integer.class, new VsInteger());
+            this.put(Long.class, new VsLong());
+            this.put(Boolean.class, new VsBoolean());
+            this.put(BigDecimal.class, new VsBigDecimal());
+            this.put(LocalTime.class, new VsLocalTime());
+            this.put(LocalDate.class, new VsLocalDate());
+            this.put(LocalDateTime.class, new VsLocalDateTime());
+            this.put(Instant.class, new VsInstant());
+            this.put(JsonObject.class, new VsJsonObject());
+            this.put(JsonArray.class, new VsJsonArray());
+        }
+    };
+}
+
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 abstract class AbstractSame implements VsSame {
-    protected transient TypeField fieldType;
     protected transient final Class<?> type;
+    protected transient TypeField fieldType;
     private transient VsExtension found;
 
     public AbstractSame(final Class<?> type) {
@@ -85,22 +103,4 @@ abstract class AbstractSame implements VsSame {
             return valueOld.toString().equals(valueNew.toString());
         }
     }
-}
-
-interface Pool {
-    ConcurrentMap<Class<?>, VsSame> POOL_SAME = new ConcurrentHashMap<Class<?>, VsSame>() {
-        {
-            this.put(String.class, new VsString());
-            this.put(Integer.class, new VsInteger());
-            this.put(Long.class, new VsLong());
-            this.put(Boolean.class, new VsBoolean());
-            this.put(BigDecimal.class, new VsBigDecimal());
-            this.put(LocalTime.class, new VsLocalTime());
-            this.put(LocalDate.class, new VsLocalDate());
-            this.put(LocalDateTime.class, new VsLocalDateTime());
-            this.put(Instant.class, new VsInstant());
-            this.put(JsonObject.class, new VsJsonObject());
-            this.put(JsonArray.class, new VsJsonArray());
-        }
-    };
 }

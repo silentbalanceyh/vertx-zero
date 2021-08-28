@@ -1,8 +1,8 @@
 package io.vertx.up.uca.micro.discovery;
 
 import io.vertx.servicediscovery.Record;
-import io.vertx.up.util.Ut;
 import io.vertx.up.runtime.Runner;
+import io.vertx.up.util.Ut;
 
 import java.util.concurrent.ConcurrentMap;
 

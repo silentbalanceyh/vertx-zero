@@ -13,9 +13,9 @@ class RpcHolder implements Shareable {
     private int refCount = 1;
 
     public RpcHolder(
-            final Vertx vertx,
-            final JsonObject config,
-            final Runnable closeRunner) {
+        final Vertx vertx,
+        final JsonObject config,
+        final Runnable closeRunner) {
         this.vertx = vertx;
         this.config = config;
         this.closeRunner = closeRunner;

@@ -7,8 +7,8 @@ import cn.vertxup.rbac.domain.tables.pojos.SVisitant;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.ke.cv.KeDefault;
-import io.vertx.up.eon.KName;
 import io.vertx.tp.rbac.refine.Sc;
+import io.vertx.up.eon.KName;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
@@ -84,14 +84,14 @@ public class VisitService implements VisitStub {
                         }
                         Sc.infoView(this.getClass(), "Visitant Record: {0}", criteria.encode());
                         return Ux.Jooq.on(SVisitantDao.class).fetchOneAsync(criteria)
-                                .compose(Ux::futureJ)
-                                .compose(Ut.ifJObject(
-                                        "aclVisible",
-                                        "aclView",
-                                        "aclVariety",
-                                        "aclVow",
-                                        "aclVerge"
-                                ));
+                            .compose(Ux::futureJ)
+                            .compose(Ut.ifJObject(
+                                "aclVisible",
+                                "aclView",
+                                "aclVariety",
+                                "aclVow",
+                                "aclVerge"
+                            ));
                     }
                 });
             }
@@ -108,14 +108,14 @@ public class VisitService implements VisitStub {
          * viewId
          */
         Ut.jsonCopy(request, view,
-                KName.SIGMA, KName.LANGUAGE, KName.ACTIVE);
+            KName.SIGMA, KName.LANGUAGE, KName.ACTIVE);
         request.put("viewId", view.getValue(KName.KEY));
         /*
          * Distinguish INSERT / UPDATE
          */
         final JsonObject criteria = new JsonObject();
         Ut.jsonCopy(criteria, request,
-                "viewId", KName.TYPE, KName.SIGMA);
+            "viewId", KName.TYPE, KName.SIGMA);
         /*
          * If `configKey` provide
          */
@@ -127,27 +127,27 @@ public class VisitService implements VisitStub {
             criteria.put("configKey", configKey);
         }
         Sc.infoView(this.getClass(), "Visitant Upsert: {0}, Data: {1}",
-                criteria.encode(), request.encode());
+            criteria.encode(), request.encode());
         Ut.ifString(request,
+            "aclVisible",
+            "aclView",
+            "aclVariety",
+            "aclVow",
+            "aclVerge"
+        );
+        final SVisitant visitant = Ut.deserialize(request, SVisitant.class);
+        return Ux.Jooq.on(SVisitantDao.class)
+            /*
+             * Insert and update
+             */
+            .upsertAsync(criteria, visitant)
+            .compose(Ux::futureJ)
+            .compose(Ut.ifJObject(
                 "aclVisible",
                 "aclView",
                 "aclVariety",
                 "aclVow",
                 "aclVerge"
-        );
-        final SVisitant visitant = Ut.deserialize(request, SVisitant.class);
-        return Ux.Jooq.on(SVisitantDao.class)
-                /*
-                 * Insert and update
-                 */
-                .upsertAsync(criteria, visitant)
-                .compose(Ux::futureJ)
-                .compose(Ut.ifJObject(
-                        "aclVisible",
-                        "aclView",
-                        "aclVariety",
-                        "aclVow",
-                        "aclVerge"
-                ));
+            ));
     }
 }

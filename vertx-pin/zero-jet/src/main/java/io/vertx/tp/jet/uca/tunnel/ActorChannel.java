@@ -22,20 +22,20 @@ public class ActorChannel extends AbstractChannel {
     @Override
     public Future<Boolean> initAsync(final JtComponent component, final ActIn request) {
         return Ux.future(this.commercial())
-                /*
-                 * Database initialized, Mount database to `JtComponent`
-                 */
-                .compose(Anagogic::databaseAsync)
-                .compose(database -> Ut.contractAsync(component, Database.class, database))
-                /*
-                 * Integration inited, mount to `JtComponent`
-                 */
-                .compose(dbed -> Ux.future(this.commercial().integration()))
-                .compose(integration -> Ut.contractAsync(component, Integration.class, integration))
-                /*
-                 * Mission inited, mount to `JtComponent`
-                 */
-                .compose(dbed -> Ux.future(this.mission()))
-                .compose(mission -> Ut.contractAsync(component, Mission.class, mission));
+            /*
+             * Database initialized, Mount database to `JtComponent`
+             */
+            .compose(Anagogic::databaseAsync)
+            .compose(database -> Ut.contractAsync(component, Database.class, database))
+            /*
+             * Integration inited, mount to `JtComponent`
+             */
+            .compose(dbed -> Ux.future(this.commercial().integration()))
+            .compose(integration -> Ut.contractAsync(component, Integration.class, integration))
+            /*
+             * Mission inited, mount to `JtComponent`
+             */
+            .compose(dbed -> Ux.future(this.mission()))
+            .compose(mission -> Ut.contractAsync(component, Mission.class, mission));
     }
 }

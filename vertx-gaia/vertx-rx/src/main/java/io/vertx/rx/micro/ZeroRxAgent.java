@@ -36,10 +36,10 @@ public class ZeroRxAgent extends AbstractVerticle {
     public void start() {
         /** 1.Call router hub to mount commont **/
         final Axis<Router> routerAxiser = Fn.poolThread(Pool.ROUTERS,
-                () -> Ut.instance(RouterAxis.class));
+            () -> Ut.instance(RouterAxis.class));
         /** 2.Call route hub to mount defined **/
         final Axis<Router> axiser = Fn.poolThread(Pool.EVENTS,
-                () -> Ut.instance(EventAxis.class));
+            () -> Ut.instance(EventAxis.class));
 
         /** 3.Get the default HttpServer Options **/
         ZeroAtomic.RX_OPTS.forEach((port, option) -> {
@@ -53,7 +53,7 @@ public class ZeroRxAgent extends AbstractVerticle {
 
             /** 3.3. Listen for router on the server **/
             final Single<HttpServer> result =
-                    server.requestHandler(router).rxListen();
+                server.requestHandler(router).rxListen();
             /** 3.4. Log output **/
             {
                 result.subscribe((rxServer) -> {
@@ -71,7 +71,7 @@ public class ZeroRxAgent extends AbstractVerticle {
             // 1. Build logs for current server;
             final String portLiteral = String.valueOf(port);
             LOGGER.info(Info.RX_SERVERS, NAME, deploymentID(),
-                    portLiteral);
+                portLiteral);
             final List<Route> routes = router.getRoutes();
             final Map<String, Route> routeMap = new TreeMap<>();
             for (final Route route : routes) {
@@ -80,12 +80,12 @@ public class ZeroRxAgent extends AbstractVerticle {
                 routeMap.put(path, route);
             }
             routeMap.forEach((path, route) ->
-                    LOGGER.info(Info.MAPPED_ROUTE, NAME, path,
-                            route.toString()));
+                LOGGER.info(Info.MAPPED_ROUTE, NAME, path,
+                    route.toString()));
             // 3. Endpoint Publish
             final String address =
-                    MessageFormat.format("http://{0}:{1}/",
-                            options.getHost(), portLiteral);
+                MessageFormat.format("http://{0}:{1}/",
+                    options.getHost(), portLiteral);
             LOGGER.info(Info.RX_LISTEN, NAME, address);
         }
     }

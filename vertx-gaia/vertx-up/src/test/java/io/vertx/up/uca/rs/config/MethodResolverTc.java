@@ -12,7 +12,7 @@ public class MethodResolverTc extends ZeroBase {
 
     @Test
     public void testMethod1(final TestContext context)
-            throws NoSuchMethodException {
+        throws NoSuchMethodException {
         final Method method = RMethod1.class.getDeclaredMethod("sayHell");
         final HttpMethod httpMethod = MethodResolver.resolve(method);
         context.assertEquals(HttpMethod.GET, httpMethod);
@@ -20,7 +20,7 @@ public class MethodResolverTc extends ZeroBase {
 
     @Test
     public void testMethod2(final TestContext context)
-            throws NoSuchMethodException {
+        throws NoSuchMethodException {
         final Method method = RMethod1.class.getDeclaredMethod("sayHell1");
         final HttpMethod httpMethod = MethodResolver.resolve(method);
         context.assertNull(httpMethod);

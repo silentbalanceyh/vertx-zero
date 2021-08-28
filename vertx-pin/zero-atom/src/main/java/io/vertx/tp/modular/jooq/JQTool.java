@@ -103,8 +103,8 @@ class JQTerm {
          * 1）根据 tables 尺寸
          */
         final Table<Record> table = 1 == tables.size()
-                ? ingest.onTable(event.getTpl(), tables)
-                : ingest.onTable(event.getTpl(), tables, tableMap);
+            ? ingest.onTable(event.getTpl(), tables)
+            : ingest.onTable(event.getTpl(), tables, tableMap);
         return executor.apply(table);
     }
 

@@ -26,13 +26,13 @@ public class JooqInfix implements Infix {
 
     private static final Annal LOGGER = Annal.get(JooqInfix.class);
     private static final ConcurrentMap<String, Configuration> CONFIGURATION
-            = new ConcurrentHashMap<>();
+        = new ConcurrentHashMap<>();
     private static Vertx vertxRef;
 
     public static void init(final Vertx vertx) {
         vertxRef = vertx;
         final ConcurrentMap<String, Configuration> inited =
-                Infix.init(Plugins.Infix.JOOQ, JooqPin::initConfiguration, JooqInfix.class);
+            Infix.init(Plugins.Infix.JOOQ, JooqPin::initConfiguration, JooqInfix.class);
         CONFIGURATION.putAll(inited);
         /*
          * Harp

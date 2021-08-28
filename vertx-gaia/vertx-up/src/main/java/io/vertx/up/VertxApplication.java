@@ -55,7 +55,7 @@ public class VertxApplication {
          */
 
         Fn.out(!this.annotationMap.containsKey(Up.class.getName()), UpClassInvalidException.class, this.getClass(),
-                null == this.clazz ? null : this.clazz.getName());
+            null == this.clazz ? null : this.clazz.getName());
     }
 
     public static void run(final Class<?> clazz, final Object... args) {

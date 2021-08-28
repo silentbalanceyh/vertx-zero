@@ -12,37 +12,37 @@ import java.util.UUID;
 public interface AoDefault {
     static AoDefault schema() {
         return Fn.pool(Pool.DEFAULT_POOL, SchemaDefault.class.getName(),
-                SchemaDefault::new);
+            SchemaDefault::new);
     }
 
     static AoDefault entity() {
         return Fn.pool(Pool.DEFAULT_POOL, EntityDefault.class.getName(),
-                EntityDefault::new);
+            EntityDefault::new);
     }
 
     static AoDefault key() {
         return Fn.pool(Pool.DEFAULT_POOL, KeyDefault.class.getName(),
-                KeyDefault::new);
+            KeyDefault::new);
     }
 
     static AoDefault field() {
         return Fn.pool(Pool.DEFAULT_POOL, FieldDefault.class.getName(),
-                FieldDefault::new);
+            FieldDefault::new);
     }
 
     static AoDefault model() {
         return Fn.pool(Pool.DEFAULT_POOL, ModelDefault.class.getName(),
-                ModelDefault::new);
+            ModelDefault::new);
     }
 
     static AoDefault attribute() {
         return Fn.pool(Pool.DEFAULT_POOL, AttributeDefault.class.getName(),
-                AttributeDefault::new);
+            AttributeDefault::new);
     }
 
     static AoDefault join() {
         return Fn.pool(Pool.DEFAULT_POOL, JoinDefault.class.getName(),
-                JoinDefault::new);
+            JoinDefault::new);
     }
 
     static <T> void apply(final JsonObject target,

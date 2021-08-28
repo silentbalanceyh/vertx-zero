@@ -58,7 +58,7 @@ class DirectIngest implements Ingest {
     private DataMatrix getMatrix(final DataTpl tpl) {
         /* 抽取Tpl中的查询条件，DIRECT模式仅考虑单表 */
         final ConcurrentMap<String, DataMatrix> matrixs
-                = tpl.matrixData();
+            = tpl.matrixData();
         /* 解析查询分析树 */
         return matrixs.values().iterator().next();
     }

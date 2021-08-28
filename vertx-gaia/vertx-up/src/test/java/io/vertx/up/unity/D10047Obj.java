@@ -44,10 +44,10 @@ public class D10047Obj implements Serializable {
     @Override
     public String toString() {
         return "D10047Obj{" +
-                "name='" + this.name + '\'' +
-                ", email='" + this.email + '\'' +
-                ", age=" + this.age +
-                ", male=" + this.male +
-                '}';
+            "name='" + this.name + '\'' +
+            ", email='" + this.email + '\'' +
+            ", age=" + this.age +
+            ", male=" + this.male +
+            '}';
     }
 }

@@ -38,8 +38,8 @@ abstract class AbstractJQQr {
     }
 
     protected DataEvent aggr(
-            final DataEvent event,
-            final BiFunction<Set<String>, Ingest, Long> queryFn
+        final DataEvent event,
+        final BiFunction<Set<String>, Ingest, Long> queryFn
     ) {
         return this.context.transactionResult(configuration -> {
             final Ingest ingest = this.ingest(event);
@@ -51,8 +51,8 @@ abstract class AbstractJQQr {
     }
 
     protected Future<DataEvent> aggrAsync(
-            final DataEvent input,
-            final BiFunction<Set<String>, Ingest, CompletionStage<Long>> queryFn
+        final DataEvent input,
+        final BiFunction<Set<String>, Ingest, CompletionStage<Long>> queryFn
     ) {
         return this.runAsync(input, (event) -> {
             final Ingest ingest = this.ingest(event);
@@ -65,8 +65,8 @@ abstract class AbstractJQQr {
     }
 
     protected DataEvent qr(
-            final DataEvent event,
-            final BiFunction<Set<String>, Ingest, Record> queryFn) {
+        final DataEvent event,
+        final BiFunction<Set<String>, Ingest, Record> queryFn) {
         return this.context.transactionResult(configuration -> {
             final Ingest ingest = this.ingest(event);
             final ConcurrentMap<String, DataMatrix> matrix = this.matrix(this.getClass(), event);
@@ -81,8 +81,8 @@ abstract class AbstractJQQr {
     }
 
     protected Future<DataEvent> qrAsync(
-            final DataEvent input,
-            final BiFunction<Set<String>, Ingest, CompletionStage<Record>> queryFn) {
+        final DataEvent input,
+        final BiFunction<Set<String>, Ingest, CompletionStage<Record>> queryFn) {
         final ConcurrentMap<String, DataMatrix> matrix = this.matrix(this.getClass(), input);
         return this.runAsync(input, (event) -> {
             final Ingest ingest = this.ingest(event);
@@ -97,9 +97,9 @@ abstract class AbstractJQQr {
     }
 
     protected DataEvent qrBatch(
-            final DataEvent event,
-            final BiFunction<Set<String>, Ingest, Record[]> queryFn,
-            final BiFunction<Set<String>, Ingest, Long> countFn
+        final DataEvent event,
+        final BiFunction<Set<String>, Ingest, Record[]> queryFn,
+        final BiFunction<Set<String>, Ingest, Long> countFn
     ) {
         return this.context.transactionResult(configuration -> {
             final Ingest ingest = this.ingest(event);
@@ -119,9 +119,9 @@ abstract class AbstractJQQr {
     }
 
     protected Future<DataEvent> qrBatchAsync(
-            final DataEvent input,
-            final BiFunction<Set<String>, Ingest, CompletionStage<Record[]>> queryFn,
-            final BiFunction<Set<String>, Ingest, CompletionStage<Long>> countFn
+        final DataEvent input,
+        final BiFunction<Set<String>, Ingest, CompletionStage<Record[]>> queryFn,
+        final BiFunction<Set<String>, Ingest, CompletionStage<Long>> countFn
     ) {
         final ConcurrentMap<String, DataMatrix> matrix = this.matrix(this.getClass(), input);
         final Ingest ingest = this.ingest(input);
@@ -139,10 +139,10 @@ abstract class AbstractJQQr {
                 return Ux.future(event);
             } else {
                 return Ux.fromAsync(countFn.apply(matrix.keySet(), ingest))
-                        .compose(counter -> {
-                            input.stored(counter);
-                            return Ux.future(input);
-                        });
+                    .compose(counter -> {
+                        input.stored(counter);
+                        return Ux.future(input);
+                    });
             }
         });
     }

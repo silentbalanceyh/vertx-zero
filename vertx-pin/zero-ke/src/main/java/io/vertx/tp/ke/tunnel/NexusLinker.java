@@ -42,7 +42,7 @@ class NexusLinker implements Nexus {
             condition.put("", Boolean.TRUE);
             condition.put(KName.SIGMA, filters.getString(KName.SIGMA));
             return this.jooq.fetchOneAsync(condition)
-                    .compose(Ux::futureJ);
+                .compose(Ux::futureJ);
         });
     }
 
@@ -52,20 +52,20 @@ class NexusLinker implements Nexus {
             final JsonObject condition = new JsonObject();
             condition.put(KName.MODEL_KEY + ",i", Ut.toJArray(keys));
             return this.jooq.fetchInAsync(KName.MODEL_KEY, Ut.toJArray(keys))
-                    .compose(Ux::futureA);
+                .compose(Ux::futureA);
         });
     }
 
     @Override
     public Future<JsonObject> updateNexus(final String key, final JsonObject params) {
         return this.execute(params, (updatedData) -> this.jooq.fetchByIdAsync(key)
-                .compose(Ux::futureJ)
-                .compose(original -> {
-                    original.mergeIn(updatedData);
-                    final Object entity = Ut.deserialize(original, this.entityT);
-                    return this.jooq.updateAsync(entity)
-                            .compose(Ux::futureJ);
-                })
+            .compose(Ux::futureJ)
+            .compose(original -> {
+                original.mergeIn(updatedData);
+                final Object entity = Ut.deserialize(original, this.entityT);
+                return this.jooq.updateAsync(entity)
+                    .compose(Ux::futureJ);
+            })
         );
     }
 

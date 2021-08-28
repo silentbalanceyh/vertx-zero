@@ -20,7 +20,7 @@ public class ZeroVertx implements Node<JsonObject> {
         final JsonObject config = ZeroTool.read(null, true);
         // Injection Lime
         final JsonObject zero = Fn.getJvm(new JsonObject(),
-                () -> config.getJsonObject(Key.ZERO), config);
+            () -> config.getJsonObject(Key.ZERO), config);
         if (null != zero && zero.containsKey(Key.LIME)) {
             this.prodcessLime(zero);
         }
@@ -47,8 +47,8 @@ public class ZeroVertx implements Node<JsonObject> {
              * RxJava2
              */
             Observable.fromArray(Plugins.DATA)
-                    .map(item -> item)
-                    .subscribe(sets::add).dispose();
+                .map(item -> item)
+                .subscribe(sets::add).dispose();
             data.put(Key.LIME, Ut.fromJoin(sets));
         }, data);
     }

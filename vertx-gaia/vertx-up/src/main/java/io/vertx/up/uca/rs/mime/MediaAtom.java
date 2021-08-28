@@ -19,23 +19,23 @@ final class MediaAtom {
         if (!medias.contains(MediaType.WILDCARD_TYPE)) {
             /* 1. Start to parsing expected type **/
             boolean match = medias.stream()
-                    .anyMatch(media ->
-                            MediaType.MEDIA_TYPE_WILDCARD.equals(media.getType()) ||
-                                    media.getType().equalsIgnoreCase(type.getType()));
+                .anyMatch(media ->
+                    MediaType.MEDIA_TYPE_WILDCARD.equals(media.getType()) ||
+                        media.getType().equalsIgnoreCase(type.getType()));
             /* 2. Type checking **/
             Fn.outUp(!match, LOGGER,
-                    _415MediaNotSupportException.class,
-                    MediaAtom.class, type, medias);
+                _415MediaNotSupportException.class,
+                MediaAtom.class, type, medias);
             /* 3. Start to parsing expected sub type **/
             match = medias.stream()
-                    .anyMatch(media ->
-                            MediaType.MEDIA_TYPE_WILDCARD.equals(media.getSubtype()) ||
-                                    media.getSubtype().equalsIgnoreCase(type.getSubtype())
-                    );
+                .anyMatch(media ->
+                    MediaType.MEDIA_TYPE_WILDCARD.equals(media.getSubtype()) ||
+                        media.getSubtype().equalsIgnoreCase(type.getSubtype())
+                );
             /* 4. Subtype checking **/
             Fn.outUp(!match, LOGGER,
-                    _415MediaNotSupportException.class,
-                    MediaAtom.class, type, medias);
+                _415MediaNotSupportException.class,
+                MediaAtom.class, type, medias);
         }
     }
 }

@@ -22,14 +22,14 @@ public class MongoInfix implements Infix {
      * All Configs
      **/
     private static final ConcurrentMap<String, MongoClient> CLIENTS
-            = new ConcurrentHashMap<>();
+        = new ConcurrentHashMap<>();
 
     private static void initInternal(final Vertx vertx,
                                      final String name) {
         Fn.pool(CLIENTS, name,
-                () -> Infix.init(Plugins.Infix.MONGO,
-                        (config) -> MongoClient.createShared(vertx, config, name),
-                        MongoInfix.class));
+            () -> Infix.init(Plugins.Infix.MONGO,
+                (config) -> MongoClient.createShared(vertx, config, name),
+                MongoInfix.class));
     }
 
     public static void init(final Vertx vertx) {

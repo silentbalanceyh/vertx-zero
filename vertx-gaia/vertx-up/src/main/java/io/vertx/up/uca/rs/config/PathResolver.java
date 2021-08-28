@@ -30,7 +30,7 @@ class PathResolver {
      */
     public static String resolve(final Path path) {
         Fn.outUp(null == path, LOGGER,
-                PathAnnoEmptyException.class, PathResolver.class);
+            PathAnnoEmptyException.class, PathResolver.class);
         // Calculate single path
         return resolve(path, null);
     }
@@ -46,15 +46,15 @@ class PathResolver {
     @SuppressWarnings("all")
     public static String resolve(final Path path, final String root) {
         Fn.outUp(null == path, LOGGER,
-                PathAnnoEmptyException.class, PathResolver.class);
+            PathAnnoEmptyException.class, PathResolver.class);
         return Fn.getSemi(Ut.isNil(root), LOGGER, () -> calculate(path(path.value())),
-                () -> {
-                    final String api = calculate(root);
-                    final String contextPath = calculate(path.value());
-                    // If api has been calculated to
-                    return Values.ONE == api.length() ?
-                            path(contextPath) : path(api + contextPath);
-                });
+            () -> {
+                final String api = calculate(root);
+                final String contextPath = calculate(path.value());
+                // If api has been calculated to
+                return Values.ONE == api.length() ?
+                    path(contextPath) : path(api + contextPath);
+            });
     }
 
     /**
@@ -103,7 +103,7 @@ class PathResolver {
         // Uri must begin with SLASH
         final String processed = uri;
         final String finalUri = Fn.getNull(() -> processed.startsWith(Strings.SLASH)
-                ? processed : Strings.SLASH + processed, uri);
+            ? processed : Strings.SLASH + processed, uri);
         if (!path.equals(finalUri) && Debugger.offUrlDetect()) {
             LOGGER.warn("[ Path ] The original uri is `{0}`, recommend/detected uri is `{1}`.", path, finalUri);
         }

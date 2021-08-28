@@ -153,17 +153,17 @@ public class ScConfig implements Serializable {
     @Override
     public String toString() {
         return "ScConfig{" +
-                "condition=" + this.condition +
-                ", codeExpired=" + this.codeExpired +
-                ", codeLength=" + this.codeLength +
-                ", codePool='" + this.codePool + '\'' +
-                ", tokenExpired=" + this.tokenExpired +
-                ", tokenPool='" + this.tokenPool + '\'' +
-                ", supportGroup=" + this.supportGroup +
-                ", supportSecondary=" + this.supportSecondary +
-                ", supportMultiApp=" + this.supportMultiApp +
-                ", permissionPool='" + this.permissionPool + '\'' +
-                ", passwordInit='" + this.passwordInit + '\'' +
-                '}';
+            "condition=" + this.condition +
+            ", codeExpired=" + this.codeExpired +
+            ", codeLength=" + this.codeLength +
+            ", codePool='" + this.codePool + '\'' +
+            ", tokenExpired=" + this.tokenExpired +
+            ", tokenPool='" + this.tokenPool + '\'' +
+            ", supportGroup=" + this.supportGroup +
+            ", supportSecondary=" + this.supportSecondary +
+            ", supportMultiApp=" + this.supportMultiApp +
+            ", permissionPool='" + this.permissionPool + '\'' +
+            ", passwordInit='" + this.passwordInit + '\'' +
+            '}';
     }
 }

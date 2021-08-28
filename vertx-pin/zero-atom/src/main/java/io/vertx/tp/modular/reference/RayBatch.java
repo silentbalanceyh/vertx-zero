@@ -37,6 +37,6 @@ public class RayBatch extends AbstractRay<Record[]> {
         final List<Future<ConcurrentMap<String, JsonArray>>> futures = new ArrayList<>();
         this.input.values().forEach(source -> futures.add(source.batchAsync(input)));
         return this.thenCombine(futures)
-                .compose(data -> Ux.future(RayResult.combine(input, data, this.output)));
+            .compose(data -> Ux.future(RayResult.combine(input, data, this.output)));
     }
 }

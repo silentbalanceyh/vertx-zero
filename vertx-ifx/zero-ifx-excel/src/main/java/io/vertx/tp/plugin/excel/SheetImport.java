@@ -47,14 +47,14 @@ class SheetImport {
                  * Compare by unique
                  */
                 ConcurrentMap<ChangeFlag, List<T>> compared =
-                        Ux.compare(queried, entities, table.fieldUnique(), table.filePojo());
+                    Ux.compare(queried, entities, table.ukIn(), table.filePojo());
                 final List<T> qUpdate = compared.getOrDefault(ChangeFlag.UPDATE, new ArrayList<>());
                 final List<T> qInsert = compared.getOrDefault(ChangeFlag.ADD, new ArrayList<>());
                 if (!qInsert.isEmpty()) {
                     /*
                      * Compare by keys
                      */
-                    final String entityKey = table.fieldKey();
+                    final String entityKey = table.pkIn();
                     if (Objects.nonNull(entityKey)) {
                         final Set<String> keys = new HashSet<>();
                         qInsert.forEach(item -> {
@@ -65,7 +65,7 @@ class SheetImport {
                         });
                         final List<T> qKeys = jooq.fetchIn(entityKey, keys);
                         if (!qKeys.isEmpty()) {
-                            compared = Ux.compare(qKeys, qInsert, table.fieldUnique(), table.filePojo());
+                            compared = Ux.compare(qKeys, qInsert, table.ukIn(), table.filePojo());
                             qUpdate.addAll(compared.getOrDefault(ChangeFlag.UPDATE, new ArrayList<>()));
                             // qInsert reset
                             qInsert.clear();
@@ -82,8 +82,9 @@ class SheetImport {
                 resultSet.addAll(batchUpdate);
                 final int total = batchUpdate.size() + batchInsert.size();
                 LOGGER.info("[ Έξοδος ] `{0}` -- ( {1} ), Inserted: {2}, Updated: {3}",
-                        table.getName(), String.valueOf(total), String.valueOf(batchInsert.size()), String.valueOf(batchUpdate.size()));
+                    table.getName(), String.valueOf(total), String.valueOf(batchInsert.size()), String.valueOf(batchUpdate.size()));
             } catch (final Throwable ex) {
+                ex.printStackTrace();
                 LOGGER.jvm(ex);
             }
         }
@@ -181,7 +182,7 @@ class SheetImport {
                 return Future.failedFuture(new _500ExportingErrorException(this.getClass(), error.getMessage()));
             } else {
                 return Future.failedFuture(new _500InternalServerException(this.getClass(),
-                        "Unexpected Error when Importing"));
+                    "Unexpected Error when Importing"));
             }
         }
     }
@@ -192,13 +193,13 @@ class SheetImport {
         /* Pojo Processing */
         final JsonArray dataArray = new JsonArray();
         records.stream().filter(Objects::nonNull)
-                .map(ExRecord::toJson)
-                .peek(data -> {
-                    if (Ut.notNil(this.tenant)) {
-                        data.mergeIn(this.tenant.copy(), true);
-                    }
-                })
-                .forEach(dataArray::add);
+            .map(ExRecord::toJson)
+            .peek(data -> {
+                if (Ut.notNil(this.tenant)) {
+                    data.mergeIn(this.tenant.copy(), true);
+                }
+            })
+            .forEach(dataArray::add);
         return dataArray;
     }
 

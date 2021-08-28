@@ -24,19 +24,19 @@ public class RadixUi implements RuleSource {
          * uiCondition: Processing condition
          */
         final JsonObject condition = RadixTool.toCriteria(
-                inputData, config.getJsonObject("uiCondition"));
+            inputData, config.getJsonObject("uiCondition"));
         LOGGER.info("Condition for Rule: input = {0}, normalized = {1}",
-                inputData.encode(), condition.encode());
+            inputData.encode(), condition.encode());
         final UxJooq dao = RadixTool.toDao(config.getString("uiComponent"));
         if (Objects.isNull(dao)) {
             return RadixTool.toResponse(new JsonArray());
         } else {
             return dao.fetchAsync(condition).compose(Ux::futureA)
-                    /*
-                     * Response processing,
-                     * `metadata` field should be serialized
-                     */
-                    .compose(RadixTool::toResponse);
+                /*
+                 * Response processing,
+                 * `metadata` field should be serialized
+                 */
+                .compose(RadixTool::toResponse);
         }
     }
 }

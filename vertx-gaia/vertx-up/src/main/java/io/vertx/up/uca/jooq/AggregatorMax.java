@@ -18,16 +18,16 @@ class AggregatorMax extends AbstractAggregator {
 
     BigDecimal max(final String field, final JsonObject criteria) {
         return this.aggregateBy(field, criteria,
-                column -> column.max().as(FIELD_MAX), BigDecimal.ZERO);
+            column -> column.max().as(FIELD_MAX), BigDecimal.ZERO);
     }
 
     ConcurrentMap<String, BigDecimal> max(final String field, final JsonObject criteria, final String groupField) {
         return this.aggregateBy(field, criteria,
-                column -> column.max().as(FIELD_MAX), groupField);
+            column -> column.max().as(FIELD_MAX), groupField);
     }
 
     JsonArray max(final String field, final JsonObject criteria, final String... groupFields) {
         return this.aggregateBy(field, criteria,
-                column -> column.max().as(FIELD_MAX), groupFields);
+            column -> column.max().as(FIELD_MAX), groupFields);
     }
 }

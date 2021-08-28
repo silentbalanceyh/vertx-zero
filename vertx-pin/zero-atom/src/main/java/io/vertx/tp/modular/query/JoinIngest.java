@@ -40,8 +40,8 @@ class JoinIngest implements Ingest {
     }
 
     private ConcurrentMap<String, String> calculatePrefix(
-            final ConcurrentMap<String, DataMatrix> matrixs,
-            final ConcurrentMap<String, String> aliasMap) {
+        final ConcurrentMap<String, DataMatrix> matrixs,
+        final ConcurrentMap<String, String> aliasMap) {
         /* 1. 计算成 field -> Prefix */
         final ConcurrentMap<String, String> fieldInfo = new ConcurrentHashMap<>();
         matrixs.keySet().forEach(table -> {

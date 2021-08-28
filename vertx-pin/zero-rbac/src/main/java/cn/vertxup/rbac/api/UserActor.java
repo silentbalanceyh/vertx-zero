@@ -109,8 +109,8 @@ public class UserActor {
     @Address(Addr.User.DELETE)
     public Future<Boolean> delete(final String key) {
         return Ke.channelAsync(Trash.class, () -> this.stub.deleteUser(key),
-                tunnel -> this.stub.fetchUser(key)
-                        .compose(user -> tunnel.backupAsync("sec.user", user))
-                        .compose(backup -> this.stub.deleteUser(key)));
+            tunnel -> this.stub.fetchUser(key)
+                .compose(user -> tunnel.backupAsync("sec.user", user))
+                .compose(backup -> this.stub.deleteUser(key)));
     }
 }

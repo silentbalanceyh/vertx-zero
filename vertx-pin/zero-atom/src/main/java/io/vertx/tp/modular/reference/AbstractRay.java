@@ -39,12 +39,12 @@ public abstract class AbstractRay<T> implements AoRay<T> {
      * The hashmap reference of `field = {@link io.vertx.tp.modular.reference.RaySource}`.
      */
     protected transient ConcurrentMap<String, RaySource> input =
-            new ConcurrentHashMap<>();
+        new ConcurrentHashMap<>();
     /**
      * The hashmap reference of `field = {@link AoRule}`.
      */
     protected transient ConcurrentMap<String, RResult> output =
-            new ConcurrentHashMap<>();
+        new ConcurrentHashMap<>();
 
     /**
      * Bind the component to data model template {@link io.vertx.tp.atom.modeling.element.DataTpl}.

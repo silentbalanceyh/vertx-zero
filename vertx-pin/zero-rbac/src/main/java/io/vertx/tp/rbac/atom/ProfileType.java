@@ -137,7 +137,7 @@ public class ProfileType implements Serializable {
         }
         final ProfileType that = (ProfileType) o;
         return this.role == that.role &&
-                this.group == that.group;
+            this.group == that.group;
     }
 
     @Override

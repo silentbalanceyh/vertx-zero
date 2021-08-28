@@ -1,9 +1,9 @@
 package io.vertx.up.uca.rs.argument;
 
 import io.vertx.ext.web.RoutingContext;
-import io.vertx.up.uca.rs.Filler;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.runtime.ZeroSerializer;
+import io.vertx.up.uca.rs.Filler;
 
 import java.util.Map;
 

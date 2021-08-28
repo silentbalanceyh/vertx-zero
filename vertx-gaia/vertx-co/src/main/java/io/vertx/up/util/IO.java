@@ -36,7 +36,7 @@ final class IO {
      * Direct read by vert.x logger to avoid dead lock
      */
     private static final Logger LOGGER
-            = LoggerFactory.getLogger(IO.class);
+        = LoggerFactory.getLogger(IO.class);
 
     private IO() {
     }
@@ -50,7 +50,7 @@ final class IO {
      */
     static JsonArray getJArray(final String filename) {
         return Fn.outRun(() -> new JsonArray(getString(filename)),
-                JsonFormatException.class, filename);
+            JsonFormatException.class, filename);
     }
 
     /**
@@ -64,7 +64,7 @@ final class IO {
         final String content = getString(filename);
         // TODO: For debug
         return Fn.outRun(() -> new JsonObject(content),
-                JsonFormatException.class, filename);
+            JsonFormatException.class, filename);
     }
 
     /**
@@ -197,10 +197,10 @@ final class IO {
     static URL getURL(final String filename) {
         return Fn.getJvm(() -> {
             final URL url = Thread.currentThread().getContextClassLoader()
-                    .getResource(filename);
+                .getResource(filename);
             return Fn.getSemi(null == url, null,
-                    () -> IO.class.getResource(filename),
-                    () -> url);
+                () -> IO.class.getResource(filename),
+                () -> url);
         }, filename);
     }
 
@@ -233,14 +233,14 @@ final class IO {
         return Fn.getJvm(() -> {
             final File file = new File(filename);
             return Fn.getSemi(file.exists(), null,
-                    () -> file,
-                    () -> {
-                        final URL url = getURL(filename);
-                        if (null == url) {
-                            throw new EmptyStreamException(filename);
-                        }
-                        return new File(url.getFile());
-                    });
+                () -> file,
+                () -> {
+                    final URL url = getURL(filename);
+                    if (null == url) {
+                        throw new EmptyStreamException(filename);
+                    }
+                    return new File(url.getFile());
+                });
         }, filename);
     }
 

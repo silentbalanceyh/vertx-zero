@@ -73,7 +73,7 @@ public class CommandOption implements Serializable {
 
     public Option option() {
         final Option option =
-                new Option(this.simple, this.name, true, this.description);
+            new Option(this.simple, this.name, true, this.description);
         option.setRequired(this.required);
         option.setArgName(this.name);
         return option;

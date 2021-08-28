@@ -178,8 +178,8 @@ public abstract class AuthPhylum implements AuthHandler {
                 switch (statusCode) {
                     case MOVE_TEMPORARILY: {
                         response.putHeader(HttpHeaders.LOCATION, payload)
-                                .setStatusCode(statusCode.code())
-                                .end("Redirecting to " + payload + ".");
+                            .setStatusCode(statusCode.code())
+                            .end("Redirecting to " + payload + ".");
                     }
                     return;
                     case UNAUTHORIZED: {
@@ -198,7 +198,7 @@ public abstract class AuthPhylum implements AuthHandler {
         }
         // Fallback 500
         ctx.fail(new _500InternalServerException(this.getClass(),
-                null == exception ? null : exception.getMessage()));
+            null == exception ? null : exception.getMessage()));
     }
 
     private void authorizeUser(final RoutingContext ctx, final User user) {

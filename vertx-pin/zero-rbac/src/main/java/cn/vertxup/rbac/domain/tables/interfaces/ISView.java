@@ -44,6 +44,16 @@ public interface ISView extends Serializable {
     public String getName();
 
     /**
+     * Setter for <code>DB_ETERNAL.S_VIEW.TITLE</code>. 「title」- 视图标题，用户输入，可选择
+     */
+    public ISView setTitle(String value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.S_VIEW.TITLE</code>. 「title」- 视图标题，用户输入，可选择
+     */
+    public String getTitle();
+
+    /**
      * Setter for <code>DB_ETERNAL.S_VIEW.OWNER</code>. 「owner」- 用户 / 角色ID
      */
     public ISView setOwner(String value);
@@ -220,6 +230,7 @@ public interface ISView extends Serializable {
     default ISView fromJson(io.vertx.core.json.JsonObject json) {
         setKey(json.getString("KEY"));
         setName(json.getString("NAME"));
+        setTitle(json.getString("TITLE"));
         setOwner(json.getString("OWNER"));
         setOwnerType(json.getString("OWNER_TYPE"));
         setResourceId(json.getString("RESOURCE_ID"));
@@ -244,6 +255,7 @@ public interface ISView extends Serializable {
         io.vertx.core.json.JsonObject json = new io.vertx.core.json.JsonObject();
         json.put("KEY",getKey());
         json.put("NAME",getName());
+        json.put("TITLE",getTitle());
         json.put("OWNER",getOwner());
         json.put("OWNER_TYPE",getOwnerType());
         json.put("RESOURCE_ID",getResourceId());

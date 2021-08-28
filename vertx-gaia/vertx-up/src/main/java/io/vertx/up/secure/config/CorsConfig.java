@@ -62,11 +62,11 @@ public class CorsConfig implements Serializable {
     public JsonArray getMethods() {
         if (methods.isEmpty()) {
             return new JsonArray()
-                    .add(HttpMethod.GET.name())
-                    .add(HttpMethod.POST.name())
-                    .add(HttpMethod.PUT.name())
-                    .add(HttpMethod.DELETE.name())
-                    .add(HttpMethod.OPTIONS.name());
+                .add(HttpMethod.GET.name())
+                .add(HttpMethod.POST.name())
+                .add(HttpMethod.PUT.name())
+                .add(HttpMethod.DELETE.name())
+                .add(HttpMethod.OPTIONS.name());
         } else {
             return methods;
         }
@@ -79,16 +79,16 @@ public class CorsConfig implements Serializable {
     public JsonArray getHeaders() {
         if (headers.isEmpty()) {
             return new JsonArray()
-                    .add(HttpHeaders.AUTHORIZATION)
-                    .add(HttpHeaders.ACCEPT)
-                    .add(HttpHeaders.CONTENT_DISPOSITION)
-                    .add(HttpHeaders.CONTENT_ENCODING)
-                    .add(HttpHeaders.CONTENT_LENGTH)
-                    .add(HttpHeaders.CONTENT_TYPE)
-                    /* User defined header */
-                    .add(ID.Header.X_APP_ID)
-                    .add(ID.Header.X_APP_KEY)
-                    .add(ID.Header.X_SIGMA);
+                .add(HttpHeaders.AUTHORIZATION)
+                .add(HttpHeaders.ACCEPT)
+                .add(HttpHeaders.CONTENT_DISPOSITION)
+                .add(HttpHeaders.CONTENT_ENCODING)
+                .add(HttpHeaders.CONTENT_LENGTH)
+                .add(HttpHeaders.CONTENT_TYPE)
+                /* User defined header */
+                .add(ID.Header.X_APP_ID)
+                .add(ID.Header.X_APP_KEY)
+                .add(ID.Header.X_SIGMA);
         } else {
             return headers;
         }
@@ -109,10 +109,10 @@ public class CorsConfig implements Serializable {
     @Override
     public String toString() {
         return "CorsConfig{" +
-                "credentials=" + credentials +
-                ", methods=" + methods +
-                ", headers=" + headers +
-                ", origin='" + origin + '\'' +
-                '}';
+            "credentials=" + credentials +
+            ", methods=" + methods +
+            ", headers=" + headers +
+            ", origin='" + origin + '\'' +
+            '}';
     }
 }

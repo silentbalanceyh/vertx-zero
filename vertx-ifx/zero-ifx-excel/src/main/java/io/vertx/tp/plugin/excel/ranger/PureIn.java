@@ -41,7 +41,7 @@ public class PureIn extends AbstractExIn {
         ExFn.itSheet(this.sheet, dataRange, (dataRow, rowIndex) -> {
             /* Build Data Col Range */
             final ExBound bound = new ColBound(cell.getColumnIndex(),
-                    cell.getColumnIndex() + table.size());
+                cell.getColumnIndex() + table.size());
 
             /* New record build */
             final ExRecord record = new ExRecord();

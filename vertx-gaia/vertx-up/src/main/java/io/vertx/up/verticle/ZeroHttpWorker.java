@@ -34,7 +34,7 @@ public class ZeroHttpWorker extends AbstractVerticle {
     private static final Set<Receipt> RECEIPTS = ZeroAnno.getReceipts();
 
     private static final ConcurrentMap<Integer, Invoker> INVOKER_MAP =
-            new ConcurrentHashMap<>();
+        new ConcurrentHashMap<>();
 
     private static final AtomicBoolean LOGGED = new AtomicBoolean(Boolean.FALSE);
 
@@ -86,6 +86,7 @@ public class ZeroHttpWorker extends AbstractVerticle {
                         /*
                          * Error Occurs and fire message
                          */
+                        ex.printStackTrace();
                         message.fail(0, ex.getMessage());
                     }
                 }

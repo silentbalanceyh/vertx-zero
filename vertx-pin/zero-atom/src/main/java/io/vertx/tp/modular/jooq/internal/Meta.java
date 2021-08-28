@@ -40,7 +40,7 @@ class Meta {
     static Table<Record> natureJoin(final ConcurrentMap<String, String> tableMap) {
         final Iterator<String> it = tableMap.keySet().iterator();
         Fn.outWeb(1 < tableMap.size() && !it.hasNext(),
-                _417TableCounterException.class, Meta.class, "> 1");
+            _417TableCounterException.class, Meta.class, "> 1");
         String table = it.next();
         Table<Record> result = table(table, tableMap.get(table));
         while (it.hasNext()) {
@@ -61,7 +61,7 @@ class Meta {
                                   final ConcurrentMap<String, String> aliasMap) {
         final Table<Record> first = table(leader, aliasMap.get(leader));
         Fn.outWeb(1 == aliasMap.size() && Objects.isNull(first),
-                _417TableCounterException.class, Meta.class, "> 1");
+            _417TableCounterException.class, Meta.class, "> 1");
         /*
          * 读取被 join 的第一张表
          */
@@ -73,8 +73,8 @@ class Meta {
              */
             TableOnConditionStep<Record> conditionStep;
             final Iterator<String> itJoin = joined.keySet()
-                    .stream().filter(table -> !leader.equals(table))
-                    .iterator();
+                .stream().filter(table -> !leader.equals(table))
+                .iterator();
             /*
              * 计算条件专用
              */
@@ -103,13 +103,13 @@ class Meta {
     }
 
     private static TableOnConditionStep<Record> joinCondition(
-            final Table<Record> from, final Table<Record> to,
-            final ConcurrentMap<String, String> joined) {
+        final Table<Record> from, final Table<Record> to,
+        final ConcurrentMap<String, String> joined) {
         final String fromTable = from.getName();
         final String toTable = to.getName();
         return from.leftJoin(to).on(joinCondition(
-                fromTable, joined.get(fromTable),
-                toTable, joined.get(toTable)));
+            fromTable, joined.get(fromTable),
+            toTable, joined.get(toTable)));
     }
 
     @SuppressWarnings("unchecked")
@@ -148,8 +148,8 @@ class Meta {
     static Field field(final String field, final Set<DataMatrix> matrixSet,
                        final ConcurrentMap<String, String> fieldMap) {
         final DataMatrix matrix = matrixSet.stream()
-                .filter(item -> item.getAttributes().contains(field))
-                .findFirst().orElse(null);
+            .filter(item -> item.getAttributes().contains(field))
+            .findFirst().orElse(null);
         /*
          * 如果不包含字段则不抛异常，仅返回 null
          * Old

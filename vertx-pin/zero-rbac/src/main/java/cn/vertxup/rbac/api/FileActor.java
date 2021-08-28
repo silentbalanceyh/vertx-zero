@@ -5,7 +5,6 @@ import io.vertx.core.Future;
 import io.vertx.core.Promise;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.eon.KName;
 import io.vertx.tp.ke.refine.Ke;
 import io.vertx.tp.plugin.excel.ExcelClient;
 import io.vertx.tp.plugin.excel.atom.ExRecord;
@@ -16,6 +15,7 @@ import io.vertx.up.annotations.Address;
 import io.vertx.up.annotations.Plugin;
 import io.vertx.up.annotations.Queue;
 import io.vertx.up.commune.Envelop;
+import io.vertx.up.eon.KName;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.unity.Ux;
 
@@ -51,19 +51,19 @@ public class FileActor {
                  * Set<ExTable>
                  */
                 final Set<ExTable> tables = this.client.ingest(inputStream, true)
-                        .stream().filter(Objects::nonNull)
-                        .filter(item -> Objects.nonNull(item.getName()))
-                        .filter(item -> item.getName().equals("S_USER"))
-                        .collect(Collectors.toSet());
+                    .stream().filter(Objects::nonNull)
+                    .filter(item -> Objects.nonNull(item.getName()))
+                    .filter(item -> item.getName().equals("S_USER"))
+                    .collect(Collectors.toSet());
                 /*
                  * No directory here of importing
                  */
                 final JsonArray prepared = new JsonArray();
                 tables.stream().flatMap(table -> {
                     final List<JsonObject> records = table.get().stream()
-                            .filter(Objects::nonNull)
-                            .map(ExRecord::toJson)
-                            .collect(Collectors.toList());
+                        .filter(Objects::nonNull)
+                        .map(ExRecord::toJson)
+                        .collect(Collectors.toList());
                     Sc.infoWeb(this.getClass(), "Table: {0}, Records: {1}", table.getName(), String.valueOf(records.size()));
                     return records.stream();
                 }).forEach(record -> {

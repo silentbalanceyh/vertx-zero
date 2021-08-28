@@ -8,14 +8,14 @@ import java.util.concurrent.ConcurrentMap;
 
 interface Pool {
     ConcurrentMap<String, Workbook> WORKBOOKS
-            = new ConcurrentHashMap<>();
+        = new ConcurrentHashMap<>();
 
     ConcurrentMap<Integer, Workbook> WORKBOOKS_STREAM
-            = new ConcurrentHashMap<>();
+        = new ConcurrentHashMap<>();
 
     ConcurrentMap<String, ExcelHelper> HELPERS
-            = new ConcurrentHashMap<>();
+        = new ConcurrentHashMap<>();
 
     ConcurrentMap<String, ExConnect> CONNECTS
-            = new ConcurrentHashMap<>();
+        = new ConcurrentHashMap<>();
 }

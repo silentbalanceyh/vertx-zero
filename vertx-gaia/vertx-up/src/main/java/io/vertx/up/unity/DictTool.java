@@ -25,19 +25,19 @@ import java.util.concurrent.ConcurrentMap;
 class DictTool {
 
     private static final ConcurrentMap<Integer, Dictionary> POOL_DICT =
-            new ConcurrentHashMap<>();
+        new ConcurrentHashMap<>();
 
     static ConcurrentMap<String, DictEpsilon> mapEpsilon(final JsonObject epsilonJson) {
         final ConcurrentMap<String, DictEpsilon> epsilonMap = new ConcurrentHashMap<>();
         if (Ut.notNil(epsilonJson)) {
             epsilonJson.fieldNames().stream()
-                    .filter(field -> epsilonJson.getValue(field) instanceof JsonObject)
-                    .forEach(field -> {
-                        final JsonObject fieldData = epsilonJson.getJsonObject(field);
-                        final DictEpsilon epsilon = new DictEpsilon();
-                        epsilon.fromJson(fieldData);
-                        epsilonMap.put(field, epsilon);
-                    });
+                .filter(field -> epsilonJson.getValue(field) instanceof JsonObject)
+                .forEach(field -> {
+                    final JsonObject fieldData = epsilonJson.getJsonObject(field);
+                    final DictEpsilon epsilon = new DictEpsilon();
+                    epsilon.fromJson(fieldData);
+                    epsilonMap.put(field, epsilon);
+                });
         }
         return epsilonMap;
     }
@@ -47,13 +47,13 @@ class DictTool {
         if (record instanceof JsonObject) {
             final JsonObject ref = (JsonObject) record;
             return fabric.inTo(ref)
-                    .compose(processed -> Ux.future(mapper.out(processed, fabric.mapping())))
-                    .compose(processed -> Ux.future((T) processed));
+                .compose(processed -> Ux.future(mapper.out(processed, fabric.mapping())))
+                .compose(processed -> Ux.future((T) processed));
         } else if (record instanceof JsonArray) {
             final JsonArray ref = (JsonArray) record;
             return fabric.inTo(ref)
-                    .compose(processed -> Ux.future(mapper.out(processed, fabric.mapping())))
-                    .compose(processed -> Ux.future((T) processed));
+                .compose(processed -> Ux.future(mapper.out(processed, fabric.mapping())))
+                .compose(processed -> Ux.future((T) processed));
         } else {
             return Ux.future(record);
         }
@@ -80,7 +80,7 @@ class DictTool {
                      * JtDict instance for fetchAsync
                      */
                     final Dictionary dictStub = Fn.pool(POOL_DICT, dict.hashCode(),
-                            () -> Ut.instance(dictCls));
+                        () -> Ut.instance(dictCls));
                     /*
                      * Param Map / List<Source>
                      */

@@ -20,7 +20,7 @@ import java.util.function.Supplier;
 public abstract class AbstractEsClient {
 
     protected final transient ElasticSearchHelper helper =
-            ElasticSearchHelper.helper(this.getClass());
+        ElasticSearchHelper.helper(this.getClass());
     private final transient JsonObject options = new JsonObject();
 
     AbstractEsClient(final JsonObject options) {

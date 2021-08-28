@@ -26,12 +26,12 @@ public class FinalTransit implements Transit {
         final Object proxy = Ut.singleton(this.method.getDeclaringClass());
         // 2. Async type
         final Future<Envelop> returnValue = Fn.getJvm(
-                () -> ReturnTransit.build(() -> this.method.invoke(proxy, data),
-                        this.getClass(), this.method),
-                this.method
+            () -> ReturnTransit.build(() -> this.method.invoke(proxy, data),
+                this.getClass(), this.method),
+            this.method
         );
         Fn.outWeb(null == returnValue, LOGGER,
-                _500RpcMethodInvokeException.class, this.getClass(), returnValue);
+            _500RpcMethodInvokeException.class, this.getClass(), returnValue);
         return returnValue;
     }
 

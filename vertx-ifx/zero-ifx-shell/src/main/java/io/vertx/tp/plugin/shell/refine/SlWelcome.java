@@ -38,20 +38,20 @@ class SlWelcome {
 
     static void welcomeCommand(final CommandAtom option) {
         SlLog.output(SlMessage.message("previous",
-                () -> "Previous: name = {0}, description = {1}"), option.getSimple(), option.getDescription());
+            () -> "Previous: name = {0}, description = {1}"), option.getSimple(), option.getDescription());
     }
 
     static void goodbye() {
         SlLog.output(SlMessage.message("quit",
-                /* Default supplier for "quit" */
-                () -> "You have quit Zero Console successfully!"));
+            /* Default supplier for "quit" */
+            () -> "You have quit Zero Console successfully!"));
     }
 
     static void goodbye(final CommandAtom option) {
         final String pattern = SlMessage.message("back",
-                /* Default supplier for "quit" */
-                () -> "You have quit current Sub System: {0} successfully!");
+            /* Default supplier for "quit" */
+            () -> "You have quit current Sub System: {0} successfully!");
         SlLog.outputOpt(pattern,
-                option.getName(), option.getDescription());
+            option.getName(), option.getDescription());
     }
 }

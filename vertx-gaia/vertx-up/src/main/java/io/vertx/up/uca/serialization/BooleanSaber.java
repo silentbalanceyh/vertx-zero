@@ -12,10 +12,10 @@ public class BooleanSaber extends BaseSaber {
     public Object from(final Class<?> paramType,
                        final String literal) {
         return Fn.getSemi(boolean.class == paramType || Boolean.class == paramType, getLogger(),
-                () -> {
+            () -> {
 
-                    verifyInput(!Ut.isBoolean(literal), paramType, literal);
-                    return Boolean.parseBoolean(literal);
-                }, () -> Boolean.FALSE);
+                verifyInput(!Ut.isBoolean(literal), paramType, literal);
+                return Boolean.parseBoolean(literal);
+            }, () -> Boolean.FALSE);
     }
 }

@@ -25,9 +25,9 @@ public abstract class AbstractSameDate extends AbstractSame {
          * 2) When `unit` is null, do not comparing other kind of here.
          */
         final Instant oldInstant = Ut.parseFull(valueOld.toString())
-                .toInstant();
+            .toInstant();
         final Instant newInstant = Ut.parseFull(valueNew.toString())
-                .toInstant();
+            .toInstant();
         /*
          * Compared by unit
          */
@@ -46,7 +46,7 @@ public abstract class AbstractSameDate extends AbstractSame {
         final LocalTime timeOld = datetimeOld.toLocalTime();
         final LocalTime timeNew = datetimeNew.toLocalTime();
         return this.eqDay(datetimeOld, datetimeNew) &&
-                (timeOld.getHour() == timeNew.getHour() && timeOld.getMinute() == timeNew.getMinute());
+            (timeOld.getHour() == timeNew.getHour() && timeOld.getMinute() == timeNew.getMinute());
     }
 
     public abstract boolean eqDate(final LocalDateTime datetimeOld, final LocalDateTime datetimeNew);

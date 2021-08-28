@@ -18,7 +18,7 @@ import java.util.concurrent.ConcurrentMap;
 class DictStore {
     private static final Annal LOGGER = Annal.get(DictStore.class);
     private final transient ConcurrentMap<String, JsonArray> dictData
-            = new ConcurrentHashMap<>();
+        = new ConcurrentHashMap<>();
 
     /*
      * Default domain
@@ -63,7 +63,7 @@ class DictStore {
     void itemUpdate(final String dictName, final JsonArray input, final String keyField) {
         final JsonArray data = Ut.sureJArray(input);
         Ut.itJArray(data).filter(item -> Objects.nonNull(item.getValue(keyField)))
-                .forEach(json -> this.itemUpdate(dictName, json, keyField));
+            .forEach(json -> this.itemUpdate(dictName, json, keyField));
     }
 
     boolean itemExist(final String dictName, final String value, final String keyField) {
@@ -72,9 +72,9 @@ class DictStore {
         } else {
             final JsonArray original = this.item(dictName);
             final long counter = Ut.itJArray(original)
-                    .map(each -> each.getValue(keyField))
-                    .filter(Objects::nonNull)
-                    .filter(value::equals).count();
+                .map(each -> each.getValue(keyField))
+                .filter(Objects::nonNull)
+                .filter(value::equals).count();
             return 0 < counter;
         }
     }

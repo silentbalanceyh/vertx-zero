@@ -759,12 +759,14 @@ public final class Ut {
      * 7) ifString / ifStrings
      */
 
-    public static void ifStrings(final JsonArray array, final String... fields) {
+    public static JsonArray ifStrings(final JsonArray array, final String... fields) {
         It.itJArray(array).forEach(json -> Apply.ifString(json, fields));
+        return array;
     }
 
-    public static void ifString(final JsonObject json, final String... fields) {
+    public static JsonObject ifString(final JsonObject json, final String... fields) {
         Apply.ifString(json, fields);
+        return json;
     }
 
     public static Function<JsonArray, Future<JsonArray>> ifStrings(final String... fields) {
@@ -779,16 +781,18 @@ public final class Ut {
         return Apply.ifJObject(fields);
     }
 
-    public static void ifJObject(final JsonObject json, final String... fields) {
+    public static JsonObject ifJObject(final JsonObject json, final String... fields) {
         Apply.ifJson(json, fields);
+        return json;
     }
 
     public static Function<JsonArray, Future<JsonArray>> ifJArray(final String... fields) {
         return Apply.ifJArray(fields);
     }
 
-    public static void ifJArray(final JsonArray array, final String... fields) {
+    public static JsonArray ifJArray(final JsonArray array, final String... fields) {
         It.itJArray(array).forEach(json -> Apply.ifJson(json, fields));
+        return array;
     }
 
     public static <T> Function<T, Future<JsonObject>> ifMerge(final JsonObject input) {
@@ -1150,6 +1154,10 @@ public final class Ut {
         return To.toSet(keys);
     }
 
+    public static List<String> toList(final JsonArray keys) {
+        return To.toList(keys);
+    }
+
     public static JsonArray toJArray(final Object value) {
         return Jackson.toJArray(value);
     }
@@ -1448,8 +1456,8 @@ public final class Ut {
         return Epsilon.mapString(array, field);
     }
 
-    public static String mapStringOne(final JsonArray array, final String field) {
-        return Epsilon.mapStringOne(array, field);
+    public static String mapOneS(final JsonArray array, final String field) {
+        return Epsilon.mapOneS(array, field);
     }
 
     public static Set<JsonArray> mapArray(final JsonArray array, final String field) {

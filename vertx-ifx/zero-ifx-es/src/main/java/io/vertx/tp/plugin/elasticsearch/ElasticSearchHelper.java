@@ -56,30 +56,30 @@ public class ElasticSearchHelper {
         Fn.outWeb(Ut.isNil(options), _404ConfigurationMissingExceptionn.class, this.getClass());
         final CredentialsProvider credentialsProvider = new BasicCredentialsProvider();
         credentialsProvider.setCredentials(AuthScope.ANY,
-                new UsernamePasswordCredentials(options.getString("username"), options.getString("password"))
+            new UsernamePasswordCredentials(options.getString("username"), options.getString("password"))
         );
 
         return new RestHighLevelClient(
-                RestClient.builder(
-                                new HttpHost(options.getString("hostname"), options.getInteger("port"), options.getString("scheme"))
-                        )
-                        .setHttpClientConfigCallback(new RestClientBuilder.HttpClientConfigCallback() {
-                            @Override
-                            public HttpAsyncClientBuilder customizeHttpClient(final HttpAsyncClientBuilder httpAsyncClientBuilder) {
-                                httpAsyncClientBuilder.disableAuthCaching();
-                                return httpAsyncClientBuilder.setDefaultCredentialsProvider(credentialsProvider)
-                                        .setMaxConnTotal(100)
-                                        .setMaxConnPerRoute(100);
-                            }
-                        })
-                        .setRequestConfigCallback(new RestClientBuilder.RequestConfigCallback() {
-                            @Override
-                            public RequestConfig.Builder customizeRequestConfig(final RequestConfig.Builder builder) {
-                                return builder.setConnectionRequestTimeout(60000)
-                                        .setConnectTimeout(60000)
-                                        .setSocketTimeout(60000);
-                            }
-                        })
+            RestClient.builder(
+                    new HttpHost(options.getString("hostname"), options.getInteger("port"), options.getString("scheme"))
+                )
+                .setHttpClientConfigCallback(new RestClientBuilder.HttpClientConfigCallback() {
+                    @Override
+                    public HttpAsyncClientBuilder customizeHttpClient(final HttpAsyncClientBuilder httpAsyncClientBuilder) {
+                        httpAsyncClientBuilder.disableAuthCaching();
+                        return httpAsyncClientBuilder.setDefaultCredentialsProvider(credentialsProvider)
+                            .setMaxConnTotal(100)
+                            .setMaxConnPerRoute(100);
+                    }
+                })
+                .setRequestConfigCallback(new RestClientBuilder.RequestConfigCallback() {
+                    @Override
+                    public RequestConfig.Builder customizeRequestConfig(final RequestConfig.Builder builder) {
+                        return builder.setConnectionRequestTimeout(60000)
+                            .setConnectTimeout(60000)
+                            .setSocketTimeout(60000);
+                    }
+                })
         );
     }
 
@@ -93,9 +93,9 @@ public class ElasticSearchHelper {
 
     Settings settingsBuilder(final int numberOfShards, final int numberOfReplicas) {
         return Settings.builder()
-                .put("index.number_of_shards", numberOfShards > 0 ? numberOfShards : 3)
-                .put("index.number_of_replicas", numberOfReplicas > 0 ? numberOfReplicas : 2)
-                .build();
+            .put("index.number_of_shards", numberOfShards > 0 ? numberOfShards : 3)
+            .put("index.number_of_replicas", numberOfReplicas > 0 ? numberOfReplicas : 2)
+            .build();
     }
 
     /**
@@ -137,7 +137,7 @@ public class ElasticSearchHelper {
                 props.put("index", "true");
                 props.put("analyzer", "ik_max_word");
             } else if (val == java.time.LocalTime.class || val == java.time.LocalDateTime.class ||
-                    val == java.time.LocalDate.class || val == java.time.Instant.class) {
+                val == java.time.LocalDate.class || val == java.time.Instant.class) {
                 props.put("type", "date");
                 props.put("index", "true");
                 props.put("format", "yyyy-MM-dd||yyyy-MM-dd HH:mm:ss||yyyy-MM-dd HH:mm:ss.SSS||yyyy-MM-dd'T'HH:mm:ss'Z'||yyyy-MM-dd'T'HH:mm:ss.SSS'Z'||epoch_millis");
@@ -196,9 +196,9 @@ public class ElasticSearchHelper {
             LOGGER.debug("[ ZERO ] Final query condition with precision: {0}", finalCond.toString());
         }
         return builder.aggregation(AggregationBuilders.terms(Aggregations.AGGREGATIONS_FIELD).field("_index"))
-                .highlighter(new HighlightBuilder().field("*").preTags("<strong>").postTags("</strong>").highlighterType("unified"))
-                .from(Math.max(0, from))
-                .size(Math.max(10, size))
-                .timeout(new TimeValue(10, TimeUnit.SECONDS));
+            .highlighter(new HighlightBuilder().field("*").preTags("<strong>").postTags("</strong>").highlighterType("unified"))
+            .from(Math.max(0, from))
+            .size(Math.max(10, size))
+            .timeout(new TimeValue(10, TimeUnit.SECONDS));
     }
 }

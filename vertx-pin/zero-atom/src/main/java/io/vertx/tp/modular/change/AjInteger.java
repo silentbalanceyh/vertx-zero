@@ -31,7 +31,7 @@ final class AjInteger extends AbstractAdjuster {
          */
         if (Ut.notNil(literal)) {
             final String normalized = literal.replaceAll(
-                    "(GB|TB|MB|G|T|M)", ""
+                "(GB|TB|MB|G|T|M)", ""
             ).trim();
             return Ut.notNil(normalized) ? Integer.parseInt(normalized) : 0;
         } else {

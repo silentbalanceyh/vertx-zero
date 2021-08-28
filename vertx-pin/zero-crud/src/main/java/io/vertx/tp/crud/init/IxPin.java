@@ -1,11 +1,13 @@
 package io.vertx.tp.crud.init;
 
-import io.vertx.core.MultiMap;
 import io.vertx.tp.crud.refine.Ix;
+import io.vertx.tp.crud.uca.desk.IxIn;
 import io.vertx.tp.ke.atom.KModule;
+import io.vertx.tp.ke.atom.connect.KPoint;
 import io.vertx.tp.ke.refine.Ke;
 import io.vertx.up.atom.Rule;
-import io.vertx.up.log.Annal;
+import io.vertx.up.commune.Envelop;
+import io.vertx.up.uca.jooq.UxJoin;
 import io.vertx.up.uca.jooq.UxJooq;
 
 import java.util.List;
@@ -17,20 +19,18 @@ import java.util.concurrent.ConcurrentMap;
  */
 public class IxPin {
 
-    private static final Annal LOGGER = Annal.get(IxPin.class);
-
     public static void init() {
         Ke.banner("「Εκδήλωση」- Crud ( Ix )");
 
-        Ix.infoInit(LOGGER, "IxConfiguration...");
+        Ix.Log.init(IxPin.class, "IxConfiguration...");
         /* Configuration Init */
         IxConfiguration.init();
 
-        Ix.infoInit(LOGGER, "IxDao...");
+        Ix.Log.init(IxPin.class, "IxDao...");
         /* Dao Init */
         IxDao.init();
 
-        Ix.infoInit(LOGGER, "IxValidator...");
+        Ix.Log.init(IxPin.class, "IxValidator...");
         /* Validator Init */
         IxValidator.init();
     }
@@ -39,8 +39,21 @@ public class IxPin {
         return IxDao.get(actor);
     }
 
-    public static UxJooq getDao(final KModule config, final MultiMap headers) {
-        return IxDao.get(config, headers);
+    public static UxJooq jooq(final IxIn in) {
+        final Envelop envelop = in.envelop();
+        return IxDao.get(in.module(), envelop.headers());
+    }
+
+    public static UxJooq jooq(final KModule module, final Envelop envelop) {
+        return IxDao.get(module, envelop.headers());
+    }
+
+    public static UxJoin join(final IxIn in, final KModule connect) {
+        return IxDao.get(in.module(), connect);
+    }
+
+    public static KPoint point(final IxIn in) {
+        return IxDao.getPoint(in);
     }
 
     public static Set<String> getUris() {

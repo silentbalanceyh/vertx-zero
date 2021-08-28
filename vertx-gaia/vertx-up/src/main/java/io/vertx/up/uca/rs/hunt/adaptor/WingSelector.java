@@ -41,14 +41,14 @@ public class WingSelector {
         final Wings selected;
         if (Objects.isNull(subtype) || subtype.isEmpty()) {
             selected = Pool.SELECT_POOL.get(MediaType.APPLICATION_JSON_TYPE.getType())
-                    .get(MediaType.APPLICATION_JSON_TYPE.getSubtype()).get();
+                .get(MediaType.APPLICATION_JSON_TYPE.getSubtype()).get();
         } else {
             final Supplier<Wings> wings = subtype.get(type.getSubtype());
             selected = Objects.isNull(wings) ? new JsonWings() : wings.get();
         }
         final Annal logger = Annal.get(WingSelector.class);
         logger.info("Wings response selected `{0}` for content type {1}, mime = {2}, hashCode = {3}",
-                selected.getClass().getName(), contentType, type.toString(), String.valueOf(selected.hashCode()));
+            selected.getClass().getName(), contentType, type.toString(), String.valueOf(selected.hashCode()));
         return selected;
     }
 }

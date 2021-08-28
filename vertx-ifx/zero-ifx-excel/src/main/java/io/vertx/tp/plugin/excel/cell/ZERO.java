@@ -23,7 +23,7 @@ interface Pool {
     };
 
     ConcurrentMap<CellType, Function<Cell, Object>> FUNS
-            = new ConcurrentHashMap<CellType, Function<Cell, Object>>() {
+        = new ConcurrentHashMap<CellType, Function<Cell, Object>>() {
         {
             this.put(CellType.STRING, DataValue::toString);
             this.put(CellType.BOOLEAN, DataValue::toBoolean);

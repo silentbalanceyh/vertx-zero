@@ -21,15 +21,15 @@ public class DpmCategory implements Dpm {
     @Override
     public Future<ConcurrentMap<String, JsonArray>> fetchAsync(final DictSource source, final MultiMap params) {
         return DpmTool.cachedDict(source.getTypes(),
-                types -> Ux.Jooq.on(XCategoryDao.class)
-                        .fetchAndAsync(DpmTool.condition(params, types))
-                        .compose(Ux::futureG));
+            types -> Ux.Jooq.on(XCategoryDao.class)
+                .fetchAndAsync(DpmTool.condition(params, types))
+                .compose(Ux::futureG));
     }
 
     @Override
     public ConcurrentMap<String, JsonArray> fetch(final DictSource source, final MultiMap params) {
         final JsonArray dataArray = Ux.Jooq.on(XCategoryDao.class)
-                .fetchJAnd(DpmTool.condition(params, source.getTypes()));
+            .fetchJAnd(DpmTool.condition(params, source.getTypes()));
         return Ut.elementGroup(dataArray, KName.TYPE);
     }
 }

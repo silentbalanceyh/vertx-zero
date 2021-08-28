@@ -5,16 +5,16 @@ import io.vertx.ext.web.RoutingContext;
 import io.vertx.up.annotations.Address;
 import io.vertx.up.atom.agent.Event;
 import io.vertx.up.atom.worker.Receipt;
+import io.vertx.up.eon.Values;
+import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
+import io.vertx.up.runtime.ZeroAnno;
 import io.vertx.up.uca.rs.Aim;
 import io.vertx.up.uca.rs.hunt.AsyncAim;
 import io.vertx.up.uca.rs.hunt.OneWayAim;
-import io.vertx.up.eon.Values;
+import io.vertx.up.util.Ut;
 import io.vertx.zero.exception.ReturnTypeException;
 import io.vertx.zero.exception.WorkerMissingException;
-import io.vertx.up.util.Ut;
-import io.vertx.up.fn.Fn;
-import io.vertx.up.runtime.ZeroAnno;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
@@ -59,23 +59,23 @@ class EventDiffer implements Differ<RoutingContext> {
             // send message to event bus. It means that it require
             // return types.
             Fn.outUp(true, LOGGER, ReturnTypeException.class,
-                    this.getClass(), method);
+                this.getClass(), method);
         } else {
             final Class<?> replierType = replier.getReturnType();
             if (Void.class == replierType || void.class == replierType) {
                 if (this.isAsync(replier)) {
                     // Mode 5: Event Bus: ( Async ) Request-Response
                     aim = Fn.pool(Pool.AIMS, Thread.currentThread().getName() + "-mode-vert.x",
-                            AsyncAim::new);
+                        AsyncAim::new);
                 } else {
                     // Mode 3: Event Bus: One-Way
                     aim = Fn.pool(Pool.AIMS, Thread.currentThread().getName() + "-mode-oneway",
-                            OneWayAim::new);
+                        OneWayAim::new);
                 }
             } else {
                 // Mode 1: Event Bus: Request-Response
                 aim = Fn.pool(Pool.AIMS, Thread.currentThread().getName() + "-mode-java",
-                        AsyncAim::new);
+                    AsyncAim::new);
             }
         }
         return aim;
@@ -99,18 +99,18 @@ class EventDiffer implements Differ<RoutingContext> {
         final String address = Ut.invoke(annotation, "value");
         // Here address mustn't be null or empty
         final Receipt found = RECEIPTS.stream()
-                .filter(item -> address.equals(item.getAddress()))
-                .findFirst().orElse(null);
+            .filter(item -> address.equals(item.getAddress()))
+            .findFirst().orElse(null);
 
         final Method method;
         // Get null found throw exception.
         Fn.outUp(null == found, LOGGER, WorkerMissingException.class,
-                this.getClass(), address);
+            this.getClass(), address);
         /* Above sentence will throw exception when found is null */
         method = found.getMethod();
 
         Fn.outUp(null == method, LOGGER, WorkerMissingException.class,
-                this.getClass(), address);
+            this.getClass(), address);
         return method;
     }
 }

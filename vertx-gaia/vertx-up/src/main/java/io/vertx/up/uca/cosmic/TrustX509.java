@@ -11,12 +11,12 @@ import java.security.cert.X509Certificate;
 public class TrustX509 implements X509TrustManager {
     @Override
     public void checkClientTrusted(final X509Certificate[] chain, final String authType)
-            throws CertificateException {
+        throws CertificateException {
     }
 
     @Override
     public void checkServerTrusted(final X509Certificate[] chain, final String authType)
-            throws CertificateException {
+        throws CertificateException {
     }
 
     @Override

@@ -6,10 +6,10 @@ import io.vertx.up.atom.secure.Cliff;
 import io.vertx.up.atom.worker.Mission;
 import io.vertx.up.atom.worker.Receipt;
 import io.vertx.up.eon.em.ServerType;
+import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import io.vertx.up.uca.web.origin.*;
 import io.vertx.up.util.Ut;
-import io.vertx.up.fn.Fn;
 
 import java.lang.reflect.Method;
 import java.util.*;
@@ -24,29 +24,29 @@ public class ZeroAnno {
     private static final Annal LOGGER = Annal.get(ZeroAnno.class);
 
     private final static Set<Class<?>>
-            ENDPOINTS = new HashSet<>();
+        ENDPOINTS = new HashSet<>();
     private final static ConcurrentMap<Class<?>, ConcurrentMap<String, Class<?>>>
-            PLUGINS = new ConcurrentHashMap<>();
+        PLUGINS = new ConcurrentHashMap<>();
     private final static Set<Receipt>
-            RECEIPTS = new HashSet<>();
+        RECEIPTS = new HashSet<>();
     private final static Set<Event>
-            EVENTS = new HashSet<>();
+        EVENTS = new HashSet<>();
     private final static ConcurrentMap<String, Set<Event>>
-            FILTERS = new ConcurrentHashMap<>();
+        FILTERS = new ConcurrentHashMap<>();
     private final static ConcurrentMap<ServerType, List<Class<?>>>
-            AGENTS = new ConcurrentHashMap<>();
+        AGENTS = new ConcurrentHashMap<>();
     private final static Set<Class<?>>
-            WORKERS = new HashSet<>();
+        WORKERS = new HashSet<>();
     private final static Set<Cliff>
-            WALLS = new TreeSet<>();
+        WALLS = new TreeSet<>();
     private final static ConcurrentMap<String, Method>
-            IPCS = new ConcurrentHashMap<>();
+        IPCS = new ConcurrentHashMap<>();
     private final static Set<Class<?>>
-            POINTER = new HashSet<>();
+        POINTER = new HashSet<>();
     private final static Set<Class<?>>
-            TPS = new HashSet<>();
+        TPS = new HashSet<>();
     private final static Set<Mission>
-            JOBS = new HashSet<>();
+        JOBS = new HashSet<>();
 
     /*
      * Move to main thread to do init instead of static block initialization
@@ -56,32 +56,32 @@ public class ZeroAnno {
         final Set<Class<?>> clazzes = ZeroPack.getClasses();
         /* EndPoint **/
         Inquirer<Set<Class<?>>> inquirer =
-                Ut.singleton(EndPointInquirer.class);
+            Ut.singleton(EndPointInquirer.class);
         ENDPOINTS.addAll(inquirer.scan(clazzes));
 
         /* EndPoint -> Event **/
         Fn.safeSemi(!ENDPOINTS.isEmpty(),
-                LOGGER,
-                () -> {
-                    final Inquirer<Set<Event>> event = Ut.singleton(EventInquirer.class);
-                    EVENTS.addAll(event.scan(ENDPOINTS));
-                });
+            LOGGER,
+            () -> {
+                final Inquirer<Set<Event>> event = Ut.singleton(EventInquirer.class);
+                EVENTS.addAll(event.scan(ENDPOINTS));
+            });
         /* 1.1. Put Path Uri into Set */
         EVENTS.stream()
-                .filter(Objects::nonNull)
-                /* Only Uri Pattern will be extracted to URI_PATHS */
-                .filter(item -> 0 < item.getPath().indexOf(":"))
-                .forEach(ZeroUri::resolve);
+            .filter(Objects::nonNull)
+            /* Only Uri Pattern will be extracted to URI_PATHS */
+            .filter(item -> 0 < item.getPath().indexOf(":"))
+            .forEach(ZeroUri::resolve);
         ZeroUri.report();
 
         /* Wall -> Authenticate, Authorize **/
         final Inquirer<Set<Cliff>> walls =
-                Ut.singleton(WallInquirer.class);
+            Ut.singleton(WallInquirer.class);
         WALLS.addAll(walls.scan(clazzes));
 
         /* Filter -> WebFilter **/
         final Inquirer<ConcurrentMap<String, Set<Event>>> filters =
-                Ut.singleton(FilterInquirer.class);
+            Ut.singleton(FilterInquirer.class);
         FILTERS.putAll(filters.scan(clazzes));
 
         /* Queue **/
@@ -90,11 +90,11 @@ public class ZeroAnno {
 
         /* Queue -> Receipt **/
         Fn.safeSemi(!queues.isEmpty(),
-                LOGGER,
-                () -> {
-                    final Inquirer<Set<Receipt>> receipt = Ut.singleton(ReceiptInquirer.class);
-                    RECEIPTS.addAll(receipt.scan(queues));
-                });
+            LOGGER,
+            () -> {
+                final Inquirer<Set<Receipt>> receipt = Ut.singleton(ReceiptInquirer.class);
+                RECEIPTS.addAll(receipt.scan(queues));
+            });
 
         /* Ipc Only **/
         final Inquirer<ConcurrentMap<String, Method>> ipc = Ut.singleton(IpcInquirer.class);

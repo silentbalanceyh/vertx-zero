@@ -32,7 +32,7 @@ public class MimeAtomic<T> implements Atomic<T> {
     @Override
     public Epsilon<T> ingest(final RoutingContext context,
                              final Epsilon<T> income)
-            throws WebException {
+        throws WebException {
         final Epsilon<T> epsilon;
         if (MimeFlow.TYPED == income.getMime()) {
             /* Resolver **/

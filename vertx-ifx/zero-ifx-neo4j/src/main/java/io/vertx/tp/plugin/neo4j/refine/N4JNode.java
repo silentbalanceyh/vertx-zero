@@ -52,7 +52,7 @@ class N4JNode {
     static List<String> update(final String graph, final JsonArray conditions, final JsonArray data, final String alias) {
         final List<String> commands = new ArrayList<>();
         Ut.itJArray(conditions, JsonObject.class, (item, index) ->
-                commands.add(update(graph, item, data.getJsonObject(index), alias)));
+            commands.add(update(graph, item, data.getJsonObject(index), alias)));
         if (!commands.isEmpty()) {
             N4J.infoCql(N4JNode.class, "Update Command: {0}", commands.get(0));
         }
@@ -119,7 +119,7 @@ class N4JNode {
          */
         final List<String> kv = new ArrayList<>();
         properties.forEach(property -> kv.add("CREATE CONSTRAINT ON (" + alias + ":" + graph + ") " +
-                "ASSERT " + alias + "." + property + " IS UNIQUE"));
+            "ASSERT " + alias + "." + property + " IS UNIQUE"));
         return kv;
     }
 }

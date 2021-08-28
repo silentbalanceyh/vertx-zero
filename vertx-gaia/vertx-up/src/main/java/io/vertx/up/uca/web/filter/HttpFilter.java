@@ -5,9 +5,9 @@ import io.vertx.core.http.HttpServerResponse;
 import io.vertx.ext.web.Cookie;
 import io.vertx.ext.web.RoutingContext;
 import io.vertx.ext.web.Session;
+import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import io.vertx.zero.exception.FilterContextException;
-import io.vertx.up.fn.Fn;
 
 import java.util.Set;
 

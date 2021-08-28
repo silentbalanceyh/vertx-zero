@@ -35,8 +35,8 @@ public class Lexeme<T> implements Serializable {
         final Field[] constants = interfaceCls.getDeclaredFields();
         final Set<String> fieldSet = new TreeSet<>();
         Arrays.stream(constants).map(Field::getName)
-                .filter(item -> item.startsWith("ARG"))
-                .forEach(fieldSet::add);
+            .filter(item -> item.startsWith("ARG"))
+            .forEach(fieldSet::add);
         fieldSet.forEach(field -> {
             /* Sequence should be here define */
             final Object value = Ut.field(interfaceCls, field);

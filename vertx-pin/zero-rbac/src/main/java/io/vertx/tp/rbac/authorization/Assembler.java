@@ -23,8 +23,8 @@ public class Assembler {
 
     public static List<ProfileRole> connect(final List<ProfileRole> profiles, final List<ProfileGroup> original) {
         final Set<ProfileRole> originalSet = original
-                .stream().flatMap(group -> group.getRoles().stream())
-                .collect(Collectors.toSet());
+            .stream().flatMap(group -> group.getRoles().stream())
+            .collect(Collectors.toSet());
         originalSet.addAll(profiles);
         return new ArrayList<>(originalSet);
     }
@@ -69,11 +69,11 @@ public class Assembler {
                 /* 2. roles = [] */
                 final JsonArray roles = new JsonArray();
                 final JsonArray permissions = Ut.toJArray(profiles.stream()
-                        .filter(Objects::nonNull)
-                        .map(bindRole(roles))
-                        .map(ProfileRole::getAuthorities)
-                        /* DEFAULT AUTHORITIES */
-                        .reduce(first.getAuthorities(), fnReduce));
+                    .filter(Objects::nonNull)
+                    .map(bindRole(roles))
+                    .map(ProfileRole::getAuthorities)
+                    /* DEFAULT AUTHORITIES */
+                    .reduce(first.getAuthorities(), fnReduce));
 
                 input.put(type.getKey(), bindResult(permissions, roles));
             } else {
@@ -108,16 +108,16 @@ public class Assembler {
                 final JsonArray roles = new JsonArray();
                 if (highPriority) {
                     permissions = Ut.toJArray(profiles.stream()
-                            .min(Comparator.comparing(ProfileRole::getPriority))
-                            .map(bindRole(roles))
-                            .map(ProfileRole::getAuthorities)
-                            .orElse(new HashSet<>()));
+                        .min(Comparator.comparing(ProfileRole::getPriority))
+                        .map(bindRole(roles))
+                        .map(ProfileRole::getAuthorities)
+                        .orElse(new HashSet<>()));
                 } else {
                     permissions = Ut.toJArray(profiles.stream()
-                            .max(Comparator.comparing(ProfileRole::getPriority))
-                            .map(bindRole(roles))
-                            .map(ProfileRole::getAuthorities)
-                            .orElse(new HashSet<>()));
+                        .max(Comparator.comparing(ProfileRole::getPriority))
+                        .map(bindRole(roles))
+                        .map(ProfileRole::getAuthorities)
+                        .orElse(new HashSet<>()));
                 }
                 input.put(type.getKey(), bindResult(permissions, roles));
             } else {

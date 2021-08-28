@@ -10,14 +10,14 @@ public class OstiumAuth {
     private final transient Annal logger;
     private final transient Method[] methods;
 
-    public static OstiumAuth create(final Class<?> clazz) {
-        return new OstiumAuth(clazz);
-    }
-
     private OstiumAuth(final Class<?> clazz) {
         this.clazz = clazz;
         this.logger = Annal.get(clazz);
         this.methods = clazz.getDeclaredMethods();
+    }
+
+    public static OstiumAuth create(final Class<?> clazz) {
+        return new OstiumAuth(clazz);
     }
 
     public OstiumAuth verify() {
@@ -26,6 +26,6 @@ public class OstiumAuth {
     }
 
     public void mount(final Cliff reference) {
-        
+
     }
 }

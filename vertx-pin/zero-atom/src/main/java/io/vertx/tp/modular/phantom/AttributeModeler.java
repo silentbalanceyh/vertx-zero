@@ -20,9 +20,9 @@ class AttributeModeler implements AoModeler {
         return modelJson -> {
             LOGGER.debug("[ Ox ] 2. AoModeler.attribute() ：{0}", modelJson.encode());
             return Ux.Jooq.on(MAttributeDao.class)
-                    .fetchAsync(KName.MODEL_ID, this.getModelId(modelJson))
-                    .compose(Ux::futureA)
-                    .compose(attributes -> Ux.future(modelJson.put(KName.Modeling.ATTRIBUTES, attributes)));
+                .fetchAsync(KName.MODEL_ID, this.getModelId(modelJson))
+                .compose(Ux::futureA)
+                .compose(attributes -> Ux.future(modelJson.put(KName.Modeling.ATTRIBUTES, attributes)));
         };
     }
 
@@ -31,7 +31,7 @@ class AttributeModeler implements AoModeler {
         LOGGER.debug("[ Ox ] (Sync) 2. AoModeler.attribute() ：{0}", modelJson.encode());
         // List
         final List<MAttribute> attrList = Ux.Jooq.on(MAttributeDao.class)
-                .fetch(KName.MODEL_ID, this.getModelId(modelJson));
+            .fetch(KName.MODEL_ID, this.getModelId(modelJson));
         // JsonArray
         final JsonArray attrArr = Ux.toJson(attrList);
 

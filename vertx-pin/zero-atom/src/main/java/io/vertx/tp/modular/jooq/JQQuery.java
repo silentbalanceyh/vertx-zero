@@ -74,30 +74,30 @@ class JQQuery extends AbstractJQQr {
 
     DataEvent search(final DataEvent event) {
         return this.qrBatch(event,
-                (tables, ingest) -> {
-                    /* 条件 */
-                    final SelectWhereStep query = this.term.getSelectComplex(event, tables, ingest);
-                    /* 排序 */
-                    return query.fetchArray();
-                },
-                (tables, ingest) -> {
-                    final SelectWhereStep query = this.term.getSelectSample(event, tables, ingest);
-                    /* 查询条件一致 */
-                    return (long) query.fetch().size();
-                }
+            (tables, ingest) -> {
+                /* 条件 */
+                final SelectWhereStep query = this.term.getSelectComplex(event, tables, ingest);
+                /* 排序 */
+                return query.fetchArray();
+            },
+            (tables, ingest) -> {
+                final SelectWhereStep query = this.term.getSelectSample(event, tables, ingest);
+                /* 查询条件一致 */
+                return (long) query.fetch().size();
+            }
         );
     }
 
     Future<DataEvent> searchAsync(final DataEvent event) {
         return this.qrBatchAsync(event,
-                (tables, ingest) -> {
-                    final SelectWhereStep<Record> query = this.term.getSelectComplex(event, tables, ingest);
-                    return query.fetchAsync().<Record[]>thenApplyAsync(Jq::toRecords);
-                },
-                (tables, ingest) -> {
-                    final SelectWhereStep<Record> query = this.term.getSelectSample(event, tables, ingest);
-                    return query.fetchAsync().<Long>thenApplyAsync(result -> Long.valueOf(result.size()));
-                });
+            (tables, ingest) -> {
+                final SelectWhereStep<Record> query = this.term.getSelectComplex(event, tables, ingest);
+                return query.fetchAsync().<Record[]>thenApplyAsync(Jq::toRecords);
+            },
+            (tables, ingest) -> {
+                final SelectWhereStep<Record> query = this.term.getSelectSample(event, tables, ingest);
+                return query.fetchAsync().<Long>thenApplyAsync(result -> Long.valueOf(result.size()));
+            });
     }
 
 }

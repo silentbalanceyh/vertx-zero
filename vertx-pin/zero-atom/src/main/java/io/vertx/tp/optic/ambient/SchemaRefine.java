@@ -12,10 +12,10 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.tp.atom.modeling.Model;
 import io.vertx.tp.atom.modeling.Schema;
 import io.vertx.tp.atom.refine.Ao;
-import io.vertx.up.eon.KName;
 import io.vertx.tp.modular.jdbc.Pin;
 import io.vertx.tp.modular.metadata.AoBuilder;
 import io.vertx.up.commune.config.Database;
+import io.vertx.up.eon.KName;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
@@ -42,7 +42,7 @@ class SchemaRefine implements AoRefine {
             final List<Future<JsonObject>> futures = new ArrayList<>();
             schemata.stream().map(this::saveSchema).forEach(futures::add);
             return Ux.thenCombine(futures)
-                    .compose(nil -> Ux.future(appJson));
+                .compose(nil -> Ux.future(appJson));
         };
     }
 
@@ -59,9 +59,9 @@ class SchemaRefine implements AoRefine {
     private Set<Schema> toSchemata(final JsonArray models, final String namespace) {
         final Set<Schema> schemata = new HashSet<>();
         Ut.itJArray(models)
-                .map(data -> Model.instance(namespace, data))
-                .map(Model::schemata)
-                .forEach(schemata::addAll);
+            .map(data -> Model.instance(namespace, data))
+            .map(Model::schemata)
+            .forEach(schemata::addAll);
         return schemata;
     }
 
@@ -86,8 +86,8 @@ class SchemaRefine implements AoRefine {
         final Promise<JsonObject> promise = Promise.promise();
         final WorkerExecutor executor = Ux.nativeWorker("schema - " + schema.identifier());
         executor.<JsonObject>executeBlocking(
-                pre -> pre.handle(this.saveSchema(schema)),
-                post -> promise.complete(post.result())
+            pre -> pre.handle(this.saveSchema(schema)),
+            post -> promise.complete(post.result())
         );
         return promise.future();
     }
@@ -120,26 +120,26 @@ class SchemaRefine implements AoRefine {
          */
         final MEntity updated = schema.getEntity();
         return Ux.Jooq.on(MEntityDao.class)
-                .upsertAsync(this.onCriteria(updated), updated)
-                .compose(entity -> {
-                    // 设置关系信息重建
-                    schema.relation(entity.getKey());
-                    final List<Future<JsonObject>> futures = new ArrayList<>();
-                    // Schema -> Field
-                    Arrays.stream(schema.getFields()).map(field -> Ux.Jooq.on(MFieldDao.class)
-                            .upsertAsync(this.onCriteria(field.getName(), entity), field)
-                            .compose(Ux::futureJ))
-                            .forEach(futures::add);
+            .upsertAsync(this.onCriteria(updated), updated)
+            .compose(entity -> {
+                // 设置关系信息重建
+                schema.relation(entity.getKey());
+                final List<Future<JsonObject>> futures = new ArrayList<>();
+                // Schema -> Field
+                Arrays.stream(schema.getFields()).map(field -> Ux.Jooq.on(MFieldDao.class)
+                        .upsertAsync(this.onCriteria(field.getName(), entity), field)
+                        .compose(Ux::futureJ))
+                    .forEach(futures::add);
 
-                    // Schema -> Key
-                    Arrays.stream(schema.getKeys()).map(key -> Ux.Jooq.on(MKeyDao.class)
-                            .upsertAsync(this.onCriteria(key.getName(), entity), key)
-                            .compose(Ux::futureJ))
-                            .forEach(futures::add);
-                    // Schema -> Index
-                    return Ux.thenCombine(futures)
-                            .compose(nil -> Ux.future(entity))
-                            .compose(Ux::futureJ);
-                });
+                // Schema -> Key
+                Arrays.stream(schema.getKeys()).map(key -> Ux.Jooq.on(MKeyDao.class)
+                        .upsertAsync(this.onCriteria(key.getName(), entity), key)
+                        .compose(Ux::futureJ))
+                    .forEach(futures::add);
+                // Schema -> Index
+                return Ux.thenCombine(futures)
+                    .compose(nil -> Ux.future(entity))
+                    .compose(Ux::futureJ);
+            });
     }
 }

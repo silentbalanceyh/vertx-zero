@@ -12,8 +12,8 @@ import java.util.concurrent.ConcurrentMap;
 public final class SqlOutput {
 
     public static List<ConcurrentMap<String, Object>> toMatrix(
-            final Result<Record> queryResult,
-            final String[] columns) {
+        final Result<Record> queryResult,
+        final String[] columns) {
         final List<ConcurrentMap<String, Object>> results = new ArrayList<>();
         queryResult.forEach(record -> {
             final ConcurrentMap<String, Object> resultRecord = new ConcurrentHashMap<>();
@@ -25,8 +25,8 @@ public final class SqlOutput {
 
     @SuppressWarnings("unchecked")
     public static <T> List<T> toList(
-            final Result<Record> queryResult,
-            final String column
+        final Result<Record> queryResult,
+        final String column
     ) {
         final List<T> results = new ArrayList<>();
         queryResult.forEach(record -> {

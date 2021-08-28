@@ -28,21 +28,9 @@ public interface GetAgent {
                        @PathParam("key") String key);
 
     @GET
-    @Path("/columns/{actor}/full")
-    @Address(Addr.Get.COLUMN_FULL)
-    @Adjust(Orders.MODULE)
-    JsonArray getFull(@PathParam("actor") String actor,
-                      @QueryParam("module") String module);
-
-    @GET
-    @Path("/columns/{actor}/my")
-    @Address(Addr.Get.COLUMN_MY)
-    @Adjust(Orders.MODULE)
-    JsonArray getMy(@PathParam("actor") String actor);
-
-    @GET
     @Path("/{actor}/by/sigma")
     @Address(Addr.Get.BY_SIGMA)
     @Adjust(Orders.MODULE)
-    JsonArray getAll(@PathParam("actor") String actor);
+    JsonArray getAll(@PathParam("actor") String actor,
+                     @QueryParam("module") String module);
 }

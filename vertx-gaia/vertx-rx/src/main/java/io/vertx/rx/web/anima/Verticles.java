@@ -15,10 +15,10 @@ class Verticles {
         final String name = clazz.getName();
         final String flag = options.isWorker() ? "Rx-Worker" : "Rx-Agent";
         final Single<String> observable
-                = vertx.rxDeployVerticle(clazz.getName(), options);
+            = vertx.rxDeployVerticle(clazz.getName(), options);
         observable.subscribe(
-                (item) -> logger.info(Info.VTC_END, name, options.getInstances(), item, flag),
-                (cause) -> logger.info(Info.VTC_FAIL, name, options.getInstances(),
-                        null == cause.getCause() ? null : cause.getCause().getMessage(), flag));
+            (item) -> logger.info(Info.VTC_END, name, options.getInstances(), item, flag),
+            (cause) -> logger.info(Info.VTC_FAIL, name, options.getInstances(),
+                null == cause.getCause() ? null : cause.getCause().getMessage(), flag));
     }
 }

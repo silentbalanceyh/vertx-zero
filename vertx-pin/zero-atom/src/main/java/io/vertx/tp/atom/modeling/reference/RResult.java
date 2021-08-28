@@ -5,8 +5,8 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.atom.modeling.config.AoAttribute;
 import io.vertx.tp.atom.modeling.config.AoRule;
-import io.vertx.up.eon.KName;
 import io.vertx.up.atom.Kv;
+import io.vertx.up.eon.KName;
 import io.vertx.up.eon.em.DataFormat;
 import io.vertx.up.util.Ut;
 
@@ -131,7 +131,7 @@ public class RResult implements Serializable {
                  */
                 final JsonObject mapping = (JsonObject) connect;
                 Ut.<String>itJObject(mapping,
-                        (currentField, referenceField) -> this.joined.add(Kv.create(referenceField, currentField)));
+                    (currentField, referenceField) -> this.joined.add(Kv.create(referenceField, currentField)));
             }
         }
     }

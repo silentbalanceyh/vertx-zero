@@ -40,14 +40,14 @@ class JtAtomic {
     void workerDeploying(final Annal logger, final Integer instances, final String name) {
         if (!WORKER_DEPLOYING.getAndSet(Boolean.TRUE)) {
             Runner.run(() -> Jt.infoWorker(logger, JtMsg.WORKER_DEPLOYING,
-                    String.valueOf(instances), name), "jet-worker-deploying");
+                String.valueOf(instances), name), "jet-worker-deploying");
         }
     }
 
     void workerDeployed(final Annal logger, final Integer instances, final String name) {
         if (!WORKER_DEPLOYED.getAndSet(Boolean.TRUE)) {
             Runner.run(() -> Jt.infoWorker(logger, JtMsg.WORKER_DEPLOYED,
-                    name, String.valueOf(instances)), "jet-worker-deployed");
+                name, String.valueOf(instances)), "jet-worker-deployed");
         }
     }
 }

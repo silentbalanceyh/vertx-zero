@@ -42,7 +42,7 @@ abstract class AuthorizationAuthPhylum extends AuthPhylum {
              * The header Authorization value must be `TYPE VALUE` format
              * it means that you must set this value correct
              */
-            final int idx = authorization.indexOf(' ');
+            final int idx = authorization.indexOf(' ' );
 
             if (idx <= 0) {
                 /*

@@ -25,11 +25,11 @@ class NativeBolt implements Bolt {
     public AuthHandler mount(final Vertx vertx,
                              final Cliff cliff) {
         return Fn.getJvm(() -> {
-                    final JsonObject config = Fn.getNull(new JsonObject(), cliff::getConfig);
-                    final Object reference = cliff.getAuthorizer().getAuthenticate()
-                            .invoke(cliff.getProxy(), vertx, config);
-                    return null == reference ? null : (AuthHandler) reference;
-                }, cliff, cliff.getProxy(), cliff.getAuthorizer(),
-                cliff.getAuthorizer().getAuthenticate());
+                final JsonObject config = Fn.getNull(new JsonObject(), cliff::getConfig);
+                final Object reference = cliff.getAuthorizer().getAuthenticate()
+                    .invoke(cliff.getProxy(), vertx, config);
+                return null == reference ? null : (AuthHandler) reference;
+            }, cliff, cliff.getProxy(), cliff.getAuthorizer(),
+            cliff.getAuthorizer().getAuthenticate());
     }
 }

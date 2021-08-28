@@ -42,9 +42,9 @@ class SiftRow {
         } else {
             Sc.infoAuth(LOGGER, AuthMsg.REGION_ROWS, rows.encode());
             input.stream().filter(Objects::nonNull)
-                    .map(item -> (JsonObject) item)
-                    .filter(item -> isMatch(item, rows))
-                    .forEach(result::add);
+                .map(item -> (JsonObject) item)
+                .filter(item -> isMatch(item, rows))
+                .forEach(result::add);
         }
         return result;
     }
