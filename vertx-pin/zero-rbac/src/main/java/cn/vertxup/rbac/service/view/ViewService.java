@@ -17,6 +17,7 @@ import io.vertx.up.util.Ut;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 public class ViewService implements ViewStub {
@@ -45,27 +46,49 @@ public class ViewService implements ViewStub {
         filters.put("ownerType", OwnerType.USER.name());
         /* SView projection */
         Sc.infoResource(ViewService.LOGGER, AuthMsg.VIEW_PROCESS, "save", filters.encode());
-        final SView myView = new SView();
-        {
-            myView.setKey(UUID.randomUUID().toString());
-            myView.setActive(Boolean.TRUE);
-            myView.setRows(new JsonObject().encode());
+        return Ux.Jooq.on(SViewDao.class).<SView>fetchOneAsync(filters).compose(queried -> {
+            final SView myView;
+            if (Objects.isNull(queried)) {
+                /*
+                 * New View
+                 */
+                final JsonObject data = filters.copy().mergeIn(viewData);
+                data.put(KName.KEY, UUID.randomUUID().toString());
+                data.put(KName.ACTIVE, Boolean.TRUE);
+                data.put("rows", new JsonObject().encode());
+                myView = Ut.deserialize(data, SView.class);
+                /*
+                 * Creation
+                 */
+                myView.setCreatedAt(LocalDateTime.now());
+                myView.setCreatedBy(userId);
+            } else {
+                /*
+                 * Update Only
+                 */
+                myView = queried;
+            }
+            /*
+             * Data Updating Part
+             */
             if (Ut.notNil(projection)) {
                 myView.setProjection(projection.encode());
             }
             if (Ut.notNil(criteria)) {
                 myView.setCriteria(criteria.encode());
             }
-        }
-        {
             /* Auditor Information */
             myView.setUpdatedAt(LocalDateTime.now());
             myView.setUpdatedBy(userId);
-            /* language / sigma */
-            myView.setLanguage(viewData.getString(KName.LANGUAGE));
-            myView.setSigma(viewData.getString(KName.SIGMA));
-        }
-        return Ux.Jooq.on(SViewDao.class).upsertAsync(filters, myView).compose(upsert -> {
+            if (Objects.isNull(queried)) {
+                return Ux.Jooq.on(SViewDao.class).insertAsync(myView);
+            } else {
+                return Ux.Jooq.on(SViewDao.class).updateAsync(myView);
+            }
+        }).compose(upsert -> {
+            /*
+             * Response Building
+             */
             final JsonObject cached = new JsonObject();
             cached.put(Qr.KEY_PROJECTION, Ut.toJArray(upsert.getProjection()));
             cached.put(Qr.KEY_CRITERIA, Ut.toJObject(upsert.getCriteria()));
