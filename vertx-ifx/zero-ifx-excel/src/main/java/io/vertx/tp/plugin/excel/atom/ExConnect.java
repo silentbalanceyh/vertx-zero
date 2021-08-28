@@ -78,16 +78,19 @@ public class ExConnect implements Serializable {
         this.key = key;
     }
 
-    public Set<String> ukOut() {
-        if (Objects.isNull(this.pojoFile) || Ut.isNil(this.unique)) {
+    public Set<String> ukIn() {
+        if (Objects.isNull(this.pojoFile)) {
             return Ut.toSet(this.unique);
         } else {
+            if (Ut.isNil(this.unique)) {
+                return new HashSet<>();
+            }
             final Set<String> result = new HashSet<>();
             final Mojo mojo = Mirror.create(this.getClass())
                 .mount(this.pojoFile)
                 .type(this.getDao()).mojo();
             Ut.itJArray(this.unique, String.class, (field, index) -> {
-                final String converted = mojo.getOut(field);
+                final String converted = mojo.getIn(field);
                 if (Objects.isNull(converted)) {
                     result.add(field);
                 } else {
@@ -98,27 +101,22 @@ public class ExConnect implements Serializable {
         }
     }
 
-    public Set<String> ukIn() {
-        return Ut.toSet(this.unique);
-    }
-
     public String pkIn() {
-        return this.key;
-    }
-
-    public String pkOut() {
         /*
          * Calculated for Pojo Part
          * 1. When pojo file is null, return key directly.
          * 2. Second situation, when this table is RELATION table, this.key is null.
          */
-        if (Objects.isNull(this.pojoFile) || Objects.isNull(this.key)) {
+        if (Objects.isNull(this.pojoFile)) {
             return this.key;
         } else {
+            if (Objects.isNull(this.key)) {
+                return null;
+            }
             final Mojo mojo = Mirror.create(this.getClass())
                 .mount(this.pojoFile)
                 .type(this.getDao()).mojo();
-            return mojo.getOut(this.key);
+            return mojo.getIn(this.key);
         }
     }
 

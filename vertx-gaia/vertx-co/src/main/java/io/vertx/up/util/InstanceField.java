@@ -21,9 +21,16 @@ final class InstanceField {
     }
 
     static <T> void set(final Object instance, final String name, final T value) {
-        final Field field = Fn.getNull(() ->
-            Fn.getJvm(() -> instance.getClass().getDeclaredField(name), LOGGER), instance, name);
-        set(instance, field, value);
+        if (Objects.nonNull(instance) && Objects.nonNull(name)) {
+            final Field field;
+            try {
+                field = instance.getClass().getDeclaredField(name);
+                set(instance, field, value);
+            } catch (NoSuchFieldException ex) {
+                LOGGER.warn("Class {0} and details: {1}", instance.getClass(), ex.getMessage());
+                ex.printStackTrace();
+            }
+        }
     }
 
     static <T> void set(final Object instance, final Field field, final T value) {

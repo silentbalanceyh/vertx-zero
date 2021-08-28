@@ -200,8 +200,8 @@ class ExcelHelper {
      * 1. Key duplicated
      * 2. Unique duplicated
      */
-    <T> List<T> compressI(final List<T> input, final ExTable table) {
-        final String key = table.pkOut();
+    <T> List<T> compress(final List<T> input, final ExTable table) {
+        final String key = table.pkIn();
         if (Objects.isNull(key)) {
             // Relation Table
             return input;
@@ -223,16 +223,5 @@ class ExcelHelper {
         annal.debug("[ Έξοδος ] Ignore table `{0}` with size `{1}`", table.getName(), ignored);
         // Entity Release
         return keyList;
-    }
-
-    /*
-     * For Update to avoid duplicated situation
-     * Could not update unique key org.jooq.exception.DataAccessException:
-     * -- Duplicate entry `xxx` for `key` UK ....
-     */
-    <T> List<T> compressU(final List<T> input, final ExTable table) {
-        final Set<String> fieldUnique = table.ukOut();
-        input.forEach(item -> fieldUnique.forEach(field -> Ut.field(item, field, null)));
-        return input;
     }
 }

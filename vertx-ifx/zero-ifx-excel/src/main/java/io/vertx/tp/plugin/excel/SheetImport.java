@@ -47,14 +47,14 @@ class SheetImport {
                  * Compare by unique
                  */
                 ConcurrentMap<ChangeFlag, List<T>> compared =
-                    Ux.compare(queried, entities, table.ukOut(), table.filePojo());
+                    Ux.compare(queried, entities, table.ukIn(), table.filePojo());
                 final List<T> qUpdate = compared.getOrDefault(ChangeFlag.UPDATE, new ArrayList<>());
                 final List<T> qInsert = compared.getOrDefault(ChangeFlag.ADD, new ArrayList<>());
                 if (!qInsert.isEmpty()) {
                     /*
                      * Compare by keys
                      */
-                    final String entityKey = table.pkOut();
+                    final String entityKey = table.pkIn();
                     if (Objects.nonNull(entityKey)) {
                         final Set<String> keys = new HashSet<>();
                         qInsert.forEach(item -> {
@@ -65,7 +65,7 @@ class SheetImport {
                         });
                         final List<T> qKeys = jooq.fetchIn(entityKey, keys);
                         if (!qKeys.isEmpty()) {
-                            compared = Ux.compare(qKeys, qInsert, table.ukOut(), table.filePojo());
+                            compared = Ux.compare(qKeys, qInsert, table.ukIn(), table.filePojo());
                             qUpdate.addAll(compared.getOrDefault(ChangeFlag.UPDATE, new ArrayList<>()));
                             // qInsert reset
                             qInsert.clear();
@@ -76,9 +76,9 @@ class SheetImport {
                 /*
                  * Batch operation
                  */
-                final List<T> batchInsert = jooq.insert(this.helper.compressI(qInsert, table));
+                final List<T> batchInsert = jooq.insert(this.helper.compress(qInsert, table));
                 resultSet.addAll(batchInsert);
-                final List<T> batchUpdate = jooq.update(this.helper.compressU(qUpdate, table));
+                final List<T> batchUpdate = jooq.update(qUpdate);
                 resultSet.addAll(batchUpdate);
                 final int total = batchUpdate.size() + batchInsert.size();
                 LOGGER.info("[ Έξοδος ] `{0}` -- ( {1} ), Inserted: {2}, Updated: {3}",
