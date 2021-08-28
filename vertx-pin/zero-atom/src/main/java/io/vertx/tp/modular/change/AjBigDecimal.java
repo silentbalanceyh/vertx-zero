@@ -44,6 +44,13 @@ final class AjBigDecimal extends AbstractAdjuster {
                 final long result = (Long) input;
                 final BigDecimal decimal = BigDecimal.valueOf(result);
                 return decimal.toPlainString();
+            } else if (input instanceof String) {
+                /*
+                 * Fix: java.lang.ClassCastException: java.lang.Long cannot be cast to java.math.BigDecimal
+                 */
+                final double result = Double.parseDouble(input.toString());
+                final BigDecimal decimal = BigDecimal.valueOf(result);
+                return decimal.toPlainString();
             } else {
                 final BigDecimal decimal = (BigDecimal) input;
                 return decimal.toPlainString();
