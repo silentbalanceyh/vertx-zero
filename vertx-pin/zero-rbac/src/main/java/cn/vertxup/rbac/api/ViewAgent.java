@@ -54,13 +54,13 @@ public interface ViewAgent {
 
     @PUT
     @Path("/view-p/:key")
-    @Address(Addr.View.VIEW_P_BY_ID)
+    @Address(Addr.View.VIEW_P_UPDATE)
     Boolean pViewById(@PathParam("key") String key,
                       @BodyParam JsonObject params);
 
     @GET
     @Path("/view-p/:key")
-    @Address(Addr.View.VIEW_P_UPDATE)
+    @Address(Addr.View.VIEW_P_BY_ID)
     Boolean pViewUpdate(@PathParam("key") String key);
 
 

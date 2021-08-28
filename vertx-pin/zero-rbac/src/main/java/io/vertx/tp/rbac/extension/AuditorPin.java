@@ -72,7 +72,6 @@ public class AuditorPin implements PlugAuditor {
     }
 
     private boolean isValid(final HttpServerRequest request) {
-        final String recovery = ZeroAnno.recoveryUri(request.path(), request.method());
         final JsonArray include = this.config.getJsonArray("include");
         if (Objects.isNull(include) || include.isEmpty()) {
             /*
@@ -93,6 +92,7 @@ public class AuditorPin implements PlugAuditor {
             .filter(path::startsWith)
             .count();
         final JsonArray exclude = this.config.getJsonArray("exclude");
+        final String recovery = ZeroAnno.recoveryUri(request.path(), request.method());
         if (Objects.isNull(exclude) || exclude.isEmpty()) {
             /*
              * Exclude counter = 0, only include valid

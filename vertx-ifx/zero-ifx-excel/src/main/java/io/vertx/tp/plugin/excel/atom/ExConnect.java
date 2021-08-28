@@ -7,9 +7,12 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import io.vertx.core.json.JsonArray;
 import io.vertx.up.atom.pojo.Mirror;
 import io.vertx.up.atom.pojo.Mojo;
+import io.vertx.up.util.Ut;
 
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 /**
  * Connect configuration data to
@@ -68,10 +71,48 @@ public class ExConnect implements Serializable {
     }
 
     public String getKey() {
+        return this.key;
+    }
+
+    public void setKey(final String key) {
+        this.key = key;
+    }
+
+    public Set<String> ukOut() {
+        if (Objects.isNull(this.pojoFile) || Ut.isNil(this.unique)) {
+            return Ut.toSet(this.unique);
+        } else {
+            final Set<String> result = new HashSet<>();
+            final Mojo mojo = Mirror.create(this.getClass())
+                .mount(this.pojoFile)
+                .type(this.getDao()).mojo();
+            Ut.itJArray(this.unique, String.class, (field, index) -> {
+                final String converted = mojo.getOut(field);
+                if (Objects.isNull(converted)) {
+                    result.add(field);
+                } else {
+                    result.add(converted);
+                }
+            });
+            return result;
+        }
+    }
+
+    public Set<String> ukIn() {
+        return Ut.toSet(this.unique);
+    }
+
+    public String pkIn() {
+        return this.key;
+    }
+
+    public String pkOut() {
         /*
          * Calculated for Pojo Part
+         * 1. When pojo file is null, return key directly.
+         * 2. Second situation, when this table is RELATION table, this.key is null.
          */
-        if (Objects.isNull(this.pojoFile)) {
+        if (Objects.isNull(this.pojoFile) || Objects.isNull(this.key)) {
             return this.key;
         } else {
             final Mojo mojo = Mirror.create(this.getClass())
@@ -79,10 +120,6 @@ public class ExConnect implements Serializable {
                 .type(this.getDao()).mojo();
             return mojo.getOut(this.key);
         }
-    }
-
-    public void setKey(final String key) {
-        this.key = key;
     }
 
     @Override

@@ -61,12 +61,12 @@ public class ExTable implements Serializable {
         return this.getConnect().getPojoFile();
     }
 
-    public Set<String> fieldUnique() {
-        return Ut.toSet(this.getConnect().getUnique());
+    public Set<String> ukOut() {
+        return this.getConnect().ukOut();
     }
 
-    public String fieldKey() {
-        return this.getConnect().getKey();
+    public String pkOut() {
+        return this.getConnect().pkOut();
     }
 
     /*
@@ -99,7 +99,7 @@ public class ExTable implements Serializable {
      */
     @SuppressWarnings("unchecked")
     public <ID> ID whereKey(final JsonObject data) {
-        final String keyField = this.fieldKey();
+        final String keyField = this.pkOut();
         if (Objects.nonNull(keyField)) {
             final Object id = data.getValue(keyField);
             return null == id ? null : (ID) id;
