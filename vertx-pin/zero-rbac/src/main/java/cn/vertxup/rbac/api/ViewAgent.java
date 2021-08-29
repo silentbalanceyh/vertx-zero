@@ -47,6 +47,11 @@ public interface ViewAgent {
     @Address(Addr.View.VIEW_P_BY_USER)
     JsonArray pViewByUser(@BodyParam JsonObject params);
 
+    @POST
+    @Path("/view-p/existing")
+    @Address(Addr.View.VIEW_P_EXISTING)
+    Boolean pViewExisting(@BodyParam JsonObject params);
+
     @DELETE
     @Path("/view-p/:key")
     @Address(Addr.View.VIEW_P_DELETE)
