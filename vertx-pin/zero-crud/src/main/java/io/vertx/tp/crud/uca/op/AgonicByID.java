@@ -25,9 +25,13 @@ class AgonicByID implements Agonic {
             } else {
                 final KModule module = in.module();
                 final JsonObject json = Ux.toJson(entity, module.getPojo());
-                return Ix.<JsonObject>seekFn(in, json)
-                    .apply(JsonObject::new, UxJooq::fetchJOneAsync)
-                    .compose(category -> Ux.future(category.copy().mergeIn(json)));
+                if (in.canJoin()) {
+                    return Ix.<JsonObject>seekFn(in, json)
+                        .apply(JsonObject::new, UxJooq::fetchJOneAsync)
+                        .compose(category -> Ux.future(category.copy().mergeIn(json)));
+                } else {
+                    return Ux.future(json);
+                }
             }
         });
     }
