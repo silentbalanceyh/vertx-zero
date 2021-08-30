@@ -72,8 +72,8 @@ public class PersonalService implements PersonalStub {
                     view.setUpdatedBy(data.getString(KName.USER));
                     view.setUpdatedAt(LocalDateTime.now());
                 }
-                serialized.mergeIn(data);
-                return Ux.Jooq.on(SViewDao.class).updateAsync(view);
+                serialized.mergeIn(data, true);
+                return Ux.Jooq.on(SViewDao.class).updateAsync(serialized);
             }
         });
     }
