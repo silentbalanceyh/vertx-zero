@@ -1,5 +1,7 @@
 package io.vertx.up.eon;
 
+import io.vertx.up.atom.query.engine.Qr;
+
 import java.util.HashSet;
 import java.util.Set;
 
@@ -258,8 +260,8 @@ public interface KName {
         String PERM_ID = "permId";
 
         // view related
-        String PROJECTION = "projection";
-        String CRITERIA = "criteria";
+        String PROJECTION = Qr.KEY_PROJECTION;
+        String CRITERIA = Qr.KEY_CRITERIA;
         String ROWS = "rows";
         String POSITION = "position";
     }

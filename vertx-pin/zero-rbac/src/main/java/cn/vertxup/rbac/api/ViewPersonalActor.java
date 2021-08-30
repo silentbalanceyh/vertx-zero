@@ -38,11 +38,18 @@ public class ViewPersonalActor {
         /*
          * name, title, projection, criteria
          */
-        final JsonObject data = Ux.getJson(envelop);
-        final String userId = Ke.keyUser(envelop);
-        data.put(KName.USER, userId);
-        data.mergeIn(envelop.headersX());
-        return this.personalStub.create(data).compose(Ux::futureJ);
+        return this.pAction(envelop).compose(action -> {
+            final JsonObject data = Ux.getJson(envelop);
+            final String userId = Ke.keyUser(envelop);
+            final JsonObject normalized = data.copy();
+            normalized.put(KName.USER, userId);
+            normalized.mergeIn(envelop.headersX());
+            // Bind the resourceId when create new
+            normalized.put(KName.RESOURCE_ID, action.getResourceId());
+            normalized.put("owner", userId);
+            normalized.put("ownerType", OwnerType.USER.name());
+            return this.personalStub.create(normalized).compose(Ux::futureJ);
+        });
     }
 
     @Address(Addr.View.VIEW_P_DELETE)
@@ -62,7 +69,7 @@ public class ViewPersonalActor {
             } else {
                 return this.personalStub.byUser(action.getResourceId(), userId)
                     .compose(Ux::futureA)
-                    .compose(Ut.ifJArray(Qr.KEY_CRITERIA, Qr.KEY_PROJECTION, "rows"));
+                    .compose(Ut.ifJArray(Qr.KEY_CRITERIA, Qr.KEY_PROJECTION, KName.Rbac.ROWS));
             }
         });
     }
@@ -116,7 +123,9 @@ public class ViewPersonalActor {
         final JsonObject data = Ux.getJson1(envelop);
         final String userId = Ke.keyUser(envelop);
         data.put(KName.USER, userId);
-        return this.personalStub.update(key, data).compose(Ux::futureJ);
+        return this.personalStub.update(key, data)
+            .compose(Ux::futureJ)
+            .compose(Ut.ifJObject(Qr.KEY_CRITERIA, Qr.KEY_PROJECTION, "rows"));
     }
 
 
