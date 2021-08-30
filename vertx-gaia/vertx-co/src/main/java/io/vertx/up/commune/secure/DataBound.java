@@ -115,7 +115,6 @@ public class DataBound implements Serializable {
     /*
      * Criteria modification: complex logical to merge criteria
      */
-    // TODO: Merge Criteria
     public DataBound addCriteria(final String criteria) {
         final JsonObject criteriaJson = Ut.toJObject(criteria);
         if (!criteriaJson.isEmpty()) {

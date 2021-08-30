@@ -6,6 +6,7 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.ext.auth.User;
 import io.vertx.ext.web.Session;
 import io.vertx.tp.error._409SessionConflictException;
+import io.vertx.tp.ke.cv.KeDefault;
 import io.vertx.tp.plugin.session.SessionClient;
 import io.vertx.tp.plugin.session.SessionInfix;
 import io.vertx.up.commune.Envelop;
@@ -21,8 +22,9 @@ class KeCache {
 
     private static final SessionClient CLIENT = SessionInfix.getClient();
 
-    static String keySession(final String method, final String uri) {
-        return "session-" + method + ":" + uri;
+    static String keySession(final String method, final String uri, final String view) {
+        return "session-" + method + ":" + uri + ":"
+            + (Objects.isNull(view) ? KeDefault.VIEW_DEFAULT : view);
     }
 
     static String keyAuthorized(final String method, final String uri) {

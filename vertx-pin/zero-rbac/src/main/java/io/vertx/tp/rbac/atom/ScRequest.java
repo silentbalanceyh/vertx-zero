@@ -3,7 +3,6 @@ package io.vertx.tp.rbac.atom;
 import io.vertx.core.Future;
 import io.vertx.core.http.HttpMethod;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.ke.cv.KeDefault;
 import io.vertx.tp.ke.refine.Ke;
 import io.vertx.tp.rbac.cv.AuthKey;
 import io.vertx.tp.rbac.init.ScPin;
@@ -26,7 +25,7 @@ public class ScRequest implements Serializable {
     private transient final String sigma;
     private transient final String user;
     private transient final String sessionId;
-    private transient final String view = KeDefault.VIEW_DEFAULT;
+    private transient final String view;
     private transient final HttpMethod method;
 
     /*
@@ -52,6 +51,7 @@ public class ScRequest implements Serializable {
          * Extension for orbit
          */
         this.uri = Sc.uri(uri, this.requestUri);
+        this.view = metadata.getString(KName.VIEW);
         /*
          * Support multi applications
          */
@@ -99,7 +99,7 @@ public class ScRequest implements Serializable {
     }
 
     public String getCacheKey() {
-        return Ke.keySession(this.method.name(), this.uri);
+        return Ke.keySession(this.method.name(), this.uri, this.view);
     }
 
     public String getAuthorizedKey() {

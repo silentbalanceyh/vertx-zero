@@ -3,6 +3,7 @@ package cn.vertxup.crud.api;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.crud.cv.Addr;
+import io.vertx.tp.ke.cv.KeDefault;
 import io.vertx.up.annotations.Address;
 import io.vertx.up.annotations.Adjust;
 import io.vertx.up.annotations.EndPoint;
@@ -37,7 +38,7 @@ public interface PutAgent {
     @Address(Addr.Put.COLUMN_MY)
     @Adjust(Orders.MODULE)
     JsonArray getMy(@PathParam("actor") String actor,
-                    @QueryParam("view") String view,
+                    @DefaultValue(KeDefault.VIEW_DEFAULT) @QueryParam("view") String view,
                     @QueryParam("module") String module,
                     @BodyParam JsonObject viewData);
 }
