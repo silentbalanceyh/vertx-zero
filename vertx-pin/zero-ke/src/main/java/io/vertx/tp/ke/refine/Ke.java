@@ -100,8 +100,8 @@ public class Ke {
     /*
      * Session key generation
      */
-    public static String keySession(final String method, final String uri) {
-        return KeCache.keySession(method, uri);
+    public static String keySession(final String method, final String uri, final String view) {
+        return KeCache.keySession(method, uri, view);
     }
 
     public static String keyAuthorized(final String method, final String uri) {

@@ -5,7 +5,9 @@ import io.vertx.core.http.HttpServerRequest;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.RoutingContext;
 import io.vertx.up.eon.ID;
+import io.vertx.up.eon.KName;
 import io.vertx.up.runtime.ZeroAnno;
+import io.vertx.up.util.Ut;
 
 public class AuthReady {
     /*
@@ -43,6 +45,12 @@ public class AuthReady {
         metadata.put("uri", ZeroAnno.recoveryUri(request.path(), request.method()));
         metadata.put("requestUri", request.path());
         metadata.put("method", request.method().name());
+        /*
+         * view parameters for ScRequest to build cache key
+         * It's important
+         */
+        final String view = request.getParam(KName.VIEW);
+        metadata.put(KName.VIEW, Ut.isNil(view) ? "DEFAULT" : view);
         normalized.put("metadata", metadata);
         /*
          * Build Custom Headers

@@ -1,5 +1,7 @@
 package cn.vertxup.rbac.api;
 
+import cn.vertxup.rbac.domain.tables.daos.SViewDao;
+import cn.vertxup.rbac.domain.tables.pojos.SAction;
 import cn.vertxup.rbac.service.accredit.ActionStub;
 import cn.vertxup.rbac.service.view.PersonalStub;
 import io.vertx.core.Future;
@@ -8,6 +10,7 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.ke.refine.Ke;
 import io.vertx.tp.rbac.cv.Addr;
+import io.vertx.tp.rbac.cv.em.OwnerType;
 import io.vertx.up.annotations.Address;
 import io.vertx.up.annotations.Queue;
 import io.vertx.up.atom.query.engine.Qr;
@@ -35,11 +38,18 @@ public class ViewPersonalActor {
         /*
          * name, title, projection, criteria
          */
-        final JsonObject data = Ux.getJson(envelop);
-        final String userId = Ke.keyUser(envelop);
-        data.put(KName.USER, userId);
-        data.mergeIn(envelop.headersX());
-        return this.personalStub.create(data).compose(Ux::futureJ);
+        return this.pAction(envelop).compose(action -> {
+            final JsonObject data = Ux.getJson(envelop);
+            final String userId = Ke.keyUser(envelop);
+            final JsonObject normalized = data.copy();
+            normalized.put(KName.USER, userId);
+            normalized.mergeIn(envelop.headersX());
+            // Bind the resourceId when create new
+            normalized.put(KName.RESOURCE_ID, action.getResourceId());
+            normalized.put("owner", userId);
+            normalized.put("ownerType", OwnerType.USER.name());
+            return this.personalStub.create(normalized).compose(Ux::futureJ);
+        });
     }
 
     @Address(Addr.View.VIEW_P_DELETE)
@@ -51,23 +61,50 @@ public class ViewPersonalActor {
 
     @Address(Addr.View.VIEW_P_BY_USER)
     public Future<JsonArray> pViewByUser(final Envelop envelop) {
-        final JsonObject header = envelop.headersX();
-        final String sigma = header.getString(KName.SIGMA);
         final String userId = Ke.keyUser(envelop);
 
-        final JsonObject data = Ux.getJson(envelop);
-        final String uri = data.getString(KName.URI);
-        final HttpMethod method = HttpMethod.valueOf(data.getString(KName.METHOD));
-
-        return this.actionStub.fetchAction(uri, method, sigma).compose(action -> {
+        return this.pAction(envelop).compose(action -> {
             if (Objects.isNull(action)) {
                 return Ux.futureA();
             } else {
                 return this.personalStub.byUser(action.getResourceId(), userId)
                     .compose(Ux::futureA)
-                    .compose(Ut.ifJArray(Qr.KEY_CRITERIA, Qr.KEY_PROJECTION, "rows"));
+                    .compose(Ut.ifJArray(Qr.KEY_CRITERIA, Qr.KEY_PROJECTION, KName.Rbac.ROWS));
             }
         });
+    }
+
+    @Address(Addr.View.VIEW_P_EXISTING)
+    public Future<Boolean> pViewExisting(final Envelop envelop) {
+        return this.pAction(envelop).compose(action -> {
+            if (Objects.isNull(action)) {
+                return Future.succeededFuture(Boolean.FALSE);
+            } else {
+                final JsonObject data = Ux.getJson(envelop);
+                final String userId = Ke.keyUser(envelop);
+                /*
+                 * condition
+                 */
+                final JsonObject criteria = new JsonObject();
+                criteria.mergeIn(data.copy());
+                criteria.remove(KName.URI);
+                criteria.remove(KName.METHOD);
+                criteria.put("owner", userId);
+                criteria.put("ownerType", OwnerType.USER.name());
+                return Ux.Jooq.on(SViewDao.class).existAsync(criteria);
+            }
+        });
+    }
+
+    private Future<SAction> pAction(final Envelop envelop) {
+        final JsonObject header = envelop.headersX();
+        final String sigma = header.getString(KName.SIGMA);
+
+        final JsonObject data = Ux.getJson(envelop);
+        final String uri = data.getString(KName.URI);
+        final HttpMethod method = HttpMethod.valueOf(data.getString(KName.METHOD));
+
+        return this.actionStub.fetchAction(uri, method, sigma);
     }
 
     @Address(Addr.View.VIEW_P_BY_ID)
@@ -86,7 +123,9 @@ public class ViewPersonalActor {
         final JsonObject data = Ux.getJson1(envelop);
         final String userId = Ke.keyUser(envelop);
         data.put(KName.USER, userId);
-        return this.personalStub.update(key, data).compose(Ux::futureJ);
+        return this.personalStub.update(key, data)
+            .compose(Ux::futureJ)
+            .compose(Ut.ifJObject(Qr.KEY_CRITERIA, Qr.KEY_PROJECTION, "rows"));
     }
 
 

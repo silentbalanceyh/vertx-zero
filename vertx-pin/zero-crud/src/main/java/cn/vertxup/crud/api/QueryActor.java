@@ -9,6 +9,7 @@ import io.vertx.tp.crud.uca.op.Agonic;
 import io.vertx.up.annotations.Address;
 import io.vertx.up.annotations.Queue;
 import io.vertx.up.commune.Envelop;
+import io.vertx.up.eon.KName;
 import io.vertx.up.unity.Ux;
 
 /*
@@ -58,7 +59,8 @@ public class QueryActor {
                 Pre.codex()::inJAsync                   /* Codex */
             )
             .passion(Agonic.count()::runJAsync, null)
-            .runJ(body);
+            .<JsonObject, JsonObject, JsonObject>runJ(body)
+            .compose(item -> Ux.future(Envelop.success(0 < item.getInteger(KName.COUNT))));
     }
 
     @Address(Addr.Post.MISSING)
@@ -70,6 +72,7 @@ public class QueryActor {
                 Pre.codex()::inJAsync                   /* Codex */
             )
             .passion(Agonic.count()::runJAsync, null)
-            .runJ(body);
+            .<JsonObject, JsonObject, JsonObject>runJ(body)
+            .compose(item -> Ux.future(Envelop.success(0 == item.getInteger(KName.COUNT))));
     }
 }

@@ -20,7 +20,8 @@ class QVkPre implements Pre {
         final Kv<String, HttpMethod> impactUri = Ix.onFlush(in);
         final String sessionKey = Ke.keySession(
             impactUri.getValue().name(),
-            impactUri.getKey()
+            impactUri.getKey(),
+            data.getString(KName.VIEW)
         );
         Ix.Log.dao(this.getClass(), IxMsg.CACHE_KEY_PROJECTION, sessionKey);
         data.put(KName.DATA_KEY, sessionKey);

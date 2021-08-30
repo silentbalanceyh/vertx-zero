@@ -74,8 +74,13 @@ public class ViewService implements ViewStub {
             if (Ut.notNil(projection)) {
                 myView.setProjection(projection.encode());
             }
-            if (Ut.notNil(criteria)) {
+            if (Objects.nonNull(criteria)) {
                 myView.setCriteria(criteria.encode());
+            } else {
+                /*
+                 * Clear condition, the criteria and projection are different
+                 */
+                myView.setCriteria(new JsonObject().encode());
             }
             /* Auditor Information */
             myView.setUpdatedAt(LocalDateTime.now());
