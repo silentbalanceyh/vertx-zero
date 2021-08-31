@@ -47,7 +47,7 @@ CREATE TABLE IF NOT EXISTS S_VIEW
      * -- 「后置行过滤」
      */
     `ROWS`        TEXT COMMENT '「rows」- 该资源针对保存的行进行过滤',
-    `POSITION`    TEXT COMMENT '「position」- 当前列的顺序信息',
+    `POSITION`    VARCHAR(255) COMMENT '「position」- 当前视图的模块位置，比页面低一个维度',
 
     /*
      * 是否虚拟视图，一般在抽象层的为虚拟视图，一旦出现虚拟视图，则需要针对原始视图执行视图替换
@@ -85,4 +85,49 @@ CREATE TABLE IF NOT EXISTS S_VIEW
 -- 用户、资源：唯一记录：高优先级
 -- 角色、资源：唯一记录：低优先级
 ALTER TABLE S_VIEW
-    ADD UNIQUE (`OWNER`, `OWNER_TYPE`, `RESOURCE_ID`, `NAME`) USING BTREE;
+    ADD UNIQUE (
+                `OWNER_TYPE`, -- 拥有者类型（角色视图和个人视图的分离）
+                `OWNER`, -- 拥有者（角色ID和用户ID）对应拥有的单实体
+                `RESOURCE_ID`, -- 资源ID，对应某一个查询接口
+                `NAME`, -- 视图名称（用户创建视图以及角色创建视图时专用）
+                `POSITION` -- 视图位置（最复杂的维度）
+        ) USING BTREE;
+/*
+ POSITION 是视图中的核心维度，在系统中出现不同情况则对其进行管理
+ 1. 单模块无视图管理
+    NAME = DEFAULT,
+    POSITION = DEFAULT
+ 2. 单模块开启视图应用
+    NAME = DEFAULT, V1, V2, V3
+    POSITION = DEFAULT
+ 3. 多模块无视图管理
+    NAME = DEFAULT
+    POSITION = DEFAULT, P1, P2, P3, P4
+ 4. 多模块多视图管理
+    NAME = DEFAULT, V1, V2, V3
+    POSITION = DEFAULT, P1, P2, P3, P4
+
+ 关于位置的详细说明
+ 1. POSITION 比资源多一个维度，资源通常是类似 /api/xxx/search 的接口，但这个接口可能
+    会跨越页面（两个菜单共享一个资源，但查询条件不同）。
+ 2. POSITION 不可以和页面绑定，比如待办列表，是一个 Tab 页签造成了同一个页面中出现了两种
+    不同的查询，绑定了同一个资源。
+ 3. POSITION 不可以和查询条件绑定，可能会出现视图功能应用在不同页面、不同位置、同一查询条件
+    的情况，这样的模式会引起混淆管理。
+ 4. POSITION 只能和配置列表绑定，即配置列表中引入一个 position 来实现不同 position中的
+    视图，但此处给了一个基本假设，即列表提供了一个 option 来表明位置信息。
+
+ 比如离职员工和在职员工
+ 视图特性：
+ 1. 都是员工数据，模型一样：res.employee，即资源地址一致
+ 2. 都是个人视图，OWNER_TYPE = USER
+ 3. 都是我的视图，OWNER = 个人用户ID
+ 4. 开启了视图管理功能，NAME = DEFAULT + 用户管理
+
+ 上述四点是目前已经实现的功能
+
+ 如何区分一个档案以及一个列表，目前能考虑的方案就是在前端配置中让员工的列表提供位置数据
+ 离职员工列表：POSITION = HISTORY
+ 在职员工列表：POSITION = RUNNING
+ 这样就从模块级区分开了。
+ */

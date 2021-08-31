@@ -31,7 +31,7 @@ import org.jooq.impl.UpdatableRecordImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class SViewRecord extends UpdatableRecordImpl<SViewRecord> implements Record19<String, String, String, String, String, String, String, String, String, String, Boolean, String, String, Boolean, String, LocalDateTime, String, LocalDateTime, String>, ISView {
 
-    private static final long serialVersionUID = 1124734771;
+    private static final long serialVersionUID = 964294327;
 
     /**
      * Setter for <code>DB_ETERNAL.S_VIEW.KEY</code>. 「key」- 限定记录ID
@@ -187,7 +187,7 @@ public class SViewRecord extends UpdatableRecordImpl<SViewRecord> implements Rec
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.S_VIEW.POSITION</code>. 「position」- 当前列的顺序信息
+     * Setter for <code>DB_ETERNAL.S_VIEW.POSITION</code>. 「position」- 当前视图的模块位置，比页面低一个维度
      */
     @Override
     public SViewRecord setPosition(String value) {
@@ -196,7 +196,7 @@ public class SViewRecord extends UpdatableRecordImpl<SViewRecord> implements Rec
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.S_VIEW.POSITION</code>. 「position」- 当前列的顺序信息
+     * Getter for <code>DB_ETERNAL.S_VIEW.POSITION</code>. 「position」- 当前视图的模块位置，比页面低一个维度
      */
     @Override
     public String getPosition() {

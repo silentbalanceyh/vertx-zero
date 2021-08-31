@@ -83,7 +83,7 @@ public class Indexes {
     public static final Index S_USER_IDX_S_USER_USERNAME = Indexes0.S_USER_IDX_S_USER_USERNAME;
     public static final Index S_USER_PRIMARY = Indexes0.S_USER_PRIMARY;
     public static final Index S_USER_USERNAME = Indexes0.S_USER_USERNAME;
-    public static final Index S_VIEW_OWNER = Indexes0.S_VIEW_OWNER;
+    public static final Index S_VIEW_OWNER_TYPE = Indexes0.S_VIEW_OWNER_TYPE;
     public static final Index S_VIEW_PRIMARY = Indexes0.S_VIEW_PRIMARY;
     public static final Index S_VISITANT_IDXM_S_VISITANT_VIEW_ID_TYPE_CONFIG = Indexes0.S_VISITANT_IDXM_S_VISITANT_VIEW_ID_TYPE_CONFIG;
     public static final Index S_VISITANT_IDXM_S_VISITANT_VIEW_ID_TYPE_IDENTIFIER = Indexes0.S_VISITANT_IDXM_S_VISITANT_VIEW_ID_TYPE_IDENTIFIER;
@@ -132,7 +132,7 @@ public class Indexes {
         public static Index S_USER_IDX_S_USER_USERNAME = Internal.createIndex("IDX_S_USER_USERNAME", SUser.S_USER, new OrderField[] { SUser.S_USER.USERNAME }, false);
         public static Index S_USER_PRIMARY = Internal.createIndex("PRIMARY", SUser.S_USER, new OrderField[] { SUser.S_USER.KEY }, true);
         public static Index S_USER_USERNAME = Internal.createIndex("USERNAME", SUser.S_USER, new OrderField[] { SUser.S_USER.USERNAME, SUser.S_USER.SIGMA }, true);
-        public static Index S_VIEW_OWNER = Internal.createIndex("OWNER", SView.S_VIEW, new OrderField[] { SView.S_VIEW.OWNER, SView.S_VIEW.OWNER_TYPE, SView.S_VIEW.RESOURCE_ID, SView.S_VIEW.NAME }, true);
+        public static Index S_VIEW_OWNER_TYPE = Internal.createIndex("OWNER_TYPE", SView.S_VIEW, new OrderField[] { SView.S_VIEW.OWNER_TYPE, SView.S_VIEW.OWNER, SView.S_VIEW.RESOURCE_ID, SView.S_VIEW.NAME, SView.S_VIEW.POSITION }, true);
         public static Index S_VIEW_PRIMARY = Internal.createIndex("PRIMARY", SView.S_VIEW, new OrderField[] { SView.S_VIEW.KEY }, true);
         public static Index S_VISITANT_IDXM_S_VISITANT_VIEW_ID_TYPE_CONFIG = Internal.createIndex("IDXM_S_VISITANT_VIEW_ID_TYPE_CONFIG", SVisitant.S_VISITANT, new OrderField[] { SVisitant.S_VISITANT.VIEW_ID, SVisitant.S_VISITANT.TYPE, SVisitant.S_VISITANT.CONFIG_KEY }, false);
         public static Index S_VISITANT_IDXM_S_VISITANT_VIEW_ID_TYPE_IDENTIFIER = Internal.createIndex("IDXM_S_VISITANT_VIEW_ID_TYPE_IDENTIFIER", SVisitant.S_VISITANT, new OrderField[] { SVisitant.S_VISITANT.VIEW_ID, SVisitant.S_VISITANT.TYPE, SVisitant.S_VISITANT.IDENTIFIER }, false);

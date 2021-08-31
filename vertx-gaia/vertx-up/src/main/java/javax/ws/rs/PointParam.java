@@ -1,0 +1,20 @@
+package javax.ws.rs;
+
+import java.lang.annotation.*;
+
+@Target({ElementType.PARAMETER, ElementType.FIELD})
+@Retention(RetentionPolicy.RUNTIME)
+@Documented
+public @interface PointParam {
+    String value();
+
+    /*
+     * Point parameters
+     * Here are dim configuration
+     *
+     * 2 - [x,y]
+     * 3 - [x,y,z]
+     * 4 - [x,y,z,j]
+     * */
+    int dim() default 2;
+}

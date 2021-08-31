@@ -35,6 +35,7 @@ public interface KName {
     String HABITUS = "habitus";                  /* Authorization header to store current logged user session data, Permission Pool */
     String DYNAMIC = "dynamic";                  /* View security of field for dynamic view name */
     String VIEW = "view";                        /* View security of view name */
+    String POSITION = "position";                /* View security of view position */
     String MODULE = "module";                    /* View sub-module picking up */
 
     String ROLE = "role";                        /* Security Object: role field */

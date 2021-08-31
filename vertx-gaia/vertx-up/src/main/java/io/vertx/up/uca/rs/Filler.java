@@ -41,8 +41,10 @@ public interface Filler {
                 // Extension
                 this.put(BodyParam.class, Ut.singleton(EmptyFiller.class));
                 this.put(StreamParam.class, Ut.singleton(EmptyFiller.class));
+
                 this.put(SessionParam.class, Ut.singleton(SessionFiller.class));
                 this.put(ContextParam.class, Ut.singleton(ContextFiller.class));
+                this.put(PointParam.class, Ut.singleton(PointFiller.class));
             }
         };
     /**

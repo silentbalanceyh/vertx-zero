@@ -35,7 +35,7 @@ public interface PostAgent {
     @Adjust(Orders.MODULE)
     JsonObject search(@PathParam("actor") String actor,
                       @BodyParam JsonObject data,
-                      @QueryParam(KName.VIEW) String view,
+                      @PointParam(KName.VIEW) String view,
                       @QueryParam(KName.MODULE) String module);
 
     /*
