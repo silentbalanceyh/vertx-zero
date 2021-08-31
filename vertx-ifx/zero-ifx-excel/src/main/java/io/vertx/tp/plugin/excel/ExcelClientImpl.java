@@ -9,6 +9,7 @@ import io.vertx.core.buffer.Buffer;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.plugin.excel.atom.ExTable;
+import io.vertx.tp.plugin.excel.atom.ExTenant;
 import io.vertx.up.commune.element.TypeAtom;
 import io.vertx.up.log.Annal;
 import io.vertx.up.util.Ut;
@@ -48,10 +49,11 @@ public class ExcelClientImpl implements ExcelClient {
             LOGGER.debug("[ Έξοδος ] Configuration pen for Exporting: {0}", componentStr);
         }
         if (config.containsKey(ExcelClient.TENANT)) {
-            final JsonObject tenant = Ut.ioJObject(config.getString(ExcelClient.TENANT));
-            if (Ut.notNil(tenant)) {
+            final JsonObject tenantJson = Ut.ioJObject(config.getString(ExcelClient.TENANT));
+            if (Ut.notNil(tenantJson)) {
+                final ExTenant tenant = Ut.deserialize(tenantJson, ExTenant.class);
                 this.importer.initTenant(tenant);
-                LOGGER.debug("[ Έξοδος ] Configuration tenant for Importing: {0}", tenant.encode());
+                LOGGER.debug("[ Έξοδος ] Configuration tenant for Importing: {0}", tenantJson.encode());
             }
         }
         return this;

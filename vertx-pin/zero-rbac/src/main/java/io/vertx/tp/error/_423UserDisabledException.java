@@ -6,9 +6,9 @@ import io.vertx.up.exception.WebException;
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-public class _401UserDisabledException extends WebException {
+public class _423UserDisabledException extends WebException {
 
-    public _401UserDisabledException(final Class<?> clazz, final String username) {
+    public _423UserDisabledException(final Class<?> clazz, final String username) {
         super(clazz, username);
     }
 
@@ -19,6 +19,6 @@ public class _401UserDisabledException extends WebException {
 
     @Override
     public HttpStatusCode getStatus() {
-        return HttpStatusCode.UNAUTHORIZED;
+        return HttpStatusCode.LOCKED;
     }
 }

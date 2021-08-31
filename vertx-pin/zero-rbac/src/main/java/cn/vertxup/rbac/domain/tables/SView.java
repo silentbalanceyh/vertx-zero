@@ -35,7 +35,7 @@ public class SView extends TableImpl<SViewRecord> {
      * The reference instance of <code>DB_ETERNAL.S_VIEW</code>
      */
     public static final SView S_VIEW = new SView();
-    private static final long serialVersionUID = -1249587146;
+    private static final long serialVersionUID = -353853764;
     /**
      * The column <code>DB_ETERNAL.S_VIEW.KEY</code>. 「key」- 限定记录ID
      */
@@ -73,9 +73,9 @@ public class SView extends TableImpl<SViewRecord> {
      */
     public final TableField<SViewRecord, String> ROWS = createField("ROWS", org.jooq.impl.SQLDataType.CLOB, this, "「rows」- 该资源针对保存的行进行过滤");
     /**
-     * The column <code>DB_ETERNAL.S_VIEW.POSITION</code>. 「position」- 当前列的顺序信息
+     * The column <code>DB_ETERNAL.S_VIEW.POSITION</code>. 「position」- 当前视图的模块位置，比页面低一个维度
      */
-    public final TableField<SViewRecord, String> POSITION = createField("POSITION", org.jooq.impl.SQLDataType.CLOB, this, "「position」- 当前列的顺序信息");
+    public final TableField<SViewRecord, String> POSITION = createField("POSITION", org.jooq.impl.SQLDataType.VARCHAR(255), this, "「position」- 当前视图的模块位置，比页面低一个维度");
     /**
      * The column <code>DB_ETERNAL.S_VIEW.VISITANT</code>. 「visitant」- 是否包含了视图访问者
      */
@@ -163,7 +163,7 @@ public class SView extends TableImpl<SViewRecord> {
      */
     @Override
     public List<Index> getIndexes() {
-        return Arrays.<Index>asList(Indexes.S_VIEW_OWNER, Indexes.S_VIEW_PRIMARY);
+        return Arrays.<Index>asList(Indexes.S_VIEW_OWNER_TYPE, Indexes.S_VIEW_PRIMARY);
     }
 
     /**
@@ -179,7 +179,7 @@ public class SView extends TableImpl<SViewRecord> {
      */
     @Override
     public List<UniqueKey<SViewRecord>> getKeys() {
-        return Arrays.<UniqueKey<SViewRecord>>asList(Keys.KEY_S_VIEW_PRIMARY, Keys.KEY_S_VIEW_OWNER);
+        return Arrays.<UniqueKey<SViewRecord>>asList(Keys.KEY_S_VIEW_PRIMARY, Keys.KEY_S_VIEW_OWNER_TYPE);
     }
 
     /**

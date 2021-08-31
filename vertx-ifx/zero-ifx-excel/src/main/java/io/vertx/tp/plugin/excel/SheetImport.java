@@ -7,6 +7,7 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.tp.error._500ExportingErrorException;
 import io.vertx.tp.plugin.excel.atom.ExRecord;
 import io.vertx.tp.plugin.excel.atom.ExTable;
+import io.vertx.tp.plugin.excel.atom.ExTenant;
 import io.vertx.up.eon.em.ChangeFlag;
 import io.vertx.up.exception.web._500InternalServerException;
 import io.vertx.up.log.Annal;
@@ -23,7 +24,7 @@ import java.util.concurrent.ConcurrentMap;
 class SheetImport {
     private static final Annal LOGGER = Annal.get(ExcelClientImpl.class);
     private transient final ExcelHelper helper;
-    private transient final JsonObject tenant = new JsonObject();
+    private transient ExTenant tenant;
 
     private SheetImport(final ExcelHelper helper) {
         this.helper = helper;
@@ -162,14 +163,17 @@ class SheetImport {
         /*
          * Loading data into system
          */
-        final Set<T> entitySet = new HashSet<>();
-        tables.forEach(table -> {
-            final JsonArray data = this.extract(table);
-            final Set<T> resultSet = this.saveEntity(data, table);
-            entitySet.addAll(resultSet);
-        });
+        final List<Future<Set<T>>> futures = new ArrayList<>();
+        tables.forEach(table ->
+            futures.add(this.extract(table)
+                .compose(data -> Ux.future(this.saveEntity(data, table)))
+            ));
         /* Set<T> handler */
-        return Future.succeededFuture(entitySet);
+        return Ux.thenCombineT(futures).compose(result -> {
+            final Set<T> entitySet = new HashSet<>();
+            result.forEach(entitySet::addAll);
+            return Ux.future(entitySet);
+        });
     }
 
     <T> Future<Set<T>> importAsync(final AsyncResult<Set<ExTable>> async) {
@@ -187,24 +191,61 @@ class SheetImport {
         }
     }
 
-    private JsonArray extract(final ExTable table) {
+    private Future<JsonArray> extract(final ExTable table) {
         /* Records extracting */
         final List<ExRecord> records = table.get();
         /* Pojo Processing */
         final JsonArray dataArray = new JsonArray();
         records.stream().filter(Objects::nonNull)
             .map(ExRecord::toJson)
-            .peek(data -> {
-                if (Ut.notNil(this.tenant)) {
-                    data.mergeIn(this.tenant.copy(), true);
-                }
-            })
             .forEach(dataArray::add);
-        return dataArray;
+        /* Source Processing */
+        if (Objects.isNull(this.tenant)) {
+            return Ux.future(dataArray);
+        } else {
+            // Append Global
+            Ut.itJArray(dataArray)
+                .forEach(json -> json.mergeIn(this.tenant.getGlobal(), true));
+            // Extract Mapping
+            final ConcurrentMap<String, String> first = this.tenant.mapping(table.getName());
+            if (first.isEmpty()) {
+                return Ux.future(dataArray);
+            } else {
+                // Directory
+                return this.tenant.dictionary().compose(dataMap -> {
+                    if (dataMap.isEmpty()) {
+                        // No Data Mapping
+                        return Ux.future(dataArray);
+                    } else {
+                        /*
+                         * mapping
+                         * field = name
+                         * dataMap
+                         * name = JsonObject ( from = to )
+                         * --->
+                         *
+                         * field -> JsonObject
+                         */
+                        final ConcurrentMap<String, JsonObject> combine
+                            = Ut.elementZip(first, dataMap);
+
+                        combine.forEach((key, value) -> Ut.itJArray(dataArray).forEach(json -> {
+                            final String fromValue = json.getString(key);
+                            if (Ut.notNil(fromValue) && value.containsKey(fromValue)) {
+                                final Object toValue = value.getValue(fromValue);
+                                // Replace
+                                json.put(key, toValue);
+                            }
+                        }));
+                        return Ux.future(dataArray);
+                    }
+                });
+            }
+        }
     }
 
-    void initTenant(final JsonObject tenant) {
-        this.tenant.mergeIn(tenant);
+    void initTenant(final ExTenant tenant) {
+        this.tenant = tenant;
     }
 
     private UxJooq jooq(final ExTable table) {

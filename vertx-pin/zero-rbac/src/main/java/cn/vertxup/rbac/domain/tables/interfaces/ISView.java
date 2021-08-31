@@ -114,12 +114,12 @@ public interface ISView extends Serializable {
     public String getRows();
 
     /**
-     * Setter for <code>DB_ETERNAL.S_VIEW.POSITION</code>. 「position」- 当前列的顺序信息
+     * Setter for <code>DB_ETERNAL.S_VIEW.POSITION</code>. 「position」- 当前视图的模块位置，比页面低一个维度
      */
     public ISView setPosition(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.S_VIEW.POSITION</code>. 「position」- 当前列的顺序信息
+     * Getter for <code>DB_ETERNAL.S_VIEW.POSITION</code>. 「position」- 当前视图的模块位置，比页面低一个维度
      */
     public String getPosition();
 

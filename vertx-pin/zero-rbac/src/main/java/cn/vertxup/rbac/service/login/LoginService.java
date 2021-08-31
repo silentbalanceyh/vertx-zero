@@ -7,7 +7,7 @@ import cn.vertxup.rbac.service.business.UserStub;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.error._401PasswordWrongException;
-import io.vertx.tp.error._401UserDisabledException;
+import io.vertx.tp.error._423UserDisabledException;
 import io.vertx.tp.error._449UserNotFoundException;
 import io.vertx.tp.rbac.cv.AuthKey;
 import io.vertx.tp.rbac.cv.AuthMsg;
@@ -42,7 +42,7 @@ public class LoginService implements LoginStub {
             final Boolean isLock = Objects.isNull(fetched.getActive()) ? Boolean.FALSE : fetched.getActive();
             if (!isLock) {
                 Sc.warnAuth(LOGGER, AuthMsg.LOGIN_LOCKED, username);
-                return Ux.thenError(_401UserDisabledException.class, this.getClass(), username);
+                return Ux.thenError(_423UserDisabledException.class, this.getClass(), username);
             }
             /* Password Wrong */
             if (Objects.isNull(password) || !password.equals(fetched.getPassword())) {
