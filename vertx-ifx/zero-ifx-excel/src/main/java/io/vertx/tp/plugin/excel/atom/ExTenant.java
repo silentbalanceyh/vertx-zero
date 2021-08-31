@@ -66,8 +66,8 @@ public class ExTenant implements Serializable {
     public ConcurrentMap<String, String> mapping(final String tableName) {
         final ConcurrentMap<String, String> map = new ConcurrentHashMap<>();
         if (Objects.nonNull(this.mapping)) {
-            final JsonObject mappingJson = this.mapping.get(tableName);
-            Ut.itJObject(mappingJson, map::put);
+            final JsonObject mappingJson = this.mapping.getOrDefault(tableName, new JsonObject());
+            Ut.<String>itJObject(mappingJson, (value, field) -> map.put(field, value));
         }
         return map;
     }
@@ -113,7 +113,7 @@ public class ExTenant implements Serializable {
                 return Ux.future(tableSet);
             }).compose(tableSet -> {
                 // Data, Criteria Function
-                final String condition = 5 < segments.length ? segments[0] : Strings.EMPTY;
+                final String condition = 5 < segments.length ? segments[5] : Strings.EMPTY;
                 final String[] kv = condition.split("=");
                 final Predicate<JsonObject> condFn;
                 if (2 == kv.length && Objects.nonNull(kv[0])) {

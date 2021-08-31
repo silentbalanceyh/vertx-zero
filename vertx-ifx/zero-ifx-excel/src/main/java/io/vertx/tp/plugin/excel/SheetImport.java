@@ -234,7 +234,7 @@ class SheetImport {
                             if (Ut.notNil(fromValue) && value.containsKey(fromValue)) {
                                 final Object toValue = value.getValue(fromValue);
                                 // Replace
-                                json.put(fromValue, toValue);
+                                json.put(key, toValue);
                             }
                         }));
                         return Ux.future(dataArray);
