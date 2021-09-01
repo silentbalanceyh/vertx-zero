@@ -17,8 +17,6 @@ public interface KValue {
     interface View {
         /* Default View */
         String VIEW_DEFAULT = "DEFAULT";
-        /* Default View Value:  Position + View */
-        String VIEW_DEFAULT_VALUE = "[\"DEFAULT\",\"DEFAULT\"]";
         /* Default Position */
         String POSITION_DEFAULT = "DEFAULT";
     }

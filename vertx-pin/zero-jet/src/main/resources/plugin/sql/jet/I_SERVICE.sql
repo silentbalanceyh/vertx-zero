@@ -95,33 +95,18 @@ CREATE TABLE IF NOT EXISTS I_SERVICE
     `RULE_UNIQUE`          MEDIUMTEXT COMMENT '「ruleUnique」- 第二标识规则，当前通道的专用标识规则RuleUnique',
 
     -- 特殊字段
-    `SIGMA` VARCHAR
-(
-    32
-) COMMENT '「sigma」- 统一标识',
-    `LANGUAGE` VARCHAR
-(
-    10
-) COMMENT '「language」- 使用的语言',
-    `ACTIVE` BIT COMMENT '「active」- 是否启用',
-    `METADATA` TEXT COMMENT '「metadata」- 附加配置数据',
+    `SIGMA`                VARCHAR(32) COMMENT '「sigma」- 统一标识',
+    `LANGUAGE`             VARCHAR(10) COMMENT '「language」- 使用的语言',
+    `ACTIVE`               BIT COMMENT '「active」- 是否启用',
+    `METADATA`             TEXT COMMENT '「metadata」- 附加配置数据',
 
     -- Auditor字段
-    `CREATED_AT` DATETIME COMMENT '「createdAt」- 创建时间',
-    `CREATED_BY` VARCHAR
-(
-    36
-) COMMENT '「createdBy」- 创建人',
-    `UPDATED_AT` DATETIME COMMENT '「updatedAt」- 更新时间',
-    `UPDATED_BY` VARCHAR
-(
-    36
-) COMMENT '「updatedBy」- 更新人',
-    PRIMARY KEY
-(
-    `KEY`
-) USING BTREE
-    );
+    `CREATED_AT`           DATETIME COMMENT '「createdAt」- 创建时间',
+    `CREATED_BY`           VARCHAR(36) COMMENT '「createdBy」- 创建人',
+    `UPDATED_AT`           DATETIME COMMENT '「updatedAt」- 更新时间',
+    `UPDATED_BY`           VARCHAR(36) COMMENT '「updatedBy」- 更新人',
+    PRIMARY KEY (`KEY`) USING BTREE
+);
 -- changeset Lang:ox-service-2
 ALTER TABLE I_SERVICE
     ADD UNIQUE (`NAME`, `NAMESPACE`) USING BTREE;

@@ -17,33 +17,33 @@
 DROP TABLE IF EXISTS S_PACKET;
 CREATE TABLE IF NOT EXISTS S_PACKET
 (
-    `KEY`        VARCHAR(36) COMMENT '「key」- 包信息',
+    `KEY`              VARCHAR(36) COMMENT '「key」- 包信息',
     /*
      * 触发类型可能是多种，不同触发类型的配置信息一致
      * projection
      * rows
      * criteria
      **/
-    `PATH_ID`           VARCHAR(36) COMMENT '「pathId」- 关联的 path id，包含关系',
-    `RESOURCE_ID`       VARCHAR(36) COMMENT '「resourceId」- 关联的资源 id',
+    `PATH_ID`          VARCHAR(36) COMMENT '「pathId」- 关联的 path id，包含关系',
+    `RESOURCE_ID`      VARCHAR(36) COMMENT '「resourceId」- 关联的资源 id',
 
-     /*
-      * rows 的变更，它的格式如：
-      * {
-            field: [
-                value1,
-                value2,
-                value3
-            ]
-      * }
-      * 行类型
-      * SINGLE - 单字段过滤
-      * COMPLEX - 多字段复杂过滤（保留）
-      **/
-    `ROW_TYPE`          VARCHAR(255) COMMENT '「rowType」- 行过滤类型',
-    `ROW_FIELD`         VARCHAR(255) COMMENT '「rowField」- 行输入',
-    `ROW_TPL`           TEXT COMMENT '「rowTpl」- 多字段的模板',
-    `ROW_TPL_MAPPING`   TEXT COMMENT '「rowTplMapping」- 多字段的映射关系',
+    /*
+     * rows 的变更，它的格式如：
+     * {
+           field: [
+               value1,
+               value2,
+               value3
+           ]
+     * }
+     * 行类型
+     * SINGLE - 单字段过滤
+     * COMPLEX - 多字段复杂过滤（保留）
+     **/
+    `ROW_TYPE`         VARCHAR(255) COMMENT '「rowType」- 行过滤类型',
+    `ROW_FIELD`        VARCHAR(255) COMMENT '「rowField」- 行输入',
+    `ROW_TPL`          TEXT COMMENT '「rowTpl」- 多字段的模板',
+    `ROW_TPL_MAPPING`  TEXT COMMENT '「rowTplMapping」- 多字段的映射关系',
 
     /*
      * projection 的变更，列配置
@@ -54,43 +54,28 @@ CREATE TABLE IF NOT EXISTS S_PACKET
      * ]
      * LINER - 单字段列（一维）
      */
-     `COL_TYPE`         VARCHAR(255) COMMENT '「colType」- 列过滤类型',
-     `COL_CONFIG`       TEXT COMMENT '「colConfig」- 列配置',
+    `COL_TYPE`         VARCHAR(255) COMMENT '「colType」- 列过滤类型',
+    `COL_CONFIG`       TEXT COMMENT '「colConfig」- 列配置',
 
-     /*
-      * criteria 的变更，核心配置
-      */
-     `COND_TPL`             TEXT COMMENT '「condTpl」- 条件模板',
-     `COND_TPL_MAPPING`     TEXT COMMENT '「condTplMapping」- 查询条件映射关系',
-     `COND_CONFIG`          TEXT COMMENT '「condConfig」- 条件配置（界面配置相关）',
+    /*
+     * criteria 的变更，核心配置
+     */
+    `COND_TPL`         TEXT COMMENT '「condTpl」- 条件模板',
+    `COND_TPL_MAPPING` TEXT COMMENT '「condTplMapping」- 查询条件映射关系',
+    `COND_CONFIG`      TEXT COMMENT '「condConfig」- 条件配置（界面配置相关）',
 
-    `SIGMA` VARCHAR
-(
-    32
-) COMMENT '「sigma」- 统一标识',
-    `LANGUAGE` VARCHAR
-(
-    10
-) COMMENT '「language」- 使用的语言',
-    `ACTIVE` BIT COMMENT '「active」- 是否启用',
-    `METADATA` TEXT COMMENT '「metadata」- 附加配置数据',
+    `SIGMA`            VARCHAR(32) COMMENT '「sigma」- 统一标识',
+    `LANGUAGE`         VARCHAR(10) COMMENT '「language」- 使用的语言',
+    `ACTIVE`           BIT COMMENT '「active」- 是否启用',
+    `METADATA`         TEXT COMMENT '「metadata」- 附加配置数据',
 
     -- Auditor字段
-    `CREATED_AT` DATETIME COMMENT '「createdAt」- 创建时间',
-    `CREATED_BY` VARCHAR
-(
-    36
-) COMMENT '「createdBy」- 创建人',
-    `UPDATED_AT` DATETIME COMMENT '「updatedAt」- 更新时间',
-    `UPDATED_BY` VARCHAR
-(
-    36
-) COMMENT '「updatedBy」- 更新人',
-    PRIMARY KEY
-(
-    `KEY`
-) USING BTREE
-    );
+    `CREATED_AT`       DATETIME COMMENT '「createdAt」- 创建时间',
+    `CREATED_BY`       VARCHAR(36) COMMENT '「createdBy」- 创建人',
+    `UPDATED_AT`       DATETIME COMMENT '「updatedAt」- 更新时间',
+    `UPDATED_BY`       VARCHAR(36) COMMENT '「updatedBy」- 更新人',
+    PRIMARY KEY (`KEY`) USING BTREE
+);
 
 -- changeset Lang:ox-packet-2
 -- Unique Key：独立唯一主键

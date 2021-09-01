@@ -23,10 +23,10 @@
 DROP TABLE IF EXISTS S_PATH;
 CREATE TABLE IF NOT EXISTS S_PATH
 (
-    `KEY`           VARCHAR(36) COMMENT '「key」- 规则主键',
+    `KEY`             VARCHAR(36) COMMENT '「key」- 规则主键',
 
-    `NAME`          VARCHAR(255) COMMENT '「name」- 规则名称',
-    `CODE`          VARCHAR(255) COMMENT '「code」- 系统界面标识',
+    `NAME`            VARCHAR(255) COMMENT '「name」- 规则名称',
+    `CODE`            VARCHAR(255) COMMENT '「code」- 系统界面标识',
 
     /*
      * 核心流程
@@ -42,7 +42,7 @@ CREATE TABLE IF NOT EXISTS S_PATH
      * 1）直接根据角色和 S_PACKET 中的维度提取 resource 的资源 ID 集合
      * 2）读取这种角色的 S_VIEW 中的核心配置信息
      */
-    `GROUP_MAPPING`       TEXT COMMENT '「mapping」- 从 group -> ui 转换',
+    `GROUP_MAPPING`   TEXT COMMENT '「mapping」- 从 group -> ui 转换',
 
     /*
      * 分组类型主要牵涉三种
@@ -50,10 +50,10 @@ CREATE TABLE IF NOT EXISTS S_PATH
      * DICT : 字典分组，对应 Tabular 部分的分类（直接列表）
      * TREE : 树形分类，对应 Category 部分的分类
      */
-    `GROUP_TYPE`        VARCHAR(128) COMMENT '「groupType」- 分组类型',
-    `GROUP_COMPONENT`   VARCHAR(255) COMMENT '「groupComponent」- 必须绑定组专用Dao组件',
-    `GROUP_CONDITION`   TEXT COMMENT '「groupCondition」- 分组条件',
-    `GROUP_CONFIG`      TEXT COMMENT '「groupConfig」- 组配置信息，配置呈现部分',
+    `GROUP_TYPE`      VARCHAR(128) COMMENT '「groupType」- 分组类型',
+    `GROUP_COMPONENT` VARCHAR(255) COMMENT '「groupComponent」- 必须绑定组专用Dao组件',
+    `GROUP_CONDITION` TEXT COMMENT '「groupCondition」- 分组条件',
+    `GROUP_CONFIG`    TEXT COMMENT '「groupConfig」- 组配置信息，配置呈现部分',
 
     /*
      * 描述了目标界面的条件信息
@@ -62,38 +62,23 @@ CREATE TABLE IF NOT EXISTS S_PATH
      * OX：动态的Dao，使用类似 /api/ox/ 下的底层逻辑实现
      * DEF: 自定义，可使用组件模式
      **/
-    `UI_TYPE`       TEXT COMMENT '「uiType」- 目标数据源类型',
-    `UI_CONFIG`     TEXT COMMENT '「uiConfig」- 界面配置',
-    `UI_CONDITION`  TEXT COMMENT '「uiCondition」- 查询模板',
-    `UI_COMPONENT`  VARCHAR(255) COMMENT '「uiComponent」- 在 DAO/OX/DEF 时的特殊组件',
+    `UI_TYPE`         TEXT COMMENT '「uiType」- 目标数据源类型',
+    `UI_CONFIG`       TEXT COMMENT '「uiConfig」- 界面配置',
+    `UI_CONDITION`    TEXT COMMENT '「uiCondition」- 查询模板',
+    `UI_COMPONENT`    VARCHAR(255) COMMENT '「uiComponent」- 在 DAO/OX/DEF 时的特殊组件',
 
-    `SIGMA` VARCHAR
-(
-    32
-) COMMENT '「sigma」- 统一标识',
-    `LANGUAGE` VARCHAR
-(
-    10
-) COMMENT '「language」- 使用的语言',
-    `ACTIVE` BIT COMMENT '「active」- 是否启用',
-    `METADATA` TEXT COMMENT '「metadata」- 附加配置数据',
+    `SIGMA`           VARCHAR(32) COMMENT '「sigma」- 统一标识',
+    `LANGUAGE`        VARCHAR(10) COMMENT '「language」- 使用的语言',
+    `ACTIVE`          BIT COMMENT '「active」- 是否启用',
+    `METADATA`        TEXT COMMENT '「metadata」- 附加配置数据',
 
     -- Auditor字段
-    `CREATED_AT` DATETIME COMMENT '「createdAt」- 创建时间',
-    `CREATED_BY` VARCHAR
-(
-    36
-) COMMENT '「createdBy」- 创建人',
-    `UPDATED_AT` DATETIME COMMENT '「updatedAt」- 更新时间',
-    `UPDATED_BY` VARCHAR
-(
-    36
-) COMMENT '「updatedBy」- 更新人',
-    PRIMARY KEY
-(
-    `KEY`
-) USING BTREE
-    );
+    `CREATED_AT`      DATETIME COMMENT '「createdAt」- 创建时间',
+    `CREATED_BY`      VARCHAR(36) COMMENT '「createdBy」- 创建人',
+    `UPDATED_AT`      DATETIME COMMENT '「updatedAt」- 更新时间',
+    `UPDATED_BY`      VARCHAR(36) COMMENT '「updatedBy」- 更新人',
+    PRIMARY KEY (`KEY`) USING BTREE
+);
 -- changeset Lang:ox-path-2
 -- Unique Key：独立唯一主键
 ALTER TABLE S_PATH
