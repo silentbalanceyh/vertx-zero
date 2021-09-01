@@ -267,6 +267,33 @@ final class Jackson {
         }
     }
 
+    static String aiStringA(final String literal) {
+        final StringBuilder buffer = new StringBuilder();
+        final String[] split = literal.split(Strings.COMMA);
+        final List<String> elements = new ArrayList<>();
+        Arrays.stream(split).forEach(each -> {
+            if (Objects.nonNull(each)) {
+                if (each.trim().startsWith(Strings.LEFT_SQUARE)) {
+                    elements.add(Strings.QUOTE_DOUBLE +
+                        each.trim().substring(1)
+                        + Strings.QUOTE_DOUBLE);
+                } else if (each.trim().endsWith(Strings.RIGHT_SQUARE)) {
+                    elements.add(Strings.QUOTE_DOUBLE +
+                        each.trim().substring(0, each.trim().length() - 2)
+                        + Strings.QUOTE_DOUBLE);
+                } else {
+                    elements.add(Strings.QUOTE_DOUBLE +
+                        each.trim()
+                        + Strings.QUOTE_DOUBLE);
+                }
+            }
+        });
+        buffer.append(Strings.LEFT_SQUARE);
+        buffer.append(Ut.fromJoin(elements));
+        buffer.append(Strings.RIGHT_SQUARE);
+        return buffer.toString();
+    }
+
     static ChangeFlag flag(final JsonObject recordN, final JsonObject recordO) {
         if (Objects.isNull(recordO)) {
             if (Objects.isNull(recordN)) {

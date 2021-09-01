@@ -6,9 +6,9 @@ import cn.vertxup.rbac.domain.tables.pojos.SView;
 import cn.vertxup.rbac.domain.tables.pojos.SVisitant;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.ke.cv.KeDefault;
 import io.vertx.tp.rbac.refine.Sc;
 import io.vertx.up.eon.KName;
+import io.vertx.up.eon.KValue;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
@@ -48,7 +48,7 @@ public class VisitService implements VisitStub {
                 final JsonObject condition = new JsonObject();
                 condition.put("owner", ownerId);
                 condition.put("ownerType", ownerType);
-                condition.put(KName.NAME, KeDefault.VIEW_DEFAULT);
+                condition.put(KName.NAME, KValue.View.VIEW_DEFAULT);
                 condition.put(KName.RESOURCE_ID, resourceId);
                 Sc.infoView(this.getClass(), "Visitant View: {0}", condition.encode());
                 return Ux.Jooq.on(SViewDao.class).<SView>fetchOneAsync(condition).compose(view -> {
@@ -74,7 +74,7 @@ public class VisitService implements VisitStub {
                              * master form in your interface.
                              */
                             criteria.put(KName.IDENTIFIER, identifier);
-                            criteria.put("configKey", KeDefault.VIEW_DEFAULT);
+                            criteria.put("configKey", KValue.View.VIEW_DEFAULT);
                         } else {
                             /*
                              * configKey as condition only, because `configKey` provided and it is often
@@ -122,7 +122,7 @@ public class VisitService implements VisitStub {
         final String configKey = request.getString("configKey");
         if (Ut.isNil(configKey)) {
             criteria.put(KName.IDENTIFIER, request.getValue(KName.IDENTIFIER));
-            criteria.put("configKey", KeDefault.VIEW_DEFAULT);
+            criteria.put("configKey", KValue.View.VIEW_DEFAULT);
         } else {
             criteria.put("configKey", configKey);
         }
