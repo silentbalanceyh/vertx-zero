@@ -5,6 +5,7 @@ import io.vertx.tp.crud.cv.Addr;
 import io.vertx.up.annotations.Address;
 import io.vertx.up.annotations.Adjust;
 import io.vertx.up.annotations.EndPoint;
+import io.vertx.up.atom.secure.Vis;
 import io.vertx.up.eon.KName;
 import io.vertx.up.eon.Orders;
 
@@ -21,7 +22,7 @@ public interface ViewAgent {
     @Address(Addr.Get.COLUMN_FULL)
     @Adjust(Orders.MODULE)
     JsonArray getFull(@PathParam(KName.ACTOR) String actor,
-                      @PointParam(KName.VIEW) JsonArray view,
+                      @PointParam(KName.VIEW) Vis view,
                       @QueryParam(KName.MODULE) String module);
 
     @GET
@@ -29,6 +30,6 @@ public interface ViewAgent {
     @Address(Addr.Get.COLUMN_MY)
     @Adjust(Orders.MODULE)
     JsonArray getMy(@PathParam(KName.ACTOR) String actor,
-                    @PointParam(KName.VIEW) JsonArray view,
+                    @PointParam(KName.VIEW) Vis view,
                     @QueryParam(KName.MODULE) String module);
 }

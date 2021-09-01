@@ -3,7 +3,6 @@ package io.vertx.up.uca.rs.argument;
 import io.vertx.core.json.JsonArray;
 import io.vertx.ext.web.RoutingContext;
 import io.vertx.up.atom.secure.Vis;
-import io.vertx.up.eon.Strings;
 import io.vertx.up.exception.web._415PointDefineException;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.uca.rs.Filler;
@@ -35,12 +34,7 @@ public class PointFiller implements Filler {
             // No input for this parameters
             return null;
         } else {
-            final String normalized;
-            if (literal.contains(Strings.QUOTE_DOUBLE)) {
-                normalized = literal;
-            } else {
-                normalized = Ut.aiStringA(literal);
-            }
+            final String normalized = Ut.aiStringA(literal);
             // Convert to correct type
             return this.resolve(paramType, normalized);
         }

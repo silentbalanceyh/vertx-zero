@@ -1,6 +1,5 @@
 package cn.vertxup.crud.api;
 
-import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.FileUpload;
 import io.vertx.tp.crud.cv.Addr;
@@ -10,6 +9,7 @@ import io.vertx.up.annotations.Address;
 import io.vertx.up.annotations.Adjust;
 import io.vertx.up.annotations.Codex;
 import io.vertx.up.annotations.EndPoint;
+import io.vertx.up.atom.secure.Vis;
 import io.vertx.up.eon.KName;
 import io.vertx.up.eon.Orders;
 import io.vertx.up.unity.Ux;
@@ -45,7 +45,7 @@ public class FileAgent {
     @Consumes(MediaType.APPLICATION_OCTET_STREAM)
     @Produces(MediaType.APPLICATION_OCTET_STREAM)
     public JsonObject exportFile(@PathParam("actor") final String actor,
-                                 @PointParam(KName.VIEW) final JsonArray view,
+                                 @PointParam(KName.VIEW) final Vis view,
                                  @QueryParam("module") final String module,
                                  @BodyParam final JsonObject condition) {
         /*

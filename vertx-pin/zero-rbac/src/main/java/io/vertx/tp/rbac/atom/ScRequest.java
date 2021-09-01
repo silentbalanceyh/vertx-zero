@@ -8,6 +8,7 @@ import io.vertx.tp.rbac.cv.AuthKey;
 import io.vertx.tp.rbac.init.ScPin;
 import io.vertx.tp.rbac.permission.ScPrivilege;
 import io.vertx.tp.rbac.refine.Sc;
+import io.vertx.up.atom.secure.Vis;
 import io.vertx.up.eon.ID;
 import io.vertx.up.eon.KName;
 import io.vertx.up.log.Annal;
@@ -25,7 +26,7 @@ public class ScRequest implements Serializable {
     private transient final String sigma;
     private transient final String user;
     private transient final String sessionId;
-    private transient final String view;
+    private transient final Vis view;
     private transient final HttpMethod method;
 
     /*
@@ -51,7 +52,7 @@ public class ScRequest implements Serializable {
          * Extension for orbit
          */
         this.uri = Sc.uri(uri, this.requestUri);
-        this.view = metadata.getString(KName.VIEW);
+        this.view = (Vis) metadata.getValue(KName.VIEW);
         /*
          * Support multi applications
          */
@@ -94,7 +95,7 @@ public class ScRequest implements Serializable {
         return this.user;
     }
 
-    public String getView() {
+    public Vis getView() {
         return this.view;
     }
 

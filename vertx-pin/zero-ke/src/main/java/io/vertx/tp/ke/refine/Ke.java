@@ -6,6 +6,7 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.ext.auth.User;
 import io.vertx.ext.web.Session;
 import io.vertx.up.atom.record.Apt;
+import io.vertx.up.atom.secure.Vis;
 import io.vertx.up.commune.Envelop;
 import io.vertx.up.commune.element.TypeAtom;
 import io.vertx.up.eon.KName;
@@ -100,7 +101,7 @@ public class Ke {
     /*
      * Session key generation
      */
-    public static String keySession(final String method, final String uri, final String view) {
+    public static String keySession(final String method, final String uri, final Vis view) {
         return KeCache.keySession(method, uri, view);
     }
 

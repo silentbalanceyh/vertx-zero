@@ -10,6 +10,7 @@ import io.vertx.tp.optic.Orbit;
 import io.vertx.tp.optic.Pocket;
 import io.vertx.tp.optic.atom.Income;
 import io.vertx.tp.rbac.permission.ScHabitus;
+import io.vertx.up.atom.secure.Vis;
 import io.vertx.up.commune.Envelop;
 import io.vertx.up.eon.KName;
 import io.vertx.up.log.Annal;
@@ -47,11 +48,11 @@ class ScPhase {
         final HttpServerRequest request = context.request();
         final String uri = uri(context);
         /* Cache Data */
+        final String literal = request.getParam(KName.VIEW);
         Sc.debugAuth(LOGGER, "Processed Uri: {0}", uri);
-        final String cacheKey = Ke.keySession(request.method().name(), uri,
-            request.getParam(KName.VIEW));
+        final String cacheKey = Ke.keySession(request.method().name(), uri, Vis.create(literal));
         /* Cache Data */
-        Sc.infoView(ScPhase.class, "Try cacheKey: {0}", cacheKey);
+        Sc.infoView(ScPhase.class, "( view = {1} ) Try cacheKey: {0}", cacheKey, literal);
         return cacheKey;
     }
 
