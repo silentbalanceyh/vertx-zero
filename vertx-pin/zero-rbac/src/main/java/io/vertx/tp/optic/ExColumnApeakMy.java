@@ -10,6 +10,7 @@ import io.vertx.tp.rbac.cv.AuthMsg;
 import io.vertx.tp.rbac.permission.ScHabitus;
 import io.vertx.tp.rbac.refine.Sc;
 import io.vertx.up.atom.query.engine.Qr;
+import io.vertx.up.atom.secure.Vis;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
@@ -27,7 +28,7 @@ public class ExColumnApeakMy extends Anchoret<ApeakMy> implements ApeakMy {
             return Ux.futureA();
         }
         final String userId = params.getString(ARG1);
-        final String view = params.getString(ARG2);
+        final Vis view = (Vis) params.getValue(ARG2);
         return this.stub.fetchMatrix(userId, resourceId, view)
             .compose(queried -> Objects.isNull(queried) ?
                 /* No view found */

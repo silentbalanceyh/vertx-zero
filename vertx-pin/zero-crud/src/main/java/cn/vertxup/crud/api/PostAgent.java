@@ -5,6 +5,7 @@ import io.vertx.tp.crud.cv.Addr;
 import io.vertx.up.annotations.Address;
 import io.vertx.up.annotations.Adjust;
 import io.vertx.up.annotations.EndPoint;
+import io.vertx.up.atom.secure.Vis;
 import io.vertx.up.eon.KName;
 import io.vertx.up.eon.Orders;
 
@@ -35,7 +36,7 @@ public interface PostAgent {
     @Adjust(Orders.MODULE)
     JsonObject search(@PathParam("actor") String actor,
                       @BodyParam JsonObject data,
-                      @QueryParam(KName.VIEW) String view,
+                      @PointParam(KName.VIEW) Vis view,
                       @QueryParam(KName.MODULE) String module);
 
     /*

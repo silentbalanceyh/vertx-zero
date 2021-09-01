@@ -10,7 +10,7 @@ import io.vertx.tp.modular.jdbc.AoConnection;
 import io.vertx.tp.modular.sql.SqlDDLBuilder;
 import io.vertx.tp.modular.sql.SqlDDLProvider;
 import io.vertx.up.eon.KName;
-import io.vertx.up.eon.KResult;
+import io.vertx.up.eon.KValue;
 import io.vertx.up.log.Annal;
 import io.vertx.up.util.Ut;
 
@@ -68,13 +68,13 @@ public abstract class AbstractBuilder implements AoBuilder, SqlStatement {
         }
         final String[] segments = sql.split(";");
         this.getLogger().info("[ Ox ] sql: {0}", sql);
-        int respCode = KResult.RC_SUCCESS;
+        int respCode = KValue.RC_SUCCESS;
         for (final String segment : segments) {
             if (Ut.notNil(segment)) {
                 respCode = this.conn.execute(segment);
             }
         }
-        return KResult.RC_SUCCESS == respCode;
+        return KValue.RC_SUCCESS == respCode;
     }
 
     @Override
@@ -126,11 +126,11 @@ public abstract class AbstractBuilder implements AoBuilder, SqlStatement {
             return Boolean.TRUE;
         }
         this.getLogger().info("[ Ox ] sql: {0}", sql);
-        int respCode = KResult.RC_SUCCESS;
+        int respCode = KValue.RC_SUCCESS;
         if (Ut.notNil(sql)) {
             respCode = this.conn.execute(sql);
         }
-        return KResult.RC_SUCCESS == respCode;
+        return KValue.RC_SUCCESS == respCode;
     }
 
     @Override

@@ -147,7 +147,7 @@ public class Validator {
     private String buildKey(final Event event) {
         String prefix = event.getPath().trim().substring(1);
         prefix = prefix.replace(Strings.SLASH, Strings.DOT);
-        prefix = prefix.replace(Strings.COLON, Strings.DOLLER);
+        prefix = prefix.replace(Strings.COLON, Strings.DOLLAR);
         final String suffix = event.getMethod().name().toLowerCase(Locale.getDefault());
         return prefix + Strings.DOT + suffix;
     }

@@ -17,15 +17,27 @@ public interface Strings {
 
     String EMPTY = "";
 
-    String LEFT_BRACES = "{";
+    String LEFT_BRACE = "{";
 
-    String RIGHT_BRACES = "}";
+    String RIGHT_BRACE = "}";
 
-    String DOLLER = "$";
+    String LEFT_BRACKET = "(";
+
+    String RIGHT_BRACKET = ")";
+
+    String LEFT_SQUARE = "[";
+
+    String RIGHT_SQUARE = "]";
+
+    String DOLLAR = "$";
 
     String COLON = ":";
 
     String QUESTION = "?";
 
     String EQUAL = "=";
+
+    String QUOTE_DOUBLE = "\"";
+
+    String QUOTE = "'";
 }

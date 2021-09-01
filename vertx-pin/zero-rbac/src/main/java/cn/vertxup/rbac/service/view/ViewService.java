@@ -9,6 +9,7 @@ import io.vertx.tp.rbac.cv.AuthMsg;
 import io.vertx.tp.rbac.cv.em.OwnerType;
 import io.vertx.tp.rbac.refine.Sc;
 import io.vertx.up.atom.query.engine.Qr;
+import io.vertx.up.atom.secure.Vis;
 import io.vertx.up.eon.KName;
 import io.vertx.up.eon.Strings;
 import io.vertx.up.log.Annal;
@@ -25,7 +26,7 @@ public class ViewService implements ViewStub {
     private static final Annal LOGGER = Annal.get(ViewService.class);
 
     @Override
-    public Future<SView> fetchMatrix(final String userId, final String resourceId, final String view) {
+    public Future<SView> fetchMatrix(final String userId, final String resourceId, final Vis view) {
         /* Find user matrix */
         final JsonObject filters = this.toFilters(resourceId, view);
         filters.put("owner", userId);
@@ -39,7 +40,7 @@ public class ViewService implements ViewStub {
     public Future<JsonObject> saveMatrix(final String userId, final JsonObject viewData,
                                          final JsonArray projection, final JsonObject criteria) {
         final String resourceId = viewData.getString(KName.RESOURCE_ID);
-        final String view = viewData.getString(KName.VIEW);
+        final Vis view = (Vis) viewData.getValue(KName.VIEW);
         /* Find user matrix */
         final JsonObject filters = this.toFilters(resourceId, view);
         filters.put("owner", userId);
@@ -102,20 +103,21 @@ public class ViewService implements ViewStub {
     }
 
     @Override
-    public Future<List<SView>> fetchMatrix(final JsonArray roleIds, final String resourceId, final String view) {
+    public Future<List<SView>> fetchMatrix(final JsonArray roleIds, final String resourceId, final Vis view) {
         /* Find user matrix */
         final JsonObject filters = this.toFilters(resourceId, view);
         filters.put("owner,i", roleIds);
         filters.put("ownerType", OwnerType.ROLE.name());
         return Ux.Jooq.on(SViewDao.class)
-            .fetchAndAsync(new JsonObject().put("criteria", filters));
+            .fetchAndAsync(new JsonObject().put(Qr.KEY_CRITERIA, filters));
     }
 
-    private JsonObject toFilters(final String resourceId, final String view) {
+    private JsonObject toFilters(final String resourceId, final Vis view) {
         final JsonObject filters = new JsonObject();
         filters.put(Strings.EMPTY, Boolean.TRUE);
-        filters.put("resourceId", resourceId);
-        filters.put("name", view);
+        filters.put(KName.RESOURCE_ID, resourceId);
+        filters.put(KName.NAME, view.view());
+        filters.put(KName.POSITION, view.position());
         return filters;
     }
 }

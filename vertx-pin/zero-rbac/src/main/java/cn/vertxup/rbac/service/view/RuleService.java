@@ -6,9 +6,9 @@ import cn.vertxup.rbac.domain.tables.pojos.SView;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.ke.cv.KeDefault;
 import io.vertx.up.atom.query.engine.Qr;
 import io.vertx.up.eon.KName;
+import io.vertx.up.eon.KValue;
 import io.vertx.up.uca.jooq.UxJooq;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
@@ -93,7 +93,7 @@ public class RuleService implements RuleStub {
                      * Spec fields that should added default
                      */
                     normalized.setActive(Boolean.TRUE);
-                    normalized.setName(KeDefault.VIEW_DEFAULT);
+                    normalized.setName(KValue.View.VIEW_DEFAULT);
                     addQueue.add(normalized);
                 }
             });

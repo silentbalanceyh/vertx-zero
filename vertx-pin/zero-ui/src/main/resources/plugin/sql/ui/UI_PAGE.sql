@@ -36,37 +36,22 @@ CREATE TABLE IF NOT EXISTS UI_PAGE
     `ASSIST`           TEXT COMMENT '「assist」- 当前页面的辅助数据Ajax配置',
 
     -- 特殊字段
-    `ACTIVE` BIT DEFAULT NULL COMMENT '「active」- 是否启用',
-    `SIGMA` VARCHAR
-(
-    32
-) DEFAULT NULL COMMENT '「sigma」- 统一标识',
-    `METADATA` TEXT COMMENT '「metadata」- 附加配置',
-    `LANGUAGE` VARCHAR
-(
-    8
-) DEFAULT NULL COMMENT '「language」- 使用的语言',
+    `ACTIVE`           BIT         DEFAULT NULL COMMENT '「active」- 是否启用',
+    `SIGMA`            VARCHAR(32) DEFAULT NULL COMMENT '「sigma」- 统一标识',
+    `METADATA`         TEXT COMMENT '「metadata」- 附加配置',
+    `LANGUAGE`         VARCHAR(8)  DEFAULT NULL COMMENT '「language」- 使用的语言',
 
     -- Auditor字段
-    `CREATED_AT` DATETIME COMMENT '「createdAt」- 创建时间',
-    `CREATED_BY` VARCHAR
-(
-    36
-) COMMENT '「createdBy」- 创建人',
-    `UPDATED_AT` DATETIME COMMENT '「updatedAt」- 更新时间',
-    `UPDATED_BY` VARCHAR
-(
-    36
-) COMMENT '「updatedBy」- 更新人',
-    PRIMARY KEY
-(
-    `KEY`
-) USING BTREE
-    );
+    `CREATED_AT`       DATETIME COMMENT '「createdAt」- 创建时间',
+    `CREATED_BY`       VARCHAR(36) COMMENT '「createdBy」- 创建人',
+    `UPDATED_AT`       DATETIME COMMENT '「updatedAt」- 更新时间',
+    `UPDATED_BY`       VARCHAR(36) COMMENT '「updatedBy」- 更新人',
+    PRIMARY KEY (`KEY`) USING BTREE
+);
 
 -- changeset Lang:ox-page-2
 ALTER TABLE UI_PAGE
     ADD UNIQUE (`APP`, `MODULE`, `PAGE`, `SIGMA`) USING BTREE; -- 页面唯一地址，同一个应用内唯一
 
 ALTER TABLE UI_PAGE
-    ADD INDEX IDXM_UI_PAGE_APP_MODULE_PAGE_LANGUAGE_SIGMA (`APP`,`MODULE`,`PAGE`,`LANGUAGE`,`SIGMA`) USING BTREE;
+    ADD INDEX IDXM_UI_PAGE_APP_MODULE_PAGE_LANGUAGE_SIGMA (`APP`, `MODULE`, `PAGE`, `LANGUAGE`, `SIGMA`) USING BTREE;

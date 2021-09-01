@@ -6,8 +6,6 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 public @interface PointParam {
-    String value();
-
     /*
      * Point parameters
      * Here are dim configuration
@@ -16,5 +14,5 @@ public @interface PointParam {
      * 3 - [x,y,z]
      * 4 - [x,y,z,j]
      * */
-    int dim() default 2;
+    String value();
 }

@@ -193,7 +193,7 @@ final class Jackson {
     static <T, R extends Iterable> R serializeJson(final T t) {
         final String content = Jackson.serialize(t);
         return Fn.getJvm(null,
-            () -> Fn.getSemi(content.trim().startsWith(Strings.LEFT_BRACES), null,
+            () -> Fn.getSemi(content.trim().startsWith(Strings.LEFT_BRACE), null,
                 () -> (R) new JsonObject(content),
                 () -> (R) new JsonArray(content)), content);
     }
@@ -264,6 +264,37 @@ final class Jackson {
             return new JsonObject();
         } else {
             return object;
+        }
+    }
+
+    static String aiStringA(final String literal) {
+        if (literal.contains(Strings.QUOTE_DOUBLE)) {
+            return literal;
+        } else {
+            final StringBuilder buffer = new StringBuilder();
+            final String[] split = literal.split(Strings.COMMA);
+            final List<String> elements = new ArrayList<>();
+            Arrays.stream(split).forEach(each -> {
+                if (Objects.nonNull(each)) {
+                    if (each.trim().startsWith(Strings.LEFT_SQUARE)) {
+                        elements.add(Strings.QUOTE_DOUBLE +
+                            each.trim().substring(1)
+                            + Strings.QUOTE_DOUBLE);
+                    } else if (each.trim().endsWith(Strings.RIGHT_SQUARE)) {
+                        elements.add(Strings.QUOTE_DOUBLE +
+                            each.trim().substring(0, each.trim().length() - 2)
+                            + Strings.QUOTE_DOUBLE);
+                    } else {
+                        elements.add(Strings.QUOTE_DOUBLE +
+                            each.trim()
+                            + Strings.QUOTE_DOUBLE);
+                    }
+                }
+            });
+            buffer.append(Strings.LEFT_SQUARE);
+            buffer.append(Ut.fromJoin(elements));
+            buffer.append(Strings.RIGHT_SQUARE);
+            return buffer.toString();
         }
     }
 

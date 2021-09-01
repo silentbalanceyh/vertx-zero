@@ -34,9 +34,9 @@ CREATE TABLE IF NOT EXISTS S_VISITANT
      * -- 在配置模式下，configKey 描述的配置的 control 记录
      * -- 在记录读取下，configKey 描述的是模型的 category 的主键
      **/
-    `TYPE`                 VARCHAR(128) COMMENT '「type」- 访问者类型',
-    `IDENTIFIER`           VARCHAR(255) COMMENT '「identifier」- 动态类型中的模型ID',
-    `CONFIG_KEY`           VARCHAR(36)  COMMENT '「configKey」- 模型下记录对应的ID，一般是配置的ID',
+    `TYPE`        VARCHAR(128) COMMENT '「type」- 访问者类型',
+    `IDENTIFIER`  VARCHAR(255) COMMENT '「identifier」- 动态类型中的模型ID',
+    `CONFIG_KEY`  VARCHAR(36) COMMENT '「configKey」- 模型下记录对应的ID，一般是配置的ID',
 
     -- 访问者的访问信息
     /*
@@ -48,40 +48,25 @@ CREATE TABLE IF NOT EXISTS S_VISITANT
      * 6）依赖属性集：保存了所有带有依赖属性的信息
      * 7）依赖属性集配置
      */
-    `ACL_VISIBLE`          TEXT COMMENT '「aclVisible」- 可见的属性集',
-    `ACL_VIEW`             TEXT COMMENT '「aclView」- 只读的属性集',
-    `ACL_VARIETY`          TEXT COMMENT '「aclVariety」- 多样性的属性集，用于控制集合类型的属性',
-    `ACL_VOW`              TEXT COMMENT '「aclVow」- 引用类属性集',
-    `ACL_VERGE`            TEXT COMMENT '「aclVerge」- 依赖属性集',
+    `ACL_VISIBLE` TEXT COMMENT '「aclVisible」- 可见的属性集',
+    `ACL_VIEW`    TEXT COMMENT '「aclView」- 只读的属性集',
+    `ACL_VARIETY` TEXT COMMENT '「aclVariety」- 多样性的属性集，用于控制集合类型的属性',
+    `ACL_VOW`     TEXT COMMENT '「aclVow」- 引用类属性集',
+    `ACL_VERGE`   TEXT COMMENT '「aclVerge」- 依赖属性集',
 
     -- 特殊字段
-    `SIGMA` VARCHAR
-(
-    128
-) COMMENT '「sigma」- 用户组绑定的统一标识',
-    `LANGUAGE` VARCHAR
-(
-    10
-) COMMENT '「language」- 使用的语言',
-    `ACTIVE` BIT COMMENT '「active」- 是否启用',
-    `METADATA` TEXT COMMENT '「metadata」- 附加配置数据',
+    `SIGMA`       VARCHAR(128) COMMENT '「sigma」- 用户组绑定的统一标识',
+    `LANGUAGE`    VARCHAR(10) COMMENT '「language」- 使用的语言',
+    `ACTIVE`      BIT COMMENT '「active」- 是否启用',
+    `METADATA`    TEXT COMMENT '「metadata」- 附加配置数据',
 
     -- Auditor字段
-    `CREATED_AT` DATETIME COMMENT '「createdAt」- 创建时间',
-    `CREATED_BY` VARCHAR
-(
-    36
-) COMMENT '「createdBy」- 创建人',
-    `UPDATED_AT` DATETIME COMMENT '「updatedAt」- 更新时间',
-    `UPDATED_BY` VARCHAR
-(
-    36
-) COMMENT '「updatedBy」- 更新人',
-    PRIMARY KEY
-(
-    `KEY`
-) USING BTREE
-    );
+    `CREATED_AT`  DATETIME COMMENT '「createdAt」- 创建时间',
+    `CREATED_BY`  VARCHAR(36) COMMENT '「createdBy」- 创建人',
+    `UPDATED_AT`  DATETIME COMMENT '「updatedAt」- 更新时间',
+    `UPDATED_BY`  VARCHAR(36) COMMENT '「updatedBy」- 更新人',
+    PRIMARY KEY (`KEY`) USING BTREE
+);
 
 -- changeset Lang:ox-visitant-2
 ALTER TABLE S_VISITANT
@@ -105,7 +90,7 @@ ALTER TABLE S_VISITANT
  */
 ALTER TABLE S_VISITANT
     ADD INDEX
-        IDXM_S_VISITANT_VIEW_ID_TYPE_CONFIG (`VIEW_ID`,`TYPE`,`CONFIG_KEY`) USING BTREE;
+        IDXM_S_VISITANT_VIEW_ID_TYPE_CONFIG (`VIEW_ID`, `TYPE`, `CONFIG_KEY`) USING BTREE;
 ALTER TABLE S_VISITANT
     ADD INDEX
-        IDXM_S_VISITANT_VIEW_ID_TYPE_IDENTIFIER (`VIEW_ID`,`TYPE`,`IDENTIFIER`) USING BTREE;
+        IDXM_S_VISITANT_VIEW_ID_TYPE_IDENTIFIER (`VIEW_ID`, `TYPE`, `IDENTIFIER`) USING BTREE;

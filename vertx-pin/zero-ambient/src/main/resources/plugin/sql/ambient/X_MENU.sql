@@ -17,33 +17,18 @@ CREATE TABLE IF NOT EXISTS X_MENU
     `APP_ID`     VARCHAR(36) COMMENT '「appId」- 应用程序ID',
 
     -- 特殊字段
-    `ACTIVE` BIT DEFAULT NULL COMMENT '「active」- 是否启用',
-    `SIGMA` VARCHAR
-(
-    32
-) DEFAULT NULL COMMENT '「sigma」- 统一标识',
-    `METADATA` TEXT COMMENT '「metadata」- 附加配置',
-    `LANGUAGE` VARCHAR
-(
-    8
-) DEFAULT NULL COMMENT '「language」- 使用的语言',
+    `ACTIVE`     BIT         DEFAULT NULL COMMENT '「active」- 是否启用',
+    `SIGMA`      VARCHAR(32) DEFAULT NULL COMMENT '「sigma」- 统一标识',
+    `METADATA`   TEXT COMMENT '「metadata」- 附加配置',
+    `LANGUAGE`   VARCHAR(8)  DEFAULT NULL COMMENT '「language」- 使用的语言',
 
     -- Auditor字段
     `CREATED_AT` DATETIME COMMENT '「createdAt」- 创建时间',
-    `CREATED_BY` VARCHAR
-(
-    36
-) COMMENT '「createdBy」- 创建人',
+    `CREATED_BY` VARCHAR(36) COMMENT '「createdBy」- 创建人',
     `UPDATED_AT` DATETIME COMMENT '「updatedAt」- 更新时间',
-    `UPDATED_BY` VARCHAR
-(
-    36
-) COMMENT '「updatedBy」- 更新人',
-    PRIMARY KEY
-(
-    `KEY`
-) USING BTREE
-    );
+    `UPDATED_BY` VARCHAR(36) COMMENT '「updatedBy」- 更新人',
+    PRIMARY KEY (`KEY`) USING BTREE
+);
 
 -- changeset Lang:ox-menu-2
 ALTER TABLE X_MENU

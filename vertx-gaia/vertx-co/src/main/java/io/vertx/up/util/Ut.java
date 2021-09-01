@@ -1127,6 +1127,10 @@ public final class Ut {
         return Jackson.flag(recordN, recordO);
     }
 
+    public static String aiStringA(final String literal) {
+        return Jackson.aiStringA(literal);
+    }
+
     /*
      * To conversation here
      * 1) toJArray
