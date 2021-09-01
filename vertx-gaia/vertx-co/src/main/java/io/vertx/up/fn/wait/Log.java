@@ -37,9 +37,9 @@ public final class Log {
         if (Ut.isNil(this.key)) {
             final StringBuilder pattern = new StringBuilder();
             for (int idx = 0; idx < args.length; idx++) {
-                pattern.append(Strings.LEFT_BRACES)
+                pattern.append(Strings.LEFT_BRACE)
                     .append(idx)
-                    .append(Strings.RIGHT_BRACES)
+                    .append(Strings.RIGHT_BRACE)
                     .append(" ");
             }
             this.logger.info(pattern.toString(), args);

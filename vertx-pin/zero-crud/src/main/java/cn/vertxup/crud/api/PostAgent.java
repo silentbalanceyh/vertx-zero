@@ -1,5 +1,6 @@
 package cn.vertxup.crud.api;
 
+import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.crud.cv.Addr;
 import io.vertx.up.annotations.Address;
@@ -35,7 +36,7 @@ public interface PostAgent {
     @Adjust(Orders.MODULE)
     JsonObject search(@PathParam("actor") String actor,
                       @BodyParam JsonObject data,
-                      @QueryParam(KName.VIEW) String view,
+                      @PointParam(KName.VIEW) JsonArray view,
                       @QueryParam(KName.MODULE) String module);
 
     /*

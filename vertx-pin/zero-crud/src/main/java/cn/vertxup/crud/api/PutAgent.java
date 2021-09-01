@@ -7,6 +7,7 @@ import io.vertx.tp.ke.cv.KeDefault;
 import io.vertx.up.annotations.Address;
 import io.vertx.up.annotations.Adjust;
 import io.vertx.up.annotations.EndPoint;
+import io.vertx.up.eon.KName;
 import io.vertx.up.eon.Orders;
 
 import javax.ws.rs.*;
@@ -38,7 +39,7 @@ public interface PutAgent {
     @Address(Addr.Put.COLUMN_MY)
     @Adjust(Orders.MODULE)
     JsonArray getMy(@PathParam("actor") String actor,
-                    @DefaultValue(KeDefault.VIEW_DEFAULT) @QueryParam("view") String view,
+                    @DefaultValue(KeDefault.VIEW_DEFAULT) @PointParam(KName.VIEW) JsonArray view,
                     @QueryParam("module") String module,
                     @BodyParam JsonObject viewData);
 }

@@ -8,10 +8,7 @@ import io.vertx.up.annotations.EndPoint;
 import io.vertx.up.eon.KName;
 import io.vertx.up.eon.Orders;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.QueryParam;
+import javax.ws.rs.*;
 
 /*
  * Http Method: Get
@@ -24,7 +21,7 @@ public interface ViewAgent {
     @Address(Addr.Get.COLUMN_FULL)
     @Adjust(Orders.MODULE)
     JsonArray getFull(@PathParam(KName.ACTOR) String actor,
-                      @QueryParam(KName.VIEW) String view,
+                      @PointParam(KName.VIEW) JsonArray view,
                       @QueryParam(KName.MODULE) String module);
 
     @GET
@@ -32,6 +29,6 @@ public interface ViewAgent {
     @Address(Addr.Get.COLUMN_MY)
     @Adjust(Orders.MODULE)
     JsonArray getMy(@PathParam(KName.ACTOR) String actor,
-                    @QueryParam(KName.VIEW) String view,
+                    @PointParam(KName.VIEW) JsonArray view,
                     @QueryParam(KName.MODULE) String module);
 }

@@ -104,11 +104,7 @@ public class ZeroSerializer {
         boolean result = false;
         if (null != input) {
             final Class<?> cls = input.getClass();
-            if (JsonObject.class == cls) {
-                result = false;
-            } else if (JsonArray.class == cls) {
-                result = false;
-            } else {
+            if (JsonObject.class != cls && JsonArray.class != cls) {
                 result = SABERS.containsKey(cls);
             }
         }

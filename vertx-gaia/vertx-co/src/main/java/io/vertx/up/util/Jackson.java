@@ -193,7 +193,7 @@ final class Jackson {
     static <T, R extends Iterable> R serializeJson(final T t) {
         final String content = Jackson.serialize(t);
         return Fn.getJvm(null,
-            () -> Fn.getSemi(content.trim().startsWith(Strings.LEFT_BRACES), null,
+            () -> Fn.getSemi(content.trim().startsWith(Strings.LEFT_BRACE), null,
                 () -> (R) new JsonObject(content),
                 () -> (R) new JsonArray(content)), content);
     }
