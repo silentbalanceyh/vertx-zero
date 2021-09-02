@@ -282,7 +282,7 @@ final class Jackson {
                             + Strings.QUOTE_DOUBLE);
                     } else if (each.trim().endsWith(Strings.RIGHT_SQUARE)) {
                         elements.add(Strings.QUOTE_DOUBLE +
-                            each.trim().substring(0, each.trim().length() - 2)
+                            each.trim().substring(0, each.trim().length() - 1)
                             + Strings.QUOTE_DOUBLE);
                     } else {
                         elements.add(Strings.QUOTE_DOUBLE +

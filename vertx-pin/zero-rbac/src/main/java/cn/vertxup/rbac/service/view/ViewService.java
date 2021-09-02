@@ -40,7 +40,7 @@ public class ViewService implements ViewStub {
     public Future<JsonObject> saveMatrix(final String userId, final JsonObject viewData,
                                          final JsonArray projection, final JsonObject criteria) {
         final String resourceId = viewData.getString(KName.RESOURCE_ID);
-        final Vis view = (Vis) viewData.getValue(KName.VIEW);
+        final Vis view = Vis.smart(viewData.getValue(KName.VIEW));
         /* Find user matrix */
         final JsonObject filters = this.toFilters(resourceId, view);
         filters.put("owner", userId);

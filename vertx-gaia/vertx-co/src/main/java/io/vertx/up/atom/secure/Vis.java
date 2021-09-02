@@ -34,6 +34,13 @@ public class Vis extends JsonObject {
         this.put(KName.POSITION, position);
     }
 
+    private Vis(final JsonObject json) {
+        super();
+        if (Ut.notNil(json)) {
+            this.mergeIn(json);
+        }
+    }
+
     public static Vis create(final JsonArray input) {
         final String view;
         final String position;
@@ -68,6 +75,28 @@ public class Vis extends JsonObject {
             final String normalized = Ut.aiStringA(literal);
             final JsonArray data = Ut.toJArray(normalized);
             return create(data);
+        }
+    }
+
+    public static Vis smart(final Object json) {
+        if (json instanceof Vis) {
+            // Vis object, convert directly
+            return (Vis) json;
+        } else if (json instanceof JsonObject) {
+            // Json object convert to Vis ( sub class )
+            return new Vis(((JsonObject) json));
+        } else if (json instanceof String) {
+            final String viewJson = (String) json;
+            if (Ut.isJObject(viewJson)) {
+                // The json is literal
+                return new Vis(Ut.toJObject(viewJson));
+            } else {
+                // Single view with default position
+                return new Vis((String) json, KValue.View.POSITION_DEFAULT);
+            }
+        } else {
+            // Default value
+            return new Vis(KValue.View.VIEW_DEFAULT, KValue.View.POSITION_DEFAULT);
         }
     }
 

@@ -22,7 +22,7 @@ class QVkPre implements Pre {
         final String sessionKey = Ke.keySession(
             impactUri.getValue().name(),
             impactUri.getKey(),
-            (Vis) data.getValue(KName.VIEW)
+            Vis.smart(data.getValue(KName.VIEW))
         );
         Ix.Log.dao(this.getClass(), IxMsg.CACHE_KEY_PROJECTION, sessionKey);
         data.put(KName.DATA_KEY, sessionKey);

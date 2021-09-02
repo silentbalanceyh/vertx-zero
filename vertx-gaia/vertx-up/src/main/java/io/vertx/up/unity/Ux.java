@@ -14,6 +14,7 @@ import io.vertx.tp.plugin.database.DataPool;
 import io.vertx.tp.plugin.jooq.JooqInfix;
 import io.vertx.up.atom.query.Pagination;
 import io.vertx.up.atom.record.Apt;
+import io.vertx.up.atom.secure.Vis;
 import io.vertx.up.commune.Envelop;
 import io.vertx.up.commune.Record;
 import io.vertx.up.commune.exchange.DictConfig;
@@ -779,6 +780,27 @@ public final class Ux {
     // -> Message<Envelop> -> String ( Interface mode )
     public static String getString2(final Envelop envelop) {
         return In.request(envelop, 2, String.class);
+    }
+
+    // -> Message<Envelop> -> String ( Interface mode )
+
+    public static Vis getVis(final Envelop envelop, final int index) {
+        return In.request(envelop, index, Vis.class);
+    }
+
+    // -> Message<Envelop> -> String ( Interface mode )
+    public static Vis getVis(final Envelop envelop) {
+        return In.request(envelop, 0, Vis.class);
+    }
+
+    // -> Message<Envelop> -> String ( Interface mode )
+    public static Vis getVis1(final Envelop envelop) {
+        return In.request(envelop, 1, Vis.class);
+    }
+
+    // -> Message<Envelop> -> String ( Interface mode )
+    public static Vis getVis2(final Envelop envelop) {
+        return In.request(envelop, 2, Vis.class);
     }
 
     // -> Message<Envelop> -> JsonObject ( Interface mode )

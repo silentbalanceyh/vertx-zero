@@ -15,7 +15,7 @@ public interface PersonalStub {
     /*
      * Personal View Processing
      */
-    Future<List<SView>> byUser(String resourceId, String ownerId);
+    Future<List<SView>> byUser(String resourceId, String ownerId, String location);
 
     Future<SView> byId(String key);
 

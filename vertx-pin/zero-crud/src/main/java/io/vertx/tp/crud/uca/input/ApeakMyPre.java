@@ -9,10 +9,7 @@ import io.vertx.tp.ke.atom.KModule;
 import io.vertx.tp.ke.atom.view.KColumn;
 import io.vertx.up.atom.Kv;
 import io.vertx.up.eon.KName;
-import io.vertx.up.fn.Fn;
 import io.vertx.up.unity.Ux;
-
-import java.util.Objects;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
@@ -42,7 +39,7 @@ class ApeakMyPre implements Pre {
         /* Column definition */
         final KColumn column = module.getColumn();
         assert null != column : "The column definition should not be null";
-        Fn.safeSemi(Objects.isNull(data.getValue(KName.VIEW)), () -> data.put(KName.VIEW, column.getView()));
+        T.viewProc(data, column);
         /*
          * Uri and method
          */

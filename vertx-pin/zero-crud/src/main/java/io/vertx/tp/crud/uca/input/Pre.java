@@ -6,8 +6,13 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.tp.crud.cv.Pooled;
 import io.vertx.tp.crud.uca.desk.IxIn;
 import io.vertx.tp.error._501NotSupportException;
+import io.vertx.tp.ke.atom.view.KColumn;
 import io.vertx.tp.plugin.excel.ExcelClient;
+import io.vertx.up.atom.secure.Vis;
+import io.vertx.up.eon.KName;
 import io.vertx.up.fn.Fn;
+
+import java.util.Objects;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
@@ -127,5 +132,17 @@ public interface Pre {
     // JsonObject -> JsonArray
     default Future<JsonArray> inJAAsync(final JsonObject data, final IxIn in) {
         return Future.failedFuture(new _501NotSupportException(this.getClass()));
+    }
+}
+
+class T {
+
+    /*
+     * Processing `view` parameters here
+     */
+    static void viewProc(final JsonObject data, final KColumn column) {
+        Fn.safeSemi(Objects.isNull(data.getValue(KName.VIEW)), () ->
+            // Vis: Fix bug of default view
+            data.put(KName.VIEW, Vis.smart(column.getView())));
     }
 }
