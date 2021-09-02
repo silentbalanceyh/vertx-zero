@@ -6,10 +6,7 @@ import io.vertx.tp.crud.uca.desk.IxIn;
 import io.vertx.tp.ke.atom.KModule;
 import io.vertx.tp.ke.atom.view.KColumn;
 import io.vertx.up.eon.KName;
-import io.vertx.up.fn.Fn;
 import io.vertx.up.unity.Ux;
-
-import java.util.Objects;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
@@ -36,7 +33,7 @@ class ApeakPre implements Pre {
          */
         data.put(KName.IDENTIFIER, column.getIdentifier());
         data.put(KName.DYNAMIC, column.getDynamic());
-        Fn.safeSemi(Objects.isNull(data.getValue(KName.VIEW)), () -> data.put(KName.VIEW, column.getView()));
+        T.viewProc(data, column);
         return Ux.future(data);
     }
 }

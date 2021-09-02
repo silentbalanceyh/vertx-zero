@@ -28,7 +28,7 @@ public class ExColumnApeakMy extends Anchoret<ApeakMy> implements ApeakMy {
             return Ux.futureA();
         }
         final String userId = params.getString(ARG1);
-        final Vis view = (Vis) params.getValue(ARG2);
+        final Vis view = Vis.smart(params.getValue(ARG2));
         return this.stub.fetchMatrix(userId, resourceId, view)
             .compose(queried -> Objects.isNull(queried) ?
                 /* No view found */
@@ -45,12 +45,10 @@ public class ExColumnApeakMy extends Anchoret<ApeakMy> implements ApeakMy {
             return Ux.futureJ();
         }
         final String userId = params.getString(ARG1);
-        final String view = params.getString(ARG2);
         /*
          * Normalize data for `language` and `sigma` etc.
          */
         final JsonObject viewData = params.copy();
-        viewData.put(ARG2, view);
         /*
          * Two Params
          */

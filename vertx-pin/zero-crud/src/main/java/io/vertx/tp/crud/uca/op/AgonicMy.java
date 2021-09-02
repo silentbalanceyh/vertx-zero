@@ -17,7 +17,7 @@ import io.vertx.up.uca.jooq.UxJooq;
 class AgonicMy implements Agonic {
     /*
      * {
-     *     "view": "The view name, if not put DEFAULT",
+     *     "view": [view, position]
      *     "uri": "http path",
      *     "method": "http method",
      *     "sigma": "The application uniform",

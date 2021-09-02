@@ -67,7 +67,9 @@ public class ViewPersonalActor {
             if (Objects.isNull(action)) {
                 return Ux.futureA();
             } else {
-                return this.personalStub.byUser(action.getResourceId(), userId)
+                final JsonObject data = Ux.getJson(envelop);
+                return this.personalStub.byUser(action.getResourceId(), userId,
+                        data.getString(KName.POSITION))
                     .compose(Ux::futureA)
                     .compose(Ut.ifJArray(Qr.KEY_CRITERIA, Qr.KEY_PROJECTION, KName.Rbac.ROWS));
             }

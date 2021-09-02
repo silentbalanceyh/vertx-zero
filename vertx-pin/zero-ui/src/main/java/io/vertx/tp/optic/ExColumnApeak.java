@@ -7,6 +7,7 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.tp.optic.fantom.Anchoret;
 import io.vertx.tp.ui.cv.UiMsg;
 import io.vertx.tp.ui.refine.Ui;
+import io.vertx.up.atom.secure.Vis;
 
 /*
  * Bridge design for call internal actual column service
@@ -29,7 +30,7 @@ public class ExColumnApeak extends Anchoret<Apeak> implements Apeak {
         /* Whether this module used dynamic column here */
         final String identifier = params.getString(Apeak.ARG1);
         final String sigma = params.getString(Apeak.ARG2);
-        final String view = params.getString(Apeak.ARG3);
+        final Vis view = Vis.smart(params.getValue(Apeak.ARG3));
         return valve.fetchColumn(view, identifier, sigma);
     }
 }

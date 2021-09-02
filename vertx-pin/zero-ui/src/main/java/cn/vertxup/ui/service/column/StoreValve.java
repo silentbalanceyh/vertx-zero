@@ -6,6 +6,7 @@ import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.ke.refine.Ke;
+import io.vertx.up.atom.secure.Vis;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
@@ -14,13 +15,13 @@ import java.util.stream.Collectors;
 
 class StoreValve implements UiValve {
     @Override
-    public Future<JsonArray> fetchColumn(final String view, final String identifier, final String sigma) {
+    public Future<JsonArray> fetchColumn(final Vis vis, final String identifier, final String sigma) {
         /*
          * Default global controlId is
          * 1) The format is VIEW-identifier
          * 2) sigma could distinguish multi applications
          */
-        final String controlId = view + "-" + identifier;
+        final String controlId = vis.view() + "-" + identifier;
         final JsonObject filters = new JsonObject();
         filters.put("", Boolean.TRUE);
         filters.put("controlId", controlId);

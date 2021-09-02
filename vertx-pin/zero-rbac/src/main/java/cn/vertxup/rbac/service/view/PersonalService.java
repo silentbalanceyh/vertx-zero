@@ -7,6 +7,7 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.tp.rbac.cv.em.OwnerType;
 import io.vertx.up.atom.query.engine.Qr;
 import io.vertx.up.eon.KName;
+import io.vertx.up.eon.KValue;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
@@ -21,11 +22,12 @@ import java.util.UUID;
  */
 public class PersonalService implements PersonalStub {
     @Override
-    public Future<List<SView>> byUser(final String resourceId, final String ownerId) {
+    public Future<List<SView>> byUser(final String resourceId, final String ownerId, final String position) {
         final JsonObject criteria = Ux.whereAnd();
         criteria.put("ownerType", OwnerType.USER.name());
         criteria.put("owner", ownerId);
         criteria.put(KName.RESOURCE_ID, resourceId);
+        criteria.put(KName.POSITION, Objects.isNull(position) ? KValue.View.POSITION_DEFAULT : position);
         return Ux.Jooq.on(SViewDao.class).fetchAsync(criteria);
     }
 

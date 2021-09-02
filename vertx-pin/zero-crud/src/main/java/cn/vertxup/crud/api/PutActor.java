@@ -12,6 +12,7 @@ import io.vertx.tp.crud.uca.output.Post;
 import io.vertx.up.annotations.Address;
 import io.vertx.up.annotations.Queue;
 import io.vertx.up.atom.query.engine.Qr;
+import io.vertx.up.atom.secure.Vis;
 import io.vertx.up.commune.Envelop;
 import io.vertx.up.eon.KName;
 import io.vertx.up.eon.em.ChangeFlag;
@@ -65,7 +66,7 @@ public class PutActor {
 
     @Address(Addr.Put.COLUMN_MY)
     public Future<JsonObject> updateColumn(final Envelop envelop) {
-        final String view = Ux.getString1(envelop);
+        final Vis view = Ux.getVis1(envelop);
         final JsonObject viewData = Ux.getJson(envelop, 3);
 
         final String module = Ux.getString2(envelop);

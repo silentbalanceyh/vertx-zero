@@ -52,7 +52,7 @@ public class ScRequest implements Serializable {
          * Extension for orbit
          */
         this.uri = Sc.uri(uri, this.requestUri);
-        this.view = (Vis) metadata.getValue(KName.VIEW);
+        this.view = Vis.smart(metadata.getValue(KName.VIEW));
         /*
          * Support multi applications
          */
