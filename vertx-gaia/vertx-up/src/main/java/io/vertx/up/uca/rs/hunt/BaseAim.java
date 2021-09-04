@@ -15,7 +15,6 @@ import io.vertx.up.exception.WebException;
 import io.vertx.up.exception.web._500DeliveryErrorException;
 import io.vertx.up.exception.web._500EntityCastException;
 import io.vertx.up.fn.Actuator;
-import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import io.vertx.up.uca.rs.mime.Analyzer;
 import io.vertx.up.uca.rs.mime.MediaAnalyzer;
@@ -87,11 +86,19 @@ public abstract class BaseAim {
 
     protected Envelop failure(final String address,
                               final AsyncResult<Message<Envelop>> handler) {
-        final WebException error
-            = new _500DeliveryErrorException(this.getClass(),
-            address,
-            Fn.getNull(null,
-                () -> handler.cause().getMessage(), handler.cause()));
+        final Throwable cause = handler.cause();
+        final WebException error;
+        if (Objects.isNull(cause)) {
+            error = new _500DeliveryErrorException(this.getClass(),
+                address, "Unknown");
+        } else {
+            if (cause instanceof WebException) {
+                error = (WebException) cause;
+            } else {
+                error = new _500DeliveryErrorException(this.getClass(),
+                    address, "Jvm: " + cause.getMessage());
+            }
+        }
         return Envelop.failure(error);
     }
 

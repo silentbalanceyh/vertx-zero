@@ -40,6 +40,6 @@ class UuidPre implements Pre {
     public Future<JsonArray> inAAsync(final JsonArray data, final IxIn in) {
         final KModule module = in.module();
         Ut.itJArray(data).forEach(json -> this.generateKey(json, module));
-        return Pre.super.inAAsync(data, in);
+        return Ux.future(data);
     }
 }

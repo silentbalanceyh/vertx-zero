@@ -47,11 +47,6 @@ public class IxNext {
         }
     }
 
-    public Future<JsonArray> runAJA(final JsonArray input, final JsonObject active) {
-        Ut.itJArray(input).forEach(data -> this.run(data, active));
-        return Ux.future(input);
-    }
-
     public Future<JsonArray> runJAA(final JsonObject input, final JsonArray array) {
         Ut.itJArray(array).forEach(data -> this.run(data, new JsonObject()));
         return Ux.future(array);
