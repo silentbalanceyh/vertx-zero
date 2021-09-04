@@ -7,7 +7,6 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.tp.crud.cv.Addr;
 import io.vertx.tp.crud.refine.Ix;
 import io.vertx.tp.crud.uca.desk.IxIn;
-import io.vertx.tp.crud.uca.desk.IxNext;
 import io.vertx.tp.crud.uca.desk.IxPanel;
 import io.vertx.tp.crud.uca.input.Pre;
 import io.vertx.tp.crud.uca.op.Agonic;
@@ -52,7 +51,7 @@ public class FileActor {
                 .input(
                     Pre.fabric(true)::inAAsync      /* Dict */
                 )
-                .next(in -> IxNext.on(in)::runAJA)
+                .next(in -> (input, active) -> Ux.future(active))
                 .passion(Agonic.file()::runAAsync)
                 .runA(data)
         );
