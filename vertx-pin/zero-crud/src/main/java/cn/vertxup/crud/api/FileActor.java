@@ -99,7 +99,7 @@ public class FileActor {
                          * The system will calculate the type definition of static module
                          */
                         final TypeAtom atom = Ix.onAtom(active, (JsonArray) columns);
-                        return this.client.exportAsync(in.getIdentifier(), (JsonArray) data, atom);
+                        return this.client.exportAsync(in.getTable(), (JsonArray) data, atom);
                     } else {
                         return Ux.future(Buffer.buffer());
                     }
