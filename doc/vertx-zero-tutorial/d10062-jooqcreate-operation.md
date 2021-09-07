@@ -1,10 +1,3 @@
-# D10062 - Jooq/Create Operation
-
-From this chapter we'll focus on CRUD operations on database, the first operation is `Create`, it's mapped to `INSERT` sql statement.
-
-## 1. Source Code
-
-
-
-
-
+version https://git-lfs.github.com/spec/v1
+oid sha256:dcec87c053170781deda35d15e710a02bf09cc0a35170df5783c679a8cb78d69
+size 192
