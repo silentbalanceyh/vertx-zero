@@ -9,8 +9,8 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>zero-fmd</artifactId>
-    <name>Extension:「zero-fmd」Fd - Finance</name>
+    <artifactId>zero-fm</artifactId>
+    <name>Extension:「zero-fm」Fm - Finance</name>
     <dependencies>
         <!-- Kern -->
         <dependency>
