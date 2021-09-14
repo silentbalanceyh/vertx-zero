@@ -4,7 +4,7 @@ import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.crud.init.IxPin;
-import io.vertx.tp.crud.uca.desk.IxIn;
+import io.vertx.tp.crud.uca.desk.IxMod;
 import io.vertx.tp.ke.atom.KModule;
 import io.vertx.tp.ke.atom.connect.KJoin;
 import io.vertx.tp.ke.atom.connect.KPoint;
@@ -24,7 +24,7 @@ import java.util.function.Supplier;
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 class IxQr {
-    static Function<JsonObject, Future<JsonArray>> fetchFn(final IxIn in) {
+    static Function<JsonObject, Future<JsonArray>> fetchFn(final IxMod in) {
         return condition -> {
             // KModule
             final KModule connect = in.connect();
@@ -40,7 +40,7 @@ class IxQr {
         };
     }
 
-    static Function<JsonObject, Future<JsonObject>> searchFn(final IxIn in) {
+    static Function<JsonObject, Future<JsonObject>> searchFn(final IxMod in) {
         return condition -> {
             // KModule
             final KModule connect = in.connect();
@@ -56,7 +56,7 @@ class IxQr {
         };
     }
 
-    static Function<JsonObject, Future<Long>> countFn(final IxIn in) {
+    static Function<JsonObject, Future<Long>> countFn(final IxMod in) {
         return condition -> {
             // KModule
             final KModule connect = in.connect();
@@ -72,7 +72,7 @@ class IxQr {
         };
     }
 
-    static <T> BiFunction<Supplier<T>, BiFunction<UxJooq, JsonObject, Future<T>>, Future<T>> seekFn(final IxIn in, final Object object) {
+    static <T> BiFunction<Supplier<T>, BiFunction<UxJooq, JsonObject, Future<T>>, Future<T>> seekFn(final IxMod in, final Object object) {
         return (supplier, executor) -> {
             final KModule module = in.module();
             final KJoin join = module.getConnect();

@@ -6,7 +6,7 @@ import io.vertx.core.http.HttpMethod;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.crud.init.IxPin;
-import io.vertx.tp.crud.uca.desk.IxIn;
+import io.vertx.tp.crud.uca.desk.IxMod;
 import io.vertx.tp.ke.atom.KField;
 import io.vertx.tp.ke.atom.KModule;
 import io.vertx.tp.optic.Pocket;
@@ -53,7 +53,7 @@ class IxData {
         }
     }
 
-    static Kv<String, HttpMethod> flush(final IxIn in) {
+    static Kv<String, HttpMethod> flush(final IxMod in) {
         final KModule module = in.module();
         final String pattern = "/api/{0}/search";
         final String actor = module.getName();
@@ -110,10 +110,10 @@ class IxData {
 
     // JqFn
     @SafeVarargs
-    static <T> Future<T> passion(final T input, final IxIn in, final BiFunction<T, IxIn, Future<T>>... executors) {
+    static <T> Future<T> passion(final T input, final IxMod in, final BiFunction<T, IxMod, Future<T>>... executors) {
         // Sequence for future management
         Future<T> future = Future.succeededFuture(input);
-        for (final BiFunction<T, IxIn, Future<T>> executor : executors) {
+        for (final BiFunction<T, IxMod, Future<T>> executor : executors) {
             if (Objects.nonNull(executor)) {
                 future = future.compose(data -> executor.apply(data, in));
             }
@@ -121,7 +121,7 @@ class IxData {
         return future;
     }
 
-    static Future<DictFabric> fabric(final IxIn in) {
+    static Future<DictFabric> fabric(final IxMod in) {
         final Envelop envelop = in.envelop();
         final KModule module = in.module();
         /* Epsilon */

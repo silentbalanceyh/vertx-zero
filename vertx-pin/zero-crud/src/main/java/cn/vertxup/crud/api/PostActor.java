@@ -3,17 +3,17 @@ package cn.vertxup.crud.api;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.crud.cv.Addr;
+import io.vertx.tp.crud.cv.em.ApiSpec;
 import io.vertx.tp.crud.uca.desk.IxNext;
 import io.vertx.tp.crud.uca.desk.IxPanel;
+import io.vertx.tp.crud.uca.desk.IxWeb;
 import io.vertx.tp.crud.uca.input.Pre;
 import io.vertx.tp.crud.uca.op.Agonic;
 import io.vertx.tp.crud.uca.output.Post;
 import io.vertx.up.annotations.Address;
 import io.vertx.up.annotations.Queue;
 import io.vertx.up.commune.Envelop;
-import io.vertx.up.eon.KName;
 import io.vertx.up.eon.em.ChangeFlag;
-import io.vertx.up.unity.Ux;
 
 /*
  * Create new Record that defined in zero system.
@@ -34,16 +34,15 @@ public class PostActor {
     @Address(Addr.Post.ADD)
     public Future<Envelop> create(final Envelop envelop) {
         /* Actor Extraction */
-        final JsonObject body = Ux.getJson1(envelop);
-        final String module = body.getString(KName.IDENTIFIER);     // module
-        return IxPanel.on(envelop, module)
+        final IxWeb request = IxWeb.create(ApiSpec.BODY_JSON);
+        return IxPanel.on(request)
             .input(
                 Pre.head()::inJAsync,                       /* Header */
                 Pre.codex()::inJAsync                       /* Codex */
             )
             .next(in -> IxNext.on(in)::runJJJ)
             .passion(Agonic.write(ChangeFlag.ADD)::runJAsync)
-            .<JsonObject, JsonObject, JsonObject>runJ(body)
+            .<JsonObject, JsonObject, JsonObject>runJ(request.dataJ())
             /*
              * 201 / 200
              */

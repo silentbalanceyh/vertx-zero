@@ -3,7 +3,7 @@ package io.vertx.tp.crud.uca.input;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.auth.User;
-import io.vertx.tp.crud.uca.desk.IxIn;
+import io.vertx.tp.crud.uca.desk.IxMod;
 import io.vertx.up.eon.KName;
 import io.vertx.up.unity.Ux;
 
@@ -14,7 +14,7 @@ import java.util.Objects;
  */
 class UriPre implements Pre {
     @Override
-    public Future<JsonObject> inJAsync(final JsonObject data, final IxIn in) {
+    public Future<JsonObject> inJAsync(final JsonObject data, final IxMod in) {
         final User user = in.user();
         /* Null user */
         if (Objects.isNull(user)) {

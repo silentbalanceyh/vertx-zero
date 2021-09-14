@@ -6,7 +6,7 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.crud.cv.Addr;
 import io.vertx.tp.crud.refine.Ix;
-import io.vertx.tp.crud.uca.desk.IxIn;
+import io.vertx.tp.crud.uca.desk.IxMod;
 import io.vertx.tp.crud.uca.desk.IxPanel;
 import io.vertx.tp.crud.uca.input.Pre;
 import io.vertx.tp.crud.uca.op.Agonic;
@@ -93,7 +93,7 @@ public class FileActor {
                      * Data Extraction for file buffer here
                      */
                     if (data instanceof JsonArray) {
-                        final IxIn active = panel.active();
+                        final IxMod active = panel.active();
                         final KModule in = active.module();
                         /*
                          * The system will calculate the type definition of static module

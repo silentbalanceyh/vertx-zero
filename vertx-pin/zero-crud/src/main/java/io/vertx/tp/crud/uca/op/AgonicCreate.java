@@ -5,7 +5,7 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.crud.init.IxPin;
 import io.vertx.tp.crud.refine.Ix;
-import io.vertx.tp.crud.uca.desk.IxIn;
+import io.vertx.tp.crud.uca.desk.IxMod;
 import io.vertx.tp.crud.uca.input.Pre;
 import io.vertx.tp.crud.uca.output.Post;
 import io.vertx.tp.ke.atom.KModule;
@@ -16,7 +16,7 @@ import io.vertx.up.uca.jooq.UxJooq;
  */
 class AgonicCreate implements Agonic {
     @Override
-    public Future<JsonObject> runJAsync(final JsonObject input, final IxIn in) {
+    public Future<JsonObject> runJAsync(final JsonObject input, final IxMod in) {
         final KModule module = in.module();
         final UxJooq jooq = IxPin.jooq(in);
         return Pre.qUk().inJAsync(input, in)
@@ -44,7 +44,7 @@ class AgonicCreate implements Agonic {
     }
 
     @Override
-    public Future<JsonArray> runAAsync(final JsonArray input, final IxIn in) {
+    public Future<JsonArray> runAAsync(final JsonArray input, final IxMod in) {
         final KModule module = in.module();
         final UxJooq jooq = IxPin.jooq(in);
         return Ix.passion(input, in,

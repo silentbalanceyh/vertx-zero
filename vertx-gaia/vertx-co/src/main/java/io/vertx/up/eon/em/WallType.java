@@ -37,6 +37,6 @@ public enum WallType {
     }
 
     public boolean match(final String literal) {
-        return null != literal && this.literal.equals(literal);
+        return this.literal.equals(literal);
     }
 }

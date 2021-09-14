@@ -4,7 +4,7 @@ import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.crud.init.IxPin;
 import io.vertx.tp.crud.refine.Ix;
-import io.vertx.tp.crud.uca.desk.IxIn;
+import io.vertx.tp.crud.uca.desk.IxMod;
 import io.vertx.tp.crud.uca.output.Post;
 import io.vertx.tp.ke.atom.KModule;
 import io.vertx.up.uca.jooq.UxJooq;
@@ -17,7 +17,7 @@ import java.util.Objects;
  */
 class AgonicByID implements Agonic {
     @Override
-    public Future<JsonObject> runJAsync(final JsonObject input, final IxIn in) {
+    public Future<JsonObject> runJAsync(final JsonObject input, final IxMod in) {
         final UxJooq jooq = IxPin.jooq(in);
         return jooq.fetchOneAsync(input).compose(entity -> {
             if (Objects.isNull(entity)) {

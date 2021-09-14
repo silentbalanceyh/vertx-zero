@@ -5,7 +5,7 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.crud.init.IxPin;
 import io.vertx.tp.crud.refine.Ix;
-import io.vertx.tp.crud.uca.desk.IxIn;
+import io.vertx.tp.crud.uca.desk.IxMod;
 import io.vertx.tp.crud.uca.input.Pre;
 import io.vertx.tp.crud.uca.output.Post;
 import io.vertx.tp.ke.atom.KField;
@@ -22,7 +22,7 @@ import io.vertx.up.util.Ut;
  */
 class AgonicUpdate implements Agonic {
     @Override
-    public Future<JsonObject> runJAsync(final JsonObject input, final IxIn in) {
+    public Future<JsonObject> runJAsync(final JsonObject input, final IxMod in) {
         final KModule module = in.module();
         Ix.Log.filters(this.getClass(), "( Update ) Identifier: {1}, Condition: {0}",
             module.getIdentifier(), input);
@@ -58,7 +58,7 @@ class AgonicUpdate implements Agonic {
     }
 
     @Override
-    public Future<JsonArray> runJAAsync(final JsonObject input, final IxIn in) {
+    public Future<JsonArray> runJAAsync(final JsonObject input, final IxMod in) {
         final JsonObject query = input.getJsonObject(Qr.KEY_CRITERIA);
         Ix.Log.filters(this.getClass(), "( Mass Update ) Condition: {0}", query);
         final UxJooq jooq = IxPin.jooq(in);
@@ -75,7 +75,7 @@ class AgonicUpdate implements Agonic {
     }
 
     @Override
-    public Future<JsonArray> runAAsync(final JsonArray input, final IxIn in) {
+    public Future<JsonArray> runAAsync(final JsonArray input, final IxMod in) {
         final KModule module = in.module();
         final UxJooq jooq = IxPin.jooq(in);
         return Ix.passion(input, in,

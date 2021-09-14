@@ -22,14 +22,14 @@ public interface ViewAgent {
     @Address(Addr.Get.COLUMN_FULL)
     @Adjust(Orders.MODULE)
     JsonArray getFull(@PathParam(KName.ACTOR) String actor,
-                      @PointParam(KName.VIEW) Vis view,
-                      @QueryParam(KName.MODULE) String module);
+                      @QueryParam(KName.MODULE) String module,
+                      @PointParam(KName.VIEW) Vis view);
 
     @GET
     @Path("/columns/{actor}/my")
     @Address(Addr.Get.COLUMN_MY)
     @Adjust(Orders.MODULE)
     JsonArray getMy(@PathParam(KName.ACTOR) String actor,
-                    @PointParam(KName.VIEW) Vis view,
-                    @QueryParam(KName.MODULE) String module);
+                    @QueryParam(KName.MODULE) String module,
+                    @PointParam(KName.VIEW) Vis view);
 }

@@ -2,7 +2,7 @@ package io.vertx.tp.crud.uca.input;
 
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.crud.uca.desk.IxIn;
+import io.vertx.tp.crud.uca.desk.IxMod;
 import io.vertx.tp.ke.atom.KModule;
 import io.vertx.tp.ke.atom.view.KColumn;
 import io.vertx.up.eon.KName;
@@ -20,7 +20,7 @@ class ApeakPre implements Pre {
      * }
      */
     @Override
-    public Future<JsonObject> inJAsync(final JsonObject data, final IxIn in) {
+    public Future<JsonObject> inJAsync(final JsonObject data, final IxMod in) {
         final KModule module = in.module();
         /* Column definition */
         final KColumn column = module.getColumn();

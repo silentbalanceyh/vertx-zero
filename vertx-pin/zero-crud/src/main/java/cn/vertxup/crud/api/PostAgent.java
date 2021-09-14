@@ -36,8 +36,8 @@ public interface PostAgent {
     @Adjust(Orders.MODULE)
     JsonObject search(@PathParam("actor") String actor,
                       @BodyParam JsonObject data,
-                      @PointParam(KName.VIEW) Vis view,
-                      @QueryParam(KName.MODULE) String module);
+                      @QueryParam(KName.MODULE) String module,
+                      @PointParam(KName.VIEW) Vis view);
 
     /*
      * Existing/Missing Interface for Async Validation

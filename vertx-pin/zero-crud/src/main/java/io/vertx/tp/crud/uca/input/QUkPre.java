@@ -4,7 +4,7 @@ import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.crud.refine.Ix;
-import io.vertx.tp.crud.uca.desk.IxIn;
+import io.vertx.tp.crud.uca.desk.IxMod;
 import io.vertx.up.eon.Strings;
 import io.vertx.up.eon.Values;
 import io.vertx.up.unity.Ux;
@@ -17,7 +17,7 @@ import java.util.Set;
  */
 class QUkPre implements Pre {
     @Override
-    public Future<JsonObject> inJAsync(final JsonObject data, final IxIn in) {
+    public Future<JsonObject> inJAsync(final JsonObject data, final IxMod in) {
         /* Unique Keys */
         final JsonArray unique = in.module().getField().getUnique();
 
@@ -52,7 +52,7 @@ class QUkPre implements Pre {
     }
 
     @Override
-    public Future<JsonObject> inAJAsync(final JsonArray array, final IxIn in) {
+    public Future<JsonObject> inAJAsync(final JsonArray array, final IxMod in) {
         /* Unique Keys */
         final JsonArray unique = in.module().getField().getUnique();
         final JsonObject filters = new JsonObject();

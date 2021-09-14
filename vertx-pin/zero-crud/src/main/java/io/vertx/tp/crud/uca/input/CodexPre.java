@@ -4,7 +4,7 @@ import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.crud.init.IxPin;
 import io.vertx.tp.crud.refine.Ix;
-import io.vertx.tp.crud.uca.desk.IxIn;
+import io.vertx.tp.crud.uca.desk.IxMod;
 import io.vertx.tp.ke.atom.KModule;
 import io.vertx.up.atom.Rule;
 import io.vertx.up.commune.Envelop;
@@ -23,7 +23,7 @@ import java.util.concurrent.ConcurrentMap;
  */
 class CodexPre implements Pre {
     @Override
-    public Future<JsonObject> inJAsync(final JsonObject data, final IxIn in) {
+    public Future<JsonObject> inJAsync(final JsonObject data, final IxMod in) {
         /* 1.method, uri */
         final String key = this.getKey(data, in);
 
@@ -44,7 +44,7 @@ class CodexPre implements Pre {
         return Ux.future(data);
     }
 
-    private String getKey(final JsonObject data, final IxIn in) {
+    private String getKey(final JsonObject data, final IxMod in) {
         final Envelop envelop = in.envelop();
         final KModule module = in.module();
         /* 1.method, uri */
@@ -60,7 +60,7 @@ class CodexPre implements Pre {
             uri = uri.replace(keyValue, "$" + keyField);
         }
         /* 3.Final Rule */
-        return uri.toLowerCase(Locale.getDefault()).replace('/', '.' )
+        return uri.toLowerCase(Locale.getDefault()).replace('/', '.')
             .substring(1) + Strings.DOT
             + method.toLowerCase(Locale.getDefault());
     }

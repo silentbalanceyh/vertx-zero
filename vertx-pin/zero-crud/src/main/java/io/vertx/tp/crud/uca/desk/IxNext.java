@@ -12,14 +12,15 @@ import io.vertx.up.util.Ut;
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
+@Deprecated
 public class IxNext {
-    private transient final IxIn in;
+    private transient final IxMod in;
 
-    private IxNext(final IxIn in) {
+    private IxNext(final IxMod in) {
         this.in = in;
     }
 
-    public static IxNext on(final IxIn in) {
+    public static IxNext on(final IxMod in) {
         return new IxNext(in);
     }
 

@@ -3,7 +3,7 @@ package io.vertx.tp.crud.uca.input;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.crud.uca.desk.IxIn;
+import io.vertx.tp.crud.uca.desk.IxMod;
 import io.vertx.tp.error._409ModuleConflictException;
 import io.vertx.tp.error._409MultiModuleException;
 import io.vertx.tp.ke.atom.KModule;
@@ -36,7 +36,7 @@ class ExcelPre implements Pre {
     }
 
     @Override
-    public Future<JsonArray> inJAAsync(final JsonObject data, final IxIn in) {
+    public Future<JsonArray> inJAAsync(final JsonObject data, final IxMod in) {
         final String filename = data.getString(KName.FILE_NAME);
         /* File Checking */
         final File file = new File(filename);

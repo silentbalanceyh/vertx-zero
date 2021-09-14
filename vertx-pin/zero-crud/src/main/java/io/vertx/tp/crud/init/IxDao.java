@@ -5,7 +5,7 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.tp.crud.cv.IxFolder;
 import io.vertx.tp.crud.cv.IxMsg;
 import io.vertx.tp.crud.refine.Ix;
-import io.vertx.tp.crud.uca.desk.IxIn;
+import io.vertx.tp.crud.uca.desk.IxMod;
 import io.vertx.tp.ke.atom.KField;
 import io.vertx.tp.ke.atom.KModule;
 import io.vertx.tp.ke.atom.connect.KJoin;
@@ -92,7 +92,7 @@ class IxDao {
         }
     }
 
-    static KPoint getPoint(final IxIn in) {
+    static KPoint getPoint(final IxMod in) {
         final KModule module = in.module();
         final KModule connect = in.connect();
         final KJoin join = module.getConnect();

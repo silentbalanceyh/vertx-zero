@@ -4,7 +4,7 @@ import io.vertx.core.Future;
 import io.vertx.core.http.HttpMethod;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.crud.uca.desk.IxIn;
+import io.vertx.tp.crud.uca.desk.IxMod;
 import io.vertx.tp.ke.atom.KField;
 import io.vertx.tp.ke.atom.KModule;
 import io.vertx.up.atom.Kv;
@@ -29,11 +29,11 @@ public class Ix {
         return IxData.field(value);
     }
 
-    public static Kv<String, HttpMethod> onFlush(final IxIn in) {
+    public static Kv<String, HttpMethod> onFlush(final IxMod in) {
         return IxData.flush(in);
     }
 
-    public static Future<DictFabric> onFabric(final IxIn in) {
+    public static Future<DictFabric> onFabric(final IxMod in) {
         return IxData.fabric(in);
     }
 
@@ -41,29 +41,29 @@ public class Ix {
         return IxData.matrix(field);
     }
 
-    public static TypeAtom onAtom(final IxIn active, final JsonArray columns) {
+    public static TypeAtom onAtom(final IxMod active, final JsonArray columns) {
         return IxType.atom(active, columns);
     }
 
-    public static Function<JsonObject, Future<JsonObject>> searchFn(final IxIn in) {
+    public static Function<JsonObject, Future<JsonObject>> searchFn(final IxMod in) {
         return IxQr.searchFn(in);
     }
 
-    public static Function<JsonObject, Future<Long>> countFn(final IxIn in) {
+    public static Function<JsonObject, Future<Long>> countFn(final IxMod in) {
         return IxQr.countFn(in);
     }
 
-    public static <T> BiFunction<Supplier<T>, BiFunction<UxJooq, JsonObject, Future<T>>, Future<T>> seekFn(final IxIn in, final Object json) {
+    public static <T> BiFunction<Supplier<T>, BiFunction<UxJooq, JsonObject, Future<T>>, Future<T>> seekFn(final IxMod in, final Object json) {
         return IxQr.seekFn(in, json);
     }
 
-    public static Function<JsonObject, Future<JsonArray>> fetchFn(final IxIn in) {
+    public static Function<JsonObject, Future<JsonArray>> fetchFn(final IxMod in) {
         return IxQr.fetchFn(in);
     }
 
     // JqTool
     @SafeVarargs
-    public static <T> Future<T> passion(final T input, final IxIn in, final BiFunction<T, IxIn, Future<T>>... executors) {
+    public static <T> Future<T> passion(final T input, final IxMod in, final BiFunction<T, IxMod, Future<T>>... executors) {
         return IxData.passion(input, in, executors);
     }
 

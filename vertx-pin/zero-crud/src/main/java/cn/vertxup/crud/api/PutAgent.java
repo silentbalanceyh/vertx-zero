@@ -23,7 +23,7 @@ public interface PutAgent {
     @Address(Addr.Put.BY_ID)
     @Adjust(Orders.MODULE)
     JsonObject update(@PathParam("actor") String actor,
-                      @PathParam("key") String key,
+                      @PathParam(KName.KEY) String key,
                       @BodyParam JsonObject data);
 
     @PUT
@@ -31,15 +31,15 @@ public interface PutAgent {
     @Address(Addr.Put.BATCH)
     @Adjust(Orders.MODULE)
     JsonArray updateBatch(@PathParam("actor") String actor,
-                          @QueryParam("module") String module,
-                          @BodyParam JsonArray dataArray);
+                          @BodyParam JsonArray dataArray,
+                          @QueryParam(KName.MODULE) String module);
 
     @PUT
     @Path("/columns/{actor}/my")
     @Address(Addr.Put.COLUMN_MY)
     @Adjust(Orders.MODULE)
     JsonArray getMy(@PathParam("actor") String actor,
-                    @PointParam(KName.VIEW) Vis view,
-                    @QueryParam("module") String module,
-                    @BodyParam JsonObject viewData);
+                    @BodyParam JsonObject viewData,
+                    @QueryParam(KName.MODULE) String module,
+                    @PointParam(KName.VIEW) Vis view);
 }
