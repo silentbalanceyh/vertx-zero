@@ -145,8 +145,8 @@
 
         <!-- Vert.x Addition -->
         <rxjava2.version>2.2.21</rxjava2.version>
-        <netty.tcnative.version>2.0.38.Final</netty.tcnative.version>
-        <netty.version>4.1.49.Final</netty.version>
+        <netty.tcnative.version>2.0.43.Final</netty.tcnative.version>
+        <netty.version>4.1.68.Final</netty.version>
         <hazelcast.version>3.12.12</hazelcast.version>
         <swagger.version>1.6.0</swagger.version>
         <error.prone.version>2.9.0</error.prone.version>

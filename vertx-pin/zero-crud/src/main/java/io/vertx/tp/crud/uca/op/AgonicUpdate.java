@@ -23,8 +23,9 @@ import io.vertx.up.util.Ut;
 class AgonicUpdate implements Agonic {
     @Override
     public Future<JsonObject> runJAsync(final JsonObject input, final IxIn in) {
-        Ix.Log.filters(this.getClass(), "( Update ) Condition: {0}", input);
         final KModule module = in.module();
+        Ix.Log.filters(this.getClass(), "( Update ) Identifier: {1}, Condition: {0}",
+            module.getIdentifier(), input);
         final UxJooq jooq = IxPin.jooq(in);
         // Query by `key` first
         return Pre.qPk().inJAsync(input, in)

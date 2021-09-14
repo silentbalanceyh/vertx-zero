@@ -15,6 +15,7 @@ CREATE TABLE `F_SUBJECT`
     -- 辅助信息
     `HELP_CODE`  VARCHAR(32) COMMENT '「helpCode」- 会计科目助记码',
     `COMMENT`    LONGTEXT COMMENT '「comment」 - 会计科目备注',
+    `OWNER`      VARCHAR(32) COMMENT '「owner」- 科目方向：OUT-借方 / IN-贷方',
 
     -- 关联信息
     `COMPANY_ID` VARCHAR(36) COMMENT '「companyId」- 会计科目所属公司',

@@ -35,7 +35,7 @@ public class FSubject extends TableImpl<FSubjectRecord> {
      * The reference instance of <code>DB_ETERNAL.F_SUBJECT</code>
      */
     public static final FSubject F_SUBJECT = new FSubject();
-    private static final long serialVersionUID = -1457920462;
+    private static final long serialVersionUID = -937221124;
     /**
      * The column <code>DB_ETERNAL.F_SUBJECT.KEY</code>. 「key」- 会计科目ID
      */
@@ -64,6 +64,10 @@ public class FSubject extends TableImpl<FSubjectRecord> {
      * The column <code>DB_ETERNAL.F_SUBJECT.COMMENT</code>. 「comment」 - 会计科目备注
      */
     public final TableField<FSubjectRecord, String> COMMENT = createField("COMMENT", org.jooq.impl.SQLDataType.CLOB, this, "「comment」 - 会计科目备注");
+    /**
+     * The column <code>DB_ETERNAL.F_SUBJECT.OWNER</code>. 「owner」- 科目方向：OUT-借方 / IN-贷方
+     */
+    public final TableField<FSubjectRecord, String> OWNER = createField("OWNER", org.jooq.impl.SQLDataType.VARCHAR(32), this, "「owner」- 科目方向：OUT-借方 / IN-贷方");
     /**
      * The column <code>DB_ETERNAL.F_SUBJECT.COMPANY_ID</code>. 「companyId」- 会计科目所属公司
      */
