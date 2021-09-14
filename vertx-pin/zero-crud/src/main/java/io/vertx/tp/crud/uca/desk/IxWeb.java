@@ -3,6 +3,7 @@ package io.vertx.tp.crud.uca.desk;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.crud.cv.em.ApiSpec;
+import io.vertx.tp.crud.refine.Ix;
 import io.vertx.tp.ke.atom.KModule;
 import io.vertx.tp.ke.atom.connect.KJoin;
 import io.vertx.tp.ke.atom.connect.KPoint;
@@ -24,7 +25,6 @@ import java.util.Objects;
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 public class IxWeb {
-
     private final transient ApiSpec apiSpecification;
     // IxMod Calculation
     private transient IxMod active;
@@ -135,6 +135,10 @@ public class IxWeb {
                 }
             }
         }
+        Ix.Log.web(this.getClass(), "active={0}, standby={1}, api={2}, view={3}",
+            this.active.module().getIdentifier(),
+            Objects.nonNull(this.standBy) ? this.standBy.module().getIdentifier() : null,
+            this.apiSpecification, this.view.view() + ":" + this.view.position());
         return this;
     }
 

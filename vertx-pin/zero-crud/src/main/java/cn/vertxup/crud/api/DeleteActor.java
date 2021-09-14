@@ -23,7 +23,7 @@ public class DeleteActor {
      */
     @Address(Addr.Delete.BY_ID)
     public Future<Envelop> delete(final Envelop envelop) {
-        final IxWeb request = IxWeb.create(ApiSpec.BODY_NONE).build(envelop);
+        final IxWeb request = IxWeb.create(ApiSpec.BODY_STRING).build(envelop);
         final JsonObject params = request.dataK();
         return IxPanel.on(request)
             .passion(Agonic.write(ChangeFlag.DELETE)::runJAsync, null)

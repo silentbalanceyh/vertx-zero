@@ -100,6 +100,11 @@ public class Ix {
             IxLog.infoRest(logger, pattern, args);
         }
 
+        public static void web(final Class<?> clazz, final String pattern, final Object... args) {
+            final Annal logger = Annal.get(clazz);
+            IxLog.infoWeb(logger, pattern, args);
+        }
+
         public static void restW(final Class<?> clazz, final String pattern, final Object... args) {
             final Annal logger = Annal.get(clazz);
             IxLog.warnRest(logger, pattern, args);

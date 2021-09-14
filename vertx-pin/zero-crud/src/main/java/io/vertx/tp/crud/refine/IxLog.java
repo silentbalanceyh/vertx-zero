@@ -45,6 +45,10 @@ class IxLog {
         info(logger, "Rest", pattern, args);
     }
 
+    static void infoWeb(final Annal logger, final String pattern, final Object... args) {
+        info(logger, "Web", pattern, args);
+    }
+
     static void infoFilters(final Annal logger, final String pattern, final Object... args) {
         info(logger, "Filters", pattern, args);
     }
