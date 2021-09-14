@@ -34,7 +34,7 @@ public class PostActor {
     @Address(Addr.Post.ADD)
     public Future<Envelop> create(final Envelop envelop) {
         /* Actor Extraction */
-        final IxWeb request = IxWeb.create(ApiSpec.BODY_JSON);
+        final IxWeb request = IxWeb.create(ApiSpec.BODY_JSON).build(envelop);
         return IxPanel.on(request)
             .input(
                 Pre.head()::inJAsync,                       /* Header */

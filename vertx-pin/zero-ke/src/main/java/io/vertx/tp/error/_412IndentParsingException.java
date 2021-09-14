@@ -7,9 +7,9 @@ import io.vertx.up.exception.WebException;
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-public class _404IndentParsingException extends WebException {
+public class _412IndentParsingException extends WebException {
 
-    public _404IndentParsingException(final Class<?> clazz, final String targetIndent,
+    public _412IndentParsingException(final Class<?> clazz, final String targetIndent,
                                       final JsonObject data) {
         super(clazz, targetIndent, data);
     }
@@ -21,6 +21,6 @@ public class _404IndentParsingException extends WebException {
 
     @Override
     public HttpStatusCode getStatus() {
-        return HttpStatusCode.NOT_FOUND;
+        return HttpStatusCode.PRECONDITION_FAILED;
     }
 }

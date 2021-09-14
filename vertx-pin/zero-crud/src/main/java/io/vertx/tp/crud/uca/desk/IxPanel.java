@@ -4,7 +4,6 @@ import io.vertx.core.CompositeFuture;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.commune.Envelop;
 import io.vertx.up.eon.Values;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
@@ -45,11 +44,6 @@ public class IxPanel {
          */
         this.outputFn = (a, s) -> Ux.future(s);
         this.nextFn = (i, a) -> Ux.future(a);
-    }
-
-    @Deprecated
-    public static IxPanel on(final Envelop envelop, final String module) {
-        return null;
     }
 
     public static IxPanel on(final IxWeb request) {

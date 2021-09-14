@@ -3,7 +3,9 @@ package cn.vertxup.crud.api;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.crud.cv.Addr;
+import io.vertx.tp.crud.cv.em.ApiSpec;
 import io.vertx.tp.crud.uca.desk.IxPanel;
+import io.vertx.tp.crud.uca.desk.IxWeb;
 import io.vertx.tp.crud.uca.input.Pre;
 import io.vertx.tp.crud.uca.op.Agonic;
 import io.vertx.up.annotations.Address;
@@ -39,40 +41,36 @@ public class QueryActor {
      */
     @Address(Addr.Post.SEARCH)
     public Future<Envelop> search(final Envelop envelop) {
-        final JsonObject body = Ux.getJson1(envelop);
-        final String module = Ux.getString(envelop, 3);   // module
-
-        return IxPanel.on(envelop, module)
+        final IxWeb request = IxWeb.create(ApiSpec.BODY_JSON).build(envelop);
+        return IxPanel.on(request)
             .input(
                 Pre.codex()::inJAsync                   /* Codex */
             )
             .passion(Agonic.search()::runJAsync, null)
-            .runJ(body);
+            .runJ(request.dataJ());
     }
 
     @Address(Addr.Post.EXISTING)
     public Future<Envelop> existing(final Envelop envelop) {
-        final JsonObject body = Ux.getJson1(envelop);
-        final String module = Ux.getString2(envelop);           // module
-        return IxPanel.on(envelop, module)
+        final IxWeb request = IxWeb.create(ApiSpec.BODY_JSON).build(envelop);
+        return IxPanel.on(request)
             .input(
                 Pre.codex()::inJAsync                   /* Codex */
             )
             .passion(Agonic.count()::runJAsync, null)
-            .<JsonObject, JsonObject, JsonObject>runJ(body)
+            .<JsonObject, JsonObject, JsonObject>runJ(request.dataJ())
             .compose(item -> Ux.future(Envelop.success(0 < item.getInteger(KName.COUNT))));
     }
 
     @Address(Addr.Post.MISSING)
     public Future<Envelop> missing(final Envelop envelop) {
-        final JsonObject body = Ux.getJson1(envelop);
-        final String module = Ux.getString2(envelop);           // module
-        return IxPanel.on(envelop, module)
+        final IxWeb request = IxWeb.create(ApiSpec.BODY_JSON).build(envelop);
+        return IxPanel.on(request)
             .input(
                 Pre.codex()::inJAsync                   /* Codex */
             )
             .passion(Agonic.count()::runJAsync, null)
-            .<JsonObject, JsonObject, JsonObject>runJ(body)
+            .<JsonObject, JsonObject, JsonObject>runJ(request.dataJ())
             .compose(item -> Ux.future(Envelop.success(0 == item.getInteger(KName.COUNT))));
     }
 }

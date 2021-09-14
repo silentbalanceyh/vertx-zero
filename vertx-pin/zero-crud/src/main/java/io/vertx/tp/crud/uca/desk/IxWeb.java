@@ -77,8 +77,10 @@ public class IxWeb {
             this.key = Ux.getString1(envelop);
             this.bodyJ = Ux.getJson2(envelop);
         } else if (ApiSpec.BODY_NONE == this.apiSpecification) {
+            // actor       body                key         module          view
+            // 0                                            1              2
             module = Ux.getString1(envelop);
-            this.view = Ux.getVis(envelop);
+            this.view = Ux.getVis2(envelop);
         }
 
         // Apply the default view information
@@ -113,6 +115,8 @@ public class IxWeb {
                      */
                     if (Objects.nonNull(this.bodyJ)) {
                         target = connect.procTarget(this.bodyJ);
+                    } else if (Objects.nonNull(this.bodyA)) {
+                        target = connect.procTarget(this.bodyA);
                     } else {
                         target = null;
                     }
@@ -142,20 +146,20 @@ public class IxWeb {
         return this.standBy;
     }
 
-    public Vis view() {
-        return this.view;
-    }
-
-    public String filename() {
-        return this.key;
-    }
-
     public JsonObject dataK() {
         return new JsonObject().put(KName.KEY, this.key);
     }
 
+    public JsonObject dataF() {
+        return new JsonObject().put(KName.FILE_NAME, this.key);
+    }
+
     public JsonObject dataJ() {
         return this.bodyJ;
+    }
+
+    public JsonObject dataV() {
+        return new JsonObject().put(KName.VIEW, this.view);
     }
 
     public JsonArray dataA() {

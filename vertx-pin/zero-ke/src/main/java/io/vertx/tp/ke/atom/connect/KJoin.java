@@ -1,13 +1,17 @@
 package io.vertx.tp.ke.atom.connect;
 
+import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.error._404IndentParsingException;
+import io.vertx.tp.error._412IndentParsingException;
+import io.vertx.tp.error._412IndentUnknownException;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import io.vertx.up.util.Ut;
 
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
@@ -56,18 +60,26 @@ public class KJoin implements Serializable {
         this.target = target;
     }
 
-    public KPoint procTarget(final JsonObject data) {
+    public KPoint procTarget(final JsonArray data) {
+        final Set<String> idSet = new HashSet<>();
+        Ut.itJArray(data).map(this::identifier).filter(Objects::nonNull).forEach(idSet::add);
+        Fn.out(1 != idSet.size(), _412IndentUnknownException.class, this.getClass(), this.targetIndent);
+        final String identifier = idSet.iterator().next();
+        return this.procTarget(identifier);
+    }
+
+    private String identifier(final JsonObject data) {
         /*
          * Joined configuration read
          */
         /*
          * Search by `field`
          */
-        final String identifier;
         if (Ut.isNil(this.targetIndent)) {
             LOGGER.warn("The `targetIndent` field is null");
             return null;
         }
+        final String identifier;
         if (data.containsKey(this.targetIndent)) {
             /*
              * Data Processing
@@ -76,7 +88,12 @@ public class KJoin implements Serializable {
         } else {
             identifier = this.targetIndent;
         }
-        Fn.out(Ut.isNil(identifier), _404IndentParsingException.class, this.getClass(), this.targetIndent, data);
+        return identifier;
+    }
+
+    public KPoint procTarget(final JsonObject data) {
+        final String identifier = this.identifier(data);
+        Fn.out(Ut.isNil(identifier), _412IndentParsingException.class, this.getClass(), this.targetIndent, data);
         final KPoint result = this.procTarget(identifier);
         if (Objects.isNull(result)) {
             LOGGER.warn("System could not find configuration for `{0}` with data = {1}", identifier, data.encode());

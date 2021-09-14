@@ -5,9 +5,11 @@ import io.vertx.core.buffer.Buffer;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.crud.cv.Addr;
+import io.vertx.tp.crud.cv.em.ApiSpec;
 import io.vertx.tp.crud.refine.Ix;
 import io.vertx.tp.crud.uca.desk.IxMod;
 import io.vertx.tp.crud.uca.desk.IxPanel;
+import io.vertx.tp.crud.uca.desk.IxWeb;
 import io.vertx.tp.crud.uca.input.Pre;
 import io.vertx.tp.crud.uca.op.Agonic;
 import io.vertx.tp.crud.uca.output.Post;
@@ -41,19 +43,16 @@ public class FileActor {
          *  Import Data from file here
          *  Extract `filename` as file
          */
-        final String filename = Ux.getString1(envelop);
-        final String module = Ux.getString2(envelop);
-        final JsonObject params = new JsonObject().put(KName.FILE_NAME, filename);
+        final IxWeb request = IxWeb.create(ApiSpec.BODY_STRING).build(envelop);
 
-        final IxPanel panel = IxPanel.on(envelop, module);
-        return Pre.excel(this.client).inJAAsync(params, panel.active()).compose(data ->
-            IxPanel.on(envelop, module)
-                .input(
-                    Pre.fabric(true)::inAAsync      /* Dict */
-                )
-                .next(in -> (input, active) -> Ux.future(active))
-                .passion(Agonic.file()::runAAsync)
-                .runA(data)
+        final IxPanel panel = IxPanel.on(request);
+        return Pre.excel(this.client).inJAAsync(request.dataF(), panel.active()).compose(data -> panel
+            .input(
+                Pre.fabric(true)::inAAsync      /* Dict */
+            )
+            .next(in -> (input, active) -> Ux.future(active))
+            .passion(Agonic.file()::runAAsync)
+            .runA(data)
         );
 
     }
@@ -61,12 +60,10 @@ public class FileActor {
     @Address(Addr.File.EXPORT)
     public Future<Envelop> exportFile(final Envelop envelop) {
         /* Search full column and it will be used in another method */
-        final JsonObject params = new JsonObject();
-        params.put(KName.VIEW, Ux.getString1(envelop));         // view
-        final String module = Ux.getString2(envelop);           // module
-        final JsonObject condition = Ux.getJson(envelop, 3);
+        final IxWeb request = IxWeb.create(ApiSpec.BODY_JSON).build(envelop);
 
         /* Exported columns here for future calculation */
+        final JsonObject condition = request.dataJ();
         final JsonArray projection = Ut.sureJArray(condition.getJsonArray(KName.Ui.COLUMNS));
         final List<String> columnList = Ut.toList(projection);
         /* Remove columns here and set criteria as condition
@@ -74,8 +71,8 @@ public class FileActor {
          * dynamic exporting here.
          **/
         JsonObject criteria = Ut.sureJObject(condition.getJsonObject(Qr.KEY_CRITERIA));
-        final IxPanel panel = IxPanel.on(envelop, module);
-        return T.fetchFull(envelop, module).runJ(params)
+        final IxPanel panel = IxPanel.on(request);
+        return T.fetchFull(request).runJ(request.dataV())
             .compose(columns -> panel
                 /*
                  * Data Processing
