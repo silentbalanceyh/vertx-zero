@@ -37,14 +37,14 @@ public interface Co<I, A, S, O> {
 
     static Co nextQ(final IxMod in, final boolean isArray) {
         if (isArray) {
-            return Fn.poolThread(Pooled.CO_MAP, () -> new NtAQr(in), NtAQr.class.getName() + in.module().getIdentifier());
+            return Fn.poolThread(Pooled.CO_MAP, () -> new NtAQr(in), NtAQr.class.getName() + in.keyPool());
         } else {
-            return Fn.poolThread(Pooled.CO_MAP, () -> new NtJQr(in), NtJQr.class.getName() + in.module().getIdentifier());
+            return Fn.poolThread(Pooled.CO_MAP, () -> new NtJQr(in), NtJQr.class.getName() + in.keyPool());
         }
     }
 
     static Co nextJ(final IxMod in) {
-        return Fn.poolThread(Pooled.CO_MAP, () -> new NtJRecord(in), NtJRecord.class.getName() + in.module().getIdentifier());
+        return Fn.poolThread(Pooled.CO_MAP, () -> new NtJRecord(in), NtJRecord.class.getName() + in.keyPool());
     }
 
     static Co endV(final boolean isMy) {

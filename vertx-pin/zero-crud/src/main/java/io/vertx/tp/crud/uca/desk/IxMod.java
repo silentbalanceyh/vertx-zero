@@ -71,6 +71,15 @@ public class IxMod {
         return this.connect;
     }
 
+    public String keyPool() {
+        final StringBuilder key = new StringBuilder();
+        key.append(this.module.getIdentifier());
+        if (this.canJoin()) {
+            key.append(this.connect.getIdentifier());
+        }
+        return key.toString();
+    }
+
     // --------------- Bind ----------------------
     public IxMod bind(final Envelop envelop) {
         this.envelop = envelop;

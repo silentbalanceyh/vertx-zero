@@ -15,7 +15,7 @@ class NtAQr implements Co<JsonObject, JsonArray, JsonArray, JsonArray> {
     private transient final Co record;
 
     NtAQr(final IxMod in) {
-        this.record = Fn.poolThread(Pooled.CO_MAP, () -> new NtJRecord(in), NtJRecord.class.getName() + in.module().getIdentifier());
+        this.record = Fn.poolThread(Pooled.CO_MAP, () -> new NtJRecord(in), NtJRecord.class.getName() + in.keyPool());
     }
 
     @Override
