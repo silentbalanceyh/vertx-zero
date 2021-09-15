@@ -1,8 +1,10 @@
 package io.vertx.tp.crud.uca.tran;
 
 import io.vertx.core.Future;
+import io.vertx.core.http.HttpStatusCode;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.crud.refine.Ix;
+import io.vertx.tp.crud.uca.desk.IxKit;
 import io.vertx.tp.crud.uca.desk.IxMod;
 import io.vertx.up.unity.Ux;
 
@@ -38,16 +40,24 @@ class NtJRecord implements NtJ<JsonObject> {
 
     @Override
     public Future<JsonObject> ok(final JsonObject active, final JsonObject standBy) {
-        if (this.in.canJoin()) {
+        final HttpStatusCode status = IxKit.getStatus(standBy);
+        if (HttpStatusCode.NO_CONTENT == status) {
             /*
-             * Result directly
+             * Major table contain value but the sub-table has no record
              */
-            final JsonObject dataSt = this.in.dataOut(active, standBy);
-            Ix.Log.web(this.getClass(), "Data Out: {0}", dataSt.encode());
-            return Ux.future(dataSt);
+            return Ux.future(active);
         } else {
-            // There is no joined module on current
-            return Ux.future(active.copy());
+            if (this.in.canJoin()) {
+                /*
+                 * Result directly
+                 */
+                final JsonObject dataSt = this.in.dataOut(active, standBy);
+                Ix.Log.web(this.getClass(), "Data Out: {0}", dataSt.encode());
+                return Ux.future(dataSt);
+            } else {
+                // There is no joined module on current
+                return Ux.future(active.copy());
+            }
         }
     }
 }

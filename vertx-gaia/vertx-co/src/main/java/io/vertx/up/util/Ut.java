@@ -1022,6 +1022,14 @@ public final class Ut {
         return Types.isSubset(cond, record);
     }
 
+    public static boolean isArrayString(final JsonArray array) {
+        return Types.isArrayString(array);
+    }
+
+    public static boolean isArrayJson(final JsonArray array) {
+        return Types.isArrayJson(array);
+    }
+
     public static boolean isJArray(final String literal) {
         return Types.isJArray(literal);
     }

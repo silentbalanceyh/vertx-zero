@@ -111,6 +111,22 @@ final class Types {
         return JsonArray.class == clazz;
     }
 
+    static boolean isArrayString(final JsonArray array) {
+        if (Objects.isNull(array)) {
+            return false;
+        } else {
+            return array.stream().allMatch(item -> item instanceof String);
+        }
+    }
+
+    static boolean isArrayJson(final JsonArray array) {
+        if (Objects.isNull(array)) {
+            return false;
+        } else {
+            return array.stream().allMatch(item -> item instanceof JsonObject);
+        }
+    }
+
     static boolean isVoid(final Class<?> clazz) {
         return null == clazz || Void.class == clazz || void.class == clazz;
     }
