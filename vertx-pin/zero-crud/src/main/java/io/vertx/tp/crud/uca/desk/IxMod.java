@@ -150,13 +150,14 @@ public class IxMod {
         /*
          * 1. Joined Key
          */
-        JsonObject dataS = input.copy().mergeIn(active, true);
+        final JsonObject dataS = input.copy().mergeIn(active, true);
         connect.dataIn(dataS, point, dataS);
         /*
          * 2. Mapping Part
          */
         if (Objects.nonNull(point)) {
-            dataS = Ut.aiIn(dataS, point.synonym());
+            final JsonObject converted = Ut.aiIn(dataS, point.synonym(), false);
+            dataS.mergeIn(converted, true);
         }
         return dataS;
     }
@@ -171,9 +172,10 @@ public class IxMod {
         /*
          * 2. Mapping StandBy
          */
-        JsonObject standJ = standBy.copy();
+        final JsonObject standJ = standBy.copy();
         if (Objects.nonNull(point)) {
-            standJ = Ut.aiOut(standJ, point.synonym());
+            final JsonObject converted = Ut.aiOut(standJ, point.synonym(), false);
+            standJ.mergeIn(converted, true);
         }
         /*
          * 1. Joined Key
