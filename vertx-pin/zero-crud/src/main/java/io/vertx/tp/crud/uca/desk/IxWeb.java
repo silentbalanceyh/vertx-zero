@@ -119,12 +119,16 @@ public class IxWeb {
         return new JsonObject().put(KName.KEY, this.key);
     }
 
+    public JsonObject dataKJ() {
+        return this.bodyJ.copy().put(KName.KEY, this.key);
+    }
+
     public JsonObject dataF() {
         return new JsonObject().put(KName.FILE_NAME, this.key);
     }
 
     public JsonObject dataJ() {
-        return this.bodyJ;
+        return this.bodyJ.copy();
     }
 
     public JsonObject dataV() {

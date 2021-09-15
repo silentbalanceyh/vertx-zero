@@ -46,7 +46,7 @@ public class FileActor {
         final IxWeb request = IxWeb.create(ApiSpec.BODY_STRING).build(envelop);
 
         final IxPanel panel = IxPanel.on(request);
-        return Pre.excel(this.client).inJAAsync(request.dataF(), panel.active()).compose(data -> panel
+        return Pre.excel(this.client).inJAAsync(request.dataF(), request.active()).compose(data -> panel
             .input(
                 Pre.fabric(true)::inAAsync      /* Dict */
             )
@@ -83,14 +83,14 @@ public class FileActor {
                 .passion(Agonic.fetch()::runJAAsync, null)
                 .<JsonArray, JsonObject, JsonArray>runJ(criteria)
                 /* Dict Transfer to Export */
-                .compose(data -> Pre.fabric(false).inAAsync(data, panel.active()))
+                .compose(data -> Pre.fabric(false).inAAsync(data, request.active()))
                 .compose(data -> Co.endE(columnList).ok(data, columns))
                 .compose(data -> {
                     /*
                      * Data Extraction for file buffer here
                      */
                     if (data instanceof JsonArray) {
-                        final IxMod active = panel.active();
+                        final IxMod active = request.active();
                         final KModule in = active.module();
                         /*
                          * The system will calculate the type definition of static module

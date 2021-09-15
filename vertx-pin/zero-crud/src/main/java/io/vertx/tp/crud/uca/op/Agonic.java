@@ -26,6 +26,10 @@ public interface Agonic {
         }
     }
 
+    static Agonic saveYou(final IxMod module) {
+        return Fn.poolThread(Pooled.AGONIC_MAP, () -> new AgonicYouSave(module), AgonicYouSave.class.getName());
+    }
+
     static Agonic file() {
         return Fn.poolThread(Pooled.AGONIC_MAP, AgonicImport::new, AgonicImport.class.getName());
     }

@@ -20,41 +20,37 @@ import io.vertx.up.util.Ut;
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-class AgonicUpdate implements Agonic {
+class AgonicUpdate extends AgonicUnique {
+
     @Override
     public Future<JsonObject> runJAsync(final JsonObject input, final IxMod in) {
         final KModule module = in.module();
-        Ix.Log.filters(this.getClass(), "( Update ) Identifier: {0}, Condition: {1}",
-            module.getIdentifier(), input);
         final UxJooq jooq = IxPin.jooq(in);
-        // Query by `key` first
-        return Pre.qPk().inJAsync(input, in)
-            .compose(jooq::fetchJOneAsync)
-            .compose(queryJ -> Ut.isNil(queryJ) ?
-                // Query by `unique key` then
-                Pre.qUk().inJAsync(input, in)
-                    .compose(jooq::fetchJOneAsync)
-                    .compose(querySubJ -> Ut.isNil(querySubJ) ?
-                        IxKit.success404Pre()
-                        : Ux.future(querySubJ)
-                    )
-                : Ux.future(queryJ)
-            )
-            /*
-             * Here the queryJ is the record that has been stored
-             * in database, this api should re-write and merge the input
-             * data into `queryJ`
-             * 1. If the `field` exist, the field will be overwritten
-             * 2. If the `field` does not exist, the field will be ignored
-             * */
-            .compose(queryJ -> Ux.future(queryJ.copy().mergeIn(input)))
-            .compose(json -> Ix.passion(json, in,
+        /*
+         * Here the queryJ is the record that has been stored
+         * in database, this api should re-write and merge the input
+         * data into `queryJ`
+         * 1. If the `field` exist, the field will be overwritten
+         * 2. If the `field` does not exist, the field will be ignored
+         * */
+        return this.runUnique(input, in,
+            this::fetchByPk,
+            this::fetchByUk
+        ).compose(json -> {
+            if (Ut.isNil(json)) {
+                // Not Found
+                return IxKit.success204Pre();
+            } else {
+                // Do Update
+                final JsonObject merged = json.copy().mergeIn(input, true);
+                return Ix.passion(merged, in,
                         Pre.auditor(false)::inJAsync         // updatedAt, updatedBy
                     )
                     .compose(processed -> Ix.deserializeT(processed, module))
                     .compose(jooq::updateAsync)
-                    .compose(updated -> IxKit.successJ(updated, module))
-            );
+                    .compose(updated -> IxKit.successJ(updated, module));
+            }
+        });
     }
 
     @Override

@@ -26,14 +26,19 @@ public class PutActor {
     public Future<Envelop> update(final Envelop envelop) {
         /* Module and Key Extract  */
         final IxWeb request = IxWeb.create(ApiSpec.BODY_WITH_KEY).build(envelop);
+        final Co co = Co.nextJ(request.active());
         return IxPanel.on(request)
             .input(
                 Pre.head()::inJAsync,                       /* Header */
                 Pre.codex()::inJAsync                       /* Codex */
             )
-            .next(in -> Co.nextJ(in)::next)
-            .passion(Agonic.write(ChangeFlag.UPDATE)::runJAsync)
-            .<JsonObject, JsonObject, JsonObject>runJ(request.dataK())
+            .next(in -> co::next)
+            .passion(
+                /* Active */Agonic.write(ChangeFlag.UPDATE)::runJAsync,
+                /* StandBy */Agonic.saveYou(request.active())::runJAsync
+            )
+            .output(co::ok)
+            .<JsonObject, JsonObject, JsonObject>runJ(request.dataKJ())
             /*
              * 404 / 200
              */
@@ -47,7 +52,7 @@ public class PutActor {
          * */
         final IxWeb request = IxWeb.create(ApiSpec.BODY_ARRAY).build(envelop);
         final IxPanel panel = IxPanel.on(request);
-        return Pre.qPk().inAJAsync(request.dataA(), panel.active()).compose(condition -> {
+        return Pre.qPk().inAJAsync(request.dataA(), request.active()).compose(condition -> {
             final JsonObject params = new JsonObject();
             /*
              * IxPanel
@@ -55,7 +60,7 @@ public class PutActor {
             params.put(KName.DATA, request.dataA());
             params.put(Qr.KEY_CRITERIA, condition);
             return panel
-                .next(in -> Co.nextQ(in)::next)
+                .next(in -> Co.nextQ(in, true)::next)
                 .passion(Agonic.write(ChangeFlag.UPDATE)::runJAAsync)
                 .runJ(params);
         });

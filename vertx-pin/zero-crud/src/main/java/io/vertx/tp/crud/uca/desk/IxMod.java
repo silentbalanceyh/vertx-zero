@@ -148,6 +148,14 @@ public class IxMod {
         return dataS;
     }
 
+    public JsonObject dataIn(final JsonObject active) {
+        final KPoint point = this.point();
+        final KJoin connect = this.module.getConnect();
+        final JsonObject condJoin = new JsonObject();
+        connect.dataIn(active, point, condJoin);
+        return condJoin;
+    }
+
     /*
      * 1) active data ( include `key` )
      * 2) standBy data ( include `joinKey` )
@@ -161,6 +169,22 @@ public class IxMod {
         final JsonObject data = standBy.copy().mergeIn(active, true);
         connect.dataOut(data, point, data);
         return data;
+    }
+
+    public JsonObject dataOut(final JsonObject active) {
+        final KPoint point = this.point();
+        final KJoin connect = this.module.getConnect();
+        final JsonObject condJoin = new JsonObject();
+        connect.dataOut(active, point, condJoin);
+        return condJoin;
+    }
+
+    public JsonObject dataCond(final JsonObject active) {
+        final KPoint point = this.point();
+        final KJoin connect = this.module.getConnect();
+        final JsonObject condJoin = new JsonObject();
+        connect.dataCond(active, point, condJoin);
+        return condJoin;
     }
 
     @SafeVarargs

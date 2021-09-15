@@ -14,6 +14,7 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
+import java.util.function.Consumer;
 
 /**
  * ## 「Pojo」Join Configuration
@@ -113,25 +114,37 @@ public class KJoin implements Serializable {
      * key -> keyJoin
      */
     public void dataIn(final JsonObject ds, final KPoint target, final JsonObject data) {
-        final KPoint source = this.source;
-        if (Objects.nonNull(target) && Objects.nonNull(source)) {
+        this.dataRun(target, (source) -> {
             final String joinedValue = ds.getString(source.getKey());
             if (Ut.notNil(joinedValue)) {
                 data.put(target.getKeyJoin(), joinedValue);
             }
-        }
+        });
     }
 
     /**
      * keyJoin -> key
      */
     public void dataOut(final JsonObject ds, final KPoint target, final JsonObject data) {
-        final KPoint source = this.source;
-        if (Objects.nonNull(target) && Objects.nonNull(source)) {
+        this.dataRun(target, (source) -> {
             final String joinedValue = ds.getString(target.getKeyJoin());
             if (Ut.notNil(joinedValue)) {
                 data.put(source.getKey(), joinedValue);
             }
+        });
+    }
+
+    public void dataCond(final JsonObject ds, final KPoint target, final JsonObject filters) {
+        this.dataRun(target, (source) -> {
+            final String fieldJoin = target.getKeyJoin();
+            filters.put(fieldJoin, ds.getValue(fieldJoin));
+        });
+    }
+
+    private void dataRun(final KPoint target, final Consumer<KPoint> consumer) {
+        final KPoint source = this.source;
+        if (Objects.nonNull(target) && Objects.nonNull(source)) {
+            consumer.accept(source);
         }
     }
 }

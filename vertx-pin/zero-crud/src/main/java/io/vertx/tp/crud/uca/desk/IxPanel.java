@@ -30,6 +30,7 @@ public class IxPanel {
     private transient BiFunction nextFn = null;
 
     private IxPanel(final IxWeb request) {
+        // Bind This
         this.active = request.active();
         this.standBy = request.standBy();
         /*
@@ -48,10 +49,6 @@ public class IxPanel {
 
     public static IxPanel on(final IxWeb request) {
         return new IxPanel(request);
-    }
-
-    public IxMod active() {
-        return active;
     }
 
     /*

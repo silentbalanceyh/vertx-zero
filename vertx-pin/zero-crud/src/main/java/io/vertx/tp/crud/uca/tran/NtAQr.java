@@ -11,7 +11,7 @@ import io.vertx.up.fn.Fn;
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 @SuppressWarnings("all")
-class NtAQr implements NtQ {
+class NtAQr implements Co<JsonObject, JsonArray, JsonArray, JsonArray> {
     private transient final Co record;
 
     NtAQr(final IxMod in) {
@@ -20,6 +20,6 @@ class NtAQr implements NtQ {
 
     @Override
     public Future<JsonArray> next(final JsonObject input, final JsonArray active) {
-        return NtQ.super.next(input, active);
+        return null;
     }
 }

@@ -35,8 +35,12 @@ import java.util.List;
 @SuppressWarnings("all")
 public interface Co<I, A, S, O> {
 
-    static Co nextQ(final IxMod in) {
-        return Fn.poolThread(Pooled.CO_MAP, () -> new NtAQr(in), NtAQr.class.getName() + in.module().getIdentifier());
+    static Co nextQ(final IxMod in, final boolean isArray) {
+        if (isArray) {
+            return Fn.poolThread(Pooled.CO_MAP, () -> new NtAQr(in), NtAQr.class.getName() + in.module().getIdentifier());
+        } else {
+            return Fn.poolThread(Pooled.CO_MAP, () -> new NtJQr(in), NtJQr.class.getName() + in.module().getIdentifier());
+        }
     }
 
     static Co nextJ(final IxMod in) {
@@ -94,7 +98,4 @@ interface NtJ<O> extends Co<JsonObject, JsonObject, JsonObject, O> {
 }
 
 interface NtA<O> extends Co<JsonArray, JsonArray, JsonArray, O> {
-}
-
-interface NtQ extends Co<JsonObject, JsonArray, JsonArray, JsonArray> {
 }
