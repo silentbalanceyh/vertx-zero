@@ -36,13 +36,15 @@ public class PostActor {
     public Future<Envelop> create(final Envelop envelop) {
         /* Actor Extraction */
         final IxWeb request = IxWeb.create(ApiSpec.BODY_JSON).build(envelop);
+        final Co coJ = Co.nextJ(request.active());
         return IxPanel.on(request)
             .input(
                 Pre.head()::inJAsync,                       /* Header */
                 Pre.codex()::inJAsync                       /* Codex */
             )
-            .next(in -> Co.nextJ(in)::next)
+            .next(in -> coJ::next)
             .passion(Agonic.write(ChangeFlag.ADD)::runJAsync)
+            .output(coJ::ok)
             .<JsonObject, JsonObject, JsonObject>runJ(request.dataJ())
             /*
              * 201 / 200

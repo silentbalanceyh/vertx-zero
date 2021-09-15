@@ -42,7 +42,7 @@ public class IxPanel {
          * 1. There must contain configuration.
          * 2. The identifier should be not the same as active
          */
-        this.outputFn = (a, s) -> Ux.future(s);
+        this.outputFn = null;
         this.nextFn = (i, a) -> Ux.future(a);
     }
 
@@ -196,7 +196,7 @@ public class IxPanel {
                     /*
                      * Check whether outputFn has value
                      */
-                    if (Objects.isNull(outputFn)) {
+                    if (Objects.nonNull(outputFn)) {
                         return outputFn.apply((A) a, (S) s);
                     } else {
                         return Ux.future((O) s);

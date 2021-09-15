@@ -91,7 +91,7 @@ class IxQr {
                     switchedJq = IxPin.jooq(switched, in.envelop());
 
                     /* Filters For Record */
-                    join.dataFilters(json, point, filters);
+                    join.dataIn(json, point, filters);
                     if (Ut.isNil(switched.getPojo())) {
                         switchedJq.on(switched.getPojo());
                     }
@@ -115,7 +115,7 @@ class IxQr {
                         /* Filters for Records */
                         Ut.itJArray(records).forEach(each -> {
                             final JsonObject single = new JsonObject();
-                            join.dataFilters(each, point, single);
+                            join.dataIn(each, point, single);
                             final String key = "$" + single.hashCode();
                             filters.put(key, single);
                         });

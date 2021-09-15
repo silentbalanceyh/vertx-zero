@@ -110,17 +110,27 @@ public class KJoin implements Serializable {
     }
 
     /**
-     * Source Join Target
+     * key -> keyJoin
      */
-    public void dataFilters(final JsonObject data, final KPoint target, final JsonObject filterRef) {
+    public void dataIn(final JsonObject ds, final KPoint target, final JsonObject data) {
         final KPoint source = this.source;
         if (Objects.nonNull(target) && Objects.nonNull(source)) {
-            /*
-             * joinedValue from source -> key
-             */
-            final String joinedValue = data.getString(source.getKey());
+            final String joinedValue = ds.getString(source.getKey());
             if (Ut.notNil(joinedValue)) {
-                filterRef.put(target.getKeyJoin(), joinedValue);
+                data.put(target.getKeyJoin(), joinedValue);
+            }
+        }
+    }
+
+    /**
+     * keyJoin -> key
+     */
+    public void dataOut(final JsonObject ds, final KPoint target, final JsonObject data) {
+        final KPoint source = this.source;
+        if (Objects.nonNull(target) && Objects.nonNull(source)) {
+            final String joinedValue = ds.getString(target.getKeyJoin());
+            if (Ut.notNil(joinedValue)) {
+                data.put(source.getKey(), joinedValue);
             }
         }
     }

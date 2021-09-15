@@ -69,21 +69,7 @@ public class IxMod {
         return this.connect;
     }
 
-
-    public JsonObject dataPoint(final JsonObject input, final JsonObject active) {
-        final KPoint point = this.point();
-        final KJoin connect = this.module.getConnect();
-        /*
-         * 1. Joined Key
-         */
-        final JsonObject dataS = input.copy().mergeIn(active, true);
-        connect.dataFilters(dataS, point, dataS);
-        /*
-         * 2. Mapping Part
-         */
-        return dataS;
-    }
-
+    // --------------- Bind ----------------------
     public IxMod bind(final Envelop envelop) {
         this.envelop = envelop;
         return this;
@@ -94,6 +80,44 @@ public class IxMod {
             this.connect = target.module;
         }
         return this;
+    }
+
+    // --------------- Data Processing ---------------
+    /*
+     * input contains two model data
+     * 1) active data
+     * 2) standBy data ( Only Data )
+     *
+     * Here the `key` came from active data and generate `joinKey = value`
+     * kv put into final data
+     */
+    public JsonObject dataIn(final JsonObject input, final JsonObject active) {
+        final KPoint point = this.point();
+        final KJoin connect = this.module.getConnect();
+        /*
+         * 1. Joined Key
+         */
+        final JsonObject dataS = input.copy().mergeIn(active, true);
+        connect.dataIn(dataS, point, dataS);
+        /*
+         * 2. Mapping Part
+         */
+        return dataS;
+    }
+
+    /*
+     * 1) active data ( include `key` )
+     * 2) standBy data ( include `joinKey` )
+     */
+    public JsonObject dataOut(final JsonObject active, final JsonObject standBy) {
+        final KPoint point = this.point();
+        final KJoin connect = this.module.getConnect();
+        /*
+         * 1. Joined Key
+         */
+        final JsonObject data = standBy.copy().mergeIn(active, true);
+        connect.dataOut(data, point, data);
+        return data;
     }
 
     @SafeVarargs
