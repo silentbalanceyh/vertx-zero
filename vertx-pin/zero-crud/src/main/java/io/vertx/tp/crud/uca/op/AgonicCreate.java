@@ -5,9 +5,9 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.crud.init.IxPin;
 import io.vertx.tp.crud.refine.Ix;
+import io.vertx.tp.crud.uca.desk.IxKit;
 import io.vertx.tp.crud.uca.desk.IxMod;
 import io.vertx.tp.crud.uca.input.Pre;
-import io.vertx.tp.crud.uca.output.Post;
 import io.vertx.tp.ke.atom.KModule;
 import io.vertx.up.uca.jooq.UxJooq;
 
@@ -28,7 +28,7 @@ class AgonicCreate implements Agonic {
              */
             .compose(condition -> jooq.countAsync(condition).compose(counter -> 0 < counter ?
                 // Unique Existing
-                Post.success201Pre(input, module)
+                IxKit.success201Pre(input, module)
                 :
                 // Primary Key
                 Ix.passion(input, in,
@@ -39,7 +39,7 @@ class AgonicCreate implements Agonic {
                     )
                     .compose(processed -> Ix.deserializeT(processed, module))
                     .compose(jooq::insertAsync)
-                    .compose(entity -> Post.successJ(entity, module))
+                    .compose(entity -> IxKit.successJ(entity, module))
             ));
     }
 
@@ -55,6 +55,6 @@ class AgonicCreate implements Agonic {
             )
             .compose(processed -> Ix.deserializeT(processed, module))
             .compose(jooq::insertAsync)
-            .compose(inserted -> Post.successA(inserted, module));
+            .compose(inserted -> IxKit.successA(inserted, module));
     }
 }

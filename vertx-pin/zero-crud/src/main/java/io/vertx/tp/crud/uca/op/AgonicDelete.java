@@ -5,8 +5,8 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.crud.init.IxPin;
 import io.vertx.tp.crud.refine.Ix;
+import io.vertx.tp.crud.uca.desk.IxKit;
 import io.vertx.tp.crud.uca.desk.IxMod;
-import io.vertx.tp.crud.uca.output.Post;
 import io.vertx.tp.ke.atom.KModule;
 import io.vertx.tp.ke.refine.Ke;
 import io.vertx.tp.optic.Trash;
@@ -25,7 +25,7 @@ class AgonicDelete implements Agonic {
         return jooq.fetchOneAsync(criteria).compose(entity -> {
             if (Objects.isNull(entity)) {
                 /* Could not find the original */
-                return Post.success204Pre(Boolean.TRUE);
+                return IxKit.success204Pre(Boolean.TRUE);
             } else {
                 final KModule module = in.module();
                 final JsonObject json = Ux.toJson(entity, module.getPojo());
@@ -38,7 +38,7 @@ class AgonicDelete implements Agonic {
                         .apply(() -> Boolean.FALSE, UxJooq::deleteByAsync))
                     /* 200, Current Item */
                     .compose(nil -> jooq.deleteByAsync(criteria))
-                    .compose(Post::success200Pre);
+                    .compose(IxKit::success200Pre);
             }
         });
     }

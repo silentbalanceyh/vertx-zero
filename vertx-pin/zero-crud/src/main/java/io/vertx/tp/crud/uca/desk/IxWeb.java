@@ -25,6 +25,7 @@ import java.util.Objects;
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 public class IxWeb {
+    private final static String LOGGER_MOD = "active=\u001b[1;36m{0}\u001b[m, standby=\u001b[1;95m{1}\u001b[m, api={2}, view={3}";
     private final transient ApiSpec apiSpecification;
     // IxMod Calculation
     private transient IxMod active;
@@ -135,7 +136,7 @@ public class IxWeb {
                 }
             }
         }
-        Ix.Log.web(this.getClass(), "active={0}, standby={1}, api={2}, view={3}",
+        Ix.Log.web(this.getClass(), this.LOGGER_MOD,
             this.active.module().getIdentifier(),
             Objects.nonNull(this.standBy) ? this.standBy.module().getIdentifier() : null,
             this.apiSpecification, this.view.view() + ":" + this.view.position());

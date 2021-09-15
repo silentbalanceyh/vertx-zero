@@ -5,9 +5,9 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.crud.init.IxPin;
 import io.vertx.tp.crud.refine.Ix;
+import io.vertx.tp.crud.uca.desk.IxKit;
 import io.vertx.tp.crud.uca.desk.IxMod;
 import io.vertx.tp.crud.uca.input.Pre;
-import io.vertx.tp.crud.uca.output.Post;
 import io.vertx.tp.ke.atom.KField;
 import io.vertx.tp.ke.atom.KModule;
 import io.vertx.up.atom.query.engine.Qr;
@@ -24,7 +24,7 @@ class AgonicUpdate implements Agonic {
     @Override
     public Future<JsonObject> runJAsync(final JsonObject input, final IxMod in) {
         final KModule module = in.module();
-        Ix.Log.filters(this.getClass(), "( Update ) Identifier: {1}, Condition: {0}",
+        Ix.Log.filters(this.getClass(), "( Update ) Identifier: {0}, Condition: {1}",
             module.getIdentifier(), input);
         final UxJooq jooq = IxPin.jooq(in);
         // Query by `key` first
@@ -35,7 +35,7 @@ class AgonicUpdate implements Agonic {
                 Pre.qUk().inJAsync(input, in)
                     .compose(jooq::fetchJOneAsync)
                     .compose(querySubJ -> Ut.isNil(querySubJ) ?
-                        Post.success404Pre()
+                        IxKit.success404Pre()
                         : Ux.future(querySubJ)
                     )
                 : Ux.future(queryJ)
@@ -53,7 +53,7 @@ class AgonicUpdate implements Agonic {
                     )
                     .compose(processed -> Ix.deserializeT(processed, module))
                     .compose(jooq::updateAsync)
-                    .compose(updated -> Post.successJ(updated, module))
+                    .compose(updated -> IxKit.successJ(updated, module))
             );
     }
 
@@ -83,6 +83,6 @@ class AgonicUpdate implements Agonic {
             )
             .compose(processed -> Ix.deserializeT(processed, module))
             .compose(jooq::updateAsync)
-            .compose(updated -> Post.successA(updated, module));
+            .compose(updated -> IxKit.successA(updated, module));
     }
 }

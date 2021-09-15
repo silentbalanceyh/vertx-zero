@@ -1,7 +1,8 @@
-package io.vertx.tp.crud.uca.output;
+package io.vertx.tp.crud.uca.tran;
 
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
+import io.vertx.core.json.JsonObject;
 import io.vertx.tp.crud.refine.Ix;
 import io.vertx.up.atom.Kv;
 import io.vertx.up.eon.Constants;
@@ -16,24 +17,14 @@ import java.util.Set;
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-class ApeakPost implements Post<JsonArray> {
-
-
+class OkAApeak implements Co<JsonObject, JsonArray, JsonArray, JsonArray> {
     @Override
-    public Future<JsonArray> outAsync(final Object columnsObj, final Object linkedObj) {
-        // Major Field
-        final JsonArray columns = (JsonArray) columnsObj;
+    public Future<JsonArray> ok(final JsonArray columns, final JsonArray linked) {
         /*
          * Fix Bug:
          * java.lang.ClassCastException: io.vertx.core.json.JsonObject cannot be cast to io.vertx.core.json.JsonArray
          * Because standard sub-module ignored processing
          */
-        final JsonArray linked;
-        if (linkedObj instanceof JsonArray) {
-            linked = (JsonArray) linkedObj;
-        } else {
-            linked = new JsonArray();
-        }
         final Set<String> majorSet = this.field(columns);
 
         final JsonArray filtered = new JsonArray();
@@ -61,6 +52,7 @@ class ApeakPost implements Post<JsonArray> {
         }
         return Ux.future(filtered);
     }
+
 
     private Set<String> field(final JsonArray columns) {
         final Set<String> fieldSet = new HashSet<>();

@@ -24,7 +24,7 @@ import io.vertx.up.util.Ut;
 class ScPhase {
 
     private static final Annal LOGGER = Annal.get(ScPhase.class);
-    private static final String LOGGER_VIEW = "( view = \u001b[0;35m{1}\u001b[m ) Try cacheKey: \u001b[0;35m{0}\u001b[m, uri = {2}, method = {3}";
+    private static final String LOGGER_VIEW = "( view = {1} ) Try cacheKey: \u001b[0;34m{0}\u001b[m, uri = {2}, method = {3}";
 
     /*
      * To avoid two request

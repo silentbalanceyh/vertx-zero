@@ -197,7 +197,7 @@ public class IxPanel {
                      * Check whether outputFn has value
                      */
                     if (Objects.isNull(outputFn)) {
-                        return outputFn.apply((A) a, s);
+                        return outputFn.apply((A) a, (S) s);
                     } else {
                         return Ux.future((O) s);
                     }

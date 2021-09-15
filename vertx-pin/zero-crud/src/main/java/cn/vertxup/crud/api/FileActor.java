@@ -12,7 +12,7 @@ import io.vertx.tp.crud.uca.desk.IxPanel;
 import io.vertx.tp.crud.uca.desk.IxWeb;
 import io.vertx.tp.crud.uca.input.Pre;
 import io.vertx.tp.crud.uca.op.Agonic;
-import io.vertx.tp.crud.uca.output.Post;
+import io.vertx.tp.crud.uca.tran.Co;
 import io.vertx.tp.ke.atom.KModule;
 import io.vertx.tp.plugin.excel.ExcelClient;
 import io.vertx.up.annotations.Address;
@@ -84,7 +84,7 @@ public class FileActor {
                 .<JsonArray, JsonObject, JsonArray>runJ(criteria)
                 /* Dict Transfer to Export */
                 .compose(data -> Pre.fabric(false).inAAsync(data, panel.active()))
-                .compose(data -> Post.export(columnList).outAsync(data, columns))
+                .compose(data -> Co.endE(columnList).ok(data, columns))
                 .compose(data -> {
                     /*
                      * Data Extraction for file buffer here

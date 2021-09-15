@@ -8,7 +8,7 @@ import io.vertx.tp.crud.uca.desk.IxPanel;
 import io.vertx.tp.crud.uca.desk.IxWeb;
 import io.vertx.tp.crud.uca.input.Pre;
 import io.vertx.tp.crud.uca.op.Agonic;
-import io.vertx.tp.crud.uca.output.Post;
+import io.vertx.tp.crud.uca.tran.Co;
 import io.vertx.up.annotations.Address;
 import io.vertx.up.annotations.Queue;
 import io.vertx.up.commune.Envelop;
@@ -49,7 +49,7 @@ public class ViewActor {
              * }
              */
             .parallel(/* Active */Agonic.apeak(true)::runJAAsync, null)
-            .output(/* Columns connected */Post.apeak(true)::outAsync)
+            .output(/* Columns connected */Co.endV(true)::ok)
             .runJ(request.dataV());
     }
 }
@@ -58,6 +58,7 @@ class T {
     /*
      * Shared Method mask as static method for two usage
      */
+    @SuppressWarnings("all")
     static IxPanel fetchFull(final IxWeb request) {
         return IxPanel.on(request)
             .input(
@@ -73,6 +74,6 @@ class T {
              * }
              */
             .parallel(/* Active */Agonic.apeak(false)::runJAAsync)
-            .output(/* Columns connected */Post.apeak(false)::outAsync);
+            .output(/* Columns connected */Co.endV(false)::ok);
     }
 }
