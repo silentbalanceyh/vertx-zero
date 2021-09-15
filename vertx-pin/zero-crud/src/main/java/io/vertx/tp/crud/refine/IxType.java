@@ -3,7 +3,7 @@ package io.vertx.tp.crud.refine;
 import io.vertx.core.json.JsonArray;
 import io.vertx.tp.crud.init.IxPin;
 import io.vertx.tp.crud.uca.desk.IxMod;
-import io.vertx.tp.ke.atom.KModule;
+import io.vertx.tp.ke.atom.specification.KModule;
 import io.vertx.up.commune.Envelop;
 import io.vertx.up.commune.element.TypeAtom;
 import io.vertx.up.commune.element.TypeField;

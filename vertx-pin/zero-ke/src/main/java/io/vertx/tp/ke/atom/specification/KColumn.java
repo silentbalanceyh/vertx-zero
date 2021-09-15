@@ -1,4 +1,4 @@
-package io.vertx.tp.ke.atom.view;
+package io.vertx.tp.ke.atom.specification;
 
 import io.vertx.up.util.Ut;
 

@@ -6,7 +6,7 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.tp.crud.cv.Pooled;
 import io.vertx.tp.crud.uca.desk.IxMod;
 import io.vertx.tp.error._501NotSupportException;
-import io.vertx.tp.ke.atom.view.KColumn;
+import io.vertx.tp.ke.atom.specification.KColumn;
 import io.vertx.tp.plugin.excel.ExcelClient;
 import io.vertx.up.atom.secure.Vis;
 import io.vertx.up.eon.KName;

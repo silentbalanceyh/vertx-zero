@@ -6,7 +6,7 @@ import io.vertx.tp.crud.init.IxPin;
 import io.vertx.tp.crud.uca.desk.IxKit;
 import io.vertx.tp.crud.uca.desk.IxMod;
 import io.vertx.tp.crud.uca.tran.Co;
-import io.vertx.tp.ke.atom.KModule;
+import io.vertx.tp.ke.atom.specification.KModule;
 import io.vertx.up.uca.jooq.UxJooq;
 import io.vertx.up.unity.Ux;
 

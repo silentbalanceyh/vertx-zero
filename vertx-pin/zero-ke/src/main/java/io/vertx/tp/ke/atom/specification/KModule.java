@@ -1,4 +1,4 @@
-package io.vertx.tp.ke.atom;
+package io.vertx.tp.ke.atom.specification;
 
 import com.fasterxml.jackson.databind.ClassDeserializer;
 import com.fasterxml.jackson.databind.ClassSerializer;
@@ -7,18 +7,11 @@ import com.fasterxml.jackson.databind.JsonObjectSerializer;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.ke.atom.connect.KJoin;
-import io.vertx.tp.ke.atom.view.KColumn;
 import io.vertx.tp.ke.cv.em.DSMode;
-import io.vertx.up.commune.exchange.DiSetting;
-import io.vertx.up.commune.exchange.DiConsumer;
-import io.vertx.up.eon.KName;
-import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
 import java.io.Serializable;
 import java.util.Objects;
-import java.util.concurrent.ConcurrentMap;
 
 public class KModule implements Serializable {
 
@@ -44,9 +37,7 @@ public class KModule implements Serializable {
     @JsonDeserialize(using = JsonObjectDeserializer.class)
     private JsonObject header;
 
-    @JsonSerialize(using = JsonObjectSerializer.class)
-    @JsonDeserialize(using = JsonObjectDeserializer.class)
-    private JsonObject fabric;
+    private KTransform transform;
 
     public KField getField() {
         return this.field;
@@ -144,22 +135,12 @@ public class KModule implements Serializable {
         }
     }
 
-    public JsonObject getFabric() {
-        return this.fabric;
+    public KTransform getTransform() {
+        return this.transform;
     }
 
-    public void setFabric(final JsonObject fabric) {
-        this.fabric = fabric;
-    }
-
-    public ConcurrentMap<String, DiConsumer> epsilon() {
-        final JsonObject dictionary = Ut.sureJObject(this.fabric);
-        return Ux.dictEpsilon(Ut.sureJObject(dictionary.getJsonObject(KName.EPSILON)));
-    }
-
-    public DiSetting source() {
-        final JsonObject dictionary = Ut.sureJObject(this.fabric);
-        return new DiSetting(Ut.sureJArray(dictionary.getJsonArray(KName.SOURCE)));
+    public void setTransform(final KTransform transform) {
+        this.transform = transform;
     }
 
     public String getModeKey() {
@@ -184,7 +165,7 @@ public class KModule implements Serializable {
             ", pojoCls=" + this.pojoCls +
             ", daoCls=" + this.daoCls +
             ", header=" + this.header +
-            ", fabric=" + this.fabric +
+            ", transform=" + this.transform +
             '}';
     }
 }

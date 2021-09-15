@@ -13,7 +13,7 @@ import io.vertx.tp.crud.uca.desk.IxWeb;
 import io.vertx.tp.crud.uca.input.Pre;
 import io.vertx.tp.crud.uca.op.Agonic;
 import io.vertx.tp.crud.uca.tran.Co;
-import io.vertx.tp.ke.atom.KModule;
+import io.vertx.tp.ke.atom.specification.KModule;
 import io.vertx.tp.plugin.excel.ExcelClient;
 import io.vertx.up.annotations.Address;
 import io.vertx.up.annotations.Plugin;

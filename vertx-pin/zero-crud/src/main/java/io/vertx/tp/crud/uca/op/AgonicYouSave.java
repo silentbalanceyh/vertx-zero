@@ -7,7 +7,7 @@ import io.vertx.tp.crud.refine.Ix;
 import io.vertx.tp.crud.uca.desk.IxKit;
 import io.vertx.tp.crud.uca.desk.IxMod;
 import io.vertx.tp.crud.uca.input.Pre;
-import io.vertx.tp.ke.atom.KModule;
+import io.vertx.tp.ke.atom.specification.KModule;
 import io.vertx.up.uca.jooq.UxJooq;
 import io.vertx.up.util.Ut;
 

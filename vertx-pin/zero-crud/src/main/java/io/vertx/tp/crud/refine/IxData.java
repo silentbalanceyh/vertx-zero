@@ -7,15 +7,16 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.crud.init.IxPin;
 import io.vertx.tp.crud.uca.desk.IxMod;
-import io.vertx.tp.ke.atom.KField;
-import io.vertx.tp.ke.atom.KModule;
+import io.vertx.tp.ke.atom.specification.KField;
+import io.vertx.tp.ke.atom.specification.KModule;
+import io.vertx.tp.ke.atom.specification.KTransform;
 import io.vertx.tp.optic.Pocket;
 import io.vertx.tp.optic.component.Dictionary;
 import io.vertx.up.atom.Kv;
 import io.vertx.up.commune.Envelop;
-import io.vertx.up.commune.exchange.DiSetting;
 import io.vertx.up.commune.exchange.DiConsumer;
 import io.vertx.up.commune.exchange.DiFabric;
+import io.vertx.up.commune.exchange.DiSetting;
 import io.vertx.up.commune.exchange.DiSource;
 import io.vertx.up.eon.Constants;
 import io.vertx.up.eon.KName;
@@ -124,12 +125,13 @@ class IxData {
     static Future<DiFabric> fabric(final IxMod in) {
         final Envelop envelop = in.envelop();
         final KModule module = in.module();
+        final KTransform transform = module.getTransform();
         /* Epsilon */
-        final ConcurrentMap<String, DiConsumer> epsilonMap = module.epsilon();
+        final ConcurrentMap<String, DiConsumer> epsilonMap = transform.epsilon();
         /* Channel Plugin, Here will enable Pool */
         final Dictionary plugin = Pocket.lookup(Dictionary.class);
         /* Dict */
-        final DiSetting dict = module.source();
+        final DiSetting dict = transform.source();
         if (epsilonMap.isEmpty() || Objects.isNull(plugin) || !dict.validSource()) {
             /*
              * Direct returned
@@ -148,7 +150,7 @@ class IxData {
             return plugin.fetchAsync(paramMap, sources).compose(dictData ->
                 Ux.future(DiFabric.create()
                     .dictionary(dictData)
-                    .epsilon(module.epsilon())
+                    .epsilon(transform.epsilon())
                 ));
         }
     }
