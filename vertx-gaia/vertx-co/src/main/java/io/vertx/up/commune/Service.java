@@ -2,7 +2,7 @@ package io.vertx.up.commune;
 
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.commune.config.Identity;
-import io.vertx.up.commune.exchange.DualMapping;
+import io.vertx.up.commune.exchange.BiMapping;
 import io.vertx.up.commune.rule.RuleUnique;
 
 /*
@@ -42,7 +42,7 @@ public interface Service {
      * `mappingComponent` of I_SERVICE
      * It's also for Job / Component here
      */
-    DualMapping mapping();
+    BiMapping mapping();
 
     /*
      * `rule`

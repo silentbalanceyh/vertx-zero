@@ -3,8 +3,11 @@ package io.vertx.tp.ke.atom.connect;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.ClassDeserializer;
 import com.fasterxml.jackson.databind.ClassSerializer;
+import com.fasterxml.jackson.databind.JsonObjectDeserializer;
+import com.fasterxml.jackson.databind.JsonObjectSerializer;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import io.vertx.core.json.JsonObject;
 import io.vertx.tp.error._409JoinTargetException;
 import io.vertx.tp.ke.cv.em.JoinMode;
 import io.vertx.up.fn.Fn;
@@ -12,6 +15,8 @@ import io.vertx.up.util.Ut;
 
 import java.io.Serializable;
 import java.util.Objects;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
 /**
  * ## 「Pojo」Source/Target
@@ -78,6 +83,10 @@ public class KPoint implements Serializable {
      */
     private transient String keyJoin;
 
+    @JsonSerialize(using = JsonObjectSerializer.class)
+    @JsonDeserialize(using = JsonObjectDeserializer.class)
+    private transient JsonObject synonym;
+
     public String getCrud() {
         return this.crud;
     }
@@ -118,6 +127,20 @@ public class KPoint implements Serializable {
 
     public void setClassDefine(final Class<?> classDefine) {
         this.classDefine = classDefine;
+    }
+
+    public JsonObject getSynonym() {
+        return this.synonym;
+    }
+
+    public void setSynonym(final JsonObject synonym) {
+        this.synonym = synonym;
+    }
+
+    public ConcurrentMap<String, String> synonym() {
+        final ConcurrentMap<String, String> mapping = new ConcurrentHashMap<>();
+        Ut.<String>itJObject(this.synonym, (to, from) -> mapping.put(from, to));
+        return mapping;
     }
 
     /**
@@ -170,11 +193,13 @@ public class KPoint implements Serializable {
     @Override
     public String toString() {
         return "KPoint{" +
-            "crud='" + this.crud + '\'' +
+            "identifier='" + this.identifier + '\'' +
+            ", crud='" + this.crud + '\'' +
             ", classDao=" + this.classDao +
             ", classDefine=" + this.classDefine +
             ", key='" + this.key + '\'' +
             ", keyJoin='" + this.keyJoin + '\'' +
+            ", synonym=" + this.synonym +
             '}';
     }
 }

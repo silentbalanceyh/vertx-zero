@@ -20,8 +20,8 @@ import java.util.Set;
  * 3) Assist ->
  * A little complex
  */
-public class DictSource implements Serializable {
-    private static final Annal LOGGER = Annal.get(DictSource.class);
+public class DiSource implements Serializable {
+    private static final Annal LOGGER = Annal.get(DiSource.class);
     /*
      * SourceType of current source definition
      */
@@ -38,7 +38,7 @@ public class DictSource implements Serializable {
 
     private transient Class<?> component;
 
-    public DictSource(final JsonObject definition) {
+    public DiSource(final JsonObject definition) {
         /*
          * Source normalize for `source type`
          */

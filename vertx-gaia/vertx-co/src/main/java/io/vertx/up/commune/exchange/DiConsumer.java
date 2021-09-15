@@ -40,7 +40,7 @@ import java.io.Serializable;
  *
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-public class DictEpsilon implements Serializable, Json {
+public class DiConsumer implements Serializable, Json {
 
     private transient String source;
     private transient String in;

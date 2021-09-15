@@ -2,7 +2,7 @@ package io.vertx.up.commune;
 
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.commune.exchange.DualMapping;
+import io.vertx.up.commune.exchange.BiMapping;
 import io.vertx.up.eon.Constants;
 import io.vertx.up.eon.ID;
 import io.vertx.up.util.Ut;
@@ -86,7 +86,7 @@ class ActJArray extends ActMapping implements Serializable {
         }
     }
 
-    Record[] getRecords(final Record definition, final DualMapping mapping) {
+    Record[] getRecords(final Record definition, final BiMapping mapping) {
         /* Record Init */
         final int size = this.data.size();
         final Record[] records = new Record[size];
@@ -102,7 +102,7 @@ class ActJArray extends ActMapping implements Serializable {
         return records;
     }
 
-    JsonArray getJson(final DualMapping mapping) {
+    JsonArray getJson(final BiMapping mapping) {
         if (this.isBefore(mapping)) {
             final JsonArray normalized = new JsonArray();
             Ut.itJArray(this.data)

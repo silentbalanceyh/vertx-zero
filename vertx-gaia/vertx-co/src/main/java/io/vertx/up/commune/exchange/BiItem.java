@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
  * Content for
  * String = String
  */
-public class DualItem implements Serializable {
+public class BiItem implements Serializable {
     private final transient ConcurrentMap<String, String> vector =
         new ConcurrentHashMap<>();
     private final transient ConcurrentMap<String, String> revert =
@@ -30,10 +30,10 @@ public class DualItem implements Serializable {
     private final transient ConcurrentMap<String, Class<?>> revertType =
         new ConcurrentHashMap<>();
 
-    DualItem() {
+    BiItem() {
     }
 
-    public DualItem(final JsonObject input) {
+    public BiItem(final JsonObject input) {
         this.init(input);
     }
 
@@ -57,7 +57,7 @@ public class DualItem implements Serializable {
                             /*
                              * Type here
                              */
-                            final Class<?> type = DualType.type(typeFlag);
+                            final Class<?> type = BiType.type(typeFlag);
                             /* mapping type */
                             this.vectorType.put(field, type);
                             this.revertType.put(toField, type);
@@ -76,7 +76,7 @@ public class DualItem implements Serializable {
         }
     }
 
-    public DualItem bind(final ConcurrentMap<String, Class<?>> typeMap) {
+    public BiItem bind(final ConcurrentMap<String, Class<?>> typeMap) {
         this.vector.keySet().forEach((field) -> {
             if (typeMap.containsKey(field)) {
                 this.vectorType.put(field, typeMap.get(field));

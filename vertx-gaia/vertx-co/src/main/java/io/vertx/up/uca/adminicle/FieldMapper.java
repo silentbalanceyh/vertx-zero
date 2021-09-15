@@ -1,7 +1,7 @@
 package io.vertx.up.uca.adminicle;
 
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.commune.exchange.DualItem;
+import io.vertx.up.commune.exchange.BiItem;
 import io.vertx.up.util.Ut;
 
 import java.util.Objects;
@@ -19,7 +19,7 @@ public class FieldMapper implements Mapper {
     }
 
     @Override
-    public JsonObject in(final JsonObject in, final DualItem mapping) {
+    public JsonObject in(final JsonObject in, final BiItem mapping) {
         if (Objects.isNull(mapping)) {
             /*
              * No mapping
@@ -49,7 +49,7 @@ public class FieldMapper implements Mapper {
     }
 
     @Override
-    public JsonObject out(final JsonObject out, final DualItem mapping) {
+    public JsonObject out(final JsonObject out, final BiItem mapping) {
         if (Objects.isNull(mapping)) {
             /*
              * No mapping

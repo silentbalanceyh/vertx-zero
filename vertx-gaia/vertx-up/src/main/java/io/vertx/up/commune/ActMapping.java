@@ -1,7 +1,7 @@
 package io.vertx.up.commune;
 
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.commune.exchange.DualMapping;
+import io.vertx.up.commune.exchange.BiMapping;
 import io.vertx.up.eon.em.MappingMode;
 import io.vertx.up.uca.adminicle.FieldMapper;
 import io.vertx.up.uca.adminicle.Mapper;
@@ -17,7 +17,7 @@ public abstract class ActMapping implements Serializable {
     /*
      * ActIn
      */
-    protected Record getRecord(final Object input, final Record definition, final DualMapping mapping) {
+    protected Record getRecord(final Object input, final Record definition, final BiMapping mapping) {
         final Record record = definition.createNew();
         if (input instanceof String) {
             final String key = (String) input;
@@ -45,7 +45,7 @@ public abstract class ActMapping implements Serializable {
     /*
      * Whether it's before automatic
      */
-    protected boolean isBefore(final DualMapping mapping) {
+    protected boolean isBefore(final BiMapping mapping) {
         if (Objects.isNull(mapping)) {
             return false;
         }
@@ -58,7 +58,7 @@ public abstract class ActMapping implements Serializable {
     /*
      * Whether it's after automatic
      */
-    protected boolean isAfter(final DualMapping mapping) {
+    protected boolean isAfter(final BiMapping mapping) {
         if (Objects.isNull(mapping)) {
             return false;
         }

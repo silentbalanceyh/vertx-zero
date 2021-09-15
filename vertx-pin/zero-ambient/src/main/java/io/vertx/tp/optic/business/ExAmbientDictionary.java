@@ -6,7 +6,7 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.tp.ambient.refine.At;
 import io.vertx.tp.ambient.uca.dict.Dpm;
 import io.vertx.tp.optic.component.Dictionary;
-import io.vertx.up.commune.exchange.DictSource;
+import io.vertx.up.commune.exchange.DiSource;
 import io.vertx.up.eon.em.GlossaryType;
 import io.vertx.up.unity.Ux;
 
@@ -22,7 +22,7 @@ import java.util.concurrent.ConcurrentMap;
 public class ExAmbientDictionary implements Dictionary {
     @Override
     public Future<ConcurrentMap<String, JsonArray>> fetchAsync(final MultiMap paramMap,
-                                                               final List<DictSource> sources) {
+                                                               final List<DiSource> sources) {
         /*
          * Whether sources is empty
          */

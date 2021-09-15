@@ -22,7 +22,7 @@ import java.util.concurrent.ConcurrentMap;
  * A) Single Mapping: String = String
  * B) Multi Mapping: String = JsonObject
  */
-public class DualMapping implements Serializable {
+public class BiMapping implements Serializable {
 
     /*
      * Root ( Single )
@@ -30,8 +30,8 @@ public class DualMapping implements Serializable {
      * Map ( Multi )
      * String = JsonObject
      */
-    private final transient DualItem root = new DualItem();
-    private final transient ConcurrentMap<String, DualItem> mapping =
+    private final transient BiItem root = new BiItem();
+    private final transient ConcurrentMap<String, BiItem> mapping =
         new ConcurrentHashMap<>();
     /*
      * Configured `MappingMode` and `Class<?>`
@@ -39,14 +39,14 @@ public class DualMapping implements Serializable {
     private transient MappingMode mode = MappingMode.NONE;
     private transient Class<?> component;
 
-    public DualMapping() {
+    public BiMapping() {
     }
 
-    public DualMapping(final JsonObject input) {
+    public BiMapping(final JsonObject input) {
         this.init(input);
     }
 
-    public DualMapping init(final JsonObject input) {
+    public BiMapping init(final JsonObject input) {
         if (Ut.notNil(input)) {
             /*
              * Mix data structure for
@@ -68,7 +68,7 @@ public class DualMapping implements Serializable {
                     /* Init here */
                     if (Ut.notNil(fieldValue)) {
                         /* Json mapping here */
-                        final DualItem item = new DualItem(fieldValue);
+                        final BiItem item = new BiItem(fieldValue);
                         this.mapping.put(field, item);
                     }
                 });
@@ -90,12 +90,12 @@ public class DualMapping implements Serializable {
         return this.component;
     }
 
-    public DualMapping bind(final MappingMode mode) {
+    public BiMapping bind(final MappingMode mode) {
         this.mode = mode;
         return this;
     }
 
-    public DualMapping bind(final Class<?> component) {
+    public BiMapping bind(final Class<?> component) {
         this.component = component;
         return this;
     }
@@ -108,8 +108,8 @@ public class DualMapping implements Serializable {
     /*
      * Child get here
      */
-    public DualItem child(final String key) {
-        final DualItem selected = this.mapping.get(key);
+    public BiItem child(final String key) {
+        final BiItem selected = this.mapping.get(key);
         if (Objects.isNull(selected) || selected.isEmpty()) {
             return this.root;
         } else {
@@ -117,7 +117,7 @@ public class DualMapping implements Serializable {
         }
     }
 
-    public DualItem child() {
+    public BiItem child() {
         return this.root;
     }
 

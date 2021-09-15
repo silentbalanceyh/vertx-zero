@@ -29,19 +29,19 @@ import java.util.concurrent.ConcurrentMap;
  *     }
  * ]
  */
-public class DictConfig implements Serializable {
+public class DiSetting implements Serializable {
 
     /*
      * Source definition here for directory configuration
      */
-    private final transient List<DictSource> source = new ArrayList<>();
-    private final transient ConcurrentMap<String, DictEpsilon> epsilon = new ConcurrentHashMap<>();
+    private final transient List<DiSource> source = new ArrayList<>();
+    private final transient ConcurrentMap<String, DiConsumer> epsilon = new ConcurrentHashMap<>();
     private transient Class<?> component;
 
     /*
      * Build object of Dict
      */
-    public DictConfig(final String literal) {
+    public DiSetting(final String literal) {
         if (Ut.isJArray(literal)) {
             final JsonArray parameters = new JsonArray(literal);
             /* Initialize */
@@ -49,7 +49,7 @@ public class DictConfig implements Serializable {
         }
     }
 
-    public DictConfig(final JsonArray input) {
+    public DiSetting(final JsonArray input) {
         if (Objects.nonNull(input)) {
             /* Initialize */
             this.init(input);
@@ -59,11 +59,11 @@ public class DictConfig implements Serializable {
     private void init(final JsonArray input) {
         /* Normalize `DictSource` List */
         Ut.itJArray(input)
-            .map(DictSource::new)
+            .map(DiSource::new)
             .forEach(this.source::add);
     }
 
-    public DictConfig bind(final Class<?> component) {
+    public DiSetting bind(final Class<?> component) {
         if (Objects.isNull(component)) {
             /*
              * When component not found,
@@ -81,7 +81,7 @@ public class DictConfig implements Serializable {
         return this;
     }
 
-    public DictConfig bind(final ConcurrentMap<String, DictEpsilon> epsilon) {
+    public DiSetting bind(final ConcurrentMap<String, DiConsumer> epsilon) {
         if (Objects.nonNull(epsilon)) {
             this.epsilon.putAll(epsilon);
         }
@@ -92,7 +92,7 @@ public class DictConfig implements Serializable {
         return this.component;
     }
 
-    public ConcurrentMap<String, DictEpsilon> getEpsilon() {
+    public ConcurrentMap<String, DiConsumer> getEpsilon() {
         return this.epsilon;
     }
 
@@ -108,7 +108,7 @@ public class DictConfig implements Serializable {
         return this.validSource() && Objects.nonNull(this.component);
     }
 
-    public List<DictSource> getSource() {
+    public List<DiSource> getSource() {
         return this.source;
     }
 }

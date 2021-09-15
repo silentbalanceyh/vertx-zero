@@ -9,7 +9,7 @@ import io.vertx.tp.ke.atom.KField;
 import io.vertx.tp.ke.atom.KModule;
 import io.vertx.up.atom.Kv;
 import io.vertx.up.commune.element.TypeAtom;
-import io.vertx.up.commune.exchange.DictFabric;
+import io.vertx.up.commune.exchange.DiFabric;
 import io.vertx.up.log.Annal;
 import io.vertx.up.uca.jooq.UxJooq;
 import io.vertx.up.unity.Ux;
@@ -33,7 +33,7 @@ public class Ix {
         return IxData.flush(in);
     }
 
-    public static Future<DictFabric> onFabric(final IxMod in) {
+    public static Future<DiFabric> onFabric(final IxMod in) {
         return IxData.fabric(in);
     }
 

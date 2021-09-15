@@ -5,7 +5,7 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.crud.refine.Ix;
 import io.vertx.tp.crud.uca.desk.IxMod;
-import io.vertx.up.commune.exchange.DictFabric;
+import io.vertx.up.commune.exchange.DiFabric;
 import io.vertx.up.unity.Ux;
 
 import java.util.Objects;
@@ -16,7 +16,7 @@ import java.util.Objects;
 class FromPre implements Pre {
     @Override
     public Future<JsonObject> inJAsync(final JsonObject data, final IxMod in) {
-        final Future<DictFabric> future = Ix.onFabric(in);
+        final Future<DiFabric> future = Ix.onFabric(in);
         if (Objects.isNull(future)) {
             return Ux.future(data);
         }
@@ -25,7 +25,7 @@ class FromPre implements Pre {
 
     @Override
     public Future<JsonArray> inAAsync(final JsonArray data, final IxMod in) {
-        final Future<DictFabric> future = Ix.onFabric(in);
+        final Future<DiFabric> future = Ix.onFabric(in);
         if (Objects.isNull(future)) {
             return Ux.future(data);
         }

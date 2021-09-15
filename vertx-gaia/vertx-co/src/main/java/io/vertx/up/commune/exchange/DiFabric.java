@@ -20,9 +20,9 @@ import java.util.concurrent.ConcurrentMap;
  * 3. DualMapping Stored mapping ( from -> to )
  * 4. The `fabric` do not support mapping converting future( Important )
  */
-public class DictFabric {
+public class DiFabric {
 
-    private static final Annal LOGGER = Annal.get(DictFabric.class);
+    private static final Annal LOGGER = Annal.get(DiFabric.class);
     /*
      * From field = DictEpsilon
      * This map stored consume information of current usage, the format is as following
@@ -37,26 +37,26 @@ public class DictFabric {
      * -- source: The dict name that has been mapped to `dictData` variable here
      * -- in/out: The translation direction that defined.
      */
-    private final transient ConcurrentMap<String, DictEpsilon> epsilonMap
+    private final transient ConcurrentMap<String, DiConsumer> epsilonMap
         = new ConcurrentHashMap<>();
     /*
      * Each fabric bind
      */
-    private final transient DictStore store = new DictStore();
+    private final transient DiStore store = new DiStore();
     /*
      *  The mapping in dictionary
      */
-    private final transient DualItem mapping;
+    private final transient BiItem mapping;
 
     /*
      * Data here for dictionary
      */
-    private final transient ConcurrentMap<String, DualItem> fromData
+    private final transient ConcurrentMap<String, BiItem> fromData
         = new ConcurrentHashMap<>();
-    private final transient ConcurrentMap<String, DualItem> toData
+    private final transient ConcurrentMap<String, BiItem> toData
         = new ConcurrentHashMap<>();
 
-    private DictFabric(final DualItem mapping) {
+    private DiFabric(final BiItem mapping) {
         this.mapping = mapping;
     }
 
@@ -64,19 +64,19 @@ public class DictFabric {
      * Here are the creation method for `DictFabric`
      * Each api will create new `DictFabric` object
      */
-    public static DictFabric create(final DualItem mapping) {
-        return new DictFabric(mapping);
+    public static DiFabric create(final BiItem mapping) {
+        return new DiFabric(mapping);
     }
 
-    public static DictFabric create() {
-        return new DictFabric(null);
+    public static DiFabric create() {
+        return new DiFabric(null);
     }
 
-    public DictFabric createCopy() {
+    public DiFabric createCopy() {
         return this.createCopy(null);
     }
 
-    public DictFabric createCopy(final DualItem mapping) {
+    public DiFabric createCopy(final BiItem mapping) {
         /*
          * Here are two mapping for copy
          * 1. When `mapping` is null, check whether there exist mapping
@@ -85,15 +85,15 @@ public class DictFabric {
          * Fix issue of : java.lang.NullPointerException
          * when you call `createCopy()` directly.
          */
-        final DualItem calculated = Objects.isNull(mapping) ? this.mapping : mapping;
-        final DictFabric created = create(calculated);
+        final BiItem calculated = Objects.isNull(mapping) ? this.mapping : mapping;
+        final DiFabric created = create(calculated);
         created.dictionary(this.store.data());
         created.epsilon(this.epsilonMap);
         return created;
     }
 
     @Fluent
-    public DictFabric epsilon(final ConcurrentMap<String, DictEpsilon> epsilonMap) {
+    public DiFabric epsilon(final ConcurrentMap<String, DiConsumer> epsilonMap) {
         if (Objects.nonNull(epsilonMap) && !epsilonMap.isEmpty()) {
             /*
              * Re-bind
@@ -116,7 +116,7 @@ public class DictFabric {
     }
 
     @Fluent
-    public DictFabric dictionary(final ConcurrentMap<String, JsonArray> dictData) {
+    public DiFabric dictionary(final ConcurrentMap<String, JsonArray> dictData) {
         // Call store for data replaced
         this.store.data(dictData);
         this.init();
@@ -126,11 +126,11 @@ public class DictFabric {
     /*
      * The stored data that related to configuration defined here
      */
-    public DualItem mapping() {
+    public BiItem mapping() {
         return this.mapping;
     }
 
-    public ConcurrentMap<String, DictEpsilon> epsilon() {
+    public ConcurrentMap<String, DiConsumer> epsilon() {
         return this.epsilonMap;
     }
 
@@ -175,7 +175,7 @@ public class DictFabric {
                     /*
                      * From Data Map processing
                      */
-                    final DualItem item = new DualItem(dataItem);
+                    final BiItem item = new BiItem(dataItem);
                     this.fromData.put(fromField, item);
 
                     /*
@@ -212,7 +212,7 @@ public class DictFabric {
      * 3) The output structure are Ox field
      */
     public JsonObject inToS(final JsonObject input) {
-        return DictTool.process(this.fromData, input, DualItem::from);
+        return DictTool.process(this.fromData, input, BiItem::from);
     }
 
     public JsonArray inToS(final JsonArray input) {
@@ -234,7 +234,7 @@ public class DictFabric {
      * 3) The output structure are Ox field
      */
     public JsonObject inFromS(final JsonObject input) {
-        return DictTool.process(this.fromData, input, DualItem::to);
+        return DictTool.process(this.fromData, input, BiItem::to);
     }
 
     public JsonArray inFromS(final JsonArray input) {
@@ -256,7 +256,7 @@ public class DictFabric {
      * 3) The output structure are Tp field
      */
     public JsonObject outToS(final JsonObject output) {
-        return DictTool.process(this.toData, output, DualItem::from);
+        return DictTool.process(this.toData, output, BiItem::from);
     }
 
     public JsonArray outToS(final JsonArray output) {
@@ -278,7 +278,7 @@ public class DictFabric {
      * 3) The output structure are Tp field
      */
     public JsonObject outFromS(final JsonObject output) {
-        return DictTool.process(this.toData, output, DualItem::to);
+        return DictTool.process(this.toData, output, BiItem::to);
     }
 
     public JsonArray outFromS(final JsonArray output) {

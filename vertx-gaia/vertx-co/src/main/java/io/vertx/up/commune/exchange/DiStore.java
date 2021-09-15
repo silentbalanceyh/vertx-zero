@@ -15,15 +15,15 @@ import java.util.concurrent.ConcurrentMap;
  * 1. Dict Data Store
  * 2. Dict Data Update ( Checking )
  */
-class DictStore {
-    private static final Annal LOGGER = Annal.get(DictStore.class);
+class DiStore {
+    private static final Annal LOGGER = Annal.get(DiStore.class);
     private final transient ConcurrentMap<String, JsonArray> dictData
         = new ConcurrentHashMap<>();
 
     /*
      * Default domain
      */
-    DictStore() {
+    DiStore() {
     }
 
     ConcurrentMap<String, JsonArray> data() {

@@ -13,10 +13,10 @@ import io.vertx.tp.optic.Pocket;
 import io.vertx.tp.optic.component.Dictionary;
 import io.vertx.up.atom.Kv;
 import io.vertx.up.commune.Envelop;
-import io.vertx.up.commune.exchange.DictConfig;
-import io.vertx.up.commune.exchange.DictEpsilon;
-import io.vertx.up.commune.exchange.DictFabric;
-import io.vertx.up.commune.exchange.DictSource;
+import io.vertx.up.commune.exchange.DiSetting;
+import io.vertx.up.commune.exchange.DiConsumer;
+import io.vertx.up.commune.exchange.DiFabric;
+import io.vertx.up.commune.exchange.DiSource;
 import io.vertx.up.eon.Constants;
 import io.vertx.up.eon.KName;
 import io.vertx.up.log.Annal;
@@ -121,15 +121,15 @@ class IxData {
         return future;
     }
 
-    static Future<DictFabric> fabric(final IxMod in) {
+    static Future<DiFabric> fabric(final IxMod in) {
         final Envelop envelop = in.envelop();
         final KModule module = in.module();
         /* Epsilon */
-        final ConcurrentMap<String, DictEpsilon> epsilonMap = module.epsilon();
+        final ConcurrentMap<String, DiConsumer> epsilonMap = module.epsilon();
         /* Channel Plugin, Here will enable Pool */
         final Dictionary plugin = Pocket.lookup(Dictionary.class);
         /* Dict */
-        final DictConfig dict = module.source();
+        final DiSetting dict = module.source();
         if (epsilonMap.isEmpty() || Objects.isNull(plugin) || !dict.validSource()) {
             /*
              * Direct returned
@@ -138,7 +138,7 @@ class IxData {
                 epsilonMap.isEmpty(), Objects.isNull(plugin), !dict.validSource());
             return null;
         } else {
-            final List<DictSource> sources = dict.getSource();
+            final List<DiSource> sources = dict.getSource();
             final MultiMap paramMap = MultiMap.caseInsensitiveMultiMap();
             final JsonObject headers = envelop.headersX();
             paramMap.add(KName.SIGMA, headers.getString(KName.SIGMA));
@@ -146,7 +146,7 @@ class IxData {
              * To avoid final in lambda expression
              */
             return plugin.fetchAsync(paramMap, sources).compose(dictData ->
-                Ux.future(DictFabric.create()
+                Ux.future(DiFabric.create()
                     .dictionary(dictData)
                     .epsilon(module.epsilon())
                 ));

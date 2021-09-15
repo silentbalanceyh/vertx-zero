@@ -10,8 +10,8 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.tp.ke.atom.connect.KJoin;
 import io.vertx.tp.ke.atom.view.KColumn;
 import io.vertx.tp.ke.cv.em.DSMode;
-import io.vertx.up.commune.exchange.DictConfig;
-import io.vertx.up.commune.exchange.DictEpsilon;
+import io.vertx.up.commune.exchange.DiSetting;
+import io.vertx.up.commune.exchange.DiConsumer;
 import io.vertx.up.eon.KName;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
@@ -152,14 +152,14 @@ public class KModule implements Serializable {
         this.fabric = fabric;
     }
 
-    public ConcurrentMap<String, DictEpsilon> epsilon() {
+    public ConcurrentMap<String, DiConsumer> epsilon() {
         final JsonObject dictionary = Ut.sureJObject(this.fabric);
         return Ux.dictEpsilon(Ut.sureJObject(dictionary.getJsonObject(KName.EPSILON)));
     }
 
-    public DictConfig source() {
+    public DiSetting source() {
         final JsonObject dictionary = Ut.sureJObject(this.fabric);
-        return new DictConfig(Ut.sureJArray(dictionary.getJsonArray(KName.SOURCE)));
+        return new DiSetting(Ut.sureJArray(dictionary.getJsonArray(KName.SOURCE)));
     }
 
     public String getModeKey() {

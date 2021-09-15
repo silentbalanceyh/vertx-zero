@@ -1,6 +1,6 @@
 package io.vertx.up.commune;
 
-import io.vertx.up.commune.exchange.DictConfig;
+import io.vertx.up.commune.exchange.DiSetting;
 
 /*
  * Service
@@ -14,5 +14,5 @@ public interface ServiceDefinition extends Service {
      * Here `dictComponent` is required if configured.
      * Dictionary configuration for current Job / Component
      */
-    DictConfig dict();
+    DiSetting dict();
 }

@@ -21,9 +21,9 @@ class DictTool {
         return normalized;
     }
 
-    static JsonObject process(final ConcurrentMap<String, DualItem> dataMap,
+    static JsonObject process(final ConcurrentMap<String, BiItem> dataMap,
                               final JsonObject input,
-                              final BiFunction<DualItem, String, String> applier) {
+                              final BiFunction<BiItem, String, String> applier) {
         final JsonObject normalized = Objects.isNull(input) ? new JsonObject() : input.copy();
         dataMap.forEach((field, item) -> {
             final Object fromValue = input.getValue(field);
