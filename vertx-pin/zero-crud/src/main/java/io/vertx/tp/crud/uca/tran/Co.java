@@ -35,6 +35,10 @@ import java.util.List;
 @SuppressWarnings("all")
 public interface Co<I, A, S, O> {
 
+    static Co nextQ(final IxMod in) {
+        return Fn.poolThread(Pooled.CO_MAP, () -> new NtAQr(in), NtAQr.class.getName() + in.module().getIdentifier());
+    }
+
     static Co nextJ(final IxMod in) {
         return Fn.poolThread(Pooled.CO_MAP, () -> new NtJRecord(in), NtJRecord.class.getName() + in.module().getIdentifier());
     }
@@ -80,14 +84,17 @@ public interface Co<I, A, S, O> {
     }
 }
 
-interface OkA<I> extends Co<I, JsonArray, JsonArray, JsonArray> {
+interface OkA<I> extends Co<I, JsonArray, Object, JsonArray> {
 }
 
-interface OkJ<I> extends Co<I, JsonObject, JsonObject, JsonObject> {
+interface OkJ<I> extends Co<I, JsonObject, Object, JsonObject> {
 }
 
 interface NtJ<O> extends Co<JsonObject, JsonObject, JsonObject, O> {
 }
 
 interface NtA<O> extends Co<JsonArray, JsonArray, JsonArray, O> {
+}
+
+interface NtQ extends Co<JsonObject, JsonArray, JsonArray, JsonArray> {
 }

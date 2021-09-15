@@ -9,7 +9,7 @@ import io.vertx.up.unity.Ux;
  */
 class OkJActive implements OkJ<JsonObject> {
     @Override
-    public Future<JsonObject> ok(final JsonObject active, final JsonObject standBy) {
+    public Future<JsonObject> ok(final JsonObject active, final Object standBy) {
         return Ux.future(active);
     }
 }

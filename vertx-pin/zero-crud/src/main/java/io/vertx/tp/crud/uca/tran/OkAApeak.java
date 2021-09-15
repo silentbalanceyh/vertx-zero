@@ -17,14 +17,20 @@ import java.util.Set;
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-class OkAApeak implements Co<JsonObject, JsonArray, JsonArray, JsonArray> {
+class OkAApeak implements Co<JsonObject, JsonArray, Object, JsonArray> {
     @Override
-    public Future<JsonArray> ok(final JsonArray columns, final JsonArray linked) {
+    public Future<JsonArray> ok(final JsonArray columns, final Object linkedObj) {
         /*
          * Fix Bug:
          * java.lang.ClassCastException: io.vertx.core.json.JsonObject cannot be cast to io.vertx.core.json.JsonArray
          * Because standard sub-module ignored processing
          */
+        final JsonArray linked;
+        if (linkedObj instanceof JsonArray) {
+            linked = (JsonArray) linkedObj;
+        } else {
+            linked = new JsonArray();
+        }
         final Set<String> majorSet = this.field(columns);
 
         final JsonArray filtered = new JsonArray();

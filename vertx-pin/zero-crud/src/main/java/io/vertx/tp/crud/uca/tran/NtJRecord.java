@@ -20,9 +20,14 @@ class NtJRecord implements NtJ<JsonObject> {
     public Future<JsonObject> next(final JsonObject input, final JsonObject active) {
         if (this.in.canJoin()) {
             /*
-             * 1. Mapping Processing
+             * 1. Joined Key Processing
+             * 2. Mapping configuration
              */
-            return null;
+            final JsonObject dataSt = this.in.dataPoint(input, active);
+            // Remove `key` of current
+            final String key = this.in.module().getField().getKey();
+            dataSt.remove(key);
+            return Ux.future(dataSt);
         } else {
             // There is no joined module on current
             return Ux.future(active.copy());

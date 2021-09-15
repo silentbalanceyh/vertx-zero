@@ -60,14 +60,6 @@ public class KJoin implements Serializable {
         this.target = target;
     }
 
-    public KPoint procTarget(final JsonArray data) {
-        final Set<String> idSet = new HashSet<>();
-        Ut.itJArray(data).map(this::identifier).filter(Objects::nonNull).forEach(idSet::add);
-        Fn.out(1 != idSet.size(), _412IndentUnknownException.class, this.getClass(), this.targetIndent);
-        final String identifier = idSet.iterator().next();
-        return this.procTarget(identifier);
-    }
-
     private String identifier(final JsonObject data) {
         /*
          * Joined configuration read
@@ -91,17 +83,17 @@ public class KJoin implements Serializable {
         return identifier;
     }
 
-    public KPoint procTarget(final JsonObject data) {
+    public KPoint point(final JsonObject data) {
         final String identifier = this.identifier(data);
         Fn.out(Ut.isNil(identifier), _412IndentParsingException.class, this.getClass(), this.targetIndent, data);
-        final KPoint result = this.procTarget(identifier);
+        final KPoint result = this.point(identifier);
         if (Objects.isNull(result)) {
             LOGGER.warn("System could not find configuration for `{0}` with data = {1}", identifier, data.encode());
         }
         return result;
     }
 
-    public KPoint procTarget(final String identifier) {
+    public KPoint point(final String identifier) {
         final KPoint target = this.target.getOrDefault(identifier, null);
         if (Objects.isNull(target)) {
             return null;
@@ -109,10 +101,18 @@ public class KJoin implements Serializable {
         return target.indent(identifier);
     }
 
+    public KPoint point(final JsonArray data) {
+        final Set<String> idSet = new HashSet<>();
+        Ut.itJArray(data).map(this::identifier).filter(Objects::nonNull).forEach(idSet::add);
+        Fn.out(1 != idSet.size(), _412IndentUnknownException.class, this.getClass(), this.targetIndent);
+        final String identifier = idSet.iterator().next();
+        return this.point(identifier);
+    }
+
     /**
      * Source Join Target
      */
-    public void procFilters(final JsonObject data, final KPoint target, final JsonObject filterRef) {
+    public void dataFilters(final JsonObject data, final KPoint target, final JsonObject filterRef) {
         final KPoint source = this.source;
         if (Objects.nonNull(target) && Objects.nonNull(source)) {
             /*

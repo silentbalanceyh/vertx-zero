@@ -5,11 +5,11 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.tp.crud.cv.Addr;
 import io.vertx.tp.crud.cv.em.ApiSpec;
 import io.vertx.tp.crud.uca.desk.IxKit;
-import io.vertx.tp.crud.uca.desk.IxNext;
 import io.vertx.tp.crud.uca.desk.IxPanel;
 import io.vertx.tp.crud.uca.desk.IxWeb;
 import io.vertx.tp.crud.uca.input.Pre;
 import io.vertx.tp.crud.uca.op.Agonic;
+import io.vertx.tp.crud.uca.tran.Co;
 import io.vertx.up.annotations.Address;
 import io.vertx.up.annotations.Queue;
 import io.vertx.up.atom.query.engine.Qr;
@@ -19,6 +19,7 @@ import io.vertx.up.eon.em.ChangeFlag;
 import io.vertx.up.util.Ut;
 
 @Queue
+@SuppressWarnings("all")
 public class PutActor {
 
     @Address(Addr.Put.BY_ID)
@@ -30,7 +31,7 @@ public class PutActor {
                 Pre.head()::inJAsync,                       /* Header */
                 Pre.codex()::inJAsync                       /* Codex */
             )
-            .next(in -> IxNext.on(in)::runJJJ)
+            .next(in -> Co.nextJ(in)::next)
             .passion(Agonic.write(ChangeFlag.UPDATE)::runJAsync)
             .<JsonObject, JsonObject, JsonObject>runJ(request.dataK())
             /*
@@ -54,7 +55,7 @@ public class PutActor {
             params.put(KName.DATA, request.dataA());
             params.put(Qr.KEY_CRITERIA, condition);
             return panel
-                .next(in -> IxNext.on(in)::runJAA)
+                .next(in -> Co.nextQ(in)::next)
                 .passion(Agonic.write(ChangeFlag.UPDATE)::runJAAsync)
                 .runJ(params);
         });

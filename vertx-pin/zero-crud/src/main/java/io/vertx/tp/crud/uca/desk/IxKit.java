@@ -92,4 +92,8 @@ public final class IxKit {
         Ut.itJArray(serializedA).forEach(json -> Ix.serializeJ(json, module));
         return Ux.future(serializedA);
     }
+
+    public static Future<JsonArray> ignoreA(final JsonObject input, final IxMod in) {
+        return Ux.futureA();
+    }
 }

@@ -126,7 +126,7 @@ public class RDao {
     private Function<JsonObject, JsonArray> executor() {
         return condition -> {
             final KPoint source = this.kJoin.getSource();
-            final KPoint target = this.kJoin.procTarget(condition);
+            final KPoint target = this.kJoin.point(condition);
             if (Objects.isNull(target)) {
                 return Ux.Jooq.on(source.getClassDao()).fetchJ(condition);
             } else {
@@ -144,7 +144,7 @@ public class RDao {
     private Function<JsonObject, Future<JsonArray>> executorAsync() {
         return condition -> {
             final KPoint source = this.kJoin.getSource();
-            final KPoint target = this.kJoin.procTarget(condition);
+            final KPoint target = this.kJoin.point(condition);
             if (Objects.isNull(target)) {
                 return Ux.Jooq.on(source.getClassDao()).fetchJAsync(condition);
             } else {

@@ -115,9 +115,9 @@ public class IxWeb {
                      * Here are no `module` parameters
                      */
                     if (Objects.nonNull(this.bodyJ)) {
-                        target = connect.procTarget(this.bodyJ);
+                        target = connect.point(this.bodyJ);
                     } else if (Objects.nonNull(this.bodyA)) {
-                        target = connect.procTarget(this.bodyA);
+                        target = connect.point(this.bodyA);
                     } else {
                         target = null;
                     }
@@ -125,18 +125,18 @@ public class IxWeb {
                     /*
                      * Here are `module` parameters
                      */
-                    target = connect.procTarget(module);
+                    target = connect.point(module);
                 }
                 /*
                  * This condition means that you can build standBy then because ths standBy found
                  */
                 if (Objects.nonNull(target) && JoinMode.CRUD == target.modeTarget()) {
                     this.standBy = IxMod.create(target.getCrud()).bind(envelop);
-                    this.active.connect(this.standBy);
+                    this.active.bind(this.standBy);
                 }
             }
         }
-        Ix.Log.web(this.getClass(), this.LOGGER_MOD,
+        Ix.Log.web(this.getClass(), LOGGER_MOD,
             this.active.module().getIdentifier(),
             Objects.nonNull(this.standBy) ? this.standBy.module().getIdentifier() : null,
             this.apiSpecification, this.view.view() + ":" + this.view.position());

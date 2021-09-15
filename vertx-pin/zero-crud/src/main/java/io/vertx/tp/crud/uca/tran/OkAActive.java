@@ -10,7 +10,7 @@ import io.vertx.up.unity.Ux;
  */
 class OkAActive implements OkA<JsonObject> {
     @Override
-    public Future<JsonArray> ok(final JsonArray active, final JsonArray standBy) {
+    public Future<JsonArray> ok(final JsonArray active, final Object standBy) {
         return Ux.future(active);
     }
 }
