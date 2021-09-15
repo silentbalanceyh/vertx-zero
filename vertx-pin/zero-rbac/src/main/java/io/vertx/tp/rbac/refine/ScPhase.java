@@ -24,6 +24,7 @@ import io.vertx.up.util.Ut;
 class ScPhase {
 
     private static final Annal LOGGER = Annal.get(ScPhase.class);
+    private static final String LOGGER_VIEW = "( view = \u001b[0;35m{1}\u001b[m ) Try cacheKey: \u001b[0;35m{0}\u001b[m, uri = {2}, method = {3}";
 
     /*
      * To avoid two request
@@ -52,7 +53,7 @@ class ScPhase {
         Sc.debugAuth(LOGGER, "Processed Uri: {0}", uri);
         final String cacheKey = Ke.keySession(request.method().name(), uri, Vis.create(literal));
         /* Cache Data */
-        Sc.infoView(ScPhase.class, "( view = {1} ) Try cacheKey: {0}", cacheKey, literal);
+        Sc.infoView(ScPhase.class, LOGGER_VIEW, cacheKey, literal, uri, request.method().name());
         return cacheKey;
     }
 
