@@ -51,7 +51,7 @@
             <fluentSetters>true</fluentSetters>
         </generate>
         <target>
-            <packageName>cn.vertxup.fmd.domain</packageName>
+            <packageName>cn.vertxup.fm.domain</packageName>
             <directory>../../src/main/java</directory>
         </target>
         <strategy>
