@@ -4,10 +4,6 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.crud.cv.em.ApiSpec;
 import io.vertx.tp.crud.refine.Ix;
-import io.vertx.tp.ke.atom.KModule;
-import io.vertx.tp.ke.atom.connect.KJoin;
-import io.vertx.tp.ke.atom.connect.KPoint;
-import io.vertx.tp.ke.cv.em.JoinMode;
 import io.vertx.up.atom.secure.Vis;
 import io.vertx.up.commune.Envelop;
 import io.vertx.up.eon.KName;
@@ -89,51 +85,19 @@ public class IxWeb {
             this.view = Vis.smart(null);
         }
 
-        // Apply the default view information
+        // Connecting the standBy instance
         {
-            /*
-             * 1. When ADD / UPDATE
-             *    1.1. P1: `module` parameter is the first priority
-             *    1.2. P2: When `module` has not been provided, here should be SMART processing on BODY
-             *    1.3. P3: The default workflow
-             *
-             * 2. Other situations
-             *    2.1. P1: `module` parameter is the first priority
-             *    2.2. P2: The default workflow
-             */
-            final KModule active = this.active.module();
-            final KJoin connect = active.getConnect();
-            /*
-             * When `KJoin` is null, it means that current module does not support any
-             * extension for sub-modules, in this situation, clear the module parameters
-             * because it's useless.
-             */
-            if (Objects.nonNull(connect)) {
-                final KPoint target;
-                if (Objects.isNull(module)) {
-                    /*
-                     * Here are no `module` parameters
-                     */
-                    if (Objects.nonNull(this.bodyJ)) {
-                        target = connect.point(this.bodyJ);
-                    } else if (Objects.nonNull(this.bodyA)) {
-                        target = connect.point(this.bodyA);
-                    } else {
-                        target = null;
-                    }
-                } else {
-                    /*
-                     * Here are `module` parameters
-                     */
-                    target = connect.point(module);
+            if (Objects.isNull(module)) {
+                if (Objects.nonNull(this.bodyJ)) {
+                    // By Json
+                    this.standBy = this.active.connecting(this.bodyJ);
+                } else if (Objects.nonNull(this.bodyA)) {
+                    // By Array
+                    this.standBy = this.active.connecting(this.bodyA);
                 }
-                /*
-                 * This condition means that you can build standBy then because ths standBy found
-                 */
-                if (Objects.nonNull(target) && JoinMode.CRUD == target.modeTarget()) {
-                    this.standBy = IxMod.create(target.getCrud()).bind(envelop);
-                    this.active.bind(this.standBy);
-                }
+            } else {
+                // By Module
+                this.standBy = this.active.connecting(module);
             }
         }
         Ix.Log.web(this.getClass(), LOGGER_MOD,

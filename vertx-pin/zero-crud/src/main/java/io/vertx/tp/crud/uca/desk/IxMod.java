@@ -1,6 +1,7 @@
 package io.vertx.tp.crud.uca.desk;
 
 import io.vertx.core.Future;
+import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.auth.User;
 import io.vertx.tp.crud.init.IxPin;
@@ -9,6 +10,7 @@ import io.vertx.tp.error._404ModuleMissingException;
 import io.vertx.tp.ke.atom.KModule;
 import io.vertx.tp.ke.atom.connect.KJoin;
 import io.vertx.tp.ke.atom.connect.KPoint;
+import io.vertx.tp.ke.cv.em.JoinMode;
 import io.vertx.up.commune.Envelop;
 import io.vertx.up.exception.WebException;
 import io.vertx.up.exception.web._500InternalServerException;
@@ -75,11 +77,52 @@ public class IxMod {
         return this;
     }
 
-    public IxMod bind(final IxMod target) {
-        if (Objects.nonNull(target)) {
-            this.connect = target.module;
+    public IxMod connecting(final Object input) {
+        if (Objects.isNull(input)) {
+            return null;
         }
-        return this;
+        /*
+         * 1. When ADD / UPDATE
+         *    1.1. P1: `module` parameter is the first priority
+         *    1.2. P2: When `module` has not been provided, here should be SMART processing on BODY
+         *    1.3. P3: The default workflow
+         *
+         * 2. Other situations
+         *    2.1. P1: `module` parameter is the first priority
+         *    2.2. P2: The default workflow
+         */
+        final KJoin connect = this.module.getConnect();
+        /*
+         * When `KJoin` is null, it means that current module does not support any
+         * extension for sub-modules, in this situation, clear the module parameters
+         * because it's useless.
+         */
+        if (Objects.isNull(connect)) {
+            return null;
+        }
+        KPoint target = null;
+        if (input instanceof String) {
+            /*
+             * Connected by `module` parameters
+             */
+            target = connect.point((String) input);
+        } else if (input instanceof JsonObject) {
+            /*
+             * Connected by `JsonObject` parameters
+             */
+            target = connect.point((JsonObject) input);
+        } else if (input instanceof JsonArray) {
+            /*
+             * Connected by `JsonArray` parameters
+             */
+            target = connect.point((JsonArray) input);
+        }
+        if (Objects.nonNull(target) && JoinMode.CRUD == target.modeTarget()) {
+            final IxMod standBy = IxMod.create(target.getCrud()).bind(this.envelop);
+            this.connect = standBy.module;
+            return standBy;
+        }
+        return null;
     }
 
     // --------------- Data Processing ---------------
