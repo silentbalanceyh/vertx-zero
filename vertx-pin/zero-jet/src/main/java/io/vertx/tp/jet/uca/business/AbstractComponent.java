@@ -10,9 +10,9 @@ import io.vertx.up.commune.ActOut;
 import io.vertx.up.commune.Service;
 import io.vertx.up.commune.config.Identity;
 import io.vertx.up.commune.config.XHeader;
+import io.vertx.up.commune.exchange.BiTree;
 import io.vertx.up.commune.exchange.DiConsumer;
 import io.vertx.up.commune.exchange.DiFabric;
-import io.vertx.up.commune.exchange.BiMapping;
 import io.vertx.up.commune.rule.RuleUnique;
 import io.vertx.up.exception.WebException;
 import io.vertx.up.exception.web._400SigmaMissingException;
@@ -91,7 +91,7 @@ public abstract class AbstractComponent implements JtComponent, Service {
     @Contract
     private transient Identity identity;
     @Contract
-    private transient BiMapping mapping;
+    private transient BiTree mapping;
     @Contract
     private transient RuleUnique rule;
 
@@ -113,7 +113,7 @@ public abstract class AbstractComponent implements JtComponent, Service {
     }
 
     @Override
-    public BiMapping mapping() {
+    public BiTree mapping() {
         return this.mapping;
     }
 
@@ -167,7 +167,7 @@ public abstract class AbstractComponent implements JtComponent, Service {
              */
             Ut.contract(instance, JsonObject.class, this.options());
             Ut.contract(instance, Identity.class, this.identity());
-            Ut.contract(instance, BiMapping.class, this.mapping());
+            Ut.contract(instance, BiTree.class, this.mapping());
             Ut.contract(instance, DiFabric.class, this.fabric);
             Ut.contract(instance, XHeader.class, this.header);
             Ut.contract(instance, RuleUnique.class, this.rule);

@@ -9,6 +9,7 @@ import io.vertx.core.buffer.Buffer;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.commune.Record;
+import io.vertx.up.commune.exchange.BiMapping;
 import io.vertx.up.eon.em.ChangeFlag;
 import io.vertx.up.fn.Actuator;
 
@@ -1138,6 +1139,23 @@ public final class Ut {
     public static String aiStringA(final String literal) {
         return Jackson.aiStringA(literal);
     }
+
+    public static JsonObject aiIn(final JsonObject in, final BiMapping mapping, final boolean keepNil) {
+        return Value.aiIn(in, mapping, keepNil);
+    }
+
+    public static JsonObject aiIn(final JsonObject in, final BiMapping mapping) {
+        return Value.aiIn(in, mapping, true);
+    }
+
+    public static JsonObject aiOut(final JsonObject out, final BiMapping mapping, final boolean keepNil) {
+        return Value.aiOut(out, mapping, keepNil);
+    }
+
+    public static JsonObject aiOut(final JsonObject out, final BiMapping mapping) {
+        return Value.aiOut(out, mapping, true);
+    }
+
 
     /*
      * To conversation here

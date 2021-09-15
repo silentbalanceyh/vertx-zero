@@ -17,9 +17,9 @@ import io.vertx.up.atom.record.Apt;
 import io.vertx.up.atom.secure.Vis;
 import io.vertx.up.commune.Envelop;
 import io.vertx.up.commune.Record;
-import io.vertx.up.commune.exchange.DiSetting;
 import io.vertx.up.commune.exchange.DiConsumer;
 import io.vertx.up.commune.exchange.DiFabric;
+import io.vertx.up.commune.exchange.DiSetting;
 import io.vertx.up.commune.rule.RuleTerm;
 import io.vertx.up.eon.Constants;
 import io.vertx.up.eon.KName;
@@ -978,15 +978,15 @@ public final class Ux {
      * Keep following dict method
      */
     public static ConcurrentMap<String, DiConsumer> dictEpsilon(final JsonObject epsilon) {
-        return DictTool.mapEpsilon(epsilon);
+        return DiTool.mapEpsilon(epsilon);
     }
 
     public static Future<ConcurrentMap<String, JsonArray>> dictCalc(final DiSetting dict, final MultiMap paramsMap) {
-        return DictTool.dictCalc(dict, paramsMap);
+        return DiTool.dictCalc(dict, paramsMap);
     }
 
     public static <T> Future<T> dictTo(final T record, final DiFabric fabric) {
-        return DictTool.dictTo(record, fabric);
+        return DiTool.dictTo(record, fabric);
     }
 
     /**

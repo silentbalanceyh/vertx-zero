@@ -9,8 +9,8 @@ import io.vertx.up.commune.Envelop;
 import io.vertx.up.commune.config.Database;
 import io.vertx.up.commune.config.Identity;
 import io.vertx.up.commune.config.XHeader;
+import io.vertx.up.commune.exchange.BiTree;
 import io.vertx.up.commune.exchange.DiFabric;
-import io.vertx.up.commune.exchange.BiMapping;
 import io.vertx.up.commune.rule.RuleUnique;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.unity.UxPool;
@@ -72,7 +72,7 @@ class Anagogic {
 
                 Ut.contract(component, JsonObject.class, options);                  /* serviceConfig */
                 Ut.contract(component, Identity.class, commercial.identity());      /* identifierComponent -> converted to identity */
-                Ut.contract(component, BiMapping.class, commercial.mapping());    /* mappingConfig */
+                Ut.contract(component, BiTree.class, commercial.mapping());    /* mappingConfig */
                 Ut.contract(component, DiFabric.class, fabric);                   /* dictConfig -> converted to fabric */
                 Ut.contract(component, RuleUnique.class, commercial.rule());        /* Rule Unique */
 

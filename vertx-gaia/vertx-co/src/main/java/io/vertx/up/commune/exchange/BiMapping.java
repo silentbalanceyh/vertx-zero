@@ -2,190 +2,159 @@ package io.vertx.up.commune.exchange;
 
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.eon.em.MappingMode;
 import io.vertx.up.util.Ut;
 
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
+import java.util.stream.Collectors;
 
 /*
- * [Data Structure]
- * 1) mapping stored `from -> to`
- * 2) revert stored `to -> from`
- * This data structure will store two mappings between configuration file here.
- * It could be used in some places to process ( ----> / <---- )
- *
- * Two mapping categories:
- * A) Single Mapping: String = String
- * B) Multi Mapping: String = JsonObject
+ * Content for
+ * String = String
  */
 public class BiMapping implements Serializable {
-
-    /*
-     * Root ( Single )
-     * String = String
-     * Map ( Multi )
-     * String = JsonObject
-     */
-    private final transient BiItem root = new BiItem();
-    private final transient ConcurrentMap<String, BiItem> mapping =
+    private final transient ConcurrentMap<String, String> vector =
+        new ConcurrentHashMap<>();
+    private final transient ConcurrentMap<String, String> revert =
         new ConcurrentHashMap<>();
     /*
-     * Configured `MappingMode` and `Class<?>`
+     * Involve expression for type parsing here
+     * It means that we need type attribute to do conversation
      */
-    private transient MappingMode mode = MappingMode.NONE;
-    private transient Class<?> component;
+    private final transient ConcurrentMap<String, Class<?>> vectorType =
+        new ConcurrentHashMap<>();
+    private final transient ConcurrentMap<String, Class<?>> revertType =
+        new ConcurrentHashMap<>();
 
-    public BiMapping() {
+    BiMapping() {
     }
 
     public BiMapping(final JsonObject input) {
         this.init(input);
     }
 
-    public BiMapping init(final JsonObject input) {
+    public boolean isEmpty() {
+        return this.vector.isEmpty();
+    }
+
+    void init(final JsonObject input) {
         if (Ut.notNil(input)) {
-            /*
-             * Mix data structure for
-             * {
-             *     "String": {},
-             *     "String": "String",
-             *     "String": {}
-             * }
-             */
-            this.root.init(input);
-            /*
-             * Content mapping `Map` here
-             */
             input.fieldNames().stream()
-                /* Only stored JsonObject value here */
-                .filter(field -> input.getValue(field) instanceof JsonObject)
+                /* Only stored string value here */
+                .filter(field -> input.getValue(field) instanceof String)
                 .forEach(field -> {
-                    final JsonObject fieldValue = input.getJsonObject(field);
-                    /* Init here */
-                    if (Ut.notNil(fieldValue)) {
-                        /* Json mapping here */
-                        final BiItem item = new BiItem(fieldValue);
-                        this.mapping.put(field, item);
+                    final String to = input.getString(field);
+                    if (0 < to.indexOf(',')) {
+                        /* To expression */
+                        final String[] toArray = to.split(",");
+                        final String toField = Objects.isNull(toArray[0]) ? null : toArray[0].trim();
+                        final String typeFlag = Objects.isNull(toArray[1]) ? "" : toArray[1].trim();
+                        if (Objects.nonNull(toField)) {
+                            /*
+                             * Type here
+                             */
+                            final Class<?> type = BiType.type(typeFlag);
+                            /* mapping type */
+                            this.vectorType.put(field, type);
+                            this.revertType.put(toField, type);
+                            /* mapping */
+                            this.vector.put(field, toField);
+                            /* revert */
+                            this.revert.put(toField, field);
+                        }
+                    } else {
+                        /* mapping */
+                        this.vector.put(field, to);
+                        /* revert */
+                        this.revert.put(to, field);
                     }
                 });
         }
+    }
+
+    public BiMapping bind(final ConcurrentMap<String, Class<?>> typeMap) {
+        this.vector.keySet().forEach((field) -> {
+            if (typeMap.containsKey(field)) {
+                this.vectorType.put(field, typeMap.get(field));
+                final String revertField = this.vector.get(field);
+                this.revertType.put(revertField, typeMap.get(field));
+            }
+        });
         return this;
     }
 
-    /*
-     * 1) MappingMode
-     * 2) Class<?>
-     * 3) DualMapping ( Bind Life Cycle )
-     * 4) valid() -> boolean Check whether the mapping is enabled.
-     */
-    public MappingMode getMode() {
-        return this.mode;
-    }
-
-    public Class<?> getComponent() {
-        return this.component;
-    }
-
-    public BiMapping bind(final MappingMode mode) {
-        this.mode = mode;
-        return this;
-    }
-
-    public BiMapping bind(final Class<?> component) {
-        this.component = component;
-        return this;
-    }
-
-    public boolean valid() {
-        return MappingMode.NONE != this.mode;
-    }
-
-    // -------------  Get by identifier ----------------------------
-    /*
-     * Child get here
-     */
-    public BiItem child(final String key) {
-        final BiItem selected = this.mapping.get(key);
-        if (Objects.isNull(selected) || selected.isEmpty()) {
-            return this.root;
-        } else {
-            return selected;
-        }
-    }
-
-    public BiItem child() {
-        return this.root;
-    }
-
-    // -------------  Root Method here for split instead -----------
     /*
      * from -> to, to values to String[]
      */
     public String[] to() {
-        return this.root.to();
+        return this.vector.values().toArray(new String[]{});
     }
 
     public String[] from() {
-        return this.root.from();
+        return this.revert.values().toArray(new String[]{});
     }
 
     public Set<String> to(final JsonArray keys) {
-        return this.root.to(keys);
+        return keys.stream().filter(item -> item instanceof String)
+            .map(item -> (String) item)
+            .map(this.vector::get)
+            .collect(Collectors.toSet());
     }
 
     public Set<String> from(final JsonArray keys) {
-        return this.root.from(keys);
+        return keys.stream().filter(item -> item instanceof String)
+            .map(item -> (String) item)
+            .map(this.revert::get)
+            .collect(Collectors.toSet());
     }
 
     /*
      * Get value by from key, get to value
      */
     public String to(final String from) {
-        return this.root.to(from);
+        return this.vector.get(from);
     }
 
     public Class<?> toType(final String from) {
-        return this.root.toType(from);
+        return this.vectorType.get(from);
     }
 
     public boolean fromKey(final String key) {
-        return this.root.fromKey(key);
+        return this.vector.containsKey(key);
     }
 
     public String from(final String to) {
-        return this.root.from(to);
+        return this.revert.get(to);
     }
 
     public Class<?> fromType(final String to) {
-        return this.root.fromType(to);
+        return this.revertType.get(to);
     }
 
     public boolean toKey(final String key) {
-        return this.root.toKey(key);
+        return this.revert.containsKey(key);
     }
 
     /*
      * from -> to, from keys
      */
     public Set<String> keys() {
-        return this.root.keys();
+        return this.vector.keySet();
     }
 
     public Set<String> values() {
-        return this.root.values();
+        return new HashSet<>(this.vector.values());
     }
 
     @Override
     public String toString() {
-        return "DualMapping{" +
-            "root=" + this.root +
-            ", mapping=" + this.mapping +
-            ", mode=" + this.mode +
-            ", component=" + this.component +
+        return "DualItem{" +
+            "vector=" + this.vector +
+            ", revert=" + this.revert +
             '}';
     }
 }

@@ -13,8 +13,8 @@ import io.vertx.tp.jet.atom.JtWorker;
 import io.vertx.up.commune.config.Database;
 import io.vertx.up.commune.config.Identity;
 import io.vertx.up.commune.config.Integration;
+import io.vertx.up.commune.exchange.BiTree;
 import io.vertx.up.commune.exchange.DiSetting;
-import io.vertx.up.commune.exchange.BiMapping;
 import io.vertx.up.commune.rule.RuleUnique;
 import io.vertx.up.eon.Strings;
 import io.vertx.up.eon.em.ChannelType;
@@ -89,7 +89,7 @@ public class Jt {
     /*
      * IService -> DualMapping
      */
-    public static BiMapping toMapping(final IService service) {
+    public static BiTree toMapping(final IService service) {
         return JtBusiness.toMapping(service);
     }
 

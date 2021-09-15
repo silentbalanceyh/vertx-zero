@@ -8,8 +8,8 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.tp.jet.atom.JtApp;
 import io.vertx.tp.optic.environment.Ambient;
 import io.vertx.up.commune.config.Identity;
+import io.vertx.up.commune.exchange.BiTree;
 import io.vertx.up.commune.exchange.DiSetting;
-import io.vertx.up.commune.exchange.BiMapping;
 import io.vertx.up.eon.KName;
 import io.vertx.up.eon.em.MappingMode;
 import io.vertx.up.fn.Fn;
@@ -53,13 +53,13 @@ class JtBusiness {
         }), service);
     }
 
-    static BiMapping toMapping(final IService service) {
+    static BiTree toMapping(final IService service) {
         return Fn.getNull(null, () -> Fn.pool(Pool.POOL_MAPPING, service.getKey(), () -> {
             /*
              * DualMapping
              */
             final MappingMode mode = Ut.toEnum(service::getMappingMode, MappingMode.class, MappingMode.NONE);
-            final BiMapping mapping = new BiMapping();
+            final BiTree mapping = new BiTree();
             /*
              * The mode != NONE means that there must contain configuration
              */

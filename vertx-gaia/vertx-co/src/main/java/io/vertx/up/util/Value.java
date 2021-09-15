@@ -2,6 +2,7 @@ package io.vertx.up.util;
 
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
+import io.vertx.up.commune.exchange.BiMapping;
 import io.vertx.up.experiment.brain.V;
 
 import java.math.BigDecimal;
@@ -119,7 +120,9 @@ class Value {
              * - java.time.LocalTime
              */
             return Instant.class;
-        } else return aiUnit(type);
+        } else {
+            return aiUnit(type);
+        }
     }
 
     private static Class<?> aiType(final Class<?> type) {
@@ -131,7 +134,9 @@ class Value {
              * - java.time.LocalTime
              */
             return type;
-        } else return aiUnit(type);
+        } else {
+            return aiUnit(type);
+        }
     }
 
     private static Class<?> aiUnit(final Class<?> type) {
@@ -261,5 +266,59 @@ class Value {
             }
         }
         return null;
+    }
+
+    static JsonObject aiIn(final JsonObject in, final BiMapping mapping, final boolean keepNil) {
+        if (Objects.isNull(mapping)) {
+            /*
+             * No mapping
+             */
+            return in.copy();
+        } else {
+            /*
+             * Mapping configured
+             */
+            final JsonObject normalized = new JsonObject();
+            in.fieldNames().forEach(field -> {
+                /*
+                 * field is (To) field,
+                 * convert to standard model attribute
+                 */
+                final String fromField = mapping.from(field);
+                if (Ut.isNil(fromField)) {
+                    if (keepNil) {
+                        normalized.put(field, in.getValue(field));
+                    }
+                } else {
+                    normalized.put(fromField, in.getValue(field));
+                }
+            });
+            return normalized;
+        }
+    }
+
+    static JsonObject aiOut(final JsonObject out, final BiMapping mapping, final boolean keepNil) {
+        if (Objects.isNull(mapping)) {
+            /*
+             * No mapping
+             */
+            return out.copy();
+        } else {
+            final JsonObject normalized = new JsonObject();
+            out.fieldNames().forEach(field -> {
+                /*
+                 * field is (From) field
+                 */
+                final String fromField = mapping.to(field);
+                if (Ut.isNil(fromField)) {
+                    if (keepNil) {
+                        normalized.put(field, out.getValue(field));
+                    }
+                } else {
+                    normalized.put(fromField, out.getValue(field));
+                }
+            });
+            return normalized;
+        }
     }
 }

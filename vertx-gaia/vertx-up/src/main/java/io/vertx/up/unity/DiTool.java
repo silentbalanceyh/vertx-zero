@@ -5,9 +5,9 @@ import io.vertx.core.MultiMap;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.optic.component.Dictionary;
-import io.vertx.up.commune.exchange.DiSetting;
 import io.vertx.up.commune.exchange.DiConsumer;
 import io.vertx.up.commune.exchange.DiFabric;
+import io.vertx.up.commune.exchange.DiSetting;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.uca.adminicle.FieldMapper;
 import io.vertx.up.util.Ut;
@@ -22,7 +22,7 @@ import java.util.concurrent.ConcurrentMap;
  * DictEpsilon
  */
 @SuppressWarnings("all")
-class DictTool {
+class DiTool {
 
     private static final ConcurrentMap<Integer, Dictionary> POOL_DICT =
         new ConcurrentHashMap<>();

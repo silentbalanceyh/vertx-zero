@@ -12,9 +12,9 @@ import io.vertx.up.commune.Service;
 import io.vertx.up.commune.config.Database;
 import io.vertx.up.commune.config.Identity;
 import io.vertx.up.commune.config.Integration;
-import io.vertx.up.commune.exchange.DiSetting;
+import io.vertx.up.commune.exchange.BiTree;
 import io.vertx.up.commune.exchange.DiFabric;
-import io.vertx.up.commune.exchange.BiMapping;
+import io.vertx.up.commune.exchange.DiSetting;
 import io.vertx.up.commune.rule.RuleUnique;
 import io.vertx.up.eon.KName;
 import io.vertx.up.log.Annal;
@@ -64,7 +64,7 @@ public abstract class AbstractJob implements Service {
     }
 
     @Override
-    public BiMapping mapping() {
+    public BiTree mapping() {
         return Jt.toMapping(this.service());
     }
 
