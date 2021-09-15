@@ -15,6 +15,7 @@ import io.vertx.up.commune.Envelop;
 import io.vertx.up.exception.WebException;
 import io.vertx.up.exception.web._500InternalServerException;
 import io.vertx.up.fn.Fn;
+import io.vertx.up.util.Ut;
 
 import java.util.Objects;
 import java.util.function.BiFunction;
@@ -149,11 +150,14 @@ public class IxMod {
         /*
          * 1. Joined Key
          */
-        final JsonObject dataS = input.copy().mergeIn(active, true);
+        JsonObject dataS = input.copy().mergeIn(active, true);
         connect.dataIn(dataS, point, dataS);
         /*
          * 2. Mapping Part
          */
+        if (Objects.nonNull(point)) {
+            dataS = Ut.aiIn(dataS, point.synonym());
+        }
         return dataS;
     }
 
@@ -165,13 +169,17 @@ public class IxMod {
         final KPoint point = this.point();
         final KJoin connect = this.module.getConnect();
         /*
+         * 2. Mapping StandBy
+         */
+        JsonObject standJ = standBy.copy();
+        if (Objects.nonNull(point)) {
+            standJ = Ut.aiOut(standJ, point.synonym());
+        }
+        /*
          * 1. Joined Key
          */
-        final JsonObject data = standBy.copy().mergeIn(active, true);
+        final JsonObject data = standJ.mergeIn(active, true);
         connect.dataOut(data, point, data);
-        /*
-         * 2. Mapping
-         */
         return data;
     }
 

@@ -10,13 +10,12 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.error._409JoinTargetException;
 import io.vertx.tp.ke.cv.em.JoinMode;
+import io.vertx.up.commune.exchange.BiMapping;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.util.Ut;
 
 import java.io.Serializable;
 import java.util.Objects;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
 
 /**
  * ## 「Pojo」Source/Target
@@ -137,10 +136,8 @@ public class KPoint implements Serializable {
         this.synonym = synonym;
     }
 
-    public ConcurrentMap<String, String> synonym() {
-        final ConcurrentMap<String, String> mapping = new ConcurrentHashMap<>();
-        Ut.<String>itJObject(this.synonym, (to, from) -> mapping.put(from, to));
-        return mapping;
+    public BiMapping synonym() {
+        return new BiMapping(this.synonym);
     }
 
     /**
