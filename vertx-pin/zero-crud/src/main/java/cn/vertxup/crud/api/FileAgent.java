@@ -24,13 +24,12 @@ import javax.ws.rs.core.MediaType;
 @Path("/api")
 public class FileAgent {
 
-
     @Path("/{actor}/import")
     @POST
     @Address(Addr.File.IMPORT)
     @Adjust(Orders.MODULE)
     public JsonObject importFile(@PathParam("actor") final String actor,
-                                 @QueryParam("module") final String module,
+                                 @QueryParam(KName.MODULE) final String module,
                                  @StreamParam @Codex final FileUpload fileUpload) {
         /* File stored */
         final String filename = fileUpload.uploadedFileName();
@@ -45,22 +44,22 @@ public class FileAgent {
     @Consumes(MediaType.APPLICATION_OCTET_STREAM)
     @Produces(MediaType.APPLICATION_OCTET_STREAM)
     public JsonObject exportFile(@PathParam("actor") final String actor,
-                                 @PointParam(KName.VIEW) final Vis view,
-                                 @QueryParam("module") final String module,
-                                 @BodyParam final JsonObject condition) {
+                                 @BodyParam final JsonObject condition,
+                                 @QueryParam(KName.MODULE) final String module,
+                                 @PointParam(KName.VIEW) final Vis view) {
         /*
          * Toggle format here
          * {
          *     "0": xxx,
-         *     "1": "view",
-         *     "2": "module",
-         *     "3": {
+         *     "1": {
          *          "columns":[],
          *          "criteria": {}
-         *     }
+         *     },
+         *     "2": "module",
+         *     "3": "view"
          *     ......
          * }
          */
-        return Ux.toZip(actor, view, module, condition);
+        return Ux.toZip(actor, condition, module, view);
     }
 }

@@ -1,3 +1,2 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:3534a3cc84d3313ec6e3199e5beedb90077721b3bd84eca8cd9db04b97082b96
-size 269
+#!/usr/bin/env bash
+java -classpath jooq-3.13.1.jar:jooq-meta-3.13.1.jar:jooq-codegen-3.13.1.jar:mysql-connector-java-8.0.11.jar:vertx-jooq-shared-2.4.1.jar:vertx-jooq-generate-2.4.1.jar:vertx-jooq-future-2.4.1.jar org.jooq.codegen.GenerationTool ./config/zero-jooq.xml

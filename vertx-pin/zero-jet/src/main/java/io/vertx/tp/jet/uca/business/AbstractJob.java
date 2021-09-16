@@ -12,9 +12,9 @@ import io.vertx.up.commune.Service;
 import io.vertx.up.commune.config.Database;
 import io.vertx.up.commune.config.Identity;
 import io.vertx.up.commune.config.Integration;
-import io.vertx.up.commune.exchange.DictConfig;
-import io.vertx.up.commune.exchange.DictFabric;
-import io.vertx.up.commune.exchange.DualMapping;
+import io.vertx.up.commune.exchange.BiTree;
+import io.vertx.up.commune.exchange.DiFabric;
+import io.vertx.up.commune.exchange.DiSetting;
 import io.vertx.up.commune.rule.RuleUnique;
 import io.vertx.up.eon.KName;
 import io.vertx.up.log.Annal;
@@ -34,7 +34,7 @@ public abstract class AbstractJob implements Service {
      * - dictComponent
      * - dictEpsilon
      */
-    protected transient DictFabric fabric;
+    protected transient DiFabric fabric;
 
     /*
      * The four reference source came from Service instance here
@@ -55,16 +55,16 @@ public abstract class AbstractJob implements Service {
      * - mappingMode
      * - mappingComponent
      */
-    protected DictConfig dict() {
-        final DictConfig dict = Jt.toDict(this.service());
+    protected DiSetting dict() {
+        final DiSetting dict = Jt.toDict(this.service());
         if (Objects.isNull(this.fabric)) {
-            this.fabric = DictFabric.create().epsilon(dict.getEpsilon());
+            this.fabric = DiFabric.create().epsilon(dict.getEpsilon());
         }
         return dict;
     }
 
     @Override
-    public DualMapping mapping() {
+    public BiTree mapping() {
         return Jt.toMapping(this.service());
     }
 

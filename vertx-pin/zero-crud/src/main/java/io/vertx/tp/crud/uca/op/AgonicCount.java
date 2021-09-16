@@ -4,7 +4,7 @@ import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.crud.init.IxPin;
 import io.vertx.tp.crud.refine.Ix;
-import io.vertx.tp.crud.uca.desk.IxIn;
+import io.vertx.tp.crud.uca.desk.IxMod;
 import io.vertx.up.eon.KName;
 import io.vertx.up.uca.jooq.UxJooq;
 import io.vertx.up.unity.Ux;
@@ -16,7 +16,7 @@ import java.util.function.Function;
  */
 class AgonicCount implements Agonic {
     @Override
-    public Future<JsonObject> runJAsync(final JsonObject input, final IxIn in) {
+    public Future<JsonObject> runJAsync(final JsonObject input, final IxMod in) {
         Ix.Log.filters(this.getClass(), "( Count ) Condition: {0}", input);
         final Function<Long, Future<JsonObject>> outFn =
             counter -> Ux.future(new JsonObject().put(KName.COUNT, counter));

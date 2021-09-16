@@ -9,6 +9,7 @@ import io.vertx.core.buffer.Buffer;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.commune.Record;
+import io.vertx.up.commune.exchange.BiMapping;
 import io.vertx.up.eon.em.ChangeFlag;
 import io.vertx.up.fn.Actuator;
 
@@ -1022,6 +1023,14 @@ public final class Ut {
         return Types.isSubset(cond, record);
     }
 
+    public static boolean isArrayString(final JsonArray array) {
+        return Types.isArrayString(array);
+    }
+
+    public static boolean isArrayJson(final JsonArray array) {
+        return Types.isArrayJson(array);
+    }
+
     public static boolean isJArray(final String literal) {
         return Types.isJArray(literal);
     }
@@ -1130,6 +1139,23 @@ public final class Ut {
     public static String aiStringA(final String literal) {
         return Jackson.aiStringA(literal);
     }
+
+    public static JsonObject aiIn(final JsonObject in, final BiMapping mapping, final boolean keepNil) {
+        return Value.aiIn(in, mapping, keepNil);
+    }
+
+    public static JsonObject aiIn(final JsonObject in, final BiMapping mapping) {
+        return Value.aiIn(in, mapping, true);
+    }
+
+    public static JsonObject aiOut(final JsonObject out, final BiMapping mapping, final boolean keepNil) {
+        return Value.aiOut(out, mapping, keepNil);
+    }
+
+    public static JsonObject aiOut(final JsonObject out, final BiMapping mapping) {
+        return Value.aiOut(out, mapping, true);
+    }
+
 
     /*
      * To conversation here
@@ -1457,7 +1483,11 @@ public final class Ut {
      * Mapping operation
      */
     public static Set<String> mapString(final JsonArray array, final String field) {
-        return Epsilon.mapString(array, field);
+        return Epsilon.mapString(array, field, true);
+    }
+
+    public static Set<String> mapString(final JsonArray array, final String field, final boolean nil) {
+        return Epsilon.mapString(array, field, nil);
     }
 
     public static String mapOneS(final JsonArray array, final String field) {

@@ -9,8 +9,8 @@ import io.vertx.up.commune.Envelop;
 import io.vertx.up.commune.config.Database;
 import io.vertx.up.commune.config.Identity;
 import io.vertx.up.commune.config.XHeader;
-import io.vertx.up.commune.exchange.DictFabric;
-import io.vertx.up.commune.exchange.DualMapping;
+import io.vertx.up.commune.exchange.BiTree;
+import io.vertx.up.commune.exchange.DiFabric;
 import io.vertx.up.commune.rule.RuleUnique;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.unity.UxPool;
@@ -62,7 +62,7 @@ class Anagogic {
         return Ux.future(Boolean.TRUE);
     }
 
-    static Future<Boolean> componentAsync(final JtComponent component, final Commercial commercial, final Supplier<Future<DictFabric>> supplier) {
+    static Future<Boolean> componentAsync(final JtComponent component, final Commercial commercial, final Supplier<Future<DiFabric>> supplier) {
         if (Objects.nonNull(commercial)) {
             return supplier.get().compose(fabric -> {
                 /*
@@ -72,8 +72,8 @@ class Anagogic {
 
                 Ut.contract(component, JsonObject.class, options);                  /* serviceConfig */
                 Ut.contract(component, Identity.class, commercial.identity());      /* identifierComponent -> converted to identity */
-                Ut.contract(component, DualMapping.class, commercial.mapping());    /* mappingConfig */
-                Ut.contract(component, DictFabric.class, fabric);                   /* dictConfig -> converted to fabric */
+                Ut.contract(component, BiTree.class, commercial.mapping());    /* mappingConfig */
+                Ut.contract(component, DiFabric.class, fabric);                   /* dictConfig -> converted to fabric */
                 Ut.contract(component, RuleUnique.class, commercial.rule());        /* Rule Unique */
 
                 return Future.succeededFuture(Boolean.TRUE);

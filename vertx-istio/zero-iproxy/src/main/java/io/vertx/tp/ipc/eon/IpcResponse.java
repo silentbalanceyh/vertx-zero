@@ -254,10 +254,10 @@ private static final long serialVersionUID = 0L;
     if (envelop_ != null) {
       output.writeMessage(1, getEnvelop());
     }
-    if (!getClientIdBytes().isEmpty()) {
+    if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(clientId_)) {
       com.google.protobuf.GeneratedMessageV3.writeString(output, 2, clientId_);
     }
-    if (!getOauthScopeBytes().isEmpty()) {
+    if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(oauthScope_)) {
       com.google.protobuf.GeneratedMessageV3.writeString(output, 3, oauthScope_);
     }
     unknownFields.writeTo(output);
@@ -273,10 +273,10 @@ private static final long serialVersionUID = 0L;
       size += com.google.protobuf.CodedOutputStream
         .computeMessageSize(1, getEnvelop());
     }
-    if (!getClientIdBytes().isEmpty()) {
+    if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(clientId_)) {
       size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, clientId_);
     }
-    if (!getOauthScopeBytes().isEmpty()) {
+    if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(oauthScope_)) {
       size += com.google.protobuf.GeneratedMessageV3.computeStringSize(3, oauthScope_);
     }
     size += unknownFields.getSerializedSize();

@@ -5,12 +5,7 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.tp.crud.cv.IxFolder;
 import io.vertx.tp.crud.cv.IxMsg;
 import io.vertx.tp.crud.refine.Ix;
-import io.vertx.tp.crud.uca.desk.IxIn;
-import io.vertx.tp.ke.atom.KField;
-import io.vertx.tp.ke.atom.KModule;
-import io.vertx.tp.ke.atom.connect.KJoin;
-import io.vertx.tp.ke.atom.connect.KPoint;
-import io.vertx.tp.ke.atom.view.KColumn;
+import io.vertx.tp.ke.atom.specification.*;
 import io.vertx.tp.ke.cv.em.DSMode;
 import io.vertx.tp.ke.refine.Ke;
 import io.vertx.tp.optic.DS;
@@ -92,18 +87,6 @@ class IxDao {
         }
     }
 
-    static KPoint getPoint(final IxIn in) {
-        final KModule module = in.module();
-        final KModule connect = in.connect();
-        final KJoin join = module.getConnect();
-        if (Objects.isNull(join)) {
-            return null;
-        }
-        final KPoint point = join.procTarget(connect.getIdentifier());
-        Ix.Log.rest(IxDao.class, "Point = {0}", point);
-        return point;
-    }
-
     static UxJoin get(final KModule module, final KModule connect) {
         return Fn.getNull(null, () -> {
             /* 1. Build UxJoin Object */
@@ -118,7 +101,7 @@ class IxDao {
 
             /* 3. Connect */
             final KJoin join = module.getConnect();
-            final KPoint point = join.procTarget(connect.getIdentifier());
+            final KPoint point = join.point(connect.getIdentifier());
             assert null != point;
             dao.join(connect.getDaoCls(), point.getKeyJoin());
 

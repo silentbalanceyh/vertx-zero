@@ -4,7 +4,7 @@ import cn.vertxup.ambient.domain.tables.daos.XCategoryDao;
 import io.vertx.core.Future;
 import io.vertx.core.MultiMap;
 import io.vertx.core.json.JsonArray;
-import io.vertx.up.commune.exchange.DictSource;
+import io.vertx.up.commune.exchange.DiSource;
 import io.vertx.up.eon.KName;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
@@ -19,7 +19,7 @@ import java.util.concurrent.ConcurrentMap;
 public class DpmCategory implements Dpm {
 
     @Override
-    public Future<ConcurrentMap<String, JsonArray>> fetchAsync(final DictSource source, final MultiMap params) {
+    public Future<ConcurrentMap<String, JsonArray>> fetchAsync(final DiSource source, final MultiMap params) {
         return DpmTool.cachedDict(source.getTypes(),
             types -> Ux.Jooq.on(XCategoryDao.class)
                 .fetchAndAsync(DpmTool.condition(params, types))
@@ -27,7 +27,7 @@ public class DpmCategory implements Dpm {
     }
 
     @Override
-    public ConcurrentMap<String, JsonArray> fetch(final DictSource source, final MultiMap params) {
+    public ConcurrentMap<String, JsonArray> fetch(final DiSource source, final MultiMap params) {
         final JsonArray dataArray = Ux.Jooq.on(XCategoryDao.class)
             .fetchJAnd(DpmTool.condition(params, source.getTypes()));
         return Ut.elementGroup(dataArray, KName.TYPE);

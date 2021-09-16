@@ -4,9 +4,9 @@ import io.vertx.core.Future;
 import io.vertx.core.http.HttpMethod;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.crud.refine.Ix;
-import io.vertx.tp.crud.uca.desk.IxIn;
-import io.vertx.tp.ke.atom.KModule;
-import io.vertx.tp.ke.atom.view.KColumn;
+import io.vertx.tp.crud.uca.desk.IxMod;
+import io.vertx.tp.ke.atom.specification.KColumn;
+import io.vertx.tp.ke.atom.specification.KModule;
 import io.vertx.up.atom.Kv;
 import io.vertx.up.eon.KName;
 import io.vertx.up.unity.Ux;
@@ -34,7 +34,7 @@ class ApeakMyPre implements Pre {
      * }
      */
     @Override
-    public Future<JsonObject> inJAsync(final JsonObject data, final IxIn in) {
+    public Future<JsonObject> inJAsync(final JsonObject data, final IxMod in) {
         final KModule module = in.module();
         /* Column definition */
         final KColumn column = module.getColumn();
@@ -43,7 +43,7 @@ class ApeakMyPre implements Pre {
         /*
          * Uri and method
          */
-        final Kv<String, HttpMethod> impactUri = Ix.onFlush(in);
+        final Kv<String, HttpMethod> impactUri = Ix.onImpact(in);
         return Ux.future(data
             .put(KName.URI, impactUri.getKey())
             .put(KName.METHOD, impactUri.getValue().name()));

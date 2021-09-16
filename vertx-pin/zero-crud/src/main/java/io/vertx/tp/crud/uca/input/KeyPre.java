@@ -2,9 +2,9 @@ package io.vertx.tp.crud.uca.input;
 
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.crud.uca.desk.IxIn;
-import io.vertx.tp.ke.atom.KField;
-import io.vertx.tp.ke.atom.KModule;
+import io.vertx.tp.crud.uca.desk.IxMod;
+import io.vertx.tp.ke.atom.specification.KField;
+import io.vertx.tp.ke.atom.specification.KModule;
 import io.vertx.up.commune.Envelop;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
@@ -14,7 +14,7 @@ import io.vertx.up.util.Ut;
  */
 class KeyPre implements Pre {
     @Override
-    public Future<JsonObject> inJAsync(final JsonObject data, final IxIn in) {
+    public Future<JsonObject> inJAsync(final JsonObject data, final IxMod in) {
         final Envelop request = in.envelop();
         final KModule module = in.module();
         final KField field = module.getField();

@@ -4,7 +4,6 @@ import io.vertx.core.CompositeFuture;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.commune.Envelop;
 import io.vertx.up.eon.Values;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
@@ -19,8 +18,8 @@ import java.util.function.Function;
  */
 @SuppressWarnings("all")
 public class IxPanel {
-    private final transient IxIn active;
-    private transient IxIn standBy;
+    private final transient IxMod active;
+    private transient IxMod standBy;
 
     private transient boolean sequence = Boolean.TRUE;
     private transient BiFunction activeFn;
@@ -30,8 +29,10 @@ public class IxPanel {
     private transient BiFunction outputFn = null;
     private transient BiFunction nextFn = null;
 
-    private IxPanel(final Envelop envelop, final String module) {
-        this.active = IxIn.active(envelop);
+    private IxPanel(final IxWeb request) {
+        // Bind This
+        this.active = request.active();
+        this.standBy = request.standBy();
         /*
          * module = value
          * The value is the same as active module, it means that there is not needed
@@ -42,22 +43,12 @@ public class IxPanel {
          * 1. There must contain configuration.
          * 2. The identifier should be not the same as active
          */
-        if (Objects.nonNull(module) &&
-            !module.equals(this.active.module().getIdentifier()) &&
-            this.active.canJoin()) {
-            this.standBy = IxIn.standBy(envelop, module);/* Build Connect */
-            this.active.connect(this.standBy.module());
-        }
-        this.outputFn = (a, s) -> Ux.future(s);
+        this.outputFn = null;
         this.nextFn = (i, a) -> Ux.future(a);
     }
 
-    public static IxPanel on(final Envelop envelop, final String module) {
-        return new IxPanel(envelop, module);
-    }
-
-    public IxIn active() {
-        return active;
+    public static IxPanel on(final IxWeb request) {
+        return new IxPanel(request);
     }
 
     /*
@@ -89,7 +80,7 @@ public class IxPanel {
      * 3. The `outputFn` could combine two output data.
      */
     @SafeVarargs
-    public final <T, O> IxPanel input(final BiFunction<T, IxIn, Future<O>>... executors) {
+    public final <T, O> IxPanel input(final BiFunction<T, IxMod, Future<O>>... executors) {
         if (Objects.isNull(executors)) {
             this.executors = new BiFunction[]{};
         } else {
@@ -103,35 +94,35 @@ public class IxPanel {
         return this;
     }
 
-    public <I, A, O> IxPanel next(final Function<IxIn, BiFunction<I, A, Future<O>>> nextFn) {
+    public <I, A, O> IxPanel next(final Function<IxMod, BiFunction<I, A, Future<O>>> nextFn) {
         this.nextFn = nextFn.apply(this.active);
         return this;
     }
 
-    public <I, O> IxPanel parallel(final BiFunction<I, IxIn, Future<O>> activeFn,
-                                   final BiFunction<I, IxIn, Future<O>> standFn) {
+    public <I, O> IxPanel parallel(final BiFunction<I, IxMod, Future<O>> activeFn,
+                                   final BiFunction<I, IxMod, Future<O>> standFn) {
         this.sequence = false;
         this.activeFn = activeFn;
         this.standByFn = standFn;
         return this;
     }
 
-    public <I, O> IxPanel parallel(final BiFunction<I, IxIn, Future<O>> activeAndStandFn) {
+    public <I, O> IxPanel parallel(final BiFunction<I, IxMod, Future<O>> activeAndStandFn) {
         this.sequence = false;
         this.activeFn = activeAndStandFn;
         this.standByFn = activeAndStandFn;
         return this;
     }
 
-    public <I, O> IxPanel passion(final BiFunction<I, IxIn, Future<O>> activeFn,
-                                  final BiFunction<I, IxIn, Future<O>> standFn) {
+    public <I, O> IxPanel passion(final BiFunction<I, IxMod, Future<O>> activeFn,
+                                  final BiFunction<I, IxMod, Future<O>> standFn) {
         this.sequence = true;
         this.activeFn = activeFn;
         this.standByFn = standFn;
         return this;
     }
 
-    public <I, O> IxPanel passion(final BiFunction<I, IxIn, Future<O>> activeAndStandFn) {
+    public <I, O> IxPanel passion(final BiFunction<I, IxMod, Future<O>> activeAndStandFn) {
         this.sequence = true;
         this.activeFn = activeAndStandFn;
         this.standByFn = activeAndStandFn;
@@ -202,8 +193,8 @@ public class IxPanel {
                     /*
                      * Check whether outputFn has value
                      */
-                    if (Objects.isNull(outputFn)) {
-                        return outputFn.apply((A) a, s);
+                    if (Objects.nonNull(outputFn)) {
+                        return outputFn.apply((A) a, (S) s);
                     } else {
                         return Ux.future((O) s);
                     }

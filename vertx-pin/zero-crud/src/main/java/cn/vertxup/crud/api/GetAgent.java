@@ -6,6 +6,7 @@ import io.vertx.tp.crud.cv.Addr;
 import io.vertx.up.annotations.Address;
 import io.vertx.up.annotations.Adjust;
 import io.vertx.up.annotations.EndPoint;
+import io.vertx.up.eon.KName;
 import io.vertx.up.eon.Orders;
 
 import javax.ws.rs.GET;
@@ -25,12 +26,12 @@ public interface GetAgent {
     @Address(Addr.Get.BY_ID)
     @Adjust(Orders.MODULE)
     JsonObject getById(@PathParam("actor") String actor,
-                       @PathParam("key") String key);
+                       @PathParam(KName.KEY) String key);
 
     @GET
     @Path("/{actor}/by/sigma")
     @Address(Addr.Get.BY_SIGMA)
     @Adjust(Orders.MODULE)
     JsonArray getAll(@PathParam("actor") String actor,
-                     @QueryParam("module") String module);
+                     @QueryParam(KName.MODULE) String module);
 }

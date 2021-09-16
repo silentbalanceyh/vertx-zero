@@ -4,7 +4,7 @@ import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.crud.cv.Pooled;
-import io.vertx.tp.crud.uca.desk.IxIn;
+import io.vertx.tp.crud.uca.desk.IxMod;
 import io.vertx.tp.error._501NotSupportException;
 import io.vertx.up.eon.em.ChangeFlag;
 import io.vertx.up.fn.Fn;
@@ -24,6 +24,10 @@ public interface Agonic {
         } else {
             return Fn.poolThread(Pooled.AGONIC_MAP, AgonicUpdate::new, AgonicUpdate.class.getName());
         }
+    }
+
+    static Agonic saveYou(final IxMod module) {
+        return Fn.poolThread(Pooled.AGONIC_MAP, () -> new AgonicYouSave(module), AgonicYouSave.class.getName());
     }
 
     static Agonic file() {
@@ -58,19 +62,19 @@ public interface Agonic {
         return Fn.poolThread(Pooled.AGONIC_MAP, AgonicFetch::new, AgonicFetch.class.getName());
     }
 
-    default Future<JsonObject> runJAsync(final JsonObject input, final IxIn in) {
+    default Future<JsonObject> runJAsync(final JsonObject input, final IxMod in) {
         return Future.failedFuture(new _501NotSupportException(this.getClass()));
     }
 
-    default Future<JsonArray> runAAsync(final JsonArray input, final IxIn in) {
+    default Future<JsonArray> runAAsync(final JsonArray input, final IxMod in) {
         return Future.failedFuture(new _501NotSupportException(this.getClass()));
     }
 
-    default Future<JsonArray> runJAAsync(final JsonObject input, final IxIn in) {
+    default Future<JsonArray> runJAAsync(final JsonObject input, final IxMod in) {
         return Future.failedFuture(new _501NotSupportException(this.getClass()));
     }
 
-    default Future<JsonObject> runAJAsync(final JsonArray input, final IxIn in) {
+    default Future<JsonObject> runAJAsync(final JsonArray input, final IxMod in) {
         return Future.failedFuture(new _501NotSupportException(this.getClass()));
     }
 }

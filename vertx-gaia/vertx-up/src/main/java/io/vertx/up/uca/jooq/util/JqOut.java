@@ -60,15 +60,15 @@ public class JqOut {
                              * Resolve issue: java.lang.IllegalStateException: Illegal type in JsonObject: class java.sql.Timestamp
                              */
                             final Date dateTime = (Date) value;
-                            data.put(resultField, dateTime.toInstant());
+                            putEarly(data, resultField, dateTime.toInstant());
                         } else if (value instanceof BigDecimal) {
                             /*
                              * java.lang.IllegalStateException: Illegal type in JsonObject: class java.math.BigDecimal
                              */
                             final BigDecimal decimal = (BigDecimal) value;
-                            data.put(resultField, decimal.doubleValue());
+                            putEarly(data, resultField, decimal.doubleValue());
                         } else {
-                            data.put(resultField, value);
+                            putEarly(data, resultField, value);
                         }
                     }
                 }
@@ -77,6 +77,23 @@ public class JqOut {
         });
         final Set<String> projections = getProjections(projection, mojo);
         return toResult(joinResult, projections);
+    }
+
+    private static void putEarly(final JsonObject data, final String field, final Object value) {
+        /*
+         * Early Loading, when the data contains the pick up field, ignore the rest
+         * It means that we used the T1 table data as the major data
+         * For example
+         * T1 contains `key`, `sigma` etc
+         * T2 also contains `key`, `sigma` etc
+         * If they are the same, it's not need to put twice
+         * If they are different, the T1 `key` should be correct
+         *
+         * Early Policy
+         */
+        if (!data.containsKey(field)) {
+            data.put(field, value);
+        }
     }
 
     private static <T> List<T> toResult(final List<T> list, final Set<String> projections, final Class<?> type) {

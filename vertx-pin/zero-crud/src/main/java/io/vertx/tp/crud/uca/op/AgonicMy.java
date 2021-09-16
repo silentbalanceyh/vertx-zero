@@ -4,7 +4,7 @@ import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.crud.init.IxPin;
-import io.vertx.tp.crud.uca.desk.IxIn;
+import io.vertx.tp.crud.uca.desk.IxMod;
 import io.vertx.tp.crud.uca.input.Pre;
 import io.vertx.tp.ke.refine.Ke;
 import io.vertx.tp.optic.ApeakMy;
@@ -25,7 +25,7 @@ class AgonicMy implements Agonic {
      * }
      */
     @Override
-    public Future<JsonArray> runJAAsync(final JsonObject input, final IxIn in) {
+    public Future<JsonArray> runJAAsync(final JsonObject input, final IxMod in) {
         final UxJooq jooq = IxPin.jooq(in);
         return Ke.channel(Seeker.class, JsonObject::new, seeker -> seeker.on(jooq).fetchImpact(input))
             /* view has value, ignored, */

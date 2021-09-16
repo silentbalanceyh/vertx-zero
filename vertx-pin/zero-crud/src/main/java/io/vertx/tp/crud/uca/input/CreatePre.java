@@ -5,9 +5,9 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.auth.User;
 import io.vertx.tp.crud.refine.Ix;
-import io.vertx.tp.crud.uca.desk.IxIn;
-import io.vertx.tp.ke.atom.KField;
-import io.vertx.tp.ke.atom.KModule;
+import io.vertx.tp.crud.uca.desk.IxMod;
+import io.vertx.tp.ke.atom.specification.KField;
+import io.vertx.tp.ke.atom.specification.KModule;
 import io.vertx.tp.ke.refine.Ke;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
@@ -19,13 +19,13 @@ import java.util.Objects;
  */
 class CreatePre implements Pre {
     @Override
-    public Future<JsonObject> inJAsync(final JsonObject data, final IxIn in) {
+    public Future<JsonObject> inJAsync(final JsonObject data, final IxMod in) {
         /* UserId */
         this.auditor(data, in);
         return Ux.future(data);
     }
 
-    private void auditor(final JsonObject data, final IxIn in) {
+    private void auditor(final JsonObject data, final IxMod in) {
         /* UserId */
         final User user = in.user();
         final KModule module = in.module();
@@ -40,7 +40,7 @@ class CreatePre implements Pre {
     }
 
     @Override
-    public Future<JsonArray> inAAsync(final JsonArray data, final IxIn in) {
+    public Future<JsonArray> inAAsync(final JsonArray data, final IxMod in) {
         Ut.itJArray(data).forEach(json -> this.auditor(json, in));
         return Ux.future(data);
     }

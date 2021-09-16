@@ -4,8 +4,8 @@ import io.vertx.core.Future;
 import io.vertx.core.MultiMap;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.crud.uca.desk.IxIn;
-import io.vertx.tp.ke.atom.KModule;
+import io.vertx.tp.crud.uca.desk.IxMod;
+import io.vertx.tp.ke.atom.specification.KModule;
 import io.vertx.up.commune.Envelop;
 import io.vertx.up.util.Ut;
 
@@ -27,7 +27,7 @@ class HeadPre implements Pre {
      * Request[to] -> Data[from]
      */
     @Override
-    public Future<JsonObject> inJAsync(final JsonObject data, final IxIn in) {
+    public Future<JsonObject> inJAsync(final JsonObject data, final IxMod in) {
         /* Header */
         final Envelop envelop = in.envelop();
         final KModule module = in.module();
@@ -38,7 +38,7 @@ class HeadPre implements Pre {
     }
 
     @Override
-    public Future<JsonArray> inAAsync(final JsonArray data, final IxIn in) {
+    public Future<JsonArray> inAAsync(final JsonArray data, final IxMod in) {
         /* Header */
         final Envelop envelop = in.envelop();
         final KModule module = in.module();

@@ -5,7 +5,7 @@ import io.vertx.codegen.annotations.Fluent;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.atom.modeling.config.AoAttribute;
 import io.vertx.tp.atom.modeling.config.AoRule;
-import io.vertx.tp.ke.atom.connect.KJoin;
+import io.vertx.tp.ke.atom.specification.KJoin;
 import io.vertx.up.eon.KName;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.util.Ut;

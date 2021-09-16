@@ -2,8 +2,8 @@ package io.vertx.tp.crud.refine;
 
 import io.vertx.core.json.JsonArray;
 import io.vertx.tp.crud.init.IxPin;
-import io.vertx.tp.crud.uca.desk.IxIn;
-import io.vertx.tp.ke.atom.KModule;
+import io.vertx.tp.crud.uca.desk.IxMod;
+import io.vertx.tp.ke.atom.specification.KModule;
 import io.vertx.up.commune.Envelop;
 import io.vertx.up.commune.element.TypeAtom;
 import io.vertx.up.commune.element.TypeField;
@@ -21,7 +21,7 @@ import java.util.concurrent.ConcurrentMap;
  */
 class IxType {
 
-    static TypeAtom atom(final IxIn active, final JsonArray columns) {
+    static TypeAtom atom(final IxMod active, final JsonArray columns) {
         final ConcurrentMap<String, String> headers = new ConcurrentHashMap<>();
         columns.stream().map(Ix::onColumn).filter(Objects::nonNull).forEach(kv -> {
             /* Calculated */

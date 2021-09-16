@@ -3,10 +3,10 @@ package io.vertx.tp.crud.uca.input;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.crud.uca.desk.IxIn;
+import io.vertx.tp.crud.uca.desk.IxMod;
 import io.vertx.tp.error._409ModuleConflictException;
 import io.vertx.tp.error._409MultiModuleException;
-import io.vertx.tp.ke.atom.KModule;
+import io.vertx.tp.ke.atom.specification.KModule;
 import io.vertx.tp.plugin.excel.ExcelClient;
 import io.vertx.tp.plugin.excel.atom.ExTable;
 import io.vertx.up.atom.Kv;
@@ -36,7 +36,7 @@ class ExcelPre implements Pre {
     }
 
     @Override
-    public Future<JsonArray> inJAAsync(final JsonObject data, final IxIn in) {
+    public Future<JsonArray> inJAAsync(final JsonObject data, final IxMod in) {
         final String filename = data.getString(KName.FILE_NAME);
         /* File Checking */
         final File file = new File(filename);
@@ -56,9 +56,8 @@ class ExcelPre implements Pre {
         final String actual = content.getKey();
         Fn.out(!expected.equals(actual), _409ModuleConflictException.class, this.getClass(), actual, expected);
 
-        /* ExTable Data Extraction */
-        final JsonArray source = ExcelClient.fromTable(content.getValue());
-        return Ux.future(source);
+        /* Tenant Information */
+        return this.client.extractAsync(content.getValue());
     }
 
     private Kv<String, Set<ExTable>> readFile(final File file) {

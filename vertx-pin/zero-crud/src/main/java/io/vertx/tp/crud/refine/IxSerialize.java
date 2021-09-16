@@ -2,8 +2,8 @@ package io.vertx.tp.crud.refine;
 
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.ke.atom.KField;
-import io.vertx.tp.ke.atom.KModule;
+import io.vertx.tp.ke.atom.specification.KField;
+import io.vertx.tp.ke.atom.specification.KModule;
 import io.vertx.up.eon.KName;
 import io.vertx.up.log.Annal;
 import io.vertx.up.unity.Ux;
@@ -39,7 +39,7 @@ class IxSerialize {
 
     @SuppressWarnings("all")
     static <T> T deserializeT(final JsonObject data, final KModule config) {
-        IxLog.infoDao(LOGGER, "Normalized: \n{0}", data.encodePrettily());
+        IxLog.infoDao(LOGGER, "Normalized: \u001b[0;37m{0}\u001b[m", data.encode());
         {
             /*
              * JsonObject / JsonArray must be converted to string

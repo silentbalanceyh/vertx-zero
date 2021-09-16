@@ -4,11 +4,13 @@ import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.crud.cv.Addr;
+import io.vertx.tp.crud.cv.em.ApiSpec;
 import io.vertx.tp.crud.refine.Ix;
+import io.vertx.tp.crud.uca.desk.IxKit;
 import io.vertx.tp.crud.uca.desk.IxPanel;
+import io.vertx.tp.crud.uca.desk.IxWeb;
 import io.vertx.tp.crud.uca.input.Pre;
 import io.vertx.tp.crud.uca.op.Agonic;
-import io.vertx.tp.crud.uca.output.Post;
 import io.vertx.up.annotations.Address;
 import io.vertx.up.annotations.Queue;
 import io.vertx.up.commune.Envelop;
@@ -29,14 +31,14 @@ public class GetActor {
      */
     @Address(Addr.Get.BY_ID)
     public Future<Envelop> getById(final Envelop envelop) {
-        final String key = Ux.getString1(envelop);
-        return IxPanel.on(envelop, null)
+        final IxWeb request = IxWeb.create(ApiSpec.BODY_STRING).build(envelop);
+        return IxPanel.on(request)
             .passion(Agonic.get()::runJAsync, null)
-            .<JsonObject, JsonObject, JsonObject>runJ(new JsonObject().put(KName.KEY, key))
+            .<JsonObject, JsonObject, JsonObject>runJ(request.dataK())
             /*
              * 204 / 200
              */
-            .compose(Post::successPost);
+            .compose(IxKit::successPost);
     }
 
     /*
@@ -45,7 +47,7 @@ public class GetActor {
      */
     @Address(Addr.Get.BY_SIGMA)
     public Future<Envelop> getAll(final Envelop envelop) {
-        final String module = Ux.getString1(envelop);
+        final IxWeb request = IxWeb.create(ApiSpec.BODY_NONE).build(envelop);
         /* Headers */
         final JsonObject headers = envelop.headersX();
         final String sigma = headers.getString(KName.SIGMA);
@@ -53,7 +55,7 @@ public class GetActor {
             return Ux.future(Envelop.success(new JsonArray()));
         }
         Ix.Log.filters(this.getClass(), "All data by sigma: `{0}`", sigma);
-        return IxPanel.on(envelop, module)
+        return IxPanel.on(request)
             .input(
                 /* Build Condition for All */
                 Pre.qAll()::inJAsync

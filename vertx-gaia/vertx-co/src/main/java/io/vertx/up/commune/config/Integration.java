@@ -7,7 +7,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.commune.Json;
-import io.vertx.up.commune.exchange.DictEpsilon;
+import io.vertx.up.commune.exchange.DiConsumer;
 import io.vertx.up.util.Ut;
 
 import java.io.Serializable;
@@ -69,13 +69,13 @@ public class Integration implements Json, Serializable {
     @JsonDeserialize(using = JsonObjectDeserializer.class)
     private transient JsonObject options = new JsonObject();
     @JsonIgnore
-    private transient ConcurrentMap<String, DictEpsilon> epsilon = new ConcurrentHashMap<>();
+    private transient ConcurrentMap<String, DiConsumer> epsilon = new ConcurrentHashMap<>();
 
-    public ConcurrentMap<String, DictEpsilon> getEpsilon() {
+    public ConcurrentMap<String, DiConsumer> getEpsilon() {
         return this.epsilon;
     }
 
-    public void setEpsilon(final ConcurrentMap<String, DictEpsilon> epsilon) {
+    public void setEpsilon(final ConcurrentMap<String, DiConsumer> epsilon) {
         this.epsilon = epsilon;
     }
 

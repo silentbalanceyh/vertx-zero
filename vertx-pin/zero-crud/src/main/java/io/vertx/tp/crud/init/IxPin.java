@@ -1,9 +1,8 @@
 package io.vertx.tp.crud.init;
 
 import io.vertx.tp.crud.refine.Ix;
-import io.vertx.tp.crud.uca.desk.IxIn;
-import io.vertx.tp.ke.atom.KModule;
-import io.vertx.tp.ke.atom.connect.KPoint;
+import io.vertx.tp.crud.uca.desk.IxMod;
+import io.vertx.tp.ke.atom.specification.KModule;
 import io.vertx.tp.ke.refine.Ke;
 import io.vertx.up.atom.Rule;
 import io.vertx.up.commune.Envelop;
@@ -39,7 +38,7 @@ public class IxPin {
         return IxDao.get(actor);
     }
 
-    public static UxJooq jooq(final IxIn in) {
+    public static UxJooq jooq(final IxMod in) {
         final Envelop envelop = in.envelop();
         return IxDao.get(in.module(), envelop.headers());
     }
@@ -48,12 +47,8 @@ public class IxPin {
         return IxDao.get(module, envelop.headers());
     }
 
-    public static UxJoin join(final IxIn in, final KModule connect) {
+    public static UxJoin join(final IxMod in, final KModule connect) {
         return IxDao.get(in.module(), connect);
-    }
-
-    public static KPoint point(final IxIn in) {
-        return IxDao.getPoint(in);
     }
 
     public static Set<String> getUris() {

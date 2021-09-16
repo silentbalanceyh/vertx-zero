@@ -52,7 +52,7 @@ public class ExcelClientImpl implements ExcelClient {
             final JsonObject tenantJson = Ut.ioJObject(config.getString(ExcelClient.TENANT));
             if (Ut.notNil(tenantJson)) {
                 final ExTenant tenant = Ut.deserialize(tenantJson, ExTenant.class);
-                this.importer.initTenant(tenant);
+                this.helper.initTenant(tenant);
                 LOGGER.debug("[ Έξοδος ] Configuration tenant for Importing: {0}", tenantJson.encode());
             }
         }
@@ -272,5 +272,14 @@ public class ExcelClientImpl implements ExcelClient {
         return this.exporter.exportData(identifier, data, TypeAtom.create());
     }
 
-    // --------------------- Save Entity -----------------------
+    // --------------------- Spec Workflow -----------------------
+    @Override
+    public Future<JsonArray> extractAsync(final ExTable table) {
+        return this.helper.extract(table);
+    }
+
+    @Override
+    public Future<JsonArray> extractAsync(final Set<ExTable> tables) {
+        return this.helper.extract(tables);
+    }
 }

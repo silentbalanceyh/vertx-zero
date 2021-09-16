@@ -5,7 +5,7 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.crud.init.IxPin;
 import io.vertx.tp.crud.refine.Ix;
-import io.vertx.tp.crud.uca.desk.IxIn;
+import io.vertx.tp.crud.uca.desk.IxMod;
 import io.vertx.up.uca.jooq.UxJooq;
 
 /**
@@ -13,7 +13,7 @@ import io.vertx.up.uca.jooq.UxJooq;
  */
 class AgonicFetch implements Agonic {
     @Override
-    public Future<JsonArray> runJAAsync(final JsonObject input, final IxIn in) {
+    public Future<JsonArray> runJAAsync(final JsonObject input, final IxMod in) {
         Ix.Log.filters(this.getClass(), "( All ) Condition: {0}", input);
         if (in.canJoin()) {
             return Ix.fetchFn(in).apply(input);

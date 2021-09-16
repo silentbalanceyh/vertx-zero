@@ -5,8 +5,8 @@ import io.vertx.core.buffer.Buffer;
 import io.vertx.core.http.HttpStatusCode;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.commune.exchange.DualItem;
-import io.vertx.up.commune.exchange.DualMapping;
+import io.vertx.up.commune.exchange.BiMapping;
+import io.vertx.up.commune.exchange.BiTree;
 import io.vertx.up.log.Annal;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
@@ -107,17 +107,17 @@ public class ActOut extends ActMapping implements Serializable {
     /*
      * Envelop processing
      */
-    public Envelop envelop(final DualMapping mapping) {
+    public Envelop envelop(final BiTree mapping) {
         final Object response = this.envelop.data();
         if (response instanceof JsonObject || response instanceof JsonArray) {
             if (this.isAfter(mapping)) {
-                final DualItem dualItem;
+                final BiMapping biMapping;
                 if (Objects.isNull(this.identifier)) {
-                    dualItem = mapping.child();
+                    biMapping = mapping.child();
                 } else {
-                    dualItem = mapping.child(this.identifier);
-                    if (!dualItem.isEmpty()) {
-                        LOGGER.info("identifier `{0}`, extract child mapping. {1}", this.identifier, dualItem.toString());
+                    biMapping = mapping.child(this.identifier);
+                    if (!biMapping.isEmpty()) {
+                        LOGGER.info("identifier `{0}`, extract child mapping. {1}", this.identifier, biMapping.toString());
                     }
                 }
                 final HttpStatusCode status = this.envelop.status();
@@ -125,14 +125,14 @@ public class ActOut extends ActMapping implements Serializable {
                     /*
                      * JsonObject here for mapping
                      */
-                    final JsonObject normalized = this.mapper().out(((JsonObject) response), dualItem);
+                    final JsonObject normalized = this.mapper().out(((JsonObject) response), biMapping);
                     return Envelop.success(normalized, status).from(this.envelop);
                 } else {
                     /*
                      * JsonArray here for mapping
                      */
                     final JsonArray normalized = new JsonArray();
-                    Ut.itJArray((JsonArray) response).map(item -> this.mapper().out(item, dualItem))
+                    Ut.itJArray((JsonArray) response).map(item -> this.mapper().out(item, biMapping))
                         .forEach(normalized::add);
                     return Envelop.success(normalized, status).from(this.envelop);
                 }

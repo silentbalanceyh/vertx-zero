@@ -1,3 +1,2 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:cfee7a2c92f787cc15b00ca54b3ca74eb0740bf2130c17bb6ecce7adaebd8b86
-size 395
+#!/usr/bin/env bash
+java -classpath jooq-3.13.1.jar:jooq-meta-3.13.1.jar:jooq-codegen-3.13.1.jar:mysql-connector-java-8.0.11.jar:reactive-streams-1.0.3.jar:vertx-jooq-generate-5.1.0.jar:vertx-jooq-shared-5.1.0.jar:vertx-jooq-shared-async-5.1.0.jar:vertx-jooq-classic-5.1.0.jar:vertx-jooq-classic-async-5.1.0.jar:vertx-core-3.8.5.jar org.jooq.codegen.GenerationTool ./config/zero-jooq-upgrade.xml

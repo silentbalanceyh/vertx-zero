@@ -8,13 +8,11 @@ import io.vertx.core.Vertx;
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.plugin.excel.atom.ExRecord;
 import io.vertx.tp.plugin.excel.atom.ExTable;
 import io.vertx.up.commune.element.TypeAtom;
 import io.vertx.up.plugin.TpClient;
 
 import java.io.InputStream;
-import java.util.List;
 import java.util.Set;
 
 /**
@@ -33,19 +31,6 @@ public interface ExcelClient extends TpClient<ExcelClient> {
     }
 
     // --------------------- ExTable Ingesting -----------------------
-
-    static JsonArray fromTable(final Set<ExTable> tableSet) {
-        final JsonArray records = new JsonArray();
-        tableSet.stream().map(ExcelClient::fromTable).forEach(records::addAll);
-        return records;
-    }
-
-    static JsonArray fromTable(final ExTable table) {
-        final JsonArray records = new JsonArray();
-        final List<ExRecord> recordList = table.get();
-        recordList.stream().map(ExRecord::toJson).forEach(records::add);
-        return records;
-    }
 
     @Fluent
     @Override
@@ -136,4 +121,8 @@ public interface ExcelClient extends TpClient<ExcelClient> {
     <T> Future<Set<T>> importAsync(InputStream in, boolean isXlsx, String... includes);
 
     <T> Future<Set<T>> importAsync(InputStream in, boolean isXlsx, TypeAtom TypeAtom, String... includes);
+
+    Future<JsonArray> extractAsync(final ExTable table);
+
+    Future<JsonArray> extractAsync(final Set<ExTable> tables);
 }

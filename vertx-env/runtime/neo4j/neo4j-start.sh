@@ -1,3 +1,4 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:e8a71915a88d52a0edff068efe5e099a5e083121fde9b7fef6b2c3e579f897bc
-size 155
+#!/usr/bin/env bash
+export JAVA_HOME=/Library/Java/JavaVirtualMachines/zulu-14.jdk/Contents/Home
+export NEO4J_HOME=$PWD/server
+$NEO4J_HOME/bin/neo4j start

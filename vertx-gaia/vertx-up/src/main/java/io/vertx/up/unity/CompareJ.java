@@ -2,6 +2,7 @@ package io.vertx.up.unity;
 
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
+import io.vertx.up.eon.KName;
 import io.vertx.up.eon.em.ChangeFlag;
 import io.vertx.up.log.Annal;
 import io.vertx.up.util.Ut;
@@ -172,7 +173,12 @@ class CompareJ {
                 result.get(ChangeFlag.DELETE).add(recordO);
             } else {
                 // New: o, Old: o
-                final JsonObject combine = recordO.copy().mergeIn(recordN, true);
+                // Do not overwrite `key` field because is primary key
+                final JsonObject recordNC = recordN.copy();
+                if (recordNC.containsKey(KName.KEY)) {
+                    recordNC.remove(KName.KEY);
+                }
+                final JsonObject combine = recordO.copy().mergeIn(recordNC, true);
                 result.get(ChangeFlag.UPDATE).add(combine);
             }
         });

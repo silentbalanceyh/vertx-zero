@@ -6,8 +6,8 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.atom.modeling.data.DataAtom;
 import io.vertx.tp.atom.refine.Ao;
-import io.vertx.tp.ke.atom.connect.KJoin;
-import io.vertx.tp.ke.atom.connect.KPoint;
+import io.vertx.tp.ke.atom.specification.KJoin;
+import io.vertx.tp.ke.atom.specification.KPoint;
 import io.vertx.tp.ke.refine.Ke;
 import io.vertx.tp.modular.dao.AoDao;
 import io.vertx.tp.optic.DS;
@@ -126,7 +126,7 @@ public class RDao {
     private Function<JsonObject, JsonArray> executor() {
         return condition -> {
             final KPoint source = this.kJoin.getSource();
-            final KPoint target = this.kJoin.procTarget(condition);
+            final KPoint target = this.kJoin.point(condition);
             if (Objects.isNull(target)) {
                 return Ux.Jooq.on(source.getClassDao()).fetchJ(condition);
             } else {
@@ -144,7 +144,7 @@ public class RDao {
     private Function<JsonObject, Future<JsonArray>> executorAsync() {
         return condition -> {
             final KPoint source = this.kJoin.getSource();
-            final KPoint target = this.kJoin.procTarget(condition);
+            final KPoint target = this.kJoin.point(condition);
             if (Objects.isNull(target)) {
                 return Ux.Jooq.on(source.getClassDao()).fetchJAsync(condition);
             } else {

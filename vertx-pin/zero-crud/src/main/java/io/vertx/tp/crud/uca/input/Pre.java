@@ -4,15 +4,20 @@ import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.crud.cv.Pooled;
-import io.vertx.tp.crud.uca.desk.IxIn;
+import io.vertx.tp.crud.uca.desk.IxMod;
 import io.vertx.tp.error._501NotSupportException;
-import io.vertx.tp.ke.atom.view.KColumn;
+import io.vertx.tp.ke.atom.specification.KColumn;
+import io.vertx.tp.ke.atom.specification.KModule;
+import io.vertx.tp.ke.atom.specification.KTree;
 import io.vertx.tp.plugin.excel.ExcelClient;
 import io.vertx.up.atom.secure.Vis;
 import io.vertx.up.eon.KName;
 import io.vertx.up.fn.Fn;
+import io.vertx.up.unity.Ux;
+import io.vertx.up.util.Ut;
 
 import java.util.Objects;
+import java.util.concurrent.ConcurrentMap;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
@@ -54,6 +59,7 @@ public interface Pre {
      * 1) User information: user, habitus
      * 2) Auditor: createdAt / createdBy / updatedAt / updatedBy
      * 3) Fabric for DictFabric
+     * 4) Initial Data
      */
     static Pre user() {
         return Fn.poolThread(Pooled.PRE_MAP, UserPre::new, UserPre.class.getName());
@@ -69,12 +75,23 @@ public interface Pre {
 
     static Pre fabric(final boolean isFrom) {
         if (isFrom) {
-            return Fn.poolThread(Pooled.PRE_MAP, FromPre::new, FromPre.class.getName());
+            return Fn.poolThread(Pooled.PRE_MAP, DiFromPre::new, DiFromPre.class.getName());
         } else {
-            return Fn.poolThread(Pooled.PRE_MAP, ToPre::new, ToPre.class.getName());
+            return Fn.poolThread(Pooled.PRE_MAP, DiToPre::new, DiToPre.class.getName());
         }
     }
 
+    static Pre initial() {
+        return Fn.poolThread(Pooled.PRE_MAP, InitialPre::new, InitialPre.class.getName());
+    }
+
+    static Pre tree(final boolean isFrom) {
+        if (isFrom) {
+            return Fn.poolThread(Pooled.PRE_MAP, DiFTreePre::new, DiFTreePre.class.getName());
+        } else {
+            return Fn.poolThread(Pooled.PRE_MAP, DiTTreePre::new, DiTTreePre.class.getName());
+        }
+    }
 
     /*
      * 1) number definition for `X_NUMBER`
@@ -115,22 +132,22 @@ public interface Pre {
     }
 
     // JsonObject -> JsonObject
-    default Future<JsonObject> inJAsync(final JsonObject data, final IxIn in) {
+    default Future<JsonObject> inJAsync(final JsonObject data, final IxMod in) {
         return Future.failedFuture(new _501NotSupportException(this.getClass()));
     }
 
     // JsonArray -> JsonArray
-    default Future<JsonArray> inAAsync(final JsonArray data, final IxIn in) {
+    default Future<JsonArray> inAAsync(final JsonArray data, final IxMod in) {
         return Future.failedFuture(new _501NotSupportException(this.getClass()));
     }
 
     // JsonArray -> JsonObject
-    default Future<JsonObject> inAJAsync(final JsonArray data, final IxIn in) {
+    default Future<JsonObject> inAJAsync(final JsonArray data, final IxMod in) {
         return Future.failedFuture(new _501NotSupportException(this.getClass()));
     }
 
     // JsonObject -> JsonArray
-    default Future<JsonArray> inJAAsync(final JsonObject data, final IxIn in) {
+    default Future<JsonArray> inJAAsync(final JsonObject data, final IxMod in) {
         return Future.failedFuture(new _501NotSupportException(this.getClass()));
     }
 }
@@ -144,5 +161,26 @@ class T {
         Fn.safeSemi(Objects.isNull(data.getValue(KName.VIEW)), () ->
             // Vis: Fix bug of default view
             data.put(KName.VIEW, Vis.smart(column.getView())));
+    }
+
+    /*
+     * Map replaced
+     */
+    static Future<JsonArray> treeAsync(final JsonArray data, final IxMod in, final ConcurrentMap<String, String> map) {
+        if (!map.isEmpty()) {
+            final KModule module = in.module();
+            final KTree tree = module.getTransform().getTree();
+            final String field = tree.getField();
+            Ut.itJArray(data).forEach(record -> {
+                if (record.containsKey(field)) {
+                    final String value = record.getString(field);
+                    final String to = map.get(value);
+                    record.put(field, to);
+                }
+            });
+            return Ux.future(data);
+        } else {
+            return Ux.future(data);
+        }
     }
 }
