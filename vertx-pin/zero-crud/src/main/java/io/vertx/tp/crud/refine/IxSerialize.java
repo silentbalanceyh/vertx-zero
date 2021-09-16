@@ -39,7 +39,7 @@ class IxSerialize {
 
     @SuppressWarnings("all")
     static <T> T deserializeT(final JsonObject data, final KModule config) {
-        IxLog.infoDao(LOGGER, "Normalized: \n{0}", data.encodePrettily());
+        IxLog.infoDao(LOGGER, "Normalized: \u001b[0;37m{0}\u001b[m", data.encode());
         {
             /*
              * JsonObject / JsonArray must be converted to string

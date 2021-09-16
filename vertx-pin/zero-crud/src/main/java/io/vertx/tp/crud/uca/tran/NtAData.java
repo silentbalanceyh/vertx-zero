@@ -2,9 +2,8 @@ package io.vertx.tp.crud.uca.tran;
 
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
-import io.vertx.core.json.JsonObject;
+import io.vertx.tp.crud.refine.Ix;
 import io.vertx.tp.crud.uca.desk.IxMod;
-import io.vertx.up.eon.KName;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
@@ -22,13 +21,12 @@ public class NtAData implements NtA<JsonArray> {
     @Override
     public Future<JsonArray> next(final JsonArray input, final JsonArray active) {
         if (this.in.canJoin()) {
-            final JsonArray zip = Ut.elementZip(active, input);
-            final JsonArray normalized = new JsonArray();
-            Ut.itJArray(zip).forEach(json -> {
-                final JsonObject dataSt = this.in.dataIn(json);
-                normalized.add(json.copy().mergeIn(dataSt, true));
-            });
-            return Ux.future(normalized);
+            final JsonArray dataSt = this.in.dataIn(input, active);
+            // Remove `key` of current
+            final String key = this.in.module().getField().getKey();
+            Ut.itJArray(dataSt).forEach(json -> json.remove(key));
+            Ix.Log.web(this.getClass(), "Data In: {0}", dataSt.encode());
+            return Ux.future(dataSt);
         } else {
             // There is no joined module on current
             return Ux.future(active);
@@ -38,13 +36,7 @@ public class NtAData implements NtA<JsonArray> {
     @Override
     public Future<JsonArray> ok(final JsonArray active, final JsonArray standBy) {
         if (this.in.canJoin()) {
-            final JsonArray zip = Ut.elementZip(active, standBy, KName.KEY);
-            final JsonArray normalized = new JsonArray();
-            Ut.itJArray(zip).forEach(json -> {
-                final JsonObject dataSt = this.in.dataOut(json);
-                normalized.add(json.copy().mergeIn(dataSt, true));
-            });
-            return Ux.future(normalized);
+            return Ux.future(this.in.dataOut(active, standBy));
         } else {
             // There is no joined module on current
             return Ux.future(active.copy());

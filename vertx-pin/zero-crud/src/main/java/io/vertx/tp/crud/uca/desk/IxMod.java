@@ -137,6 +137,23 @@ public class IxMod {
 
     // --------------- Data Processing ---------------
     /*
+     * JsonArray processing
+     * Here the `input` is the super set of `active`, it means that all the fields will be in `input`
+     * and `active` contains the major table fields.
+     *
+     * Ut.elementZip by `key` could merge all the data here.
+     */
+    public JsonArray dataIn(final JsonArray input, final JsonArray active) {
+        final JsonArray zip = Ut.elementZip(active, input);
+        final JsonArray normalized = new JsonArray();
+        Ut.itJArray(zip).forEach(json -> {
+            final JsonObject dataSt = this.dataIn(json);
+            normalized.add(json.copy().mergeIn(dataSt, true));
+        });
+        return normalized;
+    }
+
+    /*
      * input contains two model data
      * 1) active data
      * 2) standBy data ( Only Data )
@@ -160,6 +177,16 @@ public class IxMod {
             dataS.mergeIn(converted, true);
         }
         return dataS;
+    }
+
+    public JsonArray dataOut(final JsonArray active, final JsonArray standBy) {
+        // Apply key to standBy
+        Ut.itJArray(standBy).forEach(json -> {
+            final JsonObject data = this.dataOut(json);
+            // The key will be overwritten
+            json.mergeIn(data, true);
+        });
+        return Ut.elementZip(standBy, active);
     }
 
     /*
