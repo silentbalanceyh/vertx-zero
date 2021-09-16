@@ -44,14 +44,15 @@ public class FileActor {
          *  Extract `filename` as file
          */
         final IxWeb request = IxWeb.create(ApiSpec.BODY_STRING).build(envelop);
-
         final IxPanel panel = IxPanel.on(request);
+        final Co co = Co.nextJ(request.active(), true);
         return Pre.excel(this.client).inJAAsync(request.dataF(), request.active()).compose(data -> panel
             .input(
                 Pre.initial()::inAAsync,         /* Initial */
                 Pre.fabric(true)::inAAsync       /* Dict */
             )
-            .next(in -> (input, active) -> Ux.future(active))
+            .next(in -> co::next)
+            .output(co::ok)
             .passion(Agonic.file()::runAAsync)
             .runA(data)
         );

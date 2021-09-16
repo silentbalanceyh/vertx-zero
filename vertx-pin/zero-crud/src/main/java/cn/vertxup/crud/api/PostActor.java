@@ -36,7 +36,7 @@ public class PostActor {
     public Future<Envelop> create(final Envelop envelop) {
         /* Actor Extraction */
         final IxWeb request = IxWeb.create(ApiSpec.BODY_JSON).build(envelop);
-        final Co coJ = Co.nextJ(request.active());
+        final Co coJ = Co.nextJ(request.active(), false);
         return IxPanel.on(request)
             .input(
                 Pre.head()::inJAsync,                       /* Header */

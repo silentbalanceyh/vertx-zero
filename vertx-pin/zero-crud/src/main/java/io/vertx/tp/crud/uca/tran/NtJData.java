@@ -11,11 +11,11 @@ import io.vertx.up.unity.Ux;
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-class NtJRecord implements NtJ<JsonObject> {
+class NtJData implements NtJ<JsonObject> {
 
     private transient final IxMod in;
 
-    NtJRecord(final IxMod in) {
+    NtJData(final IxMod in) {
         this.in = in;
     }
 

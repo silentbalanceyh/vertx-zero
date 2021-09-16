@@ -43,8 +43,12 @@ public interface Co<I, A, S, O> {
         }
     }
 
-    static Co nextJ(final IxMod in) {
-        return Fn.poolThread(Pooled.CO_MAP, () -> new NtJRecord(in), NtJRecord.class.getName() + in.keyPool());
+    static Co nextJ(final IxMod in, final boolean isArray) {
+        if (isArray) {
+            return Fn.poolThread(Pooled.CO_MAP, () -> new NtAData(in), NtAData.class.getName() + in.keyPool());
+        } else {
+            return Fn.poolThread(Pooled.CO_MAP, () -> new NtJData(in), NtJData.class.getName() + in.keyPool());
+        }
     }
 
     static Co endV(final boolean isMy) {

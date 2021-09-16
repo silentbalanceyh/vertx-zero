@@ -1,6 +1,5 @@
 package io.vertx.tp.crud.uca.tran;
 
-import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.crud.cv.Pooled;
@@ -15,11 +14,6 @@ class NtAQr implements Co<JsonObject, JsonArray, JsonArray, JsonArray> {
     private transient final Co record;
 
     NtAQr(final IxMod in) {
-        this.record = Fn.poolThread(Pooled.CO_MAP, () -> new NtJRecord(in), NtJRecord.class.getName() + in.keyPool());
-    }
-
-    @Override
-    public Future<JsonArray> next(final JsonObject input, final JsonArray active) {
-        return null;
+        this.record = Fn.poolThread(Pooled.CO_MAP, () -> new NtJData(in), NtJData.class.getName() + in.keyPool());
     }
 }
