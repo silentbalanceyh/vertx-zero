@@ -59,7 +59,7 @@
         <!-- RC Version Ok -->
         <jackson.version>2.12.5</jackson.version>
         <jackson.extension.version>2.12.5</jackson.extension.version>
-        <protobuf.version>3.17.3</protobuf.version>
+        <protobuf.version>3.18.0</protobuf.version>
 
         <!-- Java Projection Basic Configuration -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -99,7 +99,7 @@
         <jwt.version>3.18.1</jwt.version>
         <jetbrains.version>22.0.0</jetbrains.version>
         <guice.version>4.1.0</guice.version>
-        <scala.version>2.12.14</scala.version>
+        <scala.version>2.12.15</scala.version>
         <feign.version>8.18.0</feign.version>
         <guava.version>30.1.1-jre</guava.version>
         <joda.version>2.10.10</joda.version>
