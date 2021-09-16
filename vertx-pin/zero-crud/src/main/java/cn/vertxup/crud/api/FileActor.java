@@ -48,7 +48,9 @@ public class FileActor {
         final IxPanel panel = IxPanel.on(request);
         return Pre.excel(this.client).inJAAsync(request.dataF(), request.active()).compose(data -> panel
             .input(
-                Pre.fabric(true)::inAAsync      /* Dict */
+                Pre.initial()::inAAsync,         /* Initial */
+                Pre.fabric(true)::inAAsync,      /* Dict */
+                Pre.tree(true)::inAAsync         /* Tree */
             )
             .next(in -> (input, active) -> Ux.future(active))
             .passion(Agonic.file()::runAAsync)
@@ -73,17 +75,18 @@ public class FileActor {
         JsonObject criteria = Ut.sureJObject(condition.getJsonObject(Qr.KEY_CRITERIA));
         final IxPanel panel = IxPanel.on(request);
         return T.fetchFull(request).runJ(request.dataV())
+            /*
+             * Data Processing
+             */
             .compose(columns -> panel
-                /*
-                 * Data Processing
-                 */
                 .input(
                     Pre.codex()::inJAsync /* Rule Vrify */
                 )
                 .passion(Agonic.fetch()::runJAAsync, null)
                 .<JsonArray, JsonObject, JsonArray>runJ(criteria)
                 /* Dict Transfer to Export */
-                .compose(data -> Pre.fabric(false).inAAsync(data, request.active()))
+                .compose(data -> Pre.fabric(false).inAAsync(data, request.active()))    /* Dict */
+                .compose(data -> Pre.tree(false).inAAsync(data, request.active()))      /* Tree */
                 .compose(data -> Co.endE(columnList).ok(data, columns))
                 .compose(data -> {
                     /*

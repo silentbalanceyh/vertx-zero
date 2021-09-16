@@ -13,7 +13,7 @@ import java.util.Objects;
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-class ToPre implements Pre {
+class DiToPre implements Pre {
     @Override
     public Future<JsonObject> inJAsync(final JsonObject data, final IxMod in) {
         final Future<DiFabric> future = Ix.onFabric(in);

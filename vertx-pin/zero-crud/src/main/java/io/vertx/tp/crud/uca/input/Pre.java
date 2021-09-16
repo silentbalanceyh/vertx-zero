@@ -54,6 +54,7 @@ public interface Pre {
      * 1) User information: user, habitus
      * 2) Auditor: createdAt / createdBy / updatedAt / updatedBy
      * 3) Fabric for DictFabric
+     * 4) Initial Data
      */
     static Pre user() {
         return Fn.poolThread(Pooled.PRE_MAP, UserPre::new, UserPre.class.getName());
@@ -69,12 +70,23 @@ public interface Pre {
 
     static Pre fabric(final boolean isFrom) {
         if (isFrom) {
-            return Fn.poolThread(Pooled.PRE_MAP, FromPre::new, FromPre.class.getName());
+            return Fn.poolThread(Pooled.PRE_MAP, DiFromPre::new, DiFromPre.class.getName());
         } else {
-            return Fn.poolThread(Pooled.PRE_MAP, ToPre::new, ToPre.class.getName());
+            return Fn.poolThread(Pooled.PRE_MAP, DiToPre::new, DiToPre.class.getName());
         }
     }
 
+    static Pre initial() {
+        return Fn.poolThread(Pooled.PRE_MAP, InitialPre::new, InitialPre.class.getName());
+    }
+
+    static Pre tree(final boolean isFrom) {
+        if (isFrom) {
+            return Fn.poolThread(Pooled.PRE_MAP, DiFTreePre::new, DiFTreePre.class.getName());
+        } else {
+            return Fn.poolThread(Pooled.PRE_MAP, DiTTreePre::new, DiTTreePre.class.getName());
+        }
+    }
 
     /*
      * 1) number definition for `X_NUMBER`
