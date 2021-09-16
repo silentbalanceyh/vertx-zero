@@ -18,7 +18,7 @@ import io.vertx.up.unity.Ux;
 class QVkPre implements Pre {
     @Override
     public Future<JsonObject> inJAsync(final JsonObject data, final IxMod in) {
-        final Kv<String, HttpMethod> impactUri = Ix.onFlush(in);
+        final Kv<String, HttpMethod> impactUri = Ix.onImpact(in);
         final String sessionKey = Ke.keySession(
             impactUri.getValue().name(),
             impactUri.getKey(),

@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
  */
 class Epsilon {
 
-    static Set<String> mapString(final JsonArray array, final String field) {
+    static Set<String> mapString(final JsonArray array, final String field, final boolean nil) {
         Set<String> set = new HashSet<>();
         if (Objects.nonNull(array)) {
             set = array.stream()
@@ -23,7 +23,7 @@ class Epsilon {
                 .map(item -> (JsonObject) item)
                 .filter(item -> item.getValue(field) instanceof String)
                 .map(item -> item.getString(field))
-                .filter(Objects::nonNull)
+                .filter(item -> nil || Ut.notNil(item))
                 .collect(Collectors.toSet());
         }
         return set;

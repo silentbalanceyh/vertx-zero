@@ -62,6 +62,7 @@ public class IxWeb {
             // 0           1 ( filename )                   2
             // 0                               1
             this.key = Ux.getString1(envelop);
+            module = Ux.getString2(envelop);
         } else if (ApiSpec.BODY_ARRAY == this.apiSpecification) {
             // actor       body                key         module          view
             // 0           1 ( JArray )

@@ -75,6 +75,7 @@ class AgonicUpdate extends AgonicUnique {
         final KModule module = in.module();
         final UxJooq jooq = IxPin.jooq(in);
         return Ix.passion(input, in,
+                Pre.tree(true)::inAAsync,            // After GUID
                 Pre.auditor(false)::inAAsync         // updatedAt, updatedBy
             )
             .compose(processed -> Ix.deserializeT(processed, module))

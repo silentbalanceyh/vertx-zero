@@ -1,7 +1,5 @@
 package io.vertx.tp.crud.refine;
 
-import io.vertx.core.Future;
-import io.vertx.core.MultiMap;
 import io.vertx.core.http.HttpMethod;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
@@ -9,27 +7,16 @@ import io.vertx.tp.crud.init.IxPin;
 import io.vertx.tp.crud.uca.desk.IxMod;
 import io.vertx.tp.ke.atom.specification.KField;
 import io.vertx.tp.ke.atom.specification.KModule;
-import io.vertx.tp.ke.atom.specification.KTransform;
-import io.vertx.tp.optic.Pocket;
-import io.vertx.tp.optic.component.Dictionary;
 import io.vertx.up.atom.Kv;
 import io.vertx.up.commune.Envelop;
-import io.vertx.up.commune.exchange.DiConsumer;
-import io.vertx.up.commune.exchange.DiFabric;
-import io.vertx.up.commune.exchange.DiSetting;
-import io.vertx.up.commune.exchange.DiSource;
 import io.vertx.up.eon.Constants;
 import io.vertx.up.eon.KName;
 import io.vertx.up.log.Annal;
-import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
 import java.text.MessageFormat;
 import java.time.Instant;
-import java.util.List;
 import java.util.Objects;
-import java.util.concurrent.ConcurrentMap;
-import java.util.function.BiFunction;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
@@ -54,7 +41,7 @@ class IxData {
         }
     }
 
-    static Kv<String, HttpMethod> flush(final IxMod in) {
+    static Kv<String, HttpMethod> impact(final IxMod in) {
         final KModule module = in.module();
         final String pattern = "/api/{0}/search";
         final String actor = module.getName();
@@ -108,50 +95,29 @@ class IxData {
         return priority;
     }
 
-
-    // JqFn
-    @SafeVarargs
-    static <T> Future<T> passion(final T input, final IxMod in, final BiFunction<T, IxMod, Future<T>>... executors) {
-        // Sequence for future management
-        Future<T> future = Future.succeededFuture(input);
-        for (final BiFunction<T, IxMod, Future<T>> executor : executors) {
-            if (Objects.nonNull(executor)) {
-                future = future.compose(data -> executor.apply(data, in));
+    static JsonObject parameters(final IxMod in) {
+        /*
+         * module
+         */
+        final JsonObject parameters = new JsonObject();
+        final KModule module = in.module();
+        {
+            final KModule connect = in.connect();
+            if (Objects.isNull(connect)) {
+                parameters.put(KName.MODULE, module.getIdentifier());
+            } else {
+                parameters.put(KName.MODULE, connect.getIdentifier());
             }
         }
-        return future;
-    }
-
-    static Future<DiFabric> fabric(final IxMod in) {
+        /*
+         * sigma
+         * language
+         * appId
+         * appKey
+         */
         final Envelop envelop = in.envelop();
-        final KModule module = in.module();
-        final KTransform transform = module.getTransform();
-        /* Epsilon */
-        final ConcurrentMap<String, DiConsumer> epsilonMap = transform.epsilon();
-        /* Channel Plugin, Here will enable Pool */
-        final Dictionary plugin = Pocket.lookup(Dictionary.class);
-        /* Dict */
-        final DiSetting dict = transform.source();
-        if (epsilonMap.isEmpty() || Objects.isNull(plugin) || !dict.validSource()) {
-            /*
-             * Direct returned
-             */
-            Ix.Log.rest(IxData.class, "Plugin condition failure, {0}, {1}, {2}",
-                epsilonMap.isEmpty(), Objects.isNull(plugin), !dict.validSource());
-            return null;
-        } else {
-            final List<DiSource> sources = dict.getSource();
-            final MultiMap paramMap = MultiMap.caseInsensitiveMultiMap();
-            final JsonObject headers = envelop.headersX();
-            paramMap.add(KName.SIGMA, headers.getString(KName.SIGMA));
-            /*
-             * To avoid final in lambda expression
-             */
-            return plugin.fetchAsync(paramMap, sources).compose(dictData ->
-                Ux.future(DiFabric.create()
-                    .dictionary(dictData)
-                    .epsilon(transform.epsilon())
-                ));
-        }
+        final JsonObject headers = envelop.headersX();
+        parameters.mergeIn(headers, true);
+        return parameters;
     }
 }

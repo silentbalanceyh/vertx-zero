@@ -22,10 +22,7 @@ public class KTransform implements Serializable {
     @JsonDeserialize(using = JsonObjectDeserializer.class)
     private JsonObject fabric;
 
-    @JsonSerialize(using = JsonObjectSerializer.class)
-    @JsonDeserialize(using = JsonObjectDeserializer.class)
-    private JsonObject tree;
-
+    private KTree tree;
 
     @JsonSerialize(using = JsonObjectSerializer.class)
     @JsonDeserialize(using = JsonObjectDeserializer.class)
@@ -39,11 +36,11 @@ public class KTransform implements Serializable {
         this.fabric = fabric;
     }
 
-    public JsonObject getTree() {
+    public KTree getTree() {
         return this.tree;
     }
 
-    public void setTree(final JsonObject tree) {
+    public void setTree(final KTree tree) {
         this.tree = tree;
     }
 

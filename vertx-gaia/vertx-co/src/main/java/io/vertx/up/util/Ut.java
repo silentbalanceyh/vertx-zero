@@ -1483,7 +1483,11 @@ public final class Ut {
      * Mapping operation
      */
     public static Set<String> mapString(final JsonArray array, final String field) {
-        return Epsilon.mapString(array, field);
+        return Epsilon.mapString(array, field, true);
+    }
+
+    public static Set<String> mapString(final JsonArray array, final String field, final boolean nil) {
+        return Epsilon.mapString(array, field, nil);
     }
 
     public static String mapOneS(final JsonArray array, final String field) {

@@ -1,11 +1,14 @@
 package io.vertx.tp.plugin.excel;
 
 import com.fasterxml.jackson.core.type.TypeReference;
+import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.error._404ExcelFileNullException;
 import io.vertx.tp.plugin.excel.atom.ExConnect;
+import io.vertx.tp.plugin.excel.atom.ExRecord;
 import io.vertx.tp.plugin.excel.atom.ExTable;
+import io.vertx.tp.plugin.excel.atom.ExTenant;
 import io.vertx.tp.plugin.excel.ranger.ExBound;
 import io.vertx.tp.plugin.excel.ranger.RowBound;
 import io.vertx.up.commune.element.TypeAtom;
@@ -14,6 +17,7 @@ import io.vertx.up.eon.KName;
 import io.vertx.up.eon.Strings;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
+import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.FormulaEvaluator;
@@ -25,6 +29,7 @@ import java.io.File;
 import java.io.InputStream;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /*
@@ -35,6 +40,7 @@ class ExcelHelper {
     private static final Map<String, Workbook> REFERENCES = new ConcurrentHashMap<>();
     private transient final Class<?> target;
     private transient ExTpl tpl;
+    private transient ExTenant tenant;
 
     private ExcelHelper(final Class<?> target) {
         this.target = target;
@@ -42,6 +48,65 @@ class ExcelHelper {
 
     static ExcelHelper helper(final Class<?> target) {
         return Fn.pool(Pool.HELPERS, target.getName(), () -> new ExcelHelper(target));
+    }
+
+    Future<JsonArray> extract(final Set<ExTable> tables) {
+        final List<Future<JsonArray>> futures = new ArrayList<>();
+        tables.forEach(table -> futures.add(this.extract(table)));
+        return Ux.thenCombineArray(futures);
+    }
+
+    Future<JsonArray> extract(final ExTable table) {
+        /* Records extracting */
+        final List<ExRecord> records = table.get();
+        /* Pojo Processing */
+        final JsonArray dataArray = new JsonArray();
+        records.stream().filter(Objects::nonNull)
+            .map(ExRecord::toJson)
+            .forEach(dataArray::add);
+        /* Source Processing */
+        if (Objects.isNull(this.tenant)) {
+            return Ux.future(dataArray);
+        } else {
+            // Append Global
+            Ut.itJArray(dataArray)
+                .forEach(json -> json.mergeIn(this.tenant.getGlobal(), true));
+            // Extract Mapping
+            final ConcurrentMap<String, String> first = this.tenant.mapping(table.getName());
+            if (first.isEmpty()) {
+                return Ux.future(dataArray);
+            } else {
+                // Directory
+                return this.tenant.dictionary().compose(dataMap -> {
+                    if (dataMap.isEmpty()) {
+                        // No Data Mapping
+                        return Ux.future(dataArray);
+                    } else {
+                        /*
+                         * mapping
+                         * field = name
+                         * dataMap
+                         * name = JsonObject ( from = to )
+                         * --->
+                         *
+                         * field -> JsonObject
+                         */
+                        final ConcurrentMap<String, JsonObject> combine
+                            = Ut.elementZip(first, dataMap);
+
+                        combine.forEach((key, value) -> Ut.itJArray(dataArray).forEach(json -> {
+                            final String fromValue = json.getString(key);
+                            if (Ut.notNil(fromValue) && value.containsKey(fromValue)) {
+                                final Object toValue = value.getValue(fromValue);
+                                // Replace
+                                json.put(key, toValue);
+                            }
+                        }));
+                        return Ux.future(dataArray);
+                    }
+                });
+            }
+        }
     }
 
     /*
@@ -176,6 +241,10 @@ class ExcelHelper {
                 REFERENCES.put(name, workbook);
                 this.initEnvironment(each, workbook);
             });
+    }
+
+    void initTenant(final ExTenant tenant) {
+        this.tenant = tenant;
     }
 
     private void initEnvironment(final JsonObject each, final Workbook workbook) {

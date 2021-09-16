@@ -56,9 +56,8 @@ class ExcelPre implements Pre {
         final String actual = content.getKey();
         Fn.out(!expected.equals(actual), _409ModuleConflictException.class, this.getClass(), actual, expected);
 
-        /* ExTable Data Extraction */
-        final JsonArray source = ExcelClient.fromTable(content.getValue());
-        return Ux.future(source);
+        /* Tenant Information */
+        return this.client.extractAsync(content.getValue());
     }
 
     private Kv<String, Set<ExTable>> readFile(final File file) {

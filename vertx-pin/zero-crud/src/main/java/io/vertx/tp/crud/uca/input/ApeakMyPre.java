@@ -43,7 +43,7 @@ class ApeakMyPre implements Pre {
         /*
          * Uri and method
          */
-        final Kv<String, HttpMethod> impactUri = Ix.onFlush(in);
+        final Kv<String, HttpMethod> impactUri = Ix.onImpact(in);
         return Ux.future(data
             .put(KName.URI, impactUri.getKey())
             .put(KName.METHOD, impactUri.getValue().name()));

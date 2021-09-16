@@ -49,6 +49,7 @@ class AgonicCreate implements Agonic {
         final UxJooq jooq = IxPin.jooq(in);
         return Ix.passion(input, in,
                 Pre.key(true)::inAAsync,             // UUID Generated
+                Pre.tree(true)::inAAsync,            // After GUID 
                 Pre.serial()::inAAsync,              // Serial/Number
                 Pre.auditor(true)::inAAsync,         // createdAt, createdBy
                 Pre.auditor(false)::inAAsync         // updatedAt, updatedBy

@@ -23,7 +23,7 @@ import java.util.function.Supplier;
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-class IxQr {
+class IxFn {
     static Function<JsonObject, Future<JsonArray>> fetchFn(final IxMod in) {
         return condition -> {
             // KModule
@@ -70,6 +70,19 @@ class IxQr {
                 return join.countAsync(condition);
             }
         };
+    }
+
+    // JqFn
+    @SafeVarargs
+    static <T> Future<T> passion(final T input, final IxMod in, final BiFunction<T, IxMod, Future<T>>... executors) {
+        // Sequence for future management
+        Future<T> future = Future.succeededFuture(input);
+        for (final BiFunction<T, IxMod, Future<T>> executor : executors) {
+            if (Objects.nonNull(executor)) {
+                future = future.compose(data -> executor.apply(data, in));
+            }
+        }
+        return future;
     }
 
     static <T> BiFunction<Supplier<T>, BiFunction<UxJooq, JsonObject, Future<T>>, Future<T>> seekFn(final IxMod in, final Object object) {

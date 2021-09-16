@@ -49,8 +49,7 @@ public class FileActor {
         return Pre.excel(this.client).inJAAsync(request.dataF(), request.active()).compose(data -> panel
             .input(
                 Pre.initial()::inAAsync,         /* Initial */
-                Pre.fabric(true)::inAAsync,      /* Dict */
-                Pre.tree(true)::inAAsync         /* Tree */
+                Pre.fabric(true)::inAAsync       /* Dict */
             )
             .next(in -> (input, active) -> Ux.future(active))
             .passion(Agonic.file()::runAAsync)
