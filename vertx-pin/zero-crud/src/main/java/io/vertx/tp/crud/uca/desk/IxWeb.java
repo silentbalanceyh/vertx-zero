@@ -29,6 +29,7 @@ public class IxWeb {
     // Input Parameters
     private transient Vis view;
     private transient String key;
+    private transient String module;
     private transient JsonObject bodyJ;
     private transient JsonArray bodyA;
 

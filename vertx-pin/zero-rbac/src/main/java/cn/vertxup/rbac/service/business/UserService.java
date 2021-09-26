@@ -139,7 +139,8 @@ public class UserService implements UserStub {
         return Ux.Jooq.on(OUserDao.class)
             .insertAsync(oUser)
             // delete attribute: password from user information
-            .compose(entity -> Ux.futureJ(user.setPassword("")));
+            // To avoid update to EMPTY string
+            .compose(entity -> Ux.futureJ(user.setPassword(null)));
     }
 
     /**

@@ -8,7 +8,6 @@ import io.vertx.tp.crud.refine.Ix;
 import io.vertx.tp.ke.atom.specification.KModule;
 import io.vertx.up.commune.Envelop;
 import io.vertx.up.unity.Ux;
-import io.vertx.up.util.Ut;
 
 import java.util.List;
 
@@ -72,25 +71,11 @@ public final class IxKit {
      *  T -> JsonObject based by module
      */
     public static <T> Future<JsonObject> successJ(final T input, final KModule module) {
-        final JsonObject serializedJ;
-        if (input instanceof JsonObject) {
-            serializedJ = (JsonObject) input;
-        } else {
-            serializedJ = Ux.toJson(input, module.getPojo());
-        }
-        Ix.serializeJ(serializedJ, module);
-        return Ux.future(serializedJ);
+        return Ux.future(Ix.serializeJ(input, module));
     }
 
-    public static <T> Future<JsonArray> successA(final T input, final KModule module) {
-        final JsonArray serializedA;
-        if (input instanceof JsonArray) {
-            serializedA = (JsonArray) input;
-        } else {
-            serializedA = Ux.toJson((List<T>) input, module.getPojo());
-        }
-        Ut.itJArray(serializedA).forEach(json -> Ix.serializeJ(json, module));
-        return Ux.future(serializedA);
+    public static <T> Future<JsonArray> successA(final List<T> input, final KModule module) {
+        return Ux.future(Ix.serializeA(input, module));
     }
 
     public static Future<JsonArray> ignoreA(final JsonObject input, final IxMod in) {

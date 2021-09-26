@@ -22,12 +22,20 @@ class NtJQr implements Co<JsonObject, JsonObject, JsonObject, JsonObject> {
 
     @Override
     public Future<JsonObject> next(final JsonObject input, final JsonObject active) {
-        final JsonObject params = this.in.dataIn(active);
-        return Ux.future(params);
+        if (this.in.canJoin()) {
+            final JsonObject params = this.in.dataCond(active);
+            return Ux.future(params);
+        } else {
+            return Ux.future(active.copy());
+        }
     }
 
     @Override
     public Future<JsonObject> ok(JsonObject active, JsonObject standBy) {
-        return this.record.ok(active, standBy);
+        if (this.in.canJoin()) {
+            return this.record.ok(active, standBy);
+        } else {
+            return Ux.future(active.copy());
+        }
     }
 }

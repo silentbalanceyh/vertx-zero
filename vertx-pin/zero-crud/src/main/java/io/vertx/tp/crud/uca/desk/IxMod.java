@@ -12,6 +12,7 @@ import io.vertx.tp.ke.atom.specification.KModule;
 import io.vertx.tp.ke.atom.specification.KPoint;
 import io.vertx.tp.ke.cv.em.JoinMode;
 import io.vertx.up.commune.Envelop;
+import io.vertx.up.eon.KName;
 import io.vertx.up.exception.WebException;
 import io.vertx.up.exception.web._500InternalServerException;
 import io.vertx.up.fn.Fn;
@@ -26,6 +27,7 @@ import java.util.function.BiFunction;
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 public class IxMod {
+    private final transient JsonObject parameters = new JsonObject();
     private transient Envelop envelop;
     private transient KModule module;
     private transient KModule connect;
@@ -63,6 +65,10 @@ public class IxMod {
         return this.envelop.user();
     }
 
+    public JsonObject parameters() {
+        return this.parameters.copy();
+    }
+
     // --------------- Metadata ----------------------
     public KModule module() {
         return this.module;
@@ -84,12 +90,21 @@ public class IxMod {
     // --------------- Bind ----------------------
     public IxMod bind(final Envelop envelop) {
         this.envelop = envelop;
+        final JsonObject headers = envelop.headersX();
+        this.parameters.mergeIn(headers, true);
         return this;
     }
 
     public IxMod connecting(final Object input) {
         if (Objects.isNull(input)) {
             return null;
+        }
+        /*
+         * This statement must execute before connect checking to avoid
+         * Returned
+         */
+        if (input instanceof String) {
+            this.parameters.put(KName.MODULE, (String) input);
         }
         /*
          * 1. When ADD / UPDATE
@@ -115,7 +130,8 @@ public class IxMod {
             /*
              * Connected by `module` parameters
              */
-            target = connect.point((String) input);
+            final String module = (String) input;
+            target = connect.point(module);
         } else if (input instanceof JsonObject) {
             /*
              * Connected by `JsonObject` parameters
@@ -234,6 +250,17 @@ public class IxMod {
         final JsonObject condJoin = new JsonObject();
         connect.dataCond(active, point, condJoin);
         return condJoin;
+    }
+
+    public JsonObject dataCond(final JsonArray active) {
+        final JsonObject condition = new JsonObject();
+        Ut.itJArray(active, (item, index) -> {
+            final JsonObject condEach = this.dataCond(item);
+            if (Ut.notNil(condEach)) {
+                condition.put("$" + index, condEach);
+            }
+        });
+        return condition;
     }
 
     @SafeVarargs
