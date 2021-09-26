@@ -8,9 +8,12 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
+import io.vertx.up.eon.KName;
 import io.vertx.up.util.Ut;
 
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -179,6 +182,19 @@ public class KField implements Serializable {
 
     public Set<String> fieldObject() {
         return Ut.toSet(this.object);
+    }
+
+    public Set<String> fieldAudit() {
+        final Set<String> set = new HashSet<>();
+        final JsonObject created = Ut.sureJObject(this.created);
+        if (Objects.nonNull(created.getValue(KName.BY))) {
+            set.add(created.getString(KName.BY));
+        }
+        final JsonObject updated = Ut.sureJObject(this.updated);
+        if (Objects.nonNull(updated.getValue(KName.BY))) {
+            set.add(updated.getString(KName.BY));
+        }
+        return set;
     }
 
     @Override

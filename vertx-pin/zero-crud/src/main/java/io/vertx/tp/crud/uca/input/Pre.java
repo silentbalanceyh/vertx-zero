@@ -67,10 +67,14 @@ public interface Pre {
 
     static Pre auditor(final boolean created) {
         if (created) {
-            return Fn.poolThread(Pooled.PRE_MAP, CreatePre::new, CreatePre.class.getName());
+            return Fn.poolThread(Pooled.PRE_MAP, AdCreatePre::new, AdCreatePre.class.getName());
         } else {
-            return Fn.poolThread(Pooled.PRE_MAP, UpdatePre::new, UpdatePre.class.getName());
+            return Fn.poolThread(Pooled.PRE_MAP, AdUpdatePre::new, AdUpdatePre.class.getName());
         }
+    }
+
+    static Pre auditorBy() {
+        return Fn.poolThread(Pooled.PRE_MAP, AdExportPre::new, AdExportPre.class.getName());
     }
 
     static Pre fabric(final boolean isFrom) {
