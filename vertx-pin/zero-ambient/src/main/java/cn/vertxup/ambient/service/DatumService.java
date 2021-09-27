@@ -27,8 +27,18 @@ public class DatumService implements DatumStub {
     }
 
     @Override
-    public Future<JsonArray> categories(final String appId, final String type) {
-        return this.fetchArray(XCategoryDao.class, At.filters(appId, type, null));
+    public Future<JsonArray> categories(final String appId, final String type, final Boolean includeLeaf) {
+        /*
+         * For category of tree mode, here are some spec code logical
+         * when
+         * 1. includeLeaf = true ( Default ): Fetch all
+         * 2. includeLeaf = false: Filtered leaf node
+         */
+        final JsonObject filters = At.filters(appId, type, null);
+        if (Objects.nonNull(includeLeaf) && !includeLeaf) {
+            filters.put("leaf", Boolean.FALSE);
+        }
+        return this.fetchArray(XCategoryDao.class, filters);
     }
 
     @Override

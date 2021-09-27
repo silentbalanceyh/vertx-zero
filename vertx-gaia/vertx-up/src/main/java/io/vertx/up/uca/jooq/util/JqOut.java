@@ -140,10 +140,9 @@ public class JqOut {
                 .map(field -> (String) field)
                 .map(field -> mojo.getIn().get(field))
                 .forEach(filters::add);
-        } else {
-            /* No Pojo file */
-            filters.addAll(projection.getList());
         }
+        /* No Pojo file, No transform needed */
+        filters.addAll(projection.getList());
         return filters;
     }
 }
