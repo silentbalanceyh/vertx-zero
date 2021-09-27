@@ -16,7 +16,7 @@ public interface DatumStub {
 
     Future<JsonArray> categories(String appId, JsonArray types);
 
-    Future<JsonArray> categories(String appId, String type);
+    Future<JsonArray> categories(String appId, String type, Boolean includeLeaf);
 
     Future<JsonArray> categoriesBySigma(String sigma, String type);
 

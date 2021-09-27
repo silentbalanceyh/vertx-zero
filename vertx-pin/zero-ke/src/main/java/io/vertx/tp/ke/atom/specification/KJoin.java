@@ -126,6 +126,21 @@ public class KJoin implements Serializable {
         });
     }
 
+    public void dataCond(final JsonObject ds, final KPoint target, final JsonObject data) {
+        this.dataRun(target, (source) -> {
+            String joinedValue = ds.getString(source.getKey());
+            if (Ut.isNil(joinedValue)) {
+                /*
+                 * Here has no `key` defined in ds, synced by `keyJoin` directly
+                 */
+                joinedValue = ds.getString(target.getKeyJoin());
+            }
+            if (Ut.notNil(joinedValue)) {
+                data.put(target.getKeyJoin(), joinedValue);
+            }
+        });
+    }
+
     /**
      * keyJoin -> key
      */
@@ -135,13 +150,6 @@ public class KJoin implements Serializable {
             if (Ut.notNil(joinedValue)) {
                 data.put(source.getKey(), joinedValue);
             }
-        });
-    }
-
-    public void dataCond(final JsonObject ds, final KPoint target, final JsonObject filters) {
-        this.dataRun(target, (source) -> {
-            final String fieldJoin = target.getKeyJoin();
-            filters.put(fieldJoin, ds.getValue(fieldJoin));
         });
     }
 

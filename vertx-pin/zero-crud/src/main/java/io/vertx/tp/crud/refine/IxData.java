@@ -8,7 +8,6 @@ import io.vertx.tp.crud.uca.desk.IxMod;
 import io.vertx.tp.ke.atom.specification.KField;
 import io.vertx.tp.ke.atom.specification.KModule;
 import io.vertx.up.atom.Kv;
-import io.vertx.up.commune.Envelop;
 import io.vertx.up.eon.Constants;
 import io.vertx.up.eon.KName;
 import io.vertx.up.log.Annal;
@@ -97,11 +96,15 @@ class IxData {
 
     static JsonObject parameters(final IxMod in) {
         /*
-         * module
+         * module seeking
+         * 1. Checking connect module to see whether it's defined in crud configuration
+         * 2. When it's null, ( Half Processing )
+         *      -- Check the `module` parameters first
+         * 3. The last part is current `module` identifier ( such as `tabular` )
          */
-        final JsonObject parameters = new JsonObject();
-        final KModule module = in.module();
-        {
+        final JsonObject parameters = in.parameters();
+        if (!parameters.containsKey(KName.MODULE)) {
+            final KModule module = in.module();
             final KModule connect = in.connect();
             if (Objects.isNull(connect)) {
                 parameters.put(KName.MODULE, module.getIdentifier());
@@ -109,15 +112,6 @@ class IxData {
                 parameters.put(KName.MODULE, connect.getIdentifier());
             }
         }
-        /*
-         * sigma
-         * language
-         * appId
-         * appKey
-         */
-        final Envelop envelop = in.envelop();
-        final JsonObject headers = envelop.headersX();
-        parameters.mergeIn(headers, true);
         return parameters;
     }
 }

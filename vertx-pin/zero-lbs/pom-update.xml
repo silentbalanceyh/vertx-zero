@@ -27,7 +27,7 @@
         <!-- hazelcast version: 3.x -->
         <rule groupId="com.hazelcast" comparisonMethod="maven">
             <ignoreVersions>
-                <ignoreVersion type="regex">4.*</ignoreVersion>
+                <ignoreVersion type="regex">(4.*|5.*)</ignoreVersion>
             </ignoreVersions>
         </rule>
 

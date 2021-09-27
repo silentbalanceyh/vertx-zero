@@ -3,6 +3,7 @@ package io.vertx.tp.crud.uca.op;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.crud.init.IxPin;
+import io.vertx.tp.crud.refine.Ix;
 import io.vertx.tp.crud.uca.desk.IxKit;
 import io.vertx.tp.crud.uca.desk.IxMod;
 import io.vertx.tp.crud.uca.tran.Co;
@@ -27,7 +28,7 @@ class AgonicByID implements Agonic {
             }
             // For Format Beauty
             final KModule module = in.module();
-            final JsonObject active = Ux.toJson(entity, module.getPojo());
+            final JsonObject active = Ix.serializeJ(entity, module);
             // Try to connecting
             final IxMod connect = in.connecting(active);
             if (Objects.isNull(connect)) {

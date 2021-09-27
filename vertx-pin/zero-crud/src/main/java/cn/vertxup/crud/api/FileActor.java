@@ -87,6 +87,7 @@ public class FileActor {
                 /* Dict Transfer to Export */
                 .compose(data -> Pre.fabric(false).inAAsync(data, request.active()))    /* Dict */
                 .compose(data -> Pre.tree(false).inAAsync(data, request.active()))      /* Tree */
+                .compose(data -> Pre.auditorBy().inAAsync(data, request.active()))      /* Auditor */
                 .compose(data -> Co.endE(columnList).ok(data, columns))
                 .compose(data -> {
                     /*

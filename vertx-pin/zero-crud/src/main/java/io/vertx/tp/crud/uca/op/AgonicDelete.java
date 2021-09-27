@@ -28,7 +28,7 @@ class AgonicDelete implements Agonic {
                 return IxKit.success204Pre(Boolean.TRUE);
             } else {
                 final KModule module = in.module();
-                final JsonObject json = Ux.toJson(entity, module.getPojo());
+                final JsonObject json = Ix.serializeJ(entity, module);
                 /* BackUp future */
                 return Ke.channelAsync(Trash.class, () -> Ux.future(json),
                         (stub) -> stub.backupAsync(module.getIdentifier(), json))
@@ -51,7 +51,7 @@ class AgonicDelete implements Agonic {
                 return Ux.futureA();
             } else {
                 final KModule module = in.module();
-                final JsonArray array = Ux.toJson(queried, module.getPojo());
+                final JsonArray array = Ix.serializeA(queried, module);
                 /* BackUp future */
                 return Ke.channelAsync(Trash.class, () -> Ux.future(array),
                         stub -> stub.backupAsync(module.getIdentifier(), array))

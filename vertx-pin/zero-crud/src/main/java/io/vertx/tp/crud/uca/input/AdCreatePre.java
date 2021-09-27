@@ -17,7 +17,7 @@ import java.util.Objects;
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-class CreatePre implements Pre {
+class AdCreatePre implements Pre {
     @Override
     public Future<JsonObject> inJAsync(final JsonObject data, final IxMod in) {
         /* UserId */

@@ -17,7 +17,7 @@ class IxSerialize {
 
     private static final Annal LOGGER = Annal.get(IxSerialize.class);
 
-    static JsonObject serializeJ(final JsonObject data, final KModule config) {
+    private static void serializeInternal(final JsonObject data, final KModule config) {
         /*
          * Deserialize First
          */
@@ -25,15 +25,31 @@ class IxSerialize {
         final KField field = config.getField();
         field.fieldObject().forEach(each -> Ut.ifJObject(data, each));
         field.fieldArray().forEach(each -> Ut.ifJObject(data, each));
-        return data;
     }
 
-    static JsonArray serializeA(final JsonArray data, final KModule config) {
-        if (Ut.isNil(data)) {
+    static <T> JsonObject serializeJ(final T input, final KModule module) {
+        final JsonObject serializedJ;
+        if (input instanceof JsonObject) {
+            serializedJ = (JsonObject) input;
+        } else {
+            serializedJ = Ux.toJson(input, module.getPojo());
+        }
+        serializeInternal(serializedJ, module);
+        return serializedJ;
+    }
+
+    static <T> JsonArray serializeA(final List<T> input, final KModule module) {
+        if (Objects.isNull(input)) {
             return new JsonArray();
         } else {
-            Ut.itJArray(data).forEach(refJson -> serializeJ(refJson, config));
-            return data;
+            final JsonArray serializedA;
+            if (input instanceof JsonArray) {
+                serializedA = (JsonArray) input;
+            } else {
+                serializedA = Ux.toJson(input, module.getPojo());
+            }
+            Ut.itJArray(serializedA).forEach(refJson -> serializeInternal(refJson, module));
+            return serializedA;
         }
     }
 

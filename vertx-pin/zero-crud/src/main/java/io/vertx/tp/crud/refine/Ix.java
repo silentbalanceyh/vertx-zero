@@ -114,8 +114,12 @@ public class Ix {
         return Ux.future(IxSerialize.deserializeT(data, config));
     }
 
-    public static void serializeJ(final JsonObject data, final KModule config) {
-        Ux.future(IxSerialize.serializeJ(data, config));
+    public static <T> JsonObject serializeJ(final T input, final KModule config) {
+        return IxSerialize.serializeJ(input, config);
+    }
+
+    public static <T> JsonArray serializeA(final List<T> input, final KModule config) {
+        return IxSerialize.serializeA(input, config);
     }
 
     // --------------------------------- Logger Part
