@@ -2,10 +2,14 @@ package io.vertx.tp.modular.jooq;
 
 import io.vertx.core.Future;
 import io.vertx.tp.atom.modeling.data.DataEvent;
+import io.vertx.tp.atom.modeling.element.DataMatrix;
 import io.vertx.tp.modular.jooq.internal.Jq;
-import org.jooq.Condition;
-import org.jooq.DSLContext;
-import org.jooq.DeleteWhereStep;
+import io.vertx.up.unity.Ux;
+import org.jooq.*;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * Jooq中的Delete处理
@@ -20,40 +24,42 @@ class JQDelete extends AbstractJQCrud {
     DataEvent delete(final DataEvent event) {
         return this.write(event, (table, matrix) -> {
             /* 执行单表删除功能 */
-            final DeleteWhereStep query = this.context.deleteFrom(Jq.toTable(table));
-            final Condition condition = Jq.inWhere(matrix);
-            query.where(condition);
+            final DeleteWhereStep query = this.stepDelete(table, matrix);
             return query.execute();
         }, null);
     }
 
     Future<DataEvent> deleteAsync(final DataEvent event) {
         return this.writeAsync(event, (table, matrix) -> {
-            final DeleteWhereStep query = this.context.deleteFrom(Jq.toTable(table));
-            final Condition condition = Jq.inWhere(matrix);
-            query.where(condition);
+            final DeleteWhereStep query = this.stepDelete(table, matrix);
             return query.executeAsync();
         }, null);
     }
 
     DataEvent deleteBatch(final DataEvent event) {
         return this.<Integer>writeBatch(event, (table, matrix) -> {
-            /* 执行单表删除功能 */
-            final DeleteWhereStep query = this.context.deleteFrom(Jq.toTable(table));
-            final Condition condition = Jq.inWhere(matrix);
-            query.where(condition);
-            /* 执行结果 */
-            final int ret = query.execute();
-            return new Integer[]{ret};
+            final Batch batch = this.prepareBatch(table, matrix);
+            final List<Integer> result = new ArrayList<>();
+            Arrays.stream(batch.execute()).forEach(result::add);
+            return result.toArray(new Integer[]{});
         }, null);
     }
 
     Future<DataEvent> deleteBatchAsync(final DataEvent event) {
-        return this.<Integer>writeAsync(event, (table, matrix) -> {
-            final DeleteWhereStep query = this.context.deleteFrom(Jq.toTable(table));
-            final Condition condition = Jq.inWhere(matrix);
-            query.where(condition);
-            return query.executeAsync();
-        }, null);
+        return Ux.future(this.deleteBatch(event));
+    }
+
+    private Batch prepareBatch(final String table, final List<DataMatrix> matrices) {
+        final List<Query> batchOps = new ArrayList<>();
+        matrices.stream().map(matrix -> this.stepDelete(table, matrix)).forEach(batchOps::add);
+        return this.context.batch(batchOps);
+    }
+
+    private DeleteWhereStep stepDelete(final String table, final DataMatrix matrix) {
+        final DeleteWhereStep query = this.context.deleteFrom(Jq.toTable(table));
+        final Condition condition = Jq.inWhere(matrix);
+        query.where(condition);
+        /* Batch */
+        return query;
     }
 }
