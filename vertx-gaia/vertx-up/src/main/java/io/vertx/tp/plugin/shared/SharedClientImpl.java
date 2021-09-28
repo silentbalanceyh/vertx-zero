@@ -110,14 +110,14 @@ public class SharedClientImpl<K, V> implements SharedClient<K, V> {
     @Override
     public Kv<K, V> put(final K key, final V value, final int seconds) {
         Kv<K, V> result = this.put(key, value);
-        LOGGER.info(Info.INFO_TIMER_PUT, key, String.valueOf(seconds));
+        LOGGER.info(Info.INFO_TIMER_PUT, String.valueOf(key), String.valueOf(seconds));
         this.vertx.setTimer(seconds * 1000, id -> {
             final V existing = this.get(key);
             if (Objects.nonNull(existing)) {
-                LOGGER.info(Info.INFO_TIMER_EXPIRE, key);
+                LOGGER.info(Info.INFO_TIMER_EXPIRE, String.valueOf(key));
                 this.remove(key);
             } else {
-                LOGGER.info(Info.INFO_TIMER_REMOVED, key);
+                LOGGER.info(Info.INFO_TIMER_REMOVED, String.valueOf(key));
             }
         });
         return result;
@@ -150,7 +150,7 @@ public class SharedClientImpl<K, V> implements SharedClient<K, V> {
     public SharedClient<K, V> put(final K key, final V value, final int seconds,
                                   final Handler<AsyncResult<Kv<K, V>>> handler) {
         final SharedClient<K, V> reference = this.put(key, value, handler);
-        LOGGER.info(Info.INFO_TIMER_PUT, key, String.valueOf(seconds));
+        LOGGER.info(Info.INFO_TIMER_PUT, String.valueOf(key), String.valueOf(seconds));
         this.vertx.setTimer(seconds * 1000, id -> this.remove(key, res -> LOGGER.info(Info.INFO_TIMER_EXPIRE, key)));
         return reference;
     }
