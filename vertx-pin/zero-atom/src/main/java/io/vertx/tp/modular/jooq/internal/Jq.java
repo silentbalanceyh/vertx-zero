@@ -4,6 +4,7 @@ import io.vertx.tp.atom.modeling.element.DataMatrix;
 import io.vertx.tp.atom.modeling.element.DataRow;
 import io.vertx.up.eon.Values;
 import io.vertx.up.log.Annal;
+import org.jooq.Record;
 import org.jooq.*;
 
 import java.util.ArrayList;

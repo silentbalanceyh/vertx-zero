@@ -43,6 +43,7 @@ public interface Ingest {
     /*
      * 2. 排序条件解析
      */
+    @SuppressWarnings("all")
     default List<OrderField> onOrder(final DataTpl tpl,
                                      final Sorter sorter) {
         Fn.outWeb(true, _501IngestImplementException.class, this.getClass());
@@ -68,6 +69,7 @@ public interface Ingest {
         return null;
     }
 
+    @SuppressWarnings("all")
     default List<OrderField> onOrder(final DataTpl tpl,
                                      final Sorter sorter,
                                      final ConcurrentMap<String, String> aliasMap) {

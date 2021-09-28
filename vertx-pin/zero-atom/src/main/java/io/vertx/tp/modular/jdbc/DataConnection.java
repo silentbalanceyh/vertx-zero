@@ -9,6 +9,7 @@ import io.vertx.up.eon.Values;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import io.vertx.up.util.Ut;
+import org.jooq.Record;
 import org.jooq.*;
 
 import javax.sql.DataSource;

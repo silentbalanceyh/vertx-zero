@@ -205,7 +205,7 @@
         <maven.plugin.protobuf>0.6.1</maven.plugin.protobuf>
         <maven.plugin.os>1.5.0.Final</maven.plugin.os>
         <maven.plugin.antrun>3.0.0</maven.plugin.antrun>
-        <maven.plugin.aspectj>1.11</maven.plugin.aspectj>
+        <maven.plugin.aspectj>1.14.0</maven.plugin.aspectj>
         <maven.plugin.jcabi>0.14.1</maven.plugin.jcabi>
         <maven.plugin.jar>3.2.0</maven.plugin.jar>
     </properties>
