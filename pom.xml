@@ -63,7 +63,7 @@
 
         <!-- Java Projection Basic Configuration -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <java.version>1.8</java.version>
+        <java.version>11</java.version>
         <encoding>UTF-8</encoding>
 
         <!-- Vertx Framework Version -->
@@ -165,6 +165,7 @@
         <jsr305.version>3.0.2</jsr305.version>
         <jsr340.version>4.0.1</jsr340.version>
         <jsr338.version>2.2</jsr338.version>
+        <jaxb.version>2.4.0-b180830.0359</jaxb.version>
 
         <!-- Testing -->
         <junit.version>4.13.2</junit.version>
@@ -799,6 +800,12 @@
                 <groupId>javax.validation</groupId>
                 <artifactId>validation-api</artifactId>
                 <version>${jsr303.version}</version>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/javax.xml.bind/jaxb-api -->
+            <dependency>
+                <groupId>javax.xml.bind</groupId>
+                <artifactId>jaxb-api</artifactId>
+                <version>${jaxb.version}</version>
             </dependency>
             <!-- https://mvnrepository.com/artifact/org.hibernate.validator/hibernate-validator -->
             <dependency>
@@ -1545,6 +1552,10 @@
                 <plugin>
                     <artifactId>maven-compiler-plugin</artifactId>
                     <version>${maven.plugin.compiler}</version>
+                    <configuration>
+                        <source>${java.version}</source>
+                        <target>${java.version}</target>
+                    </configuration>
                 </plugin>
                 <!-- http://www.mvnrepository.com/artifact/org.apache.maven.plugins/maven-surefire-plugin -->
                 <plugin>

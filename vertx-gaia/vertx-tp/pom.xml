@@ -33,7 +33,10 @@
             <groupId>org.jooq</groupId>
             <artifactId>jooq</artifactId>
         </dependency>
-
+        <dependency>
+            <groupId>javax.xml.bind</groupId>
+            <artifactId>jaxb-api</artifactId>
+        </dependency>
         <!-- Health Checking -->
         <dependency>
             <groupId>io.vertx</groupId>

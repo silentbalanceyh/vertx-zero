@@ -33,9 +33,22 @@ final class Invoker {
             }
             Object result;
             try {
-                final Method method = clazz.getMethod(name, types.toArray(new Class<?>[]{}));
-                result = method.invoke(instance, args);
+                final Class<?>[] arguments = types.toArray(new Class<?>[]{});
+                final Method[] methods = clazz.getMethods();
+                Method method = null;
+                for (final Method hit : methods) {
+                    if (isMatch(hit, name, arguments)) {
+                        method = hit;
+                        break;
+                    }
+                }
+                if (Objects.isNull(method)) {
+                    result = null;
+                } else {
+                    result = method.invoke(instance, args);
+                }
             } catch (final Throwable ex) {
+                ex.printStackTrace();
                 // Could not call, re-find the method by index
                 // Search method by argument index because could not call directly
                 result = null;
@@ -134,5 +147,37 @@ final class Invoker {
 
     private static boolean isEqualAnd(final Class<?> clazz, final Class<?> interfaceCls) {
         return clazz == interfaceCls || Instance.isMatch(clazz, interfaceCls);
+    }
+
+    private static boolean isMatch(final Method method, final String name, final Class<?>[] arguments) {
+        if (!name.equals(method.getName())) {
+            // Name not match
+            return false;
+        }
+        final Class<?>[] parameters = method.getParameterTypes();
+        if (arguments.length != parameters.length) {
+            // Argument length not match
+            return false;
+        }
+        boolean allMatch = true;
+        for (int idx = 0; idx < parameters.length; idx++) {
+            final Class<?> parameter = Ut.toPrimary(parameters[idx]);
+            final Class<?> argument = Ut.toPrimary(arguments[idx]);
+            // First situation equal
+            if (!isMatch(parameter, argument)) {
+                allMatch = false;
+                break;
+            }
+        }
+        return allMatch;
+    }
+
+    private static boolean isMatch(final Class<?> parameterIdx, final Class<?> argumentIdx) {
+        final Class<?> parameter = Ut.toPrimary(parameterIdx);
+        final Class<?> argument = Ut.toPrimary(argumentIdx);
+        if (argument == parameter) {
+            return true;
+        }
+        return parameter.isAssignableFrom(argument);
     }
 }
