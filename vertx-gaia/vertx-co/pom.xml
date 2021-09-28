@@ -51,11 +51,6 @@
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
         </dependency>
-        <!-- Third Part -->
-        <dependency>
-            <groupId>com.esotericsoftware</groupId>
-            <artifactId>reflectasm</artifactId>
-        </dependency>
         <!-- Jsr 330 -->
         <dependency>
             <groupId>javax.inject</groupId>

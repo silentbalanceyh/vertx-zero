@@ -8,8 +8,11 @@ import io.vertx.up.log.Annal;
 import io.vertx.up.runtime.pkg.PackHunter;
 import io.vertx.up.runtime.pkg.PackThread;
 
+import java.lang.reflect.Modifier;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 /**
  * ZeroPack the package to extract classes.
@@ -46,7 +49,20 @@ public final class ZeroPack {
              * 1) Current project classes
              * 2) For zero extension module, we also should add dependency classes into result.
              */
-            CLASSES.addAll(multiClasses(packageDirs.toArray(new String[]{})));
+            final Predicate<Class<?>> pkgSure = clazz -> {
+                final Package pkg = clazz.getPackage();
+                return packageDirs.stream().anyMatch(each -> pkg.getName().startsWith(each));
+            };
+            final Set<Class<?>> scanned = multiClasses(packageDirs.toArray(new String[]{}));
+            CLASSES.addAll(scanned.stream()
+                .filter(type -> !type.isAnonymousClass())                   // Ko Anonymous
+                .filter(type -> !type.isAnnotation())                       // Ko Annotation
+                .filter(type -> Modifier.isPublic(type.getModifiers()))     // Ko non-public
+                // .filter(type -> !Modifier.isAbstract(type.getModifiers()))  // Because interface is abstract
+                .filter(type -> !Modifier.isStatic(type.getModifiers()))    // Ko Static
+                .filter(type -> !Throwable.class.isAssignableFrom(type))    // Ko Exception
+                .filter(pkgSure)
+                .collect(Collectors.toSet()));
             LOGGER.info(Info.CLASSES, String.valueOf(CLASSES.size()));
             /*
              * Debug in file

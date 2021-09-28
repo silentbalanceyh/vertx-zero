@@ -1,6 +1,5 @@
 package io.vertx.up.util;
 
-import com.esotericsoftware.reflectasm.MethodAccess;
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Future;
 import io.vertx.core.Handler;
@@ -26,24 +25,22 @@ final class Invoker {
         final String name,
         final Object... args) {
         return Fn.getNull(() -> {
-            final MethodAccess access = MethodAccess.get(instance.getClass());
             // Direct invoke, multi overwrite for unbox/box issue still existing.
+            final Class<?> clazz = instance.getClass();
+            final List<Class<?>> types = new ArrayList<>();
+            for (final Object arg : args) {
+                types.add(Ut.toPrimary(arg.getClass()));
+            }
             Object result;
             try {
-                result = access.invoke(instance, name, args);
+                final Method method = clazz.getMethod(name, types.toArray(new Class<?>[]{}));
+                result = method.invoke(instance, args);
             } catch (final Throwable ex) {
                 // Could not call, re-find the method by index
                 // Search method by argument index because could not call directly
-                final int index;
-                final List<Class<?>> types = new ArrayList<>();
-                for (final Object arg : args) {
-                    types.add(Ut.toPrimary(arg.getClass()));
-                }
-                index = access.getIndex(name, types.toArray(new Class<?>[]{}));
-                result = access.invoke(instance, index, args);
+                result = null;
             }
-            final Object ret = result;
-            return Fn.getNull(() -> (T) ret, ret);
+            return (T) result;
         }, instance, name);
     }
 

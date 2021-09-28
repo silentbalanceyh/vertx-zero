@@ -1,6 +1,5 @@
 package io.vertx.up.util;
 
-import com.esotericsoftware.reflectasm.ConstructorAccess;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.eon.Values;
 import io.vertx.up.exception.zero.DuplicatedImplException;
@@ -241,8 +240,19 @@ final class Instance {
     private static <T> T construct(final Class<T> clazz) {
         return Fn.getJvm(() -> {
             // Reflect Asm
-            final ConstructorAccess<T> access = ConstructorAccess.get(clazz);
-            return access.newInstance();
+            final Constructor<?>[] constructors = clazz.getDeclaredConstructors();
+            final Constructor<?> constructor = Arrays.stream(constructors)
+                .filter(item -> 0 == item.getParameterCount())
+                .findAny().orElse(null);
+            final T reference;
+            if (Objects.nonNull(constructor)) {
+                reference = (T) constructor.newInstance();
+            } else {
+                reference = null;
+            }
+            return reference;
+            // final ConstructorAccess<T> access = ConstructorAccess.get(clazz);
+            // return access.newInstance();
         }, clazz);
     }
 }
