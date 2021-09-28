@@ -13,7 +13,7 @@ interface Pool {
     ConcurrentMap<DatabaseType, SQLDialect> DIALECT
         = new ConcurrentHashMap<DatabaseType, SQLDialect>() {
         {
-            this.put(DatabaseType.MYSQL5, SQLDialect.MYSQL_5_7);
+            this.put(DatabaseType.MYSQL5, SQLDialect.MYSQL);
             this.put(DatabaseType.ORACLE12, SQLDialect.DEFAULT);
         }
     };

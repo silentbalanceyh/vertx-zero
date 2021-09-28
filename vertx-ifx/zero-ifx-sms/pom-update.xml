@@ -17,12 +17,6 @@
         <ignoreVersion type="regex">.*-BETA-\d*</ignoreVersion>
     </ignoreVersions>
     <rules>
-        <!-- vertx jooq fixed version: 2.x -->
-        <rule groupId="io.github.jklingsporn" comparisonMethod="maven">
-            <ignoreVersions>
-                <ignoreVersion type="regex">(3|4|5|6).*</ignoreVersion>
-            </ignoreVersions>
-        </rule>
 
         <!-- hazelcast version: 3.x -->
         <rule groupId="com.hazelcast" comparisonMethod="maven">
@@ -49,13 +43,6 @@
         <rule groupId="org.liquibase" comparisonMethod="maven">
             <ignoreVersions>
                 <ignoreVersion type="regex">4.*</ignoreVersion>
-            </ignoreVersions>
-        </rule>
-
-        <!-- -->
-        <rule groupId="com.zaxxer" comparisonMethod="maven">
-            <ignoreVersions>
-                <ignoreVersion type="regex">5.*</ignoreVersion>
             </ignoreVersions>
         </rule>
 

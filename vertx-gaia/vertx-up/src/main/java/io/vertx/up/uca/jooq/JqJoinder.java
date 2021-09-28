@@ -212,7 +212,11 @@ class JqJoinder {
                 this::getColumn, this::getTable);
             started.where(condition);
         }
-        return Long.valueOf(started.fetchCount());
+        /*
+         * Old version
+         * started.fetchCount()
+         */
+        return Long.valueOf(context.fetchCount(started));
     }
 
     JsonArray searchArray(final Qr qr, final Mojo mojo) {

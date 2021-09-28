@@ -70,10 +70,7 @@ public class DeployRotate implements Rotate {
     public DeploymentOptions spinAgent(final Class<?> clazz) {
         /* @Agent */
         final Annotation annotation = clazz.getDeclaredAnnotation(Agent.class);
-        final DeploymentOptions options = this.spinOpts(annotation);
-
-        /* Clazz Deployment Options */
-        this.spinConfig(clazz, options);
+        final DeploymentOptions options = this.spinOpt(clazz, annotation);
 
         /* Worker = false */
         options.setWorker(false);
@@ -93,10 +90,7 @@ public class DeployRotate implements Rotate {
     public DeploymentOptions spinWorker(final Class<?> clazz) {
         /* @Agent */
         final Annotation annotation = clazz.getDeclaredAnnotation(Worker.class);
-        final DeploymentOptions options = this.spinOpts(annotation);
-
-        /* Clazz Deployment Options */
-        this.spinConfig(clazz, options);
+        final DeploymentOptions options = this.spinOpt(clazz, annotation);
 
         /* Worker = false */
         options.setWorker(true);
@@ -105,33 +99,27 @@ public class DeployRotate implements Rotate {
         return options;
     }
 
-    private void spinConfig(final Class<?> clazz, final DeploymentOptions options) {
-        /* Empty checking */
+    private DeploymentOptions spinOpt(final Class<?> clazz, final Annotation annotation) {
+        final DeploymentOptions options;
         if (!OPTIONS.isEmpty()) {
             /* JsonObject here for deployment options */
             final JsonObject configOpts = OPTIONS.getOrDefault(clazz, new JsonObject());
-            /* Old configuration */
-            final JsonObject codeOpts = options.toJson();
-            /* Updated */
-            codeOpts.mergeIn(configOpts, true);
-            options.fromJson(codeOpts);
             /* BUG: workerPoolSize is not in fromJson */
+            options = new DeploymentOptions(configOpts);
             if (configOpts.containsKey("workerPoolSize")) {
                 options.setWorkerPoolSize(configOpts.getInteger("workerPoolSize"));
             }
+        } else {
+            options = new DeploymentOptions();
         }
-    }
-
-    private DeploymentOptions spinOpts(final Annotation annotation) {
         // 1. Instance
         final int instances = Ut.invoke(annotation, Key.INSTANCES);
         final boolean ha = Ut.invoke(annotation, Key.HA);
         final String group = Ut.invoke(annotation, Key.GROUP);
         // 2. Record Log information
-        final DeploymentOptions options = new DeploymentOptions();
         options.setHa(ha);
         options.setInstances(instances);
-        options.setIsolationGroup(group);
+        // deprecated: options.setIsolationGroup(group);
         return options;
     }
 }

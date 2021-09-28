@@ -19,7 +19,6 @@
         <module>zero-ifx-history</module>
         <module>zero-ifx-iqiy</module>
         <module>zero-ifx-mongo</module>
-        <module>zero-ifx-native</module>
         <module>zero-ifx-neo4j</module>
         <module>zero-ifx-redis</module>
         <module>zero-ifx-sms</module>
