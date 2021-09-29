@@ -56,6 +56,9 @@ class ActionInsert extends AbstractAction {
     /* List<T> */
     <T> List<T> insert(final List<T> list) {
         Objects.requireNonNull(list);
+        if (list.isEmpty()) {
+            return list;
+        }
         final List<T> inserted = this.uuid(list);
         InsertSetStep insertStep = this.context().insertInto(this.analyzer.table());
         InsertValuesStepN insertValuesStepN = null;

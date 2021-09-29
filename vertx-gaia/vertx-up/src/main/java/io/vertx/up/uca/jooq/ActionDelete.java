@@ -51,6 +51,9 @@ class ActionDelete extends AbstractAction {
     /* List<T> */
     <T> List<T> delete(final List<T> entity) {
         Objects.requireNonNull(entity);
+        if (entity.isEmpty()) {
+            return entity;
+        }
         final List<Query> batchOps = new ArrayList<>();
         entity.stream().map(item -> {
             final Condition condition = this.analyzer.conditionUk(item);
@@ -67,6 +70,9 @@ class ActionDelete extends AbstractAction {
 
     <T, ID> Boolean deleteById(final Collection<ID> ids) {
         Objects.requireNonNull(ids);
+        if (ids.isEmpty()) {
+            return Boolean.TRUE;
+        }
         final List<Query> batchOps = new ArrayList<>();
         ids.stream().map(id -> {
             final Condition condition = this.analyzer.conditionId(id);

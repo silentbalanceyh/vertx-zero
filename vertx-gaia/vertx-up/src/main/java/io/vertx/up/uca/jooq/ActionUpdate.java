@@ -53,6 +53,9 @@ class ActionUpdate extends AbstractAction {
     /* T */
     <T> List<T> update(final List<T> list) {
         Objects.requireNonNull(list);
+        if (list.isEmpty()) {
+            return list;
+        }
         final List<Query> batchOps = new ArrayList<>();
         list.stream().map(this::editRecord).forEach(batchOps::add);
         final int rows[] = this.context().batch(batchOps).execute();
