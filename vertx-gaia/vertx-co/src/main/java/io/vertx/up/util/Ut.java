@@ -6,6 +6,7 @@ import io.vertx.config.ConfigStoreOptions;
 import io.vertx.core.Future;
 import io.vertx.core.MultiMap;
 import io.vertx.core.buffer.Buffer;
+import io.vertx.core.http.HttpMethod;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.commune.Record;
@@ -1254,6 +1255,22 @@ public final class Ut {
 
     public static <T extends Enum<T>> T toEnum(final Supplier<String> supplier, final Class<T> type, final T defaultEnum) {
         return To.toEnum(supplier, type, defaultEnum);
+    }
+
+    public static HttpMethod toMethod(final Supplier<String> supplier, final HttpMethod defaultValue) {
+        return To.toMethod(supplier, defaultValue);
+    }
+
+    public static HttpMethod toMethod(final Supplier<String> supplier) {
+        return To.toMethod(supplier, HttpMethod.GET);
+    }
+
+    public static HttpMethod toMethod(final String value, final HttpMethod defaultValue) {
+        return To.toMethod(() -> value, defaultValue);
+    }
+
+    public static HttpMethod toMethod(final String value) {
+        return To.toMethod(() -> value, HttpMethod.GET);
     }
 
     public static String toString(final Object reference) {

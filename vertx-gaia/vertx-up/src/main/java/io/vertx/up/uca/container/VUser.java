@@ -5,6 +5,7 @@ import io.vertx.core.Handler;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.auth.AuthProvider;
 import io.vertx.ext.auth.User;
+import io.vertx.ext.auth.authorization.Authorization;
 import io.vertx.up.log.Annal;
 
 /**
@@ -42,5 +43,15 @@ public class VUser implements User {
     public void setAuthProvider(
         final AuthProvider authProvider) {
         LOGGER.info(Info.VIRTUAL_USER, this.principal);
+    }
+
+    @Override
+    public JsonObject attributes() {
+        return null;
+    }
+
+    @Override
+    public User isAuthorized(final Authorization authorization, final Handler<AsyncResult<Boolean>> handler) {
+        return null;
     }
 }

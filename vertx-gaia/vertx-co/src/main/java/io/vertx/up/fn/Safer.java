@@ -9,8 +9,8 @@ import io.vertx.up.log.Annal;
  * Defend means swapper the exception part for specific statement.
  * Uniform to manage exception code flow.
  */
-final class Defend {
-    private Defend() {
+final class Safer {
+    private Safer() {
     }
 
     /**

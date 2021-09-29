@@ -4,9 +4,14 @@ import java.io.Serializable;
 import java.lang.reflect.Method;
 import java.util.Objects;
 
-public class Ostium implements Serializable {
-    /**
-     * Header parsing
+/**
+ *
+ */
+public class Against implements Serializable {
+    /*
+     * User defined header parsing code
+     * workflow, in this situation the auth flow should
+     * be defined instead of standard.
      */
     private Method header;
     /**
@@ -17,14 +22,6 @@ public class Ostium implements Serializable {
      * 403: Authorize method
      */
     private Method authorize;
-
-    public Method getHeader() {
-        return this.header;
-    }
-
-    public void setHeader(final Method header) {
-        this.header = header;
-    }
 
     public Method getAuthenticate() {
         return this.authenticate;
@@ -47,24 +44,29 @@ public class Ostium implements Serializable {
         if (this == o) {
             return true;
         }
-        if (!(o instanceof Ostium)) {
+        if (o == null || this.getClass() != o.getClass()) {
             return false;
         }
-        final Ostium ostium = (Ostium) o;
-        return Objects.equals(this.header, ostium.header) &&
-            Objects.equals(this.authenticate, ostium.authenticate) &&
-            Objects.equals(this.authorize, ostium.authorize);
+        final Against against = (Against) o;
+        return Objects.equals(this.header, against.header) && this.authenticate.equals(against.authenticate) && Objects.equals(this.authorize, against.authorize);
     }
 
     @Override
     public int hashCode() {
-
         return Objects.hash(this.header, this.authenticate, this.authorize);
+    }
+
+    public Method getHeader() {
+        return this.header;
+    }
+
+    public void setHeader(final Method header) {
+        this.header = header;
     }
 
     @Override
     public String toString() {
-        return "Ostium{" +
+        return "Against{" +
             "header=" + this.header +
             ", authenticate=" + this.authenticate +
             ", authorize=" + this.authorize +

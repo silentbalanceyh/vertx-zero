@@ -7,7 +7,6 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.up.atom.Ruler;
 import io.vertx.up.eon.Info;
 import io.vertx.up.exception.ZeroException;
-import io.vertx.up.exception.demon.ClusterConflictException;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import io.vertx.up.uca.marshal.ClusterStrada;
@@ -68,9 +67,9 @@ public class VertxVisitor implements NodeVisitor {
             // 2. Extract VertxOptions
             final VertxOptions options = this.transformer.transform(item);
             // 3. Check the configuration for cluster sync
-            Fn.outZero(clustered != options.isClustered(), LOGGER,
+/*            Fn.outZero(clustered != options.isClustered(), LOGGER,
                 ClusterConflictException.class,
-                this.getClass(), name, options.toString());
+                this.getClass(), name, options.toString());*/
             // 4. Put the options into map
             map.put(name, options);
         });

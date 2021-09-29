@@ -1,8 +1,9 @@
 package io.vertx.up.uca.rs.secure;
 
 import io.vertx.core.Vertx;
-import io.vertx.ext.web.handler.AuthHandler;
-import io.vertx.up.atom.secure.Cliff;
+import io.vertx.ext.web.handler.AuthenticationHandler;
+import io.vertx.ext.web.handler.AuthorizationHandler;
+import io.vertx.up.atom.secure.Aegis;
 
 /**
  * Security Module for dispatcher,
@@ -11,9 +12,18 @@ import io.vertx.up.atom.secure.Cliff;
 public interface Bolt {
 
     static Bolt get() {
-        return ShuntBolt.create();
+        return BoltBridge.create();
     }
 
-    AuthHandler mount(final Vertx vertx,
-                      final Cliff cliff);
+    /*
+     * Authentication
+     */
+    AuthenticationHandler authorize(final Vertx vertx,
+                                    final Aegis aegis);
+
+    /*
+     * Authorization
+     */
+    AuthorizationHandler access(final Vertx vertx,
+                                final Aegis aegis);
 }

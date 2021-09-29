@@ -129,19 +129,19 @@ public final class Fn {
     // ------ Jvm Safe
 
     public static void safeJvm(final JvmActuator actuator, final Annal logger) {
-        Defend.jvmVoid(actuator, logger);
+        Safer.jvmVoid(actuator, logger);
     }
 
     public static void safeJvm(final JvmActuator actuator) {
-        Defend.jvmVoid(actuator, null);
+        Safer.jvmVoid(actuator, null);
     }
 
     public static <T> T safeJvm(final JvmSupplier<T> supplier, final Annal logger) {
-        return Defend.jvmReturn(supplier, logger);
+        return Safer.jvmReturn(supplier, logger);
     }
 
     public static <T> T safeJvm(final JvmSupplier<T> supplier) {
-        return Defend.jvmReturn(supplier, null);
+        return Safer.jvmReturn(supplier, null);
     }
 
     public static <T> T getJvm(final JvmSupplier<T> supplier, final Object... input) {
@@ -154,11 +154,11 @@ public final class Fn {
 
     // ------ Zero Safe
     public static <T> T getZero(final ZeroSupplier<T> supplier, final Annal logger) {
-        return Defend.zeroReturn(supplier, logger);
+        return Safer.zeroReturn(supplier, logger);
     }
 
     public static void safeZero(final ZeroActuator actuator, final Annal logger) {
-        Defend.zeroVoid(actuator, logger);
+        Safer.zeroVoid(actuator, logger);
     }
 
     // ------ Null Safe
@@ -213,11 +213,11 @@ public final class Fn {
     }
 
     public static <T> T getSemi(final boolean condition, final Annal logger, final Supplier<T> tSupplier, final Supplier<T> fSupplier) {
-        return Defend.zeroReturn(() -> Semi.execZero(condition, tSupplier::get, fSupplier::get), logger);
+        return Safer.zeroReturn(() -> Semi.execZero(condition, tSupplier::get, fSupplier::get), logger);
     }
 
     public static <T> T getSemi(final boolean condition, final Annal logger, final Supplier<T> tSupplier) {
-        return Defend.zeroReturn(() -> Semi.execZero(condition, tSupplier::get, null), logger);
+        return Safer.zeroReturn(() -> Semi.execZero(condition, tSupplier::get, null), logger);
     }
 
     public static <T> T getSemi(final boolean condition, final ZeroSupplier<T> tSupplier, final ZeroSupplier<T> fSupplier) throws ZeroException {

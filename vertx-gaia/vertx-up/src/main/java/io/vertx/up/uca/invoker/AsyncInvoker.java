@@ -37,7 +37,8 @@ public class AsyncInvoker extends AbstractInvoker {
         if (Envelop.class == tCls) {
             // Input type is Envelop, input directly
             final Future<Envelop> result = Ut.invoke(proxy, method.getName(), envelop);
-            result.setHandler(item -> message.reply(item.result()));
+            result.onComplete(item -> message.reply(item.result()));
+            // result.setHandler(item -> message.reply(item.result()));
         } else {
             final Object returnValue = this.invokeInternal(proxy, method, envelop);
             if (null == returnValue) {
@@ -47,10 +48,12 @@ public class AsyncInvoker extends AbstractInvoker {
                     Not frequent usage of this branch
                 */
                 final Promise promise = Promise.promise();
-                promise.future().setHandler(Ux.handler(message));
+                // promise.future().setHandler(Ux.handler(message));
+                promise.future().onComplete(Ux.handler(message));
             } else {
                 final Future future = (Future) returnValue;
-                future.setHandler(Ux.handler(message));
+                future.onComplete(Ux.handler(message));
+                // future.setHandler(Ux.handler(message));
             }
         }
     }
@@ -77,7 +80,7 @@ public class AsyncInvoker extends AbstractInvoker {
                     .send(item))
                     .setHandler(Ux.handler(message)); */
             result.compose(this.nextEnvelop(vertx, method))
-                .setHandler(Ux.handler(message));
+                .onComplete(Ux.handler(message));
         } else {
             final Future future = this.invokeJson(proxy, method, envelop);
             /* replaced old code
@@ -88,7 +91,7 @@ public class AsyncInvoker extends AbstractInvoker {
                     .compose(item -> Future.succeededFuture(Ux.to(item)))
                     .setHandler(Ux.handler(message)); */
             future.compose(this.nextEnvelop(vertx, method))
-                .setHandler(Ux.handler(message));
+                .onComplete(Ux.handler(message));
         }
     }
 }

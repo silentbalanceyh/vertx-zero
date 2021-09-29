@@ -5,13 +5,13 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.tp.error.WallDuplicatedException;
 import io.vertx.tp.error.WallKeyMissingException;
 import io.vertx.up.annotations.Wall;
-import io.vertx.up.atom.secure.Cliff;
+import io.vertx.up.atom.secure.Aegis;
 import io.vertx.up.exception.zero.DynamicKeyMissingException;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import io.vertx.up.secure.Rampart;
-import io.vertx.up.secure.inquire.OstiumAuth;
-import io.vertx.up.secure.inquire.PhylumAuth;
+import io.vertx.up.secure.proof.AuthDefined;
+import io.vertx.up.secure.proof.AuthStandard;
 import io.vertx.up.uca.marshal.Transformer;
 import io.vertx.up.uca.yaml.Node;
 import io.vertx.up.uca.yaml.ZeroUniform;
@@ -19,7 +19,6 @@ import io.vertx.up.util.Ut;
 
 import java.lang.annotation.Annotation;
 import java.util.HashSet;
-import java.util.Objects;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.concurrent.ConcurrentHashMap;
@@ -29,7 +28,7 @@ import java.util.stream.Collectors;
 /**
  * This class is for @Wall of security here.
  */
-public class WallInquirer implements Inquirer<Set<Cliff>> {
+public class WallInquirer implements Inquirer<Set<Aegis>> {
 
     private static final Annal LOGGER = Annal.get(WallInquirer.class);
 
@@ -38,13 +37,13 @@ public class WallInquirer implements Inquirer<Set<Cliff>> {
 
     private static final String KEY = "secure";
 
-    private transient final Transformer<Cliff> transformer =
+    private transient final Transformer<Aegis> transformer =
         Ut.singleton(Rampart.class);
 
     @Override
-    public Set<Cliff> scan(final Set<Class<?>> walls) {
+    public Set<Aegis> scan(final Set<Class<?>> walls) {
         /* 1. Build result **/
-        final Set<Cliff> wallSet = new TreeSet<>();
+        final Set<Aegis> wallSet = new TreeSet<>();
         final Set<Class<?>> wallClses = walls.stream()
             .filter((item) -> item.isAnnotationPresent(Wall.class))
             .collect(Collectors.toSet());
@@ -54,40 +53,36 @@ public class WallInquirer implements Inquirer<Set<Cliff>> {
              * wallClses verification
              */
             final ConcurrentMap<String, Class<?>> keys = new ConcurrentHashMap<>();
-            final JsonObject config = verify(wallClses, keys);
+            final JsonObject config = this.verify(wallClses, keys);
             for (final String field : config.fieldNames()) {
                 // Difference key setting
                 final Class<?> cls = keys.get(field);
-                final Cliff cliff = transformer.transform(config.getJsonObject(field));
+                final Aegis aegis = this.transformer.transform(config.getJsonObject(field));
                 // Set Information from class
-                mountData(cliff, cls);
-                wallSet.add(cliff);
+                this.mountData(aegis, cls);
+                wallSet.add(aegis);
             }
         }
         /* 3. Transfer **/
         return wallSet;
     }
 
-    private void mountData(final Cliff cliff, final Class<?> clazz) {
+    private void mountData(final Aegis aegis, final Class<?> clazz) {
         /* Extract basic data **/
-        mountAnno(cliff, clazz);
+        final Annotation annotation = clazz.getAnnotation(Wall.class);
+        aegis.setOrder(Ut.invoke(annotation, "order"));
+        aegis.setPath(Ut.invoke(annotation, "path"));
+        aegis.setDefined(Ut.invoke(annotation, "define"));
         /* Proxy **/
-        if (cliff.isDefined()) {
+        if (aegis.isDefined()) {
             // Custom Workflow
-            OstiumAuth.create(clazz)
-                .verify().mount(cliff);
+            AuthDefined.create(clazz)
+                .verify().mount(aegis);
         } else {
             // Standard Workflow
-            PhylumAuth.create(clazz)
-                .verify().mount(cliff);
+            AuthStandard.create(clazz)
+                .verify().mount(aegis);
         }
-    }
-
-    private void mountAnno(final Cliff cliff, final Class<?> clazz) {
-        final Annotation annotation = clazz.getAnnotation(Wall.class);
-        cliff.setOrder(Ut.invoke(annotation, "order"));
-        cliff.setPath(Ut.invoke(annotation, "path"));
-        cliff.setDefined(Ut.invoke(annotation, "define"));
     }
 
     /**
@@ -101,30 +96,29 @@ public class WallInquirer implements Inquirer<Set<Cliff>> {
         /* Wall duplicated **/
         final Set<String> hashs = new HashSet<>();
         Observable.fromIterable(wallClses)
-            .filter(Objects::nonNull)
             .map(item -> {
                 final Annotation annotation = item.getAnnotation(Wall.class);
                 // Add configuration key into keys;
                 keysRef.put(Ut.invoke(annotation, "value"), item);
-                return hashPath(annotation);
+                return this.hashPath(annotation);
             }).subscribe(hashs::add).dispose();
 
         // Duplicated adding.
         Fn.outUp(hashs.size() != wallClses.size(), LOGGER,
-            WallDuplicatedException.class, getClass(),
+            WallDuplicatedException.class, this.getClass(),
             wallClses.stream().map(Class::getName).collect(Collectors.toSet()));
 
         /* Shared key does not existing **/
         final JsonObject config = NODE.read();
         Fn.outUp(!config.containsKey(KEY), LOGGER,
-            DynamicKeyMissingException.class, getClass(),
+            DynamicKeyMissingException.class, this.getClass(),
             KEY, config);
 
         /* Wall key missing **/
         final JsonObject hitted = config.getJsonObject(KEY);
         for (final String key : keysRef.keySet()) {
             Fn.outUp(null == hitted || !hitted.containsKey(key), LOGGER,
-                WallKeyMissingException.class, getClass(),
+                WallKeyMissingException.class, this.getClass(),
                 key, keysRef.get(key));
         }
         return hitted;

@@ -2,7 +2,7 @@ package io.vertx.up.runtime;
 
 import io.vertx.core.http.HttpMethod;
 import io.vertx.up.atom.agent.Event;
-import io.vertx.up.atom.secure.Cliff;
+import io.vertx.up.atom.secure.Aegis;
 import io.vertx.up.atom.worker.Mission;
 import io.vertx.up.atom.worker.Receipt;
 import io.vertx.up.eon.em.ServerType;
@@ -37,7 +37,7 @@ public class ZeroAnno {
         AGENTS = new ConcurrentHashMap<>();
     private final static Set<Class<?>>
         WORKERS = new HashSet<>();
-    private final static Set<Cliff>
+    private final static Set<Aegis>
         WALLS = new TreeSet<>();
     private final static ConcurrentMap<String, Method>
         IPCS = new ConcurrentHashMap<>();
@@ -75,7 +75,7 @@ public class ZeroAnno {
         ZeroUri.report();
 
         /* Wall -> Authenticate, Authorize **/
-        final Inquirer<Set<Cliff>> walls =
+        final Inquirer<Set<Aegis>> walls =
             Ut.singleton(WallInquirer.class);
         WALLS.addAll(walls.scan(clazzes));
 
@@ -221,7 +221,7 @@ public class ZeroAnno {
      *
      * @return guard set
      */
-    public static Set<Cliff> getWalls() {
+    public static Set<Aegis> getWalls() {
         return WALLS;
     }
 

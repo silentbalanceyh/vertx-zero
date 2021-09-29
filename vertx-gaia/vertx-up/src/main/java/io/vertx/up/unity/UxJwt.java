@@ -7,14 +7,12 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.ext.auth.JWTOptions;
 import io.vertx.ext.auth.KeyStoreOptions;
 import io.vertx.ext.auth.PubSecKeyOptions;
-import io.vertx.ext.auth.SecretOptions;
+import io.vertx.ext.auth.impl.jose.JWK;
+import io.vertx.ext.auth.impl.jose.JWT;
 import io.vertx.ext.auth.jwt.JWTAuthOptions;
-import io.vertx.ext.jwt.JWK;
-import io.vertx.ext.jwt.JWT;
+import io.vertx.ext.auth.jwt.impl.JWTAuthProviderImpl;
 import io.vertx.up.eon.Plugins;
-import io.vertx.up.exception.web._500JwtRuntimeException;
 import io.vertx.up.fn.Fn;
-import io.vertx.up.secure.provider.JwtAuthProvider;
 import io.vertx.up.uca.yaml.Node;
 import io.vertx.up.uca.yaml.ZeroUniform;
 import io.vertx.up.util.Ut;
@@ -25,8 +23,8 @@ import java.io.InputStream;
 import java.security.KeyStore;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
+import java.security.NoSuchProviderException;
 import java.security.cert.CertificateException;
-import java.util.Iterator;
 import java.util.List;
 import java.util.function.Function;
 
@@ -104,9 +102,56 @@ class UxJwt {
     }
 
     private static JWT createDirect(final JWTAuthOptions config, final Function<String, Buffer> funcBuffer) {
-        final JWT reference;
-        final KeyStoreOptions keyStore = config.getKeyStore();
+        final JWT reference = new JWT();
+        final JWTOptions options = config.getJWTOptions();
+        // set the nonce algorithm
+        reference.nonceAlgorithm(options.getNonceAlgorithm());
 
+        final KeyStoreOptions keyStore = config.getKeyStore();
+        try {
+            // Attempt to load a Key file
+            if (keyStore != null) {
+                final KeyStore ks;
+                if (keyStore.getProvider() == null) {
+                    ks = KeyStore.getInstance(keyStore.getType());
+                } else {
+                    ks = KeyStore.getInstance(keyStore.getType(), keyStore.getProvider());
+                }
+
+                // synchronize on the class to avoid the case where multiple file accesses will overlap
+                synchronized (JWTAuthProviderImpl.class) {
+                    final Buffer keystore = funcBuffer.apply(keyStore.getPath());
+
+                    try (InputStream in = new ByteArrayInputStream(keystore.getBytes())) {
+                        ks.load(in, keyStore.getPassword().toCharArray());
+                    }
+                }
+                // load all available keys in the keystore
+                for (JWK key : JWK.load(ks, keyStore.getPassword(), keyStore.getPasswordProtection())) {
+                    reference.addJWK(key);
+                }
+            }
+            // attempt to load pem keys
+            final List<PubSecKeyOptions> keys = config.getPubSecKeys();
+
+            if (keys != null) {
+                for (PubSecKeyOptions pubSecKey : config.getPubSecKeys()) {
+                    reference.addJWK(new JWK(pubSecKey));
+                }
+            }
+
+            // attempt to load jwks
+            final List<JsonObject> jwks = config.getJwks();
+
+            if (jwks != null) {
+                for (JsonObject jwk : jwks) {
+                    reference.addJWK(new JWK(jwk));
+                }
+            }
+        } catch (KeyStoreException | IOException | FileSystemException | CertificateException | NoSuchAlgorithmException | NoSuchProviderException e) {
+            throw new RuntimeException(e);
+        }
+        /*
         try {
             if (keyStore != null) {
                 final KeyStore ks = KeyStore.getInstance(keyStore.getType());
@@ -153,12 +198,12 @@ class UxJwt {
                     }
                 }
 
-                final List<SecretOptions> secrets = config.getSecrets();
+                final List<PubSecKeyOptions> secrets = config.getPubSecKeys();
                 if (secrets != null) {
                     final Iterator var28 = secrets.iterator();
 
                     while (var28.hasNext()) {
-                        final SecretOptions secret = (SecretOptions) var28.next();
+                        final PubSecKeyOptions secret = (PubSecKeyOptions) var28.next();
                         reference.addSecret(secret.getType(), secret.getSecret());
                     }
                 }
@@ -166,7 +211,7 @@ class UxJwt {
 
         } catch (final IOException | FileSystemException | CertificateException | NoSuchAlgorithmException | KeyStoreException var23) {
             throw new _500JwtRuntimeException(UxJwt.class, var23);
-        }
+        }*/
         return reference;
     }
 }

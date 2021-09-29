@@ -3,6 +3,7 @@ package io.vertx.up.atom.secure;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.eon.em.WallType;
 import io.vertx.up.util.Ut;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.Serializable;
 import java.util.Objects;
@@ -11,17 +12,12 @@ import java.util.Objects;
  * Secure class container for special class extraction.
  * Scanned ( Metadata ) for each @Wall.
  */
-public class Cliff implements Serializable, Comparable<Cliff> {
+public class Aegis implements Serializable, Comparable<Aegis> {
     /**
      * defined = false
      * Standard Authorization
      */
-    private final Phylum authorizer = new Phylum();
-    /**
-     * defined = true
-     * Custom Authorization
-     */
-    private final Ostium authorizor = new Ostium();
+    private final Against authorizer = new Against();
     /**
      * The wall path to be security limitation
      */
@@ -47,12 +43,8 @@ public class Cliff implements Serializable, Comparable<Cliff> {
      */
     private boolean defined = false;
 
-    public Phylum getAuthorizer() {
+    public Against getAuthorizer() {
         return this.authorizer;
-    }
-
-    public Ostium getAuthorizor() {
-        return this.authorizor;
     }
 
     public boolean isDefined() {
@@ -103,15 +95,23 @@ public class Cliff implements Serializable, Comparable<Cliff> {
         this.proxy = proxy;
     }
 
+    public boolean okForAuthorize() {
+        return Objects.nonNull(this.proxy) && Objects.nonNull(this.authorizer.getAuthenticate());
+    }
+
+    public boolean okForAccess() {
+        return Objects.nonNull(this.proxy) && Objects.nonNull(this.authorizer.getAuthorize());
+    }
+
     @Override
     public boolean equals(final Object o) {
         if (this == o) {
             return true;
         }
-        if (!(o instanceof Cliff)) {
+        if (!(o instanceof Aegis)) {
             return false;
         }
-        final Cliff wall = (Cliff) o;
+        final Aegis wall = (Aegis) o;
         return this.order == wall.order &&
             Objects.equals(this.path, wall.path) &&
             this.type == wall.type &&
@@ -119,7 +119,7 @@ public class Cliff implements Serializable, Comparable<Cliff> {
     }
 
     @Override
-    public int compareTo(final Cliff target) {
+    public int compareTo(final @NotNull Aegis target) {
         return Ut.compareTo(this, target, (left, right) -> {
             // 1. Compare Path
             int result = Ut.compareTo(left.getPath(), right.getPath());
@@ -138,8 +138,9 @@ public class Cliff implements Serializable, Comparable<Cliff> {
 
     @Override
     public String toString() {
-        return "Cliff{" +
-            "path='" + this.path + '\'' +
+        return "Aegis{" +
+            "authorizer=" + this.authorizer +
+            ", path='" + this.path + '\'' +
             ", order=" + this.order +
             ", config=" + this.config +
             ", type=" + this.type +

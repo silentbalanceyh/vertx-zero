@@ -13,7 +13,6 @@
     <packaging>pom</packaging>
     <name>「vertx-istio」Zero Micro</name>
     <modules>
-        <module>zero-iproxy</module>
     </modules>
     <build>
         <plugins>

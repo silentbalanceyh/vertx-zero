@@ -3,7 +3,6 @@ package io.vertx.tp.optic.business;
 import cn.vertxup.jet.domain.tables.daos.IApiDao;
 import cn.vertxup.jet.domain.tables.pojos.IApi;
 import io.vertx.core.Future;
-import io.vertx.core.http.HttpMethod;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.jet.atom.JtApp;
 import io.vertx.tp.jet.refine.Jt;
@@ -58,7 +57,8 @@ public class ExRouteApi implements ExRoute {
                          */
                         final String uri = Jt.toPath(app::getRoute, api::getUri, api.getSecure());
                         meta.setUri(uri);
-                        meta.setMethod(Ut.toEnum(api::getMethod, HttpMethod.class, HttpMethod.GET));
+                        // meta.setMethod(Ut.toEnum(api::getMethod, HttpMethod.class, HttpMethod.GET));
+                        meta.setMethod(Ut.toMethod(api::getMethod));
                         /*
                          * Comment analyzing
                          */

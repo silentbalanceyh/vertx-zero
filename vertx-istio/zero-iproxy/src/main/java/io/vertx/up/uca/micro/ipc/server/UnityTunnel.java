@@ -46,7 +46,7 @@ public class UnityTunnel implements Tunnel {
                         new _501RpcMethodMissingException(this.getClass(), data.getAddress()));
                     // Build IpcData
                     final IpcData responseData = UnityTunnel.this.build(community, envelop);
-                    future.complete(DataEncap.out(responseData));
+                    // future.complete(DataEncap.out(responseData));
                 } else {
                     // Execute Transit
                     final Transit transit = UnityTunnel.this.getTransit(method, vertx);
@@ -55,7 +55,7 @@ public class UnityTunnel implements Tunnel {
                     result.onComplete(res -> {
                         if (res.succeeded()) {
                             final IpcData responseData = UnityTunnel.this.build(res.result(), envelop);
-                            future.complete(DataEncap.out(responseData));
+                            // future.complete(DataEncap.out(responseData));
                         } else {
                             res.cause().printStackTrace();
                         }
