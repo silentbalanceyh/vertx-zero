@@ -21,23 +21,23 @@ class ActionInsert extends AbstractAction {
 
     /* Future<T> */
     <T> Future<T> insertAsync(final T entity) {
-        return this.successed(this.vertxDAO.insertAsync(this.uuid(entity)), entity);
+        return this.dsl.insertAsync(this.uuid(entity));
     }
 
     /* T */
     <T> T insert(final T entity) {
-        this.vertxDAO.insert(uuid(entity));
+        this.dsl.insert(uuid(entity));
         return entity;
     }
 
     /* Future<List<T>> */
     <T> Future<List<T>> insertAsync(final List<T> list) {
-        return this.successed(this.vertxDAO.insertAsync(uuid(list)), list);
+        return this.dsl.insertAsync(this.uuid(list));
     }
 
     /* List<T> */
     <T> List<T> insert(final List<T> list) {
-        this.vertxDAO.insert(uuid(list));
+        this.dsl.insert(uuid(list));
         return list;
     }
 

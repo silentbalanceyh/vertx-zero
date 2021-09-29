@@ -1,6 +1,5 @@
 package io.vertx.up.unity;
 
-import io.github.jklingsporn.vertx.jooq.future.VertxDAO;
 import io.vertx.core.*;
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.eventbus.Message;
@@ -11,6 +10,7 @@ import io.vertx.ext.auth.impl.jose.JWT;
 import io.vertx.ext.auth.jwt.JWTAuthOptions;
 import io.vertx.ext.web.FileUpload;
 import io.vertx.tp.plugin.database.DataPool;
+import io.vertx.tp.plugin.jooq.JooqDsl;
 import io.vertx.tp.plugin.jooq.JooqInfix;
 import io.vertx.up.atom.query.Pagination;
 import io.vertx.up.atom.record.Apt;
@@ -1028,8 +1028,8 @@ public final class Ux {
          * @return UxJooq reference that has been initialized
          */
         public static UxJooq ons(final Class<?> clazz) {
-            final VertxDAO vertxDAO = (VertxDAO) JooqInfix.getDao(clazz, Constants.DEFAULT_JOOQ_HISTORY);
-            return Fn.pool(Cache.JOOQ_POOL_HIS, clazz, () -> new UxJooq(clazz, vertxDAO));
+            final JooqDsl dsl = JooqInfix.getDao(clazz, Constants.DEFAULT_JOOQ_HISTORY);
+            return Fn.pool(Cache.JOOQ_POOL_HIS, dsl.poolKey(), () -> new UxJooq(clazz, dsl));
         }
 
         /**
@@ -1049,8 +1049,8 @@ public final class Ux {
          * @return UxJooq reference that has been initialized
          */
         public static UxJooq on(final Class<?> clazz) {
-            final VertxDAO vertxDAO = (VertxDAO) JooqInfix.getDao(clazz);
-            return Fn.pool(Cache.JOOQ_POOL, clazz, () -> new UxJooq(clazz, vertxDAO));
+            final JooqDsl dsl = JooqInfix.getDao(clazz);
+            return Fn.pool(Cache.JOOQ_POOL, dsl.poolKey(), () -> new UxJooq(clazz, dsl));
         }
 
         /**
@@ -1062,8 +1062,8 @@ public final class Ux {
          * @return UxJooq reference that has been initialized
          */
         public static UxJooq on(final Class<?> clazz, final DataPool pool) {
-            final VertxDAO vertxDAO = (VertxDAO) JooqInfix.getDao(clazz, pool);
-            return Fn.pool(Cache.JOOQ_POOL, clazz, () -> new UxJooq(clazz, vertxDAO));
+            final JooqDsl dsl = JooqInfix.getDao(clazz, pool);
+            return Fn.pool(Cache.JOOQ_POOL, dsl.poolKey(), () -> new UxJooq(clazz, dsl));
         }
 
         /**
@@ -1075,8 +1075,8 @@ public final class Ux {
          * @return UxJooq reference that has been initialized
          */
         public static UxJooq on(final Class<?> clazz, final String key) {
-            final VertxDAO vertxDAO = (VertxDAO) JooqInfix.getDao(clazz, key);
-            return Fn.pool(Cache.JOOQ_POOL, clazz, () -> new UxJooq(clazz, vertxDAO));
+            final JooqDsl dsl = JooqInfix.getDao(clazz, key);
+            return Fn.pool(Cache.JOOQ_POOL, dsl.poolKey(), () -> new UxJooq(clazz, dsl));
         }
 
         public static boolean isEmpty(final JsonObject condition) {

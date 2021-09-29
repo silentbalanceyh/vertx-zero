@@ -82,8 +82,7 @@ public class JtConfig implements Serializable {
     }
 
     public DeploymentOptions getWorkerOptions() {
-        final DeploymentOptions options = new DeploymentOptions();
-        options.fromJson(Objects.isNull(this.worker) ? new JsonObject() : this.worker);
+        final DeploymentOptions options = new DeploymentOptions(Objects.isNull(this.worker) ? new JsonObject() : this.worker);
         /*
          * Specific configuration
          */

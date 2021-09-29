@@ -2,7 +2,6 @@ package io.vertx.up.uca.jooq;
 
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.plugin.jooq.JooqInfix;
 import io.vertx.tp.plugin.jooq.condition.JooqCond;
 import io.vertx.up.eon.Values;
 import io.vertx.up.util.Ut;
@@ -236,7 +235,7 @@ abstract class AbstractAggregator extends AbstractAction {
         /*
          * Result Part, Get `DSLContext` from environment
          */
-        final DSLContext context = JooqInfix.getDSL();
+        final DSLContext context = this.dsl.context();
         /*
          * Combine Field: Group + Aggr Fields
          */
@@ -249,7 +248,7 @@ abstract class AbstractAggregator extends AbstractAction {
          */
         final SelectJoinStep selected = context
             .select(selectedList.toArray(new Field[]{}))
-            .from(this.vertxDAO.getTable());
+            .from(this.dsl.getTable());
         /*
          * Result calculation
          */

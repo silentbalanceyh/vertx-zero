@@ -17,6 +17,7 @@ import io.vertx.up.util.Ut;
 import org.jooq.Configuration;
 
 import java.sql.Connection;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -28,6 +29,7 @@ import java.util.concurrent.ConcurrentMap;
  * 1) App / Source information here
  * 2) Pool ( DSLContext, Connection, DataSource )
  */
+// TODO: NEW VERSION
 public class AmbientEnvironment {
 
     /* Pool of Jobs, it will be consumed by each application */
@@ -72,14 +74,14 @@ public class AmbientEnvironment {
             /*
              * Dao initialization
              */
-            this.apiDao = new IApiDao(configuration);
-            final IServiceDao serviceDao = new IServiceDao(configuration);
-            this.jobDao = new IJobDao(configuration);
+            this.apiDao = null;//new IApiDao(configuration);
+            final IServiceDao serviceDao = null;//new IServiceDao(configuration);
+            this.jobDao = null;//new IJobDao(configuration);
             /*
              * Service Init
              * serviceKey -> service
              */
-            final List<IService> serviceList = serviceDao.fetchBySigma(this.app.getSigma());
+            final List<IService> serviceList = new ArrayList<>(); // serviceDao.fetchBySigma(this.app.getSigma());
             this.serviceMap.putAll(Ut.elementZip(serviceList, IService::getKey, service -> service));
         }
     }
@@ -98,7 +100,7 @@ public class AmbientEnvironment {
     }
 
     private void initJobs() {
-        final List<IJob> jobList = this.jobDao.fetchBySigma(this.app.getSigma());
+        final List<IJob> jobList = new ArrayList<>(); // this.jobDao.fetchBySigma(this.app.getSigma());
         if (this.jobs.isEmpty()) {
             /*
              * Map for JOB + Service
@@ -117,7 +119,7 @@ public class AmbientEnvironment {
     }
 
     private void initUris() {
-        final List<IApi> apiList = this.apiDao.fetchBySigma(this.app.getSigma());
+        final List<IApi> apiList = new ArrayList<>(); // this.apiDao.fetchBySigma(this.app.getSigma());
         if (this.uris.isEmpty()) {
             /*
              * Map for API + Service

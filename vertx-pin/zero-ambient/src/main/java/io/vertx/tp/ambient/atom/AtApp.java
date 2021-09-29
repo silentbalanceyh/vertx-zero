@@ -17,15 +17,16 @@ public class AtApp {
     private transient DSLContext context;
     private transient XAppDao dao;
 
+    // TODO: NEW VERSION
     private AtApp(final DSLContext context,
                   final String name) {
         Fn.outWeb(null == context, _500AmbientErrorException.class, this.getClass());
         /* Dao initialized */
         this.context = context;
 
-        this.dao = new XAppDao(context.configuration());
+        this.dao = null;// new XAppDao(context.configuration());
         /* Context */
-        this.app = this.dao.fetchOneByName(name);
+        this.app = null; // this.dao.fetchOneByName(name);
         Fn.outWeb(null == this.app, _500ApplicationInitException.class,
             this.getClass(), name);
     }

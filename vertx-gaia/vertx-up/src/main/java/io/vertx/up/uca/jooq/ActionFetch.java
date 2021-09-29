@@ -24,22 +24,22 @@ class ActionFetch extends AbstractAction {
 
     /* Future<List<T>> */
     <T> Future<List<T>> fetchAllAsync() {
-        return this.<List<T>>successed(this.vertxDAO.findAllAsync());
+        return this.dsl.fetchAllAsync();
     }
 
     /* List<T> */
     <T> List<T> fetchAll() {
-        return this.vertxDAO.findAll();
+        return this.dsl.fetchAll();
     }
 
     /* Future<List<T>> */
     <T> Future<List<T>> fetchAsync(final String field, final Object value) {
-        return this.<List<T>>successed(this.vertxDAO.fetchAsync(this.analyzer.column(field), parameters(value)));
+        return this.dsl.fetchAsync(this.condition(field, value));
     }
 
     /* List<T> */
     <T> List<T> fetch(final String field, final Object value) {
-        return this.vertxDAO.fetch(this.analyzer.column(field), parameters(value));
+        return this.dsl.fetch(this.condition(field, value));
     }
 
     /* Future<List<T>> */
@@ -54,33 +54,33 @@ class ActionFetch extends AbstractAction {
 
     /* Future<T> */
     <T, ID> Future<T> fetchByIdAsync(final ID id) {
-        return this.successed(this.vertxDAO.findByIdAsync(id));
+        return this.dsl.fetchByIdAsync(id);
     }
 
     /* T */
     <T, ID> T fetchById(final ID id) {
-        return (T) this.vertxDAO.findById(id);
+        return (T) this.dsl.fetchById(id);
     }
 
     /* Future<T> */
     <T> Future<T> fetchOneAsync(final String field, final Object value) {
-        return this.successed(this.vertxDAO.fetchOneAsync(this.analyzer.column(field), value));
+        return this.dsl.fetchOneAsync(this.condition(field, value));
     }
 
     /* T */
     <T> T fetchOne(final String field, final Object value) {
-        return (T) this.vertxDAO.fetchOne(this.analyzer.column(field), value);
+        return this.dsl.fetchOne(this.condition(field, value));
     }
 
     /* Future<T> */
     <T> Future<T> fetchOneAsync(final JsonObject criteria) {
         final Condition condition = JooqCond.transform(criteria, Operator.AND, this.analyzer::column);
-        return this.successed(this.vertxDAO.fetchOneAsync(condition));
+        return this.dsl.fetchOneAsync(condition);
     }
 
     /* T */
     <T> T fetchOne(final JsonObject criteria) {
         final Condition condition = JooqCond.transform(criteria, Operator.AND, this.analyzer::column);
-        return (T) this.context().selectFrom(this.vertxDAO.getTable()).where(condition).fetchOne(this.vertxDAO.mapper());
+        return this.dsl.fetchOne(condition);
     }
 }

@@ -1,8 +1,7 @@
 package io.vertx.up.uca.jooq;
 
-import io.github.jklingsporn.vertx.jooq.future.VertxDAO;
-import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonObject;
+import io.vertx.tp.plugin.jooq.JooqDsl;
 import io.vertx.up.atom.pojo.Mirror;
 import io.vertx.up.atom.pojo.Mojo;
 import io.vertx.up.eon.Strings;
@@ -26,10 +25,10 @@ import java.util.concurrent.ConcurrentMap;
 public class JqAnalyzer {
 
     private static final Annal LOGGER = Annal.get(JqAnalyzer.class);
-    private static final ConcurrentMap<Integer, VertxDAO> DAO_POOL =
+    private static final ConcurrentMap<Integer, JooqDsl> DAO_POOL =
         new ConcurrentHashMap<>();
 
-    private transient final VertxDAO vertxDAO;
+    private transient final JooqDsl dsl;
     /* Field to Column */
     private transient final ConcurrentMap<String, String> mapping =
         new ConcurrentHashMap<>();
@@ -50,12 +49,12 @@ public class JqAnalyzer {
     private transient ConcurrentMap<String, Class<?>> typeMap = new ConcurrentHashMap<>();
     private transient Class<?> entityCls;
 
-    private JqAnalyzer(final VertxDAO vertxDAO) {
-        this.vertxDAO = Fn.pool(DAO_POOL, vertxDAO.hashCode(), () -> vertxDAO);
+    private JqAnalyzer(final JooqDsl dsl) {
+        this.dsl = Fn.pool(DAO_POOL, dsl.hashCode(), () -> dsl);
         // Mapping initializing
-        this.table = Ut.field(this.vertxDAO, "table");
+        this.table = dsl.getTable();
 
-        final Class<?> typeCls = Ut.field(this.vertxDAO, "type");
+        final Class<?> typeCls = dsl.getType();
         this.entityCls = typeCls;
 
         final java.lang.reflect.Field[] fields = Ut.fields(typeCls);
@@ -84,17 +83,17 @@ public class JqAnalyzer {
         }
     }
 
-    public static JqAnalyzer create(final VertxDAO vertxDAO) {
-        return new JqAnalyzer(vertxDAO);
+    public static JqAnalyzer create(final JooqDsl dsl) {
+        return new JqAnalyzer(dsl);
     }
 
-    public VertxDAO vertxDAO() {
-        return this.vertxDAO;
+    public JooqDsl dsl() {
+        return this.dsl;
     }
 
-    public Vertx vertx() {
+/*    public Vertx vertx() {
         return Objects.isNull(this.vertxDAO) ? null : vertxDAO.vertx();
-    }
+    }*/
 
     public String table() {
         return this.table.getName();
@@ -287,7 +286,7 @@ public class JqAnalyzer {
     public Field column(final String field) {
         String columnField = columnName(field);
         Fn.outUp(null == columnField, LOGGER,
-            JooqFieldMissingException.class, UxJooq.class, field, Ut.field(this.vertxDAO, "type"));
+            JooqFieldMissingException.class, UxJooq.class, field, this.dsl.getType());
         LOGGER.debug(Info.JOOQ_FIELD, field, columnField);
         /*
          * Old code for field construct, following code will caurse Type/DataType missing
@@ -350,7 +349,7 @@ public class JqAnalyzer {
             /*
              * Skip Primary Key
              */
-            final Table<?> tableField = Ut.field(this.vertxDAO, "table");
+            final Table<?> tableField = this.dsl.getTable();
             final UniqueKey key = tableField.getPrimaryKey();
             key.getFields().stream().map(item -> ((TableField) item).getName())
                 .filter(this.revert::containsKey)

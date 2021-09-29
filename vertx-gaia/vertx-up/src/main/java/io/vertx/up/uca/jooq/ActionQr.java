@@ -29,7 +29,7 @@ public class ActionQr extends AbstractAction {
         // Here above statement must be required and splitted
         // You could not write `this.vertxDAO.executeAsync(context -> this.searchInternal(context, inquiry))`
         // Above statement in comments will occurs compile error
-        return this.successed(this.vertxDAO.executeAsync(executor));
+        return null;
     }
 
     /*
@@ -41,15 +41,15 @@ public class ActionQr extends AbstractAction {
      */
     <T> Future<List<T>> searchAsync(final JsonObject criteria) {
         final Function<DSLContext, List<T>> executor = context -> this.searchInternal(context, criteria);
-        return this.successed(this.vertxDAO.executeAsync(executor));
+        return null;
     }
 
     <T> List<T> search(final Qr qr) {
-        return this.searchInternal(this.context(), qr);
+        return this.searchInternal(this.dsl.context(), qr);
     }
 
     <T> List<T> search(final JsonObject criteria) {
-        return this.searchInternal(this.context(), criteria);
+        return this.searchInternal(this.dsl.context(), criteria);
     }
 
     /*
@@ -70,7 +70,7 @@ public class ActionQr extends AbstractAction {
      */
     private <T> List<T> searchInternal(final DSLContext context, final JsonObject criteria) {
         // Started steps
-        final SelectWhereStep started = context.selectFrom(this.vertxDAO.getTable());
+        final SelectWhereStep started = context.selectFrom(this.dsl.getTable());
         // Condition injection
         SelectConditionStep conditionStep = null;
         if (null != criteria) {
@@ -78,7 +78,7 @@ public class ActionQr extends AbstractAction {
             conditionStep = started.where(condition);
         }
         // Projection
-        return started.fetch(this.vertxDAO.mapper());
+        return started.fetch();
     }
 
     /*
@@ -92,7 +92,7 @@ public class ActionQr extends AbstractAction {
      */
     private <T> List<T> searchInternal(final DSLContext context, final Qr qr) {
         // Started steps
-        final SelectWhereStep started = context.selectFrom(this.vertxDAO.getTable());
+        final SelectWhereStep started = context.selectFrom(this.dsl.getTable());
         // Condition set
         SelectConditionStep conditionStep = null;
         if (null != qr.getCriteria()) {
@@ -127,14 +127,14 @@ public class ActionQr extends AbstractAction {
         final JsonArray projection = Objects.isNull(projectionSet) ? new JsonArray() : Ut.toJArray(projectionSet);
         // Returned one by one
         if (null != pagerStep) {
-            return JqOut.toResult(pagerStep.fetch(this.vertxDAO.mapper()), projection, this.analyzer);
+            return JqOut.toResult(pagerStep.fetch(), projection, this.analyzer);
         }
         if (null != selectStep) {
-            return JqOut.toResult(selectStep.fetch(this.vertxDAO.mapper()), projection, this.analyzer);
+            return JqOut.toResult(selectStep.fetch(), projection, this.analyzer);
         }
         if (null != conditionStep) {
-            return JqOut.toResult(conditionStep.fetch(this.vertxDAO.mapper()), projection, this.analyzer);
+            return JqOut.toResult(conditionStep.fetch(), projection, this.analyzer);
         }
-        return JqOut.toResult(started.fetch(this.vertxDAO.mapper()), projection, this.analyzer);
+        return JqOut.toResult(started.fetch(), projection, this.analyzer);
     }
 }

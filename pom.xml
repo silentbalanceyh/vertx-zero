@@ -77,10 +77,8 @@
 
         <!-- Database Needed -->
         <hikari.cp.version>5.0.0</hikari.cp.version>
-        <jooq.version>3.10.8</jooq.version>
-        <vertx.jooq.version>2.4.1</vertx.jooq.version>
-        <vertx.jooq.code.version>2.4.1</vertx.jooq.code.version>
-        <vertx.jooq.async.version>0.4</vertx.jooq.async.version>
+        <jooq.version>3.15.3</jooq.version>
+        <vertx.jooq.version>6.3.0</vertx.jooq.version>
         <mysql.version>8.0.26</mysql.version>
 
         <!-- Java Reflection -->
@@ -594,65 +592,11 @@
                 <artifactId>aspectjrt</artifactId>
                 <version>${aspectj.version}</version>
             </dependency>
-            <!-- https://mvnrepository.com/artifact/io.github.jklingsporn/vertx-jooq-async-future -->
+            <!-- https://mvnrepository.com/artifact/io.github.jklingsporn/vertx-jooq-classic-jdbc -->
             <dependency>
                 <groupId>io.github.jklingsporn</groupId>
-                <artifactId>vertx-jooq-async-future</artifactId>
-                <version>${vertx.jooq.async.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>io.github.jklingsporn</groupId>
-                <artifactId>vertx-jooq-async-generate</artifactId>
-                <version>${vertx.jooq.async.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>io.github.jklingsporn</groupId>
-                <artifactId>vertx-jooq-async-shared</artifactId>
-                <version>${vertx.jooq.async.version}</version>
-            </dependency>
-            <!-- http://mvnrepository.com/artifact/io.github.jklingsporn/vertx-jooq-future -->
-            <dependency>
-                <groupId>io.github.jklingsporn</groupId>
-                <artifactId>vertx-jooq-shared</artifactId>
-                <version>${vertx.jooq.code.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>io.github.jklingsporn</groupId>
-                <artifactId>vertx-jooq-future</artifactId>
+                <artifactId>vertx-jooq-classic-jdbc</artifactId>
                 <version>${vertx.jooq.version}</version>
-                <exclusions>
-                    <exclusion>
-                        <groupId>io.vertx</groupId>
-                        <artifactId>vertx-core</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>org.jooq</groupId>
-                        <artifactId>jooq</artifactId>
-                    </exclusion>
-                </exclusions>
-            </dependency>
-            <dependency>
-                <groupId>io.github.jklingsporn</groupId>
-                <artifactId>vertx-jooq-generate</artifactId>
-                <version>${vertx.jooq.code.version}</version>
-                <exclusions>
-                    <exclusion>
-                        <groupId>io.github.jklingsporn</groupId>
-                        <artifactId>vertx-jooq-shared</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>io.vertx</groupId>
-                        <artifactId>vertx-core</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>org.jooq</groupId>
-                        <artifactId>jooq</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>org.jooq</groupId>
-                        <artifactId>jooq-codegen</artifactId>
-                    </exclusion>
-                </exclusions>
             </dependency>
             <dependency>
                 <groupId>mysql</groupId>

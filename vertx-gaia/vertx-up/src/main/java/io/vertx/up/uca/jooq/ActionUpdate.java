@@ -23,23 +23,23 @@ class ActionUpdate extends AbstractAction {
 
     /* Future<T> */
     <T> Future<T> updateAsync(final T entity) {
-        return this.successed(this.vertxDAO.updateAsync(entity), entity);
+        return this.dsl.updateAsync(entity);
     }
 
     /* T */
     <T> T update(final T entity) {
-        this.vertxDAO.update(entity);
+        this.dsl.update(entity);
         return entity;
     }
 
     /* Future<List<T>> */
     <T> Future<List<T>> updateAsync(final List<T> list) {
-        return this.successed(this.vertxDAO.updateAsync(list), list);
+        return this.dsl.updateAsync(list);
     }
 
     /* T */
     <T> List<T> update(final List<T> list) {
-        this.vertxDAO.update(list);
+        this.dsl.update(list);
         return list;
     }
 

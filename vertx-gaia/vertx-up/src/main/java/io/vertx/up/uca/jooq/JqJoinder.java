@@ -1,9 +1,9 @@
 package io.vertx.up.uca.jooq;
 
-import io.github.jklingsporn.vertx.jooq.future.VertxDAO;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
+import io.vertx.tp.plugin.jooq.JooqDsl;
 import io.vertx.tp.plugin.jooq.JooqInfix;
 import io.vertx.tp.plugin.jooq.condition.JooqCond;
 import io.vertx.up.atom.Kv;
@@ -13,7 +13,6 @@ import io.vertx.up.atom.query.engine.Qr;
 import io.vertx.up.uca.jooq.util.JqOut;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
-import org.jooq.Record;
 import org.jooq.*;
 import org.jooq.impl.DSL;
 
@@ -125,8 +124,8 @@ class JqJoinder {
         /*
          * Analyzer building
          */
-        final VertxDAO vertxDAO = (VertxDAO) JooqInfix.getDao(daoCls);
-        final JqAnalyzer analyzer = JqAnalyzer.create(vertxDAO);
+        final JooqDsl dsl = JooqInfix.getDao(daoCls);
+        final JqAnalyzer analyzer = JqAnalyzer.create(dsl);
         final String tableName = analyzer.table();
         this.ANALYZERS.put(daoCls, analyzer);
         {
@@ -193,7 +192,8 @@ class JqJoinder {
         /*
          * DSLContext
          */
-        final DSLContext context = JooqInfix.getDSL();
+        final JooqDsl dsl = this.firstAnalyzer.dsl();
+        final DSLContext context = dsl.context();
         final Table table = getTable();
         if (Objects.isNull(table)) {
             throw new RuntimeException("Table null issue! ");
@@ -223,7 +223,8 @@ class JqJoinder {
         /*
          * DSLContext
          */
-        final DSLContext context = JooqInfix.getDSL();
+        final JooqDsl dsl = this.firstAnalyzer.dsl();
+        final DSLContext context = dsl.context();
         final Table table = getTable();
         if (Objects.isNull(table)) {
             throw new RuntimeException("Table null issue! ");

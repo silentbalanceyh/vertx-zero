@@ -23,9 +23,9 @@ interface Info {
 
 interface Cache {
 
-    ConcurrentMap<Class<?>, UxJooq> JOOQ_POOL = new ConcurrentHashMap<>();
+    ConcurrentMap<String, UxJooq> JOOQ_POOL = new ConcurrentHashMap<>();
 
-    ConcurrentMap<Class<?>, UxJooq> JOOQ_POOL_HIS = new ConcurrentHashMap<>();
+    ConcurrentMap<String, UxJooq> JOOQ_POOL_HIS = new ConcurrentHashMap<>();
 
     ConcurrentMap<String, UxPool> MAP_POOL = new ConcurrentHashMap<>();
 }

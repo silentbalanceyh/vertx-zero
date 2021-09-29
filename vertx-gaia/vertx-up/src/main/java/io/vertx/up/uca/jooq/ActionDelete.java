@@ -5,10 +5,8 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
@@ -25,36 +23,35 @@ class ActionDelete extends AbstractAction {
 
     /* Future<T> */
     <T> Future<T> deleteAsync(final T entity) {
-        return this.<T>successed(this.vertxDAO.deleteAsync(Arrays.asList(entity)), entity);
+        return this.dsl.deleteAsync(entity);
     }
 
     /* T */
     <T> T delete(final T entity) {
-        this.vertxDAO.delete(entity);
+        this.dsl.delete(entity);
         return entity;
     }
 
     /* Future<List<T>> */
     <T> Future<List<T>> deleteAsync(final List<T> entity) {
-        return this.<List<T>>successed(this.vertxDAO.deleteAsync(entity), entity);
+        return this.dsl.deleteAsync(entity);
     }
 
     /* List<T> */
     <T> List<T> delete(final List<T> entity) {
-        this.vertxDAO.delete(entity);
+        this.dsl.delete(entity);
         return entity;
     }
 
     /* By Id */
 
     <T, ID> Boolean deleteById(final Collection<ID> ids) {
-        this.vertxDAO.deleteById(ids);
+        this.dsl.deleteById(ids);
         return Boolean.TRUE;
     }
 
     <T, ID> Future<Boolean> deleteByIdAsync(final Collection<ID> ids) {
-        final CompletableFuture<Void> future = this.vertxDAO.deleteByIdAsync(ids);
-        return this.successed(future, Boolean.TRUE);
+        return this.dsl.deleteByIdAsync(ids);
     }
 
     <T, ID> Future<Boolean> deleteByAsync(final JsonObject criteria) {

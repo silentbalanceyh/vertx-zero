@@ -20,11 +20,11 @@ class ActionCheck extends AbstractAction {
     }
 
     Boolean existById(final Object id) {
-        return this.vertxDAO.existsById(id);
+        return this.dsl.existById(id);
     }
 
     Future<Boolean> existByIdAsync(final Object id) {
-        return this.successed(this.vertxDAO.existsByIdAsync(id));
+        return this.dsl.existByIdAsync(id);
     }
 
     <T> Boolean exist(final JsonObject criteria) {

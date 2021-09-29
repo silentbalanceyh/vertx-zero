@@ -12,6 +12,7 @@ import io.vertx.up.log.Annal;
 import io.vertx.up.util.Ut;
 import org.jooq.Configuration;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
@@ -30,14 +31,15 @@ class UnityAsker {
      * set Jooq environment before vert.x begin up, in this situation, here you couldn't
      * use `Ux.Jooq.on(Dao.class)` mode to get Dao reference.
      */
+    // TODO: NEW VERSION
     static void init() {
         /* All app here */
         final XAppDao appDao = Ut.singleton(XAppDao.class, getConfiguration());
-        final List<XApp> applications = appDao.findAll();
+        final List<XApp> applications = new ArrayList<>(); // appDao.findAll();
         At.infoApp(LOGGER, AtMsg.UNITY_APP, applications.size());
         /* All data source here */
         final XSourceDao sourceDao = Ut.singleton(XSourceDao.class, getConfiguration());
-        final List<XSource> sources = sourceDao.findAll();
+        final List<XSource> sources = new ArrayList<>(); // sourceDao.findAll();
         At.infoApp(LOGGER, AtMsg.UNITY_SOURCE, sources.size());
 
         /* Data, use application key as key here. */
