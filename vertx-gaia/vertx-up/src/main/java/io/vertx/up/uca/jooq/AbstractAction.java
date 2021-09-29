@@ -74,11 +74,6 @@ abstract class AbstractAction {
         return JooqCond.transform(criteria, Operator.AND, this.analyzer::column);
     }
 
-    protected Condition condition(final String field, final Object value) {
-        final Field column = this.analyzer.column(field);
-        return column.eq(value);
-    }
-
     // ---------------------------------- Sync Operation
     protected <T> Record newRecord(T pojo) {
         final Record record = this.context().newRecord(this.dsl.getTable(), pojo);

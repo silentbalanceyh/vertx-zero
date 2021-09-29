@@ -26,7 +26,7 @@ class ActionInsert extends AbstractAction {
     <T> Future<T> insertAsync(final T entity) {
         final T inserted = this.uuid(entity);
         return ((Future<Integer>) this.dao().insert(inserted)).compose(rows -> {
-            this.logger().info("[ Jq ] insertAsync(T) executed rows: {0}", rows);
+            this.logger().info("[ Jq ] insertAsync(T) executed rows: {0}", String.valueOf(rows));
             return Future.succeededFuture(entity);
         });
     }
@@ -37,7 +37,7 @@ class ActionInsert extends AbstractAction {
         final InsertSetMoreStep insertStep = this.context().insertInto(this.dsl.getTable())
             .set(this.newRecord(inserted));
         final int rows = insertStep.execute();
-        this.logger().info("[ Jq ] insert(T) executed rows: {0}", rows);
+        this.logger().info("[ Jq ] insert(T) executed rows: {0}", String.valueOf(rows));
         return inserted;
     }
 
@@ -45,7 +45,7 @@ class ActionInsert extends AbstractAction {
     <T> Future<List<T>> insertAsync(final List<T> list) {
         final List<T> inserted = this.uuid(list);
         return ((Future<Integer>) this.dao().insert(inserted, true)).compose(rows -> {
-            this.logger().info("[ Jq ] insertAsync(List<T>) executed rows: {0}/{1}", rows, list.size());
+            this.logger().info("[ Jq ] insertAsync(List<T>) executed rows: {0}/{1}", String.valueOf(rows), String.valueOf(list.size()));
             return Future.succeededFuture(list);
         });
     }
@@ -59,7 +59,7 @@ class ActionInsert extends AbstractAction {
             insertValuesStepN = insertStep.values(newRecord(pojo).intoArray());
         }
         final int rows = insertValuesStepN.onDuplicateKeyIgnore().execute();
-        this.logger().info("[ Jq ] insert(List<T>) executed rows: {0}/{1}", rows, list.size());
+        this.logger().info("[ Jq ] insert(List<T>) executed rows: {0}/{1}", String.valueOf(rows), String.valueOf(list.size()));
         return list;
     }
 

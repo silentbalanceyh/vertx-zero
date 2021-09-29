@@ -11,15 +11,14 @@ import io.vertx.up.exception.zero.JooqMergeException;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import io.vertx.up.util.Ut;
-import org.jooq.Field;
-import org.jooq.Table;
-import org.jooq.TableField;
-import org.jooq.UniqueKey;
+import org.jooq.*;
 import org.jooq.impl.DSL;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
+
+import static org.jooq.impl.DSL.row;
 
 @SuppressWarnings("all")
 public class JqAnalyzer {
@@ -391,5 +390,27 @@ public class JqAnalyzer {
 
     public Mojo pojo() {
         return this.pojo;
+    }
+
+    // -------------------------------- Condition Building
+    public <ID> Condition conditionKey(ID id) {
+        UniqueKey<?> uk = this.table.getPrimaryKey();
+        Objects.requireNonNull(uk, () -> "[ Jq ] No primary key");
+        /**
+         * Copied from jOOQs DAOImpl#equal-method
+         */
+        TableField<? extends Record, ?>[] pk = uk.getFieldsArray();
+        Condition condition;
+        if (pk.length == 1) {
+            condition = ((Field<Object>) pk[0]).equal(pk[0].getDataType().convert(id));
+        } else {
+            condition = row(pk).equal((Record) id);
+        }
+        return condition;
+    }
+
+    public Condition conditionField(final String field, final Object value) {
+        final Field column = this.column(field);
+        return column.eq(value);
     }
 }
