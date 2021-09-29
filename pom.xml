@@ -123,6 +123,7 @@
         <common.net.version>3.8.0</common.net.version>
         <common.codec.version>1.15</common.codec.version>
         <common.cli.version>1.4</common.cli.version>
+        <common.collection4.version>4.4</common.collection4.version>
 
         <http.async.client.version>4.1.4</http.async.client.version>
         <http.client.version>4.5.13</http.client.version>
@@ -533,6 +534,12 @@
                 <groupId>commons-codec</groupId>
                 <artifactId>commons-codec</artifactId>
                 <version>${common.codec.version}</version>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/org.apache.commons/commons-collections4 -->
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-collections4</artifactId>
+                <version>${common.collection4.version}</version>
             </dependency>
             <!-- https://mvnrepository.com/artifact/org.apache.commons/commons-jexl -->
             <dependency>

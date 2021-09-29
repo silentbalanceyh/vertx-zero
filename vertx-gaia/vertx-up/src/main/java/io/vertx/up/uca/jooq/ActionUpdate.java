@@ -2,8 +2,14 @@ package io.vertx.up.uca.jooq;
 
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
+import io.vertx.up.eon.Values;
+import org.jooq.Query;
+import org.jooq.UpdateConditionStep;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
@@ -23,23 +29,36 @@ class ActionUpdate extends AbstractAction {
 
     /* Future<T> */
     <T> Future<T> updateAsync(final T entity) {
-        return this.dsl.updateAsync(entity);
+        Objects.requireNonNull(entity);
+        return ((Future<Integer>) this.dao().update(entity)).compose(rows -> {
+            this.logger().info("[ Jq ] updateAsync(T) executed rows: {0}", String.valueOf(rows));
+            return Future.succeededFuture(entity);
+        });
     }
 
     /* T */
     <T> T update(final T entity) {
-        this.dsl.update(entity);
+        Objects.requireNonNull(entity);
+        final UpdateConditionStep updateStep = this.editRecord(entity);
+        final int rows = updateStep.execute();
+        this.logger().info("[ Jq ] update(T) executed rows: {0}", String.valueOf(rows));
         return entity;
     }
 
     /* Future<List<T>> */
     <T> Future<List<T>> updateAsync(final List<T> list) {
-        return this.dsl.updateAsync(list);
+        return this.dsl.executeBlocking(h -> h.complete(this.update(list)));
     }
 
     /* T */
     <T> List<T> update(final List<T> list) {
-        this.dsl.update(list);
+        Objects.requireNonNull(list);
+        final List<Query> batchOps = new ArrayList<>();
+        list.stream().map(this::editRecord).forEach(batchOps::add);
+        final int rows[] = this.context().batch(batchOps).execute();
+        final long updated = Arrays.stream(rows).filter(value -> Values.ONE == value).count();
+        this.logger().info("[ Jq ] update(List<T>) executed rows: {0}/{1}",
+            String.valueOf(updated), String.valueOf(rows.length));
         return list;
     }
 

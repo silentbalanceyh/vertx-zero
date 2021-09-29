@@ -2,7 +2,11 @@ package io.vertx.tp.plugin.jooq;
 
 import io.github.jklingsporn.vertx.jooq.classic.VertxDAO;
 import io.vertx.core.Future;
+import io.vertx.core.Handler;
+import io.vertx.core.Promise;
 import io.vertx.core.Vertx;
+import io.vertx.core.impl.ContextInternal;
+import io.vertx.core.impl.future.PromiseImpl;
 import io.vertx.up.exception.zero.JooqClassInvalidException;
 import io.vertx.up.exception.zero.JooqVertxNullException;
 import io.vertx.up.fn.Fn;
@@ -98,6 +102,12 @@ public class JooqDsl {
 
     public VertxDAO dao() {
         return this.dao;
+    }
+
+    public <T> Future<T> executeBlocking(Handler<Promise<T>> blockingCodeHandler) {
+        Promise<T> promise = new PromiseImpl((ContextInternal) this.vertxRef.getOrCreateContext());
+        this.vertxRef.executeBlocking(blockingCodeHandler, false, promise);
+        return promise.future();
     }
 
     // ----------------------- Sync/Async Read Operation

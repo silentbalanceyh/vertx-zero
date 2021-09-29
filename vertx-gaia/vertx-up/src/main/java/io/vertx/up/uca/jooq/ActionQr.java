@@ -45,11 +45,11 @@ public class ActionQr extends AbstractAction {
     }
 
     <T> List<T> search(final Qr qr) {
-        return this.searchInternal(this.dsl.context(), qr);
+        return this.searchInternal(this.context(), qr);
     }
 
     <T> List<T> search(final JsonObject criteria) {
-        return this.searchInternal(this.dsl.context(), criteria);
+        return this.searchInternal(this.context(), criteria);
     }
 
     /*

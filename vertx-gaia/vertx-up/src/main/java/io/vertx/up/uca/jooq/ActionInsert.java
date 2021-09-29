@@ -24,6 +24,7 @@ class ActionInsert extends AbstractAction {
 
     /* Future<T> */
     <T> Future<T> insertAsync(final T entity) {
+        Objects.requireNonNull(entity);
         final T inserted = this.uuid(entity);
         return ((Future<Integer>) this.dao().insert(inserted)).compose(rows -> {
             this.logger().info("[ Jq ] insertAsync(T) executed rows: {0}", String.valueOf(rows));
@@ -33,6 +34,7 @@ class ActionInsert extends AbstractAction {
 
     /* T */
     <T> T insert(final T entity) {
+        Objects.requireNonNull(entity);
         final T inserted = this.uuid(entity);
         final InsertSetMoreStep insertStep = this.context().insertInto(this.dsl.getTable())
             .set(this.newRecord(inserted));
@@ -43,6 +45,7 @@ class ActionInsert extends AbstractAction {
 
     /* Future<List<T>> */
     <T> Future<List<T>> insertAsync(final List<T> list) {
+        Objects.requireNonNull(list);
         final List<T> inserted = this.uuid(list);
         return ((Future<Integer>) this.dao().insert(inserted, true)).compose(rows -> {
             this.logger().info("[ Jq ] insertAsync(List<T>) executed rows: {0}/{1}", String.valueOf(rows), String.valueOf(list.size()));
@@ -52,6 +55,7 @@ class ActionInsert extends AbstractAction {
 
     /* List<T> */
     <T> List<T> insert(final List<T> list) {
+        Objects.requireNonNull(list);
         final List<T> inserted = this.uuid(list);
         InsertSetStep insertStep = this.context().insertInto(this.dsl.getTable());
         InsertValuesStepN insertValuesStepN = null;
