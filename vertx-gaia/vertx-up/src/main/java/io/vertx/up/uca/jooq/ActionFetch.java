@@ -77,12 +77,19 @@ class ActionFetch extends AbstractAction {
 
     /* Future<List<T>> */
     <T> Future<List<T>> fetchAsync(final JsonObject criteria) {
-        return this.qr.searchAsync(criteria);
+        return this.qr.<T>searchAsync(criteria).compose(list -> {
+            this.logger().info("[ Jq ] fetchAsync(JsonObject) condition json: \"{1}\", queried rows: {0}",
+                String.valueOf(list.size()), criteria);
+            return Future.succeededFuture(list);
+        });
     }
 
     /* List<T> */
     <T> List<T> fetch(final JsonObject criteria) {
-        return this.qr.search(criteria);
+        final List<T> list = this.qr.search(criteria);
+        this.logger().info("[ Jq ] fetch(JsonObject) condition json: \"{1}\", queried rows: {0}",
+            String.valueOf(list.size()), criteria);
+        return list;
     }
 
 

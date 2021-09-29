@@ -29,7 +29,7 @@ public class ActionQr extends AbstractAction {
         // Here above statement must be required and splitted
         // You could not write `this.vertxDAO.executeAsync(context -> this.searchInternal(context, inquiry))`
         // Above statement in comments will occurs compile error
-        return null;
+        return Future.succeededFuture(executor.apply(this.context()));
     }
 
     /*
@@ -41,7 +41,7 @@ public class ActionQr extends AbstractAction {
      */
     <T> Future<List<T>> searchAsync(final JsonObject criteria) {
         final Function<DSLContext, List<T>> executor = context -> this.searchInternal(context, criteria);
-        return null;
+        return Future.succeededFuture(executor.apply(this.context()));
     }
 
     <T> List<T> search(final Qr qr) {
@@ -78,7 +78,7 @@ public class ActionQr extends AbstractAction {
             conditionStep = started.where(condition);
         }
         // Projection
-        return started.fetch();
+        return started.fetchInto(this.analyzer.type());
     }
 
     /*
@@ -127,14 +127,14 @@ public class ActionQr extends AbstractAction {
         final JsonArray projection = Objects.isNull(projectionSet) ? new JsonArray() : Ut.toJArray(projectionSet);
         // Returned one by one
         if (null != pagerStep) {
-            return JqOut.toResult(pagerStep.fetch(), projection, this.analyzer);
+            return JqOut.toResult(pagerStep.fetchInto(this.analyzer.type()), projection, this.analyzer);
         }
         if (null != selectStep) {
-            return JqOut.toResult(selectStep.fetch(), projection, this.analyzer);
+            return JqOut.toResult(selectStep.fetchInto(this.analyzer.type()), projection, this.analyzer);
         }
         if (null != conditionStep) {
-            return JqOut.toResult(conditionStep.fetch(), projection, this.analyzer);
+            return JqOut.toResult(conditionStep.fetchInto(this.analyzer.type()), projection, this.analyzer);
         }
-        return JqOut.toResult(started.fetch(), projection, this.analyzer);
+        return JqOut.toResult(started.fetchInto(this.analyzer.type()), projection, this.analyzer);
     }
 }
