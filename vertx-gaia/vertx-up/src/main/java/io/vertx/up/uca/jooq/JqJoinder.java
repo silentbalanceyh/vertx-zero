@@ -126,7 +126,7 @@ class JqJoinder {
          */
         final JooqDsl dsl = JooqInfix.getDao(daoCls);
         final JqAnalyzer analyzer = JqAnalyzer.create(dsl);
-        final String tableName = analyzer.table();
+        final String tableName = analyzer.table().getName();
         this.ANALYZERS.put(daoCls, analyzer);
         {
             this.CLASS_MAP.put(daoCls, tableName);

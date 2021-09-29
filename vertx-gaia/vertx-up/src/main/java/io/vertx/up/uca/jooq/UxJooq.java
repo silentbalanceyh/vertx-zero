@@ -91,7 +91,7 @@ public final class UxJooq {
     }
 
     public String table() {
-        return this.analyzer.table();
+        return this.analyzer.table().getName();
     }
 
     private JsonObject andOr(final JsonObject criteria) {

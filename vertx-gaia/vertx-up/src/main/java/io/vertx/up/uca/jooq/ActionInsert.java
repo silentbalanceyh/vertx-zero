@@ -36,7 +36,7 @@ class ActionInsert extends AbstractAction {
     <T> T insert(final T entity) {
         Objects.requireNonNull(entity);
         final T inserted = this.uuid(entity);
-        final InsertSetMoreStep insertStep = this.context().insertInto(this.dsl.getTable())
+        final InsertSetMoreStep insertStep = this.context().insertInto(this.analyzer.table())
             .set(this.newRecord(inserted));
         final int rows = insertStep.execute();
         this.logger().info("[ Jq ] insert(T) executed rows: {0}", String.valueOf(rows));
@@ -57,7 +57,7 @@ class ActionInsert extends AbstractAction {
     <T> List<T> insert(final List<T> list) {
         Objects.requireNonNull(list);
         final List<T> inserted = this.uuid(list);
-        InsertSetStep insertStep = this.context().insertInto(this.dsl.getTable());
+        InsertSetStep insertStep = this.context().insertInto(this.analyzer.table());
         InsertValuesStepN insertValuesStepN = null;
         for (T pojo : inserted) {
             insertValuesStepN = insertStep.values(newRecord(pojo).intoArray());

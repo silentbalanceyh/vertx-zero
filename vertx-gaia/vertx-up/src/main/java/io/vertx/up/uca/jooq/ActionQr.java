@@ -70,7 +70,7 @@ public class ActionQr extends AbstractAction {
      */
     private <T> List<T> searchInternal(final DSLContext context, final JsonObject criteria) {
         // Started steps
-        final SelectWhereStep started = context.selectFrom(this.dsl.getTable());
+        final SelectWhereStep started = context.selectFrom(this.analyzer.table());
         // Condition injection
         SelectConditionStep conditionStep = null;
         if (null != criteria) {
@@ -92,7 +92,7 @@ public class ActionQr extends AbstractAction {
      */
     private <T> List<T> searchInternal(final DSLContext context, final Qr qr) {
         // Started steps
-        final SelectWhereStep started = context.selectFrom(this.dsl.getTable());
+        final SelectWhereStep started = context.selectFrom(this.analyzer.table());
         // Condition set
         SelectConditionStep conditionStep = null;
         if (null != qr.getCriteria()) {

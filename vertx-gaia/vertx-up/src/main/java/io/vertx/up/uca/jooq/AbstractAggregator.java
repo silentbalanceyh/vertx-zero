@@ -248,7 +248,7 @@ abstract class AbstractAggregator extends AbstractAction {
          */
         final SelectJoinStep selected = context
             .select(selectedList.toArray(new Field[]{}))
-            .from(this.dsl.getTable());
+            .from(this.analyzer.table());
         /*
          * Result calculation
          */

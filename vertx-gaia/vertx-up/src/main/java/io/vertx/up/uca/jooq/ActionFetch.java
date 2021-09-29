@@ -31,8 +31,8 @@ class ActionFetch extends AbstractAction {
 
     /* List<T> */
     <T> List<T> fetchAll() {
-        final SelectWhereStep selectStep = this.context().selectFrom(this.dsl.getTable());
-        final List<T> list = ((ResultQuery) selectStep).fetchInto(this.dsl.getType());
+        final SelectWhereStep selectStep = this.context().selectFrom(this.analyzer.table());
+        final List<T> list = ((ResultQuery) selectStep).fetchInto(this.analyzer.type());
         this.logger().info("[ Jq ] fetchAll() queried rows: {0}", String.valueOf(list.size()));
         return list;
     }
@@ -47,9 +47,9 @@ class ActionFetch extends AbstractAction {
 
     /* T */
     <T, ID> T fetchById(final ID id) {
-        final SelectConditionStep selectStep = this.context().selectFrom(this.dsl.getTable())
+        final SelectConditionStep selectStep = this.context().selectFrom(this.analyzer.table())
             .where(this.analyzer.conditionId(id));
-        final T queried = (T) ((ResultQuery) selectStep).fetchOneInto(this.dsl.getType());
+        final T queried = (T) ((ResultQuery) selectStep).fetchOneInto(this.analyzer.type());
         this.logger().info("[ Jq ] fetchByIdAsync(ID) by id: {1}, queried record: {0}", queried, id);
         return queried;
     }
@@ -67,9 +67,9 @@ class ActionFetch extends AbstractAction {
     /* List<T> */
     <T> List<T> fetch(final String field, final Object value) {
         final Condition condition = this.analyzer.conditionField(field, value);
-        final SelectConditionStep selectStep = this.context().selectFrom(this.dsl.getTable())
+        final SelectConditionStep selectStep = this.context().selectFrom(this.analyzer.table())
             .where(condition);
-        final List<T> list = (List<T>) ((ResultQuery) selectStep).fetchInto(this.dsl.getType());
+        final List<T> list = (List<T>) ((ResultQuery) selectStep).fetchInto(this.analyzer.type());
         this.logger().info("[ Jq ] fetch(String, Object) condition: \"{1}\", queried rows: {0}",
             String.valueOf(list.size()), condition);
         return list;
@@ -105,9 +105,9 @@ class ActionFetch extends AbstractAction {
     /* T */
     <T> T fetchOne(final String field, final Object value) {
         final Condition condition = this.analyzer.conditionField(field, value);
-        final SelectConditionStep selectStep = this.context().selectFrom(this.dsl.getTable())
+        final SelectConditionStep selectStep = this.context().selectFrom(this.analyzer.table())
             .where(condition);
-        final T queried = (T) ((ResultQuery) selectStep).fetchOneInto(this.dsl.getType());
+        final T queried = (T) ((ResultQuery) selectStep).fetchOneInto(this.analyzer.type());
         this.logger().info("[ Jq ] fetchOne(String, Object) condition: \"{1}\", queried record: {0}", queried, condition);
         return queried;
     }
@@ -124,9 +124,9 @@ class ActionFetch extends AbstractAction {
     /* T */
     <T> T fetchOne(final JsonObject criteria) {
         final Condition condition = JooqCond.transform(criteria, Operator.AND, this.analyzer::column);
-        final SelectConditionStep selectStep = this.context().selectFrom(this.dsl.getTable())
+        final SelectConditionStep selectStep = this.context().selectFrom(this.analyzer.table())
             .where(condition);
-        final T queried = (T) ((ResultQuery) selectStep).fetchOneInto(this.dsl.getType());
+        final T queried = (T) ((ResultQuery) selectStep).fetchOneInto(this.analyzer.type());
         this.logger().info("[ Jq ] fetchOne(JsonObject) condition: \"{1}\", queried record: {0}", queried, condition);
         return queried;
     }

@@ -4,6 +4,7 @@ import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 
 import java.util.List;
+import java.util.Objects;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
@@ -20,11 +21,12 @@ class ActionCheck extends AbstractAction {
     }
 
     Boolean existById(final Object id) {
-        return this.dsl.existById(id);
+        return Objects.nonNull(this.fetch.fetchById(id));
     }
 
     Future<Boolean> existByIdAsync(final Object id) {
-        return this.dsl.existByIdAsync(id);
+        return this.fetch.fetchByIdAsync(id)
+            .compose(queried -> Future.succeededFuture(Objects.nonNull(queried)));
     }
 
     <T> Boolean exist(final JsonObject criteria) {

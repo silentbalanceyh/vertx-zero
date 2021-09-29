@@ -12,14 +12,9 @@ import io.vertx.up.exception.zero.JooqVertxNullException;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import io.vertx.up.util.Ut;
-import org.jooq.Condition;
 import org.jooq.Configuration;
 import org.jooq.DSLContext;
-import org.jooq.Table;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
@@ -44,8 +39,6 @@ public class JooqDsl {
     private transient Configuration configurationRef;
     private transient String poolKey;
 
-    private transient JooqMeta metadata;
-    private transient JooqDao daoSync;
     private transient VertxDAO dao;
 
     private JooqDsl(final String poolKey) {
@@ -78,8 +71,6 @@ public class JooqDsl {
          */
         final VertxDAO vertxDAO = Ut.instance(daoCls, configurationRef, vertxRef);
         this.dao = vertxDAO;
-        this.metadata = JooqMeta.create(vertxDAO, daoCls);
-        this.daoSync = new JooqDao(this.metadata, this.configurationRef);
         return this;
     }
 
@@ -88,16 +79,9 @@ public class JooqDsl {
     }
 
     // ----------------------- Metadata
-    public Table<?> getTable() {
-        return this.metadata.table();
-    }
-
-    public Class<?> getType() {
-        return this.metadata.type();
-    }
 
     public DSLContext context() {
-        return this.daoSync.context();
+        return this.configurationRef.dsl();
     }
 
     public VertxDAO dao() {
@@ -108,93 +92,5 @@ public class JooqDsl {
         Promise<T> promise = new PromiseImpl((ContextInternal) this.vertxRef.getOrCreateContext());
         this.vertxRef.executeBlocking(blockingCodeHandler, false, promise);
         return promise.future();
-    }
-
-    // ----------------------- Sync/Async Read Operation
-    public <T> List<T> fetchAll() {
-        return this.daoSync.fetchAll();
-    }
-
-    public <T> List<T> fetch(final Condition condition) {
-        return this.daoSync.fetch(condition);
-    }
-
-    public <T, ID> T fetchById(ID id) {
-        return this.daoSync.fetchById(id);
-    }
-
-    public <T> T fetchOne(final Condition condition) {
-        return this.daoSync.fetchOne(condition);
-    }
-
-    public <T> Future<List<T>> fetchAllAsync() {
-        return (Future<List<T>>) dao.findAll();
-    }
-
-    public <T> Future<List<T>> fetchAsync(final Condition condition) {
-        return (Future<List<T>>) dao.findManyByCondition(condition);
-    }
-
-    public <T, ID> Future<T> fetchByIdAsync(ID id) {
-        return (Future<T>) dao.findOneById(id);
-    }
-
-    public <T> Future<T> fetchOneAsync(final Condition condition) {
-        return (Future<T>) dao.findOneByCondition(condition);
-    }
-
-    // ----------------------- Internal Call
-    public <T, ID> boolean existById(ID id) {
-        return Objects.nonNull(this.fetchById(id));
-    }
-
-    public <T, ID> Future<Boolean> existByIdAsync(ID id) {
-        return this.fetchByIdAsync(id)
-            .compose(queried -> Future.succeededFuture(Objects.nonNull(queried)));
-    }
-
-    public Long count() {
-        return Long.valueOf(this.fetchAll().size());
-    }
-
-    public Future<Long> countAsync() {
-        return this.fetchAllAsync()
-            .compose(qlist -> Future.succeededFuture(Long.valueOf(qlist.size())));
-    }
-
-    public Long count(final Condition condition) {
-        return Long.valueOf(this.fetch(condition).size());
-    }
-
-    public Future<Long> countAsync(final Condition condition) {
-        return this.fetchAsync(condition)
-            .compose(qlist -> Future.succeededFuture(Long.valueOf(qlist.size())));
-    }
-
-    // ----------------------- Sync/Async Write Operation
-
-    public <T> T delete(final T pojo) {
-        return this.daoSync.delete(pojo);
-    }
-
-    public <ID> Boolean deleteById(final Collection<ID> id) {
-        return this.daoSync.deleteByIds(id);
-    }
-
-    public <T> List<T> delete(final List<T> pojo) {
-        return this.daoSync.delete(pojo);
-    }
-
-    public <T> Future<T> deleteAsync(final T pojo) {
-        return null;
-    }
-
-    public <T> Future<List<T>> deleteAsync(final List<T> pojo) {
-        return null;
-    }
-
-    public <T, ID> Future<Boolean> deleteByIdAsync(final Collection<ID> ids) {
-        return ((Future) this.dao.deleteByIds(ids))
-            .compose(nil -> Future.succeededFuture(Boolean.TRUE));
     }
 }

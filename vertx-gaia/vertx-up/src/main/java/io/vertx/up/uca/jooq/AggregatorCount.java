@@ -28,31 +28,34 @@ class AggregatorCount extends AbstractAggregator {
      * All count
      */
     Long count() {
-        return this.dsl.count();
+        Long rows = Long.valueOf(this.context().fetchCount(this.analyzer.table()));
+        this.logger().info("[ Jq ] count() rows: {0}", String.valueOf(rows));
+        return rows;
     }
 
     Future<Long> countAsync() {
-        return this.dsl.countAsync();
+        return this.dsl.executeBlocking(h -> h.complete(this.count()));
     }
 
     /*
      * Count by criteria
      */
     Long count(final JsonObject criteria) {
-        final Condition condition = this.condition(criteria);
-        return this.dsl.count(condition);
+        final Condition condition = this.analyzer.condition(criteria);
+        Long rows = Long.valueOf(this.context().fetchCount(this.analyzer.table(), condition));
+        this.logger().info("[ Jq ] count(JsonObject) rows: {0}", String.valueOf(rows));
+        return rows;
     }
 
     <T> Future<Long> countAsync(final JsonObject criteria) {
-        final Condition condition = this.condition(criteria);
-        return this.dsl.countAsync(condition);
+        return this.dsl.executeBlocking(h -> h.complete(this.count(criteria)));
     }
 
     /*
      * Single group
      */
     ConcurrentMap<String, Integer> countBy(final JsonObject criteria, final String groupField) {
-        final Field countField = DSL.field("*").count().as(FIELD_COUNT);
+        final Field countField = DSL.field(this.analyzer.primary()).count().as(FIELD_COUNT);
         return this.aggregateBy(countField, criteria, groupField);
     }
 
@@ -60,7 +63,7 @@ class AggregatorCount extends AbstractAggregator {
      * Multi group
      */
     JsonArray countBy(final JsonObject criteria, final String... groupFields) {
-        final Field countField = DSL.field("*").count().as(FIELD_COUNT);
+        final Field countField = DSL.field(this.analyzer.primary()).count().as(FIELD_COUNT);
         return this.aggregateBy(countField, criteria, groupFields);
     }
 

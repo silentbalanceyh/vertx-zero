@@ -36,7 +36,7 @@ class ActionDelete extends AbstractAction {
     /* T */
     <T> T delete(final T entity) {
         final Condition condition = this.analyzer.conditionUk(entity);
-        final DeleteConditionStep deleteStep = this.context().deleteFrom(this.dsl.getTable())
+        final DeleteConditionStep deleteStep = this.context().deleteFrom(this.analyzer.table())
             .where(condition);
         final int rows = deleteStep.execute();
         this.logger().info("[ Jq ] delete(T) executed rows: {0}", String.valueOf(rows));
@@ -54,7 +54,7 @@ class ActionDelete extends AbstractAction {
         final List<Query> batchOps = new ArrayList<>();
         entity.stream().map(item -> {
             final Condition condition = this.analyzer.conditionUk(item);
-            return this.context().delete(this.dsl.getTable()).where(condition);
+            return this.context().delete(this.analyzer.table()).where(condition);
         }).forEach(batchOps::add);
         final int rows[] = this.context().batch(batchOps).execute();
         final long updated = Arrays.stream(rows).filter(value -> Values.ONE == value).count();
@@ -70,7 +70,7 @@ class ActionDelete extends AbstractAction {
         final List<Query> batchOps = new ArrayList<>();
         ids.stream().map(id -> {
             final Condition condition = this.analyzer.conditionId(id);
-            return this.context().delete(this.dsl.getTable()).where(condition);
+            return this.context().delete(this.analyzer.table()).where(condition);
         }).forEach(batchOps::add);
         final int rows[] = this.context().batch(batchOps).execute();
         final long updated = Arrays.stream(rows).filter(value -> Values.ONE == value).count();

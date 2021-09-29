@@ -2,6 +2,7 @@ package io.vertx.up.uca.jooq;
 
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.plugin.jooq.JooqDsl;
+import io.vertx.tp.plugin.jooq.condition.JooqCond;
 import io.vertx.up.atom.pojo.Mirror;
 import io.vertx.up.atom.pojo.Mojo;
 import io.vertx.up.eon.Strings;
@@ -51,9 +52,9 @@ public class JqAnalyzer {
     private JqAnalyzer(final JooqDsl dsl) {
         this.dsl = Fn.pool(DAO_POOL, dsl.hashCode(), () -> dsl);
         // Mapping initializing
-        this.table = dsl.getTable();
+        this.table = Ut.field(dsl.dao(), "table");
 
-        final Class<?> typeCls = dsl.getType();
+        final Class<?> typeCls = Ut.field(dsl.dao(), "type");
         this.entityCls = typeCls;
 
         final java.lang.reflect.Field[] fields = Ut.fields(typeCls);
@@ -94,8 +95,12 @@ public class JqAnalyzer {
         return Objects.isNull(this.vertxDAO) ? null : vertxDAO.vertx();
     }*/
 
-    public String table() {
-        return this.table.getName();
+    public Table<?> table() {
+        return this.table;
+    }
+
+    public Class<?> type() {
+        return this.entityCls;
     }
 
     public TreeSet<String> primarySet() {
@@ -169,10 +174,6 @@ public class JqAnalyzer {
             }
         });
         return keySet;
-    }
-
-    public Class<?> type() {
-        return this.entityCls;
     }
 
     private String columnName(final String field) {
@@ -285,7 +286,7 @@ public class JqAnalyzer {
     public Field column(final String field) {
         String columnField = columnName(field);
         Fn.outUp(null == columnField, LOGGER,
-            JooqFieldMissingException.class, UxJooq.class, field, this.dsl.getType());
+            JooqFieldMissingException.class, UxJooq.class, field, this.entityCls);
         LOGGER.debug(Info.JOOQ_FIELD, field, columnField);
         /*
          * Old code for field construct, following code will caurse Type/DataType missing
@@ -348,7 +349,7 @@ public class JqAnalyzer {
             /*
              * Skip Primary Key
              */
-            final Table<?> tableField = this.dsl.getTable();
+            final Table<?> tableField = this.table();
             final UniqueKey key = tableField.getPrimaryKey();
             key.getFields().stream().map(item -> ((TableField) item).getName())
                 .filter(this.revert::containsKey)
@@ -393,6 +394,10 @@ public class JqAnalyzer {
     }
 
     // -------------------------------- Condition Building
+    public Condition condition(final JsonObject criteria) {
+        return Ut.isNil(criteria) ? DSL.trueCondition() : JooqCond.transform(criteria, this::column);
+    }
+
     public <ID> Condition conditionId(ID id) {
         UniqueKey<?> uk = this.table.getPrimaryKey();
         Objects.requireNonNull(uk, () -> "[ Jq ] No primary key");

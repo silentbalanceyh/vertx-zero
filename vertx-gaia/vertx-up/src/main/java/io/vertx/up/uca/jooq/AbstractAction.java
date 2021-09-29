@@ -76,7 +76,7 @@ abstract class AbstractAction {
     // ---------------------------------- Sync Operation
     protected <T> Record newRecord(T pojo) {
         Objects.requireNonNull(pojo);
-        final Record record = this.context().newRecord(this.dsl.getTable(), pojo);
+        final Record record = this.context().newRecord(this.analyzer.table(), pojo);
         int size = record.size();
         for (int i = 0; i < size; i++)
             if (record.get(i) == null) {
@@ -90,9 +90,9 @@ abstract class AbstractAction {
 
     protected <T> UpdateConditionStep editRecord(T pojo) {
         Objects.requireNonNull(pojo);
-        Record record = this.context().newRecord(this.dsl.getTable(), pojo);
+        Record record = this.context().newRecord(this.analyzer.table(), pojo);
         Condition where = DSL.trueCondition();
-        UniqueKey<?> pk = this.dsl.getTable().getPrimaryKey();
+        UniqueKey<?> pk = this.analyzer.table().getPrimaryKey();
         for (TableField<?, ?> tableField : pk.getFields()) {
             //exclude primary keys from update
             record.changed(tableField, false);
@@ -101,7 +101,7 @@ abstract class AbstractAction {
         Map<String, Object> valuesToUpdate =
             Arrays.stream(record.fields())
                 .collect(HashMap::new, (m, f) -> m.put(f.getName(), f.getValue(record)), HashMap::putAll);
-        return this.context().update(this.dsl.getTable()).set(valuesToUpdate).where(where);
+        return this.context().update(this.analyzer.table()).set(valuesToUpdate).where(where);
     }
     // ---------------------------------- Output Method
 }
