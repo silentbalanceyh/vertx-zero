@@ -393,7 +393,7 @@ public class JqAnalyzer {
     }
 
     // -------------------------------- Condition Building
-    public <ID> Condition conditionKey(ID id) {
+    public <ID> Condition conditionId(ID id) {
         UniqueKey<?> uk = this.table.getPrimaryKey();
         Objects.requireNonNull(uk, () -> "[ Jq ] No primary key");
         /**
@@ -407,6 +407,18 @@ public class JqAnalyzer {
             condition = row(pk).equal((Record) id);
         }
         return condition;
+    }
+
+    public <T> Condition conditionUk(T pojo) {
+        Objects.requireNonNull(pojo);
+        Record record = this.dsl.context().newRecord(this.table, pojo);
+        Condition where = DSL.trueCondition();
+        UniqueKey<?> pk = this.table.getPrimaryKey();
+        for (TableField<?, ?> tableField : pk.getFields()) {
+            //exclude primary keys from update
+            where = where.and(((TableField<Record, Object>) tableField).eq(record.get(tableField)));
+        }
+        return where;
     }
 
     public Condition conditionField(final String field, final Object value) {

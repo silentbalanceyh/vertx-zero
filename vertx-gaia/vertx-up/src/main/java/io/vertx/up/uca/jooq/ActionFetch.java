@@ -48,7 +48,7 @@ class ActionFetch extends AbstractAction {
     /* T */
     <T, ID> T fetchById(final ID id) {
         final SelectConditionStep selectStep = this.context().selectFrom(this.dsl.getTable())
-            .where(this.analyzer.conditionKey(id));
+            .where(this.analyzer.conditionId(id));
         final T queried = (T) ((ResultQuery) selectStep).fetchOneInto(this.dsl.getType());
         this.logger().info("[ Jq ] fetchByIdAsync(ID) by id: {1}, queried record: {0}", queried, id);
         return queried;

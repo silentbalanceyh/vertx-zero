@@ -173,22 +173,6 @@ public class JooqDsl {
 
     // ----------------------- Sync/Async Write Operation
 
-    public <T> T update(final T pojo) {
-        return this.daoSync.update(pojo);
-    }
-
-    public <T> List<T> update(final List<T> pojo) {
-        return this.daoSync.update(pojo);
-    }
-
-    public <T> Future<T> updateAsync(final T pojo) {
-        return (Future<T>) this.dao.update(pojo);
-    }
-
-    public <T> Future<List<T>> updateAsync(final List<T> pojo) {
-        return null;
-    }
-
     public <T> T delete(final T pojo) {
         return this.daoSync.delete(pojo);
     }
