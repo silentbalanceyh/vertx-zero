@@ -96,6 +96,10 @@ public class JooqDsl {
         return this.daoSync.context();
     }
 
+    public VertxDAO dao() {
+        return this.dao;
+    }
+
     // ----------------------- Sync/Async Read Operation
     public <T> List<T> fetchAll() {
         return this.daoSync.fetchAll();
@@ -158,21 +162,6 @@ public class JooqDsl {
     }
 
     // ----------------------- Sync/Async Write Operation
-    public <T> T insert(final T pojo) {
-        return this.daoSync.insert(pojo);
-    }
-
-    public <T> List<T> insert(final List<T> pojo) {
-        return this.daoSync.insert(pojo);
-    }
-
-    public <T> Future<T> insertAsync(final T pojo) {
-        return (Future<T>) this.dao.insert(pojo);
-    }
-
-    public <T> Future<List<T>> insertAsync(final List<T> pojo) {
-        return (Future<List<T>>) this.dao.insert(pojo);
-    }
 
     public <T> T update(final T pojo) {
         return this.daoSync.update(pojo);

@@ -18,13 +18,6 @@
     </ignoreVersions>
     <rules>
 
-        <!-- hazelcast version: 3.x -->
-        <rule groupId="com.hazelcast" comparisonMethod="maven">
-            <ignoreVersions>
-                <ignoreVersion type="regex">(4.*|5.*)</ignoreVersion>
-            </ignoreVersions>
-        </rule>
-
         <!-- jersey version: 2.x -->
         <rule groupId="org.glassfish.jersey" comparisonMethod="maven">
             <ignoreVersions>

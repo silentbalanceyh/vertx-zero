@@ -2,6 +2,9 @@ package io.vertx.up.uca.jooq;
 
 import io.vertx.core.Future;
 import io.vertx.up.util.Ut;
+import org.jooq.InsertSetMoreStep;
+import org.jooq.InsertSetStep;
+import org.jooq.InsertValuesStepN;
 
 import java.util.List;
 import java.util.Objects;
@@ -21,23 +24,42 @@ class ActionInsert extends AbstractAction {
 
     /* Future<T> */
     <T> Future<T> insertAsync(final T entity) {
-        return this.dsl.insertAsync(this.uuid(entity));
+        final T inserted = this.uuid(entity);
+        return ((Future<Integer>) this.dao().insert(inserted)).compose(rows -> {
+            this.logger().info("[ Jq ] insertAsync(T) executed rows: {0}", rows);
+            return Future.succeededFuture(entity);
+        });
     }
 
     /* T */
     <T> T insert(final T entity) {
-        this.dsl.insert(uuid(entity));
-        return entity;
+        final T inserted = this.uuid(entity);
+        final InsertSetMoreStep insertStep = this.context().insertInto(this.dsl.getTable())
+            .set(this.newRecord(inserted));
+        final int rows = insertStep.execute();
+        this.logger().info("[ Jq ] insert(T) executed rows: {0}", rows);
+        return inserted;
     }
 
     /* Future<List<T>> */
     <T> Future<List<T>> insertAsync(final List<T> list) {
-        return this.dsl.insertAsync(this.uuid(list));
+        final List<T> inserted = this.uuid(list);
+        return ((Future<Integer>) this.dao().insert(inserted, true)).compose(rows -> {
+            this.logger().info("[ Jq ] insertAsync(List<T>) executed rows: {0}/{1}", rows, list.size());
+            return Future.succeededFuture(list);
+        });
     }
 
     /* List<T> */
     <T> List<T> insert(final List<T> list) {
-        this.dsl.insert(uuid(list));
+        final List<T> inserted = this.uuid(list);
+        InsertSetStep insertStep = this.context().insertInto(this.dsl.getTable());
+        InsertValuesStepN insertValuesStepN = null;
+        for (T pojo : inserted) {
+            insertValuesStepN = insertStep.values(newRecord(pojo).intoArray());
+        }
+        final int rows = insertValuesStepN.onDuplicateKeyIgnore().execute();
+        this.logger().info("[ Jq ] insert(List<T>) executed rows: {0}/{1}", rows, list.size());
         return list;
     }
 
@@ -58,7 +80,7 @@ class ActionInsert extends AbstractAction {
                 final String primaryField = Objects.isNull(primaryKey) ? null : primaryKey;
                 final Object keyValue = Ut.field(input, primaryField);
                 if (Objects.isNull(keyValue)) {
-                    Ut.field(input, "key", UUID.randomUUID().toString());
+                    Ut.field(input, primaryField, UUID.randomUUID().toString());
                 }
             } catch (final Throwable ex) {
                 /*

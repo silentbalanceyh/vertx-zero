@@ -14,6 +14,7 @@ import java.util.List;
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 @SuppressWarnings("all")
+@Deprecated
 class JooqDao {
 
     private final transient JooqMeta metadata;
@@ -52,10 +53,6 @@ class JooqDao {
     }
 
     <T> List<T> update(final List<T> pojo) {
-        return pojo;
-    }
-
-    <T> T insert(final T pojo) {
         return pojo;
     }
 
