@@ -23,11 +23,7 @@
         <!-- JooQ -->
         <dependency>
             <groupId>io.github.jklingsporn</groupId>
-            <artifactId>vertx-jooq-future</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>io.github.jklingsporn</groupId>
-            <artifactId>vertx-jooq-generate</artifactId>
+            <artifactId>vertx-jooq-classic-jdbc</artifactId>
         </dependency>
         <dependency>
             <groupId>org.jooq</groupId>
