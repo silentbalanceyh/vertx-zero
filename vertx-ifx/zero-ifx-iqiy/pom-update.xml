@@ -46,6 +46,12 @@
             </ignoreVersions>
         </rule>
 
+        <!-- vertx 3.x -->
+        <rule groupId="io.vertx" comparisonMethod="maven">
+            <ignoreVersions>
+                <ignoreVersion type="regex">4.*</ignoreVersion>
+            </ignoreVersions>
+        </rule>
         <rule groupId="*.maven" comparisonMethod="mercury"/>
         <rule groupId="org.scala-lang" comparisonMethod="maven">
             <ignoreVersions>
