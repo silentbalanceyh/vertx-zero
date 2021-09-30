@@ -19,7 +19,7 @@ public interface AuthMsg {
     String LOGIN_INPUT = "Login processing execute ( username = {0} )";
 
     String TOKEN_STORE = "The system will singleton user''s principle information. user key: {0}.";
-    String TOKEN_INPUT = "The system will verify token = {0}";
+    String TOKEN_INPUT = "The system will verify data = {1} from token = {0}";
     String TOKEN_JWT = "Jwt token data stored: {0}.";
 
     String TOKEN_SIZE_NULL = "Token size invalid ( null ): {0}, user: {1}.";

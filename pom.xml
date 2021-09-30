@@ -86,7 +86,7 @@
         <lombok.version>1.18.20</lombok.version>
         <asm.version>9.2</asm.version>
         <cglib.version>3.3.0</cglib.version>
-        <reflection.version>0.10-RC1</reflection.version>
+        <reflection.version>0.10-RC2</reflection.version>
 
         <!-- Etcd -->
         <etcd.version>2.18.0</etcd.version>
@@ -100,7 +100,7 @@
         <scala.version>2.12.15</scala.version>
         <feign.version>8.18.0</feign.version>
         <guava.version>31.0.1-jre</guava.version>
-        <joda.version>2.10.11</joda.version>
+        <joda.version>2.10.12</joda.version>
         <codehaus.janino.version>3.1.6</codehaus.janino.version>
         <codehaus.mojo.version>1.20</codehaus.mojo.version>
         <ignite.version>2.11.0</ignite.version>
@@ -310,6 +310,10 @@
                         <groupId>com.fasterxml.jackson.dataformat</groupId>
                         <artifactId>jackson-dataformat-yaml</artifactId>
                     </exclusion>
+                    <exclusion>
+                        <groupId>com.fasterxml.jackson.core</groupId>
+                        <artifactId>jackson-databind</artifactId>
+                    </exclusion>
                 </exclusions>
             </dependency>
             <dependency>
@@ -445,6 +449,12 @@
                 <groupId>io.vertx</groupId>
                 <artifactId>vertx-auth-common</artifactId>
                 <version>${vertx.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>io.vertx</groupId>
+                        <artifactId>vertx-core</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
             <dependency>
                 <groupId>io.vertx</groupId>
@@ -604,6 +614,20 @@
                 <groupId>io.github.jklingsporn</groupId>
                 <artifactId>vertx-jooq-classic-jdbc</artifactId>
                 <version>${vertx.jooq.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>io.vertx</groupId>
+                        <artifactId>vertx-core</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.jooq</groupId>
+                        <artifactId>jooq</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>com.fasterxml.jackson.core</groupId>
+                        <artifactId>jackson-databind</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
             <dependency>
                 <groupId>mysql</groupId>
@@ -676,6 +700,12 @@
                 <groupId>io.reactivex.rxjava2</groupId>
                 <artifactId>rxjava</artifactId>
                 <version>${rxjava2.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.reactivestreams</groupId>
+                        <artifactId>reactive-streams</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
             <!-- https://mvnrepository.com/artifact/org.apache.commons/commons-lang3 -->
             <dependency>
@@ -942,6 +972,14 @@
                         <groupId>org.javassist</groupId>
                         <artifactId>javassist</artifactId>
                     </exclusion>
+                    <exclusion>
+                        <groupId>com.google.code.findbugs</groupId>
+                        <artifactId>jsr305</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.slf4j</groupId>
+                        <artifactId>slf4j-api</artifactId>
+                    </exclusion>
                 </exclusions>
             </dependency>
             <!-- http://mvnrepository.com/artifact/junit/junit -->
@@ -1206,6 +1244,12 @@
                 <groupId>org.jooq</groupId>
                 <artifactId>jooq</artifactId>
                 <version>${jooq.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>javax.xml.bind</groupId>
+                        <artifactId>jaxb-api</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
             <!-- Netty -->
             <dependency>
