@@ -7,10 +7,10 @@ import io.vertx.ext.web.handler.AuthenticationHandler;
 import io.vertx.tp.route.init.RtPin;
 import io.vertx.up.annotations.Authenticate;
 import io.vertx.up.annotations.Wall;
-import io.vertx.up.secure.Security;
+import io.vertx.up.secure.ZaaS;
 
 @Wall(value = "jwt", path = "/api/*")
-public class MicroRouter implements Security {
+public class MicroRouter implements ZaaS {
 
     private final static String NAME = RtPin.ipcAuth();
 

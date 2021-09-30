@@ -60,4 +60,14 @@ public @interface Wall {
      * @return The phase that occurs in security limitation.
      */
     boolean define() default false;
+
+    /**
+     * Here are new design for security component, this will be put in new method
+     * 1. Login: It's freedom to call `ZaaS` component
+     * 2. The @Wall provide handler class so that you can build different handler
+     * 3. After routing calling, the handler will call ZaaS for 401 / 403
+     *
+     * @return The class that has been implemented ZaaS
+     */
+    Class<?> executor() default Void.class;
 }

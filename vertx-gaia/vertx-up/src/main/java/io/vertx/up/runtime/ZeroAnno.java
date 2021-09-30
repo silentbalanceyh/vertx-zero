@@ -1,5 +1,6 @@
 package io.vertx.up.runtime;
 
+import com.google.inject.Injector;
 import io.vertx.core.http.HttpMethod;
 import io.vertx.up.atom.agent.Event;
 import io.vertx.up.atom.secure.Aegis;
@@ -47,13 +48,21 @@ public class ZeroAnno {
         TPS = new HashSet<>();
     private final static Set<Mission>
         JOBS = new HashSet<>();
+    private static Injector DI;
 
     /*
      * Move to main thread to do init instead of static block initialization
+     * Here all the class must be prepared
      */
     public static void prepare() {
         /* 1.Scan the packages **/
         final Set<Class<?>> clazzes = ZeroPack.getClasses();
+        /*
+         * Guice Module Start
+         * */
+        final Inquirer<Injector> guice = Ut.singleton(GuiceInquirer.class);
+        DI = guice.scan(clazzes);
+
         /* EndPoint **/
         Inquirer<Set<Class<?>>> inquirer =
             Ut.singleton(EndPointInquirer.class);
@@ -119,7 +128,9 @@ public class ZeroAnno {
         final Inquirer<Set<Mission>> jobs = Ut.singleton(JobInquirer.class);
         JOBS.addAll(jobs.scan(clazzes));
 
-        /* Injections **/
+        /* Guice Processing */
+
+        /* Injection by Guice by google here ( New Version ) **/
         final Inquirer<ConcurrentMap<Class<?>, ConcurrentMap<String, Class<?>>>> afflux = Ut.singleton(AffluxInquirer.class);
         PLUGINS.putAll(afflux.scan(clazzes));
     }
@@ -129,8 +140,13 @@ public class ZeroAnno {
      *
      * @return plugin map
      */
+    @Deprecated
     public static ConcurrentMap<Class<?>, ConcurrentMap<String, Class<?>>> getPlugins() {
         return PLUGINS;
+    }
+
+    public static Injector getDi() {
+        return DI;
     }
 
     /**

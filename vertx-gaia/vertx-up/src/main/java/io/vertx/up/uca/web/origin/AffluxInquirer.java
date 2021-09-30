@@ -22,6 +22,14 @@ public class AffluxInquirer implements
     public ConcurrentMap<Class<?>, ConcurrentMap<String, Class<?>>> scan(final Set<Class<?>> classes) {
         // Find condition ok
         final Set<Class<?>> enabled = classes.stream()
+            /*
+             * @Mongo
+             * @MySql
+             * @Jooq
+             * @Rpc
+             * @Redis
+             * @Inject ( JSR 299 )
+             */
             .filter(item -> Anno.isMark(item, Plugins.INJECT_ANNOTATIONS))
             .collect(Collectors.toSet());
         // Scan each class.

@@ -96,10 +96,10 @@
 
         <jwt.version>3.18.2</jwt.version>
         <jetbrains.version>22.0.0</jetbrains.version>
-        <guice.version>4.1.0</guice.version>
+        <guice.version>5.0.1</guice.version>
+        <guava.version>31.0.1-jre</guava.version>
         <scala.version>2.12.15</scala.version>
         <feign.version>8.18.0</feign.version>
-        <guava.version>31.0.1-jre</guava.version>
         <joda.version>2.10.12</joda.version>
         <codehaus.janino.version>3.1.6</codehaus.janino.version>
         <codehaus.mojo.version>1.20</codehaus.mojo.version>
@@ -1083,6 +1083,22 @@
                 <groupId>org.projectlombok</groupId>
                 <artifactId>lombok-maven-plugin</artifactId>
                 <version>${maven.plugin.lombok}</version>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/com.google.inject/guice -->
+            <dependency>
+                <groupId>com.google.inject</groupId>
+                <artifactId>guice</artifactId>
+                <version>${guice.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>javax.inject</groupId>
+                        <artifactId>javax.inject</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>com.google.guava</groupId>
+                        <artifactId>guava</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
             <!-- https://mvnrepository.com/artifact/com.google.guava/guava -->
             <dependency>

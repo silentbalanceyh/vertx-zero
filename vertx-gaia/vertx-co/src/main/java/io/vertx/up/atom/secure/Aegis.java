@@ -42,6 +42,10 @@ public class Aegis implements Serializable, Comparable<Aegis> {
      * User-Defined authorization
      */
     private boolean defined = false;
+    /**
+     * Executor class
+     */
+    private Class<?> executor;
 
     public Against getAuthorizer() {
         return this.authorizer;
@@ -103,6 +107,18 @@ public class Aegis implements Serializable, Comparable<Aegis> {
         return Objects.nonNull(this.proxy) && Objects.nonNull(this.authorizer.getAuthorize());
     }
 
+    public Class<?> getExecutor() {
+        return this.executor;
+    }
+
+    public void setExecutor(final Class<?> executor) {
+        if (Void.class == executor) {
+            this.executor = null;
+        } else {
+            this.executor = executor;
+        }
+    }
+
     @Override
     public boolean equals(final Object o) {
         if (this == o) {
@@ -146,6 +162,7 @@ public class Aegis implements Serializable, Comparable<Aegis> {
             ", type=" + this.type +
             ", proxy=" + this.proxy +
             ", defined=" + this.defined +
+            ", executor=" + this.executor +
             '}';
     }
 }

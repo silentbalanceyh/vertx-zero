@@ -50,7 +50,7 @@ public class WallInquirer implements Inquirer<Set<Aegis>> {
         if (!wallClses.isEmpty()) {
             /*
              * It means that you have set Wall and enable security configuration
-             * wallClses verification
+             * wall Class verification
              */
             final ConcurrentMap<String, Class<?>> keys = new ConcurrentHashMap<>();
             final JsonObject config = this.verify(wallClses, keys);

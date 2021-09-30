@@ -24,6 +24,7 @@ public class DiScanner {
 
     private static final DiAnchor INJECTOR = new DiAnchor(DiScanner.class);
 
+
     private final transient Annal logger;
 
     private DiScanner(final Class<?> callee) {
@@ -37,7 +38,7 @@ public class DiScanner {
     @SuppressWarnings("all")
     public <T> T singleton(final Class<?> instanceCls) {
         /*
-         * Initialize object
+         * Initialize object for Agent / Worker
          */
         final Object instance = Ut.singleton(instanceCls);
         if (Objects.nonNull(instance)) {

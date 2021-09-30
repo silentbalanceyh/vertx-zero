@@ -10,7 +10,7 @@ import io.vertx.tp.rbac.cv.AuthKey;
 import io.vertx.tp.rbac.cv.AuthMsg;
 import io.vertx.tp.rbac.refine.Sc;
 import io.vertx.up.log.Annal;
-import io.vertx.up.secure.Security;
+import io.vertx.up.secure.ZaaS;
 import io.vertx.up.unity.Ux;
 
 import javax.inject.Inject;
@@ -26,7 +26,7 @@ public class AuthService implements AuthStub {
     @Inject
     private transient TokenStub tokenStub;
     @Inject
-    private transient Security security;
+    private transient ZaaS ZaaS;
 
     @Override
     @SuppressWarnings("all")
@@ -51,7 +51,7 @@ public class AuthService implements AuthStub {
         Sc.infoAuth(LOGGER, AuthMsg.CODE_VERIFY, clientId, code);
         return this.tokenStub.execute(clientId, code, session)
             // Store token information
-            .compose(this.security::store);
+            .compose(this.ZaaS::store);
     }
 
     @Override

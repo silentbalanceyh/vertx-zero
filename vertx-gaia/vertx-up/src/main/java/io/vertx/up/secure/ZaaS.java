@@ -4,9 +4,10 @@ import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 
 /**
+ * ZaaS -> Zero Authenticate and Authorization Service
  * Interface defined for component
  */
-public interface Security {
+public interface ZaaS {
     /**
      * 1. When you login into system successfully, you can store token in to:
      * 1) Redis
