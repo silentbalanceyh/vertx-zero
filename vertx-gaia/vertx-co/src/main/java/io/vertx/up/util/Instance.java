@@ -14,13 +14,18 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 import java.util.function.Consumer;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 @SuppressWarnings({"unchecked"})
 final class Instance {
 
     private static final Annal LOGGER = Annal.get(Instance.class);
+
+    private static final ConcurrentMap<String, Object> SINGLETON = new ConcurrentHashMap<>();
 
     private Instance() {
     }
@@ -57,10 +62,13 @@ final class Instance {
      */
     static <T> T singleton(final Class<?> clazz,
                            final Object... params) {
-        final Object created = Fn.pool(Storage.SINGLETON, clazz.getName(),
-            () -> instance(clazz, params));
         // Must reference to created first.
-        return Fn.getJvm(() -> (T) created, created);
+        return (T) Fn.pool(SINGLETON, clazz.getName(),
+            () -> instance(clazz, params));
+    }
+
+    static <T> T singleton(final Class<?> clazz, final Supplier<T> supplier) {
+        return (T) Fn.pool(SINGLETON, clazz.getName(), supplier::get);
     }
 
     /**

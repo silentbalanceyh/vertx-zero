@@ -1,5 +1,6 @@
 package io.vertx.up.uca.rs.config;
 
+import com.google.inject.Injector;
 import io.reactivex.Observable;
 import io.vertx.core.http.HttpMethod;
 import io.vertx.core.impl.ConcurrentHashSet;
@@ -10,6 +11,7 @@ import io.vertx.up.annotations.EndPoint;
 import io.vertx.up.atom.agent.Event;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
+import io.vertx.up.runtime.ZeroAnno;
 import io.vertx.up.runtime.ZeroHelper;
 import io.vertx.up.uca.container.VInstance;
 import io.vertx.up.uca.rs.Extractor;
@@ -132,10 +134,11 @@ public class EventExtractor implements Extractor<Set<Event>> {
         // 7. Instance clazz for proxy
         final Class<?> clazz = method.getDeclaringClass();
         final Object proxy;
+        final Injector di = ZeroAnno.getDi();
         if (clazz.isInterface()) {
             final Class<?> implClass = Ut.childUnique(clazz);
             if (null != implClass) {
-                proxy = Component.get(implClass); // Ut.singleton(implClass);
+                proxy = Ut.singleton(implClass, () -> di.getInstance(implClass)); // Ut.singleton(implClass);
             } else {
                 /*
                  * SPEC5: Interface only, direct api, in this situation,
@@ -146,7 +149,8 @@ public class EventExtractor implements Extractor<Set<Event>> {
                 proxy = VInstance.create(clazz);
             }
         } else {
-            proxy = Component.get(method.getDeclaringClass()); // Ut.singleton(method.getDeclaringClass());
+            final Class<?> implClass = method.getDeclaringClass();
+            proxy = Ut.singleton(implClass, () -> di.getInstance(implClass)); // Ut.singleton(method.getDeclaringClass());
         }
         event.setProxy(proxy);
         // 8. Order

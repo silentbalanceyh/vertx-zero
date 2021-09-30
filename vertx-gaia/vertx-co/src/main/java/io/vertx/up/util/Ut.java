@@ -494,6 +494,10 @@ public final class Ut {
         return Instance.singleton(clazz, params);
     }
 
+    public static <T> T singleton(final Class<?> clazz, final Supplier<T> supplier) {
+        return Instance.singleton(clazz, supplier);
+    }
+
     public static <T> Constructor<T> constructor(final Class<?> clazz, final Object... params) {
         return Instance.constructor(clazz, params);
     }

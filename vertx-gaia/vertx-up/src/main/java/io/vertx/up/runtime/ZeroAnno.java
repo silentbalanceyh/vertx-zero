@@ -26,8 +26,6 @@ public class ZeroAnno {
 
     private final static Set<Class<?>>
         ENDPOINTS = new HashSet<>();
-    private final static ConcurrentMap<Class<?>, ConcurrentMap<String, Class<?>>>
-        PLUGINS = new ConcurrentHashMap<>();
     private final static Set<Receipt>
         RECEIPTS = new HashSet<>();
     private final static Set<Event>
@@ -127,20 +125,6 @@ public class ZeroAnno {
         /* Jobs with description in zero */
         final Inquirer<Set<Mission>> jobs = Ut.singleton(JobInquirer.class);
         JOBS.addAll(jobs.scan(clazzes));
-
-        /* Injection by Guice by google here ( New Version ) **/
-        // final Inquirer<ConcurrentMap<Class<?>, ConcurrentMap<String, Class<?>>>> afflux = Ut.singleton(AffluxInquirer.class);
-        // PLUGINS.putAll(afflux.scan(clazzes));
-    }
-
-    /**
-     * Get all plugins
-     *
-     * @return plugin map
-     */
-    @Deprecated
-    public static ConcurrentMap<Class<?>, ConcurrentMap<String, Class<?>>> getPlugins() {
-        return PLUGINS;
     }
 
     public static Injector getDi() {

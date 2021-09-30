@@ -69,10 +69,6 @@ enum StoreConfig {
 
 interface Storage {
     /**
-     * Singletons
-     */
-    ConcurrentMap<String, Object> SINGLETON = new ConcurrentHashMap<>();
-    /**
      * Class cached.
      */
     ConcurrentMap<String, Class<?>> CLASSES = new ConcurrentHashMap<>();

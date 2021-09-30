@@ -163,13 +163,6 @@ public class VertxApplication {
                 final Scatter<Vertx> scatter = Ut.singleton(CodexScatter.class);
                 scatter.connect(vertx);
             }, "codex-engine-runner");
-
-            /* 5.Plugin init */
-            /*
-            Runner.run(() -> {
-                final Scatter<Vertx> scatter = Ut.singleton(InitScatter.class);
-                scatter.connect(vertx);
-            }, "initializer-runner");*/
         });
     }
 }

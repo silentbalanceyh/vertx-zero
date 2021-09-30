@@ -1,4 +1,4 @@
-package io.vertx.up.uca.di.guice;
+package io.vertx.up.uca.di;
 
 import com.google.inject.AbstractModule;
 import io.vertx.up.log.Annal;

@@ -1,5 +1,6 @@
 package io.vertx.up.uca.rs.config;
 
+import com.google.inject.Injector;
 import io.reactivex.Observable;
 import io.vertx.up.annotations.Address;
 import io.vertx.up.atom.worker.Receipt;
@@ -79,7 +80,8 @@ public class ReceiptExtractor implements Extractor<Set<Receipt>> {
         receipt.setAddress(address);
 
         // Fix: Instance class for proxy
-        final Object proxy = Component.get(clazz);
+        final Injector di = ZeroAnno.getDi();
+        final Object proxy = Ut.singleton(clazz, () -> di.getInstance(clazz));
         receipt.setProxy(proxy);
         return receipt;
     }

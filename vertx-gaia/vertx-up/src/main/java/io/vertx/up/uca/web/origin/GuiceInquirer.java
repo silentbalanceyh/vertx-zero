@@ -7,8 +7,8 @@ import io.vertx.up.annotations.EndPoint;
 import io.vertx.up.annotations.Queue;
 import io.vertx.up.log.Annal;
 import io.vertx.up.plugin.Infix;
-import io.vertx.up.uca.di.guice.JavaDi;
-import io.vertx.up.uca.di.guice.JsrDi;
+import io.vertx.up.uca.di.JavaDi;
+import io.vertx.up.uca.di.JsrDi;
 import io.vertx.up.uca.web.filter.HttpFilter;
 import io.vertx.up.util.Ut;
 

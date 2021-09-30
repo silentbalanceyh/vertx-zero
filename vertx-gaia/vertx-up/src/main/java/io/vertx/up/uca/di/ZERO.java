@@ -14,5 +14,4 @@ interface Info {
 interface Pool {
 
     ConcurrentMap<Class<?>, DiPlugin> PLUGINS = new ConcurrentHashMap<>();
-    ConcurrentMap<Class<?>, DiScanner> INJECTION = new ConcurrentHashMap<>();
 }
