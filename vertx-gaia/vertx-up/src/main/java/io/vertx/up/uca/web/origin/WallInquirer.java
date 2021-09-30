@@ -4,6 +4,7 @@ import io.reactivex.Observable;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.error.WallDuplicatedException;
 import io.vertx.tp.error.WallKeyMissingException;
+import io.vertx.up.annotations.Aas;
 import io.vertx.up.annotations.Wall;
 import io.vertx.up.atom.secure.Aegis;
 import io.vertx.up.exception.zero.DynamicKeyMissingException;
@@ -82,6 +83,11 @@ public class WallInquirer implements Inquirer<Set<Aegis>> {
             // Standard Workflow
             AuthStandard.create(clazz)
                 .verify().mount(aegis);
+        }
+        /* Executor for you own code logical */
+        final Class<?> executorCls = Ut.invoke(annotation, "executor");
+        if (Void.class != executorCls && executorCls.isAnnotationPresent(Aas.class)) {
+            aegis.setExecutor(executorCls);
         }
     }
 
