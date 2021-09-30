@@ -1,5 +1,6 @@
 package io.vertx.up.uca.di;
 
+import com.google.inject.Injector;
 import io.reactivex.Observable;
 import io.vertx.up.annotations.Plugin;
 import io.vertx.up.eon.Info;
@@ -7,6 +8,7 @@ import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import io.vertx.up.plugin.Infix;
 import io.vertx.up.runtime.ZeroAmbient;
+import io.vertx.up.runtime.ZeroAnno;
 import io.vertx.up.util.Ut;
 
 import java.lang.reflect.Method;
@@ -30,7 +32,12 @@ public class DiPlugin {
         return Fn.pool(Pool.PLUGINS, clazz, () -> new DiPlugin(clazz));
     }
 
-    public void inject(final Object proxy) {
+    public <T> T createComponent(final Class<?> clazz) {
+        final Injector di = ZeroAnno.getDi();
+        return Ut.singleton(clazz, () -> (T) di.getInstance(clazz));
+    }
+
+    public void createInjection(final Object proxy) {
         final ConcurrentMap<Class<?>, Class<?>> binds = getBind();
         final Class<?> type = proxy.getClass();
         Observable.fromArray(type.getDeclaredFields())

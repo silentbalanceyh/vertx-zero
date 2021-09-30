@@ -6,7 +6,8 @@ import io.vertx.up.annotations.Authorization;
 import io.vertx.up.atom.secure.Aegis;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
-import io.vertx.up.util.Ut;
+import io.vertx.up.uca.di.DiPlugin;
+import io.vertx.up.uca.rs.config.EventExtractor;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
@@ -15,6 +16,7 @@ import java.util.Optional;
 
 public class AuthStandard {
 
+    private static final DiPlugin PLUGIN = DiPlugin.create(EventExtractor.class);
     private final transient Class<?> clazz;
     private final transient Annal logger;
     private final transient Method[] methods;
@@ -42,7 +44,7 @@ public class AuthStandard {
 
     public void mount(final Aegis reference) {
         /* Proxy **/
-        reference.setProxy(Ut.singleton(this.clazz));
+        reference.setProxy(PLUGIN.createComponent(this.clazz));
         // Find the first: Authenticate
         final Optional<Method> authenticateMethod
             = Arrays.stream(this.methods).filter(

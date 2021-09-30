@@ -41,8 +41,6 @@ public class ZeroAnno {
     private final static ConcurrentMap<String, Method>
         IPCS = new ConcurrentHashMap<>();
     private final static Set<Class<?>>
-        POINTER = new HashSet<>();
-    private final static Set<Class<?>>
         TPS = new HashSet<>();
     private final static Set<Mission>
         JOBS = new HashSet<>();
@@ -111,8 +109,8 @@ public class ZeroAnno {
         AGENTS.putAll(agent.scan(clazzes));
 
         /* JSR330 Fix **/
-        final Inquirer<Set<Class<?>>> pointer = Ut.singleton(PointerInquirer.class);
-        POINTER.addAll(pointer.scan(clazzes));
+        // final Inquirer<Set<Class<?>>> pointer = Ut.singleton(PointerInquirer.class);
+        // POINTER.addAll(pointer.scan(clazzes));
 
         /* Tp Clients **/
         final Inquirer<Set<Class<?>>> tps = Ut.singleton(PluginInquirer.class);
@@ -138,15 +136,6 @@ public class ZeroAnno {
      */
     public static ConcurrentMap<ServerType, List<Class<?>>> getAgents() {
         return AGENTS;
-    }
-
-    /**
-     * Injects
-     *
-     * @return pointer set
-     */
-    public static Set<Class<?>> getInjects() {
-        return POINTER;
     }
 
     /**

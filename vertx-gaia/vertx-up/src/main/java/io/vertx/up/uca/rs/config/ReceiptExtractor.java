@@ -1,6 +1,5 @@
 package io.vertx.up.uca.rs.config;
 
-import com.google.inject.Injector;
 import io.reactivex.Observable;
 import io.vertx.up.annotations.Address;
 import io.vertx.up.atom.worker.Receipt;
@@ -8,6 +7,7 @@ import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import io.vertx.up.runtime.Anno;
 import io.vertx.up.runtime.ZeroAnno;
+import io.vertx.up.uca.di.DiPlugin;
 import io.vertx.up.uca.rs.Extractor;
 import io.vertx.up.util.Ut;
 import io.vertx.zero.exception.AddressWrongException;
@@ -24,6 +24,7 @@ import java.util.TreeSet;
 public class ReceiptExtractor implements Extractor<Set<Receipt>> {
 
     private static final Annal LOGGER = Annal.get(ReceiptExtractor.class);
+    private static final DiPlugin PLUGIN = DiPlugin.create(ReceiptExtractor.class);
 
     private static final Set<String> ADDRESS = new TreeSet<>();
 
@@ -80,8 +81,7 @@ public class ReceiptExtractor implements Extractor<Set<Receipt>> {
         receipt.setAddress(address);
 
         // Fix: Instance class for proxy
-        final Injector di = ZeroAnno.getDi();
-        final Object proxy = Ut.singleton(clazz, () -> di.getInstance(clazz));
+        final Object proxy = PLUGIN.createComponent(clazz);
         receipt.setProxy(proxy);
         return receipt;
     }

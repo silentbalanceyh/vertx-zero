@@ -31,10 +31,10 @@ public enum AuthWall {
         Arrays.stream(AuthWall.values()).forEach(wall -> TYPE_MAP.put(wall.key(), wall));
     }
 
-    private transient final String literal;
+    private transient final String configKey;
 
-    AuthWall(final String literal) {
-        this.literal = literal;
+    AuthWall(final String configKey) {
+        this.configKey = configKey;
     }
 
     public static AuthWall from(final String literal) {
@@ -46,10 +46,10 @@ public enum AuthWall {
     }
 
     public String key() {
-        return this.literal;
+        return this.configKey;
     }
 
     public boolean match(final String literal) {
-        return this.literal.equals(literal);
+        return this.configKey.equals(literal);
     }
 }

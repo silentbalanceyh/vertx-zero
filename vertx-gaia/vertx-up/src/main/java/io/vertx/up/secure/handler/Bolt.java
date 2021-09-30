@@ -4,6 +4,10 @@ import io.vertx.core.Vertx;
 import io.vertx.ext.web.handler.AuthenticationHandler;
 import io.vertx.ext.web.handler.AuthorizationHandler;
 import io.vertx.up.atom.secure.Aegis;
+import io.vertx.up.fn.Fn;
+
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
 /**
  * Security Module for dispatcher,
@@ -11,8 +15,10 @@ import io.vertx.up.atom.secure.Aegis;
  */
 public interface Bolt {
 
+    ConcurrentMap<String, Bolt> POOL = new ConcurrentHashMap<>();
+
     static Bolt get() {
-        return BoltBridge.create();
+        return Fn.poolThread(POOL, BoltBridge::new, BoltBridge.class.getName());
     }
 
     /*

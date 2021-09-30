@@ -1,6 +1,5 @@
 package io.vertx.up.uca.rs.config;
 
-import com.google.inject.Injector;
 import io.reactivex.Observable;
 import io.vertx.core.http.HttpMethod;
 import io.vertx.core.impl.ConcurrentHashSet;
@@ -12,8 +11,8 @@ import io.vertx.up.atom.agent.Event;
 import io.vertx.up.atom.container.VInstance;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
-import io.vertx.up.runtime.ZeroAnno;
 import io.vertx.up.runtime.ZeroHelper;
+import io.vertx.up.uca.di.DiPlugin;
 import io.vertx.up.uca.rs.Extractor;
 import io.vertx.up.util.Ut;
 import io.vertx.zero.exception.EventSourceException;
@@ -32,6 +31,8 @@ import java.util.stream.Collectors;
 public class EventExtractor implements Extractor<Set<Event>> {
 
     private static final Annal LOGGER = Annal.get(EventExtractor.class);
+
+    private static final DiPlugin PLUGIN = DiPlugin.create(EventExtractor.class);
 
     @Override
     public Set<Event> extract(final Class<?> clazz) {
@@ -134,11 +135,10 @@ public class EventExtractor implements Extractor<Set<Event>> {
         // 7. Instance clazz for proxy
         final Class<?> clazz = method.getDeclaringClass();
         final Object proxy;
-        final Injector di = ZeroAnno.getDi();
         if (clazz.isInterface()) {
             final Class<?> implClass = Ut.childUnique(clazz);
             if (null != implClass) {
-                proxy = Ut.singleton(implClass, () -> di.getInstance(implClass)); // Ut.singleton(implClass);
+                proxy = PLUGIN.createComponent(implClass); // Ut.singleton(implClass);
             } else {
                 /*
                  * SPEC5: Interface only, direct api, in this situation,
@@ -149,8 +149,7 @@ public class EventExtractor implements Extractor<Set<Event>> {
                 proxy = VInstance.create(clazz);
             }
         } else {
-            final Class<?> implClass = method.getDeclaringClass();
-            proxy = Ut.singleton(implClass, () -> di.getInstance(implClass)); // Ut.singleton(method.getDeclaringClass());
+            proxy = PLUGIN.createComponent(method.getDeclaringClass()); // Ut.singleton(method.getDeclaringClass());
         }
         event.setProxy(proxy);
         // 8. Order

@@ -17,15 +17,6 @@ import java.util.Objects;
  */
 class BoltNative implements Bolt {
 
-    private static Bolt INSTANCE;
-
-    static Bolt create() {
-        if (null == INSTANCE) {
-            INSTANCE = new BoltNative();
-        }
-        return INSTANCE;
-    }
-
     /*
      *  Extract AuthenticationHandler
      */

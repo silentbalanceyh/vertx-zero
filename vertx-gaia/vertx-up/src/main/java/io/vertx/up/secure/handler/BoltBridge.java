@@ -4,26 +4,20 @@ import io.vertx.core.Vertx;
 import io.vertx.ext.web.handler.AuthenticationHandler;
 import io.vertx.ext.web.handler.AuthorizationHandler;
 import io.vertx.up.atom.secure.Aegis;
+import io.vertx.up.fn.Fn;
 
 import java.util.Objects;
 
 /**
- * Dispatch Bolt to real bolt instance.
+ * Dispatch Bolt to real bolt instance, here are the bridge
+ * between standard and user defined part
  */
 class BoltBridge implements Bolt {
 
-    private static Bolt INSTANCE;
     private final transient Bolt internal;
 
-    private BoltBridge() {
-        this.internal = BoltNative.create();
-    }
-
-    static Bolt create() {
-        if (null == INSTANCE) {
-            INSTANCE = new BoltBridge();
-        }
-        return INSTANCE;
+    BoltBridge() {
+        this.internal = Fn.poolThread(POOL, BoltNative::new, BoltNative.class.getName());
     }
 
     @Override
