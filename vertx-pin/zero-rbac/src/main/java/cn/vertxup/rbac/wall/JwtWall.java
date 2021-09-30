@@ -1,19 +1,26 @@
 package cn.vertxup.rbac.wall;
 
-import cn.vertxup.rbac.wall.zaas.CommonZaaS;
-import io.vertx.core.Vertx;
+import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
-import io.vertx.ext.web.handler.AuthenticationHandler;
 import io.vertx.up.annotations.Authenticate;
+import io.vertx.up.annotations.Authorization;
 import io.vertx.up.annotations.Wall;
+import io.vertx.up.secure.ZaaS;
 
-@Wall(value = "jwt", path = "/api/*", executor = CommonZaaS.class)
+import javax.inject.Inject;
+
+@Wall(value = "jwt", path = "/api/*")
 public class JwtWall {
+    @Inject
+    private transient ZaaS aaS;
 
     @Authenticate
-    public AuthenticationHandler authenticate(final Vertx vertx,
-                                              final JsonObject config) {
-        System.out.println(config.encodePrettily());
-        return null;//JwtOstium.create(JwtAuth.create(vertx, new JWTAuthOptions(config).bind(() -> this));
+    public Future<Boolean> authenticate(final JsonObject data) {
+        return this.aaS.verify(data);
+    }
+
+    @Authorization
+    public Future<Boolean> authorization(final JsonObject data) {
+        return this.aaS.authorize(data);
     }
 }

@@ -1,7 +1,7 @@
 package io.vertx.up.atom.secure;
 
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.eon.em.WallType;
+import io.vertx.up.eon.em.AuthWall;
 import io.vertx.up.util.Ut;
 import org.jetbrains.annotations.NotNull;
 
@@ -33,7 +33,7 @@ public class Aegis implements Serializable, Comparable<Aegis> {
     /**
      * Current wall type
      */
-    private WallType type;
+    private AuthWall type;
     /**
      * Proxy instance
      */
@@ -83,11 +83,11 @@ public class Aegis implements Serializable, Comparable<Aegis> {
         this.config = config;
     }
 
-    public WallType getType() {
+    public AuthWall getType() {
         return this.type;
     }
 
-    public void setType(final WallType type) {
+    public void setType(final AuthWall type) {
         this.type = type;
     }
 

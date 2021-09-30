@@ -18,18 +18,18 @@ public class IpcServer {
      * This is specific because of @Inject may generate duplicated
      * implementation class in zero system.
      */
-    private final transient ZaaS ZaaS = Ut.singleton(CommonZaaS.class);
+    private final transient ZaaS aaS = Ut.singleton(CommonZaaS.class);
 
     @Ipc(KeIpc.Sc.IPC_TOKEN_VERIFY)
     public Future<JsonObject> verify(final Envelop envelop) {
-        return this.ZaaS.verify(envelop.data())
+        return this.aaS.verify(envelop.data())
             /* Token verified successfully */
             .compose(Ke.Result::boolAsync);
     }
 
     @Ipc(KeIpc.Sc.IPC_TOKEN_ACCESS)
     public Future<JsonObject> access(final Envelop envelop) {
-        return this.ZaaS.access(envelop.data())
+        return this.aaS.authorize(envelop.data())
             /* Token access */
             .compose(Ke.Result::boolAsync);
     }

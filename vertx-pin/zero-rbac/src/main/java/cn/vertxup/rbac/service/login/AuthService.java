@@ -26,7 +26,7 @@ public class AuthService implements AuthStub {
     @Inject
     private transient TokenStub tokenStub;
     @Inject
-    private transient ZaaS ZaaS;
+    private transient ZaaS aaS;
 
     @Override
     @SuppressWarnings("all")
@@ -51,7 +51,7 @@ public class AuthService implements AuthStub {
         Sc.infoAuth(LOGGER, AuthMsg.CODE_VERIFY, clientId, code);
         return this.tokenStub.execute(clientId, code, session)
             // Store token information
-            .compose(this.ZaaS::store);
+            .compose(this.aaS::store);
     }
 
     @Override

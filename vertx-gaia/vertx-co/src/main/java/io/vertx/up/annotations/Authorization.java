@@ -3,11 +3,12 @@ package io.vertx.up.annotations;
 import java.lang.annotation.*;
 
 /**
- * @author <a href="http://www.origin-x.cn">Lang</a>
+ * This annotation must be inner @Wall
+ * It's for 403 Response
  */
-@Target({ElementType.TYPE})
+@Target({ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Inherited
-public @interface Aas {
+public @interface Authorization {
 }

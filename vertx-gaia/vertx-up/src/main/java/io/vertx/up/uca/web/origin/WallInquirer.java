@@ -1,21 +1,15 @@
 package io.vertx.up.uca.web.origin;
 
 import io.reactivex.Observable;
-import io.vertx.core.json.JsonObject;
 import io.vertx.tp.error.WallDuplicatedException;
 import io.vertx.tp.error.WallKeyMissingException;
-import io.vertx.up.annotations.Aas;
 import io.vertx.up.annotations.Wall;
 import io.vertx.up.atom.secure.Aegis;
-import io.vertx.up.exception.zero.DynamicKeyMissingException;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
-import io.vertx.up.secure.Rampart;
+import io.vertx.up.secure.config.AuthConfig;
 import io.vertx.up.secure.proof.AuthDefined;
 import io.vertx.up.secure.proof.AuthStandard;
-import io.vertx.up.uca.marshal.Transformer;
-import io.vertx.up.uca.yaml.Node;
-import io.vertx.up.uca.yaml.ZeroUniform;
 import io.vertx.up.util.Ut;
 
 import java.lang.annotation.Annotation;
@@ -33,42 +27,35 @@ public class WallInquirer implements Inquirer<Set<Aegis>> {
 
     private static final Annal LOGGER = Annal.get(WallInquirer.class);
 
-    private static final Node<JsonObject> NODE =
-        Ut.singleton(ZeroUniform.class);
-
-    private static final String KEY = "secure";
-
-    private transient final Transformer<Aegis> transformer =
-        Ut.singleton(Rampart.class);
-
     @Override
     public Set<Aegis> scan(final Set<Class<?>> walls) {
         /* 1. Build result **/
         final Set<Aegis> wallSet = new TreeSet<>();
-        final Set<Class<?>> wallClses = walls.stream()
+        final Set<Class<?>> wallClass = walls.stream()
             .filter((item) -> item.isAnnotationPresent(Wall.class))
             .collect(Collectors.toSet());
-        if (!wallClses.isEmpty()) {
+        if (!wallClass.isEmpty()) {
             /*
              * It means that you have set Wall and enable security configuration
              * wall Class verification
              */
             final ConcurrentMap<String, Class<?>> keys = new ConcurrentHashMap<>();
-            final JsonObject config = this.verify(wallClses, keys);
-            for (final String field : config.fieldNames()) {
+            final ConcurrentMap<String, AuthConfig> config = this.verify(wallClass, keys);
+            config.forEach((key, authConfig) -> {
                 // Difference key setting
-                final Class<?> cls = keys.get(field);
-                final Aegis aegis = this.transformer.transform(config.getJsonObject(field));
+                final Class<?> cls = keys.get(key);
                 // Set Information from class
-                this.mountData(aegis, cls);
-                wallSet.add(aegis);
-            }
+                wallSet.add(this.create(authConfig, cls));
+            });
         }
         /* 3. Transfer **/
         return wallSet;
     }
 
-    private void mountData(final Aegis aegis, final Class<?> clazz) {
+    private Aegis create(final AuthConfig input, final Class<?> clazz) {
+        final Aegis aegis = new Aegis();
+        aegis.setConfig(input.config());
+        aegis.setType(input.wall());
         /* Extract basic data **/
         final Annotation annotation = clazz.getAnnotation(Wall.class);
         aegis.setOrder(Ut.invoke(annotation, "order"));
@@ -84,11 +71,7 @@ public class WallInquirer implements Inquirer<Set<Aegis>> {
             AuthStandard.create(clazz)
                 .verify().mount(aegis);
         }
-        /* Executor for you own code logical */
-        final Class<?> executorCls = Ut.invoke(annotation, "executor");
-        if (Void.class != executorCls && executorCls.isAnnotationPresent(Aas.class)) {
-            aegis.setExecutor(executorCls);
-        }
+        return aegis;
     }
 
     /**
@@ -97,8 +80,8 @@ public class WallInquirer implements Inquirer<Set<Aegis>> {
      *
      * @return valid configuration that will be used in @Wall class.
      */
-    private JsonObject verify(final Set<Class<?>> wallClses,
-                              final ConcurrentMap<String, Class<?>> keysRef) {
+    private ConcurrentMap<String, AuthConfig> verify(final Set<Class<?>> wallClses,
+                                                     final ConcurrentMap<String, Class<?>> keysRef) {
         /* Wall duplicated **/
         final Set<String> hashs = new HashSet<>();
         Observable.fromIterable(wallClses)
@@ -114,20 +97,15 @@ public class WallInquirer implements Inquirer<Set<Aegis>> {
             WallDuplicatedException.class, this.getClass(),
             wallClses.stream().map(Class::getName).collect(Collectors.toSet()));
 
-        /* Shared key does not existing **/
-        final JsonObject config = NODE.read();
-        Fn.outUp(!config.containsKey(KEY), LOGGER,
-            DynamicKeyMissingException.class, this.getClass(),
-            KEY, config);
+        // AuthConfig
+        final ConcurrentMap<String, AuthConfig> map = AuthConfig.configMap();
 
         /* Wall key missing **/
-        final JsonObject hitted = config.getJsonObject(KEY);
         for (final String key : keysRef.keySet()) {
-            Fn.outUp(null == hitted || !hitted.containsKey(key), LOGGER,
-                WallKeyMissingException.class, this.getClass(),
-                key, keysRef.get(key));
+            final AuthConfig hitted = map.get(key);
+            Fn.outUp(null == hitted, LOGGER, WallKeyMissingException.class, this.getClass(), key, keysRef.get(key));
         }
-        return hitted;
+        return map;
     }
 
     /**

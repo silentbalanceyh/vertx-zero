@@ -6,7 +6,7 @@ import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import io.vertx.up.uca.options.ServerVisitor;
 
-public class HttpServerStrada implements Transformer<HttpServerOptions> {
+public class HttpServerStrada implements JTransformer<HttpServerOptions> {
 
     private static final Annal LOGGER = Annal.get(HttpServerStrada.class);
 

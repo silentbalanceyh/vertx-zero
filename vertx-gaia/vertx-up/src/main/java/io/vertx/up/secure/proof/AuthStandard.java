@@ -2,7 +2,7 @@ package io.vertx.up.secure.proof;
 
 import io.vertx.tp.error.WallMethodMultiException;
 import io.vertx.up.annotations.Authenticate;
-import io.vertx.up.annotations.Authorize;
+import io.vertx.up.annotations.Authorization;
 import io.vertx.up.atom.secure.Aegis;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
@@ -34,9 +34,9 @@ public class AuthStandard {
         Fn.outUp(this.verifyMethod(this.methods, Authenticate.class), this.logger,
             WallMethodMultiException.class, this.getClass(),
             Authenticate.class.getSimpleName(), this.clazz.getName());
-        Fn.outUp(this.verifyMethod(this.methods, Authorize.class), this.logger,
+        Fn.outUp(this.verifyMethod(this.methods, Authorization.class), this.logger,
             WallMethodMultiException.class, this.getClass(),
-            Authorize.class.getSimpleName(), this.clazz.getName());
+            Authorization.class.getSimpleName(), this.clazz.getName());
         return this;
     }
 
@@ -52,7 +52,7 @@ public class AuthStandard {
         // Find the second: Authorize
         final Optional<Method> authorizeMethod
             = Arrays.stream(this.methods).filter(
-                item -> item.isAnnotationPresent(Authorize.class))
+                item -> item.isAnnotationPresent(Authorization.class))
             .findFirst();
         reference.getAuthorizer().setAuthorize(authorizeMethod.orElse(null));
     }

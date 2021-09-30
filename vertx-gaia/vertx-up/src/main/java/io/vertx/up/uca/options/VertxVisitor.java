@@ -10,7 +10,7 @@ import io.vertx.up.exception.ZeroException;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import io.vertx.up.uca.marshal.ClusterStrada;
-import io.vertx.up.uca.marshal.Transformer;
+import io.vertx.up.uca.marshal.JTransformer;
 import io.vertx.up.uca.marshal.VertxStrada;
 import io.vertx.up.uca.yaml.Node;
 import io.vertx.up.uca.yaml.ZeroVertx;
@@ -26,9 +26,9 @@ public class VertxVisitor implements NodeVisitor {
 
     private transient final Node<JsonObject> NODE
         = Ut.singleton(ZeroVertx.class);
-    private transient final Transformer<VertxOptions>
+    private transient final JTransformer<VertxOptions>
         transformer = Ut.singleton(VertxStrada.class);
-    private transient final Transformer<ClusterOptions>
+    private transient final JTransformer<ClusterOptions>
         clusterTransformer = Ut.singleton(ClusterStrada.class);
 
     private transient ClusterOptions clusterOptions;

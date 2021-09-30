@@ -26,7 +26,7 @@ public class MicroRouter implements ZaaS {
     }
 
     @Override
-    public Future<Boolean> access(final JsonObject data) {
+    public Future<Boolean> authorize(final JsonObject data) {
         return null; // Ux.applyRpc(NAME, KeIpc.Sc.IPC_TOKEN_ACCESS, data).compose(Ke.Result::boolAsync);
     }
 }

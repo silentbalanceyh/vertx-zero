@@ -6,7 +6,7 @@ import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import io.vertx.up.uca.options.NodeVisitor;
 
-public class VertxStrada implements Transformer<VertxOptions> {
+public class VertxStrada implements JTransformer<VertxOptions> {
 
     private static final Annal LOGGER = Annal.get(VertxStrada.class);
 

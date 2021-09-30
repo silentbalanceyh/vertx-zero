@@ -6,7 +6,6 @@ import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.rbac.cv.AuthMsg;
 import io.vertx.tp.rbac.refine.Sc;
-import io.vertx.up.annotations.Aas;
 import io.vertx.up.log.Annal;
 import io.vertx.up.secure.ZaaS;
 import io.vertx.up.unity.Ux;
@@ -16,7 +15,6 @@ import javax.inject.Inject;
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-@Aas
 public class CommonZaaS implements ZaaS {
 
     private static final Annal LOGGER = Annal.get(CommonZaaS.class);
@@ -41,7 +39,7 @@ public class CommonZaaS implements ZaaS {
     }
 
     @Override
-    public Future<Boolean> access(final JsonObject data) {
+    public Future<Boolean> authorize(final JsonObject data) {
         /*
          * User defined accessor
          */

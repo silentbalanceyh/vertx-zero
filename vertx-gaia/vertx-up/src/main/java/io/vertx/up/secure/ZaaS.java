@@ -40,13 +40,19 @@ public interface ZaaS {
      *
      * @return Whether it's valid
      */
-    Future<Boolean> verify(JsonObject data);
+    default Future<Boolean> verify(final JsonObject data) {
+        /*
+         * The default 401 is false, it means that when you set the wall, you must
+         * provide simple authenticate method
+         */
+        return Future.succeededFuture(Boolean.FALSE);
+    }
 
     /**
      * 3. 403 Access, verify the resource access
      * Optional workflow: default return true means no access
      */
-    default Future<Boolean> access(final JsonObject user) {
+    default Future<Boolean> authorize(final JsonObject user) {
         /*
          * 「Optional」
          * For default situation, 403 issue won't throw, it means that

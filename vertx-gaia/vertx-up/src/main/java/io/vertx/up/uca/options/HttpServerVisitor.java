@@ -12,7 +12,7 @@ import io.vertx.up.exception.demon.ServerConfigException;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import io.vertx.up.uca.marshal.HttpServerStrada;
-import io.vertx.up.uca.marshal.Transformer;
+import io.vertx.up.uca.marshal.JTransformer;
 import io.vertx.up.uca.yaml.Node;
 import io.vertx.up.util.Ut;
 
@@ -25,7 +25,7 @@ import java.util.concurrent.ConcurrentMap;
  */
 public class HttpServerVisitor implements ServerVisitor<HttpServerOptions> {
 
-    protected transient final Transformer<HttpServerOptions>
+    protected transient final JTransformer<HttpServerOptions>
         transformer = Ut.singleton(HttpServerStrada.class);
     private transient final Node<JsonObject> NODE = Node.infix(Plugins.SERVER);
 

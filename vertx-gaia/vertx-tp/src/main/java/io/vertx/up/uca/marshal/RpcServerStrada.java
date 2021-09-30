@@ -5,7 +5,7 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 
-public class RpcServerStrada implements Transformer<ServidorOptions> {
+public class RpcServerStrada implements JTransformer<ServidorOptions> {
 
     private static final Annal LOGGER = Annal.get(RpcServerStrada.class);
 
