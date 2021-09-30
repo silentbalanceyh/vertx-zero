@@ -1,5 +1,12 @@
 package io.vertx.up.uca.rs.config;
 
+import com.google.inject.Injector;
+import io.vertx.up.fn.Fn;
+import io.vertx.up.runtime.ZeroAnno;
+
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
+
 interface Info {
 
     String AGENT_HIT = "( Agent ) The standard verticle " +
@@ -23,4 +30,16 @@ interface Info {
 interface Key {
 
     String TYPE = "type";
+}
+
+class Component {
+    private static final ConcurrentMap<String, Object> SINGLETON = new ConcurrentHashMap<>();
+
+    @SuppressWarnings("all")
+    static <T> T get(final Class<?> clazz) {
+        return (T) Fn.pool(SINGLETON, clazz.getName(), () -> {
+            final Injector di = ZeroAnno.getDi();
+            return di.getInstance(clazz);
+        });
+    }
 }

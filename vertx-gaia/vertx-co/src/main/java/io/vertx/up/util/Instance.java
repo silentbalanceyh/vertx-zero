@@ -214,6 +214,19 @@ final class Instance {
         }, interfaceCls);
     }
 
+    public static <T> Constructor<T> constructor(final Class<?> clazz,
+                                                 final Object... params) {
+        Constructor<T> result = null;
+        final Constructor<?>[] constructors = clazz.getDeclaredConstructors();
+        for (final Constructor<?> constructor : constructors) {
+            if (params.length == constructor.getParameterTypes().length) {
+                result = (Constructor<T>) constructor;
+                break;
+            }
+        }
+        return result;
+    }
+
     private static <T> T construct(final Class<?> clazz,
                                    final Object... params) {
         return Fn.getJvm(() -> {

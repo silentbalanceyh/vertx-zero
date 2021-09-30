@@ -29,7 +29,11 @@ final class Invoker {
             final Class<?> clazz = instance.getClass();
             final List<Class<?>> types = new ArrayList<>();
             for (final Object arg : args) {
-                types.add(Ut.toPrimary(arg.getClass()));
+                if (Objects.isNull(arg)) {
+                    types.add(null);
+                } else {
+                    types.add(Ut.toPrimary(arg.getClass()));
+                }
             }
             Object result;
             try {
@@ -161,8 +165,12 @@ final class Invoker {
         }
         boolean allMatch = true;
         for (int idx = 0; idx < parameters.length; idx++) {
+            Class<?> argument = arguments[idx];
+            if (Objects.isNull(argument)) {
+                continue;
+            }
             final Class<?> parameter = Ut.toPrimary(parameters[idx]);
-            final Class<?> argument = Ut.toPrimary(arguments[idx]);
+            argument = Ut.toPrimary(arguments[idx]);
             // First situation equal
             if (!isMatch(parameter, argument)) {
                 allMatch = false;

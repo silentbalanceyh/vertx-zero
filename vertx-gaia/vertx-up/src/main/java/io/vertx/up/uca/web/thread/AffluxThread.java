@@ -22,6 +22,7 @@ import java.util.concurrent.ConcurrentMap;
 import java.util.stream.Collectors;
 
 @SuppressWarnings("all")
+@Deprecated
 public class AffluxThread extends Thread {
 
     private static final Annal LOGGER = Annal.get(AffluxThread.class);

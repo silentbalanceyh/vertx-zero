@@ -128,11 +128,9 @@ public class ZeroAnno {
         final Inquirer<Set<Mission>> jobs = Ut.singleton(JobInquirer.class);
         JOBS.addAll(jobs.scan(clazzes));
 
-        /* Guice Processing */
-
         /* Injection by Guice by google here ( New Version ) **/
-        final Inquirer<ConcurrentMap<Class<?>, ConcurrentMap<String, Class<?>>>> afflux = Ut.singleton(AffluxInquirer.class);
-        PLUGINS.putAll(afflux.scan(clazzes));
+        // final Inquirer<ConcurrentMap<Class<?>, ConcurrentMap<String, Class<?>>>> afflux = Ut.singleton(AffluxInquirer.class);
+        // PLUGINS.putAll(afflux.scan(clazzes));
     }
 
     /**

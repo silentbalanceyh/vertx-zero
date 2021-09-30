@@ -154,10 +154,7 @@ public class VertxApplication {
             /* 3.Initialize Infix **/
             Runner.run(() -> {
                 // Infix
-                Scatter<Vertx> scatter = Ut.singleton(InfixScatter.class);
-                scatter.connect(vertx);
-                // Injection
-                scatter = Ut.singleton(AffluxScatter.class);
+                final Scatter<Vertx> scatter = Ut.singleton(InfixScatter.class);
                 scatter.connect(vertx);
             }, "infix-afflux-runner");
 

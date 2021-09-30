@@ -17,6 +17,7 @@ import io.vertx.up.fn.Actuator;
 import java.io.File;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
@@ -491,6 +492,10 @@ public final class Ut {
 
     public static <T> T singleton(final Class<?> clazz, final Object... params) {
         return Instance.singleton(clazz, params);
+    }
+
+    public static <T> Constructor<T> constructor(final Class<?> clazz, final Object... params) {
+        return Instance.constructor(clazz, params);
     }
 
     public static <T> T invoke(final Object instance, final String name, final Object... args) {

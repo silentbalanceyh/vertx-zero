@@ -135,7 +135,7 @@ public class EventExtractor implements Extractor<Set<Event>> {
         if (clazz.isInterface()) {
             final Class<?> implClass = Ut.childUnique(clazz);
             if (null != implClass) {
-                proxy = Ut.singleton(implClass);
+                proxy = Component.get(implClass); // Ut.singleton(implClass);
             } else {
                 /*
                  * SPEC5: Interface only, direct api, in this situation,
@@ -146,7 +146,7 @@ public class EventExtractor implements Extractor<Set<Event>> {
                 proxy = VInstance.create(clazz);
             }
         } else {
-            proxy = Ut.singleton(method.getDeclaringClass());
+            proxy = Component.get(method.getDeclaringClass()); // Ut.singleton(method.getDeclaringClass());
         }
         event.setProxy(proxy);
         // 8. Order

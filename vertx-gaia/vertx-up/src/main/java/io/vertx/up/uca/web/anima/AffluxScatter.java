@@ -13,6 +13,7 @@ import java.util.Set;
 /**
  * Injection system
  */
+@Deprecated
 public class AffluxScatter implements Scatter<Vertx> {
     @Override
     public void connect(final Vertx vertx) {
@@ -20,13 +21,13 @@ public class AffluxScatter implements Scatter<Vertx> {
         // Extract all events.
         final Set<Event> events = ZeroAnno.getEvents();
         Ut.itSet(events, (item, index) ->
-            Runner.run(() -> injector.singleton(item.getProxy())
+            Runner.run(() -> injector.singleton(item)
                 , "event-afflux-" + index));
 
         // Extract all receipts.
         final Set<Receipt> receipts = ZeroAnno.getReceipts();
         Ut.itSet(receipts, (item, index) ->
-            Runner.run(() -> injector.singleton(item.getProxy())
+            Runner.run(() -> injector.singleton(item)
                 , "receipt-afflux-" + index));
 
         // Extract non - event/receipts Objects

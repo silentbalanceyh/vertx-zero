@@ -1,15 +1,14 @@
 package io.vertx.up.uca.di;
 
-import io.vertx.up.eon.Plugins;
+import com.google.inject.Injector;
+import io.vertx.up.atom.agent.Event;
+import io.vertx.up.atom.worker.Receipt;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import io.vertx.up.runtime.ZeroAnno;
-import io.vertx.up.util.Ut;
+import io.vertx.up.uca.container.VInstance;
 
-import java.lang.reflect.Field;
 import java.util.Objects;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
 
 /*
  * New structure for JSR310 / JSR299
@@ -17,13 +16,8 @@ import java.util.concurrent.ConcurrentMap;
  * - Now: Set terminal
  * - Future: Scc calculation extension
  */
+@Deprecated
 public class DiScanner {
-
-    private static final ConcurrentMap<Class<?>, ConcurrentMap<String, Class<?>>>
-        PENDINGS = ZeroAnno.getPlugins();
-
-    private static final DiAnchor INJECTOR = new DiAnchor(DiScanner.class);
-
 
     private final transient Annal logger;
 
@@ -40,67 +34,39 @@ public class DiScanner {
         /*
          * Initialize object for Agent / Worker
          */
-        final Object instance = Ut.singleton(instanceCls);
-        if (Objects.nonNull(instance)) {
-            /*
-             * The method splitted because of future
-             */
-            this.singleton(instance);
-        }
-        return (T) instance;
+        final Injector di = ZeroAnno.getDi();
+        logger.info("[ DI ] Di environment will create class: {0}", instanceCls);
+        final T instance = (T) di.getInstance(instanceCls);
+        /*
+         * Infix Processing
+         */
+        return instance;
     }
 
-    public void singleton(final Object instance) {
+    public void singleton(final Event agent) {
         /*
          * JSR299 / 310 injection
          */
-        final Class<?> clazz = instance.getClass();
-        if (PENDINGS.containsKey(clazz)) {
-            /*
-             * Scanned in started up for target
-             */
-            final ConcurrentMap<String, Class<?>> injections =
-                PENDINGS.getOrDefault(clazz, new ConcurrentHashMap<>());
-            injections.forEach((fieldName, type) ->
-                /*
-                 * initialization for field injection
-                 */
-                this.singleton(instance, fieldName, type));
+        final Object replaced = this.singletonInternal(agent.getProxy());
+        if (Objects.nonNull(replaced)) {
+            agent.setProxy(replaced);
         }
     }
 
-    private void singleton(final Object proxy, final String fieldName, final Class<?> type) {
-        try {
-            final Class<?> clazz = proxy.getClass();
-            final Field field = clazz.getDeclaredField(fieldName);
-            final Object next;
-            if (Plugins.INFIX_MAP.keySet().stream().anyMatch(field::isAnnotationPresent)) {
-                /*
-                 * @Mongo
-                 * @MySql
-                 * @Jooq
-                 * @Rpc
-                 * @Redis
-                 */
-                next = INJECTOR.initialize(field);
-            } else {
-                /*
-                 * Inject Only
-                 */
-                next = Ut.singleton(type);
-            }
-            /*
-             * Set for field get value here
-             */
-            if (Objects.nonNull(next)) {
-                Ut.field(proxy, fieldName, next);
-                /*
-                 * Loop for continue injection
-                 */
-                this.singleton(next);
-            }
-        } catch (final NoSuchFieldException ex) {
-            this.logger.jvm(ex);
+    public void singleton(final Receipt worker) {
+        final Object replaced = this.singletonInternal(worker.getProxy());
+        if (Objects.nonNull(replaced)) {
+            worker.setProxy(replaced);
         }
+    }
+
+    public Object singletonInternal(final Object proxy) {
+        if (Objects.nonNull(proxy)) {
+            final Class<?> clazz = proxy.getClass();
+            if (VInstance.class != clazz) {
+                return this.singleton(clazz);
+            }
+        }
+        return null;
     }
 }

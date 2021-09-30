@@ -13,6 +13,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.stream.Collectors;
 
+@Deprecated
 public class AffluxInquirer implements
     Inquirer<ConcurrentMap<Class<?>, ConcurrentMap<String, Class<?>>>> {
 
