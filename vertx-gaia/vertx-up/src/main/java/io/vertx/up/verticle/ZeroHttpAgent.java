@@ -15,10 +15,10 @@ import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import io.vertx.up.runtime.ZeroGrid;
 import io.vertx.up.runtime.ZeroHeart;
+import io.vertx.up.uca.monitor.MeansureAxis;
 import io.vertx.up.uca.registry.Uddi;
 import io.vertx.up.uca.registry.UddiRegistry;
 import io.vertx.up.uca.rs.Axis;
-import io.vertx.up.uca.rs.monitor.MeansureAxis;
 import io.vertx.up.uca.rs.router.*;
 import io.vertx.up.util.Ut;
 

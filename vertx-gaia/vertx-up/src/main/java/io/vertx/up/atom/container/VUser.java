@@ -1,4 +1,4 @@
-package io.vertx.up.uca.container;
+package io.vertx.up.atom.container;
 
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Handler;

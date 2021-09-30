@@ -1,4 +1,4 @@
-package io.vertx.up.uca.rs.monitor;
+package io.vertx.up.uca.monitor;
 
 import io.vertx.core.Vertx;
 import io.vertx.ext.healthchecks.HealthCheckHandler;
@@ -6,8 +6,8 @@ import io.vertx.ext.healthchecks.HealthChecks;
 import io.vertx.ext.web.Router;
 import io.vertx.up.eon.ID;
 import io.vertx.up.eon.Orders;
+import io.vertx.up.uca.monitor.meansure.Quota;
 import io.vertx.up.uca.rs.Axis;
-import io.vertx.up.uca.rs.monitor.meansure.Quota;
 
 import javax.ws.rs.core.MediaType;
 import java.util.concurrent.ConcurrentMap;

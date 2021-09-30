@@ -1,4 +1,4 @@
-package io.vertx.up.uca.rs.monitor.meansure;
+package io.vertx.up.uca.monitor.meansure;
 
 import io.vertx.core.Promise;
 import io.vertx.core.Vertx;

@@ -1,4 +1,4 @@
-package io.vertx.up.uca.rs.validation;
+package io.vertx.up.secure.validation;
 
 import io.reactivex.Observable;
 import io.vertx.core.json.JsonArray;
@@ -67,7 +67,7 @@ public class Validator {
         // 3. Throw out exception
         if (!constraints.isEmpty()) {
             final ConstraintViolation<T> item = constraints.iterator().next();
-            replyError(proxy, method, item);
+            this.replyError(proxy, method, item);
         }
     }
 
@@ -75,7 +75,7 @@ public class Validator {
                                 final ConstraintViolation<T> item) {
         if (null != item) {
             final WebException error
-                = new _400ValidationException(getClass(),
+                = new _400ValidationException(this.getClass(),
                 proxy.getClass(), method, item.getMessage());
             error.setReadible(item.getMessage());
             throw error;
@@ -101,7 +101,7 @@ public class Validator {
             // 1. Check whether contains @BodyParam
             .any(item -> BodyParam.class == item)
             // 2. Build rulers
-            .map(item -> buildKey(depot.getEvent()))
+            .map(item -> this.buildKey(depot.getEvent()))
             .map(this::buildRulers)
             .subscribe(rulers::putAll).dispose();
         return rulers;
@@ -117,7 +117,7 @@ public class Validator {
             if (null != rule) {
                 Ut.itJObject(rule, (value, field) -> {
                     // Checked valid rule config
-                    final List<Rule> rulers = buildRulers(value);
+                    final List<Rule> rulers = this.buildRulers(value);
                     if (!rulers.isEmpty()) {
                         ruler.put(field, rulers);
                     }

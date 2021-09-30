@@ -1,4 +1,4 @@
-package io.vertx.up.uca.deployment;
+package io.vertx.up.runtime.deployment;
 
 import io.vertx.core.DeploymentOptions;
 import io.vertx.core.eventbus.DeliveryOptions;

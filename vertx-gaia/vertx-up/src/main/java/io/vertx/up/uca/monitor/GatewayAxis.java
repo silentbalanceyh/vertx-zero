@@ -1,4 +1,4 @@
-package io.vertx.up.uca.rs.monitor;
+package io.vertx.up.uca.monitor;
 
 import io.vertx.core.Vertx;
 import io.vertx.ext.web.Router;

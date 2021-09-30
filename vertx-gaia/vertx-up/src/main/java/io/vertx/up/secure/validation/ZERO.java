@@ -1,4 +1,4 @@
-package io.vertx.up.uca.rs.validation;
+package io.vertx.up.secure.validation;
 
 interface Info {
 

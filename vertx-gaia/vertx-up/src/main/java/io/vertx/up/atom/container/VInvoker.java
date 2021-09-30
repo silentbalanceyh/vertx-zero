@@ -1,4 +1,4 @@
-package io.vertx.up.uca.container;
+package io.vertx.up.atom.container;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
