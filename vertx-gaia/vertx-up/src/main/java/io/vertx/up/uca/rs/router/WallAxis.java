@@ -10,7 +10,7 @@ import io.vertx.up.atom.secure.Aegis;
 import io.vertx.up.eon.Orders;
 import io.vertx.up.eon.Values;
 import io.vertx.up.runtime.ZeroAnno;
-import io.vertx.up.secure.handler.Bolt;
+import io.vertx.up.secure.component.Bolt;
 import io.vertx.up.uca.rs.Axis;
 import io.vertx.up.uca.web.failure.AuthenticateEndurer;
 

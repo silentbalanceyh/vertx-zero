@@ -1,4 +1,4 @@
-package io.vertx.up.secure.proof;
+package io.vertx.up.secure.component;
 
 import io.vertx.tp.error.WallMethodMultiException;
 import io.vertx.up.annotations.Authenticate;
@@ -14,24 +14,24 @@ import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.Optional;
 
-public class AuthStandard {
+public class WallSpec {
 
     private static final DiPlugin PLUGIN = DiPlugin.create(EventExtractor.class);
     private final transient Class<?> clazz;
     private final transient Annal logger;
     private final transient Method[] methods;
 
-    private AuthStandard(final Class<?> clazz) {
+    private WallSpec(final Class<?> clazz) {
         this.clazz = clazz;
         this.logger = Annal.get(clazz);
         this.methods = clazz.getDeclaredMethods();
     }
 
-    public static AuthStandard create(final Class<?> clazz) {
-        return new AuthStandard(clazz);
+    public static WallSpec create(final Class<?> clazz) {
+        return new WallSpec(clazz);
     }
 
-    public AuthStandard verify() {
+    public WallSpec verify() {
         // Duplicated Method checking
         Fn.outUp(this.verifyMethod(this.methods, Authenticate.class), this.logger,
             WallMethodMultiException.class, this.getClass(),

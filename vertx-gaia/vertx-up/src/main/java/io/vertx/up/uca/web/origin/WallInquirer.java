@@ -7,9 +7,8 @@ import io.vertx.up.annotations.Wall;
 import io.vertx.up.atom.secure.Aegis;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
+import io.vertx.up.secure.component.WallSpec;
 import io.vertx.up.secure.config.AuthConfig;
-import io.vertx.up.secure.proof.AuthDefined;
-import io.vertx.up.secure.proof.AuthStandard;
 import io.vertx.up.util.Ut;
 
 import java.lang.annotation.Annotation;
@@ -61,16 +60,8 @@ public class WallInquirer implements Inquirer<Set<Aegis>> {
         aegis.setOrder(Ut.invoke(annotation, "order"));
         aegis.setPath(Ut.invoke(annotation, "path"));
         aegis.setDefined(Ut.invoke(annotation, "define"));
-        /* Proxy **/
-        if (aegis.isDefined()) {
-            // Custom Workflow
-            AuthDefined.create(clazz)
-                .verify().mount(aegis);
-        } else {
-            // Standard Workflow
-            AuthStandard.create(clazz)
-                .verify().mount(aegis);
-        }
+        /* Proxy Creation with Wall Specification **/
+        WallSpec.create(clazz).verify().mount(aegis);
         return aegis;
     }
 

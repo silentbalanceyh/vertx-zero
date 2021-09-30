@@ -1,4 +1,4 @@
-package io.vertx.up.secure.handler;
+package io.vertx.up.secure.component;
 
 import io.vertx.core.Vertx;
 import io.vertx.ext.web.handler.AuthenticationHandler;

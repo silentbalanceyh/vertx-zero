@@ -1,4 +1,4 @@
-package io.vertx.up.secure.handler;
+package io.vertx.up.secure.component;
 
 import io.vertx.core.Vertx;
 import io.vertx.ext.web.handler.AuthenticationHandler;
@@ -23,22 +23,32 @@ class BoltBridge implements Bolt {
     @Override
     public AuthenticationHandler authorize(final Vertx vertx, final Aegis aegis) {
         Objects.requireNonNull(aegis);
-        if (aegis.isDefined()) {
-            // TODO: Defined - Authenticate
-            return null;
+        if (aegis.okForAuthorize()) {
+            if (aegis.isDefined()) {
+                // TODO: Defined - Authenticate
+                return null;
+            } else {
+                return this.internal.authorize(vertx, aegis);
+            }
         } else {
-            return this.internal.authorize(vertx, aegis);
+            // The condition is invalid
+            return null;
         }
     }
 
     @Override
     public AuthorizationHandler access(final Vertx vertx, final Aegis aegis) {
         Objects.requireNonNull(aegis);
-        if (aegis.isDefined()) {
-            // TODO: Defined - Authorize
-            return null;
+        if (aegis.okForAccess()) {
+            if (aegis.isDefined()) {
+                // TODO: Defined - Access
+                return null;
+            } else {
+                return this.internal.access(vertx, aegis);
+            }
         } else {
-            return this.internal.access(vertx, aegis);
+            // The condition is invalid
+            return null;
         }
     }
 }
