@@ -12,6 +12,7 @@ public enum AuthWall {
     /*
      * Here are mode that defined by zero framework
      * Config key here and related to `rules`
+     * Vert.x native standard
      */
     MONGO("mongo"),
     SQL("sql"),
@@ -19,11 +20,7 @@ public enum AuthWall {
     OAUTH2("oauth2"),
     BASIC("basic"),
     DIGEST("digest"),
-    WEB_N("web"),
-    /*
-     * User-defined
-     */
-    CUSTOM("custom");
+    WEB_N("web");
 
     private static final ConcurrentMap<String, AuthWall> TYPE_MAP = new ConcurrentHashMap<>();
 
@@ -37,8 +34,8 @@ public enum AuthWall {
         this.configKey = configKey;
     }
 
-    public static AuthWall from(final String literal) {
-        return TYPE_MAP.get(literal);
+    public static AuthWall from(final String configKey) {
+        return TYPE_MAP.get(configKey);
     }
 
     public static Set<String> keys() {
@@ -47,9 +44,5 @@ public enum AuthWall {
 
     public String key() {
         return this.configKey;
-    }
-
-    public boolean match(final String literal) {
-        return this.configKey.equals(literal);
     }
 }
