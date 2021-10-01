@@ -51,7 +51,7 @@ public class WallInquirer implements Inquirer<Set<Aegis>> {
             this.verifyDuplicated(wallClass);
             wallClass.stream().map(this::create).forEach(wallSet::add);
         }
-        /* 3. Transfer **/
+
         return wallSet;
     }
 
@@ -67,8 +67,6 @@ public class WallInquirer implements Inquirer<Set<Aegis>> {
         final Annotation annotation = clazz.getAnnotation(Wall.class);
         final String typeKey = Ut.invoke(annotation, "value");
         this.verifyConfig(clazz, aegis, typeKey);
-
-        aegis.setOrder(Ut.invoke(annotation, "order"));
         aegis.setPath(Ut.invoke(annotation, "path"));
         /* Verify */
         return aegis;

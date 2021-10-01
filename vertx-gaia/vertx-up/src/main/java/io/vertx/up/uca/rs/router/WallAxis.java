@@ -1,6 +1,5 @@
 package io.vertx.up.uca.rs.router;
 
-import io.reactivex.Observable;
 import io.vertx.core.Vertx;
 import io.vertx.ext.web.Router;
 import io.vertx.ext.web.handler.AuthenticationHandler;
@@ -14,6 +13,7 @@ import io.vertx.up.secure.component.Bolt;
 import io.vertx.up.uca.rs.Axis;
 import io.vertx.up.uca.web.failure.AuthenticateEndurer;
 
+import java.util.Comparator;
 import java.util.Objects;
 import java.util.Set;
 import java.util.TreeSet;
@@ -32,12 +32,16 @@ public class WallAxis implements Axis<Router> {
 
     static {
         WALLS.forEach(wall -> {
-            // Initialize cliff set
-            if (!Pool.WALL_MAP.containsKey(wall.unique())) {
-                Pool.WALL_MAP.put(wall.unique(), new TreeSet<>());
+            if (!Pool.WALL_MAP.containsKey(wall.getPath())) {
+                Pool.WALL_MAP.put(wall.getPath(), new TreeSet<>());
             }
-            // Add cliff instance by path
-            Pool.WALL_MAP.get(wall.unique()).add(wall);
+            /*
+             * 1. group by `path`, when you define more than one wall in one path, you can collect
+             * all the wall into Set.
+             * 2. The order will be re-calculated by each group
+             * 3. But you could not define `path + order` duplicated wall
+             */
+            Pool.WALL_MAP.get(wall.getPath()).add(wall);
         });
     }
 
@@ -52,69 +56,80 @@ public class WallAxis implements Axis<Router> {
     @Override
     public void mount(final Router router) {
         /*
-         * Wall mount for authorization
+         * Wall mounting for authorization
+         * Here create order set to remove duplicated order and re-generate the value.
+         *
+         * Default order: 0
+         *
+         * The matrix of wall
+         *
+         *      Wall 1           Wall 2             Wall 3
+         *      0                0                  0
+         *      1                1                  1
          */
         Pool.WALL_MAP.forEach((path, aegisSet) -> {
-            // 1. Build Handler
-            final AuthenticationHandler authorizer = this.handlerAuthorize(this.vertx, aegisSet);
-            // 2. Path/Order to set Router
-            if (null != authorizer) {
-                router.route(path).order(Orders.SECURE).handler(authorizer)
-                    // Shared Failure Handler
-                    .failureHandler(AuthenticateEndurer.create());
+            if (!aegisSet.isEmpty()) {
+                /*
+                 * The handler of 401 of each group should be
+                 * 1. The path is the same
+                 * 2. If the `order = 0`, re-calculate to be sure not the same ( Orders.SECURE+ )
+                 * 3. Here are the set of Bolt
+                 * -- Empty: return null and skip
+                 * -- 1 size：return the single handler
+                 * -- n size: return the handler collection of ChainAuthHandler ( all )
+                 */
+                this.mountAuthenticate(router, path, aegisSet);
+                /*
+                 * New design for 403 access issue here to implement RBAC mode
+                 * This design is optional plugin into zero system, you can enable this feature.
+                 * 403 access handler must be as following
+                 * 1. The uri is the same as 401, it means that the request must be passed to 401 handler first
+                 * 2. The order must be after 401 Orders.SECURE
+                 */
+                this.mountAuthorization(router, path, aegisSet);
             }
-            // 3. Wall Advanced, For user data filling.
-            final AuthorizationHandler accessor = this.handlerAccess(this.vertx, aegisSet);
-            if (Objects.nonNull(accessor)) {
-                router.route(path).order(Orders.SECURE_AUTHORIZATION).handler(accessor)
-                    // Shared Failure Handler
-                    .failureHandler(AuthenticateEndurer.create());
-            }
-            /*
-             * New design for 403 access issue here to implement RBAC mode
-             * This design is optional plugin into zero system, you can enable this feature.
-             * 403 access handler must be as following
-             * 1. The uri is the same as 401, it means that the request must be passed to 401 handler first
-             * 2. The order must be after 401 Orders.SECURE
-             */
         });
     }
 
-    /**
-     * Two mode for handler supported.
-     *
-     * @param aegisSet Cliff in zero system.
-     *
-     * @return Auth Handler that will be mount to vertx router.
-     */
-    private AuthenticationHandler handlerAuthorize(final Vertx vertx, final Set<Aegis> aegisSet) {
-        AuthenticationHandler resultHandler = null;
-        if (Values.ONE < aegisSet.size()) {
-            // 1 < handler
-            final ChainAuthHandler chain = ChainAuthHandler.all();
-            Observable.fromIterable(aegisSet)
-                .map(item -> this.bolt.authorize(vertx, item))
-                .subscribe(chain::add).dispose();
-            resultHandler = chain;
-        } else {
+    private void mountAuthenticate(final Router router, final String path, final Set<Aegis> aegisSet) {
+        final AuthenticationHandler resultHandler;
+        if (Values.ONE == aegisSet.size()) {
             // 1 = handler
-            if (!aegisSet.isEmpty()) {
-                final Aegis aegis = aegisSet.iterator().next();
-                resultHandler = this.bolt.authorize(vertx, aegis);
-            }
+            final Aegis aegis = aegisSet.iterator().next();
+            resultHandler = this.bolt.authorize(this.vertx, aegis);
+        } else {
+            // 1 < handler
+            final ChainAuthHandler handler = ChainAuthHandler.all();
+            aegisSet.stream()
+                .map(item -> this.bolt.authorize(this.vertx, item))
+                .filter(Objects::nonNull)
+                .forEach(handler::add);
+            resultHandler = handler;
         }
-        return resultHandler;
+        if (Objects.nonNull(resultHandler)) {
+            router.route(path).order(Orders.SECURE)
+                .handler(resultHandler)
+                .failureHandler(AuthenticateEndurer.create());
+        }
     }
 
-    private AuthorizationHandler handlerAccess(final Vertx vertx, final Set<Aegis> aegisSet) {
-        /*
-         * Find first not-null authorization handler
-         */
-        final Aegis aegis = aegisSet.stream()
-            .filter(Aegis::okForAccess).findFirst().orElse(null);
-        if (Objects.isNull(aegis)) {
-            return null;
+    private void mountAuthorization(final Router router, final String path, final Set<Aegis> aegisSet) {
+        final AuthorizationHandler resultHandler;
+        if (Values.ONE == aegisSet.size()) {
+            // 1 = handler
+            final Aegis aegis = aegisSet
+                .iterator().next();
+            resultHandler = this.bolt.access(this.vertx, aegis);
+        } else {
+            // 1 = handler ( sorted )
+            final Aegis aegis = new TreeSet<>(Comparator.comparingInt(Aegis::getOrder))
+                .iterator().next();
+            resultHandler = this.bolt.access(this.vertx, aegis);
         }
-        return this.bolt.access(vertx, aegis);
+        if (Objects.nonNull(resultHandler)) {
+            router.route(path).order(Orders.SECURE_AUTHORIZATION)
+                .handler(resultHandler)
+                .failureHandler(AuthenticateEndurer.create());
+        }
     }
 }
