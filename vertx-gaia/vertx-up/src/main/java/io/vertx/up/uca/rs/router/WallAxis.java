@@ -33,11 +33,11 @@ public class WallAxis implements Axis<Router> {
     static {
         WALLS.forEach(wall -> {
             // Initialize cliff set
-            if (!Pool.WALL_MAP.containsKey(wall.getPath())) {
-                Pool.WALL_MAP.put(wall.getPath(), new TreeSet<>());
+            if (!Pool.WALL_MAP.containsKey(wall.unique())) {
+                Pool.WALL_MAP.put(wall.unique(), new TreeSet<>());
             }
             // Add cliff instance by path
-            Pool.WALL_MAP.get(wall.getPath()).add(wall);
+            Pool.WALL_MAP.get(wall.unique()).add(wall);
         });
     }
 

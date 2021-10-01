@@ -89,6 +89,10 @@ public class Aegis implements Serializable, Comparable<Aegis> {
         this.proxy = proxy;
     }
 
+    public String unique() {
+        return Ut.encryptSHA256(this.order + this.path);
+    }
+
     public boolean okForAuthorize() {
         return Objects.nonNull(this.proxy) && Objects.nonNull(this.authorizer.getAuthenticate());
     }
