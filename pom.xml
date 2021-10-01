@@ -57,8 +57,8 @@
     </distributionManagement>
     <properties>
         <!-- RC Version Ok -->
-        <jackson.version>2.12.5</jackson.version>
-        <jackson.extension.version>2.12.5</jackson.extension.version>
+        <jackson.version>2.13.0</jackson.version>
+        <jackson.extension.version>2.13.0</jackson.extension.version>
         <protobuf.version>3.18.0</protobuf.version>
 
         <!-- Java Projection Basic Configuration -->

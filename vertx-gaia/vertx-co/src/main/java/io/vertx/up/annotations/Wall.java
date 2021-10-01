@@ -48,7 +48,8 @@ public @interface Wall {
      */
     int order() default Values.ZERO;
 
-    /**
+    /*
+     * Use AuthType.EXTENSION instead
      * Whether current authorization mode is user-defined
      * 1. The default value is false, it means that you must implement AuthHandler method annotated with @Authenticate
      * 2. If default value is true, you must implement tha phase method as following:
@@ -59,5 +60,5 @@ public @interface Wall {
      *
      * @return The phase that occurs in security limitation.
      */
-    boolean define() default false;
+    // boolean define() default false;
 }

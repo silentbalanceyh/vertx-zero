@@ -1,4 +1,4 @@
-package io.vertx.up.secure.config;
+package io.vertx.up.atom.secure;
 
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.atom.Ruler;
@@ -17,11 +17,11 @@ import java.util.concurrent.ConcurrentMap;
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-public class AuthConfig implements Serializable {
+public class AegisItem implements Serializable {
     private static final String KEY = "secure";
     private static final Node<JsonObject> NODE = Ut.singleton(ZeroUniform.class);
-    private static final ConcurrentMap<String, AuthConfig> SECURE = new ConcurrentHashMap<>();
-    private static final Annal LOGGER = Annal.get(AuthConfig.class);
+    private static final ConcurrentMap<String, AegisItem> SECURE = new ConcurrentHashMap<>();
+    private static final Annal LOGGER = Annal.get(AegisItem.class);
 
     static {
         final JsonObject config = NODE.read();
@@ -31,10 +31,10 @@ public class AuthConfig implements Serializable {
             if (keys.contains(field)) {
                 final String ruleKey = "wall-" + field;
                 Fn.outUp(() -> Ruler.verify(ruleKey, value), LOGGER);
-                SECURE.put(field, new AuthConfig(field, value));
+                SECURE.put(field, new AegisItem(field, value));
             } else {
-                LOGGER.warn("[ Auth ] The configuration key `{0}` could not be identified ({1}).",
-                    field, Ut.fromJoin(keys));
+                LOGGER.info("[ Auth ] You have defined extension configuration with key `{0}`", field);
+                SECURE.put(field, new AegisItem(AuthWall.EXTENSION.key(), value));
             }
         });
         LOGGER.info("[ Auth ] You have configured `{0}` kind security mode.", String.valueOf(SECURE.size()));
@@ -44,13 +44,13 @@ public class AuthConfig implements Serializable {
     private final transient String key;
     private final transient AuthWall wall;
 
-    private AuthConfig(final String key, final JsonObject config) {
+    private AegisItem(final String key, final JsonObject config) {
         this.key = key;
         this.wall = AuthWall.from(key);
         this.config.mergeIn(config, true);
     }
 
-    public static ConcurrentMap<String, AuthConfig> configMap() {
+    public static ConcurrentMap<String, AegisItem> configMap() {
         return SECURE;
     }
 

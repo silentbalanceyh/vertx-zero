@@ -1,14 +1,11 @@
 package io.vertx.up.secure.component;
 
 import io.vertx.core.Vertx;
-import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.handler.AuthenticationHandler;
 import io.vertx.ext.web.handler.AuthorizationHandler;
 import io.vertx.up.atom.secure.Aegis;
 import io.vertx.up.fn.Fn;
-import io.vertx.up.util.Ut;
 
-import java.lang.reflect.Method;
 import java.util.Objects;
 
 /**
@@ -26,10 +23,11 @@ class BoltNative implements Bolt {
         Objects.requireNonNull(aegis);
         return Fn.getJvm(() -> {
             // Config Extracting
-            final JsonObject config = Ut.sureJObject(aegis.getConfig());
+            /*final JsonObject config = Ut.sureJObject(aegis.getConfig());
             final Method methodAuthenticate = aegis.getAuthorizer().getAuthenticate();
             final Object reference = methodAuthenticate.invoke(aegis.getProxy(), vertx, config);
-            return null == reference ? null : (AuthenticationHandler) reference;
+            return null == reference ? null : (AuthenticationHandler) reference;*/
+            return null;
         });
     }
 
@@ -41,10 +39,11 @@ class BoltNative implements Bolt {
         Objects.requireNonNull(aegis);
         return Fn.getJvm(() -> {
             // Config Extracting
-            final JsonObject config = Ut.sureJObject(aegis.getConfig());
+            /*final JsonObject config = Ut.sureJObject(aegis.getConfig());
             final Method methodAuthenticate = aegis.getAuthorizer().getAuthorize();
             final Object reference = methodAuthenticate.invoke(aegis.getProxy(), vertx, config);
-            return null == reference ? null : (AuthorizationHandler) reference;
+            return null == reference ? null : (AuthorizationHandler) reference;*/
+            return null;
         });
     }
 }

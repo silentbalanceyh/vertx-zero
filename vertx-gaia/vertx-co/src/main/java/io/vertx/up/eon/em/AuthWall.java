@@ -12,7 +12,9 @@ public enum AuthWall {
     /*
      * Here are mode that defined by zero framework
      * Config key here and related to `rules`
-     * Vert.x native standard
+     * Vert.x native standard, all below values came from vertx official guide
+     *
+     * Here are some tpl in `provider/handler` instead of nothing
      */
     MONGO("mongo"),
     SQL("sql"),
@@ -20,7 +22,15 @@ public enum AuthWall {
     OAUTH2("oauth2"),
     BASIC("basic"),
     DIGEST("digest"),
-    WEB_N("web");
+    WEB_N("web"),
+    /*
+     * When you provide this value, it means that you will use Zero Extension kind
+     * type of wall instead of Vert.x Native
+     *
+     * If the wall type value is not in these value collections, you must provide
+     * defined key that could be read configuration data from `vertx-secure.yml` etc.
+     */
+    EXTENSION("extension");
 
     private static final ConcurrentMap<String, AuthWall> TYPE_MAP = new ConcurrentHashMap<>();
 
@@ -35,7 +45,7 @@ public enum AuthWall {
     }
 
     public static AuthWall from(final String configKey) {
-        return TYPE_MAP.get(configKey);
+        return TYPE_MAP.getOrDefault(configKey, null);
     }
 
     public static Set<String> keys() {

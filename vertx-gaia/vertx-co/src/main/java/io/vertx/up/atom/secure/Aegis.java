@@ -1,18 +1,20 @@
 package io.vertx.up.atom.secure;
 
-import io.vertx.core.json.JsonObject;
 import io.vertx.up.eon.em.AuthWall;
+import io.vertx.up.log.Annal;
 import io.vertx.up.util.Ut;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.Serializable;
 import java.util.Objects;
+import java.util.concurrent.ConcurrentMap;
 
 /**
  * Secure class container for special class extraction.
  * Scanned ( Metadata ) for each @Wall.
  */
 public class Aegis implements Serializable, Comparable<Aegis> {
+    private static final Annal LOGGER = Annal.get(Aegis.class);
     /**
      * defined = false
      * Standard Authorization
@@ -29,7 +31,7 @@ public class Aegis implements Serializable, Comparable<Aegis> {
     /**
      * Current config
      */
-    private JsonObject config;
+    private ConcurrentMap<String, AegisItem> items;
     /**
      * Current wall type
      */
@@ -71,14 +73,6 @@ public class Aegis implements Serializable, Comparable<Aegis> {
         this.order = order;
     }
 
-    public JsonObject getConfig() {
-        return this.config;
-    }
-
-    public void setConfig(final JsonObject config) {
-        this.config = config;
-    }
-
     public AuthWall getType() {
         return this.type;
     }
@@ -101,6 +95,23 @@ public class Aegis implements Serializable, Comparable<Aegis> {
 
     public boolean okForAccess() {
         return Objects.nonNull(this.proxy) && Objects.nonNull(this.authorizer.getAuthorize());
+    }
+
+    public void addItem(final String key, final AegisItem item) {
+        if (AuthWall.EXTENSION == this.type) {
+            this.items.put(key, item);
+        } else {
+            LOGGER.warn("[ Auth ] The `key` = {0} will be ignored because of the type is: `{1}`.",
+                key, this.type);
+        }
+    }
+
+    public void setItem(final AegisItem item) {
+        if (AuthWall.EXTENSION != this.type) {
+            this.items.put(this.type.key(), item);
+        } else {
+            LOGGER.warn("[ Auth ] Please use `addItem` instead of current method because your type is Extension");
+        }
     }
 
     @Override
@@ -142,7 +153,7 @@ public class Aegis implements Serializable, Comparable<Aegis> {
             "authorizer=" + this.authorizer +
             ", path='" + this.path + '\'' +
             ", order=" + this.order +
-            ", config=" + this.config +
+            ", items=" + this.items +
             ", type=" + this.type +
             ", proxy=" + this.proxy +
             ", defined=" + this.defined +
