@@ -9,7 +9,7 @@ import io.vertx.up.atom.secure.Aegis;
 import io.vertx.up.eon.Orders;
 import io.vertx.up.eon.Values;
 import io.vertx.up.runtime.ZeroAnno;
-import io.vertx.up.secure.component.Bolt;
+import io.vertx.up.secure.bridge.Bolt;
 import io.vertx.up.uca.rs.Axis;
 import io.vertx.up.uca.web.failure.AuthenticateEndurer;
 
@@ -27,8 +27,7 @@ public class WallAxis implements Axis<Router> {
     /**
      * Extract all walls that will be generated route.
      */
-    private static final Set<Aegis> WALLS =
-        ZeroAnno.getWalls();
+    private static final Set<Aegis> WALLS = ZeroAnno.getWalls();
 
     static {
         WALLS.forEach(wall -> {
@@ -96,12 +95,12 @@ public class WallAxis implements Axis<Router> {
         if (Values.ONE == aegisSet.size()) {
             // 1 = handler
             final Aegis aegis = aegisSet.iterator().next();
-            resultHandler = this.bolt.authorize(this.vertx, aegis);
+            resultHandler = this.bolt.authenticate(this.vertx, aegis);
         } else {
             // 1 < handler
             final ChainAuthHandler handler = ChainAuthHandler.all();
             aegisSet.stream()
-                .map(item -> this.bolt.authorize(this.vertx, item))
+                .map(item -> this.bolt.authenticate(this.vertx, item))
                 .filter(Objects::nonNull)
                 .forEach(handler::add);
             resultHandler = handler;
@@ -119,12 +118,12 @@ public class WallAxis implements Axis<Router> {
             // 1 = handler
             final Aegis aegis = aegisSet
                 .iterator().next();
-            resultHandler = this.bolt.access(this.vertx, aegis);
+            resultHandler = this.bolt.authorization(this.vertx, aegis);
         } else {
             // 1 = handler ( sorted )
             final Aegis aegis = new TreeSet<>(Comparator.comparingInt(Aegis::getOrder))
                 .iterator().next();
-            resultHandler = this.bolt.access(this.vertx, aegis);
+            resultHandler = this.bolt.authorization(this.vertx, aegis);
         }
         if (Objects.nonNull(resultHandler)) {
             router.route(path).order(Orders.SECURE_AUTHORIZATION)

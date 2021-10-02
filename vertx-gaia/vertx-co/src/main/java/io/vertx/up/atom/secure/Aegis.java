@@ -7,6 +7,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.io.Serializable;
 import java.util.Objects;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
 /**
@@ -89,14 +90,15 @@ public class Aegis implements Serializable, Comparable<Aegis> {
         this.proxy = proxy;
     }
 
-    public boolean okForAuthorize() {
+    public boolean noAuthentication() {
         return Objects.nonNull(this.proxy) && Objects.nonNull(this.authorizer.getAuthenticate());
     }
 
-    public boolean okForAccess() {
+    public boolean noAuthorization() {
         return Objects.nonNull(this.proxy) && Objects.nonNull(this.authorizer.getAuthorize());
     }
 
+    // ------------------- Extension ------------------------
     public void addItem(final String key, final AegisItem item) {
         if (AuthWall.EXTENSION == this.type) {
             this.items.put(key, item);
@@ -106,11 +108,35 @@ public class Aegis implements Serializable, Comparable<Aegis> {
         }
     }
 
+    public ConcurrentMap<String, AegisItem> item() {
+        if (AuthWall.EXTENSION == this.type) {
+            return AegisItem.configMap();
+        } else {
+            final AuthWall wall = this.type;
+            LOGGER.warn("[ Auth ] We recommend use 'item(AuthWall)' instead of item() because of the type.");
+            return new ConcurrentHashMap<>() {
+                {
+                    this.put(wall.key(), AegisItem.configMap(wall));
+                }
+            };
+        }
+    }
+
+    // ------------------- Native ------------------------
     public void setItem(final AegisItem item) {
         if (AuthWall.EXTENSION != this.type) {
             this.items.put(this.type.key(), item);
         } else {
             LOGGER.warn("[ Auth ] Please use `addItem` instead of current method because your type is Extension");
+        }
+    }
+
+    public AegisItem item(final AuthWall wall) {
+        if (AuthWall.EXTENSION != this.type) {
+            return this.items.getOrDefault(wall.key(), null);
+        } else {
+            LOGGER.warn("[ Auth ] Please input correct native key, now = {0}", wall.key());
+            return null;
         }
     }
 
