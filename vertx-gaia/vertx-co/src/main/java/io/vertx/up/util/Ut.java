@@ -512,6 +512,10 @@ public final class Ut {
         return Invoker.invokeObject(instance, name, args);
     }
 
+    public static <T> T invokeStatic(final Class<?> clazz, final String name, final Object... args) {
+        return Invoker.invokeStatic(clazz, name, args);
+    }
+
     public static <T> Future<T> invokeAsync(final Object instance, final Method method, final Object... args) {
         return Invoker.invokeAsync(instance, method, args);
     }

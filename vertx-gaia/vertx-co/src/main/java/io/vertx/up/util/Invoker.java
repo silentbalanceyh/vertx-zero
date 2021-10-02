@@ -8,6 +8,7 @@ import io.vertx.up.exception.zero.InvokingSpecException;
 import io.vertx.up.fn.Fn;
 
 import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -18,6 +19,27 @@ import java.util.Objects;
 @SuppressWarnings("unchecked")
 final class Invoker {
     private Invoker() {
+    }
+
+    static <T> T invokeStatic(
+        final Class<?> clazz,
+        final String name,
+        final Object... args
+    ) {
+        Objects.requireNonNull(clazz);
+        final Method[] methods = clazz.getDeclaredMethods();
+        Method found = null;
+        for (final Method method : methods) {
+            if (name.equals(method.getName())) {
+                found = method;
+                break;
+            }
+        }
+        if (Objects.isNull(found) || !Modifier.isStatic(found.getModifiers())) {
+            return null;
+        }
+        final Method invoker = found;
+        return (T) Fn.getJvm(null, () -> invoker.invoke(null, args));
     }
 
     static <T> T invokeObject(

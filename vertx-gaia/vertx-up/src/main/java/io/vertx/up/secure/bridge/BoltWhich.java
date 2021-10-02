@@ -27,30 +27,38 @@ import java.util.concurrent.atomic.AtomicBoolean;
  */
 class BoltWhich implements Bolt {
     private static final Annal LOGGER = Annal.get(BoltWhich.class);
-    private static final AtomicBoolean LOG_LEE = new AtomicBoolean(Boolean.TRUE);
-    private static final AtomicBoolean LOG_HANDLER = new AtomicBoolean(Boolean.TRUE);
+    // LOGGER Control
+    private static final AtomicBoolean[] LOG_LEE = new AtomicBoolean[]{
+        new AtomicBoolean(Boolean.TRUE),
+        new AtomicBoolean(Boolean.TRUE),
+        new AtomicBoolean(Boolean.TRUE)
+    };
     static ConcurrentMap<String, Bolt> POOL_BOLT = new ConcurrentHashMap<>();
 
     @Override
     public AuthenticationHandler authenticate(final Vertx vertx, final Aegis config) {
         Objects.requireNonNull(config);
         if (config.noAuthentication()) {
+            // Log
+            if (LOG_LEE[0].getAndSet(Boolean.FALSE)) {
+                LOGGER.warn(Info.AUTH_401_METHOD, config);
+            }
             return null;
         }
         final Aegis verified = this.verifyAuthenticate(config);
         final Lee lee = this.reference(config);
         if (Objects.isNull(lee)) {
-            if (LOG_LEE.getAndSet(Boolean.FALSE)) {
-                LOGGER.warn("[ Auth ] Your `Lee` in service-loader /META-INF/services/ is missing....",
-                    config.getType());
+            // Log
+            if (LOG_LEE[1].getAndSet(Boolean.FALSE)) {
+                LOGGER.warn(Info.AUTH_401_SERVICE, config.getType());
             }
             return null;
         }
         final AuthenticationHandler handler = lee.authenticate(vertx, verified);
         if (Objects.isNull(handler)) {
-            if (LOG_HANDLER.getAndSet(Boolean.FALSE)) {
-                LOGGER.warn("[ Auth ] You have configured secure, but the authenticate handler is null! type = {0}",
-                    config.getType());
+            // Log
+            if (LOG_LEE[2].getAndSet(Boolean.FALSE)) {
+                LOGGER.warn(Info.AUTH_401_HANDLER, config.getType());
             }
         }
         return handler;
