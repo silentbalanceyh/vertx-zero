@@ -10,10 +10,12 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.ext.auth.User;
 import io.vertx.ext.web.RoutingContext;
 import io.vertx.ext.web.Session;
+import io.vertx.ext.web.handler.HttpException;
 import io.vertx.up.commune.envelop.Rib;
 import io.vertx.up.commune.secure.Acl;
 import io.vertx.up.eon.ID;
 import io.vertx.up.exception.WebException;
+import io.vertx.up.exception.web._000HttpWebException;
 import io.vertx.up.exception.web._500InternalServerException;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.unity.Ux;
@@ -106,7 +108,13 @@ public class Envelop implements Serializable {
             // Throwable converted to WebException
             return failure((WebException) ex);
         } else {
-            return new Envelop(new _500InternalServerException(Envelop.class, ex.getMessage()));
+            if (ex instanceof HttpException) {
+                // Http Exception
+                return new Envelop(new _000HttpWebException(Envelop.class, (HttpException) ex));
+            } else {
+                // Common JVM Exception
+                return new Envelop(new _500InternalServerException(Envelop.class, ex.getMessage()));
+            }
         }
     }
 

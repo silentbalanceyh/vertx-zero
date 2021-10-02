@@ -83,7 +83,7 @@ class BoltWhich implements Bolt {
             /*
              * The size should be 1 ( For non-extension )
              */
-            final AegisItem item = config.item(config.getType());
+            final AegisItem item = config.item();
             Fn.outUp(Objects.isNull(item), WallItemSizeException.class,
                 this.getClass(), config.getType(), 1);
         }

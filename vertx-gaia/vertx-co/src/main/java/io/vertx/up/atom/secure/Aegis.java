@@ -117,7 +117,7 @@ public class Aegis implements Serializable, Comparable<Aegis> {
         }
     }
 
-    public ConcurrentMap<String, AegisItem> item() {
+    public ConcurrentMap<String, AegisItem> items() {
         if (AuthWall.EXTENSION == this.type) {
             return AegisItem.configMap();
         } else {
@@ -140,8 +140,9 @@ public class Aegis implements Serializable, Comparable<Aegis> {
         }
     }
 
-    public AegisItem item(final AuthWall wall) {
-        if (AuthWall.EXTENSION != this.type) {
+    public AegisItem item() {
+        final AuthWall wall = this.type;
+        if (AuthWall.EXTENSION != wall) {
             return this.items.getOrDefault(wall.key(), null);
         } else {
             LOGGER.warn("[ Auth ] Please input correct native key, now = {0}", wall.key());

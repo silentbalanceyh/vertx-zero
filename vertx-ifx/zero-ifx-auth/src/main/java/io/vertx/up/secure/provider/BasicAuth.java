@@ -12,6 +12,6 @@ import io.vertx.ext.auth.authentication.AuthenticationProvider;
 public class BasicAuth implements AuthenticationProvider {
     @Override
     public void authenticate(final JsonObject jsonObject, final Handler<AsyncResult<User>> handler) {
-
+        System.out.println(jsonObject);
     }
 }
