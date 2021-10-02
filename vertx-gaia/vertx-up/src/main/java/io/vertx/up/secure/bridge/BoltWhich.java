@@ -60,7 +60,7 @@ public class BoltWhich implements Bolt {
      * They are fixed provider of authenticate
      */
     private Aegis verifyAuthenticate(final Aegis config) {
-        final int itemSize = config.item().size();
+        final int itemSize = config.size();
         if (AuthWall.EXTENSION != config.getType()) {
             /*
              * The size should be 1 ( For non-extension )

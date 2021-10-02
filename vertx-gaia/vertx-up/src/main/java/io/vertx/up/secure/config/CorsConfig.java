@@ -52,7 +52,7 @@ public class CorsConfig implements Serializable {
     }
 
     public Boolean getCredentials() {
-        return credentials;
+        return this.credentials;
     }
 
     public void setCredentials(final Boolean credentials) {
@@ -60,7 +60,7 @@ public class CorsConfig implements Serializable {
     }
 
     public JsonArray getMethods() {
-        if (methods.isEmpty()) {
+        if (this.methods.isEmpty()) {
             return new JsonArray()
                 .add(HttpMethod.GET.name())
                 .add(HttpMethod.POST.name())
@@ -68,7 +68,7 @@ public class CorsConfig implements Serializable {
                 .add(HttpMethod.DELETE.name())
                 .add(HttpMethod.OPTIONS.name());
         } else {
-            return methods;
+            return this.methods;
         }
     }
 
@@ -77,20 +77,20 @@ public class CorsConfig implements Serializable {
     }
 
     public JsonArray getHeaders() {
-        if (headers.isEmpty()) {
+        if (this.headers.isEmpty()) {
             return new JsonArray()
-                .add(HttpHeaders.AUTHORIZATION)
-                .add(HttpHeaders.ACCEPT)
-                .add(HttpHeaders.CONTENT_DISPOSITION)
-                .add(HttpHeaders.CONTENT_ENCODING)
-                .add(HttpHeaders.CONTENT_LENGTH)
-                .add(HttpHeaders.CONTENT_TYPE)
+                .add(HttpHeaders.AUTHORIZATION.toString())
+                .add(HttpHeaders.ACCEPT.toString())
+                .add(HttpHeaders.CONTENT_DISPOSITION.toString())
+                .add(HttpHeaders.CONTENT_ENCODING.toString())
+                .add(HttpHeaders.CONTENT_LENGTH.toString())
+                .add(HttpHeaders.CONTENT_TYPE.toString())
                 /* User defined header */
                 .add(ID.Header.X_APP_ID)
                 .add(ID.Header.X_APP_KEY)
                 .add(ID.Header.X_SIGMA);
         } else {
-            return headers;
+            return this.headers;
         }
     }
 
@@ -99,7 +99,7 @@ public class CorsConfig implements Serializable {
     }
 
     public String getOrigin() {
-        return Objects.isNull(origin) ? "*" : origin;
+        return Objects.isNull(this.origin) ? "*" : this.origin;
     }
 
     public void setOrigin(final String origin) {
@@ -109,10 +109,10 @@ public class CorsConfig implements Serializable {
     @Override
     public String toString() {
         return "CorsConfig{" +
-            "credentials=" + credentials +
-            ", methods=" + methods +
-            ", headers=" + headers +
-            ", origin='" + origin + '\'' +
+            "credentials=" + this.credentials +
+            ", methods=" + this.methods +
+            ", headers=" + this.headers +
+            ", origin='" + this.origin + '\'' +
             '}';
     }
 }

@@ -24,6 +24,10 @@ public class Aegis implements Serializable, Comparable<Aegis> {
      */
     private final Against authorizer = new Against();
     /**
+     * Current config
+     */
+    private final ConcurrentMap<String, AegisItem> items = new ConcurrentHashMap<>();
+    /**
      * The wall path to be security limitation
      */
     private String path;
@@ -31,10 +35,6 @@ public class Aegis implements Serializable, Comparable<Aegis> {
      * Current wall order
      */
     private int order;
-    /**
-     * Current config
-     */
-    private ConcurrentMap<String, AegisItem> items;
     /**
      * Current wall type
      */
@@ -105,6 +105,10 @@ public class Aegis implements Serializable, Comparable<Aegis> {
             .map(AegisItem::getProviderAuthenticate)
             .filter(Objects::nonNull)
             .collect(Collectors.toSet());
+    }
+
+    public int size() {
+        return AegisItem.configMap().size();
     }
 
     // ------------------- Extension ------------------------
