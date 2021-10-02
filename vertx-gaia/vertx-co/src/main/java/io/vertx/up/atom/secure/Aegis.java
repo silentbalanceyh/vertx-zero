@@ -7,8 +7,10 @@ import org.jetbrains.annotations.NotNull;
 
 import java.io.Serializable;
 import java.util.Objects;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
+import java.util.stream.Collectors;
 
 /**
  * Secure class container for special class extraction.
@@ -96,6 +98,13 @@ public class Aegis implements Serializable, Comparable<Aegis> {
 
     public boolean noAuthorization() {
         return Objects.nonNull(this.proxy) && Objects.nonNull(this.authorizer.getAuthorize());
+    }
+
+    public Set<Class<?>> providers() {
+        return AegisItem.configMap().values().stream()
+            .map(AegisItem::getProviderAuthenticate)
+            .filter(Objects::nonNull)
+            .collect(Collectors.toSet());
     }
 
     // ------------------- Extension ------------------------

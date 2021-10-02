@@ -493,6 +493,21 @@
             </dependency>
             <dependency>
                 <groupId>io.vertx</groupId>
+                <artifactId>vertx-auth-htdigest</artifactId>
+                <version>${vertx.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>io.vertx</groupId>
+                        <artifactId>vertx-core</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>io.vertx</groupId>
+                        <artifactId>vertx-auth-common</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+            <dependency>
+                <groupId>io.vertx</groupId>
                 <artifactId>vertx-auth-webauthn</artifactId>
                 <version>${vertx.version}</version>
                 <exclusions>
