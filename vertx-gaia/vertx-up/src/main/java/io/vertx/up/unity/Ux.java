@@ -11,6 +11,8 @@ import io.vertx.tp.plugin.jooq.JooqDsl;
 import io.vertx.tp.plugin.jooq.JooqInfix;
 import io.vertx.up.atom.query.Pagination;
 import io.vertx.up.atom.record.Apt;
+import io.vertx.up.atom.secure.AegisItem;
+import io.vertx.up.atom.secure.Lee;
 import io.vertx.up.atom.secure.Vis;
 import io.vertx.up.commune.Envelop;
 import io.vertx.up.commune.Record;
@@ -21,6 +23,7 @@ import io.vertx.up.commune.rule.RuleTerm;
 import io.vertx.up.eon.Constants;
 import io.vertx.up.eon.KName;
 import io.vertx.up.eon.Strings;
+import io.vertx.up.eon.em.AuthWall;
 import io.vertx.up.eon.em.ChangeFlag;
 import io.vertx.up.exception.WebException;
 import io.vertx.up.fn.Fn;
@@ -1132,37 +1135,31 @@ public final class Ux {
         }
     }
 
-    // -> Jwt
+    /*
+     * Here the Jwt class is for lagency system because all following method will be called and existed
+     * But the new structure is just like following:
+     *
+     * 1. Lee -> ( Impl ) by Service Loader
+     * 2. The `AuthWall.JWT` will be selected and called API of Lee interface
+     * 3. The final result is token ( encoding / decoding ) part
+     * 4. The implementation class is defined in `zero-ifx-auth` instead of standard framework
+     *
+     * If you want to use security module, you should set-up `zero-ifx-auth` infix instead, or
+     * you can run zero framework in non-secure mode
+     */
     public static class Jwt {
-        /*
-         * Generate Jwt Token by json data, here the Jwt options is the default
-         */
-        public static String token(final JsonObject claims) {
-            return null; // UxJwt.generate(claims, new JWTOptions());
-        }
-
-        public static JsonObject extract(final JsonObject vertxToken) {
-            return null; // UxJwt.extract(vertxToken.getString("jwt"));
+        public static String token(final JsonObject data) {
+            final Lee lee = Ut.service(Lee.class);
+            return lee.encode(data, AegisItem.configMap(AuthWall.JWT));
         }
 
         public static JsonObject extract(final String token) {
-            return null; // UxJwt.extract(token);
-        }
-        /*
-        public static JWT create(final JWTAuthOptions config) {
-            return UxJwt.create(new JWTAuthOptions(config), Ut::ioBuffer);
+            final Lee lee = Ut.service(Lee.class);
+            return lee.decode(token, AegisItem.configMap(AuthWall.JWT));
         }
 
-        public static JWT create(final JsonObject config) {
-            return UxJwt.create(new JWTAuthOptions(config), Ut::ioBuffer);
+        public static JsonObject extract(final JsonObject jwtToken) {
+            return extract(jwtToken.getString("jwt"));
         }
-
-        public static JWT create(final JWTAuthOptions config, final Function<String, Buffer> funcBuffer) {
-            return UxJwt.create(config, funcBuffer);
-        }
-
-        public static JWT create(final JsonObject config, final Function<String, Buffer> funcBuffer) {
-            return UxJwt.create(new JWTAuthOptions(config), funcBuffer);
-        }*/
     }
 }

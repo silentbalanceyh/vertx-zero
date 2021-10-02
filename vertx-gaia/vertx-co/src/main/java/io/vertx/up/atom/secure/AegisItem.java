@@ -66,6 +66,10 @@ public class AegisItem implements Serializable {
         return SECURE;
     }
 
+    public static AegisItem configMap(final AuthWall wall) {
+        return SECURE.getOrDefault(wall.key(), null);
+    }
+
     private void init(final JsonObject provider) {
         // 401
         final String authenticate = provider.getString("authenticate");
@@ -81,10 +85,6 @@ public class AegisItem implements Serializable {
         } else {
             this.providerAuthorization = Ut.clazz(authorization, null);
         }
-    }
-
-    private Class<?> initAuthenticate(final String authenticate) {
-        return null;
     }
 
     public JsonObject options() {

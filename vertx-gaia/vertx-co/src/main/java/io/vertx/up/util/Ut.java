@@ -473,7 +473,13 @@ public final class Ut {
      * 7) field / fields
      * 8) contract / contractAsync ( @Contract )
      * 9) plugin
+     * 10) service ( By Service Loader )
      */
+
+    public static <T> T service(final Class<T> interfaceCls) {
+        return Instance.service(interfaceCls);
+    }
+
     public static <T> T plugin(final JsonObject options, final String pluginKey, final Class<T> interfaceCls) {
         return Instance.plugin(options, pluginKey, interfaceCls);
     }

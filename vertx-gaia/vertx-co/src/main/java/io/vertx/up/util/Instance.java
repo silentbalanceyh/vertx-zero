@@ -10,10 +10,7 @@ import io.vertx.up.runtime.ZeroPack;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.function.Consumer;
@@ -26,8 +23,44 @@ final class Instance {
     private static final Annal LOGGER = Annal.get(Instance.class);
 
     private static final ConcurrentMap<String, Object> SINGLETON = new ConcurrentHashMap<>();
+    private static final ConcurrentMap<String, Object> SERVICE_LOADER = new ConcurrentHashMap<>();
 
     private Instance() {
+    }
+
+    static <T> T service(final Class<T> interfaceCls) {
+        if (Objects.isNull(interfaceCls) || !interfaceCls.isInterface()) {
+            return null;
+        } else {
+            final String cacheKey = interfaceCls.getName();
+            Object reference = SERVICE_LOADER.getOrDefault(interfaceCls.getName(), null);
+            if (Objects.isNull(reference)) {
+                /*
+                 * Service Loader for lookup input interface implementation
+                 * This configuration must be configured in
+                 * META-INF/services/<interfaceCls Name> file
+                 */
+                final ServiceLoader<T> loader =
+                    ServiceLoader.load(interfaceCls, interfaceCls.getClassLoader());
+                /*
+                 * New data structure to put interface class into LEXEME_MAP
+                 * In current version, it support one to one only
+                 *
+                 * 1) The key is interface class name
+                 * 2) The found class is implementation name
+                 */
+                for (final T t : loader) {
+                    reference = t;
+                    if (Objects.nonNull(reference)) {
+                        LOGGER.info("ServiceLoader<T>, interface = {0} <-------- impl = {1}",
+                            cacheKey, reference.getClass().getName());
+                        SERVICE_LOADER.put(interfaceCls.getName(), reference);
+                        break;
+                    }
+                }
+            }
+            return (T) reference;
+        }
     }
 
     /**
