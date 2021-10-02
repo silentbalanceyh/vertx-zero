@@ -16,13 +16,12 @@ public enum AuthWall {
      *
      * Here are some tpl in `provider/handler` instead of nothing
      */
-    MONGO("mongo"),
-    SQL("sql"),
+    BASIC("basic"),         // Any provider will be ok
+    REDIRECT("redirect"),   // Any provider will be ok
     JWT("jwt"),
     OAUTH2("oauth2"),
-    BASIC("basic"),
     DIGEST("digest"),
-    WEB_N("web"),
+    WEB("web"),
     /*
      * When you provide this value, it means that you will use Zero Extension kind
      * type of wall instead of Vert.x Native

@@ -43,11 +43,7 @@
             <groupId>org.aspectj</groupId>
             <artifactId>aspectjrt</artifactId>
         </dependency>
-        <!-- Auth Common Framework for different Authorization -->
-        <dependency>
-            <groupId>io.vertx</groupId>
-            <artifactId>vertx-auth-common</artifactId>
-        </dependency>
+
     </dependencies>
     <build>
         <plugins>

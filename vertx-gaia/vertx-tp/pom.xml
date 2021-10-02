@@ -38,15 +38,10 @@
             <groupId>io.vertx</groupId>
             <artifactId>vertx-health-check</artifactId>
         </dependency>
-
-        <!-- Jwt -->
+        <!-- Auth Common Framework for different Authorization -->
         <dependency>
             <groupId>io.vertx</groupId>
-            <artifactId>vertx-auth-jwt</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>io.vertx</groupId>
-            <artifactId>vertx-auth-oauth2</artifactId>
+            <artifactId>vertx-auth-common</artifactId>
         </dependency>
         <!-- Jooq -->
         <dependency>

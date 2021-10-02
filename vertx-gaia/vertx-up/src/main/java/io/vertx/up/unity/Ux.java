@@ -5,9 +5,6 @@ import io.vertx.core.buffer.Buffer;
 import io.vertx.core.eventbus.Message;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.ext.auth.JWTOptions;
-import io.vertx.ext.auth.impl.jose.JWT;
-import io.vertx.ext.auth.jwt.JWTAuthOptions;
 import io.vertx.ext.web.FileUpload;
 import io.vertx.tp.plugin.database.DataPool;
 import io.vertx.tp.plugin.jooq.JooqDsl;
@@ -1137,27 +1134,21 @@ public final class Ux {
 
     // -> Jwt
     public static class Jwt {
-
+        /*
+         * Generate Jwt Token by json data, here the Jwt options is the default
+         */
         public static String token(final JsonObject claims) {
-            return UxJwt.generate(claims, new JWTOptions());
-        }
-
-        public static String token(final JsonObject claims, final Function<String, Buffer> funcBuffer) {
-            return UxJwt.generate(claims, new JWTOptions(), funcBuffer);
+            return null; // UxJwt.generate(claims, new JWTOptions());
         }
 
         public static JsonObject extract(final JsonObject vertxToken) {
-            return UxJwt.extract(vertxToken.getString("jwt"));
+            return null; // UxJwt.extract(vertxToken.getString("jwt"));
         }
 
         public static JsonObject extract(final String token) {
-            return UxJwt.extract(token);
+            return null; // UxJwt.extract(token);
         }
-
-        public static JsonObject extract(final String token, final JsonObject config) {
-            return UxJwt.extract(token, config);
-        }
-
+        /*
         public static JWT create(final JWTAuthOptions config) {
             return UxJwt.create(new JWTAuthOptions(config), Ut::ioBuffer);
         }
@@ -1172,6 +1163,6 @@ public final class Ux {
 
         public static JWT create(final JsonObject config, final Function<String, Buffer> funcBuffer) {
             return UxJwt.create(new JWTAuthOptions(config), funcBuffer);
-        }
+        }*/
     }
 }

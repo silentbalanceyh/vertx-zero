@@ -23,6 +23,7 @@
         <module>zero-ifx-redis</module>
         <module>zero-ifx-sms</module>
         <module>zero-ifx-shell</module>
+        <module>zero-ifx-auth</module>
     </modules>
     <dependencies>
         <dependency>

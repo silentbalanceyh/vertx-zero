@@ -40,22 +40,55 @@ public class AegisItem implements Serializable {
         LOGGER.info("[ Auth ] You have configured `{0}` kind security mode.", String.valueOf(SECURE.size()));
     }
 
-    private final transient JsonObject config = new JsonObject();
+    private final transient JsonObject options = new JsonObject();
     private final transient String key;
     private final transient AuthWall wall;
+    private transient Class<?> providerAuthenticate;
+    private transient Class<?> providerAuthorization;
 
     private AegisItem(final String key, final JsonObject config) {
         this.key = key;
         this.wall = AuthWall.from(key);
-        this.config.mergeIn(config, true);
+        /*
+         * options:
+         */
+        this.options.mergeIn(config.getJsonObject("options", new JsonObject()), true);
+        /*
+         * provider class for current item
+         * provider:
+         *   authenticate:
+         *   authorization:
+         */
+        this.init(config.getJsonObject("provider", new JsonObject()));
     }
 
     public static ConcurrentMap<String, AegisItem> configMap() {
         return SECURE;
     }
 
-    public JsonObject config() {
-        return this.config;
+    private void init(final JsonObject provider) {
+        // 401
+        final String authenticate = provider.getString("authenticate");
+        if (Ut.isNil(authenticate)) {
+            this.providerAuthenticate = null;
+        } else {
+            this.providerAuthenticate = Ut.clazz(authenticate, null);
+        }
+        // 403
+        final String authorization = provider.getString("authorization");
+        if (Ut.isNil(authorization)) {
+            this.providerAuthorization = null;
+        } else {
+            this.providerAuthorization = Ut.clazz(authorization, null);
+        }
+    }
+
+    private Class<?> initAuthenticate(final String authenticate) {
+        return null;
+    }
+
+    public JsonObject options() {
+        return this.options;
     }
 
     public AuthWall wall() {
@@ -64,5 +97,13 @@ public class AegisItem implements Serializable {
 
     public String key() {
         return this.key;
+    }
+
+    public Class<?> getProviderAuthenticate() {
+        return this.providerAuthenticate;
+    }
+
+    public Class<?> getProviderAuthorization() {
+        return this.providerAuthorization;
     }
 }
