@@ -52,8 +52,6 @@ final class Instance {
                 for (final T t : loader) {
                     reference = t;
                     if (Objects.nonNull(reference)) {
-                        LOGGER.info("ServiceLoader<T>, interface = {0} <-------- impl = {1}",
-                            cacheKey, reference.getClass().getName());
                         SERVICE_LOADER.put(interfaceCls.getName(), reference);
                         break;
                     }

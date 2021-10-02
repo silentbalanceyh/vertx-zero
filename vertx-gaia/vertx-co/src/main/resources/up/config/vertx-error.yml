@@ -100,6 +100,7 @@ E40074: "The command `{0}` plugin is null or could not be found, please check yo
 E40075: "The wall type is invalid `{0}` in `{1}`, please use `extension` instead when you want to define"
 E40076: "You have selected the wall `{0}`, the expected size should `{1}`"
 E40077: "The provider {0} is conflict because it''s invalid AuthenticateProvider"
+E40078: "The provider is missing ( AuthorizationProvider ), current type = {0} require you configure that"
 
 # RxJava
 E45001: (V) - The field "{1}" of json array "{0}" must be mapped to unique element, but current reduced is "{2}"
