@@ -75,7 +75,8 @@ public class WallInquirer implements Inquirer<Set<Aegis>> {
     private void verifyConfig(final Class<?> clazz, final Aegis reference, final String typeKey) {
         final AuthWall wall = AuthWall.from(typeKey);
         /* Wall Type Wrong */
-        Fn.outUp(Objects.isNull(wall), LOGGER, WallTypeWrongException.class, typeKey, clazz);
+        Fn.outUp(Objects.isNull(wall), LOGGER, WallTypeWrongException.class,
+            this.getClass(), typeKey, clazz);
         reference.setType(wall);
         final ConcurrentMap<String, AegisItem> configMap = AegisItem.configMap();
         if (AuthWall.EXTENSION == wall) {
@@ -86,7 +87,8 @@ public class WallInquirer implements Inquirer<Set<Aegis>> {
             /* Standard */
             reference.setDefined(Boolean.FALSE);
             final AegisItem found = configMap.getOrDefault(wall.key(), null);
-            Fn.outUp(Objects.isNull(found), LOGGER, WallKeyMissingException.class, wall.key(), clazz);
+            Fn.outUp(Objects.isNull(found), LOGGER, WallKeyMissingException.class,
+                this.getClass(), wall.key(), clazz);
             reference.setItem(found);
         }
     }

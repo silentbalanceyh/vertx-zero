@@ -23,7 +23,6 @@ import java.util.TreeSet;
  * 401 for authorization only
  */
 public class WallAxis implements Axis<Router> {
-
     /**
      * Extract all walls that will be generated route.
      */

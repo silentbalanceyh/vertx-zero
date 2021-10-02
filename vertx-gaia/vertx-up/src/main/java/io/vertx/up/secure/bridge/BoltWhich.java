@@ -7,8 +7,10 @@ import io.vertx.ext.web.handler.AuthorizationHandler;
 import io.vertx.tp.error.WallItemSizeException;
 import io.vertx.tp.error.WallProviderConflictException;
 import io.vertx.up.atom.secure.Aegis;
+import io.vertx.up.atom.secure.AegisItem;
 import io.vertx.up.eon.em.AuthWall;
 import io.vertx.up.fn.Fn;
+import io.vertx.up.log.Annal;
 import io.vertx.up.secure.Lee;
 import io.vertx.up.secure.LeeExtension;
 import io.vertx.up.secure.LeeNative;
@@ -18,28 +20,45 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-public class BoltWhich implements Bolt {
+class BoltWhich implements Bolt {
+    private static final Annal LOGGER = Annal.get(BoltWhich.class);
+    private static final AtomicBoolean LOG_LEE = new AtomicBoolean(Boolean.TRUE);
+    private static final AtomicBoolean LOG_HANDLER = new AtomicBoolean(Boolean.TRUE);
     static ConcurrentMap<String, Bolt> POOL_BOLT = new ConcurrentHashMap<>();
 
     @Override
     public AuthenticationHandler authenticate(final Vertx vertx, final Aegis config) {
+        Objects.requireNonNull(config);
         if (config.noAuthentication()) {
             return null;
         }
         final Aegis verified = this.verifyAuthenticate(config);
         final Lee lee = this.reference(config);
         if (Objects.isNull(lee)) {
+            if (LOG_LEE.getAndSet(Boolean.FALSE)) {
+                LOGGER.warn("[ Auth ] Your `Lee` in service-loader /META-INF/services/ is missing....",
+                    config.getType());
+            }
             return null;
         }
-        return lee.authenticate(vertx, verified);
+        final AuthenticationHandler handler = lee.authenticate(vertx, verified);
+        if (Objects.isNull(handler)) {
+            if (LOG_HANDLER.getAndSet(Boolean.FALSE)) {
+                LOGGER.warn("[ Auth ] You have configured secure, but the authenticate handler is null! type = {0}",
+                    config.getType());
+            }
+        }
+        return handler;
     }
 
     @Override
     public AuthorizationHandler authorization(final Vertx vertx, final Aegis config) {
+        Objects.requireNonNull(config);
         if (config.noAuthorization()) {
             return null;
         }
@@ -60,13 +79,13 @@ public class BoltWhich implements Bolt {
      * They are fixed provider of authenticate
      */
     private Aegis verifyAuthenticate(final Aegis config) {
-        final int itemSize = config.size();
         if (AuthWall.EXTENSION != config.getType()) {
             /*
              * The size should be 1 ( For non-extension )
              */
-            Fn.outUp(1 != itemSize, WallItemSizeException.class,
-                this.getClass(), config.getType(), itemSize);
+            final AegisItem item = config.item(config.getType());
+            Fn.outUp(Objects.isNull(item), WallItemSizeException.class,
+                this.getClass(), config.getType(), 1);
         }
         final Set<Class<?>> provider = config.providers();
         /*

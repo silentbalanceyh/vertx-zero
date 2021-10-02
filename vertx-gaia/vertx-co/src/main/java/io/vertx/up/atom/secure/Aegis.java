@@ -107,10 +107,6 @@ public class Aegis implements Serializable, Comparable<Aegis> {
             .collect(Collectors.toSet());
     }
 
-    public int size() {
-        return AegisItem.configMap().size();
-    }
-
     // ------------------- Extension ------------------------
     public void addItem(final String key, final AegisItem item) {
         if (AuthWall.EXTENSION == this.type) {

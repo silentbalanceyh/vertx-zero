@@ -110,7 +110,7 @@ final class Folder {
              * Split steps for url extraction
              */
             if (Objects.isNull(url)) {
-                LOGGER.error("The url of folder = `{0}` is null", folder);
+                LOGGER.info("The url of folder = `{0}` is null", folder);
             } else {
                 /*
                  * Whether it's jar path or common path.
@@ -159,7 +159,7 @@ final class Folder {
                             /*
                              * The condition is ok to pickup folder only
                              */
-                            retList.add(entry.getName().substring(entry.getName().lastIndexOf('/' ) + 1));
+                            retList.add(entry.getName().substring(entry.getName().lastIndexOf('/') + 1));
                         }
                     } else {
                         if (!entry.isDirectory()) {
@@ -167,13 +167,13 @@ final class Folder {
                                 /*
                                  * No Extension
                                  */
-                                retList.add(entry.getName().substring(entry.getName().lastIndexOf('/' ) + 1));
+                                retList.add(entry.getName().substring(entry.getName().lastIndexOf('/') + 1));
                             } else {
                                 if (entry.getName().endsWith(extension)) {
                                     /*
                                      * Extension enabled
                                      */
-                                    retList.add(entry.getName().substring(entry.getName().lastIndexOf('/' ) + 1));
+                                    retList.add(entry.getName().substring(entry.getName().lastIndexOf('/') + 1));
                                 }
                             }
                         }

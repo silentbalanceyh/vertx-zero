@@ -10,7 +10,7 @@ import io.vertx.up.atom.secure.AegisItem;
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-class BasicLee implements LeeNative {
+class DigestLee implements LeeNative {
     @Override
     public AuthenticationHandler authenticate(final Vertx vertx, final Aegis config) {
         return null;

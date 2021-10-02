@@ -1,4 +1,4 @@
-package io.vertx.up.secure;
+package io.vertx.tp.optic.secure;
 
 import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonObject;
@@ -6,11 +6,12 @@ import io.vertx.ext.web.handler.AuthenticationHandler;
 import io.vertx.ext.web.handler.AuthorizationHandler;
 import io.vertx.up.atom.secure.Aegis;
 import io.vertx.up.atom.secure.AegisItem;
+import io.vertx.up.secure.LeeExtension;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-class BasicLee implements LeeNative {
+public class WallExtension implements LeeExtension {
     @Override
     public AuthenticationHandler authenticate(final Vertx vertx, final Aegis config) {
         return null;
