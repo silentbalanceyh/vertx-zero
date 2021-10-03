@@ -14,8 +14,4 @@ public interface AuthorizationPermission extends Authorization {
     }
 
     Set<String> permissions();
-
-    String resource();
-
-    AuthorizationPermission resource(String resourceId);
 }

@@ -110,6 +110,7 @@ public class PermissionHandler implements AuthorizationHandler {
                         if (result.failed()) {
                             LOGGER.warn("[ Auth ] (Zero) Error occurs when getting authorization - providerId: {0}", provider.getId());
                             LOGGER.jvm(result.cause());
+                            routingContext.fail(result.cause());
                         }
                         this.checkOrFetchAuthorizations(routingContext, authorizationContext, providers);
                     });
@@ -118,6 +119,7 @@ public class PermissionHandler implements AuthorizationHandler {
                         if (result.failed()) {
                             LOGGER.warn("[ Auth ] Error occurs when getting authorization - providerId: {0}", provider.getId());
                             LOGGER.jvm(result.cause());
+                            routingContext.fail(result.cause());
                         }
                         this.checkOrFetchAuthorizations(routingContext, authorizationContext, providers);
                     });

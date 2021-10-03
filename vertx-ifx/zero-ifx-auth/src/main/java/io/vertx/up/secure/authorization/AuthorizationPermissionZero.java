@@ -12,7 +12,6 @@ import java.util.Set;
  */
 public class AuthorizationPermissionZero implements AuthorizationPermission {
     private final Set<String> permissions = new HashSet<>();
-    private String resourceId;
 
     public AuthorizationPermissionZero(final Set<String> permissions) {
         this.permissions.addAll(Objects.requireNonNull(permissions));
@@ -21,17 +20,6 @@ public class AuthorizationPermissionZero implements AuthorizationPermission {
     @Override
     public Set<String> permissions() {
         return this.permissions;
-    }
-
-    @Override
-    public String resource() {
-        return this.resourceId;
-    }
-
-    @Override
-    public AuthorizationPermission resource(final String resourceId) {
-        this.resourceId = resourceId;
-        return this;
     }
 
     @Override

@@ -5,17 +5,28 @@ import io.vertx.core.Future;
 import io.vertx.core.Handler;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.auth.User;
+import io.vertx.ext.auth.authorization.AndAuthorization;
 import io.vertx.ext.auth.authorization.Authorization;
 import io.vertx.ext.auth.authorization.AuthorizationProvider;
+import io.vertx.ext.auth.authorization.OrAuthorization;
+import io.vertx.up.annotations.AuthorizedResource;
 import io.vertx.up.atom.secure.Aegis;
+import io.vertx.up.eon.em.AuthWord;
+import io.vertx.up.exception.web._403ForbiddenException;
 import io.vertx.up.fn.Fn;
+import io.vertx.up.log.Annal;
+import io.vertx.up.util.Ut;
 
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 public class PermissionZeroProvider implements PermissionProvider {
+    private static final Annal LOGGER = Annal.get(PermissionZeroProvider.class);
 
     private transient final Aegis aegis;
 
@@ -34,23 +45,78 @@ public class PermissionZeroProvider implements PermissionProvider {
 
     @Override
     public void getAuthorizations(final User user, final JsonObject request, final Handler<AsyncResult<Void>> handler) {
-        this.runUser(user, result -> {
-            System.out.println(result);
-            System.out.println(request.encodePrettily());
+        this.getAuthorized(user, actual -> this.getResource(request, required -> {
+            final Authorization requiredAuthorization = required.result();
+            if (requiredAuthorization.match(user)) {
+                handler.handle(Future.succeededFuture());
+            } else {
+                handler.handle(Future.failedFuture(new _403ForbiddenException(this.getClass())));
+            }
+        }));
+    }
+
+    @SuppressWarnings("all")
+    private void getResource(final JsonObject params, final Handler<AsyncResult<Authorization>> handler) {
+        final Method method = this.aegis.getAuthorizer().getResource();
+        Fn.safeJvm(() -> {
+            final Future<Object> future = (Future<Object>) method.invoke(this.aegis.getProxy(), params);
+            future.onComplete(res -> {
+                if (res.succeeded()) {
+                    final Authorization required = this.getResource(res.result(), method);
+                    handler.handle(Future.succeededFuture(required));
+                } else {
+                    final Throwable ex = res.cause();
+                    handler.handle(Future.failedFuture(ex));
+                }
+            });
         });
     }
 
     @SuppressWarnings("all")
-    private void runUser(final User user, final Handler<AsyncResult<User>> handler) {
+    private Authorization getResource(final Object item, final Method method) {
+        final Annotation annotation = method.getAnnotation(AuthorizedResource.class);
+        final AuthWord word = Ut.invoke(annotation, "value");
+        final Authorization required;
+        if (item instanceof Set) {
+            final Set<String> set = (Set<String>) item;
+            if (AuthWord.AND == word) {
+                final AndAuthorization and = AndAuthorization.create();
+                set.forEach(each -> and.addAuthorization(AuthorizationPermission.create(new HashSet<>() {
+                    {
+                        this.add(each);
+                    }
+                })));
+                required = and;
+            } else {
+                final OrAuthorization and = OrAuthorization.create();
+                set.forEach(each -> and.addAuthorization(AuthorizationPermission.create(new HashSet<>() {
+                    {
+                        this.add(each);
+                    }
+                })));
+                required = and;
+            }
+        } else {
+            // Only one
+            required = AuthorizationPermission.create(new HashSet<>() {{
+                this.add((String) item);
+            }});
+        }
+        return required;
+    }
+
+    @SuppressWarnings("all")
+    private void getAuthorized(final User user, final Handler<AsyncResult<User>> handler) {
         final Method method = this.aegis.getAuthorizer().getAuthorization();
         Fn.safeJvm(() -> {
             /*
-             * Future<Authorization> fetching
+             * Future<Set<String>> fetching
              */
-            final Future<Authorization> future = (Future<Authorization>) method.invoke(this.aegis.getProxy(), user);
+            final Future<Set<String>> future = (Future<Set<String>>) method.invoke(this.aegis.getProxy(), user);
             future.onComplete(res -> {
                 if (res.succeeded()) {
-                    final Authorization authorization = res.result();
+                    final Set<String> permissionSet = res.result();
+                    final Authorization authorization = AuthorizationPermission.create(permissionSet);
                     user.authorizations().add(this.getId(), authorization);
                     handler.handle(Future.succeededFuture(user));
                 } else {
