@@ -4,7 +4,6 @@ import io.vertx.core.MultiMap;
 import io.vertx.core.http.HttpServerRequest;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.auth.User;
-import io.vertx.ext.auth.authorization.Authorization;
 import io.vertx.ext.auth.authorization.AuthorizationContext;
 import io.vertx.ext.auth.authorization.AuthorizationProvider;
 import io.vertx.ext.web.RoutingContext;
@@ -32,12 +31,10 @@ import java.util.function.BiConsumer;
 public class PermissionHandler implements AuthorizationHandler {
     private static final Annal LOGGER = Annal.get(PermissionHandler.class);
     private final transient Collection<AuthorizationProvider> providers;
-    private final transient Authorization authorization;
     private BiConsumer<RoutingContext, AuthorizationContext> consumer;
 
     private PermissionHandler() {
         this.providers = new ArrayList<>();
-        this.authorization = AuthorizationForbidden.create();
     }
 
     public static PermissionHandler create() {
@@ -82,12 +79,6 @@ public class PermissionHandler implements AuthorizationHandler {
     }
 
     private void checkOrFetchAuthorizations(final RoutingContext routingContext, final AuthorizationContext authorizationContext, final Iterator<AuthorizationProvider> providers) {
-        if (this.authorization.match(authorizationContext)) {
-            // resume the processing of the request
-            routingContext.request().resume();
-            routingContext.next();
-            return;
-        }
         if (!providers.hasNext()) {
             // resume as the error handler may allow this request to become valid again
             routingContext.request().resume();
@@ -125,6 +116,8 @@ public class PermissionHandler implements AuthorizationHandler {
                     });
                 }
                 // get out right now as the callback will decide what to do next
+                routingContext.request().resume();
+                routingContext.next();
                 return;
             }
         }

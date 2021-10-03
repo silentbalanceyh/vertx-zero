@@ -1,5 +1,6 @@
 package io.vertx.up.secure.authorization;
 
+import io.vertx.ext.auth.User;
 import io.vertx.ext.auth.authorization.Authorization;
 import io.vertx.ext.auth.authorization.AuthorizationContext;
 
@@ -24,13 +25,28 @@ public class AuthorizationPermissionZero implements AuthorizationPermission {
 
     @Override
     public boolean match(final AuthorizationContext context) {
-
+        Objects.requireNonNull(context);
+        final User user = context.user();
+        if (user != null) {
+            final Authorization resolved = AuthorizationPermission.create(this.permissions);
+            for (final String providerId : user.authorizations().getProviderIds()) {
+                for (final Authorization authorization : user.authorizations().get(providerId)) {
+                    if (authorization.verify(resolved)) {
+                        return true;
+                    }
+                }
+            }
+        }
         return false;
     }
 
     @Override
     public boolean verify(final Authorization otherAuthorization) {
-
+        Objects.requireNonNull(otherAuthorization);
+        if (otherAuthorization instanceof AuthorizationPermission) {
+            final AuthorizationPermission permission = (AuthorizationPermission) otherAuthorization;
+            return this.permissions.containsAll(permission.permissions());
+        }
         return false;
     }
 }
