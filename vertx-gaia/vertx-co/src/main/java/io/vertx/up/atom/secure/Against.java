@@ -78,9 +78,9 @@ public class Against implements Serializable {
     public String toString() {
         return "Against{" +
             "header=" + this.header +
-            ", authenticate=" + this.authenticate +
-            ", authorize=" + this.authorization +
             ", resource=" + this.resource +
+            ", authenticate=" + this.authenticate +
+            ", authorization=" + this.authorization +
             '}';
     }
 }

@@ -8,6 +8,7 @@ import io.vertx.ext.auth.User;
 import io.vertx.ext.auth.authentication.AuthenticationProvider;
 import io.vertx.up.atom.secure.Aegis;
 import io.vertx.up.fn.Fn;
+import io.vertx.up.secure.cached.LeeCache;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
@@ -20,7 +21,7 @@ public class BasicAuth implements AuthenticationProvider {
     }
 
     public static AuthenticationProvider provider(final Aegis aegis) {
-        return Fn.poolThread(Pool.POOL_401, () -> new BasicAuth(aegis), BasicAuth.class.getName());
+        return Fn.poolThread(LeeCache.POOL_PROVIDER, () -> new BasicAuth(aegis), BasicAuth.class.getName());
     }
 
     @Override

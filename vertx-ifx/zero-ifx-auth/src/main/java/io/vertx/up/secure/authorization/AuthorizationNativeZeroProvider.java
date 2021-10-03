@@ -19,23 +19,22 @@ import io.vertx.up.util.Ut;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
-import java.util.HashSet;
 import java.util.Set;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-public class PermissionZeroProvider implements PermissionProvider {
-    private static final Annal LOGGER = Annal.get(PermissionZeroProvider.class);
+public class AuthorizationNativeZeroProvider implements AuthorizationNativeProvider {
+    private static final Annal LOGGER = Annal.get(AuthorizationNativeZeroProvider.class);
 
     private transient final Aegis aegis;
 
-    private PermissionZeroProvider(final Aegis aegis) {
+    private AuthorizationNativeZeroProvider(final Aegis aegis) {
         this.aegis = aegis;
     }
 
     public static AuthorizationProvider provider(final Aegis aegis) {
-        return new PermissionZeroProvider(aegis);
+        return new AuthorizationNativeZeroProvider(aegis);
     }
 
     @Override
@@ -81,26 +80,16 @@ public class PermissionZeroProvider implements PermissionProvider {
             final Set<String> set = (Set<String>) item;
             if (AuthWord.AND == word) {
                 final AndAuthorization and = AndAuthorization.create();
-                set.forEach(each -> and.addAuthorization(AuthorizationPermission.create(new HashSet<>() {
-                    {
-                        this.add(each);
-                    }
-                })));
+                set.forEach(each -> and.addAuthorization(AuthorizationPermission.create(each)));
                 required = and;
             } else {
                 final OrAuthorization and = OrAuthorization.create();
-                set.forEach(each -> and.addAuthorization(AuthorizationPermission.create(new HashSet<>() {
-                    {
-                        this.add(each);
-                    }
-                })));
+                set.forEach(each -> and.addAuthorization(AuthorizationPermission.create(each)));
                 required = and;
             }
         } else {
             // Only one
-            required = AuthorizationPermission.create(new HashSet<>() {{
-                this.add((String) item);
-            }});
+            required = AuthorizationPermission.create((String) item);
         }
         return required;
     }

@@ -72,4 +72,5 @@ public @interface Wall {
      * @return The phase that occurs in security limitation.
      */
     // boolean define() default false;
+    Class<?> handler() default Void.class;
 }

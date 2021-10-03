@@ -16,6 +16,7 @@ import io.vertx.up.exception.web._403ForbiddenException;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import io.vertx.up.runtime.ZeroAnno;
+import io.vertx.up.secure.cached.LeeCache;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -28,17 +29,17 @@ import java.util.function.BiConsumer;
  *
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-public class PermissionHandler implements AuthorizationHandler {
-    private static final Annal LOGGER = Annal.get(PermissionHandler.class);
+public class AuthorizationNativeHandler implements AuthorizationHandler {
+    private static final Annal LOGGER = Annal.get(AuthorizationNativeHandler.class);
     private final transient Collection<AuthorizationProvider> providers;
     private BiConsumer<RoutingContext, AuthorizationContext> consumer;
 
-    private PermissionHandler() {
+    private AuthorizationNativeHandler() {
         this.providers = new ArrayList<>();
     }
 
-    public static PermissionHandler create() {
-        return Fn.poolThread(Pool.HANDLER_POOL, PermissionHandler::new, PermissionHandler.class.getName());
+    public static AuthorizationNativeHandler create() {
+        return (AuthorizationNativeHandler) Fn.poolThread(LeeCache.POOL_HANDLER, AuthorizationNativeHandler::new, AuthorizationNativeHandler.class.getName());
     }
 
     @Override
@@ -94,10 +95,10 @@ public class PermissionHandler implements AuthorizationHandler {
             // we haven't fetch authorization from this provider yet
             if (!routingContext.user().authorizations().getProviderIds().contains(provider.getId())) {
                 final User user = routingContext.user();
-                if (provider instanceof PermissionProvider) {
+                if (provider instanceof AuthorizationNativeProvider) {
                     // Zero workflow for Permission Provider
                     final JsonObject request = this.getResource(routingContext);
-                    ((PermissionProvider) provider).getAuthorizations(user, request, result -> {
+                    ((AuthorizationNativeProvider) provider).getAuthorizations(user, request, result -> {
                         if (result.failed()) {
                             LOGGER.warn("[ Auth ] (Zero) Error occurs when getting authorization - providerId: {0}", provider.getId());
                             LOGGER.jvm(result.cause());

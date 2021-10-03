@@ -43,6 +43,8 @@ public class Aegis implements Serializable, Comparable<Aegis> {
      * Proxy instance
      */
     private Object proxy;
+
+    private Class<?> handler;
     /**
      * User-Defined authorization
      */
@@ -105,6 +107,14 @@ public class Aegis implements Serializable, Comparable<Aegis> {
             .map(AegisItem::getProviderAuthenticate)
             .filter(Objects::nonNull)
             .collect(Collectors.toSet());
+    }
+
+    public Class<?> getHandler() {
+        return Void.class == this.handler ? null : this.handler;
+    }
+
+    public void setHandler(final Class<?> handler) {
+        this.handler = handler;
     }
 
     // ------------------- Extension ------------------------
@@ -193,6 +203,7 @@ public class Aegis implements Serializable, Comparable<Aegis> {
             ", type=" + this.type +
             ", proxy=" + this.proxy +
             ", defined=" + this.defined +
+            ", handler=" + this.handler +
             '}';
     }
 }

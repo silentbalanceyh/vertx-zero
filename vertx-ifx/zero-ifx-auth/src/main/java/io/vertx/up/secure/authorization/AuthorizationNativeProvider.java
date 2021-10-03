@@ -12,7 +12,7 @@ import io.vertx.up.exception.web._501NotSupportException;
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-public interface PermissionProvider extends AuthorizationProvider {
+public interface AuthorizationNativeProvider extends AuthorizationProvider {
 
     @Override
     default void getAuthorizations(final User user, final Handler<AsyncResult<Void>> handler) {

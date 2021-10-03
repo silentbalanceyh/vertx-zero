@@ -1,5 +1,6 @@
 package io.vertx.up.uca.web.origin;
 
+import io.vertx.ext.web.handler.AuthorizationHandler;
 import io.vertx.tp.error.WallDuplicatedException;
 import io.vertx.tp.error.WallKeyMissingException;
 import io.vertx.tp.error.WallMethodMultiException;
@@ -69,6 +70,14 @@ public class WallInquirer implements Inquirer<Set<Aegis>> {
         final String typeKey = Ut.invoke(annotation, "value");
         this.verifyConfig(clazz, aegis, typeKey);
         aegis.setPath(Ut.invoke(annotation, "path"));
+
+        /*
+         * AuthorizationHandler class here
+         */
+        final Class<?> handlerCls = Ut.invoke(annotation, "handler");
+        if (AuthorizationHandler.class.isAssignableFrom(handlerCls)) {
+            aegis.setHandler(handlerCls);
+        }
         /* Verify */
         return aegis;
     }

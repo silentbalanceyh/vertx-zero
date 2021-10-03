@@ -8,10 +8,13 @@ import io.vertx.ext.web.handler.AuthorizationHandler;
 import io.vertx.up.atom.secure.Aegis;
 import io.vertx.up.atom.secure.AegisItem;
 import io.vertx.up.eon.em.AuthWall;
+import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import io.vertx.up.secure.authenticate.WallAuth;
-import io.vertx.up.secure.authorization.PermissionHandler;
-import io.vertx.up.secure.authorization.PermissionZeroProvider;
+import io.vertx.up.secure.authorization.AuthorizationNativeHandler;
+import io.vertx.up.secure.authorization.AuthorizationNativeZeroProvider;
+import io.vertx.up.secure.authorization.AuthorizationZeroHandler;
+import io.vertx.up.secure.cached.LeeCache;
 import io.vertx.up.util.Ut;
 
 import java.util.Objects;
@@ -75,18 +78,27 @@ abstract class AbstractLee implements LeeNative {
 
     @Override
     public AuthorizationHandler authorization(final Vertx vertx, final Aegis config) {
-        // Default profile is no access ( 403 )
-        final AuthorizationHandler handler = PermissionHandler.create();
-        final AuthorizationProvider provider = PermissionZeroProvider.provider(config);
-        /*
-         * Check whether user defined provider
-         */
-        handler.addAuthorizationProvider(provider);
-        final AuthorizationProvider defined = this.providerAuthorization(config);
-        if (Objects.nonNull(defined)) {
-            handler.addAuthorizationProvider(defined);
+        final Class<?> handlerCls = config.getHandler();
+        if (Objects.isNull(handlerCls)) {
+            // Default profile is no access ( 403 )
+            final AuthorizationHandler handler = AuthorizationNativeHandler.create();
+            final AuthorizationProvider provider = AuthorizationNativeZeroProvider.provider(config);
+            /*
+             * Check whether user defined provider
+             */
+            handler.addAuthorizationProvider(provider);
+            final AuthorizationProvider defined = this.providerAuthorization(config);
+            if (Objects.nonNull(defined)) {
+                handler.addAuthorizationProvider(defined);
+            }
+            return handler;
+        } else {
+            // The class must contain constructor with `(Vertx, JsonObject)`
+            final AuthorizationZeroHandler handler = (AuthorizationZeroHandler) Fn.poolThread(LeeCache.POOL_HANDLER,
+                () -> Ut.instance(handlerCls, vertx), handlerCls.getName());
+            handler.configure(config);
+            return handler;
         }
-        return handler;
     }
 
     protected <T> T option(final Aegis aegis, final String key) {

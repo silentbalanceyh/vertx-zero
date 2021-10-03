@@ -10,6 +10,7 @@ import io.vertx.tp.error._401UnauthorizedException;
 import io.vertx.up.atom.secure.Aegis;
 import io.vertx.up.atom.secure.Against;
 import io.vertx.up.fn.Fn;
+import io.vertx.up.secure.cached.LeeCache;
 import io.vertx.up.util.Ut;
 
 import java.lang.reflect.Method;
@@ -29,7 +30,7 @@ public class WallAuth implements AuthenticationProvider {
     }
 
     public static WallAuth provider(final Aegis aegis) {
-        return (WallAuth) Fn.poolThread(Pool.POOL_401, () -> new WallAuth(aegis), WallAuth.class.getName());
+        return (WallAuth) Fn.poolThread(LeeCache.POOL_PROVIDER, () -> new WallAuth(aegis), WallAuth.class.getName());
     }
 
     public WallAuth bind(final Function<JsonObject, Future<User>> userFn) {
