@@ -109,8 +109,18 @@ public class Envelop implements Serializable {
             return failure((WebException) ex);
         } else {
             if (ex instanceof HttpException) {
-                // Http Exception
-                return new Envelop(new _000HttpWebException(Envelop.class, (HttpException) ex));
+                // Http Exception, When this situation, the ex may contain WebException internal
+                final Throwable actual = ex.getCause();
+                if (Objects.isNull(actual)) {
+                    // No Cause
+                    return new Envelop(new _000HttpWebException(Envelop.class, (HttpException) ex));
+                } else {
+                    /*
+                     * 1. Loop to search until `WebException`
+                     * 2. Or HttpException without cause trace
+                     */
+                    return failure(actual);
+                }
             } else {
                 // Common JVM Exception
                 return new Envelop(new _500InternalServerException(Envelop.class, ex.getMessage()));

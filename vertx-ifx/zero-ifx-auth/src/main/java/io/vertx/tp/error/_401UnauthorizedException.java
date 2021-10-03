@@ -1,4 +1,4 @@
-package io.vertx.up.exception.web;
+package io.vertx.tp.error;
 
 import io.vertx.core.http.HttpStatusCode;
 import io.vertx.up.exception.WebException;

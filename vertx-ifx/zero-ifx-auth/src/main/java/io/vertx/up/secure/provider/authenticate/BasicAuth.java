@@ -1,15 +1,13 @@
-package io.vertx.up.secure.provider;
+package io.vertx.up.secure.provider.authenticate;
 
 import io.vertx.core.AsyncResult;
+import io.vertx.core.Future;
 import io.vertx.core.Handler;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.auth.User;
 import io.vertx.ext.auth.authentication.AuthenticationProvider;
 import io.vertx.up.atom.secure.Aegis;
-import io.vertx.up.atom.secure.Against;
 import io.vertx.up.fn.Fn;
-
-import java.lang.reflect.Method;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
@@ -21,14 +19,12 @@ public class BasicAuth implements AuthenticationProvider {
         this.aegis = aegis;
     }
 
-    public static AuthenticationProvider create(final Aegis aegis) {
+    public static AuthenticationProvider provider(final Aegis aegis) {
         return Fn.poolThread(Pool.POOL_401, () -> new BasicAuth(aegis), BasicAuth.class.getName());
     }
 
     @Override
-    public void authenticate(final JsonObject jsonObject, final Handler<AsyncResult<User>> handler) {
-        final Against against = this.aegis.getAuthorizer();
-        final Method method = against.getAuthenticate();
-
+    public void authenticate(final JsonObject credentials, final Handler<AsyncResult<User>> resultHandler) {
+        resultHandler.handle(Future.succeededFuture(User.create(credentials)));
     }
 }

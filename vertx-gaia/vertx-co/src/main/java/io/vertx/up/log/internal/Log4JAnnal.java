@@ -1,11 +1,12 @@
 package io.vertx.up.log.internal;
 
 import io.vertx.core.VertxException;
-import io.vertx.core.logging.Logger;
-import io.vertx.core.logging.LoggerFactory;
 import io.vertx.up.exception.ZeroException;
 import io.vertx.up.log.Annal;
 import io.vertx.up.log.Log;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 
 public class Log4JAnnal implements Annal {
 

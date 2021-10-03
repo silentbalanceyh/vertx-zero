@@ -3,6 +3,7 @@ package io.vertx.up.secure;
 import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.auth.authentication.AuthenticationProvider;
+import io.vertx.ext.auth.authorization.AuthorizationProvider;
 import io.vertx.ext.web.handler.AuthenticationHandler;
 import io.vertx.ext.web.handler.AuthorizationHandler;
 import io.vertx.ext.web.handler.BasicAuthHandler;
@@ -19,7 +20,8 @@ class BasicLee extends AbstractLee {
 
     @Override
     public AuthenticationHandler authenticate(final Vertx vertx, final Aegis config) {
-        final AuthenticationProvider provider = this.providerAuthenticate(config);
+        final AuthenticationProvider provider = this.providerAuthenticate(config, null);
+        // Basic Handler Generated
         final String realm = this.option(config, "realm");
         if (Ut.isNil(realm)) {
             return BasicAuthHandler.create(provider);
@@ -30,6 +32,8 @@ class BasicLee extends AbstractLee {
 
     @Override
     public AuthorizationHandler authorization(final Vertx vertx, final Aegis config) {
+        final AuthorizationProvider provider = this.providerAuthorization(config);
+
         return null;
     }
 

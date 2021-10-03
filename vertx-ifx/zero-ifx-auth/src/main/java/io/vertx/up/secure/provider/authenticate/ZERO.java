@@ -1,4 +1,4 @@
-package io.vertx.up.secure.provider;
+package io.vertx.up.secure.provider.authenticate;
 
 import io.vertx.ext.auth.authentication.AuthenticationProvider;
 

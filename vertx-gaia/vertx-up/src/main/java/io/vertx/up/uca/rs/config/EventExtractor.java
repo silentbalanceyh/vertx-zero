@@ -108,6 +108,7 @@ public class EventExtractor implements Extractor<Set<Event>> {
         final HttpMethod httpMethod = MethodResolver.resolve(method);
         if (null == httpMethod) {
             // Ignored the method could not be annotated.
+            LOGGER.warn("\u001b[0;31m!!!!!, Missed HttpMethod annotation for method\u001b[m ? (GET,POST,PUT,...). method = \u001b[0;31m{0}\u001b[m", method);
             return null;
         } else {
             event.setMethod(httpMethod);

@@ -2,13 +2,13 @@ package io.vertx.up.log;
 
 import io.vertx.core.VertxException;
 import io.vertx.core.impl.ConcurrentHashSet;
-import io.vertx.core.logging.Logger;
-import io.vertx.core.logging.LoggerFactory;
 import io.vertx.up.exception.ZeroException;
 import io.vertx.up.fn.Actuator;
 import io.vertx.up.log.internal.Log4JAnnal;
 import io.vertx.up.runtime.ZeroAmbient;
 import io.vertx.up.util.Ut;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Set;
 

@@ -110,7 +110,7 @@ import io.vertx.up.annotations.Authenticate;
 import io.vertx.up.annotations.Wall;
 import io.vertx.up.secure.Security;
 import io.vertx.up.secure.component.JwtOstium;
-import io.vertx.up.secure.provider.JwtAuth;
+import io.vertx.up.secure.provider.authenticate.JwtAuth;
 
 @Wall(value = "jwt", path = "/api/secure/*")
 @SuppressWarnings("all")
