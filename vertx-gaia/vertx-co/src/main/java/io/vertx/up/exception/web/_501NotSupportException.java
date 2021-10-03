@@ -1,4 +1,4 @@
-package io.vertx.tp.error;
+package io.vertx.up.exception.web;
 
 import io.vertx.core.http.HttpStatusCode;
 import io.vertx.up.exception.WebException;
@@ -15,6 +15,6 @@ public class _501NotSupportException extends WebException {
 
     @Override
     public int getCode() {
-        return -80218;
+        return -60050;
     }
 }

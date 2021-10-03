@@ -10,4 +10,5 @@ import java.util.concurrent.ConcurrentMap;
  */
 interface Pool {
     ConcurrentMap<String, Authorization> NO_ACCESS_POOL = new ConcurrentHashMap<>();
+    ConcurrentMap<String, PermissionHandler> HANDLER_POOL = new ConcurrentHashMap<>();
 }

@@ -10,8 +10,8 @@ import io.vertx.up.atom.secure.AegisItem;
 import io.vertx.up.eon.em.AuthWall;
 import io.vertx.up.log.Annal;
 import io.vertx.up.secure.authenticate.WallAuth;
-import io.vertx.up.secure.authorization.WallAuthorizationProvider;
-import io.vertx.up.secure.authorization.WallForbiddenAuthorization;
+import io.vertx.up.secure.authorization.PermissionHandler;
+import io.vertx.up.secure.authorization.PermissionZeroProvider;
 import io.vertx.up.util.Ut;
 
 import java.util.Objects;
@@ -76,8 +76,8 @@ abstract class AbstractLee implements LeeNative {
     @Override
     public AuthorizationHandler authorization(final Vertx vertx, final Aegis config) {
         // Default profile is no access ( 403 )
-        final AuthorizationHandler handler = AuthorizationHandler.create(WallForbiddenAuthorization.create());
-        final AuthorizationProvider provider = WallAuthorizationProvider.provider(config);
+        final AuthorizationHandler handler = PermissionHandler.create();
+        final AuthorizationProvider provider = PermissionZeroProvider.provider(config);
         /*
          * Check whether user defined provider
          */

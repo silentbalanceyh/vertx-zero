@@ -163,7 +163,7 @@ E60046: "(500) - Could not build valid `URL` for http request, please check your
 E60047: "(501) - Sorry, the client that your bind is `null`, could not continue this operation"
 E60048: "(415) The argument type of @PointParam is invalid, valid is ( List<T>, JsonArray, VPosition ), current is \"{0}\""
 E60049: "({0}) HttpException: {1}"
-
+E60050: "(501) - This api is not supported or implemented, please check your specification, source = {0}"
 
 # CRUD Module
 E80100: "(404) - (CRUD) You missed `module` = `{0}` definition in file \"plugin/crud/module/\" folder"
@@ -193,7 +193,7 @@ E80220: "(401) - (RBAC) The user `{0}` that you have provided is locked, please 
 E80214: "(409) - (Ke) Zero system could not identify the session you provided `{0}`, maybe it''s expired or destroyed"
 E80216: "(501) - (Ke) Your channel is not implemented {0}, but you called this channel, please check your configuration"
 E80217: "(501) - (Ke) Your Class<T> is null or `UxJooq` has not been bind here!"
-E80218: "(501) - (Ke) This api is not supported or implemented, please check your specification, source = {0}"
+# E80218: "(501) - (Ke) This api is not supported or implemented, please check your specification, source = {0}"
 E80219: "(403) - (Ke) You have no access to create cross `application` account tokens, token generation error, now size = {0}"
 
 E80542: "(409) - (Ke) You want to seek `target` configuration in JOIN, but now the fields ( one of `crud, classDao, classDefine` ) is missing."

@@ -3,6 +3,7 @@ package io.vertx.up.secure.authorization;
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Future;
 import io.vertx.core.Handler;
+import io.vertx.core.json.JsonObject;
 import io.vertx.ext.auth.User;
 import io.vertx.ext.auth.authorization.Authorization;
 import io.vertx.ext.auth.authorization.AuthorizationProvider;
@@ -14,16 +15,16 @@ import java.lang.reflect.Method;
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-public class WallAuthorizationProvider implements AuthorizationProvider {
+public class PermissionZeroProvider implements PermissionProvider {
 
     private transient final Aegis aegis;
 
-    private WallAuthorizationProvider(final Aegis aegis) {
+    private PermissionZeroProvider(final Aegis aegis) {
         this.aegis = aegis;
     }
 
     public static AuthorizationProvider provider(final Aegis aegis) {
-        return new WallAuthorizationProvider(aegis);
+        return new PermissionZeroProvider(aegis);
     }
 
     @Override
@@ -32,9 +33,10 @@ public class WallAuthorizationProvider implements AuthorizationProvider {
     }
 
     @Override
-    public void getAuthorizations(final User user, final Handler<AsyncResult<Void>> handler) {
+    public void getAuthorizations(final User user, final JsonObject request, final Handler<AsyncResult<Void>> handler) {
         this.runUser(user, result -> {
             System.out.println(result);
+            System.out.println(request.encodePrettily());
         });
     }
 
