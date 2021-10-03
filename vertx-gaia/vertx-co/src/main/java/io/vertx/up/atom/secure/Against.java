@@ -23,6 +23,8 @@ public class Against implements Serializable {
      */
     private Method authorization;
 
+    private Method resource;
+
     public Method getAuthenticate() {
         return this.authenticate;
     }
@@ -37,6 +39,14 @@ public class Against implements Serializable {
 
     public void setAuthorization(final Method authorization) {
         this.authorization = authorization;
+    }
+
+    public Method getResource() {
+        return this.resource;
+    }
+
+    public void setResource(final Method resource) {
+        this.resource = resource;
     }
 
     @Override
@@ -70,6 +80,7 @@ public class Against implements Serializable {
             "header=" + this.header +
             ", authenticate=" + this.authenticate +
             ", authorize=" + this.authorization +
+            ", resource=" + this.resource +
             '}';
     }
 }

@@ -1,5 +1,7 @@
 package io.vertx.up.annotations;
 
+import io.vertx.up.eon.em.AuthWord;
+
 import java.lang.annotation.*;
 
 /**
@@ -10,5 +12,9 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Inherited
-public @interface Authorization {
+public @interface Authorized {
+    /*
+     * The default connect word is `AND`
+     */
+    AuthWord value() default AuthWord.AND;
 }

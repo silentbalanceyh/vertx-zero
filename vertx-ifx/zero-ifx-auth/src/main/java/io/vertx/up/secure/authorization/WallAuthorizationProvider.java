@@ -1,4 +1,4 @@
-package io.vertx.up.secure.provider.authorization;
+package io.vertx.up.secure.authorization;
 
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Future;
@@ -29,12 +29,6 @@ public class WallAuthorizationProvider implements AuthorizationProvider {
 
     @Override
     public void getAuthorizations(final User user, final Handler<AsyncResult<Void>> handler) {
-        if (user.expired()) {
-            // Expired, Please re-login into the system
-            handler.handle(Future.failedFuture("Error"));
-        } else {
-            // Ready for future validation, build user attributes
-            handler.handle(Future.failedFuture("Error"));
-        }
+        handler.handle(Future.failedFuture("Error"));
     }
 }

@@ -5,7 +5,8 @@ import io.vertx.tp.error.WallKeyMissingException;
 import io.vertx.tp.error.WallMethodMultiException;
 import io.vertx.tp.error.WallTypeWrongException;
 import io.vertx.up.annotations.Authenticate;
-import io.vertx.up.annotations.Authorization;
+import io.vertx.up.annotations.Authorized;
+import io.vertx.up.annotations.AuthorizedResource;
 import io.vertx.up.annotations.Wall;
 import io.vertx.up.atom.secure.Aegis;
 import io.vertx.up.atom.secure.AegisItem;
@@ -103,9 +104,13 @@ public class WallInquirer implements Inquirer<Set<Aegis>> {
         Fn.outUp(this.verifyMethod(methods, Authenticate.class), LOGGER,
             WallMethodMultiException.class, this.getClass(),
             Authenticate.class.getSimpleName(), clazz.getName());
-        Fn.outUp(this.verifyMethod(methods, Authorization.class), LOGGER,
+        Fn.outUp(this.verifyMethod(methods, Authorized.class), LOGGER,
             WallMethodMultiException.class, this.getClass(),
-            Authorization.class.getSimpleName(), clazz.getName());
+            Authorized.class.getSimpleName(), clazz.getName());
+        Fn.outUp(this.verifyMethod(methods, AuthorizedResource.class), LOGGER,
+            WallMethodMultiException.class, this.getClass(),
+            AuthorizedResource.class.getSimpleName(), clazz.getName());
+
         /* Proxy **/
         reference.setProxy(PLUGIN.createComponent(clazz));
         // Find the first: Authenticate
@@ -114,8 +119,11 @@ public class WallInquirer implements Inquirer<Set<Aegis>> {
                 if (method.isAnnotationPresent(Authenticate.class)) {
                     reference.getAuthorizer().setAuthenticate(method);
                 }
-                if (method.isAnnotationPresent(Authorization.class)) {
+                if (method.isAnnotationPresent(Authorized.class)) {
                     reference.getAuthorizer().setAuthorization(method);
+                }
+                if (method.isAnnotationPresent(AuthorizedResource.class)) {
+                    reference.getAuthorizer().setResource(method);
                 }
             }
         });

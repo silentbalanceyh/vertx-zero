@@ -3,7 +3,7 @@ package cn.vertxup.rbac.wall;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.annotations.Authenticate;
-import io.vertx.up.annotations.Authorization;
+import io.vertx.up.annotations.Authorized;
 import io.vertx.up.annotations.Wall;
 import io.vertx.up.secure.ZaaS;
 
@@ -19,8 +19,8 @@ public class JwtWall {
         return this.aaS.verify(data);
     }
 
-    @Authorization
+    @Authorized
     public Future<Boolean> authorization(final JsonObject data) {
-        return this.aaS.authorize(data);
+        return null; // this.aaS.authorize(data);
     }
 }

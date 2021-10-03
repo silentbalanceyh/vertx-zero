@@ -1,4 +1,4 @@
-package io.vertx.up.secure.provider.authenticate;
+package io.vertx.up.secure.authenticate;
 
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Future;
