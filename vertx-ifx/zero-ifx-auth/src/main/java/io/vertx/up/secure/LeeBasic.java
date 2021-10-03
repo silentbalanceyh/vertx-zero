@@ -14,11 +14,11 @@ import io.vertx.up.util.Ut;
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-class BasicLee extends AbstractLee {
+class LeeBasic extends AbstractLee {
 
     @Override
     public AuthenticationHandler authenticate(final Vertx vertx, final Aegis config) {
-        final AuthenticationProvider provider = this.providerAuthenticate(config, null);
+        final AuthenticationProvider provider = this.provider401(config);
         // Basic Handler Generated
         final String realm = this.option(config, "realm");
         if (Ut.isNil(realm)) {

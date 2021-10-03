@@ -10,7 +10,7 @@ import io.vertx.tp.error._401UnauthorizedException;
 import io.vertx.up.atom.secure.Aegis;
 import io.vertx.up.atom.secure.Against;
 import io.vertx.up.fn.Fn;
-import io.vertx.up.secure.cached.LeeCache;
+import io.vertx.up.secure.cv.LeePool;
 import io.vertx.up.util.Ut;
 
 import java.lang.reflect.Method;
@@ -20,20 +20,20 @@ import java.util.function.Function;
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-public class WallAuth implements AuthenticationProvider {
+public class AuthenticateBuiltInProvider implements AuthenticationProvider {
 
     private final transient Aegis aegis;
     private transient Function<JsonObject, Future<User>> userFn;
 
-    private WallAuth(final Aegis aegis) {
+    private AuthenticateBuiltInProvider(final Aegis aegis) {
         this.aegis = aegis;
     }
 
-    public static WallAuth provider(final Aegis aegis) {
-        return (WallAuth) Fn.poolThread(LeeCache.POOL_PROVIDER, () -> new WallAuth(aegis), WallAuth.class.getName());
+    public static AuthenticateBuiltInProvider provider(final Aegis aegis) {
+        return (AuthenticateBuiltInProvider) Fn.poolThread(LeePool.POOL_PROVIDER, () -> new AuthenticateBuiltInProvider(aegis), AuthenticateBuiltInProvider.class.getName());
     }
 
-    public WallAuth bind(final Function<JsonObject, Future<User>> userFn) {
+    public AuthenticateBuiltInProvider bind(final Function<JsonObject, Future<User>> userFn) {
         this.userFn = userFn;
         return this;
     }

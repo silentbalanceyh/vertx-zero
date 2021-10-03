@@ -1,4 +1,4 @@
-package io.vertx.up.secure.cached;
+package io.vertx.up.secure.cv;
 
 import io.vertx.ext.auth.authentication.AuthenticationProvider;
 import io.vertx.ext.auth.authorization.Authorization;
@@ -10,7 +10,7 @@ import java.util.concurrent.ConcurrentMap;
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-public interface LeeCache {
+public interface LeePool {
     // Provider
     ConcurrentMap<String, AuthenticationProvider> POOL_PROVIDER = new ConcurrentHashMap<>();
     // Authorization

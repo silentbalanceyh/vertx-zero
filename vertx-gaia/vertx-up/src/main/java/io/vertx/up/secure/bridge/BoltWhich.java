@@ -12,8 +12,8 @@ import io.vertx.up.eon.em.AuthWall;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import io.vertx.up.secure.Lee;
+import io.vertx.up.secure.LeeBuiltIn;
 import io.vertx.up.secure.LeeExtension;
-import io.vertx.up.secure.LeeNative;
 import io.vertx.up.util.Ut;
 
 import java.util.Objects;
@@ -110,7 +110,7 @@ class BoltWhich implements Bolt {
         if (AuthWall.EXTENSION == wall) {
             return Ut.service(LeeExtension.class);
         } else {
-            return Ut.service(LeeNative.class);
+            return Ut.service(LeeBuiltIn.class);
         }
     }
 }

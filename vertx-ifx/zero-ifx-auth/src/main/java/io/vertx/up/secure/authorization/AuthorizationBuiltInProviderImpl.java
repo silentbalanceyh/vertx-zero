@@ -14,7 +14,7 @@ import io.vertx.up.atom.secure.Aegis;
 import io.vertx.up.eon.em.AuthWord;
 import io.vertx.up.exception.web._403ForbiddenException;
 import io.vertx.up.fn.Fn;
-import io.vertx.up.log.Annal;
+import io.vertx.up.secure.profile.PermissionAuthorization;
 import io.vertx.up.util.Ut;
 
 import java.lang.annotation.Annotation;
@@ -24,17 +24,16 @@ import java.util.Set;
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-public class AuthorizationNativeZeroProvider implements AuthorizationNativeProvider {
-    private static final Annal LOGGER = Annal.get(AuthorizationNativeZeroProvider.class);
+public class AuthorizationBuiltInProviderImpl implements AuthorizationBuiltInProvider {
 
     private transient final Aegis aegis;
 
-    private AuthorizationNativeZeroProvider(final Aegis aegis) {
+    private AuthorizationBuiltInProviderImpl(final Aegis aegis) {
         this.aegis = aegis;
     }
 
     public static AuthorizationProvider provider(final Aegis aegis) {
-        return new AuthorizationNativeZeroProvider(aegis);
+        return new AuthorizationBuiltInProviderImpl(aegis);
     }
 
     @Override
@@ -80,16 +79,16 @@ public class AuthorizationNativeZeroProvider implements AuthorizationNativeProvi
             final Set<String> set = (Set<String>) item;
             if (AuthWord.AND == word) {
                 final AndAuthorization and = AndAuthorization.create();
-                set.forEach(each -> and.addAuthorization(AuthorizationPermission.create(each)));
+                set.forEach(each -> and.addAuthorization(PermissionAuthorization.create(each)));
                 required = and;
             } else {
                 final OrAuthorization and = OrAuthorization.create();
-                set.forEach(each -> and.addAuthorization(AuthorizationPermission.create(each)));
+                set.forEach(each -> and.addAuthorization(PermissionAuthorization.create(each)));
                 required = and;
             }
         } else {
             // Only one
-            required = AuthorizationPermission.create((String) item);
+            required = PermissionAuthorization.create((String) item);
         }
         return required;
     }
@@ -105,7 +104,7 @@ public class AuthorizationNativeZeroProvider implements AuthorizationNativeProvi
             future.onComplete(res -> {
                 if (res.succeeded()) {
                     final Set<String> permissionSet = res.result();
-                    final Authorization authorization = AuthorizationPermission.create(permissionSet);
+                    final Authorization authorization = PermissionAuthorization.create(permissionSet);
                     user.authorizations().add(this.getId(), authorization);
                     handler.handle(Future.succeededFuture(user));
                 } else {

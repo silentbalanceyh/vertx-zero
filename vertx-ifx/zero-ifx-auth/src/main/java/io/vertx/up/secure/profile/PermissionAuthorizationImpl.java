@@ -1,4 +1,4 @@
-package io.vertx.up.secure.authorization;
+package io.vertx.up.secure.profile;
 
 import io.vertx.ext.auth.User;
 import io.vertx.ext.auth.authorization.Authorization;
@@ -11,10 +11,10 @@ import java.util.Set;
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-public class AuthorizationPermissionZero implements AuthorizationPermission {
+public class PermissionAuthorizationImpl implements PermissionAuthorization {
     private final Set<String> permissions = new HashSet<>();
 
-    public AuthorizationPermissionZero(final Set<String> permissions) {
+    public PermissionAuthorizationImpl(final Set<String> permissions) {
         this.permissions.addAll(Objects.requireNonNull(permissions));
     }
 
@@ -28,7 +28,7 @@ public class AuthorizationPermissionZero implements AuthorizationPermission {
         Objects.requireNonNull(context);
         final User user = context.user();
         if (user != null) {
-            final Authorization resolved = AuthorizationPermission.create(this.permissions);
+            final Authorization resolved = PermissionAuthorization.create(this.permissions);
             for (final String providerId : user.authorizations().getProviderIds()) {
                 for (final Authorization authorization : user.authorizations().get(providerId)) {
                     if (authorization.verify(resolved)) {
@@ -43,8 +43,8 @@ public class AuthorizationPermissionZero implements AuthorizationPermission {
     @Override
     public boolean verify(final Authorization otherAuthorization) {
         Objects.requireNonNull(otherAuthorization);
-        if (otherAuthorization instanceof AuthorizationPermission) {
-            final AuthorizationPermission permission = (AuthorizationPermission) otherAuthorization;
+        if (otherAuthorization instanceof PermissionAuthorization) {
+            final PermissionAuthorization permission = (PermissionAuthorization) otherAuthorization;
             return this.permissions.containsAll(permission.permissions());
         }
         return false;

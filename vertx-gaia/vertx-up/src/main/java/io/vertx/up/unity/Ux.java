@@ -28,7 +28,7 @@ import io.vertx.up.exception.WebException;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.fn.wait.Log;
 import io.vertx.up.secure.Lee;
-import io.vertx.up.secure.LeeNative;
+import io.vertx.up.secure.LeeBuiltIn;
 import io.vertx.up.uca.jooq.UxJoin;
 import io.vertx.up.uca.jooq.UxJooq;
 import io.vertx.up.util.Ut;
@@ -1150,12 +1150,12 @@ public final class Ux {
      */
     public static class Jwt {
         public static String token(final JsonObject data) {
-            final Lee lee = Ut.service(LeeNative.class);
+            final Lee lee = Ut.service(LeeBuiltIn.class);
             return lee.encode(data, AegisItem.configMap(AuthWall.JWT));
         }
 
         public static JsonObject extract(final String token) {
-            final Lee lee = Ut.service(LeeNative.class);
+            final Lee lee = Ut.service(LeeBuiltIn.class);
             return lee.decode(token, AegisItem.configMap(AuthWall.JWT));
         }
 

@@ -10,11 +10,11 @@ import io.vertx.up.atom.secure.AegisItem;
 import io.vertx.up.eon.em.AuthWall;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
-import io.vertx.up.secure.authenticate.WallAuth;
-import io.vertx.up.secure.authorization.AuthorizationNativeHandler;
-import io.vertx.up.secure.authorization.AuthorizationNativeZeroProvider;
-import io.vertx.up.secure.authorization.AuthorizationZeroHandler;
-import io.vertx.up.secure.cached.LeeCache;
+import io.vertx.up.secure.authenticate.AuthenticateBuiltInProvider;
+import io.vertx.up.secure.authorization.AuthorizationBuiltInHandler;
+import io.vertx.up.secure.authorization.AuthorizationBuiltInProviderImpl;
+import io.vertx.up.secure.authorization.AuthorizationExtensionHandler;
+import io.vertx.up.secure.cv.LeePool;
 import io.vertx.up.util.Ut;
 
 import java.util.Objects;
@@ -24,14 +24,15 @@ import java.util.concurrent.atomic.AtomicBoolean;
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 @SuppressWarnings("all")
-abstract class AbstractLee implements LeeNative {
+abstract class AbstractLee implements LeeBuiltIn {
 
     private static final AtomicBoolean LOG_401 = new AtomicBoolean(Boolean.TRUE);
 
+    // --------------------------- 401
     /*
-     * User defined: 401 provider
+     * Configured: 401 provider
      */
-    private AuthenticationProvider providerAuthenticate(final Aegis aegis) {
+    private AuthenticationProvider provider401Internal(final Aegis aegis) {
         final AegisItem item = aegis.item();
         final Class<?> providerCls = item.getProviderAuthenticate();
         if (Objects.isNull(providerCls)) {
@@ -47,26 +48,24 @@ abstract class AbstractLee implements LeeNative {
         return provider;
     }
 
-    protected AuthenticationProvider providerAuthenticate(final Aegis config, final AuthenticationProvider nativeProvider) {
-        // Chain
+    protected AuthenticationProvider provider401(final Aegis config) {
+        // Chain Provider
         final ChainAuth chain = ChainAuth.all();
-        if (Objects.nonNull(nativeProvider)) {
-            // Native
-            chain.add(nativeProvider);
-        }
-
-        final AuthenticationProvider provider = this.providerAuthenticate(config);
+        final AuthenticationProvider provider = this.provider401Internal(config);
         if (Objects.nonNull(provider)) {
-            // User Defined
             chain.add(provider);
         }
-        // Wall
-        final AuthenticationProvider wall = WallAuth.provider(config);
-        chain.add(wall);
+        // 2. Wall Provider ( Based on Annotation )
+        final AuthenticationProvider wallProvider = AuthenticateBuiltInProvider.provider(config);
+        chain.add(wallProvider);
         return chain;
     }
 
-    private AuthorizationProvider providerAuthorization(final Aegis aegis) {
+    // --------------------------- 403
+    /*
+     * Configured: 403 provider
+     */
+    private AuthorizationProvider provider403Internal(final Aegis aegis) {
         final AegisItem item = aegis.item();
         final Class<?> providerCls = item.getProviderAuthenticate();
         if (Objects.isNull(providerCls)) {
@@ -76,30 +75,33 @@ abstract class AbstractLee implements LeeNative {
         return (AuthorizationProvider) Ut.invokeStatic(providerCls, "provider", aegis);
     }
 
+    // --------------------------- Interface Method
     @Override
     public AuthorizationHandler authorization(final Vertx vertx, final Aegis config) {
         final Class<?> handlerCls = config.getHandler();
         if (Objects.isNull(handlerCls)) {
             // Default profile is no access ( 403 )
-            final AuthorizationHandler handler = AuthorizationNativeHandler.create();
-            final AuthorizationProvider provider = AuthorizationNativeZeroProvider.provider(config);
+            final AuthorizationHandler handler = AuthorizationBuiltInHandler.create();
+            final AuthorizationProvider provider = AuthorizationBuiltInProviderImpl.provider(config);
             /*
              * Check whether user defined provider
              */
             handler.addAuthorizationProvider(provider);
-            final AuthorizationProvider defined = this.providerAuthorization(config);
+            final AuthorizationProvider defined = this.provider403Internal(config);
             if (Objects.nonNull(defined)) {
                 handler.addAuthorizationProvider(defined);
             }
             return handler;
         } else {
             // The class must contain constructor with `(Vertx, JsonObject)`
-            final AuthorizationZeroHandler handler = (AuthorizationZeroHandler) Fn.poolThread(LeeCache.POOL_HANDLER,
+            final AuthorizationExtensionHandler handler = (AuthorizationExtensionHandler) Fn.poolThread(LeePool.POOL_HANDLER,
                 () -> Ut.instance(handlerCls, vertx), handlerCls.getName());
             handler.configure(config);
             return handler;
         }
     }
+
+    // --------------------------- Sub class only
 
     protected <T> T option(final Aegis aegis, final String key) {
         final AegisItem item = aegis.item();

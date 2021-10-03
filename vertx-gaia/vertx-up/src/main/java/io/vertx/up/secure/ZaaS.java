@@ -2,11 +2,6 @@ package io.vertx.up.secure;
 
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
-import io.vertx.ext.auth.User;
-import io.vertx.ext.auth.authorization.Authorization;
-
-import java.util.HashSet;
-import java.util.Set;
 
 /**
  * ZaaS -> Zero Authenticate and Authorization Service
@@ -57,12 +52,12 @@ public interface ZaaS {
      * 3. 403 Access, verify the resource access
      * Optional workflow: default return true means no access
      */
-    default Future<Set<Authorization>> authorize(final User user) {
+    default Future<Boolean> authorize(final JsonObject user) {
         /*
          * 「Optional」
          * For default situation, 403 issue won't throw, it means that
          * There is no 403 access issue in default situation.
          */
-        return Future.succeededFuture(new HashSet<>());
+        return Future.succeededFuture(Boolean.TRUE);
     }
 }

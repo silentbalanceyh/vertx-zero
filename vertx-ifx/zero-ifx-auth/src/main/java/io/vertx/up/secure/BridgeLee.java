@@ -17,17 +17,17 @@ import java.util.function.Supplier;
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-public class WallNative implements LeeNative {
+public class BridgeLee implements LeeBuiltIn {
     private static final ConcurrentMap<String, Lee> LEE_POOL = new ConcurrentHashMap<>();
 
     private static final ConcurrentMap<AuthWall, Supplier<Lee>> LEE_SUPPLIER = new ConcurrentHashMap<>() {
         {
-            this.put(AuthWall.BASIC, BasicLee::new);
-            this.put(AuthWall.DIGEST, DigestLee::new);
-            this.put(AuthWall.JWT, JwtLee::new);
-            this.put(AuthWall.OAUTH2, OAuth2Lee::new);
-            this.put(AuthWall.REDIRECT, RedirectLee::new);
-            this.put(AuthWall.WEB, WebLee::new);
+            this.put(AuthWall.BASIC, LeeBasic::new);
+            this.put(AuthWall.DIGEST, LeeDigest::new);
+            this.put(AuthWall.JWT, LeeJwt::new);
+            this.put(AuthWall.OAUTH2, LeeOAuth2::new);
+            this.put(AuthWall.REDIRECT, LeeRedirect::new);
+            this.put(AuthWall.WEB, LeeWeb::new);
         }
     };
 
