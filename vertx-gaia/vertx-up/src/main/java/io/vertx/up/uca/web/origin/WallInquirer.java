@@ -109,17 +109,16 @@ public class WallInquirer implements Inquirer<Set<Aegis>> {
         /* Proxy **/
         reference.setProxy(PLUGIN.createComponent(clazz));
         // Find the first: Authenticate
-        final Optional<Method> authenticateMethod
-            = Arrays.stream(methods).filter(
-                item -> item.isAnnotationPresent(Authenticate.class))
-            .findFirst();
-        reference.getAuthorizer().setAuthenticate(authenticateMethod.orElse(null));
-        // Find the second: Authorize
-        final Optional<Method> authorizeMethod
-            = Arrays.stream(methods).filter(
-                item -> item.isAnnotationPresent(Authorization.class))
-            .findFirst();
-        reference.getAuthorizer().setAuthorize(authorizeMethod.orElse(null));
+        Arrays.stream(methods).forEach(method -> {
+            if (Objects.nonNull(method)) {
+                if (method.isAnnotationPresent(Authenticate.class)) {
+                    reference.getAuthorizer().setAuthenticate(method);
+                }
+                if (method.isAnnotationPresent(Authorization.class)) {
+                    reference.getAuthorizer().setAuthorization(method);
+                }
+            }
+        });
     }
 
     private boolean verifyMethod(final Method[] methods,

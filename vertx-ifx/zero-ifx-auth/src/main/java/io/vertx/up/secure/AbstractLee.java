@@ -1,13 +1,17 @@
 package io.vertx.up.secure;
 
+import io.vertx.core.Vertx;
 import io.vertx.ext.auth.ChainAuth;
 import io.vertx.ext.auth.authentication.AuthenticationProvider;
+import io.vertx.ext.auth.authorization.AndAuthorization;
 import io.vertx.ext.auth.authorization.AuthorizationProvider;
+import io.vertx.ext.web.handler.AuthorizationHandler;
 import io.vertx.up.atom.secure.Aegis;
 import io.vertx.up.atom.secure.AegisItem;
 import io.vertx.up.eon.em.AuthWall;
 import io.vertx.up.log.Annal;
 import io.vertx.up.secure.provider.authenticate.WallAuth;
+import io.vertx.up.secure.provider.authorization.WallAuthorizationProvider;
 import io.vertx.up.util.Ut;
 
 import java.util.Objects;
@@ -59,14 +63,30 @@ abstract class AbstractLee implements LeeNative {
         return chain;
     }
 
-    /*
-     * Wrap standard: 401 provider
-     */
-
-    protected AuthorizationProvider providerAuthorization(final Aegis aegis) {
+    private AuthorizationProvider providerAuthorization(final Aegis aegis) {
         final AegisItem item = aegis.item();
-        final Class<?> providerCls = item.getProviderAuthorization();
-        return Objects.isNull(providerCls) ? null : (AuthorizationProvider) Ut.invokeStatic(providerCls, "create", aegis);
+        final Class<?> providerCls = item.getProviderAuthenticate();
+        if (Objects.isNull(providerCls)) {
+            return null;
+        }
+        final AuthWall wall = aegis.getType();
+        return (AuthorizationProvider) Ut.invokeStatic(providerCls, "provider", aegis);
+    }
+
+    @Override
+    public AuthorizationHandler authorization(final Vertx vertx, final Aegis config) {
+        // Default profile is and
+        final AuthorizationHandler handler = AuthorizationHandler.create(AndAuthorization.create());
+        final AuthorizationProvider provider = WallAuthorizationProvider.provider(config);
+        /*
+         * Check whether user defined provider
+         */
+        handler.addAuthorizationProvider(provider);
+        final AuthorizationProvider defined = this.providerAuthorization(config);
+        if (Objects.nonNull(defined)) {
+            handler.addAuthorizationProvider(defined);
+        }
+        return handler;
     }
 
     protected <T> T option(final Aegis aegis, final String key) {

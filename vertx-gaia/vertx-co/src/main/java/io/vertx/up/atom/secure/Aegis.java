@@ -97,7 +97,7 @@ public class Aegis implements Serializable, Comparable<Aegis> {
     }
 
     public boolean noAuthorization() {
-        return Objects.isNull(this.proxy) || Objects.isNull(this.authorizer.getAuthorize());
+        return Objects.isNull(this.proxy) || Objects.isNull(this.authorizer.getAuthorization());
     }
 
     public Set<Class<?>> providers() {

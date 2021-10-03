@@ -21,7 +21,7 @@ public class Against implements Serializable {
     /**
      * 403: Authorize method
      */
-    private Method authorize;
+    private Method authorization;
 
     public Method getAuthenticate() {
         return this.authenticate;
@@ -31,12 +31,12 @@ public class Against implements Serializable {
         this.authenticate = authenticate;
     }
 
-    public Method getAuthorize() {
-        return this.authorize;
+    public Method getAuthorization() {
+        return this.authorization;
     }
 
-    public void setAuthorize(final Method authorize) {
-        this.authorize = authorize;
+    public void setAuthorization(final Method authorization) {
+        this.authorization = authorization;
     }
 
     @Override
@@ -48,12 +48,12 @@ public class Against implements Serializable {
             return false;
         }
         final Against against = (Against) o;
-        return Objects.equals(this.header, against.header) && this.authenticate.equals(against.authenticate) && Objects.equals(this.authorize, against.authorize);
+        return Objects.equals(this.header, against.header) && this.authenticate.equals(against.authenticate) && Objects.equals(this.authorization, against.authorization);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(this.header, this.authenticate, this.authorize);
+        return Objects.hash(this.header, this.authenticate, this.authorization);
     }
 
     public Method getHeader() {
@@ -69,7 +69,7 @@ public class Against implements Serializable {
         return "Against{" +
             "header=" + this.header +
             ", authenticate=" + this.authenticate +
-            ", authorize=" + this.authorize +
+            ", authorize=" + this.authorization +
             '}';
     }
 }
