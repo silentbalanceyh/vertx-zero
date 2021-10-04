@@ -7,5 +7,5 @@ import java.util.concurrent.ConcurrentMap;
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 interface Pool {
-    ConcurrentMap<String, ProviderAdapter> POOL_ADAPTER = new ConcurrentHashMap<>();
+    ConcurrentMap<String, AdapterProvider> POOL_ADAPTER = new ConcurrentHashMap<>();
 }

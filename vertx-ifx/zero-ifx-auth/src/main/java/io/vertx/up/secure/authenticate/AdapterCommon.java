@@ -9,7 +9,7 @@ import java.util.Objects;
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-class CommonAdapter extends AbstractAdapter {
+class AdapterCommon extends AbstractAdapter {
     @Override
     public AuthenticationProvider provider(final Aegis aegis) {
         // Chain Provider

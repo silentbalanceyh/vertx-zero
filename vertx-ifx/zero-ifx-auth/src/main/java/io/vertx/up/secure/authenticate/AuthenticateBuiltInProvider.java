@@ -56,10 +56,10 @@ public class AuthenticateBuiltInProvider implements AuthenticationProvider {
                     final Boolean checked = res.result();
                     if (Objects.isNull(checked) || !checked) {
                         // 401 Workflow
-                        LOGGER.info("[ Auth ] 401 Authenticated successfully!");
                         handler.handle(Future.failedFuture(new _401UnauthorizedException(this.getClass())));
                     } else {
                         // Success to passed validation
+                        LOGGER.info("[ Auth ] 401 Authenticated successfully!");
                         if (Objects.isNull(this.userFn)) {
                             final User user = User.create(credentials);
                             handler.handle(Future.succeededFuture(user));

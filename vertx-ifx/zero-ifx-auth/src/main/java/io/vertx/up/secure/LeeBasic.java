@@ -9,7 +9,7 @@ import io.vertx.up.atom.secure.Aegis;
 import io.vertx.up.atom.secure.AegisItem;
 import io.vertx.up.eon.KName;
 import io.vertx.up.eon.Strings;
-import io.vertx.up.secure.authenticate.ProviderAdapter;
+import io.vertx.up.secure.authenticate.AdapterProvider;
 import io.vertx.up.util.Ut;
 
 /**
@@ -22,7 +22,7 @@ class LeeBasic extends AbstractLee {
          * Here provider could build ChainAuth instead of handler chain
          * The provider type is: io.vertx.ext.auth.ChainAuth
          */
-        final ProviderAdapter adapter = ProviderAdapter.common();
+        final AdapterProvider adapter = AdapterProvider.common();
         final AuthenticationProvider provider = adapter.provider(config);
         // Basic Handler Generated
         final String realm = this.option(config, "realm");

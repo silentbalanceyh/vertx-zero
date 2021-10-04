@@ -26,8 +26,6 @@ public class BridgeLee implements LeeBuiltIn {
             this.put(AuthWall.DIGEST, LeeDigest::new);
             this.put(AuthWall.JWT, LeeJwt::new);
             this.put(AuthWall.OAUTH2, LeeOAuth2::new);
-            this.put(AuthWall.REDIRECT, LeeRedirect::new);
-            this.put(AuthWall.WEB, LeeWeb::new);
         }
     };
 

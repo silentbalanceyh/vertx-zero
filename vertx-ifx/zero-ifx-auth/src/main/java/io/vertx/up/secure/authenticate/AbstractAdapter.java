@@ -13,7 +13,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-public abstract class AbstractAdapter implements ProviderAdapter {
+public abstract class AbstractAdapter implements AdapterProvider {
     private static final AtomicBoolean LOG_401 = new AtomicBoolean(Boolean.TRUE);
 
     protected AuthenticationProvider provider401Internal(final Aegis aegis) {
