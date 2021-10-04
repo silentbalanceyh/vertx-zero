@@ -2,6 +2,7 @@ package io.vertx.up.secure;
 
 import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonObject;
+import io.vertx.ext.auth.impl.jose.JWT;
 import io.vertx.ext.auth.jwt.JWTAuth;
 import io.vertx.ext.auth.jwt.JWTAuthOptions;
 import io.vertx.ext.web.handler.AuthenticationHandler;
@@ -9,10 +10,10 @@ import io.vertx.ext.web.handler.JWTAuthHandler;
 import io.vertx.up.atom.secure.Aegis;
 import io.vertx.up.atom.secure.AegisItem;
 import io.vertx.up.fn.Fn;
-import io.vertx.up.secure.authenticate.AuthenticateBuiltInHandler;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
+import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
@@ -33,7 +34,7 @@ class LeeJwt extends AbstractLee {
         } else {
             standard = JWTAuthHandler.create(provider, realm);
         }
-        return AuthenticateBuiltInHandler.wrap(standard, config);
+        return this.wrapHandler(standard, config);
     }
 
     private JWTAuth provider(final Vertx vertx, final AegisItem item) {
@@ -51,6 +52,8 @@ class LeeJwt extends AbstractLee {
 
     @Override
     public JsonObject decode(final String token, final AegisItem config) {
-        return null;
+        final JWTAuth provider = this.provider(Ux.nativeVertx(), config);
+        final JWT jwt = Ut.field(provider, "jwt");
+        return Objects.isNull(jwt) ? new JsonObject() : jwt.decode(token);
     }
 }

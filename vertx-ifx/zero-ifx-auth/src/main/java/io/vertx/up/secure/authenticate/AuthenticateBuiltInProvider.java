@@ -10,6 +10,7 @@ import io.vertx.tp.error._401UnauthorizedException;
 import io.vertx.up.atom.secure.Aegis;
 import io.vertx.up.atom.secure.Against;
 import io.vertx.up.fn.Fn;
+import io.vertx.up.log.Annal;
 import io.vertx.up.util.Ut;
 
 import java.lang.reflect.Method;
@@ -21,6 +22,7 @@ import java.util.function.Function;
  */
 public class AuthenticateBuiltInProvider implements AuthenticationProvider {
 
+    private final static Annal LOGGER = Annal.get(AuthenticateBuiltInProvider.class);
     private final transient Aegis aegis;
     private transient Function<JsonObject, Future<User>> userFn;
 
@@ -54,6 +56,7 @@ public class AuthenticateBuiltInProvider implements AuthenticationProvider {
                     final Boolean checked = res.result();
                     if (Objects.isNull(checked) || !checked) {
                         // 401 Workflow
+                        LOGGER.info("[ Auth ] 401 Authenticated successfully!");
                         handler.handle(Future.failedFuture(new _401UnauthorizedException(this.getClass())));
                     } else {
                         // Success to passed validation

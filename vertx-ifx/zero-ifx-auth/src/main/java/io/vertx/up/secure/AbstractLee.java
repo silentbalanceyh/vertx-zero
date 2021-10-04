@@ -2,11 +2,14 @@ package io.vertx.up.secure;
 
 import io.vertx.core.Vertx;
 import io.vertx.ext.auth.authorization.AuthorizationProvider;
+import io.vertx.ext.web.handler.AuthenticationHandler;
 import io.vertx.ext.web.handler.AuthorizationHandler;
+import io.vertx.ext.web.handler.ChainAuthHandler;
 import io.vertx.up.atom.secure.Aegis;
 import io.vertx.up.atom.secure.AegisItem;
 import io.vertx.up.eon.em.AuthWall;
 import io.vertx.up.log.Annal;
+import io.vertx.up.secure.authenticate.AuthenticateBuiltInHandler;
 import io.vertx.up.secure.authorization.AuthorizationBuiltInHandler;
 import io.vertx.up.secure.authorization.AuthorizationBuiltInProvider;
 import io.vertx.up.secure.authorization.AuthorizationExtensionHandler;
@@ -51,6 +54,13 @@ abstract class AbstractLee implements LeeBuiltIn {
             // The class must contain constructor with `(Vertx)`
             return ((AuthorizationExtensionHandler) Ut.instance(handlerCls, vertx)).configure(config);
         }
+    }
+
+    protected AuthenticationHandler wrapHandler(final AuthenticationHandler standard, final Aegis aegis) {
+        final ChainAuthHandler handler = ChainAuthHandler.all();
+        handler.add(standard);
+        handler.add(AuthenticateBuiltInHandler.create(aegis));
+        return handler;
     }
 
     // --------------------------- Sub class only

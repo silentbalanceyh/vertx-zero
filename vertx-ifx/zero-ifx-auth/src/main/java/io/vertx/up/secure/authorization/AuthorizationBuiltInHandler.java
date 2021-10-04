@@ -103,7 +103,7 @@ public class AuthorizationBuiltInHandler implements AuthorizationHandler {
                                             final AuthorizationContext authorizationContext,
                                             final Iterator<AuthorizationProvider> providers) {
         if (resource.match(authorizationContext)) {
-            LOGGER.info("[ Auth ] Authorized successfully for user: {0}", authorizationContext.user());
+            LOGGER.info("[ Auth ] 403 Authorized successfully for user: {0}", authorizationContext.user());
             routingContext.request().resume();
             routingContext.next();
             return;
