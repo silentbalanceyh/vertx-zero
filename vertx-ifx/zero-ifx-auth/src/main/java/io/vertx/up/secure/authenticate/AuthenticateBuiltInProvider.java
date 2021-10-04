@@ -9,8 +9,6 @@ import io.vertx.ext.auth.authentication.AuthenticationProvider;
 import io.vertx.tp.error._401UnauthorizedException;
 import io.vertx.up.atom.secure.Aegis;
 import io.vertx.up.atom.secure.Against;
-import io.vertx.up.fn.Fn;
-import io.vertx.up.secure.cv.LeePool;
 import io.vertx.up.util.Ut;
 
 import java.lang.reflect.Method;
@@ -30,7 +28,7 @@ public class AuthenticateBuiltInProvider implements AuthenticationProvider {
     }
 
     public static AuthenticateBuiltInProvider provider(final Aegis aegis) {
-        return (AuthenticateBuiltInProvider) Fn.poolThread(LeePool.POOL_PROVIDER, () -> new AuthenticateBuiltInProvider(aegis), AuthenticateBuiltInProvider.class.getName());
+        return new AuthenticateBuiltInProvider(aegis);
     }
 
     public AuthenticateBuiltInProvider bind(final Function<JsonObject, Future<User>> userFn) {

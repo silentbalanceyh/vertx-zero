@@ -8,13 +8,11 @@ import io.vertx.ext.web.handler.AuthorizationHandler;
 import io.vertx.up.atom.secure.Aegis;
 import io.vertx.up.atom.secure.AegisItem;
 import io.vertx.up.eon.em.AuthWall;
-import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import io.vertx.up.secure.authenticate.AuthenticateBuiltInProvider;
 import io.vertx.up.secure.authorization.AuthorizationBuiltInHandler;
-import io.vertx.up.secure.authorization.AuthorizationBuiltInProviderImpl;
+import io.vertx.up.secure.authorization.AuthorizationBuiltInProvider;
 import io.vertx.up.secure.authorization.AuthorizationExtensionHandler;
-import io.vertx.up.secure.cv.LeePool;
 import io.vertx.up.util.Ut;
 
 import java.util.Objects;
@@ -81,8 +79,8 @@ abstract class AbstractLee implements LeeBuiltIn {
         final Class<?> handlerCls = config.getHandler();
         if (Objects.isNull(handlerCls)) {
             // Default profile is no access ( 403 )
-            final AuthorizationHandler handler = AuthorizationBuiltInHandler.create();
-            final AuthorizationProvider provider = AuthorizationBuiltInProviderImpl.provider(config);
+            final AuthorizationHandler handler = AuthorizationBuiltInHandler.create(config);
+            final AuthorizationProvider provider = AuthorizationBuiltInProvider.provider(config);
             /*
              * Check whether user defined provider
              */
@@ -94,8 +92,7 @@ abstract class AbstractLee implements LeeBuiltIn {
             return handler;
         } else {
             // The class must contain constructor with `(Vertx, JsonObject)`
-            final AuthorizationExtensionHandler handler = (AuthorizationExtensionHandler) Fn.poolThread(LeePool.POOL_HANDLER,
-                () -> Ut.instance(handlerCls, vertx), handlerCls.getName());
+            final AuthorizationExtensionHandler handler = Ut.instance(handlerCls, vertx);
             handler.configure(config);
             return handler;
         }
