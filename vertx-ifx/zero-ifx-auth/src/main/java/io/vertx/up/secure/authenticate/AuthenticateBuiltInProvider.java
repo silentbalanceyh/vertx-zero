@@ -9,6 +9,7 @@ import io.vertx.ext.auth.authentication.AuthenticationProvider;
 import io.vertx.tp.error._401UnauthorizedException;
 import io.vertx.up.atom.secure.Aegis;
 import io.vertx.up.atom.secure.Against;
+import io.vertx.up.fn.Fn;
 import io.vertx.up.util.Ut;
 
 import java.lang.reflect.Method;
@@ -23,17 +24,18 @@ public class AuthenticateBuiltInProvider implements AuthenticationProvider {
     private final transient Aegis aegis;
     private transient Function<JsonObject, Future<User>> userFn;
 
+    @SuppressWarnings("all")
     private AuthenticateBuiltInProvider(final Aegis aegis) {
         this.aegis = aegis;
+        // @AuthorizedUser method process user data
+        final Method method = aegis.getAuthorizer().getUser();
+        if (Objects.nonNull(method)) {
+            this.userFn = (json) -> (Future<User>) Fn.getJvm(() -> method.invoke(aegis.getProxy(), json));
+        }
     }
 
     public static AuthenticateBuiltInProvider provider(final Aegis aegis) {
         return new AuthenticateBuiltInProvider(aegis);
-    }
-
-    public AuthenticateBuiltInProvider bind(final Function<JsonObject, Future<User>> userFn) {
-        this.userFn = userFn;
-        return this;
     }
 
     @Override

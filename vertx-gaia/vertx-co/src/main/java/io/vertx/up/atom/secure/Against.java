@@ -9,21 +9,25 @@ import java.util.Objects;
  */
 public class Against implements Serializable {
     /*
-     * User defined header parsing code
-     * workflow, in this situation the auth flow should
-     * be defined instead of standard.
-     */
-    private Method header;
-    /**
      * 401: Authenticate method
+     * @Authenticate
      */
     private Method authenticate;
-    /**
+    /*
      * 403: Authorize method
+     * @Authorized
      */
     private Method authorization;
-
+    /*
+     * 403: Resource
+     * @AuthorizedResource
+     */
     private Method resource;
+    /*
+     * 403: User
+     * @AuthorizedUser
+     */
+    private Method user;
 
     public Method getAuthenticate() {
         return this.authenticate;
@@ -49,38 +53,37 @@ public class Against implements Serializable {
         this.resource = resource;
     }
 
-    @Override
-    public boolean equals(final Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || this.getClass() != o.getClass()) {
-            return false;
-        }
-        final Against against = (Against) o;
-        return Objects.equals(this.header, against.header) && this.authenticate.equals(against.authenticate) && Objects.equals(this.authorization, against.authorization);
+    public Method getUser() {
+        return this.user;
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(this.header, this.authenticate, this.authorization);
-    }
-
-    public Method getHeader() {
-        return this.header;
-    }
-
-    public void setHeader(final Method header) {
-        this.header = header;
+    public void setUser(final Method user) {
+        this.user = user;
     }
 
     @Override
     public String toString() {
         return "Against{" +
-            "header=" + this.header +
-            ", resource=" + this.resource +
-            ", authenticate=" + this.authenticate +
+            "authenticate=" + this.authenticate +
             ", authorization=" + this.authorization +
+            ", resource=" + this.resource +
+            ", user=" + this.user +
             '}';
+    }
+
+    @Override
+    public boolean equals(final Object o) {
+        if (this == o) return true;
+        if (o == null || this.getClass() != o.getClass()) return false;
+        final Against against = (Against) o;
+        return this.authenticate.equals(against.authenticate) &&
+            Objects.equals(this.authorization, against.authorization) &&
+            Objects.equals(this.resource, against.resource) &&
+            Objects.equals(this.user, against.user);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(this.authenticate, this.authorization, this.resource, this.user);
     }
 }

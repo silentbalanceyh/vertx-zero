@@ -9,16 +9,21 @@ import io.vertx.up.atom.secure.Aegis;
 import io.vertx.up.atom.secure.AegisItem;
 import io.vertx.up.eon.KName;
 import io.vertx.up.eon.Strings;
+import io.vertx.up.secure.authenticate.ProviderAdapter;
 import io.vertx.up.util.Ut;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 class LeeBasic extends AbstractLee {
-
     @Override
     public AuthenticationHandler authenticate(final Vertx vertx, final Aegis config) {
-        final AuthenticationProvider provider = this.provider401(config);
+        /*
+         * Here provider could build ChainAuth instead of handler chain
+         * The provider type is: io.vertx.ext.auth.ChainAuth
+         */
+        final ProviderAdapter adapter = ProviderAdapter.common();
+        final AuthenticationProvider provider = adapter.provider(config);
         // Basic Handler Generated
         final String realm = this.option(config, "realm");
         if (Ut.isNil(realm)) {
