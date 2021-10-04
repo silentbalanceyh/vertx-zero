@@ -10,6 +10,7 @@ import io.vertx.tp.plugin.session.SessionClient;
 import io.vertx.tp.plugin.session.SessionInfix;
 import io.vertx.up.atom.secure.Vis;
 import io.vertx.up.commune.Envelop;
+import io.vertx.up.eon.KName;
 import io.vertx.up.exception.WebException;
 import io.vertx.up.unity.Ux;
 
@@ -47,7 +48,7 @@ class KeCache {
         /* Principle */
         final JsonObject principle = user.principal();
         /* User extract */
-        final String token = principle.getString("jwt");
+        final String token = principle.getString(KName.ACCESS_TOKEN);
         final JsonObject credential = Ux.Jwt.extract(token);
         return credential.getString("user");
     }

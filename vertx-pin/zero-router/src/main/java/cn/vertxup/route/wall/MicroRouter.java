@@ -7,10 +7,9 @@ import io.vertx.ext.web.handler.AuthenticationHandler;
 import io.vertx.tp.route.init.RtPin;
 import io.vertx.up.annotations.Authenticate;
 import io.vertx.up.annotations.Wall;
-import io.vertx.up.secure.ZaaS;
 
 @Wall(value = "jwt", path = "/api/*")
-public class MicroRouter implements ZaaS {
+public class MicroRouter {
 
     private final static String NAME = RtPin.ipcAuth();
 
@@ -20,12 +19,10 @@ public class MicroRouter implements ZaaS {
         return null; // JwtOstium.create(JwtAuth.create(vertx, new JWTAuthOptions(config)).bind(() -> this));
     }
 
-    @Override
     public Future<Boolean> verify(final JsonObject data) {
         return null; // Ux.applyRpc(NAME, KeIpc.Sc.IPC_TOKEN_VERIFY, data).compose(Ke.Result::boolAsync);
     }
 
-    @Override
     public Future<Boolean> authorize(final JsonObject data) {
         return null; // Ux.applyRpc(NAME, KeIpc.Sc.IPC_TOKEN_ACCESS, data).compose(Ke.Result::boolAsync);
     }

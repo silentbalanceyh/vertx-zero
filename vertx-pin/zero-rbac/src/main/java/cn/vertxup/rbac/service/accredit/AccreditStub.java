@@ -7,7 +7,7 @@ import io.vertx.core.json.JsonObject;
  * Uniform interface for authorization workflow on restful api.
  * Json Data:
  * {
- *      "jwt" : "<Token Value>",
+ *      "access_token" : "<Token Value>",
  *      "options":{
  *      },
  *      "metadata":{

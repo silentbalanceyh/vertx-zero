@@ -1160,7 +1160,7 @@ public final class Ux {
         }
 
         public static JsonObject extract(final JsonObject jwtToken) {
-            return extract(jwtToken.getString("jwt"));
+            return extract(jwtToken.getString(KName.ACCESS_TOKEN));
         }
     }
 }

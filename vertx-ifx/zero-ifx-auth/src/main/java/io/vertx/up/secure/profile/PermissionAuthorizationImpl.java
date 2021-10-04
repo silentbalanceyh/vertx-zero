@@ -14,7 +14,7 @@ import java.util.Set;
 public class PermissionAuthorizationImpl implements PermissionAuthorization {
     private final Set<String> permissions = new HashSet<>();
 
-    public PermissionAuthorizationImpl(final Set<String> permissions) {
+    PermissionAuthorizationImpl(final Set<String> permissions) {
         this.permissions.addAll(Objects.requireNonNull(permissions));
     }
 

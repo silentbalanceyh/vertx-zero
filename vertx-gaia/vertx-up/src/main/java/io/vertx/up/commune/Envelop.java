@@ -14,6 +14,7 @@ import io.vertx.ext.web.handler.HttpException;
 import io.vertx.up.commune.envelop.Rib;
 import io.vertx.up.commune.secure.Acl;
 import io.vertx.up.eon.ID;
+import io.vertx.up.eon.KName;
 import io.vertx.up.exception.WebException;
 import io.vertx.up.exception.web._000HttpWebException;
 import io.vertx.up.exception.web._500InternalServerException;
@@ -275,7 +276,7 @@ public class Envelop implements Serializable {
     }
 
     public String jwt() {
-        return this.assist.principal("jwt");
+        return this.assist.principal(KName.ACCESS_TOKEN);
     }
 
     /*
@@ -283,7 +284,7 @@ public class Envelop implements Serializable {
      */
     public String jwt(final String field) {
         if (Ut.isNil(this.cachedJwt)) {
-            final String jwt = this.assist.principal("jwt");
+            final String jwt = this.assist.principal(KName.ACCESS_TOKEN);
             final JsonObject user = Ux.Jwt.extract(jwt);
             this.cachedJwt.mergeIn(user, true);
         }

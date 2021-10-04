@@ -28,13 +28,19 @@ public class AuthorizationBuiltInHandler implements AuthorizationHandler {
     private final transient AuthorizationResource resource;
     private BiConsumer<RoutingContext, AuthorizationContext> consumer;
 
-    private AuthorizationBuiltInHandler(final Aegis aegis) {
-        this.resource = AuthorizationResource.create(aegis);
+    private AuthorizationBuiltInHandler(final AuthorizationResource resource) {
+        this.resource = resource;
         this.providers = new ArrayList<>();
     }
 
+    // Built In
     public static AuthorizationBuiltInHandler create(final Aegis aegis) {
-        return new AuthorizationBuiltInHandler(aegis);
+        return new AuthorizationBuiltInHandler(AuthorizationResource.buildIn(aegis));
+    }
+
+    // Build by Resource
+    public static AuthorizationBuiltInHandler create(final AuthorizationResource resource) {
+        return new AuthorizationBuiltInHandler(resource);
     }
 
     @Override

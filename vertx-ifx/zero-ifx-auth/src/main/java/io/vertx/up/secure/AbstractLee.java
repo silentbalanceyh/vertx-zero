@@ -32,7 +32,7 @@ import java.util.Objects;
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 @SuppressWarnings("all")
-abstract class AbstractLee implements LeeBuiltIn {
+public abstract class AbstractLee implements LeeBuiltIn {
 
     // --------------------------- Interface Method
 

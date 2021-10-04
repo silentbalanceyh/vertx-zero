@@ -36,7 +36,7 @@ public class ScRequest implements Serializable {
      *         "requestUri" : "xxx",
      *         "method" : "GET"
      *     },
-     *     "jwt" : "xxxxx",
+     *     "access_token" : "xxxxx",
      *     "headers" : {
      *         "X-Sigma" : "xxx"
      *     },
@@ -65,7 +65,7 @@ public class ScRequest implements Serializable {
         /*
          * Token analyze
          */
-        final String token = data.getString("jwt");
+        final String token = data.getString(KName.ACCESS_TOKEN);
         final JsonObject userData = Ux.Jwt.extract(token);
         this.user = userData.getString("user");
         this.sessionId = userData.getString(KName.HABITUS);

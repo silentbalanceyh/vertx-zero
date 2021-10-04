@@ -160,6 +160,25 @@ public class Aegis implements Serializable, Comparable<Aegis> {
         }
     }
 
+    public Aegis copy() {
+        final Aegis aegis = new Aegis();
+        // Final
+        aegis.authorizer.setResource(this.authorizer.getResource());
+        aegis.authorizer.setAuthorization(this.authorizer.getAuthorization());
+        aegis.authorizer.setAuthenticate(this.authorizer.getAuthenticate());
+        aegis.authorizer.setUser(this.authorizer.getUser());
+        // Reference
+        aegis.handler = this.handler;
+        aegis.items.putAll(this.items);
+        aegis.proxy = this.proxy;
+        // Basic
+        aegis.defined = this.defined;
+        aegis.order = this.order;
+        aegis.path = this.path;
+        aegis.type = this.type;
+        return aegis;
+    }
+
     @Override
     public boolean equals(final Object o) {
         if (this == o) {

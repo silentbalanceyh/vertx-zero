@@ -2,6 +2,7 @@ package cn.vertxup.rbac.service.login;
 
 import cn.vertxup.rbac.domain.tables.daos.OUserDao;
 import cn.vertxup.rbac.domain.tables.pojos.OUser;
+import cn.vertxup.rbac.service.jwt.JwtStub;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.Session;
@@ -9,8 +10,8 @@ import io.vertx.tp.error._401CodeGenerationException;
 import io.vertx.tp.rbac.cv.AuthKey;
 import io.vertx.tp.rbac.cv.AuthMsg;
 import io.vertx.tp.rbac.refine.Sc;
+import io.vertx.up.eon.KName;
 import io.vertx.up.log.Annal;
-import io.vertx.up.secure.ZaaS;
 import io.vertx.up.unity.Ux;
 
 import javax.inject.Inject;
@@ -26,7 +27,7 @@ public class AuthService implements AuthStub {
     @Inject
     private transient TokenStub tokenStub;
     @Inject
-    private transient ZaaS aaS;
+    private transient JwtStub jwtStub;
 
     @Override
     @SuppressWarnings("all")
@@ -49,10 +50,14 @@ public class AuthService implements AuthStub {
         final String code = params.getString(AuthKey.AUTH_CODE);
         final String clientId = params.getString(AuthKey.CLIENT_ID);
         Sc.infoAuth(LOGGER, AuthMsg.CODE_VERIFY, clientId, code);
-        return this.tokenStub.execute(clientId, code, session)
+        return this.tokenStub.execute(clientId, code, session).compose(data -> {
             // Store token information
-            .compose(this.aaS::store);
+            final String userKey = data.getString(KName.USER);
+            Sc.infoAuth(LOGGER, AuthMsg.TOKEN_STORE, userKey);
+            return this.jwtStub.store(userKey, data);
+        });
     }
+
 
     @Override
     public Future<JsonObject> login(final JsonObject params) {
