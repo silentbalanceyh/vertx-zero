@@ -1,5 +1,6 @@
 package io.vertx.tp.rbac.extension;
 
+import cn.vertxup.rbac.service.accredit.MatrixStub;
 import io.vertx.core.Future;
 import io.vertx.core.http.HttpMethod;
 import io.vertx.core.json.JsonArray;
@@ -20,6 +21,7 @@ import io.vertx.up.fn.Fn;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
+import javax.inject.Inject;
 import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
@@ -34,6 +36,8 @@ public class DataRegion extends AbstractRegion {
         new ConcurrentHashMap<>();
     private static final ConcurrentMap<String, Cosmo> POOL_SEEK =
         new ConcurrentHashMap<>();
+    @Inject
+    private transient MatrixStub stub;
 
     @Override
     public Future<Envelop> before(final RoutingContext context, final Envelop envelop) {
@@ -103,7 +107,8 @@ public class DataRegion extends AbstractRegion {
             return Ux.future(new JsonObject());
         } else {
             final String viewKey = Ke.keyView(context);
-            return ScUser.login(habitus).view(viewKey);
+            final ScUser scUser = ScUser.login(habitus);
+            return scUser.view(viewKey);
         }
     }
 

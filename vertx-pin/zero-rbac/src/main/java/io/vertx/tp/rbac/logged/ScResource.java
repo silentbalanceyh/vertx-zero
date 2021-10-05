@@ -90,6 +90,14 @@ public class ScResource {
         return this.view;
     }
 
+    public String key() {
+        return this.resourceKey;
+    }
+
+    public String keyView() {
+        return Ke.keyView(this.method.name(), this.uri, this.view);
+    }
+
     public HttpMethod method() {
         return this.method;
     }

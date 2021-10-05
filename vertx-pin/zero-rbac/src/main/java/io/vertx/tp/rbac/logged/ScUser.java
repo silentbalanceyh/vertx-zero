@@ -7,9 +7,9 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.ext.auth.User;
 import io.vertx.tp.rbac.authorization.Align;
 import io.vertx.tp.rbac.authorization.ScDetent;
+import io.vertx.tp.rbac.cv.AuthKey;
 import io.vertx.tp.rbac.refine.Sc;
 import io.vertx.up.atom.Refer;
-import io.vertx.up.atom.query.engine.Qr;
 import io.vertx.up.eon.Constants;
 import io.vertx.up.eon.KName;
 import io.vertx.up.fn.Fn;
@@ -35,6 +35,7 @@ public class ScUser {
     private static final ConcurrentMap<String, ScUser> USERS = new ConcurrentHashMap<>();
     private final transient UxPool pool;
     private final transient String habitus;
+    private transient String userId;
 
     private ScUser(final String habitus) {
         this.habitus = habitus;
@@ -133,6 +134,10 @@ public class ScUser {
      *      "habitus": "128 bit random string",
      *      "session": "session id that vert.x generated",
      *      "profile": {
+     *          "name": {
+     *              "PERM": [],
+     *              "ROLE": []
+     *          }
      *      },
      *      "view": {
      *      }
@@ -143,7 +148,8 @@ public class ScUser {
         return Ux.future(Fn.pool(USERS, habitus, () -> new ScUser(habitus))).compose(user -> {
             final JsonObject stored = data.copy();
             stored.remove(KName.HABITUS);
-            return user.set(stored);        // Start Async
+            final String userId = stored.getString(KName.USER);
+            return user.user(userId).set(stored);        // Start Async
         }).compose(user -> user.profile()
             // Role Profile initialized
             .compose(profile -> initRoles(profile, data.getJsonArray(KName.ROLE)))
@@ -176,27 +182,65 @@ public class ScUser {
         return user.logout();
     }
 
+    private ScUser user(final String userId) {
+        this.userId = userId;
+        return this;
+    }
+
+    public String user() {
+        return this.userId;
+    }
+
     // ------------------------- Session Method -----------------------
     public Future<JsonObject> view() {
         return this.<JsonObject>get(KName.VIEW).compose(Ut::ifJNil);
     }
 
     public Future<JsonObject> view(final String viewKey) {
-        return this.view().compose(view -> Ux.future(view.getJsonObject(viewKey)));
+        return this.view().compose(view -> Ux.future(view.getJsonObject(viewKey)))
+            .compose(view -> {
+                if (Ut.notNil(view)) {
+                    Sc.infoAuth(LOGGER, "ScUser \u001b[0;37m----> Cache key = {0}, Data = {1}\u001b[m.",
+                        viewKey, view.encode());
+                }
+                return Ux.future(view);
+            });
     }
 
     public Future<JsonObject> view(final String viewKey, final JsonObject viewData) {
         return this.view().compose(view -> {
             final JsonObject stored = view.getJsonObject(viewKey, new JsonObject());
-            stored.put(Qr.KEY_PROJECTION, viewData.getJsonArray(Qr.KEY_PROJECTION));
-            stored.put(Qr.KEY_CRITERIA, viewData.getJsonObject(Qr.KEY_CRITERIA));
+            stored.mergeIn(viewData, true);
             view.put(viewKey, stored);
             return this.set(KName.VIEW, view);
         });
     }
 
+    /*
+     * profile: {
+     *      "name": {
+     *          "PERM": [],
+     *          "ROLE": []
+     *      }
+     * }
+     */
     public Future<JsonObject> profile() {
         return this.<JsonObject>get(KName.PROFILE).compose(Ut::ifJNil);
+    }
+
+    public Future<JsonObject> permissions() {
+        return this.profile(AuthKey.PROFILE_PERM);
+    }
+
+    public Future<JsonObject> roles() {
+        return this.profile(AuthKey.PROFILE_ROLE);
+    }
+
+    public Future<JsonArray> roles(final String profileName) {
+        return this.profile(AuthKey.PROFILE_ROLE).compose(json -> {
+            Sc.infoAuth(LOGGER, "Profile Name: {0}", profileName);
+            return Ux.future(json.getJsonArray(profileName, new JsonArray()));
+        });
     }
 
     public Future<JsonObject> profile(final JsonObject profileData) {
@@ -204,6 +248,18 @@ public class ScUser {
     }
 
     // ------------------------- Private Method ------------------------
+
+    private Future<JsonObject> profile(final String key) {
+        return this.profile().compose(profile -> {
+            final JsonObject map = new JsonObject();
+            Ut.<JsonObject>itJObject(profile, (item, profileName) -> {
+                final JsonArray data = item.getJsonArray(key, new JsonArray());
+                map.put(profileName, data);
+            });
+            return Ux.future(map);
+        });
+    }
+
     private Future<Boolean> logout() {
         /*
          * Remove reference pool first

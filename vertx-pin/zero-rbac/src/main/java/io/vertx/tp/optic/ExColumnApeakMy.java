@@ -77,7 +77,13 @@ public class ExColumnApeakMy extends Anchoret<ApeakMy> implements ApeakMy {
          * Method / Uri
          */
         final String dataKey = params.getString(ARG4);
-        return user.view(dataKey, updated).compose(nil -> {
+        /*
+         * projection / criteria only
+         */
+        final JsonObject updatedData = new JsonObject();
+        updatedData.put(Qr.KEY_PROJECTION, updated.getJsonArray(Qr.KEY_PROJECTION));
+        updatedData.put(Qr.KEY_CRITERIA, updated.getJsonObject(Qr.KEY_CRITERIA));
+        return user.view(dataKey, updatedData).compose(nil -> {
             Sc.infoAuth(this.getLogger(), AuthMsg.REGION_FLUSH, habitus, dataKey, nil.encodePrettily());
             return Ux.future(updated);
         });

@@ -21,7 +21,6 @@ import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
 import javax.inject.Inject;
-import java.util.Locale;
 import java.util.Objects;
 
 public class AccreditService implements AccreditStub {
@@ -29,6 +28,8 @@ public class AccreditService implements AccreditStub {
 
     @Inject
     private transient ActionStub stub;
+    @Inject
+    private transient MatrixStub matrixStub;
 
     /*
      * Permission
@@ -40,12 +41,13 @@ public class AccreditService implements AccreditStub {
     @Override
     public Future<JsonObject> profile(final User user) {
         final ScUser scUser = ScUser.login(user);
-        return scUser.profile();
+        return scUser.permissions();
     }
 
     @Override
     public Future<JsonObject> resource(final JsonObject requestData) {
         final ScResource request = ScResource.create(requestData);
+        // First Phase
         return request.resource().compose(data -> {
             if (Ut.isNil(data)) {
                 /* Fetch Action */
@@ -53,20 +55,37 @@ public class AccreditService implements AccreditStub {
                 // Action Checking
                 return this.fetchAction(request)
                     .compose(action -> this.inspectAction(request, action))
+                    .compose(actionHod::future)
                     // Resource Checking
                     .compose(action -> this.stub.fetchResource(action.getResourceId()))
-                    .compose(actionHod::future)
                     .compose(resource -> this.inspectResource(request, actionHod.get(), resource))
                     // Level Checking
                     .compose(resource -> this.inspectLevel(resource, actionHod.get()))
                     // Resource Data Processing
                     .compose(resource -> this.inspectData(resource, actionHod.get()))
-                    .compose(request::resource)
-                    // Extract data: profileKey = permissionIds ( [] )
-                    .compose(stored -> Ux.future(stored.getJsonObject(KName.DATA)));
+                    .compose(request::resource);
             } else {
+                Sc.infoAuth(LOGGER, "ScResource: \u001b[0;37m----> Cache key = {0}\u001b[m.", request.key());
                 /* Resource Processing */
                 return Ux.future(data);
+            }
+        }).compose(stored -> this.inspectView(requestData, request, stored)
+            // Extract `data` node
+        ).compose(stored -> Ux.future(stored.getJsonObject(KName.DATA)));
+    }
+
+    private Future<JsonObject> inspectView(final JsonObject requestData, final ScResource resource,
+                                           final JsonObject response) {
+        final String habitus = requestData.getString(KName.HABITUS);
+        final String keyView = resource.keyView();
+        final ScUser user = ScUser.login(habitus);
+        return user.view(keyView).compose(viewData -> {
+            if (Objects.isNull(viewData)) {
+                return this.matrixStub.fetchBound(user, resource)
+                    .compose(bound -> user.view(keyView, bound.toJson()))
+                    .compose(nil -> Ux.future(response));
+            } else {
+                return Ux.future(response);
             }
         });
     }
@@ -75,7 +94,9 @@ public class AccreditService implements AccreditStub {
      * {
      *      "key": "profileKey",
      *      "data": {
-     *          "profileKey": ["p1", "p2"]
+     *          "profileKey": {
+     *
+     *          }
      *      },
      *      "record": {
      *          SResource Data Structure ( Json )
@@ -84,7 +105,7 @@ public class AccreditService implements AccreditStub {
      */
     private Future<JsonObject> inspectData(final SResource resource, final SAction action) {
         // profile
-        final String profileKey = this.profileKey(resource);
+        final String profileKey = Sc.valueProfile(resource);
         final JsonArray permissions = new JsonArray().add(action.getPermissionId());
         // resource data
         final JsonObject stored = new JsonObject();
@@ -157,47 +178,5 @@ public class AccreditService implements AccreditStub {
             }
             return Ux.future();
         });
-    }
-
-    private String profileKey(final SResource resource) {
-        /*
-         * Get Role/Group/Tree modes
-         */
-        final String modeRole = resource.getModeRole();
-        final String modeGroup = resource.getModeGroup();
-        if (Ut.isNil(modeGroup)) {
-            /*
-             * User Mode
-             *
-             * USER_UNION
-             * USER_INTERSECT
-             * USER_EAGER
-             * USER_LAZY
-             */
-            return "USER_" + modeRole.toUpperCase(Locale.getDefault());
-        } else {
-            final String modeTree = resource.getModeTree();
-            final String group = modeGroup.toUpperCase(Locale.getDefault()) +
-                "_" + modeRole.toUpperCase(Locale.getDefault());
-            if (Ut.isNil(modeTree)) {
-                /*
-                 * Group Mode
-                 * HORIZON_XXX
-                 * CRITICAL_XXX
-                 * OVERLOOK_XXX
-                 */
-                return group;
-            } else {
-                /*
-                 * Inherit / Child / Parent/ Extend
-                 * EXTEND_XXX
-                 * PARENT_XXX
-                 * CHILD_XXX
-                 * INHERIT_XXX
-                 */
-                return modeTree.toUpperCase(Locale.getDefault()) +
-                    "_" + group;
-            }
-        }
     }
 }

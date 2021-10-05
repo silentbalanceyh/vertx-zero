@@ -64,11 +64,6 @@ public class VertxApplication {
              * Class definition predicate
              */
             ensureEtcd(clazz);
-            /*
-             * To avoid getPackages issue here
-             * Move to InitScatter here
-             */
-            ZeroHeart.init();
 
             /*
              * Before launcher, start package scanning for preparing metadata
@@ -84,6 +79,11 @@ public class VertxApplication {
              */
             ZeroAnno.prepare();
 
+            /*
+             * To avoid getPackages issue here
+             * Move to InitScatter here
+             */
+            ZeroHeart.init();
             /*
              * Then the container could start
              */

@@ -93,7 +93,7 @@ public class UserService implements UserStub {
          * 初始密码配置位置：plugin/rbac/configuration.json
          */
         if (Objects.isNull(user.getPassword())) {
-            user.setPassword(Sc.generatePwd());
+            user.setPassword(Sc.valuePassword());
         }
         return Ux.Jooq.on(SUserDao.class)
             .insertAsync(user)

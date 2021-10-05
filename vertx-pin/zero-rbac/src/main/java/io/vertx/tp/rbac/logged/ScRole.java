@@ -7,7 +7,9 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.tp.rbac.atom.ScConfig;
 import io.vertx.tp.rbac.cv.AuthKey;
 import io.vertx.tp.rbac.init.ScPin;
+import io.vertx.tp.rbac.refine.Sc;
 import io.vertx.up.fn.Fn;
+import io.vertx.up.log.Annal;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.unity.UxPool;
 import io.vertx.up.util.Ut;
@@ -28,6 +30,7 @@ import java.util.stream.Collectors;
  */
 public class ScRole {
     private static final ConcurrentMap<String, ScRole> ROLES = new ConcurrentHashMap<>();
+    private static final Annal LOGGER = Annal.get(ScRole.class);
     private static final ScConfig CONFIG = ScPin.getConfig();
     private final transient UxPool pool;
     private final transient String roleId;
@@ -73,6 +76,7 @@ public class ScRole {
             if (Objects.isNull(permissions)) {
                 return this.fetch().compose(this::permission);
             } else {
+                Sc.infoAuth(LOGGER, "ScRole \u001b[0;37m----> Cache key = {0}\u001b[m.", this.roleId);
                 /* Authorities fill from cache ( Sync the authorities ) */
                 permissions.stream().map(item -> (String) item)
                     .forEach(this.authorities::add);

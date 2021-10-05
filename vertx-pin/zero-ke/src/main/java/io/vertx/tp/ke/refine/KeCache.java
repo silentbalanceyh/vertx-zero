@@ -17,7 +17,7 @@ import io.vertx.up.runtime.ZeroAnno;
 class KeCache {
 
     private static final Annal LOGGER = Annal.get(KeCache.class);
-    private static final String LOGGER_VIEW = "( view = {1} ) Try cacheKey: \u001b[0;34m{0}\u001b[m, uri = {2}, method = {3}";
+    private static final String LOGGER_VIEW = "Input view = {1}, Try cacheKey: \u001b[0;34m{0}\u001b[m, uri = {2}, method = {3}";
 
     static String keyView(final String method, final String uri, final Vis view) {
         /*
@@ -54,7 +54,6 @@ class KeCache {
         final String uri = uri(context);
         /* Cache Data */
         final String literal = request.getParam(KName.VIEW);
-        Ke.infoKe(LOGGER, "Processed Uri: {0}", uri);
         final String cacheKey = keyView(request.method().name(), uri, Vis.create(literal));
         /* Cache Data */
         Ke.infoKe(LOGGER, LOGGER_VIEW, cacheKey, literal, uri, request.method().name());

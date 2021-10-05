@@ -95,7 +95,7 @@ class IdcService extends AbstractIdc {
                 user.setKey(UUID.randomUUID().toString());
                 user.setActive(Boolean.TRUE);
                 /* 12345678 */
-                final String initPwd = Sc.generatePwd();
+                final String initPwd = Sc.valuePassword();
                 user.setPassword(initPwd);
                 user.setSigma(this.sigma);
                 user.setLanguage("cn");

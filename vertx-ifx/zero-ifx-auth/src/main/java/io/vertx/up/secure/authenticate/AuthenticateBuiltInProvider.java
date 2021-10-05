@@ -59,7 +59,7 @@ public class AuthenticateBuiltInProvider implements AuthenticationProvider {
                         handler.handle(Future.failedFuture(new _401UnauthorizedException(this.getClass())));
                     } else {
                         // Success to passed validation
-                        LOGGER.info("[ Auth ] 401 Authenticated successfully!");
+                        LOGGER.info("[ Auth ]\u001b[0;32m 401 Authenticated successfully!\u001b[m");
                         if (Objects.isNull(this.userFn)) {
                             final User user = User.create(credentials);
                             handler.handle(Future.succeededFuture(user));

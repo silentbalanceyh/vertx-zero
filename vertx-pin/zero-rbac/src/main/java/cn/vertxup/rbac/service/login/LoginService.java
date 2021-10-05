@@ -62,7 +62,7 @@ public class LoginService implements LoginStub {
                 AuthKey.F_GRANT_TYPE        /* grant_type parameter */
             ).denull().toFuture();
         }).compose(response -> {
-            final String initPwd = Sc.generatePwd();
+            final String initPwd = Sc.valuePassword();
             if (initPwd.equals(user.getPassword())) {
                 /* Password Init */
                 response.put(KName.PASSWORD, false);

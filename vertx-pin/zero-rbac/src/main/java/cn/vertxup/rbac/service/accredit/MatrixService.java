@@ -4,9 +4,11 @@ import cn.vertxup.rbac.domain.tables.pojos.SResource;
 import cn.vertxup.rbac.domain.tables.pojos.SView;
 import cn.vertxup.rbac.service.view.ViewStub;
 import io.vertx.core.Future;
-import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.rbac.logged.ScResource;
+import io.vertx.tp.rbac.logged.ScUser;
+import io.vertx.tp.rbac.refine.Sc;
+import io.vertx.up.atom.secure.Vis;
 import io.vertx.up.commune.secure.DataBound;
 import io.vertx.up.eon.KName;
 import io.vertx.up.unity.Ux;
@@ -23,27 +25,12 @@ public class MatrixService implements MatrixStub {
     private transient ViewStub stub;
 
     @Override
-    public Future<DataBound> fetchBound(final String userId, final ScResource request) {
+    public Future<DataBound> fetchBound(final ScUser user, final ScResource request) {
         /* User fetch first */
         return request.resource().compose(data -> {
             final SResource resource = Ux.fromJson(data.getJsonObject(KName.RECORD), SResource.class);
-            final String profileKey = data.getString(KName.KEY);
             /* Fetch User First */
-            return this.stub.fetchMatrix(userId, resource.getKey(), request.view())
-                /* Whether userId exist */
-                .compose(result -> Objects.isNull(result) ?
-                    /*
-                     * There is no matrix stored into database related to current user.
-                     * Then find all role related matrices instead of current matrix.
-                     * */
-                    this.stub.fetchMatrix(new JsonArray(), resource.getKey(), request.view())
-                    :
-                    /*
-                     * It means that there is defined user resource instead of role resource.
-                     * In this situation, return to user's resource matrix directly.
-                     */
-                    this.toResult(result)
-                )
+            return this.fetchViews(user, resource, request.view())
                 /* DataBound calculate */
                 .compose(this::toBound)
                 /* DataBound for calculation of resource here */
@@ -67,6 +54,29 @@ public class MatrixService implements MatrixStub {
                     }
                     return Ux.future(bound);
                 });
+        });
+    }
+
+    private Future<List<SView>> fetchViews(final ScUser user, final SResource resource, final Vis view) {
+        final String userId = user.user();
+        return this.stub.fetchMatrix(userId, resource.getKey(), view).compose(viewData -> {
+            if (Objects.isNull(viewData)) {
+                /*
+                 * No Personal View
+                 * There is no matrix stored into database related to current user.
+                 * Then find all role related matrices instead of current matrix.
+                 */
+                final String profileName = Sc.valueProfile(resource);
+                return user.roles(profileName)
+                    /*
+                     * Fetch Role View
+                     * It means that there is defined user resource instead of role resource.
+                     * In this situation, return to user's resource matrix directly.
+                     */
+                    .compose(roles -> this.stub.fetchMatrix(roles, resource.getKey(), view));
+            } else {
+                return this.toResult(viewData);
+            }
         });
     }
 

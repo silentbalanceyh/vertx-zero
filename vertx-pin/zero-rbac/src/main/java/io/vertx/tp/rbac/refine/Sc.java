@@ -1,6 +1,7 @@
 package io.vertx.tp.rbac.refine;
 
 import cn.vertxup.rbac.domain.tables.pojos.OAccessToken;
+import cn.vertxup.rbac.domain.tables.pojos.SResource;
 import io.vertx.core.CompositeFuture;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
@@ -78,12 +79,16 @@ public class Sc {
      * - codeLength
      * - codePool
      */
-    public static String generateCode() {
-        return ScTool.generateCode();
+    public static String valueCode() {
+        return ScTool.valueCode();
     }
 
-    public static String generatePwd() {
-        return ScTool.generatePwd();
+    public static String valuePassword() {
+        return ScTool.valuePassword();
+    }
+
+    public static String valueProfile(final SResource resource) {
+        return ScTool.valueProfile(resource);
     }
 
     /*
