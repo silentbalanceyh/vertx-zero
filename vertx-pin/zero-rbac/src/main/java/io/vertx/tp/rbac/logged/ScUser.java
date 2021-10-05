@@ -4,10 +4,12 @@ import io.vertx.core.CompositeFuture;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
+import io.vertx.ext.auth.User;
 import io.vertx.tp.rbac.authorization.Align;
 import io.vertx.tp.rbac.authorization.ScDetent;
 import io.vertx.tp.rbac.refine.Sc;
 import io.vertx.up.atom.Refer;
+import io.vertx.up.atom.query.engine.Qr;
 import io.vertx.up.eon.Constants;
 import io.vertx.up.eon.KName;
 import io.vertx.up.fn.Fn;
@@ -141,7 +143,7 @@ public class ScUser {
         return Ux.future(Fn.pool(USERS, habitus, () -> new ScUser(habitus))).compose(user -> {
             final JsonObject stored = data.copy();
             stored.remove(KName.HABITUS);
-            return user.set(stored);
+            return user.set(stored);        // Start Async
         }).compose(user -> user.profile()
             // Role Profile initialized
             .compose(profile -> initRoles(profile, data.getJsonArray(KName.ROLE)))
@@ -156,10 +158,16 @@ public class ScUser {
         );
     }
 
-    public static ScUser logged(final String habitus) {
+    public static ScUser login(final String habitus) {
         final ScUser user = USERS.get(habitus);
         Objects.requireNonNull(user);
         return user;
+    }
+
+    public static ScUser login(final User user) {
+        final JsonObject principle = user.principal();
+        final String habitus = principle.getString(KName.HABITUS);
+        return login(habitus);
     }
 
     public static Future<Boolean> logout(final String habitus) {
@@ -175,6 +183,16 @@ public class ScUser {
 
     public Future<JsonObject> view(final String viewKey) {
         return this.view().compose(view -> Ux.future(view.getJsonObject(viewKey)));
+    }
+
+    public Future<JsonObject> view(final String viewKey, final JsonObject viewData) {
+        return this.view().compose(view -> {
+            final JsonObject stored = view.getJsonObject(viewKey, new JsonObject());
+            stored.put(Qr.KEY_PROJECTION, viewData.getJsonArray(Qr.KEY_PROJECTION));
+            stored.put(Qr.KEY_CRITERIA, viewData.getJsonObject(Qr.KEY_CRITERIA));
+            view.put(viewKey, stored);
+            return this.set(KName.VIEW, view);
+        });
     }
 
     public Future<JsonObject> profile() {

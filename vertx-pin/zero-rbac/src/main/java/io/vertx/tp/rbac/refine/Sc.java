@@ -1,7 +1,6 @@
 package io.vertx.tp.rbac.refine;
 
 import cn.vertxup.rbac.domain.tables.pojos.OAccessToken;
-import cn.vertxup.rbac.domain.tables.pojos.SResource;
 import io.vertx.core.CompositeFuture;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
@@ -65,19 +64,11 @@ public class Sc {
      *    - put data into code cache
      */
     public static <V> Future<V> cacheCode(final String key) {
-        return ScCache.code(key);
+        return ScTool.code(key);
     }
 
     public static <V> Future<V> cacheCode(final String key, final V value) {
-        return ScCache.code(key, value);
-    }
-
-    public static <V> Future<V> cacheResource(final String key) {
-        return ScCache.resource(key);
-    }
-
-    public static <V> Future<V> cacheResource(final String key, final V value) {
-        return ScCache.resource(key, value);
+        return ScTool.code(key, value);
     }
 
     /*
@@ -89,10 +80,6 @@ public class Sc {
      */
     public static String generateCode() {
         return ScTool.generateCode();
-    }
-
-    public static String generateProfileKey(final SResource resource) {
-        return ScTool.generateProfileKey(resource);
     }
 
     public static String generatePwd() {

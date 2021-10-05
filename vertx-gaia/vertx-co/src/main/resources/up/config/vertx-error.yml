@@ -181,7 +181,7 @@ E80205: "(403) - (RBAC) The profile required `{0}`, but current profile is `{1}`
 E80206: "(401) - (RBAC) The token counter is invalid ( size = {0} ) for user = {1}"
 E80207: "(401) - (RBAC) The token that you provided = `{0}` is invalid"
 E80208: "(401) - (RBAC) The token that you provided `{0}` is expired"
-E80209: "(403) - (RBAC) The action for request ( {0} ) is missing"
+E80209: "(404) - (RBAC) The action for request ( {0} ) is missing"
 E80210: "(404) - (RBAC) The resource of id = `{0}` for request = {1} could not be identified"
 E80211: "(403) - (RBAC) The resource level is {0}, action level is {0} and lower than resource required"
 E80212: "(403) - (RBAC) The user = `{0}` of profile = `{1}` has no permission for access any resource"

@@ -3,7 +3,6 @@ package cn.vertxup.rbac.wall;
 import cn.vertxup.rbac.service.accredit.AccreditStub;
 import cn.vertxup.rbac.service.jwt.JwtStub;
 import io.vertx.core.Future;
-import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.auth.User;
 import io.vertx.tp.rbac.cv.AuthMsg;
@@ -39,9 +38,7 @@ public class RbacWall {
 
     @Authorized
     public Future<JsonObject> authorize(final User user) {
-        final JsonObject profile = new JsonObject()
-            .put("K", new JsonArray().add("1").add("2"));
-        return Future.succeededFuture(profile);
+        return this.accredit.profile(user);
     }
 
     @AuthorizedResource

@@ -1,4 +1,4 @@
-package cn.vertxup.rbac.service.accredit;
+package cn.vertxup.rbac.service.business;
 
 import cn.vertxup.rbac.domain.tables.daos.SActionDao;
 import cn.vertxup.rbac.domain.tables.daos.SResourceDao;

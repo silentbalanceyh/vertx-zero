@@ -3,23 +3,32 @@ package cn.vertxup.rbac.service.accredit;
 import cn.vertxup.rbac.domain.tables.pojos.SAction;
 import cn.vertxup.rbac.domain.tables.pojos.SResource;
 import io.vertx.core.Future;
+import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.auth.User;
-import io.vertx.tp.rbac.logged.ScRequest;
+import io.vertx.tp.error._403ActionDinnedException;
+import io.vertx.tp.error._404ActionMissingException;
+import io.vertx.tp.error._404ResourceMissingException;
+import io.vertx.tp.rbac.cv.AuthMsg;
+import io.vertx.tp.rbac.logged.ScResource;
+import io.vertx.tp.rbac.logged.ScUser;
+import io.vertx.tp.rbac.refine.Sc;
 import io.vertx.up.atom.Refer;
+import io.vertx.up.eon.KName;
+import io.vertx.up.exception.WebException;
+import io.vertx.up.log.Annal;
 import io.vertx.up.unity.Ux;
+import io.vertx.up.util.Ut;
 
 import javax.inject.Inject;
+import java.util.Locale;
 import java.util.Objects;
-import java.util.function.Supplier;
 
 public class AccreditService implements AccreditStub {
+    private final static Annal LOGGER = Annal.get(AccreditService.class);
 
     @Inject
-    private transient ActionStub actionStub;
-
-    @Inject
-    private transient MatrixStub matrixStub;
+    private transient ActionStub stub;
 
     /*
      * Permission
@@ -30,84 +39,165 @@ public class AccreditService implements AccreditStub {
      */
     @Override
     public Future<JsonObject> profile(final User user) {
-        return null;
+        final ScUser scUser = ScUser.login(user);
+        return scUser.profile();
     }
 
     @Override
-    public Future<JsonObject> resource(final JsonObject data) {
-        final ScRequest request = new ScRequest(data);
-        return null;
+    public Future<JsonObject> resource(final JsonObject requestData) {
+        final ScResource request = ScResource.create(requestData);
+        return request.resource().compose(data -> {
+            if (Ut.isNil(data)) {
+                /* Fetch Action */
+                final Refer actionHod = new Refer();
+                // Action Checking
+                return this.fetchAction(request)
+                    .compose(action -> this.inspectAction(request, action))
+                    // Resource Checking
+                    .compose(action -> this.stub.fetchResource(action.getResourceId()))
+                    .compose(actionHod::future)
+                    .compose(resource -> this.inspectResource(request, actionHod.get(), resource))
+                    // Level Checking
+                    .compose(resource -> this.inspectLevel(resource, actionHod.get()))
+                    // Resource Data Processing
+                    .compose(resource -> this.inspectData(resource, actionHod.get()))
+                    .compose(request::resource)
+                    // Extract data: profileKey = permissionIds ( [] )
+                    .compose(stored -> Ux.future(stored.getJsonObject(KName.DATA)));
+            } else {
+                /* Resource Processing */
+                return Ux.future(data);
+            }
+        });
     }
 
-    @Override
-    public Future<Boolean> authorize(final JsonObject data) {
-        final ScRequest request = new ScRequest(data);
-        /* Refer for action / resource */
-        final Refer actionHod = new Refer();
-        final Refer resourceHod = new Refer();
-        return this.authorizedWithCache(request, () -> this.fetchAction(request)
+    /*
+     * {
+     *      "key": "profileKey",
+     *      "data": {
+     *          "profileKey": ["p1", "p2"]
+     *      },
+     *      "record": {
+     *          SResource Data Structure ( Json )
+     *      }
+     * }
+     */
+    private Future<JsonObject> inspectData(final SResource resource, final SAction action) {
+        // profile
+        final String profileKey = this.profileKey(resource);
+        final JsonArray permissions = new JsonArray().add(action.getPermissionId());
+        // resource data
+        final JsonObject stored = new JsonObject();
+        stored.put(KName.RECORD, Ut.serializeJson(resource));
+        stored.put(KName.KEY, profileKey);
+        stored.put(KName.DATA, new JsonObject().put(profileKey, permissions));
 
-            /* SAction checking for ( Uri + Method ) */
-            .compose(action -> AccreditFlow.inspectAction(this.getClass(), action, request))
-            .compose(actionHod::future)
-            .compose(action -> this.actionStub.fetchResource(action.getResourceId()))
-
-            /* SResource checking for ( ResourceId */
-            .compose(resource -> AccreditFlow.inspectResource(this.getClass(), resource, request, actionHod.get()))
-
-            /* Action Level Comparing */
-            .compose(resource -> AccreditFlow.inspectLevel(this.getClass(), resource, actionHod.get()))
-            .compose(resourceHod::future)
-
-            /* Find Profile Permission and Check Profile */
-            .compose(resource -> AccreditFlow.inspectPermission(this.getClass(), resource, request))
-
-            /* Permission / Action Comparing */
-            .compose(permissions -> AccreditFlow.inspectAuthorized(this.getClass(), actionHod.get(), permissions))
-
-            /* The Final steps to execute matrix data here. */
-            .compose(result -> this.authorized(result, request, resourceHod.get(), actionHod.get())));
+        return Ux.future(stored);
     }
 
-    private Future<SAction> fetchAction(final ScRequest request) {
-        return this.actionStub.fetchAction(request.uriNormalized(), request.method(), request.sigma())
-            .compose(action -> {
-                /*
-                 * Fix issue for (AccreditService) Web Exception occus: (403) - (RBAC) The action for request ( PUT /api/:actor/:key ) is missing.
-                 */
-                if (Objects.isNull(action) && request.isNormalized()) {
-                    /*
-                     * Secondary fetch
-                     */
-                    return this.actionStub.fetchAction(request.uriRequest(), request.method(), request.sigma());
-                } else {
-                    return Ux.future(action);
-                }
-            });
-    }
-
-    private Future<Boolean> authorizedWithCache(final ScRequest request, final Supplier<Future<Boolean>> supplier) {
-        final String authorizedKey = request.keyAuthorized();
-        return request.session()
-            /* Get data from cache */
-            .compose(privilege -> privilege.fetchAuthorized(authorizedKey))
-            /* */
-            .compose(result -> result ? Ux.future(Boolean.TRUE) :
-                supplier.get());
-    }
-
-    private Future<Boolean> authorized(final Boolean result, final ScRequest request,
-                                       final SResource resource, final SAction action) {
-        if (result) {
-            return this.matrixStub.fetchBound(request, resource)
-                /* DataBound credit parsing from SAction */
-                .compose(bound -> Ux.future(bound.addCredit(action.getRenewalCredit())))
-                /* DataBound stored */
-                .compose(bound -> AccreditFlow.inspectBound(bound, request))
-                /* Authorized cached and get result */
-                .compose(nil -> AccreditFlow.inspectAuthorized(request));
+    private Future<SResource> inspectLevel(final SResource resource, final SAction action) {
+        final Integer required = resource.getLevel();
+        final Integer actual = action.getLevel();
+        if (actual < required) {
+            final WebException error = new _403ActionDinnedException(this.getClass(), required, actual);
+            return Future.failedFuture(error);
         } else {
-            return Future.succeededFuture(Boolean.FALSE);
+            Sc.debugCredit(LOGGER, AuthMsg.CREDIT_LEVEL, action.getLevel(), resource.getLevel());
+            return Future.succeededFuture(resource);
+        }
+    }
+
+    /*
+     * 1. Whether action is existing
+     * If action missing, throw 404 exception
+     */
+    private Future<SAction> inspectAction(final ScResource request, final SAction action) {
+        if (Objects.isNull(action)) {
+            final String requestUri = request.method() + " " + request.uri();
+            final WebException error = new _404ActionMissingException(this.getClass(), requestUri);
+            return Future.failedFuture(error);
+        } else {
+            Sc.debugCredit(LOGGER, AuthMsg.CREDIT_ACTION, request.uriRequest(), request.method(), request.uri());
+            return Future.succeededFuture(action);
+        }
+    }
+
+    /*
+     * 2. Whether resource is existing
+     * If resource missing, throw 404 exception
+     */
+    private Future<SResource> inspectResource(final ScResource request, final SAction action, final SResource resource) {
+        if (Objects.isNull(resource)) {
+            final String requestUri = request.method() + " " + request.uri();
+            final WebException error = new _404ResourceMissingException(this.getClass(), action.getResourceId(), requestUri);
+            return Future.failedFuture(error);
+        } else {
+            Sc.debugCredit(LOGGER, AuthMsg.CREDIT_RESOURCE, resource.getKey());
+            return Future.succeededFuture(resource);
+        }
+    }
+
+    private Future<SAction> fetchAction(final ScResource resource) {
+        return this.stub.fetchAction(
+            resource.uri(),                         // Normalized Uri
+            resource.method(),
+            resource.sigma()
+        ).compose(action -> {
+            if (Objects.nonNull(action)) {
+                /* Action Found */
+                return Ux.future(action);
+            }
+            /* Check Normalized, action = null */
+            if (resource.isNormalized()) {
+                return this.stub.fetchAction(
+                    resource.uriRequest(),          // Request Uri
+                    resource.method(),
+                    resource.sigma()
+                );
+            }
+            return Ux.future();
+        });
+    }
+
+    private String profileKey(final SResource resource) {
+        /*
+         * Get Role/Group/Tree modes
+         */
+        final String modeRole = resource.getModeRole();
+        final String modeGroup = resource.getModeGroup();
+        if (Ut.isNil(modeGroup)) {
+            /*
+             * User Mode
+             *
+             * USER_UNION
+             * USER_INTERSECT
+             * USER_EAGER
+             * USER_LAZY
+             */
+            return "USER_" + modeRole.toUpperCase(Locale.getDefault());
+        } else {
+            final String modeTree = resource.getModeTree();
+            final String group = modeGroup.toUpperCase(Locale.getDefault()) +
+                "_" + modeRole.toUpperCase(Locale.getDefault());
+            if (Ut.isNil(modeTree)) {
+                /*
+                 * Group Mode
+                 * HORIZON_XXX
+                 * CRITICAL_XXX
+                 * OVERLOOK_XXX
+                 */
+                return group;
+            } else {
+                /*
+                 * Inherit / Child / Parent/ Extend
+                 * EXTEND_XXX
+                 * PARENT_XXX
+                 * CHILD_XXX
+                 * INHERIT_XXX
+                 */
+                return modeTree.toUpperCase(Locale.getDefault()) +
+                    "_" + group;
+            }
         }
     }
 }

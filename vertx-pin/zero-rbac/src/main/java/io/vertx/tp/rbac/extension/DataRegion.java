@@ -103,7 +103,7 @@ public class DataRegion extends AbstractRegion {
             return Ux.future(new JsonObject());
         } else {
             final String viewKey = Ke.keyView(context);
-            return ScUser.logged(habitus).view(viewKey);
+            return ScUser.login(habitus).view(viewKey);
         }
     }
 

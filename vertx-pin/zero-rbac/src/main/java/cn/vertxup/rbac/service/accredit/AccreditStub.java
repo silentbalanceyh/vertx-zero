@@ -23,9 +23,6 @@ import io.vertx.ext.auth.User;
  */
 public interface AccreditStub {
 
-    @Deprecated
-    Future<Boolean> authorize(JsonObject data);
-
     Future<JsonObject> profile(User user);
 
     Future<JsonObject> resource(JsonObject data);
