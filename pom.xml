@@ -86,7 +86,7 @@
         <lombok.version>1.18.20</lombok.version>
         <asm.version>9.2</asm.version>
         <cglib.version>3.3.0</cglib.version>
-        <reflection.version>0.10-RC2</reflection.version>
+        <reflection.version>0.10</reflection.version>
 
         <!-- Etcd -->
         <etcd.version>2.18.0</etcd.version>
@@ -108,7 +108,7 @@
         <poi.version>4.1.2</poi.version>
         <jedis.version>3.7.0</jedis.version>
         <j2objc.version>1.3</j2objc.version>
-        <checker.version>3.18.0</checker.version>
+        <checker.version>3.18.1</checker.version>
 
         <!-- elasticsearch version -->
         <elasticsearch.version>7.15.0</elasticsearch.version>
@@ -144,7 +144,7 @@
 
         <!-- Vert.x Addition -->
         <rxjava2.version>2.2.21</rxjava2.version>
-        <netty.tcnative.version>2.0.43.Final</netty.tcnative.version>
+        <netty.tcnative.version>2.0.44.Final</netty.tcnative.version>
         <netty.version>4.1.68.Final</netty.version>
         <hazelcast.version>5.0</hazelcast.version>
         <swagger.version>1.6.0</swagger.version>

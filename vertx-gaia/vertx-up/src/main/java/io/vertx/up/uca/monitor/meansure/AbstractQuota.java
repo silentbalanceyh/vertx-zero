@@ -12,7 +12,7 @@ import java.util.function.Consumer;
 public abstract class AbstractQuota implements Quota {
     protected final transient Vertx vertx;
 
-    AbstractQuota(final Vertx vertx) {
+    public AbstractQuota(final Vertx vertx) {
         this.vertx = vertx;
     }
 

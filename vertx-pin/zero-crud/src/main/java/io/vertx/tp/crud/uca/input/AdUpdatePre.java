@@ -8,7 +8,6 @@ import io.vertx.tp.crud.refine.Ix;
 import io.vertx.tp.crud.uca.desk.IxMod;
 import io.vertx.tp.ke.atom.specification.KField;
 import io.vertx.tp.ke.atom.specification.KModule;
-import io.vertx.tp.ke.refine.Ke;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
@@ -30,7 +29,7 @@ class AdUpdatePre implements Pre {
         final User user = in.user();
         final KModule module = in.module();
         if (Objects.nonNull(user)) {
-            final String userId = Ke.keyUser(user);
+            final String userId = Ux.keyUser(user);
             if (Ut.notNil(userId)) {
                 final KField field = module.getField();
                 /* Created */

@@ -7,9 +7,9 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.ext.healthchecks.Status;
 import io.vertx.up.eon.Constants;
 
-class HabitusQuota extends AbstractQuota {
+class SessionQuota extends AbstractQuota {
 
-    HabitusQuota(final Vertx vertx) {
+    SessionQuota(final Vertx vertx) {
         super(vertx);
     }
 
@@ -19,20 +19,20 @@ class HabitusQuota extends AbstractQuota {
             /*
              * map calculated
              */
-            final JsonObject meansure = new JsonObject();
+            final JsonObject sessions = new JsonObject();
             map.size(res -> {
-                meansure.put("size", res.result());
+                sessions.put("size", res.result());
                 map.keys(keySet -> {
                     /*
                      * keys
                      */
                     final JsonArray keys = new JsonArray();
                     keySet.result().forEach(keys::add);
-                    meansure.put("keys", keys);
+                    sessions.put("keys", keys);
                     /*
                      * Meansure here
                      */
-                    event.complete(Status.OK(meansure));
+                    event.complete(Status.OK(sessions));
                 });
             });
         });

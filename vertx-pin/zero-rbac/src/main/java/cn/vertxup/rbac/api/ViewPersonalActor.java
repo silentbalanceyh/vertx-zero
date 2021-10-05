@@ -8,7 +8,6 @@ import io.vertx.core.Future;
 import io.vertx.core.http.HttpMethod;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.ke.refine.Ke;
 import io.vertx.tp.rbac.cv.Addr;
 import io.vertx.tp.rbac.cv.em.OwnerType;
 import io.vertx.up.annotations.Address;
@@ -40,7 +39,7 @@ public class ViewPersonalActor {
          */
         return this.pAction(envelop).compose(action -> {
             final JsonObject data = Ux.getJson(envelop);
-            final String userId = Ke.keyUser(envelop);
+            final String userId = envelop.userId();
             final JsonObject normalized = data.copy();
             normalized.put(KName.USER, userId);
             normalized.mergeIn(envelop.headersX());
@@ -61,13 +60,13 @@ public class ViewPersonalActor {
 
     @Address(Addr.View.VIEW_P_BY_USER)
     public Future<JsonArray> pViewByUser(final Envelop envelop) {
-        final String userId = Ke.keyUser(envelop);
 
         return this.pAction(envelop).compose(action -> {
             if (Objects.isNull(action)) {
                 return Ux.futureA();
             } else {
                 final JsonObject data = Ux.getJson(envelop);
+                final String userId = envelop.userId();
                 return this.personalStub.byUser(action.getResourceId(), userId,
                         data.getString(KName.POSITION))
                     .compose(Ux::futureA)
@@ -83,7 +82,7 @@ public class ViewPersonalActor {
                 return Future.succeededFuture(Boolean.FALSE);
             } else {
                 final JsonObject data = Ux.getJson(envelop);
-                final String userId = Ke.keyUser(envelop);
+                final String userId = envelop.userId();
                 /*
                  * condition
                  */
@@ -123,7 +122,7 @@ public class ViewPersonalActor {
          */
         final String key = Ux.getString(envelop);
         final JsonObject data = Ux.getJson1(envelop);
-        final String userId = Ke.keyUser(envelop);
+        final String userId = envelop.userId();
         data.put(KName.USER, userId);
         return this.personalStub.update(key, data)
             .compose(Ux::futureJ)

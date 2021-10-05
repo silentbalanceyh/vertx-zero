@@ -2,6 +2,7 @@ package cn.vertxup.rbac.service.accredit;
 
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
+import io.vertx.ext.auth.User;
 
 /*
  * Uniform interface for authorization workflow on restful api.
@@ -22,5 +23,10 @@ import io.vertx.core.json.JsonObject;
  */
 public interface AccreditStub {
 
+    @Deprecated
     Future<Boolean> authorize(JsonObject data);
+
+    Future<JsonObject> profile(User user);
+
+    Future<JsonObject> resource(JsonObject data);
 }

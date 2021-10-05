@@ -22,21 +22,21 @@ public class MatrixService implements MatrixStub {
     public Future<DataBound> fetchBound(final ScRequest request,
                                         final SResource resource) {
         /* User fetch first */
-        final String userId = request.getUser();
+        final String userId = request.userId();
         final String resourceId = resource.getKey();
         final String profileKey = Sc.generateProfileKey(resource);
         /* Fetch User First */
-        return this.stub.fetchMatrix(userId, resourceId, request.getView())
+        return this.stub.fetchMatrix(userId, resourceId, request.view())
             /* Whether userId exist */
             .compose(result -> Objects.isNull(result) ?
                 /*
                  * There is no matrix stored into database related to current user.
                  * Then find all role related matrices instead of current matrix.
                  * */
-                request.openSession()
+                request.session()
                     /* Extract Roles from Privilege */
                     .compose(privilege -> privilege.fetchRoles(profileKey))
-                    .compose(roles -> this.stub.fetchMatrix(roles, resourceId, request.getView()))
+                    .compose(roles -> this.stub.fetchMatrix(roles, resourceId, request.view()))
                 :
                 /*
                  * It means that there is defined user resource instead of role resource.

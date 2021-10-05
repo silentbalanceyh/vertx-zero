@@ -5,6 +5,7 @@ import io.vertx.core.buffer.Buffer;
 import io.vertx.core.eventbus.Message;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
+import io.vertx.ext.auth.User;
 import io.vertx.ext.web.FileUpload;
 import io.vertx.tp.plugin.database.DataPool;
 import io.vertx.tp.plugin.jooq.JooqDsl;
@@ -50,19 +51,24 @@ import java.util.function.*;
 public final class Ux {
 
     /*
+     * output part converting
+     */
+    public static JsonObject outBool(final boolean checked) {
+        return Async.bool(KName.RESULT, checked);
+    }
+
+    public static JsonObject outBool(final String key, final boolean checked) {
+        return Async.bool(key, checked);
+    }
+
+    /**
+     * Create new log instance for store `Annal` mapping
+     *
      * Debug method for help us to do development
      * 1) log:  for branch log creation
      * 2) debug:
      * 3) otherwise:
      * ( Business Part: Debugging )
-     */
-
-    /**
-     * Create new log instance for store `Annal` mapping
-     *
-     * @param clazz The logger target that contains `Annal`
-     *
-     * @return the instance of `io.vertx.up.fn.wait.Log`
      */
     public static Log log(final Class<?> clazz) {
         return Log.create(null == clazz ? Ux.class : clazz);
@@ -420,7 +426,26 @@ public final class Ux {
      * 5) futureE
      * -- futureE(T)
      * -- futureE(Supplier)
+     *
+     * Spec Data
+     * 6)
+     * -- futureJA(JsonArray)
+     * -- futureB(JsonObject)
+     * -- futureB(boolean)
      */
+
+
+    public static Future<JsonObject> futureB(final boolean checked) {
+        return To.future(outBool(checked));
+    }
+
+    public static Future<Boolean> futureB(final JsonObject checked) {
+        return To.future(Async.bool(checked));
+    }
+
+    public static Future<JsonObject> futureJA(final JsonArray array) {
+        return To.future(Async.array(array));
+    }
 
     public static <T> Function<Throwable, Future<T>> futureE(final T input) {
         return Async.toErrorFuture(() -> input);
@@ -990,6 +1015,17 @@ public final class Ux {
         return DiTool.dictTo(record, fabric);
     }
 
+    /*
+     * key part for extract data from environment
+     */
+    public static String keyUser(final User user) {
+        Objects.requireNonNull(user);
+        final JsonObject principle = user.principal();
+        final String accessToken = principle.getString(KName.ACCESS_TOKEN);
+        final JsonObject credential = Jwt.extract(accessToken);
+        return credential.getString(KName.USER);
+    }
+
     /**
      * Inner class of `Jooq` tool of Jooq Engine operations based on pojo here.
      * When developers want to access database and select zero default implementation.
@@ -1120,7 +1156,6 @@ public final class Ux {
         }
     }
 
-
     /*
      * The only one uniform configuration of tp here
      */
@@ -1149,6 +1184,7 @@ public final class Ux {
      * you can run zero framework in non-secure mode
      */
     public static class Jwt {
+
         public static String token(final JsonObject data) {
             final Lee lee = Ut.service(LeeBuiltIn.class);
             return lee.encode(data, AegisItem.configMap(AuthWall.JWT));

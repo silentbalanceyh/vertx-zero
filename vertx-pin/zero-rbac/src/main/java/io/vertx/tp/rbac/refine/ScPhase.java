@@ -58,7 +58,7 @@ class ScPhase {
     }
 
     static Future<JsonObject> cacheBound(final RoutingContext context, final Envelop envelop) {
-        final String habit = Ke.keyHabitus(envelop);
+        final String habit = envelop.token(KName.HABITUS);
         if (Ut.isNil(habit)) {
             /*
              * Empty bound in current interface instead of other

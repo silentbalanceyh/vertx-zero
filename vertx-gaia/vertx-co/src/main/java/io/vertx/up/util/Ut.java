@@ -840,6 +840,10 @@ public final class Ut {
         return Apply.applyNil(executor);
     }
 
+    public static Future<JsonObject> ifJNil(final JsonObject input) {
+        return Future.succeededFuture(isNil(input) ? new JsonObject() : input);
+    }
+
     public static Function<JsonArray, Future<JsonArray>> ifJEmpty(final Function<JsonArray, Future<JsonArray>> executor) {
         return Apply.applyJEmpty(executor);
     }
@@ -1075,6 +1079,7 @@ public final class Ut {
         return Types.isJObject(clazz);
     }
 
+
     public static boolean isVoid(final Class<?> clazz) {
         return Types.isVoid(clazz);
     }
@@ -1101,6 +1106,10 @@ public final class Ut {
 
     public static boolean isNil(final JsonArray jsonArray) {
         return Types.isEmpty(jsonArray);
+    }
+
+    public static boolean isIn(final JsonObject input, final String... fields) {
+        return Types.isIn(input, fields);
     }
 
     public static <T> boolean isEqual(final JsonObject record, final String field, final T expected) {

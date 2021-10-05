@@ -275,30 +275,6 @@ public class Envelop implements Serializable {
         return this.assist.principal(field);
     }
 
-    public String jwt() {
-        return this.assist.principal(KName.ACCESS_TOKEN);
-    }
-
-    /*
-     * Get jwt information here
-     */
-    public String jwt(final String field) {
-        if (Ut.isNil(this.cachedJwt)) {
-            final String jwt = this.assist.principal(KName.ACCESS_TOKEN);
-            final JsonObject user = Ux.Jwt.extract(jwt);
-            this.cachedJwt.mergeIn(user, true);
-        }
-        return this.cachedJwt.getString(field);
-    }
-
-    public User user() {
-        return this.assist.user();
-    }
-
-    public void user(final User user) {
-        this.assist.user(user);
-    }
-
     /* Get Headers */
     public MultiMap headers() {
         return this.assist.headers();
@@ -432,6 +408,35 @@ public class Envelop implements Serializable {
             this.key(from.key());
         }
         return this;
+    }
+
+    // ------------------ Security Parth -------------------
+    public String userId() {
+        return Ux.keyUser(this.user());
+    }
+
+    public User user() {
+        return this.assist.user();
+    }
+
+    public void user(final User user) {
+        this.assist.user(user);
+    }
+
+    /*
+     * Token Part
+     */
+    public String token() {
+        return this.assist.principal(KName.ACCESS_TOKEN);
+    }
+
+    public String token(final String field) {
+        if (Ut.isNil(this.cachedJwt)) {
+            final String jwt = this.assist.principal(KName.ACCESS_TOKEN);
+            final JsonObject user = Ux.Jwt.extract(jwt);
+            this.cachedJwt.mergeIn(user, true);
+        }
+        return this.cachedJwt.getString(field);
     }
 
     @Override

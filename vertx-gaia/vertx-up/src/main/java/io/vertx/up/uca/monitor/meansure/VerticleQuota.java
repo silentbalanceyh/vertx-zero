@@ -16,8 +16,8 @@ import java.util.concurrent.ConcurrentMap;
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-class ThreadQuota extends AbstractQuota {
-    ThreadQuota(final Vertx vertx) {
+class VerticleQuota extends AbstractQuota {
+    VerticleQuota(final Vertx vertx) {
         super(vertx);
     }
 

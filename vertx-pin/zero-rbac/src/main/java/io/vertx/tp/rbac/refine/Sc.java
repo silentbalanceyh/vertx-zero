@@ -93,6 +93,14 @@ public class Sc {
         return ScCache.permission(key, value);
     }
 
+    public static <V> Future<V> cacheResource(final String key) {
+        return ScCache.resource(key);
+    }
+
+    public static <V> Future<V> cacheResource(final String key, final V value) {
+        return ScCache.resource(key, value);
+    }
+
     public static <V> Future<V> clearPermission(final String key) {
         return ScCache.permissionClear(key);
     }

@@ -15,6 +15,7 @@ import java.time.LocalTime;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
+import java.util.stream.Collectors;
 
 @SuppressWarnings("all")
 final class Types {
@@ -168,6 +169,23 @@ final class Types {
 
     static boolean isJObject(final Class<?> clazz) {
         return JsonObject.class == clazz || LinkedHashMap.class == clazz;
+    }
+
+    static boolean isIn(final JsonObject input, final String... fields) {
+        if (Ut.isNil(input)) {
+            return false;
+        } else {
+            final Set<String> fieldSet = Arrays.stream(fields).collect(Collectors.toSet());
+            final long counter = input.fieldNames().stream()
+                .filter(Objects::nonNull)
+                .filter(fieldSet::contains)
+                .map(input::getValue)
+                .filter(item -> item instanceof String)
+                .map(item -> (String) item)
+                .filter(Ut::notNil)
+                .count();
+            return counter == fields.length;
+        }
     }
 
     static boolean isInteger(final Object value) {

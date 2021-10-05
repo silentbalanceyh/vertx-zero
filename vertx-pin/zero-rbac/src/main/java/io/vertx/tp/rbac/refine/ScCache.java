@@ -22,6 +22,16 @@ class ScCache {
     /*
      * Pool configured default parameters
      * - codePool
+     * - codeExpired
+     * This pool is for /oauth/authorize
+     * key = user id
+     * - S_USER ( key )
+     * - O_USER ( client_id )
+     * value = requested code ( String )
+     *
+     * The code feature:
+     * 1. When you add the code in Pool, it will be expired in 30s
+     * 2. When you fetch the code, it will be removed ( Once )
      */
     @SuppressWarnings("all")
     static <V> Future<V> code(final String key) {
@@ -30,11 +40,6 @@ class ScCache {
             .compose(value -> Ux.future((V) value.getValue()));
     }
 
-    /*
-     * Pool configured default parameters
-     * - codePool
-     * - codeExpired
-     */
     static <V> Future<V> code(final String key, final V value) {
         final String codePool = CONFIG.getCodePool();
         final Integer codeExpired = CONFIG.getCodeExpired();
@@ -45,28 +50,39 @@ class ScCache {
     /*
      * Pool configured default parameters
      * - permissionPool
+     * This pool is for permission of role:
+     * key = role id
+     * - S_ROLE ( key )
+     * value = permissions ( JsonArray )
      */
     static <V> Future<V> permission(final String key) {
         final String permissionPool = CONFIG.getPermissionPool();
         return Ux.Pool.on(permissionPool).get(key);
     }
 
-    /*
-     * Pool configured default parameters
-     * - permissionPool
-     */
     static <V> Future<V> permission(final String key, final V value) {
         final String permissionPool = CONFIG.getPermissionPool();
         return Ux.Pool.on(permissionPool).put(key, value)
             .compose(item -> Ux.future(item.getValue()));
     }
 
-    /*
-     * Pool configured for clean
-     */
     static <V> Future<V> permissionClear(final String key) {
         final String permissionPool = CONFIG.getPermissionPool();
         return Ux.Pool.on(permissionPool).<String, V>remove(key)
+            .compose(item -> Ux.future(item.getValue()));
+    }
+
+    /*
+     * Pool configured default for token refresh
+     */
+    static <V> Future<V> resource(final String key) {
+        final String resourcePool = CONFIG.getResourcePool();
+        return Ux.Pool.on(resourcePool).get(key);
+    }
+
+    static <V> Future<V> resource(final String key, final V value) {
+        final String resourcePool = CONFIG.getResourcePool();
+        return Ux.Pool.on(resourcePool).put(key, value)
             .compose(item -> Ux.future(item.getValue()));
     }
 }

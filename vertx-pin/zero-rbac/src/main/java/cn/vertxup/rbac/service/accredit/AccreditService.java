@@ -4,6 +4,7 @@ import cn.vertxup.rbac.domain.tables.pojos.SAction;
 import cn.vertxup.rbac.domain.tables.pojos.SResource;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
+import io.vertx.ext.auth.User;
 import io.vertx.tp.rbac.atom.ScRequest;
 import io.vertx.up.atom.Refer;
 import io.vertx.up.unity.Ux;
@@ -19,6 +20,25 @@ public class AccreditService implements AccreditStub {
 
     @Inject
     private transient MatrixStub matrixStub;
+
+    /*
+     * Permission
+     * {
+     *      "profile1": [],
+     *      "profile2": []
+     * }
+     */
+    @Override
+    public Future<JsonObject> profile(final User user) {
+        return null;
+    }
+
+    @Override
+    public Future<JsonObject> resource(final JsonObject data) {
+        final ScRequest request = new ScRequest(data);
+        System.out.println(data.encodePrettily());
+        return null;
+    }
 
     @Override
     public Future<Boolean> authorize(final JsonObject data) {
@@ -51,16 +71,16 @@ public class AccreditService implements AccreditStub {
     }
 
     private Future<SAction> fetchAction(final ScRequest request) {
-        return this.actionStub.fetchAction(request.getNormalizedUri(), request.getMethod(), request.getSigma())
+        return this.actionStub.fetchAction(request.uriNormalized(), request.method(), request.sigma())
             .compose(action -> {
                 /*
                  * Fix issue for (AccreditService) Web Exception occus: (403) - (RBAC) The action for request ( PUT /api/:actor/:key ) is missing.
                  */
-                if (Objects.isNull(action) && request.normalized()) {
+                if (Objects.isNull(action) && request.isNormalized()) {
                     /*
                      * Secondary fetch
                      */
-                    return this.actionStub.fetchAction(request.getRequestUri(), request.getMethod(), request.getSigma());
+                    return this.actionStub.fetchAction(request.uriRequest(), request.method(), request.sigma());
                 } else {
                     return Ux.future(action);
                 }
@@ -68,8 +88,8 @@ public class AccreditService implements AccreditStub {
     }
 
     private Future<Boolean> authorizedWithCache(final ScRequest request, final Supplier<Future<Boolean>> supplier) {
-        final String authorizedKey = request.getAuthorizedKey();
-        return request.openSession()
+        final String authorizedKey = request.keyAuthorized();
+        return request.session()
             /* Get data from cache */
             .compose(privilege -> privilege.fetchAuthorized(authorizedKey))
             /* */

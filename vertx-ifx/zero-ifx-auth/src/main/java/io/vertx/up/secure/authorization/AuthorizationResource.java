@@ -5,6 +5,7 @@ import io.vertx.core.Handler;
 import io.vertx.core.MultiMap;
 import io.vertx.core.http.HttpServerRequest;
 import io.vertx.core.json.JsonObject;
+import io.vertx.ext.auth.User;
 import io.vertx.ext.auth.authorization.Authorization;
 import io.vertx.ext.web.RoutingContext;
 import io.vertx.up.atom.secure.Aegis;
@@ -12,6 +13,8 @@ import io.vertx.up.atom.secure.Vis;
 import io.vertx.up.eon.ID;
 import io.vertx.up.eon.KName;
 import io.vertx.up.runtime.ZeroAnno;
+
+import java.util.Objects;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
@@ -39,7 +42,14 @@ public interface AuthorizationResource {
      * often need the metadata information to do locating and checking here.
      */
     static JsonObject parameters(final RoutingContext context) {
-        final JsonObject normalized = new JsonObject();
+        final User user = context.user();
+        final JsonObject normalized;
+        if (Objects.isNull(user)) {
+            normalized = new JsonObject();
+        } else {
+            // Keep the original workflow
+            normalized = user.principal().copy();
+        }
         final HttpServerRequest request = context.request();
         /*
          * Build metadata

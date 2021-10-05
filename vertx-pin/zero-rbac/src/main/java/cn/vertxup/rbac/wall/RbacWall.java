@@ -46,9 +46,6 @@ public class RbacWall {
 
     @AuthorizedResource
     public Future<JsonObject> resource(final JsonObject params) {
-        final JsonObject profile = new JsonObject()
-            .put("K", new JsonArray().add("1"));
-        System.out.println(params.encodePrettily());
-        return Future.succeededFuture(profile);
+        return this.accredit.resource(params);
     }
 }

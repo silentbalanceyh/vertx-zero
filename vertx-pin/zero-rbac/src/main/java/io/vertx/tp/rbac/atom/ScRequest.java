@@ -71,48 +71,50 @@ public class ScRequest implements Serializable {
         this.sessionId = userData.getString(KName.HABITUS);
     }
 
-    public String getNormalizedUri() {
+    // Resource Part
+    public String uriNormalized() {
         return this.uri;
     }
 
-    public boolean normalized() {
-        return !this.requestUri.equals(this.uri);
-    }
-
-    public String getRequestUri() {
+    public String uriRequest() {
         return this.requestUri;
     }
 
-    public HttpMethod getMethod() {
+    public boolean isNormalized() {
+        return !this.requestUri.equals(this.uri);
+    }
+
+    public HttpMethod method() {
         return this.method;
     }
 
-    public String getSigma() {
+    public String sigma() {
         return this.sigma;
     }
 
-    public String getUser() {
+    public String userId() {
         return this.user;
     }
 
-    public Vis getView() {
+    public Vis view() {
         return this.view;
     }
 
-    public String getCacheKey() {
-        return Ke.keySession(this.method.name(), this.uri, this.view);
-    }
-
-    public String getAuthorizedKey() {
-        return Ke.keyAuthorized(this.method.name(), this.uri);
-    }
-
-    public String getSessionId() {
+    public String sessionId() {
         return this.sessionId;
     }
 
-    public Future<ScPrivilege> openSession() {
+    public Future<ScPrivilege> session() {
         LOGGER.debug("Open session: {0}", this.sessionId);
         return ScPrivilege.open(this.sessionId);
+    }
+
+    // Cache Key Part
+    public String keySession() {
+        return Ke.keySession(this.method.name(), this.uri, this.view);
+    }
+
+    public String keyAuthorized() {
+        return Ke.keyAuthorized(this.method.name(), this.uri);
     }
 }
