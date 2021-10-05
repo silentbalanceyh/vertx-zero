@@ -3,6 +3,7 @@ package io.vertx.tp.ke.refine;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
+import io.vertx.ext.web.RoutingContext;
 import io.vertx.up.atom.record.Apt;
 import io.vertx.up.atom.secure.Vis;
 import io.vertx.up.commune.element.TypeAtom;
@@ -91,8 +92,20 @@ public class Ke {
     /*
      * Session key generation
      */
-    public static String keySession(final String method, final String uri, final Vis view) {
-        return KeCache.keySession(method, uri, view);
+    public static String uri(final String uri, final String requestUri) {
+        return KeCache.uri(uri, requestUri);
+    }
+
+    public static String uri(final RoutingContext context) {
+        return KeCache.uri(context);
+    }
+
+    public static String keyView(final String method, final String uri, final Vis view) {
+        return KeCache.keyView(method, uri, view);
+    }
+
+    public static String keyView(final RoutingContext context) {
+        return KeCache.keyView(context);
     }
 
     public static String keyAuthorized(final String method, final String uri) {

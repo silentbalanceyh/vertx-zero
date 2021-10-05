@@ -1,12 +1,12 @@
-package io.vertx.tp.rbac.atom;
+package io.vertx.tp.rbac.logged;
 
 import io.vertx.core.Future;
 import io.vertx.core.http.HttpMethod;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.ke.refine.Ke;
+import io.vertx.tp.rbac.atom.ScConfig;
 import io.vertx.tp.rbac.cv.AuthKey;
 import io.vertx.tp.rbac.init.ScPin;
-import io.vertx.tp.rbac.refine.Sc;
 import io.vertx.up.atom.secure.Vis;
 import io.vertx.up.eon.ID;
 import io.vertx.up.eon.KName;
@@ -50,7 +50,7 @@ public class ScRequest implements Serializable {
         /*
          * Extension for orbit
          */
-        this.uri = Sc.uri(uri, this.requestUri);
+        this.uri = Ke.uri(uri, this.requestUri);
         this.view = Vis.smart(metadata.getValue(KName.VIEW));
         /*
          * Support multi applications
@@ -110,7 +110,7 @@ public class ScRequest implements Serializable {
 
     // Cache Key Part
     public String keySession() {
-        return Ke.keySession(this.method.name(), this.uri, this.view);
+        return Ke.keyView(this.method.name(), this.uri, this.view);
     }
 
     public String keyAuthorized() {

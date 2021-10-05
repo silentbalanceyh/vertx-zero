@@ -2,10 +2,10 @@ package io.vertx.tp.rbac.authorization;
 
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.rbac.atom.ProfileGroup;
-import io.vertx.tp.rbac.atom.ProfileRole;
-import io.vertx.tp.rbac.atom.ProfileType;
 import io.vertx.tp.rbac.cv.AuthKey;
+import io.vertx.tp.rbac.logged.ProfileGroup;
+import io.vertx.tp.rbac.logged.ProfileRole;
+import io.vertx.tp.rbac.logged.ProfileType;
 import io.vertx.up.util.Ut;
 
 import java.util.*;

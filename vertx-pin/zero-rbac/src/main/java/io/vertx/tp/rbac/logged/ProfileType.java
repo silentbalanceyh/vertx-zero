@@ -1,4 +1,4 @@
-package io.vertx.tp.rbac.atom;
+package io.vertx.tp.rbac.logged;
 
 import io.vertx.tp.rbac.cv.em.SeekGroup;
 import io.vertx.tp.rbac.cv.em.SeekRole;

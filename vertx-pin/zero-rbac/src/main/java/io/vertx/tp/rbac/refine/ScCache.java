@@ -48,31 +48,6 @@ class ScCache {
     }
 
     /*
-     * Pool configured default parameters
-     * - permissionPool
-     * This pool is for permission of role:
-     * key = role id
-     * - S_ROLE ( key )
-     * value = permissions ( JsonArray )
-     */
-    static <V> Future<V> permission(final String key) {
-        final String permissionPool = CONFIG.getPermissionPool();
-        return Ux.Pool.on(permissionPool).get(key);
-    }
-
-    static <V> Future<V> permission(final String key, final V value) {
-        final String permissionPool = CONFIG.getPermissionPool();
-        return Ux.Pool.on(permissionPool).put(key, value)
-            .compose(item -> Ux.future(item.getValue()));
-    }
-
-    static <V> Future<V> permissionClear(final String key) {
-        final String permissionPool = CONFIG.getPermissionPool();
-        return Ux.Pool.on(permissionPool).<String, V>remove(key)
-            .compose(item -> Ux.future(item.getValue()));
-    }
-
-    /*
      * Pool configured default for token refresh
      */
     static <V> Future<V> resource(final String key) {

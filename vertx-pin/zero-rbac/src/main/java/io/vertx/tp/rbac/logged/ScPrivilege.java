@@ -1,10 +1,9 @@
-package io.vertx.tp.rbac.atom;
+package io.vertx.tp.rbac.logged;
 
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.rbac.cv.AuthKey;
-import io.vertx.up.eon.KName;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
@@ -26,41 +25,10 @@ public class ScPrivilege implements Serializable {
     }
 
     /*
-     *  Create new habitus ( First time initialize )
-     */
-    public static Future<ScPrivilege> init(final JsonObject data) {
-        final String habitusId = data.getString(KName.HABITUS);
-        final ScPrivilege privilege = new ScPrivilege(habitusId).open();
-        final ScHabitus habitus = privilege.habitus;
-        /*
-         * Stored user
-         */
-        return habitus.set("user", data.getString("user"))
-            /*
-             * Stored role
-             */
-            .compose(nil -> habitus.set("role", data.getJsonArray("role")))
-            /*
-             * Stored group
-             */
-            .compose(nil -> habitus.set("group", data.getJsonArray("group")))
-            /*
-             * Return self reference here
-             */
-            .compose(nil -> Ux.future(privilege));
-    }
-
-    /*
      *  Open existing habitus ( After initialized )
      */
     public static ScPrivilege open(final String habitusId) {
         return new ScPrivilege(habitusId).open();
-    }
-
-    public static Boolean clear(final String habitusId) {
-        final ScPrivilege privilege = new ScPrivilege(habitusId).open();
-        privilege.habitus.clear();
-        return Boolean.TRUE;
     }
 
     /*
@@ -77,23 +45,6 @@ public class ScPrivilege implements Serializable {
         return this;
     }
 
-    // ----------------
-    // Public interface that provide for operations
-    // ----------------
-    public Future<Boolean> evaluate(final Function<JsonObject, Future<Boolean>> fnDirect) {
-        return this.fetchProfile().compose(profile -> Ut.isNil(profile) ?
-            /*
-             * Profile does not exist and no cached, in this situation
-             * the system should go the whole flow
-             */
-            fnDirect.apply(profile) :
-            /*
-             * Profile exist, it's not needed to go the whole flow.
-             * Return True directly.
-             */
-            Future.succeededFuture(Boolean.TRUE));
-    }
-
     /*
      * Profile ( Json ) get / set
      * */
@@ -103,10 +54,6 @@ public class ScPrivilege implements Serializable {
              * JsonObject safe calling here
              */
             .compose(Ut::ifJNil);
-    }
-
-    public Future<JsonObject> storeProfile(final JsonObject profiles) {
-        return this.habitus.set("profile", profiles);
     }
 
     /*

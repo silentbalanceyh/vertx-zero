@@ -5,7 +5,7 @@ import cn.vertxup.rbac.domain.tables.pojos.SResource;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.auth.User;
-import io.vertx.tp.rbac.atom.ScRequest;
+import io.vertx.tp.rbac.logged.ScRequest;
 import io.vertx.up.atom.Refer;
 import io.vertx.up.unity.Ux;
 

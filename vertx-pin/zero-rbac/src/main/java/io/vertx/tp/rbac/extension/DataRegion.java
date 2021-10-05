@@ -5,13 +5,16 @@ import io.vertx.core.http.HttpMethod;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.RoutingContext;
+import io.vertx.tp.ke.refine.Ke;
 import io.vertx.tp.rbac.acl.region.CommonCosmo;
 import io.vertx.tp.rbac.acl.region.Cosmo;
 import io.vertx.tp.rbac.acl.region.SeekCosmo;
 import io.vertx.tp.rbac.cv.AuthMsg;
+import io.vertx.tp.rbac.logged.ScUser;
 import io.vertx.tp.rbac.refine.Sc;
 import io.vertx.up.atom.query.engine.Qr;
 import io.vertx.up.commune.Envelop;
+import io.vertx.up.eon.KName;
 import io.vertx.up.extension.region.AbstractRegion;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.unity.Ux;
@@ -36,7 +39,7 @@ public class DataRegion extends AbstractRegion {
     public Future<Envelop> before(final RoutingContext context, final Envelop envelop) {
         if (this.isEnabled(context)) {
             /* Get Critical parameters */
-            return Sc.cacheBound(context, envelop).compose(matrix -> {
+            return this.cacheView(context, envelop).compose(matrix -> {
                 if (this.hasValue(matrix)) {
                     Sc.infoAuth(this.getLogger(), AuthMsg.REGION_BEFORE,
                         context.request().path(), matrix.encode());
@@ -70,7 +73,7 @@ public class DataRegion extends AbstractRegion {
     public Future<Envelop> after(final RoutingContext context, final Envelop response) {
         if (this.isEnabled(context)) {
             /* Get Critical parameters */
-            return Sc.cacheBound(context, response).compose(matrix -> {
+            return this.cacheView(context, response).compose(matrix -> {
                 if (this.hasValue(matrix)) {
                     Sc.infoAuth(this.getLogger(), AuthMsg.REGION_AFTER, matrix.encode());
                     /*
@@ -88,6 +91,19 @@ public class DataRegion extends AbstractRegion {
         } else {
             // Data Region disabled
             return Ux.future(response);
+        }
+    }
+
+    private Future<JsonObject> cacheView(final RoutingContext context, final Envelop envelop) {
+        final String habitus = envelop.token(KName.HABITUS);
+        if (Ut.isNil(habitus)) {
+            /*
+             * Empty bound in current interface instead of other
+             */
+            return Ux.future(new JsonObject());
+        } else {
+            final String viewKey = Ke.keyView(context);
+            return ScUser.logged(habitus).view(viewKey);
         }
     }
 

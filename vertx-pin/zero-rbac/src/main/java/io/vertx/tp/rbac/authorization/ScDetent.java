@@ -2,8 +2,6 @@ package io.vertx.tp.rbac.authorization;
 
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.rbac.atom.ProfileGroup;
-import io.vertx.tp.rbac.atom.ProfileRole;
 import io.vertx.tp.rbac.authorization.child.GcCritical;
 import io.vertx.tp.rbac.authorization.child.GcHorizon;
 import io.vertx.tp.rbac.authorization.child.GcOverlook;
@@ -20,6 +18,8 @@ import io.vertx.tp.rbac.authorization.inherit.GiOverlook;
 import io.vertx.tp.rbac.authorization.parent.GpCritical;
 import io.vertx.tp.rbac.authorization.parent.GpHorizon;
 import io.vertx.tp.rbac.authorization.parent.GpOverlook;
+import io.vertx.tp.rbac.logged.ProfileGroup;
+import io.vertx.tp.rbac.logged.ProfileRole;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.unity.Ux;
 

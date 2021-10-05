@@ -4,7 +4,7 @@ import cn.vertxup.rbac.domain.tables.pojos.SResource;
 import cn.vertxup.rbac.service.view.ViewStub;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.rbac.atom.ScRequest;
+import io.vertx.tp.rbac.logged.ScRequest;
 import io.vertx.tp.rbac.refine.Sc;
 import io.vertx.up.commune.secure.DataBound;
 import io.vertx.up.unity.Ux;

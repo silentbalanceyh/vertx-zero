@@ -34,7 +34,7 @@ public class UserActor {
      */
     @Address(Addr.User.INFORMATION)
     public Future<JsonObject> information(final Envelop envelop) {
-        final String userId = envelop.token("user");
+        final String userId = envelop.userId();
         /*
          * Async for user information
          */
@@ -46,14 +46,14 @@ public class UserActor {
         /*
          * Async for user password / modification
          */
-        final String userId = envelop.token("user");
+        final String userId = envelop.userId();
         final JsonObject params = Ux.getJson(envelop);
         return this.stub.updateUser(userId, params);
     }
 
     @Address(Addr.User.PROFILE)
     public Future<JsonObject> profile(final Envelop envelop) {
-        final String userId = envelop.token("user");
+        final String userId = envelop.userId();
         final JsonObject params = Ux.getJson(envelop);
         return this.stub.updateEmployee(userId, params);
     }
