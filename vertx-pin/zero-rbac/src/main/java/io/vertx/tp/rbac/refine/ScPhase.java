@@ -9,7 +9,7 @@ import io.vertx.tp.ke.refine.Ke;
 import io.vertx.tp.optic.Orbit;
 import io.vertx.tp.optic.Pocket;
 import io.vertx.tp.optic.atom.Income;
-import io.vertx.tp.rbac.permission.ScHabitus;
+import io.vertx.tp.rbac.atom.ScHabitus;
 import io.vertx.up.atom.secure.Vis;
 import io.vertx.up.commune.Envelop;
 import io.vertx.up.eon.KName;

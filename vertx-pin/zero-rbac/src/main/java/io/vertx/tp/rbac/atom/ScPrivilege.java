@@ -1,4 +1,4 @@
-package io.vertx.tp.rbac.permission;
+package io.vertx.tp.rbac.atom;
 
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
@@ -30,38 +30,43 @@ public class ScPrivilege implements Serializable {
      */
     public static Future<ScPrivilege> init(final JsonObject data) {
         final String habitusId = data.getString(KName.HABITUS);
-        return new ScPrivilege(habitusId).open().compose(self -> {
-            final ScHabitus habitus = self.habitus;
+        final ScPrivilege privilege = new ScPrivilege(habitusId).open();
+        final ScHabitus habitus = privilege.habitus;
+        /*
+         * Stored user
+         */
+        return habitus.set("user", data.getString("user"))
             /*
-             * Stored user
+             * Stored role
              */
-            return habitus.set("user", data.getString("user"))
-                /*
-                 * Stored role
-                 */
-                .compose(nil -> habitus.set("role", data.getJsonArray("role")))
-                /*
-                 * Stored group
-                 */
-                .compose(nil -> habitus.set("group", data.getJsonArray("group")))
-                /*
-                 * Return self reference here
-                 */
-                .compose(nil -> Ux.future(self));
-        });
+            .compose(nil -> habitus.set("role", data.getJsonArray("role")))
+            /*
+             * Stored group
+             */
+            .compose(nil -> habitus.set("group", data.getJsonArray("group")))
+            /*
+             * Return self reference here
+             */
+            .compose(nil -> Ux.future(privilege));
     }
 
     /*
      *  Open existing habitus ( After initialized )
      */
-    public static Future<ScPrivilege> open(final String habitusId) {
+    public static ScPrivilege open(final String habitusId) {
         return new ScPrivilege(habitusId).open();
+    }
+
+    public static Boolean clear(final String habitusId) {
+        final ScPrivilege privilege = new ScPrivilege(habitusId).open();
+        privilege.habitus.clear();
+        return Boolean.TRUE;
     }
 
     /*
      * Uniform workflow here.
      */
-    private Future<ScPrivilege> open() {
+    private ScPrivilege open() {
         /*
          * Deny to initialize `ScHabitus` object here.
          */
@@ -69,7 +74,7 @@ public class ScPrivilege implements Serializable {
         /*
          * Open current `ScPrivilege` as session habitus
          */
-        return Future.succeededFuture(this);
+        return this;
     }
 
     // ----------------
@@ -138,10 +143,6 @@ public class ScPrivilege implements Serializable {
 
     public Future<Boolean> storedAuthorized(final String key, final Boolean result) {
         return this.habitus.set(key, result);
-    }
-
-    public Future<Boolean> clear() {
-        return this.habitus.clear();
     }
 
     private Function<JsonObject, Future<JsonArray>> extractAsync(

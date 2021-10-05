@@ -6,7 +6,6 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.tp.ke.refine.Ke;
 import io.vertx.tp.rbac.cv.AuthKey;
 import io.vertx.tp.rbac.init.ScPin;
-import io.vertx.tp.rbac.permission.ScPrivilege;
 import io.vertx.tp.rbac.refine.Sc;
 import io.vertx.up.atom.secure.Vis;
 import io.vertx.up.eon.ID;
@@ -106,7 +105,7 @@ public class ScRequest implements Serializable {
 
     public Future<ScPrivilege> session() {
         LOGGER.debug("Open session: {0}", this.sessionId);
-        return ScPrivilege.open(this.sessionId);
+        return Ux.future(ScPrivilege.open(this.sessionId));
     }
 
     // Cache Key Part
@@ -116,5 +115,9 @@ public class ScRequest implements Serializable {
 
     public String keyAuthorized() {
         return Ke.keyAuthorized(this.method.name(), this.uri);
+    }
+
+    public String keyResource() {
+        return Ke.keyResource(this.method.name(), this.uri);
     }
 }

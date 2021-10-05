@@ -99,6 +99,10 @@ public class Ke {
         return KeCache.keyAuthorized(method, uri);
     }
 
+    public static String keyResource(final String method, final String uri) {
+        return KeCache.keyResource(method, uri);
+    }
+
     public static Apt compmared(final Apt apt, final String user) {
         return KeCompare.compared(apt, KName.CODE, user);
     }

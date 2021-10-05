@@ -9,9 +9,9 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.tp.error._401PasswordWrongException;
 import io.vertx.tp.error._423UserDisabledException;
 import io.vertx.tp.error._449UserNotFoundException;
+import io.vertx.tp.rbac.atom.ScPrivilege;
 import io.vertx.tp.rbac.cv.AuthKey;
 import io.vertx.tp.rbac.cv.AuthMsg;
-import io.vertx.tp.rbac.permission.ScPrivilege;
 import io.vertx.tp.rbac.refine.Sc;
 import io.vertx.up.atom.unity.Uson;
 import io.vertx.up.eon.KName;
@@ -78,7 +78,6 @@ public class LoginService implements LoginStub {
          */
         return Ux.Jooq.on(OAccessTokenDao.class)
             .deleteByAsync(new JsonObject().put("token", token))
-            .compose(nil -> ScPrivilege.open(habitus))
-            .compose(ScPrivilege::clear);
+            .compose(nil -> Ux.future(ScPrivilege.clear(habitus)));
     }
 }

@@ -36,7 +36,6 @@ public class AccreditService implements AccreditStub {
     @Override
     public Future<JsonObject> resource(final JsonObject data) {
         final ScRequest request = new ScRequest(data);
-        System.out.println(data.encodePrettily());
         return null;
     }
 
