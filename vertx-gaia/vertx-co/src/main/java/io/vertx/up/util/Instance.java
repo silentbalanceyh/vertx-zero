@@ -1,6 +1,5 @@
 package io.vertx.up.util;
 
-import com.esotericsoftware.reflectasm.ConstructorAccess;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.eon.Values;
 import io.vertx.up.exception.zero.DuplicatedImplException;
@@ -11,11 +10,11 @@ import io.vertx.up.runtime.ZeroPack;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 import java.util.function.Consumer;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 @SuppressWarnings({"unchecked"})
@@ -23,7 +22,43 @@ final class Instance {
 
     private static final Annal LOGGER = Annal.get(Instance.class);
 
+    private static final ConcurrentMap<String, Object> SINGLETON = new ConcurrentHashMap<>();
+    private static final ConcurrentMap<String, Object> SERVICE_LOADER = new ConcurrentHashMap<>();
+
     private Instance() {
+    }
+
+    static <T> T service(final Class<T> interfaceCls) {
+        if (Objects.isNull(interfaceCls) || !interfaceCls.isInterface()) {
+            return null;
+        } else {
+            final String cacheKey = interfaceCls.getName();
+            Object reference = SERVICE_LOADER.getOrDefault(interfaceCls.getName(), null);
+            if (Objects.isNull(reference)) {
+                /*
+                 * Service Loader for lookup input interface implementation
+                 * This configuration must be configured in
+                 * META-INF/services/<interfaceCls Name> file
+                 */
+                final ServiceLoader<T> loader =
+                    ServiceLoader.load(interfaceCls, interfaceCls.getClassLoader());
+                /*
+                 * New data structure to put interface class into LEXEME_MAP
+                 * In current version, it support one to one only
+                 *
+                 * 1) The key is interface class name
+                 * 2) The found class is implementation name
+                 */
+                for (final T t : loader) {
+                    reference = t;
+                    if (Objects.nonNull(reference)) {
+                        SERVICE_LOADER.put(interfaceCls.getName(), reference);
+                        break;
+                    }
+                }
+            }
+            return (T) reference;
+        }
     }
 
     /**
@@ -58,10 +93,13 @@ final class Instance {
      */
     static <T> T singleton(final Class<?> clazz,
                            final Object... params) {
-        final Object created = Fn.pool(Storage.SINGLETON, clazz.getName(),
-            () -> instance(clazz, params));
         // Must reference to created first.
-        return Fn.getJvm(() -> (T) created, created);
+        return (T) Fn.pool(SINGLETON, clazz.getName(),
+            () -> instance(clazz, params));
+    }
+
+    static <T> T singleton(final Class<?> clazz, final Supplier<T> supplier) {
+        return (T) Fn.pool(SINGLETON, clazz.getName(), supplier::get);
     }
 
     /**
@@ -215,6 +253,19 @@ final class Instance {
         }, interfaceCls);
     }
 
+    public static <T> Constructor<T> constructor(final Class<?> clazz,
+                                                 final Object... params) {
+        Constructor<T> result = null;
+        final Constructor<?>[] constructors = clazz.getDeclaredConstructors();
+        for (final Constructor<?> constructor : constructors) {
+            if (params.length == constructor.getParameterTypes().length) {
+                result = (Constructor<T>) constructor;
+                break;
+            }
+        }
+        return result;
+    }
+
     private static <T> T construct(final Class<?> clazz,
                                    final Object... params) {
         return Fn.getJvm(() -> {
@@ -241,8 +292,19 @@ final class Instance {
     private static <T> T construct(final Class<T> clazz) {
         return Fn.getJvm(() -> {
             // Reflect Asm
-            final ConstructorAccess<T> access = ConstructorAccess.get(clazz);
-            return access.newInstance();
+            final Constructor<?>[] constructors = clazz.getDeclaredConstructors();
+            final Constructor<?> constructor = Arrays.stream(constructors)
+                .filter(item -> 0 == item.getParameterCount())
+                .findAny().orElse(null);
+            final T reference;
+            if (Objects.nonNull(constructor)) {
+                reference = (T) constructor.newInstance();
+            } else {
+                reference = null;
+            }
+            return reference;
+            // final ConstructorAccess<T> access = ConstructorAccess.get(clazz);
+            // return access.newInstance();
         }, clazz);
     }
 }

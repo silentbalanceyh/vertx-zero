@@ -43,7 +43,7 @@ public final class ZeroMotor {
             // 2.1. Clustered
             final ClusterManager manager = cluster.getManager();
             logger.info(Info.APP_CLUSTERD, manager.getClass().getName(),
-                manager.getNodeID(), manager.isActive());
+                manager.getNodeId(), manager.isActive());
             fnCluster.accept(manager, consumer);
         } else {
             // 2.2. Standalone

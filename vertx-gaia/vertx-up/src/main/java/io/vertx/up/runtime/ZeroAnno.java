@@ -1,8 +1,9 @@
 package io.vertx.up.runtime;
 
+import com.google.inject.Injector;
 import io.vertx.core.http.HttpMethod;
 import io.vertx.up.atom.agent.Event;
-import io.vertx.up.atom.secure.Cliff;
+import io.vertx.up.atom.secure.Aegis;
 import io.vertx.up.atom.worker.Mission;
 import io.vertx.up.atom.worker.Receipt;
 import io.vertx.up.eon.em.ServerType;
@@ -25,8 +26,6 @@ public class ZeroAnno {
 
     private final static Set<Class<?>>
         ENDPOINTS = new HashSet<>();
-    private final static ConcurrentMap<Class<?>, ConcurrentMap<String, Class<?>>>
-        PLUGINS = new ConcurrentHashMap<>();
     private final static Set<Receipt>
         RECEIPTS = new HashSet<>();
     private final static Set<Event>
@@ -37,23 +36,29 @@ public class ZeroAnno {
         AGENTS = new ConcurrentHashMap<>();
     private final static Set<Class<?>>
         WORKERS = new HashSet<>();
-    private final static Set<Cliff>
+    private final static Set<Aegis>
         WALLS = new TreeSet<>();
     private final static ConcurrentMap<String, Method>
         IPCS = new ConcurrentHashMap<>();
     private final static Set<Class<?>>
-        POINTER = new HashSet<>();
-    private final static Set<Class<?>>
         TPS = new HashSet<>();
     private final static Set<Mission>
         JOBS = new HashSet<>();
+    private static Injector DI;
 
     /*
      * Move to main thread to do init instead of static block initialization
+     * Here all the class must be prepared
      */
     public static void prepare() {
         /* 1.Scan the packages **/
         final Set<Class<?>> clazzes = ZeroPack.getClasses();
+        /*
+         * Guice Module Start
+         * */
+        final Inquirer<Injector> guice = Ut.singleton(GuiceInquirer.class);
+        DI = guice.scan(clazzes);
+
         /* EndPoint **/
         Inquirer<Set<Class<?>>> inquirer =
             Ut.singleton(EndPointInquirer.class);
@@ -75,7 +80,7 @@ public class ZeroAnno {
         ZeroUri.report();
 
         /* Wall -> Authenticate, Authorize **/
-        final Inquirer<Set<Cliff>> walls =
+        final Inquirer<Set<Aegis>> walls =
             Ut.singleton(WallInquirer.class);
         WALLS.addAll(walls.scan(clazzes));
 
@@ -104,8 +109,8 @@ public class ZeroAnno {
         AGENTS.putAll(agent.scan(clazzes));
 
         /* JSR330 Fix **/
-        final Inquirer<Set<Class<?>>> pointer = Ut.singleton(PointerInquirer.class);
-        POINTER.addAll(pointer.scan(clazzes));
+        // final Inquirer<Set<Class<?>>> pointer = Ut.singleton(PointerInquirer.class);
+        // POINTER.addAll(pointer.scan(clazzes));
 
         /* Tp Clients **/
         final Inquirer<Set<Class<?>>> tps = Ut.singleton(PluginInquirer.class);
@@ -118,19 +123,10 @@ public class ZeroAnno {
         /* Jobs with description in zero */
         final Inquirer<Set<Mission>> jobs = Ut.singleton(JobInquirer.class);
         JOBS.addAll(jobs.scan(clazzes));
-
-        /* Injections **/
-        final Inquirer<ConcurrentMap<Class<?>, ConcurrentMap<String, Class<?>>>> afflux = Ut.singleton(AffluxInquirer.class);
-        PLUGINS.putAll(afflux.scan(clazzes));
     }
 
-    /**
-     * Get all plugins
-     *
-     * @return plugin map
-     */
-    public static ConcurrentMap<Class<?>, ConcurrentMap<String, Class<?>>> getPlugins() {
-        return PLUGINS;
+    public static Injector getDi() {
+        return DI;
     }
 
     /**
@@ -140,15 +136,6 @@ public class ZeroAnno {
      */
     public static ConcurrentMap<ServerType, List<Class<?>>> getAgents() {
         return AGENTS;
-    }
-
-    /**
-     * Injects
-     *
-     * @return pointer set
-     */
-    public static Set<Class<?>> getInjects() {
-        return POINTER;
     }
 
     /**
@@ -221,7 +208,7 @@ public class ZeroAnno {
      *
      * @return guard set
      */
-    public static Set<Cliff> getWalls() {
+    public static Set<Aegis> getWalls() {
         return WALLS;
     }
 

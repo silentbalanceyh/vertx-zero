@@ -16,7 +16,7 @@ public class CodeService implements CodeStub {
     @Override
     public Future<JsonObject> authorize(final String clientId) {
         // Generate random authorization code
-        final String authCode = Sc.generateCode();
+        final String authCode = Sc.valueCode();
 
         // Whether existing state
         final JsonObject response = new JsonObject();

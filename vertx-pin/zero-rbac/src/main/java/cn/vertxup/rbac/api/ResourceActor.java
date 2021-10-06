@@ -2,7 +2,7 @@ package cn.vertxup.rbac.api;
 
 import cn.vertxup.rbac.domain.tables.daos.SActionDao;
 import cn.vertxup.rbac.domain.tables.daos.SResourceDao;
-import cn.vertxup.rbac.service.accredit.ResourceStub;
+import cn.vertxup.rbac.service.business.ResourceStub;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.rbac.cv.Addr;
@@ -47,7 +47,7 @@ public class ResourceActor {
     }
 
     @Address(Addr.Authority.RESOURCE_GET_CASCADE)
-    public Future<JsonObject> getById(String key) {
+    public Future<JsonObject> getById(final String key) {
         return this.resourceStub.fetchResource(key);
     }
 

@@ -1,7 +1,7 @@
 package io.vertx.tp.error;
 
 import io.vertx.core.http.HttpStatusCode;
-import io.vertx.tp.rbac.atom.ProfileType;
+import io.vertx.tp.rbac.logged.ProfileType;
 import io.vertx.up.exception.WebException;
 
 public class _403ProfileConflictException extends WebException {

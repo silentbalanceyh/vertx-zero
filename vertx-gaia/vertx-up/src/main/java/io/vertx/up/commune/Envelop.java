@@ -10,10 +10,13 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.ext.auth.User;
 import io.vertx.ext.web.RoutingContext;
 import io.vertx.ext.web.Session;
+import io.vertx.ext.web.handler.HttpException;
 import io.vertx.up.commune.envelop.Rib;
 import io.vertx.up.commune.secure.Acl;
 import io.vertx.up.eon.ID;
+import io.vertx.up.eon.KName;
 import io.vertx.up.exception.WebException;
+import io.vertx.up.exception.web._000HttpWebException;
 import io.vertx.up.exception.web._500InternalServerException;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.unity.Ux;
@@ -106,7 +109,23 @@ public class Envelop implements Serializable {
             // Throwable converted to WebException
             return failure((WebException) ex);
         } else {
-            return new Envelop(new _500InternalServerException(Envelop.class, ex.getMessage()));
+            if (ex instanceof HttpException) {
+                // Http Exception, When this situation, the ex may contain WebException internal
+                final Throwable actual = ex.getCause();
+                if (Objects.isNull(actual)) {
+                    // No Cause
+                    return new Envelop(new _000HttpWebException(Envelop.class, (HttpException) ex));
+                } else {
+                    /*
+                     * 1. Loop to search until `WebException`
+                     * 2. Or HttpException without cause trace
+                     */
+                    return failure(actual);
+                }
+            } else {
+                // Common JVM Exception
+                return new Envelop(new _500InternalServerException(Envelop.class, ex.getMessage()));
+            }
         }
     }
 
@@ -256,30 +275,6 @@ public class Envelop implements Serializable {
         return this.assist.principal(field);
     }
 
-    public String jwt() {
-        return this.assist.principal("jwt");
-    }
-
-    /*
-     * Get jwt information here
-     */
-    public String jwt(final String field) {
-        if (Ut.isNil(this.cachedJwt)) {
-            final String jwt = this.assist.principal("jwt");
-            final JsonObject user = Ux.Jwt.extract(jwt);
-            this.cachedJwt.mergeIn(user, true);
-        }
-        return this.cachedJwt.getString(field);
-    }
-
-    public User user() {
-        return this.assist.user();
-    }
-
-    public void user(final User user) {
-        this.assist.user(user);
-    }
-
     /* Get Headers */
     public MultiMap headers() {
         return this.assist.headers();
@@ -413,6 +408,35 @@ public class Envelop implements Serializable {
             this.key(from.key());
         }
         return this;
+    }
+
+    // ------------------ Security Parth -------------------
+    public String userId() {
+        return Ux.keyUser(this.user());
+    }
+
+    public User user() {
+        return this.assist.user();
+    }
+
+    public void user(final User user) {
+        this.assist.user(user);
+    }
+
+    /*
+     * Token Part
+     */
+    public String token() {
+        return this.assist.principal(KName.ACCESS_TOKEN);
+    }
+
+    public String token(final String field) {
+        if (Ut.isNil(this.cachedJwt)) {
+            final String jwt = this.assist.principal(KName.ACCESS_TOKEN);
+            final JsonObject user = Ux.Jwt.extract(jwt);
+            this.cachedJwt.mergeIn(user, true);
+        }
+        return this.cachedJwt.getString(field);
     }
 
     @Override

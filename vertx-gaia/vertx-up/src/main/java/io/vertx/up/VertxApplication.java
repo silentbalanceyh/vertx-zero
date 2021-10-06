@@ -64,11 +64,6 @@ public class VertxApplication {
              * Class definition predicate
              */
             ensureEtcd(clazz);
-            /*
-             * To avoid getPackages issue here
-             * Move to InitScatter here
-             */
-            ZeroHeart.init();
 
             /*
              * Before launcher, start package scanning for preparing metadata
@@ -84,6 +79,11 @@ public class VertxApplication {
              */
             ZeroAnno.prepare();
 
+            /*
+             * To avoid getPackages issue here
+             * Move to InitScatter here
+             */
+            ZeroHeart.init();
             /*
              * Then the container could start
              */
@@ -154,10 +154,7 @@ public class VertxApplication {
             /* 3.Initialize Infix **/
             Runner.run(() -> {
                 // Infix
-                Scatter<Vertx> scatter = Ut.singleton(InfixScatter.class);
-                scatter.connect(vertx);
-                // Injection
-                scatter = Ut.singleton(AffluxScatter.class);
+                final Scatter<Vertx> scatter = Ut.singleton(InfixScatter.class);
                 scatter.connect(vertx);
             }, "infix-afflux-runner");
 
@@ -166,13 +163,6 @@ public class VertxApplication {
                 final Scatter<Vertx> scatter = Ut.singleton(CodexScatter.class);
                 scatter.connect(vertx);
             }, "codex-engine-runner");
-
-            /* 5.Plugin init */
-            /*
-            Runner.run(() -> {
-                final Scatter<Vertx> scatter = Ut.singleton(InitScatter.class);
-                scatter.connect(vertx);
-            }, "initializer-runner");*/
         });
     }
 }

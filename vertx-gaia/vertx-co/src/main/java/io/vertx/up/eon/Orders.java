@@ -50,6 +50,11 @@ public interface Orders {
      */
     int SECURE = 1_900_000;
     /**
+     * User Authorization
+     * 2,000,000
+     */
+    int SECURE_AUTHORIZATION = 2_000_000;
+    /**
      * Sign for request ( Sign Request )
      * 3,000,000
      */

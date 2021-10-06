@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>vertx-ifx</artifactId>
+        <groupId>cn.vertxup</groupId>
+        <version>0.7.0</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>zero-ifx-auth</artifactId>
+    <name>Infix:「zero-ifx-auth」Authenticate / Authorization</name>
+    <dependencies>
+        <!-- JWT -->
+        <dependency>
+            <groupId>io.vertx</groupId>
+            <artifactId>vertx-auth-jwt</artifactId>
+        </dependency>
+        <!-- OAuth2 -->
+        <dependency>
+            <groupId>io.vertx</groupId>
+            <artifactId>vertx-auth-oauth2</artifactId>
+        </dependency>
+        <!-- Web -->
+        <dependency>
+            <groupId>io.vertx</groupId>
+            <artifactId>vertx-auth-webauthn</artifactId>
+        </dependency>
+        <!-- Digest -->
+        <dependency>
+            <groupId>io.vertx</groupId>
+            <artifactId>vertx-auth-htdigest</artifactId>
+        </dependency>
+    </dependencies>
+</project>

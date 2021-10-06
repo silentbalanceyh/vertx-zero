@@ -4,7 +4,7 @@ import cn.vertxup.rbac.domain.tables.daos.OAccessTokenDao;
 import cn.vertxup.rbac.domain.tables.pojos.OAccessToken;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.rbac.atom.ScSession;
+import io.vertx.tp.rbac.logged.ScUser;
 import io.vertx.tp.rbac.refine.Sc;
 import io.vertx.up.eon.Values;
 import io.vertx.up.unity.Ux;
@@ -47,8 +47,8 @@ public class JwtService implements JwtStub {
          */
         return Ux.Jooq.on(OAccessTokenDao.class)
             .insertAsync(accessToken)
-            .compose(item -> ScSession.initAuthorization(data))
-            .compose(initialized -> Ux.future(response));
+            .compose(item -> ScUser.login(data))
+            .compose(logged -> Ux.future(response));
     }
 
     @Override

@@ -51,10 +51,18 @@ public final class UpStatus {
       "\001(\005\022\023\n\013interval_us\030\002 \001(\005B!\n\023io.vertx.tp." +
       "ipc.eonB\010UpStatusP\001b\006proto3"
     };
-    descriptor = com.google.protobuf.Descriptors.FileDescriptor
+    com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
+        new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
+          public com.google.protobuf.ExtensionRegistry assignDescriptors(
+              com.google.protobuf.Descriptors.FileDescriptor root) {
+            descriptor = root;
+            return null;
+          }
+        };
+    com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
         new com.google.protobuf.Descriptors.FileDescriptor[] {
-        });
+        }, assigner);
     internal_static_io_vertx_tp_ipc_eon_IpcStatus_descriptor =
       getDescriptor().getMessageTypes().get(0);
     internal_static_io_vertx_tp_ipc_eon_IpcStatus_fieldAccessorTable = new

@@ -6,8 +6,6 @@ import io.vertx.core.CompositeFuture;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.ext.web.RoutingContext;
-import io.vertx.up.commune.Envelop;
 import io.vertx.up.commune.secure.Acl;
 import io.vertx.up.log.Annal;
 
@@ -61,44 +59,17 @@ public class Sc {
     }
 
     /*
-     * Uri normalize and extraction of tool
-     */
-    public static String uri(final String uri, final String requestUri) {
-        return ScPhase.uri(uri, requestUri);
-    }
-
-    public static String uri(final RoutingContext context) {
-        return ScPhase.uri(context);
-    }
-
-    /*
      * cache information
      * 1. Code: Authorization Code Cache Pool
      *    - get data from code cache
      *    - put data into code cache
      */
     public static <V> Future<V> cacheCode(final String key) {
-        return ScCache.code(key);
+        return ScTool.code(key);
     }
 
     public static <V> Future<V> cacheCode(final String key, final V value) {
-        return ScCache.code(key, value);
-    }
-
-    public static <V> Future<V> cachePermission(final String key) {
-        return ScCache.permission(key);
-    }
-
-    public static <V> Future<V> cachePermission(final String key, final V value) {
-        return ScCache.permission(key, value);
-    }
-
-    public static <V> Future<V> clearPermission(final String key) {
-        return ScCache.permissionClear(key);
-    }
-
-    public static Future<JsonObject> cacheBound(final RoutingContext context, final Envelop envelop) {
-        return ScPhase.cacheBound(context, envelop);
+        return ScTool.code(key, value);
     }
 
     /*
@@ -108,16 +79,16 @@ public class Sc {
      * - codeLength
      * - codePool
      */
-    public static String generateCode() {
-        return ScTool.generateCode();
+    public static String valueCode() {
+        return ScTool.valueCode();
     }
 
-    public static String generateProfileKey(final SResource resource) {
-        return ScTool.generateProfileKey(resource);
+    public static String valuePassword() {
+        return ScTool.valuePassword();
     }
 
-    public static String generatePwd() {
-        return ScTool.generatePwd();
+    public static String valueProfile(final SResource resource) {
+        return ScTool.valueProfile(resource);
     }
 
     /*

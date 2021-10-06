@@ -1,8 +1,8 @@
 package io.vertx.tp.optic.atom;
 
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.ke.init.KePin;
 import io.vertx.tp.ke.refine.Ke;
+import io.vertx.tp.optic.Pocket;
 import io.vertx.up.log.Annal;
 
 import java.io.Serializable;
@@ -20,7 +20,7 @@ public class Income implements Serializable {
     private final transient List<String> names = new ArrayList<>();
 
     private <T> Income(final Class<T> key) {
-        final Lexeme<T> lexeme = KePin.get(key);
+        final Lexeme<T> lexeme = Pocket.get(key);
         if (Objects.nonNull(lexeme)) {
             this.names.addAll(lexeme.params());
         }

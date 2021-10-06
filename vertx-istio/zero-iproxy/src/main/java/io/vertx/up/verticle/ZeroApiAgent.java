@@ -12,7 +12,7 @@ import io.vertx.up.log.Annal;
 import io.vertx.up.uca.options.DynamicVisitor;
 import io.vertx.up.uca.options.ServerVisitor;
 import io.vertx.up.uca.rs.Axis;
-import io.vertx.up.uca.rs.monitor.MeansureAxis;
+import io.vertx.up.uca.monitor.MeansureAxis;
 import io.vertx.up.uca.rs.router.PointAxis;
 import io.vertx.up.uca.rs.router.RouterAxis;
 import io.vertx.up.uca.rs.router.WallAxis;

@@ -8,7 +8,6 @@ import io.vertx.tp.ambient.atom.AtConfig;
 import io.vertx.tp.ambient.cv.AtMsg;
 import io.vertx.tp.ambient.init.AtPin;
 import io.vertx.tp.ambient.refine.At;
-import io.vertx.tp.ke.refine.Ke;
 import io.vertx.tp.plugin.excel.ExcelClient;
 import io.vertx.tp.plugin.excel.ExcelInfix;
 import io.vertx.up.atom.unity.Uson;
@@ -75,7 +74,7 @@ public class DatumInit implements Init {
                 client.importAsync(filename, result -> {
                     At.infoApp(LOGGER, AtMsg.INIT_DATUM_EACH, filename);
                     if (result.succeeded()) {
-                        pre.complete(Ke.Result.bool(filename, Boolean.TRUE));
+                        pre.complete(Ux.outBool(filename, Boolean.TRUE));
                     } else {
                         pre.fail(result.cause());
                     }

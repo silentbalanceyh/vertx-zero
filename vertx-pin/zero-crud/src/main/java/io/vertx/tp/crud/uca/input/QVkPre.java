@@ -19,7 +19,7 @@ class QVkPre implements Pre {
     @Override
     public Future<JsonObject> inJAsync(final JsonObject data, final IxMod in) {
         final Kv<String, HttpMethod> impactUri = Ix.onImpact(in);
-        final String sessionKey = Ke.keySession(
+        final String sessionKey = Ke.keyView(
             impactUri.getValue().name(),
             impactUri.getKey(),
             Vis.smart(data.getValue(KName.VIEW))

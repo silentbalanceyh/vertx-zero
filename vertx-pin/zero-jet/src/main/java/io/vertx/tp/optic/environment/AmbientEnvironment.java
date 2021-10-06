@@ -2,7 +2,6 @@ package io.vertx.tp.optic.environment;
 
 import cn.vertxup.jet.domain.tables.daos.IApiDao;
 import cn.vertxup.jet.domain.tables.daos.IJobDao;
-import cn.vertxup.jet.domain.tables.daos.IServiceDao;
 import cn.vertxup.jet.domain.tables.pojos.IApi;
 import cn.vertxup.jet.domain.tables.pojos.IJob;
 import cn.vertxup.jet.domain.tables.pojos.IService;
@@ -12,9 +11,10 @@ import io.vertx.tp.jet.atom.JtJob;
 import io.vertx.tp.jet.atom.JtUri;
 import io.vertx.tp.plugin.database.DataPool;
 import io.vertx.up.commune.config.Database;
+import io.vertx.up.eon.KName;
 import io.vertx.up.fn.Fn;
+import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
-import org.jooq.Configuration;
 
 import java.sql.Connection;
 import java.util.HashSet;
@@ -28,6 +28,7 @@ import java.util.concurrent.ConcurrentMap;
  * 1) App / Source information here
  * 2) Pool ( DSLContext, Connection, DataSource )
  */
+// TODO: NEW VERSION
 public class AmbientEnvironment {
 
     /* Pool of Jobs, it will be consumed by each application */
@@ -42,11 +43,6 @@ public class AmbientEnvironment {
 
     /* Data source, DSLContext, DataSource */
     private final transient DataPool pool;
-    /*
-     * IApiDao / IServiceDao / IJobDao
-     */
-    private final transient IApiDao apiDao;
-    private final transient IJobDao jobDao;
 
     /*
      * Service Map
@@ -63,23 +59,11 @@ public class AmbientEnvironment {
         this.pool = DataPool.create(app.getSource());
         {
             /*
-             * IApi / IService / IJob Extracting from database
-             * Here, database should be current database instead of connected
-             *   pool database.
-             *  */
-            final DataPool currentPool = DataPool.create(Database.getCurrent());
-            final Configuration configuration = currentPool.getExecutor().configuration();
-            /*
-             * Dao initialization
-             */
-            this.apiDao = new IApiDao(configuration);
-            final IServiceDao serviceDao = new IServiceDao(configuration);
-            this.jobDao = new IJobDao(configuration);
-            /*
              * Service Init
              * serviceKey -> service
              */
-            final List<IService> serviceList = serviceDao.fetchBySigma(this.app.getSigma());
+            final List<IService> serviceList = Ux.Jooq.on(IApiDao.class, DataPool.create(Database.getCurrent()))
+                .fetch(KName.SIGMA, app.getSigma());
             this.serviceMap.putAll(Ut.elementZip(serviceList, IService::getKey, service -> service));
         }
     }
@@ -98,7 +82,8 @@ public class AmbientEnvironment {
     }
 
     private void initJobs() {
-        final List<IJob> jobList = this.jobDao.fetchBySigma(this.app.getSigma());
+        final List<IJob> jobList = Ux.Jooq.on(IJobDao.class, DataPool.create(Database.getCurrent()))
+            .fetch(KName.SIGMA, this.app.getSigma());
         if (this.jobs.isEmpty()) {
             /*
              * Map for JOB + Service
@@ -117,7 +102,8 @@ public class AmbientEnvironment {
     }
 
     private void initUris() {
-        final List<IApi> apiList = this.apiDao.fetchBySigma(this.app.getSigma());
+        final List<IApi> apiList = Ux.Jooq.on(IApiDao.class, DataPool.create(Database.getCurrent()))
+            .fetch(KName.SIGMA, this.app.getSigma());
         if (this.uris.isEmpty()) {
             /*
              * Map for API + Service

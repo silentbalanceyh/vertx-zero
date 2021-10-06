@@ -1,19 +1,18 @@
 package io.vertx.up.unity;
 
-import io.github.jklingsporn.vertx.jooq.future.VertxDAO;
 import io.vertx.core.*;
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.eventbus.Message;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.ext.auth.JWTOptions;
-import io.vertx.ext.auth.jwt.JWTAuthOptions;
-import io.vertx.ext.jwt.JWT;
+import io.vertx.ext.auth.User;
 import io.vertx.ext.web.FileUpload;
 import io.vertx.tp.plugin.database.DataPool;
+import io.vertx.tp.plugin.jooq.JooqDsl;
 import io.vertx.tp.plugin.jooq.JooqInfix;
 import io.vertx.up.atom.query.Pagination;
 import io.vertx.up.atom.record.Apt;
+import io.vertx.up.atom.secure.AegisItem;
 import io.vertx.up.atom.secure.Vis;
 import io.vertx.up.commune.Envelop;
 import io.vertx.up.commune.Record;
@@ -24,10 +23,13 @@ import io.vertx.up.commune.rule.RuleTerm;
 import io.vertx.up.eon.Constants;
 import io.vertx.up.eon.KName;
 import io.vertx.up.eon.Strings;
+import io.vertx.up.eon.em.AuthWall;
 import io.vertx.up.eon.em.ChangeFlag;
 import io.vertx.up.exception.WebException;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.fn.wait.Log;
+import io.vertx.up.secure.Lee;
+import io.vertx.up.secure.LeeBuiltIn;
 import io.vertx.up.uca.jooq.UxJoin;
 import io.vertx.up.uca.jooq.UxJooq;
 import io.vertx.up.util.Ut;
@@ -49,19 +51,24 @@ import java.util.function.*;
 public final class Ux {
 
     /*
+     * output part converting
+     */
+    public static JsonObject outBool(final boolean checked) {
+        return Async.bool(KName.RESULT, checked);
+    }
+
+    public static JsonObject outBool(final String key, final boolean checked) {
+        return Async.bool(key, checked);
+    }
+
+    /**
+     * Create new log instance for store `Annal` mapping
+     *
      * Debug method for help us to do development
      * 1) log:  for branch log creation
      * 2) debug:
      * 3) otherwise:
      * ( Business Part: Debugging )
-     */
-
-    /**
-     * Create new log instance for store `Annal` mapping
-     *
-     * @param clazz The logger target that contains `Annal`
-     *
-     * @return the instance of `io.vertx.up.fn.wait.Log`
      */
     public static Log log(final Class<?> clazz) {
         return Log.create(null == clazz ? Ux.class : clazz);
@@ -419,7 +426,26 @@ public final class Ux {
      * 5) futureE
      * -- futureE(T)
      * -- futureE(Supplier)
+     *
+     * Spec Data
+     * 6)
+     * -- futureJA(JsonArray)
+     * -- futureB(JsonObject)
+     * -- futureB(boolean)
      */
+
+
+    public static Future<JsonObject> futureB(final boolean checked) {
+        return To.future(outBool(checked));
+    }
+
+    public static Future<Boolean> futureB(final JsonObject checked) {
+        return To.future(Async.bool(checked));
+    }
+
+    public static Future<JsonObject> futureJA(final JsonArray array) {
+        return To.future(Async.array(array));
+    }
 
     public static <T> Function<Throwable, Future<T>> futureE(final T input) {
         return Async.toErrorFuture(() -> input);
@@ -989,6 +1015,17 @@ public final class Ux {
         return DiTool.dictTo(record, fabric);
     }
 
+    /*
+     * key part for extract data from environment
+     */
+    public static String keyUser(final User user) {
+        Objects.requireNonNull(user);
+        final JsonObject principle = user.principal();
+        final String accessToken = principle.getString(KName.ACCESS_TOKEN);
+        final JsonObject credential = Jwt.extract(accessToken);
+        return credential.getString(KName.USER);
+    }
+
     /**
      * Inner class of `Jooq` tool of Jooq Engine operations based on pojo here.
      * When developers want to access database and select zero default implementation.
@@ -1028,8 +1065,8 @@ public final class Ux {
          * @return UxJooq reference that has been initialized
          */
         public static UxJooq ons(final Class<?> clazz) {
-            final VertxDAO vertxDAO = (VertxDAO) JooqInfix.getDao(clazz, Constants.DEFAULT_JOOQ_HISTORY);
-            return Fn.pool(Cache.JOOQ_POOL_HIS, clazz, () -> new UxJooq(clazz, vertxDAO));
+            final JooqDsl dsl = JooqInfix.getDao(clazz, Constants.DEFAULT_JOOQ_HISTORY);
+            return Fn.pool(Cache.JOOQ_POOL_HIS, dsl.poolKey(), () -> new UxJooq(clazz, dsl));
         }
 
         /**
@@ -1049,8 +1086,8 @@ public final class Ux {
          * @return UxJooq reference that has been initialized
          */
         public static UxJooq on(final Class<?> clazz) {
-            final VertxDAO vertxDAO = (VertxDAO) JooqInfix.getDao(clazz);
-            return Fn.pool(Cache.JOOQ_POOL, clazz, () -> new UxJooq(clazz, vertxDAO));
+            final JooqDsl dsl = JooqInfix.getDao(clazz);
+            return Fn.pool(Cache.JOOQ_POOL, dsl.poolKey(), () -> new UxJooq(clazz, dsl));
         }
 
         /**
@@ -1062,8 +1099,8 @@ public final class Ux {
          * @return UxJooq reference that has been initialized
          */
         public static UxJooq on(final Class<?> clazz, final DataPool pool) {
-            final VertxDAO vertxDAO = (VertxDAO) JooqInfix.getDao(clazz, pool);
-            return Fn.pool(Cache.JOOQ_POOL, clazz, () -> new UxJooq(clazz, vertxDAO));
+            final JooqDsl dsl = JooqInfix.getDao(clazz, pool);
+            return Fn.pool(Cache.JOOQ_POOL, dsl.poolKey(), () -> new UxJooq(clazz, dsl));
         }
 
         /**
@@ -1075,8 +1112,8 @@ public final class Ux {
          * @return UxJooq reference that has been initialized
          */
         public static UxJooq on(final Class<?> clazz, final String key) {
-            final VertxDAO vertxDAO = (VertxDAO) JooqInfix.getDao(clazz, key);
-            return Fn.pool(Cache.JOOQ_POOL, clazz, () -> new UxJooq(clazz, vertxDAO));
+            final JooqDsl dsl = JooqInfix.getDao(clazz, key);
+            return Fn.pool(Cache.JOOQ_POOL, dsl.poolKey(), () -> new UxJooq(clazz, dsl));
         }
 
         public static boolean isEmpty(final JsonObject condition) {
@@ -1119,7 +1156,6 @@ public final class Ux {
         }
     }
 
-
     /*
      * The only one uniform configuration of tp here
      */
@@ -1135,43 +1171,32 @@ public final class Ux {
         }
     }
 
-    // -> Jwt
+    /*
+     * Here the Jwt class is for lagency system because all following method will be called and existed
+     * But the new structure is just like following:
+     *
+     * 1. Lee -> ( Impl ) by Service Loader
+     * 2. The `AuthWall.JWT` will be selected and called API of Lee interface
+     * 3. The final result is token ( encoding / decoding ) part
+     * 4. The implementation class is defined in `zero-ifx-auth` instead of standard framework
+     *
+     * If you want to use security module, you should set-up `zero-ifx-auth` infix instead, or
+     * you can run zero framework in non-secure mode
+     */
     public static class Jwt {
 
-        public static String token(final JsonObject claims) {
-            return UxJwt.generate(claims, new JWTOptions());
-        }
-
-        public static String token(final JsonObject claims, final Function<String, Buffer> funcBuffer) {
-            return UxJwt.generate(claims, new JWTOptions(), funcBuffer);
-        }
-
-        public static JsonObject extract(final JsonObject vertxToken) {
-            return UxJwt.extract(vertxToken.getString("jwt"));
+        public static String token(final JsonObject data) {
+            final Lee lee = Ut.service(LeeBuiltIn.class);
+            return lee.encode(data, AegisItem.configMap(AuthWall.JWT));
         }
 
         public static JsonObject extract(final String token) {
-            return UxJwt.extract(token);
+            final Lee lee = Ut.service(LeeBuiltIn.class);
+            return lee.decode(token, AegisItem.configMap(AuthWall.JWT));
         }
 
-        public static JsonObject extract(final String token, final JsonObject config) {
-            return UxJwt.extract(token, config);
-        }
-
-        public static JWT create(final JWTAuthOptions config) {
-            return UxJwt.create(new JWTAuthOptions(config), Ut::ioBuffer);
-        }
-
-        public static JWT create(final JsonObject config) {
-            return UxJwt.create(new JWTAuthOptions(config), Ut::ioBuffer);
-        }
-
-        public static JWT create(final JWTAuthOptions config, final Function<String, Buffer> funcBuffer) {
-            return UxJwt.create(config, funcBuffer);
-        }
-
-        public static JWT create(final JsonObject config, final Function<String, Buffer> funcBuffer) {
-            return UxJwt.create(new JWTAuthOptions(config), funcBuffer);
+        public static JsonObject extract(final JsonObject jwtToken) {
+            return extract(jwtToken.getString(KName.ACCESS_TOKEN));
         }
     }
 }

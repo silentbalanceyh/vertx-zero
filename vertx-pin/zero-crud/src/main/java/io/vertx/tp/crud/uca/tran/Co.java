@@ -6,7 +6,7 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.tp.crud.cv.Pooled;
 import io.vertx.tp.crud.uca.desk.IxMod;
 import io.vertx.tp.crud.uca.desk.IxWeb;
-import io.vertx.tp.error._501NotSupportException;
+import io.vertx.up.exception.web._501NotSupportException;
 import io.vertx.up.fn.Fn;
 
 import java.util.List;

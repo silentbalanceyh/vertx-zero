@@ -5,7 +5,6 @@ import io.vertx.core.Future;
 import io.vertx.core.Promise;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.ke.refine.Ke;
 import io.vertx.tp.plugin.excel.ExcelClient;
 import io.vertx.tp.plugin.excel.atom.ExRecord;
 import io.vertx.tp.plugin.excel.atom.ExTable;
@@ -18,6 +17,7 @@ import io.vertx.up.commune.Envelop;
 import io.vertx.up.eon.KName;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.unity.Ux;
+import io.vertx.up.util.Ut;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -78,7 +78,7 @@ public class FileActor {
                     /*
                      * Required: username, mobile, email
                      */
-                    if (Ke.isIn(record, KName.USERNAME)) {
+                    if (Ut.isIn(record, KName.USERNAME)) {
                         // TODO:
                         record.put(KName.LANGUAGE, "cn");
                         prepared.add(record);
@@ -89,7 +89,7 @@ public class FileActor {
                 final String sigma = headers.getString(KName.SIGMA);
                 final IdcStub stub = IdcStub.create(sigma);
 
-                final String user = Ke.keyUser(request);
+                final String user = request.userId();
                 return stub.saveAsync(prepared, user);
             });
         } else {

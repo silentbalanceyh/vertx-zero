@@ -39,16 +39,28 @@ public @interface Wall {
 
     /**
      * Value for wall sequence, it's for auth handler chain.
-     * 1. All the wall class must contains different value
+     *
+     * 「Old Version」:
+     * 1. All the wall class must contain different value
      * 2. The major wall should be 0, others could invoke be 1, 2, 3.
      * 3. The wall handler sequence should be triggered by 0,1,2,3...
      * Multi handler mode needed for this value.
+     *
+     * 「New Version」:
+     * 1. The order could be let your wall grouped by path, it means that this parameter is used
+     * for one path that contains n Aegis configuration, then the ChainAuthHandler could be
+     * used here. Please be careful the order is only for "grouping", it's different from
+     * the route order, it's IMPORTANT here.
+     *
+     * 2. If you defined multi authorization method, the system will pick up the one whose order
+     * is the smallest
      *
      * @return handler order value that will be built into security chain.
      */
     int order() default Values.ZERO;
 
-    /**
+    /*
+     * Use AuthType.EXTENSION instead
      * Whether current authorization mode is user-defined
      * 1. The default value is false, it means that you must implement AuthHandler method annotated with @Authenticate
      * 2. If default value is true, you must implement tha phase method as following:
@@ -59,5 +71,6 @@ public @interface Wall {
      *
      * @return The phase that occurs in security limitation.
      */
-    boolean define() default false;
+    // boolean define() default false;
+    Class<?> handler() default Void.class;
 }

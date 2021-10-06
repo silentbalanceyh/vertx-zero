@@ -13,7 +13,6 @@ public interface IpcResponseOrBuilder extends
    * </pre>
    *
    * <code>.io.vertx.tp.ipc.eon.IpcEnvelop envelop = 1;</code>
-   * @return Whether the envelop field is set.
    */
   boolean hasEnvelop();
   /**
@@ -22,7 +21,6 @@ public interface IpcResponseOrBuilder extends
    * </pre>
    *
    * <code>.io.vertx.tp.ipc.eon.IpcEnvelop envelop = 1;</code>
-   * @return The envelop.
    */
   io.vertx.tp.ipc.eon.IpcEnvelop getEnvelop();
   /**
@@ -40,7 +38,6 @@ public interface IpcResponseOrBuilder extends
    * </pre>
    *
    * <code>string client_id = 2;</code>
-   * @return The clientId.
    */
   java.lang.String getClientId();
   /**
@@ -49,7 +46,6 @@ public interface IpcResponseOrBuilder extends
    * </pre>
    *
    * <code>string client_id = 2;</code>
-   * @return The bytes for clientId.
    */
   com.google.protobuf.ByteString
       getClientIdBytes();
@@ -60,7 +56,6 @@ public interface IpcResponseOrBuilder extends
    * </pre>
    *
    * <code>string oauth_scope = 3;</code>
-   * @return The oauthScope.
    */
   java.lang.String getOauthScope();
   /**
@@ -69,7 +64,6 @@ public interface IpcResponseOrBuilder extends
    * </pre>
    *
    * <code>string oauth_scope = 3;</code>
-   * @return The bytes for oauthScope.
    */
   com.google.protobuf.ByteString
       getOauthScopeBytes();

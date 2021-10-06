@@ -3,8 +3,8 @@ package io.vertx.up.uca.rs.config;
 import io.vertx.core.DeploymentOptions;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
-import io.vertx.up.uca.deployment.DeployRotate;
-import io.vertx.up.uca.deployment.Rotate;
+import io.vertx.up.runtime.deployment.DeployRotate;
+import io.vertx.up.runtime.deployment.Rotate;
 import io.vertx.up.uca.rs.Extractor;
 import io.vertx.up.util.Ut;
 

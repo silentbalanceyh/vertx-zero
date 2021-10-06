@@ -34,7 +34,7 @@ public class UserActor {
      */
     @Address(Addr.User.INFORMATION)
     public Future<JsonObject> information(final Envelop envelop) {
-        final String userId = envelop.jwt("user");
+        final String userId = envelop.userId();
         /*
          * Async for user information
          */
@@ -46,22 +46,22 @@ public class UserActor {
         /*
          * Async for user password / modification
          */
-        final String userId = envelop.jwt("user");
+        final String userId = envelop.userId();
         final JsonObject params = Ux.getJson(envelop);
         return this.stub.updateUser(userId, params);
     }
 
     @Address(Addr.User.PROFILE)
     public Future<JsonObject> profile(final Envelop envelop) {
-        final String userId = envelop.jwt("user");
+        final String userId = envelop.userId();
         final JsonObject params = Ux.getJson(envelop);
         return this.stub.updateEmployee(userId, params);
     }
 
     @Address(Addr.Auth.LOGOUT)
     public Future<Boolean> logout(final Envelop envelop) {
-        final String token = envelop.jwt();
-        final String habitus = envelop.jwt("habitus");
+        final String token = envelop.token();
+        final String habitus = envelop.token("habitus");
         return this.loginStub.logout(token, habitus).compose(result -> {
             /*
              * Here we should do

@@ -5,7 +5,7 @@
     <parent>
         <artifactId>vertx-zero</artifactId>
         <groupId>cn.vertxup</groupId>
-        <version>0.7.0-SNAPSHOT</version>
+        <version>0.7.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -19,11 +19,11 @@
         <module>zero-ifx-history</module>
         <module>zero-ifx-iqiy</module>
         <module>zero-ifx-mongo</module>
-        <module>zero-ifx-native</module>
         <module>zero-ifx-neo4j</module>
         <module>zero-ifx-redis</module>
         <module>zero-ifx-sms</module>
         <module>zero-ifx-shell</module>
+        <module>zero-ifx-auth</module>
     </modules>
     <dependencies>
         <dependency>

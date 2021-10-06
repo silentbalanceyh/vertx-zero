@@ -28,7 +28,7 @@ public interface ApeakMy {
      *      "sigma": "xxx",
      *      "resourceId": "xxx",
      *      "principle": {
-     *          "jwt": "token"
+     *          "access_token": "token"
      *      }
      * }
      * token: {

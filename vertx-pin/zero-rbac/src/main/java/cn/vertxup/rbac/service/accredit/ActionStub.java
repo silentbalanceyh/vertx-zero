@@ -22,7 +22,6 @@ import java.util.List;
  */
 public interface ActionStub {
 
-
     Future<SAction> fetchAction(String normalizedUri, HttpMethod method);
 
     Future<SAction> fetchAction(String normalizedUri, HttpMethod method, String sigma);

@@ -5,7 +5,6 @@ import io.vertx.core.MultiMap;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.plugin.jooq.JooqInfix;
-import io.vertx.up.eon.Constants;
 import io.vertx.up.log.Annal;
 import io.vertx.up.util.Ut;
 import org.jooq.*;
@@ -54,10 +53,10 @@ class TrashBuilder {
              * 1) such as `ci.server` that contains `.`;
              * 2) such as `x-tabular` that contains `-`;
              */
-            .replace('.', '_' )
-            .replace('-', '_' );
+            .replace('.', '_')
+            .replace('-', '_');
         this.tableName = "HIS_" + tableName;
-        this.context = JooqInfix.getDSL(Constants.DEFAULT_JOOQ_HISTORY);
+        this.context = JooqInfix.contextTrash();
     }
 
     @Fluent

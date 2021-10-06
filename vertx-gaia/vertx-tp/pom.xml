@@ -5,7 +5,7 @@
     <parent>
         <artifactId>vertx-gaia</artifactId>
         <groupId>cn.vertxup</groupId>
-        <version>0.7.0-SNAPSHOT</version>
+        <version>0.7.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <name>Kernel:「vertx-tp」Integration</name>
@@ -23,27 +23,25 @@
         <!-- JooQ -->
         <dependency>
             <groupId>io.github.jklingsporn</groupId>
-            <artifactId>vertx-jooq-future</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>io.github.jklingsporn</groupId>
-            <artifactId>vertx-jooq-generate</artifactId>
+            <artifactId>vertx-jooq-classic-jdbc</artifactId>
         </dependency>
         <dependency>
             <groupId>org.jooq</groupId>
             <artifactId>jooq</artifactId>
         </dependency>
-
+        <dependency>
+            <groupId>javax.xml.bind</groupId>
+            <artifactId>jaxb-api</artifactId>
+        </dependency>
         <!-- Health Checking -->
         <dependency>
             <groupId>io.vertx</groupId>
             <artifactId>vertx-health-check</artifactId>
         </dependency>
-
-        <!-- Jwt -->
+        <!-- Auth Common Framework for different Authorization -->
         <dependency>
             <groupId>io.vertx</groupId>
-            <artifactId>vertx-auth-jwt</artifactId>
+            <artifactId>vertx-auth-common</artifactId>
         </dependency>
         <!-- Jooq -->
         <dependency>

@@ -8,7 +8,6 @@ import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.auth.User;
-import io.vertx.tp.ke.refine.Ke;
 import io.vertx.tp.rbac.cv.Addr;
 import io.vertx.tp.rbac.refine.Sc;
 import io.vertx.up.annotations.Address;
@@ -102,7 +101,7 @@ public class PermActor {
         final JsonArray removed = Ut.sureJArray(processed.getJsonArray("removed"));
         final JsonObject relation = Ut.sureJObject(processed.getJsonObject("relation"));
 
-        final String userKey = Ke.keyUser(user);
+        final String userKey = Ux.keyUser(user);
 
         // SPermSet
         final SPermSet permSet = new SPermSet();
@@ -157,7 +156,7 @@ public class PermActor {
 
     @Address(Addr.Perm.DELETE)
     public Future<Boolean> delete(final String key, final User user) {
-        final String userKey = Ke.keyUser(user);
+        final String userKey = Ux.keyUser(user);
         return this.stub.deleteAsync(key, userKey);
     }
 }

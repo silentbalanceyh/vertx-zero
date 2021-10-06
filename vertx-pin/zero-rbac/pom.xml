@@ -5,7 +5,7 @@
     <parent>
         <artifactId>vertx-pin</artifactId>
         <groupId>cn.vertxup</groupId>
-        <version>0.7.0-SNAPSHOT</version>
+        <version>0.7.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -16,6 +16,17 @@
         <dependency>
             <groupId>cn.vertxup</groupId>
             <artifactId>zero-ke</artifactId>
+        </dependency>
+        <!-- Authorization -->
+        <dependency>
+            <groupId>cn.vertxup</groupId>
+            <artifactId>zero-ifx-auth</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>cn.vertxup</groupId>
+            <artifactId>zero-ifx-auth</artifactId>
+            <version>0.7.0</version>
+            <scope>compile</scope>
         </dependency>
     </dependencies>
     <build>

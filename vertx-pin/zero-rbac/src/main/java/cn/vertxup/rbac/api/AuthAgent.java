@@ -17,7 +17,6 @@ import javax.ws.rs.Path;
  * 3. Access /oauth/token to get token
  */
 @EndPoint
-@Path("/oauth")
 public interface AuthAgent {
 
     /*
@@ -30,7 +29,7 @@ public interface AuthAgent {
      * }
      */
     @POST
-    @Path("login")
+    @Path("/oauth/login")
     @Address(Addr.Auth.LOGIN)
     JsonObject login(@BodyParam @Codex JsonObject data);
 
@@ -46,7 +45,7 @@ public interface AuthAgent {
      * }
      */
     @POST
-    @Path("authorize")
+    @Path("/oauth/authorize")
     @Address(Addr.Auth.AUTHORIZE)
     JsonObject authorize(@BodyParam @Codex JsonObject data);
 
@@ -60,7 +59,7 @@ public interface AuthAgent {
      * }
      */
     @POST
-    @Path("token")
+    @Path("/oauth/token")
     @Address(Addr.Auth.TOKEN)
     JsonObject token(@BodyParam @Codex JsonObject data);
 }

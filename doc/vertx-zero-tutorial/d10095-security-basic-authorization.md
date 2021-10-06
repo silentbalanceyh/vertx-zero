@@ -36,7 +36,7 @@ import io.vertx.ext.web.handler.AuthHandler;
 import io.vertx.up.annotations.Authenticate;
 import io.vertx.up.annotations.Wall;
 import io.vertx.tp.plugin.mongo.MongoInfix;
-import io.vertx.up.secure.handler.BasicOstium;
+import io.vertx.up.secure.component.BasicOstium;
 
 @Wall(value = "mongox", path = "/exp4/*")
 public class MongoKeeper {
@@ -44,7 +44,7 @@ public class MongoKeeper {
     @Authenticate
     public AuthHandler authenticate(final JsonObject config) {
         return BasicOstium.create(
-                MongoAuth.create(MongoInfix.getClient(), config)
+            MongoAuth.create(MongoInfix.getClient(), config)
         );
     }
 }

@@ -131,6 +131,10 @@ public class ActIn extends ActMapping implements Serializable {
         return paramMap.get(ID.Header.X_SIGMA);
     }
 
+    public String userId() {
+        return this.envelop.userId();
+    }
+
     /*
      * 1) Set input data to Record object ( reference here )
      */

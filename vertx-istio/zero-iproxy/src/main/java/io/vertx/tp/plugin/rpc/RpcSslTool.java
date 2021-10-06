@@ -48,7 +48,8 @@ public class RpcSslTool {
                     // Enable SSL
                     builder.useSsl(pipe.parse(sslConfig));
                 } else {
-                    builder.usePlaintext(true);
+                    // 4.x
+                    builder.usePlaintext();
                 }
             });
             final ManagedChannel channel = builder.build();
@@ -78,12 +79,13 @@ public class RpcSslTool {
 
             Fn.safeSemi(null != config && null != config.getValue("rpc"), LOGGER, () -> {
                 // Extension or Uniform
+                assert config != null;
                 final JsonObject rpcConfig = config.getJsonObject("rpc");
                 final String name = data.getName();
                 final JsonObject ssl = RpcHelper.getSslConfig(name, rpcConfig);
                 if (ssl.isEmpty()) {
-                    // Disabled SSL
-                    builder.usePlaintext(true);
+                    // Disabled SSL, 4.x
+                    builder.usePlaintext();
                 } else {
                     final TrustPipe<JsonObject> pipe = getPipe(ssl);
                     // Enabled SSL

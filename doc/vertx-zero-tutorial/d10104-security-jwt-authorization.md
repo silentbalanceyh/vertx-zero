@@ -109,8 +109,8 @@ import io.vertx.up.unity.Ux;
 import io.vertx.up.annotations.Authenticate;
 import io.vertx.up.annotations.Wall;
 import io.vertx.up.secure.Security;
-import io.vertx.up.secure.handler.JwtOstium;
-import io.vertx.up.secure.provider.JwtAuth;
+import io.vertx.up.secure.component.JwtOstium;
+import io.vertx.up.secure.provider.authenticate.JwtAuth;
 
 @Wall(value = "jwt", path = "/api/secure/*")
 @SuppressWarnings("all")
@@ -125,8 +125,8 @@ public class JwtWall implements Security {
     @Override
     public Future<JsonObject> store(final JsonObject filter) {
         final JsonObject seed = new JsonObject()
-                .put("username", filter.getString("username"))
-                .put("id", filter.getString("_id"));
+            .put("username", filter.getString("username"))
+            .put("id", filter.getString("_id"));
         // Build the data that you want to store into config.
         // 1. Generate Token
         final String config = Ux.Jwt.config(seed);
@@ -141,8 +141,8 @@ public class JwtWall implements Security {
         final String config = data.getString("jwt");
         // 2. Set filters to check whether user id and config are matching in storage ( Mongo DB )
         final JsonObject filters = new JsonObject()
-                .put("_id", extracted.getString("id"))
-                .put("config", config);
+            .put("_id", extracted.getString("id"))
+            .put("config", config);
         // 3. If matching, you can return Future<Boolean>, if it's true, JWT will continue.
         // If false, the workflow will be terminal and 401 replied.
         return Ux.Mongo.existing("DB_USER", filters);

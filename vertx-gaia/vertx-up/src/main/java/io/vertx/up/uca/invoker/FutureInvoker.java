@@ -38,10 +38,10 @@ public class FutureInvoker extends AbstractInvoker {
         this.getLogger().info(Info.MSG_FUTURE, this.getClass(), returnType, false);
         if (Envelop.class == tCls) {
             final Future<Envelop> result = Ut.invoke(proxy, method.getName(), envelop);
-            result.setHandler(item -> message.reply(item.result()));
+            result.onComplete(item -> message.reply(item.result()));
         } else {
             final Future tResult = Ut.invoke(proxy, method.getName(), envelop);
-            tResult.setHandler(Ux.handler(message));
+            tResult.onComplete(Ux.handler(message));
         }
     }
 
@@ -68,7 +68,7 @@ public class FutureInvoker extends AbstractInvoker {
                     .send(item))
                     .setHandler(Ux.handler(message)); */
             future.compose(this.nextEnvelop(vertx, method))
-                .setHandler(Ux.handler(message));
+                .onComplete(Ux.handler(message));
         } else {
             final Future future = Ut.invoke(proxy, method.getName(), envelop);
             /*
@@ -79,7 +79,7 @@ public class FutureInvoker extends AbstractInvoker {
                     .compose(item -> Future.succeededFuture(Ux.to(item)))
                     .setHandler(Ux.handler(message)); */
             future.compose(this.nextEnvelop(vertx, method))
-                .setHandler(Ux.handler(message));
+                .onComplete(Ux.handler(message));
         }
     }
 }

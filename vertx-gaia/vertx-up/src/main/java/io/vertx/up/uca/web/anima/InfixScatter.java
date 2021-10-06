@@ -78,7 +78,7 @@ public class InfixScatter implements Scatter<Vertx> {
             /* Instance reference **/
             final Object reference = Ut.singleton(clazz);
             /* Injects scanner **/
-            PLUGIN.inject(reference);
+            PLUGIN.createInjection(reference);
         }, "injects-plugin-scannner"));
     }
 

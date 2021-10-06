@@ -54,6 +54,10 @@ public class ScConfig implements Serializable {
      */
     private String permissionPool;
     /*
+     * Resource Pool when secondary cache enabled.
+     */
+    private String resourcePool;
+    /*
      * Password Init
      */
     private String passwordInit;
@@ -150,6 +154,14 @@ public class ScConfig implements Serializable {
         this.supportMultiApp = supportMultiApp;
     }
 
+    public String getResourcePool() {
+        return this.resourcePool;
+    }
+
+    public void setResourcePool(final String resourcePool) {
+        this.resourcePool = resourcePool;
+    }
+
     @Override
     public String toString() {
         return "ScConfig{" +
@@ -163,6 +175,7 @@ public class ScConfig implements Serializable {
             ", supportSecondary=" + this.supportSecondary +
             ", supportMultiApp=" + this.supportMultiApp +
             ", permissionPool='" + this.permissionPool + '\'' +
+            ", resourcePool=" + this.resourcePool + '\'' +
             ", passwordInit='" + this.passwordInit + '\'' +
             '}';
     }

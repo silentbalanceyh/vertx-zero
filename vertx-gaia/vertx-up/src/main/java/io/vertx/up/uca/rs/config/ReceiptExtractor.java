@@ -7,6 +7,7 @@ import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import io.vertx.up.runtime.Anno;
 import io.vertx.up.runtime.ZeroAnno;
+import io.vertx.up.uca.di.DiPlugin;
 import io.vertx.up.uca.rs.Extractor;
 import io.vertx.up.util.Ut;
 import io.vertx.zero.exception.AddressWrongException;
@@ -14,7 +15,6 @@ import io.vertx.zero.exception.AddressWrongException;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.util.HashSet;
-import java.util.Objects;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -24,6 +24,7 @@ import java.util.TreeSet;
 public class ReceiptExtractor implements Extractor<Set<Receipt>> {
 
     private static final Annal LOGGER = Annal.get(ReceiptExtractor.class);
+    private static final DiPlugin PLUGIN = DiPlugin.create(ReceiptExtractor.class);
 
     private static final Set<String> ADDRESS = new TreeSet<>();
 
@@ -37,7 +38,6 @@ public class ReceiptExtractor implements Extractor<Set<Receipt>> {
             // 3. Scan annotations
             .subscribe(annotations -> Observable.fromArray(annotations)
                 .map(addressAnno -> Ut.invoke(addressAnno, "value"))
-                .filter(Objects::nonNull)
                 // 4. Hit address
                 .subscribe(address -> ADDRESS.add(address.toString()))
                 .dispose())
@@ -60,7 +60,6 @@ public class ReceiptExtractor implements Extractor<Set<Receipt>> {
                 .filter(MethodResolver::isValid)
                 .filter(method -> method.isAnnotationPresent(Address.class))
                 .map(this::extract)
-                .filter(Objects::nonNull)
                 .subscribe(receipts::add)
                 .dispose();
             return receipts;
@@ -82,7 +81,7 @@ public class ReceiptExtractor implements Extractor<Set<Receipt>> {
         receipt.setAddress(address);
 
         // Fix: Instance class for proxy
-        final Object proxy = Ut.singleton(clazz);
+        final Object proxy = PLUGIN.createComponent(clazz);
         receipt.setProxy(proxy);
         return receipt;
     }

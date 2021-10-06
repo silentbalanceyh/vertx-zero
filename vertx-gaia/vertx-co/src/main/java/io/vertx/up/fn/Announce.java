@@ -141,6 +141,7 @@ final class Announce {
             Annal.sure(logger, () -> logger.vertx(ex));
             throw ex;
         } catch (final Throwable ex) {
+            ex.printStackTrace();
             Annal.sure(logger, () -> logger.jvm(ex));
         }
     }

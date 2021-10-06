@@ -9,14 +9,14 @@ import io.vertx.up.atom.Kv;
 import io.vertx.up.atom.Rule;
 import io.vertx.up.atom.agent.Depot;
 import io.vertx.up.atom.agent.Event;
+import io.vertx.up.atom.container.VInstance;
 import io.vertx.up.commune.Envelop;
 import io.vertx.up.exception.WebException;
 import io.vertx.up.exception.web._411ContentLengthException;
 import io.vertx.up.extension.pointer.PluginExtension;
 import io.vertx.up.log.Annal;
-import io.vertx.up.uca.container.VInstance;
+import io.vertx.up.secure.validation.Validator;
 import io.vertx.up.uca.rs.announce.Rigor;
-import io.vertx.up.uca.rs.validation.Validator;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
@@ -147,6 +147,8 @@ class Flower {
             } else {
                 return null;
             }
-        } else return null;
+        } else {
+            return null;
+        }
     }
 }

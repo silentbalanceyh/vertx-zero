@@ -13,8 +13,8 @@ import java.text.MessageFormat;
  */
 public final class Errors {
 
-    private static final String ZERO_ERROR = "[ERR{0}] ({1}) ZeroException occurs: {2}.";
-    private static final String WEB_ERROR = "[ERR{0}] ({1}) Web Exception occurs: {2}.";
+    private static final String ZERO_ERROR = "[ERR{0}] ({1}) Zero Error: {2}.";
+    private static final String WEB_ERROR = "[ERR{0}] ({1}) Web Error: {2}.";
 
     public static String normalize(final Class<?> clazz,
                                    final int code,

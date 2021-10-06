@@ -14,7 +14,7 @@ import io.vertx.up.commune.Envelop;
 import io.vertx.up.eon.em.IpcType;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
-import io.vertx.up.uca.container.VUser;
+import io.vertx.up.atom.container.VUser;
 import io.vertx.up.util.Ut;
 
 /**
