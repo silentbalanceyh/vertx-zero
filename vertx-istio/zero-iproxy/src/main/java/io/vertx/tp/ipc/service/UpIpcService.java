@@ -25,26 +25,35 @@ public final class UpIpcService {
     java.lang.String[] descriptorData = {
       "\n\026zero.def.service.proto\022\027io.vertx.tp.ip" +
       "c.service\032\022zero.envelop.proto\032\021zero.stre" +
-      "am.proto2w\n\016ConsumeService\022e\n\nOutputCall" +
-      "\022(.io.vertx.tp.ipc.eon.StreamServerReque" +
-      "st\032).io.vertx.tp.ipc.eon.StreamServerRes" +
-      "ponse(\0010\0012v\n\016ProduceService\022d\n\tInputCall" +
-      "\022(.io.vertx.tp.ipc.eon.StreamClientReque" +
-      "st\032).io.vertx.tp.ipc.eon.StreamClientRes" +
-      "ponse(\0010\0012^\n\014UnityService\022N\n\tUnityCall\022\037" +
-      ".io.vertx.tp.ipc.eon.IpcRequest\032 .io.ver" +
-      "tx.tp.ipc.eon.IpcResponse2x\n\016DupliexServ" +
-      "ice\022f\n\013DupliexCall\022(.io.vertx.tp.ipc.eon" +
-      ".StreamClientRequest\032).io.vertx.tp.ipc.e" +
-      "on.StreamServerResponse(\0010\001B)\n\027io.vertx." +
-      "tp.ipc.serviceB\014UpIpcServiceP\001b\006proto3"
+      "am.proto2`\n\014UnityService\022P\n\tUnityCall\022\037." +
+      "io.vertx.tp.ipc.eon.IpcRequest\032 .io.vert" +
+      "x.tp.ipc.eon.IpcResponse\"\0002y\n\016ConsumeSer" +
+      "vice\022g\n\nOutputCall\022(.io.vertx.tp.ipc.eon" +
+      ".StreamServerRequest\032).io.vertx.tp.ipc.e" +
+      "on.StreamServerResponse\"\000(\0010\0012x\n\016Produce" +
+      "Service\022f\n\tInputCall\022(.io.vertx.tp.ipc.e" +
+      "on.StreamClientRequest\032).io.vertx.tp.ipc",
+      ".eon.StreamClientResponse\"\000(\0010\0012z\n\016Dupli" +
+      "exService\022h\n\013DupliexCall\022(.io.vertx.tp.i" +
+      "pc.eon.StreamClientRequest\032).io.vertx.tp" +
+      ".ipc.eon.StreamServerResponse\"\000(\0010\001B)\n\027i" +
+      "o.vertx.tp.ipc.serviceB\014UpIpcServiceP\001b\006" +
+      "proto3"
     };
-    descriptor = com.google.protobuf.Descriptors.FileDescriptor
+    com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
+        new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
+          public com.google.protobuf.ExtensionRegistry assignDescriptors(
+              com.google.protobuf.Descriptors.FileDescriptor root) {
+            descriptor = root;
+            return null;
+          }
+        };
+    com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
         new com.google.protobuf.Descriptors.FileDescriptor[] {
           io.vertx.tp.ipc.eon.UpEnvelop.getDescriptor(),
           io.vertx.tp.ipc.eon.UpStream.getDescriptor(),
-        });
+        }, assigner);
     io.vertx.tp.ipc.eon.UpEnvelop.getDescriptor();
     io.vertx.tp.ipc.eon.UpStream.getDescriptor();
   }

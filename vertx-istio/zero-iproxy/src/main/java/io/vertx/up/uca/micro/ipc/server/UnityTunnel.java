@@ -5,7 +5,7 @@ import io.vertx.core.Future;
 import io.vertx.core.Vertx;
 import io.vertx.tp.ipc.eon.IpcRequest;
 import io.vertx.tp.ipc.eon.IpcResponse;
-import io.vertx.tp.ipc.service.UnityServiceGrpc;
+import io.vertx.tp.ipc.service.VertxUnityServiceGrpc;
 import io.vertx.up.annotations.Ipc;
 import io.vertx.up.atom.rpc.IpcData;
 import io.vertx.up.commune.Envelop;
@@ -30,8 +30,7 @@ public class UnityTunnel implements Tunnel {
 
     @Override
     public BindableService init(final Vertx vertx) {
-        return new UnityServiceGrpc.UnityServiceVertxImplBase() {
-            @Override
+        return new VertxUnityServiceGrpc.UnityServiceVertxImplBase() {
             public void unityCall(final IpcRequest request, final Future<IpcResponse> future) {
                 // IpcData building
                 final IpcData data = DataEncap.consume(request, IpcType.UNITY);

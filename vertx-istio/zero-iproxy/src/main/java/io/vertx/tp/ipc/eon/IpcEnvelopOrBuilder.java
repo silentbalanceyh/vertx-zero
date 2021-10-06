@@ -13,7 +13,6 @@ public interface IpcEnvelopOrBuilder extends
    * </pre>
    *
    * <code>.io.vertx.tp.ipc.eon.em.Format type = 1;</code>
-   * @return The enum numeric value on the wire for type.
    */
   int getTypeValue();
   /**
@@ -22,7 +21,6 @@ public interface IpcEnvelopOrBuilder extends
    * </pre>
    *
    * <code>.io.vertx.tp.ipc.eon.em.Format type = 1;</code>
-   * @return The type.
    */
   io.vertx.tp.ipc.eon.em.Format getType();
 
@@ -32,7 +30,6 @@ public interface IpcEnvelopOrBuilder extends
    * </pre>
    *
    * <code>string body = 2;</code>
-   * @return The body.
    */
   java.lang.String getBody();
   /**
@@ -41,7 +38,6 @@ public interface IpcEnvelopOrBuilder extends
    * </pre>
    *
    * <code>string body = 2;</code>
-   * @return The bytes for body.
    */
   com.google.protobuf.ByteString
       getBodyBytes();
@@ -52,7 +48,6 @@ public interface IpcEnvelopOrBuilder extends
    * </pre>
    *
    * <code>bytes stream = 3;</code>
-   * @return The stream.
    */
   com.google.protobuf.ByteString getStream();
 
@@ -62,7 +57,6 @@ public interface IpcEnvelopOrBuilder extends
    * </pre>
    *
    * <code>string name = 4;</code>
-   * @return The name.
    */
   java.lang.String getName();
   /**
@@ -71,7 +65,6 @@ public interface IpcEnvelopOrBuilder extends
    * </pre>
    *
    * <code>string name = 4;</code>
-   * @return The bytes for name.
    */
   com.google.protobuf.ByteString
       getNameBytes();

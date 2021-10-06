@@ -1,6 +1,7 @@
 package io.vertx.tp.plugin.rpc;
 
 import io.vertx.core.AsyncResult;
+import io.vertx.core.Future;
 import io.vertx.core.Promise;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.ipc.eon.IpcResponse;
@@ -23,6 +24,18 @@ public class RpcRepdor {
         return new RpcRepdor(clazz);
     }
 
+    public Future<JsonObject> replyJson(final IpcResponse response) {
+        final Envelop envelop = DataEncap.out(response);
+        final JsonObject data = envelop.data();
+        LOGGER.info(Info.CLIENT_RESPONSE, data);
+        return Future.succeededFuture(data);
+    }
+
+    public Future<Envelop> reply(final IpcResponse response) {
+        final Envelop envelop = DataEncap.out(response);
+        return Future.succeededFuture(envelop);
+    }
+/*
     public void replyJson(
         final Promise<JsonObject> handler,
         final AsyncResult<IpcResponse> response) {
@@ -41,7 +54,7 @@ public class RpcRepdor {
                 ex.printStackTrace();
             }
         }
-    }
+    }*/
 
     public void reply(
         final Promise<Envelop> handler,

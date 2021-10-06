@@ -52,7 +52,7 @@ public final class UpStream {
       "st\0225\n\rresponse_type\030\001 \001(\0162\036.io.vertx.tp." +
       "ipc.eon.em.Format\022<\n\017response_params\030\002 \003" +
       "(\0132#.io.vertx.tp.ipc.eon.ResponseParams\022" +
-      "0\n\007envelop\030\003 \001(\0132\037.io.vertx.tp.ipc.eon.I" +
+      "0\n\007envelop\030\003 \001(\0132\037.io.vertx.tp.ipc.eon.I",
       "pcEnvelop\0226\n\talgorithm\030\004 \001(\0162#.io.vertx." +
       "tp.ipc.eon.em.Compression\0227\n\017response_st" +
       "atus\030\005 \001(\0132\036.io.vertx.tp.ipc.eon.IpcStat" +
@@ -60,13 +60,21 @@ public final class UpStream {
       "\001(\0132\037.io.vertx.tp.ipc.eon.IpcEnvelopB!\n\023" +
       "io.vertx.tp.ipc.eonB\010UpStreamP\001b\006proto3"
     };
-    descriptor = com.google.protobuf.Descriptors.FileDescriptor
+    com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
+        new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
+          public com.google.protobuf.ExtensionRegistry assignDescriptors(
+              com.google.protobuf.Descriptors.FileDescriptor root) {
+            descriptor = root;
+            return null;
+          }
+        };
+    com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
         new com.google.protobuf.Descriptors.FileDescriptor[] {
           io.vertx.tp.ipc.eon.em.UpEnum.getDescriptor(),
           io.vertx.tp.ipc.eon.UpStatus.getDescriptor(),
           io.vertx.tp.ipc.eon.UpEnvelop.getDescriptor(),
-        });
+        }, assigner);
     internal_static_io_vertx_tp_ipc_eon_StreamClientRequest_descriptor =
       getDescriptor().getMessageTypes().get(0);
     internal_static_io_vertx_tp_ipc_eon_StreamClientRequest_fieldAccessorTable = new

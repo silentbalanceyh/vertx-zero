@@ -1,23 +1,22 @@
 package io.vertx.tp.ipc.service;
 
-import static io.vertx.tp.ipc.service.ProduceServiceGrpc.getServiceDescriptor;
-import static io.grpc.stub.ServerCalls.asyncUnaryCall;
-import static io.grpc.stub.ServerCalls.asyncServerStreamingCall;
-import static io.grpc.stub.ServerCalls.asyncClientStreamingCall;
 import static io.grpc.stub.ServerCalls.asyncBidiStreamingCall;
+import static io.vertx.tp.ipc.service.ProduceServiceGrpc.getServiceDescriptor;
 
 
 @javax.annotation.Generated(
-value = "by VertxGrpc generator",
-comments = "Source: zero.def.service.proto")
+    value = "by VertxGrpc generator",
+    comments = "Source: zero.def.service.proto")
 public final class VertxProduceServiceGrpc {
-    private VertxProduceServiceGrpc() {}
+    private static final int METHODID_INPUT_CALL = 0;
+
+    private VertxProduceServiceGrpc() {
+    }
 
     public static ProduceServiceVertxStub newVertxStub(io.grpc.Channel channel) {
         return new ProduceServiceVertxStub(channel);
     }
 
-    
     public static final class ProduceServiceVertxStub extends io.grpc.stub.AbstractStub<ProduceServiceVertxStub> {
         private final io.vertx.core.impl.ContextInternal ctx;
         private ProduceServiceGrpc.ProduceServiceStub delegateStub;
@@ -41,7 +40,7 @@ public final class VertxProduceServiceGrpc {
 
         /**
          * <pre>
-         *  Server -&gt; Client
+         *  Direct: Client -&gt; Server -&gt; Client
          * </pre>
          */
         public io.vertx.core.streams.ReadStream<io.vertx.tp.ipc.eon.StreamClientResponse> inputCall(io.vertx.core.Handler<io.vertx.core.streams.WriteStream<io.vertx.tp.ipc.eon.StreamClientRequest>> hdlr) {
@@ -49,7 +48,6 @@ public final class VertxProduceServiceGrpc {
         }
     }
 
-    
     public static abstract class ProduceServiceVertxImplBase implements io.grpc.BindableService {
         private String compression;
 
@@ -65,33 +63,32 @@ public final class VertxProduceServiceGrpc {
 
         /**
          * <pre>
-         *  Server -&gt; Client
+         *  Direct: Client -&gt; Server -&gt; Client
          * </pre>
          */
         public void inputCall(io.vertx.core.streams.ReadStream<io.vertx.tp.ipc.eon.StreamClientRequest> request, io.vertx.core.streams.WriteStream<io.vertx.tp.ipc.eon.StreamClientResponse> response) {
             throw new io.grpc.StatusRuntimeException(io.grpc.Status.UNIMPLEMENTED);
         }
 
-        @java.lang.Override public final io.grpc.ServerServiceDefinition bindService() {
+        @java.lang.Override
+        public final io.grpc.ServerServiceDefinition bindService() {
             return io.grpc.ServerServiceDefinition.builder(getServiceDescriptor())
-                    .addMethod(
-                            io.vertx.tp.ipc.service.ProduceServiceGrpc.getInputCallMethod(),
-                            asyncBidiStreamingCall(
-                                    new MethodHandlers<
-                                            io.vertx.tp.ipc.eon.StreamClientRequest,
-                                            io.vertx.tp.ipc.eon.StreamClientResponse>(
-                                            this, METHODID_INPUT_CALL, compression)))
-                    .build();
+                .addMethod(
+                    ProduceServiceGrpc.METHOD_INPUT_CALL,
+                    asyncBidiStreamingCall(
+                        new MethodHandlers<
+                            io.vertx.tp.ipc.eon.StreamClientRequest,
+                            io.vertx.tp.ipc.eon.StreamClientResponse>(
+                            this, METHODID_INPUT_CALL, compression)))
+                .build();
         }
     }
 
-    private static final int METHODID_INPUT_CALL = 0;
-
     private static final class MethodHandlers<Req, Resp> implements
-            io.grpc.stub.ServerCalls.UnaryMethod<Req, Resp>,
-            io.grpc.stub.ServerCalls.ServerStreamingMethod<Req, Resp>,
-            io.grpc.stub.ServerCalls.ClientStreamingMethod<Req, Resp>,
-            io.grpc.stub.ServerCalls.BidiStreamingMethod<Req, Resp> {
+        io.grpc.stub.ServerCalls.UnaryMethod<Req, Resp>,
+        io.grpc.stub.ServerCalls.ServerStreamingMethod<Req, Resp>,
+        io.grpc.stub.ServerCalls.ClientStreamingMethod<Req, Resp>,
+        io.grpc.stub.ServerCalls.BidiStreamingMethod<Req, Resp> {
 
         private final ProduceServiceVertxImplBase serviceImpl;
         private final int methodId;
@@ -118,9 +115,9 @@ public final class VertxProduceServiceGrpc {
             switch (methodId) {
                 case METHODID_INPUT_CALL:
                     return (io.grpc.stub.StreamObserver<Req>) io.vertx.grpc.stub.ServerCalls.manyToMany(
-                            (io.grpc.stub.StreamObserver<io.vertx.tp.ipc.eon.StreamClientResponse>) responseObserver,
-                            compression,
-                            serviceImpl::inputCall);
+                        (io.grpc.stub.StreamObserver<io.vertx.tp.ipc.eon.StreamClientResponse>) responseObserver,
+                        compression,
+                        serviceImpl::inputCall);
                 default:
                     throw new java.lang.AssertionError();
             }

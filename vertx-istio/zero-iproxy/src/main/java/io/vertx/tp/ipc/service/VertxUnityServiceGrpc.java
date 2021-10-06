@@ -1,23 +1,22 @@
 package io.vertx.tp.ipc.service;
 
-import static io.vertx.tp.ipc.service.UnityServiceGrpc.getServiceDescriptor;
 import static io.grpc.stub.ServerCalls.asyncUnaryCall;
-import static io.grpc.stub.ServerCalls.asyncServerStreamingCall;
-import static io.grpc.stub.ServerCalls.asyncClientStreamingCall;
-import static io.grpc.stub.ServerCalls.asyncBidiStreamingCall;
+import static io.vertx.tp.ipc.service.UnityServiceGrpc.getServiceDescriptor;
 
 
 @javax.annotation.Generated(
-value = "by VertxGrpc generator",
-comments = "Source: zero.def.service.proto")
+    value = "by VertxGrpc generator",
+    comments = "Source: zero.def.service.proto")
 public final class VertxUnityServiceGrpc {
-    private VertxUnityServiceGrpc() {}
+    private static final int METHODID_UNITY_CALL = 0;
+
+    private VertxUnityServiceGrpc() {
+    }
 
     public static UnityServiceVertxStub newVertxStub(io.grpc.Channel channel) {
         return new UnityServiceVertxStub(channel);
     }
 
-    
     public static final class UnityServiceVertxStub extends io.grpc.stub.AbstractStub<UnityServiceVertxStub> {
         private final io.vertx.core.impl.ContextInternal ctx;
         private UnityServiceGrpc.UnityServiceStub delegateStub;
@@ -41,7 +40,7 @@ public final class VertxUnityServiceGrpc {
 
         /**
          * <pre>
-         *  Server -&gt; Client
+         *  Direct: Client -&gt; Server -&gt; Client
          * </pre>
          */
         public io.vertx.core.Future<io.vertx.tp.ipc.eon.IpcResponse> unityCall(io.vertx.tp.ipc.eon.IpcRequest request) {
@@ -50,7 +49,6 @@ public final class VertxUnityServiceGrpc {
 
     }
 
-    
     public static abstract class UnityServiceVertxImplBase implements io.grpc.BindableService {
         private String compression;
 
@@ -66,33 +64,32 @@ public final class VertxUnityServiceGrpc {
 
         /**
          * <pre>
-         *  Server -&gt; Client
+         *  Direct: Client -&gt; Server -&gt; Client
          * </pre>
          */
         public io.vertx.core.Future<io.vertx.tp.ipc.eon.IpcResponse> unityCall(io.vertx.tp.ipc.eon.IpcRequest request) {
             throw new io.grpc.StatusRuntimeException(io.grpc.Status.UNIMPLEMENTED);
         }
 
-        @java.lang.Override public final io.grpc.ServerServiceDefinition bindService() {
+        @java.lang.Override
+        public final io.grpc.ServerServiceDefinition bindService() {
             return io.grpc.ServerServiceDefinition.builder(getServiceDescriptor())
-                    .addMethod(
-                            io.vertx.tp.ipc.service.UnityServiceGrpc.getUnityCallMethod(),
-                            asyncUnaryCall(
-                                    new MethodHandlers<
-                                            io.vertx.tp.ipc.eon.IpcRequest,
-                                            io.vertx.tp.ipc.eon.IpcResponse>(
-                                            this, METHODID_UNITY_CALL, compression)))
-                    .build();
+                .addMethod(
+                    UnityServiceGrpc.METHOD_UNITY_CALL,
+                    asyncUnaryCall(
+                        new MethodHandlers<
+                            io.vertx.tp.ipc.eon.IpcRequest,
+                            io.vertx.tp.ipc.eon.IpcResponse>(
+                            this, METHODID_UNITY_CALL, compression)))
+                .build();
         }
     }
 
-    private static final int METHODID_UNITY_CALL = 0;
-
     private static final class MethodHandlers<Req, Resp> implements
-            io.grpc.stub.ServerCalls.UnaryMethod<Req, Resp>,
-            io.grpc.stub.ServerCalls.ServerStreamingMethod<Req, Resp>,
-            io.grpc.stub.ServerCalls.ClientStreamingMethod<Req, Resp>,
-            io.grpc.stub.ServerCalls.BidiStreamingMethod<Req, Resp> {
+        io.grpc.stub.ServerCalls.UnaryMethod<Req, Resp>,
+        io.grpc.stub.ServerCalls.ServerStreamingMethod<Req, Resp>,
+        io.grpc.stub.ServerCalls.ClientStreamingMethod<Req, Resp>,
+        io.grpc.stub.ServerCalls.BidiStreamingMethod<Req, Resp> {
 
         private final UnityServiceVertxImplBase serviceImpl;
         private final int methodId;
@@ -110,10 +107,10 @@ public final class VertxUnityServiceGrpc {
             switch (methodId) {
                 case METHODID_UNITY_CALL:
                     io.vertx.grpc.stub.ServerCalls.oneToOne(
-                            (io.vertx.tp.ipc.eon.IpcRequest) request,
-                            (io.grpc.stub.StreamObserver<io.vertx.tp.ipc.eon.IpcResponse>) responseObserver,
-                            compression,
-                            serviceImpl::unityCall);
+                        (io.vertx.tp.ipc.eon.IpcRequest) request,
+                        (io.grpc.stub.StreamObserver<io.vertx.tp.ipc.eon.IpcResponse>) responseObserver,
+                        compression,
+                        serviceImpl::unityCall);
                     break;
                 default:
                     throw new java.lang.AssertionError();

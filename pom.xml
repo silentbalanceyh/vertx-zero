@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>cn.vertxup</groupId>
     <artifactId>vertx-zero</artifactId>
-    <version>0.7.0-SNAPSHOT</version>
+    <version>0.7.0</version>
     <name>「vertx-zero」Zero Framework</name>
     <description>Vertx Zero Framework is a tool for Service Mesh Micro Service.</description>
     <url>http://www.vertxup.cn</url>
@@ -59,7 +59,6 @@
         <!-- RC Version Ok -->
         <jackson.version>2.13.0</jackson.version>
         <jackson.extension.version>2.13.0</jackson.extension.version>
-        <protobuf.version>3.18.0</protobuf.version>
 
         <!-- Java Projection Basic Configuration -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -135,6 +134,8 @@
         <!-- Rpc -->
         <vertx.grpc.version>1.6.1</vertx.grpc.version>
         <grpc.version>1.41.0</grpc.version>
+        <protobuf.version>3.18.1</protobuf.version>
+        <annotation.api.version>6.0.53</annotation.api.version>
         <gson.version>2.8.8</gson.version>
         <picoli.version>4.6.1</picoli.version>
 
@@ -717,6 +718,17 @@
                 <groupId>io.grpc</groupId>
                 <artifactId>grpc-protobuf</artifactId>
                 <version>${grpc.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.grpc</groupId>
+                <artifactId>grpc-netty-shaded</artifactId>
+                <version>${grpc.version}</version>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/org.apache.tomcat/annotations-api -->
+            <dependency>
+                <groupId>org.apache.tomcat</groupId>
+                <artifactId>annotations-api</artifactId>
+                <version>${annotation.api.version}</version>
             </dependency>
             <!-- https://mvnrepository.com/artifact/io.grpc/grpc-netty -->
             <dependency>
