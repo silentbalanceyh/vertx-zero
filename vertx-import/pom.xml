@@ -15,7 +15,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>11</java.version>
         <encoding>UTF-8</encoding>
-        <zero.version>0.7.0-SNAPSHOT</zero.version>
+        <zero.version>0.7.0</zero.version>
         <maven.javadoc.skip>true</maven.javadoc.skip>
     </properties>
     <dependencies>
