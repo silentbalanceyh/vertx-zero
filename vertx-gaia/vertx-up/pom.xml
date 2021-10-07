@@ -27,8 +27,8 @@
         </dependency>
         <!-- Jsr 311 Jws -->
         <dependency>
-            <groupId>org.glassfish.jersey.core</groupId>
-            <artifactId>jersey-common</artifactId>
+            <groupId>javax.ws.rs</groupId>
+            <artifactId>javax.ws.rs-api</artifactId>
         </dependency>
         <!-- AspectJ -->
         <dependency>
@@ -43,7 +43,6 @@
             <groupId>org.aspectj</groupId>
             <artifactId>aspectjrt</artifactId>
         </dependency>
-
     </dependencies>
     <build>
         <plugins>
