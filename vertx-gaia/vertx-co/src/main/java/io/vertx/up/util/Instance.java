@@ -32,32 +32,33 @@ final class Instance {
         if (Objects.isNull(interfaceCls) || !interfaceCls.isInterface()) {
             return null;
         } else {
-            final String cacheKey = interfaceCls.getName();
-            Object reference = SERVICE_LOADER.getOrDefault(interfaceCls.getName(), null);
-            if (Objects.isNull(reference)) {
-                /*
-                 * Service Loader for lookup input interface implementation
-                 * This configuration must be configured in
-                 * META-INF/services/<interfaceCls Name> file
-                 */
-                final ServiceLoader<T> loader =
-                    ServiceLoader.load(interfaceCls, interfaceCls.getClassLoader());
-                /*
-                 * New data structure to put interface class into LEXEME_MAP
-                 * In current version, it support one to one only
-                 *
-                 * 1) The key is interface class name
-                 * 2) The found class is implementation name
-                 */
-                for (final T t : loader) {
-                    reference = t;
-                    if (Objects.nonNull(reference)) {
-                        SERVICE_LOADER.put(interfaceCls.getName(), reference);
-                        break;
+            return (T) Fn.poolThread(SERVICE_LOADER, () -> {
+                Object reference = SERVICE_LOADER.getOrDefault(interfaceCls.getName(), null);
+                if (Objects.isNull(reference)) {
+                    /*
+                     * Service Loader for lookup input interface implementation
+                     * This configuration must be configured in
+                     * META-INF/services/<interfaceCls Name> file
+                     */
+                    final ServiceLoader<T> loader =
+                        ServiceLoader.load(interfaceCls, interfaceCls.getClassLoader());
+                    /*
+                     * New data structure to put interface class into LEXEME_MAP
+                     * In current version, it support one to one only
+                     *
+                     * 1) The key is interface class name
+                     * 2) The found class is implementation name
+                     */
+                    for (final T t : loader) {
+                        reference = t;
+                        if (Objects.nonNull(reference)) {
+                            SERVICE_LOADER.put(interfaceCls.getName(), reference);
+                            break;
+                        }
                     }
                 }
-            }
-            return (T) reference;
+                return reference;
+            }, interfaceCls.getName());
         }
     }
 

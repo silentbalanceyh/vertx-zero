@@ -15,20 +15,11 @@ class IpcDiffer implements Differ<RoutingContext> {
 
     private static final Annal LOGGER = Annal.get(IpcDiffer.class);
 
-    private static Differ<RoutingContext> INSTANCE = null;
-
     private IpcDiffer() {
     }
 
     public static Differ<RoutingContext> create() {
-        if (null == INSTANCE) {
-            synchronized (EventDiffer.class) {
-                if (null == INSTANCE) {
-                    INSTANCE = new IpcDiffer();
-                }
-            }
-        }
-        return INSTANCE;
+        return InstanceHolder.INSTANCE;
     }
 
     @Override
@@ -49,5 +40,9 @@ class IpcDiffer implements Differ<RoutingContext> {
                 () -> Ut.instance(IpcAim.class));
         }
         return aim;
+    }
+
+    private static final class InstanceHolder {
+        private static final Differ<RoutingContext> INSTANCE = new IpcDiffer();
     }
 }

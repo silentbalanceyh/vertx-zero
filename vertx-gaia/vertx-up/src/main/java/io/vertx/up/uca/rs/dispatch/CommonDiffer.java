@@ -17,20 +17,11 @@ import java.lang.reflect.Method;
  */
 class CommonDiffer implements Differ<RoutingContext> {
 
-    private static Differ<RoutingContext> INSTANCE = null;
-
     private CommonDiffer() {
     }
 
     public static Differ<RoutingContext> create() {
-        if (null == INSTANCE) {
-            synchronized (EventDiffer.class) {
-                if (null == INSTANCE) {
-                    INSTANCE = new CommonDiffer();
-                }
-            }
-        }
-        return INSTANCE;
+        return InstanceHolder.INSTANCE;
     }
 
     @Override
@@ -48,5 +39,9 @@ class CommonDiffer implements Differ<RoutingContext> {
                 () -> Ut.instance(SyncAim.class));
         }
         return aim;
+    }
+
+    private static final class InstanceHolder {
+        private static final Differ<RoutingContext> INSTANCE = new CommonDiffer();
     }
 }

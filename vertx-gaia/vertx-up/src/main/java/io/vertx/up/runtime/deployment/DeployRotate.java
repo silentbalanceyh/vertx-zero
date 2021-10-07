@@ -111,14 +111,13 @@ public class DeployRotate implements Rotate {
             }
         } else {
             options = new DeploymentOptions();
+            final int instances = Ut.invoke(annotation, Key.INSTANCES);
+            options.setInstances(instances);
         }
         // 1. Instance
-        final int instances = Ut.invoke(annotation, Key.INSTANCES);
         final boolean ha = Ut.invoke(annotation, Key.HA);
-        final String group = Ut.invoke(annotation, Key.GROUP);
         // 2. Record Log information
         options.setHa(ha);
-        options.setInstances(instances);
         // deprecated: options.setIsolationGroup(group);
         return options;
     }

@@ -1066,7 +1066,7 @@ public final class Ux {
          */
         public static UxJooq ons(final Class<?> clazz) {
             final JooqDsl dsl = JooqInfix.getDao(clazz, Constants.DEFAULT_JOOQ_HISTORY);
-            return Fn.pool(Cache.JOOQ_POOL_HIS, dsl.poolKey(), () -> new UxJooq(clazz, dsl));
+            return Fn.poolThread(Cache.JOOQ_POOL_HIS, () -> new UxJooq(clazz, dsl), dsl.poolKey());
         }
 
         /**
@@ -1087,7 +1087,7 @@ public final class Ux {
          */
         public static UxJooq on(final Class<?> clazz) {
             final JooqDsl dsl = JooqInfix.getDao(clazz);
-            return Fn.pool(Cache.JOOQ_POOL, dsl.poolKey(), () -> new UxJooq(clazz, dsl));
+            return Fn.poolThread(Cache.JOOQ_POOL, () -> new UxJooq(clazz, dsl), dsl.poolKey());
         }
 
         /**
@@ -1100,7 +1100,7 @@ public final class Ux {
          */
         public static UxJooq on(final Class<?> clazz, final DataPool pool) {
             final JooqDsl dsl = JooqInfix.getDao(clazz, pool);
-            return Fn.pool(Cache.JOOQ_POOL, dsl.poolKey(), () -> new UxJooq(clazz, dsl));
+            return Fn.poolThread(Cache.JOOQ_POOL, () -> new UxJooq(clazz, dsl), dsl.poolKey());
         }
 
         /**
@@ -1113,7 +1113,7 @@ public final class Ux {
          */
         public static UxJooq on(final Class<?> clazz, final String key) {
             final JooqDsl dsl = JooqInfix.getDao(clazz, key);
-            return Fn.pool(Cache.JOOQ_POOL, dsl.poolKey(), () -> new UxJooq(clazz, dsl));
+            return Fn.poolThread(Cache.JOOQ_POOL, () -> new UxJooq(clazz, dsl), dsl.poolKey());
         }
 
         public static boolean isEmpty(final JsonObject condition) {
