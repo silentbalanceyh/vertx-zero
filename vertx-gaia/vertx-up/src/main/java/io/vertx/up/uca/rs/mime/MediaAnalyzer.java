@@ -14,13 +14,14 @@ import io.vertx.up.util.Ut;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
 public class MediaAnalyzer implements Analyzer {
 
     private static final Annal LOGGER = Annal.get(MediaAnalyzer.class);
 
-    private final transient Income<List<Epsilon<Object>>> income =
-        Ut.singleton(EpsilonIncome.class);
+    private static final ConcurrentMap<String, Income<List<Epsilon<Object>>>> POOL_EPSILON = new ConcurrentHashMap<>();
 
     @Override
     public Object[] in(final RoutingContext context,
@@ -31,8 +32,8 @@ public class MediaAnalyzer implements Analyzer {
         MediaAtom.accept(event, requestMedia);
 
         /* Extract definition from method **/
-        final List<Epsilon<Object>> epsilons =
-            this.income.in(context, event);
+        final Income<List<Epsilon<Object>>> income = Fn.poolThread(POOL_EPSILON, EpsilonIncome::new);
+        final List<Epsilon<Object>> epsilons = income.in(context, event);
 
         /* Extract value list **/
         return epsilons.stream()
