@@ -1,7 +1,6 @@
 package io.vertx.tp.plugin.jooq;
 
 import io.vertx.core.Vertx;
-import io.vertx.tp.plugin.cache.Harp;
 import io.vertx.tp.plugin.database.DataPool;
 import io.vertx.up.annotations.Plugin;
 import io.vertx.up.commune.config.Database;
@@ -43,13 +42,6 @@ public class JooqInfix implements Infix {
          * If there exist dynamic pool, it will process in `delay` loading processing
          */
         CONFIGURATION.putAll(Infix.init(Plugins.Infix.JOOQ, JooqPin::initConfiguration, JooqInfix.class));
-        /*
-         * Harp Component for cache system initialized
-         * The cache system support L1, L2, L3 level for database accessing
-         * You can select different cache implementation component such as Memory, Redis etc.
-         * Zero system support redis in standard mode
-         */
-        Harp.init(vertx);
     }
 
     private static Configuration configDelay(final DataPool pool) {

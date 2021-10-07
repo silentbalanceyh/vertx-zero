@@ -4,6 +4,7 @@ import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonObject;
 import io.vertx.redis.client.Redis;
 import io.vertx.redis.client.RedisOptions;
+import io.vertx.tp.plugin.cache.Harp;
 import io.vertx.up.annotations.Plugin;
 import io.vertx.up.eon.Plugins;
 import io.vertx.up.log.Annal;
@@ -51,6 +52,13 @@ public class RedisInfix implements Infix {
              */
             if (handler.succeeded()) {
                 LOGGER.info("[ Redis ] Connected successfully! {0}", options.toJson().encode());
+                /*
+                 * Harp Component for cache system initialized
+                 * The cache system support L1, L2, L3 level for database accessing
+                 * You can select different cache implementation component such as Memory, Redis etc.
+                 * Zero system support redis in standard mode
+                 */
+                Harp.init(vertx);
             } else {
                 final Throwable ex = handler.cause();
                 if (Objects.nonNull(ex)) {
@@ -65,6 +73,10 @@ public class RedisInfix implements Infix {
         if (!CLIENTS_SYNC.containsKey(name)) {
             final String host = options.getString("host");
             final Integer port = options.getInteger("port");
+            // Fix New Version Issue
+            if (!options.containsKey("endpoint")) {
+                options.put("endpoint", "redis://" + host + ":" + port);
+            }
             final Jedis client = new Jedis(host, port);
             // Auth
             final String password = options.getString("password");
