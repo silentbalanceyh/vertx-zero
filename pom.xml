@@ -70,7 +70,7 @@
         <stack.version>4.1.5</stack.version>
 
         <jcabi.version>0.23.2</jcabi.version>
-        <jersey.version>3.0.3</jersey.version>
+        <jersey.version>2.35</jersey.version>
         <javax.el.version>3.0.1-b06</javax.el.version>
         <glassfish.el.version>3.0.1-b12</glassfish.el.version>
 
