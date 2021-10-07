@@ -60,7 +60,7 @@ public class FutureInvoker extends AbstractInvoker {
         this.getLogger().info(Info.MSG_FUTURE, this.getClass(), returnType, true);
         if (Envelop.class == tCls) {
             // Execute Future<Envelop>
-            final Future<Envelop> future = Ut.invoke(proxy, method.getName(), envelop);
+            final Future<Envelop> future = InvokerUtil.invoke(proxy, method, envelop); // Ut.invoke(proxy, method.getName(), envelop);
             /*
             future.compose(item -> TunnelClient.create(this.getClass())
                     .connect(vertx)
@@ -70,7 +70,7 @@ public class FutureInvoker extends AbstractInvoker {
             future.compose(this.nextEnvelop(vertx, method))
                 .onComplete(Ux.handler(message));
         } else {
-            final Future future = Ut.invoke(proxy, method.getName(), envelop);
+            final Future future = InvokerUtil.invoke(proxy, method, envelop); // Ut.invoke(proxy, method.getName(), envelop);
             /*
             future.compose(item -> TunnelClient.create(this.getClass())
                     .connect(vertx)

@@ -141,12 +141,4 @@ public class IxWeb {
     public JsonArray dataA() {
         return this.bodyA;
     }
-
-    public String actor() {
-        if (Objects.isNull(this.standBy)) {
-            return this.actor;
-        } else {
-            return this.actor + ":" + this.standBy.module().getIdentifier();
-        }
-    }
 }

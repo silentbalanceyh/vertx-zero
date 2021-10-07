@@ -1021,9 +1021,16 @@ public final class Ux {
     public static String keyUser(final User user) {
         Objects.requireNonNull(user);
         final JsonObject principle = user.principal();
-        final String accessToken = principle.getString(KName.ACCESS_TOKEN);
-        final JsonObject credential = Jwt.extract(accessToken);
-        return credential.getString(KName.USER);
+        if (principle.containsKey(KName.USER)) {
+            return principle.getString(KName.USER);
+        } else {
+            /*
+             * To avoid fetch user information from JWT token
+             */
+            final String accessToken = principle.getString(KName.ACCESS_TOKEN);
+            final JsonObject credential = Jwt.extract(accessToken);
+            return credential.getString(KName.USER);
+        }
     }
 
     /**

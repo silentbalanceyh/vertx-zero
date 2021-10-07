@@ -1,6 +1,5 @@
 package io.vertx.tp.rbac.extension;
 
-import cn.vertxup.rbac.service.accredit.MatrixStub;
 import io.vertx.core.Future;
 import io.vertx.core.http.HttpMethod;
 import io.vertx.core.json.JsonArray;
@@ -15,13 +14,11 @@ import io.vertx.tp.rbac.logged.ScUser;
 import io.vertx.tp.rbac.refine.Sc;
 import io.vertx.up.atom.query.engine.Qr;
 import io.vertx.up.commune.Envelop;
-import io.vertx.up.eon.KName;
 import io.vertx.up.extension.region.AbstractRegion;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
-import javax.inject.Inject;
 import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
@@ -36,8 +33,6 @@ public class DataRegion extends AbstractRegion {
         new ConcurrentHashMap<>();
     private static final ConcurrentMap<String, Cosmo> POOL_SEEK =
         new ConcurrentHashMap<>();
-    @Inject
-    private transient MatrixStub stub;
 
     @Override
     public Future<Envelop> before(final RoutingContext context, final Envelop envelop) {
@@ -99,7 +94,7 @@ public class DataRegion extends AbstractRegion {
     }
 
     private Future<JsonObject> cacheView(final RoutingContext context, final Envelop envelop) {
-        final String habitus = envelop.token(KName.HABITUS);
+        final String habitus = envelop.habitus();
         if (Ut.isNil(habitus)) {
             /*
              * Empty bound in current interface instead of other

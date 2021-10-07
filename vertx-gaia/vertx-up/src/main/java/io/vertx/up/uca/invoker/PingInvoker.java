@@ -4,7 +4,6 @@ import io.vertx.core.Vertx;
 import io.vertx.core.eventbus.Message;
 import io.vertx.up.commune.Envelop;
 import io.vertx.up.exception.web._501RpcRejectException;
-import io.vertx.up.util.Ut;
 
 import java.lang.reflect.Method;
 
@@ -27,7 +26,7 @@ public class PingInvoker extends AbstractInvoker {
                        final Message<Envelop> message) {
         // Invoke directly
         final Envelop envelop = message.body();
-        Ut.invoke(proxy, method.getName(), envelop);
+        InvokerUtil.invoke(proxy, method, envelop); // Ut.invoke(proxy, method.getName(), envelop);
         message.reply(Envelop.success(Boolean.TRUE));
     }
 

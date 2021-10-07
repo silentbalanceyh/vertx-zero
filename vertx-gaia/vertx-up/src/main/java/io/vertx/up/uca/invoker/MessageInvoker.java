@@ -4,7 +4,6 @@ import io.vertx.core.Vertx;
 import io.vertx.core.eventbus.Message;
 import io.vertx.up.commune.Envelop;
 import io.vertx.up.exception.web._501RpcRejectException;
-import io.vertx.up.util.Ut;
 
 import java.lang.reflect.Method;
 
@@ -27,7 +26,8 @@ public class MessageInvoker extends AbstractInvoker {
                        final Method method,
                        final Message<Envelop> message) {
         // Invoker and do not reply
-        Ut.invoke(proxy, method.getName(), message);
+        InvokerUtil.invoke(proxy, method, message);
+        // Ut.invoke(proxy, method.getName(), message);
     }
 
     @Override

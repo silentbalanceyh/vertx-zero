@@ -18,6 +18,7 @@ import io.vertx.up.fn.Actuator;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import io.vertx.up.secure.validation.Validator;
+import io.vertx.up.uca.invoker.InvokerUtil;
 import io.vertx.up.uca.rs.mime.Analyzer;
 import io.vertx.up.uca.rs.mime.MediaAnalyzer;
 import io.vertx.up.util.Ut;
@@ -86,7 +87,7 @@ public abstract class BaseAim {
         final Method method = event.getAction();
         this.getLogger().info("Class = {2}, Method = {0}, Args = {1}",
             method.getName(), Ut.fromJoin(args), method.getDeclaringClass().getName());
-        return Ut.invoke(event.getProxy(), method.getName(), args);
+        return InvokerUtil.invoke(event.getProxy(), method, args);
     }
 
     protected Envelop failure(final String address,
@@ -152,13 +153,13 @@ public abstract class BaseAim {
                         final Event event) {
         try {
             // Monitor
-            this.getLogger().info("Web flow started: {0}", event.getAction());
+            this.getLogger().debug("Web flow started: {0}", event.getAction());
             {
                 final Session session = context.session();
                 if (Objects.nonNull(session)) {
                     // Fix: 3.9.1 cookie error of null pointer
                     final Cookie cookie = context.getCookie("vertx-web.session");
-                    this.getLogger().info(Info.SESSION_ID, context.request().path(),
+                    this.getLogger().debug(Info.SESSION_ID, context.request().path(),
                         session.id(), Objects.isNull(cookie) ? null : cookie.getValue());
                 }
             }
