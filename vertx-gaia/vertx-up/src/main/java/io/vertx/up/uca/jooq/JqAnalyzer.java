@@ -428,6 +428,12 @@ public class JqAnalyzer {
 
     public Condition conditionField(final String field, final Object value) {
         final Field column = this.column(field);
-        return column.eq(value);
+        if (value instanceof Collection) {
+            // IN
+            return column.in(value);
+        } else {
+            // =
+            return column.eq(value);
+        }
     }
 }

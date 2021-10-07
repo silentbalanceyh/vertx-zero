@@ -22,7 +22,6 @@ import javax.inject.Inject;
 @Wall(value = "extension", path = "/api/*")
 public class RbacWall {
     private static final Annal LOGGER = Annal.get(RbacWall.class);
-
     @Inject
     private transient JwtStub jwtStub;
     @Inject
@@ -32,6 +31,7 @@ public class RbacWall {
     public Future<Boolean> authenticate(final JsonObject data) {
         final String token = data.getString(KName.ACCESS_TOKEN);
         final String user = data.getString(KName.USER);
+        // No Cache
         Sc.infoAuth(LOGGER, AuthMsg.TOKEN_INPUT, token, user);
         return this.jwtStub.verify(user, token);
     }

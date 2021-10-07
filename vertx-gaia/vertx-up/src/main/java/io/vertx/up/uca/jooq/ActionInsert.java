@@ -6,6 +6,7 @@ import org.jooq.InsertSetMoreStep;
 import org.jooq.InsertSetStep;
 import org.jooq.InsertValuesStepN;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
@@ -46,6 +47,9 @@ class ActionInsert extends AbstractAction {
     /* Future<List<T>> */
     <T> Future<List<T>> insertAsync(final List<T> list) {
         Objects.requireNonNull(list);
+        if (list.isEmpty()) {
+            return Future.succeededFuture(new ArrayList<>());
+        }
         final List<T> inserted = this.uuid(list);
         return ((Future<Integer>) this.dao().insert(inserted, true)).compose(rows -> {
             this.logger().info("[ Jq ] insertAsync(List<T>) executed rows: {0}/{1}", String.valueOf(rows), String.valueOf(list.size()));

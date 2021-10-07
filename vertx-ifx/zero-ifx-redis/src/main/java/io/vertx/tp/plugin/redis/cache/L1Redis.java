@@ -11,6 +11,7 @@ import io.vertx.redis.client.Request;
 import io.vertx.redis.client.Response;
 import io.vertx.tp.plugin.redis.RedisInfix;
 import io.vertx.up.eon.em.ChangeFlag;
+import io.vertx.up.log.Annal;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,10 +24,14 @@ import java.util.function.Function;
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 class L1Redis {
+    private static final Annal LOGGER = Annal.get(L1Redis.class);
     private final transient Redis redis;
 
     L1Redis() {
         this.redis = RedisInfix.getClient();
+        if (Objects.isNull(this.redis)) {
+            LOGGER.warn("[ L1 ] Be careful that the reference of Redis is null");
+        }
     }
 
     boolean enabled() {
@@ -114,7 +119,9 @@ class L1Redis {
             final Promise<T> promise = Promise.promise();
             this.redis.send(request, res -> this.handle(promise, consumer, res));
             return promise.future();
-        } else return Future.succeededFuture();
+        } else {
+            return Future.succeededFuture();
+        }
     }
 
     <T> Future<T> requestAsync(final List<Request> requests, final Function<List<Response>, T> consumer) {

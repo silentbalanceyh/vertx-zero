@@ -40,45 +40,53 @@ public class AuthenticateBuiltInProvider implements AuthenticationProvider {
         return new AuthenticateBuiltInProvider(aegis);
     }
 
+    private Future<User> buildUser(final JsonObject credentials) {
+        if (Objects.isNull(this.userFn)) {
+            // Attribute should be empty here
+            return Future.succeededFuture(User.create(credentials, new JsonObject()));
+        } else {
+            return this.userFn.apply(credentials);
+        }
+    }
+
     @Override
     public void authenticate(final JsonObject credentials, final Handler<AsyncResult<User>> handler) {
-        final Against against = this.aegis.getAuthorizer();
-        final Method method = against.getAuthenticate();
-        if (Objects.isNull(method)) {
-            // Exception for method is null ( This situation should not happen )
-            handler.handle(Future.failedFuture(new _401UnauthorizedException(this.getClass())));
-        } else {
-            // Verify the data by @Wall's method that has been annotated by @Authenticate
-            final Object proxy = this.aegis.getProxy();
-            final Future<Boolean> checkedFuture = Ut.invokeAsync(proxy, method, credentials);
-            checkedFuture.onComplete(res -> {
-                if (res.succeeded()) {
-                    final Boolean checked = res.result();
-                    if (Objects.isNull(checked) || !checked) {
-                        // 401 Workflow
-                        handler.handle(Future.failedFuture(new _401UnauthorizedException(this.getClass())));
-                    } else {
-                        // Success to passed validation
-                        LOGGER.info("[ Auth ]\u001b[0;32m 401 Authenticated successfully!\u001b[m");
-                        if (Objects.isNull(this.userFn)) {
-                            final User user = User.create(credentials);
-                            handler.handle(Future.succeededFuture(user));
+        AuthenticateCache.userAuthorized(credentials, () -> {
+
+            final Against against = this.aegis.getAuthorizer();
+            final Method method = against.getAuthenticate();
+            if (Objects.isNull(method)) {
+                // Exception for method is null ( This situation should not happen )
+                handler.handle(Future.failedFuture(new _401UnauthorizedException(this.getClass())));
+            } else {
+                // Verify the data by @Wall's method that has been annotated by @Authenticate
+                final Object proxy = this.aegis.getProxy();
+                final Future<Boolean> checkedFuture = Ut.invokeAsync(proxy, method, credentials);
+                checkedFuture.onComplete(res -> {
+                    if (res.succeeded()) {
+                        final Boolean checked = res.result();
+                        if (Objects.isNull(checked) || !checked) {
+                            // 401 Workflow
+                            handler.handle(Future.failedFuture(new _401UnauthorizedException(this.getClass())));
                         } else {
-                            handler.handle(this.userFn.apply(credentials));
+                            // Success to passed validation
+                            LOGGER.info("[ Auth ]\u001b[0;32m 401 Authenticated successfully!\u001b[m");
+                            AuthenticateCache.userAuthorize(credentials,
+                                () -> handler.handle(this.buildUser(credentials)));
+                        }
+                    } else {
+                        // Exception Throw
+                        final Throwable ex = res.cause();
+                        if (Objects.isNull(ex)) {
+                            // 401 Without Exception
+                            handler.handle(Future.failedFuture(new _401UnauthorizedException(this.getClass())));
+                        } else {
+                            // 401 With Throwable
+                            handler.handle(Future.failedFuture(ex));
                         }
                     }
-                } else {
-                    // Exception Throw
-                    final Throwable ex = res.cause();
-                    if (Objects.isNull(ex)) {
-                        // 401 Without Exception
-                        handler.handle(Future.failedFuture(new _401UnauthorizedException(this.getClass())));
-                    } else {
-                        // 401 With Throwable
-                        handler.handle(Future.failedFuture(ex));
-                    }
-                }
-            });
-        }
+                });
+            }
+        }, () -> handler.handle(this.buildUser(credentials)));
     }
 }

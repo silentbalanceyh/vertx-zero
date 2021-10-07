@@ -66,8 +66,8 @@
         <encoding>UTF-8</encoding>
 
         <!-- Vertx Framework Version -->
-        <vertx.version>4.1.4</vertx.version>
-        <stack.version>4.1.4</stack.version>
+        <vertx.version>4.1.5</vertx.version>
+        <stack.version>4.1.5</stack.version>
 
         <jcabi.version>0.23.2</jcabi.version>
         <jersey.version>2.35</jersey.version>
@@ -82,7 +82,7 @@
 
         <!-- Java Reflection -->
         <reflect.asm.version>1.11.9</reflect.asm.version>
-        <lombok.version>1.18.20</lombok.version>
+        <lombok.version>1.18.22</lombok.version>
         <asm.version>9.2</asm.version>
         <cglib.version>3.3.0</cglib.version>
         <reflection.version>0.10</reflection.version>
@@ -129,7 +129,7 @@
         <http.core.version>4.4.14</http.core.version>
 
         <!-- Liquibase -->
-        <liquibase.version>3.10.3</liquibase.version>
+        <liquibase.version>4.5.0</liquibase.version>
 
         <!-- Rpc -->
         <vertx.grpc.version>1.6.1</vertx.grpc.version>
