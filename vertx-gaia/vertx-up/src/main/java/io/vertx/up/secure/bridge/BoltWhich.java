@@ -33,6 +33,7 @@ class BoltWhich implements Bolt {
         new AtomicBoolean(Boolean.TRUE),
         new AtomicBoolean(Boolean.TRUE)
     };
+    private static final ConcurrentMap<String, Lee> POOL_LEE = new ConcurrentHashMap<>();
     static ConcurrentMap<String, Bolt> POOL_BOLT = new ConcurrentHashMap<>();
 
     @Override
@@ -108,9 +109,9 @@ class BoltWhich implements Bolt {
     private Lee reference(final Aegis config) {
         final AuthWall wall = config.getType();
         if (AuthWall.EXTENSION == wall) {
-            return Ut.service(LeeExtension.class);
+            return Fn.poolThread(POOL_LEE, () -> Ut.service(LeeExtension.class), LeeExtension.class.getName());
         } else {
-            return Ut.service(LeeBuiltIn.class);
+            return Fn.poolThread(POOL_LEE, () -> Ut.service(LeeBuiltIn.class), LeeBuiltIn.class.getName());
         }
     }
 }
