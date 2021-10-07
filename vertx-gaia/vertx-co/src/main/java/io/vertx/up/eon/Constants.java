@@ -23,8 +23,6 @@ public interface Constants {
 
     String DEFAULT_FREEDOM = "freedom";
 
-    String DEFAULT_JWT_AUTH_POOL = "JWT_AUTH_TOKEN_POOL";
-
     int DEFAULT_EXPIRED_DATA = 300;
     /**
      * Scanned data to distinguish mode
@@ -47,7 +45,6 @@ public interface Constants {
     interface Pool {
         /* RBAC Pool */
         String SESSION_HABITUS = "vertx-web.sessions.habitus";
-        String SESSION_AUTHORIZED = "vertx-web.sesions.authorized";
         /* Deployment */
         String DEPLOYMENT = "zero.pool.deployment";
         /* Component Memory Hash Map */

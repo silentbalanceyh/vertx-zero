@@ -5,7 +5,6 @@ import cn.vertxup.rbac.service.jwt.JwtStub;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.auth.User;
-import io.vertx.tp.rbac.cv.AuthKey;
 import io.vertx.tp.rbac.cv.AuthMsg;
 import io.vertx.tp.rbac.refine.Sc;
 import io.vertx.up.annotations.Authenticate;
@@ -14,11 +13,8 @@ import io.vertx.up.annotations.AuthorizedResource;
 import io.vertx.up.annotations.Wall;
 import io.vertx.up.eon.KName;
 import io.vertx.up.log.Annal;
-import io.vertx.up.unity.Ux;
-import io.vertx.up.unity.UxPool;
 
 import javax.inject.Inject;
-import java.util.Objects;
 
 /**
  * Interface defined for component
@@ -35,21 +31,9 @@ public class RbacWall {
     public Future<Boolean> authenticate(final JsonObject data) {
         final String token = data.getString(KName.ACCESS_TOKEN);
         final String user = data.getString(KName.USER);
-        final UxPool pool = Ux.Pool.on(AuthKey.PROFILE_TOKEN);
-        return pool.<String, Boolean>get(token).compose(authorized -> {
-            if (Objects.isNull(authorized)) {
-                // No Cache
-                Sc.infoAuth(LOGGER, AuthMsg.TOKEN_INPUT, token, user);
-                return this.jwtStub.verify(user, token).compose(validated ->
-                    // Cached token
-                    pool.put(token, validated).compose(item -> Ux.future(item.getValue()))
-                );
-            } else {
-                // Cached returned directly
-                Sc.infoAuth(LOGGER, AuthMsg.TOKEN_INPUT, token, user);
-                return Ux.future(authorized);
-            }
-        });
+        // No Cache
+        Sc.infoAuth(LOGGER, AuthMsg.TOKEN_INPUT, token, user);
+        return this.jwtStub.verify(user, token);
     }
 
     @Authorized
