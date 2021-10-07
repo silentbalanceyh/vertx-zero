@@ -23,6 +23,7 @@ import io.vertx.up.uca.rs.mime.MediaAnalyzer;
 import io.vertx.up.util.Ut;
 
 import java.lang.annotation.Annotation;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.List;
 import java.util.Map;
@@ -86,7 +87,16 @@ public abstract class BaseAim {
         final Method method = event.getAction();
         this.getLogger().info("Class = {2}, Method = {0}, Args = {1}",
             method.getName(), Ut.fromJoin(args), method.getDeclaringClass().getName());
-        return Ut.invoke(event.getProxy(), method.getName(), args);
+        /*
+         * Be sure to trust args first calling and then normalized calling
+         * by `Ut.invoke`, because `Ut.invoke` will parse many parameters here, it means that
+         * it will analyze the information runtime, I think it's not needed
+         */
+        try {
+            return method.invoke(event.getProxy(), args);
+        } catch (final InvocationTargetException | IllegalAccessException ex) {
+            return Ut.invoke(event.getProxy(), method.getName(), args);
+        }
     }
 
     protected Envelop failure(final String address,
