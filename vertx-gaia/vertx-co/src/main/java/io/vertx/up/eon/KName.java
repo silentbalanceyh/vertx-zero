@@ -109,6 +109,7 @@ public interface KName {
     String FORMAT = "format";                    /* DataFormat json configuration of uniform */
 
     String METHOD = "method";                    /* Web: http method */
+    String SESSION = "session";                  /* Web: session */
     String URI = "uri";                          /* Web: http path */
     String URI_IMPACT = "impactUri";             /* Web: http impact uri */
     String URI_REQUEST = "requestUri";           /* Web: http path ( normalized ) contains path such as `/api/:code/name` instead of actual */

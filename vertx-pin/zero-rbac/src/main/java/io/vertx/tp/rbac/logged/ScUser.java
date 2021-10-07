@@ -39,7 +39,7 @@ public class ScUser {
 
     private ScUser(final String habitus) {
         this.habitus = habitus;
-        this.pool = Ux.Pool.on(Constants.Pool.HABITUS);
+        this.pool = Ux.Pool.on(Constants.Pool.SESSION_HABITUS);
     }
 
     // ------------------------- Profile Method ------------------------

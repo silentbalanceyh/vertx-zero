@@ -15,7 +15,7 @@ class SessionQuota extends AbstractQuota {
 
     @Override
     public void handle(final Promise<Status> event) {
-        this.mapAsync(Constants.Pool.HABITUS, map -> {
+        this.mapAsync(Constants.Pool.SESSION_HABITUS, map -> {
             /*
              * map calculated
              */

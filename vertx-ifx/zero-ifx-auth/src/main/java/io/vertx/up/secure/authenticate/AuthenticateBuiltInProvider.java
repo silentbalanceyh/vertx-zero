@@ -61,7 +61,8 @@ public class AuthenticateBuiltInProvider implements AuthenticationProvider {
                         // Success to passed validation
                         LOGGER.info("[ Auth ]\u001b[0;32m 401 Authenticated successfully!\u001b[m");
                         if (Objects.isNull(this.userFn)) {
-                            final User user = User.create(credentials);
+                            // Attribute should be empty here
+                            final User user = User.create(credentials, new JsonObject());
                             handler.handle(Future.succeededFuture(user));
                         } else {
                             handler.handle(this.userFn.apply(credentials));

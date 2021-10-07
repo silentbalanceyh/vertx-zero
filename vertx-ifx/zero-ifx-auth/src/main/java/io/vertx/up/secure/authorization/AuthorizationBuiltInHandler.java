@@ -58,46 +58,48 @@ public class AuthorizationBuiltInHandler implements AuthorizationHandler {
              */
             event.fail(error);
         } else {
-            /*
-             * Before starting any potential async operation here
-             * pause parsing the request body, The reason is that we don't want to
-             * loose the body or protocol upgrades for async operations
-             */
-            event.request().pause();
-            /*
-             * The modification for default to async fetch authorization
-             */
-            try {
-                // Context Creation ( Async )
-                // create the authorization context
-                final AuthorizationContext authorizationContext = this.getAuthorizationContext(event);
-                // check or fetch authorizations
-                this.resource.requestResource(event, res -> {
-                    if (res.succeeded()) {
-                        /*
-                         * Iterator and checking
-                         */
-                        this.checkOrFetchAuthorizations(
-                            event,                          // RoutingContext
-                            res.result(),                   // Authorization
-                            authorizationContext,           // AuthorizationContext
-                            this.providers.iterator()       // Iterator<AuthorizationProvider>
-                        );
-                    } else {
-                        // Exception happened
-                        final Throwable ex = res.cause();
-                        event.request().resume();
-                        if (Objects.nonNull(ex)) {
-                            event.fail(ex);
+            AuthorizationCache.userAuthorized(event, () -> {
+                /*
+                 * Before starting any potential async operation here
+                 * pause parsing the request body, The reason is that we don't want to
+                 * loose the body or protocol upgrades for async operations
+                 */
+                event.request().pause();
+                /*
+                 * The modification for default to async fetch authorization
+                 */
+                try {
+                    // Context Creation ( Async )
+                    // create the authorization context
+                    final AuthorizationContext authorizationContext = this.getAuthorizationContext(event);
+                    // check or fetch authorizations
+                    this.resource.requestResource(event, res -> {
+                        if (res.succeeded()) {
+                            /*
+                             * Iterator and checking
+                             */
+                            this.checkOrFetchAuthorizations(
+                                event,                          // RoutingContext
+                                res.result(),                   // Authorization
+                                authorizationContext,           // AuthorizationContext
+                                this.providers.iterator()       // Iterator<AuthorizationProvider>
+                            );
                         } else {
-                            event.fail(error);
+                            // Exception happened
+                            final Throwable ex = res.cause();
+                            event.request().resume();
+                            if (Objects.nonNull(ex)) {
+                                event.fail(ex);
+                            } else {
+                                event.fail(error);
+                            }
                         }
-                    }
-                });
-            } catch (final RuntimeException ex) {
-                event.request().resume();
-                event.fail(ex);
-            }
+                    });
+                } catch (final RuntimeException ex) {
+                    event.request().resume();
+                    event.fail(ex);
+                }
+            });
         }
     }
 
@@ -110,10 +112,13 @@ public class AuthorizationBuiltInHandler implements AuthorizationHandler {
                                             final Iterator<AuthorizationProvider> providers) {
         if (resource.match(authorizationContext)) {
             final User user = authorizationContext.user();
-            LOGGER.info("[ Auth ]\u001b[0;32m 403 Authorized successfully \u001b[m for user: principal = {0}, attribute = {1}",
-                user.principal(), user.attributes());
-            routingContext.request().resume();
-            routingContext.next();
+            final String session = user.principal().getString("session");
+            LOGGER.info("[ Auth ]\u001b[0;32m 403 Authorized successfully \u001b[m for ( {0} ) user: principal = {1}, attribute = {2}",
+                session, user.principal(), user.attributes());
+            AuthorizationCache.userAuthorize(routingContext, () -> {
+                routingContext.request().resume();
+                routingContext.next();
+            });
             return;
         }
         if (!providers.hasNext()) {
