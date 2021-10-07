@@ -147,6 +147,7 @@ public abstract class BaseAim {
                         final Event event) {
         try {
             // Monitor
+            this.getLogger().info("Web flow started: {0}", event.getAction());
             {
                 final Session session = context.session();
                 if (Objects.nonNull(session)) {

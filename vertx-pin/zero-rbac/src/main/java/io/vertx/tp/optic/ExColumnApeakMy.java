@@ -84,7 +84,8 @@ public class ExColumnApeakMy extends Anchoret<ApeakMy> implements ApeakMy {
         updatedData.put(Qr.KEY_PROJECTION, updated.getJsonArray(Qr.KEY_PROJECTION));
         updatedData.put(Qr.KEY_CRITERIA, updated.getJsonObject(Qr.KEY_CRITERIA));
         return user.view(dataKey, updatedData).compose(nil -> {
-            Sc.infoAuth(this.getLogger(), AuthMsg.REGION_FLUSH, habitus, dataKey, nil.encodePrettily());
+            Sc.infoAuth(this.getLogger(), AuthMsg.REGION_FLUSH, habitus, dataKey,
+                nil.getJsonObject(dataKey, new JsonObject()).encodePrettily());
             return Ux.future(updated);
         });
     }

@@ -32,20 +32,11 @@ class EventDiffer implements Differ<RoutingContext> {
 
     private static final Set<Receipt> RECEIPTS = ZeroAnno.getReceipts();
 
-    private static Differ<RoutingContext> INSTANCE = null;
-
     private EventDiffer() {
     }
 
     public static Differ<RoutingContext> create() {
-        if (null == INSTANCE) {
-            synchronized (EventDiffer.class) {
-                if (null == INSTANCE) {
-                    INSTANCE = new EventDiffer();
-                }
-            }
-        }
-        return INSTANCE;
+        return InstanceHolder.INSTANCE;
     }
 
     @Override
@@ -112,5 +103,9 @@ class EventDiffer implements Differ<RoutingContext> {
         Fn.outUp(null == method, LOGGER, WorkerMissingException.class,
             this.getClass(), address);
         return method;
+    }
+
+    private static final class InstanceHolder {
+        private static final Differ<RoutingContext> INSTANCE = new EventDiffer();
     }
 }
