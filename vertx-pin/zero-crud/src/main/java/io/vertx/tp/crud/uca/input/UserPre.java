@@ -15,7 +15,7 @@ class UserPre implements Pre {
     public Future<JsonObject> inJAsync(final JsonObject data, final IxMod in) {
         final Envelop envelop = in.envelop();
         data.put(KName.USER, envelop.userId());
-        data.put(KName.HABITUS, envelop.token(KName.HABITUS));
+        data.put(KName.HABITUS, envelop.habitus());
         return Ux.future(data);
     }
 }

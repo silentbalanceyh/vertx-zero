@@ -38,7 +38,6 @@ public class Envelop implements Serializable {
 
     /* Additional Data for Envelop, Assist Data here. */
     private final Assist assist = new Assist();
-    private final JsonObject cachedJwt = new JsonObject();
     /* Communicate Key in Event Bus, to identify the Envelop */
     private String key;
     private Acl acl;
@@ -423,6 +422,10 @@ public class Envelop implements Serializable {
         this.assist.user(user);
     }
 
+    public String habitus() {
+        return this.assist.principal(KName.HABITUS);
+    }
+
     /*
      * Token Part
      */
@@ -431,12 +434,9 @@ public class Envelop implements Serializable {
     }
 
     public String token(final String field) {
-        if (Ut.isNil(this.cachedJwt)) {
-            final String jwt = this.assist.principal(KName.ACCESS_TOKEN);
-            final JsonObject user = Ux.Jwt.extract(jwt);
-            this.cachedJwt.mergeIn(user, true);
-        }
-        return this.cachedJwt.getString(field);
+        final String jwt = this.assist.principal(KName.ACCESS_TOKEN);
+        final JsonObject user = Ux.Jwt.extract(jwt);
+        return user.getString(field);
     }
 
     @Override

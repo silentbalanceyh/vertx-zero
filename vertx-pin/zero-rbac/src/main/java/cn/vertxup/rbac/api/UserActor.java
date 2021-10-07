@@ -12,7 +12,6 @@ import io.vertx.tp.rbac.cv.Addr;
 import io.vertx.up.annotations.Address;
 import io.vertx.up.annotations.Queue;
 import io.vertx.up.commune.Envelop;
-import io.vertx.up.eon.KName;
 import io.vertx.up.unity.Ux;
 
 import javax.inject.Inject;
@@ -59,7 +58,7 @@ public class UserActor {
     @Address(Addr.Auth.LOGOUT)
     public Future<Boolean> logout(final Envelop envelop) {
         final String token = envelop.token();
-        final String habitus = envelop.token(KName.HABITUS);
+        final String habitus = envelop.habitus();
         return this.loginStub.logout(token, habitus).compose(result -> {
             /*
              * Here we should do
