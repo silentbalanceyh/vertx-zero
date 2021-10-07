@@ -9,7 +9,6 @@ import io.vertx.ext.web.Session;
 import io.vertx.tp.ke.refine.Ke;
 import io.vertx.tp.optic.Trash;
 import io.vertx.tp.rbac.cv.Addr;
-import io.vertx.tp.rbac.logged.ScUser;
 import io.vertx.up.annotations.Address;
 import io.vertx.up.annotations.Queue;
 import io.vertx.up.commune.Envelop;
@@ -66,7 +65,7 @@ public class UserActor {
              * Here we should do
              * 1. Session / Context Purging
              * 2. User clean
-             * 3. Fix issue of 3.9.1
+             * 3. Fix issue of 4.x
              * 4. Permission Pool / Auth Pool Clean
              */
             final RoutingContext context = envelop.context();
@@ -76,7 +75,7 @@ public class UserActor {
             if (Objects.nonNull(session) && !session.isDestroyed()) {
                 session.destroy();
             }
-            return ScUser.logout(habitus);
+            return Ux.future(Boolean.TRUE);
         });
     }
 

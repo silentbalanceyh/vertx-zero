@@ -3,7 +3,6 @@ package io.vertx.up.uca.jooq;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.eon.Values;
-import io.vertx.up.unity.Ux;
 import org.jooq.Query;
 import org.jooq.UpdateConditionStep;
 
@@ -48,10 +47,6 @@ class ActionUpdate extends AbstractAction {
 
     /* Future<List<T>> */
     <T> Future<List<T>> updateAsync(final List<T> list) {
-        Objects.requireNonNull(list);
-        if (list.isEmpty()) {
-            return Ux.future(new ArrayList<>());
-        }
         return this.dsl.executeBlocking(h -> h.complete(this.update(list)));
     }
 
