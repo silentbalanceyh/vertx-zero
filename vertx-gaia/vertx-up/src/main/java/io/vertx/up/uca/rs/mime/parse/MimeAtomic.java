@@ -5,6 +5,7 @@ import io.vertx.ext.web.RoutingContext;
 import io.vertx.up.atom.Epsilon;
 import io.vertx.up.eon.em.MimeFlow;
 import io.vertx.up.exception.WebException;
+import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import io.vertx.up.uca.rs.mime.Resolver;
 import io.vertx.up.uca.rs.mime.Solve;
@@ -16,6 +17,8 @@ import io.vertx.up.util.Ut;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import java.lang.annotation.Annotation;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
 /**
  * # 「Co」Zero Mime Processing here
@@ -24,10 +27,15 @@ import java.lang.annotation.Annotation;
  *
  * @param <T> generic definition
  */
+@SuppressWarnings("all")
 public class MimeAtomic<T> implements Atomic<T> {
 
     private static final Node<JsonObject> NODE = Node.infix("resolver");
     private static final Annal LOGGER = Annal.get(MimeAtomic.class);
+
+    private static final ConcurrentMap<String, Atomic> POOL_ATOMIC = new ConcurrentHashMap<>();
+    private static final ConcurrentMap<String, Resolver> POOL_RESOLVER = new ConcurrentHashMap<>();
+    private static final ConcurrentMap<String, Solve> POOL_SOLVE = new ConcurrentHashMap<>();
 
     @Override
     public Epsilon<T> ingest(final RoutingContext context,
@@ -36,11 +44,11 @@ public class MimeAtomic<T> implements Atomic<T> {
         final Epsilon<T> epsilon;
         if (MimeFlow.TYPED == income.getMime()) {
             /* Resolver **/
-            final Atomic<T> atomic = Ut.singleton(TypedAtomic.class);
+            final Atomic<T> atomic = Fn.poolThread(POOL_ATOMIC, TypedAtomic::new, TypedAtomic.class.getName());
             epsilon = atomic.ingest(context, income);
         } else if (MimeFlow.STANDARD == income.getMime()) {
             /* System standard filler **/
-            final Atomic<T> atomic = Ut.singleton(StandardAtomic.class);
+            final Atomic<T> atomic = Fn.poolThread(POOL_ATOMIC, StandardAtomic::new, StandardAtomic.class.getName());
             epsilon = atomic.ingest(context, income);
         } else {
             /* Resolver **/
@@ -70,7 +78,7 @@ public class MimeAtomic<T> implements Atomic<T> {
                 resolver = resolverMap.getString(type.getSubtype());
                 LOGGER.info(Info.RESOLVER, resolver, header, context.request().absoluteURI());
             }
-            return Ut.singleton(resolver);
+            return Fn.poolThread(POOL_RESOLVER, () -> Ut.instance(resolver), resolver);
         } else {
             LOGGER.info(Info.RESOLVER_CONFIG, resolverCls, header);
             /*
@@ -81,13 +89,16 @@ public class MimeAtomic<T> implements Atomic<T> {
                 /*
                  * Resolver Directly
                  */
-                return Ut.singleton(resolverCls);
+                return Fn.poolThread(POOL_RESOLVER, () -> Ut.instance(resolverCls), resolverCls.getName());
             } else {
                 /*
                  * Solve component, contract to set Solve<T> here.
                  */
-                final Resolver<T> resolver = Ut.singleton(SolveResolver.class);
-                Ut.contract(resolver, Solve.class, Ut.singleton(resolverCls));
+                final Resolver<T> resolver =
+                    Fn.poolThread(POOL_RESOLVER, () -> Ut.instance(SolveResolver.class), SolveResolver.class.getName());
+                final Solve solve =
+                    Fn.poolThread(POOL_SOLVE, () -> Ut.instance(resolverCls), resolverCls.getName());
+                Ut.contract(resolver, Solve.class, solve);
                 return resolver;
             }
         }

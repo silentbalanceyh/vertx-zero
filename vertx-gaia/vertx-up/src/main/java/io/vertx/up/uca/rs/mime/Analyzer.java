@@ -23,11 +23,11 @@ public interface Analyzer extends Income<Object[]> {
     /**
      * response mime analyzing
      *
-     * @param envelop
-     * @param event
+     * @param envelop Input Request of uniform model
+     * @param event   Event definition
      *
-     * @return
-     * @throws WebException
+     * @return Normalized Request
+     * @throws WebException Common exception
      */
     Envelop out(Envelop envelop, Event event)
         throws WebException;

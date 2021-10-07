@@ -15,6 +15,7 @@ import io.vertx.up.exception.WebException;
 import io.vertx.up.exception.web._500DeliveryErrorException;
 import io.vertx.up.exception.web._500EntityCastException;
 import io.vertx.up.fn.Actuator;
+import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import io.vertx.up.secure.validation.Validator;
 import io.vertx.up.uca.rs.mime.Analyzer;
@@ -26,17 +27,21 @@ import java.lang.reflect.Method;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
 /**
  * Base class to provide template method
  */
 public abstract class BaseAim {
 
-    private transient final Validator verifier =
-        Validator.create();
+    private static final ConcurrentMap<String, Analyzer> POOL_ANALYZER = new ConcurrentHashMap<>();
+    private static final ConcurrentMap<String, Validator> POOL_VALIDATOR = new ConcurrentHashMap<>();
 
     private transient final Analyzer analyzer =
-        Ut.singleton(MediaAnalyzer.class);
+        Fn.poolThread(POOL_ANALYZER, MediaAnalyzer::new, MediaAnalyzer.class.getName());
+    private transient final Validator verifier =
+        Fn.poolThread(POOL_VALIDATOR, Validator::new);
 
     /**
      * Template method

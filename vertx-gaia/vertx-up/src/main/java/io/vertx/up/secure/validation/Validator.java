@@ -33,19 +33,6 @@ public class Validator {
     private static final ConcurrentMap<String, Map<String, List<Rule>>>
         RULERS = new ConcurrentHashMap<>();
 
-    private static Validator INSTANCE;
-
-    public static Validator create() {
-        if (null == INSTANCE) {
-            synchronized (Validator.class) {
-                if (null == INSTANCE) {
-                    INSTANCE = new Validator();
-                }
-            }
-        }
-        return INSTANCE;
-    }
-
     /**
      * Validate the method parameters based on javax.validation: Hibernate Validator.
      *

@@ -41,6 +41,7 @@ public class EventAxis implements Axis<Router> {
             () -> Ut.instance(StandardVerifier.class));
 
     @Override
+    @SuppressWarnings("all")
     public void mount(final Router router) {
         // Extract Event foreach
         EVENTS.forEach(event -> {
