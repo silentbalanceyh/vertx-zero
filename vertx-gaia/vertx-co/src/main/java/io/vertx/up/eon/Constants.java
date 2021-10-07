@@ -45,6 +45,8 @@ public interface Constants {
     interface Pool {
         /* RBAC Pool */
         String SESSION_HABITUS = "vertx-web.sessions.habitus";
+        String CACHE_VIEW = "vertx-web.views";
+        String CACHE_RESOURCE = "vertx-web.resource";
         /* Deployment */
         String DEPLOYMENT = "zero.pool.deployment";
         /* Component Memory Hash Map */

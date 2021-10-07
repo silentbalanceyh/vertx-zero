@@ -53,6 +53,14 @@ public class IxMod {
         return new IxMod(actor);
     }
 
+    public String cacheKey() {
+        if (Objects.isNull(this.connect)) {
+            return this.module.getIdentifier();
+        } else {
+            return this.module.getIdentifier() + ":" + this.connect.getIdentifier();
+        }
+    }
+
     public boolean canJoin() {
         return Objects.nonNull(this.connect);
     }

@@ -16,6 +16,8 @@ import io.vertx.up.fn.Fn;
  */
 public interface Agonic {
 
+    int EXPIRED = 2 * 60 * 60;
+
     static Agonic write(final ChangeFlag flag) {
         if (ChangeFlag.ADD == flag) {
             return Fn.poolThread(Pooled.AGONIC_MAP, AgonicCreate::new, AgonicCreate.class.getName());
