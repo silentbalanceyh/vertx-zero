@@ -17,16 +17,10 @@
             <groupId>cn.vertxup</groupId>
             <artifactId>zero-ke</artifactId>
         </dependency>
-        <!-- Authorization -->
         <dependency>
             <groupId>cn.vertxup</groupId>
             <artifactId>zero-ifx-auth</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>cn.vertxup</groupId>
-            <artifactId>zero-ifx-auth</artifactId>
-            <version>0.8.0-SNAPSHOT</version>
-            <scope>compile</scope>
+            <version>${project.version}</version>
         </dependency>
     </dependencies>
     <build>
