@@ -24,7 +24,7 @@ public class DiGuiceField<T extends I, I> implements DiGuice<T, I> {
         final Field[] fields = clazz.getDeclaredFields();
         return Arrays.stream(fields)
             .filter(field -> !Modifier.isStatic(field.getModifiers()))          // Ko Static
-            .filter(field -> !Modifier.isPublic(field.getModifiers()))          // Ko Non-Public
+            // .filter(field -> !Modifier.isPublic(field.getModifiers()))          // Ko Non-Public
             .filter(field -> field.isAnnotationPresent(Inject.class))           // JSR 330
             .anyMatch(field -> {
                 // Add field Class<?>
