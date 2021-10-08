@@ -36,7 +36,7 @@ public abstract class DiGuiceModule extends AbstractModule {
                 final Class<T> clazz = implSet.iterator().next();
                 this.bind(interfaceCls).to(clazz).asEagerSingleton();
                 this.logger().info("[ DI ] Interface Bind: `{0}`, interfaceCls = `{1}`", clazz, interfaceCls);
-                clazzSet.add(clazz.getName());
+                // clazzSet.add(clazz.getName());
             } else {
                 implSet.forEach(implCls -> {
                     if (implCls.isAnnotationPresent(Named.class)) {

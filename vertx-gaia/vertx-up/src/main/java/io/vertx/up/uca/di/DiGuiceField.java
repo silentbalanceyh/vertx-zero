@@ -63,7 +63,11 @@ public class DiGuiceField<T extends I, I> implements DiGuice<T, I> {
                             }
                         }
                     });
-                    logger().info("[ DI ] Field Scanned with ignored : {0}", Ut.fromJoin(ignoreSet));
+                    if (ignoreSet.isEmpty()) {
+                        logger().info("[ DI ] Field Scanned Successfully !!!");
+                    } else {
+                        logger().info("[ DI ] Field Scanned Successfully with ignored: {0} !!!", Ut.fromJoin(ignoreSet));
+                    }
                 }
             }
         };
