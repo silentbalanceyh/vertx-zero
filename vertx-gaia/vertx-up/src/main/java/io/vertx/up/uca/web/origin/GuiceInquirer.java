@@ -20,6 +20,7 @@ import java.util.function.Consumer;
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
+@SuppressWarnings("all")
 public class GuiceInquirer implements Inquirer<Injector> {
     private static final Annal LOGGER = Annal.get(GuiceInquirer.class);
     private static final DiGuice jsrField = Ut.singleton(DiGuiceField.class);
