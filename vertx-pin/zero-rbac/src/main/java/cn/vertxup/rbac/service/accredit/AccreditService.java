@@ -79,6 +79,9 @@ public class AccreditService implements AccreditStub {
         final String habitus = requestData.getString(KName.HABITUS);
         final String keyView = resource.keyView();
         final ScUser user = ScUser.login(habitus);
+        if (Objects.isNull(user)) {
+            return Future.succeededFuture(new JsonObject());
+        }
         return user.view(keyView).compose(viewData -> {
             if (Objects.isNull(viewData)) {
                 return this.matrixStub.fetchBound(user, resource)

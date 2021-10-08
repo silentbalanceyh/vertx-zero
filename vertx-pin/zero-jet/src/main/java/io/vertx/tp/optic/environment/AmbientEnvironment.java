@@ -2,21 +2,26 @@ package io.vertx.tp.optic.environment;
 
 import cn.vertxup.jet.domain.tables.daos.IApiDao;
 import cn.vertxup.jet.domain.tables.daos.IJobDao;
+import cn.vertxup.jet.domain.tables.daos.IServiceDao;
 import cn.vertxup.jet.domain.tables.pojos.IApi;
 import cn.vertxup.jet.domain.tables.pojos.IJob;
 import cn.vertxup.jet.domain.tables.pojos.IService;
 import io.vertx.codegen.annotations.Fluent;
+import io.vertx.core.Future;
+import io.vertx.core.Vertx;
 import io.vertx.tp.jet.atom.JtApp;
 import io.vertx.tp.jet.atom.JtJob;
 import io.vertx.tp.jet.atom.JtUri;
+import io.vertx.tp.jet.refine.Jt;
 import io.vertx.tp.plugin.database.DataPool;
 import io.vertx.up.commune.config.Database;
-import io.vertx.up.eon.KName;
 import io.vertx.up.fn.Fn;
+import io.vertx.up.log.Annal;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
 import java.sql.Connection;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -31,6 +36,7 @@ import java.util.concurrent.ConcurrentMap;
 // TODO: NEW VERSION
 public class AmbientEnvironment {
 
+    private static final Annal LOGGER = Annal.get(Ambient.class);
     /* Pool of Jobs, it will be consumed by each application */
     private final transient ConcurrentMap<String, JtJob> jobs
         = new ConcurrentHashMap<>();
@@ -40,9 +46,11 @@ public class AmbientEnvironment {
 
     /* XApp application, class JtApp */
     private final transient JtApp app;
+    private final transient Set<String> condition = new HashSet<>();
 
     /* Data source, DSLContext, DataSource */
     private final transient DataPool pool;
+    private final transient DataPool poolMeta;
 
     /*
      * Service Map
@@ -55,68 +63,87 @@ public class AmbientEnvironment {
     AmbientEnvironment(final JtApp app) {
         /* Reference of application */
         this.app = app;
+        this.condition.add(app.getSigma());
         /* ZPool created by Database */
         this.pool = DataPool.create(app.getSource());
-        {
-            /*
-             * Service Init
-             * serviceKey -> service
-             */
-            final List<IService> serviceList = Ux.Jooq.on(IApiDao.class, DataPool.create(Database.getCurrent()))
-                .fetch(KName.SIGMA, app.getSigma());
-            this.serviceMap.putAll(Ut.elementZip(serviceList, IService::getKey, service -> service));
-        }
+        this.poolMeta = DataPool.create(Database.getCurrent());
     }
 
     @Fluent
-    public AmbientEnvironment init() {
-        /*
-         * IApi + IService
-         */
-        this.initUris();
-        /*
-         * IJob + IService
-         */
-        this.initJobs();
-        return this;
+    public Future<AmbientEnvironment> init(final Vertx vertx) {
+        return this.initService(vertx).compose(nil -> {
+
+            final List<Future<Boolean>> futures = new ArrayList<>();
+            /*
+             * IApi + IService
+             */
+            futures.add(this.initUris(vertx));
+            /*
+             * IJob + IService
+             */
+            futures.add(this.initJobs(vertx));
+            return Ux.thenCombineT(futures).compose(res -> Ux.future(this));
+        });
     }
 
-    private void initJobs() {
-        final List<IJob> jobList = Ux.Jooq.on(IJobDao.class, DataPool.create(Database.getCurrent()))
-            .fetch(KName.SIGMA, this.app.getSigma());
+    private Future<Boolean> initService(final Vertx vertx) {
+        final IServiceDao serviceDao = new IServiceDao(this.poolMeta.getExecutor().configuration(), vertx);
+        return serviceDao.findManyBySigma(this.condition).compose(services -> {
+            this.serviceMap.putAll(Ut.elementZip(services, IService::getKey, service -> service));
+            Jt.infoInit(LOGGER, "AE ( {0} ) Service initialized !!!",
+                String.valueOf(this.serviceMap.keySet().size()));
+            return Ux.future(Boolean.TRUE);
+        });
+    }
+
+    private Future<Boolean> initJobs(final Vertx vertx) {
+        final IJobDao jobDao = new IJobDao(this.poolMeta.getExecutor().configuration(), vertx);
         if (this.jobs.isEmpty()) {
             /*
              * Map for JOB + Service
              * serviceKey -> job
              * serviceKey -> service ( Cached )
              */
-            final ConcurrentMap<String, IJob> jobMap = Ut.elementZip(jobList, IJob::getServiceId, job -> job);
-            /* Job / Service Bind into data here */
-            jobMap.keySet().stream()
-                .map(serviceId -> new JtJob(jobMap.get(serviceId), this.serviceMap.get(serviceId))
-                    /* Job Bind app id directly */
-                    .<JtJob>bind(this.app.getAppId())
-                )
-                .forEach(entry -> this.jobs.put(entry.key(), entry));
+            return jobDao.findManyBySigma(this.condition).compose(jobList -> {
+                final ConcurrentMap<String, IJob> jobMap = Ut.elementZip(jobList, IJob::getServiceId, job -> job);
+                /* Job / Service Bind into data here */
+                jobMap.keySet().stream()
+                    .map(serviceId -> new JtJob(jobMap.get(serviceId), this.serviceMap.get(serviceId))
+                        /* Job Bind app id directly */
+                        .<JtJob>bind(this.app.getAppId())
+                    )
+                    .forEach(entry -> this.jobs.put(entry.key(), entry));
+                Jt.infoInit(LOGGER, "AE ( {0} ) Jobs initialized !!!",
+                    String.valueOf(this.jobs.keySet().size()));
+                return Ux.future(Boolean.TRUE);
+            });
+        } else {
+            return Ux.future(Boolean.TRUE);
         }
     }
 
-    private void initUris() {
-        final List<IApi> apiList = Ux.Jooq.on(IApiDao.class, DataPool.create(Database.getCurrent()))
-            .fetch(KName.SIGMA, this.app.getSigma());
+    private Future<Boolean> initUris(final Vertx vertx) {
+        final IApiDao apiDao = new IApiDao(this.poolMeta.getExecutor().configuration(), vertx);
         if (this.uris.isEmpty()) {
             /*
              * Map for API + Service
              * serviceKey -> api
              * serviceKey -> service ( Cached )
              */
-            final ConcurrentMap<String, IApi> apiMap = Ut.elementZip(apiList, IApi::getServiceId, api -> api);
-            /* Uri / Service Bind into data here */
-            apiMap.keySet().stream()
-                .map(serviceId -> new JtUri(apiMap.get(serviceId), this.serviceMap.get(serviceId))
-                    /* Job Bind app id directly */
-                    .<JtUri>bind(this.app.getAppId()))
-                .forEach(entry -> this.uris.put(entry.key(), entry));
+            return apiDao.findManyBySigma(this.condition).compose(apiList -> {
+                final ConcurrentMap<String, IApi> apiMap = Ut.elementZip(apiList, IApi::getServiceId, api -> api);
+                /* Uri / Service Bind into data here */
+                apiMap.keySet().stream()
+                    .map(serviceId -> new JtUri(apiMap.get(serviceId), this.serviceMap.get(serviceId))
+                        /* Job Bind app id directly */
+                        .<JtUri>bind(this.app.getAppId()))
+                    .forEach(entry -> this.uris.put(entry.key(), entry));
+                Jt.infoInit(LOGGER, "AE ( {0} ) Api initialized !!!",
+                    String.valueOf(this.uris.keySet().size()));
+                return Ux.future(Boolean.TRUE);
+            });
+        } else {
+            return Ux.future(Boolean.TRUE);
         }
     }
 

@@ -9,6 +9,7 @@ import io.vertx.up.eon.Values;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import io.vertx.up.util.Ut;
+import org.junit.runner.RunWith;
 
 import java.lang.reflect.Modifier;
 import java.util.HashSet;
@@ -81,6 +82,7 @@ public final class ZeroPack {
                 // .filter(type -> !Modifier.isAbstract(type.getModifiers()))  // Because interface is abstract
                 .filter(type -> !Modifier.isStatic(type.getModifiers()))    // Ko Static
                 .filter(type -> !Throwable.class.isAssignableFrom(type))    // Ko Exception
+                .filter(type -> !type.isAnnotationPresent(RunWith.class))   // Ko Test Class
                 .collect(Collectors.toSet()));
             LOGGER.info(Info.CLASSES, String.valueOf(CLASSES.size()));
             /*

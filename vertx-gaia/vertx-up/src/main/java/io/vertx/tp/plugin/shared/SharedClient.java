@@ -4,9 +4,6 @@ import io.vertx.codegen.annotations.Fluent;
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Handler;
 import io.vertx.core.Vertx;
-import io.vertx.core.json.JsonObject;
-import io.vertx.core.shareddata.AsyncMap;
-import io.vertx.core.shareddata.LocalMap;
 import io.vertx.up.atom.Kv;
 
 import java.util.Set;
@@ -18,19 +15,9 @@ public interface SharedClient<K, V> {
     /**
      * Create local map from shared data
      */
-    static <K, V> SharedClient createShared(final Vertx vertx, final JsonObject config, final String name) {
-        return new SharedClientImpl<K, V>(vertx).create(config, name);
+    static <K, V> SharedClient createShared(final Vertx vertx, final String name) {
+        return SharedClientImpl.<K, V>create(vertx, name);
     }
-
-    /**
-     * Get reference of AsyncMap
-     */
-    AsyncMap<K, V> fetchAsync();
-
-    /**
-     * Get reference of LocalMap
-     */
-    LocalMap<K, V> fetchSync();
 
     SharedClient<K, V> switchClient(final String name);
 

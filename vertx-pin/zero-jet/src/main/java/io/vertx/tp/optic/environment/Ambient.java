@@ -1,6 +1,8 @@
 package io.vertx.tp.optic.environment;
 
+import io.vertx.core.Future;
 import io.vertx.core.MultiMap;
+import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.error._500AmbientConnectException;
 import io.vertx.tp.jet.atom.JtApp;
@@ -9,6 +11,7 @@ import io.vertx.tp.jet.refine.Jt;
 import io.vertx.up.eon.ID;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
+import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
 import java.util.Objects;
@@ -32,7 +35,7 @@ public class Ambient {
 
     private static final Annal LOGGER = Annal.get(Ambient.class);
 
-    static {
+    public static Future<Boolean> init(final Vertx vertx) {
         try {
             /*
              * 1. UnityApp fetching here.
@@ -42,22 +45,32 @@ public class Ambient {
             /*
              * 2. UnityApp initializing, the whole environment will be initianlized
              */
-            unity.initialize();
-            /*
-             * 3. Application environment initialization
-             */
-            final ConcurrentMap<String, JsonObject> unityData = unity.connect();
-            unityData.forEach((key, json) -> APPS.put(key, Ut.deserialize(json, JtApp.class)));
-            /*
-             * 4. Binding configuration of this environment
-             * - DSLContext ( reference )
-             * - Service/Api -> Uri
-             * - Router -> Route of Vert.x
-             */
-            APPS.forEach((appId, app) -> ENVIRONMENTS.put(appId, new AmbientEnvironment(app).init()));
+            return unity.initialize(vertx).compose(initialized -> {
+                /*
+                 * 3. Application environment initialization
+                 */
+                final ConcurrentMap<String, JsonObject> unityData = unity.connect();
+                unityData.forEach((key, json) -> APPS.put(key, Ut.deserialize(json, JtApp.class)));
+                /*
+                 * 4. Binding configuration of this environment
+                 * - DSLContext ( reference )
+                 * - Service/Api -> Uri
+                 * - Router -> Route of Vert.x
+                 */
+                Jt.infoInit(LOGGER, "Ambient detect {0} applications in your environment.",
+                    String.valueOf(APPS.keySet().size()));
+                final ConcurrentMap<String, Future<AmbientEnvironment>> futures = new ConcurrentHashMap<>();
+                APPS.forEach((appId, app) -> futures.put(appId, new AmbientEnvironment(app).init(vertx)));
+                return Ux.thenCombine(futures).compose(processed -> {
+                    ENVIRONMENTS.putAll(processed);
+                    Jt.infoInit(LOGGER, "AmbientEnvironment initialized !!!");
+                    return Ux.future(Boolean.TRUE);
+                });
+            });
         } catch (Throwable ex) {
             // TODO: Start up exception
             ex.printStackTrace();
+            return Future.failedFuture(ex);
         }
     }
 

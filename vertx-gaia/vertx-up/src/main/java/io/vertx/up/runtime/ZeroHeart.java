@@ -1,5 +1,7 @@
 package io.vertx.up.runtime;
 
+import io.vertx.core.Future;
+import io.vertx.core.Vertx;
 import io.vertx.core.http.HttpServerOptions;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
@@ -24,6 +26,13 @@ public class ZeroHeart {
     private static final Node<JsonObject> VISITOR = Ut.singleton(ZeroUniform.class);
 
     public static void init() {
+        init(null).onComplete(res -> LOGGER.info("Extension Initialized {0}", res.result()));
+    }
+
+    /*
+     * Async initialized for extension
+     */
+    public static Future<Boolean> init(final Vertx vertx) {
         // inject configuration
         final JsonObject config = VISITOR.read();
         /*
@@ -36,9 +45,12 @@ public class ZeroHeart {
          *      key2:value2
          */
         if (config.containsKey(INIT)) {
-            final JsonArray initArray = config.getJsonArray(INIT);
-            /* Component Init */
-            Ut.itJArray(initArray, (init, index) -> Ux.nativeInit(init));
+            /* Component initializing with native */
+            final JsonArray components = config.getJsonArray(INIT, new JsonArray());
+            LOGGER.info("Extension components initialized {0}", components.encode());
+            return Ux.nativeInit(components, vertx);
+        } else {
+            return Future.succeededFuture(Boolean.TRUE);
         }
     }
 
