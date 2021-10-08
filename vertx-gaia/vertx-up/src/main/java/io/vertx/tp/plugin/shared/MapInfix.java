@@ -2,7 +2,6 @@ package io.vertx.tp.plugin.shared;
 
 import io.vertx.core.Vertx;
 import io.vertx.up.annotations.Plugin;
-import io.vertx.up.eon.Plugins;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.plugin.Infix;
 
@@ -20,11 +19,7 @@ public class MapInfix implements Infix {
 
     private static void initInternal(final Vertx vertx,
                                      final String name) {
-        Fn.pool(CLIENTS, name, () -> Infix.init(
-            Plugins.Infix.SHARED,
-            nil -> SharedClient.createShared(vertx, name),
-            MapInfix.class
-        ));
+        Fn.pool(CLIENTS, name, () -> SharedClient.createShared(vertx, name));
     }
 
     public static void init(final Vertx vertx) {
