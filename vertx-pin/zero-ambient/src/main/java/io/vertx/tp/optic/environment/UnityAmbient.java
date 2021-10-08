@@ -2,6 +2,8 @@ package io.vertx.tp.optic.environment;
 
 import cn.vertxup.ambient.domain.tables.pojos.XApp;
 import cn.vertxup.ambient.domain.tables.pojos.XSource;
+import io.vertx.core.Future;
+import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.eon.KName;
 import io.vertx.up.fn.Fn;
@@ -15,27 +17,28 @@ import java.util.concurrent.ConcurrentMap;
  * Read ambient here for data initialization
  */
 public class UnityAmbient implements UnityApp {
-
-    private static final ConcurrentMap<String, JsonObject> UNITY_POOL =
-        new ConcurrentHashMap<>();
+    private static final ConcurrentMap<String, JsonObject> UNITY_POOL = new ConcurrentHashMap<>();
 
     @Override
-    public void initialize() {
+    public Future<Boolean> initialize(final Vertx vertx) {
         /*
          * Initialize Unity Pool
          */
-        UnityAsker.init();
-        /*
-         * JsonObject initialization for configuration here
-         */
-        final ConcurrentMap<String, XApp> apps = UnityAsker.getApps();
-        final ConcurrentMap<String, XSource> sources = UnityAsker.getSources();
-        apps.keySet().stream()
-            .filter(appId -> Objects.nonNull(apps.get(appId)))
-            .filter(appId -> Objects.nonNull(sources.get(appId)))
-            /* JsonObject converted here for app & source data */
-            .map(appId -> this.connect(apps.get(appId), sources.get(appId)))
-            .forEach(item -> UnityAmbient.UNITY_POOL.put(item.getString(KName.APP_ID), item));
+        return UnityAsker.init(vertx).compose(nil -> {
+            /*
+             * JsonObject initialization for configuration here
+             * When the `compose` here, the app and source has been initialized.
+             */
+            final ConcurrentMap<String, XApp> apps = UnityAsker.getApps();
+            final ConcurrentMap<String, XSource> sources = UnityAsker.getSources();
+            apps.keySet().stream()
+                .filter(appId -> Objects.nonNull(apps.get(appId)))
+                .filter(appId -> Objects.nonNull(sources.get(appId)))
+                /* JsonObject converted here for app & source data */
+                .map(appId -> this.connect(apps.get(appId), sources.get(appId)))
+                .forEach(item -> UNITY_POOL.put(item.getString(KName.APP_ID), item));
+            return Future.succeededFuture(Boolean.TRUE);
+        });
     }
 
     @Override

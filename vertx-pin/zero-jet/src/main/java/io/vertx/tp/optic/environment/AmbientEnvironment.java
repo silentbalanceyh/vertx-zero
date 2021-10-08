@@ -2,6 +2,7 @@ package io.vertx.tp.optic.environment;
 
 import cn.vertxup.jet.domain.tables.daos.IApiDao;
 import cn.vertxup.jet.domain.tables.daos.IJobDao;
+import cn.vertxup.jet.domain.tables.daos.IServiceDao;
 import cn.vertxup.jet.domain.tables.pojos.IApi;
 import cn.vertxup.jet.domain.tables.pojos.IJob;
 import cn.vertxup.jet.domain.tables.pojos.IService;
@@ -62,7 +63,7 @@ public class AmbientEnvironment {
              * Service Init
              * serviceKey -> service
              */
-            final List<IService> serviceList = Ux.Jooq.on(IApiDao.class, DataPool.create(Database.getCurrent()))
+            final List<IService> serviceList = Ux.Jooq.on(IServiceDao.class, DataPool.create(Database.getCurrent()))
                 .fetch(KName.SIGMA, app.getSigma());
             this.serviceMap.putAll(Ut.elementZip(serviceList, IService::getKey, service -> service));
         }
