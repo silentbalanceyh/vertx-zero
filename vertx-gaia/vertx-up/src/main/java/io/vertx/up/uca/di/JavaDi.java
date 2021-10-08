@@ -20,6 +20,7 @@ import java.util.concurrent.ConcurrentMap;
  *
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
+@Deprecated
 public class JavaDi<T extends I, I> extends AbstractModule {
     private static final Annal LOGGER = Annal.get(JavaDi.class);
     private final transient ConcurrentMap<Class<T>, Set<Class<I>>> classes
