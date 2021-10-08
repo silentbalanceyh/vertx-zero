@@ -83,13 +83,13 @@ public class SharedClientImpl<K, V> implements SharedClient<K, V> {
     private SharedClient createAsync(final String name,
                                      final Handler<AsyncResult<SharedClient>> handler) {
         final SharedData sd = this.vertx.sharedData();
+        this.isAsync = true;
         // Async map created
         LOGGER.info(Info.INFO_ASYNC_START);
         sd.<K, V>getAsyncMap(name, res -> {
             if (res.succeeded()) {
                 this.asyncMap = res.result();
                 LOGGER.info(Info.INFO_ASYNC_END, String.valueOf(this.asyncMap.hashCode()));
-                this.isAsync = true;
                 handler.handle(Future.succeededFuture(this));
             }
         });
