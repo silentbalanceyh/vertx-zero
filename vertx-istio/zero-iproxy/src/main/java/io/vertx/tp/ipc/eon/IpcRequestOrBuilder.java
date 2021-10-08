@@ -13,7 +13,6 @@ public interface IpcRequestOrBuilder extends
    * </pre>
    *
    * <code>.io.vertx.tp.ipc.eon.em.Format response_format = 1;</code>
-   * @return The enum numeric value on the wire for responseFormat.
    */
   int getResponseFormatValue();
   /**
@@ -22,7 +21,6 @@ public interface IpcRequestOrBuilder extends
    * </pre>
    *
    * <code>.io.vertx.tp.ipc.eon.em.Format response_format = 1;</code>
-   * @return The responseFormat.
    */
   io.vertx.tp.ipc.eon.em.Format getResponseFormat();
 
@@ -32,7 +30,6 @@ public interface IpcRequestOrBuilder extends
    * </pre>
    *
    * <code>.io.vertx.tp.ipc.eon.em.Category response_category = 2;</code>
-   * @return The enum numeric value on the wire for responseCategory.
    */
   int getResponseCategoryValue();
   /**
@@ -41,7 +38,6 @@ public interface IpcRequestOrBuilder extends
    * </pre>
    *
    * <code>.io.vertx.tp.ipc.eon.em.Category response_category = 2;</code>
-   * @return The responseCategory.
    */
   io.vertx.tp.ipc.eon.em.Category getResponseCategory();
 
@@ -51,7 +47,6 @@ public interface IpcRequestOrBuilder extends
    * </pre>
    *
    * <code>int32 response_size = 3;</code>
-   * @return The responseSize.
    */
   int getResponseSize();
 
@@ -61,7 +56,6 @@ public interface IpcRequestOrBuilder extends
    * </pre>
    *
    * <code>.io.vertx.tp.ipc.eon.IpcEnvelop envelop = 4;</code>
-   * @return Whether the envelop field is set.
    */
   boolean hasEnvelop();
   /**
@@ -70,7 +64,6 @@ public interface IpcRequestOrBuilder extends
    * </pre>
    *
    * <code>.io.vertx.tp.ipc.eon.IpcEnvelop envelop = 4;</code>
-   * @return The envelop.
    */
   io.vertx.tp.ipc.eon.IpcEnvelop getEnvelop();
   /**
@@ -88,7 +81,6 @@ public interface IpcRequestOrBuilder extends
    * </pre>
    *
    * <code>bool is_client_id = 5;</code>
-   * @return The isClientId.
    */
   boolean getIsClientId();
 
@@ -98,7 +90,6 @@ public interface IpcRequestOrBuilder extends
    * </pre>
    *
    * <code>bool is_oauth_scope = 6;</code>
-   * @return The isOauthScope.
    */
   boolean getIsOauthScope();
 
@@ -108,7 +99,6 @@ public interface IpcRequestOrBuilder extends
    * </pre>
    *
    * <code>.io.vertx.tp.ipc.eon.em.Compression algorithm = 7;</code>
-   * @return The enum numeric value on the wire for algorithm.
    */
   int getAlgorithmValue();
   /**
@@ -117,7 +107,6 @@ public interface IpcRequestOrBuilder extends
    * </pre>
    *
    * <code>.io.vertx.tp.ipc.eon.em.Compression algorithm = 7;</code>
-   * @return The algorithm.
    */
   io.vertx.tp.ipc.eon.em.Compression getAlgorithm();
 
@@ -127,7 +116,6 @@ public interface IpcRequestOrBuilder extends
    * </pre>
    *
    * <code>.io.vertx.tp.ipc.eon.IpcStatus response_status = 8;</code>
-   * @return Whether the responseStatus field is set.
    */
   boolean hasResponseStatus();
   /**
@@ -136,7 +124,6 @@ public interface IpcRequestOrBuilder extends
    * </pre>
    *
    * <code>.io.vertx.tp.ipc.eon.IpcStatus response_status = 8;</code>
-   * @return The responseStatus.
    */
   io.vertx.tp.ipc.eon.IpcStatus getResponseStatus();
   /**

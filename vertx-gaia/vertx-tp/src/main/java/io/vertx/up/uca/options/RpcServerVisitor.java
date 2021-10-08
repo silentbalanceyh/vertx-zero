@@ -11,8 +11,8 @@ import io.vertx.up.exception.ZeroException;
 import io.vertx.up.exception.demon.ServerConfigException;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
+import io.vertx.up.uca.marshal.JTransformer;
 import io.vertx.up.uca.marshal.RpcServerStrada;
-import io.vertx.up.uca.marshal.Transformer;
 import io.vertx.up.uca.yaml.Node;
 import io.vertx.up.util.Ut;
 
@@ -27,7 +27,7 @@ public class RpcServerVisitor implements ServerVisitor<ServidorOptions> {
     private static final Annal LOGGER = Annal.get(RpcServerVisitor.class);
 
     private transient final Node<JsonObject> node = Node.infix(Plugins.SERVER);
-    private transient final Transformer<ServidorOptions>
+    private transient final JTransformer<ServidorOptions>
         transformer = Ut.singleton(RpcServerStrada.class);
 
     @Override

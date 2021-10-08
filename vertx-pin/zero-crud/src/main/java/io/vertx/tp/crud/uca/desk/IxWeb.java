@@ -29,7 +29,7 @@ public class IxWeb {
     // Input Parameters
     private transient Vis view;
     private transient String key;
-    private transient String module;
+    private transient String actor;
     private transient JsonObject bodyJ;
     private transient JsonArray bodyA;
 
@@ -47,6 +47,7 @@ public class IxWeb {
          *  Here we create the first module ( active module )
          */
         final String actor = Ux.getString(envelop);
+        this.actor = actor;
         this.active = IxMod.create(actor).bind(envelop);
 
         // Different workflow to extract rest parameters

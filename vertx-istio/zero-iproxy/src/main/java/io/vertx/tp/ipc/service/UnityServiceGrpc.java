@@ -24,35 +24,6 @@ public final class UnityServiceGrpc {
 
   private UnityServiceGrpc() {}
 
-  private static <T> io.grpc.stub.StreamObserver<T> toObserver(final io.vertx.core.Handler<io.vertx.core.AsyncResult<T>> handler) {
-    return new io.grpc.stub.StreamObserver<T>() {
-      private volatile boolean resolved = false;
-      @Override
-      public void onNext(T value) {
-        if (!resolved) {
-          resolved = true;
-          handler.handle(io.vertx.core.Future.succeededFuture(value));
-        }
-      }
-
-      @Override
-      public void onError(Throwable t) {
-        if (!resolved) {
-          resolved = true;
-          handler.handle(io.vertx.core.Future.failedFuture(t));
-        }
-      }
-
-      @Override
-      public void onCompleted() {
-        if (!resolved) {
-          resolved = true;
-          handler.handle(io.vertx.core.Future.succeededFuture());
-        }
-      }
-    };
-  }
-
   public static final String SERVICE_NAME = "io.vertx.tp.ipc.service.UnityService";
 
   // Static method descriptors that strictly reflect the proto.
@@ -90,13 +61,6 @@ public final class UnityServiceGrpc {
   public static UnityServiceFutureStub newFutureStub(
       io.grpc.Channel channel) {
     return new UnityServiceFutureStub(channel);
-  }
-
-  /**
-   * Creates a new vertx stub that supports all call types for the service
-   */
-  public static UnityServiceVertxStub newVertxStub(io.grpc.Channel channel) {
-    return new UnityServiceVertxStub(channel);
   }
 
   /**
@@ -215,63 +179,6 @@ public final class UnityServiceGrpc {
     }
   }
 
-  /**
-   */
-  public static abstract class UnityServiceVertxImplBase implements io.grpc.BindableService {
-
-    /**
-     * <pre>
-     * Direct: Client -&gt; Server -&gt; Client
-     * </pre>
-     */
-    public void unityCall(io.vertx.tp.ipc.eon.IpcRequest request,
-        io.vertx.core.Future<io.vertx.tp.ipc.eon.IpcResponse> response) {
-      asyncUnimplementedUnaryCall(METHOD_UNITY_CALL, UnityServiceGrpc.toObserver(response.completer()));
-    }
-
-    @java.lang.Override public final io.grpc.ServerServiceDefinition bindService() {
-      return io.grpc.ServerServiceDefinition.builder(getServiceDescriptor())
-          .addMethod(
-            METHOD_UNITY_CALL,
-            asyncUnaryCall(
-              new VertxMethodHandlers<
-                io.vertx.tp.ipc.eon.IpcRequest,
-                io.vertx.tp.ipc.eon.IpcResponse>(
-                  this, METHODID_UNITY_CALL)))
-          .build();
-    }
-  }
-
-  /**
-   */
-  public static final class UnityServiceVertxStub extends io.grpc.stub.AbstractStub<UnityServiceVertxStub> {
-    private UnityServiceVertxStub(io.grpc.Channel channel) {
-      super(channel);
-    }
-
-    private UnityServiceVertxStub(io.grpc.Channel channel,
-        io.grpc.CallOptions callOptions) {
-      super(channel, callOptions);
-    }
-
-    @java.lang.Override
-    protected UnityServiceVertxStub build(io.grpc.Channel channel,
-        io.grpc.CallOptions callOptions) {
-      return new UnityServiceVertxStub(channel, callOptions);
-    }
-
-    /**
-     * <pre>
-     * Direct: Client -&gt; Server -&gt; Client
-     * </pre>
-     */
-    public void unityCall(io.vertx.tp.ipc.eon.IpcRequest request,
-        io.vertx.core.Handler<io.vertx.core.AsyncResult<io.vertx.tp.ipc.eon.IpcResponse>> response) {
-      asyncUnaryCall(
-          getChannel().newCall(METHOD_UNITY_CALL, getCallOptions()), request, UnityServiceGrpc.toObserver(response));
-    }
-  }
-
   private static final int METHODID_UNITY_CALL = 0;
 
   private static final class MethodHandlers<Req, Resp> implements
@@ -294,50 +201,6 @@ public final class UnityServiceGrpc {
         case METHODID_UNITY_CALL:
           serviceImpl.unityCall((io.vertx.tp.ipc.eon.IpcRequest) request,
               (io.grpc.stub.StreamObserver<io.vertx.tp.ipc.eon.IpcResponse>) responseObserver);
-          break;
-        default:
-          throw new AssertionError();
-      }
-    }
-
-    @java.lang.Override
-    @java.lang.SuppressWarnings("unchecked")
-    public io.grpc.stub.StreamObserver<Req> invoke(
-        io.grpc.stub.StreamObserver<Resp> responseObserver) {
-      switch (methodId) {
-        default:
-          throw new AssertionError();
-      }
-    }
-  }
-
-  private static final class VertxMethodHandlers<Req, Resp> implements
-      io.grpc.stub.ServerCalls.UnaryMethod<Req, Resp>,
-      io.grpc.stub.ServerCalls.ServerStreamingMethod<Req, Resp>,
-      io.grpc.stub.ServerCalls.ClientStreamingMethod<Req, Resp>,
-      io.grpc.stub.ServerCalls.BidiStreamingMethod<Req, Resp> {
-    private final UnityServiceVertxImplBase serviceImpl;
-    private final int methodId;
-
-    VertxMethodHandlers(UnityServiceVertxImplBase serviceImpl, int methodId) {
-      this.serviceImpl = serviceImpl;
-      this.methodId = methodId;
-    }
-
-    @java.lang.Override
-    @java.lang.SuppressWarnings("unchecked")
-    public void invoke(Req request, io.grpc.stub.StreamObserver<Resp> responseObserver) {
-      switch (methodId) {
-        case METHODID_UNITY_CALL:
-          serviceImpl.unityCall((io.vertx.tp.ipc.eon.IpcRequest) request,
-              (io.vertx.core.Future<io.vertx.tp.ipc.eon.IpcResponse>) io.vertx.core.Future.<io.vertx.tp.ipc.eon.IpcResponse>future().setHandler(ar -> {
-                if (ar.succeeded()) {
-                  ((io.grpc.stub.StreamObserver<io.vertx.tp.ipc.eon.IpcResponse>) responseObserver).onNext(ar.result());
-                  responseObserver.onCompleted();
-                } else {
-                  responseObserver.onError(ar.cause());
-                }
-              }));
           break;
         default:
           throw new AssertionError();

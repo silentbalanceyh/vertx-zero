@@ -12,6 +12,7 @@ import io.vertx.up.util.Ut;
 import io.vertx.zero.exception.AsyncSignatureException;
 import io.vertx.zero.exception.WorkerArgumentException;
 
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Objects;
 import java.util.function.Supplier;
@@ -19,9 +20,23 @@ import java.util.function.Supplier;
 /**
  * Tool for invoker do shared works.
  */
-@SuppressWarnings("unused")
+@SuppressWarnings("all")
 public class InvokerUtil {
     private static final Annal LOGGER = Annal.get(InvokerUtil.class);
+
+    public static <T> T invoke(final Object proxy, final Method method, final Object... args) {
+        /*
+         * Be sure to trust args first calling and then normalized calling
+         * by `Ut.invoke`, because `Ut.invoke` will parse many parameters here, it means that
+         * it will analyze the metadata information in runtime, I think it's not needed in
+         * zero framework now. the method could be invoked with args directly.
+         */
+        try {
+            return (T) method.invoke(proxy, args);
+        } catch (final InvocationTargetException | IllegalAccessException ex) {
+            return Ut.invoke(proxy, method.getName(), args);
+        }
+    }
 
     /**
      * Whether this method is void
@@ -146,7 +161,8 @@ public class InvokerUtil {
                 adjust += 1;
             }
         }
-        return Ut.invoke(proxy, method.getName(), arguments);
+        return invoke(proxy, method, arguments);
+        // return Ut.invoke(proxy, method.getName(), arguments);
     }
 
     static Object invokeSingle(final Object proxy,
@@ -171,7 +187,7 @@ public class InvokerUtil {
                 }
             }
             final Object arguments = ZeroSerializer.getValue(argType, Ut.toString(parameters));
-            return Ut.invoke(proxy, method.getName(), arguments);
+            return invoke(proxy, method, arguments); // Ut.invoke(proxy, method.getName(), arguments);
         } else {
             /*
              * XHeader
@@ -179,7 +195,7 @@ public class InvokerUtil {
              * Session
              * These three argument types could be single
              */
-            return Ut.invoke(proxy, method.getName(), analyzed);
+            return invoke(proxy, method, analyzed); // Ut.invoke(proxy, method.getName(), analyzed);
         }
     }
 

@@ -28,8 +28,8 @@ class JooqPin {
         new ConcurrentHashMap<DatabaseType, SQLDialect>() {
             {
                 this.put(DatabaseType.MYSQL, SQLDialect.MYSQL);
-                this.put(DatabaseType.MYSQL5, SQLDialect.MYSQL_5_7);
-                this.put(DatabaseType.MYSQL8, SQLDialect.MYSQL_8_0);
+                this.put(DatabaseType.MYSQL5, SQLDialect.MYSQL);
+                this.put(DatabaseType.MYSQL8, SQLDialect.MYSQL);
             }
         };
 

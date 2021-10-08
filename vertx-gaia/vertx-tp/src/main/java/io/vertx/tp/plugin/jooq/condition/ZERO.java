@@ -12,7 +12,8 @@ import java.util.concurrent.ConcurrentMap;
 
 interface Info {
 
-    String JOOQ_PARSE = "( Jooq -> Condition ) Parsed result is \ncondition = \n{0}.";
+    String JOOQ_PARSE = "( Jooq -> Condition ) Parsed result is condition = {0}.";
+    String JOOQ_CACHED = "( Jooq -> Condition ) Cached result is condition = {0}.";
     String JOOQ_TERM = "`io.vertx.tp.plugin.jooq.condition.Term` selected: `{0}` by op = `{1}`.";
     String JOOQ_TERM_ERR = "`io.vertx.tp.plugin.jooq.condition.Term` is null when op = `{0}`.";
 }

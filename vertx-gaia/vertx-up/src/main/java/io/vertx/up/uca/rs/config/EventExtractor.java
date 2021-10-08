@@ -8,10 +8,11 @@ import io.vertx.up.annotations.Adjust;
 import io.vertx.up.annotations.Codex;
 import io.vertx.up.annotations.EndPoint;
 import io.vertx.up.atom.agent.Event;
+import io.vertx.up.atom.container.VInstance;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import io.vertx.up.runtime.ZeroHelper;
-import io.vertx.up.uca.container.VInstance;
+import io.vertx.up.uca.di.DiPlugin;
 import io.vertx.up.uca.rs.Extractor;
 import io.vertx.up.util.Ut;
 import io.vertx.zero.exception.EventSourceException;
@@ -30,6 +31,8 @@ import java.util.stream.Collectors;
 public class EventExtractor implements Extractor<Set<Event>> {
 
     private static final Annal LOGGER = Annal.get(EventExtractor.class);
+
+    private static final DiPlugin PLUGIN = DiPlugin.create(EventExtractor.class);
 
     @Override
     public Set<Event> extract(final Class<?> clazz) {
@@ -105,6 +108,7 @@ public class EventExtractor implements Extractor<Set<Event>> {
         final HttpMethod httpMethod = MethodResolver.resolve(method);
         if (null == httpMethod) {
             // Ignored the method could not be annotated.
+            LOGGER.warn("\u001b[0;31m!!!!!, Missed HttpMethod annotation for method\u001b[m ? (GET,POST,PUT,...). method = \u001b[0;31m{0}\u001b[m", method);
             return null;
         } else {
             event.setMethod(httpMethod);
@@ -135,7 +139,7 @@ public class EventExtractor implements Extractor<Set<Event>> {
         if (clazz.isInterface()) {
             final Class<?> implClass = Ut.childUnique(clazz);
             if (null != implClass) {
-                proxy = Ut.singleton(implClass);
+                proxy = PLUGIN.createComponent(implClass); // Ut.singleton(implClass);
             } else {
                 /*
                  * SPEC5: Interface only, direct api, in this situation,
@@ -146,7 +150,7 @@ public class EventExtractor implements Extractor<Set<Event>> {
                 proxy = VInstance.create(clazz);
             }
         } else {
-            proxy = Ut.singleton(method.getDeclaringClass());
+            proxy = PLUGIN.createComponent(method.getDeclaringClass()); // Ut.singleton(method.getDeclaringClass());
         }
         event.setProxy(proxy);
         // 8. Order

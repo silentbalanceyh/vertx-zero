@@ -56,12 +56,25 @@ know more details in Zero Framework: [Feature List](FEATURES.md).
 
 If you want to use Zero framework, you can add following dependency into you `pom.xml` to use Zero:
 
+**JDK 8**, vert.x 3.9.x
+
 ```xml
 
 <parent>
     <artifactId>vertx-import</artifactId>
     <groupId>cn.vertxup</groupId>
     <version>0.6.2</version>
+</parent>
+```
+
+**JDK 11+**, vert.x 4.x
+
+```xml
+
+<parent>
+    <artifactId>vertx-import</artifactId>
+    <groupId>cn.vertxup</groupId>
+    <version>0.7.0</version>
 </parent>
 ```
 

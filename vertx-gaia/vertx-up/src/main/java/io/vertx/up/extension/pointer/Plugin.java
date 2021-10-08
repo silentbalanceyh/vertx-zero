@@ -56,7 +56,8 @@ class Plugin {
                 try {
                     return function.apply(pluginCls, config);
                 } catch (final Throwable ex) {
-                    LOGGER.warn("Plugin Extension Failure: {0}", ex.getMessage());
+                    ex.printStackTrace();
+                    LOGGER.warn("Plugin Extension Failure: {0}, class = {1}", ex.getMessage(), pluginCls);
                     return Ux.future(envelop);
                 }
             }

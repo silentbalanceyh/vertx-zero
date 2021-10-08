@@ -5,7 +5,7 @@ import io.vertx.core.Future;
 import io.vertx.core.Vertx;
 import io.vertx.tp.ipc.eon.IpcRequest;
 import io.vertx.tp.ipc.eon.IpcResponse;
-import io.vertx.tp.ipc.service.UnityServiceGrpc;
+import io.vertx.tp.ipc.service.VertxUnityServiceGrpc;
 import io.vertx.up.annotations.Ipc;
 import io.vertx.up.atom.rpc.IpcData;
 import io.vertx.up.commune.Envelop;
@@ -30,8 +30,7 @@ public class UnityTunnel implements Tunnel {
 
     @Override
     public BindableService init(final Vertx vertx) {
-        return new UnityServiceGrpc.UnityServiceVertxImplBase() {
-            @Override
+        return new VertxUnityServiceGrpc.UnityServiceVertxImplBase() {
             public void unityCall(final IpcRequest request, final Future<IpcResponse> future) {
                 // IpcData building
                 final IpcData data = DataEncap.consume(request, IpcType.UNITY);
@@ -46,7 +45,7 @@ public class UnityTunnel implements Tunnel {
                         new _501RpcMethodMissingException(this.getClass(), data.getAddress()));
                     // Build IpcData
                     final IpcData responseData = UnityTunnel.this.build(community, envelop);
-                    future.complete(DataEncap.out(responseData));
+                    // future.complete(DataEncap.out(responseData));
                 } else {
                     // Execute Transit
                     final Transit transit = UnityTunnel.this.getTransit(method, vertx);
@@ -55,7 +54,7 @@ public class UnityTunnel implements Tunnel {
                     result.onComplete(res -> {
                         if (res.succeeded()) {
                             final IpcData responseData = UnityTunnel.this.build(res.result(), envelop);
-                            future.complete(DataEncap.out(responseData));
+                            // future.complete(DataEncap.out(responseData));
                         } else {
                             res.cause().printStackTrace();
                         }

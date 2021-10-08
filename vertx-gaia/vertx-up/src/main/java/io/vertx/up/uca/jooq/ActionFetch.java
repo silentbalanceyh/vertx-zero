@@ -3,8 +3,7 @@ package io.vertx.up.uca.jooq;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.plugin.jooq.condition.JooqCond;
-import org.jooq.Condition;
-import org.jooq.Operator;
+import org.jooq.*;
 
 import java.util.List;
 
@@ -24,63 +23,111 @@ class ActionFetch extends AbstractAction {
 
     /* Future<List<T>> */
     <T> Future<List<T>> fetchAllAsync() {
-        return this.<List<T>>successed(this.vertxDAO.findAllAsync());
+        return ((Future<List<T>>) this.dao().findAll()).compose(list -> {
+            this.logger().info("[ Jq ] fetchAllAsync() queried rows: {0}", String.valueOf(list.size()));
+            return Future.succeededFuture(list);
+        });
     }
 
     /* List<T> */
     <T> List<T> fetchAll() {
-        return this.vertxDAO.findAll();
-    }
-
-    /* Future<List<T>> */
-    <T> Future<List<T>> fetchAsync(final String field, final Object value) {
-        return this.<List<T>>successed(this.vertxDAO.fetchAsync(this.analyzer.column(field), parameters(value)));
-    }
-
-    /* List<T> */
-    <T> List<T> fetch(final String field, final Object value) {
-        return this.vertxDAO.fetch(this.analyzer.column(field), parameters(value));
-    }
-
-    /* Future<List<T>> */
-    <T> Future<List<T>> fetchAsync(final JsonObject criteria) {
-        return this.qr.searchAsync(criteria);
-    }
-
-    /* List<T> */
-    <T> List<T> fetch(final JsonObject criteria) {
-        return this.qr.search(criteria);
+        final SelectWhereStep selectStep = this.context().selectFrom(this.analyzer.table());
+        final List<T> list = ((ResultQuery) selectStep).fetchInto(this.analyzer.type());
+        this.logger().info("[ Jq ] fetchAll() queried rows: {0}", String.valueOf(list.size()));
+        return list;
     }
 
     /* Future<T> */
     <T, ID> Future<T> fetchByIdAsync(final ID id) {
-        return this.successed(this.vertxDAO.findByIdAsync(id));
+        return ((Future<T>) this.dao().findOneById(id)).compose(queried -> {
+            this.logger().info("[ Jq ] fetchByIdAsync(ID) by id: {1}, queried record: {0}", queried, id);
+            return Future.succeededFuture(queried);
+        });
     }
 
     /* T */
     <T, ID> T fetchById(final ID id) {
-        return (T) this.vertxDAO.findById(id);
+        final SelectConditionStep selectStep = this.context().selectFrom(this.analyzer.table())
+            .where(this.analyzer.conditionId(id));
+        final T queried = (T) ((ResultQuery) selectStep).fetchOneInto(this.analyzer.type());
+        this.logger().info("[ Jq ] fetchByIdAsync(ID) by id: {1}, queried record: {0}", queried, id);
+        return queried;
     }
+
+    /* Future<List<T>> */
+    <T> Future<List<T>> fetchAsync(final String field, final Object value) {
+        final Condition condition = this.analyzer.conditionField(field, value);
+        return ((Future<List<T>>) this.dao().findManyByCondition(condition)).compose(list -> {
+            this.logger().info("[ Jq ] fetchAsync(String, Object) condition: \"{1}\", queried rows: {0}",
+                String.valueOf(list.size()), condition);
+            return Future.succeededFuture(list);
+        });
+    }
+
+    /* List<T> */
+    <T> List<T> fetch(final String field, final Object value) {
+        final Condition condition = this.analyzer.conditionField(field, value);
+        final SelectConditionStep selectStep = this.context().selectFrom(this.analyzer.table())
+            .where(condition);
+        final List<T> list = (List<T>) ((ResultQuery) selectStep).fetchInto(this.analyzer.type());
+        this.logger().info("[ Jq ] fetch(String, Object) condition: \"{1}\", queried rows: {0}",
+            String.valueOf(list.size()), condition);
+        return list;
+    }
+
+    /* Future<List<T>> */
+    <T> Future<List<T>> fetchAsync(final JsonObject criteria) {
+        return this.qr.<T>searchAsync(criteria).compose(list -> {
+            this.logger().info("[ Jq ] fetchAsync(JsonObject) condition json: \"{1}\", queried rows: {0}",
+                String.valueOf(list.size()), criteria);
+            return Future.succeededFuture(list);
+        });
+    }
+
+    /* List<T> */
+    <T> List<T> fetch(final JsonObject criteria) {
+        final List<T> list = this.qr.search(criteria);
+        this.logger().info("[ Jq ] fetch(JsonObject) condition json: \"{1}\", queried rows: {0}",
+            String.valueOf(list.size()), criteria);
+        return list;
+    }
+
 
     /* Future<T> */
     <T> Future<T> fetchOneAsync(final String field, final Object value) {
-        return this.successed(this.vertxDAO.fetchOneAsync(this.analyzer.column(field), value));
+        final Condition condition = this.analyzer.conditionField(field, value);
+        return ((Future<T>) this.dao().findOneByCondition(condition)).compose(queried -> {
+            this.logger().info("[ Jq ] fetchOneAsync(String, Object) condition: \"{1}\", queried record: {0}", queried, condition);
+            return Future.succeededFuture(queried);
+        });
     }
 
     /* T */
     <T> T fetchOne(final String field, final Object value) {
-        return (T) this.vertxDAO.fetchOne(this.analyzer.column(field), value);
+        final Condition condition = this.analyzer.conditionField(field, value);
+        final SelectConditionStep selectStep = this.context().selectFrom(this.analyzer.table())
+            .where(condition);
+        final T queried = (T) ((ResultQuery) selectStep).fetchOneInto(this.analyzer.type());
+        this.logger().info("[ Jq ] fetchOne(String, Object) condition: \"{1}\", queried record: {0}", queried, condition);
+        return queried;
     }
 
     /* Future<T> */
     <T> Future<T> fetchOneAsync(final JsonObject criteria) {
         final Condition condition = JooqCond.transform(criteria, Operator.AND, this.analyzer::column);
-        return this.successed(this.vertxDAO.fetchOneAsync(condition));
+        return ((Future<T>) this.dao().findOneByCondition(condition)).compose(queried -> {
+            this.logger().info("[ Jq ] fetchOneAsync(JsonObject) condition: \"{1}\", queried record: {0}", queried, condition);
+            return Future.succeededFuture(queried);
+        });
     }
 
     /* T */
     <T> T fetchOne(final JsonObject criteria) {
         final Condition condition = JooqCond.transform(criteria, Operator.AND, this.analyzer::column);
-        return (T) this.context().selectFrom(this.vertxDAO.getTable()).where(condition).fetchOne(this.vertxDAO.mapper());
+        final SelectConditionStep selectStep = this.context().selectFrom(this.analyzer.table())
+            .where(condition);
+        final T queried = (T) ((ResultQuery) selectStep).fetchOneInto(this.analyzer.type());
+        this.logger().info("[ Jq ] fetchOne(JsonObject) condition: \"{1}\", queried record: {0}", queried, condition);
+        return queried;
     }
 }

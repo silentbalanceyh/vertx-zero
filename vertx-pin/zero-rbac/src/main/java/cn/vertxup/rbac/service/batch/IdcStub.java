@@ -3,8 +3,8 @@ package cn.vertxup.rbac.service.batch;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.error._501NotSupportException;
 import io.vertx.up.eon.Values;
+import io.vertx.up.exception.web._501NotSupportException;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.unity.Ux;
 

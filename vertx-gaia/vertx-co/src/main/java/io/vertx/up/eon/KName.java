@@ -35,6 +35,7 @@ public interface KName {
     String HABITUS = "habitus";                  /* Authorization header to store current logged user session data, Permission Pool */
     String DYNAMIC = "dynamic";                  /* View security of field for dynamic view name */
     String VIEW = "view";                        /* View security of view name */
+    String PROFILE = "profile";                  /* */
     String POSITION = "position";                /* View security of view position */
     String MODULE = "module";                    /* View sub-module picking up */
 
@@ -108,6 +109,7 @@ public interface KName {
     String FORMAT = "format";                    /* DataFormat json configuration of uniform */
 
     String METHOD = "method";                    /* Web: http method */
+    String SESSION = "session";                  /* Web: session */
     String URI = "uri";                          /* Web: http path */
     String URI_IMPACT = "impactUri";             /* Web: http impact uri */
     String URI_REQUEST = "requestUri";           /* Web: http path ( normalized ) contains path such as `/api/:code/name` instead of actual */
@@ -149,6 +151,8 @@ public interface KName {
 
     String AT = "at";                            /* at field */
     String BY = "by";                            /* by field */
+
+    String ACCESS_TOKEN = "access_token";        /* token cv from `jwt` to `access_token` */
 
     interface Micro {
         String ETCD = "etcd";

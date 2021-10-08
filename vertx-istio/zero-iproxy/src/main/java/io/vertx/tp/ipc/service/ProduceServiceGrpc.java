@@ -24,35 +24,6 @@ public final class ProduceServiceGrpc {
 
   private ProduceServiceGrpc() {}
 
-  private static <T> io.grpc.stub.StreamObserver<T> toObserver(final io.vertx.core.Handler<io.vertx.core.AsyncResult<T>> handler) {
-    return new io.grpc.stub.StreamObserver<T>() {
-      private volatile boolean resolved = false;
-      @Override
-      public void onNext(T value) {
-        if (!resolved) {
-          resolved = true;
-          handler.handle(io.vertx.core.Future.succeededFuture(value));
-        }
-      }
-
-      @Override
-      public void onError(Throwable t) {
-        if (!resolved) {
-          resolved = true;
-          handler.handle(io.vertx.core.Future.failedFuture(t));
-        }
-      }
-
-      @Override
-      public void onCompleted() {
-        if (!resolved) {
-          resolved = true;
-          handler.handle(io.vertx.core.Future.succeededFuture());
-        }
-      }
-    };
-  }
-
   public static final String SERVICE_NAME = "io.vertx.tp.ipc.service.ProduceService";
 
   // Static method descriptors that strictly reflect the proto.
@@ -90,13 +61,6 @@ public final class ProduceServiceGrpc {
   public static ProduceServiceFutureStub newFutureStub(
       io.grpc.Channel channel) {
     return new ProduceServiceFutureStub(channel);
-  }
-
-  /**
-   * Creates a new vertx stub that supports all call types for the service
-   */
-  public static ProduceServiceVertxStub newVertxStub(io.grpc.Channel channel) {
-    return new ProduceServiceVertxStub(channel);
   }
 
   /**
@@ -194,66 +158,6 @@ public final class ProduceServiceGrpc {
     }
   }
 
-  /**
-   */
-  public static abstract class ProduceServiceVertxImplBase implements io.grpc.BindableService {
-
-    /**
-     * <pre>
-     * Client -&gt; Server
-     * </pre>
-     */
-    public void inputCall(
-        io.vertx.grpc.GrpcBidiExchange<io.vertx.tp.ipc.eon.StreamClientRequest, io.vertx.tp.ipc.eon.StreamClientResponse> exchange) {
-      exchange.setReadObserver(asyncUnimplementedStreamingCall(METHOD_INPUT_CALL, exchange.writeObserver()));
-    }
-
-    @java.lang.Override public final io.grpc.ServerServiceDefinition bindService() {
-      return io.grpc.ServerServiceDefinition.builder(getServiceDescriptor())
-          .addMethod(
-            METHOD_INPUT_CALL,
-            asyncBidiStreamingCall(
-              new VertxMethodHandlers<
-                io.vertx.tp.ipc.eon.StreamClientRequest,
-                io.vertx.tp.ipc.eon.StreamClientResponse>(
-                  this, METHODID_INPUT_CALL)))
-          .build();
-    }
-  }
-
-  /**
-   */
-  public static final class ProduceServiceVertxStub extends io.grpc.stub.AbstractStub<ProduceServiceVertxStub> {
-    private ProduceServiceVertxStub(io.grpc.Channel channel) {
-      super(channel);
-    }
-
-    private ProduceServiceVertxStub(io.grpc.Channel channel,
-        io.grpc.CallOptions callOptions) {
-      super(channel, callOptions);
-    }
-
-    @java.lang.Override
-    protected ProduceServiceVertxStub build(io.grpc.Channel channel,
-        io.grpc.CallOptions callOptions) {
-      return new ProduceServiceVertxStub(channel, callOptions);
-    }
-
-    /**
-     * <pre>
-     * Client -&gt; Server
-     * </pre>
-     */
-    public void inputCall(io.vertx.core.Handler<
-        io.vertx.grpc.GrpcBidiExchange<io.vertx.tp.ipc.eon.StreamClientResponse, io.vertx.tp.ipc.eon.StreamClientRequest>> handler) {
-      final io.vertx.grpc.GrpcReadStream<io.vertx.tp.ipc.eon.StreamClientResponse> readStream =
-          io.vertx.grpc.GrpcReadStream.<io.vertx.tp.ipc.eon.StreamClientResponse>create();
-
-      handler.handle(io.vertx.grpc.GrpcBidiExchange.create(readStream, asyncBidiStreamingCall(
-          getChannel().newCall(METHOD_INPUT_CALL, getCallOptions()), readStream.readObserver())));
-    }
-  }
-
   private static final int METHODID_INPUT_CALL = 0;
 
   private static final class MethodHandlers<Req, Resp> implements
@@ -286,46 +190,6 @@ public final class ProduceServiceGrpc {
         case METHODID_INPUT_CALL:
           return (io.grpc.stub.StreamObserver<Req>) serviceImpl.inputCall(
               (io.grpc.stub.StreamObserver<io.vertx.tp.ipc.eon.StreamClientResponse>) responseObserver);
-        default:
-          throw new AssertionError();
-      }
-    }
-  }
-
-  private static final class VertxMethodHandlers<Req, Resp> implements
-      io.grpc.stub.ServerCalls.UnaryMethod<Req, Resp>,
-      io.grpc.stub.ServerCalls.ServerStreamingMethod<Req, Resp>,
-      io.grpc.stub.ServerCalls.ClientStreamingMethod<Req, Resp>,
-      io.grpc.stub.ServerCalls.BidiStreamingMethod<Req, Resp> {
-    private final ProduceServiceVertxImplBase serviceImpl;
-    private final int methodId;
-
-    VertxMethodHandlers(ProduceServiceVertxImplBase serviceImpl, int methodId) {
-      this.serviceImpl = serviceImpl;
-      this.methodId = methodId;
-    }
-
-    @java.lang.Override
-    @java.lang.SuppressWarnings("unchecked")
-    public void invoke(Req request, io.grpc.stub.StreamObserver<Resp> responseObserver) {
-      switch (methodId) {
-        default:
-          throw new AssertionError();
-      }
-    }
-
-    @java.lang.Override
-    @java.lang.SuppressWarnings("unchecked")
-    public io.grpc.stub.StreamObserver<Req> invoke(
-        io.grpc.stub.StreamObserver<Resp> responseObserver) {
-      switch (methodId) {
-        case METHODID_INPUT_CALL:
-          io.vertx.grpc.GrpcReadStream<io.vertx.tp.ipc.eon.StreamClientRequest> request0 = io.vertx.grpc.GrpcReadStream.<io.vertx.tp.ipc.eon.StreamClientRequest>create();
-          serviceImpl.inputCall(
-             io.vertx.grpc.GrpcBidiExchange.<io.vertx.tp.ipc.eon.StreamClientRequest, io.vertx.tp.ipc.eon.StreamClientResponse>create(
-               request0,
-               (io.grpc.stub.StreamObserver<io.vertx.tp.ipc.eon.StreamClientResponse>) responseObserver));
-          return (io.grpc.stub.StreamObserver<Req>) request0.readObserver();
         default:
           throw new AssertionError();
       }

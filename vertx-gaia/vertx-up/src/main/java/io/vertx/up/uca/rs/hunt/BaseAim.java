@@ -15,10 +15,12 @@ import io.vertx.up.exception.WebException;
 import io.vertx.up.exception.web._500DeliveryErrorException;
 import io.vertx.up.exception.web._500EntityCastException;
 import io.vertx.up.fn.Actuator;
+import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
+import io.vertx.up.secure.validation.Validator;
+import io.vertx.up.uca.invoker.InvokerUtil;
 import io.vertx.up.uca.rs.mime.Analyzer;
 import io.vertx.up.uca.rs.mime.MediaAnalyzer;
-import io.vertx.up.uca.rs.validation.Validator;
 import io.vertx.up.util.Ut;
 
 import java.lang.annotation.Annotation;
@@ -26,17 +28,21 @@ import java.lang.reflect.Method;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
 /**
  * Base class to provide template method
  */
 public abstract class BaseAim {
 
-    private transient final Validator verifier =
-        Validator.create();
+    private static final ConcurrentMap<String, Analyzer> POOL_ANALYZER = new ConcurrentHashMap<>();
+    private static final ConcurrentMap<String, Validator> POOL_VALIDATOR = new ConcurrentHashMap<>();
 
     private transient final Analyzer analyzer =
-        Ut.singleton(MediaAnalyzer.class);
+        Fn.poolThread(POOL_ANALYZER, MediaAnalyzer::new, MediaAnalyzer.class.getName());
+    private transient final Validator verifier =
+        Fn.poolThread(POOL_VALIDATOR, Validator::new);
 
     /**
      * Template method
@@ -81,7 +87,7 @@ public abstract class BaseAim {
         final Method method = event.getAction();
         this.getLogger().info("Class = {2}, Method = {0}, Args = {1}",
             method.getName(), Ut.fromJoin(args), method.getDeclaringClass().getName());
-        return Ut.invoke(event.getProxy(), method.getName(), args);
+        return InvokerUtil.invoke(event.getProxy(), method, args);
     }
 
     protected Envelop failure(final String address,
@@ -147,12 +153,13 @@ public abstract class BaseAim {
                         final Event event) {
         try {
             // Monitor
+            this.getLogger().debug("Web flow started: {0}", event.getAction());
             {
                 final Session session = context.session();
                 if (Objects.nonNull(session)) {
                     // Fix: 3.9.1 cookie error of null pointer
                     final Cookie cookie = context.getCookie("vertx-web.session");
-                    this.getLogger().info(Info.SESSION_ID, context.request().path(),
+                    this.getLogger().debug(Info.SESSION_ID, context.request().path(),
                         session.id(), Objects.isNull(cookie) ? null : cookie.getValue());
                 }
             }

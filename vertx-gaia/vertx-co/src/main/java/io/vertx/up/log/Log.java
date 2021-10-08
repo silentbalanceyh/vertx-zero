@@ -3,12 +3,12 @@ package io.vertx.up.log;
 import io.vertx.core.DeploymentOptions;
 import io.vertx.core.Vertx;
 import io.vertx.core.VertxException;
-import io.vertx.core.logging.Logger;
 import io.vertx.up.exception.ZeroException;
 import io.vertx.up.fn.Fn;
+import org.slf4j.Logger;
 
 import java.text.MessageFormat;
-import java.util.function.Consumer;
+import java.util.function.BiConsumer;
 import java.util.function.Supplier;
 
 public final class Log {
@@ -48,7 +48,7 @@ public final class Log {
     }
 
     public static void jvm(final Logger logger, final Throwable ex) {
-        Fn.safeNull(logger::warn, ex);
+        Fn.safeNull(error -> logger.warn("", error), ex);
         if (Debugger.onStackTrace()) {
             /* Default to false */
             ex.printStackTrace();
@@ -56,11 +56,11 @@ public final class Log {
     }
 
     public static void zero(final Logger logger, final ZeroException ex) {
-        Fn.safeNull(logger::warn, ex);
+        Fn.safeNull(error -> logger.warn("", error), ex);
     }
 
     public static void vertx(final Logger logger, final VertxException ex) {
-        Fn.safeNull(logger::warn, ex);
+        Fn.safeNull(error -> logger.warn("", error), ex);
     }
 
     public static void info(final Logger logger, final String pattern, final Object... rest) {
@@ -80,7 +80,7 @@ public final class Log {
     }
 
     private static void log(final Supplier<Boolean> fnPre,
-                            final Consumer<Object> fnLog,
+                            final BiConsumer<String, Object> fnLog,
                             final String message,
                             final Object... rest) {
         if (fnPre.get()) {
@@ -90,7 +90,7 @@ public final class Log {
             } else {
                 formatted = BOLD_FLAG + " " + message;
             }
-            fnLog.accept(formatted);
+            fnLog.accept(formatted, null);
         }
     }
 

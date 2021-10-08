@@ -2,8 +2,8 @@ package io.vertx.up.unity;
 
 import io.vertx.core.eventbus.DeliveryOptions;
 import io.vertx.up.fn.Fn;
-import io.vertx.up.uca.deployment.DeployRotate;
-import io.vertx.up.uca.deployment.Rotate;
+import io.vertx.up.runtime.deployment.DeployRotate;
+import io.vertx.up.runtime.deployment.Rotate;
 
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;

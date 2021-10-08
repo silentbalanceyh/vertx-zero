@@ -7,7 +7,6 @@ import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import io.vertx.up.util.Ut;
 
-import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
@@ -43,7 +42,6 @@ public class ZeroLime implements Node<ConcurrentMap<String, String>> {
         final Set<String> sets = Ut.toSet(literal, Strings.COMMA);
         LOGGER.debug("Lime node parsing \"{0}\" and size is = {1}", literal, sets.size());
         Fn.safeNull(() -> Observable.fromIterable(sets)
-            .filter(Objects::nonNull)
             .subscribe(item -> Fn.pool(INTERNALS, item,
                 () -> ZeroTool.produce(item))).dispose(), literal);
         return INTERNALS;

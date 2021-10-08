@@ -1,18 +1,15 @@
 package io.vertx.tp.plugin.jooq;
 
 import io.vertx.core.Vertx;
-import io.vertx.tp.plugin.cache.Harp;
 import io.vertx.tp.plugin.database.DataPool;
 import io.vertx.up.annotations.Plugin;
 import io.vertx.up.commune.config.Database;
 import io.vertx.up.eon.Constants;
 import io.vertx.up.eon.Plugins;
 import io.vertx.up.exception.zero.JooqConfigurationException;
-import io.vertx.up.exception.zero.JooqVertxNullException;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import io.vertx.up.plugin.Infix;
-import io.vertx.up.util.Ut;
 import org.jooq.Configuration;
 import org.jooq.DSLContext;
 
@@ -25,62 +22,72 @@ import java.util.concurrent.ConcurrentMap;
 public class JooqInfix implements Infix {
 
     private static final Annal LOGGER = Annal.get(JooqInfix.class);
+
     private static final ConcurrentMap<String, Configuration> CONFIGURATION
         = new ConcurrentHashMap<>();
+
     private static Vertx vertxRef;
 
+    /*
+     * 1. Step 1:
+     *
+     * Infix architecture in zero framework
+     * This method will be called when container booting
+     * First Step to initialize the whole jooq configuration
+     */
     public static void init(final Vertx vertx) {
         vertxRef = vertx;
-        final ConcurrentMap<String, Configuration> inited =
-            Infix.init(Plugins.Infix.JOOQ, JooqPin::initConfiguration, JooqInfix.class);
-        CONFIGURATION.putAll(inited);
         /*
-         * Harp
+         * Here initialize the static jooq configuration only
+         * If there exist dynamic pool, it will process in `delay` loading processing
          */
-        Harp.init(vertx);
+        CONFIGURATION.putAll(Infix.init(Plugins.Infix.JOOQ, JooqPin::initConfiguration, JooqInfix.class));
     }
 
-    public static <T> T getDao(final Class<T> clazz) {
-        return getDao(clazz, Constants.DEFAULT_JOOQ);
-    }
-
-    public static <T> T getDao(final Class<T> clazz, final String key) {
-        return getDao(clazz, CONFIGURATION.get(key));
-    }
-
-    public static <T> T getDao(final Class<T> clazz, final DataPool pool) {
+    private static Configuration configDelay(final DataPool pool) {
         final Database database = pool.getDatabase();
-        final Configuration configuration;
-        if (CONFIGURATION.containsKey(database.getJdbcUrl())) {
-            configuration = CONFIGURATION.get(database.getJdbcUrl());
+        final String configurationKey = Objects.requireNonNull(database).getJdbcUrl();
+        if (CONFIGURATION.containsKey(configurationKey)) {
+            return configSafe(configurationKey);
         } else {
-            configuration = JooqPin.initConfig(pool);
-            CONFIGURATION.put(database.getJdbcUrl(), configuration);
+            final Configuration configuration = JooqPin.initConfig(pool);
+            CONFIGURATION.put(configurationKey, configuration);
+            return configuration;
         }
-        return getDao(clazz, configuration);
     }
 
-    private static <T> T getDao(final Class<T> clazz, final Configuration configuration) {
-        Fn.outUp(null == vertxRef, LOGGER, JooqVertxNullException.class, clazz);
-        final T dao = Ut.instance(clazz, configuration);
-        Ut.invoke(dao, "setVertx", vertxRef);
-        return dao;
+    private static Configuration configSafe(final String key) {
+        Objects.requireNonNull(key);
+        final Configuration configuration = CONFIGURATION.get(key);
+        Fn.outUp(Objects.isNull(configuration), LOGGER, JooqConfigurationException.class, JooqInfix.class);
+        return configuration;
+    }
+
+    public static <T> JooqDsl getDao(final Class<T> clazz) {
+        final Configuration configuration = configSafe(Constants.DEFAULT_JOOQ);
+        return JooqDsl.init(vertxRef, configuration, clazz);
+    }
+
+    public static <T> JooqDsl getDao(final Class<T> clazz, final String key) {
+        final Configuration configuration = configSafe(key);
+        return JooqDsl.init(vertxRef, configuration, clazz);
+    }
+
+    public static <T> JooqDsl getDao(final Class<T> clazz, final DataPool pool) {
+        final Configuration configuration = configDelay(pool);
+        return JooqDsl.init(vertxRef, configuration, clazz);
     }
 
     /*
+     * For secondary
      * DSLContext of three method:
      * 1. Static: vertx-jooq.yml -> provider
      * 2. Static/Configured: vertx-jooq.yml -> ( by Key )
      */
-    public static DSLContext getDSL(final String key) {
-        final Configuration configuration = CONFIGURATION.get(key);
-        Fn.outUp(null == configuration, LOGGER, JooqConfigurationException.class, JooqInfix.class);
-        return Objects.isNull(configuration) ? null : configuration.dsl();
+    public static DSLContext contextTrash() {
+        return configSafe(Constants.DEFAULT_JOOQ_HISTORY).dsl();
     }
 
-    public static DSLContext getDSL() {
-        return getDSL(Constants.DEFAULT_JOOQ);
-    }
 
     @Override
     public Configuration get() {

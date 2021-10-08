@@ -114,7 +114,7 @@ public class RouterAxis implements Axis<Router> {
         array.stream()
             .filter(Objects::nonNull)
             .map(item -> (String) item)
-            .map(item -> Ut.toEnum(() -> item, HttpMethod.class, HttpMethod.GET))
+            .map(Ut::toMethod)
             .forEach(methodSet::add);
         return methodSet;
     }

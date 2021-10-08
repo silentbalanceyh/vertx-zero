@@ -20,11 +20,15 @@ import org.jooq.OrderField;
 import org.jooq.impl.DSL;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 import java.util.function.Function;
 
 @SuppressWarnings("rawtypes")
 public class JooqCond {
 
+    // Condition ---------------------------------------------------------
+    public static final ConcurrentMap<String, Condition> QUERY_STORED = new ConcurrentHashMap<>();
     private static final Annal LOGGER = Annal.get(JooqCond.class);
 
     private static String applyField(final String field,
@@ -65,7 +69,6 @@ public class JooqCond {
         return orders;
     }
 
-    // Condition ---------------------------------------------------------
     public static Condition transform(final JsonObject filters,
                                       final Function<String, Field> fnAnalyze,
                                       final Function<String, String> fnTable) {
@@ -77,11 +80,32 @@ public class JooqCond {
         return transform(filters, null, fnAnalyze);
     }
 
+    private static Condition cached(final JsonObject filters, final Operator operator) {
+        final String hash = String.valueOf(filters.hashCode());
+        final String key = Objects.isNull(operator) ? "NULL" : operator.toString();
+        return QUERY_STORED.get(key + ":" + hash);
+    }
+
+    private static Condition cached(final JsonObject filters, final Operator operator, final Condition condition) {
+        if (Objects.isNull(condition)) {
+            return null;
+        } else {
+            final String hash = String.valueOf(filters.hashCode());
+            final String key = Objects.isNull(operator) ? "NULL" : operator.toString();
+            QUERY_STORED.put(key + ":" + hash, condition);
+            return condition;
+        }
+    }
+
     public static Condition transform(final JsonObject filters,
                                       Operator operator,
                                       final Function<String, Field> fnAnalyze,
                                       final Function<String, String> fnTable) {
-        final Condition condition;
+        Condition condition = cached(filters, operator);
+        if (Objects.nonNull(condition)) {
+            LOGGER.info(Info.JOOQ_CACHED, condition);
+            return condition;
+        }
         final Criteria criteria = Criteria.create(filters);
         /*
          * The mode has been selected by criteria, the condition is as following:
@@ -150,7 +174,7 @@ public class JooqCond {
         if (null != condition && Debugger.onJooqCondition()) {
             LOGGER.info(Info.JOOQ_PARSE, condition);
         }
-        return condition;
+        return cached(filters, operator, condition);
     }
 
     public static Condition transform(final JsonObject filters,

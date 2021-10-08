@@ -1,35 +1,59 @@
 package io.vertx.up.runtime;
 
-import io.reactivex.Observable;
-import io.reactivex.disposables.Disposable;
+import com.google.common.collect.ImmutableSet;
+import com.google.common.reflect.ClassPath;
 import io.vertx.core.impl.ConcurrentHashSet;
-import io.vertx.up.eon.Strings;
+import io.vertx.core.json.JsonArray;
+import io.vertx.core.json.JsonObject;
+import io.vertx.up.eon.Values;
+import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
-import io.vertx.up.runtime.pkg.PackHunter;
-import io.vertx.up.runtime.pkg.PackThread;
+import io.vertx.up.util.Ut;
 
+import java.lang.reflect.Modifier;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
+import java.util.TreeSet;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
+import java.util.stream.Collectors;
 
 /**
  * ZeroPack the package to extract classes.
  */
+@SuppressWarnings("all")
 public final class ZeroPack {
 
     private static final Annal LOGGER = Annal.get(ZeroPack.class);
-
+    private static final Set<String> FILTERS = new TreeSet<>();
     private static final Set<Class<?>> CLASSES = new ConcurrentHashSet<>();
+
+    static {
+        /*
+         * Read configuration to fill FILTERS;
+         */
+        final JsonObject filter = Ut.ioJObject(Values.CONFIG_INTERNAL_PACKAGE);
+        if (filter.containsKey("skip")) {
+            final JsonArray skiped = filter.getJsonArray("skip");
+            if (Objects.nonNull(skiped)) {
+                LOGGER.info(Info.IGNORES, skiped.encode());
+                FILTERS.addAll(skiped.getList());
+            }
+        }
+    }
 
     private ZeroPack() {
     }
 
+    @SuppressWarnings("all")
     public static Set<Class<?>> getClasses() {
         /*
          * Get all packages that will be scanned.
          */
         if (CLASSES.isEmpty()) {
-            final Set<String> packageDirs = PackHunter.getPackages();
-            packageDirs.add(Strings.DOT);
+            // final Set<String> packageDirs = PackHunter.getPackages();
+            // packageDirs.add(Strings.DOT);
             /*
              * Debug in file
              */
@@ -46,7 +70,18 @@ public final class ZeroPack {
              * 1) Current project classes
              * 2) For zero extension module, we also should add dependency classes into result.
              */
-            CLASSES.addAll(multiClasses(packageDirs.toArray(new String[]{})));
+
+            final Set<Class<?>> scanned = getClassesInternal();
+            // multiClasses(packageDirs.toArray(new String[]{}));
+            CLASSES.addAll(scanned.stream()
+                .filter(type -> !type.isAnonymousClass())                   // Ko Anonymous
+                .filter(type -> !type.isAnnotation())                       // Ko Annotation
+                .filter(type -> !type.isEnum())                             // Ko Enum
+                .filter(type -> Modifier.isPublic(type.getModifiers()))     // Ko non-public
+                // .filter(type -> !Modifier.isAbstract(type.getModifiers()))  // Because interface is abstract
+                .filter(type -> !Modifier.isStatic(type.getModifiers()))    // Ko Static
+                .filter(type -> !Throwable.class.isAssignableFrom(type))    // Ko Exception
+                .collect(Collectors.toSet()));
             LOGGER.info(Info.CLASSES, String.valueOf(CLASSES.size()));
             /*
              * Debug in file
@@ -62,47 +97,25 @@ public final class ZeroPack {
         return CLASSES;
     }
 
-    /*
-     * Multi thread class scanned for split packages instead of
-     * single thread scanning.
-     * It's turning performance for scanner.
-     */
-    private static Set<Class<?>> multiClasses(
-        final String[] packageDir) {
-        /*
-         * Counter of all references of `PackThread`
-         */
-        final Set<PackThread> references = new HashSet<>();
-        final Disposable disposable = Observable.fromArray(packageDir)
-            .map(PackThread::new)
-            .map(item -> {
-                references.add(item);
-                return item;
-            })
-            .subscribe(Thread::start);
+    @SuppressWarnings("all")
+    private static Set<Class<?>> getClassesInternal() {
+        final Set<Class<?>> classSet = new HashSet<>();
+        Fn.safeJvm(() -> {
+            final ClassPath cp = ClassPath.from(Thread.currentThread().getContextClassLoader());
+            final ImmutableSet<ClassPath.ClassInfo> set = cp.getTopLevelClasses();
+            final ConcurrentMap<String, Set<String>> packageMap = new ConcurrentHashMap<>();
+            for (final ClassPath.ClassInfo cls : set) {
+                final String packageName = cls.getPackageName();
+                final boolean skip = FILTERS.stream().anyMatch(packageName::startsWith);
+                if (!skip) {
+                    try {
+                        classSet.add(Thread.currentThread().getContextClassLoader().loadClass(cls.getName()));
+                    } catch (Throwable ex) {
 
-        /*
-         * Main thread wait for sub-threads scanned results.
-         */
-        final Set<Class<?>> result = new HashSet<>();
-        try {
-            for (final PackThread item : references) {
-                item.join();
+                    }
+                }
             }
-            /*
-             * Collect all results and put into single set.
-             */
-            for (final PackThread thread : references) {
-                result.addAll(thread.getClasses());
-            }
-            if (!disposable.isDisposed()) {
-                disposable.dispose();
-            }
-        } catch (final InterruptedException ex) {
-            LOGGER.jvm(ex);
-        } catch (final Throwable ex) {
-            ex.printStackTrace();
-        }
-        return result;
+        });
+        return classSet;
     }
 }

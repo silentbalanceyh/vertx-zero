@@ -13,7 +13,6 @@ public interface RetryParamsOrBuilder extends
    * </pre>
    *
    * <code>int32 max_reconnect = 1;</code>
-   * @return The maxReconnect.
    */
   int getMaxReconnect();
 }

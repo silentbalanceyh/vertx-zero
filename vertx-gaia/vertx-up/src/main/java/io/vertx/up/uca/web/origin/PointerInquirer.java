@@ -9,6 +9,7 @@ import java.lang.reflect.Field;
 import java.util.HashSet;
 import java.util.Set;
 
+@Deprecated
 public class PointerInquirer implements Inquirer<Set<Class<?>>> {
 
     @Override

@@ -1,9 +1,9 @@
 package io.vertx.up.uca.jooq;
 
-import io.github.jklingsporn.vertx.jooq.future.VertxDAO;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
+import io.vertx.tp.plugin.jooq.JooqDsl;
 import io.vertx.tp.plugin.jooq.JooqInfix;
 import io.vertx.tp.plugin.jooq.condition.JooqCond;
 import io.vertx.up.atom.Kv;
@@ -124,9 +124,9 @@ class JqJoinder {
         /*
          * Analyzer building
          */
-        final VertxDAO vertxDAO = (VertxDAO) JooqInfix.getDao(daoCls);
-        final JqAnalyzer analyzer = JqAnalyzer.create(vertxDAO);
-        final String tableName = analyzer.table();
+        final JooqDsl dsl = JooqInfix.getDao(daoCls);
+        final JqAnalyzer analyzer = JqAnalyzer.create(dsl);
+        final String tableName = analyzer.table().getName();
         this.ANALYZERS.put(daoCls, analyzer);
         {
             this.CLASS_MAP.put(daoCls, tableName);
@@ -192,7 +192,8 @@ class JqJoinder {
         /*
          * DSLContext
          */
-        final DSLContext context = JooqInfix.getDSL();
+        final JooqDsl dsl = this.firstAnalyzer.dsl();
+        final DSLContext context = dsl.context();
         final Table table = getTable();
         if (Objects.isNull(table)) {
             throw new RuntimeException("Table null issue! ");
@@ -211,14 +212,19 @@ class JqJoinder {
                 this::getColumn, this::getTable);
             started.where(condition);
         }
-        return Long.valueOf(started.fetchCount());
+        /*
+         * Old version
+         * started.fetchCount()
+         */
+        return Long.valueOf(context.fetchCount(started));
     }
 
     JsonArray searchArray(final Qr qr, final Mojo mojo) {
         /*
          * DSLContext
          */
-        final DSLContext context = JooqInfix.getDSL();
+        final JooqDsl dsl = this.firstAnalyzer.dsl();
+        final DSLContext context = dsl.context();
         final Table table = getTable();
         if (Objects.isNull(table)) {
             throw new RuntimeException("Table null issue! ");

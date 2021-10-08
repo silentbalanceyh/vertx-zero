@@ -20,7 +20,7 @@ final class Semi {
     }
 
     static void exec(final boolean condition, final Annal logger, final Actuator tSupplier, final Actuator fSupplier) {
-        Defend.zeroVoid(() -> execZero(condition,
+        Safer.zeroVoid(() -> execZero(condition,
             () -> {
                 if (null != tSupplier) {
                     tSupplier.execute();

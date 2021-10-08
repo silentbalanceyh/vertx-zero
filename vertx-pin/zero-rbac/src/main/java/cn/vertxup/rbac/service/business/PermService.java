@@ -12,7 +12,7 @@ import cn.vertxup.rbac.service.accredit.ActionStub;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.rbac.refine.Sc;
+import io.vertx.tp.rbac.logged.ScRole;
 import io.vertx.up.atom.query.engine.Qr;
 import io.vertx.up.eon.KName;
 import io.vertx.up.eon.Strings;
@@ -111,8 +111,8 @@ public class PermService implements PermStub {
                     /*
                      * Refresh cache pool with Sc interface directly
                      */
-                    return Sc.cachePermission(roleId, permissions)
-                        .compose(nil -> Ux.future(inserted));
+                    final ScRole role = ScRole.login(roleId);
+                    return role.refresh(permissions).compose(nil -> Ux.future(inserted));
                 }).compose(Ux::futureA);
             });
         }, roleId);

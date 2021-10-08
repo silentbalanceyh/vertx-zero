@@ -38,7 +38,7 @@ public class AuthenticateEndurer implements Handler<RoutingContext> {
                 // Other exception found
                 LOGGER.info("Exception: {0} = {1}", ex.getClass().getName(), ex.getMessage());
                 ex.printStackTrace();
-                event.fail(ex);
+                Answer.reply(event, Envelop.failure(ex));
             }
         } else {
             // Success, do not throw, continue to request

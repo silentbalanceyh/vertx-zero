@@ -7,7 +7,7 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.optic.fantom.Anchoret;
 import io.vertx.tp.rbac.cv.AuthMsg;
-import io.vertx.tp.rbac.permission.ScHabitus;
+import io.vertx.tp.rbac.logged.ScUser;
 import io.vertx.tp.rbac.refine.Sc;
 import io.vertx.up.atom.query.engine.Qr;
 import io.vertx.up.atom.secure.Vis;
@@ -72,26 +72,21 @@ public class ExColumnApeakMy extends Anchoret<ApeakMy> implements ApeakMy {
          * ScHabitus instance
          */
         final String habitus = params.getString(ARG3);
-        final ScHabitus habit = ScHabitus.initialize(habitus);
+        final ScUser user = ScUser.login(habitus);
         /*
          * Method / Uri
          */
         final String dataKey = params.getString(ARG4);
-
-        return habit.<JsonObject>get(dataKey).compose(stored -> {
-            if (Objects.isNull(stored)) {
-                return Ux.future(updated);
-            } else {
-                final JsonObject updatedJson = stored.copy();
-                updatedJson.put(Qr.KEY_PROJECTION, updated.getJsonArray(Qr.KEY_PROJECTION));
-                updatedJson.put(Qr.KEY_CRITERIA, updated.getJsonObject(Qr.KEY_CRITERIA));
-                return habit.set(dataKey, updatedJson)
-                    .compose(retured -> {
-                        Sc.infoAuth(this.getLogger(), AuthMsg.REGION_FLUSH, habitus, dataKey,
-                            stored.encodePrettily(), retured.encodePrettily());
-                        return Ux.future(updated);
-                    });
-            }
+        /*
+         * projection / criteria only
+         */
+        final JsonObject updatedData = new JsonObject();
+        updatedData.put(Qr.KEY_PROJECTION, updated.getJsonArray(Qr.KEY_PROJECTION));
+        updatedData.put(Qr.KEY_CRITERIA, updated.getJsonObject(Qr.KEY_CRITERIA));
+        return user.view(dataKey, updatedData).compose(nil -> {
+            Sc.infoAuth(this.getLogger(), AuthMsg.REGION_FLUSH, habitus, dataKey,
+                nil.getJsonObject(dataKey, new JsonObject()).encodePrettily());
+            return Ux.future(updated);
         });
     }
 

@@ -9,7 +9,6 @@ public interface StreamClientResponseOrBuilder extends
 
   /**
    * <code>int32 aggregated_size = 1;</code>
-   * @return The aggregatedSize.
    */
   int getAggregatedSize();
 }

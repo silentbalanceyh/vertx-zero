@@ -1,8 +1,8 @@
 package io.vertx.up.uca.jooq;
 
-import io.github.jklingsporn.vertx.jooq.future.VertxDAO;
-import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonObject;
+import io.vertx.tp.plugin.jooq.JooqDsl;
+import io.vertx.tp.plugin.jooq.condition.JooqCond;
 import io.vertx.up.atom.pojo.Mirror;
 import io.vertx.up.atom.pojo.Mojo;
 import io.vertx.up.eon.Strings;
@@ -12,24 +12,23 @@ import io.vertx.up.exception.zero.JooqMergeException;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import io.vertx.up.util.Ut;
-import org.jooq.Field;
-import org.jooq.Table;
-import org.jooq.TableField;
-import org.jooq.UniqueKey;
+import org.jooq.*;
 import org.jooq.impl.DSL;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
+import static org.jooq.impl.DSL.row;
+
 @SuppressWarnings("all")
 public class JqAnalyzer {
 
     private static final Annal LOGGER = Annal.get(JqAnalyzer.class);
-    private static final ConcurrentMap<Integer, VertxDAO> DAO_POOL =
+    private static final ConcurrentMap<Integer, JooqDsl> DAO_POOL =
         new ConcurrentHashMap<>();
 
-    private transient final VertxDAO vertxDAO;
+    private transient final JooqDsl dsl;
     /* Field to Column */
     private transient final ConcurrentMap<String, String> mapping =
         new ConcurrentHashMap<>();
@@ -50,12 +49,12 @@ public class JqAnalyzer {
     private transient ConcurrentMap<String, Class<?>> typeMap = new ConcurrentHashMap<>();
     private transient Class<?> entityCls;
 
-    private JqAnalyzer(final VertxDAO vertxDAO) {
-        this.vertxDAO = Fn.pool(DAO_POOL, vertxDAO.hashCode(), () -> vertxDAO);
+    private JqAnalyzer(final JooqDsl dsl) {
+        this.dsl = Fn.pool(DAO_POOL, dsl.hashCode(), () -> dsl);
         // Mapping initializing
-        this.table = Ut.field(this.vertxDAO, "table");
+        this.table = Ut.field(dsl.dao(), "table");
 
-        final Class<?> typeCls = Ut.field(this.vertxDAO, "type");
+        final Class<?> typeCls = Ut.field(dsl.dao(), "type");
         this.entityCls = typeCls;
 
         final java.lang.reflect.Field[] fields = Ut.fields(typeCls);
@@ -84,20 +83,24 @@ public class JqAnalyzer {
         }
     }
 
-    public static JqAnalyzer create(final VertxDAO vertxDAO) {
-        return new JqAnalyzer(vertxDAO);
+    public static JqAnalyzer create(final JooqDsl dsl) {
+        return new JqAnalyzer(dsl);
     }
 
-    public VertxDAO vertxDAO() {
-        return this.vertxDAO;
+    public JooqDsl dsl() {
+        return this.dsl;
     }
 
-    public Vertx vertx() {
+/*    public Vertx vertx() {
         return Objects.isNull(this.vertxDAO) ? null : vertxDAO.vertx();
+    }*/
+
+    public Table<?> table() {
+        return this.table;
     }
 
-    public String table() {
-        return this.table.getName();
+    public Class<?> type() {
+        return this.entityCls;
     }
 
     public TreeSet<String> primarySet() {
@@ -171,10 +174,6 @@ public class JqAnalyzer {
             }
         });
         return keySet;
-    }
-
-    public Class<?> type() {
-        return this.entityCls;
     }
 
     private String columnName(final String field) {
@@ -287,7 +286,7 @@ public class JqAnalyzer {
     public Field column(final String field) {
         String columnField = columnName(field);
         Fn.outUp(null == columnField, LOGGER,
-            JooqFieldMissingException.class, UxJooq.class, field, Ut.field(this.vertxDAO, "type"));
+            JooqFieldMissingException.class, UxJooq.class, field, this.entityCls);
         LOGGER.debug(Info.JOOQ_FIELD, field, columnField);
         /*
          * Old code for field construct, following code will caurse Type/DataType missing
@@ -350,7 +349,7 @@ public class JqAnalyzer {
             /*
              * Skip Primary Key
              */
-            final Table<?> tableField = Ut.field(this.vertxDAO, "table");
+            final Table<?> tableField = this.table();
             final UniqueKey key = tableField.getPrimaryKey();
             key.getFields().stream().map(item -> ((TableField) item).getName())
                 .filter(this.revert::containsKey)
@@ -392,5 +391,49 @@ public class JqAnalyzer {
 
     public Mojo pojo() {
         return this.pojo;
+    }
+
+    // -------------------------------- Condition Building
+    public Condition condition(final JsonObject criteria) {
+        return Ut.isNil(criteria) ? DSL.trueCondition() : JooqCond.transform(criteria, this::column);
+    }
+
+    public <ID> Condition conditionId(ID id) {
+        UniqueKey<?> uk = this.table.getPrimaryKey();
+        Objects.requireNonNull(uk, () -> "[ Jq ] No primary key");
+        /**
+         * Copied from jOOQs DAOImpl#equal-method
+         */
+        TableField<? extends Record, ?>[] pk = uk.getFieldsArray();
+        Condition condition;
+        if (pk.length == 1) {
+            condition = ((Field<Object>) pk[0]).equal(pk[0].getDataType().convert(id));
+        } else {
+            condition = row(pk).equal((Record) id);
+        }
+        return condition;
+    }
+
+    public <T> Condition conditionUk(T pojo) {
+        Objects.requireNonNull(pojo);
+        Record record = this.dsl.context().newRecord(this.table, pojo);
+        Condition where = DSL.trueCondition();
+        UniqueKey<?> pk = this.table.getPrimaryKey();
+        for (TableField<?, ?> tableField : pk.getFields()) {
+            //exclude primary keys from update
+            where = where.and(((TableField<Record, Object>) tableField).eq(record.get(tableField)));
+        }
+        return where;
+    }
+
+    public Condition conditionField(final String field, final Object value) {
+        final Field column = this.column(field);
+        if (value instanceof Collection) {
+            // IN
+            return column.in(value);
+        } else {
+            // =
+            return column.eq(value);
+        }
     }
 }

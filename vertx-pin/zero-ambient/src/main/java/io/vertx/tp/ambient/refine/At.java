@@ -1,17 +1,14 @@
 package io.vertx.tp.ambient.refine;
 
-import cn.vertxup.ambient.domain.tables.pojos.XApp;
 import cn.vertxup.ambient.domain.tables.pojos.XNumber;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.FileUpload;
 import io.vertx.tp.optic.extension.*;
-import io.vertx.up.commune.config.Database;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import io.vertx.up.unity.Ux;
-import org.jooq.DSLContext;
 
 import java.util.List;
 
@@ -53,22 +50,6 @@ public class At {
 
     public static Init initData() {
         return Fn.pool(Pool.INIT_POOL, DatumInit.class.getName(), DatumInit::new);
-    }
-
-    /*
-     * App Info, Bind to new datasource or current get.
-     */
-    public static XApp initApp(final DSLContext context,
-                               final String name) {
-        return AtEnv.getApp(context, name);
-    }
-
-    public static XApp initApp(final String name) {
-        return AtEnv.getApp(name);
-    }
-
-    public static Future<Database> databaseAsync(final String appId) {
-        return AtEnv.getDatabaseWithCache(appId);
     }
 
     public static List<String> serials(final XNumber number, final Integer count) {

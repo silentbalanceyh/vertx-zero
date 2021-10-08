@@ -5,8 +5,8 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.crud.cv.Pooled;
 import io.vertx.tp.crud.uca.desk.IxMod;
-import io.vertx.tp.error._501NotSupportException;
 import io.vertx.up.eon.em.ChangeFlag;
+import io.vertx.up.exception.web._501NotSupportException;
 import io.vertx.up.fn.Fn;
 
 /**
@@ -15,6 +15,8 @@ import io.vertx.up.fn.Fn;
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 public interface Agonic {
+
+    int EXPIRED = 2 * 60 * 60;
 
     static Agonic write(final ChangeFlag flag) {
         if (ChangeFlag.ADD == flag) {

@@ -1,20 +1,15 @@
 package io.vertx.up.uca.jooq;
 
-import io.github.jklingsporn.vertx.jooq.future.VertxDAO;
-import io.vertx.core.Future;
-import io.vertx.core.Promise;
+import io.github.jklingsporn.vertx.jooq.classic.VertxDAO;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.plugin.jooq.JooqInfix;
+import io.vertx.tp.plugin.jooq.JooqDsl;
 import io.vertx.tp.plugin.jooq.condition.JooqCond;
 import io.vertx.up.log.Annal;
 import io.vertx.up.util.Ut;
-import org.jooq.Condition;
-import org.jooq.DSLContext;
-import org.jooq.Operator;
+import org.jooq.*;
+import org.jooq.impl.DSL;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.concurrent.CompletableFuture;
+import java.util.*;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
@@ -32,46 +27,27 @@ import java.util.concurrent.CompletableFuture;
  */
 @SuppressWarnings("all")
 abstract class AbstractAction {
-    protected transient final VertxDAO vertxDAO;
+    protected transient final JooqDsl dsl;
     protected transient final JqAnalyzer analyzer;
 
     protected AbstractAction(final JqAnalyzer analyzer) {
         this.analyzer = analyzer;
-        this.vertxDAO = analyzer.vertxDAO();
+        this.dsl = analyzer.dsl();
     }
 
-    /**
-     * The logger could be used by sub-class only
-     */
+    protected VertxDAO dao() {
+        return this.dsl.dao();
+    }
+
+    protected DSLContext context() {
+        return this.dsl.context();
+    }
+
     protected Annal logger() {
         return Annal.get(getClass());
     }
 
-    /*
-     * Future processed for output, this api could convert common java Future to vertx Future
-     * Here are two modes:
-     * 1): T -> T
-     * 2): T -> Void -> T ( DELETE OPERATION )
-     * If there are some failure occurs, call `failure` to print stack exception message
-     */
-    protected <T> Future<T> successed(final CompletableFuture<T> future) {
-        final Promise<T> promise = Promise.promise();
-        future.thenAcceptAsync(promise::complete).exceptionally((ex) -> failure(ex, promise));
-        return promise.future();
-    }
-
-    protected <T> Future<T> successed(final CompletableFuture<Void> future, final T input) {
-        final Promise<T> promise = Promise.promise();
-        future.thenAcceptAsync(nil -> promise.complete(input)).exceptionally((ex) -> failure(ex, promise));
-        return promise.future();
-    }
-
-    private Void failure(final Throwable ex, final Promise promise) {
-        logger().jvm(ex);
-        promise.fail(ex);
-        return null;
-    }
-
+    // -------------------------------- Input Method
     /*
      * Parameter processing here
      * Here are two situations:
@@ -89,10 +65,6 @@ abstract class AbstractAction {
         }
     }
 
-    protected DSLContext context() {
-        return JooqInfix.getDSL();
-    }
-
     protected Condition condition(final JsonObject criteria) {
         return Ut.isNil(criteria) ? null : JooqCond.transform(criteria, this.analyzer::column);
     }
@@ -100,4 +72,36 @@ abstract class AbstractAction {
     protected Condition conditionAnd(final JsonObject criteria) {
         return JooqCond.transform(criteria, Operator.AND, this.analyzer::column);
     }
+
+    // ---------------------------------- Sync Operation
+    protected <T> Record newRecord(T pojo) {
+        Objects.requireNonNull(pojo);
+        final Record record = this.context().newRecord(this.analyzer.table(), pojo);
+        int size = record.size();
+        for (int i = 0; i < size; i++)
+            if (record.get(i) == null) {
+                @SuppressWarnings("unchecked")
+                Field<Object> field = (Field<Object>) record.field(i);
+                if (!field.getDataType().nullable() && !field.getDataType().identity())
+                    record.set(field, DSL.defaultValue());
+            }
+        return record;
+    }
+
+    protected <T> UpdateConditionStep editRecord(T pojo) {
+        Objects.requireNonNull(pojo);
+        Record record = this.context().newRecord(this.analyzer.table(), pojo);
+        Condition where = DSL.trueCondition();
+        UniqueKey<?> pk = this.analyzer.table().getPrimaryKey();
+        for (TableField<?, ?> tableField : pk.getFields()) {
+            //exclude primary keys from update
+            record.changed(tableField, false);
+            where = where.and(((TableField<Record, Object>) tableField).eq(record.get(tableField)));
+        }
+        Map<String, Object> valuesToUpdate =
+            Arrays.stream(record.fields())
+                .collect(HashMap::new, (m, f) -> m.put(f.getName(), f.getValue(record)), HashMap::putAll);
+        return this.context().update(this.analyzer.table()).set(valuesToUpdate).where(where);
+    }
+    // ---------------------------------- Output Method
 }

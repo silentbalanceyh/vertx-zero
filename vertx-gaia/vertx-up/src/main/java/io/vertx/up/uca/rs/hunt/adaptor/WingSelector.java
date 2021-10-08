@@ -12,6 +12,7 @@ import java.util.function.Supplier;
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 public class WingSelector {
+    private static final Annal LOGGER = Annal.get(WingSelector.class);
 
     public static Wings end(final String contentType, final Set<MediaType> produces) {
         /*
@@ -46,8 +47,7 @@ public class WingSelector {
             final Supplier<Wings> wings = subtype.get(type.getSubtype());
             selected = Objects.isNull(wings) ? new JsonWings() : wings.get();
         }
-        final Annal logger = Annal.get(WingSelector.class);
-        logger.info("Wings response selected `{0}` for content type {1}, mime = {2}, hashCode = {3}",
+        LOGGER.debug("Wings response selected `{0}` for content type {1}, mime = {2}, hashCode = {3}",
             selected.getClass().getName(), contentType, type.toString(), String.valueOf(selected.hashCode()));
         return selected;
     }

@@ -1,6 +1,7 @@
 package io.vertx.up.util;
 
 import io.vertx.core.MultiMap;
+import io.vertx.core.http.HttpMethod;
 import io.vertx.core.json.DecodeException;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
@@ -44,6 +45,15 @@ final class To {
             result = defaultEnum;
         }
         return result;
+    }
+
+    static HttpMethod toMethod(final Supplier<String> supplier, final HttpMethod defaultValue) {
+        final String method = supplier.get();
+        if (StringUtil.isNil(method)) {
+            return defaultValue;
+        } else {
+            return HttpMethod.valueOf(method);
+        }
     }
 
     static Integer toInteger(final Object value) {

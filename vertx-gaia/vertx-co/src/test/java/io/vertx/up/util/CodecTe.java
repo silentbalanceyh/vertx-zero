@@ -6,7 +6,7 @@ import io.vertx.up.eon.Values;
 import org.junit.Test;
 
 import java.io.UnsupportedEncodingException;
-import java.lang.reflect.Method;
+import java.util.Base64;
 
 /**
  * Author: chunmei deng
@@ -17,22 +17,12 @@ public class CodecTe extends ZeroBase {
 
     final static String input = "  哈哈&%¥!~@#$^*()-=+_[]{};:'\"/?.>,<`……|  ～0【】「」《》，。？、";
 
-    public static String encodeBase64(final byte[] inputx) throws Exception {
-        final Class clazz = Class
-            .forName("com.sun.org.apache.xerces.internal.impl.dv.util.Base64");
-        final Method mainMethod = clazz.getMethod("encode", byte[].class);
-        mainMethod.setAccessible(true);
-        final Object retObj = mainMethod.invoke(null, new Object[]{inputx});
-        return (String) retObj;
+    public static String encodeBase64(final byte[] inputx) {
+        return Base64.getEncoder().encodeToString(inputx);
     }
 
-    public static byte[] decodeBase64(final String inputx) throws Exception {
-        final Class clazz = Class
-            .forName("com.sun.org.apache.xerces.internal.impl.dv.util.Base64");
-        final Method mainMethod = clazz.getMethod("decode", String.class);
-        mainMethod.setAccessible(true);
-        final Object retObj = mainMethod.invoke(null, inputx);
-        return (byte[]) retObj;
+    public static byte[] decodeBase64(final String inputx) {
+        return Base64.getDecoder().decode(inputx);
     }
 
     @Test

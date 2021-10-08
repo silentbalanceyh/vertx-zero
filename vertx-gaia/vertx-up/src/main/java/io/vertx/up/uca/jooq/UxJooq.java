@@ -1,18 +1,15 @@
 package io.vertx.up.uca.jooq;
 
-import io.github.jklingsporn.vertx.jooq.future.VertxDAO;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
+import io.vertx.tp.plugin.jooq.JooqDsl;
 import io.vertx.up.eon.Strings;
 import io.vertx.up.eon.Values;
 import io.vertx.up.eon.em.Format;
-import io.vertx.up.exception.zero.JooqClassInvalidException;
-import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import io.vertx.up.uca.jooq.util.JqFlow;
 import io.vertx.up.uca.jooq.util.JqTool;
-import io.vertx.up.util.Ut;
 
 import java.math.BigDecimal;
 import java.util.Arrays;
@@ -42,13 +39,12 @@ public final class UxJooq {
     private transient final JqFlow workflow;
     private transient Format format = Format.JSON;
 
-    public <T> UxJooq(final Class<T> clazz, final VertxDAO vertxDAO) {
+    public <T> UxJooq(final Class<T> clazz, final JooqDsl dsl) {
         /* New exception to avoid programming missing */
-        Fn.out(!Ut.isImplement(clazz, VertxDAO.class), JooqClassInvalidException.class, UxJooq.class, clazz.getName());
         this.clazz = clazz;
 
         /* Analyzing column for Jooq */
-        this.analyzer = JqAnalyzer.create(vertxDAO);
+        this.analyzer = JqAnalyzer.create(dsl);
         this.aggregator = JqAggregator.create(this.analyzer);
 
         /* Reader connect Analayzer */
@@ -95,7 +91,7 @@ public final class UxJooq {
     }
 
     public String table() {
-        return this.analyzer.table();
+        return this.analyzer.table().getName();
     }
 
     private JsonObject andOr(final JsonObject criteria) {

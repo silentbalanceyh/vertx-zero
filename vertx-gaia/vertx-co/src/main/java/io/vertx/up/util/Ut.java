@@ -6,6 +6,7 @@ import io.vertx.config.ConfigStoreOptions;
 import io.vertx.core.Future;
 import io.vertx.core.MultiMap;
 import io.vertx.core.buffer.Buffer;
+import io.vertx.core.http.HttpMethod;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.commune.Record;
@@ -16,6 +17,7 @@ import io.vertx.up.fn.Actuator;
 import java.io.File;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
@@ -471,7 +473,13 @@ public final class Ut {
      * 7) field / fields
      * 8) contract / contractAsync ( @Contract )
      * 9) plugin
+     * 10) service ( By Service Loader )
      */
+
+    public static <T> T service(final Class<T> interfaceCls) {
+        return Instance.service(interfaceCls);
+    }
+
     public static <T> T plugin(final JsonObject options, final String pluginKey, final Class<T> interfaceCls) {
         return Instance.plugin(options, pluginKey, interfaceCls);
     }
@@ -492,8 +500,20 @@ public final class Ut {
         return Instance.singleton(clazz, params);
     }
 
+    public static <T> T singleton(final Class<?> clazz, final Supplier<T> supplier) {
+        return Instance.singleton(clazz, supplier);
+    }
+
+    public static <T> Constructor<T> constructor(final Class<?> clazz, final Object... params) {
+        return Instance.constructor(clazz, params);
+    }
+
     public static <T> T invoke(final Object instance, final String name, final Object... args) {
         return Invoker.invokeObject(instance, name, args);
+    }
+
+    public static <T> T invokeStatic(final Class<?> clazz, final String name, final Object... args) {
+        return Invoker.invokeStatic(clazz, name, args);
     }
 
     public static <T> Future<T> invokeAsync(final Object instance, final Method method, final Object... args) {
@@ -820,6 +840,10 @@ public final class Ut {
         return Apply.applyNil(executor);
     }
 
+    public static Future<JsonObject> ifJNil(final JsonObject input) {
+        return Future.succeededFuture(isNil(input) ? new JsonObject() : input);
+    }
+
     public static Function<JsonArray, Future<JsonArray>> ifJEmpty(final Function<JsonArray, Future<JsonArray>> executor) {
         return Apply.applyJEmpty(executor);
     }
@@ -1055,6 +1079,7 @@ public final class Ut {
         return Types.isJObject(clazz);
     }
 
+
     public static boolean isVoid(final Class<?> clazz) {
         return Types.isVoid(clazz);
     }
@@ -1081,6 +1106,10 @@ public final class Ut {
 
     public static boolean isNil(final JsonArray jsonArray) {
         return Types.isEmpty(jsonArray);
+    }
+
+    public static boolean isIn(final JsonObject input, final String... fields) {
+        return Types.isIn(input, fields);
     }
 
     public static <T> boolean isEqual(final JsonObject record, final String field, final T expected) {
@@ -1254,6 +1283,22 @@ public final class Ut {
 
     public static <T extends Enum<T>> T toEnum(final Supplier<String> supplier, final Class<T> type, final T defaultEnum) {
         return To.toEnum(supplier, type, defaultEnum);
+    }
+
+    public static HttpMethod toMethod(final Supplier<String> supplier, final HttpMethod defaultValue) {
+        return To.toMethod(supplier, defaultValue);
+    }
+
+    public static HttpMethod toMethod(final Supplier<String> supplier) {
+        return To.toMethod(supplier, HttpMethod.GET);
+    }
+
+    public static HttpMethod toMethod(final String value, final HttpMethod defaultValue) {
+        return To.toMethod(() -> value, defaultValue);
+    }
+
+    public static HttpMethod toMethod(final String value) {
+        return To.toMethod(() -> value, HttpMethod.GET);
     }
 
     public static String toString(final Object reference) {

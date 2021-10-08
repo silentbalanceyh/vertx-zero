@@ -4,10 +4,10 @@ import cn.vertxup.ambient.service.InitStub;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.ambient.cv.Addr;
-import io.vertx.tp.ke.refine.Ke;
 import io.vertx.up.annotations.Address;
 import io.vertx.up.annotations.Queue;
 import io.vertx.up.commune.config.Database;
+import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
 import javax.inject.Inject;
@@ -29,9 +29,9 @@ public class InitActor {
     }
 
     @Address(Addr.Init.CONNECT)
-    public JsonObject connect(final JsonObject data) {
+    public Future<JsonObject> connect(final JsonObject data) {
         final Database database = Ut.deserialize(data, Database.class);
         final boolean checked = database.test();
-        return Ke.Result.bool(checked);
+        return Ux.futureB(checked);
     }
 }

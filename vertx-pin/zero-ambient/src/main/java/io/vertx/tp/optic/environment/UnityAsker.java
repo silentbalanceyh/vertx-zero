@@ -9,8 +9,8 @@ import io.vertx.tp.ambient.refine.At;
 import io.vertx.tp.plugin.database.DataPool;
 import io.vertx.up.commune.config.Database;
 import io.vertx.up.log.Annal;
+import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
-import org.jooq.Configuration;
 
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
@@ -32,12 +32,11 @@ class UnityAsker {
      */
     static void init() {
         /* All app here */
-        final XAppDao appDao = Ut.singleton(XAppDao.class, getConfiguration());
-        final List<XApp> applications = appDao.findAll();
+        final DataPool pool = getPool();
+        final List<XApp> applications = Ux.Jooq.on(XAppDao.class, pool).fetchAll();
         At.infoApp(LOGGER, AtMsg.UNITY_APP, applications.size());
         /* All data source here */
-        final XSourceDao sourceDao = Ut.singleton(XSourceDao.class, getConfiguration());
-        final List<XSource> sources = sourceDao.findAll();
+        final List<XSource> sources = Ux.Jooq.on(XSourceDao.class, pool).fetchAll();
         At.infoApp(LOGGER, AtMsg.UNITY_SOURCE, sources.size());
 
         /* Data, use application key as key here. */
@@ -45,10 +44,9 @@ class UnityAsker {
         SOURCE_POOL.putAll(Ut.elementZip(sources, XSource::getAppId, source -> source));
     }
 
-    private static Configuration getConfiguration() {
+    private static DataPool getPool() {
         final Database database = Database.getCurrent();
-        final DataPool pool = DataPool.create(database);
-        return pool.getExecutor().configuration();
+        return DataPool.create(database);
     }
 
     static ConcurrentMap<String, XApp> getApps() {

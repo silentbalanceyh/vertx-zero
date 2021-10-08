@@ -1,5 +1,7 @@
 package io.vertx.tp.rbac.cv;
 
+import io.vertx.up.eon.KName;
+
 public interface AuthKey {
     /**
      * Default state field
@@ -18,7 +20,7 @@ public interface AuthKey {
     String CLIENT_SECRET = "client_secret";
     String RESPONSE_TYPE = "response_type";
 
-    String ACCESS_TOKEN = "access_token";
+    String ACCESS_TOKEN = KName.ACCESS_TOKEN;
     String REFRESH_TOKEN = "refresh_token";
     String IAT = "iat";
     /**
@@ -28,7 +30,6 @@ public interface AuthKey {
     String F_ROLE_ID = "roleId";
     String F_GROUP_ID = "groupId";
     String F_PARENT_ID = "parentId";
-    String F_PERMISSION_ID = "permissionId";
 
     String F_CLIENT_ID = "clientId";
     String F_CLIENT_SECRET = "clientSecret";
