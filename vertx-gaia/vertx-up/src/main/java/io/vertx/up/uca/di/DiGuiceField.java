@@ -22,15 +22,16 @@ public class DiGuiceField<T extends I, I> implements DiGuice<T, I> {
     public boolean success(final Class<?> clazz) {
         // Get all fields
         final Field[] fields = clazz.getDeclaredFields();
-        return Arrays.stream(fields)
+        final Set<Class<?>> extract = new HashSet<>();
+        Arrays.stream(fields)
             .filter(field -> !Modifier.isStatic(field.getModifiers()))          // Ko Static
             // .filter(field -> !Modifier.isPublic(field.getModifiers()))          // Ko Non-Public
             .filter(field -> field.isAnnotationPresent(Inject.class))           // JSR 330
-            .anyMatch(field -> {
-                // Add field Class<?>
-                this.pointers.add(field.getType());
-                return true;
-            });
+            .forEach(field -> extract.add(field.getType()));
+        if (!extract.isEmpty()) {
+            this.pointers.addAll(extract);
+        }
+        return !extract.isEmpty();
     }
 
     @Override
