@@ -85,7 +85,7 @@
         <lombok.version>1.18.22</lombok.version>
         <asm.version>9.2</asm.version>
         <cglib.version>3.3.0</cglib.version>
-        <reflection.version>0.10</reflection.version>
+        <reflection.version>0.10.1</reflection.version>
 
         <!-- Etcd -->
         <etcd.version>2.18.0</etcd.version>
