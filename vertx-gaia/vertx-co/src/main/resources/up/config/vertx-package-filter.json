@@ -41,7 +41,6 @@
         "io.vertx.lang",
         "io.vertx.spi",
         "io.vertx.zero",
-        "io.vertx.up",
         "io.zero",
         "java",
         "java.util.concurrent",

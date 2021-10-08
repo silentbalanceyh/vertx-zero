@@ -44,26 +44,29 @@ public class QuotaConnect {
             PATH = secure + ID.Addr.MONITOR_PATH;
         }
         final JsonArray quotas = Ut.visitJArray(config, "monitor", "quota");
-        LOGGER.info("[ Hc ] Configured size: {0}, root path: {1}",
-            String.valueOf(quotas.size()), PATH);
+
         /*
          * Mount to REGISTRY_CLS
          */
-        final StringBuilder message = new StringBuilder("[ Hc ] Initialize components: ");
-        Ut.itJArray(quotas).forEach(item -> {
-            final String path = item.getString("path", null);
-            final String componentName = item.getString("component");
-            if (Ut.notNil(path) && !REGISTRY_CLS.containsKey(path)) {
-                final Class<?> componentCls = Ut.clazz(componentName, null);
-                if (Objects.nonNull(componentCls)) {
-                    REGISTRY_CLS.put(path, (vertx) -> Ut.instance(componentCls, vertx));
-                    message.append(MessageFormat.format("\n\t{0} = {1}", path,
-                        componentCls.getName()));
+        if (!quotas.isEmpty()) {
+            LOGGER.info("[ Hc ] Configured size: {0}, root path: {1}",
+                String.valueOf(quotas.size()), PATH);
+            final StringBuilder message = new StringBuilder("[ Hc ] Initialize components: ");
+            Ut.itJArray(quotas).forEach(item -> {
+                final String path = item.getString("path", null);
+                final String componentName = item.getString("component");
+                if (Ut.notNil(path) && !REGISTRY_CLS.containsKey(path)) {
+                    final Class<?> componentCls = Ut.clazz(componentName, null);
+                    if (Objects.nonNull(componentCls)) {
+                        REGISTRY_CLS.put(path, (vertx) -> Ut.instance(componentCls, vertx));
+                        message.append(MessageFormat.format("\n\t{0} = {1}", path,
+                            componentCls.getName()));
+                    }
                 }
-            }
-        });
-        message.append("\n");
-        LOGGER.info(message.toString());
+            });
+            message.append("\n");
+            LOGGER.info(message.toString());
+        }
     }
 
     public static String routePath() {

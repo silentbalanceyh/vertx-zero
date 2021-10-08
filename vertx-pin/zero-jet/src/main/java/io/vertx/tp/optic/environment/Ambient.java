@@ -11,6 +11,7 @@ import io.vertx.tp.jet.refine.Jt;
 import io.vertx.up.eon.ID;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
+import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
 import java.util.Objects;
@@ -56,8 +57,15 @@ public class Ambient {
                  * - Service/Api -> Uri
                  * - Router -> Route of Vert.x
                  */
-                APPS.forEach((appId, app) -> ENVIRONMENTS.put(appId, new AmbientEnvironment(app).init()));
-                return Future.succeededFuture(Boolean.TRUE);
+                Jt.infoInit(LOGGER, "Ambient detect {0} applications in your environment.",
+                    String.valueOf(APPS.keySet().size()));
+                final ConcurrentMap<String, Future<AmbientEnvironment>> futures = new ConcurrentHashMap<>();
+                APPS.forEach((appId, app) -> futures.put(appId, new AmbientEnvironment(app).init(vertx)));
+                return Ux.thenCombine(futures).compose(processed -> {
+                    ENVIRONMENTS.putAll(processed);
+                    Jt.infoInit(LOGGER, "AmbientEnvironment initialized !!!");
+                    return Ux.future(Boolean.TRUE);
+                });
             });
         } catch (Throwable ex) {
             // TODO: Start up exception
