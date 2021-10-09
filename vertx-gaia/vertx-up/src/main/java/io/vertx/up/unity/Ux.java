@@ -983,8 +983,8 @@ public final class Ux {
      *
      * @param init The configuration data came from `init` node in file
      */
-    public static void nativeInit(final JsonObject init) {
-        Atomic.nativeInit(init);
+    public static Future<Boolean> nativeInit(final JsonArray components, final Vertx vertx) {
+        return Atomic.nativeInit(components, vertx);
     }
 
     public static Vertx nativeVertx() {

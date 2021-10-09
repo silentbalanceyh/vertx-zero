@@ -1,116 +1,111 @@
 package io.vertx.up.uca.web.origin;
 
-import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
-import io.vertx.up.annotations.EndPoint;
-import io.vertx.up.annotations.Queue;
 import io.vertx.up.log.Annal;
-import io.vertx.up.plugin.Infix;
-import io.vertx.up.uca.di.JavaDi;
-import io.vertx.up.uca.di.JsrDi;
-import io.vertx.up.uca.web.filter.HttpFilter;
+import io.vertx.up.uca.di.DiGuice;
+import io.vertx.up.uca.di.DiGuiceConstructor;
+import io.vertx.up.uca.di.DiGuiceField;
+import io.vertx.up.uca.di.DiGuiceMethod;
 import io.vertx.up.util.Ut;
 
-import java.io.Serializable;
 import java.lang.reflect.Modifier;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
-import java.util.stream.Collectors;
+import java.util.function.Consumer;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
+@SuppressWarnings("all")
 public class GuiceInquirer implements Inquirer<Injector> {
     private static final Annal LOGGER = Annal.get(GuiceInquirer.class);
+    private static final DiGuice jsrField = Ut.singleton(DiGuiceField.class);
+    private static final DiGuice jsrMethod = Ut.singleton(DiGuiceMethod.class);
+    private static final DiGuice jsrCon = Ut.singleton(DiGuiceConstructor.class);
 
     @Override
     @SuppressWarnings("all")
     public Injector scan(final Set<Class<?>> clazzes) {
-        LOGGER.info("[ DI ] The DI environment will be initialized!");
+        LOGGER.info("[ DI ] The DI environment will be initialized! Total = `{0}`", String.valueOf(clazzes.size()));
         /*
-         *  implement class = interface class ( set )
+         * Scan start points, the condition is as following:
+         * - 1. Contains member that annotated with @Inject
+         * - 2. Constructor that annotated with @Inject
+         * - 3. Method that annotated with @Inject
          */
-        LOGGER.info("[ DI ] Start to parsing IMPL mode...");
-        final ConcurrentMap<Class<?>, Set<Class<?>>> implMap = new ConcurrentHashMap<>();
-        clazzes.forEach(clazz -> {
-            if (this.isValid(clazz)) {
-                if (!clazz.isInterface()) {
-                    final Set<Class<?>> interfaces = Arrays.stream(clazz.getInterfaces())
-                        .filter(item -> Serializable.class != item)
-                        .collect(Collectors.toSet());
-                    if (0 == interfaces.size()) {
-                        implMap.put(clazz, new HashSet<>() {{
-                            this.add(clazz);
-                        }});
-                    } else {
-                        implMap.put(clazz, interfaces);
-                    }
+
+        // The class that contains @Inject
+        final Set<Class<?>> queueField = new HashSet<>();
+        final Set<Class<?>> queueCon = new HashSet<>();
+        final Set<Class<?>> queueMethod = new HashSet<>();
+        // All interface queue
+        final ConcurrentMap<Class<?>, Set<Class<?>>> tree = new ConcurrentHashMap<>();
+        final Set<Class<?>> flat = new HashSet<>();
+        clazzes.stream().filter(this::isValid).forEach(clazz -> {
+            this.buildTree(tree, flat, clazz);
+            if (!clazz.isInterface()) {
+                if (jsrField.success(clazz)) {
+                    queueField.add(clazz);
+                } else if (jsrMethod.success(clazz)) {
+                    queueMethod.add(clazz);
+                } else if (jsrCon.success(clazz)) {
+                    queueCon.add(clazz);
                 }
             }
         });
-        LOGGER.info("[ DI ] Start to parsing INTERFACE/INFIX mode...");
-        final ConcurrentMap<Class<?>, Set<Class<?>>> interfaceMap = new ConcurrentHashMap<>();
-        final ConcurrentMap<Class<?>, Class<?>> infixMap = new ConcurrentHashMap<>();
-        implMap.forEach((impl, interfaceSet) -> interfaceSet.forEach(interfaceCls -> {
-            if (interfaceCls.isInterface()) {
-                if (Infix.class == interfaceCls) {
-                    infixMap.put(impl, interfaceCls);
-                } else {
-                    final Set<Class<?>> interfaceValue = interfaceMap.getOrDefault(interfaceCls, new HashSet<>());
-                    interfaceValue.add(impl);
-                    interfaceMap.put(interfaceCls, interfaceValue);
-                }
-            }
-        }));
-        LOGGER.info("[ DI ] Duplicated removing...");
-        interfaceMap.forEach((interfaceCls, implSet) -> {
-            if (1 < implSet.size()) {
-                implSet.forEach(implMap::remove);
-            }
-        });
-        infixMap.keySet().forEach(implMap::remove);
-        LOGGER.info("[ DI ] Calculate final size: IMPL = {0}, INTERFACE = {1}, INFIX = {2}",
-            String.valueOf(implMap.size()), String.valueOf(interfaceMap.size()), String.valueOf(infixMap.size()));
-        /*
-         * Common Binding:
-         * 1. Class Standalone
-         * 2. Interface + Class
-         */
+        LOGGER.info("[ DI ] 1st scanned, field = {0}, method = {1}, constructor = {2}",
+            String.valueOf(queueField.size()), String.valueOf(queueMethod.size()), String.valueOf(queueCon.size()));
+
+        // Implementation = Interface
+        // Standalone
+
         return Guice.createInjector(
-            new JavaDi(implMap),        // Java Specification ( IMPL Mode )
-            new JsrDi(interfaceMap)     // Jsr Specification ( interface Map )
+            this.jsrField.module(tree, flat),       // Field
+            this.jsrCon.module(tree, flat),         // Constructor
+            this.jsrMethod.module(tree, flat)       // Method
+            // new JavaDi(implMap),        // Java Specification ( IMPL Mode )
+            // new JsrDi(interfaceMap)     // Jsr Specification ( interface Map )
         );
+    }
+
+    private void buildTree(final ConcurrentMap<Class<?>, Set<Class<?>>> tree,
+                           final Set<Class<?>> flatSet,
+                           final Class<?> clazz) {
+        final Consumer<Class<?>> consumer = (item) -> {
+            if (!tree.containsKey(item)) {
+                tree.put(item, new HashSet<>());
+            }
+        };
+        if (clazz.isInterface()) {
+            consumer.accept(clazz);
+        } else {
+            final Class<?>[] interfacesCls = clazz.getInterfaces();
+            if (0 == interfacesCls.length) {
+                flatSet.add(clazz);
+            } else {
+                Arrays.stream(interfacesCls).forEach(interfaceCls -> {
+                    consumer.accept(interfaceCls);
+                    tree.get(interfaceCls).add(clazz);
+                });
+            }
+        }
     }
 
     private boolean isValid(final Class<?> clazz) {
         final int modifier = clazz.getModifiers();
-        boolean valid = Modifier.isPublic(modifier);
-        // Non Public
+        if (!Modifier.isPublic(modifier)) {
+            return false;           // Ko Non-Public
+        }
         if (Modifier.isAbstract(modifier) && !clazz.isInterface()) {
-            // Abstract Class Exclude
-            valid = false;
+            return false;           // Ko Abstract Class
         }
-        if (clazz.isAnnotationPresent(EndPoint.class)
-            || clazz.isAnnotationPresent(Queue.class)) {
-            // Zero Component Exclude
-            valid = false;
+        if (clazz.isAnonymousClass()) {
+            return false;           // Ko AnonymousClass
         }
-        if (!Ut.withNoArgConstructor(clazz)) {
-            // Fix: does not have a @Inject annotated constructor or a no-arg constructor.
-            valid = false;
-        }
-        if (AbstractModule.class.isAssignableFrom(clazz)) {
-            // Self Scan
-            valid = false;
-        }
-        if (HttpFilter.class.isAssignableFrom(clazz)) {
-            // Zero HttpFilter ignored
-            valid = false;
-        }
-        return valid;
+        return !clazz.isEnum();     // Ko Enum
     }
 }
