@@ -165,9 +165,7 @@ public class ScUser {
     }
 
     public static ScUser login(final String habitus) {
-        final ScUser user = USERS.get(habitus);
-        Objects.requireNonNull(user);
-        return user;
+        return USERS.get(habitus);
     }
 
     public static ScUser login(final User user) {

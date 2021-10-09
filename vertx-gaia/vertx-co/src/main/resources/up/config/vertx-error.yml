@@ -146,7 +146,7 @@ E60032: "(500) - (Jwt) Jwt runtime met errors, please check details = {0}"
 E60033: "(401) - (Jwt) Jwt executor result is false, authorization token = {0}"
 
 # (Web) Exception for standard third part
-E60034: "(501) - (Shared) You configured (async = {0}) mode, but now your client is called with (async = {1})"
+E60034: "(500) - (Shared) SharedMap Error happened when do operation: {0}"
 E60035: "(500) - (Shared) Your map {0} processing met issue when execute method {1}"
 
 # Excel exception

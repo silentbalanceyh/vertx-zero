@@ -5,6 +5,10 @@ import io.vertx.up.log.Annal;
 import io.vertx.up.util.Ut;
 
 import java.lang.reflect.Constructor;
+import java.lang.reflect.Member;
+import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -16,6 +20,7 @@ import java.util.concurrent.ConcurrentMap;
  *
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
+@Deprecated
 public class JavaDi<T extends I, I> extends AbstractModule {
     private static final Annal LOGGER = Annal.get(JavaDi.class);
     private final transient ConcurrentMap<Class<T>, Set<Class<I>>> classes
@@ -31,7 +36,7 @@ public class JavaDi<T extends I, I> extends AbstractModule {
         final Set<String> oneOne = new HashSet<>();
         this.classes.forEach((impl, interfaceSet) -> interfaceSet.forEach(interfaceCls -> {
             final Constructor<T> constructor = Ut.constructor(impl);
-            if (Objects.nonNull(constructor)) {
+            if (this.isOk(impl, interfaceCls, constructor)) {
                 if (impl == interfaceCls) {
                     // No Interface Mode
                     oneOne.add(impl.getName());
@@ -51,5 +56,30 @@ public class JavaDi<T extends I, I> extends AbstractModule {
         }));
         LOGGER.info("[ DI ] 0 <-> 0, Size = {0}, Content = {1}",
             String.valueOf(oneOne.size()), Ut.fromJoin(oneOne));
+    }
+
+    private boolean isOk(final Class<?> impl, final Class<?> interfaceCls, final Constructor<T> constructor) {
+        if (Objects.isNull(constructor) || !Modifier.isPublic(constructor.getModifiers())) {
+            // Ko non-public constructor
+            return false;
+        }
+        final Member[] members = impl.getDeclaredFields();
+        final Method[] methods = impl.getDeclaredMethods();
+        final long memberCounter = Arrays.stream(members)
+            .filter(member -> !Modifier.isStatic(member.getModifiers()))    // ko static
+            .count();
+        final long methodCounter = Arrays.stream(methods)
+            .filter(member -> !Modifier.isStatic(member.getModifiers()))    // ko static
+            .count();
+        if (0 == memberCounter && 0 == methodCounter) {
+            // Ko all static only
+            return false;
+        }
+        if (impl != interfaceCls) {
+            final Method[] interfaceMethod = interfaceCls.getMethods();
+            // Ko some interface definition
+            return 0 != interfaceMethod.length;
+        }
+        return true;
     }
 }

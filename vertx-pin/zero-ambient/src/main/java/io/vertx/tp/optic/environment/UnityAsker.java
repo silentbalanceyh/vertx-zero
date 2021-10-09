@@ -4,15 +4,16 @@ import cn.vertxup.ambient.domain.tables.daos.XAppDao;
 import cn.vertxup.ambient.domain.tables.daos.XSourceDao;
 import cn.vertxup.ambient.domain.tables.pojos.XApp;
 import cn.vertxup.ambient.domain.tables.pojos.XSource;
+import io.vertx.core.Future;
+import io.vertx.core.Vertx;
 import io.vertx.tp.ambient.cv.AtMsg;
 import io.vertx.tp.ambient.refine.At;
 import io.vertx.tp.plugin.database.DataPool;
 import io.vertx.up.commune.config.Database;
 import io.vertx.up.log.Annal;
-import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
+import org.jooq.Configuration;
 
-import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
@@ -30,23 +31,31 @@ class UnityAsker {
      * set Jooq environment before vert.x begin up, in this situation, here you couldn't
      * use `Ux.Jooq.on(Dao.class)` mode to get Dao reference.
      */
-    static void init() {
+    static Future<Boolean> init(final Vertx vertx) {
         /* All app here */
-        final DataPool pool = getPool();
-        final List<XApp> applications = Ux.Jooq.on(XAppDao.class, pool).fetchAll();
-        At.infoApp(LOGGER, AtMsg.UNITY_APP, applications.size());
-        /* All data source here */
-        final List<XSource> sources = Ux.Jooq.on(XSourceDao.class, pool).fetchAll();
-        At.infoApp(LOGGER, AtMsg.UNITY_SOURCE, sources.size());
-
-        /* Data, use application key as key here. */
-        APP_POOL.putAll(Ut.elementZip(applications, XApp::getKey, app -> app));
-        SOURCE_POOL.putAll(Ut.elementZip(sources, XSource::getAppId, source -> source));
+        final Configuration configuration = configuration();
+        final XAppDao appDao = new XAppDao(configuration, vertx);
+        return appDao.findAll().compose(applications -> {
+            At.infoApp(LOGGER, AtMsg.UNITY_APP, applications.size());
+            /* Data, use application key as key here. */
+            APP_POOL.putAll(Ut.elementZip(applications, XApp::getKey, app -> app));
+            return Future.succeededFuture(Boolean.TRUE);
+        }).compose(nil -> {
+            final XSourceDao sourceDao = new XSourceDao(configuration, vertx);
+            return sourceDao.findAll();
+        }).compose(sources -> {
+            /* All data source here */
+            At.infoApp(LOGGER, AtMsg.UNITY_SOURCE, sources.size());
+            /* Data, use application key as key here. */
+            SOURCE_POOL.putAll(Ut.elementZip(sources, XSource::getAppId, source -> source));
+            return Future.succeededFuture(Boolean.TRUE);
+        });
     }
 
-    private static DataPool getPool() {
+    private static Configuration configuration() {
         final Database database = Database.getCurrent();
-        return DataPool.create(database);
+        final DataPool pool = DataPool.create(database);
+        return pool.getExecutor().configuration();
     }
 
     static ConcurrentMap<String, XApp> getApps() {
