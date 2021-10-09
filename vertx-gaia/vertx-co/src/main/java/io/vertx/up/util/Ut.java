@@ -872,6 +872,10 @@ public final class Ut {
         return Apply.applyJValue(null, field, value);
     }
 
+    public static Function<JsonObject, JsonObject> ifJCopy(final JsonObject input, final String... fields) {
+        return Apply.applyJCopy(input, fields);
+    }
+
     public static JsonObject ifJCopy(final JsonObject record, final String from, final String to) {
         return Apply.applyJCopy(record, from, to);
     }

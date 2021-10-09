@@ -25,14 +25,14 @@ public class ZeroHeart {
     private static final String INIT = "init";
     private static final Node<JsonObject> VISITOR = Ut.singleton(ZeroUniform.class);
 
-    public static void init() {
-        init(null).onComplete(res -> LOGGER.info("Extension Initialized {0}", res.result()));
+    public static void initExtension() {
+        initExtension(null).onComplete(res -> LOGGER.info("Extension Initialized {0}", res.result()));
     }
 
     /*
      * Async initialized for extension
      */
-    public static Future<Boolean> init(final Vertx vertx) {
+    public static Future<Boolean> initExtension(final Vertx vertx) {
         // inject configuration
         final JsonObject config = VISITOR.read();
         /*

@@ -70,6 +70,26 @@ public class Integration implements Json, Serializable {
     private transient JsonObject options = new JsonObject();
     @JsonIgnore
     private transient ConcurrentMap<String, DiConsumer> epsilon = new ConcurrentHashMap<>();
+    @JsonIgnore
+    private transient String vendorConfig;
+    @JsonIgnore
+    private transient String vendor;
+
+    public String getVendorConfig() {
+        return this.vendorConfig;
+    }
+
+    public void setVendorConfig(final String vendorConfig) {
+        this.vendorConfig = vendorConfig;
+    }
+
+    public String getVendor() {
+        return this.vendor;
+    }
+
+    public void setVendor(final String vendor) {
+        this.vendor = vendor;
+    }
 
     public ConcurrentMap<String, DiConsumer> getEpsilon() {
         return this.epsilon;
@@ -205,7 +225,7 @@ public class Integration implements Json, Serializable {
         final IntegrationRequest original = this.apis.get(key);
         request.setHeaders(original.getHeaders().copy());
         request.setMethod(original.getMethod());
-        if (0 <= original.getPath().indexOf('`' )) {
+        if (0 <= original.getPath().indexOf('`')) {
             /*
              * Expression Path
              */
@@ -221,8 +241,12 @@ public class Integration implements Json, Serializable {
 
     @Override
     public boolean equals(final Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Integration)) return false;
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof Integration)) {
+            return false;
+        }
         final Integration that = (Integration) o;
         return this.endpoint.equals(that.endpoint) &&
             this.port.equals(that.port) &&
@@ -241,6 +265,7 @@ public class Integration implements Json, Serializable {
     public String toString() {
         return "Integration{" +
             "apis=" + this.apis +
+            ", vendor=" + this.vendorConfig +
             ", endpoint='" + this.endpoint + '\'' +
             ", port=" + this.port +
             ", protocol='" + this.protocol + '\'' +

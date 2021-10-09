@@ -271,4 +271,9 @@ public interface KName {
         String POSITION = "position";
     }
 
+    interface Tenant {
+        String STELLAR = "stellar";                  /* Business */
+        String TENANT = "tenant";
+        String VENDORS = "vendors";
+    }
 }

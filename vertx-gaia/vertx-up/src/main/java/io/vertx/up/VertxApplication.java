@@ -123,7 +123,7 @@ public class VertxApplication {
              * Async initializing to replace the original extension
              * Data initializing
              */
-            ZeroHeart.init(vertx).onSuccess(res -> {
+            ZeroHeart.initExtension(vertx).onSuccess(res -> {
                 if (res) {
                     if (ZeroHeart.isShared()) {
                         /*

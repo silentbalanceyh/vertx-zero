@@ -9,7 +9,7 @@ import io.vertx.tp.error._404ActionMissingException;
 import io.vertx.tp.optic.fantom.Anchoret;
 import io.vertx.tp.rbac.cv.AuthMsg;
 import io.vertx.tp.rbac.refine.Sc;
-import io.vertx.up.atom.unity.Uson;
+import io.vertx.up.atom.unity.UObject;
 import io.vertx.up.eon.KName;
 import io.vertx.up.util.Ut;
 
@@ -33,7 +33,7 @@ public class ExIntimitySeeker extends Anchoret<Seeker> implements Seeker {
         Sc.infoResource(this.getLogger(), AuthMsg.SEEKER_RESOURCE, uri, method, sigma);
         return this.stub.fetchAction(uri, method, sigma).compose(action -> Objects.isNull(action) ?
             Future.failedFuture(new _404ActionMissingException(this.getClass(), method + " " + uri)) :
-            Uson.create(params).append(KName.RESOURCE_ID, action.getResourceId())
+            UObject.create(params).append(KName.RESOURCE_ID, action.getResourceId())
                 .toFuture());
     }
 }

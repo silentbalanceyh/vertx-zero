@@ -10,7 +10,7 @@ import io.vertx.tp.rbac.atom.ScConfig;
 import io.vertx.tp.rbac.cv.AuthKey;
 import io.vertx.tp.rbac.cv.AuthMsg;
 import io.vertx.tp.rbac.init.ScPin;
-import io.vertx.up.atom.unity.Uson;
+import io.vertx.up.atom.unity.UObject;
 import io.vertx.up.eon.Values;
 import io.vertx.up.exception.WebException;
 import io.vertx.up.log.Annal;
@@ -72,7 +72,7 @@ class ScToken {
 
     static JsonObject jwtToken(final JsonObject data) {
         /* Token Data Extract */
-        final JsonObject tokenData = Uson.create(data.copy())
+        final JsonObject tokenData = UObject.create(data.copy())
             .remove("role", "group").to();
         Sc.infoAuth(LOGGER, AuthMsg.TOKEN_JWT, tokenData.encode());
         /* Token */

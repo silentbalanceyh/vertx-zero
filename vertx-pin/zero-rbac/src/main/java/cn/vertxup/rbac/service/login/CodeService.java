@@ -6,7 +6,7 @@ import io.vertx.tp.error._401CodeExpiredException;
 import io.vertx.tp.error._401CodeWrongException;
 import io.vertx.tp.rbac.cv.AuthKey;
 import io.vertx.tp.rbac.refine.Sc;
-import io.vertx.up.atom.unity.Uson;
+import io.vertx.up.atom.unity.UObject;
 import io.vertx.up.unity.Ux;
 
 import java.util.Objects;
@@ -22,7 +22,7 @@ public class CodeService implements CodeStub {
         final JsonObject response = new JsonObject();
         // Enable SharedClient to store authCode
         return Sc.cacheCode(clientId, authCode)
-            .compose(item -> Uson.create(response)
+            .compose(item -> UObject.create(response)
                 .append(AuthKey.AUTH_CODE, item)
                 .toFuture());
     }

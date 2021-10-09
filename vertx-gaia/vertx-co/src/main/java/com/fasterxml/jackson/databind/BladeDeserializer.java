@@ -2,20 +2,20 @@ package com.fasterxml.jackson.databind;
 
 import com.fasterxml.jackson.core.JsonParser;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.atom.unity.Uson;
+import io.vertx.up.atom.unity.UObject;
 
 import java.io.IOException;
 
 /**
  * # 「Tp」Jackson Deserializer
  *
- * Blade is a game of `sword` processing, it's for {@link io.vertx.up.atom.unity.Uson} data structure serialization.
+ * Blade is a game of `sword` processing, it's for {@link UObject} data structure serialization.
  * Uson is defined by Zero Framework and it contains following features:
  *
  * * Stream Api for Json processing.
  * * Fluent Api that are mocked as Vert.x native.
  *
- * This deserializer is for {@link io.vertx.up.atom.unity.Uson} serialization if needed, the internal Json data object
+ * This deserializer is for {@link UObject} serialization if needed, the internal Json data object
  * will be deserialize instead of itself.
  *
  * This component is used by {@link com.fasterxml.jackson.databind.module.ZeroModule} as following:
@@ -38,13 +38,13 @@ import java.io.IOException;
  *
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-public class BladeDeserializer extends JsonDeserializer<Uson> { // NOPMD
+public class BladeDeserializer extends JsonDeserializer<UObject> { // NOPMD
 
     @Override
-    public Uson deserialize(final JsonParser parser,
-                            final DeserializationContext context)
+    public UObject deserialize(final JsonParser parser,
+                               final DeserializationContext context)
         throws IOException {
         final JsonNode node = parser.getCodec().readTree(parser);
-        return Uson.create(new JsonObject(node.toString()));
+        return UObject.create(new JsonObject(node.toString()));
     }
 }

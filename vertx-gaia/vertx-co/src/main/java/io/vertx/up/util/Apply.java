@@ -26,6 +26,19 @@ class Apply {
         };
     }
 
+    static Function<JsonObject, JsonObject> applyJCopy(final JsonObject input, final String... fields) {
+        return (json) -> {
+            Objects.requireNonNull(json);
+            final JsonObject source = Jackson.sureJObject(input);
+            Arrays.stream(fields).forEach(field -> {
+                if (source.containsKey(field)) {
+                    json.put(field, source.getValue(field));
+                }
+            });
+            return json;
+        };
+    }
+
     static <T> Function<T, Future<JsonObject>> applyField(final JsonObject input, final String field) {
         return data -> {
             if (Ut.isNil(field)) {

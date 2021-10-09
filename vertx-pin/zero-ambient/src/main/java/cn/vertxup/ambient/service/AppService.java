@@ -10,7 +10,7 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.ke.refine.Ke;
 import io.vertx.tp.optic.business.ExApp;
-import io.vertx.up.atom.unity.Uson;
+import io.vertx.up.atom.unity.UObject;
 import io.vertx.up.eon.KName;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
@@ -25,7 +25,7 @@ public class AppService implements AppStub {
             /* Convert to Json */
             .compose(Ux::futureJ)
             /* Before App Initialized ( Public Api ) */
-            .compose(appData -> Uson.create(appData).remove(KName.APP_KEY).toFuture())
+            .compose(appData -> UObject.create(appData).remove(KName.APP_KEY).toFuture())
             /* Image field: logo */
             .compose(Ut.ifJObject(KName.App.LOGO));
     }
