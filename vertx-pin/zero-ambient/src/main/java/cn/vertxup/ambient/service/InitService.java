@@ -7,7 +7,7 @@ import io.vertx.tp.ambient.init.AtPin;
 import io.vertx.tp.ambient.refine.At;
 import io.vertx.tp.optic.extension.Init;
 import io.vertx.tp.optic.extension.Prerequisite;
-import io.vertx.up.atom.unity.Uson;
+import io.vertx.up.atom.unity.UObject;
 import io.vertx.up.eon.KName;
 import io.vertx.up.log.Annal;
 import io.vertx.up.unity.Ux;
@@ -133,7 +133,7 @@ public class InitService implements InitStub {
      */
     private Future<JsonObject> initCombine(final JsonObject appJson) {
         return this.stub.fetchSource(appJson.getString(KName.KEY))
-            .compose(source -> Uson.create(appJson).append(KName.SOURCE, source).toFuture());
+            .compose(source -> UObject.create(appJson).append(KName.SOURCE, source).toFuture());
     }
 
     /**

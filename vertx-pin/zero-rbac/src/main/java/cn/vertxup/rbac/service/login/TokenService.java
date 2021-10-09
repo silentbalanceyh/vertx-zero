@@ -9,7 +9,7 @@ import io.vertx.ext.web.Session;
 import io.vertx.tp.rbac.atom.ScConfig;
 import io.vertx.tp.rbac.cv.AuthKey;
 import io.vertx.tp.rbac.init.ScPin;
-import io.vertx.up.atom.unity.Uson;
+import io.vertx.up.atom.unity.UObject;
 import io.vertx.up.eon.KName;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
@@ -34,7 +34,7 @@ public class TokenService implements TokenStub {
             .compose(item -> this.userStub.fetchRoleIds(item))
 
             /* Build Data in Token */
-            .compose(roles -> Uson.create()
+            .compose(roles -> UObject.create()
                 .append("user", clientId)
                 /*
                  * Permission Pool is configured in RBAC module, it's different from Session here.
@@ -73,7 +73,7 @@ public class TokenService implements TokenStub {
             final String userKey = response.getString("user");
             return this.userStub.fetchGroupIds(userKey)
                 .compose(this::fetchRoles)
-                .compose(groups -> Uson.create(response)
+                .compose(groups -> UObject.create(response)
                     .append("group", groups).toFuture());
         } else {
             return Future.succeededFuture(response);
@@ -86,7 +86,7 @@ public class TokenService implements TokenStub {
         groups.stream().filter(Objects::nonNull)
             .map(item -> (JsonObject) item)
             .forEach(item -> futures.add(this.groupStub.fetchRoleIdsAsync(item.getString(AuthKey.F_GROUP_ID))
-                .compose(roles -> Uson.create(item).append("role", roles).toFuture())
+                .compose(roles -> UObject.create(item).append("role", roles).toFuture())
             ));
         return Ux.thenCombine(futures);
     }

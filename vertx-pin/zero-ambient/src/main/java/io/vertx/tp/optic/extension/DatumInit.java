@@ -10,7 +10,7 @@ import io.vertx.tp.ambient.init.AtPin;
 import io.vertx.tp.ambient.refine.At;
 import io.vertx.tp.plugin.excel.ExcelClient;
 import io.vertx.tp.plugin.excel.ExcelInfix;
-import io.vertx.up.atom.unity.Uson;
+import io.vertx.up.atom.unity.UObject;
 import io.vertx.up.eon.KName;
 import io.vertx.up.log.Annal;
 import io.vertx.up.unity.Ux;
@@ -59,7 +59,7 @@ public class DatumInit implements Init {
             .collect(Collectors.toList());
         return Ux.thenCombine(futures)
             /* Stored each result */
-            .compose(results -> Uson.create().append(KName.RESULT, results)
+            .compose(results -> UObject.create().append(KName.RESULT, results)
                 .toFuture())
             .compose(results -> Ux.future(this.result(results, appJson)));
     }

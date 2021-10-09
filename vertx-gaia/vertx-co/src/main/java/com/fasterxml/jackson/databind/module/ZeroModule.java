@@ -16,7 +16,7 @@ import com.fasterxml.jackson.datatype.jsr310.ser.*;
 import com.fasterxml.jackson.datatype.jsr310.ser.key.ZonedDateTimeKeySerializer;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.atom.unity.Uson;
+import io.vertx.up.atom.unity.UObject;
 
 import java.time.*;
 import java.util.Iterator;
@@ -66,12 +66,12 @@ public class ZeroModule extends SimpleModule {
         // Serializer
         this.addSerializer(JsonObject.class, new JsonObjectSerializer());
         this.addSerializer(JsonArray.class, new JsonArraySerializer());
-        this.addSerializer(Uson.class, new BladeSerializer());
+        this.addSerializer(UObject.class, new BladeSerializer());
         this.addSerializer(byte[].class, new ByteArraySerializer());
         // Deserializer
         this.addDeserializer(JsonObject.class, new JsonObjectDeserializer());
         this.addDeserializer(JsonArray.class, new JsonArrayDeserializer());
-        this.addDeserializer(Uson.class, new BladeDeserializer());
+        this.addDeserializer(UObject.class, new BladeDeserializer());
         // Default Time
         this.addDeserializer(Instant.class, InstantDeserializer.INSTANT);
         this.addDeserializer(OffsetDateTime.class, InstantDeserializer.OFFSET_DATE_TIME);

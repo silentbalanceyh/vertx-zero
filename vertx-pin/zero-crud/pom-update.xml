@@ -13,6 +13,10 @@
         <ignoreVersion type="regex">.*-ALPHA\d*</ignoreVersion>
         <ignoreVersion type="regex">.*-rc\d*</ignoreVersion>
         <ignoreVersion type="regex">.*-rc-\d*</ignoreVersion>
+        <ignoreVersion type="regex">.*-RC\d*</ignoreVersion>
+        <ignoreVersion type="regex">.*.RC\d*</ignoreVersion>
+        <ignoreVersion type="regex">.*-RC-\d*</ignoreVersion>
+        <ignoreVersion type="regex">.*.RC-\d*</ignoreVersion>
         <ignoreVersion type="regex">.*\.M\d+</ignoreVersion>
         <ignoreVersion type="regex">.*-BETA-\d*</ignoreVersion>
     </ignoreVersions>
@@ -28,6 +32,13 @@
         <rule groupId="org.hibernate.validator" comparisonMethod="maven">
             <ignoreVersions>
                 <ignoreVersion type="regex">7.*</ignoreVersion>
+            </ignoreVersions>
+        </rule>
+
+        <!-- liquibase 3.x -->
+        <rule groupId="org.liquibase" comparisonMethod="maven">
+            <ignoreVersions>
+                <ignoreVersion type="regex">4.*</ignoreVersion>
             </ignoreVersions>
         </rule>
 

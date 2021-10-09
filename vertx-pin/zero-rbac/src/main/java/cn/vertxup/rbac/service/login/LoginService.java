@@ -13,7 +13,7 @@ import io.vertx.tp.rbac.cv.AuthKey;
 import io.vertx.tp.rbac.cv.AuthMsg;
 import io.vertx.tp.rbac.logged.ScUser;
 import io.vertx.tp.rbac.refine.Sc;
-import io.vertx.up.atom.unity.Uson;
+import io.vertx.up.atom.unity.UObject;
 import io.vertx.up.eon.KName;
 import io.vertx.up.log.Annal;
 import io.vertx.up.unity.Ux;
@@ -54,7 +54,7 @@ public class LoginService implements LoginStub {
         }).compose(user -> this.userStub.fetchOUser(user.getKey()).compose(Ux::futureJ).compose(ouserJson -> {
             final JsonObject userJson = Ut.serializeJson(user);
             final JsonObject merged = Ut.jsonAppend(userJson, ouserJson);
-            return Uson.create(merged).pickup(
+            return UObject.create(merged).pickup(
                 KName.KEY,                /* client_id parameter */
                 AuthKey.SCOPE,              /* scope parameter */
                 AuthKey.STATE,              /* state parameter */

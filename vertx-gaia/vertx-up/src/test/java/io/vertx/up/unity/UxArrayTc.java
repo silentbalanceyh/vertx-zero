@@ -3,7 +3,7 @@ package io.vertx.up.unity;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.quiz.ZeroBase;
-import io.vertx.up.atom.unity.Uarr;
+import io.vertx.up.atom.unity.UArray;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -17,7 +17,7 @@ public class UxArrayTc extends ZeroBase {
         final JsonArray source = this.ioJArray("source.json");
         final JsonArray target = this.ioJArray("target.json");
         final JsonArray result =
-            Uarr.create(source).zip(target, "key", "roomId").to();
+            UArray.create(source).zip(target, "key", "roomId").to();
         for (int idx = 0; idx < result.size(); idx++) {
             final JsonObject item = result.getJsonObject(idx);
             Assert.assertNotNull(item);

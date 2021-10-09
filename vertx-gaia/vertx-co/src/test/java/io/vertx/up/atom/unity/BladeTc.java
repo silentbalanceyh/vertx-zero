@@ -16,7 +16,7 @@ public class BladeTc extends ZeroBase {
     @Test
     public void testBlade() {
         final JsonObject data = new JsonObject().put("email", "lang.yu@hpe.com");
-        final Uson blade = Ut.deserialize(data, Uson.class);
+        final UObject blade = Ut.deserialize(data, UObject.class);
         System.out.println(blade);
     }
 
@@ -30,7 +30,7 @@ public class BladeTc extends ZeroBase {
     @Test
     public void testUson() {
         final JsonObject data = Ut.ioJObject(this.ioFile("Uson.json"));
-        final JsonObject result = Uson.create(data).convert("_id", "key").to();
+        final JsonObject result = UObject.create(data).convert("_id", "key").to();
         System.out.println(result.encodePrettily());
     }
 
@@ -40,7 +40,7 @@ public class BladeTc extends ZeroBase {
         final JsonArray source = Ut.ioJArray(this.ioFile("To.json"));
         final JsonArray zip = Dual.zip(target, source, "name", "name1");
         System.out.println(zip);
-        final JsonArray arr = Uarr.create(target).zip(source, "name", "name1").to();
+        final JsonArray arr = UArray.create(target).zip(source, "name", "name1").to();
         System.out.println(arr);
     }
 }
