@@ -7,7 +7,7 @@ import io.vertx.tp.ke.refine.Ke;
 import io.vertx.tp.optic.business.ExEmployee;
 import io.vertx.tp.rbac.cv.AuthMsg;
 import io.vertx.tp.rbac.refine.Sc;
-import io.vertx.up.atom.unity.Uson;
+import io.vertx.up.atom.unity.UObject;
 import io.vertx.up.eon.KName;
 import io.vertx.up.log.Annal;
 import io.vertx.up.unity.Ux;
@@ -62,7 +62,7 @@ class UserHelper {
                             Ux.future(new JsonObject()) :
                             Ux.future(employee))
                         /* Merged */
-                        .compose(employee -> Uson
+                        .compose(employee -> UObject
                             .create(Ux.toJson(user).copy())
                             .append(employee)
                             /* Model Key -> Employee Id */

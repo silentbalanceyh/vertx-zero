@@ -4,7 +4,9 @@ import io.vertx.core.Future;
 import io.vertx.core.Vertx;
 import io.vertx.core.VertxOptions;
 import io.vertx.core.WorkerExecutor;
+import io.vertx.core.eventbus.EnvelopCodec;
 import io.vertx.core.json.JsonArray;
+import io.vertx.up.commune.Envelop;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.util.Ut;
 
@@ -26,6 +28,8 @@ class Atomic {
         options.setMaxWorkerExecuteTime(3000_000_000_000L);
         options.setBlockedThreadCheckInterval(10000);
         VERTX = Vertx.vertx(options);
+        /* Zero Codec Register */
+        VERTX.eventBus().registerDefaultCodec(Envelop.class, Ut.singleton(EnvelopCodec.class));
     }
 
     static Vertx nativeVertx() {

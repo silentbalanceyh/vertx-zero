@@ -1,17 +1,12 @@
 package io.vertx.tp.plugin.excel.atom;
 
-import com.fasterxml.jackson.databind.JsonArrayDeserializer;
-import com.fasterxml.jackson.databind.JsonArraySerializer;
-import com.fasterxml.jackson.databind.JsonObjectDeserializer;
-import com.fasterxml.jackson.databind.JsonObjectSerializer;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.plugin.excel.ExcelClient;
 import io.vertx.tp.plugin.excel.ExcelInfix;
 import io.vertx.up.atom.Kv;
+import io.vertx.up.atom.unity.UTenant;
 import io.vertx.up.eon.Strings;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
@@ -28,45 +23,24 @@ import java.util.stream.Collectors;
  */
 public class ExTenant implements Serializable {
 
-    @JsonSerialize(using = JsonObjectSerializer.class)
-    @JsonDeserialize(using = JsonObjectDeserializer.class)
-    private transient JsonObject global;
+    private final transient UTenant tenant;
 
-    @JsonSerialize(using = JsonArraySerializer.class)
-    @JsonDeserialize(using = JsonArrayDeserializer.class)
-    private transient JsonArray source;
-
-    private transient ConcurrentMap<String, JsonObject> mapping;
-
-    public JsonObject getGlobal() {
-        return Objects.isNull(this.global) ? new JsonObject() :
-            this.global.copy();
+    private ExTenant(final JsonObject tenantData) {
+        this.tenant = Ut.deserialize(tenantData, UTenant.class);
     }
 
-    public void setGlobal(final JsonObject global) {
-        this.global = global;
+    public static ExTenant create(final JsonObject tenantData) {
+        return new ExTenant(tenantData);
     }
 
-    public JsonArray getSource() {
-        return this.source;
-    }
-
-    public void setSource(final JsonArray source) {
-        this.source = source;
-    }
-
-    public ConcurrentMap<String, JsonObject> getMapping() {
-        return this.mapping;
-    }
-
-    public void setMapping(final ConcurrentMap<String, JsonObject> mapping) {
-        this.mapping = mapping;
+    public JsonObject valueDefault() {
+        return this.tenant.getGlobal();
     }
 
     public ConcurrentMap<String, String> mapping(final String tableName) {
         final ConcurrentMap<String, String> map = new ConcurrentHashMap<>();
-        if (Objects.nonNull(this.mapping)) {
-            final JsonObject mappingJson = this.mapping.getOrDefault(tableName, new JsonObject());
+        if (Objects.nonNull(this.tenant.getMapping())) {
+            final JsonObject mappingJson = this.tenant.getMapping().getOrDefault(tableName, new JsonObject());
             Ut.<String>itJObject(mappingJson, (value, field) -> map.put(field, value));
         }
         return map;
@@ -81,8 +55,8 @@ public class ExTenant implements Serializable {
      */
     public Future<ConcurrentMap<String, JsonObject>> dictionary() {
         final List<Future<Kv<String, JsonObject>>> futures = new ArrayList<>();
-        if (Objects.nonNull(this.source)) {
-            Ut.itJArray(this.source, String.class, (expr, index) ->
+        if (Objects.nonNull(this.tenant.getSource())) {
+            Ut.itJArray(this.tenant.getSource(), String.class, (expr, index) ->
                 futures.add(this.dictionary(expr)));
         }
         return Ux.thenCombineT(futures).compose(result -> {

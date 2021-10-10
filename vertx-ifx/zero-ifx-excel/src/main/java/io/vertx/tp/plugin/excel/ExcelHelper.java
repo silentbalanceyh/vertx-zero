@@ -70,7 +70,7 @@ class ExcelHelper {
         } else {
             // Append Global
             Ut.itJArray(dataArray)
-                .forEach(json -> json.mergeIn(this.tenant.getGlobal(), true));
+                .forEach(json -> json.mergeIn(this.tenant.valueDefault(), true));
             // Extract Mapping
             final ConcurrentMap<String, String> first = this.tenant.mapping(table.getName());
             if (first.isEmpty()) {

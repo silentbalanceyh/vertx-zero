@@ -78,6 +78,7 @@ public class ExcelReader implements AoFile {
         final String root = this.rootPath + folder;
         final List<String> files = Ut.ioFiles(root);
         return files.stream()
+            .filter(file -> file.endsWith(".xlsx") || file.equals("xls"))    // Only Excel Valid
             .filter(file -> !file.startsWith("~"))  // 过滤Office的临时文件
             .map(item -> root + "/" + item).collect(Collectors.toSet());
     }
