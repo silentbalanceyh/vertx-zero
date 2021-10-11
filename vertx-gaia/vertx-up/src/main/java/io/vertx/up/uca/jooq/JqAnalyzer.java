@@ -133,6 +133,10 @@ public class JqAnalyzer {
         }
     }
 
+    public String primaryColumn() {
+        return this.columnName(this.primary());
+    }
+
     public <T> List<Object> primaryValue(final List<T> list) {
         final List<Object> values = new ArrayList<>();
         list.stream().map(this::primaryValue).forEach(values::add);
