@@ -28,7 +28,6 @@ class ActionDelete extends AbstractAction {
     <T> Future<T> deleteAsync(final T entity) {
         final Condition condition = this.analyzer.conditionUk(entity);
         return ((Future<Integer>) this.dao().deleteByCondition(condition)).compose(rows -> {
-            this.logger().info("[ Jq ] deleteAsync(T) executed rows: {0}", String.valueOf(rows));
             return Future.succeededFuture(entity);
         });
     }
@@ -39,7 +38,7 @@ class ActionDelete extends AbstractAction {
         final DeleteConditionStep deleteStep = this.context().deleteFrom(this.analyzer.table())
             .where(condition);
         final int rows = deleteStep.execute();
-        this.logger().info("[ Jq ] delete(T) executed rows: {0}", String.valueOf(rows));
+        this.logging("[ Jq ] delete(T) executed rows: {0}", String.valueOf(rows));
         return entity;
     }
 
@@ -61,7 +60,7 @@ class ActionDelete extends AbstractAction {
         }).forEach(batchOps::add);
         final int rows[] = this.context().batch(batchOps).execute();
         final long updated = Arrays.stream(rows).filter(value -> Values.ONE == value).count();
-        this.logger().info("[ Jq ] delete(List<T>) executed rows: {0}/{1}",
+        this.logging("[ Jq ] delete(List<T>) executed rows: {0}/{1}",
             String.valueOf(updated), String.valueOf(rows.length));
         return entity;
     }
@@ -80,7 +79,7 @@ class ActionDelete extends AbstractAction {
         }).forEach(batchOps::add);
         final int rows[] = this.context().batch(batchOps).execute();
         final long updated = Arrays.stream(rows).filter(value -> Values.ONE == value).count();
-        this.logger().info("[ Jq ] deleteById(Collection<ID>) executed rows: {0}/{1}",
+        this.logging("[ Jq ] deleteById(Collection<ID>) executed rows: {0}/{1}",
             String.valueOf(updated), String.valueOf(rows.length));
         return Boolean.TRUE;
     }
@@ -88,7 +87,7 @@ class ActionDelete extends AbstractAction {
     <T, ID> Future<Boolean> deleteByIdAsync(final Collection<ID> ids) {
         Objects.requireNonNull(ids);
         return ((Future<Boolean>) this.dao().deleteByIds(ids)).compose(rows -> {
-            this.logger().info("[ Jq ] deleteByIdAsync(Collection<ID>) executed rows: {0}/{1}",
+            this.logging("[ Jq ] deleteByIdAsync(Collection<ID>) executed rows: {0}/{1}",
                 String.valueOf(rows), String.valueOf(ids.size()));
             return Future.succeededFuture(Boolean.TRUE);
         });
@@ -99,7 +98,7 @@ class ActionDelete extends AbstractAction {
             /*
              * To avoid deleting all records
              */
-            this.logger().info("[ Jq ] deleteByAsync(JsonObject) Ignore because the condition is null: {0}",
+            this.logging("[ Jq ] deleteByAsync(JsonObject) Ignore because the condition is null: {0}",
                 criteria);
             return Ux.future(Boolean.TRUE);
         } else {
@@ -117,7 +116,7 @@ class ActionDelete extends AbstractAction {
             /*
              * To avoid deleting all records
              */
-            this.logger().info("[ Jq ] deleteBy(JsonObject) Ignore because the condition is null: {0}",
+            this.logging("[ Jq ] deleteBy(JsonObject) Ignore because the condition is null: {0}",
                 criteria);
             return Boolean.TRUE;
         } else {

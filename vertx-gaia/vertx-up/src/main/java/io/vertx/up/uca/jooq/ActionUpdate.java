@@ -31,7 +31,7 @@ class ActionUpdate extends AbstractAction {
     <T> Future<T> updateAsync(final T entity) {
         Objects.requireNonNull(entity);
         return ((Future<Integer>) this.dao().update(entity)).compose(rows -> {
-            this.logger().info("[ Jq ] updateAsync(T) executed rows: {0}", String.valueOf(rows));
+            this.logging("[ Jq ] updateAsync(T) executed rows: {0}", String.valueOf(rows));
             return Future.succeededFuture(entity);
         });
     }
@@ -41,7 +41,7 @@ class ActionUpdate extends AbstractAction {
         Objects.requireNonNull(entity);
         final UpdateConditionStep updateStep = this.editRecord(entity);
         final int rows = updateStep.execute();
-        this.logger().info("[ Jq ] update(T) executed rows: {0}", String.valueOf(rows));
+        this.logging("[ Jq ] update(T) executed rows: {0}", String.valueOf(rows));
         return entity;
     }
 
@@ -60,7 +60,7 @@ class ActionUpdate extends AbstractAction {
         list.stream().map(this::editRecord).forEach(batchOps::add);
         final int rows[] = this.context().batch(batchOps).execute();
         final long updated = Arrays.stream(rows).filter(value -> Values.ONE == value).count();
-        this.logger().info("[ Jq ] update(List<T>) executed rows: {0}/{1}",
+        this.logging("[ Jq ] update(List<T>) executed rows: {0}/{1}",
             String.valueOf(updated), String.valueOf(rows.length));
         return list;
     }

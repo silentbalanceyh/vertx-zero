@@ -88,7 +88,7 @@ class JooqPin {
                      * Process Jooq password by `debug` mode turn on
                      */
                     final JsonObject populated = options.copy();
-                    if (!Debugger.onJooqPassword()) {
+                    if (Debugger.onPasswordHidden()) {
                         /*
                          * Hidden Password
                          */
