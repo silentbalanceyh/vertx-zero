@@ -55,7 +55,7 @@ class AggregatorCount extends AbstractAggregator {
      * Single group
      */
     ConcurrentMap<String, Integer> countBy(final JsonObject criteria, final String groupField) {
-        final Field countField = DSL.field(this.analyzer.primary()).count().as(FIELD_COUNT);
+        final Field countField = DSL.field(this.analyzer.primaryColumn()).count().as(FIELD_COUNT);
         return this.aggregateBy(countField, criteria, groupField);
     }
 
@@ -63,7 +63,7 @@ class AggregatorCount extends AbstractAggregator {
      * Multi group
      */
     JsonArray countBy(final JsonObject criteria, final String... groupFields) {
-        final Field countField = DSL.field(this.analyzer.primary()).count().as(FIELD_COUNT);
+        final Field countField = DSL.field(this.analyzer.primaryColumn()).count().as(FIELD_COUNT);
         return this.aggregateBy(countField, criteria, groupFields);
     }
 
