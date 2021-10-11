@@ -18,6 +18,7 @@ public class Debugger {
     private static final String KEY_PASSWORD_HIDDEN = "password.hidden";
     private static final String KEY_STACK_TRACING = "stack.tracing";
     private static final String KEY_JOOQ_CONDITION = "jooq.condition";
+    private static final String KEY_EXCEL_RANGING = "excel.ranging";
 
     static {
         final JsonObject configuration = VISITOR.read();
@@ -38,7 +39,7 @@ public class Debugger {
     }
 
     public static boolean onExcelRanging() {
-        return isEnabled("excel.ranging");
+        return isEnabled(KEY_EXCEL_RANGING);
     }
 
     public static boolean onStackTracing() {
@@ -65,11 +66,11 @@ public class Debugger {
     /*
      * Default is false, when true, it' ok
      */
-    private static boolean isDisabled(final String key) {
+    public static boolean isDisabled(final String key) {
         return JSON_DEBUG.getBoolean(key, Boolean.TRUE);
     }
 
-    private static boolean isEnabled(final String key) {
+    public static boolean isEnabled(final String key) {
         return JSON_DEBUG.getBoolean(key, Boolean.FALSE);
     }
 }
