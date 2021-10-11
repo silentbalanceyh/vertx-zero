@@ -45,7 +45,7 @@ class RibTool {
     static Buffer outBuffer(final JsonObject data, final WebException error) {
         if (Objects.isNull(error)) {
             // final JsonObject response = data.getJsonObject(Key.DATA);
-            return Buffer.buffer(data.getBinary(Key.DATA));
+            return data.getBuffer(Key.DATA);
         } else {
             final JsonObject errorJson = error.toJson();
             return Buffer.buffer(errorJson.encode());
