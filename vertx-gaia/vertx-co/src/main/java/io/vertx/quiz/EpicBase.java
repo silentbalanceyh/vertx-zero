@@ -1,5 +1,6 @@
 package io.vertx.quiz;
 
+import io.vertx.core.buffer.Buffer;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.log.Annal;
@@ -39,6 +40,17 @@ public class EpicBase {
         final String file = "test/" + clazz.getPackage().getName() + "/" + filename;
         this.getLogger().info("[ Sim ] Test input file reading from: {0}", file);
         return file;
+    }
+
+    /**
+     * Get file content into JsonObject
+     *
+     * @param filename the filename that you input
+     *
+     * @return Buffer content
+     */
+    protected Buffer ioBuffer(final String filename) {
+        return Ut.ioBuffer(this.ioFile(filename));
     }
 
     /**

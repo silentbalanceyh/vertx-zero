@@ -26,7 +26,9 @@ class SiftRow {
                 result.put(field, visibleFields);
             });
             return result;
-        } else return null;
+        } else {
+            return null;
+        }
     }
 
     /*
@@ -34,16 +36,17 @@ class SiftRow {
      */
     static JsonArray onRows(final JsonArray input, final JsonObject rows) {
         final JsonArray result = new JsonArray();
-        if (rows.isEmpty()) {
+        final JsonObject rowData = Ut.sureJObject(rows);
+        if (rowData.isEmpty()) {
             /*
              * Do not do any row filters.
              */
             result.addAll(input);
         } else {
-            Sc.infoAuth(LOGGER, AuthMsg.REGION_ROWS, rows.encode());
+            Sc.infoAuth(LOGGER, AuthMsg.REGION_ROWS, rowData.encode());
             input.stream().filter(Objects::nonNull)
                 .map(item -> (JsonObject) item)
-                .filter(item -> isMatch(item, rows))
+                .filter(item -> isMatch(item, rowData))
                 .forEach(result::add);
         }
         return result;
