@@ -133,6 +133,8 @@ public class ZeroSerializer {
                     saber = SABERS.get(Date.class);
                 } else if (Collection.class.isAssignableFrom(cls)) {
                     saber = SABERS.get(Collection.class);
+                } else if (Buffer.class.isAssignableFrom(cls)) {
+                    saber = SABERS.get(Buffer.class);
                 } else if (cls.isArray()) {
                     final Class<?> type = cls.getComponentType();
                     if (byte.class == type || Byte.class == type) {
