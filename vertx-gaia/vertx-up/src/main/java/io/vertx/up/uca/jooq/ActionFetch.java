@@ -24,7 +24,7 @@ class ActionFetch extends AbstractAction {
     /* Future<List<T>> */
     <T> Future<List<T>> fetchAllAsync() {
         return ((Future<List<T>>) this.dao().findAll()).compose(list -> {
-            this.logger().info("[ Jq ] fetchAllAsync() queried rows: {0}", String.valueOf(list.size()));
+            this.logging("[ Jq ] fetchAllAsync() queried rows: {0}", String.valueOf(list.size()));
             return Future.succeededFuture(list);
         });
     }
@@ -33,14 +33,14 @@ class ActionFetch extends AbstractAction {
     <T> List<T> fetchAll() {
         final SelectWhereStep selectStep = this.context().selectFrom(this.analyzer.table());
         final List<T> list = ((ResultQuery) selectStep).fetchInto(this.analyzer.type());
-        this.logger().info("[ Jq ] fetchAll() queried rows: {0}", String.valueOf(list.size()));
+        this.logging("[ Jq ] fetchAll() queried rows: {0}", String.valueOf(list.size()));
         return list;
     }
 
     /* Future<T> */
     <T, ID> Future<T> fetchByIdAsync(final ID id) {
         return ((Future<T>) this.dao().findOneById(id)).compose(queried -> {
-            this.logger().info("[ Jq ] fetchByIdAsync(ID) by id: {1}, queried record: {0}", queried, id);
+            this.logging("[ Jq ] fetchByIdAsync(ID) by id: {1}, queried record: {0}", queried, id);
             return Future.succeededFuture(queried);
         });
     }
@@ -50,7 +50,7 @@ class ActionFetch extends AbstractAction {
         final SelectConditionStep selectStep = this.context().selectFrom(this.analyzer.table())
             .where(this.analyzer.conditionId(id));
         final T queried = (T) ((ResultQuery) selectStep).fetchOneInto(this.analyzer.type());
-        this.logger().info("[ Jq ] fetchByIdAsync(ID) by id: {1}, queried record: {0}", queried, id);
+        this.logging("[ Jq ] fetchByIdAsync(ID) by id: {1}, queried record: {0}", queried, id);
         return queried;
     }
 
@@ -58,7 +58,7 @@ class ActionFetch extends AbstractAction {
     <T> Future<List<T>> fetchAsync(final String field, final Object value) {
         final Condition condition = this.analyzer.conditionField(field, value);
         return ((Future<List<T>>) this.dao().findManyByCondition(condition)).compose(list -> {
-            this.logger().info("[ Jq ] fetchAsync(String, Object) condition: \"{1}\", queried rows: {0}",
+            this.logging("[ Jq ] fetchAsync(String, Object) condition: \"{1}\", queried rows: {0}",
                 String.valueOf(list.size()), condition);
             return Future.succeededFuture(list);
         });
@@ -70,7 +70,7 @@ class ActionFetch extends AbstractAction {
         final SelectConditionStep selectStep = this.context().selectFrom(this.analyzer.table())
             .where(condition);
         final List<T> list = (List<T>) ((ResultQuery) selectStep).fetchInto(this.analyzer.type());
-        this.logger().info("[ Jq ] fetch(String, Object) condition: \"{1}\", queried rows: {0}",
+        this.logging("[ Jq ] fetch(String, Object) condition: \"{1}\", queried rows: {0}",
             String.valueOf(list.size()), condition);
         return list;
     }
@@ -78,7 +78,7 @@ class ActionFetch extends AbstractAction {
     /* Future<List<T>> */
     <T> Future<List<T>> fetchAsync(final JsonObject criteria) {
         return this.qr.<T>searchAsync(criteria).compose(list -> {
-            this.logger().info("[ Jq ] fetchAsync(JsonObject) condition json: \"{1}\", queried rows: {0}",
+            this.logging("[ Jq ] fetchAsync(JsonObject) condition json: \"{1}\", queried rows: {0}",
                 String.valueOf(list.size()), criteria);
             return Future.succeededFuture(list);
         });
@@ -87,7 +87,7 @@ class ActionFetch extends AbstractAction {
     /* List<T> */
     <T> List<T> fetch(final JsonObject criteria) {
         final List<T> list = this.qr.search(criteria);
-        this.logger().info("[ Jq ] fetch(JsonObject) condition json: \"{1}\", queried rows: {0}",
+        this.logging("[ Jq ] fetch(JsonObject) condition json: \"{1}\", queried rows: {0}",
             String.valueOf(list.size()), criteria);
         return list;
     }
@@ -97,7 +97,7 @@ class ActionFetch extends AbstractAction {
     <T> Future<T> fetchOneAsync(final String field, final Object value) {
         final Condition condition = this.analyzer.conditionField(field, value);
         return ((Future<T>) this.dao().findOneByCondition(condition)).compose(queried -> {
-            this.logger().info("[ Jq ] fetchOneAsync(String, Object) condition: \"{1}\", queried record: {0}", queried, condition);
+            this.logging("[ Jq ] fetchOneAsync(String, Object) condition: \"{1}\", queried record: {0}", queried, condition);
             return Future.succeededFuture(queried);
         });
     }
@@ -108,7 +108,7 @@ class ActionFetch extends AbstractAction {
         final SelectConditionStep selectStep = this.context().selectFrom(this.analyzer.table())
             .where(condition);
         final T queried = (T) ((ResultQuery) selectStep).fetchOneInto(this.analyzer.type());
-        this.logger().info("[ Jq ] fetchOne(String, Object) condition: \"{1}\", queried record: {0}", queried, condition);
+        this.logging("[ Jq ] fetchOne(String, Object) condition: \"{1}\", queried record: {0}", queried, condition);
         return queried;
     }
 
@@ -116,7 +116,7 @@ class ActionFetch extends AbstractAction {
     <T> Future<T> fetchOneAsync(final JsonObject criteria) {
         final Condition condition = JooqCond.transform(criteria, Operator.AND, this.analyzer::column);
         return ((Future<T>) this.dao().findOneByCondition(condition)).compose(queried -> {
-            this.logger().info("[ Jq ] fetchOneAsync(JsonObject) condition: \"{1}\", queried record: {0}", queried, condition);
+            this.logging("[ Jq ] fetchOneAsync(JsonObject) condition: \"{1}\", queried record: {0}", queried, condition);
             return Future.succeededFuture(queried);
         });
     }
@@ -127,7 +127,7 @@ class ActionFetch extends AbstractAction {
         final SelectConditionStep selectStep = this.context().selectFrom(this.analyzer.table())
             .where(condition);
         final T queried = (T) ((ResultQuery) selectStep).fetchOneInto(this.analyzer.type());
-        this.logger().info("[ Jq ] fetchOne(JsonObject) condition: \"{1}\", queried record: {0}", queried, condition);
+        this.logging("[ Jq ] fetchOne(JsonObject) condition: \"{1}\", queried record: {0}", queried, condition);
         return queried;
     }
 }

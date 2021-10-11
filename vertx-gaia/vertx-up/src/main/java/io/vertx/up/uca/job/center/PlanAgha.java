@@ -28,7 +28,7 @@ class PlanAgha extends AbstractAgha {
             Ut.itRepeat(2, () -> this.moveOn(mission, true));
         }));
         JobClient.bind(jobId, mission.getCode());
-        if (Debugger.onJooqCondition()) {
+        if (Debugger.onJobBooting()) {
             this.getLogger().info(Info.JOB_INTERVAL, mission.getCode(),
                 String.valueOf(0), String.valueOf(mission.getDuration()), String.valueOf(jobId));
         }

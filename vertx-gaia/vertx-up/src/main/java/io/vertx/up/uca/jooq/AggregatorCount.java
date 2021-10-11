@@ -29,7 +29,7 @@ class AggregatorCount extends AbstractAggregator {
      */
     Long count() {
         Long rows = Long.valueOf(this.context().fetchCount(this.analyzer.table()));
-        this.logger().info("[ Jq ] count() rows: {0}", String.valueOf(rows));
+        this.logging("[ Jq ] count() rows: {0}", String.valueOf(rows));
         return rows;
     }
 
@@ -43,7 +43,7 @@ class AggregatorCount extends AbstractAggregator {
     Long count(final JsonObject criteria) {
         final Condition condition = this.analyzer.condition(criteria);
         Long rows = Long.valueOf(this.context().fetchCount(this.analyzer.table(), condition));
-        this.logger().info("[ Jq ] count(JsonObject) rows: {0}", String.valueOf(rows));
+        this.logging("[ Jq ] count(JsonObject) rows: {0}", String.valueOf(rows));
         return rows;
     }
 

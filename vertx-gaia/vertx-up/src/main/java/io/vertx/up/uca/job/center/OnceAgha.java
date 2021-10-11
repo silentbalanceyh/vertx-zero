@@ -36,7 +36,7 @@ class OnceAgha extends AbstractAgha {
             this.moveOn(mission, true);
         }));
         JobClient.bind(jobId, mission.getCode());
-        if (Debugger.onJooqCondition()) {
+        if (Debugger.onJobBooting()) {
             this.getLogger().info(Info.JOB_INTERVAL, mission.getCode(),
                 String.valueOf(0), String.valueOf(-1), String.valueOf(jobId));
         }
