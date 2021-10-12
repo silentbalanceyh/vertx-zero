@@ -15,11 +15,13 @@ class UiOption {
             .convert("advanced", "search.advanced")
             .convert("opRedo", "search.op.redo")
             .convert("opAdvanced", "search.op.advanced")
+            .convert("opView", "search.op.view")
             .convert("confirmClear", "search.confirm.clear")
             .convert("placeholder", "search.placeholder")
             .convert("advancedWidth", "search.advanced.width")
             .convert("advancedTitle", "search.advanced.title")
             .convert("advancedNotice", "search.advanced.notice")
+            .convertChild("advancedView", "search.criteria")
             .to();
     }
 

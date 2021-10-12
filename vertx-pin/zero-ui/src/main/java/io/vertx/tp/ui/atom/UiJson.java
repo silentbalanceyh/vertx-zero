@@ -56,6 +56,15 @@ public class UiJson {
         return this;
     }
 
+    public UiJson convertChild(final String from, final String prefix) {
+        final JsonObject processed = this.input.copy();
+        final JsonObject item = processed.getJsonObject(from);
+        item.fieldNames().stream().filter(field -> field.startsWith(prefix))
+            .forEach(key -> this.input.put(key, item.getValue(key)));
+        this.input.remove(from);
+        return this;
+    }
+
     public UiJson replaceWith(final String from, final String to) {
         final JsonObject processed = this.input.copy();
         this.input.clear();

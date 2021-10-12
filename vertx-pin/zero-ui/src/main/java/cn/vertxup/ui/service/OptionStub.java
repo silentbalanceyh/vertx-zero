@@ -6,6 +6,7 @@ import io.vertx.core.json.JsonObject;
 
 public interface OptionStub {
     String FIELD_SEARCH_NOTICE = "advancedNotice";
+    String FIELD_SEARCH_VIEW = "advancedView";
     String FIELD_SEARCH_COND = "cond";
 
     String FIELD_TABLE_OP_CONFIG = "opConfig";

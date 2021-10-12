@@ -3,7 +3,7 @@ package io.vertx.tp.ui.init;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.ui.atom.UiConfig;
-import io.vertx.tp.ui.cv.UiFolder;
+import io.vertx.tp.ui.cv.UiCv;
 import io.vertx.tp.ui.refine.Ui;
 import io.vertx.up.eon.FileSuffix;
 import io.vertx.up.eon.KName;
@@ -42,7 +42,7 @@ class UiConfiguration {
 
     static void init() {
         if (null == CONFIG) {
-            final JsonObject uiData = Ut.ioJObject(UiFolder.CONFIG_FILE);
+            final JsonObject uiData = Ut.ioJObject(UiCv.CONFIG_FILE);
             Ui.infoInit(LOGGER, "Ui Json Data: {0}", uiData.encode());
             CONFIG = Ut.deserialize(uiData, UiConfig.class);
             Ui.infoInit(LOGGER, "Ui Configuration: {0}", CONFIG.toString());
