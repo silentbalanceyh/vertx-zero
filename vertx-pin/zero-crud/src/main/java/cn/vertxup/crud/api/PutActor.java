@@ -75,7 +75,8 @@ public class PutActor {
          * params
          * */
         final JsonObject params = request.dataV();
-        final JsonObject viewData = request.dataJ();
+        final JsonObject requestData = request.dataJ();
+        final JsonObject viewData = requestData.getJsonObject("viewData", new JsonObject());
         params.put(KName.DATA, Ut.sureJObject(viewData));
         params.put(KName.URI_IMPACT, viewData.getString(KName.URI_IMPACT));
         return IxPanel.on(request)
