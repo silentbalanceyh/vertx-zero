@@ -75,6 +75,18 @@ public interface IVSearch extends VertxPojo, Serializable {
     public String getOpAdvanced();
 
     /**
+     * Setter for <code>DB_ETERNAL.V_SEARCH.OP_VIEW</code>. 「opView」-
+     * search.op.view：视图查询条件修改文字
+     */
+    public IVSearch setOpView(String value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.V_SEARCH.OP_VIEW</code>. 「opView」-
+     * search.op.view：视图查询条件修改文字
+     */
+    public String getOpView();
+
+    /**
      * Setter for <code>DB_ETERNAL.V_SEARCH.CONFIRM_CLEAR</code>.
      * 「confirmClear」- search.confirm.clear: 清除条件提示
      */
@@ -146,6 +158,18 @@ public interface IVSearch extends VertxPojo, Serializable {
      */
     public String getAdvancedNotice();
 
+    /**
+     * Setter for <code>DB_ETERNAL.V_SEARCH.ADVANCED_VIEW</code>. 「viewOption」-
+     * search.criteria.xxx：视图选项信息
+     */
+    public IVSearch setAdvancedView(String value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.V_SEARCH.ADVANCED_VIEW</code>. 「viewOption」-
+     * search.criteria.xxx：视图选项信息
+     */
+    public String getAdvancedView();
+
     // -------------------------------------------------------------------------
     // FROM and INTO
     // -------------------------------------------------------------------------
@@ -169,12 +193,14 @@ public interface IVSearch extends VertxPojo, Serializable {
                 setOrThrow(this::setAdvanced,json::getBoolean,"ADVANCED","java.lang.Boolean");
                 setOrThrow(this::setOpRedo,json::getString,"OP_REDO","java.lang.String");
                 setOrThrow(this::setOpAdvanced,json::getString,"OP_ADVANCED","java.lang.String");
+                setOrThrow(this::setOpView,json::getString,"OP_VIEW","java.lang.String");
                 setOrThrow(this::setConfirmClear,json::getString,"CONFIRM_CLEAR","java.lang.String");
                 setOrThrow(this::setPlaceholder,json::getString,"PLACEHOLDER","java.lang.String");
                 setOrThrow(this::setCond,json::getString,"COND","java.lang.String");
                 setOrThrow(this::setAdvancedWidth,json::getString,"ADVANCED_WIDTH","java.lang.String");
                 setOrThrow(this::setAdvancedTitle,json::getString,"ADVANCED_TITLE","java.lang.String");
                 setOrThrow(this::setAdvancedNotice,json::getString,"ADVANCED_NOTICE","java.lang.String");
+                setOrThrow(this::setAdvancedView,json::getString,"ADVANCED_VIEW","java.lang.String");
                 return this;
         }
 
@@ -187,12 +213,14 @@ public interface IVSearch extends VertxPojo, Serializable {
                 json.put("ADVANCED",getAdvanced());
                 json.put("OP_REDO",getOpRedo());
                 json.put("OP_ADVANCED",getOpAdvanced());
+                json.put("OP_VIEW",getOpView());
                 json.put("CONFIRM_CLEAR",getConfirmClear());
                 json.put("PLACEHOLDER",getPlaceholder());
                 json.put("COND",getCond());
                 json.put("ADVANCED_WIDTH",getAdvancedWidth());
                 json.put("ADVANCED_TITLE",getAdvancedTitle());
                 json.put("ADVANCED_NOTICE",getAdvancedNotice());
+                json.put("ADVANCED_VIEW",getAdvancedView());
                 return json;
         }
 
