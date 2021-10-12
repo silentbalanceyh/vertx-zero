@@ -13,6 +13,12 @@ import io.vertx.up.util.Ut;
 public class Debugger {
     private static final Node<JsonObject> VISITOR = Ut.singleton(ZeroUniform.class);
     private static final JsonObject JSON_DEBUG = new JsonObject();
+    private static final String KEY_WEB_URI_DETECTING = "web.uri.detecting";
+    private static final String KEY_JOB_BOOTING = "job.booting";
+    private static final String KEY_PASSWORD_HIDDEN = "password.hidden";
+    private static final String KEY_STACK_TRACING = "stack.tracing";
+    private static final String KEY_JOOQ_CONDITION = "jooq.condition";
+    private static final String KEY_EXCEL_RANGING = "excel.ranging";
 
     static {
         final JsonObject configuration = VISITOR.read();
@@ -26,33 +32,36 @@ public class Debugger {
 
     /*
      * Default false
+     * If no configuration, the value is true
      */
     public static boolean onJooqCondition() {
-        return isEnabled("jooq.condition");
+        return isEnabled(KEY_JOOQ_CONDITION);
     }
 
-    public static boolean onJooqPassword() {
-        return isEnabled("jooq.password");
+    public static boolean onExcelRanging() {
+        return isEnabled(KEY_EXCEL_RANGING);
     }
 
-    public static boolean onExcelRange() {
-        return isEnabled("excel.range");
+    public static boolean onStackTracing() {
+        return isEnabled(KEY_STACK_TRACING);
     }
 
-    public static boolean onJobBoot() {
-        return isEnabled("job.boot");
+    public static boolean onJobBooting() {
+        return isEnabled(KEY_JOB_BOOTING);
     }
 
-    public static boolean onStackTrace() {
-        return isEnabled("stack.trace");
+    public static boolean onPasswordHidden() {
+        return isEnabled(KEY_PASSWORD_HIDDEN);
     }
 
     /*
-     * Default true
+     * Default false
+     * If no configuration, the value is false
      */
-    public static boolean offUrlDetect() {
-        return isDisabled("rest.url.detect");
+    public static boolean onWebUriDetect() {
+        return isDisabled(KEY_WEB_URI_DETECTING);
     }
+
 
     /*
      * Default is false, when true, it' ok

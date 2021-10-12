@@ -284,7 +284,7 @@ public class Mission implements Serializable {
                     this.outcomeAddress = null;
                 }
             }
-            if (Debugger.onJobBoot()) {
+            if (Debugger.onJobBooting()) {
                 LOGGER.info(Info.JOB_OFF, this.getCode());
             }
         }

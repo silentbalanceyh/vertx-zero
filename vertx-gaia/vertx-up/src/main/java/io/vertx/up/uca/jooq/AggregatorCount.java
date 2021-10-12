@@ -5,7 +5,6 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import org.jooq.Condition;
 import org.jooq.Field;
-import org.jooq.impl.DSL;
 
 import java.util.concurrent.ConcurrentMap;
 
@@ -29,7 +28,7 @@ class AggregatorCount extends AbstractAggregator {
      */
     Long count() {
         Long rows = Long.valueOf(this.context().fetchCount(this.analyzer.table()));
-        this.logger().info("[ Jq ] count() rows: {0}", String.valueOf(rows));
+        this.logging("[ Jq ] count() rows: {0}", String.valueOf(rows));
         return rows;
     }
 
@@ -43,7 +42,7 @@ class AggregatorCount extends AbstractAggregator {
     Long count(final JsonObject criteria) {
         final Condition condition = this.analyzer.condition(criteria);
         Long rows = Long.valueOf(this.context().fetchCount(this.analyzer.table(), condition));
-        this.logger().info("[ Jq ] count(JsonObject) rows: {0}", String.valueOf(rows));
+        this.logging("[ Jq ] count(JsonObject) rows: {0}", String.valueOf(rows));
         return rows;
     }
 
@@ -55,7 +54,8 @@ class AggregatorCount extends AbstractAggregator {
      * Single group
      */
     ConcurrentMap<String, Integer> countBy(final JsonObject criteria, final String groupField) {
-        final Field countField = DSL.field(this.analyzer.primary()).count().as(FIELD_COUNT);
+        final String primary = this.analyzer.primary();
+        final Field countField = this.analyzer.column(primary).count().as(FIELD_COUNT);
         return this.aggregateBy(countField, criteria, groupField);
     }
 
@@ -63,7 +63,8 @@ class AggregatorCount extends AbstractAggregator {
      * Multi group
      */
     JsonArray countBy(final JsonObject criteria, final String... groupFields) {
-        final Field countField = DSL.field(this.analyzer.primary()).count().as(FIELD_COUNT);
+        final String primary = this.analyzer.primary();
+        final Field countField = this.analyzer.column(primary).count().as(FIELD_COUNT);
         return this.aggregateBy(countField, criteria, groupFields);
     }
 

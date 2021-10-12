@@ -8,11 +8,13 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.ext.auth.authorization.Authorization;
 import io.vertx.ext.web.RoutingContext;
 import io.vertx.up.atom.secure.Aegis;
+import io.vertx.up.exception.web._403ForbiddenException;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.secure.authorization.AuthorizationResource;
 import io.vertx.up.util.Ut;
 
 import java.lang.reflect.Method;
+import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
@@ -39,10 +41,14 @@ public class ProfileResource implements AuthorizationResource {
             final Future<JsonObject> future = (Future<JsonObject>) method.invoke(this.aegis.getProxy(), params);
             future.onComplete(res -> {
                 if (res.succeeded()) {
-                    final ConcurrentMap<String, Set<String>> profiles = new ConcurrentHashMap<>();
-                    Ut.<JsonArray>itJObject(res.result(), (values, field) -> profiles.put(field, Ut.toSet(values)));
-                    final Authorization required = ProfileAuthorization.create(profiles);
-                    handler.handle(Future.succeededFuture(required));
+                    if (Objects.isNull(res.result())) {
+                        handler.handle(Future.failedFuture(new _403ForbiddenException(getClass())));
+                    } else {
+                        final ConcurrentMap<String, Set<String>> profiles = new ConcurrentHashMap<>();
+                        Ut.<JsonArray>itJObject(res.result(), (values, field) -> profiles.put(field, Ut.toSet(values)));
+                        final Authorization required = ProfileAuthorization.create(profiles);
+                        handler.handle(Future.succeededFuture(required));
+                    }
                 } else {
                     final Throwable ex = res.cause();
                     handler.handle(Future.failedFuture(ex));
