@@ -49,6 +49,11 @@ public class VSearch extends TableImpl<VSearchRecord> {
      */
     public final TableField<VSearchRecord, String> OP_ADVANCED = createField(DSL.name("OP_ADVANCED"), SQLDataType.VARCHAR(64), this, "「opAdvanced」- search.op.advanced: 高级搜索按钮提示文字");
     /**
+     * The column <code>DB_ETERNAL.V_SEARCH.OP_VIEW</code>. 「opView」-
+     * search.op.view：视图查询条件修改文字
+     */
+    public final TableField<VSearchRecord, String> OP_VIEW = createField(DSL.name("OP_VIEW"), SQLDataType.VARCHAR(64), this, "「opView」- search.op.view：视图查询条件修改文字");
+    /**
      * The column <code>DB_ETERNAL.V_SEARCH.CONFIRM_CLEAR</code>.
      * 「confirmClear」- search.confirm.clear: 清除条件提示
      */
@@ -78,6 +83,11 @@ public class VSearch extends TableImpl<VSearchRecord> {
      * 「advancedNotice」- search.advanced.notice: 提示信息结构（Alert）
      */
     public final TableField<VSearchRecord, String> ADVANCED_NOTICE = createField(DSL.name("ADVANCED_NOTICE"), SQLDataType.CLOB, this, "「advancedNotice」- search.advanced.notice: 提示信息结构（Alert）");
+    /**
+     * The column <code>DB_ETERNAL.V_SEARCH.ADVANCED_VIEW</code>. 「viewOption」-
+     * search.criteria.xxx：视图选项信息
+     */
+    public final TableField<VSearchRecord, String> ADVANCED_VIEW = createField(DSL.name("ADVANCED_VIEW"), SQLDataType.CLOB, this, "「viewOption」- search.criteria.xxx：视图选项信息");
 
     private VSearch(Name alias, Table<VSearchRecord> aliased) {
         this(alias, aliased, null);
@@ -157,11 +167,11 @@ public class VSearch extends TableImpl<VSearchRecord> {
     }
 
     // -------------------------------------------------------------------------
-    // Row11 type methods
+    // Row13 type methods
     // -------------------------------------------------------------------------
 
     @Override
-    public Row11<String, Boolean, Boolean, String, String, String, String, String, String, String, String> fieldsRow() {
-        return (Row11) super.fieldsRow();
+    public Row13<String, Boolean, Boolean, String, String, String, String, String, String, String, String, String, String> fieldsRow() {
+        return (Row13) super.fieldsRow();
     }
 }

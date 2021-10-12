@@ -99,6 +99,21 @@ public class VSearchDao extends AbstractVertxDAO<VSearchRecord, cn.vertxup.ui.do
         }
 
         /**
+     * Find records that have <code>OP_VIEW IN (values)</code> asynchronously
+     */
+        public Future<List<cn.vertxup.ui.domain.tables.pojos.VSearch>> findManyByOpView(Collection<String> values) {
+                return findManyByCondition(VSearch.V_SEARCH.OP_VIEW.in(values));
+        }
+
+        /**
+     * Find records that have <code>OP_VIEW IN (values)</code> asynchronously
+     * limited by the given limit
+     */
+        public Future<List<cn.vertxup.ui.domain.tables.pojos.VSearch>> findManyByOpView(Collection<String> values, int limit) {
+                return findManyByCondition(VSearch.V_SEARCH.OP_VIEW.in(values),limit);
+        }
+
+        /**
      * Find records that have <code>CONFIRM_CLEAR IN (values)</code>
      * asynchronously
      */
@@ -191,6 +206,22 @@ public class VSearchDao extends AbstractVertxDAO<VSearchRecord, cn.vertxup.ui.do
      */
         public Future<List<cn.vertxup.ui.domain.tables.pojos.VSearch>> findManyByAdvancedNotice(Collection<String> values, int limit) {
                 return findManyByCondition(VSearch.V_SEARCH.ADVANCED_NOTICE.in(values),limit);
+        }
+
+        /**
+     * Find records that have <code>ADVANCED_VIEW IN (values)</code>
+     * asynchronously
+     */
+        public Future<List<cn.vertxup.ui.domain.tables.pojos.VSearch>> findManyByAdvancedView(Collection<String> values) {
+                return findManyByCondition(VSearch.V_SEARCH.ADVANCED_VIEW.in(values));
+        }
+
+        /**
+     * Find records that have <code>ADVANCED_VIEW IN (values)</code>
+     * asynchronously limited by the given limit
+     */
+        public Future<List<cn.vertxup.ui.domain.tables.pojos.VSearch>> findManyByAdvancedView(Collection<String> values, int limit) {
+                return findManyByCondition(VSearch.V_SEARCH.ADVANCED_VIEW.in(values),limit);
         }
 
         @Override

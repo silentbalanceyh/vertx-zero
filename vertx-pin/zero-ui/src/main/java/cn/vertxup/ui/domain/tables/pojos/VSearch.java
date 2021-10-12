@@ -23,12 +23,14 @@ public class VSearch implements VertxPojo, IVSearch {
     private Boolean advanced;
     private String  opRedo;
     private String  opAdvanced;
+    private String  opView;
     private String  confirmClear;
     private String  placeholder;
     private String  cond;
     private String  advancedWidth;
     private String  advancedTitle;
     private String  advancedNotice;
+    private String  advancedView;
 
     public VSearch() {}
 
@@ -38,12 +40,14 @@ public class VSearch implements VertxPojo, IVSearch {
         this.advanced = value.getAdvanced();
         this.opRedo = value.getOpRedo();
         this.opAdvanced = value.getOpAdvanced();
+        this.opView = value.getOpView();
         this.confirmClear = value.getConfirmClear();
         this.placeholder = value.getPlaceholder();
         this.cond = value.getCond();
         this.advancedWidth = value.getAdvancedWidth();
         this.advancedTitle = value.getAdvancedTitle();
         this.advancedNotice = value.getAdvancedNotice();
+        this.advancedView = value.getAdvancedView();
     }
 
     public VSearch(
@@ -52,24 +56,28 @@ public class VSearch implements VertxPojo, IVSearch {
         Boolean advanced,
         String  opRedo,
         String  opAdvanced,
+        String  opView,
         String  confirmClear,
         String  placeholder,
         String  cond,
         String  advancedWidth,
         String  advancedTitle,
-        String  advancedNotice
+        String  advancedNotice,
+        String  advancedView
     ) {
         this.key = key;
         this.enabled = enabled;
         this.advanced = advanced;
         this.opRedo = opRedo;
         this.opAdvanced = opAdvanced;
+        this.opView = opView;
         this.confirmClear = confirmClear;
         this.placeholder = placeholder;
         this.cond = cond;
         this.advancedWidth = advancedWidth;
         this.advancedTitle = advancedTitle;
         this.advancedNotice = advancedNotice;
+        this.advancedView = advancedView;
     }
 
         public VSearch(io.vertx.core.json.JsonObject json) {
@@ -167,6 +175,25 @@ public class VSearch implements VertxPojo, IVSearch {
     @Override
     public VSearch setOpAdvanced(String opAdvanced) {
         this.opAdvanced = opAdvanced;
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.V_SEARCH.OP_VIEW</code>. 「opView」-
+     * search.op.view：视图查询条件修改文字
+     */
+    @Override
+    public String getOpView() {
+        return this.opView;
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.V_SEARCH.OP_VIEW</code>. 「opView」-
+     * search.op.view：视图查询条件修改文字
+     */
+    @Override
+    public VSearch setOpView(String opView) {
+        this.opView = opView;
         return this;
     }
 
@@ -284,6 +311,25 @@ public class VSearch implements VertxPojo, IVSearch {
         return this;
     }
 
+    /**
+     * Getter for <code>DB_ETERNAL.V_SEARCH.ADVANCED_VIEW</code>. 「viewOption」-
+     * search.criteria.xxx：视图选项信息
+     */
+    @Override
+    public String getAdvancedView() {
+        return this.advancedView;
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.V_SEARCH.ADVANCED_VIEW</code>. 「viewOption」-
+     * search.criteria.xxx：视图选项信息
+     */
+    @Override
+    public VSearch setAdvancedView(String advancedView) {
+        this.advancedView = advancedView;
+        return this;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder("VSearch (");
@@ -293,12 +339,14 @@ public class VSearch implements VertxPojo, IVSearch {
         sb.append(", ").append(advanced);
         sb.append(", ").append(opRedo);
         sb.append(", ").append(opAdvanced);
+        sb.append(", ").append(opView);
         sb.append(", ").append(confirmClear);
         sb.append(", ").append(placeholder);
         sb.append(", ").append(cond);
         sb.append(", ").append(advancedWidth);
         sb.append(", ").append(advancedTitle);
         sb.append(", ").append(advancedNotice);
+        sb.append(", ").append(advancedView);
 
         sb.append(")");
         return sb.toString();
@@ -315,12 +363,14 @@ public class VSearch implements VertxPojo, IVSearch {
         setAdvanced(from.getAdvanced());
         setOpRedo(from.getOpRedo());
         setOpAdvanced(from.getOpAdvanced());
+        setOpView(from.getOpView());
         setConfirmClear(from.getConfirmClear());
         setPlaceholder(from.getPlaceholder());
         setCond(from.getCond());
         setAdvancedWidth(from.getAdvancedWidth());
         setAdvancedTitle(from.getAdvancedTitle());
         setAdvancedNotice(from.getAdvancedNotice());
+        setAdvancedView(from.getAdvancedView());
     }
 
     @Override
