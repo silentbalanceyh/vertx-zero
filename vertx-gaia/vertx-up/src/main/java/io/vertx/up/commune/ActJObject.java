@@ -103,7 +103,7 @@ class ActJObject extends ActMapping implements Serializable {
             }
             /*
              * isQuery ? criteria
-             * Until now the system has calculated the body data here
+             * Until now the system has calculated the body data here, the condition should be enhancement
              */
             if (body.containsKey(Qr.KEY_CRITERIA) || body.containsKey(Qr.KEY_PROJECTION)) {
                 /*
