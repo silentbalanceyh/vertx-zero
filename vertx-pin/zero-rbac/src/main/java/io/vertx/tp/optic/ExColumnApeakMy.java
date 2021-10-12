@@ -15,7 +15,6 @@ import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
 import java.util.Objects;
-import java.util.function.Function;
 
 public class ExColumnApeakMy extends Anchoret<ApeakMy> implements ApeakMy {
 
@@ -88,17 +87,5 @@ public class ExColumnApeakMy extends Anchoret<ApeakMy> implements ApeakMy {
                 nil.getJsonObject(dataKey, new JsonObject()).encodePrettily());
             return Ux.future(updated);
         });
-    }
-
-    /*
-     * consumer: resourceId
-     */
-    private Future<JsonArray> uniform(final JsonObject params, final Function<String, Future<JsonArray>> function) {
-        final String resourceId = params.getString(ARG0);
-        if (Ut.isNil(resourceId)) {
-            return Ux.future(new JsonArray());
-        } else {
-            return function.apply(resourceId);
-        }
     }
 }
