@@ -2,7 +2,6 @@ package io.vertx.quiz.nova;
 
 import io.vertx.codegen.annotations.Fluent;
 import io.vertx.ext.unit.TestContext;
-import io.vertx.up.commune.Envelop;
 import io.vertx.up.exception.zero.TestCaseNameException;
 import io.vertx.up.fn.Fn;
 
@@ -44,7 +43,6 @@ public class Qz {
      */
     @SuppressWarnings("all")
     public <T> void test(final TestContext context, final BiConsumer<T, T> consumer) {
-        Fn.onTest(context, this.data.<Envelop>async(),
-            result -> consumer.accept((T) this.data.input(), (T) result));
+        // Fn.onTest(context, this.data.<Envelop>async(), result -> consumer.accept((T) this.data.input(), (T) result));
     }
 }

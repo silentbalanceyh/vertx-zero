@@ -2,7 +2,7 @@ package io.vertx.tp.plugin.elasticsearch;
 
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.unit.TestContext;
-import io.vertx.quiz.AsyncBase;
+import io.vertx.quiz.ZeroBase;
 import org.junit.Ignore;
 import org.junit.Test;
 
@@ -10,7 +10,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
 @Ignore
-public class ElasticTc extends AsyncBase {
+public class ElasticTc extends ZeroBase {
     static {
         ElasticSearchInfix.init(VERTX);
     }

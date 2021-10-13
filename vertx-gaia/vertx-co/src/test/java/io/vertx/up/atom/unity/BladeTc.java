@@ -29,15 +29,15 @@ public class BladeTc extends ZeroBase {
 
     @Test
     public void testUson() {
-        final JsonObject data = Ut.ioJObject(this.ioFile("Uson.json"));
+        final JsonObject data = Ut.ioJObject(this.ioString("Uson.json"));
         final JsonObject result = UObject.create(data).convert("_id", "key").to();
         System.out.println(result.encodePrettily());
     }
 
     @Test
     public void testArray() {
-        final JsonArray target = Ut.ioJArray(this.ioFile("From.json"));
-        final JsonArray source = Ut.ioJArray(this.ioFile("To.json"));
+        final JsonArray target = Ut.ioJArray(this.ioString("From.json"));
+        final JsonArray source = Ut.ioJArray(this.ioString("To.json"));
         final JsonArray zip = Dual.zip(target, source, "name", "name1");
         System.out.println(zip);
         final JsonArray arr = UArray.create(target).zip(source, "name", "name1").to();
