@@ -28,7 +28,6 @@ import java.util.Objects;
 
 public class AccreditService implements AccreditStub {
     private final static Annal LOGGER = Annal.get(AccreditService.class);
-    private final static ScConfig CONFIG = ScPin.getConfig();
 
     @Inject
     private transient ActionStub stub;
@@ -52,7 +51,8 @@ public class AccreditService implements AccreditStub {
     public Future<JsonObject> resource(final JsonObject requestData) {
         final ScResource request = ScResource.create(requestData);
         // First Phase
-        return Rapid.<String, JsonObject>t(CONFIG.getResourcePool()).cached(request.key(), () -> {
+        final ScConfig config = ScPin.getConfig();
+        return Rapid.<String, JsonObject>t(config.getResourcePool()).cached(request.key(), () -> {
             /* Fetch Action */
             final Refer actionHod = new Refer();
             // Action Checking

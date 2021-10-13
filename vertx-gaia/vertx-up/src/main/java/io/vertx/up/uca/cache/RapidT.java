@@ -25,8 +25,8 @@ class RapidT<T> extends AbstractRapid<String, T> {
             if (Objects.isNull(queried)) {
                 return executor.get()
                     .compose(actual -> 0 < this.expired ?
-                        this.pool.put(key, actual) :
-                        this.pool.put(key, actual, this.expired)
+                        this.pool.put(key, actual, this.expired) :
+                        this.pool.put(key, actual)
                     )
                     .compose(Kv::value);
             } else {
