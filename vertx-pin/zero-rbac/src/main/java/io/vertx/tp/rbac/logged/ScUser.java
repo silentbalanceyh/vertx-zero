@@ -208,7 +208,8 @@ public class ScUser {
     public Future<JsonObject> view(final String viewKey, final JsonObject viewData) {
         return this.view().compose(view -> {
             final JsonObject stored = view.getJsonObject(viewKey, new JsonObject());
-            stored.mergeIn(viewData, true);
+            // Deep Merge is not needed
+            stored.mergeIn(viewData);
             view.put(viewKey, stored);
             return this.set(KName.VIEW, view);
         });

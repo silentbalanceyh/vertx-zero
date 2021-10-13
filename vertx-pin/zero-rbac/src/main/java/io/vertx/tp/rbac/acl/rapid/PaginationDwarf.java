@@ -44,5 +44,18 @@ class PaginationDwarf implements Dwarf {
         final JsonObject pagination = dataReference.getJsonObject(KName.DATA);
         /* rows */
         Ux.pageData(pagination, inputArray -> SiftRow.onRows(inputArray, matrix.getJsonObject("rows")));
+        /* criteria mount appened to
+         * {
+         *     "count": x,
+         *     "list": []
+         * }
+         * For view of query modification to initializing query form here
+         * copy the `criteria` node to response as following:
+         * {
+         *      "count": x,
+         *      "list": []
+         * }
+         * */
+        T.qr(dataReference, matrix);
     }
 }
