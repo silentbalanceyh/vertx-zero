@@ -10,12 +10,12 @@ import java.io.FileOutputStream;
 public class IOTc extends ZeroBase {
     @Test
     public void testProp(final TestContext context) {
-        context.assertNotNull(IO.getProp(this.ioFile("in.properties")));
+        context.assertNotNull(IO.getProp(this.ioString("in.properties")));
     }
 
     @Test
     public void testYaml(final TestContext context) {
-        context.assertNotNull(IO.getYaml(this.ioFile("test.yaml")));
+        context.assertNotNull(IO.getYaml(this.ioString("test.yaml")));
     }
 
     @SuppressWarnings("all")
@@ -26,7 +26,7 @@ public class IOTc extends ZeroBase {
         }
         final FileOutputStream out = new FileOutputStream(file);
         final long start = System.nanoTime();
-        Ut.ioOut(this.ioFile("data.sql"), out);
+        Ut.ioOut(this.ioString("data.sql"), out);
         final long end = System.nanoTime();
         System.err.println((end - start) + "ns");
     }

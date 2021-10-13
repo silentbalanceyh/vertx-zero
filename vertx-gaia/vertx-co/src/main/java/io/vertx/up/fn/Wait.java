@@ -4,32 +4,13 @@ package io.vertx.up.fn;
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Future;
 import io.vertx.core.Promise;
-import io.vertx.ext.unit.Async;
-import io.vertx.ext.unit.TestContext;
 import io.vertx.up.fn.wait.Case;
 
-import java.util.Objects;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 final class Wait {
     private Wait() {
-    }
-
-    static <T> void testing(final TestContext context, final Future<T> future, final Consumer<T> consumer) {
-        final Async async = context.async();
-        future.onComplete(handler -> {
-            if (handler.succeeded()) {
-                consumer.accept(handler.result());
-            } else {
-                final Throwable ex = handler.cause();
-                if (Objects.nonNull(ex)) {
-                    ex.printStackTrace();
-                }
-                context.fail(ex);
-            }
-            async.complete();
-        });
     }
 
     @SuppressWarnings("all")

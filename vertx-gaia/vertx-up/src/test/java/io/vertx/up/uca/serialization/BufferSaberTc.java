@@ -3,7 +3,7 @@ package io.vertx.up.uca.serialization;
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.unit.TestContext;
-import io.vertx.quiz.AsyncBase;
+import io.vertx.quiz.ZeroBase;
 import io.vertx.up.commune.Envelop;
 import io.vertx.up.runtime.ZeroSerializer;
 import org.junit.Assert;
@@ -12,7 +12,7 @@ import org.junit.Test;
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-public class BufferSaberTc extends AsyncBase {
+public class BufferSaberTc extends ZeroBase {
     @Test
     public void testContext(final TestContext context) {
         final Buffer buffer = this.ioBuffer("data");

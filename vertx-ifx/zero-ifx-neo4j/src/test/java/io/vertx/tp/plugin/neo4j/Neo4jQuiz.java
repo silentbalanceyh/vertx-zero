@@ -3,14 +3,14 @@ package io.vertx.tp.plugin.neo4j;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.quiz.AsyncBase;
+import io.vertx.quiz.ZeroBase;
 import io.vertx.up.unity.Ux;
 import org.junit.Ignore;
 
 import java.util.function.BiFunction;
 
 @Ignore
-public class Neo4jQuiz extends AsyncBase {
+public class Neo4jQuiz extends ZeroBase {
     static {
         Neo4jInfix.init(VERTX);
     }

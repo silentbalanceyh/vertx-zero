@@ -3,6 +3,8 @@ package io.vertx.quiz;
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
+import io.vertx.up.commune.config.Database;
+import io.vertx.up.commune.config.Integration;
 import io.vertx.up.log.Annal;
 import io.vertx.up.util.Ut;
 
@@ -25,62 +27,54 @@ import io.vertx.up.util.Ut;
  *
  * This class is for JUnit purely
  *
+ * The API is as following（All Api parameters are `filename`）:
+ *
+ * 1. ioString(filename) - String Content
+ * 2. ioBuffer(filename) - Buffer Content
+ * 3. ioJObject(filename) - Json Object Content
+ * 4. ioJArray(filename) - Json Array Content
+ * 5. ioDatabase(filename) - Database from file ( Json Format )
+ * 6. ioIntegration(filename) - Integration from file ( Json Format )
+ *
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 public class EpicBase {
-    /**
-     * Get file content into String
-     *
-     * @param filename the filename that you input
-     *
-     * @return String content
-     */
-    protected String ioFile(final String filename) {
+
+    protected String ioString(final String filename) {
         final Class<?> clazz = this.getClass();
         final String file = "test/" + clazz.getPackage().getName() + "/" + filename;
         this.getLogger().info("[ Sim ] Test input file reading from: {0}", file);
         return file;
     }
 
-    /**
-     * Get file content into JsonObject
-     *
-     * @param filename the filename that you input
-     *
-     * @return Buffer content
-     */
     protected Buffer ioBuffer(final String filename) {
-        return Ut.ioBuffer(this.ioFile(filename));
+        return Ut.ioBuffer(this.ioString(filename));
     }
 
-    /**
-     * Get file content into JsonObject
-     *
-     * @param filename the filename that you input
-     *
-     * @return JsonObject content
-     */
     protected JsonObject ioJObject(final String filename) {
-        return Ut.ioJObject(this.ioFile(filename));
+        return Ut.ioJObject(this.ioString(filename));
     }
 
-    /**
-     * Get file content into JsonArray
-     *
-     * @param filename the filename that you input
-     *
-     * @return JsonArray content
-     */
+    protected Database ioDatabase(final String filename) {
+        final JsonObject fileJson = this.ioJObject(filename);
+        final Database database = new Database();
+        database.fromJson(fileJson);
+        return database;
+    }
+
+    protected Integration ioIntegration(final String filename) {
+        final JsonObject fileJson = this.ioJObject(filename);
+        final Integration integration = new Integration();
+        integration.fromJson(fileJson);
+        return integration;
+    }
+
     protected JsonArray ioJArray(final String filename) {
-        return Ut.ioJArray(this.ioFile(filename));
+        return Ut.ioJArray(this.ioString(filename));
     }
 
-    /**
-     * The logger that could be initialized based on class, it could be used in sub-classes
-     *
-     * @return logger reference
-     */
     protected Annal getLogger() {
         return Annal.get(this.getClass());
     }
+
 }
