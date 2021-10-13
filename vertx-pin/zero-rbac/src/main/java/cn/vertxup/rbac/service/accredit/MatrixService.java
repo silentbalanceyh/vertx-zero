@@ -5,12 +5,15 @@ import cn.vertxup.rbac.domain.tables.pojos.SView;
 import cn.vertxup.rbac.service.view.ViewStub;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
+import io.vertx.tp.rbac.atom.ScConfig;
+import io.vertx.tp.rbac.init.ScPin;
 import io.vertx.tp.rbac.logged.ScResource;
 import io.vertx.tp.rbac.logged.ScUser;
 import io.vertx.tp.rbac.refine.Sc;
 import io.vertx.up.atom.secure.Vis;
 import io.vertx.up.commune.secure.DataBound;
 import io.vertx.up.eon.KName;
+import io.vertx.up.uca.cache.Rapid;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
@@ -21,13 +24,15 @@ import java.util.Objects;
 
 public class MatrixService implements MatrixStub {
 
+    private final static ScConfig CONFIG = ScPin.getConfig();
+
     @Inject
     private transient ViewStub stub;
 
     @Override
     public Future<DataBound> fetchBound(final ScUser user, final ScResource request) {
         /* User fetch first */
-        return request.resource().compose(data -> {
+        return Rapid.<String, JsonObject>t(CONFIG.getResourcePool()).read(request.key()).compose(data -> {
             final SResource resource = Ux.fromJson(data.getJsonObject(KName.RECORD), SResource.class);
             /* Fetch User First */
             return this.fetchViews(user, resource, request.view())

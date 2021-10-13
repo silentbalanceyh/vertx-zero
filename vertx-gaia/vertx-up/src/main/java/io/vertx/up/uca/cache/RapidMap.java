@@ -6,6 +6,7 @@ import io.vertx.up.atom.Kv;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
+import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
@@ -23,6 +24,7 @@ class RapidMap extends AbstractRapid<Set<String>, ConcurrentMap<String, JsonArra
     public Future<ConcurrentMap<String, JsonArray>> cached(
         final Set<String> keys,
         final Function<Set<String>, Future<ConcurrentMap<String, JsonArray>>> executor) {
+        Objects.requireNonNull(keys);
         return this.pool.<String, JsonArray>get(keys).compose(dataMap -> {
             final Set<String> keySet = Ut.diff(keys, dataMap.keySet());
             final ConcurrentMap<String, JsonArray> cached = new ConcurrentHashMap<>(dataMap);

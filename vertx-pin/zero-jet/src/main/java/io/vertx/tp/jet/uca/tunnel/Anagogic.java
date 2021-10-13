@@ -2,7 +2,6 @@ package io.vertx.tp.jet.uca.tunnel;
 
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.jet.cv.JtConstant;
 import io.vertx.tp.optic.jet.JtComponent;
 import io.vertx.up.commune.Commercial;
 import io.vertx.up.commune.Envelop;
@@ -12,8 +11,9 @@ import io.vertx.up.commune.config.XHeader;
 import io.vertx.up.commune.exchange.BiTree;
 import io.vertx.up.commune.exchange.DiFabric;
 import io.vertx.up.commune.rule.RuleUnique;
+import io.vertx.up.uca.cache.Rapid;
+import io.vertx.up.uca.cache.RapidKey;
 import io.vertx.up.unity.Ux;
-import io.vertx.up.unity.UxPool;
 import io.vertx.up.util.Ut;
 
 import java.util.Objects;
@@ -36,22 +36,8 @@ class Anagogic {
      * Database processing
      */
     static Future<Database> databaseAsync(final Commercial commercial) {
-        final UxPool pool = Ux.Pool.on(JtConstant.DEFAULT_POOL_DATABASE);
-        return pool.<String, Database>get(commercial.app())
-            /*
-             * Whether exist database in pool
-             */
-            .compose(cached -> Objects.isNull(cached) ?
-                /*
-                 * New database here
-                 */
-                Ux.future(commercial.database()) :
-                /*
-                 * Cached database
-                 */
-                Ux.future(cached))
-            .compose(database -> pool.put(commercial.app(), database))
-            .compose(kv -> Ux.future(kv.getValue()));
+        return Rapid.<String, Database>t(RapidKey.DATABASE_MULTI)
+            .cached(commercial.app(), () -> Ux.future(commercial.database()));
     }
 
     static Future<Boolean> componentAsync(final JtComponent component, final Envelop envelop) {

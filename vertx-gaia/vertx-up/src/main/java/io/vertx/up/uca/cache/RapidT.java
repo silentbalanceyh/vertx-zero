@@ -1,6 +1,8 @@
 package io.vertx.up.uca.cache;
 
 import io.vertx.core.Future;
+import io.vertx.up.atom.Kv;
+import io.vertx.up.unity.Ux;
 
 import java.util.Objects;
 import java.util.function.Supplier;
@@ -19,6 +21,18 @@ class RapidT<T> extends AbstractRapid<String, T> {
     @Override
     public Future<T> cached(final String key, final Supplier<Future<T>> executor) {
         Objects.requireNonNull(key);
-        return this.getAndSet(key, executor, this.expired);
+        return this.pool.<String, T>get(key).compose(queried -> {
+            if (Objects.isNull(queried)) {
+                return executor.get()
+                    .compose(actual -> 0 < this.expired ?
+                        this.pool.put(key, actual) :
+                        this.pool.put(key, actual, this.expired)
+                    )
+                    .compose(Kv::value);
+            } else {
+                this.logger().info("[ Cache ] \u001b[0;37mK = `{1}`, P = `{0}`\u001b[m", this.pool.name(), key);
+                return Ux.future(queried);
+            }
+        });
     }
 }

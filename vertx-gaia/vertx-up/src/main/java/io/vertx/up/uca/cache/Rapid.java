@@ -2,6 +2,7 @@ package io.vertx.up.uca.cache;
 
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
+import io.vertx.ext.auth.User;
 import io.vertx.up.exception.web._501NotSupportException;
 import io.vertx.up.fn.Fn;
 
@@ -43,6 +44,19 @@ public interface Rapid<K, V> {
             RapidMap.class.getName() + key + ttl);
     }
 
+    /*
+     * Pool:
+     *    habitus = ...
+     */
+    static <T> Rapid<String, T> user(final User user, final String rootKey) {
+        return Fn.poolThread(P.CACHED_THREAD, () -> new RapidUser<T>(user, rootKey),
+            RapidUser.class.getName() + String.valueOf(user.hashCode()) + rootKey);
+    }
+
+    static <T> Rapid<String, T> user(final User user) {
+        return user(user, null);
+    }
+
     default Future<V> cached(final K key, final Supplier<Future<V>> executor) {
         throw new _501NotSupportException(getClass());
     }
@@ -51,11 +65,11 @@ public interface Rapid<K, V> {
         throw new _501NotSupportException(getClass());
     }
 
-    default Future<V> write(K key, V value) {
-        return write(key, value, -1);
-    }
+    Future<V> write(K key, V value);
 
-    Future<V> write(K key, V value, int expired);
+    Future<V> clear(K key);
+
+    Future<V> read(K key);
 }
 
 @SuppressWarnings("all")

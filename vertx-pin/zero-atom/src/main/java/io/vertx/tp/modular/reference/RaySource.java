@@ -11,7 +11,7 @@ import io.vertx.up.atom.Kv;
 import io.vertx.up.commune.Record;
 import io.vertx.up.eon.Constants;
 import io.vertx.up.uca.cache.Rapid;
-import io.vertx.up.uca.cache.StandardKey;
+import io.vertx.up.uca.cache.RapidKey;
 import io.vertx.up.unity.Ux;
 
 import java.util.Objects;
@@ -68,7 +68,7 @@ class RaySource {
                 final JsonObject condition = kv.getKey();
                 final RDao dao = kv.getValue();
                 futureMap.put(hashCode,
-                    Rapid.<String, JsonArray>t(StandardKey.REFERENCE, Constants.DEFAULT_EXPIRED_DATA)
+                    Rapid.<String, JsonArray>t(RapidKey.REFERENCE, Constants.DEFAULT_EXPIRED_DATA)
                         .cached(String.valueOf(hashCode), () -> {
                             Ao.infoUca(this.getClass(), "Async Batch condition building: {0}", condition.encode());
                             return dao.fetchByAsync(condition);

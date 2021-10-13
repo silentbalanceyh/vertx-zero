@@ -4,8 +4,8 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.up.eon.KName;
 import io.vertx.up.fn.Actuator;
 import io.vertx.up.log.Annal;
-import io.vertx.up.unity.Ux;
-import io.vertx.up.unity.UxPool;
+import io.vertx.up.uca.cache.Rapid;
+import io.vertx.up.uca.cache.RapidKey;
 
 import java.util.Objects;
 
@@ -14,14 +14,13 @@ import java.util.Objects;
  */
 class AuthenticateCache {
 
-    private static final String KEY = "AUTHORIZED-401";
     private static final Annal LOGGER = Annal.get(AuthenticateCache.class);
 
     static void userAuthorized(final JsonObject credentials, final Actuator actuator,
                                final Actuator fnCache) {
         final String habitus = credentials.getString(KName.HABITUS);
-        final UxPool pool = Ux.Pool.on(habitus);
-        pool.<String, JsonObject>get(KEY).onComplete(res -> {
+        final Rapid<String, JsonObject> rapid = Rapid.t(habitus);
+        rapid.read(RapidKey.User.AUTHENTICATE).onComplete(res -> {
             if (res.succeeded()) {
                 final JsonObject cached = res.result();
                 if (Objects.isNull(cached)) {
@@ -36,11 +35,7 @@ class AuthenticateCache {
 
     static void userAuthorize(final JsonObject credentials, final Actuator actuator) {
         final String habitus = credentials.getString(KName.HABITUS);
-        final UxPool pool = Ux.Pool.on(habitus);
-        pool.<String, JsonObject>get(KEY).onComplete(res -> {
-            if (res.succeeded()) {
-                pool.put(KEY, credentials).onComplete(next -> actuator.execute());
-            }
-        });
+        final Rapid<String, JsonObject> rapid = Rapid.t(habitus);
+        rapid.write(RapidKey.User.AUTHENTICATE, credentials).onComplete(next -> actuator.execute());
     }
 }

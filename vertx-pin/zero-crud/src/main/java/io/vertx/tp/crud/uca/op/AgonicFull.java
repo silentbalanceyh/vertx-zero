@@ -9,7 +9,7 @@ import io.vertx.tp.ke.refine.Ke;
 import io.vertx.tp.optic.Apeak;
 import io.vertx.up.log.Annal;
 import io.vertx.up.uca.cache.Rapid;
-import io.vertx.up.uca.cache.StandardKey;
+import io.vertx.up.uca.cache.RapidKey;
 import io.vertx.up.uca.jooq.UxJooq;
 
 /**
@@ -21,7 +21,7 @@ class AgonicFull implements Agonic {
     @Override
     public Future<JsonArray> runJAAsync(final JsonObject input, final IxMod in) {
         final String cacheKey = in.cacheKey();
-        return Rapid.<String, JsonArray>t(StandardKey.VIEW_FULL, Agonic.EXPIRED).cached(cacheKey, () -> {
+        return Rapid.<String, JsonArray>t(RapidKey.VIEW_FULL, Agonic.EXPIRED).cached(cacheKey, () -> {
             final UxJooq jooq = IxPin.jooq(in);
             return Ke.channel(Apeak.class, JsonArray::new, stub -> stub.on(jooq).fetchFull(input));
         });

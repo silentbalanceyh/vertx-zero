@@ -10,12 +10,12 @@ import io.vertx.tp.rbac.authorization.ScDetent;
 import io.vertx.tp.rbac.cv.AuthKey;
 import io.vertx.tp.rbac.refine.Sc;
 import io.vertx.up.atom.Refer;
-import io.vertx.up.eon.Constants;
 import io.vertx.up.eon.KName;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
+import io.vertx.up.uca.cache.Rapid;
+import io.vertx.up.uca.cache.RapidKey;
 import io.vertx.up.unity.Ux;
-import io.vertx.up.unity.UxPool;
 import io.vertx.up.util.Ut;
 
 import java.util.ArrayList;
@@ -33,13 +33,13 @@ import java.util.concurrent.ConcurrentMap;
 public class ScUser {
     private static final Annal LOGGER = Annal.get(ScUser.class);
     private static final ConcurrentMap<String, ScUser> USERS = new ConcurrentHashMap<>();
-    private final transient UxPool pool;
+    private final transient Rapid<String, JsonObject> rapid;
     private final transient String habitus;
     private transient String userId;
 
     private ScUser(final String habitus) {
         this.habitus = habitus;
-        this.pool = Ux.Pool.on(Constants.Pool.SESSION_HABITUS);
+        this.rapid = Rapid.t(RapidKey.User.MY_HABITUS);
     }
 
     // ------------------------- Profile Method ------------------------
@@ -264,8 +264,8 @@ public class ScUser {
          * Remove reference pool first
          */
         USERS.remove(this.habitus);
-        return this.pool.remove(this.habitus).compose(kv ->
-            Ux.future(Boolean.TRUE));
+        return this.rapid.clear(this.habitus)
+            .compose(nil -> Ux.future(Boolean.TRUE));
     }
 
     private Future<JsonObject> report(final JsonObject result) {
@@ -276,7 +276,7 @@ public class ScUser {
     private Future<ScUser> set(final JsonObject data) {
         return this.getStored().compose(stored -> {
             stored.mergeIn(data, true);
-            return this.pool.put(this.habitus, stored)
+            return this.rapid.write(this.habitus, stored)
                 .compose(nil -> Ux.future(this));
         });
     }
@@ -285,13 +285,13 @@ public class ScUser {
         return this.getStored().compose(stored -> {
             // dataKey = value, the T must be valid for JsonObject
             stored.put(dataKey, value);
-            return this.pool.put(this.habitus, stored)
+            return this.rapid.write(this.habitus, stored)
                 .compose(nil -> Ux.future(value));
         });
     }
 
     private Future<JsonObject> getStored() {
-        return this.pool.<String, JsonObject>get(this.habitus).compose(stored -> {
+        return this.rapid.<String, JsonObject>read(this.habitus).compose(stored -> {
             // 1st time fetch data often return null here
             if (Ut.isNil(stored)) {
                 stored = new JsonObject();

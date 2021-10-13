@@ -1,6 +1,5 @@
 package io.vertx.tp.rbac.logged;
 
-import io.vertx.core.Future;
 import io.vertx.core.http.HttpMethod;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.ke.refine.Ke;
@@ -10,8 +9,6 @@ import io.vertx.tp.rbac.init.ScPin;
 import io.vertx.up.atom.secure.Vis;
 import io.vertx.up.eon.ID;
 import io.vertx.up.eon.KName;
-import io.vertx.up.unity.Ux;
-import io.vertx.up.unity.UxPool;
 
 /**
  * For annotation @AuthorizedResource to stored resource data structure
@@ -22,7 +19,6 @@ import io.vertx.up.unity.UxPool;
  */
 public class ScResource {
     private static final ScConfig CONFIG = ScPin.getConfig();
-    private transient final UxPool pool;
 
     private transient final String resourceKey;
     private transient final String uri;
@@ -67,7 +63,6 @@ public class ScResource {
             this.sigma = null;
         }
         this.resourceKey = Ke.keyResource(this.method.name(), this.uri);
-        this.pool = Ux.Pool.on(CONFIG.getResourcePool());
     }
 
     public static ScResource create(final JsonObject data) {
@@ -104,26 +99,5 @@ public class ScResource {
 
     public boolean isNormalized() {
         return !this.requestUri.equals(this.uri);
-    }
-
-    // ------------------------- Resource Fetch ------------------------
-    /*
-     * Fetch PROFILE -> PERMISSIONS
-     * {
-     *      "profile": {
-     *          "profileName": ["p1", "p2"]
-     *      },
-     *      "record": {
-     *          "key": "xxxx"
-     *      }
-     * }
-     */
-    public Future<JsonObject> resource() {
-        return this.pool.get(this.resourceKey);
-    }
-
-    public Future<JsonObject> resource(final JsonObject data) {
-        return this.pool.put(this.resourceKey, data)
-            .compose(item -> Ux.future(item.getValue()));
     }
 }
