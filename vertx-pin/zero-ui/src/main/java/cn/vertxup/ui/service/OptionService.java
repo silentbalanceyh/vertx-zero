@@ -36,6 +36,7 @@ public class OptionService implements OptionStub {
             .compose(Ux::futureJ)
             .compose(Ut.ifJObject(
                 FIELD_SEARCH_NOTICE,
+                FIELD_SEARCH_VIEW,
                 FIELD_SEARCH_COND
             ));
         //            .compose(Ke.mount(FIELD_SEARCH_NOTICE))

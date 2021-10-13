@@ -7,7 +7,6 @@ import io.vertx.ext.web.RoutingContext;
 import io.vertx.up.eon.KName;
 import io.vertx.up.fn.Actuator;
 import io.vertx.up.log.Annal;
-import io.vertx.up.runtime.ZeroAnno;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.unity.UxPool;
 
@@ -24,8 +23,9 @@ class AuthorizationCache {
 
     private static String requestKey(final RoutingContext context) {
         final HttpServerRequest request = context.request();
-        final String uri = ZeroAnno.recoveryUri(request.path(), request.method());
-        return request.method() + " " + uri;
+        // Recovery will let your api/:actor/search abstract uri security issue
+        // final String uri = ZeroAnno.recoveryUri(request.path(), request.method());
+        return request.method() + " " + request.path();
     }
 
     static void userAuthorized(final RoutingContext context, final Actuator actuator) {
