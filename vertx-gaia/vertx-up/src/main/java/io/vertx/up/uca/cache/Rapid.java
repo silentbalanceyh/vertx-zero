@@ -40,8 +40,8 @@ public interface Rapid<K, V> {
     }
 
     static Rapid<Set<String>, ConcurrentMap<String, JsonArray>> map(final String key, final int ttl) {
-        return Fn.poolThread(P.CACHED_THREAD, () -> new RapidMap(key, ttl),
-            RapidMap.class.getName() + key + ttl);
+        return Fn.poolThread(P.CACHED_THREAD, () -> new RapidDict(key, ttl),
+            RapidDict.class.getName() + key + ttl);
     }
 
     /*

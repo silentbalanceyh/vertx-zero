@@ -15,8 +15,8 @@ import java.util.function.Function;
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-class RapidMap extends AbstractRapid<Set<String>, ConcurrentMap<String, JsonArray>> {
-    RapidMap(final String cacheKey, final int expired) {
+class RapidDict extends AbstractRapid<Set<String>, ConcurrentMap<String, JsonArray>> {
+    RapidDict(final String cacheKey, final int expired) {
         super(cacheKey, expired);
     }
 
