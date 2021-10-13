@@ -77,5 +77,6 @@ class ArrayDwarf implements Dwarf {
         }
         /* Updated */
         dataReference.put("data", updated);
+        T.qr(dataReference, matrix);
     }
 }
