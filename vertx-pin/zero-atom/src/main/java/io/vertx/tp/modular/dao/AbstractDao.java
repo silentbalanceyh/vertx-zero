@@ -93,7 +93,8 @@ public abstract class AbstractDao implements AoDao {
 
     @Override
     public Future<Long> countAsync(final Criteria criteria) {
-        return Fn.getNull(Ux.future((long) Values.RANGE), () -> this.aggr.countAsync(criteria), criteria);
+        return Ux.future(this.count(criteria));
+        // return Fn.getNull(Ux.future((long) Values.RANGE), () -> this.aggr.countAsync(criteria), criteria);
     }
 
     @Override
@@ -103,7 +104,8 @@ public abstract class AbstractDao implements AoDao {
 
     @Override
     public Future<Boolean> existAsync(final Criteria criteria) {
-        return Fn.getNull(Ux.future(Boolean.FALSE), () -> this.aggr.existingAsync(criteria), criteria);
+        return Ux.future(this.exist(criteria));
+        // return Fn.getNull(Ux.future(Boolean.FALSE), () -> this.aggr.existingAsync(criteria), criteria);
     }
 
     @Override
@@ -113,7 +115,8 @@ public abstract class AbstractDao implements AoDao {
 
     @Override
     public Future<Boolean> missAsync(final Criteria criteria) {
-        return Fn.getNull(Ux.future(Boolean.FALSE), () -> this.aggr.missingAsync(criteria), criteria);
+        return Ux.future(this.miss(criteria));
+        // return Fn.getNull(Ux.future(Boolean.FALSE), () -> this.aggr.missingAsync(criteria), criteria);
     }
 
     // AoWriter
@@ -143,7 +146,8 @@ public abstract class AbstractDao implements AoDao {
      */
     @Override
     public Future<Record> insertAsync(final Record record) {
-        return Fn.getNull(Ux.future(), () -> this.flush.insertAsync(record), record);
+        return Ux.future(this.insert(record));
+        // return Fn.getNull(Ux.future(), () -> this.flush.insertAsync(record), record);
     }
 
     @Override
@@ -161,10 +165,11 @@ public abstract class AbstractDao implements AoDao {
 
     @Override
     public Future<Record[]> insertAsync(final Record... records) {
-        if (Objects.isNull(records)) {
+        return Ux.future(this.insert(records));
+/*        if (Objects.isNull(records)) {
             return Ux.future(new Record[]{});
         }
-        return this.flush.insertAsync(records);
+        return this.flush.insertAsync(records);*/
     }
 
     /*
@@ -195,10 +200,11 @@ public abstract class AbstractDao implements AoDao {
 
     @Override
     public Future<Record[]> updateAsync(final Record... records) {
-        if (Objects.isNull(records)) {
+        return Ux.future(this.update(records));
+        /*if (Objects.isNull(records)) {
             return Ux.future(new Record[]{});
         }
-        return this.flush.updateAsync(records);
+        return this.flush.updateAsync(records);*/
     }
 
     @Override
@@ -211,7 +217,8 @@ public abstract class AbstractDao implements AoDao {
 
     @Override
     public Future<Record> updateAsync(final Record record) {
-        return Fn.getNull(Ux.future(), () -> this.flush.updateAsync(record), record);
+        return Ux.future(this.update(record));
+        // return Fn.getNull(Ux.future(), () -> this.flush.updateAsync(record), record);
     }
 
     @Override
@@ -244,7 +251,8 @@ public abstract class AbstractDao implements AoDao {
 
     @Override
     public <ID> Future<Record> fetchByIdAsync(final ID id) {
-        return Fn.getNull(Ux.future(), () -> this.unique.fetchByIdAsync(id), id);
+        return Ux.future(this.fetchById(id));
+        // return Fn.getNull(Ux.future(), () -> this.unique.fetchByIdAsync(id), id);
     }
 
     @Override
@@ -259,10 +267,11 @@ public abstract class AbstractDao implements AoDao {
     @Override
     @SuppressWarnings("unchecked")
     public <ID> Future<Record[]> fetchByIdAsync(final ID... ids) {
-        if (Objects.isNull(ids)) {
+        return Ux.future(this.fetchById(ids));
+/*        if (Objects.isNull(ids)) {
             return Ux.future(new Record[]{});
         }
-        return this.list.fetchByIdsAsync(ids);
+        return this.list.fetchByIdsAsync(ids);*/
     }
 
     @Override
@@ -272,7 +281,8 @@ public abstract class AbstractDao implements AoDao {
 
     @Override
     public Future<Record[]> fetchAllAsync() {
-        return this.list.fetchAllAsync();
+        return Ux.future(this.fetchAll());
+        // return this.list.fetchAllAsync();
     }
 
     /*
@@ -310,17 +320,20 @@ public abstract class AbstractDao implements AoDao {
 
     @Override
     public Future<Record> fetchOneAsync(final Criteria criteria) {
-        return Fn.getNull(Ux.future(), () -> this.unique.fetchOneAsync(criteria), criteria);
+        return Ux.future(this.fetchOne(criteria));
+        // return Fn.getNull(Ux.future(), () -> this.unique.fetchOneAsync(criteria), criteria);
     }
 
     @Override
     public Future<JsonObject> searchAsync(final JsonObject query) {
-        return Fn.getNull(Ux.futureJ(), () -> this.search.searchAsync(query), query);
+        return Ux.future(this.search(query));
+        // return Fn.getNull(Ux.futureJ(), () -> this.search.searchAsync(query), query);
     }
 
     @Override
     public Future<Record[]> fetchAsync(final JsonObject criteria) {
-        return Fn.getNull(Ux.future(new Record[]{}), () -> this.search.queryAsync(criteria), criteria);
+        return Ux.future(this.fetch(criteria));
+        // return Fn.getNull(Ux.future(new Record[]{}), () -> this.search.queryAsync(criteria), criteria);
     }
 
     /*
@@ -343,7 +356,8 @@ public abstract class AbstractDao implements AoDao {
      */
     @Override
     public Future<Boolean> deleteAsync(final Record record) {
-        return Fn.getNull(Ux.future(Boolean.FALSE), () -> this.flush.deleteAsync(record), record);
+        return Ux.future(this.delete(record));
+        // return Fn.getNull(Ux.future(Boolean.FALSE), () -> this.flush.deleteAsync(record), record);
     }
 
     @Override
@@ -353,10 +367,11 @@ public abstract class AbstractDao implements AoDao {
 
     @Override
     public Future<Boolean> deleteAsync(final Record... records) {
-        if (Objects.isNull(records)) {
+        return Ux.future(this.delete(records));
+/*        if (Objects.isNull(records)) {
             return Ux.future(Boolean.FALSE);
         }
-        return this.flush.deleteAsync(records);
+        return this.flush.deleteAsync(records);*/
     }
 
     @Override

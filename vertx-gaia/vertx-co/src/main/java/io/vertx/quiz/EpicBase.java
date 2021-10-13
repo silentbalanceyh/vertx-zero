@@ -38,7 +38,7 @@ import io.vertx.up.util.Ut;
  *
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-public class EpicBase {
+public abstract class EpicBase {
 
     protected String ioString(final String filename) {
         final Class<?> clazz = this.getClass();

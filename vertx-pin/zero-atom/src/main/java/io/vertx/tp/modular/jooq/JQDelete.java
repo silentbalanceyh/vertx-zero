@@ -1,10 +1,8 @@
 package io.vertx.tp.modular.jooq;
 
-import io.vertx.core.Future;
 import io.vertx.tp.atom.modeling.data.DataEvent;
 import io.vertx.tp.atom.modeling.element.DataMatrix;
 import io.vertx.tp.modular.jooq.internal.Jq;
-import io.vertx.up.unity.Ux;
 import org.jooq.*;
 
 import java.util.ArrayList;
@@ -29,13 +27,6 @@ class JQDelete extends AbstractJQCrud {
         }, null);
     }
 
-    Future<DataEvent> deleteAsync(final DataEvent event) {
-        return this.writeAsync(event, (table, matrix) -> {
-            final DeleteWhereStep query = this.stepDelete(table, matrix);
-            return query.executeAsync();
-        }, null);
-    }
-
     DataEvent deleteBatch(final DataEvent event) {
         return this.<Integer>writeBatch(event, (table, matrix) -> {
             final Batch batch = this.prepareBatch(table, matrix);
@@ -43,10 +34,6 @@ class JQDelete extends AbstractJQCrud {
             Arrays.stream(batch.execute()).forEach(result::add);
             return result.toArray(new Integer[]{});
         }, null);
-    }
-
-    Future<DataEvent> deleteBatchAsync(final DataEvent event) {
-        return Ux.future(this.deleteBatch(event));
     }
 
     private Batch prepareBatch(final String table, final List<DataMatrix> matrices) {
