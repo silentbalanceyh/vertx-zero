@@ -1,12 +1,18 @@
 package io.vertx.quiz;
 
+import io.vertx.core.Future;
 import io.vertx.core.Vertx;
 import io.vertx.core.VertxOptions;
+import io.vertx.ext.unit.Async;
+import io.vertx.ext.unit.TestContext;
 import io.vertx.ext.unit.junit.RunTestOnContext;
 import io.vertx.ext.unit.junit.Timeout;
 import io.vertx.ext.unit.junit.VertxUnitRunner;
 import org.junit.Rule;
 import org.junit.runner.RunWith;
+
+import java.util.Objects;
+import java.util.function.Consumer;
 
 /**
  * # 「Co」 Testing Framework
@@ -26,7 +32,7 @@ import org.junit.runner.RunWith;
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 @RunWith(VertxUnitRunner.class)
-public abstract class ZeroBase extends EpicBase {
+public class ZeroBase extends EpicBase {
     /**
      * Default vertx options to fix 2000ms issue
      */
@@ -51,4 +57,20 @@ public abstract class ZeroBase extends EpicBase {
      */
     @Rule
     public Timeout timeout = Timeout.seconds(1800L);
+
+    public <T> void async(final TestContext context, final Future<T> future, final Consumer<T> consumer) {
+        final Async async = context.async();
+        future.onComplete(handler -> {
+            if (handler.succeeded()) {
+                consumer.accept(handler.result());
+            } else {
+                final Throwable ex = handler.cause();
+                if (Objects.nonNull(ex)) {
+                    ex.printStackTrace();
+                }
+                context.fail(ex);
+            }
+            async.complete();
+        });
+    }
 }

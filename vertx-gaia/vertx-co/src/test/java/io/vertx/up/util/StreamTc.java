@@ -8,6 +8,6 @@ public class StreamTc extends ZeroBase {
 
     @Test
     public void testRead(final TestContext context) {
-        context.assertNotNull(Stream.read(this.ioFile("in.txt")));
+        context.assertNotNull(Stream.read(this.ioString("in.txt")));
     }
 }

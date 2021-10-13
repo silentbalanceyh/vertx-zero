@@ -5,7 +5,6 @@ import io.vertx.ext.unit.TestContext;
 import io.vertx.ext.unit.junit.RunTestOnContext;
 import io.vertx.ext.unit.junit.VertxUnitRunner;
 import io.vertx.up.atom.Kv;
-import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import io.vertx.up.uca.jooq.UxJooq;
 import io.vertx.up.unity.Ux;
@@ -24,7 +23,7 @@ import java.util.function.Supplier;
  * |- io.vertx.quiz.ZeroBase ( Vert.x ) :
  *    Provide vert.x instance with options
  *
- *    |- io.vertx.quiz.AsyncBase ( Async ) :
+ *    |- io.vertx.quiz.ZeroBase ( Async ) :
  *       Support `Database` & `Integration`, also include `async` method.
  *
  *       |- io.vertx.quiz.JooqBase ( Jooq ) :
@@ -32,7 +31,7 @@ import java.util.function.Supplier;
  *
  */
 @RunWith(VertxUnitRunner.class)
-public abstract class JooqBase extends AsyncBase {
+public abstract class JooqBase extends ZeroBase {
 
     @Rule
     public final RunTestOnContext rule = new RunTestOnContext(OPTIONS);
@@ -54,7 +53,7 @@ public abstract class JooqBase extends AsyncBase {
         final UxJooq jooq = daoSupplier.get();
         if (null != jooq) {
             final Future<T> future = supplier.get();
-            Fn.onTest(context, future, consumer);
+            this.async(context, future, consumer);
         }
     }
 

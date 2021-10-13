@@ -1,12 +1,12 @@
 package io.vertx.up.atom;
 
 import io.vertx.ext.unit.TestContext;
-import io.vertx.quiz.AsyncBase;
+import io.vertx.quiz.ZeroBase;
 import io.vertx.up.atom.query.Pager;
 import io.vertx.up.atom.query.Pagination;
 import org.junit.Test;
 
-public class PaginationTc extends AsyncBase {
+public class PaginationTc extends ZeroBase {
 
     @Test
     public void testPagination(final TestContext context) {
