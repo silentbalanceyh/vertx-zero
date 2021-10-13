@@ -10,15 +10,15 @@ import io.vertx.tp.atom.refine.Ao;
 import io.vertx.up.atom.Kv;
 import io.vertx.up.commune.Record;
 import io.vertx.up.eon.Constants;
+import io.vertx.up.uca.cache.Rapid;
+import io.vertx.up.uca.cache.RapidKey;
 import io.vertx.up.unity.Ux;
-import io.vertx.up.unity.UxPool;
 
 import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.function.BiFunction;
 import java.util.function.Function;
-import java.util.function.Supplier;
 
 /**
  * ## Data Fetcher
@@ -67,11 +67,12 @@ class RaySource {
             execMap.forEach((hashCode, kv) -> {
                 final JsonObject condition = kv.getKey();
                 final RDao dao = kv.getValue();
-                futureMap.put(hashCode, this.dataAsync(hashCode, () -> {
-                    Ao.infoUca(this.getClass(), "Async Batch condition building: {0}",
-                        condition.encode());
-                    return dao.fetchByAsync(condition);
-                }));
+                futureMap.put(hashCode,
+                    Rapid.<String, JsonArray>t(RapidKey.REFERENCE, Constants.DEFAULT_EXPIRED_DATA)
+                        .cached(String.valueOf(hashCode), () -> {
+                            Ao.infoUca(this.getClass(), "Async Batch condition building: {0}", condition.encode());
+                            return dao.fetchByAsync(condition);
+                        }));
             });
             return Ux.thenCombine(futureMap).compose(queriedMap -> {
                 final ConcurrentMap<String, JsonArray> data = new ConcurrentHashMap<>();
@@ -84,20 +85,6 @@ class RaySource {
                 });
                 return Ux.future(data);
             });
-        });
-    }
-
-    private Future<JsonArray> dataAsync(final Integer hashCode, final Supplier<Future<JsonArray>> executor) {
-        final UxPool pool = Ux.Pool.on(Constants.Pool.REFERENCE);
-        return pool.<Integer, JsonArray>get(hashCode).compose(queried -> {
-            if (Objects.isNull(queried)) {
-                return executor.get()
-                    // 5 min
-                    .compose(actual -> pool.put(hashCode, actual, Constants.DEFAULT_EXPIRED_DATA))
-                    .compose(Kv::value);
-            } else {
-                return Ux.future(queried);
-            }
         });
     }
 

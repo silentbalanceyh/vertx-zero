@@ -9,7 +9,9 @@ import io.vertx.ext.auth.User;
 import io.vertx.tp.error._403ActionDinnedException;
 import io.vertx.tp.error._404ActionMissingException;
 import io.vertx.tp.error._404ResourceMissingException;
+import io.vertx.tp.rbac.atom.ScConfig;
 import io.vertx.tp.rbac.cv.AuthMsg;
+import io.vertx.tp.rbac.init.ScPin;
 import io.vertx.tp.rbac.logged.ScResource;
 import io.vertx.tp.rbac.logged.ScUser;
 import io.vertx.tp.rbac.refine.Sc;
@@ -17,6 +19,7 @@ import io.vertx.up.atom.Refer;
 import io.vertx.up.eon.KName;
 import io.vertx.up.exception.WebException;
 import io.vertx.up.log.Annal;
+import io.vertx.up.uca.cache.Rapid;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
@@ -48,27 +51,21 @@ public class AccreditService implements AccreditStub {
     public Future<JsonObject> resource(final JsonObject requestData) {
         final ScResource request = ScResource.create(requestData);
         // First Phase
-        return request.resource().compose(data -> {
-            if (Ut.isNil(data)) {
-                /* Fetch Action */
-                final Refer actionHod = new Refer();
-                // Action Checking
-                return this.fetchAction(request)
-                    .compose(action -> this.inspectAction(request, action))
-                    .compose(actionHod::future)
-                    // Resource Checking
-                    .compose(action -> this.stub.fetchResource(action.getResourceId()))
-                    .compose(resource -> this.inspectResource(request, actionHod.get(), resource))
-                    // Level Checking
-                    .compose(resource -> this.inspectLevel(resource, actionHod.get()))
-                    // Resource Data Processing
-                    .compose(resource -> this.inspectData(resource, actionHod.get()))
-                    .compose(request::resource);
-            } else {
-                Sc.infoAuth(LOGGER, "ScResource: \u001b[0;37m----> Cache key = {0}\u001b[m.", request.key());
-                /* Resource Processing */
-                return Ux.future(data);
-            }
+        final ScConfig config = ScPin.getConfig();
+        return Rapid.<String, JsonObject>t(config.getResourcePool()).cached(request.key(), () -> {
+            /* Fetch Action */
+            final Refer actionHod = new Refer();
+            // Action Checking
+            return this.fetchAction(request)
+                .compose(action -> this.inspectAction(request, action))
+                .compose(actionHod::future)
+                // Resource Checking
+                .compose(action -> this.stub.fetchResource(action.getResourceId()))
+                .compose(resource -> this.inspectResource(request, actionHod.get(), resource))
+                // Level Checking
+                .compose(resource -> this.inspectLevel(resource, actionHod.get()))
+                // Resource Data Processing
+                .compose(resource -> this.inspectData(resource, actionHod.get()));
         }).compose(stored -> this.inspectView(requestData, request, stored)
             // Extract `data` node
         ).compose(stored -> Ux.future(stored.getJsonObject(KName.DATA)));

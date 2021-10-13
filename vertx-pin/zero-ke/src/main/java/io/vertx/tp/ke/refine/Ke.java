@@ -27,10 +27,6 @@ public class Ke {
         return KeTool.getCatalog();
     }
 
-    public static <T> Future<T> poolAsync(final String name, final String key, final Supplier<Future<T>> supplier) {
-        return KeTool.poolAsync(name, key, supplier);
-    }
-
     public static Future<JsonArray> combineAsync(final JsonArray data, final ConcurrentMap<String, String> headers) {
         return KeExcel.combineAsync(data, headers);
     }

@@ -5,7 +5,7 @@ import io.vertx.core.Future;
 import io.vertx.tp.rbac.atom.ScConfig;
 import io.vertx.tp.rbac.init.ScPin;
 import io.vertx.up.log.Annal;
-import io.vertx.up.unity.Ux;
+import io.vertx.up.uca.cache.Rapid;
 import io.vertx.up.util.Ut;
 
 import java.util.Locale;
@@ -94,14 +94,12 @@ class ScTool {
     @SuppressWarnings("all")
     static <V> Future<V> code(final String key) {
         final String codePool = CONFIG.getCodePool();
-        return Ux.Pool.on(codePool).remove(key)
-            .compose(value -> Ux.future((V) value.getValue()));
+        return Rapid.<String, V>t(codePool).clear(key);
     }
 
     static <V> Future<V> code(final String key, final V value) {
         final String codePool = CONFIG.getCodePool();
         final Integer codeExpired = CONFIG.getCodeExpired();
-        return Ux.Pool.on(codePool).put(key, value, codeExpired)
-            .compose(item -> Ux.future(item.getValue()));
+        return Rapid.<String, V>t(codePool, codeExpired).write(key, value);
     }
 }

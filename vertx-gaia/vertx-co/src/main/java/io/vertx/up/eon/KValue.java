@@ -19,7 +19,5 @@ public interface KValue {
         String VIEW_DEFAULT = "DEFAULT";
         /* Default Position */
         String POSITION_DEFAULT = "DEFAULT";
-        /* Cache Key */
-        String MY_CACHE = "VIEW_MY";
     }
 }
