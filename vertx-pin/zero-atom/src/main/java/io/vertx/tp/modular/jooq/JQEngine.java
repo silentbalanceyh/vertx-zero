@@ -1,6 +1,5 @@
 package io.vertx.tp.modular.jooq;
 
-import io.vertx.core.Future;
 import io.vertx.tp.atom.cv.AoCache;
 import io.vertx.tp.atom.modeling.data.DataEvent;
 import io.vertx.tp.atom.refine.Ao;
@@ -100,66 +99,6 @@ public class JQEngine {
         return this.deleteT.deleteBatch(event);
     }
 
-    // -------------------- Async -------------------------
-
-    // UPDATE
-    public Future<DataEvent> updateAsync(final DataEvent event) {
-        return this.updateT.updateAsync(event);
-    }
-
-    public Future<DataEvent> updateBatchAsync(final DataEvent event) {
-        return this.updateT.updateBatchAsync(event);
-    }
-
-    // INSERT
-    public Future<DataEvent> insertAsync(final DataEvent event) {
-        return this.insertT.insertAsync(event);
-    }
-
-    public Future<DataEvent> insertBatchAsync(final DataEvent event) {
-        return this.insertT.insertBatchAsync(event);
-    }
-
-    // SELECT
-    public Future<DataEvent> fetchByIdsAsync(final DataEvent event) {
-        return this.readT.fetchByIdsAsync(event);
-    }
-
-    public Future<DataEvent> fetchByIdAsync(final DataEvent event) {
-        return this.readT.fetchByIdAsync(event);
-    }
-
-    // SELECT Query
-
-    public Future<DataEvent> fetchOneAsync(final DataEvent event) {
-        return this.queryT.fetchOneAsync(event);
-    }
-
-    public Future<DataEvent> fetchAllAsync(final DataEvent event) {
-        return this.queryT.fetchAllAsync(event);
-    }
-
-    public Future<DataEvent> searchAsync(final DataEvent event) {
-        return this.queryT.searchAsync(event);
-    }
-
-    public Future<DataEvent> queryAsync(final DataEvent event) {
-        return this.queryT.queryAsync(event);
-    }
-
-    // DELETE
-    public Future<DataEvent> deleteAsync(final DataEvent event) {
-        return this.deleteT.deleteAsync(event);
-    }
-
-    public Future<DataEvent> deleteBatchAsync(final DataEvent event) {
-        return this.deleteT.deleteBatchAsync(event);
-    }
-
-    // COUNT
-    public Future<DataEvent> countAsync(final DataEvent event) {
-        return this.aggrT.countAsync(event);
-    }
 
     public DataEvent count(final DataEvent event) {
         return this.aggrT.count(event);

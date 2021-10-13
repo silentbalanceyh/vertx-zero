@@ -1,10 +1,8 @@
 package io.vertx.tp.modular.jooq;
 
-import io.vertx.core.Future;
 import io.vertx.tp.atom.modeling.data.DataEvent;
 import io.vertx.tp.atom.modeling.element.DataMatrix;
 import io.vertx.tp.modular.jooq.internal.Jq;
-import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 import org.jooq.*;
 
@@ -29,13 +27,6 @@ class JQUpdate extends AbstractJQCrud {
         }, Ut::isPositive);
     }
 
-    Future<DataEvent> updateAsync(final DataEvent event) {
-        return this.writeAsync(event, (table, matrix) -> {
-            final UpdateSetMoreStep step = this.stepUpdate(table, matrix);
-            return step.executeAsync();
-        }, Ut::isPositive);
-    }
-
     DataEvent updateBatch(final DataEvent event) {
         return this.<Integer>writeBatch(event, (table, matrix) -> {
             /* 批量更新 */
@@ -44,10 +35,6 @@ class JQUpdate extends AbstractJQCrud {
             Arrays.stream(batch.execute()).forEach(result::add);
             return result.toArray(new Integer[]{});
         }, Ut::isPositive);
-    }
-
-    Future<DataEvent> updateBatchAsync(final DataEvent event) {
-        return Ux.future(this.updateBatch(event));
     }
 
     private Batch prepareBatch(final String table, final List<DataMatrix> matrices) {
