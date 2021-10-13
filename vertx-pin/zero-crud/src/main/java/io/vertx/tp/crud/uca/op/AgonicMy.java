@@ -10,9 +10,10 @@ import io.vertx.tp.ke.refine.Ke;
 import io.vertx.tp.optic.ApeakMy;
 import io.vertx.tp.optic.Seeker;
 import io.vertx.up.commune.Envelop;
-import io.vertx.up.eon.Constants;
 import io.vertx.up.eon.KValue;
 import io.vertx.up.log.Annal;
+import io.vertx.up.uca.cache.Rapid;
+import io.vertx.up.uca.cache.StandardKey;
 import io.vertx.up.uca.jooq.UxJooq;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.unity.UxPool;
@@ -62,16 +63,8 @@ class AgonicMy implements Agonic {
 
     private Future<JsonObject> fetchResources(final JsonObject input, final UxJooq jooq, final IxMod in) {
         final String key = in.cacheKey() + ":" + input.hashCode();
-        final UxPool pool = Ux.Pool.on(Constants.Pool.CACHE_RESOURCE);
-        return pool.<String, JsonObject>get(key).compose(resources -> {
-            if (Objects.isNull(resources)) {
-                return Ke.channel(Seeker.class, JsonObject::new, seeker -> seeker.on(jooq).fetchImpact(input))
-                    .compose(resourceData -> pool.put(key, resourceData, Agonic.EXPIRED).compose(nil -> Ux.future(resourceData)));
-            } else {
-                LOGGER.info("[ My ] Resource cached hit by {0}", key);
-                return Ux.future(resources);
-            }
-        });
+        return Rapid.<String, JsonObject>t(StandardKey.RESOURCE, Agonic.EXPIRED).cached(key,
+            () -> Ke.channel(Seeker.class, JsonObject::new, seeker -> seeker.on(jooq).fetchImpact(input)));
     }
 
     private Future<JsonArray> fetchViews(final JsonObject params, final UxJooq jooq, final IxMod in) {

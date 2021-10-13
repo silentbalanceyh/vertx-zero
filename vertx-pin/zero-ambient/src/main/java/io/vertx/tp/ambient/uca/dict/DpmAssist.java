@@ -5,6 +5,9 @@ import io.vertx.core.MultiMap;
 import io.vertx.core.json.JsonArray;
 import io.vertx.tp.optic.component.DictionaryPlugin;
 import io.vertx.up.commune.exchange.DiSource;
+import io.vertx.up.eon.Constants;
+import io.vertx.up.uca.cache.Rapid;
+import io.vertx.up.uca.cache.StandardKey;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
@@ -25,13 +28,14 @@ public class DpmAssist implements Dpm {
         if (Objects.isNull(plugin) || Ut.isNil(source.getKey())) {
             return Ux.future(uniqueMap);
         } else {
-            return DpmTool.cachedBy(source.getKey(), () -> {
-                plugin.configuration(source.getPluginConfig());
-                return plugin.fetchAsync(source, params);
-            }).compose(result -> {
-                uniqueMap.put(source.getKey(), result);
-                return Ux.future(uniqueMap);
-            });
+            return Rapid.<String, JsonArray>t(StandardKey.DIRECTORY, Constants.DEFAULT_EXPIRED_DATA)
+                .cached(source.getKey(), () -> {
+                    plugin.configuration(source.getPluginConfig());
+                    return plugin.fetchAsync(source, params);
+                }).compose(result -> {
+                    uniqueMap.put(source.getKey(), result);
+                    return Ux.future(uniqueMap);
+                });
         }
     }
 

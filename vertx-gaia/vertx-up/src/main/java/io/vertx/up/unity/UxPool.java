@@ -31,6 +31,10 @@ public class UxPool {
         this.client = MapInfix.getClient().switchClient(name);
     }
 
+    public String name() {
+        return this.name;
+    }
+
     // Put Operation
     public <K, V> Future<Kv<K, V>> put(final K key, final V value) {
         return Fn.<Kv<K, V>>thenGeneric(future -> this.client.put(key, value, res -> {
