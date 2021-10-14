@@ -44,7 +44,7 @@ public abstract class EpicBase {
     protected String ioString(final String filename) {
         final Class<?> clazz = this.getClass();
         final String file = "test/" + clazz.getPackage().getName() + "/" + filename;
-        this.getLogger().info("[ Tc ] Test input file reading from: {0}", file);
+        this.logger().info("[ Tc ] Test input file reading from: {0}", file);
         return file;
     }
 
@@ -78,7 +78,7 @@ public abstract class EpicBase {
         return Ut.ioJArray(this.ioString(filename));
     }
 
-    protected Annal getLogger() {
+    protected Annal logger() {
         return Annal.get(this.getClass());
     }
 

@@ -39,11 +39,11 @@ public class RxJavaTc extends ZeroBase {
             .groupBy(SETS::contains)
             .subscribe(item -> {
                 if (item.getKey()) {
-                    this.getLogger().info("Contains");
-                    item.subscribe(value -> this.getLogger().info(value));
+                    this.logger().info("Contains");
+                    item.subscribe(value -> this.logger().info(value));
                 } else {
-                    this.getLogger().info("None");
-                    item.subscribe(value -> this.getLogger().info(value));
+                    this.logger().info("None");
+                    item.subscribe(value -> this.logger().info(value));
                 }
             });
 

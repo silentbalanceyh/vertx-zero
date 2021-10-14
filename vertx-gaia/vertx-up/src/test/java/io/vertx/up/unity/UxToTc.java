@@ -13,14 +13,14 @@ public class UxToTc extends ZeroBase {
     @Test
     public void testUserJson(final TestContext context) {
         final JsonObject data = Ux.toJson(this.getEntity());
-        this.getLogger().info("[ ZERO TEST ] Data: {0}", data);
+        this.logger().info("[ ZERO TEST ] Data: {0}", data);
         context.assertEquals(this.getEntityJson(), data);
     }
 
     @Test
     public void testUserPojo(final TestContext context) {
         final JsonObject data = Ux.toJson(this.getEntity(), "user");
-        this.getLogger().info("[ ZERO TEST ] Pojo Data: {0}", data);
+        this.logger().info("[ ZERO TEST ] Pojo Data: {0}", data);
         context.assertEquals(this.getEntityToJson(), data);
     }
 

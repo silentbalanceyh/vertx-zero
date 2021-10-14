@@ -7,7 +7,6 @@ import io.vertx.ext.unit.Async;
 import io.vertx.ext.unit.TestContext;
 import io.vertx.ext.unit.junit.RunTestOnContext;
 import io.vertx.ext.unit.junit.Timeout;
-import io.vertx.ext.unit.junit.VertxUnitRunner;
 import org.junit.Rule;
 import org.junit.runner.RunWith;
 
@@ -31,7 +30,7 @@ import java.util.function.Consumer;
  *
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-@RunWith(VertxUnitRunner.class)
+@RunWith(ZeroUnitRunner.class)
 public abstract class ZeroBase extends EpicBase {
     /**
      * Default vertx options to fix 2000ms issue
