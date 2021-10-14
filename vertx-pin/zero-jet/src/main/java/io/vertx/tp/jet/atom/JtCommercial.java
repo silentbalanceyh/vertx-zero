@@ -129,8 +129,9 @@ public abstract class JtCommercial implements Commercial {
         return integration;
     }
 
-    public void mockOn() {
-        this.environment = Environment.Mockito;
+    public JtCommercial bind(final Environment environment) {
+        this.environment = environment;
+        return this;
     }
 
     @Override

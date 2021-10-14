@@ -79,7 +79,7 @@ public class QRequest implements Serializable {
      *
      * @return {@link Envelop}
      */
-    public Envelop requestData() {
+    public Envelop envelop() {
         return this.envelop;
     }
 

@@ -9,6 +9,7 @@ import cn.originx.stellaris.OkA;
 import cn.originx.uca.elasticsearch.EsIndex;
 import cn.originx.uca.graphic.Plotter;
 import cn.originx.uca.graphic.TopologyPlotter;
+import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.unit.Async;
@@ -33,6 +34,8 @@ import io.vertx.up.util.Ut;
 import org.junit.Before;
 
 import java.util.Objects;
+import java.util.function.BiFunction;
+import java.util.function.Consumer;
 
 /**
  * ## Ox专用测试框架基类
@@ -69,8 +72,15 @@ public abstract class AbstractPlatform extends JooqBase {
         Ok.ok().onSuccess(initialized -> {
             this.ok = QOk.create(initialized, this.environment);
             this.logger().info("[ Qz ] Qz Framework has been initialized!!! Env = `{0}`", this.environment);
-            async.complete();
+            final boolean runnable = this.setUpAfter(context, async);
+            if (runnable) {
+                async.complete();
+            }
         });
+    }
+
+    public boolean setUpAfter(final TestContext context, final Async async) {
+        return true;
     }
 
     // -------------------- 参数相关信息，平台端专用方法 ---------------------
@@ -190,5 +200,36 @@ public abstract class AbstractPlatform extends JooqBase {
         data.put("request", key);
         data.put("data", dataPart);
         return new QRequest(data);
+    }
+
+    /*
+     * 写文件
+     */
+    protected void ioOut(final String filename, final JsonObject content) {
+        if (Ut.notNil(filename)) {
+            final String resolved = Ox.toRoot(filename, this.environment);
+            Ut.ioOut(resolved, content);
+        }
+    }
+
+    // -------------------- 子类专用 ---------------------
+    protected <T> Consumer<String> tcDao(final TestContext context,
+                                         final BiFunction<QModel, AoDao, Future<T>> consumer,
+                                         final Consumer<T> callback) {
+        return filename -> {
+            final QModel model = this.inData(filename);
+            final AoDao dao = this.dbDao(model.identifier());
+            this.tcAsync(context, consumer.apply(model, dao), callback);
+        };
+    }
+
+    protected <T> Consumer<String> tcDao(final TestContext context,
+                                         final BiFunction<QModel, AoDao, Future<T>> consumer) {
+        return filename -> {
+            final QModel model = this.inData(filename);
+            final AoDao dao = this.dbDao(model.identifier());
+            this.tcAsync(context, consumer.apply(model, dao),
+                actual -> this.logger().info("[ Qz ] 执行完成：{0}", actual));
+        };
     }
 }

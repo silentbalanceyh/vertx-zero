@@ -98,6 +98,16 @@ public abstract class AbstractDao implements AoDao {
     }
 
     @Override
+    public Long count(final JsonObject criteria) {
+        return this.count(Criteria.create(criteria));
+    }
+
+    @Override
+    public Future<Long> countAsync(final JsonObject criteria) {
+        return this.countAsync(Criteria.create(criteria));
+    }
+
+    @Override
     public Boolean exist(final Criteria criteria) {
         return Fn.getNull(Boolean.FALSE, () -> this.aggr.existing(criteria), criteria);
     }
@@ -117,6 +127,26 @@ public abstract class AbstractDao implements AoDao {
     public Future<Boolean> missAsync(final Criteria criteria) {
         return Ux.future(this.miss(criteria));
         // return Fn.getNull(Ux.future(Boolean.FALSE), () -> this.aggr.missingAsync(criteria), criteria);
+    }
+
+    @Override
+    public Future<Boolean> existAsync(final JsonObject criteria) {
+        return this.existAsync(Criteria.create(criteria));
+    }
+
+    @Override
+    public Boolean exist(final JsonObject criteria) {
+        return this.exist(Criteria.create(criteria));
+    }
+
+    @Override
+    public Future<Boolean> missAsync(final JsonObject criteria) {
+        return this.missAsync(Criteria.create(criteria));
+    }
+
+    @Override
+    public Boolean miss(final JsonObject criteria) {
+        return this.miss(Criteria.create(criteria));
     }
 
     // AoWriter
@@ -309,6 +339,22 @@ public abstract class AbstractDao implements AoDao {
     }
 
     @Override
+    public Future<Record> fetchOneAsync(final Criteria criteria) {
+        return Ux.future(this.fetchOne(criteria));
+        // return Fn.getNull(Ux.future(), () -> this.unique.fetchOneAsync(criteria), criteria);
+    }
+
+    @Override
+    public Future<Record> fetchOneAsync(final JsonObject criteria) {
+        return this.fetchOneAsync(Criteria.create(criteria));
+    }
+
+    @Override
+    public Record fetchOne(final JsonObject criteria) {
+        return this.fetchOne(Criteria.create(criteria));
+    }
+
+    @Override
     public JsonObject search(final JsonObject query) {
         return Fn.getNull(Ux.pageData(), () -> this.search.search(query), query);
     }
@@ -318,11 +364,6 @@ public abstract class AbstractDao implements AoDao {
         return Fn.getNull(new Record[]{}, () -> this.search.query(criteria), criteria);
     }
 
-    @Override
-    public Future<Record> fetchOneAsync(final Criteria criteria) {
-        return Ux.future(this.fetchOne(criteria));
-        // return Fn.getNull(Ux.future(), () -> this.unique.fetchOneAsync(criteria), criteria);
-    }
 
     @Override
     public Future<JsonObject> searchAsync(final JsonObject query) {
