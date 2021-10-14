@@ -39,7 +39,7 @@ cp pom-update.xml ./vertx-pin/zero-graphic/pom-update.xml
 cp pom-update.xml ./vertx-pin/zero-jet/pom-update.xml
 cp pom-update.xml ./vertx-pin/zero-ke/pom-update.xml
 cp pom-update.xml ./vertx-pin/zero-lbs/pom-update.xml
-cp pom-update.xml ./vertx-pin/zero-quiz/pom-update.xml
 cp pom-update.xml ./vertx-pin/zero-rbac/pom-update.xml
 cp pom-update.xml ./vertx-pin/zero-router/pom-update.xml
 cp pom-update.xml ./vertx-pin/zero-ui/pom-update.xml
+cp pom-update.xml ./vertx-pin/zero-vie/pom-update.xml
