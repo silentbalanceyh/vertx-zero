@@ -60,7 +60,7 @@ public abstract class ZeroBase extends EpicBase {
     /*
      * Async Processing for T
      */
-    public <T> void async(final TestContext context, final Future<T> future, final Consumer<T> consumer) {
+    public <T> void tcAsync(final TestContext context, final Future<T> future, final Consumer<T> consumer) {
         Objects.requireNonNull(future);
         future.onComplete(handler -> {
             if (handler.succeeded()) {
@@ -77,11 +77,11 @@ public abstract class ZeroBase extends EpicBase {
         });
     }
 
-    public void async(final TestContext context, final Future<Boolean> future, final boolean expected) {
-        this.async(context, future, result -> context.assertEquals(expected, result));
+    public void tcAsync(final TestContext context, final Future<Boolean> future, final boolean expected) {
+        this.tcAsync(context, future, result -> context.assertEquals(expected, result));
     }
 
-    public void async(final TestContext context, final Future<Long> future, final Long expected) {
-        this.async(context, future, result -> context.assertEquals(expected, result));
+    public void tcAsync(final TestContext context, final Future<Long> future, final Long expected) {
+        this.tcAsync(context, future, result -> context.assertEquals(expected, result));
     }
 }

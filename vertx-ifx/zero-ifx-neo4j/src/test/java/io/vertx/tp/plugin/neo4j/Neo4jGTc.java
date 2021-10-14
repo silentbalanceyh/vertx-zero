@@ -19,7 +19,7 @@ public class Neo4jGTc extends Neo4jQuiz {
     public void testAnalyze(final TestContext context) {
         final Neo4jGs gs = this.create("case5-graphic.json");
         final Neo4jClient client = Neo4jInfix.getClient().connect(gs.getName());
-        this.async(context, client.graphicByKey("442dc45cb85a6345b1fab405bfbb5fa9"), actual -> {
+        this.tcAsync(context, client.graphicByKey("442dc45cb85a6345b1fab405bfbb5fa9"), actual -> {
             final JsonArray nodes = actual.getJsonArray("nodes");
             final JsonArray edges = actual.getJsonArray("edges");
             System.err.println(nodes.size() + "," + edges.size() + "," + actual.encodePrettily());
@@ -30,7 +30,7 @@ public class Neo4jGTc extends Neo4jQuiz {
     public void testPurge(final TestContext context) {
         final Neo4jGs graphic = this.create("case1-array.json");
         final Neo4jClient client = Neo4jInfix.getClient().connect(graphic.getName());
-        this.async(context, client.graphicReset(), actual -> {
+        this.tcAsync(context, client.graphicReset(), actual -> {
             System.out.println("The graphic " + graphic.getName() + " has been reset: " + actual);
         });
     }

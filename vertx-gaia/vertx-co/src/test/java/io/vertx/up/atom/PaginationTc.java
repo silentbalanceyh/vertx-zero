@@ -12,7 +12,7 @@ public class PaginationTc extends ZeroBase {
     public void testPagination(final TestContext context) {
         final Pager pager = Pager.create(1, 300);
         final Pagination pagination = new Pagination(pager).setTotal(1358);
-        this.async(context, pagination.scatterAsync(true), actual -> {
+        this.tcAsync(context, pagination.scatterAsync(true), actual -> {
             actual.forEach(System.err::println);
 
         });

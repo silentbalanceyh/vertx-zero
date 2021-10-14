@@ -1,4 +1,4 @@
-package cn.originx.quiz;
+package cn.originx.quiz.atom;
 
 import cn.originx.stellaris.OkA;
 import cn.originx.stellaris.vendor.OkB;
@@ -12,15 +12,19 @@ import io.vertx.up.util.Ut;
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-public class OkMockit implements OkA {
+public class QOk implements OkA {
     private static final String FILE_INTEGRATION = "environment/integration/";
     private static final String FILE_DATABASE = "environment/database.json";
     private final transient Environment environment;
     private final transient OkA ok;
 
-    OkMockit(final OkA ok, final Environment environment) {
+    private QOk(final OkA ok, final Environment environment) {
         this.environment = environment;
         this.ok = ok;
+    }
+
+    public static OkA create(final OkA ok, final Environment environment) {
+        return new QOk(ok, environment);
     }
 
     @Override

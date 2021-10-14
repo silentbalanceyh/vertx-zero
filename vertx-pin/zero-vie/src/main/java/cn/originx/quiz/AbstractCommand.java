@@ -50,7 +50,7 @@ public class AbstractCommand extends AbstractPlatform {
         final Commander commander = this.commander(commands[0], commands[1]);
         Objects.requireNonNull(commander);
         final CommandInput args = this.arguments(commands[0], commands[1], arguments);
-        this.async(context, commander.executeAsync(args),
+        this.tcAsync(context, commander.executeAsync(args),
             actual -> context.assertEquals(TermStatus.SUCCESS, actual));
     }
 
