@@ -15,8 +15,8 @@ CREATE TABLE IF NOT EXISTS X_ACTIVITY_CHANGE
     `FIELD_NAME`  VARCHAR(255) COMMENT '「fieldName」- 如果是变更记录则需要生成变更日志',
     `FIELD_ALIAS` VARCHAR(255) COMMENT '「fieldAlias」- 字段对应的别名',
     `FIELD_TYPE`  VARCHAR(255) COMMENT '「fieldType」- 变更字段的数据类型，直接从模型定义中读取',
-    `VALUE_OLD`   TEXT COMMENT '「valueOld」- 旧值',
-    `VALUE_NEW`   TEXT COMMENT '「valueNew」- 新值',
+    `VALUE_OLD`   LONGTEXT COMMENT '「valueOld」- 旧值',
+    `VALUE_NEW`   LONGTEXT COMMENT '「valueNew」- 新值',
 
     `SIGMA`       VARCHAR(128) COMMENT '「sigma」- 用户组绑定的统一标识',
     `LANGUAGE`    VARCHAR(10) COMMENT '「language」- 使用的语言',
