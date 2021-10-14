@@ -48,7 +48,7 @@ public class AbstractChannel extends AbstractPlatform {
             // 接口加载
             this.setUpApi(environment);
             // 配置加载完成
-            this.logger().info("[ Qz ] 通道配置加载完成！");
+            this.logger().info("[ Qz ] 通道配置加载完成！Environment = {0}", environment);
         }
         async.complete();
         return false;
@@ -57,7 +57,7 @@ public class AbstractChannel extends AbstractPlatform {
     private void setUpApi(final AmbientEnvironment environment) {
         if (URIS.isEmpty()) {
             final Node<JsonObject> visitor = Ut.singleton(ZeroUniform.class);
-            final JtConfig config = Ut.deserialize(visitor.read().getJsonArray("router"), JtConfig.class);
+            final JtConfig config = Ut.deserialize(visitor.read().getJsonObject("router"), JtConfig.class);
             environment.routes().stream().map(api -> (JtUri) api.bind(config).bind(this.app().getAppId()))
                 .forEach(api -> {
                     final HttpMethod method = api.method();
@@ -65,7 +65,7 @@ public class AbstractChannel extends AbstractPlatform {
                     URIS.put(method + " " + uri, api);
                 });
             this.logger().info("[ Qz ] ( Api ) 加载Api总数：{0}, sigma = {1}",
-                URIS.size(), this.app().getSigma());
+                String.valueOf(URIS.size()), this.app().getSigma());
         }
     }
 
@@ -76,7 +76,7 @@ public class AbstractChannel extends AbstractPlatform {
                 JOBS.put(mission.getCode(), job);
             });
             this.logger().info("[ Qz ] ( Job ) 加载Job总数：{0}, sigma = {1}",
-                JOBS.size(), this.app().getSigma());
+                String.valueOf(JOBS.size()), this.app().getSigma());
         }
     }
 

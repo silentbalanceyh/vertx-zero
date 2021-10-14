@@ -62,9 +62,9 @@ public abstract class ZeroBase extends EpicBase {
      */
     public <T> void tcAsync(final TestContext context, final Future<T> future, final Consumer<T> consumer) {
         Objects.requireNonNull(future);
+        final Async async = context.async();
         future.onComplete(handler -> {
             if (handler.succeeded()) {
-                final Async async = context.async();
                 consumer.accept(handler.result());
                 async.complete();
             } else {
