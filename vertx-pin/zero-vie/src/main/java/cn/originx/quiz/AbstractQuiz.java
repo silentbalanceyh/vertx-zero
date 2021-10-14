@@ -1,7 +1,8 @@
 package cn.originx.quiz;
 
 import cn.originx.stellaris.Ok;
-import io.vertx.core.Future;
+import io.vertx.ext.unit.Async;
+import io.vertx.ext.unit.TestContext;
 import io.vertx.quiz.ZeroBase;
 import io.vertx.up.eon.em.Environment;
 import org.junit.Before;
@@ -36,11 +37,11 @@ public abstract class AbstractQuiz extends ZeroBase {
 
     @Before
     @SuppressWarnings("all")
-    public Future<Void> setUp() {
-        return Ok.ok().compose(initialized -> {
+    public void setUp(final TestContext context, final Async async) {
+        Ok.ok().onSuccess(initialized -> {
             this.ok = initialized;
-            this.logger().info("[ Qz ] Qz Framework has been initialized!!! {0} = ", this.environment);
-            return Future.succeededFuture();
+            this.logger().info("[ Qz ] Qz Framework has been initialized!!! Env = `{0}`", this.environment);
+            async.complete();
         });
     }
 }

@@ -1,6 +1,8 @@
 package io.vertx.quiz;
 
-import io.vertx.core.*;
+import io.vertx.core.Context;
+import io.vertx.core.Handler;
+import io.vertx.ext.unit.Async;
 import io.vertx.ext.unit.TestContext;
 import io.vertx.ext.unit.impl.Helper;
 import io.vertx.ext.unit.impl.TestContextImpl;
@@ -26,9 +28,9 @@ public class ZeroUnitRunner extends BlockJUnit4ClassRunner {
     private final Map<String, Object> classAttributes = new HashMap<>();
     private TestContextImpl testContext;
 
-    public ZeroUnitRunner(final Class<?> testClass) throws InitializationError {
-        super(testClass);
-        this.testClass = new TestClass(testClass);
+    public ZeroUnitRunner(final Class<?> klass) throws InitializationError {
+        super(klass);
+        this.testClass = new TestClass(klass);
     }
 
     static void pushContext(final Context context) {
@@ -67,7 +69,10 @@ public class ZeroUnitRunner extends BlockJUnit4ClassRunner {
 
     protected void validateTestMethod(final FrameworkMethod fMethod) throws Exception {
         final Class<?>[] paramTypes = fMethod.getMethod().getParameterTypes();
-        if (!(paramTypes.length == 0 || (paramTypes.length == 1 && paramTypes[0].equals(TestContext.class)))) {
+        if (!(paramTypes.length == 0
+            || (paramTypes.length == 1 && paramTypes[0].equals(TestContext.class))
+            || (paramTypes.length == 2 && paramTypes[0].equals(TestContext.class) && paramTypes[1].equals(Async.class))
+        )) {
             throw new Exception("Method " + fMethod.getName() + " should have no parameters or " +
                 "the " + TestContext.class.getName() + " parameter");
         }
@@ -79,19 +84,28 @@ public class ZeroUnitRunner extends BlockJUnit4ClassRunner {
         return new Statement() {
             @Override
             public void evaluate() throws Throwable {
-                final Handler<TestContext> callback = ZeroUnitRunner.this.callback(method, test, null);
-                ZeroUnitRunner.this.invokeExplosively(ctx, method, callback);
+                ZeroUnitRunner.this.invokeExplosively(ctx, method, test, null);
             }
         };
     }
 
-    protected Object invokeTestMethod(final FrameworkMethod fMethod, final Object test, final TestContext context) throws InvocationTargetException, IllegalAccessException {
+    protected void invokeTestMethod(final FrameworkMethod fMethod, final Object test, final TestContext context, final Async async) throws InvocationTargetException, IllegalAccessException {
         final Method method = fMethod.getMethod();
         final Class<?>[] paramTypes = method.getParameterTypes();
         if (paramTypes.length == 0) {
-            return method.invoke(test);
+            method.invoke(test);
+            if (Objects.nonNull(async)) {
+                async.complete();
+            }
         } else {
-            return method.invoke(test, context);
+            if (1 == paramTypes.length) {
+                method.invoke(test, context);
+                if (Objects.nonNull(async)) {
+                    async.complete();
+                }
+            } else {
+                method.invoke(test, context, async);
+            }
         }
     }
 
@@ -107,27 +121,16 @@ public class ZeroUnitRunner extends BlockJUnit4ClassRunner {
         return timeout;
     }
 
-    @SuppressWarnings("all")
-    private Handler<TestContext> callback(final FrameworkMethod fMethod, final Object test, final Handler<AsyncResult> handler) {
-        return context -> {
+    private void invokeExplosively(final TestContextImpl testContext, final FrameworkMethod fMethod, final Object test, final Async async) throws Throwable {
+        final Handler<TestContext> callback = context -> {
             try {
-                final Object ret = this.invokeTestMethod(fMethod, test, context);
-                if (Objects.nonNull(handler)) {
-                    if (ret instanceof Future) {
-                        handler.handle((Future) ret);
-                    } else {
-                        handler.handle(Future.succeededFuture(ret));
-                    }
-                }
+                this.invokeTestMethod(fMethod, test, context, async);
             } catch (final InvocationTargetException e) {
                 Helper.uncheckedThrow(e.getCause());
             } catch (final IllegalAccessException e) {
                 Helper.uncheckedThrow(e);
             }
         };
-    }
-
-    private void invokeExplosively(final TestContextImpl testContext, final FrameworkMethod fMethod, final Handler<TestContext> callback) throws Throwable {
         final long timeout = this.getTimeout(fMethod);
         currentRunner.set(this);
         final Context ctx = contextStack.peekLast();
@@ -185,7 +188,6 @@ public class ZeroUnitRunner extends BlockJUnit4ClassRunner {
         return this.withAfters(new TestContextImpl(this.classAttributes, null), afters, null, statement);
     }
 
-    @SuppressWarnings("all")
     private Statement withBefores(final TestContextImpl testContext, final List<FrameworkMethod> befores, final Object target, final Statement statement) {
         if (befores.isEmpty()) {
             return statement;
@@ -193,28 +195,15 @@ public class ZeroUnitRunner extends BlockJUnit4ClassRunner {
             return new Statement() {
                 @Override
                 public void evaluate() throws Throwable {
-                    final List<Future> futures = new ArrayList<>();
+                    final Async async = testContext.async(befores.size());
                     for (final FrameworkMethod before : befores) {
-                        futures.add(ZeroUnitRunner.this.wrapRunner(testContext, before, target));
+                        ZeroUnitRunner.this.invokeExplosively(testContext, before, target, async);
                     }
-                    CompositeFuture.all(futures).onSuccess(res -> {
-                        try {
-                            statement.evaluate();
-                        } catch (Throwable e) {
-                            e.printStackTrace();
-                        }
-                    });
+                    async.awaitSuccess();
+                    statement.evaluate();
                 }
             };
         }
-    }
-
-    private Future<Object> wrapRunner(final TestContextImpl testContext, final FrameworkMethod method, final Object target) throws Throwable {
-        final Promise<Object> promise = Promise.promise();
-        // Sync -> Async
-        final Handler<TestContext> handler = this.callback(method, target, res -> promise.complete(res.result()));
-        this.invokeExplosively(testContext, method, handler);
-        return promise.future();
     }
 
     private Statement withAfters(final TestContextImpl testContext, final List<FrameworkMethod> afters, final Object target, final Statement statement) {
@@ -232,8 +221,7 @@ public class ZeroUnitRunner extends BlockJUnit4ClassRunner {
                     } finally {
                         for (final FrameworkMethod after : afters) {
                             try {
-                                final Handler<TestContext> callback = ZeroUnitRunner.this.callback(after, target, null);
-                                ZeroUnitRunner.this.invokeExplosively(testContext, after, callback);
+                                ZeroUnitRunner.this.invokeExplosively(testContext, after, target, null);
                             } catch (final Throwable e) {
                                 errors.add(e);
                             }
