@@ -1,6 +1,7 @@
 package io.vertx.up.commune.exchange;
 
 import io.vertx.core.json.JsonObject;
+import io.vertx.up.commune.Copyable;
 import io.vertx.up.commune.Json;
 import io.vertx.up.util.Ut;
 
@@ -40,7 +41,7 @@ import java.io.Serializable;
  *
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-public class DiConsumer implements Serializable, Json {
+public class DiConsumer implements Serializable, Json, Copyable<DiConsumer> {
 
     private transient String source;
     private transient String in;
@@ -109,6 +110,14 @@ public class DiConsumer implements Serializable, Json {
                 this.parent = false;
             }
         }
+    }
+
+    @Override
+    public DiConsumer copy() {
+        final DiConsumer consumer = new DiConsumer();
+        final JsonObject data = this.toJson().copy();
+        consumer.fromJson(data);
+        return consumer;
     }
 
     public boolean isValid() {

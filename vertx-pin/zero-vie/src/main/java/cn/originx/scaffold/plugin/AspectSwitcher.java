@@ -52,7 +52,7 @@ public class AspectSwitcher {
                  *
                  * 每个插件必须使用独立的字典翻译器，插件使用的字典翻译器由通道组件来创建拷贝
                  */
-                this.plugin.bind(fabric.createCopy());
+                this.plugin.bind(fabric.copy());
             }
             Ox.Log.infoHub(this.getClass(), "( plugin.component ) 核心插件: 模型 identifier = {0}, 插件：{1}，配置：{2}",
                 atom.identifier(), this.getClass().getName(), optionsInput.encode());

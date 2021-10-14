@@ -189,7 +189,7 @@ public abstract class AbstractComponent implements JtComponent, Service {
      */
     protected DiFabric fabric(final JsonObject configured) {
         final ConcurrentMap<String, DiConsumer> compiled = Ux.dictEpsilon(configured);
-        return this.fabric.createCopy().epsilon(compiled);
+        return this.fabric.copy().epsilon(compiled);
     }
 
     // ------------ Get reference of Logger ------------

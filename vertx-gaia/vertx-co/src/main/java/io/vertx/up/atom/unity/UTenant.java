@@ -9,6 +9,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
+import io.vertx.up.commune.Copyable;
 import io.vertx.up.commune.config.Integration;
 import io.vertx.up.eon.KName;
 import io.vertx.up.util.Ut;
@@ -22,7 +23,7 @@ import java.util.concurrent.ConcurrentMap;
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-public class UTenant implements Serializable {
+public class UTenant implements Serializable, Copyable<UTenant> {
     @JsonIgnore
     private final transient ConcurrentMap<String, Integration> integrationMap = new ConcurrentHashMap<>();
     @JsonIgnore
@@ -110,6 +111,25 @@ public class UTenant implements Serializable {
 
     public void setApplication(final JsonObject application) {
         this.application = application;
+    }
+
+    @Override
+    public UTenant copy() {
+        final UTenant tenant = new UTenant();
+        tenant.application = this.application.copy();
+        tenant.global = this.global.copy();
+        tenant.integration = this.integration.copy();
+        tenant.source = this.source.copy();
+        // Vendor
+        tenant.vendorMap.clear();
+        tenant.vendorMap.putAll(this.vendorMap);
+        // Mapping
+        tenant.mapping.clear();
+        this.mapping.forEach((key, item) -> tenant.mapping.put(key, item.copy()));
+        // Integration
+        tenant.integrationMap.clear();
+        this.integrationMap.forEach((key, integration) -> tenant.integrationMap.put(key, integration.copy()));
+        return tenant;
     }
 
     @Override

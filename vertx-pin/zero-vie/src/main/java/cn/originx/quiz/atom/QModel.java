@@ -120,7 +120,7 @@ public class QModel implements Serializable {
      *
      * @return {@link JsonObject}
      */
-    public JsonObject getRecordData() {
+    public JsonObject dataJ() {
         return this.record.toJson();
     }
 
@@ -129,7 +129,7 @@ public class QModel implements Serializable {
      *
      * @return {@link JsonArray}
      */
-    public JsonArray getRecordsData() {
+    public JsonArray dataA() {
         return Ut.toJArray(this.records);
     }
 
@@ -147,7 +147,7 @@ public class QModel implements Serializable {
      *
      * @return {@link Record}
      */
-    public Record getRecord() {
+    public Record dataR() {
         return this.record;
     }
 
@@ -156,7 +156,7 @@ public class QModel implements Serializable {
      *
      * @return {@link Record}[]
      */
-    public Record[] getRecords() {
+    public Record[] dataRs() {
         return this.records;
     }
 
@@ -165,14 +165,14 @@ public class QModel implements Serializable {
      *
      * @return {@link DataAtom}
      */
-    public DataAtom getAtom() {
+    public DataAtom atom() {
         return this.atom;
     }
 
     /**
      * @return {@link String}
      */
-    public String getKey() {
+    public String key() {
         return this.key;
     }
 }

@@ -72,11 +72,11 @@ public class DiFabric {
         return new DiFabric(null);
     }
 
-    public DiFabric createCopy() {
-        return this.createCopy(null);
+    public DiFabric copy() {
+        return this.copy(null);
     }
 
-    public DiFabric createCopy(final BiMapping mapping) {
+    public DiFabric copy(final BiMapping mapping) {
         /*
          * Here are two mapping for copy
          * 1. When `mapping` is null, check whether there exist mapping

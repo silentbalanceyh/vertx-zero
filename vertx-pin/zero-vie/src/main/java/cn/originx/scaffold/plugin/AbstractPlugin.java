@@ -47,7 +47,7 @@ public abstract class AbstractPlugin<T> {
             return this.fabric;
         } else {
             this.logger().info("[ Fabric ] Mapping found! {0}", item.toString());
-            return this.fabric.createCopy(item);
+            return this.fabric.copy(item);
         }
     }
 

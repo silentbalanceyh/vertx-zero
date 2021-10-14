@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.JsonObjectSerializer;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import io.vertx.core.json.JsonObject;
+import io.vertx.up.commune.Copyable;
 import io.vertx.up.commune.config.Database;
 import io.vertx.up.eon.KName;
 
@@ -13,7 +14,7 @@ import java.io.Serializable;
 /*
  * XHeader for current jet here.
  */
-public class JtApp implements Serializable {
+public class JtApp implements Serializable, Copyable<JtApp> {
     /* appId, appKey, sigma */
     private transient String appId;
     private transient String appKey;
@@ -56,6 +57,31 @@ public class JtApp implements Serializable {
      * - jdbcConfig
      * */
     private transient Database source;
+
+    @Override
+    public JtApp copy() {
+        final JtApp app = new JtApp();
+        // App
+        app.appId = this.appId;
+        app.appKey = this.appKey;
+        app.sigma = this.sigma;
+        // App
+        app.name = this.name;
+        app.code = this.code;
+        app.language = this.language;
+        app.active = this.active;
+        // App
+        app.logo = this.logo;
+        app.title = this.title;
+        // JsonObject
+        app.business = this.business.copy();
+        app.backend = this.backend.copy();
+        app.frontend = this.frontend.copy();
+        app.auditor = this.auditor.copy();
+        // Database
+        app.source = this.source.copy();
+        return app;
+    }
 
     @Override
     public String toString() {

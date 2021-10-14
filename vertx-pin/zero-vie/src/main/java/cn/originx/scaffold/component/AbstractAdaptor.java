@@ -367,7 +367,7 @@ public abstract class AbstractAdaptor extends AbstractComponent {
          * 1. Dictionary    字典数据
          * 2. Epsilon       字典消费数据
          */
-        return this.fabric.createCopy(mapping);
+        return this.fabric.copy(mapping);
     }
 
     // ------------ 通用方法处理 -------------------------

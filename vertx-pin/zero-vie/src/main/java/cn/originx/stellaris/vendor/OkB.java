@@ -5,6 +5,7 @@ import cn.originx.stellaris.OkX;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.atom.modeling.data.DataAtom;
+import io.vertx.up.commune.Copyable;
 import io.vertx.up.commune.config.Integration;
 import io.vertx.up.commune.exchange.BiTree;
 import io.vertx.up.commune.exchange.DiFabric;
@@ -104,7 +105,7 @@ import io.vertx.up.unity.Ux;
  *
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-public interface OkB extends OkX {
+public interface OkB extends OkX, Copyable<OkB> {
 
     static OkB connect(final OkA okA, final Integration integration) {
         return new PartyB(okA, integration);

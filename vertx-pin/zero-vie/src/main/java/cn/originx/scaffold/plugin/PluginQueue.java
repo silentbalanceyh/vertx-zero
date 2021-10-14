@@ -72,7 +72,7 @@ public class PluginQueue {
          * 「字典翻译器的BUG」插件队列在传入字典翻译器给某个插件时，也需要创建拷贝
          */
         if (Objects.nonNull(this.fabric)) {
-            plugin.bind(this.fabric.createCopy());
+            plugin.bind(this.fabric.copy());
         }
         return (T) plugin;
     }

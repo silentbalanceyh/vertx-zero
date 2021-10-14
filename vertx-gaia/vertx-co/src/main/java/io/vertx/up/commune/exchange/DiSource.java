@@ -2,6 +2,7 @@ package io.vertx.up.commune.exchange;
 
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
+import io.vertx.up.commune.Copyable;
 import io.vertx.up.eon.em.GlossaryType;
 import io.vertx.up.log.Annal;
 import io.vertx.up.util.Ut;
@@ -20,17 +21,17 @@ import java.util.Set;
  * 3) Assist ->
  * A little complex
  */
-public class DiSource implements Serializable {
+public class DiSource implements Serializable, Copyable<DiSource> {
     private static final Annal LOGGER = Annal.get(DiSource.class);
-    /*
-     * SourceType of current source definition
-     */
-    private final transient GlossaryType source;
     private final transient Set<String> types = new HashSet<>();
     /*
      * JsonObject
      */
     private final transient JsonObject componentConfig = new JsonObject();
+    /*
+     * SourceType of current source definition
+     */
+    private transient GlossaryType source;
     /*
      * Another source of ASSIST here
      */
@@ -75,6 +76,9 @@ public class DiSource implements Serializable {
         }
     }
 
+    private DiSource() {
+    }
+
     public GlossaryType getSourceType() {
         return this.source;
     }
@@ -97,5 +101,17 @@ public class DiSource implements Serializable {
 
     public JsonObject getPluginConfig() {
         return this.componentConfig;
+    }
+
+    @Override
+    public DiSource copy() {
+        final DiSource source = new DiSource();
+        source.component = this.component;
+        source.componentConfig.clear();
+        source.componentConfig.mergeIn(this.componentConfig.copy());
+        source.key = this.key;
+        source.source = this.source;
+        source.types.addAll(this.types);
+        return source;
     }
 }

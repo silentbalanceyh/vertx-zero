@@ -113,4 +113,11 @@ class PartyB extends AbstractParty {
     protected Future<DiSetting> configDict() {
         return Ux.future(this.dict);
     }
+
+    @Override
+    public OkB copy() {
+        final PartyB okB = new PartyB(this.partyA, this.integration.copy());
+        okB.options.mergeIn(this.options.copy());
+        return okB;
+    }
 }
