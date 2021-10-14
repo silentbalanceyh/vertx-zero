@@ -5,7 +5,7 @@ import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.healthchecks.Status;
-import io.vertx.up.eon.Constants;
+import io.vertx.up.uca.cache.RapidKey;
 
 class SessionQuota extends AbstractQuota {
 
@@ -15,7 +15,7 @@ class SessionQuota extends AbstractQuota {
 
     @Override
     public void handle(final Promise<Status> event) {
-        this.mapAsync(Constants.Pool.SESSION_HABITUS, map -> {
+        this.mapAsync(RapidKey.User.MY_HABITUS, map -> {
             /*
              * map calculated
              */

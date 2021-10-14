@@ -1,11 +1,9 @@
 package io.vertx.tp.modular.jooq;
 
-import io.vertx.core.Future;
 import io.vertx.tp.atom.modeling.data.DataEvent;
 import io.vertx.tp.modular.jooq.internal.Jq;
 import org.jooq.Condition;
 import org.jooq.DSLContext;
-import org.jooq.Record;
 import org.jooq.SelectWhereStep;
 
 /**
@@ -38,16 +36,6 @@ class JQRead extends AbstractJQCrud {
         });
     }
 
-    Future<DataEvent> fetchByIdAsync(final DataEvent event) {
-        return this.readAsync(event, (table, matrix) -> {
-            final SelectWhereStep<Record> query = this.context.selectFrom(Jq.toTable(table));
-
-            final Condition condition = Jq.inWhere(matrix);
-            query.where(condition);
-            return query.fetchAsync().<Record>thenApplyAsync(Jq::toRecord);
-        });
-    }
-
     DataEvent fetchByIds(final DataEvent events) {
         /* 1. 读取当前 DataMatrix 中的数据 */
         return this.readBatch(events, (table, matrix) -> {
@@ -58,15 +46,6 @@ class JQRead extends AbstractJQCrud {
 
             /* 3. 执行结果 */
             return query.fetchArray();
-        });
-    }
-
-    Future<DataEvent> fetchByIdsAsync(final DataEvent event) {
-        return this.readBatchAsync(event, (table, matrix) -> {
-            final SelectWhereStep<Record> query = this.context.selectFrom(Jq.toTable(table));
-            final Condition condition = Jq.inWhere(matrix);
-            query.where(condition);
-            return query.fetchAsync().<Record[]>thenApplyAsync(Jq::toRecords);
         });
     }
 }

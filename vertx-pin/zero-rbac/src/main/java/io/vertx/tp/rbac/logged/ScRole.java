@@ -10,8 +10,8 @@ import io.vertx.tp.rbac.init.ScPin;
 import io.vertx.tp.rbac.refine.Sc;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
+import io.vertx.up.uca.cache.Rapid;
 import io.vertx.up.unity.Ux;
-import io.vertx.up.unity.UxPool;
 import io.vertx.up.util.Ut;
 
 import java.util.HashSet;
@@ -32,13 +32,13 @@ public class ScRole {
     private static final ConcurrentMap<String, ScRole> ROLES = new ConcurrentHashMap<>();
     private static final Annal LOGGER = Annal.get(ScRole.class);
     private static final ScConfig CONFIG = ScPin.getConfig();
-    private final transient UxPool pool;
+    private final transient Rapid<String, JsonArray> cache;
     private final transient String roleId;
     private final transient Set<String> authorities = new HashSet<>();
 
     private ScRole(final String roleId) {
         this.roleId = roleId;
-        this.pool = Ux.Pool.on(CONFIG.getPermissionPool());
+        this.cache = Rapid.t(CONFIG.getPermissionPool());
     }
 
     public static ScRole login(final String roleId) {
@@ -56,8 +56,7 @@ public class ScRole {
     // ------------------------- Initialized Method ------------------------
     public Future<JsonArray> clear() {
         ROLES.remove(this.roleId);
-        return this.pool.<String, JsonArray>remove(this.roleId)
-            .compose(item -> Ux.future(item.getValue()));
+        return this.cache.clear(this.roleId);
     }
 
     /*
@@ -134,12 +133,11 @@ public class ScRole {
      * value = permissions ( JsonArray )
      */
     private Future<JsonArray> permission() {
-        return this.pool.get(this.roleId);
+        return this.cache.read(this.roleId);
     }
 
     private Future<JsonArray> permission(final JsonArray permission) {
-        return this.pool.put(this.roleId, permission)
-            .compose(item -> Ux.future(item.getValue()));
+        return this.cache.write(this.roleId, permission);
     }
 
     @Override

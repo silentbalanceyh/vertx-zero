@@ -1,24 +1,15 @@
 package io.vertx.tp.ambient.uca.dict;
 
-import io.vertx.core.Future;
 import io.vertx.core.MultiMap;
-import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.atom.Kv;
-import io.vertx.up.eon.Constants;
 import io.vertx.up.eon.KName;
 import io.vertx.up.eon.Strings;
 import io.vertx.up.eon.em.GlossaryType;
-import io.vertx.up.unity.Ux;
-import io.vertx.up.unity.UxPool;
 import io.vertx.up.util.Ut;
 
-import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
-import java.util.function.Function;
-import java.util.function.Supplier;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
@@ -54,45 +45,5 @@ class DpmTool {
             condition.put(Strings.EMPTY, Boolean.TRUE);
         }
         return condition;
-    }
-
-    static Future<JsonArray> cachedBy(final String key, final Supplier<Future<JsonArray>> executor) {
-        final UxPool pool = Ux.Pool.on(Constants.Pool.DIRECTORY);
-        return pool.<String, JsonArray>get(key).compose(queried -> {
-            if (Objects.isNull(queried)) {
-                return executor.get()
-                    // 15 min
-                    .compose(actual -> pool.put(key, actual, Constants.DEFAULT_EXPIRED_DATA))
-                    .compose(Kv::value);
-            } else {
-                return Ux.future(queried);
-            }
-        });
-    }
-
-    static Future<ConcurrentMap<String, JsonArray>> cachedDict(
-        final Set<String> typeSet,
-        final Function<Set<String>, Future<ConcurrentMap<String, JsonArray>>> executor) {
-        final UxPool pool = Ux.Pool.on(Constants.Pool.DIRECTORY);
-        return pool.<String, JsonArray>get(typeSet).compose(cachedMap -> {
-            /*
-             *  Calculated the
-             */
-            final Set<String> newSet = Ut.diff(typeSet, cachedMap.keySet());
-            final ConcurrentMap<String, JsonArray> processed = new ConcurrentHashMap<>(cachedMap);
-            if (newSet.isEmpty()) {
-                return Ux.future(processed);
-            } else {
-                return executor.apply(newSet).compose(queried -> {
-                    final ConcurrentMap<String, Future<JsonArray>> futureMap = new ConcurrentHashMap<>();
-                    queried.forEach((key, data) -> futureMap.put(key, pool.put(key, data, Constants.DEFAULT_EXPIRED_DATA)
-                        .compose(Kv::value)));
-                    return Ux.thenCombine(futureMap);
-                }).compose(newAdded -> {
-                    processed.putAll(newAdded);
-                    return Ux.future(processed);
-                });
-            }
-        });
     }
 }

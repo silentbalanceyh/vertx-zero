@@ -1,6 +1,5 @@
 package io.vertx.tp.modular.dao.internal;
 
-import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.atom.modeling.data.DataEvent;
 import io.vertx.tp.atom.refine.Ao;
@@ -47,25 +46,6 @@ public class USearch extends AbstractUtil<USearch> {
         final DataEvent input = this.irCond(Criteria.create(criteria));
         // Output
         return this.output(input, this.jooq::query, true);
-    }
-
-    // ----------------------- Async ----------------------
-    public Future<JsonObject> searchAsync(final JsonObject qr) {
-        final JsonObject criteria = Ut.sureJObject(qr);
-        Ao.infoSQL(this.getLogger(), Ut.notNil(qr), "执行方法：USearch.searchAsync: {0}", criteria.encode());
-        // Input
-        final DataEvent input = this.irQr(criteria);
-        // Output
-        return this.jooq.searchAsync(input).compose(DataEvent::dataPAsync);
-    }
-
-    public Future<Record[]> queryAsync(final JsonObject qr) {
-        final JsonObject criteria = Ut.sureJObject(qr);
-        Ao.infoSQL(this.getLogger(), Ut.notNil(qr), "执行方法：USearch.queryAsync: {0}", criteria.encode());
-        // Input
-        final DataEvent input = this.irCond(Criteria.create(criteria));
-        // Output
-        return this.jooq.queryAsync(input).compose(DataEvent::dataAAsync);
     }
 
     // ----------------------- Private ----------------------

@@ -18,6 +18,7 @@ import io.vertx.up.util.Ut;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.concurrent.ConcurrentMap;
 
 public class ZeroHeart {
 
@@ -58,8 +59,8 @@ public class ZeroHeart {
      * Shared Map
      */
     public static boolean isShared() {
-        final JsonObject options = VISITOR.read();
-        return options.containsKey(Plugins.Infix.SHARED);
+        final ConcurrentMap<String, Class<?>> injections = ZeroAmbient.getInjections();
+        return injections.containsKey(Plugins.Infix.SHARED);
     }
 
     /*

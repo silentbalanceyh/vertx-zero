@@ -12,12 +12,11 @@ import io.vertx.up.annotations.Address;
 import io.vertx.up.annotations.Queue;
 import io.vertx.up.eon.KName;
 import io.vertx.up.log.Annal;
+import io.vertx.up.uca.cache.Rapid;
 import io.vertx.up.unity.Ux;
-import io.vertx.up.unity.UxPool;
 import io.vertx.up.util.Ut;
 
 import javax.inject.Inject;
-import java.util.Objects;
 import java.util.function.Supplier;
 
 @Queue
@@ -118,18 +117,8 @@ class UiCache {
         final Supplier<Future<T>> executor) {
         final String keyPool = poolFn.get();
         if (Ut.notNil(keyPool)) {
-            final UxPool pool = Ux.Pool.on(keyPool);
             final String uiKey = String.valueOf(body.hashCode());
-            return pool.<String, T>get(uiKey).compose(uiCached -> {
-                if (Objects.isNull(uiCached)) {
-                    return executor.get()
-                        .compose(refreshed -> pool.put(uiKey, refreshed, UiPin.keyExpired())
-                            .compose(item -> Ux.future(item.getValue())));
-                } else {
-                    Ui.infoUi(LOGGER, "Cached by: `{0}` with code = {1}", body, uiKey);
-                    return Ux.future(uiCached);
-                }
-            });
+            return Rapid.<String, T>t(keyPool).cached(uiKey, executor);
         } else {
             Ui.infoUi(LOGGER, "Ui Cached has been disabled!");
             return executor.get();
