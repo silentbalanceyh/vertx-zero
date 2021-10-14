@@ -133,7 +133,7 @@
             </dependency>
             <dependency>
                 <groupId>cn.vertxup</groupId>
-                <artifactId>zero-quiz</artifactId>
+                <artifactId>zero-zeus</artifactId>
                 <version>${zero.version}</version>
             </dependency>
             <dependency>
@@ -179,22 +179,12 @@
             </dependency>
             <dependency>
                 <groupId>cn.vertxup</groupId>
-                <artifactId>zero-ifx-qiniu</artifactId>
-                <version>${zero.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>cn.vertxup</groupId>
                 <artifactId>zero-ifx-redis</artifactId>
                 <version>${zero.version}</version>
             </dependency>
             <dependency>
                 <groupId>cn.vertxup</groupId>
                 <artifactId>zero-ifx-mongo</artifactId>
-                <version>${zero.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>cn.vertxup</groupId>
-                <artifactId>zero-ifx-native</artifactId>
                 <version>${zero.version}</version>
             </dependency>
             <dependency>
@@ -216,6 +206,12 @@
             <dependency>
                 <groupId>cn.vertxup</groupId>
                 <artifactId>zero-iproxy</artifactId>
+                <version>${zero.version}</version>
+            </dependency>
+            <!-- Business Scaffold -->
+            <dependency>
+                <groupId>cn.vertxup</groupId>
+                <artifactId>zero-vie</artifactId>
                 <version>${zero.version}</version>
             </dependency>
         </dependencies>

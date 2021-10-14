@@ -22,10 +22,10 @@
         <module>zero-jet</module>               <!-- Api / Service / Job definition -->
         <module>zero-ke</module>                <!-- Kernel Engine -->
         <module>zero-lbs</module>               <!-- Location Service -->
-        <module>zero-quiz</module>              <!-- Testing Framework -->
         <module>zero-rbac</module>              <!-- RBAC -->
         <module>zero-router</module>            <!-- Api Gateway -->
-        <module>zero-ui</module>                <!-- Ui for React -->
+        <module>zero-ui</module>
+        <module>zero-vie</module>                <!-- Ui for React -->
     </modules>
     <dependencies>
         <dependency>
