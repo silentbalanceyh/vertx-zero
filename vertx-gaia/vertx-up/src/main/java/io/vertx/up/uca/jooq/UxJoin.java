@@ -50,6 +50,11 @@ public final class UxJoin {
         return this;
     }
 
+    public <T> UxJoin alias(final Class<?> daoCls, final String field, final String alias) {
+        this.joinder.alias(daoCls, field, alias);
+        return this;
+    }
+
     public <T> UxJoin pojo(final Class<?> daoCls, final String pojo) {
         final Mojo created = Mirror.create(UxJoin.class).mount(pojo).mojo();
         this.POJO_MAP.put(daoCls, pojo);

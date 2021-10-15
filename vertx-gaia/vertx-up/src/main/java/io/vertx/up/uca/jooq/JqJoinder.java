@@ -50,9 +50,12 @@ class JqJoinder {
      */
     private transient final ConcurrentMap<String, String> FIELD_TABLE_MAP
         = new ConcurrentHashMap<>();
-    private transient final ConcurrentMap<String, String> COLUMN_MAP
-        = new ConcurrentHashMap<>();
     private transient final ConcurrentMap<String, Field> FIELD_MAP
+        = new ConcurrentHashMap<>();
+    /*
+     * AS Map
+     */
+    private transient final ConcurrentMap<String, String> COLUMN_MAP
         = new ConcurrentHashMap<>();
     /*
      * Next table ( exclude the first added table here )
@@ -83,6 +86,21 @@ class JqJoinder {
          */
         this.firstAnalyzer = this.ANALYZERS.get(daoCls);
         return this;
+    }
+
+    <T> JqJoinder alias(final Class<?> daoCls, final String field, final String alias) {
+        final String tableName = this.CLASS_MAP.getOrDefault(daoCls, null);
+        final JqAnalyzer analyzer = this.ANALYZERS.get(daoCls);
+        if (Objects.nonNull(tableName)) {
+            final Field column = analyzer.column(field);
+            this.putColumn(tableName, column, alias);
+        }
+        return this;
+    }
+
+    private void putColumn(final String tableName, final Field column, final String alias) {
+        final String key = '"' + tableName + "\".\"" + column.getName() + '"';
+        this.COLUMN_MAP.put(key.toUpperCase(), alias);
     }
 
     Set<String> firstFields() {
@@ -151,9 +169,9 @@ class JqJoinder {
             if (!this.FIELD_TABLE_MAP.containsKey(field.getName())) {
                 this.FIELD_TABLE_MAP.put(field.getName(), tableAlias);
                 /*
-                 * Column -> Field
+                 * Prefix.Column -> Field
                  */
-                this.COLUMN_MAP.put(field.getName(), fieldName);
+                putColumn(tableName, field, fieldName);
             }
         }
     }
@@ -256,6 +274,7 @@ class JqJoinder {
             started.offset(pager.getStart()).limit(pager.getSize());
         }
         final List<Record> records = started.fetch();
+        final Result result = started.fetch();
         /*
          * Result Only
          */
@@ -338,7 +357,8 @@ class JqJoinder {
 
     private Table<Record> getTableRecord(final String table) {
         final String alias = this.PREFIX_MAP.get(table);
-        return DSL.table(DSL.name(table)).as(DSL.name(alias));
+        final Table<Record> tableRecord = DSL.table(DSL.name(table)).as(DSL.name(alias));
+        return tableRecord;
     }
 
     private JqAnalyzer findByName(final String name) {

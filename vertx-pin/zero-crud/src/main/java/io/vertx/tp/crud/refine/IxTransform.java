@@ -113,6 +113,37 @@ class IxTransform {
         final Envelop envelop = in.envelop();
         final KModule module = in.module();
         final KTransform transform = module.getTransform();
+        return fabric(module, envelop).compose(dictData -> {
+            final ConcurrentMap<String, JsonArray> dictMap = new ConcurrentHashMap<>(dictData);
+            if (in.canJoin()) {
+                /*
+                 * Nested dictionary
+                 */
+                final KModule connect = in.connect();
+                final KTransform transformConnect = connect.getTransform();
+                /*
+                 * Combine DiConsumer
+                 */
+                final ConcurrentMap<String, DiConsumer> connectConsumer = transformConnect.epsilon();
+                connectConsumer.putAll(transform.epsilon());
+                return fabric(connect, envelop).compose(dictConnect -> {
+                    dictMap.putAll(dictConnect);
+                    return Ux.future(DiFabric.create()
+                        .dictionary(dictMap)
+                        .epsilon(connectConsumer)
+                    );
+                });
+            } else {
+                return Ux.future(DiFabric.create()
+                    .dictionary(dictMap)
+                    .epsilon(transform.epsilon())
+                );
+            }
+        });
+    }
+
+    private static Future<ConcurrentMap<String, JsonArray>> fabric(final KModule module, final Envelop envelop) {
+        final KTransform transform = module.getTransform();
         if (Objects.isNull(transform)) {
             return Ux.future();
         }
@@ -138,10 +169,6 @@ class IxTransform {
         /*
          * To avoid final in lambda expression
          */
-        return plugin.fetchAsync(paramMap, sources).compose(dictData ->
-            Ux.future(DiFabric.create()
-                .dictionary(dictData)
-                .epsilon(transform.epsilon())
-            ));
+        return plugin.fetchAsync(paramMap, sources);
     }
 }

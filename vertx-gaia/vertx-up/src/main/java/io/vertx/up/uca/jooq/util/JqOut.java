@@ -34,8 +34,10 @@ public class JqOut {
     }
 
     public static JsonArray toJoin(
-        final List<Record> records, final JsonArray projection,
-        final ConcurrentMap<String, String> fields, final Mojo mojo) {
+        final List<Record> records,
+        final JsonArray projection,
+        final ConcurrentMap<String, String> fields,
+        final Mojo mojo) {
         final JsonArray joinResult = new JsonArray();
         records.forEach(record -> {
             final int size = record.size();
@@ -47,7 +49,8 @@ public class JqOut {
                     /*
                      * Un translated
                      */
-                    String resultField = fields.get(field.getName());
+                    final String key = field.getQualifiedName().toString().toUpperCase();
+                    String resultField = fields.get(key);
                     if (Ut.notNil(resultField) && !data.containsKey(resultField)) {
                         if (Objects.nonNull(mojo)) {
                             final String hitField = mojo.getOut().get(resultField);

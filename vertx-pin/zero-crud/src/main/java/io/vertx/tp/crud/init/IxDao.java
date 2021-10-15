@@ -103,9 +103,16 @@ class IxDao {
             final KJoin join = module.getConnect();
             final KPoint point = join.point(connect.getIdentifier());
             assert null != point;
-            dao.join(connect.getDaoCls(), point.getKeyJoin());
+            final Class<?> daoCls = connect.getDaoCls();
+            dao.join(daoCls, point.getKeyJoin());
 
-            /* 4. Connect Joined pojo */
+            /* 4. Alias */
+            final JsonObject synonym = point.getSynonym();
+            if (Ut.notNil(synonym)) {
+                Ut.<String>itJObject(synonym, (aliasField, field) -> dao.alias(daoCls, field, aliasField));
+            }
+
+            /* 5. Connect Joined pojo */
             final String pojoS = connect.getPojo();
             if (Ut.notNil(pojoS)) {
                 dao.pojo(connect.getDaoCls(), pojoS);
