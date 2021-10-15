@@ -6,18 +6,13 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.tp.crud.cv.Pooled;
 import io.vertx.tp.crud.uca.desk.IxMod;
 import io.vertx.tp.ke.atom.specification.KColumn;
-import io.vertx.tp.ke.atom.specification.KModule;
-import io.vertx.tp.ke.atom.specification.KTree;
 import io.vertx.tp.plugin.excel.ExcelClient;
 import io.vertx.up.atom.secure.Vis;
 import io.vertx.up.eon.KName;
 import io.vertx.up.exception.web._501NotSupportException;
 import io.vertx.up.fn.Fn;
-import io.vertx.up.unity.Ux;
-import io.vertx.up.util.Ut;
 
 import java.util.Objects;
-import java.util.concurrent.ConcurrentMap;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
@@ -75,26 +70,6 @@ public interface Pre {
 
     static Pre auditorBy() {
         return Fn.poolThread(Pooled.PRE_MAP, AdExportPre::new, AdExportPre.class.getName());
-    }
-
-    static Pre fabric(final boolean isFrom) {
-        if (isFrom) {
-            return Fn.poolThread(Pooled.PRE_MAP, DiFromPre::new, DiFromPre.class.getName());
-        } else {
-            return Fn.poolThread(Pooled.PRE_MAP, DiToPre::new, DiToPre.class.getName());
-        }
-    }
-
-    static Pre initial() {
-        return Fn.poolThread(Pooled.PRE_MAP, InitialPre::new, InitialPre.class.getName());
-    }
-
-    static Pre tree(final boolean isFrom) {
-        if (isFrom) {
-            return Fn.poolThread(Pooled.PRE_MAP, DiFTreePre::new, DiFTreePre.class.getName());
-        } else {
-            return Fn.poolThread(Pooled.PRE_MAP, DiTTreePre::new, DiTTreePre.class.getName());
-        }
     }
 
     /*
@@ -165,26 +140,5 @@ class T {
         Fn.safeSemi(Objects.isNull(data.getValue(KName.VIEW)), () ->
             // Vis: Fix bug of default view
             data.put(KName.VIEW, Vis.smart(column.getView())));
-    }
-
-    /*
-     * Map replaced
-     */
-    static Future<JsonArray> treeAsync(final JsonArray data, final IxMod in, final ConcurrentMap<String, String> map) {
-        if (!map.isEmpty()) {
-            final KModule module = in.module();
-            final KTree tree = module.getTransform().getTree();
-            final String field = tree.getField();
-            Ut.itJArray(data).forEach(record -> {
-                if (record.containsKey(field)) {
-                    final String value = record.getString(field);
-                    final String to = map.get(value);
-                    record.put(field, to);
-                }
-            });
-            return Ux.future(data);
-        } else {
-            return Ux.future(data);
-        }
     }
 }

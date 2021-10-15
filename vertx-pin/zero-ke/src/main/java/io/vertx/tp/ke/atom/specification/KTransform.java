@@ -28,6 +28,10 @@ public class KTransform implements Serializable {
     @JsonDeserialize(using = JsonObjectDeserializer.class)
     private JsonObject initial;
 
+    @JsonSerialize(using = JsonObjectSerializer.class)
+    @JsonDeserialize(using = JsonObjectDeserializer.class)
+    private JsonObject mapping;
+
     public JsonObject getFabric() {
         return this.fabric;
     }
@@ -50,6 +54,14 @@ public class KTransform implements Serializable {
 
     public void setInitial(final JsonObject initial) {
         this.initial = initial;
+    }
+
+    public JsonObject getMapping() {
+        return Ut.sureJObject(this.mapping);
+    }
+
+    public void setMapping(final JsonObject mapping) {
+        this.mapping = mapping;
     }
 
     public ConcurrentMap<String, DiConsumer> epsilon() {

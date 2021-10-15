@@ -1,4 +1,4 @@
-package io.vertx.tp.crud.uca.input;
+package io.vertx.tp.crud.uca.trans;
 
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
@@ -9,8 +9,6 @@ import io.vertx.tp.ke.atom.specification.KModule;
 import io.vertx.tp.ke.atom.specification.KTransform;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
-
-import java.util.Objects;
 
 /**
  * Support Variable
@@ -24,21 +22,20 @@ import java.util.Objects;
  *
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-public class InitialPre implements Pre {
+class InitialTran implements Tran {
+
     @Override
     public Future<JsonArray> inAAsync(final JsonArray data, final IxMod in) {
         // Modify data directly
-        Ut.itJArray(data).forEach(each -> this.initial(each, in));
+        if (in.canTransform()) {
+            Ut.itJArray(data).forEach(each -> this.initial(each, in));
+        }
         return Ux.future(data);
     }
 
     private void initial(final JsonObject data, final IxMod in) {
         final KModule module = in.module();
-        // Pre-Condition Checking
         final KTransform transform = module.getTransform();
-        if (Objects.isNull(transform)) {
-            return;
-        }
         final JsonObject initial = transform.getInitial();
         if (Ut.isNil(initial)) {
             return;

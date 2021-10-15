@@ -8,6 +8,7 @@ import io.vertx.tp.crud.refine.Ix;
 import io.vertx.tp.crud.uca.desk.IxKit;
 import io.vertx.tp.crud.uca.desk.IxMod;
 import io.vertx.tp.crud.uca.input.Pre;
+import io.vertx.tp.crud.uca.trans.Tran;
 import io.vertx.tp.ke.atom.specification.KModule;
 import io.vertx.up.uca.jooq.UxJooq;
 
@@ -49,7 +50,7 @@ class AgonicCreate implements Agonic {
         final UxJooq jooq = IxPin.jooq(in);
         return Ix.passion(input, in,
                 Pre.key(true)::inAAsync,             // UUID Generated
-                Pre.tree(true)::inAAsync,            // After GUID 
+                Tran.tree(true)::inAAsync,            // After GUID
                 Pre.serial()::inAAsync,              // Serial/Number
                 Pre.auditor(true)::inAAsync,         // createdAt, createdBy
                 Pre.auditor(false)::inAAsync         // updatedAt, updatedBy

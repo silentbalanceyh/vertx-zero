@@ -1,16 +1,15 @@
-package io.vertx.tp.crud.uca.tran;
+package io.vertx.tp.crud.uca.next;
 
 import io.vertx.core.Future;
-import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.unity.Ux;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-class OkAActive implements OkA<JsonObject> {
+class OkJActive implements OkJ<JsonObject> {
     @Override
-    public Future<JsonArray> ok(final JsonArray active, final Object standBy) {
+    public Future<JsonObject> ok(final JsonObject active, final Object standBy) {
         return Ux.future(active);
     }
 }

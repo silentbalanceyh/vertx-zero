@@ -65,6 +65,10 @@ public class IxMod {
         return Objects.nonNull(this.connect);
     }
 
+    public boolean canTransform() {
+        return Objects.nonNull(this.module.getTransform());
+    }
+
     public Envelop envelop() {
         return this.envelop;
     }

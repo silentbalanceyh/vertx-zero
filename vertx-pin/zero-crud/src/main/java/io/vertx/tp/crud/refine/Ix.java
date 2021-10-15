@@ -9,13 +9,11 @@ import io.vertx.tp.ke.atom.specification.KField;
 import io.vertx.tp.ke.atom.specification.KModule;
 import io.vertx.up.atom.Kv;
 import io.vertx.up.commune.element.TypeAtom;
-import io.vertx.up.commune.exchange.DiFabric;
 import io.vertx.up.log.Annal;
 import io.vertx.up.uca.jooq.UxJooq;
 import io.vertx.up.unity.Ux;
 
 import java.util.List;
-import java.util.concurrent.ConcurrentMap;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.function.Supplier;
@@ -63,22 +61,6 @@ public class Ix {
 
     public static TypeAtom onAtom(final IxMod active, final JsonArray columns) {
         return IxType.atom(active, columns);
-    }
-
-    // --------------------------------- Transform Part
-    /*
-     * Get DiFabric information
-     */
-    public static Future<DiFabric> onFabric(final IxMod in) {
-        return IxTransform.fabric(in);
-    }
-
-    public static Future<ConcurrentMap<String, String>> onTFrom(final JsonArray input, final IxMod in) {
-        return IxTransform.tree(in, true).apply(input);
-    }
-
-    public static Future<ConcurrentMap<String, String>> onTTo(final JsonArray input, final IxMod in) {
-        return IxTransform.tree(in, false).apply(input);
     }
 
     // --------------------------------- Function Part

@@ -11,8 +11,9 @@ import io.vertx.tp.crud.uca.desk.IxMod;
 import io.vertx.tp.crud.uca.desk.IxPanel;
 import io.vertx.tp.crud.uca.desk.IxWeb;
 import io.vertx.tp.crud.uca.input.Pre;
+import io.vertx.tp.crud.uca.next.Co;
 import io.vertx.tp.crud.uca.op.Agonic;
-import io.vertx.tp.crud.uca.tran.Co;
+import io.vertx.tp.crud.uca.trans.Tran;
 import io.vertx.tp.ke.atom.specification.KModule;
 import io.vertx.tp.plugin.excel.ExcelClient;
 import io.vertx.up.annotations.Address;
@@ -48,8 +49,9 @@ public class FileActor {
         final Co co = Co.nextJ(request.active(), true);
         return Pre.excel(this.client).inJAAsync(request.dataF(), request.active()).compose(data -> panel
             .input(
-                Pre.initial()::inAAsync,         /* Initial */
-                Pre.fabric(true)::inAAsync       /* Dict */
+                Tran.initial()::inAAsync,         /* Initial */
+                Tran.fabric(true)::inAAsync,      /* Dict */
+                Tran.map(true)::inAAsync          /* Mapping */
             )
             .next(in -> co::next)
             .output(co::ok)
@@ -74,6 +76,7 @@ public class FileActor {
          **/
         JsonObject criteria = Ut.sureJObject(condition.getJsonObject(Qr.KEY_CRITERIA));
         final IxPanel panel = IxPanel.on(request);
+        final IxMod mod = request.active();
         return T.fetchFull(request).runJ(request.dataV())
             /*
              * Data Processing
@@ -85,16 +88,17 @@ public class FileActor {
                 .passion(Agonic.fetch()::runJAAsync, null)
                 .<JsonArray, JsonObject, JsonArray>runJ(criteria)
                 /* Dict Transfer to Export */
-                .compose(data -> Pre.fabric(false).inAAsync(data, request.active()))    /* Dict */
-                .compose(data -> Pre.tree(false).inAAsync(data, request.active()))      /* Tree */
-                .compose(data -> Pre.auditorBy().inAAsync(data, request.active()))      /* Auditor */
+                .compose(data -> Tran.map(false).inAAsync(data, mod))       /* Map */
+                .compose(data -> Tran.fabric(false).inAAsync(data, mod))    /* Dict */
+                .compose(data -> Tran.tree(false).inAAsync(data, mod))      /* Tree */
+                .compose(data -> Pre.auditorBy().inAAsync(data, mod))       /* Auditor */
                 .compose(data -> Co.endE(columnList).ok(data, columns))
                 .compose(data -> {
                     /*
                      * Data Extraction for file buffer here
                      */
                     if (data instanceof JsonArray) {
-                        final IxMod active = request.active();
+                        final IxMod active = mod;
                         final KModule in = active.module();
                         /*
                          * The system will calculate the type definition of static module
