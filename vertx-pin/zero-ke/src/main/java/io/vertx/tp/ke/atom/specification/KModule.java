@@ -16,7 +16,6 @@ import java.util.Objects;
 public class KModule implements Serializable {
 
     private String name;
-    private String table;
     private String pojo;
     private String mode;
     private String modeKey;     // mode = EXTENSION
@@ -24,10 +23,6 @@ public class KModule implements Serializable {
     private KColumn column;
 
     private KJoin connect;     // connect for 1 join 1
-
-    @JsonSerialize(using = ClassSerializer.class)
-    @JsonDeserialize(using = ClassDeserializer.class)
-    private Class<?> pojoCls;
 
     @JsonSerialize(using = ClassSerializer.class)
     @JsonDeserialize(using = ClassDeserializer.class)
@@ -71,13 +66,6 @@ public class KModule implements Serializable {
         this.pojo = pojo;
     }
 
-    public Class<?> getPojoCls() {
-        return this.pojoCls;
-    }
-
-    public void setPojoCls(final Class<?> pojoCls) {
-        this.pojoCls = pojoCls;
-    }
 
     public Class<?> getDaoCls() {
         return this.daoCls;
@@ -104,11 +92,13 @@ public class KModule implements Serializable {
     }
 
     public String getTable() {
-        return this.table;
+        Objects.requireNonNull(this.daoCls);
+        return Ut.field(this.daoCls, "table");
     }
 
-    public void setTable(final String table) {
-        this.table = table;
+    public Class<?> getPojoCls() {
+        Objects.requireNonNull(this.daoCls);
+        return Ut.field(this.daoCls, "type");
     }
 
     public KJoin getConnect() {
@@ -155,14 +145,12 @@ public class KModule implements Serializable {
     public String toString() {
         return "IxModule{" +
             "name='" + this.name + '\'' +
-            ", table='" + this.table + '\'' +
             ", pojo='" + this.pojo + '\'' +
             ", mode='" + this.mode + '\'' +
             ", modeKey='" + this.modeKey + '\'' +
             ", field=" + this.field +
             ", column=" + this.column +
             ", connect=" + this.connect +
-            ", pojoCls=" + this.pojoCls +
             ", daoCls=" + this.daoCls +
             ", header=" + this.header +
             ", transform=" + this.transform +
