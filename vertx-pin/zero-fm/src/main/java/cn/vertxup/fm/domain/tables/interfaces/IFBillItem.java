@@ -80,13 +80,13 @@ public interface IFBillItem extends VertxPojo, Serializable {
 
     /**
      * Setter for <code>DB_ETERNAL.F_BILL_ITEM.AMOUNT</code>.
-     * 「amount」——价税合计，实际付款结果
+     * 「amount」——价税合计，实际付款结果，有可能父项
      */
     public IFBillItem setAmount(BigDecimal value);
 
     /**
      * Getter for <code>DB_ETERNAL.F_BILL_ITEM.AMOUNT</code>.
-     * 「amount」——价税合计，实际付款结果
+     * 「amount」——价税合计，实际付款结果，有可能父项
      */
     public BigDecimal getAmount();
 

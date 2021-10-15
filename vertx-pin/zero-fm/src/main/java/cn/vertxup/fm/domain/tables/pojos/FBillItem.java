@@ -268,7 +268,7 @@ public class FBillItem implements VertxPojo, IFBillItem {
 
     /**
      * Getter for <code>DB_ETERNAL.F_BILL_ITEM.AMOUNT</code>.
-     * 「amount」——价税合计，实际付款结果
+     * 「amount」——价税合计，实际付款结果，有可能父项
      */
     @Override
     public BigDecimal getAmount() {
@@ -277,7 +277,7 @@ public class FBillItem implements VertxPojo, IFBillItem {
 
     /**
      * Setter for <code>DB_ETERNAL.F_BILL_ITEM.AMOUNT</code>.
-     * 「amount」——价税合计，实际付款结果
+     * 「amount」——价税合计，实际付款结果，有可能父项
      */
     @Override
     public FBillItem setAmount(BigDecimal amount) {

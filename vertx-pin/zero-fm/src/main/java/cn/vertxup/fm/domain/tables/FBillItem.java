@@ -55,9 +55,9 @@ public class FBillItem extends TableImpl<FBillItemRecord> {
     public final TableField<FBillItemRecord, String> STATUS = createField(DSL.name("STATUS"), SQLDataType.VARCHAR(36).nullable(false), this, "「status」- 明细状态");
     /**
      * The column <code>DB_ETERNAL.F_BILL_ITEM.AMOUNT</code>.
-     * 「amount」——价税合计，实际付款结果
+     * 「amount」——价税合计，实际付款结果，有可能父项
      */
-    public final TableField<FBillItemRecord, BigDecimal> AMOUNT = createField(DSL.name("AMOUNT"), SQLDataType.DECIMAL(18, 2).nullable(false), this, "「amount」——价税合计，实际付款结果");
+    public final TableField<FBillItemRecord, BigDecimal> AMOUNT = createField(DSL.name("AMOUNT"), SQLDataType.DECIMAL(18, 2), this, "「amount」——价税合计，实际付款结果，有可能父项");
     /**
      * The column <code>DB_ETERNAL.F_BILL_ITEM.COMMENT</code>. 「comment」 - 明细备注
      */

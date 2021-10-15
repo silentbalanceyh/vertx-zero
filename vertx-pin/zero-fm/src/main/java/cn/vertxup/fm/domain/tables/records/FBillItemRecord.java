@@ -129,7 +129,7 @@ public class FBillItemRecord extends UpdatableRecordImpl<FBillItemRecord> implem
 
     /**
      * Setter for <code>DB_ETERNAL.F_BILL_ITEM.AMOUNT</code>.
-     * 「amount」——价税合计，实际付款结果
+     * 「amount」——价税合计，实际付款结果，有可能父项
      */
     @Override
     public FBillItemRecord setAmount(BigDecimal value) {
@@ -139,7 +139,7 @@ public class FBillItemRecord extends UpdatableRecordImpl<FBillItemRecord> implem
 
     /**
      * Getter for <code>DB_ETERNAL.F_BILL_ITEM.AMOUNT</code>.
-     * 「amount」——价税合计，实际付款结果
+     * 「amount」——价税合计，实际付款结果，有可能父项
      */
     @Override
     public BigDecimal getAmount() {

@@ -14,7 +14,7 @@ CREATE TABLE `F_BILL_ITEM`
     `STATUS`        VARCHAR(36)    NOT NULL COMMENT '「status」- 明细状态',
 
     -- 基本信息
-    `AMOUNT`        DECIMAL(18, 2) NOT NULL COMMENT '「amount」——价税合计，实际付款结果',
+    `AMOUNT`        DECIMAL(18, 2) DEFAULT NULL COMMENT '「amount」——价税合计，实际付款结果，有可能父项',
     `COMMENT`       LONGTEXT COMMENT '「comment」 - 明细备注',
     `MANUAL_NO`     VARCHAR(255) COMMENT '「manualNo」 - 手工单号（线下单号专用）',
     -- 商品信息
@@ -23,7 +23,7 @@ CREATE TABLE `F_BILL_ITEM`
     `AMOUNT_TOTAL`  DECIMAL(18, 2) NOT NULL COMMENT '「amountTotal」——总价，理论计算结果',
     -- S部分
     `DELAY`         BIT COMMENT '「delay」——是否S账',
-    `DELAY_AT`      DATETIME DEFAULT NULL COMMENT '「delayAt」——S账的最终期限',
+    `DELAY_AT`      DATETIME       DEFAULT NULL COMMENT '「delayAt」——S账的最终期限',
     -- 人员部分
     `OP_BY`         VARCHAR(36) COMMENT '「opBy」- 操作人员，关联员工ID',
     `OP_NUMBER`     VARCHAR(36) COMMENT '「opNumber」- 操作人员工号',
