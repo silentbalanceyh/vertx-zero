@@ -20,8 +20,6 @@ import java.util.Set;
  */
 public class ExConnect implements Serializable {
 
-    private transient String table;
-    private transient Class<?> pojo;
     private transient Class<?> dao;
     private transient String pojoFile;
 
@@ -31,19 +29,13 @@ public class ExConnect implements Serializable {
     private transient String key;
 
     public String getTable() {
-        return this.table;
-    }
-
-    public void setTable(final String table) {
-        this.table = table;
+        Objects.requireNonNull(this.dao);
+        return Ut.field(this.dao, "table");
     }
 
     public Class<?> getPojo() {
-        return this.pojo;
-    }
-
-    public void setPojo(final Class<?> pojo) {
-        this.pojo = pojo;
+        Objects.requireNonNull(this.dao);
+        return Ut.field(this.dao, "type");
     }
 
     public Class<?> getDao() {
@@ -123,8 +115,6 @@ public class ExConnect implements Serializable {
     @Override
     public String toString() {
         return "ExConnect{" +
-            "table='" + this.table + '\'' +
-            ", pojo=" + this.pojo +
             ", dao=" + this.dao +
             ", pojoFile='" + this.pojoFile + '\'' +
             ", unique=" + this.unique +
