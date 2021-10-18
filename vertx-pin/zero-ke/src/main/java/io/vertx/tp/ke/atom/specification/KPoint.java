@@ -180,6 +180,10 @@ public class KPoint implements Serializable {
 
     public KPoint indent(final String identifier) {
         this.identifier = identifier;
+        if (Objects.isNull(this.crud)) {
+            // Default Applying
+            this.crud = identifier;
+        }
         return this;
     }
 

@@ -21,6 +21,7 @@ class DpmTool {
             this.put(GlossaryType.ASSIST, Ut.instance(DpmAssist.class));
             this.put(GlossaryType.CATEGORY, Ut.instance(DpmCategory.class));
             this.put(GlossaryType.TABULAR, Ut.instance(DpmTabular.class));
+            this.put(GlossaryType.DAO, Ut.instance(DpmDao.class));
         }
     };
 

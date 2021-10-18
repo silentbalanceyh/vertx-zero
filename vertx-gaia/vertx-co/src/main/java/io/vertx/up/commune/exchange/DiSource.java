@@ -99,8 +99,12 @@ public class DiSource implements Serializable, Copyable<DiSource> {
         }
     }
 
+    public Class<?> getComponent() {
+        return this.component;
+    }
+
     public JsonObject getPluginConfig() {
-        return this.componentConfig;
+        return Ut.sureJObject(this.componentConfig);
     }
 
     @Override
