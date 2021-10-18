@@ -1,6 +1,7 @@
 # D10044 - Zero Programming Styles
 
-Until now we focus on code of zero system, this chapter will introduce some specifications that will be used in zero system include
+Until now we focus on code of zero system, this chapter will introduce some specifications that will be used in zero
+system include
 
 * The roles in zero system.
 * The code structure in zero system project.
@@ -16,7 +17,8 @@ In zero system, we focus on three code areas:
 
 * Agent Area \( Event Loop of vert.x \): You should develop the component **Sender**.
 * Worker Area \( Worker Pool of vert.x \): You should develop the component **Consumer**.
-* Service Layer: You should define service interface and implementation classes, actually this role should be ignored by zero system because it's **out of zero system managed scope**.
+* Service Layer: You should define service interface and implementation classes, actually this role should be ignored by
+  zero system because it's **out of zero system managed scope**.
 
 Http Request flow will go through zero system as following:
 
@@ -58,7 +60,8 @@ This style is for you to do read/write splitting in your real projects, it shoul
 
 ### 2.4. Interface Style
 
-This style is often used and it's fast mode, this style ignored `Actor` in the codes and it's connected between Api and Worker only.
+This style is often used and it's fast mode, this style ignored `Actor` in the codes and it's connected between Api and
+Worker only.
 
 * **XxxIrApi/XxxApi**: The sender interface of zero system.
 * **XxxWorker**: The consumer for two actors of zero system \( IrApi/Api \).
@@ -66,9 +69,11 @@ This style is often used and it's fast mode, this style ignored `Actor` in the c
 
 ## 3. Name Specification
 
-This specification is provided to developers to do standard develop works in zero system, if you obey this rules that defined in current tutorial, you'll very luck to do this things more simpler.
+This specification is provided to developers to do standard develop works in zero system, if you obey this rules that
+defined in current tutorial, you'll very luck to do this things more simpler.
 
-If your project name is `kys`, we could define the root package named `com.kys`, then you should provide following sub-packages for different usage:
+If your project name is `kys`, we could define the root package named `com.kys`, then you should provide following
+sub-packages for different usage:
 
 * **up.god.cv**: Constant Value packages.
 * **exception**: User-defined exception packages.
@@ -93,7 +98,8 @@ com.domain
 
 The code name should be:
 
-* **Actor**: The filename should end with **Actor**; the actor could inherit from api that end with **Api** or **IrApi**, in interface style you can ignore Actor class component. 
+* **Actor**: The filename should end with **Actor**; the actor could inherit from api that end with **Api** or **IrApi**
+  , in interface style you can ignore Actor class component.
 * **Worker**: The filename should end with **Worker**, this is standalone component.
 * **Stub/Service**:  The Stub is interface and Service is implementation class.
 

@@ -15,25 +15,25 @@ import java.util.stream.Collectors;
  */
 class Epsilon {
 
-    static Set<String> mapString(final JsonArray array, final String field) {
+    static Set<String> mapString(final JsonArray array, final String field, final boolean nil) {
         Set<String> set = new HashSet<>();
         if (Objects.nonNull(array)) {
             set = array.stream()
-                    .filter(item -> item instanceof JsonObject)
-                    .map(item -> (JsonObject) item)
-                    .filter(item -> item.getValue(field) instanceof String)
-                    .map(item -> item.getString(field))
-                    .filter(Objects::nonNull)
-                    .collect(Collectors.toSet());
+                .filter(item -> item instanceof JsonObject)
+                .map(item -> (JsonObject) item)
+                .filter(item -> item.getValue(field) instanceof String)
+                .map(item -> item.getString(field))
+                .filter(item -> nil || Ut.notNil(item))
+                .collect(Collectors.toSet());
         }
         return set;
     }
 
-    static String mapStringOne(final JsonArray array, final String field) {
+    static String mapOneS(final JsonArray array, final String field) {
         final Set<String> set = new HashSet<>();
         Ut.itJArray(array).map(json -> json.getString(field))
-                .filter(Objects::nonNull)
-                .forEach(set::add);
+            .filter(Objects::nonNull)
+            .forEach(set::add);
         if (1 == set.size()) {
             return set.iterator().next();
         } else {
@@ -45,12 +45,12 @@ class Epsilon {
         Set<JsonArray> set = new HashSet<>();
         if (Objects.nonNull(array)) {
             set = array.stream()
-                    .filter(item -> item instanceof JsonObject)
-                    .map(item -> (JsonObject) item)
-                    .filter(item -> item.getValue(field) instanceof JsonArray)
-                    .map(item -> item.getJsonArray(field))
-                    .filter(Objects::nonNull)
-                    .collect(Collectors.toSet());
+                .filter(item -> item instanceof JsonObject)
+                .map(item -> (JsonObject) item)
+                .filter(item -> item.getValue(field) instanceof JsonArray)
+                .map(item -> item.getJsonArray(field))
+                .filter(Objects::nonNull)
+                .collect(Collectors.toSet());
         }
         return set;
     }

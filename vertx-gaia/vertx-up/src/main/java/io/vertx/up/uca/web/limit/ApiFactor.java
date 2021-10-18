@@ -2,7 +2,6 @@ package io.vertx.up.uca.web.limit;
 
 import io.vertx.up.eon.Plugins;
 import io.vertx.up.eon.em.ServerType;
-import io.vertx.up.runtime.ZeroMotor;
 import io.vertx.up.util.Ut;
 
 import java.util.HashSet;

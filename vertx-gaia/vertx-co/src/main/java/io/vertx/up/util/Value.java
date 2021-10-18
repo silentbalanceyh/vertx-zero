@@ -1,5 +1,8 @@
 package io.vertx.up.util;
 
+import io.vertx.core.json.JsonArray;
+import io.vertx.core.json.JsonObject;
+import io.vertx.up.commune.exchange.BiMapping;
 import io.vertx.up.experiment.brain.V;
 
 import java.math.BigDecimal;
@@ -41,7 +44,7 @@ class Value {
             return null;
         } else {
             if ("null".equalsIgnoreCase(input.toString()) ||
-                    "undefined".equalsIgnoreCase(input.toString())) {
+                "undefined".equalsIgnoreCase(input.toString())) {
                 /*
                  * null, NULL -> null
                  * undefined, -> null
@@ -72,19 +75,19 @@ class Value {
     @SuppressWarnings("all")
     static Object aiJValue(final Object input, final Class<?> type) {
         return aiValue(input, type, Value::aiJType, (sourceType, targetType) -> aiExecute(sourceType, targetType, input,
-                (source) -> {
+            (source) -> {
+                /*
+                 * If String, check whether it's date
+                 */
+                if (String.class != type && Ut.isDate(source.toString())) {
                     /*
-                     * If String, check whether it's date
+                     * String to
                      */
-                    if (String.class != type && Ut.isDate(source.toString())) {
-                        /*
-                         * String to
-                         */
-                        return V.vInstant().to(source, sourceType);
-                    } else {
-                        return input.toString();
-                    }
-                }));
+                    return V.vInstant().to(source, sourceType);
+                } else {
+                    return input.toString();
+                }
+            }));
     }
 
     /*
@@ -93,19 +96,19 @@ class Value {
     @SuppressWarnings("all")
     static Object aiValue(final Object input, final Class<?> type) {
         return aiValue(input, type, Value::aiType, (sourceType, targetType) -> aiExecute(sourceType, targetType, input,
-                (source) -> {
+            (source) -> {
+                /*
+                 * If String, check whether it's date
+                 */
+                if (String.class != type && Ut.isDate(source.toString())) {
                     /*
-                     * If String, check whether it's date
+                     * String to
                      */
-                    if (String.class != type && Ut.isDate(source.toString())) {
-                        /*
-                         * String to
-                         */
-                        return V.vDate().to(source, sourceType);
-                    } else {
-                        return input.toString();
-                    }
-                }));
+                    return V.vDate().to(source, sourceType);
+                } else {
+                    return input.toString();
+                }
+            }));
     }
 
     private static Class<?> aiJType(final Class<?> type) {
@@ -117,7 +120,9 @@ class Value {
              * - java.time.LocalTime
              */
             return Instant.class;
-        } else return aiUnit(type);
+        } else {
+            return aiUnit(type);
+        }
     }
 
     private static Class<?> aiType(final Class<?> type) {
@@ -129,7 +134,9 @@ class Value {
              * - java.time.LocalTime
              */
             return type;
-        } else return aiUnit(type);
+        } else {
+            return aiUnit(type);
+        }
     }
 
     private static Class<?> aiUnit(final Class<?> type) {
@@ -170,6 +177,16 @@ class Value {
              * - java.lang.float
              */
             return Float.class;
+        } else if (JsonArray.class == type) {
+            /*
+             * - JsonArray
+             */
+            return JsonArray.class;
+        } else if (JsonObject.class == type) {
+            /*
+             * - JsonObject
+             */
+            return JsonObject.class;
         } else {
             /*
              * - Other
@@ -223,6 +240,16 @@ class Value {
              * Strict:     -       java.util.Date
              */
             return V.vDate().to(input, sourceType);
+        } else if (JsonArray.class == targetType) {
+            /*
+             * Strict:     -       JsonArray
+             */
+            return Ut.toJArray(input);
+        } else if (JsonObject.class == targetType) {
+            /*
+             * Strict:     -       JsonArray
+             */
+            return Ut.toJObject(input);
         } else if (String.class == targetType) {
             return addonFn.apply(input);
         }
@@ -239,5 +266,59 @@ class Value {
             }
         }
         return null;
+    }
+
+    static JsonObject aiIn(final JsonObject in, final BiMapping mapping, final boolean keepNil) {
+        if (Objects.isNull(mapping)) {
+            /*
+             * No mapping
+             */
+            return in.copy();
+        } else {
+            /*
+             * Mapping configured
+             */
+            final JsonObject normalized = new JsonObject();
+            in.fieldNames().forEach(field -> {
+                /*
+                 * field is (To) field,
+                 * convert to standard model attribute
+                 */
+                final String fromField = mapping.from(field);
+                if (Ut.isNil(fromField)) {
+                    if (keepNil) {
+                        normalized.put(field, in.getValue(field));
+                    }
+                } else {
+                    normalized.put(fromField, in.getValue(field));
+                }
+            });
+            return normalized;
+        }
+    }
+
+    static JsonObject aiOut(final JsonObject out, final BiMapping mapping, final boolean keepNil) {
+        if (Objects.isNull(mapping)) {
+            /*
+             * No mapping
+             */
+            return out.copy();
+        } else {
+            final JsonObject normalized = new JsonObject();
+            out.fieldNames().forEach(field -> {
+                /*
+                 * field is (From) field
+                 */
+                final String fromField = mapping.to(field);
+                if (Ut.isNil(fromField)) {
+                    if (keepNil) {
+                        normalized.put(field, out.getValue(field));
+                    }
+                } else {
+                    normalized.put(fromField, out.getValue(field));
+                }
+            });
+            return normalized;
+        }
     }
 }

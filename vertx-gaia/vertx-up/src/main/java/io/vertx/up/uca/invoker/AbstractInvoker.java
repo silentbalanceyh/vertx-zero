@@ -29,9 +29,9 @@ public abstract class AbstractInvoker implements Invoker {
      * Future method(JsonArray)
      */
     protected Future invokeJson(
-            final Object proxy,
-            final Method method,
-            final Envelop envelop) {
+        final Object proxy,
+        final Method method,
+        final Envelop envelop) {
         final Object reference = envelop.data();
         final Class<?> argType = method.getParameterTypes()[Values.IDX];
         final Object arguments = Ut.deserialize(Ut.toString(reference), argType);
@@ -42,9 +42,9 @@ public abstract class AbstractInvoker implements Invoker {
      * R method(T..)
      */
     protected Object invokeInternal(
-            final Object proxy,
-            final Method method,
-            final Envelop envelop
+        final Object proxy,
+        final Method method,
+        final Envelop envelop
     ) {
         // Return value here.
         Object returnValue;
@@ -54,7 +54,8 @@ public abstract class AbstractInvoker implements Invoker {
             final Class<?> firstArg = argTypes[Values.IDX];
             if (Envelop.class == firstArg) {
                 // Input type is Envelop, input directly
-                returnValue = Ut.invoke(proxy, method.getName(), envelop);
+                returnValue = InvokerUtil.invoke(proxy, method, envelop);
+                // Ut.invoke(proxy, method.getName(), envelop);
             } else {
                 // One type dynamic here
                 returnValue = InvokerUtil.invokeSingle(proxy, method, envelop);
@@ -70,17 +71,17 @@ public abstract class AbstractInvoker implements Invoker {
      *
      */
     protected <I> Function<I, Future<Envelop>> nextEnvelop(
-            final Vertx vertx,
-            final Method method) {
+        final Vertx vertx,
+        final Method method) {
         return item -> this.nextEnvelop(vertx, method, item);
     }
 
     protected <T> Future<Envelop> nextEnvelop(
-            final Vertx vertx,
-            final Method method,
-            final T result
+        final Vertx vertx,
+        final Method method,
+        final T result
     ) {
         final UddiClient client = Uddi.client(getClass());
-        return client.bind(vertx).bind(method).connect(Ux.envelop(result));
+        return client.bind(vertx).bind(method).connect(Ux.fromEnvelop(result));
     }
 }

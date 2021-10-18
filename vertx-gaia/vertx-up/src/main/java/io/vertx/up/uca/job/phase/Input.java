@@ -68,6 +68,17 @@ class Input {
                      */
                     input.complete(envelop);
                 }
+            }).completionHandler(item -> {
+                /*
+                 * This handler will cause finally for future
+                 * If no data came from address
+                 */
+                final Object result = item.result();
+                if (Objects.isNull(result)) {
+                    input.complete(Envelop.ok());
+                } else {
+                    input.complete(Envelop.success(result));
+                }
             });
             return input.future();
         }

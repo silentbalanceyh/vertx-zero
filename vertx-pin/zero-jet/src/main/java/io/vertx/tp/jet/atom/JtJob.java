@@ -52,7 +52,7 @@ public class JtJob extends JtCommercial {
     public JsonObject toJson() {
         final JsonObject data = super.toJson();
         /* key data */
-        data.put(JtKey.Delivery.JOB, (JsonObject) Ut.serializeJson(this.job));
+        data.put(JtKey.Delivery.JOB, Ut.serializeJson(this.job));
         return data;
     }
 

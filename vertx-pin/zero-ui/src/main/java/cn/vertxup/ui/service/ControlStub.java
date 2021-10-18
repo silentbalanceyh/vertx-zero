@@ -14,9 +14,4 @@ public interface ControlStub {
      * Fetch control by id
      */
     Future<JsonObject> fetchById(String control);
-
-    /*
-     * Fetch ops by control
-     */
-    Future<JsonArray> fetchOps(String control);
 }

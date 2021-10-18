@@ -1,14 +1,14 @@
 package io.vertx.up.util;
 
 import io.vertx.core.buffer.Buffer;
-import io.vertx.core.logging.Logger;
-import io.vertx.core.logging.LoggerFactory;
 import io.vertx.up.eon.FileSuffix;
 import io.vertx.up.eon.Protocols;
 import io.vertx.up.eon.Values;
 import io.vertx.up.exception.heart.EmptyStreamException;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Log;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.*;
 import java.net.JarURLConnection;
@@ -33,6 +33,7 @@ final class Stream {
      *
      * @param message The java object that will be converted from.
      * @param <T>     Target java object that will be converted to.
+     *
      * @return Target java object ( Generic Type )
      */
     static <T> byte[] to(final T message) {
@@ -51,6 +52,7 @@ final class Stream {
      * @param pos    The position of reading
      * @param buffer The buffer to hold the data from reading.
      * @param <T>    The converted java object type, Generic Type
+     *
      * @return Return to converted java object.
      */
     @SuppressWarnings("unchecked")
@@ -65,6 +67,7 @@ final class Stream {
 
     /**
      * @param filename The filename to describe source path
+     *
      * @return Return the InputStream object mount to source path.
      */
     static InputStream read(final String filename) {
@@ -77,7 +80,6 @@ final class Stream {
 
     static byte[] readBytes(final String filename) {
         final InputStream in = read(filename);
-        final BufferedInputStream input = new BufferedInputStream(in);
         return Fn.getJvm(() -> {
             final ByteArrayOutputStream out = new ByteArrayOutputStream(Values.CACHE_SIZE);
 
@@ -99,6 +101,7 @@ final class Stream {
      *
      * @param filename The filename to describe source path
      * @param clazz    The class loader related class
+     *
      * @return Return the InputStream object mount to source path.
      */
     private static InputStream read(final String filename,
@@ -108,8 +111,8 @@ final class Stream {
             Log.debug(LOGGER, Info.INF_CUR, file.exists());
         }
         InputStream in = readSupplier(() -> Fn.getSemi(file.exists(), null,
-                () -> in(file),
-                () -> (null == clazz) ? in(filename) : in(filename, clazz)), filename);
+            () -> in(file),
+            () -> (null == clazz) ? in(filename) : in(filename, clazz)), filename);
         // Stream.class get
         if (null == in) {
             in = readSupplier(() -> Stream.class.getResourceAsStream(filename), filename);
@@ -139,7 +142,9 @@ final class Stream {
                 if (Protocols.JAR.equals(protocol)) {
                     final JarURLConnection jarCon = (JarURLConnection) url.openConnection();
                     return jarCon.getInputStream();
-                } else return null; // Jar Error
+                } else {
+                    return null; // Jar Error
+                }
             } catch (final IOException e) {
                 Log.jvm(LOGGER, e);
                 return null;
@@ -161,11 +166,12 @@ final class Stream {
      * new FileInputStream(up.god.file)
      *
      * @param file The up.god.file object to describe source path
+     *
      * @return Return the InputStream object mount to source path.
      */
     static InputStream in(final File file) {
         return Fn.getJvm(() -> (file.exists() && file.isFile())
-                ? new FileInputStream(file) : null, file);
+            ? new FileInputStream(file) : null, file);
     }
 
     /**
@@ -174,12 +180,13 @@ final class Stream {
      *
      * @param filename The filename to describe source path
      * @param clazz    The class loader related class
+     *
      * @return Return the InputStream object mount to source path.
      */
     static InputStream in(final String filename,
                           final Class<?> clazz) {
         return Fn.getJvm(
-                () -> clazz.getResourceAsStream(filename), clazz, filename);
+            () -> clazz.getResourceAsStream(filename), clazz, filename);
     }
 
     /**
@@ -187,11 +194,12 @@ final class Stream {
      * Thread.currentThread().getContextClassLoader()
      *
      * @param filename The filename to describe source path
+     *
      * @return Return the InputStream object mount to source path.
      */
     static InputStream in(final String filename) {
         final ClassLoader loader = Thread.currentThread().getContextClassLoader();
         return Fn.getJvm(
-                () -> loader.getResourceAsStream(filename), filename);
+            () -> loader.getResourceAsStream(filename), filename);
     }
 }

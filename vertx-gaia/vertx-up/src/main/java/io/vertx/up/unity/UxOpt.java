@@ -1,6 +1,12 @@
 package io.vertx.up.unity;
 
 import io.vertx.core.eventbus.DeliveryOptions;
+import io.vertx.up.fn.Fn;
+import io.vertx.up.runtime.deployment.DeployRotate;
+import io.vertx.up.runtime.deployment.Rotate;
+
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
 /*
  * Unity configuration management
@@ -8,13 +14,13 @@ import io.vertx.core.eventbus.DeliveryOptions;
  * uniform calling
  */
 public class UxOpt {
+    private final ConcurrentMap<String, Rotate> ROTATE = new ConcurrentHashMap<>();
+
     /*
      * Default DeliveryOptions
      */
     public DeliveryOptions delivery() {
-        final DeliveryOptions options = new DeliveryOptions();
-        /* 10 min for timeout to avoid sync long works ( extend for 10 min ) */
-        options.setSendTimeout(600000);
-        return options;
+        final Rotate rotate = Fn.poolThread(this.ROTATE, DeployRotate::new);
+        return rotate.spinDelivery();
     }
 }

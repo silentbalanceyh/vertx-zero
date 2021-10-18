@@ -1,0 +1,12 @@
+required:
+  - hostname
+  - port
+  - scheme
+  - index
+typed:
+  hostname: STRING
+  port: INTEGER
+  scheme: STRING
+  index: STRING
+  username: STRING
+  password: STRING

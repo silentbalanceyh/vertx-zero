@@ -19,46 +19,46 @@ public class N4JOpNode extends AbstractN4JExecutor implements N4JOp {
     @Override
     public Future<JsonObject> create(final JsonObject node) {
         return this.doAsync(N4J.nodeMarker(node), ALIAS_CREATE,
-                /* Command Supplier */
-                processed -> N4J.nodeAdd(this.graph, processed, ALIAS_CREATE));
+            /* Command Supplier */
+            processed -> N4J.nodeAdd(this.graph, processed, ALIAS_CREATE));
     }
 
     @Override
     public Future<JsonArray> create(final JsonArray nodes) {
         return this.doAsync(N4J.nodeMarker(nodes), ALIAS_CREATE,
-                /* Command Supplier */
-                processed -> N4J.nodeAdd(this.graph, processed, ALIAS_CREATE));
+            /* Command Supplier */
+            processed -> N4J.nodeAdd(this.graph, processed, ALIAS_CREATE));
     }
 
     @Override
     public Future<JsonObject> update(final JsonObject node) {
 
         return this.doAsync(N4J.nodeMarker(node), ALIAS_UPDATE,
-                /* Command Supplier */
-                processed -> N4J.nodeUpdate(this.graph, this.unique(node), processed, ALIAS_UPDATE));
+            /* Command Supplier */
+            processed -> N4J.nodeUpdate(this.graph, this.unique(node), processed, ALIAS_UPDATE));
     }
 
     @Override
     public Future<JsonArray> update(final JsonArray nodes) {
 
         return this.doAsync(N4J.nodeMarker(nodes), ALIAS_UPDATE,
-                /* Command Supplier */
-                processed -> N4J.nodeUpdate(this.graph, this.unique(nodes), processed, ALIAS_UPDATE));
+            /* Command Supplier */
+            processed -> N4J.nodeUpdate(this.graph, this.unique(nodes), processed, ALIAS_UPDATE));
     }
 
     @Override
     public Future<JsonObject> delete(final JsonObject node) {
         return this.doAsync(N4J.nodeUnique(node), ALIAS_DELETE,
-                /* Command Supplier */
-                processed -> N4J.nodeDelete(this.graph, processed, ALIAS_DELETE)
+            /* Command Supplier */
+            processed -> N4J.nodeDelete(this.graph, processed, ALIAS_DELETE)
         ).compose(nil -> Future.succeededFuture(node));
     }
 
     @Override
     public Future<JsonArray> delete(final JsonArray nodes) {
         return this.doAsync(N4J.nodeUnique(nodes), ALIAS_DELETE,
-                /* Command Supplier */
-                processed -> N4J.nodeDelete(this.graph, processed, ALIAS_DELETE)
+            /* Command Supplier */
+            processed -> N4J.nodeDelete(this.graph, processed, ALIAS_DELETE)
         ).compose(nil -> Future.succeededFuture(nodes));
     }
 

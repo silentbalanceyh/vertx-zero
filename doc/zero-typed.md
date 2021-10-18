@@ -2,15 +2,15 @@
 
 The parameters \( Not belong to specific \), must be annotated with following
 
-* [x] `javax.ws.rs.QueryParam` 
-* [x] `javax.ws.rs.FormParam` 
-* [ ] `javax.ws.rs.MatrixParam` 
-* [x] `javax.ws.rs.PathParam` 
-* [x] `javax.ws.rs.HeaderParam` 
-* [x] `javax.ws.rs.CookieParam` 
-* [x] `javax.ws.rs.BodyParam` 
-* [x] `javax.ws.rs.StreamParam` 
-* [x] `javax.ws.rs.SessionParam` 
+* [x] `javax.ws.rs.QueryParam`
+* [x] `javax.ws.rs.FormParam`
+* [ ] `javax.ws.rs.MatrixParam`
+* [x] `javax.ws.rs.PathParam`
+* [x] `javax.ws.rs.HeaderParam`
+* [x] `javax.ws.rs.CookieParam`
+* [x] `javax.ws.rs.BodyParam`
+* [x] `javax.ws.rs.StreamParam`
+* [x] `javax.ws.rs.SessionParam`
 
 The following parameter could be used by type without annotation \( Mustn't include \)
 

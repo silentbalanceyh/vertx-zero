@@ -1,6 +1,7 @@
 # D10088 - Micro Stream, Sender \( Agent \) to Terminator
 
-From this chapter we'll focus on rpc stream mode, this mode we'll meet different role \( method \) such as `Originator, Coordinator, Terminator` etc.
+From this chapter we'll focus on rpc stream mode, this mode we'll meet different role \( method \) such
+as `Originator, Coordinator, Terminator` etc.
 
 ## 1. Services
 
@@ -100,5 +101,6 @@ Once you started above three services, you can test this service as following:
 
 ## 4. Summary
 
-From above testing you could see that rpc between `Originator` and `Terminator` has been communicated successfully, it's very simple demo to show two roles communication between two roles.
+From above testing you could see that rpc between `Originator` and `Terminator` has been communicated successfully, it's
+very simple demo to show two roles communication between two roles.
 

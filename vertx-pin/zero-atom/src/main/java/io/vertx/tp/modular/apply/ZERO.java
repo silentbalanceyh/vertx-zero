@@ -5,5 +5,5 @@ import java.util.concurrent.ConcurrentMap;
 
 interface Pool {
     ConcurrentMap<String, AoDefault> DEFAULT_POOL =
-            new ConcurrentHashMap<>();
+        new ConcurrentHashMap<>();
 }

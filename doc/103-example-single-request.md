@@ -89,7 +89,8 @@ Then in cronus console you should see following:
 
 ## 4. Send request
 
-Send request to [http://10.0.0.7:6083/cronus/forward](http://10.0.0.7:6083/cronus/forward), you should see following output
+Send request to [http://10.0.0.7:6083/cronus/forward](http://10.0.0.7:6083/cronus/forward), you should see following
+output
 
 **Request Body:**
 
@@ -112,7 +113,8 @@ Send request to [http://10.0.0.7:6083/cronus/forward](http://10.0.0.7:6083/cronu
 }
 ```
 
-In this way, these two services communicated and the second service put the "Terminator" value in "role" key, the request flow in zero should be as following \( up-coeus / up-cronus \) are both two different micro services:
+In this way, these two services communicated and the second service put the "Terminator" value in "role" key, the
+request flow in zero should be as following \( up-coeus / up-cronus \) are both two different micro services:
 
 ```
 1. Client Request -> ( Origanitor ) Service = up-cronus

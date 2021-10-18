@@ -2,15 +2,17 @@ package cn.vertxup.crud.api;
 
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.crud.actor.IxActor;
-import io.vertx.tp.crud.atom.IxModule;
 import io.vertx.tp.crud.cv.Addr;
-import io.vertx.tp.crud.refine.Ix;
+import io.vertx.tp.crud.cv.em.ApiSpec;
+import io.vertx.tp.crud.uca.desk.IxPanel;
+import io.vertx.tp.crud.uca.desk.IxWeb;
+import io.vertx.tp.crud.uca.input.Pre;
+import io.vertx.tp.crud.uca.op.Agonic;
 import io.vertx.up.annotations.Address;
 import io.vertx.up.annotations.Queue;
 import io.vertx.up.commune.Envelop;
+import io.vertx.up.eon.KName;
 import io.vertx.up.unity.Ux;
-import io.vertx.up.unity.jq.UxJooq;
 
 /*
  * JqTool Engine for
@@ -29,6 +31,7 @@ import io.vertx.up.unity.jq.UxJooq;
  *          "page":1
  *      }
  * }
+ * 「新版定制完成」
  */
 @Queue
 public class QueryActor {
@@ -37,48 +40,37 @@ public class QueryActor {
      *      200: Search Record
      */
     @Address(Addr.Post.SEARCH)
-    public Future<Envelop> search(final Envelop request) {
-        return Ix.create(this.getClass()).input(request).envelop((dao, config) -> {
-            /* Parameters Extraction */
-            final JsonObject body = Ux.getJson1(request);
-            return Ux.future(body)
-                    /* Verify */
-                    .compose(input -> IxActor.verify().bind(request).procAsync(input, config))
-                    /* Execution */
-                    .compose(params -> Ix.query(params, config).apply(dao))
-                    /* Completed */
-                    .compose(IxHttp::success200);
-        });
+    public Future<Envelop> search(final Envelop envelop) {
+        final IxWeb request = IxWeb.create(ApiSpec.BODY_JSON).build(envelop);
+        return IxPanel.on(request)
+            .input(
+                Pre.codex()::inJAsync                   /* Codex */
+            )
+            .passion(Agonic.search()::runJAsync, null)
+            .runJ(request.dataJ());
     }
 
     @Address(Addr.Post.EXISTING)
-    public Future<Envelop> existing(final Envelop request) {
-        return Ix.create(this.getClass()).input(request).envelop((dao, config) -> {
-            /* Pojo Extract */
-            return this.isExisting(dao, config, request)
-                    /* Completed */
-                    .compose(IxHttp::success200);
-        });
+    public Future<Envelop> existing(final Envelop envelop) {
+        final IxWeb request = IxWeb.create(ApiSpec.BODY_JSON).build(envelop);
+        return IxPanel.on(request)
+            .input(
+                Pre.codex()::inJAsync                   /* Codex */
+            )
+            .passion(Agonic.count()::runJAsync, null)
+            .<JsonObject, JsonObject, JsonObject>runJ(request.dataJ())
+            .compose(item -> Ux.future(Envelop.success(0 < item.getInteger(KName.COUNT))));
     }
 
     @Address(Addr.Post.MISSING)
-    public Future<Envelop> missing(final Envelop request) {
-        return Ix.create(this.getClass()).input(request).envelop((dao, config) -> {
-            /* Pojo Extract */
-            return this.isExisting(dao, config, request)
-                    /* Completed */
-                    .compose(result -> IxHttp.success200(!result));
-        });
-    }
-
-    private Future<Boolean> isExisting(final UxJooq dao, final IxModule config, final Envelop request) {
-        /* Parameters Extraction */
-        final JsonObject body = Ux.getJson1(request);
-        /* Pojo Extract */
-        return Ux.future(body)
-                /* Verify */
-                .compose(input -> IxActor.verify().bind(request).procAsync(input, config))
-                /* Execution */
-                .compose(params -> Ix.existing(params, config).apply(dao));
+    public Future<Envelop> missing(final Envelop envelop) {
+        final IxWeb request = IxWeb.create(ApiSpec.BODY_JSON).build(envelop);
+        return IxPanel.on(request)
+            .input(
+                Pre.codex()::inJAsync                   /* Codex */
+            )
+            .passion(Agonic.count()::runJAsync, null)
+            .<JsonObject, JsonObject, JsonObject>runJ(request.dataJ())
+            .compose(item -> Ux.future(Envelop.success(0 == item.getInteger(KName.COUNT))));
     }
 }

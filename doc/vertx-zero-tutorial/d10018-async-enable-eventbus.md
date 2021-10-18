@@ -1,9 +1,14 @@
 # D10018 - Non-Blocking, Enable EventBus
 
-As we known, all the request operations in vert.x should be async style and the concept of request in vert.x we also call it "Event", here we'll introduce the core zero **Event Driven Model**. The event-request workflow in zero will be as following sequence:
+As we known, all the request operations in vert.x should be async style and the concept of request in vert.x we also
+call it "Event", here we'll introduce the core zero **Event Driven Model**. The event-request workflow in zero will be
+as following sequence:
 
-1. `@EndPoint` class listened the http port, we often call the role of this class "Agent", it will receive http restful request.
-2. This class's threads will work in Event Loop of vert.x, then zero system will put the return value of the method in `@EndPoint` to wrapper to `Envelop` object \( Uniform Resource Model \), and this operation is invisible for developers.
+1. `@EndPoint` class listened the http port, we often call the role of this class "Agent", it will receive http restful
+   request.
+2. This class's threads will work in Event Loop of vert.x, then zero system will put the return value of the method
+   in `@EndPoint` to wrapper to `Envelop` object \( Uniform Resource Model \), and this operation is invisible for
+   developers.
 3. Then the `Envelop` object will be sent by `@Address` to event bus.
 4. Then the worker threads will consume the `Envelop` message from event bus by the same `@Address` .
 5. Finally the worker threads \( That are working in worker pool \) will reply the results to client.
@@ -16,7 +21,8 @@ Request -> Agent -> @Address ( Sender ) ->
         @Address ( Consumer ) -> Worker -> Response
 ```
 
-But for above request workflow, the developers could focus on **Sender** and **Consumer** threads development only, it's enough to finish business requirement.
+But for above request workflow, the developers could focus on **Sender** and **Consumer** threads development only, it's
+enough to finish business requirement.
 
 Demo projects:
 
@@ -122,5 +128,8 @@ There are some differences in async mode in console:
 
 ## 4. Summary
 
-In this tutorial you could know the async request workflow in zero system, it's not created or designed by zero system but vert.x provided. This mode is high performance mode to process requests, and we recommend to use** Event Bus** to do some long term works such as database accessing, network processing etc. From this chapter we'll start to move on async request workflow in zero system.
+In this tutorial you could know the async request workflow in zero system, it's not created or designed by zero system
+but vert.x provided. This mode is high performance mode to process requests, and we recommend to use** Event Bus** to do
+some long term works such as database accessing, network processing etc. From this chapter we'll start to move on async
+request workflow in zero system.
 

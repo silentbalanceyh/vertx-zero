@@ -12,7 +12,7 @@ import io.vertx.up.exception.demon.ServerConfigException;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import io.vertx.up.uca.marshal.HttpServerStrada;
-import io.vertx.up.uca.marshal.Transformer;
+import io.vertx.up.uca.marshal.JTransformer;
 import io.vertx.up.uca.yaml.Node;
 import io.vertx.up.util.Ut;
 
@@ -25,8 +25,8 @@ import java.util.concurrent.ConcurrentMap;
  */
 public class HttpServerVisitor implements ServerVisitor<HttpServerOptions> {
 
-    protected transient final Transformer<HttpServerOptions>
-            transformer = Ut.singleton(HttpServerStrada.class);
+    protected transient final JTransformer<HttpServerOptions>
+        transformer = Ut.singleton(HttpServerStrada.class);
     private transient final Node<JsonObject> NODE = Node.infix(Plugins.SERVER);
 
     /**
@@ -36,25 +36,25 @@ public class HttpServerVisitor implements ServerVisitor<HttpServerOptions> {
     @Override
     @SuppressWarnings("all")
     public ConcurrentMap<Integer, HttpServerOptions> visit(final String... key)
-            throws ZeroException {
+        throws ZeroException {
         // 1. Must be the first line, fixed position.
         Fn.inLenEq(getClass(), 0, (Object[]) key);
         // 2. Visit the node for server, http
         final JsonObject data = NODE.read();
 
         Fn.outZero(null == data || !data.containsKey(KEY), getLogger(),
-                ServerConfigException.class,
-                getClass(), null == data ? null : data.encode());
+            ServerConfigException.class,
+            getClass(), null == data ? null : data.encode());
 
         return visit(data.getJsonArray(KEY));
     }
 
     private ConcurrentMap<Integer, HttpServerOptions> visit(final JsonArray serverData)
-            throws ZeroException {
+        throws ZeroException {
         this.getLogger().info(Info.INF_B_VERIFY, KEY, this.getType(), serverData.encode());
         Ruler.verify(KEY, serverData);
         final ConcurrentMap<Integer, HttpServerOptions> map =
-                new ConcurrentHashMap<>();
+            new ConcurrentHashMap<>();
         this.extract(serverData, map);
         this.getLogger().info(Info.INF_A_VERIFY, KEY, this.getType(), map.keySet());
         return map;

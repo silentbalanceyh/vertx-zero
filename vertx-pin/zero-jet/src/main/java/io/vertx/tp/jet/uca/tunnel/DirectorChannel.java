@@ -19,15 +19,15 @@ public class DirectorChannel extends AbstractChannel {
     @Override
     public Future<Boolean> initAsync(final JtComponent component, final ActIn request) {
         return Ux.future(this.commercial())
-                /*
-                 * Database initialized
-                 */
-                .compose(Anagogic::databaseAsync)
-                .compose(database -> Ut.contractAsync(component, Database.class, database))
-                /*
-                 * Mission inited, mount to `JtComponent`
-                 */
-                .compose(dbed -> Ux.future(this.mission()))
-                .compose(mission -> Ut.contractAsync(component, Mission.class, mission));
+            /*
+             * Database initialized
+             */
+            .compose(Anagogic::databaseAsync)
+            .compose(database -> Ut.contractAsync(component, Database.class, database))
+            /*
+             * Mission inited, mount to `JtComponent`
+             */
+            .compose(dbed -> Ux.future(this.mission()))
+            .compose(mission -> Ut.contractAsync(component, Mission.class, mission));
     }
 }

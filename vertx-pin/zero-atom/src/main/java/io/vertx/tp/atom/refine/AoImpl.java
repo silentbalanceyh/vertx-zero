@@ -5,12 +5,12 @@ import io.vertx.tp.atom.cv.AoCache;
 import io.vertx.tp.atom.modeling.Model;
 import io.vertx.tp.atom.modeling.Schema;
 import io.vertx.tp.atom.modeling.data.DataAtom;
-import io.vertx.tp.ke.cv.KeField;
 import io.vertx.tp.modular.dao.AoDao;
 import io.vertx.tp.modular.jdbc.Pin;
 import io.vertx.tp.optic.robin.Switcher;
 import io.vertx.up.commune.config.Database;
 import io.vertx.up.commune.config.Identity;
+import io.vertx.up.eon.KName;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.util.Ut;
 
@@ -61,8 +61,8 @@ class AoImpl {
     }
 
     static DataAtom toAtom(final JsonObject options) {
-        final String identifier = options.getString(KeField.IDENTIFIER);
-        final String name = options.getString(KeField.NAME);
+        final String identifier = options.getString(KName.IDENTIFIER);
+        final String name = options.getString(KName.NAME);
         return DataAtom.get(name, identifier);
     }
 
@@ -75,13 +75,13 @@ class AoImpl {
         if (Objects.isNull(database)) {
             return null;
         } else {
-            final Pin pin = Pin.getInstance();
-            final AoDao dao = pin.getDao(database);
             final DataAtom atom = supplier.get();
-            if (Objects.nonNull(atom)) {
-                dao.mount(atom);
+            if (Objects.isNull(atom)) {
+                return null;
+            } else {
+                final Pin pin = Pin.getInstance();
+                return Fn.poolThread(AoCache.POOL_T_DAO, () -> pin.getDao(database).mount(atom), atom.identifier());
             }
-            return dao;
         }
     }
 }

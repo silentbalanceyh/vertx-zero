@@ -1,6 +1,6 @@
 # Enable Eventbus
 
-Vert.x provide event but to process async request workflow, Zero also support standard Event Bus 
+Vert.x provide event but to process async request workflow, Zero also support standard Event Bus
 
 ## 1. Source Code
 
@@ -78,10 +78,10 @@ curl -H "Content-Type:application/json" -X POST --data '{"name":"Lang","email":"
 * The address of Sender/Consumer must be one to one matching.
 * The consumer class only support following two method signature:
 
-	```java
-	// Java Style
-	public Envelop reply(final Envelop message)
-	
-	// Vert.x Style
-	public void async(final Message<Envelop> message)
-	```
+  ```java
+  // Java Style
+  public Envelop reply(final Envelop message)
+  
+  // Vert.x Style
+  public void async(final Message<Envelop> message)
+  ```

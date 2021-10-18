@@ -6,14 +6,14 @@ import io.vertx.core.http.HttpServerResponse;
 import io.vertx.up.annotations.Ordered;
 import io.vertx.up.atom.agent.Event;
 import io.vertx.up.eon.Orders;
+import io.vertx.up.eon.Values;
+import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import io.vertx.up.uca.web.filter.Filter;
-import io.vertx.up.eon.Values;
+import io.vertx.up.util.Ut;
 import io.vertx.zero.exception.FilterInitialException;
 import io.vertx.zero.exception.FilterOrderException;
 import io.vertx.zero.exception.FilterSpecificationException;
-import io.vertx.up.util.Ut;
-import io.vertx.up.fn.Fn;
 
 import javax.servlet.annotation.WebFilter;
 import java.lang.annotation.Annotation;
@@ -38,16 +38,16 @@ public class FilterInquirer implements Inquirer<ConcurrentMap<String, Set<Event>
         // Scan all classess that are annotated with @WebFilter
         final ConcurrentMap<String, Set<Event>> filters = new ConcurrentHashMap<>();
         Observable.fromIterable(clazzes)
-                .filter(item -> item.isAnnotationPresent(WebFilter.class))
-                .map(this::ensure)
-                .subscribe(item -> this.extract(filters, item))
-                .dispose();
+            .filter(item -> item.isAnnotationPresent(WebFilter.class))
+            .map(this::ensure)
+            .subscribe(item -> this.extract(filters, item))
+            .dispose();
         return filters;
     }
 
     private Class<?> ensure(final Class<?> clazz) {
         Fn.outUp(!Filter.class.isAssignableFrom(clazz), LOGGER,
-                FilterSpecificationException.class, this.getClass(), clazz);
+            FilterSpecificationException.class, this.getClass(), clazz);
         return clazz;
     }
 
@@ -80,14 +80,14 @@ public class FilterInquirer implements Inquirer<ConcurrentMap<String, Set<Event>
             final Integer setted = Ut.invoke(annotation, "value");
             // Order specification
             Fn.outUp(setted < 0, LOGGER,
-                    FilterOrderException.class, this.getClass(), clazz);
+                FilterOrderException.class, this.getClass(), clazz);
             order = order + setted;
         }
         event.setOrder(order);
         // Proxy
         final Object proxy = Ut.singleton(clazz);
         Fn.outUp(null == proxy, LOGGER,
-                FilterInitialException.class, this.getClass(), clazz);
+            FilterInitialException.class, this.getClass(), clazz);
         event.setProxy(proxy);
         // Action
         final Method action = this.findMethod(clazz);
@@ -102,17 +102,17 @@ public class FilterInquirer implements Inquirer<ConcurrentMap<String, Set<Event>
         // One method only
         final Method[] scanned = clazz.getDeclaredMethods();
         Observable.fromArray(scanned)
-                .filter(item -> "doFilter".equals(item.getName()))
-                .subscribe(methods::add)
-                .dispose();
+            .filter(item -> "doFilter".equals(item.getName()))
+            .subscribe(methods::add)
+            .dispose();
         // No overwritting
         if (Values.ONE == methods.size()) {
             return methods.get(Values.IDX);
         } else {
             // Search for correct signature
             return Observable.fromIterable(methods)
-                    .filter(this::isValidFilter)
-                    .blockingFirst();
+                .filter(this::isValidFilter)
+                .blockingFirst();
         }
     }
 

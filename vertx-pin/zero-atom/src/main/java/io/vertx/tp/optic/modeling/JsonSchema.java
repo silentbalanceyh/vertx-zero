@@ -7,8 +7,8 @@ import cn.vertxup.atom.domain.tables.pojos.MKey;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.atom.modeling.Schema;
-import io.vertx.tp.ke.cv.KeField;
 import io.vertx.tp.modular.apply.AoDefault;
+import io.vertx.up.eon.KName;
 import io.vertx.up.util.Ut;
 import org.jooq.tools.StringUtils;
 
@@ -22,11 +22,11 @@ import java.util.stream.Collectors;
 public class JsonSchema implements Schema {
 
     private final transient ConcurrentMap<String, MKey> keys =
-            new ConcurrentHashMap<>();
+        new ConcurrentHashMap<>();
     private final transient ConcurrentMap<String, MField> fields =
-            new ConcurrentHashMap<>();
+        new ConcurrentHashMap<>();
     private final transient ConcurrentMap<String, MIndex> indexes =
-            new ConcurrentHashMap<>();
+        new ConcurrentHashMap<>();
 
     private final transient String namespace;
     private transient String identifier;
@@ -44,8 +44,8 @@ public class JsonSchema implements Schema {
     @Override
     public Set<String> getFieldNames() {
         return this.fields.values().stream()
-                .map(MField::getName)
-                .collect(Collectors.toSet());
+            .map(MField::getName)
+            .collect(Collectors.toSet());
     }
 
     @Override
@@ -66,8 +66,8 @@ public class JsonSchema implements Schema {
     @Override
     public MField getFieldByColumn(final String column) {
         return this.fields.values().stream()
-                .filter(field -> StringUtils.equals(field.getColumnName(), column))
-                .findFirst().orElse(null);
+            .filter(field -> StringUtils.equals(field.getColumnName(), column))
+            .findFirst().orElse(null);
     }
 
     @Override
@@ -81,8 +81,8 @@ public class JsonSchema implements Schema {
     @Override
     public Set<String> getColumnNames() {
         return this.fields.values().stream()
-                .map(MField::getColumnName)
-                .collect(Collectors.toSet());
+            .map(MField::getColumnName)
+            .collect(Collectors.toSet());
     }
 
     /**
@@ -91,8 +91,8 @@ public class JsonSchema implements Schema {
     @Override
     public List<MField> getPrimaryKeys() {
         return this.fields.values().stream()
-                .filter(MField::getIsPrimary)
-                .collect(Collectors.toList());
+            .filter(MField::getIsPrimary)
+            .collect(Collectors.toList());
     }
 
     /**
@@ -125,7 +125,7 @@ public class JsonSchema implements Schema {
     }
 
     @Override
-    public void setRelation(final String key) {
+    public void relation(final String key) {
         // 设置 MEntity 主键
         this.entity.setKey(key);
         // 修改 MKey 关联主键
@@ -140,15 +140,15 @@ public class JsonSchema implements Schema {
 
         // 实体处理
         final JsonObject entity = Ut.serializeJson(this.entity);
-        content.put(KeField.ENTITY, entity);
+        content.put(KName.ENTITY, entity);
 
         // 键处理
         final JsonArray keys = Ut.serializeJson(this.keys.values());
-        content.put(KeField.Modeling.KEYS, keys);
+        content.put(KName.Modeling.KEYS, keys);
 
         // 字段处理
         final JsonArray fields = Ut.serializeJson(this.fields.values());
-        content.put(KeField.Modeling.FIELDS, fields);
+        content.put(KName.Modeling.FIELDS, fields);
         return content;
     }
 
@@ -172,7 +172,7 @@ public class JsonSchema implements Schema {
         AoDefault.schema().applyJson(data);
 
         // 直接从JsonObject中读取数据
-        JsonObject entityJson = data.getJsonObject(KeField.ENTITY);
+        JsonObject entityJson = data.getJsonObject(KName.ENTITY);
         entityJson = null == entityJson ? new JsonObject() : entityJson.copy();
         AoDefault.entity().applyJson(entityJson);
         // 反序列化实体
@@ -183,7 +183,7 @@ public class JsonSchema implements Schema {
             this.identifier = this.entity.getIdentifier();
         }
         // 填充Key
-        final JsonArray keys = data.getJsonArray(KeField.Modeling.KEYS);
+        final JsonArray keys = data.getJsonArray(KName.Modeling.KEYS);
         Ut.itJArray(keys, (key, index) -> {
             // 设置key的默认值
             AoDefault.key().mount(this.entity).applyJson(key);
@@ -194,7 +194,7 @@ public class JsonSchema implements Schema {
         });
 
         // 填充Field
-        final JsonArray fields = data.getJsonArray(KeField.Modeling.FIELDS);
+        final JsonArray fields = data.getJsonArray(KName.Modeling.FIELDS);
         Ut.itJArray(fields, (field, index) -> {
             // 设置field的默认值
             AoDefault.field().mount(this.entity).applyJson(field);
@@ -215,11 +215,11 @@ public class JsonSchema implements Schema {
         content.append("\n\t").append(this.entity.toString());
         content.append("\nkeys :");
         this.keys.forEach((k, v) -> content.append("\n\t")
-                .append(k).append(" = ").append(v.toString())
+            .append(k).append(" = ").append(v.toString())
         );
         content.append("\nfields :");
         this.fields.forEach((k, v) -> content.append("\n\t")
-                .append(k).append(" = ").append(v.toString())
+            .append(k).append(" = ").append(v.toString())
         );
         content.append("\n-- Schema End --------------------------------\n");
         return content.toString();
@@ -236,7 +236,7 @@ public class JsonSchema implements Schema {
         }
         final JsonSchema that = (JsonSchema) o;
         return Objects.equals(this.identifier, that.identifier) &&
-                Objects.equals(this.entity.getNamespace(), that.entity.getNamespace());
+            Objects.equals(this.entity.getNamespace(), that.entity.getNamespace());
     }
 
     @Override

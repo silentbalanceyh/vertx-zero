@@ -1,6 +1,7 @@
 # D10036 - JSR303, @DecimalMin/@DecimalMax
 
-Another range for decimal number, you should use `@DecimalMin/@DecimalMax` instead of `@Min/@Max`, these annotations could be used to parsing decimal, currency and float numbers.
+Another range for decimal number, you should use `@DecimalMin/@DecimalMax` instead of `@Min/@Max`, these annotations
+could be used to parsing decimal, currency and float numbers.
 
 Demo projects:
 
@@ -8,9 +9,12 @@ Demo projects:
 
 **Rules**:
 
-1. JSR303 is only supported in Agent component in zero system, it means that after you have send the message to event bus, the JSR303 will be effectiveness.
-2. When you write the code with the Interface Style \( Will introduce in forward tutorials \), JSR303 will not support this kind of situation.
-3. For @BodyParam, it also impact Agent component only, but could support Interface Style instead of JSR303 and could provide more useful validations.
+1. JSR303 is only supported in Agent component in zero system, it means that after you have send the message to event
+   bus, the JSR303 will be effectiveness.
+2. When you write the code with the Interface Style \( Will introduce in forward tutorials \), JSR303 will not support
+   this kind of situation.
+3. For @BodyParam, it also impact Agent component only, but could support Interface Style instead of JSR303 and could
+   provide more useful validations.
 
 ## 1. Source Code
 
@@ -44,7 +48,8 @@ public class DecimalActor {
 
 ## 2. Testing
 
-**URL **: [http://localhost:6083/api/jsr303/decimal?min=0.1&max=0.8](http://localhost:6083/api/jsr303/decimal?min=0.1&max=0.8)
+**
+URL **: [http://localhost:6083/api/jsr303/decimal?min=0.1&max=0.8](http://localhost:6083/api/jsr303/decimal?min=0.1&max=0.8)
 
 **Method** : GET
 
@@ -74,7 +79,8 @@ public class DecimalActor {
 
 ## 3. Summary
 
-For above examples, all the cases showed that the decimal validation have been triggered and you got the expected validation result as response described. If you provide correct parameters, you'll get following response:
+For above examples, all the cases showed that the decimal validation have been triggered and you got the expected
+validation result as response described. If you provide correct parameters, you'll get following response:
 
 **URL** : http://localhost:6083/api/jsr303/decimal?min=0.5&max=0.6
 

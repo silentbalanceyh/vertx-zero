@@ -2,6 +2,7 @@ package io.vertx.up.util;
 
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
+import io.vertx.up.atom.config.HugeFile;
 import io.vertx.up.eon.Values;
 import io.vertx.up.eon.em.CompressLevel;
 import io.vertx.up.fn.Fn;
@@ -9,6 +10,7 @@ import io.vertx.up.fn.Fn;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
+import java.io.OutputStream;
 
 /*
  *
@@ -69,6 +71,21 @@ final class Out {
             final FileOutputStream fos = new FileOutputStream(path);
             fos.write(output);
             fos.close();
+        });
+    }
+
+    /*
+     * OutputStream
+     */
+    static void writeBig(final String filename, final OutputStream output) {
+        final HugeFile file = new HugeFile(filename);
+        Fn.safeJvm(() -> {
+            while (file.read() != Values.RANGE) {
+                final byte[] bytes = file.getCurrentBytes();
+                output.write(bytes);
+                output.flush();
+            }
+            output.close();
         });
     }
 }

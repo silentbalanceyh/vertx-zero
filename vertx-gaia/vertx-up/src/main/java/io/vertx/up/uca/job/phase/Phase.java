@@ -61,7 +61,7 @@ public class Phase {
          * Bind assist to call
          */
         return this.runOn.bind(this.input.underway())
-                .invoke(envelop, this.mission);
+            .invoke(envelop, this.mission);
     }
 
     /*
@@ -81,7 +81,7 @@ public class Phase {
          * Bind assist to call
          */
         return this.output.bind(this.input.underway())
-                .outputAsync(envelop, this.mission);
+            .outputAsync(envelop, this.mission);
     }
 
     /*

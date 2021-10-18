@@ -1,6 +1,5 @@
 # Core configuration Error
 E30001: Vert.x zero server config is missing in current data "{0}"
-
 # Configuration validation Error
 E10001: (V) - This rule require all elements of array is JsonObject, Now the index = {0} does not match, it''s {1}
 E10002: (V) - The data object {0} missed required field "{1}"
@@ -76,7 +75,7 @@ E40051: "Your RoutingContext object reference is null, could not be getNull by g
 E40052: "You defined @WebFilter \"{0}\", but it does not implement interface \"io.vertx.up.uca.web.filter\"."
 E40053: "The order of @WebFilter must be greater than or equal 0 ( >= 0 ), but now \"{0}\" @Ordered value is negative number."
 E40054: "The @WebFilter \"{0}\"could not be initialized, please check your class."
-E40055: "(Jooq) Query with 3 length only support value of Date,DateTime,Time only, current = {0}"
+E40055: "(Jooq) The analyzed field of original \"{0}\" field is null, it means that the field is invalid"
 E40056: "(Database) Data pool initialized met issue, jdbcUrl = {0}, exception = {1}"
 E40057: "(Jooq) The method \"copyEntity(T target,T updated)\" require second argument updated must not be null. Class = {0}, Data = {1}"
 E40058: "(Jooq) The mode required is {0}, but current filters are \"{1}\", they are conflict"
@@ -86,8 +85,21 @@ E40061: "(Security) You are using Zero Security Framework, but the @Wall found S
 E40062: "(Quiz) Current test case name = `{0}` is invalid when you enable Quiz Framework of Zero, name must end with `Tc`"
 E40063: "Your reflect invoking does not satisfy the pre-condition, method = {0}"
 E40064: "(Act) Act specification is invalid, you could not call this api when isBatch = {0}"
-E40065: "(Jooq) Jooq database configuration pool key = `provider` missing, it's required when you enable Jooq."
+E40065: "(Jooq) Jooq database configuration pool key = `provider` missing, it's required when you enable Jooq"
 E40066: "(Jooq) The input `clazz` is not implemented from VertxDAO, clazz is invalid: {0}"
+E40067: "(Jooq) There is no `Clause` for field = \"{0}\" and type = \"{1}\", original field = \"{2}\""
+E40068: "(411) - When you upload file, the `Content-Length` must be matched, but current is {0}"
+E40069: "(415) - The declared type {0} is not match to MIME {1}"
+
+# Console exception
+E40070: "The default launcher key mustn''t be overwrite. ( config )"
+E40071: "The input commands are invalid, command = \"{0}\", details = \"{1}\""
+E40072: "The command line of input arguments is empty or null, please input again"
+E40073: "Input command \"{0}\" could not be recognised in your definition"
+E40074: "The command `{0}` plugin is null or could not be found, please check your configuration"
+E40075: "The wall type is invalid `{0}` in `{1}`, please use `extension` instead when you want to define"
+E40076: "You have selected the wall `{0}`, the expected size should `{1}`"
+E40077: "The provider {0} is conflict because it''s invalid AuthenticateProvider"
 
 # RxJava
 E45001: (V) - The field "{1}" of json array "{0}" must be mapped to unique element, but current reduced is "{2}"
@@ -100,7 +112,7 @@ E60003: (500) - The event bus detect some error in receiving message on address 
 E60004: (400) - Zero system detect conversation from "{0}" to type "{1}", but it's conflict
 E60005: (400) - Request body validation failure, field = {0}, value = {1}, message = {2}
 E60006: (415) - Server could not accept the mime "{0}", expected should be one of {1}
-E60007: (500) - The system detected internal error, contact administrator and check details = {0}
+E60007: "(500) - The system detected internal error, contact administrator and check details = {1}, source = {0}"
 E60008: (404) - Zero system detect non record in storage, no record
 E60009: (400) - Zero system detect duplicated records in storage, size = {0}
 E60010: (404) - The request {0} of method {1} could not be found in zero system
@@ -134,7 +146,7 @@ E60032: "(500) - (Jwt) Jwt runtime met errors, please check details = {0}"
 E60033: "(401) - (Jwt) Jwt executor result is false, authorization token = {0}"
 
 # (Web) Exception for standard third part
-E60034: "(501) - (Shared) You configured (async = {0}) mode, but now your client is called with (async = {1})"
+E60034: "(500) - (Shared) SharedMap Error happened when do operation: {0}"
 E60035: "(500) - (Shared) Your map {0} processing met issue when execute method {1}"
 
 # Excel exception
@@ -149,6 +161,9 @@ E60044: "(500) - Your pointer plugin component specification met error, config =
 E60045: "(400) - Your request missed `sigma` field, it means that your request header `X-Sigma` missing, but it's required"
 E60046: "(500) - Could not build valid `URL` for http request, please check your data: integration-request = {0}, data = {1} "
 E60047: "(501) - Sorry, the client that your bind is `null`, could not continue this operation"
+E60048: "(415) The argument type of @PointParam is invalid, valid is ( List<T>, JsonArray, VPosition ), current is \"{0}\""
+E60049: "({0}) HttpException: {1}"
+E60050: "(501) - This api is not supported or implemented, please check your specification, source = {0}"
 
 # CRUD Module
 E80100: "(404) - (CRUD) You missed `module` = `{0}` definition in file \"plugin/crud/module/\" folder"
@@ -166,19 +181,24 @@ E80205: "(403) - (RBAC) The profile required `{0}`, but current profile is `{1}`
 E80206: "(401) - (RBAC) The token counter is invalid ( size = {0} ) for user = {1}"
 E80207: "(401) - (RBAC) The token that you provided = `{0}` is invalid"
 E80208: "(401) - (RBAC) The token that you provided `{0}` is expired"
-E80209: "(403) - (RBAC) The action for request ( {0} ) is missing"
+E80209: "(404) - (RBAC) The action for request ( {0} ) is missing"
 E80210: "(404) - (RBAC) The resource of id = `{0}` for request = {1} could not be identified"
 E80211: "(403) - (RBAC) The resource level is {0}, action level is {0} and lower than resource required"
 E80212: "(403) - (RBAC) The user = `{0}` of profile = `{1}` has no permission for access any resource"
 E80213: "(403) - (RBAC) Sorry, you have no access to visit the resource that you required, action = `{0}`, permissionId = `{1}`"
 E80215: "(500) - (RBAC) Dwarf instance is null when analyzed result type = {0}"
+E80220: "(401) - (RBAC) The user `{0}` that you have provided is locked, please contact administrator"
 
 # Kernel Module
 E80214: "(409) - (Ke) Zero system could not identify the session you provided `{0}`, maybe it''s expired or destroyed"
 E80216: "(501) - (Ke) Your channel is not implemented {0}, but you called this channel, please check your configuration"
 E80217: "(501) - (Ke) Your Class<T> is null or `UxJooq` has not been bind here!"
-E80218: "(501) - (Ke) This api is not supported or implemented, please check your specification"
+# E80218: "(501) - (Ke) This api is not supported or implemented, please check your specification, source = {0}"
 E80219: "(403) - (Ke) You have no access to create cross `application` account tokens, token generation error, now size = {0}"
+
+E80542: "(409) - (Ke) You want to seek `target` configuration in JOIN, but now the fields ( one of `crud, classDao, classDefine` ) is missing."
+E80543: "(412) - (Ke) You parsed targetIndent = `{0}` in Join workflow, but now get null. data = `{1}`."
+E80544: "(412) - (Ke) You parsed targetIndent = `{0}` in Join workflow with JsonArray, but found more than one identifiers. "
 
 # Ambient Module
 E80300: "(500) - (Ambient) The application environment error, could not get app data"
@@ -241,5 +261,13 @@ E80534: "(417) - (Mod) Data Event operation conflict, single mode could not acce
 E80535: "(417) - (Mod) Sorry, the model that you provide `{0}` contains no primary key"
 E80536: "(417) - (Mod) Sorry, the entityKey = {0} field definition could not be found in {1} ({2})"
 E80537: "(417) - (Mod) Sorry, the entity = {0} definition could not be found in {1}"
-E80538: "(417) - (Mod) Current model: {0} related schema counter {1} or joins number {2} is invalid ( joins >= schema >= 1 )"
+E80538: "(417) - (Mod) Current model：{0} related schema counter {1} or joins number {2} is invalid ( joins >= schema >= 1 )"
 E80539: "(501) - (Web) Current `DictFabric` is null, but it''s required"
+E80540: "(501) - (Web) The model of `DataTpl` is null and could not be found in your environment, Anonymous error"
+E80541: "(409) - (Ref) The model `{0}` defined static references, but found more than one dao in field `{1}`, please check \"sourceReference\" configuration."
+E80544: "(500) - (Ref) Please bind `DataAtom` first and then you can call `bind(Model)` method for this current model ( identifier = `{0}` ). "
+E80545: "(400) - (Mod) Because both new and old record(s) are null/empty, could not be valid to generate history."
+E80546: "(500) - (Excel) Read the excel file met null file issue, please check your code."
+# Extension Vie Platform
+E81000: "(400) - (Vie) Current environment `{0}` is not supported, please provide new one."
+E81001: "(501) - (Vie) Sorry the command of development could not be used on production environment."

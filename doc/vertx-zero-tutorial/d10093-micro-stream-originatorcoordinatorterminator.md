@@ -1,6 +1,7 @@
 # D10093 - Micro Stream, Originator/Coordinator/Terminator
 
-This chapter we'll introduce a complex example of stream mode, based on this example you can build basic mesh service data flow in zero system.
+This chapter we'll introduce a complex example of stream mode, based on this example you can build basic mesh service
+data flow in zero system.
 
 ## 1. Services
 
@@ -156,7 +157,9 @@ Here you must start five services and mount to Api Gateway and then you can test
 
 ## 4. Summary
 
-Based on above response data you can see the data flow went through four nodes, the point that you should know is that in this mode the data flow could not be revert, it means that the direction is `Single`, you can pass the data to next service node only.
+Based on above response data you can see the data flow went through four nodes, the point that you should know is that
+in this mode the data flow could not be revert, it means that the direction is `Single`, you can pass the data to next
+service node only.
 
 
 

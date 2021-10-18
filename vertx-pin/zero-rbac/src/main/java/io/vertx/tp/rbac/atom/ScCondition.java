@@ -81,12 +81,12 @@ public class ScCondition implements Serializable {
     @Override
     public String toString() {
         return "ScCondition{" +
-                "user=" + this.user +
-                ", role=" + this.role +
-                ", group=" + this.group +
-                ", action=" + this.action +
-                ", permission=" + this.permission +
-                ", resource=" + this.resource +
-                '}';
+            "user=" + this.user +
+            ", role=" + this.role +
+            ", group=" + this.group +
+            ", action=" + this.action +
+            ", permission=" + this.permission +
+            ", resource=" + this.resource +
+            '}';
     }
 }

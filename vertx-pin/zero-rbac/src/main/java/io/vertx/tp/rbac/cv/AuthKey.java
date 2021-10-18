@@ -1,5 +1,7 @@
 package io.vertx.tp.rbac.cv;
 
+import io.vertx.up.eon.KName;
+
 public interface AuthKey {
     /**
      * Default state field
@@ -18,7 +20,7 @@ public interface AuthKey {
     String CLIENT_SECRET = "client_secret";
     String RESPONSE_TYPE = "response_type";
 
-    String ACCESS_TOKEN = "access_token";
+    String ACCESS_TOKEN = KName.ACCESS_TOKEN;
     String REFRESH_TOKEN = "refresh_token";
     String IAT = "iat";
     /**
@@ -47,4 +49,15 @@ public interface AuthKey {
      */
     String PROFILE_PERM = "PERM";
     String PROFILE_ROLE = "ROLE";
+
+    interface Acl {
+        /*
+         * Five constant for checking
+         */
+        String BEFORE_PROJECTION = "BEFORE_PROJECTION";
+        String BEFORE_CRITERIA = "BEFORE_CRITERIA";
+        String AFTER_RECORD = "AFTER_RECORD";
+        String AFTER_ROWS = "AFTER_ROWS";
+        String AFTER_COLLECTION = "AFTER_COLLECTION";
+    }
 }

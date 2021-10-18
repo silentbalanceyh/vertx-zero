@@ -53,6 +53,22 @@ public class ScConfig implements Serializable {
      * Role Pool when secondary cache enabled.
      */
     private String permissionPool;
+    /*
+     * Resource Pool when secondary cache enabled.
+     */
+    private String resourcePool;
+    /*
+     * Password Init
+     */
+    private String passwordInit;
+
+    public String getPasswordInit() {
+        return this.passwordInit;
+    }
+
+    public void setPasswordInit(final String passwordInit) {
+        this.passwordInit = passwordInit;
+    }
 
     public ScCondition getCondition() {
         return this.condition;
@@ -138,19 +154,29 @@ public class ScConfig implements Serializable {
         this.supportMultiApp = supportMultiApp;
     }
 
+    public String getResourcePool() {
+        return this.resourcePool;
+    }
+
+    public void setResourcePool(final String resourcePool) {
+        this.resourcePool = resourcePool;
+    }
+
     @Override
     public String toString() {
         return "ScConfig{" +
-                "condition=" + this.condition +
-                ", codeExpired=" + this.codeExpired +
-                ", codeLength=" + this.codeLength +
-                ", codePool='" + this.codePool + '\'' +
-                ", tokenExpired=" + this.tokenExpired +
-                ", tokenPool='" + this.tokenPool + '\'' +
-                ", supportGroup=" + this.supportGroup +
-                ", supportSecondary=" + this.supportSecondary +
-                ", supportMultiApp=" + this.supportMultiApp +
-                ", permissionPool='" + this.permissionPool + '\'' +
-                '}';
+            "condition=" + this.condition +
+            ", codeExpired=" + this.codeExpired +
+            ", codeLength=" + this.codeLength +
+            ", codePool='" + this.codePool + '\'' +
+            ", tokenExpired=" + this.tokenExpired +
+            ", tokenPool='" + this.tokenPool + '\'' +
+            ", supportGroup=" + this.supportGroup +
+            ", supportSecondary=" + this.supportSecondary +
+            ", supportMultiApp=" + this.supportMultiApp +
+            ", permissionPool='" + this.permissionPool + '\'' +
+            ", resourcePool=" + this.resourcePool + '\'' +
+            ", passwordInit='" + this.passwordInit + '\'' +
+            '}';
     }
 }

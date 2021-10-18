@@ -21,12 +21,12 @@ public class MediaHub implements Hub<Route> {
         // produces
         final Set<MediaType> produces = event.getProduces();
         Observable.fromIterable(produces)
-                .map(type -> type.getType() + Strings.SLASH + type.getSubtype())
-                .subscribe(route::produces).dispose();
+            .map(type -> type.getType() + Strings.SLASH + type.getSubtype())
+            .subscribe(route::produces).dispose();
         // consumes
         final Set<MediaType> consumes = event.getProduces();
         Observable.fromIterable(consumes)
-                .map(type -> type.getType() + Strings.SLASH + type.getSubtype())
-                .subscribe(route::consumes).dispose();
+            .map(type -> type.getType() + Strings.SLASH + type.getSubtype())
+            .subscribe(route::consumes).dispose();
     }
 }

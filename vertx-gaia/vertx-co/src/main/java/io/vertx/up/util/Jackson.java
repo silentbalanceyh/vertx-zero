@@ -10,6 +10,7 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.eon.Strings;
 import io.vertx.up.eon.Values;
+import io.vertx.up.eon.em.ChangeFlag;
 import io.vertx.up.fn.Fn;
 
 import java.util.ArrayList;
@@ -41,7 +42,7 @@ final class Jackson {
 
         final ZeroModule module = new ZeroModule();
         Jackson.MAPPER.registerModule(module);
-        Jackson.MAPPER.setPropertyNamingStrategy(OrignialNamingStrategy.JOOQ_NAME);
+        Jackson.MAPPER.setPropertyNamingStrategy(OriginalNamingStrategy.JOOQ_NAME);
     }
 
     private Jackson() {
@@ -52,8 +53,8 @@ final class Jackson {
     }
 
     static JsonObject visitJObject(
-            final JsonObject item,
-            final String... keys
+        final JsonObject item,
+        final String... keys
     ) {
 
         Fn.inLenMin(Jackson.class, 0, keys);
@@ -66,8 +67,8 @@ final class Jackson {
     }
 
     static JsonArray visitJArray(
-            final JsonObject item,
-            final String... keys
+        final JsonObject item,
+        final String... keys
     ) {
         Fn.inLenMin(Jackson.class, 0, keys);
         final JsonArray visited = Jackson.searchData(item, JsonArray.class, keys);
@@ -79,16 +80,16 @@ final class Jackson {
     }
 
     static Integer visitInt(
-            final JsonObject item,
-            final String... keys
+        final JsonObject item,
+        final String... keys
     ) {
         Fn.inLenMin(Jackson.class, 0, keys);
         return Jackson.searchData(item, Integer.class, keys);
     }
 
     static String visitString(
-            final JsonObject item,
-            final String... keys
+        final JsonObject item,
+        final String... keys
     ) {
         Fn.inLenMin(Jackson.class, 0, keys);
         return Jackson.searchData(item, String.class, keys);
@@ -106,42 +107,42 @@ final class Jackson {
         final String path = pathes[Values.IDX];
         /* 3. Continue searching if key existing, otherwise terminal. **/
         return Fn.getSemi(current.containsKey(path) && null != current.getValue(path),
-                null,
-                () -> {
-                    final Object curVal = current.getValue(path);
-                    T result = null;
-                    if (Values.ONE == pathes.length) {
-                        /* 3.1. Get the end node. **/
-                        if (clazz == curVal.getClass()) {
-                            result = (T) curVal;
-                        }
-                    } else {
-                        /* 3.2. Address the middle search **/
-                        if (Types.isJObject(curVal)) {
-                            final JsonObject continueNode = current.getJsonObject(path);
-                            /* 4.Extract new key **/
-                            final String[] continueKeys =
-                                    Arrays.copyOfRange(pathes,
-                                            Values.ONE,
-                                            pathes.length);
-                            result = Jackson.searchData(continueNode,
-                                    clazz,
-                                    continueKeys);
-                        }
+            null,
+            () -> {
+                final Object curVal = current.getValue(path);
+                T result = null;
+                if (Values.ONE == pathes.length) {
+                    /* 3.1. Get the end node. **/
+                    if (clazz == curVal.getClass()) {
+                        result = (T) curVal;
                     }
-                    return result;
-                },
-                () -> null);
+                } else {
+                    /* 3.2. Address the middle search **/
+                    if (Types.isJObject(curVal)) {
+                        final JsonObject continueNode = current.getJsonObject(path);
+                        /* 4.Extract new key **/
+                        final String[] continueKeys =
+                            Arrays.copyOfRange(pathes,
+                                Values.ONE,
+                                pathes.length);
+                        result = Jackson.searchData(continueNode,
+                            clazz,
+                            continueKeys);
+                    }
+                }
+                return result;
+            },
+            () -> null);
     }
 
     static JsonArray mergeZip(final JsonArray source, final JsonArray target,
                               final String sourceKey, final String targetKey) {
         final JsonArray result = new JsonArray();
         Fn.safeJvm(() -> Observable.fromIterable(source)
-                .filter(Objects::nonNull)
-                .map(item -> (JsonObject) item)
-                .map(item -> item.mergeIn(Jackson.findByKey(target, targetKey, item.getValue(sourceKey))))
-                .subscribe(result::add).dispose(), null);
+            .filter(Objects::nonNull)
+            .map(item -> (JsonObject) item)
+            .map(item -> item.mergeIn(Jackson.findByKey(target, targetKey, item.getValue(sourceKey))))
+            .subscribe(result::add).dispose(), null);
         return result;
     }
 
@@ -149,11 +150,11 @@ final class Jackson {
                                         final String key,
                                         final Object value) {
         return Fn.getJvm(() -> Observable.fromIterable(source)
-                .filter(Objects::nonNull)
-                .map(item -> (JsonObject) item)
-                .filter(item -> null != item.getValue(key))
-                .filter(item -> value == item.getValue(key) || item.getValue(key).equals(value))
-                .first(new JsonObject()).blockingGet(), source, key);
+            .filter(Objects::nonNull)
+            .map(item -> (JsonObject) item)
+            .filter(item -> null != item.getValue(key))
+            .filter(item -> value == item.getValue(key) || item.getValue(key).equals(value))
+            .first(new JsonObject()).blockingGet(), source, key);
     }
 
     static JsonArray toJArray(final Object value) {
@@ -162,7 +163,28 @@ final class Jackson {
             if (Types.isJArray(value)) {
                 result.addAll((JsonArray) value);
             } else {
-                result.add(value.toString());
+                final JsonArray direct = To.toJArray(value.toString());
+                // Fix issue of ["[]"] String literal
+                if (!direct.isEmpty()) {
+                    result.addAll(direct);
+                }
+/*                if (direct.isEmpty()) {
+                    result.add(value.toString());
+                } else {
+                    result.addAll(direct);
+                }*/
+            }
+        }, value);
+        return result;
+    }
+
+    static JsonObject toJObject(final Object value) {
+        final JsonObject result = new JsonObject();
+        Fn.safeNull(() -> {
+            if (Types.isJObject(value)) {
+                result.mergeIn((JsonObject) value, true);
+            } else {
+                result.mergeIn(To.toJObject(value.toString()), true);
             }
         }, value);
         return result;
@@ -171,9 +193,9 @@ final class Jackson {
     static <T, R extends Iterable> R serializeJson(final T t) {
         final String content = Jackson.serialize(t);
         return Fn.getJvm(null,
-                () -> Fn.getSemi(content.trim().startsWith(Strings.LEFT_BRACES), null,
-                        () -> (R) new JsonObject(content),
-                        () -> (R) new JsonArray(content)), content);
+            () -> Fn.getSemi(content.trim().startsWith(Strings.LEFT_BRACE), null,
+                () -> (R) new JsonObject(content),
+                () -> (R) new JsonArray(content)), content);
     }
 
     static <T> String serialize(final T t) {
@@ -182,43 +204,115 @@ final class Jackson {
 
     static <T> T deserialize(final JsonObject value, final Class<T> type) {
         return Fn.getNull(null,
-                () -> Jackson.deserialize(value.encode(), type), value);
+            () -> Jackson.deserialize(value.encode(), type), value);
     }
 
     static <T> T deserialize(final JsonArray value, final Class<T> type) {
         return Fn.getNull(null,
-                () -> Jackson.deserialize(value.encode(), type), value);
+            () -> Jackson.deserialize(value.encode(), type), value);
     }
 
     static <T> List<T> deserialize(final JsonArray value, final TypeReference<List<T>> type) {
         return Fn.getNull(new ArrayList<>(),
-                () -> Jackson.deserialize(value.encode(), type), value);
+            () -> Jackson.deserialize(value.encode(), type), value);
     }
 
     static <T> T deserialize(final String value, final Class<T> type) {
         return Fn.getNull(null,
-                () -> Fn.getJvm(() -> Jackson.MAPPER.readValue(value, type)), value);
+            () -> Fn.getJvm(() -> Jackson.MAPPER.readValue(value, type)), value);
     }
 
     static <T> T deserialize(final String value, final TypeReference<T> type) {
         return Fn.getNull(null,
-                () -> Fn.getJvm(() -> Jackson.MAPPER.readValue(value, type)), value);
+            () -> Fn.getJvm(() -> Jackson.MAPPER.readValue(value, type)), value);
     }
 
-    static JsonObject flatMerge(final JsonObject target, final JsonObject source) {
-        Observable.fromIterable(source.fieldNames())
-                .filter(key -> !target.containsKey(key))
-                .subscribe(key -> target.put(key, source.getValue(key)))
-                .dispose();
-        return target;
+    // ---------------------- Json Tool ----------------------------
+    static JsonObject jsonMerge(final JsonObject target, final JsonObject source, boolean isRef) {
+        final JsonObject reference = isRef ? target : target.copy();
+        reference.mergeIn(source, true);
+        return reference;
     }
 
-    static void append(final JsonObject target, final JsonObject source, final String field) {
-        Fn.safeNull(() -> {
+    static JsonObject jsonAppend(final JsonObject target, final JsonObject source, boolean isRef) {
+        final JsonObject reference = isRef ? target : target.copy();
+        source.fieldNames().stream()
+            .filter(field -> !reference.containsKey(field))
+            .forEach(field -> reference.put(field, source.getValue(field)));
+        return reference;
+    }
+
+    static void jsonCopy(final JsonObject target, final JsonObject source, final String... fields) {
+        Arrays.stream(fields).forEach(field -> Fn.safeNull(() -> {
             final Object value = source.getValue(field);
             if (Objects.nonNull(value)) {
                 target.put(field, value);
             }
-        }, target, source, field);
+        }, target, source, field));
+    }
+
+    static JsonArray sureJArray(final JsonArray array) {
+        if (Ut.isNil(array)) {
+            return new JsonArray();
+        } else {
+            return array;
+        }
+    }
+
+    static JsonObject sureJObject(final JsonObject object) {
+        if (Ut.isNil(object)) {
+            return new JsonObject();
+        } else {
+            return object;
+        }
+    }
+
+    static String aiStringA(final String literal) {
+        if (literal.contains(Strings.QUOTE_DOUBLE)) {
+            return literal;
+        } else {
+            final StringBuilder buffer = new StringBuilder();
+            final String[] split = literal.split(Strings.COMMA);
+            final List<String> elements = new ArrayList<>();
+            Arrays.stream(split).forEach(each -> {
+                if (Objects.nonNull(each)) {
+                    if (each.trim().startsWith(Strings.LEFT_SQUARE)) {
+                        elements.add(Strings.QUOTE_DOUBLE +
+                            each.trim().substring(1)
+                            + Strings.QUOTE_DOUBLE);
+                    } else if (each.trim().endsWith(Strings.RIGHT_SQUARE)) {
+                        elements.add(Strings.QUOTE_DOUBLE +
+                            each.trim().substring(0, each.trim().length() - 1)
+                            + Strings.QUOTE_DOUBLE);
+                    } else {
+                        elements.add(Strings.QUOTE_DOUBLE +
+                            each.trim()
+                            + Strings.QUOTE_DOUBLE);
+                    }
+                }
+            });
+            buffer.append(Strings.LEFT_SQUARE);
+            buffer.append(Ut.fromJoin(elements));
+            buffer.append(Strings.RIGHT_SQUARE);
+            return buffer.toString();
+        }
+    }
+
+    static ChangeFlag flag(final JsonObject recordN, final JsonObject recordO) {
+        if (Objects.isNull(recordO)) {
+            if (Objects.isNull(recordN)) {
+                return ChangeFlag.NONE;
+            } else {
+                /* Old = null, New = not null, ADD */
+                return ChangeFlag.ADD;
+            }
+        } else {
+            if (Objects.isNull(recordN)) {
+                /* Old = not null, New = null, DELETE */
+                return ChangeFlag.DELETE;
+            } else {
+                return ChangeFlag.UPDATE;
+            }
+        }
     }
 }

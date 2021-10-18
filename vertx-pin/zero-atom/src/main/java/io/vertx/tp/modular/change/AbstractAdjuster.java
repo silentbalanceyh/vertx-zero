@@ -1,8 +1,8 @@
 package io.vertx.tp.modular.change;
 
-import io.vertx.tp.atom.refine.Ao;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.ke.cv.KeField;
+import io.vertx.tp.atom.refine.Ao;
+import io.vertx.up.eon.KName;
 import io.vertx.up.eon.Strings;
 import io.vertx.up.util.Ut;
 
@@ -23,17 +23,17 @@ public abstract class AbstractAdjuster implements Adjuster {
         final String simpleName = this.type.getSimpleName();
         final JsonObject config = ADJUST.getJsonObject(simpleName);
         return Ut.isNil(config) ? new JsonObject()
-                .put(KeField.OUT, new JsonObject())
-                .put(KeField.IN, new JsonObject())
-                : config.copy();
+            .put(KName.OUT, new JsonObject())
+            .put(KName.IN, new JsonObject())
+            : config.copy();
     }
 
     protected JsonObject configOut() {
-        return this.config().getJsonObject(KeField.OUT);
+        return this.config().getJsonObject(KName.OUT);
     }
 
     protected JsonObject configIn() {
-        return this.config().getJsonObject(KeField.IN);
+        return this.config().getJsonObject(KName.IN);
     }
 
     protected String literal(final Object input) {
@@ -53,10 +53,10 @@ public abstract class AbstractAdjuster implements Adjuster {
     @Override
     public boolean isSame(final Object oldValue, final Object newValue) {
         return this.isSame(oldValue, newValue,
-                /*
-                 * 基本比较
-                 */
-                () -> oldValue.toString().trim().equals(newValue.toString().trim()));
+            /*
+             * 基本比较
+             */
+            () -> oldValue.toString().trim().equals(newValue.toString().trim()));
     }
 
     protected boolean isSame(final Object oldValue, final Object newValue, final Supplier<Boolean> fnCompare) {

@@ -1,8 +1,8 @@
 package io.vertx.up.uca.marshal;
 
-import io.vertx.core.json.JsonObject;
-
-public interface Transformer<T> {
-
-    T transform(JsonObject input);
+/**
+ * @author <a href="http://www.origin-x.cn">Lang</a>
+ */
+public interface Transformer<I, T> {
+    T transform(I input);
 }

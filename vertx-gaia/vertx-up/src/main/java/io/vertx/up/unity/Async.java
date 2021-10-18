@@ -4,19 +4,48 @@ import io.vertx.core.Future;
 import io.vertx.core.Promise;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
+import io.vertx.up.atom.Refer;
+import io.vertx.up.eon.KName;
+import io.vertx.up.eon.KValue;
 import io.vertx.up.eon.Values;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
+import io.vertx.up.util.Ut;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.CompletionStage;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
 class Async {
 
     private static final Annal LOGGER = Annal.get(Async.class);
+
+    static <T> Future<T> fromAsync(final CompletionStage<T> state) {
+        final Promise<T> promise = Promise.promise();
+        state.whenComplete((result, error) -> {
+            if (Objects.isNull(error)) {
+                promise.complete(result);
+            } else {
+                promise.fail(error);
+            }
+        });
+        return promise.future();
+    }
+
+    static <T> Future<T> future(final T input, final Set<Function<T, Future<T>>> set) {
+        final List<Future<T>> futures = new ArrayList<>();
+        set.stream().map(consumer -> consumer.apply(input)).forEach(futures::add);
+        Ux.thenCombineT(futures).compose(nil -> {
+            LOGGER.info("「Job Plugin」 There are `{0}` jobs that are finished successfully!", String.valueOf(set.size()));
+            return Ux.future(nil);
+        });
+        return Ux.future(input);
+    }
 
     @SuppressWarnings("all")
     static <T> Future<T> future(final T input, final List<Function<T, Future<T>>> queues) {
@@ -43,6 +72,9 @@ class Async {
                      *    .compose(future[2])
                      *    .compose(...)
                      */
+                    final Refer response = new Refer();
+                    response.add(input);
+
                     for (int idx = 1; idx < queues.size(); idx++) {
                         final int current = idx;
                         first = first.compose(json -> {
@@ -53,9 +85,20 @@ class Async {
                                  */
                                 return To.future(json);
                             } else {
-                                return future;
+                                return future
+                                    /*
+                                     * Replace the result with successed item here
+                                     * If success
+                                     * -- replace previous response with next
+                                     * If failure
+                                     * -- returned current json and replace previous response with current
+                                     *
+                                     * The step stopped
+                                     */
+                                    .compose(response::future)
+                                    .otherwise(Ux.otherwise(() -> response.add(json).get()));
                             }
-                        });
+                        }).otherwise(Ux.otherwise(() -> response.get()));
                     }
                     return first;
                 }
@@ -65,41 +108,41 @@ class Async {
 
     @SuppressWarnings("all")
     static <T> Future<JsonObject> toJsonFuture(
-            final String pojo,
-            final CompletableFuture<T> completableFuture
+        final String pojo,
+        final CompletableFuture<T> completableFuture
     ) {
         final Promise<JsonObject> future = Promise.promise();
         Fn.safeSemi(null == completableFuture, null,
+            () -> future.complete(new JsonObject()),
+            () -> completableFuture.thenAcceptAsync((item) -> Fn.safeSemi(
+                null == item, null,
                 () -> future.complete(new JsonObject()),
-                () -> completableFuture.thenAcceptAsync((item) -> Fn.safeSemi(
-                        null == item, null,
-                        () -> future.complete(new JsonObject()),
-                        () -> future.complete(To.toJson(item, pojo))
-                )).exceptionally((ex) -> {
-                    LOGGER.jvm(ex);
-                    future.fail(ex);
-                    return null;
-                }));
+                () -> future.complete(To.toJObject(item, pojo))
+            )).exceptionally((ex) -> {
+                LOGGER.jvm(ex);
+                future.fail(ex);
+                return null;
+            }));
         return future.future();
     }
 
     @SuppressWarnings("all")
     static <T> Future<JsonArray> toArrayFuture(
-            final String pojo,
-            final CompletableFuture<List<T>> completableFuture
+        final String pojo,
+        final CompletableFuture<List<T>> completableFuture
     ) {
         final Promise<JsonArray> future = Promise.promise();
         Fn.safeSemi(null == completableFuture, null,
+            () -> future.complete(new JsonArray()),
+            () -> completableFuture.thenAcceptAsync((item) -> Fn.safeSemi(
+                null == item, null,
                 () -> future.complete(new JsonArray()),
-                () -> completableFuture.thenAcceptAsync((item) -> Fn.safeSemi(
-                        null == item, null,
-                        () -> future.complete(new JsonArray()),
-                        () -> future.complete(To.toArray(item, pojo))
-                )).exceptionally((ex) -> {
-                    LOGGER.jvm(ex);
-                    future.fail(ex);
-                    return null;
-                }));
+                () -> future.complete(To.toJArray(item, pojo))
+            )).exceptionally((ex) -> {
+                LOGGER.jvm(ex);
+                future.fail(ex);
+                return null;
+            }));
         return future.future();
     }
 
@@ -108,12 +151,37 @@ class Async {
                                                  final Supplier<Future<JsonObject>> supplier,
                                                  final Function<JsonObject, JsonObject> updateFun) {
         return Fn.match(
-                Fn.fork(() -> Future.succeededFuture(To.toJson(entity, pojo))
-                        .compose(item -> null == updateFun ?
-                                Future.succeededFuture(item) :
-                                Future.succeededFuture(updateFun.apply(item))
-                        )
-                ),
-                Fn.branch(null == entity, supplier));
+            Fn.fork(() -> Future.succeededFuture(To.toJObject(entity, pojo))
+                .compose(item -> null == updateFun ?
+                    Future.succeededFuture(item) :
+                    Future.succeededFuture(updateFun.apply(item))
+                )
+            ),
+            Fn.branch(null == entity, supplier));
+    }
+
+    static <T> Function<Throwable, Future<T>> toErrorFuture(final Supplier<T> input) {
+        return ex -> {
+            if (Objects.nonNull(ex)) {
+                ex.printStackTrace();
+            }
+            return Future.succeededFuture(input.get());
+        };
+    }
+
+    static JsonObject bool(final String key, final boolean checked) {
+        final KValue.Bool response = checked ?
+            KValue.Bool.SUCCESS : KValue.Bool.FAILURE;
+        return new JsonObject().put(key, response.name());
+    }
+
+    static Boolean bool(final JsonObject checkedJson) {
+        final String result = checkedJson.getString(KName.RESULT);
+        final KValue.Bool resultValue = Ut.toEnum(() -> result, KValue.Bool.class, KValue.Bool.FAILURE);
+        return KValue.Bool.SUCCESS == resultValue;
+    }
+
+    static JsonObject array(final JsonArray array) {
+        return new JsonObject().put(KName.DATA, array);
     }
 }

@@ -8,8 +8,8 @@ import cn.vertxup.rbac.domain.tables.pojos.SUser;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.ke.cv.KeField;
 import io.vertx.tp.rbac.refine.Sc;
+import io.vertx.up.eon.KName;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
@@ -35,7 +35,7 @@ class IdcRole {
     }
 
     Future<List<SRole>> fetchAsync() {
-        return Ux.Jooq.on(SRoleDao.class).fetchAsync(KeField.SIGMA, this.sigma);
+        return Ux.Jooq.on(SRoleDao.class).fetchAsync(KName.SIGMA, this.sigma);
     }
 
     /*
@@ -56,15 +56,15 @@ class IdcRole {
                 final String roleNames = user.getString("roles");
                 if (Ut.notNil(roleNames)) {
                     final List<String> validRoles = Arrays.stream(roleNames.split(","))
-                            .map(String::trim)
-                            .filter(Ut::notNil)
-                            .filter(grouped::containsKey)
-                            .collect(Collectors.toList());
-                    final String username = user.getString(KeField.USERNAME);
+                        .map(String::trim)
+                        .filter(Ut::notNil)
+                        .filter(grouped::containsKey)
+                        .collect(Collectors.toList());
+                    final String username = user.getString(KName.USERNAME);
                     final List<SRole> roleList = roles.stream()
-                            .filter(Objects::nonNull)
-                            .filter(role -> validRoles.contains(role.getName()))
-                            .collect(Collectors.toList());
+                        .filter(Objects::nonNull)
+                        .filter(role -> validRoles.contains(role.getName()))
+                        .collect(Collectors.toList());
                     roleMap.put(username, roleList);
                 }
             });
@@ -81,8 +81,8 @@ class IdcRole {
             /*
              * Remove old relation ship between ( role - user )
              */
-            condition.put(KeField.USER_ID + ",i", Ut.toJArray(userKeys));
-            return Ux.Jooq.on(RUserRoleDao.class).deleteAsync(condition).compose(deleted -> {
+            condition.put(KName.USER_ID + ",i", Ut.toJArray(userKeys));
+            return Ux.Jooq.on(RUserRoleDao.class).deleteByAsync(condition).compose(deleted -> {
                 /*
                  * Build for each user
                  */
@@ -100,11 +100,11 @@ class IdcRole {
                      * Building relation ship
                      */
                     Sc.infoWeb(this.getClass(), "Will build username = {1}, role size = {0}",
-                            String.valueOf(roles.size()), user.getUsername());
+                        String.valueOf(roles.size()), user.getUsername());
                 });
                 return Ux.Jooq.on(RUserRoleDao.class).insertAsync(relationList)
-                        .compose(inserted -> Ux.future(users))
-                        .compose(Ux::fnJArray);
+                    .compose(inserted -> Ux.future(users))
+                    .compose(Ux::futureA);
             });
         }
     }

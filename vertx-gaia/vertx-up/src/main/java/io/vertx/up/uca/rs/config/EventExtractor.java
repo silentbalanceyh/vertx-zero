@@ -8,11 +8,12 @@ import io.vertx.up.annotations.Adjust;
 import io.vertx.up.annotations.Codex;
 import io.vertx.up.annotations.EndPoint;
 import io.vertx.up.atom.agent.Event;
+import io.vertx.up.atom.container.VInstance;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
-import io.vertx.up.uca.rs.Extractor;
 import io.vertx.up.runtime.ZeroHelper;
-import io.vertx.up.uca.container.Virtual;
+import io.vertx.up.uca.di.DiPlugin;
+import io.vertx.up.uca.rs.Extractor;
 import io.vertx.up.util.Ut;
 import io.vertx.zero.exception.EventSourceException;
 
@@ -31,24 +32,26 @@ public class EventExtractor implements Extractor<Set<Event>> {
 
     private static final Annal LOGGER = Annal.get(EventExtractor.class);
 
+    private static final DiPlugin PLUGIN = DiPlugin.create(EventExtractor.class);
+
     @Override
     public Set<Event> extract(final Class<?> clazz) {
         return Fn.getNull(new ConcurrentHashSet<>(), () -> {
             // 1. Class verify
-            verify(clazz);
+            this.verify(clazz);
             // 2. Check whether clazz annotated with @PATH
             final Set<Event> result = new ConcurrentHashSet<>();
             Fn.safeSemi(clazz.isAnnotationPresent(Path.class), LOGGER,
-                    () -> {
-                        // 3.1. Append Root Path
-                        final Path path = ZeroHelper.getPath(clazz);
-                        assert null != path : "Path should not be null.";
-                        result.addAll(extract(clazz, PathResolver.resolve(path)));
-                    },
-                    () -> {
-                        // 3.2. Use method Path directly
-                        result.addAll(extract(clazz, null));
-                    });
+                () -> {
+                    // 3.1. Append Root Path
+                    final Path path = ZeroHelper.getPath(clazz);
+                    assert null != path : "Path should not be null.";
+                    result.addAll(this.extract(clazz, PathResolver.resolve(path)));
+                },
+                () -> {
+                    // 3.2. Use method Path directly
+                    result.addAll(this.extract(clazz, null));
+                });
             return result;
         }, clazz);
     }
@@ -57,13 +60,13 @@ public class EventExtractor implements Extractor<Set<Event>> {
         // Check basic specification: No Arg Constructor
         if (!clazz.isInterface()) {
             // Class direct.
-            Verifier.noArg(clazz, getClass());
+            Verifier.noArg(clazz, this.getClass());
         }
-        Verifier.modifier(clazz, getClass());
+        Verifier.modifier(clazz, this.getClass());
         // Event Source Checking
         Fn.outUp(!clazz.isAnnotationPresent(EndPoint.class),
-                LOGGER, EventSourceException.class,
-                getClass(), clazz.getName());
+            LOGGER, EventSourceException.class,
+            this.getClass(), clazz.getName());
     }
 
     @SuppressWarnings("all")
@@ -73,20 +76,20 @@ public class EventExtractor implements Extractor<Set<Event>> {
         final Method[] methods = clazz.getDeclaredMethods();
         // 1.Validate Codex annotation appears
         final Long counter = Observable.fromArray(methods)
-                .map(Method::getParameterAnnotations)
-                .flatMap(Observable::fromArray)
-                .map(Arrays::asList)
-                .map(item -> item.stream().map(Annotation::annotationType).collect(Collectors.toList()))
-                .filter(item -> item.contains(Codex.class))
-                .count().blockingGet();
+            .map(Method::getParameterAnnotations)
+            .flatMap(Observable::fromArray)
+            .map(Arrays::asList)
+            .map(item -> item.stream().map(Annotation::annotationType).collect(Collectors.toList()))
+            .filter(item -> item.contains(Codex.class))
+            .count().blockingGet();
         Fn.outUp(methods.length < counter, LOGGER,
-                EventCodexMultiException.class,
-                this.getClass(), clazz);
+            EventCodexMultiException.class,
+            this.getClass(), clazz);
         // 2.Build Set
         events.addAll(Arrays.stream(methods).filter(MethodResolver::isValid)
-                .map(item -> this.extract(item, root))
-                .filter(Objects::nonNull)
-                .collect(Collectors.toSet()));
+            .map(item -> this.extract(item, root))
+            .filter(Objects::nonNull)
+            .collect(Collectors.toSet()));
         return events;
     }
 
@@ -95,6 +98,7 @@ public class EventExtractor implements Extractor<Set<Event>> {
      *
      * @param method single method that will be scanned.
      * @param root   root path calculation
+     *
      * @return Standard Event object
      */
     private Event extract(final Method method, final String root) {
@@ -104,6 +108,7 @@ public class EventExtractor implements Extractor<Set<Event>> {
         final HttpMethod httpMethod = MethodResolver.resolve(method);
         if (null == httpMethod) {
             // Ignored the method could not be annotated.
+            LOGGER.warn("\u001b[0;31m!!!!!, Missed HttpMethod annotation for method\u001b[m ? (GET,POST,PUT,...). method = \u001b[0;31m{0}\u001b[m", method);
             return null;
         } else {
             event.setMethod(httpMethod);
@@ -119,7 +124,7 @@ public class EventExtractor implements Extractor<Set<Event>> {
                 }
             } else {
                 final String result = PathResolver.resolve(
-                        path, root);
+                    path, root);
                 event.setPath(result);
             }
         }
@@ -134,7 +139,7 @@ public class EventExtractor implements Extractor<Set<Event>> {
         if (clazz.isInterface()) {
             final Class<?> implClass = Ut.childUnique(clazz);
             if (null != implClass) {
-                proxy = Ut.singleton(implClass);
+                proxy = PLUGIN.createComponent(implClass); // Ut.singleton(implClass);
             } else {
                 /*
                  * SPEC5: Interface only, direct api, in this situation,
@@ -142,10 +147,10 @@ public class EventExtractor implements Extractor<Set<Event>> {
                  * send to event bus direct. It's not needed to set
                  * implementation class.
                  */
-                proxy = Virtual.create();
+                proxy = VInstance.create(clazz);
             }
         } else {
-            proxy = Ut.singleton(method.getDeclaringClass());
+            proxy = PLUGIN.createComponent(method.getDeclaringClass()); // Ut.singleton(method.getDeclaringClass());
         }
         event.setProxy(proxy);
         // 8. Order

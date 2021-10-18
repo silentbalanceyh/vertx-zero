@@ -14,15 +14,15 @@
 
 ### 1.2. Java Annotations
 
-* [x] `javax.ws.rs.QueryParam` 
-* [x] `javax.ws.rs.FormParam` 
-* [ ] `javax.ws.rs.MatrixParam` 
-* [x] `javax.ws.rs.PathParam` 
-* [x] `javax.ws.rs.HeaderParam` 
-* [x] `javax.ws.rs.CookieParam` 
-* [x] `javax.ws.rs.BodyParam` 
-* [x] `javax.ws.rs.StreamParam` 
-* [x] `javax.ws.rs.SessionParam` 
+* [x] `javax.ws.rs.QueryParam`
+* [x] `javax.ws.rs.FormParam`
+* [ ] `javax.ws.rs.MatrixParam`
+* [x] `javax.ws.rs.PathParam`
+* [x] `javax.ws.rs.HeaderParam`
+* [x] `javax.ws.rs.CookieParam`
+* [x] `javax.ws.rs.BodyParam`
+* [x] `javax.ws.rs.StreamParam`
+* [x] `javax.ws.rs.SessionParam`
 
 ## 2. Java Types
 
@@ -53,7 +53,7 @@ Ignored `java.lang.char` and `java.lang.byte` because it's not common.
 * `java.util.Date`
 * `java.util.Calendar` - Abstract Class
 * `java.util.Set` - Interface
-* `java.util.List` - Interface 
+* `java.util.List` - Interface
 * `java.util.Collection` - Interface
 * `io.vertx.core.json.JsonArray`
 * `io.vertx.core.json.JsonObject`

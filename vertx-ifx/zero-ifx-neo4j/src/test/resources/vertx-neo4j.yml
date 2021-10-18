@@ -1,5 +1,6 @@
 neo4j:
-  config:
-    hostname: ox.engine.cn
-    username: neo4j
-    password: "pl,okmijn123"
+  port: 7687
+  protocol: bolt
+  hostname: 10.0.0.20
+  username: neo4j
+  password: "pl,okmijn123"

@@ -6,8 +6,7 @@ import io.vertx.core.CompositeFuture;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.ext.web.RoutingContext;
-import io.vertx.up.commune.Envelop;
+import io.vertx.up.commune.secure.Acl;
 import io.vertx.up.log.Annal;
 
 import java.util.List;
@@ -54,15 +53,9 @@ public class Sc {
         ScLog.warnWeb(LOGGER, pattern, args);
     }
 
-    /*
-     * Uri normalize and extraction of tool
-     */
-    public static String uri(final String uri, final String requestUri) {
-        return ScPhase.uri(uri, requestUri);
-    }
-
-    public static String uri(final RoutingContext context) {
-        return ScPhase.uri(context);
+    public static void infoView(final Class<?> clazz, final String pattern, final Object... args) {
+        final Annal LOGGER = Annal.get(clazz);
+        ScLog.infoView(LOGGER, pattern, args);
     }
 
     /*
@@ -72,27 +65,11 @@ public class Sc {
      *    - put data into code cache
      */
     public static <V> Future<V> cacheCode(final String key) {
-        return ScCache.code(key);
+        return ScTool.code(key);
     }
 
     public static <V> Future<V> cacheCode(final String key, final V value) {
-        return ScCache.code(key, value);
-    }
-
-    public static <V> Future<V> cachePermission(final String key) {
-        return ScCache.permission(key);
-    }
-
-    public static <V> Future<V> cachePermission(final String key, final V value) {
-        return ScCache.permission(key, value);
-    }
-
-    public static <V> Future<V> clearPermission(final String key) {
-        return ScCache.permissionClear(key);
-    }
-
-    public static Future<JsonObject> cacheBound(final RoutingContext context, final Envelop envelop) {
-        return ScPhase.cacheBound(context, envelop);
+        return ScTool.code(key, value);
     }
 
     /*
@@ -102,12 +79,16 @@ public class Sc {
      * - codeLength
      * - codePool
      */
-    public static String generateCode() {
-        return ScTool.generateCode();
+    public static String valueCode() {
+        return ScTool.valueCode();
     }
 
-    public static String generateProfileKey(final SResource resource) {
-        return ScTool.generateProfileKey(resource);
+    public static String valuePassword() {
+        return ScTool.valuePassword();
+    }
+
+    public static String valueProfile(final SResource resource) {
+        return ScTool.valueProfile(resource);
     }
 
     /*
@@ -146,5 +127,16 @@ public class Sc {
 
     public static <T> Future<List<T>> composite(final CompositeFuture res) {
         return ScFn.composite(res);
+    }
+
+    /*
+     * Acl method
+     */
+    public static JsonArray aclOn(final JsonArray original, final Acl acl) {
+        return ScAcl.aclOn(original, acl);
+    }
+
+    public static void aclRecord(final JsonObject record, final Acl acl) {
+        ScAcl.aclRecord(record, acl);
     }
 }

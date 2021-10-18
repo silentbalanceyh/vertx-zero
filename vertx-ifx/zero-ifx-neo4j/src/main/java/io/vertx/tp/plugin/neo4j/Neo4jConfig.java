@@ -32,7 +32,7 @@ public class Neo4jConfig implements Serializable {
         this.port = Objects.isNull(input.getInteger("port")) ? 7687 : input.getInteger("port");
         this.hostname = input.getString("hostname");
         this.async = Objects.isNull(input.getBoolean("async")) ? false : input.getBoolean("async");
-        this.protocol = Objects.isNull(input.getString("protocol")) ? "bolt": input.getString("protocol");
+        this.protocol = Objects.isNull(input.getString("protocol")) ? "bolt" : input.getString("protocol");
         this.config = this.getConfig(input);
     }
 
@@ -63,7 +63,7 @@ public class Neo4jConfig implements Serializable {
      */
     public String uri() {
         return MessageFormat.format("{2}://{0}:{1}",
-                this.hostname, String.valueOf(this.port), this.protocol);
+            this.hostname, String.valueOf(this.port), this.protocol);
     }
 
     /*

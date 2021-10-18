@@ -30,23 +30,23 @@ class Bridge {
     static void connect(final Model model,
                         final Set<Schema> schemaSet,
                         final Consumer<Set<Schema>> consumer) {
-        final Set<MJoin> joins = model.getJoins();
+        final Set<MJoin> joins = model.dbJoins();
         if (!joins.isEmpty()) {
             // 查找和 joins 中定义匹配的 Schema
             final Set<Schema> found = schemaSet.stream()
-                    // 过滤 null
+                // 过滤 null
+                .filter(Objects::nonNull)
+                .filter(schema -> Objects.nonNull(schema.getEntity()))
+                // 匹配 model 和 schema的名空间
+                .filter(schema -> StringUtils.equals(schema.namespace(), model.namespace()))
+                // 当前 join 中包含了该 schema
+                .filter(schema -> joins.stream()
                     .filter(Objects::nonNull)
-                    .filter(schema -> Objects.nonNull(schema.getEntity()))
-                    // 匹配 model 和 schema的名空间
-                    .filter(schema -> StringUtils.equals(schema.namespace(), model.namespace()))
-                    // 当前 join 中包含了该 schema
-                    .filter(schema -> joins.stream()
-                            .filter(Objects::nonNull)
-                            // 计算 join 中的 entity 是否和 schema 的 identifier 相等
-                            .map(MJoin::getEntity)
-                            .filter(Objects::nonNull)
-                            .anyMatch(entity -> entity.equals(schema.identifier())))
-                    .collect(Collectors.toSet());
+                    // 计算 join 中的 entity 是否和 schema 的 identifier 相等
+                    .map(MJoin::getEntity)
+                    .filter(Objects::nonNull)
+                    .anyMatch(entity -> entity.equals(schema.identifier())))
+                .collect(Collectors.toSet());
             // 连接过后执行
             if (!found.isEmpty()) {
                 // 执行消费处理
@@ -58,26 +58,26 @@ class Bridge {
     static void connect(final Model model,
                         final Set<Schema> found) {
         // 核心方法，用于链接
-        final Set<Schema> schemata = model.getSchemata();
+        final Set<Schema> schemata = model.schemata();
         // 不可能null
         assert null != schemata : "[OxA] 当前Schema集合不可能为空！";
         schemata.clear();
         schemata.addAll(found);
 
         // 针对模型的属性的处理
-        final Set<MAttribute> attributes = model.getAttributes();
+        final Set<MAttribute> attributes = model.dbAttributes();
         /*
          * 1.只有特殊情况会在这个流程中填充source，一个是连接过后值为1
          * 2.另外一个是模型类型为DIRECT
          */
-        final ModelType type = Ut.toEnum(ModelType.class, model.getModel().getType());
+        final ModelType type = Ut.toEnum(ModelType.class, model.dbModel().getType());
         if (Values.ONE == schemata.size() && ModelType.DIRECT == type) {
             // 判断模型的类型
             final Schema schema = schemata.iterator().next();
             // 设置对应的 source
             attributes.stream()
-                    .filter(attribute -> Ut.isNil(attribute.getSource()))
-                    .forEach(attribute -> attribute.setSource(schema.identifier()));
+                .filter(attribute -> Ut.isNil(attribute.getSource()))
+                .forEach(attribute -> attribute.setSource(schema.identifier()));
         }
     }
 
@@ -89,33 +89,33 @@ class Bridge {
         // 1. 读取 DataKey
         final DataKey key = DataKey.create(unique);
         // 2. 读取 Schema
-        final Set<MJoin> joins = model.getJoins();
-        final Set<Schema> schema = model.getSchemata();
+        final Set<MJoin> joins = model.dbJoins();
+        final Set<Schema> schema = model.schemata();
         /*
          * 正常模式下，joins > 1 和 schema > 1 发生时，需要进行第一次分流，而且必须满足基本条件
          * joins.size() >= schema.size() >= 1
          * 否则直接抛出异常信息
          */
         Fn.outWeb(joins.size() < 1 || schema.size() < 1 || schema.size() < joins.size(),
-                _417RelationCounterException.class, Bridge.class,
-                /* ARG1：当前模型的标识，同一个应用中的模型标识唯一 */ model.getModel().getIdentifier(),
-                /* ARG2：当前模型 Model 中对应的实体数量 */ schema.size(),
-                /* ARG3：当前模型 Model 中定义的 MJoin 的数量 */ joins.size());
+            _417RelationCounterException.class, Bridge.class,
+            /* ARG1：当前模型的标识，同一个应用中的模型标识唯一 */ model.dbModel().getIdentifier(),
+            /* ARG2：当前模型 Model 中对应的实体数量 */ schema.size(),
+            /* ARG3：当前模型 Model 中定义的 MJoin 的数量 */ joins.size());
         /*
          * 先根据 Schema Size 计算当前的模型的类型：
          * JOINED：1 model - n entity
          * DIRECT：1 model - 1 entity
          */
         if (1 < schema.size()) {
-            model.getModel().setType(ModelType.JOINED.name());
+            model.dbModel().setType(ModelType.JOINED.name());
             /*
              * 多表流程，这个时候 schema 的长度 > 1.
              * 读取 Schema 的信息来计算
              */
             if (schema.size() == joins.size()) {
                 final Set<String> targets = joins.stream()
-                        .map(MJoin::getEntityKey)
-                        .filter(Objects::nonNull).collect(Collectors.toSet());
+                    .map(MJoin::getEntityKey)
+                    .filter(Objects::nonNull).collect(Collectors.toSet());
                 if (1 == targets.size()) {
                     /*
                      * 同键单键连接，每个实体只有一个键，而键名相同
@@ -135,7 +135,7 @@ class Bridge {
                 key.setMode(IdMode.JOIN_COLLECTION);
             }
         } else {
-            model.getModel().setType(ModelType.DIRECT.name());
+            model.dbModel().setType(ModelType.DIRECT.name());
             /*
              * 单表流程，这个时候 schema 和 join 的size都应该是 1.
              * 读取 Schema 的信息
@@ -155,6 +155,6 @@ class Bridge {
                 key.setMode(IdMode.COLLECTION);
             }
         }
-        model.setKey(key);
+        model.key(key);
     }
 }

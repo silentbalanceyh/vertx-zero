@@ -2,23 +2,24 @@ package io.vertx.up.util;
 
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.eon.Strings;
-import io.vertx.up.exception.heart.JexlExpressionException;
 import io.vertx.up.fn.Fn;
 import org.apache.commons.jexl3.*;
 
 import java.util.*;
 import java.util.function.Supplier;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * @author lang
  */
 final class StringUtil {
     private static final JexlEngine EXPR = new JexlBuilder()
-            .cache(512).silent(false).create();
+        .cache(512).silent(false).create();
     private static final String SEED =
-            "01234567890qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM";
+        "01234567890qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM";
     private static final String CHAR =
-            "qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM";
+        "qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM";
 
     private StringUtil() {
     }
@@ -49,7 +50,7 @@ final class StringUtil {
     static String join(final Object[] input, final String separator) {
         final Set<String> hashSet = new HashSet<>();
         Arrays.stream(input).filter(Objects::nonNull)
-                .map(Object::toString).forEach(hashSet::add);
+            .map(Object::toString).forEach(hashSet::add);
         return join(hashSet, separator);
     }
 
@@ -131,10 +132,17 @@ final class StringUtil {
             // Parameter
             final JexlContext context = new MapContext();
             Ut.itJObject(params, (value, key) -> context.set(key, value));
-            return expression.evaluate(context).toString();
+            // Processed
+            final Object result = expression.evaluate(context);
+            if (Objects.nonNull(result)) {
+                return result.toString();
+            } else {
+                return null;
+            }
         } catch (final JexlException ex) {
-            ex.printStackTrace();   // For Debug
-            throw new JexlExpressionException(StringUtil.class, expr, ex);
+            // ex.printStackTrace();    // For Debug
+            return null;                // Get null
+            // throw new JexlExpressionException(StringUtil.class, expr, ex);
         }
     }
 
@@ -142,7 +150,23 @@ final class StringUtil {
         return null == input || 0 == input.trim().length();
     }
 
+    static boolean isNilOr(final String... inputs) {
+        final long counter = Arrays.stream(inputs).filter(StringUtil::isNil).count();
+        return counter != 0L;
+    }
+
     static boolean notNil(final String input) {
         return !isNil(input);
+    }
+
+    static Set<String> matched(final String input, final String regex) {
+        final Pattern pattern = Pattern.compile(regex, Pattern.MULTILINE);
+        final Matcher matcher = pattern.matcher(input);
+        final Set<String> matchSet = new HashSet<>();
+        while (matcher.find()) {
+            final String found = matcher.group();
+            matchSet.add(found);
+        }
+        return matchSet;
     }
 }

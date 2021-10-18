@@ -16,11 +16,37 @@ public class UiPin {
         UiConfiguration.init();
     }
 
-    public static UiConfig getConfig() {
-        return UiConfiguration.getConfig();
+    public static JsonArray getOp() {
+        return UiConfiguration.getOp();
     }
 
     public static JsonArray getColumn(final String identifier) {
         return UiConfiguration.getColumn(identifier);
+    }
+
+    public static JsonArray attributes(final String identifier) {
+        return UiConfiguration.attributes(identifier);
+    }
+
+    public static String keyControl() {
+        final UiConfig config = UiConfiguration.getConfig();
+        if (config.okCache()) {
+            return config.keyControl();
+        } else {
+            return null;
+        }
+    }
+
+    public static String keyOps() {
+        final UiConfig config = UiConfiguration.getConfig();
+        if (config.okCache()) {
+            return config.keyOps();
+        } else {
+            return null;
+        }
+    }
+
+    public static int keyExpired() {
+        return UiConfiguration.getConfig().getCacheExpired();
     }
 }

@@ -14,12 +14,13 @@ import java.util.concurrent.ConcurrentMap;
 public interface Node<T> {
 
     ConcurrentMap<String, Node<JsonObject>> REFERENCES
-            = new ConcurrentHashMap<>();
+        = new ConcurrentHashMap<>();
 
     /**
      * Infix usage for dynamic configuraiton laoding.
      *
      * @param key the up.god.file extension start with "vertx-xx"
+     *
      * @return Node reference that contains JsonObject data.
      */
     static Node<JsonObject> infix(final String key) {

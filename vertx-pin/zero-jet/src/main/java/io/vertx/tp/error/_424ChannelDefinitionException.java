@@ -9,7 +9,7 @@ public class _424ChannelDefinitionException extends WebException {
                                           final String expectedChannels,
                                           final Class<?> target) {
         super(clazz, expectedChannels, target.getName(),
-                null == target.getSuperclass() ? null : target.getSuperclass().getName());
+            null == target.getSuperclass() ? null : target.getSuperclass().getName());
     }
 
     @Override

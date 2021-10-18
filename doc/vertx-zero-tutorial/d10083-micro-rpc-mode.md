@@ -5,7 +5,8 @@ In zero system, it support two modes of Rpc:
 * Stream Mode
 * Direct Mode
 
-Because rpc communication is used in zero different nodes only, we call it `IPC` -- Internal Process Communication, this channel could help us to do many works in micro service environment.
+Because rpc communication is used in zero different nodes only, we call it `IPC` -- Internal Process Communication, this
+channel could help us to do many works in micro service environment.
 
 ## 1. Roles
 
@@ -19,7 +20,10 @@ All these nodes should be configured as `rpc server` instead of others.
 
 ### 1.1. Configuration
 
-Above three roles could be defined by different attributes, zero system will detect them on your method, another thing is that these roles focus on **method** instead of service, it means that your method function has the role attribute, but one service could contain `Originator, Coordinator, Terminator` etc. In the service you can do this configuration as following:
+Above three roles could be defined by different attributes, zero system will detect them on your method, another thing
+is that these roles focus on **method** instead of service, it means that your method function has the role attribute,
+but one service could contain `Originator, Coordinator, Terminator` etc. In the service you can do this configuration as
+following:
 
 ```java
     // Originator 
@@ -40,7 +44,8 @@ Above three roles could be defined by different attributes, zero system will det
     public String send(final Envelop envelop) ...
 ```
 
-From above java code you should know the role definition focus on method, when your service contains many classes with different methods, these methods could be different roles.
+From above java code you should know the role definition focus on method, when your service contains many classes with
+different methods, these methods could be different roles.
 
 ## 2. Stream Mode
 
@@ -58,11 +63,14 @@ Based on above ipc workflow you should know:
 
 1. `Service A & Service C` are originator, it means that this role could receive the request from client
 2. `Service B` is the terminator, it could reply the final response to client.
-3. Other nodes `Service F, Service E, Service D` are coordinators, they could receive from previous service nodes and continue to process the method and send the result to the next nodes.
+3. Other nodes `Service F, Service E, Service D` are coordinators, they could receive from previous service nodes and
+   continue to process the method and send the result to the next nodes.
 
 ## 3. Direct Mode
 
-This mode is frequently used in our micro service business requirements, we call Rpc Service directly with rpc client, but in this kind of situation, there is only one role that often be used: **Terminator/Coordinator**, here the Consumer act as Originator instead, in this kind of situation, it's not needed to provide Originator role.
+This mode is frequently used in our micro service business requirements, we call Rpc Service directly with rpc client,
+but in this kind of situation, there is only one role that often be used: **Terminator/Coordinator**, here the Consumer
+act as Originator instead, in this kind of situation, it's not needed to provide Originator role.
 
 ![](/doc/image/d10083-3.png)
 

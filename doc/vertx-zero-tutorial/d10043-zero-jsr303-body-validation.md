@@ -1,6 +1,7 @@
 # D10043 - Zero JSR303, Body Validation
 
-Zero system extend JSR303 specification and set another validation method for body validation especially for JSON format data validation. This tutorial describes how to use advanced validation for `JsonObject` in zero system.
+Zero system extend JSR303 specification and set another validation method for body validation especially for JSON format
+data validation. This tutorial describes how to use advanced validation for `JsonObject` in zero system.
 
 Demo projects:
 
@@ -8,11 +9,15 @@ Demo projects:
 
 **Rules**:
 
-1. JSR303 is only supported in Agent component in zero system, it means that after you have send the message to event bus, the JSR303 will be effectiveness.
-2. When you write the code with the Interface Style \( Will introduce in forward tutorials \), JSR303 will not support this kind of situation.
-3. For @BodyParam, it also impact Agent component only, but could support Interface Style instead of JSR303 and could provide more useful validations.
+1. JSR303 is only supported in Agent component in zero system, it means that after you have send the message to event
+   bus, the JSR303 will be effectiveness.
+2. When you write the code with the Interface Style \( Will introduce in forward tutorials \), JSR303 will not support
+   this kind of situation.
+3. For @BodyParam, it also impact Agent component only, but could support Interface Style instead of JSR303 and could
+   provide more useful validations.
 
-Advanced Validation is supported by zero system in all styles \( **JSR303 is not supported by interface style **\). Here we'll use another new annotation that defined by zero system:
+Advanced Validation is supported by zero system in all styles \( **JSR303 is not supported by interface style **\). Here
+we'll use another new annotation that defined by zero system:
 
 * `io.vertx.up.annotations.Codex`
 
@@ -20,7 +25,9 @@ This annotation will tell zero system that there should be a codex up.god.file t
 
 ## 1. Configuration
 
-Under your `src/main/resource` folder, there should be a folder named codex and all the codex files will be put here, then create a up.god.file named `api.jsr303.advanced.post.yml` , this up.god.file name should be `<api>.<method>` format, the content is as following:
+Under your `src/main/resource` folder, there should be a folder named codex and all the codex files will be put here,
+then create a up.god.file named `api.jsr303.advanced.post.yml` , this up.god.file name should be `<api>.<method>`
+format, the content is as following:
 
 ```yaml
 username:
@@ -123,7 +130,8 @@ public class BodyActor {
 
 ## 4. Summary
 
-From above examples you have known how to use advanced codex validation for Json format data of `JsonObject` and now we provided following types of validation
+From above examples you have known how to use advanced codex validation for Json format data of `JsonObject` and now we
+provided following types of validation
 
 * [x] required: \( message \)
 * [x] length: \( min, max, message \)
@@ -132,5 +140,6 @@ From above examples you have known how to use advanced codex validation for Json
 * [x] empty \( message \) \( **For Collection checking** \)
 * [x] singlefile \( message \) \( **For Uploading checking, only one up.god.file valid** \)
 
-In future we'll provide more advanced codex for business requirements, it's defined by zero system for Json Data validation.
+In future we'll provide more advanced codex for business requirements, it's defined by zero system for Json Data
+validation.
 

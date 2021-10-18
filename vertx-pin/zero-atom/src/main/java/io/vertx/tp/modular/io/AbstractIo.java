@@ -47,7 +47,7 @@ public abstract class AbstractIo implements AoIo {
         final List<DataRow> rows = this.getRows();
         /* 每一行设置主键，没有值的时候设置主键，有值不设置 */
         rows.stream().filter(row -> Objects.isNull(row.getId()))
-                .forEach(row -> row.setKey(UUID.randomUUID()));
+            .forEach(row -> row.setKey(UUID.randomUUID()));
         return this;
     }
 
@@ -57,6 +57,10 @@ public abstract class AbstractIo implements AoIo {
 
     DataRow newRow() {
         return new DataRow(this.tpl);
+    }
+
+    DataTpl tpl() {
+        return this.tpl;
     }
 
     // 针对数据行的处理

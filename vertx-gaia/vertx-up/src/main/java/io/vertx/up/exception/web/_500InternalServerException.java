@@ -7,7 +7,7 @@ public class _500InternalServerException extends WebException {
 
     public _500InternalServerException(final Class<?> clazz,
                                        final String details) {
-        super(clazz, details);
+        super(clazz, clazz, details);
     }
 
     @Override

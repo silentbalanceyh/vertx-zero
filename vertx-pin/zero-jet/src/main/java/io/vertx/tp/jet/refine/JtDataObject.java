@@ -7,11 +7,12 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.tp.jet.atom.JtApp;
 import io.vertx.tp.jet.cv.JtConstant;
 import io.vertx.tp.jet.cv.em.WorkerType;
-import io.vertx.tp.ke.cv.KeField;
 import io.vertx.tp.optic.environment.Ambient;
 import io.vertx.up.commune.config.Database;
-import io.vertx.up.commune.config.Dict;
 import io.vertx.up.commune.config.Integration;
+import io.vertx.up.commune.exchange.DiSetting;
+import io.vertx.up.commune.rule.RuleUnique;
+import io.vertx.up.eon.KName;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.util.Ut;
 
@@ -28,7 +29,7 @@ class JtDataObject {
             final Integration integration = new Integration();
             integration.fromJson(data);
             // Dict
-            final Dict dict = JtBusiness.toDict(service);
+            final DiSetting dict = JtBusiness.toDict(service);
             if (Objects.nonNull(dict) && !dict.getEpsilon().isEmpty()) {
                 /*
                  * Internal binding
@@ -40,6 +41,19 @@ class JtDataObject {
              */
             // TODO: SSL Options
             return integration;
+        }
+    }
+
+    static RuleUnique toRule(final IService service) {
+        if (Objects.isNull(service)) {
+            return null;
+        } else {
+            final String rules = service.getRuleUnique();
+            if (Ut.isNil(rules)) {
+                return null;
+            } else {
+                return Ut.deserialize(rules, RuleUnique.class);
+            }
         }
     }
 
@@ -112,9 +126,9 @@ class JtDataObject {
         final JsonObject options = Ut.toJObject(service.getServiceConfig());
         {
             /* default options, you can add more */
-            options.put(KeField.NAME, app.getName());
-            options.put(KeField.SIGMA, app.getSigma());
-            options.put(KeField.IDENTIFIER, service.getIdentifier());
+            options.put(KName.NAME, app.getName());
+            options.put(KName.SIGMA, app.getSigma());
+            options.put(KName.IDENTIFIER, service.getIdentifier());
         }
         return options;
     }
@@ -129,12 +143,12 @@ class JtDataObject {
          * workerJs
          */
         Fn.safeSemi(Ut.isNil(api.getWorkerClass()),
-                () -> api.setWorkerClass(JtConstant.COMPONENT_DEFAULT_WORKER.getName()));
+            () -> api.setWorkerClass(JtConstant.COMPONENT_DEFAULT_WORKER.getName()));
         Fn.safeSemi(Ut.isNil(api.getWorkerAddress()),
-                () -> api.setWorkerAddress(JtConstant.EVENT_ADDRESS));
+            () -> api.setWorkerAddress(JtConstant.EVENT_ADDRESS));
         Fn.safeSemi(Ut.isNil(api.getWorkerConsumer()),
-                () -> api.setWorkerConsumer(JtConstant.COMPONENT_DEFAULT_CONSUMER.getName()));
+            () -> api.setWorkerConsumer(JtConstant.COMPONENT_DEFAULT_CONSUMER.getName()));
         Fn.safeSemi(Ut.isNil(api.getWorkerType()),
-                () -> api.setWorkerType(WorkerType.STD.name()));
+            () -> api.setWorkerType(WorkerType.STD.name()));
     }
 }

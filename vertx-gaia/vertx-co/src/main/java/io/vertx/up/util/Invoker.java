@@ -1,6 +1,5 @@
 package io.vertx.up.util;
 
-import com.esotericsoftware.reflectasm.MethodAccess;
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Future;
 import io.vertx.core.Handler;
@@ -9,6 +8,7 @@ import io.vertx.up.exception.zero.InvokingSpecException;
 import io.vertx.up.fn.Fn;
 
 import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -21,31 +21,65 @@ final class Invoker {
     private Invoker() {
     }
 
+    static <T> T invokeStatic(
+        final Class<?> clazz,
+        final String name,
+        final Object... args
+    ) {
+        Objects.requireNonNull(clazz);
+        final Method[] methods = clazz.getDeclaredMethods();
+        Method found = null;
+        for (final Method method : methods) {
+            if (name.equals(method.getName())) {
+                found = method;
+                break;
+            }
+        }
+        if (Objects.isNull(found) || !Modifier.isStatic(found.getModifiers())) {
+            return null;
+        }
+        final Method invoker = found;
+        return (T) Fn.getJvm(null, () -> invoker.invoke(null, args));
+    }
+
     static <T> T invokeObject(
-            final Object instance,
-            final String name,
-            final Object... args) {
+        final Object instance,
+        final String name,
+        final Object... args) {
         return Fn.getNull(() -> {
-            final MethodAccess access = MethodAccess.get(instance.getClass());
             // Direct invoke, multi overwrite for unbox/box issue still existing.
-            // TODO: Unbox/Box type issue
+            final Class<?> clazz = instance.getClass();
+            final List<Class<?>> types = new ArrayList<>();
+            for (final Object arg : args) {
+                if (Objects.isNull(arg)) {
+                    types.add(null);
+                } else {
+                    types.add(Ut.toPrimary(arg.getClass()));
+                }
+            }
             Object result;
             try {
-                result = access.invoke(instance, name, args);
+                final Class<?>[] arguments = types.toArray(new Class<?>[]{});
+                final Method[] methods = clazz.getMethods();
+                Method method = null;
+                for (final Method hit : methods) {
+                    if (isMatch(hit, name, arguments)) {
+                        method = hit;
+                        break;
+                    }
+                }
+                if (Objects.isNull(method)) {
+                    result = null;
+                } else {
+                    result = method.invoke(instance, args);
+                }
             } catch (final Throwable ex) {
                 ex.printStackTrace();
                 // Could not call, re-find the method by index
                 // Search method by argument index because could not call directly
-                final int index;
-                final List<Class<?>> types = new ArrayList<>();
-                for (final Object arg : args) {
-                    types.add(Ut.toPrimary(arg.getClass()));
-                }
-                index = access.getIndex(name, types.toArray(new Class<?>[]{}));
-                result = access.invoke(instance, index, args);
+                result = null;
             }
-            final Object ret = result;
-            return Fn.getNull(() -> (T) ret, ret);
+            return (T) result;
         }, instance, name);
     }
 
@@ -72,7 +106,7 @@ final class Invoker {
                  *    method declared length = args length + 1
                  */
                 Fn.out(method.getParameters().length != args.length + 1,
-                        InvokingSpecException.class, Invoker.class, method);
+                    InvokingSpecException.class, Invoker.class, method);
                 /*
                  * void.class, the system should provide secondary parameters
                  */
@@ -130,7 +164,6 @@ final class Invoker {
                 }
             }
         } catch (final Throwable ex) {
-            // TODO: DEBUG for JVM
             ex.printStackTrace();
             return Future.failedFuture(ex);
         }
@@ -142,21 +175,39 @@ final class Invoker {
         return clazz == interfaceCls || Instance.isMatch(clazz, interfaceCls);
     }
 
-    static <T> T invokeInterface(
-            final Class<?> interfaceCls,
-            final String name,
-            final Object... args) {
-        final Object delegate = getProxy(interfaceCls);
-        return Fn.getJvm(() -> invokeObject(delegate, name, args), delegate);
+    private static boolean isMatch(final Method method, final String name, final Class<?>[] arguments) {
+        if (!name.equals(method.getName())) {
+            // Name not match
+            return false;
+        }
+        final Class<?>[] parameters = method.getParameterTypes();
+        if (arguments.length != parameters.length) {
+            // Argument length not match
+            return false;
+        }
+        boolean allMatch = true;
+        for (int idx = 0; idx < parameters.length; idx++) {
+            Class<?> argument = arguments[idx];
+            if (Objects.isNull(argument)) {
+                continue;
+            }
+            final Class<?> parameter = Ut.toPrimary(parameters[idx]);
+            argument = Ut.toPrimary(arguments[idx]);
+            // First situation equal
+            if (!isMatch(parameter, argument)) {
+                allMatch = false;
+                break;
+            }
+        }
+        return allMatch;
     }
 
-    static <T> T getProxy(
-            final Class<?> interfaceCls
-    ) {
-        return Fn.getNull(() -> {
-            // TODO: Generate interface proxy
-
-            return null;
-        }, interfaceCls);
+    private static boolean isMatch(final Class<?> parameterIdx, final Class<?> argumentIdx) {
+        final Class<?> parameter = Ut.toPrimary(parameterIdx);
+        final Class<?> argument = Ut.toPrimary(argumentIdx);
+        if (argument == parameter) {
+            return true;
+        }
+        return parameter.isAssignableFrom(argument);
     }
 }

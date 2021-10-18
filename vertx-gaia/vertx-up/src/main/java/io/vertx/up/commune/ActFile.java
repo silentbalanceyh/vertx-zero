@@ -28,14 +28,14 @@ class ActFile implements Serializable {
 
     private void partData(final JsonArray fileData) {
         fileData.stream()
-                .filter(item -> item instanceof JsonObject)
-                .map(item -> (JsonObject) item)
-                .forEach(item -> {
-                    final File file = new File(item.getString("path"));
-                    if (file.exists()) {
-                        this.files.add(file);
-                    }
-                });
+            .filter(item -> item instanceof JsonObject)
+            .map(item -> (JsonObject) item)
+            .forEach(item -> {
+                final File file = new File(item.getString("path"));
+                if (file.exists()) {
+                    this.files.add(file);
+                }
+            });
     }
 
     File[] getFiles() {

@@ -5,6 +5,6 @@ import java.util.concurrent.ConcurrentMap;
 
 interface Pool {
     ConcurrentMap<String, ScDetent> DETENT_POOL =
-            new ConcurrentHashMap<>();
+        new ConcurrentHashMap<>();
 }
 

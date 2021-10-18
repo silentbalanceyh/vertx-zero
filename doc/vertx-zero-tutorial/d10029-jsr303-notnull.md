@@ -1,12 +1,15 @@
 # D10029 - JSR303, @NotNull
 
-From this chapter, we'll ignore the console output because in previous tutorials, you have known most of zero output logs. In many business scenarios, you need following features in your system:
+From this chapter, we'll ignore the console output because in previous tutorials, you have known most of zero output
+logs. In many business scenarios, you need following features in your system:
 
 * Validator: When the data you got from client is invalid, you must provide rejection response.
 * Filter: You could do some conversion in your request.
 * Listener: You need some background schedulers to monitor the system status.
 
-From this chapter we'll focus on [JSR303, Bean Validation](https://jcp.org/en/jsr/detail?id=303) part, zero has used Hibernate Validator to support JSR303 validation, except this specification, zero system created another advanced validation feature to verify your json data format, it's common used in different Body Request here.
+From this chapter we'll focus on [JSR303, Bean Validation](https://jcp.org/en/jsr/detail?id=303) part, zero has used
+Hibernate Validator to support JSR303 validation, except this specification, zero system created another advanced
+validation feature to verify your json data format, it's common used in different Body Request here.
 
 Demo projects:
 
@@ -14,9 +17,12 @@ Demo projects:
 
 **Rules**:
 
-1. JSR303 is only supported in Agent component in zero system, it means that after you have send the message to event bus, the JSR303 will be effectiveness.
-2. When you write the code with the Interface Style \( Will introduce in forward tutorials \), JSR303 will not support this kind of situation.
-3. For @BodyParam, it also impact Agent component only, but could support Interface Style instead of JSR303 and could provide more useful validations.
+1. JSR303 is only supported in Agent component in zero system, it means that after you have send the message to event
+   bus, the JSR303 will be effectiveness.
+2. When you write the code with the Interface Style \( Will introduce in forward tutorials \), JSR303 will not support
+   this kind of situation.
+3. For @BodyParam, it also impact Agent component only, but could support Interface Style instead of JSR303 and could
+   provide more useful validations.
 
 ## 1. Source Code
 
@@ -62,11 +68,15 @@ public class NotNullActor {
 
 ## 3. Summary
 
-From above response information, you should see the validation failure in zero system, please read following comments for each json node meanings:
+From above response information, you should see the validation failure in zero system, please read following comments
+for each json node meanings:
 
-* **code**: The error code that defined by zero system, you could lookup Error Codes of zero system to know what kind of issues that you met.
-* **message**: The system error message that you'll meet, it describes that the error details, but it could not be provided to client because it's unreadable.
-* **info** : The information for client to describe the error messages. In forward tutorials we'll introduce how to define this info and provide the information to client.
+* **code**: The error code that defined by zero system, you could lookup Error Codes of zero system to know what kind of
+  issues that you met.
+* **message**: The system error message that you'll meet, it describes that the error details, but it could not be
+  provided to client because it's unreadable.
+* **info** : The information for client to describe the error messages. In forward tutorials we'll introduce how to
+  define this info and provide the information to client.
 
 
 

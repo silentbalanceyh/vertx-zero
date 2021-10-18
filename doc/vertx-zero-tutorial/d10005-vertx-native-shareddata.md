@@ -1,13 +1,15 @@
 # D10105 - Vert.x Native, SharedData
 
-Actually, shared client is not native client, but we wrapper a concept in vert.x named **SharedData** , this client used this concept provide following features.
+Actually, shared client is not native client, but we wrapper a concept in vert.x named **SharedData** , this client used
+this concept provide following features.
 
 * Temporary storage of Map to store the data such as verification code etc.
 * Temporary storage of Map to store the data that will be used once.
 
 ## 1. Configuration
 
-This chapter is duplicated with [D10106 - Configuration, vertx-tp.yml](d10106-configuration-vertx-tpyml.md), it's pre-condition to use SharedClient.
+This chapter is duplicated with [D10106 - Configuration, vertx-tp.yml](d10106-configuration-vertx-tpyml.md), it's
+pre-condition to use SharedClient.
 
 ### 1.1. vertx.yml
 
@@ -26,7 +28,8 @@ zero:
 
 ### 1.2. vertx-tp.yml
 
-This up.god.file must contain shared data information, actually there is only one configuration node named `shared`，if you want to enable this feature you can set as following:
+This up.god.file must contain shared data information, actually there is only one configuration node named `shared`，if
+you want to enable this feature you can set as following:
 
 ```yaml
 shared:
@@ -79,7 +82,8 @@ When you test this url, you should see following information in output console:
 io.vertx.tp.plugin.shared.SharedClientImpl@245fc212
 ```
 
-It means that you have got reference of `SharedClient`, then we'll move to some apis of SharedClient to see how to use this client in different situations.
+It means that you have got reference of `SharedClient`, then we'll move to some apis of SharedClient to see how to use
+this client in different situations.
 
 ## 3. Usage
 
@@ -91,7 +95,8 @@ Here shared client contains following definition:
 public interface SharedClient<K, V> { ... }
 ```
 
-Here are two generic types: `K, V`, these two types described key type and value type, that's why we could see following reference definition:
+Here are two generic types: `K, V`, these two types described key type and value type, that's why we could see following
+reference definition:
 
 ```java
 private transient SharedClient<String,String> ...
@@ -113,7 +118,8 @@ Here are two important api to get reference of `AsyncMap/LocalMap` of vert.x as 
     LocalMap<K, V> fetchSync();
 ```
 
-It means that some vert.x native developers want to use `AsyncMap/LocalMap` directly, in this situation you can call above two APIs to get reference.
+It means that some vert.x native developers want to use `AsyncMap/LocalMap` directly, in this situation you can call
+above two APIs to get reference.
 
 > But you must be careful about the configuration `config -> async`, in zero system you must use correct mode of SharedData that reflect to `async` , in other words, async = true, you can use AsyncMap, async = false, you can use LocalMap.
 
@@ -129,7 +135,8 @@ The new created `SharedClient` generic type `K, V` must be the same as original.
 
 ![](/doc/image/D10105-1.png)
 
-You can use SharedClient create any new SharedClient, all the APIs belong to the client must impact each one in the same Data Pool. If you did not create any new SharedClient, the client must refer the default.
+You can use SharedClient create any new SharedClient, all the APIs belong to the client must impact each one in the same
+Data Pool. If you did not create any new SharedClient, the client must refer the default.
 
 ```java
 private static final String NAME = "ZERO_MAP_POOL";
@@ -156,7 +163,8 @@ The last APIs of SharedClient are as following:
     SharedClient<K, V> get(K key, Handler<AsyncResult<V>> handler);
 ```
 
-Above six APIs described common operations such as `put, remove, get` by different mode \( `async/sync` \), these APIs is common used in HashMap and zero provide to developer to do some temp storage.
+Above six APIs described common operations such as `put, remove, get` by different mode \( `async/sync` \), these APIs
+is common used in HashMap and zero provide to developer to do some temp storage.
 
 ### 3.5. Once/Expired
 
@@ -170,7 +178,9 @@ Except common data pool, zero support two special map:
     SharedClient<K, V> put(K key, V value, int expiredSecs, Handler<AsyncResult<KeyPair<K, V>>> handler);
 ```
 
-Here are additional `int expiredSecs`, it means that the `key = value` will be expired in `expiredSecs` seconds, it could be used to store some verification code \( by mobile \) or other data that should be expired duration limit seconds.
+Here are additional `int expiredSecs`, it means that the `key = value` will be expired in `expiredSecs` seconds, it
+could be used to store some verification code \( by mobile \) or other data that should be expired duration limit
+seconds.
 
 ```java
 
@@ -180,11 +190,14 @@ Here are additional `int expiredSecs`, it means that the `key = value` will be e
     SharedClient<K, V> get(K key, boolean once, Handler<AsyncResult<V>> handler);
 ```
 
-Another map is that when you get data from data pool, you can provide the parameter `once`, if it's false, the usage is the same as common API, if it's true, after you get the data from data pool, the `key = value` will be removed and it's once consume for developers.
+Another map is that when you get data from data pool, you can provide the parameter `once`, if it's false, the usage is
+the same as common API, if it's true, after you get the data from data pool, the `key = value` will be removed and it's
+once consume for developers.
 
 ## 4. Summary
 
-This tutorial described the SharedData feature that zero system provided, it could be used in many business situations such as 
+This tutorial described the SharedData feature that zero system provided, it could be used in many business situations
+such as
 
 * Mobile verification code by sms \( The code must be expired in 30 seconds \);
 * Authorization Code to exchange token \( The code must be used once \);

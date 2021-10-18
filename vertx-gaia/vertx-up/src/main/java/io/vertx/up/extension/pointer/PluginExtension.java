@@ -51,14 +51,14 @@ public interface PluginExtension {
             final HttpStatusCode code = envelop.status();
 
             return (HttpStatusCode.OK == code) ?
-                    /*
-                     * Ok response enabled plugin
-                     */
-                    PluginRegion.after(context, envelop) :
-                    /*
-                     * Otherwise failure throw out directly
-                     */
-                    Ux.future(envelop);
+                /*
+                 * Ok response enabled plugin
+                 */
+                PluginRegion.after(context, envelop) :
+                /*
+                 * Otherwise failure throw out directly
+                 */
+                Ux.future(envelop);
         }
     }
 
@@ -78,24 +78,24 @@ public interface PluginExtension {
              *    updatedAt, updatedBy
              */
             return PluginAuditor.audit(context, envelop)
-                    /*
-                     * DataRegion before
-                     * Parameter will be modified
-                     * 1) Could support POST/PUT only
-                     * 2) The standard query engine parameters is as:
-                     * {
-                     *     criteria: {},
-                     *     sorter: [],
-                     *     projection: [],
-                     *     pager:{
-                     *         page: xx,
-                     *         size: xx
-                     *     }
-                     * }
-                     * 3) The `criteria` / `projection` will be modified
-                     * 4) Only impact on ArrayList / Collection
-                     */
-                    .compose(processed -> PluginRegion.before(context, processed));
+                /*
+                 * DataRegion before
+                 * Parameter will be modified
+                 * 1) Could support POST/PUT only
+                 * 2) The standard query engine parameters is as:
+                 * {
+                 *     criteria: {},
+                 *     sorter: [],
+                 *     projection: [],
+                 *     pager:{
+                 *         page: xx,
+                 *         size: xx
+                 *     }
+                 * }
+                 * 3) The `criteria` / `projection` will be modified
+                 * 4) Only impact on ArrayList / Collection
+                 */
+                .compose(processed -> PluginRegion.before(context, processed));
             /* Auditor */
             // PluginAuditor.audit(context, envelop);
 

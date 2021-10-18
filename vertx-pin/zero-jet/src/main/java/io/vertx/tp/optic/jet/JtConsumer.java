@@ -1,8 +1,8 @@
 package io.vertx.tp.optic.jet;
 
 import io.vertx.core.Future;
-import io.vertx.up.commune.Envelop;
 import io.vertx.up.commune.Commercial;
+import io.vertx.up.commune.Envelop;
 
 /*
  * Consumer interface

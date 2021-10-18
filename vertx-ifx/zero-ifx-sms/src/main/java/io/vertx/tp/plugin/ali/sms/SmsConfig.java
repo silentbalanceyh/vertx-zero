@@ -88,7 +88,7 @@ public class SmsConfig implements Serializable {
     @SuppressWarnings("all")
     public String getTpl(final String key) {
         return Fn.getSemi(null != this.tpl && this.tpl.containsKey(key), Annal.get(this.getClass()),
-                () -> this.tpl.getString(key));
+            () -> this.tpl.getString(key));
     }
 
     @Override
@@ -101,7 +101,7 @@ public class SmsConfig implements Serializable {
         }
         final SmsConfig smsConfig = (SmsConfig) o;
         return Objects.equals(this.accessId, smsConfig.accessId) &&
-                Objects.equals(this.accessSecret, smsConfig.accessSecret);
+            Objects.equals(this.accessSecret, smsConfig.accessSecret);
     }
 
     @Override

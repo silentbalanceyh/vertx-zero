@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.JsonObjectSerializer;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import io.vertx.core.json.JsonObject;
+import io.vertx.up.commune.Copyable;
 import io.vertx.up.commune.Json;
 import io.vertx.up.eon.em.DatabaseType;
 import io.vertx.up.log.Annal;
@@ -31,7 +32,7 @@ import java.util.Objects;
  * }
  * I_SERVICE -> configDatabase
  */
-public class Database implements Serializable, Json {
+public class Database implements Serializable, Json, Copyable<Database> {
 
     private static final Annal LOGGER = Annal.get(Database.class);
     private static final Node<JsonObject> VISITOR = Ut.singleton(ZeroUniform.class);
@@ -178,7 +179,7 @@ public class Database implements Serializable, Json {
     public void fromJson(final JsonObject data) {
         if (Ut.notNil(data)) {
             this.category = Ut.toEnum(() -> data.getString("category"),
-                    DatabaseType.class, DatabaseType.MYSQL5);
+                DatabaseType.class, DatabaseType.MYSQL5);
             this.hostname = data.getString("hostname");
             this.port = data.getInteger("port");
             this.instance = data.getString("instance");
@@ -195,6 +196,14 @@ public class Database implements Serializable, Json {
                 LOGGER.info("Database Options: {0}", this.options.encode());
             }
         }
+    }
+
+    @Override
+    public Database copy() {
+        final JsonObject json = this.toJson().copy();
+        final Database database = new Database();
+        database.fromJson(json);
+        return database;
     }
 
     @Override
@@ -217,15 +226,15 @@ public class Database implements Serializable, Json {
     @Override
     public String toString() {
         return "Database{" +
-                "hostname='" + this.hostname + '\'' +
-                ", instance='" + this.instance + '\'' +
-                ", port=" + this.port +
-                ", category=" + this.category +
-                ", jdbcUrl='" + this.jdbcUrl + '\'' +
-                ", username='" + this.username + '\'' +
-                ", password='" + this.password + '\'' +
-                ", driverClassName='" + this.driverClassName + '\'' +
-                ", options=" + (Objects.isNull(this.options) ? "{}" : this.options.encodePrettily()) +
-                '}';
+            "hostname='" + this.hostname + '\'' +
+            ", instance='" + this.instance + '\'' +
+            ", port=" + this.port +
+            ", category=" + this.category +
+            ", jdbcUrl='" + this.jdbcUrl + '\'' +
+            ", username='" + this.username + '\'' +
+            ", password='" + this.password + '\'' +
+            ", driverClassName='" + this.driverClassName + '\'' +
+            ", options=" + (Objects.isNull(this.options) ? "{}" : this.options.encodePrettily()) +
+            '}';
     }
 }

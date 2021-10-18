@@ -16,10 +16,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
-import java.util.function.BiConsumer;
-import java.util.function.BinaryOperator;
-import java.util.function.Function;
-import java.util.function.Supplier;
+import java.util.function.*;
 
 @SuppressWarnings("all")
 class Combine {
@@ -28,13 +25,8 @@ class Combine {
         final List<Future> futureList = new ArrayList<>(futures);
         return CompositeFuture.join(futureList).compose(finished -> {
             final List<T> result = new ArrayList<>();
-            if (null != finished) {
-                Ut.itList(finished.list(), (item, index) -> {
-                    if (Objects.nonNull(item)) {
-                        result.add((T) item);
-                    }
-                });
-            }
+            Ut.itList(finished.list(),
+                (item, index) -> result.add((T) item));
             return Future.succeededFuture(result);
         });
     }
@@ -58,17 +50,17 @@ class Combine {
     }
 
     static Future<JsonArray> thenCombine(
-            final Future<JsonArray> source,
-            final Function<JsonObject, Future<JsonObject>> generateFun,
-            final BinaryOperator<JsonObject> operatorFun
+        final Future<JsonArray> source,
+        final Function<JsonObject, Future<JsonObject>> generateFun,
+        final BinaryOperator<JsonObject> operatorFun
     ) {
         return source.compose(first -> {
             final List secondFutures = new ArrayList<>();
             Observable.fromIterable(first)
-                    .map(item -> (JsonObject) item)
-                    .map(generateFun::apply)
-                    .subscribe(secondFutures::add)
-                    .dispose();
+                .map(item -> (JsonObject) item)
+                .map(generateFun::apply)
+                .subscribe(secondFutures::add)
+                .dispose();
             return CompositeFuture.join(secondFutures).compose(finished -> {
                 final List<JsonObject> secondary = finished.list();
                 // Zipper Operation, the base list is first
@@ -88,8 +80,8 @@ class Combine {
         });
     }
 
-    static <T> Future<ConcurrentMap<String, T>> thenCombine(final ConcurrentMap<String, Future<T>> futureMap) {
-        final List<String> keys = new ArrayList<>();
+    static <K, T> Future<ConcurrentMap<K, T>> thenCombine(final ConcurrentMap<K, Future<T>> futureMap) {
+        final List<K> keys = new ArrayList<>();
         final List<Future> futures = new ArrayList<>();
         futureMap.forEach((key, future) -> {
             keys.add(key);
@@ -101,11 +93,11 @@ class Combine {
              * Index mapping
              */
             final int size = list.size();
-            final ConcurrentMap<String, T> resultMap = new ConcurrentHashMap<>();
+            final ConcurrentMap<K, T> resultMap = new ConcurrentHashMap<>();
             for (int idx = Values.IDX; idx < size; idx++) {
-                final String key = keys.get(idx);
+                final K key = keys.get(idx);
                 final T result = list.get(idx);
-                if (Ut.notNil(key)) {
+                if (Objects.nonNull(key) && Objects.nonNull(result)) {
                     resultMap.put(key, result);
                 }
             }
@@ -129,9 +121,9 @@ class Combine {
     }
 
     static Future<JsonObject> thenCombine(
-            final Future<JsonObject> source,
-            final Function<JsonObject, List<Future>> generateFun,
-            final BiConsumer<JsonObject, JsonObject>... operatorFun
+        final Future<JsonObject> source,
+        final Function<JsonObject, List<Future>> generateFun,
+        final BiConsumer<JsonObject, JsonObject>... operatorFun
     ) {
         return source.compose(first -> CompositeFuture.join(generateFun.apply(first)).compose(finished -> {
             if (null != finished) {
@@ -148,6 +140,11 @@ class Combine {
             final JsonArray result = null == finished ? new JsonArray() : new JsonArray(finished.list());
             return Future.succeededFuture(result);
         });
+    }
+
+    static <F, S, T> Future<T> thenCombine(final Supplier<Future<F>> futureF, final Supplier<Future<S>> futureS,
+                                           final BiFunction<F, S, Future<T>> consumer) {
+        return futureF.get().compose(f -> futureS.get().compose(s -> consumer.apply(f, s)));
     }
 
     static <T> Future<T> thenError(final Class<? extends WebException> clazz, final Object... args) {
@@ -171,8 +168,8 @@ class Combine {
      *      The binary operator should ( T, T ) -> T
      */
     static <T> Future<ConcurrentMap<String, T>> thenCompress(
-            final List<Future<ConcurrentMap<String, T>>> futures,
-            final BinaryOperator<T> binaryOperator
+        final List<Future<ConcurrentMap<String, T>>> futures,
+        final BinaryOperator<T> binaryOperator
     ) {
         /* thenResponse */
         return CompositeFuture.join(new ArrayList<>(futures)).compose(finished -> {
@@ -181,39 +178,39 @@ class Combine {
                 final List<ConcurrentMap<String, T>> result = finished.list();
 
                 final BinaryOperator<T> mergeOperator = Objects.isNull(binaryOperator) ?
-                        /*
-                         * Default set merged function to
-                         * latest replace original T in result map
-                         * For other situation, the system should call binaryOperator
-                         * to merge (T, T) -> T
-                         * 1) JsonArray
-                         * 2) List<T>
-                         * 3) Others
-                         *
-                         * */
-                        (original, latest) -> latest : binaryOperator;
+                    /*
+                     * Default set merged function to
+                     * latest replace original T in result map
+                     * For other situation, the system should call binaryOperator
+                     * to merge (T, T) -> T
+                     * 1) JsonArray
+                     * 2) List<T>
+                     * 3) Others
+                     *
+                     * */
+                    (original, latest) -> latest : binaryOperator;
                 /*
                  * List<ConcurrentMap<String,T>> result ->
                  *      ConcurrentMap<String,T>
                  */
                 result.stream().filter(Objects::nonNull).forEach(each -> each.keySet()
-                        .stream().filter(key -> Objects.nonNull(each.get(key))).forEach(key -> {
-                            final T combined;
-                            if (resultMap.containsKey(key)) {
-                                /*
-                                 * Merged key -> value to result
-                                 */
-                                final T original = resultMap.get(key);
-                                final T latest = each.get(key);
-                                combined = mergeOperator.apply(original, latest);
-                            } else {
-                                /*
-                                 * Extract combined
-                                 */
-                                combined = each.get(key);
-                            }
-                            resultMap.put(key, combined);
-                        }));
+                    .stream().filter(key -> Objects.nonNull(each.get(key))).forEach(key -> {
+                        final T combined;
+                        if (resultMap.containsKey(key)) {
+                            /*
+                             * Merged key -> value to result
+                             */
+                            final T original = resultMap.get(key);
+                            final T latest = each.get(key);
+                            combined = mergeOperator.apply(original, latest);
+                        } else {
+                            /*
+                             * Extract combined
+                             */
+                            combined = each.get(key);
+                        }
+                        resultMap.put(key, combined);
+                    }));
             }
             return Future.succeededFuture(resultMap);
         });

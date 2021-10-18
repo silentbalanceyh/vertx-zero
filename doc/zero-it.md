@@ -2,7 +2,6 @@
 
 * **It** means iteration on collections instead of java iteration
 
-
 ## 1. Definition
 
 ```java
@@ -48,7 +47,8 @@
 
 This article will not record some common example for collection iteration, instead, please refer following point:
 
-1. Zero will check the element type to see whether it's null, these functions will ignore all the null element ( null key, null value );
+1. Zero will check the element type to see whether it's null, these functions will ignore all the null element ( null
+   key, null value );
 2. The `it` prefix will do iteration without any exception throw out;
 3. The `et` prefix will do iteration with `ZeroException` out instead of no exception;
 4. `List, Set` will append `index` for iteration as the second argument;
@@ -65,7 +65,7 @@ This function is a little different from other:
     ) throws ZeroException 
 ```
 
-This function will iterate each element inner JsonObject, 
+This function will iterate each element inner JsonObject,
 
 1. The function iterate the `JsonArray` as 1st level;
 2. Then the function iterate the `JsonObject` ( Each array element must be JsonObject) as 2nd level;

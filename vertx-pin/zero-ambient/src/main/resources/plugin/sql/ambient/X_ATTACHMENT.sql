@@ -16,6 +16,7 @@ CREATE TABLE IF NOT EXISTS X_ATTACHMENT
     `MODULE`     VARCHAR(64) COMMENT '「module」- 业务标识',
     `MIME`       VARCHAR(64) COMMENT '「mime」- 该文件的MIME类型',
     `SIZE`       INTEGER COMMENT '「size」- 该文件的尺寸',
+    -- 文件管理专用
 
     -- 特殊字段
     `ACTIVE`     BIT         DEFAULT NULL COMMENT '「active」- 是否启用',
@@ -28,13 +29,13 @@ CREATE TABLE IF NOT EXISTS X_ATTACHMENT
     `CREATED_BY` VARCHAR(36) COMMENT '「createdBy」- 创建人',
     `UPDATED_AT` DATETIME COMMENT '「updatedAt」- 更新时间',
     `UPDATED_BY` VARCHAR(36) COMMENT '「updatedBy」- 更新人',
-    PRIMARY KEY (`KEY`)
+    PRIMARY KEY (`KEY`) USING BTREE
 );
 
 -- changeset Lang:ox-attachment-2
 ALTER TABLE X_ATTACHMENT
-    ADD UNIQUE (`FILE_KEY`);
+    ADD UNIQUE (`FILE_KEY`) USING BTREE;
 ALTER TABLE X_ATTACHMENT
-    ADD UNIQUE (`FILE_URL`);
+    ADD UNIQUE (`FILE_URL`) USING BTREE;
 ALTER TABLE X_ATTACHMENT
-    ADD UNIQUE (`FILE_PATH`);
+    ADD UNIQUE (`FILE_PATH`) USING BTREE;

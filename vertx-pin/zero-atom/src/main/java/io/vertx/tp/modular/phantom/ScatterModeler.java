@@ -3,7 +3,7 @@ package io.vertx.tp.modular.phantom;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.ke.cv.KeField;
+import io.vertx.up.eon.KName;
 import io.vertx.up.log.Annal;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
@@ -24,16 +24,16 @@ class ScatterModeler implements AoModeler {
             // 并行处理 Fields, Index, Keys
             final List<Future<JsonObject>> futures = new ArrayList<>();
             Ut.itJArray(schemata).forEach(schema -> futures.add(
-                    Ux.future(schema)
-                            // Field
-                            .compose(AoModeler.field().apply())
-                            // Key
-                            .compose(AoModeler.key().apply())
-                            // Index
-                            .compose(AoModeler.index().apply())
+                Ux.future(schema)
+                    // Field
+                    .compose(AoModeler.field().apply())
+                    // Key
+                    .compose(AoModeler.key().apply())
+                    // Index
+                    .compose(AoModeler.index().apply())
             ));
             return Ux.thenCombine(futures)
-                    .compose(schemataJson -> Ux.future(this.onResult(modelJson, schemataJson)));
+                .compose(schemataJson -> Ux.future(this.onResult(modelJson, schemataJson)));
         };
     }
 
@@ -56,6 +56,6 @@ class ScatterModeler implements AoModeler {
 
     private JsonObject onResult(final JsonObject modelJson,
                                 final JsonArray schemata) {
-        return modelJson.put(KeField.Modeling.SCHEMATA, schemata);
+        return modelJson.put(KName.Modeling.SCHEMATA, schemata);
     }
 }

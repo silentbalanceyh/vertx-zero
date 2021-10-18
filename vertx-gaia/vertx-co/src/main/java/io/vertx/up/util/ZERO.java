@@ -69,10 +69,6 @@ enum StoreConfig {
 
 interface Storage {
     /**
-     * Singletons
-     */
-    ConcurrentMap<String, Object> SINGLETON = new ConcurrentHashMap<>();
-    /**
      * Class cached.
      */
     ConcurrentMap<String, Class<?>> CLASSES = new ConcurrentHashMap<>();
@@ -176,93 +172,93 @@ interface Iso {
      * '2011-12-03'
      */
     DateTimeFormatter LOCAL_DATE = DateTimeFormatter.ISO_LOCAL_DATE
-            .withLocale(Locale.getDefault());
+        .withLocale(Locale.getDefault());
     /**
      * 2011-12-03+01:00
      */
     DateTimeFormatter OFFSET_DATE = DateTimeFormatter.ISO_OFFSET_DATE
-            .withLocale(Locale.getDefault());
+        .withLocale(Locale.getDefault());
     /**
      * '2011-12-03'
      * '2011-12-03+01:00'
      */
     DateTimeFormatter DATE = DateTimeFormatter.ISO_DATE
-            .withLocale(Locale.getDefault());
+        .withLocale(Locale.getDefault());
     /**
      * '10:15'
      * '10:15:30'
      */
     DateTimeFormatter LOCAL_TIME = DateTimeFormatter.ISO_LOCAL_TIME
-            .withLocale(Locale.getDefault());
+        .withLocale(Locale.getDefault());
     /**
      * '10:15+01:00'
      * '10:15:30+01:00'.
      */
     DateTimeFormatter OFFSET_TIME = DateTimeFormatter.ISO_OFFSET_TIME
-            .withLocale(Locale.getDefault());
+        .withLocale(Locale.getDefault());
     /**
      * '10:15'
      * '10:15:30'
      * '10:15:30+01:00'.
      */
     DateTimeFormatter TIME = DateTimeFormatter.ISO_TIME
-            .withLocale(Locale.getDefault());
+        .withLocale(Locale.getDefault());
     /**
      * '2011-12-03T10:15:30'.
      */
     DateTimeFormatter LOCAL_DATE_TIME = DateTimeFormatter.ISO_LOCAL_DATE_TIME
-            .withLocale(Locale.getDefault());
+        .withLocale(Locale.getDefault());
     /**
      * '2011-12-03T10:15:30+01:00'.
      */
     DateTimeFormatter OFFSET_DATE_TIME = DateTimeFormatter.ISO_OFFSET_DATE_TIME
-            .withLocale(Locale.getDefault());
+        .withLocale(Locale.getDefault());
     /**
      * '2011-12-03T10:15:30+01:00[Europe/Paris]'
      */
     DateTimeFormatter ZONED_DATE_TIME = DateTimeFormatter.ISO_ZONED_DATE_TIME
-            .withLocale(Locale.getDefault());
+        .withLocale(Locale.getDefault());
     /**
      * '2011-12-03T10:15:30',
      * '2011-12-03T10:15:30+01:00'
      * '2011-12-03T10:15:30+01:00[Europe/Paris]'.
      */
     DateTimeFormatter DATE_TIME = DateTimeFormatter.ISO_DATE_TIME
-            .withLocale(Locale.getDefault());
+        .withLocale(Locale.getDefault());
     /**
      * '2012-337'
      */
     DateTimeFormatter ORDINAL_DATE = DateTimeFormatter.ISO_ORDINAL_DATE
-            .withLocale(Locale.getDefault());
+        .withLocale(Locale.getDefault());
     /**
      * '2012-W48-6'.
      */
     DateTimeFormatter WEEK_DATE = DateTimeFormatter.ISO_WEEK_DATE
-            .withLocale(Locale.getDefault());
+        .withLocale(Locale.getDefault());
     /**
      * 2011-12-03T10:15:30Z
      */
     DateTimeFormatter INSTANT = DateTimeFormatter.ISO_INSTANT
-            .withLocale(Locale.getDefault());
+        .withLocale(Locale.getDefault());
     /**
      * 20111203
      */
     DateTimeFormatter BASIC_DATE = DateTimeFormatter.BASIC_ISO_DATE
-            .withLocale(Locale.getDefault());
+        .withLocale(Locale.getDefault());
     /**
      * RFC-1123 date-time formatter, such as 'Tue, 3 Jun 2008 11:05:30 GMT'
      */
     DateTimeFormatter RFC1123_DATE_TIME = DateTimeFormatter.RFC_1123_DATE_TIME
-            .withLocale(Locale.getDefault());
+        .withLocale(Locale.getDefault());
     /**
      * 2017-02-03T20:58:00.000Z
      * yyyy-MM-dd'T'HH:mm:ss.SSS'Z' 常用时间格式解析
      */
     DateTimeFormatter COMMON = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
-            .withLocale(Locale.getDefault());
+        .withLocale(Locale.getDefault());
     /**
      * 2017-02-03 20:10:11
      */
     DateTimeFormatter READBALE = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
-            .withLocale(Locale.getDefault());
+        .withLocale(Locale.getDefault());
 }

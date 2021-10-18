@@ -1,9 +1,12 @@
 # D10089 - Micro Stream, Consumer \( Worker \) to Terminator
 
-From this chapter we'll focus on rpc stream mode, this mode we'll meet different role \( method \) such as `Originator, Coordinator, Terminator` etc. This chapter tutorial is different from [D10088 - Micro Stream,  Sender \( Agent \) to Terminator](d10088-micro-stream-sender-agent-to-terminator.md),
+From this chapter we'll focus on rpc stream mode, this mode we'll meet different role \( method \) such
+as `Originator, Coordinator, Terminator` etc. This chapter tutorial is different
+from [D10088 - Micro Stream, Sender \( Agent \) to Terminator](d10088-micro-stream-sender-agent-to-terminator.md),
 
 * In D10088, The `Originator` is Sender \( Agent \), it means that the request came from `eventloop` of vert.x;
-* In current tutorial, The `Originator` is Consumer \( Worker \), it means that the request came from `workerpool` of vert.x;
+* In current tutorial, The `Originator` is Consumer \( Worker \), it means that the request came from `workerpool` of
+  vert.x;
 
 ## 1. Services
 
@@ -101,7 +104,8 @@ public class ConsumeWorker {
 
 Here are some rules when you use current tutorial knowledge to write worker:
 
-1. In Sender \( Agent \), the annotations `@Ipc` and `@Address` could not be used at the same time, but here it's allowed.
+1. In Sender \( Agent \), the annotations `@Ipc` and `@Address` could not be used at the same time, but here it's
+   allowed.
 2. The method must contains return value, you should not use `void` for the consumer method.
 3. In current tutorials, the return type of `Consumer` methods are all `Future<T>` instead of others.
 
@@ -204,7 +208,8 @@ Then when you start three services, you can do the testing:
 
 ## 4. Summary
 
-Here we provide three demos to show how to write the method in `Rpc Server`, except the input data type `Envelop`, you can choose different return type of the methods as you want. The method signature is as following:
+Here we provide three demos to show how to write the method in `Rpc Server`, except the input data type `Envelop`, you
+can choose different return type of the methods as you want. The method signature is as following:
 
 ```java
 public Future<JsonObject> worker1(final Envelop envelop)

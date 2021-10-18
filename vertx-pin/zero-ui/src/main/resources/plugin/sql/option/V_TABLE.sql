@@ -24,5 +24,5 @@ CREATE TABLE IF NOT EXISTS V_TABLE
     `OP_DATA_INDEX`    VARCHAR(255) COMMENT '「opDataIndex」- columns/[0]/dataIndex, 执行列标题',
     `OP_FIXED`         BIT DEFAULT FALSE COMMENT '「opFixed」- columns/[0]/fixed，执行列左还是右',
     `OP_CONFIG`        TEXT COMMENT '「opConfig」- columns/[0]/$option, 执行类对应配置，配置按钮',
-    PRIMARY KEY (`KEY`)
+    PRIMARY KEY (`KEY`) USING BTREE
 );

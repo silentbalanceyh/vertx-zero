@@ -1,26 +1,3 @@
-# Basic Programming
-
-## 1. Blocking/Non-Blocking
-
-```js
-let items  = blockingHttpCall('/data');
-items.forEach(item => {
-    // process each items
-});
-```
-
-![](/doc/rxjs/image/RX1-1-001.png)
-
-```js
-ajax('/data',
-    items => {
-        items.forEach(item => {
-            // process each item
-        });
-    }
-});
-beginUiRendering();                // Called immediately after Ajax
-```
-
-![](/doc/rxjs/image/RX1-1-002.png)
-
+version https://git-lfs.github.com/spec/v1
+oid sha256:e5d81c53d92519b34b438bcea6e5ff4cd766d49ad8e2aa1babf684dd36e23476
+size 422

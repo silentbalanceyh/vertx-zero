@@ -11,6 +11,7 @@ public interface Insurer {
     /**
      * @param data        input data
      * @param elementRule rule element
+     *
      * @throws ZeroException returned checked error
      */
     void flumen(JsonObject data, JsonObject elementRule) throws ZeroException;
@@ -20,6 +21,7 @@ public interface Insurer {
      *
      * @param array       input data array
      * @param elementRule rule element
+     *
      * @throws ZeroException returned checked error
      */
     void flumen(JsonArray array, JsonObject elementRule) throws ZeroException;

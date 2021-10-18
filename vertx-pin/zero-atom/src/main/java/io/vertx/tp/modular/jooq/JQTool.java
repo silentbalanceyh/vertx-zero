@@ -1,6 +1,7 @@
 package io.vertx.tp.modular.jooq;
 
 import io.vertx.tp.atom.modeling.data.DataEvent;
+import io.vertx.tp.atom.modeling.element.DataTpl;
 import io.vertx.tp.atom.refine.Ao;
 import io.vertx.tp.modular.metadata.AoSentence;
 import io.vertx.tp.modular.query.Ingest;
@@ -8,6 +9,7 @@ import io.vertx.up.atom.query.Pager;
 import io.vertx.up.atom.query.Sorter;
 import io.vertx.up.eon.Values;
 import io.vertx.up.log.Annal;
+import org.jooq.Record;
 import org.jooq.*;
 
 import java.util.*;
@@ -102,8 +104,8 @@ class JQTerm {
          * 1）根据 tables 尺寸
          */
         final Table<Record> table = 1 == tables.size()
-                ? ingest.onTable(event.getTpl(), tables)
-                : ingest.onTable(event.getTpl(), tables, tableMap);
+            ? ingest.onTable(event.getTpl(), tables)
+            : ingest.onTable(event.getTpl(), tables, tableMap);
         return executor.apply(table);
     }
 
@@ -147,12 +149,17 @@ class JQToolkit {
                                   final Ingest ingest,
                                   final ConcurrentMap<String, String> map) {
         final Condition condition;
+        final DataTpl tpl = event.getTpl();
         if (map.isEmpty()) {
-            condition = ingest.onCondition(event.getTpl(), event.getCriteria());
-            Ao.infoSQL(LOGGER, "单表, 最终条件：{0}", condition);
+            condition = ingest.onCondition(tpl, JQPre.prepare(tpl.atom(), event.getCriteria()));
+            if (Objects.nonNull(condition)) {
+                Ao.infoSQL(LOGGER, "单表, 最终条件：{0}", condition);
+            }
         } else {
-            condition = ingest.onCondition(event.getTpl(), event.getCriteria(), map);
-            Ao.infoSQL(LOGGER, "多表, 最终条件：{0}", condition);
+            condition = ingest.onCondition(tpl, JQPre.prepare(tpl.atom(), event.getCriteria()), map);
+            if (Objects.nonNull(condition)) {
+                Ao.infoSQL(LOGGER, "多表, 最终条件：{0}", condition);
+            }
         }
         return condition;
     }

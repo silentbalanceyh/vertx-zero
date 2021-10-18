@@ -16,34 +16,33 @@ import java.util.concurrent.ConcurrentMap;
 
 public class ModelPerformer implements AoPerformer {
     private static final ConcurrentMap<String, ModelTool> POOL_TOOL =
-            new ConcurrentHashMap<>();
+        new ConcurrentHashMap<>();
     private final transient String namespace;
     private final transient ModelTool tool;
 
     ModelPerformer(final String appName) {
         this.namespace = Model.namespace(appName);
         this.tool = Fn.pool(POOL_TOOL, this.namespace,
-                () -> new ModelTool(this.namespace));
+            () -> new ModelTool(this.namespace));
     }
 
     @Override
     public Future<Model> fetchModelAsync(final String identifier) {
         return Ux.Jooq.on(MModelDao.class)
-                // 从系统中选取唯一的 MModel
-                .<MModel>fetchOneAsync(this.tool.onCriteria(identifier))
-                // 先转换
-                .compose(this.tool::execute)
-                // 6. 将实体合并，处理实体中的细节
-                .compose(item -> Ux.future(Model.instance(this.namespace, item)));
+            // 从系统中选取唯一的 MModel
+            .<MModel>fetchOneAsync(this.tool.onCriteria(identifier))
+            // 先转换
+            .compose(this.tool::execute)
+            // 6. 将实体合并，处理实体中的细节
+            .compose(item -> Ux.future(Model.instance(this.namespace, item)));
     }
 
 
     @Override
     public Model fetchModel(final String identifier) {
         final MModel model = Ux.Jooq.on(MModelDao.class)
-                .fetchOne(this.tool.onCriteria(identifier));
+            .fetchOne(this.tool.onCriteria(identifier));
         Fn.outWeb(null == model, _404ModelNotFoundException.class, this.getClass(), this.namespace, identifier);
-
         JsonObject json = Ut.serializeJson(model);
         // 1. 初始化
         json = AoModeler.init().executor(json);
@@ -62,8 +61,8 @@ public class ModelPerformer implements AoPerformer {
     @Override
     public Future<Set<Model>> fetchModelsAsync() {
         return Ux.Jooq.on(MModelDao.class)
-                .<MModel>fetchAsync("namespace", this.namespace)
-                .compose(this.tool::startList)
-                .compose(this.tool::combine);
+            .<MModel>fetchAsync("namespace", this.namespace)
+            .compose(this.tool::startList)
+            .compose(this.tool::combine);
     }
 }

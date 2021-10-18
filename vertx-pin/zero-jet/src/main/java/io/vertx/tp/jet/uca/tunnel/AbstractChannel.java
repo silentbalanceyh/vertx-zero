@@ -9,9 +9,10 @@ import io.vertx.tp.optic.jet.JtChannel;
 import io.vertx.tp.optic.jet.JtComponent;
 import io.vertx.up.annotations.Contract;
 import io.vertx.up.atom.worker.Mission;
+import io.vertx.up.commune.Record;
 import io.vertx.up.commune.*;
-import io.vertx.up.commune.config.Dict;
-import io.vertx.up.commune.config.DictFabric;
+import io.vertx.up.commune.exchange.DiFabric;
+import io.vertx.up.commune.exchange.DiSetting;
 import io.vertx.up.log.Annal;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
@@ -89,25 +90,25 @@ public abstract class AbstractChannel implements JtChannel {
                      * Options without `mapping` here
                      */
                     return this.initAsync(component, request)
-                            /*
-                             * Contract here
-                             * 1) Definition in current channel
-                             * 2) Data came from request ( XHeader )
-                             */
-                            .compose(initialized -> Anagogic.componentAsync(component, this.commercial, this::createFabric))
-                            .compose(initialized -> Anagogic.componentAsync(component, envelop))
-                            /*
-                             * Children initialized
-                             */
-                            .compose(initialized -> component.transferAsync(request))
-                            /*
-                             * Response here for future custom
-                             */
-                            .compose(actOut -> this.createResponse(actOut, envelop))
-                            /*
-                             * Otherwise;
-                             */
-                            .otherwise(Ux.otherwise());
+                        /*
+                         * Contract here
+                         * 1) Definition in current channel
+                         * 2) Data came from request ( XHeader )
+                         */
+                        .compose(initialized -> Anagogic.componentAsync(component, this.commercial, this::createFabric))
+                        .compose(initialized -> Anagogic.componentAsync(component, envelop))
+                        /*
+                         * Children initialized
+                         */
+                        .compose(initialized -> component.transferAsync(request))
+                        /*
+                         * Response here for future custom
+                         */
+                        .compose(actOut -> this.createResponse(actOut, envelop))
+                        /*
+                         * Otherwise;
+                         */
+                        .otherwise(Ux.otherwise());
                 } else {
                     /*
                      * singleton singleton error
@@ -144,11 +145,11 @@ public abstract class AbstractChannel implements JtChannel {
         return Ux.future(request);
     }
 
-    private Future<DictFabric> createFabric() {
+    private Future<DiFabric> createFabric() {
         /*
          * Dict configuration
          */
-        final Dict dict = this.commercial.dict();
+        final DiSetting dict = this.commercial.dict();
         if (Objects.isNull(this.dictionary)) {
             final String appKey = this.commercial.app();
             final String identifier = this.commercial.identifier();
@@ -157,10 +158,10 @@ public abstract class AbstractChannel implements JtChannel {
                  * Bind dictionary to current dictionary reference
                  */
                 this.dictionary = dictionary;
-                return Ux.future(DictFabric.create().dictionary(dictionary).epsilon(dict.getEpsilon()));
+                return Ux.future(DiFabric.create().dictionary(dictionary).epsilon(dict.getEpsilon()));
             });
         } else {
-            return Ux.future(DictFabric.create().dictionary(this.dictionary).epsilon(dict.getEpsilon()));
+            return Ux.future(DiFabric.create().dictionary(this.dictionary).epsilon(dict.getEpsilon()));
         }
     }
 

@@ -14,12 +14,12 @@ public abstract class DecimalSaber extends BaseSaber {
     public Object from(final Class<?> paramType,
                        final String literal) {
         return Fn.getNull(() ->
-                        Fn.getSemi(isValid(paramType), getLogger(),
-                                () -> {
-                                    verifyInput(!Ut.isDecimal(literal), paramType, literal);
-                                    return getFun().apply(literal);
-                                }, () -> 0.0),
-                paramType, literal);
+                Fn.getSemi(isValid(paramType), getLogger(),
+                    () -> {
+                        verifyInput(!Ut.isDecimal(literal), paramType, literal);
+                        return getFun().apply(literal);
+                    }, () -> 0.0),
+            paramType, literal);
     }
 
     protected abstract boolean isValid(final Class<?> paramType);

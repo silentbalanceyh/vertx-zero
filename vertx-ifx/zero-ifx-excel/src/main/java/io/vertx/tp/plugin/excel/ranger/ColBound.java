@@ -27,7 +27,7 @@ public class ColBound implements ExBound {
         }
         final ColBound colBound = (ColBound) o;
         return this.start == colBound.start &&
-                this.end == colBound.end;
+            this.end == colBound.end;
     }
 
     @Override
@@ -38,9 +38,9 @@ public class ColBound implements ExBound {
     @Override
     public String toString() {
         return "ColBound{" +
-                "begin=" + this.start +
-                ", end=" + this.end +
-                '}';
+            "begin=" + this.start +
+            ", end=" + this.end +
+            '}';
     }
 
     @Override

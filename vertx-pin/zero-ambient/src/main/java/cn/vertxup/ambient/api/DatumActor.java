@@ -17,32 +17,32 @@ public class DatumActor {
     private transient DatumStub stub;
 
     @Address(Addr.Datum.CATEGORY_TYPE)
-    public Future<JsonArray> categoryByType(final String appId, final String type) {
-        return stub.categories(appId, type);
+    public Future<JsonArray> categoryByType(final String appId, final String type, final Boolean includeLeaf) {
+        return this.stub.categories(appId, type, includeLeaf);
     }
 
     @Address(Addr.Datum.CATEGORY_TYPES)
     public Future<JsonArray> fetchCategories(final String appId, final JsonArray types) {
-        return stub.categories(appId, types);
+        return this.stub.categories(appId, types);
     }
 
     @Address(Addr.Datum.CATEGORY_CODE)
     public Future<JsonObject> fetchCategory(final String appId, final String type, final String code) {
-        return stub.category(appId, type, code);
+        return this.stub.category(appId, type, code);
     }
 
     @Address(Addr.Datum.TABULAR_TYPE)
     public Future<JsonArray> tabularByType(final String appId, final String type) {
-        return stub.tabulars(appId, type);
+        return this.stub.tabulars(appId, type);
     }
 
     @Address(Addr.Datum.TABULAR_TYPES)
     public Future<JsonArray> fetchTabulars(final String appId, final JsonArray types) {
-        return stub.tabulars(appId, types);
+        return this.stub.tabulars(appId, types);
     }
 
     @Address(Addr.Datum.TABULAR_CODE)
     public Future<JsonObject> fetchTabular(final String appId, final String type, final String code) {
-        return stub.tabular(appId, type, code);
+        return this.stub.tabular(appId, type, code);
     }
 }

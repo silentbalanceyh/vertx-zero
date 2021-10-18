@@ -1,6 +1,7 @@
 # Advanced Validation
 
-Once the parameter are annotated with @BodyParam and typed with JsonObject, zero system also support another method to verify request data here.
+Once the parameter are annotated with @BodyParam and typed with JsonObject, zero system also support another method to
+verify request data here.
 
 ## 1. Source Code
 
@@ -29,13 +30,15 @@ public class BasicTypeApi {
 
 ## 2. Configuration
 
-In this kind of situation, you need to use `@Codex` annotation only, but you must provide the configuration up.god.file in your class path as following:
+In this kind of situation, you need to use `@Codex` annotation only, but you must provide the configuration up.god.file
+in your class path as following:
 
 ```
 src/main/resources/codex/zero.type.json.post.yml
 ```
 
-The configuration up.god.file name should be `path + method`, once you met the path variable such as `:name`, you can replace `:` with `_` instead to set the filename.
+The configuration up.god.file name should be `path + method`, once you met the path variable such as `:name`, you can
+replace `:` with `_` instead to set the filename.
 
 ## 3. Yml content
 
@@ -55,8 +58,10 @@ password:
   message: "Password min length should be 8！"
 ```
 
-* Each field should be a node ( `key = JsonArray` ), the json array listed all the rules that will be applied to this field. 
-* Each element of JsonArray must contains `type` and `message` attribute to describe the rule, other attributes are configuration.
+* Each field should be a node ( `key = JsonArray` ), the json array listed all the rules that will be applied to this
+  field.
+* Each element of JsonArray must contains `type` and `message` attribute to describe the rule, other attributes are
+  configuration.
 * For the type, please refer following chapter.
 
 ## 4. Support Validation Type

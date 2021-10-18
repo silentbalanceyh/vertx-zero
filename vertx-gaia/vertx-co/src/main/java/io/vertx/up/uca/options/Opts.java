@@ -39,7 +39,7 @@ public interface Opts<T> {
 class YamlOpts implements Opts<JsonObject> {
 
     private static final ConcurrentMap<String, Node<JsonObject>>
-            EXTENSIONS = new ConcurrentHashMap<>();
+        EXTENSIONS = new ConcurrentHashMap<>();
     private static Opts<JsonObject> INSTANCE;
 
     private YamlOpts() {

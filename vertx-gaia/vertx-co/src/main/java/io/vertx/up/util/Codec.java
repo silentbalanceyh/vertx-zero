@@ -16,6 +16,7 @@ final class Codec {
      * MD5 encript for input string.
      *
      * @param input input string that will be encoded
+     *
      * @return The encoded string with MD5
      */
     static String md5(final String input) {
@@ -39,6 +40,7 @@ final class Codec {
      * SHA-256
      *
      * @param input input string that will be encoded
+     *
      * @return The encoded string with sha256
      */
     static String sha256(final String input) {
@@ -49,6 +51,7 @@ final class Codec {
      * SHA-512
      *
      * @param input input string that will be encoded
+     *
      * @return The encoded string with sha512
      */
     static String sha512(final String input) {
@@ -65,7 +68,7 @@ final class Codec {
             for (int i = 0; i < byteBuffer.length; i++) {
                 final String hex = Integer.toHexString(0xff & byteBuffer[i]);
                 if (hex.length() == 1) {
-                    strHexString.append('0');
+                    strHexString.append('0' );
                 }
                 strHexString.append(hex);
             }

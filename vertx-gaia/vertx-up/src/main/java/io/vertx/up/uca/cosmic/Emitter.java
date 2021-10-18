@@ -37,7 +37,7 @@ public interface Emitter {
                  * 2) You can provide your own token implementation such as other authorization
                  */
                 return Fn.pool(Pool.POOL_EMITTER, integration.hashCode(),
-                        () -> new StandardEmitter(integration));
+                    () -> new StandardEmitter(integration));
             } else {
                 /*
                  * If the `integration` contains publicKeyFile configured
@@ -47,7 +47,7 @@ public interface Emitter {
                  * It could set `TLS / SSL` of https
                  */
                 return Fn.pool(Pool.POOL_EMITTER, integration.hashCode(),
-                        () -> new LegacyEmitter(integration));
+                    () -> new LegacyEmitter(integration));
             }
         }
     }

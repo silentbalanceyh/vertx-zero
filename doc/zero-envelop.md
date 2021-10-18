@@ -1,6 +1,6 @@
 # Resource Model
 
-## 1. Envelop 
+## 1. Envelop
 
 Envelop word refer from SOAP web service, and it contains following field:
 

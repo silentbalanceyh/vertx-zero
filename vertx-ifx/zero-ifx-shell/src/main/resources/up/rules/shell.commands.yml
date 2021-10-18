@@ -1,0 +1,6 @@
+required:
+  - default
+  - defined
+typed:
+  default: STRING
+  defined: STRING

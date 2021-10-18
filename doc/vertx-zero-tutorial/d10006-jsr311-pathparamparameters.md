@@ -1,6 +1,7 @@
 # D10006 - JSR311, @PathParam...Parameters
 
-Path variables are common used in Restful endpoint, zero system also support path variable with annotation `javax.ws.rs.PathParam`, you can define path parameters in your code.
+Path variables are common used in Restful endpoint, zero system also support path variable with
+annotation `javax.ws.rs.PathParam`, you can define path parameters in your code.
 
 Demo projects:
 
@@ -113,7 +114,8 @@ Then you should see the logs in console as following:
 
 You can use JSR311 annotations to setup your request path variables, but there are one rule that need to know:
 
-_Path variables often let you set duplicated uri, such as _`/api/{name}`_ and _`/api/{age}`_, do not set previous two uri with the same Http methods because zero system will consider these two are the same and will ignore one here._
+_Path variables often let you set duplicated uri, such as _`/api/{name}`_ and _`/api/{age}`_, do not set previous two
+uri with the same Http methods because zero system will consider these two are the same and will ignore one here._
 
 * GET: `/api/{name}`
 * GET: `/api/{age}`

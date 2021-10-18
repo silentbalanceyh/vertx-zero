@@ -5,7 +5,7 @@ import cn.vertxup.atom.domain.tables.pojos.MField;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.ke.cv.KeField;
+import io.vertx.up.eon.KName;
 import io.vertx.up.log.Annal;
 import io.vertx.up.unity.Ux;
 
@@ -23,9 +23,9 @@ class FieldModeler implements AoModeler {
             // 读取所有的Fields
             final JsonObject entityJson = AoModeler.getEntity(schemaJson);
             return Ux.Jooq.on(MFieldDao.class)
-                    .<MField>fetchAndAsync(this.onCriteria(entityJson))
-                    .compose(Ux::fnJArray)
-                    .compose(fields -> Ux.future(this.onResult(schemaJson, fields)));
+                .<MField>fetchAndAsync(this.onCriteria(entityJson))
+                .compose(Ux::futureA)
+                .compose(fields -> Ux.future(this.onResult(schemaJson, fields)));
         };
     }
 
@@ -35,20 +35,20 @@ class FieldModeler implements AoModeler {
         final JsonObject entityJson = AoModeler.getEntity(schemaJson);
         // List
         final List<MField> fields = Ux.Jooq.on(MFieldDao.class)
-                .fetchAnd(this.onCriteria(entityJson));
+            .fetchAnd(this.onCriteria(entityJson));
         // JsonArray
-        final JsonArray fieldArr = Ux.toArray(fields);
+        final JsonArray fieldArr = Ux.toJson(fields);
         return this.onResult(schemaJson, fieldArr);
     }
 
     private JsonObject onResult(final JsonObject schemaJson,
                                 final JsonArray fields) {
-        return schemaJson.put(KeField.Modeling.FIELDS, fields);
+        return schemaJson.put(KName.Modeling.FIELDS, fields);
     }
 
     private JsonObject onCriteria(final JsonObject entityJson) {
         final JsonObject filters = new JsonObject();
-        filters.put("entityId", entityJson.getString(KeField.KEY));
+        filters.put("entityId", entityJson.getString(KName.KEY));
         return filters;
     }
 }

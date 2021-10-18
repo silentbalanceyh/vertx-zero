@@ -59,4 +59,5 @@ curl http://localhost:6083/zero/user/login
 
 ## 4. Hints
 
-* This interface must contains only one implementation class, once it's more than 1, `DuplicatedImplException` will throw out.
+* This interface must contains only one implementation class, once it's more than 1, `DuplicatedImplException` will
+  throw out.

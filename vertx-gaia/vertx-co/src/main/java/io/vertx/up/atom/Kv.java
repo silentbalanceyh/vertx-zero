@@ -1,5 +1,7 @@
 package io.vertx.up.atom;
 
+import io.vertx.core.Future;
+
 import java.util.Map;
 import java.util.Objects;
 
@@ -26,12 +28,16 @@ public final class Kv<K, V> {
         return new Kv<>(key, value);
     }
 
-    public final K getKey() {
+    public K getKey() {
         return this.key;
     }
 
-    public final V getValue() {
+    public V getValue() {
         return this.value;
+    }
+
+    public Future<V> value() {
+        return Future.succeededFuture(this.value);
     }
 
     public void set(final K key, final V value) {
@@ -39,20 +45,28 @@ public final class Kv<K, V> {
         this.value = value;
     }
 
+    public void set(final V value) {
+        this.value = value;
+    }
+
+    public boolean valid() {
+        return Objects.nonNull(this.key);
+    }
+
     @Override
-    public final int hashCode() {
+    public int hashCode() {
         return Objects.hashCode(this.key) ^ Objects.hashCode(this.value);
     }
 
     @Override
-    public final boolean equals(final Object o) {
+    public boolean equals(final Object o) {
         if (o == this) {
             return true;
         }
         if (o instanceof Map.Entry) {
             final Map.Entry<?, ?> e = (Map.Entry<?, ?>) o;
             return Objects.equals(this.key, e.getKey()) &&
-                    Objects.equals(this.value, e.getValue());
+                Objects.equals(this.value, e.getValue());
         }
         return false;
     }
@@ -60,8 +74,8 @@ public final class Kv<K, V> {
     @Override
     public String toString() {
         return "Kv{" +
-                "key=" + this.key +
-                ", value=" + this.value +
-                '}';
+            "key=" + this.key +
+            ", value=" + this.value +
+            '}';
     }
 }

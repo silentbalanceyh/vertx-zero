@@ -10,7 +10,7 @@ public class UriHub implements Hub<Route> {
     public void mount(final Route route,
                       final Event event) {
         route.path(event.getPath())
-                .method(event.getMethod())
-                .order(event.getOrder());
+            .method(event.getMethod())
+            .order(event.getOrder());
     }
 }

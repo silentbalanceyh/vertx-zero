@@ -26,10 +26,10 @@ CREATE TABLE IF NOT EXISTS S_GROUP
     `CREATED_BY` VARCHAR(36) COMMENT '「createdBy」- 创建人',
     `UPDATED_AT` DATETIME COMMENT '「updatedAt」- 更新时间',
     `UPDATED_BY` VARCHAR(36) COMMENT '「updatedBy」- 更新人',
-    PRIMARY KEY (`KEY`)
+    PRIMARY KEY (`KEY`) USING BTREE
 );
 
 -- changeset Lang:ox-group-2
 -- Unique Key：独立唯一主键定义
 ALTER TABLE S_GROUP
-    ADD UNIQUE (`CODE`, `SIGMA`);
+    ADD UNIQUE (`CODE`, `SIGMA`) USING BTREE;

@@ -1,6 +1,7 @@
 # D10051 - Utility X, JsonArray/Unique Extract
 
-This chapter we'll focus on JsonArray processing with Utility X. There are 6 major apis in `Ux` focus on list/collection/array processing.
+This chapter we'll focus on JsonArray processing with Utility X. There are 6 major apis in `Ux` focus on
+list/collection/array processing.
 
 * `static <T> JsonArray toArray(List<T> list)`
 * `static <T> JsonArray toArray(List<T> list, String pojo)`
@@ -11,7 +12,8 @@ This chapter we'll focus on JsonArray processing with Utility X. There are 6 maj
 
 Here we won't introduce the details for each one, but pick up some core points.
 
-1. For the 1st - 3rd methods, it's the same as JsonObject processing, the difference is that for JsonObject processing the method callee is JsonObject, but current tutorial callee is JsonArray instead.
+1. For the 1st - 3rd methods, it's the same as JsonObject processing, the difference is that for JsonObject processing
+   the method callee is JsonObject, but current tutorial callee is JsonArray instead.
 2. For the `unique` extracting methods, it refer to some specific scenarios, we'll introduce in current tutorials.
 
 ## 1. JsonArray
@@ -56,7 +58,9 @@ Also in this test case you could see following output in console:
 
 This method is very useful when you met following situations:
 
-Sometimes you got the data from database or other services, the return value is collection such as `List, Set, Collection or JsonArray` etc, but you have known that there is only one element in these collections, to resolve this kind of situation, we often write following code:
+Sometimes you got the data from database or other services, the return value is collection such
+as `List, Set, Collection or JsonArray` etc, but you have known that there is only one element in these collections, to
+resolve this kind of situation, we often write following code:
 
 ```java
     .... 
@@ -64,7 +68,9 @@ Sometimes you got the data from database or other services, the return value is 
     return null != list && !list.isEmpty() ? list.get(0): new ArrayList<>();
 ```
 
-Then you can feel that above code is messing and to resolve this kind of issue \( We call it issue \), zero system provide the tools to extract the first element of the collection as the return value and did the pre-condition checking for you. You can add following code segment to your test case:
+Then you can feel that above code is messing and to resolve this kind of issue \( We call it issue \), zero system
+provide the tools to extract the first element of the collection as the return value and did the pre-condition checking
+for you. You can add following code segment to your test case:
 
 ```java
     @Test
@@ -84,17 +90,20 @@ Then you can feel that above code is messing and to resolve this kind of issue \
     }
 ```
 
-Then you'll found that there is no `NullPointerException` as well. For code defense you could put the code anywhere to do things.
+Then you'll found that there is no `NullPointerException` as well. For code defense you could put the code anywhere to
+do things.
 
 ## 3. Summary
 
-In real projects above three scenarios are very frequently and the small change could help developer be sure focus on business requirement only. It's the Utility X existing reason here.
+In real projects above three scenarios are very frequently and the small change could help developer be sure focus on
+business requirement only. It's the Utility X existing reason here.
 
 * To be sure your code is strong.
 * To be sure your code could execute in any exception situations with logs.
 * To be sure your code has the testes of defense style.
 
-Zero system only focus on how to improve the code and fixed style, our style is not the best but it could help you save time.
+Zero system only focus on how to improve the code and fixed style, our style is not the best but it could help you save
+time.
 
 
 

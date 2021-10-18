@@ -36,7 +36,7 @@ import io.vertx.ext.web.handler.AuthHandler;
 import io.vertx.up.annotations.Authenticate;
 import io.vertx.up.annotations.Wall;
 import io.vertx.tp.plugin.mongo.MongoInfix;
-import io.vertx.up.secure.handler.BasicOstium;
+import io.vertx.up.secure.component.BasicOstium;
 
 @Wall(value = "mongox", path = "/exp4/*")
 public class MongoKeeper {
@@ -44,17 +44,23 @@ public class MongoKeeper {
     @Authenticate
     public AuthHandler authenticate(final JsonObject config) {
         return BasicOstium.create(
-                MongoAuth.create(MongoInfix.getClient(), config)
+            MongoAuth.create(MongoInfix.getClient(), config)
         );
     }
 }
 ```
 
-This class is annotated with @Wall, if the **path** is not set, it will be the value `/*` for all routes, the value should be configured in `vertx-secure.yml.`in current example it's `mongox`. You can define more than one walls for each routes. Then you must create the `AuthHandler` method to create the AuthHandler, now you can use `BasicOstium` to create basic authorization handler, also this method must be annotated with `@Authenticate`. 
+This class is annotated with @Wall, if the **path** is not set, it will be the value `/*` for all routes, the value
+should be configured in `vertx-secure.yml.`in current example it's `mongox`. You can define more than one walls for each
+routes. Then you must create the `AuthHandler` method to create the AuthHandler, now you can use `BasicOstium` to create
+basic authorization handler, also this method must be annotated with `@Authenticate`.
 
-* The method must be annotated with `@Authenticate` to mean that this method will provide `AuthHandler` for authenticate.
-* In this class, you must mot use any Inject Dependency to get instance such as `MongoClient`, because this @Wall will be processed in start up phase instead of request phase.
-* We recommend to use `BasicOstium` instead of standard vert.x `BasicAuthHandler` because the class `BasicOstium` will bind to Resource Model instance `Envelop` to provide zero format http response.
+* The method must be annotated with `@Authenticate` to mean that this method will provide `AuthHandler` for
+  authenticate.
+* In this class, you must mot use any Inject Dependency to get instance such as `MongoClient`, because this @Wall will
+  be processed in start up phase instead of request phase.
+* We recommend to use `BasicOstium` instead of standard vert.x `BasicAuthHandler` because the class `BasicOstium` will
+  bind to Resource Model instance `Envelop` to provide zero format http response.
 
 ## 3. Example response
 

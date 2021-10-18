@@ -1,9 +1,9 @@
 package cn.vertxup.rbac.service.accredit;
 
-import cn.vertxup.rbac.domain.tables.pojos.SResource;
 import io.vertx.core.Future;
-import io.vertx.tp.rbac.atom.ScRequest;
-import io.vertx.up.commune.config.DataBound;
+import io.vertx.tp.rbac.logged.ScResource;
+import io.vertx.tp.rbac.logged.ScUser;
+import io.vertx.up.commune.secure.DataBound;
 
 /*
  * ResourceMatrix capture for user/role session storage
@@ -13,5 +13,5 @@ public interface MatrixStub {
      * Fetch DataBound by:
      * request - userId, session, fetchProfile
      */
-    Future<DataBound> fetchBound(ScRequest request, SResource resource);
+    Future<DataBound> fetchBound(ScUser user, ScResource resource);
 }

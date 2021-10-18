@@ -1,6 +1,8 @@
 # D10078 - Vert.x Native, MongoClient
 
-For mongo db configuration you could refer previous tutorials [D10077 - Reference, Mongo Setup ](d10077-third-part-mongo-setup.md)to check more details, now this chapter we'll go back to zero system to see how to enable vert.x native client for mongo db.
+For mongo db configuration you could refer previous
+tutorials [D10077 - Reference, Mongo Setup ](d10077-third-part-mongo-setup.md)to check more details, now this chapter
+we'll go back to zero system to see how to enable vert.x native client for mongo db.
 
 Demo projects:
 
@@ -8,7 +10,8 @@ Demo projects:
 
 ## 1. Configuration
 
-This chapter is duplicated with [D10073 - Configuration, vertx-mongo.yml](d10073-configuration-vertx-mongoyml.md), because that's the preparing steps for mysql client.
+This chapter is duplicated with [D10073 - Configuration, vertx-mongo.yml](d10073-configuration-vertx-mongoyml.md),
+because that's the preparing steps for mysql client.
 
 ### 1.1. vertx.yml
 
@@ -42,7 +45,8 @@ mongo:
   password: zero_mongo
 ```
 
-All above configuration is for mongo native configuration supported, but for `up-gaea` project, there need some additional configuration \( Server Config \).
+All above configuration is for mongo native configuration supported, but for `up-gaea` project, there need some
+additional configuration \( Server Config \).
 
 ## 2. Server Configuration
 

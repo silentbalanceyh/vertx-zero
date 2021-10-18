@@ -61,12 +61,12 @@ public class JtMinos extends AbstractVerticle {
                  * ZApi definition cross API / SERVICE here
                  */
                 final Future<Envelop> future = executor.async(message, uri);
-                future.setHandler(replyHandler -> {
+                future.onComplete(replyHandler -> {
                     if (replyHandler.succeeded()) {
                         /*
                          * 「Callback Life Cycle」
                          * Replying message from service
-                         *
+                         * It could connect with ACL control data
                          */
                         final Envelop replied = replyHandler.result();
                         if (Objects.nonNull(replied.error())) {

@@ -10,7 +10,7 @@ public class ErrorTc {
     @Test
     public void buildError() {
         final WebException error =
-                new _500InternalServerException(getClass(), "Error Internal");
+            new _500InternalServerException(getClass(), "Error Internal");
         System.out.println(error);
         Assert.assertNotNull(error);
     }

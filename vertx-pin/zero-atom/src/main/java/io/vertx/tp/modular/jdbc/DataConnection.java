@@ -1,14 +1,15 @@
 package io.vertx.tp.modular.jdbc;
 
 import io.vertx.tp.error._500EmptySQLException;
-import io.vertx.tp.ke.cv.KeResult;
 import io.vertx.tp.modular.sql.SqlOutput;
 import io.vertx.tp.plugin.database.DataPool;
 import io.vertx.up.commune.config.Database;
+import io.vertx.up.eon.KValue;
 import io.vertx.up.eon.Values;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import io.vertx.up.util.Ut;
+import org.jooq.Record;
 import org.jooq.*;
 
 import javax.sql.DataSource;
@@ -16,6 +17,7 @@ import java.sql.Connection;
 import java.util.List;
 import java.util.concurrent.ConcurrentMap;
 
+@SuppressWarnings("all")
 public class DataConnection implements AoConnection {
     private final transient DataPool dbPool;
     private final transient Database database;
@@ -27,7 +29,7 @@ public class DataConnection implements AoConnection {
             this.database = database;
             // 初始化dbPool连接池，每一个Jdbc Url保证一个连接池
             this.dbPool = Fn.pool(Pool.POOL, database.getJdbcUrl(),
-                    () -> DataPool.create(database));
+                () -> DataPool.create(database));
         }
     }
 
@@ -38,7 +40,7 @@ public class DataConnection implements AoConnection {
         final DSLContext context = this.getDSL();
         final Query query = context.query(sql);
         final int ret = query.execute();
-        return Values.ZERO <= ret ? ret : KeResult.RC_FAILURE;
+        return Values.ZERO <= ret ? ret : KValue.RC_FAILURE;
     }
 
     @Override
@@ -60,18 +62,18 @@ public class DataConnection implements AoConnection {
     @Override
     public List<ConcurrentMap<String, Object>> select(final String sql,
                                                       final String[] columns) {
-        final Result<Record> queries = this.fetch(sql);
+        final Result queries = this.fetch(sql);
         return SqlOutput.toMatrix(queries, columns);
     }
 
     @Override
     public <T> List<T> select(final String sql,
                               final String column) {
-        final Result<Record> queries = this.fetch(sql);
+        final Result queries = this.fetch(sql);
         return SqlOutput.toList(queries, column);
     }
 
-    private Result<Record> fetch(final String sql) {
+    private Result fetch(final String sql) {
         Fn.outWeb(Ut.isNil(sql), _500EmptySQLException.class, this.getClass());
         this.getLogger().debug("[DB] 执行SQL select：{0}", sql);
         final DSLContext context = this.getDSL();

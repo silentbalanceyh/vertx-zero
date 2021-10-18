@@ -1,6 +1,7 @@
 # D10084 - Micro, Configuration
 
-From this chapter we'll focus on RPC usage in zero system, because they are micro environment, we need to prepare more service nodes here.
+From this chapter we'll focus on RPC usage in zero system, because they are micro environment, we need to prepare more
+service nodes here.
 
 Demo Projects and environment
 
@@ -14,17 +15,22 @@ Demo Projects and environment
 | 6403 | 6413 | ipc-cronus | up-cronus | Coordinator C |
 | 6501 | 6511 | ipc-hecate | up-hecate | Terminator |
 
-Why we need so many projects ? Because in micro service tutorials we'll focus on Service Registry, Discovery and Communication, we consider use more projects to describe different scenarios and let developers know how to develop micro services in zero framework.
+Why we need so many projects ? Because in micro service tutorials we'll focus on Service Registry, Discovery and
+Communication, we consider use more projects to describe different scenarios and let developers know how to develop
+micro services in zero framework.
 
 ## 1. Etcd Configuration
 
-You can refer [D10074 - Configuration, vertx-etcd3.yml](d10074-configuration-vertx-etcd3yml.md) tutorials for etcd configuration for zero node. Because of our examples here we listed following different configurations
+You can refer [D10074 - Configuration, vertx-etcd3.yml](d10074-configuration-vertx-etcd3yml.md) tutorials for etcd
+configuration for zero node. Because of our examples here we listed following different configurations
 
 * Api Gateway Configuration
 * Common Service \( None Rpc Server \)
 * Service Node \( With Rpc Server, Originator/Coordinator/Terminator \)
 
-As we introduced in previous tutorials, here all the configuration for etcd3 should be the same as following, in my demo we used around 3 nodes of etcd `6181, 6180, 6179`, you can correct the configuration info based on your own environment setting. The last thing is that the `micro` for all of our zero instances are `zero-istio`:
+As we introduced in previous tutorials, here all the configuration for etcd3 should be the same as following, in my demo
+we used around 3 nodes of etcd `6181, 6180, 6179`, you can correct the configuration info based on your own environment
+setting. The last thing is that the `micro` for all of our zero instances are `zero-istio`:
 
 **vertx-etcd3.yml**
 
@@ -105,13 +111,16 @@ vert.x-worker-thread-3 ...... \
     [ ZERO ] ( Discovery ) Records ( added = 0, updated = 5, deleted = 0 ) have been refreshed!
 ```
 
-In zero api gateway there are two threads scanned etcd service center every 2 seconds, when you start new service and registry into etcd service center, these two threads will scan the added new threads and put into service discovery in api gateway. In this kind of situation you can implement service up/down at any time.
+In zero api gateway there are two threads scanned etcd service center every 2 seconds, when you start new service and
+registry into etcd service center, these two threads will scan the added new threads and put into service discovery in
+api gateway. In this kind of situation you can implement service up/down at any time.
 
 ## 3. Common \( up-atlas \)
 
 ### 3.1. Configuration
 
-In the example we also started a common service, this service does not expose `Rpc` port but it will use `RpcClient` instead.
+In the example we also started a common service, this service does not expose `Rpc` port but it will use `RpcClient`
+instead.
 
 ![](/doc/image/d10084-2.png)
 
@@ -141,7 +150,8 @@ server:
 
 ### 3.2. Rpc Client
 
-There are some new configuration that should be mentioned is that if you want to use `RpcClient` to call remote rpc services, you must do some additional configuration.
+There are some new configuration that should be mentioned is that if you want to use `RpcClient` to call remote rpc
+services, you must do some additional configuration.
 
 > From vert.x 3.5.1, the api of Rpc `useSsl` has been changed and Rpc Server could use `HttpServerOptions` instead of the old configuration, be careful.
 
@@ -191,7 +201,8 @@ From above logs we could see the configuration path on `etcd` .
 
 ## 4. Service Node
 
-The last configuration is service node configuration: `up-coeus, up-crius, up-cronus, up-epimetheus, up-hecate` , except service name, port, other configuration is the same.
+The last configuration is service node configuration: `up-coeus, up-crius, up-cronus, up-epimetheus, up-hecate` , except
+service name, port, other configuration is the same.
 
 ### 4.1. Configuration
 
@@ -279,5 +290,6 @@ Setting up Etcd4j Netty client
 
 ## 5. Summary
 
-When you have finished all the configuration, your zero system micro environment has been finished, in this kind of situation you can continue the further tutorial for all the micro service demos \( Especially for Rpc demos \).
+When you have finished all the configuration, your zero system micro environment has been finished, in this kind of
+situation you can continue the further tutorial for all the micro service demos \( Especially for Rpc demos \).
 

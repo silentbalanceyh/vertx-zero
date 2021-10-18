@@ -1,6 +1,6 @@
 # Dependency Injection ( JSR 330 )
 
-To avoid object relationship complex, zero also support Simple dependency injection based on JSR 330. 
+To avoid object relationship complex, zero also support Simple dependency injection based on JSR 330.
 
 ## Vert.x Way
 
@@ -144,7 +144,7 @@ public class InjectWorker {
     private transient InjectA injectA;
 ```
 
-You can use `@Qualifier` to set which implementation should be inject. 
+You can use `@Qualifier` to set which implementation should be inject.
 
 ## Rules
 

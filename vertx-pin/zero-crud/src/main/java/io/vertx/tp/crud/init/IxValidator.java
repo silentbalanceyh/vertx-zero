@@ -5,7 +5,6 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.tp.crud.cv.IxFolder;
 import io.vertx.tp.crud.refine.Ix;
 import io.vertx.up.atom.Rule;
-import io.vertx.up.log.Annal;
 import io.vertx.up.eon.FileSuffix;
 import io.vertx.up.eon.Strings;
 import io.vertx.up.util.Ut;
@@ -22,14 +21,12 @@ import java.util.concurrent.ConcurrentMap;
  * But the configuration file format is the same as default @Codex.
  */
 class IxValidator {
-
-    private static final Annal LOGGER = Annal.get(IxValidator.class);
     /*
      * uri -> field1 = List<Rule>
      *        field2 = List<Rule>
      */
     private static final ConcurrentMap<String, ConcurrentMap<String, List<Rule>>> RULE_MAP =
-            new ConcurrentHashMap<>();
+        new ConcurrentHashMap<>();
 
     static void init() {
         final List<String> files = Ut.ioFiles(IxFolder.VALIDATOR, FileSuffix.YML);
@@ -48,10 +45,10 @@ class IxValidator {
             final String key = file.replace(Strings.DOT + FileSuffix.YML, Strings.EMPTY);
 
             /* 4. Logger */
-            Ix.infoInit(LOGGER, "--- file = {0}, key = {1}", path, key);
+            Ix.Log.init(IxValidator.class, "--- file = {0}, key = {1}", path, key);
             RULE_MAP.put(key, ruleMap);
         });
-        Ix.infoInit(LOGGER, "IxValidator Finished ! Size = {0}", RULE_MAP.size());
+        Ix.Log.init(IxValidator.class, "IxValidator Finished ! Size = {0}", RULE_MAP.size());
     }
 
     private static List<Rule> getRules(final JsonArray ruleArray) {

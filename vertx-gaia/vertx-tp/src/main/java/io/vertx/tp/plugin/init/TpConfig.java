@@ -35,14 +35,14 @@ public class TpConfig implements Serializable {
         final JsonObject config = TP.read();
         // Check up exception for key
         Fn.outUp(null == config || !config.containsKey(key),
-                LOGGER, DynamicKeyMissingException.class,
-                this.getClass(), key, config);
+            LOGGER, DynamicKeyMissingException.class,
+            this.getClass(), key, config);
 
         // Check up exception for JsonObject
         final Class<?> type = config.getValue(key).getClass();
         Fn.outUp(JsonObject.class != type,
-                LOGGER, DynamicConfigTypeException.class,
-                this.getClass(), key, type);
+            LOGGER, DynamicConfigTypeException.class,
+            this.getClass(), key, type);
 
         // Extract config information.
         final JsonObject raw = config.getJsonObject(key);

@@ -6,5 +6,5 @@ import java.util.concurrent.ConcurrentMap;
 interface Pool {
 
     ConcurrentMap<String, AoRefine> REFINE_POOL
-            = new ConcurrentHashMap<>();
+        = new ConcurrentHashMap<>();
 }

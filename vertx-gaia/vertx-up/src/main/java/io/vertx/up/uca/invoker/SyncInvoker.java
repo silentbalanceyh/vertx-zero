@@ -4,7 +4,6 @@ import io.vertx.core.Vertx;
 import io.vertx.core.eventbus.Message;
 import io.vertx.up.commune.Envelop;
 import io.vertx.up.unity.Ux;
-import io.vertx.up.util.Ut;
 
 import java.lang.reflect.Method;
 
@@ -18,7 +17,7 @@ public class SyncInvoker extends AbstractInvoker {
                        final Class<?> paramCls) {
         // Verify
         final boolean valid =
-                Envelop.class == returnType && paramCls == Envelop.class;
+            Envelop.class == returnType && paramCls == Envelop.class;
         InvokerUtil.verify(!valid, returnType, paramCls, this.getClass());
     }
 
@@ -29,7 +28,7 @@ public class SyncInvoker extends AbstractInvoker {
         // Invoke directly
         final Envelop envelop = message.body();
         this.getLogger().info(Info.MSG_FUTURE, this.getClass(), method.getReturnType(), false);
-        message.reply(Ut.invoke(proxy, method.getName(), envelop));
+        message.reply(InvokerUtil.invoke(proxy, method, envelop));
     }
 
     @Override
@@ -39,8 +38,8 @@ public class SyncInvoker extends AbstractInvoker {
                      final Vertx vertx) {
         final Envelop envelop = message.body();
         this.getLogger().info(Info.MSG_FUTURE, this.getClass(), method.getReturnType(), true);
-        final Envelop result = Ut.invoke(proxy, method.getName(), envelop);
+        final Envelop result = InvokerUtil.invoke(proxy, method, envelop);
         this.nextEnvelop(vertx, method, result)
-                .setHandler(Ux.handler(message));
+            .onComplete(Ux.handler(message));
     }
 }

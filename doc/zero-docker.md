@@ -3,37 +3,38 @@
 ## 0. Port List
 
 * neo4j:
-	* 6074 ( http://localhost:6074, neo4j:neo4j ) 
-	* 6073
-	* 6075 ( bolt://localhost:6075, Database Links )
+    * 6074 ( http://localhost:6074, neo4j:neo4j )
+    * 6073
+    * 6075 ( bolt://localhost:6075, Database Links )
 * consul
-	* 6500 ( http://localhost:6500 )
-	* 6300
+    * 6500 ( http://localhost:6500 )
+    * 6300
 * mongo
-	* 6017
+    * 6017
 * mysql
-	* 6036 ( root:zero )
+    * 6036 ( root:zero )
 * postgres
-	* 6432 ( postgres:zero )
+    * 6432 ( postgres:zero )
 * rabbit-mq
-	* 6369
-	* 6571
-	* 6572
-	* 6671
-	* 6672 ( http://localhost:6672, guest:guest )
-	* 6272
+    * 6369
+    * 6571
+    * 6572
+    * 6671
+    * 6672 ( http://localhost:6672, guest:guest )
+    * 6272
 * redis
-	* 6379
+    * 6379
 * etcd2
-	* 6179
-	* 6180
-	* 6181
+    * 6179
+    * 6180
+    * 6181
 * etcd3
-	* 6189
-	* 6190
-	* 6191
+    * 6189
+    * 6190
+    * 6191
 
 ## 1. Setup
+
 ### 1.1. neo4j
 
 ```

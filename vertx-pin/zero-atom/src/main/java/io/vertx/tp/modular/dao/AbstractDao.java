@@ -3,14 +3,17 @@ package io.vertx.tp.modular.dao;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.atom.modeling.data.DataAtom;
-import io.vertx.tp.atom.refine.Ao;
 import io.vertx.tp.modular.dao.internal.*;
 import io.vertx.tp.modular.jdbc.AoConnection;
 import io.vertx.tp.modular.metadata.AoSentence;
 import io.vertx.up.atom.query.Criteria;
 import io.vertx.up.commune.Record;
+import io.vertx.up.eon.Values;
+import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import io.vertx.up.unity.Ux;
+
+import java.util.Objects;
 
 /**
  * 数据库核心操作，操作名称命名为：
@@ -24,15 +27,15 @@ public abstract class AbstractDao implements AoDao {
     /*
      * 插入/删除专用
      */
-    private final transient Partakor partakor = Partakor.create();
+    private final transient UFlush flush = UFlush.create();
     /*
      * 唯一记录读取，返回 Record
      */
-    private final transient Uniqueor uniqueor = Uniqueor.create();
+    private final transient UUnique unique = UUnique.create();
     /*
      * 列表读取，返回 Record[]
      */
-    private final transient Listor listor = Listor.create();
+    private final transient UList list = UList.create();
     /*
      * 分页搜索读取，返回 JsonObject
      * {
@@ -40,9 +43,9 @@ public abstract class AbstractDao implements AoDao {
      *     "count",
      * }
      */
-    private final transient Searchor searchor = Searchor.create();
+    private final transient USearch search = USearch.create();
 
-    private final transient Aggregator aggregator = Aggregator.create();
+    private final transient UAggr aggr = UAggr.create();
 
     /*
      * 本类中的挂载有两个方法：
@@ -55,26 +58,23 @@ public abstract class AbstractDao implements AoDao {
     public AbstractDao(final AoConnection conn) {
         this.conn = conn;
         // 前期绑定
-        this.partakor.on(this.conn).on(this.getSentence());
-        this.uniqueor.on(this.conn).on(this.getSentence());
-        this.listor.on(this.conn).on(this.getSentence());
-        this.searchor.on(this.conn).on(this.getSentence());
-        this.aggregator.on(this.conn).on(this.getSentence());
+        this.flush.on(this.conn).on(this.sentence());
+        this.unique.on(this.conn).on(this.sentence());
+        this.list.on(this.conn).on(this.sentence());
+        this.search.on(this.conn).on(this.sentence());
+        this.aggr.on(this.conn).on(this.sentence());
     }
 
     @Override
     public AoDao mount(final DataAtom atom) {
         // 读取器直接穿透，让读取器挂载在元数据上
-        this.uniqueor.on(atom);     // Uniqueor 挂载
-        this.partakor.on(atom);     // Partakor 挂载
-        this.listor.on(atom);       // Listor挂载
-        this.searchor.on(atom);     // Searchor 挂载
-        this.aggregator.on(atom);   // Aggregator 挂载
+        this.unique.on(atom);     // Uniqueor 挂载
+        this.flush.on(atom);     // Partakor 挂载
+        this.list.on(atom);       // Listor挂载
+        this.search.on(atom);     // Searchor 挂载
+        this.aggr.on(atom);   // Aggregator 挂载
         return this;
     }
-
-    /* 行语句构造器 */
-    public abstract AoSentence getSentence();
 
     // AoDao
     /*
@@ -88,32 +88,65 @@ public abstract class AbstractDao implements AoDao {
     // AoAggregator / AoPredicate
     @Override
     public Long count(final Criteria criteria) {
-        return Ao.doCount(this.getLogger(), this.aggregator::count).apply(criteria);
+        return Fn.getNull((long) Values.RANGE, () -> this.aggr.count(criteria), criteria);
     }
 
     @Override
     public Future<Long> countAsync(final Criteria criteria) {
         return Ux.future(this.count(criteria));
+        // return Fn.getNull(Ux.future((long) Values.RANGE), () -> this.aggr.countAsync(criteria), criteria);
     }
 
     @Override
-    public Boolean existing(final Criteria criteria) {
-        return Ao.doBoolean(this.getLogger(), this.aggregator::existing).apply(criteria);
+    public Long count(final JsonObject criteria) {
+        return this.count(Criteria.create(criteria));
     }
 
     @Override
-    public Future<Boolean> existingAsync(final Criteria criteria) {
-        return Ux.future(this.existing(criteria));
+    public Future<Long> countAsync(final JsonObject criteria) {
+        return this.countAsync(Criteria.create(criteria));
     }
 
     @Override
-    public Boolean missing(final Criteria criteria) {
-        return Ao.doBoolean(this.getLogger(), this.aggregator::missing).apply(criteria);
+    public Boolean exist(final Criteria criteria) {
+        return Fn.getNull(Boolean.FALSE, () -> this.aggr.existing(criteria), criteria);
     }
 
     @Override
-    public Future<Boolean> missingAsync(final Criteria criteria) {
-        return Ux.future(this.missing(criteria));
+    public Future<Boolean> existAsync(final Criteria criteria) {
+        return Ux.future(this.exist(criteria));
+        // return Fn.getNull(Ux.future(Boolean.FALSE), () -> this.aggr.existingAsync(criteria), criteria);
+    }
+
+    @Override
+    public Boolean miss(final Criteria criteria) {
+        return Fn.getNull(Boolean.FALSE, () -> this.aggr.missing(criteria), criteria);
+    }
+
+    @Override
+    public Future<Boolean> missAsync(final Criteria criteria) {
+        return Ux.future(this.miss(criteria));
+        // return Fn.getNull(Ux.future(Boolean.FALSE), () -> this.aggr.missingAsync(criteria), criteria);
+    }
+
+    @Override
+    public Future<Boolean> existAsync(final JsonObject criteria) {
+        return this.existAsync(Criteria.create(criteria));
+    }
+
+    @Override
+    public Boolean exist(final JsonObject criteria) {
+        return this.exist(Criteria.create(criteria));
+    }
+
+    @Override
+    public Future<Boolean> missAsync(final JsonObject criteria) {
+        return this.missAsync(Criteria.create(criteria));
+    }
+
+    @Override
+    public Boolean miss(final JsonObject criteria) {
+        return this.miss(Criteria.create(criteria));
     }
 
     // AoWriter
@@ -144,21 +177,29 @@ public abstract class AbstractDao implements AoDao {
     @Override
     public Future<Record> insertAsync(final Record record) {
         return Ux.future(this.insert(record));
+        // return Fn.getNull(Ux.future(), () -> this.flush.insertAsync(record), record);
     }
 
     @Override
     public Record insert(final Record record) {
-        return Ao.<Record>doFluent(this.getLogger(), this.partakor::insert).apply(record); // 防 null
+        return Fn.getNull(null, () -> this.flush.insert(record), record);
     }
 
     @Override
     public Record[] insert(final Record... records) {
-        return Ao.<Record[]>doFluent(this.getLogger(), this.partakor::insert).apply(records);
+        if (Objects.isNull(records)) {
+            return new Record[]{};
+        }
+        return this.flush.insert(records);
     }
 
     @Override
     public Future<Record[]> insertAsync(final Record... records) {
         return Ux.future(this.insert(records));
+/*        if (Objects.isNull(records)) {
+            return Ux.future(new Record[]{});
+        }
+        return this.flush.insertAsync(records);*/
     }
 
     /*
@@ -190,21 +231,29 @@ public abstract class AbstractDao implements AoDao {
     @Override
     public Future<Record[]> updateAsync(final Record... records) {
         return Ux.future(this.update(records));
+        /*if (Objects.isNull(records)) {
+            return Ux.future(new Record[]{});
+        }
+        return this.flush.updateAsync(records);*/
     }
 
     @Override
     public Record[] update(final Record... records) {
-        return Ao.<Record[]>doFluent(this.getLogger(), this.partakor::update).apply(records);
+        if (Objects.isNull(records)) {
+            return new Record[]{};
+        }
+        return this.flush.update(records);
     }
 
     @Override
     public Future<Record> updateAsync(final Record record) {
         return Ux.future(this.update(record));
+        // return Fn.getNull(Ux.future(), () -> this.flush.updateAsync(record), record);
     }
 
     @Override
     public Record update(final Record record) {
-        return Ao.<Record>doFluent(this.getLogger(), this.partakor::update).apply(record); // 防 null
+        return Fn.getNull(null, () -> this.flush.update(record), record);
     }
 
     /*
@@ -227,34 +276,43 @@ public abstract class AbstractDao implements AoDao {
      */
     @Override
     public <ID> Record fetchById(final ID id) {
-        return Ao.<ID, Record>doStandard(this.getLogger(), this.uniqueor::fetchById).apply(id);// 防 null
+        return Fn.getNull(null, () -> this.unique.fetchById(id), id);
     }
 
     @Override
     public <ID> Future<Record> fetchByIdAsync(final ID id) {
         return Ux.future(this.fetchById(id));
+        // return Fn.getNull(Ux.future(), () -> this.unique.fetchByIdAsync(id), id);
     }
 
     @Override
     @SuppressWarnings("unchecked")
-    public <ID> Record[] fetchByIds(final ID... ids) {
-        return Ao.<ID[], Record[]>doStandard(this.getLogger(), this.listor::fetchByIds).apply(ids);
+    public <ID> Record[] fetchById(final ID... ids) {
+        if (Objects.isNull(ids)) {
+            return new Record[]{};
+        }
+        return this.list.fetchByIds(ids);
     }
 
     @Override
     @SuppressWarnings("unchecked")
-    public <ID> Future<Record[]> fetchByIdsAsync(final ID... ids) {
-        return Ux.future(this.fetchByIds(ids));
+    public <ID> Future<Record[]> fetchByIdAsync(final ID... ids) {
+        return Ux.future(this.fetchById(ids));
+/*        if (Objects.isNull(ids)) {
+            return Ux.future(new Record[]{});
+        }
+        return this.list.fetchByIdsAsync(ids);*/
     }
 
     @Override
     public Record[] fetchAll() {
-        return Ao.doSupplier(this.getLogger(), this.listor::fetchAll).get();
+        return this.list.fetchAll();
     }
 
     @Override
     public Future<Record[]> fetchAllAsync() {
         return Ux.future(this.fetchAll());
+        // return this.list.fetchAllAsync();
     }
 
     /*
@@ -277,32 +335,46 @@ public abstract class AbstractDao implements AoDao {
      */
     @Override
     public Record fetchOne(final Criteria criteria) {
-        return Ao.doStandard(this.getLogger(), this.uniqueor::fetchOne).apply(criteria);
-    }
-
-    @Override
-    public JsonObject search(final JsonObject query) {
-        return Ao.doStandard(this.getLogger(), this.searchor::search).apply(query);
-    }
-
-    @Override
-    public Record[] fetch(final JsonObject criteria) {
-        return Ao.doStandard(this.getLogger(), this.searchor::query).apply(criteria);
+        return Fn.getNull(null, () -> this.unique.fetchOne(criteria), criteria);
     }
 
     @Override
     public Future<Record> fetchOneAsync(final Criteria criteria) {
         return Ux.future(this.fetchOne(criteria));
+        // return Fn.getNull(Ux.future(), () -> this.unique.fetchOneAsync(criteria), criteria);
     }
+
+    @Override
+    public Future<Record> fetchOneAsync(final JsonObject criteria) {
+        return this.fetchOneAsync(Criteria.create(criteria));
+    }
+
+    @Override
+    public Record fetchOne(final JsonObject criteria) {
+        return this.fetchOne(Criteria.create(criteria));
+    }
+
+    @Override
+    public JsonObject search(final JsonObject query) {
+        return Fn.getNull(Ux.pageData(), () -> this.search.search(query), query);
+    }
+
+    @Override
+    public Record[] fetch(final JsonObject criteria) {
+        return Fn.getNull(new Record[]{}, () -> this.search.query(criteria), criteria);
+    }
+
 
     @Override
     public Future<JsonObject> searchAsync(final JsonObject query) {
         return Ux.future(this.search(query));
+        // return Fn.getNull(Ux.futureJ(), () -> this.search.searchAsync(query), query);
     }
 
     @Override
     public Future<Record[]> fetchAsync(final JsonObject criteria) {
         return Ux.future(this.fetch(criteria));
+        // return Fn.getNull(Ux.future(new Record[]{}), () -> this.search.queryAsync(criteria), criteria);
     }
 
     /*
@@ -326,25 +398,36 @@ public abstract class AbstractDao implements AoDao {
     @Override
     public Future<Boolean> deleteAsync(final Record record) {
         return Ux.future(this.delete(record));
+        // return Fn.getNull(Ux.future(Boolean.FALSE), () -> this.flush.deleteAsync(record), record);
     }
 
     @Override
     public boolean delete(final Record record) {
-        return Ao.<Record>doBoolean(this.getLogger(), this.partakor::delete).apply(record); // 防 null
+        return Fn.getNull(Boolean.FALSE, () -> this.flush.delete(record), record);
     }
 
     @Override
     public Future<Boolean> deleteAsync(final Record... records) {
         return Ux.future(this.delete(records));
+/*        if (Objects.isNull(records)) {
+            return Ux.future(Boolean.FALSE);
+        }
+        return this.flush.deleteAsync(records);*/
     }
 
     @Override
     public Boolean delete(final Record... records) {
-        return Ao.<Record[]>doBoolean(this.getLogger(), this.partakor::delete).apply(records); // 防 null
+        if (Objects.isNull(records)) {
+            return Boolean.FALSE;
+        }
+        return this.flush.delete(records);
     }
 
     // Logger
-    protected Annal getLogger() {
+    protected Annal logger() {
         return Annal.get(this.getClass());
     }
+
+    /* 行语句构造器 */
+    public abstract AoSentence sentence();
 }

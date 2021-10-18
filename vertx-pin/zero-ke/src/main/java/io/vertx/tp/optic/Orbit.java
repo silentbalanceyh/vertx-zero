@@ -1,7 +1,7 @@
 package io.vertx.tp.optic;
 
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.ke.cv.KeField;
+import io.vertx.up.eon.KName;
 
 /*
  * Interface for authorization resource key processing
@@ -12,8 +12,8 @@ import io.vertx.tp.ke.cv.KeField;
  */
 public interface Orbit {
 
-    String ARG0 = KeField.URI;
-    String ARG1 = KeField.URI_REQUEST;
+    String ARG0 = KName.URI;
+    String ARG1 = KName.URI_REQUEST;
 
     /*
      * Calculation method here, stack should be

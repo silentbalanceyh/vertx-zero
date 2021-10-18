@@ -23,7 +23,7 @@ class ModelTool {
     Future<Set<Model>> combine(final JsonArray models) {
         final Set<Model> modelSet = new HashSet<>();
         Ut.itJArray(models).map(data -> Model.instance(this.namespace, data))
-                .forEach(modelSet::add);
+            .forEach(modelSet::add);
         return Ux.future(modelSet);
     }
 
@@ -35,16 +35,16 @@ class ModelTool {
 
     Future<JsonObject> execute(final MModel model) {
         return Ux.future(this.onResult(model))
-                // 1. 先初始化一个Model
-                .compose(AoModeler.init().apply())
-                // 2. 属性读取
-                .compose(AoModeler.attribute().apply())
-                // 3. 关系拉取
-                .compose(AoModeler.join().apply())
-                // 4. 读取实体
-                .compose(AoModeler.entity().apply())
-                // 5. 分散处理
-                .compose(AoModeler.scatter().apply());
+            // 1. 先初始化一个Model
+            .compose(AoModeler.init().apply())
+            // 2. 属性读取
+            .compose(AoModeler.attribute().apply())
+            // 3. 关系拉取
+            .compose(AoModeler.join().apply())
+            // 4. 读取实体
+            .compose(AoModeler.entity().apply())
+            // 5. 分散处理
+            .compose(AoModeler.scatter().apply());
     }
 
     private JsonObject onResult(final MModel model) {

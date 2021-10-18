@@ -1,11 +1,12 @@
 package io.vertx.up.uca.rs.config;
 
-import io.vertx.up.log.Annal;
 import io.vertx.up.eon.Strings;
 import io.vertx.up.eon.Values;
-import io.vertx.zero.exception.PathAnnoEmptyException;
-import io.vertx.up.util.Ut;
 import io.vertx.up.fn.Fn;
+import io.vertx.up.log.Annal;
+import io.vertx.up.log.Debugger;
+import io.vertx.up.util.Ut;
+import io.vertx.zero.exception.PathAnnoEmptyException;
 
 import javax.ws.rs.Path;
 import java.util.regex.Matcher;
@@ -24,11 +25,12 @@ class PathResolver {
      * Parse the api endpoint for @Path ( Class Level )
      *
      * @param path JSR311 annotation
+     *
      * @return normalized uri
      */
     public static String resolve(final Path path) {
         Fn.outUp(null == path, LOGGER,
-                PathAnnoEmptyException.class, PathResolver.class);
+            PathAnnoEmptyException.class, PathResolver.class);
         // Calculate single path
         return resolve(path, null);
     }
@@ -38,20 +40,21 @@ class PathResolver {
      *
      * @param path JSR311 annotation
      * @param root root folder or path
+     *
      * @return normalized uri
      */
     @SuppressWarnings("all")
     public static String resolve(final Path path, final String root) {
         Fn.outUp(null == path, LOGGER,
-                PathAnnoEmptyException.class, PathResolver.class);
+            PathAnnoEmptyException.class, PathResolver.class);
         return Fn.getSemi(Ut.isNil(root), LOGGER, () -> calculate(path(path.value())),
-                () -> {
-                    final String api = calculate(root);
-                    final String contextPath = calculate(path.value());
-                    // If api has been calculated to
-                    return Values.ONE == api.length() ?
-                            path(contextPath) : path(api + contextPath);
-                });
+            () -> {
+                final String api = calculate(root);
+                final String contextPath = calculate(path.value());
+                // If api has been calculated to
+                return Values.ONE == api.length() ?
+                    path(contextPath) : path(api + contextPath);
+            });
     }
 
     /**
@@ -59,6 +62,7 @@ class PathResolver {
      * Named: /query/:name ( Vertx Format )
      *
      * @param path JSR311 annotation
+     *
      * @return resolved Vert.x and JSR311
      */
     @SuppressWarnings("all")
@@ -84,6 +88,7 @@ class PathResolver {
      * 3. Replaced all duplicated '//';
      *
      * @param path input path no normalized.
+     *
      * @return calculated uri
      */
     @SuppressWarnings("all")
@@ -97,9 +102,11 @@ class PathResolver {
         }
         // Uri must begin with SLASH
         final String processed = uri;
-        return Fn.getNull(() ->
-                        processed.startsWith(Strings.SLASH) ?
-                                processed : Strings.SLASH + processed,
-                uri);
+        final String finalUri = Fn.getNull(() -> processed.startsWith(Strings.SLASH)
+            ? processed : Strings.SLASH + processed, uri);
+        if (!path.equals(finalUri) && Debugger.onWebUriDetect()) {
+            LOGGER.warn("[ Path ] The original uri is `{0}`, recommend/detected uri is `{1}`.", path, finalUri);
+        }
+        return finalUri;
     }
 }

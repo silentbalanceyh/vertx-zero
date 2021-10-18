@@ -5,12 +5,12 @@
     <parent>
         <artifactId>vertx-ifx</artifactId>
         <groupId>cn.vertxup</groupId>
-        <version>0.5.3-SNAPSHOT</version>
+        <version>0.8.0-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>zero-ifx-mongo</artifactId>
-    <name>( Zero Infix ) Mongo Database</name>
+    <name>Infix:「zero-ifx-mongo」Mongo Client</name>
     <dependencies>
         <!-- Mongo Db Client & Provider -->
         <dependency>

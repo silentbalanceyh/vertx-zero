@@ -3,7 +3,7 @@ package io.vertx.tp.modular.metadata;
 import cn.vertxup.atom.domain.tables.pojos.MField;
 import cn.vertxup.atom.domain.tables.pojos.MKey;
 import io.vertx.core.json.JsonArray;
-import io.vertx.tp.atom.cv.em.FieldCheckResult;
+import io.vertx.tp.atom.cv.em.CheckResult;
 import io.vertx.tp.atom.cv.em.KeyType;
 import io.vertx.tp.atom.cv.sql.SqlStatement;
 import io.vertx.tp.atom.cv.sql.SqlWord;
@@ -115,8 +115,8 @@ public abstract class AbstractSentence implements AoSentence, SqlStatement {
     }
 
     @Override
-    public FieldCheckResult checkFieldType(final MField field, final ConcurrentMap<String, Object> columnDetail) {
-        return FieldCheckResult.PASS;
+    public CheckResult checkFieldType(final MField field, final ConcurrentMap<String, Object> columnDetail) {
+        return CheckResult.PASS;
     }
 
 
@@ -143,7 +143,7 @@ public abstract class AbstractSentence implements AoSentence, SqlStatement {
         if (null != field.getPrecision()) {
             if (this.getPrecisionMap().containsKey(actualType)) {
                 type.append(MessageFormat.format(this.getPrecisionMap().get(actualType), String.valueOf(field.getLength()),
-                        field.getPrecision()));
+                    field.getPrecision()));
             }
         } else if (this.getLengthMap().containsKey(actualType)) {
             type.append(MessageFormat.format(this.getLengthMap().get(actualType), String.valueOf(field.getLength())));
@@ -159,8 +159,8 @@ public abstract class AbstractSentence implements AoSentence, SqlStatement {
         final String type = this.getType(field);
         // 添加字段名
         segment.append(this.columnDdl(field.getColumnName()))
-                .append(" ")
-                .append(type).append(" ");
+            .append(" ")
+            .append(type).append(" ");
         return segment.toString();
     }
 

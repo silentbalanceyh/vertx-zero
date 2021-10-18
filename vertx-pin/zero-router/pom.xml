@@ -5,12 +5,12 @@
     <parent>
         <artifactId>vertx-pin</artifactId>
         <groupId>cn.vertxup</groupId>
-        <version>0.5.3-SNAPSHOT</version>
+        <version>0.8.0-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>zero-router</artifactId>
-    <name>( Extension ) - Rt: Micro Gateway</name>
+    <name>Extension:「zero-router」Rt - Micro Api Gateway</name>
     <dependencies>
         <!-- Kern -->
         <dependency>
@@ -19,7 +19,7 @@
         </dependency>
         <dependency>
             <groupId>cn.vertxup</groupId>
-            <artifactId>vertx-micro</artifactId>
+            <artifactId>zero-iproxy</artifactId>
         </dependency>
     </dependencies>
 </project>

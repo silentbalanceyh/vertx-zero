@@ -13,8 +13,8 @@ import java.text.MessageFormat;
  */
 public final class Errors {
 
-    private static final String ZERO_ERROR = "[ERR{0}] ({1}) ZeroException occus: {2}.";
-    private static final String WEB_ERROR = "[ERR{0}] ({1}) Web Exception occus: {2}.";
+    private static final String ZERO_ERROR = "[ERR{0}] ({1}) Zero Error: {2}.";
+    private static final String WEB_ERROR = "[ERR{0}] ({1}) Web Error: {2}.";
 
     public static String normalize(final Class<?> clazz,
                                    final int code,
@@ -43,9 +43,9 @@ public final class Errors {
                 final String error = MessageFormat.format(pattern, args);
                 // 3. Format
                 return MessageFormat.format(
-                        tpl, String.valueOf(code),
-                        clazz.getSimpleName(),
-                        error
+                    tpl, String.valueOf(code),
+                    clazz.getSimpleName(),
+                    error
                 );
             } else {
                 throw new ErrorMissingException(code, clazz.getName());
@@ -62,7 +62,7 @@ public final class Errors {
             final String clazz = methods[idx].getClassName();
             final String method = methods[idx].getMethodName();
             if (clazz.equals(clazzPos.getName())
-                    && method.equals(methodPos)) {
+                && method.equals(methodPos)) {
                 position = idx + 1;
             }
         }

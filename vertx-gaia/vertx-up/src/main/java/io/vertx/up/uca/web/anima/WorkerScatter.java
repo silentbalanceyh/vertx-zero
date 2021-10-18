@@ -34,9 +34,9 @@ public class WorkerScatter implements Scatter<Vertx> {
         // MessageModel equal REQUEST_RESPONSE
         final Set<Class<?>> workers = this.getTargets(sources);
         final Extractor<DeploymentOptions> extractor =
-                Ut.instance(WorkerExtractor.class);
+            Ut.instance(WorkerExtractor.class);
         final ConcurrentMap<Class<?>, DeploymentOptions> options =
-                new ConcurrentHashMap<>();
+            new ConcurrentHashMap<>();
         for (final Class<?> worker : workers) {
             // 2.1 Worker deployment options
             final DeploymentOptions option = extractor.extract(worker);
@@ -46,11 +46,11 @@ public class WorkerScatter implements Scatter<Vertx> {
         }
         // Runtime hooker
         Runtime.getRuntime().addShutdownHook(new Thread(() ->
-                Ut.itSet(workers, (clazz, index) -> {
-                    // 4. Undeploy Agent.
-                    final DeploymentOptions opt = options.get(clazz);
-                    Verticles.undeploy(vertx, clazz, opt, this.getLogger());
-                })));
+            Ut.itSet(workers, (clazz, index) -> {
+                // 4. Undeploy Agent.
+                final DeploymentOptions opt = options.get(clazz);
+                Verticles.undeploy(vertx, clazz, opt, this.getLogger());
+            })));
     }
 
     private Annal getLogger() {

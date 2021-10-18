@@ -1,6 +1,7 @@
 # D10033 - JSR303, @Null for value
 
-From this chapter, zero system will introduce other annotations that belong to JSR303 for other validations, also we'll introduce Hibernate Validator specific annotation for some business requirements.
+From this chapter, zero system will introduce other annotations that belong to JSR303 for other validations, also we'll
+introduce Hibernate Validator specific annotation for some business requirements.
 
 Demo projects:
 
@@ -8,9 +9,12 @@ Demo projects:
 
 **Rules**:
 
-1. JSR303 is only supported in Agent component in zero system, it means that after you have send the message to event bus, the JSR303 will be effectiveness.
-2. When you write the code with the Interface Style \( Will introduce in forward tutorials \), JSR303 will not support this kind of situation.
-3. For @BodyParam, it also impact Agent component only, but could support Interface Style instead of JSR303 and could provide more useful validations.
+1. JSR303 is only supported in Agent component in zero system, it means that after you have send the message to event
+   bus, the JSR303 will be effectiveness.
+2. When you write the code with the Interface Style \( Will introduce in forward tutorials \), JSR303 will not support
+   this kind of situation.
+3. For @BodyParam, it also impact Agent component only, but could support Interface Style instead of JSR303 and could
+   provide more useful validations.
 
 ## 1. Source Code
 
@@ -69,7 +73,9 @@ public class NullActor {
 
 ## 3. Summary
 
-This annotation is not used often, but we still could discuss for `@Null` usage, because zero system implemented JSR303 with Hibernate Validator directly, here we only showed how to use JSR303 annotation to do business validation instead. The scenarios of `@Null` usage is exceed our tutorial topics.
+This annotation is not used often, but we still could discuss for `@Null` usage, because zero system implemented JSR303
+with Hibernate Validator directly, here we only showed how to use JSR303 annotation to do business validation instead.
+The scenarios of `@Null` usage is exceed our tutorial topics.
 
 
 

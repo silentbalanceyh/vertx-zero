@@ -44,6 +44,10 @@ class ScLog {
         info(logger, "Web", pattern, args);
     }
 
+    static void infoView(final Annal logger, final String pattern, final Object... args) {
+        info(logger, "View", pattern, args);
+    }
+
     static void warnWeb(final Annal logger, final String pattern, final Object... args) {
         warn(logger, "Web", pattern, args);
     }

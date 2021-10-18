@@ -66,5 +66,6 @@ istio-pilot-86ddcb7ff5-cmcr5     1/1       Running   0          4m
 
 Then when you see above output, you can select `isito-system` namespace in the dashboard to check the result:
 
-![](/doc/image/istio-system.png)When you see above screen shot it means that the istio has been run in mini k8s environment.
+![](/doc/image/istio-system.png)When you see above screen shot it means that the istio has been run in mini k8s
+environment.
 

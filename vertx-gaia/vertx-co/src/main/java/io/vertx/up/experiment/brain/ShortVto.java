@@ -26,8 +26,8 @@ public class ShortVto implements Vto<Short> {
                  * String -> Short
                  */
                 return Ut.isInteger(value.toString()) ?
-                        Short.parseShort(value.toString()) :
-                        (short) Values.RANGE;
+                    Short.parseShort(value.toString()) :
+                    (short) Values.RANGE;
             } else if (Tool.isInteger(type)) {
                 /*
                  * Integer -> Short

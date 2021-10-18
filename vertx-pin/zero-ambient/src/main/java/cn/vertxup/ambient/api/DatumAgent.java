@@ -17,7 +17,8 @@ public interface DatumAgent {
     @GET
     @Address(Addr.Datum.CATEGORY_TYPE)
     JsonArray categoryByType(@HeaderParam(ID.Header.X_APP_ID) String appId,
-                             @PathParam("type") String type);
+                             @PathParam("type") String type,
+                             @QueryParam("leaf") @DefaultValue("true") Boolean includeLeaf);
 
     @Path("/types/categories")
     @POST

@@ -5,14 +5,14 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 
-public class ClusterStrada implements Transformer<ClusterOptions> {
+public class ClusterStrada implements JTransformer<ClusterOptions> {
 
     private static final Annal LOGGER = Annal.get(ClusterStrada.class);
 
     @Override
     public ClusterOptions transform(final JsonObject config) {
         return Fn.getSemi(null == config, LOGGER,
-                ClusterOptions::new,
-                () -> new ClusterOptions(config));
+            ClusterOptions::new,
+            () -> new ClusterOptions(config));
     }
 }

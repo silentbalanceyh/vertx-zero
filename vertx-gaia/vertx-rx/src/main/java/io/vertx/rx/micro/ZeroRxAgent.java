@@ -30,35 +30,33 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class ZeroRxAgent extends AbstractVerticle {
 
     private static final Annal LOGGER = Annal.get(ZeroRxAgent.class);
-    private transient final String NAME = getClass().getSimpleName();
+    private transient final String NAME = this.getClass().getSimpleName();
 
     @Override
     public void start() {
-        /** 1.Call router hub to mount commont **/
+        /* 1.Call router hub to mount commont **/
         final Axis<Router> routerAxiser = Fn.poolThread(Pool.ROUTERS,
-                () -> Ut.instance(RouterAxis.class));
-        /** 2.Call route hub to mount defined **/
+            () -> Ut.instance(RouterAxis.class));
+        /* 2.Call route hub to mount defined **/
         final Axis<Router> axiser = Fn.poolThread(Pool.EVENTS,
-                () -> Ut.instance(EventAxis.class));
+            () -> Ut.instance(EventAxis.class));
 
-        /** 3.Get the default HttpServer Options **/
+        /* 3.Get the default HttpServer Options **/
         ZeroAtomic.RX_OPTS.forEach((port, option) -> {
-            /** 3.1.Single server processing **/
-            final HttpServer server = vertx.createHttpServer(option);
-            /** 3.2. Build router with current option **/
-            final Router router = Router.router(vertx);
+            /* 3.1.Single server processing **/
+            final HttpServer server = this.vertx.createHttpServer(option);
+            /* 3.2. Build router with current option **/
+            final Router router = Router.router(this.vertx);
 
             routerAxiser.mount(router);
             axiser.mount(router);
 
-            /** 3.3. Listen for router on the server **/
+            /* 3.3. Listen for router on the server **/
             final Single<HttpServer> result =
-                    server.requestHandler(router).rxListen();
-            /** 3.4. Log output **/
+                server.requestHandler(router).rxListen();
+            /* 3.4. Log output **/
             {
-                result.subscribe((rxServer) -> {
-                    recordServer(option, router);
-                });
+                result.subscribe((rxServer) -> this.recordServer(option, router)).dispose();
             }
         });
     }
@@ -70,8 +68,8 @@ public class ZeroRxAgent extends AbstractVerticle {
         if (Values.ZERO == out.getAndIncrement()) {
             // 1. Build logs for current server;
             final String portLiteral = String.valueOf(port);
-            LOGGER.info(Info.RX_SERVERS, NAME, deploymentID(),
-                    portLiteral);
+            LOGGER.info(Info.RX_SERVERS, this.NAME, this.deploymentID(),
+                portLiteral);
             final List<Route> routes = router.getRoutes();
             final Map<String, Route> routeMap = new TreeMap<>();
             for (final Route route : routes) {
@@ -80,13 +78,13 @@ public class ZeroRxAgent extends AbstractVerticle {
                 routeMap.put(path, route);
             }
             routeMap.forEach((path, route) ->
-                    LOGGER.info(Info.MAPPED_ROUTE, NAME, path,
-                            route.toString()));
+                LOGGER.info(Info.MAPPED_ROUTE, this.NAME, path,
+                    route.toString()));
             // 3. Endpoint Publish
             final String address =
-                    MessageFormat.format("http://{0}:{1}/",
-                            options.getHost(), portLiteral);
-            LOGGER.info(Info.RX_LISTEN, NAME, address);
+                MessageFormat.format("http://{0}:{1}/",
+                    options.getHost(), portLiteral);
+            LOGGER.info(Info.RX_LISTEN, this.NAME, address);
         }
     }
 }

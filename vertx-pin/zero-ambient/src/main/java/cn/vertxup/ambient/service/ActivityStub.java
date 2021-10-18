@@ -22,6 +22,17 @@ public interface ActivityStub {
     Future<JsonArray> fetchActivities(String identifier, String key);
 
     /*
+     * Activities fetching from the system by ( field )
+     * 1) model identifier
+     * 2) model key: primary key for record
+     * 3) model field
+     *
+     * The results should be all activity changes of one field that selected,
+     * it will be mapped to X_ACTIVITY_CHANGE table instead of X_ACTIVITY
+     */
+    Future<JsonArray> fetchActivities(String identifier, String key, String field);
+
+    /*
      * Activity Update ( Confirm / Reject )
      * Here are some points that
      * 1) For `ActivityChange` record, update `PENDING` to `CONFIRMED`

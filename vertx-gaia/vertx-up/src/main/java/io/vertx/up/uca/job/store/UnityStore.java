@@ -1,6 +1,7 @@
 package io.vertx.up.uca.job.store;
 
-import io.vertx.tp.plugin.job.JobPool;
+import io.vertx.tp.plugin.job.JobClient;
+import io.vertx.tp.plugin.job.JobInfix;
 import io.vertx.up.atom.worker.Mission;
 import io.vertx.up.eon.Info;
 import io.vertx.up.eon.em.JobStatus;
@@ -36,15 +37,15 @@ class UnityStore implements JobStore {
          * 3) Double check jobs `readOnly` here ( Be sure readOnly set correctly )
          */
         final Set<Mission> missions = this.reader.fetch()
-                .stream()
-                .filter(Mission::isReadOnly)
-                .collect(Collectors.toSet());
+            .stream()
+            .filter(Mission::isReadOnly)
+            .collect(Collectors.toSet());
         LOGGER.info(Info.JOB_SCANNED, missions.size(), "Programming");
 
         final Set<Mission> storage = this.store.fetch()
-                .stream()
-                .filter(mission -> !mission.isReadOnly())
-                .collect(Collectors.toSet());
+            .stream()
+            .filter(mission -> !mission.isReadOnly())
+            .collect(Collectors.toSet());
         LOGGER.info(Info.JOB_SCANNED, storage.size(), "Dynamic/Stored");
 
         /* Merged */
@@ -56,46 +57,49 @@ class UnityStore implements JobStore {
          * Status Modification for ONCE
          * */
         result.stream()
-                .filter(mission -> JobType.ONCE == mission.getType())
-                /*
-                 * Once work is in `STARTING`, because it won't start
-                 * We must convert `STARTING` to `STOPPED` to stop the job
-                 * at that time here.
-                 */
-                .filter(mission -> JobStatus.STARTING == mission.getStatus())
-                .forEach(mission -> mission.setStatus(JobStatus.STOPPED));
+            .filter(mission -> JobType.ONCE == mission.getType())
+            /*
+             * Once work is in `STARTING`, because it won't start
+             * We must convert `STARTING` to `STOPPED` to stop the job
+             * at that time here.
+             */
+            .filter(mission -> JobStatus.STARTING == mission.getStatus())
+            .forEach(mission -> mission.setStatus(JobStatus.STOPPED));
 
         /* Job Pool Sync */
-        JobPool.put(result);
+        JobClient.Pre.save(result);
         return result;
     }
 
     @Override
     public JobStore add(final Mission mission) {
-        JobPool.save(mission);
+        JobClient.Pre.save(mission);
         return this.store.add(mission);
     }
 
     @Override
-    public Mission fetch(final String name) {
-        return JobPool.get(name, () -> {
-            Mission mission = this.reader.fetch(name);
+    public Mission fetch(final String code) {
+        final JobClient client = JobInfix.getClient();
+        Mission mission = client.fetch(code);
+        if (Objects.isNull(mission)) {
+            mission = this.reader.fetch(code);
             if (Objects.isNull(mission)) {
-                mission = this.store.fetch(name);
+                mission = this.store.fetch(code);
             }
-            return mission;
-        });
+        }
+        return mission;
     }
 
     @Override
     public JobStore remove(final Mission mission) {
-        JobPool.remove(mission.getCode());
+        final JobClient client = JobInfix.getClient();
+        client.remove(mission.getCode());
         return this.store.remove(mission);
     }
 
     @Override
     public JobStore update(final Mission mission) {
-        JobPool.save(mission);
+        JobClient.Pre.save(mission);
         return this.store.update(mission);
     }
 }

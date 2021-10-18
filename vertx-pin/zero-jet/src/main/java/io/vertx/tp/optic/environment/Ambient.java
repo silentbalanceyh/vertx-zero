@@ -1,17 +1,23 @@
 package io.vertx.tp.optic.environment;
 
+import io.vertx.core.Future;
 import io.vertx.core.MultiMap;
+import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.error._500AmbientConnectException;
 import io.vertx.tp.jet.atom.JtApp;
 import io.vertx.tp.jet.init.JtPin;
+import io.vertx.tp.jet.refine.Jt;
 import io.vertx.up.eon.ID;
 import io.vertx.up.fn.Fn;
+import io.vertx.up.log.Annal;
+import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
 import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
+import java.util.function.Function;
 
 /*
  * The environment data, it's for multi-app deployment here
@@ -21,13 +27,15 @@ import java.util.concurrent.ConcurrentMap;
 public class Ambient {
     /* Each application has one environment */
     private static final ConcurrentMap<String, JtApp> APPS =
-            new ConcurrentHashMap<>();
+        new ConcurrentHashMap<>();
 
     /* XHeader information of Ambient */
     private static final ConcurrentMap<String, AmbientEnvironment> ENVIRONMENTS =
-            new ConcurrentHashMap<>();
+        new ConcurrentHashMap<>();
 
-    static {
+    private static final Annal LOGGER = Annal.get(Ambient.class);
+
+    public static Future<Boolean> init(final Vertx vertx) {
         try {
             /*
              * 1. UnityApp fetching here.
@@ -37,22 +45,32 @@ public class Ambient {
             /*
              * 2. UnityApp initializing, the whole environment will be initianlized
              */
-            unity.initialize();
-            /*
-             * 3. Application environment initialization
-             */
-            final ConcurrentMap<String, JsonObject> unityData = unity.connect();
-            unityData.forEach((key, json) -> APPS.put(key, Ut.deserialize(json, JtApp.class)));
-            /*
-             * 4. Binding configuration of this environment
-             * - DSLContext ( reference )
-             * - Service/Api -> Uri
-             * - Router -> Route of Vert.x
-             */
-            APPS.forEach((appId, app) -> ENVIRONMENTS.put(appId, new AmbientEnvironment(app).init()));
+            return unity.initialize(vertx).compose(initialized -> {
+                /*
+                 * 3. Application environment initialization
+                 */
+                final ConcurrentMap<String, JsonObject> unityData = unity.connect();
+                unityData.forEach((key, json) -> APPS.put(key, Ut.deserialize(json, JtApp.class)));
+                /*
+                 * 4. Binding configuration of this environment
+                 * - DSLContext ( reference )
+                 * - Service/Api -> Uri
+                 * - Router -> Route of Vert.x
+                 */
+                Jt.infoInit(LOGGER, "Ambient detect {0} applications in your environment.",
+                    String.valueOf(APPS.keySet().size()));
+                final ConcurrentMap<String, Future<AmbientEnvironment>> futures = new ConcurrentHashMap<>();
+                APPS.forEach((appId, app) -> futures.put(appId, new AmbientEnvironment(app).init(vertx)));
+                return Ux.thenCombine(futures).compose(processed -> {
+                    ENVIRONMENTS.putAll(processed);
+                    Jt.infoInit(LOGGER, "AmbientEnvironment initialized !!!");
+                    return Ux.future(Boolean.TRUE);
+                });
+            });
         } catch (Throwable ex) {
             // TODO: Start up exception
             ex.printStackTrace();
+            return Future.failedFuture(ex);
         }
     }
 
@@ -74,16 +92,12 @@ public class Ambient {
             final String sigma = headers.get(ID.Header.X_SIGMA);
             JtApp app = null;
             if (Ut.notNil(sigma)) {
-                app = APPS.values().stream()
-                        .filter(each -> sigma.equals(each.getSigma()))
-                        .findFirst().orElse(null);
+                app = searchApp(sigma, JtApp::getSigma);
             }
             if (Objects.isNull(app)) {
                 final String appKey = headers.get(ID.Header.X_APP_KEY);
                 if (Ut.notNil(appKey)) {
-                    app = APPS.values().stream()
-                            .filter(each -> appKey.equals(each.getAppKey()))
-                            .findFirst().orElse(null);
+                    app = searchApp(sigma, JtApp::getAppKey);
                 }
             }
             return app;
@@ -97,23 +111,31 @@ public class Ambient {
          * 2) sigma search ( Secondary priority )
          */
         if (Ut.isNil(key)) {
+            Jt.warnApp(LOGGER, "Input key of app is null, key = {0}", key);
             return null;
         } else {
-            final JtApp app = APPS.get(key);
+            JtApp app = APPS.get(key);
             if (Objects.isNull(app)) {
                 /*
                  * sigma instead of appKey here
                  */
-                return APPS.values().stream()
-                        .filter(Objects::nonNull)
-                        .filter(appItem -> key.equals(appItem.getSigma()))
-                        .findFirst().orElse(null);
-            } else {
-                /*
-                 * search app by key
-                 */
-                return app;
+                app = searchApp(key, JtApp::getSigma);
             }
+            /*
+             * search app by key
+             */
+            return app;
         }
+    }
+
+    private static JtApp searchApp(final String key, final Function<JtApp, String> executor) {
+        final JtApp app = APPS.values().stream()
+            .filter(Objects::nonNull)
+            .filter(appItem -> key.equals(executor.apply(appItem)))
+            .findFirst().orElse(null);
+        if (Objects.isNull(app)) {
+            Jt.warnApp(LOGGER, "Ambient -> JtApp = null, input key = {0}", key);
+        }
+        return app;
     }
 }

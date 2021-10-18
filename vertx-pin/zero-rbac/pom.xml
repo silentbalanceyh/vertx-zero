@@ -5,17 +5,22 @@
     <parent>
         <artifactId>vertx-pin</artifactId>
         <groupId>cn.vertxup</groupId>
-        <version>0.5.3-SNAPSHOT</version>
+        <version>0.8.0-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>zero-rbac</artifactId>
-    <name>( Extension ) - Sc: Fabric RBAC</name>
+    <name>Extension:「zero-rbac」Sc - Security of RBAC</name>
     <dependencies>
         <!-- Kern -->
         <dependency>
             <groupId>cn.vertxup</groupId>
             <artifactId>zero-ke</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>cn.vertxup</groupId>
+            <artifactId>zero-ifx-auth</artifactId>
+            <version>${project.version}</version>
         </dependency>
     </dependencies>
     <build>

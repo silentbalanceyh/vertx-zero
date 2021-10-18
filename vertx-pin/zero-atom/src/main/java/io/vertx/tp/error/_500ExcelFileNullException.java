@@ -11,7 +11,7 @@ public class _500ExcelFileNullException extends WebException {
 
     @Override
     public int getCode() {
-        return -100029;
+        return -80546;
     }
 
     @Override

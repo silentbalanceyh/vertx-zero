@@ -9,7 +9,7 @@ import java.util.concurrent.ConcurrentMap;
  * Vert.x instance to read configuration
  */
 public interface NodeVisitor
-        extends Visitor<ConcurrentMap<String, VertxOptions>> {
+    extends Visitor<ConcurrentMap<String, VertxOptions>> {
 
     String YKEY_OPTIONS = "options";
 

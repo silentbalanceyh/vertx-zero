@@ -17,8 +17,8 @@ public class EndPointInquirer implements Inquirer<Set<Class<?>>> {
     @Override
     public Set<Class<?>> scan(final Set<Class<?>> clazzes) {
         final Set<Class<?>> endpoints = clazzes.stream()
-                .filter((item) -> item.isAnnotationPresent(EndPoint.class))
-                .collect(Collectors.toSet());
+            .filter((item) -> item.isAnnotationPresent(EndPoint.class))
+            .collect(Collectors.toSet());
         LOGGER.info(Info.SCANED_ENDPOINT, endpoints.size());
         return endpoints;
     }

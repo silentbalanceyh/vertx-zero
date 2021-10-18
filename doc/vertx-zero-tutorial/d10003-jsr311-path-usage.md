@@ -58,7 +58,8 @@ public class PathMethod {
 }
 ```
 
-_Please compare above two examples, the _`PathMethod`_ is not annotated with _`javax.ws.rs.PATH`_ , but it's still correct to be let zero scanning. zero system will scan above two examples both._
+_Please compare above two examples, the _`PathMethod`_ is not annotated with _`javax.ws.rs.PATH`_ , but it's still
+correct to be let zero scanning. zero system will scan above two examples both._
 
 ## 3. Console
 

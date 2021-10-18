@@ -16,13 +16,13 @@ public class ExSerialEpic implements ExSerial {
     @Override
     public Future<String> serial(final String sigma, final String code) {
         return this.stub.numbersBySigma(sigma, code, 1)
-                .compose(generate -> Ux.future(generate.getString(Values.IDX)));
+            .compose(generate -> Ux.future(generate.getString(Values.IDX)));
     }
 
     @Override
     @SuppressWarnings("unchecked")
     public Future<List<String>> serial(final String sigma, final String code, final Integer counter) {
         return this.stub.numbersBySigma(sigma, code, counter)
-                .compose(generate -> Ux.future(generate.getList()));
+            .compose(generate -> Ux.future(generate.getList()));
     }
 }

@@ -10,9 +10,13 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.ext.auth.User;
 import io.vertx.ext.web.RoutingContext;
 import io.vertx.ext.web.Session;
+import io.vertx.ext.web.handler.HttpException;
 import io.vertx.up.commune.envelop.Rib;
+import io.vertx.up.commune.secure.Acl;
 import io.vertx.up.eon.ID;
+import io.vertx.up.eon.KName;
 import io.vertx.up.exception.WebException;
+import io.vertx.up.exception.web._000HttpWebException;
 import io.vertx.up.exception.web._500InternalServerException;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.unity.Ux;
@@ -34,9 +38,9 @@ public class Envelop implements Serializable {
 
     /* Additional Data for Envelop, Assist Data here. */
     private final Assist assist = new Assist();
-    private final JsonObject cachedJwt = new JsonObject();
     /* Communicate Key in Event Bus, to identify the Envelop */
     private String key;
+    private Acl acl;
     /*
      * Constructor for Envelop creation, two constructor for
      * 1) Success Envelop
@@ -104,7 +108,23 @@ public class Envelop implements Serializable {
             // Throwable converted to WebException
             return failure((WebException) ex);
         } else {
-            return new Envelop(new _500InternalServerException(Envelop.class, ex.getMessage()));
+            if (ex instanceof HttpException) {
+                // Http Exception, When this situation, the ex may contain WebException internal
+                final Throwable actual = ex.getCause();
+                if (Objects.isNull(actual)) {
+                    // No Cause
+                    return new Envelop(new _000HttpWebException(Envelop.class, (HttpException) ex));
+                } else {
+                    /*
+                     * 1. Loop to search until `WebException`
+                     * 2. Or HttpException without cause trace
+                     */
+                    return failure(actual);
+                }
+            } else {
+                // Common JVM Exception
+                return new Envelop(new _500InternalServerException(Envelop.class, ex.getMessage()));
+            }
         }
     }
 
@@ -132,6 +152,11 @@ public class Envelop implements Serializable {
         return Rib.get(this.data);
     }
 
+    /* Get `Http Body` part only */
+    public JsonObject body() {
+        return Rib.getBody(this.data);
+    }
+
     /* Get `data` part by type */
     public <T> T data(final Class<T> clazz) {
         return Rib.get(this.data, clazz);
@@ -144,13 +169,19 @@ public class Envelop implements Serializable {
     }
 
     /* Set value in `data` part */
-    public void setValue(final String field, final Object value) {
+    public void value(final String field, final Object value) {
         Rib.set(this.data, field, value, null);
     }
 
     /* Set value in `data` part ( with Index ) */
-    public void setValue(final Integer argIndex, final String field, final Object value) {
+    public void value(final Integer argIndex, final String field, final Object value) {
         Rib.set(this.data, field, value, argIndex);
+    }
+
+    public void valueOn(final String field, final Object value) {
+        if (Objects.nonNull(this.data)) {
+            this.data.put(field, value);
+        }
     }
 
     // ------------------ Below are response Part -------------------
@@ -185,6 +216,15 @@ public class Envelop implements Serializable {
     public Envelop key(final String key) {
         this.key = key;
         return this;
+    }
+
+    public Envelop acl(final Acl acl) {
+        this.acl = acl;
+        return this;
+    }
+
+    public Acl acl() {
+        return this.acl;
     }
 
     public String key() {
@@ -234,30 +274,6 @@ public class Envelop implements Serializable {
         return this.assist.principal(field);
     }
 
-    public String jwt() {
-        return this.assist.principal("jwt");
-    }
-
-    /*
-     * Get jwt information here
-     */
-    public String jwt(final String field) {
-        if (Ut.isNil(this.cachedJwt)) {
-            final String jwt = this.assist.principal("jwt");
-            final JsonObject user = Ux.Jwt.extract(jwt);
-            this.cachedJwt.mergeIn(user, true);
-        }
-        return this.cachedJwt.getString(field);
-    }
-
-    public User user() {
-        return this.assist.user();
-    }
-
-    public void setUser(final User user) {
-        this.assist.user(user);
-    }
-
     /* Get Headers */
     public MultiMap headers() {
         return this.assist.headers();
@@ -266,63 +282,63 @@ public class Envelop implements Serializable {
     public JsonObject headersX() {
         final JsonObject headerData = new JsonObject();
         this.assist.headers().names().stream()
-                /* Up case is OK */
-                .filter(field -> field.startsWith(ID.Header.PREFIX)
-                        /* Lower case is also Ok */
-                        || field.startsWith(ID.Header.PREFIX.toLowerCase(Locale.getDefault())))
+            /* Up case is OK */
+            .filter(field -> field.startsWith(ID.Header.PREFIX)
+                /* Lower case is also Ok */
+                || field.startsWith(ID.Header.PREFIX.toLowerCase(Locale.getDefault())))
+            /*
+             * Data for header
+             * X-App-Id -> appId
+             * X-App-Key -> appKey
+             * X-Sigma -> sigma
+             */
+            .forEach(field -> {
                 /*
-                 * Data for header
-                 * X-App-Id -> appId
-                 * X-App-Key -> appKey
-                 * X-Sigma -> sigma
+                 * Lower / Upper are both Ok
                  */
-                .forEach(field -> {
-                    /*
-                     * Lower / Upper are both Ok
-                     */
-                    final String found = ID.Header.PARAM_MAP.keySet()
-                            .stream().filter(field::equalsIgnoreCase)
-                            .findFirst().map(ID.Header.PARAM_MAP::get).orElse(null);
-                    if (Ut.notNil(found)) {
-                        headerData.put(found, this.assist.headers().get(field));
-                    }
-                });
+                final String found = ID.Header.PARAM_MAP.keySet()
+                    .stream().filter(field::equalsIgnoreCase)
+                    .findFirst().map(ID.Header.PARAM_MAP::get).orElse(null);
+                if (Ut.notNil(found)) {
+                    headerData.put(found, this.assist.headers().get(field));
+                }
+            });
         return headerData;
     }
 
-    public void setHeaders(final MultiMap headers) {
+    public void headers(final MultiMap headers) {
         this.assist.headers(headers);
     }
 
     /* Session */
-    public Session getSession() {
+    public Session session() {
         return this.assist.session();
     }
 
-    public void setSession(final Session session) {
+    public void session(final Session session) {
         this.assist.session(session);
     }
 
     /* Uri */
-    public String getUri() {
+    public String uri() {
         return this.assist.uri();
     }
 
-    public void setUri(final String uri) {
+    public void uri(final String uri) {
         this.assist.uri(uri);
     }
 
     /* Method of Http */
-    public HttpMethod getMethod() {
+    public HttpMethod method() {
         return this.assist.method();
     }
 
-    public void setMethod(final HttpMethod method) {
+    public void method(final HttpMethod method) {
         this.assist.method(method);
     }
 
     /* Context Set */
-    public void setContext(final Map<String, Object> data) {
+    public void content(final Map<String, Object> data) {
         this.assist.context(data);
     }
 
@@ -330,6 +346,8 @@ public class Envelop implements Serializable {
      * Bind Routing Context to process Assist structure
      */
     public Envelop bind(final RoutingContext context) {
+        /* Bind Context for Session / User etc. */
+        this.assist.bind(context);
         final HttpServerRequest request = context.request();
 
         /* Http Request Part */
@@ -341,7 +359,12 @@ public class Envelop implements Serializable {
         this.assist.session(context.session());
         this.assist.user(context.user());
         this.assist.context(context.data());
+
         return this;
+    }
+
+    public RoutingContext context() {
+        return this.assist.reference();
     }
 
     /*
@@ -352,11 +375,16 @@ public class Envelop implements Serializable {
         if (Objects.isNull(to)) {
             return to;
         } else {
-            to.setMethod(this.getMethod());
-            to.setUri(this.getUri());
-            to.setUser(this.user());
-            to.setSession(this.getSession());
-            to.setHeaders(this.headers());
+            to.method(this.method());
+            to.uri(this.uri());
+            to.user(this.user());
+            to.session(this.session());
+            to.headers(this.headers());
+            /*
+             * Spec
+             */
+            to.acl(this.acl);
+            to.key(this.key);
         }
         return to;
     }
@@ -367,23 +395,58 @@ public class Envelop implements Serializable {
      */
     public Envelop from(final Envelop from) {
         if (Objects.nonNull(from)) {
-            this.setMethod(from.getMethod());
-            this.setUri(from.getUri());
-            this.setUser(from.user());
-            this.setSession(from.getSession());
-            this.setHeaders(from.headers());
+            this.method(from.method());
+            this.uri(from.uri());
+            this.user(from.user());
+            this.session(from.session());
+            this.headers(from.headers());
+            /*
+             * Spec
+             */
+            this.acl(from.acl());
+            this.key(from.key());
         }
         return this;
+    }
+
+    // ------------------ Security Parth -------------------
+    public String userId() {
+        return Ux.keyUser(this.user());
+    }
+
+    public User user() {
+        return this.assist.user();
+    }
+
+    public void user(final User user) {
+        this.assist.user(user);
+    }
+
+    public String habitus() {
+        return this.assist.principal(KName.HABITUS);
+    }
+
+    /*
+     * Token Part
+     */
+    public String token() {
+        return this.assist.principal(KName.ACCESS_TOKEN);
+    }
+
+    public String token(final String field) {
+        final String jwt = this.assist.principal(KName.ACCESS_TOKEN);
+        final JsonObject user = Ux.Jwt.extract(jwt);
+        return user.getString(field);
     }
 
     @Override
     public String toString() {
         return "Envelop{" +
-                "status=" + this.status +
-                ", error=" + this.error +
-                ", data=" + this.data +
-                ", assist=" + this.assist.toString() +
-                ", key='" + this.key + '\'' +
-                '}';
+            "status=" + this.status +
+            ", error=" + this.error +
+            ", data=" + this.data +
+            ", assist=" + this.assist.toString() +
+            ", key='" + this.key + '\'' +
+            '}';
     }
 }

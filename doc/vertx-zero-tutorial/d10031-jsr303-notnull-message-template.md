@@ -1,6 +1,8 @@
 # D10031 - JSR303, @NotNull message template
 
-For localization usage, because zero system uses Hibernate Validator for JSR303, it means that it could support message template for different locale usage. But we have renamed the default property filename. This chapter will tell you how to use message template in zero system.
+For localization usage, because zero system uses Hibernate Validator for JSR303, it means that it could support message
+template for different locale usage. But we have renamed the default property filename. This chapter will tell you how
+to use message template in zero system.
 
 Demo projects:
 
@@ -8,13 +10,18 @@ Demo projects:
 
 **Rules**:
 
-1. JSR303 is only supported in Agent component in zero system, it means that after you have send the message to event bus, the JSR303 will be effectiveness.
-2. When you write the code with the Interface Style \( Will introduce in forward tutorials \), JSR303 will not support this kind of situation.
-3. For @BodyParam, it also impact Agent component only, but could support Interface Style instead of JSR303 and could provide more useful validations.
+1. JSR303 is only supported in Agent component in zero system, it means that after you have send the message to event
+   bus, the JSR303 will be effectiveness.
+2. When you write the code with the Interface Style \( Will introduce in forward tutorials \), JSR303 will not support
+   this kind of situation.
+3. For @BodyParam, it also impact Agent component only, but could support Interface Style instead of JSR303 and could
+   provide more useful validations.
 
 # 1. Configuration
 
-In your resource root folder, create a new up.god.file named `vertx-validation.properties`, in Maven project, this folder is often `src/main/resources`. In this up.god.file, you can put the property key, value pair for validation message, the content is as following:
+In your resource root folder, create a new up.god.file named `vertx-validation.properties`, in Maven project, this
+folder is often `src/main/resources`. In this up.god.file, you can put the property key, value pair for validation
+message, the content is as following:
 
 ```properties
 notnull.username=Sorry, this api require you input "username".
@@ -58,7 +65,7 @@ public class NotNullTplActor {
 
 **Method** : GET
 
-**Response** : 
+**Response** :
 
 ```json
 {
@@ -94,13 +101,17 @@ The success message should be as following:
 
 ## 4. Summary
 
-Until now, we have introduced three ways to use JSR303 in zero system, in forward tutorials we'll introduce other annotations for different business rules. But for the ways to use, they are the same. In total, zero system support following features:
+Until now, we have introduced three ways to use JSR303 in zero system, in forward tutorials we'll introduce other
+annotations for different business rules. But for the ways to use, they are the same. In total, zero system support
+following features:
 
 * Directly response with validation failure
 * Defined message with validation failure
 * Message template with validation failure.
 
-Another thing is that because zero system support restful completely, all the validation failure http status is 400, not 200, when you write some Ajax application, be careful that you have put callback codes in failure function instead of success function here. It's also the specification to implement standard HTTP Status.
+Another thing is that because zero system support restful completely, all the validation failure http status is 400, not
+200, when you write some Ajax application, be careful that you have put callback codes in failure function instead of
+success function here. It's also the specification to implement standard HTTP Status.
 
 
 

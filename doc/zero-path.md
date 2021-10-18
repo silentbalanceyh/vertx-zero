@@ -2,7 +2,7 @@
 
 Zero support two mode for `@Path` annotation.
 
-1.  Annotated on Class and Method both;
+1. Annotated on Class and Method both;
 2. Annotated on Method only;
 
 For the first point please refer [Getting Start](zero-starter.md)

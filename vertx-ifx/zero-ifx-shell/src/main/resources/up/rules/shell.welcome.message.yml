@@ -1,0 +1,9 @@
+typed:
+  environment: STRING
+  wait: STRING
+  quit: STRING
+  back: STRING
+  header: STRING
+  footer: STRING
+  empty: STRING
+  usage: STRING

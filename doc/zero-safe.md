@@ -1,6 +1,6 @@
 # Safe Function
 
-* **Safe** is be sure in any situation the code could be execute correctly. 
+* **Safe** is be sure in any situation the code could be execute correctly.
 
 ## 1. Definition
 
@@ -94,7 +94,8 @@
         }, LOGGER);
 ```
 
-The `safeZero` code flow is also the same as `safeJvm`, but the exception type is different, this function body exception type is `io.vertx.up.exception.ZeroException` ( Checked )
+The `safeZero` code flow is also the same as `safeJvm`, but the exception type is different, this function body
+exception type is `io.vertx.up.exception.ZeroException` ( Checked )
 
 ### 2.3. safeNull
 
@@ -111,8 +112,9 @@ The `safeZero` code flow is also the same as `safeJvm`, but the exception type i
 
 **Code Flow**
 
-1. Zero system detect the input objects to check whether it's null. 
-2. If it's not null, the function body will execute, the last argument support more than one, and you can check many input source.
+1. Zero system detect the input objects to check whether it's null.
+2. If it's not null, the function body will execute, the last argument support more than one, and you can check many
+   input source.
 3. This function is provided to avoid unexpected `NullPointerException`.
 
 ### 2.4. safeSemi
@@ -133,6 +135,6 @@ The `safeZero` code flow is also the same as `safeJvm`, but the exception type i
 
 **Code Flow**
 
-1. Zero system check the first argument condition. 
+1. Zero system check the first argument condition.
 2. Once it's true, the first function will execute, otherwize the second function will execute.
 3. The LOGGER is reserved for future use ( Now it's only provided to avoid overloading ).

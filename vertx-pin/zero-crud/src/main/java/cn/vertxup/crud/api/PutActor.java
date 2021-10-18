@@ -1,103 +1,90 @@
 package cn.vertxup.crud.api;
 
 import io.vertx.core.Future;
-import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.crud.actor.IxActor;
-import io.vertx.tp.crud.connect.IxLinker;
 import io.vertx.tp.crud.cv.Addr;
-import io.vertx.tp.crud.cv.IxMsg;
-import io.vertx.tp.crud.refine.Ix;
-import io.vertx.tp.ke.cv.KeField;
-import io.vertx.tp.ke.refine.Ke;
-import io.vertx.tp.optic.ApeakMy;
+import io.vertx.tp.crud.cv.em.ApiSpec;
+import io.vertx.tp.crud.uca.desk.IxKit;
+import io.vertx.tp.crud.uca.desk.IxPanel;
+import io.vertx.tp.crud.uca.desk.IxWeb;
+import io.vertx.tp.crud.uca.input.Pre;
+import io.vertx.tp.crud.uca.next.Co;
+import io.vertx.tp.crud.uca.op.Agonic;
 import io.vertx.up.annotations.Address;
 import io.vertx.up.annotations.Queue;
+import io.vertx.up.atom.query.engine.Qr;
 import io.vertx.up.commune.Envelop;
-import io.vertx.up.log.Annal;
-import io.vertx.up.unity.Ux;
+import io.vertx.up.eon.KName;
+import io.vertx.up.eon.em.ChangeFlag;
+import io.vertx.up.util.Ut;
 
 @Queue
+@SuppressWarnings("all")
 public class PutActor {
-    private static final Annal LOGGER = Annal.get(PutActor.class);
 
     @Address(Addr.Put.BY_ID)
-    public <T> Future<Envelop> update(final Envelop request) {
+    public Future<Envelop> update(final Envelop envelop) {
         /* Module and Key Extract  */
-        return Ix.create(this.getClass()).input(request).envelop((dao, config) -> {
-            /* Data Get */
-            final JsonObject body = Ux.getJson2(request);
-            final String key = Ux.getString1(request);
-            return dao.findByIdAsync(key).compose(queried -> null == queried ?
-                    /* 204, No Content */
-                    IxHttp.success204(null) :
-                    /* Save */
-                    IxActor.key().bind(request).procAsync(body, config)
-                            /* Verify */
-                            .compose(input -> IxActor.verify().bind(request).procAsync(input, config))
-                            /* T */
-                            .compose(input -> Ix.entityAsync(input, config))
-                            /* Save */
-                            .compose(entity -> dao.saveAsync(key, entity))
-                            /* 200, Envelop */
-                            .compose(entity -> IxHttp.success200(entity, config)))
-                    /* Must merged */
-                    .compose(response -> IxLinker.update().procAsync(request,
-                            body.mergeIn(response.data()), config));
-        });
+        final IxWeb request = IxWeb.create(ApiSpec.BODY_WITH_KEY).build(envelop);
+        final Co co = Co.nextJ(request.active(), false);
+        return IxPanel.on(request)
+            .input(
+                Pre.head()::inJAsync,                       /* Header */
+                Pre.codex()::inJAsync                       /* Codex */
+            )
+            .next(in -> co::next)
+            .passion(
+                /* Active */Agonic.write(ChangeFlag.UPDATE)::runJAsync,
+                /* StandBy */Agonic.saveYou(request.active())::runJAsync
+            )
+            .output(co::ok)
+            .<JsonObject, JsonObject, JsonObject>runJ(request.dataKJ())
+            /*
+             * 404 / 200
+             */
+            .compose(IxKit::successPost);
     }
 
     @Address(Addr.Put.BATCH)
-    public <T> Future<Envelop> updateBatch(final Envelop request) {
-        /* Batch Extract */
-        return Ix.create(this.getClass()).input(request).envelop((dao, config) -> {
-            /* Data Get */
-            final JsonArray array = Ux.getArray1(request);
-            return Ix.inKeys(array, config)
-                    /* Search List */
-                    .compose(filters -> Ix.search(filters, config).apply(dao))
-                    /* Extract List */
-                    .compose(Ix::list)
-                    /* JsonArray */
-                    .compose(queried -> Ix.zipperAsync(queried, array, config))
-                    /* JsonArray */
-                    .compose(dataArr -> Ix.entityAsync(dataArr, config))
-                    /* List<T> */
-                    .compose(dao::updateAsync)
-                    /* JsonArray */
-                    .compose(IxHttp::success200);
+    public Future<Envelop> updateBatch(final Envelop envelop) {
+        /*
+         * IxPanel processing building to split mass update
+         * */
+        final IxWeb request = IxWeb.create(ApiSpec.BODY_ARRAY).build(envelop);
+        final IxPanel panel = IxPanel.on(request);
+        return Pre.qPk().inAJAsync(request.dataA(), request.active()).compose(condition -> {
+            final JsonObject params = new JsonObject();
+            /*
+             * IxPanel
+             */
+            params.put(KName.DATA, request.dataA());
+            params.put(Qr.KEY_CRITERIA, condition);
+            return panel
+                .next(in -> Co.nextQ(in, true)::next)
+                .passion(Agonic.write(ChangeFlag.UPDATE)::runJAAsync)
+                .runJ(params);
         });
     }
 
     @Address(Addr.Put.COLUMN_MY)
-    public <T> Future<Envelop> updateColumn(final Envelop request) {
-        /* Batch Extract */
-        return Ix.create(this.getClass()).input(request).envelop((dao, config) -> {
-            /* Data Get */
-            final JsonArray projection = Ux.getArray1(request);
-            /* Put Stub */
-            return Ke.channelAsync(ApeakMy.class, () -> Ux.future(new JsonArray()).compose(IxHttp::success200),
-                    stub -> Unity.fetchView(dao, request, config)
-                            /* View parameters filling */
-                            .compose(input -> IxActor.view().procAsync(input, config))
-                            /* User filling */
-                            .compose(input -> IxActor.user().bind(request).procAsync(input, config))
-                            /* params `dataKey` calculation */
-                            .compose(params -> this.prepareDataKey(params, request))
-                            /* Fetch My Columns */
-                            .compose(params -> stub.on(dao).saveMy(params, projection))
-                            /* Flush Cache based on Ke */
-                            // .compose(updated -> flush(request, updated))
-                            /* Return Result */
-                            .compose(IxHttp::success200));
-        });
-    }
-
-    private Future<JsonObject> prepareDataKey(final JsonObject original, final Envelop request) {
-        final JsonObject params = Unity.initMy(request);
-        final String sessionKey = Ke.keySession(params.getString(KeField.METHOD), params.getString(KeField.URI));
-        Ix.infoDao(LOGGER, IxMsg.CACHE_KEY_PROJECTION, sessionKey);
-        original.put(KeField.DATA_KEY, sessionKey);
-        return Ux.future(original);
+    public Future<JsonObject> updateColumn(final Envelop envelop) {
+        final IxWeb request = IxWeb.create(ApiSpec.BODY_JSON).build(envelop);
+        /*
+         * Fix issue of Data Region
+         * Because `projection` and `criteria` are both spec
+         * params
+         * */
+        final JsonObject params = request.dataV();
+        final JsonObject requestData = request.dataJ();
+        final JsonObject viewData = requestData.getJsonObject("viewData", new JsonObject());
+        params.put(KName.DATA, Ut.sureJObject(viewData));
+        params.put(KName.URI_IMPACT, viewData.getString(KName.URI_IMPACT));
+        return IxPanel.on(request)
+            .input(
+                Pre.apeak(true)::inJAsync,              /* Apeak */
+                Pre.head()::inJAsync                    /* Header */
+            )
+            .passion(Agonic.view()::runJAsync, null)
+            .runJ(params);
     }
 }

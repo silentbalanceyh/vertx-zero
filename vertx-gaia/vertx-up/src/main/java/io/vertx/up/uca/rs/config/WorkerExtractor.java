@@ -3,8 +3,8 @@ package io.vertx.up.uca.rs.config;
 import io.vertx.core.DeploymentOptions;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
-import io.vertx.up.uca.deployment.DeployRotate;
-import io.vertx.up.uca.deployment.Rotate;
+import io.vertx.up.runtime.deployment.DeployRotate;
+import io.vertx.up.runtime.deployment.Rotate;
 import io.vertx.up.uca.rs.Extractor;
 import io.vertx.up.util.Ut;
 
@@ -19,7 +19,7 @@ public class WorkerExtractor implements Extractor<DeploymentOptions> {
     private static final Annal LOGGER = Annal.get(WorkerExtractor.class);
 
     private static final ConcurrentMap<Class<?>, DeploymentOptions>
-            OPTIONS = new ConcurrentHashMap<>();
+        OPTIONS = new ConcurrentHashMap<>();
 
     @Override
     public DeploymentOptions extract(final Class<?> clazz) {

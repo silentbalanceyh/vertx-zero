@@ -1,6 +1,7 @@
 # D10019 - Non-Blocking, Mode 2 Ping Mode
 
-This mode is simpler than Mode 1 Sync Mode, but we could use this mode to check some remote status such as following requirement:
+This mode is simpler than Mode 1 Sync Mode, but we could use this mode to check some remote status such as following
+requirement:
 
 * Check whether the record existing or missing.
 * Get remote status of some components such as schedulers, timers.
@@ -9,11 +10,14 @@ The response of this mode will be true or false only.
 
 ## 1. Introduction
 
-This mode is also another non-event bus mode, it could be finished by agent \( `@EndPoint` \) only, the workflow should be as following:
+This mode is also another non-event bus mode, it could be finished by agent \( `@EndPoint` \) only, the workflow should
+be as following:
 
 ![](/doc/image/request-mode2.png)
 
-This mode workflow is the same as Sync Mode except the response data, It could be used in some special requirement only. In this mode zero system tell the client whether the working is correct or wrong and won't provide any data in web response.
+This mode workflow is the same as Sync Mode except the response data, It could be used in some special requirement only.
+In this mode zero system tell the client whether the working is correct or wrong and won't provide any data in web
+response.
 
 There is no consumer role in this workflow, but sender instead:
 
@@ -105,5 +109,6 @@ public class PingModeActor {
 
 ## 5. Summary
 
-In current version of zero, this mode only support two response value: true/false, if you want to get more information from remote zero system, you should use Sync Mode instead.
+In current version of zero, this mode only support two response value: true/false, if you want to get more information
+from remote zero system, you should use Sync Mode instead.
 
