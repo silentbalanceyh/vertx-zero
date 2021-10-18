@@ -1,49 +1,68 @@
 package io.vertx.tp.ke.refine;
 
-import io.vertx.core.json.JsonObject;
+import io.vertx.up.atom.pojo.Mirror;
+import io.vertx.up.atom.pojo.Mojo;
 import io.vertx.up.eon.KName;
-import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 class KeUser {
 
-    static <I> void audit(final I output, final JsonObject serialized, final boolean isCreated) {
-        /*
-         * - sigma
-         * - language
-         * - active
-         * - createdBy
-         * - updatedBy
-         * - createdAt ( Calculate )
-         * - updatedAt ( Calculate )
-         */
-        Ut.field(output, KName.SIGMA, serialized.getString(KName.SIGMA));
-        Ut.field(output, KName.LANGUAGE, serialized.getString(KName.LANGUAGE));
-        Ut.field(output, KName.ACTIVE, serialized.getBoolean(KName.ACTIVE, Boolean.TRUE));
-        final String updatedBy = serialized.getString(KName.UPDATED_BY);
-        final LocalDateTime now = LocalDateTime.now();
-        if (isCreated) {
-            // Create Only
-            final String created = serialized.getString(KName.CREATED_BY);
-            Ut.field(output, KName.CREATED_AT, now);
-            Ut.field(output, KName.CREATED_BY, created);
-            Ut.field(output, KName.UPDATED_AT, now);
-            Ut.field(output, KName.UPDATED_BY, created);
-        } else {
-            // Update Only
-            Ut.field(output, KName.UPDATED_AT, now);
-            Ut.field(output, KName.UPDATED_BY, updatedBy);
+    private static final Set<String> FIELDS = new HashSet<>() {
+        {
+            this.add(KName.SIGMA);
+            this.add(KName.LANGUAGE);
+            this.add(KName.ACTIVE);
+            this.add(KName.CREATED_AT);
+            this.add(KName.CREATED_BY);
+            this.add(KName.UPDATED_AT);
+            this.add(KName.UPDATED_BY);
         }
+    };
+
+    static <T, I> void audit(final I output, final String outPojo, final T input, final String inPojo, final boolean isUpdated) {
+        // If contains pojo, must be deserialized for auditor information
+        // OutMap Calculation
+        final ConcurrentMap<String, String> outMap = buildMap(outPojo, isUpdated);
+        final ConcurrentMap<String, String> inMap = buildMap(inPojo, isUpdated);
+        /* Mapping */
+        final LocalDateTime now = LocalDateTime.now();
+        outMap.forEach((key, out) -> {
+            final String in = inMap.get(key);
+            if (KName.CREATED_AT.equals(in) || KName.UPDATED_AT.equals(in)) {
+                // LocalDataTime
+                Ut.field(output, out, now);
+            } else {
+                // Copy Data
+                Ut.field(output, out, Ut.field(input, in));
+            }
+        });
     }
 
-    static <T, I> void audit(final I output, final T input, final boolean isCreated, final String pojo) {
-        // If contains pojo, must be deserialized for auditor information
-        final JsonObject serialized = Ux.toJson(input, pojo);
-        audit(output, serialized, isCreated);
+    private static ConcurrentMap<String, String> buildMap(final String filename, final boolean isUpdated) {
+        final ConcurrentMap<String, String> vector = new ConcurrentHashMap<>();
+        if (Ut.isNil(filename)) {
+            FIELDS.forEach(each -> vector.put(each, each));
+        } else {
+            final Mojo outMojo = Mirror.create(KeUser.class).mount(filename).mojo();
+            outMojo.getIn().forEach((in, out) -> {
+                if (FIELDS.contains(in)) {
+                    vector.put(in, out);
+                }
+            });
+        }
+        if (isUpdated) {
+            vector.remove(KName.CREATED_BY);
+            vector.remove(KName.CREATED_AT);
+        }
+        return vector;
     }
 }
