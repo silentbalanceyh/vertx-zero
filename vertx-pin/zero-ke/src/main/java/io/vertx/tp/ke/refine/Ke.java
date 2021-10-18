@@ -8,6 +8,7 @@ import io.vertx.up.atom.record.Apt;
 import io.vertx.up.atom.secure.Vis;
 import io.vertx.up.commune.element.TypeAtom;
 import io.vertx.up.eon.KName;
+import io.vertx.up.eon.Strings;
 import io.vertx.up.log.Annal;
 
 import java.util.List;
@@ -28,18 +29,18 @@ public class Ke {
     }
 
     public static Future<JsonArray> combineAsync(final JsonArray data, final ConcurrentMap<String, String> headers) {
-        return KeExcel.combineAsync(data, headers);
+        return KeCompare.combineAsync(data, headers);
     }
 
     public static Future<JsonArray> combineAsync(final JsonArray data, final ConcurrentMap<String, String> headers,
                                                  final List<String> columns) {
-        return KeExcel.combineAsync(data, headers, columns, null);
+        return KeCompare.combineAsync(data, headers, columns, null);
     }
 
     public static Future<JsonArray> combineAsync(final JsonArray data, final ConcurrentMap<String, String> headers,
                                                  final List<String> columns,
                                                  final TypeAtom TypeAtom) {
-        return KeExcel.combineAsync(data, headers, columns, TypeAtom);
+        return KeCompare.combineAsync(data, headers, columns, TypeAtom);
     }
 
     public static Function<JsonObject, Future<JsonObject>> fabricAsync(final String field) {
@@ -122,5 +123,26 @@ public class Ke {
 
     public static BiFunction<Function<JsonArray, Future<JsonArray>>, Function<JsonArray, Future<JsonArray>>, Future<JsonArray>> atomyFn(final Class<?> clazz, final Apt compared) {
         return KeCompare.atomyFn(clazz, compared);
+    }
+
+    /*
+     * Data Audit
+     * - umCreated
+     * - umUpdated
+     */
+    public static <T, I> void umCreated(final I output, final T input, final String pojo) {
+        KeUser.audit(output, input, true, pojo);
+    }
+
+    public static <T, I> void umCreated(final I output, final T input) {
+        KeUser.audit(output, input, true, Strings.EMPTY);
+    }
+
+    public static <T, I> void umUpdated(final I output, final T input, final String pojo) {
+        KeUser.audit(output, input, false, pojo);
+    }
+
+    public static <T, I> void umUpdated(final I output, final T input) {
+        KeUser.audit(output, input, false, Strings.EMPTY);
     }
 }
