@@ -138,11 +138,19 @@ public class Ke {
         KeUser.audit(output, input, true, Strings.EMPTY);
     }
 
+    public static <I> void umCreated(final I output, final JsonObject serialized) {
+        KeUser.audit(output, serialized, true);
+    }
+
     public static <T, I> void umUpdated(final I output, final T input, final String pojo) {
         KeUser.audit(output, input, false, pojo);
     }
 
     public static <T, I> void umUpdated(final I output, final T input) {
         KeUser.audit(output, input, false, Strings.EMPTY);
+    }
+
+    public static <I> void umUpdated(final I output, final JsonObject serialized) {
+        KeUser.audit(output, serialized, false);
     }
 }

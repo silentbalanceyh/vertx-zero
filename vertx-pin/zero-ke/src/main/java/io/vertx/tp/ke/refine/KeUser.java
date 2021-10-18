@@ -11,9 +11,8 @@ import java.time.LocalDateTime;
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 class KeUser {
-    static <T, I> void audit(final I output, final T input, final boolean isCreated, final String pojo) {
-        // If contains pojo, must be deserialized for auditor information
-        final JsonObject serialized = Ux.toJson(input, pojo);
+
+    static <I> void audit(final I output, final JsonObject serialized, final boolean isCreated) {
         /*
          * - sigma
          * - language
@@ -40,5 +39,11 @@ class KeUser {
             Ut.field(output, KName.UPDATED_AT, now);
             Ut.field(output, KName.UPDATED_BY, updatedBy);
         }
+    }
+
+    static <T, I> void audit(final I output, final T input, final boolean isCreated, final String pojo) {
+        // If contains pojo, must be deserialized for auditor information
+        final JsonObject serialized = Ux.toJson(input, pojo);
+        audit(output, serialized, isCreated);
     }
 }
