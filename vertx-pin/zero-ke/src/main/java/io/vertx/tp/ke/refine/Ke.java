@@ -8,7 +8,6 @@ import io.vertx.up.atom.record.Apt;
 import io.vertx.up.atom.secure.Vis;
 import io.vertx.up.commune.element.TypeAtom;
 import io.vertx.up.eon.KName;
-import io.vertx.up.eon.Strings;
 import io.vertx.up.log.Annal;
 
 import java.util.List;
@@ -130,27 +129,36 @@ public class Ke {
      * - umCreated
      * - umUpdated
      */
-    public static <T, I> void umCreated(final I output, final T input, final String pojo) {
-        KeUser.audit(output, input, true, pojo);
-    }
 
     public static <T, I> void umCreated(final I output, final T input) {
-        KeUser.audit(output, input, true, Strings.EMPTY);
+        KeUser.audit(output, null, input, null, false);
     }
 
-    public static <I> void umCreated(final I output, final JsonObject serialized) {
-        KeUser.audit(output, serialized, true);
+    public static <T, I> void umCreated(final I output, final T input, final String pojo) {
+        KeUser.audit(output, null, input, pojo, false);
     }
 
-    public static <T, I> void umUpdated(final I output, final T input, final String pojo) {
-        KeUser.audit(output, input, false, pojo);
+    public static <T, I> void umCreated(final I output, final String pojo, final T input) {
+        KeUser.audit(output, pojo, input, null, false);
+    }
+
+    public static <T, I> void umCreated(final I output, final String outPojo, final T input, final String inPojo) {
+        KeUser.audit(output, outPojo, input, inPojo, false);
     }
 
     public static <T, I> void umUpdated(final I output, final T input) {
-        KeUser.audit(output, input, false, Strings.EMPTY);
+        KeUser.audit(output, null, input, null, true);
     }
 
-    public static <I> void umUpdated(final I output, final JsonObject serialized) {
-        KeUser.audit(output, serialized, false);
+    public static <T, I> void umUpdated(final I output, final T input, final String pojo) {
+        KeUser.audit(output, null, input, pojo, true);
+    }
+
+    public static <T, I> void umUpdated(final I output, final String pojo, final T input) {
+        KeUser.audit(output, pojo, input, null, true);
+    }
+
+    public static <T, I> void umUpdated(final I output, final String outPojo, final T input, final String inPojo) {
+        KeUser.audit(output, outPojo, input, inPojo, true);
     }
 }
