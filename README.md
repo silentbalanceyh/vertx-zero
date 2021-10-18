@@ -152,9 +152,11 @@ public final class Statute {
 ### 3.1. Case Actions
 
 1. TLK Video Mobile System ( 0.4.6 )
-2. Micro Hotel Platform ( > 0.6.2 )
-3. CMDB/ITSM Platform ( > 0.6.2 )
+2. Micro Hotel Platform ( latest )
+3. CMDB/ITSM Platform ( latest )
 4. Training Demo ( latest )
+5. Data Analyzing Platform ( latest )
+6. Workflow Engine Tool ( latest )
 
 ### 3.2. WeChat Group
 
