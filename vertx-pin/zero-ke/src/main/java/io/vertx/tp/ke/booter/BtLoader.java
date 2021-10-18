@@ -23,10 +23,10 @@ class BtLoader {
      * Environment Init for Split Booter
      */
     static {
-        /* Excel Init */
-        ExcelInfix.init(Ux.nativeVertx());
         /* Jooq Init */
         JooqInfix.init(Ux.nativeVertx());
+        /* Excel Init */
+        ExcelInfix.init(Ux.nativeVertx());
         /* Redis Infix to disabled */
         RedisInfix.disabled();
     }
