@@ -1,6 +1,7 @@
 # D10013 - Zero JSR311, @StreamParam...File/FileUpload
 
-The data of byte\[\] or Buffer are the raw data of request, it could be used widely, but based on many requirements these two data types could not be managed easily, for developers following data types are more useful:
+The data of byte\[\] or Buffer are the raw data of request, it could be used widely, but based on many requirements
+these two data types could not be managed easily, for developers following data types are more useful:
 
 * `java.io.File`
 * `io.vertx.ext.web.FileUpload`
@@ -104,5 +105,7 @@ public class FileParamExecutor {
 
 ## 4. Summary
 
-This tutorial described the common useful java object of `File/FileUpload` to provide easy way for developers to process up.god.file uploading or up.god.file processing in zero, zero extend @StreamParam parameters to process this kind of situation and you could do the tasks based on above two java objects.
+This tutorial described the common useful java object of `File/FileUpload` to provide easy way for developers to process
+up.god.file uploading or up.god.file processing in zero, zero extend @StreamParam parameters to process this kind of
+situation and you could do the tasks based on above two java objects.
 

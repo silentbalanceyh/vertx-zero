@@ -20,7 +20,7 @@
     -->
 
     <property name="CONSOLE_LOG_PATTERN"
-              value="%boldMagenta(%date{HH:mm:ss.SSS}) | %highlight(%.-1level) | %boldGreen(%-30logger{15}) | %boldYellow(%-30thread) | %msg | %cyan(%logger) %n"/>
+              value="%boldMagenta(%date{HH:mm:ss.SSS}) | %highlight(%.-1level) | %boldYellow(%-30thread) | %msg | %boldGreen(%logger) %n"/>
     <property name="LOG_FOLDER" value="logs/%d{yyyy-MM-dd}/"/>
     <property name="LOG_MAX_HISTORY" value="30"/>
     <property name="LOG_MAX_FILE_SIZE" value="10MB"/>

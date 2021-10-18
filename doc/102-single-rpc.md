@@ -1,6 +1,7 @@
 # Rpc Basic in Zero
 
-In zero system, the developer could focus on code logical instead of Rpc internally, this example will describe Rpc development for micro service communication. For environment preparing, please refer following document
+In zero system, the developer could focus on code logical instead of Rpc internally, this example will describe Rpc
+development for micro service communication. For environment preparing, please refer following document
 
 * [2.3 - Micro Service Environment](23-micro-service-environment.md)
 * [10.1 - Rpc Configuration](101-rpc-configuration.md)
@@ -50,7 +51,8 @@ As above describe, in one request, there should be following roles \( Here are t
 
 ## 2. Limitation
 
-Because the** Originator** offten send request from Agent class, the signature of method is freedom. But for **Coordinator** & **Terminator**, the method signature must obey following rules:
+Because the** Originator** offten send request from Agent class, the signature of method is freedom. But for **
+Coordinator** & **Terminator**, the method signature must obey following rules:
 
 * This method must contains return value;
 * If there are some async workflow, you can return Future&lt;T&gt; as result;

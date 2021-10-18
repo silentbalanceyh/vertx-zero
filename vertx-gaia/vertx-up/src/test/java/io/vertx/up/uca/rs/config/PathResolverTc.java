@@ -1,10 +1,10 @@
 package io.vertx.up.uca.rs.config;
 
 import io.vertx.ext.unit.TestContext;
-import io.vertx.quiz.example.*;
-import io.vertx.zero.exception.PathAnnoEmptyException;
 import io.vertx.quiz.ZeroBase;
+import io.vertx.quiz.example.*;
 import io.vertx.up.runtime.ZeroHelper;
+import io.vertx.zero.exception.PathAnnoEmptyException;
 import org.junit.Test;
 
 import javax.ws.rs.Path;
@@ -24,17 +24,17 @@ public class PathResolverTc extends ZeroBase {
         final Method[] methods = root.getDeclaredMethods();
         for (final Method method : methods) {
             final Path path = ZeroHelper.getPath(method);
-            this.getLogger().info("[TEST] Parse info: {0}, method = {1}, Path = {2}.",
-                    root.getName(),
-                    method.getName(),
-                    (null == path) ? null : path.value());
+            this.logger().info("[TEST] Parse info: {0}, method = {1}, Path = {2}.",
+                root.getName(),
+                method.getName(),
+                (null == path) ? null : path.value());
             if (null != path) {
                 final String uri = PathResolver.resolve(
-                        path, this.parseRoot(root));
+                    path, this.parseRoot(root));
                 pathes.add(uri);
             }
         }
-        this.getLogger().info("[TEST] Parsed :{0}", pathes);
+        this.logger().info("[TEST] Parsed :{0}", pathes);
         return pathes;
     }
 

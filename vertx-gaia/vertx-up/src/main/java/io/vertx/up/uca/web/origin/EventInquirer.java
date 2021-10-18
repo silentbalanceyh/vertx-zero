@@ -1,9 +1,9 @@
 package io.vertx.up.uca.web.origin;
 
 import io.vertx.up.atom.agent.Event;
+import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import io.vertx.up.uca.web.thread.EndPointThread;
-import io.vertx.up.fn.Fn;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -23,7 +23,7 @@ public class EventInquirer implements Inquirer<Set<Event>> {
         /* 2.1.Build Api metadata **/
         for (final Class<?> endpoint : endpoints) {
             final EndPointThread thread =
-                    new EndPointThread(endpoint);
+                new EndPointThread(endpoint);
             threadReference.add(thread);
             thread.start();
         }

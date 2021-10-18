@@ -55,7 +55,7 @@ public class VertxApplication {
          */
 
         Fn.out(!this.annotationMap.containsKey(Up.class.getName()), UpClassInvalidException.class, this.getClass(),
-                null == this.clazz ? null : this.clazz.getName());
+            null == this.clazz ? null : this.clazz.getName());
     }
 
     public static void run(final Class<?> clazz, final Object... args) {
@@ -64,11 +64,6 @@ public class VertxApplication {
              * Class definition predicate
              */
             ensureEtcd(clazz);
-            /*
-             * To avoid getPackages issue here
-             * Move to InitScatter here
-             */
-            ZeroHeart.init();
 
             /*
              * Before launcher, start package scanning for preparing metadata
@@ -82,8 +77,7 @@ public class VertxApplication {
              * some preparing failure, here we replaced `static {}` with `prepare()` calling before any instance
              * of VertxApplication/MicroApplication.
              */
-            ZeroAnno.prepare();
-
+            ZeroAnno.booting();
             /*
              * Then the container could start
              */
@@ -138,41 +132,42 @@ public class VertxApplication {
                  */
                 MapInfix.init(vertx);
             }
-
-            /* 1.Find Agent for deploy **/
-            Runner.run(() -> {
-                final Scatter<Vertx> scatter = Ut.singleton(AgentScatter.class);
-                scatter.connect(vertx);
-            }, "agent-runner");
-
-            /* 2.Find Worker for deploy **/
-            Runner.run(() -> {
-                final Scatter<Vertx> scatter = Ut.singleton(WorkerScatter.class);
-                scatter.connect(vertx);
-            }, "worker-runner");
-
-            /* 3.Initialize Infix **/
-            Runner.run(() -> {
-                // Infix
-                Scatter<Vertx> scatter = Ut.singleton(InfixScatter.class);
-                scatter.connect(vertx);
-                // Injection
-                scatter = Ut.singleton(AffluxScatter.class);
-                scatter.connect(vertx);
-            }, "infix-afflux-runner");
-
-            /* 4.Rule started **/
-            Runner.run(() -> {
-                final Scatter<Vertx> scatter = Ut.singleton(CodexScatter.class);
-                scatter.connect(vertx);
-            }, "codex-engine-runner");
-
-            /* 5.Plugin init */
             /*
-            Runner.run(() -> {
-                final Scatter<Vertx> scatter = Ut.singleton(InitScatter.class);
-                scatter.connect(vertx);
-            }, "initializer-runner");*/
+             * Async initializing to replace the original extension
+             * Data initializing
+             */
+            ZeroHeart.initExtension(vertx).onSuccess(res -> {
+                if (res) {
+                    /* 1.Find Agent for deploy **/
+                    Runner.run(() -> {
+                        final Scatter<Vertx> scatter = Ut.singleton(AgentScatter.class);
+                        scatter.connect(vertx);
+                    }, "agent-runner");
+
+                    /* 2.Find Worker for deploy **/
+                    Runner.run(() -> {
+                        final Scatter<Vertx> scatter = Ut.singleton(WorkerScatter.class);
+                        scatter.connect(vertx);
+                    }, "worker-runner");
+
+                    /* 3.Initialize Infix **/
+                    Runner.run(() -> {
+                        // Infix
+                        final Scatter<Vertx> scatter = Ut.singleton(InfixScatter.class);
+                        scatter.connect(vertx);
+                    }, "infix-afflux-runner");
+
+                    /* 4.Rule started **/
+                    Runner.run(() -> {
+                        final Scatter<Vertx> scatter = Ut.singleton(CodexScatter.class);
+                        scatter.connect(vertx);
+                    }, "codex-engine-runner");
+                }
+            }).onFailure(error -> {
+                // Error Happened
+                error.printStackTrace();
+                LOGGER.jvm(error);
+            });
         });
     }
 }

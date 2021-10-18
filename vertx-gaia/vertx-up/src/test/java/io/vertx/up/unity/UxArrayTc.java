@@ -2,22 +2,22 @@ package io.vertx.up.unity;
 
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.quiz.StoreBase;
-import io.vertx.up.atom.unity.Uarr;
+import io.vertx.quiz.ZeroBase;
+import io.vertx.up.atom.unity.UArray;
 import org.junit.Assert;
 import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class UxArrayTc extends StoreBase {
+public class UxArrayTc extends ZeroBase {
 
     @Test
     public void testArray() {
         final JsonArray source = this.ioJArray("source.json");
         final JsonArray target = this.ioJArray("target.json");
         final JsonArray result =
-                Uarr.create(source).zip(target, "key", "roomId").to();
+            UArray.create(source).zip(target, "key", "roomId").to();
         for (int idx = 0; idx < result.size(); idx++) {
             final JsonObject item = result.getJsonObject(idx);
             Assert.assertNotNull(item);
@@ -32,7 +32,7 @@ public class UxArrayTc extends StoreBase {
         json.setEmail("lang.yu@hpe.com");
         json.setName("Lang.Yu");
         user.add(json);
-        Ux.fnJArray(user).setHandler(item -> {
+        Ux.futureA(user).onComplete(item -> {
             System.out.println(item.result());
         });
     }

@@ -48,7 +48,7 @@ export ETCD_HOST=0.0.0.0
 
 ## 2. Micro Service
 
-Once you have prepared the environment of Etcd3,  You can configure service node and Api gateway node.
+Once you have prepared the environment of Etcd3, You can configure service node and Api gateway node.
 
 ### 2.1. Service Node
 
@@ -59,7 +59,8 @@ zero:
   lime: mongo, etcd3
 ```
 
-Here etcd3 is only the up.god.file suffix, not fixed, you can set any name for files. Because above lime is `etcd3`, then create new up.god.file `vertx-etcd3.yml` in your resources as following:
+Here etcd3 is only the up.god.file suffix, not fixed, you can set any name for files. Because above lime is `etcd3`,
+then create new up.god.file `vertx-etcd3.yml` in your resources as following:
 
 ```yaml
 etcd:
@@ -70,11 +71,16 @@ etcd:
   timeout: 2
 ```
 
-Please be careful about `micro`property, it means that you can run multi **Cluster/Application** with one etcd environment, the micro describe the name for all micro services in one application, different micro name will not be communicated inner zero system. You must set all your micro service zero instances with one unique name. Please refer following pictures:
+Please be careful about `micro`property, it means that you can run multi **Cluster/Application** with one etcd
+environment, the micro describe the name for all micro services in one application, different micro name will not be
+communicated inner zero system. You must set all your micro service zero instances with one unique name. Please refer
+following pictures:
 
 ![](/doc/image/micro-group.png)
 
-The **micro** attribute just like application **namespace** concept, as above pictures there are two applications: **zero-istio & app-tlk**, these two applications shared one Etcd3 as registry data center but these two applications are not related \( Could not communicate with Ipc \).
+The **micro** attribute just like application **namespace** concept, as above pictures there are two applications: **
+zero-istio & app-tlk**, these two applications shared one Etcd3 as registry data center but these two applications are
+not related \( Could not communicate with Ipc \).
 
 ### 2.2. Api Gateway
 
@@ -91,7 +97,8 @@ server:
     host: 0.0.0.0
 ```
 
-Also you must set the same configuration for etcd in Api Gateway project. The last point is that the launcher class is different from Service Node.
+Also you must set the same configuration for etcd in Api Gateway project. The last point is that the launcher class is
+different from Service Node.
 
 In service node, you start up zero instance as following:
 
@@ -108,7 +115,8 @@ public class io.god.Anchor {
 }
 ```
 
-But in api gateway, you must use another class for start up, you must use `io.vertx.up.annotations.ApiGateway` annotation for launcher:
+But in api gateway, you must use another class for start up, you must use `io.vertx.up.annotations.ApiGateway`
+annotation for launcher:
 
 ```java
 import io.vertx.up.VertxApplication;
@@ -127,5 +135,6 @@ public class io.god.Anchor {
 
 ## 3. Rpc Configuration
 
-If you want to enable Rpc communication, you can refer document: [10.1 - Rpc Configuration](101-rpc-configuration.md) for more details.
+If you want to enable Rpc communication, you can refer document: [10.1 - Rpc Configuration](101-rpc-configuration.md)
+for more details.
 

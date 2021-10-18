@@ -43,9 +43,9 @@ public class IxConfig implements Serializable {
     @Override
     public String toString() {
         return "IxConfig{" +
-                "patterns=" + this.patterns +
-                ", columnKeyField='" + this.columnKeyField + '\'' +
-                ", columnLabelField='" + this.columnLabelField + '\'' +
-                '}';
+            "patterns=" + this.patterns +
+            ", columnKeyField='" + this.columnKeyField + '\'' +
+            ", columnLabelField='" + this.columnLabelField + '\'' +
+            '}';
     }
 }

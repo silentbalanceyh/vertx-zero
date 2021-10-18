@@ -16,7 +16,7 @@ public class ZeroTool {
             return "vertx" + Strings.DOT + FileSuffix.YML;
         } else {
             return "vertx" + Strings.DASH + key +
-                    Strings.DOT + FileSuffix.YML;
+                Strings.DOT + FileSuffix.YML;
         }
     }
 

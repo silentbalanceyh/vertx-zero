@@ -120,7 +120,8 @@ public interface TabularStub {
 
 ## 2. Service Implementation
 
-Here we need to mention is that we'll split different code logical for `insert, update, delete` to explain the usage of `Ux.Jooq` class.
+Here we need to mention is that we'll split different code logical for `insert, update, delete` to explain the usage
+of `Ux.Jooq` class.
 
 ### 2.1. create
 
@@ -136,12 +137,15 @@ Here we need to mention is that we'll split different code logical for `insert, 
     }
 ```
 
-Here the first part is the same that we called `Ux.Jooq.on` api to mount our client to `SysTabularDao` dao class, then we called `insertReturningPrimaryAsync` method for object tabular, this method will help you to set auto generated primary key, here we need to mention:
+Here the first part is the same that we called `Ux.Jooq.on` api to mount our client to `SysTabularDao` dao class, then
+we called `insertReturningPrimaryAsync` method for object tabular, this method will help you to set auto generated
+primary key, here we need to mention:
 
 * All the generated key is `Long` type instead of `Integer`.
 * The generated key will be passed into `tabular::setPkId` method to consume instead you use it.
 
-There is another method `insertAsync` that you could use is that you do not care the returned generated key, it just like following:
+There is another method `insertAsync` that you could use is that you do not care the returned generated key, it just
+like following:
 
 ```java
         return Ux.Jooq.on(SysTabularDao.class).insertAsync(tabular)
@@ -189,7 +193,8 @@ It's a little complex and not very well, in this situation we recommend to use a
     }
 ```
 
-Here we called `saveAsync` with `id` and `updated` data object, then you can update the data here. When you send request, you can see following results:
+Here we called `saveAsync` with `id` and `updated` data object, then you can update the data here. When you send
+request, you can see following results:
 
 **URL** : [http://localhost:6093/api/tabular/172](http://localhost:6093/api/tabular/172)
 
@@ -257,7 +262,7 @@ Here you can delete record from database.
 
 **Method** : DELETE
 
-**Response** : 
+**Response** :
 
 ```json
 {
@@ -276,7 +281,9 @@ Here we listed all the delete api that `Ux.Jooq` provided:
 
 ## 3. Summary
 
-Until now you have known how to `insert, update, delete` data by Jooq, here we have finished all the CRUD operation tutorials, from next chapter we'll discuss some advanced Jooq features for real business project usage such as pagination, sorting, searching etc.
+Until now you have known how to `insert, update, delete` data by Jooq, here we have finished all the CRUD operation
+tutorials, from next chapter we'll discuss some advanced Jooq features for real business project usage such as
+pagination, sorting, searching etc.
 
 
 

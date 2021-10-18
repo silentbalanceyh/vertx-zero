@@ -22,7 +22,8 @@ kubectl -n istio-system port-forward \
         3000:3000 &
 ```
 
-2 - Then open uri `http://localhost:3000/dashboard/db/istio-dashboard` with your browser, you should see following page:![](/doc/image/istio-grafana.png)
+2 - Then open uri `http://localhost:3000/dashboard/db/istio-dashboard` with your browser, you should see following
+page:![](/doc/image/istio-grafana.png)
 
 ## 2. Install Service Graph
 
@@ -34,7 +35,8 @@ kubectl -n istio-system port-forward \
         8088:8088 &
 ```
 
-2 - The open url `http://localhost:8088/dotviz` or `http://localhost:8088/graph` with your browser, if there exist the services, you should see JSON data or graph.
+2 - The open url `http://localhost:8088/dotviz` or `http://localhost:8088/graph` with your browser, if there exist the
+services, you should see JSON data or graph.
 
 ## 3. Zipkin Dashboard
 
@@ -46,7 +48,8 @@ kubectl -n istio-system port-forward \
         9411:9411 &
 ```
 
-2 - Then open uri `http://localhost:9411/zipkin/` with your browser, you should see following page:![](/doc/image/istio-zipkin.png)
+2 - Then open uri `http://localhost:9411/zipkin/` with your browser, you should see following
+page:![](/doc/image/istio-zipkin.png)
 
 ## 4. Prometheus
 

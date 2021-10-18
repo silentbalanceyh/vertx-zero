@@ -8,7 +8,7 @@ import java.util.concurrent.ConcurrentMap;
 public class ZeroCodex {
 
     private static final ConcurrentMap<String, JsonObject> CODEX =
-            new ConcurrentHashMap<>();
+        new ConcurrentHashMap<>();
 
     public static ConcurrentMap<String, JsonObject> getCodex() {
         return CODEX;

@@ -1,5 +1,7 @@
 package io.vertx.up.runtime;
 
+import io.vertx.core.Future;
+import io.vertx.core.Vertx;
 import io.vertx.core.http.HttpServerOptions;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
@@ -16,6 +18,7 @@ import io.vertx.up.util.Ut;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.concurrent.ConcurrentMap;
 
 public class ZeroHeart {
 
@@ -23,7 +26,14 @@ public class ZeroHeart {
     private static final String INIT = "init";
     private static final Node<JsonObject> VISITOR = Ut.singleton(ZeroUniform.class);
 
-    public static void init() {
+    public static void initExtension() {
+        initExtension(null).onComplete(res -> LOGGER.info("Extension Initialized {0}", res.result()));
+    }
+
+    /*
+     * Async initialized for extension
+     */
+    public static Future<Boolean> initExtension(final Vertx vertx) {
         // inject configuration
         final JsonObject config = VISITOR.read();
         /*
@@ -36,9 +46,12 @@ public class ZeroHeart {
          *      key2:value2
          */
         if (config.containsKey(INIT)) {
-            final JsonArray initArray = config.getJsonArray(INIT);
-            /* Component Init */
-            Ut.itJArray(initArray, (init, index) -> Ux.initComponent(init));
+            /* Component initializing with native */
+            final JsonArray components = config.getJsonArray(INIT, new JsonArray());
+            LOGGER.info("Extension components initialized {0}", components.encode());
+            return Ux.nativeInit(components, vertx);
+        } else {
+            return Future.succeededFuture(Boolean.TRUE);
         }
     }
 
@@ -46,8 +59,8 @@ public class ZeroHeart {
      * Shared Map
      */
     public static boolean isShared() {
-        final JsonObject options = VISITOR.read();
-        return options.containsKey(Plugins.Infix.SHARED);
+        final ConcurrentMap<String, Class<?>> injections = ZeroAmbient.getInjections();
+        return injections.containsKey(Plugins.Infix.SHARED);
     }
 
     /*
@@ -67,6 +80,14 @@ public class ZeroHeart {
     }
 
     /*
+     * Cache
+     */
+    public static boolean isCache() {
+        final JsonObject options = VISITOR.read();
+        return options.containsKey("cache");
+    }
+
+    /*
      * Whether Current node is ApiGateway
      */
     public static boolean isGateway() {
@@ -77,7 +98,7 @@ public class ZeroHeart {
         final Set<Integer> apiScanned = new HashSet<>();
         Fn.outUp(() -> {
             final ServerVisitor<HttpServerOptions> visitor =
-                    Ut.singleton(DynamicVisitor.class);
+                Ut.singleton(DynamicVisitor.class);
             apiScanned.addAll(visitor.visit(ServerType.API.toString()).keySet());
         }, LOGGER);
         return !apiScanned.isEmpty();

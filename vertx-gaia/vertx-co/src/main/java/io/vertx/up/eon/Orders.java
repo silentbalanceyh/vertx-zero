@@ -9,6 +9,11 @@ public interface Orders {
      * 1,000,000
      */
     int MONITOR = 1_000_000;
+    /*
+     * Time Out
+     * 1,050,000
+     */
+    int TIMEOUT = 1_050_000;
     /**
      * Cors Order
      * 1,100,000
@@ -44,6 +49,11 @@ public interface Orders {
      * 1,900,000
      */
     int SECURE = 1_900_000;
+    /**
+     * User Authorization
+     * 2,000,000
+     */
+    int SECURE_AUTHORIZATION = 2_000_000;
     /**
      * Sign for request ( Sign Request )
      * 3,000,000

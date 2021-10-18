@@ -1,14 +1,17 @@
 package io.vertx.tp.atom.cv.em;
 
 /**
- * Model for Attribute
+ * ## Model for Attribute
+ *
+ * ### 1. Intro
+ *
  * MAttribute field ( type ) value
  * <p>
  * - INTERNAL means Data Source came from our database ( Business Database )
  * - EXTERNAL means Data Source should be third part such as
  * RESTful, Integration, FileSystem etc.
  *
- * @author lang
+ * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 public enum AttributeType {
     /*
@@ -21,4 +24,9 @@ public enum AttributeType {
      * 第三方数据源
      */
     EXTERNAL,
+    /*
+     * Reference Data Source
+     * 引用专用
+     */
+    REFERENCE,
 }

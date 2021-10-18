@@ -23,7 +23,7 @@ public class DataLoader {
         JooqInfix.init(vertx);
         /* ExcelClient */
         final ExcelClient client = ExcelInfix.getClient();
-        client.loading("plugin/rbac/excel/data.rbac.xlsx", handler -> {
+        client.importAsync("plugin/rbac/excel/data.rbac.xlsx", handler -> {
             /* */
             final Annal LOGGER = Annal.get(DataLoader.class);
             LOGGER.info("[ Έξοδος ] Successfully to finish loading !");

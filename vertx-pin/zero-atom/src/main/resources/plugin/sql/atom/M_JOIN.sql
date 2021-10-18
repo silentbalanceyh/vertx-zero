@@ -12,5 +12,13 @@ CREATE TABLE IF NOT EXISTS M_JOIN
     `ENTITY_KEY` VARCHAR(32) COMMENT '「entityKey」- 实体主键字段名',
     `PRIORITY`   INT DEFAULT 0 COMMENT '「priority」- 优先级',
     `NAMESPACE`  VARCHAR(64) COMMENT '「namespace」- 名空间（和App绑定的）',
-    PRIMARY KEY (`MODEL`, `ENTITY`, `ENTITY_KEY`, `NAMESPACE`)
-)
+    PRIMARY KEY
+        (
+         `MODEL`,
+         `ENTITY`,
+         `ENTITY_KEY`,
+         `NAMESPACE`
+            ) USING BTREE
+);
+ALTER TABLE M_JOIN
+    ADD INDEX IDXM_M_JOIN_NAMESPACE_MODEL (`NAMESPACE`, `MODEL`) USING BTREE;

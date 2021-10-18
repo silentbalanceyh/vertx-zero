@@ -2,6 +2,7 @@ package cn.vertxup.rbac.service.login;
 
 import cn.vertxup.rbac.domain.tables.daos.OUserDao;
 import cn.vertxup.rbac.domain.tables.pojos.OUser;
+import cn.vertxup.rbac.service.jwt.JwtStub;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.Session;
@@ -9,12 +10,12 @@ import io.vertx.tp.error._401CodeGenerationException;
 import io.vertx.tp.rbac.cv.AuthKey;
 import io.vertx.tp.rbac.cv.AuthMsg;
 import io.vertx.tp.rbac.refine.Sc;
-import io.vertx.up.unity.Ux;
+import io.vertx.up.eon.KName;
 import io.vertx.up.log.Annal;
-import io.vertx.up.secure.Security;
-import io.vertx.up.fn.Fn;
+import io.vertx.up.unity.Ux;
 
 import javax.inject.Inject;
+import java.util.Objects;
 
 public class AuthService implements AuthStub {
 
@@ -26,22 +27,22 @@ public class AuthService implements AuthStub {
     @Inject
     private transient TokenStub tokenStub;
     @Inject
-    private transient Security security;
+    private transient JwtStub jwtStub;
 
     @Override
     @SuppressWarnings("all")
     public Future<JsonObject> authorize(final JsonObject filters) {
         Sc.infoAuth(LOGGER, AuthMsg.CODE_FILTER, filters.encode());
-        return Ux.Jooq.on(OUserDao.class).<OUser>fetchOneAsync(filters).compose(item -> Fn.match(
-
-                // Provide correct parameters, OUser record existing.
-                () -> Fn.fork(() -> this.codeStub.authorize(item.getClientId())),
-
+        return Ux.Jooq.on(OUserDao.class).<OUser>fetchOneAsync(filters).compose(item -> {
+            if (Objects.isNull(item)) {
                 // Could not identify OUser record, error throw.
-                Fn.branch(null == item,
-                        () -> Ux.thenError(_401CodeGenerationException.class, this.getClass(),
-                                filters.getString(AuthKey.F_CLIENT_ID), filters.getString(AuthKey.F_CLIENT_SECRET)))
-        ));
+                return Ux.thenError(_401CodeGenerationException.class, this.getClass(),
+                    filters.getString(AuthKey.F_CLIENT_ID), filters.getString(AuthKey.F_CLIENT_SECRET));
+            } else {
+                // Provide correct parameters, OUser record existing.
+                return this.codeStub.authorize(item.getClientId());
+            }
+        });
     }
 
     @Override
@@ -49,16 +50,20 @@ public class AuthService implements AuthStub {
         final String code = params.getString(AuthKey.AUTH_CODE);
         final String clientId = params.getString(AuthKey.CLIENT_ID);
         Sc.infoAuth(LOGGER, AuthMsg.CODE_VERIFY, clientId, code);
-        return tokenStub.execute(clientId, code, session)
-                // Store token information
-                .compose(security::store);
+        return this.tokenStub.execute(clientId, code, session).compose(data -> {
+            // Store token information
+            final String userKey = data.getString(KName.USER);
+            Sc.infoAuth(LOGGER, AuthMsg.TOKEN_STORE, userKey);
+            return this.jwtStub.store(userKey, data);
+        });
     }
+
 
     @Override
     public Future<JsonObject> login(final JsonObject params) {
         final String username = params.getString(AuthKey.USER_NAME);
         final String password = params.getString(AuthKey.PASSWORD);
         Sc.infoAuth(LOGGER, AuthMsg.LOGIN_INPUT, username);
-        return loginStub.execute(username, password);
+        return this.loginStub.execute(username, password);
     }
 }

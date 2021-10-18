@@ -1,6 +1,7 @@
 # D10054 - Utility X Input, Agent Mode
 
-Zero system support two different styles: Agent Mode / Interface Style, if we enable event bus we could see our web request will go through following workflow:
+Zero system support two different styles: Agent Mode / Interface Style, if we enable event bus we could see our web
+request will go through following workflow:
 
 **Agent Mode**
 
@@ -16,12 +17,17 @@ Api -> ( Event Bus ) -> Consumer ( Worker Area )
 
 ## 1. Zero Recommend
 
-Here are the problems: we have explained how to get data from client, but when you send the data to event bus, we could extract data from `Message<Envelop>` , `Envelop`, or use the Mode 5 Experimental extension to get data directly. But we still recommend to use `Envelop` instead, in this situation we need to read data to our expected, this chapter will tell you how to get input request data based on agent mode from EventBus. Based on this situation, we suggest developers obey following rules:
+Here are the problems: we have explained how to get data from client, but when you send the data to event bus, we could
+extract data from `Message<Envelop>` , `Envelop`, or use the Mode 5 Experimental extension to get data directly. But we
+still recommend to use `Envelop` instead, in this situation we need to read data to our expected, this chapter will tell
+you how to get input request data based on agent mode from EventBus. Based on this situation, we suggest developers obey
+following rules:
 
 * Use uniform resource model instead of user defined types.
 * Use Utility X tool package to get the input data.
 
-Zero system design is that to provide a framework to developer to do fast development, not only on the feature for business requirement, but also to provide some small tips. Then we focus on Agent Mode only.
+Zero system design is that to provide a framework to developer to do fast development, not only on the feature for
+business requirement, but also to provide some small tips. Then we focus on Agent Mode only.
 
 ## 2. Source Code
 
@@ -84,7 +90,9 @@ public class IrCommentActor implements IrCommentApi {
 }
 ```
 
-Until now we could see that the Agent component contains `Api, Actor` codes and this component will get the request data to merge into `JsonObject`, it means that we'll send this JsonObject to event bus in `Envelop` object, in our code we only need to extract data from `Envelop`.
+Until now we could see that the Agent component contains `Api, Actor` codes and this component will get the request data
+to merge into `JsonObject`, it means that we'll send this JsonObject to event bus in `Envelop` object, in our code we
+only need to extract data from `Envelop`.
 
 ### 2.3. Consumer Code \( Worker \)
 
@@ -124,7 +132,8 @@ public class IrCommentWorker {
 }
 ```
 
-From above code we could see that here we called `Ux.getBody` to extract the data from `Envelop` object,  this method is fixed return type method, you could extract the data with type, please refer following chapters.
+From above code we could see that here we called `Ux.getBody` to extract the data from `Envelop` object, this method is
+fixed return type method, you could extract the data with type, please refer following chapters.
 
 ## 3. Summary
 
@@ -133,7 +142,8 @@ Utility X provide the api to do this things as following:
 * `JsonObject getBody(Message<Envelop> message)`
 * `<T> T getBodyT(Message<envelop> message, Class<T> clazz)`
 
-There are two apis that could extract data from `Message<Envelop>` , one for JsonObject and it's also recommended by vert.x, another one for generic type and it's freedom usage.
+There are two apis that could extract data from `Message<Envelop>` , one for JsonObject and it's also recommended by
+vert.x, another one for generic type and it's freedom usage.
 
 
 

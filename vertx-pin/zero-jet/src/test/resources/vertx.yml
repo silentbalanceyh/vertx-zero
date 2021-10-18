@@ -1,0 +1,10 @@
+zero:
+  lime: jooq
+  vertx:
+    instance:
+      - name: originx-engine
+        options:
+          # Event loop default executing: 30s
+          # Worker executing: 300s -> 5 min
+          maxEventLoopExecuteTime: 30000000000
+          maxWorkerExecuteTime: 300000000000

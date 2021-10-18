@@ -5,7 +5,7 @@ import cn.vertxup.atom.domain.tables.pojos.MIndex;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.ke.cv.KeField;
+import io.vertx.up.eon.KName;
 import io.vertx.up.log.Annal;
 import io.vertx.up.unity.Ux;
 
@@ -22,9 +22,9 @@ class IndexModeler implements AoModeler {
             final JsonObject entityJson = AoModeler.getEntity(schemaJson);
             // 读取所有的indexes
             return Ux.Jooq.on(MIndexDao.class)
-                    .<MIndex>fetchAndAsync(this.onCriteria(entityJson))
-                    .compose(Ux::fnJArray)
-                    .compose(indexes -> Ux.future(this.onResult(schemaJson, indexes)));
+                .<MIndex>fetchAndAsync(this.onCriteria(entityJson))
+                .compose(Ux::futureA)
+                .compose(indexes -> Ux.future(this.onResult(schemaJson, indexes)));
         };
     }
 
@@ -34,21 +34,21 @@ class IndexModeler implements AoModeler {
         final JsonObject entityJson = AoModeler.getEntity(schemaJson);
         // List
         final List<MIndex> indexList = Ux.Jooq.on(MIndexDao.class)
-                .fetchAnd(this.onCriteria(entityJson));
+            .fetchAnd(this.onCriteria(entityJson));
         // Array
-        final JsonArray indexes = Ux.toArray(indexList);
+        final JsonArray indexes = Ux.toJson(indexList);
 
         return this.onResult(schemaJson, indexes);
     }
 
     private JsonObject onResult(final JsonObject schemaJson,
                                 final JsonArray indexes) {
-        return schemaJson.put(KeField.Modeling.INDEXES, indexes);
+        return schemaJson.put(KName.Modeling.INDEXES, indexes);
     }
 
     private JsonObject onCriteria(final JsonObject entityJson) {
         final JsonObject filters = new JsonObject();
-        filters.put(KeField.ENTITY_ID, entityJson.getString(KeField.KEY));
+        filters.put(KName.ENTITY_ID, entityJson.getString(KName.KEY));
         return filters;
     }
 }

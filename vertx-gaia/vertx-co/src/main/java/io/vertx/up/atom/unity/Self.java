@@ -20,52 +20,52 @@ import java.util.stream.Collectors;
 class Self {
 
     static JsonObject deNull(
-            final JsonObject entity,
-            final boolean immutable) {
+        final JsonObject entity,
+        final boolean immutable) {
         final JsonObject result = immutable ? entity.copy() : entity;
         final Set<String> keys = entity.fieldNames()
-                .stream()
-                .filter(field -> Objects.isNull(entity.getValue(field)))
-                .collect(Collectors.toSet());
+            .stream()
+            .filter(field -> Objects.isNull(entity.getValue(field)))
+            .collect(Collectors.toSet());
         Observable.fromIterable(keys)
-                .subscribe(result::remove).dispose();
+            .subscribe(result::remove).dispose();
         return result;
     }
 
     static JsonObject remove(
-            final JsonObject entity,
-            final boolean immutable,
-            final String... keys
+        final JsonObject entity,
+        final boolean immutable,
+        final String... keys
     ) {
         final JsonObject result = immutable ? entity.copy() : entity;
         Observable.fromArray(keys)
-                .filter(Ut::notNil)
-                .filter(result::containsKey)
-                .map(result::remove)
-                .subscribe().dispose();
+            .filter(Ut::notNil)
+            .filter(result::containsKey)
+            .map(result::remove)
+            .subscribe().dispose();
         return result;
     }
 
     static JsonObject pickup(
-            final JsonObject entity,
-            final String... keys
+        final JsonObject entity,
+        final String... keys
     ) {
         final JsonObject result = new JsonObject();
         Observable.fromArray(keys)
-                .filter(Ut::notNil)
-                .subscribe(key -> {
-                    final Object value = entity.getValue(key);
-                    result.put(key, value);
-                }).dispose();
+            .filter(Ut::notNil)
+            .subscribe(key -> {
+                final Object value = entity.getValue(key);
+                result.put(key, value);
+            }).dispose();
         entity.clear();
         entity.mergeIn(result, true);
         return entity;
     }
 
     static JsonArray remove(
-            final JsonArray array,
-            final boolean immutable,
-            final String... keys
+        final JsonArray array,
+        final boolean immutable,
+        final String... keys
     ) {
         final JsonArray result = immutable ? array.copy() : array;
         final JsonArray finals = new JsonArray();
@@ -77,10 +77,10 @@ class Self {
     }
 
     static JsonObject copy(
-            final JsonObject entity,
-            final String from,
-            final String to,
-            final boolean immutable
+        final JsonObject entity,
+        final String from,
+        final String to,
+        final boolean immutable
     ) {
         final JsonObject result = immutable ? entity.copy() : entity;
         if (Ut.notNil(to) && entity.containsKey(from)) {
@@ -90,37 +90,37 @@ class Self {
     }
 
     static JsonArray copy(
-            final JsonArray array,
-            final String from,
-            final String to,
-            final boolean immutable
+        final JsonArray array,
+        final String from,
+        final String to,
+        final boolean immutable
     ) {
         final JsonArray result = immutable ? array.copy() : array;
         Observable.fromIterable(result)
-                .map(item -> (JsonObject) item)
-                .subscribe(item -> copy(item, from, to, false)).dispose();
+            .map(item -> (JsonObject) item)
+            .subscribe(item -> copy(item, from, to, false)).dispose();
         return result;
     }
 
     static JsonArray filter(
-            final JsonArray array,
-            final Predicate<JsonObject> testFun,
-            final boolean immutable
+        final JsonArray array,
+        final Predicate<JsonObject> testFun,
+        final boolean immutable
     ) {
         final JsonArray result = immutable ? array.copy() : array;
         final JsonArray filtered = new JsonArray();
         Observable.fromIterable(result)
-                .map(item -> (JsonObject) item)
-                .filter(testFun::test)
-                .subscribe(filtered::add).dispose();
+            .map(item -> (JsonObject) item)
+            .filter(testFun::test)
+            .subscribe(filtered::add).dispose();
         result.clear().addAll(filtered);
         return result;
     }
 
     static JsonObject defaultValue(
-            final JsonObject json,
-            final JsonObject filled,
-            final boolean immutable
+        final JsonObject json,
+        final JsonObject filled,
+        final boolean immutable
     ) {
         final JsonObject result = immutable ? json.copy() : json;
         for (final String field : filled.fieldNames()) {
@@ -130,35 +130,35 @@ class Self {
     }
 
     static JsonArray defaultValue(
-            final JsonArray jsonArray,
-            final JsonObject filled,
-            final boolean immutable
+        final JsonArray jsonArray,
+        final JsonObject filled,
+        final boolean immutable
     ) {
         final JsonArray result = immutable ? jsonArray.copy() : jsonArray;
         Observable.fromIterable(result)
-                .map(item -> (JsonObject) item)
-                .subscribe(item -> defaultValue(item, filled, false)).dispose();
+            .map(item -> (JsonObject) item)
+            .subscribe(item -> defaultValue(item, filled, false)).dispose();
         return result;
     }
 
     static JsonArray defaultValue(
-            final JsonArray jsonArray,
-            final String field,
-            final Object value,
-            final boolean immutable
+        final JsonArray jsonArray,
+        final String field,
+        final Object value,
+        final boolean immutable
     ) {
         final JsonArray result = immutable ? jsonArray.copy() : jsonArray;
         Observable.fromIterable(result)
-                .map(item -> (JsonObject) item)
-                .subscribe(item -> defaultValue(item, field, value, false)).dispose();
+            .map(item -> (JsonObject) item)
+            .subscribe(item -> defaultValue(item, field, value, false)).dispose();
         return result;
     }
 
     static JsonObject defaultValue(
-            final JsonObject json,
-            final String field,
-            final Object value,
-            final boolean immutable) {
+        final JsonObject json,
+        final String field,
+        final Object value,
+        final boolean immutable) {
         final JsonObject result = immutable ? json.copy() : json;
         if (Objects.isNull(result.getValue(field))) {
             result.put(field, result.getValue(field));
@@ -167,27 +167,27 @@ class Self {
     }
 
     static JsonArray vertical(
-            final JsonArray array,
-            final String field,
-            final boolean immutable
+        final JsonArray array,
+        final String field,
+        final boolean immutable
     ) {
         final JsonArray result = immutable ? array.copy() : array;
         final JsonArray processed = new JsonArray();
         // TODO: handle [null] value at line: 178
         Observable.fromIterable(result)
-                .map((item) -> (JsonObject) item)
-                .map(item -> item.getValue(field))
-                .subscribe(processed::add).dispose();
+            .map((item) -> (JsonObject) item)
+            .map(item -> item.getValue(field))
+            .subscribe(processed::add).dispose();
         result.clear().addAll(processed);
         return result;
     }
 
     @SuppressWarnings("unchecked")
     static <I, O> JsonObject convert(
-            final JsonObject entity,
-            final String field,
-            final Function<I, O> function,
-            final boolean immutable
+        final JsonObject entity,
+        final String field,
+        final Function<I, O> function,
+        final boolean immutable
     ) {
         final JsonObject result = immutable ? entity.copy() : entity;
         final Object value = result.getValue(field);
@@ -199,23 +199,23 @@ class Self {
     }
 
     static <I, O> JsonArray convert(
-            final JsonArray array,
-            final String field,
-            final Function<I, O> function,
-            final boolean immutable
+        final JsonArray array,
+        final String field,
+        final Function<I, O> function,
+        final boolean immutable
     ) {
         final JsonArray result = immutable ? array.copy() : array;
         Observable.fromIterable(result)
-                .map(item -> (JsonObject) item)
-                .subscribe(item -> convert(item, field, function, false))
-                .dispose();
+            .map(item -> (JsonObject) item)
+            .subscribe(item -> convert(item, field, function, false))
+            .dispose();
         return result;
     }
 
     static JsonObject convert(
-            final JsonObject entity,
-            final ConcurrentMap<String, String> mapping,
-            final boolean immutable
+        final JsonObject entity,
+        final ConcurrentMap<String, String> mapping,
+        final boolean immutable
     ) {
         final JsonObject result = new JsonObject();
         final Set<String> keys = new HashSet<>();
@@ -256,39 +256,39 @@ class Self {
     }
 
     static JsonArray convert(
-            final JsonArray array,
-            final ConcurrentMap<String, String> mapping,
-            final boolean immutable
+        final JsonArray array,
+        final ConcurrentMap<String, String> mapping,
+        final boolean immutable
     ) {
         final JsonArray result = immutable ? array.copy() : array;
         Observable.fromIterable(result)
-                .map(item -> (JsonObject) item)
-                .subscribe(item -> convert(item, mapping, false))
-                .dispose();
+            .map(item -> (JsonObject) item)
+            .subscribe(item -> convert(item, mapping, false))
+            .dispose();
         return result;
     }
 
     static JsonArray distinct(
-            final JsonArray array,
-            final boolean immutable
+        final JsonArray array,
+        final boolean immutable
     ) {
         final JsonArray result = immutable ? array.copy() : array;
         final JsonArray dis = new JsonArray();
         Observable.fromIterable(result)
-                .distinct()
-                .subscribe(dis::add).dispose();
+            .distinct()
+            .subscribe(dis::add).dispose();
         return result.clear().addAll(dis);
     }
 
     static JsonArray sort(
-            final JsonArray array,
-            final boolean immutable
+        final JsonArray array,
+        final boolean immutable
     ) {
         final JsonArray result = immutable ? array.copy() : array;
         final JsonArray dis = new JsonArray();
         Observable.fromIterable(result)
-                .sorted()
-                .subscribe(dis::add).dispose();
+            .sorted()
+            .subscribe(dis::add).dispose();
         return result.clear().addAll(dis);
     }
 }

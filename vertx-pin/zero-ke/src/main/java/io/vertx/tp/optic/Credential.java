@@ -1,7 +1,7 @@
 package io.vertx.tp.optic;
 
 import io.vertx.core.Future;
-import io.vertx.tp.ke.atom.KeIdc;
+import io.vertx.tp.ke.atom.KCredential;
 
 /*
  * It's for account to do `O_USER` data creation
@@ -17,5 +17,5 @@ public interface Credential {
      * The sigma could identify the application
      * in multi environments
      */
-    Future<KeIdc> fetchAsync(final String sigma);
+    Future<KCredential> fetchAsync(final String sigma);
 }

@@ -26,15 +26,15 @@ public class NamesVisitor implements ServerVisitor<String> {
 
     @Override
     public ConcurrentMap<Integer, String> visit(final String... key)
-            throws ZeroException {
+        throws ZeroException {
         // 1. Must be the first line, fixed position.
         Fn.inLenEq(this.getClass(), 1, key);
         // 2. Visit the node for server, http
         final JsonObject data = this.NODE.read();
 
         Fn.outZero(null == data || !data.containsKey(KEY), this.getLogger(),
-                ServerConfigException.class,
-                this.getClass(), null == data ? null : data.encode());
+            ServerConfigException.class,
+            this.getClass(), null == data ? null : data.encode());
         // 3. Extract names.
         final JsonArray raw = data.getJsonArray(KEY);
         this.type = ServerType.valueOf(key[Values.IDX]);
@@ -58,7 +58,7 @@ public class NamesVisitor implements ServerVisitor<String> {
 
     private boolean isServer(final JsonObject item) {
         return null != this.type &&
-                this.type.match(item.getString(YKEY_TYPE));
+            this.type.match(item.getString(YKEY_TYPE));
     }
 
     private int extractPort(final JsonObject config) {

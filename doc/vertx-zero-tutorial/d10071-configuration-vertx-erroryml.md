@@ -1,6 +1,7 @@
 # D10071 - Configuration, vertx-error.yml
 
-In zero system, it provide standard error system and extended error configuration, the up.god.file `vertx-error.yml` could let you to set the errors that you want to defined.
+In zero system, it provide standard error system and extended error configuration, the up.god.file `vertx-error.yml`
+could let you to set the errors that you want to defined.
 
 ## 1. Content Segment
 
@@ -26,22 +27,29 @@ In zero system, the most used abstract abstract exception are following:
 * `io.vertx.up.exception.WebException`
 * `io.vertx.up.exception.UpException`
 
-The `WebException` controlled the web request flow exceptions, and the `UpException` controlled the zero start up exceptions, they are all runtime, zero system does not throw out these exceptions except some critical issue happened, all the error response came from `WebException` and could provide normalized response to client.
+The `WebException` controlled the web request flow exceptions, and the `UpException` controlled the zero start up
+exceptions, they are all runtime, zero system does not throw out these exceptions except some critical issue happened,
+all the error response came from `WebException` and could provide normalized response to client.
 
 ## 3. Error Codes
 
 Here are the error code area that we designed:
 
-* `-10001 ~ -19999`: The configuration data validation such as required config key, config key data type, data format etc.
+* `-10001 ~ -19999`: The configuration data validation such as required config key, config key data type, data format
+  etc.
 * `-20001 ~ -29999`: The third part errors such as Qiy, QQ, Wechat etc.
-* `-30001 ~ -39999`: Critical system error, these exceptions may be `WebException` or `UpException`, they are all internally.
+* `-30001 ~ -39999`: Critical system error, these exceptions may be `WebException` or `UpException`, they are all
+  internally.
 * `-40001 ~ -49999`: All the `UpException` sub exceptions that may impact zero system starting up.
 * `-50001 ~ -59999`: \( Reserved \) All the `Rx` mode exceptions, it's used in future plan.
-* `-60001 ~ -69999`: All the `WebException` that are provided by zero system internally, it's defined some standard web request exceptions in zero system.
+* `-60001 ~ -69999`: All the `WebException` that are provided by zero system internally, it's defined some standard web
+  request exceptions in zero system.
 
-If you want to define zero system exceptions that you wanted, you should set the error code start with `-100001`,  if you overwrite the error code of system internally, it may be bad things for you do to debugging.
+If you want to define zero system exceptions that you wanted, you should set the error code start with `-100001`, if you
+overwrite the error code of system internally, it may be bad things for you do to debugging.
 
 ## 4. Summary
 
-This chapter described some specific error definition rules in zero system, in forward tutorials we'll introduce how to define error in zero system then you could reply to client the normalized error response with correct Http Status Code.
+This chapter described some specific error definition rules in zero system, in forward tutorials we'll introduce how to
+define error in zero system then you could reply to client the normalized error response with correct Http Status Code.
 

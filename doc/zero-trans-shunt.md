@@ -1,6 +1,6 @@
 # Trans/Shunt Function
 
-* **trans** means there exist exception converter from Throwable to ZeroException 
+* **trans** means there exist exception converter from Throwable to ZeroException
 * **shunt** means there may throw out exception ( ZeroException / ZeroRunException ) only
 
 ## 1. Definition
@@ -37,12 +37,12 @@
 3. Then the system will convert `java.lang.Throwable` to `JsonFormatException` exception instead of Jvm exception.
 4. `JsonFormatException` must has a constructor that last argument is `Throwable` such as following:
 
-	```java
-    public JsonFormatException(final String filename, final Throwable ex) {
-        super(MessageFormat.format(Info.JSON_MSG, filename, ex.getCause()));
-    }
-	```
-	
+   ```java
+   public JsonFormatException(final String filename, final Throwable ex) {
+       super(MessageFormat.format(Info.JSON_MSG, filename, ex.getCause()));
+   }
+   ```
+
 ### 2.2. shuntRun
 
 ```java

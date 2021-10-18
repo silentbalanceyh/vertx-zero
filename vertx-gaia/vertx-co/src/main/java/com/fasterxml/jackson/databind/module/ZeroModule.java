@@ -16,7 +16,7 @@ import com.fasterxml.jackson.datatype.jsr310.ser.*;
 import com.fasterxml.jackson.datatype.jsr310.ser.key.ZonedDateTimeKeySerializer;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.atom.unity.Uson;
+import io.vertx.up.atom.unity.UObject;
 
 import java.time.*;
 import java.util.Iterator;
@@ -35,7 +35,28 @@ import java.util.Iterator;
  * Here will ignore method description because it's inherited from jackson `SimpleModule`. Here are three
  * major `serializer/deserializer` for different situations.
  *
- * This module will be used to build internal `mapper` of jackson for based data type architecture.
+ * ## Usage
+ *
+ * This module will be used to build internal `mapper` of jackson for based data type architecture. Please refer
+ * following code example to see how to use:
+ *
+ * ```java
+ * // <pre><code class="java">
+ *
+ * private static final ObjectMapper MAPPER = new ObjectMapper();
+ *
+ * static{
+ *      final ZeroModule module = new ZeroModule();
+ *      Jackson.MAPPER.registerModule(module);
+ *      Jackson.MAPPER.setPropertyNamingStrategy(OrignialNamingStrategy.JOOQ_NAME);
+ * }
+ *
+ * // </code></pre>
+ * ```
+ *
+ * Based on above code segments, you can registry new module instead of attributes settings for jackson serialization.
+ *
+ * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 public class ZeroModule extends SimpleModule {
     private static final long serialVersionUID = 1L;
@@ -45,12 +66,12 @@ public class ZeroModule extends SimpleModule {
         // Serializer
         this.addSerializer(JsonObject.class, new JsonObjectSerializer());
         this.addSerializer(JsonArray.class, new JsonArraySerializer());
-        this.addSerializer(Uson.class, new BladeSerializer());
+        this.addSerializer(UObject.class, new BladeSerializer());
         this.addSerializer(byte[].class, new ByteArraySerializer());
         // Deserializer
         this.addDeserializer(JsonObject.class, new JsonObjectDeserializer());
         this.addDeserializer(JsonArray.class, new JsonArrayDeserializer());
-        this.addDeserializer(Uson.class, new BladeDeserializer());
+        this.addDeserializer(UObject.class, new BladeDeserializer());
         // Default Time
         this.addDeserializer(Instant.class, InstantDeserializer.INSTANT);
         this.addDeserializer(OffsetDateTime.class, InstantDeserializer.OFFSET_DATE_TIME);

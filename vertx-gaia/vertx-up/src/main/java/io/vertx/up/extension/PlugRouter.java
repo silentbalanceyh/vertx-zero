@@ -4,6 +4,10 @@ import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.Router;
 import io.vertx.up.eon.Orders;
+import io.vertx.up.fn.Fn;
+import io.vertx.up.uca.yaml.Node;
+import io.vertx.up.uca.yaml.ZeroUniform;
+import io.vertx.up.util.Ut;
 
 /**
  * 「Extension」
@@ -15,6 +19,17 @@ import io.vertx.up.eon.Orders;
  * extension plugins, it's also available and do not impact Standard Part.
  */
 public interface PlugRouter {
+
+    String KEY_ROUTER = "router";
+
+    /*
+     * Get router configuration in zero config file `yml`
+     */
+    static JsonObject config() {
+        final Node<JsonObject> uniform = Ut.singleton(ZeroUniform.class);
+        final JsonObject config = uniform.read();
+        return Fn.getNull(new JsonObject(), () -> config.getJsonObject(KEY_ROUTER), config);
+    }
 
     void mount(Router router, JsonObject config);
 

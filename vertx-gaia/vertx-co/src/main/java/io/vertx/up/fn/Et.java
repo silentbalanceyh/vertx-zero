@@ -9,7 +9,7 @@ import io.vertx.up.exception.ZeroException;
 class Et {
 
     static <T> void execZero(final JsonObject data, final ZeroBiConsumer<T, String> fnIt)
-            throws ZeroException {
+        throws ZeroException {
         for (final String name : data.fieldNames()) {
             final Object item = data.getValue(name);
             if (null != item) {
@@ -24,7 +24,7 @@ class Et {
      * @param <T>       element type
      */
     static <T> void execZero(final JsonArray dataArray, final ZeroBiConsumer<T, String> fnIt)
-            throws ZeroException {
+        throws ZeroException {
         execZero(dataArray, JsonObject.class, (element, index) -> execZero(element, fnIt));
     }
 
@@ -33,10 +33,11 @@ class Et {
      * @param clazz     expected class
      * @param fnIt      iterator
      * @param <T>       element type T ( generic )
+     *
      * @throws ZeroException element zero here
      */
     static <T> void execZero(final JsonArray dataArray, final Class<T> clazz, final ZeroBiConsumer<T, Integer> fnIt)
-            throws ZeroException {
+        throws ZeroException {
         final int size = dataArray.size();
         for (int idx = Values.IDX; idx < size; idx++) {
             final Object value = dataArray.getValue(idx);

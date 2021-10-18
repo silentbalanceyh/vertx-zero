@@ -1,6 +1,7 @@
 # D10086 - Micro, Future with Utility X
 
-This chapter we still stay at the first Rpc example, but we switch our programming style with Utility X to let your rpc code more simple.
+This chapter we still stay at the first Rpc example, but we switch our programming style with Utility X to let your rpc
+code more simple.
 
 ## 1. Services
 
@@ -165,10 +166,12 @@ Here you should focus on some specific logs in console output when services are 
 
 ## 5. Summary
 
-This chapter programming style is recommend by zero system because all the workflow will be async. Here from the console output message the developers could know rpc details. Another thing here that developers should know:
+This chapter programming style is recommend by zero system because all the workflow will be async. Here from the console
+output message the developers could know rpc details. Another thing here that developers should know:
 
 * We recommend use `Ux.thenRpc` instead of native `RpcClient` in previous chapter because it's simple and fluent.
-* There are node role output in console, but the role here depend on the annotation content, not the role we defined here.
+* There are node role output in console, but the role here depend on the annotation content, not the role we defined
+  here.
 
 In this example we could see our node `up-coeus` is **Coordinator**, but the message output show that:
 
@@ -176,5 +179,6 @@ In this example we could see our node `up-coeus` is **Coordinator**, but the mes
 [ ZERO ] --> ( Terminator ) found, will provide response. ......
 ```
 
-Actually here `up-coeus` role is **Terminator** instead of **Coordinator** because this node has not forward service node.
+Actually here `up-coeus` role is **Terminator** instead of **Coordinator** because this node has not forward service
+node.
 

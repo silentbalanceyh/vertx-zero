@@ -5,43 +5,33 @@
     <parent>
         <artifactId>vertx-zero</artifactId>
         <groupId>cn.vertxup</groupId>
-        <version>0.5.3-SNAPSHOT</version>
+        <version>0.8.0-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>vertx-pin</artifactId>
     <packaging>pom</packaging>
-    <name>（ Zero Plugin ) Container Tier</name>
+    <name>「vertx-pin」Zero Extension</name>
     <modules>
-        <!-- Crud -->
-        <module>zero-crud</module>
-        <!-- RBCA -->
-        <module>zero-rbac</module>
-        <!-- Zero Core Library -->
-        <module>zero-ke</module>
-        <!-- Ui Configuration -->
+        <module>zero-ambient</module>           <!-- Environment -->
+        <module>zero-atom</module>              <!-- Modeling -->
+        <module>zero-crud</module>              <!-- CRUD -->
+        <module>zero-erp</module>               <!-- ERP -->
+        <module>zero-fm</module>                <!-- Finance -->
+        <module>zero-graphic</module>           <!-- Graphic -->
+        <module>zero-jet</module>               <!-- Api / Service / Job definition -->
+        <module>zero-ke</module>                <!-- Kernel Engine -->
+        <module>zero-lbs</module>               <!-- Location Service -->
+        <module>zero-rbac</module>              <!-- RBAC -->
+        <module>zero-router</module>            <!-- Api Gateway -->
         <module>zero-ui</module>
-        <!-- Test Framework -->
-        <module>zero-quiz</module>
-        <!-- Api / Service / Job definition -->
-        <module>zero-jet</module>
-        <!-- Micro Api Gateway-->
-        <module>zero-router</module>
-        <!-- Business Module -->
-        <!-- Erp -->
-        <module>zero-erp</module>
-        <!-- Ambient -->
-        <module>zero-ambient</module>
-        <!-- Location Service -->
-        <module>zero-lbs</module>
-        <!-- Dynamic Modeling -->
-        <module>zero-atom</module>
-        <module>zero-graphic</module>
+        <module>zero-vie</module>                <!-- Ui for React -->
     </modules>
     <dependencies>
         <dependency>
             <groupId>cn.vertxup</groupId>
             <artifactId>vertx-up</artifactId>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
     <build>

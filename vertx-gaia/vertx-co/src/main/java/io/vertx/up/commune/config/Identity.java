@@ -1,5 +1,7 @@
 package io.vertx.up.commune.config;
 
+import io.vertx.up.commune.Copyable;
+
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -8,7 +10,7 @@ import java.util.Objects;
  * 1) static identifier: the definition of direct
  * 2) dynamic identifier: the identifier came from identifierComponent
  */
-public class Identity implements Serializable {
+public class Identity implements Serializable, Copyable<Identity> {
     private transient String identifier;
     private transient String sigma;
     private transient Class<?> identifierComponent;
@@ -39,12 +41,25 @@ public class Identity implements Serializable {
 
     @Override
     public boolean equals(final Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Identity)) return false;
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof Identity)) {
+            return false;
+        }
         final Identity identity = (Identity) o;
         return this.identifier.equals(identity.identifier) &&
-                this.sigma.equals(identity.sigma) &&
-                this.identifierComponent.equals(identity.identifierComponent);
+            this.sigma.equals(identity.sigma) &&
+            this.identifierComponent.equals(identity.identifierComponent);
+    }
+
+    @Override
+    public Identity copy() {
+        final Identity identity = new Identity();
+        identity.identifier = this.identifier;
+        identity.sigma = this.sigma;
+        identity.identifierComponent = this.identifierComponent;
+        return identity;
     }
 
     @Override
@@ -55,9 +70,9 @@ public class Identity implements Serializable {
     @Override
     public String toString() {
         return "Identity{" +
-                "identifier='" + this.identifier + '\'' +
-                ", sigma='" + this.sigma + '\'' +
-                ", identifierComponent=" + this.identifierComponent +
-                '}';
+            "identifier='" + this.identifier + '\'' +
+            ", sigma='" + this.sigma + '\'' +
+            ", identifierComponent=" + this.identifierComponent +
+            '}';
     }
 }

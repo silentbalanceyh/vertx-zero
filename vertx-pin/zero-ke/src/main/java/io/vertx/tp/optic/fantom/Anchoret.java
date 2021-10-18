@@ -1,7 +1,7 @@
 package io.vertx.tp.optic.fantom;
 
 import io.vertx.up.log.Annal;
-import io.vertx.up.unity.jq.UxJooq;
+import io.vertx.up.uca.jooq.UxJooq;
 
 /*
  * All sub-class for extension of Jooq type

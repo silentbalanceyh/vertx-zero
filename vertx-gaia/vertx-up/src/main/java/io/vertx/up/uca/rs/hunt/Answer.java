@@ -1,5 +1,6 @@
 package io.vertx.up.uca.rs.hunt;
 
+import io.vertx.core.Future;
 import io.vertx.core.http.HttpServerResponse;
 import io.vertx.core.http.HttpStatusCode;
 import io.vertx.core.json.JsonObject;
@@ -98,12 +99,22 @@ public final class Answer {
         final HttpServerResponse response = context.response();
         /*
          * FIX: java.lang.IllegalStateException: Response is closed
+         * The response has been sent here
          */
         if (!response.closed()) {
             /*
              * Set http status information on response, all information came from `Envelop`
              * 1) Status Code
              * 2) Status Message
+             * Old code
+             *
+             *
+             *
+             * Above code will be put into
+             * Outcome.out(response, processed, mediaTypes);
+             *
+             * It's not needed for current position to set or here will cause following bug:
+             *   java.lang.IllegalStateException: Response head already sent
              */
             final HttpStatusCode code = envelop.status();
             response.setStatusCode(code.code());
@@ -112,29 +123,35 @@ public final class Answer {
              * Bind Data
              */
             envelop.bind(context);
-
             /*
              * Media processing
              */
             Outcome.media(response, mediaTypes);
-
             /*
-             * Security for response
+             * Security for response ( Successful Only )
              */
-            Outcome.security(response);
-
-            /*
-             * SessionData Stored
-             */
-            storeSession(context, envelop.data(), sessionAction);
+            if (envelop.valid()) {
+                Outcome.security(response);
+                /*
+                 * SessionData Stored
+                 */
+                storeSession(context, envelop.data(), sessionAction);
+            }
             /*
              * Plugin Extension for response replying here ( Plug-in )
              */
-            PluginExtension.Answer.reply(context, envelop);
-            /*
-             * Output of current situation
-             */
-            Outcome.out(response, envelop, mediaTypes);
+            PluginExtension.Answer.reply(context, envelop).compose(processed -> {
+                /*
+                 * Output of current situation,
+                 * Here has been replaced by DataRegion.
+                 * Fix BUG:
+                 * In old workflow, below code is not in compose of `PluginExtension`,
+                 * The async will impact response data here, it could let response keep the original
+                 * and ACL workflow won't be OK for response data serialization.
+                 */
+                Outcome.out(response, processed, mediaTypes);
+                return Future.succeededFuture();
+            });
         }
     }
 

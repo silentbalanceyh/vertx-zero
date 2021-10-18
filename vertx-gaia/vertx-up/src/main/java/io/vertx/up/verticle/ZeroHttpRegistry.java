@@ -34,16 +34,16 @@ public class ZeroHttpRegistry extends AbstractVerticle {
             final JsonObject data = result.body();
             final String name = data.getString(Registry.NAME);
             final HttpServerOptions options =
-                    new HttpServerOptions(data.getJsonObject(Registry.OPTIONS));
+                new HttpServerOptions(data.getJsonObject(Registry.OPTIONS));
             final String[] uris =
-                    data.getString(Registry.URIS).split(Strings.COMMA);
+                data.getString(Registry.URIS).split(Strings.COMMA);
             final Set<String> uriData = new TreeSet<>(Arrays.asList(uris));
             // Write the data to registry.
             this.registry.registryHttp(name, options, Etat.RUNNING);
             this.registry.registryRoute(name, options, uriData);
 
             LOGGER.info(Info.MICRO_REGISTRY_CONSUME, this.getClass().getSimpleName(),
-                    name, ID.Addr.REGISTRY_START);
+                name, ID.Addr.REGISTRY_START);
         });
     }
 }

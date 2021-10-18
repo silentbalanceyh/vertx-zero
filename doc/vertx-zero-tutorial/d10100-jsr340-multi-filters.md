@@ -1,6 +1,7 @@
 # D10100 - JSR340 Multi Filters
 
-This tutorial we'll modify the demo that has been described in previous tutorial to write multi filters in zero system, in this kind of situation we could manage all the filters before your API, this feature is more useful and powerful.
+This tutorial we'll modify the demo that has been described in previous tutorial to write multi filters in zero system,
+in this kind of situation we could manage all the filters before your API, this feature is more useful and powerful.
 
 Demo projects:
 
@@ -57,7 +58,8 @@ public class FilterWorker {
 
 ### 1.3. Filters
 
-Here are two filters in this example, we'll manage all the filters by `io.vertx.up.annotations.Ordered`, The default order value is 0, it means that all the filters will be triggered in sequence by order.
+Here are two filters in this example, we'll manage all the filters by `io.vertx.up.annotations.Ordered`, The default
+order value is 0, it means that all the filters will be triggered in sequence by order.
 
 **FirstFilter**
 
@@ -142,10 +144,13 @@ Then you can test this demo:
 
 ### 3. Summary
 
-In this demo we defined 2 filters in sequence to implement the whole [Chain of Responsibility](https://en.wikipedia.org/wiki/Chain-of-responsibility_pattern) pattern. In zero system, please be careful about the whole filter chain:
+In this demo we defined 2 filters in sequence to implement the
+whole [Chain of Responsibility](https://en.wikipedia.org/wiki/Chain-of-responsibility_pattern) pattern. In zero system,
+please be careful about the whole filter chain:
 
 * All the filters could be managed by `io.vertx.up.annotations.Ordered`.
-* The data could be passed by `RoutingContext` instead of other form, you can put the data into `RoutingContext` by `put`.
+* The data could be passed by `RoutingContext` instead of other form, you can put the data into `RoutingContext`
+  by `put`.
 * In Sender, you should extract data by `@ContextParam` or get `RoutingContext` reference to process it by yourself.
 * In Consumer, you can call `Envelop.context` api to get the data from `RoutingContext`.
 

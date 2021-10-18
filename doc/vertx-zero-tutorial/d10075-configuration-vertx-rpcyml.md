@@ -1,6 +1,7 @@
 # D10075 - Configuration, vertx-rpc.yml
 
-In micro service mode, zero system has implemented simple rpc communication between different services, when you want to connect other services, you should set the `rpc` configuration.
+In micro service mode, zero system has implemented simple rpc communication between different services, when you want to
+connect other services, you should set the `rpc` configuration.
 
 > Rpc Client is enabled in micro service mode only.
 
@@ -34,14 +35,17 @@ rpc:
 Please be careful about the attributes`uniform`and`extension`it's the same except following:
 
 * The system will scan all client configuration under extension by name setted first. For example the target name is
-  `up-ceous`, you must set {name} to`up-ceous`, then when current service communicate with **up-ceous** service, the client configuration will use it under **extension **instead of **uniform **.
-* If there is no configuration under extension, the uniform configuration will be used. uniform just like default client configuration.
+  `up-ceous`, you must set {name} to`up-ceous`, then when current service communicate with **up-ceous** service, the
+  client configuration will use it under **extension **instead of **uniform **.
+* If there is no configuration under extension, the uniform configuration will be used. uniform just like default client
+  configuration.
 
 > This configuration up.god.file is only used in **SSL **mode.
 
 ## 2. Full Examples
 
-You can ignore the details of the example, this chapter focus on rpc client only, we'll introduce rpc server configuration in forward.
+You can ignore the details of the example, this chapter focus on rpc client only, we'll introduce rpc server
+configuration in forward.
 
 ```yaml
 ## vertx-server.yml
@@ -93,10 +97,12 @@ rpc:
 
 ## 3. Summary
 
-Rpc client is a critical role in zero system to finish service communicating works, you should know how to configure different roles of rpc.
+Rpc client is a critical role in zero system to finish service communicating works, you should know how to configure
+different roles of rpc.
 
 * Rpc Server
 * Rpc Client
 
-Once you have configured above two parts in different micro services, these services could communicate internally directly in zero system. You can say goodbye to old Http EndPoint communication internally.
+Once you have configured above two parts in different micro services, these services could communicate internally
+directly in zero system. You can say goodbye to old Http EndPoint communication internally.
 

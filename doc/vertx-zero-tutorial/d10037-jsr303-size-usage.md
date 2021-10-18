@@ -8,9 +8,12 @@ Demo projects:
 
 **Rules**:
 
-1. JSR303 is only supported in Agent component in zero system, it means that after you have send the message to event bus, the JSR303 will be effectiveness.
-2. When you write the code with the Interface Style \( Will introduce in forward tutorials \), JSR303 will not support this kind of situation.
-3. For @BodyParam, it also impact Agent component only, but could support Interface Style instead of JSR303 and could provide more useful validations.
+1. JSR303 is only supported in Agent component in zero system, it means that after you have send the message to event
+   bus, the JSR303 will be effectiveness.
+2. When you write the code with the Interface Style \( Will introduce in forward tutorials \), JSR303 will not support
+   this kind of situation.
+3. For @BodyParam, it also impact Agent component only, but could support Interface Style instead of JSR303 and could
+   provide more useful validations.
 
 ## 1. Source Code
 
@@ -41,7 +44,8 @@ public class SizeActor {
 
 ## 2. Testing
 
-**URL** : [http://localhost:6083/api/jsr303/size?size=silentbalanceyh@126.com](http://localhost:6083/api/jsr303/size?size=silentbalanceyh@126.com)
+**
+URL** : [http://localhost:6083/api/jsr303/size?size=silentbalanceyh@126.com](http://localhost:6083/api/jsr303/size?size=silentbalanceyh@126.com)
 
 **Method** :  GET
 
@@ -57,7 +61,8 @@ public class SizeActor {
 
 ## 3. Summary
 
-In this chapter we have seen the usage of `@Size` annotation, then we could move forward for next chapter for other annotations usage.
+In this chapter we have seen the usage of `@Size` annotation, then we could move forward for next chapter for other
+annotations usage.
 
 
 

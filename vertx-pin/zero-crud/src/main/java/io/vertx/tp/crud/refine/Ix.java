@@ -1,126 +1,145 @@
 package io.vertx.tp.crud.refine;
 
 import io.vertx.core.Future;
+import io.vertx.core.http.HttpMethod;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.crud.atom.IxMeta;
-import io.vertx.tp.crud.atom.IxModule;
+import io.vertx.tp.crud.uca.desk.IxMod;
+import io.vertx.tp.ke.atom.specification.KField;
+import io.vertx.tp.ke.atom.specification.KModule;
+import io.vertx.up.atom.Kv;
+import io.vertx.up.commune.element.TypeAtom;
 import io.vertx.up.log.Annal;
+import io.vertx.up.uca.jooq.UxJooq;
 import io.vertx.up.unity.Ux;
-import io.vertx.up.unity.jq.UxJooq;
 
 import java.util.List;
+import java.util.function.BiFunction;
 import java.util.function.Function;
+import java.util.function.Supplier;
 
 public class Ix {
-    // Is --- Checking the result, return boolean
+    // --------------------------------- New Version
     /*
-     * is existing for result
+     * createdBy, createdAt
+     * updatedBy, updatedAt
      */
-    public static boolean isExist(final JsonObject result) {
-        return IxIs.isExist(result);
-    }
-
-    // Business Logical
-    /*
-     * auditor setting
-     */
-    public static void audit(final JsonObject auditor, final JsonObject config, final String userId) {
-        IxFn.audit(auditor, config, userId);
+    public static void onAuditor(final JsonObject auditor, final JsonObject config, final String userId) {
+        IxData.audit(auditor, config, userId);
     }
 
     /*
-     * search operation
+     * Column Parser
+     * 1. metadata format
+     * 2. string format
+     * 3. dataIndex, title format
      */
-    public static Function<UxJooq, Future<JsonObject>> search(final JsonObject filters, final IxModule config) {
-        return IxFn.search(filters, config);
-    }
-
-    public static Function<UxJooq, Future<JsonObject>> query(final JsonObject filters, final IxModule config) {
-        return IxFn.query(filters, config);
-    }
-
-    public static Function<UxJooq, Future<Boolean>> existing(final JsonObject filters, final IxModule config) {
-        return IxFn.existing(filters, config);
-    }
-
-    public static Future<JsonArray> query(final JsonArray data) {
-        return IxFn.queryResult(data);
-    }
-
-    // Atom creation
-    /*
-     * IxIn reference
-     */
-    public static IxMeta create(final Class<?> clazz) {
-        return IxMeta.create(clazz);
-    }
-
-    // Serialization for entity/list
-    /*
-     * analyze unique record
-     */
-    public static Future<JsonObject> unique(final JsonObject result) {
-        return Ux.future(IxSerialize.unique(result));
-    }
-
-    public static Future<JsonArray> list(final JsonObject result) {
-        return Ux.future(IxSerialize.list(result));
+    public static Kv<String, String> onColumn(final Object value) {
+        return IxData.field(value);
     }
 
     /*
-     * Deserialize to T
+     * Impacting the uri when you save view
      */
-    public static <T> Future<T> entityAsync(final JsonObject data, final IxModule config) {
-        final T reference = IxSerialize.entity(data, config);
-        return Ux.future(reference);
+    public static Kv<String, HttpMethod> onImpact(final IxMod in) {
+        return IxData.impact(in);
     }
 
-    public static <T> Future<List<T>> entityAsync(final JsonArray data, final IxModule config) {
-        return Ux.future(IxSerialize.entity(data, config));
+    /*
+     * Get Unique Matrix rules
+     */
+    public static JsonArray onMatrix(final KField field) {
+        return IxData.matrix(field);
     }
 
-    public static Future<JsonArray> zipperAsync(final JsonArray from, final JsonArray to, final IxModule config) {
-        return Ux.future(IxSerialize.zipper(from, to, config));
+    /*
+     * Get initial data
+     */
+    public static JsonObject onParameters(final IxMod in) {
+        return IxData.parameters(in);
+    }
+
+    public static TypeAtom onAtom(final IxMod active, final JsonArray columns) {
+        return IxType.atom(active, columns);
+    }
+
+    // --------------------------------- Function Part
+    public static Function<JsonObject, Future<JsonObject>> searchFn(final IxMod in) {
+        return IxFn.searchFn(in);
+    }
+
+    public static Function<JsonObject, Future<Long>> countFn(final IxMod in) {
+        return IxFn.countFn(in);
+    }
+
+    public static <T> BiFunction<Supplier<T>, BiFunction<UxJooq, JsonObject, Future<T>>, Future<T>> seekFn(final IxMod in, final Object json) {
+        return IxFn.seekFn(in, json);
+    }
+
+    public static Function<JsonObject, Future<JsonArray>> fetchFn(final IxMod in) {
+        return IxFn.fetchFn(in);
     }
 
     // JqTool
-    public static Future<JsonObject> inKeys(final JsonArray array, final IxModule config) {
-        return Ux.future(IxQuery.inKeys(array, config));
+    @SafeVarargs
+    public static <T> Future<T> passion(final T input, final IxMod in, final BiFunction<T, IxMod, Future<T>>... executors) {
+        return IxFn.passion(input, in, executors);
     }
 
-    /*
-     * Log
-     */
-    public static void infoInit(final Annal logger, final String pattern, final Object... args) {
-        IxLog.infoInit(logger, pattern, args);
+    // --------------------------------- Serialization / Deserialization System
+    public static <T> Future<T> deserializeT(final JsonObject data, final KModule config) {
+        final T reference = IxSerialize.deserializeT(data, config);
+        return Ux.future(reference);
     }
 
-    public static void infoRest(final Annal logger, final String pattern, final Object... args) {
-        IxLog.infoRest(logger, pattern, args);
+    public static <T> Future<List<T>> deserializeT(final JsonArray data, final KModule config) {
+        return Ux.future(IxSerialize.deserializeT(data, config));
     }
 
-    public static void debugRest(final Annal logger, final String pattern, final Object... args) {
-        IxLog.debugRest(logger, pattern, args);
+    public static <T> JsonObject serializeJ(final T input, final KModule config) {
+        return IxSerialize.serializeJ(input, config);
     }
 
-    public static void warnRest(final Annal logger, final String pattern, final Object... args) {
-        IxLog.warnRest(logger, pattern, args);
+    public static <T> JsonArray serializeA(final List<T> input, final KModule config) {
+        return IxSerialize.serializeA(input, config);
     }
 
-    public static void infoFilters(final Annal logger, final String pattern, final Object... args) {
-        IxLog.infoFilters(logger, pattern, args);
-    }
+    // --------------------------------- Logger Part
+    public static class Log {
 
-    public static void infoVerify(final Annal logger, final String pattern, final Object... args) {
-        IxLog.infoVerify(logger, pattern, args);
-    }
+        public static void filters(final Class<?> clazz, final String pattern, final Object... args) {
+            final Annal logger = Annal.get(clazz);
+            IxLog.infoFilters(logger, pattern, args);
+        }
 
-    public static void infoDao(final Annal logger, final String pattern, final Object... args) {
-        IxLog.infoDao(logger, pattern, args);
-    }
+        public static void init(final Class<?> clazz, final String pattern, final Object... args) {
+            final Annal logger = Annal.get(clazz);
+            IxLog.infoInit(logger, pattern, args);
+        }
 
-    public static void errorInit(final Annal logger, final String pattern, final Object... args) {
-        IxLog.errorInit(logger, pattern, args);
+        public static void rest(final Class<?> clazz, final String pattern, final Object... args) {
+            final Annal logger = Annal.get(clazz);
+            IxLog.infoRest(logger, pattern, args);
+        }
+
+        public static void web(final Class<?> clazz, final String pattern, final Object... args) {
+            final Annal logger = Annal.get(clazz);
+            IxLog.infoWeb(logger, pattern, args);
+        }
+
+        public static void restW(final Class<?> clazz, final String pattern, final Object... args) {
+            final Annal logger = Annal.get(clazz);
+            IxLog.warnRest(logger, pattern, args);
+        }
+
+        public static void dao(final Class<?> clazz, final String pattern, final Object... args) {
+            final Annal logger = Annal.get(clazz);
+            IxLog.infoDao(logger, pattern, args);
+        }
+
+        public static void verify(final Class<?> clazz, final String pattern, final Object... args) {
+            final Annal logger = Annal.get(clazz);
+            IxLog.infoVerify(logger, pattern, args);
+        }
     }
 }

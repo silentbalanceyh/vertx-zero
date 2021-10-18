@@ -2,8 +2,8 @@ package io.vertx.tp.modular.file.excel;
 
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.ke.cv.KeField;
 import io.vertx.tp.plugin.excel.atom.ExRecord;
+import io.vertx.up.eon.KName;
 
 import java.util.Objects;
 import java.util.Set;
@@ -17,9 +17,9 @@ class ExOut {
                               final Set<ExRecord> joins,
                               final Set<ExRecord> attributes) {
         final JsonObject result = new JsonObject();
-        result.put(KeField.MODEL, record.toJson());
-        result.put(KeField.Modeling.JOINS, toJson(joins));
-        result.put(KeField.Modeling.ATTRIBUTES, toJson(attributes));
+        result.put(KName.MODEL, record.toJson());
+        result.put(KName.Modeling.JOINS, toJson(joins));
+        result.put(KName.Modeling.ATTRIBUTES, toJson(attributes));
         return result;
     }
 
@@ -28,18 +28,18 @@ class ExOut {
                                final Set<ExRecord> keys,
                                final Set<ExRecord> indexes) {
         final JsonObject result = new JsonObject();
-        result.put(KeField.ENTITY, record.toJson());
-        result.put(KeField.Modeling.FIELDS, toJson(fields));
-        result.put(KeField.Modeling.KEYS, toJson(keys));
-        result.put(KeField.Modeling.INDEXES, toJson(indexes));
+        result.put(KName.ENTITY, record.toJson());
+        result.put(KName.Modeling.FIELDS, toJson(fields));
+        result.put(KName.Modeling.KEYS, toJson(keys));
+        result.put(KName.Modeling.INDEXES, toJson(indexes));
         return result;
     }
 
     private static JsonArray toJson(final Set<ExRecord> records) {
         final JsonArray array = new JsonArray();
         records.stream().filter(Objects::nonNull)
-                .map(ExRecord::toJson)
-                .forEach(array::add);
+            .map(ExRecord::toJson)
+            .forEach(array::add);
         return array;
     }
 }

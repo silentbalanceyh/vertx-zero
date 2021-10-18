@@ -5,6 +5,7 @@ import io.vertx.tp.crud.cv.Addr;
 import io.vertx.up.annotations.Address;
 import io.vertx.up.annotations.Adjust;
 import io.vertx.up.annotations.EndPoint;
+import io.vertx.up.eon.KName;
 import io.vertx.up.eon.Orders;
 
 import javax.ws.rs.BodyParam;
@@ -23,7 +24,7 @@ public interface DeleteAgent {
     @Address(Addr.Delete.BY_ID)
     @Adjust(Orders.MODULE)
     Boolean delete(@PathParam("actor") String actor,
-                   @PathParam("key") String key);
+                   @PathParam(KName.KEY) String key);
 
     @DELETE
     @Path("/batch/{actor}/delete")

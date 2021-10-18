@@ -1,12 +1,14 @@
 # D10010 - Zero JSR311, @BodyParam...Parameters
 
-Because body request often used in restful web service application, zero system extend JSR311 and defined new annotations for common usage.
+Because body request often used in restful web service application, zero system extend JSR311 and defined new
+annotations for common usage.
 
 * `javax.ws.rs.BodyParam`
 * `javax.ws.rs.SessionParam`
 * `javax.ws.rs.StreamParam`
 
-Above three annotations are defined by zero system, because it's useful in different requirements, current tutorial will describe the usage of @BodyParam. There are some simple rules for @BodyParam:
+Above three annotations are defined by zero system, because it's useful in different requirements, current tutorial will
+describe the usage of @BodyParam. There are some simple rules for @BodyParam:
 
 * There is no field name for @BodyParam, you must use it directly.
 * The @BodyParam will bind to special java types, not all will be supported.
@@ -131,7 +133,8 @@ Then you should see the logs in console as following:
 
 ## 4. Summary
 
-Above examples showed that how to read request body in zero system, if your request format is invalid, you'll get error from zero system.
+Above examples showed that how to read request body in zero system, if your request format is invalid, you'll get error
+from zero system.
 
 For example you provided following json format:
 
@@ -142,7 +145,8 @@ For example you provided following json format:
 }
 ```
 
-Above json format is invalid and it could not be converted into JsonObject, you'll get following error \( 400 Bad Request \):
+Above json format is invalid and it could not be converted into JsonObject, you'll get following error \( 400 Bad
+Request \):
 
 ```json
 {
@@ -151,5 +155,6 @@ Above json format is invalid and it could not be converted into JsonObject, you'
 }
 ```
 
-Do remember that you should provide correct data format to zero system or zero system will reject your request with above standard errors.
+Do remember that you should provide correct data format to zero system or zero system will reject your request with
+above standard errors.
 

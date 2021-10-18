@@ -10,7 +10,7 @@ interface Storage {
      * Data for each up.god.file
      */
     ConcurrentMap<String, JsonObject> CONFIG
-            = new ConcurrentHashMap<>();
+        = new ConcurrentHashMap<>();
 }
 
 interface Key {

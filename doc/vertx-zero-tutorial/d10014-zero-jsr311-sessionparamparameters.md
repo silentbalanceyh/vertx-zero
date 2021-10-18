@@ -1,6 +1,9 @@
 # D10014 - Zero JSR311, @SessionParam...Parameters
 
-In zero system, the session variables management is different from other variables because this variable is not provided by Http Request directly. Instead the user will send some request and stored the data into session first, and then when they send the request with the same session \( vertx-web.session is the same \), you could use the session variable in your application/code logical.
+In zero system, the session variables management is different from other variables because this variable is not provided
+by Http Request directly. Instead the user will send some request and stored the data into session first, and then when
+they send the request with the same session \( vertx-web.session is the same \), you could use the session variable in
+your application/code logical.
 
 Demo projects:
 
@@ -100,9 +103,12 @@ Repeat the step of 3.1, you'll found different response from zero, it's differen
 
 ## 4. Summary
 
-This tutorial describes the session usage in zero system, with JSR311 zero system defined new annotation to process session variable in zero system. Here are additional annotation such as:
+This tutorial describes the session usage in zero system, with JSR311 zero system defined new annotation to process
+session variable in zero system. Here are additional annotation such as:
 
 * `io.vertx.up.annotations.SessionData`
 
-This annotation provide session key as attribute to store session data, it will capture the method return value and stored into session, then we could use @SessionParam annotation to pick up the value that you stored in previous request.
+This annotation provide session key as attribute to store session data, it will capture the method return value and
+stored into session, then we could use @SessionParam annotation to pick up the value that you stored in previous
+request.
 

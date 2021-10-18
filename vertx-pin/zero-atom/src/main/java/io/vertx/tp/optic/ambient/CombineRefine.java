@@ -6,10 +6,10 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.tp.atom.modeling.Model;
 import io.vertx.tp.atom.modeling.Schema;
 import io.vertx.tp.atom.refine.Ao;
-import io.vertx.tp.ke.cv.KeField;
 import io.vertx.tp.modular.file.AoFile;
 import io.vertx.tp.modular.file.FileReader;
 import io.vertx.tp.modular.phantom.AoPerformer;
+import io.vertx.up.eon.KName;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
@@ -26,16 +26,16 @@ class CombineRefine implements AoRefine {
             /* UCA日志 */
             Ao.infoUca(this.getClass(), "1. AoRefine.combine(): {0}", appJson.encode());
             // 从响应信息中读取应用程序名称
-            final String name = appJson.getString(KeField.NAME);
+            final String name = appJson.getString(KName.NAME);
             final AoPerformer performer = AoPerformer.getInstance(name);
             return performer.fetchModelsAsync().compose(storedSet -> {
                 // 读取文件中的
                 final Set<Model> models = this.marshal.readModels(name);
                 // 两边查找对比，然后更新原始引用
                 models.stream().filter(storedSet::contains)
-                        .forEach(jsonRef -> storedSet
-                                .stream().filter(jsonRef::equals).findFirst()
-                                .ifPresent(stored -> this.updateRelation(stored, jsonRef)));
+                    .forEach(jsonRef -> storedSet
+                        .stream().filter(jsonRef::equals).findFirst()
+                        .ifPresent(stored -> this.updateRelation(stored, jsonRef)));
                 // 返回合并结果
                 return Ux.future(models);
             }).compose(models -> this.onResult(appJson, models));
@@ -46,14 +46,14 @@ class CombineRefine implements AoRefine {
                                         final Set<Model> models) {
         final JsonArray modelArray = new JsonArray();
         models.stream().map(Model::toJson)
-                .map(this::onAttribute)
-                .forEach(modelArray::add);
-        appJson.put(KeField.Modeling.MODELS, modelArray);
+            .map(this::onAttribute)
+            .forEach(modelArray::add);
+        appJson.put(KName.Modeling.MODELS, modelArray);
         return Ux.future(appJson);
     }
 
     private JsonObject onAttribute(final JsonObject model) {
-        model.put(KeField.Modeling.ATTRIBUTES, model.getJsonArray(KeField.Modeling.ATTRIBUTES));
+        model.put(KName.Modeling.ATTRIBUTES, model.getJsonArray(KName.Modeling.ATTRIBUTES));
         return model;
     }
 
@@ -62,21 +62,21 @@ class CombineRefine implements AoRefine {
          * 检查新的MModel的主键是否相同
          * 不相同则表示数据库中的主键需要同步到json中
          */
-        if (!stored.getModel().getKey().equals(json.getModel().getKey())) {
-            json.setRelation(stored.getModel().getKey());
+        if (!stored.dbModel().getKey().equals(json.dbModel().getKey())) {
+            json.relation(stored.dbModel().getKey());
         }
         /*
          * 除了检查MModel以外还要检查 Schema的内容
          */
-        final Set<Schema> storedSchemata = stored.getSchemata();
+        final Set<Schema> storedSchemata = stored.schemata();
         // 两边查找对比
-        final Set<Schema> jsonSchemata = json.getSchemata();
+        final Set<Schema> jsonSchemata = json.schemata();
         jsonSchemata.stream().filter(storedSchemata::contains).forEach(jsonRef -> storedSchemata
-                // 先查找相匹配的Schema
-                .stream().filter(jsonRef::equals).findFirst()
-                // 再过滤发生了主键变化的Schema
-                .filter(storedRef -> !storedRef.getEntity().getKey().equals(jsonRef.getEntity().getKey()))
-                // 如果找到就执行关联关系的重新设置
-                .ifPresent(storedRef -> jsonRef.setRelation(storedRef.getEntity().getKey())));
+            // 先查找相匹配的Schema
+            .stream().filter(jsonRef::equals).findFirst()
+            // 再过滤发生了主键变化的Schema
+            .filter(storedRef -> !storedRef.getEntity().getKey().equals(jsonRef.getEntity().getKey()))
+            // 如果找到就执行关联关系的重新设置
+            .ifPresent(storedRef -> jsonRef.relation(storedRef.getEntity().getKey())));
     }
 }

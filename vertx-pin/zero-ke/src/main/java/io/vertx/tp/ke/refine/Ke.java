@@ -3,14 +3,13 @@ package io.vertx.tp.ke.refine;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.ext.auth.User;
-import io.vertx.ext.web.Session;
-import io.vertx.tp.ke.cv.KeField;
-import io.vertx.up.atom.record.Atomy;
-import io.vertx.up.commune.Envelop;
+import io.vertx.ext.web.RoutingContext;
+import io.vertx.up.atom.record.Apt;
+import io.vertx.up.atom.secure.Vis;
+import io.vertx.up.commune.element.TypeAtom;
+import io.vertx.up.eon.KName;
+import io.vertx.up.eon.Strings;
 import io.vertx.up.log.Annal;
-import io.vertx.up.unity.Ux;
-import io.vertx.up.util.Ut;
 
 import java.util.List;
 import java.util.concurrent.ConcurrentMap;
@@ -29,53 +28,19 @@ public class Ke {
         return KeTool.getCatalog();
     }
 
-    public static boolean isIn(final JsonObject json, final String... fields) {
-        return KeIs.isIn(json, fields);
-    }
-
-    /*
-     * Process image field.
-     */
-    public static Function<JsonObject, Future<JsonObject>> image(final String field) {
-        return KeImage.image(field);
-    }
-
-    public static JsonObject mount(final JsonObject response, final String field) {
-        return KeElement.mount(response, field);
-    }
-
-    public static Function<JsonObject, Future<JsonObject>> mount(final String field) {
-        return KeElement.mount(field);
-    }
-
-    public static Function<JsonObject, Future<JsonObject>> mount(final String... field) {
-        return KeElement.mount(field);
-    }
-
-    public static JsonObject mountArray(final JsonObject response, final String field) {
-        return KeElement.mountArray(response, field);
-    }
-
-    public static JsonObject mountString(final JsonObject response, final String field) {
-        return KeElement.mountString(response, field);
-    }
-
-    public static Function<JsonObject, Future<JsonObject>> mountArray(final String field) {
-        return KeElement.mountArray(field);
-    }
-
-
-    public static <T> Future<T> poolAsync(final String name, final String key, final Supplier<Future<T>> supplier) {
-        return KeTool.poolAsync(name, key, supplier);
-    }
-
     public static Future<JsonArray> combineAsync(final JsonArray data, final ConcurrentMap<String, String> headers) {
-        return KeTool.combineAsync(data, headers);
+        return KeCompare.combineAsync(data, headers);
     }
 
     public static Future<JsonArray> combineAsync(final JsonArray data, final ConcurrentMap<String, String> headers,
                                                  final List<String> columns) {
-        return KeTool.combineAsync(data, headers, columns);
+        return KeCompare.combineAsync(data, headers, columns, null);
+    }
+
+    public static Future<JsonArray> combineAsync(final JsonArray data, final ConcurrentMap<String, String> headers,
+                                                 final List<String> columns,
+                                                 final TypeAtom TypeAtom) {
+        return KeCompare.combineAsync(data, headers, columns, TypeAtom);
     }
 
     public static Function<JsonObject, Future<JsonObject>> fabricAsync(final String field) {
@@ -124,76 +89,68 @@ public class Ke {
     /*
      * Session key generation
      */
-    public static String keySession(final String method, final String uri) {
-        return KeCache.keySession(method, uri);
+    public static String uri(final String uri, final String requestUri) {
+        return KeCache.uri(uri, requestUri);
+    }
+
+    public static String uri(final RoutingContext context) {
+        return KeCache.uri(context);
+    }
+
+    public static String keyView(final String method, final String uri, final Vis view) {
+        return KeCache.keyView(method, uri, view);
+    }
+
+    public static String keyView(final RoutingContext context) {
+        return KeCache.keyView(context);
     }
 
     public static String keyAuthorized(final String method, final String uri) {
         return KeCache.keyAuthorized(method, uri);
     }
 
-    public static String keyHabitus(final Envelop envelop) {
-        return KeCache.keyHabitus(envelop);
+    public static String keyResource(final String method, final String uri) {
+        return KeCache.keyResource(method, uri);
     }
 
-    public static String keyUser(final Envelop envelop) {
-        return KeCache.keyUser(envelop);
+    public static Apt compmared(final Apt apt, final String user) {
+        return KeCompare.compared(apt, KName.CODE, user);
     }
 
-    public static String keyUser(final User user) {
-        return KeCache.keyUser(user);
+    public static Apt compmared(final Apt apt, final String field, final String user) {
+        return KeCompare.compared(apt, field, user);
     }
 
-    /*
-     * Get keySession here for current logged user
-     */
-    public static Future<Session> session(final String id) {
-        return KeCache.session(id);
-    }
-
-    public static <T> Future<T> session(final Session session, final String sessionKey, final String dataKey, final T value) {
-        return KeCache.session(session, sessionKey, dataKey, value);
-    }
-
-    public static Atomy compmared(final Atomy atomy, final String user) {
-        return KeCompare.compared(atomy, KeField.CODE, user);
-    }
-
-    public static Atomy compmared(final Atomy atomy, final String field, final String user) {
-        return KeCompare.compared(atomy, field, user);
-    }
-
-    public static BiFunction<Function<JsonArray, Future<JsonArray>>, Function<JsonArray, Future<JsonArray>>, Future<JsonArray>> atomyFn(final Class<?> clazz, final Atomy compared) {
+    public static BiFunction<Function<JsonArray, Future<JsonArray>>, Function<JsonArray, Future<JsonArray>>, Future<JsonArray>> atomyFn(final Class<?> clazz, final Apt compared) {
         return KeCompare.atomyFn(clazz, compared);
     }
 
     /*
-     * Result for response
+     * Data Audit
+     * - umCreated
+     * - umUpdated
      */
-    public interface Result {
+    public static <T, I> void umCreated(final I output, final T input, final String pojo) {
+        KeUser.audit(output, input, true, pojo);
+    }
 
-        static Future<JsonObject> boolAsync(final boolean checked) {
-            return Ux.future(bool(checked));
-        }
+    public static <T, I> void umCreated(final I output, final T input) {
+        KeUser.audit(output, input, true, Strings.EMPTY);
+    }
 
-        static Future<Boolean> boolAsync(final JsonObject checkedJson) {
-            return Ux.future(KeResult.bool(checkedJson));
-        }
+    public static <I> void umCreated(final I output, final JsonObject serialized) {
+        KeUser.audit(output, serialized, true);
+    }
 
-        static Future<JsonObject> jsonAsync(final JsonObject result) {
-            return Ux.future(Ut.isNil(result) ? new JsonObject() : result);
-        }
+    public static <T, I> void umUpdated(final I output, final T input, final String pojo) {
+        KeUser.audit(output, input, false, pojo);
+    }
 
-        static JsonObject bool(final boolean checked) {
-            return KeResult.bool(KeField.RESULT, checked);
-        }
+    public static <T, I> void umUpdated(final I output, final T input) {
+        KeUser.audit(output, input, false, Strings.EMPTY);
+    }
 
-        static JsonObject bool(final String key, final boolean checked) {
-            return KeResult.bool(key, checked);
-        }
-
-        static JsonObject array(final JsonArray array) {
-            return KeResult.array(array);
-        }
+    public static <I> void umUpdated(final I output, final JsonObject serialized) {
+        KeUser.audit(output, serialized, false);
     }
 }

@@ -28,6 +28,8 @@ public interface Neo4jClient extends TpClient<Neo4jClient> {
     @Fluent
     Neo4jClient connect(String graph);
 
+    boolean connected();
+
     /*
      * Node basic operations
      * {
@@ -61,6 +63,8 @@ public interface Neo4jClient extends TpClient<Neo4jClient> {
     Future<JsonArray> nodeRemove(JsonArray nodes);
 
     Future<JsonObject> nodeFind(String key);
+
+    boolean nodeExisting(String key);
 
     /*
      * Edge basic operations
@@ -103,4 +107,9 @@ public interface Neo4jClient extends TpClient<Neo4jClient> {
     Future<JsonObject> graphicByKey(String key);
 
     Future<JsonObject> graphicByKey(String key, Integer level);
+
+    /*
+     * Clean Graphic
+     */
+    Future<Boolean> graphicReset();
 }

@@ -23,6 +23,7 @@ public interface GroupStub {
     SGroup fetchParent(String groupKey);
 
     List<SGroup> fetchChildren(String groupKey);
+
     /*
      * Get groups by : sigma = {xxx}
      */

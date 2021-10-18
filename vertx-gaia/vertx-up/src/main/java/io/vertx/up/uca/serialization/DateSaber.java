@@ -15,20 +15,20 @@ public class DateSaber extends BaseSaber {
     public Object from(final Class<?> paramType,
                        final String literal) {
         return Fn.getNull(() ->
-                        Fn.getSemi(Date.class == paramType ||
-                                        Calendar.class == paramType, getLogger(),
-                                () -> {
-                                    verifyInput(!Ut.isDate(literal), paramType, literal);
-                                    final Date reference = Ut.parse(literal);
-                                    if (Calendar.class == paramType) {
-                                        // Specific date format
-                                        final Calendar calendar = Calendar.getInstance();
-                                        calendar.setTime(reference);
-                                        return calendar;
-                                    }
-                                    return reference;
-                                }, Date::new),
-                paramType, literal);
+                Fn.getSemi(Date.class == paramType ||
+                        Calendar.class == paramType, getLogger(),
+                    () -> {
+                        verifyInput(!Ut.isDate(literal), paramType, literal);
+                        final Date reference = Ut.parse(literal);
+                        if (Calendar.class == paramType) {
+                            // Specific date format
+                            final Calendar calendar = Calendar.getInstance();
+                            calendar.setTime(reference);
+                            return calendar;
+                        }
+                        return reference;
+                    }, Date::new),
+            paramType, literal);
     }
 
     @Override

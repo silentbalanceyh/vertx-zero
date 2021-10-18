@@ -3,13 +3,14 @@ package io.vertx.tp.plugin.excel.atom;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.error._404ConnectMissingException;
+import io.vertx.up.eon.Strings;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.util.Ut;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
 public class ExTable implements Serializable {
     /* Field */
@@ -18,6 +19,8 @@ public class ExTable implements Serializable {
 
     /* Metadata Row */
     private transient final String sheet;
+    /* Complex Structure */
+    private final transient ConcurrentMap<Integer, String> indexMap = new ConcurrentHashMap<>();
     private transient String name;
     private transient String description;
     private transient ExConnect connect;
@@ -46,16 +49,24 @@ public class ExTable implements Serializable {
      * Dao / Pojo
      */
     @SuppressWarnings("all")
-    public <T> Class<T> getPojo() {
+    public <T> Class<T> classPojo() {
         return (Class<T>) this.getConnect().getPojo();
     }
 
-    public Class<?> getDao() {
+    public Class<?> classDao() {
         return this.getConnect().getDao();
     }
 
-    public String getPojoFile() {
+    public String filePojo() {
         return this.getConnect().getPojoFile();
+    }
+
+    public Set<String> ukIn() {
+        return this.getConnect().ukIn();
+    }
+
+    public String pkIn() {
+        return this.getConnect().pkIn();
     }
 
     /*
@@ -73,11 +84,22 @@ public class ExTable implements Serializable {
         return filters;
     }
 
+    public JsonObject whereUnique(final JsonArray data) {
+        final JsonObject filters = new JsonObject();
+        filters.put(Strings.EMPTY, Boolean.FALSE);
+        Ut.itJArray(data, JsonObject.class, (item, index) -> {
+            final String indexKey = "$" + index;
+            filters.put(indexKey, this.whereUnique(item).put(Strings.EMPTY, Boolean.TRUE));
+        });
+        return filters;
+    }
+
     /*
      * System Unique
      */
+    @SuppressWarnings("unchecked")
     public <ID> ID whereKey(final JsonObject data) {
-        final String keyField = this.getConnect().getKey();
+        final String keyField = this.pkIn();
         if (Objects.nonNull(keyField)) {
             final Object id = data.getValue(keyField);
             return null == id ? null : (ID) id;
@@ -91,7 +113,22 @@ public class ExTable implements Serializable {
      */
     public void add(final String field) {
         if (Ut.notNil(field)) {
+            final int index = this.indexMap.size();
             this.fields.add(field);
+            // index map
+            this.indexMap.put(index, field);
+        }
+    }
+
+    public void add(final String field, final String child) {
+        if (Ut.notNil(field) && Ut.notNil(child)) {
+            final String combine = field + Strings.DOT + child;
+            if (!this.fields.contains(combine)) {
+                this.fields.add(combine);
+            }
+            // index map
+            final int index = this.indexMap.size();
+            this.indexMap.put(index, combine);
         }
     }
 
@@ -99,6 +136,22 @@ public class ExTable implements Serializable {
         if (!record.isEmpty()) {
             this.values.add(record);
         }
+    }
+
+    /*
+     * Spec method to calculate row distinguish
+     */
+    public Set<Integer> indexDiff() {
+        final Set<Integer> excludes = new HashSet<>();
+        this.indexMap.forEach((index, field) -> {
+            /*
+             * Do not contain . means pure fields
+             */
+            if (!field.contains(".")) {
+                excludes.add(index);
+            }
+        });
+        return excludes;
     }
 
     /*
@@ -112,7 +165,7 @@ public class ExTable implements Serializable {
      * Extract field by index
      */
     public String field(final int index) {
-        return this.fields.size() <= index ? null : this.fields.get(index);
+        return this.indexMap.getOrDefault(index, null);
     }
 
     public int size() {
@@ -138,7 +191,7 @@ public class ExTable implements Serializable {
         }
         final ExTable table = (ExTable) o;
         return this.name.equals(table.name) &&
-                this.sheet.equals(table.sheet);
+            this.sheet.equals(table.sheet);
     }
 
     @Override

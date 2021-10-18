@@ -1,6 +1,6 @@
 # @BodyParam
 
-`javax.ws.rs.@BodyParam` does not belong to JSR311 but extend by Zero. 
+`javax.ws.rs.@BodyParam` does not belong to JSR311 but extend by Zero.
 
 ## 1. Source Code
 
@@ -43,13 +43,14 @@ curl -H "Content-Type:application/json" -X POST --data '{"message": "lang Zero"}
 
 ## 4. Hints
 
-* The `@BodyParam` will be serialized with Jackson, but it's extend by zero to support more types such as 
-	* `io.vertx.core.buffer.Buffer`
-	* `io.vertx.core.json.JsonObject`
-	* `io.vertx.core.json.JsonArray`
+* The `@BodyParam` will be serialized with Jackson, but it's extend by zero to support more types such as
+    * `io.vertx.core.buffer.Buffer`
+    * `io.vertx.core.json.JsonObject`
+    * `io.vertx.core.json.JsonArray`
 * For POJO type, it will be also serialized with Jackson
-* Be careful about the method return type, if we changed `JsonObject` to `String` by default configuration, the response will be as following:
+* Be careful about the method return type, if we changed `JsonObject` to `String` by default configuration, the response
+  will be as following:
 
-		```
-		{"brief":"OK","status":200,"data":"{\"message\":\"lang Zero\"}"}
-		```
+  	```
+  	{"brief":"OK","status":200,"data":"{\"message\":\"lang Zero\"}"}
+  	```

@@ -1,10 +1,10 @@
 package io.vertx.up.fn;
 
-import io.vertx.up.exception.WebException;
-import io.vertx.up.log.Annal;
 import io.vertx.up.exception.UpException;
+import io.vertx.up.exception.WebException;
 import io.vertx.up.exception.ZeroException;
 import io.vertx.up.exception.ZeroRunException;
+import io.vertx.up.log.Annal;
 import io.vertx.up.util.Ut;
 
 import java.util.function.Supplier;
@@ -26,12 +26,13 @@ final class Announce {
      * @param logger    Zero Logger
      * @param zeroClass ZeroException class
      * @param args      Arguments of zero
+     *
      * @throws ZeroException Whether throw out exception of zero defined.
      */
     static void outZero(final Annal logger,
                         final Class<? extends ZeroException> zeroClass,
                         final Object... args)
-            throws ZeroException {
+        throws ZeroException {
         final ZeroException error = Ut.instance(zeroClass, args);
         if (null != error) {
             Annal.sure(logger, () -> logger.zero(error));
@@ -140,6 +141,7 @@ final class Announce {
             Annal.sure(logger, () -> logger.vertx(ex));
             throw ex;
         } catch (final Throwable ex) {
+            ex.printStackTrace();
             Annal.sure(logger, () -> logger.jvm(ex));
         }
     }

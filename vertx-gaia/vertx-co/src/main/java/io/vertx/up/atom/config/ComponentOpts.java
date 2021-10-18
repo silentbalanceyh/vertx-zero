@@ -42,8 +42,8 @@ public class ComponentOpts implements Serializable {
     @Override
     public String toString() {
         return "ComponentOpts{" +
-                "component=" + this.component +
-                ", config=" + this.config +
-                '}';
+            "component=" + this.component +
+            ", config=" + this.config +
+            '}';
     }
 }

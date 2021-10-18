@@ -27,8 +27,8 @@ class DirectId extends AbstractId {
         final ConcurrentMap<String, Object> keyMap = Ao.joinKeys(model, record);
         // 读取唯一记录中的值
         return (ID) keyMap.keySet().stream()
-                .map(keyMap::get).findFirst()
-                .orElse(null);
+            .map(keyMap::get).findFirst()
+            .orElse(null);
     }
 
     @Override
@@ -45,12 +45,12 @@ class DirectId extends AbstractId {
     }
 
     private void ensure(final Model model) {
-        final Set<MJoin> joinSet = model.getJoins();
+        final Set<MJoin> joinSet = model.dbJoins();
         /*
          * 一对一的模式，不执行 Join，keyMap的尺寸必须等于 1
          */
         Fn.outWeb(1 != joinSet.size(), _417PrimaryKeyResultException.class, this.getClass(),
-                /* ARG1：出现该异常的目标类名 */ this.getClass().getName(),
-                /* ARG2：当前实体的主键信息 */ AoId.keyInfo(joinSet));
+            /* ARG1：出现该异常的目标类名 */ this.getClass().getName(),
+            /* ARG2：当前实体的主键信息 */ AoId.keyInfo(joinSet));
     }
 }

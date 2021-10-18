@@ -1,9 +1,9 @@
 package io.vertx.up.uca.web.origin;
 
 import io.vertx.up.atom.worker.Receipt;
+import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import io.vertx.up.uca.web.thread.QueueThread;
-import io.vertx.up.fn.Fn;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -24,7 +24,7 @@ public class ReceiptInquirer implements Inquirer<Set<Receipt>> {
         /* 3.1. Build Metadata **/
         for (final Class<?> queue : queues) {
             final QueueThread thread =
-                    new QueueThread(queue);
+                new QueueThread(queue);
             threadReference.add(thread);
             thread.start();
         }
@@ -37,8 +37,8 @@ public class ReceiptInquirer implements Inquirer<Set<Receipt>> {
         /* 3.3. Return **/
         final Set<Receipt> receipts = new HashSet<>();
         Fn.safeJvm(() -> threadReference.stream()
-                .map(QueueThread::getReceipts)
-                .forEach(receipts::addAll), LOGGER);
+            .map(QueueThread::getReceipts)
+            .forEach(receipts::addAll), LOGGER);
         return receipts;
     }
 }

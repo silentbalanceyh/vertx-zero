@@ -20,7 +20,7 @@ public class FutureInvoker extends AbstractInvoker {
                        final Class<?> paramCls) {
         // Verify
         final boolean valid =
-                Future.class.isAssignableFrom(returnType) && paramCls == Envelop.class;
+            Future.class.isAssignableFrom(returnType) && paramCls == Envelop.class;
         InvokerUtil.verify(!valid, returnType, paramCls, this.getClass());
     }
 
@@ -38,10 +38,10 @@ public class FutureInvoker extends AbstractInvoker {
         this.getLogger().info(Info.MSG_FUTURE, this.getClass(), returnType, false);
         if (Envelop.class == tCls) {
             final Future<Envelop> result = Ut.invoke(proxy, method.getName(), envelop);
-            result.setHandler(item -> message.reply(item.result()));
+            result.onComplete(item -> message.reply(item.result()));
         } else {
             final Future tResult = Ut.invoke(proxy, method.getName(), envelop);
-            tResult.setHandler(Ux.handler(message));
+            tResult.onComplete(Ux.handler(message));
         }
     }
 
@@ -60,7 +60,7 @@ public class FutureInvoker extends AbstractInvoker {
         this.getLogger().info(Info.MSG_FUTURE, this.getClass(), returnType, true);
         if (Envelop.class == tCls) {
             // Execute Future<Envelop>
-            final Future<Envelop> future = Ut.invoke(proxy, method.getName(), envelop);
+            final Future<Envelop> future = InvokerUtil.invoke(proxy, method, envelop); // Ut.invoke(proxy, method.getName(), envelop);
             /*
             future.compose(item -> TunnelClient.create(this.getClass())
                     .connect(vertx)
@@ -68,9 +68,9 @@ public class FutureInvoker extends AbstractInvoker {
                     .send(item))
                     .setHandler(Ux.handler(message)); */
             future.compose(this.nextEnvelop(vertx, method))
-                    .setHandler(Ux.handler(message));
+                .onComplete(Ux.handler(message));
         } else {
-            final Future future = Ut.invoke(proxy, method.getName(), envelop);
+            final Future future = InvokerUtil.invoke(proxy, method, envelop); // Ut.invoke(proxy, method.getName(), envelop);
             /*
             future.compose(item -> TunnelClient.create(this.getClass())
                     .connect(vertx)
@@ -79,7 +79,7 @@ public class FutureInvoker extends AbstractInvoker {
                     .compose(item -> Future.succeededFuture(Ux.to(item)))
                     .setHandler(Ux.handler(message)); */
             future.compose(this.nextEnvelop(vertx, method))
-                    .setHandler(Ux.handler(message));
+                .onComplete(Ux.handler(message));
         }
     }
 }

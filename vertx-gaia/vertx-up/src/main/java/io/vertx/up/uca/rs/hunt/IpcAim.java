@@ -33,7 +33,7 @@ public class IpcAim extends BaseAim implements Aim<RoutingContext> {
             /*
              * Set handler to wait for future result instead of other
              */
-            future.setHandler(dataRes -> {
+            future.onComplete(dataRes -> {
                 /*
                  * To avoid null pointer result when the handler triggered result here
                  * SUCCESS
@@ -45,15 +45,15 @@ public class IpcAim extends BaseAim implements Aim<RoutingContext> {
                      */
                     final UddiClient client = Uddi.client(this.getClass());
                     final Future<Envelop> handler = client
-                            .bind(context.vertx()).bind(event.getAction())
-                            .connect(data);
+                        .bind(context.vertx()).bind(event.getAction())
+                        .connect(data);
                     /*
                      * The last method is for
                      * 1) Standard Future workflow -> dataRest
                      * 2) dataRes -> Rpc Handler
                      * 3) Answer reply with Rpc data ( handler result )
                      */
-                    handler.setHandler(res -> {
+                    handler.onComplete(res -> {
                         /*
                          * To avoid null pointer result
                          * SUCCESS

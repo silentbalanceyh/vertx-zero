@@ -19,6 +19,7 @@ final class Deliver {
      * @param supplier T supplier function
      * @param runCls   ZeroRunException definition
      * @param <T>      T type of object
+     *
      * @return Final T or throw our exception
      */
     static <T> T execRun(final Supplier<T> supplier, final Class<? extends ZeroRunException> runCls, final Object... args) {
@@ -43,6 +44,7 @@ final class Deliver {
      * @param poolFn Supplier of value when create new ( If not in cache )
      * @param <K>    key type
      * @param <V>    value type
+     *
      * @return Get or Created V for value
      */
     static <K, V> V exec(final ConcurrentMap<K, V> pool, final K key, final Supplier<V> poolFn) {

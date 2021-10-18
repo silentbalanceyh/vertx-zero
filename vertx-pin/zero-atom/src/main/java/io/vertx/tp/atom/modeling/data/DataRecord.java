@@ -34,10 +34,10 @@ public class DataRecord extends ActiveRecord {
      */
     @Override
     public Set<String> joins() {
-        return this.atom.getModel().getJoins().stream()
-                .map(MJoin::getEntityKey)
-                .filter(Objects::nonNull)
-                .collect(Collectors.toSet());
+        return this.atom.model().dbJoins().stream()
+            .map(MJoin::getEntityKey)
+            .filter(Objects::nonNull)
+            .collect(Collectors.toSet());
     }
 
     /*
@@ -45,18 +45,18 @@ public class DataRecord extends ActiveRecord {
      */
     @Override
     public Set<String> declaredFields() {
-        return this.atom.attributes();
+        return this.atom.attributeNames();
     }
 
     @Override
     public ConcurrentMap<String, Class<?>> types() {
-        return this.atom.types();
+        return this.atom.type();
     }
 
     // ------------- 主键处理 --------------
     @Override
     public <ID> ID key() {
-        return this.id().key(this, this.atom.getModel());
+        return this.id().key(this, this.atom.model());
     }
 
     @Override
@@ -66,12 +66,12 @@ public class DataRecord extends ActiveRecord {
 
     @Override
     public <ID> void key(final ID key) {
-        this.id().key(this, this.atom.getModel(), key);
+        this.id().key(this, this.atom.model(), key);
     }
 
     private AoId id() {
-        final Model model = this.atom.getModel();
-        final DataKey keyRef = model.getKey();
+        final Model model = this.atom.model();
+        final DataKey keyRef = model.key();
         return AoId.get(keyRef.getMode());
     }
 
@@ -86,7 +86,7 @@ public class DataRecord extends ActiveRecord {
         }
         final DataRecord that = (DataRecord) o;
         return this.data().equals(that.data()) &&
-                this.atom.equals(that.atom);
+            this.atom.equals(that.atom);
     }
 
     @Override

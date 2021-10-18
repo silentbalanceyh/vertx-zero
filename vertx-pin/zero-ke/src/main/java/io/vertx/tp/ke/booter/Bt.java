@@ -1,9 +1,12 @@
 package io.vertx.tp.ke.booter;
 
-import io.vertx.core.*;
+import io.vertx.core.AsyncResult;
+import io.vertx.core.Future;
+import io.vertx.core.Handler;
 import io.vertx.tp.plugin.excel.atom.ExTable;
+import io.vertx.up.unity.Ux;
+import io.vertx.up.unity.UxTimer;
 
-import java.util.List;
 import java.util.Set;
 
 /*
@@ -12,20 +15,13 @@ import java.util.Set;
  */
 public class Bt {
 
-    public static WorkerExecutor getWorker(final String name) {
-        return BtHelper.getWorker(name);
-    }
-
-    public static Vertx getVertx() {
-        return BtHelper.getVertx();
-    }
-
     /*
      * doImport
      * doImport: with prefix to do filter
      */
     public static void doImports(final String folder) {
-        BtLoader.doImports(folder);
+        final UxTimer timer = Ux.Timer.on().start(System.currentTimeMillis());
+        BtLoader.impAsync(folder).onComplete(BtLoader.handlerComplete(folder, null, timer));
     }
 
     public static Future<Boolean> impAsync(final String folder) {
@@ -37,11 +33,8 @@ public class Bt {
     }
 
     public static void doImports(final String folder, final String prefix) {
-        BtLoader.doImports(folder, prefix);
-    }
-
-    public static void doImports(final String folder, final Handler<AsyncResult<List<String>>> callback) {
-        BtLoader.doImports(folder, callback);
+        final UxTimer timer = Ux.Timer.on().start(System.currentTimeMillis());
+        BtLoader.impAsync(folder, prefix).onComplete(BtLoader.handlerComplete(folder, prefix, timer));
     }
 
     public static void ingestExcels(final String folder, final Handler<AsyncResult<Set<ExTable>>> callback) {

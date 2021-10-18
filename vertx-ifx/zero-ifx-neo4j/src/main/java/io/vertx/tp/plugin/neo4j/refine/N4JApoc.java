@@ -15,4 +15,14 @@ class N4JApoc {
         cql.append("RETURN startNode(edge) as from, edge, endNode(edge) as to");
         return cql.toString();
     }
+
+    /*
+     * Graphic Remove
+     */
+    static String graphicReset(final String graph) {
+        final StringBuffer cql = new StringBuffer();
+        cql.append("MATCH (n:").append(graph).append(") ");
+        cql.append("OPTIONAL MATCH (n)-[r]-() DELETE n,r");
+        return cql.toString();
+    }
 }

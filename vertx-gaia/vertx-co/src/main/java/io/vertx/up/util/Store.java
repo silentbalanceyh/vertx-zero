@@ -21,17 +21,18 @@ final class Store {
      * Return json
      *
      * @param filename input filename
+     *
      * @return Stored
      */
     static ConfigStoreOptions getJson(final String filename) {
         return Fn.getJvm(() -> {
             final JsonObject data = IO.getJObject(filename);
             return Fn.getJvm(() ->
-                            Fn.pool(Storage.STORE, filename,
-                                    () -> new ConfigStoreOptions()
-                                            .setType(StoreType.JSON.key())
-                                            .setConfig(data))
-                    , data);
+                    Fn.pool(Storage.STORE, filename,
+                        () -> new ConfigStoreOptions()
+                            .setType(StoreType.JSON.key())
+                            .setConfig(data))
+                , data);
         }, filename);
     }
 
@@ -39,6 +40,7 @@ final class Store {
      * Return yaml
      *
      * @param filename input filename
+     *
      * @return Stored
      */
     static ConfigStoreOptions getYaml(final String filename) {
@@ -49,6 +51,7 @@ final class Store {
      * Return properties
      *
      * @param filename input filename
+     *
      * @return Stored
      */
     static ConfigStoreOptions getProp(final String filename) {
@@ -59,12 +62,12 @@ final class Store {
                                               final StoreFormat format) {
         return Fn.getJvm(() -> {
             final JsonObject config = new JsonObject()
-                    .put(StoreConfig.PATH.key(), IO.getPath(filename));
+                .put(StoreConfig.PATH.key(), IO.getPath(filename));
             return Fn.pool(Storage.STORE, filename,
-                    () -> new ConfigStoreOptions()
-                            .setType(StoreType.FILE.key())
-                            .setFormat(format.key())
-                            .setConfig(config));
+                () -> new ConfigStoreOptions()
+                    .setType(StoreType.FILE.key())
+                    .setFormat(format.key())
+                    .setConfig(config));
         }, filename, format);
     }
 }

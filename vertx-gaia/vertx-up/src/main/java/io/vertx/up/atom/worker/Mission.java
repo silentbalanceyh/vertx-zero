@@ -17,6 +17,7 @@ import io.vertx.up.eon.em.JobType;
 import io.vertx.up.exception.web._501JobOnMissingException;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
+import io.vertx.up.log.Debugger;
 import io.vertx.up.util.Ut;
 
 import java.io.Serializable;
@@ -251,10 +252,10 @@ public class Mission implements Serializable {
              *  It's required in clazz definition or here should throw exception or errors
              */
             this.on = Arrays.stream(clazz.getDeclaredMethods())
-                    .filter(method -> method.isAnnotationPresent(On.class))
-                    .findFirst().orElse(null);
+                .filter(method -> method.isAnnotationPresent(On.class))
+                .findFirst().orElse(null);
             Fn.out(null == this.on, _501JobOnMissingException.class,
-                    this.getClass(), clazz.getName());
+                this.getClass(), clazz.getName());
             /*
              * Income / IncomeAddress
              */
@@ -270,8 +271,8 @@ public class Mission implements Serializable {
              * It's optional in clazz definition
              */
             this.off = Arrays.stream(clazz.getDeclaredMethods())
-                    .filter(method -> method.isAnnotationPresent(Off.class))
-                    .findFirst().orElse(null);
+                .filter(method -> method.isAnnotationPresent(Off.class))
+                .findFirst().orElse(null);
             if (Objects.nonNull(this.off)) {
                 /*
                  * Outcome / OutcomeAddress
@@ -282,8 +283,9 @@ public class Mission implements Serializable {
                 if (Ut.isNil(this.outcomeAddress)) {
                     this.outcomeAddress = null;
                 }
-            } else {
-                LOGGER.info(Info.JOB_NO_OFF, this.getCode());
+            }
+            if (Debugger.onJobBooting()) {
+                LOGGER.info(Info.JOB_OFF, this.getCode());
             }
         }
         return this;
@@ -307,24 +309,24 @@ public class Mission implements Serializable {
     @Override
     public String toString() {
         return "Mission{" +
-                "status=" + this.status +
-                ", name='" + this.name + '\'' +
-                ", readOnly='" + this.readOnly + '\'' +
-                ", type=" + this.type +
-                ", code='" + this.code + '\'' +
-                ", comment='" + this.comment + '\'' +
-                ", metadata=" + this.metadata +
-                ", additional=" + this.additional +
-                ", instant=" + this.instant +
-                ", duration=" + this.duration +
-                ", threshold=" + this.threshold +
-                ", income=" + this.income +
-                ", incomeAddress='" + this.incomeAddress + '\'' +
-                ", outcome=" + this.outcome +
-                ", outcomeAddress='" + this.outcomeAddress + '\'' +
-                ", proxy=" + this.proxy +
-                ", on=" + this.on +
-                ", off=" + this.off +
-                '}';
+            "status=" + this.status +
+            ", name='" + this.name + '\'' +
+            ", readOnly='" + this.readOnly + '\'' +
+            ", type=" + this.type +
+            ", code='" + this.code + '\'' +
+            ", comment='" + this.comment + '\'' +
+            ", metadata=" + this.metadata +
+            ", additional=" + this.additional +
+            ", instant=" + this.instant +
+            ", duration=" + this.duration +
+            ", threshold=" + this.threshold +
+            ", income=" + this.income +
+            ", incomeAddress='" + this.incomeAddress + '\'' +
+            ", outcome=" + this.outcome +
+            ", outcomeAddress='" + this.outcomeAddress + '\'' +
+            ", proxy=" + this.proxy +
+            ", on=" + this.on +
+            ", off=" + this.off +
+            '}';
     }
 }

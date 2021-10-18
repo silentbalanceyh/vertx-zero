@@ -119,8 +119,8 @@ public class Event implements Serializable {
         }
         final Event event = (Event) o;
         return this.order == event.order &&
-                Objects.equals(this.path, event.path) &&
-                this.method == event.method;
+            Objects.equals(this.path, event.path) &&
+            this.method == event.method;
     }
 
     @Override
@@ -131,13 +131,13 @@ public class Event implements Serializable {
     @Override
     public String toString() {
         return "Event{" +
-                "path='" + this.path + '\'' +
-                ", order=" + this.order +
-                ", consumes=" + this.consumes +
-                ", produces=" + this.produces +
-                ", method=" + this.method +
-                ", action=" + this.action +
-                ", proxy=" + this.proxy +
-                '}';
+            "path='" + this.path + '\'' +
+            ", order=" + this.order +
+            ", consumes=" + this.consumes +
+            ", produces=" + this.produces +
+            ", method=" + this.method +
+            ", action=" + this.action +
+            ", proxy=" + this.proxy +
+            '}';
     }
 }

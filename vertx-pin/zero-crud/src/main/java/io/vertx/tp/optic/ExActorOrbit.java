@@ -29,9 +29,9 @@ public class ExActorOrbit implements Orbit {
             final StringBuilder builder = new StringBuilder();
             for (int idx = 0; idx < source.length; idx++) {
                 if (":actor".equals(source[idx])) {
-                    builder.append(request[idx]).append('/');
+                    builder.append(request[idx]).append('/' );
                 } else {
-                    builder.append(source[idx]).append('/');
+                    builder.append(source[idx]).append('/' );
                 }
             }
             return builder.delete(builder.length() - 1, builder.length()).toString();

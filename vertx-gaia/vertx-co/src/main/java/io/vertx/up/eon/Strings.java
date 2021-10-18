@@ -17,11 +17,19 @@ public interface Strings {
 
     String EMPTY = "";
 
-    String LEFT_BRACES = "{";
+    String LEFT_BRACE = "{";
 
-    String RIGHT_BRACES = "}";
+    String RIGHT_BRACE = "}";
 
-    String DOLLER = "$";
+    String LEFT_BRACKET = "(";
+
+    String RIGHT_BRACKET = ")";
+
+    String LEFT_SQUARE = "[";
+
+    String RIGHT_SQUARE = "]";
+
+    String DOLLAR = "$";
 
     String COLON = ":";
 
@@ -29,7 +37,7 @@ public interface Strings {
 
     String EQUAL = "=";
 
-    String T_CHAR = "T";
+    String QUOTE_DOUBLE = "\"";
 
-    String J_RESULT = "RESULT";
+    String QUOTE = "'";
 }

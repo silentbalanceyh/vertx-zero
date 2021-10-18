@@ -5,12 +5,12 @@
     <parent>
         <artifactId>vertx-pin</artifactId>
         <groupId>cn.vertxup</groupId>
-        <version>0.5.3-SNAPSHOT</version>
+        <version>0.8.0-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>zero-lbs</artifactId>
-    <name>( Extension ) - Lb: Fabric Location Base</name>
+    <name>Extension:「zero-lbs」Lb - Location Base</name>
     <dependencies>
         <!-- Kern -->
         <dependency>

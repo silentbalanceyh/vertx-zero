@@ -1,6 +1,7 @@
 # D10060 - Utility X, thenError
 
-Zero system provide normalized way to build `WebException` Future, you can use the apis in current tutorial to process the response. The apis definition should be as following:
+Zero system provide normalized way to build `WebException` Future, you can use the apis in current tutorial to process
+the response. The apis definition should be as following:
 
 ```java
 static <T, R> Future<R> thenError(
@@ -53,7 +54,8 @@ Above function finished the task as:
 
 ## 2. Summary
 
-Except direct to build standard `WebException` Future as example showed, there left two other apis to build conditional error Future, based on the arguments, you should know following workflow:
+Except direct to build standard `WebException` Future as example showed, there left two other apis to build conditional
+error Future, based on the arguments, you should know following workflow:
 
 ![](/doc/image/D10060.png)
 

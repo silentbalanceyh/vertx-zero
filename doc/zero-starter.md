@@ -1,6 +1,6 @@
 # Getting Start
 
-This article is a sample demo to describe how to use vert.x zero in your project. 
+This article is a sample demo to describe how to use vert.x zero in your project.
 
 ## 1. Source Code
 
@@ -28,7 +28,8 @@ public class ZeroExpApi {
 
 ## 2. Console
 
-Then you can run your api with the booter, for booter detail please refer to the home page of this project. You should see following logs in your console
+Then you can run your api with the booter, for booter detail please refer to the home page of this project. You should
+see following logs in your console
 
 ```
 ...
@@ -50,7 +51,9 @@ curl http://localhost:6083/up/example/first/zero
 This is very simple demo endpoint api. Here are two comments for this example:
 
 * All api class must be marked with `io.vertx.up.annotation.@EndPoint`, this kind of class could be scanned by Zero.
-* Zero has implemented some part of JSR311, you can use some annotations that JSR311 provided such as: `javax.ws.rs.@GET`, `java.ws.rs.@Path` etc.
-* Your method must be marked with one of the method annotation: as `javax.ws.rs.@GET` above, Zero will ignore the method that was not marked with http method annotation.
+* Zero has implemented some part of JSR311, you can use some annotations that JSR311 provided such
+  as: `javax.ws.rs.@GET`, `java.ws.rs.@Path` etc.
+* Your method must be marked with one of the method annotation: as `javax.ws.rs.@GET` above, Zero will ignore the method
+  that was not marked with http method annotation.
 
 

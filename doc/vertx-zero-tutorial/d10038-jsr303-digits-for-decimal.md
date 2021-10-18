@@ -1,10 +1,11 @@
 # D10038 - JSR303, @Digits for decimal
 
-This chapter focus on decimal again, except `@DecimalMin` and `@DecimalMax`, we also provide another validation for decimal details.
+This chapter focus on decimal again, except `@DecimalMin` and `@DecimalMax`, we also provide another validation for
+decimal details.
 
 * `@Digits`: this annotation contains two parts:
-  * integer: it limit the integer part length;
-  * fraction: it limit the decimal part length after dot;
+    * integer: it limit the integer part length;
+    * fraction: it limit the decimal part length after dot;
 
 Demo projects:
 
@@ -12,9 +13,12 @@ Demo projects:
 
 **Rules**:
 
-1. JSR303 is only supported in Agent component in zero system, it means that after you have send the message to event bus, the JSR303 will be effectiveness.
-2. When you write the code with the Interface Style \( Will introduce in forward tutorials \), JSR303 will not support this kind of situation.
-3. For @BodyParam, it also impact Agent component only, but could support Interface Style instead of JSR303 and could provide more useful validations.
+1. JSR303 is only supported in Agent component in zero system, it means that after you have send the message to event
+   bus, the JSR303 will be effectiveness.
+2. When you write the code with the Interface Style \( Will introduce in forward tutorials \), JSR303 will not support
+   this kind of situation.
+3. For @BodyParam, it also impact Agent component only, but could support Interface Style instead of JSR303 and could
+   provide more useful validations.
 
 ## 1. Source Code
 
@@ -71,7 +75,8 @@ If you provide correct parameter you should get following correct response:
 
 ## 3. Summary
 
-This annotation is more correct to limit the decimal format include integer parts and decimal parts, then you could use this annotation to do some validation in your code.
+This annotation is more correct to limit the decimal format include integer parts and decimal parts, then you could use
+this annotation to do some validation in your code.
 
 
 

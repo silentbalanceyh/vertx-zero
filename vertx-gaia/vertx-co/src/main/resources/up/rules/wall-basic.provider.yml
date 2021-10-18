@@ -1,0 +1,3 @@
+typed:
+  authenticate: STRING
+  authorization: STRING

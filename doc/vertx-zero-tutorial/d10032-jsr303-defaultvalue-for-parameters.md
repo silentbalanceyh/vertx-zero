@@ -1,11 +1,14 @@
 # D10032 - JSR303, @DefaultValue for parameters
 
-There is another annotation that will be useful to be sure the default value for parameters. For example, you have defined a interface to get two parameters:
+There is another annotation that will be useful to be sure the default value for parameters. For example, you have
+defined a interface to get two parameters:
 
 * **page**: The page index that you want to use in pagination
 * **size**: The size of each page list.
 
-Sometimes, we must be sure these parameters have values to prevent broking the lower service code logical, in this kind of situation, if you haven't provide the values for both parameters, you can set the default values for these two parameters instead. This chapter will describe how to use default value for your application in zero system.
+Sometimes, we must be sure these parameters have values to prevent broking the lower service code logical, in this kind
+of situation, if you haven't provide the values for both parameters, you can set the default values for these two
+parameters instead. This chapter will describe how to use default value for your application in zero system.
 
 Demo projects:
 
@@ -13,9 +16,12 @@ Demo projects:
 
 **Rules**:
 
-1. JSR303 is only supported in Agent component in zero system, it means that after you have send the message to event bus, the JSR303 will be effectiveness.
-2. When you write the code with the Interface Style \( Will introduce in forward tutorials \), JSR303 will not support this kind of situation.
-3. For @BodyParam, it also impact Agent component only, but could support Interface Style instead of JSR303 and could provide more useful validations.
+1. JSR303 is only supported in Agent component in zero system, it means that after you have send the message to event
+   bus, the JSR303 will be effectiveness.
+2. When you write the code with the Interface Style \( Will introduce in forward tutorials \), JSR303 will not support
+   this kind of situation.
+3. For @BodyParam, it also impact Agent component only, but could support Interface Style instead of JSR303 and could
+   provide more useful validations.
 
 ## 1. Source Code
 
@@ -52,7 +58,7 @@ public class DefaultValueActor {
 
 **Method** : GET
 
-**Response** : 
+**Response** :
 
 ```json
 {
@@ -64,7 +70,7 @@ public class DefaultValueActor {
 
 **Method** : GET
 
-**Response** : 
+**Response** :
 
 ```json
 {
@@ -76,7 +82,7 @@ public class DefaultValueActor {
 
 **Method** : GET
 
-**Response** : 
+**Response** :
 
 ```json
 {
@@ -86,7 +92,8 @@ public class DefaultValueActor {
 
 ## 3. Summary
 
-From above examples, you can set default value for different parameters, this default values will be used when the parameters are not provided by client request.
+From above examples, you can set default value for different parameters, this default values will be used when the
+parameters are not provided by client request.
 
 
 

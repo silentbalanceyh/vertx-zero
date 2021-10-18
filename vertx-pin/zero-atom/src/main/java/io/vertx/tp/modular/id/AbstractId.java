@@ -18,6 +18,6 @@ abstract class AbstractId implements AoId {
                         final Set<MJoin> joins) {
         /* 设置主键 */
         Ao.connect(record, keys, matrix, joins.stream()
-                .map(MJoin::getEntityKey).collect(Collectors.toSet()));
+            .map(MJoin::getEntityKey).collect(Collectors.toSet()));
     }
 }

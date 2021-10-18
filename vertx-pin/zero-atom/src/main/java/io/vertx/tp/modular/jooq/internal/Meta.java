@@ -1,11 +1,14 @@
 package io.vertx.tp.modular.jooq.internal;
 
+import io.vertx.core.json.JsonArray;
+import io.vertx.core.json.JsonObject;
 import io.vertx.tp.atom.modeling.element.DataMatrix;
 import io.vertx.tp.atom.refine.Ao;
 import io.vertx.tp.error._417TableCounterException;
 import io.vertx.up.eon.Strings;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
+import org.jooq.Record;
 import org.jooq.*;
 import org.jooq.impl.DSL;
 
@@ -38,7 +41,7 @@ class Meta {
     static Table<Record> natureJoin(final ConcurrentMap<String, String> tableMap) {
         final Iterator<String> it = tableMap.keySet().iterator();
         Fn.outWeb(1 < tableMap.size() && !it.hasNext(),
-                _417TableCounterException.class, Meta.class, "> 1");
+            _417TableCounterException.class, Meta.class, "> 1");
         String table = it.next();
         Table<Record> result = table(table, tableMap.get(table));
         while (it.hasNext()) {
@@ -59,7 +62,7 @@ class Meta {
                                   final ConcurrentMap<String, String> aliasMap) {
         final Table<Record> first = table(leader, aliasMap.get(leader));
         Fn.outWeb(1 == aliasMap.size() && Objects.isNull(first),
-                _417TableCounterException.class, Meta.class, "> 1");
+            _417TableCounterException.class, Meta.class, "> 1");
         /*
          * 读取被 join 的第一张表
          */
@@ -71,8 +74,8 @@ class Meta {
              */
             TableOnConditionStep<Record> conditionStep;
             final Iterator<String> itJoin = joined.keySet()
-                    .stream().filter(table -> !leader.equals(table))
-                    .iterator();
+                .stream().filter(table -> !leader.equals(table))
+                .iterator();
             /*
              * 计算条件专用
              */
@@ -101,13 +104,13 @@ class Meta {
     }
 
     private static TableOnConditionStep<Record> joinCondition(
-            final Table<Record> from, final Table<Record> to,
-            final ConcurrentMap<String, String> joined) {
+        final Table<Record> from, final Table<Record> to,
+        final ConcurrentMap<String, String> joined) {
         final String fromTable = from.getName();
         final String toTable = to.getName();
         return from.leftJoin(to).on(joinCondition(
-                fromTable, joined.get(fromTable),
-                toTable, joined.get(toTable)));
+            fromTable, joined.get(fromTable),
+            toTable, joined.get(toTable)));
     }
 
     @SuppressWarnings("unchecked")
@@ -127,7 +130,16 @@ class Meta {
 
     static Field field(final String field, final DataMatrix matrix) {
         final String column = matrix.getColumn(field);
-        final Class<?> type = matrix.getType(field);
+        Class<?> type = matrix.getType(field);
+        /*
+         * JsonArray / JsonObject 执行转换，转成 String 类型，兼容性处理
+         */
+        if (JsonArray.class == type || JsonObject.class == type) {
+            /*
+             * Bug: org.jooq.exception.SQLDialectNotSupportedException: Type class io.vertx.core.json.JsonArray is not supported in dialect DEFAULT
+             */
+            type = String.class;
+        }
         return DSL.field(column, type);
     }
 
@@ -137,15 +149,15 @@ class Meta {
     static Field field(final String field, final Set<DataMatrix> matrixSet,
                        final ConcurrentMap<String, String> fieldMap) {
         final DataMatrix matrix = matrixSet.stream()
-                .filter(item -> item.getAttributes().contains(field))
-                .findFirst().orElse(null);
+            .filter(item -> item.getAttributes().contains(field))
+            .findFirst().orElse(null);
         /*
          * 如果不包含字段则不抛异常，仅返回 null
          * Old
          * Fn.outWeb(null == matrix, _500ConditionFieldException.class, Meta.class, field);
          */
         if (null == matrix) {
-            Ao.infoSQL(LOGGER, "模型中无法找到条件字段：`{0}`，省略……", field);
+            Ao.infoSQL(LOGGER, "模型中无法找到条件字段（INTERNAL）：`{0}`，省略……", field);
             return null;
         } else {
             final String column = matrix.getColumn(field);

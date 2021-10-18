@@ -11,5 +11,5 @@ interface Info {
 interface Pool {
 
     ConcurrentMap<String, Mojo> MOJOS =
-            new ConcurrentHashMap<>();
+        new ConcurrentHashMap<>();
 }

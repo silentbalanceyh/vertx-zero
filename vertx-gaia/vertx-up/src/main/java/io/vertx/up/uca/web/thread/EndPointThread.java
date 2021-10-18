@@ -16,7 +16,7 @@ public class EndPointThread extends Thread {
     private final Set<Event> events = new HashSet<>();
 
     private final transient Extractor<Set<Event>> extractor =
-            Ut.instance(EventExtractor.class);
+        Ut.instance(EventExtractor.class);
 
     private final transient Class<?> reference;
 
@@ -30,7 +30,7 @@ public class EndPointThread extends Thread {
         if (null != this.reference) {
             this.events.addAll(this.extractor.extract(this.reference));
             LOGGER.info(Info.SCANNED_EVENTS, this.reference.getName(),
-                    this.events.size());
+                this.events.size());
         }
     }
 

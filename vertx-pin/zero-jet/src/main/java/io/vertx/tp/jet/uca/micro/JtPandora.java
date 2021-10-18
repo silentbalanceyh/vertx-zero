@@ -30,14 +30,14 @@ import java.util.stream.Collectors;
 class JtPandora {
 
     private static final ConcurrentMap<ChannelType, Class<?>> EXPECTED_MAP =
-            new ConcurrentHashMap<ChannelType, Class<?>>() {
-                {
-                    this.put(ChannelType.ADAPTOR, AdaptorChannel.class);
-                    this.put(ChannelType.CONNECTOR, ConnectorChannel.class);
-                    this.put(ChannelType.DIRECTOR, DirectorChannel.class);
-                    this.put(ChannelType.ACTOR, ActorChannel.class);
-                }
-            };
+        new ConcurrentHashMap<ChannelType, Class<?>>() {
+            {
+                this.put(ChannelType.ADAPTOR, AdaptorChannel.class);
+                this.put(ChannelType.CONNECTOR, ConnectorChannel.class);
+                this.put(ChannelType.DIRECTOR, DirectorChannel.class);
+                this.put(ChannelType.ACTOR, ActorChannel.class);
+            }
+        };
 
     static Future<Envelop> async(final Envelop envelop,
                                  final Commercial commercial,
@@ -93,23 +93,23 @@ class JtPandora {
          */
         if (ChannelType.DEFINE == channelType) {
             Fn.out(!Ut.isImplement(channelClass, JtChannel.class),
-                    _424ChannelDefineException.class, JtPandora.class,
-                    channelClass.getName());
+                _424ChannelDefineException.class, JtPandora.class,
+                channelClass.getName());
         } else {
             /*
              * The channelClass must be in EXPECTED_MAP
              */
             Fn.out(!EXPECTED_MAP.containsValue(channelClass),
-                    _424ChannelDefinitionException.class, JtPandora.class,
-                    Ut.fromJoin(EXPECTED_MAP.values().stream().map(Class::getSimpleName).collect(Collectors.toSet())),
-                    channelClass);
+                _424ChannelDefinitionException.class, JtPandora.class,
+                Ut.fromJoin(EXPECTED_MAP.values().stream().map(Class::getSimpleName).collect(Collectors.toSet())),
+                channelClass);
             /*
              * The channel type must match the target class specification.
              */
             final Class<?> expectedClass = EXPECTED_MAP.get(channelType);
             Fn.out(expectedClass != channelClass,
-                    _424ChannelConflictException.class, JtPandora.class,
-                    channelClass.getName(), channelType);
+                _424ChannelConflictException.class, JtPandora.class,
+                channelClass.getName(), channelType);
         }
         /*
          * Channel class extract here.

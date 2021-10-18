@@ -126,7 +126,8 @@ public class JtUri extends JtCommercial implements Api {
 
     @Override
     public HttpMethod method() {
-        return Ut.toEnum(this.api::getMethod, HttpMethod.class, HttpMethod.GET);
+        // return Ut.toEnum(this.api::getMethod, HttpMethod.class, HttpMethod.GET);
+        return Ut.toMethod(this.api::getMethod);
     }
 
     @Override

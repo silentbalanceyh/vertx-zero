@@ -2,8 +2,9 @@ package io.vertx.tp.plugin.qiy;
 
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.plugin.feign.FeignDepot;
-import io.vertx.up.log.Annal;
+import io.vertx.up.eon.KName;
 import io.vertx.up.fn.Fn;
+import io.vertx.up.log.Annal;
 
 import java.io.Serializable;
 import java.util.Objects;
@@ -53,12 +54,12 @@ public class QiyConfig implements Serializable {
 
     public <T> T getUpApi(final Class<T> clazz) {
         return Fn.getSemi(!DEPOT.getConfig().containsKey(URL_UPLOAD), LOGGER,
-                () -> DEPOT.build(clazz, DFT_UPLOAD));
+            () -> DEPOT.build(clazz, DFT_UPLOAD));
     }
 
     public <T> T getHugeUpApi(final Class<T> clazz) {
         return Fn.getSemi(!DEPOT.getConfig().containsKey(URL_QI_CHUAN), LOGGER,
-                () -> DEPOT.build(clazz, DFT_QI_CHUAN));
+            () -> DEPOT.build(clazz, DFT_QI_CHUAN));
     }
 
     public <T> T getInitApi(final Class<T> clazz) {
@@ -76,7 +77,7 @@ public class QiyConfig implements Serializable {
 
     public void setToken(final JsonObject response) {
         Fn.safeNull(() -> {
-            this.accessToken = response.getString("access_token");
+            this.accessToken = response.getString(KName.ACCESS_TOKEN);
             this.refreshToken = response.getString("refresh_token");
             // Fix Expire Field issue.
             this.expires_in = response.getLong("expires_in");
@@ -132,7 +133,7 @@ public class QiyConfig implements Serializable {
         }
         final QiyConfig qiyRecord = (QiyConfig) o;
         return Objects.equals(this.getClientId(), qiyRecord.getClientId()) &&
-                Objects.equals(this.getClientSecret(), qiyRecord.getClientSecret());
+            Objects.equals(this.getClientSecret(), qiyRecord.getClientSecret());
     }
 
     @Override

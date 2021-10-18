@@ -1,143 +1,173 @@
 package io.vertx.up.uca.web.origin;
 
-import io.reactivex.Observable;
-import io.vertx.core.json.JsonObject;
+import io.vertx.ext.web.handler.AuthorizationHandler;
 import io.vertx.tp.error.WallDuplicatedException;
 import io.vertx.tp.error.WallKeyMissingException;
+import io.vertx.tp.error.WallMethodMultiException;
+import io.vertx.tp.error.WallTypeWrongException;
+import io.vertx.up.annotations.Authenticate;
+import io.vertx.up.annotations.Authorized;
+import io.vertx.up.annotations.AuthorizedResource;
 import io.vertx.up.annotations.Wall;
-import io.vertx.up.atom.secure.Cliff;
-import io.vertx.up.exception.zero.DynamicKeyMissingException;
+import io.vertx.up.atom.secure.Aegis;
+import io.vertx.up.atom.secure.AegisItem;
+import io.vertx.up.eon.em.AuthWall;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
-import io.vertx.up.secure.Rampart;
-import io.vertx.up.secure.inquire.OstiumAuth;
-import io.vertx.up.secure.inquire.PhylumAuth;
-import io.vertx.up.uca.marshal.Transformer;
-import io.vertx.up.uca.yaml.Node;
-import io.vertx.up.uca.yaml.ZeroUniform;
+import io.vertx.up.uca.di.DiPlugin;
+import io.vertx.up.uca.rs.config.EventExtractor;
 import io.vertx.up.util.Ut;
 
 import java.lang.annotation.Annotation;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
-import java.util.TreeSet;
-import java.util.concurrent.ConcurrentHashMap;
+import java.lang.reflect.Method;
+import java.util.*;
 import java.util.concurrent.ConcurrentMap;
 import java.util.stream.Collectors;
 
 /**
  * This class is for @Wall of security here.
  */
-public class WallInquirer implements Inquirer<Set<Cliff>> {
+public class WallInquirer implements Inquirer<Set<Aegis>> {
 
-    private static final Annal LOGGER = Annal.get(WallInquirer.class);
-
-    private static final Node<JsonObject> NODE =
-            Ut.singleton(ZeroUniform.class);
-
-    private static final String KEY = "secure";
-
-    private transient final Transformer<Cliff> transformer =
-            Ut.singleton(Rampart.class);
+    private final static Annal LOGGER = Annal.get(WallInquirer.class);
+    private static final DiPlugin PLUGIN = DiPlugin.create(EventExtractor.class);
 
     @Override
-    public Set<Cliff> scan(final Set<Class<?>> walls) {
+    public Set<Aegis> scan(final Set<Class<?>> walls) {
         /* 1. Build result **/
-        final Set<Cliff> wallSet = new TreeSet<>();
-        final Set<Class<?>> wallClses = walls.stream()
-                .filter((item) -> item.isAnnotationPresent(Wall.class))
-                .collect(Collectors.toSet());
-        if (!wallClses.isEmpty()) {
+        final Set<Aegis> wallSet = new TreeSet<>();
+        final Set<Class<?>> wallClass = walls.stream()
+            .filter((item) -> item.isAnnotationPresent(Wall.class))
+            .collect(Collectors.toSet());
+        if (!wallClass.isEmpty()) {
             /*
              * It means that you have set Wall and enable security configuration
-             * wallClses verification
+             * wall Class verification, in this branch it means that the system scanned
+             * class that has been annotated with @Wall, you have defined wall
+             * of zero framework in your system.
+             *
+             * Attention: If you enable zero extension ( zero-rbac ), the system will
+             * use standard wall class in zero framework, this feature has been upgraded
+             * from vertx 4.0
              */
-            final ConcurrentMap<String, Class<?>> keys = new ConcurrentHashMap<>();
-            final JsonObject config = verify(wallClses, keys);
-            for (final String field : config.fieldNames()) {
-                // Difference key setting
-                final Class<?> cls = keys.get(field);
-                final Cliff cliff = transformer.transform(config.getJsonObject(field));
-                // Set Information from class
-                mountData(cliff, cls);
-                wallSet.add(cliff);
-            }
+            this.verifyDuplicated(wallClass);
+            wallClass.stream().map(this::create).forEach(wallSet::add);
         }
-        /* 3. Transfer **/
+
         return wallSet;
     }
 
-    private void mountData(final Cliff cliff, final Class<?> clazz) {
-        /* Extract basic data **/
-        mountAnno(cliff, clazz);
-        /* Proxy **/
-        if (cliff.isDefined()) {
-            // Custom Workflow
-            OstiumAuth.create(clazz)
-                    .verify().mount(cliff);
+    private Aegis create(final Class<?> clazz) {
+        final Aegis aegis = new Aegis();
+        /*
+         * 「Validation」
+         * 1 - Proxy Creation with Wall Specification
+         * 2 - Wall Type & Aegis Item
+         ***/
+        this.verifyProxy(clazz, aegis);
+
+        final Annotation annotation = clazz.getAnnotation(Wall.class);
+        final String typeKey = Ut.invoke(annotation, "value");
+        this.verifyConfig(clazz, aegis, typeKey);
+        aegis.setPath(Ut.invoke(annotation, "path"));
+
+        /*
+         * AuthorizationHandler class here
+         */
+        final Class<?> handlerCls = Ut.invoke(annotation, "handler");
+        if (AuthorizationHandler.class.isAssignableFrom(handlerCls)) {
+            aegis.setHandler(handlerCls);
+        }
+        /* Verify */
+        return aegis;
+    }
+
+    private void verifyConfig(final Class<?> clazz, final Aegis reference, final String typeKey) {
+        final AuthWall wall = AuthWall.from(typeKey);
+        /* Wall Type Wrong */
+        Fn.outUp(Objects.isNull(wall), LOGGER, WallTypeWrongException.class,
+            this.getClass(), typeKey, clazz);
+        reference.setType(wall);
+        final ConcurrentMap<String, AegisItem> configMap = AegisItem.configMap();
+        if (AuthWall.EXTENSION == wall) {
+            /* Extension */
+            reference.setDefined(Boolean.TRUE);
+            configMap.forEach(reference::addItem);
         } else {
-            // Standard Workflow
-            PhylumAuth.create(clazz)
-                    .verify().mount(cliff);
+            /* Standard */
+            reference.setDefined(Boolean.FALSE);
+            final AegisItem found = configMap.getOrDefault(wall.key(), null);
+            Fn.outUp(Objects.isNull(found), LOGGER, WallKeyMissingException.class,
+                this.getClass(), wall.key(), clazz);
+            reference.setItem(found);
         }
     }
 
-    private void mountAnno(final Cliff cliff, final Class<?> clazz) {
-        final Annotation annotation = clazz.getAnnotation(Wall.class);
-        cliff.setOrder(Ut.invoke(annotation, "order"));
-        cliff.setPath(Ut.invoke(annotation, "path"));
-        cliff.setDefined(Ut.invoke(annotation, "define"));
+    /*
+     * Wall class specification scanned and verified by zero framework
+     * the class must contain method `@Authenticate` and optional method `@Authorization` once
+     */
+    private void verifyProxy(final Class<?> clazz, final Aegis reference) {
+        final Method[] methods = clazz.getDeclaredMethods();
+        // Duplicated Method checking
+        Fn.outUp(this.verifyMethod(methods, Authenticate.class), LOGGER,
+            WallMethodMultiException.class, this.getClass(),
+            Authenticate.class.getSimpleName(), clazz.getName());
+        Fn.outUp(this.verifyMethod(methods, Authorized.class), LOGGER,
+            WallMethodMultiException.class, this.getClass(),
+            Authorized.class.getSimpleName(), clazz.getName());
+        Fn.outUp(this.verifyMethod(methods, AuthorizedResource.class), LOGGER,
+            WallMethodMultiException.class, this.getClass(),
+            AuthorizedResource.class.getSimpleName(), clazz.getName());
+
+        /* Proxy **/
+        reference.setProxy(PLUGIN.createComponent(clazz));
+        // Find the first: Authenticate
+        Arrays.stream(methods).forEach(method -> {
+            if (Objects.nonNull(method)) {
+                if (method.isAnnotationPresent(Authenticate.class)) {
+                    reference.getAuthorizer().setAuthenticate(method);
+                }
+                if (method.isAnnotationPresent(Authorized.class)) {
+                    reference.getAuthorizer().setAuthorization(method);
+                }
+                if (method.isAnnotationPresent(AuthorizedResource.class)) {
+                    reference.getAuthorizer().setResource(method);
+                }
+            }
+        });
     }
 
-    /**
-     * @param wallClses Security @Wall class
-     * @param keysRef   critical class reference for security
-     * @return valid configuration that will be used in @Wall class.
-     */
-    private JsonObject verify(final Set<Class<?>> wallClses,
-                              final ConcurrentMap<String, Class<?>> keysRef) {
-        /* Wall duplicated **/
-        final Set<String> hashs = new HashSet<>();
-        Observable.fromIterable(wallClses)
-                .filter(Objects::nonNull)
-                .map(item -> {
-                    final Annotation annotation = item.getAnnotation(Wall.class);
-                    // Add configuration key into keys;
-                    keysRef.put(Ut.invoke(annotation, "value"), item);
-                    return hashPath(annotation);
-                }).subscribe(hashs::add).dispose();
+    private boolean verifyMethod(final Method[] methods,
+                                 final Class<? extends Annotation> clazz) {
+
+        final long found = Arrays.stream(methods)
+            .filter(method -> method.isAnnotationPresent(clazz))
+            .count();
+        // If found = 0, 1, OK
+        // If > 1, duplicated
+        return 1 < found;
+    }
+
+    /*
+     * Wall duplicated detection
+     * Here the unique key is: path + order, you could not define duplicate wall class
+     * Path or Order must be not the same or duplicated.
+     **/
+    private void verifyDuplicated(final Set<Class<?>> wallClses) {
+        final Set<String> dupSet = new HashSet<>();
+        // type = define
+        wallClses.forEach(item -> {
+            final Annotation annotation = item.getAnnotation(Wall.class);
+            final Integer order = Ut.invoke(annotation, "order");
+            final String path = Ut.invoke(annotation, "path");
+            final String wallKey = Ut.encryptSHA256(order + path);
+            dupSet.add(wallKey);
+        });
 
         // Duplicated adding.
-        Fn.outUp(hashs.size() != wallClses.size(), LOGGER,
-                WallDuplicatedException.class, getClass(),
-                wallClses.stream().map(Class::getName).collect(Collectors.toSet()));
-
-        /* Shared key does not existing **/
-        final JsonObject config = NODE.read();
-        Fn.outUp(!config.containsKey(KEY), LOGGER,
-                DynamicKeyMissingException.class, getClass(),
-                KEY, config);
-
-        /* Wall key missing **/
-        final JsonObject hitted = config.getJsonObject(KEY);
-        for (final String key : keysRef.keySet()) {
-            Fn.outUp(null == hitted || !hitted.containsKey(key), LOGGER,
-                    WallKeyMissingException.class, getClass(),
-                    key, keysRef.get(key));
-        }
-        return hitted;
-    }
-
-    /**
-     * Path or Order must be not the same or duplicated.
-     *
-     * @param annotation annotation that contains `order` and `path`
-     * @return Each @Wall should contain unique hash key here.
-     */
-    private String hashPath(final Annotation annotation) {
-        final Integer order = Ut.invoke(annotation, "order");
-        final String path = Ut.invoke(annotation, "path");
-        return Ut.encryptSHA256(order + path);
+        Fn.outUp(dupSet.size() != wallClses.size(), LOGGER,
+            WallDuplicatedException.class, this.getClass(),
+            wallClses.stream().map(Class::getName).collect(Collectors.toSet()));
     }
 }

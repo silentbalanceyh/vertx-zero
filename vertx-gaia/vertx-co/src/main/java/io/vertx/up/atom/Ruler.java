@@ -25,13 +25,16 @@ public class Ruler {
     private static final Annal LOGGER = Annal.get(Ruler.class);
 
     private static final ConcurrentMap<String, JsonObject> RULE_MAP =
-            new ConcurrentHashMap<>();
+        new ConcurrentHashMap<>();
+    private static final ConcurrentMap<String, Insurer> POOL_INSURER =
+        new ConcurrentHashMap<>();
 
     /**
      * Verify data for each up.god.file
      *
      * @param file The rule up.god.file that input into this method.
      * @param data The data that will be verified.
+     *
      * @throws ZeroException Error when verified failure.
      */
     public static void verify(final String file, final JsonObject data) throws ZeroException {
@@ -63,6 +66,7 @@ public class Ruler {
      *
      * @param file The file that current object bind
      * @param data The data that will be verified
+     *
      * @throws ZeroException Whether here throw validated exception
      */
     public static void verify(final String file, final JsonArray data) throws ZeroException {
@@ -87,27 +91,28 @@ public class Ruler {
 
     private static <T> void verifyItem(final T input, final JsonObject rule) throws ZeroException {
         Fn.onZero(() -> {
+
             if (Ut.isJArray(input)) {
                 final JsonArray data = (JsonArray) input;
                 // Required
-                Insurer reference = Ut.singleton(RequiredInsurer.class);
+                Insurer reference = Fn.poolThread(POOL_INSURER, RequiredInsurer::new, "A-Required");
                 reference.flumen(data, rule);
                 // Typed
-                reference = Ut.singleton(TypedInsurer.class);
+                reference = Fn.poolThread(POOL_INSURER, TypedInsurer::new, "A-Type");
                 reference.flumen(data, rule);
                 // Forbidden
-                reference = Ut.singleton(ForbiddenInsurer.class);
+                reference = Fn.poolThread(POOL_INSURER, ForbiddenInsurer::new, "A-Forbidden");
                 reference.flumen(data, rule);
             } else {
                 final JsonObject data = (JsonObject) input;
                 // Required
-                Insurer reference = Ut.singleton(RequiredInsurer.class);
+                Insurer reference = Fn.poolThread(POOL_INSURER, RequiredInsurer::new, "J-Required");
                 reference.flumen(data, rule);
                 // Typed
-                reference = Ut.singleton(TypedInsurer.class);
+                reference = Fn.poolThread(POOL_INSURER, TypedInsurer::new, "J-Type");
                 reference.flumen(data, rule);
                 // Forbidden
-                reference = Ut.singleton(ForbiddenInsurer.class);
+                reference = Fn.poolThread(POOL_INSURER, ForbiddenInsurer::new, "J-Forbidden");
                 reference.flumen(data, rule);
             }
         }, input, rule);

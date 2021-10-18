@@ -1,8 +1,8 @@
 package io.vertx.up.util.net;
 
-import io.vertx.up.log.Annal;
 import io.vertx.up.eon.Strings;
 import io.vertx.up.fn.Fn;
+import io.vertx.up.log.Annal;
 
 import java.net.InetAddress;
 import java.net.NetworkInterface;

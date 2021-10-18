@@ -7,34 +7,34 @@ import io.vertx.up.util.Ut;
 import org.jooq.*;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @SuppressWarnings("all")
-class JQUpdate {
-    private final transient DSLContext context;
+class JQUpdate extends AbstractJQCrud {
     /* 查询数据专用 */
     private final transient JQQuery query;
 
     JQUpdate(final DSLContext context) {
-        this.context = context;
+        super(context);
         this.query = new JQQuery(context);
     }
 
     DataEvent update(final DataEvent event) {
-        return this.context.transactionResult(configuration -> Jq.doWrite(this.getClass(), event, (table, matrix) -> {
-            /* 执行表单更新功能 */
+        return this.write(event, (table, matrix) -> {
             final UpdateSetMoreStep step = this.stepUpdate(table, matrix);
-
             return step.execute();
-        }, Ut::isPositive));
+        }, Ut::isPositive);
     }
 
     DataEvent updateBatch(final DataEvent event) {
-        return this.context.transactionResult(configuration -> Jq.doWrites(this.getClass(), event, (table, matrixList) -> {
+        return this.<Integer>writeBatch(event, (table, matrix) -> {
             /* 批量更新 */
-            final Batch batch = this.prepareBatch(table, matrixList);
-            return batch.execute();
-        }));
+            final Batch batch = this.prepareBatch(table, matrix);
+            final List<Integer> result = new ArrayList<>();
+            Arrays.stream(batch.execute()).forEach(result::add);
+            return result.toArray(new Integer[]{});
+        }, Ut::isPositive);
     }
 
     private Batch prepareBatch(final String table, final List<DataMatrix> matrices) {
@@ -46,9 +46,9 @@ class JQUpdate {
     private UpdateSetMoreStep stepUpdate(final String table, final DataMatrix matrix) {
         final UpdateSetMoreStep steps = (UpdateSetMoreStep) this.context.update(Jq.toTable(table));
 
-        Jq.inArgument(matrix, steps::set);
+        Jq.argSet(matrix, steps::set);
 
-        final Condition condition = Jq.onKey(matrix);
+        final Condition condition = Jq.inWhere(matrix);
         steps.where(condition);
 
         return steps;

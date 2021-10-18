@@ -1,6 +1,10 @@
 # D10023 - Non-Blocking, Mode 4 Experimental extension
 
-In zero system programming, we recommend to use uniform resource model instead of the type user defined, but for some special business requirements, many developers also want to use their own java class type. Zero system also provide extension to developer for this kind of situations. Because it's not standard mode, in current version of zero system, we still consider it as experimental because it may contain long progress in future to finish and may contain unexpected bugs.
+In zero system programming, we recommend to use uniform resource model instead of the type user defined, but for some
+special business requirements, many developers also want to use their own java class type. Zero system also provide
+extension to developer for this kind of situations. Because it's not standard mode, in current version of zero system,
+we still consider it as experimental because it may contain long progress in future to finish and may contain unexpected
+bugs.
 
 **Rules**
 
@@ -143,7 +147,9 @@ public class JavaDirectWorker {
 
 ## 4. Summary
 
-Here we provide this mode for some special requirements, but we still recommend to use the mode of vert.x style that will be described in next tutorials. Current mode is experimental version, there may be some bugs for this kind of requirements, once you met bugs you can submit to https://github.com/silentbalanceyh/vertx-zero/issues 
+Here we provide this mode for some special requirements, but we still recommend to use the mode of vert.x style that
+will be described in next tutorials. Current mode is experimental version, there may be some bugs for this kind of
+requirements, once you met bugs you can submit to https://github.com/silentbalanceyh/vertx-zero/issues 
 
 
 

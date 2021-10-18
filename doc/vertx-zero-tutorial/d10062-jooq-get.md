@@ -1,6 +1,7 @@
 # D10062 - Jooq/GRUD, Read Operation
 
-The first example of jooq should be `CRUD` - Read Operation, we could process read data by primary key \( id \) first, the demo of current tutorial we'll use interface style to prepare.
+The first example of jooq should be `CRUD` - Read Operation, we could process read data by primary key \( id \) first,
+the demo of current tutorial we'll use interface style to prepare.
 
 Demo projects:
 
@@ -94,7 +95,10 @@ public class TabularService implements TabularStub {
 
 ## 2. Utility X of Jooq
 
-In this example we used an api of `Ux.Jooq` class, this class is provided by zero system, once you have finished the configuration of Jooq, you can use `Ux.Jooq` tool in any place of zero system code. When you used `Ux.Jooq` class, you must call `on(Class<?>)` first and returned `io.vertx.up.unity.jq.UxJooq` reference, once you get this reference you can call some common api now.
+In this example we used an api of `Ux.Jooq` class, this class is provided by zero system, once you have finished the
+configuration of Jooq, you can use `Ux.Jooq` tool in any place of zero system code. When you used `Ux.Jooq` class, you
+must call `on(Class<?>)` first and returned `io.vertx.up.uca.jooq.UxJooq` reference, once you get this reference you can
+call some common api now.
 
 Current example, we used `fetchOnneByID` method, you can check this method signature:
 
@@ -102,7 +106,8 @@ Current example, we used `fetchOnneByID` method, you can check this method signa
 public <T> Future<T> findByIdAsync(final Object id)
 ```
 
-_Be sure you have generated the required _`Dao`_ class and then you can pass the _`Dao`_ class into _`Ux.Jooq.on`_ api to initialize the database accessor first._
+_Be sure you have generated the required _`Dao`_ class and then you can pass the _`Dao`_ class into _`Ux.Jooq.on`_ api
+to initialize the database accessor first._
 
 When you test the request with following, you can see the response data \( Please ignore the data content \):
 
@@ -128,11 +133,13 @@ When you test the request with following, you can see the response data \( Pleas
 }
 ```
 
-Here we could see that the data object has been returned, but for some real business scenario, we need to normalize response data and here you can refer chapter 3 to do it.
+Here we could see that the data object has been returned, but for some real business scenario, we need to normalize
+response data and here you can refer chapter 3 to do it.
 
 ## 3. Normalized
 
-Firstly, create new up.god.file named `tabular.yml` under pojo folder `src/main/resources/pojo`, the up.god.file content could be as following:
+Firstly, create new up.god.file named `tabular.yml` under pojo folder `src/main/resources/pojo`, the up.god.file content
+could be as following:
 
 ```yaml
 type: "up.god.domain.tables.pojos.SysTabular"
@@ -170,7 +177,8 @@ public class TabularService implements TabularStub {
 }
 ```
 
-Here `tabular` is the configuration up.god.file name that you created, then if you re-send the request you should get following response:
+Here `tabular` is the configuration up.god.file name that you created, then if you re-send the request you should get
+following response:
 
 ```json
 {
@@ -190,5 +198,7 @@ Here `tabular` is the configuration up.god.file name that you created, then if y
 
 ## 4. Summary
 
-Because our system came from old hotel system migration, that's why we need the mapping up.god.file to normalize response. If you focus on new system you can do this normalize in the pojo definition. But you still may met the situation that need you to set the mapping rule, at that time it's helpful for you to continue the works.
+Because our system came from old hotel system migration, that's why we need the mapping up.god.file to normalize
+response. If you focus on new system you can do this normalize in the pojo definition. But you still may met the
+situation that need you to set the mapping rule, at that time it's helpful for you to continue the works.
 

@@ -1,6 +1,9 @@
 # D10017 - JSR311, @Produces...Media Type
 
-Zero system could parse header `Content-Type` and produce error of _415 Unsupported Media Type_. And also it could provide client media type parsing, but it's not the code _406_, but 404 instead. It means that when user provide `Accept` header, once zero server could not provide the matching type endpoint, the server will tell user that the resource could not be found. We'll use `javax.ws.rs.Produces` annotation to do the client media type matching.
+Zero system could parse header `Content-Type` and produce error of _415 Unsupported Media Type_. And also it could
+provide client media type parsing, but it's not the code _406_, but 404 instead. It means that when user
+provide `Accept` header, once zero server could not provide the matching type endpoint, the server will tell user that
+the resource could not be found. We'll use `javax.ws.rs.Produces` annotation to do the client media type matching.
 
 Demo projects:
 
@@ -93,7 +96,8 @@ Content-Type: application/json
 
 ## 4. Summary
 
-Here leave a problem for headers, you also need to setup `Content-Type` header in your request, then you can set `Accept` for media type parsing.
+Here leave a problem for headers, you also need to setup `Content-Type` header in your request, then you can
+set `Accept` for media type parsing.
 
 
 

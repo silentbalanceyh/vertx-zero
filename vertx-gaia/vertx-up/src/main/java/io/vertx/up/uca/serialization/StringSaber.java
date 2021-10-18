@@ -12,8 +12,8 @@ public class StringSaber extends BaseSaber {
     public Object from(final Class<?> paramType,
                        final String literal) {
         return Fn.getNull(() ->
-                        Fn.getSemi(String.class == paramType, getLogger(),
-                                () -> literal, () -> Strings.EMPTY),
-                paramType, literal);
+                Fn.getSemi(String.class == paramType, getLogger(),
+                    () -> literal, () -> Strings.EMPTY),
+            paramType, literal);
     }
 }

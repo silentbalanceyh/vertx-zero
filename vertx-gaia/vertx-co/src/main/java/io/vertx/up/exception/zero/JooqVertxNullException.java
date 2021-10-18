@@ -5,7 +5,7 @@ import io.vertx.up.exception.UpException;
 public class JooqVertxNullException extends UpException {
 
     public JooqVertxNullException(
-            final Class<?> clazz) {
+        final Class<?> clazz) {
         super(clazz);
     }
 

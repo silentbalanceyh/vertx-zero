@@ -9,6 +9,7 @@ import io.vertx.up.atom.agent.Depot;
 public interface Sentry<Context> {
     /**
      * @param depot Depot instance for before validator
+     *
      * @return Handler for Context
      */
     Handler<Context> signal(final Depot depot);

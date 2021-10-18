@@ -12,7 +12,8 @@ This tutorial we'll introduce the usage of `Jwt` Authorization in zero system, t
 
 Here are two workflow in zero system that developers could define:
 
-* **Generate Token**: When the user send request to login api, you can call `store` method to generate config and send config back.
+* **Generate Token**: When the user send request to login api, you can call `store` method to generate config and send
+  config back.
 * **Verify Token**: Before zero system verified config, you can check with your own code logical here.
 
 > In vert.x native JWT support, you must set your own code logical to process config, but in zero system, you could focus on two functions to process config only, zero has split the workflow and let developers process JWT more smartly.
@@ -21,7 +22,8 @@ Demo projects:
 
 * **Standalone - 6084**: `up-tethys`
 
-For security configuration part you can refer: [D10103 - Configuration, vertx-secure.yml](d10103-configuration-vertx-secureyml.md) for more details.
+For security configuration part you can
+refer: [D10103 - Configuration, vertx-secure.yml](d10103-configuration-vertx-secureyml.md) for more details.
 
 ## 1. Source Code
 
@@ -107,8 +109,8 @@ import io.vertx.up.unity.Ux;
 import io.vertx.up.annotations.Authenticate;
 import io.vertx.up.annotations.Wall;
 import io.vertx.up.secure.Security;
-import io.vertx.up.secure.handler.JwtOstium;
-import io.vertx.up.secure.provider.JwtAuth;
+import io.vertx.up.secure.component.JwtOstium;
+import io.vertx.up.secure.provider.authenticate.JwtAuth;
 
 @Wall(value = "jwt", path = "/api/secure/*")
 @SuppressWarnings("all")
@@ -123,8 +125,8 @@ public class JwtWall implements Security {
     @Override
     public Future<JsonObject> store(final JsonObject filter) {
         final JsonObject seed = new JsonObject()
-                .put("username", filter.getString("username"))
-                .put("id", filter.getString("_id"));
+            .put("username", filter.getString("username"))
+            .put("id", filter.getString("_id"));
         // Build the data that you want to store into config.
         // 1. Generate Token
         final String config = Ux.Jwt.config(seed);
@@ -139,8 +141,8 @@ public class JwtWall implements Security {
         final String config = data.getString("jwt");
         // 2. Set filters to check whether user id and config are matching in storage ( Mongo DB )
         final JsonObject filters = new JsonObject()
-                .put("_id", extracted.getString("id"))
-                .put("config", config);
+            .put("_id", extracted.getString("id"))
+            .put("config", config);
         // 3. If matching, you can return Future<Boolean>, if it's true, JWT will continue.
         // If false, the workflow will be terminal and 401 replied.
         return Ux.Mongo.existing("DB_USER", filters);
@@ -150,7 +152,8 @@ public class JwtWall implements Security {
 
 ## 2. Summary
 
-Once you have write above codes, you have set Jwt Authorization for `/api/secure/*` urls, in this way JWT has been enabled. But there are some points:
+Once you have write above codes, you have set Jwt Authorization for `/api/secure/*` urls, in this way JWT has been
+enabled. But there are some points:
 
 * In `store` method, you could process your own code logical.
 * In `verify` method, you must return Future&lt;Boolean&gt; to identify config checking result.

@@ -71,7 +71,8 @@
 
 ### 2.2. get
 
-This function `get` code flow is the same as `getJvm`, but there is no exception in function body. Be careful the last argument could support more than one object reference checking. 
+This function `get` code flow is the same as `getJvm`, but there is no exception in function body. Be careful the last
+argument could support more than one object reference checking.
 
 ```java
 	Fn.getJvm(() -> {
@@ -87,7 +88,7 @@ This function `get` code flow is the same as `getJvm`, but there is no exception
             () -> new ClusterOptions(config));
 ```
 
-This code flow is a little same as `safeSemi`, but there should be value returned. 
+This code flow is a little same as `safeSemi`, but there should be value returned.
 
 **Code Flow**
 

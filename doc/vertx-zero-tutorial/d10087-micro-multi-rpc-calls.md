@@ -1,6 +1,7 @@
 # D10087 - Micro, Multi Rpc Calls
 
-From this chapter the picture will ignore the service details \( Sender/Consumer/EventBus \), show the service communication only.
+From this chapter the picture will ignore the service details \( Sender/Consumer/EventBus \), show the service
+communication only.
 
 ## 1. Services
 
@@ -133,7 +134,9 @@ When you started all above services, you can see more information in console, an
 
 ## 4. Summary
 
-This chapter show that one service connect to two rpc services scenarios, you can check more details of this example. Here you can use `Ux.thenParallelJson` method to merge one or more `Future<JsonObject>` type, also you can modify the worker as following:
+This chapter show that one service connect to two rpc services scenarios, you can check more details of this example.
+Here you can use `Ux.thenParallelJson` method to merge one or more `Future<JsonObject>` type, also you can modify the
+worker as following:
 
 ```java
     @Address("ZERO://RPC/MULTI")

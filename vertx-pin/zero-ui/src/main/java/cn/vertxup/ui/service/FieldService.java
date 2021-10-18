@@ -5,9 +5,9 @@ import cn.vertxup.ui.domain.tables.pojos.UiField;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.ke.refine.Ke;
 import io.vertx.tp.ui.cv.em.RowType;
 import io.vertx.tp.ui.refine.Ui;
+import io.vertx.up.eon.KName;
 import io.vertx.up.log.Annal;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
@@ -15,6 +15,9 @@ import io.vertx.up.util.Ut;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 import java.util.stream.Collectors;
 
 public class FieldService implements FieldStub {
@@ -23,16 +26,55 @@ public class FieldService implements FieldStub {
     @Override
     public Future<JsonArray> fetchUi(final String formId) {
         return Ux.Jooq.on(UiFieldDao.class)
-                .<UiField>fetchAsync("controlId", formId)
-                .compose(ui -> {
-                    if (Objects.isNull(ui) || ui.isEmpty()) {
-                        Ui.infoWarn(FieldService.LOGGER, " Field not configured.");
-                        return Ux.future(new JsonArray());
-                    } else {
-                        final JsonArray uiJson = Ut.serializeJson(ui);
-                        return this.attachConfig(uiJson);
-                    }
-                });
+            .<UiField>fetchAsync(KName.Ui.CONTROL_ID, formId)
+            .compose(ui -> {
+                if (Objects.isNull(ui) || ui.isEmpty()) {
+                    Ui.infoWarn(FieldService.LOGGER, " Field not configured.");
+                    return Ux.future(new JsonArray());
+                } else {
+                    final JsonArray uiJson = Ut.serializeJson(ui);
+                    return this.attachConfig(uiJson);
+                }
+            });
+    }
+
+    @Override
+    public Future<JsonArray> updateA(final String controlId, final JsonArray data) {
+        final ConcurrentMap<Object, Boolean> seen = new ConcurrentHashMap<>();
+        // 1. mountIn fields, convert those into object from string
+        final List<UiField> fields = Ut.itJArray(data)
+            // filter(deduplicate) by name
+            .filter(item -> (!item.containsKey(KName.NAME)) ||
+                (Ut.notNil(item.getString(KName.NAME)) && null == seen.putIfAbsent(item.getString(KName.NAME), Boolean.TRUE)))
+            .map(item -> Ut.ifString(item,
+                FieldStub.OPTION_JSX,
+                FieldStub.OPTION_CONFIG,
+                FieldStub.OPTION_ITEM,
+                FieldStub.RULES,
+                KName.METADATA
+            ))
+            .map(field -> field.put(KName.Ui.CONTROL_ID, Optional.ofNullable(field.getString(KName.Ui.CONTROL_ID)).orElse(controlId)))
+            .map(field -> Ux.fromJson(field, UiField.class))
+            .collect(Collectors.toList());
+        // 2. delete old ones and insert new ones
+        return this.deleteByControlId(controlId)
+            .compose(result -> Ux.Jooq.on(UiFieldDao.class)
+                .insertAsync(fields)
+                .compose(Ux::futureA)
+                // 3. mountOut
+                .compose(Ut.ifJArray(
+                    FieldStub.OPTION_JSX,
+                    FieldStub.OPTION_CONFIG,
+                    FieldStub.OPTION_ITEM,
+                    FieldStub.RULES,
+                    KName.METADATA
+                )));
+    }
+
+    @Override
+    public Future<Boolean> deleteByControlId(final String controlId) {
+        return Ux.Jooq.on(UiFieldDao.class)
+            .deleteByAsync(new JsonObject().put(KName.Ui.CONTROL_ID, controlId));
     }
 
     private Future<JsonArray> attachConfig(final JsonArray fieldJson) {
@@ -44,15 +86,15 @@ public class FieldService implements FieldStub {
          * Calculate row
          */
         final int rowIndex = Ut.itJArray(fieldJson)
-                .map(each -> each.getInteger("yPoint"))
-                .max(Comparator.naturalOrder())
-                .orElse(0);
+            .map(each -> each.getInteger("yPoint"))
+            .max(Comparator.naturalOrder())
+            .orElse(0);
         for (int idx = 0; idx <= rowIndex; idx++) {
             final Integer current = idx;
             final List<JsonObject> row = Ut.itJArray(fieldJson)
-                    .filter(item -> current.equals(item.getInteger("yPoint")))
-                    .sorted(Comparator.comparing(item -> item.getInteger("xPoint")))
-                    .collect(Collectors.toList());
+                .filter(item -> current.equals(item.getInteger("yPoint")))
+                .sorted(Comparator.comparing(item -> item.getInteger("xPoint")))
+                .collect(Collectors.toList());
             /*
              * Calculate columns
              */
@@ -62,23 +104,34 @@ public class FieldService implements FieldStub {
                  * Title row is special here
                  */
                 final RowType rowType = Ut.toEnum(() -> cell.getString("rowType"),
-                        RowType.class, RowType.FIELD);
+                    RowType.class, RowType.FIELD);
                 final JsonObject dataCell = new JsonObject();
                 if (RowType.TITLE == rowType) {
                     dataCell.put("title", cell.getValue("label"));
-                    dataCell.put("field", cell.getValue("key"));    // Specific field for title.
+                    dataCell.put("field", cell.getValue(KName.KEY));    // Specific field for title.
+                } else if (RowType.CONTAINER == rowType) {
+                    dataCell.put("complex", Boolean.TRUE);
+                    // Container type will be mapped to name field here
+                    dataCell.put(KName.NAME, cell.getValue("container"));
+                    // optionJsx -> config
+                    Ut.ifJObject(cell, FieldStub.OPTION_JSX);
+                    if (Objects.nonNull(cell.getValue(FieldStub.OPTION_JSX))) {
+                        dataCell.put(KName.Ui.CONFIG, cell.getValue(FieldStub.OPTION_JSX));
+                    }
                 } else {
-                    Ke.mount(cell, FieldStub.OPTION_JSX);
-                    Ke.mount(cell, FieldStub.OPTION_CONFIG);
-                    Ke.mount(cell, FieldStub.OPTION_ITEM);
-                    Ke.mountArray(cell, "rules");
+                    Ut.ifJObject(cell,
+                        FieldStub.OPTION_JSX,
+                        FieldStub.OPTION_CONFIG,
+                        FieldStub.OPTION_ITEM,
+                        "rules"
+                    );
                     final String render = Objects.isNull(cell.getString("render")) ? "" :
-                            cell.getString("render");
+                        cell.getString("render");
                     final String label = Objects.isNull(cell.getString("label")) ? "" :
-                            cell.getString("label");
+                        cell.getString("label");
                     final String metadata = cell.getString("name")
-                            + "," + label + "," + cell.getInteger("span")
-                            + ",," + render;
+                        + "," + label + "," + cell.getInteger("span")
+                        + ",," + render;
 
                     dataCell.put("metadata", metadata);
                     /*
@@ -115,13 +168,21 @@ public class FieldService implements FieldStub {
                      * In this kind of situation, the config `optionJsx` must contains `config.format` here.
                      */
                     final JsonObject optionJsx = cell.getJsonObject(FieldStub.OPTION_JSX);
+
                     if (Ut.notNil(optionJsx)) {
                         final JsonObject config = optionJsx.getJsonObject("config");
                         if (Ut.notNil(config) && config.containsKey("format")) {
                             /*
                              * Date here for moment = true
+                             * Here are some difference between two components
+                             * 1) For `Date`, the format should be string
+                             * 2) For `TableEditor`, the format should be object
+                             * The table editor is added new here
                              */
-                            dataCell.put("moment", true);
+                            final Object format = config.getValue("format");
+                            if (String.class == format.getClass()) {
+                                dataCell.put("moment", true);
+                            }
                         }
                     }
                 }

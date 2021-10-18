@@ -1,0 +1,3 @@
+typed:
+  callback: STRING
+  clientId: STRING

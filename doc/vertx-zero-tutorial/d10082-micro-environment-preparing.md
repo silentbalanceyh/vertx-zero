@@ -1,6 +1,7 @@
 # D10082 - Micro, Environment Preparing
 
-This chapter we focus on zero system micro environment preparing tutorials. Because zero system standard environment is k8s and k8s used Etcd from background, in this kind of situation, zero system also used Etcd as service registry center.
+This chapter we focus on zero system micro environment preparing tutorials. Because zero system standard environment is
+k8s and k8s used Etcd from background, in this kind of situation, zero system also used Etcd as service registry center.
 
 ## 1. Etcd Docker Environment
 
@@ -55,7 +56,8 @@ export ETCD_HOST=0.0.0.0
 ./zero-etcd3.sh
 ```
 
-Another option is that you can refer `https://github.com/soyking/e3w` to check **e3w** project,  this project could help you to run the mini etcd3 cluster in docker environment instead of single one.
+Another option is that you can refer `https://github.com/soyking/e3w` to check **e3w** project, this project could help
+you to run the mini etcd3 cluster in docker environment instead of single one.
 
 ## 2. Start Up
 
@@ -75,13 +77,20 @@ etcd_1  | 07:33:39 etcd2 | 2018-02-12 07:33:39.760191 N | embed: serving insecur
 etcd_1  | 07:33:39 etcd3 | 2018-02-12 07:33:39.761128 N | embed: serving insecure client requests on [::]:32379, this is strongly discouraged!
 ```
 
-Here you can see `etcd1, etcd2, etcd3` three threads, and then you can setup etcd-viewer to check etcd3 status: [https://github.com/nikfoundas/etcd-viewer](https://github.com/nikfoundas/etcd-viewer). Once thing should be mentioned is that when you use etcd-viewer, you should set local network ip address instead of `localhost` such as following:
+Here you can see `etcd1, etcd2, etcd3` three threads, and then you can setup etcd-viewer to check etcd3
+status: [https://github.com/nikfoundas/etcd-viewer](https://github.com/nikfoundas/etcd-viewer). Once thing should be
+mentioned is that when you use etcd-viewer, you should set local network ip address instead of `localhost` such as
+following:
 
-![](/doc/image/d10082-1.png)Here when you connect etcd with etcd-viewer, you should use `192.168.30.25` instead of `localhost`,  and you could see `zero-istio` here, it's demo micro apps.
+![](/doc/image/d10082-1.png)Here when you connect etcd with etcd-viewer, you should use `192.168.30.25` instead
+of `localhost`, and you could see `zero-istio` here, it's demo micro apps.
 
 ## 3. Architecture
 
-In zero system, we could configure different zero app \( contains many micro service nodes \) in one etcd, the top configuration path is the name of zero node. You can refer [D10074 - Configuration, vertx-etcd3.yml](d10074-configuration-vertx-etcd3yml.md) to check etcd3 configuration in zero. Here you could see following configuration information of `vertx-etcd3.yml` :
+In zero system, we could configure different zero app \( contains many micro service nodes \) in one etcd, the top
+configuration path is the name of zero node. You can
+refer [D10074 - Configuration, vertx-etcd3.yml](d10074-configuration-vertx-etcd3yml.md) to check etcd3 configuration in
+zero. Here you could see following configuration information of `vertx-etcd3.yml` :
 
 ```yaml
 etcd:
@@ -96,13 +105,19 @@ etcd:
   timeout: 2
 ```
 
-Be careful about the `micro` property, it means that you can run multi **Applications** on one etcd environment. The micro describes the name for all micro services in one application, different micro name won't be communicated internally in zero system. You must set all your micro services of zero instance with one unique name, the whole architecture is as following:
+Be careful about the `micro` property, it means that you can run multi **Applications** on one etcd environment. The
+micro describes the name for all micro services in one application, different micro name won't be communicated
+internally in zero system. You must set all your micro services of zero instance with one unique name, the whole
+architecture is as following:
 
-![](/doc/image/micro-group.png)The `micro` property just like application **namespace** concept, as above pictures there are two applications: **zero-istio** and **app-tlk**, these two applications shared one Etcd3 instance as registry center but these two applications are standalone, could not communicate with gRpc.
+![](/doc/image/micro-group.png)The `micro` property just like application **namespace** concept, as above pictures there
+are two applications: **zero-istio** and **app-tlk**, these two applications shared one Etcd3 instance as registry
+center but these two applications are standalone, could not communicate with gRpc.
 
 ## 4. Summary
 
-This chapter focus on micro environment preparing in zero system, you can do as tutorials explained to setup your micro service environment.
+This chapter focus on micro environment preparing in zero system, you can do as tutorials explained to setup your micro
+service environment.
 
 
 

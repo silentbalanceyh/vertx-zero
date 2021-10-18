@@ -47,16 +47,16 @@ public abstract class AbstractRotator implements Rotator {
      */
     protected RequestConfig configRequest() {
         final Integer connectTimeout =
-                this.integration.getOption("timeout.connect", 5000);
+            this.integration.getOption("timeout.connect", 5000);
         final Integer requestTimeout =
-                this.integration.getOption("timeout.request", 5000);
+            this.integration.getOption("timeout.request", 5000);
         final Integer socketTimeout =
-                this.integration.getOption("timeout.socket", 5000);
+            this.integration.getOption("timeout.socket", 5000);
         return RequestConfig.custom()
-                .setConnectTimeout(connectTimeout)
-                .setConnectionRequestTimeout(requestTimeout)
-                .setSocketTimeout(socketTimeout)
-                .build();
+            .setConnectTimeout(connectTimeout)
+            .setConnectionRequestTimeout(requestTimeout)
+            .setSocketTimeout(socketTimeout)
+            .build();
     }
 
     protected String configPath(final IntegrationRequest request, final JsonObject params) {
@@ -93,8 +93,8 @@ public abstract class AbstractRotator implements Rotator {
         }
         if (Ut.notNil(headers)) {
             headers.stream()
-                    .filter(item -> Objects.nonNull(item.getValue()))
-                    .forEach(item -> request.addHeader(item.getKey(), item.getValue().toString()));
+                .filter(item -> Objects.nonNull(item.getValue()))
+                .forEach(item -> request.addHeader(item.getKey(), item.getValue().toString()));
         }
     }
 

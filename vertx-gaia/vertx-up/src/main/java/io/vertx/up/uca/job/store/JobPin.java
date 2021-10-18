@@ -1,8 +1,6 @@
 package io.vertx.up.uca.job.store;
 
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.plugin.job.JobPool;
-import io.vertx.up.atom.worker.Mission;
 import io.vertx.up.eon.Info;
 import io.vertx.up.log.Annal;
 import io.vertx.up.uca.yaml.Node;
@@ -45,13 +43,5 @@ public class JobPin {
             }
             return STORE;
         }
-    }
-
-    /*
-     * Whether the mission is in JobPool
-     * Only job pool could be accessed by JobClient in future here.
-     */
-    public static boolean isIn(final Mission mission) {
-        return JobPool.valid(mission);
     }
 }

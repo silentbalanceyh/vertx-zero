@@ -33,6 +33,7 @@ class MediaResolver {
      * Capture the consume mime types
      *
      * @param method method reference
+     *
      * @return return MIME
      */
     public static Set<MediaType> consumes(final Method method) {
@@ -43,6 +44,7 @@ class MediaResolver {
      * Capture the produces mime types
      *
      * @param method method reference
+     *
      * @return return MIME
      */
     public static Set<MediaType> produces(final Method method) {
@@ -51,23 +53,23 @@ class MediaResolver {
 
     private static Set<MediaType> resolve(final Method method,
                                           final Class<? extends Annotation>
-                                                  mediaCls) {
+                                              mediaCls) {
         return Fn.getNull(() -> {
             final Annotation anno = method.getAnnotation(mediaCls);
             return Fn.getSemi(null == anno, LOGGER,
-                    () -> DEFAULTS,
-                    () -> {
-                        final String[] value = Ut.invoke(anno, "value");
-                        final Set<MediaType> result = new HashSet<>();
-                        // RxJava 2
-                        Observable.fromArray(value)
-                                .filter(Objects::nonNull)
-                                .map(MediaType::valueOf)
-                                .filter(Objects::nonNull)
-                                .subscribe(result::add)
-                                .dispose();
-                        return result.isEmpty() ? DEFAULTS : result;
-                    });
+                () -> DEFAULTS,
+                () -> {
+                    final String[] value = Ut.invoke(anno, "value");
+                    final Set<MediaType> result = new HashSet<>();
+                    // RxJava 2
+                    Observable.fromArray(value)
+                        .filter(Objects::nonNull)
+                        .map(MediaType::valueOf)
+                        .filter(Objects::nonNull)
+                        .subscribe(result::add)
+                        .dispose();
+                    return result.isEmpty() ? DEFAULTS : result;
+                });
         }, method, mediaCls);
     }
 }

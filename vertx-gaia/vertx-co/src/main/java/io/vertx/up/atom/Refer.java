@@ -33,6 +33,10 @@ public final class Refer {
         return Future.succeededFuture(reference);
     }
 
+    public <T> Future<T> future() {
+        return Future.succeededFuture((T) this.reference);
+    }
+
     public boolean successed() {
         return null != this.reference;
     }

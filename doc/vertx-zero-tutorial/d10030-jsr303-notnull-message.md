@@ -1,12 +1,14 @@
 # D10030, JSR303, @NotNull message
 
-This chapter is a little same as D10029, but we could define the `info` node of JSON message instead of the default message as following:
+This chapter is a little same as D10029, but we could define the `info` node of JSON message instead of the default
+message as following:
 
 ```
 must not be null
 ```
 
-It's useful in many business scenarios. For example you want to write a method to verify the username and password when logging, here are two parameters:
+It's useful in many business scenarios. For example you want to write a method to verify the username and password when
+logging, here are two parameters:
 
 * username: \( Path Parameter \)
 * password: \( Query Parameter \)
@@ -24,9 +26,12 @@ Demo projects:
 
 **Rules**:
 
-1. JSR303 is only supported in Agent component in zero system, it means that after you have send the message to event bus, the JSR303 will be effectiveness.
-2. When you write the code with the Interface Style \( Will introduce in forward tutorials \), JSR303 will not support this kind of situation.
-3. For @BodyParam, it also impact Agent component only, but could support Interface Style instead of JSR303 and could provide more useful validations.
+1. JSR303 is only supported in Agent component in zero system, it means that after you have send the message to event
+   bus, the JSR303 will be effectiveness.
+2. When you write the code with the Interface Style \( Will introduce in forward tutorials \), JSR303 will not support
+   this kind of situation.
+3. For @BodyParam, it also impact Agent component only, but could support Interface Style instead of JSR303 and could
+   provide more useful validations.
 
 ## 1. Source Code
 
@@ -77,7 +82,8 @@ Here we could see:
 }
 ```
 
-**URL** : [http://localhost:6083/api/jsr303/notnull/message?password=111111](http://localhost:6083/api/jsr303/notnull/message?password=111111)
+**
+URL** : [http://localhost:6083/api/jsr303/notnull/message?password=111111](http://localhost:6083/api/jsr303/notnull/message?password=111111)
 
 **Method** : GET
 
@@ -103,7 +109,10 @@ The successful message should be as following, URL:
 
 ## 3. Summary
 
-Please be careful that JSR303 for this validation do not focus on the validation sequence, it just like above examples that the password is validated first, then the username. Here we have defined our own message for JSR303 validation instead of default validation messages. In this situation you can work in your real business requirements for more extensions to do user-defined business validation information.
+Please be careful that JSR303 for this validation do not focus on the validation sequence, it just like above examples
+that the password is validated first, then the username. Here we have defined our own message for JSR303 validation
+instead of default validation messages. In this situation you can work in your real business requirements for more
+extensions to do user-defined business validation information.
 
 
 

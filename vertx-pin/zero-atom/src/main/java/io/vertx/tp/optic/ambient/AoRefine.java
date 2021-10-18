@@ -10,16 +10,16 @@ public interface AoRefine extends Init {
 
     static AoRefine combine() {
         return Fn.pool(Pool.REFINE_POOL, CombineRefine.class.getName(),
-                CombineRefine::new);
+            CombineRefine::new);
     }
 
     static AoRefine schema() {
         return Fn.pool(Pool.REFINE_POOL, SchemaRefine.class.getName(),
-                SchemaRefine::new);
+            SchemaRefine::new);
     }
 
     static AoRefine model() {
         return Fn.pool(Pool.REFINE_POOL, ModelRefine.class.getName(),
-                ModelRefine::new);
+            ModelRefine::new);
     }
 }

@@ -67,6 +67,15 @@ public class Neo4jClientImpl implements Neo4jClient {
         return this;
     }
 
+    public boolean connected() {
+        try {
+            this.driver.verifyConnectivity();
+            return true;
+        } catch (final Throwable ex) {
+            return false;
+        }
+    }
+
     @Override
     public Future<JsonObject> nodeCreate(final JsonObject node) {
         return this.session.create(node);
@@ -100,6 +109,11 @@ public class Neo4jClientImpl implements Neo4jClient {
     @Override
     public Future<JsonObject> nodeFind(final String key) {
         return this.session.find(new JsonObject().put("key", key));
+    }
+
+    @Override
+    public boolean nodeExisting(final String key) {
+        return Ut.notNil(this.session.findSync(new JsonObject().put("key", key)));
     }
 
     @Override
@@ -157,4 +171,8 @@ public class Neo4jClientImpl implements Neo4jClient {
         return this.nodeFind(key).compose(node -> this.graphic(node, level));
     }
 
+    @Override
+    public Future<Boolean> graphicReset() {
+        return this.session.reset();
+    }
 }

@@ -6,7 +6,8 @@ From previous tutorials, zero system support following three injection codes.
 * [x] One interface and one java implementation object Injection
 * [x] One interface and multi java implementation objects Injection
 
-This chapter will describe the second mode that the structure should be one interface and one implementation object. The workflow of this example should be:
+This chapter will describe the second mode that the structure should be one interface and one implementation object. The
+workflow of this example should be:
 
 ```shell
 Request -> Agent -> @Address ( Sender ) -> 
@@ -156,7 +157,9 @@ public class OneService implements OneStub {
 
 ## 4. Summary
 
-This feature is only used when the implementation class is unique, it means that there is only one implementation class reflect to the interface. If you have multi implementation classes in zero system, how to do it and how to resolve this kind of situation ? We'll move to the next chapter to see another situations.
+This feature is only used when the implementation class is unique, it means that there is only one implementation class
+reflect to the interface. If you have multi implementation classes in zero system, how to do it and how to resolve this
+kind of situation ? We'll move to the next chapter to see another situations.
 
 
 

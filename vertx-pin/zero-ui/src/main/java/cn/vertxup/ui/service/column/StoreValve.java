@@ -6,34 +6,36 @@ import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.ke.refine.Ke;
+import io.vertx.up.atom.secure.Vis;
 import io.vertx.up.unity.Ux;
+import io.vertx.up.util.Ut;
 
 import java.util.Comparator;
 import java.util.stream.Collectors;
 
 class StoreValve implements UiValve {
     @Override
-    public Future<JsonArray> fetchColumn(final String view, final String identifier, final String sigma) {
+    public Future<JsonArray> fetchColumn(final Vis vis, final String identifier, final String sigma) {
         /*
          * Default global controlId is
          * 1) The format is VIEW-identifier
          * 2) sigma could distinguish multi applications
          */
-        final String controlId = view + "-" + identifier;
+        final String controlId = vis.view() + "-" + identifier;
         final JsonObject filters = new JsonObject();
         filters.put("", Boolean.TRUE);
         filters.put("controlId", controlId);
         filters.put("sigma", sigma);
         return Ux.Jooq.on(UiColumnDao.class)
-                .<UiColumn>findAsync(filters)
-                .compose(list -> Ux.future(list.stream()
-                        /*
-                         * Position Sorting
-                         */
-                        .sorted(Comparator.comparing(UiColumn::getPosition))
-                        .collect(Collectors.toList())))
-                .compose(list -> Ux.future(list.stream().map(this::procColumn).collect(Collectors.toList())))
-                .compose(jsonList -> Ux.future(new JsonArray(jsonList)));
+            .<UiColumn>fetchAsync(filters)
+            .compose(list -> Ux.future(list.stream()
+                /*
+                 * Position Sorting
+                 */
+                .sorted(Comparator.comparing(UiColumn::getPosition))
+                .collect(Collectors.toList())))
+            .compose(list -> Ux.future(list.stream().map(this::procColumn).collect(Collectors.toList())))
+            .compose(jsonList -> Ux.future(new JsonArray(jsonList)));
     }
 
     private JsonObject procColumn(final UiColumn column) {
@@ -73,7 +75,7 @@ class StoreValve implements UiValve {
         Ke.runString(column::getFilterType, (filterType) -> {
             columnJson.put("$filter.type", filterType);
             columnJson.put("$filter.config", column.getFilterConfig());
-            Ke.mount(columnJson, "$filter.config");
+            Ut.ifJObject(columnJson, "$filter.config");
         });
         /*
          * Zero Config
@@ -81,11 +83,11 @@ class StoreValve implements UiValve {
         Ke.runString(column::getEmpty, (empty) -> columnJson.put("$empty", empty));
         Ke.runString(column::getMapping, (mapping) -> {
             columnJson.put("$mapping", mapping);
-            Ke.mount(columnJson, "$mapping");
+            Ut.ifJObject(columnJson, "$mapping");
         });
         Ke.runString(column::getConfig, (config) -> {
             columnJson.put("$config", config);
-            Ke.mount(columnJson, "$config");
+            Ut.ifJObject(columnJson, "$config");
         });
         return columnJson;
     }

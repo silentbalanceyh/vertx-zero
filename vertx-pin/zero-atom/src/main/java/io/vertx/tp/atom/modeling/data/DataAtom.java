@@ -1,24 +1,26 @@
 package io.vertx.tp.atom.modeling.data;
 
-import cn.vertxup.atom.domain.tables.pojos.MAttribute;
+import io.vertx.core.json.JsonObject;
 import io.vertx.tp.atom.cv.AoCache;
 import io.vertx.tp.atom.cv.AoMsg;
 import io.vertx.tp.atom.modeling.Model;
-import io.vertx.tp.atom.modeling.rule.RuleUnique;
+import io.vertx.tp.atom.modeling.config.AoAttribute;
+import io.vertx.tp.atom.modeling.reference.RQuery;
+import io.vertx.tp.atom.modeling.reference.RQuote;
+import io.vertx.tp.atom.modeling.reference.RResult;
 import io.vertx.tp.atom.refine.Ao;
+import io.vertx.tp.error._404ModelNotFoundException;
 import io.vertx.tp.modular.phantom.AoPerformer;
+import io.vertx.up.commune.compare.Vs;
+import io.vertx.up.commune.element.TypeAtom;
+import io.vertx.up.commune.rule.RuleUnique;
+import io.vertx.up.eon.Strings;
 import io.vertx.up.fn.Fn;
+import io.vertx.up.util.Ut;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.util.Date;
 import java.util.Objects;
 import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
-import java.util.function.Predicate;
-import java.util.stream.Collectors;
 
 /**
  * 内部使用的元数据分析工具，提供
@@ -26,166 +28,235 @@ import java.util.stream.Collectors;
  */
 public class DataAtom {
 
-    private transient final AoPerformer performer;
-    private transient final Model model;
+    private transient final AoDefine metadata;
+    private transient final AoUnique ruler;
+    private transient final AoMarker marker;
+    private transient final AoReference reference;
 
-    private transient final String identifier;
+    private transient final Vs vs;
     private transient final String unique;
+    private transient final String appName;
 
-    private DataAtom(final String appName,
-                     final String identifier,
-                     final String unique) {
-        /* 当前模型的ID */
-        this.identifier = identifier;
-        /* Performer池化（每个App不一样）*/
-        this.performer = AoPerformer.getInstance(appName);
-        /* 构造当前模型的唯一值，从外置传入 */
-        this.unique = unique;
-        this.model = Fn.pool(AoCache.POOL_MODELS, unique,
-                () -> this.performer.fetchModel(identifier));
-        /* LOG: 日志处理 */
-        Ao.infoAtom(this.getClass(), AoMsg.DATA_ATOM, unique, this.model.toJson().encode());
+    private DataAtom(final Model model, final String appName) {
+        this.appName = appName;
+        this.unique = Model.namespace(appName) + "-" + model.identifier();
+        /*
+         * 1. 基础模型信息
+         * 2. 标识规则信息
+         * 3. 基础标识信息
+         * 4. 数据引用信息
+         */
+        final Integer modelCode = model.hashCode();
+        this.metadata = Fn.pool(Pool.META_INFO, modelCode, () -> new AoDefine(model));
+        this.ruler = Fn.pool(Pool.META_RULE, modelCode, () -> new AoUnique(model));
+        this.marker = Fn.pool(Pool.META_MARKER, modelCode, () -> new AoMarker(model));
+        this.reference = Fn.pool(Pool.META_REFERENCE, modelCode, () -> new AoReference(model, appName));
+        this.vs = Vs.create(this.unique, this.metadata.typeCls(), this.metadata.types());
     }
 
     public static DataAtom get(final String appName,
                                final String identifier) {
         /*
-         * 唯一ID，主要是内置构造函数用
+         * 每次创建一个新的 DataAtom
+         * - DataAtom 属于 Model 的聚合体，它的核心两个数据结构主要是 Performer 和 Model，这两个结构在底层做了
+         * 池化处理，也就是说：访问器 和 模型（底层）都不会出现多次创建的情况，那么为什么 DataAtom 要创建多个呢？
+         * 主要原因是 DataAtom 开始出现了分离，DataAtom 中的 RuleUnique 包含了两部分内容
+         *
+         * 1. RuleUnique 来自 Model （模型定义），Master 的 RuleUnique
+         * 2. RuleUnique 来自 connect 编程模式，Slave 的 RuleUnique
+         * 3. 每个 RuleUnique 的结构如
+         *
+         * {
+         *      "...":"内容（根）",
+         *      "children": {
+         *          "identifier1": {},
+         *          "identifier2": {}
+         *      }
+         * }
+         *
+         * 通道如果是静态绑定，则直接使用 children 就好
+         * 而通道如果出现了动态绑定，IdentityComponent 实现，则要根据切换过后的 DataAtom 对应的 identifier 去读取相对应的
+         * 标识规则。
+         *
+         * 所以，每次get的时候会读取一个新的 DataAtom 而共享其他数据结构。
          */
-        final String unique = Model.namespace(appName) + "-" + identifier;
-        return Fn.pool(AoCache.POOL_ATOM, unique, () -> new DataAtom(appName, identifier, unique));
+        try {
+            /*
+             * Performer processing to expose exception
+             */
+            final String unique = Model.namespace(appName) + "-" + identifier;
+            final AoPerformer performer = AoPerformer.getInstance(appName);
+            final Model model = Fn.pool(AoCache.POOL_MODELS, unique, () -> performer.fetchModel(identifier));
+            /*
+             * Log for data atom and return to the reference.
+             */
+            final DataAtom atom = new DataAtom(model, appName);
+            Ao.infoAtom(DataAtom.class, AoMsg.DATA_ATOM, unique, model.toJson().encode());
+            return atom;
+        } catch (final _404ModelNotFoundException ignored) {
+            /*
+             * 这里的改动主要基于动静态模型同时操作导致，如果可以找到Model则证明模型存在于系统中，这种
+             * 情况下可直接初始化DataAtom走标准流程，否则直接返回null引用，使得系统无法返回正常模型，
+             * 但不影响模型本身的执行。
+             */
+            return null;
+        }
     }
 
-    /**
-     * 返回当前 Model 中的所有属性集
-     */
-    Set<String> attributes() {
-        return this.model.getAttributes().stream()
-                .map(MAttribute::getName)
-                .collect(Collectors.toSet());
+    public String key(final JsonObject options) {
+        final String hashCode = Ut.isNil(options) ? Strings.EMPTY : String.valueOf(options.hashCode());
+        return this.metadata.identifier() + "-" + hashCode;
     }
 
-    /**
-     * 返回当前模型中的标识规则
-     */
-    public RuleUnique rules() {
-        return this.model.getUnique();
+    // ------------ 基础模型部分 ------------
+    public DataAtom atom(final String identifier) {
+        return get(this.appName, identifier);
     }
 
-    public Model getModel() {
-        return this.model;
+    /** 返回当前 Model 中的所有属性集 */
+    public Set<String> attributeNames() {
+        return this.metadata.attributeNames();
+    }
+
+    public AoAttribute attribute(final String name) {
+        return this.metadata.attribute(name);
+    }
+
+    /** 返回 name = alias */
+    public ConcurrentMap<String, String> alias() {
+        return this.metadata.alias();
+    }
+
+    public Model model() {
+        return this.metadata.model();
+    }
+
+    /* 返回当前记录关联的 identifier */
+    public String identifier() {
+        return this.metadata.identifier();
+    }
+
+    /* 返回当前记录专用的 sigma */
+    public String sigma() {
+        return this.metadata.sigma();
+    }
+
+    /* 返回语言信息 */
+    public String language() {
+        return this.metadata.language();
+    }
+
+    /* 属性类型 */
+    public ConcurrentMap<String, Class<?>> type() {
+        return this.metadata.typeCls();
+    }
+
+    /** 返回 Shape 对象 */
+    public TypeAtom shape() {
+        return this.metadata.shape();
+    }
+
+    public Class<?> type(final String field) {
+        return this.metadata.type(field);
+    }
+
+    // ------------ 比对专用方法 ----------
+
+    public Vs vs() {
+        return this.vs;
+    }
+
+    // ------------ 引用专用方法 ----------
+
+    public ConcurrentMap<String, RQuote> refInput() {
+        return this.reference.refInput();
+    }
+
+    public ConcurrentMap<String, RResult> refOutput() {
+        return this.reference.refOutput();
+    }
+
+    public ConcurrentMap<String, RQuery> refQuery() {
+        return this.reference.refQr();
+    }
+    // ------------ 标识规则 ----------
+
+    /** 存储的规则 */
+    public RuleUnique rule() {
+        return this.ruler.rule();
+    }
+
+    /** 连接的规则 */
+    public RuleUnique ruleDirect() {
+        return this.ruler.ruleDirect();
+    }
+
+    /** 智能检索规则 */
+    public RuleUnique ruleSmart() {
+        return this.ruler.ruleSmart();
+    }
+
+    /** 规则的链接 */
+    public DataAtom ruleConnect(final RuleUnique channelRule) {
+        this.ruler.connect(channelRule);
+        return this;
     }
 
     // ------------ 属性检查的特殊功能，收集相关属性 ----------
-
-    public Boolean isTrack() {
-        final Boolean result = this.model.getModel().getIsTrack();
-        return Objects.isNull(result) ? Boolean.FALSE : Boolean.TRUE;
+    /*
+     * 模型本身打开Track属性
+     */
+    public Boolean trackable() {
+        return this.marker.trackable();
     }
 
     /*
      * 解决空指针问题，
      * isTrack
+     * isConfirm
      * isSyncIn
      * isSyncOut
-     * 三个字段可能没有值
+     *
+     * 关于这四个属性需要详细说明
+     * 1. Track：是否生成变更历史, 001
+     * 2. Confirm：是否生成待确认, 002
+     * 3. SyncIn：同步拉取, 003
+     * 4. SyncOut：同步推送, 004
      */
-    public Set<String> auditTrack() {
-        return this.audit(attr -> {
-            final Boolean result = attr.getIsTrack();
-            return Objects.isNull(result) ? Boolean.FALSE : result;
-        });
+    public Set<String> falseTrack() {
+        return this.marker.track(Boolean.FALSE);
     }
 
-    public Set<String> ignoreTrack() {
-        return this.audit(attr -> {
-            final Boolean result = attr.getIsTrack();
-            return Objects.isNull(result) ? Boolean.TRUE : !result;
-        });
+    public Set<String> trueTrack() {
+        return this.marker.track(Boolean.TRUE);
     }
 
-    public Set<String> auditIn() {
-        return this.audit(attr -> {
-            final Boolean result = attr.getIsSyncIn();
-            return Objects.isNull(result) ? Boolean.FALSE : result;
-        });
-    }
-
-    public Set<String> ignoreIn() {
-        return this.audit(attr -> {
-            final Boolean result = attr.getIsSyncIn();
-            return Objects.isNull(result) ? Boolean.TRUE : !result;
-        });
-    }
-
-    public Set<String> auditOut() {
-        return this.audit(attr -> {
-            final Boolean result = attr.getIsSyncOut();
-            return Objects.isNull(result) ? Boolean.FALSE : result;
-        });
-    }
-
-    public Set<String> ignoreOut() {
-        return this.audit(attr -> {
-            final Boolean result = attr.getIsSyncOut();
-            return Objects.isNull(result) ? Boolean.TRUE : !result;
-        });
-    }
-
-    public Class<?> dateField(final String field) {
-        return this.model.types().get(field);
-    }
-
-    public boolean isDateField(final String field) {
-        return this.dateFields().containsKey(field);
+    public Set<String> falseIn() {
+        return this.marker.in(Boolean.FALSE);
     }
 
     /*
-     * 属性类型
+     * 集成过程中引入
      */
-    public ConcurrentMap<String, Class<?>> types() {
-        return this.model.types();
+    public Set<String> trueIn() {
+        return this.marker.in(Boolean.TRUE);
     }
 
-    private Set<String> audit(final Predicate<MAttribute> predicate) {
-        return this.model.getAttributes().stream()
-                .filter(predicate)
-                .map(MAttribute::getName)
-                .filter(Objects::nonNull)
-                .collect(Collectors.toSet());
+    public Set<String> falseOut() {
+        return this.marker.out(Boolean.FALSE);
     }
 
-
-    /*
-     * 时间格式处理
-     */
-    private ConcurrentMap<String, Class<?>> dateFields() {
-        final ConcurrentMap<String, Class<?>> dataFields = new ConcurrentHashMap<>();
-        this.model.types().forEach((field, type) -> {
-            if (LocalDateTime.class == type || LocalDate.class == type || LocalTime.class == type || Date.class == type) {
-                dataFields.put(field, type);
-            }
-        });
-        return dataFields;
+    public Set<String> trueOut() {
+        return this.marker.out(Boolean.TRUE);
     }
 
-    // ------------ 返回特殊元数据（包域） ----------
-    /* 返回当前记录关联的 identifier */
-    public String identifier() {
-        return this.identifier;
+    public Set<String> falseConfirm() {
+        return this.marker.confirm(Boolean.FALSE);
     }
 
-    public String sigma() {
-        return this.getModel().getModel().getSigma();
+    public Set<String> trueConfirm() {
+        return this.marker.confirm(Boolean.TRUE);
     }
-
-    /* 返回当前记录对应的名空间 */
-    String namespace() {
-        return this.model.getModel().getNamespace();
-    }
-
-    /* 返回当前记录专用的 sigma */
-
 
     @Override
     public boolean equals(final Object o) {

@@ -1,6 +1,7 @@
 # D10012 - Zero JSR311, @StreamParam...Parameters
 
-Zero system provide simple parameter annotation for up.god.file uploading, this kind of parameters must be annotated with `javax.ws.rs.StreamParam` here, it should support following type conversion automatically.
+Zero system provide simple parameter annotation for up.god.file uploading, this kind of parameters must be annotated
+with `javax.ws.rs.StreamParam` here, it should support following type conversion automatically.
 
 * `byte[]`
 * `io.vertx.core.buffer.Buffer`
@@ -122,9 +123,11 @@ This up.god.file is a picture with 41500 bytes, the response body reflect the wh
 
 ### 3.4. File Uploading \( for Buffer \)
 
-_This example is the same result as 3.2 File Uploading, here ignore the testing result because the response are all the same. We only modified accept parameter types in @StreamParam._
+_This example is the same result as 3.2 File Uploading, here ignore the testing result because the response are all the
+same. We only modified accept parameter types in @StreamParam._
 
 ## 4. Summary
 
-This tutorial describe how to accept String/File to byte\[\] and Buffer, these data are all stored into your parameters. Then we'll introduce some advanced usage of @StreamParam.
+This tutorial describe how to accept String/File to byte\[\] and Buffer, these data are all stored into your parameters.
+Then we'll introduce some advanced usage of @StreamParam.
 

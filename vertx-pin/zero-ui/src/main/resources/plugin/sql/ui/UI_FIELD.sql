@@ -17,6 +17,9 @@ CREATE TABLE IF NOT EXISTS UI_FIELD
     `HIDDEN`        BIT COMMENT '「hidden」- button专用',
     `RENDER`        VARCHAR(64) COMMENT '「render」- 使用的Render函数',
 
+    -- Form 中的容器字段相关配置
+    `CONTAINER`     VARCHAR(128) COMMENT '「container」- 容器字段专用容器信息，映射到 name 中',
+
     -- Option选项
     `OPTION_JSX`    TEXT COMMENT '「optionJsx」- 字段专用配置',
     `OPTION_CONFIG` TEXT COMMENT '「optionConfig」- 字段专用配置',
@@ -37,8 +40,13 @@ CREATE TABLE IF NOT EXISTS UI_FIELD
     `CREATED_BY`    VARCHAR(36) COMMENT '「createdBy」- 创建人',
     `UPDATED_AT`    DATETIME COMMENT '「updatedAt」- 更新时间',
     `UPDATED_BY`    VARCHAR(36) COMMENT '「updatedBy」- 更新人',
-    PRIMARY KEY (`KEY`)
+    PRIMARY KEY (`KEY`) USING BTREE
 );
 -- changeset Lang:ox-field-2
 ALTER TABLE UI_FIELD
-    ADD UNIQUE (`CONTROL_ID`, `NAME`);
+    ADD UNIQUE (`CONTROL_ID`, `NAME`) USING BTREE;
+
+ALTER TABLE UI_FIELD
+    ADD INDEX IDX_UI_FIELD_CONTROL_ID (`CONTROL_ID`) USING BTREE;
+ALTER TABLE UI_FIELD
+    ADD INDEX IDXM_UI_FIELD_CONTROL_ID_X_Y (`CONTROL_ID`, `X_POINT`, `Y_POINT`) USING BTREE;

@@ -10,6 +10,29 @@ import java.time.DateTimeException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+/**
+ * # 「Tp」Jackson Deserializer
+ *
+ * This serializer inherit from `LocalDateTimeDeserializer` for the calculation of date time
+ * with TimeZone. When you set the date time to java object, here are standard of datetime, the
+ * default format is UTC.
+ *
+ * This component is used by {@link com.fasterxml.jackson.databind.module.ZeroModule} as following:
+ *
+ * ```java
+ * // <pre><code class="java">
+ *      this.addDeserializer(LocalDateTime.class, new AdjustDateTimeDeserializer());
+ * // </code></pre>
+ * ```
+ *
+ * ## Designed
+ *
+ * After `java 8`, it provide `LocalDateTime, LocalDate, LocalTime` for datetime calculation, it means that you can
+ * use previous three datetime classes instead of `Date` or `Calendar` here. These api are more useful when you are in
+ * development of some real business project.
+ *
+ * @author <a href="http://www.origin-x.cn">Lang</a>
+ */
 public class AdjustDateTimeDeserializer extends LocalDateTimeDeserializer {
 
     private static final DateTimeFormatter DEFAULT_FORMATTER = DateTimeFormatter.ISO_LOCAL_DATE_TIME;
@@ -26,10 +49,10 @@ public class AdjustDateTimeDeserializer extends LocalDateTimeDeserializer {
                 return null;
             } else {
                 try {
-                    if (this._formatter == DEFAULT_FORMATTER && string.length() > 10 && string.charAt(10) == 'T') {
+                    if (this._formatter == DEFAULT_FORMATTER && string.length() > 10 && string.charAt(10) == 'T' ) {
                         /// System.out.println(string.endsWith("Z"));
                         return string.endsWith("Z") ? Ut.toDateTime(Ut.parse(string)) :
-                                LocalDateTime.parse(string, DEFAULT_FORMATTER);
+                            LocalDateTime.parse(string, DEFAULT_FORMATTER);
                     } else {
                         return LocalDateTime.parse(string, this._formatter);
                     }

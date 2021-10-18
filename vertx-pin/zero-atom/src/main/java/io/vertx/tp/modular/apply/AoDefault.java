@@ -1,7 +1,7 @@
 package io.vertx.tp.modular.apply;
 
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.ke.cv.KeField;
+import io.vertx.up.eon.KName;
 import io.vertx.up.fn.Fn;
 
 import java.util.UUID;
@@ -12,37 +12,37 @@ import java.util.UUID;
 public interface AoDefault {
     static AoDefault schema() {
         return Fn.pool(Pool.DEFAULT_POOL, SchemaDefault.class.getName(),
-                SchemaDefault::new);
+            SchemaDefault::new);
     }
 
     static AoDefault entity() {
         return Fn.pool(Pool.DEFAULT_POOL, EntityDefault.class.getName(),
-                EntityDefault::new);
+            EntityDefault::new);
     }
 
     static AoDefault key() {
         return Fn.pool(Pool.DEFAULT_POOL, KeyDefault.class.getName(),
-                KeyDefault::new);
+            KeyDefault::new);
     }
 
     static AoDefault field() {
         return Fn.pool(Pool.DEFAULT_POOL, FieldDefault.class.getName(),
-                FieldDefault::new);
+            FieldDefault::new);
     }
 
     static AoDefault model() {
         return Fn.pool(Pool.DEFAULT_POOL, ModelDefault.class.getName(),
-                ModelDefault::new);
+            ModelDefault::new);
     }
 
     static AoDefault attribute() {
         return Fn.pool(Pool.DEFAULT_POOL, AttributeDefault.class.getName(),
-                AttributeDefault::new);
+            AttributeDefault::new);
     }
 
     static AoDefault join() {
         return Fn.pool(Pool.DEFAULT_POOL, JoinDefault.class.getName(),
-                JoinDefault::new);
+            JoinDefault::new);
     }
 
     static <T> void apply(final JsonObject target,
@@ -55,10 +55,10 @@ public interface AoDefault {
 
     static void apply(final JsonObject entity) {
         // 这四个字段基本一致
-        apply(entity, KeField.KEY, UUID.randomUUID().toString());
-        apply(entity, KeField.ACTIVE, Boolean.TRUE);
-        apply(entity, KeField.LANGUAGE, "cn");  // 默认使用cn
-        apply(entity, KeField.METADATA, new JsonObject().encode());
+        apply(entity, KName.KEY, UUID.randomUUID().toString());
+        apply(entity, KName.ACTIVE, Boolean.TRUE);
+        apply(entity, KName.LANGUAGE, "cn");  // 默认使用cn
+        apply(entity, KName.METADATA, new JsonObject().encode());
     }
 
     /**

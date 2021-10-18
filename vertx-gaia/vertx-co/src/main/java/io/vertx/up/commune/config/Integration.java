@@ -6,7 +6,9 @@ import com.fasterxml.jackson.databind.JsonObjectSerializer;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import io.vertx.core.json.JsonObject;
+import io.vertx.up.commune.Copyable;
 import io.vertx.up.commune.Json;
+import io.vertx.up.commune.exchange.DiConsumer;
 import io.vertx.up.util.Ut;
 
 import java.io.Serializable;
@@ -40,10 +42,10 @@ import java.util.concurrent.ConcurrentMap;
  *      }
  * }
  */
-public class Integration implements Json, Serializable {
+public class Integration implements Json, Serializable, Copyable<Integration> {
 
     private final transient ConcurrentMap<String, IntegrationRequest> apis
-            = new ConcurrentHashMap<>();
+        = new ConcurrentHashMap<>();
     /*
      * Restful / Web Service information ( such as jdbcUrl )
      * The target service should be: endpoint + api ( IntegrationRequest )
@@ -66,15 +68,35 @@ public class Integration implements Json, Serializable {
      */
     @JsonSerialize(using = JsonObjectSerializer.class)
     @JsonDeserialize(using = JsonObjectDeserializer.class)
-    private transient JsonObject options;
+    private transient JsonObject options = new JsonObject();
     @JsonIgnore
-    private transient ConcurrentMap<String, DictEpsilon> epsilon = new ConcurrentHashMap<>();
+    private transient ConcurrentMap<String, DiConsumer> epsilon = new ConcurrentHashMap<>();
+    @JsonIgnore
+    private transient String vendorConfig;
+    @JsonIgnore
+    private transient String vendor;
 
-    public ConcurrentMap<String, DictEpsilon> getEpsilon() {
+    public String getVendorConfig() {
+        return this.vendorConfig;
+    }
+
+    public void setVendorConfig(final String vendorConfig) {
+        this.vendorConfig = vendorConfig;
+    }
+
+    public String getVendor() {
+        return this.vendor;
+    }
+
+    public void setVendor(final String vendor) {
+        this.vendor = vendor;
+    }
+
+    public ConcurrentMap<String, DiConsumer> getEpsilon() {
         return this.epsilon;
     }
 
-    public void setEpsilon(final ConcurrentMap<String, DictEpsilon> epsilon) {
+    public void setEpsilon(final ConcurrentMap<String, DiConsumer> epsilon) {
         this.epsilon = epsilon;
     }
 
@@ -139,7 +161,7 @@ public class Integration implements Json, Serializable {
     }
 
     public JsonObject getOptions() {
-        return Objects.isNull(this.options) ? new JsonObject() : this.options;
+        return this.options;
     }
 
     public void setOptions(final JsonObject options) {
@@ -156,6 +178,25 @@ public class Integration implements Json, Serializable {
     public <T> T getOption(final String optionKey, final T defaultValue) {
         final T result = this.getOption(optionKey);
         return Objects.isNull(result) ? defaultValue : result;
+    }
+
+    /*
+     * Control for debug
+     */
+    public void mockOn() {
+        this.options.put("debug", true);
+    }
+
+    public void mockOff() {
+        this.options.put("debug", false);
+    }
+
+    @Override
+    public Integration copy() {
+        final Integration integration = new Integration();
+        final JsonObject data = this.toJson().copy();
+        integration.fromJson(data);
+        return integration;
     }
 
     @Override
@@ -209,15 +250,19 @@ public class Integration implements Json, Serializable {
 
     @Override
     public boolean equals(final Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Integration)) return false;
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof Integration)) {
+            return false;
+        }
         final Integration that = (Integration) o;
         return this.endpoint.equals(that.endpoint) &&
-                this.port.equals(that.port) &&
-                this.protocol.equals(that.protocol) &&
-                this.username.equals(that.username) &&
-                this.password.equals(that.password) &&
-                this.hostname.equals(that.hostname);
+            this.port.equals(that.port) &&
+            this.protocol.equals(that.protocol) &&
+            this.username.equals(that.username) &&
+            this.password.equals(that.password) &&
+            this.hostname.equals(that.hostname);
     }
 
     @Override
@@ -228,14 +273,15 @@ public class Integration implements Json, Serializable {
     @Override
     public String toString() {
         return "Integration{" +
-                "apis=" + this.apis +
-                ", endpoint='" + this.endpoint + '\'' +
-                ", port=" + this.port +
-                ", protocol='" + this.protocol + '\'' +
-                ", username='" + this.username + '\'' +
-                ", password='" + this.password + '\'' +
-                ", hostname='" + this.hostname + '\'' +
-                ", publicKeyFile='" + this.publicKeyFile + '\'' +
-                '}';
+            "apis=" + this.apis +
+            ", vendor=" + this.vendorConfig +
+            ", endpoint='" + this.endpoint + '\'' +
+            ", port=" + this.port +
+            ", protocol='" + this.protocol + '\'' +
+            ", username='" + this.username + '\'' +
+            ", password='" + this.password + '\'' +
+            ", hostname='" + this.hostname + '\'' +
+            ", publicKeyFile='" + this.publicKeyFile + '\'' +
+            '}';
     }
 }

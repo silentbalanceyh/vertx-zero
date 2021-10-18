@@ -1,6 +1,10 @@
 # D10025 - Non-Blocking, Mode 5 Experimental extension
 
-In zero system programming, the mode 5 is recommend because it could release the power of vert.x. For some special business requirements the developers want to return to Java style to do programming, based on this situation we also developed the advanced mode 5, call it experimental version. This version could let the developer more freedom to do programming in zero system, although we provide this mode, zero system still recommend the developers to use Uniform Resource Model that defined by zero system because it contains more standard data here.
+In zero system programming, the mode 5 is recommend because it could release the power of vert.x. For some special
+business requirements the developers want to return to Java style to do programming, based on this situation we also
+developed the advanced mode 5, call it experimental version. This version could let the developer more freedom to do
+programming in zero system, although we provide this mode, zero system still recommend the developers to use Uniform
+Resource Model that defined by zero system because it contains more standard data here.
 
 Demo projects:
 
@@ -61,7 +65,9 @@ public class VertxAsyncWorker {
 1. The worker class must be annotated with `io.vertx.up.annotations.Queue`.
 2. You must use `io.vertx.up.annotations.Address` annotation to set address of string type in **Sender/Consumer** both.
 3. Address value should be the same shared in **Sender/Consumer.**
-4. The biggest difference between standard mode 5 and current mode is that there is no limitation in current mode, we could be sure the method signature should be: `Future<T> method( I )`, except the return type should be: `io.vertx.core.Future`, other programming parts are almost the same as java programming.
+4. The biggest difference between standard mode 5 and current mode is that there is no limitation in current mode, we
+   could be sure the method signature should be: `Future<T> method( I )`, except the return type should
+   be: `io.vertx.core.Future`, other programming parts are almost the same as java programming.
 
 ## 2. Console
 
@@ -88,7 +94,7 @@ public class VertxAsyncWorker {
 
 **Method** : POST
 
-**Request** : 
+**Request** :
 
 ```json
 {
@@ -112,7 +118,9 @@ public class VertxAsyncWorker {
 
 ## 4. Summary
 
-This mode is in experimental phase because it may contain some bugs here, but in our projects we have put it into production environment to verify this features. Also this mode is recommend by our team because it's more the same as java programming.
+This mode is in experimental phase because it may contain some bugs here, but in our projects we have put it into
+production environment to verify this features. Also this mode is recommend by our team because it's more the same as
+java programming.
 
 
 

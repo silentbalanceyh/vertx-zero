@@ -8,10 +8,7 @@ import io.vertx.up.log.Annal;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -24,9 +21,16 @@ final class InstanceField {
     }
 
     static <T> void set(final Object instance, final String name, final T value) {
-        final Field field = Fn.getNull(() ->
-                Fn.getJvm(() -> instance.getClass().getDeclaredField(name), LOGGER), instance, name);
-        set(instance, field, value);
+        if (Objects.nonNull(instance) && Objects.nonNull(name)) {
+            final Field field;
+            try {
+                field = instance.getClass().getDeclaredField(name);
+                set(instance, field, value);
+            } catch (NoSuchFieldException ex) {
+                LOGGER.warn("Class {0} and details: {1}", instance.getClass(), ex.getMessage());
+                ex.printStackTrace();
+            }
+        }
     }
 
     static <T> void set(final Object instance, final Field field, final T value) {
@@ -40,9 +44,9 @@ final class InstanceField {
 
     static Field[] fieldAll(final Object instance, final Class<?> fieldType) {
         final Function<Class<?>, Set<Field>> lookupFun = clazz -> lookUp(clazz, fieldType)
-                .collect(Collectors.toSet());
+            .collect(Collectors.toSet());
         return Fn.getJvm(() -> fieldAll(instance.getClass(), fieldType).toArray(new Field[]{}),
-                instance, fieldType);
+            instance, fieldType);
     }
 
     private static Set<Field> fieldAll(final Class<?> clazz, final Class<?> fieldType) {
@@ -66,7 +70,7 @@ final class InstanceField {
             }
             final Field[] fields = clazz.getDeclaredFields();
             final Optional<Field> field = Arrays.stream(fields)
-                    .filter(item -> name.equals(item.getName())).findFirst();
+                .filter(item -> name.equals(item.getName())).findFirst();
             if (field.isPresent()) {
                 return field.get();
             } else {
@@ -78,21 +82,25 @@ final class InstanceField {
 
     static <T> T getI(final Class<?> interfaceCls, final String name) {
         return Fn.getNull(() -> Fn.safeJvm(() -> {
-                    final Field field = interfaceCls.getField(name);
-                    final Object result = field.get(null);
-                    if (null != result) {
-                        return (T) result;
-                    } else {
-                        return null;
-                    }
-                }, LOGGER)
-                , interfaceCls, name);
+                final Field field = interfaceCls.getField(name);
+                final Object result = field.get(null);
+                if (null != result) {
+                    return (T) result;
+                } else {
+                    return null;
+                }
+            }, LOGGER)
+            , interfaceCls, name);
     }
 
     static <T> T get(final Object instance,
                      final String name) {
         return Fn.getNull(() -> Fn.safeJvm(() -> {
-                    final Field field = get(instance.getClass(), name);
+                final Field field = get(instance.getClass(), name);
+                if (Objects.nonNull(field)) {
+                    /*
+                     * Field valid
+                     */
                     if (!field.isAccessible()) {
                         field.setAccessible(true);
                     }
@@ -102,16 +110,17 @@ final class InstanceField {
                     } else {
                         return null;
                     }
-                }, LOGGER)
-                , instance, name);
+                } else return null;
+            }, LOGGER)
+            , instance, name);
     }
 
     static Field[] fields(final Class<?> clazz) {
         final Field[] fields = clazz.getDeclaredFields();
         return Arrays.stream(fields)
-                .filter(item -> !Modifier.isStatic(item.getModifiers()))
-                .filter(item -> !Modifier.isAbstract(item.getModifiers()))
-                .toArray(Field[]::new);
+            .filter(item -> !Modifier.isStatic(item.getModifiers()))
+            .filter(item -> !Modifier.isAbstract(item.getModifiers()))
+            .toArray(Field[]::new);
     }
 
     private static Stream<Field> lookUp(final Class<?> clazz, final Class<?> fieldType) {
@@ -120,9 +129,9 @@ final class InstanceField {
             final Field[] fields = fields(clazz);
             /* Direct match */
             return Arrays.stream(fields)
-                    .filter(field -> fieldType == field.getType() ||          // Direct match
-                            fieldType == field.getType().getSuperclass() ||  // Super
-                            Instance.isMatch(field.getType(), fieldType));
+                .filter(field -> fieldType == field.getType() ||          // Direct match
+                    fieldType == field.getType().getSuperclass() ||  // Super
+                    Instance.isMatch(field.getType(), fieldType));
         });
     }
 
@@ -137,10 +146,10 @@ final class InstanceField {
          * Counter
          */
         final Field[] filtered = Arrays.stream(fields)
-                .filter(field -> field.isAnnotationPresent(Contract.class))
-                .toArray(Field[]::new);
+            .filter(field -> field.isAnnotationPresent(Contract.class))
+            .toArray(Field[]::new);
         Fn.out(1 != filtered.length, _412ContractFieldException.class,
-                executor, fieldType, instance.getClass(), filtered.length);
+            executor, fieldType, instance.getClass(), filtered.length);
         return filtered[Values.IDX];
     }
 

@@ -1,7 +1,7 @@
 package io.vertx.up.runtime;
 
-import io.vertx.up.log.Annal;
 import io.vertx.up.fn.Fn;
+import io.vertx.up.log.Annal;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -15,8 +15,8 @@ public abstract class BaseSaber implements Saber {
                      final Class<?> paramType,
                      final String literal) {
         Fn.outUp(condition,
-                getLogger(), _400ParameterFromStringException.class,
-                ZeroSerializer.class, paramType, literal);
+            getLogger(), _400ParameterFromStringException.class,
+            ZeroSerializer.class, paramType, literal);
     }
 
     @Override

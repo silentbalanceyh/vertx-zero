@@ -30,7 +30,7 @@ public final class SqlDDLBuilder implements SqlStatement {
     public String buildCreateTable(final String tableName,
                                    final List<String> lines) {
         return MessageFormat.format(SqlStatement.TB_CREATE, tableName,
-                Ut.fromJoin(lines, Strings.COMMA));
+            Ut.fromJoin(lines, Strings.COMMA));
     }
 
     /* 表删除 */

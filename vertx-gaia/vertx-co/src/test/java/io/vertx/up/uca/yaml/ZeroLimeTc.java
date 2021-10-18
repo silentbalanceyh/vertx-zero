@@ -9,7 +9,7 @@ import java.util.concurrent.ConcurrentMap;
 public class ZeroLimeTc {
 
     private transient final Node<ConcurrentMap<String, String>> node
-            = Ut.singleton(ZeroLime.class);
+        = Ut.singleton(ZeroLime.class);
 
     @Test
     public void testGen() {

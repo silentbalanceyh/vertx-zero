@@ -34,7 +34,7 @@ public class ZeroHttpWorker extends AbstractVerticle {
     private static final Set<Receipt> RECEIPTS = ZeroAnno.getReceipts();
 
     private static final ConcurrentMap<Integer, Invoker> INVOKER_MAP =
-            new ConcurrentHashMap<>();
+        new ConcurrentHashMap<>();
 
     private static final AtomicBoolean LOGGED = new AtomicBoolean(Boolean.FALSE);
 
@@ -69,18 +69,29 @@ public class ZeroHttpWorker extends AbstractVerticle {
             // 7. Record for different invokers
             INVOKER_MAP.put(receipt.hashCode(), invoker);
 
-            Fn.safeJvm(() -> Fn.safeNull(() -> bus.<Envelop>consumer(address,
-                    message -> {
-                        if (method.isAnnotationPresent(Ipc.class)) {
-                            // Rpc continue replying
-                            invoker.next(reference, method, message, this.vertx);
-                        } else {
-                            // Direct replying
-                            invoker.invoke(reference, method, message);
-                        }
-                    }),
-                    address, reference, method), LOGGER
-            );
+            Fn.safeNull(() -> bus.<Envelop>consumer(address, message -> {
+                if (method.isAnnotationPresent(Ipc.class)) {
+                    // Rpc continue replying
+                    invoker.next(reference, method, message, this.vertx);
+                } else {
+                    try {
+                        /*
+                         * Standard mode: Direct replying
+                         * This mode is non micro-service and could call in most of our
+                         * situations, instead we catch `blocked thread` issue in
+                         * Invoker ( AsyncInvoker ) for future extend design here.
+                         */
+                        invoker.invoke(reference, method, message);
+                    } catch (final Throwable ex) {
+                        /*
+                         * Error Occurs and fire message
+                         */
+                        ex.printStackTrace();
+                        message.reply(Envelop.failure(ex));
+                        // message.fail(0, ex.getMessage());
+                    }
+                }
+            }), address, reference, method);
         }
         // Record all the information;
         if (!LOGGED.getAndSet(Boolean.TRUE)) {

@@ -18,11 +18,11 @@ public class ZeroLauncher implements Launcher<Vertx> {
 
     @Override
     public void start(final Consumer<Vertx> callback) {
-        ZeroMotor.start(getClass(),
-                callback,
-                this::startStandalone,
-                this::startCluster,
-                LOGGER);
+        ZeroMotor.start(this.getClass(),
+            callback,
+            this::startStandalone,
+            this::startCluster,
+            LOGGER);
     }
 
     @Override
@@ -49,7 +49,7 @@ public class ZeroLauncher implements Launcher<Vertx> {
             // 2. Codecs
             ZeroMotor.codec(vertx.eventBus());
             // 3. Cluster connect
-            manager.setVertx(vertx);
+            // manager.setVertx(vertx);
             // Finalized
             VERTX.putIfAbsent(name, vertx);
 

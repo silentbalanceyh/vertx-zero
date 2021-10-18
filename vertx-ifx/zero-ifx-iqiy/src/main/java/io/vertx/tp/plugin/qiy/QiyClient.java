@@ -29,6 +29,7 @@ public interface QiyClient extends TpClient<QiyClient> {
      * /iqiyi/authorize
      *
      * @param handler async handler
+     *
      * @return self reference
      */
     @Fluent
@@ -40,6 +41,7 @@ public interface QiyClient extends TpClient<QiyClient> {
      *
      * @param refreshToken refresh token
      * @param handler      async handler
+     *
      * @return self reference
      */
     @Fluent
@@ -52,6 +54,7 @@ public interface QiyClient extends TpClient<QiyClient> {
      * @param fileType request up.god.file type
      * @param size     request up.god.file size
      * @param handler  async handler
+     *
      * @return self reference
      */
     @Fluent
@@ -64,6 +67,7 @@ public interface QiyClient extends TpClient<QiyClient> {
      * @param range   size range
      * @param fileId  return id by requestFile
      * @param content File content part
+     *
      * @return self reference
      */
     @Fluent

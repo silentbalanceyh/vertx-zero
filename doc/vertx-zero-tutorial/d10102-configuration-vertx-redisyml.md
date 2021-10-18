@@ -1,6 +1,7 @@
 # D10102 - Configuration, vertx-redis.yml
 
-From `0.4.7`, zero system support native `RedisClient` that has been provided by vert.x, you can read current tutorial to check the details about how to configure redis client in zero system.
+From `0.4.7`, zero system support native `RedisClient` that has been provided by vert.x, you can read current tutorial
+to check the details about how to configure redis client in zero system.
 
 ## 1. Configuration
 
@@ -33,9 +34,11 @@ redis:
   port: 6379
 ```
 
-Just like `vertx-mysql.yml` configuration, here all the `redis` node keys are native supported by vert.x, you can provide all the native configuration keys to `redis` in zero system.
+Just like `vertx-mysql.yml` configuration, here all the `redis` node keys are native supported by vert.x, you can
+provide all the native configuration keys to `redis` in zero system.
 
 ## 2. Summary
 
-Here are the redis standalong configuration part and in forward tutorials we'll introduce the client usage in zero system.
+Here are the redis standalong configuration part and in forward tutorials we'll introduce the client usage in zero
+system.
 

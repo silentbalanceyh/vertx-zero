@@ -6,7 +6,8 @@ Demo projects:
 
 * **Standalone - 6093** : `up-thea`
 
-For example sometimes you may query the user record by name instead of primary key, in this kind of situation the `Read Operations` that we introduced may be useless.
+For example sometimes you may query the user record by name instead of primary key, in this kind of situation
+the `Read Operations` that we introduced may be useless.
 
 ## 1. Source Code
 
@@ -100,7 +101,8 @@ public class FetchService implements FetchStub {
 
 Here we used `fetchOneAsync` method to query the data by `S_NAME` column, and you can test with following:
 
-**URL** : [http://localhost:6093/api/tabular/by/%e6%8c%82%e7%89%8c%e4%bb%b7](http://localhost:6093/api/tabular/by/%e6%8c%82%e7%89%8c%e4%bb%b7)
+**
+URL** : [http://localhost:6093/api/tabular/by/%e6%8c%82%e7%89%8c%e4%bb%b7](http://localhost:6093/api/tabular/by/%e6%8c%82%e7%89%8c%e4%bb%b7)
 
 **Method** : GET
 
@@ -129,5 +131,6 @@ Except above fetchOneAsync api, `Ux.Jooq` class provide all the `fetchOne` apis 
 
 ## 3. Summary
 
-This chapter described how to use `fetchOne` method as well and we'll continue to introduce fetching operations and tell the developers how to use `andFilters` in forward tutorials.
+This chapter described how to use `fetchOne` method as well and we'll continue to introduce fetching operations and tell
+the developers how to use `andFilters` in forward tutorials.
 

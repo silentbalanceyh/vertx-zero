@@ -1,6 +1,7 @@
 # D10041 - JSR303, 2.x version
 
-In current tutorial we have checked most of JSR303 annotation usage based on Hibernate Validator Framework. Here are some new annotations in JSR303.
+In current tutorial we have checked most of JSR303 annotation usage based on Hibernate Validator Framework. Here are
+some new annotations in JSR303.
 
 * [x] `javax.validation.constraints.Email`
 * [x] `javax.validation.constraints.FutureOrPresent`
@@ -20,9 +21,12 @@ Demo projects:
 
 **Rules**:
 
-1. JSR303 is only supported in Agent component in zero system, it means that after you have send the message to event bus, the JSR303 will be effectiveness.
-2. When you write the code with the Interface Style \( Will introduce in forward tutorials \), JSR303 will not support this kind of situation.
-3. For @BodyParam, it also impact Agent component only, but could support Interface Style instead of JSR303 and could provide more useful validations.
+1. JSR303 is only supported in Agent component in zero system, it means that after you have send the message to event
+   bus, the JSR303 will be effectiveness.
+2. When you write the code with the Interface Style \( Will introduce in forward tutorials \), JSR303 will not support
+   this kind of situation.
+3. For @BodyParam, it also impact Agent component only, but could support Interface Style instead of JSR303 and could
+   provide more useful validations.
 
 ## 1. Source Code
 
@@ -77,5 +81,7 @@ If you changed the email parameter such as `lang.yu@hpe.com`, you can see follow
 
 ## 3. Summary
 
-In total, zero system support most of JSR303 specification because it used Hibernate Validator to do it. Another feature that zero system provided is that it extend JSR303 and could verify the JsonObject/JsonArray format, you can move forward to study the next annotations.
+In total, zero system support most of JSR303 specification because it used Hibernate Validator to do it. Another feature
+that zero system provided is that it extend JSR303 and could verify the JsonObject/JsonArray format, you can move
+forward to study the next annotations.
 

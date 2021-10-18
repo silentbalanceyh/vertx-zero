@@ -3,8 +3,8 @@ package io.vertx.tp.optic;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.ke.cv.KeField;
-import io.vertx.up.unity.jq.UxJooq;
+import io.vertx.up.eon.KName;
+import io.vertx.up.uca.jooq.UxJooq;
 
 /*
  * Apeak implementation by some specific definition
@@ -13,12 +13,11 @@ import io.vertx.up.unity.jq.UxJooq;
  */
 public interface ApeakMy {
 
-    String ARG0 = KeField.RESOURCE_ID;
-    String ARG1 = "user";
-    String ARG2 = KeField.VIEW;
-
-    String ARG3 = "habitus";
-    String ARG4 = KeField.DATA_KEY;
+    String ARG0 = KName.RESOURCE_ID;
+    String ARG1 = KName.USER;
+    String ARG2 = KName.VIEW;
+    String ARG3 = KName.HABITUS;
+    String ARG4 = KName.DATA_KEY;
 
     ApeakMy on(UxJooq jooq);
 
@@ -29,7 +28,7 @@ public interface ApeakMy {
      *      "sigma": "xxx",
      *      "resourceId": "xxx",
      *      "principle": {
-     *          "jwt": "token"
+     *          "access_token": "token"
      *      }
      * }
      * token: {
@@ -51,6 +50,10 @@ public interface ApeakMy {
      * -- 3.1) Select projection result ( calculation )
      * -- 3.2) Input select projection result
      * -- 3.3) Modification for identifier projection
+     * {
+     *     "projection": [],
+     *     "criteria": {}
+     * }
      */
-    Future<JsonArray> saveMy(JsonObject params, JsonArray projection);
+    Future<JsonObject> saveMy(JsonObject params, JsonObject viewData);
 }

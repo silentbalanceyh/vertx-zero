@@ -13,5 +13,5 @@ CREATE TABLE IF NOT EXISTS V_FRAGMENT
     `MODAL`          TEXT COMMENT '「modal」- modal选项，Model专用结构',
     `GRID`           INT DEFAULT 3 COMMENT '「grid」- grid选项（分区面板专用）',
     `CONFIG`         TEXT COMMENT '「config」- 根目录开始的基本配置',
-    PRIMARY KEY (`KEY`)
+    PRIMARY KEY (`KEY`) USING BTREE
 );

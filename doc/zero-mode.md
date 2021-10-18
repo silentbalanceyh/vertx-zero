@@ -1,6 +1,7 @@
 # Request Mode
 
-Zero system support five request modes as following ( Please ignore the name of the mode, it's for distinguish differences only )
+Zero system support five request modes as following ( Please ignore the name of the mode, it's for distinguish
+differences only )
 
 ## 1. Mode 1: Sync Mode
 
@@ -77,7 +78,8 @@ This mode is samiliar with Mode2, but the data will send to event bus to execute
 
 **Rule**
 
-1. The methods of `@EndPoint` and `@Queue` must be annotated with `@Address` and they are the same between sender and consumer
+1. The methods of `@EndPoint` and `@Queue` must be annotated with `@Address` and they are the same between sender and
+   consumer
 2. The return type of method in `@EndPoint` mustn't be `void`
 3. You must be define the consumer method signature to `public void xxx(Envelop)`
 
@@ -116,7 +118,8 @@ This mode is async request response mode between consumer and sender on event bu
 
 **Rule**
 
-1. The methods of `@EndPoint` and `@Queue` must be annotated with `@Address` and they are the same between sender and consumer
+1. The methods of `@EndPoint` and `@Queue` must be annotated with `@Address` and they are the same between sender and
+   consumer
 2. The return type of method in `@EndPoint` mustn't be `void`
 3. You must be define the consumer method signature to `public Envelop xxx(Envelop)`
 
@@ -162,7 +165,8 @@ This mode is supported for some vert.x component use in service layer of the sys
 
 **Rule**
 
-1. The methods of `@EndPoint` and `@Queue` must be annotated with `@Address` and they are the same between sender and consumer
+1. The methods of `@EndPoint` and `@Queue` must be annotated with `@Address` and they are the same between sender and
+   consumer
 2. The return type of method in `@EndPoint` mustn't be `void`
 3. You must be define the consumer method signature to `public void xxx(Message<Envelop>)`
 4. Don't forget call `reply(Envelop` in call back on `Message<Envelop>`

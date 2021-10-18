@@ -44,9 +44,9 @@ public class Neo4jGs implements Serializable {
     @Override
     public String toString() {
         return "Neo4jGs{" +
-                "name='" + this.name + '\'' +
-                ", nodes=" + this.nodes +
-                ", edges=" + this.edges +
-                '}';
+            "name='" + this.name + '\'' +
+            ", nodes=" + this.nodes +
+            ", edges=" + this.edges +
+            '}';
     }
 }
