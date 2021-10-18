@@ -28,6 +28,7 @@ public class FBill implements VertxPojo, IFBill {
     private String        type;
     private String        category;
     private BigDecimal    amount;
+    private Boolean       income;
     private String        comment;
     private String        modelId;
     private String        modelKey;
@@ -52,6 +53,7 @@ public class FBill implements VertxPojo, IFBill {
         this.type = value.getType();
         this.category = value.getCategory();
         this.amount = value.getAmount();
+        this.income = value.getIncome();
         this.comment = value.getComment();
         this.modelId = value.getModelId();
         this.modelKey = value.getModelKey();
@@ -75,6 +77,7 @@ public class FBill implements VertxPojo, IFBill {
         String        type,
         String        category,
         BigDecimal    amount,
+        Boolean       income,
         String        comment,
         String        modelId,
         String        modelKey,
@@ -96,6 +99,7 @@ public class FBill implements VertxPojo, IFBill {
         this.type = type;
         this.category = category;
         this.amount = amount;
+        this.income = income;
         this.comment = comment;
         this.modelId = modelId;
         this.modelKey = modelKey;
@@ -232,6 +236,25 @@ public class FBill implements VertxPojo, IFBill {
     @Override
     public FBill setAmount(BigDecimal amount) {
         this.amount = amount;
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.F_BILL.INCOME</code>. 「income」- true =
+     * 消费类，false = 付款类
+     */
+    @Override
+    public Boolean getIncome() {
+        return this.income;
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.F_BILL.INCOME</code>. 「income」- true =
+     * 消费类，false = 付款类
+     */
+    @Override
+    public FBill setIncome(Boolean income) {
+        this.income = income;
         return this;
     }
 
@@ -471,6 +494,7 @@ public class FBill implements VertxPojo, IFBill {
         sb.append(", ").append(type);
         sb.append(", ").append(category);
         sb.append(", ").append(amount);
+        sb.append(", ").append(income);
         sb.append(", ").append(comment);
         sb.append(", ").append(modelId);
         sb.append(", ").append(modelKey);
@@ -502,6 +526,7 @@ public class FBill implements VertxPojo, IFBill {
         setType(from.getType());
         setCategory(from.getCategory());
         setAmount(from.getAmount());
+        setIncome(from.getIncome());
         setComment(from.getComment());
         setModelId(from.getModelId());
         setModelKey(from.getModelKey());

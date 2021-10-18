@@ -58,6 +58,11 @@ public class FBill extends TableImpl<FBillRecord> {
      */
     public final TableField<FBillRecord, BigDecimal> AMOUNT = createField(DSL.name("AMOUNT"), SQLDataType.DECIMAL(18, 2).nullable(false), this, "「amount」- 账单金额");
     /**
+     * The column <code>DB_ETERNAL.F_BILL.INCOME</code>. 「income」- true =
+     * 消费类，false = 付款类
+     */
+    public final TableField<FBillRecord, Boolean> INCOME = createField(DSL.name("INCOME"), SQLDataType.BIT, this, "「income」- true = 消费类，false = 付款类");
+    /**
      * The column <code>DB_ETERNAL.F_BILL.COMMENT</code>. 「comment」 - 账单备注
      */
     public final TableField<FBillRecord, String> COMMENT = createField(DSL.name("COMMENT"), SQLDataType.CLOB, this, "「comment」 - 账单备注");
@@ -195,11 +200,11 @@ public class FBill extends TableImpl<FBillRecord> {
     }
 
     // -------------------------------------------------------------------------
-    // Row20 type methods
+    // Row21 type methods
     // -------------------------------------------------------------------------
 
     @Override
-    public Row20<String, String, String, String, String, String, BigDecimal, String, String, String, String, String, String, String, Boolean, String, LocalDateTime, String, LocalDateTime, String> fieldsRow() {
-        return (Row20) super.fieldsRow();
+    public Row21<String, String, String, String, String, String, BigDecimal, Boolean, String, String, String, String, String, String, String, Boolean, String, LocalDateTime, String, LocalDateTime, String> fieldsRow() {
+        return (Row21) super.fieldsRow();
     }
 }

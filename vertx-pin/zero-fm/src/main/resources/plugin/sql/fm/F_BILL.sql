@@ -15,6 +15,7 @@ CREATE TABLE `F_BILL`
 
     -- 基本信息
     `AMOUNT`     DECIMAL(18, 2) NOT NULL COMMENT '「amount」- 账单金额',
+    `INCOME`     BIT COMMENT '「income」- true = 消费类，false = 付款类',
     `COMMENT`    LONGTEXT COMMENT '「comment」 - 账单备注',
 
     -- 关联信息

@@ -130,6 +130,21 @@ public class FBillDao extends AbstractVertxDAO<FBillRecord, cn.vertxup.fm.domain
         }
 
         /**
+     * Find records that have <code>INCOME IN (values)</code> asynchronously
+     */
+        public Future<List<cn.vertxup.fm.domain.tables.pojos.FBill>> findManyByIncome(Collection<Boolean> values) {
+                return findManyByCondition(FBill.F_BILL.INCOME.in(values));
+        }
+
+        /**
+     * Find records that have <code>INCOME IN (values)</code> asynchronously
+     * limited by the given limit
+     */
+        public Future<List<cn.vertxup.fm.domain.tables.pojos.FBill>> findManyByIncome(Collection<Boolean> values, int limit) {
+                return findManyByCondition(FBill.F_BILL.INCOME.in(values),limit);
+        }
+
+        /**
      * Find records that have <code>COMMENT IN (values)</code> asynchronously
      */
         public Future<List<cn.vertxup.fm.domain.tables.pojos.FBill>> findManyByComment(Collection<String> values) {
