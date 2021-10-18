@@ -110,7 +110,7 @@
         <checker.version>3.18.1</checker.version>
 
         <!-- elasticsearch version -->
-        <elasticsearch.version>7.15.0</elasticsearch.version>
+        <elasticsearch.version>7.15.1</elasticsearch.version>
 
         <!-- neo4j search -->
         <neo4j.version>4.3.4</neo4j.version>
