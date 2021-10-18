@@ -6,7 +6,8 @@ In previous tutorial, you could see that there are two apis in `Ux.Jooq` as foll
 * `<T> Future<List<T>> fetchOrAsync(JsonObject orFilters)`
 * `<T> Future<T> fetchOneAndAsync(JsonObject andFilters)`
 
-Above three apis used `andFilters` and `orFilters`, actually these filters support different condition that mapped to SQL database.
+Above three apis used `andFilters` and `orFilters`, actually these filters support different condition that mapped to
+SQL database.
 
 Demo projects:
 
@@ -23,13 +24,15 @@ When you write filter with following java code:
         filters.put("S_TYPE", type).put("S_CODE", code);
 ```
 
-Here are the basic syntax, you can put `column` name and `value` into JsonObject and above filters will generate following SQL:
+Here are the basic syntax, you can put `column` name and `value` into JsonObject and above filters will generate
+following SQL:
 
 ```sql
 S_TYPE = ? AND S_CODE = ?
 ```
 
-Here the connector is `AND`, because we called `fetchAndAsync` api, if you use the same filter to call `fetchOrAsync` api, the generated SQL will be:
+Here the connector is `AND`, because we called `fetchAndAsync` api, if you use the same filter to call `fetchOrAsync`
+api, the generated SQL will be:
 
 ```sql
 S_TYPE = ? OR S_CODE = ?
@@ -239,5 +242,8 @@ S_TYPE LIKE '%type%'
 
 ## 3. Summary
 
-For above filters, now it's used into `andFilters` and `orFilters` only, in future plan we'll put into advanced usage. It's common usage and you may meet different situations in your real project, but if you use the filter syntax, you can consider the code logical only and do not think how to write the SQL statement. It's also why we recommend to use Jooq instead of other client here.
+For above filters, now it's used into `andFilters` and `orFilters` only, in future plan we'll put into advanced usage.
+It's common usage and you may meet different situations in your real project, but if you use the filter syntax, you can
+consider the code logical only and do not think how to write the SQL statement. It's also why we recommend to use Jooq
+instead of other client here.
 

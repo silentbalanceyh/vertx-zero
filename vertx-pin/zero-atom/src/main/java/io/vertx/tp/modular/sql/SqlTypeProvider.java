@@ -13,7 +13,7 @@ public class SqlTypeProvider {
 
     private SqlTypeProvider(final Database database) {
         final JsonObject schemaData = Ut.ioJObject(
-                "engine/database/sql/" + database.getCategory().name() + "/schema.json");
+            "engine/database/sql/" + database.getCategory().name() + "/schema.json");
         final JsonObject definitions = schemaData.getJsonObject("definitions");
         for (final String field : definitions.fieldNames()) {
             if (Ut.notNil(field) && null != definitions.getValue(field)) {
@@ -30,7 +30,7 @@ public class SqlTypeProvider {
 
     public static SqlTypeProvider create(final Database database) {
         return Fn.pool(Pool.DB_TYPE_REF, database.getCategory().name(),
-                () -> new SqlTypeProvider(database));
+            () -> new SqlTypeProvider(database));
     }
 
     public String getColumnType(final String key) {

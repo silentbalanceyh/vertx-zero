@@ -8,6 +8,10 @@ import io.vertx.up.exception.web._500PoolInternalException;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
+
 /**
  * Shared Data for pool usage in utility X
  */
@@ -25,6 +29,10 @@ public class UxPool {
     UxPool(final String name) {
         this.name = name;
         this.client = MapInfix.getClient().switchClient(name);
+    }
+
+    public String name() {
+        return this.name;
     }
 
     // Put Operation
@@ -58,6 +66,12 @@ public class UxPool {
         }));
     }
 
+    public <K, V> Future<ConcurrentMap<K, V>> get(final Set<K> keys) {
+        final ConcurrentMap<K, Future<V>> futureMap = new ConcurrentHashMap<>();
+        keys.forEach(key -> futureMap.put(key, this.get(key)));
+        return Combine.thenCombine(futureMap);
+    }
+
     public <K, V> Future<V> get(final K key, final boolean once) {
         return Fn.<V>thenGeneric(future -> this.client.get(key, once, res -> {
             LOGGER.debug(Info.POOL_GET, key, this.name, once);
@@ -69,6 +83,19 @@ public class UxPool {
         return Fn.<Boolean>thenGeneric(future -> this.client.clear(res -> {
             LOGGER.debug(Info.POOL_CLEAR, this.name);
             Fn.thenGeneric(res, future, To.toError(_500PoolInternalException.class, this.getClass(), this.name, "clear"));
+        }));
+    }
+
+    // Count
+    public Future<Integer> size() {
+        return Fn.<Integer>thenGeneric(future -> this.client.size(res -> {
+            Fn.thenGeneric(res, future, To.toError(_500PoolInternalException.class, this.getClass(), this.name, "size"));
+        }));
+    }
+
+    public Future<Set<String>> keys() {
+        return Fn.<Set<String>>thenGeneric(future -> this.client.keys(res -> {
+            Fn.thenGeneric(res, future, To.toError(_500PoolInternalException.class, this.getClass(), this.name, "keys"));
         }));
     }
 }

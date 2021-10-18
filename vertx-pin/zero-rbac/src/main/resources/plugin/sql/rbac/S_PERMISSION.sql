@@ -8,6 +8,8 @@ CREATE TABLE IF NOT EXISTS S_PERMISSION
     `KEY`        VARCHAR(36) COMMENT '「key」- 权限ID',
     `NAME`       VARCHAR(255) COMMENT '「name」- 权限名称',
     `CODE`       VARCHAR(255) COMMENT '「code」- 权限系统码',
+    -- 权限属性
+    `IDENTIFIER` VARCHAR(255) COMMENT '「identifier」- 当前权限所属的Model的标识',
 
     -- 特殊字段
     `SIGMA`      VARCHAR(128) COMMENT '「sigma」- 绑定的统一标识',
@@ -21,10 +23,10 @@ CREATE TABLE IF NOT EXISTS S_PERMISSION
     `CREATED_BY` VARCHAR(36) COMMENT '「createdBy」- 创建人',
     `UPDATED_AT` DATETIME COMMENT '「updatedAt」- 更新时间',
     `UPDATED_BY` VARCHAR(36) COMMENT '「updatedBy」- 更新人',
-    PRIMARY KEY (`KEY`)
+    PRIMARY KEY (`KEY`) USING BTREE
 );
 
 -- changeset Lang:ox-permission-2
 -- Unique Key：独立唯一键定义
 ALTER TABLE S_PERMISSION
-    ADD UNIQUE (`CODE`, `SIGMA`);
+    ADD UNIQUE (`CODE`, `SIGMA`) USING BTREE;

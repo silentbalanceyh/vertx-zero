@@ -10,5 +10,5 @@ CREATE TABLE IF NOT EXISTS V_QUERY
     `PAGER`      TEXT COMMENT '「pager」- query/pager:{}, 分页选项',
     `SORTER`     TEXT COMMENT '「sorter」- query/sorter:[], 排序选项',
     `CRITERIA`   TEXT COMMENT '「criteria」- query/criteria:{}, 查询条件选项',
-    PRIMARY KEY (`KEY`)
+    PRIMARY KEY (`KEY`) USING BTREE
 );

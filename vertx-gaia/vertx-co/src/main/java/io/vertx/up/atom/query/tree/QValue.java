@@ -54,8 +54,8 @@ public class QValue implements QLeaf {
         Ut.itRepeat(this.level, () -> source.append("\t"));
         source.append("Leaf").append(",");
         source.append("( ").append(this.field).append(" , ")
-                .append(this.op).append(" , ")
-                .append(this.value).append(" ) ");
+            .append(this.op).append(" , ")
+            .append(this.value).append(" ) ");
         return source.toString();
     }
 }

@@ -1,6 +1,8 @@
 # D10077 - Reference, Mongo Setup
 
-This chapter belong to third part tutorial, not related to zero system here, but we ignored all third part installing steps. For mongo db part, once you finished installing, you can set the configuration and start up shell script as following:
+This chapter belong to third part tutorial, not related to zero system here, but we ignored all third part installing
+steps. For mongo db part, once you finished installing, you can set the configuration and start up shell script as
+following:
 
 ```properties
 OS: MacOS 10.13.3
@@ -10,7 +12,8 @@ Shell: vie-mongo.sh
 
 ## 1. Conf File
 
-You can set default mongo db configuration via conf up.god.file `/usr/local/etc/mongod.conf`,  the content is as following:
+You can set default mongo db configuration via conf up.god.file `/usr/local/etc/mongod.conf`, the content is as
+following:
 
 ```yaml
 systemLog:
@@ -125,7 +128,8 @@ switched to db ZERO_MESH
 
 ## 4. Summary
 
-Then you can connect with some mongo client such as Compass to connect to this database, your mongo db has been configured successfully.
+Then you can connect with some mongo client such as Compass to connect to this database, your mongo db has been
+configured successfully.
 
 Step 1:
 

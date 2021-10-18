@@ -1,11 +1,10 @@
 package io.vertx.tp.modular.query;
 
 import io.vertx.tp.atom.modeling.element.DataMatrix;
-import io.vertx.tp.atom.refine.Ao;
 import io.vertx.tp.modular.jooq.internal.Jq;
+import io.vertx.tp.plugin.jooq.condition.Clause;
 import io.vertx.up.atom.query.tree.*;
 import io.vertx.up.eon.Values;
-import io.vertx.up.uca.condition.Clause;
 import org.jooq.Condition;
 import org.jooq.Field;
 
@@ -49,8 +48,8 @@ class QVisitor {
             final List<Condition> conditions = new ArrayList<>();
             final QBranch branch = (QBranch) node;
             branch.nodes().stream().map(each -> analyze(each, matrix, fieldMap))
-                    .filter(Objects::nonNull)
-                    .forEach(conditions::add);
+                .filter(Objects::nonNull)
+                .forEach(conditions::add);
             /* 拼条件 */
             return analyze(conditions, node.op());
         }
@@ -68,10 +67,9 @@ class QVisitor {
             return null;
         } else {
             final Clause clause = Clause.get(column.getType());
-            Ao.infoPlugin(QVisitor.class, "语句选择：Clause = {0}", clause.getClass());
             return clause.where(column, column.getName(),
-                    /* 特殊 op 处理 */
-                    leaf.op().value(), leaf.value());
+                /* 特殊 op 处理 */
+                leaf.op().value(), leaf.value());
         }
     }
 

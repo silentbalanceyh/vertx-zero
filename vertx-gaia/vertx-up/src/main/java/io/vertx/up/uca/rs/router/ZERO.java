@@ -2,7 +2,7 @@ package io.vertx.up.uca.rs.router;
 
 import io.vertx.ext.web.Route;
 import io.vertx.ext.web.RoutingContext;
-import io.vertx.up.atom.secure.Cliff;
+import io.vertx.up.atom.secure.Aegis;
 import io.vertx.up.extension.PlugRouter;
 import io.vertx.up.uca.rs.Sentry;
 import io.vertx.up.uca.rs.dispatch.ModeSplitter;
@@ -24,18 +24,18 @@ interface Info {
 
 interface Pool {
     ConcurrentMap<String, ModeSplitter> THREADS
-            = new ConcurrentHashMap<>();
+        = new ConcurrentHashMap<>();
     ConcurrentMap<String, Sentry<RoutingContext>> VERIFIERS
-            = new ConcurrentHashMap<>();
+        = new ConcurrentHashMap<>();
 
     ConcurrentMap<String, Hub<Route>> URIHUBS
-            = new ConcurrentHashMap<>();
+        = new ConcurrentHashMap<>();
 
     ConcurrentMap<String, Hub<Route>> MEDIAHUBS
-            = new ConcurrentHashMap<>();
+        = new ConcurrentHashMap<>();
 
-    ConcurrentMap<String, Set<Cliff>> WALL_MAP =
-            new ConcurrentHashMap<>();
+    ConcurrentMap<String, Set<Aegis>> WALL_MAP =
+        new ConcurrentHashMap<>();
 
     ConcurrentMap<String, PlugRouter> PLUGS = new ConcurrentHashMap<>();
 }

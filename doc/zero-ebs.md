@@ -1,12 +1,14 @@
 # Event Bus only version
 
-In most situation, the sender is not needed, zero also support another sample version to transfer the data to event bus directly.
+In most situation, the sender is not needed, zero also support another sample version to transfer the data to event bus
+directly.
 
 ## 1. Source Code
 
 ### 1.1. Sender Interface Only
 
-In this kind of version, the request will go through based on interface and transfer the data to worker directly. Be careful this class is **interface** instead of class. 
+In this kind of version, the request will go through based on interface and transfer the data to worker directly. Be
+careful this class is **interface** instead of class.
 
 ```java
 import io.vertx.core.json.JsonObject;
@@ -52,15 +54,20 @@ This version will skip no code logical agent and send the data to worker directl
 
 ### 1.3. Argument Mapping
 
-Be careful about the data method of Envelop in above code: 
+Be careful about the data method of Envelop in above code:
 
 ```java
 public <T> T data(final Integer argIndex, final Class<T> clazz)
 ```
 
-Actually, the message will transfer the parameters from interface definition by index as JsonObject key to extract the data from EventBus. Other rules will be useful to apply all the type here, you also could use POJO type as the second argument.
+Actually, the message will transfer the parameters from interface definition by index as JsonObject key to extract the
+data from EventBus. Other rules will be useful to apply all the type here, you also could use POJO type as the second
+argument.
 
 ### 1.4. Limitation
 
-* 1. Hibernate Validation will be failure because there is no implementation class, but advanced validation could be used `@Codex`. 
-* 2. The worker method must be a specification under zero definition.
+*
+    1. Hibernate Validation will be failure because there is no implementation class, but advanced validation could be
+       used `@Codex`.
+*
+    2. The worker method must be a specification under zero definition.

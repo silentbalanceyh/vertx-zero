@@ -1,6 +1,8 @@
 # D10073 - Configuration, vertx-mongo.yml
 
-Another native client that zero system supported is `MongoClient` in vert.x, [Reference](http://vertx.io/docs/vertx-mongo-client/java/). You can read current tutorials to check the details about how to configure mongo client in zero system.
+Another native client that zero system supported is `MongoClient` in
+vert.x, [Reference](http://vertx.io/docs/vertx-mongo-client/java/). You can read current tutorials to check the details
+about how to configure mongo client in zero system.
 
 ## 1. Configuration
 
@@ -35,9 +37,13 @@ mongo:
   connection_string: mongodb://localhost:6017
 ```
 
-Just like `vertx-mysql.yml` configuration, here all the `mongo` node keys are native supported by vert.x, you can provide all the native configuration keys here for mongo db, please refer [http://vertx.io/docs/vertx-mongo-client/java/\#\_configuring\_the\_client](http://vertx.io/docs/vertx-mongo-client/java/#_configuring_the_client).
+Just like `vertx-mysql.yml` configuration, here all the `mongo` node keys are native supported by vert.x, you can
+provide all the native configuration keys here for mongo db, please
+refer [http://vertx.io/docs/vertx-mongo-client/java/\#\_configuring\_the\_client](http://vertx.io/docs/vertx-mongo-client/java/#_configuring_the_client)
+.
 
 ## 2. Summary
 
-Here are the mongo db standalone configuration part and in forward tutorials we'll introduce the client usage in zero system.
+Here are the mongo db standalone configuration part and in forward tutorials we'll introduce the client usage in zero
+system.
 

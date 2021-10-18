@@ -1,15 +1,23 @@
 package io.vertx.tp.plugin.excel;
 
 import com.fasterxml.jackson.core.type.TypeReference;
+import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.error._404ExcelFileNullException;
 import io.vertx.tp.plugin.excel.atom.ExConnect;
+import io.vertx.tp.plugin.excel.atom.ExRecord;
 import io.vertx.tp.plugin.excel.atom.ExTable;
+import io.vertx.tp.plugin.excel.atom.ExTenant;
 import io.vertx.tp.plugin.excel.ranger.ExBound;
 import io.vertx.tp.plugin.excel.ranger.RowBound;
+import io.vertx.up.commune.element.TypeAtom;
 import io.vertx.up.eon.FileSuffix;
+import io.vertx.up.eon.KName;
+import io.vertx.up.eon.Strings;
 import io.vertx.up.fn.Fn;
+import io.vertx.up.log.Annal;
+import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.FormulaEvaluator;
@@ -17,16 +25,22 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
+import java.io.File;
 import java.io.InputStream;
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /*
  * Excel Helper to help ExcelClient to do some object building
  */
 class ExcelHelper {
 
+    private static final Map<String, Workbook> REFERENCES = new ConcurrentHashMap<>();
     private transient final Class<?> target;
-    private final transient Map<String, FormulaEvaluator> references = new HashMap<>();
+    private transient ExTpl tpl;
+    private transient ExTenant tenant;
 
     private ExcelHelper(final Class<?> target) {
         this.target = target;
@@ -34,6 +48,65 @@ class ExcelHelper {
 
     static ExcelHelper helper(final Class<?> target) {
         return Fn.pool(Pool.HELPERS, target.getName(), () -> new ExcelHelper(target));
+    }
+
+    Future<JsonArray> extract(final Set<ExTable> tables) {
+        final List<Future<JsonArray>> futures = new ArrayList<>();
+        tables.forEach(table -> futures.add(this.extract(table)));
+        return Ux.thenCombineArray(futures);
+    }
+
+    Future<JsonArray> extract(final ExTable table) {
+        /* Records extracting */
+        final List<ExRecord> records = table.get();
+        /* Pojo Processing */
+        final JsonArray dataArray = new JsonArray();
+        records.stream().filter(Objects::nonNull)
+            .map(ExRecord::toJson)
+            .forEach(dataArray::add);
+        /* Source Processing */
+        if (Objects.isNull(this.tenant)) {
+            return Ux.future(dataArray);
+        } else {
+            // Append Global
+            Ut.itJArray(dataArray)
+                .forEach(json -> json.mergeIn(this.tenant.valueDefault(), true));
+            // Extract Mapping
+            final ConcurrentMap<String, String> first = this.tenant.mapping(table.getName());
+            if (first.isEmpty()) {
+                return Ux.future(dataArray);
+            } else {
+                // Directory
+                return this.tenant.dictionary().compose(dataMap -> {
+                    if (dataMap.isEmpty()) {
+                        // No Data Mapping
+                        return Ux.future(dataArray);
+                    } else {
+                        /*
+                         * mapping
+                         * field = name
+                         * dataMap
+                         * name = JsonObject ( from = to )
+                         * --->
+                         *
+                         * field -> JsonObject
+                         */
+                        final ConcurrentMap<String, JsonObject> combine
+                            = Ut.elementZip(first, dataMap);
+
+                        combine.forEach((key, value) -> Ut.itJArray(dataArray).forEach(json -> {
+                            final String fromValue = json.getString(key);
+                            if (Ut.notNil(fromValue) && value.containsKey(fromValue)) {
+                                final Object toValue = value.getValue(fromValue);
+                                // Replace
+                                json.put(key, toValue);
+                            }
+                        }));
+                        return Ux.future(dataArray);
+                    }
+                });
+            }
+        }
     }
 
     /*
@@ -49,10 +122,10 @@ class ExcelHelper {
         final Workbook workbook;
         if (filename.endsWith(FileSuffix.EXCEL_2003)) {
             workbook = Fn.pool(Pool.WORKBOOKS, filename,
-                    () -> Fn.getJvm(() -> new HSSFWorkbook(in)));
+                () -> Fn.getJvm(() -> new HSSFWorkbook(in)));
         } else {
             workbook = Fn.pool(Pool.WORKBOOKS, filename,
-                    () -> Fn.getJvm(() -> new XSSFWorkbook(in)));
+                () -> Fn.getJvm(() -> new XSSFWorkbook(in)));
         }
         return workbook;
     }
@@ -63,35 +136,52 @@ class ExcelHelper {
         final Workbook workbook;
         if (isXlsx) {
             workbook = Fn.pool(Pool.WORKBOOKS_STREAM, in.hashCode(),
-                    () -> Fn.getJvm(() -> new XSSFWorkbook(in)));
+                () -> Fn.getJvm(() -> new XSSFWorkbook(in)));
         } else {
             workbook = Fn.pool(Pool.WORKBOOKS_STREAM, in.hashCode(),
-                    () -> Fn.getJvm(() -> new HSSFWorkbook(in)));
+                () -> Fn.getJvm(() -> new HSSFWorkbook(in)));
         }
+        /* Force to recalculation for evaluator */
+        workbook.setForceFormulaRecalculation(Boolean.TRUE);
         return workbook;
     }
 
     /*
      * Get Set<ExSheet> collection based on workbook
      */
-    Set<ExTable> getExTables(final Workbook workbook) {
+    Set<ExTable> getExTables(final Workbook workbook, final TypeAtom TypeAtom) {
         return Fn.getNull(new HashSet<>(), () -> {
             /* FormulaEvaluator reference */
             final FormulaEvaluator evaluator = workbook.getCreationHelper().createFormulaEvaluator();
-            /* FormulaEvaluator reference for external files here */
-            if (!this.references.isEmpty()) {
+
+            /*
+             * Workbook pool for FormulaEvaluator
+             * 1）Local variable to replace global
+             **/
+            final Map<String, FormulaEvaluator> references = new ConcurrentHashMap<>();
+            REFERENCES.forEach((field, workbookRef) -> {
                 /*
+                 * Reference executor processing
                  * Here you must put self reference evaluator and all related here.
                  * It should fix issue: Could not set environment etc.
                  */
-                this.references.put(workbook.createName().getNameName(), evaluator);
-                /*
-                 * Above one line code resolved following issue:
-                 * org.apache.poi.ss.formula.CollaboratingWorkbooksEnvironment$WorkbookNotFoundException:
-                 * Could not resolve external workbook name 'environment.ambient.xlsx'. Workbook environment has not been set up.
-                 */
-                evaluator.setupReferencedWorkbooks(this.references);
-            }
+                final FormulaEvaluator executorRef = workbookRef.getCreationHelper().createFormulaEvaluator();
+                references.put(field, executorRef);
+            });
+            /*
+             * Self evaluator for current calculation
+             */
+            references.put(workbook.createName().getNameName(), evaluator);
+
+            /*
+             * Above one line code resolved following issue:
+             * org.apache.poi.ss.formula.CollaboratingWorkbooksEnvironment$WorkbookNotFoundException:
+             * Could not resolve external workbook name 'environment.ambient.xlsx'. Workbook environment has not been set up.
+             */
+            evaluator.setupReferencedWorkbooks(references);
+            /*
+             * Sheet process
+             */
             final Iterator<Sheet> it = workbook.sheetIterator();
             final Set<ExTable> sheets = new HashSet<>();
             while (it.hasNext()) {
@@ -102,10 +192,26 @@ class ExcelHelper {
 
                 final SheetAnalyzer exSheet = new SheetAnalyzer(sheet).on(evaluator);
                 /* Build Set */
-                sheets.addAll(exSheet.analyzed(range));
+                sheets.addAll(exSheet.analyzed(range, TypeAtom));
             }
             return sheets;
         }, workbook);
+    }
+
+    void brush(final Workbook workbook, final Sheet sheet, final TypeAtom TypeAtom) {
+        if (Objects.nonNull(this.tpl)) {
+            this.tpl.bind(workbook);
+            this.tpl.applyStyle(sheet, TypeAtom);
+        }
+    }
+
+    void initPen(final String componentStr) {
+        if (Ut.notNil(componentStr)) {
+            final Class<?> tplCls = Ut.clazz(componentStr, null);
+            if (Ut.isImplement(tplCls, ExTpl.class)) {
+                this.tpl = Ut.singleton(componentStr);
+            }
+        }
     }
 
     void initConnect(final JsonArray connects) {
@@ -114,31 +220,77 @@ class ExcelHelper {
             final List<ExConnect> connectList = Ut.deserialize(connects, new TypeReference<List<ExConnect>>() {
             });
             connectList.stream().filter(Objects::nonNull)
-                    .filter(connect -> Objects.nonNull(connect.getTable()))
-                    .forEach(connect -> Pool.CONNECTS.put(connect.getTable(), connect));
+                .filter(connect -> Objects.nonNull(connect.getTable()))
+                .forEach(connect -> Pool.CONNECTS.put(connect.getTable(), connect));
         }
     }
 
     void initEnvironment(final JsonArray environments) {
         environments.stream().filter(Objects::nonNull)
-                .map(item -> (JsonObject) item)
-                .forEach(each -> {
-                    /*
-                     * name for map key
-                     */
-                    final String key = each.getString("name");
-                    /*
-                     * Build reference
-                     */
-                    final String path = each.getString("path");
-                    final Workbook workbook = this.getWorkbook(path);
-                    /*
-                     * Reference Evaluator
-                     */
-                    final FormulaEvaluator evaluator = workbook.getCreationHelper().createFormulaEvaluator();
-                    if (Objects.nonNull(evaluator)) {
-                        this.references.put(key, evaluator);
-                    }
-                });
+            .map(item -> (JsonObject) item)
+            .forEach(each -> {
+                /*
+                 * Build reference
+                 */
+                final String path = each.getString("path");
+                /*
+                 * Reference Evaluator
+                 */
+                final String name = each.getString("name");
+                final Workbook workbook = this.getWorkbook(path);
+                REFERENCES.put(name, workbook);
+                this.initEnvironment(each, workbook);
+            });
+    }
+
+    void initTenant(final ExTenant tenant) {
+        this.tenant = tenant;
+    }
+
+    private void initEnvironment(final JsonObject each, final Workbook workbook) {
+        /*
+         * Alias Parsing
+         */
+        if (each.containsKey(KName.ALIAS)) {
+            final JsonArray alias = each.getJsonArray(KName.ALIAS);
+            final File current = new File(Strings.EMPTY);
+            Ut.itJArray(alias, String.class, (item, index) -> {
+                final String filename = current.getAbsolutePath() + item;
+                final File file = new File(filename);
+                if (file.exists()) {
+                    REFERENCES.put(file.getAbsolutePath(), workbook);
+                }
+            });
+        }
+    }
+
+    /*
+     * For Insert to avoid duplicated situation
+     * 1. Key duplicated
+     * 2. Unique duplicated
+     */
+    <T> List<T> compress(final List<T> input, final ExTable table) {
+        final String key = table.pkIn();
+        if (Objects.isNull(key)) {
+            // Relation Table
+            return input;
+        }
+        final List<T> keyList = new ArrayList<>();
+        final Set<Object> keys = new HashSet<>();
+        final AtomicInteger counter = new AtomicInteger(0);
+        input.forEach(item -> {
+            final Object value = Ut.field(item, key);
+            if (Objects.nonNull(value) && !keys.contains(value)) {
+                keys.add(value);
+                keyList.add(item);
+            } else {
+                counter.incrementAndGet();
+            }
+        });
+        final int ignored = counter.get();
+        final Annal annal = Annal.get(this.target);
+        annal.debug("[ Έξοδος ] Ignore table `{0}` with size `{1}`", table.getName(), ignored);
+        // Entity Release
+        return keyList;
     }
 }

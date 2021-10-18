@@ -37,9 +37,7 @@ CREATE TABLE `E_CUSTOMER`
     `PHONE`          VARCHAR(20) COMMENT '「phone」- 客户座机',
     `ADDRESS`        TEXT COMMENT '「address」- 客户地址',
 
-    /*
-     * 属性处理
-     */
+    /* 属性处理 */
     `RUN_UP`         BIT         DEFAULT NULL COMMENT '「runUp」- 挂账属性',
 
     -- 特殊字段
@@ -54,9 +52,9 @@ CREATE TABLE `E_CUSTOMER`
     `CREATED_BY`     VARCHAR(36) COMMENT '「createdBy」- 创建人',
     `UPDATED_AT`     DATETIME COMMENT '「updatedAt」- 更新时间',
     `UPDATED_BY`     VARCHAR(36) COMMENT '「updatedBy」- 更新人',
-    PRIMARY KEY (`KEY`)
+    PRIMARY KEY (`KEY`) USING BTREE
 );
 
 -- changeset Lang:h-customer-2
 ALTER TABLE E_CUSTOMER
-    ADD UNIQUE (`TAX_CODE`, `SIGMA`);
+    ADD UNIQUE (`TAX_CODE`, `SIGMA`) USING BTREE;

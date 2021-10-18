@@ -16,11 +16,11 @@ public class UriHub implements Hub<Route> {
         if (null == event.getMethod()) {
             // Support filter JSR340
             route.path(event.getPath())
-                    .order(event.getOrder());
+                .order(event.getOrder());
         } else {
             route.path(event.getPath())
-                    .method(event.getMethod())
-                    .order(event.getOrder());
+                .method(event.getMethod())
+                .order(event.getOrder());
         }
     }
 }

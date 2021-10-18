@@ -8,7 +8,12 @@ import io.vertx.up.annotations.Contract;
 import io.vertx.up.commune.ActIn;
 import io.vertx.up.commune.ActOut;
 import io.vertx.up.commune.Service;
-import io.vertx.up.commune.config.*;
+import io.vertx.up.commune.config.Identity;
+import io.vertx.up.commune.config.XHeader;
+import io.vertx.up.commune.exchange.BiTree;
+import io.vertx.up.commune.exchange.DiConsumer;
+import io.vertx.up.commune.exchange.DiFabric;
+import io.vertx.up.commune.rule.RuleUnique;
 import io.vertx.up.exception.WebException;
 import io.vertx.up.exception.web._400SigmaMissingException;
 import io.vertx.up.log.Annal;
@@ -62,7 +67,7 @@ public abstract class AbstractComponent implements JtComponent, Service {
      * outTo / outFrom
      */
     @Contract
-    protected transient DictFabric fabric;
+    protected transient DiFabric fabric;
 
     /*
      * The four reference source came from `@Contract` injection here
@@ -77,13 +82,18 @@ public abstract class AbstractComponent implements JtComponent, Service {
      * - mappingConfig
      * - mappingMode
      * - mappingComponent
+     *
+     * rule
+     * - rule
      */
     @Contract
     private transient JsonObject options;
     @Contract
     private transient Identity identity;
     @Contract
-    private transient DualMapping mapping;
+    private transient BiTree mapping;
+    @Contract
+    private transient RuleUnique rule;
 
     /*
      * There are required attribute
@@ -103,8 +113,13 @@ public abstract class AbstractComponent implements JtComponent, Service {
     }
 
     @Override
-    public DualMapping mapping() {
+    public BiTree mapping() {
         return this.mapping;
+    }
+
+    @Override
+    public RuleUnique rule() {
+        return this.rule;
     }
 
     // ------------ Uniform default major transfer method ------------
@@ -152,9 +167,10 @@ public abstract class AbstractComponent implements JtComponent, Service {
              */
             Ut.contract(instance, JsonObject.class, this.options());
             Ut.contract(instance, Identity.class, this.identity());
-            Ut.contract(instance, DualMapping.class, this.mapping());
-            Ut.contract(instance, DictFabric.class, this.fabric);
+            Ut.contract(instance, BiTree.class, this.mapping());
+            Ut.contract(instance, DiFabric.class, this.fabric);
             Ut.contract(instance, XHeader.class, this.header);
+            Ut.contract(instance, RuleUnique.class, this.rule);
         }
     }
 
@@ -171,9 +187,9 @@ public abstract class AbstractComponent implements JtComponent, Service {
      * - If the component use standard fabric, it could reference `protected` member directly.
      * - If the component use new fabric, it could created based on `fabric` with new `DictEpsilon` here.
      */
-    protected DictFabric fabric(final JsonObject configured) {
-        final ConcurrentMap<String, DictEpsilon> compiled = Ux.dictEpsilon(configured);
-        return this.fabric.createCopy().epsilon(compiled);
+    protected DiFabric fabric(final JsonObject configured) {
+        final ConcurrentMap<String, DiConsumer> compiled = Ux.dictEpsilon(configured);
+        return this.fabric.copy().epsilon(compiled);
     }
 
     // ------------ Get reference of Logger ------------

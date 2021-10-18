@@ -114,32 +114,32 @@ public abstract class AbstractAgha implements Agha {
          * Initializing phase reference here.
          */
         final Phase phase = Phase.start(mission.getCode())
-                .bind(this.vertx)
-                .bind(mission);
+            .bind(this.vertx)
+            .bind(mission);
         /*
          * 1. Step 1:  EventBus ( Input )
          */
         return phase.inputAsync(mission)
-                /*
-                 * 2. Step 2:  JobIncome ( Process )
-                 */
-                .compose(phase::incomeAsync)
-                /*
-                 * 3. Step 3:  Major cole logical here
-                 */
-                .compose(phase::invokeAsync)
-                /*
-                 * 4. Step 4:  JobOutcome ( Process )
-                 */
-                .compose(phase::outcomeAsync)
-                /*
-                 * 5. Step 5: EventBus ( Output )
-                 */
-                .compose(phase::outputAsync)
-                /*
-                 * 6. Final steps here
-                 */
-                .compose(phase::callbackAsync);
+            /*
+             * 2. Step 2:  JobIncome ( Process )
+             */
+            .compose(phase::incomeAsync)
+            /*
+             * 3. Step 3:  Major cole logical here
+             */
+            .compose(phase::invokeAsync)
+            /*
+             * 4. Step 4:  JobOutcome ( Process )
+             */
+            .compose(phase::outcomeAsync)
+            /*
+             * 5. Step 5: EventBus ( Output )
+             */
+            .compose(phase::outputAsync)
+            /*
+             * 6. Final steps here
+             */
+            .compose(phase::callbackAsync);
     }
 
     void working(final Mission mission, final Actuator actuator) {
@@ -166,52 +166,52 @@ public abstract class AbstractAgha implements Agha {
              */
             final String code = mission.getCode();
             final WorkerExecutor executor =
-                    this.vertx.createSharedWorkerExecutor(code, 1, threshold);
+                this.vertx.createSharedWorkerExecutor(code, 1, threshold);
             this.getLogger().info(Info.JOB_POOL_START, code, String.valueOf(TimeUnit.NANOSECONDS.toSeconds(threshold)));
             /*
              * The executor start to process the workers here.
              */
             executor.<Envelop>executeBlocking(
-                    promise -> promise.handle(this.workingAsync(mission)
-                            .compose(result -> {
-                                /*
-                                 * The job is executing successfully and then stopped
-                                 */
-                                actuator.execute();
-                                this.getLogger().info(Info.JOB_POOL_END, code);
-                                return Future.succeededFuture(result);
-                            })
-                            .otherwise(error -> {
-                                /*
-                                 * The job exception
-                                 */
-                                if (!(error instanceof NoStackTraceThrowable)) {
-                                    error.printStackTrace();
-                                    this.moveOn(mission, false);
-                                }
-                                return Envelop.failure(error);
-                            })),
-                    handler -> {
+                promise -> promise.handle(this.workingAsync(mission)
+                    .compose(result -> {
                         /*
-                         * Async result here to check whether it's ended
+                         * The job is executing successfully and then stopped
                          */
-                        if (handler.succeeded()) {
+                        actuator.execute();
+                        this.getLogger().info(Info.JOB_POOL_END, code);
+                        return Future.succeededFuture(result);
+                    })
+                    .otherwise(error -> {
+                        /*
+                         * The job exception
+                         */
+                        if (!(error instanceof NoStackTraceThrowable)) {
+                            error.printStackTrace();
+                            this.moveOn(mission, false);
+                        }
+                        return Envelop.failure(error);
+                    })),
+                handler -> {
+                    /*
+                     * Async result here to check whether it's ended
+                     */
+                    if (handler.succeeded()) {
+                        /*
+                         * Successful, close worker executor
+                         */
+                        executor.close();
+                    } else {
+                        if (Objects.nonNull(handler.cause())) {
                             /*
-                             * Successful, close worker executor
+                             * Failure, print stack instead of other exception here.
                              */
-                            executor.close();
-                        } else {
-                            if (Objects.nonNull(handler.cause())) {
-                                /*
-                                 * Failure, print stack instead of other exception here.
-                                 */
-                                final Throwable error = handler.cause();
-                                if (!(error instanceof NoStackTraceThrowable)) {
-                                    error.printStackTrace();
-                                }
+                            final Throwable error = handler.cause();
+                            if (!(error instanceof NoStackTraceThrowable)) {
+                                error.printStackTrace();
                             }
                         }
-                    });
+                    }
+                });
         }
     }
 

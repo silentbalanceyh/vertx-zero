@@ -15,7 +15,7 @@ public interface TodoAgent {
     /*
      * Get XTodo By Id
      */
-    @Path("todo/:key")
+    @Path("/todo/:key")
     @GET
     @Address(Addr.Todo.BY_ID)
     JsonObject byId(@PathParam("key") String key);

@@ -1,6 +1,8 @@
 # D10026 - JSR330, @Inject Simple Java Object
 
-Until now, the tutorials have introduced the usage of JSR311, Non-Blocking parts, then the tutorials will describe another Java Specification [JSR330 - Dependency Injection](https://jcp.org/en/jsr/detail?id=330). In current version of zero system, it support some parts of JSR330, here are the features that zero system supported:
+Until now, the tutorials have introduced the usage of JSR311, Non-Blocking parts, then the tutorials will describe
+another Java Specification [JSR330 - Dependency Injection](https://jcp.org/en/jsr/detail?id=330). In current version of
+zero system, it support some parts of JSR330, here are the features that zero system supported:
 
 * [x] `javax.inject.Inject` annotation
 * [x] `javax.inject.Named` annotation
@@ -15,7 +17,8 @@ For above three annotations, zero system support following features
 Based on above three points, zero system contains some limitation to implement this JSR.
 
 1. The data object such as POJO could not be used with injection in zero system. **Do not use!**
-2. All the injected java object in zero system is singleton, it's not needed to use `javax.inject.Singleton` annotation to mark.
+2. All the injected java object in zero system is singleton, it's not needed to use `javax.inject.Singleton` annotation
+   to mark.
 
 Current chapter will introduce simple java object injection firstly.
 
@@ -143,7 +146,8 @@ public class SimpleObject {
 
 ## 4. Summary
 
-The response body data is json format but string literal, because in our consumer class, the return type is `Future<String>`, if you want to get response of standard json object, you can modify the method code to following:
+The response body data is json format but string literal, because in our consumer class, the return type
+is `Future<String>`, if you want to get response of standard json object, you can modify the method code to following:
 
 ```java
     @Address("ZERO://INJECT/SIMPLE")

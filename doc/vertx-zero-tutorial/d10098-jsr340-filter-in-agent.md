@@ -1,12 +1,16 @@
 # D10098 - JSR340 Filter in Agent
 
-This tutorial will describe the usage of @WebFilter which will belong to JSR340 to implement [Chain of Responsibility](https://en.wikipedia.org/wiki/Chain-of-responsibility_pattern) pattern in zero system, because there are some conflicts between Servlet and Vert.x, in zero system it won't implement @WebServlet annotation but @WebFilter/@WebListener instead.
+This tutorial will describe the usage of @WebFilter which will belong to JSR340 to
+implement [Chain of Responsibility](https://en.wikipedia.org/wiki/Chain-of-responsibility_pattern) pattern in zero
+system, because there are some conflicts between Servlet and Vert.x, in zero system it won't implement @WebServlet
+annotation but @WebFilter/@WebListener instead.
 
 Demo projects:
 
 * **Standalone - 6084**: `up-tethys`
 
-In zero system there are two places to programming: Sender/Consumer, in this situation we'll introduce both modes in our tutorials.
+In zero system there are two places to programming: Sender/Consumer, in this situation we'll introduce both modes in our
+tutorials.
 
 ## 1. Source Code
 
@@ -103,5 +107,7 @@ From above demo you can see that we have got the data in actor that had been put
 
 ## 3. Summary
 
-Current tutorial described the filter usage that belong to JSR340, the filter will be triggered automatically if the uri is matching. You can do anythings in filter such as data conversion, request modification or reject current restful request.
+Current tutorial described the filter usage that belong to JSR340, the filter will be triggered automatically if the uri
+is matching. You can do anythings in filter such as data conversion, request modification or reject current restful
+request.
 

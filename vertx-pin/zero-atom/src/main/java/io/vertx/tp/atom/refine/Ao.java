@@ -9,16 +9,19 @@ import io.vertx.tp.atom.modeling.element.DataMatrix;
 import io.vertx.tp.modular.dao.AoDao;
 import io.vertx.tp.optic.robin.Switcher;
 import io.vertx.tp.plugin.excel.atom.ExTable;
+import io.vertx.up.atom.record.Apt;
 import io.vertx.up.commune.Record;
 import io.vertx.up.commune.config.Database;
 import io.vertx.up.commune.config.Identity;
+import io.vertx.up.commune.element.JBag;
+import io.vertx.up.eon.em.ChangeFlag;
 import io.vertx.up.log.Annal;
+import org.jooq.Converter;
 
 import java.util.List;
+import java.util.Queue;
 import java.util.Set;
 import java.util.concurrent.ConcurrentMap;
-import java.util.function.BiFunction;
-import java.util.function.Function;
 import java.util.function.Supplier;
 
 public class Ao {
@@ -50,6 +53,11 @@ public class Ao {
         AoLog.info(logger, "UCA", pattern, args);
     }
 
+    public static void infoDiff(final Class<?> clazz, final String pattern, final Object... args) {
+        final Annal logger = Annal.get(clazz);
+        AoLog.info(logger, "Diff", pattern, args);
+    }
+
     public static void infoPlugin(final Class<?> clazz, final String pattern, final Object... args) {
         final Annal logger = Annal.get(clazz);
         AoLog.info(logger, "Plugin", pattern, args);
@@ -57,6 +65,51 @@ public class Ao {
 
     public static void infoSQL(final Annal logger, final String pattern, final Object... args) {
         AoLog.info(logger, "Sql", pattern, args);
+    }
+
+    public static void infoSQL(final Annal logger, final boolean condition, final String pattern, final Object... args) {
+        if (condition) {
+            infoSQL(logger, pattern, args);
+        }
+    }
+
+    /*
+     * Diff
+     */
+    public static ConcurrentMap<ChangeFlag, JsonArray> diffPure(final JsonArray queueOld, final JsonArray queueNew, final DataAtom atom, final Set<String> ignoreSet) {
+        return AoCompare.diffPure(queueOld, queueNew, atom, ignoreSet);
+    }
+
+    public static JsonObject diffPure(final JsonObject recordO, final JsonObject recordN, final DataAtom atom, final Set<String> ignoreSet) {
+        return AoCompare.diffPure(recordO, recordN, atom, ignoreSet);
+    }
+
+    public static Apt diffPure(final Apt apt, final DataAtom atom, final Set<String> ignoreSet) {
+        return AoCompare.diffPure(apt, atom, ignoreSet);
+    }
+
+    public static ConcurrentMap<ChangeFlag, JsonArray> diffPull(final JsonArray queueOld, final JsonArray queueNew, final DataAtom atom, final Set<String> ignoreSet) {
+        return AoCompare.diffPull(queueOld, queueNew, atom, ignoreSet);
+    }
+
+    public static JsonObject diffPull(final JsonObject recordO, final JsonObject recordN, final DataAtom atom, final Set<String> ignoreSet) {
+        return AoCompare.diffPull(recordO, recordN, atom, ignoreSet);
+    }
+
+    public static Apt diffPull(final Apt apt, final DataAtom atom, final Set<String> ignoreSet) {
+        return AoCompare.diffPull(apt, atom, ignoreSet);
+    }
+
+    public static <T> ConcurrentMap<ChangeFlag, List<T>> initMList() {
+        return AoCompare.initMList();
+    }
+
+    public static <T> ConcurrentMap<ChangeFlag, Queue<T>> initMQueue() {
+        return AoCompare.initMQueue();
+    }
+
+    public static ConcurrentMap<ChangeFlag, JsonArray> initMArray() {
+        return AoCompare.initMArray();
     }
 
     /*
@@ -165,52 +218,10 @@ public class Ao {
         return AoStore.clazzPin();
     }
 
-    /*
-     * Record conversation
-     */
-    public static void connect(final Record record, final ConcurrentMap<String, DataMatrix> dataMatrix) {
-        AoData.connect(record, dataMatrix);
-    }
-
     public static void connect(final Record record, final ConcurrentMap<String, DataMatrix> keyMatrix, final ConcurrentMap<String, DataMatrix> dataMatrix, final Set<String> joins) {
         AoData.connect(record, keyMatrix, dataMatrix, joins);
     }
 
-    /*
-     * Do common workflow
-     */
-    public static <T> Function<T, Boolean> doBoolean(final Annal logger, final Function<T, Boolean> function) {
-        return AoDo.doBoolean(logger, function);
-    }
-
-    public static <T> Supplier<T> doSupplier(final Annal logger, final Supplier<T> supplier) {
-        return AoDo.doSupplier(logger, supplier);
-    }
-
-    public static <T> Function<T, Long> doCount(final Annal logger, final Function<T, Long> function) {
-        return AoDo.doStandard(logger, function);
-    }
-
-    public static <T> Function<T, Boolean[]> doBooleans(final Annal logger, final Function<T, Boolean[]> function) {
-        return AoDo.doBooleans(logger, function);
-    }
-
-    public static <T> Function<T, T> doFluent(final Annal logger, final Function<T, T> function) {
-        return AoDo.doFluent(logger, function);
-    }
-
-    public static <T, S> BiFunction<T, S, T> doBiFluent(final Annal logger, final BiFunction<T, S, T> function) {
-        return AoDo.doBiFluent(logger, function);
-    }
-
-    public static <T, R> Function<T, R> doStandard(final Annal logger, final Function<T, R> function) {
-        return AoDo.doStandard(logger, function);
-    }
-
-    public static <F, S, R> BiFunction<F, S, R> doBiStandard(final Annal logger,
-                                                             final BiFunction<F, S, R> function) {
-        return AoDo.doBiStandard(logger, function);
-    }
 
     /*
      * Record Building
@@ -229,6 +240,15 @@ public class Ao {
 
     public static Record[] records(final JsonArray data, final DataAtom atom) {
         return AoData.records(data, atom);
+    }
+
+    @SuppressWarnings("all")
+    public static Converter converter(final Class<?> type) {
+        return AoData.converter(type);
+    }
+
+    public static List<JBag> split(final JBag bag, final Integer size) {
+        return AoData.bagSplit(bag, size);
     }
 
     /*

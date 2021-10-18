@@ -3,6 +3,8 @@ package io.vertx.up.fn;
 import io.vertx.up.exception.ZeroException;
 import io.vertx.up.exception.ZeroRunException;
 import io.vertx.up.log.Annal;
+import io.vertx.up.log.Debugger;
+import io.vertx.up.util.Ut;
 
 import java.net.ConnectException;
 import java.time.format.DateTimeParseException;
@@ -24,14 +26,14 @@ final class Zero {
     }
 
     static void exec(final Actuator actuator, final Object... input) {
-        if (isSatisfy(input)) {
+        if (Zero.isSatisfy(input)) {
             actuator.execute();
         }
     }
 
     static void execZero(final ZeroActuator actuator, final Object... input)
-            throws ZeroException {
-        if (isSatisfy(input)) {
+        throws ZeroException {
+        if (Zero.isSatisfy(input)) {
             actuator.execute();
         }
     }
@@ -43,7 +45,7 @@ final class Zero {
                 ret = supplier.get();
             }
         } catch (final ZeroException ex) {
-            LOGGER.zero(ex);
+            Zero.LOGGER.zero(ex);
             // TODO: Debug Trace for JVM
             ex.printStackTrace();
         } catch (final ZeroRunException ex) {
@@ -57,11 +59,13 @@ final class Zero {
              * Others here.
              */
             if (!(ex instanceof ConnectException)) {
-                LOGGER.jvm(ex);
+                Zero.LOGGER.jvm(ex);
             }
             if (!(ex instanceof DateTimeParseException)) {
                 // TODO: Debug Trace for JVM
-                ex.printStackTrace();
+                if (Debugger.onStackTracing()) {
+                    ex.printStackTrace();
+                }
             }
         } finally {
             if (null == ret) {
@@ -73,6 +77,15 @@ final class Zero {
 
     static <T> T get(final T defaultValue, final Supplier<T> fnGet, final Object... reference) {
         if (Arrays.stream(reference).allMatch(Objects::nonNull)) {
+            final T ret = fnGet.get();
+            return (null == ret) ? defaultValue : ret;
+        } else {
+            return defaultValue;
+        }
+    }
+
+    static <T> T getEmpty(final T defaultValue, final Supplier<T> fnGet, final String... reference) {
+        if (Arrays.stream(reference).allMatch(Ut::notNil)) {
             final T ret = fnGet.get();
             return (null == ret) ? defaultValue : ret;
         } else {

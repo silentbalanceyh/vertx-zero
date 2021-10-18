@@ -4,10 +4,10 @@ import io.vertx.ext.web.RoutingContext;
 import io.vertx.up.annotations.Address;
 import io.vertx.up.annotations.Ipc;
 import io.vertx.up.atom.agent.Event;
+import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import io.vertx.up.uca.rs.Aim;
 import io.vertx.zero.exception.ChannelMultiException;
-import io.vertx.up.fn.Fn;
 
 import java.lang.reflect.Method;
 
@@ -41,7 +41,7 @@ public class ModeSplitter {
             final boolean rpc = method.isAnnotationPresent(Ipc.class);
             // 2. Only one channel enabled
             Fn.outUp(rpc && annotated, LOGGER, ChannelMultiException.class,
-                    this.getClass(), method);
+                this.getClass(), method);
 
             final Differ<RoutingContext> differ;
             if (annotated) {

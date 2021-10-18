@@ -6,11 +6,11 @@ import io.vertx.core.MultiMap;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.jet.atom.JtApp;
-import io.vertx.tp.ke.cv.KeField;
 import io.vertx.tp.optic.environment.Ambient;
-import io.vertx.up.commune.config.Dict;
-import io.vertx.up.commune.config.DualMapping;
 import io.vertx.up.commune.config.Identity;
+import io.vertx.up.commune.exchange.BiTree;
+import io.vertx.up.commune.exchange.DiSetting;
+import io.vertx.up.eon.KName;
 import io.vertx.up.eon.em.MappingMode;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.unity.Ux;
@@ -24,19 +24,19 @@ import java.util.concurrent.ConcurrentMap;
  * have been put into pool structure
  */
 class JtBusiness {
-    static Dict toDict(final IService service) {
+    static DiSetting toDict(final IService service) {
         return Fn.getNull(null, () -> Fn.pool(Pool.POOL_DICT, service.getKey(), () -> {
             /*
              * Dict Config for service
              */
             final String dictStr = service.getDictConfig();
-            final Dict dict = new Dict(dictStr);
+            final DiSetting dict = new DiSetting(dictStr);
             /*
              * When valid, inject component here
              */
             if (!dict.getSource().isEmpty()) {
                 final Class<?> component =
-                        Ut.clazz(service.getDictComponent(), null);
+                    Ut.clazz(service.getDictComponent(), null);
                 dict.bind(component);
                 /*
                  * dictEpsilon configuration
@@ -53,13 +53,13 @@ class JtBusiness {
         }), service);
     }
 
-    static DualMapping toMapping(final IService service) {
+    static BiTree toMapping(final IService service) {
         return Fn.getNull(null, () -> Fn.pool(Pool.POOL_MAPPING, service.getKey(), () -> {
             /*
              * DualMapping
              */
             final MappingMode mode = Ut.toEnum(service::getMappingMode, MappingMode.class, MappingMode.NONE);
-            final DualMapping mapping = new DualMapping();
+            final BiTree mapping = new BiTree();
             /*
              * The mode != NONE means that there must contain configuration
              */
@@ -90,16 +90,16 @@ class JtBusiness {
         }), service);
     }
 
-    static Future<ConcurrentMap<String, JsonArray>> toDictionary(final String key, final String identifier, final Dict dict) {
+    static Future<ConcurrentMap<String, JsonArray>> toDictionary(final String key, final String identifier, final DiSetting dict) {
         /*
          * Params here for different situations
          */
         final MultiMap paramMap = MultiMap.caseInsensitiveMultiMap();
-        paramMap.add(KeField.IDENTIFIER, identifier);
+        paramMap.add(KName.IDENTIFIER, identifier);
         final JtApp app = Ambient.getApp(key);
         if (Objects.nonNull(app)) {
-            paramMap.add(KeField.SIGMA, app.getSigma());
-            paramMap.add(KeField.APP_ID, app.getAppId());
+            paramMap.add(KName.SIGMA, app.getSigma());
+            paramMap.add(KName.APP_ID, app.getAppId());
         }
         return Ux.dictCalc(dict, paramMap);
 

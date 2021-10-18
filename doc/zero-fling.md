@@ -1,6 +1,7 @@
 # Fling Function
 
-* **Fling** is similiar with throw out action, it means that the exception must be throw out in these actions, it could simply the code flow to throw out specific exception.
+* **Fling** is similiar with throw out action, it means that the exception must be throw out in these actions, it could
+  simply the code flow to throw out specific exception.
 
 ## 1. Definition
 
@@ -47,8 +48,9 @@ public static void flingUp(
 1. This function verify the condition `null == data || !data.containsKey(Key.SERVER)`;
 2. Once the condition is checked correct, it means that the exception will be throw out;
 3. Then zero system will build exception `ServerConfigException` with arguments `Class<?>, String`;
-4. Then zero system record the exception information with `LOGGER` first. Refer [Home Page](README.md) to check Logging initialization.
-5. Then the function throw out the exception and the programming terminaled. 
+4. Then zero system record the exception information with `LOGGER` first. Refer [Home Page](README.md) to check Logging
+   initialization.
+5. Then the function throw out the exception and the programming terminaled.
 
 ### 2.2. flingUp
 

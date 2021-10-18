@@ -40,9 +40,9 @@ public class Rule implements Serializable {
     @Override
     public String toString() {
         return "Rule{" +
-                "type='" + this.type + '\'' +
-                ", message='" + this.message + '\'' +
-                ", config=" + this.config.encode() +
-                '}';
+            "type='" + this.type + '\'' +
+            ", message='" + this.message + '\'' +
+            ", config=" + this.config.encode() +
+            '}';
     }
 }

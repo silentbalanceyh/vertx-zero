@@ -1,6 +1,7 @@
 package io.vertx.up.atom.query;
 
 import io.vertx.core.json.JsonObject;
+import io.vertx.up.atom.query.engine.Qr;
 import io.vertx.up.exception.web._400PagerInvalidException;
 import io.vertx.up.exception.web._500QueryMetaNullException;
 import io.vertx.up.fn.Fn;
@@ -45,6 +46,7 @@ public class Pager implements Serializable {
      *
      * @param page page index + 1
      * @param size page size
+     *
      * @return valid Pager of new
      */
     public static Pager create(final Integer page, final Integer size) {
@@ -55,6 +57,7 @@ public class Pager implements Serializable {
      * Another mode to create Pager
      *
      * @param pageJson parsed pager
+     *
      * @return valid Pager
      */
     public static Pager create(final JsonObject pageJson) {
@@ -65,23 +68,23 @@ public class Pager implements Serializable {
     private void ensure(final JsonObject pageJson) {
         // Pager building checking
         Fn.outWeb(null == pageJson, LOGGER,
-                _500QueryMetaNullException.class, this.getClass());
+            _500QueryMetaNullException.class, this.getClass());
         // Required
         Fn.outWeb(!pageJson.containsKey(PAGE), LOGGER,
-                _400PagerInvalidException.class, this.getClass(), PAGE);
+            _400PagerInvalidException.class, this.getClass(), PAGE);
         Fn.outWeb(!pageJson.containsKey(SIZE), LOGGER,
-                _400PagerInvalidException.class, this.getClass(), SIZE);
+            _400PagerInvalidException.class, this.getClass(), SIZE);
         // Types
-        Inquiry.ensureType(pageJson, PAGE, Integer.class,
-                Ut::isInteger, this.getClass());
-        Inquiry.ensureType(pageJson, SIZE, Integer.class,
-                Ut::isInteger, this.getClass());
+        Qr.ensureType(pageJson, PAGE, Integer.class,
+            Ut::isInteger, this.getClass());
+        Qr.ensureType(pageJson, SIZE, Integer.class,
+            Ut::isInteger, this.getClass());
     }
 
     private void init(final Integer page, final Integer size) {
         // Page/Size
         Fn.outWeb(1 > page, LOGGER,
-                _400PagerInvalidException.class, this.getClass(), page);
+            _400PagerInvalidException.class, this.getClass(), page);
         this.page = page;
         // Default Size is 10
         this.size = 0 < size ? size : 10;
@@ -118,10 +121,10 @@ public class Pager implements Serializable {
     @Override
     public String toString() {
         return "Pager{" +
-                "page=" + this.page +
-                ", size=" + this.size +
-                ", start=" + this.start +
-                ", end=" + this.end +
-                '}';
+            "page=" + this.page +
+            ", size=" + this.size +
+            ", start=" + this.start +
+            ", end=" + this.end +
+            '}';
     }
 }

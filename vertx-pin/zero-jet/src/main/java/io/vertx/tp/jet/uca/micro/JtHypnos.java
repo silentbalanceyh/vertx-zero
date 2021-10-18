@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
 public class JtHypnos implements JobStore {
 
     private static final ConcurrentMap<String, AmbientEnvironment> ENVS =
-            Ambient.getEnvironments();
+        Ambient.getEnvironments();
 
     @Override
     public JobStore remove(final Mission mission) {
@@ -47,8 +47,8 @@ public class JtHypnos implements JobStore {
     @Override
     public Set<Mission> fetch() {
         return ENVS.values().stream().filter(Objects::nonNull)
-                .flatMap(environment -> environment.jobs().stream())
-                .map(JtJob::toJob)
-                .collect(Collectors.toSet());
+            .flatMap(environment -> environment.jobs().stream())
+            .map(JtJob::toJob)
+            .collect(Collectors.toSet());
     }
 }

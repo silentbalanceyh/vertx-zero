@@ -1,13 +1,15 @@
 # D10065 - Jooq/CRUD, Fetch List Operation
 
-This chapter we'll move to list fetching operations, here are four apis listed in `Ux.Jooq` class that could be used to fetch list.
+This chapter we'll move to list fetching operations, here are four apis listed in `Ux.Jooq` class that could be used to
+fetch list.
 
 * `<T> Future<List<T>> fetchAsync(String column, Object value)`
 * `<T> Future<List<T>> fetchInAsync(String column, Object... values)`
 * `<T> Future<List<T>> fetchAndAsync(JsonObject andFilters)`
 * `<T> Future<List<T>> fetchOrAsync(JsonObject orFilters)`
 
-Above four apis could be used to fetch the list by different conditions and all the conditions are frequently used in your real projects. This chapter we'll ignore the `filter` explain, focus on basic usage and then we'll go forward to.
+Above four apis could be used to fetch the list by different conditions and all the conditions are frequently used in
+your real projects. This chapter we'll ignore the `filter` explain, focus on basic usage and then we'll go forward to.
 
 Demo projects:
 
@@ -153,7 +155,8 @@ public class FetchService implements FetchStub {
 
 Above example showed how to fetch list by different filters with condition, you can test with following:
 
-**URL** : [http://localhost:6093/api/tabular/list/by/preorder.category](http://localhost:6093/api/tabular/list/by/preorder.category)
+**
+URL** : [http://localhost:6093/api/tabular/list/by/preorder.category](http://localhost:6093/api/tabular/list/by/preorder.category)
 
 **Method** : GET
 
@@ -223,7 +226,8 @@ Above example showed how to fetch list by different filters with condition, you 
 }
 ```
 
-**URL** : [http://localhost:6093/api/tabular/list/multi?code=Single&type=code.pricecat](http://localhost:6093/api/tabular/list/multi?code=Single&type=code.pricecat)
+**
+URL** : [http://localhost:6093/api/tabular/list/multi?code=Single&type=code.pricecat](http://localhost:6093/api/tabular/list/multi?code=Single&type=code.pricecat)
 
 **Method** : GET
 
@@ -249,5 +253,8 @@ Above example showed how to fetch list by different filters with condition, you 
 
 ## 3. Summary
 
-This chapter described that how to fetch list from database by different conditions, based on the examples you could know how to fetch list from database. Next chapter we'll introduce the filter details, actually `andFilters`and  `orFilters` are both JsonObject, but there are some specific syntax that zero defined for developers to build complex filters.
+This chapter described that how to fetch list from database by different conditions, based on the examples you could
+know how to fetch list from database. Next chapter we'll introduce the filter details, actually `andFilters`
+and  `orFilters` are both JsonObject, but there are some specific syntax that zero defined for developers to build
+complex filters.
 

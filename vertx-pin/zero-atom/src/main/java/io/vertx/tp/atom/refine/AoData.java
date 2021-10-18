@@ -5,30 +5,31 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.tp.atom.modeling.data.DataAtom;
 import io.vertx.tp.atom.modeling.data.DataRecord;
 import io.vertx.tp.atom.modeling.element.DataMatrix;
+import io.vertx.tp.modular.jooq.convert.JsonArraySider;
+import io.vertx.tp.modular.jooq.convert.JsonObjectSider;
 import io.vertx.tp.plugin.excel.atom.ExRecord;
 import io.vertx.tp.plugin.excel.atom.ExTable;
 import io.vertx.up.commune.Record;
+import io.vertx.up.commune.element.JBag;
 import io.vertx.up.util.Ut;
+import org.jooq.Converter;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
 class AoData {
-
-    /*
-     * 数据设置
-     * Record -> 数据部分 dataMatrix
-     */
-    static void connect(
-            final Record record,
-            final ConcurrentMap<String, DataMatrix> dataMatrix) {
-        dataMatrix.values().forEach(matrix ->
-                matrix.getAttributes().forEach(attribute ->
-                        matrix.set(attribute, record.get(attribute))));
-    }
+    /* 转换器专用 */
+    @SuppressWarnings("all")
+    private static ConcurrentMap<Class<?>, Converter> CONVERT_MAP = new ConcurrentHashMap<Class<?>, Converter>() {
+        {
+            put(JsonArray.class, Ut.singleton(JsonArraySider.class));
+            put(JsonObject.class, Ut.singleton(JsonObjectSider.class));
+        }
+    };
 
     /*
      * 主键设置
@@ -45,23 +46,23 @@ class AoData {
 
         /* 2. 内部主键设置，keyMatrix */
         keyMatrix.values().forEach(matrix ->
-                matrix.getAttributes().forEach(attribute ->
-                        matrix.set(attribute, id)));
+            matrix.getAttributes().forEach(attribute ->
+                matrix.set(attribute, id)));
 
         /* 3. 数据主键设置，dataMatrix */
         dataMatrix.values().forEach(matrix -> matrix.getKeys().stream()
-                .filter(attribute -> Objects.nonNull(record.get(attribute)))
-                .forEach(attribute -> matrix.set(attribute, record.get(attribute))));
+            .filter(attribute -> Objects.nonNull(record.get(attribute)))
+            .forEach(attribute -> matrix.set(attribute, record.get(attribute))));
 
         /* 4. Join中的非主键设置，关联键同样需要设值 */
         dataMatrix.values().forEach(matrix -> {
             final Set<String> attributes = matrix.getAttributes();
             final Set<String> keys = matrix.getKeys();
             joins.stream().filter(attributes::contains)
-                    /* 非主键 */
-                    .filter(attribute -> !keys.contains(attribute))
-                    /* 特殊的设置，非定义主键 */
-                    .forEach(joinButNoPrimaryKey -> matrix.set(joinButNoPrimaryKey, id));
+                /* 非主键 */
+                .filter(attribute -> !keys.contains(attribute))
+                /* 特殊的设置，非定义主键 */
+                .forEach(joinButNoPrimaryKey -> matrix.set(joinButNoPrimaryKey, id));
         });
     }
 
@@ -98,7 +99,7 @@ class AoData {
     static Record[] records(final JsonArray data, final DataAtom atom) {
         final List<Record> recordList = new ArrayList<>();
         Ut.itJArray(data).map(each -> record(each, atom))
-                .forEach(recordList::add);
+            .forEach(recordList::add);
         return recordList.toArray(new Record[]{});
     }
 
@@ -107,5 +108,23 @@ class AoData {
         Ut.contract(record, DataAtom.class, atom);
         record.fromJson(data);
         return record;
+    }
+
+    @SuppressWarnings("all")
+    static Converter converter(final Class<?> type) {
+        return CONVERT_MAP.getOrDefault(type, null);
+    }
+
+    static List<JBag> bagSplit(final JBag pbData, final Integer size) {
+        final List<JsonArray> dataList = Ut.elementGroup(pbData.getData(), size);
+        final List<JBag> dataPbList = new ArrayList<>();
+        dataList.forEach(each -> {
+            final JBag data = new JBag();
+            data.setIdentifier(pbData.getIdentifier());
+            data.setData(each);
+            data.setSize(each.size());
+            dataPbList.add(data);
+        });
+        return dataPbList;
     }
 }

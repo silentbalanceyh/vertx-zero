@@ -25,7 +25,7 @@ public class RtConfig implements Serializable {
     @Override
     public String toString() {
         return "RtConfig{" +
-                "ipcAuth='" + ipcAuth + '\'' +
-                '}';
+            "ipcAuth='" + ipcAuth + '\'' +
+            '}';
     }
 }

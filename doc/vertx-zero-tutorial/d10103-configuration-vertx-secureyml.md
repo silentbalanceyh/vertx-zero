@@ -1,6 +1,7 @@
 # D10103 - Configuration, vertx-secure.yml
 
-From `0.4.7`, zero system support security limitation for **Authorization** and **Authentication**, if you want to enable this feature, you should set another extension configuration for `secure` node.
+From `0.4.7`, zero system support security limitation for **Authorization** and **Authentication**, if you want to
+enable this feature, you should set another extension configuration for `secure` node.
 
 ## 1. Configuration
 
@@ -13,7 +14,8 @@ zero:
   lime: secure
 ```
 
-Because we'll use mongo as default authorization, you must finish mongo configuration based on: [D10073 - Configuration, vertx-mongo.yml.](d10073-configuration-vertx-mongoyml.md)
+Because we'll use mongo as default authorization, you must finish mongo configuration based
+on: [D10073 - Configuration, vertx-mongo.yml.](d10073-configuration-vertx-mongoyml.md)
 
 ### 1.2. vertx-secure.yml
 
@@ -45,7 +47,8 @@ secure:
         password: zeroup
 ```
 
-Here the `type` attribute now support `mongo`, `jwt` in zero system only, if you used `mongo` type the authorization header should be:
+Here the `type` attribute now support `mongo`, `jwt` in zero system only, if you used `mongo` type the authorization
+header should be:
 
 ```
 Basic bGFuZy55dToxQkJEODg2NDYwODI3MDE1RTVENjA1RUQ0NDI1MjI1MQ==
@@ -59,5 +62,6 @@ Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJfaWQiOiJjMWZiN2JiZC1kOTkxLTQwODIt
 
 ## 2. Summary
 
-Here are the jwt/mongo standalone configuration part and in forward tutorials we'll introduce how to use `secure` mode in zero system.
+Here are the jwt/mongo standalone configuration part and in forward tutorials we'll introduce how to use `secure` mode
+in zero system.
 

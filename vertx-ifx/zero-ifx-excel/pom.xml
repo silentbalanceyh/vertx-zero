@@ -5,12 +5,12 @@
     <parent>
         <artifactId>vertx-ifx</artifactId>
         <groupId>cn.vertxup</groupId>
-        <version>0.5.3-SNAPSHOT</version>
+        <version>0.8.0-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>zero-ifx-excel</artifactId>
-    <name>( Zero Infix ) Excel Export/Import</name>
+    <name>Infix:「zero-ifx-excel」Excel</name>
     <dependencies>
         <dependency>
             <groupId>org.apache.poi</groupId>
@@ -27,6 +27,16 @@
             <groupId>org.apache.poi</groupId>
             <artifactId>poi-ooxml</artifactId>
             <version>${poi.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.apache.poi</groupId>
+                    <artifactId>poi</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.apache.poi</groupId>
+                    <artifactId>poi-ooxml-schemas</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.apache.poi</groupId>

@@ -5,9 +5,12 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.plugin.neo4j.AbstractN4JSession;
 import io.vertx.tp.plugin.neo4j.refine.N4J;
+import io.vertx.up.unity.Ux;
 import org.neo4j.driver.Session;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Objects;
 
 public class N4JSession extends AbstractN4JSession {
@@ -66,7 +69,13 @@ public class N4JSession extends AbstractN4JSession {
     @Override
     public Future<JsonObject> find(final JsonObject condition) {
         return this.doAsync(condition, ALIAS_FOUND,/* Command Supplier */
-                processed -> N4J.nodeFind(this.graph, processed, ALIAS_FOUND));
+            processed -> N4J.nodeFind(this.graph, processed, ALIAS_FOUND));
+    }
+
+    @Override
+    public JsonObject findSync(final JsonObject condition) {
+        return this.doSync(condition, ALIAS_FOUND,
+            processed -> N4J.nodeFind(this.graph, processed, ALIAS_FOUND));
     }
 
     @Override
@@ -110,6 +119,16 @@ public class N4JSession extends AbstractN4JSession {
                 this.add("key");
             }
         }, ALIAS_CONSTRAINT));
+    }
+
+    @Override
+    public Future<Boolean> reset() {
+        this.execute(() -> {
+            final List<String> commands = new ArrayList<>();
+            commands.add(N4J.graphicReset(this.graph));
+            return commands;
+        });
+        return Ux.future(Boolean.TRUE);
     }
 
     protected Session session() {

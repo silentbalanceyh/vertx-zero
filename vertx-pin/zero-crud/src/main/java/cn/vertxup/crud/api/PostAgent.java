@@ -5,12 +5,11 @@ import io.vertx.tp.crud.cv.Addr;
 import io.vertx.up.annotations.Address;
 import io.vertx.up.annotations.Adjust;
 import io.vertx.up.annotations.EndPoint;
+import io.vertx.up.atom.secure.Vis;
+import io.vertx.up.eon.KName;
 import io.vertx.up.eon.Orders;
 
-import javax.ws.rs.BodyParam;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
+import javax.ws.rs.*;
 
 /*
  * HTTP Method: POST
@@ -36,7 +35,9 @@ public interface PostAgent {
     @Address(Addr.Post.SEARCH)
     @Adjust(Orders.MODULE)
     JsonObject search(@PathParam("actor") String actor,
-                      @BodyParam JsonObject data);
+                      @BodyParam JsonObject data,
+                      @QueryParam(KName.MODULE) String module,
+                      @PointParam(KName.VIEW) Vis view);
 
     /*
      * Existing/Missing Interface for Async Validation
@@ -46,12 +47,14 @@ public interface PostAgent {
     @Address(Addr.Post.EXISTING)
     @Adjust(Orders.MODULE)
     Boolean existing(@PathParam("actor") String actor,
-                     @BodyParam JsonObject criteria);
+                     @BodyParam JsonObject criteria,
+                     @QueryParam(KName.MODULE) String module);
 
     @POST
     @Path("/{actor}/missing")
     @Address(Addr.Post.MISSING)
     @Adjust(Orders.MODULE)
     Boolean missing(@PathParam("actor") String actor,
-                    @BodyParam JsonObject criteria);
+                    @BodyParam JsonObject criteria,
+                    @QueryParam(KName.MODULE) String module);
 }

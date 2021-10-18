@@ -1,6 +1,7 @@
 package io.vertx.tp.modular.dao;
 
 import io.vertx.core.Future;
+import io.vertx.core.json.JsonObject;
 import io.vertx.up.atom.query.Criteria;
 import io.vertx.up.commune.Record;
 
@@ -17,4 +18,8 @@ interface AoReader {
     Future<Record> fetchOneAsync(Criteria criteria);
 
     Record fetchOne(Criteria criteria);
+
+    Future<Record> fetchOneAsync(JsonObject criteria);
+
+    Record fetchOne(JsonObject criteria);
 }

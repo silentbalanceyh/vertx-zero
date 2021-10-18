@@ -1,6 +1,7 @@
 package cn.vertxup.ui.service;
 
 import io.vertx.core.Future;
+import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 
 public interface ListStub {
@@ -17,4 +18,9 @@ public interface ListStub {
      * By id
      */
     Future<JsonObject> fetchById(String listId);
+
+    /*
+     * By identifier & sigma
+     */
+    Future<JsonArray> fetchByIdentifier(String identifier, String sigma);
 }

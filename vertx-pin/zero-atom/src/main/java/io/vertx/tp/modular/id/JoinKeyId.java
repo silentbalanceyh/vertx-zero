@@ -21,8 +21,8 @@ class JoinKeyId extends AbstractId {
         this.ensure(model);
         final ConcurrentMap<String, Object> keyMap = Ao.joinKeys(model, record);
         return (ID) keyMap.keySet().stream()
-                .map(keyMap::get).findFirst()
-                .orElse(null);
+            .map(keyMap::get).findFirst()
+            .orElse(null);
     }
 
     @Override
@@ -32,22 +32,22 @@ class JoinKeyId extends AbstractId {
         // 检查定义
         this.ensure(model);
         // 非唯一主键设置，包括关联键也需要设置
-        model.getJoins().stream()
-                .map(MJoin::getEntityKey)
-                .filter(Objects::nonNull)
-                .forEach(field -> record.set(field, Ao.toKey(id)));
+        model.dbJoins().stream()
+            .map(MJoin::getEntityKey)
+            .filter(Objects::nonNull)
+            .forEach(field -> record.set(field, Ao.toKey(id)));
     }
 
 
     private void ensure(final Model model) {
         final Set<Boolean> valid = Ensurer.join(this.getClass(), model);
         final long falseCount = valid.stream().filter(item -> !item)
-                .count();
+            .count();
         /*
          * 第四检查条件：keyMap必须有一个字段不是主键
          */
         Fn.outWeb(0 != falseCount, _417PrimaryKeySizeException.class, this.getClass(),
-                /* ARG1：实际的主键数量 */ valid.size(),
-                /* ARG2：期望的主键数量 */ "= 0");
+            /* ARG1：实际的主键数量 */ valid.size(),
+            /* ARG2：期望的主键数量 */ "= 0");
     }
 }

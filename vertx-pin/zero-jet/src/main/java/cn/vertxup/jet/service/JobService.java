@@ -6,15 +6,16 @@ import cn.vertxup.jet.domain.tables.daos.IServiceDao;
 import cn.vertxup.jet.domain.tables.pojos.IJob;
 import cn.vertxup.jet.domain.tables.pojos.IService;
 import io.vertx.core.Future;
-import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.jet.refine.Jt;
-import io.vertx.tp.ke.cv.KeField;
+import io.vertx.up.atom.query.engine.Qr;
+import io.vertx.up.eon.KName;
 import io.vertx.up.log.Annal;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
 import javax.inject.Inject;
+import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -25,35 +26,58 @@ public class JobService implements JobStub {
     private transient AmbientStub ambient;
 
     @Override
-    public Future<JsonArray> fetchAll(final String sigma) {
+    public Future<JsonObject> searchJobs(final String sigma, final JsonObject body, final boolean grouped) {
+        final Qr qr = Qr.create(body);
+        qr.getCriteria().save("sigma", sigma);
+        final JsonObject condition = qr.toJson();
+        LOGGER.info("Job condition: {0}", condition);
         return Ux.Jooq.on(IJobDao.class)
-                .<IJob>fetchAsync("sigma", sigma)
-                .compose(jobs -> {
+            .searchAsync(condition)
+            .compose(jobs -> {
+                /*
+                 * Result for all jobs that are belong to current sigma here.
+                 */
+                final List<IJob> jobList = Ux.fromPage(jobs, IJob.class);
+                final Set<String> codes = jobList.stream()
+                    .filter(Objects::nonNull)
                     /*
-                     * Result for all jobs that are belong to current sigma here.
+                     * Job name calculation for appending namespace
                      */
-                    final Set<String> codes = jobs.stream()
-                            .filter(Objects::nonNull)
-                            /*
-                             * Job name calculation for appending namespace
-                             */
-                            .map(Jt::jobCode)
-                            .collect(Collectors.toSet());
-                    Jt.infoWeb(LOGGER, "Job fetched from database: {0}", codes.size());
-                    return JobKit.fetchMission(codes);
+                    .map(Jt::jobCode)
+                    .collect(Collectors.toSet());
+                Jt.infoWeb(LOGGER, "Job fetched from database: {0}, input sigma: {1}",
+                    codes.size(), sigma);
+                return JobKit.fetchMission(codes).compose(normalized -> {
+                    jobs.put("list", normalized);
+                    /*
+                     * count group
+                     * */
+                    if (grouped) {
+                        final JsonObject criteria = qr.getCriteria().toJson();
+                        return Ux.Jooq.on(IJobDao.class).countByAsync(criteria, "group")
+                            .compose(aggregation -> {
+                                final JsonObject aggregationJson = new JsonObject();
+                                aggregation.forEach(aggregationJson::put);
+                                jobs.put("aggregation", aggregationJson);
+                                return Ux.future(jobs);
+                            });
+                    } else {
+                        return Ux.future(jobs);
+                    }
                 });
+            });
     }
 
     @Override
     public Future<JsonObject> fetchByKey(final String key) {
         return Ux.Jooq.on(IJobDao.class)
-                .<IJob>findByIdAsync(key)
-                /*
-                 * 1) Supplier here for `JsonObject` generated
-                 * 2) Mission conversation here to JsonObject directly
-                 */
-                .compose(Ut.ifNil(JsonObject::new,
-                        job -> JobKit.fetchMission(Jt.jobCode(job))));
+            .<IJob>fetchByIdAsync(key)
+            /*
+             * 1) Supplier here for `JsonObject` generated
+             * 2) Mission conversation here to JsonObject directly
+             */
+            .compose(Ut.ifNil(JsonObject::new,
+                job -> JobKit.fetchMission(Jt.jobCode(job))));
     }
 
     @Override
@@ -61,12 +85,12 @@ public class JobService implements JobStub {
         /*
          * 1. Service / Job Split
          */
-        JsonObject serviceJson = data.getJsonObject(KeField.SERVICE);
+        JsonObject serviceJson = data.getJsonObject(KName.SERVICE);
         if (Ut.isNil(serviceJson)) {
             serviceJson = new JsonObject();
         } else {
             serviceJson = serviceJson.copy();
-            data.remove(KeField.SERVICE);
+            data.remove(KName.SERVICE);
         }
         /*
          * 2. Upsert by Key for Job instance
@@ -74,18 +98,18 @@ public class JobService implements JobStub {
         final IJob job = Ux.fromJson(data, IJob.class);
         final IService service = JobKit.fromJson(serviceJson);
         return Ux.Jooq.on(IJobDao.class)
+            /*
+             * 3. Upsert by Key for Service instance
+             */
+            .upsertAsync(job.getKey(), job)
+            .compose(updatedJob -> Ux.Jooq.on(IServiceDao.class)
+                .upsertAsync(service.getKey(), service)
                 /*
-                 * 3. Upsert by Key for Service instance
+                 * 4. Merge updatedJob / updatedService
+                 * -- Call `AmbientService` to updateJob cache
+                 * -- Cache updating ( IJob / IService )
                  */
-                .upsertAsync(job.getKey(), job)
-                .compose(updatedJob -> Ux.Jooq.on(IServiceDao.class)
-                        .upsertAsync(service.getKey(), service)
-                        /*
-                         * 4. Merge updatedJob / updatedService
-                         * -- Call `AmbientService` to updateJob cache
-                         * -- Cache updating ( IJob / IService )
-                         */
-                        .compose(updatedSev ->
-                                this.ambient.updateJob(updatedJob, updatedSev)));
+                .compose(updatedSev ->
+                    this.ambient.updateJob(updatedJob, updatedSev)));
     }
 }

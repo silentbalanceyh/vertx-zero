@@ -1,12 +1,11 @@
 package cn.vertxup.rbac.api;
 
+import cn.vertxup.rbac.service.business.GroupStub;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.tp.rbac.cv.Addr;
 import io.vertx.up.annotations.Address;
 import io.vertx.up.annotations.Queue;
-import io.vertx.up.log.Annal;
-import cn.vertxup.rbac.service.business.GroupStub;
 
 import javax.inject.Inject;
 

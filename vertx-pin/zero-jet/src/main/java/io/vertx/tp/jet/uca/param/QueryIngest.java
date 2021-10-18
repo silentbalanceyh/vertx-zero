@@ -29,7 +29,7 @@ class QueryIngest implements JtIngest {
          * JqTool extracting
          */
         final MultiMap queryParams = context.queryParams();
-        queryParams.forEach(item -> envelop.setValue(item.getKey(), item.getValue()));
+        queryParams.forEach(item -> envelop.value(item.getKey(), item.getValue()));
         return envelop;
     }
 }

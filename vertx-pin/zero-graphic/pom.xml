@@ -5,12 +5,12 @@
     <parent>
         <artifactId>vertx-pin</artifactId>
         <groupId>cn.vertxup</groupId>
-        <version>0.5.3-SNAPSHOT</version>
+        <version>0.8.0-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>zero-graphic</artifactId>
-    <name>( Extension ) - Gc: Fabric Graphic</name>
+    <name>Extension:「zero-graphic」Gc - Graphic Module</name>
     <dependencies>
         <!-- Kern -->
         <dependency>
@@ -21,6 +21,12 @@
             <groupId>cn.vertxup</groupId>
             <artifactId>zero-ifx-neo4j</artifactId>
             <version>${project.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>cn.vertxup</groupId>
+                    <artifactId>vertx-up</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
     </dependencies>
     <build>

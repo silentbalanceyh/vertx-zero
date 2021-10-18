@@ -62,7 +62,8 @@ Be sure you will send form request instead of restful request here.
 
 ### 3.1. Get Request
 
-_You should write some static HTML form to submit Form Get Request instead of some tools because most of testing tools do not support send Form Get Request_
+_You should write some static HTML form to submit Form Get Request instead of some tools because most of testing tools
+do not support send Form Get Request_
 
 ### 3.2. Post Request
 
@@ -84,5 +85,6 @@ Here we provide form request screen shot with Postman tool
 
 ## 4. Summary
 
-From above screen shot you'll see `form-data` and `x-www-form-urlencoded` both, for zero system it's the same because zero system will decode the data automatically, don't wrong about form request type when you are using zero system.
+From above screen shot you'll see `form-data` and `x-www-form-urlencoded` both, for zero system it's the same because
+zero system will decode the data automatically, don't wrong about form request type when you are using zero system.
 

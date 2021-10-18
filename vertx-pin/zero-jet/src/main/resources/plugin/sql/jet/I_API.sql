@@ -57,9 +57,9 @@ CREATE TABLE IF NOT EXISTS I_API
     `CREATED_BY`      VARCHAR(36) COMMENT '「createdBy」- 创建人',
     `UPDATED_AT`      DATETIME COMMENT '「updatedAt」- 更新时间',
     `UPDATED_BY`      VARCHAR(36) COMMENT '「updatedBy」- 更新人',
-    PRIMARY KEY (`KEY`)
+    PRIMARY KEY (`KEY`) USING BTREE
 );
 
 -- changeset Lang:ox-api-2
 ALTER TABLE I_API
-    ADD UNIQUE (`URI`, `METHOD`, `SIGMA`);
+    ADD UNIQUE (`URI`, `METHOD`, `SIGMA`) USING BTREE;

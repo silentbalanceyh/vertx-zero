@@ -2,9 +2,25 @@ package io.vertx.core;
 
 import io.vertx.core.json.JsonObject;
 
-class ServidorOptionsConverter {
+/**
+ * # 「Co」 Vert.x Extension
+ *
+ * This class is `Converter` class of `Options`, it should be generated but current one is not.
+ *
+ * This class is ServidorOptions assist tool
+ *
+ * * name: RPC Server name
+ * * config: The default configuration for RPC Server
+ * * config -> port: RPC Server port
+ * * config -> host: RPC Server host
+ *
+ * Converter for {@link io.vertx.core.ServidorOptions}
+ *
+ * @author <a href="http://www.origin-x.cn">Lang</a>
+ */
+final class ServidorOptionsConverter {
 
-    ServidorOptionsConverter() {
+    private ServidorOptionsConverter() {
     }
 
     static void fromJson(final JsonObject json, final ServidorOptions obj) {

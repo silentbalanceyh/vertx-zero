@@ -1,6 +1,7 @@
 # D10090 - Micro Stream, Consumer Sync Mode to Terminator
 
-As we known before, zero system provide different modes for consumer programming style, here we provide Sync mode of consumer to communicate with Rpc Services.
+As we known before, zero system provide different modes for consumer programming style, here we provide Sync mode of
+consumer to communicate with Rpc Services.
 
 ## 1. Services
 
@@ -108,7 +109,8 @@ When you started above three services, you can testing this demo
 
 ## 4. Summary
 
-This demo data flow is the same as previous, the little difference is the consumer method signature. The consumer in current tutorial is:
+This demo data flow is the same as previous, the little difference is the consumer method signature. The consumer in
+current tutorial is:
 
 ```java
 public Envelop execute(final Envelop envelop)

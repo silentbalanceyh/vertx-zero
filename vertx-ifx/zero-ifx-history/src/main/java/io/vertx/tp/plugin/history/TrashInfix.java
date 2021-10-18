@@ -15,14 +15,14 @@ public class TrashInfix implements Infix {
     private static final String NAME = "ZERO_TRASH_POOL";
 
     private static final ConcurrentMap<String, TrashPlatform> CLIENTS
-            = new ConcurrentHashMap<>();
+        = new ConcurrentHashMap<>();
 
     private static void initInternal(final Vertx vertx,
                                      final String name) {
         Fn.pool(CLIENTS, name,
-                () -> Infix.initTp("trash",
-                        (config) -> TrashPlatform.createShared(vertx, config),
-                        TrashPlatform.class));
+            () -> Infix.init("trash",
+                (config) -> TrashPlatform.createShared(vertx, config),
+                TrashPlatform.class));
     }
 
     public static void init(final Vertx vertx) {

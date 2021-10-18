@@ -25,13 +25,15 @@ mongo: # The key must be mongo, could not be replaced.
     host: 127.0.0.1
 ```
 
-\*: Here ignored sender code, the mongo db only supported in consumer class in standard way. Also the lime part is random, for example: Once you set the code as following:
+\*: Here ignored sender code, the mongo db only supported in consumer class in standard way. Also the lime part is
+random, for example: Once you set the code as following:
 
 ```yaml
     lime: mongo-db
 ```
 
-You must set the up.god.file name in resource path is as `vertx-mongo-db.yml`, then you could set mongo db configuration in this up.god.file.
+You must set the up.god.file name in resource path is as `vertx-mongo-db.yml`, then you could set mongo db configuration
+in this up.god.file.
 
 **vertx-inject.yml**
 

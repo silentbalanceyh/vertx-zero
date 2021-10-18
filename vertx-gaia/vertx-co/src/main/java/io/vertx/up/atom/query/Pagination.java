@@ -70,8 +70,8 @@ public class Pagination {
     @Override
     public String toString() {
         return "Pagination{" +
-                "pager=" + this.pager +
-                ", total=" + this.total +
-                '}';
+            "pager=" + this.pager +
+            ", total=" + this.total +
+            '}';
     }
 }

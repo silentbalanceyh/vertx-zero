@@ -1,6 +1,8 @@
 # D10106 - Configuration, vertx-tp.yml
 
-The suffix "-tp" means "Third Part", we recommend the filename to store different configuration files. This tutorial will describe the usage of Shared Data in vert.x. Zero system provide the `SharedClient` to enhance the feature of Shared Data of vert.x, in this way this client could be used in different requirements.
+The suffix "-tp" means "Third Part", we recommend the filename to store different configuration files. This tutorial
+will describe the usage of Shared Data in vert.x. Zero system provide the `SharedClient` to enhance the feature of
+Shared Data of vert.x, in this way this client could be used in different requirements.
 
 ## 1. Configuration
 
@@ -21,7 +23,8 @@ zero:
 
 ### 1.2. vertx-tp.yml
 
-This up.god.file must contain shared data information, actually there is only one configuration node named `shared`，if you want to enable this feature you can set as following:
+This up.god.file must contain shared data information, actually there is only one configuration node named `shared`，if
+you want to enable this feature you can set as following:
 
 ```yaml
 shared:
@@ -41,7 +44,8 @@ Once you have finished above three configuration, the shared data will be enable
 
 ## 2. Summary
 
-Once you finished above configuration, you can use `SharedData` in zero system now. We repeated to describe standalone configuration for different component, it's for you to know the simple configuration for more details. 
+Once you finished above configuration, you can use `SharedData` in zero system now. We repeated to describe standalone
+configuration for different component, it's for you to know the simple configuration for more details. 
 
 
 

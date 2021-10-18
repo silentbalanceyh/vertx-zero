@@ -16,7 +16,7 @@ public class SessionInfix implements Infix {
 
     private static final String NAME = "ZERO_SESSION_POOL";
     private static final ConcurrentMap<String, SessionClient> CLIENTS
-            = new ConcurrentHashMap<>();
+        = new ConcurrentHashMap<>();
 
     private static void initInternal(final Vertx vertx,
                                      final String name) {
@@ -42,9 +42,9 @@ public class SessionInfix implements Infix {
              * Null will create new
              */
             return Fn.pool(CLIENTS, name,
-                    () -> Infix.initTp(Plugins.Infix.SESSION,
-                            (config) -> SessionClient.createShared(vertx, config),
-                            SessionInfix.class));
+                () -> Infix.init(Plugins.Infix.SESSION,
+                    (config) -> SessionClient.createShared(vertx, config),
+                    SessionInfix.class));
         } else {
             /*
              * Not null, it will get previous reference

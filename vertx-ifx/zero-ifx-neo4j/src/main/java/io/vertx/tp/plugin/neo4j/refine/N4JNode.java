@@ -52,7 +52,7 @@ class N4JNode {
     static List<String> update(final String graph, final JsonArray conditions, final JsonArray data, final String alias) {
         final List<String> commands = new ArrayList<>();
         Ut.itJArray(conditions, JsonObject.class, (item, index) ->
-                commands.add(update(graph, item, data.getJsonObject(index), alias)));
+            commands.add(update(graph, item, data.getJsonObject(index), alias)));
         if (!commands.isEmpty()) {
             N4J.infoCql(N4JNode.class, "Update Command: {0}", commands.get(0));
         }
@@ -61,7 +61,7 @@ class N4JNode {
 
     static String update(final String graph, final JsonObject condition, final JsonObject node, final String alias) {
         final StringBuilder cql = new StringBuilder();
-        cql.append("MERGE ").append(condition(graph, condition, alias));
+        cql.append("MERGE ").append(N4JCond.graphCondition(graph, condition, alias));
         cql.append("ON MATCH SET ");
         /*
          * Set Part
@@ -92,7 +92,7 @@ class N4JNode {
     @SuppressWarnings("all")
     static String delete(final String graph, final JsonObject condition, final String alias) {
         final StringBuilder cql = new StringBuilder();
-        cql.append("MATCH ").append(condition(graph, condition, alias));
+        cql.append("MATCH ").append(N4JCond.graphCondition(graph, condition, alias));
         /*
          * Condition Part
          */
@@ -119,21 +119,7 @@ class N4JNode {
          */
         final List<String> kv = new ArrayList<>();
         properties.forEach(property -> kv.add("CREATE CONSTRAINT ON (" + alias + ":" + graph + ") " +
-                "ASSERT " + alias + "." + property + " IS UNIQUE"));
+            "ASSERT " + alias + "." + property + " IS UNIQUE"));
         return kv;
-    }
-
-    private static String condition(final String graph, final JsonObject condition, final String alias) {
-        final StringBuilder cql = new StringBuilder();
-        cql.append("(").append(alias).append(":").append(graph).append(" ");
-        cql.append("{");
-        /*
-         * Condition Part
-         */
-        final List<String> kv = new ArrayList<>();
-        condition.fieldNames().forEach(field -> kv.add(field + ":$" + field));
-        cql.append(Ut.fromJoin(kv, ","));
-        cql.append("}) ");
-        return cql.toString();
     }
 }

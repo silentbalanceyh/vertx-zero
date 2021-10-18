@@ -18,4 +18,11 @@ public interface ModelStub {
      * 2) This method will call channel to extract identifiers
      */
     Future<JsonArray> fetchModels(String sigma);
+
+    /*
+     * Fetch attributes cross
+     * 1) Static models defined in environment
+     * 2) Dynamic models defined in X_MODEL
+     */
+    Future<JsonArray> fetchAttrs(String identifier, String sigma);
 }

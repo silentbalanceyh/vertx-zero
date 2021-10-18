@@ -34,18 +34,18 @@ public class TestRequestException extends
 }
 ```
 
-
 * Please ignore the first parameter `Class<?>`, it's for Zero to detect the error happened class position;
 * The rest parameters could be pass any length, you could call `super(clazz, arg0, arg1, ...)`
-* Be sure to write the `getCode()` method, this method must be match with the `vertx-error.yml` prefix: `E<code>` as message key
+* Be sure to write the `getCode()` method, this method must be match with the `vertx-error.yml` prefix: `E<code>` as
+  message key
 * If you want to change HttpStatusCode, you could overwrite `getStatus()` as following:
 
-	```java
-    	public HttpStatusCode getStatus() {
-        	// Default exception for 400
-       	 	return HttpStatusCode.BAD_REQUEST;
-    	}
-	```
+  ```java
+      public HttpStatusCode getStatus() {
+          // Default exception for 400
+              return HttpStatusCode.BAD_REQUEST;
+      }
+  ```
 
 ## 3. Build Envelop with Error
 
@@ -70,6 +70,6 @@ You'll see following error response:
     "brief": "Bad Request",
     "status": 400,
     "code": -100001,
-    "message": "[ERR-100001] (UserWorker) ZeroException occus: User defined Error Lang, details = Detail."
+    "message": "[ERR-100001] (UserWorker) ZeroException occurs: User defined Error Lang, details = Detail."
 }
 ```

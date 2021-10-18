@@ -1,8 +1,8 @@
 package io.vertx.up.commune;
 
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.atom.query.Inquiry;
-import io.vertx.up.commune.config.DualMapping;
+import io.vertx.up.atom.query.engine.Qr;
+import io.vertx.up.commune.exchange.BiTree;
 import io.vertx.up.eon.Constants;
 import io.vertx.up.eon.ID;
 import io.vertx.up.util.Ut;
@@ -34,8 +34,8 @@ class ActJObject extends ActMapping implements Serializable {
         final JsonObject rawJson = envelop.data();
         if (!Ut.isNil(rawJson)) {
             final long counter = rawJson.fieldNames().stream()
-                    .filter(Constants.INDEXES::containsValue)
-                    .count();
+                .filter(Constants.INDEXES::containsValue)
+                .count();
             final JsonObject body;
             if (0 < counter) {
                 /*
@@ -49,15 +49,15 @@ class ActJObject extends ActMapping implements Serializable {
                  * }
                  */
                 final JsonObject found = rawJson.fieldNames().stream()
-                        .filter(Objects::nonNull)
-                        .map(rawJson::getValue)
-                        /*
-                         * Predicate to test whether value is JsonObject
-                         * If JsonObject, then find the first JsonObject as body
-                         */
-                        .filter(value -> value instanceof JsonObject)
-                        .map(item -> (JsonObject) item)
-                        .findFirst().orElse(null);
+                    .filter(Objects::nonNull)
+                    .map(rawJson::getValue)
+                    /*
+                     * Predicate to test whether value is JsonObject
+                     * If JsonObject, then find the first JsonObject as body
+                     */
+                    .filter(value -> value instanceof JsonObject)
+                    .map(item -> (JsonObject) item)
+                    .findFirst().orElse(null);
 
                 /* Copy new data structure */
                 body = null == found ? new JsonObject() : found.copy();
@@ -78,13 +78,17 @@ class ActJObject extends ActMapping implements Serializable {
                      */
                     final JsonObject inputData = body.copy();
                     body.fieldNames().stream()
-                            .filter(field -> !ID.PARAM_BODY.equals(field))
-                            /*
-                             * NON, $$__BODY__$$
-                             */
-                            .forEach(field -> this.data.put(field, inputData.getValue(field)));
-
-                    cross = body.getJsonObject(ID.PARAM_BODY);
+                        .filter(field -> !ID.PARAM_BODY.equals(field))
+                        /*
+                         * NON, $$__BODY__$$
+                         */
+                        .forEach(field -> this.data.put(field, inputData.getValue(field)));
+                    final Object bodyData = body.getValue(ID.PARAM_BODY);
+                    if (bodyData instanceof JsonObject) {
+                        cross = (JsonObject) bodyData;
+                    } else {
+                        cross = new JsonObject();
+                    }
                 }
                 /*
                  * $$__BODY__$$ is null
@@ -99,26 +103,30 @@ class ActJObject extends ActMapping implements Serializable {
             }
             /*
              * isQuery ? criteria
-             * Until now the system has calculated the body data here
+             * Until now the system has calculated the body data here, the condition should be enhancement
              */
-            if (body.containsKey(Inquiry.KEY_CRITERIA)) {
+            if (body.containsKey(Qr.KEY_CRITERIA) || body.containsKey(Qr.KEY_PROJECTION)) {
                 /*
                  * JqTool part
                  */
-                Arrays.stream(Inquiry.KEY_QUERY).filter(field -> Objects.nonNull(body.getValue(field)))
-                        .forEach(field -> {
-                            this.query.put(field, body.getValue(field));
-                            /*
-                             * The criteria parameters does't occurs in future body here.
-                             * {
-                             *     pager,
-                             *     sorter,
-                             *     projection,
-                             *     criteria
-                             * }
-                             */
-                            body.remove(field);
-                        });
+                Arrays.stream(Qr.KEY_QUERY).filter(field -> Objects.nonNull(body.getValue(field)))
+                    .forEach(field -> {
+                        this.query.put(field, body.getValue(field));
+                        /*
+                         * The criteria parameters does't occurs in future body here.
+                         * {
+                         *     pager,
+                         *     sorter,
+                         *     projection,
+                         *     criteria
+                         * }
+                         */
+                        body.remove(field);
+                    });
+            }
+            // fill criteria field when query is not empty
+            if (Ut.notNil(this.query) && !this.query.containsKey(Qr.KEY_CRITERIA)) {
+                this.query.put(Qr.KEY_CRITERIA, new JsonObject());
             }
             if (Ut.notNil(body)) {
                 /*
@@ -136,13 +144,15 @@ class ActJObject extends ActMapping implements Serializable {
     /*
      * JsonObject -> Record
      */
-    Record getRecord(final Record definition, final DualMapping mapping) {
+    Record getRecord(final Record definition, final BiTree mapping) {
         return this.getRecord(this.data, definition, mapping);
     }
 
-    JsonObject getJson(final DualMapping mapping) {
+    JsonObject getJson(final BiTree mapping) {
         if (this.isBefore(mapping)) {
             return this.mapper().in(this.data, mapping.child());
-        } else return this.data;
+        } else {
+            return this.data;
+        }
     }
 }

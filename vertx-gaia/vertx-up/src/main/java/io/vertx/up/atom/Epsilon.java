@@ -87,12 +87,12 @@ public class Epsilon<T> implements Serializable {
     @Override
     public String toString() {
         return "Epsilon{" +
-                "name='" + this.name + '\'' +
-                ", mime=" + this.mime +
-                ", argType=" + this.argType +
-                ", defaultValue=" + this.defaultValue +
-                ", annotation=" + this.annotation +
-                ", value=" + this.value +
-                '}';
+            "name='" + this.name + '\'' +
+            ", mime=" + this.mime +
+            ", argType=" + this.argType +
+            ", defaultValue=" + this.defaultValue +
+            ", annotation=" + this.annotation +
+            ", value=" + this.value +
+            '}';
     }
 }

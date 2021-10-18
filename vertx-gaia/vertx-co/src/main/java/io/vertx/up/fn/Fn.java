@@ -58,15 +58,6 @@ public final class Fn {
         return Wait.branch(condition, executor, caseLine);
     }
 
-    // ------ Async future / or steps
-    public static <T> Future<T> future(final Supplier<Future<T>> caseLine) {
-        return Wait.branch(caseLine).second.get();
-    }
-
-    public static <T> Future<T> future(final Actuator executor, final Supplier<Future<T>> caseLine) {
-        return Wait.branch(executor, caseLine).second.get();
-    }
-
     public static <T> Future<T> thenGeneric(final Consumer<Promise<T>> consumer) {
         return Wait.then(consumer);
     }
@@ -137,19 +128,19 @@ public final class Fn {
     // ------ Jvm Safe
 
     public static void safeJvm(final JvmActuator actuator, final Annal logger) {
-        Defend.jvmVoid(actuator, logger);
+        Safer.jvmVoid(actuator, logger);
     }
 
     public static void safeJvm(final JvmActuator actuator) {
-        Defend.jvmVoid(actuator, null);
+        Safer.jvmVoid(actuator, null);
     }
 
     public static <T> T safeJvm(final JvmSupplier<T> supplier, final Annal logger) {
-        return Defend.jvmReturn(supplier, logger);
+        return Safer.jvmReturn(supplier, logger);
     }
 
     public static <T> T safeJvm(final JvmSupplier<T> supplier) {
-        return Defend.jvmReturn(supplier, null);
+        return Safer.jvmReturn(supplier, null);
     }
 
     public static <T> T getJvm(final JvmSupplier<T> supplier, final Object... input) {
@@ -162,11 +153,11 @@ public final class Fn {
 
     // ------ Zero Safe
     public static <T> T getZero(final ZeroSupplier<T> supplier, final Annal logger) {
-        return Defend.zeroReturn(supplier, logger);
+        return Safer.zeroReturn(supplier, logger);
     }
 
     public static void safeZero(final ZeroActuator actuator, final Annal logger) {
-        Defend.zeroVoid(actuator, logger);
+        Safer.zeroVoid(actuator, logger);
     }
 
     // ------ Null Safe
@@ -190,6 +181,23 @@ public final class Fn {
         return Semi.execReturn(supplier, defaultValue);
     }
 
+    public static <T> T getEmpty(final Supplier<T> supplier, final String... input) {
+        return Zero.getEmpty(null, supplier, input);
+    }
+
+    public static <T> T getEmpty(final T defaultValue, final Supplier<T> supplier, final String... input) {
+        return Zero.getEmpty(defaultValue, supplier, input);
+    }
+
+    // ------ Function Processing
+    public static <T> T wrap(final RunSupplier<T> supplier, final T defaultValue) {
+        return Wrapper.wrapper(supplier, defaultValue);
+    }
+
+    public static <T> Future<T> wrapAsync(final RunSupplier<Future<T>> supplier, final T defaultValue) {
+        return Wrapper.wrapperAsync(supplier, defaultValue);
+    }
+
     // ------ Semi Safe
     public static void safeSemi(final boolean condition, final Annal logger, final Actuator tSupplier, final Actuator fSupplier) {
         Semi.exec(condition, logger, tSupplier, fSupplier);
@@ -204,11 +212,11 @@ public final class Fn {
     }
 
     public static <T> T getSemi(final boolean condition, final Annal logger, final Supplier<T> tSupplier, final Supplier<T> fSupplier) {
-        return Defend.zeroReturn(() -> Semi.execZero(condition, tSupplier::get, fSupplier::get), logger);
+        return Safer.zeroReturn(() -> Semi.execZero(condition, tSupplier::get, fSupplier::get), logger);
     }
 
     public static <T> T getSemi(final boolean condition, final Annal logger, final Supplier<T> tSupplier) {
-        return Defend.zeroReturn(() -> Semi.execZero(condition, tSupplier::get, null), logger);
+        return Safer.zeroReturn(() -> Semi.execZero(condition, tSupplier::get, null), logger);
     }
 
     public static <T> T getSemi(final boolean condition, final ZeroSupplier<T> tSupplier, final ZeroSupplier<T> fSupplier) throws ZeroException {
@@ -264,7 +272,15 @@ public final class Fn {
      * Speicial function to pool by thread name instead of other key here, for multi-thread environment
      */
     public static <V> V poolThread(final ConcurrentMap<String, V> pool, final Supplier<V> poolFn) {
+        return poolThread(pool, poolFn, null);
+    }
+
+    public static <V> V poolThread(final ConcurrentMap<String, V> pool, final Supplier<V> poolFn, final String root) {
         final String threadName = Thread.currentThread().getName();
-        return Deliver.exec(pool, threadName, poolFn);
+        if (Ut.isNil(root)) {
+            return Deliver.exec(pool, threadName, poolFn);
+        } else {
+            return Deliver.exec(pool, root + "/" + threadName, poolFn);
+        }
     }
 }

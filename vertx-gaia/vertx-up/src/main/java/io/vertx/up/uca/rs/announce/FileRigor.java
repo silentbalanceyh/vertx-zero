@@ -23,10 +23,10 @@ public class FileRigor implements Rigor {
             // Merge rulers here.
             final Set<Rule> rules = new HashSet<>();
             Observable.fromIterable(rulers.keySet())
-                    .map(rulers::get)
-                    .flatMap(Observable::fromIterable)
-                    .subscribe(rules::add)
-                    .dispose();
+                .map(rulers::get)
+                .flatMap(Observable::fromIterable)
+                .subscribe(rules::add)
+                .dispose();
             // Rules here.
             error = Ruler.verify(rules, "BODY", body);
         }

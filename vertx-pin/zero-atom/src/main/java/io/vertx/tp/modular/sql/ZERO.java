@@ -7,11 +7,11 @@ import java.util.concurrent.ConcurrentMap;
 
 interface Pool {
     ConcurrentMap<String, String> DB_MAPPING =
-            new ConcurrentHashMap<>();
+        new ConcurrentHashMap<>();
 
     ConcurrentMap<String, JsonArray> DB_TYPE_MAPPING =
-            new ConcurrentHashMap<>();
+        new ConcurrentHashMap<>();
 
     ConcurrentMap<String, SqlTypeProvider> DB_TYPE_REF =
-            new ConcurrentHashMap<>();
+        new ConcurrentHashMap<>();
 }

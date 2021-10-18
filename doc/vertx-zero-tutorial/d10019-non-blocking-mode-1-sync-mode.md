@@ -1,10 +1,12 @@
 # D10019 - Non-Blocking, Mode 1 Sync Mode
 
-Zero system support many request modes as smart flow, this tutorial describe the first mode that often appeared in previous tutorials.
+Zero system support many request modes as smart flow, this tutorial describe the first mode that often appeared in
+previous tutorials.
 
 ## 1. Introduction
 
-This mode is standard non-event bus mode, it won't enable event bus, but agent \( `@EndPoint` \) only. The workflow should be as following:
+This mode is standard non-event bus mode, it won't enable event bus, but agent \( `@EndPoint` \) only. The workflow
+should be as following:
 
 ![](/doc/image/request-mode1.png)
 
@@ -13,7 +15,8 @@ Agent threads are running in event loop thread pool of vert.x, in this mode the 
 1. The client send web request to zero system.
 2. The routing sub-system of zero will match the web request uri to look up correct routing handler.
 3. Routing handler will execute the mounted java function \( Defined by developer \).
-4. After java function executed, zero system will convert return value of the function to web response and send to client.
+4. After java function executed, zero system will convert return value of the function to web response and send to
+   client.
 
 There is no consumer role in this workflow, but sender instead:
 
@@ -81,5 +84,7 @@ public class SyncModeActor {
 
 ## 5. Summary
 
-In zero programming specification, we often named this class suffix with `Actor`, it means that this actor is working in agent thread, as an actor it will dispatch the request or process request. In the mode of current tutorial, this actor process the web request directly.
+In zero programming specification, we often named this class suffix with `Actor`, it means that this actor is working in
+agent thread, as an actor it will dispatch the request or process request. In the mode of current tutorial, this actor
+process the web request directly.
 

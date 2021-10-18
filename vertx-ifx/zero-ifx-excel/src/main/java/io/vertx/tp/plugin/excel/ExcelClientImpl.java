@@ -1,30 +1,21 @@
 package io.vertx.tp.plugin.excel;
 
 import io.vertx.codegen.annotations.Fluent;
-import io.vertx.core.*;
+import io.vertx.core.AsyncResult;
+import io.vertx.core.Future;
+import io.vertx.core.Handler;
+import io.vertx.core.Vertx;
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.error._500ExportingErrorException;
-import io.vertx.tp.plugin.excel.atom.ExRecord;
 import io.vertx.tp.plugin.excel.atom.ExTable;
-import io.vertx.tp.plugin.excel.tool.ExFn;
-import io.vertx.up.exception.WebException;
-import io.vertx.up.exception.web._500InternalServerException;
-import io.vertx.up.fn.Fn;
+import io.vertx.tp.plugin.excel.atom.ExTenant;
+import io.vertx.up.commune.element.TypeAtom;
 import io.vertx.up.log.Annal;
-import io.vertx.up.unity.Ux;
-import io.vertx.up.unity.jq.UxJooq;
 import io.vertx.up.util.Ut;
-import org.apache.poi.ss.usermodel.Workbook;
-import org.apache.poi.xssf.usermodel.XSSFSheet;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-import java.io.FileOutputStream;
 import java.io.InputStream;
-import java.io.OutputStream;
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.Set;
 
 public class ExcelClientImpl implements ExcelClient {
 
@@ -32,244 +23,263 @@ public class ExcelClientImpl implements ExcelClient {
 
     private transient final Vertx vertx;
     private transient final ExcelHelper helper = ExcelHelper.helper(this.getClass());
-    private transient final String temp;
+    // Excel Exporter
+    private transient final SheetExport exporter = SheetExport.create(this.helper);
+    private transient final SheetIngest ingest = SheetIngest.create(this.helper);
+    private transient final SheetImport importer = SheetImport.create(this.helper);
 
     ExcelClientImpl(final Vertx vertx, final JsonObject config) {
         this.vertx = vertx;
-        final String temp = config.getString("temp");
-        this.temp = Ut.isNil(temp) ? "/tmp" : temp;
         this.init(config);
     }
 
     @Override
     public ExcelClient init(final JsonObject config) {
-        final JsonArray mapping = config.getJsonArray(MAPPING);
+        final JsonArray mapping = config.getJsonArray(ExcelClient.MAPPING);
         this.helper.initConnect(mapping);
         LOGGER.debug("[ Έξοδος ] Configuration finished: {0}", Pool.CONNECTS.size());
-        if (config.containsKey(ENVIRONMENT)) {
-            final JsonArray environments = config.getJsonArray(ENVIRONMENT);
+        if (config.containsKey(ExcelClient.ENVIRONMENT)) {
+            final JsonArray environments = config.getJsonArray(ExcelClient.ENVIRONMENT);
             this.helper.initEnvironment(environments);
             LOGGER.debug("[ Έξοδος ] Configuration environments: {0}", environments.encode());
+        }
+        if (config.containsKey(ExcelClient.PEN)) {
+            final String componentStr = config.getString(ExcelClient.PEN);
+            this.helper.initPen(componentStr);
+            LOGGER.debug("[ Έξοδος ] Configuration pen for Exporting: {0}", componentStr);
+        }
+        if (config.containsKey(ExcelClient.TENANT)) {
+            final JsonObject tenantJson = Ut.ioJObject(config.getString(ExcelClient.TENANT));
+            if (Ut.notNil(tenantJson)) {
+                final ExTenant tenant = ExTenant.create(tenantJson);
+                this.helper.initTenant(tenant);
+                LOGGER.debug("[ Έξοδος ] Configuration tenant for Importing: {0}", tenantJson.encode());
+            }
         }
         return this;
     }
 
-    @Override
-    public ExcelClient ingest(final String filename, final Handler<AsyncResult<Set<ExTable>>> handler) {
-        handler.handle(Future.succeededFuture(this.ingest(filename)));
-        return this;
-    }
+    // --------------------- ExTable Ingesting -----------------------
 
+    /**
+     * 1) Api for ingest of parameters, the matrix is as following
+     * |    filename/input-stream   |    2003/2007                       |     Shape     |      Async       |
+     * |        filename            |    by extension ( .xls, .xlsx )    |       x       |      false       |
+     * |        input-stream        |    isXlsx, true for 2007           |       x       |      false       |
+     * |        filename            |    by extension ( .xls, .xlsx )    |       V       |      false       |
+     * |        input-stream        |    isXlsx, true for 2007           |       V       |      false       |
+     * |        filename            |    by extension ( .xls, .xlsx )    |       x       |      true        |
+     * |        input-stream        |    isXlsx, true for 2007           |       x       |      true        |
+     * |        filename            |    by extension ( .xls, .xlsx )    |       V       |      true        |
+     * |        input-stream        |    isXlsx, true for 2007           |       V       |      true        |
+     *
+     * 2) 12 mode of `ingest` here
+     * 2.1) The input contains two categories:
+     * -- 1. InputStream for byte array input, in this mode, you must provide `isXlsx` parameter
+     * -- 2. filename of input, the format should be distinguish by file extension `.xls` for 2003, `.xlsx` for 2007
+     * 2.2) The Shape contains `Dynamic` importing in Ox channel or other build `Shape` object, it contains type definition
+     * 2.2) async contains ( Sync, Callback, Future ) three mode
+     */
     @Override
     public Set<ExTable> ingest(final String filename) {
-        /* 1. Get Workbook reference */
-        final Workbook workbook = this.helper.getWorkbook(filename);
-        /* 2. Iterator for Sheet */
-        return this.helper.getExTables(workbook);
+        return this.ingest.ingest(filename);
     }
 
     @Override
-    public ExcelClient ingest(final InputStream in, final boolean isXlsx, final Handler<AsyncResult<Set<ExTable>>> handler) {
-        handler.handle(Future.succeededFuture(this.ingest(in, isXlsx)));
-        return this;
+    public Set<ExTable> ingest(final String filename, final TypeAtom typeAtom) {
+        return this.ingest.ingest(filename, typeAtom);
     }
 
     @Override
     public Set<ExTable> ingest(final InputStream in, final boolean isXlsx) {
-        /* 1. Get Workbook reference */
-        final Workbook workbook = this.helper.getWorkbook(in, isXlsx);
-        /* 2. Iterator for Sheet */
-        return this.helper.getExTables(workbook);
+        return this.ingest.ingest(in, isXlsx);
     }
 
     @Override
-    public <T> ExcelClient loading(final String filename, final Handler<AsyncResult<Set<T>>> handler) {
-        return this.ingest(filename, process -> handler.handle(this.handleIngested(process)));
+    public Set<ExTable> ingest(final InputStream in, final boolean isXlsx, final TypeAtom typeAtom) {
+        return this.ingest.ingest(in, isXlsx, typeAtom);
+    }
+
+    @Override
+    public Future<Set<ExTable>> ingestAsync(final String filename) {
+        return Future.succeededFuture(this.ingest(filename));
+    }
+
+    @Override
+    public Future<Set<ExTable>> ingestAsync(final String filename, final TypeAtom typeAtom) {
+        return Future.succeededFuture(this.ingest(filename, typeAtom));
+    }
+
+    @Override
+    public Future<Set<ExTable>> ingestAsync(final InputStream in, final boolean isXlsx) {
+        return Future.succeededFuture(this.ingest(in, isXlsx));
+    }
+
+    @Override
+    public Future<Set<ExTable>> ingestAsync(final InputStream in, final boolean isXlsx, final TypeAtom typeAtom) {
+        return Future.succeededFuture(this.ingest(in, isXlsx, typeAtom));
     }
 
     @Override
     @Fluent
-    public <T> ExcelClient importTable(final String tableOnly, final String filename, final Handler<AsyncResult<Set<T>>> handler) {
-        return this.ingest(filename, processed -> {
-            if (processed.succeeded()) {
-                /* Filtered valid table here */
-                final Set<ExTable> execution = this.getFiltered(processed.result(), tableOnly);
-                handler.handle(this.handleIngested(Ux.future(execution)));
-            }
-        });
-    }
-
-    @Override
-    @Fluent
-    public <T> ExcelClient importTable(final String tableOnly, final InputStream in, final Handler<AsyncResult<Set<T>>> handler) {
-        return this.ingest(in, true, processed -> {
-            if (processed.succeeded()) {
-                /* Filtered valid table here */
-                final Set<ExTable> execution = this.getFiltered(processed.result(), tableOnly);
-                handler.handle(this.handleIngested(Ux.future(execution)));
-            }
-        });
-    }
-
-    @Override
-    public <T> ExcelClient loading(final InputStream in, final boolean isXlsx, final Handler<AsyncResult<Set<T>>> handler) {
-        return this.ingest(in, isXlsx, process -> handler.handle(this.handleIngested(process)));
-    }
-
-    private <T> Future<Set<T>> handleIngested(final AsyncResult<Set<ExTable>> async) {
-        if (async.succeeded()) {
-            final Set<ExTable> tables = async.result();
-            /* 3. Loading data into the system */
-            final Set<T> entitySet = new HashSet<>();
-            tables.forEach(table -> this.extract(table).forEach(json -> {
-                /* 4. Filters building */
-                final T entity = this.saveEntity(json, table);
-                if (Objects.nonNull(entity)) {
-                    entitySet.add(entity);
-                }
-            }));
-            /* 4. Set<T> handler */
-            return Future.succeededFuture(entitySet);
-        } else {
-            return Future.succeededFuture();
-        }
-    }
-
-    @Override
-    public <T> T saveEntity(final JsonObject data, final ExTable table) {
-        T reference = null;
-        if (Objects.nonNull(table.getPojo()) && Objects.nonNull(table.getDao())) {
-            /*
-             * First, find the record by unique filters that defined in business here.
-             */
-            final JsonObject filters = table.whereUnique(data);
-            LOGGER.debug("[ Έξοδος ] Filters: {0}, Table: {1}", filters.encode(), table.getName());
-            final T entity = Ux.fromJson(data, table.getPojo(), table.getPojoFile());
-            final UxJooq jooq = Ux.Jooq.on(table.getDao());
-            if (null != jooq) {
-                final String pojoFile = table.getPojoFile();
-                if (Ut.notNil(pojoFile)) {
-                    jooq.on(pojoFile);
-                }
-                /*
-                 * Unique filter to fetch single record database here.
-                 * Such as code + sigma
-                 */
-                final T queried = jooq.fetchOne(filters);
-                if (null == queried) {
-                    /*
-                     * Here are two situations that we could be careful
-                     * 1. Unique Condition in source does not change, do insert here.
-                     * 2. Key Condition existing in database, do update here.
-                     */
-                    final String key = table.whereKey(data);
-                    if (Ut.isNil(key)) {
-                        /*
-                         * No definition of key here, insert directly.
-                         */
-                        reference = jooq.insert(entity);
-                    } else {
-                        /*
-                         * Double check to avoid issue:
-                         * java.sql.SQLIntegrityConstraintViolationException: Duplicate entry 'xxx' for key 'PRIMARY'
-                         */
-                        final T fetched = jooq.findById(key);
-                        if (null == fetched) {
-                            /*
-                             * In this situation, it common workflow to do data loading.
-                             */
-                            reference = jooq.insert(entity);
-                        } else {
-                            /*
-                             * In this situation, it means the old unique filters have been changed.
-                             * Such as:
-                             * From
-                             * id,      code,      sigma
-                             * 001,     AB.CODE,   5sLyA90qSo7
-                             *
-                             * To
-                             * id,      code,      sigma
-                             * 001,     AB.CODE1,  5sLyA90qSo7
-                             *
-                             * Above example could show that primary key has not been modified
-                             */
-                            reference = jooq.update(entity);
-                        }
-                    }
-                } else {
-                    /*
-                     * code, sigma did not change and we could identify this record
-                     * do update directly to modify old information.
-                     */
-                    reference = jooq.update(entity);
-                }
-            }
-        }
-        return reference;
-    }
-
-    @Override
-    public ExcelClient exportTable(final String identifier, final JsonArray data, final Handler<AsyncResult<Buffer>> handler) {
-        /* 1. Workbook created */
-        final XSSFWorkbook workbook = new XSSFWorkbook();
-        /* 2. Sheet created */
-        final XSSFSheet sheet = workbook.createSheet(identifier);
-        /* 3. Row created */
-        final List<Integer> sizeList = new ArrayList<>();
-        Ut.itJArray(data, JsonArray.class, (rowData, index) -> {
-            ExFn.generateData(sheet, index, rowData);
-            sizeList.add(rowData.size());
-        });
-        /* 4. Adjust column width */
-        final IntSummaryStatistics statistics = sizeList.stream().mapToInt(Integer::intValue).summaryStatistics();
-        final int max = statistics.getMax();
-        for (int idx = 0; idx < max; idx++) {
-            sheet.autoSizeColumn(idx);
-        }
-        /* 5. OutputStream */
-        Fn.safeJvm(() -> {
-            // TODO: Modified in future
-            final String filename = identifier + "." + UUID.randomUUID() + ".xlsx";
-            final OutputStream out = new FileOutputStream(filename);
-            workbook.write(out);
-            // InputStream converted
-            handler.handle(Ux.future(Ut.ioBuffer(filename)));
-        });
+    public ExcelClient ingest(final String filename, final Handler<AsyncResult<Set<ExTable>>> handler) {
+        handler.handle(this.ingestAsync(filename));
         return this;
     }
 
     @Override
-    public Future<Buffer> exportTable(final String identifier, final JsonArray data) {
-        final Promise<Buffer> future = Promise.promise();
-        this.exportTable(identifier, data, handler -> {
-            if (handler.succeeded()) {
-                future.complete(handler.result());
-            } else {
-                final Throwable error = handler.cause();
-                if (Objects.nonNull(error)) {
-                    final WebException failure = new _500ExportingErrorException(this.getClass(), error.getMessage());
-                    future.fail(failure);
-                } else {
-                    future.fail(new _500InternalServerException(this.getClass(), "Unexpected Error"));
-                }
-            }
-        });
-        return future.future();
+    @Fluent
+    public ExcelClient ingest(final String filename, final TypeAtom typeAtom, final Handler<AsyncResult<Set<ExTable>>> handler) {
+        handler.handle(this.ingestAsync(filename, typeAtom));
+        return this;
     }
 
-    private Set<ExTable> getFiltered(final Set<ExTable> processed, final String tableOnly) {
-        return processed.stream()
-                .filter(table -> tableOnly.equals(table.getName()))
-                .collect(Collectors.toSet());
+    @Override
+    @Fluent
+    public ExcelClient ingest(final InputStream in, final boolean isXlsx, final Handler<AsyncResult<Set<ExTable>>> handler) {
+        handler.handle(this.ingestAsync(in, isXlsx));
+        return this;
     }
 
-    private List<JsonObject> extract(final ExTable table) {
-        /* Records extracting */
-        final List<ExRecord> records = table.get();
-        LOGGER.info("[ Έξοδος ] Table: {0}, Data Size: {1}", table.getName(), records.size());
-        /* Pojo Processing */
-        return records.stream().filter(Objects::nonNull)
-                .map(ExRecord::toJson)
-                .collect(Collectors.toList());
+    @Override
+    @Fluent
+    public ExcelClient ingest(final InputStream in, final boolean isXlsx, final TypeAtom typeAtom, final Handler<AsyncResult<Set<ExTable>>> handler) {
+        handler.handle(this.ingestAsync(in, isXlsx, typeAtom));
+        return this;
+    }
+
+    // --------------------- ExTable Loading / Importing -----------------------
+
+    /**
+     * 1) Api for ingest of parameters, the matrix is as following
+     * |    filename/input-stream   |    2003/2007                       |     Shape     |      Async       |
+     * |        filename            |    by extension ( .xls, .xlsx )    |       x       |      true        |
+     * |        input-stream        |    isXlsx, true for 2007           |       x       |      true        |
+     * |        filename            |    by extension ( .xls, .xlsx )    |       V       |      true        |
+     * |        input-stream        |    isXlsx, true for 2007           |       V       |      true        |
+     *
+     * 2) 12 mode of `ingest` here
+     * 2.1) The input contains two categories:
+     * -- 1. InputStream for byte array input, in this mode, you must provide `isXlsx` parameter
+     * -- 2. filename of input, the format should be distinguish by file extension `.xls` for 2003, `.xlsx` for 2007
+     * 2.2) The Shape contains `Dynamic` importing in Ox channel or other build `Shape` object, it contains type definition
+     * 2.2) async contains ( Sync, Callback, Future ) three mode
+     */
+    @Override
+    @Fluent
+    public <T> ExcelClient importAsync(final String filename, final Handler<AsyncResult<Set<T>>> handler) {
+        return this.ingest(filename, res -> handler.handle(this.importer.importAsync(res)));
+    }
+
+    @Override
+    @Fluent
+    public <T> ExcelClient importAsync(final InputStream in, final boolean isXlsx, final Handler<AsyncResult<Set<T>>> handler) {
+        return this.ingest(in, isXlsx, res -> handler.handle(this.importer.importAsync(res)));
+    }
+
+    @Override
+    public <T> ExcelClient importAsync(final String filename, final TypeAtom typeAtom, final Handler<AsyncResult<Set<T>>> handler) {
+        return this.ingest(filename, typeAtom, res -> handler.handle(this.importer.importAsync(res)));
+    }
+
+    @Override
+    public <T> ExcelClient importAsync(final InputStream in, final boolean isXlsx, final TypeAtom typeAtom, final Handler<AsyncResult<Set<T>>> handler) {
+        return this.ingest(in, isXlsx, typeAtom, res -> handler.handle(this.importer.importAsync(res)));
+    }
+
+    @Override
+    public <T> Future<Set<T>> importAsync(final String filename) {
+        return this.ingestAsync(filename).compose(this.importer::importAsync);
+    }
+
+    @Override
+    public <T> Future<Set<T>> importAsync(final String filename, final TypeAtom typeAtom) {
+        return this.ingestAsync(filename, typeAtom).compose(this.importer::importAsync);
+    }
+
+    @Override
+    public <T> Future<Set<T>> importAsync(final InputStream in, final boolean isXlsx) {
+        return this.ingestAsync(in, isXlsx).compose(this.importer::importAsync);
+    }
+
+    @Override
+    public <T> Future<Set<T>> importAsync(final InputStream in, final boolean isXlsx, final TypeAtom typeAtom) {
+        return this.ingestAsync(in, isXlsx, typeAtom).compose(this.importer::importAsync);
+    }
+
+    @Override
+    public <T> ExcelClient importAsync(final String filename, final Handler<AsyncResult<Set<T>>> handler, final String... includes) {
+        return this.ingest(filename, res -> handler.handle(this.importer.importAsync(this.ingest.compressAsync(res.result(), includes))));
+    }
+
+    @Override
+    public <T> ExcelClient importAsync(final String filename, final TypeAtom typeAtom, final Handler<AsyncResult<Set<T>>> handler, final String... includes) {
+        return this.ingest(filename, typeAtom, res -> handler.handle(this.importer.importAsync(this.ingest.compressAsync(res.result(), includes))));
+    }
+
+    @Override
+    public <T> ExcelClient importAsync(final InputStream in, final boolean isXlsx, final Handler<AsyncResult<Set<T>>> handler, final String... includes) {
+        return this.ingest(in, isXlsx, res -> handler.handle(this.importer.importAsync(this.ingest.compressAsync(res.result(), includes))));
+    }
+
+    @Override
+    public <T> ExcelClient importAsync(final InputStream in, final boolean isXlsx, final TypeAtom typeAtom, final Handler<AsyncResult<Set<T>>> handler, final String... includes) {
+        return this.ingest(in, isXlsx, typeAtom, res -> handler.handle(this.importer.importAsync(this.ingest.compressAsync(res.result(), includes))));
+    }
+
+    @Override
+    public <T> Future<Set<T>> importAsync(final String filename, final String... includes) {
+        return this.ingestAsync(filename).compose(tables -> this.ingest.compressAsync(tables, includes)).compose(this.importer::importAsync);
+    }
+
+    @Override
+    public <T> Future<Set<T>> importAsync(final String filename, final TypeAtom typeAtom, final String... includes) {
+        return this.ingestAsync(filename, typeAtom).compose(tables -> this.ingest.compressAsync(tables, includes)).compose(this.importer::importAsync);
+    }
+
+    @Override
+    public <T> Future<Set<T>> importAsync(final InputStream in, final boolean isXlsx, final String... includes) {
+        return this.ingestAsync(in, isXlsx).compose(tables -> this.ingest.compressAsync(tables, includes)).compose(this.importer::importAsync);
+    }
+
+    @Override
+    public <T> Future<Set<T>> importAsync(final InputStream in, final boolean isXlsx, final TypeAtom typeAtom, final String... includes) {
+        return this.ingestAsync(in, isXlsx, typeAtom).compose(tables -> this.ingest.compressAsync(tables, includes)).compose(this.importer::importAsync);
+    }
+
+    // --------------------- ExTable Exporting -----------------------
+    @Override
+    public ExcelClient exportAsync(final String identifier, final JsonArray data, final Handler<AsyncResult<Buffer>> handler) {
+        this.exporter.exportData(identifier, data, TypeAtom.create(), handler);
+        return this;
+    }
+
+    @Override
+    public ExcelClient exportAsync(final String identifier, final JsonArray data,
+                                   final TypeAtom typeAtom, final Handler<AsyncResult<Buffer>> handler) {
+        this.exporter.exportData(identifier, data, typeAtom, handler);
+        return this;
+    }
+
+    @Override
+    public Future<Buffer> exportAsync(final String identifier, final JsonArray data,
+                                      final TypeAtom typeAtom) {
+        return this.exporter.exportData(identifier, data, typeAtom);
+    }
+
+    @Override
+    public Future<Buffer> exportAsync(final String identifier, final JsonArray data) {
+        return this.exporter.exportData(identifier, data, TypeAtom.create());
+    }
+
+    // --------------------- Spec Workflow -----------------------
+    @Override
+    public Future<JsonArray> extractAsync(final ExTable table) {
+        return this.helper.extract(table);
+    }
+
+    @Override
+    public Future<JsonArray> extractAsync(final Set<ExTable> tables) {
+        return this.helper.extract(tables);
     }
 }

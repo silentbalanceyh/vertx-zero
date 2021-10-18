@@ -10,7 +10,7 @@ public class _400TrackingErrorException extends WebException {
 
     @Override
     public int getCode() {
-        return -300008;
+        return -80545;
     }
 
     @Override

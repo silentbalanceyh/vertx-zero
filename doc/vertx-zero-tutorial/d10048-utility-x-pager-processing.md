@@ -1,13 +1,15 @@
 # D10048 - Utility X, Pager Processing
 
-In zero system, it provide normalized object to store pager information, it's name is `io.vertx.up.atom.query.Pager`, this object could help you to do pagination. this object contains following apis for extract different metadata:
+In zero system, it provide normalized object to store pager information, it's name is `io.vertx.up.atom.query.Pager`,
+this object could help you to do pagination. this object contains following apis for extract different metadata:
 
 * `getStart()`: Get the start index of current pager. \( \( page - 1 \) \* size \)
-* `getPage()`: Get total pages of current pager. 
+* `getPage()`: Get total pages of current pager.
 * `getEnd()`: Get the end index of current page \( page \* size \).
 * `getSize()`: Get the size of each page.
 
-The pagination parameters may came from http request query string, body or other place, in this kind of situation, the sender could take this place to do parameter normalization.
+The pagination parameters may came from http request query string, body or other place, in this kind of situation, the
+sender could take this place to do parameter normalization.
 
 > In "Interface Style", the sender code is ignored, but in current chapter we need this sender class to do useful things.
 
@@ -47,7 +49,8 @@ public interface IrCommentApi {
 }
 ```
 
-Here we defined an interface to be annotated as EndPoint, here the parameters `page` and `size` came from query string and contains the default values. Then let's see how to use Utility X to process the pager parameters:
+Here we defined an interface to be annotated as EndPoint, here the parameters `page` and `size` came from query string
+and contains the default values. Then let's see how to use Utility X to process the pager parameters:
 
 ```java
 package com.tlk.micro.comment;
@@ -70,7 +73,8 @@ public class IrCommentActor implements IrCommentApi {
 }
 ```
 
-In above examples we used the method `toPagerJson`, this method return value is not pager, but JsonObject instead, in this method, the Actor \( Sender \) has done following things:
+In above examples we used the method `toPagerJson`, this method return value is not pager, but JsonObject instead, in
+this method, the Actor \( Sender \) has done following things:
 
 ```shell
 # request url -> xxxxx?videoId=a&page=1&size=20
@@ -124,7 +128,8 @@ public class IrCommentWorker {
 }
 ```
 
-You can ignored the code logical details of this example, but here you could see we called: `toPager(JsonObject)` api to convert the params's pager node to valid Pager object.
+You can ignored the code logical details of this example, but here you could see we called: `toPager(JsonObject)` api to
+convert the params's pager node to valid Pager object.
 
 ## 2. Pager Apis
 
@@ -136,5 +141,7 @@ Actually zero system provide three standard pager related apis:
 
 ## 3. Summary
 
-The pager object of `io.vertx.up.atom.query.Pager` is defined by zero system and provide small interfaces to developer to do normalized Pager building, in this situation you can finish any kind of pagination in zero system instead of implement for each projects.
+The pager object of `io.vertx.up.atom.query.Pager` is defined by zero system and provide small interfaces to developer
+to do normalized Pager building, in this situation you can finish any kind of pagination in zero system instead of
+implement for each projects.
 

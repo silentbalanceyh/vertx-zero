@@ -2,6 +2,7 @@ package io.vertx.up.commune;
 
 import io.vertx.up.commune.config.Database;
 import io.vertx.up.commune.config.Integration;
+import io.vertx.up.commune.rule.RuleUnique;
 import io.vertx.up.eon.em.ChannelType;
 
 /*
@@ -44,6 +45,11 @@ public interface Commercial extends Application, ServiceDefinition, Json {
      * Get integration reference
      */
     Integration integration();
+
+    /*
+     * Get channel RuleUnique
+     */
+    RuleUnique rule();
 
     /*
      * Static identifier here for usage.

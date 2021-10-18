@@ -14,30 +14,30 @@ import io.vertx.up.util.Ut;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
-@SuppressWarnings("unchecked")
 public class MediaAnalyzer implements Analyzer {
 
     private static final Annal LOGGER = Annal.get(MediaAnalyzer.class);
 
-    private final transient Income<List<Epsilon<Object>>> income =
-            Ut.singleton(EpsilonIncome.class);
+    private static final ConcurrentMap<String, Income<List<Epsilon<Object>>>> POOL_EPSILON = new ConcurrentHashMap<>();
 
     @Override
     public Object[] in(final RoutingContext context,
                        final Event event)
-            throws WebException {
-        /** Consume mime type matching **/
-        final MediaType requestMedia = getMedia(context);
+        throws WebException {
+        /* Consume mime type matching **/
+        final MediaType requestMedia = this.getMedia(context);
         MediaAtom.accept(event, requestMedia);
 
-        /** Extract definition from method **/
-        final List<Epsilon<Object>> epsilons =
-                income.in(context, event);
+        /* Extract definition from method **/
+        final Income<List<Epsilon<Object>>> income = Fn.poolThread(POOL_EPSILON, EpsilonIncome::new);
+        final List<Epsilon<Object>> epsilons = income.in(context, event);
 
-        /** Extract value list **/
+        /* Extract value list **/
         return epsilons.stream()
-                .map(Epsilon::getValue).toArray();
+            .map(Epsilon::getValue).toArray();
     }
 
     @Override
@@ -50,8 +50,8 @@ public class MediaAnalyzer implements Analyzer {
     private MediaType getMedia(final RoutingContext context) {
         final String header = context.request().getHeader(HttpHeaders.CONTENT_TYPE);
         return Fn.getSemi(Ut.isNil(header), LOGGER,
-                () -> MediaType.WILDCARD_TYPE,
-                () -> MediaType.valueOf(header));
+            () -> MediaType.WILDCARD_TYPE,
+            () -> MediaType.valueOf(header));
     }
 
 }

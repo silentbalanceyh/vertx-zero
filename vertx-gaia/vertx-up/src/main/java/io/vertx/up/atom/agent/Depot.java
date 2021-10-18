@@ -47,7 +47,7 @@ public class Depot implements Serializable {
             // Find annotation class
             final Annotation annotation = this.findAnnotation(annotationArr);
             final Class<? extends Annotation> annoCls = (null == annotation)
-                    ? null : annotation.annotationType();
+                ? null : annotation.annotationType();
             this.paramAnnos.add(annoCls);
             // Check names
             if (null != annoCls) {

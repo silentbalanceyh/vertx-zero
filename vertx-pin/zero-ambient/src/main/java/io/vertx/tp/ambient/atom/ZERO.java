@@ -10,5 +10,5 @@ interface Pool {
      * only one AppDao that in to DSLContext.
      */
     ConcurrentMap<String, AtApp> APP_POOL
-            = new ConcurrentHashMap<>();
+        = new ConcurrentHashMap<>();
 }

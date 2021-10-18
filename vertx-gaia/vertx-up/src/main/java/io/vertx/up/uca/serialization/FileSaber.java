@@ -14,7 +14,7 @@ public class FileSaber extends BaseSaber {
             final File file = new File(filename);
             // Throw 400 Error
             Fn.outWeb(!file.exists() || !file.canRead(), getLogger(),
-                    _400FilePathMissingException.class, getClass(), filename);
+                _400FilePathMissingException.class, getClass(), filename);
             return file;
         }, paramType, filename);
     }

@@ -1,6 +1,8 @@
 # D10011 - Zero JSR311, @BodyParam...Pojo
 
-In many projects, you'll defined your own Data Object with Java Class, it means that you have your own type instead of `JsonObject` and `JsonArray`, in this situation zero also provide json serialization for different java type, especially for some user-defined POJO class.
+In many projects, you'll defined your own Data Object with Java Class, it means that you have your own type instead
+of `JsonObject` and `JsonArray`, in this situation zero also provide json serialization for different java type,
+especially for some user-defined POJO class.
 
 Demo projects:
 
@@ -142,5 +144,7 @@ Then you should see the logs in console as following:
 
 ## 4. Summary
 
-In zero system, it support json serialization from literal to correct type for Pojo and Pojo collection, you can put your java class after @BodyParam annotation and zero system will convert it automatically for the parameters of endpoint method.
+In zero system, it support json serialization from literal to correct type for Pojo and Pojo collection, you can put
+your java class after @BodyParam annotation and zero system will convert it automatically for the parameters of endpoint
+method.
 

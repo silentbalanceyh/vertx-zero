@@ -1,6 +1,8 @@
 # D10021 - Non-Blocking, Mode 3 One Way Mode
 
-From this chapter of the tutorials, we started to introduce `EventBus` enabled mode, the one way mode just like Ping Mode, but enable the event bus instead of agent only. The data will be send to event bus and it's better to use this mode to do some async jobs or long time jobs.
+From this chapter of the tutorials, we started to introduce `EventBus` enabled mode, the one way mode just like Ping
+Mode, but enable the event bus instead of agent only. The data will be send to event bus and it's better to use this
+mode to do some async jobs or long time jobs.
 
 ## 1. Introduction
 
@@ -121,5 +123,7 @@ You could see output in console as following:
 
 ## 5.Summary
 
-This mode just like Ping mode, the data in response is true/false only, the little difference between Ping Mode and current mode is that current mode enabled event bus and the task has been finished by agent/worker threads both and they are asynchronous, but Ping mode's works have been finished by single thread of agent.
+This mode just like Ping mode, the data in response is true/false only, the little difference between Ping Mode and
+current mode is that current mode enabled event bus and the task has been finished by agent/worker threads both and they
+are asynchronous, but Ping mode's works have been finished by single thread of agent.
 

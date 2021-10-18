@@ -10,7 +10,9 @@ import io.vertx.tp.jet.cv.em.WorkerType;
 import io.vertx.tp.jet.init.JtPin;
 import io.vertx.tp.jet.monitor.JtMonitor;
 import io.vertx.tp.jet.refine.Jt;
+import io.vertx.up.log.Log;
 
+import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.ConcurrentMap;
 
@@ -42,9 +44,9 @@ public class JetCastor {
              * Preparing for Java workers
              */
             uriSet.stream().map(JtUri::worker)
-                    .filter(worker -> WorkerType.JS != worker.getWorkerType())
-                    .map(JtWorker::getWorkerClass)
-                    .forEach(Pool.WORKER_SET::add);
+                .filter(worker -> WorkerType.JS != worker.getWorkerType())
+                .map(JtWorker::getWorkerClass)
+                .forEach(Pool.WORKER_SET::add);
             /*
              * Configuration preparing
              */
@@ -86,11 +88,17 @@ public class JetCastor {
                  * Logging information of current worker here
                  */
                 this.monitor.workerDeploying(options.getInstances(), name);
-                this.vertx.deployVerticle(name, options,
-                        /*
-                         * Worker deployed here
-                         */
-                        handler -> this.monitor.workerDeployed(handler, name));
+                this.vertx.deployVerticle(name, options, handler -> {
+                    if (handler.succeeded()) {
+                        this.monitor.workerDeployed(options.getInstances(), name);
+                        // LOG
+                        Log.Health.on(this.vertx).add(name, options, handler.result());
+                    } else {
+                        if (Objects.nonNull(handler.cause())) {
+                            handler.cause().printStackTrace();
+                        }
+                    }
+                });
             });
         }
         /*

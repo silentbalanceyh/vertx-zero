@@ -64,7 +64,8 @@
 
 1. The collection will be iterated and extract ( key, value ) to group the map structure;
 2. `ZeroHelper::getAgentKey` result should be ServerType;
-3. `item -> item` result should be `List<Class<?>>` item type `Class<?>`, the `List` container is appent to each group directly.
+3. `item -> item` result should be `List<Class<?>>` item type `Class<?>`, the `List` container is appent to each group
+   directly.
 
 ### 2.3. zipper
 
@@ -79,4 +80,5 @@
 
 **Code Flow**
 
-The collection will be iterated and then extract the `key = value` based on the collection, convert the collection to map directly.
+The collection will be iterated and then extract the `key = value` based on the collection, convert the collection to
+map directly.

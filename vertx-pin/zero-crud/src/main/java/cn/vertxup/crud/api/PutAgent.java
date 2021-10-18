@@ -6,12 +6,11 @@ import io.vertx.tp.crud.cv.Addr;
 import io.vertx.up.annotations.Address;
 import io.vertx.up.annotations.Adjust;
 import io.vertx.up.annotations.EndPoint;
+import io.vertx.up.atom.secure.Vis;
+import io.vertx.up.eon.KName;
 import io.vertx.up.eon.Orders;
 
-import javax.ws.rs.BodyParam;
-import javax.ws.rs.PUT;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
+import javax.ws.rs.*;
 
 /*
  * HTTP Method: Put
@@ -24,7 +23,7 @@ public interface PutAgent {
     @Address(Addr.Put.BY_ID)
     @Adjust(Orders.MODULE)
     JsonObject update(@PathParam("actor") String actor,
-                      @PathParam("key") String key,
+                      @PathParam(KName.KEY) String key,
                       @BodyParam JsonObject data);
 
     @PUT
@@ -32,12 +31,15 @@ public interface PutAgent {
     @Address(Addr.Put.BATCH)
     @Adjust(Orders.MODULE)
     JsonArray updateBatch(@PathParam("actor") String actor,
-                          @BodyParam JsonArray dataArray);
+                          @BodyParam JsonArray dataArray,
+                          @QueryParam(KName.MODULE) String module);
 
     @PUT
     @Path("/columns/{actor}/my")
     @Address(Addr.Put.COLUMN_MY)
     @Adjust(Orders.MODULE)
     JsonArray getMy(@PathParam("actor") String actor,
-                    @BodyParam JsonArray projection);
+                    @BodyParam JsonObject viewData,
+                    @QueryParam(KName.MODULE) String module,
+                    @PointParam(KName.VIEW) Vis view);
 }

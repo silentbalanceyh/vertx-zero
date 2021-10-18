@@ -1,6 +1,7 @@
 # D10035 - JSR303, @Min/@Max for numeric
 
-This chapter we'll introduce the range of integer or long value for min/max limitation, it also belong to JSR303 specifications.
+This chapter we'll introduce the range of integer or long value for min/max limitation, it also belong to JSR303
+specifications.
 
 Demo projects:
 
@@ -8,9 +9,12 @@ Demo projects:
 
 **Rules**:
 
-1. JSR303 is only supported in Agent component in zero system, it means that after you have send the message to event bus, the JSR303 will be effectiveness.
-2. When you write the code with the Interface Style \( Will introduce in forward tutorials \), JSR303 will not support this kind of situation.
-3. For @BodyParam, it also impact Agent component only, but could support Interface Style instead of JSR303 and could provide more useful validations.
+1. JSR303 is only supported in Agent component in zero system, it means that after you have send the message to event
+   bus, the JSR303 will be effectiveness.
+2. When you write the code with the Interface Style \( Will introduce in forward tutorials \), JSR303 will not support
+   this kind of situation.
+3. For @BodyParam, it also impact Agent component only, but could support Interface Style instead of JSR303 and could
+   provide more useful validations.
 
 ## 1. Source Code
 
@@ -60,7 +64,8 @@ public class NumericActor {
 }
 ```
 
-**URL** : [http://localhost:6083/api/jsr303/numeric?age=12&test=-34](http://localhost:6083/api/jsr303/numeric?age=12&test=-34)
+**
+URL** : [http://localhost:6083/api/jsr303/numeric?age=12&test=-34](http://localhost:6083/api/jsr303/numeric?age=12&test=-34)
 
 **Method** : GET
 

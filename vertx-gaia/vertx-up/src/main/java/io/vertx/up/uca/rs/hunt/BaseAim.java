@@ -2,7 +2,7 @@ package io.vertx.up.uca.rs.hunt;
 
 import io.vertx.core.AsyncResult;
 import io.vertx.core.eventbus.Message;
-import io.vertx.ext.web.Cookie;
+import io.vertx.core.http.Cookie;
 import io.vertx.ext.web.RoutingContext;
 import io.vertx.ext.web.Session;
 import io.vertx.up.annotations.Address;
@@ -17,9 +17,10 @@ import io.vertx.up.exception.web._500EntityCastException;
 import io.vertx.up.fn.Actuator;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
+import io.vertx.up.secure.validation.Validator;
+import io.vertx.up.uca.invoker.InvokerUtil;
 import io.vertx.up.uca.rs.mime.Analyzer;
 import io.vertx.up.uca.rs.mime.MediaAnalyzer;
-import io.vertx.up.uca.rs.validation.Validator;
 import io.vertx.up.util.Ut;
 
 import java.lang.annotation.Annotation;
@@ -27,23 +28,28 @@ import java.lang.reflect.Method;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
 /**
  * Base class to provide template method
  */
 public abstract class BaseAim {
 
-    private transient final Validator verifier =
-            Validator.create();
+    private static final ConcurrentMap<String, Analyzer> POOL_ANALYZER = new ConcurrentHashMap<>();
+    private static final ConcurrentMap<String, Validator> POOL_VALIDATOR = new ConcurrentHashMap<>();
 
     private transient final Analyzer analyzer =
-            Ut.singleton(MediaAnalyzer.class);
+        Fn.poolThread(POOL_ANALYZER, MediaAnalyzer::new, MediaAnalyzer.class.getName());
+    private transient final Validator verifier =
+        Fn.poolThread(POOL_VALIDATOR, Validator::new);
 
     /**
      * Template method
      *
      * @param context RoutingContext reference
      * @param event   Event object of definition
+     *
      * @return TypedArgument ( Object[] )
      */
     protected Object[] buildArgs(final RoutingContext context,
@@ -62,6 +68,7 @@ public abstract class BaseAim {
      * Get event bus address.
      *
      * @param event Event object of definition
+     *
      * @return Get event bus address
      */
     protected String address(final Event event) {
@@ -73,22 +80,31 @@ public abstract class BaseAim {
     /**
      * @param event Event object of definition
      * @param args  TypedArgument ( Object[] )
+     *
      * @return Return invoked result
      */
     protected Object invoke(final Event event, final Object[] args) {
         final Method method = event.getAction();
         this.getLogger().info("Class = {2}, Method = {0}, Args = {1}",
-                method.getName(), Ut.fromJoin(args), method.getDeclaringClass().getName());
-        return Ut.invoke(event.getProxy(), method.getName(), args);
+            method.getName(), Ut.fromJoin(args), method.getDeclaringClass().getName());
+        return InvokerUtil.invoke(event.getProxy(), method, args);
     }
 
     protected Envelop failure(final String address,
                               final AsyncResult<Message<Envelop>> handler) {
-        final WebException error
-                = new _500DeliveryErrorException(this.getClass(),
-                address,
-                Fn.getNull(null,
-                        () -> handler.cause().getMessage(), handler.cause()));
+        final Throwable cause = handler.cause();
+        final WebException error;
+        if (Objects.isNull(cause)) {
+            error = new _500DeliveryErrorException(this.getClass(),
+                address, "Unknown");
+        } else {
+            if (cause instanceof WebException) {
+                error = (WebException) cause;
+            } else {
+                error = new _500DeliveryErrorException(this.getClass(),
+                    address, "Jvm: " + cause.getMessage());
+            }
+        }
         return Envelop.failure(error);
     }
 
@@ -101,8 +117,8 @@ public abstract class BaseAim {
             envelop = message.body();
         } catch (final Throwable ex) {
             final WebException error
-                    = new _500EntityCastException(this.getClass(),
-                    address, ex.getMessage());
+                = new _500EntityCastException(this.getClass(),
+                address, ex.getMessage());
             envelop = Envelop.failure(error);
         }
         return envelop;
@@ -120,7 +136,6 @@ public abstract class BaseAim {
                                   final Map<String, List<Rule>> rulers,
                                   final Depot depot) {
         try {
-
             final Object[] args = this.buildArgs(context, depot.getEvent());
             // Execute web flow and uniform call.
             Flower.executeRequest(context, rulers, depot, args, this.verifier());
@@ -138,18 +153,19 @@ public abstract class BaseAim {
                         final Event event) {
         try {
             // Monitor
+            this.getLogger().debug("Web flow started: {0}", event.getAction());
             {
                 final Session session = context.session();
                 if (Objects.nonNull(session)) {
+                    // Fix: 3.9.1 cookie error of null pointer
                     final Cookie cookie = context.getCookie("vertx-web.session");
-                    this.getLogger().info(Info.SESSION_ID, context.request().path(),
-                            session.id(), cookie.getValue());
+                    this.getLogger().debug(Info.SESSION_ID, context.request().path(),
+                        session.id(), Objects.isNull(cookie) ? null : cookie.getValue());
                 }
             }
             consumer.execute();
         } catch (final WebException ex) {
-            final Envelop envelop = Envelop.failure(ex);
-            Answer.reply(context, envelop, event);
+            Flower.replyError(context, ex, event);
         }
     }
 }

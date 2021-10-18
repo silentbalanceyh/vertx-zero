@@ -1,6 +1,9 @@
 # D10015 - By Typed Parameters
 
-Except all JSR311 related annotations \( Include extend by Zero such as @BodyParam, @StreamParam etc \), zero also support some default typed parameters, these kind of parameters do not require any annotations in your code, but with Java Type instead directly. Zero will scan the method and pick up the parameters by type instead of annotation. All support types are as following:
+Except all JSR311 related annotations \( Include extend by Zero such as @BodyParam, @StreamParam etc \), zero also
+support some default typed parameters, these kind of parameters do not require any annotations in your code, but with
+Java Type instead directly. Zero will scan the method and pick up the parameters by type instead of annotation. All
+support types are as following:
 
 * [x] `io.vertx.core.Vertx`
 * [x] `io.vertx.core.buffer.Buffer`
@@ -174,5 +177,6 @@ io.vertx.core.http.impl.HttpServerResponseImpl@117977a3
 
 ## 4. Summary
 
-This tutorial describe the typed parameters by zero system default supported, in this situation you should know how to use typed parameters in your project.
+This tutorial describe the typed parameters by zero system default supported, in this situation you should know how to
+use typed parameters in your project.
 

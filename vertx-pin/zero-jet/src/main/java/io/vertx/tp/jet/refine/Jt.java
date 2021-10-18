@@ -10,10 +10,17 @@ import io.vertx.tp.jet.atom.JtApp;
 import io.vertx.tp.jet.atom.JtConfig;
 import io.vertx.tp.jet.atom.JtUri;
 import io.vertx.tp.jet.atom.JtWorker;
-import io.vertx.up.commune.config.*;
+import io.vertx.up.commune.config.Database;
+import io.vertx.up.commune.config.Identity;
+import io.vertx.up.commune.config.Integration;
+import io.vertx.up.commune.exchange.BiTree;
+import io.vertx.up.commune.exchange.DiSetting;
+import io.vertx.up.commune.rule.RuleUnique;
 import io.vertx.up.eon.Strings;
 import io.vertx.up.eon.em.ChannelType;
+import io.vertx.up.extension.PlugRouter;
 import io.vertx.up.log.Annal;
+import io.vertx.up.util.Ut;
 
 import javax.ws.rs.core.MediaType;
 import java.util.Set;
@@ -24,19 +31,23 @@ import java.util.stream.Collectors;
 public class Jt {
 
     public static void infoInit(final Annal logger, final String pattern, final Object... args) {
-        JtLog.infoInit(logger, pattern, args);
+        JtLog.info(logger, "Init", pattern, args);
     }
 
     public static void infoRoute(final Annal logger, final String pattern, final Object... args) {
-        JtLog.infoRoute(logger, pattern, args);
+        JtLog.info(logger, "Route", pattern, args);
     }
 
     public static void infoWorker(final Annal logger, final String pattern, final Object... args) {
-        JtLog.infoWorker(logger, pattern, args);
+        JtLog.info(logger, "Worker", pattern, args);
     }
 
     public static void infoWeb(final Annal logger, final String pattern, final Object... args) {
-        JtLog.infoWeb(logger, pattern, args);
+        JtLog.info(logger, "Wet", pattern, args);
+    }
+
+    public static void warnApp(final Annal logger, final String pattern, final Object... args) {
+        JtLog.warn(logger, "Ambient", pattern, args);
     }
 
     public static String jobCode(final IJob job) {
@@ -51,27 +62,34 @@ public class Jt {
         return JtRoute.toPath(routeSupplier, uriSupplier, secure, external);
     }
 
+    public static String toPath(final Supplier<String> routeSupplier, final Supplier<String> uriSupplier,
+                                final boolean secure) {
+        final JsonObject routerConfig = PlugRouter.config();
+        final JtConfig config = Ut.deserialize(routerConfig, JtConfig.class);
+        return toPath(routeSupplier, uriSupplier, secure, config);
+    }
+
     public static Set<MediaType> toMime(final Supplier<String> supplier) {
         return JtRoute.toMime(supplier);
     }
 
     public static Set<String> toMimeString(final Supplier<String> supplier) {
         return toMime(supplier).stream()
-                .map(type -> type.getType() + Strings.SLASH + type.getSubtype())
-                .collect(Collectors.toSet());
+            .map(type -> type.getType() + Strings.SLASH + type.getSubtype())
+            .collect(Collectors.toSet());
     }
 
     /*
      * IService -> Dict
      */
-    public static Dict toDict(final IService service) {
+    public static DiSetting toDict(final IService service) {
         return JtBusiness.toDict(service);
     }
 
     /*
      * IService -> DualMapping
      */
-    public static DualMapping toMapping(final IService service) {
+    public static BiTree toMapping(final IService service) {
         return JtBusiness.toMapping(service);
     }
 
@@ -82,7 +100,7 @@ public class Jt {
         return JtBusiness.toIdentify(service);
     }
 
-    public static Future<ConcurrentMap<String, JsonArray>> toDictionary(final String key, final String identifier, final Dict dict) {
+    public static Future<ConcurrentMap<String, JsonArray>> toDictionary(final String key, final String identifier, final DiSetting dict) {
         return JtBusiness.toDictionary(key, identifier, dict);
     }
 
@@ -146,6 +164,10 @@ public class Jt {
 
     public static Database toDatabase(final IService service) {
         return JtDataObject.toDatabase(service);
+    }
+
+    public static RuleUnique toRule(final IService service) {
+        return JtDataObject.toRule(service);
     }
 
     public static Integration toIntegration(final IService service) {

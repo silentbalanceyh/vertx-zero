@@ -1,8 +1,3 @@
-# RxJs in Action
-
-## 1. Streams Programming
-
-* [1.1 - Basic Programming](/doc/rxjs/11-streams.md)
-
-
-
+version https://git-lfs.github.com/spec/v1
+oid sha256:0fb90b74cc2454f29367c4f0e53fa842bad629f49c984fe7062aeba55658775d
+size 101

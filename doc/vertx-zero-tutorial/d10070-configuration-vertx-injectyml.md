@@ -1,12 +1,15 @@
 # D10070 - Configuration, vertx-inject.yml
 
-This configuration up.god.file provide extension system especially for vert.x native components. The default content is as following:
+This configuration up.god.file provide extension system especially for vert.x native components. The default content is
+as following:
 
 ```yaml
 logger: io.vertx.up.log.internal.Log4JAnnal
 ```
 
-It's the only one component that enabled by default, you can replace this component by yourself when you want to use ELK or other logger. This chapter we'll focus on frequently used `injection` component so that you could know how to set the configuration in zero system.
+It's the only one component that enabled by default, you can replace this component by yourself when you want to use ELK
+or other logger. This chapter we'll focus on frequently used `injection` component so that you could know how to set the
+configuration in zero system.
 
 The data format of `vertx-inject.yml` is simple and it's `key: value` format.
 
@@ -42,5 +45,7 @@ rpc: io.vertx.tp.plugin.rpc.RpcInfix
 
 ## 4. Summary
 
-Current zero system support above four standard infixes only, all above infixed should be enabled by yourself when you want to use it, it's related to different business requirements, zero system does not enable these features automatically. For some detail usage we'll introduce in further tutorials.
+Current zero system support above four standard infixes only, all above infixed should be enabled by yourself when you
+want to use it, it's related to different business requirements, zero system does not enable these features
+automatically. For some detail usage we'll introduce in further tutorials.
 

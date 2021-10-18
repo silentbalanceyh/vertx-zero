@@ -62,7 +62,8 @@ Then you should see the logs in console as following:
 
 ## 4. Summary
 
-Here you can get cookie data from http request, please be sure you have set the cookies in your request. For postman tools, you can set here:
+Here you can get cookie data from http request, please be sure you have set the cookies in your request. For postman
+tools, you can set here:
 
 ![](/doc/image/cookie.png)
 

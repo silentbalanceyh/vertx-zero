@@ -1,17 +1,22 @@
 # D10024 - Non-Blocking, Mode 5 Async Mode \( vert.x style \)
 
-This mode is very important in zero system, because we prefer to recommend use this mode in your development. Because vert.x is non-blocking and async, this mode is based on vert.x async multi threads, if you use this mode to do development works, you can be very smart to finish all the business requirements.
+This mode is very important in zero system, because we prefer to recommend use this mode in your development. Because
+vert.x is non-blocking and async, this mode is based on vert.x async multi threads, if you use this mode to do
+development works, you can be very smart to finish all the business requirements.
 
 From architecture of zero system, this mode contains following advantages:
 
-* [x] You can use all the native async clients that vert.x provided directly such as `MongoClient, MySqlClient, RedisClient`etc.
+* [x] You can use all the native async clients that vert.x provided directly such
+  as `MongoClient, MySqlClient, RedisClient`etc.
 * [x] All the request works should be async mode and the performance is better.
 * [x] You can do some reactive programming with `Rxjava2` instead of others.
-* [x] You can use `UtilityX` package that zero system provided to do complex business requirements or frequently requirements.
+* [x] You can use `UtilityX` package that zero system provided to do complex business requirements or frequently
+  requirements.
 
 # 1. Introduction
 
-![](/doc/image/request-mode5.png)The workflow of this mode is the same as Mode 4, but there are some difference in programming. There are both sender and consumer in current mode, and the response will reply the processed result.
+![](/doc/image/request-mode5.png)The workflow of this mode is the same as Mode 4, but there are some difference in
+programming. There are both sender and consumer in current mode, and the response will reply the processed result.
 
 ```
 Request -> Agent -> @Address ( Sender ) -> 
@@ -96,9 +101,9 @@ public class VertxStyleWorker {
 2. You must use `io.vertx.up.annotations.Address` annotation to set address of string type in **Sender/Consumer** both.
 3. Address value should be the same shared in **Sender/Consumer**.
 4. The worker method signature should be as following:
-   1. `void method(Message<Envelop>)`
-   2. `Future<T> method(Envelop)`
-   3. `Future<Envelop> method(Envelop)`
+    1. `void method(Message<Envelop>)`
+    2. `Future<T> method(Envelop)`
+    3. `Future<Envelop> method(Envelop)`
 
 ## 3. Console
 
@@ -178,5 +183,9 @@ public class VertxStyleWorker {
 
 ## 5. Summary
 
-Current mode is standard vert.x mode and we recommend to use this mode in your project. Here are a java class named `Envelop` and it's Uniform Resource Model that defined by zero system, it could take many information to go through from agent to worker threads on event bus. The Uniform Resource Model will be introduced in future tutorials, it could help developers to simply the programming in web container, service specification and restful web request, then the developers could focus on business requirements only.
+Current mode is standard vert.x mode and we recommend to use this mode in your project. Here are a java class
+named `Envelop` and it's Uniform Resource Model that defined by zero system, it could take many information to go
+through from agent to worker threads on event bus. The Uniform Resource Model will be introduced in future tutorials, it
+could help developers to simply the programming in web container, service specification and restful web request, then
+the developers could focus on business requirements only.
 

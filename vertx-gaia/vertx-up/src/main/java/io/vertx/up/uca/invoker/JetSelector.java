@@ -26,12 +26,18 @@ public class JetSelector {
             } else if (Message.class.isAssignableFrom(paramCls)) {
                 // void method(Message<Envelop>)
                 invoker = Ut.singleton(MessageInvoker.class);
+            } else {
+                // void method(T)
+                invoker = Ut.singleton(PingTInvoker.class);
             }
         } else if (Envelop.class == returnType) {
             if (Envelop.class == paramCls) {
                 // Envelop method(Envelop)
                 // Rpc supported.
                 invoker = Ut.singleton(SyncInvoker.class);
+            } else {
+                // Envelop method(I)
+                invoker = Ut.singleton(DimInvoker.class);
             }
         } else if (Future.class.isAssignableFrom(returnType)) {
             if (Envelop.class == paramCls) {
@@ -52,8 +58,8 @@ public class JetSelector {
             }
         }
         Fn.outUp(null == invoker, LOGGER,
-                InvokerNullException.class, JetSelector.class,
-                returnType, paramCls);
+            InvokerNullException.class, JetSelector.class,
+            returnType, paramCls);
         return invoker;
     }
 }

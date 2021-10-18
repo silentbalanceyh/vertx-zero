@@ -67,17 +67,17 @@ public class Mirror {
 
     private void convert(final ConcurrentMap<String, String> mapper) {
         Observable.fromIterable(this.data.fieldNames())
-                .groupBy(mapper::containsKey)
-                .map(contain -> contain.getKey() ?
-                        contain.subscribe(from -> {
-                            // Existing in mapper
-                            final String to = mapper.get(from);
-                            this.converted.put(to, this.data.getValue(from));
-                        }) :
-                        contain.subscribe(item ->
-                                // Not found in mapper
-                                this.converted.put(item, this.data.getValue(item)))
-                ).subscribe().dispose();
+            .groupBy(mapper::containsKey)
+            .map(contain -> Boolean.TRUE.equals(contain.getKey()) ?
+                contain.subscribe(from -> {
+                    // Existing in mapper
+                    final String to = mapper.get(from);
+                    this.converted.put(to, this.data.getValue(from));
+                }) :
+                contain.subscribe(item ->
+                    // Not found in mapper
+                    this.converted.put(item, this.data.getValue(item)))
+            ).subscribe().dispose();
     }
 
     public Mirror from() {
@@ -88,8 +88,8 @@ public class Mirror {
     public Mirror apply(final Function<String, String> function) {
         final JsonObject result = this.data.copy();
         result.forEach((entry) ->
-                this.converted.put(function.apply(entry.getKey()),
-                        entry.getValue()));
+            this.converted.put(function.apply(entry.getKey()),
+                entry.getValue()));
         return this;
     }
 

@@ -51,7 +51,7 @@ public class N4JOpEdge extends AbstractN4JExecutor implements N4JOp {
                 return Future.succeededFuture(nodes);
             } else {
                 return this.doAsync(added, processed -> N4J.edgeAdd(this.graph, processed))
-                        .compose(created -> Future.succeededFuture(nodes));
+                    .compose(created -> Future.succeededFuture(nodes));
             }
         });
     }
@@ -59,13 +59,13 @@ public class N4JOpEdge extends AbstractN4JExecutor implements N4JOp {
     @Override
     public Future<JsonObject> update(final JsonObject node) {
         return this.doAsync(node, processed -> N4J.edgeDelete(this.graph, processed))
-                .compose(nil -> this.doAsync(node, processed -> N4J.edgeAdd(this.graph, processed)));
+            .compose(nil -> this.doAsync(node, processed -> N4J.edgeAdd(this.graph, processed)));
     }
 
     @Override
     public Future<JsonArray> update(final JsonArray nodes) {
         return this.doAsync(nodes, processed -> N4J.edgeDelete(this.graph, processed))
-                .compose(nil -> this.doAsync(nodes, processed -> N4J.edgeAdd(this.graph, processed)));
+            .compose(nil -> this.doAsync(nodes, processed -> N4J.edgeAdd(this.graph, processed)));
     }
 
     @Override

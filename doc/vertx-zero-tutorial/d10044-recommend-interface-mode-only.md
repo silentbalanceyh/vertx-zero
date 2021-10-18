@@ -1,6 +1,8 @@
 # D10045 - Interface Style
 
-This chapter will introduce another coding style that zero system supported, we call it "Interface Style", be careful about this style for coding because it does not support JSR303, only Zero JSR303 could be supported by this style here. This chapter will introduce interface style for more details. In this chapter we focus on **Api/Worker** only.
+This chapter will introduce another coding style that zero system supported, we call it "Interface Style", be careful
+about this style for coding because it does not support JSR303, only Zero JSR303 could be supported by this style here.
+This chapter will introduce interface style for more details. In this chapter we focus on **Api/Worker** only.
 
 ## 1. Source Code
 
@@ -75,7 +77,10 @@ public class FacadeWorker {
 
 ## 3. Summary
 
-Here we used Ux \( Belong to UtilityX package in zero system \), now you could ignore the Ux usage, we'll introduce in forward tutorials. In this demo there is no **Actor** to implement api interface, but we still could pass the data to worker thread to process it, that's why we call this style "Interface Style". It's useful in real projects because you'll find that most situations, it's not needed to require Actor class to do some business logicals.
+Here we used Ux \( Belong to UtilityX package in zero system \), now you could ignore the Ux usage, we'll introduce in
+forward tutorials. In this demo there is no **Actor** to implement api interface, but we still could pass the data to
+worker thread to process it, that's why we call this style "Interface Style". It's useful in real projects because you'
+ll find that most situations, it's not needed to require Actor class to do some business logicals.
 
 
 

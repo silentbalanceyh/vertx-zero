@@ -15,12 +15,12 @@ public class Neo4jInfix implements Infix {
     private static final String NAME = "ZERO_NEO4J_POOL";
 
     private static final ConcurrentMap<String, Neo4jClient> CLIENTS
-            = new ConcurrentHashMap<>();
+        = new ConcurrentHashMap<>();
 
     private static void initInternal(final Vertx vertx, final String name) {
-        Fn.pool(CLIENTS, name, () -> Infix.initTp("neo4j",
-                config -> Neo4jClient.createShared(vertx, config),
-                Neo4jInfix.class));
+        Fn.pool(CLIENTS, name, () -> Infix.init("neo4j",
+            config -> Neo4jClient.createShared(vertx, config),
+            Neo4jInfix.class));
     }
 
     public static void init(final Vertx vertx) {

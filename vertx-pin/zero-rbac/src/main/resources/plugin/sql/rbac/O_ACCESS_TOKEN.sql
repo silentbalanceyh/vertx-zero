@@ -20,5 +20,5 @@ CREATE TABLE IF NOT EXISTS O_ACCESS_TOKEN
     -- Auditor字段
     `CREATED_AT`    DATETIME COMMENT '「createdAt」- 创建时间',
     `CREATED_BY`    VARCHAR(36) COMMENT '「createdBy」- 创建人',
-    PRIMARY KEY (`KEY`)
+    PRIMARY KEY (`KEY`) USING BTREE
 );

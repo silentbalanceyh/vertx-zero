@@ -5,7 +5,7 @@ import cn.vertxup.atom.domain.tables.pojos.MAttribute;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.ke.cv.KeField;
+import io.vertx.up.eon.KName;
 import io.vertx.up.log.Annal;
 import io.vertx.up.unity.Ux;
 
@@ -20,9 +20,9 @@ class AttributeModeler implements AoModeler {
         return modelJson -> {
             LOGGER.debug("[ Ox ] 2. AoModeler.attribute() ：{0}", modelJson.encode());
             return Ux.Jooq.on(MAttributeDao.class)
-                    .fetchAsync(KeField.MODEL_ID, this.getModelId(modelJson))
-                    .compose(Ux::fnJArray)
-                    .compose(attributes -> Ux.future(modelJson.put(KeField.Modeling.ATTRIBUTES, attributes)));
+                .fetchAsync(KName.MODEL_ID, this.getModelId(modelJson))
+                .compose(Ux::futureA)
+                .compose(attributes -> Ux.future(modelJson.put(KName.Modeling.ATTRIBUTES, attributes)));
         };
     }
 
@@ -31,16 +31,16 @@ class AttributeModeler implements AoModeler {
         LOGGER.debug("[ Ox ] (Sync) 2. AoModeler.attribute() ：{0}", modelJson.encode());
         // List
         final List<MAttribute> attrList = Ux.Jooq.on(MAttributeDao.class)
-                .fetch(KeField.MODEL_ID, this.getModelId(modelJson));
+            .fetch(KName.MODEL_ID, this.getModelId(modelJson));
         // JsonArray
-        final JsonArray attrArr = Ux.toArray(attrList);
+        final JsonArray attrArr = Ux.toJson(attrList);
 
-        modelJson.put(KeField.Modeling.ATTRIBUTES, attrArr);
+        modelJson.put(KName.Modeling.ATTRIBUTES, attrArr);
         return modelJson;
     }
 
     private String getModelId(final JsonObject modelJson) {
-        final JsonObject model = modelJson.getJsonObject(KeField.MODEL);
-        return model.getString(KeField.KEY);
+        final JsonObject model = modelJson.getJsonObject(KName.MODEL);
+        return model.getString(KName.KEY);
     }
 }

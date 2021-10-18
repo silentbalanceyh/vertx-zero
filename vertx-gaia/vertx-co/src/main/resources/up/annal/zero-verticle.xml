@@ -13,7 +13,7 @@
             <Pattern>${LOG_PATTERN}</Pattern>
         </encoder>
         <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
-            <MaxFileSize>${LOG_PATTERN}</MaxFileSize>
+            <MaxFileSize>${LOG_MAX_FILE_SIZE}</MaxFileSize>
         </triggeringPolicy>
     </appender>
     <appender name="ASYNC_VTCJ" class="ch.qos.logback.classic.AsyncAppender">
@@ -31,7 +31,7 @@
             <Pattern>${LOG_PATTERN}</Pattern>
         </encoder>
         <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
-            <MaxFileSize>${LOG_PATTERN}</MaxFileSize>
+            <MaxFileSize>${LOG_MAX_FILE_SIZE}</MaxFileSize>
         </triggeringPolicy>
     </appender>
     <appender name="ASYNC_VTCA" class="ch.qos.logback.classic.AsyncAppender">
@@ -49,7 +49,7 @@
             <Pattern>${LOG_PATTERN}</Pattern>
         </encoder>
         <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
-            <MaxFileSize>${LOG_PATTERN}</MaxFileSize>
+            <MaxFileSize>${LOG_MAX_FILE_SIZE}</MaxFileSize>
         </triggeringPolicy>
     </appender>
     <appender name="ASYNC_VTC" class="ch.qos.logback.classic.AsyncAppender">

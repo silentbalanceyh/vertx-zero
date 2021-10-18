@@ -1,8 +1,8 @@
 package io.vertx.up.uca.rs.regular;
 
 import io.vertx.up.atom.Rule;
-import io.vertx.up.exception.WebException;
 import io.vertx.up.eon.Values;
+import io.vertx.up.exception.WebException;
 
 /**
  * {

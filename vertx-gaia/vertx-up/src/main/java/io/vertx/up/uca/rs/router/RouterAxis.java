@@ -4,10 +4,10 @@ import io.vertx.core.Vertx;
 import io.vertx.core.http.HttpMethod;
 import io.vertx.core.json.JsonArray;
 import io.vertx.ext.web.Router;
-import io.vertx.ext.web.handler.BodyHandler;
-import io.vertx.ext.web.handler.CookieHandler;
-import io.vertx.ext.web.handler.CorsHandler;
-import io.vertx.ext.web.handler.ResponseContentTypeHandler;
+import io.vertx.ext.web.handler.*;
+import io.vertx.ext.web.sstore.ClusteredSessionStore;
+import io.vertx.ext.web.sstore.LocalSessionStore;
+import io.vertx.ext.web.sstore.SessionStore;
 import io.vertx.tp.plugin.session.SessionClient;
 import io.vertx.tp.plugin.session.SessionInfix;
 import io.vertx.up.eon.Orders;
@@ -36,12 +36,17 @@ public class RouterAxis implements Axis<Router> {
     @Override
     public void mount(final Router router) {
         // 1. Cookie, Body
-        router.route().order(Orders.COOKIE).handler(CookieHandler.create());
+        // Enabled by default
+        // router.route().order(Orders.COOKIE).handler(CookieHandler.create());
         // 2. Session
         /*
          * CSRF Handler Setting ( Disabled in default )
          */
         this.mountSession(router);
+        /*
+         * Timeout for blocked issue
+         */
+        // this.mountTimeout(router);
         /*
          * Body, Content
          */
@@ -49,6 +54,13 @@ public class RouterAxis implements Axis<Router> {
         router.route().order(Orders.CONTENT).handler(ResponseContentTypeHandler.create());
         // 3. Cors data here
         this.mountCors(router);
+    }
+
+    private void mountTimeout(final Router router) {
+        /*
+         * 10s time out issue
+         */
+        router.route().order(Orders.TIMEOUT).handler(TimeoutHandler.create(10000L));
     }
 
     private void mountSession(final Router router) {
@@ -60,32 +72,50 @@ public class RouterAxis implements Axis<Router> {
              */
             final SessionClient client = SessionInfix.getOrCreate(this.vertx);
             router.route().order(Orders.SESSION).handler(client.getHandler());
+        } else {
+            /*
+             * Default Session Handler here for public domain
+             * If enabled session extension, you should provide other session store
+             */
+            final SessionStore store;
+            if (this.vertx.isClustered()) {
+                /*
+                 * Cluster environment
+                 */
+                store = ClusteredSessionStore.create(this.vertx);
+            } else {
+                /*
+                 * Single Node environment
+                 */
+                store = LocalSessionStore.create(this.vertx);
+            }
+            router.route().order(Orders.SESSION).handler(SessionHandler.create(store));
         }
     }
 
     private void mountCors(final Router router) {
         router.route().order(Orders.CORS).handler(CorsHandler.create(CONFIG.getOrigin())
-                .allowCredentials(CONFIG.getCredentials())
-                .allowedHeaders(this.getAllowedHeaders(CONFIG.getHeaders()))
-                .allowedMethods(this.getAllowedMethods(CONFIG.getMethods())));
+            .allowCredentials(CONFIG.getCredentials())
+            .allowedHeaders(this.getAllowedHeaders(CONFIG.getHeaders()))
+            .allowedMethods(this.getAllowedMethods(CONFIG.getMethods())));
     }
 
     private Set<String> getAllowedHeaders(final JsonArray array) {
         final Set<String> headerSet = new HashSet<>();
         array.stream()
-                .filter(Objects::nonNull)
-                .map(item -> (String) item)
-                .forEach(headerSet::add);
+            .filter(Objects::nonNull)
+            .map(item -> (String) item)
+            .forEach(headerSet::add);
         return headerSet;
     }
 
     private Set<HttpMethod> getAllowedMethods(final JsonArray array) {
         final Set<HttpMethod> methodSet = new HashSet<>();
         array.stream()
-                .filter(Objects::nonNull)
-                .map(item -> (String) item)
-                .map(item -> Ut.toEnum(() -> item, HttpMethod.class, HttpMethod.GET))
-                .forEach(methodSet::add);
+            .filter(Objects::nonNull)
+            .map(item -> (String) item)
+            .map(Ut::toMethod)
+            .forEach(methodSet::add);
         return methodSet;
     }
 }

@@ -1,9 +1,11 @@
 # D10099 - JSR340 Filter in Worker
 
-This tutorial will continue to introduce how to use JSR340 @WebFilter in zero system. Here are some points that should be mentioned because of some limitation between JSR340 and Vert.x:
+This tutorial will continue to introduce how to use JSR340 @WebFilter in zero system. Here are some points that should
+be mentioned because of some limitation between JSR340 and Vert.x:
 
 * All the filters must implement `io.vertx.up.uca.web.filter.Filter` instead of JSR340;
-* We recommend developers extend from `io.vertx.up.uca.web.filter.HttpFilter` directly because there are some abstract implementations in parent filters.
+* We recommend developers extend from `io.vertx.up.uca.web.filter.HttpFilter` directly because there are some abstract
+  implementations in parent filters.
 * Please be careful of the signature of `doFilter` especially focus on the parameter types.
 
 Demo projects:
@@ -107,7 +109,8 @@ Then you can test this feature as following:
 }
 ```
 
-Here please be careful about the api of `Envelop.context`, you can extract the data from this api include any data type, the signature of this method is as following:
+Here please be careful about the api of `Envelop.context`, you can extract the data from this api include any data type,
+the signature of this method is as following:
 
 ```java
 public <T> T context(final String key, final Class<T> clazz)
@@ -115,7 +118,8 @@ public <T> T context(final String key, final Class<T> clazz)
 
 ## 3. Summary
 
-Based on current tutorial you can know how to use filters in Consumer \( Worker \) of zero system, and now you can set any code logical before your API.
+Based on current tutorial you can know how to use filters in Consumer \( Worker \) of zero system, and now you can set
+any code logical before your API.
 
 
 

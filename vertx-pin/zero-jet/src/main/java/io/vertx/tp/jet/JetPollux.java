@@ -53,34 +53,33 @@ public class JetPollux implements PlugRouter {
              * 「Booting」( Multi application deployment on Router )
              */
             final Set<JtUri> uriSet = AMBIENT.keySet().stream()
-                    .flatMap(appId -> AMBIENT.get(appId).routes().stream())
+                .flatMap(appId -> AMBIENT.get(appId).routes().stream())
+                /*
+                 * Start up and bind `order` and `config`
+                 */
+                .map(uri -> uri.bind(this.getOrder())
+                    .<JtUri>bind(Ut.deserialize(config.copy(), JtConfig.class)))
+                /*
+                 * Routing deployment
+                 */
+                .map(uri -> {
                     /*
-                     * Start up and bind `order` and `config`
+                     * 「ZeroJet」Mount the uri into Zero Uri
                      */
-                    .map(uri -> uri.bind(this.getOrder())
-                            .<JtUri>bind(Ut.deserialize(config.copy(), JtConfig.class)))
+                    ZeroJet.resolve(uri.method(), uri.path());
                     /*
-                     * Routing deployment
+                     * 「Route」
                      */
-                    .map(uri -> {
-                        /*
-                         * 「ZeroJet」Mount the uri into Zero Uri
-                         */
-                        ZeroJet.resolve(uri.method(), uri.path());
-                        /*
-                         * 「Route」
-                         */
-                        final Route route = router.route();
-                        /*
-                         * Single route registry
-                         */
-                        this.registryUri(route, uri);
-                        return uri;
-                    }).collect(Collectors.toSet());
+                    final Route route = router.route();
+                    /*
+                     * Single route registry
+                     */
+                    this.registryUri(route, uri);
+                    return uri;
+                }).collect(Collectors.toSet());
             /*
              * 「Starting」
              */
-            this.monitor.workerStart();
             if (Objects.nonNull(this.castor)) {
                 /*
                  * Worker deployment
@@ -91,6 +90,7 @@ public class JetPollux implements PlugRouter {
                  * Each time the `vert.x` insteance will set worker threads here.
                  */
                 if (UNREADY.getAndSet(Boolean.FALSE)) {
+                    this.monitor.workerStart();
                     this.castor.startWorkers(uriSet);
                 }
             }
@@ -131,24 +131,24 @@ public class JetPollux implements PlugRouter {
         final JtAim engine = Fn.poolThread(Pool.AIM_ENGINE_HUBS, () -> Ut.instance(EngineAim.class));
         final JtAim send = Fn.poolThread(Pool.AIM_SEND_HUBS, () -> Ut.instance(SendAim.class));
         route
-                /* Basic parameter validation / 400 Bad Request */
-                .handler(pre.attack(uri))
-                /*
-                 * Four rule here
-                 * IN_RULE , IN_MAPPING, IN_PLUG, IN_SCRIPT
-                 */
-                .handler(in.attack(uri))
-                /*
-                 * Handler major process and workflow
-                 */
-                .handler(engine.attack(uri))
-                /*
-                 * Message sender, connect to event bus
-                 */
-                .handler(send.attack(uri))
-                /*
-                 * Failure Handler when error occurs
-                 */
-                .failureHandler(CommonEndurer.create());
+            /* Basic parameter validation / 400 Bad Request */
+            .handler(pre.attack(uri))
+            /*
+             * Four rule here
+             * IN_RULE , IN_MAPPING, IN_PLUG, IN_SCRIPT
+             */
+            .handler(in.attack(uri))
+            /*
+             * Handler major process and workflow
+             */
+            .handler(engine.attack(uri))
+            /*
+             * Message sender, connect to event bus
+             */
+            .handler(send.attack(uri))
+            /*
+             * Failure Handler when error occurs
+             */
+            .failureHandler(CommonEndurer.create());
     }
 }

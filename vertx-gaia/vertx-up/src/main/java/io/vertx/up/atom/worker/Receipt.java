@@ -71,9 +71,9 @@ public class Receipt implements Serializable {
     @Override
     public String toString() {
         return "Receipt{" +
-                "address='" + this.address + '\'' +
-                ", proxy=" + this.proxy +
-                ", method=" + this.method +
-                '}';
+            "address='" + this.address + '\'' +
+            ", proxy=" + this.proxy +
+            ", method=" + this.method +
+            '}';
     }
 }

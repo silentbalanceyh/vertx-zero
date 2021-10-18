@@ -47,7 +47,7 @@ class FileIngest implements JtIngest {
                 return item;
             }).forEach(files::add);
         }
-        envelop.setValue(ID.PARAM_STREAM, files);
+        envelop.value(ID.PARAM_STREAM, files);
         return envelop;
     }
 }

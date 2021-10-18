@@ -1,6 +1,8 @@
 package io.vertx.up.unity;
 
+import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
+import io.vertx.up.eon.KName;
 import io.vertx.up.eon.Strings;
 import io.vertx.up.util.Ut;
 
@@ -32,5 +34,19 @@ class Where {
             filters.put("$" + field, condition);
         }
         return filters;
+    }
+
+    static JsonObject whereAnd() {
+        return new JsonObject().put(Strings.EMPTY, Boolean.TRUE);
+    }
+
+    static JsonObject whereOr() {
+        return new JsonObject().put(Strings.EMPTY, Boolean.FALSE);
+    }
+
+    static JsonObject whereKeys(final JsonArray keys) {
+        final JsonObject criteria = whereAnd();
+        criteria.put(KName.KEY + ",i", keys);
+        return criteria;
     }
 }

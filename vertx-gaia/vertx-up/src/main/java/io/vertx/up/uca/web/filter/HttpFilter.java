@@ -1,15 +1,15 @@
 package io.vertx.up.uca.web.filter;
 
+import io.vertx.core.http.Cookie;
 import io.vertx.core.http.HttpServerRequest;
 import io.vertx.core.http.HttpServerResponse;
-import io.vertx.ext.web.Cookie;
 import io.vertx.ext.web.RoutingContext;
 import io.vertx.ext.web.Session;
+import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import io.vertx.zero.exception.FilterContextException;
-import io.vertx.up.fn.Fn;
 
-import java.util.Set;
+import java.util.Map;
 
 public abstract class HttpFilter implements Filter {
 
@@ -44,8 +44,8 @@ public abstract class HttpFilter implements Filter {
         return this.context.session();
     }
 
-    protected Set<Cookie> getCookies() {
-        return this.context.cookies();
+    protected Map<String, Cookie> getCookies() {
+        return this.context.cookieMap();
     }
 
     protected Annal getLogger() {

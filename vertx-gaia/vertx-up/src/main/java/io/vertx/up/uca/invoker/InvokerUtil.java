@@ -12,6 +12,7 @@ import io.vertx.up.util.Ut;
 import io.vertx.zero.exception.AsyncSignatureException;
 import io.vertx.zero.exception.WorkerArgumentException;
 
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Objects;
 import java.util.function.Supplier;
@@ -19,14 +20,29 @@ import java.util.function.Supplier;
 /**
  * Tool for invoker do shared works.
  */
-@SuppressWarnings("unused")
+@SuppressWarnings("all")
 public class InvokerUtil {
     private static final Annal LOGGER = Annal.get(InvokerUtil.class);
+
+    public static <T> T invoke(final Object proxy, final Method method, final Object... args) {
+        /*
+         * Be sure to trust args first calling and then normalized calling
+         * by `Ut.invoke`, because `Ut.invoke` will parse many parameters here, it means that
+         * it will analyze the metadata information in runtime, I think it's not needed in
+         * zero framework now. the method could be invoked with args directly.
+         */
+        try {
+            return (T) method.invoke(proxy, args);
+        } catch (final InvocationTargetException | IllegalAccessException ex) {
+            return Ut.invoke(proxy, method.getName(), args);
+        }
+    }
 
     /**
      * Whether this method is void
      *
      * @param method checked method
+     *
      * @return checked result
      */
     static boolean isVoid(final Method method) {
@@ -49,19 +65,19 @@ public class InvokerUtil {
         final Annal logger = Annal.get(target);
         // 2. The parameters
         Fn.outUp(Values.ZERO == params.length,
-                logger, WorkerArgumentException.class,
-                target, method);
+            logger, WorkerArgumentException.class,
+            target, method);
     }
 
     static void verify(
-            final boolean condition,
-            final Class<?> returnType,
-            final Class<?> paramType,
-            final Class<?> target) {
+        final boolean condition,
+        final Class<?> returnType,
+        final Class<?> paramType,
+        final Class<?> target) {
         final Annal logger = Annal.get(target);
         Fn.outUp(condition, logger,
-                AsyncSignatureException.class, target,
-                returnType.getName(), paramType.getName());
+            AsyncSignatureException.class, target,
+            returnType.getName(), paramType.getName());
     }
 
     private static Object getValue(final Class<?> type,
@@ -75,7 +91,7 @@ public class InvokerUtil {
              * 1) Provide username / password to get data from remote server.
              * 2) Request temp authorization code ( Required Session ).
              */
-            value = envelop.getSession();
+            value = envelop.session();
         } else {
             value = defaultSupplier.get();
             final Object argument = null == value ? null : ZeroSerializer.getValue(type, value.toString());
@@ -122,7 +138,7 @@ public class InvokerUtil {
              * (String, String,<T>) -> (idx, current), (0, 0), (1, 1), (2, ?)
              *                                                          adjust = 1
              */
-            final Object analyzed = TypedArgument.analyze(envelop, type);
+            final Object analyzed = TypedArgument.analyzeWorker(envelop, type);
             if (Objects.isNull(analyzed)) {
                 final int current = idx - adjust;
                 final Object value = json.getValue(String.valueOf(current));
@@ -145,35 +161,48 @@ public class InvokerUtil {
                 adjust += 1;
             }
         }
-        return Ut.invoke(proxy, method.getName(), arguments);
+        return invoke(proxy, method, arguments);
+        // return Ut.invoke(proxy, method.getName(), arguments);
     }
 
     static Object invokeSingle(final Object proxy,
                                final Method method,
                                final Envelop envelop) {
         final Class<?> argType = method.getParameterTypes()[Values.IDX];
-        // One type dynamic here
-        final Object reference = Objects.nonNull(envelop) ? envelop.data() : new JsonObject();
-        // Non Direct
-        Object parameters = reference;
-        if (JsonObject.class == reference.getClass()) {
-            final JsonObject json = (JsonObject) reference;
-            if (isInterface(json)) {
-                // Proxy mode
-                if (Values.ONE == json.fieldNames().size()) {
-                    // New Mode for direct type
-                    parameters = json.getValue("0");
+        // Append single argument
+        final Object analyzed = TypedArgument.analyzeWorker(envelop, argType);
+        if (Objects.isNull(analyzed)) {
+            // One type dynamic here
+            final Object reference = envelop.data();
+            // Non Direct
+            Object parameters = reference;
+            if (JsonObject.class == reference.getClass()) {
+                final JsonObject json = (JsonObject) reference;
+                if (isInterface(json)) {
+                    // Proxy mode
+                    if (Values.ONE == json.fieldNames().size()) {
+                        // New Mode for direct type
+                        parameters = json.getValue("0");
+                    }
                 }
             }
+            final Object arguments = ZeroSerializer.getValue(argType, Ut.toString(parameters));
+            return invoke(proxy, method, arguments); // Ut.invoke(proxy, method.getName(), arguments);
+        } else {
+            /*
+             * XHeader
+             * User
+             * Session
+             * These three argument types could be single
+             */
+            return invoke(proxy, method, analyzed); // Ut.invoke(proxy, method.getName(), analyzed);
         }
-        final Object arguments = ZeroSerializer.getValue(argType, Ut.toString(parameters));
-        return Ut.invoke(proxy, method.getName(), arguments);
     }
 
 
     private static boolean isInterface(final JsonObject json) {
         final long count = json.fieldNames().stream().filter(Ut::isInteger)
-                .count();
+            .count();
         // All json keys are numbers
         LOGGER.debug("( isInterface Mode ) Parameter count: {0}, json: {1}", count, json.encode());
         return count == json.fieldNames().size();

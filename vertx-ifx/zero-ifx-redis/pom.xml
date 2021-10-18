@@ -5,13 +5,19 @@
     <parent>
         <artifactId>vertx-ifx</artifactId>
         <groupId>cn.vertxup</groupId>
-        <version>0.5.3-SNAPSHOT</version>
+        <version>0.8.0-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>zero-ifx-redis</artifactId>
-    <name>( Zero Infix ) Redis</name>
+    <name>Infix:「zero-ifx-redis」Redis</name>
     <dependencies>
+        <!-- Sync -->
+        <dependency>
+            <groupId>redis.clients</groupId>
+            <artifactId>jedis</artifactId>
+        </dependency>
+        <!-- Async ( Recommend ) -->
         <dependency>
             <groupId>io.vertx</groupId>
             <artifactId>vertx-redis-client</artifactId>

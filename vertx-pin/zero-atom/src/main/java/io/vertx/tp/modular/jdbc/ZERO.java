@@ -8,5 +8,5 @@ import java.util.concurrent.ConcurrentMap;
 interface Pool {
     /* OxPool资源池 */
     ConcurrentMap<String, DataPool> POOL
-            = new ConcurrentHashMap<>();
+        = new ConcurrentHashMap<>();
 }

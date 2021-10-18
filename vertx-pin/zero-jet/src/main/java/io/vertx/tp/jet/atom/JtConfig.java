@@ -82,24 +82,27 @@ public class JtConfig implements Serializable {
     }
 
     public DeploymentOptions getWorkerOptions() {
-        final DeploymentOptions options = new DeploymentOptions();
-        options.fromJson(Objects.isNull(this.worker) ? new JsonObject() : this.worker);
+        final DeploymentOptions options = new DeploymentOptions(Objects.isNull(this.worker) ? new JsonObject() : this.worker);
         /*
          * Specific configuration
          */
         options.setWorker(true);
         options.setHa(true);
+        /* BUG: workerPoolSize is not in fromJson */
+        if (this.worker.containsKey("workerPoolSize")) {
+            options.setWorkerPoolSize(this.worker.getInteger("workerPoolSize"));
+        }
         return options;
     }
 
     @Override
     public String toString() {
         return "JtConfig{" +
-                "wall='" + this.wall + '\'' +
-                ", worker=" + this.worker +
-                ", agent=" + this.agent +
-                ", options=" + this.options +
-                ", unity=" + this.unity +
-                '}';
+            "wall='" + this.wall + '\'' +
+            ", worker=" + this.worker +
+            ", agent=" + this.agent +
+            ", options=" + this.options +
+            ", unity=" + this.unity +
+            '}';
     }
 }

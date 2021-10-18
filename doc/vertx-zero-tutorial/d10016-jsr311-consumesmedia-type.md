@@ -1,6 +1,8 @@
 # D10016 - JSR311, @Consumes...Media Type
 
-Zero system support content negotiation in restful web service application as web framework, here we used `javax.ws.rs.Consumes` annotation to focus on http header `Content-Type`, it means that you must provide this header value in your request.
+Zero system support content negotiation in restful web service application as web framework, here we
+used `javax.ws.rs.Consumes` annotation to focus on http header `Content-Type`, it means that you must provide this
+header value in your request.
 
 Demo projects:
 
@@ -107,11 +109,14 @@ Content-Type: application/json
 
 ### 3.3. Xml Request
 
-_Xml resolver of media type is still in development, in current situation there is no business requirement that related to application/xml media type, so this kind of resolution will be put in future plan._
+_Xml resolver of media type is still in development, in current situation there is no business requirement that related
+to application/xml media type, so this kind of resolution will be put in future plan._
 
 # 4. Summary
 
-Although in current version zero system does not support some complex media type, but for future plan following media type will be put into zero and it depend on some business requirements, please check following supported list in current version of zero to know.
+Although in current version zero system does not support some complex media type, but for future plan following media
+type will be put into zero and it depend on some business requirements, please check following supported list in current
+version of zero to know.
 
 * [ ] application/xml
 * [ ] application/atom+xml

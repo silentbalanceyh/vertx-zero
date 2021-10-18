@@ -47,6 +47,11 @@ public abstract class ActiveRecord implements Record {
         return false;
     }
 
+    @Override
+    public boolean isValue(final String field) {
+        return this.data.containsKey(field);
+    }
+
     // -------------- Data Get/Set ---------------
     /*
      * Get the value by field ( field = value ) of record
@@ -95,8 +100,14 @@ public abstract class ActiveRecord implements Record {
             this.data.put(field, Ut.aiJValue(value, type));
         } else {
             this.getLogger().debug("The field `{0}` has not been defined in model: `{1}`",
-                    field, this.identifier());
+                field, this.identifier());
         }
+        return this;
+    }
+
+    @Override
+    public <V> Record attach(final String field, final V value) {
+        this.data.put(field, value);
         return this;
     }
 
@@ -107,7 +118,7 @@ public abstract class ActiveRecord implements Record {
     public Record set(final JsonObject data) {
         if (!Ut.isNil(data)) {
             data.stream().filter(Objects::nonNull)
-                    .forEach(entry -> this.set(entry.getKey(), entry.getValue()));
+                .forEach(entry -> this.set(entry.getKey(), entry.getValue()));
         }
         return this;
     }
@@ -130,7 +141,7 @@ public abstract class ActiveRecord implements Record {
     public Record add(final JsonObject data) {
         if (Ut.notNil(data)) {
             data.stream().filter(Objects::nonNull)
-                    .forEach(entry -> this.add(entry.getKey(), entry.getValue()));
+                .forEach(entry -> this.add(entry.getKey(), entry.getValue()));
         }
         return this;
     }
@@ -188,8 +199,8 @@ public abstract class ActiveRecord implements Record {
     public JsonObject toJson() {
         final JsonObject json = this.data.copy();
         this.data.fieldNames().stream()
-                .filter(field -> Objects.isNull(json.getValue(field)))
-                .forEach(json::remove);
+            .filter(field -> Objects.isNull(json.getValue(field)))
+            .forEach(json::remove);
         return json;
     }
 

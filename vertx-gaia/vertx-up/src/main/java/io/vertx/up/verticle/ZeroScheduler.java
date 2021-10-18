@@ -1,18 +1,23 @@
 package io.vertx.up.verticle;
 
 import io.vertx.core.AbstractVerticle;
+import io.vertx.core.Future;
 import io.vertx.core.Vertx;
 import io.vertx.up.annotations.Worker;
 import io.vertx.up.atom.worker.Mission;
 import io.vertx.up.eon.Values;
 import io.vertx.up.eon.em.JobType;
 import io.vertx.up.log.Annal;
+import io.vertx.up.log.Debugger;
 import io.vertx.up.uca.job.center.Agha;
 import io.vertx.up.uca.job.store.JobConfig;
 import io.vertx.up.uca.job.store.JobPin;
 import io.vertx.up.uca.job.store.JobStore;
+import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
@@ -44,14 +49,16 @@ public class ZeroScheduler extends AbstractVerticle {
             } else {
                 LOGGER.info(Info.JOB_MONITOR, missions.size());
                 /* Start each job here by different types */
-                missions.forEach(this::start);
+                final List<Future<Void>> futures = new ArrayList<>();
+                missions.forEach(mission -> futures.add(this.start(mission)));
+                Ux.thenCombineT(futures).onSuccess(nil -> LOGGER.info(Info.JOB_STARTED));
             }
         } else {
             LOGGER.info(Info.JOB_CONFIG_NULL);
         }
     }
 
-    private void start(final Mission mission) {
+    private Future<Void> start(final Mission mission) {
         /*
          * Prepare for mission, it's verf important to bind mission object to Vertx
          * instead of bind(Vertx) method.
@@ -75,7 +82,9 @@ public class ZeroScheduler extends AbstractVerticle {
             /*
              * Invoke here to provide input
              */
-            LOGGER.info(Info.JOB_AGHA_SELECTED, agha.getClass(), mission.getCode(), mission.getType());
+            if (Debugger.onJobBooting()) {
+                LOGGER.info(Info.JOB_AGHA_SELECTED, agha.getClass(), mission.getCode(), mission.getType());
+            }
             /*
              * If job type is ONCE, it's not started
              */
@@ -83,5 +92,6 @@ public class ZeroScheduler extends AbstractVerticle {
                 agha.begin(mission);
             }
         }
+        return Ux.future();
     }
 }

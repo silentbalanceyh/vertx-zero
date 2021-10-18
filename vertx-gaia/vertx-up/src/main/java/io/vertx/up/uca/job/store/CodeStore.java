@@ -20,7 +20,7 @@ class CodeStore implements JobReader {
     @Override
     public Mission fetch(final String code) {
         return Fn.getNull(null, () -> MISSIONS.stream()
-                .filter(mission -> code.equals(mission.getCode()))
-                .findFirst().orElse(null), code);
+            .filter(mission -> code.equals(mission.getCode()))
+            .findFirst().orElse(null), code);
     }
 }

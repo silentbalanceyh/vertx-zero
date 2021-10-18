@@ -17,7 +17,7 @@ class ZeroUri {
     private static final Annal LOGGER = Annal.get(ZeroUri.class);
 
     private final static ConcurrentMap<HttpMethod, Set<String>>
-            URIS = new ConcurrentHashMap<HttpMethod, Set<String>>() {
+        URIS = new ConcurrentHashMap<HttpMethod, Set<String>>() {
         {
             this.put(HttpMethod.GET, new HashSet<>());
             this.put(HttpMethod.POST, new HashSet<>());
@@ -46,12 +46,12 @@ class ZeroUri {
 
     static boolean isMatch(final HttpMethod method, final String requestUri) {
         return URIS.get(method).stream()
-                .anyMatch(uri -> isMatch(requestUri, uri));
+            .anyMatch(uri -> isMatch(requestUri, uri));
     }
 
     static void report() {
         final long size = URIS.values().stream()
-                .mapToLong(Set::size).sum();
+            .mapToLong(Set::size).sum();
         LOGGER.info("( Uri ) Pattern Uri Size: {0}", String.valueOf(size));
     }
 
@@ -61,8 +61,8 @@ class ZeroUri {
             return uri;
         } else {
             return definition.stream()
-                    .filter(path -> isMatch(uri, path))
-                    .findFirst().orElse(uri);
+                .filter(path -> isMatch(uri, path))
+                .findFirst().orElse(uri);
         }
     }
 

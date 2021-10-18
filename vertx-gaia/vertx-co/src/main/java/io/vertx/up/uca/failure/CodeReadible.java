@@ -26,6 +26,6 @@ public class CodeReadible implements Readible {
         final String message = MESSAGE.getString(String.valueOf(Math.abs(error.getCode())));
         // Check whether the readible set.
         Fn.safeSemi(Ut.isNil(error.getReadible()), LOGGER,
-                () -> Fn.safeNull(() -> error.setReadible(message), error));
+            () -> Fn.safeNull(() -> error.setReadible(message), error));
     }
 }

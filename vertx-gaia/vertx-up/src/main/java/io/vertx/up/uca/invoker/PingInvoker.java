@@ -4,7 +4,6 @@ import io.vertx.core.Vertx;
 import io.vertx.core.eventbus.Message;
 import io.vertx.up.commune.Envelop;
 import io.vertx.up.exception.web._501RpcRejectException;
-import io.vertx.up.util.Ut;
 
 import java.lang.reflect.Method;
 
@@ -17,7 +16,7 @@ public class PingInvoker extends AbstractInvoker {
     public void ensure(final Class<?> returnType,
                        final Class<?> paramCls) {
         final boolean valid = (void.class == returnType || Void.class == returnType)
-                && paramCls == Envelop.class;
+            && paramCls == Envelop.class;
         InvokerUtil.verify(!valid, returnType, paramCls, this.getClass());
     }
 
@@ -27,7 +26,7 @@ public class PingInvoker extends AbstractInvoker {
                        final Message<Envelop> message) {
         // Invoke directly
         final Envelop envelop = message.body();
-        Ut.invoke(proxy, method.getName(), envelop);
+        InvokerUtil.invoke(proxy, method, envelop); // Ut.invoke(proxy, method.getName(), envelop);
         message.reply(Envelop.success(Boolean.TRUE));
     }
 

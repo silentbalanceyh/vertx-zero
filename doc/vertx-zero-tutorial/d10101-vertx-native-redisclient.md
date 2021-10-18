@@ -4,7 +4,8 @@ This tutorial will introduce how to use Redis in zero system.
 
 ## 1. Configuration
 
-This chapter is duplicated with [D10102 - Configuration, vertx-redis.yml](d10102-configuration-vertx-redisyml.md), because that's the preparing steps for redis client.
+This chapter is duplicated with [D10102 - Configuration, vertx-redis.yml](d10102-configuration-vertx-redisyml.md),
+because that's the preparing steps for redis client.
 
 ### 1.1. vertx.yml
 
@@ -35,7 +36,8 @@ redis:
   port: 6379
 ```
 
-Just like `vertx-mysql.yml` configuration, here all the `redis` node keys are native supported by vert.x, you can provide all the native configuration keys to `redis` in zero system.
+Just like `vertx-mysql.yml` configuration, here all the `redis` node keys are native supported by vert.x, you can
+provide all the native configuration keys to `redis` in zero system.
 
 ## 2. Source Code
 

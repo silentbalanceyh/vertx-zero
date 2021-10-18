@@ -1,6 +1,9 @@
 # D10001 - Getting Start
 
-This article belong to new tutorials of Vert.x Zero Up Framework for developer, you can refer all the articles to know how to use it in your real project. At first you must know what is Vert.x Zero Up Framework ? It's a framework in service mesh environment to prevent developers to know details of micro services, but the developers could go through all the business development in this framework.
+This article belong to new tutorials of Vert.x Zero Up Framework for developer, you can refer all the articles to know
+how to use it in your real project. At first you must know what is Vert.x Zero Up Framework ? It's a framework in
+service mesh environment to prevent developers to know details of micro services, but the developers could go through
+all the business development in this framework.
 
 _All examples will be put in _`vertx-zeus`_ sub projects._
 
@@ -37,7 +40,10 @@ The default http server port is **6083**.
 
 ## 2. Micro Zero
 
-Except about standalone mode, zero also support another mode \( Micro \) to deploy all nodes in micro service environment, please be careful about micro environment, there need some additional configuration for zero to support micro services environment, please refer following tutorial to do the preparing works first. The demo projects are following in `vertx-zeus`,
+Except about standalone mode, zero also support another mode \( Micro \) to deploy all nodes in micro service
+environment, please be careful about micro environment, there need some additional configuration for zero to support
+micro services environment, please refer following tutorial to do the preparing works first. The demo projects are
+following in `vertx-zeus`,
 
 * **Api Gateway - 6100** : `vertx-athena`
 * **Service - 6002**: `vertx-uranus`
@@ -97,7 +103,11 @@ etcd:
   timeout: 2
 ```
 
-In zero framework, the etcd3 used e3w, please refer the link to check how to preparing e3w to start etcd3 registry center. [https://github.com/soyking/e3w](https://github.com/soyking/e3w) , you can install the tool etcd3-viewer to manage etcd3 data from Web Client: [https://github.com/nikfoundas/etcd-viewer](https://github.com/nikfoundas/etcd-viewer). In zero, the default ports of e3w have been modified to `6181, 6180, 6179`.
+In zero framework, the etcd3 used e3w, please refer the link to check how to preparing e3w to start etcd3 registry
+center. [https://github.com/soyking/e3w](https://github.com/soyking/e3w) , you can install the tool etcd3-viewer to
+manage etcd3 data from Web
+Client: [https://github.com/nikfoundas/etcd-viewer](https://github.com/nikfoundas/etcd-viewer). In zero, the default
+ports of e3w have been modified to `6181, 6180, 6179`.
 
 ### 2.2. Api Gateway
 
@@ -156,7 +166,8 @@ server:
     host: 0.0.0.0
 ```
 
-Here ignore `vertx-etcd3.yml` up.god.file content because they are the same. If you put all service node in one environment, all the service nodes configuration of etcd3 must be the same.
+Here ignore `vertx-etcd3.yml` up.god.file content because they are the same. If you put all service node in one
+environment, all the service nodes configuration of etcd3 must be the same.
 
 ### 2.4. Service
 
@@ -179,7 +190,9 @@ public class io.god.Anchor {
 
 ## 3. Console in Micro Zero
 
-Once you have finished micro zero configurations, you can start micro zero. Because api gateway will look up all the service nodes, it's no impact for all service node start up sequence. You can start api gateway first and then service node, or you also could start up service node first and then api gateway.
+Once you have finished micro zero configurations, you can start micro zero. Because api gateway will look up all the
+service nodes, it's no impact for all service node start up sequence. You can start api gateway first and then service
+node, or you also could start up service node first and then api gateway.
 
 ### 3.1. Service Node
 
@@ -221,7 +234,9 @@ Here are some reports of api gateway to discovery service counting.
 
 ## 4. Summary
 
-Here are getting start for you to start zero, in total zero support two modes: **Standalone & Micro**. The micro mode is a little complex to start up, for standalone mode, it's very simple to start up. Now once you have finish current tutorial you should know:
+Here are getting start for you to start zero, in total zero support two modes: **Standalone & Micro**. The micro mode is
+a little complex to start up, for standalone mode, it's very simple to start up. Now once you have finish current
+tutorial you should know:
 
 * How to write launcher code in standalone / micro modes
 * How to configure micro mode for api gateway / service node

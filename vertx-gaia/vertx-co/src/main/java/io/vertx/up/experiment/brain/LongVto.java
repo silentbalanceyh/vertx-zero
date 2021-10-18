@@ -26,8 +26,8 @@ public class LongVto implements Vto<Long> {
                  * String -> Long
                  */
                 return Ut.isInteger(value.toString()) ?
-                        Long.parseLong(value.toString()) :
-                        Values.RANGE;
+                    Long.parseLong(value.toString()) :
+                    Values.RANGE;
             } else if (Tool.isInteger(type)) {
                 /*
                  * Integer -> Long

@@ -6,11 +6,9 @@ import io.vertx.tp.ambient.cv.Addr;
 import io.vertx.up.annotations.Address;
 import io.vertx.up.annotations.EndPoint;
 import io.vertx.up.eon.ID;
+import io.vertx.up.eon.KName;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.HeaderParam;
-import javax.ws.rs.Path;
-import javax.ws.rs.QueryParam;
+import javax.ws.rs.*;
 
 @EndPoint
 @Path("/api")
@@ -21,8 +19,13 @@ public interface ModelAgent {
     JsonObject moduleByName(@HeaderParam(ID.Header.X_APP_ID) String appId,
                             @QueryParam("entry") String entry);
 
+    @Path("/model/fields/:identifier")
+    @GET
+    @Address(Addr.Module.MODEL_FIELDS)
+    JsonArray modelAttributes(@PathParam(KName.IDENTIFIER) String identifier);
+
     @Path("/model")
     @GET
-    @Address(Addr.Module.IDENTIFIERS)
+    @Address(Addr.Module.MODELS)
     JsonArray models(@HeaderParam(ID.Header.X_SIGMA) String appId);
 }

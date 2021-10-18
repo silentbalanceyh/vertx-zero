@@ -71,11 +71,11 @@ public class SessionClientImpl implements SessionClient {
     @Override
     public SessionHandler getHandler() {
         return SessionHandler.create(STORE)
-                /*
-                 * Refer: https://vertx.io/blog/writing-secure-vert-x-web-apps/
-                 * */
-                // .setCookieSecureFlag(true)
-                .setCookieHttpOnlyFlag(true);
+            /*
+             * Refer: https://vertx.io/blog/writing-secure-vert-x-web-apps/
+             * */
+            // .setCookieSecureFlag(true)
+            .setCookieHttpOnlyFlag(true);
     }
 
     @Override

@@ -1,6 +1,6 @@
 package io.vertx.up.unity;
 
-import io.vertx.up.unity.jq.UxJooq;
+import io.vertx.up.uca.jooq.UxJooq;
 
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
@@ -17,15 +17,15 @@ interface Info {
     String POOL_CLEAR = "( Shared ) pool = {0} has been cleared successfully.";
 
     String JOB_START = "( UxJob ) The job {0} has been started with timeId: {1}.";
-    String JOB_STOP = "( UxJob ) The job {0} has been stopped and timeId: {1} removed.";
-    String JOB_RESUME = "( UxJob ) The job {0} will be resume and new timeId generated: {1}.";
+    String JOB_STOP = "( UxJob ) The job {0} has been stopped and removed.";
+    String JOB_RESUME = "( UxJob ) The job {0} will be resume.";
 }
 
 interface Cache {
 
-    ConcurrentMap<Class<?>, UxJooq> JOOQ_POOL = new ConcurrentHashMap<>();
+    ConcurrentMap<String, UxJooq> JOOQ_POOL = new ConcurrentHashMap<>();
 
-    ConcurrentMap<Class<?>, UxJooq> JOOQ_POOL_HIS = new ConcurrentHashMap<>();
+    ConcurrentMap<String, UxJooq> JOOQ_POOL_HIS = new ConcurrentHashMap<>();
 
     ConcurrentMap<String, UxPool> MAP_POOL = new ConcurrentHashMap<>();
 }

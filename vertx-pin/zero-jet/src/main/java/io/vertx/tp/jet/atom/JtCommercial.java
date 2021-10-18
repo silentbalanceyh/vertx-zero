@@ -6,9 +6,15 @@ import io.vertx.tp.jet.cv.JtKey;
 import io.vertx.tp.jet.refine.Jt;
 import io.vertx.tp.optic.environment.Ambient;
 import io.vertx.up.commune.Commercial;
-import io.vertx.up.commune.config.*;
+import io.vertx.up.commune.config.Database;
+import io.vertx.up.commune.config.Identity;
+import io.vertx.up.commune.config.Integration;
+import io.vertx.up.commune.exchange.BiTree;
+import io.vertx.up.commune.exchange.DiSetting;
+import io.vertx.up.commune.rule.RuleUnique;
 import io.vertx.up.eon.ID;
 import io.vertx.up.eon.em.ChannelType;
+import io.vertx.up.eon.em.Environment;
 import io.vertx.up.util.Ut;
 
 import java.util.Objects;
@@ -24,6 +30,11 @@ import java.util.Objects;
  */
 @SuppressWarnings("unchecked")
 public abstract class JtCommercial implements Commercial {
+    /*
+     * Environment selection, the default should be `Production`,
+     * It means that the code logical is correct.
+     */
+    private transient Environment environment = Environment.Production;
     private transient IService service;
     /*
      * Shared data structure for
@@ -98,18 +109,38 @@ public abstract class JtCommercial implements Commercial {
     }
 
     @Override
-    public Integration integration() {
-        return Jt.toIntegration(this.service);
+    public RuleUnique rule() {
+        return Jt.toRule(this.service);
     }
 
+    @Override
+    public Integration integration() {
+        final Integration integration = Jt.toIntegration(this.service);
+        if (Environment.Mockito == this.environment) {
+            /*
+             * When pre-release here, the integration should be connected to actual
+             * environment, in this kind of situation, you can call mock JtJob `mockOn`
+             * to turn on `debug` options in integration, but it require the environment
+             * to be `Mockito` instead of others.
+             * Involve environment concept to split development/testing/production
+             */
+            integration.mockOn();
+        }
+        return integration;
+    }
+
+    public JtCommercial bind(final Environment environment) {
+        this.environment = environment;
+        return this;
+    }
 
     @Override
-    public Dict dict() {
+    public DiSetting dict() {
         return Jt.toDict(this.service);
     }
 
     @Override
-    public DualMapping mapping() {
+    public BiTree mapping() {
         return Jt.toMapping(this.service);
     }
 

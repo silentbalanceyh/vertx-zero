@@ -6,7 +6,8 @@ From previous tutorials, zero system support following three injection codes.
 * [x] One interface and one java implementation object Injection
 * [x] One interface and multi java implementation objects Injection
 
-This chapter will describe the last mode that the structure should be one interface with multi implementation objects. The workflow of this example should be:
+This chapter will describe the last mode that the structure should be one interface with multi implementation objects.
+The workflow of this example should be:
 
 ```shell
 Request -> Agent -> @Address ( Sender ) -> 
@@ -156,7 +157,7 @@ public class MultiServiceB implements MultiStub {
 
 **Method**: PUT
 
-**Request**: 
+**Request**:
 
 ```json
 {
@@ -187,7 +188,9 @@ This chapter described the usage of another two JSR330 \( Include extended \) an
 * `javax.inject.Named`
 * `io.vertx.up.annotation.Qualifier`
 
-Above two annotations could resolve the situation that one interface contains more than one implementation class injection based on JSR330. But one thing you should know that it's not for switching between different implementations but for some special design in the system.
+Above two annotations could resolve the situation that one interface contains more than one implementation class
+injection based on JSR330. But one thing you should know that it's not for switching between different implementations
+but for some special design in the system.
 
 
 

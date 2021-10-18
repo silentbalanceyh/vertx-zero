@@ -11,8 +11,8 @@ import io.vertx.up.exception.ZeroException;
 import io.vertx.up.exception.demon.ServerConfigException;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
+import io.vertx.up.uca.marshal.JTransformer;
 import io.vertx.up.uca.marshal.RpcServerStrada;
-import io.vertx.up.uca.marshal.Transformer;
 import io.vertx.up.uca.yaml.Node;
 import io.vertx.up.util.Ut;
 
@@ -27,30 +27,31 @@ public class RpcServerVisitor implements ServerVisitor<ServidorOptions> {
     private static final Annal LOGGER = Annal.get(RpcServerVisitor.class);
 
     private transient final Node<JsonObject> node = Node.infix(Plugins.SERVER);
-    private transient final Transformer<ServidorOptions>
-            transformer = Ut.singleton(RpcServerStrada.class);
+    private transient final JTransformer<ServidorOptions>
+        transformer = Ut.singleton(RpcServerStrada.class);
 
     @Override
+    @SuppressWarnings("all")
     public ConcurrentMap<Integer, ServidorOptions> visit(final String... key)
-            throws ZeroException {
+        throws ZeroException {
         // 1. Must be the first line, fixed position.
         Fn.inLenEq(this.getClass(), 0, key);
         // 2. Visit the node for server, http
         final JsonObject data = this.node.read();
 
         Fn.outZero(null == data || !data.containsKey(KEY), LOGGER,
-                ServerConfigException.class,
-                this.getClass(), null == data ? null : data.encode());
+            ServerConfigException.class,
+            this.getClass(), null == data ? null : data.encode());
 
         return this.visit(data.getJsonArray(KEY));
     }
 
     private ConcurrentMap<Integer, ServidorOptions> visit(final JsonArray serverData)
-            throws ZeroException {
+        throws ZeroException {
         LOGGER.info(Info.INF_B_VERIFY, KEY, ServerType.IPC, serverData.encode());
         Ruler.verify(KEY, serverData);
         final ConcurrentMap<Integer, ServidorOptions> map =
-                new ConcurrentHashMap<>();
+            new ConcurrentHashMap<>();
         Ut.itJArray(serverData, JsonObject.class, (item, index) -> {
             if (this.isServer(item)) {
                 // 1. Extract port

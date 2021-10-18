@@ -1,0 +1,7 @@
+required:
+  - banner
+  - version
+typed:
+  banner: STRING
+  version: STRING
+  message: JOBJECT

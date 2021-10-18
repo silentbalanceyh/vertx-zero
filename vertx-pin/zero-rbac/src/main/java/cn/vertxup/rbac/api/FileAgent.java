@@ -31,6 +31,6 @@ public class FileAgent {
         /* File stored */
         final String filename = fileUpload.uploadedFileName();
         Sc.infoWeb(this.getClass(), "User importing, filename = `{0}`, uploaded = `{1}`", fileUpload.fileName(), filename);
-        return Ux.toToggle(filename);
+        return Ux.toZip(filename);
     }
 }

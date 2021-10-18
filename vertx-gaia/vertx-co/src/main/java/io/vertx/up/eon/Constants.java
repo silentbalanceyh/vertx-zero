@@ -7,6 +7,8 @@ public interface Constants {
 
     String DEFAULT_GROUP = "__VERTX_ZERO__";
 
+    String DEFAULT_HOLDER = "HOLDER";
+
     int DEFAULT_INSTANCES = 32;
 
     boolean DEFAULT_HA = true;
@@ -19,6 +21,9 @@ public interface Constants {
 
     String DEFAULT_JOOQ = "provider";
 
+    String DEFAULT_FREEDOM = "freedom";
+
+    int DEFAULT_EXPIRED_DATA = 300;
     /**
      * Scanned data to distinguish mode
      * 1) Only Interface Style could have the indexes key such as 0,1,2 consider as data key.
@@ -36,4 +41,11 @@ public interface Constants {
             this.put(7, "7");
         }
     };
+
+    interface Pool {
+        /* Deployment */
+        String DEPLOYMENT = "zero.pool.deployment";
+        /* Component Memory Hash Map */
+        String COMPONENT = "zero.pool.component";
+    }
 }

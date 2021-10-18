@@ -11,6 +11,7 @@ public class ForbiddenInsurer extends AbstractInsurer {
     /**
      * @param data input data that should be verified.
      * @param rule rule config data
+     *
      * @throws ZeroException Insure exception
      */
     @Override
@@ -23,8 +24,8 @@ public class ForbiddenInsurer extends AbstractInsurer {
                 Fn.etJArray(fields, String.class, (field, index) -> {
                     // 3. Check if data contains field.
                     Fn.outZero(data.containsKey(field), this.getLogger(),
-                            ForbiddenFieldException.class,
-                            this.getClass(), data, field);
+                        ForbiddenFieldException.class,
+                        this.getClass(), data, field);
                 });
             }
         }, rule, data);

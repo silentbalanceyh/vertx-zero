@@ -1,5 +1,6 @@
 package io.vertx.up.util;
 
+import io.vertx.up.eon.Strings;
 import io.vertx.up.fn.Fn;
 
 import java.time.*;
@@ -41,14 +42,15 @@ final class Period {
      * Convert to datetime
      *
      * @param literal the literal that will be
+     *
      * @return null or valid DateTime
      */
     static LocalDateTime toDateTime(final String literal) {
         return DATETIMES.stream()
-                .map(formatter -> parseEach(literal, formatter, LocalDateTime::parse))
-                .filter(Objects::nonNull)
-                .findAny()
-                .orElse(null);
+            .map(formatter -> parseEach(literal, formatter, LocalDateTime::parse))
+            .filter(Objects::nonNull)
+            .findAny()
+            .orElse(null);
     }
 
     private static <T> T parseEach(final String literal, final DateTimeFormatter formatter,
@@ -68,6 +70,7 @@ final class Period {
      * Convert to date
      *
      * @param date input java.util.Date
+     *
      * @return parsed LocalDateTime
      */
     static LocalDateTime toDateTime(final Date date) {
@@ -83,32 +86,39 @@ final class Period {
      * Convert to date
      *
      * @param literal literal that will be parsed
+     *
      * @return parsed LocalDate
      */
     static LocalDate toDate(final String literal) {
-        return DATES.stream()
-                .map(formatter -> parseEach(literal, formatter, LocalDate::parse))
-                .filter(Objects::nonNull)
-                .findAny()
-                .orElse(null);
         /*
-        final Optional<DateTimeFormatter> hit =
-                Fn.getNull(Optional.empty(),
-                        () -> DATES.stream()
-                                .filter(formatter ->
-                                        null != Fn.getJvm(
-                                                null,
-                                                () -> LocalDate.parse(literal, formatter),
-                                                literal))
-                                .findFirst(), literal);
-        return hit.isPresent() ? LocalDate.parse(literal, hit.get()) : null
+         * Directly Parsing
          */
+        final LocalDate date = DATES.stream()
+            .map(formatter -> parseEach(literal, formatter, LocalDate::parse))
+            .filter(Objects::nonNull)
+            .findAny()
+            .orElse(null);
+        if (Objects.isNull(date)) {
+            final LocalDateTime datetime = toDateTime(literal);
+            if (Objects.nonNull(datetime)) {
+                /*
+                 * LocalDateTime -> LocalDate
+                 */
+                return datetime.toLocalDate();
+            } else return null;
+        } else {
+            /*
+             * Valid Parsing
+             */
+            return date;
+        }
     }
 
     /**
      * Convert to date
      *
      * @param date input Date
+     *
      * @return LocalDate parsed
      */
     static LocalDate toDate(final Date date) {
@@ -125,14 +135,15 @@ final class Period {
      * Convert to time
      *
      * @param literal input literal
+     *
      * @return LocalTime parsed
      */
     static LocalTime toTime(final String literal) {
         return TIMES.stream()
-                .map(formatter -> parseEach(literal, formatter, LocalTime::parse))
-                .filter(Objects::nonNull)
-                .findAny()
-                .orElse(null);
+            .map(formatter -> parseEach(literal, formatter, LocalTime::parse))
+            .filter(Objects::nonNull)
+            .findAny()
+            .orElse(null);
         /*
         final Optional<DateTimeFormatter> hit =
                 Fn.getNull(Optional.empty(),
@@ -151,6 +162,7 @@ final class Period {
      * Convert to date
      *
      * @param date input Date
+     *
      * @return LocalTime parsed
      */
     static LocalTime toTime(final Date date) {
@@ -205,6 +217,7 @@ final class Period {
      * Check whether it's valid
      *
      * @param literal input literal
+     *
      * @return checked result whether it's valid date
      */
     static boolean isValid(final String literal) {
@@ -231,7 +244,7 @@ final class Period {
         return Fn.getNull(null, () -> {
             String target = literal;
             if (target.contains("T")) {
-                target = target.replace('T', ' ');
+                target = target.replace('T', ' ' );
             }
             final int length = target.length();
             final String pattern = Storage.PATTERNS_MAP.get(length);
@@ -283,6 +296,7 @@ final class Period {
      * 「Not Recommend」directly for deep parsing
      *
      * @param literal Date/DateTime/Time literal value here.
+     *
      * @return null or valid `java.util.Date` object
      */
     static Date parseFull(final String literal) {
@@ -409,5 +423,52 @@ final class Period {
 
     private static Date parse(final LocalDate datetime, final ZoneId zoneId) {
         return Date.from(datetime.atStartOfDay(zoneId).toInstant());
+    }
+
+    static LocalDateTime toDuration(final long millSeconds) {
+        final Instant instant = Instant.ofEpochMilli(millSeconds);
+        final OffsetDateTime offsetTime = instant.atOffset(ZoneOffset.UTC);
+        return offsetTime.toLocalDateTime();
+    }
+
+    /**
+     * 1. D,00:00, per day
+     * 3. W,00:00,3, per week
+     * 2. M,00:00,11, per month
+     */
+    static Instant parseAt(final String expr) {
+        final String[] splitted = expr.split(Strings.COMMA);
+        final LocalDate nowDate = LocalDate.now();
+        final LocalDateTime nowDateTime = LocalDateTime.now();
+        if (2 == splitted.length) {
+            // D,00:00
+            final LocalTime time = LocalTime.parse(splitted[1]);
+            LocalDateTime datetime = LocalDateTime.of(nowDate, time);
+            if (datetime.isBefore(nowDateTime)) {
+                datetime = datetime.plusDays(1);
+            }
+            return parse(datetime).toInstant();
+        } else if (3 == splitted.length) {
+            final String flag = splitted[0].trim();
+            final LocalTime time = LocalTime.parse(splitted[1]);
+            final int day = Integer.parseInt(splitted[2]);
+            if ("W".equals(flag)) {
+                // W,00:00,3
+                final LocalDate date = nowDate.with(DayOfWeek.of(day));
+                LocalDateTime datetime = LocalDateTime.of(date, time);
+                if (datetime.isBefore(nowDateTime)) {
+                    datetime = datetime.plusWeeks(1);
+                }
+                return parse(datetime).toInstant();
+            } else {
+                // M,00:00,11, per month
+                final LocalDate date = nowDate.withDayOfMonth(day);
+                LocalDateTime datetime = LocalDateTime.of(date, time);
+                if (datetime.isBefore(nowDateTime)) {
+                    datetime = datetime.plusMonths(1);
+                }
+                return parse(datetime).toInstant();
+            }
+        } else return null;
     }
 }

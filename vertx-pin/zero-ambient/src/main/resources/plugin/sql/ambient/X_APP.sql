@@ -38,16 +38,21 @@ CREATE TABLE IF NOT EXISTS X_APP
     `CREATED_BY` VARCHAR(36) COMMENT '「createdBy」- 创建人',
     `UPDATED_AT` DATETIME COMMENT '「updatedAt」- 更新时间',
     `UPDATED_BY` VARCHAR(36) COMMENT '「updatedBy」- 更新人',
-    PRIMARY KEY (`KEY`)
+    PRIMARY KEY (`KEY`) USING BTREE
 );
 
 -- changeset Lang:ox-app-2
 -- Unique JsonKeys：独立唯一键定义
 ALTER TABLE X_APP
-    ADD UNIQUE (`CODE`);
+    ADD UNIQUE (`CODE`) USING BTREE;
 ALTER TABLE X_APP
-    ADD UNIQUE (`PATH`, `URL_ENTRY`); -- 应用唯一入口
+    ADD UNIQUE (`PATH`, `URL_ENTRY`) USING BTREE; -- 应用唯一入口
 ALTER TABLE X_APP
-    ADD UNIQUE (`PATH`, `URL_MAIN`); -- 应用唯一主页
+    ADD UNIQUE (`PATH`, `URL_MAIN`) USING BTREE; -- 应用唯一主页
 ALTER TABLE X_APP
-    ADD UNIQUE (`NAME`); -- 应用程序名称唯一（这是系统名称）
+    ADD UNIQUE (`NAME`) USING BTREE;
+-- 应用程序名称唯一（这是系统名称）
+
+-- /app/name/:name
+ALTER TABLE X_APP
+    ADD INDEX IDX_X_APP_NAME (`NAME`) USING BTREE;

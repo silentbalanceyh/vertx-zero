@@ -1,0 +1,34 @@
+<included>
+    <appender name="DATABASE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_FOLDER}/ox-engine/uca-database.log</fileNamePattern>
+            <maxHistory>${LOG_MAX_HISTORY}</maxHistory>
+        </rollingPolicy>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <Pattern>${LOG_PATTERN}</Pattern>
+        </encoder>
+        <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+            <MaxFileSize>${LOG_MAX_FILE_SIZE}</MaxFileSize>
+        </triggeringPolicy>
+    </appender>
+    <appender name="ASYNC_DATABASE" class="ch.qos.logback.classic.AsyncAppender">
+        <discardingThreshold>0</discardingThreshold>
+        <queueSize>512</queueSize>
+        <appender-ref ref="DATABASE"/>
+    </appender>
+    <logger name="cn.vertxup.tp.modular.dao" level="INFO">
+        <appender-ref ref="ASYNC_DATABASE"/>
+    </logger>
+    <logger name="cn.originx.uca.jdbc" level="INFO">
+        <appender-ref ref="ASYNC_DATABASE"/>
+    </logger>
+    <logger name="cn.vertxup.tp.modular.jooq" level="INFO">
+        <appender-ref ref="ASYNC_DATABASE"/>
+    </logger>
+    <logger name="cn.originx.uca.query" level="INFO">
+        <appender-ref ref="ASYNC_DATABASE"/>
+    </logger>
+    <logger name="cn.originx.uca.tunnel" level="INFO">
+        <appender-ref ref="ASYNC_DATABASE"/>
+    </logger>
+</included>

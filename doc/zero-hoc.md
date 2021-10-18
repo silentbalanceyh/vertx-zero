@@ -21,7 +21,8 @@ Extension by zero for specifical usage.
 
 ## 2. Fn
 
-In Zero system, there defined a supper static class for function abstract to simply the coding, this class is `io.vertx.up.fn.Fn`, You also could use following function in your coding.
+In Zero system, there defined a supper static class for function abstract to simply the coding, this class
+is `io.vertx.up.fn.Fn`, You also could use following function in your coding.
 
 ```java
 // Zero Logger initialized, connect to vert.x logging system directly but uniform managed by zero.
@@ -114,7 +115,7 @@ public static void flingUp(
 
 ### 2.3. Trans/Shunt
 
-* **trans** means there exist exception converter from Throwable to ZeroException 
+* **trans** means there exist exception converter from Throwable to ZeroException
 * **shunt** means there may throw out exception ( ZeroException / ZeroRunException ) only
 
 ```java
@@ -249,7 +250,8 @@ public static void flingUp(
 
 ## 3. Summary
 
-Provide all these function could simply the code and write more defence code in your programming, it could avoid some common exception such as NullPointer, IndexOf etc. Also it could simple some collection iterator and caculation.
+Provide all these function could simply the code and write more defence code in your programming, it could avoid some
+common exception such as NullPointer, IndexOf etc. Also it could simple some collection iterator and caculation.
 
 Example 1:
 

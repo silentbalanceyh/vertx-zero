@@ -27,7 +27,7 @@ public class PointAxis implements Axis<Router> {
         /* Breaker and Dispatch **/
         final UddiJet jet = Uddi.discovery(this.getClass());
         router.route("/*").order(Orders.EVENT).handler(
-                jet.bind(this.vertx).bind(this.options).handler()
+            jet.bind(this.vertx).bind(this.options).handler()
         );
     }
 }

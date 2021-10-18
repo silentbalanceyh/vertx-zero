@@ -10,7 +10,8 @@ This tutorial will focus on different Http Method usage based on JSR311. Here ar
 * `javax.ws.rs.OPTIONS`
 * `javax.ws.rs.PATCH`
 
-Zero system support all method mounting on routing system, the common usage of restful api contains `GET, DELETE, POST, PUT` methods.
+Zero system support all method mounting on routing system, the common usage of restful api
+contains `GET, DELETE, POST, PUT` methods.
 
 Demo projects:
 
@@ -95,7 +96,8 @@ You should see following information in console when starting zero:
 ......
 ```
 
-You could see the suffix of each logging line for routing to describe the method. different method could be triggered by different Http method in request.
+You could see the suffix of each logging line for routing to describe the method. different method could be triggered by
+different Http method in request.
 
 ## 3. Testing
 
@@ -187,11 +189,14 @@ Once zero is up, you can test the same uri with different Http Method.
 
 ## 4. Summary
 
-Current tutorial described different http method usage in zero system based on JSR311, JSR311 only support 7 annotations for `GET, POST, DELETE, OPTIONS, PATCH, PUT, HEAD`. They are all supported by zero system.
+Current tutorial described different http method usage in zero system based on JSR311, JSR311 only support 7 annotations
+for `GET, POST, DELETE, OPTIONS, PATCH, PUT, HEAD`. They are all supported by zero system.
 
 * The common usage are `GET, DELETE, PUT, POST`
-* In some cross domain business requirement, the `OPTIONS` method will be used, you can ignore the user defined `OPTIONS` instead of write the method code logical.
-* We recommend to use `PATCH` method to update some parts of information instead of `PUT` method because zero now support `PATCH` method.
+* In some cross domain business requirement, the `OPTIONS` method will be used, you can ignore the user
+  defined `OPTIONS` instead of write the method code logical.
+* We recommend to use `PATCH` method to update some parts of information instead of `PUT` method because zero now
+  support `PATCH` method.
 
 
 

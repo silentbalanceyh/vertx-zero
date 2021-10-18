@@ -1,6 +1,7 @@
 # D10005 - @QueryParam...Parameters
 
-This tutorial focus on query string parameter usage in zero system, here zero system support two types of query string parameters.
+This tutorial focus on query string parameter usage in zero system, here zero system support two types of query string
+parameters.
 
 * Encoded
 * Plain Text
@@ -99,7 +100,9 @@ Then you should see the logs in console as following:
 
 ### 3.3. Get Request \( Encoded \)
 
-**URI**: [http://localhost:6083/api/param/query-encode?name=Lang Yu](http://localhost:6083/api/param/query-encode?name=Lang Yu)
+**
+URI**: [http://localhost:6083/api/param/query-encode?name=Lang Yu](http://localhost:6083/api/param/query-encode?name=Lang
+Yu)
 
 **Method**: GET
 
@@ -113,5 +116,6 @@ Then you should see the logs in console as following:
 
 ## 4. Summary
 
-Zero system support both Plain Text & Encoded parameters in query string, you could annotated the parameters with JSR311 annotations directly and then in your application you can use these parameters directly.
+Zero system support both Plain Text & Encoded parameters in query string, you could annotated the parameters with JSR311
+annotations directly and then in your application you can use these parameters directly.
 

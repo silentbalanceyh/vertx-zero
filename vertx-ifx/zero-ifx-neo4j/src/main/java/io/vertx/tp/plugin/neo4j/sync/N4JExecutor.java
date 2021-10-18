@@ -31,8 +31,8 @@ class N4JExecutor {
     JsonObject execute(final String command, final JsonObject params, final String alias) {
         final Transaction transaction = this.session.beginTransaction();
         final JsonObject result = Ut.isNil(alias)
-                ? N4J.toJson(transaction.run(command, N4J.parameters(params)))
-                : N4J.toJson(transaction.run(command, N4J.parameters(params)), alias);
+            ? N4J.toJson(transaction.run(command, N4J.parameters(params)))
+            : N4J.toJson(transaction.run(command, N4J.parameters(params)), alias);
         transaction.commit();
 
         /* Must close */
@@ -55,8 +55,8 @@ class N4JExecutor {
         Ut.itList(commands, (command, index) -> {
             final JsonObject item = params.getJsonObject(index);
             final JsonObject result = Ut.isNil(alias)
-                    ? N4J.toJson(transaction.run(command, N4J.parameters(item)))
-                    : N4J.toJson(transaction.run(command, N4J.parameters(item)), alias);
+                ? N4J.toJson(transaction.run(command, N4J.parameters(item)))
+                : N4J.toJson(transaction.run(command, N4J.parameters(item)), alias);
             response.add(result);
         });
         transaction.commit();
