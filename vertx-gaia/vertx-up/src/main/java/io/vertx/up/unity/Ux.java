@@ -1051,6 +1051,15 @@ public final class Ux {
      * Here you can do database access smartly and do nothing then.
      */
     public static class Jooq {
+        public static String table(final Class<?> clazz) {
+            final JooqDsl dsl = JooqInfix.getDao(clazz);
+            return Ut.field(dsl.dao(), "table");
+        }
+
+        public static Class<?> pojo(final Class<?> clazz) {
+            final JooqDsl dsl = JooqInfix.getDao(clazz);
+            return Ut.field(dsl.dao(), "type");
+        }
 
         /**
          * Get reference of UxJooq that bind to Dao class, this method won't access standard database,

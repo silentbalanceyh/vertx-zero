@@ -58,6 +58,7 @@ public final class UxJooq {
     }
 
     // -------------------- Bind Config --------------------
+
     /*
      * Bind configuration range here
      * Pojo mode of complex processing
