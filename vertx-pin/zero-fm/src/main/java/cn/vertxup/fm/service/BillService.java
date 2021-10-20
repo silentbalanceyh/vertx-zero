@@ -28,7 +28,7 @@ public class BillService implements BillStub {
 
     @Override
     public Future<List<FBill>> fetchByOrder(final String orderId, final String bookId) {
-        final JsonObject condition = Ux.whereAnd().put("isMajor", Boolean.TRUE);
+        final JsonObject condition = Ux.whereAnd().put("major", Boolean.TRUE);
         return this.bookStub.fetchAsync(condition).compose(books -> {
             /*
              * Fetch Bill List

@@ -5,6 +5,7 @@ import cn.vertxup.fm.domain.tables.pojos.FBillItem;
 import cn.vertxup.fm.domain.tables.pojos.FSettlement;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
+import io.vertx.up.eon.KName;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
@@ -18,7 +19,7 @@ public class SettleService implements SettleStub {
     @Override
     public Future<List<FSettlement>> fetchByItems(final List<FBillItem> items) {
         final JsonObject condition = Ux.whereAnd();
-        condition.put("settlementId", Ut.toJArray(items.stream()
+        condition.put(KName.KEY, Ut.toJArray(items.stream()
             .map(FBillItem::getSettlementId)
             .filter(Ut::notNil)
             .collect(Collectors.toSet())
