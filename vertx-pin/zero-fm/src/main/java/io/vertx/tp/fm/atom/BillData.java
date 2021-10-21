@@ -67,6 +67,6 @@ public class BillData implements Serializable {
             response.put("bills", Ut.toJArray(this.bills));
             response.put("settlements", Ut.toJArray(this.settlements));
         }
-        return null;
+        return Ux.future(response);
     }
 }
