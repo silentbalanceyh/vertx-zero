@@ -27,8 +27,10 @@ public interface BillAgent {
          "comment": "",
          "orderId": "",
          "bookId": "",
+         "manualNo": "",
+         "payTermId": "",
          "preAuthorize": {
-             "code/serial": "The line number",
+             "code/serial": "Calculated",
              "amount": "",
              "comment": "",
              "expiredAt": "",

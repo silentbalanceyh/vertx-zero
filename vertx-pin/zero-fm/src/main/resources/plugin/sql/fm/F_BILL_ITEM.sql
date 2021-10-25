@@ -35,7 +35,7 @@ CREATE TABLE `F_BILL_ITEM`
     `RELATED_ID`    VARCHAR(36) COMMENT '「relatedId」- 关联ID（保留，原系统存在）',
     `SETTLEMENT_ID` VARCHAR(36) COMMENT '「settlementId」- 结算单ID，该字段有值标识已经结算',
     `BILL_ID`       VARCHAR(36)    NOT NULL COMMENT '「billId」- 所属账单ID',
-    `SUBJECT_ID`    VARCHAR(36)    NOT NULL COMMENT '「subjectId」- 会计科目ID，依赖账单项选择结果',
+    `SUBJECT_ID`    VARCHAR(36) COMMENT '「subjectId」- 会计科目ID，依赖账单项选择结果',
     `PAY_TERM_ID`   VARCHAR(36)    NOT NULL COMMENT '「payTermId」- 账单项ID',
 
     -- 特殊字段

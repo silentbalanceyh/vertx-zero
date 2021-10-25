@@ -306,6 +306,11 @@ public class Envelop implements Serializable {
         return headerData;
     }
 
+    public void tenant() {
+        final JsonObject headerX = this.headersX();
+        Ut.itJObject(headerX, (value, field) -> this.value(field, value));
+    }
+
     public void headers(final MultiMap headers) {
         this.assist.headers(headers);
     }

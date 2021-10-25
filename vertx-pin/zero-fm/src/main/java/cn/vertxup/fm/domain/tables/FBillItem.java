@@ -130,7 +130,7 @@ public class FBillItem extends TableImpl<FBillItemRecord> {
      * The column <code>DB_ETERNAL.F_BILL_ITEM.SUBJECT_ID</code>. 「subjectId」-
      * 会计科目ID，依赖账单项选择结果
      */
-    public final TableField<FBillItemRecord, String> SUBJECT_ID = createField(DSL.name("SUBJECT_ID"), SQLDataType.VARCHAR(36).nullable(false), this, "「subjectId」- 会计科目ID，依赖账单项选择结果");
+    public final TableField<FBillItemRecord, String> SUBJECT_ID = createField(DSL.name("SUBJECT_ID"), SQLDataType.VARCHAR(36), this, "「subjectId」- 会计科目ID，依赖账单项选择结果");
     /**
      * The column <code>DB_ETERNAL.F_BILL_ITEM.PAY_TERM_ID</code>. 「payTermId」-
      * 账单项ID
