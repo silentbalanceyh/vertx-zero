@@ -131,6 +131,30 @@ public interface IFBill extends VertxPojo, Serializable {
     public String getBookId();
 
     /**
+     * Setter for <code>DB_ETERNAL.F_BILL.MODEL_ID</code>. 「modelId」-
+     * 关联的模型identifier，用于描述
+     */
+    public IFBill setModelId(String value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.F_BILL.MODEL_ID</code>. 「modelId」-
+     * 关联的模型identifier，用于描述
+     */
+    public String getModelId();
+
+    /**
+     * Setter for <code>DB_ETERNAL.F_BILL.MODEL_KEY</code>. 「modelKey」-
+     * 关联的模型记录ID，用于描述哪一个Model中的记录
+     */
+    public IFBill setModelKey(String value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.F_BILL.MODEL_KEY</code>. 「modelKey」-
+     * 关联的模型记录ID，用于描述哪一个Model中的记录
+     */
+    public String getModelKey();
+
+    /**
      * Setter for <code>DB_ETERNAL.F_BILL.SIGMA</code>. 「sigma」- 统一标识
      */
     public IFBill setSigma(String value);
@@ -239,6 +263,8 @@ public interface IFBill extends VertxPojo, Serializable {
                 setOrThrow(this::setComment,json::getString,"COMMENT","java.lang.String");
                 setOrThrow(this::setOrderId,json::getString,"ORDER_ID","java.lang.String");
                 setOrThrow(this::setBookId,json::getString,"BOOK_ID","java.lang.String");
+                setOrThrow(this::setModelId,json::getString,"MODEL_ID","java.lang.String");
+                setOrThrow(this::setModelKey,json::getString,"MODEL_KEY","java.lang.String");
                 setOrThrow(this::setSigma,json::getString,"SIGMA","java.lang.String");
                 setOrThrow(this::setLanguage,json::getString,"LANGUAGE","java.lang.String");
                 setOrThrow(this::setActive,json::getBoolean,"ACTIVE","java.lang.Boolean");
@@ -265,6 +291,8 @@ public interface IFBill extends VertxPojo, Serializable {
                 json.put("COMMENT",getComment());
                 json.put("ORDER_ID",getOrderId());
                 json.put("BOOK_ID",getBookId());
+                json.put("MODEL_ID",getModelId());
+                json.put("MODEL_KEY",getModelKey());
                 json.put("SIGMA",getSigma());
                 json.put("LANGUAGE",getLanguage());
                 json.put("ACTIVE",getActive());
