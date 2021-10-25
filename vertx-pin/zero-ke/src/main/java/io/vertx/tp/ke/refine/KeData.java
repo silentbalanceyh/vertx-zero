@@ -21,7 +21,7 @@ class KeData {
     static <T> Future<List<T>> indent(final List<T> input, final String sigma,
                                       final String code,
                                       final BiConsumer<T, String> fnConsumer) {
-        if (Objects.isNull(input) || !input.isEmpty()) {
+        if (Objects.isNull(input) || input.isEmpty()) {
             return Ux.future(new ArrayList<>());
         } else {
             return KeRun.channel(Indent.class, () -> input, stub ->
