@@ -10,4 +10,9 @@ public interface Addr {
     interface BillItem {
         String FETCH_AGGR = Prefix._EVENT + "FETCH/AGGR";
     }
+
+    interface Bill {
+        // Pre + Authorize
+        String IN_PRE = Prefix._EVENT + "BILL/PRE";
+    }
 }

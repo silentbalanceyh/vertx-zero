@@ -30,7 +30,7 @@ CREATE TABLE `F_PRE_AUTHORIZE`
     `CREATED_BY` VARCHAR(36) COMMENT '「createdBy」- 创建人',
     `UPDATED_AT` DATETIME COMMENT '「updatedAt」- 更新时间',
     `UPDATED_BY` VARCHAR(36) COMMENT '「updatedBy」- 更新人'
-)
+);
 -- changeset Lang:f-pre-authorize-2
 ALTER TABLE F_PRE_AUTHORIZE
     ADD UNIQUE (`CODE`, `BILL_ID`, `SIGMA`);

@@ -12,10 +12,7 @@ import io.vertx.up.log.Annal;
 
 import java.util.List;
 import java.util.concurrent.ConcurrentMap;
-import java.util.function.BiFunction;
-import java.util.function.Consumer;
-import java.util.function.Function;
-import java.util.function.Supplier;
+import java.util.function.*;
 
 @SuppressWarnings("all")
 public class Ke {
@@ -160,5 +157,39 @@ public class Ke {
 
     public static <T, I> void umUpdated(final I output, final String outPojo, final T input, final String inPojo) {
         KeUser.audit(output, outPojo, input, inPojo, true);
+    }
+
+    public static Future<JsonObject> umIndent(final JsonObject data, final String code) {
+        return KeData.indent(data, code);
+    }
+
+    public static Future<JsonArray> umIndent(final JsonArray data, final String code) {
+        return KeData.indent(data, code);
+    }
+
+    public static <T> Future<T> umIndent(final T input, final Function<T, String> fnSigma,
+                                         final String code,
+                                         final BiConsumer<T, String> fnConsumer) {
+        final String sigma = fnSigma.apply(input);
+        return KeData.indent(input, sigma, code, fnConsumer);
+    }
+
+    public static <T> Future<T> umIndent(final T input, final String sigma,
+                                         final String code,
+                                         final BiConsumer<T, String> fnConsumer) {
+        return KeData.indent(input, sigma, code, fnConsumer);
+    }
+
+    public static <T> Future<List<T>> umIndent(final List<T> input, final Function<List<T>, String> fnSigma,
+                                               final String code,
+                                               final BiConsumer<T, String> fnConsumer) {
+        final String sigma = fnSigma.apply(input);
+        return KeData.indent(input, sigma, code, fnConsumer);
+    }
+
+    public static <T> Future<List<T>> umIndent(final List<T> input, final String sigma,
+                                               final String code,
+                                               final BiConsumer<T, String> fnConsumer) {
+        return KeData.indent(input, sigma, code, fnConsumer);
     }
 }

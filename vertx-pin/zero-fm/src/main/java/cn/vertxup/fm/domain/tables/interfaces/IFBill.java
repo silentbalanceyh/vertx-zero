@@ -111,30 +111,6 @@ public interface IFBill extends VertxPojo, Serializable {
     public String getComment();
 
     /**
-     * Setter for <code>DB_ETERNAL.F_BILL.MODEL_ID</code>. 「modelId」-
-     * 关联的模型identifier，用于描述
-     */
-    public IFBill setModelId(String value);
-
-    /**
-     * Getter for <code>DB_ETERNAL.F_BILL.MODEL_ID</code>. 「modelId」-
-     * 关联的模型identifier，用于描述
-     */
-    public String getModelId();
-
-    /**
-     * Setter for <code>DB_ETERNAL.F_BILL.MODEL_KEY</code>. 「modelKey」-
-     * 关联的模型记录ID，用于描述哪一个Model中的记录
-     */
-    public IFBill setModelKey(String value);
-
-    /**
-     * Getter for <code>DB_ETERNAL.F_BILL.MODEL_KEY</code>. 「modelKey」-
-     * 关联的模型记录ID，用于描述哪一个Model中的记录
-     */
-    public String getModelKey();
-
-    /**
      * Setter for <code>DB_ETERNAL.F_BILL.ORDER_ID</code>. 「orderId」- 订单对应的订单ID
      */
     public IFBill setOrderId(String value);
@@ -261,8 +237,6 @@ public interface IFBill extends VertxPojo, Serializable {
                 // Omitting unrecognized type java.math.BigDecimal for column AMOUNT!
                 setOrThrow(this::setIncome,json::getBoolean,"INCOME","java.lang.Boolean");
                 setOrThrow(this::setComment,json::getString,"COMMENT","java.lang.String");
-                setOrThrow(this::setModelId,json::getString,"MODEL_ID","java.lang.String");
-                setOrThrow(this::setModelKey,json::getString,"MODEL_KEY","java.lang.String");
                 setOrThrow(this::setOrderId,json::getString,"ORDER_ID","java.lang.String");
                 setOrThrow(this::setBookId,json::getString,"BOOK_ID","java.lang.String");
                 setOrThrow(this::setSigma,json::getString,"SIGMA","java.lang.String");
@@ -289,8 +263,6 @@ public interface IFBill extends VertxPojo, Serializable {
                 // Omitting unrecognized type java.math.BigDecimal for column AMOUNT!
                 json.put("INCOME",getIncome());
                 json.put("COMMENT",getComment());
-                json.put("MODEL_ID",getModelId());
-                json.put("MODEL_KEY",getModelKey());
                 json.put("ORDER_ID",getOrderId());
                 json.put("BOOK_ID",getBookId());
                 json.put("SIGMA",getSigma());

@@ -30,8 +30,6 @@ public class FBill implements VertxPojo, IFBill {
     private BigDecimal    amount;
     private Boolean       income;
     private String        comment;
-    private String        modelId;
-    private String        modelKey;
     private String        orderId;
     private String        bookId;
     private String        sigma;
@@ -55,8 +53,6 @@ public class FBill implements VertxPojo, IFBill {
         this.amount = value.getAmount();
         this.income = value.getIncome();
         this.comment = value.getComment();
-        this.modelId = value.getModelId();
-        this.modelKey = value.getModelKey();
         this.orderId = value.getOrderId();
         this.bookId = value.getBookId();
         this.sigma = value.getSigma();
@@ -79,8 +75,6 @@ public class FBill implements VertxPojo, IFBill {
         BigDecimal    amount,
         Boolean       income,
         String        comment,
-        String        modelId,
-        String        modelKey,
         String        orderId,
         String        bookId,
         String        sigma,
@@ -101,8 +95,6 @@ public class FBill implements VertxPojo, IFBill {
         this.amount = amount;
         this.income = income;
         this.comment = comment;
-        this.modelId = modelId;
-        this.modelKey = modelKey;
         this.orderId = orderId;
         this.bookId = bookId;
         this.sigma = sigma;
@@ -272,44 +264,6 @@ public class FBill implements VertxPojo, IFBill {
     @Override
     public FBill setComment(String comment) {
         this.comment = comment;
-        return this;
-    }
-
-    /**
-     * Getter for <code>DB_ETERNAL.F_BILL.MODEL_ID</code>. 「modelId」-
-     * 关联的模型identifier，用于描述
-     */
-    @Override
-    public String getModelId() {
-        return this.modelId;
-    }
-
-    /**
-     * Setter for <code>DB_ETERNAL.F_BILL.MODEL_ID</code>. 「modelId」-
-     * 关联的模型identifier，用于描述
-     */
-    @Override
-    public FBill setModelId(String modelId) {
-        this.modelId = modelId;
-        return this;
-    }
-
-    /**
-     * Getter for <code>DB_ETERNAL.F_BILL.MODEL_KEY</code>. 「modelKey」-
-     * 关联的模型记录ID，用于描述哪一个Model中的记录
-     */
-    @Override
-    public String getModelKey() {
-        return this.modelKey;
-    }
-
-    /**
-     * Setter for <code>DB_ETERNAL.F_BILL.MODEL_KEY</code>. 「modelKey」-
-     * 关联的模型记录ID，用于描述哪一个Model中的记录
-     */
-    @Override
-    public FBill setModelKey(String modelKey) {
-        this.modelKey = modelKey;
         return this;
     }
 
@@ -496,8 +450,6 @@ public class FBill implements VertxPojo, IFBill {
         sb.append(", ").append(amount);
         sb.append(", ").append(income);
         sb.append(", ").append(comment);
-        sb.append(", ").append(modelId);
-        sb.append(", ").append(modelKey);
         sb.append(", ").append(orderId);
         sb.append(", ").append(bookId);
         sb.append(", ").append(sigma);
@@ -528,8 +480,6 @@ public class FBill implements VertxPojo, IFBill {
         setAmount(from.getAmount());
         setIncome(from.getIncome());
         setComment(from.getComment());
-        setModelId(from.getModelId());
-        setModelKey(from.getModelKey());
         setOrderId(from.getOrderId());
         setBookId(from.getBookId());
         setSigma(from.getSigma());
