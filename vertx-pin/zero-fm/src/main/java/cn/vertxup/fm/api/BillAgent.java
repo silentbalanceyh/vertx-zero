@@ -28,7 +28,8 @@ public interface BillAgent {
          "orderId": "",
          "bookId": "",
          "manualNo": "",
-         "payTermId": "",
+         "termId": "",
+         "indent": "code definition for generation",
          "preAuthorize": {
              "code/serial": "Calculated",
              "amount": "",

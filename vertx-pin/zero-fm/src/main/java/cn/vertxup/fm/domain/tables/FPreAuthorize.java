@@ -32,7 +32,7 @@ public class FPreAuthorize extends TableImpl<FPreAuthorizeRecord> {
     /**
      * The column <code>DB_ETERNAL.F_PRE_AUTHORIZE.KEY</code>. 「key」- 预授权ID
      */
-    public final TableField<FPreAuthorizeRecord, String> KEY = createField(DSL.name("KEY"), SQLDataType.VARCHAR(36), this, "「key」- 预授权ID");
+    public final TableField<FPreAuthorizeRecord, String> KEY = createField(DSL.name("KEY"), SQLDataType.VARCHAR(36).nullable(false), this, "「key」- 预授权ID");
     /**
      * The column <code>DB_ETERNAL.F_PRE_AUTHORIZE.CODE</code>. 「code」 - 预授权系统编号
      */
@@ -160,6 +160,11 @@ public class FPreAuthorize extends TableImpl<FPreAuthorizeRecord> {
     @Override
     public Schema getSchema() {
         return aliased() ? null : Db.DB_ETERNAL;
+    }
+
+    @Override
+    public UniqueKey<FPreAuthorizeRecord> getPrimaryKey() {
+        return Keys.KEY_F_PRE_AUTHORIZE_PRIMARY;
     }
 
     @Override

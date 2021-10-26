@@ -70,9 +70,4 @@ public class BillService implements BillStub {
         }
         return Ux.Jooq.on(FBillItemDao.class).fetchAsync(condition);
     }
-
-    @Override
-    public Future<JsonObject> createBill(final FBill bill, final FBillItem billItem) {
-        return null;
-    }
 }

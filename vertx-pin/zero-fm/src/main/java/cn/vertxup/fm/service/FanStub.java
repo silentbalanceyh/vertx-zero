@@ -2,16 +2,14 @@ package cn.vertxup.fm.service;
 
 import cn.vertxup.fm.domain.tables.pojos.FBill;
 import cn.vertxup.fm.domain.tables.pojos.FBillItem;
+import cn.vertxup.fm.domain.tables.pojos.FPreAuthorize;
 import io.vertx.core.Future;
-
-import java.util.List;
+import io.vertx.core.json.JsonObject;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-public interface BillStub {
+public interface FanStub {
 
-    Future<List<FBill>> fetchByOrder(String orderId, String bookId);
-
-    Future<List<FBillItem>> fetchByBills(List<FBill> bills, String type);
+    Future<JsonObject> preAsync(FBill bill, FBillItem billItem, FPreAuthorize authorize);
 }
