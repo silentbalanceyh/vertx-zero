@@ -11,6 +11,7 @@ import io.vertx.up.uca.registry.UddiClient;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.util.function.Function;
 
@@ -43,7 +44,9 @@ public abstract class AbstractInvoker implements Invoker {
 
     private void invokePre(final Method method, final Envelop envelop) {
         if (method.isAnnotationPresent(Me.class)) {
-            envelop.onMe();
+            final Annotation annotation = method.getDeclaredAnnotation(Me.class);
+            final boolean active = Ut.invoke(annotation, "active");
+            envelop.onMe(active);
         }
     }
 

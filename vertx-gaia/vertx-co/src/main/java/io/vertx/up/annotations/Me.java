@@ -10,4 +10,5 @@ import java.lang.annotation.*;
 @Documented
 @Inherited
 public @interface Me {
+    boolean active() default true;
 }
