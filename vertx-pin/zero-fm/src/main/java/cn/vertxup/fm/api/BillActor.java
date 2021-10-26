@@ -4,8 +4,8 @@ import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.fm.cv.Addr;
 import io.vertx.up.annotations.Address;
+import io.vertx.up.annotations.Me;
 import io.vertx.up.annotations.Queue;
-import io.vertx.up.annotations.Sigma;
 import io.vertx.up.unity.Ux;
 
 /**
@@ -15,7 +15,7 @@ import io.vertx.up.unity.Ux;
 public class BillActor {
 
     @Address(Addr.Bill.IN_PRE)
-    @Sigma
+    @Me
     public Future<JsonObject> inPre(final JsonObject data) {
 
         return Ux.future(data);

@@ -2,7 +2,7 @@ package io.vertx.up.uca.invoker;
 
 import io.vertx.core.Future;
 import io.vertx.core.Vertx;
-import io.vertx.up.annotations.Sigma;
+import io.vertx.up.annotations.Me;
 import io.vertx.up.commune.Envelop;
 import io.vertx.up.eon.Values;
 import io.vertx.up.log.Annal;
@@ -42,8 +42,8 @@ public abstract class AbstractInvoker implements Invoker {
     }
 
     private void invokePre(final Method method, final Envelop envelop) {
-        if (method.isAnnotationPresent(Sigma.class)) {
-            envelop.onSigma();
+        if (method.isAnnotationPresent(Me.class)) {
+            envelop.onMe();
         }
     }
 
