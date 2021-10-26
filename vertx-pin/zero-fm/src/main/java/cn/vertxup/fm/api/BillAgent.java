@@ -1,6 +1,6 @@
 package cn.vertxup.fm.api;
 
-import com.google.gson.JsonObject;
+import io.vertx.core.json.JsonObject;
 import io.vertx.tp.fm.cv.Addr;
 import io.vertx.up.annotations.Address;
 import io.vertx.up.annotations.EndPoint;

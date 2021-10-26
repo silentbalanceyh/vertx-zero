@@ -21,8 +21,6 @@ public class PreAim implements JtAim {
         return context -> {
             /* Extract parameters */
             final Envelop envelop = ingest.in(context, uri);
-            /* Tenant injection */
-            envelop.tenant();
             /* Last step for next */
             Answer.next(context, envelop);
         };

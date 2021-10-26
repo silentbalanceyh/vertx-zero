@@ -66,8 +66,8 @@
         <encoding>UTF-8</encoding>
 
         <!-- Vertx Framework Version -->
-        <vertx.version>4.1.5</vertx.version>
-        <stack.version>4.1.5</stack.version>
+        <vertx.version>4.2.0.CR1</vertx.version>
+        <stack.version>4.2.0.CR1</stack.version>
 
         <jcabi.version>0.23.2</jcabi.version>
         <jersey.version>2.35</jersey.version>
@@ -85,7 +85,7 @@
         <lombok.version>1.18.22</lombok.version>
         <asm.version>9.2</asm.version>
         <cglib.version>3.3.0</cglib.version>
-        <reflection.version>0.10.1</reflection.version>
+        <reflection.version>0.10.2</reflection.version>
 
         <!-- Etcd -->
         <etcd.version>2.18.0</etcd.version>
@@ -134,7 +134,7 @@
         <!-- Rpc -->
         <vertx.grpc.version>1.6.1</vertx.grpc.version>
         <grpc.version>1.41.0</grpc.version>
-        <protobuf.version>3.18.1</protobuf.version>
+        <protobuf.version>3.19.0</protobuf.version>
         <annotation.api.version>6.0.53</annotation.api.version>
         <gson.version>2.8.8</gson.version>
         <picoli.version>4.6.1</picoli.version>
