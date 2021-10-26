@@ -9,7 +9,5 @@ import java.lang.annotation.*;
 public @interface Contract {
     /*
      * This annotation is used between different business component
-     * 1) Channel -> Component
-     * 2)
      */
 }

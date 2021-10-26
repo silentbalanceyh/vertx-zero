@@ -2,6 +2,7 @@ package io.vertx.up.uca.invoker;
 
 import io.vertx.core.Future;
 import io.vertx.core.Vertx;
+import io.vertx.up.annotations.Sigma;
 import io.vertx.up.commune.Envelop;
 import io.vertx.up.eon.Values;
 import io.vertx.up.log.Annal;
@@ -32,10 +33,18 @@ public abstract class AbstractInvoker implements Invoker {
         final Object proxy,
         final Method method,
         final Envelop envelop) {
+        // Preparing Method
+        invokePre(method, envelop);
         final Object reference = envelop.data();
         final Class<?> argType = method.getParameterTypes()[Values.IDX];
         final Object arguments = Ut.deserialize(Ut.toString(reference), argType);
-        return Ut.invoke(proxy, method.getName(), arguments);
+        return InvokerUtil.invoke(proxy, method, arguments);
+    }
+
+    private void invokePre(final Method method, final Envelop envelop) {
+        if (method.isAnnotationPresent(Sigma.class)) {
+            envelop.onSigma();
+        }
     }
 
     /**
@@ -46,6 +55,8 @@ public abstract class AbstractInvoker implements Invoker {
         final Method method,
         final Envelop envelop
     ) {
+        // Preparing Method
+        invokePre(method, envelop);
         // Return value here.
         Object returnValue;
         final Class<?>[] argTypes = method.getParameterTypes();

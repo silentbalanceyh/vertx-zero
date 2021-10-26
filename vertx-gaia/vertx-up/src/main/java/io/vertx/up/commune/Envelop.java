@@ -257,6 +257,11 @@ public class Envelop implements Serializable {
         this.reference(reference -> Rib.criteria(reference, criteria, true));
     }
 
+    public void onSigma() {
+        final JsonObject headerX = this.headersX();
+        this.value(KName.SIGMA, headerX.getValue(KName.SIGMA));
+    }
+
     // ------------------ Below are assist method -------------------
     /*
      * Assist Data for current Envelop, all these methods will resolve the issue
@@ -304,11 +309,6 @@ public class Envelop implements Serializable {
                 }
             });
         return headerData;
-    }
-
-    public void tenant() {
-        final JsonObject headerX = this.headersX();
-        Ut.itJObject(headerX, (value, field) -> this.value(field, value));
     }
 
     public void headers(final MultiMap headers) {

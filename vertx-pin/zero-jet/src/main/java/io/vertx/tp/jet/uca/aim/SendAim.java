@@ -42,10 +42,6 @@ public class SendAim implements JtAim {
             future.onComplete(res -> {
                 if (res.succeeded()) {
                     final Envelop normalized = res.result();
-                    /*
-                     * tenant data
-                     */
-                    normalized.tenant();
                     final JsonObject data = normalized.data();
                     final String address = uri.worker().getWorkerAddress(); // Address
                     /*
