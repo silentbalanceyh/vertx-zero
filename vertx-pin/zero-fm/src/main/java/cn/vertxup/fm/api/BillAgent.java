@@ -46,4 +46,24 @@ public interface BillAgent {
     @Path("/bill/pre")
     @Address(Addr.Bill.IN_PRE)
     JsonObject inPre(@BodyParam JsonObject data);
+
+    /*
+         "key": "primary key",
+         "name": "name - The title",
+         "code/serial": "The line number",
+         "type": "bill type",
+         "category": "bill category",
+         "amount": "amount data",
+         "income": "true for consume, false for pay",
+         "comment": "",
+         "orderId": "",
+         "bookId": "",
+         "manualNo": "",
+         "termId": "",
+         "indent": "code definition for generation",
+     */
+    @POST
+    @Path("/bill/single")
+    @Address(Addr.Bill.IN_COMMON)
+    JsonObject inCommon(@BodyParam JsonObject data);
 }

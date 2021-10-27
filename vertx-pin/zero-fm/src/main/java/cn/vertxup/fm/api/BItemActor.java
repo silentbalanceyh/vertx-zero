@@ -22,15 +22,13 @@ public class BItemActor {
     private transient SettleStub settleStub;
 
     @Address(Addr.BillItem.FETCH_AGGR)
-    public Future<JsonObject> fetchAggr(final String orderId,
-                                        final String bookId,
-                                        final String type) {
+    public Future<JsonObject> fetchAggr(final String orderId) {
         /* bookId / orderId to build List<FBook> */
         final BillData data = new BillData();
-        return this.billStub.fetchByOrder(orderId, bookId)
+        return this.billStub.fetchByOrder(orderId)
             .compose(data::bill)
             /* Fetch Items */
-            .compose(bills -> this.billStub.fetchByBills(bills, type))
+            .compose(bills -> this.billStub.fetchByBills(bills))
             .compose(data::items)
             .compose(this.settleStub::fetchByItems)
             .compose(data::settlement)

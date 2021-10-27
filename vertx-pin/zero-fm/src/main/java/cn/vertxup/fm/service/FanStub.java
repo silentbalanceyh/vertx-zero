@@ -11,5 +11,9 @@ import io.vertx.core.json.JsonObject;
  */
 public interface FanStub {
 
-    Future<JsonObject> preAsync(FBill bill, FBillItem billItem, FPreAuthorize authorize);
+    Future<JsonObject> singleAsync(FBill bill, FBillItem billItem, FPreAuthorize authorize);
+
+    default Future<JsonObject> singleAsync(final FBill bill, final FBillItem billItem) {
+        return this.singleAsync(bill, billItem, null);
+    }
 }

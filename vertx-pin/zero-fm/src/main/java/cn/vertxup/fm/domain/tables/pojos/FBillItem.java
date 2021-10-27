@@ -30,6 +30,7 @@ public class FBillItem implements VertxPojo, IFBillItem {
     private BigDecimal    amount;
     private String        comment;
     private String        manualNo;
+    private String        unit;
     private BigDecimal    price;
     private Integer       quantity;
     private BigDecimal    amountTotal;
@@ -66,6 +67,7 @@ public class FBillItem implements VertxPojo, IFBillItem {
         this.amount = value.getAmount();
         this.comment = value.getComment();
         this.manualNo = value.getManualNo();
+        this.unit = value.getUnit();
         this.price = value.getPrice();
         this.quantity = value.getQuantity();
         this.amountTotal = value.getAmountTotal();
@@ -101,6 +103,7 @@ public class FBillItem implements VertxPojo, IFBillItem {
         BigDecimal    amount,
         String        comment,
         String        manualNo,
+        String        unit,
         BigDecimal    price,
         Integer       quantity,
         BigDecimal    amountTotal,
@@ -134,6 +137,7 @@ public class FBillItem implements VertxPojo, IFBillItem {
         this.amount = amount;
         this.comment = comment;
         this.manualNo = manualNo;
+        this.unit = unit;
         this.price = price;
         this.quantity = quantity;
         this.amountTotal = amountTotal;
@@ -318,6 +322,23 @@ public class FBillItem implements VertxPojo, IFBillItem {
     @Override
     public FBillItem setManualNo(String manualNo) {
         this.manualNo = manualNo;
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.F_BILL_ITEM.UNIT</code>. 「unit」- 计量单位
+     */
+    @Override
+    public String getUnit() {
+        return this.unit;
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.F_BILL_ITEM.UNIT</code>. 「unit」- 计量单位
+     */
+    @Override
+    public FBillItem setUnit(String unit) {
+        this.unit = unit;
         return this;
     }
 
@@ -755,6 +776,7 @@ public class FBillItem implements VertxPojo, IFBillItem {
         sb.append(", ").append(amount);
         sb.append(", ").append(comment);
         sb.append(", ").append(manualNo);
+        sb.append(", ").append(unit);
         sb.append(", ").append(price);
         sb.append(", ").append(quantity);
         sb.append(", ").append(amountTotal);
@@ -798,6 +820,7 @@ public class FBillItem implements VertxPojo, IFBillItem {
         setAmount(from.getAmount());
         setComment(from.getComment());
         setManualNo(from.getManualNo());
+        setUnit(from.getUnit());
         setPrice(from.getPrice());
         setQuantity(from.getQuantity());
         setAmountTotal(from.getAmountTotal());

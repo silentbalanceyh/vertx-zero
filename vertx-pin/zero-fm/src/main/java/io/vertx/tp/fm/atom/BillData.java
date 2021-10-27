@@ -7,7 +7,6 @@ import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.eon.KName;
 import io.vertx.up.unity.Ux;
-import io.vertx.up.util.Ut;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -45,7 +44,7 @@ public class BillData implements Serializable {
 
     public Future<JsonObject> response(final boolean reduce) {
         final JsonObject response = new JsonObject();
-        response.put(KName.ITEMS, Ut.toJArray(this.items));
+        response.put(KName.ITEMS, Ux.toJson(this.items));
         if (reduce) {
             final Set<String> bIds = this.items.stream()
                 .map(FBillItem::getBillId)
@@ -61,11 +60,11 @@ public class BillData implements Serializable {
             final List<FSettlement> settlements = this.settlements.stream()
                 .filter(item -> sIds.contains(item.getKey()))
                 .collect(Collectors.toList());
-            response.put("bills", Ut.toJArray(bills));
-            response.put("settlements", Ut.toJArray(settlements));
+            response.put("bills", Ux.toJson(bills));
+            response.put("settlements", Ux.toJson(settlements));
         } else {
-            response.put("bills", Ut.toJArray(this.bills));
-            response.put("settlements", Ut.toJArray(this.settlements));
+            response.put("bills", Ux.toJson(this.bills));
+            response.put("settlements", Ux.toJson(this.settlements));
         }
         return Ux.future(response);
     }

@@ -160,6 +160,21 @@ public class FBillItemDao extends AbstractVertxDAO<FBillItemRecord, cn.vertxup.f
         }
 
         /**
+     * Find records that have <code>UNIT IN (values)</code> asynchronously
+     */
+        public Future<List<cn.vertxup.fm.domain.tables.pojos.FBillItem>> findManyByUnit(Collection<String> values) {
+                return findManyByCondition(FBillItem.F_BILL_ITEM.UNIT.in(values));
+        }
+
+        /**
+     * Find records that have <code>UNIT IN (values)</code> asynchronously
+     * limited by the given limit
+     */
+        public Future<List<cn.vertxup.fm.domain.tables.pojos.FBillItem>> findManyByUnit(Collection<String> values, int limit) {
+                return findManyByCondition(FBillItem.F_BILL_ITEM.UNIT.in(values),limit);
+        }
+
+        /**
      * Find records that have <code>PRICE IN (values)</code> asynchronously
      */
         public Future<List<cn.vertxup.fm.domain.tables.pojos.FBillItem>> findManyByPrice(Collection<BigDecimal> values) {

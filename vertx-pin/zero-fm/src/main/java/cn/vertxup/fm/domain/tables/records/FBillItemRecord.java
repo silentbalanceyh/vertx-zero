@@ -183,11 +183,28 @@ public class FBillItemRecord extends UpdatableRecordImpl<FBillItemRecord> implem
     }
 
     /**
+     * Setter for <code>DB_ETERNAL.F_BILL_ITEM.UNIT</code>. 「unit」- 计量单位
+     */
+    @Override
+    public FBillItemRecord setUnit(String value) {
+        set(9, value);
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.F_BILL_ITEM.UNIT</code>. 「unit」- 计量单位
+     */
+    @Override
+    public String getUnit() {
+        return (String) get(9);
+    }
+
+    /**
      * Setter for <code>DB_ETERNAL.F_BILL_ITEM.PRICE</code>. 「price」- 商品单价
      */
     @Override
     public FBillItemRecord setPrice(BigDecimal value) {
-        set(9, value);
+        set(10, value);
         return this;
     }
 
@@ -196,7 +213,7 @@ public class FBillItemRecord extends UpdatableRecordImpl<FBillItemRecord> implem
      */
     @Override
     public BigDecimal getPrice() {
-        return (BigDecimal) get(9);
+        return (BigDecimal) get(10);
     }
 
     /**
@@ -204,7 +221,7 @@ public class FBillItemRecord extends UpdatableRecordImpl<FBillItemRecord> implem
      */
     @Override
     public FBillItemRecord setQuantity(Integer value) {
-        set(10, value);
+        set(11, value);
         return this;
     }
 
@@ -213,7 +230,7 @@ public class FBillItemRecord extends UpdatableRecordImpl<FBillItemRecord> implem
      */
     @Override
     public Integer getQuantity() {
-        return (Integer) get(10);
+        return (Integer) get(11);
     }
 
     /**
@@ -222,7 +239,7 @@ public class FBillItemRecord extends UpdatableRecordImpl<FBillItemRecord> implem
      */
     @Override
     public FBillItemRecord setAmountTotal(BigDecimal value) {
-        set(11, value);
+        set(12, value);
         return this;
     }
 
@@ -232,7 +249,7 @@ public class FBillItemRecord extends UpdatableRecordImpl<FBillItemRecord> implem
      */
     @Override
     public BigDecimal getAmountTotal() {
-        return (BigDecimal) get(11);
+        return (BigDecimal) get(12);
     }
 
     /**
@@ -240,7 +257,7 @@ public class FBillItemRecord extends UpdatableRecordImpl<FBillItemRecord> implem
      */
     @Override
     public FBillItemRecord setDelay(Boolean value) {
-        set(12, value);
+        set(13, value);
         return this;
     }
 
@@ -249,7 +266,7 @@ public class FBillItemRecord extends UpdatableRecordImpl<FBillItemRecord> implem
      */
     @Override
     public Boolean getDelay() {
-        return (Boolean) get(12);
+        return (Boolean) get(13);
     }
 
     /**
@@ -258,7 +275,7 @@ public class FBillItemRecord extends UpdatableRecordImpl<FBillItemRecord> implem
      */
     @Override
     public FBillItemRecord setDelayAt(LocalDateTime value) {
-        set(13, value);
+        set(14, value);
         return this;
     }
 
@@ -268,7 +285,7 @@ public class FBillItemRecord extends UpdatableRecordImpl<FBillItemRecord> implem
      */
     @Override
     public LocalDateTime getDelayAt() {
-        return (LocalDateTime) get(13);
+        return (LocalDateTime) get(14);
     }
 
     /**
@@ -276,7 +293,7 @@ public class FBillItemRecord extends UpdatableRecordImpl<FBillItemRecord> implem
      */
     @Override
     public FBillItemRecord setOpBy(String value) {
-        set(14, value);
+        set(15, value);
         return this;
     }
 
@@ -285,7 +302,7 @@ public class FBillItemRecord extends UpdatableRecordImpl<FBillItemRecord> implem
      */
     @Override
     public String getOpBy() {
-        return (String) get(14);
+        return (String) get(15);
     }
 
     /**
@@ -294,7 +311,7 @@ public class FBillItemRecord extends UpdatableRecordImpl<FBillItemRecord> implem
      */
     @Override
     public FBillItemRecord setOpNumber(String value) {
-        set(15, value);
+        set(16, value);
         return this;
     }
 
@@ -304,7 +321,7 @@ public class FBillItemRecord extends UpdatableRecordImpl<FBillItemRecord> implem
      */
     @Override
     public String getOpNumber() {
-        return (String) get(15);
+        return (String) get(16);
     }
 
     /**
@@ -313,7 +330,7 @@ public class FBillItemRecord extends UpdatableRecordImpl<FBillItemRecord> implem
      */
     @Override
     public FBillItemRecord setOpShift(String value) {
-        set(16, value);
+        set(17, value);
         return this;
     }
 
@@ -323,7 +340,7 @@ public class FBillItemRecord extends UpdatableRecordImpl<FBillItemRecord> implem
      */
     @Override
     public String getOpShift() {
-        return (String) get(16);
+        return (String) get(17);
     }
 
     /**
@@ -331,7 +348,7 @@ public class FBillItemRecord extends UpdatableRecordImpl<FBillItemRecord> implem
      */
     @Override
     public FBillItemRecord setOpAt(LocalDateTime value) {
-        set(17, value);
+        set(18, value);
         return this;
     }
 
@@ -340,7 +357,7 @@ public class FBillItemRecord extends UpdatableRecordImpl<FBillItemRecord> implem
      */
     @Override
     public LocalDateTime getOpAt() {
-        return (LocalDateTime) get(17);
+        return (LocalDateTime) get(18);
     }
 
     /**
@@ -349,7 +366,7 @@ public class FBillItemRecord extends UpdatableRecordImpl<FBillItemRecord> implem
      */
     @Override
     public FBillItemRecord setOpTransfer(String value) {
-        set(18, value);
+        set(19, value);
         return this;
     }
 
@@ -359,7 +376,7 @@ public class FBillItemRecord extends UpdatableRecordImpl<FBillItemRecord> implem
      */
     @Override
     public String getOpTransfer() {
-        return (String) get(18);
+        return (String) get(19);
     }
 
     /**
@@ -368,7 +385,7 @@ public class FBillItemRecord extends UpdatableRecordImpl<FBillItemRecord> implem
      */
     @Override
     public FBillItemRecord setRelatedId(String value) {
-        set(19, value);
+        set(20, value);
         return this;
     }
 
@@ -378,7 +395,7 @@ public class FBillItemRecord extends UpdatableRecordImpl<FBillItemRecord> implem
      */
     @Override
     public String getRelatedId() {
-        return (String) get(19);
+        return (String) get(20);
     }
 
     /**
@@ -387,7 +404,7 @@ public class FBillItemRecord extends UpdatableRecordImpl<FBillItemRecord> implem
      */
     @Override
     public FBillItemRecord setSettlementId(String value) {
-        set(20, value);
+        set(21, value);
         return this;
     }
 
@@ -397,7 +414,7 @@ public class FBillItemRecord extends UpdatableRecordImpl<FBillItemRecord> implem
      */
     @Override
     public String getSettlementId() {
-        return (String) get(20);
+        return (String) get(21);
     }
 
     /**
@@ -405,7 +422,7 @@ public class FBillItemRecord extends UpdatableRecordImpl<FBillItemRecord> implem
      */
     @Override
     public FBillItemRecord setBillId(String value) {
-        set(21, value);
+        set(22, value);
         return this;
     }
 
@@ -414,7 +431,7 @@ public class FBillItemRecord extends UpdatableRecordImpl<FBillItemRecord> implem
      */
     @Override
     public String getBillId() {
-        return (String) get(21);
+        return (String) get(22);
     }
 
     /**
@@ -423,7 +440,7 @@ public class FBillItemRecord extends UpdatableRecordImpl<FBillItemRecord> implem
      */
     @Override
     public FBillItemRecord setSubjectId(String value) {
-        set(22, value);
+        set(23, value);
         return this;
     }
 
@@ -433,7 +450,7 @@ public class FBillItemRecord extends UpdatableRecordImpl<FBillItemRecord> implem
      */
     @Override
     public String getSubjectId() {
-        return (String) get(22);
+        return (String) get(23);
     }
 
     /**
@@ -442,7 +459,7 @@ public class FBillItemRecord extends UpdatableRecordImpl<FBillItemRecord> implem
      */
     @Override
     public FBillItemRecord setPayTermId(String value) {
-        set(23, value);
+        set(24, value);
         return this;
     }
 
@@ -452,7 +469,7 @@ public class FBillItemRecord extends UpdatableRecordImpl<FBillItemRecord> implem
      */
     @Override
     public String getPayTermId() {
-        return (String) get(23);
+        return (String) get(24);
     }
 
     /**
@@ -460,7 +477,7 @@ public class FBillItemRecord extends UpdatableRecordImpl<FBillItemRecord> implem
      */
     @Override
     public FBillItemRecord setSigma(String value) {
-        set(24, value);
+        set(25, value);
         return this;
     }
 
@@ -469,7 +486,7 @@ public class FBillItemRecord extends UpdatableRecordImpl<FBillItemRecord> implem
      */
     @Override
     public String getSigma() {
-        return (String) get(24);
+        return (String) get(25);
     }
 
     /**
@@ -478,7 +495,7 @@ public class FBillItemRecord extends UpdatableRecordImpl<FBillItemRecord> implem
      */
     @Override
     public FBillItemRecord setLanguage(String value) {
-        set(25, value);
+        set(26, value);
         return this;
     }
 
@@ -488,7 +505,7 @@ public class FBillItemRecord extends UpdatableRecordImpl<FBillItemRecord> implem
      */
     @Override
     public String getLanguage() {
-        return (String) get(25);
+        return (String) get(26);
     }
 
     /**
@@ -496,7 +513,7 @@ public class FBillItemRecord extends UpdatableRecordImpl<FBillItemRecord> implem
      */
     @Override
     public FBillItemRecord setActive(Boolean value) {
-        set(26, value);
+        set(27, value);
         return this;
     }
 
@@ -505,7 +522,7 @@ public class FBillItemRecord extends UpdatableRecordImpl<FBillItemRecord> implem
      */
     @Override
     public Boolean getActive() {
-        return (Boolean) get(26);
+        return (Boolean) get(27);
     }
 
     /**
@@ -514,7 +531,7 @@ public class FBillItemRecord extends UpdatableRecordImpl<FBillItemRecord> implem
      */
     @Override
     public FBillItemRecord setMetadata(String value) {
-        set(27, value);
+        set(28, value);
         return this;
     }
 
@@ -524,7 +541,7 @@ public class FBillItemRecord extends UpdatableRecordImpl<FBillItemRecord> implem
      */
     @Override
     public String getMetadata() {
-        return (String) get(27);
+        return (String) get(28);
     }
 
     /**
@@ -533,7 +550,7 @@ public class FBillItemRecord extends UpdatableRecordImpl<FBillItemRecord> implem
      */
     @Override
     public FBillItemRecord setCreatedAt(LocalDateTime value) {
-        set(28, value);
+        set(29, value);
         return this;
     }
 
@@ -543,7 +560,7 @@ public class FBillItemRecord extends UpdatableRecordImpl<FBillItemRecord> implem
      */
     @Override
     public LocalDateTime getCreatedAt() {
-        return (LocalDateTime) get(28);
+        return (LocalDateTime) get(29);
     }
 
     /**
@@ -552,7 +569,7 @@ public class FBillItemRecord extends UpdatableRecordImpl<FBillItemRecord> implem
      */
     @Override
     public FBillItemRecord setCreatedBy(String value) {
-        set(29, value);
+        set(30, value);
         return this;
     }
 
@@ -562,7 +579,7 @@ public class FBillItemRecord extends UpdatableRecordImpl<FBillItemRecord> implem
      */
     @Override
     public String getCreatedBy() {
-        return (String) get(29);
+        return (String) get(30);
     }
 
     /**
@@ -571,7 +588,7 @@ public class FBillItemRecord extends UpdatableRecordImpl<FBillItemRecord> implem
      */
     @Override
     public FBillItemRecord setUpdatedAt(LocalDateTime value) {
-        set(30, value);
+        set(31, value);
         return this;
     }
 
@@ -581,7 +598,7 @@ public class FBillItemRecord extends UpdatableRecordImpl<FBillItemRecord> implem
      */
     @Override
     public LocalDateTime getUpdatedAt() {
-        return (LocalDateTime) get(30);
+        return (LocalDateTime) get(31);
     }
 
     /**
@@ -590,7 +607,7 @@ public class FBillItemRecord extends UpdatableRecordImpl<FBillItemRecord> implem
      */
     @Override
     public FBillItemRecord setUpdatedBy(String value) {
-        set(31, value);
+        set(32, value);
         return this;
     }
 
@@ -600,7 +617,7 @@ public class FBillItemRecord extends UpdatableRecordImpl<FBillItemRecord> implem
      */
     @Override
     public String getUpdatedBy() {
-        return (String) get(31);
+        return (String) get(32);
     }
 
     // -------------------------------------------------------------------------
@@ -627,6 +644,7 @@ public class FBillItemRecord extends UpdatableRecordImpl<FBillItemRecord> implem
         setAmount(from.getAmount());
         setComment(from.getComment());
         setManualNo(from.getManualNo());
+        setUnit(from.getUnit());
         setPrice(from.getPrice());
         setQuantity(from.getQuantity());
         setAmountTotal(from.getAmountTotal());
@@ -672,7 +690,7 @@ public class FBillItemRecord extends UpdatableRecordImpl<FBillItemRecord> implem
     /**
      * Create a detached, initialised FBillItemRecord
      */
-    public FBillItemRecord(String key, String name, String code, String serial, String type, String status, BigDecimal amount, String comment, String manualNo, BigDecimal price, Integer quantity, BigDecimal amountTotal, Boolean delay, LocalDateTime delayAt, String opBy, String opNumber, String opShift, LocalDateTime opAt, String opTransfer, String relatedId, String settlementId, String billId, String subjectId, String payTermId, String sigma, String language, Boolean active, String metadata, LocalDateTime createdAt, String createdBy, LocalDateTime updatedAt, String updatedBy) {
+    public FBillItemRecord(String key, String name, String code, String serial, String type, String status, BigDecimal amount, String comment, String manualNo, String unit, BigDecimal price, Integer quantity, BigDecimal amountTotal, Boolean delay, LocalDateTime delayAt, String opBy, String opNumber, String opShift, LocalDateTime opAt, String opTransfer, String relatedId, String settlementId, String billId, String subjectId, String payTermId, String sigma, String language, Boolean active, String metadata, LocalDateTime createdAt, String createdBy, LocalDateTime updatedAt, String updatedBy) {
         super(FBillItem.F_BILL_ITEM);
 
         setKey(key);
@@ -684,6 +702,7 @@ public class FBillItemRecord extends UpdatableRecordImpl<FBillItemRecord> implem
         setAmount(amount);
         setComment(comment);
         setManualNo(manualNo);
+        setUnit(unit);
         setPrice(price);
         setQuantity(quantity);
         setAmountTotal(amountTotal);
@@ -725,6 +744,7 @@ public class FBillItemRecord extends UpdatableRecordImpl<FBillItemRecord> implem
             setAmount(value.getAmount());
             setComment(value.getComment());
             setManualNo(value.getManualNo());
+            setUnit(value.getUnit());
             setPrice(value.getPrice());
             setQuantity(value.getQuantity());
             setAmountTotal(value.getAmountTotal());

@@ -22,19 +22,20 @@ public class ServiceAxis implements Axis<Router> {
 
     @Override
     public void mount(final Router router) {
+        if (QuotaConnect.monitor()) {
+            final HealthChecks health = HealthChecks.create(this.vertx);
+            /* First for UxPool */
+            final ConcurrentMap<String, Quota> registryMap = Quota.getRegistry(this.vertx);
+            registryMap.forEach(health::register);
 
-        final HealthChecks health = HealthChecks.create(this.vertx);
-        /* First for UxPool */
-        final ConcurrentMap<String, Quota> registryMap = Quota.getRegistry(this.vertx);
-        registryMap.forEach(health::register);
-
-        final HealthCheckHandler handler = HealthCheckHandler
-            .createWithHealthChecks(health);
-        /*
-         * Monitor Address
-         */
-        router.get(QuotaConnect.routePath()).order(Orders.MONITOR)
-            .produces(MediaType.APPLICATION_JSON)
-            .handler(handler);
+            final HealthCheckHandler handler = HealthCheckHandler
+                .createWithHealthChecks(health);
+            /*
+             * Monitor Address
+             */
+            router.get(QuotaConnect.routePath()).order(Orders.MONITOR)
+                .produces(MediaType.APPLICATION_JSON)
+                .handler(handler);
+        }
     }
 }

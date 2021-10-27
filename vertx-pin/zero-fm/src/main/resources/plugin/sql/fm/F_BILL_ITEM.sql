@@ -18,6 +18,7 @@ CREATE TABLE `F_BILL_ITEM`
     `COMMENT`       LONGTEXT COMMENT '「comment」 - 明细备注',
     `MANUAL_NO`     VARCHAR(255) COMMENT '「manualNo」 - 手工单号（线下单号专用）',
     -- 商品信息
+    `UNIT`          VARCHAR(36)    DEFAULT NULL COMMENT '「unit」- 计量单位',
     `PRICE`         DECIMAL(18, 2) NOT NULL COMMENT '「price」- 商品单价',
     `QUANTITY`      INT            NOT NULL COMMENT '「quantity」- 商品数量',
     `AMOUNT_TOTAL`  DECIMAL(18, 2) NOT NULL COMMENT '「amountTotal」——总价，理论计算结果',

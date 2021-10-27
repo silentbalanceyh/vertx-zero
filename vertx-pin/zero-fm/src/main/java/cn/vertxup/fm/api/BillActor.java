@@ -28,11 +28,8 @@ public class BillActor {
     @Me
     @Address(Addr.Bill.IN_PRE)
     public Future<JsonObject> inPre(final JsonObject data) {
-        // Bill building
-        final FBill preBill = Ux.fromJson(data, FBill.class);
         // Serial Generation for Bill
-        return Ke.umIndent(preBill, preBill.getSigma(), data.getString(KName.INDENT), FBill::setSerial).compose(bill -> {
-            bill.setCode(bill.getSerial());
+        return this.buildBill(data).compose(bill -> {
             final FBillItem item = Ux.fromJson(data, FBillItem.class);
             final FPreAuthorize authorize;
             if (data.containsKey("preAuthorize")) {
@@ -42,7 +39,28 @@ public class BillActor {
             } else {
                 authorize = null;
             }
-            return this.fanStub.preAsync(bill, item, authorize);
+            return this.fanStub.singleAsync(bill, item, authorize);
+        });
+    }
+
+
+    @Me
+    @Address(Addr.Bill.IN_COMMON)
+    public Future<JsonObject> inCommon(final JsonObject data) {
+        // Bill building
+        return this.buildBill(data).compose(bill -> {
+            final FBillItem item = Ux.fromJson(data, FBillItem.class);
+            return this.fanStub.singleAsync(bill, item);
+        });
+    }
+
+    private Future<FBill> buildBill(final JsonObject data) {
+        // Bill building
+        final FBill preBill = Ux.fromJson(data, FBill.class);
+        // Serial Generation for Bill
+        return Ke.umIndent(preBill, preBill.getSigma(), data.getString(KName.INDENT), FBill::setSerial).compose(bill -> {
+            bill.setCode(bill.getSerial());
+            return Ux.future(bill);
         });
     }
 }

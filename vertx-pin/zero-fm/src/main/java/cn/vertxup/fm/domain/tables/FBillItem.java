@@ -68,6 +68,10 @@ public class FBillItem extends TableImpl<FBillItemRecord> {
      */
     public final TableField<FBillItemRecord, String> MANUAL_NO = createField(DSL.name("MANUAL_NO"), SQLDataType.VARCHAR(255), this, "「manualNo」 - 手工单号（线下单号专用）");
     /**
+     * The column <code>DB_ETERNAL.F_BILL_ITEM.UNIT</code>. 「unit」- 计量单位
+     */
+    public final TableField<FBillItemRecord, String> UNIT = createField(DSL.name("UNIT"), SQLDataType.VARCHAR(36), this, "「unit」- 计量单位");
+    /**
      * The column <code>DB_ETERNAL.F_BILL_ITEM.PRICE</code>. 「price」- 商品单价
      */
     public final TableField<FBillItemRecord, BigDecimal> PRICE = createField(DSL.name("PRICE"), SQLDataType.DECIMAL(18, 2).nullable(false), this, "「price」- 商品单价");

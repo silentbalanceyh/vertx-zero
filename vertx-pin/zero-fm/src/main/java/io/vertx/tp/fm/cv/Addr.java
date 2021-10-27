@@ -14,5 +14,7 @@ public interface Addr {
     interface Bill {
         // Pre + Authorize
         String IN_PRE = Prefix._EVENT + "BILL/PRE";
+        // Common, Bill + Items
+        String IN_COMMON = Prefix._EVENT + "BILL/COMMON";
     }
 }

@@ -11,7 +11,7 @@ import java.util.List;
  */
 public interface BillStub {
 
-    Future<List<FBill>> fetchByOrder(String orderId, String bookId);
+    Future<List<FBill>> fetchByOrder(String orderId);
 
-    Future<List<FBillItem>> fetchByBills(List<FBill> bills, String type);
+    Future<List<FBillItem>> fetchByBills(List<FBill> bills);
 }

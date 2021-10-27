@@ -113,6 +113,16 @@ public interface IFBillItem extends VertxPojo, Serializable {
     public String getManualNo();
 
     /**
+     * Setter for <code>DB_ETERNAL.F_BILL_ITEM.UNIT</code>. 「unit」- 计量单位
+     */
+    public IFBillItem setUnit(String value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.F_BILL_ITEM.UNIT</code>. 「unit」- 计量单位
+     */
+    public String getUnit();
+
+    /**
      * Setter for <code>DB_ETERNAL.F_BILL_ITEM.PRICE</code>. 「price」- 商品单价
      */
     public IFBillItem setPrice(BigDecimal value);
@@ -399,6 +409,7 @@ public interface IFBillItem extends VertxPojo, Serializable {
                 // Omitting unrecognized type java.math.BigDecimal for column AMOUNT!
                 setOrThrow(this::setComment,json::getString,"COMMENT","java.lang.String");
                 setOrThrow(this::setManualNo,json::getString,"MANUAL_NO","java.lang.String");
+                setOrThrow(this::setUnit,json::getString,"UNIT","java.lang.String");
                 // Omitting unrecognized type java.math.BigDecimal for column PRICE!
                 setOrThrow(this::setQuantity,json::getInteger,"QUANTITY","java.lang.Integer");
                 // Omitting unrecognized type java.math.BigDecimal for column AMOUNT_TOTAL!
@@ -438,6 +449,7 @@ public interface IFBillItem extends VertxPojo, Serializable {
                 // Omitting unrecognized type java.math.BigDecimal for column AMOUNT!
                 json.put("COMMENT",getComment());
                 json.put("MANUAL_NO",getManualNo());
+                json.put("UNIT",getUnit());
                 // Omitting unrecognized type java.math.BigDecimal for column PRICE!
                 json.put("QUANTITY",getQuantity());
                 // Omitting unrecognized type java.math.BigDecimal for column AMOUNT_TOTAL!
