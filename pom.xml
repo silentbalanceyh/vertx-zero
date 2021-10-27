@@ -76,7 +76,7 @@
 
         <!-- Database Needed -->
         <hikari.cp.version>5.0.0</hikari.cp.version>
-        <jooq.version>3.15.3</jooq.version>
+        <jooq.version>3.15.4</jooq.version>
         <vertx.jooq.version>6.3.0</vertx.jooq.version>
         <mysql.version>8.0.27</mysql.version>
 
@@ -121,7 +121,7 @@
         <common.logging.version>1.2</common.logging.version>
         <common.net.version>3.8.0</common.net.version>
         <common.codec.version>1.15</common.codec.version>
-        <common.cli.version>1.4</common.cli.version>
+        <common.cli.version>1.5.0</common.cli.version>
         <common.collection4.version>4.4</common.collection4.version>
 
         <http.async.client.version>4.1.4</http.async.client.version>

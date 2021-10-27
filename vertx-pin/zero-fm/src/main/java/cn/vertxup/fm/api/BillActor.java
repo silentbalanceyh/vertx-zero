@@ -15,6 +15,7 @@ import io.vertx.up.eon.KName;
 import io.vertx.up.unity.Ux;
 
 import javax.inject.Inject;
+import java.util.List;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
@@ -51,6 +52,15 @@ public class BillActor {
         return this.buildBill(data).compose(bill -> {
             final FBillItem item = Ux.fromJson(data, FBillItem.class);
             return this.fanStub.singleAsync(bill, item);
+        });
+    }
+
+    @Me
+    @Address(Addr.Bill.IN_MULTI)
+    public Future<JsonObject> inMulti(final JsonObject data) {
+        return this.buildBill(data).compose(bill -> {
+            final List<FBillItem> item = Ux.fromJson(data.getJsonArray(KName.ITEMS), FBillItem.class);
+            return this.fanStub.multiAsync(bill, item);
         });
     }
 

@@ -13,6 +13,7 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.tp.ke.refine.Ke;
 import io.vertx.up.uca.jooq.UxJooq;
 import io.vertx.up.unity.Ux;
+import io.vertx.up.util.Ut;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -45,6 +46,16 @@ public class FanService implements FanStub {
         });
     }
 
+    @Override
+    public Future<JsonObject> multiAsync(final FBill bill, final List<FBillItem> items) {
+        return Ux.Jooq.on(FBillDao.class).insertAsync(bill).compose(inserted -> {
+            this.connect(bill, items);
+            return Ux.Jooq.on(FBillItemDao.class).insertJAsync(items)
+                .compose(nil -> this.updateBook(bill, items))
+                .compose(nil -> Ux.futureJ(bill));
+        });
+    }
+
     private Future<FBill> updateBook(final FBill bill, final List<FBillItem> items) {
         final UxJooq jq = Ux.Jooq.on(FBookDao.class);
         return jq.<FBook>fetchByIdAsync(bill.getBookId()).compose(book -> {
@@ -64,14 +75,28 @@ public class FanService implements FanStub {
         });
     }
 
-    private void connect(final FBill bill, final FBillItem billItem, final int number) {
-        billItem.setBillId(bill.getKey());
-        billItem.setSerial(bill.getSerial() + "-" + number);
-        billItem.setCode(bill.getCode() + "-" + number);
+    private void connect(final FBill bill, final FBillItem item, final int number) {
+        item.setBillId(bill.getKey());
+        item.setSerial(bill.getSerial() + "-" + Ut.fromAdjust(number, 2));
+        item.setCode(bill.getCode() + "-" + Ut.fromAdjust(number, 2));
         // price, quanlity, total
-        billItem.setPrice(billItem.getAmount());
-        billItem.setQuantity(1);
-        billItem.setAmountTotal(billItem.getAmount());
+        item.setPrice(item.getAmount());
+        item.setQuantity(1);
+        item.setAmountTotal(item.getAmount());
+        Ke.umCreated(item, bill);
+    }
+
+    private void connect(final FBill bill, final List<FBillItem> items) {
+        for (int idx = 0; idx < items.size(); idx++) {
+            final FBillItem item = items.get(idx);
+            final int number = (idx + 1);
+            item.setBillId(bill.getKey());
+            item.setSerial(bill.getSerial() + "-" + Ut.fromAdjust(number, 2));
+            item.setCode(bill.getCode() + "-" + Ut.fromAdjust(number, 2));
+            item.setAmountTotal(item.getAmount());
+            // auditor
+            Ke.umCreated(item, bill);
+        }
     }
 
     private void connect(final FBill bill, final FPreAuthorize authorize) {
@@ -80,7 +105,7 @@ public class FanService implements FanStub {
             authorize.setSerial(bill.getSerial() + "-AUTH");
             authorize.setCode(bill.getCode() + "-AUTH");
             // active, sigma
-            Ke.umCreated(bill, authorize);
+            Ke.umCreated(authorize, bill);
         }
     }
 }

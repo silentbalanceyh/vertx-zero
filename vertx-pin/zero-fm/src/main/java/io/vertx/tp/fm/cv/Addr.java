@@ -16,5 +16,7 @@ public interface Addr {
         String IN_PRE = Prefix._EVENT + "BILL/PRE";
         // Common, Bill + Items
         String IN_COMMON = Prefix._EVENT + "BILL/COMMON";
+        // Multi, Bill + n Items
+        String IN_MULTI = Prefix._EVENT + "BILL/MULTI";
     }
 }
