@@ -1,13 +1,13 @@
 package cn.vertxup.fm.api;
 
-import cn.vertxup.fm.domain.tables.pojos.FBill;
+import cn.vertxup.fm.domain.tables.daos.FBillItemDao;
 import cn.vertxup.fm.domain.tables.pojos.FBillItem;
 import cn.vertxup.fm.domain.tables.pojos.FPreAuthorize;
 import cn.vertxup.fm.service.FanStub;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.fm.cv.Addr;
-import io.vertx.tp.ke.refine.Ke;
+import io.vertx.tp.fm.uca.IndentStub;
 import io.vertx.up.annotations.Address;
 import io.vertx.up.annotations.Me;
 import io.vertx.up.annotations.Queue;
@@ -16,6 +16,7 @@ import io.vertx.up.unity.Ux;
 
 import javax.inject.Inject;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
@@ -26,11 +27,14 @@ public class BillActor {
     @Inject
     private transient FanStub fanStub;
 
+    @Inject
+    private transient IndentStub indentStub;
+
     @Me
     @Address(Addr.Bill.IN_PRE)
     public Future<JsonObject> inPre(final JsonObject data) {
         // Serial Generation for Bill
-        return this.buildBill(data).compose(bill -> {
+        return this.indentStub.initAsync(data).compose(bill -> {
             final FBillItem item = Ux.fromJson(data, FBillItem.class);
             final FPreAuthorize authorize;
             if (data.containsKey("preAuthorize")) {
@@ -49,7 +53,7 @@ public class BillActor {
     @Address(Addr.Bill.IN_COMMON)
     public Future<JsonObject> inCommon(final JsonObject data) {
         // Bill building
-        return this.buildBill(data).compose(bill -> {
+        return this.indentStub.initAsync(data).compose(bill -> {
             final FBillItem item = Ux.fromJson(data, FBillItem.class);
             return this.fanStub.singleAsync(bill, item);
         });
@@ -58,19 +62,22 @@ public class BillActor {
     @Me
     @Address(Addr.Bill.IN_MULTI)
     public Future<JsonObject> inMulti(final JsonObject data) {
-        return this.buildBill(data).compose(bill -> {
+        return this.indentStub.initAsync(data).compose(bill -> {
             final List<FBillItem> item = Ux.fromJson(data.getJsonArray(KName.ITEMS), FBillItem.class);
             return this.fanStub.multiAsync(bill, item);
         });
     }
 
-    private Future<FBill> buildBill(final JsonObject data) {
-        // Bill building
-        final FBill preBill = Ux.fromJson(data, FBill.class);
-        // Serial Generation for Bill
-        return Ke.umIndent(preBill, preBill.getSigma(), data.getString(KName.INDENT), FBill::setSerial).compose(bill -> {
-            bill.setCode(bill.getSerial());
-            return Ux.future(bill);
+    @Me
+    @Address(Addr.BillItem.IN_SPLIT)
+    public Future<JsonObject> inSplit(final JsonObject data) {
+        final String key = data.getString(KName.KEY);
+        Objects.requireNonNull(key);
+        return Ux.Jooq.on(FBillItemDao.class).fetchJByIdAsync(key).compose(queried -> {
+            final JsonObject normalized = queried.copy().mergeIn(data);
+            final FBillItem item = Ux.fromJson(normalized, FBillItem.class);
+            final List<FBillItem> items = Ux.fromJson(data.getJsonArray(KName.ITEMS), FBillItem.class);
+            return this.fanStub.splitAsync(item, items);
         });
     }
 }

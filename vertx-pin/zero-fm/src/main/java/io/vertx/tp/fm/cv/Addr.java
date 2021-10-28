@@ -9,6 +9,8 @@ public interface Addr {
 
     interface BillItem {
         String FETCH_AGGR = Prefix._EVENT + "FETCH/AGGR";
+        // Split
+        String IN_SPLIT = Prefix._EVENT + "BILL/SPLIT";
     }
 
     interface Bill {

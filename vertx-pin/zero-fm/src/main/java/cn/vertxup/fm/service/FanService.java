@@ -10,11 +10,11 @@ import cn.vertxup.fm.domain.tables.pojos.FBook;
 import cn.vertxup.fm.domain.tables.pojos.FPreAuthorize;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.ke.refine.Ke;
+import io.vertx.tp.fm.uca.IndentStub;
 import io.vertx.up.uca.jooq.UxJooq;
 import io.vertx.up.unity.Ux;
-import io.vertx.up.util.Ut;
 
+import javax.inject.Inject;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +24,9 @@ import java.util.Objects;
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 public class FanService implements FanStub {
+    @Inject
+    private transient IndentStub indentStub;
+
     @Override
     public Future<JsonObject> singleAsync(final FBill bill, final FBillItem billItem, final FPreAuthorize authorize) {
         if (Objects.nonNull(authorize)) {
@@ -31,11 +34,11 @@ public class FanService implements FanStub {
             billItem.setAmount(BigDecimal.ZERO);
         }
         return Ux.Jooq.on(FBillDao.class).insertAsync(bill).compose(inserted -> {
-            this.connect(bill, billItem, 1);
+            this.indentStub.income(bill, billItem);
             final List<Future<JsonObject>> futures = new ArrayList<>();
             futures.add(Ux.Jooq.on(FBillItemDao.class).insertJAsync(billItem));
             if (Objects.nonNull(authorize)) {
-                this.connect(bill, authorize);
+                this.indentStub.income(bill, authorize);
                 futures.add(Ux.Jooq.on(FPreAuthorizeDao.class).insertJAsync(authorize));
             }
             final List<FBillItem> itemList = new ArrayList<>();
@@ -49,11 +52,20 @@ public class FanService implements FanStub {
     @Override
     public Future<JsonObject> multiAsync(final FBill bill, final List<FBillItem> items) {
         return Ux.Jooq.on(FBillDao.class).insertAsync(bill).compose(inserted -> {
-            this.connect(bill, items);
+            this.indentStub.income(bill, items);
             return Ux.Jooq.on(FBillItemDao.class).insertJAsync(items)
                 .compose(nil -> this.updateBook(bill, items))
                 .compose(nil -> Ux.futureJ(bill));
         });
+    }
+
+    @Override
+    public Future<JsonObject> splitAsync(final FBillItem item, final List<FBillItem> items) {
+        this.indentStub.split(item, items);
+        final UxJooq jooq = Ux.Jooq.on(FBillItemDao.class);
+        return jooq.updateAsync(item)
+            .compose(nil -> jooq.insertAsync(items))
+            .compose(nil -> Ux.futureJ(item));
     }
 
     private Future<FBill> updateBook(final FBill bill, final List<FBillItem> items) {
@@ -73,39 +85,5 @@ public class FanService implements FanStub {
             book.setAmount(decimal);
             return jq.updateAsync(book).compose(nil -> Ux.future(bill));
         });
-    }
-
-    private void connect(final FBill bill, final FBillItem item, final int number) {
-        item.setBillId(bill.getKey());
-        item.setSerial(bill.getSerial() + "-" + Ut.fromAdjust(number, 2));
-        item.setCode(bill.getCode() + "-" + Ut.fromAdjust(number, 2));
-        // price, quanlity, total
-        item.setPrice(item.getAmount());
-        item.setQuantity(1);
-        item.setAmountTotal(item.getAmount());
-        Ke.umCreated(item, bill);
-    }
-
-    private void connect(final FBill bill, final List<FBillItem> items) {
-        for (int idx = 0; idx < items.size(); idx++) {
-            final FBillItem item = items.get(idx);
-            final int number = (idx + 1);
-            item.setBillId(bill.getKey());
-            item.setSerial(bill.getSerial() + "-" + Ut.fromAdjust(number, 2));
-            item.setCode(bill.getCode() + "-" + Ut.fromAdjust(number, 2));
-            item.setAmountTotal(item.getAmount());
-            // auditor
-            Ke.umCreated(item, bill);
-        }
-    }
-
-    private void connect(final FBill bill, final FPreAuthorize authorize) {
-        if (Objects.nonNull(authorize)) {
-            authorize.setBillId(bill.getKey());
-            authorize.setSerial(bill.getSerial() + "-A");
-            authorize.setCode(bill.getCode() + "-A");
-            // active, sigma
-            Ke.umCreated(authorize, bill);
-        }
     }
 }

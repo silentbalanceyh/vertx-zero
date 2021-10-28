@@ -134,4 +134,9 @@ public interface BillAgent {
     @Path("/bill/multi")
     @Address(Addr.Bill.IN_MULTI)
     JsonObject inMulti(@BodyParam JsonObject data);
+
+    @POST
+    @Path("/bill-item/split")
+    @Address(Addr.BillItem.IN_SPLIT)
+    JsonObject inSplit(@BodyParam JsonObject data);
 }
