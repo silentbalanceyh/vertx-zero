@@ -16,6 +16,15 @@ public interface ExSerial {
     Future<String> serial(String sigma, String code);
 
     /*
+     * Update serial definition
+     */
+    Future<Boolean> reset(String sigma, String code, Long defaultValue);
+
+    default Future<Boolean> reset(final String sigma, final String code) {
+        return this.reset(sigma, code, 1L);
+    }
+
+    /*
      * Generate multi serials
      */
     Future<List<String>> serial(String sigma, String code, Integer counter);

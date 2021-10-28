@@ -20,6 +20,11 @@ public class ExSerialEpic implements ExSerial {
     }
 
     @Override
+    public Future<Boolean> reset(final String sigma, final String code, final Long defaultValue) {
+        return this.stub.numbersReset(sigma, code, defaultValue);
+    }
+
+    @Override
     @SuppressWarnings("unchecked")
     public Future<List<String>> serial(final String sigma, final String code, final Integer counter) {
         return this.stub.numbersBySigma(sigma, code, counter)

@@ -107,6 +107,24 @@ public class DatumService implements DatumStub {
         return this.numbers(filters, count);
     }
 
+    @Override
+    public Future<Boolean> numbersReset(final String sigma, final String code, final Long defaultValue) {
+        At.infoFlow(this.getClass(), "Number reset operation: sigma = {0}, code = {1}, default = {2}",
+            sigma, code, String.valueOf(defaultValue));
+        final JsonObject filters = new JsonObject();
+        filters.put(KName.SIGMA, sigma);
+        filters.put(KName.CODE, code);
+        final UxJooq jooq = Ux.Jooq.on(XNumberDao.class);
+        return jooq.<XNumber>fetchOneAsync(filters).compose(number -> {
+            if (Objects.isNull(number)) {
+                return Ux.future(Boolean.TRUE);
+            } else {
+                number.setCurrent(defaultValue);  // The Current Value Start From 1
+                return jooq.updateAsync(number).compose(nil -> Ux.future(Boolean.TRUE));
+            }
+        });
+    }
+
     private Future<JsonArray> numbers(final JsonObject filters, final Integer count) {
         /*
          * XNumber processing
