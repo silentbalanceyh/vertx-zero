@@ -9,6 +9,7 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.ambient.refine.At;
 import io.vertx.up.eon.KName;
+import io.vertx.up.uca.jooq.UxJooq;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
@@ -110,27 +111,25 @@ public class DatumService implements DatumStub {
         /*
          * XNumber processing
          */
-        return Ux.Jooq.on(XNumberDao.class)
-            .<XNumber>fetchOneAsync(filters)
-            .compose(number -> {
-                if (Objects.isNull(number)) {
-                    /*
-                     * Not found for XNumber
-                     */
-                    return Ux.future(new JsonArray());
-                } else {
-                    /*
-                     * Generate numbers
-                     * 1) Generate new numbers first
-                     * 2) Update numbers instead
-                     */
-                    return At.serialsAsync(number, count)
-                        .compose(generation -> Ux.Jooq.on(XNumberDao.class)
-                            .updateAsync(number.setCurrent(number.getCurrent() + count))
-                            .compose(updated -> Ux.future(new JsonArray(generation))))
-                        .otherwise(Ux.otherwise(JsonArray::new));
-                }
-            });
+        final UxJooq jooq = Ux.Jooq.on(XNumberDao.class);
+        return jooq.<XNumber>fetchOneAsync(filters).compose(number -> {
+            if (Objects.isNull(number)) {
+                /*
+                 * Not found for XNumber
+                 */
+                return Ux.future(new JsonArray());
+            } else {
+                /*
+                 * Generate numbers
+                 * 1) Generate new numbers first
+                 * 2) Update numbers instead
+                 */
+                return At.generateAsync(number, count).compose(generation -> {
+                    final XNumber processed = At.serialAdjust(number, count);
+                    return jooq.updateAsync(processed).compose(nil -> Ux.future(new JsonArray(generation)));
+                }).otherwise(Ux.otherwise(JsonArray::new));
+            }
+        });
     }
 
     private Future<JsonArray> fetchArray(final Class<?> daoCls, final JsonObject filters) {

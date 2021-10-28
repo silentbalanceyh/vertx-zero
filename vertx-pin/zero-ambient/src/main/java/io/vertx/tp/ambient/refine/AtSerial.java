@@ -24,8 +24,8 @@ class AtSerial {
      * @param number the system serial definition
      * @param count  the number size that will be generated.
      */
-    static List<String> serials(final XNumber number,
-                                final Integer count) {
+    static List<String> generate(final XNumber number,
+                                 final Integer count) {
         final List<String> numbers = new ArrayList<>();
         final JsonObject params = new JsonObject();
         /* prefix & suffix */
@@ -55,6 +55,36 @@ class AtSerial {
             numbers.add(result);
         }
         return numbers;
+    }
+
+    static XNumber adjust(final XNumber number, final Integer count) {
+        final boolean renewal = !Objects.isNull(number.getRenewal()) && number.getRenewal();
+        final int step = Objects.isNull(number.getStep()) ? 1 : number.getStep();
+        final long adjust = (long) count * step;
+        final boolean decrement = Objects.isNull(number.getDecrement()) || number.getDecrement();
+        // No renewal setting here
+        long result;
+        if (decrement) {
+            result = number.getCurrent() - adjust;
+        } else {
+            result = number.getCurrent() + adjust;
+        }
+        if (renewal) {
+            Objects.requireNonNull(number.getTime());
+            // Enable Renewal
+            final int length = Objects.requireNonNull(number.getLength());
+            if (0 < length) {
+                final StringBuilder digest = new StringBuilder();
+                Ut.itRepeat(length, () -> digest.append("9"));
+                final long max = Long.parseLong(digest.toString());
+                // Refresh to 1 to loop it.
+                if (result > max) {
+                    result = 1;
+                }
+            }
+        }
+        number.setCurrent(result);
+        return number;
     }
 
 
