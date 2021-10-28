@@ -172,6 +172,16 @@ public interface IXNumber extends VertxPojo, Serializable {
     public String getAppId();
 
     /**
+     * Setter for <code>DB_ETERNAL.X_NUMBER.RENEWAL</code>. 「renewal」- 是否循环
+     */
+    public IXNumber setRenewal(Boolean value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.X_NUMBER.RENEWAL</code>. 「renewal」- 是否循环
+     */
+    public Boolean getRenewal();
+
+    /**
      * Setter for <code>DB_ETERNAL.X_NUMBER.ACTIVE</code>. 「active」- 是否启用
      */
     public IXNumber setActive(Boolean value);
@@ -282,6 +292,7 @@ public interface IXNumber extends VertxPojo, Serializable {
                 setOrThrow(this::setStep,json::getInteger,"STEP","java.lang.Integer");
                 setOrThrow(this::setDecrement,json::getBoolean,"DECREMENT","java.lang.Boolean");
                 setOrThrow(this::setAppId,json::getString,"APP_ID","java.lang.String");
+                setOrThrow(this::setRenewal,json::getBoolean,"RENEWAL","java.lang.Boolean");
                 setOrThrow(this::setActive,json::getBoolean,"ACTIVE","java.lang.Boolean");
                 setOrThrow(this::setSigma,json::getString,"SIGMA","java.lang.String");
                 setOrThrow(this::setMetadata,json::getString,"METADATA","java.lang.String");
@@ -310,6 +321,7 @@ public interface IXNumber extends VertxPojo, Serializable {
                 json.put("STEP",getStep());
                 json.put("DECREMENT",getDecrement());
                 json.put("APP_ID",getAppId());
+                json.put("RENEWAL",getRenewal());
                 json.put("ACTIVE",getActive());
                 json.put("SIGMA",getSigma());
                 json.put("METADATA",getMetadata());

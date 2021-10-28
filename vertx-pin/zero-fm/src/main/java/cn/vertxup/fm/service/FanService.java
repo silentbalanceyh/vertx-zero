@@ -102,8 +102,8 @@ public class FanService implements FanStub {
     private void connect(final FBill bill, final FPreAuthorize authorize) {
         if (Objects.nonNull(authorize)) {
             authorize.setBillId(bill.getKey());
-            authorize.setSerial(bill.getSerial() + "-AUTH");
-            authorize.setCode(bill.getCode() + "-AUTH");
+            authorize.setSerial(bill.getSerial() + "-A");
+            authorize.setCode(bill.getCode() + "-A");
             // active, sigma
             Ke.umCreated(authorize, bill);
         }
