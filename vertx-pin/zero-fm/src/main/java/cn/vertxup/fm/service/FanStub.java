@@ -22,4 +22,6 @@ public interface FanStub {
     Future<JsonObject> multiAsync(FBill bill, List<FBillItem> items);
 
     Future<JsonObject> splitAsync(FBillItem item, List<FBillItem> items);
+
+    Future<JsonObject> revertAsync(FBillItem item, FBillItem to);
 }

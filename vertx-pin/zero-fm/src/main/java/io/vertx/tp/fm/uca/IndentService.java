@@ -1,11 +1,13 @@
 package io.vertx.tp.fm.uca;
 
+import cn.vertxup.fm.domain.tables.daos.FBillItemDao;
 import cn.vertxup.fm.domain.tables.pojos.FBill;
 import cn.vertxup.fm.domain.tables.pojos.FBillItem;
 import cn.vertxup.fm.domain.tables.pojos.FPreAuthorize;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.ke.refine.Ke;
+import io.vertx.up.eon.KName;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
@@ -17,6 +19,8 @@ import java.util.Objects;
  */
 public class IndentService implements IndentStub {
     private static final String[] SEQ = new String[]{"A", "B", "C", "D", "E", "F", "G"};
+    private static final String STATUS_INVALID = "InValid";
+    private static final String STATUS_PENDING = "Pending";
 
     @Override
     public Future<FBill> initAsync(final String indent, final JsonObject data) {
@@ -33,6 +37,17 @@ public class IndentService implements IndentStub {
     }
 
     @Override
+    public Future<FBillItem> itemAsync(final JsonObject data) {
+        final String key = data.getString(KName.KEY);
+        Objects.requireNonNull(key);
+        return Ux.Jooq.on(FBillItemDao.class).fetchJByIdAsync(key).compose(queried -> {
+            final JsonObject normalized = queried.copy().mergeIn(data);
+            final FBillItem item = Ux.fromJson(normalized, FBillItem.class);
+            return Ux.future(item);
+        });
+    }
+
+    @Override
     public void income(final FBill bill, final List<FBillItem> items) {
         for (int idx = 0; idx < items.size(); idx++) {
             final FBillItem item = items.get(idx);
@@ -41,7 +56,7 @@ public class IndentService implements IndentStub {
             item.setSerial(bill.getSerial() + "-" + Ut.fromAdjust(number, 2));
             item.setCode(bill.getCode() + "-" + Ut.fromAdjust(number, 2));
             item.setAmountTotal(item.getAmount());
-            item.setStatus("Pending");
+            item.setStatus(STATUS_PENDING);
             // auditor
             Ke.umCreated(item, bill);
         }
@@ -78,14 +93,14 @@ public class IndentService implements IndentStub {
         if (Objects.nonNull(items) && !items.isEmpty()) {
             final int size = items.size();
             item.setActive(Boolean.FALSE);          // Old Disabled
-            item.setStatus("InValid");
+            item.setStatus(STATUS_INVALID);
             for (int idx = 0; idx < size; idx++) {
                 final FBillItem split = items.get(idx);
                 split.setKey(null);
                 split.setBillId(item.getBillId());
                 split.setSerial(item.getSerial() + SEQ[idx]);
                 split.setCode(item.getCode() + SEQ[idx]);
-                split.setStatus("Pending");
+                split.setStatus(STATUS_PENDING);
                 split.setRelatedId(item.getKey());
                 // active, sigma
                 Ke.umCreated(split, item);
@@ -96,6 +111,16 @@ public class IndentService implements IndentStub {
 
     @Override
     public void revert(final FBillItem item, final FBillItem to) {
-
+        Objects.requireNonNull(item);
+        item.setActive(Boolean.FALSE);
+        item.setStatus(STATUS_INVALID);
+        // To
+        to.setKey(null);
+        to.setBillId(item.getBillId());
+        to.setSerial(item.getSerial() + "R");
+        to.setCode(item.getCode() + "R");
+        to.setStatus(STATUS_INVALID);
+        to.setRelatedId(item.getKey());
+        Ke.umCreated(to, item);
     }
 }

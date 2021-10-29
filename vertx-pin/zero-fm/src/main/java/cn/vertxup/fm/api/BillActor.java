@@ -1,6 +1,5 @@
 package cn.vertxup.fm.api;
 
-import cn.vertxup.fm.domain.tables.daos.FBillItemDao;
 import cn.vertxup.fm.domain.tables.pojos.FBillItem;
 import cn.vertxup.fm.domain.tables.pojos.FPreAuthorize;
 import cn.vertxup.fm.service.FanStub;
@@ -16,7 +15,6 @@ import io.vertx.up.unity.Ux;
 
 import javax.inject.Inject;
 import java.util.List;
-import java.util.Objects;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
@@ -71,13 +69,18 @@ public class BillActor {
     @Me
     @Address(Addr.BillItem.IN_SPLIT)
     public Future<JsonObject> inSplit(final JsonObject data) {
-        final String key = data.getString(KName.KEY);
-        Objects.requireNonNull(key);
-        return Ux.Jooq.on(FBillItemDao.class).fetchJByIdAsync(key).compose(queried -> {
-            final JsonObject normalized = queried.copy().mergeIn(data);
-            final FBillItem item = Ux.fromJson(normalized, FBillItem.class);
+        return this.indentStub.itemAsync(data).compose(item -> {
             final List<FBillItem> items = Ux.fromJson(data.getJsonArray(KName.ITEMS), FBillItem.class);
             return this.fanStub.splitAsync(item, items);
+        });
+    }
+
+    @Me
+    @Address(Addr.BillItem.IN_REVERT)
+    public Future<JsonObject> inRevert(final JsonObject data) {
+        return this.indentStub.itemAsync(data).compose(item -> {
+            final FBillItem to = Ux.fromJson(data.getJsonObject("item"), FBillItem.class);
+            return this.fanStub.revertAsync(item, to);
         });
     }
 }

@@ -22,6 +22,8 @@ public interface IndentStub {
 
     Future<FBill> initAsync(String indent, JsonObject data);
 
+    Future<FBillItem> itemAsync(JsonObject data);
+
     /*
      * Serial Sub Generation
      */

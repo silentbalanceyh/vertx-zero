@@ -139,4 +139,9 @@ public interface BillAgent {
     @Path("/bill-item/split")
     @Address(Addr.BillItem.IN_SPLIT)
     JsonObject inSplit(@BodyParam JsonObject data);
+
+    @POST
+    @Path("/bill-item/revert")
+    @Address(Addr.BillItem.IN_REVERT)
+    JsonObject inRevert(@BodyParam JsonObject data);
 }

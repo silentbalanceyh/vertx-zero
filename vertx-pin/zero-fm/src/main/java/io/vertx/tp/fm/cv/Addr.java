@@ -11,6 +11,7 @@ public interface Addr {
         String FETCH_AGGR = Prefix._EVENT + "FETCH/AGGR";
         // Split
         String IN_SPLIT = Prefix._EVENT + "BILL/SPLIT";
+        String IN_REVERT = Prefix._EVENT + "BILL/REVERT";
     }
 
     interface Bill {
