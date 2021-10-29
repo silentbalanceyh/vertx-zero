@@ -18,7 +18,7 @@ public interface AccountStub {
     /*
      * Revert Updating
      */
-    Future<Boolean> revertBook(FBillItem item);
+    Future<Boolean> outBook(FBillItem item);
 
-    Future<Boolean> revertBook(List<FBillItem> items);
+    Future<Boolean> outBook(List<FBillItem> items);
 }

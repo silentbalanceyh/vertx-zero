@@ -5,6 +5,7 @@ import cn.vertxup.fm.domain.tables.daos.FBillItemDao;
 import cn.vertxup.fm.domain.tables.daos.FPreAuthorizeDao;
 import cn.vertxup.fm.domain.tables.pojos.FBill;
 import cn.vertxup.fm.domain.tables.pojos.FBillItem;
+import cn.vertxup.fm.domain.tables.pojos.FBook;
 import cn.vertxup.fm.domain.tables.pojos.FPreAuthorize;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
@@ -19,6 +20,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.ConcurrentMap;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
@@ -26,6 +28,8 @@ import java.util.Objects;
 public class FanService implements FanStub {
     @Inject
     private transient IndentStub indentStub;
+    @Inject
+    private transient FillStub fillStub;
     @Inject
     private transient AccountStub accountStub;
 
@@ -36,11 +40,11 @@ public class FanService implements FanStub {
             billItem.setAmount(BigDecimal.ZERO);
         }
         return Ux.Jooq.on(FBillDao.class).insertAsync(bill).compose(inserted -> {
-            this.indentStub.income(bill, billItem);
+            this.fillStub.income(bill, billItem);
             final List<Future<JsonObject>> futures = new ArrayList<>();
             futures.add(Ux.Jooq.on(FBillItemDao.class).insertJAsync(billItem));
             if (Objects.nonNull(authorize)) {
-                this.indentStub.income(bill, authorize);
+                this.fillStub.income(bill, authorize);
                 futures.add(Ux.Jooq.on(FPreAuthorizeDao.class).insertJAsync(authorize));
             }
             final List<FBillItem> itemList = new ArrayList<>();
@@ -54,7 +58,7 @@ public class FanService implements FanStub {
     @Override
     public Future<JsonObject> multiAsync(final FBill bill, final List<FBillItem> items) {
         return Ux.Jooq.on(FBillDao.class).insertAsync(bill).compose(inserted -> {
-            this.indentStub.income(bill, items);
+            this.fillStub.income(bill, items);
             return Ux.Jooq.on(FBillItemDao.class).insertJAsync(items)
                 .compose(nil -> this.accountStub.inBook(bill, items))
                 .compose(nil -> Ux.futureJ(bill));
@@ -63,7 +67,7 @@ public class FanService implements FanStub {
 
     @Override
     public Future<JsonObject> splitAsync(final FBillItem item, final List<FBillItem> items) {
-        this.indentStub.split(item, items);
+        this.fillStub.split(item, items);
         final UxJooq jooq = Ux.Jooq.on(FBillItemDao.class);
         return jooq.updateAsync(item)
             .compose(nil -> jooq.insertAsync(items))
@@ -72,11 +76,11 @@ public class FanService implements FanStub {
 
     @Override
     public Future<JsonObject> revertAsync(final FBillItem item, final FBillItem to) {
-        this.indentStub.revert(item, to);
+        this.fillStub.revert(item, to);
         final UxJooq jooq = Ux.Jooq.on(FBillItemDao.class);
         return jooq.updateAsync(item)
             .compose(nil -> jooq.insertAsync(to))
-            .compose(nil -> this.accountStub.revertBook(to))
+            .compose(nil -> this.accountStub.outBook(to))
             .compose(nil -> Ux.futureJ(item));
     }
 
@@ -86,8 +90,8 @@ public class FanService implements FanStub {
         condition.put("key,i", keys);
         final UxJooq jq = Ux.Jooq.on(FBillItemDao.class);
         return jq.<FBillItem>fetchAsync(condition).compose(queried -> {
-            queried.forEach(each -> this.indentStub.cancel(each, params));
-            return jq.updateAsync(queried).compose(this.accountStub::revertBook);
+            queried.forEach(each -> this.fillStub.cancel(each, params));
+            return jq.updateAsync(queried).compose(this.accountStub::outBook);
         });
     }
 
@@ -104,5 +108,26 @@ public class FanService implements FanStub {
             .compose(nil -> this.indentStub.itemAsync(key, updated))
             .compose(Ux.Jooq.on(FBillItemDao.class)::updateAsync)
             .compose(nil -> Ux.futureT());
+    }
+
+    @Override
+    public Future<JsonObject> transferAsync(final ConcurrentMap<Boolean, List<FBillItem>> fromTo, final FBook book,
+                                            final JsonObject params) {
+        return this.indentStub.initAsync(params).compose(preBill -> {
+            this.fillStub.transfer(book, preBill);
+            return Ux.Jooq.on(FBillDao.class).insertAsync(preBill).compose(bill -> {
+                    // FBillItem New Adding
+                    final List<FBillItem> newItem = fromTo.get(Boolean.TRUE);
+                    newItem.forEach(each -> each.setBillId(bill.getKey()));
+                    return Ux.Jooq.on(FBillItemDao.class).insertAsync(newItem)
+                        .compose(items -> this.accountStub.inBook(bill, items));
+                }).compose(added -> {
+                    // FBillItem Previous Updating
+                    final List<FBillItem> oldItem = fromTo.get(Boolean.FALSE);
+                    return Ux.Jooq.on(FBillItemDao.class).updateAsync(oldItem);
+                }).compose(this.accountStub::outBook)
+                .compose(nil -> Ux.futureJ(preBill));
+        });
+
     }
 }

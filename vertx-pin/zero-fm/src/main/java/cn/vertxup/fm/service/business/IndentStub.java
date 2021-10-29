@@ -2,12 +2,13 @@ package cn.vertxup.fm.service.business;
 
 import cn.vertxup.fm.domain.tables.pojos.FBill;
 import cn.vertxup.fm.domain.tables.pojos.FBillItem;
-import cn.vertxup.fm.domain.tables.pojos.FPreAuthorize;
 import io.vertx.core.Future;
+import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.eon.KName;
 
 import java.util.List;
+import java.util.concurrent.ConcurrentMap;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
@@ -24,18 +25,5 @@ public interface IndentStub {
 
     Future<FBillItem> itemAsync(String key, JsonObject data);
 
-    /*
-     * Serial Sub Generation
-     */
-    void income(FBill bill, List<FBillItem> items);
-
-    void income(FBill bill, FBillItem item);
-
-    void income(FBill bill, FPreAuthorize authorize);
-
-    void split(FBillItem item, List<FBillItem> items);
-
-    void revert(FBillItem item, FBillItem to);
-
-    void cancel(FBillItem item, JsonObject params);
+    Future<ConcurrentMap<Boolean, List<FBillItem>>> itemAsync(JsonArray items, JsonObject data);
 }

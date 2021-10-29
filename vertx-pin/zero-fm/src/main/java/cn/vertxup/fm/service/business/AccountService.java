@@ -54,7 +54,7 @@ public class AccountService implements AccountStub {
     }
 
     @Override
-    public Future<Boolean> revertBook(final FBillItem item) {
+    public Future<Boolean> outBook(final FBillItem item) {
         final BigDecimal amount = Objects.requireNonNull(item.getAmount());
         return Ux.Jooq.on(FBillDao.class).<FBill>fetchByIdAsync(item.getBillId())
             .compose(bill -> {
@@ -68,7 +68,7 @@ public class AccountService implements AccountStub {
     }
 
     @Override
-    public Future<Boolean> revertBook(final List<FBillItem> items) {
+    public Future<Boolean> outBook(final List<FBillItem> items) {
         // Group all items
         final ConcurrentMap<String, List<FBillItem>> grouped = Ut.elementGroup(items, FBillItem::getBillId, item -> item);
         // Bills processing

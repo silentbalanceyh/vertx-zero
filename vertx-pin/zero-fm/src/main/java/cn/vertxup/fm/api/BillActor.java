@@ -1,6 +1,8 @@
 package cn.vertxup.fm.api;
 
+import cn.vertxup.fm.domain.tables.daos.FBookDao;
 import cn.vertxup.fm.domain.tables.pojos.FBillItem;
+import cn.vertxup.fm.domain.tables.pojos.FBook;
 import cn.vertxup.fm.domain.tables.pojos.FPreAuthorize;
 import cn.vertxup.fm.service.business.FanStub;
 import cn.vertxup.fm.service.business.IndentStub;
@@ -16,6 +18,7 @@ import io.vertx.up.unity.Ux;
 
 import javax.inject.Inject;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
@@ -82,6 +85,21 @@ public class BillActor {
         return this.indentStub.itemAsync(key, data).compose(item -> {
             final FBillItem to = Ux.fromJson(data.getJsonObject("item"), FBillItem.class);
             return this.fanStub.revertAsync(item, to);
+        });
+    }
+
+    @Me
+    @Address(Addr.Bill.UP_TRANSFER)
+    public Future<JsonObject> upTransfer(final String bookId, final JsonObject data) {
+        return Ux.Jooq.on(FBookDao.class).<FBook>fetchByIdAsync(bookId).compose(book -> {
+            if (Objects.isNull(book)) {
+                return Ux.future();
+            } else {
+                final JsonObject normalized = data.copy();
+                normalized.remove(KName.ITEMS);
+                return this.indentStub.itemAsync(data.getJsonArray(KName.ITEMS), normalized)
+                    .compose(map -> this.fanStub.transferAsync(map, book, normalized));
+            }
         });
     }
 
