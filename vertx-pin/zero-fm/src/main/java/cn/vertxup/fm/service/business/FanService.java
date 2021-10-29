@@ -9,6 +9,7 @@ import cn.vertxup.fm.domain.tables.pojos.FPreAuthorize;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
+import io.vertx.tp.fm.cv.FmCv;
 import io.vertx.up.eon.KName;
 import io.vertx.up.uca.jooq.UxJooq;
 import io.vertx.up.unity.Ux;
@@ -98,8 +99,10 @@ public class FanService implements FanStub {
         updated.put(KName.UPDATED_AT, params.getValue(KName.UPDATED_AT));
         updated.put(KName.UPDATED_BY, params.getValue(KName.UPDATED_BY));
         updated.put(KName.ACTIVE, Boolean.TRUE);
+        updated.put(KName.STATUS, FmCv.Status.PENDING);
         return Ux.Jooq.on(FBillItemDao.class).deleteByAsync(condition)
             .compose(nil -> this.indentStub.itemAsync(key, updated))
+            .compose(Ux.Jooq.on(FBillItemDao.class)::updateAsync)
             .compose(nil -> Ux.futureT());
     }
 }

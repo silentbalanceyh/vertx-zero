@@ -75,23 +75,6 @@ public class AccountService implements AccountStub {
         final JsonObject condition = new JsonObject();
         condition.put("key,i", Ut.toJArray(grouped.keySet()));
         return Ux.Jooq.on(FBillDao.class).<FBill>fetchAsync(condition).compose(bills -> {
-            final ConcurrentMap<String, FBill> billMap = Ut.elementMap(bills, FBill::getKey);
-            final List<FBill> billList = new ArrayList<>();
-            billMap.forEach((key, bill) -> {
-                final List<FBillItem> values = grouped.get(key);
-                if (!values.isEmpty()) {
-                    final String by = values.iterator().next().getUpdatedBy();
-                    values.forEach(item -> {
-                        final BigDecimal decimal = this.amount(bill.getAmount(), item.getAmount(), !bill.getIncome());
-                        bill.setAmount(decimal);
-                        bill.setUpdatedAt(LocalDateTime.now());
-                        bill.setUpdatedBy(by);
-                    });
-                    billList.add(bill);
-                }
-            });
-            return Ux.Jooq.on(FBillDao.class).updateAsync(billList);
-        }).compose(bills -> {
             if (bills.isEmpty()) {
                 return Ux.future();
             } else {

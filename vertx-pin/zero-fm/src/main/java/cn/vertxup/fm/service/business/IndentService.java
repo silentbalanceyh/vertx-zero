@@ -64,6 +64,7 @@ public class IndentService implements IndentStub {
     public void cancel(final FBillItem item, final JsonObject params) {
         item.setActive(Boolean.FALSE);
         item.setStatus(FmCv.Status.INVALID);
+        item.setType("Cancel");
         item.setUpdatedAt(LocalDateTime.now());
         item.setUpdatedBy(params.getString(KName.UPDATED_BY));
     }
