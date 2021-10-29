@@ -148,4 +148,10 @@ public interface BillAgent {
     @Path("/bill-item/cancel/:type")
     @Address(Addr.BillItem.UP_CANCEL)
     JsonObject upCancel(@PathParam(KName.TYPE) String type, @BodyParam JsonObject data);
+
+    @PUT
+    @Path("/bill-item/transfer/:key")
+    @Address(Addr.Bill.UP_TRANSFER)
+    JsonObject upTransfer(@PathParam(KName.KEY) String bookId, @BodyParam JsonObject data);
+
 }
