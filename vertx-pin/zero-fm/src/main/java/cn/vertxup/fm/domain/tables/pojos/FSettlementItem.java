@@ -31,7 +31,8 @@ public class FSettlementItem implements VertxPojo, IFSettlementItem {
     private String        customerId;
     private String        payTermId;
     private String        settlementId;
-    private String        receivableId;
+    private String        debtId;
+    private String        invoiceId;
     private String        sigma;
     private String        language;
     private Boolean       active;
@@ -54,7 +55,8 @@ public class FSettlementItem implements VertxPojo, IFSettlementItem {
         this.customerId = value.getCustomerId();
         this.payTermId = value.getPayTermId();
         this.settlementId = value.getSettlementId();
-        this.receivableId = value.getReceivableId();
+        this.debtId = value.getDebtId();
+        this.invoiceId = value.getInvoiceId();
         this.sigma = value.getSigma();
         this.language = value.getLanguage();
         this.active = value.getActive();
@@ -76,7 +78,8 @@ public class FSettlementItem implements VertxPojo, IFSettlementItem {
         String        customerId,
         String        payTermId,
         String        settlementId,
-        String        receivableId,
+        String        debtId,
+        String        invoiceId,
         String        sigma,
         String        language,
         Boolean       active,
@@ -96,7 +99,8 @@ public class FSettlementItem implements VertxPojo, IFSettlementItem {
         this.customerId = customerId;
         this.payTermId = payTermId;
         this.settlementId = settlementId;
-        this.receivableId = receivableId;
+        this.debtId = debtId;
+        this.invoiceId = invoiceId;
         this.sigma = sigma;
         this.language = language;
         this.active = active;
@@ -299,21 +303,40 @@ public class FSettlementItem implements VertxPojo, IFSettlementItem {
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.F_SETTLEMENT_ITEM.RECEIVABLE_ID</code>.
-     * 「receivableId」- 应收账单ID
+     * Getter for <code>DB_ETERNAL.F_SETTLEMENT_ITEM.DEBT_ID</code>. 「debtId」-
+     * 应收账单ID
      */
     @Override
-    public String getReceivableId() {
-        return this.receivableId;
+    public String getDebtId() {
+        return this.debtId;
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.F_SETTLEMENT_ITEM.RECEIVABLE_ID</code>.
-     * 「receivableId」- 应收账单ID
+     * Setter for <code>DB_ETERNAL.F_SETTLEMENT_ITEM.DEBT_ID</code>. 「debtId」-
+     * 应收账单ID
      */
     @Override
-    public FSettlementItem setReceivableId(String receivableId) {
-        this.receivableId = receivableId;
+    public FSettlementItem setDebtId(String debtId) {
+        this.debtId = debtId;
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.F_SETTLEMENT_ITEM.INVOICE_ID</code>.
+     * 「invoiceId」- 开票ID
+     */
+    @Override
+    public String getInvoiceId() {
+        return this.invoiceId;
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.F_SETTLEMENT_ITEM.INVOICE_ID</code>.
+     * 「invoiceId」- 开票ID
+     */
+    @Override
+    public FSettlementItem setInvoiceId(String invoiceId) {
+        this.invoiceId = invoiceId;
         return this;
     }
 
@@ -481,7 +504,8 @@ public class FSettlementItem implements VertxPojo, IFSettlementItem {
         sb.append(", ").append(customerId);
         sb.append(", ").append(payTermId);
         sb.append(", ").append(settlementId);
-        sb.append(", ").append(receivableId);
+        sb.append(", ").append(debtId);
+        sb.append(", ").append(invoiceId);
         sb.append(", ").append(sigma);
         sb.append(", ").append(language);
         sb.append(", ").append(active);
@@ -511,7 +535,8 @@ public class FSettlementItem implements VertxPojo, IFSettlementItem {
         setCustomerId(from.getCustomerId());
         setPayTermId(from.getPayTermId());
         setSettlementId(from.getSettlementId());
-        setReceivableId(from.getReceivableId());
+        setDebtId(from.getDebtId());
+        setInvoiceId(from.getInvoiceId());
         setSigma(from.getSigma());
         setLanguage(from.getLanguage());
         setActive(from.getActive());

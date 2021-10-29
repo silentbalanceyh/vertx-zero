@@ -125,11 +125,6 @@ public class FInvoice extends TableImpl<FInvoiceRecord> {
      */
     public final TableField<FInvoiceRecord, String> ORDER_ID = createField(DSL.name("ORDER_ID"), SQLDataType.VARCHAR(36), this, "「orderId」- 订单对应的订单ID");
     /**
-     * The column <code>DB_ETERNAL.F_INVOICE.SETTLEMENT_ID</code>.
-     * 「settlementId」- 结算单ID，该字段有值标识已经结算
-     */
-    public final TableField<FInvoiceRecord, String> SETTLEMENT_ID = createField(DSL.name("SETTLEMENT_ID"), SQLDataType.VARCHAR(36), this, "「settlementId」- 结算单ID，该字段有值标识已经结算");
-    /**
      * The column <code>DB_ETERNAL.F_INVOICE.SIGMA</code>. 「sigma」- 统一标识
      */
     public final TableField<FInvoiceRecord, String> SIGMA = createField(DSL.name("SIGMA"), SQLDataType.VARCHAR(32), this, "「sigma」- 统一标识");

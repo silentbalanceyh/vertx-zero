@@ -82,6 +82,10 @@ public class FSettlement extends TableImpl<FSettlementRecord> {
      */
     public final TableField<FSettlementRecord, String> ORDER_ID = createField(DSL.name("ORDER_ID"), SQLDataType.VARCHAR(36), this, "「orderId」- 预授权所属订单ID");
     /**
+     * The column <code>DB_ETERNAL.F_SETTLEMENT.BOOK_ID</code>. 「bookId」- 所属账本ID
+     */
+    public final TableField<FSettlementRecord, String> BOOK_ID = createField(DSL.name("BOOK_ID"), SQLDataType.VARCHAR(36), this, "「bookId」- 所属账本ID");
+    /**
      * The column <code>DB_ETERNAL.F_SETTLEMENT.SIGMA</code>. 「sigma」- 统一标识
      */
     public final TableField<FSettlementRecord, String> SIGMA = createField(DSL.name("SIGMA"), SQLDataType.VARCHAR(32), this, "「sigma」- 统一标识");
@@ -203,11 +207,11 @@ public class FSettlement extends TableImpl<FSettlementRecord> {
     }
 
     // -------------------------------------------------------------------------
-    // Row19 type methods
+    // Row20 type methods
     // -------------------------------------------------------------------------
 
     @Override
-    public Row19<String, String, String, BigDecimal, String, Byte, Boolean, LocalDateTime, String, String, String, String, String, Boolean, String, LocalDateTime, String, LocalDateTime, String> fieldsRow() {
-        return (Row19) super.fieldsRow();
+    public Row20<String, String, String, BigDecimal, String, Byte, Boolean, LocalDateTime, String, String, String, String, String, String, Boolean, String, LocalDateTime, String, LocalDateTime, String> fieldsRow() {
+        return (Row20) super.fieldsRow();
     }
 }

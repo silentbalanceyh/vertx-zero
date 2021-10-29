@@ -135,16 +135,28 @@ public interface IFSettlementItem extends VertxPojo, Serializable {
     public String getSettlementId();
 
     /**
-     * Setter for <code>DB_ETERNAL.F_SETTLEMENT_ITEM.RECEIVABLE_ID</code>.
-     * 「receivableId」- 应收账单ID
+     * Setter for <code>DB_ETERNAL.F_SETTLEMENT_ITEM.DEBT_ID</code>. 「debtId」-
+     * 应收账单ID
      */
-    public IFSettlementItem setReceivableId(String value);
+    public IFSettlementItem setDebtId(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.F_SETTLEMENT_ITEM.RECEIVABLE_ID</code>.
-     * 「receivableId」- 应收账单ID
+     * Getter for <code>DB_ETERNAL.F_SETTLEMENT_ITEM.DEBT_ID</code>. 「debtId」-
+     * 应收账单ID
      */
-    public String getReceivableId();
+    public String getDebtId();
+
+    /**
+     * Setter for <code>DB_ETERNAL.F_SETTLEMENT_ITEM.INVOICE_ID</code>.
+     * 「invoiceId」- 开票ID
+     */
+    public IFSettlementItem setInvoiceId(String value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.F_SETTLEMENT_ITEM.INVOICE_ID</code>.
+     * 「invoiceId」- 开票ID
+     */
+    public String getInvoiceId();
 
     /**
      * Setter for <code>DB_ETERNAL.F_SETTLEMENT_ITEM.SIGMA</code>. 「sigma」- 统一标识
@@ -268,7 +280,8 @@ public interface IFSettlementItem extends VertxPojo, Serializable {
                 setOrThrow(this::setCustomerId,json::getString,"CUSTOMER_ID","java.lang.String");
                 setOrThrow(this::setPayTermId,json::getString,"PAY_TERM_ID","java.lang.String");
                 setOrThrow(this::setSettlementId,json::getString,"SETTLEMENT_ID","java.lang.String");
-                setOrThrow(this::setReceivableId,json::getString,"RECEIVABLE_ID","java.lang.String");
+                setOrThrow(this::setDebtId,json::getString,"DEBT_ID","java.lang.String");
+                setOrThrow(this::setInvoiceId,json::getString,"INVOICE_ID","java.lang.String");
                 setOrThrow(this::setSigma,json::getString,"SIGMA","java.lang.String");
                 setOrThrow(this::setLanguage,json::getString,"LANGUAGE","java.lang.String");
                 setOrThrow(this::setActive,json::getBoolean,"ACTIVE","java.lang.Boolean");
@@ -294,7 +307,8 @@ public interface IFSettlementItem extends VertxPojo, Serializable {
                 json.put("CUSTOMER_ID",getCustomerId());
                 json.put("PAY_TERM_ID",getPayTermId());
                 json.put("SETTLEMENT_ID",getSettlementId());
-                json.put("RECEIVABLE_ID",getReceivableId());
+                json.put("DEBT_ID",getDebtId());
+                json.put("INVOICE_ID",getInvoiceId());
                 json.put("SIGMA",getSigma());
                 json.put("LANGUAGE",getLanguage());
                 json.put("ACTIVE",getActive());

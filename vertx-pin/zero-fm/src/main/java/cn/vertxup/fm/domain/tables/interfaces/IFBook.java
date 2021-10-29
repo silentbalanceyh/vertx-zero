@@ -69,6 +69,16 @@ public interface IFBook extends VertxPojo, Serializable {
     public String getType();
 
     /**
+     * Setter for <code>DB_ETERNAL.F_BOOK.STATUS</code>. 「status」 - 账本状态
+     */
+    public IFBook setStatus(String value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.F_BOOK.STATUS</code>. 「status」 - 账本状态
+     */
+    public String getStatus();
+
+    /**
      * Setter for <code>DB_ETERNAL.F_BOOK.MAJOR</code>. 「major」- 主账本标识
      */
     public IFBook setMajor(Boolean value);
@@ -329,6 +339,7 @@ public interface IFBook extends VertxPojo, Serializable {
                 setOrThrow(this::setCode,json::getString,"CODE","java.lang.String");
                 setOrThrow(this::setSerial,json::getString,"SERIAL","java.lang.String");
                 setOrThrow(this::setType,json::getString,"TYPE","java.lang.String");
+                setOrThrow(this::setStatus,json::getString,"STATUS","java.lang.String");
                 setOrThrow(this::setMajor,json::getBoolean,"MAJOR","java.lang.Boolean");
                 // Omitting unrecognized type java.math.BigDecimal for column AMOUNT!
                 setOrThrow(this::setComment,json::getString,"COMMENT","java.lang.String");
@@ -363,6 +374,7 @@ public interface IFBook extends VertxPojo, Serializable {
                 json.put("CODE",getCode());
                 json.put("SERIAL",getSerial());
                 json.put("TYPE",getType());
+                json.put("STATUS",getStatus());
                 json.put("MAJOR",getMajor());
                 // Omitting unrecognized type java.math.BigDecimal for column AMOUNT!
                 json.put("COMMENT",getComment());

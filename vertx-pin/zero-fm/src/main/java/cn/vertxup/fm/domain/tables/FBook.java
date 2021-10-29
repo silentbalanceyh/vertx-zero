@@ -50,6 +50,10 @@ public class FBook extends TableImpl<FBookRecord> {
      */
     public final TableField<FBookRecord, String> TYPE = createField(DSL.name("TYPE"), SQLDataType.VARCHAR(36).nullable(false), this, "「type」 - 账本类型");
     /**
+     * The column <code>DB_ETERNAL.F_BOOK.STATUS</code>. 「status」 - 账本状态
+     */
+    public final TableField<FBookRecord, String> STATUS = createField(DSL.name("STATUS"), SQLDataType.VARCHAR(36).nullable(false), this, "「status」 - 账本状态");
+    /**
      * The column <code>DB_ETERNAL.F_BOOK.MAJOR</code>. 「major」- 主账本标识
      */
     public final TableField<FBookRecord, Boolean> MAJOR = createField(DSL.name("MAJOR"), SQLDataType.BIT, this, "「major」- 主账本标识");

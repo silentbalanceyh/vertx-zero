@@ -41,6 +41,16 @@ public class Db extends SchemaImpl {
     public final FBook F_BOOK = FBook.F_BOOK;
 
     /**
+     * The table <code>DB_ETERNAL.F_DEBT</code>.
+     */
+    public final FDebt F_DEBT = FDebt.F_DEBT;
+
+    /**
+     * The table <code>DB_ETERNAL.F_DEBT_ITEM</code>.
+     */
+    public final FDebtItem F_DEBT_ITEM = FDebtItem.F_DEBT_ITEM;
+
+    /**
      * The table <code>DB_ETERNAL.F_INVOICE</code>.
      */
     public final FInvoice F_INVOICE = FInvoice.F_INVOICE;
@@ -51,14 +61,14 @@ public class Db extends SchemaImpl {
     public final FPayTerm F_PAY_TERM = FPayTerm.F_PAY_TERM;
 
     /**
+     * The table <code>DB_ETERNAL.F_PAYMENT</code>.
+     */
+    public final FPayment F_PAYMENT = FPayment.F_PAYMENT;
+
+    /**
      * The table <code>DB_ETERNAL.F_PRE_AUTHORIZE</code>.
      */
     public final FPreAuthorize F_PRE_AUTHORIZE = FPreAuthorize.F_PRE_AUTHORIZE;
-
-    /**
-     * The table <code>DB_ETERNAL.F_RECEIVABLE</code>.
-     */
-    public final FReceivable F_RECEIVABLE = FReceivable.F_RECEIVABLE;
 
     /**
      * The table <code>DB_ETERNAL.F_SETTLEMENT</code>.
@@ -94,10 +104,12 @@ public class Db extends SchemaImpl {
             FBill.F_BILL,
             FBillItem.F_BILL_ITEM,
             FBook.F_BOOK,
+            FDebt.F_DEBT,
+            FDebtItem.F_DEBT_ITEM,
             FInvoice.F_INVOICE,
             FPayTerm.F_PAY_TERM,
+            FPayment.F_PAYMENT,
             FPreAuthorize.F_PRE_AUTHORIZE,
-            FReceivable.F_RECEIVABLE,
             FSettlement.F_SETTLEMENT,
             FSettlementItem.F_SETTLEMENT_ITEM,
             FSubject.F_SUBJECT

@@ -78,10 +78,15 @@ public class FSettlementItem extends TableImpl<FSettlementItemRecord> {
      */
     public final TableField<FSettlementItemRecord, String> SETTLEMENT_ID = createField(DSL.name("SETTLEMENT_ID"), SQLDataType.VARCHAR(36), this, "「settlementId」- 结算单ID，该字段有值标识已经结算");
     /**
-     * The column <code>DB_ETERNAL.F_SETTLEMENT_ITEM.RECEIVABLE_ID</code>.
-     * 「receivableId」- 应收账单ID
+     * The column <code>DB_ETERNAL.F_SETTLEMENT_ITEM.DEBT_ID</code>. 「debtId」-
+     * 应收账单ID
      */
-    public final TableField<FSettlementItemRecord, String> RECEIVABLE_ID = createField(DSL.name("RECEIVABLE_ID"), SQLDataType.VARCHAR(36), this, "「receivableId」- 应收账单ID");
+    public final TableField<FSettlementItemRecord, String> DEBT_ID = createField(DSL.name("DEBT_ID"), SQLDataType.VARCHAR(36), this, "「debtId」- 应收账单ID");
+    /**
+     * The column <code>DB_ETERNAL.F_SETTLEMENT_ITEM.INVOICE_ID</code>.
+     * 「invoiceId」- 开票ID
+     */
+    public final TableField<FSettlementItemRecord, String> INVOICE_ID = createField(DSL.name("INVOICE_ID"), SQLDataType.VARCHAR(36), this, "「invoiceId」- 开票ID");
     /**
      * The column <code>DB_ETERNAL.F_SETTLEMENT_ITEM.SIGMA</code>. 「sigma」- 统一标识
      */
@@ -207,11 +212,11 @@ public class FSettlementItem extends TableImpl<FSettlementItemRecord> {
     }
 
     // -------------------------------------------------------------------------
-    // Row19 type methods
+    // Row20 type methods
     // -------------------------------------------------------------------------
 
     @Override
-    public Row19<String, String, String, String, BigDecimal, String, String, String, String, String, String, String, String, Boolean, String, LocalDateTime, String, LocalDateTime, String> fieldsRow() {
-        return (Row19) super.fieldsRow();
+    public Row20<String, String, String, String, BigDecimal, String, String, String, String, String, String, String, String, String, Boolean, String, LocalDateTime, String, LocalDateTime, String> fieldsRow() {
+        return (Row20) super.fieldsRow();
     }
 }

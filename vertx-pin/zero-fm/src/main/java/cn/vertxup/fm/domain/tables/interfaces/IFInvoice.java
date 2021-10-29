@@ -251,18 +251,6 @@ public interface IFInvoice extends VertxPojo, Serializable {
     public String getOrderId();
 
     /**
-     * Setter for <code>DB_ETERNAL.F_INVOICE.SETTLEMENT_ID</code>.
-     * 「settlementId」- 结算单ID，该字段有值标识已经结算
-     */
-    public IFInvoice setSettlementId(String value);
-
-    /**
-     * Getter for <code>DB_ETERNAL.F_INVOICE.SETTLEMENT_ID</code>.
-     * 「settlementId」- 结算单ID，该字段有值标识已经结算
-     */
-    public String getSettlementId();
-
-    /**
      * Setter for <code>DB_ETERNAL.F_INVOICE.SIGMA</code>. 「sigma」- 统一标识
      */
     public IFInvoice setSigma(String value);
@@ -385,7 +373,6 @@ public interface IFInvoice extends VertxPojo, Serializable {
                 setOrThrow(this::setNameBilling,json::getString,"NAME_BILLING","java.lang.String");
                 setOrThrow(this::setNameSelling,json::getString,"NAME_SELLING","java.lang.String");
                 setOrThrow(this::setOrderId,json::getString,"ORDER_ID","java.lang.String");
-                setOrThrow(this::setSettlementId,json::getString,"SETTLEMENT_ID","java.lang.String");
                 setOrThrow(this::setSigma,json::getString,"SIGMA","java.lang.String");
                 setOrThrow(this::setLanguage,json::getString,"LANGUAGE","java.lang.String");
                 setOrThrow(this::setActive,json::getBoolean,"ACTIVE","java.lang.Boolean");
@@ -422,7 +409,6 @@ public interface IFInvoice extends VertxPojo, Serializable {
                 json.put("NAME_BILLING",getNameBilling());
                 json.put("NAME_SELLING",getNameSelling());
                 json.put("ORDER_ID",getOrderId());
-                json.put("SETTLEMENT_ID",getSettlementId());
                 json.put("SIGMA",getSigma());
                 json.put("LANGUAGE",getLanguage());
                 json.put("ACTIVE",getActive());

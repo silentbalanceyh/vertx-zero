@@ -2,6 +2,7 @@ package io.vertx.tp.fm.refine;
 
 import cn.vertxup.fm.domain.tables.pojos.FBook;
 import io.vertx.core.json.JsonObject;
+import io.vertx.tp.fm.cv.FmCv;
 import io.vertx.tp.ke.atom.KSpec;
 import io.vertx.tp.ke.refine.Ke;
 import io.vertx.up.eon.KName;
@@ -73,6 +74,7 @@ class FmBook {
         // serial, code
         created.setSerial(serial);
         created.setCode(serial);
+        created.setStatus(FmCv.Status.PENDING);
         return created;
     }
 
@@ -95,6 +97,7 @@ class FmBook {
         created.setCode(spec.getCode());
         created.setAmount(BigDecimal.ZERO);
         created.setMajor(Boolean.TRUE);
+        created.setStatus(FmCv.Status.PENDING);
         return created;
     }
 

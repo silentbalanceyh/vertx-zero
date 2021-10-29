@@ -405,30 +405,11 @@ public class FInvoiceRecord extends UpdatableRecordImpl<FInvoiceRecord> implemen
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.F_INVOICE.SETTLEMENT_ID</code>.
-     * 「settlementId」- 结算单ID，该字段有值标识已经结算
-     */
-    @Override
-    public FInvoiceRecord setSettlementId(String value) {
-        set(21, value);
-        return this;
-    }
-
-    /**
-     * Getter for <code>DB_ETERNAL.F_INVOICE.SETTLEMENT_ID</code>.
-     * 「settlementId」- 结算单ID，该字段有值标识已经结算
-     */
-    @Override
-    public String getSettlementId() {
-        return (String) get(21);
-    }
-
-    /**
      * Setter for <code>DB_ETERNAL.F_INVOICE.SIGMA</code>. 「sigma」- 统一标识
      */
     @Override
     public FInvoiceRecord setSigma(String value) {
-        set(22, value);
+        set(21, value);
         return this;
     }
 
@@ -437,7 +418,7 @@ public class FInvoiceRecord extends UpdatableRecordImpl<FInvoiceRecord> implemen
      */
     @Override
     public String getSigma() {
-        return (String) get(22);
+        return (String) get(21);
     }
 
     /**
@@ -445,7 +426,7 @@ public class FInvoiceRecord extends UpdatableRecordImpl<FInvoiceRecord> implemen
      */
     @Override
     public FInvoiceRecord setLanguage(String value) {
-        set(23, value);
+        set(22, value);
         return this;
     }
 
@@ -454,7 +435,7 @@ public class FInvoiceRecord extends UpdatableRecordImpl<FInvoiceRecord> implemen
      */
     @Override
     public String getLanguage() {
-        return (String) get(23);
+        return (String) get(22);
     }
 
     /**
@@ -462,7 +443,7 @@ public class FInvoiceRecord extends UpdatableRecordImpl<FInvoiceRecord> implemen
      */
     @Override
     public FInvoiceRecord setActive(Boolean value) {
-        set(24, value);
+        set(23, value);
         return this;
     }
 
@@ -471,7 +452,7 @@ public class FInvoiceRecord extends UpdatableRecordImpl<FInvoiceRecord> implemen
      */
     @Override
     public Boolean getActive() {
-        return (Boolean) get(24);
+        return (Boolean) get(23);
     }
 
     /**
@@ -479,7 +460,7 @@ public class FInvoiceRecord extends UpdatableRecordImpl<FInvoiceRecord> implemen
      */
     @Override
     public FInvoiceRecord setMetadata(String value) {
-        set(25, value);
+        set(24, value);
         return this;
     }
 
@@ -488,7 +469,7 @@ public class FInvoiceRecord extends UpdatableRecordImpl<FInvoiceRecord> implemen
      */
     @Override
     public String getMetadata() {
-        return (String) get(25);
+        return (String) get(24);
     }
 
     /**
@@ -497,7 +478,7 @@ public class FInvoiceRecord extends UpdatableRecordImpl<FInvoiceRecord> implemen
      */
     @Override
     public FInvoiceRecord setCreatedAt(LocalDateTime value) {
-        set(26, value);
+        set(25, value);
         return this;
     }
 
@@ -507,7 +488,7 @@ public class FInvoiceRecord extends UpdatableRecordImpl<FInvoiceRecord> implemen
      */
     @Override
     public LocalDateTime getCreatedAt() {
-        return (LocalDateTime) get(26);
+        return (LocalDateTime) get(25);
     }
 
     /**
@@ -515,7 +496,7 @@ public class FInvoiceRecord extends UpdatableRecordImpl<FInvoiceRecord> implemen
      */
     @Override
     public FInvoiceRecord setCreatedBy(String value) {
-        set(27, value);
+        set(26, value);
         return this;
     }
 
@@ -524,7 +505,7 @@ public class FInvoiceRecord extends UpdatableRecordImpl<FInvoiceRecord> implemen
      */
     @Override
     public String getCreatedBy() {
-        return (String) get(27);
+        return (String) get(26);
     }
 
     /**
@@ -533,7 +514,7 @@ public class FInvoiceRecord extends UpdatableRecordImpl<FInvoiceRecord> implemen
      */
     @Override
     public FInvoiceRecord setUpdatedAt(LocalDateTime value) {
-        set(28, value);
+        set(27, value);
         return this;
     }
 
@@ -543,7 +524,7 @@ public class FInvoiceRecord extends UpdatableRecordImpl<FInvoiceRecord> implemen
      */
     @Override
     public LocalDateTime getUpdatedAt() {
-        return (LocalDateTime) get(28);
+        return (LocalDateTime) get(27);
     }
 
     /**
@@ -551,7 +532,7 @@ public class FInvoiceRecord extends UpdatableRecordImpl<FInvoiceRecord> implemen
      */
     @Override
     public FInvoiceRecord setUpdatedBy(String value) {
-        set(29, value);
+        set(28, value);
         return this;
     }
 
@@ -560,7 +541,7 @@ public class FInvoiceRecord extends UpdatableRecordImpl<FInvoiceRecord> implemen
      */
     @Override
     public String getUpdatedBy() {
-        return (String) get(29);
+        return (String) get(28);
     }
 
     // -------------------------------------------------------------------------
@@ -599,7 +580,6 @@ public class FInvoiceRecord extends UpdatableRecordImpl<FInvoiceRecord> implemen
         setNameBilling(from.getNameBilling());
         setNameSelling(from.getNameSelling());
         setOrderId(from.getOrderId());
-        setSettlementId(from.getSettlementId());
         setSigma(from.getSigma());
         setLanguage(from.getLanguage());
         setActive(from.getActive());
@@ -630,7 +610,7 @@ public class FInvoiceRecord extends UpdatableRecordImpl<FInvoiceRecord> implemen
     /**
      * Create a detached, initialised FInvoiceRecord
      */
-    public FInvoiceRecord(String key, String name, String code, String type, BigDecimal amount, String comment, String invoiceTitle, String invoiceNumber, String invoiceSerial, String tin, String tinName, Boolean personal, String descBank, String descCompany, String descLocation, String descUser, String nameReceipt, String nameRecheck, String nameBilling, String nameSelling, String orderId, String settlementId, String sigma, String language, Boolean active, String metadata, LocalDateTime createdAt, String createdBy, LocalDateTime updatedAt, String updatedBy) {
+    public FInvoiceRecord(String key, String name, String code, String type, BigDecimal amount, String comment, String invoiceTitle, String invoiceNumber, String invoiceSerial, String tin, String tinName, Boolean personal, String descBank, String descCompany, String descLocation, String descUser, String nameReceipt, String nameRecheck, String nameBilling, String nameSelling, String orderId, String sigma, String language, Boolean active, String metadata, LocalDateTime createdAt, String createdBy, LocalDateTime updatedAt, String updatedBy) {
         super(FInvoice.F_INVOICE);
 
         setKey(key);
@@ -654,7 +634,6 @@ public class FInvoiceRecord extends UpdatableRecordImpl<FInvoiceRecord> implemen
         setNameBilling(nameBilling);
         setNameSelling(nameSelling);
         setOrderId(orderId);
-        setSettlementId(settlementId);
         setSigma(sigma);
         setLanguage(language);
         setActive(active);
@@ -693,7 +672,6 @@ public class FInvoiceRecord extends UpdatableRecordImpl<FInvoiceRecord> implemen
             setNameBilling(value.getNameBilling());
             setNameSelling(value.getNameSelling());
             setOrderId(value.getOrderId());
-            setSettlementId(value.getSettlementId());
             setSigma(value.getSigma());
             setLanguage(value.getLanguage());
             setActive(value.getActive());

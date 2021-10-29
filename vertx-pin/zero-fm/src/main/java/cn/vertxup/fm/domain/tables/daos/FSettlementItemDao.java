@@ -178,19 +178,33 @@ public class FSettlementItemDao extends AbstractVertxDAO<FSettlementItemRecord, 
         }
 
         /**
-     * Find records that have <code>RECEIVABLE_ID IN (values)</code>
-     * asynchronously
+     * Find records that have <code>DEBT_ID IN (values)</code> asynchronously
      */
-        public Future<List<cn.vertxup.fm.domain.tables.pojos.FSettlementItem>> findManyByReceivableId(Collection<String> values) {
-                return findManyByCondition(FSettlementItem.F_SETTLEMENT_ITEM.RECEIVABLE_ID.in(values));
+        public Future<List<cn.vertxup.fm.domain.tables.pojos.FSettlementItem>> findManyByDebtId(Collection<String> values) {
+                return findManyByCondition(FSettlementItem.F_SETTLEMENT_ITEM.DEBT_ID.in(values));
         }
 
         /**
-     * Find records that have <code>RECEIVABLE_ID IN (values)</code>
-     * asynchronously limited by the given limit
+     * Find records that have <code>DEBT_ID IN (values)</code> asynchronously
+     * limited by the given limit
      */
-        public Future<List<cn.vertxup.fm.domain.tables.pojos.FSettlementItem>> findManyByReceivableId(Collection<String> values, int limit) {
-                return findManyByCondition(FSettlementItem.F_SETTLEMENT_ITEM.RECEIVABLE_ID.in(values),limit);
+        public Future<List<cn.vertxup.fm.domain.tables.pojos.FSettlementItem>> findManyByDebtId(Collection<String> values, int limit) {
+                return findManyByCondition(FSettlementItem.F_SETTLEMENT_ITEM.DEBT_ID.in(values),limit);
+        }
+
+        /**
+     * Find records that have <code>INVOICE_ID IN (values)</code> asynchronously
+     */
+        public Future<List<cn.vertxup.fm.domain.tables.pojos.FSettlementItem>> findManyByInvoiceId(Collection<String> values) {
+                return findManyByCondition(FSettlementItem.F_SETTLEMENT_ITEM.INVOICE_ID.in(values));
+        }
+
+        /**
+     * Find records that have <code>INVOICE_ID IN (values)</code> asynchronously
+     * limited by the given limit
+     */
+        public Future<List<cn.vertxup.fm.domain.tables.pojos.FSettlementItem>> findManyByInvoiceId(Collection<String> values, int limit) {
+                return findManyByCondition(FSettlementItem.F_SETTLEMENT_ITEM.INVOICE_ID.in(values),limit);
         }
 
         /**

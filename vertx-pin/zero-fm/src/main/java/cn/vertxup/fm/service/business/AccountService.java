@@ -33,17 +33,12 @@ public class AccountService implements AccountStub {
     private Future<Boolean> bookAsync(final FBill bill, final BigDecimal amount, final String by) {
         final UxJooq jq = Ux.Jooq.on(FBookDao.class);
         return jq.<FBook>fetchByIdAsync(bill.getBookId()).compose(book -> {
-            final FBook updated = this.book(bill, amount, by, book);
-            return jq.updateAsync(updated).compose(nil -> Ux.futureT());
+            final BigDecimal decimal = this.amount(book.getAmount(), amount, bill.getIncome());
+            book.setAmount(decimal);
+            book.setUpdatedAt(LocalDateTime.now());
+            book.setUpdatedBy(by);
+            return jq.updateAsync(book).compose(nil -> Ux.futureT());
         });
-    }
-
-    private FBook book(final FBill bill, final BigDecimal amount, final String by, final FBook book) {
-        final BigDecimal decimal = this.amount(book.getAmount(), amount, bill.getIncome());
-        book.setAmount(decimal);
-        book.setUpdatedAt(LocalDateTime.now());
-        book.setUpdatedBy(by);
-        return book;
     }
 
     private BigDecimal amount(final BigDecimal input, final BigDecimal adjust, final boolean income) {
@@ -58,24 +53,17 @@ public class AccountService implements AccountStub {
         return decimal;
     }
 
-    private Future<FBill> billAsync(final FBill bill, final BigDecimal amount, final String by) {
-        final FBill updated = this.bill(bill, amount, by);
-        return Ux.Jooq.on(FBillDao.class).updateAsync(updated);
-    }
-
-    private FBill bill(final FBill bill, final BigDecimal amount, final String by) {
-        final BigDecimal decimal = this.amount(bill.getAmount(), amount, bill.getIncome());
-        bill.setAmount(decimal);
-        bill.setUpdatedAt(LocalDateTime.now());
-        bill.setUpdatedBy(by);
-        return bill;
-    }
-
     @Override
     public Future<Boolean> revertBook(final FBillItem item) {
         final BigDecimal amount = Objects.requireNonNull(item.getAmount());
         return Ux.Jooq.on(FBillDao.class).<FBill>fetchByIdAsync(item.getBillId())
-            .compose(bill -> this.billAsync(bill, amount, item.getUpdatedBy()))
+            .compose(bill -> {
+                final BigDecimal decimal = this.amount(bill.getAmount(), amount, bill.getIncome());
+                bill.setAmount(decimal);
+                bill.setUpdatedAt(LocalDateTime.now());
+                bill.setUpdatedBy(item.getUpdatedBy());
+                return Ux.Jooq.on(FBillDao.class).updateAsync(bill);
+            })
             .compose(bill -> this.bookAsync(bill, amount, item.getUpdatedBy()));
     }
 
@@ -93,7 +81,13 @@ public class AccountService implements AccountStub {
                 final List<FBillItem> values = grouped.get(key);
                 if (!values.isEmpty()) {
                     final String by = values.iterator().next().getUpdatedBy();
-                    values.forEach(item -> billList.add(this.bill(bill, item.getAmount(), by)));
+                    values.forEach(item -> {
+                        final BigDecimal decimal = this.amount(bill.getAmount(), item.getAmount(), !bill.getIncome());
+                        bill.setAmount(decimal);
+                        bill.setUpdatedAt(LocalDateTime.now());
+                        bill.setUpdatedBy(by);
+                    });
+                    billList.add(bill);
                 }
             });
             return Ux.Jooq.on(FBillDao.class).updateAsync(billList);
@@ -110,8 +104,13 @@ public class AccountService implements AccountStub {
                     final List<FBook> bookList = new ArrayList<>();
                     bookMap.forEach((key, book) -> {
                         final List<FBill> billEach = billMap.get(key);
-                        billEach.forEach(billItem -> items.forEach(item ->
-                            this.book(billItem, item.getAmount(), item.getUpdatedBy(), book)));
+                        billEach.forEach(billItem -> items.forEach(item -> {
+                            // Condition is !billItem.getIncome()
+                            final BigDecimal decimal = this.amount(book.getAmount(), item.getAmount(), !billItem.getIncome());
+                            book.setAmount(decimal);
+                            book.setUpdatedAt(LocalDateTime.now());
+                            book.setUpdatedBy(item.getUpdatedBy());
+                        }));
                         bookList.add(book);
                     });
                     return Ux.Jooq.on(FBookDao.class).updateAsync(bookList);

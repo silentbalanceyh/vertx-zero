@@ -100,6 +100,21 @@ public class FBookDao extends AbstractVertxDAO<FBookRecord, cn.vertxup.fm.domain
         }
 
         /**
+     * Find records that have <code>STATUS IN (values)</code> asynchronously
+     */
+        public Future<List<cn.vertxup.fm.domain.tables.pojos.FBook>> findManyByStatus(Collection<String> values) {
+                return findManyByCondition(FBook.F_BOOK.STATUS.in(values));
+        }
+
+        /**
+     * Find records that have <code>STATUS IN (values)</code> asynchronously
+     * limited by the given limit
+     */
+        public Future<List<cn.vertxup.fm.domain.tables.pojos.FBook>> findManyByStatus(Collection<String> values, int limit) {
+                return findManyByCondition(FBook.F_BOOK.STATUS.in(values),limit);
+        }
+
+        /**
      * Find records that have <code>MAJOR IN (values)</code> asynchronously
      */
         public Future<List<cn.vertxup.fm.domain.tables.pojos.FBook>> findManyByMajor(Collection<Boolean> values) {

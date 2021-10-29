@@ -26,6 +26,7 @@ public class FBook implements VertxPojo, IFBook {
     private String        code;
     private String        serial;
     private String        type;
+    private String        status;
     private Boolean       major;
     private BigDecimal    amount;
     private String        comment;
@@ -57,6 +58,7 @@ public class FBook implements VertxPojo, IFBook {
         this.code = value.getCode();
         this.serial = value.getSerial();
         this.type = value.getType();
+        this.status = value.getStatus();
         this.major = value.getMajor();
         this.amount = value.getAmount();
         this.comment = value.getComment();
@@ -87,6 +89,7 @@ public class FBook implements VertxPojo, IFBook {
         String        code,
         String        serial,
         String        type,
+        String        status,
         Boolean       major,
         BigDecimal    amount,
         String        comment,
@@ -115,6 +118,7 @@ public class FBook implements VertxPojo, IFBook {
         this.code = code;
         this.serial = serial;
         this.type = type;
+        this.status = status;
         this.major = major;
         this.amount = amount;
         this.comment = comment;
@@ -226,6 +230,23 @@ public class FBook implements VertxPojo, IFBook {
     @Override
     public FBook setType(String type) {
         this.type = type;
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.F_BOOK.STATUS</code>. 「status」 - 账本状态
+     */
+    @Override
+    public String getStatus() {
+        return this.status;
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.F_BOOK.STATUS</code>. 「status」 - 账本状态
+     */
+    @Override
+    public FBook setStatus(String status) {
+        this.status = status;
         return this;
     }
 
@@ -630,6 +651,7 @@ public class FBook implements VertxPojo, IFBook {
         sb.append(", ").append(code);
         sb.append(", ").append(serial);
         sb.append(", ").append(type);
+        sb.append(", ").append(status);
         sb.append(", ").append(major);
         sb.append(", ").append(amount);
         sb.append(", ").append(comment);
@@ -668,6 +690,7 @@ public class FBook implements VertxPojo, IFBook {
         setCode(from.getCode());
         setSerial(from.getSerial());
         setType(from.getType());
+        setStatus(from.getStatus());
         setMajor(from.getMajor());
         setAmount(from.getAmount());
         setComment(from.getComment());

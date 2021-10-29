@@ -11,6 +11,7 @@ CREATE TABLE `F_BOOK`
 
     -- 维度信息
     `TYPE`               VARCHAR(36)    NOT NULL COMMENT '「type」 - 账本类型',
+    `STATUS`             VARCHAR(36)    NOT NULL COMMENT '「status」 - 账本状态',
     `MAJOR`              BIT COMMENT '「major」- 主账本标识',
 
     -- 基本信息

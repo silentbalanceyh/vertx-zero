@@ -42,7 +42,6 @@ public class FInvoice implements VertxPojo, IFInvoice {
     private String        nameBilling;
     private String        nameSelling;
     private String        orderId;
-    private String        settlementId;
     private String        sigma;
     private String        language;
     private Boolean       active;
@@ -76,7 +75,6 @@ public class FInvoice implements VertxPojo, IFInvoice {
         this.nameBilling = value.getNameBilling();
         this.nameSelling = value.getNameSelling();
         this.orderId = value.getOrderId();
-        this.settlementId = value.getSettlementId();
         this.sigma = value.getSigma();
         this.language = value.getLanguage();
         this.active = value.getActive();
@@ -109,7 +107,6 @@ public class FInvoice implements VertxPojo, IFInvoice {
         String        nameBilling,
         String        nameSelling,
         String        orderId,
-        String        settlementId,
         String        sigma,
         String        language,
         Boolean       active,
@@ -140,7 +137,6 @@ public class FInvoice implements VertxPojo, IFInvoice {
         this.nameBilling = nameBilling;
         this.nameSelling = nameSelling;
         this.orderId = orderId;
-        this.settlementId = settlementId;
         this.sigma = sigma;
         this.language = language;
         this.active = active;
@@ -536,25 +532,6 @@ public class FInvoice implements VertxPojo, IFInvoice {
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.F_INVOICE.SETTLEMENT_ID</code>.
-     * 「settlementId」- 结算单ID，该字段有值标识已经结算
-     */
-    @Override
-    public String getSettlementId() {
-        return this.settlementId;
-    }
-
-    /**
-     * Setter for <code>DB_ETERNAL.F_INVOICE.SETTLEMENT_ID</code>.
-     * 「settlementId」- 结算单ID，该字段有值标识已经结算
-     */
-    @Override
-    public FInvoice setSettlementId(String settlementId) {
-        this.settlementId = settlementId;
-        return this;
-    }
-
-    /**
      * Getter for <code>DB_ETERNAL.F_INVOICE.SIGMA</code>. 「sigma」- 统一标识
      */
     @Override
@@ -719,7 +696,6 @@ public class FInvoice implements VertxPojo, IFInvoice {
         sb.append(", ").append(nameBilling);
         sb.append(", ").append(nameSelling);
         sb.append(", ").append(orderId);
-        sb.append(", ").append(settlementId);
         sb.append(", ").append(sigma);
         sb.append(", ").append(language);
         sb.append(", ").append(active);
@@ -760,7 +736,6 @@ public class FInvoice implements VertxPojo, IFInvoice {
         setNameBilling(from.getNameBilling());
         setNameSelling(from.getNameSelling());
         setOrderId(from.getOrderId());
-        setSettlementId(from.getSettlementId());
         setSigma(from.getSigma());
         setLanguage(from.getLanguage());
         setActive(from.getActive());

@@ -192,6 +192,21 @@ public class FSettlementDao extends AbstractVertxDAO<FSettlementRecord, cn.vertx
         }
 
         /**
+     * Find records that have <code>BOOK_ID IN (values)</code> asynchronously
+     */
+        public Future<List<cn.vertxup.fm.domain.tables.pojos.FSettlement>> findManyByBookId(Collection<String> values) {
+                return findManyByCondition(FSettlement.F_SETTLEMENT.BOOK_ID.in(values));
+        }
+
+        /**
+     * Find records that have <code>BOOK_ID IN (values)</code> asynchronously
+     * limited by the given limit
+     */
+        public Future<List<cn.vertxup.fm.domain.tables.pojos.FSettlement>> findManyByBookId(Collection<String> values, int limit) {
+                return findManyByCondition(FSettlement.F_SETTLEMENT.BOOK_ID.in(values),limit);
+        }
+
+        /**
      * Find records that have <code>SIGMA IN (values)</code> asynchronously
      */
         public Future<List<cn.vertxup.fm.domain.tables.pojos.FSettlement>> findManyBySigma(Collection<String> values) {

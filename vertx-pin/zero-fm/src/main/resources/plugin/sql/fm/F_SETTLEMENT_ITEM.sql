@@ -18,7 +18,8 @@ CREATE TABLE `F_SETTLEMENT_ITEM`
     `CUSTOMER_ID`   VARCHAR(36) DEFAULT NULL COMMENT '「customerId」结算对象（单位ID）',
     `PAY_TERM_ID`   VARCHAR(36)    NOT NULL COMMENT '「payTermId」- 账单项ID',
     `SETTLEMENT_ID` VARCHAR(36) COMMENT '「settlementId」- 结算单ID，该字段有值标识已经结算',
-    `RECEIVABLE_ID` VARCHAR(36) COMMENT '「receivableId」- 应收账单ID',
+    `DEBT_ID`       VARCHAR(36) COMMENT '「debtId」- 应收账单ID',
+    `INVOICE_ID`    VARCHAR(36) COMMENT '「invoiceId」- 开票ID',
 
     -- 特殊字段
     `SIGMA`         VARCHAR(32) COMMENT '「sigma」- 统一标识',

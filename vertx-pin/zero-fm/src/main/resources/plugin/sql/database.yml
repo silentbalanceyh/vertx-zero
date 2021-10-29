@@ -39,5 +39,13 @@ databaseChangeLog:
       relativeToChangelogFile: false
   # 应收账单
   - include:
-      file: plugin/sql/fm/F_CECEIVABLE.sql
+      file: plugin/sql/fm/F_DEBT.sql
+      relativeToChangelogFile: false
+  # 应收明细
+  - include:
+      file: plugin/sql/fm/F_DEBT_ITEM.sql
+      relativeToChangelogFile: false
+  # 付款单
+  - include:
+      file: plugin/sql/fm/F_PAYMENT.sql
       relativeToChangelogFile: false

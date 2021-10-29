@@ -34,7 +34,6 @@ CREATE TABLE `F_INVOICE`
 
     -- 打印信息
     `ORDER_ID`       VARCHAR(36) COMMENT '「orderId」- 订单对应的订单ID',
-    `SETTLEMENT_ID`  VARCHAR(36) COMMENT '「settlementId」- 结算单ID，该字段有值标识已经结算',
 
     -- 特殊字段
     `SIGMA`          VARCHAR(32) COMMENT '「sigma」- 统一标识',
