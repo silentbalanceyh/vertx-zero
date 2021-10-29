@@ -1,9 +1,10 @@
-package cn.vertxup.fm.service;
+package cn.vertxup.fm.service.business;
 
 import cn.vertxup.fm.domain.tables.pojos.FBill;
 import cn.vertxup.fm.domain.tables.pojos.FBillItem;
 import cn.vertxup.fm.domain.tables.pojos.FPreAuthorize;
 import io.vertx.core.Future;
+import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 
 import java.util.List;
@@ -24,4 +25,8 @@ public interface FanStub {
     Future<JsonObject> splitAsync(FBillItem item, List<FBillItem> items);
 
     Future<JsonObject> revertAsync(FBillItem item, FBillItem to);
+
+    Future<Boolean> cancelAsync(JsonArray keys, JsonObject params);
+
+    Future<Boolean> cancelAsync(JsonArray keys, String key, JsonObject params);
 }

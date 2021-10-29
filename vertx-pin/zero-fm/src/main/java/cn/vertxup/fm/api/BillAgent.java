@@ -4,10 +4,9 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.tp.fm.cv.Addr;
 import io.vertx.up.annotations.Address;
 import io.vertx.up.annotations.EndPoint;
+import io.vertx.up.eon.KName;
 
-import javax.ws.rs.BodyParam;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
+import javax.ws.rs.*;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
@@ -135,13 +134,18 @@ public interface BillAgent {
     @Address(Addr.Bill.IN_MULTI)
     JsonObject inMulti(@BodyParam JsonObject data);
 
-    @POST
-    @Path("/bill-item/split")
-    @Address(Addr.BillItem.IN_SPLIT)
-    JsonObject inSplit(@BodyParam JsonObject data);
+    @PUT
+    @Path("/bill-item/split/:key")
+    @Address(Addr.BillItem.UP_SPLIT)
+    JsonObject upSplit(@PathParam(KName.KEY) String key, @BodyParam JsonObject data);
 
-    @POST
-    @Path("/bill-item/revert")
-    @Address(Addr.BillItem.IN_REVERT)
-    JsonObject inRevert(@BodyParam JsonObject data);
+    @PUT
+    @Path("/bill-item/revert/:key")
+    @Address(Addr.BillItem.UP_REVERT)
+    JsonObject upRevert(@PathParam(KName.KEY) String key, @BodyParam JsonObject data);
+
+    @PUT
+    @Path("/bill-item/cancel/:type")
+    @Address(Addr.BillItem.UP_CANCEL)
+    JsonObject upCancel(@PathParam(KName.TYPE) String type, @BodyParam JsonObject data);
 }

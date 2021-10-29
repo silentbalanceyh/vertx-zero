@@ -10,8 +10,10 @@ public interface Addr {
     interface BillItem {
         String FETCH_AGGR = Prefix._EVENT + "FETCH/AGGR";
         // Split
-        String IN_SPLIT = Prefix._EVENT + "BILL/SPLIT";
-        String IN_REVERT = Prefix._EVENT + "BILL/REVERT";
+        String UP_SPLIT = Prefix._EVENT + "BILL/SPLIT";
+        String UP_REVERT = Prefix._EVENT + "BILL/REVERT";
+        // Cancel
+        String UP_CANCEL = Prefix._EVENT + "BILL/CANCEL";
     }
 
     interface Bill {

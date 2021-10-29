@@ -1,4 +1,4 @@
-package io.vertx.tp.fm.uca;
+package cn.vertxup.fm.service.business;
 
 import cn.vertxup.fm.domain.tables.daos.FBillItemDao;
 import cn.vertxup.fm.domain.tables.pojos.FBill;
@@ -11,6 +11,7 @@ import io.vertx.up.eon.KName;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 
@@ -37,9 +38,7 @@ public class IndentService implements IndentStub {
     }
 
     @Override
-    public Future<FBillItem> itemAsync(final JsonObject data) {
-        final String key = data.getString(KName.KEY);
-        Objects.requireNonNull(key);
+    public Future<FBillItem> itemAsync(final String key, final JsonObject data) {
         return Ux.Jooq.on(FBillItemDao.class).fetchJByIdAsync(key).compose(queried -> {
             final JsonObject normalized = queried.copy().mergeIn(data);
             final FBillItem item = Ux.fromJson(normalized, FBillItem.class);
@@ -60,6 +59,14 @@ public class IndentService implements IndentStub {
             // auditor
             Ke.umCreated(item, bill);
         }
+    }
+
+    @Override
+    public void cancel(final FBillItem item, final JsonObject params) {
+        item.setActive(Boolean.FALSE);
+        item.setStatus(STATUS_INVALID);
+        item.setUpdatedAt(LocalDateTime.now());
+        item.setUpdatedBy(params.getString(KName.UPDATED_BY));
     }
 
     // BILL-01

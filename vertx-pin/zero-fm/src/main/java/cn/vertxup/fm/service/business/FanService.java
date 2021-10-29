@@ -1,4 +1,4 @@
-package cn.vertxup.fm.service;
+package cn.vertxup.fm.service.business;
 
 import cn.vertxup.fm.domain.tables.daos.FBillDao;
 import cn.vertxup.fm.domain.tables.daos.FBillItemDao;
@@ -7,9 +7,9 @@ import cn.vertxup.fm.domain.tables.pojos.FBill;
 import cn.vertxup.fm.domain.tables.pojos.FBillItem;
 import cn.vertxup.fm.domain.tables.pojos.FPreAuthorize;
 import io.vertx.core.Future;
+import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.fm.uca.AccountStub;
-import io.vertx.tp.fm.uca.IndentStub;
+import io.vertx.up.eon.KName;
 import io.vertx.up.uca.jooq.UxJooq;
 import io.vertx.up.unity.Ux;
 
@@ -77,5 +77,29 @@ public class FanService implements FanStub {
             .compose(nil -> jooq.insertAsync(to))
             .compose(nil -> this.accountStub.revertBook(to))
             .compose(nil -> Ux.futureJ(item));
+    }
+
+    @Override
+    public Future<Boolean> cancelAsync(final JsonArray keys, final JsonObject params) {
+        final JsonObject condition = Ux.whereAnd();
+        condition.put("key,i", keys);
+        final UxJooq jq = Ux.Jooq.on(FBillItemDao.class);
+        return jq.<FBillItem>fetchAsync(condition).compose(queried -> {
+            queried.forEach(each -> this.indentStub.cancel(each, params));
+            return jq.updateAsync(queried).compose(this.accountStub::revertBook);
+        });
+    }
+
+    @Override
+    public Future<Boolean> cancelAsync(final JsonArray keys, final String key, final JsonObject params) {
+        final JsonObject condition = Ux.whereAnd();
+        condition.put("key,i", keys);
+        final JsonObject updated = new JsonObject();
+        updated.put(KName.UPDATED_AT, params.getValue(KName.UPDATED_AT));
+        updated.put(KName.UPDATED_BY, params.getValue(KName.UPDATED_BY));
+        updated.put(KName.ACTIVE, Boolean.TRUE);
+        return Ux.Jooq.on(FBillItemDao.class).deleteByAsync(condition)
+            .compose(nil -> this.indentStub.itemAsync(key, updated))
+            .compose(nil -> Ux.futureT());
     }
 }

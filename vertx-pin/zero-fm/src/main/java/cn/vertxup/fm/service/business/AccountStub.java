@@ -1,4 +1,4 @@
-package io.vertx.tp.fm.uca;
+package cn.vertxup.fm.service.business;
 
 import cn.vertxup.fm.domain.tables.pojos.FBill;
 import cn.vertxup.fm.domain.tables.pojos.FBillItem;
@@ -19,4 +19,6 @@ public interface AccountStub {
      * Revert Updating
      */
     Future<Boolean> revertBook(FBillItem item);
+
+    Future<Boolean> revertBook(List<FBillItem> items);
 }

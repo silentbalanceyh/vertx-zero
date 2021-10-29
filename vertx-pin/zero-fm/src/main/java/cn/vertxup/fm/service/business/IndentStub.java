@@ -1,4 +1,4 @@
-package io.vertx.tp.fm.uca;
+package cn.vertxup.fm.service.business;
 
 import cn.vertxup.fm.domain.tables.pojos.FBill;
 import cn.vertxup.fm.domain.tables.pojos.FBillItem;
@@ -22,7 +22,7 @@ public interface IndentStub {
 
     Future<FBill> initAsync(String indent, JsonObject data);
 
-    Future<FBillItem> itemAsync(JsonObject data);
+    Future<FBillItem> itemAsync(String key, JsonObject data);
 
     /*
      * Serial Sub Generation
@@ -36,4 +36,6 @@ public interface IndentStub {
     void split(FBillItem item, List<FBillItem> items);
 
     void revert(FBillItem item, FBillItem to);
+
+    void cancel(FBillItem item, JsonObject params);
 }
