@@ -155,42 +155,6 @@ public interface IFBook extends VertxPojo, Serializable {
     public String getExceedDesc();
 
     /**
-     * Setter for <code>DB_ETERNAL.F_BOOK.PRE_AUTHORIZE_ID</code>.
-     * 「preAuthorizeId」- 关联预授权
-     */
-    public IFBook setPreAuthorizeId(String value);
-
-    /**
-     * Getter for <code>DB_ETERNAL.F_BOOK.PRE_AUTHORIZE_ID</code>.
-     * 「preAuthorizeId」- 关联预授权
-     */
-    public String getPreAuthorizeId();
-
-    /**
-     * Setter for <code>DB_ETERNAL.F_BOOK.PRE_AUTHORIZE</code>. 「preAuthorize」-
-     * 是否预授权
-     */
-    public IFBook setPreAuthorize(Boolean value);
-
-    /**
-     * Getter for <code>DB_ETERNAL.F_BOOK.PRE_AUTHORIZE</code>. 「preAuthorize」-
-     * 是否预授权
-     */
-    public Boolean getPreAuthorize();
-
-    /**
-     * Setter for <code>DB_ETERNAL.F_BOOK.PRE_AUTHORIZE_DESC</code>.
-     * 「preAuthorizeDesc」 - 预授权描述信息
-     */
-    public IFBook setPreAuthorizeDesc(String value);
-
-    /**
-     * Getter for <code>DB_ETERNAL.F_BOOK.PRE_AUTHORIZE_DESC</code>.
-     * 「preAuthorizeDesc」 - 预授权描述信息
-     */
-    public String getPreAuthorizeDesc();
-
-    /**
      * Setter for <code>DB_ETERNAL.F_BOOK.MODEL_ID</code>. 「modelId」-
      * 关联的模型identifier，用于描述
      */
@@ -347,9 +311,6 @@ public interface IFBook extends VertxPojo, Serializable {
                 setOrThrow(this::setCheckedDesc,json::getString,"CHECKED_DESC","java.lang.String");
                 setOrThrow(this::setExceed,json::getBoolean,"EXCEED","java.lang.Boolean");
                 setOrThrow(this::setExceedDesc,json::getString,"EXCEED_DESC","java.lang.String");
-                setOrThrow(this::setPreAuthorizeId,json::getString,"PRE_AUTHORIZE_ID","java.lang.String");
-                setOrThrow(this::setPreAuthorize,json::getBoolean,"PRE_AUTHORIZE","java.lang.Boolean");
-                setOrThrow(this::setPreAuthorizeDesc,json::getString,"PRE_AUTHORIZE_DESC","java.lang.String");
                 setOrThrow(this::setModelId,json::getString,"MODEL_ID","java.lang.String");
                 setOrThrow(this::setModelKey,json::getString,"MODEL_KEY","java.lang.String");
                 setOrThrow(this::setParentId,json::getString,"PARENT_ID","java.lang.String");
@@ -382,9 +343,6 @@ public interface IFBook extends VertxPojo, Serializable {
                 json.put("CHECKED_DESC",getCheckedDesc());
                 json.put("EXCEED",getExceed());
                 json.put("EXCEED_DESC",getExceedDesc());
-                json.put("PRE_AUTHORIZE_ID",getPreAuthorizeId());
-                json.put("PRE_AUTHORIZE",getPreAuthorize());
-                json.put("PRE_AUTHORIZE_DESC",getPreAuthorizeDesc());
                 json.put("MODEL_ID",getModelId());
                 json.put("MODEL_KEY",getModelKey());
                 json.put("PARENT_ID",getParentId());

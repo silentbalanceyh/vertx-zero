@@ -311,22 +311,6 @@ public class FBillItemDao extends AbstractVertxDAO<FBillItemRecord, cn.vertxup.f
         }
 
         /**
-     * Find records that have <code>OP_TRANSFER IN (values)</code>
-     * asynchronously
-     */
-        public Future<List<cn.vertxup.fm.domain.tables.pojos.FBillItem>> findManyByOpTransfer(Collection<String> values) {
-                return findManyByCondition(FBillItem.F_BILL_ITEM.OP_TRANSFER.in(values));
-        }
-
-        /**
-     * Find records that have <code>OP_TRANSFER IN (values)</code>
-     * asynchronously limited by the given limit
-     */
-        public Future<List<cn.vertxup.fm.domain.tables.pojos.FBillItem>> findManyByOpTransfer(Collection<String> values, int limit) {
-                return findManyByCondition(FBillItem.F_BILL_ITEM.OP_TRANSFER.in(values),limit);
-        }
-
-        /**
      * Find records that have <code>RELATED_ID IN (values)</code> asynchronously
      */
         public Future<List<cn.vertxup.fm.domain.tables.pojos.FBillItem>> findManyByRelatedId(Collection<String> values) {

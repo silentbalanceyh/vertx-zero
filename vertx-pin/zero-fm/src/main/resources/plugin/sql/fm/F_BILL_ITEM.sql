@@ -30,7 +30,6 @@ CREATE TABLE `F_BILL_ITEM`
     `OP_NUMBER`     VARCHAR(36) COMMENT '「opNumber」- 操作人员工号',
     `OP_SHIFT`      VARCHAR(128) COMMENT '「opShift」- 操作班次（对接排班系统）',
     `OP_AT`         DATETIME COMMENT '「opAt」- 操作时间',
-    `OP_TRANSFER`   TEXT COMMENT '「opTransfer」- 流转信息描述填写',
 
     -- 关联信息
     `RELATED_ID`    VARCHAR(36) COMMENT '「relatedId」- 关联ID（保留，原系统存在）',

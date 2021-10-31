@@ -221,18 +221,6 @@ public interface IFBillItem extends VertxPojo, Serializable {
     public LocalDateTime getOpAt();
 
     /**
-     * Setter for <code>DB_ETERNAL.F_BILL_ITEM.OP_TRANSFER</code>. 「opTransfer」-
-     * 流转信息描述填写
-     */
-    public IFBillItem setOpTransfer(String value);
-
-    /**
-     * Getter for <code>DB_ETERNAL.F_BILL_ITEM.OP_TRANSFER</code>. 「opTransfer」-
-     * 流转信息描述填写
-     */
-    public String getOpTransfer();
-
-    /**
      * Setter for <code>DB_ETERNAL.F_BILL_ITEM.RELATED_ID</code>. 「relatedId」-
      * 关联ID（保留，原系统存在）
      */
@@ -419,7 +407,6 @@ public interface IFBillItem extends VertxPojo, Serializable {
                 setOrThrow(this::setOpNumber,json::getString,"OP_NUMBER","java.lang.String");
                 setOrThrow(this::setOpShift,json::getString,"OP_SHIFT","java.lang.String");
                 setOrThrow(this::setOpAt,key -> {String s = json.getString(key); return s==null?null:java.time.LocalDateTime.parse(s);},"OP_AT","java.time.LocalDateTime");
-                setOrThrow(this::setOpTransfer,json::getString,"OP_TRANSFER","java.lang.String");
                 setOrThrow(this::setRelatedId,json::getString,"RELATED_ID","java.lang.String");
                 setOrThrow(this::setSettlementId,json::getString,"SETTLEMENT_ID","java.lang.String");
                 setOrThrow(this::setBillId,json::getString,"BILL_ID","java.lang.String");
@@ -459,7 +446,6 @@ public interface IFBillItem extends VertxPojo, Serializable {
                 json.put("OP_NUMBER",getOpNumber());
                 json.put("OP_SHIFT",getOpShift());
                 json.put("OP_AT",getOpAt()==null?null:getOpAt().toString());
-                json.put("OP_TRANSFER",getOpTransfer());
                 json.put("RELATED_ID",getRelatedId());
                 json.put("SETTLEMENT_ID",getSettlementId());
                 json.put("BILL_ID",getBillId());

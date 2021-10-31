@@ -46,11 +46,6 @@ public class Db extends SchemaImpl {
     public final FDebt F_DEBT = FDebt.F_DEBT;
 
     /**
-     * The table <code>DB_ETERNAL.F_DEBT_ITEM</code>.
-     */
-    public final FDebtItem F_DEBT_ITEM = FDebtItem.F_DEBT_ITEM;
-
-    /**
      * The table <code>DB_ETERNAL.F_INVOICE</code>.
      */
     public final FInvoice F_INVOICE = FInvoice.F_INVOICE;
@@ -64,6 +59,11 @@ public class Db extends SchemaImpl {
      * The table <code>DB_ETERNAL.F_PAYMENT</code>.
      */
     public final FPayment F_PAYMENT = FPayment.F_PAYMENT;
+
+    /**
+     * The table <code>DB_ETERNAL.F_PAYMENT_ITEM</code>.
+     */
+    public final FPaymentItem F_PAYMENT_ITEM = FPaymentItem.F_PAYMENT_ITEM;
 
     /**
      * The table <code>DB_ETERNAL.F_PRE_AUTHORIZE</code>.
@@ -105,10 +105,10 @@ public class Db extends SchemaImpl {
             FBillItem.F_BILL_ITEM,
             FBook.F_BOOK,
             FDebt.F_DEBT,
-            FDebtItem.F_DEBT_ITEM,
             FInvoice.F_INVOICE,
             FPayTerm.F_PAY_TERM,
             FPayment.F_PAYMENT,
+            FPaymentItem.F_PAYMENT_ITEM,
             FPreAuthorize.F_PRE_AUTHORIZE,
             FSettlement.F_SETTLEMENT,
             FSettlementItem.F_SETTLEMENT_ITEM,

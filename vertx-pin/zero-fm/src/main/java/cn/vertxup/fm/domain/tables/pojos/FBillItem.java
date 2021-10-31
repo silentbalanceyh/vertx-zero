@@ -40,7 +40,6 @@ public class FBillItem implements VertxPojo, IFBillItem {
     private String        opNumber;
     private String        opShift;
     private LocalDateTime opAt;
-    private String        opTransfer;
     private String        relatedId;
     private String        settlementId;
     private String        billId;
@@ -77,7 +76,6 @@ public class FBillItem implements VertxPojo, IFBillItem {
         this.opNumber = value.getOpNumber();
         this.opShift = value.getOpShift();
         this.opAt = value.getOpAt();
-        this.opTransfer = value.getOpTransfer();
         this.relatedId = value.getRelatedId();
         this.settlementId = value.getSettlementId();
         this.billId = value.getBillId();
@@ -113,7 +111,6 @@ public class FBillItem implements VertxPojo, IFBillItem {
         String        opNumber,
         String        opShift,
         LocalDateTime opAt,
-        String        opTransfer,
         String        relatedId,
         String        settlementId,
         String        billId,
@@ -147,7 +144,6 @@ public class FBillItem implements VertxPojo, IFBillItem {
         this.opNumber = opNumber;
         this.opShift = opShift;
         this.opAt = opAt;
-        this.opTransfer = opTransfer;
         this.relatedId = relatedId;
         this.settlementId = settlementId;
         this.billId = billId;
@@ -504,25 +500,6 @@ public class FBillItem implements VertxPojo, IFBillItem {
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.F_BILL_ITEM.OP_TRANSFER</code>. 「opTransfer」-
-     * 流转信息描述填写
-     */
-    @Override
-    public String getOpTransfer() {
-        return this.opTransfer;
-    }
-
-    /**
-     * Setter for <code>DB_ETERNAL.F_BILL_ITEM.OP_TRANSFER</code>. 「opTransfer」-
-     * 流转信息描述填写
-     */
-    @Override
-    public FBillItem setOpTransfer(String opTransfer) {
-        this.opTransfer = opTransfer;
-        return this;
-    }
-
-    /**
      * Getter for <code>DB_ETERNAL.F_BILL_ITEM.RELATED_ID</code>. 「relatedId」-
      * 关联ID（保留，原系统存在）
      */
@@ -786,7 +763,6 @@ public class FBillItem implements VertxPojo, IFBillItem {
         sb.append(", ").append(opNumber);
         sb.append(", ").append(opShift);
         sb.append(", ").append(opAt);
-        sb.append(", ").append(opTransfer);
         sb.append(", ").append(relatedId);
         sb.append(", ").append(settlementId);
         sb.append(", ").append(billId);
@@ -830,7 +806,6 @@ public class FBillItem implements VertxPojo, IFBillItem {
         setOpNumber(from.getOpNumber());
         setOpShift(from.getOpShift());
         setOpAt(from.getOpAt());
-        setOpTransfer(from.getOpTransfer());
         setRelatedId(from.getRelatedId());
         setSettlementId(from.getSettlementId());
         setBillId(from.getBillId());

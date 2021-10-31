@@ -85,21 +85,6 @@ public class FBook extends TableImpl<FBookRecord> {
      */
     public final TableField<FBookRecord, String> EXCEED_DESC = createField(DSL.name("EXCEED_DESC"), SQLDataType.CLOB, this, "「exceedDesc」 - 账本加收描述信息");
     /**
-     * The column <code>DB_ETERNAL.F_BOOK.PRE_AUTHORIZE_ID</code>.
-     * 「preAuthorizeId」- 关联预授权
-     */
-    public final TableField<FBookRecord, String> PRE_AUTHORIZE_ID = createField(DSL.name("PRE_AUTHORIZE_ID"), SQLDataType.VARCHAR(36), this, "「preAuthorizeId」- 关联预授权");
-    /**
-     * The column <code>DB_ETERNAL.F_BOOK.PRE_AUTHORIZE</code>. 「preAuthorize」-
-     * 是否预授权
-     */
-    public final TableField<FBookRecord, Boolean> PRE_AUTHORIZE = createField(DSL.name("PRE_AUTHORIZE"), SQLDataType.BIT, this, "「preAuthorize」- 是否预授权");
-    /**
-     * The column <code>DB_ETERNAL.F_BOOK.PRE_AUTHORIZE_DESC</code>.
-     * 「preAuthorizeDesc」 - 预授权描述信息
-     */
-    public final TableField<FBookRecord, String> PRE_AUTHORIZE_DESC = createField(DSL.name("PRE_AUTHORIZE_DESC"), SQLDataType.CLOB, this, "「preAuthorizeDesc」 - 预授权描述信息");
-    /**
      * The column <code>DB_ETERNAL.F_BOOK.MODEL_ID</code>. 「modelId」-
      * 关联的模型identifier，用于描述
      */

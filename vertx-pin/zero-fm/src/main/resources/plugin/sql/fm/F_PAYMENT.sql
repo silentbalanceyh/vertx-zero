@@ -1,6 +1,5 @@
 -- liquibase formatted sql
 
-
 -- changeset Lang:f-payment-1
 DROP TABLE IF EXISTS `F_PAYMENT`;
 CREATE TABLE `F_PAYMENT`

@@ -253,69 +253,12 @@ public class FBookRecord extends UpdatableRecordImpl<FBookRecord> implements Ver
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.F_BOOK.PRE_AUTHORIZE_ID</code>.
-     * 「preAuthorizeId」- 关联预授权
-     */
-    @Override
-    public FBookRecord setPreAuthorizeId(String value) {
-        set(13, value);
-        return this;
-    }
-
-    /**
-     * Getter for <code>DB_ETERNAL.F_BOOK.PRE_AUTHORIZE_ID</code>.
-     * 「preAuthorizeId」- 关联预授权
-     */
-    @Override
-    public String getPreAuthorizeId() {
-        return (String) get(13);
-    }
-
-    /**
-     * Setter for <code>DB_ETERNAL.F_BOOK.PRE_AUTHORIZE</code>. 「preAuthorize」-
-     * 是否预授权
-     */
-    @Override
-    public FBookRecord setPreAuthorize(Boolean value) {
-        set(14, value);
-        return this;
-    }
-
-    /**
-     * Getter for <code>DB_ETERNAL.F_BOOK.PRE_AUTHORIZE</code>. 「preAuthorize」-
-     * 是否预授权
-     */
-    @Override
-    public Boolean getPreAuthorize() {
-        return (Boolean) get(14);
-    }
-
-    /**
-     * Setter for <code>DB_ETERNAL.F_BOOK.PRE_AUTHORIZE_DESC</code>.
-     * 「preAuthorizeDesc」 - 预授权描述信息
-     */
-    @Override
-    public FBookRecord setPreAuthorizeDesc(String value) {
-        set(15, value);
-        return this;
-    }
-
-    /**
-     * Getter for <code>DB_ETERNAL.F_BOOK.PRE_AUTHORIZE_DESC</code>.
-     * 「preAuthorizeDesc」 - 预授权描述信息
-     */
-    @Override
-    public String getPreAuthorizeDesc() {
-        return (String) get(15);
-    }
-
-    /**
      * Setter for <code>DB_ETERNAL.F_BOOK.MODEL_ID</code>. 「modelId」-
      * 关联的模型identifier，用于描述
      */
     @Override
     public FBookRecord setModelId(String value) {
-        set(16, value);
+        set(13, value);
         return this;
     }
 
@@ -325,7 +268,7 @@ public class FBookRecord extends UpdatableRecordImpl<FBookRecord> implements Ver
      */
     @Override
     public String getModelId() {
-        return (String) get(16);
+        return (String) get(13);
     }
 
     /**
@@ -334,7 +277,7 @@ public class FBookRecord extends UpdatableRecordImpl<FBookRecord> implements Ver
      */
     @Override
     public FBookRecord setModelKey(String value) {
-        set(17, value);
+        set(14, value);
         return this;
     }
 
@@ -344,7 +287,7 @@ public class FBookRecord extends UpdatableRecordImpl<FBookRecord> implements Ver
      */
     @Override
     public String getModelKey() {
-        return (String) get(17);
+        return (String) get(14);
     }
 
     /**
@@ -353,7 +296,7 @@ public class FBookRecord extends UpdatableRecordImpl<FBookRecord> implements Ver
      */
     @Override
     public FBookRecord setParentId(String value) {
-        set(18, value);
+        set(15, value);
         return this;
     }
 
@@ -363,7 +306,7 @@ public class FBookRecord extends UpdatableRecordImpl<FBookRecord> implements Ver
      */
     @Override
     public String getParentId() {
-        return (String) get(18);
+        return (String) get(15);
     }
 
     /**
@@ -371,7 +314,7 @@ public class FBookRecord extends UpdatableRecordImpl<FBookRecord> implements Ver
      */
     @Override
     public FBookRecord setOrderId(String value) {
-        set(19, value);
+        set(16, value);
         return this;
     }
 
@@ -380,7 +323,7 @@ public class FBookRecord extends UpdatableRecordImpl<FBookRecord> implements Ver
      */
     @Override
     public String getOrderId() {
-        return (String) get(19);
+        return (String) get(16);
     }
 
     /**
@@ -388,7 +331,7 @@ public class FBookRecord extends UpdatableRecordImpl<FBookRecord> implements Ver
      */
     @Override
     public FBookRecord setSigma(String value) {
-        set(20, value);
+        set(17, value);
         return this;
     }
 
@@ -397,7 +340,7 @@ public class FBookRecord extends UpdatableRecordImpl<FBookRecord> implements Ver
      */
     @Override
     public String getSigma() {
-        return (String) get(20);
+        return (String) get(17);
     }
 
     /**
@@ -405,7 +348,7 @@ public class FBookRecord extends UpdatableRecordImpl<FBookRecord> implements Ver
      */
     @Override
     public FBookRecord setLanguage(String value) {
-        set(21, value);
+        set(18, value);
         return this;
     }
 
@@ -414,7 +357,7 @@ public class FBookRecord extends UpdatableRecordImpl<FBookRecord> implements Ver
      */
     @Override
     public String getLanguage() {
-        return (String) get(21);
+        return (String) get(18);
     }
 
     /**
@@ -422,7 +365,7 @@ public class FBookRecord extends UpdatableRecordImpl<FBookRecord> implements Ver
      */
     @Override
     public FBookRecord setActive(Boolean value) {
-        set(22, value);
+        set(19, value);
         return this;
     }
 
@@ -431,7 +374,7 @@ public class FBookRecord extends UpdatableRecordImpl<FBookRecord> implements Ver
      */
     @Override
     public Boolean getActive() {
-        return (Boolean) get(22);
+        return (Boolean) get(19);
     }
 
     /**
@@ -439,7 +382,7 @@ public class FBookRecord extends UpdatableRecordImpl<FBookRecord> implements Ver
      */
     @Override
     public FBookRecord setMetadata(String value) {
-        set(23, value);
+        set(20, value);
         return this;
     }
 
@@ -448,7 +391,7 @@ public class FBookRecord extends UpdatableRecordImpl<FBookRecord> implements Ver
      */
     @Override
     public String getMetadata() {
-        return (String) get(23);
+        return (String) get(20);
     }
 
     /**
@@ -456,7 +399,7 @@ public class FBookRecord extends UpdatableRecordImpl<FBookRecord> implements Ver
      */
     @Override
     public FBookRecord setCreatedAt(LocalDateTime value) {
-        set(24, value);
+        set(21, value);
         return this;
     }
 
@@ -465,7 +408,7 @@ public class FBookRecord extends UpdatableRecordImpl<FBookRecord> implements Ver
      */
     @Override
     public LocalDateTime getCreatedAt() {
-        return (LocalDateTime) get(24);
+        return (LocalDateTime) get(21);
     }
 
     /**
@@ -473,7 +416,7 @@ public class FBookRecord extends UpdatableRecordImpl<FBookRecord> implements Ver
      */
     @Override
     public FBookRecord setCreatedBy(String value) {
-        set(25, value);
+        set(22, value);
         return this;
     }
 
@@ -482,7 +425,7 @@ public class FBookRecord extends UpdatableRecordImpl<FBookRecord> implements Ver
      */
     @Override
     public String getCreatedBy() {
-        return (String) get(25);
+        return (String) get(22);
     }
 
     /**
@@ -490,7 +433,7 @@ public class FBookRecord extends UpdatableRecordImpl<FBookRecord> implements Ver
      */
     @Override
     public FBookRecord setUpdatedAt(LocalDateTime value) {
-        set(26, value);
+        set(23, value);
         return this;
     }
 
@@ -499,7 +442,7 @@ public class FBookRecord extends UpdatableRecordImpl<FBookRecord> implements Ver
      */
     @Override
     public LocalDateTime getUpdatedAt() {
-        return (LocalDateTime) get(26);
+        return (LocalDateTime) get(23);
     }
 
     /**
@@ -507,7 +450,7 @@ public class FBookRecord extends UpdatableRecordImpl<FBookRecord> implements Ver
      */
     @Override
     public FBookRecord setUpdatedBy(String value) {
-        set(27, value);
+        set(24, value);
         return this;
     }
 
@@ -516,7 +459,7 @@ public class FBookRecord extends UpdatableRecordImpl<FBookRecord> implements Ver
      */
     @Override
     public String getUpdatedBy() {
-        return (String) get(27);
+        return (String) get(24);
     }
 
     // -------------------------------------------------------------------------
@@ -547,9 +490,6 @@ public class FBookRecord extends UpdatableRecordImpl<FBookRecord> implements Ver
         setCheckedDesc(from.getCheckedDesc());
         setExceed(from.getExceed());
         setExceedDesc(from.getExceedDesc());
-        setPreAuthorizeId(from.getPreAuthorizeId());
-        setPreAuthorize(from.getPreAuthorize());
-        setPreAuthorizeDesc(from.getPreAuthorizeDesc());
         setModelId(from.getModelId());
         setModelKey(from.getModelKey());
         setParentId(from.getParentId());
@@ -584,7 +524,7 @@ public class FBookRecord extends UpdatableRecordImpl<FBookRecord> implements Ver
     /**
      * Create a detached, initialised FBookRecord
      */
-    public FBookRecord(String key, String name, String code, String serial, String type, String status, Boolean major, BigDecimal amount, String comment, Boolean checked, String checkedDesc, Boolean exceed, String exceedDesc, String preAuthorizeId, Boolean preAuthorize, String preAuthorizeDesc, String modelId, String modelKey, String parentId, String orderId, String sigma, String language, Boolean active, String metadata, LocalDateTime createdAt, String createdBy, LocalDateTime updatedAt, String updatedBy) {
+    public FBookRecord(String key, String name, String code, String serial, String type, String status, Boolean major, BigDecimal amount, String comment, Boolean checked, String checkedDesc, Boolean exceed, String exceedDesc, String modelId, String modelKey, String parentId, String orderId, String sigma, String language, Boolean active, String metadata, LocalDateTime createdAt, String createdBy, LocalDateTime updatedAt, String updatedBy) {
         super(FBook.F_BOOK);
 
         setKey(key);
@@ -600,9 +540,6 @@ public class FBookRecord extends UpdatableRecordImpl<FBookRecord> implements Ver
         setCheckedDesc(checkedDesc);
         setExceed(exceed);
         setExceedDesc(exceedDesc);
-        setPreAuthorizeId(preAuthorizeId);
-        setPreAuthorize(preAuthorize);
-        setPreAuthorizeDesc(preAuthorizeDesc);
         setModelId(modelId);
         setModelKey(modelKey);
         setParentId(parentId);
@@ -637,9 +574,6 @@ public class FBookRecord extends UpdatableRecordImpl<FBookRecord> implements Ver
             setCheckedDesc(value.getCheckedDesc());
             setExceed(value.getExceed());
             setExceedDesc(value.getExceedDesc());
-            setPreAuthorizeId(value.getPreAuthorizeId());
-            setPreAuthorize(value.getPreAuthorize());
-            setPreAuthorizeDesc(value.getPreAuthorizeDesc());
             setModelId(value.getModelId());
             setModelKey(value.getModelKey());
             setParentId(value.getParentId());

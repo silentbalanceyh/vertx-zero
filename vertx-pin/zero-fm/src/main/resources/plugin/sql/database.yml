@@ -43,7 +43,7 @@ databaseChangeLog:
       relativeToChangelogFile: false
   # 应收明细
   - include:
-      file: plugin/sql/fm/F_DEBT_ITEM.sql
+      file: plugin/sql/fm/F_PAYMENT_ITEM.sql
       relativeToChangelogFile: false
   # 付款单
   - include:

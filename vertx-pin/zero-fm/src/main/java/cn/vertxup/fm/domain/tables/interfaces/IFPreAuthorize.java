@@ -135,6 +135,18 @@ public interface IFPreAuthorize extends VertxPojo, Serializable {
     public String getBillId();
 
     /**
+     * Setter for <code>DB_ETERNAL.F_PRE_AUTHORIZE.BOOK_ID</code>. 「bookId」-
+     * 所属账本ID
+     */
+    public IFPreAuthorize setBookId(String value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.F_PRE_AUTHORIZE.BOOK_ID</code>. 「bookId」-
+     * 所属账本ID
+     */
+    public String getBookId();
+
+    /**
      * Setter for <code>DB_ETERNAL.F_PRE_AUTHORIZE.SIGMA</code>. 「sigma」- 统一标识
      */
     public IFPreAuthorize setSigma(String value);
@@ -254,6 +266,7 @@ public interface IFPreAuthorize extends VertxPojo, Serializable {
                 setOrThrow(this::setBankCard,json::getString,"BANK_CARD","java.lang.String");
                 setOrThrow(this::setOrderId,json::getString,"ORDER_ID","java.lang.String");
                 setOrThrow(this::setBillId,json::getString,"BILL_ID","java.lang.String");
+                setOrThrow(this::setBookId,json::getString,"BOOK_ID","java.lang.String");
                 setOrThrow(this::setSigma,json::getString,"SIGMA","java.lang.String");
                 setOrThrow(this::setLanguage,json::getString,"LANGUAGE","java.lang.String");
                 setOrThrow(this::setActive,json::getBoolean,"ACTIVE","java.lang.Boolean");
@@ -279,6 +292,7 @@ public interface IFPreAuthorize extends VertxPojo, Serializable {
                 json.put("BANK_CARD",getBankCard());
                 json.put("ORDER_ID",getOrderId());
                 json.put("BILL_ID",getBillId());
+                json.put("BOOK_ID",getBookId());
                 json.put("SIGMA",getSigma());
                 json.put("LANGUAGE",getLanguage());
                 json.put("ACTIVE",getActive());

@@ -222,54 +222,6 @@ public class FBookDao extends AbstractVertxDAO<FBookRecord, cn.vertxup.fm.domain
         }
 
         /**
-     * Find records that have <code>PRE_AUTHORIZE_ID IN (values)</code>
-     * asynchronously
-     */
-        public Future<List<cn.vertxup.fm.domain.tables.pojos.FBook>> findManyByPreAuthorizeId(Collection<String> values) {
-                return findManyByCondition(FBook.F_BOOK.PRE_AUTHORIZE_ID.in(values));
-        }
-
-        /**
-     * Find records that have <code>PRE_AUTHORIZE_ID IN (values)</code>
-     * asynchronously limited by the given limit
-     */
-        public Future<List<cn.vertxup.fm.domain.tables.pojos.FBook>> findManyByPreAuthorizeId(Collection<String> values, int limit) {
-                return findManyByCondition(FBook.F_BOOK.PRE_AUTHORIZE_ID.in(values),limit);
-        }
-
-        /**
-     * Find records that have <code>PRE_AUTHORIZE IN (values)</code>
-     * asynchronously
-     */
-        public Future<List<cn.vertxup.fm.domain.tables.pojos.FBook>> findManyByPreAuthorize(Collection<Boolean> values) {
-                return findManyByCondition(FBook.F_BOOK.PRE_AUTHORIZE.in(values));
-        }
-
-        /**
-     * Find records that have <code>PRE_AUTHORIZE IN (values)</code>
-     * asynchronously limited by the given limit
-     */
-        public Future<List<cn.vertxup.fm.domain.tables.pojos.FBook>> findManyByPreAuthorize(Collection<Boolean> values, int limit) {
-                return findManyByCondition(FBook.F_BOOK.PRE_AUTHORIZE.in(values),limit);
-        }
-
-        /**
-     * Find records that have <code>PRE_AUTHORIZE_DESC IN (values)</code>
-     * asynchronously
-     */
-        public Future<List<cn.vertxup.fm.domain.tables.pojos.FBook>> findManyByPreAuthorizeDesc(Collection<String> values) {
-                return findManyByCondition(FBook.F_BOOK.PRE_AUTHORIZE_DESC.in(values));
-        }
-
-        /**
-     * Find records that have <code>PRE_AUTHORIZE_DESC IN (values)</code>
-     * asynchronously limited by the given limit
-     */
-        public Future<List<cn.vertxup.fm.domain.tables.pojos.FBook>> findManyByPreAuthorizeDesc(Collection<String> values, int limit) {
-                return findManyByCondition(FBook.F_BOOK.PRE_AUTHORIZE_DESC.in(values),limit);
-        }
-
-        /**
      * Find records that have <code>MODEL_ID IN (values)</code> asynchronously
      */
         public Future<List<cn.vertxup.fm.domain.tables.pojos.FBook>> findManyByModelId(Collection<String> values) {

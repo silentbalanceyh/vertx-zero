@@ -112,11 +112,6 @@ public class FBillItem extends TableImpl<FBillItemRecord> {
      */
     public final TableField<FBillItemRecord, LocalDateTime> OP_AT = createField(DSL.name("OP_AT"), SQLDataType.LOCALDATETIME(0), this, "「opAt」- 操作时间");
     /**
-     * The column <code>DB_ETERNAL.F_BILL_ITEM.OP_TRANSFER</code>. 「opTransfer」-
-     * 流转信息描述填写
-     */
-    public final TableField<FBillItemRecord, String> OP_TRANSFER = createField(DSL.name("OP_TRANSFER"), SQLDataType.CLOB, this, "「opTransfer」- 流转信息描述填写");
-    /**
      * The column <code>DB_ETERNAL.F_BILL_ITEM.RELATED_ID</code>. 「relatedId」-
      * 关联ID（保留，原系统存在）
      */

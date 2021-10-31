@@ -78,6 +78,11 @@ public class FPreAuthorize extends TableImpl<FPreAuthorizeRecord> {
      */
     public final TableField<FPreAuthorizeRecord, String> BILL_ID = createField(DSL.name("BILL_ID"), SQLDataType.VARCHAR(36), this, "「billId」- 预授权所属账单ID");
     /**
+     * The column <code>DB_ETERNAL.F_PRE_AUTHORIZE.BOOK_ID</code>. 「bookId」-
+     * 所属账本ID
+     */
+    public final TableField<FPreAuthorizeRecord, String> BOOK_ID = createField(DSL.name("BOOK_ID"), SQLDataType.VARCHAR(36), this, "「bookId」- 所属账本ID");
+    /**
      * The column <code>DB_ETERNAL.F_PRE_AUTHORIZE.SIGMA</code>. 「sigma」- 统一标识
      */
     public final TableField<FPreAuthorizeRecord, String> SIGMA = createField(DSL.name("SIGMA"), SQLDataType.VARCHAR(32), this, "「sigma」- 统一标识");
@@ -199,11 +204,11 @@ public class FPreAuthorize extends TableImpl<FPreAuthorizeRecord> {
     }
 
     // -------------------------------------------------------------------------
-    // Row18 type methods
+    // Row19 type methods
     // -------------------------------------------------------------------------
 
     @Override
-    public Row18<String, String, String, BigDecimal, String, LocalDateTime, String, String, String, String, String, String, Boolean, String, LocalDateTime, String, LocalDateTime, String> fieldsRow() {
-        return (Row18) super.fieldsRow();
+    public Row19<String, String, String, BigDecimal, String, LocalDateTime, String, String, String, String, String, String, String, Boolean, String, LocalDateTime, String, LocalDateTime, String> fieldsRow() {
+        return (Row19) super.fieldsRow();
     }
 }

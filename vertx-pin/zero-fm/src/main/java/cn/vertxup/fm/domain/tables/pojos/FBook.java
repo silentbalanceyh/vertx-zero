@@ -34,9 +34,6 @@ public class FBook implements VertxPojo, IFBook {
     private String        checkedDesc;
     private Boolean       exceed;
     private String        exceedDesc;
-    private String        preAuthorizeId;
-    private Boolean       preAuthorize;
-    private String        preAuthorizeDesc;
     private String        modelId;
     private String        modelKey;
     private String        parentId;
@@ -66,9 +63,6 @@ public class FBook implements VertxPojo, IFBook {
         this.checkedDesc = value.getCheckedDesc();
         this.exceed = value.getExceed();
         this.exceedDesc = value.getExceedDesc();
-        this.preAuthorizeId = value.getPreAuthorizeId();
-        this.preAuthorize = value.getPreAuthorize();
-        this.preAuthorizeDesc = value.getPreAuthorizeDesc();
         this.modelId = value.getModelId();
         this.modelKey = value.getModelKey();
         this.parentId = value.getParentId();
@@ -97,9 +91,6 @@ public class FBook implements VertxPojo, IFBook {
         String        checkedDesc,
         Boolean       exceed,
         String        exceedDesc,
-        String        preAuthorizeId,
-        Boolean       preAuthorize,
-        String        preAuthorizeDesc,
         String        modelId,
         String        modelKey,
         String        parentId,
@@ -126,9 +117,6 @@ public class FBook implements VertxPojo, IFBook {
         this.checkedDesc = checkedDesc;
         this.exceed = exceed;
         this.exceedDesc = exceedDesc;
-        this.preAuthorizeId = preAuthorizeId;
-        this.preAuthorize = preAuthorize;
-        this.preAuthorizeDesc = preAuthorizeDesc;
         this.modelId = modelId;
         this.modelKey = modelKey;
         this.parentId = parentId;
@@ -376,63 +364,6 @@ public class FBook implements VertxPojo, IFBook {
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.F_BOOK.PRE_AUTHORIZE_ID</code>.
-     * 「preAuthorizeId」- 关联预授权
-     */
-    @Override
-    public String getPreAuthorizeId() {
-        return this.preAuthorizeId;
-    }
-
-    /**
-     * Setter for <code>DB_ETERNAL.F_BOOK.PRE_AUTHORIZE_ID</code>.
-     * 「preAuthorizeId」- 关联预授权
-     */
-    @Override
-    public FBook setPreAuthorizeId(String preAuthorizeId) {
-        this.preAuthorizeId = preAuthorizeId;
-        return this;
-    }
-
-    /**
-     * Getter for <code>DB_ETERNAL.F_BOOK.PRE_AUTHORIZE</code>. 「preAuthorize」-
-     * 是否预授权
-     */
-    @Override
-    public Boolean getPreAuthorize() {
-        return this.preAuthorize;
-    }
-
-    /**
-     * Setter for <code>DB_ETERNAL.F_BOOK.PRE_AUTHORIZE</code>. 「preAuthorize」-
-     * 是否预授权
-     */
-    @Override
-    public FBook setPreAuthorize(Boolean preAuthorize) {
-        this.preAuthorize = preAuthorize;
-        return this;
-    }
-
-    /**
-     * Getter for <code>DB_ETERNAL.F_BOOK.PRE_AUTHORIZE_DESC</code>.
-     * 「preAuthorizeDesc」 - 预授权描述信息
-     */
-    @Override
-    public String getPreAuthorizeDesc() {
-        return this.preAuthorizeDesc;
-    }
-
-    /**
-     * Setter for <code>DB_ETERNAL.F_BOOK.PRE_AUTHORIZE_DESC</code>.
-     * 「preAuthorizeDesc」 - 预授权描述信息
-     */
-    @Override
-    public FBook setPreAuthorizeDesc(String preAuthorizeDesc) {
-        this.preAuthorizeDesc = preAuthorizeDesc;
-        return this;
-    }
-
-    /**
      * Getter for <code>DB_ETERNAL.F_BOOK.MODEL_ID</code>. 「modelId」-
      * 关联的模型identifier，用于描述
      */
@@ -659,9 +590,6 @@ public class FBook implements VertxPojo, IFBook {
         sb.append(", ").append(checkedDesc);
         sb.append(", ").append(exceed);
         sb.append(", ").append(exceedDesc);
-        sb.append(", ").append(preAuthorizeId);
-        sb.append(", ").append(preAuthorize);
-        sb.append(", ").append(preAuthorizeDesc);
         sb.append(", ").append(modelId);
         sb.append(", ").append(modelKey);
         sb.append(", ").append(parentId);
@@ -698,9 +626,6 @@ public class FBook implements VertxPojo, IFBook {
         setCheckedDesc(from.getCheckedDesc());
         setExceed(from.getExceed());
         setExceedDesc(from.getExceedDesc());
-        setPreAuthorizeId(from.getPreAuthorizeId());
-        setPreAuthorize(from.getPreAuthorize());
-        setPreAuthorizeDesc(from.getPreAuthorizeDesc());
         setModelId(from.getModelId());
         setModelKey(from.getModelKey());
         setParentId(from.getParentId());

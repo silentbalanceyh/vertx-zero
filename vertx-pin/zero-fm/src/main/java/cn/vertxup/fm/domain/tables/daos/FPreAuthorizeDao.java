@@ -175,6 +175,21 @@ public class FPreAuthorizeDao extends AbstractVertxDAO<FPreAuthorizeRecord, cn.v
         }
 
         /**
+     * Find records that have <code>BOOK_ID IN (values)</code> asynchronously
+     */
+        public Future<List<cn.vertxup.fm.domain.tables.pojos.FPreAuthorize>> findManyByBookId(Collection<String> values) {
+                return findManyByCondition(FPreAuthorize.F_PRE_AUTHORIZE.BOOK_ID.in(values));
+        }
+
+        /**
+     * Find records that have <code>BOOK_ID IN (values)</code> asynchronously
+     * limited by the given limit
+     */
+        public Future<List<cn.vertxup.fm.domain.tables.pojos.FPreAuthorize>> findManyByBookId(Collection<String> values, int limit) {
+                return findManyByCondition(FPreAuthorize.F_PRE_AUTHORIZE.BOOK_ID.in(values),limit);
+        }
+
+        /**
      * Find records that have <code>SIGMA IN (values)</code> asynchronously
      */
         public Future<List<cn.vertxup.fm.domain.tables.pojos.FPreAuthorize>> findManyBySigma(Collection<String> values) {
