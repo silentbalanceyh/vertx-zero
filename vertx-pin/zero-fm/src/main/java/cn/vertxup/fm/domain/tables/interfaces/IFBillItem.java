@@ -155,28 +155,6 @@ public interface IFBillItem extends VertxPojo, Serializable {
     public BigDecimal getAmountTotal();
 
     /**
-     * Setter for <code>DB_ETERNAL.F_BILL_ITEM.DELAY</code>. 「delay」——是否S账
-     */
-    public IFBillItem setDelay(Boolean value);
-
-    /**
-     * Getter for <code>DB_ETERNAL.F_BILL_ITEM.DELAY</code>. 「delay」——是否S账
-     */
-    public Boolean getDelay();
-
-    /**
-     * Setter for <code>DB_ETERNAL.F_BILL_ITEM.DELAY_AT</code>.
-     * 「delayAt」——S账的最终期限
-     */
-    public IFBillItem setDelayAt(LocalDateTime value);
-
-    /**
-     * Getter for <code>DB_ETERNAL.F_BILL_ITEM.DELAY_AT</code>.
-     * 「delayAt」——S账的最终期限
-     */
-    public LocalDateTime getDelayAt();
-
-    /**
      * Setter for <code>DB_ETERNAL.F_BILL_ITEM.OP_BY</code>. 「opBy」- 操作人员，关联员工ID
      */
     public IFBillItem setOpBy(String value);
@@ -401,8 +379,6 @@ public interface IFBillItem extends VertxPojo, Serializable {
                 // Omitting unrecognized type java.math.BigDecimal for column PRICE!
                 setOrThrow(this::setQuantity,json::getInteger,"QUANTITY","java.lang.Integer");
                 // Omitting unrecognized type java.math.BigDecimal for column AMOUNT_TOTAL!
-                setOrThrow(this::setDelay,json::getBoolean,"DELAY","java.lang.Boolean");
-                setOrThrow(this::setDelayAt,key -> {String s = json.getString(key); return s==null?null:java.time.LocalDateTime.parse(s);},"DELAY_AT","java.time.LocalDateTime");
                 setOrThrow(this::setOpBy,json::getString,"OP_BY","java.lang.String");
                 setOrThrow(this::setOpNumber,json::getString,"OP_NUMBER","java.lang.String");
                 setOrThrow(this::setOpShift,json::getString,"OP_SHIFT","java.lang.String");
@@ -440,8 +416,6 @@ public interface IFBillItem extends VertxPojo, Serializable {
                 // Omitting unrecognized type java.math.BigDecimal for column PRICE!
                 json.put("QUANTITY",getQuantity());
                 // Omitting unrecognized type java.math.BigDecimal for column AMOUNT_TOTAL!
-                json.put("DELAY",getDelay());
-                json.put("DELAY_AT",getDelayAt()==null?null:getDelayAt().toString());
                 json.put("OP_BY",getOpBy());
                 json.put("OP_NUMBER",getOpNumber());
                 json.put("OP_SHIFT",getOpShift());

@@ -53,9 +53,9 @@ public class FPaymentItem extends TableImpl<FPaymentItemRecord> {
     public final TableField<FPaymentItemRecord, BigDecimal> AMOUNT = createField(DSL.name("AMOUNT"), SQLDataType.DECIMAL(18, 2).nullable(false), this, "「amount」——价税合计，所有明细对应的实际结算金额");
     /**
      * The column <code>DB_ETERNAL.F_PAYMENT_ITEM.SETTLEMENT_ID</code>.
-     * 「settlementId」应收账单ID
+     * 「settlementId」结算单ID
      */
-    public final TableField<FPaymentItemRecord, String> SETTLEMENT_ID = createField(DSL.name("SETTLEMENT_ID"), SQLDataType.VARCHAR(36), this, "「settlementId」应收账单ID");
+    public final TableField<FPaymentItemRecord, String> SETTLEMENT_ID = createField(DSL.name("SETTLEMENT_ID"), SQLDataType.VARCHAR(36), this, "「settlementId」结算单ID");
     /**
      * The column <code>DB_ETERNAL.F_PAYMENT_ITEM.PAYMENT_ID</code>.
      * 「paymentId」收款单ID

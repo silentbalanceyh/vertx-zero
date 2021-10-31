@@ -133,6 +133,18 @@ public interface IFSettlement extends VertxPojo, Serializable {
     public String getSignMobile();
 
     /**
+     * Setter for <code>DB_ETERNAL.F_SETTLEMENT.CUSTOMER_ID</code>.
+     * 「customerId」结算对象（单位ID）
+     */
+    public IFSettlement setCustomerId(String value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.F_SETTLEMENT.CUSTOMER_ID</code>.
+     * 「customerId」结算对象（单位ID）
+     */
+    public String getCustomerId();
+
+    /**
      * Setter for <code>DB_ETERNAL.F_SETTLEMENT.ORDER_ID</code>. 「orderId」-
      * 预授权所属订单ID
      */
@@ -274,6 +286,7 @@ public interface IFSettlement extends VertxPojo, Serializable {
                 setOrThrow(this::setFinishedAt,key -> {String s = json.getString(key); return s==null?null:java.time.LocalDateTime.parse(s);},"FINISHED_AT","java.time.LocalDateTime");
                 setOrThrow(this::setSignName,json::getString,"SIGN_NAME","java.lang.String");
                 setOrThrow(this::setSignMobile,json::getString,"SIGN_MOBILE","java.lang.String");
+                setOrThrow(this::setCustomerId,json::getString,"CUSTOMER_ID","java.lang.String");
                 setOrThrow(this::setOrderId,json::getString,"ORDER_ID","java.lang.String");
                 setOrThrow(this::setBookId,json::getString,"BOOK_ID","java.lang.String");
                 setOrThrow(this::setSigma,json::getString,"SIGMA","java.lang.String");
@@ -301,6 +314,7 @@ public interface IFSettlement extends VertxPojo, Serializable {
                 json.put("FINISHED_AT",getFinishedAt()==null?null:getFinishedAt().toString());
                 json.put("SIGN_NAME",getSignName());
                 json.put("SIGN_MOBILE",getSignMobile());
+                json.put("CUSTOMER_ID",getCustomerId());
                 json.put("ORDER_ID",getOrderId());
                 json.put("BOOK_ID",getBookId());
                 json.put("SIGMA",getSigma());

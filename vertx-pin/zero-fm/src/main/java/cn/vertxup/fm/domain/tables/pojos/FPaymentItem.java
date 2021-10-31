@@ -203,7 +203,7 @@ public class FPaymentItem implements VertxPojo, IFPaymentItem {
 
     /**
      * Getter for <code>DB_ETERNAL.F_PAYMENT_ITEM.SETTLEMENT_ID</code>.
-     * 「settlementId」应收账单ID
+     * 「settlementId」结算单ID
      */
     @Override
     public String getSettlementId() {
@@ -212,7 +212,7 @@ public class FPaymentItem implements VertxPojo, IFPaymentItem {
 
     /**
      * Setter for <code>DB_ETERNAL.F_PAYMENT_ITEM.SETTLEMENT_ID</code>.
-     * 「settlementId」应收账单ID
+     * 「settlementId」结算单ID
      */
     @Override
     public FPaymentItem setSettlementId(String settlementId) {

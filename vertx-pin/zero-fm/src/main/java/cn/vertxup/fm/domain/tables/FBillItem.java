@@ -85,15 +85,6 @@ public class FBillItem extends TableImpl<FBillItemRecord> {
      */
     public final TableField<FBillItemRecord, BigDecimal> AMOUNT_TOTAL = createField(DSL.name("AMOUNT_TOTAL"), SQLDataType.DECIMAL(18, 2).nullable(false), this, "「amountTotal」——总价，理论计算结果");
     /**
-     * The column <code>DB_ETERNAL.F_BILL_ITEM.DELAY</code>. 「delay」——是否S账
-     */
-    public final TableField<FBillItemRecord, Boolean> DELAY = createField(DSL.name("DELAY"), SQLDataType.BIT, this, "「delay」——是否S账");
-    /**
-     * The column <code>DB_ETERNAL.F_BILL_ITEM.DELAY_AT</code>.
-     * 「delayAt」——S账的最终期限
-     */
-    public final TableField<FBillItemRecord, LocalDateTime> DELAY_AT = createField(DSL.name("DELAY_AT"), SQLDataType.LOCALDATETIME(0), this, "「delayAt」——S账的最终期限");
-    /**
      * The column <code>DB_ETERNAL.F_BILL_ITEM.OP_BY</code>. 「opBy」- 操作人员，关联员工ID
      */
     public final TableField<FBillItemRecord, String> OP_BY = createField(DSL.name("OP_BY"), SQLDataType.VARCHAR(36), this, "「opBy」- 操作人员，关联员工ID");

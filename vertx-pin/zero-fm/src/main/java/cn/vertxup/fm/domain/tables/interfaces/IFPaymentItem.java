@@ -74,13 +74,13 @@ public interface IFPaymentItem extends VertxPojo, Serializable {
 
     /**
      * Setter for <code>DB_ETERNAL.F_PAYMENT_ITEM.SETTLEMENT_ID</code>.
-     * 「settlementId」应收账单ID
+     * 「settlementId」结算单ID
      */
     public IFPaymentItem setSettlementId(String value);
 
     /**
      * Getter for <code>DB_ETERNAL.F_PAYMENT_ITEM.SETTLEMENT_ID</code>.
-     * 「settlementId」应收账单ID
+     * 「settlementId」结算单ID
      */
     public String getSettlementId();
 

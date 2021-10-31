@@ -34,8 +34,6 @@ public class FBillItem implements VertxPojo, IFBillItem {
     private BigDecimal    price;
     private Integer       quantity;
     private BigDecimal    amountTotal;
-    private Boolean       delay;
-    private LocalDateTime delayAt;
     private String        opBy;
     private String        opNumber;
     private String        opShift;
@@ -70,8 +68,6 @@ public class FBillItem implements VertxPojo, IFBillItem {
         this.price = value.getPrice();
         this.quantity = value.getQuantity();
         this.amountTotal = value.getAmountTotal();
-        this.delay = value.getDelay();
-        this.delayAt = value.getDelayAt();
         this.opBy = value.getOpBy();
         this.opNumber = value.getOpNumber();
         this.opShift = value.getOpShift();
@@ -105,8 +101,6 @@ public class FBillItem implements VertxPojo, IFBillItem {
         BigDecimal    price,
         Integer       quantity,
         BigDecimal    amountTotal,
-        Boolean       delay,
-        LocalDateTime delayAt,
         String        opBy,
         String        opNumber,
         String        opShift,
@@ -138,8 +132,6 @@ public class FBillItem implements VertxPojo, IFBillItem {
         this.price = price;
         this.quantity = quantity;
         this.amountTotal = amountTotal;
-        this.delay = delay;
-        this.delayAt = delayAt;
         this.opBy = opBy;
         this.opNumber = opNumber;
         this.opShift = opShift;
@@ -388,42 +380,6 @@ public class FBillItem implements VertxPojo, IFBillItem {
     @Override
     public FBillItem setAmountTotal(BigDecimal amountTotal) {
         this.amountTotal = amountTotal;
-        return this;
-    }
-
-    /**
-     * Getter for <code>DB_ETERNAL.F_BILL_ITEM.DELAY</code>. 「delay」——是否S账
-     */
-    @Override
-    public Boolean getDelay() {
-        return this.delay;
-    }
-
-    /**
-     * Setter for <code>DB_ETERNAL.F_BILL_ITEM.DELAY</code>. 「delay」——是否S账
-     */
-    @Override
-    public FBillItem setDelay(Boolean delay) {
-        this.delay = delay;
-        return this;
-    }
-
-    /**
-     * Getter for <code>DB_ETERNAL.F_BILL_ITEM.DELAY_AT</code>.
-     * 「delayAt」——S账的最终期限
-     */
-    @Override
-    public LocalDateTime getDelayAt() {
-        return this.delayAt;
-    }
-
-    /**
-     * Setter for <code>DB_ETERNAL.F_BILL_ITEM.DELAY_AT</code>.
-     * 「delayAt」——S账的最终期限
-     */
-    @Override
-    public FBillItem setDelayAt(LocalDateTime delayAt) {
-        this.delayAt = delayAt;
         return this;
     }
 
@@ -757,8 +713,6 @@ public class FBillItem implements VertxPojo, IFBillItem {
         sb.append(", ").append(price);
         sb.append(", ").append(quantity);
         sb.append(", ").append(amountTotal);
-        sb.append(", ").append(delay);
-        sb.append(", ").append(delayAt);
         sb.append(", ").append(opBy);
         sb.append(", ").append(opNumber);
         sb.append(", ").append(opShift);
@@ -800,8 +754,6 @@ public class FBillItem implements VertxPojo, IFBillItem {
         setPrice(from.getPrice());
         setQuantity(from.getQuantity());
         setAmountTotal(from.getAmountTotal());
-        setDelay(from.getDelay());
-        setDelayAt(from.getDelayAt());
         setOpBy(from.getOpBy());
         setOpNumber(from.getOpNumber());
         setOpShift(from.getOpShift());

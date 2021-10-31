@@ -221,36 +221,6 @@ public class FBillItemDao extends AbstractVertxDAO<FBillItemRecord, cn.vertxup.f
         }
 
         /**
-     * Find records that have <code>DELAY IN (values)</code> asynchronously
-     */
-        public Future<List<cn.vertxup.fm.domain.tables.pojos.FBillItem>> findManyByDelay(Collection<Boolean> values) {
-                return findManyByCondition(FBillItem.F_BILL_ITEM.DELAY.in(values));
-        }
-
-        /**
-     * Find records that have <code>DELAY IN (values)</code> asynchronously
-     * limited by the given limit
-     */
-        public Future<List<cn.vertxup.fm.domain.tables.pojos.FBillItem>> findManyByDelay(Collection<Boolean> values, int limit) {
-                return findManyByCondition(FBillItem.F_BILL_ITEM.DELAY.in(values),limit);
-        }
-
-        /**
-     * Find records that have <code>DELAY_AT IN (values)</code> asynchronously
-     */
-        public Future<List<cn.vertxup.fm.domain.tables.pojos.FBillItem>> findManyByDelayAt(Collection<LocalDateTime> values) {
-                return findManyByCondition(FBillItem.F_BILL_ITEM.DELAY_AT.in(values));
-        }
-
-        /**
-     * Find records that have <code>DELAY_AT IN (values)</code> asynchronously
-     * limited by the given limit
-     */
-        public Future<List<cn.vertxup.fm.domain.tables.pojos.FBillItem>> findManyByDelayAt(Collection<LocalDateTime> values, int limit) {
-                return findManyByCondition(FBillItem.F_BILL_ITEM.DELAY_AT.in(values),limit);
-        }
-
-        /**
      * Find records that have <code>OP_BY IN (values)</code> asynchronously
      */
         public Future<List<cn.vertxup.fm.domain.tables.pojos.FBillItem>> findManyByOpBy(Collection<String> values) {

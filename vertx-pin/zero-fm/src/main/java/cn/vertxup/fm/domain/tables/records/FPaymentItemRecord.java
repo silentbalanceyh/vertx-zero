@@ -119,7 +119,7 @@ public class FPaymentItemRecord extends UpdatableRecordImpl<FPaymentItemRecord> 
 
     /**
      * Setter for <code>DB_ETERNAL.F_PAYMENT_ITEM.SETTLEMENT_ID</code>.
-     * 「settlementId」应收账单ID
+     * 「settlementId」结算单ID
      */
     @Override
     public FPaymentItemRecord setSettlementId(String value) {
@@ -129,7 +129,7 @@ public class FPaymentItemRecord extends UpdatableRecordImpl<FPaymentItemRecord> 
 
     /**
      * Getter for <code>DB_ETERNAL.F_PAYMENT_ITEM.SETTLEMENT_ID</code>.
-     * 「settlementId」应收账单ID
+     * 「settlementId」结算单ID
      */
     @Override
     public String getSettlementId() {

@@ -31,6 +31,7 @@ public class FSettlement implements VertxPojo, IFSettlement {
     private LocalDateTime finishedAt;
     private String        signName;
     private String        signMobile;
+    private String        customerId;
     private String        orderId;
     private String        bookId;
     private String        sigma;
@@ -55,6 +56,7 @@ public class FSettlement implements VertxPojo, IFSettlement {
         this.finishedAt = value.getFinishedAt();
         this.signName = value.getSignName();
         this.signMobile = value.getSignMobile();
+        this.customerId = value.getCustomerId();
         this.orderId = value.getOrderId();
         this.bookId = value.getBookId();
         this.sigma = value.getSigma();
@@ -78,6 +80,7 @@ public class FSettlement implements VertxPojo, IFSettlement {
         LocalDateTime finishedAt,
         String        signName,
         String        signMobile,
+        String        customerId,
         String        orderId,
         String        bookId,
         String        sigma,
@@ -99,6 +102,7 @@ public class FSettlement implements VertxPojo, IFSettlement {
         this.finishedAt = finishedAt;
         this.signName = signName;
         this.signMobile = signMobile;
+        this.customerId = customerId;
         this.orderId = orderId;
         this.bookId = bookId;
         this.sigma = sigma;
@@ -301,6 +305,25 @@ public class FSettlement implements VertxPojo, IFSettlement {
     }
 
     /**
+     * Getter for <code>DB_ETERNAL.F_SETTLEMENT.CUSTOMER_ID</code>.
+     * 「customerId」结算对象（单位ID）
+     */
+    @Override
+    public String getCustomerId() {
+        return this.customerId;
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.F_SETTLEMENT.CUSTOMER_ID</code>.
+     * 「customerId」结算对象（单位ID）
+     */
+    @Override
+    public FSettlement setCustomerId(String customerId) {
+        this.customerId = customerId;
+        return this;
+    }
+
+    /**
      * Getter for <code>DB_ETERNAL.F_SETTLEMENT.ORDER_ID</code>. 「orderId」-
      * 预授权所属订单ID
      */
@@ -498,6 +521,7 @@ public class FSettlement implements VertxPojo, IFSettlement {
         sb.append(", ").append(finishedAt);
         sb.append(", ").append(signName);
         sb.append(", ").append(signMobile);
+        sb.append(", ").append(customerId);
         sb.append(", ").append(orderId);
         sb.append(", ").append(bookId);
         sb.append(", ").append(sigma);
@@ -529,6 +553,7 @@ public class FSettlement implements VertxPojo, IFSettlement {
         setFinishedAt(from.getFinishedAt());
         setSignName(from.getSignName());
         setSignMobile(from.getSignMobile());
+        setCustomerId(from.getCustomerId());
         setOrderId(from.getOrderId());
         setBookId(from.getBookId());
         setSigma(from.getSigma());

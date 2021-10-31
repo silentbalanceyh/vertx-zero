@@ -22,9 +22,7 @@ CREATE TABLE `F_BILL_ITEM`
     `PRICE`         DECIMAL(18, 2) NOT NULL COMMENT '「price」- 商品单价',
     `QUANTITY`      INT            NOT NULL COMMENT '「quantity」- 商品数量',
     `AMOUNT_TOTAL`  DECIMAL(18, 2) NOT NULL COMMENT '「amountTotal」——总价，理论计算结果',
-    -- S部分
-    `DELAY`         BIT COMMENT '「delay」——是否S账',
-    `DELAY_AT`      DATETIME       DEFAULT NULL COMMENT '「delayAt」——S账的最终期限',
+
     -- 人员部分
     `OP_BY`         VARCHAR(36) COMMENT '「opBy」- 操作人员，关联员工ID',
     `OP_NUMBER`     VARCHAR(36) COMMENT '「opNumber」- 操作人员工号',

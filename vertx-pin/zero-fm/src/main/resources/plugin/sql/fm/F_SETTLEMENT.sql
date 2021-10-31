@@ -19,6 +19,7 @@ CREATE TABLE `F_SETTLEMENT`
     `SIGN_MOBILE` VARCHAR(128) DEFAULT NULL COMMENT '「signMobile」签单人电话',
 
     -- 关联信息
+    `CUSTOMER_ID` VARCHAR(36)  DEFAULT NULL COMMENT '「customerId」结算对象（单位ID）',
     `ORDER_ID`    VARCHAR(36)  DEFAULT NULL COMMENT '「orderId」- 预授权所属订单ID',
     `BOOK_ID`     VARCHAR(36)  DEFAULT NULL COMMENT '「bookId」- 所属账本ID',
 

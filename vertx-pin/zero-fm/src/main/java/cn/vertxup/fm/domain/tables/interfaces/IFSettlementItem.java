@@ -63,6 +63,16 @@ public interface IFSettlementItem extends VertxPojo, Serializable {
     public String getSerial();
 
     /**
+     * Setter for <code>DB_ETERNAL.F_SETTLEMENT_ITEM.TYPE</code>. 「type」- 明细类型
+     */
+    public IFSettlementItem setType(String value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.F_SETTLEMENT_ITEM.TYPE</code>. 「type」- 明细类型
+     */
+    public String getType();
+
+    /**
      * Setter for <code>DB_ETERNAL.F_SETTLEMENT_ITEM.AMOUNT</code>.
      * 「amount」——价税合计，实际结算金额
      */
@@ -99,18 +109,6 @@ public interface IFSettlementItem extends VertxPojo, Serializable {
     public String getManualNo();
 
     /**
-     * Setter for <code>DB_ETERNAL.F_SETTLEMENT_ITEM.CUSTOMER_ID</code>.
-     * 「customerId」结算对象（单位ID）
-     */
-    public IFSettlementItem setCustomerId(String value);
-
-    /**
-     * Getter for <code>DB_ETERNAL.F_SETTLEMENT_ITEM.CUSTOMER_ID</code>.
-     * 「customerId」结算对象（单位ID）
-     */
-    public String getCustomerId();
-
-    /**
      * Setter for <code>DB_ETERNAL.F_SETTLEMENT_ITEM.PAY_TERM_ID</code>.
      * 「payTermId」- 账单项ID
      */
@@ -121,6 +119,18 @@ public interface IFSettlementItem extends VertxPojo, Serializable {
      * 「payTermId」- 账单项ID
      */
     public String getPayTermId();
+
+    /**
+     * Setter for <code>DB_ETERNAL.F_SETTLEMENT_ITEM.RELATED_ID</code>.
+     * 「relatedId」- 关联BillItem ID（保留，原系统存在）
+     */
+    public IFSettlementItem setRelatedId(String value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.F_SETTLEMENT_ITEM.RELATED_ID</code>.
+     * 「relatedId」- 关联BillItem ID（保留，原系统存在）
+     */
+    public String getRelatedId();
 
     /**
      * Setter for <code>DB_ETERNAL.F_SETTLEMENT_ITEM.SETTLEMENT_ID</code>.
@@ -274,11 +284,12 @@ public interface IFSettlementItem extends VertxPojo, Serializable {
                 setOrThrow(this::setName,json::getString,"NAME","java.lang.String");
                 setOrThrow(this::setCode,json::getString,"CODE","java.lang.String");
                 setOrThrow(this::setSerial,json::getString,"SERIAL","java.lang.String");
+                setOrThrow(this::setType,json::getString,"TYPE","java.lang.String");
                 // Omitting unrecognized type java.math.BigDecimal for column AMOUNT!
                 setOrThrow(this::setComment,json::getString,"COMMENT","java.lang.String");
                 setOrThrow(this::setManualNo,json::getString,"MANUAL_NO","java.lang.String");
-                setOrThrow(this::setCustomerId,json::getString,"CUSTOMER_ID","java.lang.String");
                 setOrThrow(this::setPayTermId,json::getString,"PAY_TERM_ID","java.lang.String");
+                setOrThrow(this::setRelatedId,json::getString,"RELATED_ID","java.lang.String");
                 setOrThrow(this::setSettlementId,json::getString,"SETTLEMENT_ID","java.lang.String");
                 setOrThrow(this::setDebtId,json::getString,"DEBT_ID","java.lang.String");
                 setOrThrow(this::setInvoiceId,json::getString,"INVOICE_ID","java.lang.String");
@@ -301,11 +312,12 @@ public interface IFSettlementItem extends VertxPojo, Serializable {
                 json.put("NAME",getName());
                 json.put("CODE",getCode());
                 json.put("SERIAL",getSerial());
+                json.put("TYPE",getType());
                 // Omitting unrecognized type java.math.BigDecimal for column AMOUNT!
                 json.put("COMMENT",getComment());
                 json.put("MANUAL_NO",getManualNo());
-                json.put("CUSTOMER_ID",getCustomerId());
                 json.put("PAY_TERM_ID",getPayTermId());
+                json.put("RELATED_ID",getRelatedId());
                 json.put("SETTLEMENT_ID",getSettlementId());
                 json.put("DEBT_ID",getDebtId());
                 json.put("INVOICE_ID",getInvoiceId());

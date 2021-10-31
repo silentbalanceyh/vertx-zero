@@ -85,6 +85,21 @@ public class FSettlementItemDao extends AbstractVertxDAO<FSettlementItemRecord, 
         }
 
         /**
+     * Find records that have <code>TYPE IN (values)</code> asynchronously
+     */
+        public Future<List<cn.vertxup.fm.domain.tables.pojos.FSettlementItem>> findManyByType(Collection<String> values) {
+                return findManyByCondition(FSettlementItem.F_SETTLEMENT_ITEM.TYPE.in(values));
+        }
+
+        /**
+     * Find records that have <code>TYPE IN (values)</code> asynchronously
+     * limited by the given limit
+     */
+        public Future<List<cn.vertxup.fm.domain.tables.pojos.FSettlementItem>> findManyByType(Collection<String> values, int limit) {
+                return findManyByCondition(FSettlementItem.F_SETTLEMENT_ITEM.TYPE.in(values),limit);
+        }
+
+        /**
      * Find records that have <code>AMOUNT IN (values)</code> asynchronously
      */
         public Future<List<cn.vertxup.fm.domain.tables.pojos.FSettlementItem>> findManyByAmount(Collection<BigDecimal> values) {
@@ -130,22 +145,6 @@ public class FSettlementItemDao extends AbstractVertxDAO<FSettlementItemRecord, 
         }
 
         /**
-     * Find records that have <code>CUSTOMER_ID IN (values)</code>
-     * asynchronously
-     */
-        public Future<List<cn.vertxup.fm.domain.tables.pojos.FSettlementItem>> findManyByCustomerId(Collection<String> values) {
-                return findManyByCondition(FSettlementItem.F_SETTLEMENT_ITEM.CUSTOMER_ID.in(values));
-        }
-
-        /**
-     * Find records that have <code>CUSTOMER_ID IN (values)</code>
-     * asynchronously limited by the given limit
-     */
-        public Future<List<cn.vertxup.fm.domain.tables.pojos.FSettlementItem>> findManyByCustomerId(Collection<String> values, int limit) {
-                return findManyByCondition(FSettlementItem.F_SETTLEMENT_ITEM.CUSTOMER_ID.in(values),limit);
-        }
-
-        /**
      * Find records that have <code>PAY_TERM_ID IN (values)</code>
      * asynchronously
      */
@@ -159,6 +158,21 @@ public class FSettlementItemDao extends AbstractVertxDAO<FSettlementItemRecord, 
      */
         public Future<List<cn.vertxup.fm.domain.tables.pojos.FSettlementItem>> findManyByPayTermId(Collection<String> values, int limit) {
                 return findManyByCondition(FSettlementItem.F_SETTLEMENT_ITEM.PAY_TERM_ID.in(values),limit);
+        }
+
+        /**
+     * Find records that have <code>RELATED_ID IN (values)</code> asynchronously
+     */
+        public Future<List<cn.vertxup.fm.domain.tables.pojos.FSettlementItem>> findManyByRelatedId(Collection<String> values) {
+                return findManyByCondition(FSettlementItem.F_SETTLEMENT_ITEM.RELATED_ID.in(values));
+        }
+
+        /**
+     * Find records that have <code>RELATED_ID IN (values)</code> asynchronously
+     * limited by the given limit
+     */
+        public Future<List<cn.vertxup.fm.domain.tables.pojos.FSettlementItem>> findManyByRelatedId(Collection<String> values, int limit) {
+                return findManyByCondition(FSettlementItem.F_SETTLEMENT_ITEM.RELATED_ID.in(values),limit);
         }
 
         /**
