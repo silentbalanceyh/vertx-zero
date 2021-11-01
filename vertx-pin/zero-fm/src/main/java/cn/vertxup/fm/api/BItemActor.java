@@ -1,7 +1,6 @@
 package cn.vertxup.fm.api;
 
 import cn.vertxup.fm.service.BillStub;
-import cn.vertxup.fm.service.SettleStub;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.fm.atom.BillData;
@@ -18,8 +17,6 @@ import javax.inject.Inject;
 public class BItemActor {
     @Inject
     private transient BillStub billStub;
-    @Inject
-    private transient SettleStub settleStub;
 
     @Address(Addr.BillItem.FETCH_AGGR)
     public Future<JsonObject> fetchAggr(final String orderId) {
@@ -30,7 +27,7 @@ public class BItemActor {
             /* Fetch Items */
             .compose(bills -> this.billStub.fetchByBills(bills))
             .compose(data::items)
-            .compose(this.settleStub::fetchByItems)
+            .compose(this.billStub::fetchSettlements)
             .compose(data::settlement)
             .compose(nil -> data.response(true));
     }
