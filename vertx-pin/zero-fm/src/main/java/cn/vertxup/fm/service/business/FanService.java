@@ -80,7 +80,8 @@ public class FanService implements FanStub {
         final UxJooq jooq = Ux.Jooq.on(FBillItemDao.class);
         return jooq.updateAsync(item)
             .compose(nil -> jooq.insertAsync(to))
-            .compose(nil -> this.accountStub.outBook(to))
+            .compose(nil -> Ux.Jooq.on(FBillDao.class).<FBill>fetchByIdAsync(to.getBillId()))
+            .compose(bill -> this.accountStub.inBook(bill, to))
             .compose(nil -> Ux.futureJ(item));
     }
 
@@ -91,7 +92,7 @@ public class FanService implements FanStub {
         final UxJooq jq = Ux.Jooq.on(FBillItemDao.class);
         return jq.<FBillItem>fetchAsync(condition).compose(queried -> {
             queried.forEach(each -> this.fillStub.cancel(each, params));
-            return jq.updateAsync(queried).compose(this.accountStub::outBook);
+            return jq.updateAsync(queried).compose(this.accountStub::inBook);
         });
     }
 
@@ -125,7 +126,7 @@ public class FanService implements FanStub {
                     // FBillItem Previous Updating
                     final List<FBillItem> oldItem = fromTo.get(Boolean.FALSE);
                     return Ux.Jooq.on(FBillItemDao.class).updateAsync(oldItem);
-                }).compose(this.accountStub::outBook)
+                }).compose(this.accountStub::inBook)
                 .compose(nil -> Ux.futureJ(preBill));
         });
 

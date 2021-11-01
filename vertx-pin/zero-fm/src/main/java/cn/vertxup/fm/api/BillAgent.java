@@ -153,5 +153,4 @@ public interface BillAgent {
     @Path("/bill-item/transfer/:key")
     @Address(Addr.Bill.UP_TRANSFER)
     JsonObject upTransfer(@PathParam(KName.KEY) String bookId, @BodyParam JsonObject data);
-
 }

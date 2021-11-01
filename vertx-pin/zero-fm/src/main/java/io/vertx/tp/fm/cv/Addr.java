@@ -27,4 +27,9 @@ public interface Addr {
         // Transfer
         String UP_TRANSFER = Prefix._EVENT + "BILL/TRANSFER";
     }
+
+    interface Settle {
+        // Finish
+        String UP_PAYMENT = Prefix._EVENT + "BILL/PAYMENT";
+    }
 }
