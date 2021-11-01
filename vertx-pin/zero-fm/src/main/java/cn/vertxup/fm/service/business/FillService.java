@@ -1,9 +1,6 @@
 package cn.vertxup.fm.service.business;
 
-import cn.vertxup.fm.domain.tables.pojos.FBill;
-import cn.vertxup.fm.domain.tables.pojos.FBillItem;
-import cn.vertxup.fm.domain.tables.pojos.FBook;
-import cn.vertxup.fm.domain.tables.pojos.FPreAuthorize;
+import cn.vertxup.fm.domain.tables.pojos.*;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.fm.cv.FmCv;
 import io.vertx.tp.ke.refine.Ke;
@@ -134,6 +131,33 @@ public class FillService implements FillStub {
         // Created
         bill.setCreatedAt(bill.getUpdatedAt());
         bill.setCreatedBy(bill.getUpdatedBy());
+    }
 
+    @Override
+    public void settle(final FSettlement settlement, final List<FBillItem> items) {
+        items.forEach(item -> {
+            item.setSettlementId(settlement.getKey());
+            item.setUpdatedAt(LocalDateTime.now());
+            item.setUpdatedBy(settlement.getUpdatedBy());
+        });
+    }
+
+    @Override
+    public void settle(final FSettlement settlement, final FDebt debt) {
+        debt.setSettlementId(settlement.getKey());
+        debt.setSerial("S" + settlement.getSerial().substring(1));
+        debt.setCode("S" + settlement.getCode().substring(1));
+    }
+
+    @Override
+    public void payment(final FSettlement settlement, final List<FPaymentItem> payments) {
+        for (int idx = 0; idx < payments.size(); idx++) {
+            final FPaymentItem item = payments.get(idx);
+            item.setSettlementId(settlement.getKey());
+            item.setSerial(settlement.getSerial() + "-01" + Ut.fromAdjust(idx + 1, 2));
+            item.setCode(settlement.getCode() + "-01" + Ut.fromAdjust(idx + 1, 2));
+
+            Ke.umCreated(item, settlement);
+        }
     }
 }

@@ -2,6 +2,8 @@ package cn.vertxup.fm.service.business;
 
 import cn.vertxup.fm.domain.tables.pojos.FBill;
 import cn.vertxup.fm.domain.tables.pojos.FBillItem;
+import cn.vertxup.fm.domain.tables.pojos.FSettlement;
+import cn.vertxup.fm.domain.tables.pojos.FSettlementItem;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
@@ -26,4 +28,14 @@ public interface IndentStub {
     Future<FBillItem> itemAsync(String key, JsonObject data);
 
     Future<ConcurrentMap<Boolean, List<FBillItem>>> itemAsync(JsonArray items, JsonObject data);
+
+    default Future<FSettlement> settleAsync(final JsonObject data) {
+        return this.settleAsync(data.getString(KName.INDENT), data);
+    }
+
+    Future<FSettlement> settleAsync(String indent, JsonObject data);
+
+    Future<List<FBillItem>> settleAsync(JsonArray items, JsonObject data);
+
+    Future<List<FSettlementItem>> settleAsync(FSettlement settlement, List<FBillItem> items);
 }

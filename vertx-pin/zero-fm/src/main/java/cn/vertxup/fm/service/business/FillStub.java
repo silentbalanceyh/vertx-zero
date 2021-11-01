@@ -1,9 +1,6 @@
 package cn.vertxup.fm.service.business;
 
-import cn.vertxup.fm.domain.tables.pojos.FBill;
-import cn.vertxup.fm.domain.tables.pojos.FBillItem;
-import cn.vertxup.fm.domain.tables.pojos.FBook;
-import cn.vertxup.fm.domain.tables.pojos.FPreAuthorize;
+import cn.vertxup.fm.domain.tables.pojos.*;
 import io.vertx.core.json.JsonObject;
 
 import java.util.List;
@@ -13,9 +10,6 @@ import java.util.List;
  */
 public interface FillStub {
 
-    /*
-     * Serial Sub Generation
-     */
     void income(FBill bill, List<FBillItem> items);
 
     void income(FBill bill, FBillItem item);
@@ -31,4 +25,10 @@ public interface FillStub {
     void transfer(List<FBillItem> from, List<FBillItem> to);
 
     void transfer(FBook book, FBill bill);
+
+    void settle(FSettlement settlement, List<FBillItem> items);
+
+    void settle(FSettlement settlement, FDebt debt);
+
+    void payment(FSettlement settlement, List<FPaymentItem> payments);
 }
