@@ -12,7 +12,7 @@ CREATE TABLE `F_SETTLEMENT`
     -- 基本信息
     `AMOUNT`      DECIMAL(18, 2) NOT NULL COMMENT '「amount」——价税合计，所有明细对应的实际结算金额',
     `COMMENT`     LONGTEXT COMMENT '「comment」 - 结算单备注',
-    `ROUNDED`     TINYINT(1)     NOT NULL COMMENT '「rounded」抹零方式 = true：四舍五入、round = false：零头舍掉,round,IS_ROUND',
+    `ROUNDED`     VARCHAR(12) COMMENT '「rounded」抹零方式：四舍五入, HALF：零头舍掉, FLOOR, 零头入进, CEIL',
     `FINISHED`    BIT COMMENT '「finished」- 是否完成',
     `FINISHED_AT` DATETIME COMMENT '「createdAt」- 完成时间',
     `SIGN_NAME`   VARCHAR(128) DEFAULT NULL COMMENT '「signName」签单人姓名',

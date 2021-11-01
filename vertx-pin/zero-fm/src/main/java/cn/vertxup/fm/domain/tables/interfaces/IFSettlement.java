@@ -73,16 +73,16 @@ public interface IFSettlement extends VertxPojo, Serializable {
     public String getComment();
 
     /**
-     * Setter for <code>DB_ETERNAL.F_SETTLEMENT.ROUNDED</code>. 「rounded」抹零方式 =
-     * true：四舍五入、round = false：零头舍掉,round,IS_ROUND
+     * Setter for <code>DB_ETERNAL.F_SETTLEMENT.ROUNDED</code>.
+     * 「rounded」抹零方式：四舍五入, HALF：零头舍掉, FLOOR, 零头入进, CEIL
      */
-    public IFSettlement setRounded(Byte value);
+    public IFSettlement setRounded(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.F_SETTLEMENT.ROUNDED</code>. 「rounded」抹零方式 =
-     * true：四舍五入、round = false：零头舍掉,round,IS_ROUND
+     * Getter for <code>DB_ETERNAL.F_SETTLEMENT.ROUNDED</code>.
+     * 「rounded」抹零方式：四舍五入, HALF：零头舍掉, FLOOR, 零头入进, CEIL
      */
-    public Byte getRounded();
+    public String getRounded();
 
     /**
      * Setter for <code>DB_ETERNAL.F_SETTLEMENT.FINISHED</code>. 「finished」-
@@ -281,7 +281,7 @@ public interface IFSettlement extends VertxPojo, Serializable {
                 setOrThrow(this::setSerial,json::getString,"SERIAL","java.lang.String");
                 // Omitting unrecognized type java.math.BigDecimal for column AMOUNT!
                 setOrThrow(this::setComment,json::getString,"COMMENT","java.lang.String");
-                setOrThrow(this::setRounded,key -> {Integer i = json.getInteger(key); return i==null?null:i.byteValue();},"ROUNDED","java.lang.Byte");
+                setOrThrow(this::setRounded,json::getString,"ROUNDED","java.lang.String");
                 setOrThrow(this::setFinished,json::getBoolean,"FINISHED","java.lang.Boolean");
                 setOrThrow(this::setFinishedAt,key -> {String s = json.getString(key); return s==null?null:java.time.LocalDateTime.parse(s);},"FINISHED_AT","java.time.LocalDateTime");
                 setOrThrow(this::setSignName,json::getString,"SIGN_NAME","java.lang.String");

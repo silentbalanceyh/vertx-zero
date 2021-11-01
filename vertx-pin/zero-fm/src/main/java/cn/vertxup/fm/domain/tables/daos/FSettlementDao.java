@@ -102,7 +102,7 @@ public class FSettlementDao extends AbstractVertxDAO<FSettlementRecord, cn.vertx
         /**
      * Find records that have <code>ROUNDED IN (values)</code> asynchronously
      */
-        public Future<List<cn.vertxup.fm.domain.tables.pojos.FSettlement>> findManyByRounded(Collection<Byte> values) {
+        public Future<List<cn.vertxup.fm.domain.tables.pojos.FSettlement>> findManyByRounded(Collection<String> values) {
                 return findManyByCondition(FSettlement.F_SETTLEMENT.ROUNDED.in(values));
         }
 
@@ -110,7 +110,7 @@ public class FSettlementDao extends AbstractVertxDAO<FSettlementRecord, cn.vertx
      * Find records that have <code>ROUNDED IN (values)</code> asynchronously
      * limited by the given limit
      */
-        public Future<List<cn.vertxup.fm.domain.tables.pojos.FSettlement>> findManyByRounded(Collection<Byte> values, int limit) {
+        public Future<List<cn.vertxup.fm.domain.tables.pojos.FSettlement>> findManyByRounded(Collection<String> values, int limit) {
                 return findManyByCondition(FSettlement.F_SETTLEMENT.ROUNDED.in(values),limit);
         }
 

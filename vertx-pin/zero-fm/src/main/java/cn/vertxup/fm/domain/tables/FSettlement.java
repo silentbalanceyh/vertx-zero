@@ -52,10 +52,10 @@ public class FSettlement extends TableImpl<FSettlementRecord> {
      */
     public final TableField<FSettlementRecord, String> COMMENT = createField(DSL.name("COMMENT"), SQLDataType.CLOB, this, "「comment」 - 结算单备注");
     /**
-     * The column <code>DB_ETERNAL.F_SETTLEMENT.ROUNDED</code>. 「rounded」抹零方式 =
-     * true：四舍五入、round = false：零头舍掉,round,IS_ROUND
+     * The column <code>DB_ETERNAL.F_SETTLEMENT.ROUNDED</code>.
+     * 「rounded」抹零方式：四舍五入, HALF：零头舍掉, FLOOR, 零头入进, CEIL
      */
-    public final TableField<FSettlementRecord, Byte> ROUNDED = createField(DSL.name("ROUNDED"), SQLDataType.TINYINT.nullable(false), this, "「rounded」抹零方式 = true：四舍五入、round = false：零头舍掉,round,IS_ROUND");
+    public final TableField<FSettlementRecord, String> ROUNDED = createField(DSL.name("ROUNDED"), SQLDataType.VARCHAR(12), this, "「rounded」抹零方式：四舍五入, HALF：零头舍掉, FLOOR, 零头入进, CEIL");
     /**
      * The column <code>DB_ETERNAL.F_SETTLEMENT.FINISHED</code>. 「finished」-
      * 是否完成
@@ -216,7 +216,7 @@ public class FSettlement extends TableImpl<FSettlementRecord> {
     // -------------------------------------------------------------------------
 
     @Override
-    public Row21<String, String, String, BigDecimal, String, Byte, Boolean, LocalDateTime, String, String, String, String, String, String, String, Boolean, String, LocalDateTime, String, LocalDateTime, String> fieldsRow() {
+    public Row21<String, String, String, BigDecimal, String, String, Boolean, LocalDateTime, String, String, String, String, String, String, String, Boolean, String, LocalDateTime, String, LocalDateTime, String> fieldsRow() {
         return (Row21) super.fieldsRow();
     }
 }

@@ -26,7 +26,7 @@ public class FSettlement implements VertxPojo, IFSettlement {
     private String        serial;
     private BigDecimal    amount;
     private String        comment;
-    private Byte          rounded;
+    private String        rounded;
     private Boolean       finished;
     private LocalDateTime finishedAt;
     private String        signName;
@@ -75,7 +75,7 @@ public class FSettlement implements VertxPojo, IFSettlement {
         String        serial,
         BigDecimal    amount,
         String        comment,
-        Byte          rounded,
+        String        rounded,
         Boolean       finished,
         LocalDateTime finishedAt,
         String        signName,
@@ -210,20 +210,20 @@ public class FSettlement implements VertxPojo, IFSettlement {
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.F_SETTLEMENT.ROUNDED</code>. 「rounded」抹零方式 =
-     * true：四舍五入、round = false：零头舍掉,round,IS_ROUND
+     * Getter for <code>DB_ETERNAL.F_SETTLEMENT.ROUNDED</code>.
+     * 「rounded」抹零方式：四舍五入, HALF：零头舍掉, FLOOR, 零头入进, CEIL
      */
     @Override
-    public Byte getRounded() {
+    public String getRounded() {
         return this.rounded;
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.F_SETTLEMENT.ROUNDED</code>. 「rounded」抹零方式 =
-     * true：四舍五入、round = false：零头舍掉,round,IS_ROUND
+     * Setter for <code>DB_ETERNAL.F_SETTLEMENT.ROUNDED</code>.
+     * 「rounded」抹零方式：四舍五入, HALF：零头舍掉, FLOOR, 零头入进, CEIL
      */
     @Override
-    public FSettlement setRounded(Byte rounded) {
+    public FSettlement setRounded(String rounded) {
         this.rounded = rounded;
         return this;
     }
