@@ -39,36 +39,6 @@ public class XAttachmentDao extends AbstractVertxDAO<XAttachmentRecord, cn.vertx
         }
 
         /**
-     * Find records that have <code>STORE_WAY IN (values)</code> asynchronously
-     */
-        public Future<List<cn.vertxup.ambient.domain.tables.pojos.XAttachment>> findManyByStoreWay(Collection<String> values) {
-                return findManyByCondition(XAttachment.X_ATTACHMENT.STORE_WAY.in(values));
-        }
-
-        /**
-     * Find records that have <code>STORE_WAY IN (values)</code> asynchronously
-     * limited by the given limit
-     */
-        public Future<List<cn.vertxup.ambient.domain.tables.pojos.XAttachment>> findManyByStoreWay(Collection<String> values, int limit) {
-                return findManyByCondition(XAttachment.X_ATTACHMENT.STORE_WAY.in(values),limit);
-        }
-
-        /**
-     * Find records that have <code>STATUS IN (values)</code> asynchronously
-     */
-        public Future<List<cn.vertxup.ambient.domain.tables.pojos.XAttachment>> findManyByStatus(Collection<String> values) {
-                return findManyByCondition(XAttachment.X_ATTACHMENT.STATUS.in(values));
-        }
-
-        /**
-     * Find records that have <code>STATUS IN (values)</code> asynchronously
-     * limited by the given limit
-     */
-        public Future<List<cn.vertxup.ambient.domain.tables.pojos.XAttachment>> findManyByStatus(Collection<String> values, int limit) {
-                return findManyByCondition(XAttachment.X_ATTACHMENT.STATUS.in(values),limit);
-        }
-
-        /**
      * Find records that have <code>NAME IN (values)</code> asynchronously
      */
         public Future<List<cn.vertxup.ambient.domain.tables.pojos.XAttachment>> findManyByName(Collection<String> values) {
@@ -81,66 +51,6 @@ public class XAttachmentDao extends AbstractVertxDAO<XAttachmentRecord, cn.vertx
      */
         public Future<List<cn.vertxup.ambient.domain.tables.pojos.XAttachment>> findManyByName(Collection<String> values, int limit) {
                 return findManyByCondition(XAttachment.X_ATTACHMENT.NAME.in(values),limit);
-        }
-
-        /**
-     * Find records that have <code>FILE_NAME IN (values)</code> asynchronously
-     */
-        public Future<List<cn.vertxup.ambient.domain.tables.pojos.XAttachment>> findManyByFileName(Collection<String> values) {
-                return findManyByCondition(XAttachment.X_ATTACHMENT.FILE_NAME.in(values));
-        }
-
-        /**
-     * Find records that have <code>FILE_NAME IN (values)</code> asynchronously
-     * limited by the given limit
-     */
-        public Future<List<cn.vertxup.ambient.domain.tables.pojos.XAttachment>> findManyByFileName(Collection<String> values, int limit) {
-                return findManyByCondition(XAttachment.X_ATTACHMENT.FILE_NAME.in(values),limit);
-        }
-
-        /**
-     * Find records that have <code>FILE_KEY IN (values)</code> asynchronously
-     */
-        public Future<List<cn.vertxup.ambient.domain.tables.pojos.XAttachment>> findManyByFileKey(Collection<String> values) {
-                return findManyByCondition(XAttachment.X_ATTACHMENT.FILE_KEY.in(values));
-        }
-
-        /**
-     * Find records that have <code>FILE_KEY IN (values)</code> asynchronously
-     * limited by the given limit
-     */
-        public Future<List<cn.vertxup.ambient.domain.tables.pojos.XAttachment>> findManyByFileKey(Collection<String> values, int limit) {
-                return findManyByCondition(XAttachment.X_ATTACHMENT.FILE_KEY.in(values),limit);
-        }
-
-        /**
-     * Find records that have <code>FILE_URL IN (values)</code> asynchronously
-     */
-        public Future<List<cn.vertxup.ambient.domain.tables.pojos.XAttachment>> findManyByFileUrl(Collection<String> values) {
-                return findManyByCondition(XAttachment.X_ATTACHMENT.FILE_URL.in(values));
-        }
-
-        /**
-     * Find records that have <code>FILE_URL IN (values)</code> asynchronously
-     * limited by the given limit
-     */
-        public Future<List<cn.vertxup.ambient.domain.tables.pojos.XAttachment>> findManyByFileUrl(Collection<String> values, int limit) {
-                return findManyByCondition(XAttachment.X_ATTACHMENT.FILE_URL.in(values),limit);
-        }
-
-        /**
-     * Find records that have <code>FILE_PATH IN (values)</code> asynchronously
-     */
-        public Future<List<cn.vertxup.ambient.domain.tables.pojos.XAttachment>> findManyByFilePath(Collection<String> values) {
-                return findManyByCondition(XAttachment.X_ATTACHMENT.FILE_PATH.in(values));
-        }
-
-        /**
-     * Find records that have <code>FILE_PATH IN (values)</code> asynchronously
-     * limited by the given limit
-     */
-        public Future<List<cn.vertxup.ambient.domain.tables.pojos.XAttachment>> findManyByFilePath(Collection<String> values, int limit) {
-                return findManyByCondition(XAttachment.X_ATTACHMENT.FILE_PATH.in(values),limit);
         }
 
         /**
@@ -201,6 +111,96 @@ public class XAttachmentDao extends AbstractVertxDAO<XAttachmentRecord, cn.vertx
      */
         public Future<List<cn.vertxup.ambient.domain.tables.pojos.XAttachment>> findManyBySize(Collection<Integer> values, int limit) {
                 return findManyByCondition(XAttachment.X_ATTACHMENT.SIZE.in(values),limit);
+        }
+
+        /**
+     * Find records that have <code>STATUS IN (values)</code> asynchronously
+     */
+        public Future<List<cn.vertxup.ambient.domain.tables.pojos.XAttachment>> findManyByStatus(Collection<String> values) {
+                return findManyByCondition(XAttachment.X_ATTACHMENT.STATUS.in(values));
+        }
+
+        /**
+     * Find records that have <code>STATUS IN (values)</code> asynchronously
+     * limited by the given limit
+     */
+        public Future<List<cn.vertxup.ambient.domain.tables.pojos.XAttachment>> findManyByStatus(Collection<String> values, int limit) {
+                return findManyByCondition(XAttachment.X_ATTACHMENT.STATUS.in(values),limit);
+        }
+
+        /**
+     * Find records that have <code>STORE_WAY IN (values)</code> asynchronously
+     */
+        public Future<List<cn.vertxup.ambient.domain.tables.pojos.XAttachment>> findManyByStoreWay(Collection<String> values) {
+                return findManyByCondition(XAttachment.X_ATTACHMENT.STORE_WAY.in(values));
+        }
+
+        /**
+     * Find records that have <code>STORE_WAY IN (values)</code> asynchronously
+     * limited by the given limit
+     */
+        public Future<List<cn.vertxup.ambient.domain.tables.pojos.XAttachment>> findManyByStoreWay(Collection<String> values, int limit) {
+                return findManyByCondition(XAttachment.X_ATTACHMENT.STORE_WAY.in(values),limit);
+        }
+
+        /**
+     * Find records that have <code>FILE_NAME IN (values)</code> asynchronously
+     */
+        public Future<List<cn.vertxup.ambient.domain.tables.pojos.XAttachment>> findManyByFileName(Collection<String> values) {
+                return findManyByCondition(XAttachment.X_ATTACHMENT.FILE_NAME.in(values));
+        }
+
+        /**
+     * Find records that have <code>FILE_NAME IN (values)</code> asynchronously
+     * limited by the given limit
+     */
+        public Future<List<cn.vertxup.ambient.domain.tables.pojos.XAttachment>> findManyByFileName(Collection<String> values, int limit) {
+                return findManyByCondition(XAttachment.X_ATTACHMENT.FILE_NAME.in(values),limit);
+        }
+
+        /**
+     * Find records that have <code>FILE_KEY IN (values)</code> asynchronously
+     */
+        public Future<List<cn.vertxup.ambient.domain.tables.pojos.XAttachment>> findManyByFileKey(Collection<String> values) {
+                return findManyByCondition(XAttachment.X_ATTACHMENT.FILE_KEY.in(values));
+        }
+
+        /**
+     * Find records that have <code>FILE_KEY IN (values)</code> asynchronously
+     * limited by the given limit
+     */
+        public Future<List<cn.vertxup.ambient.domain.tables.pojos.XAttachment>> findManyByFileKey(Collection<String> values, int limit) {
+                return findManyByCondition(XAttachment.X_ATTACHMENT.FILE_KEY.in(values),limit);
+        }
+
+        /**
+     * Find records that have <code>FILE_URL IN (values)</code> asynchronously
+     */
+        public Future<List<cn.vertxup.ambient.domain.tables.pojos.XAttachment>> findManyByFileUrl(Collection<String> values) {
+                return findManyByCondition(XAttachment.X_ATTACHMENT.FILE_URL.in(values));
+        }
+
+        /**
+     * Find records that have <code>FILE_URL IN (values)</code> asynchronously
+     * limited by the given limit
+     */
+        public Future<List<cn.vertxup.ambient.domain.tables.pojos.XAttachment>> findManyByFileUrl(Collection<String> values, int limit) {
+                return findManyByCondition(XAttachment.X_ATTACHMENT.FILE_URL.in(values),limit);
+        }
+
+        /**
+     * Find records that have <code>FILE_PATH IN (values)</code> asynchronously
+     */
+        public Future<List<cn.vertxup.ambient.domain.tables.pojos.XAttachment>> findManyByFilePath(Collection<String> values) {
+                return findManyByCondition(XAttachment.X_ATTACHMENT.FILE_PATH.in(values));
+        }
+
+        /**
+     * Find records that have <code>FILE_PATH IN (values)</code> asynchronously
+     * limited by the given limit
+     */
+        public Future<List<cn.vertxup.ambient.domain.tables.pojos.XAttachment>> findManyByFilePath(Collection<String> values, int limit) {
+                return findManyByCondition(XAttachment.X_ATTACHMENT.FILE_PATH.in(values),limit);
         }
 
         /**

@@ -31,6 +31,8 @@ public class XCategory implements VertxPojo, IXCategory {
     private String        identifier;
     private String        comment;
     private String        appId;
+    private String        treeComponent;
+    private String        runComponent;
     private Boolean       active;
     private String        sigma;
     private String        metadata;
@@ -54,6 +56,8 @@ public class XCategory implements VertxPojo, IXCategory {
         this.identifier = value.getIdentifier();
         this.comment = value.getComment();
         this.appId = value.getAppId();
+        this.treeComponent = value.getTreeComponent();
+        this.runComponent = value.getRunComponent();
         this.active = value.getActive();
         this.sigma = value.getSigma();
         this.metadata = value.getMetadata();
@@ -76,6 +80,8 @@ public class XCategory implements VertxPojo, IXCategory {
         String        identifier,
         String        comment,
         String        appId,
+        String        treeComponent,
+        String        runComponent,
         Boolean       active,
         String        sigma,
         String        metadata,
@@ -96,6 +102,8 @@ public class XCategory implements VertxPojo, IXCategory {
         this.identifier = identifier;
         this.comment = comment;
         this.appId = appId;
+        this.treeComponent = treeComponent;
+        this.runComponent = runComponent;
         this.active = active;
         this.sigma = sigma;
         this.metadata = metadata;
@@ -301,6 +309,44 @@ public class XCategory implements VertxPojo, IXCategory {
     }
 
     /**
+     * Getter for <code>DB_ETERNAL.X_CATEGORY.TREE_COMPONENT</code>.
+     * 「treeComponent」- 目录组件
+     */
+    @Override
+    public String getTreeComponent() {
+        return this.treeComponent;
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.X_CATEGORY.TREE_COMPONENT</code>.
+     * 「treeComponent」- 目录组件
+     */
+    @Override
+    public XCategory setTreeComponent(String treeComponent) {
+        this.treeComponent = treeComponent;
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.X_CATEGORY.RUN_COMPONENT</code>.
+     * 「runComponent」- 执行组件
+     */
+    @Override
+    public String getRunComponent() {
+        return this.runComponent;
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.X_CATEGORY.RUN_COMPONENT</code>.
+     * 「runComponent」- 执行组件
+     */
+    @Override
+    public XCategory setRunComponent(String runComponent) {
+        this.runComponent = runComponent;
+        return this;
+    }
+
+    /**
      * Getter for <code>DB_ETERNAL.X_CATEGORY.ACTIVE</code>. 「active」- 是否启用
      */
     @Override
@@ -459,6 +505,8 @@ public class XCategory implements VertxPojo, IXCategory {
         sb.append(", ").append(identifier);
         sb.append(", ").append(comment);
         sb.append(", ").append(appId);
+        sb.append(", ").append(treeComponent);
+        sb.append(", ").append(runComponent);
         sb.append(", ").append(active);
         sb.append(", ").append(sigma);
         sb.append(", ").append(metadata);
@@ -489,6 +537,8 @@ public class XCategory implements VertxPojo, IXCategory {
         setIdentifier(from.getIdentifier());
         setComment(from.getComment());
         setAppId(from.getAppId());
+        setTreeComponent(from.getTreeComponent());
+        setRunComponent(from.getRunComponent());
         setActive(from.getActive());
         setSigma(from.getSigma());
         setMetadata(from.getMetadata());

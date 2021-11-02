@@ -51,6 +51,11 @@ public class Db extends SchemaImpl {
     public final XCategory X_CATEGORY = XCategory.X_CATEGORY;
 
     /**
+     * The table <code>DB_ETERNAL.X_EMAIL_SERVER</code>.
+     */
+    public final XEmailServer X_EMAIL_SERVER = XEmailServer.X_EMAIL_SERVER;
+
+    /**
      * The table <code>DB_ETERNAL.X_LOG</code>.
      */
     public final XLog X_LOG = XLog.X_LOG;
@@ -64,6 +69,11 @@ public class Db extends SchemaImpl {
      * The table <code>DB_ETERNAL.X_MODULE</code>.
      */
     public final XModule X_MODULE = XModule.X_MODULE;
+
+    /**
+     * The table <code>DB_ETERNAL.X_NOTIFICATION</code>.
+     */
+    public final XNotification X_NOTIFICATION = XNotification.X_NOTIFICATION;
 
     /**
      * The table <code>DB_ETERNAL.X_NUMBER</code>.
@@ -106,9 +116,11 @@ public class Db extends SchemaImpl {
             XApp.X_APP,
             XAttachment.X_ATTACHMENT,
             XCategory.X_CATEGORY,
+            XEmailServer.X_EMAIL_SERVER,
             XLog.X_LOG,
             XMenu.X_MENU,
             XModule.X_MODULE,
+            XNotification.X_NOTIFICATION,
             XNumber.X_NUMBER,
             XSource.X_SOURCE,
             XTabular.X_TABULAR,

@@ -21,17 +21,17 @@ public class XAttachment implements VertxPojo, IXAttachment {
     private static final long serialVersionUID = 1L;
 
     private String        key;
-    private String        storeWay;
-    private String        status;
     private String        name;
-    private String        fileName;
-    private String        fileKey;
-    private String        fileUrl;
-    private String        filePath;
     private String        extension;
     private String        module;
     private String        mime;
     private Integer       size;
+    private String        status;
+    private String        storeWay;
+    private String        fileName;
+    private String        fileKey;
+    private String        fileUrl;
+    private String        filePath;
     private Boolean       active;
     private String        sigma;
     private String        metadata;
@@ -45,17 +45,17 @@ public class XAttachment implements VertxPojo, IXAttachment {
 
     public XAttachment(IXAttachment value) {
         this.key = value.getKey();
-        this.storeWay = value.getStoreWay();
-        this.status = value.getStatus();
         this.name = value.getName();
-        this.fileName = value.getFileName();
-        this.fileKey = value.getFileKey();
-        this.fileUrl = value.getFileUrl();
-        this.filePath = value.getFilePath();
         this.extension = value.getExtension();
         this.module = value.getModule();
         this.mime = value.getMime();
         this.size = value.getSize();
+        this.status = value.getStatus();
+        this.storeWay = value.getStoreWay();
+        this.fileName = value.getFileName();
+        this.fileKey = value.getFileKey();
+        this.fileUrl = value.getFileUrl();
+        this.filePath = value.getFilePath();
         this.active = value.getActive();
         this.sigma = value.getSigma();
         this.metadata = value.getMetadata();
@@ -68,17 +68,17 @@ public class XAttachment implements VertxPojo, IXAttachment {
 
     public XAttachment(
         String        key,
-        String        storeWay,
-        String        status,
         String        name,
-        String        fileName,
-        String        fileKey,
-        String        fileUrl,
-        String        filePath,
         String        extension,
         String        module,
         String        mime,
         Integer       size,
+        String        status,
+        String        storeWay,
+        String        fileName,
+        String        fileKey,
+        String        fileUrl,
+        String        filePath,
         Boolean       active,
         String        sigma,
         String        metadata,
@@ -89,17 +89,17 @@ public class XAttachment implements VertxPojo, IXAttachment {
         String        updatedBy
     ) {
         this.key = key;
-        this.storeWay = storeWay;
-        this.status = status;
         this.name = name;
-        this.fileName = fileName;
-        this.fileKey = fileKey;
-        this.fileUrl = fileUrl;
-        this.filePath = filePath;
         this.extension = extension;
         this.module = module;
         this.mime = mime;
         this.size = size;
+        this.status = status;
+        this.storeWay = storeWay;
+        this.fileName = fileName;
+        this.fileKey = fileKey;
+        this.fileUrl = fileUrl;
+        this.filePath = filePath;
         this.active = active;
         this.sigma = sigma;
         this.metadata = metadata;
@@ -133,21 +133,89 @@ public class XAttachment implements VertxPojo, IXAttachment {
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.X_ATTACHMENT.STORE_WAY</code>. 「storeWay」-
-     * 存储方式，BLOB / FILE / TPL / REMOTE
+     * Getter for <code>DB_ETERNAL.X_ATTACHMENT.NAME</code>. 「name」- 文件名（带扩展名）
      */
     @Override
-    public String getStoreWay() {
-        return this.storeWay;
+    public String getName() {
+        return this.name;
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.X_ATTACHMENT.STORE_WAY</code>. 「storeWay」-
-     * 存储方式，BLOB / FILE / TPL / REMOTE
+     * Setter for <code>DB_ETERNAL.X_ATTACHMENT.NAME</code>. 「name」- 文件名（带扩展名）
      */
     @Override
-    public XAttachment setStoreWay(String storeWay) {
-        this.storeWay = storeWay;
+    public XAttachment setName(String name) {
+        this.name = name;
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.X_ATTACHMENT.EXTENSION</code>. 「extension」-
+     * 文件扩展名
+     */
+    @Override
+    public String getExtension() {
+        return this.extension;
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.X_ATTACHMENT.EXTENSION</code>. 「extension」-
+     * 文件扩展名
+     */
+    @Override
+    public XAttachment setExtension(String extension) {
+        this.extension = extension;
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.X_ATTACHMENT.MODULE</code>. 「module」- 业务标识
+     */
+    @Override
+    public String getModule() {
+        return this.module;
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.X_ATTACHMENT.MODULE</code>. 「module」- 业务标识
+     */
+    @Override
+    public XAttachment setModule(String module) {
+        this.module = module;
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.X_ATTACHMENT.MIME</code>. 「mime」- 该文件的MIME类型
+     */
+    @Override
+    public String getMime() {
+        return this.mime;
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.X_ATTACHMENT.MIME</code>. 「mime」- 该文件的MIME类型
+     */
+    @Override
+    public XAttachment setMime(String mime) {
+        this.mime = mime;
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.X_ATTACHMENT.SIZE</code>. 「size」- 该文件的尺寸
+     */
+    @Override
+    public Integer getSize() {
+        return this.size;
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.X_ATTACHMENT.SIZE</code>. 「size」- 该文件的尺寸
+     */
+    @Override
+    public XAttachment setSize(Integer size) {
+        this.size = size;
         return this;
     }
 
@@ -171,19 +239,21 @@ public class XAttachment implements VertxPojo, IXAttachment {
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.X_ATTACHMENT.NAME</code>. 「name」- 文件名（带扩展名）
+     * Getter for <code>DB_ETERNAL.X_ATTACHMENT.STORE_WAY</code>. 「storeWay」-
+     * 存储方式，BLOB / FILE / TPL / REMOTE
      */
     @Override
-    public String getName() {
-        return this.name;
+    public String getStoreWay() {
+        return this.storeWay;
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.X_ATTACHMENT.NAME</code>. 「name」- 文件名（带扩展名）
+     * Setter for <code>DB_ETERNAL.X_ATTACHMENT.STORE_WAY</code>. 「storeWay」-
+     * 存储方式，BLOB / FILE / TPL / REMOTE
      */
     @Override
-    public XAttachment setName(String name) {
-        this.name = name;
+    public XAttachment setStoreWay(String storeWay) {
+        this.storeWay = storeWay;
         return this;
     }
 
@@ -260,76 +330,6 @@ public class XAttachment implements VertxPojo, IXAttachment {
     @Override
     public XAttachment setFilePath(String filePath) {
         this.filePath = filePath;
-        return this;
-    }
-
-    /**
-     * Getter for <code>DB_ETERNAL.X_ATTACHMENT.EXTENSION</code>. 「extension」-
-     * 文件扩展名
-     */
-    @Override
-    public String getExtension() {
-        return this.extension;
-    }
-
-    /**
-     * Setter for <code>DB_ETERNAL.X_ATTACHMENT.EXTENSION</code>. 「extension」-
-     * 文件扩展名
-     */
-    @Override
-    public XAttachment setExtension(String extension) {
-        this.extension = extension;
-        return this;
-    }
-
-    /**
-     * Getter for <code>DB_ETERNAL.X_ATTACHMENT.MODULE</code>. 「module」- 业务标识
-     */
-    @Override
-    public String getModule() {
-        return this.module;
-    }
-
-    /**
-     * Setter for <code>DB_ETERNAL.X_ATTACHMENT.MODULE</code>. 「module」- 业务标识
-     */
-    @Override
-    public XAttachment setModule(String module) {
-        this.module = module;
-        return this;
-    }
-
-    /**
-     * Getter for <code>DB_ETERNAL.X_ATTACHMENT.MIME</code>. 「mime」- 该文件的MIME类型
-     */
-    @Override
-    public String getMime() {
-        return this.mime;
-    }
-
-    /**
-     * Setter for <code>DB_ETERNAL.X_ATTACHMENT.MIME</code>. 「mime」- 该文件的MIME类型
-     */
-    @Override
-    public XAttachment setMime(String mime) {
-        this.mime = mime;
-        return this;
-    }
-
-    /**
-     * Getter for <code>DB_ETERNAL.X_ATTACHMENT.SIZE</code>. 「size」- 该文件的尺寸
-     */
-    @Override
-    public Integer getSize() {
-        return this.size;
-    }
-
-    /**
-     * Setter for <code>DB_ETERNAL.X_ATTACHMENT.SIZE</code>. 「size」- 该文件的尺寸
-     */
-    @Override
-    public XAttachment setSize(Integer size) {
-        this.size = size;
         return this;
     }
 
@@ -486,17 +486,17 @@ public class XAttachment implements VertxPojo, IXAttachment {
         StringBuilder sb = new StringBuilder("XAttachment (");
 
         sb.append(key);
-        sb.append(", ").append(storeWay);
-        sb.append(", ").append(status);
         sb.append(", ").append(name);
-        sb.append(", ").append(fileName);
-        sb.append(", ").append(fileKey);
-        sb.append(", ").append(fileUrl);
-        sb.append(", ").append(filePath);
         sb.append(", ").append(extension);
         sb.append(", ").append(module);
         sb.append(", ").append(mime);
         sb.append(", ").append(size);
+        sb.append(", ").append(status);
+        sb.append(", ").append(storeWay);
+        sb.append(", ").append(fileName);
+        sb.append(", ").append(fileKey);
+        sb.append(", ").append(fileUrl);
+        sb.append(", ").append(filePath);
         sb.append(", ").append(active);
         sb.append(", ").append(sigma);
         sb.append(", ").append(metadata);
@@ -517,17 +517,17 @@ public class XAttachment implements VertxPojo, IXAttachment {
     @Override
     public void from(IXAttachment from) {
         setKey(from.getKey());
-        setStoreWay(from.getStoreWay());
-        setStatus(from.getStatus());
         setName(from.getName());
-        setFileName(from.getFileName());
-        setFileKey(from.getFileKey());
-        setFileUrl(from.getFileUrl());
-        setFilePath(from.getFilePath());
         setExtension(from.getExtension());
         setModule(from.getModule());
         setMime(from.getMime());
         setSize(from.getSize());
+        setStatus(from.getStatus());
+        setStoreWay(from.getStoreWay());
+        setFileName(from.getFileName());
+        setFileKey(from.getFileKey());
+        setFileUrl(from.getFileUrl());
+        setFilePath(from.getFilePath());
         setActive(from.getActive());
         setSigma(from.getSigma());
         setMetadata(from.getMetadata());

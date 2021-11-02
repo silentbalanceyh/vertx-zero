@@ -9,6 +9,7 @@ import cn.vertxup.erp.domain.tables.records.ECustomerRecord;
 
 import io.github.jklingsporn.vertx.jooq.shared.internal.AbstractVertxDAO;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Collection;
 
@@ -39,21 +40,6 @@ public class ECustomerDao extends AbstractVertxDAO<ECustomerRecord, cn.vertxup.e
         }
 
         /**
-     * Find records that have <code>COMMENT IN (values)</code> asynchronously
-     */
-        public Future<List<cn.vertxup.erp.domain.tables.pojos.ECustomer>> findManyByComment(Collection<String> values) {
-                return findManyByCondition(ECustomer.E_CUSTOMER.COMMENT.in(values));
-        }
-
-        /**
-     * Find records that have <code>COMMENT IN (values)</code> asynchronously
-     * limited by the given limit
-     */
-        public Future<List<cn.vertxup.erp.domain.tables.pojos.ECustomer>> findManyByComment(Collection<String> values, int limit) {
-                return findManyByCondition(ECustomer.E_CUSTOMER.COMMENT.in(values),limit);
-        }
-
-        /**
      * Find records that have <code>NAME IN (values)</code> asynchronously
      */
         public Future<List<cn.vertxup.erp.domain.tables.pojos.ECustomer>> findManyByName(Collection<String> values) {
@@ -69,21 +55,6 @@ public class ECustomerDao extends AbstractVertxDAO<ECustomerRecord, cn.vertxup.e
         }
 
         /**
-     * Find records that have <code>TITLE IN (values)</code> asynchronously
-     */
-        public Future<List<cn.vertxup.erp.domain.tables.pojos.ECustomer>> findManyByTitle(Collection<String> values) {
-                return findManyByCondition(ECustomer.E_CUSTOMER.TITLE.in(values));
-        }
-
-        /**
-     * Find records that have <code>TITLE IN (values)</code> asynchronously
-     * limited by the given limit
-     */
-        public Future<List<cn.vertxup.erp.domain.tables.pojos.ECustomer>> findManyByTitle(Collection<String> values, int limit) {
-                return findManyByCondition(ECustomer.E_CUSTOMER.TITLE.in(values),limit);
-        }
-
-        /**
      * Find records that have <code>CODE IN (values)</code> asynchronously
      */
         public Future<List<cn.vertxup.erp.domain.tables.pojos.ECustomer>> findManyByCode(Collection<String> values) {
@@ -96,6 +67,21 @@ public class ECustomerDao extends AbstractVertxDAO<ECustomerRecord, cn.vertxup.e
      */
         public Future<List<cn.vertxup.erp.domain.tables.pojos.ECustomer>> findManyByCode(Collection<String> values, int limit) {
                 return findManyByCondition(ECustomer.E_CUSTOMER.CODE.in(values),limit);
+        }
+
+        /**
+     * Find records that have <code>TYPE IN (values)</code> asynchronously
+     */
+        public Future<List<cn.vertxup.erp.domain.tables.pojos.ECustomer>> findManyByType(Collection<String> values) {
+                return findManyByCondition(ECustomer.E_CUSTOMER.TYPE.in(values));
+        }
+
+        /**
+     * Find records that have <code>TYPE IN (values)</code> asynchronously
+     * limited by the given limit
+     */
+        public Future<List<cn.vertxup.erp.domain.tables.pojos.ECustomer>> findManyByType(Collection<String> values, int limit) {
+                return findManyByCondition(ECustomer.E_CUSTOMER.TYPE.in(values),limit);
         }
 
         /**
@@ -193,6 +179,36 @@ public class ECustomerDao extends AbstractVertxDAO<ECustomerRecord, cn.vertxup.e
         }
 
         /**
+     * Find records that have <code>TITLE IN (values)</code> asynchronously
+     */
+        public Future<List<cn.vertxup.erp.domain.tables.pojos.ECustomer>> findManyByTitle(Collection<String> values) {
+                return findManyByCondition(ECustomer.E_CUSTOMER.TITLE.in(values));
+        }
+
+        /**
+     * Find records that have <code>TITLE IN (values)</code> asynchronously
+     * limited by the given limit
+     */
+        public Future<List<cn.vertxup.erp.domain.tables.pojos.ECustomer>> findManyByTitle(Collection<String> values, int limit) {
+                return findManyByCondition(ECustomer.E_CUSTOMER.TITLE.in(values),limit);
+        }
+
+        /**
+     * Find records that have <code>COMMENT IN (values)</code> asynchronously
+     */
+        public Future<List<cn.vertxup.erp.domain.tables.pojos.ECustomer>> findManyByComment(Collection<String> values) {
+                return findManyByCondition(ECustomer.E_CUSTOMER.COMMENT.in(values));
+        }
+
+        /**
+     * Find records that have <code>COMMENT IN (values)</code> asynchronously
+     * limited by the given limit
+     */
+        public Future<List<cn.vertxup.erp.domain.tables.pojos.ECustomer>> findManyByComment(Collection<String> values, int limit) {
+                return findManyByCondition(ECustomer.E_CUSTOMER.COMMENT.in(values),limit);
+        }
+
+        /**
      * Find records that have <code>EMAIL IN (values)</code> asynchronously
      */
         public Future<List<cn.vertxup.erp.domain.tables.pojos.ECustomer>> findManyByEmail(Collection<String> values) {
@@ -283,6 +299,36 @@ public class ECustomerDao extends AbstractVertxDAO<ECustomerRecord, cn.vertxup.e
         }
 
         /**
+     * Find records that have <code>SIGN_NAME IN (values)</code> asynchronously
+     */
+        public Future<List<cn.vertxup.erp.domain.tables.pojos.ECustomer>> findManyBySignName(Collection<String> values) {
+                return findManyByCondition(ECustomer.E_CUSTOMER.SIGN_NAME.in(values));
+        }
+
+        /**
+     * Find records that have <code>SIGN_NAME IN (values)</code> asynchronously
+     * limited by the given limit
+     */
+        public Future<List<cn.vertxup.erp.domain.tables.pojos.ECustomer>> findManyBySignName(Collection<String> values, int limit) {
+                return findManyByCondition(ECustomer.E_CUSTOMER.SIGN_NAME.in(values),limit);
+        }
+
+        /**
+     * Find records that have <code>SIGN_PHONE IN (values)</code> asynchronously
+     */
+        public Future<List<cn.vertxup.erp.domain.tables.pojos.ECustomer>> findManyBySignPhone(Collection<String> values) {
+                return findManyByCondition(ECustomer.E_CUSTOMER.SIGN_PHONE.in(values));
+        }
+
+        /**
+     * Find records that have <code>SIGN_PHONE IN (values)</code> asynchronously
+     * limited by the given limit
+     */
+        public Future<List<cn.vertxup.erp.domain.tables.pojos.ECustomer>> findManyBySignPhone(Collection<String> values, int limit) {
+                return findManyByCondition(ECustomer.E_CUSTOMER.SIGN_PHONE.in(values),limit);
+        }
+
+        /**
      * Find records that have <code>RUN_UP IN (values)</code> asynchronously
      */
         public Future<List<cn.vertxup.erp.domain.tables.pojos.ECustomer>> findManyByRunUp(Collection<Boolean> values) {
@@ -298,18 +344,18 @@ public class ECustomerDao extends AbstractVertxDAO<ECustomerRecord, cn.vertxup.e
         }
 
         /**
-     * Find records that have <code>TYPE IN (values)</code> asynchronously
+     * Find records that have <code>RUN_AMOUNT IN (values)</code> asynchronously
      */
-        public Future<List<cn.vertxup.erp.domain.tables.pojos.ECustomer>> findManyByType(Collection<String> values) {
-                return findManyByCondition(ECustomer.E_CUSTOMER.TYPE.in(values));
+        public Future<List<cn.vertxup.erp.domain.tables.pojos.ECustomer>> findManyByRunAmount(Collection<BigDecimal> values) {
+                return findManyByCondition(ECustomer.E_CUSTOMER.RUN_AMOUNT.in(values));
         }
 
         /**
-     * Find records that have <code>TYPE IN (values)</code> asynchronously
+     * Find records that have <code>RUN_AMOUNT IN (values)</code> asynchronously
      * limited by the given limit
      */
-        public Future<List<cn.vertxup.erp.domain.tables.pojos.ECustomer>> findManyByType(Collection<String> values, int limit) {
-                return findManyByCondition(ECustomer.E_CUSTOMER.TYPE.in(values),limit);
+        public Future<List<cn.vertxup.erp.domain.tables.pojos.ECustomer>> findManyByRunAmount(Collection<BigDecimal> values, int limit) {
+                return findManyByCondition(ECustomer.E_CUSTOMER.RUN_AMOUNT.in(values),limit);
         }
 
         /**
