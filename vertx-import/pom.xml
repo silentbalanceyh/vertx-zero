@@ -141,6 +141,16 @@
                 <artifactId>zero-fm</artifactId>
                 <version>${zero.version}</version>
             </dependency>
+            <dependency>
+                <groupId>cn.vertxup</groupId>
+                <artifactId>zero-psi</artifactId>
+                <version>${zero.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.vertxup</groupId>
+                <artifactId>zero-wf</artifactId>
+                <version>${zero.version}</version>
+            </dependency>
             <!-- Zero Infix -->
             <dependency>
                 <groupId>cn.vertxup</groupId>

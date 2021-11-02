@@ -43,6 +43,16 @@
             <artifactId>zero-jet</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <dependency>
+            <groupId>cn.vertxup</groupId>
+            <artifactId>zero-psi</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>cn.vertxup</groupId>
+            <artifactId>zero-wf</artifactId>
+            <version>${project.version}</version>
+        </dependency>
         <!-- ERP组织架构管理 -->
         <dependency>
             <groupId>cn.vertxup</groupId>

@@ -1,7 +1,7 @@
 <included>
-    <appender name="FMT" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <appender name="WF" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>${LOG_FOLDER}/zero-epic-extension/module-fmt.log</fileNamePattern>
+            <fileNamePattern>${LOG_FOLDER}/zero-epic-extension/module-workflow.log</fileNamePattern>
             <maxHistory>${LOG_MAX_HISTORY}</maxHistory>
         </rollingPolicy>
         <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
@@ -11,12 +11,12 @@
             <MaxFileSize>${LOG_MAX_FILE_SIZE}</MaxFileSize>
         </triggeringPolicy>
     </appender>
-    <appender name="ASYNC_FMT" class="ch.qos.logback.classic.AsyncAppender">
+    <appender name="ASYNC_WF" class="ch.qos.logback.classic.AsyncAppender">
         <discardingThreshold>0</discardingThreshold>
         <queueSize>512</queueSize>
-        <appender-ref ref="FMT"/>
+        <appender-ref ref="WF"/>
     </appender>
-    <logger name="io.vertx.tp.fmt" level="INFO">
-        <appender-ref ref="ASYNC_FMT"/>
+    <logger name="io.vertx.tp.wf" level="INFO">
+        <appender-ref ref="ASYNC_WF"/>
     </logger>
 </included>
