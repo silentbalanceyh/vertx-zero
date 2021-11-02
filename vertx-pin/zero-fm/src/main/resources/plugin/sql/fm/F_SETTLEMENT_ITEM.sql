@@ -10,15 +10,17 @@ CREATE TABLE `F_SETTLEMENT_ITEM`
     `SERIAL`        VARCHAR(255)   NOT NULL COMMENT '「serial」 - 明细编号',
 
     -- 明细数据
+    `TYPE`          VARCHAR(36)    NOT NULL COMMENT '「type」- 明细类型',
     `AMOUNT`        DECIMAL(18, 2) NOT NULL COMMENT '「amount」——价税合计，实际结算金额',
     `COMMENT`       LONGTEXT COMMENT '「comment」 - 明细备注',
     `MANUAL_NO`     VARCHAR(255) COMMENT '「manualNo」 - 手工单号（线下单号专用）',
+    `PAY_TERM_ID`   VARCHAR(36)    NOT NULL COMMENT '「payTermId」- 账单项ID',
 
     -- 结算基础信息
-    `CUSTOMER_ID`   VARCHAR(36) DEFAULT NULL COMMENT '「customerId」结算对象（单位ID）',
-    `PAY_TERM_ID`   VARCHAR(36)    NOT NULL COMMENT '「payTermId」- 账单项ID',
+    `RELATED_ID`    VARCHAR(36) COMMENT '「relatedId」- 关联BillItem ID（保留，原系统存在）',
     `SETTLEMENT_ID` VARCHAR(36) COMMENT '「settlementId」- 结算单ID，该字段有值标识已经结算',
-    `RECEIVABLE_ID` VARCHAR(36) COMMENT '「receivableId」- 应收账单ID',
+    `DEBT_ID`       VARCHAR(36) COMMENT '「debtId」- 应收账单ID',
+    `INVOICE_ID`    VARCHAR(36) COMMENT '「invoiceId」- 开票ID',
 
     -- 特殊字段
     `SIGMA`         VARCHAR(32) COMMENT '「sigma」- 统一标识',

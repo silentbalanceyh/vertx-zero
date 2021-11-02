@@ -18,6 +18,7 @@ CREATE TABLE `F_PRE_AUTHORIZE`
     -- 关联信息
     `ORDER_ID`   VARCHAR(36) DEFAULT NULL COMMENT '「orderId」- 预授权所属订单ID',
     `BILL_ID`    VARCHAR(36) DEFAULT NULL COMMENT '「billId」- 预授权所属账单ID',
+    `BOOK_ID`    VARCHAR(36) DEFAULT NULL COMMENT '「bookId」- 所属账本ID',
 
     -- 特殊字段
     `SIGMA`      VARCHAR(32) COMMENT '「sigma」- 统一标识',
@@ -29,8 +30,9 @@ CREATE TABLE `F_PRE_AUTHORIZE`
     `CREATED_AT` DATETIME COMMENT '「createdAt」- 创建时间',
     `CREATED_BY` VARCHAR(36) COMMENT '「createdBy」- 创建人',
     `UPDATED_AT` DATETIME COMMENT '「updatedAt」- 更新时间',
-    `UPDATED_BY` VARCHAR(36) COMMENT '「updatedBy」- 更新人'
-)
+    `UPDATED_BY` VARCHAR(36) COMMENT '「updatedBy」- 更新人',
+    PRIMARY KEY (`KEY`)
+);
 -- changeset Lang:f-pre-authorize-2
 ALTER TABLE F_PRE_AUTHORIZE
     ADD UNIQUE (`CODE`, `BILL_ID`, `SIGMA`);

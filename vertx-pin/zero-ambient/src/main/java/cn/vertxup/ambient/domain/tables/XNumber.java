@@ -93,6 +93,10 @@ public class XNumber extends TableImpl<XNumberRecord> {
      */
     public final TableField<XNumberRecord, String> APP_ID = createField(DSL.name("APP_ID"), SQLDataType.VARCHAR(255), this, "「appId」- 关联的应用程序ID");
     /**
+     * The column <code>DB_ETERNAL.X_NUMBER.RENEWAL</code>. 「renewal」- 是否循环
+     */
+    public final TableField<XNumberRecord, Boolean> RENEWAL = createField(DSL.name("RENEWAL"), SQLDataType.BIT.defaultValue(DSL.inline("b'0'", SQLDataType.BIT)), this, "「renewal」- 是否循环");
+    /**
      * The column <code>DB_ETERNAL.X_NUMBER.ACTIVE</code>. 「active」- 是否启用
      */
     public final TableField<XNumberRecord, Boolean> ACTIVE = createField(DSL.name("ACTIVE"), SQLDataType.BIT, this, "「active」- 是否启用");
@@ -208,11 +212,11 @@ public class XNumber extends TableImpl<XNumberRecord> {
     }
 
     // -------------------------------------------------------------------------
-    // Row21 type methods
+    // Row22 type methods
     // -------------------------------------------------------------------------
 
     @Override
-    public Row21<String, String, String, Long, String, String, String, String, String, Integer, Integer, Boolean, String, Boolean, String, String, String, LocalDateTime, String, LocalDateTime, String> fieldsRow() {
-        return (Row21) super.fieldsRow();
+    public Row22<String, String, String, Long, String, String, String, String, String, Integer, Integer, Boolean, String, Boolean, Boolean, String, String, String, LocalDateTime, String, LocalDateTime, String> fieldsRow() {
+        return (Row22) super.fieldsRow();
     }
 }

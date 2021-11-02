@@ -219,6 +219,21 @@ public class XNumberDao extends AbstractVertxDAO<XNumberRecord, cn.vertxup.ambie
         }
 
         /**
+     * Find records that have <code>RENEWAL IN (values)</code> asynchronously
+     */
+        public Future<List<cn.vertxup.ambient.domain.tables.pojos.XNumber>> findManyByRenewal(Collection<Boolean> values) {
+                return findManyByCondition(XNumber.X_NUMBER.RENEWAL.in(values));
+        }
+
+        /**
+     * Find records that have <code>RENEWAL IN (values)</code> asynchronously
+     * limited by the given limit
+     */
+        public Future<List<cn.vertxup.ambient.domain.tables.pojos.XNumber>> findManyByRenewal(Collection<Boolean> values, int limit) {
+                return findManyByCondition(XNumber.X_NUMBER.RENEWAL.in(values),limit);
+        }
+
+        /**
      * Find records that have <code>ACTIVE IN (values)</code> asynchronously
      */
         public Future<List<cn.vertxup.ambient.domain.tables.pojos.XNumber>> findManyByActive(Collection<Boolean> values) {

@@ -48,6 +48,10 @@ public class FSettlementItem extends TableImpl<FSettlementItemRecord> {
      */
     public final TableField<FSettlementItemRecord, String> SERIAL = createField(DSL.name("SERIAL"), SQLDataType.VARCHAR(255).nullable(false), this, "「serial」 - 明细编号");
     /**
+     * The column <code>DB_ETERNAL.F_SETTLEMENT_ITEM.TYPE</code>. 「type」- 明细类型
+     */
+    public final TableField<FSettlementItemRecord, String> TYPE = createField(DSL.name("TYPE"), SQLDataType.VARCHAR(36).nullable(false), this, "「type」- 明细类型");
+    /**
      * The column <code>DB_ETERNAL.F_SETTLEMENT_ITEM.AMOUNT</code>.
      * 「amount」——价税合计，实际结算金额
      */
@@ -63,25 +67,30 @@ public class FSettlementItem extends TableImpl<FSettlementItemRecord> {
      */
     public final TableField<FSettlementItemRecord, String> MANUAL_NO = createField(DSL.name("MANUAL_NO"), SQLDataType.VARCHAR(255), this, "「manualNo」 - 手工单号（线下单号专用）");
     /**
-     * The column <code>DB_ETERNAL.F_SETTLEMENT_ITEM.CUSTOMER_ID</code>.
-     * 「customerId」结算对象（单位ID）
-     */
-    public final TableField<FSettlementItemRecord, String> CUSTOMER_ID = createField(DSL.name("CUSTOMER_ID"), SQLDataType.VARCHAR(36), this, "「customerId」结算对象（单位ID）");
-    /**
      * The column <code>DB_ETERNAL.F_SETTLEMENT_ITEM.PAY_TERM_ID</code>.
      * 「payTermId」- 账单项ID
      */
     public final TableField<FSettlementItemRecord, String> PAY_TERM_ID = createField(DSL.name("PAY_TERM_ID"), SQLDataType.VARCHAR(36).nullable(false), this, "「payTermId」- 账单项ID");
+    /**
+     * The column <code>DB_ETERNAL.F_SETTLEMENT_ITEM.RELATED_ID</code>.
+     * 「relatedId」- 关联BillItem ID（保留，原系统存在）
+     */
+    public final TableField<FSettlementItemRecord, String> RELATED_ID = createField(DSL.name("RELATED_ID"), SQLDataType.VARCHAR(36), this, "「relatedId」- 关联BillItem ID（保留，原系统存在）");
     /**
      * The column <code>DB_ETERNAL.F_SETTLEMENT_ITEM.SETTLEMENT_ID</code>.
      * 「settlementId」- 结算单ID，该字段有值标识已经结算
      */
     public final TableField<FSettlementItemRecord, String> SETTLEMENT_ID = createField(DSL.name("SETTLEMENT_ID"), SQLDataType.VARCHAR(36), this, "「settlementId」- 结算单ID，该字段有值标识已经结算");
     /**
-     * The column <code>DB_ETERNAL.F_SETTLEMENT_ITEM.RECEIVABLE_ID</code>.
-     * 「receivableId」- 应收账单ID
+     * The column <code>DB_ETERNAL.F_SETTLEMENT_ITEM.DEBT_ID</code>. 「debtId」-
+     * 应收账单ID
      */
-    public final TableField<FSettlementItemRecord, String> RECEIVABLE_ID = createField(DSL.name("RECEIVABLE_ID"), SQLDataType.VARCHAR(36), this, "「receivableId」- 应收账单ID");
+    public final TableField<FSettlementItemRecord, String> DEBT_ID = createField(DSL.name("DEBT_ID"), SQLDataType.VARCHAR(36), this, "「debtId」- 应收账单ID");
+    /**
+     * The column <code>DB_ETERNAL.F_SETTLEMENT_ITEM.INVOICE_ID</code>.
+     * 「invoiceId」- 开票ID
+     */
+    public final TableField<FSettlementItemRecord, String> INVOICE_ID = createField(DSL.name("INVOICE_ID"), SQLDataType.VARCHAR(36), this, "「invoiceId」- 开票ID");
     /**
      * The column <code>DB_ETERNAL.F_SETTLEMENT_ITEM.SIGMA</code>. 「sigma」- 统一标识
      */
@@ -207,11 +216,11 @@ public class FSettlementItem extends TableImpl<FSettlementItemRecord> {
     }
 
     // -------------------------------------------------------------------------
-    // Row19 type methods
+    // Row21 type methods
     // -------------------------------------------------------------------------
 
     @Override
-    public Row19<String, String, String, String, BigDecimal, String, String, String, String, String, String, String, String, Boolean, String, LocalDateTime, String, LocalDateTime, String> fieldsRow() {
-        return (Row19) super.fieldsRow();
+    public Row21<String, String, String, String, String, BigDecimal, String, String, String, String, String, String, String, String, String, Boolean, String, LocalDateTime, String, LocalDateTime, String> fieldsRow() {
+        return (Row21) super.fieldsRow();
     }
 }

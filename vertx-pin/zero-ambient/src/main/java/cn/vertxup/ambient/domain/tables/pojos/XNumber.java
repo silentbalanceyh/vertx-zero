@@ -33,6 +33,7 @@ public class XNumber implements VertxPojo, IXNumber {
     private Integer       step;
     private Boolean       decrement;
     private String        appId;
+    private Boolean       renewal;
     private Boolean       active;
     private String        sigma;
     private String        metadata;
@@ -58,6 +59,7 @@ public class XNumber implements VertxPojo, IXNumber {
         this.step = value.getStep();
         this.decrement = value.getDecrement();
         this.appId = value.getAppId();
+        this.renewal = value.getRenewal();
         this.active = value.getActive();
         this.sigma = value.getSigma();
         this.metadata = value.getMetadata();
@@ -82,6 +84,7 @@ public class XNumber implements VertxPojo, IXNumber {
         Integer       step,
         Boolean       decrement,
         String        appId,
+        Boolean       renewal,
         Boolean       active,
         String        sigma,
         String        metadata,
@@ -104,6 +107,7 @@ public class XNumber implements VertxPojo, IXNumber {
         this.step = step;
         this.decrement = decrement;
         this.appId = appId;
+        this.renewal = renewal;
         this.active = active;
         this.sigma = sigma;
         this.metadata = metadata;
@@ -365,6 +369,23 @@ public class XNumber implements VertxPojo, IXNumber {
     }
 
     /**
+     * Getter for <code>DB_ETERNAL.X_NUMBER.RENEWAL</code>. 「renewal」- 是否循环
+     */
+    @Override
+    public Boolean getRenewal() {
+        return this.renewal;
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.X_NUMBER.RENEWAL</code>. 「renewal」- 是否循环
+     */
+    @Override
+    public XNumber setRenewal(Boolean renewal) {
+        this.renewal = renewal;
+        return this;
+    }
+
+    /**
      * Getter for <code>DB_ETERNAL.X_NUMBER.ACTIVE</code>. 「active」- 是否启用
      */
     @Override
@@ -517,6 +538,7 @@ public class XNumber implements VertxPojo, IXNumber {
         sb.append(", ").append(step);
         sb.append(", ").append(decrement);
         sb.append(", ").append(appId);
+        sb.append(", ").append(renewal);
         sb.append(", ").append(active);
         sb.append(", ").append(sigma);
         sb.append(", ").append(metadata);
@@ -549,6 +571,7 @@ public class XNumber implements VertxPojo, IXNumber {
         setStep(from.getStep());
         setDecrement(from.getDecrement());
         setAppId(from.getAppId());
+        setRenewal(from.getRenewal());
         setActive(from.getActive());
         setSigma(from.getSigma());
         setMetadata(from.getMetadata());

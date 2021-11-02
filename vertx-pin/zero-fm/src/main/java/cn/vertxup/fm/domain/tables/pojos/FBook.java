@@ -26,6 +26,7 @@ public class FBook implements VertxPojo, IFBook {
     private String        code;
     private String        serial;
     private String        type;
+    private String        status;
     private Boolean       major;
     private BigDecimal    amount;
     private String        comment;
@@ -33,9 +34,6 @@ public class FBook implements VertxPojo, IFBook {
     private String        checkedDesc;
     private Boolean       exceed;
     private String        exceedDesc;
-    private String        preAuthorizeId;
-    private Boolean       preAuthorize;
-    private String        preAuthorizeDesc;
     private String        modelId;
     private String        modelKey;
     private String        parentId;
@@ -57,6 +55,7 @@ public class FBook implements VertxPojo, IFBook {
         this.code = value.getCode();
         this.serial = value.getSerial();
         this.type = value.getType();
+        this.status = value.getStatus();
         this.major = value.getMajor();
         this.amount = value.getAmount();
         this.comment = value.getComment();
@@ -64,9 +63,6 @@ public class FBook implements VertxPojo, IFBook {
         this.checkedDesc = value.getCheckedDesc();
         this.exceed = value.getExceed();
         this.exceedDesc = value.getExceedDesc();
-        this.preAuthorizeId = value.getPreAuthorizeId();
-        this.preAuthorize = value.getPreAuthorize();
-        this.preAuthorizeDesc = value.getPreAuthorizeDesc();
         this.modelId = value.getModelId();
         this.modelKey = value.getModelKey();
         this.parentId = value.getParentId();
@@ -87,6 +83,7 @@ public class FBook implements VertxPojo, IFBook {
         String        code,
         String        serial,
         String        type,
+        String        status,
         Boolean       major,
         BigDecimal    amount,
         String        comment,
@@ -94,9 +91,6 @@ public class FBook implements VertxPojo, IFBook {
         String        checkedDesc,
         Boolean       exceed,
         String        exceedDesc,
-        String        preAuthorizeId,
-        Boolean       preAuthorize,
-        String        preAuthorizeDesc,
         String        modelId,
         String        modelKey,
         String        parentId,
@@ -115,6 +109,7 @@ public class FBook implements VertxPojo, IFBook {
         this.code = code;
         this.serial = serial;
         this.type = type;
+        this.status = status;
         this.major = major;
         this.amount = amount;
         this.comment = comment;
@@ -122,9 +117,6 @@ public class FBook implements VertxPojo, IFBook {
         this.checkedDesc = checkedDesc;
         this.exceed = exceed;
         this.exceedDesc = exceedDesc;
-        this.preAuthorizeId = preAuthorizeId;
-        this.preAuthorize = preAuthorize;
-        this.preAuthorizeDesc = preAuthorizeDesc;
         this.modelId = modelId;
         this.modelKey = modelKey;
         this.parentId = parentId;
@@ -226,6 +218,23 @@ public class FBook implements VertxPojo, IFBook {
     @Override
     public FBook setType(String type) {
         this.type = type;
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.F_BOOK.STATUS</code>. 「status」 - 账本状态
+     */
+    @Override
+    public String getStatus() {
+        return this.status;
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.F_BOOK.STATUS</code>. 「status」 - 账本状态
+     */
+    @Override
+    public FBook setStatus(String status) {
+        this.status = status;
         return this;
     }
 
@@ -351,63 +360,6 @@ public class FBook implements VertxPojo, IFBook {
     @Override
     public FBook setExceedDesc(String exceedDesc) {
         this.exceedDesc = exceedDesc;
-        return this;
-    }
-
-    /**
-     * Getter for <code>DB_ETERNAL.F_BOOK.PRE_AUTHORIZE_ID</code>.
-     * 「preAuthorizeId」- 关联预授权
-     */
-    @Override
-    public String getPreAuthorizeId() {
-        return this.preAuthorizeId;
-    }
-
-    /**
-     * Setter for <code>DB_ETERNAL.F_BOOK.PRE_AUTHORIZE_ID</code>.
-     * 「preAuthorizeId」- 关联预授权
-     */
-    @Override
-    public FBook setPreAuthorizeId(String preAuthorizeId) {
-        this.preAuthorizeId = preAuthorizeId;
-        return this;
-    }
-
-    /**
-     * Getter for <code>DB_ETERNAL.F_BOOK.PRE_AUTHORIZE</code>. 「preAuthorize」-
-     * 是否预授权
-     */
-    @Override
-    public Boolean getPreAuthorize() {
-        return this.preAuthorize;
-    }
-
-    /**
-     * Setter for <code>DB_ETERNAL.F_BOOK.PRE_AUTHORIZE</code>. 「preAuthorize」-
-     * 是否预授权
-     */
-    @Override
-    public FBook setPreAuthorize(Boolean preAuthorize) {
-        this.preAuthorize = preAuthorize;
-        return this;
-    }
-
-    /**
-     * Getter for <code>DB_ETERNAL.F_BOOK.PRE_AUTHORIZE_DESC</code>.
-     * 「preAuthorizeDesc」 - 预授权描述信息
-     */
-    @Override
-    public String getPreAuthorizeDesc() {
-        return this.preAuthorizeDesc;
-    }
-
-    /**
-     * Setter for <code>DB_ETERNAL.F_BOOK.PRE_AUTHORIZE_DESC</code>.
-     * 「preAuthorizeDesc」 - 预授权描述信息
-     */
-    @Override
-    public FBook setPreAuthorizeDesc(String preAuthorizeDesc) {
-        this.preAuthorizeDesc = preAuthorizeDesc;
         return this;
     }
 
@@ -630,6 +582,7 @@ public class FBook implements VertxPojo, IFBook {
         sb.append(", ").append(code);
         sb.append(", ").append(serial);
         sb.append(", ").append(type);
+        sb.append(", ").append(status);
         sb.append(", ").append(major);
         sb.append(", ").append(amount);
         sb.append(", ").append(comment);
@@ -637,9 +590,6 @@ public class FBook implements VertxPojo, IFBook {
         sb.append(", ").append(checkedDesc);
         sb.append(", ").append(exceed);
         sb.append(", ").append(exceedDesc);
-        sb.append(", ").append(preAuthorizeId);
-        sb.append(", ").append(preAuthorize);
-        sb.append(", ").append(preAuthorizeDesc);
         sb.append(", ").append(modelId);
         sb.append(", ").append(modelKey);
         sb.append(", ").append(parentId);
@@ -668,6 +618,7 @@ public class FBook implements VertxPojo, IFBook {
         setCode(from.getCode());
         setSerial(from.getSerial());
         setType(from.getType());
+        setStatus(from.getStatus());
         setMajor(from.getMajor());
         setAmount(from.getAmount());
         setComment(from.getComment());
@@ -675,9 +626,6 @@ public class FBook implements VertxPojo, IFBook {
         setCheckedDesc(from.getCheckedDesc());
         setExceed(from.getExceed());
         setExceedDesc(from.getExceedDesc());
-        setPreAuthorizeId(from.getPreAuthorizeId());
-        setPreAuthorize(from.getPreAuthorize());
-        setPreAuthorizeDesc(from.getPreAuthorizeDesc());
         setModelId(from.getModelId());
         setModelKey(from.getModelKey());
         setParentId(from.getParentId());

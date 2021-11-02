@@ -30,16 +30,14 @@ public class FBillItem implements VertxPojo, IFBillItem {
     private BigDecimal    amount;
     private String        comment;
     private String        manualNo;
+    private String        unit;
     private BigDecimal    price;
     private Integer       quantity;
     private BigDecimal    amountTotal;
-    private Boolean       delay;
-    private LocalDateTime delayAt;
     private String        opBy;
     private String        opNumber;
     private String        opShift;
     private LocalDateTime opAt;
-    private String        opTransfer;
     private String        relatedId;
     private String        settlementId;
     private String        billId;
@@ -66,16 +64,14 @@ public class FBillItem implements VertxPojo, IFBillItem {
         this.amount = value.getAmount();
         this.comment = value.getComment();
         this.manualNo = value.getManualNo();
+        this.unit = value.getUnit();
         this.price = value.getPrice();
         this.quantity = value.getQuantity();
         this.amountTotal = value.getAmountTotal();
-        this.delay = value.getDelay();
-        this.delayAt = value.getDelayAt();
         this.opBy = value.getOpBy();
         this.opNumber = value.getOpNumber();
         this.opShift = value.getOpShift();
         this.opAt = value.getOpAt();
-        this.opTransfer = value.getOpTransfer();
         this.relatedId = value.getRelatedId();
         this.settlementId = value.getSettlementId();
         this.billId = value.getBillId();
@@ -101,16 +97,14 @@ public class FBillItem implements VertxPojo, IFBillItem {
         BigDecimal    amount,
         String        comment,
         String        manualNo,
+        String        unit,
         BigDecimal    price,
         Integer       quantity,
         BigDecimal    amountTotal,
-        Boolean       delay,
-        LocalDateTime delayAt,
         String        opBy,
         String        opNumber,
         String        opShift,
         LocalDateTime opAt,
-        String        opTransfer,
         String        relatedId,
         String        settlementId,
         String        billId,
@@ -134,16 +128,14 @@ public class FBillItem implements VertxPojo, IFBillItem {
         this.amount = amount;
         this.comment = comment;
         this.manualNo = manualNo;
+        this.unit = unit;
         this.price = price;
         this.quantity = quantity;
         this.amountTotal = amountTotal;
-        this.delay = delay;
-        this.delayAt = delayAt;
         this.opBy = opBy;
         this.opNumber = opNumber;
         this.opShift = opShift;
         this.opAt = opAt;
-        this.opTransfer = opTransfer;
         this.relatedId = relatedId;
         this.settlementId = settlementId;
         this.billId = billId;
@@ -322,6 +314,23 @@ public class FBillItem implements VertxPojo, IFBillItem {
     }
 
     /**
+     * Getter for <code>DB_ETERNAL.F_BILL_ITEM.UNIT</code>. 「unit」- 计量单位
+     */
+    @Override
+    public String getUnit() {
+        return this.unit;
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.F_BILL_ITEM.UNIT</code>. 「unit」- 计量单位
+     */
+    @Override
+    public FBillItem setUnit(String unit) {
+        this.unit = unit;
+        return this;
+    }
+
+    /**
      * Getter for <code>DB_ETERNAL.F_BILL_ITEM.PRICE</code>. 「price」- 商品单价
      */
     @Override
@@ -371,42 +380,6 @@ public class FBillItem implements VertxPojo, IFBillItem {
     @Override
     public FBillItem setAmountTotal(BigDecimal amountTotal) {
         this.amountTotal = amountTotal;
-        return this;
-    }
-
-    /**
-     * Getter for <code>DB_ETERNAL.F_BILL_ITEM.DELAY</code>. 「delay」——是否S账
-     */
-    @Override
-    public Boolean getDelay() {
-        return this.delay;
-    }
-
-    /**
-     * Setter for <code>DB_ETERNAL.F_BILL_ITEM.DELAY</code>. 「delay」——是否S账
-     */
-    @Override
-    public FBillItem setDelay(Boolean delay) {
-        this.delay = delay;
-        return this;
-    }
-
-    /**
-     * Getter for <code>DB_ETERNAL.F_BILL_ITEM.DELAY_AT</code>.
-     * 「delayAt」——S账的最终期限
-     */
-    @Override
-    public LocalDateTime getDelayAt() {
-        return this.delayAt;
-    }
-
-    /**
-     * Setter for <code>DB_ETERNAL.F_BILL_ITEM.DELAY_AT</code>.
-     * 「delayAt」——S账的最终期限
-     */
-    @Override
-    public FBillItem setDelayAt(LocalDateTime delayAt) {
-        this.delayAt = delayAt;
         return this;
     }
 
@@ -479,25 +452,6 @@ public class FBillItem implements VertxPojo, IFBillItem {
     @Override
     public FBillItem setOpAt(LocalDateTime opAt) {
         this.opAt = opAt;
-        return this;
-    }
-
-    /**
-     * Getter for <code>DB_ETERNAL.F_BILL_ITEM.OP_TRANSFER</code>. 「opTransfer」-
-     * 流转信息描述填写
-     */
-    @Override
-    public String getOpTransfer() {
-        return this.opTransfer;
-    }
-
-    /**
-     * Setter for <code>DB_ETERNAL.F_BILL_ITEM.OP_TRANSFER</code>. 「opTransfer」-
-     * 流转信息描述填写
-     */
-    @Override
-    public FBillItem setOpTransfer(String opTransfer) {
-        this.opTransfer = opTransfer;
         return this;
     }
 
@@ -755,16 +709,14 @@ public class FBillItem implements VertxPojo, IFBillItem {
         sb.append(", ").append(amount);
         sb.append(", ").append(comment);
         sb.append(", ").append(manualNo);
+        sb.append(", ").append(unit);
         sb.append(", ").append(price);
         sb.append(", ").append(quantity);
         sb.append(", ").append(amountTotal);
-        sb.append(", ").append(delay);
-        sb.append(", ").append(delayAt);
         sb.append(", ").append(opBy);
         sb.append(", ").append(opNumber);
         sb.append(", ").append(opShift);
         sb.append(", ").append(opAt);
-        sb.append(", ").append(opTransfer);
         sb.append(", ").append(relatedId);
         sb.append(", ").append(settlementId);
         sb.append(", ").append(billId);
@@ -798,16 +750,14 @@ public class FBillItem implements VertxPojo, IFBillItem {
         setAmount(from.getAmount());
         setComment(from.getComment());
         setManualNo(from.getManualNo());
+        setUnit(from.getUnit());
         setPrice(from.getPrice());
         setQuantity(from.getQuantity());
         setAmountTotal(from.getAmountTotal());
-        setDelay(from.getDelay());
-        setDelayAt(from.getDelayAt());
         setOpBy(from.getOpBy());
         setOpNumber(from.getOpNumber());
         setOpShift(from.getOpShift());
         setOpAt(from.getOpAt());
-        setOpTransfer(from.getOpTransfer());
         setRelatedId(from.getRelatedId());
         setSettlementId(from.getSettlementId());
         setBillId(from.getBillId());

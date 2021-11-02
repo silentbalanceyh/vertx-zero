@@ -349,22 +349,6 @@ public class FInvoiceDao extends AbstractVertxDAO<FInvoiceRecord, cn.vertxup.fm.
         }
 
         /**
-     * Find records that have <code>SETTLEMENT_ID IN (values)</code>
-     * asynchronously
-     */
-        public Future<List<cn.vertxup.fm.domain.tables.pojos.FInvoice>> findManyBySettlementId(Collection<String> values) {
-                return findManyByCondition(FInvoice.F_INVOICE.SETTLEMENT_ID.in(values));
-        }
-
-        /**
-     * Find records that have <code>SETTLEMENT_ID IN (values)</code>
-     * asynchronously limited by the given limit
-     */
-        public Future<List<cn.vertxup.fm.domain.tables.pojos.FInvoice>> findManyBySettlementId(Collection<String> values, int limit) {
-                return findManyByCondition(FInvoice.F_INVOICE.SETTLEMENT_ID.in(values),limit);
-        }
-
-        /**
      * Find records that have <code>SIGMA IN (values)</code> asynchronously
      */
         public Future<List<cn.vertxup.fm.domain.tables.pojos.FInvoice>> findManyBySigma(Collection<String> values) {

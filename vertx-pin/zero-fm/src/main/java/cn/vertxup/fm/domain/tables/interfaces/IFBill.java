@@ -89,6 +89,18 @@ public interface IFBill extends VertxPojo, Serializable {
     public BigDecimal getAmount();
 
     /**
+     * Setter for <code>DB_ETERNAL.F_BILL.INCOME</code>. 「income」- true =
+     * 消费类，false = 付款类
+     */
+    public IFBill setIncome(Boolean value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.F_BILL.INCOME</code>. 「income」- true =
+     * 消费类，false = 付款类
+     */
+    public Boolean getIncome();
+
+    /**
      * Setter for <code>DB_ETERNAL.F_BILL.COMMENT</code>. 「comment」 - 账单备注
      */
     public IFBill setComment(String value);
@@ -97,6 +109,26 @@ public interface IFBill extends VertxPojo, Serializable {
      * Getter for <code>DB_ETERNAL.F_BILL.COMMENT</code>. 「comment」 - 账单备注
      */
     public String getComment();
+
+    /**
+     * Setter for <code>DB_ETERNAL.F_BILL.ORDER_ID</code>. 「orderId」- 订单对应的订单ID
+     */
+    public IFBill setOrderId(String value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.F_BILL.ORDER_ID</code>. 「orderId」- 订单对应的订单ID
+     */
+    public String getOrderId();
+
+    /**
+     * Setter for <code>DB_ETERNAL.F_BILL.BOOK_ID</code>. 「bookId」- 关联账本ID
+     */
+    public IFBill setBookId(String value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.F_BILL.BOOK_ID</code>. 「bookId」- 关联账本ID
+     */
+    public String getBookId();
 
     /**
      * Setter for <code>DB_ETERNAL.F_BILL.MODEL_ID</code>. 「modelId」-
@@ -121,26 +153,6 @@ public interface IFBill extends VertxPojo, Serializable {
      * 关联的模型记录ID，用于描述哪一个Model中的记录
      */
     public String getModelKey();
-
-    /**
-     * Setter for <code>DB_ETERNAL.F_BILL.ORDER_ID</code>. 「orderId」- 订单对应的订单ID
-     */
-    public IFBill setOrderId(String value);
-
-    /**
-     * Getter for <code>DB_ETERNAL.F_BILL.ORDER_ID</code>. 「orderId」- 订单对应的订单ID
-     */
-    public String getOrderId();
-
-    /**
-     * Setter for <code>DB_ETERNAL.F_BILL.BOOK_ID</code>. 「bookId」- 关联账本ID
-     */
-    public IFBill setBookId(String value);
-
-    /**
-     * Getter for <code>DB_ETERNAL.F_BILL.BOOK_ID</code>. 「bookId」- 关联账本ID
-     */
-    public String getBookId();
 
     /**
      * Setter for <code>DB_ETERNAL.F_BILL.SIGMA</code>. 「sigma」- 统一标识
@@ -247,11 +259,12 @@ public interface IFBill extends VertxPojo, Serializable {
                 setOrThrow(this::setType,json::getString,"TYPE","java.lang.String");
                 setOrThrow(this::setCategory,json::getString,"CATEGORY","java.lang.String");
                 // Omitting unrecognized type java.math.BigDecimal for column AMOUNT!
+                setOrThrow(this::setIncome,json::getBoolean,"INCOME","java.lang.Boolean");
                 setOrThrow(this::setComment,json::getString,"COMMENT","java.lang.String");
-                setOrThrow(this::setModelId,json::getString,"MODEL_ID","java.lang.String");
-                setOrThrow(this::setModelKey,json::getString,"MODEL_KEY","java.lang.String");
                 setOrThrow(this::setOrderId,json::getString,"ORDER_ID","java.lang.String");
                 setOrThrow(this::setBookId,json::getString,"BOOK_ID","java.lang.String");
+                setOrThrow(this::setModelId,json::getString,"MODEL_ID","java.lang.String");
+                setOrThrow(this::setModelKey,json::getString,"MODEL_KEY","java.lang.String");
                 setOrThrow(this::setSigma,json::getString,"SIGMA","java.lang.String");
                 setOrThrow(this::setLanguage,json::getString,"LANGUAGE","java.lang.String");
                 setOrThrow(this::setActive,json::getBoolean,"ACTIVE","java.lang.Boolean");
@@ -274,11 +287,12 @@ public interface IFBill extends VertxPojo, Serializable {
                 json.put("TYPE",getType());
                 json.put("CATEGORY",getCategory());
                 // Omitting unrecognized type java.math.BigDecimal for column AMOUNT!
+                json.put("INCOME",getIncome());
                 json.put("COMMENT",getComment());
-                json.put("MODEL_ID",getModelId());
-                json.put("MODEL_KEY",getModelKey());
                 json.put("ORDER_ID",getOrderId());
                 json.put("BOOK_ID",getBookId());
+                json.put("MODEL_ID",getModelId());
+                json.put("MODEL_KEY",getModelKey());
                 json.put("SIGMA",getSigma());
                 json.put("LANGUAGE",getLanguage());
                 json.put("ACTIVE",getActive());

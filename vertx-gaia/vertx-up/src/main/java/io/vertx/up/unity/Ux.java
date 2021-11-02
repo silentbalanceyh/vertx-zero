@@ -434,7 +434,13 @@ public final class Ux {
      * -- futureB(JsonObject)
      * -- futureB(boolean)
      */
+    public static Future<Boolean> futureT() {
+        return To.future(Boolean.TRUE);
+    }
 
+    public static Future<Boolean> futureF() {
+        return To.future(Boolean.FALSE);
+    }
 
     public static Future<JsonObject> futureB(final boolean checked) {
         return To.future(outBool(checked));

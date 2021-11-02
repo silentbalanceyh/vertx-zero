@@ -25,13 +25,15 @@ public class FSettlementItem implements VertxPojo, IFSettlementItem {
     private String        name;
     private String        code;
     private String        serial;
+    private String        type;
     private BigDecimal    amount;
     private String        comment;
     private String        manualNo;
-    private String        customerId;
     private String        payTermId;
+    private String        relatedId;
     private String        settlementId;
-    private String        receivableId;
+    private String        debtId;
+    private String        invoiceId;
     private String        sigma;
     private String        language;
     private Boolean       active;
@@ -48,13 +50,15 @@ public class FSettlementItem implements VertxPojo, IFSettlementItem {
         this.name = value.getName();
         this.code = value.getCode();
         this.serial = value.getSerial();
+        this.type = value.getType();
         this.amount = value.getAmount();
         this.comment = value.getComment();
         this.manualNo = value.getManualNo();
-        this.customerId = value.getCustomerId();
         this.payTermId = value.getPayTermId();
+        this.relatedId = value.getRelatedId();
         this.settlementId = value.getSettlementId();
-        this.receivableId = value.getReceivableId();
+        this.debtId = value.getDebtId();
+        this.invoiceId = value.getInvoiceId();
         this.sigma = value.getSigma();
         this.language = value.getLanguage();
         this.active = value.getActive();
@@ -70,13 +74,15 @@ public class FSettlementItem implements VertxPojo, IFSettlementItem {
         String        name,
         String        code,
         String        serial,
+        String        type,
         BigDecimal    amount,
         String        comment,
         String        manualNo,
-        String        customerId,
         String        payTermId,
+        String        relatedId,
         String        settlementId,
-        String        receivableId,
+        String        debtId,
+        String        invoiceId,
         String        sigma,
         String        language,
         Boolean       active,
@@ -90,13 +96,15 @@ public class FSettlementItem implements VertxPojo, IFSettlementItem {
         this.name = name;
         this.code = code;
         this.serial = serial;
+        this.type = type;
         this.amount = amount;
         this.comment = comment;
         this.manualNo = manualNo;
-        this.customerId = customerId;
         this.payTermId = payTermId;
+        this.relatedId = relatedId;
         this.settlementId = settlementId;
-        this.receivableId = receivableId;
+        this.debtId = debtId;
+        this.invoiceId = invoiceId;
         this.sigma = sigma;
         this.language = language;
         this.active = active;
@@ -185,6 +193,23 @@ public class FSettlementItem implements VertxPojo, IFSettlementItem {
     }
 
     /**
+     * Getter for <code>DB_ETERNAL.F_SETTLEMENT_ITEM.TYPE</code>. 「type」- 明细类型
+     */
+    @Override
+    public String getType() {
+        return this.type;
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.F_SETTLEMENT_ITEM.TYPE</code>. 「type」- 明细类型
+     */
+    @Override
+    public FSettlementItem setType(String type) {
+        this.type = type;
+        return this;
+    }
+
+    /**
      * Getter for <code>DB_ETERNAL.F_SETTLEMENT_ITEM.AMOUNT</code>.
      * 「amount」——价税合计，实际结算金额
      */
@@ -242,25 +267,6 @@ public class FSettlementItem implements VertxPojo, IFSettlementItem {
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.F_SETTLEMENT_ITEM.CUSTOMER_ID</code>.
-     * 「customerId」结算对象（单位ID）
-     */
-    @Override
-    public String getCustomerId() {
-        return this.customerId;
-    }
-
-    /**
-     * Setter for <code>DB_ETERNAL.F_SETTLEMENT_ITEM.CUSTOMER_ID</code>.
-     * 「customerId」结算对象（单位ID）
-     */
-    @Override
-    public FSettlementItem setCustomerId(String customerId) {
-        this.customerId = customerId;
-        return this;
-    }
-
-    /**
      * Getter for <code>DB_ETERNAL.F_SETTLEMENT_ITEM.PAY_TERM_ID</code>.
      * 「payTermId」- 账单项ID
      */
@@ -276,6 +282,25 @@ public class FSettlementItem implements VertxPojo, IFSettlementItem {
     @Override
     public FSettlementItem setPayTermId(String payTermId) {
         this.payTermId = payTermId;
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.F_SETTLEMENT_ITEM.RELATED_ID</code>.
+     * 「relatedId」- 关联BillItem ID（保留，原系统存在）
+     */
+    @Override
+    public String getRelatedId() {
+        return this.relatedId;
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.F_SETTLEMENT_ITEM.RELATED_ID</code>.
+     * 「relatedId」- 关联BillItem ID（保留，原系统存在）
+     */
+    @Override
+    public FSettlementItem setRelatedId(String relatedId) {
+        this.relatedId = relatedId;
         return this;
     }
 
@@ -299,21 +324,40 @@ public class FSettlementItem implements VertxPojo, IFSettlementItem {
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.F_SETTLEMENT_ITEM.RECEIVABLE_ID</code>.
-     * 「receivableId」- 应收账单ID
+     * Getter for <code>DB_ETERNAL.F_SETTLEMENT_ITEM.DEBT_ID</code>. 「debtId」-
+     * 应收账单ID
      */
     @Override
-    public String getReceivableId() {
-        return this.receivableId;
+    public String getDebtId() {
+        return this.debtId;
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.F_SETTLEMENT_ITEM.RECEIVABLE_ID</code>.
-     * 「receivableId」- 应收账单ID
+     * Setter for <code>DB_ETERNAL.F_SETTLEMENT_ITEM.DEBT_ID</code>. 「debtId」-
+     * 应收账单ID
      */
     @Override
-    public FSettlementItem setReceivableId(String receivableId) {
-        this.receivableId = receivableId;
+    public FSettlementItem setDebtId(String debtId) {
+        this.debtId = debtId;
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.F_SETTLEMENT_ITEM.INVOICE_ID</code>.
+     * 「invoiceId」- 开票ID
+     */
+    @Override
+    public String getInvoiceId() {
+        return this.invoiceId;
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.F_SETTLEMENT_ITEM.INVOICE_ID</code>.
+     * 「invoiceId」- 开票ID
+     */
+    @Override
+    public FSettlementItem setInvoiceId(String invoiceId) {
+        this.invoiceId = invoiceId;
         return this;
     }
 
@@ -475,13 +519,15 @@ public class FSettlementItem implements VertxPojo, IFSettlementItem {
         sb.append(", ").append(name);
         sb.append(", ").append(code);
         sb.append(", ").append(serial);
+        sb.append(", ").append(type);
         sb.append(", ").append(amount);
         sb.append(", ").append(comment);
         sb.append(", ").append(manualNo);
-        sb.append(", ").append(customerId);
         sb.append(", ").append(payTermId);
+        sb.append(", ").append(relatedId);
         sb.append(", ").append(settlementId);
-        sb.append(", ").append(receivableId);
+        sb.append(", ").append(debtId);
+        sb.append(", ").append(invoiceId);
         sb.append(", ").append(sigma);
         sb.append(", ").append(language);
         sb.append(", ").append(active);
@@ -505,13 +551,15 @@ public class FSettlementItem implements VertxPojo, IFSettlementItem {
         setName(from.getName());
         setCode(from.getCode());
         setSerial(from.getSerial());
+        setType(from.getType());
         setAmount(from.getAmount());
         setComment(from.getComment());
         setManualNo(from.getManualNo());
-        setCustomerId(from.getCustomerId());
         setPayTermId(from.getPayTermId());
+        setRelatedId(from.getRelatedId());
         setSettlementId(from.getSettlementId());
-        setReceivableId(from.getReceivableId());
+        setDebtId(from.getDebtId());
+        setInvoiceId(from.getInvoiceId());
         setSigma(from.getSigma());
         setLanguage(from.getLanguage());
         setActive(from.getActive());

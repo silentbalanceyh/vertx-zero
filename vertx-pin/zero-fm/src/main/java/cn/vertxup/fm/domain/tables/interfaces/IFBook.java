@@ -69,6 +69,16 @@ public interface IFBook extends VertxPojo, Serializable {
     public String getType();
 
     /**
+     * Setter for <code>DB_ETERNAL.F_BOOK.STATUS</code>. 「status」 - 账本状态
+     */
+    public IFBook setStatus(String value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.F_BOOK.STATUS</code>. 「status」 - 账本状态
+     */
+    public String getStatus();
+
+    /**
      * Setter for <code>DB_ETERNAL.F_BOOK.MAJOR</code>. 「major」- 主账本标识
      */
     public IFBook setMajor(Boolean value);
@@ -143,42 +153,6 @@ public interface IFBook extends VertxPojo, Serializable {
      * 账本加收描述信息
      */
     public String getExceedDesc();
-
-    /**
-     * Setter for <code>DB_ETERNAL.F_BOOK.PRE_AUTHORIZE_ID</code>.
-     * 「preAuthorizeId」- 关联预授权
-     */
-    public IFBook setPreAuthorizeId(String value);
-
-    /**
-     * Getter for <code>DB_ETERNAL.F_BOOK.PRE_AUTHORIZE_ID</code>.
-     * 「preAuthorizeId」- 关联预授权
-     */
-    public String getPreAuthorizeId();
-
-    /**
-     * Setter for <code>DB_ETERNAL.F_BOOK.PRE_AUTHORIZE</code>. 「preAuthorize」-
-     * 是否预授权
-     */
-    public IFBook setPreAuthorize(Boolean value);
-
-    /**
-     * Getter for <code>DB_ETERNAL.F_BOOK.PRE_AUTHORIZE</code>. 「preAuthorize」-
-     * 是否预授权
-     */
-    public Boolean getPreAuthorize();
-
-    /**
-     * Setter for <code>DB_ETERNAL.F_BOOK.PRE_AUTHORIZE_DESC</code>.
-     * 「preAuthorizeDesc」 - 预授权描述信息
-     */
-    public IFBook setPreAuthorizeDesc(String value);
-
-    /**
-     * Getter for <code>DB_ETERNAL.F_BOOK.PRE_AUTHORIZE_DESC</code>.
-     * 「preAuthorizeDesc」 - 预授权描述信息
-     */
-    public String getPreAuthorizeDesc();
 
     /**
      * Setter for <code>DB_ETERNAL.F_BOOK.MODEL_ID</code>. 「modelId」-
@@ -329,6 +303,7 @@ public interface IFBook extends VertxPojo, Serializable {
                 setOrThrow(this::setCode,json::getString,"CODE","java.lang.String");
                 setOrThrow(this::setSerial,json::getString,"SERIAL","java.lang.String");
                 setOrThrow(this::setType,json::getString,"TYPE","java.lang.String");
+                setOrThrow(this::setStatus,json::getString,"STATUS","java.lang.String");
                 setOrThrow(this::setMajor,json::getBoolean,"MAJOR","java.lang.Boolean");
                 // Omitting unrecognized type java.math.BigDecimal for column AMOUNT!
                 setOrThrow(this::setComment,json::getString,"COMMENT","java.lang.String");
@@ -336,9 +311,6 @@ public interface IFBook extends VertxPojo, Serializable {
                 setOrThrow(this::setCheckedDesc,json::getString,"CHECKED_DESC","java.lang.String");
                 setOrThrow(this::setExceed,json::getBoolean,"EXCEED","java.lang.Boolean");
                 setOrThrow(this::setExceedDesc,json::getString,"EXCEED_DESC","java.lang.String");
-                setOrThrow(this::setPreAuthorizeId,json::getString,"PRE_AUTHORIZE_ID","java.lang.String");
-                setOrThrow(this::setPreAuthorize,json::getBoolean,"PRE_AUTHORIZE","java.lang.Boolean");
-                setOrThrow(this::setPreAuthorizeDesc,json::getString,"PRE_AUTHORIZE_DESC","java.lang.String");
                 setOrThrow(this::setModelId,json::getString,"MODEL_ID","java.lang.String");
                 setOrThrow(this::setModelKey,json::getString,"MODEL_KEY","java.lang.String");
                 setOrThrow(this::setParentId,json::getString,"PARENT_ID","java.lang.String");
@@ -363,6 +335,7 @@ public interface IFBook extends VertxPojo, Serializable {
                 json.put("CODE",getCode());
                 json.put("SERIAL",getSerial());
                 json.put("TYPE",getType());
+                json.put("STATUS",getStatus());
                 json.put("MAJOR",getMajor());
                 // Omitting unrecognized type java.math.BigDecimal for column AMOUNT!
                 json.put("COMMENT",getComment());
@@ -370,9 +343,6 @@ public interface IFBook extends VertxPojo, Serializable {
                 json.put("CHECKED_DESC",getCheckedDesc());
                 json.put("EXCEED",getExceed());
                 json.put("EXCEED_DESC",getExceedDesc());
-                json.put("PRE_AUTHORIZE_ID",getPreAuthorizeId());
-                json.put("PRE_AUTHORIZE",getPreAuthorize());
-                json.put("PRE_AUTHORIZE_DESC",getPreAuthorizeDesc());
                 json.put("MODEL_ID",getModelId());
                 json.put("MODEL_KEY",getModelKey());
                 json.put("PARENT_ID",getParentId());

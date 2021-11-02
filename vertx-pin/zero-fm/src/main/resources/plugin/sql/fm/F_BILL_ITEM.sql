@@ -18,24 +18,22 @@ CREATE TABLE `F_BILL_ITEM`
     `COMMENT`       LONGTEXT COMMENT '「comment」 - 明细备注',
     `MANUAL_NO`     VARCHAR(255) COMMENT '「manualNo」 - 手工单号（线下单号专用）',
     -- 商品信息
+    `UNIT`          VARCHAR(36)    DEFAULT NULL COMMENT '「unit」- 计量单位',
     `PRICE`         DECIMAL(18, 2) NOT NULL COMMENT '「price」- 商品单价',
     `QUANTITY`      INT            NOT NULL COMMENT '「quantity」- 商品数量',
     `AMOUNT_TOTAL`  DECIMAL(18, 2) NOT NULL COMMENT '「amountTotal」——总价，理论计算结果',
-    -- S部分
-    `DELAY`         BIT COMMENT '「delay」——是否S账',
-    `DELAY_AT`      DATETIME       DEFAULT NULL COMMENT '「delayAt」——S账的最终期限',
+
     -- 人员部分
     `OP_BY`         VARCHAR(36) COMMENT '「opBy」- 操作人员，关联员工ID',
     `OP_NUMBER`     VARCHAR(36) COMMENT '「opNumber」- 操作人员工号',
     `OP_SHIFT`      VARCHAR(128) COMMENT '「opShift」- 操作班次（对接排班系统）',
     `OP_AT`         DATETIME COMMENT '「opAt」- 操作时间',
-    `OP_TRANSFER`   TEXT COMMENT '「opTransfer」- 流转信息描述填写',
 
     -- 关联信息
     `RELATED_ID`    VARCHAR(36) COMMENT '「relatedId」- 关联ID（保留，原系统存在）',
     `SETTLEMENT_ID` VARCHAR(36) COMMENT '「settlementId」- 结算单ID，该字段有值标识已经结算',
     `BILL_ID`       VARCHAR(36)    NOT NULL COMMENT '「billId」- 所属账单ID',
-    `SUBJECT_ID`    VARCHAR(36)    NOT NULL COMMENT '「subjectId」- 会计科目ID，依赖账单项选择结果',
+    `SUBJECT_ID`    VARCHAR(36) COMMENT '「subjectId」- 会计科目ID，依赖账单项选择结果',
     `PAY_TERM_ID`   VARCHAR(36)    NOT NULL COMMENT '「payTermId」- 账单项ID',
 
     -- 特殊字段

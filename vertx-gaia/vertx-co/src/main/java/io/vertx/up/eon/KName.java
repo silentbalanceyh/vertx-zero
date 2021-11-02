@@ -151,6 +151,7 @@ public interface KName {
 
     String AT = "at";                            /* at field */
     String BY = "by";                            /* by field */
+    String INDENT = "indent";                    /* indent spec number */
 
     String ACCESS_TOKEN = "access_token";        /* token cv from `jwt` to `access_token` */
 

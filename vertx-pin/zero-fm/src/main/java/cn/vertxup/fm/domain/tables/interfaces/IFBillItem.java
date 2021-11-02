@@ -113,6 +113,16 @@ public interface IFBillItem extends VertxPojo, Serializable {
     public String getManualNo();
 
     /**
+     * Setter for <code>DB_ETERNAL.F_BILL_ITEM.UNIT</code>. 「unit」- 计量单位
+     */
+    public IFBillItem setUnit(String value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.F_BILL_ITEM.UNIT</code>. 「unit」- 计量单位
+     */
+    public String getUnit();
+
+    /**
      * Setter for <code>DB_ETERNAL.F_BILL_ITEM.PRICE</code>. 「price」- 商品单价
      */
     public IFBillItem setPrice(BigDecimal value);
@@ -143,28 +153,6 @@ public interface IFBillItem extends VertxPojo, Serializable {
      * 「amountTotal」——总价，理论计算结果
      */
     public BigDecimal getAmountTotal();
-
-    /**
-     * Setter for <code>DB_ETERNAL.F_BILL_ITEM.DELAY</code>. 「delay」——是否S账
-     */
-    public IFBillItem setDelay(Boolean value);
-
-    /**
-     * Getter for <code>DB_ETERNAL.F_BILL_ITEM.DELAY</code>. 「delay」——是否S账
-     */
-    public Boolean getDelay();
-
-    /**
-     * Setter for <code>DB_ETERNAL.F_BILL_ITEM.DELAY_AT</code>.
-     * 「delayAt」——S账的最终期限
-     */
-    public IFBillItem setDelayAt(LocalDateTime value);
-
-    /**
-     * Getter for <code>DB_ETERNAL.F_BILL_ITEM.DELAY_AT</code>.
-     * 「delayAt」——S账的最终期限
-     */
-    public LocalDateTime getDelayAt();
 
     /**
      * Setter for <code>DB_ETERNAL.F_BILL_ITEM.OP_BY</code>. 「opBy」- 操作人员，关联员工ID
@@ -209,18 +197,6 @@ public interface IFBillItem extends VertxPojo, Serializable {
      * Getter for <code>DB_ETERNAL.F_BILL_ITEM.OP_AT</code>. 「opAt」- 操作时间
      */
     public LocalDateTime getOpAt();
-
-    /**
-     * Setter for <code>DB_ETERNAL.F_BILL_ITEM.OP_TRANSFER</code>. 「opTransfer」-
-     * 流转信息描述填写
-     */
-    public IFBillItem setOpTransfer(String value);
-
-    /**
-     * Getter for <code>DB_ETERNAL.F_BILL_ITEM.OP_TRANSFER</code>. 「opTransfer」-
-     * 流转信息描述填写
-     */
-    public String getOpTransfer();
 
     /**
      * Setter for <code>DB_ETERNAL.F_BILL_ITEM.RELATED_ID</code>. 「relatedId」-
@@ -399,16 +375,14 @@ public interface IFBillItem extends VertxPojo, Serializable {
                 // Omitting unrecognized type java.math.BigDecimal for column AMOUNT!
                 setOrThrow(this::setComment,json::getString,"COMMENT","java.lang.String");
                 setOrThrow(this::setManualNo,json::getString,"MANUAL_NO","java.lang.String");
+                setOrThrow(this::setUnit,json::getString,"UNIT","java.lang.String");
                 // Omitting unrecognized type java.math.BigDecimal for column PRICE!
                 setOrThrow(this::setQuantity,json::getInteger,"QUANTITY","java.lang.Integer");
                 // Omitting unrecognized type java.math.BigDecimal for column AMOUNT_TOTAL!
-                setOrThrow(this::setDelay,json::getBoolean,"DELAY","java.lang.Boolean");
-                setOrThrow(this::setDelayAt,key -> {String s = json.getString(key); return s==null?null:java.time.LocalDateTime.parse(s);},"DELAY_AT","java.time.LocalDateTime");
                 setOrThrow(this::setOpBy,json::getString,"OP_BY","java.lang.String");
                 setOrThrow(this::setOpNumber,json::getString,"OP_NUMBER","java.lang.String");
                 setOrThrow(this::setOpShift,json::getString,"OP_SHIFT","java.lang.String");
                 setOrThrow(this::setOpAt,key -> {String s = json.getString(key); return s==null?null:java.time.LocalDateTime.parse(s);},"OP_AT","java.time.LocalDateTime");
-                setOrThrow(this::setOpTransfer,json::getString,"OP_TRANSFER","java.lang.String");
                 setOrThrow(this::setRelatedId,json::getString,"RELATED_ID","java.lang.String");
                 setOrThrow(this::setSettlementId,json::getString,"SETTLEMENT_ID","java.lang.String");
                 setOrThrow(this::setBillId,json::getString,"BILL_ID","java.lang.String");
@@ -438,16 +412,14 @@ public interface IFBillItem extends VertxPojo, Serializable {
                 // Omitting unrecognized type java.math.BigDecimal for column AMOUNT!
                 json.put("COMMENT",getComment());
                 json.put("MANUAL_NO",getManualNo());
+                json.put("UNIT",getUnit());
                 // Omitting unrecognized type java.math.BigDecimal for column PRICE!
                 json.put("QUANTITY",getQuantity());
                 // Omitting unrecognized type java.math.BigDecimal for column AMOUNT_TOTAL!
-                json.put("DELAY",getDelay());
-                json.put("DELAY_AT",getDelayAt()==null?null:getDelayAt().toString());
                 json.put("OP_BY",getOpBy());
                 json.put("OP_NUMBER",getOpNumber());
                 json.put("OP_SHIFT",getOpShift());
                 json.put("OP_AT",getOpAt()==null?null:getOpAt().toString());
-                json.put("OP_TRANSFER",getOpTransfer());
                 json.put("RELATED_ID",getRelatedId());
                 json.put("SETTLEMENT_ID",getSettlementId());
                 json.put("BILL_ID",getBillId());

@@ -2,6 +2,7 @@ package io.vertx.up.uca.invoker;
 
 import io.vertx.core.Future;
 import io.vertx.core.Vertx;
+import io.vertx.up.annotations.Me;
 import io.vertx.up.commune.Envelop;
 import io.vertx.up.eon.Values;
 import io.vertx.up.log.Annal;
@@ -10,6 +11,7 @@ import io.vertx.up.uca.registry.UddiClient;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.util.function.Function;
 
@@ -32,10 +34,20 @@ public abstract class AbstractInvoker implements Invoker {
         final Object proxy,
         final Method method,
         final Envelop envelop) {
+        // Preparing Method
+        invokePre(method, envelop);
         final Object reference = envelop.data();
         final Class<?> argType = method.getParameterTypes()[Values.IDX];
         final Object arguments = Ut.deserialize(Ut.toString(reference), argType);
-        return Ut.invoke(proxy, method.getName(), arguments);
+        return InvokerUtil.invoke(proxy, method, arguments);
+    }
+
+    private void invokePre(final Method method, final Envelop envelop) {
+        if (method.isAnnotationPresent(Me.class)) {
+            final Annotation annotation = method.getDeclaredAnnotation(Me.class);
+            final boolean active = Ut.invoke(annotation, "active");
+            envelop.onMe(active);
+        }
     }
 
     /**
@@ -46,6 +58,8 @@ public abstract class AbstractInvoker implements Invoker {
         final Method method,
         final Envelop envelop
     ) {
+        // Preparing Method
+        invokePre(method, envelop);
         // Return value here.
         Object returnValue;
         final Class<?>[] argTypes = method.getParameterTypes();

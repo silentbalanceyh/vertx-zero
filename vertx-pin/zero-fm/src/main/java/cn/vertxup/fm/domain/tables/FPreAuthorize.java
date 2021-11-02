@@ -32,7 +32,7 @@ public class FPreAuthorize extends TableImpl<FPreAuthorizeRecord> {
     /**
      * The column <code>DB_ETERNAL.F_PRE_AUTHORIZE.KEY</code>. 「key」- 预授权ID
      */
-    public final TableField<FPreAuthorizeRecord, String> KEY = createField(DSL.name("KEY"), SQLDataType.VARCHAR(36), this, "「key」- 预授权ID");
+    public final TableField<FPreAuthorizeRecord, String> KEY = createField(DSL.name("KEY"), SQLDataType.VARCHAR(36).nullable(false), this, "「key」- 预授权ID");
     /**
      * The column <code>DB_ETERNAL.F_PRE_AUTHORIZE.CODE</code>. 「code」 - 预授权系统编号
      */
@@ -77,6 +77,11 @@ public class FPreAuthorize extends TableImpl<FPreAuthorizeRecord> {
      * 预授权所属账单ID
      */
     public final TableField<FPreAuthorizeRecord, String> BILL_ID = createField(DSL.name("BILL_ID"), SQLDataType.VARCHAR(36), this, "「billId」- 预授权所属账单ID");
+    /**
+     * The column <code>DB_ETERNAL.F_PRE_AUTHORIZE.BOOK_ID</code>. 「bookId」-
+     * 所属账本ID
+     */
+    public final TableField<FPreAuthorizeRecord, String> BOOK_ID = createField(DSL.name("BOOK_ID"), SQLDataType.VARCHAR(36), this, "「bookId」- 所属账本ID");
     /**
      * The column <code>DB_ETERNAL.F_PRE_AUTHORIZE.SIGMA</code>. 「sigma」- 统一标识
      */
@@ -163,6 +168,11 @@ public class FPreAuthorize extends TableImpl<FPreAuthorizeRecord> {
     }
 
     @Override
+    public UniqueKey<FPreAuthorizeRecord> getPrimaryKey() {
+        return Keys.KEY_F_PRE_AUTHORIZE_PRIMARY;
+    }
+
+    @Override
     public List<UniqueKey<FPreAuthorizeRecord>> getUniqueKeys() {
         return Arrays.asList(Keys.KEY_F_PRE_AUTHORIZE_CODE, Keys.KEY_F_PRE_AUTHORIZE_SERIAL);
     }
@@ -194,11 +204,11 @@ public class FPreAuthorize extends TableImpl<FPreAuthorizeRecord> {
     }
 
     // -------------------------------------------------------------------------
-    // Row18 type methods
+    // Row19 type methods
     // -------------------------------------------------------------------------
 
     @Override
-    public Row18<String, String, String, BigDecimal, String, LocalDateTime, String, String, String, String, String, String, Boolean, String, LocalDateTime, String, LocalDateTime, String> fieldsRow() {
-        return (Row18) super.fieldsRow();
+    public Row19<String, String, String, BigDecimal, String, LocalDateTime, String, String, String, String, String, String, String, Boolean, String, LocalDateTime, String, LocalDateTime, String> fieldsRow() {
+        return (Row19) super.fieldsRow();
     }
 }

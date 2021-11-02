@@ -68,6 +68,10 @@ public class FBillItem extends TableImpl<FBillItemRecord> {
      */
     public final TableField<FBillItemRecord, String> MANUAL_NO = createField(DSL.name("MANUAL_NO"), SQLDataType.VARCHAR(255), this, "「manualNo」 - 手工单号（线下单号专用）");
     /**
+     * The column <code>DB_ETERNAL.F_BILL_ITEM.UNIT</code>. 「unit」- 计量单位
+     */
+    public final TableField<FBillItemRecord, String> UNIT = createField(DSL.name("UNIT"), SQLDataType.VARCHAR(36), this, "「unit」- 计量单位");
+    /**
      * The column <code>DB_ETERNAL.F_BILL_ITEM.PRICE</code>. 「price」- 商品单价
      */
     public final TableField<FBillItemRecord, BigDecimal> PRICE = createField(DSL.name("PRICE"), SQLDataType.DECIMAL(18, 2).nullable(false), this, "「price」- 商品单价");
@@ -80,15 +84,6 @@ public class FBillItem extends TableImpl<FBillItemRecord> {
      * 「amountTotal」——总价，理论计算结果
      */
     public final TableField<FBillItemRecord, BigDecimal> AMOUNT_TOTAL = createField(DSL.name("AMOUNT_TOTAL"), SQLDataType.DECIMAL(18, 2).nullable(false), this, "「amountTotal」——总价，理论计算结果");
-    /**
-     * The column <code>DB_ETERNAL.F_BILL_ITEM.DELAY</code>. 「delay」——是否S账
-     */
-    public final TableField<FBillItemRecord, Boolean> DELAY = createField(DSL.name("DELAY"), SQLDataType.BIT, this, "「delay」——是否S账");
-    /**
-     * The column <code>DB_ETERNAL.F_BILL_ITEM.DELAY_AT</code>.
-     * 「delayAt」——S账的最终期限
-     */
-    public final TableField<FBillItemRecord, LocalDateTime> DELAY_AT = createField(DSL.name("DELAY_AT"), SQLDataType.LOCALDATETIME(0), this, "「delayAt」——S账的最终期限");
     /**
      * The column <code>DB_ETERNAL.F_BILL_ITEM.OP_BY</code>. 「opBy」- 操作人员，关联员工ID
      */
@@ -108,11 +103,6 @@ public class FBillItem extends TableImpl<FBillItemRecord> {
      */
     public final TableField<FBillItemRecord, LocalDateTime> OP_AT = createField(DSL.name("OP_AT"), SQLDataType.LOCALDATETIME(0), this, "「opAt」- 操作时间");
     /**
-     * The column <code>DB_ETERNAL.F_BILL_ITEM.OP_TRANSFER</code>. 「opTransfer」-
-     * 流转信息描述填写
-     */
-    public final TableField<FBillItemRecord, String> OP_TRANSFER = createField(DSL.name("OP_TRANSFER"), SQLDataType.CLOB, this, "「opTransfer」- 流转信息描述填写");
-    /**
      * The column <code>DB_ETERNAL.F_BILL_ITEM.RELATED_ID</code>. 「relatedId」-
      * 关联ID（保留，原系统存在）
      */
@@ -130,7 +120,7 @@ public class FBillItem extends TableImpl<FBillItemRecord> {
      * The column <code>DB_ETERNAL.F_BILL_ITEM.SUBJECT_ID</code>. 「subjectId」-
      * 会计科目ID，依赖账单项选择结果
      */
-    public final TableField<FBillItemRecord, String> SUBJECT_ID = createField(DSL.name("SUBJECT_ID"), SQLDataType.VARCHAR(36).nullable(false), this, "「subjectId」- 会计科目ID，依赖账单项选择结果");
+    public final TableField<FBillItemRecord, String> SUBJECT_ID = createField(DSL.name("SUBJECT_ID"), SQLDataType.VARCHAR(36), this, "「subjectId」- 会计科目ID，依赖账单项选择结果");
     /**
      * The column <code>DB_ETERNAL.F_BILL_ITEM.PAY_TERM_ID</code>. 「payTermId」-
      * 账单项ID

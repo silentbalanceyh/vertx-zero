@@ -58,9 +58,22 @@ public class FBill extends TableImpl<FBillRecord> {
      */
     public final TableField<FBillRecord, BigDecimal> AMOUNT = createField(DSL.name("AMOUNT"), SQLDataType.DECIMAL(18, 2).nullable(false), this, "「amount」- 账单金额");
     /**
+     * The column <code>DB_ETERNAL.F_BILL.INCOME</code>. 「income」- true =
+     * 消费类，false = 付款类
+     */
+    public final TableField<FBillRecord, Boolean> INCOME = createField(DSL.name("INCOME"), SQLDataType.BIT, this, "「income」- true = 消费类，false = 付款类");
+    /**
      * The column <code>DB_ETERNAL.F_BILL.COMMENT</code>. 「comment」 - 账单备注
      */
     public final TableField<FBillRecord, String> COMMENT = createField(DSL.name("COMMENT"), SQLDataType.CLOB, this, "「comment」 - 账单备注");
+    /**
+     * The column <code>DB_ETERNAL.F_BILL.ORDER_ID</code>. 「orderId」- 订单对应的订单ID
+     */
+    public final TableField<FBillRecord, String> ORDER_ID = createField(DSL.name("ORDER_ID"), SQLDataType.VARCHAR(36), this, "「orderId」- 订单对应的订单ID");
+    /**
+     * The column <code>DB_ETERNAL.F_BILL.BOOK_ID</code>. 「bookId」- 关联账本ID
+     */
+    public final TableField<FBillRecord, String> BOOK_ID = createField(DSL.name("BOOK_ID"), SQLDataType.VARCHAR(36), this, "「bookId」- 关联账本ID");
     /**
      * The column <code>DB_ETERNAL.F_BILL.MODEL_ID</code>. 「modelId」-
      * 关联的模型identifier，用于描述
@@ -71,14 +84,6 @@ public class FBill extends TableImpl<FBillRecord> {
      * 关联的模型记录ID，用于描述哪一个Model中的记录
      */
     public final TableField<FBillRecord, String> MODEL_KEY = createField(DSL.name("MODEL_KEY"), SQLDataType.VARCHAR(36), this, "「modelKey」- 关联的模型记录ID，用于描述哪一个Model中的记录");
-    /**
-     * The column <code>DB_ETERNAL.F_BILL.ORDER_ID</code>. 「orderId」- 订单对应的订单ID
-     */
-    public final TableField<FBillRecord, String> ORDER_ID = createField(DSL.name("ORDER_ID"), SQLDataType.VARCHAR(36), this, "「orderId」- 订单对应的订单ID");
-    /**
-     * The column <code>DB_ETERNAL.F_BILL.BOOK_ID</code>. 「bookId」- 关联账本ID
-     */
-    public final TableField<FBillRecord, String> BOOK_ID = createField(DSL.name("BOOK_ID"), SQLDataType.VARCHAR(36), this, "「bookId」- 关联账本ID");
     /**
      * The column <code>DB_ETERNAL.F_BILL.SIGMA</code>. 「sigma」- 统一标识
      */
@@ -195,11 +200,11 @@ public class FBill extends TableImpl<FBillRecord> {
     }
 
     // -------------------------------------------------------------------------
-    // Row20 type methods
+    // Row21 type methods
     // -------------------------------------------------------------------------
 
     @Override
-    public Row20<String, String, String, String, String, String, BigDecimal, String, String, String, String, String, String, String, Boolean, String, LocalDateTime, String, LocalDateTime, String> fieldsRow() {
-        return (Row20) super.fieldsRow();
+    public Row21<String, String, String, String, String, String, BigDecimal, Boolean, String, String, String, String, String, String, String, Boolean, String, LocalDateTime, String, LocalDateTime, String> fieldsRow() {
+        return (Row21) super.fieldsRow();
     }
 }

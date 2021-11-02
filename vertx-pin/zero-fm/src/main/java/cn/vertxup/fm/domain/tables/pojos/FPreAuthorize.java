@@ -31,6 +31,7 @@ public class FPreAuthorize implements VertxPojo, IFPreAuthorize {
     private String        bankCard;
     private String        orderId;
     private String        billId;
+    private String        bookId;
     private String        sigma;
     private String        language;
     private Boolean       active;
@@ -53,6 +54,7 @@ public class FPreAuthorize implements VertxPojo, IFPreAuthorize {
         this.bankCard = value.getBankCard();
         this.orderId = value.getOrderId();
         this.billId = value.getBillId();
+        this.bookId = value.getBookId();
         this.sigma = value.getSigma();
         this.language = value.getLanguage();
         this.active = value.getActive();
@@ -74,6 +76,7 @@ public class FPreAuthorize implements VertxPojo, IFPreAuthorize {
         String        bankCard,
         String        orderId,
         String        billId,
+        String        bookId,
         String        sigma,
         String        language,
         Boolean       active,
@@ -93,6 +96,7 @@ public class FPreAuthorize implements VertxPojo, IFPreAuthorize {
         this.bankCard = bankCard;
         this.orderId = orderId;
         this.billId = billId;
+        this.bookId = bookId;
         this.sigma = sigma;
         this.language = language;
         this.active = active;
@@ -295,6 +299,25 @@ public class FPreAuthorize implements VertxPojo, IFPreAuthorize {
     }
 
     /**
+     * Getter for <code>DB_ETERNAL.F_PRE_AUTHORIZE.BOOK_ID</code>. 「bookId」-
+     * 所属账本ID
+     */
+    @Override
+    public String getBookId() {
+        return this.bookId;
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.F_PRE_AUTHORIZE.BOOK_ID</code>. 「bookId」-
+     * 所属账本ID
+     */
+    @Override
+    public FPreAuthorize setBookId(String bookId) {
+        this.bookId = bookId;
+        return this;
+    }
+
+    /**
      * Getter for <code>DB_ETERNAL.F_PRE_AUTHORIZE.SIGMA</code>. 「sigma」- 统一标识
      */
     @Override
@@ -456,6 +479,7 @@ public class FPreAuthorize implements VertxPojo, IFPreAuthorize {
         sb.append(", ").append(bankCard);
         sb.append(", ").append(orderId);
         sb.append(", ").append(billId);
+        sb.append(", ").append(bookId);
         sb.append(", ").append(sigma);
         sb.append(", ").append(language);
         sb.append(", ").append(active);
@@ -485,6 +509,7 @@ public class FPreAuthorize implements VertxPojo, IFPreAuthorize {
         setBankCard(from.getBankCard());
         setOrderId(from.getOrderId());
         setBillId(from.getBillId());
+        setBookId(from.getBookId());
         setSigma(from.getSigma());
         setLanguage(from.getLanguage());
         setActive(from.getActive());

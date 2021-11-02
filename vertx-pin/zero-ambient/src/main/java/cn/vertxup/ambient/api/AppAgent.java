@@ -14,7 +14,28 @@ import javax.ws.rs.PathParam;
 @EndPoint
 public interface AppAgent {
     /*
-     * Get Application Data by Name
+     * Desc: Get Application Data by Name
+     * Request: GET /app/name/xxx?name=xxx
+     * Input:
+     {
+        "name": "xxx"
+     }
+     * Output:
+     {
+        "key": "78fce5a2-17f3-4dac-a75c-7e751595015c",
+        "name": "vie.app.zui",
+        "code": "zui",
+        "title": "Zero框架脚手架",
+        "domain": "localhost",
+        "appPort": 5100,
+        "urlEntry": "/login/index",
+        "urlMain": "/main/index",
+        "path": "/zui",
+        "route": "/zui",
+        "active": true,
+        "sigma": "ENhwBAJPZuSgIAE5EDakR6yrIQbOoOPq",
+        "language": "cn"
+     }
      */
     @Path("/app/name/{name}")
     @GET

@@ -73,16 +73,16 @@ public interface IFSettlement extends VertxPojo, Serializable {
     public String getComment();
 
     /**
-     * Setter for <code>DB_ETERNAL.F_SETTLEMENT.ROUNDED</code>. 「rounded」抹零方式 =
-     * true：四舍五入、round = false：零头舍掉,round,IS_ROUND
+     * Setter for <code>DB_ETERNAL.F_SETTLEMENT.ROUNDED</code>.
+     * 「rounded」抹零方式：四舍五入, HALF：零头舍掉, FLOOR, 零头入进, CEIL
      */
-    public IFSettlement setRounded(Byte value);
+    public IFSettlement setRounded(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.F_SETTLEMENT.ROUNDED</code>. 「rounded」抹零方式 =
-     * true：四舍五入、round = false：零头舍掉,round,IS_ROUND
+     * Getter for <code>DB_ETERNAL.F_SETTLEMENT.ROUNDED</code>.
+     * 「rounded」抹零方式：四舍五入, HALF：零头舍掉, FLOOR, 零头入进, CEIL
      */
-    public Byte getRounded();
+    public String getRounded();
 
     /**
      * Setter for <code>DB_ETERNAL.F_SETTLEMENT.FINISHED</code>. 「finished」-
@@ -133,6 +133,18 @@ public interface IFSettlement extends VertxPojo, Serializable {
     public String getSignMobile();
 
     /**
+     * Setter for <code>DB_ETERNAL.F_SETTLEMENT.CUSTOMER_ID</code>.
+     * 「customerId」结算对象（单位ID）
+     */
+    public IFSettlement setCustomerId(String value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.F_SETTLEMENT.CUSTOMER_ID</code>.
+     * 「customerId」结算对象（单位ID）
+     */
+    public String getCustomerId();
+
+    /**
      * Setter for <code>DB_ETERNAL.F_SETTLEMENT.ORDER_ID</code>. 「orderId」-
      * 预授权所属订单ID
      */
@@ -143,6 +155,16 @@ public interface IFSettlement extends VertxPojo, Serializable {
      * 预授权所属订单ID
      */
     public String getOrderId();
+
+    /**
+     * Setter for <code>DB_ETERNAL.F_SETTLEMENT.BOOK_ID</code>. 「bookId」- 所属账本ID
+     */
+    public IFSettlement setBookId(String value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.F_SETTLEMENT.BOOK_ID</code>. 「bookId」- 所属账本ID
+     */
+    public String getBookId();
 
     /**
      * Setter for <code>DB_ETERNAL.F_SETTLEMENT.SIGMA</code>. 「sigma」- 统一标识
@@ -259,12 +281,14 @@ public interface IFSettlement extends VertxPojo, Serializable {
                 setOrThrow(this::setSerial,json::getString,"SERIAL","java.lang.String");
                 // Omitting unrecognized type java.math.BigDecimal for column AMOUNT!
                 setOrThrow(this::setComment,json::getString,"COMMENT","java.lang.String");
-                setOrThrow(this::setRounded,key -> {Integer i = json.getInteger(key); return i==null?null:i.byteValue();},"ROUNDED","java.lang.Byte");
+                setOrThrow(this::setRounded,json::getString,"ROUNDED","java.lang.String");
                 setOrThrow(this::setFinished,json::getBoolean,"FINISHED","java.lang.Boolean");
                 setOrThrow(this::setFinishedAt,key -> {String s = json.getString(key); return s==null?null:java.time.LocalDateTime.parse(s);},"FINISHED_AT","java.time.LocalDateTime");
                 setOrThrow(this::setSignName,json::getString,"SIGN_NAME","java.lang.String");
                 setOrThrow(this::setSignMobile,json::getString,"SIGN_MOBILE","java.lang.String");
+                setOrThrow(this::setCustomerId,json::getString,"CUSTOMER_ID","java.lang.String");
                 setOrThrow(this::setOrderId,json::getString,"ORDER_ID","java.lang.String");
+                setOrThrow(this::setBookId,json::getString,"BOOK_ID","java.lang.String");
                 setOrThrow(this::setSigma,json::getString,"SIGMA","java.lang.String");
                 setOrThrow(this::setLanguage,json::getString,"LANGUAGE","java.lang.String");
                 setOrThrow(this::setActive,json::getBoolean,"ACTIVE","java.lang.Boolean");
@@ -290,7 +314,9 @@ public interface IFSettlement extends VertxPojo, Serializable {
                 json.put("FINISHED_AT",getFinishedAt()==null?null:getFinishedAt().toString());
                 json.put("SIGN_NAME",getSignName());
                 json.put("SIGN_MOBILE",getSignMobile());
+                json.put("CUSTOMER_ID",getCustomerId());
                 json.put("ORDER_ID",getOrderId());
+                json.put("BOOK_ID",getBookId());
                 json.put("SIGMA",getSigma());
                 json.put("LANGUAGE",getLanguage());
                 json.put("ACTIVE",getActive());

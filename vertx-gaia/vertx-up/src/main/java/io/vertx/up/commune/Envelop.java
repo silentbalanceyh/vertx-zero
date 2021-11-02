@@ -257,6 +257,15 @@ public class Envelop implements Serializable {
         this.reference(reference -> Rib.criteria(reference, criteria, true));
     }
 
+    public void onMe(final boolean active) {
+        final JsonObject headerX = this.headersX();
+        this.value(KName.SIGMA, headerX.getValue(KName.SIGMA));
+        this.value(KName.ACTIVE, active);
+        if (headerX.containsKey(KName.LANGUAGE)) {
+            this.value(KName.LANGUAGE, headerX.getValue(KName.LANGUAGE));
+        }
+    }
+
     // ------------------ Below are assist method -------------------
     /*
      * Assist Data for current Envelop, all these methods will resolve the issue

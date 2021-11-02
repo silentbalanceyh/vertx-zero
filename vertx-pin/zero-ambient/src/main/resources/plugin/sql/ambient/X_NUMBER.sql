@@ -28,6 +28,7 @@ CREATE TABLE `X_NUMBER`
     `APP_ID`     VARCHAR(255) COMMENT '「appId」- 关联的应用程序ID',
 
     -- 特殊字段
+    `RENEWAL`    BIT          DEFAULT FALSE COMMENT '「renewal」- 是否循环',
     `ACTIVE`     BIT          DEFAULT NULL COMMENT '「active」- 是否启用',
     `SIGMA`      VARCHAR(32)  DEFAULT NULL COMMENT '「sigma」- 统一标识',
     `METADATA`   TEXT COMMENT '「metadata」- 附加配置',

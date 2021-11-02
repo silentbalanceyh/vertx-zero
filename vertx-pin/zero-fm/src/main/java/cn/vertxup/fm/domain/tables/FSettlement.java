@@ -52,10 +52,10 @@ public class FSettlement extends TableImpl<FSettlementRecord> {
      */
     public final TableField<FSettlementRecord, String> COMMENT = createField(DSL.name("COMMENT"), SQLDataType.CLOB, this, "「comment」 - 结算单备注");
     /**
-     * The column <code>DB_ETERNAL.F_SETTLEMENT.ROUNDED</code>. 「rounded」抹零方式 =
-     * true：四舍五入、round = false：零头舍掉,round,IS_ROUND
+     * The column <code>DB_ETERNAL.F_SETTLEMENT.ROUNDED</code>.
+     * 「rounded」抹零方式：四舍五入, HALF：零头舍掉, FLOOR, 零头入进, CEIL
      */
-    public final TableField<FSettlementRecord, Byte> ROUNDED = createField(DSL.name("ROUNDED"), SQLDataType.TINYINT.nullable(false), this, "「rounded」抹零方式 = true：四舍五入、round = false：零头舍掉,round,IS_ROUND");
+    public final TableField<FSettlementRecord, String> ROUNDED = createField(DSL.name("ROUNDED"), SQLDataType.VARCHAR(12), this, "「rounded」抹零方式：四舍五入, HALF：零头舍掉, FLOOR, 零头入进, CEIL");
     /**
      * The column <code>DB_ETERNAL.F_SETTLEMENT.FINISHED</code>. 「finished」-
      * 是否完成
@@ -77,10 +77,19 @@ public class FSettlement extends TableImpl<FSettlementRecord> {
      */
     public final TableField<FSettlementRecord, String> SIGN_MOBILE = createField(DSL.name("SIGN_MOBILE"), SQLDataType.VARCHAR(128), this, "「signMobile」签单人电话");
     /**
+     * The column <code>DB_ETERNAL.F_SETTLEMENT.CUSTOMER_ID</code>.
+     * 「customerId」结算对象（单位ID）
+     */
+    public final TableField<FSettlementRecord, String> CUSTOMER_ID = createField(DSL.name("CUSTOMER_ID"), SQLDataType.VARCHAR(36), this, "「customerId」结算对象（单位ID）");
+    /**
      * The column <code>DB_ETERNAL.F_SETTLEMENT.ORDER_ID</code>. 「orderId」-
      * 预授权所属订单ID
      */
     public final TableField<FSettlementRecord, String> ORDER_ID = createField(DSL.name("ORDER_ID"), SQLDataType.VARCHAR(36), this, "「orderId」- 预授权所属订单ID");
+    /**
+     * The column <code>DB_ETERNAL.F_SETTLEMENT.BOOK_ID</code>. 「bookId」- 所属账本ID
+     */
+    public final TableField<FSettlementRecord, String> BOOK_ID = createField(DSL.name("BOOK_ID"), SQLDataType.VARCHAR(36), this, "「bookId」- 所属账本ID");
     /**
      * The column <code>DB_ETERNAL.F_SETTLEMENT.SIGMA</code>. 「sigma」- 统一标识
      */
@@ -203,11 +212,11 @@ public class FSettlement extends TableImpl<FSettlementRecord> {
     }
 
     // -------------------------------------------------------------------------
-    // Row19 type methods
+    // Row21 type methods
     // -------------------------------------------------------------------------
 
     @Override
-    public Row19<String, String, String, BigDecimal, String, Byte, Boolean, LocalDateTime, String, String, String, String, String, Boolean, String, LocalDateTime, String, LocalDateTime, String> fieldsRow() {
-        return (Row19) super.fieldsRow();
+    public Row21<String, String, String, BigDecimal, String, String, Boolean, LocalDateTime, String, String, String, String, String, String, String, Boolean, String, LocalDateTime, String, LocalDateTime, String> fieldsRow() {
+        return (Row21) super.fieldsRow();
     }
 }

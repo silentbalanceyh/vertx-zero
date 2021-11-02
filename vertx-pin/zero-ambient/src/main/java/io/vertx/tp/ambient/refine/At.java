@@ -52,12 +52,16 @@ public class At {
         return Fn.pool(Pool.INIT_POOL, DatumInit.class.getName(), DatumInit::new);
     }
 
-    public static List<String> serials(final XNumber number, final Integer count) {
-        return AtSerial.serials(number, count);
+    public static List<String> generate(final XNumber number, final Integer count) {
+        return AtSerial.generate(number, count);
     }
 
-    public static Future<List<String>> serialsAsync(final XNumber number, final Integer count) {
-        return Ux.future(AtSerial.serials(number, count));
+    public static Future<List<String>> generateAsync(final XNumber number, final Integer count) {
+        return Ux.future(AtSerial.generate(number, count));
+    }
+
+    public static XNumber serialAdjust(final XNumber number, final Integer count) {
+        return AtSerial.adjust(number, count);
     }
 
     /*

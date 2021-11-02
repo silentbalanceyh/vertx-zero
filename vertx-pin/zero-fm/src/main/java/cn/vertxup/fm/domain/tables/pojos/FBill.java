@@ -28,11 +28,12 @@ public class FBill implements VertxPojo, IFBill {
     private String        type;
     private String        category;
     private BigDecimal    amount;
+    private Boolean       income;
     private String        comment;
-    private String        modelId;
-    private String        modelKey;
     private String        orderId;
     private String        bookId;
+    private String        modelId;
+    private String        modelKey;
     private String        sigma;
     private String        language;
     private Boolean       active;
@@ -52,11 +53,12 @@ public class FBill implements VertxPojo, IFBill {
         this.type = value.getType();
         this.category = value.getCategory();
         this.amount = value.getAmount();
+        this.income = value.getIncome();
         this.comment = value.getComment();
-        this.modelId = value.getModelId();
-        this.modelKey = value.getModelKey();
         this.orderId = value.getOrderId();
         this.bookId = value.getBookId();
+        this.modelId = value.getModelId();
+        this.modelKey = value.getModelKey();
         this.sigma = value.getSigma();
         this.language = value.getLanguage();
         this.active = value.getActive();
@@ -75,11 +77,12 @@ public class FBill implements VertxPojo, IFBill {
         String        type,
         String        category,
         BigDecimal    amount,
+        Boolean       income,
         String        comment,
-        String        modelId,
-        String        modelKey,
         String        orderId,
         String        bookId,
+        String        modelId,
+        String        modelKey,
         String        sigma,
         String        language,
         Boolean       active,
@@ -96,11 +99,12 @@ public class FBill implements VertxPojo, IFBill {
         this.type = type;
         this.category = category;
         this.amount = amount;
+        this.income = income;
         this.comment = comment;
-        this.modelId = modelId;
-        this.modelKey = modelKey;
         this.orderId = orderId;
         this.bookId = bookId;
+        this.modelId = modelId;
+        this.modelKey = modelKey;
         this.sigma = sigma;
         this.language = language;
         this.active = active;
@@ -236,6 +240,25 @@ public class FBill implements VertxPojo, IFBill {
     }
 
     /**
+     * Getter for <code>DB_ETERNAL.F_BILL.INCOME</code>. 「income」- true =
+     * 消费类，false = 付款类
+     */
+    @Override
+    public Boolean getIncome() {
+        return this.income;
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.F_BILL.INCOME</code>. 「income」- true =
+     * 消费类，false = 付款类
+     */
+    @Override
+    public FBill setIncome(Boolean income) {
+        this.income = income;
+        return this;
+    }
+
+    /**
      * Getter for <code>DB_ETERNAL.F_BILL.COMMENT</code>. 「comment」 - 账单备注
      */
     @Override
@@ -249,6 +272,40 @@ public class FBill implements VertxPojo, IFBill {
     @Override
     public FBill setComment(String comment) {
         this.comment = comment;
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.F_BILL.ORDER_ID</code>. 「orderId」- 订单对应的订单ID
+     */
+    @Override
+    public String getOrderId() {
+        return this.orderId;
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.F_BILL.ORDER_ID</code>. 「orderId」- 订单对应的订单ID
+     */
+    @Override
+    public FBill setOrderId(String orderId) {
+        this.orderId = orderId;
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.F_BILL.BOOK_ID</code>. 「bookId」- 关联账本ID
+     */
+    @Override
+    public String getBookId() {
+        return this.bookId;
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.F_BILL.BOOK_ID</code>. 「bookId」- 关联账本ID
+     */
+    @Override
+    public FBill setBookId(String bookId) {
+        this.bookId = bookId;
         return this;
     }
 
@@ -287,40 +344,6 @@ public class FBill implements VertxPojo, IFBill {
     @Override
     public FBill setModelKey(String modelKey) {
         this.modelKey = modelKey;
-        return this;
-    }
-
-    /**
-     * Getter for <code>DB_ETERNAL.F_BILL.ORDER_ID</code>. 「orderId」- 订单对应的订单ID
-     */
-    @Override
-    public String getOrderId() {
-        return this.orderId;
-    }
-
-    /**
-     * Setter for <code>DB_ETERNAL.F_BILL.ORDER_ID</code>. 「orderId」- 订单对应的订单ID
-     */
-    @Override
-    public FBill setOrderId(String orderId) {
-        this.orderId = orderId;
-        return this;
-    }
-
-    /**
-     * Getter for <code>DB_ETERNAL.F_BILL.BOOK_ID</code>. 「bookId」- 关联账本ID
-     */
-    @Override
-    public String getBookId() {
-        return this.bookId;
-    }
-
-    /**
-     * Setter for <code>DB_ETERNAL.F_BILL.BOOK_ID</code>. 「bookId」- 关联账本ID
-     */
-    @Override
-    public FBill setBookId(String bookId) {
-        this.bookId = bookId;
         return this;
     }
 
@@ -471,11 +494,12 @@ public class FBill implements VertxPojo, IFBill {
         sb.append(", ").append(type);
         sb.append(", ").append(category);
         sb.append(", ").append(amount);
+        sb.append(", ").append(income);
         sb.append(", ").append(comment);
-        sb.append(", ").append(modelId);
-        sb.append(", ").append(modelKey);
         sb.append(", ").append(orderId);
         sb.append(", ").append(bookId);
+        sb.append(", ").append(modelId);
+        sb.append(", ").append(modelKey);
         sb.append(", ").append(sigma);
         sb.append(", ").append(language);
         sb.append(", ").append(active);
@@ -502,11 +526,12 @@ public class FBill implements VertxPojo, IFBill {
         setType(from.getType());
         setCategory(from.getCategory());
         setAmount(from.getAmount());
+        setIncome(from.getIncome());
         setComment(from.getComment());
-        setModelId(from.getModelId());
-        setModelKey(from.getModelKey());
         setOrderId(from.getOrderId());
         setBookId(from.getBookId());
+        setModelId(from.getModelId());
+        setModelKey(from.getModelKey());
         setSigma(from.getSigma());
         setLanguage(from.getLanguage());
         setActive(from.getActive());

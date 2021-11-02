@@ -26,12 +26,14 @@ public class FSettlement implements VertxPojo, IFSettlement {
     private String        serial;
     private BigDecimal    amount;
     private String        comment;
-    private Byte          rounded;
+    private String        rounded;
     private Boolean       finished;
     private LocalDateTime finishedAt;
     private String        signName;
     private String        signMobile;
+    private String        customerId;
     private String        orderId;
+    private String        bookId;
     private String        sigma;
     private String        language;
     private Boolean       active;
@@ -54,7 +56,9 @@ public class FSettlement implements VertxPojo, IFSettlement {
         this.finishedAt = value.getFinishedAt();
         this.signName = value.getSignName();
         this.signMobile = value.getSignMobile();
+        this.customerId = value.getCustomerId();
         this.orderId = value.getOrderId();
+        this.bookId = value.getBookId();
         this.sigma = value.getSigma();
         this.language = value.getLanguage();
         this.active = value.getActive();
@@ -71,12 +75,14 @@ public class FSettlement implements VertxPojo, IFSettlement {
         String        serial,
         BigDecimal    amount,
         String        comment,
-        Byte          rounded,
+        String        rounded,
         Boolean       finished,
         LocalDateTime finishedAt,
         String        signName,
         String        signMobile,
+        String        customerId,
         String        orderId,
+        String        bookId,
         String        sigma,
         String        language,
         Boolean       active,
@@ -96,7 +102,9 @@ public class FSettlement implements VertxPojo, IFSettlement {
         this.finishedAt = finishedAt;
         this.signName = signName;
         this.signMobile = signMobile;
+        this.customerId = customerId;
         this.orderId = orderId;
+        this.bookId = bookId;
         this.sigma = sigma;
         this.language = language;
         this.active = active;
@@ -202,20 +210,20 @@ public class FSettlement implements VertxPojo, IFSettlement {
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.F_SETTLEMENT.ROUNDED</code>. 「rounded」抹零方式 =
-     * true：四舍五入、round = false：零头舍掉,round,IS_ROUND
+     * Getter for <code>DB_ETERNAL.F_SETTLEMENT.ROUNDED</code>.
+     * 「rounded」抹零方式：四舍五入, HALF：零头舍掉, FLOOR, 零头入进, CEIL
      */
     @Override
-    public Byte getRounded() {
+    public String getRounded() {
         return this.rounded;
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.F_SETTLEMENT.ROUNDED</code>. 「rounded」抹零方式 =
-     * true：四舍五入、round = false：零头舍掉,round,IS_ROUND
+     * Setter for <code>DB_ETERNAL.F_SETTLEMENT.ROUNDED</code>.
+     * 「rounded」抹零方式：四舍五入, HALF：零头舍掉, FLOOR, 零头入进, CEIL
      */
     @Override
-    public FSettlement setRounded(Byte rounded) {
+    public FSettlement setRounded(String rounded) {
         this.rounded = rounded;
         return this;
     }
@@ -297,6 +305,25 @@ public class FSettlement implements VertxPojo, IFSettlement {
     }
 
     /**
+     * Getter for <code>DB_ETERNAL.F_SETTLEMENT.CUSTOMER_ID</code>.
+     * 「customerId」结算对象（单位ID）
+     */
+    @Override
+    public String getCustomerId() {
+        return this.customerId;
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.F_SETTLEMENT.CUSTOMER_ID</code>.
+     * 「customerId」结算对象（单位ID）
+     */
+    @Override
+    public FSettlement setCustomerId(String customerId) {
+        this.customerId = customerId;
+        return this;
+    }
+
+    /**
      * Getter for <code>DB_ETERNAL.F_SETTLEMENT.ORDER_ID</code>. 「orderId」-
      * 预授权所属订单ID
      */
@@ -312,6 +339,23 @@ public class FSettlement implements VertxPojo, IFSettlement {
     @Override
     public FSettlement setOrderId(String orderId) {
         this.orderId = orderId;
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.F_SETTLEMENT.BOOK_ID</code>. 「bookId」- 所属账本ID
+     */
+    @Override
+    public String getBookId() {
+        return this.bookId;
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.F_SETTLEMENT.BOOK_ID</code>. 「bookId」- 所属账本ID
+     */
+    @Override
+    public FSettlement setBookId(String bookId) {
+        this.bookId = bookId;
         return this;
     }
 
@@ -477,7 +521,9 @@ public class FSettlement implements VertxPojo, IFSettlement {
         sb.append(", ").append(finishedAt);
         sb.append(", ").append(signName);
         sb.append(", ").append(signMobile);
+        sb.append(", ").append(customerId);
         sb.append(", ").append(orderId);
+        sb.append(", ").append(bookId);
         sb.append(", ").append(sigma);
         sb.append(", ").append(language);
         sb.append(", ").append(active);
@@ -507,7 +553,9 @@ public class FSettlement implements VertxPojo, IFSettlement {
         setFinishedAt(from.getFinishedAt());
         setSignName(from.getSignName());
         setSignMobile(from.getSignMobile());
+        setCustomerId(from.getCustomerId());
         setOrderId(from.getOrderId());
+        setBookId(from.getBookId());
         setSigma(from.getSigma());
         setLanguage(from.getLanguage());
         setActive(from.getActive());

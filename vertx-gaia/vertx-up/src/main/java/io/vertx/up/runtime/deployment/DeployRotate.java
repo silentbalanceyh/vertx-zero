@@ -74,8 +74,7 @@ public class DeployRotate implements Rotate {
 
         /* Worker = false */
         options.setWorker(false);
-
-        LOGGER.info(Info.VTC_OPT, options.getInstances(), options.getIsolationGroup(), options.isHa(), options.toJson());
+        LOGGER.info(Info.VTC_OPT, options.getInstances(), options.isHa(), options.toJson());
         return options;
     }
 
@@ -94,8 +93,7 @@ public class DeployRotate implements Rotate {
 
         /* Worker = false */
         options.setWorker(true);
-
-        LOGGER.info(Info.VTC_OPT, options.getInstances(), options.getIsolationGroup(), options.isHa(), options.toJson());
+        LOGGER.info(Info.VTC_OPT, options.getInstances(), options.isHa(), options.toJson());
         return options;
     }
 

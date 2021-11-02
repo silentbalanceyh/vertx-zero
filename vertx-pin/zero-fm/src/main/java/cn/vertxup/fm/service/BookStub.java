@@ -1,4 +1,4 @@
-package io.vertx.tp.fm.service;
+package cn.vertxup.fm.service;
 
 import cn.vertxup.fm.domain.tables.pojos.FBook;
 import io.vertx.core.Future;

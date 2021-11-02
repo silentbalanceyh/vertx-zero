@@ -21,6 +21,12 @@ public class VUser implements User {
     }
 
     @Override
+    public User merge(final User user) {
+        this.principal.mergeIn(user.principal());
+        return this;
+    }
+
+    @Override
     public User isAuthorized(
         final String authority,
         final Handler<AsyncResult<Boolean>> resultHandler) {

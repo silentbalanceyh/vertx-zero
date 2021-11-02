@@ -9,6 +9,7 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.ambient.refine.At;
 import io.vertx.up.eon.KName;
+import io.vertx.up.uca.jooq.UxJooq;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
@@ -106,31 +107,47 @@ public class DatumService implements DatumStub {
         return this.numbers(filters, count);
     }
 
+    @Override
+    public Future<Boolean> numbersReset(final String sigma, final String code, final Long defaultValue) {
+        At.infoFlow(this.getClass(), "Number reset operation: sigma = {0}, code = {1}, default = {2}",
+            sigma, code, String.valueOf(defaultValue));
+        final JsonObject filters = new JsonObject();
+        filters.put(KName.SIGMA, sigma);
+        filters.put(KName.CODE, code);
+        final UxJooq jooq = Ux.Jooq.on(XNumberDao.class);
+        return jooq.<XNumber>fetchOneAsync(filters).compose(number -> {
+            if (Objects.isNull(number)) {
+                return Ux.future(Boolean.TRUE);
+            } else {
+                number.setCurrent(defaultValue);  // The Current Value Start From 1
+                return jooq.updateAsync(number).compose(nil -> Ux.future(Boolean.TRUE));
+            }
+        });
+    }
+
     private Future<JsonArray> numbers(final JsonObject filters, final Integer count) {
         /*
          * XNumber processing
          */
-        return Ux.Jooq.on(XNumberDao.class)
-            .<XNumber>fetchOneAsync(filters)
-            .compose(number -> {
-                if (Objects.isNull(number)) {
-                    /*
-                     * Not found for XNumber
-                     */
-                    return Ux.future(new JsonArray());
-                } else {
-                    /*
-                     * Generate numbers
-                     * 1) Generate new numbers first
-                     * 2) Update numbers instead
-                     */
-                    return At.serialsAsync(number, count)
-                        .compose(generation -> Ux.Jooq.on(XNumberDao.class)
-                            .updateAsync(number.setCurrent(number.getCurrent() + count))
-                            .compose(updated -> Ux.future(new JsonArray(generation))))
-                        .otherwise(Ux.otherwise(JsonArray::new));
-                }
-            });
+        final UxJooq jooq = Ux.Jooq.on(XNumberDao.class);
+        return jooq.<XNumber>fetchOneAsync(filters).compose(number -> {
+            if (Objects.isNull(number)) {
+                /*
+                 * Not found for XNumber
+                 */
+                return Ux.future(new JsonArray());
+            } else {
+                /*
+                 * Generate numbers
+                 * 1) Generate new numbers first
+                 * 2) Update numbers instead
+                 */
+                return At.generateAsync(number, count).compose(generation -> {
+                    final XNumber processed = At.serialAdjust(number, count);
+                    return jooq.updateAsync(processed).compose(nil -> Ux.future(new JsonArray(generation)));
+                }).otherwise(Ux.otherwise(JsonArray::new));
+            }
+        });
     }
 
     private Future<JsonArray> fetchArray(final Class<?> daoCls, final JsonObject filters) {
