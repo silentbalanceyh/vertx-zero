@@ -239,6 +239,21 @@ public class EEmployeeDao extends AbstractVertxDAO<EEmployeeRecord, cn.vertxup.e
         }
 
         /**
+     * Find records that have <code>STATUS IN (values)</code> asynchronously
+     */
+        public Future<List<cn.vertxup.erp.domain.tables.pojos.EEmployee>> findManyByStatus(Collection<String> values) {
+                return findManyByCondition(EEmployee.E_EMPLOYEE.STATUS.in(values));
+        }
+
+        /**
+     * Find records that have <code>STATUS IN (values)</code> asynchronously
+     * limited by the given limit
+     */
+        public Future<List<cn.vertxup.erp.domain.tables.pojos.EEmployee>> findManyByStatus(Collection<String> values, int limit) {
+                return findManyByCondition(EEmployee.E_EMPLOYEE.STATUS.in(values),limit);
+        }
+
+        /**
      * Find records that have <code>METADATA IN (values)</code> asynchronously
      */
         public Future<List<cn.vertxup.erp.domain.tables.pojos.EEmployee>> findManyByMetadata(Collection<String> values) {

@@ -11,6 +11,7 @@ import cn.vertxup.erp.domain.tables.ECustomer;
 import cn.vertxup.erp.domain.tables.EDept;
 import cn.vertxup.erp.domain.tables.EEmployee;
 import cn.vertxup.erp.domain.tables.EIdentity;
+import cn.vertxup.erp.domain.tables.EJobLog;
 import cn.vertxup.erp.domain.tables.ETeam;
 import cn.vertxup.erp.domain.tables.RCompanyCustomer;
 import cn.vertxup.erp.domain.tables.RTeamEmployee;
@@ -56,6 +57,11 @@ public class Tables {
      * The table <code>DB_ETERNAL.E_IDENTITY</code>.
      */
     public static final EIdentity E_IDENTITY = EIdentity.E_IDENTITY;
+
+    /**
+     * The table <code>DB_ETERNAL.E_JOB_LOG</code>.
+     */
+    public static final EJobLog E_JOB_LOG = EJobLog.E_JOB_LOG;
 
     /**
      * The table <code>DB_ETERNAL.E_TEAM</code>.

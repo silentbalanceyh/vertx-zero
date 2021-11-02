@@ -61,6 +61,11 @@ public class Db extends SchemaImpl {
     public final EIdentity E_IDENTITY = EIdentity.E_IDENTITY;
 
     /**
+     * The table <code>DB_ETERNAL.E_JOB_LOG</code>.
+     */
+    public final EJobLog E_JOB_LOG = EJobLog.E_JOB_LOG;
+
+    /**
      * The table <code>DB_ETERNAL.E_TEAM</code>.
      */
     public final ETeam E_TEAM = ETeam.E_TEAM;
@@ -98,6 +103,7 @@ public class Db extends SchemaImpl {
             EDept.E_DEPT,
             EEmployee.E_EMPLOYEE,
             EIdentity.E_IDENTITY,
+            EJobLog.E_JOB_LOG,
             ETeam.E_TEAM,
             RCompanyCustomer.R_COMPANY_CUSTOMER,
             RTeamEmployee.R_TEAM_EMPLOYEE

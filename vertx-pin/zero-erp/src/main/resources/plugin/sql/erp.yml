@@ -24,6 +24,9 @@ databaseChangeLog:
     -   include:
             file: plugin/sql/erp/E_BRAND.sql
             relativeToChangelogFile: false
+    -   include:
+            file: plugin/sql/erp/E_JOB_LOG.sql
+            relativeToChangelogFile: false
     # 关联关系
     -   include:
             file: plugin/sql/erp/R_COMPANY_CUSTOMER.sql

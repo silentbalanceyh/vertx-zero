@@ -114,6 +114,11 @@ public class XTodo extends TableImpl<XTodoRecord> {
      */
     public final TableField<XTodoRecord, String> TRACE_ID = createField(DSL.name("TRACE_ID"), SQLDataType.VARCHAR(36), this, "「traceId」- 同一个流程的待办执行分组");
     /**
+     * The column <code>DB_ETERNAL.X_TODO.DESCRIPTION</code>. 「description」-
+     * 待办描述
+     */
+    public final TableField<XTodoRecord, String> DESCRIPTION = createField(DSL.name("DESCRIPTION"), SQLDataType.CLOB, this, "「description」- 待办描述");
+    /**
      * The column <code>DB_ETERNAL.X_TODO.PARENT_ID</code>. 「parentId」-
      * 待办支持父子集结构，父待办执行时候子待办同样执行
      */

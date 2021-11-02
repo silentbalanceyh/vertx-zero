@@ -313,6 +313,22 @@ public class XTodoDao extends AbstractVertxDAO<XTodoRecord, cn.vertxup.ambient.d
         }
 
         /**
+     * Find records that have <code>DESCRIPTION IN (values)</code>
+     * asynchronously
+     */
+        public Future<List<cn.vertxup.ambient.domain.tables.pojos.XTodo>> findManyByDescription(Collection<String> values) {
+                return findManyByCondition(XTodo.X_TODO.DESCRIPTION.in(values));
+        }
+
+        /**
+     * Find records that have <code>DESCRIPTION IN (values)</code>
+     * asynchronously limited by the given limit
+     */
+        public Future<List<cn.vertxup.ambient.domain.tables.pojos.XTodo>> findManyByDescription(Collection<String> values, int limit) {
+                return findManyByCondition(XTodo.X_TODO.DESCRIPTION.in(values),limit);
+        }
+
+        /**
      * Find records that have <code>PARENT_ID IN (values)</code> asynchronously
      */
         public Future<List<cn.vertxup.ambient.domain.tables.pojos.XTodo>> findManyByParentId(Collection<String> values) {

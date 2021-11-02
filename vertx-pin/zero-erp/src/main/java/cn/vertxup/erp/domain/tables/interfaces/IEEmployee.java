@@ -174,6 +174,16 @@ public interface IEEmployee extends VertxPojo, Serializable {
     public String getType();
 
     /**
+     * Setter for <code>DB_ETERNAL.E_EMPLOYEE.STATUS</code>. 「status」- 员工状态
+     */
+    public IEEmployee setStatus(String value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.E_EMPLOYEE.STATUS</code>. 「status」- 员工状态
+     */
+    public String getStatus();
+
+    /**
      * Setter for <code>DB_ETERNAL.E_EMPLOYEE.METADATA</code>. 「metadata」- 附加配置
      */
     public IEEmployee setMetadata(String value);
@@ -295,6 +305,7 @@ public interface IEEmployee extends VertxPojo, Serializable {
                 setOrThrow(this::setWorkPhone,json::getString,"WORK_PHONE","java.lang.String");
                 setOrThrow(this::setWorkExtension,json::getString,"WORK_EXTENSION","java.lang.String");
                 setOrThrow(this::setType,json::getString,"TYPE","java.lang.String");
+                setOrThrow(this::setStatus,json::getString,"STATUS","java.lang.String");
                 setOrThrow(this::setMetadata,json::getString,"METADATA","java.lang.String");
                 setOrThrow(this::setActive,json::getBoolean,"ACTIVE","java.lang.Boolean");
                 setOrThrow(this::setSigma,json::getString,"SIGMA","java.lang.String");
@@ -324,6 +335,7 @@ public interface IEEmployee extends VertxPojo, Serializable {
                 json.put("WORK_PHONE",getWorkPhone());
                 json.put("WORK_EXTENSION",getWorkExtension());
                 json.put("TYPE",getType());
+                json.put("STATUS",getStatus());
                 json.put("METADATA",getMetadata());
                 json.put("ACTIVE",getActive());
                 json.put("SIGMA",getSigma());

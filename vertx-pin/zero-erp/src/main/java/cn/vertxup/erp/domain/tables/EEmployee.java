@@ -94,6 +94,10 @@ public class EEmployee extends TableImpl<EEmployeeRecord> {
      */
     public final TableField<EEmployeeRecord, String> TYPE = createField(DSL.name("TYPE"), SQLDataType.VARCHAR(36), this, "「type」- 员工分类");
     /**
+     * The column <code>DB_ETERNAL.E_EMPLOYEE.STATUS</code>. 「status」- 员工状态
+     */
+    public final TableField<EEmployeeRecord, String> STATUS = createField(DSL.name("STATUS"), SQLDataType.VARCHAR(36), this, "「status」- 员工状态");
+    /**
      * The column <code>DB_ETERNAL.E_EMPLOYEE.METADATA</code>. 「metadata」- 附加配置
      */
     public final TableField<EEmployeeRecord, String> METADATA = createField(DSL.name("METADATA"), SQLDataType.CLOB, this, "「metadata」- 附加配置");
@@ -216,14 +220,5 @@ public class EEmployee extends TableImpl<EEmployeeRecord> {
     @Override
     public EEmployee rename(Name name) {
         return new EEmployee(name, null);
-    }
-
-    // -------------------------------------------------------------------------
-    // Row22 type methods
-    // -------------------------------------------------------------------------
-
-    @Override
-    public Row22<String, String, String, String, String, String, String, String, String, String, String, String, String, String, String, Boolean, String, String, LocalDateTime, String, LocalDateTime, String> fieldsRow() {
-        return (Row22) super.fieldsRow();
     }
 }

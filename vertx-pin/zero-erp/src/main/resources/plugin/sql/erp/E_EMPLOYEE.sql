@@ -32,6 +32,7 @@ CREATE TABLE `E_EMPLOYEE`
 
     -- 特殊字段
     `TYPE`           VARCHAR(36) COMMENT '「type」- 员工分类',
+    `STATUS`         VARCHAR(36) COMMENT '「status」- 员工状态',
     `METADATA`       TEXT COMMENT '「metadata」- 附加配置',
     `ACTIVE`         BIT         DEFAULT NULL COMMENT '「active」- 是否启用',
     `SIGMA`          VARCHAR(32) DEFAULT NULL COMMENT '「sigma」- 统一标识（公司所属应用）',

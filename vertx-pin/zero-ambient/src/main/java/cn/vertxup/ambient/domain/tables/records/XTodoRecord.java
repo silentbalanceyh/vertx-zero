@@ -364,12 +364,31 @@ public class XTodoRecord extends UpdatableRecordImpl<XTodoRecord> implements Ver
     }
 
     /**
+     * Setter for <code>DB_ETERNAL.X_TODO.DESCRIPTION</code>. 「description」-
+     * 待办描述
+     */
+    @Override
+    public XTodoRecord setDescription(String value) {
+        set(19, value);
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.X_TODO.DESCRIPTION</code>. 「description」-
+     * 待办描述
+     */
+    @Override
+    public String getDescription() {
+        return (String) get(19);
+    }
+
+    /**
      * Setter for <code>DB_ETERNAL.X_TODO.PARENT_ID</code>. 「parentId」-
      * 待办支持父子集结构，父待办执行时候子待办同样执行
      */
     @Override
     public XTodoRecord setParentId(String value) {
-        set(19, value);
+        set(20, value);
         return this;
     }
 
@@ -379,7 +398,7 @@ public class XTodoRecord extends UpdatableRecordImpl<XTodoRecord> implements Ver
      */
     @Override
     public String getParentId() {
-        return (String) get(19);
+        return (String) get(20);
     }
 
     /**
@@ -387,7 +406,7 @@ public class XTodoRecord extends UpdatableRecordImpl<XTodoRecord> implements Ver
      */
     @Override
     public XTodoRecord setActive(Boolean value) {
-        set(20, value);
+        set(21, value);
         return this;
     }
 
@@ -396,7 +415,7 @@ public class XTodoRecord extends UpdatableRecordImpl<XTodoRecord> implements Ver
      */
     @Override
     public Boolean getActive() {
-        return (Boolean) get(20);
+        return (Boolean) get(21);
     }
 
     /**
@@ -404,7 +423,7 @@ public class XTodoRecord extends UpdatableRecordImpl<XTodoRecord> implements Ver
      */
     @Override
     public XTodoRecord setSigma(String value) {
-        set(21, value);
+        set(22, value);
         return this;
     }
 
@@ -413,7 +432,7 @@ public class XTodoRecord extends UpdatableRecordImpl<XTodoRecord> implements Ver
      */
     @Override
     public String getSigma() {
-        return (String) get(21);
+        return (String) get(22);
     }
 
     /**
@@ -421,7 +440,7 @@ public class XTodoRecord extends UpdatableRecordImpl<XTodoRecord> implements Ver
      */
     @Override
     public XTodoRecord setMetadata(String value) {
-        set(22, value);
+        set(23, value);
         return this;
     }
 
@@ -430,7 +449,7 @@ public class XTodoRecord extends UpdatableRecordImpl<XTodoRecord> implements Ver
      */
     @Override
     public String getMetadata() {
-        return (String) get(22);
+        return (String) get(23);
     }
 
     /**
@@ -438,7 +457,7 @@ public class XTodoRecord extends UpdatableRecordImpl<XTodoRecord> implements Ver
      */
     @Override
     public XTodoRecord setLanguage(String value) {
-        set(23, value);
+        set(24, value);
         return this;
     }
 
@@ -447,7 +466,7 @@ public class XTodoRecord extends UpdatableRecordImpl<XTodoRecord> implements Ver
      */
     @Override
     public String getLanguage() {
-        return (String) get(23);
+        return (String) get(24);
     }
 
     /**
@@ -455,7 +474,7 @@ public class XTodoRecord extends UpdatableRecordImpl<XTodoRecord> implements Ver
      */
     @Override
     public XTodoRecord setCreatedAt(LocalDateTime value) {
-        set(24, value);
+        set(25, value);
         return this;
     }
 
@@ -464,7 +483,7 @@ public class XTodoRecord extends UpdatableRecordImpl<XTodoRecord> implements Ver
      */
     @Override
     public LocalDateTime getCreatedAt() {
-        return (LocalDateTime) get(24);
+        return (LocalDateTime) get(25);
     }
 
     /**
@@ -472,7 +491,7 @@ public class XTodoRecord extends UpdatableRecordImpl<XTodoRecord> implements Ver
      */
     @Override
     public XTodoRecord setCreatedBy(String value) {
-        set(25, value);
+        set(26, value);
         return this;
     }
 
@@ -481,7 +500,7 @@ public class XTodoRecord extends UpdatableRecordImpl<XTodoRecord> implements Ver
      */
     @Override
     public String getCreatedBy() {
-        return (String) get(25);
+        return (String) get(26);
     }
 
     /**
@@ -489,7 +508,7 @@ public class XTodoRecord extends UpdatableRecordImpl<XTodoRecord> implements Ver
      */
     @Override
     public XTodoRecord setUpdatedAt(LocalDateTime value) {
-        set(26, value);
+        set(27, value);
         return this;
     }
 
@@ -498,7 +517,7 @@ public class XTodoRecord extends UpdatableRecordImpl<XTodoRecord> implements Ver
      */
     @Override
     public LocalDateTime getUpdatedAt() {
-        return (LocalDateTime) get(26);
+        return (LocalDateTime) get(27);
     }
 
     /**
@@ -506,7 +525,7 @@ public class XTodoRecord extends UpdatableRecordImpl<XTodoRecord> implements Ver
      */
     @Override
     public XTodoRecord setUpdatedBy(String value) {
-        set(27, value);
+        set(28, value);
         return this;
     }
 
@@ -515,7 +534,7 @@ public class XTodoRecord extends UpdatableRecordImpl<XTodoRecord> implements Ver
      */
     @Override
     public String getUpdatedBy() {
-        return (String) get(27);
+        return (String) get(28);
     }
 
     // -------------------------------------------------------------------------
@@ -552,6 +571,7 @@ public class XTodoRecord extends UpdatableRecordImpl<XTodoRecord> implements Ver
         setAcceptedBy(from.getAcceptedBy());
         setFinishedBy(from.getFinishedBy());
         setTraceId(from.getTraceId());
+        setDescription(from.getDescription());
         setParentId(from.getParentId());
         setActive(from.getActive());
         setSigma(from.getSigma());
@@ -583,7 +603,7 @@ public class XTodoRecord extends UpdatableRecordImpl<XTodoRecord> implements Ver
     /**
      * Create a detached, initialised XTodoRecord
      */
-    public XTodoRecord(String key, String serial, String name, String code, String icon, String status, String todoUrl, String type, LocalDateTime expiredAt, String modelId, String modelKey, String modelCategory, String toGroup, String toUser, String toRole, String assignedBy, String acceptedBy, String finishedBy, String traceId, String parentId, Boolean active, String sigma, String metadata, String language, LocalDateTime createdAt, String createdBy, LocalDateTime updatedAt, String updatedBy) {
+    public XTodoRecord(String key, String serial, String name, String code, String icon, String status, String todoUrl, String type, LocalDateTime expiredAt, String modelId, String modelKey, String modelCategory, String toGroup, String toUser, String toRole, String assignedBy, String acceptedBy, String finishedBy, String traceId, String description, String parentId, Boolean active, String sigma, String metadata, String language, LocalDateTime createdAt, String createdBy, LocalDateTime updatedAt, String updatedBy) {
         super(XTodo.X_TODO);
 
         setKey(key);
@@ -605,6 +625,7 @@ public class XTodoRecord extends UpdatableRecordImpl<XTodoRecord> implements Ver
         setAcceptedBy(acceptedBy);
         setFinishedBy(finishedBy);
         setTraceId(traceId);
+        setDescription(description);
         setParentId(parentId);
         setActive(active);
         setSigma(sigma);
@@ -642,6 +663,7 @@ public class XTodoRecord extends UpdatableRecordImpl<XTodoRecord> implements Ver
             setAcceptedBy(value.getAcceptedBy());
             setFinishedBy(value.getFinishedBy());
             setTraceId(value.getTraceId());
+            setDescription(value.getDescription());
             setParentId(value.getParentId());
             setActive(value.getActive());
             setSigma(value.getSigma());

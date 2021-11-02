@@ -34,6 +34,7 @@ public class EEmployee implements VertxPojo, IEEmployee {
     private String        workPhone;
     private String        workExtension;
     private String        type;
+    private String        status;
     private String        metadata;
     private Boolean       active;
     private String        sigma;
@@ -60,6 +61,7 @@ public class EEmployee implements VertxPojo, IEEmployee {
         this.workPhone = value.getWorkPhone();
         this.workExtension = value.getWorkExtension();
         this.type = value.getType();
+        this.status = value.getStatus();
         this.metadata = value.getMetadata();
         this.active = value.getActive();
         this.sigma = value.getSigma();
@@ -85,6 +87,7 @@ public class EEmployee implements VertxPojo, IEEmployee {
         String        workPhone,
         String        workExtension,
         String        type,
+        String        status,
         String        metadata,
         Boolean       active,
         String        sigma,
@@ -108,6 +111,7 @@ public class EEmployee implements VertxPojo, IEEmployee {
         this.workPhone = workPhone;
         this.workExtension = workExtension;
         this.type = type;
+        this.status = status;
         this.metadata = metadata;
         this.active = active;
         this.sigma = sigma;
@@ -378,6 +382,23 @@ public class EEmployee implements VertxPojo, IEEmployee {
     }
 
     /**
+     * Getter for <code>DB_ETERNAL.E_EMPLOYEE.STATUS</code>. 「status」- 员工状态
+     */
+    @Override
+    public String getStatus() {
+        return this.status;
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.E_EMPLOYEE.STATUS</code>. 「status」- 员工状态
+     */
+    @Override
+    public EEmployee setStatus(String status) {
+        this.status = status;
+        return this;
+    }
+
+    /**
      * Getter for <code>DB_ETERNAL.E_EMPLOYEE.METADATA</code>. 「metadata」- 附加配置
      */
     @Override
@@ -541,6 +562,7 @@ public class EEmployee implements VertxPojo, IEEmployee {
         sb.append(", ").append(workPhone);
         sb.append(", ").append(workExtension);
         sb.append(", ").append(type);
+        sb.append(", ").append(status);
         sb.append(", ").append(metadata);
         sb.append(", ").append(active);
         sb.append(", ").append(sigma);
@@ -574,6 +596,7 @@ public class EEmployee implements VertxPojo, IEEmployee {
         setWorkPhone(from.getWorkPhone());
         setWorkExtension(from.getWorkExtension());
         setType(from.getType());
+        setStatus(from.getStatus());
         setMetadata(from.getMetadata());
         setActive(from.getActive());
         setSigma(from.getSigma());
