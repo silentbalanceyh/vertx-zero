@@ -175,6 +175,21 @@ public class FPaymentDao extends AbstractVertxDAO<FPaymentRecord, cn.vertxup.fm.
         }
 
         /**
+     * Find records that have <code>PREPAY IN (values)</code> asynchronously
+     */
+        public Future<List<cn.vertxup.fm.domain.tables.pojos.FPayment>> findManyByPrepay(Collection<Boolean> values) {
+                return findManyByCondition(FPayment.F_PAYMENT.PREPAY.in(values));
+        }
+
+        /**
+     * Find records that have <code>PREPAY IN (values)</code> asynchronously
+     * limited by the given limit
+     */
+        public Future<List<cn.vertxup.fm.domain.tables.pojos.FPayment>> findManyByPrepay(Collection<Boolean> values, int limit) {
+                return findManyByCondition(FPayment.F_PAYMENT.PREPAY.in(values),limit);
+        }
+
+        /**
      * Find records that have <code>SIGMA IN (values)</code> asynchronously
      */
         public Future<List<cn.vertxup.fm.domain.tables.pojos.FPayment>> findManyBySigma(Collection<String> values) {

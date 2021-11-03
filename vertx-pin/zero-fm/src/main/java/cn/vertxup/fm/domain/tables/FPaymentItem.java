@@ -52,6 +52,11 @@ public class FPaymentItem extends TableImpl<FPaymentItemRecord> {
      */
     public final TableField<FPaymentItemRecord, BigDecimal> AMOUNT = createField(DSL.name("AMOUNT"), SQLDataType.DECIMAL(18, 2).nullable(false), this, "「amount」——价税合计，所有明细对应的实际结算金额");
     /**
+     * The column <code>DB_ETERNAL.F_PAYMENT_ITEM.AMOUNT_PRE</code>.
+     * 「amountPre」预付金额
+     */
+    public final TableField<FPaymentItemRecord, BigDecimal> AMOUNT_PRE = createField(DSL.name("AMOUNT_PRE"), SQLDataType.DECIMAL(18, 2).nullable(false), this, "「amountPre」预付金额");
+    /**
      * The column <code>DB_ETERNAL.F_PAYMENT_ITEM.SETTLEMENT_ID</code>.
      * 「settlementId」结算单ID
      */
@@ -202,11 +207,11 @@ public class FPaymentItem extends TableImpl<FPaymentItemRecord> {
     }
 
     // -------------------------------------------------------------------------
-    // Row19 type methods
+    // Row20 type methods
     // -------------------------------------------------------------------------
 
     @Override
-    public Row19<String, String, String, String, BigDecimal, String, String, String, String, String, String, String, String, Boolean, String, LocalDateTime, String, LocalDateTime, String> fieldsRow() {
-        return (Row19) super.fieldsRow();
+    public Row20<String, String, String, String, BigDecimal, BigDecimal, String, String, String, String, String, String, String, String, Boolean, String, LocalDateTime, String, LocalDateTime, String> fieldsRow() {
+        return (Row20) super.fieldsRow();
     }
 }

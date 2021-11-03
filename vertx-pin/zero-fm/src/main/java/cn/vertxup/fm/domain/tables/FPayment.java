@@ -71,6 +71,10 @@ public class FPayment extends TableImpl<FPaymentRecord> {
      */
     public final TableField<FPaymentRecord, String> COMMENT = createField(DSL.name("COMMENT"), SQLDataType.CLOB, this, "「comment」 - 备注");
     /**
+     * The column <code>DB_ETERNAL.F_PAYMENT.PREPAY</code>. 「prepay」- 是否预付
+     */
+    public final TableField<FPaymentRecord, Boolean> PREPAY = createField(DSL.name("PREPAY"), SQLDataType.BIT, this, "「prepay」- 是否预付");
+    /**
      * The column <code>DB_ETERNAL.F_PAYMENT.SIGMA</code>. 「sigma」- 统一标识
      */
     public final TableField<FPaymentRecord, String> SIGMA = createField(DSL.name("SIGMA"), SQLDataType.VARCHAR(32), this, "「sigma」- 统一标识");
@@ -188,11 +192,11 @@ public class FPayment extends TableImpl<FPaymentRecord> {
     }
 
     // -------------------------------------------------------------------------
-    // Row18 type methods
+    // Row19 type methods
     // -------------------------------------------------------------------------
 
     @Override
-    public Row18<String, String, String, String, BigDecimal, String, String, String, String, String, String, String, Boolean, String, LocalDateTime, String, LocalDateTime, String> fieldsRow() {
-        return (Row18) super.fieldsRow();
+    public Row19<String, String, String, String, BigDecimal, String, String, String, String, String, Boolean, String, String, Boolean, String, LocalDateTime, String, LocalDateTime, String> fieldsRow() {
+        return (Row19) super.fieldsRow();
     }
 }

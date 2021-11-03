@@ -73,6 +73,18 @@ public interface IFPaymentItem extends VertxPojo, Serializable {
     public BigDecimal getAmount();
 
     /**
+     * Setter for <code>DB_ETERNAL.F_PAYMENT_ITEM.AMOUNT_PRE</code>.
+     * 「amountPre」预付金额
+     */
+    public IFPaymentItem setAmountPre(BigDecimal value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.F_PAYMENT_ITEM.AMOUNT_PRE</code>.
+     * 「amountPre」预付金额
+     */
+    public BigDecimal getAmountPre();
+
+    /**
      * Setter for <code>DB_ETERNAL.F_PAYMENT_ITEM.SETTLEMENT_ID</code>.
      * 「settlementId」结算单ID
      */
@@ -257,6 +269,7 @@ public interface IFPaymentItem extends VertxPojo, Serializable {
                 setOrThrow(this::setCode,json::getString,"CODE","java.lang.String");
                 setOrThrow(this::setSerial,json::getString,"SERIAL","java.lang.String");
                 // Omitting unrecognized type java.math.BigDecimal for column AMOUNT!
+                // Omitting unrecognized type java.math.BigDecimal for column AMOUNT_PRE!
                 setOrThrow(this::setSettlementId,json::getString,"SETTLEMENT_ID","java.lang.String");
                 setOrThrow(this::setPaymentId,json::getString,"PAYMENT_ID","java.lang.String");
                 setOrThrow(this::setPayName,json::getString,"PAY_NAME","java.lang.String");
@@ -283,6 +296,7 @@ public interface IFPaymentItem extends VertxPojo, Serializable {
                 json.put("CODE",getCode());
                 json.put("SERIAL",getSerial());
                 // Omitting unrecognized type java.math.BigDecimal for column AMOUNT!
+                // Omitting unrecognized type java.math.BigDecimal for column AMOUNT_PRE!
                 json.put("SETTLEMENT_ID",getSettlementId());
                 json.put("PAYMENT_ID",getPaymentId());
                 json.put("PAY_NAME",getPayName());

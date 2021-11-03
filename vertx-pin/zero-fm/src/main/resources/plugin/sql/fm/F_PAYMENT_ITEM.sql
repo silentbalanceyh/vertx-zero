@@ -11,6 +11,7 @@ CREATE TABLE `F_PAYMENT_ITEM`
 
     -- 基本信息
     `AMOUNT`        DECIMAL(18, 2) NOT NULL COMMENT '「amount」——价税合计，所有明细对应的实际结算金额',
+    `AMOUNT_PRE`    DECIMAL(18, 2) NOT NULL COMMENT '「amountPre」预付金额',
     `SETTLEMENT_ID` VARCHAR(36)  DEFAULT NULL COMMENT '「settlementId」结算单ID',
     `PAYMENT_ID`    VARCHAR(36)  DEFAULT NULL COMMENT '「paymentId」收款单ID',
     `PAY_NAME`      VARCHAR(128) DEFAULT NULL COMMENT '「payName」打款人姓名',

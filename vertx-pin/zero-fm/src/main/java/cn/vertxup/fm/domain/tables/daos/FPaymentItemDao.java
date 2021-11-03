@@ -100,6 +100,21 @@ public class FPaymentItemDao extends AbstractVertxDAO<FPaymentItemRecord, cn.ver
         }
 
         /**
+     * Find records that have <code>AMOUNT_PRE IN (values)</code> asynchronously
+     */
+        public Future<List<cn.vertxup.fm.domain.tables.pojos.FPaymentItem>> findManyByAmountPre(Collection<BigDecimal> values) {
+                return findManyByCondition(FPaymentItem.F_PAYMENT_ITEM.AMOUNT_PRE.in(values));
+        }
+
+        /**
+     * Find records that have <code>AMOUNT_PRE IN (values)</code> asynchronously
+     * limited by the given limit
+     */
+        public Future<List<cn.vertxup.fm.domain.tables.pojos.FPaymentItem>> findManyByAmountPre(Collection<BigDecimal> values, int limit) {
+                return findManyByCondition(FPaymentItem.F_PAYMENT_ITEM.AMOUNT_PRE.in(values),limit);
+        }
+
+        /**
      * Find records that have <code>SETTLEMENT_ID IN (values)</code>
      * asynchronously
      */

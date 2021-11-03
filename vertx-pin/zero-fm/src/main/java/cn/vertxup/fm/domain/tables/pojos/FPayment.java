@@ -31,6 +31,7 @@ public class FPayment implements VertxPojo, IFPayment {
     private String        payMethod;
     private String        payId;
     private String        comment;
+    private Boolean       prepay;
     private String        sigma;
     private String        language;
     private Boolean       active;
@@ -53,6 +54,7 @@ public class FPayment implements VertxPojo, IFPayment {
         this.payMethod = value.getPayMethod();
         this.payId = value.getPayId();
         this.comment = value.getComment();
+        this.prepay = value.getPrepay();
         this.sigma = value.getSigma();
         this.language = value.getLanguage();
         this.active = value.getActive();
@@ -74,6 +76,7 @@ public class FPayment implements VertxPojo, IFPayment {
         String        payMethod,
         String        payId,
         String        comment,
+        Boolean       prepay,
         String        sigma,
         String        language,
         Boolean       active,
@@ -93,6 +96,7 @@ public class FPayment implements VertxPojo, IFPayment {
         this.payMethod = payMethod;
         this.payId = payId;
         this.comment = comment;
+        this.prepay = prepay;
         this.sigma = sigma;
         this.language = language;
         this.active = active;
@@ -281,6 +285,23 @@ public class FPayment implements VertxPojo, IFPayment {
     }
 
     /**
+     * Getter for <code>DB_ETERNAL.F_PAYMENT.PREPAY</code>. 「prepay」- 是否预付
+     */
+    @Override
+    public Boolean getPrepay() {
+        return this.prepay;
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.F_PAYMENT.PREPAY</code>. 「prepay」- 是否预付
+     */
+    @Override
+    public FPayment setPrepay(Boolean prepay) {
+        this.prepay = prepay;
+        return this;
+    }
+
+    /**
      * Getter for <code>DB_ETERNAL.F_PAYMENT.SIGMA</code>. 「sigma」- 统一标识
      */
     @Override
@@ -434,6 +455,7 @@ public class FPayment implements VertxPojo, IFPayment {
         sb.append(", ").append(payMethod);
         sb.append(", ").append(payId);
         sb.append(", ").append(comment);
+        sb.append(", ").append(prepay);
         sb.append(", ").append(sigma);
         sb.append(", ").append(language);
         sb.append(", ").append(active);
@@ -463,6 +485,7 @@ public class FPayment implements VertxPojo, IFPayment {
         setPayMethod(from.getPayMethod());
         setPayId(from.getPayId());
         setComment(from.getComment());
+        setPrepay(from.getPrepay());
         setSigma(from.getSigma());
         setLanguage(from.getLanguage());
         setActive(from.getActive());

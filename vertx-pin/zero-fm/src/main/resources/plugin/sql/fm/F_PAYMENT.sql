@@ -16,6 +16,8 @@ CREATE TABLE `F_PAYMENT`
     `PAY_METHOD` VARCHAR(255) DEFAULT NULL COMMENT '「payMethod」付款方式',
     `PAY_ID`     VARCHAR(255) DEFAULT NULL COMMENT '「payId」付款账号',
     `COMMENT`    LONGTEXT COMMENT '「comment」 - 备注',
+    -- 预付信息
+    `PREPAY`     BIT COMMENT '「prepay」- 是否预付',
 
     -- 特殊字段
     `SIGMA`      VARCHAR(32) COMMENT '「sigma」- 统一标识',
