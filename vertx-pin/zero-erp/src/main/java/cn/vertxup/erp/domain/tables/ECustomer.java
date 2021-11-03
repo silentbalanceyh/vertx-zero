@@ -12,6 +12,7 @@ import org.jooq.impl.DSL;
 import org.jooq.impl.SQLDataType;
 import org.jooq.impl.TableImpl;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
@@ -33,21 +34,18 @@ public class ECustomer extends TableImpl<ECustomerRecord> {
      */
     public final TableField<ECustomerRecord, String> KEY = createField(DSL.name("KEY"), SQLDataType.VARCHAR(36).nullable(false), this, "「key」- 客户ID");
     /**
-     * The column <code>DB_ETERNAL.E_CUSTOMER.COMMENT</code>. 「comment」- 客户备注
-     */
-    public final TableField<ECustomerRecord, String> COMMENT = createField(DSL.name("COMMENT"), SQLDataType.CLOB, this, "「comment」- 客户备注");
-    /**
      * The column <code>DB_ETERNAL.E_CUSTOMER.NAME</code>. 「name」- 客户名称
      */
     public final TableField<ECustomerRecord, String> NAME = createField(DSL.name("NAME"), SQLDataType.VARCHAR(255), this, "「name」- 客户名称");
     /**
-     * The column <code>DB_ETERNAL.E_CUSTOMER.TITLE</code>. 「title」- 客户显示标题
-     */
-    public final TableField<ECustomerRecord, String> TITLE = createField(DSL.name("TITLE"), SQLDataType.VARCHAR(255), this, "「title」- 客户显示标题");
-    /**
      * The column <code>DB_ETERNAL.E_CUSTOMER.CODE</code>. 「code」- 客户编号
      */
     public final TableField<ECustomerRecord, String> CODE = createField(DSL.name("CODE"), SQLDataType.VARCHAR(255), this, "「code」- 客户编号");
+    /**
+     * The column <code>DB_ETERNAL.E_CUSTOMER.TYPE</code>. 「type」-
+     * 客户分类（不同类型代表不同客户）
+     */
+    public final TableField<ECustomerRecord, String> TYPE = createField(DSL.name("TYPE"), SQLDataType.VARCHAR(36), this, "「type」- 客户分类（不同类型代表不同客户）");
     /**
      * The column <code>DB_ETERNAL.E_CUSTOMER.TAX_CODE</code>. 「taxCode」- 税号
      */
@@ -77,6 +75,14 @@ public class ECustomer extends TableImpl<ECustomerRecord> {
      */
     public final TableField<ECustomerRecord, String> CONTACT_ONLINE = createField(DSL.name("CONTACT_ONLINE"), SQLDataType.VARCHAR(255), this, "「contactOnline」- 在线联系方式");
     /**
+     * The column <code>DB_ETERNAL.E_CUSTOMER.TITLE</code>. 「title」- 客户显示标题
+     */
+    public final TableField<ECustomerRecord, String> TITLE = createField(DSL.name("TITLE"), SQLDataType.VARCHAR(255), this, "「title」- 客户显示标题");
+    /**
+     * The column <code>DB_ETERNAL.E_CUSTOMER.COMMENT</code>. 「comment」- 客户备注
+     */
+    public final TableField<ECustomerRecord, String> COMMENT = createField(DSL.name("COMMENT"), SQLDataType.CLOB, this, "「comment」- 客户备注");
+    /**
      * The column <code>DB_ETERNAL.E_CUSTOMER.EMAIL</code>. 「email」- 企业邮箱
      */
     public final TableField<ECustomerRecord, String> EMAIL = createField(DSL.name("EMAIL"), SQLDataType.VARCHAR(255), this, "「email」- 企业邮箱");
@@ -102,14 +108,33 @@ public class ECustomer extends TableImpl<ECustomerRecord> {
      */
     public final TableField<ECustomerRecord, String> ADDRESS = createField(DSL.name("ADDRESS"), SQLDataType.CLOB, this, "「address」- 客户地址");
     /**
+     * The column <code>DB_ETERNAL.E_CUSTOMER.SIGN_NAME</code>. 「signName」-
+     * 签单人姓名
+     */
+    public final TableField<ECustomerRecord, String> SIGN_NAME = createField(DSL.name("SIGN_NAME"), SQLDataType.VARCHAR(255), this, "「signName」- 签单人姓名");
+    /**
+     * The column <code>DB_ETERNAL.E_CUSTOMER.SIGN_PHONE</code>. 「signPhone」-
+     * 签单人电话
+     */
+    public final TableField<ECustomerRecord, String> SIGN_PHONE = createField(DSL.name("SIGN_PHONE"), SQLDataType.VARCHAR(20), this, "「signPhone」- 签单人电话");
+    /**
      * The column <code>DB_ETERNAL.E_CUSTOMER.RUN_UP</code>. 「runUp」- 挂账属性
      */
     public final TableField<ECustomerRecord, Boolean> RUN_UP = createField(DSL.name("RUN_UP"), SQLDataType.BIT, this, "「runUp」- 挂账属性");
     /**
-     * The column <code>DB_ETERNAL.E_CUSTOMER.TYPE</code>. 「type」-
-     * 客户分类（不同类型代表不同客户）
+     * The column <code>DB_ETERNAL.E_CUSTOMER.RUN_AMOUNT</code>. 「runAmount」-
+     * 挂账限额
      */
-    public final TableField<ECustomerRecord, String> TYPE = createField(DSL.name("TYPE"), SQLDataType.VARCHAR(36), this, "「type」- 客户分类（不同类型代表不同客户）");
+    public final TableField<ECustomerRecord, BigDecimal> RUN_AMOUNT = createField(DSL.name("RUN_AMOUNT"), SQLDataType.DECIMAL(18, 2), this, "「runAmount」- 挂账限额");
+    /**
+     * The column <code>DB_ETERNAL.E_CUSTOMER.BANK_ID</code>. 「bankId」- 开户行
+     */
+    public final TableField<ECustomerRecord, String> BANK_ID = createField(DSL.name("BANK_ID"), SQLDataType.VARCHAR(36), this, "「bankId」- 开户行");
+    /**
+     * The column <code>DB_ETERNAL.E_CUSTOMER.BANK_CARD</code>. 「bankCard」-
+     * 开户行账号
+     */
+    public final TableField<ECustomerRecord, String> BANK_CARD = createField(DSL.name("BANK_CARD"), SQLDataType.VARCHAR(255), this, "「bankCard」- 开户行账号");
     /**
      * The column <code>DB_ETERNAL.E_CUSTOMER.METADATA</code>. 「metadata」- 附加配置
      */

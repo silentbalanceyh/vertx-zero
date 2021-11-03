@@ -1,0 +1,13 @@
+databaseChangeLog:
+  - include:
+      file: plugin/sql/wf/W_FLOW.sql
+      relativeToChangelogFile: false
+  - include:
+      file: plugin/sql/wf/W_FLOW_INSTANCE.sql
+      relativeToChangelogFile: false
+  - include:
+      file: plugin/sql/wf/W_NODE.sql
+      relativeToChangelogFile: false
+  - include:
+      file: plugin/sql/wf/W_MOVEMENT.sql
+      relativeToChangelogFile: false

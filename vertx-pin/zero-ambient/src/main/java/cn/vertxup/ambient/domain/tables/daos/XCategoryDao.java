@@ -189,6 +189,38 @@ public class XCategoryDao extends AbstractVertxDAO<XCategoryRecord, cn.vertxup.a
         }
 
         /**
+     * Find records that have <code>TREE_COMPONENT IN (values)</code>
+     * asynchronously
+     */
+        public Future<List<cn.vertxup.ambient.domain.tables.pojos.XCategory>> findManyByTreeComponent(Collection<String> values) {
+                return findManyByCondition(XCategory.X_CATEGORY.TREE_COMPONENT.in(values));
+        }
+
+        /**
+     * Find records that have <code>TREE_COMPONENT IN (values)</code>
+     * asynchronously limited by the given limit
+     */
+        public Future<List<cn.vertxup.ambient.domain.tables.pojos.XCategory>> findManyByTreeComponent(Collection<String> values, int limit) {
+                return findManyByCondition(XCategory.X_CATEGORY.TREE_COMPONENT.in(values),limit);
+        }
+
+        /**
+     * Find records that have <code>RUN_COMPONENT IN (values)</code>
+     * asynchronously
+     */
+        public Future<List<cn.vertxup.ambient.domain.tables.pojos.XCategory>> findManyByRunComponent(Collection<String> values) {
+                return findManyByCondition(XCategory.X_CATEGORY.RUN_COMPONENT.in(values));
+        }
+
+        /**
+     * Find records that have <code>RUN_COMPONENT IN (values)</code>
+     * asynchronously limited by the given limit
+     */
+        public Future<List<cn.vertxup.ambient.domain.tables.pojos.XCategory>> findManyByRunComponent(Collection<String> values, int limit) {
+                return findManyByCondition(XCategory.X_CATEGORY.RUN_COMPONENT.in(values),limit);
+        }
+
+        /**
      * Find records that have <code>ACTIVE IN (values)</code> asynchronously
      */
         public Future<List<cn.vertxup.ambient.domain.tables.pojos.XCategory>> findManyByActive(Collection<Boolean> values) {

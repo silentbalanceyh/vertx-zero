@@ -28,16 +28,56 @@ public interface IXAttachment extends VertxPojo, Serializable {
     public String getKey();
 
     /**
-     * Setter for <code>DB_ETERNAL.X_ATTACHMENT.STORE_WAY</code>. 「storeWay」-
-     * 存储方式，BLOB / FILE / TPL / REMOTE
+     * Setter for <code>DB_ETERNAL.X_ATTACHMENT.NAME</code>. 「name」- 文件名（带扩展名）
      */
-    public IXAttachment setStoreWay(String value);
+    public IXAttachment setName(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.X_ATTACHMENT.STORE_WAY</code>. 「storeWay」-
-     * 存储方式，BLOB / FILE / TPL / REMOTE
+     * Getter for <code>DB_ETERNAL.X_ATTACHMENT.NAME</code>. 「name」- 文件名（带扩展名）
      */
-    public String getStoreWay();
+    public String getName();
+
+    /**
+     * Setter for <code>DB_ETERNAL.X_ATTACHMENT.EXTENSION</code>. 「extension」-
+     * 文件扩展名
+     */
+    public IXAttachment setExtension(String value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.X_ATTACHMENT.EXTENSION</code>. 「extension」-
+     * 文件扩展名
+     */
+    public String getExtension();
+
+    /**
+     * Setter for <code>DB_ETERNAL.X_ATTACHMENT.MODULE</code>. 「module」- 业务标识
+     */
+    public IXAttachment setModule(String value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.X_ATTACHMENT.MODULE</code>. 「module」- 业务标识
+     */
+    public String getModule();
+
+    /**
+     * Setter for <code>DB_ETERNAL.X_ATTACHMENT.MIME</code>. 「mime」- 该文件的MIME类型
+     */
+    public IXAttachment setMime(String value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.X_ATTACHMENT.MIME</code>. 「mime」- 该文件的MIME类型
+     */
+    public String getMime();
+
+    /**
+     * Setter for <code>DB_ETERNAL.X_ATTACHMENT.SIZE</code>. 「size」- 该文件的尺寸
+     */
+    public IXAttachment setSize(Integer value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.X_ATTACHMENT.SIZE</code>. 「size」- 该文件的尺寸
+     */
+    public Integer getSize();
 
     /**
      * Setter for <code>DB_ETERNAL.X_ATTACHMENT.STATUS</code>. 「status」-
@@ -52,14 +92,28 @@ public interface IXAttachment extends VertxPojo, Serializable {
     public String getStatus();
 
     /**
-     * Setter for <code>DB_ETERNAL.X_ATTACHMENT.NAME</code>. 「name」- 文件名（带扩展名）
+     * Setter for <code>DB_ETERNAL.X_ATTACHMENT.STORE_WAY</code>. 「storeWay」-
+     * 存储方式，BLOB / FILE / TPL / REMOTE
      */
-    public IXAttachment setName(String value);
+    public IXAttachment setStoreWay(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.X_ATTACHMENT.NAME</code>. 「name」- 文件名（带扩展名）
+     * Getter for <code>DB_ETERNAL.X_ATTACHMENT.STORE_WAY</code>. 「storeWay」-
+     * 存储方式，BLOB / FILE / TPL / REMOTE
      */
-    public String getName();
+    public String getStoreWay();
+
+    /**
+     * Setter for <code>DB_ETERNAL.X_ATTACHMENT.STORE_ID</code>. 「storeId」-
+     * 存储关联的Integration ID
+     */
+    public IXAttachment setStoreId(String value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.X_ATTACHMENT.STORE_ID</code>. 「storeId」-
+     * 存储关联的Integration ID
+     */
+    public String getStoreId();
 
     /**
      * Setter for <code>DB_ETERNAL.X_ATTACHMENT.FILE_NAME</code>. 「fileName」-
@@ -108,48 +162,6 @@ public interface IXAttachment extends VertxPojo, Serializable {
      * 该文件的存储地址，FILE时使用
      */
     public String getFilePath();
-
-    /**
-     * Setter for <code>DB_ETERNAL.X_ATTACHMENT.EXTENSION</code>. 「extension」-
-     * 文件扩展名
-     */
-    public IXAttachment setExtension(String value);
-
-    /**
-     * Getter for <code>DB_ETERNAL.X_ATTACHMENT.EXTENSION</code>. 「extension」-
-     * 文件扩展名
-     */
-    public String getExtension();
-
-    /**
-     * Setter for <code>DB_ETERNAL.X_ATTACHMENT.MODULE</code>. 「module」- 业务标识
-     */
-    public IXAttachment setModule(String value);
-
-    /**
-     * Getter for <code>DB_ETERNAL.X_ATTACHMENT.MODULE</code>. 「module」- 业务标识
-     */
-    public String getModule();
-
-    /**
-     * Setter for <code>DB_ETERNAL.X_ATTACHMENT.MIME</code>. 「mime」- 该文件的MIME类型
-     */
-    public IXAttachment setMime(String value);
-
-    /**
-     * Getter for <code>DB_ETERNAL.X_ATTACHMENT.MIME</code>. 「mime」- 该文件的MIME类型
-     */
-    public String getMime();
-
-    /**
-     * Setter for <code>DB_ETERNAL.X_ATTACHMENT.SIZE</code>. 「size」- 该文件的尺寸
-     */
-    public IXAttachment setSize(Integer value);
-
-    /**
-     * Getter for <code>DB_ETERNAL.X_ATTACHMENT.SIZE</code>. 「size」- 该文件的尺寸
-     */
-    public Integer getSize();
 
     /**
      * Setter for <code>DB_ETERNAL.X_ATTACHMENT.ACTIVE</code>. 「active」- 是否启用
@@ -262,17 +274,18 @@ public interface IXAttachment extends VertxPojo, Serializable {
         @Override
         public default IXAttachment fromJson(io.vertx.core.json.JsonObject json) {
                 setOrThrow(this::setKey,json::getString,"KEY","java.lang.String");
-                setOrThrow(this::setStoreWay,json::getString,"STORE_WAY","java.lang.String");
-                setOrThrow(this::setStatus,json::getString,"STATUS","java.lang.String");
                 setOrThrow(this::setName,json::getString,"NAME","java.lang.String");
-                setOrThrow(this::setFileName,json::getString,"FILE_NAME","java.lang.String");
-                setOrThrow(this::setFileKey,json::getString,"FILE_KEY","java.lang.String");
-                setOrThrow(this::setFileUrl,json::getString,"FILE_URL","java.lang.String");
-                setOrThrow(this::setFilePath,json::getString,"FILE_PATH","java.lang.String");
                 setOrThrow(this::setExtension,json::getString,"EXTENSION","java.lang.String");
                 setOrThrow(this::setModule,json::getString,"MODULE","java.lang.String");
                 setOrThrow(this::setMime,json::getString,"MIME","java.lang.String");
                 setOrThrow(this::setSize,json::getInteger,"SIZE","java.lang.Integer");
+                setOrThrow(this::setStatus,json::getString,"STATUS","java.lang.String");
+                setOrThrow(this::setStoreWay,json::getString,"STORE_WAY","java.lang.String");
+                setOrThrow(this::setStoreId,json::getString,"STORE_ID","java.lang.String");
+                setOrThrow(this::setFileName,json::getString,"FILE_NAME","java.lang.String");
+                setOrThrow(this::setFileKey,json::getString,"FILE_KEY","java.lang.String");
+                setOrThrow(this::setFileUrl,json::getString,"FILE_URL","java.lang.String");
+                setOrThrow(this::setFilePath,json::getString,"FILE_PATH","java.lang.String");
                 setOrThrow(this::setActive,json::getBoolean,"ACTIVE","java.lang.Boolean");
                 setOrThrow(this::setSigma,json::getString,"SIGMA","java.lang.String");
                 setOrThrow(this::setMetadata,json::getString,"METADATA","java.lang.String");
@@ -289,17 +302,18 @@ public interface IXAttachment extends VertxPojo, Serializable {
         public default io.vertx.core.json.JsonObject toJson() {
                 io.vertx.core.json.JsonObject json = new io.vertx.core.json.JsonObject();
                 json.put("KEY",getKey());
-                json.put("STORE_WAY",getStoreWay());
-                json.put("STATUS",getStatus());
                 json.put("NAME",getName());
-                json.put("FILE_NAME",getFileName());
-                json.put("FILE_KEY",getFileKey());
-                json.put("FILE_URL",getFileUrl());
-                json.put("FILE_PATH",getFilePath());
                 json.put("EXTENSION",getExtension());
                 json.put("MODULE",getModule());
                 json.put("MIME",getMime());
                 json.put("SIZE",getSize());
+                json.put("STATUS",getStatus());
+                json.put("STORE_WAY",getStoreWay());
+                json.put("STORE_ID",getStoreId());
+                json.put("FILE_NAME",getFileName());
+                json.put("FILE_KEY",getFileKey());
+                json.put("FILE_URL",getFileUrl());
+                json.put("FILE_PATH",getFilePath());
                 json.put("ACTIVE",getActive());
                 json.put("SIGMA",getSigma());
                 json.put("METADATA",getMetadata());

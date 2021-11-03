@@ -121,6 +121,16 @@ public interface IFPayment extends VertxPojo, Serializable {
     public String getComment();
 
     /**
+     * Setter for <code>DB_ETERNAL.F_PAYMENT.PREPAY</code>. 「prepay」- 是否预付
+     */
+    public IFPayment setPrepay(Boolean value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.F_PAYMENT.PREPAY</code>. 「prepay」- 是否预付
+     */
+    public Boolean getPrepay();
+
+    /**
      * Setter for <code>DB_ETERNAL.F_PAYMENT.SIGMA</code>. 「sigma」- 统一标识
      */
     public IFPayment setSigma(String value);
@@ -232,6 +242,7 @@ public interface IFPayment extends VertxPojo, Serializable {
                 setOrThrow(this::setPayMethod,json::getString,"PAY_METHOD","java.lang.String");
                 setOrThrow(this::setPayId,json::getString,"PAY_ID","java.lang.String");
                 setOrThrow(this::setComment,json::getString,"COMMENT","java.lang.String");
+                setOrThrow(this::setPrepay,json::getBoolean,"PREPAY","java.lang.Boolean");
                 setOrThrow(this::setSigma,json::getString,"SIGMA","java.lang.String");
                 setOrThrow(this::setLanguage,json::getString,"LANGUAGE","java.lang.String");
                 setOrThrow(this::setActive,json::getBoolean,"ACTIVE","java.lang.Boolean");
@@ -257,6 +268,7 @@ public interface IFPayment extends VertxPojo, Serializable {
                 json.put("PAY_METHOD",getPayMethod());
                 json.put("PAY_ID",getPayId());
                 json.put("COMMENT",getComment());
+                json.put("PREPAY",getPrepay());
                 json.put("SIGMA",getSigma());
                 json.put("LANGUAGE",getLanguage());
                 json.put("ACTIVE",getActive());

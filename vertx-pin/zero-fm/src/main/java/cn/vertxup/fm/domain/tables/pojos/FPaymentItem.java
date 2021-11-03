@@ -26,6 +26,7 @@ public class FPaymentItem implements VertxPojo, IFPaymentItem {
     private String        code;
     private String        serial;
     private BigDecimal    amount;
+    private BigDecimal    amountPre;
     private String        settlementId;
     private String        paymentId;
     private String        payName;
@@ -49,6 +50,7 @@ public class FPaymentItem implements VertxPojo, IFPaymentItem {
         this.code = value.getCode();
         this.serial = value.getSerial();
         this.amount = value.getAmount();
+        this.amountPre = value.getAmountPre();
         this.settlementId = value.getSettlementId();
         this.paymentId = value.getPaymentId();
         this.payName = value.getPayName();
@@ -71,6 +73,7 @@ public class FPaymentItem implements VertxPojo, IFPaymentItem {
         String        code,
         String        serial,
         BigDecimal    amount,
+        BigDecimal    amountPre,
         String        settlementId,
         String        paymentId,
         String        payName,
@@ -91,6 +94,7 @@ public class FPaymentItem implements VertxPojo, IFPaymentItem {
         this.code = code;
         this.serial = serial;
         this.amount = amount;
+        this.amountPre = amountPre;
         this.settlementId = settlementId;
         this.paymentId = paymentId;
         this.payName = payName;
@@ -198,6 +202,25 @@ public class FPaymentItem implements VertxPojo, IFPaymentItem {
     @Override
     public FPaymentItem setAmount(BigDecimal amount) {
         this.amount = amount;
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.F_PAYMENT_ITEM.AMOUNT_PRE</code>.
+     * 「amountPre」预付金额
+     */
+    @Override
+    public BigDecimal getAmountPre() {
+        return this.amountPre;
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.F_PAYMENT_ITEM.AMOUNT_PRE</code>.
+     * 「amountPre」预付金额
+     */
+    @Override
+    public FPaymentItem setAmountPre(BigDecimal amountPre) {
+        this.amountPre = amountPre;
         return this;
     }
 
@@ -470,6 +493,7 @@ public class FPaymentItem implements VertxPojo, IFPaymentItem {
         sb.append(", ").append(code);
         sb.append(", ").append(serial);
         sb.append(", ").append(amount);
+        sb.append(", ").append(amountPre);
         sb.append(", ").append(settlementId);
         sb.append(", ").append(paymentId);
         sb.append(", ").append(payName);
@@ -500,6 +524,7 @@ public class FPaymentItem implements VertxPojo, IFPaymentItem {
         setCode(from.getCode());
         setSerial(from.getSerial());
         setAmount(from.getAmount());
+        setAmountPre(from.getAmountPre());
         setSettlementId(from.getSettlementId());
         setPaymentId(from.getPaymentId());
         setPayName(from.getPayName());

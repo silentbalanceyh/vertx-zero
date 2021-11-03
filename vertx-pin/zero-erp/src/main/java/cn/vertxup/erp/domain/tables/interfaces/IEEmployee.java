@@ -164,6 +164,40 @@ public interface IEEmployee extends VertxPojo, Serializable {
     public String getWorkExtension();
 
     /**
+     * Setter for <code>DB_ETERNAL.E_EMPLOYEE.WORK_HIRE_AT</code>. 「workHireAt」-
+     * 入职时间
+     */
+    public IEEmployee setWorkHireAt(LocalDateTime value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.E_EMPLOYEE.WORK_HIRE_AT</code>. 「workHireAt」-
+     * 入职时间
+     */
+    public LocalDateTime getWorkHireAt();
+
+    /**
+     * Setter for <code>DB_ETERNAL.E_EMPLOYEE.BANK_ID</code>. 「bankId」- 开户行
+     */
+    public IEEmployee setBankId(String value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.E_EMPLOYEE.BANK_ID</code>. 「bankId」- 开户行
+     */
+    public String getBankId();
+
+    /**
+     * Setter for <code>DB_ETERNAL.E_EMPLOYEE.BANK_CARD</code>. 「bankCard」-
+     * 开户行账号
+     */
+    public IEEmployee setBankCard(String value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.E_EMPLOYEE.BANK_CARD</code>. 「bankCard」-
+     * 开户行账号
+     */
+    public String getBankCard();
+
+    /**
      * Setter for <code>DB_ETERNAL.E_EMPLOYEE.TYPE</code>. 「type」- 员工分类
      */
     public IEEmployee setType(String value);
@@ -172,6 +206,16 @@ public interface IEEmployee extends VertxPojo, Serializable {
      * Getter for <code>DB_ETERNAL.E_EMPLOYEE.TYPE</code>. 「type」- 员工分类
      */
     public String getType();
+
+    /**
+     * Setter for <code>DB_ETERNAL.E_EMPLOYEE.STATUS</code>. 「status」- 员工状态
+     */
+    public IEEmployee setStatus(String value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.E_EMPLOYEE.STATUS</code>. 「status」- 员工状态
+     */
+    public String getStatus();
 
     /**
      * Setter for <code>DB_ETERNAL.E_EMPLOYEE.METADATA</code>. 「metadata」- 附加配置
@@ -294,7 +338,11 @@ public interface IEEmployee extends VertxPojo, Serializable {
                 setOrThrow(this::setWorkLocation,json::getString,"WORK_LOCATION","java.lang.String");
                 setOrThrow(this::setWorkPhone,json::getString,"WORK_PHONE","java.lang.String");
                 setOrThrow(this::setWorkExtension,json::getString,"WORK_EXTENSION","java.lang.String");
+                setOrThrow(this::setWorkHireAt,key -> {String s = json.getString(key); return s==null?null:java.time.LocalDateTime.parse(s);},"WORK_HIRE_AT","java.time.LocalDateTime");
+                setOrThrow(this::setBankId,json::getString,"BANK_ID","java.lang.String");
+                setOrThrow(this::setBankCard,json::getString,"BANK_CARD","java.lang.String");
                 setOrThrow(this::setType,json::getString,"TYPE","java.lang.String");
+                setOrThrow(this::setStatus,json::getString,"STATUS","java.lang.String");
                 setOrThrow(this::setMetadata,json::getString,"METADATA","java.lang.String");
                 setOrThrow(this::setActive,json::getBoolean,"ACTIVE","java.lang.Boolean");
                 setOrThrow(this::setSigma,json::getString,"SIGMA","java.lang.String");
@@ -323,7 +371,11 @@ public interface IEEmployee extends VertxPojo, Serializable {
                 json.put("WORK_LOCATION",getWorkLocation());
                 json.put("WORK_PHONE",getWorkPhone());
                 json.put("WORK_EXTENSION",getWorkExtension());
+                json.put("WORK_HIRE_AT",getWorkHireAt()==null?null:getWorkHireAt().toString());
+                json.put("BANK_ID",getBankId());
+                json.put("BANK_CARD",getBankCard());
                 json.put("TYPE",getType());
+                json.put("STATUS",getStatus());
                 json.put("METADATA",getMetadata());
                 json.put("ACTIVE",getActive());
                 json.put("SIGMA",getSigma());

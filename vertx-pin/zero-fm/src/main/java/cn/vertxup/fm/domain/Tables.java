@@ -4,9 +4,11 @@
 package cn.vertxup.fm.domain;
 
 
+import cn.vertxup.fm.domain.tables.FBank;
 import cn.vertxup.fm.domain.tables.FBill;
 import cn.vertxup.fm.domain.tables.FBillItem;
 import cn.vertxup.fm.domain.tables.FBook;
+import cn.vertxup.fm.domain.tables.FCurrency;
 import cn.vertxup.fm.domain.tables.FDebt;
 import cn.vertxup.fm.domain.tables.FInvoice;
 import cn.vertxup.fm.domain.tables.FPayTerm;
@@ -25,6 +27,11 @@ import cn.vertxup.fm.domain.tables.FSubject;
 public class Tables {
 
     /**
+     * The table <code>DB_ETERNAL.F_BANK</code>.
+     */
+    public static final FBank F_BANK = FBank.F_BANK;
+
+    /**
      * The table <code>DB_ETERNAL.F_BILL</code>.
      */
     public static final FBill F_BILL = FBill.F_BILL;
@@ -38,6 +45,11 @@ public class Tables {
      * The table <code>DB_ETERNAL.F_BOOK</code>.
      */
     public static final FBook F_BOOK = FBook.F_BOOK;
+
+    /**
+     * The table <code>DB_ETERNAL.F_CURRENCY</code>.
+     */
+    public static final FCurrency F_CURRENCY = FCurrency.F_CURRENCY;
 
     /**
      * The table <code>DB_ETERNAL.F_DEBT</code>.

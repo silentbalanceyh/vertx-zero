@@ -4,6 +4,7 @@
 package cn.vertxup.erp.domain;
 
 
+import cn.vertxup.erp.domain.tables.EAsset;
 import cn.vertxup.erp.domain.tables.EBrand;
 import cn.vertxup.erp.domain.tables.ECompany;
 import cn.vertxup.erp.domain.tables.EContract;
@@ -11,7 +12,9 @@ import cn.vertxup.erp.domain.tables.ECustomer;
 import cn.vertxup.erp.domain.tables.EDept;
 import cn.vertxup.erp.domain.tables.EEmployee;
 import cn.vertxup.erp.domain.tables.EIdentity;
+import cn.vertxup.erp.domain.tables.EJobLog;
 import cn.vertxup.erp.domain.tables.ETeam;
+import cn.vertxup.erp.domain.tables.RAssetShare;
 import cn.vertxup.erp.domain.tables.RCompanyCustomer;
 import cn.vertxup.erp.domain.tables.RTeamEmployee;
 
@@ -21,6 +24,11 @@ import cn.vertxup.erp.domain.tables.RTeamEmployee;
  */
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Tables {
+
+    /**
+     * The table <code>DB_ETERNAL.E_ASSET</code>.
+     */
+    public static final EAsset E_ASSET = EAsset.E_ASSET;
 
     /**
      * The table <code>DB_ETERNAL.E_BRAND</code>.
@@ -58,9 +66,19 @@ public class Tables {
     public static final EIdentity E_IDENTITY = EIdentity.E_IDENTITY;
 
     /**
+     * The table <code>DB_ETERNAL.E_JOB_LOG</code>.
+     */
+    public static final EJobLog E_JOB_LOG = EJobLog.E_JOB_LOG;
+
+    /**
      * The table <code>DB_ETERNAL.E_TEAM</code>.
      */
     public static final ETeam E_TEAM = ETeam.E_TEAM;
+
+    /**
+     * The table <code>DB_ETERNAL.R_ASSET_SHARE</code>.
+     */
+    public static final RAssetShare R_ASSET_SHARE = RAssetShare.R_ASSET_SHARE;
 
     /**
      * The table <code>DB_ETERNAL.R_COMPANY_CUSTOMER</code>.

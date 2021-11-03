@@ -8,6 +8,7 @@ import cn.vertxup.erp.domain.tables.interfaces.IECustomer;
 
 import io.github.jklingsporn.vertx.jooq.shared.internal.VertxPojo;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 
@@ -21,24 +22,29 @@ public class ECustomer implements VertxPojo, IECustomer {
     private static final long serialVersionUID = 1L;
 
     private String        key;
-    private String        comment;
     private String        name;
-    private String        title;
     private String        code;
+    private String        type;
     private String        taxCode;
     private String        taxTitle;
     private String        contactName;
     private String        contactPhone;
     private String        contactEmail;
     private String        contactOnline;
+    private String        title;
+    private String        comment;
     private String        email;
     private String        fax;
     private String        homepage;
     private String        logo;
     private String        phone;
     private String        address;
+    private String        signName;
+    private String        signPhone;
     private Boolean       runUp;
-    private String        type;
+    private BigDecimal    runAmount;
+    private String        bankId;
+    private String        bankCard;
     private String        metadata;
     private Boolean       active;
     private String        sigma;
@@ -52,24 +58,29 @@ public class ECustomer implements VertxPojo, IECustomer {
 
     public ECustomer(IECustomer value) {
         this.key = value.getKey();
-        this.comment = value.getComment();
         this.name = value.getName();
-        this.title = value.getTitle();
         this.code = value.getCode();
+        this.type = value.getType();
         this.taxCode = value.getTaxCode();
         this.taxTitle = value.getTaxTitle();
         this.contactName = value.getContactName();
         this.contactPhone = value.getContactPhone();
         this.contactEmail = value.getContactEmail();
         this.contactOnline = value.getContactOnline();
+        this.title = value.getTitle();
+        this.comment = value.getComment();
         this.email = value.getEmail();
         this.fax = value.getFax();
         this.homepage = value.getHomepage();
         this.logo = value.getLogo();
         this.phone = value.getPhone();
         this.address = value.getAddress();
+        this.signName = value.getSignName();
+        this.signPhone = value.getSignPhone();
         this.runUp = value.getRunUp();
-        this.type = value.getType();
+        this.runAmount = value.getRunAmount();
+        this.bankId = value.getBankId();
+        this.bankCard = value.getBankCard();
         this.metadata = value.getMetadata();
         this.active = value.getActive();
         this.sigma = value.getSigma();
@@ -82,24 +93,29 @@ public class ECustomer implements VertxPojo, IECustomer {
 
     public ECustomer(
         String        key,
-        String        comment,
         String        name,
-        String        title,
         String        code,
+        String        type,
         String        taxCode,
         String        taxTitle,
         String        contactName,
         String        contactPhone,
         String        contactEmail,
         String        contactOnline,
+        String        title,
+        String        comment,
         String        email,
         String        fax,
         String        homepage,
         String        logo,
         String        phone,
         String        address,
+        String        signName,
+        String        signPhone,
         Boolean       runUp,
-        String        type,
+        BigDecimal    runAmount,
+        String        bankId,
+        String        bankCard,
         String        metadata,
         Boolean       active,
         String        sigma,
@@ -110,24 +126,29 @@ public class ECustomer implements VertxPojo, IECustomer {
         String        updatedBy
     ) {
         this.key = key;
-        this.comment = comment;
         this.name = name;
-        this.title = title;
         this.code = code;
+        this.type = type;
         this.taxCode = taxCode;
         this.taxTitle = taxTitle;
         this.contactName = contactName;
         this.contactPhone = contactPhone;
         this.contactEmail = contactEmail;
         this.contactOnline = contactOnline;
+        this.title = title;
+        this.comment = comment;
         this.email = email;
         this.fax = fax;
         this.homepage = homepage;
         this.logo = logo;
         this.phone = phone;
         this.address = address;
+        this.signName = signName;
+        this.signPhone = signPhone;
         this.runUp = runUp;
-        this.type = type;
+        this.runAmount = runAmount;
+        this.bankId = bankId;
+        this.bankCard = bankCard;
         this.metadata = metadata;
         this.active = active;
         this.sigma = sigma;
@@ -161,23 +182,6 @@ public class ECustomer implements VertxPojo, IECustomer {
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.E_CUSTOMER.COMMENT</code>. 「comment」- 客户备注
-     */
-    @Override
-    public String getComment() {
-        return this.comment;
-    }
-
-    /**
-     * Setter for <code>DB_ETERNAL.E_CUSTOMER.COMMENT</code>. 「comment」- 客户备注
-     */
-    @Override
-    public ECustomer setComment(String comment) {
-        this.comment = comment;
-        return this;
-    }
-
-    /**
      * Getter for <code>DB_ETERNAL.E_CUSTOMER.NAME</code>. 「name」- 客户名称
      */
     @Override
@@ -195,23 +199,6 @@ public class ECustomer implements VertxPojo, IECustomer {
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.E_CUSTOMER.TITLE</code>. 「title」- 客户显示标题
-     */
-    @Override
-    public String getTitle() {
-        return this.title;
-    }
-
-    /**
-     * Setter for <code>DB_ETERNAL.E_CUSTOMER.TITLE</code>. 「title」- 客户显示标题
-     */
-    @Override
-    public ECustomer setTitle(String title) {
-        this.title = title;
-        return this;
-    }
-
-    /**
      * Getter for <code>DB_ETERNAL.E_CUSTOMER.CODE</code>. 「code」- 客户编号
      */
     @Override
@@ -225,6 +212,25 @@ public class ECustomer implements VertxPojo, IECustomer {
     @Override
     public ECustomer setCode(String code) {
         this.code = code;
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.E_CUSTOMER.TYPE</code>. 「type」-
+     * 客户分类（不同类型代表不同客户）
+     */
+    @Override
+    public String getType() {
+        return this.type;
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.E_CUSTOMER.TYPE</code>. 「type」-
+     * 客户分类（不同类型代表不同客户）
+     */
+    @Override
+    public ECustomer setType(String type) {
+        this.type = type;
         return this;
     }
 
@@ -339,6 +345,40 @@ public class ECustomer implements VertxPojo, IECustomer {
     }
 
     /**
+     * Getter for <code>DB_ETERNAL.E_CUSTOMER.TITLE</code>. 「title」- 客户显示标题
+     */
+    @Override
+    public String getTitle() {
+        return this.title;
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.E_CUSTOMER.TITLE</code>. 「title」- 客户显示标题
+     */
+    @Override
+    public ECustomer setTitle(String title) {
+        this.title = title;
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.E_CUSTOMER.COMMENT</code>. 「comment」- 客户备注
+     */
+    @Override
+    public String getComment() {
+        return this.comment;
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.E_CUSTOMER.COMMENT</code>. 「comment」- 客户备注
+     */
+    @Override
+    public ECustomer setComment(String comment) {
+        this.comment = comment;
+        return this;
+    }
+
+    /**
      * Getter for <code>DB_ETERNAL.E_CUSTOMER.EMAIL</code>. 「email」- 企业邮箱
      */
     @Override
@@ -443,6 +483,44 @@ public class ECustomer implements VertxPojo, IECustomer {
     }
 
     /**
+     * Getter for <code>DB_ETERNAL.E_CUSTOMER.SIGN_NAME</code>. 「signName」-
+     * 签单人姓名
+     */
+    @Override
+    public String getSignName() {
+        return this.signName;
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.E_CUSTOMER.SIGN_NAME</code>. 「signName」-
+     * 签单人姓名
+     */
+    @Override
+    public ECustomer setSignName(String signName) {
+        this.signName = signName;
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.E_CUSTOMER.SIGN_PHONE</code>. 「signPhone」-
+     * 签单人电话
+     */
+    @Override
+    public String getSignPhone() {
+        return this.signPhone;
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.E_CUSTOMER.SIGN_PHONE</code>. 「signPhone」-
+     * 签单人电话
+     */
+    @Override
+    public ECustomer setSignPhone(String signPhone) {
+        this.signPhone = signPhone;
+        return this;
+    }
+
+    /**
      * Getter for <code>DB_ETERNAL.E_CUSTOMER.RUN_UP</code>. 「runUp」- 挂账属性
      */
     @Override
@@ -460,21 +538,57 @@ public class ECustomer implements VertxPojo, IECustomer {
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.E_CUSTOMER.TYPE</code>. 「type」-
-     * 客户分类（不同类型代表不同客户）
+     * Getter for <code>DB_ETERNAL.E_CUSTOMER.RUN_AMOUNT</code>. 「runAmount」-
+     * 挂账限额
      */
     @Override
-    public String getType() {
-        return this.type;
+    public BigDecimal getRunAmount() {
+        return this.runAmount;
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.E_CUSTOMER.TYPE</code>. 「type」-
-     * 客户分类（不同类型代表不同客户）
+     * Setter for <code>DB_ETERNAL.E_CUSTOMER.RUN_AMOUNT</code>. 「runAmount」-
+     * 挂账限额
      */
     @Override
-    public ECustomer setType(String type) {
-        this.type = type;
+    public ECustomer setRunAmount(BigDecimal runAmount) {
+        this.runAmount = runAmount;
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.E_CUSTOMER.BANK_ID</code>. 「bankId」- 开户行
+     */
+    @Override
+    public String getBankId() {
+        return this.bankId;
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.E_CUSTOMER.BANK_ID</code>. 「bankId」- 开户行
+     */
+    @Override
+    public ECustomer setBankId(String bankId) {
+        this.bankId = bankId;
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.E_CUSTOMER.BANK_CARD</code>. 「bankCard」-
+     * 开户行账号
+     */
+    @Override
+    public String getBankCard() {
+        return this.bankCard;
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.E_CUSTOMER.BANK_CARD</code>. 「bankCard」-
+     * 开户行账号
+     */
+    @Override
+    public ECustomer setBankCard(String bankCard) {
+        this.bankCard = bankCard;
         return this;
     }
 
@@ -629,24 +743,29 @@ public class ECustomer implements VertxPojo, IECustomer {
         StringBuilder sb = new StringBuilder("ECustomer (");
 
         sb.append(key);
-        sb.append(", ").append(comment);
         sb.append(", ").append(name);
-        sb.append(", ").append(title);
         sb.append(", ").append(code);
+        sb.append(", ").append(type);
         sb.append(", ").append(taxCode);
         sb.append(", ").append(taxTitle);
         sb.append(", ").append(contactName);
         sb.append(", ").append(contactPhone);
         sb.append(", ").append(contactEmail);
         sb.append(", ").append(contactOnline);
+        sb.append(", ").append(title);
+        sb.append(", ").append(comment);
         sb.append(", ").append(email);
         sb.append(", ").append(fax);
         sb.append(", ").append(homepage);
         sb.append(", ").append(logo);
         sb.append(", ").append(phone);
         sb.append(", ").append(address);
+        sb.append(", ").append(signName);
+        sb.append(", ").append(signPhone);
         sb.append(", ").append(runUp);
-        sb.append(", ").append(type);
+        sb.append(", ").append(runAmount);
+        sb.append(", ").append(bankId);
+        sb.append(", ").append(bankCard);
         sb.append(", ").append(metadata);
         sb.append(", ").append(active);
         sb.append(", ").append(sigma);
@@ -667,24 +786,29 @@ public class ECustomer implements VertxPojo, IECustomer {
     @Override
     public void from(IECustomer from) {
         setKey(from.getKey());
-        setComment(from.getComment());
         setName(from.getName());
-        setTitle(from.getTitle());
         setCode(from.getCode());
+        setType(from.getType());
         setTaxCode(from.getTaxCode());
         setTaxTitle(from.getTaxTitle());
         setContactName(from.getContactName());
         setContactPhone(from.getContactPhone());
         setContactEmail(from.getContactEmail());
         setContactOnline(from.getContactOnline());
+        setTitle(from.getTitle());
+        setComment(from.getComment());
         setEmail(from.getEmail());
         setFax(from.getFax());
         setHomepage(from.getHomepage());
         setLogo(from.getLogo());
         setPhone(from.getPhone());
         setAddress(from.getAddress());
+        setSignName(from.getSignName());
+        setSignPhone(from.getSignPhone());
         setRunUp(from.getRunUp());
-        setType(from.getType());
+        setRunAmount(from.getRunAmount());
+        setBankId(from.getBankId());
+        setBankCard(from.getBankCard());
         setMetadata(from.getMetadata());
         setActive(from.getActive());
         setSigma(from.getSigma());

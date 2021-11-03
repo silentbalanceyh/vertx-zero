@@ -224,6 +224,18 @@ public interface IXTodo extends VertxPojo, Serializable {
     public String getTraceId();
 
     /**
+     * Setter for <code>DB_ETERNAL.X_TODO.DESCRIPTION</code>. 「description」-
+     * 待办描述
+     */
+    public IXTodo setDescription(String value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.X_TODO.DESCRIPTION</code>. 「description」-
+     * 待办描述
+     */
+    public String getDescription();
+
+    /**
      * Setter for <code>DB_ETERNAL.X_TODO.PARENT_ID</code>. 「parentId」-
      * 待办支持父子集结构，父待办执行时候子待办同样执行
      */
@@ -352,6 +364,7 @@ public interface IXTodo extends VertxPojo, Serializable {
                 setOrThrow(this::setAcceptedBy,json::getString,"ACCEPTED_BY","java.lang.String");
                 setOrThrow(this::setFinishedBy,json::getString,"FINISHED_BY","java.lang.String");
                 setOrThrow(this::setTraceId,json::getString,"TRACE_ID","java.lang.String");
+                setOrThrow(this::setDescription,json::getString,"DESCRIPTION","java.lang.String");
                 setOrThrow(this::setParentId,json::getString,"PARENT_ID","java.lang.String");
                 setOrThrow(this::setActive,json::getBoolean,"ACTIVE","java.lang.Boolean");
                 setOrThrow(this::setSigma,json::getString,"SIGMA","java.lang.String");
@@ -387,6 +400,7 @@ public interface IXTodo extends VertxPojo, Serializable {
                 json.put("ACCEPTED_BY",getAcceptedBy());
                 json.put("FINISHED_BY",getFinishedBy());
                 json.put("TRACE_ID",getTraceId());
+                json.put("DESCRIPTION",getDescription());
                 json.put("PARENT_ID",getParentId());
                 json.put("ACTIVE",getActive());
                 json.put("SIGMA",getSigma());

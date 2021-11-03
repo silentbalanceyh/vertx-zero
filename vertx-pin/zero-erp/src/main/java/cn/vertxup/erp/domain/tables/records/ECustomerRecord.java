@@ -9,6 +9,7 @@ import cn.vertxup.erp.domain.tables.interfaces.IECustomer;
 
 import io.github.jklingsporn.vertx.jooq.shared.internal.VertxPojo;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 import org.jooq.Record1;
@@ -42,28 +43,11 @@ public class ECustomerRecord extends UpdatableRecordImpl<ECustomerRecord> implem
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.E_CUSTOMER.COMMENT</code>. 「comment」- 客户备注
-     */
-    @Override
-    public ECustomerRecord setComment(String value) {
-        set(1, value);
-        return this;
-    }
-
-    /**
-     * Getter for <code>DB_ETERNAL.E_CUSTOMER.COMMENT</code>. 「comment」- 客户备注
-     */
-    @Override
-    public String getComment() {
-        return (String) get(1);
-    }
-
-    /**
      * Setter for <code>DB_ETERNAL.E_CUSTOMER.NAME</code>. 「name」- 客户名称
      */
     @Override
     public ECustomerRecord setName(String value) {
-        set(2, value);
+        set(1, value);
         return this;
     }
 
@@ -72,24 +56,7 @@ public class ECustomerRecord extends UpdatableRecordImpl<ECustomerRecord> implem
      */
     @Override
     public String getName() {
-        return (String) get(2);
-    }
-
-    /**
-     * Setter for <code>DB_ETERNAL.E_CUSTOMER.TITLE</code>. 「title」- 客户显示标题
-     */
-    @Override
-    public ECustomerRecord setTitle(String value) {
-        set(3, value);
-        return this;
-    }
-
-    /**
-     * Getter for <code>DB_ETERNAL.E_CUSTOMER.TITLE</code>. 「title」- 客户显示标题
-     */
-    @Override
-    public String getTitle() {
-        return (String) get(3);
+        return (String) get(1);
     }
 
     /**
@@ -97,7 +64,7 @@ public class ECustomerRecord extends UpdatableRecordImpl<ECustomerRecord> implem
      */
     @Override
     public ECustomerRecord setCode(String value) {
-        set(4, value);
+        set(2, value);
         return this;
     }
 
@@ -106,238 +73,7 @@ public class ECustomerRecord extends UpdatableRecordImpl<ECustomerRecord> implem
      */
     @Override
     public String getCode() {
-        return (String) get(4);
-    }
-
-    /**
-     * Setter for <code>DB_ETERNAL.E_CUSTOMER.TAX_CODE</code>. 「taxCode」- 税号
-     */
-    @Override
-    public ECustomerRecord setTaxCode(String value) {
-        set(5, value);
-        return this;
-    }
-
-    /**
-     * Getter for <code>DB_ETERNAL.E_CUSTOMER.TAX_CODE</code>. 「taxCode」- 税号
-     */
-    @Override
-    public String getTaxCode() {
-        return (String) get(5);
-    }
-
-    /**
-     * Setter for <code>DB_ETERNAL.E_CUSTOMER.TAX_TITLE</code>. 「taxTitle」- 开票抬头
-     */
-    @Override
-    public ECustomerRecord setTaxTitle(String value) {
-        set(6, value);
-        return this;
-    }
-
-    /**
-     * Getter for <code>DB_ETERNAL.E_CUSTOMER.TAX_TITLE</code>. 「taxTitle」- 开票抬头
-     */
-    @Override
-    public String getTaxTitle() {
-        return (String) get(6);
-    }
-
-    /**
-     * Setter for <code>DB_ETERNAL.E_CUSTOMER.CONTACT_NAME</code>.
-     * 「contactName」- 联系人姓名
-     */
-    @Override
-    public ECustomerRecord setContactName(String value) {
-        set(7, value);
-        return this;
-    }
-
-    /**
-     * Getter for <code>DB_ETERNAL.E_CUSTOMER.CONTACT_NAME</code>.
-     * 「contactName」- 联系人姓名
-     */
-    @Override
-    public String getContactName() {
-        return (String) get(7);
-    }
-
-    /**
-     * Setter for <code>DB_ETERNAL.E_CUSTOMER.CONTACT_PHONE</code>.
-     * 「contactPhone」- 联系人电话
-     */
-    @Override
-    public ECustomerRecord setContactPhone(String value) {
-        set(8, value);
-        return this;
-    }
-
-    /**
-     * Getter for <code>DB_ETERNAL.E_CUSTOMER.CONTACT_PHONE</code>.
-     * 「contactPhone」- 联系人电话
-     */
-    @Override
-    public String getContactPhone() {
-        return (String) get(8);
-    }
-
-    /**
-     * Setter for <code>DB_ETERNAL.E_CUSTOMER.CONTACT_EMAIL</code>.
-     * 「contactEmail」- 联系人Email
-     */
-    @Override
-    public ECustomerRecord setContactEmail(String value) {
-        set(9, value);
-        return this;
-    }
-
-    /**
-     * Getter for <code>DB_ETERNAL.E_CUSTOMER.CONTACT_EMAIL</code>.
-     * 「contactEmail」- 联系人Email
-     */
-    @Override
-    public String getContactEmail() {
-        return (String) get(9);
-    }
-
-    /**
-     * Setter for <code>DB_ETERNAL.E_CUSTOMER.CONTACT_ONLINE</code>.
-     * 「contactOnline」- 在线联系方式
-     */
-    @Override
-    public ECustomerRecord setContactOnline(String value) {
-        set(10, value);
-        return this;
-    }
-
-    /**
-     * Getter for <code>DB_ETERNAL.E_CUSTOMER.CONTACT_ONLINE</code>.
-     * 「contactOnline」- 在线联系方式
-     */
-    @Override
-    public String getContactOnline() {
-        return (String) get(10);
-    }
-
-    /**
-     * Setter for <code>DB_ETERNAL.E_CUSTOMER.EMAIL</code>. 「email」- 企业邮箱
-     */
-    @Override
-    public ECustomerRecord setEmail(String value) {
-        set(11, value);
-        return this;
-    }
-
-    /**
-     * Getter for <code>DB_ETERNAL.E_CUSTOMER.EMAIL</code>. 「email」- 企业邮箱
-     */
-    @Override
-    public String getEmail() {
-        return (String) get(11);
-    }
-
-    /**
-     * Setter for <code>DB_ETERNAL.E_CUSTOMER.FAX</code>. 「fax」- 传真号
-     */
-    @Override
-    public ECustomerRecord setFax(String value) {
-        set(12, value);
-        return this;
-    }
-
-    /**
-     * Getter for <code>DB_ETERNAL.E_CUSTOMER.FAX</code>. 「fax」- 传真号
-     */
-    @Override
-    public String getFax() {
-        return (String) get(12);
-    }
-
-    /**
-     * Setter for <code>DB_ETERNAL.E_CUSTOMER.HOMEPAGE</code>. 「homepage」- 客户主页
-     */
-    @Override
-    public ECustomerRecord setHomepage(String value) {
-        set(13, value);
-        return this;
-    }
-
-    /**
-     * Getter for <code>DB_ETERNAL.E_CUSTOMER.HOMEPAGE</code>. 「homepage」- 客户主页
-     */
-    @Override
-    public String getHomepage() {
-        return (String) get(13);
-    }
-
-    /**
-     * Setter for <code>DB_ETERNAL.E_CUSTOMER.LOGO</code>. 「logo」- 附件对应的
-     * attachment Key
-     */
-    @Override
-    public ECustomerRecord setLogo(String value) {
-        set(14, value);
-        return this;
-    }
-
-    /**
-     * Getter for <code>DB_ETERNAL.E_CUSTOMER.LOGO</code>. 「logo」- 附件对应的
-     * attachment Key
-     */
-    @Override
-    public String getLogo() {
-        return (String) get(14);
-    }
-
-    /**
-     * Setter for <code>DB_ETERNAL.E_CUSTOMER.PHONE</code>. 「phone」- 客户座机
-     */
-    @Override
-    public ECustomerRecord setPhone(String value) {
-        set(15, value);
-        return this;
-    }
-
-    /**
-     * Getter for <code>DB_ETERNAL.E_CUSTOMER.PHONE</code>. 「phone」- 客户座机
-     */
-    @Override
-    public String getPhone() {
-        return (String) get(15);
-    }
-
-    /**
-     * Setter for <code>DB_ETERNAL.E_CUSTOMER.ADDRESS</code>. 「address」- 客户地址
-     */
-    @Override
-    public ECustomerRecord setAddress(String value) {
-        set(16, value);
-        return this;
-    }
-
-    /**
-     * Getter for <code>DB_ETERNAL.E_CUSTOMER.ADDRESS</code>. 「address」- 客户地址
-     */
-    @Override
-    public String getAddress() {
-        return (String) get(16);
-    }
-
-    /**
-     * Setter for <code>DB_ETERNAL.E_CUSTOMER.RUN_UP</code>. 「runUp」- 挂账属性
-     */
-    @Override
-    public ECustomerRecord setRunUp(Boolean value) {
-        set(17, value);
-        return this;
-    }
-
-    /**
-     * Getter for <code>DB_ETERNAL.E_CUSTOMER.RUN_UP</code>. 「runUp」- 挂账属性
-     */
-    @Override
-    public Boolean getRunUp() {
-        return (Boolean) get(17);
+        return (String) get(2);
     }
 
     /**
@@ -346,7 +82,7 @@ public class ECustomerRecord extends UpdatableRecordImpl<ECustomerRecord> implem
      */
     @Override
     public ECustomerRecord setType(String value) {
-        set(18, value);
+        set(3, value);
         return this;
     }
 
@@ -356,7 +92,365 @@ public class ECustomerRecord extends UpdatableRecordImpl<ECustomerRecord> implem
      */
     @Override
     public String getType() {
+        return (String) get(3);
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.E_CUSTOMER.TAX_CODE</code>. 「taxCode」- 税号
+     */
+    @Override
+    public ECustomerRecord setTaxCode(String value) {
+        set(4, value);
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.E_CUSTOMER.TAX_CODE</code>. 「taxCode」- 税号
+     */
+    @Override
+    public String getTaxCode() {
+        return (String) get(4);
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.E_CUSTOMER.TAX_TITLE</code>. 「taxTitle」- 开票抬头
+     */
+    @Override
+    public ECustomerRecord setTaxTitle(String value) {
+        set(5, value);
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.E_CUSTOMER.TAX_TITLE</code>. 「taxTitle」- 开票抬头
+     */
+    @Override
+    public String getTaxTitle() {
+        return (String) get(5);
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.E_CUSTOMER.CONTACT_NAME</code>.
+     * 「contactName」- 联系人姓名
+     */
+    @Override
+    public ECustomerRecord setContactName(String value) {
+        set(6, value);
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.E_CUSTOMER.CONTACT_NAME</code>.
+     * 「contactName」- 联系人姓名
+     */
+    @Override
+    public String getContactName() {
+        return (String) get(6);
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.E_CUSTOMER.CONTACT_PHONE</code>.
+     * 「contactPhone」- 联系人电话
+     */
+    @Override
+    public ECustomerRecord setContactPhone(String value) {
+        set(7, value);
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.E_CUSTOMER.CONTACT_PHONE</code>.
+     * 「contactPhone」- 联系人电话
+     */
+    @Override
+    public String getContactPhone() {
+        return (String) get(7);
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.E_CUSTOMER.CONTACT_EMAIL</code>.
+     * 「contactEmail」- 联系人Email
+     */
+    @Override
+    public ECustomerRecord setContactEmail(String value) {
+        set(8, value);
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.E_CUSTOMER.CONTACT_EMAIL</code>.
+     * 「contactEmail」- 联系人Email
+     */
+    @Override
+    public String getContactEmail() {
+        return (String) get(8);
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.E_CUSTOMER.CONTACT_ONLINE</code>.
+     * 「contactOnline」- 在线联系方式
+     */
+    @Override
+    public ECustomerRecord setContactOnline(String value) {
+        set(9, value);
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.E_CUSTOMER.CONTACT_ONLINE</code>.
+     * 「contactOnline」- 在线联系方式
+     */
+    @Override
+    public String getContactOnline() {
+        return (String) get(9);
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.E_CUSTOMER.TITLE</code>. 「title」- 客户显示标题
+     */
+    @Override
+    public ECustomerRecord setTitle(String value) {
+        set(10, value);
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.E_CUSTOMER.TITLE</code>. 「title」- 客户显示标题
+     */
+    @Override
+    public String getTitle() {
+        return (String) get(10);
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.E_CUSTOMER.COMMENT</code>. 「comment」- 客户备注
+     */
+    @Override
+    public ECustomerRecord setComment(String value) {
+        set(11, value);
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.E_CUSTOMER.COMMENT</code>. 「comment」- 客户备注
+     */
+    @Override
+    public String getComment() {
+        return (String) get(11);
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.E_CUSTOMER.EMAIL</code>. 「email」- 企业邮箱
+     */
+    @Override
+    public ECustomerRecord setEmail(String value) {
+        set(12, value);
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.E_CUSTOMER.EMAIL</code>. 「email」- 企业邮箱
+     */
+    @Override
+    public String getEmail() {
+        return (String) get(12);
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.E_CUSTOMER.FAX</code>. 「fax」- 传真号
+     */
+    @Override
+    public ECustomerRecord setFax(String value) {
+        set(13, value);
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.E_CUSTOMER.FAX</code>. 「fax」- 传真号
+     */
+    @Override
+    public String getFax() {
+        return (String) get(13);
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.E_CUSTOMER.HOMEPAGE</code>. 「homepage」- 客户主页
+     */
+    @Override
+    public ECustomerRecord setHomepage(String value) {
+        set(14, value);
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.E_CUSTOMER.HOMEPAGE</code>. 「homepage」- 客户主页
+     */
+    @Override
+    public String getHomepage() {
+        return (String) get(14);
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.E_CUSTOMER.LOGO</code>. 「logo」- 附件对应的
+     * attachment Key
+     */
+    @Override
+    public ECustomerRecord setLogo(String value) {
+        set(15, value);
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.E_CUSTOMER.LOGO</code>. 「logo」- 附件对应的
+     * attachment Key
+     */
+    @Override
+    public String getLogo() {
+        return (String) get(15);
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.E_CUSTOMER.PHONE</code>. 「phone」- 客户座机
+     */
+    @Override
+    public ECustomerRecord setPhone(String value) {
+        set(16, value);
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.E_CUSTOMER.PHONE</code>. 「phone」- 客户座机
+     */
+    @Override
+    public String getPhone() {
+        return (String) get(16);
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.E_CUSTOMER.ADDRESS</code>. 「address」- 客户地址
+     */
+    @Override
+    public ECustomerRecord setAddress(String value) {
+        set(17, value);
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.E_CUSTOMER.ADDRESS</code>. 「address」- 客户地址
+     */
+    @Override
+    public String getAddress() {
+        return (String) get(17);
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.E_CUSTOMER.SIGN_NAME</code>. 「signName」-
+     * 签单人姓名
+     */
+    @Override
+    public ECustomerRecord setSignName(String value) {
+        set(18, value);
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.E_CUSTOMER.SIGN_NAME</code>. 「signName」-
+     * 签单人姓名
+     */
+    @Override
+    public String getSignName() {
         return (String) get(18);
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.E_CUSTOMER.SIGN_PHONE</code>. 「signPhone」-
+     * 签单人电话
+     */
+    @Override
+    public ECustomerRecord setSignPhone(String value) {
+        set(19, value);
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.E_CUSTOMER.SIGN_PHONE</code>. 「signPhone」-
+     * 签单人电话
+     */
+    @Override
+    public String getSignPhone() {
+        return (String) get(19);
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.E_CUSTOMER.RUN_UP</code>. 「runUp」- 挂账属性
+     */
+    @Override
+    public ECustomerRecord setRunUp(Boolean value) {
+        set(20, value);
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.E_CUSTOMER.RUN_UP</code>. 「runUp」- 挂账属性
+     */
+    @Override
+    public Boolean getRunUp() {
+        return (Boolean) get(20);
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.E_CUSTOMER.RUN_AMOUNT</code>. 「runAmount」-
+     * 挂账限额
+     */
+    @Override
+    public ECustomerRecord setRunAmount(BigDecimal value) {
+        set(21, value);
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.E_CUSTOMER.RUN_AMOUNT</code>. 「runAmount」-
+     * 挂账限额
+     */
+    @Override
+    public BigDecimal getRunAmount() {
+        return (BigDecimal) get(21);
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.E_CUSTOMER.BANK_ID</code>. 「bankId」- 开户行
+     */
+    @Override
+    public ECustomerRecord setBankId(String value) {
+        set(22, value);
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.E_CUSTOMER.BANK_ID</code>. 「bankId」- 开户行
+     */
+    @Override
+    public String getBankId() {
+        return (String) get(22);
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.E_CUSTOMER.BANK_CARD</code>. 「bankCard」-
+     * 开户行账号
+     */
+    @Override
+    public ECustomerRecord setBankCard(String value) {
+        set(23, value);
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.E_CUSTOMER.BANK_CARD</code>. 「bankCard」-
+     * 开户行账号
+     */
+    @Override
+    public String getBankCard() {
+        return (String) get(23);
     }
 
     /**
@@ -364,7 +458,7 @@ public class ECustomerRecord extends UpdatableRecordImpl<ECustomerRecord> implem
      */
     @Override
     public ECustomerRecord setMetadata(String value) {
-        set(19, value);
+        set(24, value);
         return this;
     }
 
@@ -373,7 +467,7 @@ public class ECustomerRecord extends UpdatableRecordImpl<ECustomerRecord> implem
      */
     @Override
     public String getMetadata() {
-        return (String) get(19);
+        return (String) get(24);
     }
 
     /**
@@ -381,7 +475,7 @@ public class ECustomerRecord extends UpdatableRecordImpl<ECustomerRecord> implem
      */
     @Override
     public ECustomerRecord setActive(Boolean value) {
-        set(20, value);
+        set(25, value);
         return this;
     }
 
@@ -390,7 +484,7 @@ public class ECustomerRecord extends UpdatableRecordImpl<ECustomerRecord> implem
      */
     @Override
     public Boolean getActive() {
-        return (Boolean) get(20);
+        return (Boolean) get(25);
     }
 
     /**
@@ -399,7 +493,7 @@ public class ECustomerRecord extends UpdatableRecordImpl<ECustomerRecord> implem
      */
     @Override
     public ECustomerRecord setSigma(String value) {
-        set(21, value);
+        set(26, value);
         return this;
     }
 
@@ -409,7 +503,7 @@ public class ECustomerRecord extends UpdatableRecordImpl<ECustomerRecord> implem
      */
     @Override
     public String getSigma() {
-        return (String) get(21);
+        return (String) get(26);
     }
 
     /**
@@ -417,7 +511,7 @@ public class ECustomerRecord extends UpdatableRecordImpl<ECustomerRecord> implem
      */
     @Override
     public ECustomerRecord setLanguage(String value) {
-        set(22, value);
+        set(27, value);
         return this;
     }
 
@@ -426,7 +520,7 @@ public class ECustomerRecord extends UpdatableRecordImpl<ECustomerRecord> implem
      */
     @Override
     public String getLanguage() {
-        return (String) get(22);
+        return (String) get(27);
     }
 
     /**
@@ -435,7 +529,7 @@ public class ECustomerRecord extends UpdatableRecordImpl<ECustomerRecord> implem
      */
     @Override
     public ECustomerRecord setCreatedAt(LocalDateTime value) {
-        set(23, value);
+        set(28, value);
         return this;
     }
 
@@ -445,7 +539,7 @@ public class ECustomerRecord extends UpdatableRecordImpl<ECustomerRecord> implem
      */
     @Override
     public LocalDateTime getCreatedAt() {
-        return (LocalDateTime) get(23);
+        return (LocalDateTime) get(28);
     }
 
     /**
@@ -454,7 +548,7 @@ public class ECustomerRecord extends UpdatableRecordImpl<ECustomerRecord> implem
      */
     @Override
     public ECustomerRecord setCreatedBy(String value) {
-        set(24, value);
+        set(29, value);
         return this;
     }
 
@@ -464,7 +558,7 @@ public class ECustomerRecord extends UpdatableRecordImpl<ECustomerRecord> implem
      */
     @Override
     public String getCreatedBy() {
-        return (String) get(24);
+        return (String) get(29);
     }
 
     /**
@@ -473,7 +567,7 @@ public class ECustomerRecord extends UpdatableRecordImpl<ECustomerRecord> implem
      */
     @Override
     public ECustomerRecord setUpdatedAt(LocalDateTime value) {
-        set(25, value);
+        set(30, value);
         return this;
     }
 
@@ -483,7 +577,7 @@ public class ECustomerRecord extends UpdatableRecordImpl<ECustomerRecord> implem
      */
     @Override
     public LocalDateTime getUpdatedAt() {
-        return (LocalDateTime) get(25);
+        return (LocalDateTime) get(30);
     }
 
     /**
@@ -492,7 +586,7 @@ public class ECustomerRecord extends UpdatableRecordImpl<ECustomerRecord> implem
      */
     @Override
     public ECustomerRecord setUpdatedBy(String value) {
-        set(26, value);
+        set(31, value);
         return this;
     }
 
@@ -502,7 +596,7 @@ public class ECustomerRecord extends UpdatableRecordImpl<ECustomerRecord> implem
      */
     @Override
     public String getUpdatedBy() {
-        return (String) get(26);
+        return (String) get(31);
     }
 
     // -------------------------------------------------------------------------
@@ -521,24 +615,29 @@ public class ECustomerRecord extends UpdatableRecordImpl<ECustomerRecord> implem
     @Override
     public void from(IECustomer from) {
         setKey(from.getKey());
-        setComment(from.getComment());
         setName(from.getName());
-        setTitle(from.getTitle());
         setCode(from.getCode());
+        setType(from.getType());
         setTaxCode(from.getTaxCode());
         setTaxTitle(from.getTaxTitle());
         setContactName(from.getContactName());
         setContactPhone(from.getContactPhone());
         setContactEmail(from.getContactEmail());
         setContactOnline(from.getContactOnline());
+        setTitle(from.getTitle());
+        setComment(from.getComment());
         setEmail(from.getEmail());
         setFax(from.getFax());
         setHomepage(from.getHomepage());
         setLogo(from.getLogo());
         setPhone(from.getPhone());
         setAddress(from.getAddress());
+        setSignName(from.getSignName());
+        setSignPhone(from.getSignPhone());
         setRunUp(from.getRunUp());
-        setType(from.getType());
+        setRunAmount(from.getRunAmount());
+        setBankId(from.getBankId());
+        setBankCard(from.getBankCard());
         setMetadata(from.getMetadata());
         setActive(from.getActive());
         setSigma(from.getSigma());
@@ -569,28 +668,33 @@ public class ECustomerRecord extends UpdatableRecordImpl<ECustomerRecord> implem
     /**
      * Create a detached, initialised ECustomerRecord
      */
-    public ECustomerRecord(String key, String comment, String name, String title, String code, String taxCode, String taxTitle, String contactName, String contactPhone, String contactEmail, String contactOnline, String email, String fax, String homepage, String logo, String phone, String address, Boolean runUp, String type, String metadata, Boolean active, String sigma, String language, LocalDateTime createdAt, String createdBy, LocalDateTime updatedAt, String updatedBy) {
+    public ECustomerRecord(String key, String name, String code, String type, String taxCode, String taxTitle, String contactName, String contactPhone, String contactEmail, String contactOnline, String title, String comment, String email, String fax, String homepage, String logo, String phone, String address, String signName, String signPhone, Boolean runUp, BigDecimal runAmount, String bankId, String bankCard, String metadata, Boolean active, String sigma, String language, LocalDateTime createdAt, String createdBy, LocalDateTime updatedAt, String updatedBy) {
         super(ECustomer.E_CUSTOMER);
 
         setKey(key);
-        setComment(comment);
         setName(name);
-        setTitle(title);
         setCode(code);
+        setType(type);
         setTaxCode(taxCode);
         setTaxTitle(taxTitle);
         setContactName(contactName);
         setContactPhone(contactPhone);
         setContactEmail(contactEmail);
         setContactOnline(contactOnline);
+        setTitle(title);
+        setComment(comment);
         setEmail(email);
         setFax(fax);
         setHomepage(homepage);
         setLogo(logo);
         setPhone(phone);
         setAddress(address);
+        setSignName(signName);
+        setSignPhone(signPhone);
         setRunUp(runUp);
-        setType(type);
+        setRunAmount(runAmount);
+        setBankId(bankId);
+        setBankCard(bankCard);
         setMetadata(metadata);
         setActive(active);
         setSigma(sigma);
@@ -609,24 +713,29 @@ public class ECustomerRecord extends UpdatableRecordImpl<ECustomerRecord> implem
 
         if (value != null) {
             setKey(value.getKey());
-            setComment(value.getComment());
             setName(value.getName());
-            setTitle(value.getTitle());
             setCode(value.getCode());
+            setType(value.getType());
             setTaxCode(value.getTaxCode());
             setTaxTitle(value.getTaxTitle());
             setContactName(value.getContactName());
             setContactPhone(value.getContactPhone());
             setContactEmail(value.getContactEmail());
             setContactOnline(value.getContactOnline());
+            setTitle(value.getTitle());
+            setComment(value.getComment());
             setEmail(value.getEmail());
             setFax(value.getFax());
             setHomepage(value.getHomepage());
             setLogo(value.getLogo());
             setPhone(value.getPhone());
             setAddress(value.getAddress());
+            setSignName(value.getSignName());
+            setSignPhone(value.getSignPhone());
             setRunUp(value.getRunUp());
-            setType(value.getType());
+            setRunAmount(value.getRunAmount());
+            setBankId(value.getBankId());
+            setBankCard(value.getBankCard());
             setMetadata(value.getMetadata());
             setActive(value.getActive());
             setSigma(value.getSigma());

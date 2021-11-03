@@ -26,6 +26,11 @@ public class Db extends SchemaImpl {
     public static final Db DB_ETERNAL = new Db();
     private static final long serialVersionUID = 1L;
     /**
+     * The table <code>DB_ETERNAL.F_BANK</code>.
+     */
+    public final FBank F_BANK = FBank.F_BANK;
+
+    /**
      * The table <code>DB_ETERNAL.F_BILL</code>.
      */
     public final FBill F_BILL = FBill.F_BILL;
@@ -39,6 +44,11 @@ public class Db extends SchemaImpl {
      * The table <code>DB_ETERNAL.F_BOOK</code>.
      */
     public final FBook F_BOOK = FBook.F_BOOK;
+
+    /**
+     * The table <code>DB_ETERNAL.F_CURRENCY</code>.
+     */
+    public final FCurrency F_CURRENCY = FCurrency.F_CURRENCY;
 
     /**
      * The table <code>DB_ETERNAL.F_DEBT</code>.
@@ -101,9 +111,11 @@ public class Db extends SchemaImpl {
     @Override
     public final List<Table<?>> getTables() {
         return Arrays.asList(
+            FBank.F_BANK,
             FBill.F_BILL,
             FBillItem.F_BILL_ITEM,
             FBook.F_BOOK,
+            FCurrency.F_CURRENCY,
             FDebt.F_DEBT,
             FInvoice.F_INVOICE,
             FPayTerm.F_PAY_TERM,

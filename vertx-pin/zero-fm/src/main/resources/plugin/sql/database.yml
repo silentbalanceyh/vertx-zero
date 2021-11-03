@@ -49,3 +49,10 @@ databaseChangeLog:
   - include:
       file: plugin/sql/fm/F_PAYMENT.sql
       relativeToChangelogFile: false
+  # 银行/币种
+  - include:
+      file: plugin/sql/fm/F_BANK.sql
+      relativeToChangelogFile: false
+  - include:
+      file: plugin/sql/fm/F_CURRENCY.sql
+      relativeToChangelogFile: false

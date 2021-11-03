@@ -7,6 +7,7 @@ package cn.vertxup.erp.domain.tables.interfaces;
 import io.github.jklingsporn.vertx.jooq.shared.internal.VertxPojo;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 
@@ -28,16 +29,6 @@ public interface IECustomer extends VertxPojo, Serializable {
     public String getKey();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_CUSTOMER.COMMENT</code>. 「comment」- 客户备注
-     */
-    public IECustomer setComment(String value);
-
-    /**
-     * Getter for <code>DB_ETERNAL.E_CUSTOMER.COMMENT</code>. 「comment」- 客户备注
-     */
-    public String getComment();
-
-    /**
      * Setter for <code>DB_ETERNAL.E_CUSTOMER.NAME</code>. 「name」- 客户名称
      */
     public IECustomer setName(String value);
@@ -48,16 +39,6 @@ public interface IECustomer extends VertxPojo, Serializable {
     public String getName();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_CUSTOMER.TITLE</code>. 「title」- 客户显示标题
-     */
-    public IECustomer setTitle(String value);
-
-    /**
-     * Getter for <code>DB_ETERNAL.E_CUSTOMER.TITLE</code>. 「title」- 客户显示标题
-     */
-    public String getTitle();
-
-    /**
      * Setter for <code>DB_ETERNAL.E_CUSTOMER.CODE</code>. 「code」- 客户编号
      */
     public IECustomer setCode(String value);
@@ -66,6 +47,18 @@ public interface IECustomer extends VertxPojo, Serializable {
      * Getter for <code>DB_ETERNAL.E_CUSTOMER.CODE</code>. 「code」- 客户编号
      */
     public String getCode();
+
+    /**
+     * Setter for <code>DB_ETERNAL.E_CUSTOMER.TYPE</code>. 「type」-
+     * 客户分类（不同类型代表不同客户）
+     */
+    public IECustomer setType(String value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.E_CUSTOMER.TYPE</code>. 「type」-
+     * 客户分类（不同类型代表不同客户）
+     */
+    public String getType();
 
     /**
      * Setter for <code>DB_ETERNAL.E_CUSTOMER.TAX_CODE</code>. 「taxCode」- 税号
@@ -136,6 +129,26 @@ public interface IECustomer extends VertxPojo, Serializable {
     public String getContactOnline();
 
     /**
+     * Setter for <code>DB_ETERNAL.E_CUSTOMER.TITLE</code>. 「title」- 客户显示标题
+     */
+    public IECustomer setTitle(String value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.E_CUSTOMER.TITLE</code>. 「title」- 客户显示标题
+     */
+    public String getTitle();
+
+    /**
+     * Setter for <code>DB_ETERNAL.E_CUSTOMER.COMMENT</code>. 「comment」- 客户备注
+     */
+    public IECustomer setComment(String value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.E_CUSTOMER.COMMENT</code>. 「comment」- 客户备注
+     */
+    public String getComment();
+
+    /**
      * Setter for <code>DB_ETERNAL.E_CUSTOMER.EMAIL</code>. 「email」- 企业邮箱
      */
     public IECustomer setEmail(String value);
@@ -198,6 +211,30 @@ public interface IECustomer extends VertxPojo, Serializable {
     public String getAddress();
 
     /**
+     * Setter for <code>DB_ETERNAL.E_CUSTOMER.SIGN_NAME</code>. 「signName」-
+     * 签单人姓名
+     */
+    public IECustomer setSignName(String value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.E_CUSTOMER.SIGN_NAME</code>. 「signName」-
+     * 签单人姓名
+     */
+    public String getSignName();
+
+    /**
+     * Setter for <code>DB_ETERNAL.E_CUSTOMER.SIGN_PHONE</code>. 「signPhone」-
+     * 签单人电话
+     */
+    public IECustomer setSignPhone(String value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.E_CUSTOMER.SIGN_PHONE</code>. 「signPhone」-
+     * 签单人电话
+     */
+    public String getSignPhone();
+
+    /**
      * Setter for <code>DB_ETERNAL.E_CUSTOMER.RUN_UP</code>. 「runUp」- 挂账属性
      */
     public IECustomer setRunUp(Boolean value);
@@ -208,16 +245,38 @@ public interface IECustomer extends VertxPojo, Serializable {
     public Boolean getRunUp();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_CUSTOMER.TYPE</code>. 「type」-
-     * 客户分类（不同类型代表不同客户）
+     * Setter for <code>DB_ETERNAL.E_CUSTOMER.RUN_AMOUNT</code>. 「runAmount」-
+     * 挂账限额
      */
-    public IECustomer setType(String value);
+    public IECustomer setRunAmount(BigDecimal value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_CUSTOMER.TYPE</code>. 「type」-
-     * 客户分类（不同类型代表不同客户）
+     * Getter for <code>DB_ETERNAL.E_CUSTOMER.RUN_AMOUNT</code>. 「runAmount」-
+     * 挂账限额
      */
-    public String getType();
+    public BigDecimal getRunAmount();
+
+    /**
+     * Setter for <code>DB_ETERNAL.E_CUSTOMER.BANK_ID</code>. 「bankId」- 开户行
+     */
+    public IECustomer setBankId(String value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.E_CUSTOMER.BANK_ID</code>. 「bankId」- 开户行
+     */
+    public String getBankId();
+
+    /**
+     * Setter for <code>DB_ETERNAL.E_CUSTOMER.BANK_CARD</code>. 「bankCard」-
+     * 开户行账号
+     */
+    public IECustomer setBankCard(String value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.E_CUSTOMER.BANK_CARD</code>. 「bankCard」-
+     * 开户行账号
+     */
+    public String getBankCard();
 
     /**
      * Setter for <code>DB_ETERNAL.E_CUSTOMER.METADATA</code>. 「metadata」- 附加配置
@@ -328,24 +387,29 @@ public interface IECustomer extends VertxPojo, Serializable {
         @Override
         public default IECustomer fromJson(io.vertx.core.json.JsonObject json) {
                 setOrThrow(this::setKey,json::getString,"KEY","java.lang.String");
-                setOrThrow(this::setComment,json::getString,"COMMENT","java.lang.String");
                 setOrThrow(this::setName,json::getString,"NAME","java.lang.String");
-                setOrThrow(this::setTitle,json::getString,"TITLE","java.lang.String");
                 setOrThrow(this::setCode,json::getString,"CODE","java.lang.String");
+                setOrThrow(this::setType,json::getString,"TYPE","java.lang.String");
                 setOrThrow(this::setTaxCode,json::getString,"TAX_CODE","java.lang.String");
                 setOrThrow(this::setTaxTitle,json::getString,"TAX_TITLE","java.lang.String");
                 setOrThrow(this::setContactName,json::getString,"CONTACT_NAME","java.lang.String");
                 setOrThrow(this::setContactPhone,json::getString,"CONTACT_PHONE","java.lang.String");
                 setOrThrow(this::setContactEmail,json::getString,"CONTACT_EMAIL","java.lang.String");
                 setOrThrow(this::setContactOnline,json::getString,"CONTACT_ONLINE","java.lang.String");
+                setOrThrow(this::setTitle,json::getString,"TITLE","java.lang.String");
+                setOrThrow(this::setComment,json::getString,"COMMENT","java.lang.String");
                 setOrThrow(this::setEmail,json::getString,"EMAIL","java.lang.String");
                 setOrThrow(this::setFax,json::getString,"FAX","java.lang.String");
                 setOrThrow(this::setHomepage,json::getString,"HOMEPAGE","java.lang.String");
                 setOrThrow(this::setLogo,json::getString,"LOGO","java.lang.String");
                 setOrThrow(this::setPhone,json::getString,"PHONE","java.lang.String");
                 setOrThrow(this::setAddress,json::getString,"ADDRESS","java.lang.String");
+                setOrThrow(this::setSignName,json::getString,"SIGN_NAME","java.lang.String");
+                setOrThrow(this::setSignPhone,json::getString,"SIGN_PHONE","java.lang.String");
                 setOrThrow(this::setRunUp,json::getBoolean,"RUN_UP","java.lang.Boolean");
-                setOrThrow(this::setType,json::getString,"TYPE","java.lang.String");
+                // Omitting unrecognized type java.math.BigDecimal for column RUN_AMOUNT!
+                setOrThrow(this::setBankId,json::getString,"BANK_ID","java.lang.String");
+                setOrThrow(this::setBankCard,json::getString,"BANK_CARD","java.lang.String");
                 setOrThrow(this::setMetadata,json::getString,"METADATA","java.lang.String");
                 setOrThrow(this::setActive,json::getBoolean,"ACTIVE","java.lang.Boolean");
                 setOrThrow(this::setSigma,json::getString,"SIGMA","java.lang.String");
@@ -362,24 +426,29 @@ public interface IECustomer extends VertxPojo, Serializable {
         public default io.vertx.core.json.JsonObject toJson() {
                 io.vertx.core.json.JsonObject json = new io.vertx.core.json.JsonObject();
                 json.put("KEY",getKey());
-                json.put("COMMENT",getComment());
                 json.put("NAME",getName());
-                json.put("TITLE",getTitle());
                 json.put("CODE",getCode());
+                json.put("TYPE",getType());
                 json.put("TAX_CODE",getTaxCode());
                 json.put("TAX_TITLE",getTaxTitle());
                 json.put("CONTACT_NAME",getContactName());
                 json.put("CONTACT_PHONE",getContactPhone());
                 json.put("CONTACT_EMAIL",getContactEmail());
                 json.put("CONTACT_ONLINE",getContactOnline());
+                json.put("TITLE",getTitle());
+                json.put("COMMENT",getComment());
                 json.put("EMAIL",getEmail());
                 json.put("FAX",getFax());
                 json.put("HOMEPAGE",getHomepage());
                 json.put("LOGO",getLogo());
                 json.put("PHONE",getPhone());
                 json.put("ADDRESS",getAddress());
+                json.put("SIGN_NAME",getSignName());
+                json.put("SIGN_PHONE",getSignPhone());
                 json.put("RUN_UP",getRunUp());
-                json.put("TYPE",getType());
+                // Omitting unrecognized type java.math.BigDecimal for column RUN_AMOUNT!
+                json.put("BANK_ID",getBankId());
+                json.put("BANK_CARD",getBankCard());
                 json.put("METADATA",getMetadata());
                 json.put("ACTIVE",getActive());
                 json.put("SIGMA",getSigma());

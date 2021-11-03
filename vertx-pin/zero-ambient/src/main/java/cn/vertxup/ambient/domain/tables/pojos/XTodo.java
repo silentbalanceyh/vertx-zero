@@ -39,6 +39,7 @@ public class XTodo implements VertxPojo, IXTodo {
     private String        acceptedBy;
     private String        finishedBy;
     private String        traceId;
+    private String        description;
     private String        parentId;
     private Boolean       active;
     private String        sigma;
@@ -71,6 +72,7 @@ public class XTodo implements VertxPojo, IXTodo {
         this.acceptedBy = value.getAcceptedBy();
         this.finishedBy = value.getFinishedBy();
         this.traceId = value.getTraceId();
+        this.description = value.getDescription();
         this.parentId = value.getParentId();
         this.active = value.getActive();
         this.sigma = value.getSigma();
@@ -102,6 +104,7 @@ public class XTodo implements VertxPojo, IXTodo {
         String        acceptedBy,
         String        finishedBy,
         String        traceId,
+        String        description,
         String        parentId,
         Boolean       active,
         String        sigma,
@@ -131,6 +134,7 @@ public class XTodo implements VertxPojo, IXTodo {
         this.acceptedBy = acceptedBy;
         this.finishedBy = finishedBy;
         this.traceId = traceId;
+        this.description = description;
         this.parentId = parentId;
         this.active = active;
         this.sigma = sigma;
@@ -487,6 +491,25 @@ public class XTodo implements VertxPojo, IXTodo {
     }
 
     /**
+     * Getter for <code>DB_ETERNAL.X_TODO.DESCRIPTION</code>. 「description」-
+     * 待办描述
+     */
+    @Override
+    public String getDescription() {
+        return this.description;
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.X_TODO.DESCRIPTION</code>. 「description」-
+     * 待办描述
+     */
+    @Override
+    public XTodo setDescription(String description) {
+        this.description = description;
+        return this;
+    }
+
+    /**
      * Getter for <code>DB_ETERNAL.X_TODO.PARENT_ID</code>. 「parentId」-
      * 待办支持父子集结构，父待办执行时候子待办同样执行
      */
@@ -664,6 +687,7 @@ public class XTodo implements VertxPojo, IXTodo {
         sb.append(", ").append(acceptedBy);
         sb.append(", ").append(finishedBy);
         sb.append(", ").append(traceId);
+        sb.append(", ").append(description);
         sb.append(", ").append(parentId);
         sb.append(", ").append(active);
         sb.append(", ").append(sigma);
@@ -703,6 +727,7 @@ public class XTodo implements VertxPojo, IXTodo {
         setAcceptedBy(from.getAcceptedBy());
         setFinishedBy(from.getFinishedBy());
         setTraceId(from.getTraceId());
+        setDescription(from.getDescription());
         setParentId(from.getParentId());
         setActive(from.getActive());
         setSigma(from.getSigma());

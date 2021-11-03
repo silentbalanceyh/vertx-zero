@@ -130,6 +130,30 @@ public interface IXCategory extends VertxPojo, Serializable {
     public String getAppId();
 
     /**
+     * Setter for <code>DB_ETERNAL.X_CATEGORY.TREE_COMPONENT</code>.
+     * 「treeComponent」- 目录组件
+     */
+    public IXCategory setTreeComponent(String value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.X_CATEGORY.TREE_COMPONENT</code>.
+     * 「treeComponent」- 目录组件
+     */
+    public String getTreeComponent();
+
+    /**
+     * Setter for <code>DB_ETERNAL.X_CATEGORY.RUN_COMPONENT</code>.
+     * 「runComponent」- 执行组件
+     */
+    public IXCategory setRunComponent(String value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.X_CATEGORY.RUN_COMPONENT</code>.
+     * 「runComponent」- 执行组件
+     */
+    public String getRunComponent();
+
+    /**
      * Setter for <code>DB_ETERNAL.X_CATEGORY.ACTIVE</code>. 「active」- 是否启用
      */
     public IXCategory setActive(Boolean value);
@@ -246,6 +270,8 @@ public interface IXCategory extends VertxPojo, Serializable {
                 setOrThrow(this::setIdentifier,json::getString,"IDENTIFIER","java.lang.String");
                 setOrThrow(this::setComment,json::getString,"COMMENT","java.lang.String");
                 setOrThrow(this::setAppId,json::getString,"APP_ID","java.lang.String");
+                setOrThrow(this::setTreeComponent,json::getString,"TREE_COMPONENT","java.lang.String");
+                setOrThrow(this::setRunComponent,json::getString,"RUN_COMPONENT","java.lang.String");
                 setOrThrow(this::setActive,json::getBoolean,"ACTIVE","java.lang.Boolean");
                 setOrThrow(this::setSigma,json::getString,"SIGMA","java.lang.String");
                 setOrThrow(this::setMetadata,json::getString,"METADATA","java.lang.String");
@@ -272,6 +298,8 @@ public interface IXCategory extends VertxPojo, Serializable {
                 json.put("IDENTIFIER",getIdentifier());
                 json.put("COMMENT",getComment());
                 json.put("APP_ID",getAppId());
+                json.put("TREE_COMPONENT",getTreeComponent());
+                json.put("RUN_COMPONENT",getRunComponent());
                 json.put("ACTIVE",getActive());
                 json.put("SIGMA",getSigma());
                 json.put("METADATA",getMetadata());

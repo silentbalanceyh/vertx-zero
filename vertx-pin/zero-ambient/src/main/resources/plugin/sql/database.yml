@@ -36,3 +36,12 @@ databaseChangeLog:
   - include:
       file: plugin/sql/ambient/X_ACTIVITY_CHANGE.sql
       relativeToChangelogFile: false
+  - include:
+      file: plugin/sql/ambient/X_EMAIL_SERVER.sql
+      relativeToChangelogFile: false
+  - include:
+      file: plugin/sql/ambient/X_NOTIFICATION.sql
+      relativeToChangelogFile: false
+  - include:
+      file: plugin/sql/ambient/X_INTEGRATION.sql
+      relativeToChangelogFile: false

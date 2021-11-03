@@ -25,7 +25,9 @@
         <module>zero-rbac</module>              <!-- RBAC -->
         <module>zero-router</module>            <!-- Api Gateway -->
         <module>zero-ui</module>
-        <module>zero-vie</module>                <!-- Ui for React -->
+        <module>zero-vie</module>
+        <module>zero-psi</module>
+        <module>zero-wf</module>                <!-- Ui for React -->
     </modules>
     <dependencies>
         <dependency>
