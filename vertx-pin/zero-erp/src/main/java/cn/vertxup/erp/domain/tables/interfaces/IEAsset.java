@@ -59,6 +59,16 @@ public interface IEAsset extends VertxPojo, Serializable {
     public String getType();
 
     /**
+     * Setter for <code>DB_ETERNAL.E_ASSET.STATUS</code>. 「status」- 资产状态
+     */
+    public IEAsset setStatus(String value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.E_ASSET.STATUS</code>. 「status」- 资产状态
+     */
+    public String getStatus();
+
+    /**
      * Setter for <code>DB_ETERNAL.E_ASSET.MODEL_NUMBER</code>. 「modelNumber」-
      * 规格型号
      */
@@ -604,6 +614,7 @@ public interface IEAsset extends VertxPojo, Serializable {
                 setOrThrow(this::setName,json::getString,"NAME","java.lang.String");
                 setOrThrow(this::setCode,json::getString,"CODE","java.lang.String");
                 setOrThrow(this::setType,json::getString,"TYPE","java.lang.String");
+                setOrThrow(this::setStatus,json::getString,"STATUS","java.lang.String");
                 setOrThrow(this::setModelNumber,json::getString,"MODEL_NUMBER","java.lang.String");
                 setOrThrow(this::setUnit,json::getString,"UNIT","java.lang.String");
                 setOrThrow(this::setNum,json::getLong,"NUM","java.lang.Long");
@@ -665,6 +676,7 @@ public interface IEAsset extends VertxPojo, Serializable {
                 json.put("NAME",getName());
                 json.put("CODE",getCode());
                 json.put("TYPE",getType());
+                json.put("STATUS",getStatus());
                 json.put("MODEL_NUMBER",getModelNumber());
                 json.put("UNIT",getUnit());
                 json.put("NUM",getNum());

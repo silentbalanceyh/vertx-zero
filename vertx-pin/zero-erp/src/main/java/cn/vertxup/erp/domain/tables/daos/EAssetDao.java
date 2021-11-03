@@ -85,6 +85,21 @@ public class EAssetDao extends AbstractVertxDAO<EAssetRecord, cn.vertxup.erp.dom
         }
 
         /**
+     * Find records that have <code>STATUS IN (values)</code> asynchronously
+     */
+        public Future<List<cn.vertxup.erp.domain.tables.pojos.EAsset>> findManyByStatus(Collection<String> values) {
+                return findManyByCondition(EAsset.E_ASSET.STATUS.in(values));
+        }
+
+        /**
+     * Find records that have <code>STATUS IN (values)</code> asynchronously
+     * limited by the given limit
+     */
+        public Future<List<cn.vertxup.erp.domain.tables.pojos.EAsset>> findManyByStatus(Collection<String> values, int limit) {
+                return findManyByCondition(EAsset.E_ASSET.STATUS.in(values),limit);
+        }
+
+        /**
      * Find records that have <code>MODEL_NUMBER IN (values)</code>
      * asynchronously
      */

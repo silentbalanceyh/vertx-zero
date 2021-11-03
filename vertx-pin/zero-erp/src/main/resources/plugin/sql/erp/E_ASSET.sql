@@ -8,6 +8,7 @@ CREATE TABLE `E_ASSET`
     `NAME`            VARCHAR(255) COMMENT '「name」- 资产名称',
     `CODE`            VARCHAR(255) COMMENT '「code」- 资产编号',
     `TYPE`            VARCHAR(36) COMMENT '「type」- 资产类型',
+    `STATUS`          VARCHAR(36) COMMENT '「status」- 资产状态',
 
     -- 商品属性
     `MODEL_NUMBER`    VARCHAR(255) COMMENT '「modelNumber」- 规格型号',

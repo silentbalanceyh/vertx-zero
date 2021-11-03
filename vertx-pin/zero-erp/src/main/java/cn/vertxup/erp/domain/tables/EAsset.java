@@ -46,6 +46,10 @@ public class EAsset extends TableImpl<EAssetRecord> {
      */
     public final TableField<EAssetRecord, String> TYPE = createField(DSL.name("TYPE"), SQLDataType.VARCHAR(36), this, "「type」- 资产类型");
     /**
+     * The column <code>DB_ETERNAL.E_ASSET.STATUS</code>. 「status」- 资产状态
+     */
+    public final TableField<EAssetRecord, String> STATUS = createField(DSL.name("STATUS"), SQLDataType.VARCHAR(36), this, "「status」- 资产状态");
+    /**
      * The column <code>DB_ETERNAL.E_ASSET.MODEL_NUMBER</code>. 「modelNumber」-
      * 规格型号
      */

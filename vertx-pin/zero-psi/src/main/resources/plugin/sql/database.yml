@@ -1,0 +1,4 @@
+databaseChangeLog:
+  - include:
+      file: plugin/sql/psi/W_FLOW.sql
+      relativeToChangelogFile: false

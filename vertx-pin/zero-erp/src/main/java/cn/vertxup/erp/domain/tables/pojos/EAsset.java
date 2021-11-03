@@ -25,6 +25,7 @@ public class EAsset implements VertxPojo, IEAsset {
     private String        name;
     private String        code;
     private String        type;
+    private String        status;
     private String        modelNumber;
     private String        unit;
     private Long          num;
@@ -83,6 +84,7 @@ public class EAsset implements VertxPojo, IEAsset {
         this.name = value.getName();
         this.code = value.getCode();
         this.type = value.getType();
+        this.status = value.getStatus();
         this.modelNumber = value.getModelNumber();
         this.unit = value.getUnit();
         this.num = value.getNum();
@@ -140,6 +142,7 @@ public class EAsset implements VertxPojo, IEAsset {
         String        name,
         String        code,
         String        type,
+        String        status,
         String        modelNumber,
         String        unit,
         Long          num,
@@ -195,6 +198,7 @@ public class EAsset implements VertxPojo, IEAsset {
         this.name = name;
         this.code = code;
         this.type = type;
+        this.status = status;
         this.modelNumber = modelNumber;
         this.unit = unit;
         this.num = num;
@@ -317,6 +321,23 @@ public class EAsset implements VertxPojo, IEAsset {
     @Override
     public EAsset setType(String type) {
         this.type = type;
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.E_ASSET.STATUS</code>. 「status」- 资产状态
+     */
+    @Override
+    public String getStatus() {
+        return this.status;
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.E_ASSET.STATUS</code>. 「status」- 资产状态
+     */
+    @Override
+    public EAsset setStatus(String status) {
+        this.status = status;
         return this;
     }
 
@@ -1202,6 +1223,7 @@ public class EAsset implements VertxPojo, IEAsset {
         sb.append(", ").append(name);
         sb.append(", ").append(code);
         sb.append(", ").append(type);
+        sb.append(", ").append(status);
         sb.append(", ").append(modelNumber);
         sb.append(", ").append(unit);
         sb.append(", ").append(num);
@@ -1267,6 +1289,7 @@ public class EAsset implements VertxPojo, IEAsset {
         setName(from.getName());
         setCode(from.getCode());
         setType(from.getType());
+        setStatus(from.getStatus());
         setModelNumber(from.getModelNumber());
         setUnit(from.getUnit());
         setNum(from.getNum());

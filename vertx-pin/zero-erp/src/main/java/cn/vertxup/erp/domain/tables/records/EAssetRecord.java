@@ -94,12 +94,29 @@ public class EAssetRecord extends UpdatableRecordImpl<EAssetRecord> implements V
     }
 
     /**
+     * Setter for <code>DB_ETERNAL.E_ASSET.STATUS</code>. 「status」- 资产状态
+     */
+    @Override
+    public EAssetRecord setStatus(String value) {
+        set(4, value);
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.E_ASSET.STATUS</code>. 「status」- 资产状态
+     */
+    @Override
+    public String getStatus() {
+        return (String) get(4);
+    }
+
+    /**
      * Setter for <code>DB_ETERNAL.E_ASSET.MODEL_NUMBER</code>. 「modelNumber」-
      * 规格型号
      */
     @Override
     public EAssetRecord setModelNumber(String value) {
-        set(4, value);
+        set(5, value);
         return this;
     }
 
@@ -109,7 +126,7 @@ public class EAssetRecord extends UpdatableRecordImpl<EAssetRecord> implements V
      */
     @Override
     public String getModelNumber() {
-        return (String) get(4);
+        return (String) get(5);
     }
 
     /**
@@ -117,7 +134,7 @@ public class EAssetRecord extends UpdatableRecordImpl<EAssetRecord> implements V
      */
     @Override
     public EAssetRecord setUnit(String value) {
-        set(5, value);
+        set(6, value);
         return this;
     }
 
@@ -126,7 +143,7 @@ public class EAssetRecord extends UpdatableRecordImpl<EAssetRecord> implements V
      */
     @Override
     public String getUnit() {
-        return (String) get(5);
+        return (String) get(6);
     }
 
     /**
@@ -134,7 +151,7 @@ public class EAssetRecord extends UpdatableRecordImpl<EAssetRecord> implements V
      */
     @Override
     public EAssetRecord setNum(Long value) {
-        set(6, value);
+        set(7, value);
         return this;
     }
 
@@ -143,7 +160,7 @@ public class EAssetRecord extends UpdatableRecordImpl<EAssetRecord> implements V
      */
     @Override
     public Long getNum() {
-        return (Long) get(6);
+        return (Long) get(7);
     }
 
     /**
@@ -152,7 +169,7 @@ public class EAssetRecord extends UpdatableRecordImpl<EAssetRecord> implements V
      */
     @Override
     public EAssetRecord setNumDeprecating(Long value) {
-        set(7, value);
+        set(8, value);
         return this;
     }
 
@@ -162,7 +179,7 @@ public class EAssetRecord extends UpdatableRecordImpl<EAssetRecord> implements V
      */
     @Override
     public Long getNumDeprecating() {
-        return (Long) get(7);
+        return (Long) get(8);
     }
 
     /**
@@ -171,7 +188,7 @@ public class EAssetRecord extends UpdatableRecordImpl<EAssetRecord> implements V
      */
     @Override
     public EAssetRecord setNumDeprecated(Long value) {
-        set(8, value);
+        set(9, value);
         return this;
     }
 
@@ -181,7 +198,7 @@ public class EAssetRecord extends UpdatableRecordImpl<EAssetRecord> implements V
      */
     @Override
     public Long getNumDeprecated() {
-        return (Long) get(8);
+        return (Long) get(9);
     }
 
     /**
@@ -189,7 +206,7 @@ public class EAssetRecord extends UpdatableRecordImpl<EAssetRecord> implements V
      */
     @Override
     public EAssetRecord setNumUsing(Long value) {
-        set(9, value);
+        set(10, value);
         return this;
     }
 
@@ -198,7 +215,7 @@ public class EAssetRecord extends UpdatableRecordImpl<EAssetRecord> implements V
      */
     @Override
     public Long getNumUsing() {
-        return (Long) get(9);
+        return (Long) get(10);
     }
 
     /**
@@ -206,7 +223,7 @@ public class EAssetRecord extends UpdatableRecordImpl<EAssetRecord> implements V
      */
     @Override
     public EAssetRecord setNumUsed(Long value) {
-        set(10, value);
+        set(11, value);
         return this;
     }
 
@@ -215,7 +232,7 @@ public class EAssetRecord extends UpdatableRecordImpl<EAssetRecord> implements V
      */
     @Override
     public Long getNumUsed() {
-        return (Long) get(10);
+        return (Long) get(11);
     }
 
     /**
@@ -223,7 +240,7 @@ public class EAssetRecord extends UpdatableRecordImpl<EAssetRecord> implements V
      */
     @Override
     public EAssetRecord setWayChange(String value) {
-        set(11, value);
+        set(12, value);
         return this;
     }
 
@@ -232,7 +249,7 @@ public class EAssetRecord extends UpdatableRecordImpl<EAssetRecord> implements V
      */
     @Override
     public String getWayChange() {
-        return (String) get(11);
+        return (String) get(12);
     }
 
     /**
@@ -241,7 +258,7 @@ public class EAssetRecord extends UpdatableRecordImpl<EAssetRecord> implements V
      */
     @Override
     public EAssetRecord setWayDeprecate(String value) {
-        set(12, value);
+        set(13, value);
         return this;
     }
 
@@ -251,7 +268,7 @@ public class EAssetRecord extends UpdatableRecordImpl<EAssetRecord> implements V
      */
     @Override
     public String getWayDeprecate() {
-        return (String) get(12);
+        return (String) get(13);
     }
 
     /**
@@ -260,7 +277,7 @@ public class EAssetRecord extends UpdatableRecordImpl<EAssetRecord> implements V
      */
     @Override
     public EAssetRecord setWayAccording(String value) {
-        set(13, value);
+        set(14, value);
         return this;
     }
 
@@ -270,7 +287,7 @@ public class EAssetRecord extends UpdatableRecordImpl<EAssetRecord> implements V
      */
     @Override
     public String getWayAccording() {
-        return (String) get(13);
+        return (String) get(14);
     }
 
     /**
@@ -278,7 +295,7 @@ public class EAssetRecord extends UpdatableRecordImpl<EAssetRecord> implements V
      */
     @Override
     public EAssetRecord setUsedAt(LocalDateTime value) {
-        set(14, value);
+        set(15, value);
         return this;
     }
 
@@ -287,7 +304,7 @@ public class EAssetRecord extends UpdatableRecordImpl<EAssetRecord> implements V
      */
     @Override
     public LocalDateTime getUsedAt() {
-        return (LocalDateTime) get(14);
+        return (LocalDateTime) get(15);
     }
 
     /**
@@ -295,7 +312,7 @@ public class EAssetRecord extends UpdatableRecordImpl<EAssetRecord> implements V
      */
     @Override
     public EAssetRecord setUsedBy(String value) {
-        set(15, value);
+        set(16, value);
         return this;
     }
 
@@ -304,7 +321,7 @@ public class EAssetRecord extends UpdatableRecordImpl<EAssetRecord> implements V
      */
     @Override
     public String getUsedBy() {
-        return (String) get(15);
+        return (String) get(16);
     }
 
     /**
@@ -313,7 +330,7 @@ public class EAssetRecord extends UpdatableRecordImpl<EAssetRecord> implements V
      */
     @Override
     public EAssetRecord setUsedStatus(String value) {
-        set(16, value);
+        set(17, value);
         return this;
     }
 
@@ -323,7 +340,7 @@ public class EAssetRecord extends UpdatableRecordImpl<EAssetRecord> implements V
      */
     @Override
     public String getUsedStatus() {
-        return (String) get(16);
+        return (String) get(17);
     }
 
     /**
@@ -331,7 +348,7 @@ public class EAssetRecord extends UpdatableRecordImpl<EAssetRecord> implements V
      */
     @Override
     public EAssetRecord setVOriginal(BigDecimal value) {
-        set(17, value);
+        set(18, value);
         return this;
     }
 
@@ -340,7 +357,7 @@ public class EAssetRecord extends UpdatableRecordImpl<EAssetRecord> implements V
      */
     @Override
     public BigDecimal getVOriginal() {
-        return (BigDecimal) get(17);
+        return (BigDecimal) get(18);
     }
 
     /**
@@ -348,7 +365,7 @@ public class EAssetRecord extends UpdatableRecordImpl<EAssetRecord> implements V
      */
     @Override
     public EAssetRecord setVTax(BigDecimal value) {
-        set(18, value);
+        set(19, value);
         return this;
     }
 
@@ -357,7 +374,7 @@ public class EAssetRecord extends UpdatableRecordImpl<EAssetRecord> implements V
      */
     @Override
     public BigDecimal getVTax() {
-        return (BigDecimal) get(18);
+        return (BigDecimal) get(19);
     }
 
     /**
@@ -365,7 +382,7 @@ public class EAssetRecord extends UpdatableRecordImpl<EAssetRecord> implements V
      */
     @Override
     public EAssetRecord setVDeReady(BigDecimal value) {
-        set(19, value);
+        set(20, value);
         return this;
     }
 
@@ -374,7 +391,7 @@ public class EAssetRecord extends UpdatableRecordImpl<EAssetRecord> implements V
      */
     @Override
     public BigDecimal getVDeReady() {
-        return (BigDecimal) get(19);
+        return (BigDecimal) get(20);
     }
 
     /**
@@ -382,7 +399,7 @@ public class EAssetRecord extends UpdatableRecordImpl<EAssetRecord> implements V
      */
     @Override
     public EAssetRecord setVNetJunk(BigDecimal value) {
-        set(20, value);
+        set(21, value);
         return this;
     }
 
@@ -391,7 +408,7 @@ public class EAssetRecord extends UpdatableRecordImpl<EAssetRecord> implements V
      */
     @Override
     public BigDecimal getVNetJunk() {
-        return (BigDecimal) get(20);
+        return (BigDecimal) get(21);
     }
 
     /**
@@ -399,7 +416,7 @@ public class EAssetRecord extends UpdatableRecordImpl<EAssetRecord> implements V
      */
     @Override
     public EAssetRecord setVNet(BigDecimal value) {
-        set(21, value);
+        set(22, value);
         return this;
     }
 
@@ -408,7 +425,7 @@ public class EAssetRecord extends UpdatableRecordImpl<EAssetRecord> implements V
      */
     @Override
     public BigDecimal getVNet() {
-        return (BigDecimal) get(21);
+        return (BigDecimal) get(22);
     }
 
     /**
@@ -416,7 +433,7 @@ public class EAssetRecord extends UpdatableRecordImpl<EAssetRecord> implements V
      */
     @Override
     public EAssetRecord setVNetAmount(BigDecimal value) {
-        set(22, value);
+        set(23, value);
         return this;
     }
 
@@ -425,7 +442,7 @@ public class EAssetRecord extends UpdatableRecordImpl<EAssetRecord> implements V
      */
     @Override
     public BigDecimal getVNetAmount() {
-        return (BigDecimal) get(22);
+        return (BigDecimal) get(23);
     }
 
     /**
@@ -434,7 +451,7 @@ public class EAssetRecord extends UpdatableRecordImpl<EAssetRecord> implements V
      */
     @Override
     public EAssetRecord setVDeprecatedM(BigDecimal value) {
-        set(23, value);
+        set(24, value);
         return this;
     }
 
@@ -444,7 +461,7 @@ public class EAssetRecord extends UpdatableRecordImpl<EAssetRecord> implements V
      */
     @Override
     public BigDecimal getVDeprecatedM() {
-        return (BigDecimal) get(23);
+        return (BigDecimal) get(24);
     }
 
     /**
@@ -453,7 +470,7 @@ public class EAssetRecord extends UpdatableRecordImpl<EAssetRecord> implements V
      */
     @Override
     public EAssetRecord setVDeprecatedA(BigDecimal value) {
-        set(24, value);
+        set(25, value);
         return this;
     }
 
@@ -463,7 +480,7 @@ public class EAssetRecord extends UpdatableRecordImpl<EAssetRecord> implements V
      */
     @Override
     public BigDecimal getVDeprecatedA() {
-        return (BigDecimal) get(24);
+        return (BigDecimal) get(25);
     }
 
     /**
@@ -471,7 +488,7 @@ public class EAssetRecord extends UpdatableRecordImpl<EAssetRecord> implements V
      */
     @Override
     public EAssetRecord setKFixed(String value) {
-        set(25, value);
+        set(26, value);
         return this;
     }
 
@@ -480,7 +497,7 @@ public class EAssetRecord extends UpdatableRecordImpl<EAssetRecord> implements V
      */
     @Override
     public String getKFixed() {
-        return (String) get(25);
+        return (String) get(26);
     }
 
     /**
@@ -489,7 +506,7 @@ public class EAssetRecord extends UpdatableRecordImpl<EAssetRecord> implements V
      */
     @Override
     public EAssetRecord setKDeprecated(String value) {
-        set(26, value);
+        set(27, value);
         return this;
     }
 
@@ -499,7 +516,7 @@ public class EAssetRecord extends UpdatableRecordImpl<EAssetRecord> implements V
      */
     @Override
     public String getKDeprecated() {
-        return (String) get(26);
+        return (String) get(27);
     }
 
     /**
@@ -508,7 +525,7 @@ public class EAssetRecord extends UpdatableRecordImpl<EAssetRecord> implements V
      */
     @Override
     public EAssetRecord setKAssignment(String value) {
-        set(27, value);
+        set(28, value);
         return this;
     }
 
@@ -518,7 +535,7 @@ public class EAssetRecord extends UpdatableRecordImpl<EAssetRecord> implements V
      */
     @Override
     public String getKAssignment() {
-        return (String) get(27);
+        return (String) get(28);
     }
 
     /**
@@ -526,7 +543,7 @@ public class EAssetRecord extends UpdatableRecordImpl<EAssetRecord> implements V
      */
     @Override
     public EAssetRecord setKTax(String value) {
-        set(28, value);
+        set(29, value);
         return this;
     }
 
@@ -535,7 +552,7 @@ public class EAssetRecord extends UpdatableRecordImpl<EAssetRecord> implements V
      */
     @Override
     public String getKTax() {
-        return (String) get(28);
+        return (String) get(29);
     }
 
     /**
@@ -543,7 +560,7 @@ public class EAssetRecord extends UpdatableRecordImpl<EAssetRecord> implements V
      */
     @Override
     public EAssetRecord setKDevalue(String value) {
-        set(29, value);
+        set(30, value);
         return this;
     }
 
@@ -552,7 +569,7 @@ public class EAssetRecord extends UpdatableRecordImpl<EAssetRecord> implements V
      */
     @Override
     public String getKDevalue() {
-        return (String) get(29);
+        return (String) get(30);
     }
 
     /**
@@ -560,7 +577,7 @@ public class EAssetRecord extends UpdatableRecordImpl<EAssetRecord> implements V
      */
     @Override
     public EAssetRecord setKChange(String value) {
-        set(30, value);
+        set(31, value);
         return this;
     }
 
@@ -569,7 +586,7 @@ public class EAssetRecord extends UpdatableRecordImpl<EAssetRecord> implements V
      */
     @Override
     public String getKChange() {
-        return (String) get(30);
+        return (String) get(31);
     }
 
     /**
@@ -578,7 +595,7 @@ public class EAssetRecord extends UpdatableRecordImpl<EAssetRecord> implements V
      */
     @Override
     public EAssetRecord setCustomerId(String value) {
-        set(31, value);
+        set(32, value);
         return this;
     }
 
@@ -588,7 +605,7 @@ public class EAssetRecord extends UpdatableRecordImpl<EAssetRecord> implements V
      */
     @Override
     public String getCustomerId() {
-        return (String) get(31);
+        return (String) get(32);
     }
 
     /**
@@ -596,7 +613,7 @@ public class EAssetRecord extends UpdatableRecordImpl<EAssetRecord> implements V
      */
     @Override
     public EAssetRecord setExpiredAt(LocalDateTime value) {
-        set(32, value);
+        set(33, value);
         return this;
     }
 
@@ -605,7 +622,7 @@ public class EAssetRecord extends UpdatableRecordImpl<EAssetRecord> implements V
      */
     @Override
     public LocalDateTime getExpiredAt() {
-        return (LocalDateTime) get(32);
+        return (LocalDateTime) get(33);
     }
 
     /**
@@ -614,7 +631,7 @@ public class EAssetRecord extends UpdatableRecordImpl<EAssetRecord> implements V
      */
     @Override
     public EAssetRecord setExpiredComment(String value) {
-        set(33, value);
+        set(34, value);
         return this;
     }
 
@@ -624,7 +641,7 @@ public class EAssetRecord extends UpdatableRecordImpl<EAssetRecord> implements V
      */
     @Override
     public String getExpiredComment() {
-        return (String) get(33);
+        return (String) get(34);
     }
 
     /**
@@ -632,7 +649,7 @@ public class EAssetRecord extends UpdatableRecordImpl<EAssetRecord> implements V
      */
     @Override
     public EAssetRecord setUserId(String value) {
-        set(34, value);
+        set(35, value);
         return this;
     }
 
@@ -641,7 +658,7 @@ public class EAssetRecord extends UpdatableRecordImpl<EAssetRecord> implements V
      */
     @Override
     public String getUserId() {
-        return (String) get(34);
+        return (String) get(35);
     }
 
     /**
@@ -649,7 +666,7 @@ public class EAssetRecord extends UpdatableRecordImpl<EAssetRecord> implements V
      */
     @Override
     public EAssetRecord setStoreId(String value) {
-        set(35, value);
+        set(36, value);
         return this;
     }
 
@@ -658,7 +675,7 @@ public class EAssetRecord extends UpdatableRecordImpl<EAssetRecord> implements V
      */
     @Override
     public String getStoreId() {
-        return (String) get(35);
+        return (String) get(36);
     }
 
     /**
@@ -666,7 +683,7 @@ public class EAssetRecord extends UpdatableRecordImpl<EAssetRecord> implements V
      */
     @Override
     public EAssetRecord setDeptId(String value) {
-        set(36, value);
+        set(37, value);
         return this;
     }
 
@@ -675,7 +692,7 @@ public class EAssetRecord extends UpdatableRecordImpl<EAssetRecord> implements V
      */
     @Override
     public String getDeptId() {
-        return (String) get(36);
+        return (String) get(37);
     }
 
     /**
@@ -683,7 +700,7 @@ public class EAssetRecord extends UpdatableRecordImpl<EAssetRecord> implements V
      */
     @Override
     public EAssetRecord setCompanyId(String value) {
-        set(37, value);
+        set(38, value);
         return this;
     }
 
@@ -692,7 +709,7 @@ public class EAssetRecord extends UpdatableRecordImpl<EAssetRecord> implements V
      */
     @Override
     public String getCompanyId() {
-        return (String) get(37);
+        return (String) get(38);
     }
 
     /**
@@ -700,7 +717,7 @@ public class EAssetRecord extends UpdatableRecordImpl<EAssetRecord> implements V
      */
     @Override
     public EAssetRecord setParentId(String value) {
-        set(38, value);
+        set(39, value);
         return this;
     }
 
@@ -709,7 +726,7 @@ public class EAssetRecord extends UpdatableRecordImpl<EAssetRecord> implements V
      */
     @Override
     public String getParentId() {
-        return (String) get(38);
+        return (String) get(39);
     }
 
     /**
@@ -717,7 +734,7 @@ public class EAssetRecord extends UpdatableRecordImpl<EAssetRecord> implements V
      */
     @Override
     public EAssetRecord setComment(String value) {
-        set(39, value);
+        set(40, value);
         return this;
     }
 
@@ -726,7 +743,7 @@ public class EAssetRecord extends UpdatableRecordImpl<EAssetRecord> implements V
      */
     @Override
     public String getComment() {
-        return (String) get(39);
+        return (String) get(40);
     }
 
     /**
@@ -734,7 +751,7 @@ public class EAssetRecord extends UpdatableRecordImpl<EAssetRecord> implements V
      */
     @Override
     public EAssetRecord setSigma(String value) {
-        set(40, value);
+        set(41, value);
         return this;
     }
 
@@ -743,7 +760,7 @@ public class EAssetRecord extends UpdatableRecordImpl<EAssetRecord> implements V
      */
     @Override
     public String getSigma() {
-        return (String) get(40);
+        return (String) get(41);
     }
 
     /**
@@ -751,7 +768,7 @@ public class EAssetRecord extends UpdatableRecordImpl<EAssetRecord> implements V
      */
     @Override
     public EAssetRecord setLanguage(String value) {
-        set(41, value);
+        set(42, value);
         return this;
     }
 
@@ -760,7 +777,7 @@ public class EAssetRecord extends UpdatableRecordImpl<EAssetRecord> implements V
      */
     @Override
     public String getLanguage() {
-        return (String) get(41);
+        return (String) get(42);
     }
 
     /**
@@ -768,7 +785,7 @@ public class EAssetRecord extends UpdatableRecordImpl<EAssetRecord> implements V
      */
     @Override
     public EAssetRecord setActive(Boolean value) {
-        set(42, value);
+        set(43, value);
         return this;
     }
 
@@ -777,7 +794,7 @@ public class EAssetRecord extends UpdatableRecordImpl<EAssetRecord> implements V
      */
     @Override
     public Boolean getActive() {
-        return (Boolean) get(42);
+        return (Boolean) get(43);
     }
 
     /**
@@ -785,7 +802,7 @@ public class EAssetRecord extends UpdatableRecordImpl<EAssetRecord> implements V
      */
     @Override
     public EAssetRecord setMetadata(String value) {
-        set(43, value);
+        set(44, value);
         return this;
     }
 
@@ -794,7 +811,7 @@ public class EAssetRecord extends UpdatableRecordImpl<EAssetRecord> implements V
      */
     @Override
     public String getMetadata() {
-        return (String) get(43);
+        return (String) get(44);
     }
 
     /**
@@ -802,7 +819,7 @@ public class EAssetRecord extends UpdatableRecordImpl<EAssetRecord> implements V
      */
     @Override
     public EAssetRecord setEnterAt(LocalDateTime value) {
-        set(44, value);
+        set(45, value);
         return this;
     }
 
@@ -811,7 +828,7 @@ public class EAssetRecord extends UpdatableRecordImpl<EAssetRecord> implements V
      */
     @Override
     public LocalDateTime getEnterAt() {
-        return (LocalDateTime) get(44);
+        return (LocalDateTime) get(45);
     }
 
     /**
@@ -819,7 +836,7 @@ public class EAssetRecord extends UpdatableRecordImpl<EAssetRecord> implements V
      */
     @Override
     public EAssetRecord setEnterBy(String value) {
-        set(45, value);
+        set(46, value);
         return this;
     }
 
@@ -828,7 +845,7 @@ public class EAssetRecord extends UpdatableRecordImpl<EAssetRecord> implements V
      */
     @Override
     public String getEnterBy() {
-        return (String) get(45);
+        return (String) get(46);
     }
 
     /**
@@ -836,7 +853,7 @@ public class EAssetRecord extends UpdatableRecordImpl<EAssetRecord> implements V
      */
     @Override
     public EAssetRecord setAccountAt(LocalDateTime value) {
-        set(46, value);
+        set(47, value);
         return this;
     }
 
@@ -845,7 +862,7 @@ public class EAssetRecord extends UpdatableRecordImpl<EAssetRecord> implements V
      */
     @Override
     public LocalDateTime getAccountAt() {
-        return (LocalDateTime) get(46);
+        return (LocalDateTime) get(47);
     }
 
     /**
@@ -853,7 +870,7 @@ public class EAssetRecord extends UpdatableRecordImpl<EAssetRecord> implements V
      */
     @Override
     public EAssetRecord setAccountBy(String value) {
-        set(47, value);
+        set(48, value);
         return this;
     }
 
@@ -862,7 +879,7 @@ public class EAssetRecord extends UpdatableRecordImpl<EAssetRecord> implements V
      */
     @Override
     public String getAccountBy() {
-        return (String) get(47);
+        return (String) get(48);
     }
 
     /**
@@ -870,7 +887,7 @@ public class EAssetRecord extends UpdatableRecordImpl<EAssetRecord> implements V
      */
     @Override
     public EAssetRecord setScrapAt(LocalDateTime value) {
-        set(48, value);
+        set(49, value);
         return this;
     }
 
@@ -879,7 +896,7 @@ public class EAssetRecord extends UpdatableRecordImpl<EAssetRecord> implements V
      */
     @Override
     public LocalDateTime getScrapAt() {
-        return (LocalDateTime) get(48);
+        return (LocalDateTime) get(49);
     }
 
     /**
@@ -887,7 +904,7 @@ public class EAssetRecord extends UpdatableRecordImpl<EAssetRecord> implements V
      */
     @Override
     public EAssetRecord setScrapBy(String value) {
-        set(49, value);
+        set(50, value);
         return this;
     }
 
@@ -896,7 +913,7 @@ public class EAssetRecord extends UpdatableRecordImpl<EAssetRecord> implements V
      */
     @Override
     public String getScrapBy() {
-        return (String) get(49);
+        return (String) get(50);
     }
 
     /**
@@ -904,7 +921,7 @@ public class EAssetRecord extends UpdatableRecordImpl<EAssetRecord> implements V
      */
     @Override
     public EAssetRecord setCreatedAt(LocalDateTime value) {
-        set(50, value);
+        set(51, value);
         return this;
     }
 
@@ -913,7 +930,7 @@ public class EAssetRecord extends UpdatableRecordImpl<EAssetRecord> implements V
      */
     @Override
     public LocalDateTime getCreatedAt() {
-        return (LocalDateTime) get(50);
+        return (LocalDateTime) get(51);
     }
 
     /**
@@ -921,7 +938,7 @@ public class EAssetRecord extends UpdatableRecordImpl<EAssetRecord> implements V
      */
     @Override
     public EAssetRecord setCreatedBy(String value) {
-        set(51, value);
+        set(52, value);
         return this;
     }
 
@@ -930,7 +947,7 @@ public class EAssetRecord extends UpdatableRecordImpl<EAssetRecord> implements V
      */
     @Override
     public String getCreatedBy() {
-        return (String) get(51);
+        return (String) get(52);
     }
 
     /**
@@ -938,7 +955,7 @@ public class EAssetRecord extends UpdatableRecordImpl<EAssetRecord> implements V
      */
     @Override
     public EAssetRecord setUpdatedAt(LocalDateTime value) {
-        set(52, value);
+        set(53, value);
         return this;
     }
 
@@ -947,7 +964,7 @@ public class EAssetRecord extends UpdatableRecordImpl<EAssetRecord> implements V
      */
     @Override
     public LocalDateTime getUpdatedAt() {
-        return (LocalDateTime) get(52);
+        return (LocalDateTime) get(53);
     }
 
     /**
@@ -955,7 +972,7 @@ public class EAssetRecord extends UpdatableRecordImpl<EAssetRecord> implements V
      */
     @Override
     public EAssetRecord setUpdatedBy(String value) {
-        set(53, value);
+        set(54, value);
         return this;
     }
 
@@ -964,7 +981,7 @@ public class EAssetRecord extends UpdatableRecordImpl<EAssetRecord> implements V
      */
     @Override
     public String getUpdatedBy() {
-        return (String) get(53);
+        return (String) get(54);
     }
 
     // -------------------------------------------------------------------------
@@ -986,6 +1003,7 @@ public class EAssetRecord extends UpdatableRecordImpl<EAssetRecord> implements V
         setName(from.getName());
         setCode(from.getCode());
         setType(from.getType());
+        setStatus(from.getStatus());
         setModelNumber(from.getModelNumber());
         setUnit(from.getUnit());
         setNum(from.getNum());
@@ -1058,13 +1076,14 @@ public class EAssetRecord extends UpdatableRecordImpl<EAssetRecord> implements V
     /**
      * Create a detached, initialised EAssetRecord
      */
-    public EAssetRecord(String key, String name, String code, String type, String modelNumber, String unit, Long num, Long numDeprecating, Long numDeprecated, Long numUsing, Long numUsed, String wayChange, String wayDeprecate, String wayAccording, LocalDateTime usedAt, String usedBy, String usedStatus, BigDecimal vOriginal, BigDecimal vTax, BigDecimal vDeReady, BigDecimal vNetJunk, BigDecimal vNet, BigDecimal vNetAmount, BigDecimal vDeprecatedM, BigDecimal vDeprecatedA, String kFixed, String kDeprecated, String kAssignment, String kTax, String kDevalue, String kChange, String customerId, LocalDateTime expiredAt, String expiredComment, String userId, String storeId, String deptId, String companyId, String parentId, String comment, String sigma, String language, Boolean active, String metadata, LocalDateTime enterAt, String enterBy, LocalDateTime accountAt, String accountBy, LocalDateTime scrapAt, String scrapBy, LocalDateTime createdAt, String createdBy, LocalDateTime updatedAt, String updatedBy) {
+    public EAssetRecord(String key, String name, String code, String type, String status, String modelNumber, String unit, Long num, Long numDeprecating, Long numDeprecated, Long numUsing, Long numUsed, String wayChange, String wayDeprecate, String wayAccording, LocalDateTime usedAt, String usedBy, String usedStatus, BigDecimal vOriginal, BigDecimal vTax, BigDecimal vDeReady, BigDecimal vNetJunk, BigDecimal vNet, BigDecimal vNetAmount, BigDecimal vDeprecatedM, BigDecimal vDeprecatedA, String kFixed, String kDeprecated, String kAssignment, String kTax, String kDevalue, String kChange, String customerId, LocalDateTime expiredAt, String expiredComment, String userId, String storeId, String deptId, String companyId, String parentId, String comment, String sigma, String language, Boolean active, String metadata, LocalDateTime enterAt, String enterBy, LocalDateTime accountAt, String accountBy, LocalDateTime scrapAt, String scrapBy, LocalDateTime createdAt, String createdBy, LocalDateTime updatedAt, String updatedBy) {
         super(EAsset.E_ASSET);
 
         setKey(key);
         setName(name);
         setCode(code);
         setType(type);
+        setStatus(status);
         setModelNumber(modelNumber);
         setUnit(unit);
         setNum(num);
@@ -1128,6 +1147,7 @@ public class EAssetRecord extends UpdatableRecordImpl<EAssetRecord> implements V
             setName(value.getName());
             setCode(value.getCode());
             setType(value.getType());
+            setStatus(value.getStatus());
             setModelNumber(value.getModelNumber());
             setUnit(value.getUnit());
             setNum(value.getNum());
