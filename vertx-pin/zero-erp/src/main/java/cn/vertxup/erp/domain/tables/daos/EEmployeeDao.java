@@ -224,6 +224,52 @@ public class EEmployeeDao extends AbstractVertxDAO<EEmployeeRecord, cn.vertxup.e
         }
 
         /**
+     * Find records that have <code>WORK_HIRE_AT IN (values)</code>
+     * asynchronously
+     */
+        public Future<List<cn.vertxup.erp.domain.tables.pojos.EEmployee>> findManyByWorkHireAt(Collection<LocalDateTime> values) {
+                return findManyByCondition(EEmployee.E_EMPLOYEE.WORK_HIRE_AT.in(values));
+        }
+
+        /**
+     * Find records that have <code>WORK_HIRE_AT IN (values)</code>
+     * asynchronously limited by the given limit
+     */
+        public Future<List<cn.vertxup.erp.domain.tables.pojos.EEmployee>> findManyByWorkHireAt(Collection<LocalDateTime> values, int limit) {
+                return findManyByCondition(EEmployee.E_EMPLOYEE.WORK_HIRE_AT.in(values),limit);
+        }
+
+        /**
+     * Find records that have <code>BANK_ID IN (values)</code> asynchronously
+     */
+        public Future<List<cn.vertxup.erp.domain.tables.pojos.EEmployee>> findManyByBankId(Collection<String> values) {
+                return findManyByCondition(EEmployee.E_EMPLOYEE.BANK_ID.in(values));
+        }
+
+        /**
+     * Find records that have <code>BANK_ID IN (values)</code> asynchronously
+     * limited by the given limit
+     */
+        public Future<List<cn.vertxup.erp.domain.tables.pojos.EEmployee>> findManyByBankId(Collection<String> values, int limit) {
+                return findManyByCondition(EEmployee.E_EMPLOYEE.BANK_ID.in(values),limit);
+        }
+
+        /**
+     * Find records that have <code>BANK_CARD IN (values)</code> asynchronously
+     */
+        public Future<List<cn.vertxup.erp.domain.tables.pojos.EEmployee>> findManyByBankCard(Collection<String> values) {
+                return findManyByCondition(EEmployee.E_EMPLOYEE.BANK_CARD.in(values));
+        }
+
+        /**
+     * Find records that have <code>BANK_CARD IN (values)</code> asynchronously
+     * limited by the given limit
+     */
+        public Future<List<cn.vertxup.erp.domain.tables.pojos.EEmployee>> findManyByBankCard(Collection<String> values, int limit) {
+                return findManyByCondition(EEmployee.E_EMPLOYEE.BANK_CARD.in(values),limit);
+        }
+
+        /**
      * Find records that have <code>TYPE IN (values)</code> asynchronously
      */
         public Future<List<cn.vertxup.erp.domain.tables.pojos.EEmployee>> findManyByType(Collection<String> values) {

@@ -257,6 +257,28 @@ public interface IECustomer extends VertxPojo, Serializable {
     public BigDecimal getRunAmount();
 
     /**
+     * Setter for <code>DB_ETERNAL.E_CUSTOMER.BANK_ID</code>. 「bankId」- 开户行
+     */
+    public IECustomer setBankId(String value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.E_CUSTOMER.BANK_ID</code>. 「bankId」- 开户行
+     */
+    public String getBankId();
+
+    /**
+     * Setter for <code>DB_ETERNAL.E_CUSTOMER.BANK_CARD</code>. 「bankCard」-
+     * 开户行账号
+     */
+    public IECustomer setBankCard(String value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.E_CUSTOMER.BANK_CARD</code>. 「bankCard」-
+     * 开户行账号
+     */
+    public String getBankCard();
+
+    /**
      * Setter for <code>DB_ETERNAL.E_CUSTOMER.METADATA</code>. 「metadata」- 附加配置
      */
     public IECustomer setMetadata(String value);
@@ -386,6 +408,8 @@ public interface IECustomer extends VertxPojo, Serializable {
                 setOrThrow(this::setSignPhone,json::getString,"SIGN_PHONE","java.lang.String");
                 setOrThrow(this::setRunUp,json::getBoolean,"RUN_UP","java.lang.Boolean");
                 // Omitting unrecognized type java.math.BigDecimal for column RUN_AMOUNT!
+                setOrThrow(this::setBankId,json::getString,"BANK_ID","java.lang.String");
+                setOrThrow(this::setBankCard,json::getString,"BANK_CARD","java.lang.String");
                 setOrThrow(this::setMetadata,json::getString,"METADATA","java.lang.String");
                 setOrThrow(this::setActive,json::getBoolean,"ACTIVE","java.lang.Boolean");
                 setOrThrow(this::setSigma,json::getString,"SIGMA","java.lang.String");
@@ -423,6 +447,8 @@ public interface IECustomer extends VertxPojo, Serializable {
                 json.put("SIGN_PHONE",getSignPhone());
                 json.put("RUN_UP",getRunUp());
                 // Omitting unrecognized type java.math.BigDecimal for column RUN_AMOUNT!
+                json.put("BANK_ID",getBankId());
+                json.put("BANK_CARD",getBankCard());
                 json.put("METADATA",getMetadata());
                 json.put("ACTIVE",getActive());
                 json.put("SIGMA",getSigma());

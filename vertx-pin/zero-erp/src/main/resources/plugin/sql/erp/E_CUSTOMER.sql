@@ -43,7 +43,11 @@ CREATE TABLE `E_CUSTOMER`
     `SIGN_NAME`      VARCHAR(255) COMMENT '「signName」- 签单人姓名',
     `SIGN_PHONE`     VARCHAR(20) COMMENT '「signPhone」- 签单人电话',
     `RUN_UP`         BIT            DEFAULT NULL COMMENT '「runUp」- 挂账属性',
-    `RUN_AMOUNT`     DECIMAL(10, 2) DEFAULT NULL COMMENT '「runAmount」- 挂账限额',
+    `RUN_AMOUNT`     DECIMAL(18, 2) DEFAULT NULL COMMENT '「runAmount」- 挂账限额',
+
+    -- 银行账号/开户行
+    `BANK_ID`        VARCHAR(36) COMMENT '「bankId」- 开户行',
+    `BANK_CARD`      VARCHAR(255) COMMENT '「bankCard」- 开户行账号',
 
     -- 特殊字段
     `METADATA`       TEXT COMMENT '「metadata」- 附加配置',

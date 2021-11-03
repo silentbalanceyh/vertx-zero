@@ -33,6 +33,9 @@ public class EEmployee implements VertxPojo, IEEmployee {
     private String        workLocation;
     private String        workPhone;
     private String        workExtension;
+    private LocalDateTime workHireAt;
+    private String        bankId;
+    private String        bankCard;
     private String        type;
     private String        status;
     private String        metadata;
@@ -60,6 +63,9 @@ public class EEmployee implements VertxPojo, IEEmployee {
         this.workLocation = value.getWorkLocation();
         this.workPhone = value.getWorkPhone();
         this.workExtension = value.getWorkExtension();
+        this.workHireAt = value.getWorkHireAt();
+        this.bankId = value.getBankId();
+        this.bankCard = value.getBankCard();
         this.type = value.getType();
         this.status = value.getStatus();
         this.metadata = value.getMetadata();
@@ -86,6 +92,9 @@ public class EEmployee implements VertxPojo, IEEmployee {
         String        workLocation,
         String        workPhone,
         String        workExtension,
+        LocalDateTime workHireAt,
+        String        bankId,
+        String        bankCard,
         String        type,
         String        status,
         String        metadata,
@@ -110,6 +119,9 @@ public class EEmployee implements VertxPojo, IEEmployee {
         this.workLocation = workLocation;
         this.workPhone = workPhone;
         this.workExtension = workExtension;
+        this.workHireAt = workHireAt;
+        this.bankId = bankId;
+        this.bankCard = bankCard;
         this.type = type;
         this.status = status;
         this.metadata = metadata;
@@ -365,6 +377,61 @@ public class EEmployee implements VertxPojo, IEEmployee {
     }
 
     /**
+     * Getter for <code>DB_ETERNAL.E_EMPLOYEE.WORK_HIRE_AT</code>. 「workHireAt」-
+     * 入职时间
+     */
+    @Override
+    public LocalDateTime getWorkHireAt() {
+        return this.workHireAt;
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.E_EMPLOYEE.WORK_HIRE_AT</code>. 「workHireAt」-
+     * 入职时间
+     */
+    @Override
+    public EEmployee setWorkHireAt(LocalDateTime workHireAt) {
+        this.workHireAt = workHireAt;
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.E_EMPLOYEE.BANK_ID</code>. 「bankId」- 开户行
+     */
+    @Override
+    public String getBankId() {
+        return this.bankId;
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.E_EMPLOYEE.BANK_ID</code>. 「bankId」- 开户行
+     */
+    @Override
+    public EEmployee setBankId(String bankId) {
+        this.bankId = bankId;
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.E_EMPLOYEE.BANK_CARD</code>. 「bankCard」-
+     * 开户行账号
+     */
+    @Override
+    public String getBankCard() {
+        return this.bankCard;
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.E_EMPLOYEE.BANK_CARD</code>. 「bankCard」-
+     * 开户行账号
+     */
+    @Override
+    public EEmployee setBankCard(String bankCard) {
+        this.bankCard = bankCard;
+        return this;
+    }
+
+    /**
      * Getter for <code>DB_ETERNAL.E_EMPLOYEE.TYPE</code>. 「type」- 员工分类
      */
     @Override
@@ -561,6 +628,9 @@ public class EEmployee implements VertxPojo, IEEmployee {
         sb.append(", ").append(workLocation);
         sb.append(", ").append(workPhone);
         sb.append(", ").append(workExtension);
+        sb.append(", ").append(workHireAt);
+        sb.append(", ").append(bankId);
+        sb.append(", ").append(bankCard);
         sb.append(", ").append(type);
         sb.append(", ").append(status);
         sb.append(", ").append(metadata);
@@ -595,6 +665,9 @@ public class EEmployee implements VertxPojo, IEEmployee {
         setWorkLocation(from.getWorkLocation());
         setWorkPhone(from.getWorkPhone());
         setWorkExtension(from.getWorkExtension());
+        setWorkHireAt(from.getWorkHireAt());
+        setBankId(from.getBankId());
+        setBankCard(from.getBankCard());
         setType(from.getType());
         setStatus(from.getStatus());
         setMetadata(from.getMetadata());

@@ -26,6 +26,11 @@ public class Db extends SchemaImpl {
     public static final Db DB_ETERNAL = new Db();
     private static final long serialVersionUID = 1L;
     /**
+     * The table <code>DB_ETERNAL.E_ASSET</code>.
+     */
+    public final EAsset E_ASSET = EAsset.E_ASSET;
+
+    /**
      * The table <code>DB_ETERNAL.E_BRAND</code>.
      */
     public final EBrand E_BRAND = EBrand.E_BRAND;
@@ -71,6 +76,11 @@ public class Db extends SchemaImpl {
     public final ETeam E_TEAM = ETeam.E_TEAM;
 
     /**
+     * The table <code>DB_ETERNAL.R_ASSET_SHARE</code>.
+     */
+    public final RAssetShare R_ASSET_SHARE = RAssetShare.R_ASSET_SHARE;
+
+    /**
      * The table <code>DB_ETERNAL.R_COMPANY_CUSTOMER</code>.
      */
     public final RCompanyCustomer R_COMPANY_CUSTOMER = RCompanyCustomer.R_COMPANY_CUSTOMER;
@@ -96,6 +106,7 @@ public class Db extends SchemaImpl {
     @Override
     public final List<Table<?>> getTables() {
         return Arrays.asList(
+            EAsset.E_ASSET,
             EBrand.E_BRAND,
             ECompany.E_COMPANY,
             EContract.E_CONTRACT,
@@ -105,6 +116,7 @@ public class Db extends SchemaImpl {
             EIdentity.E_IDENTITY,
             EJobLog.E_JOB_LOG,
             ETeam.E_TEAM,
+            RAssetShare.R_ASSET_SHARE,
             RCompanyCustomer.R_COMPANY_CUSTOMER,
             RTeamEmployee.R_TEAM_EMPLOYEE
         );

@@ -43,6 +43,8 @@ public class ECustomer implements VertxPojo, IECustomer {
     private String        signPhone;
     private Boolean       runUp;
     private BigDecimal    runAmount;
+    private String        bankId;
+    private String        bankCard;
     private String        metadata;
     private Boolean       active;
     private String        sigma;
@@ -77,6 +79,8 @@ public class ECustomer implements VertxPojo, IECustomer {
         this.signPhone = value.getSignPhone();
         this.runUp = value.getRunUp();
         this.runAmount = value.getRunAmount();
+        this.bankId = value.getBankId();
+        this.bankCard = value.getBankCard();
         this.metadata = value.getMetadata();
         this.active = value.getActive();
         this.sigma = value.getSigma();
@@ -110,6 +114,8 @@ public class ECustomer implements VertxPojo, IECustomer {
         String        signPhone,
         Boolean       runUp,
         BigDecimal    runAmount,
+        String        bankId,
+        String        bankCard,
         String        metadata,
         Boolean       active,
         String        sigma,
@@ -141,6 +147,8 @@ public class ECustomer implements VertxPojo, IECustomer {
         this.signPhone = signPhone;
         this.runUp = runUp;
         this.runAmount = runAmount;
+        this.bankId = bankId;
+        this.bankCard = bankCard;
         this.metadata = metadata;
         this.active = active;
         this.sigma = sigma;
@@ -549,6 +557,42 @@ public class ECustomer implements VertxPojo, IECustomer {
     }
 
     /**
+     * Getter for <code>DB_ETERNAL.E_CUSTOMER.BANK_ID</code>. 「bankId」- 开户行
+     */
+    @Override
+    public String getBankId() {
+        return this.bankId;
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.E_CUSTOMER.BANK_ID</code>. 「bankId」- 开户行
+     */
+    @Override
+    public ECustomer setBankId(String bankId) {
+        this.bankId = bankId;
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.E_CUSTOMER.BANK_CARD</code>. 「bankCard」-
+     * 开户行账号
+     */
+    @Override
+    public String getBankCard() {
+        return this.bankCard;
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.E_CUSTOMER.BANK_CARD</code>. 「bankCard」-
+     * 开户行账号
+     */
+    @Override
+    public ECustomer setBankCard(String bankCard) {
+        this.bankCard = bankCard;
+        return this;
+    }
+
+    /**
      * Getter for <code>DB_ETERNAL.E_CUSTOMER.METADATA</code>. 「metadata」- 附加配置
      */
     @Override
@@ -720,6 +764,8 @@ public class ECustomer implements VertxPojo, IECustomer {
         sb.append(", ").append(signPhone);
         sb.append(", ").append(runUp);
         sb.append(", ").append(runAmount);
+        sb.append(", ").append(bankId);
+        sb.append(", ").append(bankCard);
         sb.append(", ").append(metadata);
         sb.append(", ").append(active);
         sb.append(", ").append(sigma);
@@ -761,6 +807,8 @@ public class ECustomer implements VertxPojo, IECustomer {
         setSignPhone(from.getSignPhone());
         setRunUp(from.getRunUp());
         setRunAmount(from.getRunAmount());
+        setBankId(from.getBankId());
+        setBankCard(from.getBankCard());
         setMetadata(from.getMetadata());
         setActive(from.getActive());
         setSigma(from.getSigma());

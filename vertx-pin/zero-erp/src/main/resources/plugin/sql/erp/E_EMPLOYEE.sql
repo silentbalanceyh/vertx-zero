@@ -29,6 +29,11 @@ CREATE TABLE `E_EMPLOYEE`
     `WORK_LOCATION`  TEXT COMMENT '「workLocation」- 办公地点',
     `WORK_PHONE`     VARCHAR(20) COMMENT '「workPhone」- 办公电话',
     `WORK_EXTENSION` VARCHAR(20) COMMENT '「workExtension」- 分机号',
+    `WORK_HIRE_AT`   DATETIME COMMENT '「workHireAt」- 入职时间',
+
+    -- 银行账号/开户行
+    `BANK_ID`        VARCHAR(36) COMMENT '「bankId」- 开户行',
+    `BANK_CARD`      VARCHAR(255) COMMENT '「bankCard」- 开户行账号',
 
     -- 特殊字段
     `TYPE`           VARCHAR(36) COMMENT '「type」- 员工分类',

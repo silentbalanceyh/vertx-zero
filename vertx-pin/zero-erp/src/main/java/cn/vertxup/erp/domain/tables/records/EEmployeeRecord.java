@@ -262,11 +262,66 @@ public class EEmployeeRecord extends UpdatableRecordImpl<EEmployeeRecord> implem
     }
 
     /**
+     * Setter for <code>DB_ETERNAL.E_EMPLOYEE.WORK_HIRE_AT</code>. 「workHireAt」-
+     * 入职时间
+     */
+    @Override
+    public EEmployeeRecord setWorkHireAt(LocalDateTime value) {
+        set(13, value);
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.E_EMPLOYEE.WORK_HIRE_AT</code>. 「workHireAt」-
+     * 入职时间
+     */
+    @Override
+    public LocalDateTime getWorkHireAt() {
+        return (LocalDateTime) get(13);
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.E_EMPLOYEE.BANK_ID</code>. 「bankId」- 开户行
+     */
+    @Override
+    public EEmployeeRecord setBankId(String value) {
+        set(14, value);
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.E_EMPLOYEE.BANK_ID</code>. 「bankId」- 开户行
+     */
+    @Override
+    public String getBankId() {
+        return (String) get(14);
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.E_EMPLOYEE.BANK_CARD</code>. 「bankCard」-
+     * 开户行账号
+     */
+    @Override
+    public EEmployeeRecord setBankCard(String value) {
+        set(15, value);
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.E_EMPLOYEE.BANK_CARD</code>. 「bankCard」-
+     * 开户行账号
+     */
+    @Override
+    public String getBankCard() {
+        return (String) get(15);
+    }
+
+    /**
      * Setter for <code>DB_ETERNAL.E_EMPLOYEE.TYPE</code>. 「type」- 员工分类
      */
     @Override
     public EEmployeeRecord setType(String value) {
-        set(13, value);
+        set(16, value);
         return this;
     }
 
@@ -275,7 +330,7 @@ public class EEmployeeRecord extends UpdatableRecordImpl<EEmployeeRecord> implem
      */
     @Override
     public String getType() {
-        return (String) get(13);
+        return (String) get(16);
     }
 
     /**
@@ -283,7 +338,7 @@ public class EEmployeeRecord extends UpdatableRecordImpl<EEmployeeRecord> implem
      */
     @Override
     public EEmployeeRecord setStatus(String value) {
-        set(14, value);
+        set(17, value);
         return this;
     }
 
@@ -292,7 +347,7 @@ public class EEmployeeRecord extends UpdatableRecordImpl<EEmployeeRecord> implem
      */
     @Override
     public String getStatus() {
-        return (String) get(14);
+        return (String) get(17);
     }
 
     /**
@@ -300,7 +355,7 @@ public class EEmployeeRecord extends UpdatableRecordImpl<EEmployeeRecord> implem
      */
     @Override
     public EEmployeeRecord setMetadata(String value) {
-        set(15, value);
+        set(18, value);
         return this;
     }
 
@@ -309,7 +364,7 @@ public class EEmployeeRecord extends UpdatableRecordImpl<EEmployeeRecord> implem
      */
     @Override
     public String getMetadata() {
-        return (String) get(15);
+        return (String) get(18);
     }
 
     /**
@@ -317,7 +372,7 @@ public class EEmployeeRecord extends UpdatableRecordImpl<EEmployeeRecord> implem
      */
     @Override
     public EEmployeeRecord setActive(Boolean value) {
-        set(16, value);
+        set(19, value);
         return this;
     }
 
@@ -326,7 +381,7 @@ public class EEmployeeRecord extends UpdatableRecordImpl<EEmployeeRecord> implem
      */
     @Override
     public Boolean getActive() {
-        return (Boolean) get(16);
+        return (Boolean) get(19);
     }
 
     /**
@@ -335,7 +390,7 @@ public class EEmployeeRecord extends UpdatableRecordImpl<EEmployeeRecord> implem
      */
     @Override
     public EEmployeeRecord setSigma(String value) {
-        set(17, value);
+        set(20, value);
         return this;
     }
 
@@ -345,7 +400,7 @@ public class EEmployeeRecord extends UpdatableRecordImpl<EEmployeeRecord> implem
      */
     @Override
     public String getSigma() {
-        return (String) get(17);
+        return (String) get(20);
     }
 
     /**
@@ -353,7 +408,7 @@ public class EEmployeeRecord extends UpdatableRecordImpl<EEmployeeRecord> implem
      */
     @Override
     public EEmployeeRecord setLanguage(String value) {
-        set(18, value);
+        set(21, value);
         return this;
     }
 
@@ -362,7 +417,7 @@ public class EEmployeeRecord extends UpdatableRecordImpl<EEmployeeRecord> implem
      */
     @Override
     public String getLanguage() {
-        return (String) get(18);
+        return (String) get(21);
     }
 
     /**
@@ -371,7 +426,7 @@ public class EEmployeeRecord extends UpdatableRecordImpl<EEmployeeRecord> implem
      */
     @Override
     public EEmployeeRecord setCreatedAt(LocalDateTime value) {
-        set(19, value);
+        set(22, value);
         return this;
     }
 
@@ -381,7 +436,7 @@ public class EEmployeeRecord extends UpdatableRecordImpl<EEmployeeRecord> implem
      */
     @Override
     public LocalDateTime getCreatedAt() {
-        return (LocalDateTime) get(19);
+        return (LocalDateTime) get(22);
     }
 
     /**
@@ -390,7 +445,7 @@ public class EEmployeeRecord extends UpdatableRecordImpl<EEmployeeRecord> implem
      */
     @Override
     public EEmployeeRecord setCreatedBy(String value) {
-        set(20, value);
+        set(23, value);
         return this;
     }
 
@@ -400,7 +455,7 @@ public class EEmployeeRecord extends UpdatableRecordImpl<EEmployeeRecord> implem
      */
     @Override
     public String getCreatedBy() {
-        return (String) get(20);
+        return (String) get(23);
     }
 
     /**
@@ -409,7 +464,7 @@ public class EEmployeeRecord extends UpdatableRecordImpl<EEmployeeRecord> implem
      */
     @Override
     public EEmployeeRecord setUpdatedAt(LocalDateTime value) {
-        set(21, value);
+        set(24, value);
         return this;
     }
 
@@ -419,7 +474,7 @@ public class EEmployeeRecord extends UpdatableRecordImpl<EEmployeeRecord> implem
      */
     @Override
     public LocalDateTime getUpdatedAt() {
-        return (LocalDateTime) get(21);
+        return (LocalDateTime) get(24);
     }
 
     /**
@@ -428,7 +483,7 @@ public class EEmployeeRecord extends UpdatableRecordImpl<EEmployeeRecord> implem
      */
     @Override
     public EEmployeeRecord setUpdatedBy(String value) {
-        set(22, value);
+        set(25, value);
         return this;
     }
 
@@ -438,7 +493,7 @@ public class EEmployeeRecord extends UpdatableRecordImpl<EEmployeeRecord> implem
      */
     @Override
     public String getUpdatedBy() {
-        return (String) get(22);
+        return (String) get(25);
     }
 
     // -------------------------------------------------------------------------
@@ -469,6 +524,9 @@ public class EEmployeeRecord extends UpdatableRecordImpl<EEmployeeRecord> implem
         setWorkLocation(from.getWorkLocation());
         setWorkPhone(from.getWorkPhone());
         setWorkExtension(from.getWorkExtension());
+        setWorkHireAt(from.getWorkHireAt());
+        setBankId(from.getBankId());
+        setBankCard(from.getBankCard());
         setType(from.getType());
         setStatus(from.getStatus());
         setMetadata(from.getMetadata());
@@ -501,7 +559,7 @@ public class EEmployeeRecord extends UpdatableRecordImpl<EEmployeeRecord> implem
     /**
      * Create a detached, initialised EEmployeeRecord
      */
-    public EEmployeeRecord(String key, String companyId, String deptId, String teamId, String identityId, String viceName, String viceEmail, String viceMobile, String workNumber, String workTitle, String workLocation, String workPhone, String workExtension, String type, String status, String metadata, Boolean active, String sigma, String language, LocalDateTime createdAt, String createdBy, LocalDateTime updatedAt, String updatedBy) {
+    public EEmployeeRecord(String key, String companyId, String deptId, String teamId, String identityId, String viceName, String viceEmail, String viceMobile, String workNumber, String workTitle, String workLocation, String workPhone, String workExtension, LocalDateTime workHireAt, String bankId, String bankCard, String type, String status, String metadata, Boolean active, String sigma, String language, LocalDateTime createdAt, String createdBy, LocalDateTime updatedAt, String updatedBy) {
         super(EEmployee.E_EMPLOYEE);
 
         setKey(key);
@@ -517,6 +575,9 @@ public class EEmployeeRecord extends UpdatableRecordImpl<EEmployeeRecord> implem
         setWorkLocation(workLocation);
         setWorkPhone(workPhone);
         setWorkExtension(workExtension);
+        setWorkHireAt(workHireAt);
+        setBankId(bankId);
+        setBankCard(bankCard);
         setType(type);
         setStatus(status);
         setMetadata(metadata);
@@ -549,6 +610,9 @@ public class EEmployeeRecord extends UpdatableRecordImpl<EEmployeeRecord> implem
             setWorkLocation(value.getWorkLocation());
             setWorkPhone(value.getWorkPhone());
             setWorkExtension(value.getWorkExtension());
+            setWorkHireAt(value.getWorkHireAt());
+            setBankId(value.getBankId());
+            setBankCard(value.getBankCard());
             setType(value.getType());
             setStatus(value.getStatus());
             setMetadata(value.getMetadata());

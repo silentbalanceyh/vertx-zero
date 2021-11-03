@@ -359,6 +359,36 @@ public class ECustomerDao extends AbstractVertxDAO<ECustomerRecord, cn.vertxup.e
         }
 
         /**
+     * Find records that have <code>BANK_ID IN (values)</code> asynchronously
+     */
+        public Future<List<cn.vertxup.erp.domain.tables.pojos.ECustomer>> findManyByBankId(Collection<String> values) {
+                return findManyByCondition(ECustomer.E_CUSTOMER.BANK_ID.in(values));
+        }
+
+        /**
+     * Find records that have <code>BANK_ID IN (values)</code> asynchronously
+     * limited by the given limit
+     */
+        public Future<List<cn.vertxup.erp.domain.tables.pojos.ECustomer>> findManyByBankId(Collection<String> values, int limit) {
+                return findManyByCondition(ECustomer.E_CUSTOMER.BANK_ID.in(values),limit);
+        }
+
+        /**
+     * Find records that have <code>BANK_CARD IN (values)</code> asynchronously
+     */
+        public Future<List<cn.vertxup.erp.domain.tables.pojos.ECustomer>> findManyByBankCard(Collection<String> values) {
+                return findManyByCondition(ECustomer.E_CUSTOMER.BANK_CARD.in(values));
+        }
+
+        /**
+     * Find records that have <code>BANK_CARD IN (values)</code> asynchronously
+     * limited by the given limit
+     */
+        public Future<List<cn.vertxup.erp.domain.tables.pojos.ECustomer>> findManyByBankCard(Collection<String> values, int limit) {
+                return findManyByCondition(ECustomer.E_CUSTOMER.BANK_CARD.in(values),limit);
+        }
+
+        /**
      * Find records that have <code>METADATA IN (values)</code> asynchronously
      */
         public Future<List<cn.vertxup.erp.domain.tables.pojos.ECustomer>> findManyByMetadata(Collection<String> values) {

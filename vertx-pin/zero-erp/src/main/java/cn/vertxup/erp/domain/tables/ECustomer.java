@@ -125,7 +125,16 @@ public class ECustomer extends TableImpl<ECustomerRecord> {
      * The column <code>DB_ETERNAL.E_CUSTOMER.RUN_AMOUNT</code>. 「runAmount」-
      * 挂账限额
      */
-    public final TableField<ECustomerRecord, BigDecimal> RUN_AMOUNT = createField(DSL.name("RUN_AMOUNT"), SQLDataType.DECIMAL(10, 2), this, "「runAmount」- 挂账限额");
+    public final TableField<ECustomerRecord, BigDecimal> RUN_AMOUNT = createField(DSL.name("RUN_AMOUNT"), SQLDataType.DECIMAL(18, 2), this, "「runAmount」- 挂账限额");
+    /**
+     * The column <code>DB_ETERNAL.E_CUSTOMER.BANK_ID</code>. 「bankId」- 开户行
+     */
+    public final TableField<ECustomerRecord, String> BANK_ID = createField(DSL.name("BANK_ID"), SQLDataType.VARCHAR(36), this, "「bankId」- 开户行");
+    /**
+     * The column <code>DB_ETERNAL.E_CUSTOMER.BANK_CARD</code>. 「bankCard」-
+     * 开户行账号
+     */
+    public final TableField<ECustomerRecord, String> BANK_CARD = createField(DSL.name("BANK_CARD"), SQLDataType.VARCHAR(255), this, "「bankCard」- 开户行账号");
     /**
      * The column <code>DB_ETERNAL.E_CUSTOMER.METADATA</code>. 「metadata」- 附加配置
      */

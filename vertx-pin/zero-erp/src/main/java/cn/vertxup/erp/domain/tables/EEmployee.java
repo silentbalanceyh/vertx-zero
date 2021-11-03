@@ -90,6 +90,20 @@ public class EEmployee extends TableImpl<EEmployeeRecord> {
      */
     public final TableField<EEmployeeRecord, String> WORK_EXTENSION = createField(DSL.name("WORK_EXTENSION"), SQLDataType.VARCHAR(20), this, "「workExtension」- 分机号");
     /**
+     * The column <code>DB_ETERNAL.E_EMPLOYEE.WORK_HIRE_AT</code>. 「workHireAt」-
+     * 入职时间
+     */
+    public final TableField<EEmployeeRecord, LocalDateTime> WORK_HIRE_AT = createField(DSL.name("WORK_HIRE_AT"), SQLDataType.LOCALDATETIME(0), this, "「workHireAt」- 入职时间");
+    /**
+     * The column <code>DB_ETERNAL.E_EMPLOYEE.BANK_ID</code>. 「bankId」- 开户行
+     */
+    public final TableField<EEmployeeRecord, String> BANK_ID = createField(DSL.name("BANK_ID"), SQLDataType.VARCHAR(36), this, "「bankId」- 开户行");
+    /**
+     * The column <code>DB_ETERNAL.E_EMPLOYEE.BANK_CARD</code>. 「bankCard」-
+     * 开户行账号
+     */
+    public final TableField<EEmployeeRecord, String> BANK_CARD = createField(DSL.name("BANK_CARD"), SQLDataType.VARCHAR(255), this, "「bankCard」- 开户行账号");
+    /**
      * The column <code>DB_ETERNAL.E_EMPLOYEE.TYPE</code>. 「type」- 员工分类
      */
     public final TableField<EEmployeeRecord, String> TYPE = createField(DSL.name("TYPE"), SQLDataType.VARCHAR(36), this, "「type」- 员工分类");
