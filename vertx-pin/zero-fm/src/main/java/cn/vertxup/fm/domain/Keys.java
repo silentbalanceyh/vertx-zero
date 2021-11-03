@@ -4,9 +4,11 @@
 package cn.vertxup.fm.domain;
 
 
+import cn.vertxup.fm.domain.tables.FBank;
 import cn.vertxup.fm.domain.tables.FBill;
 import cn.vertxup.fm.domain.tables.FBillItem;
 import cn.vertxup.fm.domain.tables.FBook;
+import cn.vertxup.fm.domain.tables.FCurrency;
 import cn.vertxup.fm.domain.tables.FDebt;
 import cn.vertxup.fm.domain.tables.FInvoice;
 import cn.vertxup.fm.domain.tables.FPayTerm;
@@ -16,9 +18,11 @@ import cn.vertxup.fm.domain.tables.FPreAuthorize;
 import cn.vertxup.fm.domain.tables.FSettlement;
 import cn.vertxup.fm.domain.tables.FSettlementItem;
 import cn.vertxup.fm.domain.tables.FSubject;
+import cn.vertxup.fm.domain.tables.records.FBankRecord;
 import cn.vertxup.fm.domain.tables.records.FBillItemRecord;
 import cn.vertxup.fm.domain.tables.records.FBillRecord;
 import cn.vertxup.fm.domain.tables.records.FBookRecord;
+import cn.vertxup.fm.domain.tables.records.FCurrencyRecord;
 import cn.vertxup.fm.domain.tables.records.FDebtRecord;
 import cn.vertxup.fm.domain.tables.records.FInvoiceRecord;
 import cn.vertxup.fm.domain.tables.records.FPayTermRecord;
@@ -46,6 +50,10 @@ public class Keys {
     // UNIQUE and PRIMARY KEY definitions
     // -------------------------------------------------------------------------
 
+    public static final UniqueKey<FBankRecord> KEY_F_BANK_BRANCH_CODE = Internal.createUniqueKey(FBank.F_BANK, DSL.name("KEY_F_BANK_BRANCH_CODE"), new TableField[] { FBank.F_BANK.BRANCH_CODE, FBank.F_BANK.SIGMA }, true);
+    public static final UniqueKey<FBankRecord> KEY_F_BANK_BRANCH_NAME = Internal.createUniqueKey(FBank.F_BANK, DSL.name("KEY_F_BANK_BRANCH_NAME"), new TableField[] { FBank.F_BANK.BRANCH_NAME, FBank.F_BANK.SIGMA }, true);
+    public static final UniqueKey<FBankRecord> KEY_F_BANK_CODE = Internal.createUniqueKey(FBank.F_BANK, DSL.name("KEY_F_BANK_CODE"), new TableField[] { FBank.F_BANK.CODE, FBank.F_BANK.SIGMA }, true);
+    public static final UniqueKey<FBankRecord> KEY_F_BANK_PRIMARY = Internal.createUniqueKey(FBank.F_BANK, DSL.name("KEY_F_BANK_PRIMARY"), new TableField[] { FBank.F_BANK.KEY }, true);
     public static final UniqueKey<FBillRecord> KEY_F_BILL_CODE = Internal.createUniqueKey(FBill.F_BILL, DSL.name("KEY_F_BILL_CODE"), new TableField[] { FBill.F_BILL.CODE, FBill.F_BILL.ORDER_ID, FBill.F_BILL.SIGMA }, true);
     public static final UniqueKey<FBillRecord> KEY_F_BILL_PRIMARY = Internal.createUniqueKey(FBill.F_BILL, DSL.name("KEY_F_BILL_PRIMARY"), new TableField[] { FBill.F_BILL.KEY }, true);
     public static final UniqueKey<FBillRecord> KEY_F_BILL_SERIAL = Internal.createUniqueKey(FBill.F_BILL, DSL.name("KEY_F_BILL_SERIAL"), new TableField[] { FBill.F_BILL.SERIAL, FBill.F_BILL.ORDER_ID, FBill.F_BILL.SIGMA }, true);
@@ -55,6 +63,8 @@ public class Keys {
     public static final UniqueKey<FBookRecord> KEY_F_BOOK_CODE = Internal.createUniqueKey(FBook.F_BOOK, DSL.name("KEY_F_BOOK_CODE"), new TableField[] { FBook.F_BOOK.CODE, FBook.F_BOOK.ORDER_ID, FBook.F_BOOK.SIGMA }, true);
     public static final UniqueKey<FBookRecord> KEY_F_BOOK_PRIMARY = Internal.createUniqueKey(FBook.F_BOOK, DSL.name("KEY_F_BOOK_PRIMARY"), new TableField[] { FBook.F_BOOK.KEY }, true);
     public static final UniqueKey<FBookRecord> KEY_F_BOOK_SERIAL = Internal.createUniqueKey(FBook.F_BOOK, DSL.name("KEY_F_BOOK_SERIAL"), new TableField[] { FBook.F_BOOK.SERIAL, FBook.F_BOOK.ORDER_ID, FBook.F_BOOK.SIGMA }, true);
+    public static final UniqueKey<FCurrencyRecord> KEY_F_CURRENCY_CODE = Internal.createUniqueKey(FCurrency.F_CURRENCY, DSL.name("KEY_F_CURRENCY_CODE"), new TableField[] { FCurrency.F_CURRENCY.CODE, FCurrency.F_CURRENCY.SIGMA }, true);
+    public static final UniqueKey<FCurrencyRecord> KEY_F_CURRENCY_PRIMARY = Internal.createUniqueKey(FCurrency.F_CURRENCY, DSL.name("KEY_F_CURRENCY_PRIMARY"), new TableField[] { FCurrency.F_CURRENCY.KEY }, true);
     public static final UniqueKey<FDebtRecord> KEY_F_DEBT_CODE = Internal.createUniqueKey(FDebt.F_DEBT, DSL.name("KEY_F_DEBT_CODE"), new TableField[] { FDebt.F_DEBT.CODE, FDebt.F_DEBT.SIGMA }, true);
     public static final UniqueKey<FDebtRecord> KEY_F_DEBT_PRIMARY = Internal.createUniqueKey(FDebt.F_DEBT, DSL.name("KEY_F_DEBT_PRIMARY"), new TableField[] { FDebt.F_DEBT.KEY }, true);
     public static final UniqueKey<FDebtRecord> KEY_F_DEBT_SERIAL = Internal.createUniqueKey(FDebt.F_DEBT, DSL.name("KEY_F_DEBT_SERIAL"), new TableField[] { FDebt.F_DEBT.SERIAL, FDebt.F_DEBT.SIGMA }, true);
