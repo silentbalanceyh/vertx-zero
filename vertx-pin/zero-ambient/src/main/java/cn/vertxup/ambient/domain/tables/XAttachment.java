@@ -64,6 +64,11 @@ public class XAttachment extends TableImpl<XAttachmentRecord> {
      */
     public final TableField<XAttachmentRecord, String> STORE_WAY = createField(DSL.name("STORE_WAY"), SQLDataType.VARCHAR(12), this, "「storeWay」- 存储方式，BLOB / FILE / TPL / REMOTE");
     /**
+     * The column <code>DB_ETERNAL.X_ATTACHMENT.STORE_ID</code>. 「storeId」-
+     * 存储关联的Integration ID
+     */
+    public final TableField<XAttachmentRecord, String> STORE_ID = createField(DSL.name("STORE_ID"), SQLDataType.VARCHAR(36), this, "「storeId」- 存储关联的Integration ID");
+    /**
      * The column <code>DB_ETERNAL.X_ATTACHMENT.FILE_NAME</code>. 「fileName」-
      * 原始文件名（不带扩展名）
      */
@@ -205,11 +210,11 @@ public class XAttachment extends TableImpl<XAttachmentRecord> {
     }
 
     // -------------------------------------------------------------------------
-    // Row20 type methods
+    // Row21 type methods
     // -------------------------------------------------------------------------
 
     @Override
-    public Row20<String, String, String, String, String, Integer, String, String, String, String, String, String, Boolean, String, String, String, LocalDateTime, String, LocalDateTime, String> fieldsRow() {
-        return (Row20) super.fieldsRow();
+    public Row21<String, String, String, String, String, Integer, String, String, String, String, String, String, String, Boolean, String, String, String, LocalDateTime, String, LocalDateTime, String> fieldsRow() {
+        return (Row21) super.fieldsRow();
     }
 }

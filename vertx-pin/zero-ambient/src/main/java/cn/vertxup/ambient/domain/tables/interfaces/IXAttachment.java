@@ -104,6 +104,18 @@ public interface IXAttachment extends VertxPojo, Serializable {
     public String getStoreWay();
 
     /**
+     * Setter for <code>DB_ETERNAL.X_ATTACHMENT.STORE_ID</code>. 「storeId」-
+     * 存储关联的Integration ID
+     */
+    public IXAttachment setStoreId(String value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.X_ATTACHMENT.STORE_ID</code>. 「storeId」-
+     * 存储关联的Integration ID
+     */
+    public String getStoreId();
+
+    /**
      * Setter for <code>DB_ETERNAL.X_ATTACHMENT.FILE_NAME</code>. 「fileName」-
      * 原始文件名（不带扩展名）
      */
@@ -269,6 +281,7 @@ public interface IXAttachment extends VertxPojo, Serializable {
                 setOrThrow(this::setSize,json::getInteger,"SIZE","java.lang.Integer");
                 setOrThrow(this::setStatus,json::getString,"STATUS","java.lang.String");
                 setOrThrow(this::setStoreWay,json::getString,"STORE_WAY","java.lang.String");
+                setOrThrow(this::setStoreId,json::getString,"STORE_ID","java.lang.String");
                 setOrThrow(this::setFileName,json::getString,"FILE_NAME","java.lang.String");
                 setOrThrow(this::setFileKey,json::getString,"FILE_KEY","java.lang.String");
                 setOrThrow(this::setFileUrl,json::getString,"FILE_URL","java.lang.String");
@@ -296,6 +309,7 @@ public interface IXAttachment extends VertxPojo, Serializable {
                 json.put("SIZE",getSize());
                 json.put("STATUS",getStatus());
                 json.put("STORE_WAY",getStoreWay());
+                json.put("STORE_ID",getStoreId());
                 json.put("FILE_NAME",getFileName());
                 json.put("FILE_KEY",getFileKey());
                 json.put("FILE_URL",getFileUrl());

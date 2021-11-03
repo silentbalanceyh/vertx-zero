@@ -159,19 +159,18 @@ public class XEmailServerDao extends AbstractVertxDAO<XEmailServerRecord, cn.ver
         }
 
         /**
-     * Find records that have <code>EMAIL_CONFIG IN (values)</code>
-     * asynchronously
+     * Find records that have <code>OPTIONS IN (values)</code> asynchronously
      */
-        public Future<List<cn.vertxup.ambient.domain.tables.pojos.XEmailServer>> findManyByEmailConfig(Collection<String> values) {
-                return findManyByCondition(XEmailServer.X_EMAIL_SERVER.EMAIL_CONFIG.in(values));
+        public Future<List<cn.vertxup.ambient.domain.tables.pojos.XEmailServer>> findManyByOptions(Collection<String> values) {
+                return findManyByCondition(XEmailServer.X_EMAIL_SERVER.OPTIONS.in(values));
         }
 
         /**
-     * Find records that have <code>EMAIL_CONFIG IN (values)</code>
-     * asynchronously limited by the given limit
+     * Find records that have <code>OPTIONS IN (values)</code> asynchronously
+     * limited by the given limit
      */
-        public Future<List<cn.vertxup.ambient.domain.tables.pojos.XEmailServer>> findManyByEmailConfig(Collection<String> values, int limit) {
-                return findManyByCondition(XEmailServer.X_EMAIL_SERVER.EMAIL_CONFIG.in(values),limit);
+        public Future<List<cn.vertxup.ambient.domain.tables.pojos.XEmailServer>> findManyByOptions(Collection<String> values, int limit) {
+                return findManyByCondition(XEmailServer.X_EMAIL_SERVER.OPTIONS.in(values),limit);
         }
 
         /**

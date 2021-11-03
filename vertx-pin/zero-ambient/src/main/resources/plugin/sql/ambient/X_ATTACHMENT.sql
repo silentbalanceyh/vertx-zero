@@ -14,6 +14,7 @@ CREATE TABLE IF NOT EXISTS X_ATTACHMENT
 
     `STATUS`     VARCHAR(12) COMMENT '「status」- 状态，PROGRESS / SUCCESS',
     `STORE_WAY`  VARCHAR(12) COMMENT '「storeWay」- 存储方式，BLOB / FILE / TPL / REMOTE',
+    `STORE_ID`   VARCHAR(36) COMMENT '「storeId」- 存储关联的Integration ID',
 
     -- 原始文件相关信息
     `FILE_NAME`  VARCHAR(255) COMMENT '「fileName」- 原始文件名（不带扩展名）',

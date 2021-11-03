@@ -187,21 +187,21 @@ public class XEmailServerRecord extends UpdatableRecordImpl<XEmailServerRecord> 
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.X_EMAIL_SERVER.EMAIL_CONFIG</code>.
-     * 「emailConfig」- 连接字符串中的配置key=value
+     * Setter for <code>DB_ETERNAL.X_EMAIL_SERVER.OPTIONS</code>. 「options」-
+     * 连接字符串中的配置key=value
      */
     @Override
-    public XEmailServerRecord setEmailConfig(String value) {
+    public XEmailServerRecord setOptions(String value) {
         set(9, value);
         return this;
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.X_EMAIL_SERVER.EMAIL_CONFIG</code>.
-     * 「emailConfig」- 连接字符串中的配置key=value
+     * Getter for <code>DB_ETERNAL.X_EMAIL_SERVER.OPTIONS</code>. 「options」-
+     * 连接字符串中的配置key=value
      */
     @Override
-    public String getEmailConfig() {
+    public String getOptions() {
         return (String) get(9);
     }
 
@@ -440,7 +440,7 @@ public class XEmailServerRecord extends UpdatableRecordImpl<XEmailServerRecord> 
 
     @Override
     public Field<String> field10() {
-        return XEmailServer.X_EMAIL_SERVER.EMAIL_CONFIG;
+        return XEmailServer.X_EMAIL_SERVER.OPTIONS;
     }
 
     @Override
@@ -535,7 +535,7 @@ public class XEmailServerRecord extends UpdatableRecordImpl<XEmailServerRecord> 
 
     @Override
     public String component10() {
-        return getEmailConfig();
+        return getOptions();
     }
 
     @Override
@@ -630,7 +630,7 @@ public class XEmailServerRecord extends UpdatableRecordImpl<XEmailServerRecord> 
 
     @Override
     public String value10() {
-        return getEmailConfig();
+        return getOptions();
     }
 
     @Override
@@ -734,7 +734,7 @@ public class XEmailServerRecord extends UpdatableRecordImpl<XEmailServerRecord> 
 
     @Override
     public XEmailServerRecord value10(String value) {
-        setEmailConfig(value);
+        setOptions(value);
         return this;
     }
 
@@ -831,7 +831,7 @@ public class XEmailServerRecord extends UpdatableRecordImpl<XEmailServerRecord> 
         setProtocol(from.getProtocol());
         setSender(from.getSender());
         setPassword(from.getPassword());
-        setEmailConfig(from.getEmailConfig());
+        setOptions(from.getOptions());
         setAppId(from.getAppId());
         setActive(from.getActive());
         setSigma(from.getSigma());
@@ -863,7 +863,7 @@ public class XEmailServerRecord extends UpdatableRecordImpl<XEmailServerRecord> 
     /**
      * Create a detached, initialised XEmailServerRecord
      */
-    public XEmailServerRecord(String key, String name, String ipV4, String ipV6, String hostname, Integer port, String protocol, String sender, String password, String emailConfig, String appId, Boolean active, String sigma, String metadata, String language, LocalDateTime createdAt, String createdBy, LocalDateTime updatedAt, String updatedBy) {
+    public XEmailServerRecord(String key, String name, String ipV4, String ipV6, String hostname, Integer port, String protocol, String sender, String password, String options, String appId, Boolean active, String sigma, String metadata, String language, LocalDateTime createdAt, String createdBy, LocalDateTime updatedAt, String updatedBy) {
         super(XEmailServer.X_EMAIL_SERVER);
 
         setKey(key);
@@ -875,7 +875,7 @@ public class XEmailServerRecord extends UpdatableRecordImpl<XEmailServerRecord> 
         setProtocol(protocol);
         setSender(sender);
         setPassword(password);
-        setEmailConfig(emailConfig);
+        setOptions(options);
         setAppId(appId);
         setActive(active);
         setSigma(sigma);
@@ -903,7 +903,7 @@ public class XEmailServerRecord extends UpdatableRecordImpl<XEmailServerRecord> 
             setProtocol(value.getProtocol());
             setSender(value.getSender());
             setPassword(value.getPassword());
-            setEmailConfig(value.getEmailConfig());
+            setOptions(value.getOptions());
             setAppId(value.getAppId());
             setActive(value.getActive());
             setSigma(value.getSigma());

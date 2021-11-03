@@ -56,6 +56,11 @@ public class Db extends SchemaImpl {
     public final XEmailServer X_EMAIL_SERVER = XEmailServer.X_EMAIL_SERVER;
 
     /**
+     * The table <code>DB_ETERNAL.X_INTEGRATION</code>.
+     */
+    public final XIntegration X_INTEGRATION = XIntegration.X_INTEGRATION;
+
+    /**
      * The table <code>DB_ETERNAL.X_LOG</code>.
      */
     public final XLog X_LOG = XLog.X_LOG;
@@ -117,6 +122,7 @@ public class Db extends SchemaImpl {
             XAttachment.X_ATTACHMENT,
             XCategory.X_CATEGORY,
             XEmailServer.X_EMAIL_SERVER,
+            XIntegration.X_INTEGRATION,
             XLog.X_LOG,
             XMenu.X_MENU,
             XModule.X_MODULE,

@@ -114,16 +114,16 @@ public interface IXEmailServer extends VertxPojo, Serializable {
     public String getPassword();
 
     /**
-     * Setter for <code>DB_ETERNAL.X_EMAIL_SERVER.EMAIL_CONFIG</code>.
-     * 「emailConfig」- 连接字符串中的配置key=value
+     * Setter for <code>DB_ETERNAL.X_EMAIL_SERVER.OPTIONS</code>. 「options」-
+     * 连接字符串中的配置key=value
      */
-    public IXEmailServer setEmailConfig(String value);
+    public IXEmailServer setOptions(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.X_EMAIL_SERVER.EMAIL_CONFIG</code>.
-     * 「emailConfig」- 连接字符串中的配置key=value
+     * Getter for <code>DB_ETERNAL.X_EMAIL_SERVER.OPTIONS</code>. 「options」-
+     * 连接字符串中的配置key=value
      */
-    public String getEmailConfig();
+    public String getOptions();
 
     /**
      * Setter for <code>DB_ETERNAL.X_EMAIL_SERVER.APP_ID</code>. 「appId」- 所属应用ID
@@ -254,7 +254,7 @@ public interface IXEmailServer extends VertxPojo, Serializable {
                 setOrThrow(this::setProtocol,json::getString,"PROTOCOL","java.lang.String");
                 setOrThrow(this::setSender,json::getString,"SENDER","java.lang.String");
                 setOrThrow(this::setPassword,json::getString,"PASSWORD","java.lang.String");
-                setOrThrow(this::setEmailConfig,json::getString,"EMAIL_CONFIG","java.lang.String");
+                setOrThrow(this::setOptions,json::getString,"OPTIONS","java.lang.String");
                 setOrThrow(this::setAppId,json::getString,"APP_ID","java.lang.String");
                 setOrThrow(this::setActive,json::getBoolean,"ACTIVE","java.lang.Boolean");
                 setOrThrow(this::setSigma,json::getString,"SIGMA","java.lang.String");
@@ -280,7 +280,7 @@ public interface IXEmailServer extends VertxPojo, Serializable {
                 json.put("PROTOCOL",getProtocol());
                 json.put("SENDER",getSender());
                 json.put("PASSWORD",getPassword());
-                json.put("EMAIL_CONFIG",getEmailConfig());
+                json.put("OPTIONS",getOptions());
                 json.put("APP_ID",getAppId());
                 json.put("ACTIVE",getActive());
                 json.put("SIGMA",getSigma());

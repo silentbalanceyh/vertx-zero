@@ -144,6 +144,21 @@ public class XAttachmentDao extends AbstractVertxDAO<XAttachmentRecord, cn.vertx
         }
 
         /**
+     * Find records that have <code>STORE_ID IN (values)</code> asynchronously
+     */
+        public Future<List<cn.vertxup.ambient.domain.tables.pojos.XAttachment>> findManyByStoreId(Collection<String> values) {
+                return findManyByCondition(XAttachment.X_ATTACHMENT.STORE_ID.in(values));
+        }
+
+        /**
+     * Find records that have <code>STORE_ID IN (values)</code> asynchronously
+     * limited by the given limit
+     */
+        public Future<List<cn.vertxup.ambient.domain.tables.pojos.XAttachment>> findManyByStoreId(Collection<String> values, int limit) {
+                return findManyByCondition(XAttachment.X_ATTACHMENT.STORE_ID.in(values),limit);
+        }
+
+        /**
      * Find records that have <code>FILE_NAME IN (values)</code> asynchronously
      */
         public Future<List<cn.vertxup.ambient.domain.tables.pojos.XAttachment>> findManyByFileName(Collection<String> values) {

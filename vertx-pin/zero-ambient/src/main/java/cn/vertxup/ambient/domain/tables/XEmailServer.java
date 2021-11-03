@@ -68,10 +68,10 @@ public class XEmailServer extends TableImpl<XEmailServerRecord> {
      */
     public final TableField<XEmailServerRecord, String> PASSWORD = createField(DSL.name("PASSWORD"), SQLDataType.VARCHAR(255), this, "「password」- 口令");
     /**
-     * The column <code>DB_ETERNAL.X_EMAIL_SERVER.EMAIL_CONFIG</code>.
-     * 「emailConfig」- 连接字符串中的配置key=value
+     * The column <code>DB_ETERNAL.X_EMAIL_SERVER.OPTIONS</code>. 「options」-
+     * 连接字符串中的配置key=value
      */
-    public final TableField<XEmailServerRecord, String> EMAIL_CONFIG = createField(DSL.name("EMAIL_CONFIG"), SQLDataType.CLOB, this, "「emailConfig」- 连接字符串中的配置key=value");
+    public final TableField<XEmailServerRecord, String> OPTIONS = createField(DSL.name("OPTIONS"), SQLDataType.CLOB, this, "「options」- 连接字符串中的配置key=value");
     /**
      * The column <code>DB_ETERNAL.X_EMAIL_SERVER.APP_ID</code>. 「appId」- 所属应用ID
      */

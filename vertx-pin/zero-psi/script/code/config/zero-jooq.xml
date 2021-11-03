@@ -17,7 +17,7 @@
             <overridePrimaryKeys>override_primmary_key</overridePrimaryKeys>
             <name>org.jooq.util.mysql.MySQLDatabase</name>
             <inputSchema>DB_ETERNAL</inputSchema>
-            <includes>(^(W_).*)</includes>
+            <includes>(^(P_).*)</includes>
             <unsignedTypes>false</unsignedTypes>
             <forcedTypes>
                 <!-- Convert tinyint to boolean -->
@@ -51,7 +51,7 @@
             <fluentSetters>true</fluentSetters>
         </generate>
         <target>
-            <packageName>cn.vertxup.workflow.domain</packageName>
+            <packageName>cn.vertxup.psi.domain</packageName>
             <directory>../../src/main/java</directory>
         </target>
         <strategy>

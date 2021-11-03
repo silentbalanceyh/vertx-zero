@@ -28,6 +28,7 @@ public class XAttachment implements VertxPojo, IXAttachment {
     private Integer       size;
     private String        status;
     private String        storeWay;
+    private String        storeId;
     private String        fileName;
     private String        fileKey;
     private String        fileUrl;
@@ -52,6 +53,7 @@ public class XAttachment implements VertxPojo, IXAttachment {
         this.size = value.getSize();
         this.status = value.getStatus();
         this.storeWay = value.getStoreWay();
+        this.storeId = value.getStoreId();
         this.fileName = value.getFileName();
         this.fileKey = value.getFileKey();
         this.fileUrl = value.getFileUrl();
@@ -75,6 +77,7 @@ public class XAttachment implements VertxPojo, IXAttachment {
         Integer       size,
         String        status,
         String        storeWay,
+        String        storeId,
         String        fileName,
         String        fileKey,
         String        fileUrl,
@@ -96,6 +99,7 @@ public class XAttachment implements VertxPojo, IXAttachment {
         this.size = size;
         this.status = status;
         this.storeWay = storeWay;
+        this.storeId = storeId;
         this.fileName = fileName;
         this.fileKey = fileKey;
         this.fileUrl = fileUrl;
@@ -254,6 +258,25 @@ public class XAttachment implements VertxPojo, IXAttachment {
     @Override
     public XAttachment setStoreWay(String storeWay) {
         this.storeWay = storeWay;
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.X_ATTACHMENT.STORE_ID</code>. 「storeId」-
+     * 存储关联的Integration ID
+     */
+    @Override
+    public String getStoreId() {
+        return this.storeId;
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.X_ATTACHMENT.STORE_ID</code>. 「storeId」-
+     * 存储关联的Integration ID
+     */
+    @Override
+    public XAttachment setStoreId(String storeId) {
+        this.storeId = storeId;
         return this;
     }
 
@@ -493,6 +516,7 @@ public class XAttachment implements VertxPojo, IXAttachment {
         sb.append(", ").append(size);
         sb.append(", ").append(status);
         sb.append(", ").append(storeWay);
+        sb.append(", ").append(storeId);
         sb.append(", ").append(fileName);
         sb.append(", ").append(fileKey);
         sb.append(", ").append(fileUrl);
@@ -524,6 +548,7 @@ public class XAttachment implements VertxPojo, IXAttachment {
         setSize(from.getSize());
         setStatus(from.getStatus());
         setStoreWay(from.getStoreWay());
+        setStoreId(from.getStoreId());
         setFileName(from.getFileName());
         setFileKey(from.getFileKey());
         setFileUrl(from.getFileUrl());
