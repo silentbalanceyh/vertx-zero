@@ -9,6 +9,7 @@ import io.vertx.tp.plugin.excel.atom.ExConnect;
 import io.vertx.tp.plugin.excel.atom.ExRecord;
 import io.vertx.tp.plugin.excel.atom.ExTable;
 import io.vertx.tp.plugin.excel.atom.ExTenant;
+import io.vertx.tp.plugin.excel.booter.ExBoot;
 import io.vertx.tp.plugin.excel.ranger.ExBound;
 import io.vertx.tp.plugin.excel.ranger.RowBound;
 import io.vertx.up.commune.element.TypeAtom;
@@ -214,7 +215,7 @@ class ExcelHelper {
         }
     }
 
-    void initConnect(final JsonArray connects) {
+    void initConnect(final JsonArray connects, final JsonArray boots) {
         /* JsonArray serialization */
         if (Pool.CONNECTS.isEmpty()) {
             final List<ExConnect> connectList = Ut.deserialize(connects, new TypeReference<List<ExConnect>>() {
@@ -222,6 +223,16 @@ class ExcelHelper {
             connectList.stream().filter(Objects::nonNull)
                 .filter(connect -> Objects.nonNull(connect.getTable()))
                 .forEach(connect -> Pool.CONNECTS.put(connect.getTable(), connect));
+            /* Boot processing */
+            if (Pool.BOOTS.isEmpty()) {
+                Ut.itJArray(boots).forEach(json -> {
+                    final Class<?> bootCls = Ut.clazz(json.getString("executor"), null);
+                    if (Objects.nonNull(bootCls)) {
+                        final ExBoot boot = Fn.pool(Pool.BOOTS, bootCls, () -> Ut.instance(bootCls));
+                        Pool.CONNECTS.putAll(boot.configure());
+                    }
+                });
+            }
         }
     }
 
