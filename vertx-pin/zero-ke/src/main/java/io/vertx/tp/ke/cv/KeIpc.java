@@ -17,6 +17,8 @@ public interface KeIpc {
         String PSI = "psi";
         // zero-fm
         String FM = "fm";
+        // zero-ui
+        String UI = "ui";
     }
 
     /*
