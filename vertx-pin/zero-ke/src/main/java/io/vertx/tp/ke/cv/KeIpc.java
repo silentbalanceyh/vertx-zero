@@ -11,6 +11,12 @@ public interface KeIpc {
         String AMBIENT = "ambient";
         // zero-rbac
         String RBAC = "rbac";
+        // zero-erp
+        String ERP = "erp";
+        // zero-psi
+        String PSI = "psi";
+        // zero-fm
+        String FM = "fm";
     }
 
     /*
