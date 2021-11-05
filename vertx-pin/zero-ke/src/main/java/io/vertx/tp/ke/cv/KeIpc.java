@@ -19,6 +19,8 @@ public interface KeIpc {
         String FM = "fm";
         // zero-ui
         String UI = "ui";
+        // zero-jet
+        String JET = "jet";
     }
 
     /*

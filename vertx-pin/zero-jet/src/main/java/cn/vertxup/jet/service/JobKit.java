@@ -26,21 +26,29 @@ public class JobKit {
      * private static final List<Mission> MISSION_LIST = JobPool.get();
      */
     static Future<JsonArray> fetchMission(final Set<String> codes) {
-        return CLIENT.fetchAsync(codes).compose(missionList -> {
-            final JsonArray response = new JsonArray();
-            missionList.forEach(item -> response.add(JobKit.toJson(item)));
-            return Ux.future(response);
-        });
+        if (Objects.isNull(CLIENT)) {
+            return Ux.futureA();
+        } else {
+            return CLIENT.fetchAsync(codes).compose(missionList -> {
+                final JsonArray response = new JsonArray();
+                missionList.forEach(item -> response.add(JobKit.toJson(item)));
+                return Ux.future(response);
+            });
+        }
     }
 
     static Future<JsonObject> fetchMission(final String code) {
-        return CLIENT.fetchAsync(code).compose(found -> {
-            if (Objects.isNull(found)) {
-                return Ux.future(new JsonObject());
-            } else {
-                return Ux.future(toJson(found));
-            }
-        });
+        if (Objects.isNull(CLIENT)) {
+            return Ux.futureJ();
+        } else {
+            return CLIENT.fetchAsync(code).compose(found -> {
+                if (Objects.isNull(found)) {
+                    return Ux.future(new JsonObject());
+                } else {
+                    return Ux.future(toJson(found));
+                }
+            });
+        }
     }
 
     public static IService fromJson(final JsonObject serviceJson) {
