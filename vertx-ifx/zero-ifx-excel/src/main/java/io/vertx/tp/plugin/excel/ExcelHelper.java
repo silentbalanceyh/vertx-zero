@@ -18,6 +18,8 @@ import io.vertx.up.eon.KName;
 import io.vertx.up.eon.Strings;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
+import io.vertx.up.uca.yaml.Node;
+import io.vertx.up.uca.yaml.ZeroUniform;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
@@ -215,7 +217,7 @@ class ExcelHelper {
         }
     }
 
-    void initConnect(final JsonArray connects, final JsonArray boots) {
+    void initConnect(final JsonArray connects) {
         /* JsonArray serialization */
         if (Pool.CONNECTS.isEmpty()) {
             final List<ExConnect> connectList = Ut.deserialize(connects, new TypeReference<List<ExConnect>>() {
@@ -223,16 +225,23 @@ class ExcelHelper {
             connectList.stream().filter(Objects::nonNull)
                 .filter(connect -> Objects.nonNull(connect.getTable()))
                 .forEach(connect -> Pool.CONNECTS.put(connect.getTable(), connect));
-            /* Boot processing */
-            if (Pool.BOOTS.isEmpty()) {
-                Ut.itJArray(boots).forEach(json -> {
-                    final Class<?> bootCls = Ut.clazz(json.getString("executor"), null);
-                    if (Objects.nonNull(bootCls)) {
-                        final ExBoot boot = Fn.pool(Pool.BOOTS, bootCls, () -> Ut.instance(bootCls));
-                        Pool.CONNECTS.putAll(boot.configure());
-                    }
-                });
-            }
+            /* boot */
+            this.initBoot();
+        }
+    }
+
+    private void initBoot() {
+        final Node<JsonObject> node = Ut.singleton(ZeroUniform.class);
+        final JsonArray boots = node.read().getJsonArray("boot", new JsonArray());
+        /* Boot processing */
+        if (Pool.BOOTS.isEmpty()) {
+            Ut.itJArray(boots).forEach(json -> {
+                final Class<?> bootCls = Ut.clazz(json.getString("executor"), null);
+                if (Objects.nonNull(bootCls)) {
+                    final ExBoot boot = Fn.pool(Pool.BOOTS, bootCls, () -> Ut.instance(bootCls));
+                    Pool.CONNECTS.putAll(boot.configure());
+                }
+            });
         }
     }
 

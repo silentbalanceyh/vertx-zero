@@ -1,0 +1,49 @@
+-   dao: cn.vertxup.atom.domain.tables.daos.MModelDao
+    key: key
+    unique:
+    - namespace
+    - identifier
+# 属性表
+-   dao: cn.vertxup.atom.domain.tables.daos.MAttributeDao
+    key: key
+    unique:
+    - name
+    - modelId
+# 关联表
+-   dao: cn.vertxup.atom.domain.tables.daos.MJoinDao
+    unique:
+    - model
+    - namespace
+    - entity
+    - entityKey
+# 实体表
+-   dao: cn.vertxup.atom.domain.tables.daos.MEntityDao
+    key: key
+    unique:
+    - namespace
+    - identifier
+# 字段表
+-   dao: cn.vertxup.atom.domain.tables.daos.MFieldDao
+    key: key
+    unique:
+    - name
+    - entityId
+# 键表
+-   dao: cn.vertxup.atom.domain.tables.daos.MKeyDao
+    key: key
+    unique:
+    - name
+    - entityId
+# 索引表
+-   dao: cn.vertxup.atom.domain.tables.daos.MIndexDao
+    key: key
+    unique:
+    - name
+    - entityId
+# 模型表
+-   dao: cn.vertxup.atom.domain.tables.daos.MRelationDao
+    key: key
+    unique:
+    - type
+    - upstream
+    - downstream

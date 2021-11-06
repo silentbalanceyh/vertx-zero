@@ -22,7 +22,7 @@ public class JsonValue implements ExValue {
             if (Ut.notNil(path)) {
                 final String content = Ut.ioString(path.trim());
                 if (Ut.notNil(content)) {
-                    LOGGER.info("[ Έξοδος ] File = {0}, Json Value captured `{1}`",
+                    LOGGER.info("[ Έξοδος ] （ExJson）File = {0}, Json Value captured `{1}`",
                         path, content);
                     if (Ut.isJArray(content)) {
                         final JsonArray normalized = Ut.toJArray(content);

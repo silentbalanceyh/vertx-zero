@@ -23,6 +23,8 @@ public interface KeIpc {
         String JET = "jet";
         // zero-graphic
         String G = "graphic";
+        // zero-atom
+        String ATOM = "atom";
     }
 
     /*
