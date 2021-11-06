@@ -57,14 +57,13 @@ class ExcelHelper {
         return Ux.thenCombineArray(futures);
     }
 
-    Future<JsonArray> extract(final ExTable table) {
-        /* Records extracting */
-        final List<ExRecord> records = table.get();
-        /* Pojo Processing */
-        final JsonArray dataArray = new JsonArray();
-        records.stream().filter(Objects::nonNull)
-            .map(ExRecord::toJson)
-            .forEach(dataArray::add);
+    /*
+     * {
+     *      "source",
+     *      "mapping"
+     * }
+     */
+    private Future<JsonArray> extractDynamic(final JsonArray dataArray, final String name) {
         /* Source Processing */
         if (Objects.isNull(this.tenant)) {
             return Ux.future(dataArray);
@@ -73,16 +72,13 @@ class ExcelHelper {
             Ut.itJArray(dataArray)
                 .forEach(json -> json.mergeIn(this.tenant.valueDefault(), true));
             // Extract Mapping
-            final ConcurrentMap<String, String> first = this.tenant.mapping(table.getName());
+            final ConcurrentMap<String, String> first = this.tenant.dictionaryDefinition(name);
             if (first.isEmpty()) {
                 return Ux.future(dataArray);
             } else {
                 // Directory
                 return this.tenant.dictionary().compose(dataMap -> {
-                    if (dataMap.isEmpty()) {
-                        // No Data Mapping
-                        return Ux.future(dataArray);
-                    } else {
+                    if (!dataMap.isEmpty()) {
                         /*
                          * mapping
                          * field = name
@@ -103,11 +99,46 @@ class ExcelHelper {
                                 json.put(key, toValue);
                             }
                         }));
-                        return Ux.future(dataArray);
                     }
+                    return Ux.future(dataArray);
                 });
             }
         }
+    }
+
+    /*
+     * static
+     * {
+     *      "dictionary"
+     * }
+     */
+    private JsonArray extractStatic(final JsonArray dataArray, final String name) {
+        final ConcurrentMap<String, ConcurrentMap<String, String>> tree = this.tenant.tree(name);
+        if (!tree.isEmpty()) {
+            tree.forEach((field, map) -> Ut.itJArray(dataArray).forEach(record -> {
+                final String input = record.getString(field);
+                if (map.containsKey(input)) {
+                    final String output = map.get(input);
+                    record.put(field, output);
+                }
+            }));
+        }
+        return dataArray;
+    }
+
+    Future<JsonArray> extract(final ExTable table) {
+        /* Records extracting */
+        final List<ExRecord> records = table.get();
+        /* Pojo Processing */
+        JsonArray dataArray = new JsonArray();
+        records.stream().filter(Objects::nonNull)
+            .map(ExRecord::toJson)
+            .forEach(dataArray::add);
+        {
+            /* dictionary for static part */
+            dataArray = this.extractStatic(dataArray, table.getName());
+        }
+        return this.extractDynamic(dataArray, table.getName());
     }
 
     /*

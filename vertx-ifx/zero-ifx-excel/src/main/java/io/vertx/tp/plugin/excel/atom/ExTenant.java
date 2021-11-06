@@ -37,11 +37,24 @@ public class ExTenant implements Serializable {
         return this.tenant.getGlobal();
     }
 
-    public ConcurrentMap<String, String> mapping(final String tableName) {
+    public ConcurrentMap<String, String> dictionaryDefinition(final String tableName) {
         final ConcurrentMap<String, String> map = new ConcurrentHashMap<>();
         if (Objects.nonNull(this.tenant.getMapping())) {
             final JsonObject mappingJson = this.tenant.getMapping().getOrDefault(tableName, new JsonObject());
             Ut.<String>itJObject(mappingJson, (value, field) -> map.put(field, value));
+        }
+        return map;
+    }
+
+    public ConcurrentMap<String, ConcurrentMap<String, String>> tree(final String tableName) {
+        final ConcurrentMap<String, ConcurrentMap<String, String>> map = new ConcurrentHashMap<>();
+        if (Objects.nonNull(this.tenant.getDictionary())) {
+            final JsonObject tableData = this.tenant.getDictionary().getOrDefault(tableName, new JsonObject());
+            Ut.<JsonObject>itJObject(tableData, (data, field) -> {
+                final ConcurrentMap<String, String> combine = new ConcurrentHashMap<>();
+                Ut.<String>itJObject(data, (key, fieldValue) -> combine.put(fieldValue, key));
+                map.put(field, combine);
+            });
         }
         return map;
     }
