@@ -1,4 +1,8 @@
 [
+    "plugin/rbac/oob/data/admin.form.xlsx",
+    "plugin/rbac/oob/data/admin.list.xlsx",
+    "plugin/rbac/oob/data/admin.menu.xlsx",
+    "plugin/rbac/oob/data/admin.op.xlsx",
     "plugin/rbac/oob/data/rbac.account.xlsx",
     "plugin/rbac/oob/data/rbac.menu.xlsx",
     "plugin/rbac/oob/cab/login.index.xlsx",

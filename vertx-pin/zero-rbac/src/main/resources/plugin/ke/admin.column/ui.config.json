@@ -1,0 +1,37 @@
+{
+    "ajax": {
+        "uri": "/api/model/fields/:identifier"
+    },
+    "unsupport": [
+        "key",
+        "language",
+        "globalId",
+        "isDeleted",
+        "lifecycle",
+        "ownerId"
+    ],
+    "vector": {
+        "mod.entity": "b2e14999-aa6d-4be2-8ef8-928414b347fb",
+        "mod.field": "a9480de9-f2df-41f7-8b63-e8cc4ba2c4be",
+        "mod.model": "a6cecf0d-4d5a-4981-bf28-e4acfee56e70",
+        "g.graphic": "9ed998a1-324a-404d-bc1d-fac74f4e823a",
+        "res.company": "dce2e3b8-c14d-4746-bde1-44f6b8edd9a4",
+        "res.customer": "624a2c20-02a9-4c30-9ae3-a2a46eda096a",
+        "res.dept": "caba04ed-c93a-436a-bf8f-df0df39c4168",
+        "res.employee": "7a2c5057-9e19-4c47-b820-3a024c345a5c",
+        "res.identity": "b9c627a1-2cf6-4eb0-9d73-e26feae82b35",
+        "res.team": "0ea32633-e2a5-47c3-8d1e-0835c24c0336",
+        "sec.action": "fc1cfcf8-a8ad-4cb3-b1a9-ebaf56b33f07",
+        "sec.group": "b11474d7-8ad0-4c2a-94ce-ae6bd4593a0d",
+        "sec.permission": "eb55d818-9293-4466-84bf-3d59655675a6",
+        "sec.resource": "a347d5e2-cf7b-43aa-93be-5ffd0fa387b0",
+        "sec.role": "fbc26ced-f495-4091-a14c-0976e3745ce8",
+        "sec.user": "faace475-0802-4200-920b-dfe9d7162601",
+        "ui.form": "7bdea4e1-2145-4d36-beaf-9c204eb6e858",
+        "x.activity": "1e7df764-caa0-4c55-864d-d66b74f6b74e",
+        "x.category": "4368d776-8992-4ee4-bcd0-638960aff190",
+        "x.log": "a50e82f2-966f-4b58-b1e4-47234f8799ba",
+        "x.tabular": "f0dce6aa-8945-4be2-9acd-99935c5552a8",
+        "x.todo": "62f55daa-a3b2-4478-ac05-23f6211469a3"
+    }
+}

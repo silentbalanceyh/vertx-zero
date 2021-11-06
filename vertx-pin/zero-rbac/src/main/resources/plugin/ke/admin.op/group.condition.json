@@ -1,0 +1,9 @@
+{
+    "sigma": "`${sigma}`",
+    "type,i": [
+        "ci.type",
+        "resource.tree"
+    ],
+    "code,<>": "resource.integration",
+    "": true
+}
