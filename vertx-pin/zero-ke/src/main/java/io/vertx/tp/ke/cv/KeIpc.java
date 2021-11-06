@@ -21,6 +21,8 @@ public interface KeIpc {
         String UI = "ui";
         // zero-jet
         String JET = "jet";
+        // zero-graphic
+        String G = "graphic";
     }
 
     /*
