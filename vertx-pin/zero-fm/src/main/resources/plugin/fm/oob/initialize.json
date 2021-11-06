@@ -1,3 +1,9 @@
 [
-    "plugin/fm/oob/data/fm.menu.xlsx"
+    "plugin/fm/oob/data/fm.menu.xlsx",
+    "plugin/fm/oob/cab/fm.book.xlsx",
+    "plugin/fm/oob/cab/fm.subject.xlsx",
+    "plugin/fm/oob/cab/fm.term.xlsx",
+    "plugin/fm/oob/role/ADMIN.SUPER/falcon.fm.book.xlsx",
+    "plugin/fm/oob/role/ADMIN.SUPER/falcon.fm.subject.xlsx",
+    "plugin/fm/oob/role/ADMIN.SUPER/falcon.fm.term.xlsx"
 ]

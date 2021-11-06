@@ -1,4 +1,5 @@
 [
+    "plugin/ui/oob/data/ui.menu.xlsx",
     "plugin/ui/oob/cab/ui.app.xlsx",
     "plugin/ui/oob/cab/epic.form.xlsx",
     "plugin/ui/oob/cab/epic.page.xlsx",

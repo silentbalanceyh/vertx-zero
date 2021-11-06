@@ -25,6 +25,8 @@ public interface KeIpc {
         String G = "graphic";
         // zero-atom
         String ATOM = "atom";
+        // zero-lbs
+        String LBS = "lbs";
     }
 
     /*
