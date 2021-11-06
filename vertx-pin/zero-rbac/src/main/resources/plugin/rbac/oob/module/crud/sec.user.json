@@ -1,0 +1,12 @@
+{
+    "name": "user",
+    "daoCls": "cn.vertxup.rbac.domain.tables.daos.SUserDao",
+    "field": {
+        "unique": [
+            [
+                "username",
+                "sigma"
+            ]
+        ]
+    }
+}

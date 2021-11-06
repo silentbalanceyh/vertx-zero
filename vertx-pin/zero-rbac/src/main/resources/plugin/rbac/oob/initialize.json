@@ -10,6 +10,7 @@
     "plugin/rbac/oob/cab/authority.resource.resource.xlsx",
     "plugin/rbac/oob/cab/authority.role.action.xlsx",
     "plugin/rbac/oob/cab/authority.view.xlsx",
+    "plugin/rbac/oob/role/ADMIN.SUPER/falcon.login.index.xlsx",
     "plugin/rbac/oob/role/ADMIN.SUPER/falcon.view.personal.xlsx",
     "plugin/rbac/oob/role/ADMIN.SUPER/falcon.rbac.group.xlsx",
     "plugin/rbac/oob/role/ADMIN.SUPER/falcon.rbac.role.xlsx",

@@ -1,9 +1,8 @@
 package io.vertx.tp.ke.booter;
 
 import io.vertx.core.Future;
-import io.vertx.tp.plugin.excel.ExcelClient;
+import io.vertx.tp.plugin.booting.KBoot;
 import io.vertx.tp.plugin.excel.ExcelInfix;
-import io.vertx.tp.plugin.excel.booter.ExBoot;
 import io.vertx.tp.plugin.jooq.JooqInfix;
 import io.vertx.tp.plugin.redis.RedisInfix;
 import io.vertx.up.unity.Ux;
@@ -46,8 +45,7 @@ class BtBoot {
     private static Stream<String> ioFiles(final String folder, final String prefix, final boolean oob) {
 
         final List<String> files = Ut.ioFilesN(folder, null, prefix);
-        final ExcelClient client = ExcelInfix.getClient();
-        final Set<ExBoot> boots = client.booting();
+        final Set<KBoot> boots = KBoot.initialize();
         if (!boots.isEmpty() && oob) {
             boots.forEach(boot -> files.addAll(boot.oob()));
         }

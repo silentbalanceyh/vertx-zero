@@ -9,7 +9,6 @@ import io.vertx.core.buffer.Buffer;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.plugin.excel.atom.ExTable;
-import io.vertx.tp.plugin.excel.booter.ExBoot;
 import io.vertx.up.commune.element.TypeAtom;
 import io.vertx.up.plugin.TpClient;
 
@@ -127,6 +126,4 @@ public interface ExcelClient extends TpClient<ExcelClient> {
     Future<JsonArray> extractAsync(final ExTable table);
 
     Future<JsonArray> extractAsync(final Set<ExTable> tables);
-
-    Set<ExBoot> booting();
 }

@@ -1,0 +1,15 @@
+{
+    "name": "company",
+    "daoCls": "cn.vertxup.erp.domain.tables.daos.ECompanyDao",
+    "field": {
+        "numbers": {
+            "code": "NUM.COMPANY"
+        },
+        "unique": [
+            [
+                "code",
+                "sigma"
+            ]
+        ]
+    }
+}

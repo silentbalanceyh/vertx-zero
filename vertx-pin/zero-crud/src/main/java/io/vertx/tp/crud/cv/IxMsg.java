@@ -2,7 +2,7 @@ package io.vertx.tp.crud.cv;
 
 public interface IxMsg {
 
-    String INIT_INFO = "--- file = {0}, key = {1}";
+    String INIT_INFO = "--- identifier = {0} and name = {1}";
 
     String CACHE_KEY_PROJECTION = " Update projection of cacheKey = {0}";
 

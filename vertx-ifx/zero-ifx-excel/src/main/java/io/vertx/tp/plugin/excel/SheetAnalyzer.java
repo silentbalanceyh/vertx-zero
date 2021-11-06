@@ -1,6 +1,6 @@
 package io.vertx.tp.plugin.excel;
 
-import io.vertx.tp.plugin.excel.atom.ExConnect;
+import io.vertx.tp.plugin.booting.KConnect;
 import io.vertx.tp.plugin.excel.atom.ExKey;
 import io.vertx.tp.plugin.excel.atom.ExTable;
 import io.vertx.tp.plugin.excel.ranger.*;
@@ -135,7 +135,7 @@ public class SheetAnalyzer implements Serializable {
             found -> table.setDescription(found.getStringCellValue()));
         /* Calculation */
         if (Objects.nonNull(table.getName()) && Pool.CONNECTS.containsKey(table.getName())) {
-            final ExConnect connect = Pool.CONNECTS.get(table.getName());
+            final KConnect connect = Pool.CONNECTS.get(table.getName());
             if (Objects.nonNull(connect)) {
                 table.setConnect(connect);
             }

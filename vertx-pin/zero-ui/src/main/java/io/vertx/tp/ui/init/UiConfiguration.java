@@ -2,6 +2,7 @@ package io.vertx.tp.ui.init;
 
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
+import io.vertx.tp.plugin.booting.KBoot;
 import io.vertx.tp.ui.atom.UiConfig;
 import io.vertx.tp.ui.cv.UiCv;
 import io.vertx.tp.ui.refine.Ui;
@@ -14,6 +15,7 @@ import io.vertx.up.util.Ut;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
@@ -82,6 +84,22 @@ class UiConfiguration {
                 COLUMN_MAP.put(fileKey, columns);
             }
         });
+        /*
+         * Boot: Secondary founding to pick up default configuration
+         */
+        final Set<KBoot> boots = KBoot.initialize();
+        boots.forEach(boot -> {
+            /*
+             *  Crud Module
+             */
+            final ConcurrentMap<String, JsonArray> modules = boot.column();
+            modules.forEach((moduleKey, columns) -> {
+                if (!COLUMN_MAP.containsKey(moduleKey)) {
+                    COLUMN_MAP.put(moduleKey, columns);
+                }
+            });
+        });
+
         /* Re-Write mapping */
         CONFIG.setMapping(combine);
     }

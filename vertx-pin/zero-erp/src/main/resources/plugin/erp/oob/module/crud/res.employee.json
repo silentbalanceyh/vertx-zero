@@ -1,0 +1,53 @@
+{
+    "name": "employee",
+    "daoCls": "cn.vertxup.erp.domain.tables.daos.EEmployeeDao",
+    "field": {
+        "numbers": {
+            "workNumber": "NUM.EMPLOYEE"
+        },
+        "unique": [
+            [
+                "workNumber",
+                "sigma"
+            ]
+        ]
+    },
+    "transform": {
+        "fabric": {
+            "source": [
+                {
+                    "source": "ASSIST",
+                    "key": "resource.departments",
+                    "component": "io.vertx.tp.optic.dict.DepartmentDict"
+                },
+                {
+                    "source": "ASSIST",
+                    "key": "resource.companys",
+                    "component": "io.vertx.tp.optic.dict.CompanyDict"
+                },
+                {
+                    "source": "ASSIST",
+                    "key": "resource.teams",
+                    "component": "io.vertx.tp.optic.dict.TeamDict"
+                }
+            ],
+            "epsilon": {
+                "deptId": {
+                    "source": "resource.departments",
+                    "in": "name",
+                    "out": "key"
+                },
+                "companyId": {
+                    "source": "resource.companys",
+                    "in": "name",
+                    "out": "key"
+                },
+                "teamId": {
+                    "source": "resource.teams",
+                    "in": "name",
+                    "out": "key"
+                }
+            }
+        }
+    }
+}

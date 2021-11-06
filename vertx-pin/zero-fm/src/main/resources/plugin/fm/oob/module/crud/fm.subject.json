@@ -1,0 +1,23 @@
+{
+    "name": "fm-subject",
+    "daoCls": "cn.vertxup.fm.domain.tables.daos.FSubjectDao",
+    "field": {
+        "numbers": {
+            "serial": "NUM.ACCOUNT.ITEM"
+        },
+        "unique": [
+            [
+                "code",
+                "sigma"
+            ]
+        ]
+    },
+    "transform": {
+        "mapping": {
+            "owner": {
+                "IN": "贷方",
+                "OUT": "借方"
+            }
+        }
+    }
+}

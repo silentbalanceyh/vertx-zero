@@ -1,0 +1,93 @@
+[
+    {
+        "title": "所属公司",
+        "dataIndex": "companyId",
+        "$render": "DATUM",
+        "$datum": {
+            "source": "resource.companys",
+            "value": "key",
+            "display": "name"
+        }
+    },
+    {
+        "title": "上级部门",
+        "dataIndex": "deptId",
+        "$render": "DATUM",
+        "$datum": {
+            "source": "resource.departments",
+            "value": "key",
+            "display": "name"
+        },
+        "$empty": "（无）"
+    },
+    {
+        "title": "部门名称",
+        "dataIndex": "name",
+        "sorter": true,
+        "$filter.type": "SEARCH",
+        "$filter.config": {
+            "placeholder": "输入部门名称",
+            "button": {
+                "search": "搜索",
+                "reset": "重置"
+            }
+        }
+    },
+    {
+        "title": "部门编码",
+        "dataIndex": "code",
+        "sorter": true,
+        "$filter.type": "SEARCH",
+        "$filter.config": {
+            "placeholder": "部门编码",
+            "button": {
+                "search": "搜索",
+                "reset": "重置"
+            }
+        }
+    },
+    {
+        "title": "部门经理",
+        "dataIndex": "managerName",
+        "$empty": "（未设置）"
+    },
+    {
+        "title": "是否启用",
+        "dataIndex": "active",
+        "sorter": true,
+        "$render": "LOGICAL",
+        "$mapping": {
+            "true": "启用",
+            "false": "禁用"
+        },
+        "$filter.config.dataType": "BOOLEAN",
+        "$filter.config.items": [
+            "true,启用",
+            "false,禁用"
+        ],
+        "$filter.config.button": {
+            "yes": "确认",
+            "reset": "重置"
+        },
+        "$filter.config.width": {
+            "radio": 110,
+            "button": 55
+        }
+    },
+    {
+        "title": "创建人",
+        "dataIndex": "createdBy",
+        "$render": "USER",
+        "$config": {
+            "uri": "/api/user/:key",
+            "field": "realname"
+        },
+        "$empty": "（系统）"
+    },
+    {
+        "title": "创建时间",
+        "dataIndex": "createdAt",
+        "$render": "DATE",
+        "$format": "YYYY-MM-DD"
+    }
+]

@@ -10,13 +10,11 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.plugin.excel.atom.ExTable;
 import io.vertx.tp.plugin.excel.atom.ExTenant;
-import io.vertx.tp.plugin.excel.booter.ExBoot;
 import io.vertx.up.commune.element.TypeAtom;
 import io.vertx.up.log.Annal;
 import io.vertx.up.util.Ut;
 
 import java.io.InputStream;
-import java.util.HashSet;
 import java.util.Set;
 
 public class ExcelClientImpl implements ExcelClient {
@@ -39,8 +37,7 @@ public class ExcelClientImpl implements ExcelClient {
     public ExcelClient init(final JsonObject config) {
         final JsonArray mapping = config.getJsonArray(ExcelClient.MAPPING, new JsonArray());
         this.helper.initConnect(mapping);
-        LOGGER.debug("[ Έξοδος ] Configuration finished: {0} with boots: {1}",
-            Pool.CONNECTS.size(), Pool.BOOTS.size());
+        LOGGER.debug("[ Έξοδος ] Configuration finished: {0}", Pool.CONNECTS.size());
         if (config.containsKey(ExcelClient.ENVIRONMENT)) {
             final JsonArray environments = config.getJsonArray(ExcelClient.ENVIRONMENT);
             this.helper.initEnvironment(environments);
@@ -284,10 +281,5 @@ public class ExcelClientImpl implements ExcelClient {
     @Override
     public Future<JsonArray> extractAsync(final Set<ExTable> tables) {
         return this.helper.extract(tables);
-    }
-
-    @Override
-    public Set<ExBoot> booting() {
-        return new HashSet<>(Pool.BOOTS.values());
     }
 }

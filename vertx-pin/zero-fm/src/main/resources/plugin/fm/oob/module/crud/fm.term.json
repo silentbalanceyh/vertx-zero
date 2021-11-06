@@ -1,0 +1,31 @@
+{
+    "name": "fm-term",
+    "daoCls": "cn.vertxup.fm.domain.tables.daos.FPayTermDao",
+    "field": {
+        "unique": [
+            [
+                "code",
+                "sigma"
+            ]
+        ]
+    },
+    "transform": {
+        "fabric": {
+            "source": [
+                {
+                    "source": "TABULAR",
+                    "types": [
+                        "pay.term.type"
+                    ]
+                }
+            ],
+            "epsilon": {
+                "termType": {
+                    "source": "pay.term.type",
+                    "in": "name",
+                    "out": "key"
+                }
+            }
+        }
+    }
+}

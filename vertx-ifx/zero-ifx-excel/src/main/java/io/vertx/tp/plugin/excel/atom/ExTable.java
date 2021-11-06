@@ -3,6 +3,7 @@ package io.vertx.tp.plugin.excel.atom;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.error._404ConnectMissingException;
+import io.vertx.tp.plugin.booting.KConnect;
 import io.vertx.up.eon.Strings;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.util.Ut;
@@ -23,7 +24,7 @@ public class ExTable implements Serializable {
     private final transient ConcurrentMap<Integer, String> indexMap = new ConcurrentHashMap<>();
     private transient String name;
     private transient String description;
-    private transient ExConnect connect;
+    private transient KConnect connect;
 
     public ExTable(final String sheet) {
         this.sheet = sheet;
@@ -172,12 +173,12 @@ public class ExTable implements Serializable {
         return this.fields.size();
     }
 
-    private ExConnect getConnect() {
+    private KConnect getConnect() {
         Fn.outWeb(null == this.connect, _404ConnectMissingException.class, this.getClass(), this.name);
         return this.connect;
     }
 
-    public void setConnect(final ExConnect connect) {
+    public void setConnect(final KConnect connect) {
         this.connect = connect;
     }
 

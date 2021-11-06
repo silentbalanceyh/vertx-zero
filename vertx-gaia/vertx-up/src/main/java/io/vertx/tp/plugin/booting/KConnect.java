@@ -1,4 +1,4 @@
-package io.vertx.tp.plugin.excel.atom;
+package io.vertx.tp.plugin.booting;
 
 import com.fasterxml.jackson.databind.JsonArrayDeserializer;
 import com.fasterxml.jackson.databind.JsonArraySerializer;
@@ -19,7 +19,7 @@ import java.util.Set;
  * Connect configuration data to
  * Dao / Pojo class
  */
-public class ExConnect implements Serializable {
+public class KConnect implements Serializable {
 
     private transient Class<?> dao;
     private transient String pojoFile;

@@ -1,0 +1,17 @@
+{
+    "name": "group",
+    "daoCls": "cn.vertxup.rbac.domain.tables.daos.SGroupDao",
+    "field": {
+        "unique": [
+            [
+                "code",
+                "sigma"
+            ]
+        ]
+    },
+    "transform": {
+        "tree": {
+            "in": "name"
+        }
+    }
+}
