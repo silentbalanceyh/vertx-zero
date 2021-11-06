@@ -3,6 +3,6 @@
     "data": {
         "type": "RECORD",
         "viewId": "`${viewId}`",
-        "identifier": "x-job"
+        "identifier": "sec.role"
     }
 }

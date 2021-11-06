@@ -3,6 +3,6 @@
     "data": {
         "type": "RECORD",
         "viewId": "`${viewId}`",
-        "identifier": "def.model"
+        "identifier": "mod.model"
     }
 }

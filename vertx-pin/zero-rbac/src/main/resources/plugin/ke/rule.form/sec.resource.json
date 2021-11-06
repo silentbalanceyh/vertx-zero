@@ -3,6 +3,6 @@
     "data": {
         "type": "RECORD",
         "viewId": "`${viewId}`",
-        "identifier": "g.graphic"
+        "identifier": "sec.resource"
     }
 }
