@@ -153,7 +153,6 @@
         <error.prone.version>2.10.0</error.prone.version>
         <reactive.streams.version>1.0.3</reactive.streams.version>
         <zookeeper.version>3.7.0</zookeeper.version>
-
         <!-- JSR -->
         <!--
             <jsr311.version>1.1.1</jsr311.version>          Replaced by Jersey-Common
@@ -210,12 +209,76 @@
         <maven.plugin.aspectj>1.14.0</maven.plugin.aspectj>
         <maven.plugin.jcabi>0.14.1</maven.plugin.jcabi>
         <maven.plugin.jar>3.2.0</maven.plugin.jar>
+
+        <!-- Camunda -->
+        <camunda.version>7.16.0</camunda.version>
+        <camunda.spin.version>1.12.0</camunda.spin.version>
+        <camunda.bpm.version>1.2.0</camunda.bpm.version>
+        <java.uuid.generator>4.0.1</java.uuid.generator>
+        <mybatis.version>3.5.7</mybatis.version>
     </properties>
     <prerequisites>
         <maven>3.6.0</maven>
     </prerequisites>
     <dependencyManagement>
         <dependencies>
+            <!-- https://mvnrepository.com/artifact/org.mybatis/mybatis -->
+            <dependency>
+                <groupId>org.mybatis</groupId>
+                <artifactId>mybatis</artifactId>
+                <version>${mybatis.version}</version>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/org.camunda.spin/camunda-spin-dataformat-xml-dom -->
+            <dependency>
+                <groupId>org.camunda.spin</groupId>
+                <artifactId>camunda-spin-dataformat-xml-dom</artifactId>
+                <version>${camunda.spin.version}</version>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/org.camunda.spin/camunda-spin-dataformat-all -->
+            <dependency>
+                <groupId>org.camunda.spin</groupId>
+                <artifactId>camunda-spin-dataformat-all</artifactId>
+                <version>${camunda.spin.version}</version>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/org.camunda.spin/camunda-spin-dataformat-json-jackson -->
+            <dependency>
+                <groupId>org.camunda.spin</groupId>
+                <artifactId>camunda-spin-dataformat-json-jackson</artifactId>
+                <version>${camunda.spin.version}</version>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/org.camunda.spin/camunda-spin-core -->
+            <dependency>
+                <groupId>org.camunda.spin</groupId>
+                <artifactId>camunda-spin-core</artifactId>
+                <version>${camunda.spin.version}</version>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/org.camunda.bpm.extension.xslt/camunda-bpm-xslt -->
+            <dependency>
+                <groupId>org.camunda.bpm.extension.xslt</groupId>
+                <artifactId>camunda-bpm-xslt</artifactId>
+                <version>${camunda.bpm.version}</version>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/com.fasterxml.uuid/java-uuid-generator -->
+            <dependency>
+                <groupId>com.fasterxml.uuid</groupId>
+                <artifactId>java-uuid-generator</artifactId>
+                <version>${java.uuid.generator}</version>
+            </dependency>
+            <!-- Camunda -->
+            <dependency>
+                <groupId>org.camunda.bpm</groupId>
+                <artifactId>camunda-bom</artifactId>
+                <version>${camunda.version}</version>
+                <scope>import</scope>
+                <type>pom</type>
+            </dependency>
+            <dependency>
+                <groupId>org.camunda.bpm.dmn</groupId>
+                <artifactId>camunda-engine-dmn-bom</artifactId>
+                <version>${camunda.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
             <!-- Zero -->
             <dependency>
                 <groupId>cn.vertxup</groupId>
@@ -293,6 +356,24 @@
                 <groupId>io.vertx</groupId>
                 <artifactId>vertx-shell</artifactId>
                 <version>${vertx.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>io.vertx</groupId>
+                        <artifactId>vertx-core</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>io.vertx</groupId>
+                        <artifactId>vertx-web</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.slf4j</groupId>
+                        <artifactId>slf4j-api</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>io.vertx</groupId>
+                        <artifactId>vertx-auth-common</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
             <dependency>
                 <groupId>io.vertx</groupId>
@@ -680,6 +761,12 @@
                 <groupId>mysql</groupId>
                 <artifactId>mysql-connector-java</artifactId>
                 <version>${mysql.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>com.google.protobuf</groupId>
+                        <artifactId>protobuf-java</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
             <!-- https://mvnrepository.com/artifact/org.ow2.asm/asm -->
             <dependency>

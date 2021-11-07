@@ -26,6 +26,12 @@
         <dependency>
             <groupId>io.vertx</groupId>
             <artifactId>vertx-auth-webauthn</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.fasterxml.jackson.dataformat</groupId>
+                    <artifactId>jackson-dataformat-cbor</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <!-- Digest -->
         <dependency>

@@ -94,35 +94,11 @@
             <artifactId>zero-ifx-es</artifactId>
             <version>${project.version}</version>
         </dependency>
-        <!-- Neo4j -->
-        <dependency>
-            <groupId>cn.vertxup</groupId>
-            <artifactId>zero-ifx-neo4j</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <!-- Redis -->
-        <dependency>
-            <groupId>cn.vertxup</groupId>
-            <artifactId>zero-ifx-redis</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <!-- Excel 专用包 -->
-        <dependency>
-            <groupId>cn.vertxup</groupId>
-            <artifactId>zero-ifx-excel</artifactId>
-            <version>${project.version}</version>
-        </dependency>
         <!-- Command 命令行工具 -->
         <dependency>
             <groupId>cn.vertxup</groupId>
             <artifactId>zero-ifx-shell</artifactId>
             <version>${project.version}</version>
         </dependency>
-        <!-- MySQL -->
-        <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-        </dependency>
     </dependencies>
-
 </project>

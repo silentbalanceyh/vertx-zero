@@ -24,16 +24,6 @@
         <dependency>
             <groupId>io.vertx</groupId>
             <artifactId>vertx-shell</artifactId>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.slf4j</groupId>
-                    <artifactId>slf4j-api</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>io.vertx</groupId>
-                    <artifactId>vertx-auth-common</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
     </dependencies>
 </project>
