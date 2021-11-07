@@ -53,6 +53,11 @@
             <artifactId>zero-wf</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <dependency>
+            <groupId>cn.vertxup</groupId>
+            <artifactId>zero-fm</artifactId>
+            <version>${project.version}</version>
+        </dependency>
         <!-- ERP组织架构管理 -->
         <dependency>
             <groupId>cn.vertxup</groupId>
@@ -71,7 +76,12 @@
             <artifactId>zero-graphic</artifactId>
             <version>${project.version}</version>
         </dependency>
-
+        <!-- LBS -->
+        <dependency>
+            <groupId>cn.vertxup</groupId>
+            <artifactId>zero-lbs</artifactId>
+            <version>${project.version}</version>
+        </dependency>
         <!-- History 专用包 -->
         <dependency>
             <groupId>cn.vertxup</groupId>
