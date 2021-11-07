@@ -1,3 +1,5 @@
 [
-    "mod.entity"
+    "mod.entity",
+    "mod.model",
+    "mod.field"
 ]
