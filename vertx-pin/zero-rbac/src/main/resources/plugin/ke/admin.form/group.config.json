@@ -1,0 +1,14 @@
+{
+    "forest": {
+        "root": "resource.tree",
+        "isTree": true,
+        "tree": {
+            "title": "name"
+        }
+    },
+    "vectorField": "identifier",
+    "visitant": {
+        "type": "RECORD",
+        "phase": "EAGER"
+    }
+}

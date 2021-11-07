@@ -1,0 +1,55 @@
+[
+    {
+        "title": "图名称",
+        "dataIndex": "name"
+    },
+    {
+        "title": "图类型",
+        "dataIndex": "type",
+        "$render": "DATUM",
+        "$datum": {
+            "source": "graphic.type",
+            "value": "code",
+            "display": "name"
+        }
+    },
+    {
+        "title": "关联模型",
+        "dataIndex": "modelId",
+        "$render": "DATUM",
+        "$datum": {
+            "source": "data.category",
+            "value": "identifier",
+            "display": "name"
+        }
+    },
+    {
+        "title": "图编码",
+        "dataIndex": "code"
+    },
+    {
+        "title": "图性质",
+        "dataIndex": "active",
+        "$render": "LOGICAL",
+        "$mapping": {
+            "true": "系统图",
+            "false": "用户图"
+        }
+    },
+    {
+        "title": "创建人",
+        "dataIndex": "createdBy",
+        "$render": "USER",
+        "$config": {
+            "uri": "/api/user/:key",
+            "field": "realname"
+        },
+        "$empty": "（系统）"
+    },
+    {
+        "title": "创建时间",
+        "dataIndex": "createdAt",
+        "$render": "DATE",
+        "$format": "YYYY-MM-DD HH:mm"
+    }
+]

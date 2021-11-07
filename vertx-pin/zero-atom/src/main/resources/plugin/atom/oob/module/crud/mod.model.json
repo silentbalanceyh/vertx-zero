@@ -1,0 +1,12 @@
+{
+    "name": "model",
+    "daoCls": "cn.vertxup.atom.domain.tables.daos.MModelDao",
+    "field": {
+        "unique": [
+            [
+                "sigma",
+                "identifier"
+            ]
+        ]
+    }
+}

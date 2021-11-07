@@ -37,13 +37,3 @@ ALTER TABLE L_COUNTRY
     ADD UNIQUE (`CODE`, `SIGMA`);
 ALTER TABLE L_COUNTRY
     ADD UNIQUE (`PHONE_PREFIX`, `SIGMA`);
-
--- changeset Lang:l-country-3
-BEGIN;
-INSERT INTO `L_COUNTRY`
-VALUES ('a292d372-502e-46bc-9faa-077890ee33a7', '中国', 'cn', 'china', '+86', 'CNY', NULL,
-        1, 1, 'ENhwBAJPZuSgIAE5EDakR6yrIQbOoOPq', 'cn', NULL,
-        '2019-06-17 11:04:17', NULL, NULL);
-COMMIT;
-
-SET FOREIGN_KEY_CHECKS = 1;

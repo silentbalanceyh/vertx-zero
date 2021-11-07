@@ -1,0 +1,18 @@
+[
+    "plugin/ambient/oob/data/ambient.dict.xlsx",
+    "plugin/ambient/oob/data/ambient.number.xlsx",
+    "plugin/ambient/oob/data/ambient.menu.xlsx",
+    "plugin/ambient/oob/data/ambient.resource-tree.xlsx",
+    "plugin/ambient/oob/cab/ambient.app.xlsx",
+    "plugin/ambient/oob/cab/system.sync_log.xlsx",
+    "plugin/ambient/oob/cab/system.todo.xlsx",
+    "plugin/ambient/oob/cab/x.activity.xlsx",
+    "plugin/ambient/oob/cab/x.category.xlsx",
+    "plugin/ambient/oob/cab/x.tabular.xlsx",
+    "plugin/ambient/oob/role/ADMIN.SUPER/falcon.app.xlsx",
+    "plugin/ambient/oob/role/ADMIN.SUPER/falcon.system.sync_log.xlsx",
+    "plugin/ambient/oob/role/ADMIN.SUPER/falcon.system.todo.xlsx",
+    "plugin/ambient/oob/role/ADMIN.SUPER/falcon.x.activity.xlsx",
+    "plugin/ambient/oob/role/ADMIN.SUPER/falcon.x.category.xlsx",
+    "plugin/ambient/oob/role/ADMIN.SUPER/falcon.x.tabular.xlsx"
+]

@@ -1,0 +1,15 @@
+{
+    "name": "customer",
+    "daoCls": "cn.vertxup.erp.domain.tables.daos.ECustomerDao",
+    "field": {
+        "numbers": {
+            "code": "NUM.CUSTOMER"
+        },
+        "unique": [
+            [
+                "taxCode",
+                "sigma"
+            ]
+        ]
+    }
+}

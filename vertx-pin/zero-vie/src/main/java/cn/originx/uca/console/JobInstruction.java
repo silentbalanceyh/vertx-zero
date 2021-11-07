@@ -27,7 +27,7 @@ public class JobInstruction extends AbstractInstruction {
          * 重新导入
          */
         final String prefix = this.inString(args, "p");
-        return Bt.impAsync("init/oob/", prefix).compose(done -> {
+        return Bt.loadAsync("init/oob/", prefix).compose(done -> {
             Sl.output("您的任务更新完成，更新结果：{0}", done);
             return Ux.future(done ? TermStatus.SUCCESS : TermStatus.FAILURE);
         });

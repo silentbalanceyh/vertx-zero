@@ -1,0 +1,12 @@
+{
+    "name": "graphic",
+    "daoCls": "cn.vertxup.graphic.domain.tables.daos.GGraphicDao",
+    "field": {
+        "unique": [
+            [
+                "code",
+                "sigma"
+            ]
+        ]
+    }
+}

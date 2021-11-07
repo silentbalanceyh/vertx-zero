@@ -9,6 +9,7 @@ import io.vertx.tp.ke.atom.specification.*;
 import io.vertx.tp.ke.cv.em.DSMode;
 import io.vertx.tp.ke.refine.Ke;
 import io.vertx.tp.optic.DS;
+import io.vertx.tp.plugin.booting.KBoot;
 import io.vertx.up.eon.FileSuffix;
 import io.vertx.up.eon.ID;
 import io.vertx.up.eon.KName;
@@ -22,6 +23,7 @@ import io.vertx.up.util.Ut;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
@@ -51,24 +53,42 @@ class IxDao {
             /* 1.File absolute path under classpath */
             final String path = IxFolder.MODULE + file;
             final JsonObject configDao = Ut.ioJObject(path);
+            final String identifierDefault = file.replace(Strings.DOT + FileSuffix.JSON, Strings.EMPTY);
 
-            Fn.safeNull(() -> {
-                /* 2. Deserialize to IxConfig object */
-                final KModule config = Ut.deserialize(configDao, KModule.class);
-                /* 3. Logger */
-                if (Debugger.isEnabled("curd.dao.file")) {
-                    Ix.Log.init(IxDao.class, IxMsg.INIT_INFO, path, config.getName());
+            Fn.safeNull(() -> addModule(configDao, identifierDefault), configDao);
+        });
+        /*
+         * Boot: Secondary founding to pick up default configuration
+         */
+        final Set<KBoot> boots = KBoot.initialize();
+        boots.forEach(boot -> {
+            /*
+             *  Crud Module
+             */
+            final ConcurrentMap<String, JsonObject> modules = boot.module();
+            modules.forEach((moduleKey, json) -> {
+                if (!CONFIG_MAP.containsKey(moduleKey) && !ALIAS_MAP.containsKey(moduleKey)) {
+                    Fn.safeNull(() -> addModule(json, moduleKey), json);
                 }
-                /* 4. Default Values */
-                final String identifier = initValues(config, file);
-                /* 5. Url & Map */
-                IxConfiguration.addUrs(config.getName());
-                CONFIG_MAP.put(config.getName(), config);
-                ALIAS_MAP.put(identifier, config.getName());
-            }, configDao);
+            });
         });
         Ix.Log.init(IxDao.class, "IxDao Finished ! Size = {0}, Uris = {0}",
             CONFIG_MAP.size(), IxConfiguration.getUris().size());
+    }
+
+    private static void addModule(final JsonObject data, final String identifierDefault) {
+        /* 2. Deserialize to IxConfig object */
+        final KModule config = Ut.deserialize(data, KModule.class);
+        /* 3. Default Values */
+        final String identifier = initValues(config, identifierDefault);
+        /* 4. Url & Map */
+        IxConfiguration.addUrs(config.getName());
+        CONFIG_MAP.put(config.getName(), config);
+        ALIAS_MAP.put(identifier, config.getName());
+        /* 5. Logger */
+        if (Debugger.isEnabled("curd.dao.file")) {
+            Ix.Log.init(IxDao.class, IxMsg.INIT_INFO, identifier, config.getName());
+        }
     }
 
     static KModule get(final String actor) {
@@ -138,9 +158,8 @@ class IxDao {
         }, config);
     }
 
-    private static String initValues(final KModule module, final String file) {
+    private static String initValues(final KModule module, final String identifier) {
         /* Default Column */
-        final String identifier = file.replace(Strings.DOT + FileSuffix.JSON, Strings.EMPTY);
         if (Objects.isNull(module.getColumn())) {
             final KColumn column = new KColumn();
             column.setDynamic(Boolean.FALSE);

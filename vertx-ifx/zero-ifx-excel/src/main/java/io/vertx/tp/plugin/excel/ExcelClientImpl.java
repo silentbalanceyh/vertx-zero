@@ -35,7 +35,7 @@ public class ExcelClientImpl implements ExcelClient {
 
     @Override
     public ExcelClient init(final JsonObject config) {
-        final JsonArray mapping = config.getJsonArray(ExcelClient.MAPPING);
+        final JsonArray mapping = config.getJsonArray(ExcelClient.MAPPING, new JsonArray());
         this.helper.initConnect(mapping);
         LOGGER.debug("[ Έξοδος ] Configuration finished: {0}", Pool.CONNECTS.size());
         if (config.containsKey(ExcelClient.ENVIRONMENT)) {

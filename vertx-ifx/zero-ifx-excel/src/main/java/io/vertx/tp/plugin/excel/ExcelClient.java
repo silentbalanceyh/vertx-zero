@@ -25,6 +25,7 @@ public interface ExcelClient extends TpClient<ExcelClient> {
     String ENVIRONMENT = "environment";
     String PEN = "pen";
     String TENANT = "tenant";
+    String BOOT = "boot";
 
     static ExcelClient createShared(final Vertx vertx, final JsonObject config) {
         return new ExcelClientImpl(vertx, config);

@@ -1,0 +1,35 @@
+{
+    "ajax": {
+        "uri": "/api/model/fields/:identifier"
+    },
+    "unsupport": [
+        "key",
+        "language"
+    ],
+    "vector": {
+        "mod.entity": "4820d58b-d1aa-4a35-bc17-1335417b613a",
+        "mod.field": "e6f6e495-3c24-4523-9582-66ec57a4e9a2",
+        "g.graphic": "52d5c7b8-4178-479f-b2d5-0b376ce55b02",
+        "mod.model": "16cc9eb2-a23d-4ef1-9ea3-105eef12a762",
+        "res.company": "d7b1d07b-c367-4393-b3f4-85fab02950d3",
+        "res.customer": "458c7376-f0f4-4865-b358-d0ed996458f3",
+        "res.dept": "a227a96d-7ab3-4aaa-a90c-8aba422f2e4f",
+        "res.employee": "3bb43a8f-0ae6-4bfa-a3ad-5afec6413760",
+        "res.identity": "8754b31f-30d3-4a77-adac-1ee441f493ce",
+        "res.team": "e0b0405b-e945-4aa5-8fd5-9a4f9cab8fb5",
+        "sec.action": "a443b2ec-92a7-467d-b39c-e8c2e0a9cdbb",
+        "sec.group": "8f63a0df-8a5b-4877-a320-f5d94b04f602",
+        "sec.permission": "5562dc72-c88d-4604-b2dc-d022c0333f49",
+        "sec.resource": "7b447252-c741-448a-8122-f9167d9bb2e7",
+        "sec.role": "70a8371f-4de6-4d5d-a0c0-352caa108d80",
+        "sec.user": "b39307d8-9746-4662-97e4-f2a934f1f7ac",
+        "ui.form": "ad830876-cb2b-41f2-8650-5ddad29fde24",
+        "x.activity": "cedd9a1b-bb27-4074-8830-8418306c0f90",
+        "x.api": "1d90de81-8149-4fb3-b6f9-c85e78384ae2",
+        "x.category": "ddab99e5-5f15-4cbd-a5c1-ccf87b75bf4f",
+        "x.job": "93726f8b-5b21-4f23-b5ac-35d91f75f2d1",
+        "x.log": "346c0546-e9ad-4944-8c36-1a26b88f039b",
+        "x.tabular": "64c883b4-ced2-479b-a144-1d6357f7c70b",
+        "x.todo": "665199f7-77d1-403d-b8db-4c659844f4a8"
+    }
+}

@@ -1,13 +1,9 @@
 package io.vertx.tp.ke.booter;
 
-import io.vertx.core.AsyncResult;
 import io.vertx.core.Future;
-import io.vertx.core.Handler;
-import io.vertx.tp.plugin.excel.atom.ExTable;
+import io.vertx.up.eon.Strings;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.unity.UxTimer;
-
-import java.util.Set;
 
 /*
  * Split booter for some divide application of tool
@@ -16,28 +12,61 @@ import java.util.Set;
 public class Bt {
 
     /*
-     * doImport
-     * doImport: with prefix to do filter
      */
-    public static void doImports(final String folder) {
+    public static void load(final String folder) {
         final UxTimer timer = Ux.Timer.on().start(System.currentTimeMillis());
-        BtLoader.impAsync(folder).onComplete(BtLoader.handlerComplete(folder, null, timer));
+        BtLoader.loadAsync(folder).onComplete(BtKit.complete(folder, null, timer));
     }
 
-    public static Future<Boolean> impAsync(final String folder) {
-        return BtLoader.impAsync(folder);
-    }
-
-    public static Future<Boolean> impAsync(final String folder, final String prefix) {
-        return BtLoader.impAsync(folder, prefix);
-    }
-
-    public static void doImports(final String folder, final String prefix) {
+    public static void load(final String folder, final String prefix) {
         final UxTimer timer = Ux.Timer.on().start(System.currentTimeMillis());
-        BtLoader.impAsync(folder, prefix).onComplete(BtLoader.handlerComplete(folder, prefix, timer));
+        BtLoader.loadAsync(folder, prefix).onComplete(BtKit.complete(folder, prefix, timer));
     }
 
-    public static void ingestExcels(final String folder, final Handler<AsyncResult<Set<ExTable>>> callback) {
-        BtLoader.doIngests(folder, callback);
+    public static Future<Boolean> loadAsync(final String folder) {
+        return BtLoader.loadAsync(folder);
+    }
+
+    public static Future<Boolean> loadAsync(final String folder, final String prefix) {
+        return BtLoader.loadAsync(folder, prefix);
+    }
+
+    public static void init(final String folder) {
+        final UxTimer timer = Ux.Timer.on().start(System.currentTimeMillis());
+        initAsync(folder).onComplete(BtKit.complete(folder, null, timer));
+    }
+
+    public static void init(final String folder, final boolean isOob) {
+        final UxTimer timer = Ux.Timer.on().start(System.currentTimeMillis());
+        initAsync(folder, isOob).onComplete(BtKit.complete(folder, null, timer));
+    }
+
+    public static void init(final String folder, final String prefix) {
+        final UxTimer timer = Ux.Timer.on().start(System.currentTimeMillis());
+        initAsync(folder, prefix).onComplete(BtKit.complete(folder, null, timer));
+    }
+
+    public static void init(final String folder, final String prefix, final boolean isOob) {
+        final UxTimer timer = Ux.Timer.on().start(System.currentTimeMillis());
+        initAsync(folder, prefix, isOob).onComplete(BtKit.complete(folder, null, timer));
+    }
+
+    /*
+     * Data Loading Entry of Main
+     */
+    public static Future<Boolean> initAsync(final String folder) {
+        return BtBoot.initAsync(folder, Strings.EMPTY, Boolean.TRUE);
+    }
+
+    public static Future<Boolean> initAsync(final String folder, final boolean isOob) {
+        return BtBoot.initAsync(folder, Strings.EMPTY, isOob);
+    }
+
+    public static Future<Boolean> initAsync(final String folder, final String prefix) {
+        return BtBoot.initAsync(folder, prefix, Boolean.TRUE);
+    }
+
+    public static Future<Boolean> initAsync(final String folder, final String prefix, final boolean isOob) {
+        return BtBoot.initAsync(folder, prefix, isOob);
     }
 }

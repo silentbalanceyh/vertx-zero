@@ -1,0 +1,10 @@
+-   dao: cn.vertxup.graphic.domain.tables.daos.GGraphicDao   # G_Graphic
+    key: key
+    unique:
+    - sigma
+    - code
+-   dao: cn.vertxup.graphic.domain.tables.daos.GClusterDao   # G_Cluster
+    key: key
+    unique:
+    - name
+    - graphicId

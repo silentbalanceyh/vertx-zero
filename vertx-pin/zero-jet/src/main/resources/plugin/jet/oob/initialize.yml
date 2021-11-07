@@ -1,0 +1,18 @@
+-   dao: cn.vertxup.jet.domain.tables.daos.IApiDao
+    key: key
+    unique:
+    - uri
+    - method
+    - sigma
+# Api Configuration
+-   dao: cn.vertxup.jet.domain.tables.daos.IServiceDao
+    key: key
+    unique:
+    - name
+    - namespace
+# Task 任务专用表
+-   dao: cn.vertxup.jet.domain.tables.daos.IJobDao
+    key: key
+    unique:
+    - name
+    - namespace

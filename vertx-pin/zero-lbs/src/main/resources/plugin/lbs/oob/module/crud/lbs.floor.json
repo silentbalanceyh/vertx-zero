@@ -1,0 +1,12 @@
+{
+    "name": "floor",
+    "daoCls": "cn.vertxup.lbs.domain.tables.daos.LFloorDao",
+    "field": {
+        "unique": [
+            [
+                "code",
+                "sigma"
+            ]
+        ]
+    }
+}

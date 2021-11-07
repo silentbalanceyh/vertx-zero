@@ -1,0 +1,70 @@
+[
+    {
+        "title": "分类",
+        "dataIndex": "type",
+        "sorter": true
+    },
+    {
+        "metadata": "level,级别,MAPPING",
+        "sorter": true,
+        "$mapping": {
+            "INFO": "信息,info-circle,16,#6495ED",
+            "WARN": "警告,warning,16,#EEB422",
+            "ERROR": "错误,issues-close,16,#EE2C2C"
+        }
+    },
+    {
+        "title": "详细内容",
+        "dataIndex": "infoReadable",
+        "$render": "TEXT",
+        "width": 320
+    },
+    {
+        "title": "错误堆栈",
+        "dataIndex": "infoStack",
+        "$render": "TEXT",
+        "width": 320
+    },
+    {
+        "title": "记录时间",
+        "dataIndex": "infoAt",
+        "sorter": true,
+        "$render": "DATE",
+        "$format": "YYYY-MM-DD HH:mm:ss"
+    },
+    {
+        "title": "记录人",
+        "dataIndex": "logUser",
+        "$render": "USER",
+        "$config": {
+            "uri": "/api/user/:key",
+            "field": "realname"
+        },
+        "$empty": "（系统）"
+    },
+    {
+        "title": "记录的Agent",
+        "dataIndex": "logAgent",
+        "width": 320
+    },
+    {
+        "title": "系统信息",
+        "dataIndex": "infoSystem"
+    },
+    {
+        "title": "创建人",
+        "dataIndex": "createdBy",
+        "$render": "USER",
+        "$config": {
+            "uri": "/api/user/:key",
+            "field": "realname"
+        },
+        "$empty": "（系统）"
+    },
+    {
+        "title": "创建时间",
+        "dataIndex": "createdAt",
+        "$render": "DATE",
+        "$format": "YYYY-MM-DD"
+    }
+]

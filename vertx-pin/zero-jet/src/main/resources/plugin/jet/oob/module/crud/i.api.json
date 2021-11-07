@@ -1,0 +1,13 @@
+{
+    "name": "x-api",
+    "daoCls": "cn.vertxup.jet.domain.tables.daos.IApiDao",
+    "field": {
+        "unique": [
+            [
+                "uri",
+                "method",
+                "sigma"
+            ]
+        ]
+    }
+}

@@ -5,15 +5,28 @@ package io.vertx.tp.ke.cv;
  * It's for communication
  */
 public interface KeIpc {
-    /*
-     * Crud Ipc
-     */
-    interface Ix {
-
-        /* Module Crud */
-        interface Module {
-
-        }
+    /* Module Crud */
+    interface Module {
+        // zero-ambient
+        String AMBIENT = "ambient";
+        // zero-rbac
+        String RBAC = "rbac";
+        // zero-erp
+        String ERP = "erp";
+        // zero-psi
+        String PSI = "psi";
+        // zero-fm
+        String FM = "fm";
+        // zero-ui
+        String UI = "ui";
+        // zero-jet
+        String JET = "jet";
+        // zero-graphic
+        String G = "graphic";
+        // zero-atom
+        String ATOM = "atom";
+        // zero-lbs
+        String LBS = "lbs";
     }
 
     /*
@@ -24,54 +37,5 @@ public interface KeIpc {
         String IPC_TOKEN_VERIFY = "IPC://TOKEN/VERIFY";
         /* Ipc for access token */
         String IPC_TOKEN_ACCESS = "IPC://TOKEN/ACCESS";
-
-        /* Module Crud */
-        interface Module {
-
-        }
-    }
-
-    /*
-     * Ambient Ipc
-     */
-    interface At {
-
-        /* Module Crud */
-        interface Module {
-
-        }
-    }
-
-    /*
-     * Location Service
-     */
-    interface Lb {
-
-        /* Module Crud */
-        interface Module {
-
-        }
-    }
-
-    /*
-     * Ui Ipc
-     */
-    interface Ui {
-
-        /* Module Crud */
-        interface Module {
-
-        }
-    }
-
-    /*
-     * Dynamic Routing ( Ox )
-     */
-    interface Jt {
-
-        /* Module Crud */
-        interface Module {
-
-        }
     }
 }

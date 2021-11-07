@@ -1,0 +1,12 @@
+{
+    "name": "identity",
+    "daoCls": "cn.vertxup.erp.domain.tables.daos.EIdentityDao",
+    "field": {
+        "unique": [
+            [
+                "idcType",
+                "idcNumber"
+            ]
+        ]
+    }
+}

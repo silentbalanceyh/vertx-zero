@@ -1,0 +1,12 @@
+{
+    "name": "role",
+    "daoCls": "cn.vertxup.rbac.domain.tables.daos.SRoleDao",
+    "field": {
+        "unique": [
+            [
+                "code",
+                "sigma"
+            ]
+        ]
+    }
+}

@@ -42,6 +42,15 @@ public class UTenant implements Serializable, Copyable<UTenant> {
     @JsonSerialize(using = JsonObjectSerializer.class)
     @JsonDeserialize(using = JsonObjectDeserializer.class)
     private transient JsonObject integration;
+    private transient ConcurrentMap<String, JsonObject> dictionary = new ConcurrentHashMap<>();
+
+    public ConcurrentMap<String, JsonObject> getDictionary() {
+        return this.dictionary;
+    }
+
+    public void setDictionary(final ConcurrentMap<String, JsonObject> dictionary) {
+        this.dictionary = dictionary;
+    }
 
     public JsonObject getIntegration() {
         return this.integration;

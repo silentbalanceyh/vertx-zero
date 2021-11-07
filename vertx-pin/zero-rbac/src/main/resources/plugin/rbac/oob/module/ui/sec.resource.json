@@ -1,0 +1,35 @@
+[
+    {
+        "title": "资源名称",
+        "dataIndex": "name"
+    },
+    {
+        "title": "资源编码",
+        "dataIndex": "code"
+    },
+    {
+        "title": "资源类型",
+        "dataIndex": "type",
+        "$render": "DATUM",
+        "$datum": {
+            "source": "resource.type",
+            "value": "code",
+            "display": "name"
+        }
+    },
+    {
+        "title": "HTTP方法",
+        "dataIndex": "method",
+        "$render": "MAPPING",
+        "$mapping": {
+            "GET": "GET,download,,#268941",
+            "PUT": "PUT,edit,,#0a7bed",
+            "POST": "POST,plus,,#f6af03",
+            "DELETE": "DELETE,delete,,#e22015"
+        }
+    },
+    {
+        "title": "请求路径",
+        "dataIndex": "uri"
+    }
+]

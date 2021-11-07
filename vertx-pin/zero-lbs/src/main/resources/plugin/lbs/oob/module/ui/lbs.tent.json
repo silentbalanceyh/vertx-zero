@@ -1,0 +1,18 @@
+[
+    "code,楼栋编号,,true",
+    "name,楼栋名称,,true",
+    {
+        "metadata": "active,是否启用,LOGICAL",
+        "$mapping": {
+            "true": "启用",
+            "false": "禁用"
+        }
+    },
+    {
+        "title": "更新时间",
+        "dataIndex": "updatedAt",
+        "sorter": true,
+        "$render": "DATE",
+        "$format": "YYYY-MM-DD HH:mm:ss"
+    }
+]

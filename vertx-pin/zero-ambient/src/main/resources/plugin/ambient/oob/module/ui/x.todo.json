@@ -1,0 +1,45 @@
+[
+    {
+        "title": "单号",
+        "dataIndex": "code",
+        "$render": "HYPERLINK",
+        "$config": {
+            "url": "/system/todo-view?id=:key&status=:status"
+        }
+    },
+    {
+        "title": "标题",
+        "dataIndex": "name",
+        "width": 280,
+        "$render": "HYPERLINK",
+        "$config": {
+            "url": "/system/todo-view?id=:key&status=:status"
+        }
+    },
+    {
+        "title": "类型",
+        "dataIndex": "type",
+        "$render": "MAPPING",
+        "$mapping": {
+            "ADD_CI": "添加,plus,,#458B00",
+            "DELETE_CI": "删除,delete,,#CD0000",
+            "CHANGE_CI": "更新,edit,,#1C86EE"
+        }
+    },
+    {
+        "title": "状态",
+        "dataIndex": "status",
+        "$render": "MAPPING",
+        "$mapping": {
+            "PENDING": "待处理,undo,,#EE3B3B",
+            "FINISHED": "已完成,check-circle,,#698B69",
+            "REJECTED": "被拒绝,redo,,#CD1076"
+        }
+    },
+    {
+        "title": "创建时间",
+        "dataIndex": "createdAt",
+        "$render": "DATE",
+        "$format": "YYYY-MM-DD HH:mm"
+    }
+]
