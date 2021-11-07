@@ -1,11 +1,13 @@
 [
     "plugin/erp/oob/data/erp.menu.xlsx",
+    "plugin/erp/oob/cab/organization.brand.xlsx",
     "plugin/erp/oob/cab/organization.company.xlsx",
     "plugin/erp/oob/cab/organization.customer.xlsx",
     "plugin/erp/oob/cab/organization.dept.team.xlsx",
     "plugin/erp/oob/cab/organization.dept.xlsx",
     "plugin/erp/oob/cab/organization.employee.identity.xlsx",
     "plugin/erp/oob/cab/organization.employee.xlsx",
+    "plugin/erp/oob/role/ADMIN.SUPER/falcon.organization.brand.xlsx",
     "plugin/erp/oob/role/ADMIN.SUPER/falcon.organization.company.xlsx",
     "plugin/erp/oob/role/ADMIN.SUPER/falcon.organization.customer.xlsx",
     "plugin/erp/oob/role/ADMIN.SUPER/falcon.organization.dept.team.xlsx",
