@@ -2,5 +2,6 @@
     "x.category",
     "x.log",
     "x.tabular",
-    "x.todo"
+    "x.todo",
+    "x.integration"
 ]

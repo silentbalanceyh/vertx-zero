@@ -4,14 +4,8 @@
 package cn.vertxup.workflow.domain;
 
 
-import cn.vertxup.workflow.domain.tables.WFlow;
-import cn.vertxup.workflow.domain.tables.WFlowInstance;
-import cn.vertxup.workflow.domain.tables.WMovement;
-import cn.vertxup.workflow.domain.tables.WNode;
-import cn.vertxup.workflow.domain.tables.records.WFlowInstanceRecord;
-import cn.vertxup.workflow.domain.tables.records.WFlowRecord;
-import cn.vertxup.workflow.domain.tables.records.WMovementRecord;
-import cn.vertxup.workflow.domain.tables.records.WNodeRecord;
+import cn.vertxup.workflow.domain.tables.WInstance;
+import cn.vertxup.workflow.domain.tables.records.WInstanceRecord;
 
 import org.jooq.TableField;
 import org.jooq.UniqueKey;
@@ -30,15 +24,7 @@ public class Keys {
     // UNIQUE and PRIMARY KEY definitions
     // -------------------------------------------------------------------------
 
-    public static final UniqueKey<WFlowRecord> KEY_W_FLOW_CODE = Internal.createUniqueKey(WFlow.W_FLOW, DSL.name("KEY_W_FLOW_CODE"), new TableField[] { WFlow.W_FLOW.CODE, WFlow.W_FLOW.SIGMA }, true);
-    public static final UniqueKey<WFlowRecord> KEY_W_FLOW_GRAPHIC_ID = Internal.createUniqueKey(WFlow.W_FLOW, DSL.name("KEY_W_FLOW_GRAPHIC_ID"), new TableField[] { WFlow.W_FLOW.GRAPHIC_ID }, true);
-    public static final UniqueKey<WFlowRecord> KEY_W_FLOW_NAME = Internal.createUniqueKey(WFlow.W_FLOW, DSL.name("KEY_W_FLOW_NAME"), new TableField[] { WFlow.W_FLOW.NAME, WFlow.W_FLOW.SIGMA }, true);
-    public static final UniqueKey<WFlowRecord> KEY_W_FLOW_PRIMARY = Internal.createUniqueKey(WFlow.W_FLOW, DSL.name("KEY_W_FLOW_PRIMARY"), new TableField[] { WFlow.W_FLOW.KEY }, true);
-    public static final UniqueKey<WFlowInstanceRecord> KEY_W_FLOW_INSTANCE_CODE = Internal.createUniqueKey(WFlowInstance.W_FLOW_INSTANCE, DSL.name("KEY_W_FLOW_INSTANCE_CODE"), new TableField[] { WFlowInstance.W_FLOW_INSTANCE.CODE, WFlowInstance.W_FLOW_INSTANCE.SIGMA }, true);
-    public static final UniqueKey<WFlowInstanceRecord> KEY_W_FLOW_INSTANCE_PRIMARY = Internal.createUniqueKey(WFlowInstance.W_FLOW_INSTANCE, DSL.name("KEY_W_FLOW_INSTANCE_PRIMARY"), new TableField[] { WFlowInstance.W_FLOW_INSTANCE.KEY }, true);
-    public static final UniqueKey<WFlowInstanceRecord> KEY_W_FLOW_INSTANCE_SERIAL = Internal.createUniqueKey(WFlowInstance.W_FLOW_INSTANCE, DSL.name("KEY_W_FLOW_INSTANCE_SERIAL"), new TableField[] { WFlowInstance.W_FLOW_INSTANCE.SERIAL, WFlowInstance.W_FLOW_INSTANCE.SIGMA }, true);
-    public static final UniqueKey<WMovementRecord> KEY_W_MOVEMENT_CODE = Internal.createUniqueKey(WMovement.W_MOVEMENT, DSL.name("KEY_W_MOVEMENT_CODE"), new TableField[] { WMovement.W_MOVEMENT.CODE, WMovement.W_MOVEMENT.SIGMA }, true);
-    public static final UniqueKey<WMovementRecord> KEY_W_MOVEMENT_PRIMARY = Internal.createUniqueKey(WMovement.W_MOVEMENT, DSL.name("KEY_W_MOVEMENT_PRIMARY"), new TableField[] { WMovement.W_MOVEMENT.KEY }, true);
-    public static final UniqueKey<WNodeRecord> KEY_W_NODE_CODE = Internal.createUniqueKey(WNode.W_NODE, DSL.name("KEY_W_NODE_CODE"), new TableField[] { WNode.W_NODE.CODE, WNode.W_NODE.SIGMA }, true);
-    public static final UniqueKey<WNodeRecord> KEY_W_NODE_PRIMARY = Internal.createUniqueKey(WNode.W_NODE, DSL.name("KEY_W_NODE_PRIMARY"), new TableField[] { WNode.W_NODE.KEY }, true);
+    public static final UniqueKey<WInstanceRecord> KEY_W_INSTANCE_CODE = Internal.createUniqueKey(WInstance.W_INSTANCE, DSL.name("KEY_W_INSTANCE_CODE"), new TableField[] { WInstance.W_INSTANCE.CODE, WInstance.W_INSTANCE.SIGMA }, true);
+    public static final UniqueKey<WInstanceRecord> KEY_W_INSTANCE_INSTANCE_ID = Internal.createUniqueKey(WInstance.W_INSTANCE, DSL.name("KEY_W_INSTANCE_INSTANCE_ID"), new TableField[] { WInstance.W_INSTANCE.INSTANCE_ID, WInstance.W_INSTANCE.SIGMA }, true);
+    public static final UniqueKey<WInstanceRecord> KEY_W_INSTANCE_PRIMARY = Internal.createUniqueKey(WInstance.W_INSTANCE, DSL.name("KEY_W_INSTANCE_PRIMARY"), new TableField[] { WInstance.W_INSTANCE.KEY }, true);
 }

@@ -28,6 +28,7 @@ public class XTabular implements VertxPojo, IXTabular {
     private Integer       sort;
     private String        comment;
     private String        appId;
+    private String        runComponent;
     private Boolean       active;
     private String        sigma;
     private String        metadata;
@@ -48,6 +49,7 @@ public class XTabular implements VertxPojo, IXTabular {
         this.sort = value.getSort();
         this.comment = value.getComment();
         this.appId = value.getAppId();
+        this.runComponent = value.getRunComponent();
         this.active = value.getActive();
         this.sigma = value.getSigma();
         this.metadata = value.getMetadata();
@@ -67,6 +69,7 @@ public class XTabular implements VertxPojo, IXTabular {
         Integer       sort,
         String        comment,
         String        appId,
+        String        runComponent,
         Boolean       active,
         String        sigma,
         String        metadata,
@@ -84,6 +87,7 @@ public class XTabular implements VertxPojo, IXTabular {
         this.sort = sort;
         this.comment = comment;
         this.appId = appId;
+        this.runComponent = runComponent;
         this.active = active;
         this.sigma = sigma;
         this.metadata = metadata;
@@ -232,6 +236,25 @@ public class XTabular implements VertxPojo, IXTabular {
     @Override
     public XTabular setAppId(String appId) {
         this.appId = appId;
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.X_TABULAR.RUN_COMPONENT</code>.
+     * 「runComponent」- 执行组件
+     */
+    @Override
+    public String getRunComponent() {
+        return this.runComponent;
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.X_TABULAR.RUN_COMPONENT</code>.
+     * 「runComponent」- 执行组件
+     */
+    @Override
+    public XTabular setRunComponent(String runComponent) {
+        this.runComponent = runComponent;
         return this;
     }
 
@@ -387,6 +410,7 @@ public class XTabular implements VertxPojo, IXTabular {
         sb.append(", ").append(sort);
         sb.append(", ").append(comment);
         sb.append(", ").append(appId);
+        sb.append(", ").append(runComponent);
         sb.append(", ").append(active);
         sb.append(", ").append(sigma);
         sb.append(", ").append(metadata);
@@ -414,6 +438,7 @@ public class XTabular implements VertxPojo, IXTabular {
         setSort(from.getSort());
         setComment(from.getComment());
         setAppId(from.getAppId());
+        setRunComponent(from.getRunComponent());
         setActive(from.getActive());
         setSigma(from.getSigma());
         setMetadata(from.getMetadata());

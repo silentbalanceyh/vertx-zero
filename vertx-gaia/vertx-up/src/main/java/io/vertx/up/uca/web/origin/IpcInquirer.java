@@ -11,7 +11,6 @@ import io.vertx.zero.exception.*;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
-import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
@@ -38,7 +37,6 @@ public class IpcInquirer implements Inquirer<ConcurrentMap<String, Method>> {
         final ConcurrentMap<String, Method> addresses = new ConcurrentHashMap<>();
         Observable.fromIterable(classes)
             .flatMap(clazz -> Observable.fromArray(clazz.getDeclaredMethods()))
-            .filter(Objects::nonNull)
             .filter(method -> method.isAnnotationPresent(Ipc.class))
             .map(this::ensureTarget)
             .map(this::ensureSpec)

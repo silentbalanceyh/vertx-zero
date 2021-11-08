@@ -62,6 +62,11 @@ public class XTabular extends TableImpl<XTabularRecord> {
      */
     public final TableField<XTabularRecord, String> APP_ID = createField(DSL.name("APP_ID"), SQLDataType.VARCHAR(255), this, "「appId」- 关联的应用程序ID");
     /**
+     * The column <code>DB_ETERNAL.X_TABULAR.RUN_COMPONENT</code>.
+     * 「runComponent」- 执行组件
+     */
+    public final TableField<XTabularRecord, String> RUN_COMPONENT = createField(DSL.name("RUN_COMPONENT"), SQLDataType.CLOB, this, "「runComponent」- 执行组件");
+    /**
      * The column <code>DB_ETERNAL.X_TABULAR.ACTIVE</code>. 「active」- 是否启用
      */
     public final TableField<XTabularRecord, Boolean> ACTIVE = createField(DSL.name("ACTIVE"), SQLDataType.BIT, this, "「active」- 是否启用");
@@ -184,11 +189,11 @@ public class XTabular extends TableImpl<XTabularRecord> {
     }
 
     // -------------------------------------------------------------------------
-    // Row16 type methods
+    // Row17 type methods
     // -------------------------------------------------------------------------
 
     @Override
-    public Row16<String, String, String, String, String, Integer, String, String, Boolean, String, String, String, LocalDateTime, String, LocalDateTime, String> fieldsRow() {
-        return (Row16) super.fieldsRow();
+    public Row17<String, String, String, String, String, Integer, String, String, String, Boolean, String, String, String, LocalDateTime, String, LocalDateTime, String> fieldsRow() {
+        return (Row17) super.fieldsRow();
     }
 }

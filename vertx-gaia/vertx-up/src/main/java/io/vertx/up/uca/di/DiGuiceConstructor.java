@@ -13,6 +13,7 @@ import java.util.concurrent.ConcurrentMap;
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
+@SuppressWarnings("all")
 public class DiGuiceConstructor<T extends I, I> implements DiGuice<T, I> {
     private final transient Set<Class<?>> pointers = new HashSet<>();
 

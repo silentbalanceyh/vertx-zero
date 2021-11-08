@@ -12,6 +12,7 @@ import io.vertx.up.util.Ut;
 import java.lang.reflect.Modifier;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
@@ -96,6 +97,11 @@ public class GuiceInquirer implements Inquirer<Injector> {
     }
 
     private boolean isValid(final Class<?> clazz) {
+        // java.lang.NoClassDefFoundError
+        final Class<?> existing = Ut.clazz(clazz.getName(), null);
+        if (Objects.isNull(existing)) {
+            return false;
+        }
         final int modifier = clazz.getModifiers();
         if (!Modifier.isPublic(modifier)) {
             return false;           // Ko Non-Public

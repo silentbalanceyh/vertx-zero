@@ -98,6 +98,18 @@ public interface IXTabular extends VertxPojo, Serializable {
     public String getAppId();
 
     /**
+     * Setter for <code>DB_ETERNAL.X_TABULAR.RUN_COMPONENT</code>.
+     * 「runComponent」- 执行组件
+     */
+    public IXTabular setRunComponent(String value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.X_TABULAR.RUN_COMPONENT</code>.
+     * 「runComponent」- 执行组件
+     */
+    public String getRunComponent();
+
+    /**
      * Setter for <code>DB_ETERNAL.X_TABULAR.ACTIVE</code>. 「active」- 是否启用
      */
     public IXTabular setActive(Boolean value);
@@ -207,6 +219,7 @@ public interface IXTabular extends VertxPojo, Serializable {
                 setOrThrow(this::setSort,json::getInteger,"SORT","java.lang.Integer");
                 setOrThrow(this::setComment,json::getString,"COMMENT","java.lang.String");
                 setOrThrow(this::setAppId,json::getString,"APP_ID","java.lang.String");
+                setOrThrow(this::setRunComponent,json::getString,"RUN_COMPONENT","java.lang.String");
                 setOrThrow(this::setActive,json::getBoolean,"ACTIVE","java.lang.Boolean");
                 setOrThrow(this::setSigma,json::getString,"SIGMA","java.lang.String");
                 setOrThrow(this::setMetadata,json::getString,"METADATA","java.lang.String");
@@ -230,6 +243,7 @@ public interface IXTabular extends VertxPojo, Serializable {
                 json.put("SORT",getSort());
                 json.put("COMMENT",getComment());
                 json.put("APP_ID",getAppId());
+                json.put("RUN_COMPONENT",getRunComponent());
                 json.put("ACTIVE",getActive());
                 json.put("SIGMA",getSigma());
                 json.put("METADATA",getMetadata());

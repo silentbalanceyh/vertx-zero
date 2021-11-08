@@ -28,6 +28,26 @@ public interface IXIntegration extends VertxPojo, Serializable {
     public String getKey();
 
     /**
+     * Setter for <code>DB_ETERNAL.X_INTEGRATION.NAME</code>. 「name」- 集成名称
+     */
+    public IXIntegration setName(String value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.X_INTEGRATION.NAME</code>. 「name」- 集成名称
+     */
+    public String getName();
+
+    /**
+     * Setter for <code>DB_ETERNAL.X_INTEGRATION.TYPE</code>. 「type」- 集成类型
+     */
+    public IXIntegration setType(String value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.X_INTEGRATION.TYPE</code>. 「type」- 集成类型
+     */
+    public String getType();
+
+    /**
      * Setter for <code>DB_ETERNAL.X_INTEGRATION.IP_V4</code>. 「ipV4」- IP v4地址
      */
     public IXIntegration setIpV4(String value);
@@ -58,6 +78,16 @@ public interface IXIntegration extends VertxPojo, Serializable {
      * 主机地址
      */
     public String getHostname();
+
+    /**
+     * Setter for <code>DB_ETERNAL.X_INTEGRATION.PORT</code>. 「port」- 端口号
+     */
+    public IXIntegration setPort(Integer value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.X_INTEGRATION.PORT</code>. 「port」- 端口号
+     */
+    public Integer getPort();
 
     /**
      * Setter for <code>DB_ETERNAL.X_INTEGRATION.PROTOCOL</code>. 「protocol」-
@@ -92,6 +122,52 @@ public interface IXIntegration extends VertxPojo, Serializable {
      * Getter for <code>DB_ETERNAL.X_INTEGRATION.PATH</code>. 「path」- 集成专用根路径
      */
     public String getPath();
+
+    /**
+     * Setter for <code>DB_ETERNAL.X_INTEGRATION.OS_KEY</code>. 「osKey」- 开源专用Key
+     */
+    public IXIntegration setOsKey(String value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.X_INTEGRATION.OS_KEY</code>. 「osKey」- 开源专用Key
+     */
+    public String getOsKey();
+
+    /**
+     * Setter for <code>DB_ETERNAL.X_INTEGRATION.OS_SECRET</code>. 「osSecret」-
+     * 开源专用Secret
+     */
+    public IXIntegration setOsSecret(String value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.X_INTEGRATION.OS_SECRET</code>. 「osSecret」-
+     * 开源专用Secret
+     */
+    public String getOsSecret();
+
+    /**
+     * Setter for <code>DB_ETERNAL.X_INTEGRATION.OS_AUTHORIZE</code>.
+     * 「osAuthorize」- Authorize接口
+     */
+    public IXIntegration setOsAuthorize(String value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.X_INTEGRATION.OS_AUTHORIZE</code>.
+     * 「osAuthorize」- Authorize接口
+     */
+    public String getOsAuthorize();
+
+    /**
+     * Setter for <code>DB_ETERNAL.X_INTEGRATION.OS_TOKEN</code>. 「osToken」-
+     * Token接口
+     */
+    public IXIntegration setOsToken(String value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.X_INTEGRATION.OS_TOKEN</code>. 「osToken」-
+     * Token接口
+     */
+    public String getOsToken();
 
     /**
      * Setter for <code>DB_ETERNAL.X_INTEGRATION.USERNAME</code>. 「username」- 账号
@@ -260,12 +336,19 @@ public interface IXIntegration extends VertxPojo, Serializable {
         @Override
         public default IXIntegration fromJson(io.vertx.core.json.JsonObject json) {
                 setOrThrow(this::setKey,json::getString,"KEY","java.lang.String");
+                setOrThrow(this::setName,json::getString,"NAME","java.lang.String");
+                setOrThrow(this::setType,json::getString,"TYPE","java.lang.String");
                 setOrThrow(this::setIpV4,json::getString,"IP_V4","java.lang.String");
                 setOrThrow(this::setIpV6,json::getString,"IP_V6","java.lang.String");
                 setOrThrow(this::setHostname,json::getString,"HOSTNAME","java.lang.String");
+                setOrThrow(this::setPort,json::getInteger,"PORT","java.lang.Integer");
                 setOrThrow(this::setProtocol,json::getString,"PROTOCOL","java.lang.String");
                 setOrThrow(this::setEndpoint,json::getString,"ENDPOINT","java.lang.String");
                 setOrThrow(this::setPath,json::getString,"PATH","java.lang.String");
+                setOrThrow(this::setOsKey,json::getString,"OS_KEY","java.lang.String");
+                setOrThrow(this::setOsSecret,json::getString,"OS_SECRET","java.lang.String");
+                setOrThrow(this::setOsAuthorize,json::getString,"OS_AUTHORIZE","java.lang.String");
+                setOrThrow(this::setOsToken,json::getString,"OS_TOKEN","java.lang.String");
                 setOrThrow(this::setUsername,json::getString,"USERNAME","java.lang.String");
                 setOrThrow(this::setPassword,json::getString,"PASSWORD","java.lang.String");
                 setOrThrow(this::setPublicKey,json::getString,"PUBLIC_KEY","java.lang.String");
@@ -287,12 +370,19 @@ public interface IXIntegration extends VertxPojo, Serializable {
         public default io.vertx.core.json.JsonObject toJson() {
                 io.vertx.core.json.JsonObject json = new io.vertx.core.json.JsonObject();
                 json.put("KEY",getKey());
+                json.put("NAME",getName());
+                json.put("TYPE",getType());
                 json.put("IP_V4",getIpV4());
                 json.put("IP_V6",getIpV6());
                 json.put("HOSTNAME",getHostname());
+                json.put("PORT",getPort());
                 json.put("PROTOCOL",getProtocol());
                 json.put("ENDPOINT",getEndpoint());
                 json.put("PATH",getPath());
+                json.put("OS_KEY",getOsKey());
+                json.put("OS_SECRET",getOsSecret());
+                json.put("OS_AUTHORIZE",getOsAuthorize());
+                json.put("OS_TOKEN",getOsToken());
                 json.put("USERNAME",getUsername());
                 json.put("PASSWORD",getPassword());
                 json.put("PUBLIC_KEY",getPublicKey());

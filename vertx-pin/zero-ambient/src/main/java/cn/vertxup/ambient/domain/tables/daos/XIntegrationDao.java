@@ -39,6 +39,36 @@ public class XIntegrationDao extends AbstractVertxDAO<XIntegrationRecord, cn.ver
         }
 
         /**
+     * Find records that have <code>NAME IN (values)</code> asynchronously
+     */
+        public Future<List<cn.vertxup.ambient.domain.tables.pojos.XIntegration>> findManyByName(Collection<String> values) {
+                return findManyByCondition(XIntegration.X_INTEGRATION.NAME.in(values));
+        }
+
+        /**
+     * Find records that have <code>NAME IN (values)</code> asynchronously
+     * limited by the given limit
+     */
+        public Future<List<cn.vertxup.ambient.domain.tables.pojos.XIntegration>> findManyByName(Collection<String> values, int limit) {
+                return findManyByCondition(XIntegration.X_INTEGRATION.NAME.in(values),limit);
+        }
+
+        /**
+     * Find records that have <code>TYPE IN (values)</code> asynchronously
+     */
+        public Future<List<cn.vertxup.ambient.domain.tables.pojos.XIntegration>> findManyByType(Collection<String> values) {
+                return findManyByCondition(XIntegration.X_INTEGRATION.TYPE.in(values));
+        }
+
+        /**
+     * Find records that have <code>TYPE IN (values)</code> asynchronously
+     * limited by the given limit
+     */
+        public Future<List<cn.vertxup.ambient.domain.tables.pojos.XIntegration>> findManyByType(Collection<String> values, int limit) {
+                return findManyByCondition(XIntegration.X_INTEGRATION.TYPE.in(values),limit);
+        }
+
+        /**
      * Find records that have <code>IP_V4 IN (values)</code> asynchronously
      */
         public Future<List<cn.vertxup.ambient.domain.tables.pojos.XIntegration>> findManyByIpV4(Collection<String> values) {
@@ -84,6 +114,21 @@ public class XIntegrationDao extends AbstractVertxDAO<XIntegrationRecord, cn.ver
         }
 
         /**
+     * Find records that have <code>PORT IN (values)</code> asynchronously
+     */
+        public Future<List<cn.vertxup.ambient.domain.tables.pojos.XIntegration>> findManyByPort(Collection<Integer> values) {
+                return findManyByCondition(XIntegration.X_INTEGRATION.PORT.in(values));
+        }
+
+        /**
+     * Find records that have <code>PORT IN (values)</code> asynchronously
+     * limited by the given limit
+     */
+        public Future<List<cn.vertxup.ambient.domain.tables.pojos.XIntegration>> findManyByPort(Collection<Integer> values, int limit) {
+                return findManyByCondition(XIntegration.X_INTEGRATION.PORT.in(values),limit);
+        }
+
+        /**
      * Find records that have <code>PROTOCOL IN (values)</code> asynchronously
      */
         public Future<List<cn.vertxup.ambient.domain.tables.pojos.XIntegration>> findManyByProtocol(Collection<String> values) {
@@ -126,6 +171,67 @@ public class XIntegrationDao extends AbstractVertxDAO<XIntegrationRecord, cn.ver
      */
         public Future<List<cn.vertxup.ambient.domain.tables.pojos.XIntegration>> findManyByPath(Collection<String> values, int limit) {
                 return findManyByCondition(XIntegration.X_INTEGRATION.PATH.in(values),limit);
+        }
+
+        /**
+     * Find records that have <code>OS_KEY IN (values)</code> asynchronously
+     */
+        public Future<List<cn.vertxup.ambient.domain.tables.pojos.XIntegration>> findManyByOsKey(Collection<String> values) {
+                return findManyByCondition(XIntegration.X_INTEGRATION.OS_KEY.in(values));
+        }
+
+        /**
+     * Find records that have <code>OS_KEY IN (values)</code> asynchronously
+     * limited by the given limit
+     */
+        public Future<List<cn.vertxup.ambient.domain.tables.pojos.XIntegration>> findManyByOsKey(Collection<String> values, int limit) {
+                return findManyByCondition(XIntegration.X_INTEGRATION.OS_KEY.in(values),limit);
+        }
+
+        /**
+     * Find records that have <code>OS_SECRET IN (values)</code> asynchronously
+     */
+        public Future<List<cn.vertxup.ambient.domain.tables.pojos.XIntegration>> findManyByOsSecret(Collection<String> values) {
+                return findManyByCondition(XIntegration.X_INTEGRATION.OS_SECRET.in(values));
+        }
+
+        /**
+     * Find records that have <code>OS_SECRET IN (values)</code> asynchronously
+     * limited by the given limit
+     */
+        public Future<List<cn.vertxup.ambient.domain.tables.pojos.XIntegration>> findManyByOsSecret(Collection<String> values, int limit) {
+                return findManyByCondition(XIntegration.X_INTEGRATION.OS_SECRET.in(values),limit);
+        }
+
+        /**
+     * Find records that have <code>OS_AUTHORIZE IN (values)</code>
+     * asynchronously
+     */
+        public Future<List<cn.vertxup.ambient.domain.tables.pojos.XIntegration>> findManyByOsAuthorize(Collection<String> values) {
+                return findManyByCondition(XIntegration.X_INTEGRATION.OS_AUTHORIZE.in(values));
+        }
+
+        /**
+     * Find records that have <code>OS_AUTHORIZE IN (values)</code>
+     * asynchronously limited by the given limit
+     */
+        public Future<List<cn.vertxup.ambient.domain.tables.pojos.XIntegration>> findManyByOsAuthorize(Collection<String> values, int limit) {
+                return findManyByCondition(XIntegration.X_INTEGRATION.OS_AUTHORIZE.in(values),limit);
+        }
+
+        /**
+     * Find records that have <code>OS_TOKEN IN (values)</code> asynchronously
+     */
+        public Future<List<cn.vertxup.ambient.domain.tables.pojos.XIntegration>> findManyByOsToken(Collection<String> values) {
+                return findManyByCondition(XIntegration.X_INTEGRATION.OS_TOKEN.in(values));
+        }
+
+        /**
+     * Find records that have <code>OS_TOKEN IN (values)</code> asynchronously
+     * limited by the given limit
+     */
+        public Future<List<cn.vertxup.ambient.domain.tables.pojos.XIntegration>> findManyByOsToken(Collection<String> values, int limit) {
+                return findManyByCondition(XIntegration.X_INTEGRATION.OS_TOKEN.in(values),limit);
         }
 
         /**

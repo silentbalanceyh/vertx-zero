@@ -21,12 +21,19 @@ public class XIntegration implements VertxPojo, IXIntegration {
     private static final long serialVersionUID = 1L;
 
     private String        key;
+    private String        name;
+    private String        type;
     private String        ipV4;
     private String        ipV6;
     private String        hostname;
+    private Integer       port;
     private String        protocol;
     private String        endpoint;
     private String        path;
+    private String        osKey;
+    private String        osSecret;
+    private String        osAuthorize;
+    private String        osToken;
     private String        username;
     private String        password;
     private String        publicKey;
@@ -45,12 +52,19 @@ public class XIntegration implements VertxPojo, IXIntegration {
 
     public XIntegration(IXIntegration value) {
         this.key = value.getKey();
+        this.name = value.getName();
+        this.type = value.getType();
         this.ipV4 = value.getIpV4();
         this.ipV6 = value.getIpV6();
         this.hostname = value.getHostname();
+        this.port = value.getPort();
         this.protocol = value.getProtocol();
         this.endpoint = value.getEndpoint();
         this.path = value.getPath();
+        this.osKey = value.getOsKey();
+        this.osSecret = value.getOsSecret();
+        this.osAuthorize = value.getOsAuthorize();
+        this.osToken = value.getOsToken();
         this.username = value.getUsername();
         this.password = value.getPassword();
         this.publicKey = value.getPublicKey();
@@ -68,12 +82,19 @@ public class XIntegration implements VertxPojo, IXIntegration {
 
     public XIntegration(
         String        key,
+        String        name,
+        String        type,
         String        ipV4,
         String        ipV6,
         String        hostname,
+        Integer       port,
         String        protocol,
         String        endpoint,
         String        path,
+        String        osKey,
+        String        osSecret,
+        String        osAuthorize,
+        String        osToken,
         String        username,
         String        password,
         String        publicKey,
@@ -89,12 +110,19 @@ public class XIntegration implements VertxPojo, IXIntegration {
         String        updatedBy
     ) {
         this.key = key;
+        this.name = name;
+        this.type = type;
         this.ipV4 = ipV4;
         this.ipV6 = ipV6;
         this.hostname = hostname;
+        this.port = port;
         this.protocol = protocol;
         this.endpoint = endpoint;
         this.path = path;
+        this.osKey = osKey;
+        this.osSecret = osSecret;
+        this.osAuthorize = osAuthorize;
+        this.osToken = osToken;
         this.username = username;
         this.password = password;
         this.publicKey = publicKey;
@@ -129,6 +157,40 @@ public class XIntegration implements VertxPojo, IXIntegration {
     @Override
     public XIntegration setKey(String key) {
         this.key = key;
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.X_INTEGRATION.NAME</code>. 「name」- 集成名称
+     */
+    @Override
+    public String getName() {
+        return this.name;
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.X_INTEGRATION.NAME</code>. 「name」- 集成名称
+     */
+    @Override
+    public XIntegration setName(String name) {
+        this.name = name;
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.X_INTEGRATION.TYPE</code>. 「type」- 集成类型
+     */
+    @Override
+    public String getType() {
+        return this.type;
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.X_INTEGRATION.TYPE</code>. 「type」- 集成类型
+     */
+    @Override
+    public XIntegration setType(String type) {
+        this.type = type;
         return this;
     }
 
@@ -186,6 +248,23 @@ public class XIntegration implements VertxPojo, IXIntegration {
     }
 
     /**
+     * Getter for <code>DB_ETERNAL.X_INTEGRATION.PORT</code>. 「port」- 端口号
+     */
+    @Override
+    public Integer getPort() {
+        return this.port;
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.X_INTEGRATION.PORT</code>. 「port」- 端口号
+     */
+    @Override
+    public XIntegration setPort(Integer port) {
+        this.port = port;
+        return this;
+    }
+
+    /**
      * Getter for <code>DB_ETERNAL.X_INTEGRATION.PROTOCOL</code>. 「protocol」-
      * 协议类型：HTTP, HTTPS, FTP
      */
@@ -237,6 +316,80 @@ public class XIntegration implements VertxPojo, IXIntegration {
     @Override
     public XIntegration setPath(String path) {
         this.path = path;
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.X_INTEGRATION.OS_KEY</code>. 「osKey」- 开源专用Key
+     */
+    @Override
+    public String getOsKey() {
+        return this.osKey;
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.X_INTEGRATION.OS_KEY</code>. 「osKey」- 开源专用Key
+     */
+    @Override
+    public XIntegration setOsKey(String osKey) {
+        this.osKey = osKey;
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.X_INTEGRATION.OS_SECRET</code>. 「osSecret」-
+     * 开源专用Secret
+     */
+    @Override
+    public String getOsSecret() {
+        return this.osSecret;
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.X_INTEGRATION.OS_SECRET</code>. 「osSecret」-
+     * 开源专用Secret
+     */
+    @Override
+    public XIntegration setOsSecret(String osSecret) {
+        this.osSecret = osSecret;
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.X_INTEGRATION.OS_AUTHORIZE</code>.
+     * 「osAuthorize」- Authorize接口
+     */
+    @Override
+    public String getOsAuthorize() {
+        return this.osAuthorize;
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.X_INTEGRATION.OS_AUTHORIZE</code>.
+     * 「osAuthorize」- Authorize接口
+     */
+    @Override
+    public XIntegration setOsAuthorize(String osAuthorize) {
+        this.osAuthorize = osAuthorize;
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.X_INTEGRATION.OS_TOKEN</code>. 「osToken」-
+     * Token接口
+     */
+    @Override
+    public String getOsToken() {
+        return this.osToken;
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.X_INTEGRATION.OS_TOKEN</code>. 「osToken」-
+     * Token接口
+     */
+    @Override
+    public XIntegration setOsToken(String osToken) {
+        this.osToken = osToken;
         return this;
     }
 
@@ -484,12 +637,19 @@ public class XIntegration implements VertxPojo, IXIntegration {
         StringBuilder sb = new StringBuilder("XIntegration (");
 
         sb.append(key);
+        sb.append(", ").append(name);
+        sb.append(", ").append(type);
         sb.append(", ").append(ipV4);
         sb.append(", ").append(ipV6);
         sb.append(", ").append(hostname);
+        sb.append(", ").append(port);
         sb.append(", ").append(protocol);
         sb.append(", ").append(endpoint);
         sb.append(", ").append(path);
+        sb.append(", ").append(osKey);
+        sb.append(", ").append(osSecret);
+        sb.append(", ").append(osAuthorize);
+        sb.append(", ").append(osToken);
         sb.append(", ").append(username);
         sb.append(", ").append(password);
         sb.append(", ").append(publicKey);
@@ -515,12 +675,19 @@ public class XIntegration implements VertxPojo, IXIntegration {
     @Override
     public void from(IXIntegration from) {
         setKey(from.getKey());
+        setName(from.getName());
+        setType(from.getType());
         setIpV4(from.getIpV4());
         setIpV6(from.getIpV6());
         setHostname(from.getHostname());
+        setPort(from.getPort());
         setProtocol(from.getProtocol());
         setEndpoint(from.getEndpoint());
         setPath(from.getPath());
+        setOsKey(from.getOsKey());
+        setOsSecret(from.getOsSecret());
+        setOsAuthorize(from.getOsAuthorize());
+        setOsToken(from.getOsToken());
         setUsername(from.getUsername());
         setPassword(from.getPassword());
         setPublicKey(from.getPublicKey());

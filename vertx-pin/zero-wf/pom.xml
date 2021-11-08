@@ -13,6 +13,21 @@
 
     <name>Extension:「zero-wf」Wf - Workflow Engine</name>
     <dependencies>
+        <!-- Camunda -->
+        <dependency>
+            <groupId>org.camunda.bpm</groupId>
+            <artifactId>camunda-engine</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring-beans</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>joda-time</groupId>
+                    <artifactId>joda-time</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
         <!-- Kern -->
         <dependency>
             <groupId>cn.vertxup</groupId>
