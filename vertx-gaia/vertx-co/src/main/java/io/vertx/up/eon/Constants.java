@@ -23,6 +23,8 @@ public interface Constants {
 
     String DEFAULT_FREEDOM = "freedom";
 
+    String DEFAULT_WORKFLOW_SOURCE = "zero.framework";
+
     int DEFAULT_EXPIRED_DATA = 300;
     /**
      * Scanned data to distinguish mode

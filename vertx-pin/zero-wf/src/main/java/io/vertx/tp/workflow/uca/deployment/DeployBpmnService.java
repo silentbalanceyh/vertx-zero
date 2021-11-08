@@ -3,11 +3,13 @@ package io.vertx.tp.workflow.uca.deployment;
 import io.vertx.core.Future;
 import io.vertx.tp.workflow.init.WfPin;
 import io.vertx.tp.workflow.refine.Wf;
+import io.vertx.up.eon.Constants;
 import io.vertx.up.eon.FileSuffix;
 import io.vertx.up.eon.Strings;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 import org.camunda.bpm.engine.ProcessEngine;
+import org.camunda.bpm.engine.RepositoryService;
 import org.camunda.bpm.engine.repository.Deployment;
 import org.camunda.bpm.engine.repository.DeploymentBuilder;
 import org.camunda.bpm.model.bpmn.Bpmn;
@@ -29,9 +31,13 @@ class DeployBpmnService implements DeployStub {
     DeployBpmnService(final String workflow) {
         final ProcessEngine engine = WfPin.engineCamunda();
         // DeploymentBuilder create
-        this.builder = engine.getRepositoryService().createDeployment();
+        final RepositoryService repository = engine.getRepositoryService();
+        this.builder = repository.createDeployment();
         // Set Deployment Name
         this.builder.name(workflow);
+        this.builder.source(Constants.DEFAULT_WORKFLOW_SOURCE);
+        // Avoid duplicated deployment when container started.
+        this.builder.enableDuplicateFiltering(Boolean.TRUE);
         final List<String> files = Ut.ioFiles(workflow);
         final String bpmnFile = files.stream()
             .filter(item -> item.endsWith(Strings.DOT + FileSuffix.BPMN))
@@ -59,7 +65,7 @@ class DeployBpmnService implements DeployStub {
             this.builder.tenantId(this.tenantId);
         }
         return this.formStub.initialize().compose(nil -> {
-            final Deployment deployment = this.builder.deploy();
+            final Deployment deployment = this.builder.deployWithResult();
             Wf.Log.infoDeploy(this.getClass(), "Workflow `{0}（id = {1}）` has been deployed successfully!",
                 deployment.getName(), deployment.getId());
             return Ux.futureT();
