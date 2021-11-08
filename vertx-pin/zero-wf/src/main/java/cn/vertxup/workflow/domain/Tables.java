@@ -4,10 +4,7 @@
 package cn.vertxup.workflow.domain;
 
 
-import cn.vertxup.workflow.domain.tables.WFlow;
-import cn.vertxup.workflow.domain.tables.WFlowInstance;
-import cn.vertxup.workflow.domain.tables.WMovement;
-import cn.vertxup.workflow.domain.tables.WNode;
+import cn.vertxup.workflow.domain.tables.WInstance;
 
 
 /**
@@ -17,22 +14,7 @@ import cn.vertxup.workflow.domain.tables.WNode;
 public class Tables {
 
     /**
-     * The table <code>DB_ETERNAL.W_FLOW</code>.
+     * The table <code>DB_ETERNAL.W_INSTANCE</code>.
      */
-    public static final WFlow W_FLOW = WFlow.W_FLOW;
-
-    /**
-     * The table <code>DB_ETERNAL.W_FLOW_INSTANCE</code>.
-     */
-    public static final WFlowInstance W_FLOW_INSTANCE = WFlowInstance.W_FLOW_INSTANCE;
-
-    /**
-     * The table <code>DB_ETERNAL.W_MOVEMENT</code>.
-     */
-    public static final WMovement W_MOVEMENT = WMovement.W_MOVEMENT;
-
-    /**
-     * The table <code>DB_ETERNAL.W_NODE</code>.
-     */
-    public static final WNode W_NODE = WNode.W_NODE;
+    public static final WInstance W_INSTANCE = WInstance.W_INSTANCE;
 }

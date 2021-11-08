@@ -4,10 +4,7 @@
 package cn.vertxup.workflow.domain;
 
 
-import cn.vertxup.workflow.domain.tables.WFlow;
-import cn.vertxup.workflow.domain.tables.WFlowInstance;
-import cn.vertxup.workflow.domain.tables.WMovement;
-import cn.vertxup.workflow.domain.tables.WNode;
+import cn.vertxup.workflow.domain.tables.WInstance;
 import io.vertx.tp.ke.refine.Ke;
 import org.jooq.Catalog;
 import org.jooq.Table;
@@ -29,24 +26,9 @@ public class Db extends SchemaImpl {
     public static final Db DB_ETERNAL = new Db();
     private static final long serialVersionUID = 1L;
     /**
-     * The table <code>DB_ETERNAL.W_FLOW</code>.
+     * The table <code>DB_ETERNAL.W_INSTANCE</code>.
      */
-    public final WFlow W_FLOW = WFlow.W_FLOW;
-
-    /**
-     * The table <code>DB_ETERNAL.W_FLOW_INSTANCE</code>.
-     */
-    public final WFlowInstance W_FLOW_INSTANCE = WFlowInstance.W_FLOW_INSTANCE;
-
-    /**
-     * The table <code>DB_ETERNAL.W_MOVEMENT</code>.
-     */
-    public final WMovement W_MOVEMENT = WMovement.W_MOVEMENT;
-
-    /**
-     * The table <code>DB_ETERNAL.W_NODE</code>.
-     */
-    public final WNode W_NODE = WNode.W_NODE;
+    public final WInstance W_INSTANCE = WInstance.W_INSTANCE;
 
     /**
      * No further instances allowed
@@ -64,10 +46,7 @@ public class Db extends SchemaImpl {
     @Override
     public final List<Table<?>> getTables() {
         return Arrays.asList(
-            WFlow.W_FLOW,
-            WFlowInstance.W_FLOW_INSTANCE,
-            WMovement.W_MOVEMENT,
-            WNode.W_NODE
+            WInstance.W_INSTANCE
         );
     }
 }
