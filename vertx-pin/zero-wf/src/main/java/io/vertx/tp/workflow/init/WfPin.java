@@ -6,7 +6,9 @@ import io.vertx.tp.ke.refine.Ke;
 import io.vertx.tp.workflow.refine.Wf;
 import io.vertx.tp.workflow.uca.deployment.DeployStub;
 import io.vertx.up.unity.Ux;
-import org.camunda.bpm.engine.ProcessEngine;
+import org.camunda.bpm.engine.RepositoryService;
+import org.camunda.bpm.engine.RuntimeService;
+import org.camunda.bpm.engine.TaskService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,7 +32,15 @@ public class WfPin {
         return Ux.thenCombineT(futures).compose(nil -> Ux.futureT());
     }
 
-    public static ProcessEngine engineCamunda() {
-        return WfConfiguration.camunda();
+    public static RepositoryService camundaRepository() {
+        return WfConfiguration.camunda().getRepositoryService();
+    }
+
+    public static RuntimeService camundaRuntime() {
+        return WfConfiguration.camunda().getRuntimeService();
+    }
+
+    public static TaskService camundaTask() {
+        return WfConfiguration.camunda().getTaskService();
     }
 }

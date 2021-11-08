@@ -8,7 +8,6 @@ import io.vertx.up.eon.FileSuffix;
 import io.vertx.up.eon.Strings;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
-import org.camunda.bpm.engine.ProcessEngine;
 import org.camunda.bpm.engine.RepositoryService;
 import org.camunda.bpm.engine.repository.Deployment;
 import org.camunda.bpm.engine.repository.DeploymentBuilder;
@@ -29,9 +28,8 @@ class DeployBpmnService implements DeployStub {
     private transient String tenantId;
 
     DeployBpmnService(final String workflow) {
-        final ProcessEngine engine = WfPin.engineCamunda();
         // DeploymentBuilder create
-        final RepositoryService repository = engine.getRepositoryService();
+        final RepositoryService repository = WfPin.camundaRepository();
         this.builder = repository.createDeployment();
         // Set Deployment Name
         this.builder.name(workflow);
