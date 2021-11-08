@@ -1,7 +1,7 @@
 [
     "name,名称",
     {
-        "metadata": "type,集成类型,DATUM.true",
+        "metadata": "type,集成类型,DATUM,true",
         "$datum": "source=zero.integration,value=key,display=name",
         "$config": {
             "adorn": {
