@@ -100,16 +100,6 @@ public interface IXTodo extends VertxPojo, Serializable {
     public String getType();
 
     /**
-     * Setter for <code>DB_ETERNAL.X_TODO.EXPIRED_AT</code>. 「expiredAt」- 超时时间
-     */
-    public IXTodo setExpiredAt(LocalDateTime value);
-
-    /**
-     * Getter for <code>DB_ETERNAL.X_TODO.EXPIRED_AT</code>. 「expiredAt」- 超时时间
-     */
-    public LocalDateTime getExpiredAt();
-
-    /**
      * Setter for <code>DB_ETERNAL.X_TODO.MODEL_ID</code>. 「modelId」-
      * 关联的模型identifier，用于描述
      */
@@ -146,6 +136,52 @@ public interface IXTodo extends VertxPojo, Serializable {
     public String getModelCategory();
 
     /**
+     * Setter for <code>DB_ETERNAL.X_TODO.MODEL_FORM</code>. 「modelForm」-
+     * 待办专用的表单关联
+     */
+    public IXTodo setModelForm(String value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.X_TODO.MODEL_FORM</code>. 「modelForm」-
+     * 待办专用的表单关联
+     */
+    public String getModelForm();
+
+    /**
+     * Setter for <code>DB_ETERNAL.X_TODO.MODEL_COMPONENT</code>.
+     * 「modelComponent」- 关联的待办组件记录
+     */
+    public IXTodo setModelComponent(String value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.X_TODO.MODEL_COMPONENT</code>.
+     * 「modelComponent」- 关联的待办组件记录
+     */
+    public String getModelComponent();
+
+    /**
+     * Setter for <code>DB_ETERNAL.X_TODO.INSTANCE</code>. 「instance」- 是否启用工作流？
+     */
+    public IXTodo setInstance(Boolean value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.X_TODO.INSTANCE</code>. 「instance」- 是否启用工作流？
+     */
+    public Boolean getInstance();
+
+    /**
+     * Setter for <code>DB_ETERNAL.X_TODO.TO_GROUP_MODE</code>. 「toGroupMode」-
+     * 部门、业务组、组、角色、地点等
+     */
+    public IXTodo setToGroupMode(String value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.X_TODO.TO_GROUP_MODE</code>. 「toGroupMode」-
+     * 部门、业务组、组、角色、地点等
+     */
+    public String getToGroupMode();
+
+    /**
      * Setter for <code>DB_ETERNAL.X_TODO.TO_GROUP</code>. 「toGroup」- 待办指定组
      */
     public IXTodo setToGroup(String value);
@@ -176,42 +212,6 @@ public interface IXTodo extends VertxPojo, Serializable {
     public String getToRole();
 
     /**
-     * Setter for <code>DB_ETERNAL.X_TODO.ASSIGNED_BY</code>. 「assignedBy」-
-     * 待办指派人
-     */
-    public IXTodo setAssignedBy(String value);
-
-    /**
-     * Getter for <code>DB_ETERNAL.X_TODO.ASSIGNED_BY</code>. 「assignedBy」-
-     * 待办指派人
-     */
-    public String getAssignedBy();
-
-    /**
-     * Setter for <code>DB_ETERNAL.X_TODO.ACCEPTED_BY</code>. 「acceptedBy」-
-     * 待办接收人
-     */
-    public IXTodo setAcceptedBy(String value);
-
-    /**
-     * Getter for <code>DB_ETERNAL.X_TODO.ACCEPTED_BY</code>. 「acceptedBy」-
-     * 待办接收人
-     */
-    public String getAcceptedBy();
-
-    /**
-     * Setter for <code>DB_ETERNAL.X_TODO.FINISHED_BY</code>. 「finishedBy」-
-     * 待办完成人
-     */
-    public IXTodo setFinishedBy(String value);
-
-    /**
-     * Getter for <code>DB_ETERNAL.X_TODO.FINISHED_BY</code>. 「finishedBy」-
-     * 待办完成人
-     */
-    public String getFinishedBy();
-
-    /**
      * Setter for <code>DB_ETERNAL.X_TODO.TRACE_ID</code>. 「traceId」-
      * 同一个流程的待办执行分组
      */
@@ -224,18 +224,6 @@ public interface IXTodo extends VertxPojo, Serializable {
     public String getTraceId();
 
     /**
-     * Setter for <code>DB_ETERNAL.X_TODO.DESCRIPTION</code>. 「description」-
-     * 待办描述
-     */
-    public IXTodo setDescription(String value);
-
-    /**
-     * Getter for <code>DB_ETERNAL.X_TODO.DESCRIPTION</code>. 「description」-
-     * 待办描述
-     */
-    public String getDescription();
-
-    /**
      * Setter for <code>DB_ETERNAL.X_TODO.PARENT_ID</code>. 「parentId」-
      * 待办支持父子集结构，父待办执行时候子待办同样执行
      */
@@ -246,6 +234,18 @@ public interface IXTodo extends VertxPojo, Serializable {
      * 待办支持父子集结构，父待办执行时候子待办同样执行
      */
     public String getParentId();
+
+    /**
+     * Setter for <code>DB_ETERNAL.X_TODO.DESCRIPTION</code>. 「description」-
+     * 待办描述
+     */
+    public IXTodo setDescription(String value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.X_TODO.DESCRIPTION</code>. 「description」-
+     * 待办描述
+     */
+    public String getDescription();
 
     /**
      * Setter for <code>DB_ETERNAL.X_TODO.ACTIVE</code>. 「active」- 是否启用
@@ -286,6 +286,102 @@ public interface IXTodo extends VertxPojo, Serializable {
      * Getter for <code>DB_ETERNAL.X_TODO.LANGUAGE</code>. 「language」- 使用的语言
      */
     public String getLanguage();
+
+    /**
+     * Setter for <code>DB_ETERNAL.X_TODO.OWNER</code>. 「owner」- 拥有者
+     */
+    public IXTodo setOwner(String value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.X_TODO.OWNER</code>. 「owner」- 拥有者
+     */
+    public String getOwner();
+
+    /**
+     * Setter for <code>DB_ETERNAL.X_TODO.SUPERVISOR</code>. 「supervisor」- 监督人
+     */
+    public IXTodo setSupervisor(String value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.X_TODO.SUPERVISOR</code>. 「supervisor」- 监督人
+     */
+    public String getSupervisor();
+
+    /**
+     * Setter for <code>DB_ETERNAL.X_TODO.ASSIGNED_BY</code>. 「assignedBy」-
+     * 待办指派人
+     */
+    public IXTodo setAssignedBy(String value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.X_TODO.ASSIGNED_BY</code>. 「assignedBy」-
+     * 待办指派人
+     */
+    public String getAssignedBy();
+
+    /**
+     * Setter for <code>DB_ETERNAL.X_TODO.ASSIGNED_AT</code>. 「assignedAt」- 指派时间
+     */
+    public IXTodo setAssignedAt(LocalDateTime value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.X_TODO.ASSIGNED_AT</code>. 「assignedAt」- 指派时间
+     */
+    public LocalDateTime getAssignedAt();
+
+    /**
+     * Setter for <code>DB_ETERNAL.X_TODO.ACCEPTED_BY</code>. 「acceptedBy」-
+     * 待办接收人
+     */
+    public IXTodo setAcceptedBy(String value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.X_TODO.ACCEPTED_BY</code>. 「acceptedBy」-
+     * 待办接收人
+     */
+    public String getAcceptedBy();
+
+    /**
+     * Setter for <code>DB_ETERNAL.X_TODO.ACCEPTED_AT</code>. 「acceptedAt」- 接收时间
+     */
+    public IXTodo setAcceptedAt(LocalDateTime value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.X_TODO.ACCEPTED_AT</code>. 「acceptedAt」- 接收时间
+     */
+    public LocalDateTime getAcceptedAt();
+
+    /**
+     * Setter for <code>DB_ETERNAL.X_TODO.FINISHED_BY</code>. 「finishedBy」-
+     * 待办完成人
+     */
+    public IXTodo setFinishedBy(String value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.X_TODO.FINISHED_BY</code>. 「finishedBy」-
+     * 待办完成人
+     */
+    public String getFinishedBy();
+
+    /**
+     * Setter for <code>DB_ETERNAL.X_TODO.FINISHED_AT</code>. 「finishedAt」- 完成时间
+     */
+    public IXTodo setFinishedAt(LocalDateTime value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.X_TODO.FINISHED_AT</code>. 「finishedAt」- 完成时间
+     */
+    public LocalDateTime getFinishedAt();
+
+    /**
+     * Setter for <code>DB_ETERNAL.X_TODO.EXPIRED_AT</code>. 「expiredAt」- 超时时间
+     */
+    public IXTodo setExpiredAt(LocalDateTime value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.X_TODO.EXPIRED_AT</code>. 「expiredAt」- 超时时间
+     */
+    public LocalDateTime getExpiredAt();
 
     /**
      * Setter for <code>DB_ETERNAL.X_TODO.CREATED_AT</code>. 「createdAt」- 创建时间
@@ -353,23 +449,32 @@ public interface IXTodo extends VertxPojo, Serializable {
                 setOrThrow(this::setStatus,json::getString,"STATUS","java.lang.String");
                 setOrThrow(this::setTodoUrl,json::getString,"TODO_URL","java.lang.String");
                 setOrThrow(this::setType,json::getString,"TYPE","java.lang.String");
-                setOrThrow(this::setExpiredAt,key -> {String s = json.getString(key); return s==null?null:java.time.LocalDateTime.parse(s);},"EXPIRED_AT","java.time.LocalDateTime");
                 setOrThrow(this::setModelId,json::getString,"MODEL_ID","java.lang.String");
                 setOrThrow(this::setModelKey,json::getString,"MODEL_KEY","java.lang.String");
                 setOrThrow(this::setModelCategory,json::getString,"MODEL_CATEGORY","java.lang.String");
+                setOrThrow(this::setModelForm,json::getString,"MODEL_FORM","java.lang.String");
+                setOrThrow(this::setModelComponent,json::getString,"MODEL_COMPONENT","java.lang.String");
+                setOrThrow(this::setInstance,json::getBoolean,"INSTANCE","java.lang.Boolean");
+                setOrThrow(this::setToGroupMode,json::getString,"TO_GROUP_MODE","java.lang.String");
                 setOrThrow(this::setToGroup,json::getString,"TO_GROUP","java.lang.String");
                 setOrThrow(this::setToUser,json::getString,"TO_USER","java.lang.String");
                 setOrThrow(this::setToRole,json::getString,"TO_ROLE","java.lang.String");
-                setOrThrow(this::setAssignedBy,json::getString,"ASSIGNED_BY","java.lang.String");
-                setOrThrow(this::setAcceptedBy,json::getString,"ACCEPTED_BY","java.lang.String");
-                setOrThrow(this::setFinishedBy,json::getString,"FINISHED_BY","java.lang.String");
                 setOrThrow(this::setTraceId,json::getString,"TRACE_ID","java.lang.String");
-                setOrThrow(this::setDescription,json::getString,"DESCRIPTION","java.lang.String");
                 setOrThrow(this::setParentId,json::getString,"PARENT_ID","java.lang.String");
+                setOrThrow(this::setDescription,json::getString,"DESCRIPTION","java.lang.String");
                 setOrThrow(this::setActive,json::getBoolean,"ACTIVE","java.lang.Boolean");
                 setOrThrow(this::setSigma,json::getString,"SIGMA","java.lang.String");
                 setOrThrow(this::setMetadata,json::getString,"METADATA","java.lang.String");
                 setOrThrow(this::setLanguage,json::getString,"LANGUAGE","java.lang.String");
+                setOrThrow(this::setOwner,json::getString,"OWNER","java.lang.String");
+                setOrThrow(this::setSupervisor,json::getString,"SUPERVISOR","java.lang.String");
+                setOrThrow(this::setAssignedBy,json::getString,"ASSIGNED_BY","java.lang.String");
+                setOrThrow(this::setAssignedAt,key -> {String s = json.getString(key); return s==null?null:java.time.LocalDateTime.parse(s);},"ASSIGNED_AT","java.time.LocalDateTime");
+                setOrThrow(this::setAcceptedBy,json::getString,"ACCEPTED_BY","java.lang.String");
+                setOrThrow(this::setAcceptedAt,key -> {String s = json.getString(key); return s==null?null:java.time.LocalDateTime.parse(s);},"ACCEPTED_AT","java.time.LocalDateTime");
+                setOrThrow(this::setFinishedBy,json::getString,"FINISHED_BY","java.lang.String");
+                setOrThrow(this::setFinishedAt,key -> {String s = json.getString(key); return s==null?null:java.time.LocalDateTime.parse(s);},"FINISHED_AT","java.time.LocalDateTime");
+                setOrThrow(this::setExpiredAt,key -> {String s = json.getString(key); return s==null?null:java.time.LocalDateTime.parse(s);},"EXPIRED_AT","java.time.LocalDateTime");
                 setOrThrow(this::setCreatedAt,key -> {String s = json.getString(key); return s==null?null:java.time.LocalDateTime.parse(s);},"CREATED_AT","java.time.LocalDateTime");
                 setOrThrow(this::setCreatedBy,json::getString,"CREATED_BY","java.lang.String");
                 setOrThrow(this::setUpdatedAt,key -> {String s = json.getString(key); return s==null?null:java.time.LocalDateTime.parse(s);},"UPDATED_AT","java.time.LocalDateTime");
@@ -389,23 +494,32 @@ public interface IXTodo extends VertxPojo, Serializable {
                 json.put("STATUS",getStatus());
                 json.put("TODO_URL",getTodoUrl());
                 json.put("TYPE",getType());
-                json.put("EXPIRED_AT",getExpiredAt()==null?null:getExpiredAt().toString());
                 json.put("MODEL_ID",getModelId());
                 json.put("MODEL_KEY",getModelKey());
                 json.put("MODEL_CATEGORY",getModelCategory());
+                json.put("MODEL_FORM",getModelForm());
+                json.put("MODEL_COMPONENT",getModelComponent());
+                json.put("INSTANCE",getInstance());
+                json.put("TO_GROUP_MODE",getToGroupMode());
                 json.put("TO_GROUP",getToGroup());
                 json.put("TO_USER",getToUser());
                 json.put("TO_ROLE",getToRole());
-                json.put("ASSIGNED_BY",getAssignedBy());
-                json.put("ACCEPTED_BY",getAcceptedBy());
-                json.put("FINISHED_BY",getFinishedBy());
                 json.put("TRACE_ID",getTraceId());
-                json.put("DESCRIPTION",getDescription());
                 json.put("PARENT_ID",getParentId());
+                json.put("DESCRIPTION",getDescription());
                 json.put("ACTIVE",getActive());
                 json.put("SIGMA",getSigma());
                 json.put("METADATA",getMetadata());
                 json.put("LANGUAGE",getLanguage());
+                json.put("OWNER",getOwner());
+                json.put("SUPERVISOR",getSupervisor());
+                json.put("ASSIGNED_BY",getAssignedBy());
+                json.put("ASSIGNED_AT",getAssignedAt()==null?null:getAssignedAt().toString());
+                json.put("ACCEPTED_BY",getAcceptedBy());
+                json.put("ACCEPTED_AT",getAcceptedAt()==null?null:getAcceptedAt().toString());
+                json.put("FINISHED_BY",getFinishedBy());
+                json.put("FINISHED_AT",getFinishedAt()==null?null:getFinishedAt().toString());
+                json.put("EXPIRED_AT",getExpiredAt()==null?null:getExpiredAt().toString());
                 json.put("CREATED_AT",getCreatedAt()==null?null:getCreatedAt().toString());
                 json.put("CREATED_BY",getCreatedBy());
                 json.put("UPDATED_AT",getUpdatedAt()==null?null:getUpdatedAt().toString());

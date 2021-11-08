@@ -23,7 +23,6 @@ public class WInstance implements VertxPojo, IWInstance {
     private String        key;
     private String        code;
     private String        name;
-    private String        todoId;
     private String        instanceId;
     private String        instanceRootId;
     private String        instanceCaseId;
@@ -46,7 +45,6 @@ public class WInstance implements VertxPojo, IWInstance {
         this.key = value.getKey();
         this.code = value.getCode();
         this.name = value.getName();
-        this.todoId = value.getTodoId();
         this.instanceId = value.getInstanceId();
         this.instanceRootId = value.getInstanceRootId();
         this.instanceCaseId = value.getInstanceCaseId();
@@ -68,7 +66,6 @@ public class WInstance implements VertxPojo, IWInstance {
         String        key,
         String        code,
         String        name,
-        String        todoId,
         String        instanceId,
         String        instanceRootId,
         String        instanceCaseId,
@@ -88,7 +85,6 @@ public class WInstance implements VertxPojo, IWInstance {
         this.key = key;
         this.code = code;
         this.name = name;
-        this.todoId = todoId;
         this.instanceId = instanceId;
         this.instanceRootId = instanceRootId;
         this.instanceCaseId = instanceCaseId;
@@ -159,23 +155,6 @@ public class WInstance implements VertxPojo, IWInstance {
     @Override
     public WInstance setName(String name) {
         this.name = name;
-        return this;
-    }
-
-    /**
-     * Getter for <code>DB_ETERNAL.W_INSTANCE.TODO_ID</code>. 「todoId」- 绑定TodoId
-     */
-    @Override
-    public String getTodoId() {
-        return this.todoId;
-    }
-
-    /**
-     * Setter for <code>DB_ETERNAL.W_INSTANCE.TODO_ID</code>. 「todoId」- 绑定TodoId
-     */
-    @Override
-    public WInstance setTodoId(String todoId) {
-        this.todoId = todoId;
         return this;
     }
 
@@ -461,7 +440,6 @@ public class WInstance implements VertxPojo, IWInstance {
         sb.append(key);
         sb.append(", ").append(code);
         sb.append(", ").append(name);
-        sb.append(", ").append(todoId);
         sb.append(", ").append(instanceId);
         sb.append(", ").append(instanceRootId);
         sb.append(", ").append(instanceCaseId);
@@ -491,7 +469,6 @@ public class WInstance implements VertxPojo, IWInstance {
         setKey(from.getKey());
         setCode(from.getCode());
         setName(from.getName());
-        setTodoId(from.getTodoId());
         setInstanceId(from.getInstanceId());
         setInstanceRootId(from.getInstanceRootId());
         setInstanceCaseId(from.getInstanceCaseId());

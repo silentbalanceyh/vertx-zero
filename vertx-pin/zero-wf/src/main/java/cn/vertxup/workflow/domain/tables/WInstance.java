@@ -41,10 +41,6 @@ public class WInstance extends TableImpl<WInstanceRecord> {
      */
     public final TableField<WInstanceRecord, String> NAME = createField(DSL.name("NAME"), SQLDataType.VARCHAR(255), this, "「name」- 流程标题");
     /**
-     * The column <code>DB_ETERNAL.W_INSTANCE.TODO_ID</code>. 「todoId」- 绑定TodoId
-     */
-    public final TableField<WInstanceRecord, String> TODO_ID = createField(DSL.name("TODO_ID"), SQLDataType.VARCHAR(36), this, "「todoId」- 绑定TodoId");
-    /**
      * The column <code>DB_ETERNAL.W_INSTANCE.INSTANCE_ID</code>. 「instanceId」-
      * 实例ID（查询Task专用）：getProcessInstanceId
      */
@@ -198,11 +194,11 @@ public class WInstance extends TableImpl<WInstanceRecord> {
     }
 
     // -------------------------------------------------------------------------
-    // Row19 type methods
+    // Row18 type methods
     // -------------------------------------------------------------------------
 
     @Override
-    public Row19<String, String, String, String, String, String, String, String, String, String, String, Boolean, String, String, String, LocalDateTime, String, LocalDateTime, String> fieldsRow() {
-        return (Row19) super.fieldsRow();
+    public Row18<String, String, String, String, String, String, String, String, String, String, Boolean, String, String, String, LocalDateTime, String, LocalDateTime, String> fieldsRow() {
+        return (Row18) super.fieldsRow();
     }
 }

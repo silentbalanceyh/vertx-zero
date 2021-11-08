@@ -60,6 +60,18 @@ public interface IXAttachment extends VertxPojo, Serializable {
     public String getModule();
 
     /**
+     * Setter for <code>DB_ETERNAL.X_ATTACHMENT.TYPE</code>. 「type」-
+     * 文件类型，直接关联zero.file.tree类型
+     */
+    public IXAttachment setType(String value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.X_ATTACHMENT.TYPE</code>. 「type」-
+     * 文件类型，直接关联zero.file.tree类型
+     */
+    public String getType();
+
+    /**
      * Setter for <code>DB_ETERNAL.X_ATTACHMENT.MIME</code>. 「mime」- 该文件的MIME类型
      */
     public IXAttachment setMime(String value);
@@ -277,6 +289,7 @@ public interface IXAttachment extends VertxPojo, Serializable {
                 setOrThrow(this::setName,json::getString,"NAME","java.lang.String");
                 setOrThrow(this::setExtension,json::getString,"EXTENSION","java.lang.String");
                 setOrThrow(this::setModule,json::getString,"MODULE","java.lang.String");
+                setOrThrow(this::setType,json::getString,"TYPE","java.lang.String");
                 setOrThrow(this::setMime,json::getString,"MIME","java.lang.String");
                 setOrThrow(this::setSize,json::getInteger,"SIZE","java.lang.Integer");
                 setOrThrow(this::setStatus,json::getString,"STATUS","java.lang.String");
@@ -305,6 +318,7 @@ public interface IXAttachment extends VertxPojo, Serializable {
                 json.put("NAME",getName());
                 json.put("EXTENSION",getExtension());
                 json.put("MODULE",getModule());
+                json.put("TYPE",getType());
                 json.put("MIME",getMime());
                 json.put("SIZE",getSize());
                 json.put("STATUS",getStatus());
