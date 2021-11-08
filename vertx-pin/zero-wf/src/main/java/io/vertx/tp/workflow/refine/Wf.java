@@ -23,6 +23,11 @@ public class Wf {
             WfLog.info(logger, "Deploy", message, args);
         }
 
+        public static void warnDeploy(final Class<?> clazz, final String message, final Object... args) {
+            final Annal logger = Annal.get(clazz);
+            WfLog.warn(logger, "Deploy", message, args);
+        }
+
         public static void debugDeploy(final Class<?> clazz, final String message, final Object... args) {
             final Annal logger = Annal.get(clazz);
             WfLog.debug(logger, "Deploy", message, args);

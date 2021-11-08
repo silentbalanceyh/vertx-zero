@@ -13,6 +13,11 @@ class WfLog {
         logger.info(Log.blue("Ροή εργασίας") + " ( " + flag + " ) " + pattern, args);
     }
 
+    static void warn(final Annal logger,
+                     final String flag, final String pattern, final Object... args) {
+        logger.warn(Log.blue("Ροή εργασίας") + " ( " + flag + " ) " + pattern, args);
+    }
+
     static void debug(final Annal logger,
                       final String flag, final String pattern, final Object... args) {
         logger.debug(Log.blue("Ροή εργασίας") + " ( " + flag + " ) " + pattern, args);
