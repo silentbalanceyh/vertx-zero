@@ -129,12 +129,29 @@ public class XIntegrationRecord extends UpdatableRecordImpl<XIntegrationRecord> 
     }
 
     /**
+     * Setter for <code>DB_ETERNAL.X_INTEGRATION.PORT</code>. 「port」- 端口号
+     */
+    @Override
+    public XIntegrationRecord setPort(Integer value) {
+        set(6, value);
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.X_INTEGRATION.PORT</code>. 「port」- 端口号
+     */
+    @Override
+    public Integer getPort() {
+        return (Integer) get(6);
+    }
+
+    /**
      * Setter for <code>DB_ETERNAL.X_INTEGRATION.PROTOCOL</code>. 「protocol」-
      * 协议类型：HTTP, HTTPS, FTP
      */
     @Override
     public XIntegrationRecord setProtocol(String value) {
-        set(6, value);
+        set(7, value);
         return this;
     }
 
@@ -144,7 +161,7 @@ public class XIntegrationRecord extends UpdatableRecordImpl<XIntegrationRecord> 
      */
     @Override
     public String getProtocol() {
-        return (String) get(6);
+        return (String) get(7);
     }
 
     /**
@@ -153,7 +170,7 @@ public class XIntegrationRecord extends UpdatableRecordImpl<XIntegrationRecord> 
      */
     @Override
     public XIntegrationRecord setEndpoint(String value) {
-        set(7, value);
+        set(8, value);
         return this;
     }
 
@@ -163,7 +180,7 @@ public class XIntegrationRecord extends UpdatableRecordImpl<XIntegrationRecord> 
      */
     @Override
     public String getEndpoint() {
-        return (String) get(7);
+        return (String) get(8);
     }
 
     /**
@@ -171,7 +188,7 @@ public class XIntegrationRecord extends UpdatableRecordImpl<XIntegrationRecord> 
      */
     @Override
     public XIntegrationRecord setPath(String value) {
-        set(8, value);
+        set(9, value);
         return this;
     }
 
@@ -180,7 +197,7 @@ public class XIntegrationRecord extends UpdatableRecordImpl<XIntegrationRecord> 
      */
     @Override
     public String getPath() {
-        return (String) get(8);
+        return (String) get(9);
     }
 
     /**
@@ -188,7 +205,7 @@ public class XIntegrationRecord extends UpdatableRecordImpl<XIntegrationRecord> 
      */
     @Override
     public XIntegrationRecord setOsKey(String value) {
-        set(9, value);
+        set(10, value);
         return this;
     }
 
@@ -197,7 +214,7 @@ public class XIntegrationRecord extends UpdatableRecordImpl<XIntegrationRecord> 
      */
     @Override
     public String getOsKey() {
-        return (String) get(9);
+        return (String) get(10);
     }
 
     /**
@@ -206,7 +223,7 @@ public class XIntegrationRecord extends UpdatableRecordImpl<XIntegrationRecord> 
      */
     @Override
     public XIntegrationRecord setOsSecret(String value) {
-        set(10, value);
+        set(11, value);
         return this;
     }
 
@@ -216,7 +233,7 @@ public class XIntegrationRecord extends UpdatableRecordImpl<XIntegrationRecord> 
      */
     @Override
     public String getOsSecret() {
-        return (String) get(10);
+        return (String) get(11);
     }
 
     /**
@@ -225,7 +242,7 @@ public class XIntegrationRecord extends UpdatableRecordImpl<XIntegrationRecord> 
      */
     @Override
     public XIntegrationRecord setOsAuthorize(String value) {
-        set(11, value);
+        set(12, value);
         return this;
     }
 
@@ -235,7 +252,7 @@ public class XIntegrationRecord extends UpdatableRecordImpl<XIntegrationRecord> 
      */
     @Override
     public String getOsAuthorize() {
-        return (String) get(11);
+        return (String) get(12);
     }
 
     /**
@@ -244,7 +261,7 @@ public class XIntegrationRecord extends UpdatableRecordImpl<XIntegrationRecord> 
      */
     @Override
     public XIntegrationRecord setOsToken(String value) {
-        set(12, value);
+        set(13, value);
         return this;
     }
 
@@ -254,7 +271,7 @@ public class XIntegrationRecord extends UpdatableRecordImpl<XIntegrationRecord> 
      */
     @Override
     public String getOsToken() {
-        return (String) get(12);
+        return (String) get(13);
     }
 
     /**
@@ -262,7 +279,7 @@ public class XIntegrationRecord extends UpdatableRecordImpl<XIntegrationRecord> 
      */
     @Override
     public XIntegrationRecord setUsername(String value) {
-        set(13, value);
+        set(14, value);
         return this;
     }
 
@@ -271,7 +288,7 @@ public class XIntegrationRecord extends UpdatableRecordImpl<XIntegrationRecord> 
      */
     @Override
     public String getUsername() {
-        return (String) get(13);
+        return (String) get(14);
     }
 
     /**
@@ -279,7 +296,7 @@ public class XIntegrationRecord extends UpdatableRecordImpl<XIntegrationRecord> 
      */
     @Override
     public XIntegrationRecord setPassword(String value) {
-        set(14, value);
+        set(15, value);
         return this;
     }
 
@@ -288,7 +305,7 @@ public class XIntegrationRecord extends UpdatableRecordImpl<XIntegrationRecord> 
      */
     @Override
     public String getPassword() {
-        return (String) get(14);
+        return (String) get(15);
     }
 
     /**
@@ -297,7 +314,7 @@ public class XIntegrationRecord extends UpdatableRecordImpl<XIntegrationRecord> 
      */
     @Override
     public XIntegrationRecord setPublicKey(String value) {
-        set(15, value);
+        set(16, value);
         return this;
     }
 
@@ -307,7 +324,7 @@ public class XIntegrationRecord extends UpdatableRecordImpl<XIntegrationRecord> 
      */
     @Override
     public String getPublicKey() {
-        return (String) get(15);
+        return (String) get(16);
     }
 
     /**
@@ -316,7 +333,7 @@ public class XIntegrationRecord extends UpdatableRecordImpl<XIntegrationRecord> 
      */
     @Override
     public XIntegrationRecord setOptions(String value) {
-        set(16, value);
+        set(17, value);
         return this;
     }
 
@@ -326,7 +343,7 @@ public class XIntegrationRecord extends UpdatableRecordImpl<XIntegrationRecord> 
      */
     @Override
     public String getOptions() {
-        return (String) get(16);
+        return (String) get(17);
     }
 
     /**
@@ -335,7 +352,7 @@ public class XIntegrationRecord extends UpdatableRecordImpl<XIntegrationRecord> 
      */
     @Override
     public XIntegrationRecord setAppId(String value) {
-        set(17, value);
+        set(18, value);
         return this;
     }
 
@@ -345,7 +362,7 @@ public class XIntegrationRecord extends UpdatableRecordImpl<XIntegrationRecord> 
      */
     @Override
     public String getAppId() {
-        return (String) get(17);
+        return (String) get(18);
     }
 
     /**
@@ -353,7 +370,7 @@ public class XIntegrationRecord extends UpdatableRecordImpl<XIntegrationRecord> 
      */
     @Override
     public XIntegrationRecord setActive(Boolean value) {
-        set(18, value);
+        set(19, value);
         return this;
     }
 
@@ -362,7 +379,7 @@ public class XIntegrationRecord extends UpdatableRecordImpl<XIntegrationRecord> 
      */
     @Override
     public Boolean getActive() {
-        return (Boolean) get(18);
+        return (Boolean) get(19);
     }
 
     /**
@@ -370,7 +387,7 @@ public class XIntegrationRecord extends UpdatableRecordImpl<XIntegrationRecord> 
      */
     @Override
     public XIntegrationRecord setSigma(String value) {
-        set(19, value);
+        set(20, value);
         return this;
     }
 
@@ -379,7 +396,7 @@ public class XIntegrationRecord extends UpdatableRecordImpl<XIntegrationRecord> 
      */
     @Override
     public String getSigma() {
-        return (String) get(19);
+        return (String) get(20);
     }
 
     /**
@@ -388,7 +405,7 @@ public class XIntegrationRecord extends UpdatableRecordImpl<XIntegrationRecord> 
      */
     @Override
     public XIntegrationRecord setMetadata(String value) {
-        set(20, value);
+        set(21, value);
         return this;
     }
 
@@ -398,7 +415,7 @@ public class XIntegrationRecord extends UpdatableRecordImpl<XIntegrationRecord> 
      */
     @Override
     public String getMetadata() {
-        return (String) get(20);
+        return (String) get(21);
     }
 
     /**
@@ -407,7 +424,7 @@ public class XIntegrationRecord extends UpdatableRecordImpl<XIntegrationRecord> 
      */
     @Override
     public XIntegrationRecord setLanguage(String value) {
-        set(21, value);
+        set(22, value);
         return this;
     }
 
@@ -417,7 +434,7 @@ public class XIntegrationRecord extends UpdatableRecordImpl<XIntegrationRecord> 
      */
     @Override
     public String getLanguage() {
-        return (String) get(21);
+        return (String) get(22);
     }
 
     /**
@@ -426,7 +443,7 @@ public class XIntegrationRecord extends UpdatableRecordImpl<XIntegrationRecord> 
      */
     @Override
     public XIntegrationRecord setCreatedAt(LocalDateTime value) {
-        set(22, value);
+        set(23, value);
         return this;
     }
 
@@ -436,7 +453,7 @@ public class XIntegrationRecord extends UpdatableRecordImpl<XIntegrationRecord> 
      */
     @Override
     public LocalDateTime getCreatedAt() {
-        return (LocalDateTime) get(22);
+        return (LocalDateTime) get(23);
     }
 
     /**
@@ -445,7 +462,7 @@ public class XIntegrationRecord extends UpdatableRecordImpl<XIntegrationRecord> 
      */
     @Override
     public XIntegrationRecord setCreatedBy(String value) {
-        set(23, value);
+        set(24, value);
         return this;
     }
 
@@ -455,7 +472,7 @@ public class XIntegrationRecord extends UpdatableRecordImpl<XIntegrationRecord> 
      */
     @Override
     public String getCreatedBy() {
-        return (String) get(23);
+        return (String) get(24);
     }
 
     /**
@@ -464,7 +481,7 @@ public class XIntegrationRecord extends UpdatableRecordImpl<XIntegrationRecord> 
      */
     @Override
     public XIntegrationRecord setUpdatedAt(LocalDateTime value) {
-        set(24, value);
+        set(25, value);
         return this;
     }
 
@@ -474,7 +491,7 @@ public class XIntegrationRecord extends UpdatableRecordImpl<XIntegrationRecord> 
      */
     @Override
     public LocalDateTime getUpdatedAt() {
-        return (LocalDateTime) get(24);
+        return (LocalDateTime) get(25);
     }
 
     /**
@@ -483,7 +500,7 @@ public class XIntegrationRecord extends UpdatableRecordImpl<XIntegrationRecord> 
      */
     @Override
     public XIntegrationRecord setUpdatedBy(String value) {
-        set(25, value);
+        set(26, value);
         return this;
     }
 
@@ -493,7 +510,7 @@ public class XIntegrationRecord extends UpdatableRecordImpl<XIntegrationRecord> 
      */
     @Override
     public String getUpdatedBy() {
-        return (String) get(25);
+        return (String) get(26);
     }
 
     // -------------------------------------------------------------------------
@@ -517,6 +534,7 @@ public class XIntegrationRecord extends UpdatableRecordImpl<XIntegrationRecord> 
         setIpV4(from.getIpV4());
         setIpV6(from.getIpV6());
         setHostname(from.getHostname());
+        setPort(from.getPort());
         setProtocol(from.getProtocol());
         setEndpoint(from.getEndpoint());
         setPath(from.getPath());
@@ -559,7 +577,7 @@ public class XIntegrationRecord extends UpdatableRecordImpl<XIntegrationRecord> 
     /**
      * Create a detached, initialised XIntegrationRecord
      */
-    public XIntegrationRecord(String key, String name, String type, String ipV4, String ipV6, String hostname, String protocol, String endpoint, String path, String osKey, String osSecret, String osAuthorize, String osToken, String username, String password, String publicKey, String options, String appId, Boolean active, String sigma, String metadata, String language, LocalDateTime createdAt, String createdBy, LocalDateTime updatedAt, String updatedBy) {
+    public XIntegrationRecord(String key, String name, String type, String ipV4, String ipV6, String hostname, Integer port, String protocol, String endpoint, String path, String osKey, String osSecret, String osAuthorize, String osToken, String username, String password, String publicKey, String options, String appId, Boolean active, String sigma, String metadata, String language, LocalDateTime createdAt, String createdBy, LocalDateTime updatedAt, String updatedBy) {
         super(XIntegration.X_INTEGRATION);
 
         setKey(key);
@@ -568,6 +586,7 @@ public class XIntegrationRecord extends UpdatableRecordImpl<XIntegrationRecord> 
         setIpV4(ipV4);
         setIpV6(ipV6);
         setHostname(hostname);
+        setPort(port);
         setProtocol(protocol);
         setEndpoint(endpoint);
         setPath(path);
@@ -603,6 +622,7 @@ public class XIntegrationRecord extends UpdatableRecordImpl<XIntegrationRecord> 
             setIpV4(value.getIpV4());
             setIpV6(value.getIpV6());
             setHostname(value.getHostname());
+            setPort(value.getPort());
             setProtocol(value.getProtocol());
             setEndpoint(value.getEndpoint());
             setPath(value.getPath());

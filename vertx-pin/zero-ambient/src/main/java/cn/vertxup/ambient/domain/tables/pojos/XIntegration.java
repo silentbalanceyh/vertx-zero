@@ -26,6 +26,7 @@ public class XIntegration implements VertxPojo, IXIntegration {
     private String        ipV4;
     private String        ipV6;
     private String        hostname;
+    private Integer       port;
     private String        protocol;
     private String        endpoint;
     private String        path;
@@ -56,6 +57,7 @@ public class XIntegration implements VertxPojo, IXIntegration {
         this.ipV4 = value.getIpV4();
         this.ipV6 = value.getIpV6();
         this.hostname = value.getHostname();
+        this.port = value.getPort();
         this.protocol = value.getProtocol();
         this.endpoint = value.getEndpoint();
         this.path = value.getPath();
@@ -85,6 +87,7 @@ public class XIntegration implements VertxPojo, IXIntegration {
         String        ipV4,
         String        ipV6,
         String        hostname,
+        Integer       port,
         String        protocol,
         String        endpoint,
         String        path,
@@ -112,6 +115,7 @@ public class XIntegration implements VertxPojo, IXIntegration {
         this.ipV4 = ipV4;
         this.ipV6 = ipV6;
         this.hostname = hostname;
+        this.port = port;
         this.protocol = protocol;
         this.endpoint = endpoint;
         this.path = path;
@@ -240,6 +244,23 @@ public class XIntegration implements VertxPojo, IXIntegration {
     @Override
     public XIntegration setHostname(String hostname) {
         this.hostname = hostname;
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.X_INTEGRATION.PORT</code>. 「port」- 端口号
+     */
+    @Override
+    public Integer getPort() {
+        return this.port;
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.X_INTEGRATION.PORT</code>. 「port」- 端口号
+     */
+    @Override
+    public XIntegration setPort(Integer port) {
+        this.port = port;
         return this;
     }
 
@@ -621,6 +642,7 @@ public class XIntegration implements VertxPojo, IXIntegration {
         sb.append(", ").append(ipV4);
         sb.append(", ").append(ipV6);
         sb.append(", ").append(hostname);
+        sb.append(", ").append(port);
         sb.append(", ").append(protocol);
         sb.append(", ").append(endpoint);
         sb.append(", ").append(path);
@@ -658,6 +680,7 @@ public class XIntegration implements VertxPojo, IXIntegration {
         setIpV4(from.getIpV4());
         setIpV6(from.getIpV6());
         setHostname(from.getHostname());
+        setPort(from.getPort());
         setProtocol(from.getProtocol());
         setEndpoint(from.getEndpoint());
         setPath(from.getPath());

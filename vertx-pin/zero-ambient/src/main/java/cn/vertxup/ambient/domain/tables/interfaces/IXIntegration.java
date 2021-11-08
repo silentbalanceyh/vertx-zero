@@ -80,6 +80,16 @@ public interface IXIntegration extends VertxPojo, Serializable {
     public String getHostname();
 
     /**
+     * Setter for <code>DB_ETERNAL.X_INTEGRATION.PORT</code>. 「port」- 端口号
+     */
+    public IXIntegration setPort(Integer value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.X_INTEGRATION.PORT</code>. 「port」- 端口号
+     */
+    public Integer getPort();
+
+    /**
      * Setter for <code>DB_ETERNAL.X_INTEGRATION.PROTOCOL</code>. 「protocol」-
      * 协议类型：HTTP, HTTPS, FTP
      */
@@ -331,6 +341,7 @@ public interface IXIntegration extends VertxPojo, Serializable {
                 setOrThrow(this::setIpV4,json::getString,"IP_V4","java.lang.String");
                 setOrThrow(this::setIpV6,json::getString,"IP_V6","java.lang.String");
                 setOrThrow(this::setHostname,json::getString,"HOSTNAME","java.lang.String");
+                setOrThrow(this::setPort,json::getInteger,"PORT","java.lang.Integer");
                 setOrThrow(this::setProtocol,json::getString,"PROTOCOL","java.lang.String");
                 setOrThrow(this::setEndpoint,json::getString,"ENDPOINT","java.lang.String");
                 setOrThrow(this::setPath,json::getString,"PATH","java.lang.String");
@@ -364,6 +375,7 @@ public interface IXIntegration extends VertxPojo, Serializable {
                 json.put("IP_V4",getIpV4());
                 json.put("IP_V6",getIpV6());
                 json.put("HOSTNAME",getHostname());
+                json.put("PORT",getPort());
                 json.put("PROTOCOL",getProtocol());
                 json.put("ENDPOINT",getEndpoint());
                 json.put("PATH",getPath());

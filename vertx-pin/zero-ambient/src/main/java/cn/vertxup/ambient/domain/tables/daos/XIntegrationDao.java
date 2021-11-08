@@ -114,6 +114,21 @@ public class XIntegrationDao extends AbstractVertxDAO<XIntegrationRecord, cn.ver
         }
 
         /**
+     * Find records that have <code>PORT IN (values)</code> asynchronously
+     */
+        public Future<List<cn.vertxup.ambient.domain.tables.pojos.XIntegration>> findManyByPort(Collection<Integer> values) {
+                return findManyByCondition(XIntegration.X_INTEGRATION.PORT.in(values));
+        }
+
+        /**
+     * Find records that have <code>PORT IN (values)</code> asynchronously
+     * limited by the given limit
+     */
+        public Future<List<cn.vertxup.ambient.domain.tables.pojos.XIntegration>> findManyByPort(Collection<Integer> values, int limit) {
+                return findManyByCondition(XIntegration.X_INTEGRATION.PORT.in(values),limit);
+        }
+
+        /**
      * Find records that have <code>PROTOCOL IN (values)</code> asynchronously
      */
         public Future<List<cn.vertxup.ambient.domain.tables.pojos.XIntegration>> findManyByProtocol(Collection<String> values) {

@@ -54,6 +54,10 @@ public class XIntegration extends TableImpl<XIntegrationRecord> {
      */
     public final TableField<XIntegrationRecord, String> HOSTNAME = createField(DSL.name("HOSTNAME"), SQLDataType.VARCHAR(255), this, "「hostname」- 主机地址");
     /**
+     * The column <code>DB_ETERNAL.X_INTEGRATION.PORT</code>. 「port」- 端口号
+     */
+    public final TableField<XIntegrationRecord, Integer> PORT = createField(DSL.name("PORT"), SQLDataType.INTEGER, this, "「port」- 端口号");
+    /**
      * The column <code>DB_ETERNAL.X_INTEGRATION.PROTOCOL</code>. 「protocol」-
      * 协议类型：HTTP, HTTPS, FTP
      */

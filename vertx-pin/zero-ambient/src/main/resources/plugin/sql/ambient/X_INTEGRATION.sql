@@ -11,6 +11,7 @@ CREATE TABLE IF NOT EXISTS X_INTEGRATION
     `IP_V4`        VARCHAR(15) COMMENT '「ipV4」- IP v4地址',
     `IP_V6`        VARCHAR(40) COMMENT '「ipV6」- IP v6地址',
     `HOSTNAME`     VARCHAR(255) COMMENT '「hostname」- 主机地址',
+    `PORT`         INT COMMENT '「port」- 端口号',
     `PROTOCOL`     VARCHAR(64) COMMENT '「protocol」- 协议类型：HTTP, HTTPS, FTP',
     `ENDPOINT`     VARCHAR(255) COMMENT '「endpoint」- 端地址',
     -- FTP需要使用
