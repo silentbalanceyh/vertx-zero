@@ -15,4 +15,8 @@ public interface FileSuffix {
     String EXCEL_2007 = "xlsx";
 
     String JAR_DIVIDER = "jar!/";
+
+    String BPMN = "bpmn";
+
+    String BPMN_FORM = "form";
 }
