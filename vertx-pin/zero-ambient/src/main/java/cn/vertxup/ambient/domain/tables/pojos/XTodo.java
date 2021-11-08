@@ -28,23 +28,32 @@ public class XTodo implements VertxPojo, IXTodo {
     private String        status;
     private String        todoUrl;
     private String        type;
-    private LocalDateTime expiredAt;
     private String        modelId;
     private String        modelKey;
     private String        modelCategory;
+    private String        modelForm;
+    private String        modelComponent;
+    private Boolean       instance;
+    private String        toGroupMode;
     private String        toGroup;
     private String        toUser;
     private String        toRole;
-    private String        assignedBy;
-    private String        acceptedBy;
-    private String        finishedBy;
     private String        traceId;
-    private String        description;
     private String        parentId;
+    private String        description;
     private Boolean       active;
     private String        sigma;
     private String        metadata;
     private String        language;
+    private String        owner;
+    private String        supervisor;
+    private String        assignedBy;
+    private LocalDateTime assignedAt;
+    private String        acceptedBy;
+    private LocalDateTime acceptedAt;
+    private String        finishedBy;
+    private LocalDateTime finishedAt;
+    private LocalDateTime expiredAt;
     private LocalDateTime createdAt;
     private String        createdBy;
     private LocalDateTime updatedAt;
@@ -61,23 +70,32 @@ public class XTodo implements VertxPojo, IXTodo {
         this.status = value.getStatus();
         this.todoUrl = value.getTodoUrl();
         this.type = value.getType();
-        this.expiredAt = value.getExpiredAt();
         this.modelId = value.getModelId();
         this.modelKey = value.getModelKey();
         this.modelCategory = value.getModelCategory();
+        this.modelForm = value.getModelForm();
+        this.modelComponent = value.getModelComponent();
+        this.instance = value.getInstance();
+        this.toGroupMode = value.getToGroupMode();
         this.toGroup = value.getToGroup();
         this.toUser = value.getToUser();
         this.toRole = value.getToRole();
-        this.assignedBy = value.getAssignedBy();
-        this.acceptedBy = value.getAcceptedBy();
-        this.finishedBy = value.getFinishedBy();
         this.traceId = value.getTraceId();
-        this.description = value.getDescription();
         this.parentId = value.getParentId();
+        this.description = value.getDescription();
         this.active = value.getActive();
         this.sigma = value.getSigma();
         this.metadata = value.getMetadata();
         this.language = value.getLanguage();
+        this.owner = value.getOwner();
+        this.supervisor = value.getSupervisor();
+        this.assignedBy = value.getAssignedBy();
+        this.assignedAt = value.getAssignedAt();
+        this.acceptedBy = value.getAcceptedBy();
+        this.acceptedAt = value.getAcceptedAt();
+        this.finishedBy = value.getFinishedBy();
+        this.finishedAt = value.getFinishedAt();
+        this.expiredAt = value.getExpiredAt();
         this.createdAt = value.getCreatedAt();
         this.createdBy = value.getCreatedBy();
         this.updatedAt = value.getUpdatedAt();
@@ -93,23 +111,32 @@ public class XTodo implements VertxPojo, IXTodo {
         String        status,
         String        todoUrl,
         String        type,
-        LocalDateTime expiredAt,
         String        modelId,
         String        modelKey,
         String        modelCategory,
+        String        modelForm,
+        String        modelComponent,
+        Boolean       instance,
+        String        toGroupMode,
         String        toGroup,
         String        toUser,
         String        toRole,
-        String        assignedBy,
-        String        acceptedBy,
-        String        finishedBy,
         String        traceId,
-        String        description,
         String        parentId,
+        String        description,
         Boolean       active,
         String        sigma,
         String        metadata,
         String        language,
+        String        owner,
+        String        supervisor,
+        String        assignedBy,
+        LocalDateTime assignedAt,
+        String        acceptedBy,
+        LocalDateTime acceptedAt,
+        String        finishedBy,
+        LocalDateTime finishedAt,
+        LocalDateTime expiredAt,
         LocalDateTime createdAt,
         String        createdBy,
         LocalDateTime updatedAt,
@@ -123,23 +150,32 @@ public class XTodo implements VertxPojo, IXTodo {
         this.status = status;
         this.todoUrl = todoUrl;
         this.type = type;
-        this.expiredAt = expiredAt;
         this.modelId = modelId;
         this.modelKey = modelKey;
         this.modelCategory = modelCategory;
+        this.modelForm = modelForm;
+        this.modelComponent = modelComponent;
+        this.instance = instance;
+        this.toGroupMode = toGroupMode;
         this.toGroup = toGroup;
         this.toUser = toUser;
         this.toRole = toRole;
-        this.assignedBy = assignedBy;
-        this.acceptedBy = acceptedBy;
-        this.finishedBy = finishedBy;
         this.traceId = traceId;
-        this.description = description;
         this.parentId = parentId;
+        this.description = description;
         this.active = active;
         this.sigma = sigma;
         this.metadata = metadata;
         this.language = language;
+        this.owner = owner;
+        this.supervisor = supervisor;
+        this.assignedBy = assignedBy;
+        this.assignedAt = assignedAt;
+        this.acceptedBy = acceptedBy;
+        this.acceptedAt = acceptedAt;
+        this.finishedBy = finishedBy;
+        this.finishedAt = finishedAt;
+        this.expiredAt = expiredAt;
         this.createdAt = createdAt;
         this.createdBy = createdBy;
         this.updatedAt = updatedAt;
@@ -290,23 +326,6 @@ public class XTodo implements VertxPojo, IXTodo {
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.X_TODO.EXPIRED_AT</code>. 「expiredAt」- 超时时间
-     */
-    @Override
-    public LocalDateTime getExpiredAt() {
-        return this.expiredAt;
-    }
-
-    /**
-     * Setter for <code>DB_ETERNAL.X_TODO.EXPIRED_AT</code>. 「expiredAt」- 超时时间
-     */
-    @Override
-    public XTodo setExpiredAt(LocalDateTime expiredAt) {
-        this.expiredAt = expiredAt;
-        return this;
-    }
-
-    /**
      * Getter for <code>DB_ETERNAL.X_TODO.MODEL_ID</code>. 「modelId」-
      * 关联的模型identifier，用于描述
      */
@@ -364,6 +383,80 @@ public class XTodo implements VertxPojo, IXTodo {
     }
 
     /**
+     * Getter for <code>DB_ETERNAL.X_TODO.MODEL_FORM</code>. 「modelForm」-
+     * 待办专用的表单关联
+     */
+    @Override
+    public String getModelForm() {
+        return this.modelForm;
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.X_TODO.MODEL_FORM</code>. 「modelForm」-
+     * 待办专用的表单关联
+     */
+    @Override
+    public XTodo setModelForm(String modelForm) {
+        this.modelForm = modelForm;
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.X_TODO.MODEL_COMPONENT</code>.
+     * 「modelComponent」- 关联的待办组件记录
+     */
+    @Override
+    public String getModelComponent() {
+        return this.modelComponent;
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.X_TODO.MODEL_COMPONENT</code>.
+     * 「modelComponent」- 关联的待办组件记录
+     */
+    @Override
+    public XTodo setModelComponent(String modelComponent) {
+        this.modelComponent = modelComponent;
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.X_TODO.INSTANCE</code>. 「instance」- 是否启用工作流？
+     */
+    @Override
+    public Boolean getInstance() {
+        return this.instance;
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.X_TODO.INSTANCE</code>. 「instance」- 是否启用工作流？
+     */
+    @Override
+    public XTodo setInstance(Boolean instance) {
+        this.instance = instance;
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.X_TODO.TO_GROUP_MODE</code>. 「toGroupMode」-
+     * 部门、业务组、组、角色、地点等
+     */
+    @Override
+    public String getToGroupMode() {
+        return this.toGroupMode;
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.X_TODO.TO_GROUP_MODE</code>. 「toGroupMode」-
+     * 部门、业务组、组、角色、地点等
+     */
+    @Override
+    public XTodo setToGroupMode(String toGroupMode) {
+        this.toGroupMode = toGroupMode;
+        return this;
+    }
+
+    /**
      * Getter for <code>DB_ETERNAL.X_TODO.TO_GROUP</code>. 「toGroup」- 待办指定组
      */
     @Override
@@ -415,63 +508,6 @@ public class XTodo implements VertxPojo, IXTodo {
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.X_TODO.ASSIGNED_BY</code>. 「assignedBy」-
-     * 待办指派人
-     */
-    @Override
-    public String getAssignedBy() {
-        return this.assignedBy;
-    }
-
-    /**
-     * Setter for <code>DB_ETERNAL.X_TODO.ASSIGNED_BY</code>. 「assignedBy」-
-     * 待办指派人
-     */
-    @Override
-    public XTodo setAssignedBy(String assignedBy) {
-        this.assignedBy = assignedBy;
-        return this;
-    }
-
-    /**
-     * Getter for <code>DB_ETERNAL.X_TODO.ACCEPTED_BY</code>. 「acceptedBy」-
-     * 待办接收人
-     */
-    @Override
-    public String getAcceptedBy() {
-        return this.acceptedBy;
-    }
-
-    /**
-     * Setter for <code>DB_ETERNAL.X_TODO.ACCEPTED_BY</code>. 「acceptedBy」-
-     * 待办接收人
-     */
-    @Override
-    public XTodo setAcceptedBy(String acceptedBy) {
-        this.acceptedBy = acceptedBy;
-        return this;
-    }
-
-    /**
-     * Getter for <code>DB_ETERNAL.X_TODO.FINISHED_BY</code>. 「finishedBy」-
-     * 待办完成人
-     */
-    @Override
-    public String getFinishedBy() {
-        return this.finishedBy;
-    }
-
-    /**
-     * Setter for <code>DB_ETERNAL.X_TODO.FINISHED_BY</code>. 「finishedBy」-
-     * 待办完成人
-     */
-    @Override
-    public XTodo setFinishedBy(String finishedBy) {
-        this.finishedBy = finishedBy;
-        return this;
-    }
-
-    /**
      * Getter for <code>DB_ETERNAL.X_TODO.TRACE_ID</code>. 「traceId」-
      * 同一个流程的待办执行分组
      */
@@ -491,25 +527,6 @@ public class XTodo implements VertxPojo, IXTodo {
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.X_TODO.DESCRIPTION</code>. 「description」-
-     * 待办描述
-     */
-    @Override
-    public String getDescription() {
-        return this.description;
-    }
-
-    /**
-     * Setter for <code>DB_ETERNAL.X_TODO.DESCRIPTION</code>. 「description」-
-     * 待办描述
-     */
-    @Override
-    public XTodo setDescription(String description) {
-        this.description = description;
-        return this;
-    }
-
-    /**
      * Getter for <code>DB_ETERNAL.X_TODO.PARENT_ID</code>. 「parentId」-
      * 待办支持父子集结构，父待办执行时候子待办同样执行
      */
@@ -525,6 +542,25 @@ public class XTodo implements VertxPojo, IXTodo {
     @Override
     public XTodo setParentId(String parentId) {
         this.parentId = parentId;
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.X_TODO.DESCRIPTION</code>. 「description」-
+     * 待办描述
+     */
+    @Override
+    public String getDescription() {
+        return this.description;
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.X_TODO.DESCRIPTION</code>. 「description」-
+     * 待办描述
+     */
+    @Override
+    public XTodo setDescription(String description) {
+        this.description = description;
         return this;
     }
 
@@ -593,6 +629,165 @@ public class XTodo implements VertxPojo, IXTodo {
     @Override
     public XTodo setLanguage(String language) {
         this.language = language;
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.X_TODO.OWNER</code>. 「owner」- 拥有者
+     */
+    @Override
+    public String getOwner() {
+        return this.owner;
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.X_TODO.OWNER</code>. 「owner」- 拥有者
+     */
+    @Override
+    public XTodo setOwner(String owner) {
+        this.owner = owner;
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.X_TODO.SUPERVISOR</code>. 「supervisor」- 监督人
+     */
+    @Override
+    public String getSupervisor() {
+        return this.supervisor;
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.X_TODO.SUPERVISOR</code>. 「supervisor」- 监督人
+     */
+    @Override
+    public XTodo setSupervisor(String supervisor) {
+        this.supervisor = supervisor;
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.X_TODO.ASSIGNED_BY</code>. 「assignedBy」-
+     * 待办指派人
+     */
+    @Override
+    public String getAssignedBy() {
+        return this.assignedBy;
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.X_TODO.ASSIGNED_BY</code>. 「assignedBy」-
+     * 待办指派人
+     */
+    @Override
+    public XTodo setAssignedBy(String assignedBy) {
+        this.assignedBy = assignedBy;
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.X_TODO.ASSIGNED_AT</code>. 「assignedAt」- 指派时间
+     */
+    @Override
+    public LocalDateTime getAssignedAt() {
+        return this.assignedAt;
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.X_TODO.ASSIGNED_AT</code>. 「assignedAt」- 指派时间
+     */
+    @Override
+    public XTodo setAssignedAt(LocalDateTime assignedAt) {
+        this.assignedAt = assignedAt;
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.X_TODO.ACCEPTED_BY</code>. 「acceptedBy」-
+     * 待办接收人
+     */
+    @Override
+    public String getAcceptedBy() {
+        return this.acceptedBy;
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.X_TODO.ACCEPTED_BY</code>. 「acceptedBy」-
+     * 待办接收人
+     */
+    @Override
+    public XTodo setAcceptedBy(String acceptedBy) {
+        this.acceptedBy = acceptedBy;
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.X_TODO.ACCEPTED_AT</code>. 「acceptedAt」- 接收时间
+     */
+    @Override
+    public LocalDateTime getAcceptedAt() {
+        return this.acceptedAt;
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.X_TODO.ACCEPTED_AT</code>. 「acceptedAt」- 接收时间
+     */
+    @Override
+    public XTodo setAcceptedAt(LocalDateTime acceptedAt) {
+        this.acceptedAt = acceptedAt;
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.X_TODO.FINISHED_BY</code>. 「finishedBy」-
+     * 待办完成人
+     */
+    @Override
+    public String getFinishedBy() {
+        return this.finishedBy;
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.X_TODO.FINISHED_BY</code>. 「finishedBy」-
+     * 待办完成人
+     */
+    @Override
+    public XTodo setFinishedBy(String finishedBy) {
+        this.finishedBy = finishedBy;
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.X_TODO.FINISHED_AT</code>. 「finishedAt」- 完成时间
+     */
+    @Override
+    public LocalDateTime getFinishedAt() {
+        return this.finishedAt;
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.X_TODO.FINISHED_AT</code>. 「finishedAt」- 完成时间
+     */
+    @Override
+    public XTodo setFinishedAt(LocalDateTime finishedAt) {
+        this.finishedAt = finishedAt;
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.X_TODO.EXPIRED_AT</code>. 「expiredAt」- 超时时间
+     */
+    @Override
+    public LocalDateTime getExpiredAt() {
+        return this.expiredAt;
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.X_TODO.EXPIRED_AT</code>. 「expiredAt」- 超时时间
+     */
+    @Override
+    public XTodo setExpiredAt(LocalDateTime expiredAt) {
+        this.expiredAt = expiredAt;
         return this;
     }
 
@@ -676,23 +871,32 @@ public class XTodo implements VertxPojo, IXTodo {
         sb.append(", ").append(status);
         sb.append(", ").append(todoUrl);
         sb.append(", ").append(type);
-        sb.append(", ").append(expiredAt);
         sb.append(", ").append(modelId);
         sb.append(", ").append(modelKey);
         sb.append(", ").append(modelCategory);
+        sb.append(", ").append(modelForm);
+        sb.append(", ").append(modelComponent);
+        sb.append(", ").append(instance);
+        sb.append(", ").append(toGroupMode);
         sb.append(", ").append(toGroup);
         sb.append(", ").append(toUser);
         sb.append(", ").append(toRole);
-        sb.append(", ").append(assignedBy);
-        sb.append(", ").append(acceptedBy);
-        sb.append(", ").append(finishedBy);
         sb.append(", ").append(traceId);
-        sb.append(", ").append(description);
         sb.append(", ").append(parentId);
+        sb.append(", ").append(description);
         sb.append(", ").append(active);
         sb.append(", ").append(sigma);
         sb.append(", ").append(metadata);
         sb.append(", ").append(language);
+        sb.append(", ").append(owner);
+        sb.append(", ").append(supervisor);
+        sb.append(", ").append(assignedBy);
+        sb.append(", ").append(assignedAt);
+        sb.append(", ").append(acceptedBy);
+        sb.append(", ").append(acceptedAt);
+        sb.append(", ").append(finishedBy);
+        sb.append(", ").append(finishedAt);
+        sb.append(", ").append(expiredAt);
         sb.append(", ").append(createdAt);
         sb.append(", ").append(createdBy);
         sb.append(", ").append(updatedAt);
@@ -716,23 +920,32 @@ public class XTodo implements VertxPojo, IXTodo {
         setStatus(from.getStatus());
         setTodoUrl(from.getTodoUrl());
         setType(from.getType());
-        setExpiredAt(from.getExpiredAt());
         setModelId(from.getModelId());
         setModelKey(from.getModelKey());
         setModelCategory(from.getModelCategory());
+        setModelForm(from.getModelForm());
+        setModelComponent(from.getModelComponent());
+        setInstance(from.getInstance());
+        setToGroupMode(from.getToGroupMode());
         setToGroup(from.getToGroup());
         setToUser(from.getToUser());
         setToRole(from.getToRole());
-        setAssignedBy(from.getAssignedBy());
-        setAcceptedBy(from.getAcceptedBy());
-        setFinishedBy(from.getFinishedBy());
         setTraceId(from.getTraceId());
-        setDescription(from.getDescription());
         setParentId(from.getParentId());
+        setDescription(from.getDescription());
         setActive(from.getActive());
         setSigma(from.getSigma());
         setMetadata(from.getMetadata());
         setLanguage(from.getLanguage());
+        setOwner(from.getOwner());
+        setSupervisor(from.getSupervisor());
+        setAssignedBy(from.getAssignedBy());
+        setAssignedAt(from.getAssignedAt());
+        setAcceptedBy(from.getAcceptedBy());
+        setAcceptedAt(from.getAcceptedAt());
+        setFinishedBy(from.getFinishedBy());
+        setFinishedAt(from.getFinishedAt());
+        setExpiredAt(from.getExpiredAt());
         setCreatedAt(from.getCreatedAt());
         setCreatedBy(from.getCreatedBy());
         setUpdatedAt(from.getUpdatedAt());

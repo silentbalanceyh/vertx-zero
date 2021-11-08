@@ -63,10 +63,6 @@ public class XTodo extends TableImpl<XTodoRecord> {
      */
     public final TableField<XTodoRecord, String> TYPE = createField(DSL.name("TYPE"), SQLDataType.VARCHAR(36), this, "「type」- 待办类型");
     /**
-     * The column <code>DB_ETERNAL.X_TODO.EXPIRED_AT</code>. 「expiredAt」- 超时时间
-     */
-    public final TableField<XTodoRecord, LocalDateTime> EXPIRED_AT = createField(DSL.name("EXPIRED_AT"), SQLDataType.LOCALDATETIME(0), this, "「expiredAt」- 超时时间");
-    /**
      * The column <code>DB_ETERNAL.X_TODO.MODEL_ID</code>. 「modelId」-
      * 关联的模型identifier，用于描述
      */
@@ -82,6 +78,25 @@ public class XTodo extends TableImpl<XTodoRecord> {
      */
     public final TableField<XTodoRecord, String> MODEL_CATEGORY = createField(DSL.name("MODEL_CATEGORY"), SQLDataType.VARCHAR(36), this, "「modelCategory」- 关联的category记录，只包含叶节点");
     /**
+     * The column <code>DB_ETERNAL.X_TODO.MODEL_FORM</code>. 「modelForm」-
+     * 待办专用的表单关联
+     */
+    public final TableField<XTodoRecord, String> MODEL_FORM = createField(DSL.name("MODEL_FORM"), SQLDataType.VARCHAR(255), this, "「modelForm」- 待办专用的表单关联");
+    /**
+     * The column <code>DB_ETERNAL.X_TODO.MODEL_COMPONENT</code>.
+     * 「modelComponent」- 关联的待办组件记录
+     */
+    public final TableField<XTodoRecord, String> MODEL_COMPONENT = createField(DSL.name("MODEL_COMPONENT"), SQLDataType.VARCHAR(255), this, "「modelComponent」- 关联的待办组件记录");
+    /**
+     * The column <code>DB_ETERNAL.X_TODO.INSTANCE</code>. 「instance」- 是否启用工作流？
+     */
+    public final TableField<XTodoRecord, Boolean> INSTANCE = createField(DSL.name("INSTANCE"), SQLDataType.BIT, this, "「instance」- 是否启用工作流？");
+    /**
+     * The column <code>DB_ETERNAL.X_TODO.TO_GROUP_MODE</code>. 「toGroupMode」-
+     * 部门、业务组、组、角色、地点等
+     */
+    public final TableField<XTodoRecord, String> TO_GROUP_MODE = createField(DSL.name("TO_GROUP_MODE"), SQLDataType.VARCHAR(32), this, "「toGroupMode」- 部门、业务组、组、角色、地点等");
+    /**
      * The column <code>DB_ETERNAL.X_TODO.TO_GROUP</code>. 「toGroup」- 待办指定组
      */
     public final TableField<XTodoRecord, String> TO_GROUP = createField(DSL.name("TO_GROUP"), SQLDataType.VARCHAR(36), this, "「toGroup」- 待办指定组");
@@ -94,35 +109,20 @@ public class XTodo extends TableImpl<XTodoRecord> {
      */
     public final TableField<XTodoRecord, String> TO_ROLE = createField(DSL.name("TO_ROLE"), SQLDataType.VARCHAR(36), this, "「toRole」- 待办角色（集体）");
     /**
-     * The column <code>DB_ETERNAL.X_TODO.ASSIGNED_BY</code>. 「assignedBy」-
-     * 待办指派人
-     */
-    public final TableField<XTodoRecord, String> ASSIGNED_BY = createField(DSL.name("ASSIGNED_BY"), SQLDataType.VARCHAR(36), this, "「assignedBy」- 待办指派人");
-    /**
-     * The column <code>DB_ETERNAL.X_TODO.ACCEPTED_BY</code>. 「acceptedBy」-
-     * 待办接收人
-     */
-    public final TableField<XTodoRecord, String> ACCEPTED_BY = createField(DSL.name("ACCEPTED_BY"), SQLDataType.VARCHAR(36), this, "「acceptedBy」- 待办接收人");
-    /**
-     * The column <code>DB_ETERNAL.X_TODO.FINISHED_BY</code>. 「finishedBy」-
-     * 待办完成人
-     */
-    public final TableField<XTodoRecord, String> FINISHED_BY = createField(DSL.name("FINISHED_BY"), SQLDataType.VARCHAR(36), this, "「finishedBy」- 待办完成人");
-    /**
      * The column <code>DB_ETERNAL.X_TODO.TRACE_ID</code>. 「traceId」-
      * 同一个流程的待办执行分组
      */
     public final TableField<XTodoRecord, String> TRACE_ID = createField(DSL.name("TRACE_ID"), SQLDataType.VARCHAR(36), this, "「traceId」- 同一个流程的待办执行分组");
     /**
-     * The column <code>DB_ETERNAL.X_TODO.DESCRIPTION</code>. 「description」-
-     * 待办描述
-     */
-    public final TableField<XTodoRecord, String> DESCRIPTION = createField(DSL.name("DESCRIPTION"), SQLDataType.CLOB, this, "「description」- 待办描述");
-    /**
      * The column <code>DB_ETERNAL.X_TODO.PARENT_ID</code>. 「parentId」-
      * 待办支持父子集结构，父待办执行时候子待办同样执行
      */
     public final TableField<XTodoRecord, String> PARENT_ID = createField(DSL.name("PARENT_ID"), SQLDataType.VARCHAR(36), this, "「parentId」- 待办支持父子集结构，父待办执行时候子待办同样执行");
+    /**
+     * The column <code>DB_ETERNAL.X_TODO.DESCRIPTION</code>. 「description」-
+     * 待办描述
+     */
+    public final TableField<XTodoRecord, String> DESCRIPTION = createField(DSL.name("DESCRIPTION"), SQLDataType.CLOB, this, "「description」- 待办描述");
     /**
      * The column <code>DB_ETERNAL.X_TODO.ACTIVE</code>. 「active」- 是否启用
      */
@@ -139,6 +139,45 @@ public class XTodo extends TableImpl<XTodoRecord> {
      * The column <code>DB_ETERNAL.X_TODO.LANGUAGE</code>. 「language」- 使用的语言
      */
     public final TableField<XTodoRecord, String> LANGUAGE = createField(DSL.name("LANGUAGE"), SQLDataType.VARCHAR(8), this, "「language」- 使用的语言");
+    /**
+     * The column <code>DB_ETERNAL.X_TODO.OWNER</code>. 「owner」- 拥有者
+     */
+    public final TableField<XTodoRecord, String> OWNER = createField(DSL.name("OWNER"), SQLDataType.VARCHAR(36), this, "「owner」- 拥有者");
+    /**
+     * The column <code>DB_ETERNAL.X_TODO.SUPERVISOR</code>. 「supervisor」- 监督人
+     */
+    public final TableField<XTodoRecord, String> SUPERVISOR = createField(DSL.name("SUPERVISOR"), SQLDataType.VARCHAR(36), this, "「supervisor」- 监督人");
+    /**
+     * The column <code>DB_ETERNAL.X_TODO.ASSIGNED_BY</code>. 「assignedBy」-
+     * 待办指派人
+     */
+    public final TableField<XTodoRecord, String> ASSIGNED_BY = createField(DSL.name("ASSIGNED_BY"), SQLDataType.VARCHAR(36), this, "「assignedBy」- 待办指派人");
+    /**
+     * The column <code>DB_ETERNAL.X_TODO.ASSIGNED_AT</code>. 「assignedAt」- 指派时间
+     */
+    public final TableField<XTodoRecord, LocalDateTime> ASSIGNED_AT = createField(DSL.name("ASSIGNED_AT"), SQLDataType.LOCALDATETIME(0), this, "「assignedAt」- 指派时间");
+    /**
+     * The column <code>DB_ETERNAL.X_TODO.ACCEPTED_BY</code>. 「acceptedBy」-
+     * 待办接收人
+     */
+    public final TableField<XTodoRecord, String> ACCEPTED_BY = createField(DSL.name("ACCEPTED_BY"), SQLDataType.VARCHAR(36), this, "「acceptedBy」- 待办接收人");
+    /**
+     * The column <code>DB_ETERNAL.X_TODO.ACCEPTED_AT</code>. 「acceptedAt」- 接收时间
+     */
+    public final TableField<XTodoRecord, LocalDateTime> ACCEPTED_AT = createField(DSL.name("ACCEPTED_AT"), SQLDataType.LOCALDATETIME(0), this, "「acceptedAt」- 接收时间");
+    /**
+     * The column <code>DB_ETERNAL.X_TODO.FINISHED_BY</code>. 「finishedBy」-
+     * 待办完成人
+     */
+    public final TableField<XTodoRecord, String> FINISHED_BY = createField(DSL.name("FINISHED_BY"), SQLDataType.VARCHAR(36), this, "「finishedBy」- 待办完成人");
+    /**
+     * The column <code>DB_ETERNAL.X_TODO.FINISHED_AT</code>. 「finishedAt」- 完成时间
+     */
+    public final TableField<XTodoRecord, LocalDateTime> FINISHED_AT = createField(DSL.name("FINISHED_AT"), SQLDataType.LOCALDATETIME(0), this, "「finishedAt」- 完成时间");
+    /**
+     * The column <code>DB_ETERNAL.X_TODO.EXPIRED_AT</code>. 「expiredAt」- 超时时间
+     */
+    public final TableField<XTodoRecord, LocalDateTime> EXPIRED_AT = createField(DSL.name("EXPIRED_AT"), SQLDataType.LOCALDATETIME(0), this, "「expiredAt」- 超时时间");
     /**
      * The column <code>DB_ETERNAL.X_TODO.CREATED_AT</code>. 「createdAt」- 创建时间
      */

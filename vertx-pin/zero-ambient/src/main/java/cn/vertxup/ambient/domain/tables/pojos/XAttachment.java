@@ -24,6 +24,7 @@ public class XAttachment implements VertxPojo, IXAttachment {
     private String        name;
     private String        extension;
     private String        module;
+    private String        type;
     private String        mime;
     private Integer       size;
     private String        status;
@@ -49,6 +50,7 @@ public class XAttachment implements VertxPojo, IXAttachment {
         this.name = value.getName();
         this.extension = value.getExtension();
         this.module = value.getModule();
+        this.type = value.getType();
         this.mime = value.getMime();
         this.size = value.getSize();
         this.status = value.getStatus();
@@ -73,6 +75,7 @@ public class XAttachment implements VertxPojo, IXAttachment {
         String        name,
         String        extension,
         String        module,
+        String        type,
         String        mime,
         Integer       size,
         String        status,
@@ -95,6 +98,7 @@ public class XAttachment implements VertxPojo, IXAttachment {
         this.name = name;
         this.extension = extension;
         this.module = module;
+        this.type = type;
         this.mime = mime;
         this.size = size;
         this.status = status;
@@ -186,6 +190,25 @@ public class XAttachment implements VertxPojo, IXAttachment {
     @Override
     public XAttachment setModule(String module) {
         this.module = module;
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.X_ATTACHMENT.TYPE</code>. 「type」-
+     * 文件类型，直接关联zero.file.tree类型
+     */
+    @Override
+    public String getType() {
+        return this.type;
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.X_ATTACHMENT.TYPE</code>. 「type」-
+     * 文件类型，直接关联zero.file.tree类型
+     */
+    @Override
+    public XAttachment setType(String type) {
+        this.type = type;
         return this;
     }
 
@@ -512,6 +535,7 @@ public class XAttachment implements VertxPojo, IXAttachment {
         sb.append(", ").append(name);
         sb.append(", ").append(extension);
         sb.append(", ").append(module);
+        sb.append(", ").append(type);
         sb.append(", ").append(mime);
         sb.append(", ").append(size);
         sb.append(", ").append(status);
@@ -544,6 +568,7 @@ public class XAttachment implements VertxPojo, IXAttachment {
         setName(from.getName());
         setExtension(from.getExtension());
         setModule(from.getModule());
+        setType(from.getType());
         setMime(from.getMime());
         setSize(from.getSize());
         setStatus(from.getStatus());

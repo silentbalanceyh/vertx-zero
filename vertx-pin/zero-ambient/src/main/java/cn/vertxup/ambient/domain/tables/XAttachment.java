@@ -46,6 +46,11 @@ public class XAttachment extends TableImpl<XAttachmentRecord> {
      */
     public final TableField<XAttachmentRecord, String> MODULE = createField(DSL.name("MODULE"), SQLDataType.VARCHAR(64), this, "「module」- 业务标识");
     /**
+     * The column <code>DB_ETERNAL.X_ATTACHMENT.TYPE</code>. 「type」-
+     * 文件类型，直接关联zero.file.tree类型
+     */
+    public final TableField<XAttachmentRecord, String> TYPE = createField(DSL.name("TYPE"), SQLDataType.VARCHAR(36), this, "「type」- 文件类型，直接关联zero.file.tree类型");
+    /**
      * The column <code>DB_ETERNAL.X_ATTACHMENT.MIME</code>. 「mime」- 该文件的MIME类型
      */
     public final TableField<XAttachmentRecord, String> MIME = createField(DSL.name("MIME"), SQLDataType.VARCHAR(64), this, "「mime」- 该文件的MIME类型");
@@ -210,11 +215,11 @@ public class XAttachment extends TableImpl<XAttachmentRecord> {
     }
 
     // -------------------------------------------------------------------------
-    // Row21 type methods
+    // Row22 type methods
     // -------------------------------------------------------------------------
 
     @Override
-    public Row21<String, String, String, String, String, Integer, String, String, String, String, String, String, String, Boolean, String, String, String, LocalDateTime, String, LocalDateTime, String> fieldsRow() {
-        return (Row21) super.fieldsRow();
+    public Row22<String, String, String, String, String, String, Integer, String, String, String, String, String, String, String, Boolean, String, String, String, LocalDateTime, String, LocalDateTime, String> fieldsRow() {
+        return (Row22) super.fieldsRow();
     }
 }

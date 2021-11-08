@@ -8,6 +8,8 @@ CREATE TABLE IF NOT EXISTS X_ATTACHMENT
     `NAME`       VARCHAR(255) COMMENT '「name」- 文件名（带扩展名）',
     `EXTENSION`  VARCHAR(10) COMMENT '「extension」- 文件扩展名',
     `MODULE`     VARCHAR(64) COMMENT '「module」- 业务标识',
+    -- 文件管理专用
+    `TYPE`       VARCHAR(36) COMMENT '「type」- 文件类型，直接关联zero.file.tree类型',
 
     `MIME`       VARCHAR(64) COMMENT '「mime」- 该文件的MIME类型',
     `SIZE`       INTEGER COMMENT '「size」- 该文件的尺寸',
@@ -21,7 +23,6 @@ CREATE TABLE IF NOT EXISTS X_ATTACHMENT
     `FILE_KEY`   VARCHAR(255) COMMENT '「fileKey」- TPL模式中的文件唯一的key（全局唯一）',
     `FILE_URL`   VARCHAR(255) COMMENT '「fileUrl」- 该文件的下载链接（全局唯一）',
     `FILE_PATH`  VARCHAR(255) COMMENT '「filePath」- 该文件的存储地址，FILE时使用',
-    -- 文件管理专用
 
     -- 特殊字段
     `ACTIVE`     BIT         DEFAULT NULL COMMENT '「active」- 是否启用',

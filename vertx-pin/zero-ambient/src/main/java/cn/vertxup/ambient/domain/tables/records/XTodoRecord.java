@@ -163,29 +163,12 @@ public class XTodoRecord extends UpdatableRecordImpl<XTodoRecord> implements Ver
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.X_TODO.EXPIRED_AT</code>. 「expiredAt」- 超时时间
-     */
-    @Override
-    public XTodoRecord setExpiredAt(LocalDateTime value) {
-        set(8, value);
-        return this;
-    }
-
-    /**
-     * Getter for <code>DB_ETERNAL.X_TODO.EXPIRED_AT</code>. 「expiredAt」- 超时时间
-     */
-    @Override
-    public LocalDateTime getExpiredAt() {
-        return (LocalDateTime) get(8);
-    }
-
-    /**
      * Setter for <code>DB_ETERNAL.X_TODO.MODEL_ID</code>. 「modelId」-
      * 关联的模型identifier，用于描述
      */
     @Override
     public XTodoRecord setModelId(String value) {
-        set(9, value);
+        set(8, value);
         return this;
     }
 
@@ -195,7 +178,7 @@ public class XTodoRecord extends UpdatableRecordImpl<XTodoRecord> implements Ver
      */
     @Override
     public String getModelId() {
-        return (String) get(9);
+        return (String) get(8);
     }
 
     /**
@@ -204,7 +187,7 @@ public class XTodoRecord extends UpdatableRecordImpl<XTodoRecord> implements Ver
      */
     @Override
     public XTodoRecord setModelKey(String value) {
-        set(10, value);
+        set(9, value);
         return this;
     }
 
@@ -214,7 +197,7 @@ public class XTodoRecord extends UpdatableRecordImpl<XTodoRecord> implements Ver
      */
     @Override
     public String getModelKey() {
-        return (String) get(10);
+        return (String) get(9);
     }
 
     /**
@@ -223,7 +206,7 @@ public class XTodoRecord extends UpdatableRecordImpl<XTodoRecord> implements Ver
      */
     @Override
     public XTodoRecord setModelCategory(String value) {
-        set(11, value);
+        set(10, value);
         return this;
     }
 
@@ -233,7 +216,81 @@ public class XTodoRecord extends UpdatableRecordImpl<XTodoRecord> implements Ver
      */
     @Override
     public String getModelCategory() {
+        return (String) get(10);
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.X_TODO.MODEL_FORM</code>. 「modelForm」-
+     * 待办专用的表单关联
+     */
+    @Override
+    public XTodoRecord setModelForm(String value) {
+        set(11, value);
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.X_TODO.MODEL_FORM</code>. 「modelForm」-
+     * 待办专用的表单关联
+     */
+    @Override
+    public String getModelForm() {
         return (String) get(11);
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.X_TODO.MODEL_COMPONENT</code>.
+     * 「modelComponent」- 关联的待办组件记录
+     */
+    @Override
+    public XTodoRecord setModelComponent(String value) {
+        set(12, value);
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.X_TODO.MODEL_COMPONENT</code>.
+     * 「modelComponent」- 关联的待办组件记录
+     */
+    @Override
+    public String getModelComponent() {
+        return (String) get(12);
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.X_TODO.INSTANCE</code>. 「instance」- 是否启用工作流？
+     */
+    @Override
+    public XTodoRecord setInstance(Boolean value) {
+        set(13, value);
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.X_TODO.INSTANCE</code>. 「instance」- 是否启用工作流？
+     */
+    @Override
+    public Boolean getInstance() {
+        return (Boolean) get(13);
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.X_TODO.TO_GROUP_MODE</code>. 「toGroupMode」-
+     * 部门、业务组、组、角色、地点等
+     */
+    @Override
+    public XTodoRecord setToGroupMode(String value) {
+        set(14, value);
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.X_TODO.TO_GROUP_MODE</code>. 「toGroupMode」-
+     * 部门、业务组、组、角色、地点等
+     */
+    @Override
+    public String getToGroupMode() {
+        return (String) get(14);
     }
 
     /**
@@ -241,7 +298,7 @@ public class XTodoRecord extends UpdatableRecordImpl<XTodoRecord> implements Ver
      */
     @Override
     public XTodoRecord setToGroup(String value) {
-        set(12, value);
+        set(15, value);
         return this;
     }
 
@@ -250,7 +307,7 @@ public class XTodoRecord extends UpdatableRecordImpl<XTodoRecord> implements Ver
      */
     @Override
     public String getToGroup() {
-        return (String) get(12);
+        return (String) get(15);
     }
 
     /**
@@ -258,7 +315,7 @@ public class XTodoRecord extends UpdatableRecordImpl<XTodoRecord> implements Ver
      */
     @Override
     public XTodoRecord setToUser(String value) {
-        set(13, value);
+        set(16, value);
         return this;
     }
 
@@ -267,7 +324,7 @@ public class XTodoRecord extends UpdatableRecordImpl<XTodoRecord> implements Ver
      */
     @Override
     public String getToUser() {
-        return (String) get(13);
+        return (String) get(16);
     }
 
     /**
@@ -275,7 +332,7 @@ public class XTodoRecord extends UpdatableRecordImpl<XTodoRecord> implements Ver
      */
     @Override
     public XTodoRecord setToRole(String value) {
-        set(14, value);
+        set(17, value);
         return this;
     }
 
@@ -284,63 +341,6 @@ public class XTodoRecord extends UpdatableRecordImpl<XTodoRecord> implements Ver
      */
     @Override
     public String getToRole() {
-        return (String) get(14);
-    }
-
-    /**
-     * Setter for <code>DB_ETERNAL.X_TODO.ASSIGNED_BY</code>. 「assignedBy」-
-     * 待办指派人
-     */
-    @Override
-    public XTodoRecord setAssignedBy(String value) {
-        set(15, value);
-        return this;
-    }
-
-    /**
-     * Getter for <code>DB_ETERNAL.X_TODO.ASSIGNED_BY</code>. 「assignedBy」-
-     * 待办指派人
-     */
-    @Override
-    public String getAssignedBy() {
-        return (String) get(15);
-    }
-
-    /**
-     * Setter for <code>DB_ETERNAL.X_TODO.ACCEPTED_BY</code>. 「acceptedBy」-
-     * 待办接收人
-     */
-    @Override
-    public XTodoRecord setAcceptedBy(String value) {
-        set(16, value);
-        return this;
-    }
-
-    /**
-     * Getter for <code>DB_ETERNAL.X_TODO.ACCEPTED_BY</code>. 「acceptedBy」-
-     * 待办接收人
-     */
-    @Override
-    public String getAcceptedBy() {
-        return (String) get(16);
-    }
-
-    /**
-     * Setter for <code>DB_ETERNAL.X_TODO.FINISHED_BY</code>. 「finishedBy」-
-     * 待办完成人
-     */
-    @Override
-    public XTodoRecord setFinishedBy(String value) {
-        set(17, value);
-        return this;
-    }
-
-    /**
-     * Getter for <code>DB_ETERNAL.X_TODO.FINISHED_BY</code>. 「finishedBy」-
-     * 待办完成人
-     */
-    @Override
-    public String getFinishedBy() {
         return (String) get(17);
     }
 
@@ -364,31 +364,12 @@ public class XTodoRecord extends UpdatableRecordImpl<XTodoRecord> implements Ver
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.X_TODO.DESCRIPTION</code>. 「description」-
-     * 待办描述
-     */
-    @Override
-    public XTodoRecord setDescription(String value) {
-        set(19, value);
-        return this;
-    }
-
-    /**
-     * Getter for <code>DB_ETERNAL.X_TODO.DESCRIPTION</code>. 「description」-
-     * 待办描述
-     */
-    @Override
-    public String getDescription() {
-        return (String) get(19);
-    }
-
-    /**
      * Setter for <code>DB_ETERNAL.X_TODO.PARENT_ID</code>. 「parentId」-
      * 待办支持父子集结构，父待办执行时候子待办同样执行
      */
     @Override
     public XTodoRecord setParentId(String value) {
-        set(20, value);
+        set(19, value);
         return this;
     }
 
@@ -398,6 +379,25 @@ public class XTodoRecord extends UpdatableRecordImpl<XTodoRecord> implements Ver
      */
     @Override
     public String getParentId() {
+        return (String) get(19);
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.X_TODO.DESCRIPTION</code>. 「description」-
+     * 待办描述
+     */
+    @Override
+    public XTodoRecord setDescription(String value) {
+        set(20, value);
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.X_TODO.DESCRIPTION</code>. 「description」-
+     * 待办描述
+     */
+    @Override
+    public String getDescription() {
         return (String) get(20);
     }
 
@@ -470,11 +470,170 @@ public class XTodoRecord extends UpdatableRecordImpl<XTodoRecord> implements Ver
     }
 
     /**
+     * Setter for <code>DB_ETERNAL.X_TODO.OWNER</code>. 「owner」- 拥有者
+     */
+    @Override
+    public XTodoRecord setOwner(String value) {
+        set(25, value);
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.X_TODO.OWNER</code>. 「owner」- 拥有者
+     */
+    @Override
+    public String getOwner() {
+        return (String) get(25);
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.X_TODO.SUPERVISOR</code>. 「supervisor」- 监督人
+     */
+    @Override
+    public XTodoRecord setSupervisor(String value) {
+        set(26, value);
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.X_TODO.SUPERVISOR</code>. 「supervisor」- 监督人
+     */
+    @Override
+    public String getSupervisor() {
+        return (String) get(26);
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.X_TODO.ASSIGNED_BY</code>. 「assignedBy」-
+     * 待办指派人
+     */
+    @Override
+    public XTodoRecord setAssignedBy(String value) {
+        set(27, value);
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.X_TODO.ASSIGNED_BY</code>. 「assignedBy」-
+     * 待办指派人
+     */
+    @Override
+    public String getAssignedBy() {
+        return (String) get(27);
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.X_TODO.ASSIGNED_AT</code>. 「assignedAt」- 指派时间
+     */
+    @Override
+    public XTodoRecord setAssignedAt(LocalDateTime value) {
+        set(28, value);
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.X_TODO.ASSIGNED_AT</code>. 「assignedAt」- 指派时间
+     */
+    @Override
+    public LocalDateTime getAssignedAt() {
+        return (LocalDateTime) get(28);
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.X_TODO.ACCEPTED_BY</code>. 「acceptedBy」-
+     * 待办接收人
+     */
+    @Override
+    public XTodoRecord setAcceptedBy(String value) {
+        set(29, value);
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.X_TODO.ACCEPTED_BY</code>. 「acceptedBy」-
+     * 待办接收人
+     */
+    @Override
+    public String getAcceptedBy() {
+        return (String) get(29);
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.X_TODO.ACCEPTED_AT</code>. 「acceptedAt」- 接收时间
+     */
+    @Override
+    public XTodoRecord setAcceptedAt(LocalDateTime value) {
+        set(30, value);
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.X_TODO.ACCEPTED_AT</code>. 「acceptedAt」- 接收时间
+     */
+    @Override
+    public LocalDateTime getAcceptedAt() {
+        return (LocalDateTime) get(30);
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.X_TODO.FINISHED_BY</code>. 「finishedBy」-
+     * 待办完成人
+     */
+    @Override
+    public XTodoRecord setFinishedBy(String value) {
+        set(31, value);
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.X_TODO.FINISHED_BY</code>. 「finishedBy」-
+     * 待办完成人
+     */
+    @Override
+    public String getFinishedBy() {
+        return (String) get(31);
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.X_TODO.FINISHED_AT</code>. 「finishedAt」- 完成时间
+     */
+    @Override
+    public XTodoRecord setFinishedAt(LocalDateTime value) {
+        set(32, value);
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.X_TODO.FINISHED_AT</code>. 「finishedAt」- 完成时间
+     */
+    @Override
+    public LocalDateTime getFinishedAt() {
+        return (LocalDateTime) get(32);
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.X_TODO.EXPIRED_AT</code>. 「expiredAt」- 超时时间
+     */
+    @Override
+    public XTodoRecord setExpiredAt(LocalDateTime value) {
+        set(33, value);
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.X_TODO.EXPIRED_AT</code>. 「expiredAt」- 超时时间
+     */
+    @Override
+    public LocalDateTime getExpiredAt() {
+        return (LocalDateTime) get(33);
+    }
+
+    /**
      * Setter for <code>DB_ETERNAL.X_TODO.CREATED_AT</code>. 「createdAt」- 创建时间
      */
     @Override
     public XTodoRecord setCreatedAt(LocalDateTime value) {
-        set(25, value);
+        set(34, value);
         return this;
     }
 
@@ -483,7 +642,7 @@ public class XTodoRecord extends UpdatableRecordImpl<XTodoRecord> implements Ver
      */
     @Override
     public LocalDateTime getCreatedAt() {
-        return (LocalDateTime) get(25);
+        return (LocalDateTime) get(34);
     }
 
     /**
@@ -491,7 +650,7 @@ public class XTodoRecord extends UpdatableRecordImpl<XTodoRecord> implements Ver
      */
     @Override
     public XTodoRecord setCreatedBy(String value) {
-        set(26, value);
+        set(35, value);
         return this;
     }
 
@@ -500,7 +659,7 @@ public class XTodoRecord extends UpdatableRecordImpl<XTodoRecord> implements Ver
      */
     @Override
     public String getCreatedBy() {
-        return (String) get(26);
+        return (String) get(35);
     }
 
     /**
@@ -508,7 +667,7 @@ public class XTodoRecord extends UpdatableRecordImpl<XTodoRecord> implements Ver
      */
     @Override
     public XTodoRecord setUpdatedAt(LocalDateTime value) {
-        set(27, value);
+        set(36, value);
         return this;
     }
 
@@ -517,7 +676,7 @@ public class XTodoRecord extends UpdatableRecordImpl<XTodoRecord> implements Ver
      */
     @Override
     public LocalDateTime getUpdatedAt() {
-        return (LocalDateTime) get(27);
+        return (LocalDateTime) get(36);
     }
 
     /**
@@ -525,7 +684,7 @@ public class XTodoRecord extends UpdatableRecordImpl<XTodoRecord> implements Ver
      */
     @Override
     public XTodoRecord setUpdatedBy(String value) {
-        set(28, value);
+        set(37, value);
         return this;
     }
 
@@ -534,7 +693,7 @@ public class XTodoRecord extends UpdatableRecordImpl<XTodoRecord> implements Ver
      */
     @Override
     public String getUpdatedBy() {
-        return (String) get(28);
+        return (String) get(37);
     }
 
     // -------------------------------------------------------------------------
@@ -560,23 +719,32 @@ public class XTodoRecord extends UpdatableRecordImpl<XTodoRecord> implements Ver
         setStatus(from.getStatus());
         setTodoUrl(from.getTodoUrl());
         setType(from.getType());
-        setExpiredAt(from.getExpiredAt());
         setModelId(from.getModelId());
         setModelKey(from.getModelKey());
         setModelCategory(from.getModelCategory());
+        setModelForm(from.getModelForm());
+        setModelComponent(from.getModelComponent());
+        setInstance(from.getInstance());
+        setToGroupMode(from.getToGroupMode());
         setToGroup(from.getToGroup());
         setToUser(from.getToUser());
         setToRole(from.getToRole());
-        setAssignedBy(from.getAssignedBy());
-        setAcceptedBy(from.getAcceptedBy());
-        setFinishedBy(from.getFinishedBy());
         setTraceId(from.getTraceId());
-        setDescription(from.getDescription());
         setParentId(from.getParentId());
+        setDescription(from.getDescription());
         setActive(from.getActive());
         setSigma(from.getSigma());
         setMetadata(from.getMetadata());
         setLanguage(from.getLanguage());
+        setOwner(from.getOwner());
+        setSupervisor(from.getSupervisor());
+        setAssignedBy(from.getAssignedBy());
+        setAssignedAt(from.getAssignedAt());
+        setAcceptedBy(from.getAcceptedBy());
+        setAcceptedAt(from.getAcceptedAt());
+        setFinishedBy(from.getFinishedBy());
+        setFinishedAt(from.getFinishedAt());
+        setExpiredAt(from.getExpiredAt());
         setCreatedAt(from.getCreatedAt());
         setCreatedBy(from.getCreatedBy());
         setUpdatedAt(from.getUpdatedAt());
@@ -603,7 +771,7 @@ public class XTodoRecord extends UpdatableRecordImpl<XTodoRecord> implements Ver
     /**
      * Create a detached, initialised XTodoRecord
      */
-    public XTodoRecord(String key, String serial, String name, String code, String icon, String status, String todoUrl, String type, LocalDateTime expiredAt, String modelId, String modelKey, String modelCategory, String toGroup, String toUser, String toRole, String assignedBy, String acceptedBy, String finishedBy, String traceId, String description, String parentId, Boolean active, String sigma, String metadata, String language, LocalDateTime createdAt, String createdBy, LocalDateTime updatedAt, String updatedBy) {
+    public XTodoRecord(String key, String serial, String name, String code, String icon, String status, String todoUrl, String type, String modelId, String modelKey, String modelCategory, String modelForm, String modelComponent, Boolean instance, String toGroupMode, String toGroup, String toUser, String toRole, String traceId, String parentId, String description, Boolean active, String sigma, String metadata, String language, String owner, String supervisor, String assignedBy, LocalDateTime assignedAt, String acceptedBy, LocalDateTime acceptedAt, String finishedBy, LocalDateTime finishedAt, LocalDateTime expiredAt, LocalDateTime createdAt, String createdBy, LocalDateTime updatedAt, String updatedBy) {
         super(XTodo.X_TODO);
 
         setKey(key);
@@ -614,23 +782,32 @@ public class XTodoRecord extends UpdatableRecordImpl<XTodoRecord> implements Ver
         setStatus(status);
         setTodoUrl(todoUrl);
         setType(type);
-        setExpiredAt(expiredAt);
         setModelId(modelId);
         setModelKey(modelKey);
         setModelCategory(modelCategory);
+        setModelForm(modelForm);
+        setModelComponent(modelComponent);
+        setInstance(instance);
+        setToGroupMode(toGroupMode);
         setToGroup(toGroup);
         setToUser(toUser);
         setToRole(toRole);
-        setAssignedBy(assignedBy);
-        setAcceptedBy(acceptedBy);
-        setFinishedBy(finishedBy);
         setTraceId(traceId);
-        setDescription(description);
         setParentId(parentId);
+        setDescription(description);
         setActive(active);
         setSigma(sigma);
         setMetadata(metadata);
         setLanguage(language);
+        setOwner(owner);
+        setSupervisor(supervisor);
+        setAssignedBy(assignedBy);
+        setAssignedAt(assignedAt);
+        setAcceptedBy(acceptedBy);
+        setAcceptedAt(acceptedAt);
+        setFinishedBy(finishedBy);
+        setFinishedAt(finishedAt);
+        setExpiredAt(expiredAt);
         setCreatedAt(createdAt);
         setCreatedBy(createdBy);
         setUpdatedAt(updatedAt);
@@ -652,23 +829,32 @@ public class XTodoRecord extends UpdatableRecordImpl<XTodoRecord> implements Ver
             setStatus(value.getStatus());
             setTodoUrl(value.getTodoUrl());
             setType(value.getType());
-            setExpiredAt(value.getExpiredAt());
             setModelId(value.getModelId());
             setModelKey(value.getModelKey());
             setModelCategory(value.getModelCategory());
+            setModelForm(value.getModelForm());
+            setModelComponent(value.getModelComponent());
+            setInstance(value.getInstance());
+            setToGroupMode(value.getToGroupMode());
             setToGroup(value.getToGroup());
             setToUser(value.getToUser());
             setToRole(value.getToRole());
-            setAssignedBy(value.getAssignedBy());
-            setAcceptedBy(value.getAcceptedBy());
-            setFinishedBy(value.getFinishedBy());
             setTraceId(value.getTraceId());
-            setDescription(value.getDescription());
             setParentId(value.getParentId());
+            setDescription(value.getDescription());
             setActive(value.getActive());
             setSigma(value.getSigma());
             setMetadata(value.getMetadata());
             setLanguage(value.getLanguage());
+            setOwner(value.getOwner());
+            setSupervisor(value.getSupervisor());
+            setAssignedBy(value.getAssignedBy());
+            setAssignedAt(value.getAssignedAt());
+            setAcceptedBy(value.getAcceptedBy());
+            setAcceptedAt(value.getAcceptedAt());
+            setFinishedBy(value.getFinishedBy());
+            setFinishedAt(value.getFinishedAt());
+            setExpiredAt(value.getExpiredAt());
             setCreatedAt(value.getCreatedAt());
             setCreatedBy(value.getCreatedBy());
             setUpdatedAt(value.getUpdatedAt());

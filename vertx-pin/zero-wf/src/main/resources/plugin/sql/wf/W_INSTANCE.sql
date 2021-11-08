@@ -8,7 +8,6 @@ CREATE TABLE IF NOT EXISTS W_INSTANCE
     `KEY`              VARCHAR(36) COMMENT '「key」- 流程定义主键',
     `CODE`             VARCHAR(255) COMMENT '「code」- 流程定义编号（系统可用）',
     `NAME`             VARCHAR(255) COMMENT '「name」- 流程标题',
-    `TODO_ID`          VARCHAR(36) COMMENT '「todoId」- 绑定TodoId',
 
     -- 父ID
     `INSTANCE_ID`      VARCHAR(64) NOT NULL COMMENT '「instanceId」- 实例ID（查询Task专用）：getProcessInstanceId',

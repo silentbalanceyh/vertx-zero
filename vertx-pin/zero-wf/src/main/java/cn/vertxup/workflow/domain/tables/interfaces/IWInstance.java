@@ -48,16 +48,6 @@ public interface IWInstance extends VertxPojo, Serializable {
     public String getName();
 
     /**
-     * Setter for <code>DB_ETERNAL.W_INSTANCE.TODO_ID</code>. 「todoId」- 绑定TodoId
-     */
-    public IWInstance setTodoId(String value);
-
-    /**
-     * Getter for <code>DB_ETERNAL.W_INSTANCE.TODO_ID</code>. 「todoId」- 绑定TodoId
-     */
-    public String getTodoId();
-
-    /**
      * Setter for <code>DB_ETERNAL.W_INSTANCE.INSTANCE_ID</code>. 「instanceId」-
      * 实例ID（查询Task专用）：getProcessInstanceId
      */
@@ -248,7 +238,6 @@ public interface IWInstance extends VertxPojo, Serializable {
                 setOrThrow(this::setKey,json::getString,"KEY","java.lang.String");
                 setOrThrow(this::setCode,json::getString,"CODE","java.lang.String");
                 setOrThrow(this::setName,json::getString,"NAME","java.lang.String");
-                setOrThrow(this::setTodoId,json::getString,"TODO_ID","java.lang.String");
                 setOrThrow(this::setInstanceId,json::getString,"INSTANCE_ID","java.lang.String");
                 setOrThrow(this::setInstanceRootId,json::getString,"INSTANCE_ROOT_ID","java.lang.String");
                 setOrThrow(this::setInstanceCaseId,json::getString,"INSTANCE_CASE_ID","java.lang.String");
@@ -274,7 +263,6 @@ public interface IWInstance extends VertxPojo, Serializable {
                 json.put("KEY",getKey());
                 json.put("CODE",getCode());
                 json.put("NAME",getName());
-                json.put("TODO_ID",getTodoId());
                 json.put("INSTANCE_ID",getInstanceId());
                 json.put("INSTANCE_ROOT_ID",getInstanceRootId());
                 json.put("INSTANCE_CASE_ID",getInstanceCaseId());

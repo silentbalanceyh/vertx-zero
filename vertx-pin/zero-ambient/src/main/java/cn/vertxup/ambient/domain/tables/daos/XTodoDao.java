@@ -144,21 +144,6 @@ public class XTodoDao extends AbstractVertxDAO<XTodoRecord, cn.vertxup.ambient.d
         }
 
         /**
-     * Find records that have <code>EXPIRED_AT IN (values)</code> asynchronously
-     */
-        public Future<List<cn.vertxup.ambient.domain.tables.pojos.XTodo>> findManyByExpiredAt(Collection<LocalDateTime> values) {
-                return findManyByCondition(XTodo.X_TODO.EXPIRED_AT.in(values));
-        }
-
-        /**
-     * Find records that have <code>EXPIRED_AT IN (values)</code> asynchronously
-     * limited by the given limit
-     */
-        public Future<List<cn.vertxup.ambient.domain.tables.pojos.XTodo>> findManyByExpiredAt(Collection<LocalDateTime> values, int limit) {
-                return findManyByCondition(XTodo.X_TODO.EXPIRED_AT.in(values),limit);
-        }
-
-        /**
      * Find records that have <code>MODEL_ID IN (values)</code> asynchronously
      */
         public Future<List<cn.vertxup.ambient.domain.tables.pojos.XTodo>> findManyByModelId(Collection<String> values) {
@@ -202,6 +187,68 @@ public class XTodoDao extends AbstractVertxDAO<XTodoRecord, cn.vertxup.ambient.d
      */
         public Future<List<cn.vertxup.ambient.domain.tables.pojos.XTodo>> findManyByModelCategory(Collection<String> values, int limit) {
                 return findManyByCondition(XTodo.X_TODO.MODEL_CATEGORY.in(values),limit);
+        }
+
+        /**
+     * Find records that have <code>MODEL_FORM IN (values)</code> asynchronously
+     */
+        public Future<List<cn.vertxup.ambient.domain.tables.pojos.XTodo>> findManyByModelForm(Collection<String> values) {
+                return findManyByCondition(XTodo.X_TODO.MODEL_FORM.in(values));
+        }
+
+        /**
+     * Find records that have <code>MODEL_FORM IN (values)</code> asynchronously
+     * limited by the given limit
+     */
+        public Future<List<cn.vertxup.ambient.domain.tables.pojos.XTodo>> findManyByModelForm(Collection<String> values, int limit) {
+                return findManyByCondition(XTodo.X_TODO.MODEL_FORM.in(values),limit);
+        }
+
+        /**
+     * Find records that have <code>MODEL_COMPONENT IN (values)</code>
+     * asynchronously
+     */
+        public Future<List<cn.vertxup.ambient.domain.tables.pojos.XTodo>> findManyByModelComponent(Collection<String> values) {
+                return findManyByCondition(XTodo.X_TODO.MODEL_COMPONENT.in(values));
+        }
+
+        /**
+     * Find records that have <code>MODEL_COMPONENT IN (values)</code>
+     * asynchronously limited by the given limit
+     */
+        public Future<List<cn.vertxup.ambient.domain.tables.pojos.XTodo>> findManyByModelComponent(Collection<String> values, int limit) {
+                return findManyByCondition(XTodo.X_TODO.MODEL_COMPONENT.in(values),limit);
+        }
+
+        /**
+     * Find records that have <code>INSTANCE IN (values)</code> asynchronously
+     */
+        public Future<List<cn.vertxup.ambient.domain.tables.pojos.XTodo>> findManyByInstance(Collection<Boolean> values) {
+                return findManyByCondition(XTodo.X_TODO.INSTANCE.in(values));
+        }
+
+        /**
+     * Find records that have <code>INSTANCE IN (values)</code> asynchronously
+     * limited by the given limit
+     */
+        public Future<List<cn.vertxup.ambient.domain.tables.pojos.XTodo>> findManyByInstance(Collection<Boolean> values, int limit) {
+                return findManyByCondition(XTodo.X_TODO.INSTANCE.in(values),limit);
+        }
+
+        /**
+     * Find records that have <code>TO_GROUP_MODE IN (values)</code>
+     * asynchronously
+     */
+        public Future<List<cn.vertxup.ambient.domain.tables.pojos.XTodo>> findManyByToGroupMode(Collection<String> values) {
+                return findManyByCondition(XTodo.X_TODO.TO_GROUP_MODE.in(values));
+        }
+
+        /**
+     * Find records that have <code>TO_GROUP_MODE IN (values)</code>
+     * asynchronously limited by the given limit
+     */
+        public Future<List<cn.vertxup.ambient.domain.tables.pojos.XTodo>> findManyByToGroupMode(Collection<String> values, int limit) {
+                return findManyByCondition(XTodo.X_TODO.TO_GROUP_MODE.in(values),limit);
         }
 
         /**
@@ -250,54 +297,6 @@ public class XTodoDao extends AbstractVertxDAO<XTodoRecord, cn.vertxup.ambient.d
         }
 
         /**
-     * Find records that have <code>ASSIGNED_BY IN (values)</code>
-     * asynchronously
-     */
-        public Future<List<cn.vertxup.ambient.domain.tables.pojos.XTodo>> findManyByAssignedBy(Collection<String> values) {
-                return findManyByCondition(XTodo.X_TODO.ASSIGNED_BY.in(values));
-        }
-
-        /**
-     * Find records that have <code>ASSIGNED_BY IN (values)</code>
-     * asynchronously limited by the given limit
-     */
-        public Future<List<cn.vertxup.ambient.domain.tables.pojos.XTodo>> findManyByAssignedBy(Collection<String> values, int limit) {
-                return findManyByCondition(XTodo.X_TODO.ASSIGNED_BY.in(values),limit);
-        }
-
-        /**
-     * Find records that have <code>ACCEPTED_BY IN (values)</code>
-     * asynchronously
-     */
-        public Future<List<cn.vertxup.ambient.domain.tables.pojos.XTodo>> findManyByAcceptedBy(Collection<String> values) {
-                return findManyByCondition(XTodo.X_TODO.ACCEPTED_BY.in(values));
-        }
-
-        /**
-     * Find records that have <code>ACCEPTED_BY IN (values)</code>
-     * asynchronously limited by the given limit
-     */
-        public Future<List<cn.vertxup.ambient.domain.tables.pojos.XTodo>> findManyByAcceptedBy(Collection<String> values, int limit) {
-                return findManyByCondition(XTodo.X_TODO.ACCEPTED_BY.in(values),limit);
-        }
-
-        /**
-     * Find records that have <code>FINISHED_BY IN (values)</code>
-     * asynchronously
-     */
-        public Future<List<cn.vertxup.ambient.domain.tables.pojos.XTodo>> findManyByFinishedBy(Collection<String> values) {
-                return findManyByCondition(XTodo.X_TODO.FINISHED_BY.in(values));
-        }
-
-        /**
-     * Find records that have <code>FINISHED_BY IN (values)</code>
-     * asynchronously limited by the given limit
-     */
-        public Future<List<cn.vertxup.ambient.domain.tables.pojos.XTodo>> findManyByFinishedBy(Collection<String> values, int limit) {
-                return findManyByCondition(XTodo.X_TODO.FINISHED_BY.in(values),limit);
-        }
-
-        /**
      * Find records that have <code>TRACE_ID IN (values)</code> asynchronously
      */
         public Future<List<cn.vertxup.ambient.domain.tables.pojos.XTodo>> findManyByTraceId(Collection<String> values) {
@@ -310,6 +309,21 @@ public class XTodoDao extends AbstractVertxDAO<XTodoRecord, cn.vertxup.ambient.d
      */
         public Future<List<cn.vertxup.ambient.domain.tables.pojos.XTodo>> findManyByTraceId(Collection<String> values, int limit) {
                 return findManyByCondition(XTodo.X_TODO.TRACE_ID.in(values),limit);
+        }
+
+        /**
+     * Find records that have <code>PARENT_ID IN (values)</code> asynchronously
+     */
+        public Future<List<cn.vertxup.ambient.domain.tables.pojos.XTodo>> findManyByParentId(Collection<String> values) {
+                return findManyByCondition(XTodo.X_TODO.PARENT_ID.in(values));
+        }
+
+        /**
+     * Find records that have <code>PARENT_ID IN (values)</code> asynchronously
+     * limited by the given limit
+     */
+        public Future<List<cn.vertxup.ambient.domain.tables.pojos.XTodo>> findManyByParentId(Collection<String> values, int limit) {
+                return findManyByCondition(XTodo.X_TODO.PARENT_ID.in(values),limit);
         }
 
         /**
@@ -326,21 +340,6 @@ public class XTodoDao extends AbstractVertxDAO<XTodoRecord, cn.vertxup.ambient.d
      */
         public Future<List<cn.vertxup.ambient.domain.tables.pojos.XTodo>> findManyByDescription(Collection<String> values, int limit) {
                 return findManyByCondition(XTodo.X_TODO.DESCRIPTION.in(values),limit);
-        }
-
-        /**
-     * Find records that have <code>PARENT_ID IN (values)</code> asynchronously
-     */
-        public Future<List<cn.vertxup.ambient.domain.tables.pojos.XTodo>> findManyByParentId(Collection<String> values) {
-                return findManyByCondition(XTodo.X_TODO.PARENT_ID.in(values));
-        }
-
-        /**
-     * Find records that have <code>PARENT_ID IN (values)</code> asynchronously
-     * limited by the given limit
-     */
-        public Future<List<cn.vertxup.ambient.domain.tables.pojos.XTodo>> findManyByParentId(Collection<String> values, int limit) {
-                return findManyByCondition(XTodo.X_TODO.PARENT_ID.in(values),limit);
         }
 
         /**
@@ -401,6 +400,147 @@ public class XTodoDao extends AbstractVertxDAO<XTodoRecord, cn.vertxup.ambient.d
      */
         public Future<List<cn.vertxup.ambient.domain.tables.pojos.XTodo>> findManyByLanguage(Collection<String> values, int limit) {
                 return findManyByCondition(XTodo.X_TODO.LANGUAGE.in(values),limit);
+        }
+
+        /**
+     * Find records that have <code>OWNER IN (values)</code> asynchronously
+     */
+        public Future<List<cn.vertxup.ambient.domain.tables.pojos.XTodo>> findManyByOwner(Collection<String> values) {
+                return findManyByCondition(XTodo.X_TODO.OWNER.in(values));
+        }
+
+        /**
+     * Find records that have <code>OWNER IN (values)</code> asynchronously
+     * limited by the given limit
+     */
+        public Future<List<cn.vertxup.ambient.domain.tables.pojos.XTodo>> findManyByOwner(Collection<String> values, int limit) {
+                return findManyByCondition(XTodo.X_TODO.OWNER.in(values),limit);
+        }
+
+        /**
+     * Find records that have <code>SUPERVISOR IN (values)</code> asynchronously
+     */
+        public Future<List<cn.vertxup.ambient.domain.tables.pojos.XTodo>> findManyBySupervisor(Collection<String> values) {
+                return findManyByCondition(XTodo.X_TODO.SUPERVISOR.in(values));
+        }
+
+        /**
+     * Find records that have <code>SUPERVISOR IN (values)</code> asynchronously
+     * limited by the given limit
+     */
+        public Future<List<cn.vertxup.ambient.domain.tables.pojos.XTodo>> findManyBySupervisor(Collection<String> values, int limit) {
+                return findManyByCondition(XTodo.X_TODO.SUPERVISOR.in(values),limit);
+        }
+
+        /**
+     * Find records that have <code>ASSIGNED_BY IN (values)</code>
+     * asynchronously
+     */
+        public Future<List<cn.vertxup.ambient.domain.tables.pojos.XTodo>> findManyByAssignedBy(Collection<String> values) {
+                return findManyByCondition(XTodo.X_TODO.ASSIGNED_BY.in(values));
+        }
+
+        /**
+     * Find records that have <code>ASSIGNED_BY IN (values)</code>
+     * asynchronously limited by the given limit
+     */
+        public Future<List<cn.vertxup.ambient.domain.tables.pojos.XTodo>> findManyByAssignedBy(Collection<String> values, int limit) {
+                return findManyByCondition(XTodo.X_TODO.ASSIGNED_BY.in(values),limit);
+        }
+
+        /**
+     * Find records that have <code>ASSIGNED_AT IN (values)</code>
+     * asynchronously
+     */
+        public Future<List<cn.vertxup.ambient.domain.tables.pojos.XTodo>> findManyByAssignedAt(Collection<LocalDateTime> values) {
+                return findManyByCondition(XTodo.X_TODO.ASSIGNED_AT.in(values));
+        }
+
+        /**
+     * Find records that have <code>ASSIGNED_AT IN (values)</code>
+     * asynchronously limited by the given limit
+     */
+        public Future<List<cn.vertxup.ambient.domain.tables.pojos.XTodo>> findManyByAssignedAt(Collection<LocalDateTime> values, int limit) {
+                return findManyByCondition(XTodo.X_TODO.ASSIGNED_AT.in(values),limit);
+        }
+
+        /**
+     * Find records that have <code>ACCEPTED_BY IN (values)</code>
+     * asynchronously
+     */
+        public Future<List<cn.vertxup.ambient.domain.tables.pojos.XTodo>> findManyByAcceptedBy(Collection<String> values) {
+                return findManyByCondition(XTodo.X_TODO.ACCEPTED_BY.in(values));
+        }
+
+        /**
+     * Find records that have <code>ACCEPTED_BY IN (values)</code>
+     * asynchronously limited by the given limit
+     */
+        public Future<List<cn.vertxup.ambient.domain.tables.pojos.XTodo>> findManyByAcceptedBy(Collection<String> values, int limit) {
+                return findManyByCondition(XTodo.X_TODO.ACCEPTED_BY.in(values),limit);
+        }
+
+        /**
+     * Find records that have <code>ACCEPTED_AT IN (values)</code>
+     * asynchronously
+     */
+        public Future<List<cn.vertxup.ambient.domain.tables.pojos.XTodo>> findManyByAcceptedAt(Collection<LocalDateTime> values) {
+                return findManyByCondition(XTodo.X_TODO.ACCEPTED_AT.in(values));
+        }
+
+        /**
+     * Find records that have <code>ACCEPTED_AT IN (values)</code>
+     * asynchronously limited by the given limit
+     */
+        public Future<List<cn.vertxup.ambient.domain.tables.pojos.XTodo>> findManyByAcceptedAt(Collection<LocalDateTime> values, int limit) {
+                return findManyByCondition(XTodo.X_TODO.ACCEPTED_AT.in(values),limit);
+        }
+
+        /**
+     * Find records that have <code>FINISHED_BY IN (values)</code>
+     * asynchronously
+     */
+        public Future<List<cn.vertxup.ambient.domain.tables.pojos.XTodo>> findManyByFinishedBy(Collection<String> values) {
+                return findManyByCondition(XTodo.X_TODO.FINISHED_BY.in(values));
+        }
+
+        /**
+     * Find records that have <code>FINISHED_BY IN (values)</code>
+     * asynchronously limited by the given limit
+     */
+        public Future<List<cn.vertxup.ambient.domain.tables.pojos.XTodo>> findManyByFinishedBy(Collection<String> values, int limit) {
+                return findManyByCondition(XTodo.X_TODO.FINISHED_BY.in(values),limit);
+        }
+
+        /**
+     * Find records that have <code>FINISHED_AT IN (values)</code>
+     * asynchronously
+     */
+        public Future<List<cn.vertxup.ambient.domain.tables.pojos.XTodo>> findManyByFinishedAt(Collection<LocalDateTime> values) {
+                return findManyByCondition(XTodo.X_TODO.FINISHED_AT.in(values));
+        }
+
+        /**
+     * Find records that have <code>FINISHED_AT IN (values)</code>
+     * asynchronously limited by the given limit
+     */
+        public Future<List<cn.vertxup.ambient.domain.tables.pojos.XTodo>> findManyByFinishedAt(Collection<LocalDateTime> values, int limit) {
+                return findManyByCondition(XTodo.X_TODO.FINISHED_AT.in(values),limit);
+        }
+
+        /**
+     * Find records that have <code>EXPIRED_AT IN (values)</code> asynchronously
+     */
+        public Future<List<cn.vertxup.ambient.domain.tables.pojos.XTodo>> findManyByExpiredAt(Collection<LocalDateTime> values) {
+                return findManyByCondition(XTodo.X_TODO.EXPIRED_AT.in(values));
+        }
+
+        /**
+     * Find records that have <code>EXPIRED_AT IN (values)</code> asynchronously
+     * limited by the given limit
+     */
+        public Future<List<cn.vertxup.ambient.domain.tables.pojos.XTodo>> findManyByExpiredAt(Collection<LocalDateTime> values, int limit) {
+                return findManyByCondition(XTodo.X_TODO.EXPIRED_AT.in(values),limit);
         }
 
         /**

@@ -69,21 +69,6 @@ public class WInstanceDao extends AbstractVertxDAO<WInstanceRecord, cn.vertxup.w
         }
 
         /**
-     * Find records that have <code>TODO_ID IN (values)</code> asynchronously
-     */
-        public Future<List<cn.vertxup.workflow.domain.tables.pojos.WInstance>> findManyByTodoId(Collection<String> values) {
-                return findManyByCondition(WInstance.W_INSTANCE.TODO_ID.in(values));
-        }
-
-        /**
-     * Find records that have <code>TODO_ID IN (values)</code> asynchronously
-     * limited by the given limit
-     */
-        public Future<List<cn.vertxup.workflow.domain.tables.pojos.WInstance>> findManyByTodoId(Collection<String> values, int limit) {
-                return findManyByCondition(WInstance.W_INSTANCE.TODO_ID.in(values),limit);
-        }
-
-        /**
      * Find records that have <code>INSTANCE_ID IN (values)</code>
      * asynchronously
      */
