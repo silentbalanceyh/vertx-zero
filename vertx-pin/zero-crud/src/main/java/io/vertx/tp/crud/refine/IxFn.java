@@ -121,12 +121,8 @@ class IxFn {
                         point = null;
                     } else {
                         point = join.point(json);
-                        if (Objects.isNull(point)) {
-                            switchedJq = null;
-                        } else {
-                            final KModule switched = IxPin.getActor(point.getCrud());
-                            switchedJq = IxPin.jooq(switched, in.envelop());
-                        }
+                        final KModule switched = IxPin.getActor(point.getCrud());
+                        switchedJq = IxPin.jooq(switched, in.envelop());
                     }
                     if (Objects.nonNull(switchedJq)) {
                         /* Filters for Records */
