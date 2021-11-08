@@ -1,6 +1,7 @@
 {
     "skip": [
         "aj.org.objectweb",
+        "camundajar",
         "cglib",
         "ch.qos.logback",
         "co.paralleluniverse",
@@ -25,6 +26,7 @@
         "com.zaxxer",
         "com.codahale",
         "de.javakaffee",
+        "de.odysseus",
         "io.github",
         "io.github.jklingsporn",
         "io.grpc",
@@ -56,6 +58,7 @@
         "org.HdrHistogram",
         "org.aspectj",
         "org.apache",
+        "org.camunda",
         "org.checkerframework",
         "org.cliffc",
         "org.conscrypt",
