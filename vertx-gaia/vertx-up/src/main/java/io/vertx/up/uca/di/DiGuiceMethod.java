@@ -20,22 +20,17 @@ public class DiGuiceMethod<T extends I, I> implements DiGuice<T, I> {
     @Override
     public boolean success(final Class<?> clazz) {
         // Get all Method
-        try {
-            final Method[] methods = clazz.getDeclaredMethods();
-            return Arrays.stream(methods)
-                .filter(method -> !Modifier.isStatic(method.getModifiers()))   // Ko Static
-                .filter(method -> !Modifier.isPublic(method.getModifiers()))   // Ko Non-Public
-                .filter(method -> 0 < method.getParameterCount())              // Ko ()
-                .filter(method -> method.isAnnotationPresent(Inject.class))    // JSR 330
-                .anyMatch(method -> {
-                    final Class<?>[] parameters = method.getParameterTypes();
-                    this.pointers.addAll(Arrays.asList(parameters));
-                    return true;
-                });
-        } catch (final NoClassDefFoundError ex) {
-            // java.lang.NoClassDefFoundError
-            return false;
-        }
+        final Method[] methods = clazz.getDeclaredMethods();
+        return Arrays.stream(methods)
+            .filter(method -> !Modifier.isStatic(method.getModifiers()))   // Ko Static
+            .filter(method -> !Modifier.isPublic(method.getModifiers()))   // Ko Non-Public
+            .filter(method -> 0 < method.getParameterCount())              // Ko ()
+            .filter(method -> method.isAnnotationPresent(Inject.class))    // JSR 330
+            .anyMatch(method -> {
+                final Class<?>[] parameters = method.getParameterTypes();
+                this.pointers.addAll(Arrays.asList(parameters));
+                return true;
+            });
     }
 
     @Override

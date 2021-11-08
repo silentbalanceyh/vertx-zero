@@ -33,6 +33,14 @@ public class XIntegration extends TableImpl<XIntegrationRecord> {
      */
     public final TableField<XIntegrationRecord, String> KEY = createField(DSL.name("KEY"), SQLDataType.VARCHAR(36).nullable(false), this, "「key」- 集成配置主键");
     /**
+     * The column <code>DB_ETERNAL.X_INTEGRATION.NAME</code>. 「name」- 集成名称
+     */
+    public final TableField<XIntegrationRecord, String> NAME = createField(DSL.name("NAME"), SQLDataType.VARCHAR(255), this, "「name」- 集成名称");
+    /**
+     * The column <code>DB_ETERNAL.X_INTEGRATION.TYPE</code>. 「type」- 集成类型
+     */
+    public final TableField<XIntegrationRecord, String> TYPE = createField(DSL.name("TYPE"), SQLDataType.VARCHAR(255), this, "「type」- 集成类型");
+    /**
      * The column <code>DB_ETERNAL.X_INTEGRATION.IP_V4</code>. 「ipV4」- IP v4地址
      */
     public final TableField<XIntegrationRecord, String> IP_V4 = createField(DSL.name("IP_V4"), SQLDataType.VARCHAR(15), this, "「ipV4」- IP v4地址");
@@ -59,6 +67,25 @@ public class XIntegration extends TableImpl<XIntegrationRecord> {
      * The column <code>DB_ETERNAL.X_INTEGRATION.PATH</code>. 「path」- 集成专用根路径
      */
     public final TableField<XIntegrationRecord, String> PATH = createField(DSL.name("PATH"), SQLDataType.VARCHAR(255), this, "「path」- 集成专用根路径");
+    /**
+     * The column <code>DB_ETERNAL.X_INTEGRATION.OS_KEY</code>. 「osKey」- 开源专用Key
+     */
+    public final TableField<XIntegrationRecord, String> OS_KEY = createField(DSL.name("OS_KEY"), SQLDataType.VARCHAR(1024), this, "「osKey」- 开源专用Key");
+    /**
+     * The column <code>DB_ETERNAL.X_INTEGRATION.OS_SECRET</code>. 「osSecret」-
+     * 开源专用Secret
+     */
+    public final TableField<XIntegrationRecord, String> OS_SECRET = createField(DSL.name("OS_SECRET"), SQLDataType.VARCHAR(1024), this, "「osSecret」- 开源专用Secret");
+    /**
+     * The column <code>DB_ETERNAL.X_INTEGRATION.OS_AUTHORIZE</code>.
+     * 「osAuthorize」- Authorize接口
+     */
+    public final TableField<XIntegrationRecord, String> OS_AUTHORIZE = createField(DSL.name("OS_AUTHORIZE"), SQLDataType.VARCHAR(255), this, "「osAuthorize」- Authorize接口");
+    /**
+     * The column <code>DB_ETERNAL.X_INTEGRATION.OS_TOKEN</code>. 「osToken」-
+     * Token接口
+     */
+    public final TableField<XIntegrationRecord, String> OS_TOKEN = createField(DSL.name("OS_TOKEN"), SQLDataType.VARCHAR(255), this, "「osToken」- Token接口");
     /**
      * The column <code>DB_ETERNAL.X_INTEGRATION.USERNAME</code>. 「username」- 账号
      */
@@ -201,14 +228,5 @@ public class XIntegration extends TableImpl<XIntegrationRecord> {
     @Override
     public XIntegration rename(Name name) {
         return new XIntegration(name, null);
-    }
-
-    // -------------------------------------------------------------------------
-    // Row20 type methods
-    // -------------------------------------------------------------------------
-
-    @Override
-    public Row20<String, String, String, String, String, String, String, String, String, String, String, String, Boolean, String, String, String, LocalDateTime, String, LocalDateTime, String> fieldsRow() {
-        return (Row20) super.fieldsRow();
     }
 }

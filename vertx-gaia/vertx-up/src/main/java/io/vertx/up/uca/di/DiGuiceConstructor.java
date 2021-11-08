@@ -20,21 +20,16 @@ public class DiGuiceConstructor<T extends I, I> implements DiGuice<T, I> {
     @Override
     public boolean success(final Class<?> clazz) {
         // Get all Constructor
-        try {
-            final Constructor<?>[] constructors = clazz.getDeclaredConstructors();
-            return Arrays.stream(constructors)
-                .filter(constructor -> !Modifier.isPublic(constructor.getModifiers()))   // Ko Non-Public
-                .filter(constructor -> 0 < constructor.getParameterCount())              // Ko ()
-                .filter(constructor -> constructor.isAnnotationPresent(Inject.class))    // JSR 330
-                .anyMatch(constructor -> {
-                    final Class<?>[] parameters = constructor.getParameterTypes();
-                    this.pointers.addAll(Arrays.asList(parameters));
-                    return true;
-                });
-        } catch (final NoClassDefFoundError ex) {
-            // java.lang.NoClassDefFoundError
-            return false;
-        }
+        final Constructor<?>[] constructors = clazz.getDeclaredConstructors();
+        return Arrays.stream(constructors)
+            .filter(constructor -> !Modifier.isPublic(constructor.getModifiers()))   // Ko Non-Public
+            .filter(constructor -> 0 < constructor.getParameterCount())              // Ko ()
+            .filter(constructor -> constructor.isAnnotationPresent(Inject.class))    // JSR 330
+            .anyMatch(constructor -> {
+                final Class<?>[] parameters = constructor.getParameterTypes();
+                this.pointers.addAll(Arrays.asList(parameters));
+                return true;
+            });
     }
 
     @Override

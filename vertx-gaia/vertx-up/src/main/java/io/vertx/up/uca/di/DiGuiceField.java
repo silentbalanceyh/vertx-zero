@@ -21,22 +21,17 @@ public class DiGuiceField<T extends I, I> implements DiGuice<T, I> {
     @Override
     public boolean success(final Class<?> clazz) {
         // Get all fields
-        try {
-            final Field[] fields = clazz.getDeclaredFields();
-            final Set<Class<?>> extract = new HashSet<>();
-            Arrays.stream(fields)
-                .filter(field -> !Modifier.isStatic(field.getModifiers()))          // Ko Static
-                // .filter(field -> !Modifier.isPublic(field.getModifiers()))          // Ko Non-Public
-                .filter(field -> field.isAnnotationPresent(Inject.class))           // JSR 330
-                .forEach(field -> extract.add(field.getType()));
-            if (!extract.isEmpty()) {
-                this.pointers.addAll(extract);
-            }
-            return !extract.isEmpty();
-        } catch (final NoClassDefFoundError ex) {
-            // java.lang.NoClassDefFoundError
-            return false;
+        final Field[] fields = clazz.getDeclaredFields();
+        final Set<Class<?>> extract = new HashSet<>();
+        Arrays.stream(fields)
+            .filter(field -> !Modifier.isStatic(field.getModifiers()))          // Ko Static
+            // .filter(field -> !Modifier.isPublic(field.getModifiers()))          // Ko Non-Public
+            .filter(field -> field.isAnnotationPresent(Inject.class))           // JSR 330
+            .forEach(field -> extract.add(field.getType()));
+        if (!extract.isEmpty()) {
+            this.pointers.addAll(extract);
         }
+        return !extract.isEmpty();
     }
 
     @Override

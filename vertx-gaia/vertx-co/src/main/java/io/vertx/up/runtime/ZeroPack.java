@@ -83,6 +83,7 @@ public final class ZeroPack {
                 .filter(type -> !Modifier.isStatic(type.getModifiers()))    // Ko Static
                 .filter(type -> !Throwable.class.isAssignableFrom(type))    // Ko Exception
                 .filter(type -> !type.isAnnotationPresent(RunWith.class))   // Ko Test Class
+                .filter(ZeroPack::validMember)                          // Ko `Method/Field`
                 .collect(Collectors.toSet()));
             LOGGER.info(Info.CLASSES, String.valueOf(CLASSES.size()));
             /*
@@ -97,6 +98,16 @@ public final class ZeroPack {
             // System.exit(0);
         }
         return CLASSES;
+    }
+
+    private static boolean validMember(final Class<?> type) {
+        try {
+            type.getDeclaredMethods();
+            type.getDeclaredFields();
+            return true;
+        } catch (NoClassDefFoundError ex) {
+            return false;
+        }
     }
 
     @SuppressWarnings("all")
