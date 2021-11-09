@@ -2,12 +2,12 @@ package cn.vertxup.ambient.service;
 
 import cn.vertxup.ambient.domain.tables.daos.XTodoDao;
 import cn.vertxup.ambient.domain.tables.pojos.XTodo;
+import cn.zeroup.macrocosm.cv.em.TodoStatus;
 import com.fasterxml.jackson.core.type.TypeReference;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.ambient.cv.AtMsg;
-import io.vertx.tp.ambient.cv.em.TodoStatus;
 import io.vertx.tp.ambient.init.AtPin;
 import io.vertx.tp.ambient.refine.At;
 import io.vertx.tp.ke.refine.Ke;
