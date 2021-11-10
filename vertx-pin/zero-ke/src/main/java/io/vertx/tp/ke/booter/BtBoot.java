@@ -47,7 +47,7 @@ class BtBoot {
         final List<String> files = Ut.ioFilesN(folder, null, prefix);
         final Set<KBoot> boots = KBoot.initialize();
         if (!boots.isEmpty() && oob) {
-            boots.forEach(boot -> files.addAll(boot.oob()));
+            boots.forEach(boot -> files.addAll(boot.oob(prefix)));
         }
         return files.stream().filter(BtKit::ensure);
     }
