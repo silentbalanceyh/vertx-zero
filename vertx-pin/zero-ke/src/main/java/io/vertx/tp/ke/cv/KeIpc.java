@@ -35,6 +35,8 @@ public interface KeIpc {
         String ATOM = "atom";
         // zero-lbs
         String LBS = "lbs";
+        // zero-wf
+        String WF = "wf";
     }
 
     /*

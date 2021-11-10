@@ -24,4 +24,9 @@ public interface HighWay {
     interface Do {
 
     }
+
+    interface Todo {
+
+        String BY_ID = KeIpc.Workflow.EVENT + "X-TODO/BY-ID";
+    }
 }

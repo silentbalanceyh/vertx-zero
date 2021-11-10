@@ -1,19 +1,18 @@
-package cn.vertxup.ambient.service;
+package cn.vertxup.workflow.service;
 
-import cn.vertxup.ambient.domain.tables.daos.XTodoDao;
-import cn.vertxup.ambient.domain.tables.pojos.XTodo;
+import cn.vertxup.workflow.domain.tables.daos.WTodoDao;
+import cn.vertxup.workflow.domain.tables.pojos.WTodo;
+import cn.zeroup.macrocosm.cv.WfMsg;
 import cn.zeroup.macrocosm.cv.em.TodoStatus;
 import com.fasterxml.jackson.core.type.TypeReference;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.ambient.cv.AtMsg;
-import io.vertx.tp.ambient.init.AtPin;
-import io.vertx.tp.ambient.refine.At;
 import io.vertx.tp.ke.refine.Ke;
 import io.vertx.tp.optic.business.ExTodo;
+import io.vertx.tp.workflow.init.WfPin;
+import io.vertx.tp.workflow.refine.Wf;
 import io.vertx.up.eon.KName;
-import io.vertx.up.log.Annal;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
@@ -24,14 +23,13 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 public class TodoService implements TodoStub {
-    private static final Annal LOGGER = Annal.get(TodoService.class);
 
     @Override
     public Future<JsonObject> createTodo(final String type, final JsonObject data) {
         /*
          * Get by type
          */
-        final JsonObject defaultTodo = AtPin.getTodo(type);
+        final JsonObject defaultTodo = WfPin.getTodo(type);
         final JsonObject inputData = data.copy();
         if (Objects.nonNull(defaultTodo)) {
             /*
@@ -46,8 +44,8 @@ public class TodoService implements TodoStub {
             inputData.put(KName.CODE, code);
             inputData.put("todoUrl", url);
         }
-        final XTodo todo = Ut.deserialize(inputData, XTodo.class);
-        return Ux.Jooq.on(XTodoDao.class)
+        final WTodo todo = Ut.deserialize(inputData, WTodo.class);
+        return Ux.Jooq.on(WTodoDao.class)
             .insertAsync(todo)
             .compose(Ux::futureJ);
     }
@@ -60,20 +58,20 @@ public class TodoService implements TodoStub {
             filters.put("type", type);
         }
         filters.put("status,i", statues);
-        return Ux.Jooq.on(XTodoDao.class).fetchAndAsync(filters).compose(Ux::futureA);
+        return Ux.Jooq.on(WTodoDao.class).fetchAndAsync(filters).compose(Ux::futureA);
     }
 
     @Override
     public Future<JsonArray> fetchTodos(final String sigma, final JsonArray types, final JsonArray statues) {
         final JsonObject filters = this.toFilters(sigma, types, statues);
-        return Ux.Jooq.on(XTodoDao.class).fetchAndAsync(filters).compose(Ux::futureA);
+        return Ux.Jooq.on(WTodoDao.class).fetchAndAsync(filters).compose(Ux::futureA);
     }
 
     @Override
     public Future<JsonArray> fetchTodos(final String sigma, final JsonArray types, final JsonArray statues, final JsonArray codes) {
         final JsonObject filters = this.toFilters(sigma, types, statues);
         filters.put("code,i", codes);
-        return Ux.Jooq.on(XTodoDao.class).fetchAndAsync(filters).compose(Ux::futureA);
+        return Ux.Jooq.on(WTodoDao.class).fetchAndAsync(filters).compose(Ux::futureA);
     }
 
     private JsonObject toFilters(final String sigma, final JsonArray types, final JsonArray statues) {
@@ -88,23 +86,23 @@ public class TodoService implements TodoStub {
 
     @Override
     public Future<JsonArray> updateStatus(final Set<String> keys, final JsonObject params) {
-        return Ux.Jooq.on(XTodoDao.class)
-            .<XTodo>fetchInAsync(KName.KEY, Ut.toJArray(keys))
+        return Ux.Jooq.on(WTodoDao.class)
+            .<WTodo>fetchInAsync(KName.KEY, Ut.toJArray(keys))
             .compose(Ux::futureA)
             .compose(Ut.ifNil(JsonArray::new, (todoArray) -> {
                 /*
-                 * Update status of XTodo
+                 * Update status of WTodo
                  */
-                List<XTodo> todoList = Ut.deserialize(todoArray, new TypeReference<List<XTodo>>() {
+                List<WTodo> todoList = Ut.deserialize(todoArray, new TypeReference<List<WTodo>>() {
                 });
                 {
                     /*
-                     * XTodo Auditor setting
+                     * WTodo Auditor setting
                      */
                     todoList = todoList.stream().map(todo -> this.combineTodo(todo, params))
                         .collect(Collectors.toList());
                 }
-                return Ux.Jooq.on(XTodoDao.class)
+                return Ux.Jooq.on(WTodoDao.class)
                     .updateAsync(todoList)
                     .compose(Ux::futureA);
             }));
@@ -112,36 +110,36 @@ public class TodoService implements TodoStub {
 
     @Override
     public Future<JsonObject> updateStatus(final String key, final JsonObject params) {
-        return Ux.Jooq.on(XTodoDao.class)
-            .<XTodo>fetchByIdAsync(key)
+        return Ux.Jooq.on(WTodoDao.class)
+            .<WTodo>fetchByIdAsync(key)
             .compose(Ux::futureJ)
             .compose(Ut.ifJNil((todoJson) -> {
                 /*
-                 * Update status of XTodo
+                 * Update status of WTodo
                  */
-                XTodo todo = Ut.deserialize(todoJson, XTodo.class);
+                WTodo todo = Ut.deserialize(todoJson, WTodo.class);
                 {
                     todo = this.combineTodo(todo, params);
                 }
-                return Ux.Jooq.on(XTodoDao.class)
+                return Ux.Jooq.on(WTodoDao.class)
                     .updateAsync(todo)
                     .compose(Ux::futureJ);
             }));
     }
 
-    private XTodo combineTodo(final XTodo todo, final JsonObject params) {
+    private WTodo combineTodo(final WTodo todo, final JsonObject params) {
         if (Objects.isNull(todo)) {
             return null;
         } else {
             /*
-             * XTodo Auditor setting
+             * WTodo Auditor setting
              */
             final String userId = params.getString(KName.USER_ID);
             if (Ut.notNil(userId)) {
                 todo.setUpdatedBy(userId);
                 todo.setUpdatedAt(LocalDateTime.now());
                 /*
-                 * XTodo once for `createdBy`
+                 * WTodo once for `createdBy`
                  */
                 if (Objects.isNull(todo.getCreatedBy())) {
                     todo.setCreatedBy(userId);
@@ -155,7 +153,7 @@ public class TodoService implements TodoStub {
                 todo.setStatus(status);
                 if (TodoStatus.FINISHED.name().equals(status)) {
                     /*
-                     * It means that XTodo has been updated by user
+                     * It means that WTodo has been updated by user
                      */
                     todo.setFinishedBy(todo.getUpdatedBy());
                 }
@@ -166,11 +164,11 @@ public class TodoService implements TodoStub {
 
     @Override
     public Future<JsonObject> fetchTodo(final String key) {
-        return Ux.Jooq.on(XTodoDao.class)
-            .<XTodo>fetchByIdAsync(key)
+        return Ux.Jooq.on(WTodoDao.class)
+            .<WTodo>fetchByIdAsync(key)
             .compose(Ux::futureJ)
             .compose(Ut.ifNil(JsonObject::new, (todo) -> Ke.channel(ExTodo.class, () -> todo, channel -> {
-                At.infoInit(LOGGER, AtMsg.CHANNEL_TODO, channel.getClass().getName());
+                Wf.Log.infoInit(this.getClass(), WfMsg.CHANNEL_TODO, channel.getClass().getName());
                 /*
                  * X_TODO channel and data merged.
                  */

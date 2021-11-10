@@ -4,7 +4,7 @@ import cn.originx.migration.tookit.AbstractStatic;
 import cn.vertxup.ambient.domain.tables.daos.XActivityChangeDao;
 import cn.vertxup.ambient.domain.tables.daos.XActivityDao;
 import cn.vertxup.ambient.domain.tables.daos.XLogDao;
-import cn.vertxup.ambient.domain.tables.daos.XTodoDao;
+import cn.vertxup.workflow.domain.tables.daos.WTodoDao;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.eon.em.Environment;
@@ -28,6 +28,6 @@ public class BackupHistory extends AbstractStatic {
             /* XActivity */
             .compose(this.backupH(XActivityDao.class, folder)::procAsync)
             /* XTodo */
-            .compose(this.backupT(XTodoDao.class, folder)::procAsync);
+            .compose(this.backupT(WTodoDao.class, folder)::procAsync);
     }
 }

@@ -1,6 +1,6 @@
 package cn.zeroup.macrocosm.api;
 
-import cn.vertxup.ambient.domain.tables.daos.XTodoDao;
+import cn.vertxup.workflow.domain.tables.daos.WTodoDao;
 import cn.zeroup.macrocosm.cv.HighWay;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
@@ -22,6 +22,6 @@ public class QueueActor {
         // Combine qr based on
         final JsonObject qrCombine = Ux.whereQrA(qr, KName.CREATED_BY, userId);
         // Todo Processing
-        return Ux.Jooq.on(XTodoDao.class).searchAsync(qrCombine);
+        return Ux.Jooq.on(WTodoDao.class).searchAsync(qrCombine);
     }
 }

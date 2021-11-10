@@ -10,11 +10,6 @@ interface Prefix {
 
 public interface Addr {
 
-    interface Todo {
-
-        String BY_ID = Prefix._EVENT + "X-TODO/BY-ID";
-    }
-
     interface App {
 
         String BY_NAME = Prefix._EVENT + "X-APP/BY-NAME";

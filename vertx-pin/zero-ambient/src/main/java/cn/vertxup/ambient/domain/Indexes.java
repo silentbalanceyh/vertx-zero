@@ -11,7 +11,6 @@ import cn.vertxup.ambient.domain.tables.XCategory;
 import cn.vertxup.ambient.domain.tables.XLog;
 import cn.vertxup.ambient.domain.tables.XMenu;
 import cn.vertxup.ambient.domain.tables.XTabular;
-import cn.vertxup.ambient.domain.tables.XTodo;
 
 import org.jooq.Index;
 import org.jooq.OrderField;
@@ -41,6 +40,4 @@ public class Indexes {
     public static final Index X_LOG_IDXM_X_LOG_SIGMA_TYPE = Internal.createIndex(DSL.name("IDXM_X_LOG_SIGMA_TYPE"), XLog.X_LOG, new OrderField[] { XLog.X_LOG.SIGMA, XLog.X_LOG.TYPE }, false);
     public static final Index X_TABULAR_IDXM_X_TABULAR_APP_ID_TYPE_ACTIVE = Internal.createIndex(DSL.name("IDXM_X_TABULAR_APP_ID_TYPE_ACTIVE"), XTabular.X_TABULAR, new OrderField[] { XTabular.X_TABULAR.APP_ID, XTabular.X_TABULAR.TYPE, XTabular.X_TABULAR.ACTIVE }, false);
     public static final Index X_TABULAR_IDXM_X_TABULAR_SIGMA_TYPE_ACTIVE = Internal.createIndex(DSL.name("IDXM_X_TABULAR_SIGMA_TYPE_ACTIVE"), XTabular.X_TABULAR, new OrderField[] { XTabular.X_TABULAR.SIGMA, XTabular.X_TABULAR.TYPE, XTabular.X_TABULAR.ACTIVE }, false);
-    public static final Index X_TODO_IDXM_X_TODO_SIGMA_STATUS = Internal.createIndex(DSL.name("IDXM_X_TODO_SIGMA_STATUS"), XTodo.X_TODO, new OrderField[] { XTodo.X_TODO.SIGMA, XTodo.X_TODO.STATUS }, false);
-    public static final Index X_TODO_IDXM_X_TODO_SIGMA_TYPE_STATUS = Internal.createIndex(DSL.name("IDXM_X_TODO_SIGMA_TYPE_STATUS"), XTodo.X_TODO, new OrderField[] { XTodo.X_TODO.SIGMA, XTodo.X_TODO.STATUS, XTodo.X_TODO.TYPE }, false);
 }

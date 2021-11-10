@@ -1,7 +1,7 @@
-package cn.vertxup.ambient.api;
+package cn.zeroup.macrocosm.api;
 
+import cn.zeroup.macrocosm.cv.HighWay;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.ambient.cv.Addr;
 import io.vertx.up.annotations.Address;
 import io.vertx.up.annotations.EndPoint;
 
@@ -17,6 +17,6 @@ public interface TodoAgent {
      */
     @Path("/todo/:key")
     @GET
-    @Address(Addr.Todo.BY_ID)
+    @Address(HighWay.Todo.BY_ID)
     JsonObject byId(@PathParam("key") String key);
 }
