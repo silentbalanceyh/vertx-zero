@@ -13,7 +13,7 @@ import javax.ws.rs.PathParam;
 @Path("/api")
 public interface TodoAgent {
     /*
-     * Get XTodo By Id
+     * Get WTodo By Id
      */
     @Path("/todo/:key")
     @GET

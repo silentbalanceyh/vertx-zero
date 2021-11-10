@@ -7,7 +7,7 @@ import io.vertx.core.json.JsonObject;
 import java.util.Set;
 
 /*
- * XTodo created by type / params
+ * WTodo created by type / params
  */
 public interface TodoStub {
     /*

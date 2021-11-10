@@ -27,7 +27,7 @@ public class RestoreHistory extends AbstractStatic {
             .compose(this.restoreH(XActivityDao.class, folder)::procAsync)
             /* XLog */
             .compose(this.restoreH(XLogDao.class, folder)::procAsync)
-            /* XTodo */
+            /* WTodo */
             .compose(this.restoreT(WTodoDao.class, folder)::procAsync);
     }
 }

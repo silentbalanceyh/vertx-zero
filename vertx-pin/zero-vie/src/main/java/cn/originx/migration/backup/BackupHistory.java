@@ -27,7 +27,7 @@ public class BackupHistory extends AbstractStatic {
             .compose(this.backupH(XActivityChangeDao.class, folder)::procAsync)
             /* XActivity */
             .compose(this.backupH(XActivityDao.class, folder)::procAsync)
-            /* XTodo */
+            /* WTodo */
             .compose(this.backupT(WTodoDao.class, folder)::procAsync);
     }
 }
