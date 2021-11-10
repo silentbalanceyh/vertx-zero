@@ -1,7 +1,7 @@
 package cn.originx.uca.code;
 
 import cn.vertxup.ambient.domain.tables.pojos.XActivity;
-import cn.vertxup.ambient.domain.tables.pojos.XTodo;
+import cn.vertxup.workflow.domain.tables.pojos.WTodo;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.up.eon.em.ChangeFlag;
@@ -38,7 +38,7 @@ interface NumerationMap {
     ConcurrentMap<Class<?>, String> NUM_MAP = new ConcurrentHashMap<Class<?>, String>() {
         {
             this.put(XActivity.class, "NUM.ACTIVITY");
-            this.put(XTodo.class, "NUM.TODO");
+            this.put(WTodo.class, "NUM.TODO");
         }
     };
 }

@@ -1,8 +1,8 @@
-package io.vertx.tp.ambient.init;
+package io.vertx.tp.workflow.init;
 
+import cn.zeroup.macrocosm.cv.WfCv;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.ambient.cv.AtFolder;
-import io.vertx.tp.ambient.refine.At;
+import io.vertx.tp.workflow.refine.Wf;
 import io.vertx.up.eon.FileSuffix;
 import io.vertx.up.eon.Strings;
 import io.vertx.up.log.Annal;
@@ -54,11 +54,11 @@ import java.util.concurrent.ConcurrentMap;
  *
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-final class AtTodo {
+final class WfTodo {
     /**
      * Zero standard logger of {@link io.vertx.up.log.Annal} instance.
      */
-    private static final Annal LOGGER = Annal.get(AtTodo.class);
+    private static final Annal LOGGER = Annal.get(WfTodo.class);
     /**
      * The todo definition of hash map `type = Json` format that stored todo configuration data here.
      */
@@ -68,7 +68,7 @@ final class AtTodo {
     /**
      * The private constructor to let current class be Util only.
      */
-    private AtTodo() {
+    private WfTodo() {
     }
 
     /**
@@ -76,10 +76,10 @@ final class AtTodo {
      */
     static void init() {
         if (TODO_DEF.isEmpty()) {
-            final List<String> files = Ut.ioFiles(AtFolder.TODO_FOLDER, FileSuffix.JSON);
-            At.infoInit(LOGGER, "At Todo Files: {0}", files.size());
+            final List<String> files = Ut.ioFiles(WfCv.TODO_FOLDER, FileSuffix.JSON);
+            Wf.Log.infoInit(WfTodo.class, "At Todo Files: {0}", files.size());
             files.forEach(file -> {
-                final String path = AtFolder.TODO_FOLDER + file;
+                final String path = WfCv.TODO_FOLDER + file;
                 final JsonObject todoDef = Ut.ioJObject(path);
                 final String key = file.replace(Strings.DOT + FileSuffix.JSON, Strings.EMPTY);
                 TODO_DEF.put(key, todoDef);

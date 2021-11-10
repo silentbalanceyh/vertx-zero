@@ -1,4 +1,4 @@
-package cn.vertxup.ambient.service;
+package cn.vertxup.workflow.service;
 
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
@@ -7,7 +7,7 @@ import io.vertx.core.json.JsonObject;
 import java.util.Set;
 
 /*
- * XTodo created by type / params
+ * WTodo created by type / params
  */
 public interface TodoStub {
     /*

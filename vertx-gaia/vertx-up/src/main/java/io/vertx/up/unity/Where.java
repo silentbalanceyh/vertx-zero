@@ -2,6 +2,7 @@ package io.vertx.up.unity;
 
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
+import io.vertx.up.atom.query.engine.Qr;
 import io.vertx.up.eon.KName;
 import io.vertx.up.eon.Strings;
 import io.vertx.up.util.Ut;
@@ -48,5 +49,24 @@ class Where {
         final JsonObject criteria = whereAnd();
         criteria.put(KName.KEY + ",i", keys);
         return criteria;
+    }
+
+    static JsonObject whereQr(final JsonObject qr, final String field, final Object value) {
+        Objects.requireNonNull(qr);
+        // If value instance of JsonObject, skip
+        if (value instanceof JsonObject) {
+            return qr;
+        }
+        final JsonObject query = qr.copy();
+        if (!query.containsKey(Qr.KEY_CRITERIA)) {
+            query.put(Qr.KEY_CRITERIA, new JsonObject());
+        }
+        // Reference extract from query
+        // Because you have added new condition, the connector must be AND
+        final JsonObject criteria = query.getJsonObject(Qr.KEY_CRITERIA);
+        criteria.put(field, value);
+        criteria.put(Strings.EMPTY, Boolean.TRUE);
+        query.put(Qr.KEY_CRITERIA, criteria);   // Double sure reference of `criteria`
+        return query;
     }
 }

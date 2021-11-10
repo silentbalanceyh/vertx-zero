@@ -20,11 +20,13 @@ import java.util.Objects;
 final class WfConfiguration {
     private static final String KEY = "workflow";
     private static final Node<JsonObject> READER = Ut.singleton(ZeroUniform.class);
-
     private static WfConfig CONFIG;
     private static ProcessEngine ENGINE;
 
-    static {
+    private WfConfiguration() {
+    }
+
+    static void init() {
         final JsonObject configJson = READER.read();
         if (configJson.containsKey(KEY)) {
             final JsonObject configuration = configJson.getJsonObject(KEY, new JsonObject());

@@ -33,7 +33,3 @@
     - code
     - type
     - appId
--   dao: cn.vertxup.ambient.domain.tables.daos.XTodoDao     # X_TODO
-    unique:
-    - code
-    - sigma

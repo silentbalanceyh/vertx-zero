@@ -9,7 +9,7 @@ import io.vertx.up.exception.web._501NotSupportException;
 
 /*
  * 用于处理 Aop 横切层的专用插件接口，目前主要使用在
- * Activity 和 XTodo 中
+ * Activity 和 WTodo 中
  * 1）beforeAsync：在逻辑之前执行
  * 2）afterAsync：在逻辑之后执行
  */

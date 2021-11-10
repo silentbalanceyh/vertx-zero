@@ -6,18 +6,18 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.up.unity.Ux;
 
 /*
- * XTodo Record fetching workflow
+ * WTodo Record fetching workflow
  */
 public interface ExTodo {
     /*
      * Read data by options
-     * 1）tid - XTodo id ( tid )
+     * 1）tid - WTodo id ( tid )
      * 2) params -> include ( modelId, modelKey, modelCategory, include sigma )
      */
     Future<JsonObject> fetchAsync(String id, JsonObject params);
 
     /*
-     * Valve XTodo data for creation
+     * Valve WTodo data for creation
      * Default implementation is `No valve`
      */
     default Future<JsonArray> valveAsync(final JsonArray input, final JsonObject params) {

@@ -1,6 +1,5 @@
 package io.vertx.tp.ambient.init;
 
-import io.vertx.core.json.JsonObject;
 import io.vertx.tp.ambient.atom.AtConfig;
 import io.vertx.tp.ambient.refine.At;
 import io.vertx.tp.error._500InitSpecificationException;
@@ -54,8 +53,6 @@ public class AtPin {
         Ke.banner("「περιβάλλων」- Ambient ( At )");
         At.infoInit(LOGGER, "AtConfiguration...");
         AtConfiguration.init();
-        At.infoInit(LOGGER, "AtTodo...");
-        AtTodo.init();
     }
 
     /**
@@ -67,16 +64,6 @@ public class AtPin {
         return AtConfiguration.getConfig();
     }
 
-    /**
-     * Return to configuration data that convert to {@link io.vertx.core.json.JsonObject} here by type.
-     *
-     * @param type {@link java.lang.String} The type value passed.
-     *
-     * @return {@link io.vertx.core.json.JsonObject}
-     */
-    public static JsonObject getTodo(final String type) {
-        return AtTodo.getTodo(type);
-    }
 
     /**
      * Configuration initialization phase.
