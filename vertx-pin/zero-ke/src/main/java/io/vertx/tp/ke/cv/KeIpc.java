@@ -5,6 +5,14 @@ package io.vertx.tp.ke.cv;
  * It's for communication
  */
 public interface KeIpc {
+    interface Workflow {
+        /*
+         * Event Addr Prefix for workflow
+         * This value will be shared between zero-ambient / zero-wf
+         * */
+        String EVENT = "Ἀτλαντὶς νῆσος://Ροή εργασίας/";
+    }
+
     /* Module Crud */
     interface Module {
         // zero-ambient
