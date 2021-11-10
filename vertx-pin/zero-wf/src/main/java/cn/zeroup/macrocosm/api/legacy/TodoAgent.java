@@ -1,4 +1,4 @@
-package cn.zeroup.macrocosm.api;
+package cn.zeroup.macrocosm.api.legacy;
 
 import cn.zeroup.macrocosm.cv.HighWay;
 import io.vertx.core.json.JsonObject;

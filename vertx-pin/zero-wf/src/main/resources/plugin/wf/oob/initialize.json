@@ -1,4 +1,6 @@
 [
     "plugin/wf/oob/cab/system.todo.xlsx",
-    "plugin/wf/oob/role/ADMIN.SUPER/falcon.system.todo.xlsx"
+    "plugin/wf/oob/cab/system.workflow.xlsx",
+    "plugin/wf/oob/role/ADMIN.SUPER/falcon.system.todo.xlsx",
+    "plugin/wf/oob/role/ADMIN.SUPER/falcon.system.workflow.xlsx"
 ]

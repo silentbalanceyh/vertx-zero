@@ -45,6 +45,8 @@ public interface KBoot {
 
     List<String> oob();
 
+    List<String> oob(String prefix);
+
     /*
      * Following two methods are for Crud Default Value
      */

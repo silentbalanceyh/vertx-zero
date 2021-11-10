@@ -12,6 +12,7 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
+import java.util.stream.Collectors;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
@@ -53,6 +54,13 @@ public abstract class AbstractBoot implements KBoot {
     @Override
     public List<String> oob() {
         return this.files;
+    }
+
+    @Override
+    public List<String> oob(final String prefix) {
+        return this.files.stream()
+            .filter(item -> item.contains(prefix))
+            .collect(Collectors.toList());
     }
 
     @Override

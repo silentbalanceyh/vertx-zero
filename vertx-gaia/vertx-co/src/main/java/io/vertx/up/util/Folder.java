@@ -33,7 +33,7 @@ final class Folder {
         return folders.stream()
             .flatMap(single -> list(single, extension, false)
                 .stream()
-                .filter(file -> Ut.isNil(prefix) || file.startsWith(prefix))
+                .filter(file -> Ut.isNil(prefix) || file.contains(prefix))
                 .map(file -> {
                     if (single.endsWith("/")) {
                         return single + file;
