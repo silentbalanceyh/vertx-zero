@@ -7,6 +7,7 @@ import io.vertx.tp.ke.refine.Ke;
 import io.vertx.tp.workflow.refine.Wf;
 import io.vertx.tp.workflow.uca.deployment.DeployOn;
 import io.vertx.up.unity.Ux;
+import org.camunda.bpm.engine.FormService;
 import org.camunda.bpm.engine.RepositoryService;
 import org.camunda.bpm.engine.RuntimeService;
 import org.camunda.bpm.engine.TaskService;
@@ -38,6 +39,10 @@ public class WfPin {
 
     public static RepositoryService camundaRepository() {
         return WfConfiguration.camunda().getRepositoryService();
+    }
+
+    public static FormService camundaForm() {
+        return WfConfiguration.camunda().getFormService();
     }
 
     public static RuntimeService camundaRuntime() {

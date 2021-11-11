@@ -13,5 +13,24 @@ public interface StoreOn {
         return Fn.poolThread(WfPool.POOL_STORE, StoreEngine::new);
     }
 
-    Future<JsonObject> fetchFlow(String code);
+    /*
+     * {
+     *      "definitionId": "xxx",
+     *      "code": "workflow code",
+     *      "bpmn": "xml definition"
+     * }
+     */
+    Future<JsonObject> processByKey(String code);
+
+    Future<JsonObject> processById(String definitionId);
+
+    /*
+     * {
+     *      "code": "the last one",
+     *      "formKey": "the original form Key",
+     *      "fields": {
+     *      }
+     * }
+     */
+    Future<JsonObject> fetchForm(String definitionId, boolean isTask);
 }

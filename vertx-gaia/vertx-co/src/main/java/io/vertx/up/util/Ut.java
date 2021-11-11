@@ -644,6 +644,10 @@ public final class Ut {
         return IO.getFile(filename);
     }
 
+    public static boolean ioExist(final String filename) {
+        return IO.isExist(filename);
+    }
+
     public static Properties ioProperties(final String filename) {
         return IO.getProp(filename);
     }
