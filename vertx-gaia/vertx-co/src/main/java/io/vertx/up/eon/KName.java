@@ -280,6 +280,9 @@ public interface KName {
 
     interface Flow {
         String DEFINITION_ID = "definitionId";
+        String DEFINITION_KEY = "definitionKey";
+        String FORM_KEY = "formKey";
         String BPMN = "bpmn";
+        String WORKFLOW = "workflow";
     }
 }

@@ -9,4 +9,9 @@ import io.vertx.core.json.JsonObject;
 public interface FlowStub {
 
     Future<JsonObject> fetchFlow(String code, String sigma);
+
+    /*
+     * Process by id ( unique )
+     */
+    Future<JsonObject> fetchFirst(String definitionId, String sigma);
 }

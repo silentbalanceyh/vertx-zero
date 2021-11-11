@@ -1,5 +1,6 @@
 package io.vertx.tp.workflow.init;
 
+import cn.zeroup.macrocosm.cv.WfCv;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.workflow.atom.WfConfig;
 import io.vertx.tp.workflow.refine.Wf;
@@ -19,7 +20,6 @@ import java.util.Objects;
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 final class WfConfiguration {
-    private static final String KEY = "workflow";
     private static final Node<JsonObject> READER = Ut.singleton(ZeroUniform.class);
     private static WfConfig CONFIG;
     private static ProcessEngine ENGINE;
@@ -29,8 +29,8 @@ final class WfConfiguration {
 
     static void init() {
         final JsonObject configJson = READER.read();
-        if (configJson.containsKey(KEY)) {
-            final JsonObject configuration = configJson.getJsonObject(KEY, new JsonObject());
+        if (configJson.containsKey(WfCv.ROOT_FOLDER)) {
+            final JsonObject configuration = configJson.getJsonObject(WfCv.ROOT_FOLDER, new JsonObject());
             Wf.Log.infoInit(WfConfiguration.class, "The workflow engine will be initialized!! `{0}`",
                 configuration.encode());
             CONFIG = Ut.deserialize(configuration, WfConfig.class);
@@ -62,9 +62,9 @@ final class WfConfiguration {
     }
 
     static List<String> camundaResources() {
-        final List<String> folders = Ut.ioDirectories(KEY);
+        final List<String> folders = Ut.ioDirectories(WfCv.ROOT_FOLDER);
         final List<String> results = new ArrayList<>();
-        folders.forEach(each -> results.add(KEY + "/" + each));
+        folders.forEach(each -> results.add(WfCv.ROOT_FOLDER + "/" + each));
         return results;
     }
 }

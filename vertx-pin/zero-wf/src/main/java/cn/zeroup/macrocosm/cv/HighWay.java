@@ -16,6 +16,9 @@ public interface HighWay {
     interface Queue {
         // Fetch by who created: CREATED_BY
         String BY_CREATED = KeIpc.Workflow.EVENT + "W-TODO/BY/CREATED";
+
+        // Fetch before creation
+        String TASK_FORM = KeIpc.Workflow.EVENT + "W-TODO/BY/VIRTUAL-FORM";
     }
 
     /*

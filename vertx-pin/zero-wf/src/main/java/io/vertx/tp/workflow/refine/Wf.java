@@ -1,11 +1,16 @@
 package io.vertx.tp.workflow.refine;
 
+import io.vertx.core.json.JsonObject;
 import io.vertx.up.log.Annal;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 public class Wf {
+
+    public static JsonObject argsForm(final JsonObject form, final String sigma) {
+        return WfForm.argsForm(form, sigma);
+    }
 
     public static class Log {
         public static void infoInit(final Class<?> clazz, final String message, final Object... args) {

@@ -5,4 +5,8 @@ package cn.zeroup.macrocosm.cv;
  */
 public interface WfCv {
     String TODO_FOLDER = "plugin/wf/todo/";
+
+    String FORM_FOLDER = "workflow/{0}/";
+
+    String ROOT_FOLDER = "workflow";
 }

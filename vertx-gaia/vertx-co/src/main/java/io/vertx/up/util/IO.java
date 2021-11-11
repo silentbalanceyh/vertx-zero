@@ -21,6 +21,7 @@ import java.io.File;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
+import java.util.Objects;
 import java.util.Properties;
 
 /**
@@ -242,6 +243,15 @@ final class IO {
                     return new File(url.getFile());
                 });
         }, filename);
+    }
+
+    static boolean isExist(final String filename) {
+        final File file = new File(filename);
+        if (file.exists()) {
+            return true;
+        }
+        final URL url = getURL(filename);
+        return Objects.nonNull(url);
     }
 
     /**

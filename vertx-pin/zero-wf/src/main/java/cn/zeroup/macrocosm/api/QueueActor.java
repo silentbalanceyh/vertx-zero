@@ -37,4 +37,27 @@ public class QueueActor {
         final String sigma = header.getSigma();
         return this.flowStub.fetchFlow(code, sigma);
     }
+
+    /*
+     * Response:
+     * {
+     *      "form": {
+     *
+     *      },
+     *      "workflow": {
+     *
+     *      }
+     * }
+     */
+    @Address(HighWay.Queue.TASK_FORM)
+    public Future<JsonObject> fetchForm(final JsonObject data,
+                                        final Boolean isPre, final XHeader header) {
+        final String definitionId = data.getString(KName.Flow.DEFINITION_ID);
+        if (isPre) {
+            // Start Point
+            return this.flowStub.fetchFirst(definitionId, header.getSigma());
+        } else {
+            return Ux.future();
+        }
+    }
 }

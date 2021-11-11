@@ -29,4 +29,15 @@ public interface QueueAgent {
     @Path("/up/workflow/:code")
     @Address(HighWay.Flow.BY_CODE)
     JsonObject fetchFlow(@PathParam(KName.CODE) String code);
+
+    /*
+     * Here are two mode
+     * 1. when isPre = true, the workflow is not started
+     * 2. when isPre = false ( Default ), standard to pick up the task
+     */
+    @POST
+    @Path("/up/duty-form/:pre")
+    @Address(HighWay.Queue.TASK_FORM)
+    JsonObject fetchForm(@BodyParam JsonObject body,
+                         @PathParam("pre") Boolean isPre);
 }
