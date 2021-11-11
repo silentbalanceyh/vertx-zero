@@ -277,4 +277,9 @@ public interface KName {
         String TENANT = "tenant";
         String VENDORS = "vendors";
     }
+
+    interface Flow {
+        String DEFINITION_ID = "definitionId";
+        String BPMN = "bpmn";
+    }
 }

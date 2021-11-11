@@ -22,9 +22,9 @@ import java.util.stream.Collectors;
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-class DeployBpmnService implements DeployStub {
+class DeployBpmnService implements DeployOn {
     private final transient DeploymentBuilder builder;
-    private final transient DeployStub formStub;
+    private final transient DeployOn formStub;
     private transient String tenantId;
 
     DeployBpmnService(final String workflow) {
@@ -71,7 +71,7 @@ class DeployBpmnService implements DeployStub {
     }
 
     @Override
-    public DeployStub tenant(final String tenantId) {
+    public DeployOn tenant(final String tenantId) {
         this.tenantId = tenantId;
         return this;
     }

@@ -16,7 +16,7 @@ import java.util.List;
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-public class ProcEngine implements ProcOn {
+class ProcEngine implements ProcOn {
     @Override
     public Future<Boolean> completeAsync(final String instanceId, final JsonObject params) {
         final TaskService service = WfPin.camundaTask();
