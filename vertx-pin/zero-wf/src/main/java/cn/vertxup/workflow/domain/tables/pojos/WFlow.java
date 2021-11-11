@@ -24,13 +24,15 @@ public class WFlow implements VertxPojo, IWFlow {
     private String        name;
     private String        code;
     private String        type;
-    private String        definitionId;
+    private String        definitionKey;
+    private String        authorizedComponent;
+    private String        authorizedConfig;
+    private String        generateComponent;
+    private String        generateConfig;
     private String        runComponent;
     private String        runConfig;
-    private String        bootComponent;
-    private String        bootConfig;
-    private String        todoComponent;
-    private String        todoConfig;
+    private String        startComponent;
+    private String        startConfig;
     private String        comment;
     private Boolean       active;
     private String        sigma;
@@ -48,13 +50,15 @@ public class WFlow implements VertxPojo, IWFlow {
         this.name = value.getName();
         this.code = value.getCode();
         this.type = value.getType();
-        this.definitionId = value.getDefinitionId();
+        this.definitionKey = value.getDefinitionKey();
+        this.authorizedComponent = value.getAuthorizedComponent();
+        this.authorizedConfig = value.getAuthorizedConfig();
+        this.generateComponent = value.getGenerateComponent();
+        this.generateConfig = value.getGenerateConfig();
         this.runComponent = value.getRunComponent();
         this.runConfig = value.getRunConfig();
-        this.bootComponent = value.getBootComponent();
-        this.bootConfig = value.getBootConfig();
-        this.todoComponent = value.getTodoComponent();
-        this.todoConfig = value.getTodoConfig();
+        this.startComponent = value.getStartComponent();
+        this.startConfig = value.getStartConfig();
         this.comment = value.getComment();
         this.active = value.getActive();
         this.sigma = value.getSigma();
@@ -71,13 +75,15 @@ public class WFlow implements VertxPojo, IWFlow {
         String        name,
         String        code,
         String        type,
-        String        definitionId,
+        String        definitionKey,
+        String        authorizedComponent,
+        String        authorizedConfig,
+        String        generateComponent,
+        String        generateConfig,
         String        runComponent,
         String        runConfig,
-        String        bootComponent,
-        String        bootConfig,
-        String        todoComponent,
-        String        todoConfig,
+        String        startComponent,
+        String        startConfig,
         String        comment,
         Boolean       active,
         String        sigma,
@@ -92,13 +98,15 @@ public class WFlow implements VertxPojo, IWFlow {
         this.name = name;
         this.code = code;
         this.type = type;
-        this.definitionId = definitionId;
+        this.definitionKey = definitionKey;
+        this.authorizedComponent = authorizedComponent;
+        this.authorizedConfig = authorizedConfig;
+        this.generateComponent = generateComponent;
+        this.generateConfig = generateConfig;
         this.runComponent = runComponent;
         this.runConfig = runConfig;
-        this.bootComponent = bootComponent;
-        this.bootConfig = bootConfig;
-        this.todoComponent = todoComponent;
-        this.todoConfig = todoConfig;
+        this.startComponent = startComponent;
+        this.startConfig = startConfig;
         this.comment = comment;
         this.active = active;
         this.sigma = sigma;
@@ -168,7 +176,7 @@ public class WFlow implements VertxPojo, IWFlow {
 
     /**
      * Getter for <code>DB_ETERNAL.W_FLOW.TYPE</code>. 「type」- 流程类型，对接
-     * zero.workflow.type的X_TABULAR
+     * zero.workflow.cat的X_TABULAR
      */
     @Override
     public String getType() {
@@ -177,7 +185,7 @@ public class WFlow implements VertxPojo, IWFlow {
 
     /**
      * Setter for <code>DB_ETERNAL.W_FLOW.TYPE</code>. 「type」- 流程类型，对接
-     * zero.workflow.type的X_TABULAR
+     * zero.workflow.cat的X_TABULAR
      */
     @Override
     public WFlow setType(String type) {
@@ -186,21 +194,97 @@ public class WFlow implements VertxPojo, IWFlow {
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.W_FLOW.DEFINITION_ID</code>. 「definitionId」-
-     * 定义ID（读取流程图所需）, getProcessDefinitionId
+     * Getter for <code>DB_ETERNAL.W_FLOW.DEFINITION_KEY</code>.
+     * 「definitionKey」- 定义ID（读取流程图所需）, getProcessDefinitionId
      */
     @Override
-    public String getDefinitionId() {
-        return this.definitionId;
+    public String getDefinitionKey() {
+        return this.definitionKey;
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.W_FLOW.DEFINITION_ID</code>. 「definitionId」-
-     * 定义ID（读取流程图所需）, getProcessDefinitionId
+     * Setter for <code>DB_ETERNAL.W_FLOW.DEFINITION_KEY</code>.
+     * 「definitionKey」- 定义ID（读取流程图所需）, getProcessDefinitionId
      */
     @Override
-    public WFlow setDefinitionId(String definitionId) {
-        this.definitionId = definitionId;
+    public WFlow setDefinitionKey(String definitionKey) {
+        this.definitionKey = definitionKey;
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.W_FLOW.AUTHORIZED_COMPONENT</code>.
+     * 「authorizedComponent」- 流程授权组件
+     */
+    @Override
+    public String getAuthorizedComponent() {
+        return this.authorizedComponent;
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.W_FLOW.AUTHORIZED_COMPONENT</code>.
+     * 「authorizedComponent」- 流程授权组件
+     */
+    @Override
+    public WFlow setAuthorizedComponent(String authorizedComponent) {
+        this.authorizedComponent = authorizedComponent;
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.W_FLOW.AUTHORIZED_CONFIG</code>.
+     * 「authorizedConfig」- 流程授权配置
+     */
+    @Override
+    public String getAuthorizedConfig() {
+        return this.authorizedConfig;
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.W_FLOW.AUTHORIZED_CONFIG</code>.
+     * 「authorizedConfig」- 流程授权配置
+     */
+    @Override
+    public WFlow setAuthorizedConfig(String authorizedConfig) {
+        this.authorizedConfig = authorizedConfig;
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.W_FLOW.GENERATE_COMPONENT</code>.
+     * 「generateComponent」- Todo生成组件
+     */
+    @Override
+    public String getGenerateComponent() {
+        return this.generateComponent;
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.W_FLOW.GENERATE_COMPONENT</code>.
+     * 「generateComponent」- Todo生成组件
+     */
+    @Override
+    public WFlow setGenerateComponent(String generateComponent) {
+        this.generateComponent = generateComponent;
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.W_FLOW.GENERATE_CONFIG</code>.
+     * 「generateConfig」- Todo生成配置
+     */
+    @Override
+    public String getGenerateConfig() {
+        return this.generateConfig;
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.W_FLOW.GENERATE_CONFIG</code>.
+     * 「generateConfig」- Todo生成配置
+     */
+    @Override
+    public WFlow setGenerateConfig(String generateConfig) {
+        this.generateConfig = generateConfig;
         return this;
     }
 
@@ -241,76 +325,40 @@ public class WFlow implements VertxPojo, IWFlow {
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.W_FLOW.BOOT_COMPONENT</code>.
-     * 「bootComponent」- 启动组件
+     * Getter for <code>DB_ETERNAL.W_FLOW.START_COMPONENT</code>.
+     * 「startComponent」- 启动组件
      */
     @Override
-    public String getBootComponent() {
-        return this.bootComponent;
+    public String getStartComponent() {
+        return this.startComponent;
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.W_FLOW.BOOT_COMPONENT</code>.
-     * 「bootComponent」- 启动组件
+     * Setter for <code>DB_ETERNAL.W_FLOW.START_COMPONENT</code>.
+     * 「startComponent」- 启动组件
      */
     @Override
-    public WFlow setBootComponent(String bootComponent) {
-        this.bootComponent = bootComponent;
+    public WFlow setStartComponent(String startComponent) {
+        this.startComponent = startComponent;
         return this;
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.W_FLOW.BOOT_CONFIG</code>. 「bootConfig」- 启动配置
+     * Getter for <code>DB_ETERNAL.W_FLOW.START_CONFIG</code>. 「startConfig」-
+     * 启动配置
      */
     @Override
-    public String getBootConfig() {
-        return this.bootConfig;
+    public String getStartConfig() {
+        return this.startConfig;
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.W_FLOW.BOOT_CONFIG</code>. 「bootConfig」- 启动配置
+     * Setter for <code>DB_ETERNAL.W_FLOW.START_CONFIG</code>. 「startConfig」-
+     * 启动配置
      */
     @Override
-    public WFlow setBootConfig(String bootConfig) {
-        this.bootConfig = bootConfig;
-        return this;
-    }
-
-    /**
-     * Getter for <code>DB_ETERNAL.W_FLOW.TODO_COMPONENT</code>.
-     * 「todoComponent」- Todo专用组件
-     */
-    @Override
-    public String getTodoComponent() {
-        return this.todoComponent;
-    }
-
-    /**
-     * Setter for <code>DB_ETERNAL.W_FLOW.TODO_COMPONENT</code>.
-     * 「todoComponent」- Todo专用组件
-     */
-    @Override
-    public WFlow setTodoComponent(String todoComponent) {
-        this.todoComponent = todoComponent;
-        return this;
-    }
-
-    /**
-     * Getter for <code>DB_ETERNAL.W_FLOW.TODO_CONFIG</code>. 「todoConfig」-
-     * Todo配置，生成UI专用配置（旧系统所需，新系统会扩展此处的写法）
-     */
-    @Override
-    public String getTodoConfig() {
-        return this.todoConfig;
-    }
-
-    /**
-     * Setter for <code>DB_ETERNAL.W_FLOW.TODO_CONFIG</code>. 「todoConfig」-
-     * Todo配置，生成UI专用配置（旧系统所需，新系统会扩展此处的写法）
-     */
-    @Override
-    public WFlow setTodoConfig(String todoConfig) {
-        this.todoConfig = todoConfig;
+    public WFlow setStartConfig(String startConfig) {
+        this.startConfig = startConfig;
         return this;
     }
 
@@ -475,13 +523,15 @@ public class WFlow implements VertxPojo, IWFlow {
         sb.append(", ").append(name);
         sb.append(", ").append(code);
         sb.append(", ").append(type);
-        sb.append(", ").append(definitionId);
+        sb.append(", ").append(definitionKey);
+        sb.append(", ").append(authorizedComponent);
+        sb.append(", ").append(authorizedConfig);
+        sb.append(", ").append(generateComponent);
+        sb.append(", ").append(generateConfig);
         sb.append(", ").append(runComponent);
         sb.append(", ").append(runConfig);
-        sb.append(", ").append(bootComponent);
-        sb.append(", ").append(bootConfig);
-        sb.append(", ").append(todoComponent);
-        sb.append(", ").append(todoConfig);
+        sb.append(", ").append(startComponent);
+        sb.append(", ").append(startConfig);
         sb.append(", ").append(comment);
         sb.append(", ").append(active);
         sb.append(", ").append(sigma);
@@ -506,13 +556,15 @@ public class WFlow implements VertxPojo, IWFlow {
         setName(from.getName());
         setCode(from.getCode());
         setType(from.getType());
-        setDefinitionId(from.getDefinitionId());
+        setDefinitionKey(from.getDefinitionKey());
+        setAuthorizedComponent(from.getAuthorizedComponent());
+        setAuthorizedConfig(from.getAuthorizedConfig());
+        setGenerateComponent(from.getGenerateComponent());
+        setGenerateConfig(from.getGenerateConfig());
         setRunComponent(from.getRunComponent());
         setRunConfig(from.getRunConfig());
-        setBootComponent(from.getBootComponent());
-        setBootConfig(from.getBootConfig());
-        setTodoComponent(from.getTodoComponent());
-        setTodoConfig(from.getTodoConfig());
+        setStartComponent(from.getStartComponent());
+        setStartConfig(from.getStartConfig());
         setComment(from.getComment());
         setActive(from.getActive());
         setSigma(from.getSigma());

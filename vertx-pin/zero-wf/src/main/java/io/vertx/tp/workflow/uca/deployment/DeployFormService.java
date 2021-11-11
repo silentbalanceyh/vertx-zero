@@ -14,7 +14,7 @@ import java.util.Set;
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-class DeployFormService implements DeployStub {
+class DeployFormService implements DeployOn {
     private final transient DeploymentBuilder builderRef;
     private final transient Set<String> formFiles = new HashSet<>();
     private final transient String workflow;
@@ -24,7 +24,7 @@ class DeployFormService implements DeployStub {
         this.workflow = workflow;
     }
 
-    public DeployStub forms(final Set<String> formFiles) {
+    public DeployOn forms(final Set<String> formFiles) {
         if (Objects.nonNull(formFiles)) {
             this.formFiles.addAll(formFiles);
         }

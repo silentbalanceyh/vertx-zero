@@ -9,6 +9,7 @@ import io.vertx.up.uca.yaml.ZeroUniform;
 import io.vertx.up.util.Ut;
 import org.camunda.bpm.engine.ProcessEngine;
 import org.camunda.bpm.engine.ProcessEngineConfiguration;
+import org.camunda.bpm.engine.impl.history.HistoryLevel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,7 +48,7 @@ final class WfConfiguration {
             ENGINE = ProcessEngineConfiguration.createStandaloneInMemProcessEngineConfiguration()
                 // Fix Issue:
                 // org.camunda.bpm.engine.ProcessEngineException: historyLevel mismatch: configuration says HistoryLevelAudit(name=audit, id=2) and database says HistoryLevelFull(name=full, id=3)
-                .setHistory("none")     // none, audit, full
+                .setHistory(HistoryLevel.HISTORY_LEVEL_FULL.getName())     // none, audit, full, activity
                 .setProcessEngineName(CONFIG.getName())
                 .setDatabaseSchemaUpdate(ProcessEngineConfiguration.DB_SCHEMA_UPDATE_FALSE)
                 .setJdbcUrl(database.getJdbcUrl())

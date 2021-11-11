@@ -5,7 +5,7 @@ import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.ke.refine.Ke;
 import io.vertx.tp.workflow.refine.Wf;
-import io.vertx.tp.workflow.uca.deployment.DeployStub;
+import io.vertx.tp.workflow.uca.deployment.DeployOn;
 import io.vertx.up.unity.Ux;
 import org.camunda.bpm.engine.RepositoryService;
 import org.camunda.bpm.engine.RuntimeService;
@@ -32,7 +32,7 @@ public class WfPin {
 
         final List<Future<Boolean>> futures = new ArrayList<>();
         // Deployment for .bpmn files
-        resources.forEach(resource -> DeployStub.create(resource).initialize());
+        resources.forEach(resource -> DeployOn.get(resource).initialize());
         return Ux.thenCombineT(futures).compose(nil -> Ux.futureT());
     }
 
