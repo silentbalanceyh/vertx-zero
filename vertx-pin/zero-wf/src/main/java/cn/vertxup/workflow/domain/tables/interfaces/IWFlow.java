@@ -49,27 +49,75 @@ public interface IWFlow extends VertxPojo, Serializable {
 
     /**
      * Setter for <code>DB_ETERNAL.W_FLOW.TYPE</code>. 「type」- 流程类型，对接
-     * zero.workflow.type的X_TABULAR
+     * zero.workflow.cat的X_TABULAR
      */
     public IWFlow setType(String value);
 
     /**
      * Getter for <code>DB_ETERNAL.W_FLOW.TYPE</code>. 「type」- 流程类型，对接
-     * zero.workflow.type的X_TABULAR
+     * zero.workflow.cat的X_TABULAR
      */
     public String getType();
 
     /**
-     * Setter for <code>DB_ETERNAL.W_FLOW.DEFINITION_ID</code>. 「definitionId」-
-     * 定义ID（读取流程图所需）, getProcessDefinitionId
+     * Setter for <code>DB_ETERNAL.W_FLOW.DEFINITION_KEY</code>.
+     * 「definitionKey」- 定义ID（读取流程图所需）, getProcessDefinitionId
      */
-    public IWFlow setDefinitionId(String value);
+    public IWFlow setDefinitionKey(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.W_FLOW.DEFINITION_ID</code>. 「definitionId」-
-     * 定义ID（读取流程图所需）, getProcessDefinitionId
+     * Getter for <code>DB_ETERNAL.W_FLOW.DEFINITION_KEY</code>.
+     * 「definitionKey」- 定义ID（读取流程图所需）, getProcessDefinitionId
      */
-    public String getDefinitionId();
+    public String getDefinitionKey();
+
+    /**
+     * Setter for <code>DB_ETERNAL.W_FLOW.AUTHORIZED_COMPONENT</code>.
+     * 「authorizedComponent」- 流程授权组件
+     */
+    public IWFlow setAuthorizedComponent(String value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.W_FLOW.AUTHORIZED_COMPONENT</code>.
+     * 「authorizedComponent」- 流程授权组件
+     */
+    public String getAuthorizedComponent();
+
+    /**
+     * Setter for <code>DB_ETERNAL.W_FLOW.AUTHORIZED_CONFIG</code>.
+     * 「authorizedConfig」- 流程授权配置
+     */
+    public IWFlow setAuthorizedConfig(String value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.W_FLOW.AUTHORIZED_CONFIG</code>.
+     * 「authorizedConfig」- 流程授权配置
+     */
+    public String getAuthorizedConfig();
+
+    /**
+     * Setter for <code>DB_ETERNAL.W_FLOW.GENERATE_COMPONENT</code>.
+     * 「generateComponent」- Todo生成组件
+     */
+    public IWFlow setGenerateComponent(String value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.W_FLOW.GENERATE_COMPONENT</code>.
+     * 「generateComponent」- Todo生成组件
+     */
+    public String getGenerateComponent();
+
+    /**
+     * Setter for <code>DB_ETERNAL.W_FLOW.GENERATE_CONFIG</code>.
+     * 「generateConfig」- Todo生成配置
+     */
+    public IWFlow setGenerateConfig(String value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.W_FLOW.GENERATE_CONFIG</code>.
+     * 「generateConfig」- Todo生成配置
+     */
+    public String getGenerateConfig();
 
     /**
      * Setter for <code>DB_ETERNAL.W_FLOW.RUN_COMPONENT</code>. 「runComponent」-
@@ -94,50 +142,28 @@ public interface IWFlow extends VertxPojo, Serializable {
     public String getRunConfig();
 
     /**
-     * Setter for <code>DB_ETERNAL.W_FLOW.BOOT_COMPONENT</code>.
-     * 「bootComponent」- 启动组件
+     * Setter for <code>DB_ETERNAL.W_FLOW.START_COMPONENT</code>.
+     * 「startComponent」- 启动组件
      */
-    public IWFlow setBootComponent(String value);
+    public IWFlow setStartComponent(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.W_FLOW.BOOT_COMPONENT</code>.
-     * 「bootComponent」- 启动组件
+     * Getter for <code>DB_ETERNAL.W_FLOW.START_COMPONENT</code>.
+     * 「startComponent」- 启动组件
      */
-    public String getBootComponent();
+    public String getStartComponent();
 
     /**
-     * Setter for <code>DB_ETERNAL.W_FLOW.BOOT_CONFIG</code>. 「bootConfig」- 启动配置
+     * Setter for <code>DB_ETERNAL.W_FLOW.START_CONFIG</code>. 「startConfig」-
+     * 启动配置
      */
-    public IWFlow setBootConfig(String value);
+    public IWFlow setStartConfig(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.W_FLOW.BOOT_CONFIG</code>. 「bootConfig」- 启动配置
+     * Getter for <code>DB_ETERNAL.W_FLOW.START_CONFIG</code>. 「startConfig」-
+     * 启动配置
      */
-    public String getBootConfig();
-
-    /**
-     * Setter for <code>DB_ETERNAL.W_FLOW.TODO_COMPONENT</code>.
-     * 「todoComponent」- Todo专用组件
-     */
-    public IWFlow setTodoComponent(String value);
-
-    /**
-     * Getter for <code>DB_ETERNAL.W_FLOW.TODO_COMPONENT</code>.
-     * 「todoComponent」- Todo专用组件
-     */
-    public String getTodoComponent();
-
-    /**
-     * Setter for <code>DB_ETERNAL.W_FLOW.TODO_CONFIG</code>. 「todoConfig」-
-     * Todo配置，生成UI专用配置（旧系统所需，新系统会扩展此处的写法）
-     */
-    public IWFlow setTodoConfig(String value);
-
-    /**
-     * Getter for <code>DB_ETERNAL.W_FLOW.TODO_CONFIG</code>. 「todoConfig」-
-     * Todo配置，生成UI专用配置（旧系统所需，新系统会扩展此处的写法）
-     */
-    public String getTodoConfig();
+    public String getStartConfig();
 
     /**
      * Setter for <code>DB_ETERNAL.W_FLOW.COMMENT</code>. 「comment」 - 流程定义备注
@@ -251,13 +277,15 @@ public interface IWFlow extends VertxPojo, Serializable {
                 setOrThrow(this::setName,json::getString,"NAME","java.lang.String");
                 setOrThrow(this::setCode,json::getString,"CODE","java.lang.String");
                 setOrThrow(this::setType,json::getString,"TYPE","java.lang.String");
-                setOrThrow(this::setDefinitionId,json::getString,"DEFINITION_ID","java.lang.String");
+                setOrThrow(this::setDefinitionKey,json::getString,"DEFINITION_KEY","java.lang.String");
+                setOrThrow(this::setAuthorizedComponent,json::getString,"AUTHORIZED_COMPONENT","java.lang.String");
+                setOrThrow(this::setAuthorizedConfig,json::getString,"AUTHORIZED_CONFIG","java.lang.String");
+                setOrThrow(this::setGenerateComponent,json::getString,"GENERATE_COMPONENT","java.lang.String");
+                setOrThrow(this::setGenerateConfig,json::getString,"GENERATE_CONFIG","java.lang.String");
                 setOrThrow(this::setRunComponent,json::getString,"RUN_COMPONENT","java.lang.String");
                 setOrThrow(this::setRunConfig,json::getString,"RUN_CONFIG","java.lang.String");
-                setOrThrow(this::setBootComponent,json::getString,"BOOT_COMPONENT","java.lang.String");
-                setOrThrow(this::setBootConfig,json::getString,"BOOT_CONFIG","java.lang.String");
-                setOrThrow(this::setTodoComponent,json::getString,"TODO_COMPONENT","java.lang.String");
-                setOrThrow(this::setTodoConfig,json::getString,"TODO_CONFIG","java.lang.String");
+                setOrThrow(this::setStartComponent,json::getString,"START_COMPONENT","java.lang.String");
+                setOrThrow(this::setStartConfig,json::getString,"START_CONFIG","java.lang.String");
                 setOrThrow(this::setComment,json::getString,"COMMENT","java.lang.String");
                 setOrThrow(this::setActive,json::getBoolean,"ACTIVE","java.lang.Boolean");
                 setOrThrow(this::setSigma,json::getString,"SIGMA","java.lang.String");
@@ -278,13 +306,15 @@ public interface IWFlow extends VertxPojo, Serializable {
                 json.put("NAME",getName());
                 json.put("CODE",getCode());
                 json.put("TYPE",getType());
-                json.put("DEFINITION_ID",getDefinitionId());
+                json.put("DEFINITION_KEY",getDefinitionKey());
+                json.put("AUTHORIZED_COMPONENT",getAuthorizedComponent());
+                json.put("AUTHORIZED_CONFIG",getAuthorizedConfig());
+                json.put("GENERATE_COMPONENT",getGenerateComponent());
+                json.put("GENERATE_CONFIG",getGenerateConfig());
                 json.put("RUN_COMPONENT",getRunComponent());
                 json.put("RUN_CONFIG",getRunConfig());
-                json.put("BOOT_COMPONENT",getBootComponent());
-                json.put("BOOT_CONFIG",getBootConfig());
-                json.put("TODO_COMPONENT",getTodoComponent());
-                json.put("TODO_CONFIG",getTodoConfig());
+                json.put("START_COMPONENT",getStartComponent());
+                json.put("START_CONFIG",getStartConfig());
                 json.put("COMMENT",getComment());
                 json.put("ACTIVE",getActive());
                 json.put("SIGMA",getSigma());

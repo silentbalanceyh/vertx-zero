@@ -63,6 +63,8 @@ package cn.zeroup.macrocosm.cv.em;
  *      - [ ]. TodoItem n
  */
 public enum TodoStatus {
+    // Draft before starting
+    DRAFT,
     // Wait for execute todo task
     PENDING,
     // Finished by user

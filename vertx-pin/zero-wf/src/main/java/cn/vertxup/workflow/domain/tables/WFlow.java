@@ -42,14 +42,34 @@ public class WFlow extends TableImpl<WFlowRecord> {
     public final TableField<WFlowRecord, String> CODE = createField(DSL.name("CODE"), SQLDataType.VARCHAR(255), this, "「code」- 流程定义编号（系统可用）");
     /**
      * The column <code>DB_ETERNAL.W_FLOW.TYPE</code>. 「type」- 流程类型，对接
-     * zero.workflow.type的X_TABULAR
+     * zero.workflow.cat的X_TABULAR
      */
-    public final TableField<WFlowRecord, String> TYPE = createField(DSL.name("TYPE"), SQLDataType.VARCHAR(36), this, "「type」- 流程类型，对接 zero.workflow.type的X_TABULAR");
+    public final TableField<WFlowRecord, String> TYPE = createField(DSL.name("TYPE"), SQLDataType.VARCHAR(36), this, "「type」- 流程类型，对接 zero.workflow.cat的X_TABULAR");
     /**
-     * The column <code>DB_ETERNAL.W_FLOW.DEFINITION_ID</code>. 「definitionId」-
-     * 定义ID（读取流程图所需）, getProcessDefinitionId
+     * The column <code>DB_ETERNAL.W_FLOW.DEFINITION_KEY</code>.
+     * 「definitionKey」- 定义ID（读取流程图所需）, getProcessDefinitionId
      */
-    public final TableField<WFlowRecord, String> DEFINITION_ID = createField(DSL.name("DEFINITION_ID"), SQLDataType.VARCHAR(64), this, "「definitionId」- 定义ID（读取流程图所需）, getProcessDefinitionId");
+    public final TableField<WFlowRecord, String> DEFINITION_KEY = createField(DSL.name("DEFINITION_KEY"), SQLDataType.VARCHAR(64), this, "「definitionKey」- 定义ID（读取流程图所需）, getProcessDefinitionId");
+    /**
+     * The column <code>DB_ETERNAL.W_FLOW.AUTHORIZED_COMPONENT</code>.
+     * 「authorizedComponent」- 流程授权组件
+     */
+    public final TableField<WFlowRecord, String> AUTHORIZED_COMPONENT = createField(DSL.name("AUTHORIZED_COMPONENT"), SQLDataType.VARCHAR(255), this, "「authorizedComponent」- 流程授权组件");
+    /**
+     * The column <code>DB_ETERNAL.W_FLOW.AUTHORIZED_CONFIG</code>.
+     * 「authorizedConfig」- 流程授权配置
+     */
+    public final TableField<WFlowRecord, String> AUTHORIZED_CONFIG = createField(DSL.name("AUTHORIZED_CONFIG"), SQLDataType.CLOB, this, "「authorizedConfig」- 流程授权配置");
+    /**
+     * The column <code>DB_ETERNAL.W_FLOW.GENERATE_COMPONENT</code>.
+     * 「generateComponent」- Todo生成组件
+     */
+    public final TableField<WFlowRecord, String> GENERATE_COMPONENT = createField(DSL.name("GENERATE_COMPONENT"), SQLDataType.VARCHAR(255), this, "「generateComponent」- Todo生成组件");
+    /**
+     * The column <code>DB_ETERNAL.W_FLOW.GENERATE_CONFIG</code>.
+     * 「generateConfig」- Todo生成配置
+     */
+    public final TableField<WFlowRecord, String> GENERATE_CONFIG = createField(DSL.name("GENERATE_CONFIG"), SQLDataType.CLOB, this, "「generateConfig」- Todo生成配置");
     /**
      * The column <code>DB_ETERNAL.W_FLOW.RUN_COMPONENT</code>. 「runComponent」-
      * 执行组件
@@ -60,24 +80,15 @@ public class WFlow extends TableImpl<WFlowRecord> {
      */
     public final TableField<WFlowRecord, String> RUN_CONFIG = createField(DSL.name("RUN_CONFIG"), SQLDataType.CLOB, this, "「runConfig」- 执行配置");
     /**
-     * The column <code>DB_ETERNAL.W_FLOW.BOOT_COMPONENT</code>.
-     * 「bootComponent」- 启动组件
+     * The column <code>DB_ETERNAL.W_FLOW.START_COMPONENT</code>.
+     * 「startComponent」- 启动组件
      */
-    public final TableField<WFlowRecord, String> BOOT_COMPONENT = createField(DSL.name("BOOT_COMPONENT"), SQLDataType.VARCHAR(255), this, "「bootComponent」- 启动组件");
+    public final TableField<WFlowRecord, String> START_COMPONENT = createField(DSL.name("START_COMPONENT"), SQLDataType.VARCHAR(255), this, "「startComponent」- 启动组件");
     /**
-     * The column <code>DB_ETERNAL.W_FLOW.BOOT_CONFIG</code>. 「bootConfig」- 启动配置
+     * The column <code>DB_ETERNAL.W_FLOW.START_CONFIG</code>. 「startConfig」-
+     * 启动配置
      */
-    public final TableField<WFlowRecord, String> BOOT_CONFIG = createField(DSL.name("BOOT_CONFIG"), SQLDataType.CLOB, this, "「bootConfig」- 启动配置");
-    /**
-     * The column <code>DB_ETERNAL.W_FLOW.TODO_COMPONENT</code>.
-     * 「todoComponent」- Todo专用组件
-     */
-    public final TableField<WFlowRecord, String> TODO_COMPONENT = createField(DSL.name("TODO_COMPONENT"), SQLDataType.VARCHAR(255), this, "「todoComponent」- Todo专用组件");
-    /**
-     * The column <code>DB_ETERNAL.W_FLOW.TODO_CONFIG</code>. 「todoConfig」-
-     * Todo配置，生成UI专用配置（旧系统所需，新系统会扩展此处的写法）
-     */
-    public final TableField<WFlowRecord, String> TODO_CONFIG = createField(DSL.name("TODO_CONFIG"), SQLDataType.VARCHAR(255), this, "「todoConfig」- Todo配置，生成UI专用配置（旧系统所需，新系统会扩展此处的写法）");
+    public final TableField<WFlowRecord, String> START_CONFIG = createField(DSL.name("START_CONFIG"), SQLDataType.CLOB, this, "「startConfig」- 启动配置");
     /**
      * The column <code>DB_ETERNAL.W_FLOW.COMMENT</code>. 「comment」 - 流程定义备注
      */
@@ -198,11 +209,11 @@ public class WFlow extends TableImpl<WFlowRecord> {
     }
 
     // -------------------------------------------------------------------------
-    // Row20 type methods
+    // Row22 type methods
     // -------------------------------------------------------------------------
 
     @Override
-    public Row20<String, String, String, String, String, String, String, String, String, String, String, String, Boolean, String, String, String, LocalDateTime, String, LocalDateTime, String> fieldsRow() {
-        return (Row20) super.fieldsRow();
+    public Row22<String, String, String, String, String, String, String, String, String, String, String, String, String, String, Boolean, String, String, String, LocalDateTime, String, LocalDateTime, String> fieldsRow() {
+        return (Row22) super.fieldsRow();
     }
 }

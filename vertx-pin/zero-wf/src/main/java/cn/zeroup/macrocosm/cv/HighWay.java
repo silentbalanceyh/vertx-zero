@@ -15,7 +15,7 @@ public interface HighWay {
      */
     interface Queue {
         // Fetch by who created: CREATED_BY
-        String BY_CREATED = KeIpc.Workflow.EVENT + "X-TODO/BY/CREATED";
+        String BY_CREATED = KeIpc.Workflow.EVENT + "W-TODO/BY/CREATED";
     }
 
     /*
@@ -25,8 +25,16 @@ public interface HighWay {
 
     }
 
+    /*
+     * Processing for definition
+     */
+    interface Flow {
+        // Fetch Workflow by code
+        String BY_CODE = KeIpc.Workflow.EVENT + "W-FLOW/BY/CODE";
+    }
+
     interface Todo {
 
-        String BY_ID = KeIpc.Workflow.EVENT + "X-TODO/BY-ID";
+        String BY_ID = KeIpc.Workflow.EVENT + "W-TODO/BY-ID";
     }
 }

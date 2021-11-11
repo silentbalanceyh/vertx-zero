@@ -84,19 +84,83 @@ public class WFlowDao extends AbstractVertxDAO<WFlowRecord, cn.vertxup.workflow.
         }
 
         /**
-     * Find records that have <code>DEFINITION_ID IN (values)</code>
+     * Find records that have <code>DEFINITION_KEY IN (values)</code>
      * asynchronously
      */
-        public Future<List<cn.vertxup.workflow.domain.tables.pojos.WFlow>> findManyByDefinitionId(Collection<String> values) {
-                return findManyByCondition(WFlow.W_FLOW.DEFINITION_ID.in(values));
+        public Future<List<cn.vertxup.workflow.domain.tables.pojos.WFlow>> findManyByDefinitionKey(Collection<String> values) {
+                return findManyByCondition(WFlow.W_FLOW.DEFINITION_KEY.in(values));
         }
 
         /**
-     * Find records that have <code>DEFINITION_ID IN (values)</code>
+     * Find records that have <code>DEFINITION_KEY IN (values)</code>
      * asynchronously limited by the given limit
      */
-        public Future<List<cn.vertxup.workflow.domain.tables.pojos.WFlow>> findManyByDefinitionId(Collection<String> values, int limit) {
-                return findManyByCondition(WFlow.W_FLOW.DEFINITION_ID.in(values),limit);
+        public Future<List<cn.vertxup.workflow.domain.tables.pojos.WFlow>> findManyByDefinitionKey(Collection<String> values, int limit) {
+                return findManyByCondition(WFlow.W_FLOW.DEFINITION_KEY.in(values),limit);
+        }
+
+        /**
+     * Find records that have <code>AUTHORIZED_COMPONENT IN (values)</code>
+     * asynchronously
+     */
+        public Future<List<cn.vertxup.workflow.domain.tables.pojos.WFlow>> findManyByAuthorizedComponent(Collection<String> values) {
+                return findManyByCondition(WFlow.W_FLOW.AUTHORIZED_COMPONENT.in(values));
+        }
+
+        /**
+     * Find records that have <code>AUTHORIZED_COMPONENT IN (values)</code>
+     * asynchronously limited by the given limit
+     */
+        public Future<List<cn.vertxup.workflow.domain.tables.pojos.WFlow>> findManyByAuthorizedComponent(Collection<String> values, int limit) {
+                return findManyByCondition(WFlow.W_FLOW.AUTHORIZED_COMPONENT.in(values),limit);
+        }
+
+        /**
+     * Find records that have <code>AUTHORIZED_CONFIG IN (values)</code>
+     * asynchronously
+     */
+        public Future<List<cn.vertxup.workflow.domain.tables.pojos.WFlow>> findManyByAuthorizedConfig(Collection<String> values) {
+                return findManyByCondition(WFlow.W_FLOW.AUTHORIZED_CONFIG.in(values));
+        }
+
+        /**
+     * Find records that have <code>AUTHORIZED_CONFIG IN (values)</code>
+     * asynchronously limited by the given limit
+     */
+        public Future<List<cn.vertxup.workflow.domain.tables.pojos.WFlow>> findManyByAuthorizedConfig(Collection<String> values, int limit) {
+                return findManyByCondition(WFlow.W_FLOW.AUTHORIZED_CONFIG.in(values),limit);
+        }
+
+        /**
+     * Find records that have <code>GENERATE_COMPONENT IN (values)</code>
+     * asynchronously
+     */
+        public Future<List<cn.vertxup.workflow.domain.tables.pojos.WFlow>> findManyByGenerateComponent(Collection<String> values) {
+                return findManyByCondition(WFlow.W_FLOW.GENERATE_COMPONENT.in(values));
+        }
+
+        /**
+     * Find records that have <code>GENERATE_COMPONENT IN (values)</code>
+     * asynchronously limited by the given limit
+     */
+        public Future<List<cn.vertxup.workflow.domain.tables.pojos.WFlow>> findManyByGenerateComponent(Collection<String> values, int limit) {
+                return findManyByCondition(WFlow.W_FLOW.GENERATE_COMPONENT.in(values),limit);
+        }
+
+        /**
+     * Find records that have <code>GENERATE_CONFIG IN (values)</code>
+     * asynchronously
+     */
+        public Future<List<cn.vertxup.workflow.domain.tables.pojos.WFlow>> findManyByGenerateConfig(Collection<String> values) {
+                return findManyByCondition(WFlow.W_FLOW.GENERATE_CONFIG.in(values));
+        }
+
+        /**
+     * Find records that have <code>GENERATE_CONFIG IN (values)</code>
+     * asynchronously limited by the given limit
+     */
+        public Future<List<cn.vertxup.workflow.domain.tables.pojos.WFlow>> findManyByGenerateConfig(Collection<String> values, int limit) {
+                return findManyByCondition(WFlow.W_FLOW.GENERATE_CONFIG.in(values),limit);
         }
 
         /**
@@ -131,67 +195,35 @@ public class WFlowDao extends AbstractVertxDAO<WFlowRecord, cn.vertxup.workflow.
         }
 
         /**
-     * Find records that have <code>BOOT_COMPONENT IN (values)</code>
+     * Find records that have <code>START_COMPONENT IN (values)</code>
      * asynchronously
      */
-        public Future<List<cn.vertxup.workflow.domain.tables.pojos.WFlow>> findManyByBootComponent(Collection<String> values) {
-                return findManyByCondition(WFlow.W_FLOW.BOOT_COMPONENT.in(values));
+        public Future<List<cn.vertxup.workflow.domain.tables.pojos.WFlow>> findManyByStartComponent(Collection<String> values) {
+                return findManyByCondition(WFlow.W_FLOW.START_COMPONENT.in(values));
         }
 
         /**
-     * Find records that have <code>BOOT_COMPONENT IN (values)</code>
+     * Find records that have <code>START_COMPONENT IN (values)</code>
      * asynchronously limited by the given limit
      */
-        public Future<List<cn.vertxup.workflow.domain.tables.pojos.WFlow>> findManyByBootComponent(Collection<String> values, int limit) {
-                return findManyByCondition(WFlow.W_FLOW.BOOT_COMPONENT.in(values),limit);
+        public Future<List<cn.vertxup.workflow.domain.tables.pojos.WFlow>> findManyByStartComponent(Collection<String> values, int limit) {
+                return findManyByCondition(WFlow.W_FLOW.START_COMPONENT.in(values),limit);
         }
 
         /**
-     * Find records that have <code>BOOT_CONFIG IN (values)</code>
+     * Find records that have <code>START_CONFIG IN (values)</code>
      * asynchronously
      */
-        public Future<List<cn.vertxup.workflow.domain.tables.pojos.WFlow>> findManyByBootConfig(Collection<String> values) {
-                return findManyByCondition(WFlow.W_FLOW.BOOT_CONFIG.in(values));
+        public Future<List<cn.vertxup.workflow.domain.tables.pojos.WFlow>> findManyByStartConfig(Collection<String> values) {
+                return findManyByCondition(WFlow.W_FLOW.START_CONFIG.in(values));
         }
 
         /**
-     * Find records that have <code>BOOT_CONFIG IN (values)</code>
+     * Find records that have <code>START_CONFIG IN (values)</code>
      * asynchronously limited by the given limit
      */
-        public Future<List<cn.vertxup.workflow.domain.tables.pojos.WFlow>> findManyByBootConfig(Collection<String> values, int limit) {
-                return findManyByCondition(WFlow.W_FLOW.BOOT_CONFIG.in(values),limit);
-        }
-
-        /**
-     * Find records that have <code>TODO_COMPONENT IN (values)</code>
-     * asynchronously
-     */
-        public Future<List<cn.vertxup.workflow.domain.tables.pojos.WFlow>> findManyByTodoComponent(Collection<String> values) {
-                return findManyByCondition(WFlow.W_FLOW.TODO_COMPONENT.in(values));
-        }
-
-        /**
-     * Find records that have <code>TODO_COMPONENT IN (values)</code>
-     * asynchronously limited by the given limit
-     */
-        public Future<List<cn.vertxup.workflow.domain.tables.pojos.WFlow>> findManyByTodoComponent(Collection<String> values, int limit) {
-                return findManyByCondition(WFlow.W_FLOW.TODO_COMPONENT.in(values),limit);
-        }
-
-        /**
-     * Find records that have <code>TODO_CONFIG IN (values)</code>
-     * asynchronously
-     */
-        public Future<List<cn.vertxup.workflow.domain.tables.pojos.WFlow>> findManyByTodoConfig(Collection<String> values) {
-                return findManyByCondition(WFlow.W_FLOW.TODO_CONFIG.in(values));
-        }
-
-        /**
-     * Find records that have <code>TODO_CONFIG IN (values)</code>
-     * asynchronously limited by the given limit
-     */
-        public Future<List<cn.vertxup.workflow.domain.tables.pojos.WFlow>> findManyByTodoConfig(Collection<String> values, int limit) {
-                return findManyByCondition(WFlow.W_FLOW.TODO_CONFIG.in(values),limit);
+        public Future<List<cn.vertxup.workflow.domain.tables.pojos.WFlow>> findManyByStartConfig(Collection<String> values, int limit) {
+                return findManyByCondition(WFlow.W_FLOW.START_CONFIG.in(values),limit);
         }
 
         /**
