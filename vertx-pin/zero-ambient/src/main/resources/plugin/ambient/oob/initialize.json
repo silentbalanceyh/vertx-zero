@@ -1,6 +1,7 @@
 [
     "plugin/ambient/oob/data/ambient.cat.file.tree.xlsx",
     "plugin/ambient/oob/data/ambient.cat.resource.tree.xlsx",
+    "plugin/ambient/oob/data/ambient.cat.service.catalog.xlsx",
     "plugin/ambient/oob/data/ambient.dict.xlsx",
     "plugin/ambient/oob/data/ambient.number.xlsx",
     "plugin/ambient/oob/data/ambient.menu.xlsx",
