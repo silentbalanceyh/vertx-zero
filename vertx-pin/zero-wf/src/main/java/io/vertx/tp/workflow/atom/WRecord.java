@@ -1,6 +1,6 @@
 package io.vertx.tp.workflow.atom;
 
-import cn.zeroup.macrocosm.cv.em.TodoMode;
+import cn.zeroup.macrocosm.cv.em.TodoCase;
 import io.vertx.up.eon.em.ChangeFlag;
 
 import java.io.Serializable;
@@ -11,7 +11,7 @@ import java.io.Serializable;
 public class WRecord implements Serializable {
     private transient String unique;
     private transient ChangeFlag flag;
-    private transient TodoMode mode = TodoMode.DAO;
+    private transient TodoCase mode = TodoCase.DAO;
 
     public String getUnique() {
         return this.unique;
@@ -29,11 +29,11 @@ public class WRecord implements Serializable {
         this.flag = flag;
     }
 
-    public TodoMode getMode() {
+    public TodoCase getMode() {
         return this.mode;
     }
 
-    public void setMode(final TodoMode mode) {
+    public void setMode(final TodoCase mode) {
         this.mode = mode;
     }
 }
