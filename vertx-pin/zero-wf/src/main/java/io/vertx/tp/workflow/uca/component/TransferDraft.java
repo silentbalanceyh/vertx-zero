@@ -5,13 +5,12 @@ import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 
 /**
- * Todo Generation
- * 1. Start Component
- * 2. Generate Component
- *
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-public interface Transfer extends Behaviour {
+public class TransferDraft extends AbstractTransfer implements Transfer {
 
-    Future<WTodo> startAsync(JsonObject params);
+    @Override
+    public Future<WTodo> startAsync(final JsonObject params) {
+        return null;
+    }
 }

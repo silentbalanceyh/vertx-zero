@@ -155,6 +155,9 @@ public interface KName {
 
     String ACCESS_TOKEN = "access_token";        /* token cv from `jwt` to `access_token` */
 
+    String UNIQUE = "unique";                    /* Workflow: unique record */
+    String FLAG = "flag";                        /* Workflow: flag type of record */
+
     interface Micro {
         String ETCD = "etcd";
     }
@@ -287,5 +290,7 @@ public interface KName {
         // Event
         String EVENT_START = "startEvent";
         String MULTI_START = "startMulti";
+        // Todo
+        String TODO = "todo";                        /* Todo */
     }
 }
