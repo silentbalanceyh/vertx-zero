@@ -3,6 +3,7 @@ package io.vertx.tp.workflow.uca.runner;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.error._404ProcessMissingException;
+import io.vertx.tp.error._501ProcessStartException;
 import io.vertx.tp.workflow.init.WfPin;
 import io.vertx.up.eon.KName;
 import io.vertx.up.eon.Strings;
@@ -13,7 +14,9 @@ import org.camunda.bpm.engine.form.StartFormData;
 import org.camunda.bpm.engine.repository.ProcessDefinition;
 import org.camunda.bpm.model.bpmn.Bpmn;
 import org.camunda.bpm.model.bpmn.BpmnModelInstance;
+import org.camunda.bpm.model.bpmn.instance.StartEvent;
 
+import java.util.Collection;
 import java.util.Objects;
 
 /**
@@ -24,7 +27,8 @@ class StoreEngine implements StoreOn {
     public Future<JsonObject> processByKey(final String code) {
         final RepositoryService service = WfPin.camundaRepository();
         final ProcessDefinition definition = service.createProcessDefinitionQuery()
-            .processDefinitionKey(code).singleResult();
+            // New Version for each
+            .latestVersion().processDefinitionKey(code).singleResult();
         return this.processData(definition, code);
     }
 
@@ -44,6 +48,21 @@ class StoreEngine implements StoreOn {
         workflow.put(KName.CODE, definition.getKey());
         workflow.put(KName.Flow.BPMN, xml);
         workflow.put(KName.NAME, definition.getName());
+        // Start Event
+        final Collection<StartEvent> starts = instance.getModelElementsByType(StartEvent.class);
+        if (starts.isEmpty()) {
+            return Ux.thenError(_501ProcessStartException.class, this.getClass(), definition.getId());
+        }
+        if (1 == starts.size()) {
+            final StartEvent event = starts.iterator().next();
+            workflow.put(KName.Flow.EVENT_START, event.getId());
+            workflow.put(KName.Flow.MULTI_START, Boolean.FALSE);
+        } else {
+            final JsonObject startMap = new JsonObject();
+            starts.forEach(start -> startMap.put(start.getId(), start.getName()));
+            workflow.put(KName.Flow.EVENT_START, startMap);
+            workflow.put(KName.Flow.MULTI_START, Boolean.TRUE);
+        }
         return Ux.future(workflow);
     }
 

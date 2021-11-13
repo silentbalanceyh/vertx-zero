@@ -1,5 +1,6 @@
 package io.vertx.tp.workflow.init;
 
+import cn.vertxup.workflow.domain.tables.pojos.WFlow;
 import io.vertx.core.Future;
 import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonObject;
@@ -34,7 +35,9 @@ public class WfPin {
         final List<Future<Boolean>> futures = new ArrayList<>();
         // Deployment for .bpmn files
         resources.forEach(resource -> DeployOn.get(resource).initialize());
-        return Ux.thenCombineT(futures).compose(nil -> Ux.futureT());
+        return Ux.thenCombineT(futures)
+            // Flow initialized
+            .compose(nil -> WfConfiguration.init(vertx));
     }
 
     public static RepositoryService camundaRepository() {
@@ -62,5 +65,9 @@ public class WfPin {
      */
     public static JsonObject getTodo(final String type) {
         return WfTodo.getTodo(type);
+    }
+
+    public static WFlow getFlow(final String code) {
+        return WfConfiguration.workflow(code);
     }
 }

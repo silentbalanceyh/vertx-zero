@@ -1,9 +1,12 @@
 package io.vertx.tp.ke.refine;
 
 import io.vertx.core.json.JsonObject;
+import io.vertx.tp.plugin.database.DataPool;
+import io.vertx.up.commune.config.Database;
 import io.vertx.up.uca.yaml.Node;
 import io.vertx.up.uca.yaml.ZeroUniform;
 import io.vertx.up.util.Ut;
+import org.jooq.Configuration;
 
 import java.util.Objects;
 import java.util.function.Consumer;
@@ -18,6 +21,11 @@ class KeTool {
         return Ut.visitString(config, "jooq", "provider", "catalog");
     }
 
+    static Configuration getConfiguration() {
+        final Database database = Database.getCurrent();
+        final DataPool pool = DataPool.create(database);
+        return pool.getExecutor().configuration();
+    }
 
     static <T> void consume(final Supplier<T> supplier, final Consumer<T> consumer) {
         final T input = supplier.get();

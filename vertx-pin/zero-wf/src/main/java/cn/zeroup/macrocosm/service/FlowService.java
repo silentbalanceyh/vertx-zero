@@ -44,7 +44,7 @@ public class FlowService implements FlowStub {
             return Ke.channel(DForm.class, JsonObject::new, stub -> stub.fetchUi(parameters));
         }).compose(form -> {
             response.put(KName.FORM, form);
-            // Definition
+            // definition
             return storeOn.processById(definitionId);
         }).compose(workflow -> {
             response.put(KName.Flow.WORKFLOW, workflow);

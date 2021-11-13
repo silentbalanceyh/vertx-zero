@@ -25,7 +25,8 @@ public interface HighWay {
      * Processing for writing
      */
     interface Do {
-
+        // Start new workflow instance
+        String FLOW_START = KeIpc.Workflow.EVENT + "W-INSTANCE/START";
     }
 
     /*

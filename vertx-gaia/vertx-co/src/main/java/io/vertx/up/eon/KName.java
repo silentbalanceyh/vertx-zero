@@ -115,7 +115,7 @@ public interface KName {
     String URI_REQUEST = "requestUri";           /* Web: http path ( normalized ) contains path such as `/api/:code/name` instead of actual */
     String RESULT = "result";                    /* Web: http response */
     String HEADER = "header";                    /* Web: http header */
-
+    String MULTIPLE = "multiple";                /* If multiple */
 
     String CHANGES = "changes";                  /* XActivityChange items to store history operation of changes */
     String RECORD = "record";                    /* Change calculation for data record */
@@ -284,5 +284,8 @@ public interface KName {
         String FORM_KEY = "formKey";
         String BPMN = "bpmn";
         String WORKFLOW = "workflow";
+        // Event
+        String EVENT_START = "startEvent";
+        String MULTI_START = "startMulti";
     }
 }
