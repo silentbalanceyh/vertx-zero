@@ -1,6 +1,6 @@
 package cn.zeroup.macrocosm.cv;
 
-import io.vertx.tp.workflow.atom.WfEngine;
+import io.vertx.tp.workflow.atom.WEngine;
 import io.vertx.tp.workflow.uca.deployment.DeployOn;
 import io.vertx.tp.workflow.uca.runner.ProcOn;
 import io.vertx.tp.workflow.uca.runner.StoreOn;
@@ -16,5 +16,5 @@ public interface WfPool {
     ConcurrentMap<String, ProcOn> POOL_PROC = new ConcurrentHashMap<>();
 
     ConcurrentMap<String, DeployOn> POOL_DEPLOY = new ConcurrentHashMap<>();
-    ConcurrentMap<String, WfEngine> POOL_ENGINE = new ConcurrentHashMap<>();
+    ConcurrentMap<String, WEngine> POOL_ENGINE = new ConcurrentHashMap<>();
 }

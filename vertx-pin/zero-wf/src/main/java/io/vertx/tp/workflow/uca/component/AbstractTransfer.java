@@ -1,20 +1,24 @@
 package io.vertx.tp.workflow.uca.component;
 
 import io.vertx.core.json.JsonObject;
+import io.vertx.tp.workflow.atom.WRecord;
 import io.vertx.up.eon.KName;
-import io.vertx.up.eon.em.ChangeFlag;
 import io.vertx.up.util.Ut;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 public abstract class AbstractTransfer implements Behaviour {
-    protected transient JsonObject config = new JsonObject();
+    private final transient JsonObject config = new JsonObject();
+    private transient WRecord record;
 
     @Override
     public Behaviour bind(final JsonObject config) {
         final JsonObject sure = Ut.sureJObject(config);
         this.config.mergeIn(sure.copy(), true);
+        if (sure.containsKey(KName.RECORD)) {
+            this.record = Ut.deserialize(sure.getJsonObject(KName.RECORD), WRecord.class);
+        }
         return this;
     }
 
@@ -22,17 +26,23 @@ public abstract class AbstractTransfer implements Behaviour {
         return this.config.getJsonObject(KName.Flow.TODO, new JsonObject());
     }
 
-    protected ChangeFlag opType() {
-        final JsonObject record = this.config.getJsonObject(KName.RECORD, new JsonObject());
-        return Ut.toEnum(() -> record.getString(KName.FLAG), ChangeFlag.class, ChangeFlag.NONE);
+    protected WRecord record() {
+        return this.record;
     }
 
-    protected String opUnique() {
-        final JsonObject record = this.config.getJsonObject(KName.RECORD, new JsonObject());
-        return record.getString(KName.UNIQUE);
+    // Data Json for `record` and `todo`
+    protected JsonObject requestR(final JsonObject params) {
+        JsonObject rData = params.getJsonObject(KName.RECORD, new JsonObject());
+        if (Ut.notNil(rData)) {
+            rData = rData.copy();
+        }
+        return rData;
     }
 
-    protected JsonObject opData(final JsonObject params) {
-        return params.getJsonObject(KName.RECORD, null);
+    protected JsonObject requestT(final JsonObject params) {
+        final JsonObject request = params.copy();
+        request.remove(KName.RECORD);
+        request.remove(KName.Flow.WORKFLOW);
+        return request;
     }
 }
