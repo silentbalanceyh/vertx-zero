@@ -1,6 +1,6 @@
 package io.vertx.tp.workflow.uca.component;
 
-import cn.vertxup.workflow.domain.tables.pojos.WTodo;
+import cn.vertxup.workflow.domain.tables.pojos.WInstance;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 
@@ -9,5 +9,5 @@ import io.vertx.core.json.JsonObject;
  */
 public interface Movement extends Behaviour {
 
-    Future<JsonObject> moveAsync(JsonObject params, WTodo todo);
+    Future<WInstance> moveAsync(JsonObject params);
 }

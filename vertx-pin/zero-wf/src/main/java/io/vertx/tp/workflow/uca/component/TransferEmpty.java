@@ -1,5 +1,6 @@
 package io.vertx.tp.workflow.uca.component;
 
+import cn.vertxup.workflow.domain.tables.pojos.WInstance;
 import cn.vertxup.workflow.domain.tables.pojos.WTodo;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
@@ -10,7 +11,7 @@ import io.vertx.up.unity.Ux;
  */
 public class TransferEmpty extends AbstractTransfer implements Transfer {
     @Override
-    public Future<WTodo> startAsync(final JsonObject params) {
+    public Future<WTodo> startAsync(final JsonObject params, final WInstance instance) {
         return Ux.future();
     }
 }

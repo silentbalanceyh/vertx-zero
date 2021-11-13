@@ -24,10 +24,11 @@ public class RunActor {
         final WEngine engine = WEngine.connect(data.getJsonObject(KName.Flow.WORKFLOW));
         final Transfer transfer = engine.componentStart();
         final Movement runner = engine.componentRun();
-        return Ux.future(data)
-            // X_TODO, Record
-            .compose(transfer::startAsync)
+        return runner.moveAsync(data)
             // Camunda Processing
-            .compose(todo -> runner.moveAsync(data, todo));
+            .compose(instance -> transfer.startAsync(data, instance)
+                // Callback
+                .compose(nil -> Ux.futureJ())
+            );
     }
 }

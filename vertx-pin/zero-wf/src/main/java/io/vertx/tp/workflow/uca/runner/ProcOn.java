@@ -15,7 +15,7 @@ public interface ProcOn {
     }
 
     // StartEvent
-    Future<Boolean> startAsync(String process);
+    Future<Boolean> startAsync(String definitionKey);
 
     // Task
     Future<Boolean> completeAsync(String instanceId, JsonObject params);
