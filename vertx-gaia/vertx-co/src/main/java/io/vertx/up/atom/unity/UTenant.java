@@ -112,7 +112,7 @@ public class UTenant implements Serializable, Copyable<UTenant> {
         if (Objects.isNull(this.global)) {
             return application;
         } else {
-            return Ut.ifJCopy(this.global,
+            return Ut.ifJAssign(this.global,
                 KName.APP_ID, KName.SIGMA, KName.APP_KEY
             ).apply(this.application);
         }

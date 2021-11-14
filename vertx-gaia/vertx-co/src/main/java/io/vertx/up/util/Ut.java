@@ -782,6 +782,7 @@ public final class Ut {
      * 5) ifJCopy -> JsonObject copy self
      * 6) ifJObject / ifJArray /
      * 7) ifString / ifStrings
+     * 8) ifJAssign -> Source Json -> Target Json copy fields
      */
 
     public static JsonArray ifStrings(final JsonArray array, final String... fields) {
@@ -876,7 +877,7 @@ public final class Ut {
         return Apply.applyJValue(null, field, value);
     }
 
-    public static Function<JsonObject, JsonObject> ifJCopyFn(final JsonObject input, final String... fields) {
+    public static Function<JsonObject, JsonObject> ifJAssign(final JsonObject input, final String... fields) {
         return Apply.applyJCopy(input, fields);
     }
 
