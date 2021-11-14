@@ -19,7 +19,7 @@ public class Wf {
     }
 
     public static Future<ProcessDefinition> processById(final String definitionId) {
-        return WfFlow.processByKey(definitionId);
+        return WfFlow.processById(definitionId);
     }
 
     public static class Log {
