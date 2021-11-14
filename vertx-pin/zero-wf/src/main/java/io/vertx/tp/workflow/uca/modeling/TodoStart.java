@@ -7,7 +7,7 @@ import io.vertx.core.json.JsonObject;
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-public class TodoStart implements TodoOn {
+class TodoStart implements TodoOn {
     @Override
     public Future<WTodo> dataAsync(final JsonObject params, final JsonObject config) {
         return null;

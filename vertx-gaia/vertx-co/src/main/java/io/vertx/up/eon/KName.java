@@ -26,6 +26,7 @@ public interface KName {
     String MODEL_ID = "modelId";                 /* Model Consumer ( identifier ) field */
     String MODEL_KEY = "modelKey";               /* Model Consumer ( key ) field */
     String MODEL_CATEGORY = "modelCategory";     /* Model Consumer ( related XCategory ) field */
+    String MODEL_COMPONENT = "modelComponent";   /* Model Component */
 
     String SCOPE = "scope";                      /* OAuth scope field */
     String REALM = "realm";                      /* Authorization realm field for security */

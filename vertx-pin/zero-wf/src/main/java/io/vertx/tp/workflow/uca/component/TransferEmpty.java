@@ -9,9 +9,10 @@ import org.camunda.bpm.engine.runtime.ProcessInstance;
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-public class TransferEmpty extends AbstractTransfer implements Transfer {
+public class TransferEmpty extends AbstractTodo {
     @Override
     public Future<WTodo> moveAsync(final JsonObject params, final ProcessInstance instance) {
+        // Direct Overwriting
         return Ux.future();
     }
 }

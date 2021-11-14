@@ -1,8 +1,8 @@
 package io.vertx.tp.workflow.uca.component;
 
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.workflow.atom.element.WMove;
-import io.vertx.tp.workflow.atom.element.WRecord;
+import io.vertx.tp.workflow.atom.ConfigRecord;
+import io.vertx.tp.workflow.atom.WMove;
 import io.vertx.up.eon.KName;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
@@ -14,16 +14,16 @@ import java.util.concurrent.ConcurrentMap;
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 public abstract class AbstractTransfer implements Behaviour {
-    private final transient JsonObject config = new JsonObject();
+    protected final transient JsonObject config = new JsonObject();
     private final transient ConcurrentMap<String, WMove> moveMap = new ConcurrentHashMap<>();
-    private transient WRecord record;
+    private transient ConfigRecord record;
 
     @Override
     public Behaviour bind(final JsonObject config) {
         final JsonObject sure = Ut.sureJObject(config);
         this.config.mergeIn(sure.copy(), true);
         if (sure.containsKey(KName.RECORD)) {
-            this.record = Ux.fromJson(sure.getJsonObject(KName.RECORD), WRecord.class);
+            this.record = Ux.fromJson(sure.getJsonObject(KName.RECORD), ConfigRecord.class);
         }
         if (sure.containsKey(KName.Flow.NODE)) {
             final JsonObject configData = sure.getJsonObject(KName.Flow.NODE);
@@ -36,22 +36,11 @@ public abstract class AbstractTransfer implements Behaviour {
         return this;
     }
 
-    /*
-     * {
-     *     "todo": "",
-     *     "record": "",
-     *     "node": ""
-     * }
-     */
-    protected JsonObject configT() {
-        return this.config.getJsonObject(KName.Flow.TODO, new JsonObject());
-    }
-
     protected WMove configN(final String node) {
         return this.moveMap.get(node);
     }
 
-    protected WRecord configR() {
+    protected ConfigRecord configR() {
         return this.record;
     }
 
@@ -68,13 +57,6 @@ public abstract class AbstractTransfer implements Behaviour {
             rData = rData.copy();
         }
         return rData;
-    }
-
-    protected JsonObject requestT(final JsonObject params) {
-        final JsonObject request = params.copy();
-        request.remove(KName.RECORD);
-        request.remove(KName.Flow.WORKFLOW);
-        return request;
     }
 
     protected JsonObject requestM(final JsonObject params, final WMove move) {

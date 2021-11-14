@@ -15,14 +15,14 @@ import java.util.function.Supplier;
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-public class WEngine {
+public class EngineOn {
     private final transient WFlow workflow;
 
-    private WEngine(final WFlow workflow) {
+    private EngineOn(final WFlow workflow) {
         this.workflow = workflow;
     }
 
-    public static WEngine connect(final JsonObject workflow) {
+    public static EngineOn connect(final JsonObject workflow) {
         final String definitionKey = workflow.getString(KName.CODE);
         Objects.requireNonNull(definitionKey);
         /*
@@ -30,7 +30,7 @@ public class WEngine {
          */
         return Fn.poolThread(WfPool.POOL_ENGINE, () -> {
             final WFlow flow = WfPin.getFlow(definitionKey);
-            return new WEngine(flow);
+            return new EngineOn(flow);
         }, definitionKey);
     }
 

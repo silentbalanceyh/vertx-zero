@@ -54,7 +54,7 @@ class KeData {
     static Future<JsonObject> indent(final JsonObject data, final String code) {
         return KeRun.channel(Indent.class, () -> data, stub -> {
             final String sigma = data.getString(KName.SIGMA);
-            if (Ut.isNil(sigma)) {
+            if (Ut.isNil(sigma) || Ut.isNil(code)) {
                 return Ux.future(data);
             } else {
                 return stub.indent(code, sigma)

@@ -1,4 +1,4 @@
-package io.vertx.tp.workflow.atom.element;
+package io.vertx.tp.workflow.atom;
 
 import java.io.Serializable;
 import java.util.concurrent.ConcurrentHashMap;

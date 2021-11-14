@@ -4,6 +4,7 @@ import cn.zeroup.macrocosm.cv.WfPool;
 import cn.zeroup.macrocosm.cv.em.TodoCase;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
+import io.vertx.tp.workflow.atom.ConfigTodo;
 import io.vertx.up.fn.Fn;
 
 import java.util.Objects;
@@ -22,9 +23,9 @@ public interface ActionOn {
         return Fn.poolThread(WfPool.POOL_ACTION, supplier, caseType.name());
     }
 
-    Future<JsonObject> createAsync(JsonObject params);
+    <T> Future<JsonObject> createAsync(JsonObject params, ConfigTodo config);
 
-    Future<JsonObject> updateAsync(String key, JsonObject params);
+    <T> Future<JsonObject> updateAsync(String key, JsonObject params, ConfigTodo config);
 }
 
 interface T {

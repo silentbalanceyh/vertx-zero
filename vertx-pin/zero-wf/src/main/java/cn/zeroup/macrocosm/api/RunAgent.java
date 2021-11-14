@@ -31,7 +31,7 @@ public interface RunAgent {
                         "extension": "jpg"
                     },
                     "key": "key",
-                    "fileKey": ""
+                    "fileKey": "fileKey"
                     "type": "image/jpeg",
                     "category": "FILE.REQUEST",
                     "size": 1948572,

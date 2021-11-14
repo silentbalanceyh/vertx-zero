@@ -2,11 +2,11 @@
     "todo": {
         "name": "`单号：${serial}`, ${name}",
         "icon": "file",
-        "todoUrl": "`/ambient/duty-view?tid=${key}&id=${modelKey}`",
-        "modelComponent": "cn.vertxup.ambient.domain.tables.daos.XAttachmentDao"
+        "todoUrl": "`/ambient/flow-view?tid=${key}&id=${modelKey}`",
+        "modelComponent": "cn.vertxup.ambient.domain.tables.daos.XAttachmentDao",
+        "indent": "WF.NUM.FILE"
     },
     "record": {
-        "flag": "UPDATE",
-        "unique": "key"
+        "flag": "UPDATE"
     }
 }

@@ -8,7 +8,7 @@ CREATE TABLE IF NOT EXISTS W_TODO
     `KEY`             VARCHAR(36) COMMENT '「key」- 待办主键',
     `SERIAL`          VARCHAR(255) COMMENT '「serial」- 待办编号，使用 X_NUMBER 生成',
     `NAME`            VARCHAR(255) COMMENT '「name」- 待办名称（标题）',
-    `CODE`            VARCHAR(36) COMMENT '「code」- 待办系统码',
+    `CODE`            VARCHAR(36) COMMENT '「code」- 待办系统码，使用流程时候关联流程的任务ID',
     `ICON`            VARCHAR(255) COMMENT '「icon」- 待办显示的图标',
     -- 待办相关内容
     /*
