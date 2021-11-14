@@ -22,27 +22,30 @@ public abstract class AbstractTodo extends AbstractTransfer implements Transfer 
     public Future<WTodo> moveAsync(final JsonObject params, final ProcessInstance instance) {
         // Record processing first
         final ConfigRecord record = this.configR();
-        final ActionOn action = ActionOn.action(record.getMode());
-        // Record Data
-        final JsonObject recordData = this.requestR(params);
-        final ConfigTodo config = this.requestT(params);
-        final ChangeFlag flag = record.getFlag();
+        final ConfigTodo config = this.configT(params);
         /*
          * 1. Process Record
          * 2. Todo Record
          */
+        final ActionOn action = ActionOn.action(record.getMode());
+        final ChangeFlag flag = record.getFlag();
+        final JsonObject recordData = this.dataR(params);
         if (ChangeFlag.ADD == flag) {
             /*
              * Record serial when Insert, this action should
              * happen when ADD new record here.
              */
             return Ke.umIndent(recordData, record.getIndent())
+                // ADD processing
                 .compose(processed -> action.createAsync(processed, config))
+                // Todo Processing
                 .compose(processed -> this.moveAsync(processed, instance, config));
         } else {
             final String key = record.unique(recordData);
             Objects.requireNonNull(key);
+            // UPDATE processing
             return action.updateAsync(key, recordData, config)
+                // Todo Processing
                 .compose(processed -> this.moveAsync(processed, instance, config));
         }
     }
@@ -53,7 +56,7 @@ public abstract class AbstractTodo extends AbstractTransfer implements Transfer 
      *     "record": ""
      * }
      */
-    protected ConfigTodo requestT(final JsonObject params) {
+    protected ConfigTodo configT(final JsonObject params) {
         final JsonObject request = params.copy();
         request.remove(KName.RECORD);
         request.remove(KName.Flow.WORKFLOW);

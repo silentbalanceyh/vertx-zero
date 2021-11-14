@@ -51,7 +51,7 @@ public abstract class AbstractTransfer implements Behaviour {
      * - record: The json data of record
      * - The json data of todo is the major key=value
      */
-    protected JsonObject requestR(final JsonObject params) {
+    protected JsonObject dataR(final JsonObject params) {
         JsonObject rData = params.getJsonObject(KName.RECORD, new JsonObject());
         if (Ut.notNil(rData)) {
             rData = rData.copy();
@@ -59,7 +59,7 @@ public abstract class AbstractTransfer implements Behaviour {
         return rData;
     }
 
-    protected JsonObject requestM(final JsonObject params, final WMove move) {
+    protected JsonObject dataM(final JsonObject params, final WMove move) {
         final ConcurrentMap<String, String> pattern = move.getData();
         final JsonObject request = new JsonObject();
         pattern.forEach((to, from) -> request.put(to, params.getValue(from)));

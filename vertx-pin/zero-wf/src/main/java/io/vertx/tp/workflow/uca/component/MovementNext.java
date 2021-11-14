@@ -47,7 +47,7 @@ public class MovementNext extends AbstractTransfer implements Movement {
         }).compose(move -> {
             // Camunda Instance Moving
             Objects.requireNonNull(move);
-            final JsonObject wParams = this.requestM(params, move);
+            final JsonObject wParams = this.dataM(params, move);
             final ProcessInstance instance = instanceRef.get();
 
             // Camunda Workflow Running
