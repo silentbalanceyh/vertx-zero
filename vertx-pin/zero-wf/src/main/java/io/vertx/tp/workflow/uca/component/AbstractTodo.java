@@ -67,7 +67,8 @@ public abstract class AbstractTodo extends AbstractTransfer implements Transfer 
     /*
      * moveAsync that could be overwritten by sub-class
      */
-    protected Future<WTodo> moveAsync(final JsonObject todo, final ProcessInstance instance, final ConfigTodo config) {
+    protected Future<WTodo> moveAsync(final JsonObject record, final ProcessInstance instance,
+                                      final ConfigTodo todo) {
         // Default Implementation
         return Ux.future();
     }

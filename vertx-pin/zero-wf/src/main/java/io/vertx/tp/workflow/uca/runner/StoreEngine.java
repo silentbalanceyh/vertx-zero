@@ -64,7 +64,7 @@ class StoreEngine implements StoreOn {
 
     @Override
     public Future<JsonObject> formById(final String definitionId, final boolean isTask) {
-        return Wf.processByKey(definitionId).compose(definition -> {
+        return Wf.processById(definitionId).compose(definition -> {
             if (isTask) {
                 // Started
                 return null;
