@@ -51,11 +51,16 @@ public abstract class AbstractTransfer implements Behaviour {
      * - record: The json data of record
      * - The json data of todo is the major key=value
      */
-    protected JsonObject dataR(final JsonObject params) {
+    protected JsonObject dataR(final JsonObject params, final boolean isNew) {
         JsonObject rData = params.getJsonObject(KName.RECORD, new JsonObject());
         if (Ut.notNil(rData)) {
             rData = rData.copy();
         }
+        // Auditor Processing
+        if (isNew) {
+            Ut.ifJCopyFn(params, KName.CREATED_AT, KName.CREATED_BY).apply(rData);
+        }
+        Ut.ifJCopyFn(params, KName.UPDATED_AT, KName.UPDATED_BY).apply(rData);
         return rData;
     }
 

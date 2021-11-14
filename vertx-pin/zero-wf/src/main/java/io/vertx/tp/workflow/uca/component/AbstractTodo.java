@@ -29,18 +29,19 @@ public abstract class AbstractTodo extends AbstractTransfer implements Transfer 
          */
         final ActionOn action = ActionOn.action(record.getMode());
         final ChangeFlag flag = record.getFlag();
-        final JsonObject recordData = this.dataR(params);
         if (ChangeFlag.ADD == flag) {
             /*
              * Record serial when Insert, this action should
              * happen when ADD new record here.
              */
+            final JsonObject recordData = this.dataR(params, true);
             return Ke.umIndent(recordData, record.getIndent())
                 // ADD processing
                 .compose(processed -> action.createAsync(processed, config))
                 // Todo Processing
                 .compose(processed -> this.moveAsync(processed, instance, config));
         } else {
+            final JsonObject recordData = this.dataR(params, false);
             final String key = record.unique(recordData);
             Objects.requireNonNull(key);
             // UPDATE processing

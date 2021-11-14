@@ -285,6 +285,7 @@ public interface KName {
     interface Flow {
         String DEFINITION_ID = "definitionId";
         String DEFINITION_KEY = "definitionKey";
+        String INSTANCE_ID = "instanceId";
         String FORM_KEY = "formKey";
         String BPMN = "bpmn";
         String WORKFLOW = "workflow";

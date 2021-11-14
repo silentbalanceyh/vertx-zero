@@ -17,7 +17,52 @@ import io.vertx.up.unity.Ux;
  */
 @Queue
 public class RunActor {
-
+    /*
+    {
+      "roleName" : "开发人员",
+      "typeName" : "文件管理服务",
+      "toUser" : "63b5383e-5a2e-44ec-87d4-add096aac548",
+      "toGroupMode" : "ROLE",
+      "name" : "TEST",
+      "record" : {
+        "size" : 4262533,
+        "name" : "4k0001.jpg",
+        "instance" : {
+          "uid" : "rc-upload-1636893185841-2",
+          "name" : "4k0001.jpg",
+          "key" : "b840cd3a-8510-420d-b5c1-7f030111ef21",
+          "type" : "image/jpeg",
+          "size" : 4262533,
+          "sizeUi" : "4.07MB",
+          "extension" : "jpg"
+        },
+        "sizeUi" : "4.07MB",
+        "type" : "image/jpeg",
+        "category" : "FILE.REQUEST",
+        "extension" : "jpg",
+        "key" : "b840cd3a-8510-420d-b5c1-7f030111ef21"
+      },
+      "toRole" : "1f27530f-38db-4662-81d4-46ea15b04205",
+      "status" : "DRAFT",
+      "userName" : "开发者",
+      "type" : "cat.doc.file",
+      "description" : "Description",
+      "language" : "cn",
+      "active" : true,
+      "sigma" : "Qxw5HDkluJFnAPmcQCtu9uhGdXEiGNtP",
+      "draft" : true,
+      "workflow" : {
+        "definitionKey" : "process.file.management",
+        "definitionId" : "process.file.management:1:6",
+        "instanceId": "instance id",
+        "language" : "cn"
+      },
+      "createdBy" : "f7fbfaf9-8319-4eb0-9ee7-1948b8b56a67",
+      "createdAt" : "2021-11-14T12:33:51.019091Z",
+      "updatedBy" : "f7fbfaf9-8319-4eb0-9ee7-1948b8b56a67",
+      "updatedAt" : "2021-11-14T12:33:51.019091Z"
+    }
+     */
     @Me
     @Address(HighWay.Do.FLOW_START)
     public Future<JsonObject> start(final JsonObject data) {

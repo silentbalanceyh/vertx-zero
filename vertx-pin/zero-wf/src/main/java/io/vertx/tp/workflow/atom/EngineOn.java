@@ -23,7 +23,7 @@ public class EngineOn {
     }
 
     public static EngineOn connect(final JsonObject workflow) {
-        final String definitionKey = workflow.getString(KName.CODE);
+        final String definitionKey = workflow.getString(KName.Flow.DEFINITION_KEY);
         Objects.requireNonNull(definitionKey);
         /*
          * Thread pool here.

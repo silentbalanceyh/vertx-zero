@@ -37,7 +37,7 @@ class StoreEngine implements StoreOn {
         // Response Json
         final JsonObject workflow = new JsonObject();
         workflow.put(KName.Flow.DEFINITION_ID, definition.getId());
-        workflow.put(KName.CODE, definition.getKey());
+        workflow.put(KName.Flow.DEFINITION_KEY, definition.getKey());
         workflow.put(KName.Flow.BPMN, xml);
         workflow.put(KName.NAME, definition.getName());
         // Start Event
@@ -81,17 +81,20 @@ class StoreEngine implements StoreOn {
                 final JsonObject response = new JsonObject();
                 response.put(KName.CODE, code);
                 response.put(KName.Flow.FORM_KEY, formKey);
-                response.put(KName.Flow.DEFINITION_KEY, definition.getKey());
                 return Ux.future(response);
             }
         });
     }
 
     @Override
-    public Future<ProcessInstance> instanceById(final String definitionId) {
-        final RuntimeService service = WfPin.camundaRuntime();
-        final ProcessInstance instance = service.createProcessInstanceQuery()
-            .processInstanceId(definitionId).singleResult();
-        return Ux.future(instance);
+    public Future<ProcessInstance> instanceById(final String instanceId) {
+        if (Objects.isNull(instanceId)) {
+            return Ux.future();
+        } else {
+            final RuntimeService service = WfPin.camundaRuntime();
+            final ProcessInstance instance = service.createProcessInstanceQuery()
+                .processInstanceId(instanceId).singleResult();
+            return Ux.future(instance);
+        }
     }
 }

@@ -20,18 +20,19 @@ public class MovementNext extends AbstractTransfer implements Movement {
     public Future<ProcessInstance> moveAsync(final JsonObject params) {
         // Extract workflow parameters
         final JsonObject workflow = params.getJsonObject(KName.Flow.WORKFLOW);
-        final String definitionId = workflow.getString(KName.Flow.DEFINITION_ID);
+        final String instanceId = workflow.getString(KName.Flow.INSTANCE_ID);
         // Engine Connect
         final StoreOn storeOn = StoreOn.get();
         final EventOn eventOn = EventOn.get();
         final Refer instanceRef = new Refer();
-        return storeOn.instanceById(definitionId).compose(instanceRef::future).compose(instance -> {
+        return storeOn.instanceById(instanceId).compose(instanceRef::future).compose(instance -> {
             // Whether instance existing
             if (Objects.isNull(instance)) {
                 /*
                  * instance does not exist in your system
                  * Call Start Process
                  */
+                final String definitionId = workflow.getString(KName.Flow.DEFINITION_ID);
                 return eventOn.start(definitionId)
                     // WMove
                     .compose(event -> Ux.future(this.configN(event.getId())));
