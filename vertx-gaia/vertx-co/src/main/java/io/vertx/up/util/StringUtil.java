@@ -141,6 +141,7 @@ final class StringUtil {
             }
         } catch (final JexlException ex) {
             // ex.printStackTrace();    // For Debug
+            ex.printStackTrace();
             return null;                // Get null
             // throw new JexlExpressionException(StringUtil.class, expr, ex);
         }

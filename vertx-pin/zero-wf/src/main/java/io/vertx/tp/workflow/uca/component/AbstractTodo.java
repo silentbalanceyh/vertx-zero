@@ -61,7 +61,7 @@ public abstract class AbstractTodo extends AbstractTransfer implements Transfer 
         final JsonObject request = params.copy();
         request.remove(KName.RECORD);
         request.remove(KName.Flow.WORKFLOW);
-        request.mergeIn(this.config.getJsonObject(KName.Flow.TODO, new JsonObject()));
+        request.put(KName.Flow.TODO, this.config.getJsonObject(KName.Flow.TODO, new JsonObject()));
         return new ConfigTodo(request);
     }
 

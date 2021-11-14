@@ -58,9 +58,16 @@ public abstract class AbstractTransfer implements Behaviour {
         }
         // Auditor Processing
         if (isNew) {
-            Ut.ifJAssign(params, KName.CREATED_AT, KName.CREATED_BY).apply(rData);
+            Ut.ifJAssign(params,
+                KName.CREATED_AT,
+                KName.CREATED_BY
+            ).apply(rData);
         }
-        Ut.ifJAssign(params, KName.UPDATED_AT, KName.UPDATED_BY).apply(rData);
+        Ut.ifJAssign(params,
+            KName.UPDATED_AT,
+            KName.UPDATED_BY,
+            KName.SIGMA
+        ).apply(rData);
         return rData;
     }
 

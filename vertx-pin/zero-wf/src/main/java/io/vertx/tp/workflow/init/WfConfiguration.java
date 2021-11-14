@@ -16,7 +16,9 @@ import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 import org.camunda.bpm.engine.ProcessEngine;
 import org.camunda.bpm.engine.ProcessEngineConfiguration;
+import org.camunda.bpm.engine.impl.cfg.StandaloneProcessEngineConfiguration;
 import org.camunda.bpm.engine.impl.history.HistoryLevel;
+import org.camunda.bpm.engine.impl.persistence.StrongUuidGenerator;
 import org.jooq.Configuration;
 
 import java.util.ArrayList;
@@ -55,10 +57,11 @@ final class WfConfiguration {
         if (Objects.isNull(ENGINE)) {
             final Database database = CONFIG.camundaDatabase();
             Objects.requireNonNull(database);
-            ENGINE = ProcessEngineConfiguration.createStandaloneInMemProcessEngineConfiguration()
+            ENGINE = new StandaloneProcessEngineConfiguration()
                 // Fix Issue:
                 // org.camunda.bpm.engine.ProcessEngineException: historyLevel mismatch: configuration says HistoryLevelAudit(name=audit, id=2) and database says HistoryLevelFull(name=full, id=3)
                 .setHistory(HistoryLevel.HISTORY_LEVEL_FULL.getName())     // none, audit, full, activity
+                .setIdGenerator(new StrongUuidGenerator())                 // uuid for task
                 .setProcessEngineName(CONFIG.getName())
                 .setDatabaseSchemaUpdate(ProcessEngineConfiguration.DB_SCHEMA_UPDATE_FALSE)
                 .setJdbcUrl(database.getJdbcUrl())

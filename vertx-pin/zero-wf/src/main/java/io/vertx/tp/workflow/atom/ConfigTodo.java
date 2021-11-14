@@ -1,10 +1,16 @@
 package io.vertx.tp.workflow.atom;
 
+import cn.vertxup.workflow.domain.tables.pojos.WTodo;
+import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
+import io.vertx.tp.ke.refine.Ke;
 import io.vertx.up.eon.KName;
+import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
 import java.io.Serializable;
+import java.util.Objects;
+import java.util.UUID;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
@@ -17,13 +23,20 @@ public class ConfigTodo implements Serializable {
     // Todo Number definition
     private transient Class<?> daoCls;
 
+    /*
+     * {
+     *      "todo": "config
+     * }
+     */
     public ConfigTodo(final JsonObject data) {
-        this.indent = data.getString(KName.INDENT, null);
-        if (data.containsKey(KName.MODEL_COMPONENT)) {
-            this.daoCls = Ut.clazz(data.getString(KName.MODEL_COMPONENT), null);
+        final JsonObject todo = data.getJsonObject(KName.Flow.TODO);
+        Objects.requireNonNull(todo);
+        this.indent = todo.getString(KName.INDENT, null);
+        if (todo.containsKey(KName.MODEL_COMPONENT)) {
+            this.daoCls = Ut.clazz(todo.getString(KName.MODEL_COMPONENT), null);
         }
-        this.identifier = data.getString(KName.MODEL_ID, null);
-        this.key = data.getString(KName.MODEL_KEY, null);
+        this.identifier = todo.getString(KName.MODEL_ID, null);
+        this.key = todo.getString(KName.MODEL_KEY, null);
         this.data.mergeIn(data, true);
     }
 
@@ -45,5 +58,28 @@ public class ConfigTodo implements Serializable {
 
     public String indent() {
         return this.indent;
+    }
+
+    public Future<WTodo> generate(final String modelKey) {
+        return Ke.umIndent(this.data, this.indent).compose(processed -> {
+            final JsonObject todoData = processed.copy();
+            Ut.ifJCopy(todoData, KName.INDENT, KName.SERIAL);
+            // Todo Generate `key` for `todoUrl`
+            {
+                todoData.put(KName.KEY, UUID.randomUUID().toString());
+                todoData.put(KName.MODEL_KEY, modelKey);
+            }
+            final JsonObject todo = this.data.getJsonObject(KName.Flow.TODO);
+            final JsonObject combine = new JsonObject();
+            Ut.<String>itJObject(todo, (expression, field) -> {
+                if (expression.contains("`")) {
+                    combine.put(field, Ut.fromExpression(expression, todoData));
+                } else {
+                    combine.put(field, expression);
+                }
+            });
+            todoData.mergeIn(combine);
+            return Ux.future(Ux.fromJson(todoData, WTodo.class));
+        });
     }
 }
