@@ -5,10 +5,8 @@ package cn.vertxup.workflow.domain;
 
 
 import cn.vertxup.workflow.domain.tables.WFlow;
-import cn.vertxup.workflow.domain.tables.WInstance;
 import cn.vertxup.workflow.domain.tables.WTodo;
 import cn.vertxup.workflow.domain.tables.records.WFlowRecord;
-import cn.vertxup.workflow.domain.tables.records.WInstanceRecord;
 import cn.vertxup.workflow.domain.tables.records.WTodoRecord;
 
 import org.jooq.TableField;
@@ -31,9 +29,6 @@ public class Keys {
     public static final UniqueKey<WFlowRecord> KEY_W_FLOW_CODE = Internal.createUniqueKey(WFlow.W_FLOW, DSL.name("KEY_W_FLOW_CODE"), new TableField[] { WFlow.W_FLOW.CODE, WFlow.W_FLOW.SIGMA }, true);
     public static final UniqueKey<WFlowRecord> KEY_W_FLOW_NAME = Internal.createUniqueKey(WFlow.W_FLOW, DSL.name("KEY_W_FLOW_NAME"), new TableField[] { WFlow.W_FLOW.NAME, WFlow.W_FLOW.SIGMA }, true);
     public static final UniqueKey<WFlowRecord> KEY_W_FLOW_PRIMARY = Internal.createUniqueKey(WFlow.W_FLOW, DSL.name("KEY_W_FLOW_PRIMARY"), new TableField[] { WFlow.W_FLOW.KEY }, true);
-    public static final UniqueKey<WInstanceRecord> KEY_W_INSTANCE_CODE = Internal.createUniqueKey(WInstance.W_INSTANCE, DSL.name("KEY_W_INSTANCE_CODE"), new TableField[] { WInstance.W_INSTANCE.CODE, WInstance.W_INSTANCE.SIGMA }, true);
-    public static final UniqueKey<WInstanceRecord> KEY_W_INSTANCE_INSTANCE_ID = Internal.createUniqueKey(WInstance.W_INSTANCE, DSL.name("KEY_W_INSTANCE_INSTANCE_ID"), new TableField[] { WInstance.W_INSTANCE.INSTANCE_ID, WInstance.W_INSTANCE.SIGMA }, true);
-    public static final UniqueKey<WInstanceRecord> KEY_W_INSTANCE_PRIMARY = Internal.createUniqueKey(WInstance.W_INSTANCE, DSL.name("KEY_W_INSTANCE_PRIMARY"), new TableField[] { WInstance.W_INSTANCE.KEY }, true);
     public static final UniqueKey<WTodoRecord> KEY_W_TODO_PRIMARY = Internal.createUniqueKey(WTodo.W_TODO, DSL.name("KEY_W_TODO_PRIMARY"), new TableField[] { WTodo.W_TODO.KEY }, true);
     public static final UniqueKey<WTodoRecord> KEY_W_TODO_SIGMA = Internal.createUniqueKey(WTodo.W_TODO, DSL.name("KEY_W_TODO_SIGMA"), new TableField[] { WTodo.W_TODO.SIGMA, WTodo.W_TODO.CODE }, true);
     public static final UniqueKey<WTodoRecord> KEY_W_TODO_SIGMA_2 = Internal.createUniqueKey(WTodo.W_TODO, DSL.name("KEY_W_TODO_SIGMA_2"), new TableField[] { WTodo.W_TODO.SIGMA, WTodo.W_TODO.SERIAL }, true);

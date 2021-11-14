@@ -5,7 +5,6 @@ package cn.vertxup.workflow.domain;
 
 
 import cn.vertxup.workflow.domain.tables.WFlow;
-import cn.vertxup.workflow.domain.tables.WInstance;
 import cn.vertxup.workflow.domain.tables.WTodo;
 
 
@@ -19,11 +18,6 @@ public class Tables {
      * The table <code>DB_ETERNAL.W_FLOW</code>.
      */
     public static final WFlow W_FLOW = WFlow.W_FLOW;
-
-    /**
-     * The table <code>DB_ETERNAL.W_INSTANCE</code>.
-     */
-    public static final WInstance W_INSTANCE = WInstance.W_INSTANCE;
 
     /**
      * The table <code>DB_ETERNAL.W_TODO</code>.

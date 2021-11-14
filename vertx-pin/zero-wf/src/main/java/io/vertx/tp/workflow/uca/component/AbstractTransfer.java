@@ -1,15 +1,22 @@
 package io.vertx.tp.workflow.uca.component;
 
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.workflow.atom.WRecord;
+import io.vertx.tp.workflow.atom.element.WDecision;
+import io.vertx.tp.workflow.atom.element.WRecord;
 import io.vertx.up.eon.KName;
+import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
+
+import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 public abstract class AbstractTransfer implements Behaviour {
     private final transient JsonObject config = new JsonObject();
+    private final transient ConcurrentMap<String, WDecision> decision = new ConcurrentHashMap<>();
     private transient WRecord record;
 
     @Override
@@ -17,7 +24,11 @@ public abstract class AbstractTransfer implements Behaviour {
         final JsonObject sure = Ut.sureJObject(config);
         this.config.mergeIn(sure.copy(), true);
         if (sure.containsKey(KName.RECORD)) {
-            this.record = Ut.deserialize(sure.getJsonObject(KName.RECORD), WRecord.class);
+            this.record = Ux.fromJson(sure.getJsonObject(KName.RECORD), WRecord.class);
+        }
+        if (sure.containsKey(KName.Flow.DECISION)) {
+            final List<WDecision> decisions = Ux.fromJson(sure.getJsonArray(KName.Flow.DECISION), WDecision.class);
+            decisions.forEach(decision -> this.decision.put(decision.getNode(), decision));
         }
         return this;
     }
@@ -28,6 +39,10 @@ public abstract class AbstractTransfer implements Behaviour {
 
     protected WRecord record() {
         return this.record;
+    }
+
+    protected WDecision decision(final String node) {
+        return this.decision.get(node);
     }
 
     // Data Json for `record` and `todo`

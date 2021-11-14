@@ -1,9 +1,9 @@
 package io.vertx.tp.workflow.uca.component;
 
-import cn.vertxup.workflow.domain.tables.pojos.WInstance;
 import cn.vertxup.workflow.domain.tables.pojos.WTodo;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
+import org.camunda.bpm.engine.runtime.ProcessInstance;
 
 /**
  * Todo Generation
@@ -14,5 +14,5 @@ import io.vertx.core.json.JsonObject;
  */
 public interface Transfer extends Behaviour {
 
-    Future<WTodo> startAsync(JsonObject params, WInstance instance);
+    Future<WTodo> startAsync(JsonObject params, ProcessInstance instance);
 }

@@ -12,6 +12,7 @@ import org.camunda.bpm.engine.FormService;
 import org.camunda.bpm.engine.RepositoryService;
 import org.camunda.bpm.engine.form.StartFormData;
 import org.camunda.bpm.engine.repository.ProcessDefinition;
+import org.camunda.bpm.engine.task.Task;
 import org.camunda.bpm.model.bpmn.Bpmn;
 import org.camunda.bpm.model.bpmn.BpmnModelInstance;
 import org.camunda.bpm.model.bpmn.instance.StartEvent;
@@ -74,7 +75,7 @@ class StoreEngine implements StoreOn {
     }
 
     @Override
-    public Future<JsonObject> fetchForm(final String definitionId, final boolean isTask) {
+    public Future<JsonObject> firstForm(final String definitionId, final boolean isTask) {
         final RepositoryService service = WfPin.camundaRepository();
         final ProcessDefinition definition = service.getProcessDefinition(definitionId);
         if (isTask) {
@@ -96,5 +97,10 @@ class StoreEngine implements StoreOn {
             response.put(KName.Flow.DEFINITION_KEY, definition.getKey());
             return Ux.future(response);
         }
+    }
+
+    @Override
+    public Future<Task> firstTask(final String definitionKey) {
+        return null;
     }
 }

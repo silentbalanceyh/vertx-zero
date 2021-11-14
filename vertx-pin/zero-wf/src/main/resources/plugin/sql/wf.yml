@@ -1,8 +1,5 @@
 databaseChangeLog:
   - include:
-      file: plugin/sql/wf/W_INSTANCE.sql
-      relativeToChangelogFile: false
-  - include:
       file: plugin/sql/wf/W_FLOW.sql
       relativeToChangelogFile: false
   - include:

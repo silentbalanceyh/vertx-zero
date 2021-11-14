@@ -4,6 +4,7 @@ import cn.zeroup.macrocosm.cv.WfPool;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.fn.Fn;
+import org.camunda.bpm.engine.task.Task;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
@@ -32,5 +33,7 @@ public interface StoreOn {
      *      }
      * }
      */
-    Future<JsonObject> fetchForm(String definitionId, boolean isTask);
+    Future<JsonObject> firstForm(String definitionId, boolean isTask);
+
+    Future<Task> firstTask(String definitionKey);
 }

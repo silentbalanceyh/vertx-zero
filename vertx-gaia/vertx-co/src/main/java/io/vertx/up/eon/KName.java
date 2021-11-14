@@ -292,5 +292,7 @@ public interface KName {
         String MULTI_START = "startMulti";
         // Todo
         String TODO = "todo";                        /* Todo */
+        String DECISION = "decision";                /* Workflow: decision */
+        String NODE = "node";                        /* Workflow node */
     }
 }
