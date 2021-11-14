@@ -1,7 +1,9 @@
 package io.vertx.tp.workflow.refine;
 
+import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.log.Annal;
+import org.camunda.bpm.engine.repository.ProcessDefinition;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
@@ -10,6 +12,14 @@ public class Wf {
 
     public static JsonObject argsForm(final JsonObject form, final String sigma) {
         return WfForm.argsForm(form, sigma);
+    }
+
+    public static Future<ProcessDefinition> processByKey(final String definitionKey) {
+        return WfFlow.processByKey(definitionKey);
+    }
+
+    public static Future<ProcessDefinition> processById(final String definitionId) {
+        return WfFlow.processByKey(definitionId);
     }
 
     public static class Log {

@@ -1,13 +1,12 @@
 package io.vertx.tp.workflow.uca.component;
 
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.workflow.atom.element.WDecision;
+import io.vertx.tp.workflow.atom.element.WMove;
 import io.vertx.tp.workflow.atom.element.WRecord;
 import io.vertx.up.eon.KName;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
-import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
@@ -16,7 +15,7 @@ import java.util.concurrent.ConcurrentMap;
  */
 public abstract class AbstractTransfer implements Behaviour {
     private final transient JsonObject config = new JsonObject();
-    private final transient ConcurrentMap<String, WDecision> decision = new ConcurrentHashMap<>();
+    private final transient ConcurrentMap<String, WMove> moveMap = new ConcurrentHashMap<>();
     private transient WRecord record;
 
     @Override
@@ -26,26 +25,43 @@ public abstract class AbstractTransfer implements Behaviour {
         if (sure.containsKey(KName.RECORD)) {
             this.record = Ux.fromJson(sure.getJsonObject(KName.RECORD), WRecord.class);
         }
-        if (sure.containsKey(KName.Flow.DECISION)) {
-            final List<WDecision> decisions = Ux.fromJson(sure.getJsonArray(KName.Flow.DECISION), WDecision.class);
-            decisions.forEach(decision -> this.decision.put(decision.getNode(), decision));
+        if (sure.containsKey(KName.Flow.NODE)) {
+            final JsonObject configData = sure.getJsonObject(KName.Flow.NODE);
+            Ut.<JsonObject>itJObject(configData, (value, field) -> {
+                final WMove item = Ux.fromJson(value, WMove.class);
+                item.setNode(field);
+                this.moveMap.put(field, item);
+            });
         }
         return this;
     }
 
-    protected JsonObject configuration() {
+    /*
+     * {
+     *     "todo": "",
+     *     "record": "",
+     *     "node": ""
+     * }
+     */
+    protected JsonObject configT() {
         return this.config.getJsonObject(KName.Flow.TODO, new JsonObject());
     }
 
-    protected WRecord record() {
+    protected WMove configN(final String node) {
+        return this.moveMap.get(node);
+    }
+
+    protected WRecord configR() {
         return this.record;
     }
 
-    protected WDecision decision(final String node) {
-        return this.decision.get(node);
-    }
-
-    // Data Json for `record` and `todo`
+    /*
+     * {
+     *     "record": "...",
+     * }
+     * - record: The json data of record
+     * - The json data of todo is the major key=value
+     */
     protected JsonObject requestR(final JsonObject params) {
         JsonObject rData = params.getJsonObject(KName.RECORD, new JsonObject());
         if (Ut.notNil(rData)) {
@@ -58,6 +74,13 @@ public abstract class AbstractTransfer implements Behaviour {
         final JsonObject request = params.copy();
         request.remove(KName.RECORD);
         request.remove(KName.Flow.WORKFLOW);
+        return request;
+    }
+
+    protected JsonObject requestM(final JsonObject params, final WMove move) {
+        final ConcurrentMap<String, String> pattern = move.getData();
+        final JsonObject request = new JsonObject();
+        pattern.forEach((to, from) -> request.put(to, params.getValue(from)));
         return request;
     }
 }

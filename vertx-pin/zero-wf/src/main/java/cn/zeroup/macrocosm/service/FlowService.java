@@ -38,7 +38,7 @@ public class FlowService implements FlowStub {
         final StoreOn storeOn = StoreOn.get();
         // 1. Fetch workflow
         final JsonObject response = new JsonObject();
-        return storeOn.firstForm(definitionId, false).compose(formData -> {
+        return storeOn.formById(definitionId, false).compose(formData -> {
             // code
             final JsonObject parameters = Wf.argsForm(formData, sigma);
             return Ke.channel(DForm.class, JsonObject::new, stub -> stub.fetchUi(parameters));
