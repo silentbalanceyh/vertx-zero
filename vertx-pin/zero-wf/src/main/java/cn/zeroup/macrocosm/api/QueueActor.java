@@ -22,7 +22,7 @@ public class QueueActor {
     @Inject
     private transient FlowStub flowStub;
 
-    @Address(HighWay.Queue.BY_CREATED)
+    @Address(HighWay.Queue.TASK_QUEUE)
     public Future<JsonObject> fetchMyCreated(final JsonObject qr, final User user) {
         // Extract user id
         final String userId = Ux.keyUser(user);

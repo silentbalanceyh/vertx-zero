@@ -55,4 +55,9 @@ public interface RunAgent {
     @Path("/up/flow/start")
     @Address(HighWay.Do.FLOW_START)
     Future<JsonObject> start(@BodyParam JsonObject body);
+
+    @POST
+    @Path("/up/flow/complete")
+    @Address(HighWay.Do.FLOW_COMPLETE)
+    Future<JsonObject> complete(@BodyParam JsonObject body);
 }

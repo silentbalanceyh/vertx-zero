@@ -1,0 +1,12 @@
+{
+    "todo": {
+        "name": "`单号：${serial}`, ${name}",
+        "icon": "file",
+        "todoUrl": "`/ambient/duty-view?tid=${key}&id=${modelKey}`",
+        "modelComponent": "cn.vertxup.ambient.domain.tables.daos.XAttachmentDao"
+    },
+    "record": {
+        "flag": "UPDATE",
+        "unique": "key"
+    }
+}

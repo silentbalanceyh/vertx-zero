@@ -18,15 +18,15 @@ public interface QueueAgent {
      * SELECT * FROM X_TODO WHERE CREATED_BY = ? ( user )
      */
     @POST
-    @Path("/up/duty/created")
-    @Address(HighWay.Queue.BY_CREATED)
-    JsonObject fetchMyCreated(@BodyParam JsonObject body);
+    @Path("/up/flow/queue")
+    @Address(HighWay.Queue.TASK_QUEUE)
+    JsonObject fetchMyQueue(@BodyParam JsonObject body);
 
     /*
      * SELECT * FROM X_FLOW by code/instanceKey
      */
     @GET
-    @Path("/up/workflow/:code")
+    @Path("/up/flow/:code")
     @Address(HighWay.Flow.BY_CODE)
     JsonObject fetchFlow(@PathParam(KName.CODE) String code);
 
@@ -36,7 +36,7 @@ public interface QueueAgent {
      * 2. when isPre = false ( Default ), standard to pick up the task
      */
     @POST
-    @Path("/up/duty-form/:pre")
+    @Path("/up/flow-form/:pre")
     @Address(HighWay.Queue.TASK_FORM)
     JsonObject fetchForm(@BodyParam JsonObject body,
                          @PathParam("pre") Boolean isPre);

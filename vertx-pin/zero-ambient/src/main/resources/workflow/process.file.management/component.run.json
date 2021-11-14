@@ -1,0 +1,14 @@
+{
+    "node": {
+        "eStart": {
+            "data": {
+                "draft": "draft"
+            }
+        },
+        "eFileApprove": {
+            "data": {
+                "confirmed": "confirmed"
+            }
+        }
+    }
+}

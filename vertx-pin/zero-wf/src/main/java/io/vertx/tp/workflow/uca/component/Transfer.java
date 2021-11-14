@@ -14,5 +14,5 @@ import org.camunda.bpm.engine.runtime.ProcessInstance;
  */
 public interface Transfer extends Behaviour {
 
-    Future<WTodo> startAsync(JsonObject params, ProcessInstance instance);
+    Future<WTodo> moveAsync(JsonObject params, ProcessInstance instance);
 }

@@ -15,10 +15,10 @@ public interface HighWay {
      */
     interface Queue {
         // Fetch by who created: CREATED_BY
-        String BY_CREATED = KeIpc.Workflow.EVENT + "W-TODO/BY/CREATED";
+        String TASK_QUEUE = KeIpc.Workflow.EVENT + "W-TODO/TASK/QUEUE";
 
         // Fetch before creation
-        String TASK_FORM = KeIpc.Workflow.EVENT + "W-TODO/BY/VIRTUAL-FORM";
+        String TASK_FORM = KeIpc.Workflow.EVENT + "W-TODO/TASK/VIRTUAL-FORM";
     }
 
     /*
@@ -27,6 +27,9 @@ public interface HighWay {
     interface Do {
         // Start new workflow instance
         String FLOW_START = KeIpc.Workflow.EVENT + "W-INSTANCE/START";
+
+        // Complete and next workflow instance
+        String FLOW_COMPLETE = KeIpc.Workflow.EVENT + "W-INSTANCE/COMPLETE";
     }
 
     /*

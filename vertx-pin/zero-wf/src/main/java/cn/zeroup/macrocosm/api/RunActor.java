@@ -24,11 +24,22 @@ public class RunActor {
         final WEngine engine = WEngine.connect(data.getJsonObject(KName.Flow.WORKFLOW));
         final Transfer transfer = engine.componentStart();
         final Movement runner = engine.componentRun();
-        return runner.moveAsync(data)
-            // Camunda Processing
-            .compose(instance -> transfer.startAsync(data, instance)
-                // Callback
-                .compose(nil -> Ux.futureJ())
-            );
+        // Camunda Processing
+        return runner.moveAsync(data).compose(instance -> transfer.moveAsync(data, instance)
+            // Callback
+            .compose(nil -> Ux.futureJ())
+        );
+    }
+
+    @Me
+    @Address(HighWay.Do.FLOW_COMPLETE)
+    public Future<JsonObject> complete(final JsonObject data) {
+        final WEngine engine = WEngine.connect(data.getJsonObject(KName.Flow.WORKFLOW));
+        final Transfer transfer = engine.componentGenerate();
+        final Movement runner = engine.componentRun();
+        return runner.moveAsync(data).compose(instance -> transfer.moveAsync(data, instance)
+            // Callback
+            .compose(nil -> Ux.futureJ())
+        );
     }
 }

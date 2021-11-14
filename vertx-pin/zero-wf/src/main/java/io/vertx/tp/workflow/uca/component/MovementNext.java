@@ -3,6 +3,7 @@ package io.vertx.tp.workflow.uca.component;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.workflow.uca.runner.EventOn;
+import io.vertx.tp.workflow.uca.runner.RunOn;
 import io.vertx.tp.workflow.uca.runner.StoreOn;
 import io.vertx.up.atom.Refer;
 import io.vertx.up.eon.KName;
@@ -47,7 +48,16 @@ public class MovementNext extends AbstractTransfer implements Movement {
             // Camunda Instance Moving
             Objects.requireNonNull(move);
             final JsonObject wParams = this.requestM(params, move);
-            return null;
+            final ProcessInstance instance = instanceRef.get();
+
+            // Camunda Workflow Running
+            final RunOn runOn = RunOn.get();
+            if (Objects.isNull(instance)) {
+                final String definitionKey = workflow.getString(KName.Flow.DEFINITION_KEY);
+                return runOn.startAsync(definitionKey, wParams);
+            } else {
+                return runOn.moveAsync(instance, wParams);
+            }
         });
     }
 }

@@ -11,7 +11,7 @@ import org.camunda.bpm.engine.runtime.ProcessInstance;
  */
 public class TransferEmpty extends AbstractTransfer implements Transfer {
     @Override
-    public Future<WTodo> startAsync(final JsonObject params, final ProcessInstance instance) {
+    public Future<WTodo> moveAsync(final JsonObject params, final ProcessInstance instance) {
         return Ux.future();
     }
 }
