@@ -72,7 +72,7 @@ public class RunActor {
         // Camunda Processing
         return runner.moveAsync(data).compose(instance -> transfer.moveAsync(data, instance)
             // Callback
-            .compose(nil -> Ux.futureJ())
+            .compose(Ux::futureJ)
         );
     }
 

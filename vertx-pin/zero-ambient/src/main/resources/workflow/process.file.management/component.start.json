@@ -4,6 +4,7 @@
         "icon": "file",
         "todoUrl": "`/ambient/flow-view?tid=${key}&id=${modelKey}`",
         "modelComponent": "cn.vertxup.ambient.domain.tables.daos.XAttachmentDao",
+        "modelId": "x.attachment",
         "indent": "WF.NUM.FILE"
     },
     "record": {

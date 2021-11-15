@@ -42,7 +42,7 @@ CREATE TABLE IF NOT EXISTS W_TODO
      */
     `MODEL_ID`        VARCHAR(255) COMMENT '「modelId」- 关联的模型identifier，用于描述',
     `MODEL_KEY`       VARCHAR(36) COMMENT '「modelKey」- 关联的模型记录ID，用于描述哪一个Model中的记录',
-    `MODEL_CATEGORY`  VARCHAR(36) COMMENT '「modelCategory」- 关联的category记录，只包含叶节点',
+    `MODEL_CATEGORY`  VARCHAR(128) COMMENT '「modelCategory」- 关联的category记录，只包含叶节点',
     `MODEL_FORM`      VARCHAR(255) COMMENT '「modelForm」- 待办专用的表单关联',
     `MODEL_COMPONENT` VARCHAR(255) COMMENT '「modelComponent」- 关联的待办组件记录',
 
