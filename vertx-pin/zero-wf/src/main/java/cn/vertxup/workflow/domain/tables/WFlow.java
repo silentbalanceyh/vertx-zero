@@ -90,6 +90,15 @@ public class WFlow extends TableImpl<WFlowRecord> {
      */
     public final TableField<WFlowRecord, String> START_CONFIG = createField(DSL.name("START_CONFIG"), SQLDataType.CLOB, this, "「startConfig」- 启动配置");
     /**
+     * The column <code>DB_ETERNAL.W_FLOW.END_COMPONENT</code>. 「endComponent」-
+     * 完成组件
+     */
+    public final TableField<WFlowRecord, String> END_COMPONENT = createField(DSL.name("END_COMPONENT"), SQLDataType.VARCHAR(255), this, "「endComponent」- 完成组件");
+    /**
+     * The column <code>DB_ETERNAL.W_FLOW.END_CONFIG</code>. 「endConfig」- 完成配置
+     */
+    public final TableField<WFlowRecord, String> END_CONFIG = createField(DSL.name("END_CONFIG"), SQLDataType.CLOB, this, "「endConfig」- 完成配置");
+    /**
      * The column <code>DB_ETERNAL.W_FLOW.COMMENT</code>. 「comment」 - 流程定义备注
      */
     public final TableField<WFlowRecord, String> COMMENT = createField(DSL.name("COMMENT"), SQLDataType.CLOB, this, "「comment」 - 流程定义备注");
@@ -206,14 +215,5 @@ public class WFlow extends TableImpl<WFlowRecord> {
     @Override
     public WFlow rename(Name name) {
         return new WFlow(name, null);
-    }
-
-    // -------------------------------------------------------------------------
-    // Row22 type methods
-    // -------------------------------------------------------------------------
-
-    @Override
-    public Row22<String, String, String, String, String, String, String, String, String, String, String, String, String, String, Boolean, String, String, String, LocalDateTime, String, LocalDateTime, String> fieldsRow() {
-        return (Row22) super.fieldsRow();
     }
 }

@@ -241,7 +241,8 @@ public class WTodo implements VertxPojo, IWTodo {
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.W_TODO.CODE</code>. 「code」- 待办系统码
+     * Getter for <code>DB_ETERNAL.W_TODO.CODE</code>. 「code」-
+     * 待办系统码，使用流程时候关联流程的任务ID
      */
     @Override
     public String getCode() {
@@ -249,7 +250,8 @@ public class WTodo implements VertxPojo, IWTodo {
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.W_TODO.CODE</code>. 「code」- 待办系统码
+     * Setter for <code>DB_ETERNAL.W_TODO.CODE</code>. 「code」-
+     * 待办系统码，使用流程时候关联流程的任务ID
      */
     @Override
     public WTodo setCode(String code) {

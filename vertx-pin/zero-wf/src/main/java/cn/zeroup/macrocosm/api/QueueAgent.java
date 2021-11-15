@@ -26,7 +26,7 @@ public interface QueueAgent {
      * SELECT * FROM X_FLOW by code/instanceKey
      */
     @GET
-    @Path("/up/flow/:code")
+    @Path("/up/flow-definition/:code")
     @Address(HighWay.Flow.BY_CODE)
     JsonObject fetchFlow(@PathParam(KName.CODE) String code);
 

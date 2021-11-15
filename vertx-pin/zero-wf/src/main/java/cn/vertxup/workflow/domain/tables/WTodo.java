@@ -43,9 +43,10 @@ public class WTodo extends TableImpl<WTodoRecord> {
      */
     public final TableField<WTodoRecord, String> NAME = createField(DSL.name("NAME"), SQLDataType.VARCHAR(255), this, "「name」- 待办名称（标题）");
     /**
-     * The column <code>DB_ETERNAL.W_TODO.CODE</code>. 「code」- 待办系统码
+     * The column <code>DB_ETERNAL.W_TODO.CODE</code>. 「code」-
+     * 待办系统码，使用流程时候关联流程的任务ID
      */
-    public final TableField<WTodoRecord, String> CODE = createField(DSL.name("CODE"), SQLDataType.VARCHAR(36), this, "「code」- 待办系统码");
+    public final TableField<WTodoRecord, String> CODE = createField(DSL.name("CODE"), SQLDataType.VARCHAR(36), this, "「code」- 待办系统码，使用流程时候关联流程的任务ID");
     /**
      * The column <code>DB_ETERNAL.W_TODO.ICON</code>. 「icon」- 待办显示的图标
      */
@@ -76,7 +77,7 @@ public class WTodo extends TableImpl<WTodoRecord> {
      * The column <code>DB_ETERNAL.W_TODO.MODEL_CATEGORY</code>.
      * 「modelCategory」- 关联的category记录，只包含叶节点
      */
-    public final TableField<WTodoRecord, String> MODEL_CATEGORY = createField(DSL.name("MODEL_CATEGORY"), SQLDataType.VARCHAR(36), this, "「modelCategory」- 关联的category记录，只包含叶节点");
+    public final TableField<WTodoRecord, String> MODEL_CATEGORY = createField(DSL.name("MODEL_CATEGORY"), SQLDataType.VARCHAR(128), this, "「modelCategory」- 关联的category记录，只包含叶节点");
     /**
      * The column <code>DB_ETERNAL.W_TODO.MODEL_FORM</code>. 「modelForm」-
      * 待办专用的表单关联

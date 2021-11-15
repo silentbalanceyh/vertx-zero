@@ -50,12 +50,14 @@ public interface IWTodo extends VertxPojo, Serializable {
     public String getName();
 
     /**
-     * Setter for <code>DB_ETERNAL.W_TODO.CODE</code>. 「code」- 待办系统码
+     * Setter for <code>DB_ETERNAL.W_TODO.CODE</code>. 「code」-
+     * 待办系统码，使用流程时候关联流程的任务ID
      */
     public IWTodo setCode(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.W_TODO.CODE</code>. 「code」- 待办系统码
+     * Getter for <code>DB_ETERNAL.W_TODO.CODE</code>. 「code」-
+     * 待办系统码，使用流程时候关联流程的任务ID
      */
     public String getCode();
 

@@ -29,6 +29,10 @@ CREATE TABLE IF NOT EXISTS W_FLOW
     `START_COMPONENT`      VARCHAR(255) COMMENT '「startComponent」- 启动组件',
     `START_CONFIG`         LONGTEXT COMMENT '「startConfig」- 启动配置',
 
+    -- 最后一个节点的Callback
+    `END_COMPONENT`        VARCHAR(255) COMMENT '「endComponent」- 完成组件',
+    `END_CONFIG`           LONGTEXT COMMENT '「endConfig」- 完成配置',
+
     -- 特殊字段
     `COMMENT`              LONGTEXT COMMENT '「comment」 - 流程定义备注',
     `ACTIVE`               BIT         DEFAULT NULL COMMENT '「active」- 是否启用',

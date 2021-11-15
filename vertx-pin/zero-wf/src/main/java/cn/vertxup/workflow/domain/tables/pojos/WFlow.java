@@ -33,6 +33,8 @@ public class WFlow implements VertxPojo, IWFlow {
     private String        runConfig;
     private String        startComponent;
     private String        startConfig;
+    private String        endComponent;
+    private String        endConfig;
     private String        comment;
     private Boolean       active;
     private String        sigma;
@@ -59,6 +61,8 @@ public class WFlow implements VertxPojo, IWFlow {
         this.runConfig = value.getRunConfig();
         this.startComponent = value.getStartComponent();
         this.startConfig = value.getStartConfig();
+        this.endComponent = value.getEndComponent();
+        this.endConfig = value.getEndConfig();
         this.comment = value.getComment();
         this.active = value.getActive();
         this.sigma = value.getSigma();
@@ -84,6 +88,8 @@ public class WFlow implements VertxPojo, IWFlow {
         String        runConfig,
         String        startComponent,
         String        startConfig,
+        String        endComponent,
+        String        endConfig,
         String        comment,
         Boolean       active,
         String        sigma,
@@ -107,6 +113,8 @@ public class WFlow implements VertxPojo, IWFlow {
         this.runConfig = runConfig;
         this.startComponent = startComponent;
         this.startConfig = startConfig;
+        this.endComponent = endComponent;
+        this.endConfig = endConfig;
         this.comment = comment;
         this.active = active;
         this.sigma = sigma;
@@ -363,6 +371,42 @@ public class WFlow implements VertxPojo, IWFlow {
     }
 
     /**
+     * Getter for <code>DB_ETERNAL.W_FLOW.END_COMPONENT</code>. 「endComponent」-
+     * 完成组件
+     */
+    @Override
+    public String getEndComponent() {
+        return this.endComponent;
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.W_FLOW.END_COMPONENT</code>. 「endComponent」-
+     * 完成组件
+     */
+    @Override
+    public WFlow setEndComponent(String endComponent) {
+        this.endComponent = endComponent;
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.W_FLOW.END_CONFIG</code>. 「endConfig」- 完成配置
+     */
+    @Override
+    public String getEndConfig() {
+        return this.endConfig;
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.W_FLOW.END_CONFIG</code>. 「endConfig」- 完成配置
+     */
+    @Override
+    public WFlow setEndConfig(String endConfig) {
+        this.endConfig = endConfig;
+        return this;
+    }
+
+    /**
      * Getter for <code>DB_ETERNAL.W_FLOW.COMMENT</code>. 「comment」 - 流程定义备注
      */
     @Override
@@ -532,6 +576,8 @@ public class WFlow implements VertxPojo, IWFlow {
         sb.append(", ").append(runConfig);
         sb.append(", ").append(startComponent);
         sb.append(", ").append(startConfig);
+        sb.append(", ").append(endComponent);
+        sb.append(", ").append(endConfig);
         sb.append(", ").append(comment);
         sb.append(", ").append(active);
         sb.append(", ").append(sigma);
@@ -565,6 +611,8 @@ public class WFlow implements VertxPojo, IWFlow {
         setRunConfig(from.getRunConfig());
         setStartComponent(from.getStartComponent());
         setStartConfig(from.getStartConfig());
+        setEndComponent(from.getEndComponent());
+        setEndConfig(from.getEndConfig());
         setComment(from.getComment());
         setActive(from.getActive());
         setSigma(from.getSigma());
