@@ -68,7 +68,7 @@ class Where {
                 // Replace old conditions.
                 query.put(Qr.KEY_CRITERIA, value);
             }
-            return qr;
+            return query;
         } else {
             final JsonObject query = qr.copy();
             if (!query.containsKey(Qr.KEY_CRITERIA)) {
