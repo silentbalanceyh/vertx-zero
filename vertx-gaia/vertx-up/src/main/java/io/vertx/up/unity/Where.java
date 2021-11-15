@@ -51,22 +51,36 @@ class Where {
         return criteria;
     }
 
-    static JsonObject whereQr(final JsonObject qr, final String field, final Object value) {
+    static JsonObject whereQrA(final JsonObject qr, final String field, final Object value) {
         Objects.requireNonNull(qr);
         // If value instance of JsonObject, skip
         if (value instanceof JsonObject) {
+            final JsonObject query = qr.copy();
+            final JsonObject original = query.getJsonObject(Qr.KEY_CRITERIA);
+            if (Ut.notNil(original)) {
+                // Combine two conditions
+                final JsonObject criteria = new JsonObject();
+                criteria.put("$Or$", original.copy());
+                criteria.put(field, value);
+                criteria.put(Strings.EMPTY, Boolean.TRUE);
+                query.put(Qr.KEY_CRITERIA, criteria);
+            } else {
+                // Replace old conditions.
+                query.put(Qr.KEY_CRITERIA, value);
+            }
             return qr;
+        } else {
+            final JsonObject query = qr.copy();
+            if (!query.containsKey(Qr.KEY_CRITERIA)) {
+                query.put(Qr.KEY_CRITERIA, new JsonObject());
+            }
+            // Reference extract from query
+            // Because you have added new condition, the connector must be AND
+            final JsonObject criteria = query.getJsonObject(Qr.KEY_CRITERIA);
+            criteria.put(field, value);
+            criteria.put(Strings.EMPTY, Boolean.TRUE);
+            query.put(Qr.KEY_CRITERIA, criteria);   // Double sure reference of `criteria`
+            return query;
         }
-        final JsonObject query = qr.copy();
-        if (!query.containsKey(Qr.KEY_CRITERIA)) {
-            query.put(Qr.KEY_CRITERIA, new JsonObject());
-        }
-        // Reference extract from query
-        // Because you have added new condition, the connector must be AND
-        final JsonObject criteria = query.getJsonObject(Qr.KEY_CRITERIA);
-        criteria.put(field, value);
-        criteria.put(Strings.EMPTY, Boolean.TRUE);
-        query.put(Qr.KEY_CRITERIA, criteria);   // Double sure reference of `criteria`
-        return query;
     }
 }

@@ -172,6 +172,64 @@ public interface IWTodo extends VertxPojo, Serializable {
     public Boolean getInstance();
 
     /**
+     * Setter for <code>DB_ETERNAL.W_TODO.TRACE_ID</code>. 「traceId」-
+     * 同一个流程的待办执行分组
+     */
+    public IWTodo setTraceId(String value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.W_TODO.TRACE_ID</code>. 「traceId」-
+     * 同一个流程的待办执行分组
+     */
+    public String getTraceId();
+
+    /**
+     * Setter for <code>DB_ETERNAL.W_TODO.PARENT_ID</code>. 「parentId」-
+     * 待办支持父子集结构，父待办执行时候子待办同样执行
+     */
+    public IWTodo setParentId(String value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.W_TODO.PARENT_ID</code>. 「parentId」-
+     * 待办支持父子集结构，父待办执行时候子待办同样执行
+     */
+    public String getParentId();
+
+    /**
+     * Setter for <code>DB_ETERNAL.W_TODO.COMMENT</code>. 「comment」- 待办描述
+     */
+    public IWTodo setComment(String value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.W_TODO.COMMENT</code>. 「comment」- 待办描述
+     */
+    public String getComment();
+
+    /**
+     * Setter for <code>DB_ETERNAL.W_TODO.COMMENT_APPROVAL</code>.
+     * 「commentApproval」- 审批描述
+     */
+    public IWTodo setCommentApproval(String value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.W_TODO.COMMENT_APPROVAL</code>.
+     * 「commentApproval」- 审批描述
+     */
+    public String getCommentApproval();
+
+    /**
+     * Setter for <code>DB_ETERNAL.W_TODO.COMMENT_REJECT</code>.
+     * 「commentReject」- 拒绝理由
+     */
+    public IWTodo setCommentReject(String value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.W_TODO.COMMENT_REJECT</code>.
+     * 「commentReject」- 拒绝理由
+     */
+    public String getCommentReject();
+
+    /**
      * Setter for <code>DB_ETERNAL.W_TODO.TO_GROUP_MODE</code>. 「toGroupMode」-
      * 部门、业务组、组、角色、地点等
      */
@@ -212,42 +270,6 @@ public interface IWTodo extends VertxPojo, Serializable {
      * Getter for <code>DB_ETERNAL.W_TODO.TO_ROLE</code>. 「toRole」- 待办角色（集体）
      */
     public String getToRole();
-
-    /**
-     * Setter for <code>DB_ETERNAL.W_TODO.TRACE_ID</code>. 「traceId」-
-     * 同一个流程的待办执行分组
-     */
-    public IWTodo setTraceId(String value);
-
-    /**
-     * Getter for <code>DB_ETERNAL.W_TODO.TRACE_ID</code>. 「traceId」-
-     * 同一个流程的待办执行分组
-     */
-    public String getTraceId();
-
-    /**
-     * Setter for <code>DB_ETERNAL.W_TODO.PARENT_ID</code>. 「parentId」-
-     * 待办支持父子集结构，父待办执行时候子待办同样执行
-     */
-    public IWTodo setParentId(String value);
-
-    /**
-     * Getter for <code>DB_ETERNAL.W_TODO.PARENT_ID</code>. 「parentId」-
-     * 待办支持父子集结构，父待办执行时候子待办同样执行
-     */
-    public String getParentId();
-
-    /**
-     * Setter for <code>DB_ETERNAL.W_TODO.DESCRIPTION</code>. 「description」-
-     * 待办描述
-     */
-    public IWTodo setDescription(String value);
-
-    /**
-     * Getter for <code>DB_ETERNAL.W_TODO.DESCRIPTION</code>. 「description」-
-     * 待办描述
-     */
-    public String getDescription();
 
     /**
      * Setter for <code>DB_ETERNAL.W_TODO.ACTIVE</code>. 「active」- 是否启用
@@ -457,13 +479,15 @@ public interface IWTodo extends VertxPojo, Serializable {
                 setOrThrow(this::setModelForm,json::getString,"MODEL_FORM","java.lang.String");
                 setOrThrow(this::setModelComponent,json::getString,"MODEL_COMPONENT","java.lang.String");
                 setOrThrow(this::setInstance,json::getBoolean,"INSTANCE","java.lang.Boolean");
+                setOrThrow(this::setTraceId,json::getString,"TRACE_ID","java.lang.String");
+                setOrThrow(this::setParentId,json::getString,"PARENT_ID","java.lang.String");
+                setOrThrow(this::setComment,json::getString,"COMMENT","java.lang.String");
+                setOrThrow(this::setCommentApproval,json::getString,"COMMENT_APPROVAL","java.lang.String");
+                setOrThrow(this::setCommentReject,json::getString,"COMMENT_REJECT","java.lang.String");
                 setOrThrow(this::setToGroupMode,json::getString,"TO_GROUP_MODE","java.lang.String");
                 setOrThrow(this::setToGroup,json::getString,"TO_GROUP","java.lang.String");
                 setOrThrow(this::setToUser,json::getString,"TO_USER","java.lang.String");
                 setOrThrow(this::setToRole,json::getString,"TO_ROLE","java.lang.String");
-                setOrThrow(this::setTraceId,json::getString,"TRACE_ID","java.lang.String");
-                setOrThrow(this::setParentId,json::getString,"PARENT_ID","java.lang.String");
-                setOrThrow(this::setDescription,json::getString,"DESCRIPTION","java.lang.String");
                 setOrThrow(this::setActive,json::getBoolean,"ACTIVE","java.lang.Boolean");
                 setOrThrow(this::setSigma,json::getString,"SIGMA","java.lang.String");
                 setOrThrow(this::setMetadata,json::getString,"METADATA","java.lang.String");
@@ -502,13 +526,15 @@ public interface IWTodo extends VertxPojo, Serializable {
                 json.put("MODEL_FORM",getModelForm());
                 json.put("MODEL_COMPONENT",getModelComponent());
                 json.put("INSTANCE",getInstance());
+                json.put("TRACE_ID",getTraceId());
+                json.put("PARENT_ID",getParentId());
+                json.put("COMMENT",getComment());
+                json.put("COMMENT_APPROVAL",getCommentApproval());
+                json.put("COMMENT_REJECT",getCommentReject());
                 json.put("TO_GROUP_MODE",getToGroupMode());
                 json.put("TO_GROUP",getToGroup());
                 json.put("TO_USER",getToUser());
                 json.put("TO_ROLE",getToRole());
-                json.put("TRACE_ID",getTraceId());
-                json.put("PARENT_ID",getParentId());
-                json.put("DESCRIPTION",getDescription());
                 json.put("ACTIVE",getActive());
                 json.put("SIGMA",getSigma());
                 json.put("METADATA",getMetadata());

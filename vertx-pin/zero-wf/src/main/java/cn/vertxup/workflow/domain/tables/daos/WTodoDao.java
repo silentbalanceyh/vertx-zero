@@ -236,6 +236,83 @@ public class WTodoDao extends AbstractVertxDAO<WTodoRecord, cn.vertxup.workflow.
         }
 
         /**
+     * Find records that have <code>TRACE_ID IN (values)</code> asynchronously
+     */
+        public Future<List<cn.vertxup.workflow.domain.tables.pojos.WTodo>> findManyByTraceId(Collection<String> values) {
+                return findManyByCondition(WTodo.W_TODO.TRACE_ID.in(values));
+        }
+
+        /**
+     * Find records that have <code>TRACE_ID IN (values)</code> asynchronously
+     * limited by the given limit
+     */
+        public Future<List<cn.vertxup.workflow.domain.tables.pojos.WTodo>> findManyByTraceId(Collection<String> values, int limit) {
+                return findManyByCondition(WTodo.W_TODO.TRACE_ID.in(values),limit);
+        }
+
+        /**
+     * Find records that have <code>PARENT_ID IN (values)</code> asynchronously
+     */
+        public Future<List<cn.vertxup.workflow.domain.tables.pojos.WTodo>> findManyByParentId(Collection<String> values) {
+                return findManyByCondition(WTodo.W_TODO.PARENT_ID.in(values));
+        }
+
+        /**
+     * Find records that have <code>PARENT_ID IN (values)</code> asynchronously
+     * limited by the given limit
+     */
+        public Future<List<cn.vertxup.workflow.domain.tables.pojos.WTodo>> findManyByParentId(Collection<String> values, int limit) {
+                return findManyByCondition(WTodo.W_TODO.PARENT_ID.in(values),limit);
+        }
+
+        /**
+     * Find records that have <code>COMMENT IN (values)</code> asynchronously
+     */
+        public Future<List<cn.vertxup.workflow.domain.tables.pojos.WTodo>> findManyByComment(Collection<String> values) {
+                return findManyByCondition(WTodo.W_TODO.COMMENT.in(values));
+        }
+
+        /**
+     * Find records that have <code>COMMENT IN (values)</code> asynchronously
+     * limited by the given limit
+     */
+        public Future<List<cn.vertxup.workflow.domain.tables.pojos.WTodo>> findManyByComment(Collection<String> values, int limit) {
+                return findManyByCondition(WTodo.W_TODO.COMMENT.in(values),limit);
+        }
+
+        /**
+     * Find records that have <code>COMMENT_APPROVAL IN (values)</code>
+     * asynchronously
+     */
+        public Future<List<cn.vertxup.workflow.domain.tables.pojos.WTodo>> findManyByCommentApproval(Collection<String> values) {
+                return findManyByCondition(WTodo.W_TODO.COMMENT_APPROVAL.in(values));
+        }
+
+        /**
+     * Find records that have <code>COMMENT_APPROVAL IN (values)</code>
+     * asynchronously limited by the given limit
+     */
+        public Future<List<cn.vertxup.workflow.domain.tables.pojos.WTodo>> findManyByCommentApproval(Collection<String> values, int limit) {
+                return findManyByCondition(WTodo.W_TODO.COMMENT_APPROVAL.in(values),limit);
+        }
+
+        /**
+     * Find records that have <code>COMMENT_REJECT IN (values)</code>
+     * asynchronously
+     */
+        public Future<List<cn.vertxup.workflow.domain.tables.pojos.WTodo>> findManyByCommentReject(Collection<String> values) {
+                return findManyByCondition(WTodo.W_TODO.COMMENT_REJECT.in(values));
+        }
+
+        /**
+     * Find records that have <code>COMMENT_REJECT IN (values)</code>
+     * asynchronously limited by the given limit
+     */
+        public Future<List<cn.vertxup.workflow.domain.tables.pojos.WTodo>> findManyByCommentReject(Collection<String> values, int limit) {
+                return findManyByCondition(WTodo.W_TODO.COMMENT_REJECT.in(values),limit);
+        }
+
+        /**
      * Find records that have <code>TO_GROUP_MODE IN (values)</code>
      * asynchronously
      */
@@ -294,52 +371,6 @@ public class WTodoDao extends AbstractVertxDAO<WTodoRecord, cn.vertxup.workflow.
      */
         public Future<List<cn.vertxup.workflow.domain.tables.pojos.WTodo>> findManyByToRole(Collection<String> values, int limit) {
                 return findManyByCondition(WTodo.W_TODO.TO_ROLE.in(values),limit);
-        }
-
-        /**
-     * Find records that have <code>TRACE_ID IN (values)</code> asynchronously
-     */
-        public Future<List<cn.vertxup.workflow.domain.tables.pojos.WTodo>> findManyByTraceId(Collection<String> values) {
-                return findManyByCondition(WTodo.W_TODO.TRACE_ID.in(values));
-        }
-
-        /**
-     * Find records that have <code>TRACE_ID IN (values)</code> asynchronously
-     * limited by the given limit
-     */
-        public Future<List<cn.vertxup.workflow.domain.tables.pojos.WTodo>> findManyByTraceId(Collection<String> values, int limit) {
-                return findManyByCondition(WTodo.W_TODO.TRACE_ID.in(values),limit);
-        }
-
-        /**
-     * Find records that have <code>PARENT_ID IN (values)</code> asynchronously
-     */
-        public Future<List<cn.vertxup.workflow.domain.tables.pojos.WTodo>> findManyByParentId(Collection<String> values) {
-                return findManyByCondition(WTodo.W_TODO.PARENT_ID.in(values));
-        }
-
-        /**
-     * Find records that have <code>PARENT_ID IN (values)</code> asynchronously
-     * limited by the given limit
-     */
-        public Future<List<cn.vertxup.workflow.domain.tables.pojos.WTodo>> findManyByParentId(Collection<String> values, int limit) {
-                return findManyByCondition(WTodo.W_TODO.PARENT_ID.in(values),limit);
-        }
-
-        /**
-     * Find records that have <code>DESCRIPTION IN (values)</code>
-     * asynchronously
-     */
-        public Future<List<cn.vertxup.workflow.domain.tables.pojos.WTodo>> findManyByDescription(Collection<String> values) {
-                return findManyByCondition(WTodo.W_TODO.DESCRIPTION.in(values));
-        }
-
-        /**
-     * Find records that have <code>DESCRIPTION IN (values)</code>
-     * asynchronously limited by the given limit
-     */
-        public Future<List<cn.vertxup.workflow.domain.tables.pojos.WTodo>> findManyByDescription(Collection<String> values, int limit) {
-                return findManyByCondition(WTodo.W_TODO.DESCRIPTION.in(values),limit);
         }
 
         /**

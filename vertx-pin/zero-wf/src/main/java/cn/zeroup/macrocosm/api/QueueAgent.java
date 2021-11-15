@@ -14,13 +14,17 @@ import javax.ws.rs.*;
 @EndPoint
 @Path("/api")
 public interface QueueAgent {
+
     /*
-     * SELECT * FROM X_TODO WHERE CREATED_BY = ? ( user )
+     * 1. status as condition for different
+     * 2. Queue Search Results
      */
     @POST
-    @Path("/up/flow/queue")
+    @Path("/up/flow-queue/:request")
     @Address(HighWay.Queue.TASK_QUEUE)
-    JsonObject fetchMyQueue(@BodyParam JsonObject body);
+    JsonObject fetchApproval(
+        @BodyParam JsonObject body,
+        @PathParam("request") Boolean request);
 
     /*
      * SELECT * FROM X_FLOW by code/instanceKey

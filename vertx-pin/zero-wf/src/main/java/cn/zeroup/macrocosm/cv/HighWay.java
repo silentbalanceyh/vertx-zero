@@ -14,7 +14,7 @@ public interface HighWay {
      * Queue for reading
      */
     interface Queue {
-        // Fetch by who created: CREATED_BY
+        // Pending Only ( For Approve Edit )
         String TASK_QUEUE = KeIpc.Workflow.EVENT + "W-TODO/TASK/QUEUE";
 
         // Fetch before creation

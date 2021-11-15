@@ -158,6 +158,8 @@ public interface KName {
 
     String UNIQUE = "unique";                    /* Workflow: unique record */
     String FLAG = "flag";                        /* Workflow: flag type of record */
+    String INSTANCE = "instance";                /* Workflow: instance = true */
+    String OWNER = "owner";                      /* Workflow: owner */
 
     interface Micro {
         String ETCD = "etcd";

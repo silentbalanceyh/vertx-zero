@@ -28,6 +28,11 @@ public class Wf {
             WfLog.info(logger, "Init", message, args);
         }
 
+        public static void initQueue(final Class<?> clazz, final String message, final Object... args) {
+            final Annal logger = Annal.get(clazz);
+            WfLog.info(logger, "Queue", message, args);
+        }
+
         public static void debugInit(final Class<?> clazz, final String message, final Object... args) {
             final Annal logger = Annal.get(clazz);
             WfLog.debug(logger, "Init", message, args);

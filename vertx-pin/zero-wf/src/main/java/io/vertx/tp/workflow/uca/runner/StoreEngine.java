@@ -81,6 +81,7 @@ class StoreEngine implements StoreOn {
                 final JsonObject response = new JsonObject();
                 response.put(KName.CODE, code);
                 response.put(KName.Flow.FORM_KEY, formKey);
+                response.put(KName.Flow.DEFINITION_KEY, definition.getKey());
                 return Ux.future(response);
             }
         });

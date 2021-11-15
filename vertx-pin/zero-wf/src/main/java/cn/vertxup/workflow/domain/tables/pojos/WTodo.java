@@ -34,13 +34,15 @@ public class WTodo implements VertxPojo, IWTodo {
     private String        modelForm;
     private String        modelComponent;
     private Boolean       instance;
+    private String        traceId;
+    private String        parentId;
+    private String        comment;
+    private String        commentApproval;
+    private String        commentReject;
     private String        toGroupMode;
     private String        toGroup;
     private String        toUser;
     private String        toRole;
-    private String        traceId;
-    private String        parentId;
-    private String        description;
     private Boolean       active;
     private String        sigma;
     private String        metadata;
@@ -76,13 +78,15 @@ public class WTodo implements VertxPojo, IWTodo {
         this.modelForm = value.getModelForm();
         this.modelComponent = value.getModelComponent();
         this.instance = value.getInstance();
+        this.traceId = value.getTraceId();
+        this.parentId = value.getParentId();
+        this.comment = value.getComment();
+        this.commentApproval = value.getCommentApproval();
+        this.commentReject = value.getCommentReject();
         this.toGroupMode = value.getToGroupMode();
         this.toGroup = value.getToGroup();
         this.toUser = value.getToUser();
         this.toRole = value.getToRole();
-        this.traceId = value.getTraceId();
-        this.parentId = value.getParentId();
-        this.description = value.getDescription();
         this.active = value.getActive();
         this.sigma = value.getSigma();
         this.metadata = value.getMetadata();
@@ -117,13 +121,15 @@ public class WTodo implements VertxPojo, IWTodo {
         String        modelForm,
         String        modelComponent,
         Boolean       instance,
+        String        traceId,
+        String        parentId,
+        String        comment,
+        String        commentApproval,
+        String        commentReject,
         String        toGroupMode,
         String        toGroup,
         String        toUser,
         String        toRole,
-        String        traceId,
-        String        parentId,
-        String        description,
         Boolean       active,
         String        sigma,
         String        metadata,
@@ -156,13 +162,15 @@ public class WTodo implements VertxPojo, IWTodo {
         this.modelForm = modelForm;
         this.modelComponent = modelComponent;
         this.instance = instance;
+        this.traceId = traceId;
+        this.parentId = parentId;
+        this.comment = comment;
+        this.commentApproval = commentApproval;
+        this.commentReject = commentReject;
         this.toGroupMode = toGroupMode;
         this.toGroup = toGroup;
         this.toUser = toUser;
         this.toRole = toRole;
-        this.traceId = traceId;
-        this.parentId = parentId;
-        this.description = description;
         this.active = active;
         this.sigma = sigma;
         this.metadata = metadata;
@@ -440,6 +448,99 @@ public class WTodo implements VertxPojo, IWTodo {
     }
 
     /**
+     * Getter for <code>DB_ETERNAL.W_TODO.TRACE_ID</code>. 「traceId」-
+     * 同一个流程的待办执行分组
+     */
+    @Override
+    public String getTraceId() {
+        return this.traceId;
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.W_TODO.TRACE_ID</code>. 「traceId」-
+     * 同一个流程的待办执行分组
+     */
+    @Override
+    public WTodo setTraceId(String traceId) {
+        this.traceId = traceId;
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.W_TODO.PARENT_ID</code>. 「parentId」-
+     * 待办支持父子集结构，父待办执行时候子待办同样执行
+     */
+    @Override
+    public String getParentId() {
+        return this.parentId;
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.W_TODO.PARENT_ID</code>. 「parentId」-
+     * 待办支持父子集结构，父待办执行时候子待办同样执行
+     */
+    @Override
+    public WTodo setParentId(String parentId) {
+        this.parentId = parentId;
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.W_TODO.COMMENT</code>. 「comment」- 待办描述
+     */
+    @Override
+    public String getComment() {
+        return this.comment;
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.W_TODO.COMMENT</code>. 「comment」- 待办描述
+     */
+    @Override
+    public WTodo setComment(String comment) {
+        this.comment = comment;
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.W_TODO.COMMENT_APPROVAL</code>.
+     * 「commentApproval」- 审批描述
+     */
+    @Override
+    public String getCommentApproval() {
+        return this.commentApproval;
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.W_TODO.COMMENT_APPROVAL</code>.
+     * 「commentApproval」- 审批描述
+     */
+    @Override
+    public WTodo setCommentApproval(String commentApproval) {
+        this.commentApproval = commentApproval;
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.W_TODO.COMMENT_REJECT</code>.
+     * 「commentReject」- 拒绝理由
+     */
+    @Override
+    public String getCommentReject() {
+        return this.commentReject;
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.W_TODO.COMMENT_REJECT</code>.
+     * 「commentReject」- 拒绝理由
+     */
+    @Override
+    public WTodo setCommentReject(String commentReject) {
+        this.commentReject = commentReject;
+        return this;
+    }
+
+    /**
      * Getter for <code>DB_ETERNAL.W_TODO.TO_GROUP_MODE</code>. 「toGroupMode」-
      * 部门、业务组、组、角色、地点等
      */
@@ -506,63 +607,6 @@ public class WTodo implements VertxPojo, IWTodo {
     @Override
     public WTodo setToRole(String toRole) {
         this.toRole = toRole;
-        return this;
-    }
-
-    /**
-     * Getter for <code>DB_ETERNAL.W_TODO.TRACE_ID</code>. 「traceId」-
-     * 同一个流程的待办执行分组
-     */
-    @Override
-    public String getTraceId() {
-        return this.traceId;
-    }
-
-    /**
-     * Setter for <code>DB_ETERNAL.W_TODO.TRACE_ID</code>. 「traceId」-
-     * 同一个流程的待办执行分组
-     */
-    @Override
-    public WTodo setTraceId(String traceId) {
-        this.traceId = traceId;
-        return this;
-    }
-
-    /**
-     * Getter for <code>DB_ETERNAL.W_TODO.PARENT_ID</code>. 「parentId」-
-     * 待办支持父子集结构，父待办执行时候子待办同样执行
-     */
-    @Override
-    public String getParentId() {
-        return this.parentId;
-    }
-
-    /**
-     * Setter for <code>DB_ETERNAL.W_TODO.PARENT_ID</code>. 「parentId」-
-     * 待办支持父子集结构，父待办执行时候子待办同样执行
-     */
-    @Override
-    public WTodo setParentId(String parentId) {
-        this.parentId = parentId;
-        return this;
-    }
-
-    /**
-     * Getter for <code>DB_ETERNAL.W_TODO.DESCRIPTION</code>. 「description」-
-     * 待办描述
-     */
-    @Override
-    public String getDescription() {
-        return this.description;
-    }
-
-    /**
-     * Setter for <code>DB_ETERNAL.W_TODO.DESCRIPTION</code>. 「description」-
-     * 待办描述
-     */
-    @Override
-    public WTodo setDescription(String description) {
-        this.description = description;
         return this;
     }
 
@@ -879,13 +923,15 @@ public class WTodo implements VertxPojo, IWTodo {
         sb.append(", ").append(modelForm);
         sb.append(", ").append(modelComponent);
         sb.append(", ").append(instance);
+        sb.append(", ").append(traceId);
+        sb.append(", ").append(parentId);
+        sb.append(", ").append(comment);
+        sb.append(", ").append(commentApproval);
+        sb.append(", ").append(commentReject);
         sb.append(", ").append(toGroupMode);
         sb.append(", ").append(toGroup);
         sb.append(", ").append(toUser);
         sb.append(", ").append(toRole);
-        sb.append(", ").append(traceId);
-        sb.append(", ").append(parentId);
-        sb.append(", ").append(description);
         sb.append(", ").append(active);
         sb.append(", ").append(sigma);
         sb.append(", ").append(metadata);
@@ -928,13 +974,15 @@ public class WTodo implements VertxPojo, IWTodo {
         setModelForm(from.getModelForm());
         setModelComponent(from.getModelComponent());
         setInstance(from.getInstance());
+        setTraceId(from.getTraceId());
+        setParentId(from.getParentId());
+        setComment(from.getComment());
+        setCommentApproval(from.getCommentApproval());
+        setCommentReject(from.getCommentReject());
         setToGroupMode(from.getToGroupMode());
         setToGroup(from.getToGroup());
         setToUser(from.getToUser());
         setToRole(from.getToRole());
-        setTraceId(from.getTraceId());
-        setParentId(from.getParentId());
-        setDescription(from.getDescription());
         setActive(from.getActive());
         setSigma(from.getSigma());
         setMetadata(from.getMetadata());
