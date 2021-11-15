@@ -14,4 +14,9 @@ public interface FlowStub {
      * Process by id ( unique )
      */
     Future<JsonObject> fetchFirst(String definitionId, String sigma);
+
+    /*
+     * Process by instance id ( unique )
+     */
+    Future<JsonObject> fetchForm(String instanceId, String sigma);
 }

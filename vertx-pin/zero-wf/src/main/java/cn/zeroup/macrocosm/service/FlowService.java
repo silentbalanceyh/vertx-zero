@@ -37,18 +37,27 @@ public class FlowService implements FlowStub {
     public Future<JsonObject> fetchFirst(final String definitionId, final String sigma) {
         final StoreOn storeOn = StoreOn.get();
         // 1. Fetch workflow
+        return storeOn.formById(definitionId, false)
+            .compose(formData -> this.fetchUniform(formData, sigma));
+    }
+
+    @Override
+    public Future<JsonObject> fetchForm(final String instanceId, final String sigma) {
+        final StoreOn storeOn = StoreOn.get();
+        return storeOn.formById(instanceId, true)
+            .compose(formData -> this.fetchUniform(formData, sigma));
+    }
+
+    private Future<JsonObject> fetchUniform(final JsonObject formData, final String sigma) {
+        // code
+        final StoreOn storeOn = StoreOn.get();
         final JsonObject response = new JsonObject();
-        return storeOn.formById(definitionId, false).compose(formData -> {
-            // code
-            final JsonObject parameters = Wf.argsForm(formData, sigma);
-            return Ke.channel(DForm.class, JsonObject::new, stub -> stub.fetchUi(parameters));
-        }).compose(form -> {
-            response.put(KName.FORM, form);
-            // definition
-            return storeOn.processById(definitionId);
-        }).compose(workflow -> {
-            response.put(KName.Flow.WORKFLOW, workflow);
-            return Ux.future(response);
-        });
+        return storeOn.processById(formData.getString(KName.Flow.DEFINITION_ID))
+            .compose(Ux.attachJ(KName.Flow.WORKFLOW, response))
+            .compose(nil -> {
+                final JsonObject parameters = Wf.argsForm(formData, sigma);
+                return Ke.channel(DForm.class, JsonObject::new, stub -> stub.fetchUi(parameters));
+            })
+            .compose(Ux.attachJ(KName.FORM, response));
     }
 }

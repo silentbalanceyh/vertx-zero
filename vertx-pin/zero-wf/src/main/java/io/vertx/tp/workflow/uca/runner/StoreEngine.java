@@ -10,9 +10,11 @@ import io.vertx.up.unity.Ux;
 import org.camunda.bpm.engine.FormService;
 import org.camunda.bpm.engine.RepositoryService;
 import org.camunda.bpm.engine.RuntimeService;
+import org.camunda.bpm.engine.TaskService;
 import org.camunda.bpm.engine.form.StartFormData;
 import org.camunda.bpm.engine.repository.ProcessDefinition;
 import org.camunda.bpm.engine.runtime.ProcessInstance;
+import org.camunda.bpm.engine.task.Task;
 import org.camunda.bpm.model.bpmn.Bpmn;
 import org.camunda.bpm.model.bpmn.BpmnModelInstance;
 import org.camunda.bpm.model.bpmn.instance.StartEvent;
@@ -64,27 +66,48 @@ class StoreEngine implements StoreOn {
 
     @Override
     public Future<JsonObject> formById(final String definitionId, final boolean isTask) {
+        if (isTask) {
+            // Task form, here definition Id is instance id
+            return this.formByInstance(definitionId);
+        } else {
+            // Task Not Started
+            return this.formByDefinition(definitionId);
+        }
+    }
+
+    private Future<JsonObject> formByInstance(final String instanceId) {
+        return this.instanceById(instanceId).compose(instance -> Wf.processById(instance.getProcessDefinitionId()).compose(definition -> {
+            final TaskService service = WfPin.camundaTask();
+            final Task task = service.createTaskQuery().active()
+                .initializeFormKeys()
+                .processInstanceId(instance.getId()).singleResult();
+            return this.formData(task.getFormKey(), definition.getId(), definition.getKey());
+        }));
+    }
+
+    private Future<JsonObject> formByDefinition(final String definitionId) {
         return Wf.processById(definitionId).compose(definition -> {
-            if (isTask) {
-                // Started
-                return null;
-            } else {
-                // Not Started
-                final FormService formService = WfPin.camundaForm();
-                final StartFormData startForm = formService.getStartFormData(definitionId);
-                Objects.requireNonNull(startForm);
-                // substring
-                final String formKey = startForm.getFormKey();
-                Objects.requireNonNull(formKey);
-                final String code = formKey.substring(formKey.lastIndexOf(Strings.COLON) + 1);
-                // Build Form Configuration parameters
-                final JsonObject response = new JsonObject();
-                response.put(KName.CODE, code);
-                response.put(KName.Flow.FORM_KEY, formKey);
-                response.put(KName.Flow.DEFINITION_KEY, definition.getKey());
-                return Ux.future(response);
-            }
+            final FormService formService = WfPin.camundaForm();
+            final StartFormData startForm = formService.getStartFormData(definitionId);
+            Objects.requireNonNull(startForm);
+            // substring
+            final String formKey = startForm.getFormKey();
+            return this.formData(formKey, definitionId, definition.getKey());
         });
+    }
+
+    private Future<JsonObject> formData(final String formKey,
+                                        final String definitionId,
+                                        final String definitionKey) {
+        Objects.requireNonNull(formKey);
+        final String code = formKey.substring(formKey.lastIndexOf(Strings.COLON) + 1);
+        // Build Form Configuration parameters
+        final JsonObject response = new JsonObject();
+        response.put(KName.CODE, code);
+        response.put(KName.Flow.FORM_KEY, formKey);
+        response.put(KName.Flow.DEFINITION_KEY, definitionKey);
+        response.put(KName.Flow.DEFINITION_ID, definitionId);
+        return Ux.future(response);
     }
 
     @Override

@@ -110,6 +110,15 @@ class Web {
         };
     }
 
+    static Function<JsonObject, Future<JsonObject>> toAttachJ(final String field, final JsonObject data) {
+        return json -> {
+            if (Ut.notNil(json)) {
+                data.put(field, json);
+            }
+            return To.future(data);
+        };
+    }
+
     @SuppressWarnings("unchecked")
     static <T> Function<JsonObject, Future<JsonObject>> toAttach(
         final String field,

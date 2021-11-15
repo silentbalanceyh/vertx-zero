@@ -64,7 +64,9 @@ public class QueueActor {
             final String definitionId = data.getString(KName.Flow.DEFINITION_ID);
             return this.flowStub.fetchFirst(definitionId, header.getSigma());
         } else {
-            return Ux.future();
+            // Single Task
+            final String instanceId = data.getString(KName.Flow.INSTANCE_ID);
+            return this.flowStub.fetchForm(instanceId, header.getSigma());
         }
     }
 
