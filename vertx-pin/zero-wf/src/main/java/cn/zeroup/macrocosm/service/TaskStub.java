@@ -9,4 +9,6 @@ import io.vertx.core.json.JsonObject;
 public interface TaskStub {
 
     Future<JsonObject> fetchQueue(JsonObject condition);
+
+    Future<JsonObject> fetchTodo(String key);
 }

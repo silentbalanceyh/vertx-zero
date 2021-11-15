@@ -23,6 +23,15 @@ public class ConfigTodo implements Serializable {
     // Todo Number definition
     private transient Class<?> daoCls;
 
+    public ConfigTodo(final WTodo todo) {
+        Objects.requireNonNull(todo);
+        this.daoCls = Ut.clazz(todo.getModelComponent(), null);
+        this.identifier = todo.getModelId();
+        this.key = todo.getModelKey();
+        this.data.mergeIn(Ux.toJson(todo), true);
+        this.indent = null;
+    }
+
     /*
      * {
      *      "todo": "config

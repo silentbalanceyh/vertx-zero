@@ -26,6 +26,8 @@ public interface ActionOn {
     <T> Future<JsonObject> createAsync(JsonObject params, ConfigTodo config);
 
     <T> Future<JsonObject> updateAsync(String key, JsonObject params, ConfigTodo config);
+
+    Future<JsonObject> fetchAsync(String key, ConfigTodo config);
 }
 
 interface T {

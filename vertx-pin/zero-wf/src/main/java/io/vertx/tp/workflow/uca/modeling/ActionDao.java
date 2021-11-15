@@ -3,8 +3,10 @@ package io.vertx.tp.workflow.uca.modeling;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.workflow.atom.ConfigTodo;
+import io.vertx.up.eon.KName;
 import io.vertx.up.uca.jooq.UxJooq;
 import io.vertx.up.unity.Ux;
+import io.vertx.up.util.Ut;
 
 import java.util.Objects;
 
@@ -32,5 +34,13 @@ class ActionDao implements ActionOn {
             final T entity = (T) Ux.fromJson(original, entityCls);
             return jooq.updateAsync(entity);
         }).compose(Ux::futureJ);
+    }
+
+    @Override
+    public Future<JsonObject> fetchAsync(final String key, final ConfigTodo config) {
+        final UxJooq jooq = Ux.Jooq.on(config.dao());
+        return jooq.fetchByIdAsync(key)
+            .compose(Ux::futureJ)
+            .compose(Ut.ifJObject(KName.METADATA));
     }
 }

@@ -38,6 +38,8 @@ public interface HighWay {
     interface Flow {
         // Fetch Workflow by code
         String BY_CODE = KeIpc.Workflow.EVENT + "W-FLOW/BY/CODE";
+        // Fetch Todo + Task based on todo Id
+        String BY_TODO = KeIpc.Workflow.EVENT + "W-FLOW/BY/KEY";
     }
 
     interface Todo {

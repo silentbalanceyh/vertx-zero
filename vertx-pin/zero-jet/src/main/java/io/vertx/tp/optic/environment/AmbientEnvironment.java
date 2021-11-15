@@ -33,7 +33,6 @@ import java.util.concurrent.ConcurrentMap;
  * 1) App / Source information here
  * 2) Pool ( DSLContext, Connection, DataSource )
  */
-// TODO: NEW VERSION
 public class AmbientEnvironment {
 
     private static final Annal LOGGER = Annal.get(Ambient.class);

@@ -17,4 +17,9 @@ class ActionCase implements ActionOn {
     public <T> Future<JsonObject> updateAsync(final String key, final JsonObject params, final ConfigTodo config) {
         return null;
     }
+
+    @Override
+    public Future<JsonObject> fetchAsync(final String key, final ConfigTodo config) {
+        return null;
+    }
 }

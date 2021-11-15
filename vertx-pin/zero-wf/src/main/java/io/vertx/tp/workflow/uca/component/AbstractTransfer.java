@@ -7,6 +7,7 @@ import io.vertx.up.eon.KName;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
+import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
@@ -22,9 +23,6 @@ public abstract class AbstractTransfer implements Behaviour {
     public Behaviour bind(final JsonObject config) {
         final JsonObject sure = Ut.sureJObject(config);
         this.config.mergeIn(sure.copy(), true);
-        if (sure.containsKey(KName.RECORD)) {
-            this.record = Ux.fromJson(sure.getJsonObject(KName.RECORD), ConfigRecord.class);
-        }
         if (sure.containsKey(KName.Flow.NODE)) {
             final JsonObject configData = sure.getJsonObject(KName.Flow.NODE);
             Ut.<JsonObject>itJObject(configData, (value, field) -> {
@@ -35,6 +33,14 @@ public abstract class AbstractTransfer implements Behaviour {
         }
         return this;
     }
+
+    @Override
+    public Behaviour bind(final ConfigRecord record) {
+        Objects.requireNonNull(record);
+        this.record = record;
+        return this;
+    }
+
 
     protected WMove configN(final String node) {
         return this.moveMap.get(node);

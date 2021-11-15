@@ -59,12 +59,18 @@ public class QueueActor {
     @Address(HighWay.Queue.TASK_FORM)
     public Future<JsonObject> fetchForm(final JsonObject data,
                                         final Boolean isPre, final XHeader header) {
-        final String definitionId = data.getString(KName.Flow.DEFINITION_ID);
         if (isPre) {
             // Start Point
+            final String definitionId = data.getString(KName.Flow.DEFINITION_ID);
             return this.flowStub.fetchFirst(definitionId, header.getSigma());
         } else {
             return Ux.future();
         }
+    }
+
+
+    @Address(HighWay.Flow.BY_TODO)
+    public Future<JsonObject> fetchTodo(final String key) {
+        return this.taskStub.fetchTodo(key);
     }
 }

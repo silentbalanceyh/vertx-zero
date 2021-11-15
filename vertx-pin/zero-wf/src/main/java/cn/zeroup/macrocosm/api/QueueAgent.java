@@ -42,4 +42,9 @@ public interface QueueAgent {
     @Address(HighWay.Queue.TASK_FORM)
     JsonObject fetchForm(@BodyParam JsonObject body,
                          @PathParam("pre") Boolean isPre);
+
+    @GET
+    @Path("/up/flow/:key")
+    @Address(HighWay.Flow.BY_TODO)
+    JsonObject fetchTodo(@PathParam(KName.KEY) String key);
 }

@@ -7,6 +7,7 @@ import io.vertx.tp.workflow.init.WfPin;
 import io.vertx.tp.workflow.uca.component.*;
 import io.vertx.up.eon.KName;
 import io.vertx.up.fn.Fn;
+import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
 import java.util.Objects;
@@ -17,13 +18,15 @@ import java.util.function.Supplier;
  */
 public class EngineOn {
     private final transient WFlow workflow;
+    private final transient ConfigRecord record;
 
     private EngineOn(final WFlow workflow) {
         this.workflow = workflow;
+        final JsonObject sure = Ut.toJObject(workflow.getStartConfig());
+        this.record = Ux.fromJson(sure.getJsonObject(KName.RECORD, new JsonObject()), ConfigRecord.class);
     }
 
-    public static EngineOn connect(final JsonObject workflow) {
-        final String definitionKey = workflow.getString(KName.Flow.DEFINITION_KEY);
+    public static EngineOn connect(final String definitionKey) {
         Objects.requireNonNull(definitionKey);
         /*
          * Thread pool here.
@@ -32,6 +35,11 @@ public class EngineOn {
             final WFlow flow = WfPin.getFlow(definitionKey);
             return new EngineOn(flow);
         }, definitionKey);
+    }
+
+    public static EngineOn connect(final JsonObject workflow) {
+        final String definitionKey = workflow.getString(KName.Flow.DEFINITION_KEY);
+        return connect(definitionKey);
     }
 
     public Transfer componentStart() {
@@ -56,8 +64,13 @@ public class EngineOn {
             instance = Ut.instance(clazz);
         }
         if (Objects.nonNull(instance)) {
-            instance.bind(Ut.toJObject(componentValue));
+            instance.bind(Ut.toJObject(componentValue)).bind(this.record);
         }
         return instance;
+    }
+
+    public ConfigRecord configRecord() {
+        // Start Component
+        return Objects.requireNonNull(this.record);
     }
 }

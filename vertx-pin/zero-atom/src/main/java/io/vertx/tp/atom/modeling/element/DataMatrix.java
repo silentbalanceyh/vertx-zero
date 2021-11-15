@@ -141,7 +141,7 @@ public class DataMatrix implements Serializable {
         return this.valueMap.get(field);
     }
 
-    // TODO: 调试专用方法
+    // DEBUG: 调试专用方法
     public void appendConsole(final StringBuilder buffer) {
         buffer.append("| - 主键属性：").append(Ut.fromJoin(this.primaryKeys)).append("\n");
         buffer.append(String.format("%-20s", "字段名")).append("\t");
