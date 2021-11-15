@@ -20,11 +20,9 @@ public interface QueueAgent {
      * 2. Queue Search Results
      */
     @POST
-    @Path("/up/flow-queue/:request")
+    @Path("/up/flow-queue")
     @Address(HighWay.Queue.TASK_QUEUE)
-    JsonObject fetchApproval(
-        @BodyParam JsonObject body,
-        @PathParam("request") Boolean request);
+    JsonObject fetchApproval(@BodyParam JsonObject body);
 
     /*
      * SELECT * FROM X_FLOW by code/instanceKey
