@@ -98,6 +98,11 @@ public class WTodo extends TableImpl<WTodoRecord> {
      */
     public final TableField<WTodoRecord, String> TRACE_ID = createField(DSL.name("TRACE_ID"), SQLDataType.VARCHAR(36), this, "「traceId」- 同一个流程的待办执行分组");
     /**
+     * The column <code>DB_ETERNAL.W_TODO.TRACE_TASK_ID</code>. 「traceTaskId」-
+     * 和待办绑定的taskId
+     */
+    public final TableField<WTodoRecord, String> TRACE_TASK_ID = createField(DSL.name("TRACE_TASK_ID"), SQLDataType.VARCHAR(36), this, "「traceTaskId」- 和待办绑定的taskId");
+    /**
      * The column <code>DB_ETERNAL.W_TODO.PARENT_ID</code>. 「parentId」-
      * 待办支持父子集结构，父待办执行时候子待办同样执行
      */

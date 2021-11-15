@@ -48,9 +48,18 @@ CREATE TABLE IF NOT EXISTS W_TODO
 
     /*
      * 分离配置项待办和关系待办，形成不同类型
+     * instance = true
+     * 启用 Camunda
+     * trace_id = ProcessInstance ID
+     * trace_task_id = Active Task ID ( Multi Tasks Support )
+     * instance = false
+     * 不启用 Camunda
+     * trace_id = Workflow ID ( Business Key )
+     * trace_task_id = Active Task ID ( Multi Tasks )
      */
     `INSTANCE`         BIT         DEFAULT NULL COMMENT '「instance」- 是否启用工作流？',
     `TRACE_ID`         VARCHAR(36) COMMENT '「traceId」- 同一个流程的待办执行分组',
+    `TRACE_TASK_ID`    VARCHAR(36) COMMENT '「traceTaskId」- 和待办绑定的taskId',
     `PARENT_ID`        VARCHAR(36) COMMENT '「parentId」- 待办支持父子集结构，父待办执行时候子待办同样执行',
 
     -- 特殊字段

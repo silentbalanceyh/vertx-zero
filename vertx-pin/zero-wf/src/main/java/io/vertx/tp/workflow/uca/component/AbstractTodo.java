@@ -7,6 +7,7 @@ import io.vertx.tp.ke.refine.Ke;
 import io.vertx.tp.workflow.atom.ConfigRecord;
 import io.vertx.tp.workflow.atom.ConfigTodo;
 import io.vertx.tp.workflow.uca.modeling.ActionOn;
+import io.vertx.tp.workflow.uca.runner.EventOn;
 import io.vertx.up.eon.KName;
 import io.vertx.up.eon.em.ChangeFlag;
 import io.vertx.up.unity.Ux;
@@ -49,6 +50,16 @@ public abstract class AbstractTodo extends AbstractTransfer implements Transfer 
                 // Todo Processing
                 .compose(processed -> this.moveAsync(processed, instance, config));
         }
+    }
+
+    protected Future<WTodo> traceAsync(final WTodo todo, final ProcessInstance instance) {
+        final EventOn event = EventOn.get();
+        return event.task(instance).compose(task -> {
+            todo.setInstance(Boolean.TRUE);                   // Camunda Engine
+            todo.setTraceId(instance.getId());                // Trace ID Related
+            todo.setTraceTaskId(task.getId());                // Trace Task ID
+            return Ux.future(todo);
+        });
     }
 
     /*

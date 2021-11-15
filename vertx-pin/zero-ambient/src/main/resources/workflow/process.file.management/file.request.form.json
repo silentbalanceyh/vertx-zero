@@ -7,7 +7,7 @@
         ],
         [
             {
-                "metadata": "record@instance,文件上传,16,,aiFileUpload,text=上传",
+                "metadata": "record@file,文件上传,16,,aiFileUpload,text=上传",
                 "optionJsx.accept": "*/*",
                 "optionJsx.config.filekey": "key",
                 "optionJsx.config.limit": 10240,

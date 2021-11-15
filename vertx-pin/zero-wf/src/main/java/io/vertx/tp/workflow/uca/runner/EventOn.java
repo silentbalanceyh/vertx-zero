@@ -4,6 +4,7 @@ import cn.zeroup.macrocosm.cv.WfPool;
 import io.vertx.core.Future;
 import io.vertx.up.fn.Fn;
 import org.camunda.bpm.engine.runtime.ProcessInstance;
+import org.camunda.bpm.engine.task.Task;
 import org.camunda.bpm.model.bpmn.instance.StartEvent;
 
 import java.util.Set;
@@ -27,5 +28,5 @@ public interface EventOn {
     /*
      * Event Id from ProcessInstance
      */
-    Future<String> eventId(ProcessInstance instance);
+    Future<Task> task(ProcessInstance instance);
 }

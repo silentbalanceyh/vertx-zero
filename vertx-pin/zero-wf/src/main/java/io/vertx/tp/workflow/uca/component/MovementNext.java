@@ -31,19 +31,17 @@ public class MovementNext extends AbstractTransfer implements Movement {
                 /*
                  * instance does not exist in your system
                  * Call Start Process
+                 * -- WMove
                  */
                 final String definitionId = workflow.getString(KName.Flow.DEFINITION_ID);
-                return eventOn.start(definitionId)
-                    // WMove
-                    .compose(event -> Ux.future(this.configN(event.getId())));
+                return eventOn.start(definitionId).compose(event -> Ux.future(this.configN(event.getId())));
             } else {
                 /*
                  * instance exist in your system
                  * Call Next Process with active task
+                 * -- WMove
                  */
-                return eventOn.eventId(instance)
-                    // WMove
-                    .compose(eventId -> Ux.future(this.configN(eventId)));
+                return Ux.future(null);
             }
         }).compose(move -> {
             // Camunda Instance Moving

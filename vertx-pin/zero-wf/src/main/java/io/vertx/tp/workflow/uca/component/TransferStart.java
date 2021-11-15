@@ -6,6 +6,7 @@ import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.workflow.atom.ConfigTodo;
 import io.vertx.up.eon.KName;
+import io.vertx.up.uca.jooq.UxJooq;
 import io.vertx.up.unity.Ux;
 import org.camunda.bpm.engine.runtime.ProcessInstance;
 
@@ -19,9 +20,8 @@ public class TransferStart extends AbstractTodo {
     public Future<WTodo> moveAsync(final JsonObject record, final ProcessInstance instance,
                                    final ConfigTodo todo) {
         // Todo Build
+        final UxJooq jooq = Ux.Jooq.on(WTodoDao.class);
         return todo.generate(record.getString(KName.KEY)).compose(entity -> {
-            entity.setInstance(Boolean.TRUE);                   // Camunda Engine
-            entity.setTraceId(instance.getId());                // Instance ID Related
             // Code Synced with Serial
             if (Objects.isNull(entity.getCode())) {
                 entity.setCode(entity.getSerial());
@@ -29,7 +29,8 @@ public class TransferStart extends AbstractTodo {
             // Owner is as created todo here.d
             entity.setOwner(entity.getCreatedBy());
             Objects.requireNonNull(entity.getKey());
-            return Ux.Jooq.on(WTodoDao.class).insertAsync(entity);
+            return this.traceAsync(entity, instance)
+                .compose(jooq::insertAsync);
         });
     }
 }

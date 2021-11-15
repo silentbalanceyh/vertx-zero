@@ -49,11 +49,11 @@ class EventEngine implements EventOn {
     }
 
     @Override
-    public Future<String> eventId(final ProcessInstance instance) {
+    public Future<Task> task(final ProcessInstance instance) {
         final TaskService service = WfPin.camundaTask();
         final Task task = service.createTaskQuery()
             .processInstanceId(instance.getId())
             .active().singleResult();
-        return Ux.future(task.getId());
+        return Ux.future(task);
     }
 }

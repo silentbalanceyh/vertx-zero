@@ -184,6 +184,18 @@ public interface IWTodo extends VertxPojo, Serializable {
     public String getTraceId();
 
     /**
+     * Setter for <code>DB_ETERNAL.W_TODO.TRACE_TASK_ID</code>. 「traceTaskId」-
+     * 和待办绑定的taskId
+     */
+    public IWTodo setTraceTaskId(String value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.W_TODO.TRACE_TASK_ID</code>. 「traceTaskId」-
+     * 和待办绑定的taskId
+     */
+    public String getTraceTaskId();
+
+    /**
      * Setter for <code>DB_ETERNAL.W_TODO.PARENT_ID</code>. 「parentId」-
      * 待办支持父子集结构，父待办执行时候子待办同样执行
      */
@@ -480,6 +492,7 @@ public interface IWTodo extends VertxPojo, Serializable {
                 setOrThrow(this::setModelComponent,json::getString,"MODEL_COMPONENT","java.lang.String");
                 setOrThrow(this::setInstance,json::getBoolean,"INSTANCE","java.lang.Boolean");
                 setOrThrow(this::setTraceId,json::getString,"TRACE_ID","java.lang.String");
+                setOrThrow(this::setTraceTaskId,json::getString,"TRACE_TASK_ID","java.lang.String");
                 setOrThrow(this::setParentId,json::getString,"PARENT_ID","java.lang.String");
                 setOrThrow(this::setComment,json::getString,"COMMENT","java.lang.String");
                 setOrThrow(this::setCommentApproval,json::getString,"COMMENT_APPROVAL","java.lang.String");
@@ -527,6 +540,7 @@ public interface IWTodo extends VertxPojo, Serializable {
                 json.put("MODEL_COMPONENT",getModelComponent());
                 json.put("INSTANCE",getInstance());
                 json.put("TRACE_ID",getTraceId());
+                json.put("TRACE_TASK_ID",getTraceTaskId());
                 json.put("PARENT_ID",getParentId());
                 json.put("COMMENT",getComment());
                 json.put("COMMENT_APPROVAL",getCommentApproval());
