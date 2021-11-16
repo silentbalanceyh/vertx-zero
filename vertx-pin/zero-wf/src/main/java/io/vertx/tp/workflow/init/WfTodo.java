@@ -71,10 +71,10 @@ final class WfTodo {
      */
     static void init() {
         if (TODO_DEF.isEmpty()) {
-            final List<String> files = Ut.ioFiles(WfCv.TODO_FOLDER, FileSuffix.JSON);
+            final List<String> files = Ut.ioFiles(WfCv.FOLDER_TODO, FileSuffix.JSON);
             Wf.Log.infoInit(WfTodo.class, "At Todo Files: {0}", files.size());
             files.forEach(file -> {
-                final String path = WfCv.TODO_FOLDER + file;
+                final String path = WfCv.FOLDER_TODO + file;
                 final JsonObject todoDef = Ut.ioJObject(path);
                 final String key = file.replace(Strings.DOT + FileSuffix.JSON, Strings.EMPTY);
                 TODO_DEF.put(key, todoDef);

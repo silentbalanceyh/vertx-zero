@@ -16,8 +16,11 @@ import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 import org.camunda.bpm.engine.ProcessEngine;
 import org.camunda.bpm.engine.ProcessEngineConfiguration;
+import org.camunda.bpm.engine.impl.cfg.ProcessEngineConfigurationImpl;
 import org.camunda.bpm.engine.impl.cfg.StandaloneProcessEngineConfiguration;
 import org.camunda.bpm.engine.impl.history.HistoryLevel;
+import org.camunda.bpm.engine.impl.history.handler.CompositeDbHistoryEventHandler;
+import org.camunda.bpm.engine.impl.history.handler.HistoryEventHandler;
 import org.camunda.bpm.engine.impl.persistence.StrongUuidGenerator;
 import org.jooq.Configuration;
 
@@ -35,14 +38,15 @@ final class WfConfiguration {
     private static final ConcurrentMap<String, WFlow> FLOW_POOL = new ConcurrentHashMap<>();
     private static WConfig CONFIG;
     private static ProcessEngine ENGINE;
+    private static HistoryEventHandler HANDLER_HISTORY;
 
     private WfConfiguration() {
     }
 
     static void init() {
         final JsonObject configJson = READER.read();
-        if (configJson.containsKey(WfCv.ROOT_FOLDER)) {
-            final JsonObject configuration = configJson.getJsonObject(WfCv.ROOT_FOLDER, new JsonObject());
+        if (configJson.containsKey(WfCv.FOLDER_ROOT)) {
+            final JsonObject configuration = configJson.getJsonObject(WfCv.FOLDER_ROOT, new JsonObject());
             Wf.Log.infoInit(WfConfiguration.class, "The workflow engine will be initialized!! `{0}`",
                 configuration.encode());
             CONFIG = Ut.deserialize(configuration, WConfig.class);
@@ -57,10 +61,11 @@ final class WfConfiguration {
         if (Objects.isNull(ENGINE)) {
             final Database database = CONFIG.camundaDatabase();
             Objects.requireNonNull(database);
-            ENGINE = new StandaloneProcessEngineConfiguration()
+            final ProcessEngineConfigurationImpl configuration = new StandaloneProcessEngineConfiguration()
                 // Fix Issue:
                 // org.camunda.bpm.engine.ProcessEngineException: historyLevel mismatch: configuration says HistoryLevelAudit(name=audit, id=2) and database says HistoryLevelFull(name=full, id=3)
                 .setHistory(HistoryLevel.HISTORY_LEVEL_FULL.getName())     // none, audit, full, activity
+                .setHistoryEventHandler(new CompositeDbHistoryEventHandler())
                 .setIdGenerator(new StrongUuidGenerator())                 // uuid for task
                 .setProcessEngineName(CONFIG.getName())
                 .setDatabaseSchemaUpdate(ProcessEngineConfiguration.DB_SCHEMA_UPDATE_FALSE)
@@ -68,16 +73,22 @@ final class WfConfiguration {
                 .setJdbcDriver(database.getDriverClassName())
                 .setJdbcUsername(database.getUsername())
                 .setJdbcPassword(database.getPassword())
-                .setJobExecutorActivate(true)
-                .buildProcessEngine();
+                .setJobExecutorActivate(true);
+            // Default Handler for History
+            HANDLER_HISTORY = configuration.getHistoryEventHandler();
+            ENGINE = configuration.buildProcessEngine();
         }
         return ENGINE;
     }
 
+    static HistoryEventHandler handlerHistory() {
+        return HANDLER_HISTORY;
+    }
+
     static List<String> camundaResources() {
-        final List<String> folders = Ut.ioDirectories(WfCv.ROOT_FOLDER);
+        final List<String> folders = Ut.ioDirectories(WfCv.FOLDER_ROOT);
         final List<String> results = new ArrayList<>();
-        folders.forEach(each -> results.add(WfCv.ROOT_FOLDER + "/" + each));
+        folders.forEach(each -> results.add(WfCv.FOLDER_ROOT + "/" + each));
         return results;
     }
 

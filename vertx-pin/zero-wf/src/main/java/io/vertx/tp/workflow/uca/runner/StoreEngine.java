@@ -1,12 +1,14 @@
 package io.vertx.tp.workflow.uca.runner;
 
 import io.vertx.core.Future;
+import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.workflow.init.WfPin;
 import io.vertx.tp.workflow.refine.Wf;
 import io.vertx.up.atom.Refer;
 import io.vertx.up.eon.KName;
 import io.vertx.up.unity.Ux;
+import io.vertx.up.util.Ut;
 import org.camunda.bpm.engine.FormService;
 import org.camunda.bpm.engine.RuntimeService;
 import org.camunda.bpm.engine.form.StartFormData;
@@ -61,7 +63,9 @@ class StoreEngine implements StoreOn {
         final JsonObject workflow = Wf.bpmnOut(definition);
         final EventOn eventOn = EventOn.get();
         final Refer responseRef = new Refer();
+        final Refer taskRef = new Refer();
         return eventOn.task(instance)
+            .compose(taskRef::future)
             /*
              * {
              *      "task": "???",
@@ -71,14 +75,21 @@ class StoreEngine implements StoreOn {
             .compose(task -> Ux.future(Wf.taskOut(workflow, task)))
             .compose(responseRef::future)
             .compose(nil -> eventOn.taskHistory(instance))
-            .compose(history -> Ux.future(
+            .compose(history -> {
+                /*
+                 * Remove current task for printing
+                 */
+                final Task task = taskRef.get();
+                history.remove(task.getTaskDefinitionKey());
                 /*
                  * {
                  *     "history": "???"
                  * }
                  */
-                ((JsonObject) Objects.requireNonNull(responseRef.get())).put(KName.HISTORY, history)
-            ));
+                final JsonArray historyA = Ut.toJArray(history);
+                final JsonObject response = responseRef.get();
+                return Ux.future(response.put(KName.HISTORY, historyA));
+            });
     }
 
     /*

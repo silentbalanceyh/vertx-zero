@@ -297,5 +297,11 @@ public interface KName {
         String TODO = "todo";                        /* Todo */
         String DECISION = "decision";                /* Workflow: decision */
         String NODE = "node";                        /* Workflow node */
+
+        // Bpmn
+        interface Bpmn {
+            String CLASS = "class";
+            String EVENT = "event";
+        }
     }
 }

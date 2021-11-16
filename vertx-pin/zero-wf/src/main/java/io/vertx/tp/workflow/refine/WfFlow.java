@@ -103,7 +103,7 @@ class WfFlow {
         final String definition = form.getString(KName.Flow.DEFINITION_KEY);
         final JsonObject parameters = new JsonObject();
         final String code = form.getString(KName.CODE);
-        final String configFile = WfCv.ROOT_FOLDER + "/" + definition + "/" + code + ".json";
+        final String configFile = WfCv.FOLDER_ROOT + "/" + definition + "/" + code + ".json";
         // Dynamic Processing
         if (Ut.ioExist(configFile)) {
             parameters.put(KName.DYNAMIC, Boolean.FALSE);
