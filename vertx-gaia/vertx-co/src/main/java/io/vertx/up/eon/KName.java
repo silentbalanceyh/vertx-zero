@@ -160,6 +160,7 @@ public interface KName {
     String FLAG = "flag";                        /* Workflow: flag type of record */
     String INSTANCE = "instance";                /* Workflow: instance = true */
     String OWNER = "owner";                      /* Workflow: owner */
+    String HISTORY = "history";                  /* Workflow: history */
 
     interface Micro {
         String ETCD = "etcd";
@@ -291,10 +292,8 @@ public interface KName {
         String FORM_KEY = "formKey";
         String BPMN = "bpmn";
         String WORKFLOW = "workflow";
-        // Event
-        String EVENT_START = "startEvent";
-        String MULTI_START = "startMulti";
         // Todo
+        String TASK = "task";
         String TODO = "todo";                        /* Todo */
         String DECISION = "decision";                /* Workflow: decision */
         String NODE = "node";                        /* Workflow node */

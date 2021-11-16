@@ -36,28 +36,27 @@ public class FlowService implements FlowStub {
     @Override
     public Future<JsonObject> fetchFormStart(final String definitionId, final String sigma) {
         final StoreOn storeOn = StoreOn.get();
-        // 1. Fetch workflow
         return storeOn.formById(definitionId, false)
-            .compose(formData -> this.fetchUniform(formData, sigma));
+            .compose(formData -> this.fetchFormInternal(formData, sigma))
+            .compose(response -> storeOn.processById(definitionId)
+                .compose(Ux.attachJ(KName.Flow.WORKFLOW, response))
+            );
     }
 
     @Override
     public Future<JsonObject> fetchFormTask(final String instanceId, final String sigma) {
         final StoreOn storeOn = StoreOn.get();
         return storeOn.formById(instanceId, true)
-            .compose(formData -> this.fetchUniform(formData, sigma));
+            .compose(formData -> this.fetchFormInternal(formData, sigma))
+            .compose(response -> storeOn.processByTask(instanceId)
+                .compose(Ux.attachJ(KName.Flow.WORKFLOW, response))
+            );
     }
 
-    private Future<JsonObject> fetchUniform(final JsonObject formData, final String sigma) {
-        // code
-        final StoreOn storeOn = StoreOn.get();
+    private Future<JsonObject> fetchFormInternal(final JsonObject formData, final String sigma) {
         final JsonObject response = new JsonObject();
-        return storeOn.processById(formData.getString(KName.Flow.DEFINITION_ID))
-            .compose(Ux.attachJ(KName.Flow.WORKFLOW, response))
-            .compose(nil -> {
-                final JsonObject parameters = Wf.formInput(formData, sigma);
-                return Ke.channel(DForm.class, JsonObject::new, stub -> stub.fetchUi(parameters));
-            })
+        final JsonObject parameters = Wf.formInput(formData, sigma);
+        return Ke.channel(DForm.class, JsonObject::new, stub -> stub.fetchUi(parameters))
             .compose(Ux.attachJ(KName.FORM, response));
     }
 }

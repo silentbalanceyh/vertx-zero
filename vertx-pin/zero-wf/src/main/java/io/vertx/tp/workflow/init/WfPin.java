@@ -8,10 +8,7 @@ import io.vertx.tp.ke.refine.Ke;
 import io.vertx.tp.workflow.refine.Wf;
 import io.vertx.tp.workflow.uca.deployment.DeployOn;
 import io.vertx.up.unity.Ux;
-import org.camunda.bpm.engine.FormService;
-import org.camunda.bpm.engine.RepositoryService;
-import org.camunda.bpm.engine.RuntimeService;
-import org.camunda.bpm.engine.TaskService;
+import org.camunda.bpm.engine.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,6 +51,10 @@ public class WfPin {
 
     public static TaskService camundaTask() {
         return WfConfiguration.camunda().getTaskService();
+    }
+
+    public static HistoryService camundaHistory() {
+        return WfConfiguration.camunda().getHistoryService();
     }
 
     /**

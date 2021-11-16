@@ -25,6 +25,8 @@ public interface StoreOn {
 
     Future<JsonObject> processById(String definitionId);
 
+    Future<JsonObject> processByTask(String instanceId);
+
     /*
      * {
      *      "code": "the last one",

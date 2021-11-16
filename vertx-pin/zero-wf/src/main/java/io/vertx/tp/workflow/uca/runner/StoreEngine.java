@@ -4,20 +4,15 @@ import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.workflow.init.WfPin;
 import io.vertx.tp.workflow.refine.Wf;
+import io.vertx.up.atom.Refer;
 import io.vertx.up.eon.KName;
-import io.vertx.up.eon.Strings;
 import io.vertx.up.unity.Ux;
 import org.camunda.bpm.engine.FormService;
-import org.camunda.bpm.engine.RepositoryService;
 import org.camunda.bpm.engine.RuntimeService;
-import org.camunda.bpm.engine.TaskService;
 import org.camunda.bpm.engine.form.StartFormData;
 import org.camunda.bpm.engine.repository.ProcessDefinition;
 import org.camunda.bpm.engine.runtime.ProcessInstance;
 import org.camunda.bpm.engine.task.Task;
-import org.camunda.bpm.model.bpmn.Bpmn;
-import org.camunda.bpm.model.bpmn.BpmnModelInstance;
-import org.camunda.bpm.model.bpmn.instance.StartEvent;
 
 import java.util.Objects;
 
@@ -25,43 +20,115 @@ import java.util.Objects;
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 class StoreEngine implements StoreOn {
+    /*
+     * Workflow Diagram by definition Key
+     */
     @Override
     public Future<JsonObject> processByKey(final String definitionKey) {
-        return Wf.processByKey(definitionKey).compose(this::processData);
+        return Wf.processByKey(definitionKey)
+            // Workflow Diagram and Task
+            .compose(this::workflowNotStart);
     }
 
-    private Future<JsonObject> processData(final ProcessDefinition definition) {
-        final RepositoryService service = WfPin.camundaRepository();
-        // Content Definition
-        final BpmnModelInstance instance = service.getBpmnModelInstance(definition.getId());
-        Objects.requireNonNull(instance);
-        final String xml = Bpmn.convertToString(instance);
-        // Response Json
-        final JsonObject workflow = new JsonObject();
-        workflow.put(KName.Flow.DEFINITION_ID, definition.getId());
-        workflow.put(KName.Flow.DEFINITION_KEY, definition.getKey());
-        workflow.put(KName.Flow.BPMN, xml);
-        workflow.put(KName.NAME, definition.getName());
-        // Start Event
-        final EventOn eventOn = EventOn.get();
-        return eventOn.startSet(definition.getId()).compose(starts -> {
-            if (1 == starts.size()) {
-                final StartEvent event = starts.iterator().next();
-                workflow.put(KName.Flow.EVENT_START, event.getId());
-                workflow.put(KName.Flow.MULTI_START, Boolean.FALSE);
-            } else {
-                final JsonObject startMap = new JsonObject();
-                starts.forEach(start -> startMap.put(start.getId(), start.getName()));
-                workflow.put(KName.Flow.EVENT_START, startMap);
-                workflow.put(KName.Flow.MULTI_START, Boolean.TRUE);
-            }
-            return Ux.future(workflow);
-        });
+    /*
+     * Workflow Diagram by definition Id
+     */
+    @Override
+    public Future<JsonObject> processById(final String definitionId) {
+        return Wf.processById(definitionId)
+            // Workflow Diagram and Task
+            .compose(this::workflowNotStart);
     }
 
     @Override
-    public Future<JsonObject> processById(final String definitionId) {
-        return Wf.processById(definitionId).compose(this::processData);
+    public Future<JsonObject> processByTask(final String instanceId) {
+        return this.instanceById(instanceId).compose(instance -> Wf.processById(instance.getProcessDefinitionId())
+            .compose(definition -> this.workflowStart(definition, instance)));
+    }
+
+    /*
+     * Workflow Output
+     * {
+     *      "definitionId": "???",
+     *      "definitionKey": "???",
+     *      "bpmn": "???",
+     *      "name": "???",
+     *      "task": "???",
+     *      "multiple": "???"
+     * }
+     */
+    private Future<JsonObject> workflowStart(final ProcessDefinition definition, final ProcessInstance instance) {
+        final JsonObject workflow = Wf.bpmnOut(definition);
+        final EventOn eventOn = EventOn.get();
+        final Refer responseRef = new Refer();
+        return eventOn.task(instance)
+            /*
+             * {
+             *      "task": "???",
+             *      "multiple": "???"
+             * }
+             */
+            .compose(task -> Ux.future(Wf.taskOut(workflow, task)))
+            .compose(responseRef::future)
+            .compose(nil -> eventOn.taskHistory(instance))
+            .compose(history -> Ux.future(
+                /*
+                 * {
+                 *     "history": "???"
+                 * }
+                 */
+                ((JsonObject) Objects.requireNonNull(responseRef.get())).put(KName.HISTORY, history)
+            ));
+    }
+
+    /*
+     * Workflow Output
+     * {
+     *      "definitionId": "???",
+     *      "definitionKey": "???",
+     *      "bpmn": "???",
+     *      "name": "???",
+     *      "task": "???",
+     *      "multiple": "???"
+     * }
+     */
+    private Future<JsonObject> workflowNotStart(final ProcessDefinition definition) {
+        final JsonObject workflow = Wf.bpmnOut(definition);
+        final EventOn eventOn = EventOn.get();
+        return eventOn.startSet(definition.getId())
+            /*
+             * {
+             *      "task": "???",
+             *      "multiple": "???"
+             * }
+             */
+            .compose(starts -> Ux.future(Wf.taskOut(workflow, starts)));
+    }
+
+    /*
+     * {
+     *      "code": "???",
+     *      "formKey": "???",
+     *      "definitionId": "???",
+     *      "definitionKey": "???",
+     * }
+     */
+    private Future<JsonObject> formNonStart(final ProcessDefinition definition, final StartFormData startForm) {
+        final String formKey = startForm.getFormKey();
+        return Ux.future(Wf.formOut(formKey, definition.getId(), definition.getKey()));
+    }
+
+    /*
+     * {
+     *      "code": "???",
+     *      "formKey": "???",
+     *      "definitionId": "???",
+     *      "definitionKey": "???",
+     * }
+     */
+    private Future<JsonObject> formStart(final ProcessDefinition definition, final Task task) {
+        final String formKey = task.getFormKey();
+        return Ux.future(Wf.formOut(formKey, definition.getId(), definition.getKey()));
     }
 
     @Override
@@ -69,14 +136,20 @@ class StoreEngine implements StoreOn {
         if (isTask) {
             // Task form, here definition Id is instance id
             // TaskForm: form by instance
-            return this.instanceById(processId).compose(instance ->
-                Wf.processById(instance.getProcessDefinitionId()).compose(definition -> {
-                    final TaskService service = WfPin.camundaTask();
-                    final Task task = service.createTaskQuery().active()
-                        .initializeFormKeys()
-                        .processInstanceId(instance.getId()).singleResult();
-                    return this.formData(task.getFormKey(), definition.getId(), definition.getKey());
-                }));
+            final EventOn eventOn = EventOn.get();
+            return this.instanceById(processId).compose(instance -> Wf.processById(instance.getProcessDefinitionId())
+                .compose(definition -> eventOn.task(instance)
+                    /*
+                     * {
+                     *      "code": "???",
+                     *      "formKey": "???",
+                     *      "definitionId": "???",
+                     *      "definitionKey": "???",
+                     * }
+                     */
+                    .compose(task -> this.formStart(definition, task))
+                )
+            );
         } else {
             // Task Not Started
             // StartForm: form by definition
@@ -85,24 +158,17 @@ class StoreEngine implements StoreOn {
                 final StartFormData startForm = formService.getStartFormData(processId);
                 Objects.requireNonNull(startForm);
                 // substring
-                final String formKey = startForm.getFormKey();
-                return this.formData(formKey, processId, definition.getKey());
+                /*
+                 * {
+                 *      "code": "???",
+                 *      "formKey": "???",
+                 *      "definitionId": "???",
+                 *      "definitionKey": "???",
+                 * }
+                 */
+                return this.formNonStart(definition, startForm);
             });
         }
-    }
-
-    private Future<JsonObject> formData(final String formKey,
-                                        final String definitionId,
-                                        final String definitionKey) {
-        Objects.requireNonNull(formKey);
-        final String code = formKey.substring(formKey.lastIndexOf(Strings.COLON) + 1);
-        // Build Form Configuration parameters
-        final JsonObject response = new JsonObject();
-        response.put(KName.CODE, code);
-        response.put(KName.Flow.FORM_KEY, formKey);
-        response.put(KName.Flow.DEFINITION_KEY, definitionKey);
-        response.put(KName.Flow.DEFINITION_ID, definitionId);
-        return Ux.future(response);
     }
 
     @Override
