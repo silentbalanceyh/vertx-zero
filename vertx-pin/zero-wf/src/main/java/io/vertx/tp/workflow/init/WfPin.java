@@ -58,12 +58,8 @@ public class WfPin {
         return WfConfiguration.camunda().getHistoryService();
     }
 
-    public static ManagementService camundaManagement() {
-        return WfConfiguration.camunda().getManagementService();
-    }
-
-    public static HistoryEventHandler handlerHistory() {
-        return WfConfiguration.handlerHistory();
+    public static HistoryEventHandler camundaLogger() {
+        return WfConfiguration.camundaLogger();
     }
 
     /**

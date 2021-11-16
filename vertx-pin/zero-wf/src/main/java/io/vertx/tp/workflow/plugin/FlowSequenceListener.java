@@ -5,7 +5,9 @@ import io.vertx.tp.workflow.init.WfPin;
 import io.vertx.tp.workflow.refine.Wf;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
-import org.camunda.bpm.engine.impl.persistence.entity.HistoricActivityInstanceEntity;
+import org.camunda.bpm.engine.impl.history.event.HistoricActivityInstanceEventEntity;
+import org.camunda.bpm.engine.impl.history.event.HistoryEventTypes;
+import org.camunda.bpm.engine.impl.history.handler.HistoryEventHandler;
 import org.camunda.bpm.engine.impl.pvm.runtime.ActivityInstanceState;
 
 import java.util.Date;
@@ -18,7 +20,7 @@ public class FlowSequenceListener implements JavaDelegate {
     @Override
     public void execute(final DelegateExecution execution) throws Exception {
         // ActivityInstance
-        final HistoricActivityInstanceEntity instance = new HistoricActivityInstanceEntity();
+        final HistoricActivityInstanceEventEntity instance = new HistoricActivityInstanceEventEntity();
         /*
          * activityId
          * activityName
@@ -33,10 +35,11 @@ public class FlowSequenceListener implements JavaDelegate {
         /*
          * executionId
          * tenantId
+         * eventType
          */
         instance.setExecutionId(execution.getId());
         instance.setTenantId(execution.getTenantId());
-
+        instance.setEventType(HistoryEventTypes.ACTIVITY_INSTANCE_START.getEventName());
         /*
          * eventType
          * startTime
@@ -46,7 +49,6 @@ public class FlowSequenceListener implements JavaDelegate {
         instance.setStartTime(new Date());
         instance.setEndTime(new Date());
         instance.setDurationInMillis(0L);
-        instance.setEventType(execution.getEventName());
 
         /*
          * parentActivityInstanceId
@@ -56,7 +58,8 @@ public class FlowSequenceListener implements JavaDelegate {
         instance.setProcessDefinitionId(execution.getProcessDefinitionId());
         instance.setProcessInstanceId(execution.getProcessInstanceId());
         instance.setParentActivityInstanceId(execution.getParentActivityInstanceId());
-        WfPin.handlerHistory().handleEvent(instance);
+        final HistoryEventHandler handler = WfPin.camundaLogger();
+        handler.handleEvent(instance);
         Wf.Log.infoMove(this.getClass(), "( History ) `{0}` history generated {1}", instance.getActivityType(), instance.getActivityId());
     }
 }

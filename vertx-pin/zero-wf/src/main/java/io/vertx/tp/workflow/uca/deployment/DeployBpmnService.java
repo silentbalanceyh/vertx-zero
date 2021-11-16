@@ -52,6 +52,8 @@ class DeployBpmnService implements DeployOn {
         Wf.Log.infoDeploy(this.getClass(), "Load BPMN model from `{0}`", modelFile);
         final BpmnModelInstance instance = Bpmn.readModelFromStream(Ut.ioStream(modelFile));
         Objects.requireNonNull(instance);
+
+        // Flow Processing for activity log
         this.initializeListener(instance);
         this.builder.addModelInstance(bpmnFile, instance);
 

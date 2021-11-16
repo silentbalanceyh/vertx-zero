@@ -61,16 +61,14 @@ class EventEngine implements EventOn {
 
     @Override
     public Future<Set<String>> taskHistory(final ProcessInstance instance) {
-        final HistoryService service = WfPin.camundaHistory();
-        // HistoricActivityInstanceQuery
-        final HistoricActivityInstanceQuery query = service.createHistoricActivityInstanceQuery()
+        // HistoricActivityInstance -> List
+        final HistoryService serviceH = WfPin.camundaHistory();
+        final HistoricActivityInstanceQuery query = serviceH.createHistoricActivityInstanceQuery()
             .processInstanceId(instance.getId());
         final List<HistoricActivityInstance> activities = query.list();
         final Set<String> historySet = new HashSet<>();
-        activities.forEach(activity -> {
-            historySet.add(activity.getActivityId());
-        });
-
+        // Capture Data
+        activities.forEach(activity -> historySet.add(activity.getActivityId()));
         return Ux.future(historySet);
     }
 }
