@@ -2,7 +2,6 @@ package io.vertx.tp.workflow.uca.runner;
 
 import cn.zeroup.macrocosm.cv.WfPool;
 import io.vertx.core.Future;
-import io.vertx.core.json.JsonArray;
 import io.vertx.up.fn.Fn;
 import org.camunda.bpm.engine.runtime.ProcessInstance;
 import org.camunda.bpm.engine.task.Task;
@@ -34,5 +33,5 @@ public interface EventOn {
     /*
      * Task History
      */
-    Future<JsonArray> taskHistory(ProcessInstance instance);
+    Future<Set<String>> taskHistory(ProcessInstance instance);
 }

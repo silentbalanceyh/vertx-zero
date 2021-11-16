@@ -9,6 +9,7 @@ import io.vertx.tp.workflow.refine.Wf;
 import io.vertx.tp.workflow.uca.deployment.DeployOn;
 import io.vertx.up.unity.Ux;
 import org.camunda.bpm.engine.*;
+import org.camunda.bpm.engine.impl.history.handler.HistoryEventHandler;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -55,6 +56,10 @@ public class WfPin {
 
     public static HistoryService camundaHistory() {
         return WfConfiguration.camunda().getHistoryService();
+    }
+
+    public static HistoryEventHandler camundaLogger() {
+        return WfConfiguration.camundaLogger();
     }
 
     /**

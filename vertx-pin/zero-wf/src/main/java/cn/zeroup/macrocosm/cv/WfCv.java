@@ -4,9 +4,11 @@ package cn.zeroup.macrocosm.cv;
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 public interface WfCv {
-    String TODO_FOLDER = "plugin/wf/todo/";
+    String FOLDER_TODO = "plugin/wf/todo/";
 
-    String FORM_FOLDER = "workflow/{0}/";
+    String FOLDER_ROOT = "workflow";
 
-    String ROOT_FOLDER = "workflow";
+    String BPMN_FLOW = "zero-take";
+
+    String BPMN_FLOW_TYPE = "SequenceFlow";
 }

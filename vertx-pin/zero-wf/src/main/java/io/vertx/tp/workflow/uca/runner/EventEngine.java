@@ -1,18 +1,16 @@
 package io.vertx.tp.workflow.uca.runner;
 
 import io.vertx.core.Future;
-import io.vertx.core.json.JsonArray;
 import io.vertx.tp.error._409UniqueStartEventException;
 import io.vertx.tp.error._501ProcessStartException;
 import io.vertx.tp.workflow.init.WfPin;
 import io.vertx.up.eon.Values;
 import io.vertx.up.unity.Ux;
-import io.vertx.up.util.Ut;
 import org.camunda.bpm.engine.HistoryService;
 import org.camunda.bpm.engine.RepositoryService;
 import org.camunda.bpm.engine.TaskService;
-import org.camunda.bpm.engine.history.HistoricProcessInstance;
-import org.camunda.bpm.engine.history.HistoricProcessInstanceQuery;
+import org.camunda.bpm.engine.history.HistoricActivityInstance;
+import org.camunda.bpm.engine.history.HistoricActivityInstanceQuery;
 import org.camunda.bpm.engine.runtime.ProcessInstance;
 import org.camunda.bpm.engine.task.Task;
 import org.camunda.bpm.model.bpmn.BpmnModelInstance;
@@ -62,18 +60,15 @@ class EventEngine implements EventOn {
     }
 
     @Override
-    public Future<JsonArray> taskHistory(final ProcessInstance instance) {
-        final HistoryService service = WfPin.camundaHistory();
-        final HistoricProcessInstanceQuery query = service.createHistoricProcessInstanceQuery()
-            .finished()
+    public Future<Set<String>> taskHistory(final ProcessInstance instance) {
+        // HistoricActivityInstance -> List
+        final HistoryService serviceH = WfPin.camundaHistory();
+        final HistoricActivityInstanceQuery query = serviceH.createHistoricActivityInstanceQuery()
             .processInstanceId(instance.getId());
-        final List<HistoricProcessInstance> instances = query.list();
-        // Set<String>
-        final Set<String> activitySet = new HashSet<>();
-        instances.forEach(each -> activitySet.add(each.getStartActivityId()));
-        return this.start(instance.getProcessDefinitionId()).compose(startEvent -> {
-            activitySet.add(startEvent.getId());
-            return Ux.future(Ut.toJArray(activitySet));
-        });
+        final List<HistoricActivityInstance> activities = query.list();
+        final Set<String> historySet = new HashSet<>();
+        // Capture Data
+        activities.forEach(activity -> historySet.add(activity.getActivityId()));
+        return Ux.future(historySet);
     }
 }
