@@ -13,10 +13,10 @@ public interface FlowStub {
     /*
      * Process by id ( unique )
      */
-    Future<JsonObject> fetchFirst(String definitionId, String sigma);
+    Future<JsonObject> fetchFormStart(String definitionId, String sigma);
 
     /*
      * Process by instance id ( unique )
      */
-    Future<JsonObject> fetchForm(String instanceId, String sigma);
+    Future<JsonObject> fetchFormTask(String instanceId, String sigma);
 }

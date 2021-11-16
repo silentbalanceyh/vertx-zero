@@ -34,7 +34,7 @@ public class FlowService implements FlowStub {
     }
 
     @Override
-    public Future<JsonObject> fetchFirst(final String definitionId, final String sigma) {
+    public Future<JsonObject> fetchFormStart(final String definitionId, final String sigma) {
         final StoreOn storeOn = StoreOn.get();
         // 1. Fetch workflow
         return storeOn.formById(definitionId, false)
@@ -42,7 +42,7 @@ public class FlowService implements FlowStub {
     }
 
     @Override
-    public Future<JsonObject> fetchForm(final String instanceId, final String sigma) {
+    public Future<JsonObject> fetchFormTask(final String instanceId, final String sigma) {
         final StoreOn storeOn = StoreOn.get();
         return storeOn.formById(instanceId, true)
             .compose(formData -> this.fetchUniform(formData, sigma));
@@ -55,7 +55,7 @@ public class FlowService implements FlowStub {
         return storeOn.processById(formData.getString(KName.Flow.DEFINITION_ID))
             .compose(Ux.attachJ(KName.Flow.WORKFLOW, response))
             .compose(nil -> {
-                final JsonObject parameters = Wf.argsForm(formData, sigma);
+                final JsonObject parameters = Wf.formInput(formData, sigma);
                 return Ke.channel(DForm.class, JsonObject::new, stub -> stub.fetchUi(parameters));
             })
             .compose(Ux.attachJ(KName.FORM, response));

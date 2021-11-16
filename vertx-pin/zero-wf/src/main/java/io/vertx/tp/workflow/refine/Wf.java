@@ -10,14 +10,16 @@ import org.camunda.bpm.engine.repository.ProcessDefinition;
  */
 public class Wf {
 
-    public static JsonObject argsForm(final JsonObject form, final String sigma) {
-        return WfForm.argsForm(form, sigma);
+    public static JsonObject formInput(final JsonObject form, final String sigma) {
+        return WfFlow.formInput(form, sigma);
     }
 
+    // Fetch ProcessDefinition
     public static Future<ProcessDefinition> processByKey(final String definitionKey) {
         return WfFlow.processByKey(definitionKey);
     }
 
+    // Fetch ProcessDefinition
     public static Future<ProcessDefinition> processById(final String definitionId) {
         return WfFlow.processById(definitionId);
     }

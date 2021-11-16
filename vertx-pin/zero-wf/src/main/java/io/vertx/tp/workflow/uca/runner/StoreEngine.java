@@ -26,8 +26,8 @@ import java.util.Objects;
  */
 class StoreEngine implements StoreOn {
     @Override
-    public Future<JsonObject> processByKey(final String code) {
-        return Wf.processByKey(code).compose(this::processData);
+    public Future<JsonObject> processByKey(final String definitionKey) {
+        return Wf.processByKey(definitionKey).compose(this::processData);
     }
 
     private Future<JsonObject> processData(final ProcessDefinition definition) {
@@ -65,35 +65,30 @@ class StoreEngine implements StoreOn {
     }
 
     @Override
-    public Future<JsonObject> formById(final String definitionId, final boolean isTask) {
+    public Future<JsonObject> formById(final String processId, final boolean isTask) {
         if (isTask) {
             // Task form, here definition Id is instance id
-            return this.formByInstance(definitionId);
+            // TaskForm: form by instance
+            return this.instanceById(processId).compose(instance ->
+                Wf.processById(instance.getProcessDefinitionId()).compose(definition -> {
+                    final TaskService service = WfPin.camundaTask();
+                    final Task task = service.createTaskQuery().active()
+                        .initializeFormKeys()
+                        .processInstanceId(instance.getId()).singleResult();
+                    return this.formData(task.getFormKey(), definition.getId(), definition.getKey());
+                }));
         } else {
             // Task Not Started
-            return this.formByDefinition(definitionId);
+            // StartForm: form by definition
+            return Wf.processById(processId).compose(definition -> {
+                final FormService formService = WfPin.camundaForm();
+                final StartFormData startForm = formService.getStartFormData(processId);
+                Objects.requireNonNull(startForm);
+                // substring
+                final String formKey = startForm.getFormKey();
+                return this.formData(formKey, processId, definition.getKey());
+            });
         }
-    }
-
-    private Future<JsonObject> formByInstance(final String instanceId) {
-        return this.instanceById(instanceId).compose(instance -> Wf.processById(instance.getProcessDefinitionId()).compose(definition -> {
-            final TaskService service = WfPin.camundaTask();
-            final Task task = service.createTaskQuery().active()
-                .initializeFormKeys()
-                .processInstanceId(instance.getId()).singleResult();
-            return this.formData(task.getFormKey(), definition.getId(), definition.getKey());
-        }));
-    }
-
-    private Future<JsonObject> formByDefinition(final String definitionId) {
-        return Wf.processById(definitionId).compose(definition -> {
-            final FormService formService = WfPin.camundaForm();
-            final StartFormData startForm = formService.getStartFormData(definitionId);
-            Objects.requireNonNull(startForm);
-            // substring
-            final String formKey = startForm.getFormKey();
-            return this.formData(formKey, definitionId, definition.getKey());
-        });
     }
 
     private Future<JsonObject> formData(final String formKey,

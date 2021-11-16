@@ -21,7 +21,7 @@ public interface StoreOn {
      *      "bpmn": "xml definition"
      * }
      */
-    Future<JsonObject> processByKey(String code);
+    Future<JsonObject> processByKey(String definitionKey);
 
     Future<JsonObject> processById(String definitionId);
 
@@ -33,7 +33,7 @@ public interface StoreOn {
      *      }
      * }
      */
-    Future<JsonObject> formById(String definitionId, boolean isTask);
+    Future<JsonObject> formById(String processId, boolean isTask);
 
     Future<ProcessInstance> instanceById(String definitionId);
 }

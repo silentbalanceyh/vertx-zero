@@ -62,11 +62,11 @@ public class QueueActor {
         if (isPre) {
             // Start Point
             final String definitionId = data.getString(KName.Flow.DEFINITION_ID);
-            return this.flowStub.fetchFirst(definitionId, header.getSigma());
+            return this.flowStub.fetchFormStart(definitionId, header.getSigma());
         } else {
             // Single Task
             final String instanceId = data.getString(KName.Flow.INSTANCE_ID);
-            return this.flowStub.fetchForm(instanceId, header.getSigma());
+            return this.flowStub.fetchFormTask(instanceId, header.getSigma());
         }
     }
 
