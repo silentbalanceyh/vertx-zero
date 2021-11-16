@@ -5,6 +5,7 @@ import io.vertx.ext.web.FileUpload;
 import io.vertx.tp.ambient.atom.AtConfig;
 import io.vertx.tp.ambient.cv.AtConstant;
 import io.vertx.tp.ambient.init.AtPin;
+import io.vertx.up.eon.KName;
 import io.vertx.up.util.Ut;
 
 import java.text.MessageFormat;
@@ -34,17 +35,18 @@ class AtEnv {
             final String downloadUrl = MessageFormat.format(AtConstant.DOWNLOAD_URI, key);
             uploaded.put("key", key)
                 .put("storeWay", config.getFileStorage())
-                .put("status", "PROGRESS")
-                .put("name", originalFile)
+                .put(KName.STATUS, "PROGRESS")
+                .put(KName.TYPE, fileUpload.contentType())
+                .put("mime", fileUpload.contentType())
+                .put(KName.NAME, originalFile)
                 .put("fileKey", Ut.randomString(64))
                 .put("fileName", fileName)
                 .put("fileUrl", downloadUrl)
                 .put("filePath", fileUpload.uploadedFileName())
                 .put("extension", extension)
-                .put("module", category)
-                .put("mime", fileUpload.contentType())
+                .put(KName.MODULE, category)
                 .put("size", fileUpload.size())
-                .put("language", config.getFileLanguage())
+                .put(KName.LANGUAGE, config.getFileLanguage())
                 .put("metadata", new JsonObject().encode());
         }
         return uploaded;

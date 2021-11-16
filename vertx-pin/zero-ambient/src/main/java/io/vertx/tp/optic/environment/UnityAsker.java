@@ -8,8 +8,7 @@ import io.vertx.core.Future;
 import io.vertx.core.Vertx;
 import io.vertx.tp.ambient.cv.AtMsg;
 import io.vertx.tp.ambient.refine.At;
-import io.vertx.tp.plugin.database.DataPool;
-import io.vertx.up.commune.config.Database;
+import io.vertx.tp.ke.refine.Ke;
 import io.vertx.up.log.Annal;
 import io.vertx.up.util.Ut;
 import org.jooq.Configuration;
@@ -33,7 +32,7 @@ class UnityAsker {
      */
     static Future<Boolean> init(final Vertx vertx) {
         /* All app here */
-        final Configuration configuration = configuration();
+        final Configuration configuration = Ke.getConfiguration();
         final XAppDao appDao = new XAppDao(configuration, vertx);
         return appDao.findAll().compose(applications -> {
             At.infoApp(LOGGER, AtMsg.UNITY_APP, applications.size());
@@ -50,12 +49,6 @@ class UnityAsker {
             SOURCE_POOL.putAll(Ut.elementZip(sources, XSource::getAppId, source -> source));
             return Future.succeededFuture(Boolean.TRUE);
         });
-    }
-
-    private static Configuration configuration() {
-        final Database database = Database.getCurrent();
-        final DataPool pool = DataPool.create(database);
-        return pool.getExecutor().configuration();
     }
 
     static ConcurrentMap<String, XApp> getApps() {

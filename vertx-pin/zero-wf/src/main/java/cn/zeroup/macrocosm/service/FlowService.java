@@ -34,21 +34,29 @@ public class FlowService implements FlowStub {
     }
 
     @Override
-    public Future<JsonObject> fetchFirst(final String definitionId, final String sigma) {
+    public Future<JsonObject> fetchFormStart(final String definitionId, final String sigma) {
         final StoreOn storeOn = StoreOn.get();
-        // 1. Fetch workflow
+        return storeOn.formById(definitionId, false)
+            .compose(formData -> this.fetchFormInternal(formData, sigma))
+            .compose(response -> storeOn.processById(definitionId)
+                .compose(Ux.attachJ(KName.Flow.WORKFLOW, response))
+            );
+    }
+
+    @Override
+    public Future<JsonObject> fetchFormTask(final String instanceId, final String sigma) {
+        final StoreOn storeOn = StoreOn.get();
+        return storeOn.formById(instanceId, true)
+            .compose(formData -> this.fetchFormInternal(formData, sigma))
+            .compose(response -> storeOn.processByTask(instanceId)
+                .compose(Ux.attachJ(KName.Flow.WORKFLOW, response))
+            );
+    }
+
+    private Future<JsonObject> fetchFormInternal(final JsonObject formData, final String sigma) {
         final JsonObject response = new JsonObject();
-        return storeOn.fetchForm(definitionId, false).compose(formData -> {
-            // code
-            final JsonObject parameters = Wf.argsForm(formData, sigma);
-            return Ke.channel(DForm.class, JsonObject::new, stub -> stub.fetchUi(parameters));
-        }).compose(form -> {
-            response.put(KName.FORM, form);
-            // Definition
-            return storeOn.processById(definitionId);
-        }).compose(workflow -> {
-            response.put(KName.Flow.WORKFLOW, workflow);
-            return Ux.future(response);
-        });
+        final JsonObject parameters = Wf.formInput(formData, sigma);
+        return Ke.channel(DForm.class, JsonObject::new, stub -> stub.fetchUi(parameters))
+            .compose(Ux.attachJ(KName.FORM, response));
     }
 }

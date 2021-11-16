@@ -166,6 +166,28 @@ public interface IWFlow extends VertxPojo, Serializable {
     public String getStartConfig();
 
     /**
+     * Setter for <code>DB_ETERNAL.W_FLOW.END_COMPONENT</code>. 「endComponent」-
+     * 完成组件
+     */
+    public IWFlow setEndComponent(String value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.W_FLOW.END_COMPONENT</code>. 「endComponent」-
+     * 完成组件
+     */
+    public String getEndComponent();
+
+    /**
+     * Setter for <code>DB_ETERNAL.W_FLOW.END_CONFIG</code>. 「endConfig」- 完成配置
+     */
+    public IWFlow setEndConfig(String value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.W_FLOW.END_CONFIG</code>. 「endConfig」- 完成配置
+     */
+    public String getEndConfig();
+
+    /**
      * Setter for <code>DB_ETERNAL.W_FLOW.COMMENT</code>. 「comment」 - 流程定义备注
      */
     public IWFlow setComment(String value);
@@ -286,6 +308,8 @@ public interface IWFlow extends VertxPojo, Serializable {
                 setOrThrow(this::setRunConfig,json::getString,"RUN_CONFIG","java.lang.String");
                 setOrThrow(this::setStartComponent,json::getString,"START_COMPONENT","java.lang.String");
                 setOrThrow(this::setStartConfig,json::getString,"START_CONFIG","java.lang.String");
+                setOrThrow(this::setEndComponent,json::getString,"END_COMPONENT","java.lang.String");
+                setOrThrow(this::setEndConfig,json::getString,"END_CONFIG","java.lang.String");
                 setOrThrow(this::setComment,json::getString,"COMMENT","java.lang.String");
                 setOrThrow(this::setActive,json::getBoolean,"ACTIVE","java.lang.Boolean");
                 setOrThrow(this::setSigma,json::getString,"SIGMA","java.lang.String");
@@ -315,6 +339,8 @@ public interface IWFlow extends VertxPojo, Serializable {
                 json.put("RUN_CONFIG",getRunConfig());
                 json.put("START_COMPONENT",getStartComponent());
                 json.put("START_CONFIG",getStartConfig());
+                json.put("END_COMPONENT",getEndComponent());
+                json.put("END_CONFIG",getEndConfig());
                 json.put("COMMENT",getComment());
                 json.put("ACTIVE",getActive());
                 json.put("SIGMA",getSigma());

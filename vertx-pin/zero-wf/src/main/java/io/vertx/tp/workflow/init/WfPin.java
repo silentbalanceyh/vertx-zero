@@ -1,5 +1,6 @@
 package io.vertx.tp.workflow.init;
 
+import cn.vertxup.workflow.domain.tables.pojos.WFlow;
 import io.vertx.core.Future;
 import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonObject;
@@ -7,10 +8,7 @@ import io.vertx.tp.ke.refine.Ke;
 import io.vertx.tp.workflow.refine.Wf;
 import io.vertx.tp.workflow.uca.deployment.DeployOn;
 import io.vertx.up.unity.Ux;
-import org.camunda.bpm.engine.FormService;
-import org.camunda.bpm.engine.RepositoryService;
-import org.camunda.bpm.engine.RuntimeService;
-import org.camunda.bpm.engine.TaskService;
+import org.camunda.bpm.engine.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,7 +32,9 @@ public class WfPin {
         final List<Future<Boolean>> futures = new ArrayList<>();
         // Deployment for .bpmn files
         resources.forEach(resource -> DeployOn.get(resource).initialize());
-        return Ux.thenCombineT(futures).compose(nil -> Ux.futureT());
+        return Ux.thenCombineT(futures)
+            // Flow initialized
+            .compose(nil -> WfConfiguration.init(vertx));
     }
 
     public static RepositoryService camundaRepository() {
@@ -53,6 +53,10 @@ public class WfPin {
         return WfConfiguration.camunda().getTaskService();
     }
 
+    public static HistoryService camundaHistory() {
+        return WfConfiguration.camunda().getHistoryService();
+    }
+
     /**
      * Return to configuration data that convert to {@link io.vertx.core.json.JsonObject} here by type.
      *
@@ -62,5 +66,9 @@ public class WfPin {
      */
     public static JsonObject getTodo(final String type) {
         return WfTodo.getTodo(type);
+    }
+
+    public static WFlow getFlow(final String code) {
+        return WfConfiguration.workflow(code);
     }
 }

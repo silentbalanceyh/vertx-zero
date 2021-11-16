@@ -4,6 +4,7 @@ import cn.zeroup.macrocosm.cv.WfPool;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.fn.Fn;
+import org.camunda.bpm.engine.runtime.ProcessInstance;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
@@ -20,9 +21,11 @@ public interface StoreOn {
      *      "bpmn": "xml definition"
      * }
      */
-    Future<JsonObject> processByKey(String code);
+    Future<JsonObject> processByKey(String definitionKey);
 
     Future<JsonObject> processById(String definitionId);
+
+    Future<JsonObject> processByTask(String instanceId);
 
     /*
      * {
@@ -32,5 +35,7 @@ public interface StoreOn {
      *      }
      * }
      */
-    Future<JsonObject> fetchForm(String definitionId, boolean isTask);
+    Future<JsonObject> formById(String processId, boolean isTask);
+
+    Future<ProcessInstance> instanceById(String definitionId);
 }

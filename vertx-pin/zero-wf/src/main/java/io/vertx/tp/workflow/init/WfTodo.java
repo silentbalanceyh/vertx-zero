@@ -5,7 +5,6 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.tp.workflow.refine.Wf;
 import io.vertx.up.eon.FileSuffix;
 import io.vertx.up.eon.Strings;
-import io.vertx.up.log.Annal;
 import io.vertx.up.util.Ut;
 
 import java.util.List;
@@ -55,10 +54,6 @@ import java.util.concurrent.ConcurrentMap;
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 final class WfTodo {
-    /**
-     * Zero standard logger of {@link io.vertx.up.log.Annal} instance.
-     */
-    private static final Annal LOGGER = Annal.get(WfTodo.class);
     /**
      * The todo definition of hash map `type = Json` format that stored todo configuration data here.
      */

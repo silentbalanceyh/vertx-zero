@@ -566,6 +566,10 @@ public final class Ux {
         return Web.toAttachJ(field, function);
     }
 
+    public static Function<JsonObject, Future<JsonObject>> attachJ(final String field, final JsonObject data) {
+        return Web.toAttachJ(field, data);
+    }
+
     /*
      * Normalize pageData in framework
      * {
@@ -774,11 +778,11 @@ public final class Ux {
     // Qr Add
     public static JsonObject whereQrA(final JsonObject qr, final Kv<String, Object> kv) {
         Objects.requireNonNull(kv);
-        return Where.whereQr(qr, kv.getKey(), kv.getValue());
+        return Where.whereQrA(qr, kv.getKey(), kv.getValue());
     }
 
     public static JsonObject whereQrA(final JsonObject qr, final String field, final Object value) {
-        return Where.whereQr(qr, field, value);
+        return Where.whereQrA(qr, field, value);
     }
 
     // ---------------------- Request Data Extract --------------------------

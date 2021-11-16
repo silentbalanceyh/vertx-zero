@@ -43,9 +43,10 @@ public class WTodo extends TableImpl<WTodoRecord> {
      */
     public final TableField<WTodoRecord, String> NAME = createField(DSL.name("NAME"), SQLDataType.VARCHAR(255), this, "「name」- 待办名称（标题）");
     /**
-     * The column <code>DB_ETERNAL.W_TODO.CODE</code>. 「code」- 待办系统码
+     * The column <code>DB_ETERNAL.W_TODO.CODE</code>. 「code」-
+     * 待办系统码，使用流程时候关联流程的任务ID
      */
-    public final TableField<WTodoRecord, String> CODE = createField(DSL.name("CODE"), SQLDataType.VARCHAR(36), this, "「code」- 待办系统码");
+    public final TableField<WTodoRecord, String> CODE = createField(DSL.name("CODE"), SQLDataType.VARCHAR(36), this, "「code」- 待办系统码，使用流程时候关联流程的任务ID");
     /**
      * The column <code>DB_ETERNAL.W_TODO.ICON</code>. 「icon」- 待办显示的图标
      */
@@ -76,7 +77,7 @@ public class WTodo extends TableImpl<WTodoRecord> {
      * The column <code>DB_ETERNAL.W_TODO.MODEL_CATEGORY</code>.
      * 「modelCategory」- 关联的category记录，只包含叶节点
      */
-    public final TableField<WTodoRecord, String> MODEL_CATEGORY = createField(DSL.name("MODEL_CATEGORY"), SQLDataType.VARCHAR(36), this, "「modelCategory」- 关联的category记录，只包含叶节点");
+    public final TableField<WTodoRecord, String> MODEL_CATEGORY = createField(DSL.name("MODEL_CATEGORY"), SQLDataType.VARCHAR(128), this, "「modelCategory」- 关联的category记录，只包含叶节点");
     /**
      * The column <code>DB_ETERNAL.W_TODO.MODEL_FORM</code>. 「modelForm」-
      * 待办专用的表单关联
@@ -91,6 +92,35 @@ public class WTodo extends TableImpl<WTodoRecord> {
      * The column <code>DB_ETERNAL.W_TODO.INSTANCE</code>. 「instance」- 是否启用工作流？
      */
     public final TableField<WTodoRecord, Boolean> INSTANCE = createField(DSL.name("INSTANCE"), SQLDataType.BIT, this, "「instance」- 是否启用工作流？");
+    /**
+     * The column <code>DB_ETERNAL.W_TODO.TRACE_ID</code>. 「traceId」-
+     * 同一个流程的待办执行分组
+     */
+    public final TableField<WTodoRecord, String> TRACE_ID = createField(DSL.name("TRACE_ID"), SQLDataType.VARCHAR(36), this, "「traceId」- 同一个流程的待办执行分组");
+    /**
+     * The column <code>DB_ETERNAL.W_TODO.TRACE_TASK_ID</code>. 「traceTaskId」-
+     * 和待办绑定的taskId
+     */
+    public final TableField<WTodoRecord, String> TRACE_TASK_ID = createField(DSL.name("TRACE_TASK_ID"), SQLDataType.VARCHAR(36), this, "「traceTaskId」- 和待办绑定的taskId");
+    /**
+     * The column <code>DB_ETERNAL.W_TODO.PARENT_ID</code>. 「parentId」-
+     * 待办支持父子集结构，父待办执行时候子待办同样执行
+     */
+    public final TableField<WTodoRecord, String> PARENT_ID = createField(DSL.name("PARENT_ID"), SQLDataType.VARCHAR(36), this, "「parentId」- 待办支持父子集结构，父待办执行时候子待办同样执行");
+    /**
+     * The column <code>DB_ETERNAL.W_TODO.COMMENT</code>. 「comment」- 待办描述
+     */
+    public final TableField<WTodoRecord, String> COMMENT = createField(DSL.name("COMMENT"), SQLDataType.CLOB, this, "「comment」- 待办描述");
+    /**
+     * The column <code>DB_ETERNAL.W_TODO.COMMENT_APPROVAL</code>.
+     * 「commentApproval」- 审批描述
+     */
+    public final TableField<WTodoRecord, String> COMMENT_APPROVAL = createField(DSL.name("COMMENT_APPROVAL"), SQLDataType.CLOB, this, "「commentApproval」- 审批描述");
+    /**
+     * The column <code>DB_ETERNAL.W_TODO.COMMENT_REJECT</code>.
+     * 「commentReject」- 拒绝理由
+     */
+    public final TableField<WTodoRecord, String> COMMENT_REJECT = createField(DSL.name("COMMENT_REJECT"), SQLDataType.CLOB, this, "「commentReject」- 拒绝理由");
     /**
      * The column <code>DB_ETERNAL.W_TODO.TO_GROUP_MODE</code>. 「toGroupMode」-
      * 部门、业务组、组、角色、地点等
@@ -108,21 +138,6 @@ public class WTodo extends TableImpl<WTodoRecord> {
      * The column <code>DB_ETERNAL.W_TODO.TO_ROLE</code>. 「toRole」- 待办角色（集体）
      */
     public final TableField<WTodoRecord, String> TO_ROLE = createField(DSL.name("TO_ROLE"), SQLDataType.VARCHAR(36), this, "「toRole」- 待办角色（集体）");
-    /**
-     * The column <code>DB_ETERNAL.W_TODO.TRACE_ID</code>. 「traceId」-
-     * 同一个流程的待办执行分组
-     */
-    public final TableField<WTodoRecord, String> TRACE_ID = createField(DSL.name("TRACE_ID"), SQLDataType.VARCHAR(36), this, "「traceId」- 同一个流程的待办执行分组");
-    /**
-     * The column <code>DB_ETERNAL.W_TODO.PARENT_ID</code>. 「parentId」-
-     * 待办支持父子集结构，父待办执行时候子待办同样执行
-     */
-    public final TableField<WTodoRecord, String> PARENT_ID = createField(DSL.name("PARENT_ID"), SQLDataType.VARCHAR(36), this, "「parentId」- 待办支持父子集结构，父待办执行时候子待办同样执行");
-    /**
-     * The column <code>DB_ETERNAL.W_TODO.DESCRIPTION</code>. 「description」-
-     * 待办描述
-     */
-    public final TableField<WTodoRecord, String> DESCRIPTION = createField(DSL.name("DESCRIPTION"), SQLDataType.CLOB, this, "「description」- 待办描述");
     /**
      * The column <code>DB_ETERNAL.W_TODO.ACTIVE</code>. 「active」- 是否启用
      */

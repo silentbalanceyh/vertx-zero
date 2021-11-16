@@ -26,6 +26,7 @@ public interface KName {
     String MODEL_ID = "modelId";                 /* Model Consumer ( identifier ) field */
     String MODEL_KEY = "modelKey";               /* Model Consumer ( key ) field */
     String MODEL_CATEGORY = "modelCategory";     /* Model Consumer ( related XCategory ) field */
+    String MODEL_COMPONENT = "modelComponent";   /* Model Component */
 
     String SCOPE = "scope";                      /* OAuth scope field */
     String REALM = "realm";                      /* Authorization realm field for security */
@@ -115,7 +116,7 @@ public interface KName {
     String URI_REQUEST = "requestUri";           /* Web: http path ( normalized ) contains path such as `/api/:code/name` instead of actual */
     String RESULT = "result";                    /* Web: http response */
     String HEADER = "header";                    /* Web: http header */
-
+    String MULTIPLE = "multiple";                /* If multiple */
 
     String CHANGES = "changes";                  /* XActivityChange items to store history operation of changes */
     String RECORD = "record";                    /* Change calculation for data record */
@@ -154,6 +155,12 @@ public interface KName {
     String INDENT = "indent";                    /* indent spec number */
 
     String ACCESS_TOKEN = "access_token";        /* token cv from `jwt` to `access_token` */
+
+    String UNIQUE = "unique";                    /* Workflow: unique record */
+    String FLAG = "flag";                        /* Workflow: flag type of record */
+    String INSTANCE = "instance";                /* Workflow: instance = true */
+    String OWNER = "owner";                      /* Workflow: owner */
+    String HISTORY = "history";                  /* Workflow: history */
 
     interface Micro {
         String ETCD = "etcd";
@@ -281,8 +288,14 @@ public interface KName {
     interface Flow {
         String DEFINITION_ID = "definitionId";
         String DEFINITION_KEY = "definitionKey";
+        String INSTANCE_ID = "instanceId";
         String FORM_KEY = "formKey";
         String BPMN = "bpmn";
         String WORKFLOW = "workflow";
+        // Todo
+        String TASK = "task";
+        String TODO = "todo";                        /* Todo */
+        String DECISION = "decision";                /* Workflow: decision */
+        String NODE = "node";                        /* Workflow node */
     }
 }

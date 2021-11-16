@@ -271,6 +271,8 @@ E80546: "(500) - (Excel) Read the excel file met null file issue, please check y
 
 # Workflow Module
 E80600: "(404) - (Workflow) The system could not find the ProcessDefinition by code = `{0}`"
+E80601: "(501) - (Workflow) Your BPMN file has no `StartEvent`, please check by id = `{0}`"
+E80602: "(409) - (Workflow) This api could be called when unique `StartEvent`, but not the size is `{0}`, id = `{1}`"
 # Extension Vie Platform
 E81000: "(400) - (Vie) Current environment `{0}` is not supported, please provide new one."
 E81001: "(501) - (Vie) Sorry the command of development could not be used on production environment."

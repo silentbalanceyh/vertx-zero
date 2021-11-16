@@ -47,7 +47,7 @@ public class Neo4jConfig implements Serializable {
     private Config getConfig(final JsonObject input) {
         final Config.ConfigBuilder builder = Config.builder();
         final JsonObject options = new JsonObject();
-        // TODO:
+        // TODO: Build options
         return builder.build();
     }
 

@@ -1,11 +1,14 @@
 package cn.zeroup.macrocosm.api;
 
-import cn.vertxup.workflow.domain.tables.daos.WTodoDao;
 import cn.zeroup.macrocosm.cv.HighWay;
+import cn.zeroup.macrocosm.cv.em.TodoStatus;
 import cn.zeroup.macrocosm.service.FlowStub;
+import cn.zeroup.macrocosm.service.TaskStub;
 import io.vertx.core.Future;
+import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.auth.User;
+import io.vertx.tp.workflow.refine.Wf;
 import io.vertx.up.annotations.Address;
 import io.vertx.up.annotations.Queue;
 import io.vertx.up.commune.config.XHeader;
@@ -21,15 +24,19 @@ import javax.inject.Inject;
 public class QueueActor {
     @Inject
     private transient FlowStub flowStub;
+    @Inject
+    private transient TaskStub taskStub;
 
-    @Address(HighWay.Queue.BY_CREATED)
-    public Future<JsonObject> fetchMyCreated(final JsonObject qr, final User user) {
-        // Extract user id
-        final String userId = Ux.keyUser(user);
-        // Combine qr based on
-        final JsonObject qrCombine = Ux.whereQrA(qr, KName.CREATED_BY, userId);
-        // Todo Processing
-        return Ux.Jooq.on(WTodoDao.class).searchAsync(qrCombine);
+    @Address(HighWay.Queue.TASK_QUEUE)
+    public Future<JsonObject> fetchQueue(final JsonObject qr, final User user) {
+        final JsonObject qrCombine = Ux.whereQrA(qr, KName.STATUS + ",i",
+            new JsonArray()
+                .add(TodoStatus.PENDING.name())
+                .add(TodoStatus.ACCEPTED.name())
+                .add(TodoStatus.DRAFT.name())
+        );
+        Wf.Log.initQueue(this.getClass(), "Queue condition: {0}", qrCombine.encode());
+        return this.taskStub.fetchQueue(qrCombine);
     }
 
     @Address(HighWay.Flow.BY_CODE)
@@ -52,12 +59,20 @@ public class QueueActor {
     @Address(HighWay.Queue.TASK_FORM)
     public Future<JsonObject> fetchForm(final JsonObject data,
                                         final Boolean isPre, final XHeader header) {
-        final String definitionId = data.getString(KName.Flow.DEFINITION_ID);
         if (isPre) {
             // Start Point
-            return this.flowStub.fetchFirst(definitionId, header.getSigma());
+            final String definitionId = data.getString(KName.Flow.DEFINITION_ID);
+            return this.flowStub.fetchFormStart(definitionId, header.getSigma());
         } else {
-            return Ux.future();
+            // Single Task
+            final String instanceId = data.getString(KName.Flow.INSTANCE_ID);
+            return this.flowStub.fetchFormTask(instanceId, header.getSigma());
         }
+    }
+
+
+    @Address(HighWay.Flow.BY_TODO)
+    public Future<JsonObject> fetchTodo(final String key) {
+        return this.taskStub.fetchTodo(key);
     }
 }

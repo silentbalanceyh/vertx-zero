@@ -9,6 +9,7 @@ import io.vertx.up.atom.secure.Vis;
 import io.vertx.up.commune.element.TypeAtom;
 import io.vertx.up.eon.KName;
 import io.vertx.up.log.Annal;
+import org.jooq.Configuration;
 
 import java.util.List;
 import java.util.concurrent.ConcurrentMap;
@@ -22,6 +23,10 @@ public class Ke {
      */
     public static String getDatabase() {
         return KeTool.getCatalog();
+    }
+
+    public static Configuration getConfiguration() {
+        return KeTool.getConfiguration();
     }
 
     public static Future<JsonArray> combineAsync(final JsonArray data, final ConcurrentMap<String, String> headers) {

@@ -1,40 +1,41 @@
 [
+    "name,任务标题",
     {
-        "title": "单号",
-        "dataIndex": "code",
-        "$render": "HYPERLINK",
-        "$config": {
-            "url": "/system/todo-view?id=:key&status=:status"
-        }
+        "metadata": "type,任务类型,DATUM",
+        "$datum": "source=zero.service.catalog,value=code,display=name"
     },
     {
-        "title": "标题",
-        "dataIndex": "name",
-        "width": 280,
-        "$render": "HYPERLINK",
-        "$config": {
-            "url": "/system/todo-view?id=:key&status=:status"
-        }
-    },
-    {
-        "title": "类型",
-        "dataIndex": "type",
-        "$render": "MAPPING",
+        "title": "流程待办",
+        "dataIndex": "instance",
+        "$render": "LOGICAL",
         "$mapping": {
-            "ADD_CI": "添加,plus,,#458B00",
-            "DELETE_CI": "删除,delete,,#CD0000",
-            "CHANGE_CI": "更新,edit,,#1C86EE"
+            "true": "工作流待办",
+            "false": "普通待办"
         }
     },
     {
-        "title": "状态",
+        "title": "任务状态",
         "dataIndex": "status",
         "$render": "MAPPING",
         "$mapping": {
-            "PENDING": "待处理,undo,,#EE3B3B",
+            "DRAFT": "草稿,form,,#EE3B3B",
+            "PENDING": "等待处理,undo,,#EE3B3B",
             "FINISHED": "已完成,check-circle,,#698B69",
-            "REJECTED": "被拒绝,redo,,#CD1076"
+            "ACCEPTED": "已接受,info-circle,,#698B69",
+            "REJECTED": "被拒绝,redo,,#CD1076",
+            "CANCELED": "已撤销,stop,,#CD1076",
+            "EXPIRED": "被超时,clock-circle,,#CD1076"
         }
+    },
+    {
+        "title": "负责人",
+        "dataIndex": "owner",
+        "$render": "USER",
+        "$config": {
+            "uri": "/api/user/:key",
+            "field": "realname"
+        },
+        "$empty": "（系统）"
     },
     {
         "title": "创建时间",

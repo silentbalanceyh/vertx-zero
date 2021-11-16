@@ -14,18 +14,22 @@ public interface HighWay {
      * Queue for reading
      */
     interface Queue {
-        // Fetch by who created: CREATED_BY
-        String BY_CREATED = KeIpc.Workflow.EVENT + "W-TODO/BY/CREATED";
+        // Pending Only ( For Approve Edit )
+        String TASK_QUEUE = KeIpc.Workflow.EVENT + "W-TODO/TASK/QUEUE";
 
         // Fetch before creation
-        String TASK_FORM = KeIpc.Workflow.EVENT + "W-TODO/BY/VIRTUAL-FORM";
+        String TASK_FORM = KeIpc.Workflow.EVENT + "W-TODO/TASK/VIRTUAL-FORM";
     }
 
     /*
      * Processing for writing
      */
     interface Do {
+        // Start new workflow instance
+        String FLOW_START = KeIpc.Workflow.EVENT + "W-INSTANCE/START";
 
+        // Complete and next workflow instance
+        String FLOW_COMPLETE = KeIpc.Workflow.EVENT + "W-INSTANCE/COMPLETE";
     }
 
     /*
@@ -34,6 +38,8 @@ public interface HighWay {
     interface Flow {
         // Fetch Workflow by code
         String BY_CODE = KeIpc.Workflow.EVENT + "W-FLOW/BY/CODE";
+        // Fetch Todo + Task based on todo Id
+        String BY_TODO = KeIpc.Workflow.EVENT + "W-FLOW/BY/KEY";
     }
 
     interface Todo {

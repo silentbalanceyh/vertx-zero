@@ -68,7 +68,6 @@ public class Ambient {
                 });
             });
         } catch (Throwable ex) {
-            // TODO: Start up exception
             ex.printStackTrace();
             return Future.failedFuture(ex);
         }

@@ -227,6 +227,37 @@ public class WFlowDao extends AbstractVertxDAO<WFlowRecord, cn.vertxup.workflow.
         }
 
         /**
+     * Find records that have <code>END_COMPONENT IN (values)</code>
+     * asynchronously
+     */
+        public Future<List<cn.vertxup.workflow.domain.tables.pojos.WFlow>> findManyByEndComponent(Collection<String> values) {
+                return findManyByCondition(WFlow.W_FLOW.END_COMPONENT.in(values));
+        }
+
+        /**
+     * Find records that have <code>END_COMPONENT IN (values)</code>
+     * asynchronously limited by the given limit
+     */
+        public Future<List<cn.vertxup.workflow.domain.tables.pojos.WFlow>> findManyByEndComponent(Collection<String> values, int limit) {
+                return findManyByCondition(WFlow.W_FLOW.END_COMPONENT.in(values),limit);
+        }
+
+        /**
+     * Find records that have <code>END_CONFIG IN (values)</code> asynchronously
+     */
+        public Future<List<cn.vertxup.workflow.domain.tables.pojos.WFlow>> findManyByEndConfig(Collection<String> values) {
+                return findManyByCondition(WFlow.W_FLOW.END_CONFIG.in(values));
+        }
+
+        /**
+     * Find records that have <code>END_CONFIG IN (values)</code> asynchronously
+     * limited by the given limit
+     */
+        public Future<List<cn.vertxup.workflow.domain.tables.pojos.WFlow>> findManyByEndConfig(Collection<String> values, int limit) {
+                return findManyByCondition(WFlow.W_FLOW.END_CONFIG.in(values),limit);
+        }
+
+        /**
      * Find records that have <code>COMMENT IN (values)</code> asynchronously
      */
         public Future<List<cn.vertxup.workflow.domain.tables.pojos.WFlow>> findManyByComment(Collection<String> values) {
