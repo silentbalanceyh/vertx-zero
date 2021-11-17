@@ -16,8 +16,7 @@ public class TransferSave extends AbstractTodo {
         // Todo Updating
         return this.updateAsync(params).compose(todo -> {
             final ConfigTodo configTodo = new ConfigTodo(todo);
-            return this.updateAsync(params, configTodo)
-                .compose(nil -> Ux.future(todo));
+            return this.updateAsync(params, configTodo).compose(nil -> Ux.future(todo));
         });
     }
 }
