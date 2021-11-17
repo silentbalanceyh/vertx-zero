@@ -60,6 +60,7 @@ CREATE TABLE IF NOT EXISTS W_TODO
     `INSTANCE`         BIT         DEFAULT NULL COMMENT '「instance」- 是否启用工作流？',
     `TRACE_ID`         VARCHAR(36) COMMENT '「traceId」- 同一个流程的待办执行分组',
     `TRACE_TASK_ID`    VARCHAR(36) COMMENT '「traceTaskId」- 和待办绑定的taskId',
+    `TRACE_ORDER`      INTEGER COMMENT '「traceOrder」- 待办的处理顺序',
     `PARENT_ID`        VARCHAR(36) COMMENT '「parentId」- 待办支持父子集结构，父待办执行时候子待办同样执行',
 
     -- 特殊字段

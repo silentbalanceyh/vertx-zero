@@ -48,7 +48,8 @@ public class MovementNext extends AbstractTransfer implements Movement {
                     return eventOn.taskActive(instance, taskId)
                         .compose(task -> Ux.future(this.configN(task.getTaskDefinitionKey())));
                 }
-            }).compose(move -> {
+            })
+            .compose(move -> {
                 // Camunda Instance Moving
                 final JsonObject wParams = this.dataM(params, move);
                 final ProcessInstance instance = instanceRef.get();

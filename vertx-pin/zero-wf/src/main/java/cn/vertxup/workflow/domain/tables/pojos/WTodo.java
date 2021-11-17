@@ -36,6 +36,7 @@ public class WTodo implements VertxPojo, IWTodo {
     private Boolean       instance;
     private String        traceId;
     private String        traceTaskId;
+    private Integer       traceOrder;
     private String        parentId;
     private String        comment;
     private String        commentApproval;
@@ -81,6 +82,7 @@ public class WTodo implements VertxPojo, IWTodo {
         this.instance = value.getInstance();
         this.traceId = value.getTraceId();
         this.traceTaskId = value.getTraceTaskId();
+        this.traceOrder = value.getTraceOrder();
         this.parentId = value.getParentId();
         this.comment = value.getComment();
         this.commentApproval = value.getCommentApproval();
@@ -125,6 +127,7 @@ public class WTodo implements VertxPojo, IWTodo {
         Boolean       instance,
         String        traceId,
         String        traceTaskId,
+        Integer       traceOrder,
         String        parentId,
         String        comment,
         String        commentApproval,
@@ -167,6 +170,7 @@ public class WTodo implements VertxPojo, IWTodo {
         this.instance = instance;
         this.traceId = traceId;
         this.traceTaskId = traceTaskId;
+        this.traceOrder = traceOrder;
         this.parentId = parentId;
         this.comment = comment;
         this.commentApproval = commentApproval;
@@ -486,6 +490,25 @@ public class WTodo implements VertxPojo, IWTodo {
     @Override
     public WTodo setTraceTaskId(String traceTaskId) {
         this.traceTaskId = traceTaskId;
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.W_TODO.TRACE_ORDER</code>. 「traceOrder」-
+     * 待办的处理顺序
+     */
+    @Override
+    public Integer getTraceOrder() {
+        return this.traceOrder;
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.W_TODO.TRACE_ORDER</code>. 「traceOrder」-
+     * 待办的处理顺序
+     */
+    @Override
+    public WTodo setTraceOrder(Integer traceOrder) {
+        this.traceOrder = traceOrder;
         return this;
     }
 
@@ -948,6 +971,7 @@ public class WTodo implements VertxPojo, IWTodo {
         sb.append(", ").append(instance);
         sb.append(", ").append(traceId);
         sb.append(", ").append(traceTaskId);
+        sb.append(", ").append(traceOrder);
         sb.append(", ").append(parentId);
         sb.append(", ").append(comment);
         sb.append(", ").append(commentApproval);
@@ -1000,6 +1024,7 @@ public class WTodo implements VertxPojo, IWTodo {
         setInstance(from.getInstance());
         setTraceId(from.getTraceId());
         setTraceTaskId(from.getTraceTaskId());
+        setTraceOrder(from.getTraceOrder());
         setParentId(from.getParentId());
         setComment(from.getComment());
         setCommentApproval(from.getCommentApproval());
