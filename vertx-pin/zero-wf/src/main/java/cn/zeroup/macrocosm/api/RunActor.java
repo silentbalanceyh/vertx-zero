@@ -79,7 +79,6 @@ public class RunActor {
     @Me
     @Address(HighWay.Do.FLOW_COMPLETE)
     public Future<JsonObject> complete(final JsonObject data) {
-        System.out.println(data.encodePrettily());
         final EngineOn engine = EngineOn.connect(data.getJsonObject(KName.Flow.WORKFLOW));
         final Transfer transfer = engine.componentGenerate();
         final Movement runner = engine.componentRun();

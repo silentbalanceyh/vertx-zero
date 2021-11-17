@@ -89,7 +89,7 @@ public abstract class AbstractTransfer implements Behaviour {
     }
 
     /*
-     * UPDATE Processing
+     * Record UPDATE Processing
      */
     protected Future<JsonObject> updateAsync(final JsonObject params, final ConfigTodo config) {
         final ConfigRecord record = this.configR();
@@ -102,7 +102,7 @@ public abstract class AbstractTransfer implements Behaviour {
     }
 
     /*
-     * Indent Processing
+     * Record Indent Processing
      */
     protected Future<JsonObject> insertAsync(final JsonObject params, final ConfigTodo config) {
         final ConfigRecord record = this.configR();
