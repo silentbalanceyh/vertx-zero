@@ -1,8 +1,12 @@
 package io.vertx.tp.workflow.uca.component;
 
+import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
+import io.vertx.tp.ke.refine.Ke;
 import io.vertx.tp.workflow.atom.ConfigRecord;
+import io.vertx.tp.workflow.atom.ConfigTodo;
 import io.vertx.tp.workflow.atom.WMove;
+import io.vertx.tp.workflow.uca.modeling.ActionOn;
 import io.vertx.up.eon.KName;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
@@ -43,7 +47,7 @@ public abstract class AbstractTransfer implements Behaviour {
 
 
     protected WMove configN(final String node) {
-        return this.moveMap.get(node);
+        return this.moveMap.getOrDefault(node, new WMove());
     }
 
     protected ConfigRecord configR() {
@@ -82,5 +86,29 @@ public abstract class AbstractTransfer implements Behaviour {
         final JsonObject request = new JsonObject();
         pattern.forEach((to, from) -> request.put(to, params.getValue(from)));
         return request;
+    }
+
+    /*
+     * UPDATE Processing
+     */
+    protected Future<JsonObject> updateAsync(final JsonObject params, final ConfigTodo config) {
+        final ConfigRecord record = this.configR();
+        final ActionOn action = ActionOn.action(record.getMode());
+        // Data Preparing
+        final JsonObject recordData = this.dataR(params, false);
+        final String key = record.unique(recordData);
+        Objects.requireNonNull(key);
+        return action.updateAsync(key, recordData, config);
+    }
+
+    /*
+     * Indent Processing
+     */
+    protected Future<JsonObject> insertAsync(final JsonObject params, final ConfigTodo config) {
+        final ConfigRecord record = this.configR();
+        final ActionOn action = ActionOn.action(record.getMode());
+        final JsonObject recordData = this.dataR(params, true);
+        return Ke.umIndent(recordData, record.getIndent())
+            .compose(processed -> action.createAsync(processed, config));
     }
 }

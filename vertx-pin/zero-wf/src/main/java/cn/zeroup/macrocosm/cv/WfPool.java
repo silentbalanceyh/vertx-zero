@@ -1,6 +1,7 @@
 package cn.zeroup.macrocosm.cv;
 
 import io.vertx.tp.workflow.atom.EngineOn;
+import io.vertx.tp.workflow.uca.component.Behaviour;
 import io.vertx.tp.workflow.uca.deployment.DeployOn;
 import io.vertx.tp.workflow.uca.modeling.ActionOn;
 import io.vertx.tp.workflow.uca.modeling.TodoOn;
@@ -24,4 +25,6 @@ public interface WfPool {
 
     ConcurrentMap<String, DeployOn> POOL_DEPLOY = new ConcurrentHashMap<>();
     ConcurrentMap<String, EngineOn> POOL_ENGINE = new ConcurrentHashMap<>();
+
+    ConcurrentMap<String, Behaviour> POOL_COMPONENT = new ConcurrentHashMap<>();
 }

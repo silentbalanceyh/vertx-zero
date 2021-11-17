@@ -16,10 +16,7 @@ import org.camunda.bpm.engine.task.Task;
 import org.camunda.bpm.model.bpmn.BpmnModelInstance;
 import org.camunda.bpm.model.bpmn.instance.StartEvent;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
@@ -50,13 +47,25 @@ class EventEngine implements EventOn {
     }
 
     @Override
-    public Future<Task> task(final ProcessInstance instance) {
+    public Future<Task> taskActive(final ProcessInstance instance) {
         final TaskService service = WfPin.camundaTask();
         final Task task = service.createTaskQuery()
             .initializeFormKeys()
             .processInstanceId(instance.getId())
             .active().singleResult();
         return Ux.future(task);
+    }
+
+    @Override
+    public Future<Task> taskActive(final ProcessInstance instance, final String taskId) {
+        if (Objects.isNull(taskId)) {
+            return this.taskActive(instance);
+        } else {
+            final TaskService service = WfPin.camundaTask();
+            final Task task = service.createTaskQuery()
+                .taskId(taskId).singleResult();
+            return Ux.future(task);
+        }
     }
 
     @Override

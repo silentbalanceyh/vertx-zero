@@ -43,30 +43,43 @@ public class EngineOn {
     }
 
     public Transfer componentStart() {
-        return this.component(this.workflow::getStartComponent, this.workflow.getStartConfig(), TransferEmpty::new);
+        return this.component(this.workflow::getStartComponent, this.workflow.getStartConfig(),
+            () -> Ut.singleton(TransferEmpty.class));
     }
 
     public Transfer componentGenerate() {
-        return this.component(this.workflow::getGenerateComponent, this.workflow.getGenerateConfig(), TransferEmpty::new);
+        return this.component(this.workflow::getGenerateComponent, this.workflow.getGenerateConfig(),
+            () -> Ut.singleton(TransferEmpty.class));
+    }
+
+    public Transfer componentDraft() {
+        return this.component(TransferSave.class, null);
     }
 
     public Movement componentRun() {
-        return this.component(this.workflow::getRunComponent, this.workflow.getRunConfig(), MovementEmpty::new);
+        return this.component(this.workflow::getRunComponent, this.workflow.getRunConfig(),
+            () -> Ut.singleton(MovementEmpty.class));
     }
 
     private <C extends Behaviour> C component(final Supplier<String> componentCls, final String componentValue,
                                               final Supplier<C> defaultCls) {
-        final C instance;
         final Class<?> clazz = Ut.clazz(componentCls.get(), null);
         if (Objects.isNull(clazz)) {
-            instance = defaultCls.get();
+            // Singleton Here
+            return defaultCls.get();
         } else {
-            instance = Ut.instance(clazz);
+            // Component of Movement/Transfer
+            return this.component(clazz, componentValue);
         }
-        if (Objects.nonNull(instance)) {
+    }
+
+    @SuppressWarnings("all")
+    private <C extends Behaviour> C component(final Class<?> clazz, final String componentValue) {
+        return (C) Fn.poolThread(WfPool.POOL_COMPONENT, () -> {
+            final C instance = Ut.instance(clazz);
             instance.bind(Ut.toJObject(componentValue)).bind(this.record);
-        }
-        return instance;
+            return instance;
+        }, clazz.getName());
     }
 
     public ConfigRecord configRecord() {

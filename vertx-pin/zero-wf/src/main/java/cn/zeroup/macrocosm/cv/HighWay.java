@@ -26,10 +26,16 @@ public interface HighWay {
      */
     interface Do {
         // Start new workflow instance
-        String FLOW_START = KeIpc.Workflow.EVENT + "W-INSTANCE/START";
+        String FLOW_START = KeIpc.Workflow.EVENT + "WORKFLOW/START";
 
         // Complete and next workflow instance
-        String FLOW_COMPLETE = KeIpc.Workflow.EVENT + "W-INSTANCE/COMPLETE";
+        String FLOW_COMPLETE = KeIpc.Workflow.EVENT + "WORKFLOW/COMPLETE";
+
+        // Saving for draft workflow instance
+        String FLOW_DRAFT = KeIpc.Workflow.EVENT + "WORKFLOW/DRAFT";
+
+        // Batching for draft workflow instance
+        String FLOW_BATCH = KeIpc.Workflow.EVENT + "WORKFLOW/BATCH";
     }
 
     /*

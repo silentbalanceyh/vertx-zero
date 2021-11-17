@@ -25,38 +25,42 @@ public class MovementNext extends AbstractTransfer implements Movement {
         final StoreOn storeOn = StoreOn.get();
         final EventOn eventOn = EventOn.get();
         final Refer instanceRef = new Refer();
-        return storeOn.instanceById(instanceId).compose(instanceRef::future).compose(instance -> {
-            // Whether instance existing
-            if (Objects.isNull(instance)) {
-                /*
-                 * instance does not exist in your system
-                 * Call Start Process
-                 * -- WMove
-                 */
-                final String definitionId = workflow.getString(KName.Flow.DEFINITION_ID);
-                return eventOn.start(definitionId).compose(event -> Ux.future(this.configN(event.getId())));
-            } else {
-                /*
-                 * instance exist in your system
-                 * Call Next Process with active task
-                 * -- WMove
-                 */
-                return Ux.future(null);
-            }
-        }).compose(move -> {
-            // Camunda Instance Moving
-            Objects.requireNonNull(move);
-            final JsonObject wParams = this.dataM(params, move);
-            final ProcessInstance instance = instanceRef.get();
+        return storeOn.instanceById(instanceId)
+            .compose(instanceRef::future)
+            .compose(instance -> {
+                // Whether instance existing
+                if (Objects.isNull(instance)) {
+                    /*
+                     * instance does not exist in your system
+                     * Call Start Process
+                     * -- WMove
+                     */
+                    final String definitionId = workflow.getString(KName.Flow.DEFINITION_ID);
+                    return eventOn.start(definitionId)
+                        .compose(event -> Ux.future(this.configN(event.getId())));
+                } else {
+                    /*
+                     * instance exist in your system
+                     * Call Next Process with active task
+                     * -- WMove ( Current task Move )
+                     */
+                    final String taskId = workflow.getString(KName.Flow.TASK_ID);
+                    return eventOn.taskActive(instance, taskId)
+                        .compose(task -> Ux.future(this.configN(task.getTaskDefinitionKey())));
+                }
+            }).compose(move -> {
+                // Camunda Instance Moving
+                final JsonObject wParams = this.dataM(params, move);
+                final ProcessInstance instance = instanceRef.get();
 
-            // Camunda Workflow Running
-            final RunOn runOn = RunOn.get();
-            if (Objects.isNull(instance)) {
-                final String definitionKey = workflow.getString(KName.Flow.DEFINITION_KEY);
-                return runOn.startAsync(definitionKey, wParams);
-            } else {
-                return runOn.moveAsync(instance, wParams);
-            }
-        });
+                // Camunda Workflow Running
+                final RunOn runOn = RunOn.get();
+                if (Objects.isNull(instance)) {
+                    final String definitionKey = workflow.getString(KName.Flow.DEFINITION_KEY);
+                    return runOn.startAsync(definitionKey, wParams);
+                } else {
+                    return runOn.moveAsync(instance, wParams);
+                }
+            });
     }
 }

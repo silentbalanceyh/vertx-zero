@@ -100,6 +100,10 @@ public final class Ux {
         return otherwise(() -> input);
     }
 
+    public static <T> T combineT(final T query, final JsonObject params) {
+        return Compare.combineT(query, params);
+    }
+
     /*
      * Rule Match
      * 1. single checking

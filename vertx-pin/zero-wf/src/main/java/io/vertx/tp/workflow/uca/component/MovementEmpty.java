@@ -2,6 +2,7 @@ package io.vertx.tp.workflow.uca.component;
 
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
+import io.vertx.tp.workflow.refine.Wf;
 import io.vertx.up.unity.Ux;
 import org.camunda.bpm.engine.runtime.ProcessInstance;
 
@@ -11,6 +12,7 @@ import org.camunda.bpm.engine.runtime.ProcessInstance;
 public class MovementEmpty extends AbstractTransfer implements Movement {
     @Override
     public Future<ProcessInstance> moveAsync(final JsonObject params) {
+        Wf.Log.warnMove(this.getClass(), "[ Empty ] `Movement` component has not been configured. ");
         return Ux.future();
     }
 }

@@ -79,6 +79,7 @@ public class RunActor {
     @Me
     @Address(HighWay.Do.FLOW_COMPLETE)
     public Future<JsonObject> complete(final JsonObject data) {
+        System.out.println(data.encodePrettily());
         final EngineOn engine = EngineOn.connect(data.getJsonObject(KName.Flow.WORKFLOW));
         final Transfer transfer = engine.componentGenerate();
         final Movement runner = engine.componentRun();
@@ -86,5 +87,24 @@ public class RunActor {
             // Callback
             .compose(nil -> Ux.futureJ())
         );
+    }
+
+    @Me
+    @Address(HighWay.Do.FLOW_DRAFT)
+    public Future<JsonObject> draft(final JsonObject data) {
+        final JsonObject workflow = data.getJsonObject(KName.Flow.WORKFLOW);
+        final EngineOn engine = EngineOn.connect(workflow);
+        // ProcessDefinition
+        final Transfer transfer = engine.componentDraft();
+        return transfer.moveAsync(data, null)
+            // Callback
+            .compose(Ux::futureJ);
+    }
+
+    @Me
+    @Address(HighWay.Do.FLOW_BATCH)
+    public Future<JsonObject> batch(final JsonObject body) {
+
+        return Ux.futureJ();
     }
 }

@@ -155,4 +155,12 @@ class Compare {
         }
     }
 
+    @SuppressWarnings("all")
+    static <T> T combineT(final T query, final JsonObject params) {
+        Objects.requireNonNull(query);
+        final Class<?> entityCls = query.getClass();
+        final JsonObject original = Ux.toJson(query);
+        original.mergeIn(params, true);
+        return (T) From.fromJson(original, entityCls, "");
+    }
 }
