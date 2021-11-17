@@ -33,13 +33,13 @@
     <bpmn:sequenceFlow id="dFileFailure" name="拒绝" sourceRef="dApprove1" targetRef="eFileRequest">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">#{confirmed==false}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
-    <bpmn:sequenceFlow id="Flow_08bivk7" name="直接申请" sourceRef="eStart" targetRef="dRequest" />
+    <bpmn:sequenceFlow id="Flow_08bivk7" sourceRef="eStart" targetRef="dRequest" />
     <bpmn:exclusiveGateway id="dRequest">
       <bpmn:incoming>Flow_08bivk7</bpmn:incoming>
       <bpmn:outgoing>dFileDirect</bpmn:outgoing>
       <bpmn:outgoing>dFileDraft</bpmn:outgoing>
     </bpmn:exclusiveGateway>
-    <bpmn:sequenceFlow id="dFileDirect" sourceRef="dRequest" targetRef="eFileApprove">
+    <bpmn:sequenceFlow id="dFileDirect" name="直接申请" sourceRef="dRequest" targetRef="eFileApprove">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">#{draft==false}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
   </bpmn:process>
@@ -48,12 +48,15 @@
       <bpmndi:BPMNEdge id="Flow_0pov2q4_di" bpmnElement="dFileDirect">
         <di:waypoint x="345" y="120" />
         <di:waypoint x="610" y="120" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="408" y="102" width="44" height="14" />
+        </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_08bivk7_di" bpmnElement="Flow_08bivk7">
         <di:waypoint x="198" y="120" />
         <di:waypoint x="295" y="120" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="388" y="102" width="44" height="14" />
+          <dc:Bounds x="228" y="102" width="44" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_0jz15hy_di" bpmnElement="dFileFailure" bioc:stroke="#000" bioc:fill="#fff">
