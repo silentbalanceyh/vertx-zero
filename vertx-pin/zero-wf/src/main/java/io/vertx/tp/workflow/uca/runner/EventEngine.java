@@ -67,7 +67,12 @@ class EventEngine implements EventOn {
             .processInstanceId(instance.getId());
         final List<HistoricActivityInstance> activities = query.list();
         final Set<String> historySet = new HashSet<>();
-        // Capture Data
+        /*
+         * Capture Data here:
+         * 1. Default `HistoricActivityInstance` contains node processing.
+         * 2. Extension to set ExecutionListener to monitor the edge processing, user defined
+         *    `HistoricActivityInstance` here.
+         */
         activities.forEach(activity -> historySet.add(activity.getActivityId()));
         return Ux.future(historySet);
     }
