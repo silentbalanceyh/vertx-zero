@@ -20,4 +20,7 @@ public interface RunOn {
 
     // Run
     Future<ProcessInstance> moveAsync(ProcessInstance instance, JsonObject params);
+
+    // Stop
+    Future<Boolean> stopAsync(ProcessInstance instance);
 }

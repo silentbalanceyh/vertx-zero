@@ -5,11 +5,11 @@ import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.workflow.atom.EngineOn;
 import io.vertx.tp.workflow.uca.component.Movement;
+import io.vertx.tp.workflow.uca.component.Stay;
 import io.vertx.tp.workflow.uca.component.Transfer;
 import io.vertx.up.annotations.Address;
 import io.vertx.up.annotations.Me;
 import io.vertx.up.annotations.Queue;
-import io.vertx.up.eon.KName;
 import io.vertx.up.unity.Ux;
 
 /**
@@ -66,7 +66,7 @@ public class RunActor {
     @Me
     @Address(HighWay.Do.FLOW_START)
     public Future<JsonObject> start(final JsonObject data) {
-        final EngineOn engine = EngineOn.connect(data.getJsonObject(KName.Flow.WORKFLOW));
+        final EngineOn engine = EngineOn.connect(data);
         final Transfer transfer = engine.componentStart();
         final Movement runner = engine.componentRun();
         // Camunda Processing
@@ -79,7 +79,7 @@ public class RunActor {
     @Me
     @Address(HighWay.Do.FLOW_COMPLETE)
     public Future<JsonObject> complete(final JsonObject data) {
-        final EngineOn engine = EngineOn.connect(data.getJsonObject(KName.Flow.WORKFLOW));
+        final EngineOn engine = EngineOn.connect(data);
         final Transfer transfer = engine.componentGenerate();
         final Movement runner = engine.componentRun();
         return runner.moveAsync(data).compose(instance -> transfer.moveAsync(data, instance)
@@ -91,11 +91,10 @@ public class RunActor {
     @Me
     @Address(HighWay.Do.FLOW_DRAFT)
     public Future<JsonObject> draft(final JsonObject data) {
-        final JsonObject workflow = data.getJsonObject(KName.Flow.WORKFLOW);
-        final EngineOn engine = EngineOn.connect(workflow);
+        final EngineOn engine = EngineOn.connect(data);
         // ProcessDefinition
-        final Transfer transfer = engine.componentDraft();
-        return transfer.moveAsync(data, null)
+        final Stay stay = engine.stayDraft();
+        return stay.keepAsync(data, null)
             // Callback
             .compose(Ux::futureJ);
     }
@@ -103,6 +102,13 @@ public class RunActor {
     @Me
     @Address(HighWay.Do.FLOW_BATCH)
     public Future<JsonObject> batch(final JsonObject body) {
+
+        return Ux.futureJ();
+    }
+
+    @Me
+    @Address(HighWay.Do.FLOW_CANCEL)
+    public Future<JsonObject> cancel(final JsonObject body) {
 
         return Ux.futureJ();
     }

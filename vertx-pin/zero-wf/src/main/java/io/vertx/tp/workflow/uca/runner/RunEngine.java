@@ -44,4 +44,11 @@ class RunEngine implements RunOn {
             instance.getId(), params.encode());
         return Ux.future(instance);
     }
+
+    @Override
+    public Future<Boolean> stopAsync(final ProcessInstance instance) {
+        final RuntimeService service = WfPin.camundaRuntime();
+
+        return null;
+    }
 }

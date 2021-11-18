@@ -10,7 +10,7 @@ import org.camunda.bpm.engine.runtime.ProcessInstance;
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-public class TransferEmpty extends AbstractTodo {
+public class TransferEmpty extends AbstractTodo implements Transfer {
     @Override
     public Future<WTodo> moveAsync(final JsonObject params, final ProcessInstance instance) {
         Wf.Log.warnMove(this.getClass(), "[ Empty ] `Transfer` component has not been configured. ");

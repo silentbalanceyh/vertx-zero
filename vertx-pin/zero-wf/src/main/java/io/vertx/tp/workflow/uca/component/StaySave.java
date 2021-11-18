@@ -10,9 +10,9 @@ import org.camunda.bpm.engine.runtime.ProcessInstance;
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-public class TransferSave extends AbstractTodo {
+public class StaySave extends AbstractTodo implements Stay {
     @Override
-    public Future<WTodo> moveAsync(final JsonObject params, final ProcessInstance instance) {
+    public Future<WTodo> keepAsync(final JsonObject params, final ProcessInstance instance) {
         // Todo Updating
         return this.todoUpdate(params).compose(todo -> {
             final ConfigTodo configTodo = new ConfigTodo(todo);

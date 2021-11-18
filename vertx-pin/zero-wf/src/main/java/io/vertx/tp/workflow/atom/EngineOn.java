@@ -37,31 +37,43 @@ public class EngineOn {
         }, definitionKey);
     }
 
-    public static EngineOn connect(final JsonObject workflow) {
+    public static EngineOn connect(final JsonObject params) {
+        final JsonObject workflow = params.getJsonObject(KName.Flow.WORKFLOW);
         final String definitionKey = workflow.getString(KName.Flow.DEFINITION_KEY);
         return connect(definitionKey);
     }
 
+    // ----------------------- Configured Component -------------------------
     public Transfer componentStart() {
-        return this.component(this.workflow::getStartComponent, this.workflow.getStartConfig(),
+        return this.component(this.workflow::getStartComponent,
+            this.workflow.getStartConfig(),
             () -> Ut.singleton(TransferEmpty.class));
     }
 
     public Transfer componentGenerate() {
-        return this.component(this.workflow::getGenerateComponent, this.workflow.getGenerateConfig(), this::componentGenerateDefault);
-    }
-
-    public Transfer componentDraft() {
-        return this.component(TransferSave.class, null);
+        return this.component(this.workflow::getGenerateComponent,
+            this.workflow.getGenerateConfig(),
+            this::componentGenerateStandard);
     }
 
     public Movement componentRun() {
-        return this.component(this.workflow::getRunComponent, this.workflow.getRunConfig(),
+        return this.component(this.workflow::getRunComponent,
+            this.workflow.getRunConfig(),
             () -> Ut.singleton(MovementEmpty.class));
     }
 
+
+    // ----------------------- Fixed Save -------------------------
+    public Stay stayDraft() {
+        return this.component(StaySave.class, null);
+    }
+
+    public Stay stayCancel() {
+        return this.component(StayCancel.class, null);
+    }
+
     // ----------------------- Private Method -------------------------
-    private Transfer componentGenerateDefault() {
+    private Transfer componentGenerateStandard() {
         return this.component(TransferStandard.class, this.workflow.getGenerateComponent());
     }
 

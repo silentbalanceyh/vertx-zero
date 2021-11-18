@@ -11,7 +11,7 @@ import org.camunda.bpm.engine.task.Task;
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-public abstract class AbstractTodo extends AbstractTransfer implements Transfer {
+public abstract class AbstractTodo extends AbstractTransfer {
 
     private transient final KitTodo todoKit;
 

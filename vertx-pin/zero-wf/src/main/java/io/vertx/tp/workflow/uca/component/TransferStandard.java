@@ -17,7 +17,7 @@ import java.time.Instant;
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-public class TransferStandard extends AbstractTodo {
+public class TransferStandard extends AbstractTodo implements Transfer {
     @Override
     public Future<WTodo> moveAsync(final JsonObject params, final ProcessInstance instance) {
         // Update current todo information

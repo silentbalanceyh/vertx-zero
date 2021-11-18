@@ -10,7 +10,7 @@ import org.camunda.bpm.engine.runtime.ProcessInstance;
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-public class TransferStart extends AbstractTodo {
+public class TransferStart extends AbstractTodo implements Transfer {
     @Override
     public Future<WTodo> moveAsync(final JsonObject params, final ProcessInstance instance) {
         // Record processing first
