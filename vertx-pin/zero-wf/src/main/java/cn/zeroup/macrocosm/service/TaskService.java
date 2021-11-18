@@ -66,8 +66,8 @@ public class TaskService implements TaskStub {
         criteria.put("traceId", traceId);
         criteria.put(KName.KEY + ",<>", key);
         criteria.put(KName.STATUS, new JsonArray()
-            .add(TodoStatus.FINISHED)
-            .add(TodoStatus.REJECTED)
+            .add(TodoStatus.FINISHED.name())
+            .add(TodoStatus.REJECTED.name())
         );
         return Ux.Jooq.on(WTodoDao.class).fetchAsync(criteria);
     }

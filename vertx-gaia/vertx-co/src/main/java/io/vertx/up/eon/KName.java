@@ -161,6 +161,7 @@ public interface KName {
     String INSTANCE = "instance";                /* Workflow: instance = true */
     String OWNER = "owner";                      /* Workflow: owner */
     String HISTORY = "history";                  /* Workflow: history */
+    String EDITION = "edition";
 
     interface Micro {
         String ETCD = "etcd";
@@ -299,6 +300,8 @@ public interface KName {
         String TODO = "todo";                        /* Todo */
         String DECISION = "decision";                /* Workflow: decision */
         String NODE = "node";                        /* Workflow node */
+        String COMMENT_APPROVAL = "commentApproval";
+        String COMMENT_REJECT = "commentReject";
 
         // Auditor
         interface Auditor {

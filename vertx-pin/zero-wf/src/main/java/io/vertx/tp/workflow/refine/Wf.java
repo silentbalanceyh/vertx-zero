@@ -90,7 +90,7 @@ public class Wf {
     }
 
     public static Future<WProcess> instance(final String instanceId) {
-        return WfFlow.instanceById(instanceId).compose(instance -> WfFlow.processById(instance.getProcessInstanceId())
+        return WfFlow.instanceById(instanceId).compose(instance -> WfFlow.processById(instance.getProcessDefinitionId())
             .compose(definition -> WProcess.future(definition, instance))
         );
     }
