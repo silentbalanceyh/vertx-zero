@@ -293,6 +293,7 @@ public interface KName {
         String FORM_KEY = "formKey";
         String BPMN = "bpmn";
         String WORKFLOW = "workflow";
+        String ACL = "acl";
         // Todo
         String TASK = "task";
         String TODO = "todo";                        /* Todo */

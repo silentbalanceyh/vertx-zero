@@ -2,9 +2,9 @@ package io.vertx.tp.workflow.uca.component;
 
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
+import io.vertx.tp.workflow.refine.Wf;
 import io.vertx.tp.workflow.uca.runner.EventOn;
 import io.vertx.tp.workflow.uca.runner.RunOn;
-import io.vertx.tp.workflow.uca.runner.StoreOn;
 import io.vertx.up.atom.Refer;
 import io.vertx.up.eon.KName;
 import io.vertx.up.unity.Ux;
@@ -22,10 +22,9 @@ public class MovementNext extends AbstractTransfer implements Movement {
         final JsonObject workflow = params.getJsonObject(KName.Flow.WORKFLOW);
         final String instanceId = workflow.getString(KName.Flow.INSTANCE_ID);
         // Engine Connect
-        final StoreOn storeOn = StoreOn.get();
         final EventOn eventOn = EventOn.get();
         final Refer instanceRef = new Refer();
-        return storeOn.instanceById(instanceId)
+        return Wf.instanceById(instanceId)
             .compose(instanceRef::future)
             .compose(instance -> {
                 // Whether instance existing

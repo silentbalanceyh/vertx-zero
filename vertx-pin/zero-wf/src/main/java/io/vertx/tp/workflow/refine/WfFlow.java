@@ -10,7 +10,9 @@ import io.vertx.up.eon.Strings;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 import org.camunda.bpm.engine.RepositoryService;
+import org.camunda.bpm.engine.RuntimeService;
 import org.camunda.bpm.engine.repository.ProcessDefinition;
+import org.camunda.bpm.engine.runtime.ProcessInstance;
 import org.camunda.bpm.engine.task.Task;
 import org.camunda.bpm.model.bpmn.Bpmn;
 import org.camunda.bpm.model.bpmn.BpmnModelInstance;
@@ -18,25 +20,56 @@ import org.camunda.bpm.model.bpmn.instance.StartEvent;
 
 import java.util.Objects;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 class WfFlow {
+    /*
+     * Pool Cached for ProcessDefinition
+     */
+    private static final ConcurrentMap<String, ProcessDefinition> POOL_PROCESS = new ConcurrentHashMap<>();
 
     // --------------- Process Fetching ------------------
     static Future<ProcessDefinition> processByKey(final String definitionKey) {
+        Objects.requireNonNull(definitionKey);
+        if (POOL_PROCESS.containsKey(definitionKey)) {
+            return Ux.future(POOL_PROCESS.get(definitionKey));
+        }
         final RepositoryService service = WfPin.camundaRepository();
         final ProcessDefinition definition = service.createProcessDefinitionQuery()
             // New Version for each
             .latestVersion().processDefinitionKey(definitionKey).singleResult();
+        if (Objects.nonNull(definition)) {
+            POOL_PROCESS.put(definitionKey, definition);
+        }
         return processInternal(definition, definitionKey);
     }
 
     static Future<ProcessDefinition> processById(final String definitionId) {
+        Objects.requireNonNull(definitionId);
+        if (POOL_PROCESS.containsKey(definitionId)) {
+            return Ux.future(POOL_PROCESS.get(definitionId));
+        }
         final RepositoryService service = WfPin.camundaRepository();
         final ProcessDefinition definition = service.getProcessDefinition(definitionId);
+        if (Objects.nonNull(definition)) {
+            POOL_PROCESS.put(definitionId, definition);
+        }
         return processInternal(definition, definitionId);
+    }
+
+    static Future<ProcessInstance> instanceById(final String instanceId) {
+        if (Objects.isNull(instanceId)) {
+            return Ux.future();
+        } else {
+            final RuntimeService service = WfPin.camundaRuntime();
+            final ProcessInstance instance = service.createProcessInstanceQuery()
+                .processInstanceId(instanceId).singleResult();
+            return Ux.future(instance);
+        }
     }
 
     private static Future<ProcessDefinition> processInternal(final ProcessDefinition definition, final String key) {

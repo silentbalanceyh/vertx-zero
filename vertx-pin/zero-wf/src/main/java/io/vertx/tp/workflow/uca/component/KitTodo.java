@@ -63,9 +63,10 @@ class KitTodo {
             entity.setKey(UUID.randomUUID().toString());
             // major ticket number
             final String serialPrev = todo.getSerial();
-            final String serial = serialPrev.substring(0, serialPrev.lastIndexOf('-') - 1);
+            final String serial = serialPrev.substring(0, serialPrev.lastIndexOf('-'));
             entity.setTraceOrder(todo.getTraceOrder() + 1);
             entity.setSerial(serial + "-" + entity.getTraceOrder());
+            entity.setCode(entity.getSerial());
         }
         {
             entity.setTraceId(task.getProcessInstanceId());

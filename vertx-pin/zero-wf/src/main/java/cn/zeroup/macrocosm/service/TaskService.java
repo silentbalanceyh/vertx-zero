@@ -7,6 +7,7 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.tp.workflow.atom.ConfigRecord;
 import io.vertx.tp.workflow.atom.ConfigTodo;
 import io.vertx.tp.workflow.atom.EngineOn;
+import io.vertx.tp.workflow.refine.Wf;
 import io.vertx.tp.workflow.uca.modeling.ActionOn;
 import io.vertx.tp.workflow.uca.runner.StoreOn;
 import io.vertx.up.eon.KName;
@@ -48,22 +49,22 @@ public class TaskService implements TaskStub {
     private Future<JsonObject> fetchWithFlow(final WTodo todo) {
         final String traceId = todo.getTraceId();
         final StoreOn storeOn = StoreOn.get();
-        return storeOn.instanceById(traceId)
-            .compose(processInstance -> storeOn.processById(processInstance.getProcessDefinitionId()))
-            .compose(processInstance -> {
+        return Wf.instance(traceId).compose(process -> storeOn.workflowByInstance(process.definition(), process.instance())
+            .compose(workflow -> {
                 // Record based on start
-                final EngineOn engine = EngineOn.connect(processInstance.getString(KName.Flow.DEFINITION_KEY));
+                final EngineOn engine = EngineOn.connect(workflow.getString(KName.Flow.DEFINITION_KEY));
                 // Record Action processing
                 final ConfigRecord record = engine.configRecord();
                 final ActionOn action = ActionOn.action(record.getMode());
                 // Record of Todo processing
                 final ConfigTodo configTodo = new ConfigTodo(todo);
                 return action.fetchAsync(todo.getModelKey(), configTodo);
-            }).compose(json -> {
+            })
+            .compose(json -> {
                 final JsonObject response = Ux.toJson(todo);
                 // record processing
                 response.put(KName.RECORD, json);
                 return Ux.future(response);
-            });
+            }));
     }
 }

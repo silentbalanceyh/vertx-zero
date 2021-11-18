@@ -9,19 +9,21 @@ import io.vertx.tp.workflow.refine.Wf;
 import io.vertx.tp.workflow.uca.runner.StoreOn;
 import io.vertx.up.eon.KName;
 import io.vertx.up.unity.Ux;
+import org.camunda.bpm.engine.repository.ProcessDefinition;
+import org.camunda.bpm.engine.runtime.ProcessInstance;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 public class FlowService implements FlowStub {
     @Override
-    public Future<JsonObject> fetchFlow(final String code, final String sigma) {
+    public Future<JsonObject> fetchFlow(final String definitionKey, final String sigma) {
         // 1. Fetch workflow definition from Camunda
         final StoreOn storeOn = StoreOn.get();
-        return storeOn.processByKey(code).compose(definition -> {
+        return Wf.processByKey(definitionKey).compose(storeOn::workflowByDefinition).compose(definition -> {
             // Fetch X_FLOW
             final JsonObject condition = Ux.whereAnd();
-            condition.put(KName.CODE, code);
+            condition.put(KName.CODE, definitionKey);
             condition.put(KName.SIGMA, sigma);
             return Ux.Jooq.on(WFlowDao.class).fetchJOneAsync(condition).compose(workflow -> {
                 // Combine result
@@ -34,21 +36,21 @@ public class FlowService implements FlowStub {
     }
 
     @Override
-    public Future<JsonObject> fetchFormStart(final String definitionId, final String sigma) {
+    public Future<JsonObject> fetchForm(final ProcessDefinition definition, final String sigma) {
         final StoreOn storeOn = StoreOn.get();
-        return storeOn.formById(definitionId, false)
+        return storeOn.formByDefinition(definition)
             .compose(formData -> this.fetchFormInternal(formData, sigma))
-            .compose(response -> storeOn.processById(definitionId)
+            .compose(response -> storeOn.workflowByDefinition(definition)
                 .compose(Ux.attachJ(KName.Flow.WORKFLOW, response))
             );
     }
 
     @Override
-    public Future<JsonObject> fetchFormTask(final String instanceId, final String sigma) {
+    public Future<JsonObject> fetchForm(final ProcessDefinition definition, final ProcessInstance instance, final String sigma) {
         final StoreOn storeOn = StoreOn.get();
-        return storeOn.formById(instanceId, true)
+        return storeOn.formByInstance(definition, instance)
             .compose(formData -> this.fetchFormInternal(formData, sigma))
-            .compose(response -> storeOn.processByTask(instanceId)
+            .compose(response -> storeOn.workflowByInstance(definition, instance)
                 .compose(Ux.attachJ(KName.Flow.WORKFLOW, response))
             );
     }

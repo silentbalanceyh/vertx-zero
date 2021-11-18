@@ -44,12 +44,11 @@ public class EngineOn {
 
     public Transfer componentStart() {
         return this.component(this.workflow::getStartComponent, this.workflow.getStartConfig(),
-            () -> Ut.singleton(TransferDefault.class));
+            () -> Ut.singleton(TransferEmpty.class));
     }
 
     public Transfer componentGenerate() {
-        return this.component(this.workflow::getGenerateComponent, this.workflow.getGenerateConfig(),
-            () -> Ut.singleton(TransferDefault.class));
+        return this.component(this.workflow::getGenerateComponent, this.workflow.getGenerateConfig(), this::componentGenerateDefault);
     }
 
     public Transfer componentDraft() {
@@ -59,6 +58,11 @@ public class EngineOn {
     public Movement componentRun() {
         return this.component(this.workflow::getRunComponent, this.workflow.getRunConfig(),
             () -> Ut.singleton(MovementEmpty.class));
+    }
+
+    // ----------------------- Private Method -------------------------
+    private Transfer componentGenerateDefault() {
+        return this.component(TransferDefault.class, this.workflow.getGenerateComponent());
     }
 
     private <C extends Behaviour> C component(final Supplier<String> componentCls, final String componentValue,
@@ -72,6 +76,7 @@ public class EngineOn {
             return this.component(clazz, componentValue);
         }
     }
+
 
     @SuppressWarnings("all")
     private <C extends Behaviour> C component(final Class<?> clazz, final String componentValue) {
