@@ -71,4 +71,7 @@ public interface RunAgent {
     @Address(HighWay.Do.FLOW_BATCH)
     JsonObject batch(@BodyParam JsonObject body);
 
+    @PUT
+    @Path("/up/flow/cancel")
+    JsonObject cancel(@BodyParam JsonObject body);
 }

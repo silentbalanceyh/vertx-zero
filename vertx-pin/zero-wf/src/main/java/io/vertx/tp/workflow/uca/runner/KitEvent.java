@@ -18,7 +18,7 @@ import java.util.Set;
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-class EventTyped {
+class KitEvent {
 
     String type(final String definitionId, final String taskKey) {
         final RepositoryService service = WfPin.camundaRepository();

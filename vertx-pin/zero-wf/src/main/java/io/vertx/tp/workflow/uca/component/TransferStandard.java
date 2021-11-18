@@ -6,6 +6,7 @@ import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.workflow.atom.ConfigTodo;
 import io.vertx.tp.workflow.uca.runner.EventOn;
+import io.vertx.tp.workflow.uca.runner.IsOn;
 import io.vertx.up.eon.KName;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
@@ -30,11 +31,11 @@ public class TransferStandard extends AbstractTodo {
             // updatedAt / updatedBy contain values
             updatedData.put(KName.ACTIVE, Boolean.TRUE);
         }
-        if (instance.isEnded()) {
-            // End Process on Todo, it's for history fetching
+        final EventOn event = EventOn.get();
+        final IsOn is = IsOn.get();
+        if (is.isEnd(instance)) {
             updatedData.put("traceEnd", Boolean.TRUE);
         }
-        final EventOn event = EventOn.get();
         return this.todoUpdate(updatedData).compose(todo -> {
             if (TodoStatus.DRAFT == status) {
                 // Draft -> Pending, we should update record
@@ -48,7 +49,7 @@ public class TransferStandard extends AbstractTodo {
              * 1. Instance is not ended
              * 2. Next task is UserEvent
              */
-            if (!instance.isEnded() && event.isUserEvent(task)) {
+            if (!is.isEnd(instance) && is.isUserEvent(task)) {
                 return this.todoGenerate(todo, task);
             } else {
                 return Ux.future(todo);

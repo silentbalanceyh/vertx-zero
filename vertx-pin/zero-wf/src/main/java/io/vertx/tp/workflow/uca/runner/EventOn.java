@@ -25,8 +25,6 @@ public interface EventOn {
 
     Future<StartEvent> start(String definitionId);
 
-    boolean isUserEvent(Task task);
-
     /*
      * Event Id from ProcessInstance
      */

@@ -27,14 +27,16 @@ public abstract class AbstractTransfer implements Behaviour {
     public Behaviour bind(final JsonObject config) {
         final JsonObject sure = Ut.sureJObject(config);
         this.config.mergeIn(sure.copy(), true);
-        if (sure.containsKey(KName.Flow.NODE)) {
-            final JsonObject configData = sure.getJsonObject(KName.Flow.NODE);
-            Ut.<JsonObject>itJObject(configData, (value, field) -> {
+        this.config.fieldNames().stream()
+            // Ignore `record` and `todo` configuration key
+            .filter(field -> !KName.RECORD.equals(field))
+            .filter(field -> !KName.Flow.TODO.equals(field))
+            .forEach(field -> {
+                final JsonObject value = this.config.getJsonObject(field);
                 final WMove item = Ux.fromJson(value, WMove.class);
                 item.setNode(field);
                 this.moveMap.put(field, item);
             });
-        }
         return this;
     }
 

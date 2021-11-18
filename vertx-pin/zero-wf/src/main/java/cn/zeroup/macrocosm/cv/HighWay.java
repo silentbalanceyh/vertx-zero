@@ -39,6 +39,9 @@ public interface HighWay {
 
         // Batching for draft workflow instance
         String FLOW_BATCH = KeIpc.Workflow.EVENT + "WORKFLOW/BATCH";
+
+        // Cancel for workflow instance
+        String FLOW_CANCEL = KeIpc.Workflow.EVENT + "WORKFLOW/CANCEL";
     }
 
     /*

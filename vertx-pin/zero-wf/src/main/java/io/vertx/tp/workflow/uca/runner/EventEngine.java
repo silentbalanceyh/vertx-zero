@@ -4,7 +4,6 @@ import io.vertx.core.Future;
 import io.vertx.up.unity.Ux;
 import org.camunda.bpm.engine.runtime.ProcessInstance;
 import org.camunda.bpm.engine.task.Task;
-import org.camunda.bpm.model.bpmn.impl.BpmnModelConstants;
 import org.camunda.bpm.model.bpmn.instance.StartEvent;
 
 import java.util.Objects;
@@ -15,12 +14,14 @@ import java.util.Set;
  */
 class EventEngine implements EventOn {
 
-    private final transient EventTask tasker;
-    private final transient EventTyped typed;
+    private final transient KitTask tasker;
+    private final transient KitHistory history;
+    private final transient KitEvent typed;
 
     public EventEngine() {
-        this.tasker = new EventTask();
-        this.typed = new EventTyped();
+        this.tasker = new KitTask();
+        this.typed = new KitEvent();
+        this.history = new KitHistory();
     }
 
     @Override
@@ -31,16 +32,6 @@ class EventEngine implements EventOn {
     @Override
     public Future<StartEvent> start(final String definitionId) {
         return this.typed.start(definitionId);
-    }
-
-    @Override
-    public boolean isUserEvent(final Task task) {
-        if (Objects.isNull(task)) {
-            return Boolean.FALSE;
-        } else {
-            final String eventType = this.typed.type(task.getProcessDefinitionId(), task.getTaskDefinitionKey());
-            return BpmnModelConstants.BPMN_ELEMENT_USER_TASK.equals(eventType);
-        }
     }
 
     @Override
@@ -60,6 +51,6 @@ class EventEngine implements EventOn {
 
     @Override
     public Future<Set<String>> taskHistory(final ProcessInstance instance) {
-        return Ux.future(this.tasker.histories(instance.getId()));
+        return Ux.future(this.history.activities(instance.getId()));
     }
 }

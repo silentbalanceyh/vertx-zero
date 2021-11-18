@@ -2,10 +2,9 @@ package io.vertx.tp.workflow.uca.runner;
 
 import io.vertx.tp.workflow.init.WfPin;
 import org.camunda.bpm.engine.HistoryService;
-import org.camunda.bpm.engine.TaskService;
 import org.camunda.bpm.engine.history.HistoricActivityInstance;
 import org.camunda.bpm.engine.history.HistoricActivityInstanceQuery;
-import org.camunda.bpm.engine.task.Task;
+import org.camunda.bpm.engine.history.HistoricProcessInstance;
 
 import java.util.HashSet;
 import java.util.List;
@@ -14,23 +13,9 @@ import java.util.Set;
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-class EventTask {
+class KitHistory {
 
-    Task byInstanceId(final String instanceId) {
-        final TaskService service = WfPin.camundaTask();
-        return service.createTaskQuery()
-            .initializeFormKeys()
-            .processInstanceId(instanceId)
-            .active().singleResult();
-    }
-
-    Task byTaskId(final String taskId) {
-        final TaskService service = WfPin.camundaTask();
-        return service.createTaskQuery()
-            .taskId(taskId).singleResult();
-    }
-
-    Set<String> histories(final String instanceId) {
+    Set<String> activities(final String instanceId) {
         // HistoricActivityInstance -> List
         final HistoryService serviceH = WfPin.camundaHistory();
         final HistoricActivityInstanceQuery query = serviceH.createHistoricActivityInstanceQuery()
@@ -45,5 +30,11 @@ class EventTask {
          */
         activities.forEach(activity -> historySet.add(activity.getActivityId()));
         return historySet;
+    }
+
+    HistoricProcessInstance instance(final String instanceId) {
+        final HistoryService serviceH = WfPin.camundaHistory();
+        return serviceH.createHistoricProcessInstanceQuery()
+            .processInstanceId(instanceId).finished().singleResult();
     }
 }
