@@ -14,7 +14,7 @@ public class TransferStart extends AbstractTodo {
     @Override
     public Future<WTodo> moveAsync(final JsonObject params, final ProcessInstance instance) {
         // Record processing first
-        final ConfigTodo config = new ConfigTodo(params);
+        final ConfigTodo config = this.todoConfig(params);
         /*
          * 1. Process Record
          * 2. Todo Record

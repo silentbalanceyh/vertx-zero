@@ -1,14 +1,16 @@
 {
-    "node": {
-        "eStart": {
-            "data": {
-                "draft": "draft"
-            }
+    "eStart": {
+        "data": {
+            "draft": "draft"
+        }
+    },
+    "eFileApprove": {
+        "data": {
+            "confirmed": "confirmed"
         },
-        "eFileApprove": {
-            "data": {
-                "confirmed": "confirmed"
-            }
+        "confirmed.true.record": {
+            "status": "SUCCESS",
+            "active": true
         }
     }
 }

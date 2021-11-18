@@ -283,6 +283,21 @@ public class WTodoDao extends AbstractVertxDAO<WTodoRecord, cn.vertxup.workflow.
         }
 
         /**
+     * Find records that have <code>TRACE_END IN (values)</code> asynchronously
+     */
+        public Future<List<cn.vertxup.workflow.domain.tables.pojos.WTodo>> findManyByTraceEnd(Collection<Boolean> values) {
+                return findManyByCondition(WTodo.W_TODO.TRACE_END.in(values));
+        }
+
+        /**
+     * Find records that have <code>TRACE_END IN (values)</code> asynchronously
+     * limited by the given limit
+     */
+        public Future<List<cn.vertxup.workflow.domain.tables.pojos.WTodo>> findManyByTraceEnd(Collection<Boolean> values, int limit) {
+                return findManyByCondition(WTodo.W_TODO.TRACE_END.in(values),limit);
+        }
+
+        /**
      * Find records that have <code>PARENT_ID IN (values)</code> asynchronously
      */
         public Future<List<cn.vertxup.workflow.domain.tables.pojos.WTodo>> findManyByParentId(Collection<String> values) {

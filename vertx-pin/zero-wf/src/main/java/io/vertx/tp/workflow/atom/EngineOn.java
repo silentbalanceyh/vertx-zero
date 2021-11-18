@@ -62,7 +62,7 @@ public class EngineOn {
 
     // ----------------------- Private Method -------------------------
     private Transfer componentGenerateDefault() {
-        return this.component(TransferDefault.class, this.workflow.getGenerateComponent());
+        return this.component(TransferStandard.class, this.workflow.getGenerateComponent());
     }
 
     private <C extends Behaviour> C component(final Supplier<String> componentCls, final String componentValue,

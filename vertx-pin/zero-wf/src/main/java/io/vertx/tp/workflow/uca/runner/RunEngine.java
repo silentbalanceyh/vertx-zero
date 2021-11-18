@@ -26,9 +26,9 @@ class RunEngine implements RunOn {
             .processInstanceId(instance.getId()).singleResult();
         Objects.requireNonNull(task);
         service.complete(task.getId(), params.getMap());
-        Wf.Log.infoMove(this.getClass(), "（Move） `{0}（id = {1}）` has been started!!!",
-            instance.getId(), instance.getProcessDefinitionId());
-        return Ux.future(instance);
+        Wf.Log.infoMove(this.getClass(), "（Move） `{0}（id = {1}）` moving with params = {2} !!!",
+            instance.getId(), instance.getProcessDefinitionId(), params.encode());
+        return Wf.instanceById(instance.getId());
     }
 
     @Override
@@ -40,8 +40,8 @@ class RunEngine implements RunOn {
             builder.setVariables(params.getMap());
         }
         final ProcessInstance instance = builder.execute();
-        Wf.Log.infoMove(this.getClass(), "（Start） `{0}（id = {1}）` has been started!!!",
-            instance.getId(), instance.getProcessDefinitionId());
+        Wf.Log.infoMove(this.getClass(), "（Start） `{0}（id = {1}）` has been started with params = {2}!!!",
+            instance.getId(), instance.getProcessDefinitionId(), params.encode());
         return Ux.future(instance);
     }
 }

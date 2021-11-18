@@ -4,6 +4,7 @@ import cn.vertxup.workflow.domain.tables.pojos.WTodo;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.workflow.atom.ConfigTodo;
+import io.vertx.up.eon.KName;
 import org.camunda.bpm.engine.runtime.ProcessInstance;
 import org.camunda.bpm.engine.task.Task;
 
@@ -29,5 +30,11 @@ public abstract class AbstractTodo extends AbstractTransfer implements Transfer 
 
     protected Future<WTodo> todoGenerate(final WTodo todo, final Task task) {
         return this.todoKit.nextAsync(todo, task);
+    }
+
+    protected ConfigTodo todoConfig(final JsonObject params) {
+        final JsonObject request = params.copy();
+        request.put(KName.Flow.TODO, this.config.getJsonObject(KName.Flow.TODO, new JsonObject()));
+        return new ConfigTodo(request);
     }
 }

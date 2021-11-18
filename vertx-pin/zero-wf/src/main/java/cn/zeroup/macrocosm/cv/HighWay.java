@@ -17,6 +17,9 @@ public interface HighWay {
         // Pending Only ( For Approve Edit )
         String TASK_QUEUE = KeIpc.Workflow.EVENT + "W-TODO/TASK/QUEUE";
 
+        // History Only ( For History )
+        String TASK_HISTORY = KeIpc.Workflow.EVENT + "W-TODO/TASK/HISTORY";
+
         // Fetch before creation
         String TASK_FORM = KeIpc.Workflow.EVENT + "W-TODO/TASK/VIRTUAL-FORM";
     }

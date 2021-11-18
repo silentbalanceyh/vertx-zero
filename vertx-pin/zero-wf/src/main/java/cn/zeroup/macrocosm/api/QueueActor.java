@@ -39,6 +39,19 @@ public class QueueActor {
         return this.taskStub.fetchQueue(qrCombine);
     }
 
+
+    @Address(HighWay.Queue.TASK_HISTORY)
+    public Future<JsonObject> fetchHistory(final JsonObject qr) {
+        final JsonObject qrCombine = Ux.whereQrA(qr, KName.STATUS + ",i",
+            new JsonArray()
+                .add(TodoStatus.FINISHED.name())
+                .add(TodoStatus.REJECTED.name())
+        );
+        final JsonObject qrFinal = Ux.whereQrA(qrCombine, "traceEnd", Boolean.TRUE);
+        Wf.Log.initQueue(this.getClass(), "History condition: {0}", qrCombine.encode());
+        return this.taskStub.fetchQueue(qrFinal);
+    }
+
     @Address(HighWay.Flow.BY_CODE)
     public Future<JsonObject> fetchFlow(final String code, final XHeader header) {
         final String sigma = header.getSigma();

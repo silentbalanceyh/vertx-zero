@@ -16,7 +16,7 @@ import java.time.Instant;
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-public class TransferDefault extends AbstractTodo {
+public class TransferStandard extends AbstractTodo {
     @Override
     public Future<WTodo> moveAsync(final JsonObject params, final ProcessInstance instance) {
         // Update current todo information
@@ -30,7 +30,10 @@ public class TransferDefault extends AbstractTodo {
             // updatedAt / updatedBy contain values
             updatedData.put(KName.ACTIVE, Boolean.TRUE);
         }
-
+        if (instance.isEnded()) {
+            // End Process on Todo, it's for history fetching
+            updatedData.put("traceEnd", Boolean.TRUE);
+        }
         final EventOn event = EventOn.get();
         return this.todoUpdate(updatedData).compose(todo -> {
             if (TodoStatus.DRAFT == status) {
