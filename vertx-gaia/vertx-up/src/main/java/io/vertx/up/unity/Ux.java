@@ -570,7 +570,7 @@ public final class Ux {
         return Web.toAttachJ(field, function);
     }
 
-    public static Function<JsonObject, Future<JsonObject>> attachJ(final String field, final JsonObject data) {
+    public static <T> Function<T, Future<JsonObject>> attachJ(final String field, final JsonObject data) {
         return Web.toAttachJ(field, data);
     }
 

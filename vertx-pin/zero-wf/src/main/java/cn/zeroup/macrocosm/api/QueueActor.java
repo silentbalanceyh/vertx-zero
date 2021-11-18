@@ -2,7 +2,6 @@ package cn.zeroup.macrocosm.api;
 
 import cn.zeroup.macrocosm.cv.HighWay;
 import cn.zeroup.macrocosm.cv.em.TodoStatus;
-import cn.zeroup.macrocosm.service.AclStub;
 import cn.zeroup.macrocosm.service.FlowStub;
 import cn.zeroup.macrocosm.service.TaskStub;
 import io.vertx.core.Future;
@@ -12,7 +11,6 @@ import io.vertx.ext.auth.User;
 import io.vertx.tp.workflow.refine.Wf;
 import io.vertx.up.annotations.Address;
 import io.vertx.up.annotations.Queue;
-import io.vertx.up.atom.Refer;
 import io.vertx.up.commune.config.XHeader;
 import io.vertx.up.eon.KName;
 import io.vertx.up.unity.Ux;
@@ -28,8 +26,6 @@ public class QueueActor {
     private transient FlowStub flowStub;
     @Inject
     private transient TaskStub taskStub;
-    @Inject
-    private transient AclStub aclStub;
 
     @Address(HighWay.Queue.TASK_QUEUE)
     public Future<JsonObject> fetchQueue(final JsonObject qr, final User user) {
@@ -62,30 +58,24 @@ public class QueueActor {
      */
     @Address(HighWay.Queue.TASK_FORM)
     public Future<JsonObject> fetchForm(final JsonObject data,
-                                        final Boolean isPre, final XHeader header,
-                                        final User user) {
+                                        final Boolean isPre, final XHeader header) {
         if (isPre) {
             // Start Point
             final String definitionId = data.getString(KName.Flow.DEFINITION_ID);
-            return Wf.processById(definitionId)
-                .compose(definition -> this.flowStub.fetchForm(definition, header.getSigma()));
+            return Wf.processById(definitionId).compose(definition ->
+                this.flowStub.fetchForm(definition, header.getSigma()));
         } else {
             // Single Task
             final String instanceId = data.getString(KName.Flow.INSTANCE_ID);
-            final String userId = Ux.keyUser(user);
-            final Refer responseRef = new Refer();
-            return Wf.instance(instanceId)
-                .compose(process -> this.flowStub.fetchForm(process.definition(), process.instance(), header.getSigma())
-                    .compose(responseRef::future)
-                    .compose(response -> this.aclStub.authorize(process.definition(), process.instance(), userId))
-                    .compose(Ux.attachJ(KName.Flow.ACL, (JsonObject) responseRef.get()))
-                );
+            return Wf.instance(instanceId).compose(process ->
+                this.flowStub.fetchForm(process.definition(), process.instance(), header.getSigma()));
         }
     }
 
 
     @Address(HighWay.Flow.BY_TODO)
-    public Future<JsonObject> fetchTodo(final String key) {
-        return this.taskStub.fetchTodo(key);
+    public Future<JsonObject> fetchTodo(final String key, final User user) {
+        final String userId = Ux.keyUser(user);
+        return this.taskStub.fetchTodo(key, userId);
     }
 }
