@@ -37,7 +37,7 @@ public class MovementNext extends AbstractTransfer implements Movement {
                      */
                     final String definitionId = workflow.getString(KName.Flow.DEFINITION_ID);
                     return eventOn.start(definitionId)
-                        .compose(event -> Ux.future(this.configN(event.getId())));
+                        .compose(event -> Ux.future(this.moveGet(event.getId())));
                 } else {
                     /*
                      * instance exist in your system
@@ -45,13 +45,13 @@ public class MovementNext extends AbstractTransfer implements Movement {
                      * -- WMove ( Current task Move )
                      */
                     final String taskId = workflow.getString(KName.Flow.TASK_ID);
-                    return eventOn.taskActive(instance, taskId)
-                        .compose(task -> Ux.future(this.configN(task.getTaskDefinitionKey())));
+                    return eventOn.taskSmart(instance, taskId)
+                        .compose(task -> Ux.future(this.moveGet(task.getTaskDefinitionKey())));
                 }
             })
             .compose(move -> {
                 // Camunda Instance Moving
-                final JsonObject wParams = this.dataM(params, move);
+                final JsonObject wParams = this.moveData(params, move);
                 final ProcessInstance instance = instanceRef.get();
 
                 // Camunda Workflow Running

@@ -25,12 +25,16 @@ public interface EventOn {
 
     Future<StartEvent> start(String definitionId);
 
+    boolean isUserEvent(Task task);
+
     /*
      * Event Id from ProcessInstance
      */
     Future<Task> taskActive(ProcessInstance instance);
 
-    Future<Task> taskActive(ProcessInstance instance, String taskId);
+    Future<Task> taskActive(String taskId);
+
+    Future<Task> taskSmart(ProcessInstance instance, String taskId);
 
     /*
      * Task History

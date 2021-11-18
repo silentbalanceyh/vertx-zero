@@ -299,6 +299,12 @@ public interface KName {
         String DECISION = "decision";                /* Workflow: decision */
         String NODE = "node";                        /* Workflow node */
 
+        // Auditor
+        interface Auditor {
+            String FINISHED_BY = "finishedBy";
+            String FINISHED_AT = "finishedAt";
+        }
+
         // Bpmn
         interface Bpmn {
             String CLASS = "class";

@@ -2,12 +2,11 @@ package io.vertx.tp.workflow.uca.component;
 
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.ke.refine.Ke;
 import io.vertx.tp.workflow.atom.ConfigRecord;
 import io.vertx.tp.workflow.atom.ConfigTodo;
 import io.vertx.tp.workflow.atom.WMove;
-import io.vertx.tp.workflow.uca.modeling.ActionOn;
 import io.vertx.up.eon.KName;
+import io.vertx.up.eon.em.ChangeFlag;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
@@ -21,7 +20,8 @@ import java.util.concurrent.ConcurrentMap;
 public abstract class AbstractTransfer implements Behaviour {
     protected final transient JsonObject config = new JsonObject();
     private final transient ConcurrentMap<String, WMove> moveMap = new ConcurrentHashMap<>();
-    private transient ConfigRecord record;
+
+    private transient KitRecord recordKit;
 
     @Override
     public Behaviour bind(final JsonObject config) {
@@ -41,74 +41,37 @@ public abstract class AbstractTransfer implements Behaviour {
     @Override
     public Behaviour bind(final ConfigRecord record) {
         Objects.requireNonNull(record);
-        this.record = record;
+        this.recordKit = new KitRecord(record);
         return this;
     }
 
 
-    protected WMove configN(final String node) {
+    protected WMove moveGet(final String node) {
         return this.moveMap.getOrDefault(node, new WMove());
     }
 
-    protected ConfigRecord configR() {
-        return this.record;
-    }
-
-    /*
-     * {
-     *     "record": "...",
-     * }
-     * - record: The json data of record
-     * - The json data of todo is the major key=value
-     */
-    protected JsonObject dataR(final JsonObject params, final boolean isNew) {
-        JsonObject rData = params.getJsonObject(KName.RECORD, new JsonObject());
-        if (Ut.notNil(rData)) {
-            rData = rData.copy();
-        }
-        // Auditor Processing
-        if (isNew) {
-            Ut.ifJAssign(params,
-                KName.CREATED_AT,
-                KName.CREATED_BY
-            ).apply(rData);
-        }
-        Ut.ifJAssign(params,
-            KName.UPDATED_AT,
-            KName.UPDATED_BY,
-            KName.SIGMA
-        ).apply(rData);
-        return rData;
-    }
-
-    protected JsonObject dataM(final JsonObject params, final WMove move) {
+    protected JsonObject moveData(final JsonObject params, final WMove move) {
         final ConcurrentMap<String, String> pattern = move.getData();
         final JsonObject request = new JsonObject();
         pattern.forEach((to, from) -> request.put(to, params.getValue(from)));
         return request;
     }
 
+    protected ChangeFlag recordMode() {
+        return this.recordKit.mode();
+    }
+
     /*
      * Record UPDATE Processing
      */
-    protected Future<JsonObject> updateAsync(final JsonObject params, final ConfigTodo config) {
-        final ConfigRecord record = this.configR();
-        final ActionOn action = ActionOn.action(record.getMode());
-        // Data Preparing
-        final JsonObject recordData = this.dataR(params, false);
-        final String key = record.unique(recordData);
-        Objects.requireNonNull(key);
-        return action.updateAsync(key, recordData, config);
+    protected Future<JsonObject> recordUpdate(final JsonObject params, final ConfigTodo config) {
+        return this.recordKit.updateAsync(params, config);
     }
 
     /*
      * Record Indent Processing
      */
-    protected Future<JsonObject> insertAsync(final JsonObject params, final ConfigTodo config) {
-        final ConfigRecord record = this.configR();
-        final ActionOn action = ActionOn.action(record.getMode());
-        final JsonObject recordData = this.dataR(params, true);
-        return Ke.umIndent(recordData, record.getIndent())
-            .compose(processed -> action.createAsync(processed, config));
+    protected Future<JsonObject> recordInsert(final JsonObject params, final ConfigTodo config) {
+        return this.recordKit.insertAsync(params, config);
     }
 }

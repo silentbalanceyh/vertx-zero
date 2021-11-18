@@ -1,88 +1,65 @@
 package io.vertx.tp.workflow.uca.runner;
 
 import io.vertx.core.Future;
-import io.vertx.tp.error._409UniqueStartEventException;
-import io.vertx.tp.error._501ProcessStartException;
-import io.vertx.tp.workflow.init.WfPin;
-import io.vertx.up.eon.Values;
 import io.vertx.up.unity.Ux;
-import org.camunda.bpm.engine.HistoryService;
-import org.camunda.bpm.engine.RepositoryService;
-import org.camunda.bpm.engine.TaskService;
-import org.camunda.bpm.engine.history.HistoricActivityInstance;
-import org.camunda.bpm.engine.history.HistoricActivityInstanceQuery;
 import org.camunda.bpm.engine.runtime.ProcessInstance;
 import org.camunda.bpm.engine.task.Task;
-import org.camunda.bpm.model.bpmn.BpmnModelInstance;
+import org.camunda.bpm.model.bpmn.impl.BpmnModelConstants;
 import org.camunda.bpm.model.bpmn.instance.StartEvent;
 
-import java.util.*;
+import java.util.Objects;
+import java.util.Set;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 class EventEngine implements EventOn {
 
+    private final transient EventTask tasker;
+    private final transient EventTyped typed;
+
+    public EventEngine() {
+        this.tasker = new EventTask();
+        this.typed = new EventTyped();
+    }
+
     @Override
     public Future<Set<StartEvent>> startSet(final String definitionId) {
-        final RepositoryService service = WfPin.camundaRepository();
-        final BpmnModelInstance instance = service.getBpmnModelInstance(definitionId);
-        final Collection<StartEvent> starts = instance.getModelElementsByType(StartEvent.class);
-        if (starts.isEmpty()) {
-            return Ux.thenError(_501ProcessStartException.class, this.getClass(), definitionId);
-        }
-        return Ux.future(new HashSet<>(starts));
+        return this.typed.startSet(definitionId);
     }
 
     @Override
     public Future<StartEvent> start(final String definitionId) {
-        return this.startSet(definitionId).compose(set -> {
-            final int size = set.size();
-            if (Values.ONE == size) {
-                return Ux.future(set.iterator().next());
-            } else {
-                return Ux.thenError(_409UniqueStartEventException.class, this.getClass(), size, definitionId);
-            }
-        });
+        return this.typed.start(definitionId);
     }
 
     @Override
-    public Future<Task> taskActive(final ProcessInstance instance) {
-        final TaskService service = WfPin.camundaTask();
-        final Task task = service.createTaskQuery()
-            .initializeFormKeys()
-            .processInstanceId(instance.getId())
-            .active().singleResult();
-        return Ux.future(task);
-    }
-
-    @Override
-    public Future<Task> taskActive(final ProcessInstance instance, final String taskId) {
-        if (Objects.isNull(taskId)) {
-            return this.taskActive(instance);
+    public boolean isUserEvent(final Task task) {
+        if (Objects.isNull(task)) {
+            return Boolean.FALSE;
         } else {
-            final TaskService service = WfPin.camundaTask();
-            final Task task = service.createTaskQuery()
-                .taskId(taskId).singleResult();
-            return Ux.future(task);
+            final String eventType = this.typed.type(task.getProcessDefinitionId(), task.getTaskDefinitionKey());
+            return BpmnModelConstants.BPMN_ELEMENT_USER_TASK.equals(eventType);
         }
     }
 
     @Override
+    public Future<Task> taskActive(final ProcessInstance instance) {
+        return Ux.future(this.tasker.byInstanceId(instance.getId()));
+    }
+
+    @Override
+    public Future<Task> taskActive(final String taskId) {
+        return Ux.future(this.tasker.byTaskId(taskId));
+    }
+
+    @Override
+    public Future<Task> taskSmart(final ProcessInstance instance, final String taskId) {
+        return Objects.isNull(taskId) ? this.taskActive(instance) : this.taskActive(taskId);
+    }
+
+    @Override
     public Future<Set<String>> taskHistory(final ProcessInstance instance) {
-        // HistoricActivityInstance -> List
-        final HistoryService serviceH = WfPin.camundaHistory();
-        final HistoricActivityInstanceQuery query = serviceH.createHistoricActivityInstanceQuery()
-            .processInstanceId(instance.getId());
-        final List<HistoricActivityInstance> activities = query.list();
-        final Set<String> historySet = new HashSet<>();
-        /*
-         * Capture Data here:
-         * 1. Default `HistoricActivityInstance` contains node processing.
-         * 2. Extension to set ExecutionListener to monitor the edge processing, user defined
-         *    `HistoricActivityInstance` here.
-         */
-        activities.forEach(activity -> historySet.add(activity.getActivityId()));
-        return Ux.future(historySet);
+        return Ux.future(this.tasker.histories(instance.getId()));
     }
 }

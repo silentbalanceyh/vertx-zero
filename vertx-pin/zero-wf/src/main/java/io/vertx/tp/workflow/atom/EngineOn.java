@@ -44,12 +44,12 @@ public class EngineOn {
 
     public Transfer componentStart() {
         return this.component(this.workflow::getStartComponent, this.workflow.getStartConfig(),
-            () -> Ut.singleton(TransferEmpty.class));
+            () -> Ut.singleton(TransferDefault.class));
     }
 
     public Transfer componentGenerate() {
         return this.component(this.workflow::getGenerateComponent, this.workflow.getGenerateConfig(),
-            () -> Ut.singleton(TransferEmpty.class));
+            () -> Ut.singleton(TransferDefault.class));
     }
 
     public Transfer componentDraft() {
@@ -75,11 +75,17 @@ public class EngineOn {
 
     @SuppressWarnings("all")
     private <C extends Behaviour> C component(final Class<?> clazz, final String componentValue) {
+        final StringBuilder componentKey = new StringBuilder();
+        componentKey.append(clazz.getName());
+        componentKey.append(this.record.hashCode());
+        if (Ut.notNil(componentValue)) {
+            componentKey.append(componentValue.hashCode());
+        }
         return (C) Fn.poolThread(WfPool.POOL_COMPONENT, () -> {
             final C instance = Ut.instance(clazz);
             instance.bind(Ut.toJObject(componentValue)).bind(this.record);
             return instance;
-        }, clazz.getName());
+        }, componentKey.toString());       // Critical Key Pool for different record configuration
     }
 
     public ConfigRecord configRecord() {

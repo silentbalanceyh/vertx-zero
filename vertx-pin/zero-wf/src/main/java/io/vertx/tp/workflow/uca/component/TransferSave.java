@@ -14,9 +14,9 @@ public class TransferSave extends AbstractTodo {
     @Override
     public Future<WTodo> moveAsync(final JsonObject params, final ProcessInstance instance) {
         // Todo Updating
-        return this.updateAsync(params).compose(todo -> {
+        return this.todoUpdate(params).compose(todo -> {
             final ConfigTodo configTodo = new ConfigTodo(todo);
-            return this.updateAsync(params, configTodo).compose(nil -> Ux.future(todo));
+            return this.recordUpdate(params, configTodo).compose(nil -> Ux.future(todo));
         });
     }
 }

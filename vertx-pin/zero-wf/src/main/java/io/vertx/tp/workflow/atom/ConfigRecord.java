@@ -6,6 +6,7 @@ import io.vertx.up.eon.KName;
 import io.vertx.up.eon.em.ChangeFlag;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
@@ -50,5 +51,22 @@ public class ConfigRecord implements Serializable {
 
     public String unique(final JsonObject params) {
         return params.getString(this.unique, null);
+    }
+
+    @Override
+    public boolean equals(final Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || this.getClass() != o.getClass()) {
+            return false;
+        }
+        final ConfigRecord record = (ConfigRecord) o;
+        return Objects.equals(this.unique, record.unique) && this.flag == record.flag && this.mode == record.mode;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(this.unique, this.flag, this.mode);
     }
 }
