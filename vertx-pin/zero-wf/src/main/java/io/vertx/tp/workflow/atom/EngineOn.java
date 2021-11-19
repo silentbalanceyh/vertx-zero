@@ -37,36 +37,75 @@ public class EngineOn {
         }, definitionKey);
     }
 
-    public static EngineOn connect(final JsonObject workflow) {
-        final String definitionKey = workflow.getString(KName.Flow.DEFINITION_KEY);
-        return connect(definitionKey);
+    public static EngineOn connect(final JsonObject params) {
+        final WKey key = WKey.build(params);
+        return connect(key.definitionKey());
     }
 
+    // ----------------------- Configured Component -------------------------
     public Transfer componentStart() {
-        return this.component(this.workflow::getStartComponent, this.workflow.getStartConfig(), TransferEmpty::new);
+        return this.component(this.workflow::getStartComponent,
+            this.workflow.getStartConfig(),
+            () -> Ut.singleton(TransferEmpty.class));
     }
 
     public Transfer componentGenerate() {
-        return this.component(this.workflow::getGenerateComponent, this.workflow.getGenerateConfig(), TransferEmpty::new);
+        return this.component(this.workflow::getGenerateComponent,
+            this.workflow.getGenerateConfig(),
+            this::componentGenerateStandard);
     }
 
     public Movement componentRun() {
-        return this.component(this.workflow::getRunComponent, this.workflow.getRunConfig(), MovementEmpty::new);
+        return this.component(this.workflow::getRunComponent,
+            this.workflow.getRunConfig(),
+            () -> Ut.singleton(MovementEmpty.class));
+    }
+
+
+    // ----------------------- Fixed Save -------------------------
+    public Movement environmentPre() {
+        return this.component(MovementPre.class, null);
+    }
+
+    public Stay stayDraft() {
+        return this.component(StaySave.class, null);
+    }
+
+    public Stay stayCancel() {
+        return this.component(StayCancel.class, null);
+    }
+
+    // ----------------------- Private Method -------------------------
+    private Transfer componentGenerateStandard() {
+        return this.component(TransferStandard.class, this.workflow.getGenerateComponent());
     }
 
     private <C extends Behaviour> C component(final Supplier<String> componentCls, final String componentValue,
                                               final Supplier<C> defaultCls) {
-        final C instance;
         final Class<?> clazz = Ut.clazz(componentCls.get(), null);
         if (Objects.isNull(clazz)) {
-            instance = defaultCls.get();
+            // Singleton Here
+            return defaultCls.get();
         } else {
-            instance = Ut.instance(clazz);
+            // Component of Movement/Transfer
+            return this.component(clazz, componentValue);
         }
-        if (Objects.nonNull(instance)) {
+    }
+
+
+    @SuppressWarnings("all")
+    private <C extends Behaviour> C component(final Class<?> clazz, final String componentValue) {
+        final StringBuilder componentKey = new StringBuilder();
+        componentKey.append(clazz.getName());
+        componentKey.append(this.record.hashCode());
+        if (Ut.notNil(componentValue)) {
+            componentKey.append(componentValue.hashCode());
+        }
+        return (C) Fn.poolThread(WfPool.POOL_COMPONENT, () -> {
+            final C instance = Ut.instance(clazz);
             instance.bind(Ut.toJObject(componentValue)).bind(this.record);
-        }
-        return instance;
+            return instance;
+        }, componentKey.toString());       // Critical Key Pool for different record configuration
     }
 
     public ConfigRecord configRecord() {

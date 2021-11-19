@@ -6,13 +6,9 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.tp.workflow.atom.WInstance;
 
 /**
- * Todo Generation
- * 1. Start Component
- * 2. Generate Component
- *
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-public interface Transfer extends Behaviour {
+public interface Stay extends Behaviour {
 
-    Future<WTodo> moveAsync(JsonObject params, WInstance instance);
+    Future<WTodo> keepAsync(JsonObject params, WInstance instance);
 }

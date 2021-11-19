@@ -100,6 +100,10 @@ public final class Ux {
         return otherwise(() -> input);
     }
 
+    public static <T> T updateT(final T query, final JsonObject params) {
+        return Compare.updateT(query, params);
+    }
+
     /*
      * Rule Match
      * 1. single checking
@@ -566,7 +570,7 @@ public final class Ux {
         return Web.toAttachJ(field, function);
     }
 
-    public static Function<JsonObject, Future<JsonObject>> attachJ(final String field, final JsonObject data) {
+    public static <T> Function<T, Future<JsonObject>> attachJ(final String field, final JsonObject data) {
         return Web.toAttachJ(field, data);
     }
 

@@ -26,12 +26,8 @@ class ActionDao implements ActionOn {
     public <T> Future<JsonObject> updateAsync(final String key, final JsonObject params, final ConfigTodo config) {
         Objects.requireNonNull(config.dao());
         final UxJooq jooq = Ux.Jooq.on(config.dao());
-        return jooq.fetchByIdAsync(key).compose(query -> {
-            Objects.requireNonNull(query);
-            final Class<?> entityCls = query.getClass();
-            final JsonObject original = Ux.toJson(query);
-            original.mergeIn(params, true);
-            final T entity = (T) Ux.fromJson(original, entityCls);
+        return jooq.<T>fetchByIdAsync(key).compose(query -> {
+            final T entity = Ux.updateT(query, params);
             return jooq.updateAsync(entity);
         }).compose(Ux::futureJ);
     }

@@ -28,7 +28,11 @@ public interface EventOn {
     /*
      * Event Id from ProcessInstance
      */
-    Future<Task> task(ProcessInstance instance);
+    Future<Task> taskActive(ProcessInstance instance);
+
+    Future<Task> taskActive(String taskId);
+
+    Future<Task> taskSmart(ProcessInstance instance, String taskId);
 
     /*
      * Task History

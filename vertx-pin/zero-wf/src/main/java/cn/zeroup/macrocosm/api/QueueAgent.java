@@ -22,7 +22,12 @@ public interface QueueAgent {
     @POST
     @Path("/up/flow-queue")
     @Address(HighWay.Queue.TASK_QUEUE)
-    JsonObject fetchApproval(@BodyParam JsonObject body);
+    JsonObject fetchQueue(@BodyParam JsonObject body);
+
+    @POST
+    @Path("/up/flow-history")
+    @Address(HighWay.Queue.TASK_HISTORY)
+    JsonObject fetchHistory(@BodyParam JsonObject body);
 
     /*
      * SELECT * FROM X_FLOW by code/instanceKey

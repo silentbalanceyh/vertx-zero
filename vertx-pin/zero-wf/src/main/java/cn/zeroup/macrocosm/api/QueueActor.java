@@ -29,14 +29,43 @@ public class QueueActor {
 
     @Address(HighWay.Queue.TASK_QUEUE)
     public Future<JsonObject> fetchQueue(final JsonObject qr, final User user) {
-        final JsonObject qrCombine = Ux.whereQrA(qr, KName.STATUS + ",i",
+        final String userId = Ux.keyUser(user);
+        // My Queue
+        final JsonObject queueCreate = Ux.whereAnd();
+        queueCreate.put(KName.CREATED_BY, userId);
+        queueCreate.put(KName.STATUS + ",i",
             new JsonArray()
                 .add(TodoStatus.PENDING.name())
                 .add(TodoStatus.ACCEPTED.name())
                 .add(TodoStatus.DRAFT.name())
         );
+        // Other Queue
+        final JsonObject queueApprove = Ux.whereAnd();
+        queueApprove.put("toUser", userId);
+        queueApprove.put(KName.STATUS + ",i",
+            new JsonArray()
+                .add(TodoStatus.PENDING.name())
+        );
+        final JsonObject combine = Ux.whereOr();
+        combine.put("$MY$", queueCreate);
+        combine.put("$AP$", queueApprove);
+        final JsonObject qrCombine = Ux.whereQrA(qr, "$Q$", combine);
         Wf.Log.initQueue(this.getClass(), "Queue condition: {0}", qrCombine.encode());
         return this.taskStub.fetchQueue(qrCombine);
+    }
+
+
+    @Address(HighWay.Queue.TASK_HISTORY)
+    public Future<JsonObject> fetchHistory(final JsonObject qr) {
+        final JsonObject qrCombine = Ux.whereQrA(qr, KName.STATUS + ",i",
+            new JsonArray()
+                .add(TodoStatus.FINISHED.name())
+                .add(TodoStatus.REJECTED.name())
+                .add(TodoStatus.CANCELED.name())
+        );
+        final JsonObject qrFinal = Ux.whereQrA(qrCombine, "traceEnd", Boolean.TRUE);
+        Wf.Log.initQueue(this.getClass(), "History condition: {0}", qrCombine.encode());
+        return this.taskStub.fetchQueue(qrFinal);
     }
 
     @Address(HighWay.Flow.BY_CODE)
@@ -62,17 +91,20 @@ public class QueueActor {
         if (isPre) {
             // Start Point
             final String definitionId = data.getString(KName.Flow.DEFINITION_ID);
-            return this.flowStub.fetchFormStart(definitionId, header.getSigma());
+            return Wf.processById(definitionId).compose(definition ->
+                this.flowStub.fetchForm(definition, header.getSigma()));
         } else {
             // Single Task
             final String instanceId = data.getString(KName.Flow.INSTANCE_ID);
-            return this.flowStub.fetchFormTask(instanceId, header.getSigma());
+            return Wf.instance(instanceId).compose(process ->
+                this.flowStub.fetchForm(process.definition(), process.instance(), header.getSigma()));
         }
     }
 
 
     @Address(HighWay.Flow.BY_TODO)
-    public Future<JsonObject> fetchTodo(final String key) {
-        return this.taskStub.fetchTodo(key);
+    public Future<JsonObject> fetchTodo(final String key, final User user) {
+        final String userId = Ux.keyUser(user);
+        return this.taskStub.fetchTodo(key, userId);
     }
 }

@@ -34,9 +34,12 @@ public class WTodo implements VertxPojo, IWTodo {
     private String        modelForm;
     private String        modelComponent;
     private Boolean       instance;
+    private String        parentId;
     private String        traceId;
     private String        traceTaskId;
-    private String        parentId;
+    private Boolean       traceEnd;
+    private Integer       traceOrder;
+    private String        traceExtra;
     private String        comment;
     private String        commentApproval;
     private String        commentReject;
@@ -79,9 +82,12 @@ public class WTodo implements VertxPojo, IWTodo {
         this.modelForm = value.getModelForm();
         this.modelComponent = value.getModelComponent();
         this.instance = value.getInstance();
+        this.parentId = value.getParentId();
         this.traceId = value.getTraceId();
         this.traceTaskId = value.getTraceTaskId();
-        this.parentId = value.getParentId();
+        this.traceEnd = value.getTraceEnd();
+        this.traceOrder = value.getTraceOrder();
+        this.traceExtra = value.getTraceExtra();
         this.comment = value.getComment();
         this.commentApproval = value.getCommentApproval();
         this.commentReject = value.getCommentReject();
@@ -123,9 +129,12 @@ public class WTodo implements VertxPojo, IWTodo {
         String        modelForm,
         String        modelComponent,
         Boolean       instance,
+        String        parentId,
         String        traceId,
         String        traceTaskId,
-        String        parentId,
+        Boolean       traceEnd,
+        Integer       traceOrder,
+        String        traceExtra,
         String        comment,
         String        commentApproval,
         String        commentReject,
@@ -165,9 +174,12 @@ public class WTodo implements VertxPojo, IWTodo {
         this.modelForm = modelForm;
         this.modelComponent = modelComponent;
         this.instance = instance;
+        this.parentId = parentId;
         this.traceId = traceId;
         this.traceTaskId = traceTaskId;
-        this.parentId = parentId;
+        this.traceEnd = traceEnd;
+        this.traceOrder = traceOrder;
+        this.traceExtra = traceExtra;
         this.comment = comment;
         this.commentApproval = commentApproval;
         this.commentReject = commentReject;
@@ -452,6 +464,25 @@ public class WTodo implements VertxPojo, IWTodo {
     }
 
     /**
+     * Getter for <code>DB_ETERNAL.W_TODO.PARENT_ID</code>. 「parentId」-
+     * 待办支持父子集结构，父待办执行时候子待办同样执行
+     */
+    @Override
+    public String getParentId() {
+        return this.parentId;
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.W_TODO.PARENT_ID</code>. 「parentId」-
+     * 待办支持父子集结构，父待办执行时候子待办同样执行
+     */
+    @Override
+    public WTodo setParentId(String parentId) {
+        this.parentId = parentId;
+        return this;
+    }
+
+    /**
      * Getter for <code>DB_ETERNAL.W_TODO.TRACE_ID</code>. 「traceId」-
      * 同一个流程的待办执行分组
      */
@@ -490,21 +521,57 @@ public class WTodo implements VertxPojo, IWTodo {
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.W_TODO.PARENT_ID</code>. 「parentId」-
-     * 待办支持父子集结构，父待办执行时候子待办同样执行
+     * Getter for <code>DB_ETERNAL.W_TODO.TRACE_END</code>. 「traceEnd」- 主单执行完成
      */
     @Override
-    public String getParentId() {
-        return this.parentId;
+    public Boolean getTraceEnd() {
+        return this.traceEnd;
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.W_TODO.PARENT_ID</code>. 「parentId」-
-     * 待办支持父子集结构，父待办执行时候子待办同样执行
+     * Setter for <code>DB_ETERNAL.W_TODO.TRACE_END</code>. 「traceEnd」- 主单执行完成
      */
     @Override
-    public WTodo setParentId(String parentId) {
-        this.parentId = parentId;
+    public WTodo setTraceEnd(Boolean traceEnd) {
+        this.traceEnd = traceEnd;
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.W_TODO.TRACE_ORDER</code>. 「traceOrder」-
+     * 待办的处理顺序
+     */
+    @Override
+    public Integer getTraceOrder() {
+        return this.traceOrder;
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.W_TODO.TRACE_ORDER</code>. 「traceOrder」-
+     * 待办的处理顺序
+     */
+    @Override
+    public WTodo setTraceOrder(Integer traceOrder) {
+        this.traceOrder = traceOrder;
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.W_TODO.TRACE_EXTRA</code>. 「traceExtra」-
+     * 执行完成时，如果要存储额外的信息，则直接存储在该字段中
+     */
+    @Override
+    public String getTraceExtra() {
+        return this.traceExtra;
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.W_TODO.TRACE_EXTRA</code>. 「traceExtra」-
+     * 执行完成时，如果要存储额外的信息，则直接存储在该字段中
+     */
+    @Override
+    public WTodo setTraceExtra(String traceExtra) {
+        this.traceExtra = traceExtra;
         return this;
     }
 
@@ -946,9 +1013,12 @@ public class WTodo implements VertxPojo, IWTodo {
         sb.append(", ").append(modelForm);
         sb.append(", ").append(modelComponent);
         sb.append(", ").append(instance);
+        sb.append(", ").append(parentId);
         sb.append(", ").append(traceId);
         sb.append(", ").append(traceTaskId);
-        sb.append(", ").append(parentId);
+        sb.append(", ").append(traceEnd);
+        sb.append(", ").append(traceOrder);
+        sb.append(", ").append(traceExtra);
         sb.append(", ").append(comment);
         sb.append(", ").append(commentApproval);
         sb.append(", ").append(commentReject);
@@ -998,9 +1068,12 @@ public class WTodo implements VertxPojo, IWTodo {
         setModelForm(from.getModelForm());
         setModelComponent(from.getModelComponent());
         setInstance(from.getInstance());
+        setParentId(from.getParentId());
         setTraceId(from.getTraceId());
         setTraceTaskId(from.getTraceTaskId());
-        setParentId(from.getParentId());
+        setTraceEnd(from.getTraceEnd());
+        setTraceOrder(from.getTraceOrder());
+        setTraceExtra(from.getTraceExtra());
         setComment(from.getComment());
         setCommentApproval(from.getCommentApproval());
         setCommentReject(from.getCommentReject());

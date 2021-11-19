@@ -93,6 +93,11 @@ public class WTodo extends TableImpl<WTodoRecord> {
      */
     public final TableField<WTodoRecord, Boolean> INSTANCE = createField(DSL.name("INSTANCE"), SQLDataType.BIT, this, "「instance」- 是否启用工作流？");
     /**
+     * The column <code>DB_ETERNAL.W_TODO.PARENT_ID</code>. 「parentId」-
+     * 待办支持父子集结构，父待办执行时候子待办同样执行
+     */
+    public final TableField<WTodoRecord, String> PARENT_ID = createField(DSL.name("PARENT_ID"), SQLDataType.VARCHAR(36), this, "「parentId」- 待办支持父子集结构，父待办执行时候子待办同样执行");
+    /**
      * The column <code>DB_ETERNAL.W_TODO.TRACE_ID</code>. 「traceId」-
      * 同一个流程的待办执行分组
      */
@@ -103,10 +108,19 @@ public class WTodo extends TableImpl<WTodoRecord> {
      */
     public final TableField<WTodoRecord, String> TRACE_TASK_ID = createField(DSL.name("TRACE_TASK_ID"), SQLDataType.VARCHAR(36), this, "「traceTaskId」- 和待办绑定的taskId");
     /**
-     * The column <code>DB_ETERNAL.W_TODO.PARENT_ID</code>. 「parentId」-
-     * 待办支持父子集结构，父待办执行时候子待办同样执行
+     * The column <code>DB_ETERNAL.W_TODO.TRACE_END</code>. 「traceEnd」- 主单执行完成
      */
-    public final TableField<WTodoRecord, String> PARENT_ID = createField(DSL.name("PARENT_ID"), SQLDataType.VARCHAR(36), this, "「parentId」- 待办支持父子集结构，父待办执行时候子待办同样执行");
+    public final TableField<WTodoRecord, Boolean> TRACE_END = createField(DSL.name("TRACE_END"), SQLDataType.BIT, this, "「traceEnd」- 主单执行完成");
+    /**
+     * The column <code>DB_ETERNAL.W_TODO.TRACE_ORDER</code>. 「traceOrder」-
+     * 待办的处理顺序
+     */
+    public final TableField<WTodoRecord, Integer> TRACE_ORDER = createField(DSL.name("TRACE_ORDER"), SQLDataType.INTEGER, this, "「traceOrder」- 待办的处理顺序");
+    /**
+     * The column <code>DB_ETERNAL.W_TODO.TRACE_EXTRA</code>. 「traceExtra」-
+     * 执行完成时，如果要存储额外的信息，则直接存储在该字段中
+     */
+    public final TableField<WTodoRecord, String> TRACE_EXTRA = createField(DSL.name("TRACE_EXTRA"), SQLDataType.CLOB, this, "「traceExtra」- 执行完成时，如果要存储额外的信息，则直接存储在该字段中");
     /**
      * The column <code>DB_ETERNAL.W_TODO.COMMENT</code>. 「comment」- 待办描述
      */

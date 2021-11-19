@@ -58,9 +58,12 @@ CREATE TABLE IF NOT EXISTS W_TODO
      * trace_task_id = Active Task ID ( Multi Tasks )
      */
     `INSTANCE`         BIT         DEFAULT NULL COMMENT '「instance」- 是否启用工作流？',
+    `PARENT_ID`        VARCHAR(36) COMMENT '「parentId」- 待办支持父子集结构，父待办执行时候子待办同样执行',
     `TRACE_ID`         VARCHAR(36) COMMENT '「traceId」- 同一个流程的待办执行分组',
     `TRACE_TASK_ID`    VARCHAR(36) COMMENT '「traceTaskId」- 和待办绑定的taskId',
-    `PARENT_ID`        VARCHAR(36) COMMENT '「parentId」- 待办支持父子集结构，父待办执行时候子待办同样执行',
+    `TRACE_END`        BIT         DEFAULT NULL COMMENT '「traceEnd」- 主单执行完成',
+    `TRACE_ORDER`      INTEGER COMMENT '「traceOrder」- 待办的处理顺序',
+    `TRACE_EXTRA`      LONGTEXT COMMENT '「traceExtra」- 执行完成时，如果要存储额外的信息，则直接存储在该字段中',
 
     -- 特殊字段
     `COMMENT`          LONGTEXT COMMENT '「comment」- 待办描述',

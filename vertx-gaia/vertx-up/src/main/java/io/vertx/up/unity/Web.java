@@ -110,9 +110,9 @@ class Web {
         };
     }
 
-    static Function<JsonObject, Future<JsonObject>> toAttachJ(final String field, final JsonObject data) {
+    static <T> Function<T, Future<JsonObject>> toAttachJ(final String field, final JsonObject data) {
         return json -> {
-            if (Ut.notNil(json)) {
+            if (Objects.nonNull(json)) {
                 data.put(field, json);
             }
             return To.future(data);

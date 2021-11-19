@@ -2,8 +2,10 @@ package io.vertx.tp.workflow.refine;
 
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
+import io.vertx.tp.workflow.atom.WProcess;
 import io.vertx.up.log.Annal;
 import org.camunda.bpm.engine.repository.ProcessDefinition;
+import org.camunda.bpm.engine.runtime.ProcessInstance;
 import org.camunda.bpm.engine.task.Task;
 import org.camunda.bpm.model.bpmn.instance.StartEvent;
 
@@ -13,6 +15,7 @@ import java.util.Set;
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 public class Wf {
+
     /*
      * {
      *      "task": "Event name of task, event id",
@@ -82,6 +85,19 @@ public class Wf {
         return WfFlow.processById(definitionId);
     }
 
+    // Fetch ProcessInstance
+    public static Future<ProcessInstance> instanceById(final String instanceId) {
+        return WfFlow.instanceById(instanceId);
+    }
+
+    public static Future<WProcess> instance(final String instanceId) {
+        return WfFlow.instanceById(instanceId).compose(instance -> WfFlow.processById(instance.getProcessDefinitionId())
+            .compose(definition -> WProcess.future(definition, instance))
+        );
+    }
+
+    // BiFunction on ProcessDefinition / ProcessInstance
+
     public static class Log {
         public static void infoInit(final Class<?> clazz, final String message, final Object... args) {
             final Annal logger = Annal.get(clazz);
@@ -106,6 +122,11 @@ public class Wf {
         public static void warnDeploy(final Class<?> clazz, final String message, final Object... args) {
             final Annal logger = Annal.get(clazz);
             WfLog.warn(logger, "Deploy", message, args);
+        }
+
+        public static void warnMove(final Class<?> clazz, final String message, final Object... args) {
+            final Annal logger = Annal.get(clazz);
+            WfLog.warn(logger, "Move", message, args);
         }
 
         public static void debugDeploy(final Class<?> clazz, final String message, final Object... args) {

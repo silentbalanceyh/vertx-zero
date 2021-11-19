@@ -1,13 +1,13 @@
 package cn.zeroup.macrocosm.api;
 
 import cn.zeroup.macrocosm.cv.HighWay;
-import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.annotations.Address;
 import io.vertx.up.annotations.EndPoint;
 
 import javax.ws.rs.BodyParam;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 
 /**
@@ -54,10 +54,25 @@ public interface RunAgent {
     @POST
     @Path("/up/flow/start")
     @Address(HighWay.Do.FLOW_START)
-    Future<JsonObject> start(@BodyParam JsonObject body);
+    JsonObject start(@BodyParam JsonObject body);
 
-    @POST
+    @PUT
     @Path("/up/flow/complete")
     @Address(HighWay.Do.FLOW_COMPLETE)
-    Future<JsonObject> complete(@BodyParam JsonObject body);
+    JsonObject complete(@BodyParam JsonObject body);
+
+    @PUT
+    @Path("/up/flow/saving")
+    @Address(HighWay.Do.FLOW_DRAFT)
+    JsonObject draft(@BodyParam JsonObject body);
+
+    @PUT
+    @Path("/up/flow/batch")
+    @Address(HighWay.Do.FLOW_BATCH)
+    JsonObject batch(@BodyParam JsonObject body);
+
+    @PUT
+    @Path("/up/flow/cancel")
+    @Address(HighWay.Do.FLOW_CANCEL)
+    JsonObject cancel(@BodyParam JsonObject body);
 }

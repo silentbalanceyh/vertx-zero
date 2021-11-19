@@ -236,6 +236,21 @@ public class WTodoDao extends AbstractVertxDAO<WTodoRecord, cn.vertxup.workflow.
         }
 
         /**
+     * Find records that have <code>PARENT_ID IN (values)</code> asynchronously
+     */
+        public Future<List<cn.vertxup.workflow.domain.tables.pojos.WTodo>> findManyByParentId(Collection<String> values) {
+                return findManyByCondition(WTodo.W_TODO.PARENT_ID.in(values));
+        }
+
+        /**
+     * Find records that have <code>PARENT_ID IN (values)</code> asynchronously
+     * limited by the given limit
+     */
+        public Future<List<cn.vertxup.workflow.domain.tables.pojos.WTodo>> findManyByParentId(Collection<String> values, int limit) {
+                return findManyByCondition(WTodo.W_TODO.PARENT_ID.in(values),limit);
+        }
+
+        /**
      * Find records that have <code>TRACE_ID IN (values)</code> asynchronously
      */
         public Future<List<cn.vertxup.workflow.domain.tables.pojos.WTodo>> findManyByTraceId(Collection<String> values) {
@@ -267,18 +282,50 @@ public class WTodoDao extends AbstractVertxDAO<WTodoRecord, cn.vertxup.workflow.
         }
 
         /**
-     * Find records that have <code>PARENT_ID IN (values)</code> asynchronously
+     * Find records that have <code>TRACE_END IN (values)</code> asynchronously
      */
-        public Future<List<cn.vertxup.workflow.domain.tables.pojos.WTodo>> findManyByParentId(Collection<String> values) {
-                return findManyByCondition(WTodo.W_TODO.PARENT_ID.in(values));
+        public Future<List<cn.vertxup.workflow.domain.tables.pojos.WTodo>> findManyByTraceEnd(Collection<Boolean> values) {
+                return findManyByCondition(WTodo.W_TODO.TRACE_END.in(values));
         }
 
         /**
-     * Find records that have <code>PARENT_ID IN (values)</code> asynchronously
+     * Find records that have <code>TRACE_END IN (values)</code> asynchronously
      * limited by the given limit
      */
-        public Future<List<cn.vertxup.workflow.domain.tables.pojos.WTodo>> findManyByParentId(Collection<String> values, int limit) {
-                return findManyByCondition(WTodo.W_TODO.PARENT_ID.in(values),limit);
+        public Future<List<cn.vertxup.workflow.domain.tables.pojos.WTodo>> findManyByTraceEnd(Collection<Boolean> values, int limit) {
+                return findManyByCondition(WTodo.W_TODO.TRACE_END.in(values),limit);
+        }
+
+        /**
+     * Find records that have <code>TRACE_ORDER IN (values)</code>
+     * asynchronously
+     */
+        public Future<List<cn.vertxup.workflow.domain.tables.pojos.WTodo>> findManyByTraceOrder(Collection<Integer> values) {
+                return findManyByCondition(WTodo.W_TODO.TRACE_ORDER.in(values));
+        }
+
+        /**
+     * Find records that have <code>TRACE_ORDER IN (values)</code>
+     * asynchronously limited by the given limit
+     */
+        public Future<List<cn.vertxup.workflow.domain.tables.pojos.WTodo>> findManyByTraceOrder(Collection<Integer> values, int limit) {
+                return findManyByCondition(WTodo.W_TODO.TRACE_ORDER.in(values),limit);
+        }
+
+        /**
+     * Find records that have <code>TRACE_EXTRA IN (values)</code>
+     * asynchronously
+     */
+        public Future<List<cn.vertxup.workflow.domain.tables.pojos.WTodo>> findManyByTraceExtra(Collection<String> values) {
+                return findManyByCondition(WTodo.W_TODO.TRACE_EXTRA.in(values));
+        }
+
+        /**
+     * Find records that have <code>TRACE_EXTRA IN (values)</code>
+     * asynchronously limited by the given limit
+     */
+        public Future<List<cn.vertxup.workflow.domain.tables.pojos.WTodo>> findManyByTraceExtra(Collection<String> values, int limit) {
+                return findManyByCondition(WTodo.W_TODO.TRACE_EXTRA.in(values),limit);
         }
 
         /**

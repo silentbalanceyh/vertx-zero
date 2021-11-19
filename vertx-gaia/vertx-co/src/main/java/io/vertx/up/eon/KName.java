@@ -59,8 +59,6 @@ public interface KName {
     String KEYS = "keys";                        /* Batch operation, keys -> JsonArray ( element = String ) */
     String CODES = "codes";                      /* Batch operation, codes -> JsonArray ( element = String ) */
 
-    String FILE_KEY = "fileKey";                 /* XAttachment belong-to field */
-    String FILE_NAME = "filename";               /* XAttachment filename */
     String DATA_KEY = "dataKey";                 /* Security belong-to field: Authorization data stored key for session storage */
 
     String APP_KEY = "appKey";                   /* XHeader for X-App-Key */
@@ -161,6 +159,21 @@ public interface KName {
     String INSTANCE = "instance";                /* Workflow: instance = true */
     String OWNER = "owner";                      /* Workflow: owner */
     String HISTORY = "history";                  /* Workflow: history */
+    String EDITION = "edition";
+
+    String SIZE = "size";                        /* XAttachment, Size Attribute */
+    String MIME = "mime";                        /* XAttachment, Web Flow mime processing */
+    String EXTENSION = "extension";              /* XAttachment, extension field attribute */
+
+    String FILE_KEY = "fileKey";                 /* XAttachment belong-to field */
+    String FILE_NAME = "filename";               /* XAttachment filename */
+
+    interface Attachment {
+        String STORE_WAY = "storeWay";               /* XAttachment, store way of the file */
+        String FILE_NAME = "fileName";               /* XAttachment filename */
+        String FILE_URL = "fileUrl";                 /* XAttachment fileUrl */
+        String FILE_PATH = "filePath";               /* XAttachment filePath processing */
+    }
 
     interface Micro {
         String ETCD = "etcd";
@@ -289,14 +302,27 @@ public interface KName {
         String DEFINITION_ID = "definitionId";
         String DEFINITION_KEY = "definitionKey";
         String INSTANCE_ID = "instanceId";
+        String TASK_ID = "taskId";
         String FORM_KEY = "formKey";
         String BPMN = "bpmn";
         String WORKFLOW = "workflow";
+        String ACL = "acl";
         // Todo
         String TASK = "task";
         String TODO = "todo";                        /* Todo */
         String DECISION = "decision";                /* Workflow: decision */
         String NODE = "node";                        /* Workflow node */
+        String COMMENT_APPROVAL = "commentApproval";
+        String COMMENT_REJECT = "commentReject";
+
+        String TRACE_END = "traceEnd";
+        String TRACE_EXTRA = "traceExtra";
+
+        // Auditor
+        interface Auditor {
+            String FINISHED_BY = "finishedBy";
+            String FINISHED_AT = "finishedAt";
+        }
 
         // Bpmn
         interface Bpmn {

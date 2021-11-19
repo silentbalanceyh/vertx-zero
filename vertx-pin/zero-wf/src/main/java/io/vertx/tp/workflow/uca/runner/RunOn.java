@@ -2,7 +2,7 @@ package io.vertx.tp.workflow.uca.runner;
 
 import cn.zeroup.macrocosm.cv.WfPool;
 import io.vertx.core.Future;
-import io.vertx.core.json.JsonObject;
+import io.vertx.tp.workflow.atom.WMove;
 import io.vertx.up.fn.Fn;
 import org.camunda.bpm.engine.runtime.ProcessInstance;
 
@@ -16,8 +16,11 @@ public interface RunOn {
     }
 
     // Start
-    Future<ProcessInstance> startAsync(String definitionKey, JsonObject params);
+    Future<ProcessInstance> startAsync(String definitionKey, WMove move);
 
     // Run
-    Future<ProcessInstance> moveAsync(ProcessInstance instance, JsonObject params);
+    Future<ProcessInstance> moveAsync(ProcessInstance instance, WMove move);
+
+    // Stop
+    Future<Boolean> stopAsync(ProcessInstance instance);
 }

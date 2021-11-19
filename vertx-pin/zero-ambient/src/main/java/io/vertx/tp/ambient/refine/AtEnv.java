@@ -5,6 +5,7 @@ import io.vertx.ext.web.FileUpload;
 import io.vertx.tp.ambient.atom.AtConfig;
 import io.vertx.tp.ambient.cv.AtConstant;
 import io.vertx.tp.ambient.init.AtPin;
+import io.vertx.tp.ke.cv.em.FileStatus;
 import io.vertx.up.eon.KName;
 import io.vertx.up.util.Ut;
 
@@ -33,21 +34,21 @@ class AtEnv {
             final String key = UUID.randomUUID().toString();
             // File Url
             final String downloadUrl = MessageFormat.format(AtConstant.DOWNLOAD_URI, key);
-            uploaded.put("key", key)
-                .put("storeWay", config.getFileStorage())
-                .put(KName.STATUS, "PROGRESS")
+            uploaded.put(KName.KEY, key)
+                .put(KName.Attachment.STORE_WAY, config.getFileStorage())
+                .put(KName.STATUS, FileStatus.PROGRESS.name())
                 .put(KName.TYPE, fileUpload.contentType())
-                .put("mime", fileUpload.contentType())
+                .put(KName.MIME, fileUpload.contentType())
                 .put(KName.NAME, originalFile)
-                .put("fileKey", Ut.randomString(64))
-                .put("fileName", fileName)
-                .put("fileUrl", downloadUrl)
-                .put("filePath", fileUpload.uploadedFileName())
-                .put("extension", extension)
+                .put(KName.FILE_KEY, Ut.randomString(64))
+                .put(KName.Attachment.FILE_NAME, fileName)
+                .put(KName.Attachment.FILE_URL, downloadUrl)
+                .put(KName.Attachment.FILE_PATH, fileUpload.uploadedFileName())
+                .put(KName.EXTENSION, extension)
                 .put(KName.MODULE, category)
-                .put("size", fileUpload.size())
+                .put(KName.SIZE, fileUpload.size())
                 .put(KName.LANGUAGE, config.getFileLanguage())
-                .put("metadata", new JsonObject().encode());
+                .put(KName.METADATA, new JsonObject().encode());
         }
         return uploaded;
     }
