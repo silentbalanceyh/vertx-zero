@@ -7,7 +7,6 @@ import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.workflow.atom.ConfigTodo;
 import io.vertx.tp.workflow.atom.WInstance;
-import io.vertx.tp.workflow.atom.WMove;
 import io.vertx.tp.workflow.atom.WMoveRule;
 import io.vertx.tp.workflow.uca.runner.EventOn;
 import io.vertx.up.eon.KName;
@@ -49,6 +48,11 @@ class KitTodo {
 
         if (wInstance.isEnd()) {
             updatedData.put(KName.Flow.TRACE_END, Boolean.TRUE);
+        }
+        // Todo based on previous
+        final WMoveRule rule = wInstance.rule();
+        if (Objects.nonNull(rule) && Ut.notNil(rule.getTodo())) {
+            updatedData.mergeIn(rule.getTodo());
         }
         return updatedData;
     }
@@ -118,7 +122,7 @@ class KitTodo {
      *      "toUser": null
      * }
      */
-    static WTodo inputNext(final WTodo todo, final WInstance wInstance, final Task nextTask) {
+    static WTodo inputNext(final WTodo todo, final WInstance wInstance) {
         // Todo New
         final JsonObject newJson = Ux.toJson(todo);
         WTodo entity = Ux.fromJson(newJson, WTodo.class);
@@ -131,8 +135,12 @@ class KitTodo {
             entity.setTraceOrder(todo.getTraceOrder() + 1);
             entity.setSerial(serial + "-" + entity.getTraceOrder());
             entity.setCode(entity.getSerial());
+            // Clear comments
+            entity.setCommentApproval(null);
+            entity.setCommentReject(null);
         }
         {
+            final Task nextTask = wInstance.task();
             entity.setTraceId(nextTask.getProcessInstanceId());
             entity.setTraceTaskId(nextTask.getId());
             entity.setStatus(TodoStatus.PENDING.name());           // Force Pending
@@ -148,8 +156,7 @@ class KitTodo {
             entity.setUpdatedAt(LocalDateTime.now());
             entity.setUpdatedBy(todo.getUpdatedBy());
         }
-        final WMove move = wInstance.move();
-        final WMoveRule rule = move.ruleFind();
+        final WMoveRule rule = wInstance.rule();
         if (Objects.nonNull(rule)) {
             final JsonObject todoUpdate = rule.getTodo();
             entity = Ux.updateT(entity, todoUpdate);

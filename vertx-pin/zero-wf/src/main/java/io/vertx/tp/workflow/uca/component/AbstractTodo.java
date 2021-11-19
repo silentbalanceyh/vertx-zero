@@ -9,7 +9,6 @@ import io.vertx.tp.workflow.atom.WInstance;
 import io.vertx.up.eon.KName;
 import io.vertx.up.unity.Ux;
 import org.camunda.bpm.engine.runtime.ProcessInstance;
-import org.camunda.bpm.engine.task.Task;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
@@ -31,8 +30,8 @@ public abstract class AbstractTodo extends AbstractTransfer {
         return this.todoKit.updateAsync(params);
     }
 
-    protected Future<WTodo> todoGenerate(final WTodo todo, final WInstance instance, final Task nextTask) {
-        final WTodo generated = KitTodo.inputNext(todo, instance, nextTask);
+    protected Future<WTodo> todoGenerate(final WTodo todo, final WInstance instance) {
+        final WTodo generated = KitTodo.inputNext(todo, instance);
         return Ux.Jooq.on(WTodoDao.class).insertAsync(generated);
     }
 

@@ -60,6 +60,6 @@ public class FlowSequenceListener implements JavaDelegate {
         instance.setParentActivityInstanceId(execution.getParentActivityInstanceId());
         final HistoryEventHandler handler = WfPin.camundaLogger();
         handler.handleEvent(instance);
-        Wf.Log.infoMove(this.getClass(), "( History ) `{0}` history generated {1}", instance.getActivityType(), instance.getActivityId());
+        Wf.Log.infoMove(this.getClass(), "[ History ] `{0}` history generated {1}", instance.getActivityType(), instance.getActivityId());
     }
 }

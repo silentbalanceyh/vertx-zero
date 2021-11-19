@@ -13,8 +13,15 @@
                 "field": "confirmed",
                 "value": true,
                 "record": {
-                    "status": "SUCCESS",
+                    "status": "DONE",
                     "active": true
+                }
+            },
+            {
+                "field": "confirmed",
+                "value": false,
+                "todo": {
+                    "status": "REJECTED"
                 }
             }
         ]

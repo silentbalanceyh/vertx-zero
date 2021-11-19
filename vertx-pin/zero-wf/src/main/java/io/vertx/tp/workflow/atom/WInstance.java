@@ -7,6 +7,8 @@ import io.vertx.up.unity.Ux;
 import org.camunda.bpm.engine.runtime.ProcessInstance;
 import org.camunda.bpm.engine.task.Task;
 
+import java.util.Objects;
+
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
@@ -64,8 +66,8 @@ public class WInstance {
         return this.task;
     }
 
-    public WMove move() {
-        return this.move;
+    public WMoveRule rule() {
+        return Objects.requireNonNull(this.move).ruleFind();
     }
 
     public boolean isEnd() {

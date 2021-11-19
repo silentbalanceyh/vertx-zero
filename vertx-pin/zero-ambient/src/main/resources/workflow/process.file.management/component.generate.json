@@ -1,10 +1,13 @@
 {
     "eFileApprove": {
+        "data": {
+            "confirmed": "confirmed"
+        },
         "rule": [
             {
                 "field": "confirmed",
                 "value": false,
-                "data": {
+                "todo": {
                     "status": "DRAFT"
                 }
             }
