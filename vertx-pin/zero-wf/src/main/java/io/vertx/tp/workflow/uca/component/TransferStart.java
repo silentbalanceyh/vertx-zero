@@ -4,6 +4,7 @@ import cn.vertxup.workflow.domain.tables.pojos.WTodo;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.workflow.atom.ConfigTodo;
+import io.vertx.tp.workflow.atom.WInstance;
 import io.vertx.up.eon.em.ChangeFlag;
 import org.camunda.bpm.engine.runtime.ProcessInstance;
 
@@ -12,9 +13,10 @@ import org.camunda.bpm.engine.runtime.ProcessInstance;
  */
 public class TransferStart extends AbstractTodo implements Transfer {
     @Override
-    public Future<WTodo> moveAsync(final JsonObject params, final ProcessInstance instance) {
+    public Future<WTodo> moveAsync(final JsonObject params, final WInstance wInstance) {
         // Record processing first
         final ConfigTodo config = this.todoConfig(params);
+        final ProcessInstance instance = wInstance.instance();
         /*
          * 1. Process Record
          * 2. Todo Record

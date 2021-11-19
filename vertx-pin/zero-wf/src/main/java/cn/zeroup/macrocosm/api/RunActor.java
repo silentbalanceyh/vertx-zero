@@ -70,10 +70,11 @@ public class RunActor {
         final Transfer transfer = engine.componentStart();
         final Movement runner = engine.componentRun();
         // Camunda Processing
-        return runner.moveAsync(data).compose(instance -> transfer.moveAsync(data, instance)
-            // Callback
-            .compose(Ux::futureJ)
-        );
+        return runner.moveAsync(data)
+            .compose(instance -> transfer.moveAsync(data, instance)
+                // Callback
+                .compose(Ux::futureJ)
+            );
     }
 
     @Me
@@ -82,10 +83,11 @@ public class RunActor {
         final EngineOn engine = EngineOn.connect(data);
         final Transfer transfer = engine.componentGenerate();
         final Movement runner = engine.componentRun();
-        return runner.moveAsync(data).compose(instance -> transfer.moveAsync(data, instance)
-            // Callback
-            .compose(Ux::futureJ)
-        );
+        return runner.moveAsync(data)
+            .compose(instance -> transfer.moveAsync(data, instance)
+                // Callback
+                .compose(Ux::futureJ)
+            );
     }
 
     @Me

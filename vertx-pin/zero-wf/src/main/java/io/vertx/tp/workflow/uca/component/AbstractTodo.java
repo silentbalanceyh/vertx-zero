@@ -1,11 +1,13 @@
 package io.vertx.tp.workflow.uca.component;
 
+import cn.vertxup.workflow.domain.tables.daos.WTodoDao;
 import cn.vertxup.workflow.domain.tables.pojos.WTodo;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.workflow.atom.ConfigTodo;
-import io.vertx.tp.workflow.atom.WMove;
+import io.vertx.tp.workflow.atom.WInstance;
 import io.vertx.up.eon.KName;
+import io.vertx.up.unity.Ux;
 import org.camunda.bpm.engine.runtime.ProcessInstance;
 import org.camunda.bpm.engine.task.Task;
 
@@ -29,8 +31,9 @@ public abstract class AbstractTodo extends AbstractTransfer {
         return this.todoKit.updateAsync(params);
     }
 
-    protected Future<WTodo> todoGenerate(final WTodo todo, final Task task, final WMove move) {
-        return this.todoKit.nextAsync(todo, task, move);
+    protected Future<WTodo> todoGenerate(final WTodo todo, final WInstance instance, final Task nextTask) {
+        final WTodo generated = KitTodo.inputNext(todo, instance, nextTask);
+        return Ux.Jooq.on(WTodoDao.class).insertAsync(generated);
     }
 
     protected ConfigTodo todoConfig(final JsonObject params) {

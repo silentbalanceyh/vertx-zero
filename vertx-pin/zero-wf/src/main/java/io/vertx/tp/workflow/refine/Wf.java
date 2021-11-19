@@ -15,6 +15,7 @@ import java.util.Set;
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 public class Wf {
+
     /*
      * {
      *      "task": "Event name of task, event id",
