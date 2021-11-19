@@ -1,7 +1,13 @@
 {
     "eFileApprove": {
-        "confirmed.false.todo": {
-            "status": "DRAFT"
-        }
+        "rule": [
+            {
+                "field": "confirmed",
+                "value": false,
+                "data": {
+                    "status": "DRAFT"
+                }
+            }
+        ]
     }
 }

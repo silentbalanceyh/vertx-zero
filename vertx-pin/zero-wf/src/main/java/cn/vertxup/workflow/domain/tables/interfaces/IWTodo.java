@@ -172,6 +172,18 @@ public interface IWTodo extends VertxPojo, Serializable {
     public Boolean getInstance();
 
     /**
+     * Setter for <code>DB_ETERNAL.W_TODO.PARENT_ID</code>. 「parentId」-
+     * 待办支持父子集结构，父待办执行时候子待办同样执行
+     */
+    public IWTodo setParentId(String value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.W_TODO.PARENT_ID</code>. 「parentId」-
+     * 待办支持父子集结构，父待办执行时候子待办同样执行
+     */
+    public String getParentId();
+
+    /**
      * Setter for <code>DB_ETERNAL.W_TODO.TRACE_ID</code>. 「traceId」-
      * 同一个流程的待办执行分组
      */
@@ -196,6 +208,16 @@ public interface IWTodo extends VertxPojo, Serializable {
     public String getTraceTaskId();
 
     /**
+     * Setter for <code>DB_ETERNAL.W_TODO.TRACE_END</code>. 「traceEnd」- 主单执行完成
+     */
+    public IWTodo setTraceEnd(Boolean value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.W_TODO.TRACE_END</code>. 「traceEnd」- 主单执行完成
+     */
+    public Boolean getTraceEnd();
+
+    /**
      * Setter for <code>DB_ETERNAL.W_TODO.TRACE_ORDER</code>. 「traceOrder」-
      * 待办的处理顺序
      */
@@ -208,26 +230,16 @@ public interface IWTodo extends VertxPojo, Serializable {
     public Integer getTraceOrder();
 
     /**
-     * Setter for <code>DB_ETERNAL.W_TODO.TRACE_END</code>. 「traceEnd」- 主单执行完成
+     * Setter for <code>DB_ETERNAL.W_TODO.TRACE_EXTRA</code>. 「traceExtra」-
+     * 执行完成时，如果要存储额外的信息，则直接存储在该字段中
      */
-    public IWTodo setTraceEnd(Boolean value);
+    public IWTodo setTraceExtra(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.W_TODO.TRACE_END</code>. 「traceEnd」- 主单执行完成
+     * Getter for <code>DB_ETERNAL.W_TODO.TRACE_EXTRA</code>. 「traceExtra」-
+     * 执行完成时，如果要存储额外的信息，则直接存储在该字段中
      */
-    public Boolean getTraceEnd();
-
-    /**
-     * Setter for <code>DB_ETERNAL.W_TODO.PARENT_ID</code>. 「parentId」-
-     * 待办支持父子集结构，父待办执行时候子待办同样执行
-     */
-    public IWTodo setParentId(String value);
-
-    /**
-     * Getter for <code>DB_ETERNAL.W_TODO.PARENT_ID</code>. 「parentId」-
-     * 待办支持父子集结构，父待办执行时候子待办同样执行
-     */
-    public String getParentId();
+    public String getTraceExtra();
 
     /**
      * Setter for <code>DB_ETERNAL.W_TODO.COMMENT</code>. 「comment」- 待办描述
@@ -513,11 +525,12 @@ public interface IWTodo extends VertxPojo, Serializable {
                 setOrThrow(this::setModelForm,json::getString,"MODEL_FORM","java.lang.String");
                 setOrThrow(this::setModelComponent,json::getString,"MODEL_COMPONENT","java.lang.String");
                 setOrThrow(this::setInstance,json::getBoolean,"INSTANCE","java.lang.Boolean");
+                setOrThrow(this::setParentId,json::getString,"PARENT_ID","java.lang.String");
                 setOrThrow(this::setTraceId,json::getString,"TRACE_ID","java.lang.String");
                 setOrThrow(this::setTraceTaskId,json::getString,"TRACE_TASK_ID","java.lang.String");
-                setOrThrow(this::setTraceOrder,json::getInteger,"TRACE_ORDER","java.lang.Integer");
                 setOrThrow(this::setTraceEnd,json::getBoolean,"TRACE_END","java.lang.Boolean");
-                setOrThrow(this::setParentId,json::getString,"PARENT_ID","java.lang.String");
+                setOrThrow(this::setTraceOrder,json::getInteger,"TRACE_ORDER","java.lang.Integer");
+                setOrThrow(this::setTraceExtra,json::getString,"TRACE_EXTRA","java.lang.String");
                 setOrThrow(this::setComment,json::getString,"COMMENT","java.lang.String");
                 setOrThrow(this::setCommentApproval,json::getString,"COMMENT_APPROVAL","java.lang.String");
                 setOrThrow(this::setCommentReject,json::getString,"COMMENT_REJECT","java.lang.String");
@@ -563,11 +576,12 @@ public interface IWTodo extends VertxPojo, Serializable {
                 json.put("MODEL_FORM",getModelForm());
                 json.put("MODEL_COMPONENT",getModelComponent());
                 json.put("INSTANCE",getInstance());
+                json.put("PARENT_ID",getParentId());
                 json.put("TRACE_ID",getTraceId());
                 json.put("TRACE_TASK_ID",getTraceTaskId());
-                json.put("TRACE_ORDER",getTraceOrder());
                 json.put("TRACE_END",getTraceEnd());
-                json.put("PARENT_ID",getParentId());
+                json.put("TRACE_ORDER",getTraceOrder());
+                json.put("TRACE_EXTRA",getTraceExtra());
                 json.put("COMMENT",getComment());
                 json.put("COMMENT_APPROVAL",getCommentApproval());
                 json.put("COMMENT_REJECT",getCommentReject());

@@ -34,7 +34,7 @@ public class TransferStandard extends AbstractTodo implements Transfer {
         final EventOn event = EventOn.get();
         final IsOn is = IsOn.get();
         if (is.isEnd(instance)) {
-            updatedData.put("traceEnd", Boolean.TRUE);
+            updatedData.put(KName.Flow.TRACE_END, Boolean.TRUE);
         }
         return this.todoUpdate(updatedData).compose(todo -> {
             if (TodoStatus.DRAFT == status) {

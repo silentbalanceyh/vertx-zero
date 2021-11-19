@@ -23,9 +23,9 @@ public interface StoreOn {
      * }
      */
 
-    Future<JsonObject> workflowByDefinition(ProcessDefinition definition);
+    Future<JsonObject> workflowGet(ProcessDefinition definition);
 
-    Future<JsonObject> workflowByInstance(ProcessDefinition definition, ProcessInstance instance);
+    Future<JsonObject> workflowGet(ProcessDefinition definition, ProcessInstance instance);
 
     /*
      * {
@@ -35,8 +35,9 @@ public interface StoreOn {
      *      }
      * }
      */
-    Future<JsonObject> formByDefinition(ProcessDefinition definition);
+    Future<JsonObject> formGet(ProcessDefinition definition);
 
-    Future<JsonObject> formByInstance(ProcessDefinition definition, ProcessInstance instance);
+    Future<JsonObject> formGet(ProcessDefinition definition, ProcessInstance instance);
 
+    Future<Boolean> instanceEnd(ProcessInstance instance);
 }

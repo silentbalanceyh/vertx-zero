@@ -101,9 +101,15 @@ public class RunActor {
 
     @Me
     @Address(HighWay.Do.FLOW_BATCH)
-    public Future<JsonObject> batch(final JsonObject body) {
-
-        return Ux.futureJ();
+    public Future<JsonObject> batch(final JsonObject data) {
+        final EngineOn engine = EngineOn.connect(data);
+        // ProcessDefinition
+        final Stay stay = engine.stayCancel();
+        final Movement runner = engine.environmentPre();
+        return runner.moveAsync(data)
+            .compose(instance -> stay.keepAsync(data, instance))
+            // Callback
+            .compose(Ux::futureJ);
     }
 
     @Me

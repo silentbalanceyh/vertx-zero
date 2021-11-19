@@ -2,11 +2,11 @@ package io.vertx.tp.workflow.uca.component;
 
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
+import io.vertx.tp.workflow.atom.WKey;
 import io.vertx.tp.workflow.refine.Wf;
 import io.vertx.tp.workflow.uca.runner.EventOn;
 import io.vertx.tp.workflow.uca.runner.RunOn;
 import io.vertx.up.atom.Refer;
-import io.vertx.up.eon.KName;
 import io.vertx.up.unity.Ux;
 import org.camunda.bpm.engine.runtime.ProcessInstance;
 
@@ -19,8 +19,8 @@ public class MovementNext extends AbstractTransfer implements Movement {
     @Override
     public Future<ProcessInstance> moveAsync(final JsonObject params) {
         // Extract workflow parameters
-        final JsonObject workflow = params.getJsonObject(KName.Flow.WORKFLOW);
-        final String instanceId = workflow.getString(KName.Flow.INSTANCE_ID);
+        final WKey key = WKey.build(params);
+        final String instanceId = key.instanceId();
         // Engine Connect
         final EventOn eventOn = EventOn.get();
         final Refer instanceRef = new Refer();
@@ -34,7 +34,7 @@ public class MovementNext extends AbstractTransfer implements Movement {
                      * Call Start Process
                      * -- WMove
                      */
-                    final String definitionId = workflow.getString(KName.Flow.DEFINITION_ID);
+                    final String definitionId = key.definitionId();
                     return eventOn.start(definitionId)
                         .compose(event -> Ux.future(this.moveGet(event.getId())));
                 } else {
@@ -43,7 +43,7 @@ public class MovementNext extends AbstractTransfer implements Movement {
                      * Call Next Process with active task
                      * -- WMove ( Current task Move )
                      */
-                    final String taskId = workflow.getString(KName.Flow.TASK_ID);
+                    final String taskId = key.taskId();
                     return eventOn.taskSmart(instance, taskId)
                         .compose(task -> Ux.future(this.moveGet(task.getTaskDefinitionKey())));
                 }
@@ -56,7 +56,7 @@ public class MovementNext extends AbstractTransfer implements Movement {
                 // Camunda Workflow Running
                 final RunOn runOn = RunOn.get();
                 if (Objects.isNull(instance)) {
-                    final String definitionKey = workflow.getString(KName.Flow.DEFINITION_KEY);
+                    final String definitionKey = key.definitionKey();
                     return runOn.startAsync(definitionKey, wParams);
                 } else {
                     return runOn.moveAsync(instance, wParams);

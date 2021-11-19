@@ -48,7 +48,7 @@ class RunEngine implements RunOn {
     @Override
     public Future<Boolean> stopAsync(final ProcessInstance instance) {
         final RuntimeService service = WfPin.camundaRuntime();
-
+        // Remove the instance cascade
         return null;
     }
 }

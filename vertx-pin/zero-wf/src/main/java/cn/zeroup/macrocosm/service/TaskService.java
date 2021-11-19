@@ -79,7 +79,7 @@ public class TaskService implements TaskStub {
 
     private Future<JsonObject> fetchWithFlow(final WTodo todo, final WProcess process, final String userId) {
         final StoreOn storeOn = StoreOn.get();
-        return storeOn.workflowByInstance(process.definition(), process.instance())
+        return storeOn.workflowGet(process.definition(), process.instance())
             .compose(workflow -> {
                 // Record based on start
                 final EngineOn engine = EngineOn.connect(workflow.getString(KName.Flow.DEFINITION_KEY));

@@ -38,9 +38,8 @@ public class EngineOn {
     }
 
     public static EngineOn connect(final JsonObject params) {
-        final JsonObject workflow = params.getJsonObject(KName.Flow.WORKFLOW);
-        final String definitionKey = workflow.getString(KName.Flow.DEFINITION_KEY);
-        return connect(definitionKey);
+        final WKey key = WKey.build(params);
+        return connect(key.definitionKey());
     }
 
     // ----------------------- Configured Component -------------------------
@@ -64,6 +63,10 @@ public class EngineOn {
 
 
     // ----------------------- Fixed Save -------------------------
+    public Movement environmentPre() {
+        return this.component(MovementPre.class, null);
+    }
+
     public Stay stayDraft() {
         return this.component(StaySave.class, null);
     }

@@ -7,7 +7,6 @@ import io.vertx.tp.workflow.atom.ConfigTodo;
 import io.vertx.tp.workflow.atom.WMove;
 import io.vertx.up.eon.KName;
 import io.vertx.up.eon.em.ChangeFlag;
-import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
 import java.util.Objects;
@@ -33,8 +32,7 @@ public abstract class AbstractTransfer implements Behaviour {
             .filter(field -> !KName.Flow.TODO.equals(field))
             .forEach(field -> {
                 final JsonObject value = this.config.getJsonObject(field);
-                final WMove item = Ux.fromJson(value, WMove.class);
-                item.setNode(field);
+                final WMove item = WMove.create(field, value);
                 this.moveMap.put(field, item);
             });
         return this;
@@ -49,7 +47,7 @@ public abstract class AbstractTransfer implements Behaviour {
 
 
     protected WMove moveGet(final String node) {
-        return this.moveMap.getOrDefault(node, new WMove());
+        return this.moveMap.getOrDefault(node, WMove.empty());
     }
 
     protected JsonObject moveData(final JsonObject params, final WMove move) {

@@ -20,7 +20,7 @@ public class FlowService implements FlowStub {
     public Future<JsonObject> fetchFlow(final String definitionKey, final String sigma) {
         // 1. Fetch workflow definition from Camunda
         final StoreOn storeOn = StoreOn.get();
-        return Wf.processByKey(definitionKey).compose(storeOn::workflowByDefinition).compose(definition -> {
+        return Wf.processByKey(definitionKey).compose(storeOn::workflowGet).compose(definition -> {
             // Fetch X_FLOW
             final JsonObject condition = Ux.whereAnd();
             condition.put(KName.CODE, definitionKey);
@@ -38,9 +38,9 @@ public class FlowService implements FlowStub {
     @Override
     public Future<JsonObject> fetchForm(final ProcessDefinition definition, final String sigma) {
         final StoreOn storeOn = StoreOn.get();
-        return storeOn.formByDefinition(definition)
+        return storeOn.formGet(definition)
             .compose(formData -> this.fetchFormInternal(formData, sigma))
-            .compose(response -> storeOn.workflowByDefinition(definition)
+            .compose(response -> storeOn.workflowGet(definition)
                 .compose(Ux.attachJ(KName.Flow.WORKFLOW, response))
             );
     }
@@ -48,9 +48,9 @@ public class FlowService implements FlowStub {
     @Override
     public Future<JsonObject> fetchForm(final ProcessDefinition definition, final ProcessInstance instance, final String sigma) {
         final StoreOn storeOn = StoreOn.get();
-        return storeOn.formByInstance(definition, instance)
+        return storeOn.formGet(definition, instance)
             .compose(formData -> this.fetchFormInternal(formData, sigma))
-            .compose(response -> storeOn.workflowByInstance(definition, instance)
+            .compose(response -> storeOn.workflowGet(definition, instance)
                 .compose(Ux.attachJ(KName.Flow.WORKFLOW, response))
             );
     }

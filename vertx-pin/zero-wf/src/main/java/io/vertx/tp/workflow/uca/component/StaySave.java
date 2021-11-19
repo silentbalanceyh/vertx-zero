@@ -16,6 +16,7 @@ public class StaySave extends AbstractTodo implements Stay {
         // Todo Updating
         return this.todoUpdate(params).compose(todo -> {
             final ConfigTodo configTodo = new ConfigTodo(todo);
+            // Record Updating
             return this.recordUpdate(params, configTodo).compose(nil -> Ux.future(todo));
         });
     }

@@ -8,9 +8,15 @@
         "data": {
             "confirmed": "confirmed"
         },
-        "confirmed.true.record": {
-            "status": "SUCCESS",
-            "active": true
-        }
+        "rule": [
+            {
+                "field": "confirmed",
+                "value": true,
+                "record": {
+                    "status": "SUCCESS",
+                    "active": true
+                }
+            }
+        ]
     }
 }

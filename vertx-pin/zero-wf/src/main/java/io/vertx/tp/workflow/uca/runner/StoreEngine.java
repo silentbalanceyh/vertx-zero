@@ -1,5 +1,6 @@
 package io.vertx.tp.workflow.uca.runner;
 
+import cn.zeroup.macrocosm.cv.em.TodoStatus;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
@@ -10,6 +11,7 @@ import io.vertx.up.eon.KName;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 import org.camunda.bpm.engine.FormService;
+import org.camunda.bpm.engine.RuntimeService;
 import org.camunda.bpm.engine.form.StartFormData;
 import org.camunda.bpm.engine.repository.ProcessDefinition;
 import org.camunda.bpm.engine.runtime.ProcessInstance;
@@ -33,7 +35,7 @@ class StoreEngine implements StoreOn {
      * }
      */
     @Override
-    public Future<JsonObject> workflowByDefinition(final ProcessDefinition definition) {
+    public Future<JsonObject> workflowGet(final ProcessDefinition definition) {
         final JsonObject workflow = Wf.bpmnOut(definition);
         final EventOn eventOn = EventOn.get();
         return eventOn.startSet(definition.getId())
@@ -58,7 +60,7 @@ class StoreEngine implements StoreOn {
      * }
      */
     @Override
-    public Future<JsonObject> workflowByInstance(final ProcessDefinition definition, final ProcessInstance instance) {
+    public Future<JsonObject> workflowGet(final ProcessDefinition definition, final ProcessInstance instance) {
         final JsonObject workflow = Wf.bpmnOut(definition);
         final EventOn eventOn = EventOn.get();
         final Refer responseRef = new Refer();
@@ -76,7 +78,12 @@ class StoreEngine implements StoreOn {
             .compose(nil -> eventOn.taskHistory(instance))
             .compose(history -> {
                 /*
-                 * Remove current task for printing
+                 * Remove current task for printing to avoid
+                 * `success` and `active` here, because we'll draw ongoing process in this method
+                 * it means that the system must distinguish history and active,
+                 *
+                 * 1. active is current
+                 * 2. history should be finished
                  */
                 final Task task = taskRef.get();
                 history.remove(task.getTaskDefinitionKey());
@@ -94,7 +101,7 @@ class StoreEngine implements StoreOn {
     // Task Not Started
     // StartForm: form by definition
     @Override
-    public Future<JsonObject> formByDefinition(final ProcessDefinition definition) {
+    public Future<JsonObject> formGet(final ProcessDefinition definition) {
         final FormService formService = WfPin.camundaForm();
         final StartFormData startForm = formService.getStartFormData(definition.getId());
         Objects.requireNonNull(startForm);
@@ -115,7 +122,7 @@ class StoreEngine implements StoreOn {
     // Task form, here definition Id is instance id
     // TaskForm: form by instance
     @Override
-    public Future<JsonObject> formByInstance(final ProcessDefinition definition, final ProcessInstance instance) {
+    public Future<JsonObject> formGet(final ProcessDefinition definition, final ProcessInstance instance) {
         final EventOn eventOn = EventOn.get();
         return eventOn.taskActive(instance)
             /*
@@ -130,5 +137,13 @@ class StoreEngine implements StoreOn {
                 final String formKey = task.getFormKey();
                 return Ux.future(Wf.formOut(formKey, definition.getId(), definition.getKey()));
             });
+    }
+
+    @Override
+    public Future<Boolean> instanceEnd(final ProcessInstance instance) {
+        final RuntimeService service = WfPin.camundaRuntime();
+        service.deleteProcessInstanceIfExists(instance.getId(), TodoStatus.CANCELED.name(),
+            false, false, false, false);
+        return Ux.futureT();
     }
 }
