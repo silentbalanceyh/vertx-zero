@@ -9,6 +9,9 @@ import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
 import java.io.Serializable;
+import java.util.Objects;
+import java.util.Set;
+import java.util.TreeSet;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
@@ -16,7 +19,8 @@ import java.util.concurrent.ConcurrentMap;
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 public class WMove implements Serializable {
-    private final transient ConcurrentMap<String, WMoveRule> rules = new ConcurrentHashMap();
+    private final transient ConcurrentMap<String, WMoveRule> rules = new ConcurrentHashMap<>();
+    private final transient JsonObject params = new JsonObject();
     /*
      * The data structure is as following:
      * {
@@ -30,15 +34,15 @@ public class WMove implements Serializable {
      *     }
      * }
      */
-    private transient String node;
-    private transient ConcurrentMap<String, String> data = new ConcurrentHashMap<>();
+    private final transient String node;
+    private final transient ConcurrentMap<String, String> data = new ConcurrentHashMap<>();
 
     private WMove(final String node, final JsonObject config) {
         // Node Name
         this.node = node;
         // Config for Camunda Engine
         final JsonObject data = Ut.sureJObject(config.getJsonObject(KName.DATA));
-        Ut.<String>itJObject(data, (value, field) -> data.put(field, value));
+        Ut.<String>itJObject(data, (value, field) -> this.data.put(field, value));
 
         // Processing for left rules
         final JsonArray rules = Ut.sureJArray(config.getJsonArray(KName.RULE));
@@ -60,24 +64,29 @@ public class WMove implements Serializable {
         return new WMove(null, new JsonObject());
     }
 
-    public String getNode() {
-        return this.node;
+    public WMove stored(final JsonObject request) {
+        // Clean Params
+        this.params.clear();
+        this.data.forEach((to, from) -> this.params.put(to, request.getValue(from)));
+        return this;
     }
 
-    public void setNode(final String node) {
-        this.node = node;
+    public WMoveRule ruleFind() {
+        final Set<String> keys = new TreeSet<>();
+        this.params.fieldNames().forEach(field -> {
+            final Object value = this.params.getValue(field);
+            if (Objects.nonNull(value)) {
+                final String key = field + Strings.EQUAL + value;
+                keys.add(key);
+            }
+        });
+        final String key = Ut.fromJoin(keys);
+        final WMoveRule rule = this.rules.getOrDefault(key, null);
+        Wf.Log.infoMove(this.getClass(), "[ Rule ] The node `{0}` rule processed: {1}", this.node, rule);
+        return rule;
     }
 
-    public ConcurrentMap<String, String> getData() {
-        return this.data;
-    }
-
-    public void setData(final ConcurrentMap<String, String> data) {
-        this.data = data;
-    }
-
-    public WMoveRule rule(final String field, final Object value) {
-        final String key = field + Strings.EQUAL + value;
-        return this.rules.getOrDefault(key, null);
+    public JsonObject parameters() {
+        return this.params;
     }
 }

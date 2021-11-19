@@ -100,8 +100,8 @@ public final class Ux {
         return otherwise(() -> input);
     }
 
-    public static <T> T combineT(final T query, final JsonObject params) {
-        return Compare.combineT(query, params);
+    public static <T> T updateT(final T query, final JsonObject params) {
+        return Compare.updateT(query, params);
     }
 
     /*

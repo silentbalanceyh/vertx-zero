@@ -50,16 +50,16 @@ public class MovementNext extends AbstractTransfer implements Movement {
             })
             .compose(move -> {
                 // Camunda Instance Moving
-                final JsonObject wParams = this.moveData(params, move);
+                move.stored(params);
                 final ProcessInstance instance = instanceRef.get();
 
                 // Camunda Workflow Running
                 final RunOn runOn = RunOn.get();
                 if (Objects.isNull(instance)) {
                     final String definitionKey = key.definitionKey();
-                    return runOn.startAsync(definitionKey, wParams);
+                    return runOn.startAsync(definitionKey, move);
                 } else {
-                    return runOn.moveAsync(instance, wParams);
+                    return runOn.moveAsync(instance, move);
                 }
             });
     }

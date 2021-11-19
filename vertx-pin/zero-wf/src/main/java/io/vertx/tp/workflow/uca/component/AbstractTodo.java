@@ -4,6 +4,7 @@ import cn.vertxup.workflow.domain.tables.pojos.WTodo;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.workflow.atom.ConfigTodo;
+import io.vertx.tp.workflow.atom.WMove;
 import io.vertx.up.eon.KName;
 import org.camunda.bpm.engine.runtime.ProcessInstance;
 import org.camunda.bpm.engine.task.Task;
@@ -28,8 +29,8 @@ public abstract class AbstractTodo extends AbstractTransfer {
         return this.todoKit.updateAsync(params);
     }
 
-    protected Future<WTodo> todoGenerate(final WTodo todo, final Task task) {
-        return this.todoKit.nextAsync(todo, task);
+    protected Future<WTodo> todoGenerate(final WTodo todo, final Task task, final WMove move) {
+        return this.todoKit.nextAsync(todo, task, move);
     }
 
     protected ConfigTodo todoConfig(final JsonObject params) {

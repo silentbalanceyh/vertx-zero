@@ -156,7 +156,7 @@ class Compare {
     }
 
     @SuppressWarnings("all")
-    static <T> T combineT(final T query, final JsonObject params) {
+    static <T> T updateT(final T query, final JsonObject params) {
         Objects.requireNonNull(query);
         final Class<?> entityCls = query.getClass();
         final JsonObject original = Ux.toJson(query);

@@ -29,12 +29,27 @@ public class QueueActor {
 
     @Address(HighWay.Queue.TASK_QUEUE)
     public Future<JsonObject> fetchQueue(final JsonObject qr, final User user) {
-        final JsonObject qrCombine = Ux.whereQrA(qr, KName.STATUS + ",i",
+        final String userId = Ux.keyUser(user);
+        // My Queue
+        final JsonObject queueCreate = Ux.whereAnd();
+        queueCreate.put(KName.CREATED_BY, userId);
+        queueCreate.put(KName.STATUS + ",i",
             new JsonArray()
                 .add(TodoStatus.PENDING.name())
                 .add(TodoStatus.ACCEPTED.name())
                 .add(TodoStatus.DRAFT.name())
         );
+        // Other Queue
+        final JsonObject queueApprove = Ux.whereAnd();
+        queueApprove.put("toUser", userId);
+        queueApprove.put(KName.STATUS + ",i",
+            new JsonArray()
+                .add(TodoStatus.PENDING.name())
+        );
+        final JsonObject combine = Ux.whereOr();
+        combine.put("$MY$", queueCreate);
+        combine.put("$AP$", queueApprove);
+        final JsonObject qrCombine = Ux.whereQrA(qr, "$Q$", combine);
         Wf.Log.initQueue(this.getClass(), "Queue condition: {0}", qrCombine.encode());
         return this.taskStub.fetchQueue(qrCombine);
     }
@@ -46,6 +61,7 @@ public class QueueActor {
             new JsonArray()
                 .add(TodoStatus.FINISHED.name())
                 .add(TodoStatus.REJECTED.name())
+                .add(TodoStatus.CANCELED.name())
         );
         final JsonObject qrFinal = Ux.whereQrA(qrCombine, "traceEnd", Boolean.TRUE);
         Wf.Log.initQueue(this.getClass(), "History condition: {0}", qrCombine.encode());

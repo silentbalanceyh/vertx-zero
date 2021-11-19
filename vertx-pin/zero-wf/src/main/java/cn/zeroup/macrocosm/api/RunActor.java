@@ -102,6 +102,12 @@ public class RunActor {
     @Me
     @Address(HighWay.Do.FLOW_BATCH)
     public Future<JsonObject> batch(final JsonObject data) {
+        return Ux.futureJ();
+    }
+
+    @Me
+    @Address(HighWay.Do.FLOW_CANCEL)
+    public Future<JsonObject> cancel(final JsonObject data) {
         final EngineOn engine = EngineOn.connect(data);
         // ProcessDefinition
         final Stay stay = engine.stayCancel();
@@ -110,12 +116,5 @@ public class RunActor {
             .compose(instance -> stay.keepAsync(data, instance))
             // Callback
             .compose(Ux::futureJ);
-    }
-
-    @Me
-    @Address(HighWay.Do.FLOW_CANCEL)
-    public Future<JsonObject> cancel(final JsonObject body) {
-
-        return Ux.futureJ();
     }
 }

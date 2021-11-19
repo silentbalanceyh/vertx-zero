@@ -6,6 +6,8 @@ import cn.zeroup.macrocosm.cv.em.TodoStatus;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.workflow.atom.ConfigTodo;
+import io.vertx.tp.workflow.atom.WMove;
+import io.vertx.tp.workflow.atom.WMoveRule;
 import io.vertx.tp.workflow.uca.runner.EventOn;
 import io.vertx.up.eon.KName;
 import io.vertx.up.uca.jooq.UxJooq;
@@ -27,7 +29,7 @@ class KitTodo {
         final UxJooq jooq = Ux.Jooq.on(WTodoDao.class);
         final String key = params.getString(KName.KEY);
         return jooq.<WTodo>fetchByIdAsync(key).compose(query -> {
-            final WTodo updated = Ux.combineT(query, params);
+            final WTodo updated = Ux.updateT(query, params);
             return jooq.updateAsync(updated);
         });
     }
@@ -54,10 +56,10 @@ class KitTodo {
         });
     }
 
-    Future<WTodo> nextAsync(final WTodo todo, final Task task) {
+    Future<WTodo> nextAsync(final WTodo todo, final Task task, final WMove move) {
         // Todo New
         final JsonObject newJson = Ux.toJson(todo);
-        final WTodo entity = Ux.fromJson(newJson, WTodo.class);
+        WTodo entity = Ux.fromJson(newJson, WTodo.class);
         {
             // key remove
             entity.setKey(UUID.randomUUID().toString());
@@ -69,6 +71,7 @@ class KitTodo {
             entity.setCode(entity.getSerial());
         }
         {
+
             entity.setTraceId(task.getProcessInstanceId());
             entity.setTraceTaskId(task.getId());
             entity.setStatus(TodoStatus.PENDING.name());           // Force Pending
@@ -84,7 +87,11 @@ class KitTodo {
             entity.setUpdatedAt(LocalDateTime.now());
             entity.setUpdatedBy(todo.getUpdatedBy());
         }
-
+        final WMoveRule rule = move.ruleFind();
+        if (Objects.nonNull(rule)) {
+            final JsonObject todoUpdate = rule.getTodo();
+            entity = Ux.updateT(entity, todoUpdate);
+        }
         final UxJooq jooq = Ux.Jooq.on(WTodoDao.class);
         return jooq.insertAsync(entity);
     }

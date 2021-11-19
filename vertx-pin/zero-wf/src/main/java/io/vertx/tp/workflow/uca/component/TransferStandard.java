@@ -5,6 +5,7 @@ import cn.zeroup.macrocosm.cv.em.TodoStatus;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.workflow.atom.ConfigTodo;
+import io.vertx.tp.workflow.atom.WMove;
 import io.vertx.tp.workflow.uca.runner.EventOn;
 import io.vertx.tp.workflow.uca.runner.IsOn;
 import io.vertx.up.eon.KName;
@@ -49,8 +50,10 @@ public class TransferStandard extends AbstractTodo implements Transfer {
              * 1. Instance is not ended
              * 2. Next task is UserEvent
              */
+            final WMove move = this.moveGet(task.getTaskDefinitionKey());
+            move.stored(params);
             if (!is.isEnd(instance) && is.isUserEvent(task)) {
-                return this.todoGenerate(todo, task);
+                return this.todoGenerate(todo, task, move);
             } else {
                 return Ux.future(todo);
             }

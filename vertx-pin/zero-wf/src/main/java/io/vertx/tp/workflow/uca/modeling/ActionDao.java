@@ -27,7 +27,7 @@ class ActionDao implements ActionOn {
         Objects.requireNonNull(config.dao());
         final UxJooq jooq = Ux.Jooq.on(config.dao());
         return jooq.<T>fetchByIdAsync(key).compose(query -> {
-            final T entity = Ux.combineT(query, params);
+            final T entity = Ux.updateT(query, params);
             return jooq.updateAsync(entity);
         }).compose(Ux::futureJ);
     }

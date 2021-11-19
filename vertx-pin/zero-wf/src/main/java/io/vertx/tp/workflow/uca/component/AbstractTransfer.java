@@ -50,13 +50,6 @@ public abstract class AbstractTransfer implements Behaviour {
         return this.moveMap.getOrDefault(node, WMove.empty());
     }
 
-    protected JsonObject moveData(final JsonObject params, final WMove move) {
-        final ConcurrentMap<String, String> pattern = move.getData();
-        final JsonObject request = new JsonObject();
-        pattern.forEach((to, from) -> request.put(to, params.getValue(from)));
-        return request;
-    }
-
     protected ChangeFlag recordMode() {
         return this.recordKit.mode();
     }
