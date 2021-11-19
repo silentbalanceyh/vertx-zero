@@ -71,7 +71,6 @@ class KitTodo {
             entity.setCode(entity.getSerial());
         }
         {
-
             entity.setTraceId(task.getProcessInstanceId());
             entity.setTraceTaskId(task.getId());
             entity.setStatus(TodoStatus.PENDING.name());           // Force Pending
