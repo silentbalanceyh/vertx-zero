@@ -9,6 +9,7 @@ import org.camunda.bpm.engine.runtime.ProcessInstance;
 import org.camunda.bpm.engine.task.Task;
 import org.camunda.bpm.model.bpmn.instance.StartEvent;
 
+import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -90,10 +91,22 @@ public class Wf {
         return WfFlow.instanceById(instanceId);
     }
 
+    // Fetch WProcess ( Running )
     public static Future<WProcess> instance(final String instanceId) {
-        return WfFlow.instanceById(instanceId).compose(instance -> WfFlow.processById(instance.getProcessDefinitionId())
-            .compose(definition -> WProcess.future(definition, instance))
-        );
+        // Fetch Instance First
+        return WfFlow.instanceById(instanceId).compose(instance -> {
+            if (Objects.isNull(instance)) {
+                // History
+                return WfFlow.instanceFinished(instanceId)
+                    .compose(instanceFinished -> WfFlow.processById(instanceFinished.getProcessDefinitionId())
+                        .compose(definition -> WProcess.future(definition, instanceFinished))
+                    );
+            } else {
+                // Running
+                return WfFlow.processById(instance.getProcessDefinitionId())
+                    .compose(definition -> WProcess.future(definition, instance));
+            }
+        });
     }
 
     // BiFunction on ProcessDefinition / ProcessInstance

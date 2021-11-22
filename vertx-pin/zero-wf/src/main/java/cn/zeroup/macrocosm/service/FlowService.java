@@ -1,6 +1,7 @@
 package cn.zeroup.macrocosm.service;
 
 import cn.vertxup.workflow.domain.tables.daos.WFlowDao;
+import cn.zeroup.macrocosm.cv.WfCv;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.ke.refine.Ke;
@@ -9,6 +10,7 @@ import io.vertx.tp.workflow.refine.Wf;
 import io.vertx.tp.workflow.uca.runner.StoreOn;
 import io.vertx.up.eon.KName;
 import io.vertx.up.unity.Ux;
+import io.vertx.up.util.Ut;
 import org.camunda.bpm.engine.repository.ProcessDefinition;
 import org.camunda.bpm.engine.runtime.ProcessInstance;
 
@@ -36,7 +38,7 @@ public class FlowService implements FlowStub {
     }
 
     @Override
-    public Future<JsonObject> fetchForm(final ProcessDefinition definition, final String sigma) {
+    public Future<JsonObject> fetchFormStart(final ProcessDefinition definition, final String sigma) {
         final StoreOn storeOn = StoreOn.get();
         return storeOn.formGet(definition)
             .compose(formData -> this.fetchFormInternal(formData, sigma))
@@ -53,6 +55,21 @@ public class FlowService implements FlowStub {
             .compose(response -> storeOn.workflowGet(definition, instance)
                 .compose(Ux.attachJ(KName.Flow.WORKFLOW, response))
             );
+    }
+
+    @Override
+    public Future<JsonObject> fetchFormEnd(final ProcessDefinition definition, final String sigma) {
+        final StoreOn storeOn = StoreOn.get();
+        final JsonObject response = new JsonObject();
+        return storeOn.workflowGet(definition)
+            .compose(Ux.attachJ(KName.Flow.WORKFLOW, response))
+            .compose(processed -> {
+                final JsonObject workflow = Ut.sureJObject(processed.getJsonObject(KName.Flow.WORKFLOW));
+                final JsonObject formData = workflow.copy();
+                formData.put(KName.CODE, WfCv.CODE_HISTORY);
+                return this.fetchFormInternal(formData, sigma);
+            })
+            .compose(Ux.attachJ(KName.FORM, response));
     }
 
     private Future<JsonObject> fetchFormInternal(final JsonObject formData, final String sigma) {

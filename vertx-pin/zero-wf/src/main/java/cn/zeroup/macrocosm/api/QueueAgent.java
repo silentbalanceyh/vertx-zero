@@ -52,4 +52,9 @@ public interface QueueAgent {
     @Path("/up/flow/:key")
     @Address(HighWay.Flow.BY_TODO)
     JsonObject fetchTodo(@PathParam(KName.KEY) String key);
+
+    @GET
+    @Path("/up/flow-finished/:key")
+    @Address(HighWay.Flow.BY_HISTORY)
+    JsonObject fetchHistory(@PathParam(KName.KEY) String key);
 }

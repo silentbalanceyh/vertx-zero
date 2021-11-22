@@ -9,8 +9,10 @@ import io.vertx.up.eon.KName;
 import io.vertx.up.eon.Strings;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
+import org.camunda.bpm.engine.HistoryService;
 import org.camunda.bpm.engine.RepositoryService;
 import org.camunda.bpm.engine.RuntimeService;
+import org.camunda.bpm.engine.history.HistoricProcessInstance;
 import org.camunda.bpm.engine.repository.ProcessDefinition;
 import org.camunda.bpm.engine.runtime.ProcessInstance;
 import org.camunda.bpm.engine.task.Task;
@@ -67,6 +69,17 @@ class WfFlow {
         } else {
             final RuntimeService service = WfPin.camundaRuntime();
             final ProcessInstance instance = service.createProcessInstanceQuery()
+                .processInstanceId(instanceId).singleResult();
+            return Ux.future(instance);
+        }
+    }
+
+    static Future<HistoricProcessInstance> instanceFinished(final String instanceId) {
+        if (Objects.isNull(instanceId)) {
+            return Ux.future();
+        } else {
+            final HistoryService service = WfPin.camundaHistory();
+            final HistoricProcessInstance instance = service.createHistoricProcessInstanceQuery()
                 .processInstanceId(instanceId).singleResult();
             return Ux.future(instance);
         }

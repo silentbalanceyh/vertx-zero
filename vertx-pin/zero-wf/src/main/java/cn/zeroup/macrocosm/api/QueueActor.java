@@ -89,15 +89,22 @@ public class QueueActor {
     public Future<JsonObject> fetchForm(final JsonObject data,
                                         final Boolean isPre, final XHeader header) {
         if (isPre) {
-            // Start Point
+            // Start Form
             final String definitionId = data.getString(KName.Flow.DEFINITION_ID);
             return Wf.processById(definitionId).compose(definition ->
-                this.flowStub.fetchForm(definition, header.getSigma()));
+                this.flowStub.fetchFormStart(definition, header.getSigma()));
         } else {
             // Single Task
             final String instanceId = data.getString(KName.Flow.INSTANCE_ID);
-            return Wf.instance(instanceId).compose(process ->
-                this.flowStub.fetchForm(process.definition(), process.instance(), header.getSigma()));
+            return Wf.instance(instanceId).compose(process -> {
+                if (process.isRunning()) {
+                    // Running Form
+                    return this.flowStub.fetchForm(process.definition(), process.instance(), header.getSigma());
+                } else {
+                    // History Form
+                    return this.flowStub.fetchFormEnd(process.definition(), header.getSigma());
+                }
+            });
         }
     }
 
@@ -106,5 +113,10 @@ public class QueueActor {
     public Future<JsonObject> fetchTodo(final String key, final User user) {
         final String userId = Ux.keyUser(user);
         return this.taskStub.fetchTodo(key, userId);
+    }
+
+    @Address(HighWay.Flow.BY_HISTORY)
+    public Future<JsonObject> fetchHistory(final String key) {
+        return this.taskStub.fetchFinished(key);
     }
 }

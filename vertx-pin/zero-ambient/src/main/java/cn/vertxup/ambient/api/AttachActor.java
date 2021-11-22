@@ -5,6 +5,7 @@ import cn.vertxup.ambient.domain.tables.pojos.XAttachment;
 import io.vertx.core.Future;
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.json.JsonObject;
+import io.vertx.ext.auth.User;
 import io.vertx.tp.ambient.cv.Addr;
 import io.vertx.tp.ambient.cv.AtMsg;
 import io.vertx.tp.ambient.refine.At;
@@ -14,6 +15,7 @@ import io.vertx.up.log.Annal;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Queue
@@ -22,9 +24,14 @@ public class AttachActor {
     private static final Annal LOGGER = Annal.get(AttachActor.class);
 
     @Address(Addr.File.UPLOAD)
-    public Future<JsonObject> upload(final JsonObject content) {
+    public Future<JsonObject> upload(final JsonObject content, final User user) {
         At.infoFile(LOGGER, AtMsg.FILE_UPLOAD, content.encodePrettily());
         final XAttachment attachment = Ut.deserialize(content, XAttachment.class);
+        final String userKey = Ux.keyUser(user);
+        if (Objects.nonNull(userKey)) {
+            attachment.setCreatedBy(userKey);
+        }
+        attachment.setCreatedAt(LocalDateTime.now());
         return Ux.Jooq.on(XAttachmentDao.class)
             .insertAsync(attachment)
             .compose(Ux::futureJ);

@@ -13,6 +13,7 @@ import io.vertx.up.util.Ut;
 import org.camunda.bpm.engine.FormService;
 import org.camunda.bpm.engine.RuntimeService;
 import org.camunda.bpm.engine.form.StartFormData;
+import org.camunda.bpm.engine.history.HistoricProcessInstance;
 import org.camunda.bpm.engine.repository.ProcessDefinition;
 import org.camunda.bpm.engine.runtime.ProcessInstance;
 import org.camunda.bpm.engine.task.Task;
@@ -55,8 +56,25 @@ class StoreEngine implements StoreOn {
      *      "definitionKey": "???",
      *      "bpmn": "???",
      *      "name": "???",
+     *      "history": []
+     * }
+     */
+    @Override
+    public Future<JsonObject> workflowGet(final ProcessDefinition definition, final HistoricProcessInstance instance) {
+        final JsonObject workflow = Wf.bpmnOut(definition);
+        return Ux.future(workflow);
+    }
+
+    /*
+     * Workflow Output
+     * {
+     *      "definitionId": "???",
+     *      "definitionKey": "???",
+     *      "bpmn": "???",
+     *      "name": "???",
      *      "task": "???",
-     *      "multiple": "???"
+     *      "multiple": "???",
+     *      "history": []
      * }
      */
     @Override
