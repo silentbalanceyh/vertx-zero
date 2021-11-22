@@ -74,7 +74,10 @@ public class TransferStandard extends AbstractTodo implements Transfer {
         } else if (TodoStatus.PENDING == status) {
             final WMoveRule moveRule = instance.rule();
             if (Objects.nonNull(moveRule) && Ut.notNil(moveRule.getRecord())) {
-                final JsonObject record = request.getJsonObject(KName.RECORD);
+                /*
+                 * Here will fetch record auto
+                 */
+                final JsonObject record = Ut.sureJObject(request.getJsonObject(KName.RECORD));
                 record.mergeIn(moveRule.getRecord());
                 request.put(KName.RECORD, record);
                 /*
