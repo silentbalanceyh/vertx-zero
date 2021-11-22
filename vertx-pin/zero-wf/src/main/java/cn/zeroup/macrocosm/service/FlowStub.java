@@ -2,6 +2,7 @@ package cn.zeroup.macrocosm.service;
 
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
+import org.camunda.bpm.engine.history.HistoricProcessInstance;
 import org.camunda.bpm.engine.repository.ProcessDefinition;
 import org.camunda.bpm.engine.runtime.ProcessInstance;
 
@@ -17,7 +18,7 @@ public interface FlowStub {
      */
     Future<JsonObject> fetchFormStart(ProcessDefinition definition, String sigma);
 
-    Future<JsonObject> fetchFormEnd(ProcessDefinition definition, String sigma);
+    Future<JsonObject> fetchFormEnd(ProcessDefinition definition, HistoricProcessInstance instance, String sigma);
 
     /*
      * Process by instance id ( unique )

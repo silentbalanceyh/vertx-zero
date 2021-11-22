@@ -8,6 +8,7 @@ import io.vertx.up.eon.Values;
 import io.vertx.up.unity.Ux;
 import org.camunda.bpm.engine.RepositoryService;
 import org.camunda.bpm.model.bpmn.BpmnModelInstance;
+import org.camunda.bpm.model.bpmn.instance.EndEvent;
 import org.camunda.bpm.model.bpmn.instance.StartEvent;
 import org.camunda.bpm.model.xml.instance.ModelElementInstance;
 
@@ -35,6 +36,23 @@ class KitEvent {
             return Ux.thenError(_501ProcessStartException.class, this.getClass(), definitionId);
         }
         return Ux.future(new HashSet<>(starts));
+    }
+
+    Future<Set<EndEvent>> endSet(final String definitionId) {
+        final RepositoryService service = WfPin.camundaRepository();
+        final BpmnModelInstance instance = service.getBpmnModelInstance(definitionId);
+        final Collection<EndEvent> starts = instance.getModelElementsByType(EndEvent.class);
+        return Ux.future(new HashSet<>(starts));
+    }
+
+    Future<EndEvent> end(final String definitionId) {
+        return this.endSet(definitionId).compose(set -> {
+            if (set.isEmpty()) {
+                return Ux.future();
+            } else {
+                return Ux.future(set.iterator().next());
+            }
+        });
     }
 
     Future<StartEvent> start(final String definitionId) {

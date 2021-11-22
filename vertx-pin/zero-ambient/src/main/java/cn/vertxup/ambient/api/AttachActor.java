@@ -5,12 +5,12 @@ import cn.vertxup.ambient.domain.tables.pojos.XAttachment;
 import io.vertx.core.Future;
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.json.JsonObject;
-import io.vertx.ext.auth.User;
 import io.vertx.tp.ambient.cv.Addr;
 import io.vertx.tp.ambient.cv.AtMsg;
 import io.vertx.tp.ambient.refine.At;
 import io.vertx.up.annotations.Address;
 import io.vertx.up.annotations.Queue;
+import io.vertx.up.commune.Envelop;
 import io.vertx.up.log.Annal;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
@@ -24,10 +24,11 @@ public class AttachActor {
     private static final Annal LOGGER = Annal.get(AttachActor.class);
 
     @Address(Addr.File.UPLOAD)
-    public Future<JsonObject> upload(final JsonObject content, final User user) {
+    public Future<JsonObject> upload(final Envelop envelop) {
+        final JsonObject content = envelop.body();
         At.infoFile(LOGGER, AtMsg.FILE_UPLOAD, content.encodePrettily());
         final XAttachment attachment = Ut.deserialize(content, XAttachment.class);
-        final String userKey = Ux.keyUser(user);
+        final String userKey = Ux.keyUser(envelop.user());
         if (Objects.nonNull(userKey)) {
             attachment.setCreatedBy(userKey);
         }

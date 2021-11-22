@@ -11,6 +11,7 @@ import io.vertx.tp.workflow.uca.runner.StoreOn;
 import io.vertx.up.eon.KName;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
+import org.camunda.bpm.engine.history.HistoricProcessInstance;
 import org.camunda.bpm.engine.repository.ProcessDefinition;
 import org.camunda.bpm.engine.runtime.ProcessInstance;
 
@@ -58,10 +59,10 @@ public class FlowService implements FlowStub {
     }
 
     @Override
-    public Future<JsonObject> fetchFormEnd(final ProcessDefinition definition, final String sigma) {
+    public Future<JsonObject> fetchFormEnd(final ProcessDefinition definition, final HistoricProcessInstance instance, final String sigma) {
         final StoreOn storeOn = StoreOn.get();
         final JsonObject response = new JsonObject();
-        return storeOn.workflowGet(definition)
+        return storeOn.workflowGet(definition, instance)
             .compose(Ux.attachJ(KName.Flow.WORKFLOW, response))
             .compose(processed -> {
                 final JsonObject workflow = Ut.sureJObject(processed.getJsonObject(KName.Flow.WORKFLOW));
@@ -69,7 +70,7 @@ public class FlowService implements FlowStub {
                 formData.put(KName.CODE, WfCv.CODE_HISTORY);
                 return this.fetchFormInternal(formData, sigma);
             })
-            .compose(Ux.attachJ(KName.FORM, response));
+            .compose(formData -> Ux.future(response.mergeIn(formData)));
     }
 
     private Future<JsonObject> fetchFormInternal(final JsonObject formData, final String sigma) {

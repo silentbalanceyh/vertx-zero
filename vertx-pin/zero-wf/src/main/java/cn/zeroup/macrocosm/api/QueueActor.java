@@ -102,7 +102,7 @@ public class QueueActor {
                     return this.flowStub.fetchForm(process.definition(), process.instance(), header.getSigma());
                 } else {
                     // History Form
-                    return this.flowStub.fetchFormEnd(process.definition(), header.getSigma());
+                    return this.flowStub.fetchFormEnd(process.definition(), process.instanceFinished(), header.getSigma());
                 }
             });
         }

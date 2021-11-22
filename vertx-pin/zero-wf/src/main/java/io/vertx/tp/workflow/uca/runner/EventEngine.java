@@ -2,8 +2,10 @@ package io.vertx.tp.workflow.uca.runner;
 
 import io.vertx.core.Future;
 import io.vertx.up.unity.Ux;
+import org.camunda.bpm.engine.history.HistoricProcessInstance;
 import org.camunda.bpm.engine.runtime.ProcessInstance;
 import org.camunda.bpm.engine.task.Task;
+import org.camunda.bpm.model.bpmn.instance.EndEvent;
 import org.camunda.bpm.model.bpmn.instance.StartEvent;
 
 import java.util.Objects;
@@ -35,6 +37,16 @@ class EventEngine implements EventOn {
     }
 
     @Override
+    public Future<Set<EndEvent>> endSet(final String definitionId) {
+        return this.typed.endSet(definitionId);
+    }
+
+    @Override
+    public Future<EndEvent> end(final String definitionId) {
+        return this.typed.end(definitionId);
+    }
+
+    @Override
     public Future<Task> taskActive(final ProcessInstance instance) {
         return Ux.future(this.tasker.byInstanceId(instance.getId()));
     }
@@ -51,6 +63,11 @@ class EventEngine implements EventOn {
 
     @Override
     public Future<Set<String>> taskHistory(final ProcessInstance instance) {
+        return Ux.future(this.history.activities(instance.getId()));
+    }
+
+    @Override
+    public Future<Set<String>> taskHistory(final HistoricProcessInstance instance) {
         return Ux.future(this.history.activities(instance.getId()));
     }
 }

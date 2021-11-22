@@ -62,7 +62,11 @@ class StoreEngine implements StoreOn {
     @Override
     public Future<JsonObject> workflowGet(final ProcessDefinition definition, final HistoricProcessInstance instance) {
         final JsonObject workflow = Wf.bpmnOut(definition);
-        return Ux.future(workflow);
+        final EventOn eventOn = EventOn.get();
+        return eventOn.taskHistory(instance).compose(history -> {
+            workflow.put(KName.HISTORY, Ut.toJArray(history));
+            return Ux.future(workflow);
+        });
     }
 
     /*
