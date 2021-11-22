@@ -78,7 +78,10 @@ public class TaskService implements TaskStub {
         final StoreOn storeOn = StoreOn.get();
         return storeOn.workflowGet(process.definition(), process.instanceFinished())
             // Fetch History Only
-            .compose(workflow -> this.fetchWorkflow(todo, workflow, false));
+            .compose(workflow -> this.fetchWorkflow(todo, workflow, false))
+            // edition = false
+            .compose(response -> Ux.future(response.put(KName.Flow.ACL,
+                new JsonObject().put(KName.EDITION, Boolean.FALSE))));
     }
 
     private Future<JsonObject> runningFlow(final WTodo todo, final WProcess process, final String userId) {

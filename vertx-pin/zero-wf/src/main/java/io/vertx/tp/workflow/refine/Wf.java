@@ -7,6 +7,7 @@ import io.vertx.up.log.Annal;
 import org.camunda.bpm.engine.repository.ProcessDefinition;
 import org.camunda.bpm.engine.runtime.ProcessInstance;
 import org.camunda.bpm.engine.task.Task;
+import org.camunda.bpm.model.bpmn.instance.EndEvent;
 import org.camunda.bpm.model.bpmn.instance.StartEvent;
 
 import java.util.Objects;
@@ -23,8 +24,12 @@ public class Wf {
      *      "multiple": "Whether there are more than one task"
      * }
      */
-    public static JsonObject taskOut(final JsonObject workflow, final Set<StartEvent> starts) {
-        return WfFlow.taskOut(workflow, starts);
+    public static JsonObject taskStart(final JsonObject workflow, final Set<StartEvent> starts) {
+        return WfFlow.taskStart(workflow, starts);
+    }
+
+    public static JsonObject taskEnd(final JsonObject workflow, final Set<EndEvent> ends) {
+        return WfFlow.taskEnd(workflow, ends);
     }
 
     /*

@@ -18,6 +18,7 @@ import org.camunda.bpm.engine.runtime.ProcessInstance;
 import org.camunda.bpm.engine.task.Task;
 import org.camunda.bpm.model.bpmn.Bpmn;
 import org.camunda.bpm.model.bpmn.BpmnModelInstance;
+import org.camunda.bpm.model.bpmn.instance.EndEvent;
 import org.camunda.bpm.model.bpmn.instance.StartEvent;
 
 import java.util.Objects;
@@ -110,9 +111,23 @@ class WfFlow {
         return workflow;
     }
 
-    static JsonObject taskOut(final JsonObject workflow, final Set<StartEvent> starts) {
+    static JsonObject taskStart(final JsonObject workflow, final Set<StartEvent> starts) {
         if (1 == starts.size()) {
             final StartEvent event = starts.iterator().next();
+            workflow.put(KName.Flow.TASK, event.getId());
+            workflow.put(KName.MULTIPLE, Boolean.FALSE);
+        } else {
+            final JsonObject startMap = new JsonObject();
+            starts.forEach(start -> startMap.put(start.getId(), start.getName()));
+            workflow.put(KName.Flow.TASK, startMap);
+            workflow.put(KName.MULTIPLE, Boolean.TRUE);
+        }
+        return workflow;
+    }
+
+    static JsonObject taskEnd(final JsonObject workflow, final Set<EndEvent> starts) {
+        if (1 == starts.size()) {
+            final EndEvent event = starts.iterator().next();
             workflow.put(KName.Flow.TASK, event.getId());
             workflow.put(KName.MULTIPLE, Boolean.FALSE);
         } else {
