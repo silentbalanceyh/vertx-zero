@@ -48,6 +48,8 @@ public class AsyncInvoker extends AbstractInvoker {
             // result.setHandler(item -> message.reply(item.result()));
         } else {
             final Object returnValue = this.invokeInternal(proxy, method, envelop);
+            // Null Pointer return value checking
+            Fn.out(Objects.isNull(returnValue), _500ReturnNullException.class, getClass(), method);
             if (null == returnValue) {
                 /*
                     final Future future = Future.future();
@@ -58,8 +60,6 @@ public class AsyncInvoker extends AbstractInvoker {
                 // promise.future().setHandler(Ux.handler(message));
                 promise.future().onComplete(Ux.handler(message));
             } else {
-                // Null Pointer return value checking
-                Fn.out(Objects.isNull(returnValue), _500ReturnNullException.class, getClass(), method);
 
                 final Future future = (Future) returnValue;
                 future.onComplete(Ux.handler(message));
