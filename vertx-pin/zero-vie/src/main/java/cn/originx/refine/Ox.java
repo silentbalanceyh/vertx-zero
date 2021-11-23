@@ -2,7 +2,8 @@ package cn.originx.refine;
 
 import cn.originx.cv.OxCv;
 import cn.originx.cv.em.TypeLog;
-import cn.vertxup.ambient.service.InitStub;
+import cn.vertxup.ambient.service.application.AppStub;
+import cn.vertxup.ambient.service.application.InitStub;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
@@ -145,7 +146,7 @@ public final class Ox {
      * 构造初始化专用接口，用于初始化某个`X_APP`的应用配置。
      *
      * - 初始化接口{@link InitStub}，执行应用初始化。
-     * - 应用访问接口{@link cn.vertxup.ambient.service.AppStub}。
+     * - 应用访问接口{@link AppStub}。
      *
      * @return {@link InitStub}
      */

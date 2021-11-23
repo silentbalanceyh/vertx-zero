@@ -1,4 +1,4 @@
-package cn.vertxup.ambient.api;
+package cn.vertxup.ambient.api.file;
 
 import cn.vertxup.ambient.domain.tables.daos.XAttachmentDao;
 import cn.vertxup.ambient.domain.tables.pojos.XAttachment;

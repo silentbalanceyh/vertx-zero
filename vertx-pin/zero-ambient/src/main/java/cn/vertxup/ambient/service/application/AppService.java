@@ -1,4 +1,4 @@
-package cn.vertxup.ambient.service;
+package cn.vertxup.ambient.service.application;
 
 import cn.vertxup.ambient.domain.tables.daos.XAppDao;
 import cn.vertxup.ambient.domain.tables.daos.XMenuDao;

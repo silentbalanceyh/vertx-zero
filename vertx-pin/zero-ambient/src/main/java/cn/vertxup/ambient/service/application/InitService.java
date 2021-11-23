@@ -1,4 +1,4 @@
-package cn.vertxup.ambient.service;
+package cn.vertxup.ambient.service.application;
 
 import cn.vertxup.ambient.domain.tables.daos.XAppDao;
 import io.vertx.core.Future;
@@ -19,7 +19,7 @@ import java.util.Objects;
 /**
  * ## Application initializer Implementation
  *
- * Please refer {@link cn.vertxup.ambient.service.InitStub}
+ * Please refer {@link InitStub}
  *
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
@@ -29,7 +29,7 @@ public class InitService implements InitStub {
      */
     private static final Annal LOGGER = Annal.get(InitService.class);
     /**
-     * Injection for {@link cn.vertxup.ambient.service.AppStub}
+     * Injection for {@link AppStub}
      */
     @Inject
     private transient AppStub stub;

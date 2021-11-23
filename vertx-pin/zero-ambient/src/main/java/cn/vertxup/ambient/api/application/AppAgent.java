@@ -1,4 +1,4 @@
-package cn.vertxup.ambient.api;
+package cn.vertxup.ambient.api.application;
 
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.ambient.cv.Addr;

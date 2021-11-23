@@ -5,7 +5,7 @@ import cn.originx.migration.restore.MetaLimit;
 import cn.originx.refine.Ox;
 import cn.originx.scaffold.console.AbstractInstruction;
 import cn.originx.stellaris.Ok;
-import cn.vertxup.ambient.service.InitStub;
+import cn.vertxup.ambient.service.application.InitStub;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.jet.atom.JtApp;
