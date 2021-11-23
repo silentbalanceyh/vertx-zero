@@ -5,10 +5,13 @@ import io.vertx.core.Promise;
 import io.vertx.core.Vertx;
 import io.vertx.core.eventbus.Message;
 import io.vertx.up.commune.Envelop;
+import io.vertx.up.exception.web._500ReturnNullException;
+import io.vertx.up.fn.Fn;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
 import java.lang.reflect.Method;
+import java.util.Objects;
 
 /**
  * Future<T> method(I)
@@ -37,6 +40,10 @@ public class AsyncInvoker extends AbstractInvoker {
         if (Envelop.class == tCls) {
             // Input type is Envelop, input directly
             final Future<Envelop> result = Ut.invoke(proxy, method.getName(), envelop);
+
+            // Null Pointer return value checking
+            Fn.out(Objects.isNull(result), _500ReturnNullException.class, getClass(), method);
+
             result.onComplete(item -> message.reply(item.result()));
             // result.setHandler(item -> message.reply(item.result()));
         } else {
@@ -51,6 +58,9 @@ public class AsyncInvoker extends AbstractInvoker {
                 // promise.future().setHandler(Ux.handler(message));
                 promise.future().onComplete(Ux.handler(message));
             } else {
+                // Null Pointer return value checking
+                Fn.out(Objects.isNull(returnValue), _500ReturnNullException.class, getClass(), method);
+
                 final Future future = (Future) returnValue;
                 future.onComplete(Ux.handler(message));
                 // future.setHandler(Ux.handler(message));

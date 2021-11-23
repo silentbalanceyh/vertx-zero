@@ -164,6 +164,7 @@ E60047: "(501) - Sorry, the client that your bind is `null`, could not continue 
 E60048: "(415) The argument type of @PointParam is invalid, valid is ( List<T>, JsonArray, VPosition ), current is \"{0}\""
 E60049: "({0}) HttpException: {1}"
 E60050: "(501) - This api is not supported or implemented, please check your specification, source = {0}"
+E60051: "(500) - System found `null` return value of method `{0}` in class `{1}`
 
 # CRUD Module
 E80100: "(404) - (CRUD) You missed `module` = `{0}` definition in file \"plugin/crud/module/\" folder"
