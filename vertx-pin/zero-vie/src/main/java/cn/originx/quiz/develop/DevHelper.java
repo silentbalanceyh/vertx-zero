@@ -35,6 +35,8 @@ public class DevHelper {
             // SIDE-MENU root
             final JsonArray root = new JsonArray();
             Ut.itJArray(calculate)
+                .filter(json -> !"APP-MENU".equals(json.getString(KName.TYPE)))
+                .filter(json -> !"TOP-MENU".equals(json.getString(KName.TYPE)))
                 .filter(json -> Objects.isNull(json.getString("parentId")))
                 .forEach(root::add);
 
