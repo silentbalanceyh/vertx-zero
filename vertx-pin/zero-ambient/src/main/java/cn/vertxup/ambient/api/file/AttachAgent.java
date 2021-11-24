@@ -1,4 +1,4 @@
-package cn.vertxup.ambient.api;
+package cn.vertxup.ambient.api.file;
 
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.FileUpload;

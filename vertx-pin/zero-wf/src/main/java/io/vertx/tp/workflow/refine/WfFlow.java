@@ -9,13 +9,16 @@ import io.vertx.up.eon.KName;
 import io.vertx.up.eon.Strings;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
+import org.camunda.bpm.engine.HistoryService;
 import org.camunda.bpm.engine.RepositoryService;
 import org.camunda.bpm.engine.RuntimeService;
+import org.camunda.bpm.engine.history.HistoricProcessInstance;
 import org.camunda.bpm.engine.repository.ProcessDefinition;
 import org.camunda.bpm.engine.runtime.ProcessInstance;
 import org.camunda.bpm.engine.task.Task;
 import org.camunda.bpm.model.bpmn.Bpmn;
 import org.camunda.bpm.model.bpmn.BpmnModelInstance;
+import org.camunda.bpm.model.bpmn.instance.EndEvent;
 import org.camunda.bpm.model.bpmn.instance.StartEvent;
 
 import java.util.Objects;
@@ -72,6 +75,17 @@ class WfFlow {
         }
     }
 
+    static Future<HistoricProcessInstance> instanceFinished(final String instanceId) {
+        if (Objects.isNull(instanceId)) {
+            return Ux.future();
+        } else {
+            final HistoryService service = WfPin.camundaHistory();
+            final HistoricProcessInstance instance = service.createHistoricProcessInstanceQuery()
+                .processInstanceId(instanceId).singleResult();
+            return Ux.future(instance);
+        }
+    }
+
     private static Future<ProcessDefinition> processInternal(final ProcessDefinition definition, final String key) {
         if (Objects.isNull(definition)) {
             // Error
@@ -97,9 +111,23 @@ class WfFlow {
         return workflow;
     }
 
-    static JsonObject taskOut(final JsonObject workflow, final Set<StartEvent> starts) {
+    static JsonObject taskStart(final JsonObject workflow, final Set<StartEvent> starts) {
         if (1 == starts.size()) {
             final StartEvent event = starts.iterator().next();
+            workflow.put(KName.Flow.TASK, event.getId());
+            workflow.put(KName.MULTIPLE, Boolean.FALSE);
+        } else {
+            final JsonObject startMap = new JsonObject();
+            starts.forEach(start -> startMap.put(start.getId(), start.getName()));
+            workflow.put(KName.Flow.TASK, startMap);
+            workflow.put(KName.MULTIPLE, Boolean.TRUE);
+        }
+        return workflow;
+    }
+
+    static JsonObject taskEnd(final JsonObject workflow, final Set<EndEvent> starts) {
+        if (1 == starts.size()) {
+            final EndEvent event = starts.iterator().next();
             workflow.put(KName.Flow.TASK, event.getId());
             workflow.put(KName.MULTIPLE, Boolean.FALSE);
         } else {

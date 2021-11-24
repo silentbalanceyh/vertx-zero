@@ -37,6 +37,10 @@ public interface Addr {
         String UPLOAD = Prefix._EVENT + "X-UPLOAD";
 
         String DOWNLOAD = Prefix._EVENT + "X-DOWNLOAD";
+
+        String MY_QUEUE = Prefix._EVENT + "X-ATTACHMENT/MY/QUEUE";
+
+        String BY_KEY = Prefix._EVENT + "X-ATTACHMENT/BY/KEY";
     }
 
     interface Datum {

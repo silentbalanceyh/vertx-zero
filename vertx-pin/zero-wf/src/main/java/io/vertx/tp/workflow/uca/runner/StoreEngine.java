@@ -13,6 +13,7 @@ import io.vertx.up.util.Ut;
 import org.camunda.bpm.engine.FormService;
 import org.camunda.bpm.engine.RuntimeService;
 import org.camunda.bpm.engine.form.StartFormData;
+import org.camunda.bpm.engine.history.HistoricProcessInstance;
 import org.camunda.bpm.engine.repository.ProcessDefinition;
 import org.camunda.bpm.engine.runtime.ProcessInstance;
 import org.camunda.bpm.engine.task.Task;
@@ -45,7 +46,35 @@ class StoreEngine implements StoreOn {
              *      "multiple": "???"
              * }
              */
-            .compose(starts -> Ux.future(Wf.taskOut(workflow, starts)));
+            .compose(starts -> Ux.future(Wf.taskStart(workflow, starts)));
+    }
+
+    /*
+     * Workflow Output
+     * {
+     *      "definitionId": "???",
+     *      "definitionKey": "???",
+     *      "bpmn": "???",
+     *      "name": "???",
+     *      "history": []
+     * }
+     */
+    @Override
+    public Future<JsonObject> workflowGet(final ProcessDefinition definition, final HistoricProcessInstance instance) {
+        final JsonObject workflow = Wf.bpmnOut(definition);
+        final EventOn eventOn = EventOn.get();
+        return eventOn.endSet(definition.getId())
+            /*
+             * {
+             *      "task": "???",
+             *      "multiple": "???"
+             * }
+             */
+            .compose(ends -> Ux.future(Wf.taskEnd(workflow, ends)))
+            .compose(response -> eventOn.taskHistory(instance).compose(history -> {
+                response.put(KName.HISTORY, Ut.toJArray(history));
+                return Ux.future(response);
+            }));
     }
 
     /*
@@ -56,7 +85,8 @@ class StoreEngine implements StoreOn {
      *      "bpmn": "???",
      *      "name": "???",
      *      "task": "???",
-     *      "multiple": "???"
+     *      "multiple": "???",
+     *      "history": []
      * }
      */
     @Override

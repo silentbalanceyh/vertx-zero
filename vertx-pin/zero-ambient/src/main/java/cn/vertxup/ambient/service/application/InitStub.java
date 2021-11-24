@@ -1,4 +1,4 @@
-package cn.vertxup.ambient.service;
+package cn.vertxup.ambient.service.application;
 
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;

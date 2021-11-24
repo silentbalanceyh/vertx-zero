@@ -27,6 +27,8 @@ class ActionDao implements ActionOn {
         Objects.requireNonNull(config.dao());
         final UxJooq jooq = Ux.Jooq.on(config.dao());
         return jooq.<T>fetchByIdAsync(key).compose(query -> {
+            // Fix Bug: Cannot deserialize value of type `java.lang.String` from Object value (token `JsonToken.START_OBJECT`)
+            Ut.ifString(params, KName.METADATA);
             final T entity = Ux.updateT(query, params);
             return jooq.updateAsync(entity);
         }).compose(Ux::futureJ);

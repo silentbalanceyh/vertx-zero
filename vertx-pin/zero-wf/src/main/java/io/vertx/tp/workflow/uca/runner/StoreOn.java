@@ -4,6 +4,7 @@ import cn.zeroup.macrocosm.cv.WfPool;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.fn.Fn;
+import org.camunda.bpm.engine.history.HistoricProcessInstance;
 import org.camunda.bpm.engine.repository.ProcessDefinition;
 import org.camunda.bpm.engine.runtime.ProcessInstance;
 
@@ -26,6 +27,8 @@ public interface StoreOn {
     Future<JsonObject> workflowGet(ProcessDefinition definition);
 
     Future<JsonObject> workflowGet(ProcessDefinition definition, ProcessInstance instance);
+
+    Future<JsonObject> workflowGet(ProcessDefinition definition, HistoricProcessInstance instance);
 
     /*
      * {

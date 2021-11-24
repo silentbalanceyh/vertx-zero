@@ -8,7 +8,7 @@ public interface WfCv {
 
     String FOLDER_ROOT = "workflow";
 
-    String BPMN_FLOW = "zero-take";
-
     String BPMN_FLOW_TYPE = "SequenceFlow";
+
+    String CODE_HISTORY = "workflow.history";
 }

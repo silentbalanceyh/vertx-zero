@@ -1,10 +1,10 @@
 package cn.originx.refine;
 
 import cn.originx.cv.OxCv;
-import cn.vertxup.ambient.service.AppService;
-import cn.vertxup.ambient.service.AppStub;
-import cn.vertxup.ambient.service.InitService;
-import cn.vertxup.ambient.service.InitStub;
+import cn.vertxup.ambient.service.application.AppService;
+import cn.vertxup.ambient.service.application.AppStub;
+import cn.vertxup.ambient.service.application.InitService;
+import cn.vertxup.ambient.service.application.InitStub;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.eon.em.Environment;
