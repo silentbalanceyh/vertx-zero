@@ -27,6 +27,7 @@ import org.jooq.Configuration;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
@@ -86,6 +87,10 @@ final class WfConfiguration {
         final List<String> results = new ArrayList<>();
         folders.forEach(each -> results.add(WfCv.FOLDER_ROOT + "/" + each));
         return results;
+    }
+
+    static Set<String> camundaBuiltIn() {
+        return CONFIG.camundaBuiltIn();
     }
 
     static HistoryEventHandler camundaLogger() {

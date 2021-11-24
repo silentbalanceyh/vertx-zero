@@ -13,6 +13,7 @@ import org.camunda.bpm.engine.impl.history.handler.HistoryEventHandler;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
@@ -75,5 +76,9 @@ public class WfPin {
 
     public static WFlow getFlow(final String code) {
         return WfConfiguration.workflow(code);
+    }
+
+    public static Set<String> getBuiltIn() {
+        return WfConfiguration.camundaBuiltIn();
     }
 }

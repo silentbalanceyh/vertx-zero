@@ -6,10 +6,7 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.up.log.Annal;
 import io.vertx.up.util.Ut;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.stream.Collectors;
@@ -47,8 +44,14 @@ public abstract class AbstractBoot implements KBoot {
                 .forEach(connect -> this.connects.put(connect.getTable(), connect));
             final JsonArray fileData = Ut.ioJArray(this.root + "initialize.json");
             Ut.itJArray(fileData, String.class, (item, index) -> this.files.add(item));
+            // Extension Built In
+            this.files.addAll(this.configureBuiltIn());
         }
         return this.connects;
+    }
+
+    protected Set<String> configureBuiltIn() {
+        return new HashSet<>();
     }
 
     @Override
