@@ -19,7 +19,7 @@ public class DevHelper {
      */
     public static Future<JsonArray> fetchMenuTree() {
         final JsonObject query = new JsonObject();
-        query.put("sorter", new JsonArray().add("type,ASC").add("sort,ASC"));
+        query.put("sorter", new JsonArray().add("type,ASC").add("order,ASC"));
         return Ux.Jooq.on(XMenuDao.class).searchAsync(query).compose(pageData -> {
             final JsonArray source = pageData.getJsonArray(KName.LIST);
             final JsonArray calculate = source.copy();
