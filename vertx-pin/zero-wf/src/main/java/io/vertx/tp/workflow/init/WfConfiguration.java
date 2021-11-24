@@ -90,6 +90,9 @@ final class WfConfiguration {
     }
 
     static Set<String> camundaBuiltIn() {
+        if (Objects.isNull(CONFIG)) {
+            init();
+        }
         return CONFIG.camundaBuiltIn();
     }
 
