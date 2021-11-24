@@ -43,16 +43,19 @@
             <artifactId>zero-jet</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <!-- PSI -->
         <dependency>
             <groupId>cn.vertxup</groupId>
             <artifactId>zero-psi</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <!-- WF -->
         <dependency>
             <groupId>cn.vertxup</groupId>
             <artifactId>zero-wf</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <!-- FM -->
         <dependency>
             <groupId>cn.vertxup</groupId>
             <artifactId>zero-fm</artifactId>
