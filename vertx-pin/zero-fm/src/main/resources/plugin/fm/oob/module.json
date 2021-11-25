@@ -1,5 +1,7 @@
 [
     "fm.book",
     "fm.subject",
-    "fm.term"
+    "fm.term",
+    "fm.bank",
+    "fm.currency"
 ]

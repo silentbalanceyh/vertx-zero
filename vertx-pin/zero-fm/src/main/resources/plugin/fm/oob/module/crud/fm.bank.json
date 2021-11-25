@@ -1,0 +1,12 @@
+{
+    "name": "bank",
+    "daoCls": "cn.vertxup.fm.domain.tables.daos.FBankDao",
+    "field": {
+        "unique": [
+            [
+                "code",
+                "sigma"
+            ]
+        ]
+    }
+}

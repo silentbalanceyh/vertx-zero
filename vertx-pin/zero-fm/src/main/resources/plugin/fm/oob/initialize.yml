@@ -6,3 +6,11 @@
     key: key
     unique:
     - code
+-   dao: cn.vertxup.fm.domain.tables.daos.FBankDao
+    key: key
+    unique:
+    - code
+-   dao: cn.vertxup.fm.domain.tables.daos.FCurrencyDao
+    key: key
+    unique:
+    - code
