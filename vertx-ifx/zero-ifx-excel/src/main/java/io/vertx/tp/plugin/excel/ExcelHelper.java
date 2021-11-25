@@ -323,8 +323,10 @@ class ExcelHelper {
             }
         });
         final int ignored = counter.get();
-        final Annal annal = Annal.get(this.target);
-        annal.debug("[ Έξοδος ] Ignore table `{0}` with size `{1}`", table.getName(), ignored);
+        if (0 < ignored) {
+            final Annal annal = Annal.get(this.target);
+            annal.warn("[ Έξοδος ] Ignore table `{0}` with size `{1}`", table.getName(), ignored);
+        }
         // Entity Release
         return keyList;
     }
