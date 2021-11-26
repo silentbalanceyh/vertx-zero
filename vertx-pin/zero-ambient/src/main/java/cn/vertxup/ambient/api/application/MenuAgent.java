@@ -36,9 +36,21 @@ public interface MenuAgent {
      *      - position， FIXED
      *      - owner, XHeader
      *      - uiSort    Ui
-     *      - uiParent  Ui
      *      - uiColorFg - Ui  ( Color Picker )
      *      - uiColorBg - Ui  ( Color Picker )
+     *  When Tree
+     *      - key
+     *      - uiParent
+     *
+     * - Delete Condition
+     * {
+     *      "owner": "xxx",
+     *      "page": "",
+     *      "position": "",
+     *      "type": ""
+     *      "menus": [
+     *      ]
+     * }
      */
     @POST
     @Path("/my/menu/save")
