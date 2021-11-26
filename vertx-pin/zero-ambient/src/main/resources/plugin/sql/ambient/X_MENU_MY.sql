@@ -12,7 +12,6 @@ CREATE TABLE IF NOT EXISTS X_MENU_MY
     `URI`         VARCHAR(255) COMMENT '「uri」- 菜单地址（不包含应用的path）',
     -- 主菜单定制专用（呈现效果）
     `UI_SORT`     BIGINT COMMENT '「uiSort」- 菜单排序',
-    `UI_MENU`     VARCHAR(36) COMMENT '「uiMenu」- 关联菜单ID，数据来自于该值',
     `UI_PARENT`   VARCHAR(36) COMMENT '「uiParent」- 菜单父ID',
     `UI_COLOR_FG` VARCHAR(16) COMMENT '「uiColorFg」- 前景色',
     `UI_COLOR_BG` VARCHAR(16) COMMENT '「uiColorBg」- 背景色',
@@ -51,4 +50,4 @@ CREATE TABLE IF NOT EXISTS X_MENU_MY
  * 2）其他情况，必须 page 和 position 参数
  */
 ALTER TABLE X_MENU_MY
-    ADD UNIQUE (`OWNER`, `TYPE`, `PAGE`, `POSITION`, `UI_MENU`);
+    ADD UNIQUE (`OWNER`, `TYPE`, `PAGE`, `POSITION`, `URI`);

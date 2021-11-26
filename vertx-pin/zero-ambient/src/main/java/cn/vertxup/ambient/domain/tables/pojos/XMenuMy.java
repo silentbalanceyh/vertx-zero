@@ -25,7 +25,6 @@ public class XMenuMy implements VertxPojo, IXMenuMy {
     private String        text;
     private String        uri;
     private Long          uiSort;
-    private String        uiMenu;
     private String        uiParent;
     private String        uiColorFg;
     private String        uiColorBg;
@@ -50,7 +49,6 @@ public class XMenuMy implements VertxPojo, IXMenuMy {
         this.text = value.getText();
         this.uri = value.getUri();
         this.uiSort = value.getUiSort();
-        this.uiMenu = value.getUiMenu();
         this.uiParent = value.getUiParent();
         this.uiColorFg = value.getUiColorFg();
         this.uiColorBg = value.getUiColorBg();
@@ -74,7 +72,6 @@ public class XMenuMy implements VertxPojo, IXMenuMy {
         String        text,
         String        uri,
         Long          uiSort,
-        String        uiMenu,
         String        uiParent,
         String        uiColorFg,
         String        uiColorBg,
@@ -96,7 +93,6 @@ public class XMenuMy implements VertxPojo, IXMenuMy {
         this.text = text;
         this.uri = uri;
         this.uiSort = uiSort;
-        this.uiMenu = uiMenu;
         this.uiParent = uiParent;
         this.uiColorFg = uiColorFg;
         this.uiColorBg = uiColorBg;
@@ -201,25 +197,6 @@ public class XMenuMy implements VertxPojo, IXMenuMy {
     @Override
     public XMenuMy setUiSort(Long uiSort) {
         this.uiSort = uiSort;
-        return this;
-    }
-
-    /**
-     * Getter for <code>DB_ETERNAL.X_MENU_MY.UI_MENU</code>. 「uiMenu」-
-     * 关联菜单ID，数据来自于该值
-     */
-    @Override
-    public String getUiMenu() {
-        return this.uiMenu;
-    }
-
-    /**
-     * Setter for <code>DB_ETERNAL.X_MENU_MY.UI_MENU</code>. 「uiMenu」-
-     * 关联菜单ID，数据来自于该值
-     */
-    @Override
-    public XMenuMy setUiMenu(String uiMenu) {
-        this.uiMenu = uiMenu;
         return this;
     }
 
@@ -495,7 +472,6 @@ public class XMenuMy implements VertxPojo, IXMenuMy {
         sb.append(", ").append(text);
         sb.append(", ").append(uri);
         sb.append(", ").append(uiSort);
-        sb.append(", ").append(uiMenu);
         sb.append(", ").append(uiParent);
         sb.append(", ").append(uiColorFg);
         sb.append(", ").append(uiColorBg);
@@ -527,7 +503,6 @@ public class XMenuMy implements VertxPojo, IXMenuMy {
         setText(from.getText());
         setUri(from.getUri());
         setUiSort(from.getUiSort());
-        setUiMenu(from.getUiMenu());
         setUiParent(from.getUiParent());
         setUiColorFg(from.getUiColorFg());
         setUiColorBg(from.getUiColorBg());

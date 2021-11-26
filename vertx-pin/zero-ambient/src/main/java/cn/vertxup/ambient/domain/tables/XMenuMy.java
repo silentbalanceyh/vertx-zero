@@ -49,11 +49,6 @@ public class XMenuMy extends TableImpl<XMenuMyRecord> {
      */
     public final TableField<XMenuMyRecord, Long> UI_SORT = createField(DSL.name("UI_SORT"), SQLDataType.BIGINT, this, "「uiSort」- 菜单排序");
     /**
-     * The column <code>DB_ETERNAL.X_MENU_MY.UI_MENU</code>. 「uiMenu」-
-     * 关联菜单ID，数据来自于该值
-     */
-    public final TableField<XMenuMyRecord, String> UI_MENU = createField(DSL.name("UI_MENU"), SQLDataType.VARCHAR(36), this, "「uiMenu」- 关联菜单ID，数据来自于该值");
-    /**
      * The column <code>DB_ETERNAL.X_MENU_MY.UI_PARENT</code>. 「uiParent」- 菜单父ID
      */
     public final TableField<XMenuMyRecord, String> UI_PARENT = createField(DSL.name("UI_PARENT"), SQLDataType.VARCHAR(36), this, "「uiParent」- 菜单父ID");
@@ -201,11 +196,11 @@ public class XMenuMy extends TableImpl<XMenuMyRecord> {
     }
 
     // -------------------------------------------------------------------------
-    // Row21 type methods
+    // Row20 type methods
     // -------------------------------------------------------------------------
 
     @Override
-    public Row21<String, String, String, String, Long, String, String, String, String, String, String, String, String, Boolean, String, String, String, LocalDateTime, String, LocalDateTime, String> fieldsRow() {
-        return (Row21) super.fieldsRow();
+    public Row20<String, String, String, String, Long, String, String, String, String, String, String, String, Boolean, String, String, String, LocalDateTime, String, LocalDateTime, String> fieldsRow() {
+        return (Row20) super.fieldsRow();
     }
 }

@@ -99,21 +99,6 @@ public class XMenuMyDao extends AbstractVertxDAO<XMenuMyRecord, cn.vertxup.ambie
         }
 
         /**
-     * Find records that have <code>UI_MENU IN (values)</code> asynchronously
-     */
-        public Future<List<cn.vertxup.ambient.domain.tables.pojos.XMenuMy>> findManyByUiMenu(Collection<String> values) {
-                return findManyByCondition(XMenuMy.X_MENU_MY.UI_MENU.in(values));
-        }
-
-        /**
-     * Find records that have <code>UI_MENU IN (values)</code> asynchronously
-     * limited by the given limit
-     */
-        public Future<List<cn.vertxup.ambient.domain.tables.pojos.XMenuMy>> findManyByUiMenu(Collection<String> values, int limit) {
-                return findManyByCondition(XMenuMy.X_MENU_MY.UI_MENU.in(values),limit);
-        }
-
-        /**
      * Find records that have <code>UI_PARENT IN (values)</code> asynchronously
      */
         public Future<List<cn.vertxup.ambient.domain.tables.pojos.XMenuMy>> findManyByUiParent(Collection<String> values) {

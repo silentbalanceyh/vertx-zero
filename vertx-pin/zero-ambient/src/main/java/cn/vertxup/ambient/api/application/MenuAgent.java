@@ -29,7 +29,7 @@ public interface MenuAgent {
     /*
      * Create new My menu
      * - X_MENU
-     *      - icon, text, uri, uiMenu
+     *      - icon, text, uri
      * - X_MENU_MY
      *      - type， FIXED
      *      - page， FIXED

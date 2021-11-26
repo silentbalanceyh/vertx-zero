@@ -68,18 +68,6 @@ public interface IXMenuMy extends VertxPojo, Serializable {
     public Long getUiSort();
 
     /**
-     * Setter for <code>DB_ETERNAL.X_MENU_MY.UI_MENU</code>. 「uiMenu」-
-     * 关联菜单ID，数据来自于该值
-     */
-    public IXMenuMy setUiMenu(String value);
-
-    /**
-     * Getter for <code>DB_ETERNAL.X_MENU_MY.UI_MENU</code>. 「uiMenu」-
-     * 关联菜单ID，数据来自于该值
-     */
-    public String getUiMenu();
-
-    /**
      * Setter for <code>DB_ETERNAL.X_MENU_MY.UI_PARENT</code>. 「uiParent」- 菜单父ID
      */
     public IXMenuMy setUiParent(String value);
@@ -260,7 +248,6 @@ public interface IXMenuMy extends VertxPojo, Serializable {
                 setOrThrow(this::setText,json::getString,"TEXT","java.lang.String");
                 setOrThrow(this::setUri,json::getString,"URI","java.lang.String");
                 setOrThrow(this::setUiSort,json::getLong,"UI_SORT","java.lang.Long");
-                setOrThrow(this::setUiMenu,json::getString,"UI_MENU","java.lang.String");
                 setOrThrow(this::setUiParent,json::getString,"UI_PARENT","java.lang.String");
                 setOrThrow(this::setUiColorFg,json::getString,"UI_COLOR_FG","java.lang.String");
                 setOrThrow(this::setUiColorBg,json::getString,"UI_COLOR_BG","java.lang.String");
@@ -288,7 +275,6 @@ public interface IXMenuMy extends VertxPojo, Serializable {
                 json.put("TEXT",getText());
                 json.put("URI",getUri());
                 json.put("UI_SORT",getUiSort());
-                json.put("UI_MENU",getUiMenu());
                 json.put("UI_PARENT",getUiParent());
                 json.put("UI_COLOR_FG",getUiColorFg());
                 json.put("UI_COLOR_BG",getUiColorBg());
