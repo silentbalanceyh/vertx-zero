@@ -1,0 +1,13 @@
+{
+    "name": "pos",
+    "daoCls": "cn.vertxup.psi.domain.tables.daos.PPosDao",
+    "field": {
+        "unique": [
+            [
+                "code",
+                "whId",
+                "sigma"
+            ]
+        ]
+    }
+}

@@ -1,0 +1,12 @@
+{
+    "name": "wh",
+    "daoCls": "cn.vertxup.psi.domain.tables.daos.PWhDao",
+    "field": {
+        "unique": [
+            [
+                "code",
+                "sigma"
+            ]
+        ]
+    }
+}

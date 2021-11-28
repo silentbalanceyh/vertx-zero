@@ -66,7 +66,7 @@ public class Keys {
     public static final UniqueKey<POutItemRecord> KEY_P_OUT_ITEM_SERIAL = Internal.createUniqueKey(POutItem.P_OUT_ITEM, DSL.name("KEY_P_OUT_ITEM_SERIAL"), new TableField[] { POutItem.P_OUT_ITEM.SERIAL, POutItem.P_OUT_ITEM.SIGMA }, true);
     public static final UniqueKey<POutTicketRecord> KEY_P_OUT_TICKET_PRIMARY = Internal.createUniqueKey(POutTicket.P_OUT_TICKET, DSL.name("KEY_P_OUT_TICKET_PRIMARY"), new TableField[] { POutTicket.P_OUT_TICKET.KEY }, true);
     public static final UniqueKey<POutTicketRecord> KEY_P_OUT_TICKET_SERIAL = Internal.createUniqueKey(POutTicket.P_OUT_TICKET, DSL.name("KEY_P_OUT_TICKET_SERIAL"), new TableField[] { POutTicket.P_OUT_TICKET.SERIAL, POutTicket.P_OUT_TICKET.SIGMA }, true);
-    public static final UniqueKey<PPosRecord> KEY_P_POS_CODE = Internal.createUniqueKey(PPos.P_POS, DSL.name("KEY_P_POS_CODE"), new TableField[] { PPos.P_POS.CODE, PPos.P_POS.SIGMA }, true);
+    public static final UniqueKey<PPosRecord> KEY_P_POS_CODE = Internal.createUniqueKey(PPos.P_POS, DSL.name("KEY_P_POS_CODE"), new TableField[] { PPos.P_POS.CODE, PPos.P_POS.SIGMA, PPos.P_POS.WH_ID }, true);
     public static final UniqueKey<PPosRecord> KEY_P_POS_PRIMARY = Internal.createUniqueKey(PPos.P_POS, DSL.name("KEY_P_POS_PRIMARY"), new TableField[] { PPos.P_POS.KEY }, true);
     public static final UniqueKey<PWhRecord> KEY_P_WH_CODE = Internal.createUniqueKey(PWh.P_WH, DSL.name("KEY_P_WH_CODE"), new TableField[] { PWh.P_WH.CODE, PWh.P_WH.SIGMA }, true);
     public static final UniqueKey<PWhRecord> KEY_P_WH_PRIMARY = Internal.createUniqueKey(PWh.P_WH, DSL.name("KEY_P_WH_PRIMARY"), new TableField[] { PWh.P_WH.KEY }, true);
