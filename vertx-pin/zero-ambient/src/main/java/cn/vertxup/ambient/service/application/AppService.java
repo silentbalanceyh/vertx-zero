@@ -1,12 +1,9 @@
 package cn.vertxup.ambient.service.application;
 
 import cn.vertxup.ambient.domain.tables.daos.XAppDao;
-import cn.vertxup.ambient.domain.tables.daos.XMenuDao;
 import cn.vertxup.ambient.domain.tables.daos.XSourceDao;
 import cn.vertxup.ambient.domain.tables.pojos.XApp;
-import cn.vertxup.ambient.domain.tables.pojos.XMenu;
 import io.vertx.core.Future;
-import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.ke.refine.Ke;
 import io.vertx.tp.optic.business.ExApp;
@@ -43,15 +40,6 @@ public class AppService implements AppStub {
             .compose(appJson -> Ke.channelAsync(ExApp.class,
                 () -> Ux.future(appJson),
                 stub -> stub.fetchOpts(appJson)));
-    }
-
-    @Override
-    public Future<JsonArray> fetchMenus(final String appId) {
-        return Ux.Jooq.on(XMenuDao.class)
-            /* Fetch by appId */
-            .<XMenu>fetchAsync(KName.APP_ID, appId)
-            /* Get Result */
-            .compose(Ux::futureA);
     }
 
     @Override

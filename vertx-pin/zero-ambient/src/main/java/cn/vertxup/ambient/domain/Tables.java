@@ -13,6 +13,7 @@ import cn.vertxup.ambient.domain.tables.XEmailServer;
 import cn.vertxup.ambient.domain.tables.XIntegration;
 import cn.vertxup.ambient.domain.tables.XLog;
 import cn.vertxup.ambient.domain.tables.XMenu;
+import cn.vertxup.ambient.domain.tables.XMenuMy;
 import cn.vertxup.ambient.domain.tables.XModule;
 import cn.vertxup.ambient.domain.tables.XNotification;
 import cn.vertxup.ambient.domain.tables.XNumber;
@@ -70,6 +71,11 @@ public class Tables {
      * The table <code>DB_ETERNAL.X_MENU</code>.
      */
     public static final XMenu X_MENU = XMenu.X_MENU;
+
+    /**
+     * The table <code>DB_ETERNAL.X_MENU_MY</code>.
+     */
+    public static final XMenuMy X_MENU_MY = XMenuMy.X_MENU_MY;
 
     /**
      * The table <code>DB_ETERNAL.X_MODULE</code>.

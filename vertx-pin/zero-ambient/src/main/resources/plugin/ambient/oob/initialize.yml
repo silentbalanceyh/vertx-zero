@@ -33,3 +33,11 @@
     - code
     - type
     - appId
+-   dao: cn.vertxup.ambient.domain.tables.daos.XMenuMyDao     # X_MENU_MY
+    key: key
+    unique:
+    - owner
+    - type
+    - page
+    - position
+    - uiMenu

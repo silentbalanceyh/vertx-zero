@@ -71,6 +71,11 @@ public class Db extends SchemaImpl {
     public final XMenu X_MENU = XMenu.X_MENU;
 
     /**
+     * The table <code>DB_ETERNAL.X_MENU_MY</code>.
+     */
+    public final XMenuMy X_MENU_MY = XMenuMy.X_MENU_MY;
+
+    /**
      * The table <code>DB_ETERNAL.X_MODULE</code>.
      */
     public final XModule X_MODULE = XModule.X_MODULE;
@@ -120,6 +125,7 @@ public class Db extends SchemaImpl {
             XIntegration.X_INTEGRATION,
             XLog.X_LOG,
             XMenu.X_MENU,
+            XMenuMy.X_MENU_MY,
             XModule.X_MODULE,
             XNotification.X_NOTIFICATION,
             XNumber.X_NUMBER,
