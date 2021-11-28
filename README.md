@@ -162,7 +162,7 @@ public final class Statute {
 
 You can send request to group leader: `445191171` to contact with the author team of zero.
 
-![](./_image/2020-04-10/2020-04-18-11-26-20.jpg)
+![](./doc/_image/2020-04-10/2020-04-18-11-26-20.jpg)
 
 ## DESIGNED IN CHINA
 
