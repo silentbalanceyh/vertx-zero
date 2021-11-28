@@ -135,7 +135,7 @@ final class Folder {
         return new ArrayList<>(retSet);
     }
 
-    private static List<String> getJars(final URL url, final String extension, final boolean isDirectory) {
+    static List<String> getJars(final URL url, final String extension, final boolean isDirectory) {
         return Fn.getJvm(() -> {
             final List<String> retList = new ArrayList<>();
             final JarURLConnection jarCon = (JarURLConnection) url.openConnection();
@@ -145,44 +145,79 @@ final class Folder {
              */
             final String[] specifics = url.getPath().split("!/");
             final String folder = specifics[1];     // Jar Specification
-            final Enumeration<JarEntry> entities = jarFile.entries();
-            while (entities.hasMoreElements()) {
-                final JarEntry entry = entities.nextElement();
+            if (isDirectory) {
                 /*
-                 * First, we must filter the folder
+                 * Get folder entry
                  */
-                if (entry.getName().startsWith(folder)) {
+                return getJarDirectories(jarFile, folder);
+            } else {
+                /*
+                 * Get file entry
+                 */
+                return getJarFiles(jarFile, folder, extension);
+            }
+        }, url);
+    }
+
+    private static List<String> getJarDirectories(final JarFile jarFile, final String folder) {
+        final List<String> retList = new ArrayList<>();
+        final Enumeration<JarEntry> entities = jarFile.entries();
+        while (entities.hasMoreElements()) {
+            final JarEntry entry = entities.nextElement();
+            /*
+             * First, we must filter the folder
+             */
+            final String entryName = entry.getName();
+            final String filtered = folder + "/";
+            if (entryName.startsWith(folder) && entry.isDirectory()
+                && !filtered.equals(entryName)  // This condition is for folder only
+            ) {
+                /*
+                 * The condition is ok to pickup folder only
+                 * Because folder is end with '/', it means that you must replace the last folder
+                 */
+                final String replaced = entryName.substring(0, entryName.lastIndexOf('/'));
+                final String found = replaced.substring(replaced.lastIndexOf('/') + 1);
+                if (Ut.notNil(found)) {
+                    retList.add(found);
+                }
+            }
+        }
+        return retList;
+    }
+
+    private static List<String> getJarFiles(final JarFile jarFile, final String folder, final String extension) {
+        final List<String> retList = new ArrayList<>();
+        final Enumeration<JarEntry> entities = jarFile.entries();
+        while (entities.hasMoreElements()) {
+            final JarEntry entry = entities.nextElement();
+            /*
+             * First, we must filter the folder
+             */
+            final String entryName = entry.getName();
+            if (entryName.startsWith(folder) && !entry.isDirectory()) {
+                if (Objects.isNull(extension)) {
                     /*
-                     * isDirectory to identify the pick up
+                     * No Extension
                      */
-                    if (isDirectory) {
-                        if (entry.isDirectory()) {
-                            /*
-                             * The condition is ok to pickup folder only
-                             */
-                            retList.add(entry.getName().substring(entry.getName().lastIndexOf('/') + 1));
-                        }
-                    } else {
-                        if (!entry.isDirectory()) {
-                            if (Objects.isNull(extension)) {
-                                /*
-                                 * No Extension
-                                 */
-                                retList.add(entry.getName().substring(entry.getName().lastIndexOf('/') + 1));
-                            } else {
-                                if (entry.getName().endsWith(extension)) {
-                                    /*
-                                     * Extension enabled
-                                     */
-                                    retList.add(entry.getName().substring(entry.getName().lastIndexOf('/') + 1));
-                                }
-                            }
+                    final String foundFile = entryName.substring(entryName.lastIndexOf('/') + 1);
+                    if (Ut.notNil(foundFile)) {
+                        retList.add(foundFile);
+                    }
+                } else {
+                    if (entryName.endsWith(extension)) {
+                        /*
+                         * Extension enabled
+                         */
+                        final String foundFile = entryName.substring(entryName.lastIndexOf('/') + 1);
+                        if (Ut.notNil(foundFile)) {
+                            retList.add(foundFile);
                         }
                     }
                 }
             }
-            return retList;
-        }, url);
+        }
+        return retList;
     }
 
     private static List<String> getFiles(final File directory, final String extension, final boolean isDirectory) {
