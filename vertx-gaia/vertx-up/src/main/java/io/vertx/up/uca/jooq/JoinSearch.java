@@ -141,7 +141,7 @@ class JoinSearch {
          * T1
          */
         final String majorField = edge.getFromField();
-        final JqAnalyzer major = this.store.metaAnalyzer(edge.getFromTable());
+        final JqAnalyzer major = this.store.analyzer(edge.getFromTable());
         final Field hitted = major.column(majorField);
         final String fromPrefix = this.store.metaPrefix(edge.getFromTable());
         final Field hittedField = DSL.field(fromPrefix + "." + hitted.getName());
@@ -149,7 +149,7 @@ class JoinSearch {
          * T2
          */
         final String toField = edge.getToField();
-        final JqAnalyzer toTable = this.store.metaAnalyzer(edge.getToTable());
+        final JqAnalyzer toTable = this.store.analyzer(edge.getToTable());
         final Field joined = toTable.column(toField);
         final String toPrefix = this.store.metaPrefix(edge.getToTable());
         final Field joinedField = DSL.field(toPrefix + "." + joined.getName());

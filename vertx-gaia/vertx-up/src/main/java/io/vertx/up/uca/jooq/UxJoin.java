@@ -178,12 +178,12 @@ public final class UxJoin {
      * 3) 1 x T1 ( Update ), 1 x T2 ( Save )
      * 4) 1 x T1 ( Update ), 1 x T2 ( Save )
      */
-    public Future<JsonObject> fetchByIdJAsync(final String key) {
-        return this.joinder.fetchById(key, false);
+    public Future<JsonObject> fetchByIdJAsync(final String key, final String field) {
+        return this.joinder.fetchById(key, false, field);
     }
 
-    public Future<JsonObject> fetchByIdAAsync(final String key) {
-        return this.joinder.fetchById(key, true);
+    public Future<JsonObject> fetchByIdAAsync(final String key, final String field) {
+        return this.joinder.fetchById(key, true, field);
     }
 
     public Future<Boolean> removeByIdAsync(final String key) {
@@ -191,45 +191,11 @@ public final class UxJoin {
     }
 
     public Future<JsonObject> insertAsync(final JsonObject data, final String field) {
-        final Object value = data.getValue(field);
-        if (Objects.isNull(value)) {
-            return this.joinder.insert(data, new JsonObject());
-        } else {
-            if (value instanceof JsonObject) {
-                return this.joinder.insert(data, (JsonObject) value);
-            } else {
-                return this.joinder.insert(data, (JsonArray) value);
-            }
-        }
-    }
-
-    public Future<JsonObject> insertAsync(final JsonObject data, final JsonArray records) {
-        return this.joinder.insert(data, records);
-    }
-
-    public Future<JsonObject> insertAsync(final JsonObject data, final JsonObject record) {
-        return this.joinder.insert(data, record);
+        return this.joinder.insert(data, field);
     }
 
     public Future<JsonObject> updateAsync(final String key, final JsonObject data, final String field) {
-        final Object value = data.getValue(field);
-        if (Objects.isNull(value)) {
-            return this.joinder.update(key, data, new JsonObject());
-        } else {
-            if (value instanceof JsonObject) {
-                return this.joinder.update(key, data, (JsonObject) value);
-            } else {
-                return this.joinder.update(key, data, (JsonArray) value);
-            }
-        }
-    }
-
-    public Future<JsonObject> updateAsync(final String key, final JsonObject data, final JsonArray records) {
-        return this.joinder.update(key, data, records);
-    }
-
-    public Future<JsonObject> updateAsync(final String key, final JsonObject data, final JsonObject records) {
-        return this.joinder.update(key, data, records);
+        return this.joinder.update(key, data, field);
     }
 
     // -------------------- Private Translate -----------

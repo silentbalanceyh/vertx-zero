@@ -52,28 +52,20 @@ class JoinEngine {
     }
 
     // -------------------- Single Processing -----------
-    Future<JsonObject> fetchById(final String key, final boolean isASub) {
-        return this.unique.fetchById(key, isASub);
+    Future<JsonObject> fetchById(final String key, final boolean isASub, final String field) {
+        return this.unique.fetchById(key, isASub, field);
     }
 
     Future<Boolean> deleteById(final String key) {
-        return Ux.futureT();
+        return this.writer.deleteById(key);
     }
 
-    Future<JsonObject> insert(final JsonObject data, final JsonObject record) {
-        return Ux.futureJ();
+    Future<JsonObject> insert(final JsonObject data, final String field) {
+        return this.writer.insert(data, field);
     }
 
-    Future<JsonObject> insert(final JsonObject data, final JsonArray record) {
-        return Ux.futureJ();
-    }
-
-    Future<JsonObject> update(final String key, final JsonObject data, final JsonObject record) {
-        return Ux.futureJ();
-    }
-
-    Future<JsonObject> update(final String key, final JsonObject data, final JsonArray records) {
-        return Ux.futureJ();
+    Future<JsonObject> update(final String key, final JsonObject data, final String field) {
+        return this.writer.update(key, data, field);
     }
 
     // -------------------- Search Operation -----------

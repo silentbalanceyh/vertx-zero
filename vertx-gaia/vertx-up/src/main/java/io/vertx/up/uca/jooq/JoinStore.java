@@ -1,17 +1,17 @@
 package io.vertx.up.uca.jooq;
 
+import io.vertx.core.json.JsonObject;
 import io.vertx.tp.plugin.jooq.JooqDsl;
 import io.vertx.tp.plugin.jooq.JooqInfix;
 import io.vertx.up.atom.Kv;
+import io.vertx.up.exception.web._501NotSupportException;
+import io.vertx.up.unity.Ux;
 import org.jooq.Field;
 import org.jooq.Record;
 import org.jooq.Table;
 import org.jooq.impl.DSL;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
@@ -58,6 +58,7 @@ class JoinStore {
 
     private transient Kv<String, String> first;
     private transient JqAnalyzer firstAnalyzer;
+    private transient Class<?> firstDao;
     private JoinEngine talbe;
 
     JoinStore() {
@@ -106,6 +107,7 @@ class JoinStore {
         /*
          * Assist for joining here
          */
+        this.firstDao = daoCls;
         this.firstAnalyzer = this.ANALYZERS.get(daoCls);
     }
 
@@ -134,15 +136,6 @@ class JoinStore {
 
     Set<String> metaFirstField() {
         return this.firstAnalyzer.fieldSet();
-    }
-
-    JqAnalyzer metaAnalyzer(final String name) {
-        final Class<?> daoCls = this.NAME_MAP.get(name);
-        return this.ANALYZERS.get(daoCls);
-    }
-
-    JqAnalyzer metaAnalyzer() {
-        return this.firstAnalyzer;
     }
 
     String metaTableName(final String field) {
@@ -177,6 +170,35 @@ class JoinStore {
 
     boolean hasTable() {
         return this.TABLES.isEmpty();
+    }
+
+    JqAnalyzer analyzer(final String name) {
+        final Class<?> daoCls = this.NAME_MAP.get(name);
+        return this.ANALYZERS.get(daoCls);
+    }
+
+    UxJooq jooq() {
+        return Ux.Jooq.on(this.firstDao);
+    }
+
+    UxJooq childJooq() {
+        final Set<Class<?>> analyzers = this.ANALYZERS.keySet();
+        if (1 == analyzers.size()) {
+            final Class<?> daoCls = analyzers.iterator().next();
+            return Ux.Jooq.on(daoCls);
+        } else {
+            throw new _501NotSupportException(getClass());
+        }
+    }
+
+    Set<String> childKeySet() {
+        final Collection<JqAnalyzer> analyzers = this.ANALYZERS.values();
+        if (1 == analyzers.size()) {
+            final JqAnalyzer analyzer = analyzers.iterator().next();
+            return analyzer.primarySet();
+        } else {
+            throw new _501NotSupportException(getClass());
+        }
     }
 
     ConcurrentMap<String, String> mapColumn() {
@@ -215,6 +237,28 @@ class JoinStore {
         return tableRecord;
     }
 
+
+    // -------------------- Data Operation -----------
+
+    /*
+     * The record is `firstAnalyzer` data record
+     * 1) Extract primary key value ( Joined )
+     */
+    JsonObject dataJoin(final JsonObject record) {
+        Objects.requireNonNull(record);
+        final JsonObject joined = new JsonObject();
+        final String firstField = this.first.getValue();
+        final Object value = record.getValue(firstField);
+        if (Objects.nonNull(value)) {
+            this.EDGES.forEach(edge -> {
+                final String toField = edge.getToField();
+                if (Objects.nonNull(toField)) {
+                    joined.put(toField, value);
+                }
+            });
+        }
+        return joined;
+    }
     // -------------------- Private Operation -----------
 
     private <T> void putDao(final Class<T> daoCls) {

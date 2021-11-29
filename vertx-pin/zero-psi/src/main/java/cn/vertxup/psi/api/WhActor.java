@@ -16,16 +16,18 @@ import io.vertx.up.unity.Ux;
  */
 @Queue
 public class WhActor {
+    private static final String CHILD_FIELD = "positions";
+
     @Me
     @Address(Addr.WH_CREATE)
     public Future<JsonObject> createAsync(final JsonObject data) {
-        return this.dao().insertAsync(data, "positions");
+        return this.dao().insertAsync(data, CHILD_FIELD);
     }
 
     @Me
     @Address(Addr.WH_UPDATE)
     public Future<JsonObject> updateAsync(final String key, final JsonObject data) {
-        return this.dao().updateAsync(key, data, "positions");
+        return this.dao().updateAsync(key, data, CHILD_FIELD);
     }
 
     @Address(Addr.WH_DELETE)
@@ -35,7 +37,7 @@ public class WhActor {
 
     @Address(Addr.WH_READ)
     public Future<JsonObject> readAsync(final String key) {
-        return this.dao().fetchByIdAAsync(key);
+        return this.dao().fetchByIdAAsync(key, CHILD_FIELD);
     }
 
     private UxJoin dao() {
