@@ -104,7 +104,7 @@ class JoinSearch {
     }
 
     private Table<Record> getTable() {
-        if (!this.store.isJoined()) {
+        if (this.store.noPrefix()) {
             return null;
         }
         /*
