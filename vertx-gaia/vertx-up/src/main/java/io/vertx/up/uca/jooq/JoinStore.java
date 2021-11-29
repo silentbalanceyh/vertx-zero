@@ -165,7 +165,7 @@ class JoinStore {
     // -------------------- Spec Meta Operation -----------
 
 
-    boolean isJoined() {
+    boolean noPrefix() {
         return this.PREFIX_MAP.isEmpty();
     }
 
