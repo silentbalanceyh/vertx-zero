@@ -1,15 +1,15 @@
 [
-    "name,仓库名称",
-    "code,仓库编码",
     {
         "metadata": "type,仓库类型,MAPPING",
         "$mapping": {
-            "fm`assert": "fm.assert,资产库,home,20,#ff8626",
-            "fm`commodity": "fm.commodity,商品库,home,20,#33af43",
-            "fm`goods": "fm.goods,物料库,home,20,#147fb4",
-            "fm`shop": "fm.shop,网点库,home,20,#17a8ff"
+            "fm`assert": "资产库,home,32,#ff8626",
+            "fm`commodity": "商品库,home,32,#33af43",
+            "fm`goods": "物料库,home,32,#147fb4",
+            "fm`shop": "网点库,home,32,#17a8ff"
         }
     },
+    "name,仓库名称",
+    "code,仓库编码",
     "managerName,管理员",
     "managerMobile,联系手机",
     {
