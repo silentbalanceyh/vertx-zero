@@ -58,7 +58,7 @@ class JoinWriter {
         final UxJooq childJq = this.store.childJooq();
         if (Objects.nonNull(childJq)) {
             final JsonObject joined = this.store.dataJoin(response);
-            return childJq.deleteByAsync(joined);
+            return childJq.deleteByAsync(joined).compose(nil -> Ux.futureT());
         } else {
             return Ux.future(Boolean.FALSE);
         }
