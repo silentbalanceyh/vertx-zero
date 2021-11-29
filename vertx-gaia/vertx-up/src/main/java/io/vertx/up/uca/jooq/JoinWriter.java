@@ -76,6 +76,7 @@ class JoinWriter {
                 final List<Future<JsonArray>> futures = new ArrayList<>();
                 futures.add(childJq.insertJAsync(compared.get(ChangeFlag.ADD)));
                 futures.add(childJq.updateAsync(compared.get(ChangeFlag.UPDATE)).compose(Ux::futureA));
+                futures.add(childJq.deleteJAsync(compared.get(ChangeFlag.DELETE)));
                 return Ux.thenCombineArray(futures);
             });
         } else {

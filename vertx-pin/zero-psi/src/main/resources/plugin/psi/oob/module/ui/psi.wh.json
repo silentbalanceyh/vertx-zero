@@ -2,10 +2,10 @@
     {
         "metadata": "type,仓库类型,MAPPING",
         "$mapping": {
-            "fm`assert": "资产库,home,32,#ff8626",
-            "fm`commodity": "商品库,home,32,#33af43",
-            "fm`goods": "物料库,home,32,#147fb4",
-            "fm`shop": "网点库,home,32,#17a8ff"
+            "fm`assert": "资产库,home,48,#ff8626",
+            "fm`commodity": "商品库,home,48,#33af43",
+            "fm`goods": "物料库,home,48,#147fb4",
+            "fm`shop": "网点库,home,48,#17a8ff"
         }
     },
     "name,仓库名称",
