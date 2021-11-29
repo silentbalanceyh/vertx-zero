@@ -42,4 +42,4 @@ CREATE TABLE IF NOT EXISTS P_POS
 );
 -- changeset Lang:p-pos-2
 ALTER TABLE P_POS
-    ADD UNIQUE (`CODE`, `SIGMA`); -- 仓库编号不重复
+    ADD UNIQUE (`CODE`, `SIGMA`, `WH_ID`); -- 仓库编号不重复
