@@ -86,7 +86,7 @@ class ActionDelete extends AbstractAction {
 
     <T, ID> Future<Boolean> deleteByIdAsync(final Collection<ID> ids) {
         Objects.requireNonNull(ids);
-        return ((Future<Boolean>) this.dao().deleteByIds(ids)).compose(rows -> {
+        return ((Future<Integer>) this.dao().deleteByIds(ids)).compose(rows -> {
             this.logging("[ Jq ] deleteByIdAsync(Collection<ID>) executed rows: {0}/{1}",
                 String.valueOf(rows), String.valueOf(ids.size()));
             return Future.succeededFuture(Boolean.TRUE);

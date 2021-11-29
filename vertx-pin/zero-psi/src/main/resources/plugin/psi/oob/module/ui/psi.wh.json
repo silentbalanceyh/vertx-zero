@@ -4,10 +4,10 @@
     {
         "metadata": "type,仓库类型,MAPPING",
         "$mapping": {
-            "fm.assert": "资产库,home,20,#ff8626",
-            "fm.commodity": "商品库,home,20,#33af43",
-            "fm.goods": "物料库,home,20,#147fb4",
-            "fm.shop": "网点库,home,20,#17a8ff"
+            "fm.assert": "fm.assert,资产库,home,20,#ff8626",
+            "fm.commodity": "fm.commodity,商品库,home,20,#33af43",
+            "fm.goods": "fm.goods,物料库,home,20,#147fb4",
+            "fm.shop": "fm.shop,网点库,home,20,#17a8ff"
         }
     },
     "managerName,管理员",
