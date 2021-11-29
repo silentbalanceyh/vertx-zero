@@ -6,6 +6,7 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.up.atom.pojo.Mirror;
 import io.vertx.up.atom.pojo.Mojo;
 import io.vertx.up.atom.query.engine.Qr;
+import io.vertx.up.eon.KName;
 import io.vertx.up.uca.jooq.util.JqTool;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
@@ -20,7 +21,7 @@ import java.util.concurrent.ConcurrentMap;
 public final class UxJoin {
 
     private transient final JsonObject configuration = new JsonObject();
-    private transient final JqJoinder joinder = new JqJoinder();
+    private transient final JoinEngine joinder = new JoinEngine();
 
     private transient final ConcurrentMap<Class<?>, String> POJO_MAP
         = new ConcurrentHashMap<>();
@@ -40,6 +41,12 @@ public final class UxJoin {
         }
     }
 
+    /*
+     * T1:
+     * Major entity of current dao
+     * 1. Dao Cls, default joined field primary key is `key`
+     * 2. Dao Cls, you can set the primary key is `field`
+     */
     public <T> UxJoin add(final Class<?> daoCls) {
         this.joinder.add(daoCls, this.translate(daoCls, "key"));
         return this;
@@ -50,11 +57,32 @@ public final class UxJoin {
         return this;
     }
 
+    /*
+     * When two tables contains two duplicated field such as name
+     * This method could rename field as alias
+     * T1
+     * - name
+     * T2
+     * - name
+     *
+     * When you call alias(T2Dao.class, "name", "nameT2")
+     * The result should be
+     * {
+     *      "name": "Value1",
+     *      "nameT2": "Value2"
+     * }
+     */
     public <T> UxJoin alias(final Class<?> daoCls, final String field, final String alias) {
         this.joinder.alias(daoCls, field, alias);
         return this;
     }
 
+    /*
+     * The pojo mapping configuration for Dao class, the pojo configuration came from
+     * pojo/pojo.yml
+     * 1) pojo/ is the default configuration folder
+     * 2) pojo.yml is the parameter of current method `pojo`
+     */
     public <T> UxJoin pojo(final Class<?> daoCls, final String pojo) {
         final Mojo created = Mirror.create(UxJoin.class).mount(pojo).mojo();
         this.POJO_MAP.put(daoCls, pojo);
@@ -65,14 +93,153 @@ public final class UxJoin {
         return this;
     }
 
+    /*
+     * T2:
+     * Joined dao class with field
+     * 1. Primary Key Join
+     *    T1 ( primary key ) Join T2 on ( ... T2.key )
+     * 2. Common Join
+     *    T1 ( primary key ) Join T2 on ( ... T2.field )
+     */
     public <T> UxJoin join(final Class<?> daoCls) {
-        this.joinder.join(daoCls, this.translate(daoCls, "key"));
+        this.joinder.join(daoCls, this.translate(daoCls, KName.KEY));
         return this;
     }
 
     public <T> UxJoin join(final Class<?> daoCls, final String field) {
         this.joinder.join(daoCls, this.translate(daoCls, field));
         return this;
+    }
+
+    // -------------------- Search Operation -----------
+    /*
+     * searchAsync(JsonObject)
+     * searchAsync(Qr)
+     */
+    public Future<JsonObject> searchAsync(final JsonObject params) {
+        return searchAsync(toQr(params));
+    }
+
+    public Future<JsonObject> searchAsync(final Qr qr) {
+        this.POJO_MAP.forEach(this.joinder::pojo);
+        return this.joinder.searchAsync(qr, this.merged);
+    }
+
+    /*
+     * countAsync(JsonObject)
+     * countAsync(Qr)
+     */
+    public Future<Long> countAsync(final JsonObject params) {
+        return countAsync(toQr(params));
+    }
+
+    public Future<Long> countAsync(final Qr qr) {
+        this.POJO_MAP.forEach(this.joinder::pojo);
+        return this.joinder.countAsync(qr);
+    }
+
+    /*
+     * 「Sync」Operation
+     * fetch(Qr)
+     * fetch(JsonObject)
+     *
+     * 「Async」Standard Api
+     * fetchAsync(Qr)
+     * fetchAsync(JsonObject)
+     */
+    public JsonArray fetch(final Qr qr) {
+        this.POJO_MAP.forEach(this.joinder::pojo);
+        return this.joinder.searchArray(qr, this.merged);
+    }
+
+    public JsonArray fetch(final JsonObject params) {
+        return this.fetch(toQr(new JsonObject().put(Qr.KEY_CRITERIA, params)));
+    }
+
+    public Future<JsonArray> fetchAsync(final Qr qr) {
+        return Ux.future(this.fetch(qr));
+    }
+
+    public Future<JsonArray> fetchAsync(final JsonObject params) {
+        return fetchAsync(toQr(new JsonObject().put(Qr.KEY_CRITERIA, params)));
+    }
+
+    // -------------------- Crud Operation -----------
+    /*
+     * Delete Operation Cascade
+     * 1) 1 x T1, n x T2
+     * 2) 1 x T1, 1 x T2
+     * Read Operation Cascade
+     * 1) 1 x T1, n x T2
+     * 2) 1 x T1, 1 x T2
+     * Create/Update Operation
+     * 1) 1 x T1 ( Create ), 1 x T2 ( Save )
+     * 2) 1 x T1 ( Create ), n x T2 ( Save )
+     * 3) 1 x T1 ( Update ), 1 x T2 ( Save )
+     * 4) 1 x T1 ( Update ), 1 x T2 ( Save )
+     */
+    public Future<JsonObject> fetchByIdJAsync(final String key) {
+        return this.joinder.fetchById(key, false);
+    }
+
+    public Future<JsonObject> fetchByIdAAsync(final String key) {
+        return this.joinder.fetchById(key, true);
+    }
+
+    public Future<Boolean> removeByIdAsync(final String key) {
+        return this.joinder.deleteById(key);
+    }
+
+    public Future<JsonObject> insertAsync(final JsonObject data, final String field) {
+        final Object value = data.getValue(field);
+        if (Objects.isNull(value)) {
+            return this.joinder.insert(data, new JsonObject());
+        } else {
+            if (value instanceof JsonObject) {
+                return this.joinder.insert(data, (JsonObject) value);
+            } else {
+                return this.joinder.insert(data, (JsonArray) value);
+            }
+        }
+    }
+
+    public Future<JsonObject> insertAsync(final JsonObject data, final JsonArray records) {
+        return this.joinder.insert(data, records);
+    }
+
+    public Future<JsonObject> insertAsync(final JsonObject data, final JsonObject record) {
+        return this.joinder.insert(data, record);
+    }
+
+    public Future<JsonObject> updateAsync(final String key, final JsonObject data, final String field) {
+        final Object value = data.getValue(field);
+        if (Objects.isNull(value)) {
+            return this.joinder.update(key, data, new JsonObject());
+        } else {
+            if (value instanceof JsonObject) {
+                return this.joinder.update(key, data, (JsonObject) value);
+            } else {
+                return this.joinder.update(key, data, (JsonArray) value);
+            }
+        }
+    }
+
+    public Future<JsonObject> updateAsync(final String key, final JsonObject data, final JsonArray records) {
+        return this.joinder.update(key, data, records);
+    }
+
+    public Future<JsonObject> updateAsync(final String key, final JsonObject data, final JsonObject records) {
+        return this.joinder.update(key, data, records);
+    }
+
+    // -------------------- Private Translate -----------
+
+    private Qr toQr(final JsonObject params) {
+        return Objects.isNull(this.merged) ? Qr.create(params) : JqTool.qr(
+            params,
+            this.merged,
+            this.joinder.fieldFirst()              // The first major jooq should be ignored
+        );
     }
 
     private String translate(final Class<?> daoCls, final String field) {
@@ -92,51 +259,5 @@ public final class UxJoin {
                 }
             }
         }
-    }
-
-    // -------------------- Search Operation -----------
-    /* (Async / Sync) Sort, Projection, Criteria, Pager Search Operations */
-
-    public Future<JsonObject> searchAsync(final JsonObject params) {
-        return searchAsync(toQr(params));
-    }
-
-    private Qr toQr(final JsonObject params) {
-        return Objects.isNull(this.merged) ? Qr.create(params) : JqTool.qr(
-            params,
-            this.merged,
-            this.joinder.firstFields()              // The first major jooq should be ignored
-        );
-    }
-
-    public Future<JsonObject> searchAsync(final Qr qr) {
-        this.POJO_MAP.forEach(this.joinder::pojo);
-        return this.joinder.searchPaginationAsync(qr, this.merged);
-    }
-
-    public Future<Long> countAsync(final JsonObject params) {
-        return countAsync(toQr(params));
-    }
-
-    public Future<Long> countAsync(final Qr qr) {
-        this.POJO_MAP.forEach(this.joinder::pojo);
-        return this.joinder.countPaginationAsync(qr);
-    }
-
-    public JsonArray fetch(final Qr qr) {
-        this.POJO_MAP.forEach(this.joinder::pojo);
-        return this.joinder.searchArray(qr, this.merged);
-    }
-
-    public JsonArray fetch(final JsonObject params) {
-        return this.fetch(toQr(new JsonObject().put(Qr.KEY_CRITERIA, params)));
-    }
-
-    public Future<JsonArray> fetchAsync(final Qr qr) {
-        return Ux.future(this.fetch(qr));
-    }
-
-    public Future<JsonArray> fetchAsync(final JsonObject params) {
-        return fetchAsync(toQr(new JsonObject().put(Qr.KEY_CRITERIA, params)));
     }
 }

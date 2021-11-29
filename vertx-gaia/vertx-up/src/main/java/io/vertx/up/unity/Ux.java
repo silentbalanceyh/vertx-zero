@@ -1180,6 +1180,10 @@ public final class Ux {
         public static UxJoin on() {
             return new UxJoin(null);
         }
+
+        public static UxJoin on(final Class<?> daoCls) {
+            return new UxJoin(null).add(daoCls);
+        }
     }
 
     public static class Pool {
