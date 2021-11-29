@@ -14,6 +14,7 @@ import org.jooq.impl.DSL;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
+import java.util.stream.Collectors;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
@@ -182,7 +183,9 @@ class JoinStore {
     }
 
     UxJooq childJooq() {
-        final Set<Class<?>> analyzers = this.ANALYZERS.keySet();
+        final Set<Class<?>> analyzers = this.ANALYZERS.keySet()
+            .stream().filter(item -> !item.equals(this.firstDao))
+            .collect(Collectors.toSet());
         if (1 == analyzers.size()) {
             final Class<?> daoCls = analyzers.iterator().next();
             return Ux.Jooq.on(daoCls);
@@ -192,7 +195,9 @@ class JoinStore {
     }
 
     Set<String> childKeySet() {
-        final Collection<JqAnalyzer> analyzers = this.ANALYZERS.values();
+        final Collection<JqAnalyzer> analyzers = this.ANALYZERS.values()
+            .stream().filter(item -> !item.equals(this.firstAnalyzer))
+            .collect(Collectors.toSet());
         if (1 == analyzers.size()) {
             final JqAnalyzer analyzer = analyzers.iterator().next();
             return analyzer.primarySet();
