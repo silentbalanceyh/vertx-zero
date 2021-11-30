@@ -69,11 +69,9 @@ class FabricTran implements Tran {
                 /*
                  * Combine DiConsumer
                  */
-                final ConcurrentMap<String, DiConsumer> connectConsumer;
+                final ConcurrentMap<String, DiConsumer> connectConsumer = transform.epsilon();
                 if (Objects.nonNull(transformConnect)) {
-                    connectConsumer = transform.epsilon();
-                } else {
-                    connectConsumer = new ConcurrentHashMap<>();
+                    connectConsumer.putAll(transformConnect.epsilon());
                 }
                 return this.fabric(connect, envelop).compose(dictConnect -> {
                     dictMap.putAll(dictConnect);

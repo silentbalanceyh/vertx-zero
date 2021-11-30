@@ -176,7 +176,23 @@ public class IxMod {
      * Ut.elementZip by `key` could merge all the data here.
      */
     public JsonArray dataIn(final JsonArray input, final JsonArray active) {
-        final JsonArray zip = Ut.elementZip(active, input);
+        /*
+         * input contains the whole data array
+         * active contains the inserted X_CATEGORY only
+         * Zip by
+         * 1) Active -> Key
+         * 2) Input -> module -> joined
+         */
+        final JsonArray zip = new JsonArray();
+        Ut.itJArray(active, (data, index) -> {
+            final JsonObject source = data.copy();
+            final JsonObject target = input.getJsonObject(index);
+            if (Ut.notNil(target)) {
+                zip.add(source.mergeIn(target));
+            } else {
+                zip.add(source);
+            }
+        });
         final JsonArray normalized = new JsonArray();
         Ut.itJArray(zip).forEach(json -> {
             final JsonObject dataSt = this.dataIn(json);
