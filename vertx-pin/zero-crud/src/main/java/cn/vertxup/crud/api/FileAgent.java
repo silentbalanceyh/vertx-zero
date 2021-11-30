@@ -30,11 +30,16 @@ public class FileAgent {
     @Adjust(Orders.MODULE)
     public JsonObject importFile(@PathParam("actor") final String actor,
                                  @QueryParam(KName.MODULE) final String module,
-                                 @StreamParam @Codex final FileUpload fileUpload) {
+                                 @StreamParam @Codex final FileUpload fileUpload,
+                                 // For Import by different `type`
+                                 @QueryParam(KName.TYPE) final String type,
+                                 @QueryParam(KName.STATUS) final String status) {
         /* File stored */
         final String filename = fileUpload.uploadedFileName();
         Ix.Log.dao(this.getClass(), IxMsg.FILE_UPLOAD, fileUpload.fileName(), filename);
-        return Ux.toZip(actor, filename, module);
+        final JsonObject parameters = new JsonObject();
+        return Ux.toZip(actor, filename, module,
+            parameters.put(KName.TYPE, type).put(KName.STATUS, status));
     }
 
     @Path("/{actor}/export")

@@ -104,6 +104,10 @@ public class IxMod {
         this.envelop = envelop;
         final JsonObject headers = envelop.headersX();
         this.parameters.mergeIn(headers, true);
+        final JsonObject parameters = envelop.body();
+        if (Ut.notNil(parameters)) {
+            this.parameters.mergeIn(parameters, true);
+        }
         return this;
     }
 
