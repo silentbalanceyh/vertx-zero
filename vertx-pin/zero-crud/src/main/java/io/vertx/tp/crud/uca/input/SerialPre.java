@@ -31,7 +31,8 @@ class SerialPre implements Pre {
     public Future<JsonObject> inJAsync(final JsonObject data, final IxMod in) {
         /* Sigma Checking */
         final String sigma = data.getString(KName.SIGMA);
-        if (Ut.notNil(sigma)) {
+        if (Ut.isNil(sigma)) {
+            /* Fix Bug of number generations here */
             return Ux.future(data);
         }
         /* Number generation */
@@ -58,7 +59,7 @@ class SerialPre implements Pre {
     public Future<JsonArray> inAAsync(final JsonArray data, final IxMod in) {
         /* Compress all sigma no value */
         final String sigma = Ut.mapOneS(data, KName.SIGMA);
-        if (Ut.notNil(sigma) || Ut.isNil(data)) {
+        if (Ut.isNil(sigma) || Ut.isNil(data)) {
             return Ux.future(data);
         }
         /* Number generation */

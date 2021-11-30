@@ -4,10 +4,13 @@ import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.crud.init.IxPin;
+import io.vertx.tp.crud.refine.Ix;
 import io.vertx.tp.crud.uca.desk.IxMod;
 import io.vertx.tp.ke.atom.specification.KModule;
 import io.vertx.tp.ke.atom.specification.KTransform;
 import io.vertx.tp.ke.atom.specification.KTree;
+import io.vertx.up.atom.Kv;
+import io.vertx.up.eon.Strings;
 import io.vertx.up.uca.jooq.UxJooq;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
@@ -49,61 +52,55 @@ class TreeTran implements Tran {
              * out = key
              * in = code
              * */
+            final JsonArray values;
+            final Kv<String, String> keyValue;
             if (from) {
                 /*
                  * From is importing, code will be the condition
                  * code = key
                  */
-                final JsonArray values = Ut.toJArray(Ut.mapString(data, tree.getField()));
-                final String condition = tree.getIn();
-                return this.treeAsync(in, values, condition, tree.getOut()).compose(map -> {
-                    /*
-                     * Because key could not be modified, it means that the
-                     * code = key should keep `map` priority
-                     */
-                    final ConcurrentMap<String, String> mapInput = this.tree(data, condition, tree.getOut());
-                    mapInput.forEach((field, key) -> {
-                        if (!map.containsKey(field)) {
-                            map.put(field, key);
-                        }
-                    });
-                    return Ux.future(map);
-                });
+                values = Ut.toJArray(Ut.mapString(data, tree.getField()));
+                keyValue = Kv.create(tree.getIn(), tree.getOut());
+
             } else {
                 // key = code
-                final JsonArray values = Ut.toJArray(Ut.mapArray(data, tree.getField()));
-                final String condition = tree.getOut();
-                return this.treeAsync(in, values, condition, tree.getIn()).compose(map -> {
-                    /*
-                     * Because key could not be modified, it means that the
-                     * key = code should keep `map` priority
-                     */
-                    final ConcurrentMap<String, String> mapInput = this.tree(data, condition, tree.getIn());
-                    mapInput.forEach((field, key) -> {
-                        if (!map.containsKey(field)) {
-                            map.put(field, key);
-                        }
-                    });
-                    return Ux.future(map);
-                });
+                values = Ut.toJArray(Ut.mapArray(data, tree.getField()));
+                keyValue = Kv.create(tree.getOut(), tree.getIn());
             }
+            return this.treeAsync(in, tree, values, keyValue).compose(map -> {
+                /*
+                 * Because key could not be modified, it means that the
+                 * code = key should keep `map` priority
+                 */
+                final ConcurrentMap<String, String> mapInput = this.tree(data, keyValue);
+                mapInput.forEach((field, key) -> {
+                    if (!map.containsKey(field)) {
+                        map.put(field, key);
+                    }
+                });
+                return Ux.future(map);
+            });
         };
     }
 
-    private Future<ConcurrentMap<String, String>> treeAsync(final IxMod in, final JsonArray values,
-                                                            final String keyField, final String valueField) {
-        final JsonObject criteria = new JsonObject();
+    private Future<ConcurrentMap<String, String>> treeAsync(final IxMod in, final KTree tree,
+                                                            final JsonArray values,
+                                                            final Kv<String, String> keyValue) {
+        final JsonObject criteria = tree.region(in.parameters());
+        final String keyField = keyValue.getKey();
         criteria.put(keyField + ",i", values);
+        criteria.put(Strings.EMPTY, Boolean.TRUE);
+        Ix.Log.web(this.getClass(), "Tree Transform Condition: {0}", criteria.encode());
         final UxJooq jooq = IxPin.jooq(in);
-        return jooq.fetchJAsync(criteria).compose(source -> Ux.future(this.tree(source, keyField, valueField)));
+        return jooq.fetchJAsync(criteria).compose(source -> Ux.future(this.tree(source, keyValue)));
     }
 
     private ConcurrentMap<String, String> tree(final JsonArray source,
-                                               final String keyField, final String valueField) {
+                                               final Kv<String, String> keyValue) {
         final ConcurrentMap<String, String> data = new ConcurrentHashMap<>();
         Ut.itJArray(source).forEach(record -> {
-            final String fromValue = record.getString(keyField);
-            final String toValue = record.getString(valueField);
+            final String fromValue = record.getString(keyValue.getKey());
+            final String toValue = record.getString(keyValue.getValue());
             if (Objects.nonNull(fromValue) && Objects.nonNull(toValue)) {
                 data.put(fromValue, toValue);
             }

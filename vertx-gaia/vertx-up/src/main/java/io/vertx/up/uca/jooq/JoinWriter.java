@@ -58,7 +58,7 @@ class JoinWriter {
         final UxJooq childJq = this.store.childJooq();
         if (Objects.nonNull(childJq)) {
             final JsonObject joined = this.store.dataJoin(response);
-            return childJq.deleteByAsync(joined);
+            return childJq.deleteByAsync(joined).compose(nil -> Ux.futureT());
         } else {
             return Ux.future(Boolean.FALSE);
         }
@@ -76,6 +76,7 @@ class JoinWriter {
                 final List<Future<JsonArray>> futures = new ArrayList<>();
                 futures.add(childJq.insertJAsync(compared.get(ChangeFlag.ADD)));
                 futures.add(childJq.updateAsync(compared.get(ChangeFlag.UPDATE)).compose(Ux::futureA));
+                futures.add(childJq.deleteJAsync(compared.get(ChangeFlag.DELETE)));
                 return Ux.thenCombineArray(futures);
             });
         } else {
