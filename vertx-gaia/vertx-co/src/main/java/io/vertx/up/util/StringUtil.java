@@ -3,6 +3,7 @@ package io.vertx.up.util;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.eon.Strings;
 import io.vertx.up.fn.Fn;
+import io.vertx.up.log.Debugger;
 import org.apache.commons.jexl3.*;
 
 import java.util.*;
@@ -141,7 +142,9 @@ final class StringUtil {
             }
         } catch (final JexlException ex) {
             // ex.printStackTrace();    // For Debug
-            ex.printStackTrace();
+            if (Debugger.onStackTracing()) {
+                ex.printStackTrace();
+            }
             return null;                // Get null
             // throw new JexlExpressionException(StringUtil.class, expr, ex);
         }
