@@ -52,9 +52,7 @@ public class BItemActor {
                     final ConcurrentMap<String, JsonArray> grouped = Ut.elementGroup(authArray, "bookId");
                     Ut.itJArray(bookArray).forEach(bookJson -> {
                         final String key = bookJson.getString(KName.KEY);
-                        if(grouped.containsKey(key)){
-                            bookJson.put("authorize", grouped.getOrDefault(key, new JsonArray()));
-                        }
+                        bookJson.put("authorize", grouped.getOrDefault(key, new JsonArray()));
                     });
                     return Ux.future(bookArray);
                 })

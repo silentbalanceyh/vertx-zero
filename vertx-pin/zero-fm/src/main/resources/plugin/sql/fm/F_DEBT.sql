@@ -6,7 +6,7 @@ DROP TABLE IF EXISTS `F_DEBT`;
 CREATE TABLE `F_DEBT`
 (
     `KEY`           VARCHAR(36) COMMENT '「key」- 应收账单主键ID',
-    `NAME`          VARCHAR(255)   NOT NULL COMMENT '「name」 - 应收单标题',
+    `NAME`          VARCHAR(255) DEFAULT NULL COMMENT '「name」 - 应收单标题',
     `CODE`          VARCHAR(255)   NOT NULL COMMENT '「code」 - 应收单编号',
     `SERIAL`        VARCHAR(36)    NOT NULL COMMENT '「serial」 - 应收单据号',
 

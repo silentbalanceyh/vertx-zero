@@ -70,6 +70,21 @@ public class FPreAuthorizeDao extends AbstractVertxDAO<FPreAuthorizeRecord, cn.v
         }
 
         /**
+     * Find records that have <code>STATUS IN (values)</code> asynchronously
+     */
+        public Future<List<cn.vertxup.fm.domain.tables.pojos.FPreAuthorize>> findManyByStatus(Collection<String> values) {
+                return findManyByCondition(FPreAuthorize.F_PRE_AUTHORIZE.STATUS.in(values));
+        }
+
+        /**
+     * Find records that have <code>STATUS IN (values)</code> asynchronously
+     * limited by the given limit
+     */
+        public Future<List<cn.vertxup.fm.domain.tables.pojos.FPreAuthorize>> findManyByStatus(Collection<String> values, int limit) {
+                return findManyByCondition(FPreAuthorize.F_PRE_AUTHORIZE.STATUS.in(values),limit);
+        }
+
+        /**
      * Find records that have <code>AMOUNT IN (values)</code> asynchronously
      */
         public Future<List<cn.vertxup.fm.domain.tables.pojos.FPreAuthorize>> findManyByAmount(Collection<BigDecimal> values) {

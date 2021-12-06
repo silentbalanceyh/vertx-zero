@@ -3,20 +3,26 @@ package cn.vertxup.fm.api;
 import cn.vertxup.fm.domain.tables.daos.*;
 import cn.vertxup.fm.domain.tables.pojos.FDebt;
 import cn.vertxup.fm.domain.tables.pojos.FPaymentItem;
+import cn.vertxup.fm.domain.tables.pojos.FPreAuthorize;
 import cn.vertxup.fm.service.business.AccountStub;
 import cn.vertxup.fm.service.business.FillStub;
 import cn.vertxup.fm.service.business.IndentStub;
 import com.google.inject.Inject;
 import io.vertx.core.Future;
+import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
+import io.vertx.ext.auth.User;
 import io.vertx.tp.fm.cv.Addr;
+import io.vertx.tp.fm.cv.FmCv;
 import io.vertx.up.annotations.Address;
 import io.vertx.up.annotations.Me;
 import io.vertx.up.annotations.Queue;
 import io.vertx.up.atom.Refer;
 import io.vertx.up.eon.KName;
 import io.vertx.up.unity.Ux;
+import io.vertx.up.util.Ut;
 
+import java.time.Instant;
 import java.util.List;
 
 /**
@@ -72,5 +78,18 @@ public class SettleActor {
             })
             .compose(nil -> Ux.future(settle.get()))
             .compose(Ux::futureJ);
+    }
+
+    @Address(Addr.Settle.UNLOCK_AUTHORIZE)
+    public Future<JsonArray> unlockAuthorize(final JsonArray authorized, final User user){
+        // Authorized Modification
+        String userKey = Ux.keyUser(user);
+        Ut.itJArray(authorized).forEach(json -> {
+            json.put(KName.UPDATED_AT, Instant.now());
+            json.put(KName.UPDATED_BY, userKey);
+            json.put(KName.STATUS, FmCv.Status.FINISHED);
+        });
+        final List<FPreAuthorize> authorizeList = Ux.fromJson(authorized, FPreAuthorize.class);
+        return Ux.Jooq.on(FPreAuthorizeDao.class).updateAsync(authorizeList).compose(Ux::futureA);
     }
 }

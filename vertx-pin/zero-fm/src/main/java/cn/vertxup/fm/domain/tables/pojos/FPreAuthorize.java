@@ -24,6 +24,7 @@ public class FPreAuthorize implements VertxPojo, IFPreAuthorize {
     private String        key;
     private String        code;
     private String        serial;
+    private String        status;
     private BigDecimal    amount;
     private String        comment;
     private LocalDateTime expiredAt;
@@ -47,6 +48,7 @@ public class FPreAuthorize implements VertxPojo, IFPreAuthorize {
         this.key = value.getKey();
         this.code = value.getCode();
         this.serial = value.getSerial();
+        this.status = value.getStatus();
         this.amount = value.getAmount();
         this.comment = value.getComment();
         this.expiredAt = value.getExpiredAt();
@@ -69,6 +71,7 @@ public class FPreAuthorize implements VertxPojo, IFPreAuthorize {
         String        key,
         String        code,
         String        serial,
+        String        status,
         BigDecimal    amount,
         String        comment,
         LocalDateTime expiredAt,
@@ -89,6 +92,7 @@ public class FPreAuthorize implements VertxPojo, IFPreAuthorize {
         this.key = key;
         this.code = code;
         this.serial = serial;
+        this.status = status;
         this.amount = amount;
         this.comment = comment;
         this.expiredAt = expiredAt;
@@ -162,6 +166,25 @@ public class FPreAuthorize implements VertxPojo, IFPreAuthorize {
     @Override
     public FPreAuthorize setSerial(String serial) {
         this.serial = serial;
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.F_PRE_AUTHORIZE.STATUS</code>. 「status」 -
+     * 预授权状态，Lock/Unlock
+     */
+    @Override
+    public String getStatus() {
+        return this.status;
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.F_PRE_AUTHORIZE.STATUS</code>. 「status」 -
+     * 预授权状态，Lock/Unlock
+     */
+    @Override
+    public FPreAuthorize setStatus(String status) {
+        this.status = status;
         return this;
     }
 
@@ -472,6 +495,7 @@ public class FPreAuthorize implements VertxPojo, IFPreAuthorize {
         sb.append(key);
         sb.append(", ").append(code);
         sb.append(", ").append(serial);
+        sb.append(", ").append(status);
         sb.append(", ").append(amount);
         sb.append(", ").append(comment);
         sb.append(", ").append(expiredAt);
@@ -502,6 +526,7 @@ public class FPreAuthorize implements VertxPojo, IFPreAuthorize {
         setKey(from.getKey());
         setCode(from.getCode());
         setSerial(from.getSerial());
+        setStatus(from.getStatus());
         setAmount(from.getAmount());
         setComment(from.getComment());
         setExpiredAt(from.getExpiredAt());
