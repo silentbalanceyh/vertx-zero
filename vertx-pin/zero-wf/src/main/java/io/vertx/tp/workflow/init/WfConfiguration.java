@@ -39,6 +39,7 @@ final class WfConfiguration {
     private static final ConcurrentMap<String, WFlow> FLOW_POOL = new ConcurrentHashMap<>();
     private static ConfigWorkflow CONFIG;
     private static ProcessEngine ENGINE;
+    private static boolean ENABLED;
     private static HistoryEventHandler HANDLER;
 
     private WfConfiguration() {
@@ -51,6 +52,9 @@ final class WfConfiguration {
             Wf.Log.infoInit(WfConfiguration.class, "The workflow engine will be initialized!! `{0}`",
                 configuration.encode());
             CONFIG = Ut.deserialize(configuration, ConfigWorkflow.class);
+            ENABLED = true;
+        }else{
+            ENABLED = false;
         }
     }
 
@@ -83,10 +87,15 @@ final class WfConfiguration {
     }
 
     static List<String> camundaResources() {
-        final List<String> folders = Ut.ioDirectories(WfCv.FOLDER_ROOT);
-        final List<String> results = new ArrayList<>();
-        folders.forEach(each -> results.add(WfCv.FOLDER_ROOT + "/" + each));
-        return results;
+        if(ENABLED) {
+            final List<String> folders = Ut.ioDirectories(WfCv.FOLDER_ROOT);
+            final List<String> results = new ArrayList<>();
+            folders.forEach(each -> results.add(WfCv.FOLDER_ROOT + "/" + each));
+            return results;
+        }else{
+            // Workflow does not enable, disabled here.
+            return new ArrayList<>();
+        }
     }
 
     static Set<String> camundaBuiltIn() {
