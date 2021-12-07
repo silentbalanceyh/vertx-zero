@@ -46,7 +46,7 @@ public class FillService implements FillStub {
         item.setBillId(bill.getKey());
         item.setSerial(bill.getSerial() + "-01");
         item.setCode(bill.getCode() + "-01");
-        item.setStatus("Pending");
+        item.setStatus(FmCv.Status.PENDING);
         // price, quanlity, total
         item.setPrice(item.getAmount());
         item.setQuantity(1);
@@ -60,6 +60,7 @@ public class FillService implements FillStub {
             authorize.setBillId(bill.getKey());
             authorize.setSerial(bill.getSerial() + "-A");
             authorize.setCode(bill.getCode() + "-A");
+            authorize.setStatus(FmCv.Status.PENDING);
             // active, sigma
             Ke.umCreated(authorize, bill);
         }

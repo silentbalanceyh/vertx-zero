@@ -29,6 +29,8 @@ public interface Addr {
     }
 
     interface Settle {
+        // Authorize Unlock
+        String UNLOCK_AUTHORIZE = Prefix._EVENT + "AUTHORIZE/UNLOCK";
         // Finish
         String UP_PAYMENT = Prefix._EVENT + "BILL/PAYMENT";
     }

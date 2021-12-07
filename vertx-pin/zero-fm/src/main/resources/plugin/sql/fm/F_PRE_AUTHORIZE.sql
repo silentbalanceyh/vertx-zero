@@ -7,6 +7,7 @@ CREATE TABLE `F_PRE_AUTHORIZE`
     `KEY`        VARCHAR(36) COMMENT '「key」- 预授权ID',
     `CODE`       VARCHAR(255)   NOT NULL COMMENT '「code」 - 预授权系统编号',
     `SERIAL`     VARCHAR(36)    NOT NULL COMMENT '「serial」 - 预授权单据号',
+    `STATUS`     VARCHAR(36)    NOT NULL COMMENT '「status」 - 预授权状态，Lock/Unlock',
 
     -- 基本信息
     `AMOUNT`     DECIMAL(18, 2) NOT NULL COMMENT '「amount」- 当前预授权刷单金额',

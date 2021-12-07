@@ -6,6 +6,7 @@ import io.vertx.tp.plugin.elasticsearch.ElasticSearchClient;
 import io.vertx.tp.plugin.elasticsearch.ElasticSearchInfix;
 import io.vertx.tp.plugin.shell.refine.Sl;
 import io.vertx.up.log.Annal;
+import io.vertx.up.log.Debugger;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
@@ -49,7 +50,9 @@ final class OxConsole {
             client.deleteIndex(identifier);
             client.createIndex(identifier, atom.type());
         } catch (final Throwable ex) {
-            ex.printStackTrace();
+            if(Debugger.onStackTracing()){
+                ex.printStackTrace();
+            }
             Sl.failWarn("当前索引不存在：identifier = {0}, details", identifier, ex.getMessage());
         }
         return Ux.future(client);

@@ -51,6 +51,18 @@ public interface IFPreAuthorize extends VertxPojo, Serializable {
     public String getSerial();
 
     /**
+     * Setter for <code>DB_ETERNAL.F_PRE_AUTHORIZE.STATUS</code>. 「status」 -
+     * 预授权状态，Lock/Unlock
+     */
+    public IFPreAuthorize setStatus(String value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.F_PRE_AUTHORIZE.STATUS</code>. 「status」 -
+     * 预授权状态，Lock/Unlock
+     */
+    public String getStatus();
+
+    /**
      * Setter for <code>DB_ETERNAL.F_PRE_AUTHORIZE.AMOUNT</code>. 「amount」-
      * 当前预授权刷单金额
      */
@@ -259,6 +271,7 @@ public interface IFPreAuthorize extends VertxPojo, Serializable {
                 setOrThrow(this::setKey,json::getString,"KEY","java.lang.String");
                 setOrThrow(this::setCode,json::getString,"CODE","java.lang.String");
                 setOrThrow(this::setSerial,json::getString,"SERIAL","java.lang.String");
+                setOrThrow(this::setStatus,json::getString,"STATUS","java.lang.String");
                 // Omitting unrecognized type java.math.BigDecimal for column AMOUNT!
                 setOrThrow(this::setComment,json::getString,"COMMENT","java.lang.String");
                 setOrThrow(this::setExpiredAt,key -> {String s = json.getString(key); return s==null?null:java.time.LocalDateTime.parse(s);},"EXPIRED_AT","java.time.LocalDateTime");
@@ -285,6 +298,7 @@ public interface IFPreAuthorize extends VertxPojo, Serializable {
                 json.put("KEY",getKey());
                 json.put("CODE",getCode());
                 json.put("SERIAL",getSerial());
+                json.put("STATUS",getStatus());
                 // Omitting unrecognized type java.math.BigDecimal for column AMOUNT!
                 json.put("COMMENT",getComment());
                 json.put("EXPIRED_AT",getExpiredAt()==null?null:getExpiredAt().toString());

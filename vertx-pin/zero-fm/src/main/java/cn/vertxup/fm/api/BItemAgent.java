@@ -1,5 +1,6 @@
 package cn.vertxup.fm.api;
 
+import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.fm.cv.Addr;
 import io.vertx.up.annotations.Address;
@@ -19,4 +20,11 @@ public interface BItemAgent {
     @Path("/bills/order/:orderId")
     @Address(Addr.BillItem.FETCH_AGGR)
     JsonObject fetchItem(@PathParam("orderId") String orderId);
+    /*
+     * Settlement to read book with authorize information
+     */
+    @GET
+    @Path("/books/order/:orderId")
+    @Address(Addr.BillItem.FETCH_BOOK)
+    JsonArray fetchBooks(@PathParam("orderId") String orderId);
 }

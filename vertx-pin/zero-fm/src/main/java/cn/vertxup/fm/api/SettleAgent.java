@@ -1,15 +1,13 @@
 package cn.vertxup.fm.api;
 
 import io.vertx.core.Future;
+import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.fm.cv.Addr;
 import io.vertx.up.annotations.Address;
 import io.vertx.up.annotations.EndPoint;
 
-import javax.ws.rs.BodyParam;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
+import javax.ws.rs.*;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
@@ -104,4 +102,9 @@ public interface SettleAgent {
     @Address(Addr.Settle.UP_PAYMENT)
     Future<JsonObject> upPayment(@PathParam("runup") boolean isRunUp,
                                  @BodyParam JsonObject body);
+
+    @PUT
+    @Path("/settle/authorize/unlock")
+    @Address(Addr.Settle.UNLOCK_AUTHORIZE)
+    JsonObject unlockAuthorize(@BodyParam JsonArray authorize);
 }

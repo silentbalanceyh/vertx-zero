@@ -26,7 +26,15 @@
                     <groupId>joda-time</groupId>
                     <artifactId>joda-time</artifactId>
                 </exclusion>
+                <exclusion>
+                    <groupId>org.camunda.spin</groupId>
+                    <artifactId>camunda-spin-core</artifactId>
+                </exclusion>
             </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.camunda.spin</groupId>
+            <artifactId>camunda-spin-core</artifactId>
         </dependency>
         <dependency>
             <groupId>com.fasterxml.uuid</groupId>
