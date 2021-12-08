@@ -1,6 +1,7 @@
 package cn.vertxup.fm.api;
 
 import cn.vertxup.fm.domain.tables.daos.*;
+import cn.vertxup.fm.domain.tables.pojos.FBook;
 import cn.vertxup.fm.domain.tables.pojos.FDebt;
 import cn.vertxup.fm.domain.tables.pojos.FPaymentItem;
 import cn.vertxup.fm.domain.tables.pojos.FPreAuthorize;
@@ -80,6 +81,14 @@ public class SettleActor {
             .compose(Ux::futureJ);
     }
 
+    @Me
+    @Address(Addr.Settle.UP_FINISH)
+    public Future<JsonObject> upFinish(final boolean isRunUp,      // S Bill
+                                       final JsonObject data){
+        return null;
+    }
+
+
     @Address(Addr.Settle.UNLOCK_AUTHORIZE)
     public Future<JsonArray> unlockAuthorize(final JsonArray authorized, final User user){
         // Authorized Modification
@@ -91,5 +100,18 @@ public class SettleActor {
         });
         final List<FPreAuthorize> authorizeList = Ux.fromJson(authorized, FPreAuthorize.class);
         return Ux.Jooq.on(FPreAuthorizeDao.class).updateAsync(authorizeList).compose(Ux::futureA);
+    }
+
+    @Address(Addr.Settle.UP_BOOK)
+    public Future<JsonArray> finalizeBook(final JsonArray books, final User user){
+        // Book Finalize ( Not Settlement )
+        String userKey = Ux.keyUser(user);
+        Ut.itJArray(books).forEach(json -> {
+            json.put(KName.UPDATED_AT, Instant.now());
+            json.put(KName.UPDATED_BY, userKey);
+            json.put(KName.STATUS, FmCv.Status.FINISHED);
+        });
+        final List<FBook> bookList = Ux.fromJson(books, FBook.class);
+        return Ux.Jooq.on(FBookDao.class).updateAsync(bookList).compose(Ux::futureA);
     }
 }

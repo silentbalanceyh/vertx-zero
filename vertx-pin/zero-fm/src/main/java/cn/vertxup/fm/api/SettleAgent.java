@@ -100,11 +100,31 @@ public interface SettleAgent {
     @Path("/settle/part/:runup")
     @POST
     @Address(Addr.Settle.UP_PAYMENT)
-    Future<JsonObject> upPayment(@PathParam("runup") boolean isRunUp,
-                                 @BodyParam JsonObject body);
+    JsonObject upPayment(@PathParam("runup") boolean isRunUp,
+                         @BodyParam JsonObject body);
 
+    @POST
+    @Path("/settle/finish/:runup")
+    @Address(Addr.Settle.UP_FINISH)
+    JsonObject upFinish(@PathParam("runup") boolean isRunUp,
+                        @BodyParam JsonObject body);
+    /*
+     * Unlock Authorize when settlement on `status`
+     * From `Pending` to `Finished`
+     */
     @PUT
     @Path("/settle/authorize/unlock")
     @Address(Addr.Settle.UNLOCK_AUTHORIZE)
     JsonObject unlockAuthorize(@BodyParam JsonArray authorize);
+    /*
+     * Saving the book information when settlement on book information
+     * - checked
+     * - checkedDesc
+     * - exceed
+     * - exceedDesc
+     */
+    @PUT
+    @Path("/settle/book/finalize")
+    @Address(Addr.Settle.UP_BOOK)
+    JsonObject finalizeBook(@BodyParam JsonArray books);
 }
