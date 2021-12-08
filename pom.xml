@@ -107,13 +107,13 @@
         <poi.version>4.1.2</poi.version>
         <jedis.version>3.7.0</jedis.version>
         <j2objc.version>1.3</j2objc.version>
-        <checker.version>3.19.0</checker.version>
+        <checker.version>3.20.0</checker.version>
 
         <!-- elasticsearch version -->
-        <elasticsearch.version>7.15.2</elasticsearch.version>
+        <elasticsearch.version>7.16.0</elasticsearch.version>
 
         <!-- neo4j search -->
-        <neo4j.version>4.4.1</neo4j.version>
+        <neo4j.version>4.4.2</neo4j.version>
 
         <!-- Apache Common -->
         <common.jexl.version>3.2.1</common.jexl.version>
@@ -126,7 +126,7 @@
 
         <http.async.client.version>4.1.4</http.async.client.version>
         <http.client.version>4.5.13</http.client.version>
-        <http.core.version>4.4.14</http.core.version>
+        <http.core.version>4.4.15</http.core.version>
 
         <!-- Liquibase -->
         <liquibase.version>3.10.3</liquibase.version>
