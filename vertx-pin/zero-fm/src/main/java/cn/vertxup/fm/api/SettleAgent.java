@@ -19,7 +19,9 @@ public interface SettleAgent {
      * Settlement
      {
         "orderId": "85f2fe43-78bb-46ec-9273-50a5532d9d82",
-        "bookId": "73339856-1cd4-439c-a3c2-b790ab5d7f76",
+        "book": [
+            "73339856-1cd4-439c-a3c2-b790ab5d7f76"      // 只传入需关闭的账本
+        ],
         "amount": 1128,
         "rounded": "HALF",
         "signName": "账本一",
@@ -102,12 +104,6 @@ public interface SettleAgent {
     @Address(Addr.Settle.UP_PAYMENT)
     JsonObject upPayment(@PathParam("runup") boolean isRunUp,
                          @BodyParam JsonObject body);
-
-    @POST
-    @Path("/settle/finish/:runup")
-    @Address(Addr.Settle.UP_FINISH)
-    JsonObject upFinish(@PathParam("runup") boolean isRunUp,
-                        @BodyParam JsonObject body);
     /*
      * Unlock Authorize when settlement on `status`
      * From `Pending` to `Finished`

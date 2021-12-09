@@ -81,13 +81,6 @@ public class SettleActor {
             .compose(Ux::futureJ);
     }
 
-    @Me
-    @Address(Addr.Settle.UP_FINISH)
-    public Future<JsonObject> upFinish(final boolean isRunUp,      // S Bill
-                                       final JsonObject data){
-        return null;
-    }
-
 
     @Address(Addr.Settle.UNLOCK_AUTHORIZE)
     public Future<JsonArray> unlockAuthorize(final JsonArray authorized, final User user){
@@ -109,7 +102,6 @@ public class SettleActor {
         Ut.itJArray(books).forEach(json -> {
             json.put(KName.UPDATED_AT, Instant.now());
             json.put(KName.UPDATED_BY, userKey);
-            json.put(KName.STATUS, FmCv.Status.FINISHED);
         });
         final List<FBook> bookList = Ux.fromJson(books, FBook.class);
         return Ux.Jooq.on(FBookDao.class).updateAsync(bookList).compose(Ux::futureA);

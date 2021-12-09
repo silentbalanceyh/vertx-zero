@@ -19,7 +19,7 @@ import org.jooq.ForeignKey;
 import org.jooq.Index;
 import org.jooq.Name;
 import org.jooq.Record;
-import org.jooq.Row21;
+import org.jooq.Row20;
 import org.jooq.Schema;
 import org.jooq.Table;
 import org.jooq.TableField;
@@ -115,15 +115,10 @@ public class FSettlement extends TableImpl<FSettlementRecord> {
     public final TableField<FSettlementRecord, String> CUSTOMER_ID = createField(DSL.name("CUSTOMER_ID"), SQLDataType.VARCHAR(36), this, "「customerId」结算对象（单位ID）");
 
     /**
-     * The column <code>DB_ETERNAL.F_SETTLEMENT.ORDER_ID</code>. 「orderId」-
-     * 预授权所属订单ID
+     * The column <code>DB_ETERNAL.F_SETTLEMENT.RELATED_ID</code>.
+     * 「relatedId」关联ID（批次、订单、其他）
      */
-    public final TableField<FSettlementRecord, String> ORDER_ID = createField(DSL.name("ORDER_ID"), SQLDataType.VARCHAR(36), this, "「orderId」- 预授权所属订单ID");
-
-    /**
-     * The column <code>DB_ETERNAL.F_SETTLEMENT.BOOK_ID</code>. 「bookId」- 所属账本ID
-     */
-    public final TableField<FSettlementRecord, String> BOOK_ID = createField(DSL.name("BOOK_ID"), SQLDataType.VARCHAR(36), this, "「bookId」- 所属账本ID");
+    public final TableField<FSettlementRecord, String> RELATED_ID = createField(DSL.name("RELATED_ID"), SQLDataType.VARCHAR(36), this, "「relatedId」关联ID（批次、订单、其他）");
 
     /**
      * The column <code>DB_ETERNAL.F_SETTLEMENT.SIGMA</code>. 「sigma」- 统一标识
@@ -211,7 +206,7 @@ public class FSettlement extends TableImpl<FSettlementRecord> {
 
     @Override
     public List<Index> getIndexes() {
-        return Arrays.asList(Indexes.F_SETTLEMENT_IDX_F_SETTLEMENT_BOOK_ID, Indexes.F_SETTLEMENT_IDX_F_SETTLEMENT_ORDER_ID);
+        return Arrays.asList(Indexes.F_SETTLEMENT_IDX_F_SETTLEMENT_CUSTOMER_ID);
     }
 
     @Override
@@ -251,11 +246,11 @@ public class FSettlement extends TableImpl<FSettlementRecord> {
     }
 
     // -------------------------------------------------------------------------
-    // Row21 type methods
+    // Row20 type methods
     // -------------------------------------------------------------------------
 
     @Override
-    public Row21<String, String, String, BigDecimal, String, String, Boolean, LocalDateTime, String, String, String, String, String, String, String, Boolean, String, LocalDateTime, String, LocalDateTime, String> fieldsRow() {
-        return (Row21) super.fieldsRow();
+    public Row20<String, String, String, BigDecimal, String, String, Boolean, LocalDateTime, String, String, String, String, String, String, Boolean, String, LocalDateTime, String, LocalDateTime, String> fieldsRow() {
+        return (Row20) super.fieldsRow();
     }
 }

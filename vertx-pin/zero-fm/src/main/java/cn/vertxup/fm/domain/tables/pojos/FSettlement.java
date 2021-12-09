@@ -32,8 +32,7 @@ public class FSettlement implements VertxPojo, IFSettlement {
     private String        signName;
     private String        signMobile;
     private String        customerId;
-    private String        orderId;
-    private String        bookId;
+    private String        relatedId;
     private String        sigma;
     private String        language;
     private Boolean       active;
@@ -57,8 +56,7 @@ public class FSettlement implements VertxPojo, IFSettlement {
         this.signName = value.getSignName();
         this.signMobile = value.getSignMobile();
         this.customerId = value.getCustomerId();
-        this.orderId = value.getOrderId();
-        this.bookId = value.getBookId();
+        this.relatedId = value.getRelatedId();
         this.sigma = value.getSigma();
         this.language = value.getLanguage();
         this.active = value.getActive();
@@ -81,8 +79,7 @@ public class FSettlement implements VertxPojo, IFSettlement {
         String        signName,
         String        signMobile,
         String        customerId,
-        String        orderId,
-        String        bookId,
+        String        relatedId,
         String        sigma,
         String        language,
         Boolean       active,
@@ -103,8 +100,7 @@ public class FSettlement implements VertxPojo, IFSettlement {
         this.signName = signName;
         this.signMobile = signMobile;
         this.customerId = customerId;
-        this.orderId = orderId;
-        this.bookId = bookId;
+        this.relatedId = relatedId;
         this.sigma = sigma;
         this.language = language;
         this.active = active;
@@ -324,38 +320,21 @@ public class FSettlement implements VertxPojo, IFSettlement {
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.F_SETTLEMENT.ORDER_ID</code>. 「orderId」-
-     * 预授权所属订单ID
+     * Getter for <code>DB_ETERNAL.F_SETTLEMENT.RELATED_ID</code>.
+     * 「relatedId」关联ID（批次、订单、其他）
      */
     @Override
-    public String getOrderId() {
-        return this.orderId;
+    public String getRelatedId() {
+        return this.relatedId;
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.F_SETTLEMENT.ORDER_ID</code>. 「orderId」-
-     * 预授权所属订单ID
+     * Setter for <code>DB_ETERNAL.F_SETTLEMENT.RELATED_ID</code>.
+     * 「relatedId」关联ID（批次、订单、其他）
      */
     @Override
-    public FSettlement setOrderId(String orderId) {
-        this.orderId = orderId;
-        return this;
-    }
-
-    /**
-     * Getter for <code>DB_ETERNAL.F_SETTLEMENT.BOOK_ID</code>. 「bookId」- 所属账本ID
-     */
-    @Override
-    public String getBookId() {
-        return this.bookId;
-    }
-
-    /**
-     * Setter for <code>DB_ETERNAL.F_SETTLEMENT.BOOK_ID</code>. 「bookId」- 所属账本ID
-     */
-    @Override
-    public FSettlement setBookId(String bookId) {
-        this.bookId = bookId;
+    public FSettlement setRelatedId(String relatedId) {
+        this.relatedId = relatedId;
         return this;
     }
 
@@ -522,8 +501,7 @@ public class FSettlement implements VertxPojo, IFSettlement {
         sb.append(", ").append(signName);
         sb.append(", ").append(signMobile);
         sb.append(", ").append(customerId);
-        sb.append(", ").append(orderId);
-        sb.append(", ").append(bookId);
+        sb.append(", ").append(relatedId);
         sb.append(", ").append(sigma);
         sb.append(", ").append(language);
         sb.append(", ").append(active);
@@ -554,8 +532,7 @@ public class FSettlement implements VertxPojo, IFSettlement {
         setSignName(from.getSignName());
         setSignMobile(from.getSignMobile());
         setCustomerId(from.getCustomerId());
-        setOrderId(from.getOrderId());
-        setBookId(from.getBookId());
+        setRelatedId(from.getRelatedId());
         setSigma(from.getSigma());
         setLanguage(from.getLanguage());
         setActive(from.getActive());
