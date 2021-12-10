@@ -81,7 +81,7 @@ public class IndentService implements IndentStub {
         Objects.requireNonNull(indent);
         // Bill building
         final FSettlement preSettlement = Ux.fromJson(data, FSettlement.class);
-        if (preSettlement.getFinished()) {
+        if (Objects.nonNull(preSettlement.getFinished()) && preSettlement.getFinished()) {
             preSettlement.setFinishedAt(LocalDateTime.now());
         }
         // Serial Generation for Bill

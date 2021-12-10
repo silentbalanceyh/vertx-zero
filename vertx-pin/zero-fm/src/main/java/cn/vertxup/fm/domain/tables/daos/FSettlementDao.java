@@ -193,33 +193,18 @@ public class FSettlementDao extends AbstractVertxDAO<FSettlementRecord, cn.vertx
         }
 
         /**
-     * Find records that have <code>ORDER_ID IN (values)</code> asynchronously
+     * Find records that have <code>RELATED_ID IN (values)</code> asynchronously
      */
-        public Future<List<cn.vertxup.fm.domain.tables.pojos.FSettlement>> findManyByOrderId(Collection<String> values) {
-                return findManyByCondition(FSettlement.F_SETTLEMENT.ORDER_ID.in(values));
+        public Future<List<cn.vertxup.fm.domain.tables.pojos.FSettlement>> findManyByRelatedId(Collection<String> values) {
+                return findManyByCondition(FSettlement.F_SETTLEMENT.RELATED_ID.in(values));
         }
 
         /**
-     * Find records that have <code>ORDER_ID IN (values)</code> asynchronously
+     * Find records that have <code>RELATED_ID IN (values)</code> asynchronously
      * limited by the given limit
      */
-        public Future<List<cn.vertxup.fm.domain.tables.pojos.FSettlement>> findManyByOrderId(Collection<String> values, int limit) {
-                return findManyByCondition(FSettlement.F_SETTLEMENT.ORDER_ID.in(values),limit);
-        }
-
-        /**
-     * Find records that have <code>BOOK_ID IN (values)</code> asynchronously
-     */
-        public Future<List<cn.vertxup.fm.domain.tables.pojos.FSettlement>> findManyByBookId(Collection<String> values) {
-                return findManyByCondition(FSettlement.F_SETTLEMENT.BOOK_ID.in(values));
-        }
-
-        /**
-     * Find records that have <code>BOOK_ID IN (values)</code> asynchronously
-     * limited by the given limit
-     */
-        public Future<List<cn.vertxup.fm.domain.tables.pojos.FSettlement>> findManyByBookId(Collection<String> values, int limit) {
-                return findManyByCondition(FSettlement.F_SETTLEMENT.BOOK_ID.in(values),limit);
+        public Future<List<cn.vertxup.fm.domain.tables.pojos.FSettlement>> findManyByRelatedId(Collection<String> values, int limit) {
+                return findManyByCondition(FSettlement.F_SETTLEMENT.RELATED_ID.in(values),limit);
         }
 
         /**

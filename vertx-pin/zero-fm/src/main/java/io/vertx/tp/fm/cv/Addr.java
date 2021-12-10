@@ -31,7 +31,11 @@ public interface Addr {
     interface Settle {
         // Authorize Unlock
         String UNLOCK_AUTHORIZE = Prefix._EVENT + "AUTHORIZE/UNLOCK";
+        // Book Saving for Multi
+        String UP_BOOK = Prefix._EVENT + "BOOKS/UPDATING";
         // Finish
         String UP_PAYMENT = Prefix._EVENT + "BILL/PAYMENT";
+        // Finish
+        String UP_FINISH = Prefix._EVENT + "BILL/FINISH";
     }
 }

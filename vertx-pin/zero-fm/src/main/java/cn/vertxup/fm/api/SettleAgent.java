@@ -19,7 +19,9 @@ public interface SettleAgent {
      * Settlement
      {
         "orderId": "85f2fe43-78bb-46ec-9273-50a5532d9d82",
-        "bookId": "73339856-1cd4-439c-a3c2-b790ab5d7f76",
+        "book": [
+            "73339856-1cd4-439c-a3c2-b790ab5d7f76"      // 只传入需关闭的账本
+        ],
         "amount": 1128,
         "rounded": "HALF",
         "signName": "账本一",
@@ -100,11 +102,25 @@ public interface SettleAgent {
     @Path("/settle/part/:runup")
     @POST
     @Address(Addr.Settle.UP_PAYMENT)
-    Future<JsonObject> upPayment(@PathParam("runup") boolean isRunUp,
-                                 @BodyParam JsonObject body);
-
+    JsonObject upPayment(@PathParam("runup") boolean isRunUp,
+                         @BodyParam JsonObject body);
+    /*
+     * Unlock Authorize when settlement on `status`
+     * From `Pending` to `Finished`
+     */
     @PUT
     @Path("/settle/authorize/unlock")
     @Address(Addr.Settle.UNLOCK_AUTHORIZE)
     JsonObject unlockAuthorize(@BodyParam JsonArray authorize);
+    /*
+     * Saving the book information when settlement on book information
+     * - checked
+     * - checkedDesc
+     * - exceed
+     * - exceedDesc
+     */
+    @PUT
+    @Path("/settle/book/finalize")
+    @Address(Addr.Settle.UP_BOOK)
+    JsonObject finalizeBook(@BodyParam JsonArray books);
 }

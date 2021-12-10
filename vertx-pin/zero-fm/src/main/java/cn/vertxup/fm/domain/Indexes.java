@@ -41,8 +41,7 @@ public class Indexes {
     public static final Index F_PAYMENT_ITEM_IDX_F_PAYMENT_ITEM_SETTLEMENT_ID = Internal.createIndex(DSL.name("IDX_F_PAYMENT_ITEM_SETTLEMENT_ID"), FPaymentItem.F_PAYMENT_ITEM, new OrderField[] { FPaymentItem.F_PAYMENT_ITEM.SETTLEMENT_ID }, false);
     public static final Index F_PRE_AUTHORIZE_IDX_F_PRE_AUTHORIZE_BOOK_ID = Internal.createIndex(DSL.name("IDX_F_PRE_AUTHORIZE_BOOK_ID"), FPreAuthorize.F_PRE_AUTHORIZE, new OrderField[] { FPreAuthorize.F_PRE_AUTHORIZE.BOOK_ID }, false);
     public static final Index F_PRE_AUTHORIZE_IDX_F_PRE_AUTHORIZE_ORDER_ID = Internal.createIndex(DSL.name("IDX_F_PRE_AUTHORIZE_ORDER_ID"), FPreAuthorize.F_PRE_AUTHORIZE, new OrderField[] { FPreAuthorize.F_PRE_AUTHORIZE.ORDER_ID }, false);
-    public static final Index F_SETTLEMENT_IDX_F_SETTLEMENT_BOOK_ID = Internal.createIndex(DSL.name("IDX_F_SETTLEMENT_BOOK_ID"), FSettlement.F_SETTLEMENT, new OrderField[] { FSettlement.F_SETTLEMENT.BOOK_ID }, false);
+    public static final Index F_SETTLEMENT_IDX_F_SETTLEMENT_CUSTOMER_ID = Internal.createIndex(DSL.name("IDX_F_SETTLEMENT_CUSTOMER_ID"), FSettlement.F_SETTLEMENT, new OrderField[] { FSettlement.F_SETTLEMENT.CUSTOMER_ID }, false);
     public static final Index F_SETTLEMENT_ITEM_IDX_F_SETTLEMENT_ITEM_DEBT_ID = Internal.createIndex(DSL.name("IDX_F_SETTLEMENT_ITEM_DEBT_ID"), FSettlementItem.F_SETTLEMENT_ITEM, new OrderField[] { FSettlementItem.F_SETTLEMENT_ITEM.DEBT_ID }, false);
     public static final Index F_SETTLEMENT_ITEM_IDX_F_SETTLEMENT_ITEM_SETTLEMENT_ID = Internal.createIndex(DSL.name("IDX_F_SETTLEMENT_ITEM_SETTLEMENT_ID"), FSettlementItem.F_SETTLEMENT_ITEM, new OrderField[] { FSettlementItem.F_SETTLEMENT_ITEM.SETTLEMENT_ID }, false);
-    public static final Index F_SETTLEMENT_IDX_F_SETTLEMENT_ORDER_ID = Internal.createIndex(DSL.name("IDX_F_SETTLEMENT_ORDER_ID"), FSettlement.F_SETTLEMENT, new OrderField[] { FSettlement.F_SETTLEMENT.ORDER_ID }, false);
 }

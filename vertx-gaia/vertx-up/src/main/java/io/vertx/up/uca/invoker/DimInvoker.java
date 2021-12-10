@@ -22,7 +22,8 @@ public class DimInvoker extends AbstractInvoker {
                        final Method method,
                        final Message<Envelop> message) {
         final Envelop envelop = message.body();
-        this.getLogger().info(Info.MSG_FUTURE, this.getClass(), method.getReturnType(), false);
+        this.getLogger().info(Info.MSG_DIRECT, this.getClass(), method.getReturnType(),
+            method.getName(), method.getDeclaringClass());
         final Object returnValue = this.invokeInternal(proxy, method, envelop);
         // The returnValue type could not be Future
         message.reply(returnValue);
@@ -34,7 +35,8 @@ public class DimInvoker extends AbstractInvoker {
                      final Message<Envelop> message,
                      final Vertx vertx) {
         final Envelop envelop = message.body();
-        this.getLogger().info(Info.MSG_FUTURE, this.getClass(), method.getReturnType(), true);
+        this.getLogger().info(Info.MSG_RPC, this.getClass(), method.getReturnType(),
+            method.getName(), method.getDeclaringClass());
         final Object returnValue = this.invokeInternal(proxy, method, envelop);
         this.nextEnvelop(vertx, method, returnValue)
             .onComplete(Ux.handler(message));
