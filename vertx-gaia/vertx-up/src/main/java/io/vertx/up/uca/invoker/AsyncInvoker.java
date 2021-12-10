@@ -34,7 +34,8 @@ public class AsyncInvoker extends AbstractInvoker {
         final Envelop envelop = message.body();
         // Deserialization from message bus.
         final Class<?> returnType = method.getReturnType();
-        this.getLogger().info(Info.MSG_FUTURE, this.getClass(), returnType, false);
+        this.getLogger().info(Info.MSG_DIRECT, this.getClass(), returnType,
+            method.getName(), method.getDeclaringClass());
         // Get T
         final Class<?> tCls = returnType.getComponentType();
         if (Envelop.class == tCls) {
@@ -77,7 +78,8 @@ public class AsyncInvoker extends AbstractInvoker {
         final Envelop envelop = message.body();
         // Deserialization from message bus.
         final Class<?> returnType = method.getReturnType();
-        this.getLogger().info(Info.MSG_FUTURE, this.getClass(), returnType, true);
+        this.getLogger().info(Info.MSG_RPC, this.getClass(), returnType,
+            method.getName(), method.getDeclaringClass());
         // Get T
         final Class<?> tCls = returnType.getComponentType();
         if (Envelop.class == tCls) {

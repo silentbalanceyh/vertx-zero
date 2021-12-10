@@ -27,7 +27,8 @@ public class SyncInvoker extends AbstractInvoker {
                        final Message<Envelop> message) {
         // Invoke directly
         final Envelop envelop = message.body();
-        this.getLogger().info(Info.MSG_FUTURE, this.getClass(), method.getReturnType(), false);
+        this.getLogger().info(Info.MSG_DIRECT, this.getClass(), method.getReturnType(),
+            method.getName(), method.getDeclaringClass());
         message.reply(InvokerUtil.invoke(proxy, method, envelop));
     }
 
@@ -37,7 +38,8 @@ public class SyncInvoker extends AbstractInvoker {
                      final Message<Envelop> message,
                      final Vertx vertx) {
         final Envelop envelop = message.body();
-        this.getLogger().info(Info.MSG_FUTURE, this.getClass(), method.getReturnType(), true);
+        this.getLogger().info(Info.MSG_RPC, this.getClass(), method.getReturnType(),
+            method.getName(), method.getDeclaringClass());
         final Envelop result = InvokerUtil.invoke(proxy, method, envelop);
         this.nextEnvelop(vertx, method, result)
             .onComplete(Ux.handler(message));

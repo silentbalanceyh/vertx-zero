@@ -38,7 +38,8 @@ public class FutureInvoker extends AbstractInvoker {
         final Class<?> returnType = method.getReturnType();
         // Get T
         final Class<?> tCls = returnType.getComponentType();
-        this.getLogger().info(Info.MSG_FUTURE, this.getClass(), returnType, false);
+        this.getLogger().info(Info.MSG_DIRECT, this.getClass(), returnType,
+            method.getName(), method.getDeclaringClass());
         if (Envelop.class == tCls) {
             final Future<Envelop> result = Ut.invoke(proxy, method.getName(), envelop);
 
@@ -68,7 +69,8 @@ public class FutureInvoker extends AbstractInvoker {
         final Class<?> returnType = method.getReturnType();
         // Get T
         final Class<?> tCls = returnType.getComponentType();
-        this.getLogger().info(Info.MSG_FUTURE, this.getClass(), returnType, true);
+        this.getLogger().info(Info.MSG_RPC, this.getClass(), returnType,
+            method.getName(), method.getDeclaringClass());
         if (Envelop.class == tCls) {
             // Execute Future<Envelop>
             final Future<Envelop> future = InvokerUtil.invoke(proxy, method, envelop); // Ut.invoke(proxy, method.getName(), envelop);
