@@ -6,6 +6,7 @@ import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.eon.KName;
+import io.vertx.up.eon.Strings;
 import io.vertx.up.uca.jooq.UxJooq;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
@@ -49,6 +50,7 @@ public class LinkService implements LinkStub {
         final List<XLinkage> queueU = new ArrayList<>();
         Ut.itJArray(batchData).forEach(json -> {
             if (json.containsKey("linkKey")) {
+                json.remove(KName.KEY);
                 queueA.add(Ux.fromJson(json, XLinkage.class));
             } else {
                 this.calcKey(json, vector);
@@ -77,13 +79,13 @@ public class LinkService implements LinkStub {
             final List<String> keys = new ArrayList<>();
             keys.add(sourceKey);
             keys.add(targetKey);
-            seed = Ut.fromJoin(keys);
+            seed = Ut.fromJoin(keys, Strings.DASH);
         } else {
             // Sorted ( No vector )
             final Set<String> keys = new TreeSet<>();
             keys.add(sourceKey);
             keys.add(targetKey);
-            seed = Ut.fromJoin(keys);
+            seed = Ut.fromJoin(keys, Strings.DASH);
         }
         final String linkKey = Ut.encryptMD5(seed);
         json.put("linkKey", linkKey);
