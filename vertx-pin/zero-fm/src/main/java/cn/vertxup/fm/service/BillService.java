@@ -13,6 +13,7 @@ import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
 import javax.inject.Inject;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -36,21 +37,29 @@ public class BillService implements BillStub {
 
     @Override
     public Future<List<FBillItem>> fetchByBills(final List<FBill> bills) {
-        final JsonObject condition = Ux.whereAnd();
-        condition.put("billId,i", Ut.toJArray(bills.stream().map(FBill::getKey)
-            .filter(Objects::nonNull)
-            .collect(Collectors.toSet())));
-        return Ux.Jooq.on(FBillItemDao.class).fetchAsync(condition);
+        if (bills.isEmpty()) {
+            return Ux.future(new ArrayList<>());
+        } else {
+            final JsonObject condition = Ux.whereAnd();
+            condition.put("billId,i", Ut.toJArray(bills.stream().map(FBill::getKey)
+                .filter(Objects::nonNull)
+                .collect(Collectors.toSet())));
+            return Ux.Jooq.on(FBillItemDao.class).fetchAsync(condition);
+        }
     }
 
     @Override
     public Future<List<FSettlement>> fetchSettlements(final List<FBillItem> items) {
-        final JsonObject condition = Ux.whereAnd();
-        condition.put(KName.KEY, Ut.toJArray(items.stream()
-            .map(FBillItem::getSettlementId)
-            .filter(Ut::notNil)
-            .collect(Collectors.toSet())
-        ));
-        return Ux.Jooq.on(FSettlementDao.class).fetchAsync(condition);
+        if (items.isEmpty()) {
+            return Ux.future(new ArrayList<>());
+        } else {
+            final JsonObject condition = Ux.whereAnd();
+            condition.put(KName.KEY, Ut.toJArray(items.stream()
+                .map(FBillItem::getSettlementId)
+                .filter(Ut::notNil)
+                .collect(Collectors.toSet())
+            ));
+            return Ux.Jooq.on(FSettlementDao.class).fetchAsync(condition);
+        }
     }
 }

@@ -61,6 +61,11 @@ public class Db extends SchemaImpl {
     public final XIntegration X_INTEGRATION = XIntegration.X_INTEGRATION;
 
     /**
+     * The table <code>DB_ETERNAL.X_LINKAGE</code>.
+     */
+    public final XLinkage X_LINKAGE = XLinkage.X_LINKAGE;
+
+    /**
      * The table <code>DB_ETERNAL.X_LOG</code>.
      */
     public final XLog X_LOG = XLog.X_LOG;
@@ -123,6 +128,7 @@ public class Db extends SchemaImpl {
             XCategory.X_CATEGORY,
             XEmailServer.X_EMAIL_SERVER,
             XIntegration.X_INTEGRATION,
+            XLinkage.X_LINKAGE,
             XLog.X_LOG,
             XMenu.X_MENU,
             XMenuMy.X_MENU_MY,

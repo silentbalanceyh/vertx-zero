@@ -82,4 +82,24 @@ public interface Addr {
 
         String ACTIVITY_GET = Prefix._EVENT + "X-ACTIVITY/GET";
     }
+
+    interface Linkage {
+        // Linkage fetch by sigma ( All linkage )
+        String FETCH_BY_TYPE = Prefix._EVENT + "X-LINKAGE/BY/TYPE";
+
+        // Linkage fetch Target / Source
+        String FETCH_TARGET = Prefix._EVENT + "X-LINKAGE/TARGET/FETCH";
+        String FETCH_SOURCE = Prefix._EVENT + "X-LINKAGE/SOURCE/FETCH";
+        String FETCH_ST = Prefix._EVENT + "X-LINKAGE/T-S/FETCH";
+
+        // Linkage fetch by key
+        String FETCH_BY_KEY = Prefix._EVENT + "X-LINKAGE/KEY/FETCH";
+        String REMOVE_BY_KEY = Prefix._EVENT + "X-LINKAGE/KEY/REMOVE";
+
+        // Linkage fetch by source_key/target_key
+        String ADD_NEW_B = Prefix._EVENT + "X-LINKAGE/ADD/NEW-B";
+        String ADD_NEW_V = Prefix._EVENT + "X-LINKAGE/ADD/NEW-V";
+        String SAVE_BATCH_B = Prefix._EVENT + "X-LINKAGE/BATCH/SAVING-B";
+        String SAVE_BATCH_V = Prefix._EVENT + "X-LINKAGE/BATCH/SAVING-V";
+    }
 }
