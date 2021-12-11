@@ -15,10 +15,14 @@ import java.util.function.Supplier;
 class KeTool {
 
     private static final Node<JsonObject> VISITOR = Ut.singleton(ZeroUniform.class);
+    private static String DATABASE;
 
     static String getCatalog() {
-        final JsonObject config = VISITOR.read();
-        return Ut.visitString(config, "jooq", "provider", "catalog");
+        if (Ut.isNil(DATABASE)) {
+            final JsonObject config = VISITOR.read();
+            DATABASE = Ut.visitString(config, "jooq", "provider", "catalog");
+        }
+        return DATABASE;
     }
 
     static Configuration getConfiguration() {

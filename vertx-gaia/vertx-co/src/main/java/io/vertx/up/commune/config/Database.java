@@ -36,6 +36,10 @@ public class Database implements Serializable, Json, Copyable<Database> {
 
     private static final Annal LOGGER = Annal.get(Database.class);
     private static final Node<JsonObject> VISITOR = Ut.singleton(ZeroUniform.class);
+    private static Database DATABASE;
+    /*
+     * Get current jooq configuration for Application / Source
+     */
     /* Database options for different pool */
     @JsonSerialize(using = JsonObjectSerializer.class)
     @JsonDeserialize(using = JsonObjectDeserializer.class)
@@ -70,15 +74,15 @@ public class Database implements Serializable, Json, Copyable<Database> {
         }
     }
 
-    /*
-     * Get current jooq configuration for Application / Source
-     */
     public static Database getCurrent() {
-        final JsonObject raw = Database.VISITOR.read();
-        final JsonObject jooq = Ut.visitJObject(raw, "jooq", "provider");
-        final Database database = new Database();
-        database.fromJson(jooq);
-        return database;
+        if (Objects.isNull(DATABASE)) {
+            final JsonObject raw = Database.VISITOR.read();
+            final JsonObject jooq = Ut.visitJObject(raw, "jooq", "provider");
+            final Database database = new Database();
+            database.fromJson(jooq);
+            DATABASE = database;
+        }
+        return DATABASE.copy();
     }
 
     /* Database Connection Testing */
