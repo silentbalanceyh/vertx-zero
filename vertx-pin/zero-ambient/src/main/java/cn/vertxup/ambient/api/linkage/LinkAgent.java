@@ -32,7 +32,7 @@ public interface LinkAgent {
      * - sourceKey
      */
     @GET
-    @Path("/linkage/v/source/:key")
+    @Path("/linkages/v/source/:key")
     @Address(Addr.Linkage.FETCH_TARGET)
     JsonArray fetchTarget(@PathParam(KName.KEY) String key);
 
@@ -41,7 +41,7 @@ public interface LinkAgent {
      * - targetKey
      */
     @GET
-    @Path("/linkage/v/target/:key")
+    @Path("/linkages/v/target/:key")
     @Address(Addr.Linkage.FETCH_SOURCE)
     JsonArray fetchSource(@PathParam(KName.KEY) String key);
 
@@ -50,7 +50,7 @@ public interface LinkAgent {
      * - key sourceKey or targetKey
      */
     @GET
-    @Path("/linkage/b/:key")
+    @Path("/linkages/b/:key")
     @Address(Addr.Linkage.FETCH_ST)
     JsonArray fetchSt(@PathParam(KName.KEY) String key);
 
