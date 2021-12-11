@@ -23,7 +23,7 @@ public interface LinkAgent {
      * }
      */
     @GET
-    @Path("/linkages/type/:type")
+    @Path("/linkage/type/:type")
     @Address(Addr.Linkage.FETCH_BY_TYPE)
     JsonArray fetchByType(@PathParam(KName.TYPE) String type);
 
@@ -32,7 +32,7 @@ public interface LinkAgent {
      * - sourceKey
      */
     @GET
-    @Path("/linkages/v/source/:key")
+    @Path("/linkage/v/source/:key")
     @Address(Addr.Linkage.FETCH_TARGET)
     JsonArray fetchTarget(@PathParam(KName.KEY) String key);
 
@@ -41,7 +41,7 @@ public interface LinkAgent {
      * - targetKey
      */
     @GET
-    @Path("/linkages/v/target/:key")
+    @Path("/linkage/v/target/:key")
     @Address(Addr.Linkage.FETCH_SOURCE)
     JsonArray fetchSource(@PathParam(KName.KEY) String key);
 
@@ -50,7 +50,7 @@ public interface LinkAgent {
      * - key sourceKey or targetKey
      */
     @GET
-    @Path("/linkages/b/:key")
+    @Path("/linkage/b/:key")
     @Address(Addr.Linkage.FETCH_ST)
     JsonArray fetchSt(@PathParam(KName.KEY) String key);
 
