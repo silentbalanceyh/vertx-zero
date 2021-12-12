@@ -84,6 +84,21 @@ public class XLinkageDao extends AbstractVertxDAO<XLinkageRecord, cn.vertxup.amb
         }
 
         /**
+     * Find records that have <code>REGION IN (values)</code> asynchronously
+     */
+        public Future<List<cn.vertxup.ambient.domain.tables.pojos.XLinkage>> findManyByRegion(Collection<String> values) {
+                return findManyByCondition(XLinkage.X_LINKAGE.REGION.in(values));
+        }
+
+        /**
+     * Find records that have <code>REGION IN (values)</code> asynchronously
+     * limited by the given limit
+     */
+        public Future<List<cn.vertxup.ambient.domain.tables.pojos.XLinkage>> findManyByRegion(Collection<String> values, int limit) {
+                return findManyByCondition(XLinkage.X_LINKAGE.REGION.in(values),limit);
+        }
+
+        /**
      * Find records that have <code>LINK_KEY IN (values)</code> asynchronously
      */
         public Future<List<cn.vertxup.ambient.domain.tables.pojos.XLinkage>> findManyByLinkKey(Collection<String> values) {

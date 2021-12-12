@@ -37,6 +37,7 @@ public class Indexes {
     public static final Index X_LINKAGE_IDX_X_LINKAGE_R_SOURCE_TYPE = Internal.createIndex(DSL.name("IDX_X_LINKAGE_R_SOURCE_TYPE"), XLinkage.X_LINKAGE, new OrderField[] { XLinkage.X_LINKAGE.SOURCE_TYPE }, false);
     public static final Index X_LINKAGE_IDX_X_LINKAGE_R_TARGET_KEY = Internal.createIndex(DSL.name("IDX_X_LINKAGE_R_TARGET_KEY"), XLinkage.X_LINKAGE, new OrderField[] { XLinkage.X_LINKAGE.TARGET_KEY }, false);
     public static final Index X_LINKAGE_IDX_X_LINKAGE_R_TARGET_TYPE = Internal.createIndex(DSL.name("IDX_X_LINKAGE_R_TARGET_TYPE"), XLinkage.X_LINKAGE, new OrderField[] { XLinkage.X_LINKAGE.TARGET_TYPE }, false);
+    public static final Index X_LINKAGE_IDX_X_LINKAGE_REGION = Internal.createIndex(DSL.name("IDX_X_LINKAGE_REGION"), XLinkage.X_LINKAGE, new OrderField[] { XLinkage.X_LINKAGE.REGION }, false);
     public static final Index X_LINKAGE_IDX_X_LINKAGE_SIGMA = Internal.createIndex(DSL.name("IDX_X_LINKAGE_SIGMA"), XLinkage.X_LINKAGE, new OrderField[] { XLinkage.X_LINKAGE.SIGMA, XLinkage.X_LINKAGE.TYPE }, false);
     public static final Index X_MENU_IDX_X_MENU_APP_ID = Internal.createIndex(DSL.name("IDX_X_MENU_APP_ID"), XMenu.X_MENU, new OrderField[] { XMenu.X_MENU.APP_ID }, false);
     public static final Index X_ACTIVITY_IDXM_X_ACTIVITY_MODEL_ID_MODEL_KEY = Internal.createIndex(DSL.name("IDXM_X_ACTIVITY_MODEL_ID_MODEL_KEY"), XActivity.X_ACTIVITY, new OrderField[] { XActivity.X_ACTIVITY.MODEL_ID, XActivity.X_ACTIVITY.MODEL_KEY, XActivity.X_ACTIVITY.ACTIVE }, false);

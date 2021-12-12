@@ -2,7 +2,6 @@ package cn.vertxup.ambient.api.linkage;
 
 import cn.vertxup.ambient.domain.tables.daos.XLinkageDao;
 import cn.vertxup.ambient.service.linkage.LinkStub;
-import com.google.inject.Inject;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
@@ -12,6 +11,8 @@ import io.vertx.up.annotations.Me;
 import io.vertx.up.annotations.Queue;
 import io.vertx.up.commune.config.XHeader;
 import io.vertx.up.unity.Ux;
+
+import javax.inject.Inject;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>

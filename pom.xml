@@ -124,7 +124,7 @@
         <common.cli.version>1.5.0</common.cli.version>
         <common.collection4.version>4.4</common.collection4.version>
 
-        <http.async.client.version>4.1.4</http.async.client.version>
+        <http.async.client.version>4.1.5</http.async.client.version>
         <http.client.version>4.5.13</http.client.version>
         <http.core.version>4.4.15</http.core.version>
 

@@ -46,6 +46,11 @@ public class XLinkage extends TableImpl<XLinkageRecord> {
      */
     public final TableField<XLinkageRecord, String> ALIAS = createField(DSL.name("ALIAS"), SQLDataType.VARCHAR(128), this, "「alias」- 别称");
     /**
+     * The column <code>DB_ETERNAL.X_LINKAGE.REGION</code>. 「region」-
+     * 连接区域标识，同一个区域算一个连接（批次）
+     */
+    public final TableField<XLinkageRecord, String> REGION = createField(DSL.name("REGION"), SQLDataType.VARCHAR(255), this, "「region」- 连接区域标识，同一个区域算一个连接（批次）");
+    /**
      * The column <code>DB_ETERNAL.X_LINKAGE.LINK_KEY</code>. 「linkKey」-
      * 双向Key计算，根据 source / target 计算
      */
@@ -172,7 +177,7 @@ public class XLinkage extends TableImpl<XLinkageRecord> {
 
     @Override
     public List<Index> getIndexes() {
-        return Arrays.asList(Indexes.X_LINKAGE_IDX_X_LINKAGE_R_SOURCE_KEY, Indexes.X_LINKAGE_IDX_X_LINKAGE_R_SOURCE_TYPE, Indexes.X_LINKAGE_IDX_X_LINKAGE_R_TARGET_KEY, Indexes.X_LINKAGE_IDX_X_LINKAGE_R_TARGET_TYPE, Indexes.X_LINKAGE_IDX_X_LINKAGE_SIGMA);
+        return Arrays.asList(Indexes.X_LINKAGE_IDX_X_LINKAGE_R_SOURCE_KEY, Indexes.X_LINKAGE_IDX_X_LINKAGE_R_SOURCE_TYPE, Indexes.X_LINKAGE_IDX_X_LINKAGE_R_TARGET_KEY, Indexes.X_LINKAGE_IDX_X_LINKAGE_R_TARGET_TYPE, Indexes.X_LINKAGE_IDX_X_LINKAGE_REGION, Indexes.X_LINKAGE_IDX_X_LINKAGE_SIGMA);
     }
 
     @Override
@@ -182,7 +187,7 @@ public class XLinkage extends TableImpl<XLinkageRecord> {
 
     @Override
     public List<UniqueKey<XLinkageRecord>> getUniqueKeys() {
-        return Arrays.asList(Keys.KEY_X_LINKAGE_LINK_KEY);
+        return Arrays.asList(Keys.KEY_X_LINKAGE_REGION, Keys.KEY_X_LINKAGE_LINK_KEY);
     }
 
     @Override
@@ -212,11 +217,11 @@ public class XLinkage extends TableImpl<XLinkageRecord> {
     }
 
     // -------------------------------------------------------------------------
-    // Row21 type methods
+    // Row22 type methods
     // -------------------------------------------------------------------------
 
     @Override
-    public Row21<String, String, String, String, String, String, String, String, String, String, String, String, String, String, String, Boolean, String, LocalDateTime, String, LocalDateTime, String> fieldsRow() {
-        return (Row21) super.fieldsRow();
+    public Row22<String, String, String, String, String, String, String, String, String, String, String, String, String, String, String, String, Boolean, String, LocalDateTime, String, LocalDateTime, String> fieldsRow() {
+        return (Row22) super.fieldsRow();
     }
 }

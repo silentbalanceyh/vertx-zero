@@ -75,6 +75,7 @@ public class Keys {
     public static final UniqueKey<XIntegrationRecord> KEY_X_INTEGRATION_PRIMARY = Internal.createUniqueKey(XIntegration.X_INTEGRATION, DSL.name("KEY_X_INTEGRATION_PRIMARY"), new TableField[] { XIntegration.X_INTEGRATION.KEY }, true);
     public static final UniqueKey<XLinkageRecord> KEY_X_LINKAGE_LINK_KEY = Internal.createUniqueKey(XLinkage.X_LINKAGE, DSL.name("KEY_X_LINKAGE_LINK_KEY"), new TableField[] { XLinkage.X_LINKAGE.LINK_KEY }, true);
     public static final UniqueKey<XLinkageRecord> KEY_X_LINKAGE_PRIMARY = Internal.createUniqueKey(XLinkage.X_LINKAGE, DSL.name("KEY_X_LINKAGE_PRIMARY"), new TableField[] { XLinkage.X_LINKAGE.KEY }, true);
+    public static final UniqueKey<XLinkageRecord> KEY_X_LINKAGE_REGION = Internal.createUniqueKey(XLinkage.X_LINKAGE, DSL.name("KEY_X_LINKAGE_REGION"), new TableField[] { XLinkage.X_LINKAGE.REGION, XLinkage.X_LINKAGE.NAME }, true);
     public static final UniqueKey<XLogRecord> KEY_X_LOG_PRIMARY = Internal.createUniqueKey(XLog.X_LOG, DSL.name("KEY_X_LOG_PRIMARY"), new TableField[] { XLog.X_LOG.KEY }, true);
     public static final UniqueKey<XMenuRecord> KEY_X_MENU_NAME = Internal.createUniqueKey(XMenu.X_MENU, DSL.name("KEY_X_MENU_NAME"), new TableField[] { XMenu.X_MENU.NAME, XMenu.X_MENU.APP_ID }, true);
     public static final UniqueKey<XMenuRecord> KEY_X_MENU_PRIMARY = Internal.createUniqueKey(XMenu.X_MENU, DSL.name("KEY_X_MENU_PRIMARY"), new TableField[] { XMenu.X_MENU.KEY }, true);

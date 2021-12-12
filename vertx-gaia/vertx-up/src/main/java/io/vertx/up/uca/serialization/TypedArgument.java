@@ -19,6 +19,7 @@ import io.vertx.up.commune.Envelop;
 import io.vertx.up.commune.config.XHeader;
 import io.vertx.up.eon.ID;
 import io.vertx.up.exception.web._417JobMethodException;
+import io.vertx.up.log.Annal;
 import io.vertx.up.util.Ut;
 
 import javax.ws.rs.BodyParam;
@@ -32,6 +33,8 @@ import java.util.Set;
  * The arguments are different, but could support more method declare
  */
 public class TypedArgument {
+    private static final Annal LOGGER = Annal.get(TypedArgument.class);
+
     /**
      * Job Component
      */
@@ -236,5 +239,14 @@ public class TypedArgument {
 
     private static boolean is(final Class<?> paramType, final Class<?> expected) {
         return expected == paramType || Ut.isImplement(paramType, expected);
+    }
+
+    public static boolean modeInterface(final JsonObject json) {
+        final long count = json.fieldNames().stream().filter(Ut::isInteger)
+            .count();
+        // All json keys are numbers
+        LOGGER.debug("( isInterface Mode ) Parameter count: {0}, json: {1}",
+            count, json.encode());
+        return count == json.fieldNames().size();
     }
 }

@@ -58,6 +58,18 @@ public interface IXLinkage extends VertxPojo, Serializable {
     public String getAlias();
 
     /**
+     * Setter for <code>DB_ETERNAL.X_LINKAGE.REGION</code>. 「region」-
+     * 连接区域标识，同一个区域算一个连接（批次）
+     */
+    public IXLinkage setRegion(String value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.X_LINKAGE.REGION</code>. 「region」-
+     * 连接区域标识，同一个区域算一个连接（批次）
+     */
+    public String getRegion();
+
+    /**
      * Setter for <code>DB_ETERNAL.X_LINKAGE.LINK_KEY</code>. 「linkKey」-
      * 双向Key计算，根据 source / target 计算
      */
@@ -269,6 +281,7 @@ public interface IXLinkage extends VertxPojo, Serializable {
                 setOrThrow(this::setName,json::getString,"NAME","java.lang.String");
                 setOrThrow(this::setType,json::getString,"TYPE","java.lang.String");
                 setOrThrow(this::setAlias,json::getString,"ALIAS","java.lang.String");
+                setOrThrow(this::setRegion,json::getString,"REGION","java.lang.String");
                 setOrThrow(this::setLinkKey,json::getString,"LINK_KEY","java.lang.String");
                 setOrThrow(this::setLinkType,json::getString,"LINK_TYPE","java.lang.String");
                 setOrThrow(this::setLinkData,json::getString,"LINK_DATA","java.lang.String");
@@ -297,6 +310,7 @@ public interface IXLinkage extends VertxPojo, Serializable {
                 json.put("NAME",getName());
                 json.put("TYPE",getType());
                 json.put("ALIAS",getAlias());
+                json.put("REGION",getRegion());
                 json.put("LINK_KEY",getLinkKey());
                 json.put("LINK_TYPE",getLinkType());
                 json.put("LINK_DATA",getLinkData());

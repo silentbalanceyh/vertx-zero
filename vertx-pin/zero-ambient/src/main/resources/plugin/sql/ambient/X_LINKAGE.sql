@@ -8,6 +8,7 @@ CREATE TABLE `X_LINKAGE`
     `NAME`        VARCHAR(255) NOT NULL COMMENT '「name」- 名称',
     `TYPE`        VARCHAR(64)  NOT NULL COMMENT '「type」- 连接类型',
     `ALIAS`       VARCHAR(128) COMMENT '「alias」- 别称',
+    `REGION`      VARCHAR(255) COMMENT '「region」- 连接区域标识，同一个区域算一个连接（批次）',
 
     -- 关联信息（主数据）
     -- 1）单向，LINK_KEY = Ordered ( SOURCE_KEY + TARGET_KEY )
@@ -39,11 +40,18 @@ CREATE TABLE `X_LINKAGE`
   COLLATE = utf8mb4_bin;
 
 -- changeset Lang:x-linkage-2
+-- SourceKey + TargetKey = LinkKey
 ALTER TABLE X_LINKAGE
     ADD UNIQUE (`LINK_KEY`);
+-- Region + Name         = Link Unique on Business
+ALTER TABLE X_LINKAGE
+    ADD UNIQUE (`REGION`, `NAME`);
+
 -- INDEX -- Fetch All
 ALTER TABLE X_LINKAGE
     ADD INDEX IDX_X_LINKAGE_SIGMA (`SIGMA`, `TYPE`);
+ALTER TABLE X_LINKAGE
+    ADD INDEX IDX_X_LINKAGE_REGION (`REGION`);
 -- INDEX -- FETCH BY TYPE
 ALTER TABLE X_LINKAGE
     ADD INDEX IDX_X_LINKAGE_R_SOURCE_TYPE (`SOURCE_TYPE`);

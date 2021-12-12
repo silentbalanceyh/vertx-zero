@@ -50,11 +50,13 @@ public class LinkService implements LinkStub {
         final List<XLinkage> queueU = new ArrayList<>();
         Ut.itJArray(batchData).forEach(json -> {
             if (json.containsKey("linkKey")) {
-                json.remove(KName.KEY);
-                queueA.add(Ux.fromJson(json, XLinkage.class));
-            } else {
-                this.calcKey(json, vector);
+                // Update Directly
+                // json.remove(KName.KEY);
                 queueU.add(Ux.fromJson(json, XLinkage.class));
+            } else {
+                json.remove(KName.KEY);
+                this.calcKey(json, vector);
+                queueA.add(Ux.fromJson(json, XLinkage.class));
             }
         });
         final UxJooq jooq = Ux.Jooq.on(XLinkageDao.class);

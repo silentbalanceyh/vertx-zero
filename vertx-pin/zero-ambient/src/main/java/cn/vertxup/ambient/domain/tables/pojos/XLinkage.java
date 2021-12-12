@@ -24,6 +24,7 @@ public class XLinkage implements VertxPojo, IXLinkage {
     private String        name;
     private String        type;
     private String        alias;
+    private String        region;
     private String        linkKey;
     private String        linkType;
     private String        linkData;
@@ -49,6 +50,7 @@ public class XLinkage implements VertxPojo, IXLinkage {
         this.name = value.getName();
         this.type = value.getType();
         this.alias = value.getAlias();
+        this.region = value.getRegion();
         this.linkKey = value.getLinkKey();
         this.linkType = value.getLinkType();
         this.linkData = value.getLinkData();
@@ -73,6 +75,7 @@ public class XLinkage implements VertxPojo, IXLinkage {
         String        name,
         String        type,
         String        alias,
+        String        region,
         String        linkKey,
         String        linkType,
         String        linkData,
@@ -95,6 +98,7 @@ public class XLinkage implements VertxPojo, IXLinkage {
         this.name = name;
         this.type = type;
         this.alias = alias;
+        this.region = region;
         this.linkKey = linkKey;
         this.linkType = linkType;
         this.linkData = linkData;
@@ -184,6 +188,25 @@ public class XLinkage implements VertxPojo, IXLinkage {
     @Override
     public XLinkage setAlias(String alias) {
         this.alias = alias;
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.X_LINKAGE.REGION</code>. 「region」-
+     * 连接区域标识，同一个区域算一个连接（批次）
+     */
+    @Override
+    public String getRegion() {
+        return this.region;
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.X_LINKAGE.REGION</code>. 「region」-
+     * 连接区域标识，同一个区域算一个连接（批次）
+     */
+    @Override
+    public XLinkage setRegion(String region) {
+        this.region = region;
         return this;
     }
 
@@ -504,6 +527,7 @@ public class XLinkage implements VertxPojo, IXLinkage {
         sb.append(", ").append(name);
         sb.append(", ").append(type);
         sb.append(", ").append(alias);
+        sb.append(", ").append(region);
         sb.append(", ").append(linkKey);
         sb.append(", ").append(linkType);
         sb.append(", ").append(linkData);
@@ -536,6 +560,7 @@ public class XLinkage implements VertxPojo, IXLinkage {
         setName(from.getName());
         setType(from.getType());
         setAlias(from.getAlias());
+        setRegion(from.getRegion());
         setLinkKey(from.getLinkKey());
         setLinkType(from.getLinkType());
         setLinkData(from.getLinkData());
