@@ -84,6 +84,6 @@ public interface LinkAgent {
 
     @DELETE
     @Path("/linkage/:key")
-    @Address(Addr.Linkage.REMOVE_BY_KEY)
+    @Address(Addr.Linkage.REMOVE_BY_REGION)
     JsonObject remove(@PathParam(KName.KEY) String key);
 }

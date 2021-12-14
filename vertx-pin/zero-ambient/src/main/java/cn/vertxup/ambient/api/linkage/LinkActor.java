@@ -10,6 +10,8 @@ import io.vertx.up.annotations.Address;
 import io.vertx.up.annotations.Me;
 import io.vertx.up.annotations.Queue;
 import io.vertx.up.commune.config.XHeader;
+import io.vertx.up.eon.KName;
+import io.vertx.up.uca.jooq.UxJooq;
 import io.vertx.up.unity.Ux;
 
 import javax.inject.Inject;
@@ -72,9 +74,14 @@ public class LinkActor {
         return Ux.Jooq.on(XLinkageDao.class).fetchJByIdAsync(key);
     }
 
-    @Address(Addr.Linkage.REMOVE_BY_KEY)
-    public Future<Boolean> removeKey(final String key) {
-        return Ux.Jooq.on(XLinkageDao.class).deleteByIdAsync(key);
+    @Address(Addr.Linkage.REMOVE_BY_REGION)
+    public Future<Boolean> removeKey(final String key, final XHeader header) {
+        // Remove by `key` or `region`
+        final UxJooq jooq = Ux.Jooq.on(XLinkageDao.class);
+        final JsonObject criteria = Ux.whereAnd();
+        criteria.put("region", key);
+        criteria.put(KName.SIGMA, header.getSigma());
+        return jooq.deleteByAsync(criteria);
     }
 
 }

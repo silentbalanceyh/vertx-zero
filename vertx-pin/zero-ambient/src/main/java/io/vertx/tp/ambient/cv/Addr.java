@@ -94,7 +94,7 @@ public interface Addr {
 
         // Linkage fetch by key
         String FETCH_BY_KEY = Prefix._EVENT + "X-LINKAGE/KEY/FETCH";
-        String REMOVE_BY_KEY = Prefix._EVENT + "X-LINKAGE/KEY/REMOVE";
+        String REMOVE_BY_REGION = Prefix._EVENT + "X-LINKAGE/REGION/REMOVE";
 
         // Linkage fetch by source_key/target_key
         String ADD_NEW_B = Prefix._EVENT + "X-LINKAGE/ADD/NEW-B";
