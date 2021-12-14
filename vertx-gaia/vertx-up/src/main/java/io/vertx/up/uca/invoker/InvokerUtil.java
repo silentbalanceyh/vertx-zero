@@ -178,7 +178,7 @@ public class InvokerUtil {
             Object parameters = reference;
             if (JsonObject.class == reference.getClass()) {
                 final JsonObject json = (JsonObject) reference;
-                if (isInterface(json)) {
+                if (TypedArgument.modeInterface(json)) {
                     // Proxy mode
                     if (Values.ONE == json.fieldNames().size()) {
                         // New Mode for direct type
@@ -197,14 +197,5 @@ public class InvokerUtil {
              */
             return invoke(proxy, method, analyzed); // Ut.invoke(proxy, method.getName(), analyzed);
         }
-    }
-
-
-    private static boolean isInterface(final JsonObject json) {
-        final long count = json.fieldNames().stream().filter(Ut::isInteger)
-            .count();
-        // All json keys are numbers
-        LOGGER.debug("( isInterface Mode ) Parameter count: {0}, json: {1}", count, json.encode());
-        return count == json.fieldNames().size();
     }
 }

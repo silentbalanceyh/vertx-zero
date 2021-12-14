@@ -11,6 +11,7 @@ import cn.vertxup.ambient.domain.tables.XAttachment;
 import cn.vertxup.ambient.domain.tables.XCategory;
 import cn.vertxup.ambient.domain.tables.XEmailServer;
 import cn.vertxup.ambient.domain.tables.XIntegration;
+import cn.vertxup.ambient.domain.tables.XLinkage;
 import cn.vertxup.ambient.domain.tables.XLog;
 import cn.vertxup.ambient.domain.tables.XMenu;
 import cn.vertxup.ambient.domain.tables.XMenuMy;
@@ -61,6 +62,11 @@ public class Tables {
      * The table <code>DB_ETERNAL.X_INTEGRATION</code>.
      */
     public static final XIntegration X_INTEGRATION = XIntegration.X_INTEGRATION;
+
+    /**
+     * The table <code>DB_ETERNAL.X_LINKAGE</code>.
+     */
+    public static final XLinkage X_LINKAGE = XLinkage.X_LINKAGE;
 
     /**
      * The table <code>DB_ETERNAL.X_LOG</code>.

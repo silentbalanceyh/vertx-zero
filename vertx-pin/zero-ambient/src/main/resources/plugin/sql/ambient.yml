@@ -45,3 +45,6 @@ databaseChangeLog:
   - include:
       file: plugin/sql/ambient/X_INTEGRATION.sql
       relativeToChangelogFile: false
+  - include:
+      file: plugin/sql/ambient/X_LINKAGE.sql
+      relativeToChangelogFile: false

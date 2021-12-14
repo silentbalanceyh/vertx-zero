@@ -1,6 +1,7 @@
 package io.vertx.up.commune.envelop;
 
 
+import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.eon.Constants;
 import io.vertx.up.util.Ut;
@@ -49,7 +50,7 @@ class RibData {
     }
 
     static JsonObject getBody(final JsonObject data) {
-        return getData(data, null);
+        return (JsonObject) getData(data, null);
     }
 
     /*
@@ -96,39 +97,59 @@ class RibData {
     }
 
     static <T> void set(final JsonObject data, final String field, final T value, final Integer argIndex) {
-        final JsonObject reference = getData(data, argIndex);
-        if (Objects.nonNull(reference)) {
-            reference.put(field, value);
+        final Object reference = getData(data, argIndex);
+        if (reference instanceof JsonObject) {
+            final JsonObject ref = (JsonObject) reference;
+            ref.put(field, value);
+        } else if (reference instanceof JsonArray) {
+            final JsonArray ref = (JsonArray) reference;
+            Ut.itJArray(ref).forEach(refEach -> refEach.put(field, value));
         }
     }
 
     /*
      * Find json object ( Body Part )
      */
-    private static JsonObject getData(final JsonObject data, final Integer argIndex) {
-        JsonObject found = new JsonObject();
+    private static Object getData(final JsonObject data, final Integer argIndex) {
+        Object found;
+
         /*
          * If the data ( JsonObject this.data ) does not contains "data",
          * Extract `data` part directly here.
+         *
+         * --------------- Data Part
+         * 1.1. Format 1-1:
+         * {
+         *      "data": {
+         *          "0": ...,
+         *          "1": ...
+         *      }
+         * }
+         * 1.2. Format 1-2:
+         * {
+         *      "data": {
+         *          "f1": ...,
+         *          "f2": ...
+         *      }
+         * }
+         *
+         * --------------- Non-Data Part
+         * 2.1. Format 2-1:
+         * {
+         *      "0": ...,
+         *      "1": ...
+         * }
+         * 2.2. Format 2-2:
+         * {
+         *      "f1": ...,
+         *      "f2": ...,
+         * }
          */
-        final Object reference = data.getValue(Key.DATA);
-        if (reference instanceof JsonObject) {
-            /*
-             * JsonObject = `key` = `data` part
-             */
-            found = (JsonObject) reference;
-            /*
-             * Bug Resolution:
-             * Old code: found.mergeIn((JsonObject) reference);
-             *
-             * Keep the same reference
-             * Be careful about the code difference here.
-             * 1) If you used () to convert referent, the found will point to reference previous, in this
-             * situation, the modification will be merged into previous object instead of new here.
-             * 2) But if you use mergeIn here, the previous reference will be replaced, it means that any
-             * modification could not impace the reference that you passed.
-             */
+        JsonObject itRef = data;
+        if (data.containsKey(Key.DATA)) {
+            itRef = data.getJsonObject(Key.DATA);
         }
+
         /*
          * Setted data by index, it means we should capture following part in interface style
          *
@@ -143,33 +164,56 @@ class RibData {
          */
         if (null == argIndex) {
             /*
-             * Find the first value of type JsonObject
+             * Find the first value of type JsonObject / JsonArray ( Complex Smart workflow )
              */
-            final JsonObject body = found.fieldNames().stream()
-                .filter(Objects::nonNull)
-                .map(found::getValue)
-                /*
-                 * Predicate to test whether value is JsonObject
-                 * If JsonObject, then find the first JsonObject as body
-                 */
-                .filter(value -> value instanceof JsonObject)
-                .map(item -> (JsonObject) item)
-                .findFirst().orElse(null);
-            if (!Ut.isNil(body)) {
+            found = findSmart(itRef);
+            if (Objects.isNull(found)) {
                 /*
                  * Move reference and let found reference set
                  */
-                found = body;
+                found = itRef;
             }
         } else {
-            /*
-             * Extract data by "argIndex", here
-             * argIndex could be passed by developers or outer environment
-             *
-             * Here argIndex should not be null
-             */
-            found = found.getJsonObject(Constants.INDEXES.get(argIndex));
+            return findByIndex(itRef, argIndex);
         }
         return found;
+    }
+
+    private static Object findByIndex(final JsonObject itPart, final Integer argIndex) {
+        /*
+         * Extract data by "argIndex", here
+         * argIndex could be passed by developers or outer environment
+         *
+         * Here argIndex should not be null
+         */
+        return itPart.getValue(Constants.INDEXES.get(argIndex));
+    }
+
+    private static Object findSmart(final JsonObject itPart) {
+        /*
+         * Find first complex object reference
+         * 1. The first value of JsonObject
+         * 2. The first value of JsonArray
+         */
+        final Object body = itPart.fieldNames().stream()
+            .filter(Objects::nonNull)
+            .map(itPart::getValue)
+            /*
+             * Predicate to test whether value is JsonObject
+             * If JsonObject, then find the first JsonObject as body
+             */
+            .filter(value -> value instanceof JsonObject || value instanceof JsonArray)
+            .findFirst().orElse(null);
+        if (Objects.nonNull(body)) {
+            if (body instanceof JsonObject && Ut.isNil((JsonObject) body)) {
+                return null;
+            }
+            if (body instanceof JsonArray && Ut.isNil((JsonArray) body)) {
+                return null;
+            }
+        } else {
+            return null;
+        }
+        return body;
     }
 }

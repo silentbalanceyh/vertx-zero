@@ -447,6 +447,10 @@ public final class Ux {
         return To.future(Boolean.FALSE);
     }
 
+    public static <T> Future<List<T>> futureL() {
+        return future(new ArrayList<>());
+    }
+
     public static Future<JsonObject> futureB(final boolean checked) {
         return To.future(outBool(checked));
     }
@@ -518,7 +522,7 @@ public final class Ux {
         return Future.succeededFuture(To.toJList(list, pojo));
     }
 
-    public static <T> Future<List<JsonObject>> futureL() {
+    public static <T> Future<List<JsonObject>> futureLJ() {
         return futureL(new ArrayList<>(), Strings.EMPTY);
     }
 
