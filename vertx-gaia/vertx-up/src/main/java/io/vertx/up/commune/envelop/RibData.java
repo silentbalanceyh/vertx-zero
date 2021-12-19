@@ -50,7 +50,10 @@ class RibData {
     }
 
     static JsonObject getBody(final JsonObject data) {
-        return (JsonObject) getData(data, null);
+        // Fix Bug: Caused by: java.lang.ClassCastException:
+        return get(data, JsonObject.class);
+        // final Object dataBody = getData(data, null);
+        // return (JsonObject) getData(data, null);
     }
 
     /*
