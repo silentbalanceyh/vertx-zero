@@ -14,6 +14,7 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.tp.rbac.cv.AuthKey;
 import io.vertx.tp.rbac.cv.AuthMsg;
 import io.vertx.tp.rbac.refine.Sc;
+import io.vertx.up.eon.KName;
 import io.vertx.up.log.Annal;
 import io.vertx.up.uca.jooq.UxJooq;
 import io.vertx.up.unity.Ux;
@@ -156,8 +157,9 @@ public class UserService implements UserStub {
      */
     private Future<JsonObject> fulfillUserWithRolesAndGroups(final String userKey, final JsonObject user) {
         /* delete attribute: password from user information */
-        user.put("password", "")
-            .put("roles",
+        // user.put("password", "")
+        user.remove(KName.PASSWORD);
+        user.put("roles",
                 Ux.Jooq.on(RUserRoleDao.class)
                     .fetch(AuthKey.F_USER_ID, userKey)
                     .stream()
