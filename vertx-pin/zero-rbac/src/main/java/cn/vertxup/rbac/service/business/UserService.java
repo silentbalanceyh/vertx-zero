@@ -60,13 +60,16 @@ public class UserService implements UserStub {
     public Future<JsonObject> updateUser(final String userId, final JsonObject params) {
         final JsonArray roles = params.getJsonArray("roles");
         final JsonArray groups = params.getJsonArray("groups");
-        final SUser user = Ux.fromJson(params, SUser.class);
-        user.setKey(userId);
-        return Ux.Jooq.on(SUserDao.class)
+        /* Merge original here */
+        final UxJooq jooq = Ux.Jooq.on(SUserDao.class);
+        return jooq.fetchJByIdAsync(userId).compose(original -> {
+            final JsonObject dataJson = original.mergeIn(params);
+            final SUser user = Ux.fromJson(dataJson, SUser.class);
             /* User Saving here */
-            .updateAsync(userId, user)
-            .compose(entity -> this.updateRoles(userId, Ux.toJson(entity), roles))
-            .compose(entity -> this.updateGroups(userId, Ux.toJson(entity), groups));
+            return jooq.updateAsync(userId, user)
+                .compose(entity -> this.updateRoles(userId, Ux.toJson(entity), roles))
+                .compose(entity -> this.updateGroups(userId, Ux.toJson(entity), groups));
+        });
     }
 
     @Override
