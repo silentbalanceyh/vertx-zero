@@ -215,7 +215,7 @@
         <camunda.spin.version>1.13.0</camunda.spin.version>
         <camunda.bpm.version>1.2.0</camunda.bpm.version>
         <java.uuid.generator>4.0.1</java.uuid.generator>
-        <mybatis.version>3.5.8</mybatis.version>
+        <mybatis.version>3.5.9</mybatis.version>
     </properties>
     <prerequisites>
         <maven>3.6.0</maven>
