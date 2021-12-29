@@ -15,16 +15,16 @@ CREATE TABLE `F_SETTLEMENT`
     `ROUNDED`     VARCHAR(12) COMMENT '「rounded」抹零方式：四舍五入, HALF：零头舍掉, FLOOR, 零头入进, CEIL',
     `FINISHED`    BIT COMMENT '「finished」- 是否完成',
     `FINISHED_AT` DATETIME COMMENT '「createdAt」- 完成时间',
-    `SIGN_NAME`   VARCHAR(128) DEFAULT NULL COMMENT '「signName」签单人姓名',
-    `SIGN_MOBILE` VARCHAR(128) DEFAULT NULL COMMENT '「signMobile」签单人电话',
+    `SIGN_NAME`   VARCHAR(128)  DEFAULT NULL COMMENT '「signName」签单人姓名',
+    `SIGN_MOBILE` VARCHAR(128)  DEFAULT NULL COMMENT '「signMobile」签单人电话',
 
     -- 关联信息
-    `CUSTOMER_ID` VARCHAR(36)  DEFAULT NULL COMMENT '「customerId」结算对象（单位ID）',
+    `CUSTOMER_ID` VARCHAR(36)   DEFAULT NULL COMMENT '「customerId」结算对象（单位ID）',
     /*
      * 批次模式下表示批次ID
      * 订单模式下表示订单ID
      */
-    `RELATED_ID`  VARCHAR(36)  DEFAULT NULL COMMENT '「relatedId」关联ID（批次、订单、其他）',
+    `RELATED_ID`  VARCHAR(1024) DEFAULT NULL COMMENT '「relatedId」关联ID（批次、订单、其他）',
 
     -- 特殊字段
     `SIGMA`       VARCHAR(32) COMMENT '「sigma」- 统一标识',
