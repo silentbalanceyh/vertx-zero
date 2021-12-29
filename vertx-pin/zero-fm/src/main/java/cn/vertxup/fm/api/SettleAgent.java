@@ -98,7 +98,7 @@ public interface SettleAgent {
         ]
     }
      */
-    @Path("/settle/part/:runup")
+    @Path("/settle/create/:runup")
     @POST
     @Address(Addr.Settle.UP_PAYMENT)
     JsonObject upPayment(@PathParam("runup") boolean isRunUp,
