@@ -4,7 +4,7 @@
 package cn.vertxup.fm.domain.tables;
 
 
-import cn.vertxup.fm.domain.Db;
+import cn.vertxup.fm.domain.DbEternal;
 import cn.vertxup.fm.domain.Indexes;
 import cn.vertxup.fm.domain.Keys;
 import cn.vertxup.fm.domain.tables.records.FSettlementRecord;
@@ -118,7 +118,7 @@ public class FSettlement extends TableImpl<FSettlementRecord> {
      * The column <code>DB_ETERNAL.F_SETTLEMENT.RELATED_ID</code>.
      * 「relatedId」关联ID（批次、订单、其他）
      */
-    public final TableField<FSettlementRecord, String> RELATED_ID = createField(DSL.name("RELATED_ID"), SQLDataType.VARCHAR(36), this, "「relatedId」关联ID（批次、订单、其他）");
+    public final TableField<FSettlementRecord, String> RELATED_ID = createField(DSL.name("RELATED_ID"), SQLDataType.VARCHAR(1024), this, "「relatedId」关联ID（批次、订单、其他）");
 
     /**
      * The column <code>DB_ETERNAL.F_SETTLEMENT.SIGMA</code>. 「sigma」- 统一标识
@@ -201,7 +201,7 @@ public class FSettlement extends TableImpl<FSettlementRecord> {
 
     @Override
     public Schema getSchema() {
-        return aliased() ? null : Db.DB_ETERNAL;
+        return aliased() ? null : DbEternal.DB_ETERNAL;
     }
 
     @Override

@@ -4,7 +4,7 @@
 package cn.vertxup.fm.domain.tables;
 
 
-import cn.vertxup.fm.domain.Db;
+import cn.vertxup.fm.domain.DbEternal;
 import cn.vertxup.fm.domain.Keys;
 import cn.vertxup.fm.domain.tables.records.FSubjectRecord;
 
@@ -180,7 +180,7 @@ public class FSubject extends TableImpl<FSubjectRecord> {
 
     @Override
     public Schema getSchema() {
-        return aliased() ? null : Db.DB_ETERNAL;
+        return aliased() ? null : DbEternal.DB_ETERNAL;
     }
 
     @Override

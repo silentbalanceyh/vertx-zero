@@ -1,6 +1,5 @@
 package cn.vertxup.fm.api;
 
-import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.fm.cv.Addr;
@@ -18,7 +17,7 @@ public interface SettleAgent {
     /*
      * Settlement
      {
-        "orderId": "85f2fe43-78bb-46ec-9273-50a5532d9d82",
+        "relatedId": "85f2fe43-78bb-46ec-9273-50a5532d9d82",
         "book": [
             "73339856-1cd4-439c-a3c2-b790ab5d7f76"      // 只传入需关闭的账本
         ],
@@ -104,6 +103,7 @@ public interface SettleAgent {
     @Address(Addr.Settle.UP_PAYMENT)
     JsonObject upPayment(@PathParam("runup") boolean isRunUp,
                          @BodyParam JsonObject body);
+
     /*
      * Unlock Authorize when settlement on `status`
      * From `Pending` to `Finished`
@@ -112,6 +112,7 @@ public interface SettleAgent {
     @Path("/settle/authorize/unlock")
     @Address(Addr.Settle.UNLOCK_AUTHORIZE)
     JsonObject unlockAuthorize(@BodyParam JsonArray authorize);
+
     /*
      * Saving the book information when settlement on book information
      * - checked
