@@ -146,8 +146,15 @@ public class FillService implements FillStub {
     @Override
     public void settle(final FSettlement settlement, final FDebt debt) {
         debt.setSettlementId(settlement.getKey());
-        debt.setSerial("S" + settlement.getSerial().substring(1));
-        debt.setCode("S" + settlement.getCode().substring(1));
+        if (0 > settlement.getAmount().doubleValue()) {
+            // Refund
+            debt.setSerial("R" + settlement.getSerial().substring(1));
+            debt.setCode("R" + settlement.getCode().substring(1));
+        } else {
+            // DEBT Serial
+            debt.setSerial("D" + settlement.getSerial().substring(1));
+            debt.setCode("D" + settlement.getCode().substring(1));
+        }
     }
 
     @Override

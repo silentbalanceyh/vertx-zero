@@ -6,6 +6,7 @@ import io.vertx.core.Future;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
@@ -26,4 +27,6 @@ public interface AccountStub {
      * Multi bills here for Accounting
      */
     Future<Boolean> inBook(List<FBillItem> items);
+
+    Future<Boolean> inBook(List<FBillItem> items, Set<String> closedKeys);
 }
