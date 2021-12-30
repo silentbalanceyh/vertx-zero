@@ -14,10 +14,7 @@ import io.vertx.up.util.Ut;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.ConcurrentMap;
 import java.util.stream.Collectors;
 
@@ -29,13 +26,9 @@ public class AccountService implements AccountStub {
     public Future<Boolean> inBook(final FBill bill, final List<FBillItem> items) {
         final UxJooq jq = Ux.Jooq.on(FBookDao.class);
         return jq.<FBook>fetchByIdAsync(bill.getBookId())
-            .compose(book -> this.bookAsync(book, bill, items))
+            .compose(book -> Ux.future(this.book(book, bill, items)))
             .compose(jq::updateAsync)
             .compose(nil -> Ux.futureT());
-    }
-
-    private Future<FBook> bookAsync(final FBook book, final FBill bill, final List<FBillItem> items) {
-        return Ux.future(this.book(book, bill, items));
     }
 
     private FBook book(final FBook book, final FBill bill, final List<FBillItem> items) {
@@ -68,7 +61,7 @@ public class AccountService implements AccountStub {
     }
 
     @Override
-    public Future<Boolean> inBook(final List<FBillItem> items) {
+    public Future<Boolean> inBook(final List<FBillItem> items, final Set<String> closedKeys) {
         // Collect bill ids from items
         final Set<String> billKeys = items.stream()
             .map(FBillItem::getBillId)
@@ -85,17 +78,31 @@ public class AccountService implements AccountStub {
                 final JsonObject criteria = new JsonObject();
                 criteria.put("key,i", Ut.toJArray(billMap.keySet()));
                 return Ux.Jooq.on(FBookDao.class).<FBook>fetchAsync(criteria).compose(books -> {
-
                     // Book Processing Grouped
                     final ConcurrentMap<String, FBook> bookMap = Ut.elementMap(books, FBook::getKey);
                     final List<FBook> bookList = new ArrayList<>();
                     bookMap.forEach((key, book) -> {
                         final List<FBill> billEach = billMap.get(key);
-                        billEach.forEach(billItem -> bookList.add(this.book(book, billItem, items)));
+                        billEach.forEach(billItem -> {
+                            final FBook updatedBook = this.book(book, billItem, items);
+                            if (closedKeys.contains(updatedBook.getKey())) {
+                                /*
+                                 * It means that this book has been finished
+                                 * All finished book couldn't do any other things
+                                 */
+                                updatedBook.setStatus(FmCv.Status.FINISHED);
+                            }
+                            bookList.add(updatedBook);
+                        });
                     });
                     return Ux.Jooq.on(FBookDao.class).updateAsync(bookList);
                 });
             }
         }).compose(nil -> Ux.futureT());
+    }
+
+    @Override
+    public Future<Boolean> inBook(final List<FBillItem> items) {
+        return this.inBook(items, new HashSet<>());
     }
 }

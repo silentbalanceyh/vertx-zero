@@ -21,6 +21,8 @@ public interface SettleAgent {
         "book": [
             "73339856-1cd4-439c-a3c2-b790ab5d7f76"      // 只传入需关闭的账本
         ],
+        "finished": true,
+        "payed": true,
         "amount": 1128,
         "rounded": "HALF",
         "signName": "账本一",
@@ -81,7 +83,6 @@ public interface SettleAgent {
                 "billAmount": 2000
             }
         ],
-        "finished": true,
         "payment": [
             {
                 "amount": "528",
