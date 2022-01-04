@@ -56,6 +56,7 @@ public interface KName {
     String ACTOR = "actor";                      /* Dynamic channel for module definition, mapped to X_MODULE */
 
     String ITEMS = "items";                      /* Batch operation, items -> JsonArray ( element = JsonObject ) */
+    String CHILDREN = "children";                /* For React */
     String KEYS = "keys";                        /* Batch operation, keys -> JsonArray ( element = String ) */
     String CODES = "codes";                      /* Batch operation, codes -> JsonArray ( element = String ) */
 

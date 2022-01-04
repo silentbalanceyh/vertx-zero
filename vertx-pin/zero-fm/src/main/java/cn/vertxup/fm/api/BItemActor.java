@@ -1,7 +1,6 @@
 package cn.vertxup.fm.api;
 
 import cn.vertxup.fm.service.BillStub;
-import cn.vertxup.fm.service.BookService;
 import cn.vertxup.fm.service.BookStub;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
@@ -42,7 +41,7 @@ public class BItemActor {
     }
 
     @Address(Addr.BillItem.FETCH_BOOK)
-    public Future<JsonArray> fetchBook(final String orderId){
+    public Future<JsonArray> fetchBooks(final String orderId) {
         return this.bookStub.fetchByOrder(orderId)
             .compose(books -> this.bookStub.fetchAuthorize(books)
                 .compose(authorized -> {
@@ -57,5 +56,12 @@ public class BItemActor {
                     return Ux.future(bookArray);
                 })
             );
+    }
+
+    @Address(Addr.BillItem.FETCH_BOOK_BY_KEY)
+    public Future<JsonObject> fetchBook(final String bookId) {
+        // Null Prevent
+        return Ut.ifNil(JsonObject::new, this.bookStub::fetchByKey)
+            .apply(bookId);
     }
 }
