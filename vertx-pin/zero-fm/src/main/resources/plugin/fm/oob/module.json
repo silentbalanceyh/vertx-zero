@@ -3,5 +3,6 @@
     "fm.subject",
     "fm.term",
     "fm.bank",
-    "fm.currency"
+    "fm.currency",
+    "fm.settlement"
 ]
