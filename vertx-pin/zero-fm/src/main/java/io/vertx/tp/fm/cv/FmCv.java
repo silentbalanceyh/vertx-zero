@@ -14,5 +14,6 @@ public interface FmCv {
 
     interface Type {
         String TRANSFER_FROM = "TransferFrom";
+        String CANCEL = "Cancel";
     }
 }

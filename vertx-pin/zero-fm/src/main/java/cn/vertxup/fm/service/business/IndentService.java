@@ -115,6 +115,7 @@ public class IndentService implements IndentStub {
             final FSettlementItem settlementItem = Ux.fromJson(record, FSettlementItem.class);
             settlementItem.setSettlementId(settlement.getKey());
             settlementItem.setRelatedId(item.getKey());
+            settlementItem.setIncome(item.getIncome());
 
             Ke.umCreated(settlementItem, item);
             settlementItem.setSerial(settlement.getSerial() + "-" + Ut.fromAdjust(idx + 1, 3));

@@ -2,10 +2,11 @@
     "serial,结算单编号,,true",
     "amount,结算金额,CURRENCY",
     {
-        "metadata": "finished,结算完成,LOGICAL",
+        "metadata": "linked,是否结算,MAPPING",
         "$mapping": {
-            "true": "结算完成",
-            "false": "含应收/退款"
+            "Finished": "结算完成,check-circle,16,#268941",
+            "Debt": "含应收,link,16,#0e8be6",
+            "Refund": "含退款,link,16,#ff686b"
         }
     },
     {

@@ -49,4 +49,14 @@ public interface FetchAgent {
     @Path("/settlement/:key")
     @Address(Addr.Settle.FETCH_BY_KEY)
     JsonObject fetchSettlement(@PathParam(KName.KEY) String key);
+
+    /*
+     * Overwrite the api
+     * /api/debt/:key
+     * instead of CRUD normalized api
+     */
+    @GET
+    @Path("/debt/:key")
+    @Address(Addr.Settle.FETCH_DEBT)
+    JsonObject fetchDebt(@PathParam(KName.KEY) String key);
 }

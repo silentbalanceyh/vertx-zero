@@ -21,7 +21,6 @@ CREATE TABLE `F_DEBT`
     -- 关联信息
     `CUSTOMER_ID`   VARCHAR(36)  DEFAULT NULL COMMENT '「customerId」结算对象（单位ID）',
     `SETTLEMENT_ID` VARCHAR(36) UNIQUE COMMENT '「settlementId」- 结算单ID，该字段有值标识已经结算',
-    `BOOK_ID`       VARCHAR(36)  DEFAULT NULL COMMENT '「bookId」- 所属账本ID',
 
     -- 特殊字段
     `SIGMA`         VARCHAR(32) COMMENT '「sigma」- 统一标识',
@@ -41,7 +40,5 @@ ALTER TABLE F_DEBT
     ADD UNIQUE (`CODE`, `SIGMA`);
 ALTER TABLE F_DEBT
     ADD UNIQUE (`SERIAL`, `SIGMA`);
-
--- INDEX
 ALTER TABLE F_DEBT
-    ADD INDEX IDX_F_DEBT_BOOK_ID (`BOOK_ID`);
+    ADD UNIQUE (`SETTLEMENT_ID`);

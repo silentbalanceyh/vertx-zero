@@ -25,6 +25,7 @@ public class FSettlementItem implements VertxPojo, IFSettlementItem {
     private String        name;
     private String        code;
     private String        serial;
+    private Boolean       income;
     private String        type;
     private BigDecimal    amount;
     private String        comment;
@@ -50,6 +51,7 @@ public class FSettlementItem implements VertxPojo, IFSettlementItem {
         this.name = value.getName();
         this.code = value.getCode();
         this.serial = value.getSerial();
+        this.income = value.getIncome();
         this.type = value.getType();
         this.amount = value.getAmount();
         this.comment = value.getComment();
@@ -74,6 +76,7 @@ public class FSettlementItem implements VertxPojo, IFSettlementItem {
         String        name,
         String        code,
         String        serial,
+        Boolean       income,
         String        type,
         BigDecimal    amount,
         String        comment,
@@ -96,6 +99,7 @@ public class FSettlementItem implements VertxPojo, IFSettlementItem {
         this.name = name;
         this.code = code;
         this.serial = serial;
+        this.income = income;
         this.type = type;
         this.amount = amount;
         this.comment = comment;
@@ -189,6 +193,25 @@ public class FSettlementItem implements VertxPojo, IFSettlementItem {
     @Override
     public FSettlementItem setSerial(String serial) {
         this.serial = serial;
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.F_SETTLEMENT_ITEM.INCOME</code>. 「income」-
+     * true = 消费类，false = 付款类
+     */
+    @Override
+    public Boolean getIncome() {
+        return this.income;
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.F_SETTLEMENT_ITEM.INCOME</code>. 「income」-
+     * true = 消费类，false = 付款类
+     */
+    @Override
+    public FSettlementItem setIncome(Boolean income) {
+        this.income = income;
         return this;
     }
 
@@ -519,6 +542,7 @@ public class FSettlementItem implements VertxPojo, IFSettlementItem {
         sb.append(", ").append(name);
         sb.append(", ").append(code);
         sb.append(", ").append(serial);
+        sb.append(", ").append(income);
         sb.append(", ").append(type);
         sb.append(", ").append(amount);
         sb.append(", ").append(comment);
@@ -551,6 +575,7 @@ public class FSettlementItem implements VertxPojo, IFSettlementItem {
         setName(from.getName());
         setCode(from.getCode());
         setSerial(from.getSerial());
+        setIncome(from.getIncome());
         setType(from.getType());
         setAmount(from.getAmount());
         setComment(from.getComment());

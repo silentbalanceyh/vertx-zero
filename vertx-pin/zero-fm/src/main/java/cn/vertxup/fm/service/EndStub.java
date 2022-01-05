@@ -1,6 +1,7 @@
 package cn.vertxup.fm.service;
 
 import io.vertx.core.Future;
+import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 
 /**
@@ -10,4 +11,10 @@ public interface EndStub {
 
     // Fetch Book with bill and items
     Future<JsonObject> fetchSettlement(String key);
+
+    // Fetch Debt
+    Future<JsonObject> fetchDebt(String key);
+
+    // Fetch Payment Related
+    Future<JsonArray> fetchPayment(String settlementId);
 }

@@ -73,4 +73,10 @@ public class FetchActor {
         return Ut.ifNil(JsonObject::new, this.endStub::fetchSettlement)
             .apply(key);
     }
+
+    @Address(Addr.Settle.FETCH_DEBT)
+    public Future<JsonObject> fetchDebt(final String key) {
+        return Ut.ifNil(JsonObject::new, this.endStub::fetchDebt)
+            .apply(key);
+    }
 }

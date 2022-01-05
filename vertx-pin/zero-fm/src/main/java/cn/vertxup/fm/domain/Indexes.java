@@ -7,7 +7,6 @@ package cn.vertxup.fm.domain;
 import cn.vertxup.fm.domain.tables.FBill;
 import cn.vertxup.fm.domain.tables.FBillItem;
 import cn.vertxup.fm.domain.tables.FBook;
-import cn.vertxup.fm.domain.tables.FDebt;
 import cn.vertxup.fm.domain.tables.FInvoice;
 import cn.vertxup.fm.domain.tables.FPaymentItem;
 import cn.vertxup.fm.domain.tables.FPreAuthorize;
@@ -35,7 +34,6 @@ public class Indexes {
     public static final Index F_BILL_ITEM_IDX_F_BILL_ITEM_SETTLEMENT_ID = Internal.createIndex(DSL.name("IDX_F_BILL_ITEM_SETTLEMENT_ID"), FBillItem.F_BILL_ITEM, new OrderField[] { FBillItem.F_BILL_ITEM.SETTLEMENT_ID }, false);
     public static final Index F_BILL_IDX_F_BILL_ORDER_ID = Internal.createIndex(DSL.name("IDX_F_BILL_ORDER_ID"), FBill.F_BILL, new OrderField[] { FBill.F_BILL.ORDER_ID }, false);
     public static final Index F_BOOK_IDX_F_BOOK_ORDER_ID = Internal.createIndex(DSL.name("IDX_F_BOOK_ORDER_ID"), FBook.F_BOOK, new OrderField[] { FBook.F_BOOK.ORDER_ID }, false);
-    public static final Index F_DEBT_IDX_F_DEBT_BOOK_ID = Internal.createIndex(DSL.name("IDX_F_DEBT_BOOK_ID"), FDebt.F_DEBT, new OrderField[] { FDebt.F_DEBT.BOOK_ID }, false);
     public static final Index F_INVOICE_IDX_F_INVOICE_ORDER_ID = Internal.createIndex(DSL.name("IDX_F_INVOICE_ORDER_ID"), FInvoice.F_INVOICE, new OrderField[] { FInvoice.F_INVOICE.ORDER_ID }, false);
     public static final Index F_PAYMENT_ITEM_IDX_F_PAYMENT_ITEM_PAYMENT_ID = Internal.createIndex(DSL.name("IDX_F_PAYMENT_ITEM_PAYMENT_ID"), FPaymentItem.F_PAYMENT_ITEM, new OrderField[] { FPaymentItem.F_PAYMENT_ITEM.PAYMENT_ID }, false);
     public static final Index F_PAYMENT_ITEM_IDX_F_PAYMENT_ITEM_SETTLEMENT_ID = Internal.createIndex(DSL.name("IDX_F_PAYMENT_ITEM_SETTLEMENT_ID"), FPaymentItem.F_PAYMENT_ITEM, new OrderField[] { FPaymentItem.F_PAYMENT_ITEM.SETTLEMENT_ID }, false);

@@ -5,7 +5,6 @@ package cn.vertxup.fm.domain.tables;
 
 
 import cn.vertxup.fm.domain.Db;
-import cn.vertxup.fm.domain.Indexes;
 import cn.vertxup.fm.domain.Keys;
 import cn.vertxup.fm.domain.tables.records.FDebtRecord;
 import org.jooq.*;
@@ -81,10 +80,6 @@ public class FDebt extends TableImpl<FDebtRecord> {
      * 结算单ID，该字段有值标识已经结算
      */
     public final TableField<FDebtRecord, String> SETTLEMENT_ID = createField(DSL.name("SETTLEMENT_ID"), SQLDataType.VARCHAR(36), this, "「settlementId」- 结算单ID，该字段有值标识已经结算");
-    /**
-     * The column <code>DB_ETERNAL.F_DEBT.BOOK_ID</code>. 「bookId」- 所属账本ID
-     */
-    public final TableField<FDebtRecord, String> BOOK_ID = createField(DSL.name("BOOK_ID"), SQLDataType.VARCHAR(36), this, "「bookId」- 所属账本ID");
     /**
      * The column <code>DB_ETERNAL.F_DEBT.SIGMA</code>. 「sigma」- 统一标识
      */
@@ -165,18 +160,13 @@ public class FDebt extends TableImpl<FDebtRecord> {
     }
 
     @Override
-    public List<Index> getIndexes() {
-        return Arrays.asList(Indexes.F_DEBT_IDX_F_DEBT_BOOK_ID);
-    }
-
-    @Override
     public UniqueKey<FDebtRecord> getPrimaryKey() {
         return Keys.KEY_F_DEBT_PRIMARY;
     }
 
     @Override
     public List<UniqueKey<FDebtRecord>> getUniqueKeys() {
-        return Arrays.asList(Keys.KEY_F_DEBT_CODE, Keys.KEY_F_DEBT_SERIAL, Keys.KEY_F_DEBT_SETTLEMENT_ID);
+        return Arrays.asList(Keys.KEY_F_DEBT_CODE, Keys.KEY_F_DEBT_SERIAL, Keys.KEY_F_DEBT_SETTLEMENT_ID, Keys.KEY_F_DEBT_SETTLEMENT_ID_2);
     }
 
     @Override
@@ -206,11 +196,11 @@ public class FDebt extends TableImpl<FDebtRecord> {
     }
 
     // -------------------------------------------------------------------------
-    // Row21 type methods
+    // Row20 type methods
     // -------------------------------------------------------------------------
 
     @Override
-    public Row21<String, String, String, String, BigDecimal, String, String, Boolean, LocalDateTime, String, String, String, String, String, String, Boolean, String, LocalDateTime, String, LocalDateTime, String> fieldsRow() {
-        return (Row21) super.fieldsRow();
+    public Row20<String, String, String, String, BigDecimal, String, String, Boolean, LocalDateTime, String, String, String, String, String, Boolean, String, LocalDateTime, String, LocalDateTime, String> fieldsRow() {
+        return (Row20) super.fieldsRow();
     }
 }
