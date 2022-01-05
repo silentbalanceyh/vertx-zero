@@ -16,7 +16,7 @@ import javax.ws.rs.PathParam;
  */
 @EndPoint
 @Path("/api")
-public interface BItemAgent {
+public interface FetchAgent {
     @GET
     @Path("/bills/order/:orderId")
     @Address(Addr.BillItem.FETCH_AGGR)
@@ -39,4 +39,14 @@ public interface BItemAgent {
     @Path("/fm-book/:key")
     @Address(Addr.BillItem.FETCH_BOOK_BY_KEY)
     JsonObject fetchBook(@PathParam(KName.KEY) String key);
+
+    /*
+     * Overwrite the api
+     * /api/settlement/:key
+     * instead of CRUD normalized api here
+     */
+    @GET
+    @Path("/settlement/:key")
+    @Address(Addr.Settle.FETCH_BY_KEY)
+    JsonObject fetchSettlement(@PathParam(KName.KEY) String key);
 }

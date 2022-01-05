@@ -36,5 +36,7 @@ public interface Addr {
         String UP_BOOK = Prefix._EVENT + "BOOKS/UPDATING";
         // Finish
         String UP_PAYMENT = Prefix._EVENT + "BILL/PAYMENT";
+        // Fetch By Key
+        String FETCH_BY_KEY = Prefix._EVENT + "FETCH/SETTLEMENT/BY/KEY";
     }
 }

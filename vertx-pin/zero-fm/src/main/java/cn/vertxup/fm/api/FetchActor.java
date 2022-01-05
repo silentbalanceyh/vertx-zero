@@ -2,6 +2,7 @@ package cn.vertxup.fm.api;
 
 import cn.vertxup.fm.service.BillStub;
 import cn.vertxup.fm.service.BookStub;
+import cn.vertxup.fm.service.EndStub;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
@@ -20,11 +21,13 @@ import java.util.concurrent.ConcurrentMap;
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 @Queue
-public class BItemActor {
+public class FetchActor {
     @Inject
     private transient BillStub billStub;
     @Inject
     private transient BookStub bookStub;
+    @Inject
+    private transient EndStub endStub;
 
     @Address(Addr.BillItem.FETCH_AGGR)
     public Future<JsonObject> fetchAggr(final String orderId) {
@@ -63,5 +66,11 @@ public class BItemActor {
         // Null Prevent
         return Ut.ifNil(JsonObject::new, this.bookStub::fetchByKey)
             .apply(bookId);
+    }
+
+    @Address(Addr.Settle.FETCH_BY_KEY)
+    public Future<JsonObject> fetchSettlement(final String key) {
+        return Ut.ifNil(JsonObject::new, this.endStub::fetchSettlement)
+            .apply(key);
     }
 }

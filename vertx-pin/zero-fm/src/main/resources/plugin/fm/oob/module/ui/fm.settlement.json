@@ -1,1 +1,35 @@
-[]
+[
+    "serial,结算单编号,,true",
+    "amount,结算金额,CURRENCY",
+    {
+        "metadata": "finished,结算完成,LOGICAL",
+        "$mapping": {
+            "true": "结算完成",
+            "false": "含应收/退款"
+        }
+    },
+    {
+        "metadata": "rounded,零头处理,MAPPING",
+        "$mapping": {
+            "HALF": "四舍五入",
+            "FLOOR": "零头舍弃",
+            "CEIL": "零头入进"
+        }
+    },
+    {
+        "title": "结算时间",
+        "dataIndex": "finishedAt",
+        "$render": "DATE",
+        "$format": "YYYY-MM-DD HH:mm:ss"
+    },
+    {
+        "title": "结算人",
+        "dataIndex": "updatedBy",
+        "$render": "USER",
+        "$config": {
+            "uri": "/api/user/:key",
+            "field": "realname"
+        },
+        "$empty": "（系统）"
+    }
+]
