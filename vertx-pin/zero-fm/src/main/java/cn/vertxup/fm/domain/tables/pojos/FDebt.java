@@ -33,7 +33,6 @@ public class FDebt implements VertxPojo, IFDebt {
     private String        comment;
     private String        customerId;
     private String        settlementId;
-    private String        bookId;
     private String        sigma;
     private String        language;
     private Boolean       active;
@@ -58,7 +57,6 @@ public class FDebt implements VertxPojo, IFDebt {
         this.comment = value.getComment();
         this.customerId = value.getCustomerId();
         this.settlementId = value.getSettlementId();
-        this.bookId = value.getBookId();
         this.sigma = value.getSigma();
         this.language = value.getLanguage();
         this.active = value.getActive();
@@ -82,7 +80,6 @@ public class FDebt implements VertxPojo, IFDebt {
         String        comment,
         String        customerId,
         String        settlementId,
-        String        bookId,
         String        sigma,
         String        language,
         Boolean       active,
@@ -104,7 +101,6 @@ public class FDebt implements VertxPojo, IFDebt {
         this.comment = comment;
         this.customerId = customerId;
         this.settlementId = settlementId;
-        this.bookId = bookId;
         this.sigma = sigma;
         this.language = language;
         this.active = active;
@@ -331,23 +327,6 @@ public class FDebt implements VertxPojo, IFDebt {
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.F_DEBT.BOOK_ID</code>. 「bookId」- 所属账本ID
-     */
-    @Override
-    public String getBookId() {
-        return this.bookId;
-    }
-
-    /**
-     * Setter for <code>DB_ETERNAL.F_DEBT.BOOK_ID</code>. 「bookId」- 所属账本ID
-     */
-    @Override
-    public FDebt setBookId(String bookId) {
-        this.bookId = bookId;
-        return this;
-    }
-
-    /**
      * Getter for <code>DB_ETERNAL.F_DEBT.SIGMA</code>. 「sigma」- 统一标识
      */
     @Override
@@ -499,7 +478,6 @@ public class FDebt implements VertxPojo, IFDebt {
         sb.append(", ").append(comment);
         sb.append(", ").append(customerId);
         sb.append(", ").append(settlementId);
-        sb.append(", ").append(bookId);
         sb.append(", ").append(sigma);
         sb.append(", ").append(language);
         sb.append(", ").append(active);
@@ -531,7 +509,6 @@ public class FDebt implements VertxPojo, IFDebt {
         setComment(from.getComment());
         setCustomerId(from.getCustomerId());
         setSettlementId(from.getSettlementId());
-        setBookId(from.getBookId());
         setSigma(from.getSigma());
         setLanguage(from.getLanguage());
         setActive(from.getActive());

@@ -209,21 +209,6 @@ public class FDebtDao extends AbstractVertxDAO<FDebtRecord, cn.vertxup.fm.domain
         }
 
         /**
-     * Find records that have <code>BOOK_ID IN (values)</code> asynchronously
-     */
-        public Future<List<cn.vertxup.fm.domain.tables.pojos.FDebt>> findManyByBookId(Collection<String> values) {
-                return findManyByCondition(FDebt.F_DEBT.BOOK_ID.in(values));
-        }
-
-        /**
-     * Find records that have <code>BOOK_ID IN (values)</code> asynchronously
-     * limited by the given limit
-     */
-        public Future<List<cn.vertxup.fm.domain.tables.pojos.FDebt>> findManyByBookId(Collection<String> values, int limit) {
-                return findManyByCondition(FDebt.F_DEBT.BOOK_ID.in(values),limit);
-        }
-
-        /**
      * Find records that have <code>SIGMA IN (values)</code> asynchronously
      */
         public Future<List<cn.vertxup.fm.domain.tables.pojos.FDebt>> findManyBySigma(Collection<String> values) {

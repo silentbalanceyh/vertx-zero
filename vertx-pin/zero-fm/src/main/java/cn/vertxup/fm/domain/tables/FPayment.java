@@ -36,7 +36,7 @@ public class FPayment extends TableImpl<FPaymentRecord> {
     /**
      * The column <code>DB_ETERNAL.F_PAYMENT.NAME</code>. 「name」 - 付款单单标题
      */
-    public final TableField<FPaymentRecord, String> NAME = createField(DSL.name("NAME"), SQLDataType.VARCHAR(255).nullable(false), this, "「name」 - 付款单单标题");
+    public final TableField<FPaymentRecord, String> NAME = createField(DSL.name("NAME"), SQLDataType.VARCHAR(255), this, "「name」 - 付款单单标题");
     /**
      * The column <code>DB_ETERNAL.F_PAYMENT.CODE</code>. 「code」 - 付款单单编号
      */

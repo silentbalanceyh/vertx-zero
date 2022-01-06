@@ -1,0 +1,12 @@
+{
+    "name": "settlement",
+    "daoCls": "cn.vertxup.fm.domain.tables.daos.FSettlementDao",
+    "field": {
+        "unique": [
+            [
+                "code",
+                "sigma"
+            ]
+        ]
+    }
+}

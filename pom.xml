@@ -76,8 +76,8 @@
 
         <!-- Database Needed -->
         <hikari.cp.version>5.0.0</hikari.cp.version>
-        <jooq.version>3.15.5</jooq.version>
-        <vertx.jooq.version>6.3.0</vertx.jooq.version>
+        <jooq.version>3.16.0</jooq.version>
+        <vertx.jooq.version>6.4.0</vertx.jooq.version>
         <mysql.version>8.0.27</mysql.version>
 
         <!-- Java Reflection -->
@@ -134,7 +134,7 @@
         <!-- Rpc -->
         <vertx.grpc.version>1.6.1</vertx.grpc.version>
         <grpc.version>1.43.1</grpc.version>
-        <protobuf.version>3.19.1</protobuf.version>
+        <protobuf.version>3.19.2</protobuf.version>
         <annotation.api.version>6.0.53</annotation.api.version>
         <gson.version>2.8.9</gson.version>
         <picoli.version>4.6.2</picoli.version>

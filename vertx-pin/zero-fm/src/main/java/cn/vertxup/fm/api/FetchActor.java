@@ -1,8 +1,8 @@
 package cn.vertxup.fm.api;
 
 import cn.vertxup.fm.service.BillStub;
-import cn.vertxup.fm.service.BookService;
 import cn.vertxup.fm.service.BookStub;
+import cn.vertxup.fm.service.end.QrStub;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
@@ -21,11 +21,13 @@ import java.util.concurrent.ConcurrentMap;
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 @Queue
-public class BItemActor {
+public class FetchActor {
     @Inject
     private transient BillStub billStub;
     @Inject
     private transient BookStub bookStub;
+    @Inject
+    private transient QrStub qrStub;
 
     @Address(Addr.BillItem.FETCH_AGGR)
     public Future<JsonObject> fetchAggr(final String orderId) {
@@ -42,7 +44,7 @@ public class BItemActor {
     }
 
     @Address(Addr.BillItem.FETCH_BOOK)
-    public Future<JsonArray> fetchBook(final String orderId){
+    public Future<JsonArray> fetchBooks(final String orderId) {
         return this.bookStub.fetchByOrder(orderId)
             .compose(books -> this.bookStub.fetchAuthorize(books)
                 .compose(authorized -> {
@@ -57,5 +59,24 @@ public class BItemActor {
                     return Ux.future(bookArray);
                 })
             );
+    }
+
+    @Address(Addr.BillItem.FETCH_BOOK_BY_KEY)
+    public Future<JsonObject> fetchBook(final String bookId) {
+        // Null Prevent
+        return Ut.ifNil(JsonObject::new, this.bookStub::fetchByKey)
+            .apply(bookId);
+    }
+
+    @Address(Addr.Settle.FETCH_BY_KEY)
+    public Future<JsonObject> fetchSettlement(final String key) {
+        return Ut.ifNil(JsonObject::new, this.qrStub::fetchSettlement)
+            .apply(key);
+    }
+
+    @Address(Addr.Settle.FETCH_DEBT)
+    public Future<JsonObject> fetchDebt(final String key) {
+        return Ut.ifNil(JsonObject::new, this.qrStub::fetchDebt)
+            .apply(key);
     }
 }

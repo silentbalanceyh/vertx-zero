@@ -8,6 +8,7 @@ CREATE TABLE `F_BILL_ITEM`
     `NAME`          VARCHAR(255)   NOT NULL COMMENT '「name」 -  明细名称',
     `CODE`          VARCHAR(255)   NOT NULL COMMENT '「code」 - 明细系统代码',
     `SERIAL`        VARCHAR(255)   NOT NULL COMMENT '「serial」 - 明细编号',
+    `INCOME`        BIT COMMENT '「income」- true = 消费类，false = 付款类',
 
     -- 维度信息
     `TYPE`          VARCHAR(36)    NOT NULL COMMENT '「type」- 明细类型',

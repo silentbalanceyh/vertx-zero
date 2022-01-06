@@ -14,5 +14,11 @@ public interface FmCv {
 
     interface Type {
         String TRANSFER_FROM = "TransferFrom";
+        String CANCEL = "Cancel";
+    }
+
+    interface ID {
+        String SETTLEMENT_ID = "settlementId";
+        String PAYMENT = "payment";
     }
 }

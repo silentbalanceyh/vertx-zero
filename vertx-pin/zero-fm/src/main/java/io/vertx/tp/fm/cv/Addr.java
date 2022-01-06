@@ -10,6 +10,7 @@ public interface Addr {
     interface BillItem {
         String FETCH_AGGR = Prefix._EVENT + "FETCH/AGGR";
         String FETCH_BOOK = Prefix._EVENT + "FETCH/BOOK";
+        String FETCH_BOOK_BY_KEY = Prefix._EVENT + "FETCH/BOOK/BY/KEY";
         // Split
         String UP_SPLIT = Prefix._EVENT + "BILL-ITEM/SPLIT";
         String UP_REVERT = Prefix._EVENT + "BILL-ITEM/REVERT";
@@ -35,7 +36,12 @@ public interface Addr {
         String UP_BOOK = Prefix._EVENT + "BOOKS/UPDATING";
         // Finish
         String UP_PAYMENT = Prefix._EVENT + "BILL/PAYMENT";
-        // Finish
-        String UP_FINISH = Prefix._EVENT + "BILL/FINISH";
+        // Debt / Refund
+        String PAY_CREATE = Prefix._EVENT + "PAYMENT/CREATE";
+        String PAY_DELETE = Prefix._EVENT + "PAYMENT/REMOVE/BY/KEY";
+        // Fetch By Key
+        String FETCH_BY_KEY = Prefix._EVENT + "FETCH/SETTLEMENT/BY/KEY";
+        // Fetch Debt
+        String FETCH_DEBT = Prefix._EVENT + "FETCH/DEBT/BY/KEY";
     }
 }

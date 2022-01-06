@@ -15,7 +15,9 @@ import java.util.Objects;
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 public class FillService implements FillStub {
-
+    /*
+     * Bill -> BillItem
+     */
     @Override
     public void income(final FBill bill, final List<FBillItem> items) {
         for (int idx = 0; idx < items.size(); idx++) {
@@ -26,6 +28,7 @@ public class FillService implements FillStub {
             item.setCode(bill.getCode() + "-" + Ut.fromAdjust(number, 2));
             item.setAmountTotal(item.getAmount());
             item.setStatus(FmCv.Status.PENDING);
+            item.setIncome(bill.getIncome());
             // auditor
             Ke.umCreated(item, bill);
         }
@@ -35,18 +38,21 @@ public class FillService implements FillStub {
     public void cancel(final FBillItem item, final JsonObject params) {
         item.setActive(Boolean.FALSE);
         item.setStatus(FmCv.Status.INVALID);
-        item.setType("Cancel");
+        item.setType(FmCv.Type.CANCEL);
         item.setUpdatedAt(LocalDateTime.now());
         item.setUpdatedBy(params.getString(KName.UPDATED_BY));
     }
 
-    // BILL-01
+    /*
+     * Bill -> BillItem
+     */
     @Override
     public void income(final FBill bill, final FBillItem item) {
         item.setBillId(bill.getKey());
         item.setSerial(bill.getSerial() + "-01");
         item.setCode(bill.getCode() + "-01");
         item.setStatus(FmCv.Status.PENDING);
+        item.setIncome(bill.getIncome());
         // price, quanlity, total
         item.setPrice(item.getAmount());
         item.setQuantity(1);
@@ -81,6 +87,7 @@ public class FillService implements FillStub {
                 split.setCode(item.getCode() + FmCv.SEQ[idx]);
                 split.setStatus(FmCv.Status.PENDING);
                 split.setRelatedId(item.getKey());
+                split.setIncome(item.getIncome());
                 // active, sigma
                 Ke.umCreated(split, item);
                 split.setActive(Boolean.TRUE);      // New Enabled
@@ -100,6 +107,7 @@ public class FillService implements FillStub {
         to.setCode(item.getCode() + "R");
         to.setStatus(FmCv.Status.INVALID);
         to.setRelatedId(item.getKey());
+        to.setIncome(item.getIncome());
         Ke.umCreated(to, item);
     }
 
@@ -162,10 +170,21 @@ public class FillService implements FillStub {
         for (int idx = 0; idx < payments.size(); idx++) {
             final FPaymentItem item = payments.get(idx);
             item.setSettlementId(settlement.getKey());
-            item.setSerial(settlement.getSerial() + "-01" + Ut.fromAdjust(idx + 1, 2));
-            item.setCode(settlement.getCode() + "-01" + Ut.fromAdjust(idx + 1, 2));
+            item.setSerial(settlement.getSerial() + "-" + Ut.fromAdjust(idx + 1, 2));
+            item.setCode(settlement.getCode() + "-" + Ut.fromAdjust(idx + 1, 2));
 
             Ke.umCreated(item, settlement);
+        }
+    }
+
+    @Override
+    public void payment(final FPayment payment, final List<FPaymentItem> payments) {
+        for (int idx = 0; idx < payments.size(); idx++) {
+            final FPaymentItem item = payments.get(idx);
+            item.setPaymentId(payment.getKey());
+            item.setSerial(payment.getSerial() + "-" + Ut.fromAdjust(idx + 1, 2));
+            item.setCode(payment.getCode() + "-" + Ut.fromAdjust(idx + 1, 2));
+            Ke.umCreated(item, payment);
         }
     }
 }

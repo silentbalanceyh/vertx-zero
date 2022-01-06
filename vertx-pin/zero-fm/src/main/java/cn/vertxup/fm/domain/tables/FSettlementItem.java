@@ -49,6 +49,11 @@ public class FSettlementItem extends TableImpl<FSettlementItemRecord> {
      */
     public final TableField<FSettlementItemRecord, String> SERIAL = createField(DSL.name("SERIAL"), SQLDataType.VARCHAR(255).nullable(false), this, "「serial」 - 明细编号");
     /**
+     * The column <code>DB_ETERNAL.F_SETTLEMENT_ITEM.INCOME</code>. 「income」-
+     * true = 消费类，false = 付款类
+     */
+    public final TableField<FSettlementItemRecord, Boolean> INCOME = createField(DSL.name("INCOME"), SQLDataType.BIT, this, "「income」- true = 消费类，false = 付款类");
+    /**
      * The column <code>DB_ETERNAL.F_SETTLEMENT_ITEM.TYPE</code>. 「type」- 明细类型
      */
     public final TableField<FSettlementItemRecord, String> TYPE = createField(DSL.name("TYPE"), SQLDataType.VARCHAR(36).nullable(false), this, "「type」- 明细类型");
@@ -222,11 +227,11 @@ public class FSettlementItem extends TableImpl<FSettlementItemRecord> {
     }
 
     // -------------------------------------------------------------------------
-    // Row21 type methods
+    // Row22 type methods
     // -------------------------------------------------------------------------
 
     @Override
-    public Row21<String, String, String, String, String, BigDecimal, String, String, String, String, String, String, String, String, String, Boolean, String, LocalDateTime, String, LocalDateTime, String> fieldsRow() {
-        return (Row21) super.fieldsRow();
+    public Row22<String, String, String, String, Boolean, String, BigDecimal, String, String, String, String, String, String, String, String, String, Boolean, String, LocalDateTime, String, LocalDateTime, String> fieldsRow() {
+        return (Row22) super.fieldsRow();
     }
 }

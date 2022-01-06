@@ -25,6 +25,7 @@ public class FBillItem implements VertxPojo, IFBillItem {
     private String        name;
     private String        code;
     private String        serial;
+    private Boolean       income;
     private String        type;
     private String        status;
     private BigDecimal    amount;
@@ -59,6 +60,7 @@ public class FBillItem implements VertxPojo, IFBillItem {
         this.name = value.getName();
         this.code = value.getCode();
         this.serial = value.getSerial();
+        this.income = value.getIncome();
         this.type = value.getType();
         this.status = value.getStatus();
         this.amount = value.getAmount();
@@ -92,6 +94,7 @@ public class FBillItem implements VertxPojo, IFBillItem {
         String        name,
         String        code,
         String        serial,
+        Boolean       income,
         String        type,
         String        status,
         BigDecimal    amount,
@@ -123,6 +126,7 @@ public class FBillItem implements VertxPojo, IFBillItem {
         this.name = name;
         this.code = code;
         this.serial = serial;
+        this.income = income;
         this.type = type;
         this.status = status;
         this.amount = amount;
@@ -221,6 +225,25 @@ public class FBillItem implements VertxPojo, IFBillItem {
     @Override
     public FBillItem setSerial(String serial) {
         this.serial = serial;
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.F_BILL_ITEM.INCOME</code>. 「income」- true =
+     * 消费类，false = 付款类
+     */
+    @Override
+    public Boolean getIncome() {
+        return this.income;
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.F_BILL_ITEM.INCOME</code>. 「income」- true =
+     * 消费类，false = 付款类
+     */
+    @Override
+    public FBillItem setIncome(Boolean income) {
+        this.income = income;
         return this;
     }
 
@@ -704,6 +727,7 @@ public class FBillItem implements VertxPojo, IFBillItem {
         sb.append(", ").append(name);
         sb.append(", ").append(code);
         sb.append(", ").append(serial);
+        sb.append(", ").append(income);
         sb.append(", ").append(type);
         sb.append(", ").append(status);
         sb.append(", ").append(amount);
@@ -745,6 +769,7 @@ public class FBillItem implements VertxPojo, IFBillItem {
         setName(from.getName());
         setCode(from.getCode());
         setSerial(from.getSerial());
+        setIncome(from.getIncome());
         setType(from.getType());
         setStatus(from.getStatus());
         setAmount(from.getAmount());

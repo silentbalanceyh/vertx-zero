@@ -69,6 +69,7 @@ public class Keys {
     public static final UniqueKey<FDebtRecord> KEY_F_DEBT_PRIMARY = Internal.createUniqueKey(FDebt.F_DEBT, DSL.name("KEY_F_DEBT_PRIMARY"), new TableField[] { FDebt.F_DEBT.KEY }, true);
     public static final UniqueKey<FDebtRecord> KEY_F_DEBT_SERIAL = Internal.createUniqueKey(FDebt.F_DEBT, DSL.name("KEY_F_DEBT_SERIAL"), new TableField[] { FDebt.F_DEBT.SERIAL, FDebt.F_DEBT.SIGMA }, true);
     public static final UniqueKey<FDebtRecord> KEY_F_DEBT_SETTLEMENT_ID = Internal.createUniqueKey(FDebt.F_DEBT, DSL.name("KEY_F_DEBT_SETTLEMENT_ID"), new TableField[] { FDebt.F_DEBT.SETTLEMENT_ID }, true);
+    public static final UniqueKey<FDebtRecord> KEY_F_DEBT_SETTLEMENT_ID_2 = Internal.createUniqueKey(FDebt.F_DEBT, DSL.name("KEY_F_DEBT_SETTLEMENT_ID_2"), new TableField[] { FDebt.F_DEBT.SETTLEMENT_ID }, true);
     public static final UniqueKey<FInvoiceRecord> KEY_F_INVOICE_CODE = Internal.createUniqueKey(FInvoice.F_INVOICE, DSL.name("KEY_F_INVOICE_CODE"), new TableField[] { FInvoice.F_INVOICE.CODE, FInvoice.F_INVOICE.SIGMA }, true);
     public static final UniqueKey<FInvoiceRecord> KEY_F_INVOICE_INVOICE_NUMBER = Internal.createUniqueKey(FInvoice.F_INVOICE, DSL.name("KEY_F_INVOICE_INVOICE_NUMBER"), new TableField[] { FInvoice.F_INVOICE.INVOICE_NUMBER, FInvoice.F_INVOICE.SIGMA }, true);
     public static final UniqueKey<FInvoiceRecord> KEY_F_INVOICE_INVOICE_SERIAL = Internal.createUniqueKey(FInvoice.F_INVOICE, DSL.name("KEY_F_INVOICE_INVOICE_SERIAL"), new TableField[] { FInvoice.F_INVOICE.INVOICE_SERIAL, FInvoice.F_INVOICE.SIGMA }, true);

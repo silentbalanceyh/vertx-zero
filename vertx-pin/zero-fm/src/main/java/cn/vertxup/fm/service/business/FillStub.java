@@ -31,4 +31,6 @@ public interface FillStub {
     void settle(FSettlement settlement, FDebt debt);
 
     void payment(FSettlement settlement, List<FPaymentItem> payments);
+
+    void payment(FPayment payment, List<FPaymentItem> payments);
 }

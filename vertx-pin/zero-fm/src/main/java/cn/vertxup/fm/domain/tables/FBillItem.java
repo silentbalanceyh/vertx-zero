@@ -47,6 +47,11 @@ public class FBillItem extends TableImpl<FBillItemRecord> {
      */
     public final TableField<FBillItemRecord, String> SERIAL = createField(DSL.name("SERIAL"), SQLDataType.VARCHAR(255).nullable(false), this, "「serial」 - 明细编号");
     /**
+     * The column <code>DB_ETERNAL.F_BILL_ITEM.INCOME</code>. 「income」- true =
+     * 消费类，false = 付款类
+     */
+    public final TableField<FBillItemRecord, Boolean> INCOME = createField(DSL.name("INCOME"), SQLDataType.BIT, this, "「income」- true = 消费类，false = 付款类");
+    /**
      * The column <code>DB_ETERNAL.F_BILL_ITEM.TYPE</code>. 「type」- 明细类型
      */
     public final TableField<FBillItemRecord, String> TYPE = createField(DSL.name("TYPE"), SQLDataType.VARCHAR(36).nullable(false), this, "「type」- 明细类型");

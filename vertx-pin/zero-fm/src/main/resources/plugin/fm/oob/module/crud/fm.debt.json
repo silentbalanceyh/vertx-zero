@@ -1,0 +1,12 @@
+{
+    "name": "debt",
+    "daoCls": "cn.vertxup.fm.domain.tables.daos.FDebtDao",
+    "field": {
+        "unique": [
+            [
+                "code",
+                "sigma"
+            ]
+        ]
+    }
+}

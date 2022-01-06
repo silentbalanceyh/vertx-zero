@@ -145,16 +145,6 @@ public interface IFDebt extends VertxPojo, Serializable {
     public String getSettlementId();
 
     /**
-     * Setter for <code>DB_ETERNAL.F_DEBT.BOOK_ID</code>. 「bookId」- 所属账本ID
-     */
-    public IFDebt setBookId(String value);
-
-    /**
-     * Getter for <code>DB_ETERNAL.F_DEBT.BOOK_ID</code>. 「bookId」- 所属账本ID
-     */
-    public String getBookId();
-
-    /**
      * Setter for <code>DB_ETERNAL.F_DEBT.SIGMA</code>. 「sigma」- 统一标识
      */
     public IFDebt setSigma(String value);
@@ -264,7 +254,6 @@ public interface IFDebt extends VertxPojo, Serializable {
                 setOrThrow(this::setComment,json::getString,"COMMENT","java.lang.String");
                 setOrThrow(this::setCustomerId,json::getString,"CUSTOMER_ID","java.lang.String");
                 setOrThrow(this::setSettlementId,json::getString,"SETTLEMENT_ID","java.lang.String");
-                setOrThrow(this::setBookId,json::getString,"BOOK_ID","java.lang.String");
                 setOrThrow(this::setSigma,json::getString,"SIGMA","java.lang.String");
                 setOrThrow(this::setLanguage,json::getString,"LANGUAGE","java.lang.String");
                 setOrThrow(this::setActive,json::getBoolean,"ACTIVE","java.lang.Boolean");
@@ -292,7 +281,6 @@ public interface IFDebt extends VertxPojo, Serializable {
                 json.put("COMMENT",getComment());
                 json.put("CUSTOMER_ID",getCustomerId());
                 json.put("SETTLEMENT_ID",getSettlementId());
-                json.put("BOOK_ID",getBookId());
                 json.put("SIGMA",getSigma());
                 json.put("LANGUAGE",getLanguage());
                 json.put("ACTIVE",getActive());

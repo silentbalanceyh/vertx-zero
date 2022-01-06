@@ -7,7 +7,6 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.tp.ke.atom.KSpec;
 
 import java.util.List;
-import java.util.Set;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
@@ -24,4 +23,7 @@ public interface BookStub {
 
     // Create Main
     Future<List<FBook>> createAsync(List<FBook> books, KSpec spec);
+
+    // Fetch Book with bill and items
+    Future<JsonObject> fetchByKey(String key);
 }

@@ -63,6 +63,18 @@ public interface IFSettlementItem extends VertxPojo, Serializable {
     public String getSerial();
 
     /**
+     * Setter for <code>DB_ETERNAL.F_SETTLEMENT_ITEM.INCOME</code>. 「income」-
+     * true = 消费类，false = 付款类
+     */
+    public IFSettlementItem setIncome(Boolean value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.F_SETTLEMENT_ITEM.INCOME</code>. 「income」-
+     * true = 消费类，false = 付款类
+     */
+    public Boolean getIncome();
+
+    /**
      * Setter for <code>DB_ETERNAL.F_SETTLEMENT_ITEM.TYPE</code>. 「type」- 明细类型
      */
     public IFSettlementItem setType(String value);
@@ -284,6 +296,7 @@ public interface IFSettlementItem extends VertxPojo, Serializable {
                 setOrThrow(this::setName,json::getString,"NAME","java.lang.String");
                 setOrThrow(this::setCode,json::getString,"CODE","java.lang.String");
                 setOrThrow(this::setSerial,json::getString,"SERIAL","java.lang.String");
+                setOrThrow(this::setIncome,json::getBoolean,"INCOME","java.lang.Boolean");
                 setOrThrow(this::setType,json::getString,"TYPE","java.lang.String");
                 // Omitting unrecognized type java.math.BigDecimal for column AMOUNT!
                 setOrThrow(this::setComment,json::getString,"COMMENT","java.lang.String");
@@ -312,6 +325,7 @@ public interface IFSettlementItem extends VertxPojo, Serializable {
                 json.put("NAME",getName());
                 json.put("CODE",getCode());
                 json.put("SERIAL",getSerial());
+                json.put("INCOME",getIncome());
                 json.put("TYPE",getType());
                 // Omitting unrecognized type java.math.BigDecimal for column AMOUNT!
                 json.put("COMMENT",getComment());
