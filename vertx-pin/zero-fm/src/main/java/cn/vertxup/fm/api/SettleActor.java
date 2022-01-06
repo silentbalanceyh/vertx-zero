@@ -5,6 +5,8 @@ import cn.vertxup.fm.domain.tables.pojos.*;
 import cn.vertxup.fm.service.business.AccountStub;
 import cn.vertxup.fm.service.business.FillStub;
 import cn.vertxup.fm.service.business.IndentStub;
+import cn.vertxup.fm.service.end.PayStub;
+import cn.vertxup.fm.service.end.QrStub;
 import com.google.inject.Inject;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
@@ -17,6 +19,7 @@ import io.vertx.up.annotations.Me;
 import io.vertx.up.annotations.Queue;
 import io.vertx.up.atom.Refer;
 import io.vertx.up.eon.KName;
+import io.vertx.up.eon.Values;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
@@ -39,6 +42,12 @@ public class SettleActor {
 
     @Inject
     private transient FillStub fillStub;
+
+    @Inject
+    private transient QrStub qrStub;
+
+    @Inject
+    private transient PayStub payStub;
 
     @Me
     @Address(Addr.Settle.UP_PAYMENT)
@@ -137,7 +146,7 @@ public class SettleActor {
     }
 
     private Future<Boolean> createPayment(final JsonObject data, final FSettlement settlement) {
-        final List<FPaymentItem> payments = Ux.fromJson(data.getJsonArray("payment"), FPaymentItem.class);
+        final List<FPaymentItem> payments = Ux.fromJson(data.getJsonArray(FmCv.ID.PAYMENT), FPaymentItem.class);
         this.fillStub.payment(settlement, payments);
         return Ux.Jooq.on(FPaymentItemDao.class).insertAsync(payments)
             .compose(nil -> Ux.futureT());
@@ -176,5 +185,22 @@ public class SettleActor {
         });
         final List<FBook> bookList = Ux.fromJson(books, FBook.class);
         return Ux.Jooq.on(FBookDao.class).updateAsync(bookList).compose(Ux::futureA);
+    }
+
+    @Me
+    @Address(Addr.Settle.PAY_CREATE)
+    public Future<JsonObject> paymentCreate(final JsonObject data) {
+        return this.payStub.createAsync(data).compose(processed -> {
+            if (1 == processed.size()) {
+                return Ux.future(processed.getJsonObject(Values.IDX));
+            } else {
+                return Ux.futureJ();
+            }
+        });
+    }
+
+    @Address(Addr.Settle.PAY_DELETE)
+    public Future<Boolean> paymentDelete(final String key) {
+        return this.payStub.deleteByItem(key);
     }
 }

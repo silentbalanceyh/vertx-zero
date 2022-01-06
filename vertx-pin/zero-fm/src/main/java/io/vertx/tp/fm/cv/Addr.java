@@ -36,6 +36,9 @@ public interface Addr {
         String UP_BOOK = Prefix._EVENT + "BOOKS/UPDATING";
         // Finish
         String UP_PAYMENT = Prefix._EVENT + "BILL/PAYMENT";
+        // Debt / Refund
+        String PAY_CREATE = Prefix._EVENT + "PAYMENT/CREATE";
+        String PAY_DELETE = Prefix._EVENT + "PAYMENT/REMOVE/BY/KEY";
         // Fetch By Key
         String FETCH_BY_KEY = Prefix._EVENT + "FETCH/SETTLEMENT/BY/KEY";
         // Fetch Debt

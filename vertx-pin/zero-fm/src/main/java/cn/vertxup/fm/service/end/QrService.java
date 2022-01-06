@@ -1,10 +1,11 @@
-package cn.vertxup.fm.service;
+package cn.vertxup.fm.service.end;
 
 import cn.vertxup.fm.domain.tables.daos.*;
 import cn.vertxup.fm.domain.tables.pojos.*;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
+import io.vertx.tp.fm.cv.FmCv;
 import io.vertx.up.eon.KName;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
@@ -19,7 +20,7 @@ import java.util.stream.Collectors;
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-public class EndService implements EndStub {
+public class QrService implements QrStub {
     @Override
     public Future<JsonObject> fetchSettlement(final String key) {
         final JsonObject response = new JsonObject();
@@ -27,20 +28,23 @@ public class EndService implements EndStub {
             .<FSettlement>fetchByIdAsync(key).compose(settlement -> {
                 // FSettlement Details Here
                 response.mergeIn(Ux.toJson(settlement));
-                return Ux.Jooq.on(FSettlementItemDao.class)
-                    .<FSettlementItem>fetchAsync("settlementId", key).compose(items -> {
-                        // FSettlement Items
-                        response.put(KName.ITEMS, Ux.toJson(items));
-                        return Ux.future(settlement);
-                    });
-            }).compose(settlement -> {
-                // Fetch Debt
-                return Ux.Jooq.on(FDebtDao.class)
-                    .<FDebt>fetchOneAsync("settlementId", key).compose(debt -> {
-                        response.put(KName.RECORD, Ux.toJson(debt));
-                        return Ux.future(response);
-                    });
-            });
+                return this.fetchItems(key, response)
+                    .compose(nil -> Ux.future(settlement));
+            })
+            // Payment fetching for all settlement
+            .compose(settlement -> Ux.Jooq.on(FPaymentItemDao.class)
+                .fetchJAsync(FmCv.ID.SETTLEMENT_ID, settlement.getKey())
+                .compose(payment -> {
+                    response.put(FmCv.ID.PAYMENT, payment);
+                    return Ux.future(settlement);
+                })
+            )
+            // Debt fetching for all Refund/Debt
+            .compose(settlement -> Ux.Jooq.on(FDebtDao.class)
+                .<FDebt>fetchOneAsync(FmCv.ID.SETTLEMENT_ID, key).compose(debt -> {
+                    response.put(KName.RECORD, Ux.toJson(debt));
+                    return Ux.future(response);
+                }));
     }
 
     @Override
@@ -51,23 +55,28 @@ public class EndService implements EndStub {
                 // FSettlement Details Here
                 Objects.requireNonNull(debt.getSettlementId());
                 response.mergeIn(Ux.toJson(debt));
-                return Ux.Jooq.on(FSettlementItemDao.class)
-                    .<FSettlementItem>fetchAsync("settlementId", debt.getSettlementId()).compose(items -> {
-                        // FSettlement Items
-                        response.put(KName.ITEMS, Ux.toJson(items));
-                        return Ux.future(debt);
-                    });
+                return this.fetchItems(debt.getSettlementId(), response)
+                    .compose(nil -> Ux.future(debt));
             }).compose(debt -> this.fetchPayment(debt.getSettlementId()))
             .compose(payments -> {
-                response.put("payment", payments);
+                response.put(FmCv.ID.PAYMENT, payments);
                 return Ux.future(response);
+            });
+    }
+
+    private Future<Boolean> fetchItems(final String settlementId, final JsonObject response) {
+        return Ux.Jooq.on(FSettlementItemDao.class)
+            .<FSettlementItem>fetchAsync(FmCv.ID.SETTLEMENT_ID, settlementId).compose(items -> {
+                // FSettlement Items
+                response.put(KName.ITEMS, Ux.toJson(items));
+                return Ux.futureT();
             });
     }
 
     @Override
     public Future<JsonArray> fetchPayment(final String settlementId) {
         return Ux.Jooq.on(FPaymentItemDao.class)
-            .<FPaymentItem>fetchAsync("settlementId", settlementId).compose(items -> {
+            .<FPaymentItem>fetchAsync(FmCv.ID.SETTLEMENT_ID, settlementId).compose(items -> {
                 // Payment Information
                 final Set<String> paymentIds = items.stream()
                     .map(FPaymentItem::getPaymentId)

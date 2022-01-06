@@ -1,10 +1,7 @@
 package cn.vertxup.fm.service.business;
 
 import cn.vertxup.fm.domain.tables.daos.FBillItemDao;
-import cn.vertxup.fm.domain.tables.pojos.FBill;
-import cn.vertxup.fm.domain.tables.pojos.FBillItem;
-import cn.vertxup.fm.domain.tables.pojos.FSettlement;
-import cn.vertxup.fm.domain.tables.pojos.FSettlementItem;
+import cn.vertxup.fm.domain.tables.pojos.*;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
@@ -29,6 +26,19 @@ public class IndentService implements IndentStub {
 
     @Inject
     private transient FillStub fillStub;
+
+    @Override
+    public Future<FPayment> payAsync(final JsonObject data) {
+        final String indent = data.getString(KName.INDENT);
+        Objects.requireNonNull(indent);
+        final FPayment prePayment = Ux.fromJson(data, FPayment.class);
+        return Ke.umIndent(prePayment, prePayment.getSigma(), indent, FPayment::setSerial).compose(payment -> {
+            if (Objects.isNull(payment.getCode())) {
+                payment.setCode(payment.getSerial());
+            }
+            return Ux.future(payment);
+        });
+    }
 
     @Override
     public Future<FBill> initAsync(final String indent, final JsonObject data) {

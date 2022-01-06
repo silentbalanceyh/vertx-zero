@@ -1,9 +1,6 @@
 package cn.vertxup.fm.service.business;
 
-import cn.vertxup.fm.domain.tables.pojos.FBill;
-import cn.vertxup.fm.domain.tables.pojos.FBillItem;
-import cn.vertxup.fm.domain.tables.pojos.FSettlement;
-import cn.vertxup.fm.domain.tables.pojos.FSettlementItem;
+import cn.vertxup.fm.domain.tables.pojos.*;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
@@ -38,4 +35,6 @@ public interface IndentStub {
     Future<List<FBillItem>> settleAsync(JsonArray items, JsonObject data);
 
     Future<List<FSettlementItem>> settleAsync(FSettlement settlement, List<FBillItem> items);
+
+    Future<FPayment> payAsync(JsonObject data);
 }

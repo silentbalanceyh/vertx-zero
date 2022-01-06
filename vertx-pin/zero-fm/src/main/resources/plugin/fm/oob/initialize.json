@@ -1,5 +1,6 @@
 [
     "plugin/fm/oob/data/fm.menu.xlsx",
+    "plugin/fm/oob/data/fm.number.xlsx",
     "plugin/fm/oob/cab/fm.bank.xlsx",
     "plugin/fm/oob/cab/fm.bill.process.xlsx",
     "plugin/fm/oob/cab/fm.book.xlsx",

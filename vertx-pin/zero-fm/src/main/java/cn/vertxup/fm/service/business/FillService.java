@@ -170,10 +170,21 @@ public class FillService implements FillStub {
         for (int idx = 0; idx < payments.size(); idx++) {
             final FPaymentItem item = payments.get(idx);
             item.setSettlementId(settlement.getKey());
-            item.setSerial(settlement.getSerial() + "-01" + Ut.fromAdjust(idx + 1, 2));
-            item.setCode(settlement.getCode() + "-01" + Ut.fromAdjust(idx + 1, 2));
+            item.setSerial(settlement.getSerial() + "-" + Ut.fromAdjust(idx + 1, 2));
+            item.setCode(settlement.getCode() + "-" + Ut.fromAdjust(idx + 1, 2));
 
             Ke.umCreated(item, settlement);
+        }
+    }
+
+    @Override
+    public void payment(final FPayment payment, final List<FPaymentItem> payments) {
+        for (int idx = 0; idx < payments.size(); idx++) {
+            final FPaymentItem item = payments.get(idx);
+            item.setPaymentId(payment.getKey());
+            item.setSerial(payment.getSerial() + "-" + Ut.fromAdjust(idx + 1, 2));
+            item.setCode(payment.getCode() + "-" + Ut.fromAdjust(idx + 1, 2));
+            Ke.umCreated(item, payment);
         }
     }
 }
