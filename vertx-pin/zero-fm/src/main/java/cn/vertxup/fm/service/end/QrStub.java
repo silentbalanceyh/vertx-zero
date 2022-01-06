@@ -16,5 +16,5 @@ public interface QrStub {
     Future<JsonObject> fetchDebt(String key);
 
     // Fetch Payment Related
-    Future<JsonArray> fetchPayment(String settlementId);
+    Future<JsonArray> fetchPayment(String settlementId, boolean tree);
 }

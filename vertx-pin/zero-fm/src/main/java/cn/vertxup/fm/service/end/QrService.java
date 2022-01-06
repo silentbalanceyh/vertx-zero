@@ -57,7 +57,7 @@ public class QrService implements QrStub {
                 response.mergeIn(Ux.toJson(debt));
                 return this.fetchItems(debt.getSettlementId(), response)
                     .compose(nil -> Ux.future(debt));
-            }).compose(debt -> this.fetchPayment(debt.getSettlementId()))
+            }).compose(debt -> this.fetchPayment(debt.getSettlementId(), false))
             .compose(payments -> {
                 response.put(FmCv.ID.PAYMENT, payments);
                 return Ux.future(response);
@@ -74,31 +74,35 @@ public class QrService implements QrStub {
     }
 
     @Override
-    public Future<JsonArray> fetchPayment(final String settlementId) {
+    public Future<JsonArray> fetchPayment(final String settlementId, final boolean tree) {
         return Ux.Jooq.on(FPaymentItemDao.class)
             .<FPaymentItem>fetchAsync(FmCv.ID.SETTLEMENT_ID, settlementId).compose(items -> {
-                // Payment Information
-                final Set<String> paymentIds = items.stream()
-                    .map(FPaymentItem::getPaymentId)
-                    .filter(Ut::notNil)
-                    .collect(Collectors.toSet());
-                // List<Payment>
-                return Ux.Jooq.on(FPaymentDao.class)
-                    .<FPayment>fetchInAsync(KName.KEY, Ut.toJArray(paymentIds)).compose(payment -> {
-                        final ConcurrentMap<String, List<FPaymentItem>> grouped =
-                            Ut.elementGroup(items, FPaymentItem::getPaymentId, item -> item);
-                        final JsonArray data = Ux.toJson(payment);
-                        Ut.itJArray(data).forEach(item -> {
-                            final String payKey = item.getString(KName.KEY);
-                            if (grouped.containsKey(payKey)) {
-                                final List<FPaymentItem> refs = grouped.getOrDefault(payKey, new ArrayList<>());
-                                item.put(KName.ITEMS, Ux.toJson(refs));
-                            } else {
-                                item.put(KName.ITEMS, new JsonArray());
-                            }
+                if (tree) {
+                    // Payment Information
+                    final Set<String> paymentIds = items.stream()
+                        .map(FPaymentItem::getPaymentId)
+                        .filter(Ut::notNil)
+                        .collect(Collectors.toSet());
+                    // List<Payment>
+                    return Ux.Jooq.on(FPaymentDao.class)
+                        .<FPayment>fetchInAsync(KName.KEY, Ut.toJArray(paymentIds)).compose(payment -> {
+                            final ConcurrentMap<String, List<FPaymentItem>> grouped =
+                                Ut.elementGroup(items, FPaymentItem::getPaymentId, item -> item);
+                            final JsonArray data = Ux.toJson(payment);
+                            Ut.itJArray(data).forEach(item -> {
+                                final String payKey = item.getString(KName.KEY);
+                                if (grouped.containsKey(payKey)) {
+                                    final List<FPaymentItem> refs = grouped.getOrDefault(payKey, new ArrayList<>());
+                                    item.put(KName.ITEMS, Ux.toJson(refs));
+                                } else {
+                                    item.put(KName.ITEMS, new JsonArray());
+                                }
+                            });
+                            return Ux.future(data);
                         });
-                        return Ux.future(data);
-                    });
+                } else {
+                    return Ux.futureA(items);
+                }
             });
     }
 }

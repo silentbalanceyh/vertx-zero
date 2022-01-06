@@ -130,7 +130,7 @@ public class PayService implements PayStub {
         final JsonObject condition = new JsonObject();
         condition.put("paymentId", paymentId);
         // Delete all items
-        return Ux.Jooq.on(FPaymentItemDao.class).deleteAsync(condition)
+        return Ux.Jooq.on(FPaymentItemDao.class).deleteByAsync(condition)
             // Delete the major payment ticket
             .compose(nil -> Ux.Jooq.on(FPaymentDao.class).deleteByIdAsync(paymentId));
     }
