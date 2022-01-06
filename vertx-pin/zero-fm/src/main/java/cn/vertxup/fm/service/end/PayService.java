@@ -5,6 +5,7 @@ import cn.vertxup.fm.domain.tables.daos.FPaymentDao;
 import cn.vertxup.fm.domain.tables.daos.FPaymentItemDao;
 import cn.vertxup.fm.domain.tables.pojos.FDebt;
 import cn.vertxup.fm.domain.tables.pojos.FPaymentItem;
+import cn.vertxup.fm.service.business.FillService;
 import cn.vertxup.fm.service.business.FillStub;
 import cn.vertxup.fm.service.business.IndentStub;
 import com.google.inject.Inject;
@@ -31,9 +32,6 @@ public class PayService implements PayStub {
     @Inject
     private IndentStub indentStub;
 
-    @Inject
-    private FillStub fillStub;
-
     @Override
     public Future<JsonArray> createAsync(final JsonObject data) {
         /*
@@ -50,7 +48,8 @@ public class PayService implements PayStub {
             .compose(payment -> {
                 final JsonArray paymentArr = data.getJsonArray(FmCv.ID.PAYMENT, new JsonArray());
                 final List<FPaymentItem> payments = Ux.fromJson(paymentArr, FPaymentItem.class);
-                this.fillStub.payment(payment, payments);
+                final FillStub stub = Ut.singleton(FillService.class);
+                stub.payment(payment, payments);
                 return Ux.Jooq.on(FPaymentItemDao.class).insertAsync(payments);
             })
             .compose(payments -> this.forwardDebt(payments, Ut.toSet(endKeys)));

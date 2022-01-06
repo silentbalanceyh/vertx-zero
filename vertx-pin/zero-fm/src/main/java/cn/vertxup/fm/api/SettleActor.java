@@ -7,7 +7,6 @@ import cn.vertxup.fm.service.business.FillStub;
 import cn.vertxup.fm.service.business.IndentStub;
 import cn.vertxup.fm.service.end.PayStub;
 import cn.vertxup.fm.service.end.QrStub;
-import com.google.inject.Inject;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
@@ -23,6 +22,7 @@ import io.vertx.up.eon.Values;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
+import javax.inject.Inject;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.List;
