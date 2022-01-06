@@ -5,7 +5,7 @@ DROP TABLE IF EXISTS `F_PAYMENT`;
 CREATE TABLE `F_PAYMENT`
 (
     `KEY`        VARCHAR(36) COMMENT '「key」- 付款单账单主键ID',
-    `NAME`       VARCHAR(255)   NOT NULL COMMENT '「name」 - 付款单单标题',
+    `NAME`       VARCHAR(255) COMMENT '「name」 - 付款单单标题',
     `CODE`       VARCHAR(255)   NOT NULL COMMENT '「code」 - 付款单单编号',
     `SERIAL`     VARCHAR(36)    NOT NULL COMMENT '「serial」 - 付款单单据号',
 
