@@ -42,6 +42,9 @@ public class UTenant implements Serializable, Copyable<UTenant> {
     @JsonSerialize(using = JsonObjectSerializer.class)
     @JsonDeserialize(using = JsonObjectDeserializer.class)
     private transient JsonObject integration;
+
+    private transient ConcurrentMap<String, JsonObject> forbidden = new ConcurrentHashMap<>();
+
     private transient ConcurrentMap<String, JsonObject> dictionary = new ConcurrentHashMap<>();
 
     public ConcurrentMap<String, JsonObject> getDictionary() {
@@ -50,6 +53,14 @@ public class UTenant implements Serializable, Copyable<UTenant> {
 
     public void setDictionary(final ConcurrentMap<String, JsonObject> dictionary) {
         this.dictionary = dictionary;
+    }
+
+    public ConcurrentMap<String, JsonObject> getForbidden() {
+        return this.forbidden;
+    }
+
+    public void setForbidden(final ConcurrentMap<String, JsonObject> forbidden) {
+        this.forbidden = forbidden;
     }
 
     public JsonObject getIntegration() {
