@@ -155,7 +155,7 @@ class ExcelHelper {
         return Ux.future(this.extractStatic(dataArray, tableName))
             /* dictionary for dynamic part */
             .compose(extracted -> this.extractDynamic(extracted, tableName))
-            /* Forbidden Record Filter */
+            /* forbidden record filter */
             .compose(extracted -> this.extractForbidden(extracted, tableName));
     }
 
