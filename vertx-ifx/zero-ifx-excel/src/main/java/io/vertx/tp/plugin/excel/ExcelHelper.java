@@ -12,6 +12,7 @@ import io.vertx.tp.plugin.excel.atom.ExTable;
 import io.vertx.tp.plugin.excel.atom.ExTenant;
 import io.vertx.tp.plugin.excel.ranger.ExBound;
 import io.vertx.tp.plugin.excel.ranger.RowBound;
+import io.vertx.up.atom.Kv;
 import io.vertx.up.commune.element.TypeAtom;
 import io.vertx.up.eon.FileSuffix;
 import io.vertx.up.eon.KName;
@@ -126,19 +127,36 @@ class ExcelHelper {
         return dataArray;
     }
 
+    private Future<JsonArray> extractForbidden(final JsonArray dataArray, final String name) {
+        final Kv<String, Set<String>> condition = this.tenant.valueCriteria(name);
+        if (condition.valid()) {
+            final JsonArray normalized = new JsonArray();
+            Ut.itJArray(dataArray)
+                .filter(item -> item.containsKey(condition.getKey()))
+                .filter(item -> !condition.getValue().contains(item.getString(condition.getKey())))
+                .forEach(normalized::add);
+            return Ux.future(normalized);
+        } else {
+            return Ux.future(dataArray);
+        }
+    }
+
     Future<JsonArray> extract(final ExTable table) {
         /* Records extracting */
         final List<ExRecord> records = table.get();
+        final String tableName = table.getName();
         /* Pojo Processing */
-        JsonArray dataArray = new JsonArray();
+        final JsonArray dataArray = new JsonArray();
         records.stream().filter(Objects::nonNull)
             .map(ExRecord::toJson)
             .forEach(dataArray::add);
-        {
-            /* dictionary for static part */
-            dataArray = this.extractStatic(dataArray, table.getName());
-        }
-        return this.extractDynamic(dataArray, table.getName());
+
+        /* dictionary for static part */
+        return Ux.future(this.extractStatic(dataArray, tableName))
+            /* dictionary for dynamic part */
+            .compose(extracted -> this.extractDynamic(extracted, tableName))
+            /* forbidden record filter */
+            .compose(extracted -> this.extractForbidden(extracted, tableName));
     }
 
     /*
