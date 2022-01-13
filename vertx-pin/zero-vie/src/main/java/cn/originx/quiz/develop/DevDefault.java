@@ -7,6 +7,7 @@ import io.vertx.up.util.Ut;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
@@ -37,8 +38,9 @@ class DevDefault {
         return ROOT_OOB;
     }
 
-    public static String pathUi() {
-        return ROOT_OOB + "/oob";
+    public static String pathUi(final String identifier) {
+        Objects.requireNonNull(identifier);
+        return ROOT_OOB + "/cmdb/" + identifier + "/";
     }
 
     public static String pathCmdb() {

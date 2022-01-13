@@ -1,0 +1,6 @@
+{
+    "id.submit.add": "$opAdd",
+    "id.submit.save": "$opSave",
+    "id.submit.reset": "$opReset",
+    "id.submit.delete": "$opDelete"
+}

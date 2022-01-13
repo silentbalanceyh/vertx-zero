@@ -1,0 +1,12 @@
+[
+    {
+        "text": "编辑",
+        "executor": "fnEdit"
+    },
+    "divider",
+    {
+        "text": "删除",
+        "executor": "fnDelete",
+        "confirm": "确认删除您选择的记录？"
+    }
+]
