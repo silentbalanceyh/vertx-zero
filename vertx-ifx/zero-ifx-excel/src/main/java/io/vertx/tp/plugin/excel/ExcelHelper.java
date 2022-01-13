@@ -159,6 +159,18 @@ class ExcelHelper {
             .compose(extracted -> this.extractForbidden(extracted, tableName));
     }
 
+    private void extractIngest(final Set<ExTable> dataSet) {
+        if (Objects.nonNull(this.tenant)) {
+            final JsonObject dataGlobal = this.tenant.valueDefault();
+            if (Ut.notNil(dataGlobal)) {
+                dataSet.forEach(table ->
+                    table.get().forEach(record ->
+                        // Mount Global Data into the ingest data.
+                        record.put(dataGlobal)));
+            }
+        }
+    }
+
     /*
      * Read file from path to build Excel Workbook object.
      * If this function get null pointer file or file object, zero system
@@ -199,7 +211,7 @@ class ExcelHelper {
     /*
      * Get Set<ExSheet> collection based on workbook
      */
-    Set<ExTable> getExTables(final Workbook workbook, final TypeAtom TypeAtom) {
+    Set<ExTable> getExTables(final Workbook workbook, final TypeAtom typeAtom) {
         return Fn.getNull(new HashSet<>(), () -> {
             /* FormulaEvaluator reference */
             final FormulaEvaluator evaluator = workbook.getCreationHelper().createFormulaEvaluator();
@@ -242,7 +254,16 @@ class ExcelHelper {
 
                 final SheetAnalyzer exSheet = new SheetAnalyzer(sheet).on(evaluator);
                 /* Build Set */
-                sheets.addAll(exSheet.analyzed(range, TypeAtom));
+                final Set<ExTable> dataSet = exSheet.analyzed(range, typeAtom);
+                /*
+                 * Here for critical injection, mount the data of
+                 * {
+                 *      "global": {
+                 *      }
+                 * }
+                 * */
+                this.extractIngest(dataSet);
+                sheets.addAll(dataSet);
             }
             return sheets;
         }, workbook);

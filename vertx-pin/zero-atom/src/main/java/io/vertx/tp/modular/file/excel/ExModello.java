@@ -8,6 +8,7 @@ import io.vertx.tp.plugin.excel.ExcelClient;
 import io.vertx.tp.plugin.excel.ExcelInfix;
 import io.vertx.tp.plugin.excel.atom.ExRecord;
 import io.vertx.tp.plugin.excel.atom.ExTable;
+import io.vertx.up.log.Debugger;
 import io.vertx.up.util.Ut;
 
 import java.util.ArrayList;
@@ -31,7 +32,16 @@ public class ExModello {
     private transient String appName;
 
     private ExModello(final Set<String> files) {
-        files.forEach(file -> this.initMap(CLIENT.ingest(file)));
+        files.forEach(file -> {
+            try {
+                final Set<ExTable> tables = CLIENT.ingest(file);
+                this.initMap(tables);
+            } catch (final Throwable ex) {
+                if (Debugger.onStackTracing()) {
+                    ex.printStackTrace();
+                }
+            }
+        });
     }
 
     public static ExModello create(final Set<String> files) {
