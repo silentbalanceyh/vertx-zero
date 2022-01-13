@@ -24,6 +24,9 @@ databaseChangeLog:
   - include:
       file: plugin/sql/ui/UI_LIST.sql
       relativeToChangelogFile: false
+  - include:
+      file: plugin/sql/ui/UI_VISITOR.sql
+      relativeToChangelogFile: false
   # UI选项专用表
   - include:
       file: plugin/sql/option/V_QUERY.sql

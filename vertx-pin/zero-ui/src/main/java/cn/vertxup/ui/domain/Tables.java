@@ -12,6 +12,7 @@ import cn.vertxup.ui.domain.tables.UiLayout;
 import cn.vertxup.ui.domain.tables.UiList;
 import cn.vertxup.ui.domain.tables.UiOp;
 import cn.vertxup.ui.domain.tables.UiPage;
+import cn.vertxup.ui.domain.tables.UiVisitor;
 import cn.vertxup.ui.domain.tables.VFragment;
 import cn.vertxup.ui.domain.tables.VQuery;
 import cn.vertxup.ui.domain.tables.VSearch;
@@ -63,6 +64,11 @@ public class Tables {
      * The table <code>DB_ETERNAL.UI_PAGE</code>.
      */
     public static final UiPage UI_PAGE = UiPage.UI_PAGE;
+
+    /**
+     * The table <code>DB_ETERNAL.UI_VISITOR</code>.
+     */
+    public static final UiVisitor UI_VISITOR = UiVisitor.UI_VISITOR;
 
     /**
      * The table <code>DB_ETERNAL.V_FRAGMENT</code>.
