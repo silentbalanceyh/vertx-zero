@@ -65,6 +65,11 @@ public class Ok implements OkA {
          */
         final Future<Ok> future = ok.initializeAmbient();
         future.onSuccess(result -> handler.handle(Future.succeededFuture(result)));
+        future.onFailure(error -> {
+            if (Objects.nonNull(error)) {
+                error.printStackTrace();
+            }
+        });
     }
 
     /**

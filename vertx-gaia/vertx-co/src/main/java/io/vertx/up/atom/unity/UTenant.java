@@ -125,7 +125,7 @@ public class UTenant implements Serializable, Copyable<UTenant> {
         } else {
             return Ut.ifJAssign(this.global,
                 KName.APP_ID, KName.SIGMA, KName.APP_KEY
-            ).apply(this.application);
+            ).apply(application);
         }
     }
 

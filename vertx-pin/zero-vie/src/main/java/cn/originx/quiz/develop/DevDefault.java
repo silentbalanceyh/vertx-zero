@@ -8,14 +8,16 @@ import io.vertx.up.util.Ut;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 class DevDefault {
+    static final ConcurrentMap<String, DevModeller> MODELLER = new ConcurrentHashMap<>();
     private static final String ROOT_ROLE = "init/permission/ui.menu/role/";
     private static final String ROOT_MENU = "init/permission/ui.menu/";
-
     private static final String ROOT_OOB = "init/oob";
     private static final String JSON_EXTENSION = Strings.DOT + FileSuffix.JSON;
 

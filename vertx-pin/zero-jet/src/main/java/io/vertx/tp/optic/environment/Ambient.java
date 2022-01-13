@@ -111,6 +111,7 @@ public class Ambient {
          */
         if (Ut.isNil(key)) {
             Jt.warnApp(LOGGER, "Input key of app is null, key = {0}", key);
+            Jt.warnApp(LOGGER, "You may missed the configuration of `io.vertx.tp.jet.init.JtPin` to on `init` node. ");
             return null;
         } else {
             JtApp app = APPS.get(key);

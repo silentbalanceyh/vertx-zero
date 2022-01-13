@@ -4,8 +4,12 @@ import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.tp.ke.booter.Bt;
 import io.vertx.tp.plugin.jooq.JooqInfix;
+import io.vertx.up.eon.Strings;
+import io.vertx.up.fn.Fn;
 import io.vertx.up.unity.Ux;
+import io.vertx.up.util.Ut;
 
+import java.util.Objects;
 import java.util.concurrent.ConcurrentMap;
 
 /**
@@ -33,7 +37,7 @@ public class DevKit {
         return DevMenu.menuOutput(menuMap, root);
     }
 
-    // ----------------------- DevSpec Data Loading -------------------------
+    // ----------------------- Dev Data Loading -------------------------
 
     public static void oobCmdb() {
         doLoading(DevDefault.pathCmdb(), null);
@@ -47,6 +51,15 @@ public class DevKit {
         doLoading(DevDefault.pathOob(), null);
     }
 
+    // ----------------------- DevModeller Object -------------------------
+
+    public static DevModeller modeller(final String input, final String output) {
+        Objects.requireNonNull(input, output);
+        final String hashKey = Ut.encryptMD5(input + Strings.COLON + output);
+        return Fn.pool(DevDefault.MODELLER, hashKey, () -> new DevModeller(input, output));
+    }
+
+    // ----------------------- Private Method -------------------------
     @SuppressWarnings("all")
     private static void doLoading(final String root, final String prefix) {
         Bt.init(root, prefix);

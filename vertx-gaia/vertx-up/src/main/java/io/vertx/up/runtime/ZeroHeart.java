@@ -51,6 +51,7 @@ public class ZeroHeart {
             LOGGER.info("Extension components initialized {0}", components.encode());
             return Ux.nativeInit(components, vertx);
         } else {
+            LOGGER.info("Extension configuration missing {0}", config);
             return Future.succeededFuture(Boolean.TRUE);
         }
     }
