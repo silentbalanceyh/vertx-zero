@@ -24,10 +24,12 @@
         <module>zero-lbs</module>               <!-- Location Service -->
         <module>zero-rbac</module>              <!-- RBAC -->
         <module>zero-router</module>            <!-- Api Gateway -->
-        <module>zero-ui</module>
+        <module>zero-ui</module>                <!-- Ui Configuration -->
+        <module>zero-psi</module>               <!-- Purchase, Sale, In Management -->
+        <module>zero-wf</module>                <!-- Workflow -->
+        <!-- Scaffold Extension Here -->
         <module>zero-vie</module>
-        <module>zero-psi</module>
-        <module>zero-wf</module>                <!-- Ui for React -->
+        <module>zero-vista</module>
     </modules>
     <dependencies>
         <dependency>
