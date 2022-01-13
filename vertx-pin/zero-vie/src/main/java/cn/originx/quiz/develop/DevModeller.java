@@ -83,6 +83,7 @@ public class DevModeller {
              */
             timer.end(System.currentTimeMillis());
             Ox.Log.infoHub(this.getClass(), "Successfully generation: {0}", timer.value());
+            System.exit(0);
         });
     }
 
