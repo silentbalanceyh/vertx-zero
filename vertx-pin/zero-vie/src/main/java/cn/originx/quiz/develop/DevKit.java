@@ -62,6 +62,6 @@ public class DevKit {
     // ----------------------- Private Method -------------------------
     @SuppressWarnings("all")
     private static void doLoading(final String root, final String prefix) {
-        Bt.init(root, prefix);
+        Bt.init(root, Objects.isNull(prefix) ? Strings.EMPTY : prefix);
     }
 }

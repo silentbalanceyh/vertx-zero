@@ -50,6 +50,10 @@ public class Jt {
         JtLog.warn(logger, "Ambient", pattern, args);
     }
 
+    public static void warnInfo(final Annal logger, final String pattern, final Object... args) {
+        JtLog.warn(logger, "Init", pattern, args);
+    }
+
     public static String jobCode(final IJob job) {
         return job.getNamespace() + Strings.DASH + job.getCode();
     }
