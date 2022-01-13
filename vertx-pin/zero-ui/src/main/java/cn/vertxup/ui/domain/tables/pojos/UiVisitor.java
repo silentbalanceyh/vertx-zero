@@ -21,6 +21,7 @@ public class UiVisitor implements VertxPojo, IUiVisitor {
     private String identifier;
     private String page;
     private String path;
+    private String type;
     private String controlId;
     private String resourceId;
     private String sigma;
@@ -33,6 +34,7 @@ public class UiVisitor implements VertxPojo, IUiVisitor {
         this.identifier = value.getIdentifier();
         this.page = value.getPage();
         this.path = value.getPath();
+        this.type = value.getType();
         this.controlId = value.getControlId();
         this.resourceId = value.getResourceId();
         this.sigma = value.getSigma();
@@ -44,6 +46,7 @@ public class UiVisitor implements VertxPojo, IUiVisitor {
         String identifier,
         String page,
         String path,
+        String type,
         String controlId,
         String resourceId,
         String sigma,
@@ -53,6 +56,7 @@ public class UiVisitor implements VertxPojo, IUiVisitor {
         this.identifier = identifier;
         this.page = page;
         this.path = path;
+        this.type = type;
         this.controlId = controlId;
         this.resourceId = resourceId;
         this.sigma = sigma;
@@ -117,6 +121,25 @@ public class UiVisitor implements VertxPojo, IUiVisitor {
     @Override
     public UiVisitor setPath(String path) {
         this.path = path;
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.UI_VISITOR.TYPE</code>. 「type」- 维度4：操作类型：List
+     * / Form 或其他
+     */
+    @Override
+    public String getType() {
+        return this.type;
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.UI_VISITOR.TYPE</code>. 「type」- 维度4：操作类型：List
+     * / Form 或其他
+     */
+    @Override
+    public UiVisitor setType(String type) {
+        this.type = type;
         return this;
     }
 
@@ -220,6 +243,7 @@ public class UiVisitor implements VertxPojo, IUiVisitor {
         sb.append(identifier);
         sb.append(", ").append(page);
         sb.append(", ").append(path);
+        sb.append(", ").append(type);
         sb.append(", ").append(controlId);
         sb.append(", ").append(resourceId);
         sb.append(", ").append(sigma);
@@ -239,6 +263,7 @@ public class UiVisitor implements VertxPojo, IUiVisitor {
         setIdentifier(from.getIdentifier());
         setPage(from.getPage());
         setPath(from.getPath());
+        setType(from.getType());
         setControlId(from.getControlId());
         setResourceId(from.getResourceId());
         setSigma(from.getSigma());

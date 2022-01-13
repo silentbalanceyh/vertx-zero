@@ -51,6 +51,18 @@ public interface IUiVisitor extends VertxPojo, Serializable {
     public String getPath();
 
     /**
+     * Setter for <code>DB_ETERNAL.UI_VISITOR.TYPE</code>. 「type」- 维度4：操作类型：List
+     * / Form 或其他
+     */
+    public IUiVisitor setType(String value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.UI_VISITOR.TYPE</code>. 「type」- 维度4：操作类型：List
+     * / Form 或其他
+     */
+    public String getType();
+
+    /**
      * Setter for <code>DB_ETERNAL.UI_VISITOR.CONTROL_ID</code>. 「controlId」-
      * 挂载专用的ID：List / Form 都可用
      */
@@ -129,6 +141,7 @@ public interface IUiVisitor extends VertxPojo, Serializable {
                 setOrThrow(this::setIdentifier,json::getString,"IDENTIFIER","java.lang.String");
                 setOrThrow(this::setPage,json::getString,"PAGE","java.lang.String");
                 setOrThrow(this::setPath,json::getString,"PATH","java.lang.String");
+                setOrThrow(this::setType,json::getString,"TYPE","java.lang.String");
                 setOrThrow(this::setControlId,json::getString,"CONTROL_ID","java.lang.String");
                 setOrThrow(this::setResourceId,json::getString,"RESOURCE_ID","java.lang.String");
                 setOrThrow(this::setSigma,json::getString,"SIGMA","java.lang.String");
@@ -144,6 +157,7 @@ public interface IUiVisitor extends VertxPojo, Serializable {
                 json.put("IDENTIFIER",getIdentifier());
                 json.put("PAGE",getPage());
                 json.put("PATH",getPath());
+                json.put("TYPE",getType());
                 json.put("CONTROL_ID",getControlId());
                 json.put("RESOURCE_ID",getResourceId());
                 json.put("SIGMA",getSigma());

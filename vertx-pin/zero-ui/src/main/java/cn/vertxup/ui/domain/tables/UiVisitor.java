@@ -37,7 +37,12 @@ public class UiVisitor extends TableImpl<UiVisitorRecord> {
      * The column <code>DB_ETERNAL.UI_VISITOR.PATH</code>. 「path」- 维度3：路径信息，view
      * + position
      */
-    public final TableField<UiVisitorRecord, String> PATH = createField(DSL.name("PATH"), SQLDataType.VARCHAR(255).nullable(false), this, "「path」- 维度3：路径信息，view + position");
+    public final TableField<UiVisitorRecord, String> PATH = createField(DSL.name("PATH"), SQLDataType.VARCHAR(128).nullable(false), this, "「path」- 维度3：路径信息，view + position");
+    /**
+     * The column <code>DB_ETERNAL.UI_VISITOR.TYPE</code>. 「type」- 维度4：操作类型：List
+     * / Form 或其他
+     */
+    public final TableField<UiVisitorRecord, String> TYPE = createField(DSL.name("TYPE"), SQLDataType.VARCHAR(36).nullable(false), this, "「type」- 维度4：操作类型：List / Form 或其他");
     /**
      * The column <code>DB_ETERNAL.UI_VISITOR.CONTROL_ID</code>. 「controlId」-
      * 挂载专用的ID：List / Form 都可用
@@ -141,11 +146,11 @@ public class UiVisitor extends TableImpl<UiVisitorRecord> {
     }
 
     // -------------------------------------------------------------------------
-    // Row8 type methods
+    // Row9 type methods
     // -------------------------------------------------------------------------
 
     @Override
-    public Row8<String, String, String, String, String, String, String, String> fieldsRow() {
-        return (Row8) super.fieldsRow();
+    public Row9<String, String, String, String, String, String, String, String, String> fieldsRow() {
+        return (Row9) super.fieldsRow();
     }
 }

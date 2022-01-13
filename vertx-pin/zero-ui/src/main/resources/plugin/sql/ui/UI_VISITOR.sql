@@ -24,13 +24,20 @@ CREATE TABLE IF NOT EXISTS UI_VISITOR
      */
     `IDENTIFIER`    VARCHAR(36) COMMENT '「identifier」- 维度1：标识模型',
     `PAGE`          VARCHAR(36) COMMENT '「page」- 维度2：页面ID',
-    `PATH`          VARCHAR(255) COMMENT '「path」- 维度3：路径信息，view + position',
+    `PATH`          VARCHAR(128) COMMENT '「path」- 维度3：路径信息，view + position',
+    `TYPE`          VARCHAR(36) COMMENT '「type」- 维度4：操作类型：List / Form 或其他',
 
+
+    /*
+     * 核心的两个ID
+     * - controlId 负责消费和使用
+     * - resourceId 负责管理
+     */
     `CONTROL_ID`    VARCHAR(36) COMMENT '「controlId」- 挂载专用的ID：List / Form 都可用',
     `RESOURCE_ID`   VARCHAR(36) COMMENT '「resourceId」- 关联资源ID',
 
     `SIGMA`         VARCHAR(128) COMMENT '「sigma」- 高维度：统一标识符',
     `METADATA`      TEXT COMMENT '「metadata」- 附加配置数据',
     `RUN_COMPONENT` TEXT COMMENT '「runComponent」- 执行组件，扩展时专用',
-    PRIMARY KEY (`IDENTIFIER`, `PAGE`, `PATH`, `SIGMA`)
+    PRIMARY KEY (`IDENTIFIER`, `PAGE`, `PATH`, `TYPE`, `SIGMA`)
 );
