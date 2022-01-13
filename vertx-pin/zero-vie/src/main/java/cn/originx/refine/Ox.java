@@ -852,6 +852,11 @@ public final class Ox {
             OxLog.info(logger, "Atom", pattern, args);
         }
 
+        static void infoAtom(final Class<?> clazz, final String pattern, final Object... args) {
+            final Annal logger = Annal.get(clazz);
+            OxLog.info(logger, "Atom", pattern, args);
+        }
+
         /**
          * Debug级别，模型日志器
          *

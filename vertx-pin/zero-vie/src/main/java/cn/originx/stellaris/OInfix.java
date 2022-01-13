@@ -1,6 +1,7 @@
 package cn.originx.stellaris;
 
 import io.vertx.core.Vertx;
+import io.vertx.core.json.JsonObject;
 import io.vertx.tp.plugin.elasticsearch.ElasticSearchInfix;
 import io.vertx.tp.plugin.excel.ExcelInfix;
 import io.vertx.tp.plugin.jooq.JooqInfix;
@@ -8,6 +9,9 @@ import io.vertx.tp.plugin.neo4j.Neo4jInfix;
 import io.vertx.tp.plugin.shared.MapInfix;
 import io.vertx.up.fn.Actuator;
 import io.vertx.up.log.Annal;
+import io.vertx.up.uca.yaml.Node;
+import io.vertx.up.uca.yaml.ZeroUniform;
+import io.vertx.up.util.Ut;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
@@ -48,7 +52,9 @@ class OInfix {
      * @param vertx {@link Vertx} 输入的Vertx实例
      */
     private static void onDB(final Vertx vertx) {
-        on("Jooq", () -> JooqInfix.init(vertx));
+        if (isEnabled("jooq")) {
+            on("Jooq", () -> JooqInfix.init(vertx));
+        }
     }
 
     /**
@@ -57,7 +63,15 @@ class OInfix {
      * @param vertx {@link Vertx} 输入的Vertx实例
      */
     private static void onES(final Vertx vertx) {
-        on("Elastic", () -> ElasticSearchInfix.init(vertx));
+        if (isEnabled("elasticsearch")) {
+            on("Elastic", () -> ElasticSearchInfix.init(vertx));
+        }
+    }
+
+    private static boolean isEnabled(final String key) {
+        final Node<JsonObject> node = Ut.instance(ZeroUniform.class);
+        final JsonObject configuration = node.read();
+        return configuration.containsKey(key);
     }
 
     /**
@@ -80,7 +94,9 @@ class OInfix {
      * @param vertx {@link Vertx} 输入的Vertx实例
      */
     private static void onEX(final Vertx vertx) {
-        on("Excel", () -> ExcelInfix.init(vertx));
+        if (isEnabled("excel")) {
+            on("Excel", () -> ExcelInfix.init(vertx));
+        }
     }
 
     /**
@@ -89,7 +105,9 @@ class OInfix {
      * @param vertx {@link Vertx} 输入的Vertx实例
      */
     private static void onGE(final Vertx vertx) {
-        on("Neo4j", () -> Neo4jInfix.init(vertx));
+        if (isEnabled("neo4j")) {
+            on("Neo4j", () -> Neo4jInfix.init(vertx));
+        }
     }
 
     /**

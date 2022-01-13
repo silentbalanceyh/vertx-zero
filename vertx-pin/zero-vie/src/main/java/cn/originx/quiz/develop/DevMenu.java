@@ -1,5 +1,7 @@
 package cn.originx.quiz.develop;
 
+import cn.originx.cv.em.MenuType;
+import cn.originx.refine.Ox;
 import cn.vertxup.ambient.domain.tables.daos.XMenuDao;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
@@ -9,7 +11,6 @@ import io.vertx.up.eon.Values;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
@@ -20,18 +21,6 @@ import java.util.concurrent.ConcurrentMap;
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 class DevMenu {
-
-    static final String MENU_INIT = "init/permission/ui.menu/role/";
-    static final String MENU_OUT = "init/permission/ui.menu/";
-
-    private static List<String> fetchDefault() {
-        final List<String> types = new ArrayList<>();
-        types.add("APP-MENU");
-        types.add("TOP-MENU");
-        types.add("SIDE-MENU");
-        types.add("NAV-MENU");
-        return types;
-    }
 
     /*
      * Menu Helper for feature usage
@@ -74,7 +63,7 @@ class DevMenu {
      * Menu fetching from database to Json String
      */
     static Future<JsonArray> menuFetch(final List<String> types, final boolean readable) {
-        final List<String> menuTypes = (Objects.isNull(types) || types.isEmpty()) ? fetchDefault() : types;
+        final List<String> menuTypes = (Objects.isNull(types) || types.isEmpty()) ? MenuType.valueDefault() : types;
         return fetchMenuTree(menuTypes, null).compose(menus -> {
             final JsonArray menuJArray = new JsonArray();
             Ut.itJArray(menus).forEach(json -> buildDisplay(json, menuJArray, readable ? Display.TEXT : Display.CONFIGURED));
@@ -86,7 +75,7 @@ class DevMenu {
         final ConcurrentMap<String, Future<JsonArray>> menuFuture = new ConcurrentHashMap<>();
         roles.forEach(role -> {
             final JsonArray required = buildRequired(role);
-            menuFuture.put(role, fetchMenuTree(fetchDefault(), required));
+            menuFuture.put(role, fetchMenuTree(MenuType.valueDefault(), required));
         });
         return Ux.thenCombine(menuFuture).compose(menuData -> {
             final ConcurrentMap<String, JsonArray> menuMap = new ConcurrentHashMap<>();
@@ -100,8 +89,20 @@ class DevMenu {
         });
     }
 
+    static Future<Boolean> menuOutput(final ConcurrentMap<String, JsonArray> menuMap,
+                                      final String root) {
+        menuMap.forEach((role, data) -> {
+            final String outFile = DevDefault.pathMenu(root, role);
+            Ox.Log.infoShell(DevKit.class, "[ Dev ] File output: {0}", outFile);
+            final JsonObject dataRole = new JsonObject();
+            dataRole.put(KName.NAME, data);
+            Ut.ioOut(outFile, dataRole);
+        });
+        return Ux.future(Boolean.TRUE);
+    }
+
     private static JsonArray buildRequired(final String role) {
-        final JsonArray required = Ut.ioJArray(MENU_INIT + role + ".json");
+        final JsonArray required = DevDefault.pathRole(role);
         final JsonArray normalized = new JsonArray();
         Ut.itJArray(required, String.class, (menu, index) -> normalized.add(menu.trim()));
         return normalized;

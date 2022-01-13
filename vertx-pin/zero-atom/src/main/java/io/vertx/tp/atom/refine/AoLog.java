@@ -13,4 +13,10 @@ class AoLog {
                       final String flag, final String pattern, final Object... args) {
         logger.debug(Log.blue("διαμορφωτής") + " ( " + flag + " ) " + pattern, args);
     }
+
+
+    static void warn(final Annal logger,
+                     final String flag, final String pattern, final Object... args) {
+        logger.warn(Log.blue("διαμορφωτής") + " ( " + flag + " ) " + pattern, args);
+    }
 }

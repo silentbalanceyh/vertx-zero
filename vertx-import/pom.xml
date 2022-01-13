@@ -224,6 +224,21 @@
                 <artifactId>zero-vie</artifactId>
                 <version>${zero.version}</version>
             </dependency>
+            <dependency>
+                <groupId>cn.vertxup</groupId>
+                <artifactId>zero-vista</artifactId>
+                <version>${zero.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.vertxup</groupId>
+                <artifactId>infix-mysql</artifactId>
+                <version>${zero.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.vertxup</groupId>
+                <artifactId>infix-oracle</artifactId>
+                <version>${zero.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
     <build>

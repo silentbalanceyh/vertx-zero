@@ -1,8 +1,10 @@
 package io.vertx.tp.modular.file.excel;
 
+import io.vertx.tp.atom.refine.Ao;
 import io.vertx.tp.plugin.excel.atom.ExRecord;
 import io.vertx.tp.plugin.excel.atom.ExTable;
 import io.vertx.up.eon.KName;
+import io.vertx.up.util.Ut;
 
 import java.util.HashSet;
 import java.util.Objects;
@@ -49,6 +51,9 @@ class ExIn {
         /* 获取模型标识 identifier 和名空间 */
         final String identifier = record.get(KName.IDENTIFIER);
         final String namespace = record.get(KName.NAMESPACE);
+        if (Ut.isNil(namespace)) {
+            Ao.warnAtom(ExIn.class, "数据记录中缺乏名空间: {0}", namespace);
+        }
         /* 查找同一名空间下的关联关系 */
         return records.stream()
             /* model = identifier */

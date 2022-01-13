@@ -1,35 +1,26 @@
 package cn.originx.quiz.develop;
 
-import cn.originx.refine.Ox;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
-import io.vertx.core.json.JsonObject;
+import io.vertx.tp.ke.booter.Bt;
 import io.vertx.tp.plugin.jooq.JooqInfix;
-import io.vertx.up.eon.KName;
 import io.vertx.up.eon.Strings;
+import io.vertx.up.fn.Fn;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.Objects;
 import java.util.concurrent.ConcurrentMap;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 public class DevKit {
-    /*
-     * Native Vertx
-     */
     static {
         JooqInfix.init(Ux.nativeVertx());
     }
 
-    /*
-     * Menu fetching from database to Json String
-     */
-
+    // ----------------------- DevMenu -------------------------
     public static Future<JsonArray> menuFetch() {
         return menuFetch(true);
     }
@@ -38,25 +29,43 @@ public class DevKit {
         return DevMenu.menuFetch(null, readable);
     }
 
-    public static Future<ConcurrentMap<String, JsonArray>> menuInitialize() {
-        final List<String> files = Ut.ioFiles(DevMenu.MENU_INIT);
-        final Set<String> roleSet = new HashSet<>();
-        files.forEach(file -> {
-            final String role = file.replace(".json", Strings.EMPTY);
-            roleSet.add(role);
-        });
-        return DevMenu.menuInitialize(roleSet);
+    public static Future<ConcurrentMap<String, JsonArray>> menuBoot() {
+        return DevMenu.menuInitialize(DevDefault.roles());
     }
 
-    public static Future<Boolean> menuOutput(final ConcurrentMap<String, JsonArray> menuMap,
-                                             final String root) {
-        menuMap.forEach((role, data) -> {
-            final String outFile = root + DevMenu.MENU_OUT + role + ".json";
-            Ox.Log.infoShell(DevKit.class, "[ Dev ] File output: {0}", outFile);
-            final JsonObject dataRole = new JsonObject();
-            dataRole.put(KName.NAME, data);
-            Ut.ioOut(outFile, dataRole);
-        });
-        return Ux.future(Boolean.TRUE);
+    public static Future<Boolean> menuOutput(final ConcurrentMap<String, JsonArray> menuMap, final String root) {
+        return DevMenu.menuOutput(menuMap, root);
+    }
+
+    // ----------------------- Dev Data Loading -------------------------
+
+    public static void oobCmdb() {
+        doLoading(DevDefault.pathCmdb(), null);
+    }
+
+    public static void oobUi() {
+        doLoading(DevDefault.pathUi(), null);
+    }
+
+    public static void oobFull() {
+        doLoading(DevDefault.pathOob(), null);
+    }
+
+    // ----------------------- DevModeller Object -------------------------
+
+    public static DevModeller modeller() {
+        return modeller(DevDefault.pathIn(), DevDefault.pathOut());
+    }
+
+    public static DevModeller modeller(final String input, final String output) {
+        Objects.requireNonNull(input, output);
+        final String hashKey = Ut.encryptMD5(input + Strings.COLON + output);
+        return Fn.pool(DevDefault.MODELLER, hashKey, () -> new DevModeller(input, output));
+    }
+
+    // ----------------------- Private Method -------------------------
+    @SuppressWarnings("all")
+    private static void doLoading(final String root, final String prefix) {
+        Bt.init(root, Objects.isNull(prefix) ? Strings.EMPTY : prefix);
     }
 }

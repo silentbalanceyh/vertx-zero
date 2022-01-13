@@ -43,5 +43,9 @@ cp pom-update.xml ./vertx-pin/zero-psi/pom-update.xml
 cp pom-update.xml ./vertx-pin/zero-rbac/pom-update.xml
 cp pom-update.xml ./vertx-pin/zero-router/pom-update.xml
 cp pom-update.xml ./vertx-pin/zero-ui/pom-update.xml
-cp pom-update.xml ./vertx-pin/zero-vie/pom-update.xml
 cp pom-update.xml ./vertx-pin/zero-wf/pom-update.xml
+# Vie / Vista
+cp pom-update.xml ./vertx-pin/zero-vie/pom-update.xml
+cp pom-update.xml ./vertx-pin/zero-vista/pom-update.xml
+cp pom-update.xml ./vertx-pin/zero-vista/infix-mysql/pom-update.xml
+cp pom-update.xml ./vertx-pin/zero-vista/infix-oracle/pom-update.xml

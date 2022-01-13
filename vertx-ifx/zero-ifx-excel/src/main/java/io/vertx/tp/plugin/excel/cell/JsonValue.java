@@ -31,6 +31,8 @@ public class JsonValue implements ExValue {
                         final JsonObject normalized = Ut.toJObject(content);
                         literal = normalized.encodePrettily();
                     }
+                } else {
+                    LOGGER.warn("[ Έξοδος ] （ExJson) File = {0} met error!!", path);
                 }
             }
         }

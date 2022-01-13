@@ -59,6 +59,9 @@ public class Ambient {
                  */
                 Jt.infoInit(LOGGER, "Ambient detect {0} applications in your environment.",
                     String.valueOf(APPS.keySet().size()));
+                if (APPS.isEmpty()) {
+                    Jt.warnInfo(LOGGER, "Ambient environment pool is Empty.");
+                }
                 final ConcurrentMap<String, Future<AmbientEnvironment>> futures = new ConcurrentHashMap<>();
                 APPS.forEach((appId, app) -> futures.put(appId, new AmbientEnvironment(app).init(vertx)));
                 return Ux.thenCombine(futures).compose(processed -> {
@@ -111,6 +114,7 @@ public class Ambient {
          */
         if (Ut.isNil(key)) {
             Jt.warnApp(LOGGER, "Input key of app is null, key = {0}", key);
+            Jt.warnApp(LOGGER, "You may missed the configuration of `io.vertx.tp.jet.init.JtPin` to on `init` node. ");
             return null;
         } else {
             JtApp app = APPS.get(key);

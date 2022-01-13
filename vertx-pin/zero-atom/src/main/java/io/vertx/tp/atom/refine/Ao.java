@@ -40,7 +40,12 @@ public class Ao {
 
     public static void infoAtom(final Class<?> clazz, final String pattern, final Object... args) {
         final Annal logger = Annal.get(clazz);
-        AoLog.debug(logger, "Atom", pattern, args);
+        AoLog.info(logger, "Atom", pattern, args);
+    }
+
+    public static void warnAtom(final Class<?> clazz, final String pattern, final Object... args) {
+        final Annal logger = Annal.get(clazz);
+        AoLog.warn(logger, "Atom", pattern, args);
     }
 
     public static void debugUca(final Class<?> clazz, final String pattern, final Object... args) {

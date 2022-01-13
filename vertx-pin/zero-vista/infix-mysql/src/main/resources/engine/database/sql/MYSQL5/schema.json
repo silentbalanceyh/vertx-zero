@@ -1,0 +1,105 @@
+{
+    "definitions": {
+        "BOOLEAN": "BIT",
+        "INT": "INT",
+        "LONG": "BIGINT",
+        "DECIMAL": "DECIMAL",
+        "DATE1": "DATE",
+        "DATE2": "DATETIME",
+        "DATE3": "TIMESTAMP",
+        "DATE4": "TIME",
+        "STRING1": "VARCHAR",
+        "STRING2": "TEXT",
+        "JSON": "TEXT",
+        "XML": "TEXT",
+        "SCRIPT": "TEXT",
+        "BINARY": "BLOB"
+    },
+    "supports": [
+        "CHAR",
+        "VARCHAR",
+        "TINYBLOB",
+        "BLOB",
+        "MEDIUMBLOB",
+        "LONGBLOB",
+        "BOOL",
+        "DATE",
+        "DATETIME",
+        "TIME",
+        "TIMESTAMP",
+        "YEAR",
+        "DECIMAL",
+        "NUMERIC",
+        "TINYINT",
+        "SMALLINT",
+        "MEDIUMINT",
+        "INT",
+        "BIGINT",
+        "TINYTEXT",
+        "MEDIUMTEXT",
+        "TEXT",
+        "LONGTEXT",
+        "JSON",
+        "FLOAT",
+        "DOUBLE"
+    ],
+    "mappings": {
+        "BIT": [
+            "BIT",
+            "TINYINT",
+            "INT",
+            "BIGINT"
+        ],
+        "BIGINT": [
+            "BIGINT"
+        ],
+        "BINARY": [
+            "BINARY"
+        ],
+        "BLOB": [
+            "BLOB"
+        ],
+        "CHAR": [
+            "CHAR",
+            "VARCHAR"
+        ],
+        "DATE": [
+            "DATE"
+        ],
+        "DATETIME": [
+            "DATETIME"
+        ],
+        "DECIMAL": [
+            "DECIMAL"
+        ],
+        "INT": [
+            "INT",
+            "BIGINT"
+        ],
+        "NUMERIC": [
+            "NUMERIC"
+        ],
+        "TEXT": [
+            "TEXT"
+        ],
+        "TIME": [
+            "TIME"
+        ],
+        "TIMESTAMP": [
+            "TIMESTAMP"
+        ],
+        "TINYINT": [
+            "BIT",
+            "TINYINT",
+            "BIGINT",
+            "SMALLINT"
+        ],
+        "VARBINARY": [
+            "VARBINARY"
+        ],
+        "VARCHAR": [
+            "VARCHAR",
+            "TEXT"
+        ]
+    }
+}
