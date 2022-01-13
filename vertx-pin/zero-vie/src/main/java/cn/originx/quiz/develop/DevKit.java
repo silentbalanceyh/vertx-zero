@@ -53,6 +53,10 @@ public class DevKit {
 
     // ----------------------- DevModeller Object -------------------------
 
+    public static DevModeller modeller() {
+        return modeller(DevDefault.pathIn(), DevDefault.pathOut());
+    }
+
     public static DevModeller modeller(final String input, final String output) {
         Objects.requireNonNull(input, output);
         final String hashKey = Ut.encryptMD5(input + Strings.COLON + output);

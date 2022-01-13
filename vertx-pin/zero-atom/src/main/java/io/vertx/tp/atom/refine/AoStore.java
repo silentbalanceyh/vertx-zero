@@ -7,6 +7,7 @@ import io.vertx.tp.optic.modeling.JsonModel;
 import io.vertx.tp.optic.modeling.JsonSchema;
 import io.vertx.up.eon.FileSuffix;
 import io.vertx.up.eon.Strings;
+import io.vertx.up.exception.heart.EmptyStreamException;
 import io.vertx.up.util.Ut;
 
 import java.text.MessageFormat;
@@ -66,7 +67,14 @@ class AoStore {
         } else {
             name = modeling + "/" + filename + Strings.DOT + FileSuffix.JSON;
         }
-        return Ut.ioJObject(name);
+        /*
+         * Adjustment Processing
+         */
+        try {
+            return Ut.ioJObject(name);
+        } catch (final EmptyStreamException ex) {
+            return new JsonObject();
+        }
     }
 
     static boolean isDebug() {

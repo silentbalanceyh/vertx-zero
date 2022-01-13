@@ -19,6 +19,10 @@ class DevDefault {
     private static final String ROOT_ROLE = "init/permission/ui.menu/role/";
     private static final String ROOT_MENU = "init/permission/ui.menu/";
     private static final String ROOT_OOB = "init/oob";
+
+    private static final String ROOT_INPUT = "atom/cmdb";
+    private static final String ROOT_OUTPUT = "src/main/resources/atom/target";
+
     private static final String JSON_EXTENSION = Strings.DOT + FileSuffix.JSON;
 
     public static JsonArray pathRole(final String role) {
@@ -41,6 +45,13 @@ class DevDefault {
         return ROOT_OOB + "/cmdb";
     }
 
+    public static String pathIn() {
+        return ROOT_INPUT;
+    }
+
+    public static String pathOut() {
+        return ROOT_OUTPUT;
+    }
 
     public static Set<String> roles() {
         final List<String> files = Ut.ioFiles(ROOT_ROLE);
