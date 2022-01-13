@@ -4,9 +4,9 @@ import cn.vertxup.atom.domain.tables.daos.MEntityDao;
 import cn.vertxup.atom.domain.tables.daos.MFieldDao;
 import cn.vertxup.atom.domain.tables.daos.MKeyDao;
 import cn.vertxup.atom.domain.tables.pojos.MEntity;
+import cn.vertxup.atom.domain.tables.pojos.MField;
+import cn.vertxup.atom.domain.tables.pojos.MKey;
 import io.vertx.core.Future;
-import io.vertx.core.Promise;
-import io.vertx.core.WorkerExecutor;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.atom.modeling.Model;
@@ -16,10 +16,14 @@ import io.vertx.tp.modular.jdbc.Pin;
 import io.vertx.tp.modular.metadata.AoBuilder;
 import io.vertx.up.commune.config.Database;
 import io.vertx.up.eon.KName;
+import io.vertx.up.eon.Strings;
+import io.vertx.up.eon.em.ChangeFlag;
+import io.vertx.up.uca.jooq.UxJooq;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentMap;
 import java.util.function.Function;
 
 class SchemaRefine implements AoRefine {
@@ -42,7 +46,8 @@ class SchemaRefine implements AoRefine {
             final List<Future<JsonObject>> futures = new ArrayList<>();
             schemata.stream().map(this::saveSchema).forEach(futures::add);
             return Ux.thenCombine(futures)
-                .compose(nil -> Ux.future(appJson));
+                .compose(nil -> Ux.future(appJson))
+                .otherwise(Ux.otherwise(() -> null));
         };
     }
 
@@ -65,81 +70,79 @@ class SchemaRefine implements AoRefine {
         return schemata;
     }
 
-    private JsonObject onCriteria(final String name, final MEntity entity) {
+    private JsonObject criteria(final String name, final MEntity entity) {
         final JsonObject filters = new JsonObject();
         filters.put(KName.NAME, name);
         filters.put(KName.ENTITY_ID, entity.getKey());
+        filters.put(Strings.EMPTY, Boolean.TRUE);
         return filters;
     }
 
-    private JsonObject onCriteria(final MEntity entity) {
+    private Set<String> uniqueSet() {
+        return new HashSet<>() {
+            {
+                this.add(KName.NAME);
+                this.add(KName.ENTITY_ID);
+            }
+        };
+    }
+
+    private JsonObject criteria(final MEntity entity) {
         final JsonObject filters = new JsonObject();
         filters.put(KName.NAMESPACE, entity.getNamespace());
         filters.put(KName.IDENTIFIER, entity.getIdentifier());
+        filters.put(Strings.EMPTY, Boolean.TRUE);
         return filters;
     }
 
-    /*
-     * 暂留异步导入
-     */
-    private Future<JsonObject> saveSchemaAsync(final Schema schema) {
-        final Promise<JsonObject> promise = Promise.promise();
-        final WorkerExecutor executor = Ux.nativeWorker("schema - " + schema.identifier());
-        executor.<JsonObject>executeBlocking(
-            pre -> pre.handle(this.saveSchema(schema)),
-            post -> promise.complete(post.result())
-        );
-        return promise.future();
-    }
-
     private Future<JsonObject> saveSchema(final Schema schema) {
-        /*
-         * 这里有问题，需要先针对 schema 执行 upsert 动作
-         * 这样才能同步 entity 的内容，而 Field 以及 Key 和 Index都是依赖 upsert 过后拿到的
-         * 主键，所以老代码需要处理掉
-         */
-        /* 旧代码
-        // Schema -> Field
-        final MEntity entity = schema.getEntity();
-        final List<Future<JsonObject>> futures = new ArrayList<>();
-        Arrays.stream(schema.getFields()).map(field -> Ux.Jooq.on(MFieldDao.class)
-                .upsertAsync(this.onCriteria(field.name(), entity), field)
-                .compose(Ux::fnJObject))
-                .forEach(futures::add);
-
-        // Schema -> Key
-        Arrays.stream(schema.getKeys()).map(key -> Ux.Jooq.on(MKeyDao.class)
-                .upsertAsync(this.onCriteria(key.name(), entity), key)
-                .compose(Ux::fnJObject))
-                .forEach(futures::add);
-
-        return Ux.thenComposite(futures)
-                .compose(nil -> Ux.Jooq.on(MEntityDao.class)
-                        .upsertAsync(this.onCriteria(entity), entity))
-                .compose(Ux::fnJObject);
-         */
         final MEntity updated = schema.getEntity();
         return Ux.Jooq.on(MEntityDao.class)
-            .upsertAsync(this.onCriteria(updated), updated)
+            .upsertAsync(this.criteria(updated), updated)
             .compose(entity -> {
                 // 设置关系信息重建
                 schema.relation(entity.getKey());
-                final List<Future<JsonObject>> futures = new ArrayList<>();
+                final List<Future<JsonArray>> combine = new ArrayList<>();
                 // Schema -> Field
-                Arrays.stream(schema.getFields()).map(field -> Ux.Jooq.on(MFieldDao.class)
-                        .upsertAsync(this.onCriteria(field.getName(), entity), field)
-                        .compose(Ux::futureJ))
-                    .forEach(futures::add);
-
+                combine.add(this.saveField(schema, entity));
                 // Schema -> Key
-                Arrays.stream(schema.getKeys()).map(key -> Ux.Jooq.on(MKeyDao.class)
-                        .upsertAsync(this.onCriteria(key.getName(), entity), key)
-                        .compose(Ux::futureJ))
-                    .forEach(futures::add);
-                // Schema -> Index
-                return Ux.thenCombine(futures)
+                combine.add(this.saveKey(schema, entity));
+                return Ux.thenCombineArray(combine)
                     .compose(nil -> Ux.future(entity))
-                    .compose(Ux::futureJ);
+                    .compose(Ux::futureJ)
+                    .otherwise(Ux.otherwise(() -> null));
             });
+    }
+
+    private Future<JsonArray> saveKey(final Schema schema, final MEntity entity) {
+        final JsonObject condition = new JsonObject();
+        // Schema -> Field
+        final MKey[] keys = schema.getKeys();
+        for (int idx = 0; idx < keys.length; idx++) {
+            final MKey field = keys[idx];
+            condition.put("$" + idx, this.criteria(field.getName(), entity));
+        }
+        final UxJooq jq = Ux.Jooq.on(MKeyDao.class);
+        return jq.<MKey>fetchAsync(condition).compose(queried -> {
+            final List<MKey> fieldList = Arrays.asList(keys);
+            final ConcurrentMap<ChangeFlag, List<MKey>> compared = Ux.compare(queried, fieldList, this.uniqueSet());
+            return Ux.compareRun(compared, jq::insertAsync, jq::updateAsync);
+        });
+    }
+
+    private Future<JsonArray> saveField(final Schema schema, final MEntity entity) {
+        final JsonObject condition = new JsonObject();
+        // Schema -> Field
+        final MField[] fields = schema.getFields();
+        for (int idx = 0; idx < fields.length; idx++) {
+            final MField field = fields[idx];
+            condition.put("$" + idx, this.criteria(field.getName(), entity));
+        }
+        final UxJooq jq = Ux.Jooq.on(MFieldDao.class);
+        return jq.<MField>fetchAsync(condition).compose(queried -> {
+            final List<MField> fieldList = Arrays.asList(fields);
+            final ConcurrentMap<ChangeFlag, List<MField>> compared = Ux.compare(queried, fieldList, this.uniqueSet());
+            return Ux.compareRun(compared, jq::insertAsync, jq::updateAsync);
+        });
     }
 }

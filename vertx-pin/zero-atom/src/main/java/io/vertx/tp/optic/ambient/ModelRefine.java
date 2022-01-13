@@ -87,6 +87,7 @@ class ModelRefine implements AoRefine {
             final JsonObject filters = new JsonObject();
             filters.put(KName.NAME, attribute.getName());
             filters.put(KName.MODEL_ID, attribute.getModelId());
+            filters.put(Strings.EMPTY, Boolean.TRUE);
             return filters;
         };
         // 1. 构造属性专用条件
@@ -104,7 +105,7 @@ class ModelRefine implements AoRefine {
             // 4. 比对结果处理
             final ConcurrentMap<ChangeFlag, List<MAttribute>> compared = Ux.compare(original, new ArrayList<>(model.dbAttributes()), uniqueSet);
             return Ux.future(compared);
-        }).compose(compared -> this.combineAsync(compared, jooqAttr::insertAsync, jooqAttr::updateAsync));
+        }).compose(compared -> Ux.compareRun(compared, jooqAttr::insertAsync, jooqAttr::updateAsync));
     }
 
     /*
@@ -132,15 +133,6 @@ class ModelRefine implements AoRefine {
             // 4. 比对结果处理
             final ConcurrentMap<ChangeFlag, List<MJoin>> compared = Ux.compare(original, new ArrayList<>(model.dbJoins()), uniqueSet);
             return Ux.future(compared);
-        }).compose(compared -> this.combineAsync(compared, jooqJoin::insertAsync, jooqJoin::updateAsync));
-    }
-
-    private <T> Future<JsonArray> combineAsync(final ConcurrentMap<ChangeFlag, List<T>> compared,
-                                               final Function<List<T>, Future<List<T>>> insertAsyncFn,
-                                               final Function<List<T>, Future<List<T>>> updateAsyncFn) {
-        final List<Future<JsonArray>> futures = new ArrayList<>();
-        futures.add(insertAsyncFn.apply(compared.get(ChangeFlag.ADD)).compose(Ux::futureA));
-        futures.add(updateAsyncFn.apply(compared.get(ChangeFlag.UPDATE)).compose(Ux::futureA));
-        return Ux.thenCombineArray(futures);
+        }).compose(compared -> Ux.compareRun(compared, jooqJoin::insertAsync, jooqJoin::updateAsync));
     }
 }

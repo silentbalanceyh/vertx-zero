@@ -1,5 +1,7 @@
 package io.vertx.up.unity;
 
+import io.vertx.core.Future;
+import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.eon.em.ChangeFlag;
 import io.vertx.up.util.Ut;
@@ -162,5 +164,21 @@ class Compare {
         final JsonObject original = Ux.toJson(query);
         original.mergeIn(params, true);
         return (T) From.fromJson(original, entityCls, "");
+    }
+
+
+    static <T> Future<JsonArray> run(final ConcurrentMap<ChangeFlag, List<T>> compared,
+                                     final Function<List<T>, Future<List<T>>> insertAsyncFn,
+                                     final Function<List<T>, Future<List<T>>> updateAsyncFn) {
+        final List<Future<JsonArray>> futures = new ArrayList<>();
+        final List<T> qAdd = compared.getOrDefault(ChangeFlag.ADD, new ArrayList<>());
+        if (!qAdd.isEmpty()) {
+            futures.add(insertAsyncFn.apply(qAdd).compose(Ux::futureA));
+        }
+        final List<T> qUpdate = compared.getOrDefault(ChangeFlag.UPDATE, new ArrayList<>());
+        if (!qUpdate.isEmpty()) {
+            futures.add(updateAsyncFn.apply(qUpdate).compose(Ux::futureA));
+        }
+        return Ux.thenCombineArray(futures);
     }
 }

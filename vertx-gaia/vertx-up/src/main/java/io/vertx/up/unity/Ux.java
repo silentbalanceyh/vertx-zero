@@ -356,6 +356,7 @@ public final class Ux {
     /*
      * 1) compare
      * 2) compareJ
+     * 3) compareRun
      */
 
     public static <T, R> ConcurrentMap<ChangeFlag, List<T>> compare(final List<T> original, final List<T> current, final Function<T, R> fnValue, final String pojoFile) {
@@ -392,6 +393,10 @@ public final class Ux {
     public static Future<ConcurrentMap<ChangeFlag, JsonArray>> compareJAsync(
         final JsonArray original, final JsonArray current, final JsonArray matrix) {
         return To.future(CompareJ.compareJ(original, current, matrix));
+    }
+
+    public static <T> Future<JsonArray> compareRun(final ConcurrentMap<ChangeFlag, List<T>> compared, final Function<List<T>, Future<List<T>>> insertAsyncFn, final Function<List<T>, Future<List<T>>> updateAsyncFn) {
+        return Compare.run(compared, insertAsyncFn, updateAsyncFn);
     }
 
     /*
