@@ -53,6 +53,33 @@ public interface UiApi {
     JsonObject fetchOp(@BodyParam JsonObject body);
 
     /*
+     * Condition should be:
+     * 1. Path Parameter: page, identifier
+     * 2. Body Parameter:
+     * {
+     *      "view": "DEFAULT",
+     *      "position": "DEFAULT",
+     *      "type": "FORM / LIST",
+     * }
+     *
+     * The most frequency situation is
+     * 1. identifier, page, processing based on model and page
+     * -  The page navigate you to the fixed page in your app
+     * -  The identifier navigate you to the correct model
+     * 2. The parameters contain view, position, type to search correct control id
+     * -  The target control id is FORM/LIST id that could fetch following:
+     *   -  Fetch fields by FORM id ( controlId )
+     *   -  Fetch columns by LIST id ( controlId )
+     *   -  Fetch ops by LIST id ( controlId )
+     */
+    @Path("/ui/visitor/:identifier/:page")
+    @POST
+    @Address(Addr.Control.FETCH_BY_VISITOR)
+    JsonObject fetchVisitor(@PathParam(KName.Ui.PAGE) String page,
+                            @PathParam(KName.IDENTIFIER) String identifier,
+                            @BodyParam JsonObject params);
+
+    /*
      * Fetch form configuration by
      * code, this method is for single form fetch
      */

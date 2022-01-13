@@ -238,6 +238,8 @@ public interface KName {
         String CONTROL_ID = "controlId";
 
         String CLASS_NAME = "className";
+
+        String PAGE = "page";
         /*
          * Form belong-to
          */

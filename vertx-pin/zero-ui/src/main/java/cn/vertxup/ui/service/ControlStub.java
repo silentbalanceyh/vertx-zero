@@ -3,6 +3,7 @@ package cn.vertxup.ui.service;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
+import io.vertx.tp.ui.cv.em.ControlType;
 
 public interface ControlStub {
     /*
@@ -14,4 +15,9 @@ public interface ControlStub {
      * Fetch control by id
      */
     Future<JsonObject> fetchById(String control);
+
+    /*
+     * Fetch control based on UI_VISITOR
+     */
+    Future<JsonObject> fetchControl(ControlType controlType, JsonObject params);
 }

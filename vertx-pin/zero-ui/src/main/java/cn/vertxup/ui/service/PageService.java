@@ -1,10 +1,13 @@
 package cn.vertxup.ui.service;
 
+import cn.vertxup.ui.domain.tables.daos.UiLayoutDao;
 import cn.vertxup.ui.domain.tables.daos.UiPageDao;
 import cn.vertxup.ui.domain.tables.pojos.UiPage;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
+import io.vertx.tp.ui.cv.UiCv;
 import io.vertx.up.eon.KName;
+import io.vertx.up.uca.cache.Rapid;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
@@ -13,9 +16,22 @@ import java.util.Objects;
 
 public class PageService implements PageStub {
     @Inject
-    private transient TplStub tplStub;
-    @Inject
     private transient ControlStub controlStub;
+
+    @Override
+    public Future<JsonObject> fetchLayout(final String layoutId) {
+        /*
+         * Enable Cache for Layout
+         */
+        return Rapid.<String, JsonObject>t(UiCv.POOL_LAYOUT).cached(layoutId,
+            () -> Ux.Jooq.on(UiLayoutDao.class)
+                .fetchByIdAsync(layoutId)
+                .compose(Ux::futureJ)
+                /*
+                 * Configuration converted to Json
+                 */
+                .compose(Ut.ifJObject(KName.Ui.CONFIG)));
+    }
 
     @Override
     public Future<JsonObject> fetchAmp(final String sigma,
@@ -75,7 +91,7 @@ public class PageService implements PageStub {
      * Fetch layout by page.
      */
     private Future<JsonObject> fetchLayout(final UiPage page) {
-        return this.tplStub.fetchLayout(page.getLayoutId())
+        return this.fetchLayout(page.getLayoutId())
             .compose(layout -> {
                 final JsonObject pageJson = Ux.toJson(page);
                 pageJson.put("layout", layout);

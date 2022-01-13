@@ -11,4 +11,9 @@ public interface PageStub {
      * Fetch page by: app + module + page
      */
     Future<JsonObject> fetchAmp(String sigma, JsonObject params);
+
+    /*
+     * Cached layout information here to stored
+     */
+    Future<JsonObject> fetchLayout(String layoutId);
 }
