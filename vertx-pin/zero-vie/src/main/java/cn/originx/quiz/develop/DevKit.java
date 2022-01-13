@@ -45,6 +45,14 @@ public class DevKit {
         doLoading(DevDefault.pathCmdb(), null, false);
     }
 
+    public static void oobCab() {
+        doLoading(DevDefault.pathCab(), null, false);
+    }
+
+    public static void oobRole(final String role) {
+        doLoading(DevDefault.pathRole(role), null, false);
+    }
+
     public static void oobUi(final String identifier) {
         doLoading(DevDefault.pathUi(identifier), null, false);
     }
