@@ -43,42 +43,47 @@ public class SheetAnalyzer implements Serializable {
         if (Debugger.onExcelRanging()) {
             LOGGER.info("[ Έξοδος ] Scan Range: {0}", bound);
         }
-        /* Sheet scanning */
-        final Set<ExTable> tables = new HashSet<>();
+        try {
+            /* Sheet scanning */
+            final Set<ExTable> tables = new HashSet<>();
 
-        /* Row scanning for {TABLE} */
-        final List<Cell> tableCell = new ArrayList<>();
-        ExFn.itSheet(this.sheet, bound, (row, index) -> {
-            final ExBound colBound = new ColBound(row);
-            ExFn.itRow(row, colBound,
-                /* {Table} Cell */
-                (cell, colIndex) -> tableCell.add(cell),
-                /* Predicate Here */
-                cell -> CellType.STRING == cell.getCellType()
-                    /* Do not check blank / empty cell here */
-                    && Ut.notNil(cell.getStringCellValue())
-                    /* Fix issue of {TABLE} here for BLANK CELL */
-                    && cell.getStringCellValue().equals(ExKey.EXPR_TABLE));
-        });
-        /* analyzedBounds */
-        if (!tableCell.isEmpty()) {
-            if (Debugger.onExcelRanging()) {
-                LOGGER.info("[ Έξοδος ] Scanned sheet: {0}, tableCell = {1}",
-                    this.sheet.getSheetName(), String.valueOf(tableCell.size()));
-            }
-            /* Range scaned */
-            final ConcurrentMap<Integer, Integer> range = this.getRange(tableCell);
-            tableCell.stream().map(cell -> {
-                final Row row = this.sheet.getRow(cell.getRowIndex());
-                if (null == row) {
-                    return null;
-                } else {
-                    final Integer limit = range.get(cell.hashCode());
-                    return this.analyzed(row, cell, limit, TypeAtom);
+            /* Row scanning for {TABLE} */
+            final List<Cell> tableCell = new ArrayList<>();
+            ExFn.itSheet(this.sheet, bound, (row, index) -> {
+                final ExBound colBound = new ColBound(row);
+                ExFn.itRow(row, colBound,
+                    /* {Table} Cell */
+                    (cell, colIndex) -> tableCell.add(cell),
+                    /* Predicate Here */
+                    cell -> CellType.STRING == cell.getCellType()
+                        /* Do not check blank / empty cell here */
+                        && Ut.notNil(cell.getStringCellValue())
+                        /* Fix issue of {TABLE} here for BLANK CELL */
+                        && cell.getStringCellValue().equals(ExKey.EXPR_TABLE));
+            });
+            /* analyzedBounds */
+            if (!tableCell.isEmpty()) {
+                if (Debugger.onExcelRanging()) {
+                    LOGGER.info("[ Έξοδος ] Scanned sheet: {0}, tableCell = {1}",
+                        this.sheet.getSheetName(), String.valueOf(tableCell.size()));
                 }
-            }).filter(Objects::nonNull).forEach(tables::add);
+                /* Range scaned */
+                final ConcurrentMap<Integer, Integer> range = this.getRange(tableCell);
+                tableCell.stream().map(cell -> {
+                    final Row row = this.sheet.getRow(cell.getRowIndex());
+                    if (null == row) {
+                        return null;
+                    } else {
+                        final Integer limit = range.get(cell.hashCode());
+                        return this.analyzed(row, cell, limit, TypeAtom);
+                    }
+                }).filter(Objects::nonNull).forEach(tables::add);
+            }
+            return tables;
+        } catch (final Throwable ex) {
+            LOGGER.jvm(ex);
+            return new HashSet<>();
         }
-        return tables;
     }
 
     private ConcurrentMap<Integer, Integer> getRange(final List<Cell> tableCell) {

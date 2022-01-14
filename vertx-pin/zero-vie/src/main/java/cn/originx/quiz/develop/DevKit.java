@@ -49,6 +49,14 @@ public class DevKit {
         doLoading(DevDefault.pathCab(), null, false);
     }
 
+    public static void oobData() {
+        doLoading(DevDefault.pathData(), null, false);
+    }
+
+    public static void oobEnvironment() {
+        doLoading(DevDefault.pathEnvironment(), null, false);
+    }
+
     public static void oobRole(final String role) {
         doLoading(DevDefault.pathRole(role), null, false);
     }
@@ -64,7 +72,7 @@ public class DevKit {
     // ----------------------- DevModeller Object -------------------------
 
     public static DevModeller modeller() {
-        return modeller(DevDefault.pathIn(), DevDefault.pathOut());
+        return modeller(DevDefault.ROOT_INPUT, DevDefault.ROOT_OUTPUT);
     }
 
     public static DevModeller modeller(final String input, final String output) {

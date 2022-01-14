@@ -1,0 +1,6 @@
+{
+    "extension": [
+        "$opFilter,搜索,SUBMIT,primary",
+        "$opReset,重置,RESET"
+    ]
+}

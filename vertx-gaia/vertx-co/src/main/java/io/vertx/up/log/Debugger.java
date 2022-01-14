@@ -19,6 +19,7 @@ public class Debugger {
     private static final String KEY_STACK_TRACING = "stack.tracing";
     private static final String KEY_JOOQ_CONDITION = "jooq.condition";
     private static final String KEY_EXCEL_RANGING = "excel.ranging";
+    private static final String KEY_UI_CACHE = "ui.cache";
 
     static {
         final JsonObject configuration = VISITOR.read();
@@ -48,6 +49,10 @@ public class Debugger {
 
     public static boolean onJobBooting() {
         return isEnabled(KEY_JOB_BOOTING);
+    }
+
+    public static boolean onUiCache() {
+        return isEnabled(KEY_UI_CACHE);
     }
 
     public static boolean onPasswordHidden() {

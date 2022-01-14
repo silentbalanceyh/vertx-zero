@@ -6,7 +6,11 @@ import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.ke.refine.Ke;
+import io.vertx.tp.ui.refine.Ui;
 import io.vertx.up.atom.secure.Vis;
+import io.vertx.up.eon.KName;
+import io.vertx.up.eon.Strings;
+import io.vertx.up.log.Annal;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
@@ -14,6 +18,9 @@ import java.util.Comparator;
 import java.util.stream.Collectors;
 
 class StoreValve implements UiValve {
+
+    private static final Annal LOGGER = Annal.get(StoreValve.class);
+
     @Override
     public Future<JsonArray> fetchColumn(final Vis vis, final String identifier, final String sigma) {
         /*
@@ -23,9 +30,10 @@ class StoreValve implements UiValve {
          */
         final String controlId = vis.view() + "-" + identifier;
         final JsonObject filters = new JsonObject();
-        filters.put("", Boolean.TRUE);
+        filters.put(Strings.EMPTY, Boolean.TRUE);
         filters.put("controlId", controlId);
-        filters.put("sigma", sigma);
+        filters.put(KName.SIGMA, sigma);
+        Ui.infoUi(LOGGER, "The condition for column fetching: {0}", filters.encode());
         return Ux.Jooq.on(UiColumnDao.class)
             .<UiColumn>fetchAsync(filters)
             .compose(list -> Ux.future(list.stream()

@@ -1,0 +1,6 @@
+{
+    "extension": [
+        "$opBatchEdit,批量保存,SUBMIT,primary",
+        "$opSaveApproval,批量确认,SUBMIT,primary"
+    ]
+}

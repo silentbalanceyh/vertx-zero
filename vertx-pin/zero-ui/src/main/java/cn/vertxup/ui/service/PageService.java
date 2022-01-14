@@ -7,12 +7,14 @@ import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.ui.cv.UiCv;
 import io.vertx.up.eon.KName;
+import io.vertx.up.log.Debugger;
 import io.vertx.up.uca.cache.Rapid;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
 import javax.inject.Inject;
 import java.util.Objects;
+import java.util.function.Function;
 
 public class PageService implements PageStub {
     @Inject
@@ -23,14 +25,22 @@ public class PageService implements PageStub {
         /*
          * Enable Cache for Layout
          */
-        return Rapid.<String, JsonObject>t(UiCv.POOL_LAYOUT).cached(layoutId,
-            () -> Ux.Jooq.on(UiLayoutDao.class)
-                .fetchByIdAsync(layoutId)
+        final Function<String, Future<JsonObject>> executor = (layout) ->
+            Ux.Jooq.on(UiLayoutDao.class)
+                .fetchByIdAsync(layout)
                 .compose(Ux::futureJ)
                 /*
                  * Configuration converted to Json
                  */
-                .compose(Ut.ifJObject(KName.Ui.CONFIG)));
+                .compose(Ut.ifJObject(KName.Ui.CONFIG));
+        if (Debugger.onUiCache()) {
+            // Ui Cache Enabled
+            return Rapid.<String, JsonObject>t(UiCv.POOL_LAYOUT)
+                .cached(layoutId, () -> executor.apply(layoutId));
+        } else {
+            // Ui Cache Disabled ( Development Mode )
+            return executor.apply(layoutId);
+        }
     }
 
     @Override

@@ -17,15 +17,13 @@ import java.util.concurrent.ConcurrentMap;
  */
 class DevDefault {
     static final ConcurrentMap<String, DevModeller> MODELLER = new ConcurrentHashMap<>();
+    // Public
+    static final String ROOT_INPUT = "atom/cmdb";
+    static final String ROOT_OUTPUT = "src/main/resources/atom/target";
+    // Private
     private static final String ROOT_MENU_ROLE = "init/permission/ui.menu/role/";
     private static final String ROOT_MENU = "init/permission/ui.menu/";
     private static final String ROOT_OOB = "init/oob";
-
-    private static final String ROOT_INPUT = "atom/cmdb";
-    private static final String ROOT_OUTPUT = "src/main/resources/atom/target";
-    private static final String ROOT_ROLE = "init/oob/role";
-    private static final String ROOT_CAB = "init/oob/cab";
-
     private static final String JSON_EXTENSION = Strings.DOT + FileSuffix.JSON;
 
     public static JsonArray pathMenu(final String role) {
@@ -36,9 +34,6 @@ class DevDefault {
         return root + ROOT_MENU + role + JSON_EXTENSION;
     }
 
-    public static String pathOob() {
-        return ROOT_OOB;
-    }
 
     public static String pathUi(final String identifier) {
         Objects.requireNonNull(identifier);
@@ -47,7 +42,12 @@ class DevDefault {
 
     public static String pathRole(final String role) {
         Objects.requireNonNull(role);
-        return ROOT_ROLE + "/" + role + "/";
+        return ROOT_OOB + "/role/" + role + "/";
+    }
+
+    // oob + suffix
+    public static String pathOob() {
+        return ROOT_OOB;
     }
 
     public static String pathCmdb() {
@@ -55,15 +55,15 @@ class DevDefault {
     }
 
     public static String pathCab() {
-        return ROOT_CAB;
+        return ROOT_OOB + "/cab";
     }
 
-    public static String pathIn() {
-        return ROOT_INPUT;
+    public static String pathData() {
+        return ROOT_OOB + "/data";
     }
 
-    public static String pathOut() {
-        return ROOT_OUTPUT;
+    public static String pathEnvironment() {
+        return ROOT_OOB + "/environment";
     }
 
     public static Set<String> roles() {
