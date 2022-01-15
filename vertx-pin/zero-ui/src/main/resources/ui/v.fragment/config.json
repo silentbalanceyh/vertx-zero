@@ -1,0 +1,31 @@
+{
+    "fieldColumn": {
+        "title": "选择属性",
+        "items": [
+            "code,编号",
+            "name,名称",
+            "active,是否启用",
+            "createdBy,创建人",
+            "createdAt,创建时间"
+        ]
+    },
+    "valueColumn": {
+        "title": "设置值",
+        "render": {
+            "name": "TEXT",
+            "active": {
+                "type": "RADIO",
+                "config": [
+                    "true,启用",
+                    "false,禁用"
+                ]
+            },
+            "createdAt": {
+                "type": "DATE",
+                "config": {
+                    "format": "YYYY-MM-DD"
+                }
+            }
+        }
+    }
+}

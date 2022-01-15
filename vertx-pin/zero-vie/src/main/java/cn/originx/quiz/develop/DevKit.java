@@ -49,6 +49,7 @@ public class DevKit {
         doLoading(DevDefault.pathCab(), null, false);
     }
 
+
     public static void oobData() {
         doLoading(DevDefault.pathData(), null, false);
     }
@@ -63,6 +64,10 @@ public class DevKit {
 
     public static void oobUi(final String identifier) {
         doLoading(DevDefault.pathUi(identifier), null, false);
+    }
+
+    public static void oobLoader(final String prefix) {
+        doLoading(DevDefault.pathOob(), prefix, true);
     }
 
     public static void oobLoader() {

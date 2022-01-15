@@ -4,6 +4,7 @@ import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.atom.config.Metadata;
+import io.vertx.up.eon.KName;
 
 import java.util.Arrays;
 import java.util.Objects;
@@ -154,6 +155,18 @@ class Apply {
         };
     }
 
+    static Function<JsonObject, Future<JsonObject>> ifPage(final String... fields) {
+        return json -> {
+            if (json.containsKey(KName.LIST)) {
+                final JsonArray listRef = json.getJsonArray(KName.LIST);
+                It.itJArray(listRef).forEach(each ->
+                    Arrays.stream(fields).forEach(field -> ifJson(each, field)));
+                json.put(KName.LIST, listRef);
+            }
+            return Future.succeededFuture(json);
+        };
+    }
+
     static Function<JsonArray, Future<JsonArray>> ifJArray(final String... fields) {
         return jarray -> {
             It.itJArray(jarray).forEach(json ->
@@ -199,6 +212,7 @@ class Apply {
             }
         }
     }
+
 
     static void ifJson(final JsonObject json, final String... fields) {
         Arrays.stream(fields).forEach(field -> ifJson(json, field));

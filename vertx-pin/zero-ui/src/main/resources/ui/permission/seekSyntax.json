@@ -1,0 +1,20 @@
+{
+    "phase": "AFTER",
+    "data": {
+        "type": "RECORD",
+        "viewId": "`${viewId}`",
+        "configKey": "`${categoryThird}`"
+    },
+    "phaseConfig": {
+    },
+    "comment": {
+        "description": "合法值列表",
+        "value": [
+            "BEFORE_PROJECTION",
+            "BEFORE_CRITERIA",
+            "AFTER_RECORD",
+            "AFTER_ROWS",
+            "AFTER_COLLECTION"
+        ]
+    }
+}
