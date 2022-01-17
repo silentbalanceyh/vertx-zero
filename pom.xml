@@ -78,7 +78,7 @@
         <hikari.cp.version>5.0.1</hikari.cp.version>
         <jooq.version>3.16.2</jooq.version>
         <vertx.jooq.version>6.4.0</vertx.jooq.version>
-        <mysql.version>8.0.27</mysql.version>
+        <mysql.version>8.0.28</mysql.version>
 
         <!-- Java Reflection -->
         <reflect.asm.version>1.11.9</reflect.asm.version>
