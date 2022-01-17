@@ -84,7 +84,8 @@ public class AtomSwitcher implements Switcher {
             final JsonObject input = this.options.copy();
             input.put(KName.DATA, data);
             Ox.Log.debugUca(this.getClass(), " ComponentIndent 选择器：{0}", this.indent.getClass());
-            return this.indent.resolve(input).compose(Ut.ifNil(
+            final JsonObject config = Ox.pluginOptions(this.indent.getClass(), input);
+            return this.indent.resolve(input, config).compose(Ut.ifNil(
 
                 /* 默认值，配置优先 */
                 () -> defaultAtom,
@@ -112,7 +113,8 @@ public class AtomSwitcher implements Switcher {
             final JsonObject input = this.options.copy();
             input.put(KName.DATA, data);
             Ox.Log.debugUca(this.getClass(), " ComponentIndent 选择器（批量）：{0}", this.indent.getClass());
-            return this.indent.resolve(input, atom.identifier()).compose(Ut.ifNil(
+            final JsonObject config = Ox.pluginOptions(this.indent.getClass(), input);
+            return this.indent.resolve(input, atom.identifier(), config).compose(Ut.ifNil(
                 /* 默认值，配置优先 */
                 HashSet::new,
 
