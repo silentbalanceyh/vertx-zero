@@ -1,4 +1,4 @@
-package cn.originx.plugin.indent;
+package cn.originx.uca.plugin.indent;
 
 import cn.originx.cv.OxCv;
 import cn.originx.refine.Ox;
