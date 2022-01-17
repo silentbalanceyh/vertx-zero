@@ -9,7 +9,7 @@ import io.vertx.up.commune.ActOut;
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-public interface HWay<T> {
+public interface HWay<T, ID> {
     /**
      * 构造 Apt 专用输入方法（更新专用）
      *
@@ -88,4 +88,44 @@ public interface HWay<T> {
      * @return {@link io.vertx.core.Future}<{@link T}>
      */
     Future<T> transferOut(final T input);
+
+    // ------------------ Fetch专用 ----------------
+
+    /**
+     * 「Step 1」根据主键执行单记录读取
+     *
+     * @param key {@link java.lang.String} 字符串主键
+     *
+     * @return {@link io.vertx.core.Future}<{@link T}>
+     */
+    Future<T> fetchByKey(ID key);
+
+    /**
+     * 「Step 2」根据数据记录执行动态`DataAtom`操作，读取核心数据记录
+     *
+     * > 内部调用`completer`构造模型读取器
+     *
+     * @param data {@link T} 输入记录
+     *
+     * @return {@link io.vertx.core.Future}<{@link T}>
+     */
+    Future<T> fetchByData(T data);
+
+    /**
+     * 全记录读取
+     *
+     * 1. 先调用`fetchAsync(String)`。
+     * 2. 再调用`fetchAsync(T)`。
+     *
+     * 示例：
+     *
+     * 1. 先读取 ci.device 的记录
+     * 2. 其次根据 data 切换 indent 交换 Atom
+     * 3. 根据新的 Atom 读取核心数据信息
+     *
+     * @param key {@link java.lang.String} 字符串主键
+     *
+     * @return {@link io.vertx.core.Future}<{@link T}>
+     */
+    Future<T> fetchFull(ID key);
 }

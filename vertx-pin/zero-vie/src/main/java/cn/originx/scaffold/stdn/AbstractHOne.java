@@ -17,7 +17,7 @@ import java.util.Objects;
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-public abstract class AbstractHOne extends AbstractHub implements HWay<JsonObject> {
+public abstract class AbstractHOne extends AbstractHub implements HWay<JsonObject, String> {
 
     // ------------------ 主逻辑 ------------------
     @Override
@@ -61,6 +61,21 @@ public abstract class AbstractHOne extends AbstractHub implements HWay<JsonObjec
     @Override
     public Future<JsonObject> transferOut(final JsonObject input) {
         return Ux.futureJ();
+    }
+
+    @Override
+    public Future<JsonObject> fetchByKey(final String key) {
+        return this.dao().fetchByIdAsync(key).compose(Ux::futureJ);
+    }
+
+    @Override
+    public Future<JsonObject> fetchByData(final JsonObject data) {
+        return this.atom(data).compose(atom -> this.completer(atom).find(data));
+    }
+
+    @Override
+    public Future<JsonObject> fetchFull(final String key) {
+        return this.fetchByKey(key).compose(this::fetchByData);
     }
     // ------------------ 特殊逻辑 ----------------
 

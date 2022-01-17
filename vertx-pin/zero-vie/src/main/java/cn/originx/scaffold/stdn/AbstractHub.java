@@ -8,8 +8,11 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.atom.modeling.data.DataAtom;
 import io.vertx.tp.atom.refine.Ao;
+import io.vertx.tp.error._501NotImplementException;
 import io.vertx.tp.ke.refine.Ke;
+import io.vertx.tp.modular.dao.AoDao;
 import io.vertx.tp.optic.Trash;
+import io.vertx.tp.optic.robin.Switcher;
 import io.vertx.up.commune.ActIn;
 import io.vertx.up.commune.ActOut;
 import io.vertx.up.commune.config.Integration;
@@ -275,5 +278,46 @@ public class AbstractHub extends AbstractActor {
                     .procAsync(converted, data, this.options(), converted.size());
             }
         );
+    }
+
+    // ------------------ Completer特殊接口 ----------------
+
+    /**
+     * 模型专用统一访问器，提供<strong>输入模型</strong>的基础访问方法。
+     *
+     * @param atom {@link DataAtom} 模型定义对象
+     *
+     * @return {@link Completer}
+     */
+    public Completer completer(final DataAtom atom) {
+        throw new _501NotImplementException(this.getClass());
+    }
+
+    @Override
+    public AoDao dao(final DataAtom atom) {
+        return super.dao(atom);
+    }
+
+    @Override
+    public Switcher switcher() {
+        return super.switcher();
+    }
+
+    /**
+     * 模型专用统一访问器，提供<strong>当前模型</strong>的基础访问方法。
+     *
+     * 操作矩阵说明：
+     *
+     * |方法名|单参JsonObject|多参JsonArray|备注|
+     * |:---|---|---|:---|
+     * |create|Ok|Ok|创建/批量创建|
+     * |update|Ok|Ok|更新/批量更新|
+     * |remove|Ok|Ok|删除/批量删除|
+     * |find|Ok|Ok|读取/批量读取|
+     *
+     * @return {@link Completer}
+     */
+    public Completer completer() {
+        return this.completer(this.atom());
     }
 }

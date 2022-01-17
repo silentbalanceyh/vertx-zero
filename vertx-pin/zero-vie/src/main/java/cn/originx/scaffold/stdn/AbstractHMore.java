@@ -12,13 +12,15 @@ import io.vertx.up.commune.ActIn;
 import io.vertx.up.commune.ActOut;
 import io.vertx.up.unity.Ux;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-public abstract class AbstractHMore extends AbstractHub implements HWay<JsonArray> {
+public abstract class AbstractHMore extends AbstractHub implements HWay<JsonArray, String[]> {
 
     // ------------------ 主逻辑 ------------------
     @Override
@@ -69,6 +71,28 @@ public abstract class AbstractHMore extends AbstractHub implements HWay<JsonArra
     @Override
     public Future<JsonArray> transferOut(final JsonArray input) {
         return Ux.futureA();
+    }
+
+    @Override
+    public Future<JsonArray> fetchByKey(final String[] keys) {
+        return this.dao().fetchByIdAsync(keys).compose(Ux::futureA);
+    }
+
+    @Override
+    public Future<JsonArray> fetchFull(final String[] keys) {
+        return this.fetchByKey(keys).compose(this::fetchByData);
+    }
+
+    @Override
+    public Future<JsonArray> fetchByData(final JsonArray data) {
+        return this.atom(data).compose(groupSet -> {
+            final List<Future<JsonArray>> futures = new ArrayList<>();
+            groupSet.stream()
+                .map(group -> this.completer(group.atom()).find(group.data()))
+                .forEach(futures::add);
+            Ox.Log.infoUca(this.getClass(), "合计组数量：{0}", String.valueOf(futures.size()));
+            return Ux.thenCombineArray(futures);
+        });
     }
     // ------------------ 特殊逻辑 ----------------
 
