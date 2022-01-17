@@ -1,23 +1,26 @@
 package cn.vertxup.ui.api;
 
-import cn.vertxup.ui.service.*;
+import cn.vertxup.ui.service.ControlStub;
+import cn.vertxup.ui.service.FormStub;
+import cn.vertxup.ui.service.ListStub;
+import cn.vertxup.ui.service.PageStub;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.ui.cv.Addr;
 import io.vertx.tp.ui.cv.em.ControlType;
-import io.vertx.tp.ui.init.UiPin;
 import io.vertx.tp.ui.refine.Ui;
 import io.vertx.up.annotations.Address;
+import io.vertx.up.annotations.Me;
 import io.vertx.up.annotations.Queue;
 import io.vertx.up.eon.KName;
-import io.vertx.up.log.Annal;
-import io.vertx.up.uca.cache.Rapid;
+import io.vertx.up.eon.KValue;
+import io.vertx.up.eon.Strings;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
 import javax.inject.Inject;
-import java.util.function.Supplier;
+import java.util.Objects;
 
 @Queue
 public class UiActor {
@@ -34,9 +37,6 @@ public class UiActor {
     @Inject
     private transient ControlStub controlStub;
 
-    @Inject
-    private transient OpStub opStub;
-
     @Address(Addr.Page.FETCH_AMP)
     public Future<JsonObject> fetchAmp(final String sigma, final JsonObject body) {
         return this.stub.fetchAmp(sigma, body);
@@ -45,7 +45,7 @@ public class UiActor {
 
     @Address(Addr.Control.FETCH_BY_ID)
     public Future<JsonObject> fetchControl(final JsonObject body) {
-        return UiCache.getControl(body, () -> {
+        return Ui.cacheControl(body, () -> {
             final String control = body.getString("control");
             final ControlType type = Ut.toEnum(() -> body.getString("type"), ControlType.class, ControlType.NONE);
             if (Ut.notNil(control)) {
@@ -62,19 +62,19 @@ public class UiActor {
 
     @Address(Addr.Control.FETCH_OP)
     public Future<JsonArray> fetchOps(final JsonObject body) {
-        return UiCache.getOps(body, () -> {
+        return Ui.cacheOps(body, () -> {
             final String control = body.getString("control");
             if (Ut.notNil(control)) {
                 /*
                  * UI_OP stored
                  */
-                return this.opStub.fetchDynamic(control);
+                return this.listStub.fetchOpDynamic(control);
             } else {
                 /*
                  * fetch data plugin/ui/ops.json
                  */
                 final String identifier = body.getString(KName.IDENTIFIER);
-                return this.opStub.fetchFixed(identifier);
+                return this.listStub.fetchOpFixed(identifier);
             }
         });
 
@@ -95,33 +95,43 @@ public class UiActor {
     public Future<JsonArray> fetchLists(final String sigma, final String identifier) {
         return this.listStub.fetchByIdentifier(identifier, sigma);
     }
-}
 
-class UiCache {
+    @Address(Addr.Control.FETCH_BY_VISITOR)
+    @Me
+    public Future<JsonObject> fetchByVisitor(final String page, final String identifier, final JsonObject params) {
+        /*
+         * The input parameters
+         * {
+         *      "page": xxx,
+         *      "identifier": xxx,
+         *      "path": based on view/position,
+         *      "type": calculate the parameter from params,
+         *      "sigma": extract from params,
+         *      "alias": The name that you can define here.
+         * }
+         */
+        final ControlType controlType = Ut.toEnum(ControlType.class, params.getString(KName.TYPE));
 
-    private static final Annal LOGGER = Annal.get(UiCache.class);
-
-    public static Future<JsonObject> getControl(final JsonObject body,
-                                                final Supplier<Future<JsonObject>> executor) {
-        return getCache(UiPin::keyControl, body, executor);
-    }
-
-    public static Future<JsonArray> getOps(final JsonObject body,
-                                           final Supplier<Future<JsonArray>> executor) {
-        return getCache(UiPin::keyOps, body, executor);
-    }
-
-    private static <T> Future<T> getCache(
-        final Supplier<String> poolFn,
-        final JsonObject body,
-        final Supplier<Future<T>> executor) {
-        final String keyPool = poolFn.get();
-        if (Ut.notNil(keyPool)) {
-            final String uiKey = String.valueOf(body.hashCode());
-            return Rapid.<String, T>t(keyPool).cached(uiKey, executor);
+        if (Objects.isNull(controlType)) {
+            return Ux.futureJ();
         } else {
-            Ui.infoUi(LOGGER, "Ui Cached has been disabled!");
-            return executor.get();
+            /*
+             * calculate the `path` based on `view` and `position`
+             */
+            final String view = params.getString(KName.VIEW, KValue.View.VIEW_DEFAULT);
+            final String position = params.getString(KName.POSITION, KValue.View.POSITION_DEFAULT);
+            final String alias = params.getString(KName.ALIAS, KValue.View.VIEW_DEFAULT);
+
+            /*
+             * Build Parameters
+             */
+            final JsonObject request = new JsonObject();
+            request.put(KName.SIGMA, params.getString(KName.SIGMA));
+            request.put(KName.IDENTIFIER, identifier);
+            request.put(KName.Ui.PAGE, page);
+            final String path = view + Strings.SLASH + position + Strings.SLASH + alias;
+            request.put(KName.App.PATH, path);
+            return this.controlStub.fetchControl(controlType, request);
         }
     }
 }

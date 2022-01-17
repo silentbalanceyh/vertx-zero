@@ -25,8 +25,6 @@ public class OptionService implements OptionStub {
                 FIELD_QUERY_CRITERIA,
                 FIELD_QUERY_PROJECTION
             ));
-        //            .compose(Ke.mount(FIELD_QUERY_CRITERIA))
-        //            .compose(Ke.mountArray(FIELD_QUERY_PROJECTION));
     }
 
     @Override
@@ -39,8 +37,6 @@ public class OptionService implements OptionStub {
                 FIELD_SEARCH_VIEW,
                 FIELD_SEARCH_COND
             ));
-        //            .compose(Ke.mount(FIELD_SEARCH_NOTICE))
-        //            .compose(Ke.mountArray(FIELD_SEARCH_COND));
     }
 
     @Override
@@ -54,10 +50,6 @@ public class OptionService implements OptionStub {
                 FIELD_FRAGMENT_CONFIG,
                 FIELD_FRAGMENT_BUTTON_GROUP
             ));
-        //            .compose(Ke.mount(FIELD_FRAGMENT_MODEL))
-        //            .compose(Ke.mount(FIELD_FRAGMENT_NOTICE))
-        //            .compose(Ke.mount(FIELD_FRAGMENT_CONFIG))
-        //            .compose(Ke.mountArray(FIELD_FRAGMENT_BUTTON_GROUP));
     }
 
     @Override
@@ -68,7 +60,6 @@ public class OptionService implements OptionStub {
             .compose(Ut.ifJObject(
                 FIELD_TABLE_OP_CONFIG
             ));
-        // .compose(Ke.mountArray(FIELD_TABLE_OP_CONFIG));
     }
 
     @Override
@@ -104,18 +95,4 @@ public class OptionService implements OptionStub {
         return Ux.Jooq.on(UiOpDao.class)
             .deleteByAsync(new JsonObject().put(KName.Ui.CONTROL_ID, controlId));
     }
-
-    //    private JsonObject mountIn(final JsonObject data) {
-    //        Ke.mountString(data, OptionStub.FIELD_OP_CONFIG);
-    //        Ke.mountString(data, OptionStub.FIELD_OP_PLUGIN);
-    //        Ke.mountString(data, KName.METADATA);
-    //        return data;
-    //    }
-    //
-    //    private JsonObject mountOut(final JsonObject data) {
-    //        Ke.mount(data, OptionStub.FIELD_OP_CONFIG);
-    //        Ke.mount(data, OptionStub.FIELD_OP_PLUGIN);
-    //        Ke.mount(data, KName.METADATA);
-    //        return data;
-    //    }
 }

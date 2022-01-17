@@ -285,6 +285,10 @@ public interface OxCv {
          * <value>categoryThird</value>，「CMDB」三级分类字段名。
          */
         String CATEGORY_THIRD = "categoryThird";
+
+        String DIM_1 = "dim1";
+        String DIM_2 = "dim2";
+        String DIM_3 = "dim3";
     }
 
     /**

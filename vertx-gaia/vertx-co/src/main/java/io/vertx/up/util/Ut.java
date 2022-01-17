@@ -780,7 +780,7 @@ public final class Ut {
      * 3) ifEmpty / ifJEmpty
      * 4) ifJValue -> JsonObject field filling of value
      * 5) ifJCopy -> JsonObject copy self
-     * 6) ifJObject / ifJArray /
+     * 6) ifJObject / ifJArray / ifPage
      * 7) ifString / ifStrings
      * 8) ifJAssign -> Source Json -> Target Json copy fields
      */
@@ -810,6 +810,10 @@ public final class Ut {
     public static JsonObject ifJObject(final JsonObject json, final String... fields) {
         Apply.ifJson(json, fields);
         return json;
+    }
+
+    public static Function<JsonObject, Future<JsonObject>> ifPage(final String... fields) {
+        return Apply.ifPage(fields);
     }
 
     public static Function<JsonArray, Future<JsonArray>> ifJArray(final String... fields) {

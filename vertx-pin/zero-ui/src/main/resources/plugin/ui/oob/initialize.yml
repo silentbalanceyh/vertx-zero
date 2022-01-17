@@ -50,6 +50,13 @@
     - sigma
     - clientKey
     - action
+# 路径检索访问
+-   dao: cn.vertxup.ui.domain.tables.daos.UiVisitorDao
+    unique:
+    - identifier
+    - page
+    - path
+    - sigma
 # -------------- Option ----------------
 # 全部是单向表
 # 配置片段

@@ -102,7 +102,7 @@ class DevMenu {
     }
 
     private static JsonArray buildRequired(final String role) {
-        final JsonArray required = DevDefault.pathRole(role);
+        final JsonArray required = DevDefault.pathMenu(role);
         final JsonArray normalized = new JsonArray();
         Ut.itJArray(required, String.class, (menu, index) -> normalized.add(menu.trim()));
         return normalized;

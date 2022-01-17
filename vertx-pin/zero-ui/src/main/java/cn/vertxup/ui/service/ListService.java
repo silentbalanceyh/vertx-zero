@@ -1,11 +1,14 @@
 package cn.vertxup.ui.service;
 
 import cn.vertxup.ui.domain.tables.daos.UiListDao;
+import cn.vertxup.ui.domain.tables.daos.UiOpDao;
 import cn.vertxup.ui.domain.tables.pojos.UiList;
+import cn.vertxup.ui.domain.tables.pojos.UiOp;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.ke.refine.Ke;
+import io.vertx.tp.ui.init.UiPin;
 import io.vertx.tp.ui.refine.Ui;
 import io.vertx.up.eon.KName;
 import io.vertx.up.log.Annal;
@@ -55,10 +58,6 @@ public class ListService implements ListStub {
         /*
          * Capture important configuration here
          */
-        //        Ke.mount(listJson, ListStub.FIELD_OPTIONS);
-        //        Ke.mount(listJson, ListStub.FIELD_OPTIONS_AJAX);
-        //        Ke.mount(listJson, ListStub.FIELD_OPTIONS_SUBMIT);
-        //        Ke.mount(listJson, ListStub.FIELD_V_SEGMENT);
         Ut.ifJObject(listJson,
             ListStub.FIELD_OPTIONS,
             ListStub.FIELD_OPTIONS_AJAX,
@@ -76,5 +75,19 @@ public class ListService implements ListStub {
             .compose(Ux.attachJ(ListStub.FIELD_V_SEGMENT, this.optionStub::fetchFragment))
             /* Combiner for final processing */
             .compose(Ke.fabricAsync("classCombiner"));
+    }
+
+    @Override
+    public Future<JsonArray> fetchOpDynamic(final String control) {
+        return Ux.Jooq.on(UiOpDao.class)
+            .<UiOp>fetchAsync(KName.Ui.CONTROL_ID, control)
+            .compose(Ux::futureA)
+            .compose(Ut.ifJArray(KName.Ui.CONFIG));
+    }
+
+    @Override
+    public Future<JsonArray> fetchOpFixed(final String identifier) {
+        Ui.infoUi(LOGGER, "The fixed identifier = `{0}`", identifier);
+        return Ux.future(UiPin.getOp());
     }
 }

@@ -3,6 +3,8 @@ package io.vertx.tp.optic.component;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
+import io.vertx.up.exception.web._501NotSupportException;
+import io.vertx.up.unity.Ux;
 
 import java.util.concurrent.ConcurrentMap;
 
@@ -23,10 +25,13 @@ public interface ComponentIndent {
     /*
      * Get identifier directly by params
      */
-    Future<String> resolve(JsonObject data);
+    Future<String> resolve(JsonObject data, JsonObject config);
 
     /*
      * Get identifier and divided into grouped.
+     * The default implementation is Not Support Exception throw out
      */
-    Future<ConcurrentMap<String, JsonArray>> resolve(JsonObject data, String identifier);
+    default Future<ConcurrentMap<String, JsonArray>> resolve(final JsonObject data, final String identifier, final JsonObject config) {
+        return Ux.thenError(_501NotSupportException.class, this.getClass());
+    }
 }

@@ -3,9 +3,11 @@ package cn.originx.quiz.develop;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.tp.ke.booter.Bt;
+import io.vertx.tp.ke.refine.Ke;
 import io.vertx.tp.plugin.jooq.JooqInfix;
 import io.vertx.up.eon.Strings;
 import io.vertx.up.fn.Fn;
+import io.vertx.up.log.Annal;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
@@ -40,21 +42,42 @@ public class DevKit {
     // ----------------------- Dev Data Loading -------------------------
 
     public static void oobCmdb() {
-        doLoading(DevDefault.pathCmdb(), null);
+        doLoading(DevDefault.pathCmdb(), null, false);
     }
 
-    public static void oobUi() {
-        doLoading(DevDefault.pathUi(), null);
+    public static void oobCab() {
+        doLoading(DevDefault.pathCab(), null, false);
     }
 
-    public static void oobFull() {
-        doLoading(DevDefault.pathOob(), null);
+
+    public static void oobData() {
+        doLoading(DevDefault.pathData(), null, false);
+    }
+
+    public static void oobEnvironment() {
+        doLoading(DevDefault.pathEnvironment(), null, false);
+    }
+
+    public static void oobRole(final String role) {
+        doLoading(DevDefault.pathRole(role), null, false);
+    }
+
+    public static void oobUi(final String identifier) {
+        doLoading(DevDefault.pathUi(identifier), null, false);
+    }
+
+    public static void oobLoader(final String prefix) {
+        doLoading(DevDefault.pathOob(), prefix, true);
+    }
+
+    public static void oobLoader() {
+        doLoading(DevDefault.pathOob(), null, true);
     }
 
     // ----------------------- DevModeller Object -------------------------
 
     public static DevModeller modeller() {
-        return modeller(DevDefault.pathIn(), DevDefault.pathOut());
+        return modeller(DevDefault.ROOT_INPUT, DevDefault.ROOT_OUTPUT);
     }
 
     public static DevModeller modeller(final String input, final String output) {
@@ -65,7 +88,9 @@ public class DevKit {
 
     // ----------------------- Private Method -------------------------
     @SuppressWarnings("all")
-    private static void doLoading(final String root, final String prefix) {
-        Bt.init(root, Objects.isNull(prefix) ? Strings.EMPTY : prefix);
+    private static void doLoading(final String root, final String prefix, final boolean isOob) {
+        final Annal logger = Annal.get(DevKit.class);
+        Ke.infoKe(logger, "Data Loading from `{0}`", root);
+        Bt.init(root, Objects.isNull(prefix) ? Strings.EMPTY : prefix, isOob);
     }
 }

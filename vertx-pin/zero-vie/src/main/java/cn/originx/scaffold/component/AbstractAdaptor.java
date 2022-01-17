@@ -170,15 +170,19 @@ public abstract class AbstractAdaptor extends AbstractComponent {
      */
     protected DataAtom atom() {
         if (Objects.isNull(this.internalAtom)) {
-            this.internalAtom = Ao.toAtom(this.options())
-                /*
-                 *「Unique」
-                 * 挂外置的通道专用 RuleUnique
-                 * 默认信息 DataAtom 和通道连接
-                 * 静态场景专用的 RuleUnique，不支持子模式
-                 * 通道直接连接
-                 * */
-                .ruleConnect(this.rule());
+            final DataAtom atom = Ao.toAtom(this.options());
+            // Model Performer
+            if (Objects.nonNull(atom)) {
+                this.internalAtom = atom
+                    /*
+                     *「Unique」
+                     * 挂外置的通道专用 RuleUnique
+                     * 默认信息 DataAtom 和通道连接
+                     * 静态场景专用的 RuleUnique，不支持子模式
+                     * 通道直接连接
+                     * */
+                    .ruleConnect(this.rule());
+            }
         }
         return this.internalAtom;
     }
