@@ -1,6 +1,7 @@
 package cn.originx.scaffold.stdn;
 
 import cn.originx.refine.Ox;
+import cn.originx.scaffold.plugin.AspectSwitcher;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.tp.atom.modeling.data.DataAtom;
@@ -8,6 +9,7 @@ import io.vertx.tp.atom.modeling.data.DataGroup;
 import io.vertx.tp.optic.robin.Switcher;
 import io.vertx.up.atom.record.Apt;
 import io.vertx.up.commune.ActIn;
+import io.vertx.up.commune.ActOut;
 import io.vertx.up.unity.Ux;
 
 import java.util.Objects;
@@ -36,10 +38,48 @@ public abstract class AbstractHMore extends AbstractHub implements HWay<JsonArra
     }
 
     @Override
+    public Future<ActOut> transferAsync(final ActIn request) {
+
+        /*
+         * 1. 主流程，调用 transferIn
+         * ActIn -> Apt
+         */
+        return this.transferIn(request)
+            /*
+             * 2. 读取原始的 Apt -> Future<JsonArray>
+             */
+            .compose(apt -> {
+                final JsonArray calculation = this.dataDefault(apt);
+                return this.atom(calculation).compose(groupSet -> Ox.runGroup(groupSet, (input, atom) -> {
+                    final AspectSwitcher aspect = new AspectSwitcher(atom, this.options(), this.fabric(atom));
+                    return aspect.run(input, processed -> {
+                        final Apt created = HDiff.createApt(apt, input, this.diffKey());
+                        created.set(processed);
+                        return this.transferAsync(created, request, atom);
+                    });
+                }));
+            })
+            /*
+             * 调用最终执行流程
+             */
+            .compose(this::transferOut)
+            .compose(ActOut::future);
+    }
+
+    @Override
     public Future<JsonArray> transferOut(final JsonArray input) {
         return Ux.futureA();
     }
     // ------------------ 特殊逻辑 ----------------
+
+    /**
+     * @param apt {@link Apt} 传入比对容器
+     *
+     * @return {@link JsonArray} 默认数据信息，主要针对 UPDATE 模式切换
+     */
+    protected JsonArray dataDefault(final Apt apt) {
+        return apt.dataDft();
+    }
 
     /**
      * 动态 atom / dao 专用方法，可切换分组信息。

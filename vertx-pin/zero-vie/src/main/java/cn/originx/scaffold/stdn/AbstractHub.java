@@ -13,6 +13,7 @@ import io.vertx.tp.optic.Trash;
 import io.vertx.up.commune.ActIn;
 import io.vertx.up.commune.ActOut;
 import io.vertx.up.commune.config.Integration;
+import io.vertx.up.eon.KName;
 import io.vertx.up.unity.Ux;
 
 import java.util.Objects;
@@ -160,6 +161,14 @@ public class AbstractHub extends AbstractActor {
         return HDiff.execute(original, updated, atom);
     }
 
+    /**
+     * 默认字段名`key`，如果是其他属性，则重写该方法。
+     *
+     * @return {@link java.lang.String}
+     */
+    protected String diffKey() {
+        return KName.KEY;
+    }
     // ------------- 历史记录处理 -------------
 
     /**

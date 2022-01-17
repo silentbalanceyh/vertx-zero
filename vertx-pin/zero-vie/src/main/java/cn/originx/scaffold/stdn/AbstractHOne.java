@@ -1,5 +1,6 @@
 package cn.originx.scaffold.stdn;
 
+import cn.originx.scaffold.plugin.AspectSwitcher;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.atom.modeling.data.DataAtom;
@@ -7,6 +8,8 @@ import io.vertx.tp.modular.dao.AoDao;
 import io.vertx.tp.optic.robin.Switcher;
 import io.vertx.up.atom.record.Apt;
 import io.vertx.up.commune.ActIn;
+import io.vertx.up.commune.ActOut;
+import io.vertx.up.eon.em.ChangeFlag;
 import io.vertx.up.unity.Ux;
 
 import java.util.Objects;
@@ -31,6 +34,28 @@ public abstract class AbstractHOne extends AbstractHub implements HWay<JsonObjec
     @Override
     public Future<JsonObject> transferAsync(final Apt apt, final ActIn request, final DataAtom atom) {
         return this.transferFailure();
+    }
+
+    @Override
+    public Future<ActOut> transferAsync(final ActIn request) {
+        return this.transferIn(request)
+            .compose(apt -> this.atom((JsonObject) apt.dataDft()).compose(atom -> {
+                final AspectSwitcher aspect = new AspectSwitcher(atom, this.options(), this.fabric(atom));
+                return aspect.run((JsonObject) apt.dataDft(), processed -> {
+                    final JsonObject normalized;
+                    if (ChangeFlag.UPDATE == apt.type()) {
+                        /* 4. 特殊更新 */
+                        final JsonObject original = apt.dataO();
+                        normalized = this.diffEdit(original, processed, atom);
+                    } else {
+                        normalized = processed;
+                    }
+                    apt.set(normalized);
+                    return this.transferAsync(apt, request, atom);
+                });
+            }))
+            .compose(this::transferOut)
+            .compose(ActOut::future);
     }
 
     @Override

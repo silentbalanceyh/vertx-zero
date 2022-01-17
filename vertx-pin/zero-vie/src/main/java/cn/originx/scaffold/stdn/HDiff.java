@@ -1,8 +1,11 @@
 package cn.originx.scaffold.stdn;
 
 import cn.originx.refine.Ox;
+import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.atom.modeling.data.DataAtom;
+import io.vertx.up.atom.record.Apt;
+import io.vertx.up.eon.em.ChangeFlag;
 import io.vertx.up.util.Ut;
 
 import java.util.Objects;
@@ -12,6 +15,42 @@ import java.util.Set;
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 class HDiff {
+
+    /**
+     * 根据比对结果创建新容器。
+     *
+     * 1. ADD - 直接构造操作原始比对结果
+     * 2. DELETE - 直接构造操作原始比对结果
+     * 3. UPDATE - 下层逻辑
+     *
+     * 更新逻辑细节：
+     *
+     * 1. 条件过滤，调用内置`dataUnique()`方法（子类实现）
+     * 2. 执行数据计算结果
+     *
+     * @param apt   {@link Apt} 比对结果容器
+     * @param group {@link JsonArray} 单组容器
+     *
+     * @return {@link Apt}
+     */
+    static Apt createApt(final Apt apt, final JsonArray group, final String diffKey) {
+        final ChangeFlag type = apt.type();
+        if (ChangeFlag.ADD == type) {
+            return Apt.create(new JsonArray(), group).compared(apt.compared());
+        } else if (ChangeFlag.DELETE == type) {
+            return Apt.create(apt.dataO(), new JsonArray()).compared(apt.compared());
+        } else {
+            final JsonArray lookup = new JsonArray();
+            /* 读取 group 中的 key */
+            final Set<String> keys = Ut.mapString(group, diffKey);
+            /* 读取 新数据 */
+            final JsonArray current = apt.dataN();
+            Ut.itJArray(current).filter(json -> keys.contains(json.getString(diffKey)))
+                .forEach(lookup::add);
+            return Apt.create(apt.dataO(), lookup, diffKey).compared(apt.compared());
+        }
+    }
+
     /**
      * 该方法为更新过程中的专用方法，会执行核心的更新逻辑。
      *
