@@ -7,6 +7,16 @@ import io.vertx.up.commune.ActIn;
 import io.vertx.up.commune.ActOut;
 
 /**
+ * 「内部流程」用于描述内部处理流程
+ *
+ * 标准化流程函数：
+ * 1. 「子类」旧数据读取：transferIn(ActIn)
+ * 2. 「子类」核心主逻辑方法：transferAsync(Apt, ActIn, DataAtom)
+ * 3. 「子类」输出转换方法：transferOut(T)
+ *
+ * 直接覆盖主逻辑：
+ * -  「子类」核心函数可覆盖：transferAsync(ActIn)
+ *
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 public interface HWay<T, ID> {

@@ -102,7 +102,7 @@ public abstract class AbstractHMore extends AbstractHub implements HWay<JsonArra
      * @return {@link JsonArray} 默认数据信息，主要针对 UPDATE 模式切换
      */
     protected JsonArray dataDefault(final Apt apt) {
-        return apt.dataDft();
+        return apt.dataI();
     }
 
     /**

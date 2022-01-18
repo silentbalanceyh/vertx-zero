@@ -39,9 +39,9 @@ public abstract class AbstractHOne extends AbstractHub implements HWay<JsonObjec
     @Override
     public Future<ActOut> transferAsync(final ActIn request) {
         return this.transferIn(request)
-            .compose(apt -> this.atom((JsonObject) apt.dataDft()).compose(atom -> {
+            .compose(apt -> this.atom((JsonObject) apt.dataI()).compose(atom -> {
                 final AspectSwitcher aspect = new AspectSwitcher(atom, this.options(), this.fabric(atom));
-                return aspect.run((JsonObject) apt.dataDft(), processed -> {
+                return aspect.run((JsonObject) apt.dataI(), processed -> {
                     final JsonObject normalized;
                     if (ChangeFlag.UPDATE == apt.type()) {
                         /* 4. 特殊更新 */
