@@ -1,4 +1,4 @@
-package cn.originx.scaffold.stdn;
+package cn.originx.uca.completio;
 
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
