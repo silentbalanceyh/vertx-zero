@@ -3,13 +3,13 @@ package cn.originx.scaffold.stdn;
 import cn.originx.refine.Ox;
 import cn.originx.scaffold.component.AbstractActor;
 import cn.originx.uca.commerce.Completer;
+import cn.originx.uca.commerce.CompleterDefault;
 import cn.originx.uca.log.TrackIo;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.atom.modeling.data.DataAtom;
 import io.vertx.tp.atom.refine.Ao;
-import io.vertx.tp.error._501NotImplementException;
 import io.vertx.tp.ke.refine.Ke;
 import io.vertx.tp.modular.dao.AoDao;
 import io.vertx.tp.optic.Trash;
@@ -283,17 +283,6 @@ public class AbstractHub extends AbstractActor {
 
     // ------------------ Completer特殊接口 ----------------
 
-    /**
-     * 模型专用统一访问器，提供<strong>输入模型</strong>的基础访问方法。
-     *
-     * @param atom {@link DataAtom} 模型定义对象
-     *
-     * @return {@link Completer}
-     */
-    public Completer completer(final DataAtom atom) {
-        throw new _501NotImplementException(this.getClass());
-    }
-
     @Override
     public AoDao dao(final DataAtom atom) {
         return super.dao(atom);
@@ -302,6 +291,21 @@ public class AbstractHub extends AbstractActor {
     @Override
     public Switcher switcher() {
         return super.switcher();
+    }
+
+
+    /**
+     * 模型专用统一访问器，提供<strong>输入模型</strong>的基础访问方法。
+     *
+     * @param atom {@link DataAtom} 模型定义对象
+     *
+     * @return {@link Completer}
+     */
+    public Completer completer(final DataAtom atom) {
+        // Default Completer, 可直接从子类替换
+        final AoDao dao = this.dao(atom);
+        return Completer.create(this.completerCls(), dao, atom)
+            .bind(this.switcher()).bind(this.options());
     }
 
     /**
@@ -320,5 +324,9 @@ public class AbstractHub extends AbstractActor {
      */
     public Completer completer() {
         return this.completer(this.atom());
+    }
+
+    protected Class<?> completerCls() {
+        return CompleterDefault.class;
     }
 }
