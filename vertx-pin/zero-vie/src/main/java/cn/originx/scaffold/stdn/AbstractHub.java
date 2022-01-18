@@ -2,7 +2,7 @@ package cn.originx.scaffold.stdn;
 
 import cn.originx.refine.Ox;
 import cn.originx.scaffold.component.AbstractActor;
-import cn.originx.uca.completio.Completer;
+import cn.originx.uca.commerce.Completer;
 import cn.originx.uca.log.TrackIo;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
