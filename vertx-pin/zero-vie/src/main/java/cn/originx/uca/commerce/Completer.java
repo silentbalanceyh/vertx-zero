@@ -1,16 +1,31 @@
-package cn.originx.scaffold.stdn;
+package cn.originx.uca.commerce;
 
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
+import io.vertx.tp.atom.modeling.data.DataAtom;
+import io.vertx.tp.modular.dao.AoDao;
 import io.vertx.tp.optic.robin.Switcher;
+import io.vertx.up.util.Ut;
 
 /*
  * 单条记录专用处理
  */
 public interface Completer {
 
+    static Completer create(final Class<?> completerCls, final AoDao dao, final DataAtom atom) {
+        return Ut.instance(completerCls, dao, atom);
+    }
+
+    static Completer create(final AoDao dao, final DataAtom atom) {
+        return new CompleterDefault(dao, atom);
+    }
+
     default Completer bind(final Switcher switcher) {
+        return this;
+    }
+
+    default Completer bind(final JsonObject options) {
         return this;
     }
 
