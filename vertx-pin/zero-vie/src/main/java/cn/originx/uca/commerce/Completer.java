@@ -17,6 +17,10 @@ public interface Completer {
         return Ut.instance(completerCls, dao, atom);
     }
 
+    static Completer create(final AoDao dao, final DataAtom atom) {
+        return new CompleterDefault(dao, atom);
+    }
+
     default Completer bind(final Switcher switcher) {
         return this;
     }
