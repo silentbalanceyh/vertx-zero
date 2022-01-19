@@ -27,6 +27,8 @@ import java.util.concurrent.ConcurrentMap;
 public class TrackIo {
     private final static ConcurrentMap<String, TrackIo> TRACK_POOL = new ConcurrentHashMap<>();
     private final transient DataAtom atom;
+
+    @SuppressWarnings("all")    // Temp
     private final transient AoDao dao;
     private final transient Boolean isTrack;
     private final transient Set<String> ignoreSet;

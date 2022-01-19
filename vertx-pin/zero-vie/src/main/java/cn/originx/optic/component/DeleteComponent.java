@@ -1,10 +1,11 @@
 package cn.originx.optic.component;
 
-import cn.originx.scaffold.component.AbstractAdaptor;
+import cn.originx.scaffold.stdn.AbstractHOne;
 import io.vertx.core.Future;
+import io.vertx.core.json.JsonObject;
+import io.vertx.tp.atom.modeling.data.DataAtom;
+import io.vertx.up.atom.record.Apt;
 import io.vertx.up.commune.ActIn;
-import io.vertx.up.commune.ActOut;
-import io.vertx.up.commune.Record;
 
 /**
  * ## 「Channel」删除记录通道
@@ -36,19 +37,38 @@ import io.vertx.up.commune.Record;
  *
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-public class DeleteComponent extends AbstractAdaptor {
+public class DeleteComponent extends AbstractHOne {
 
-    /**
-     * 「Async」通道主方法
-     *
-     * @param request 通道的标准请求参数，类型{@link ActIn}。
-     *
-     * @return 返回`{@link Future}<{@link ActOut}>`
-     */
     @Override
-    public Future<ActOut> transferAsync(final ActIn request) {
-        final Record record = this.activeRecord(request);
-        return this.dao().deleteAsync(record)
-            .compose(ActOut::future);
+    public Future<Apt> transferIn(final ActIn request) {
+        final String key = this.activeKey(request);
+        /*
+         * SELECT * FROM XXXX WHERE KEY = ?
+         */
+        return this.fetchFull(key)
+
+
+            /*
+             * 构造 Apt 对象
+             * 1. 旧数据有值
+             * 2. 新数据为 null
+             */
+            .compose(Apt::inDelete);
+
+    }
+
+    @Override
+    public Future<JsonObject> transferAsync(final Apt apt, final ActIn request, final DataAtom atom) {
+        return apt.<JsonObject>dataIAsync()
+
+            /* 1. Trash 历史备份 */
+            .compose(data -> this.backupAsync(data, atom))
+
+            /* 2. 模型 */
+            .compose(this.completer(atom)::remove)
+
+            /* 3. 生成变更历史 */
+            .compose(oldRecord -> this.trackAsyncD(oldRecord, atom));
+
     }
 }

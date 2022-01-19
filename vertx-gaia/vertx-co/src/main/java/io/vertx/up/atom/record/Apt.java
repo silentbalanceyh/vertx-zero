@@ -54,12 +54,16 @@ public class Apt {
     // -------------  Static Method for creation here --------------
     /* Ok for update only */
     public static Apt create(final JsonArray original, final JsonArray current, final String field) {
-        if (Ut.isNil(original) && Ut.isNil(current)) throw new AptParameterException();
+        if (Ut.isNil(original) && Ut.isNil(current)) {
+            throw new AptParameterException();
+        }
         return new Apt(original, current, field);
     }
 
     public static Apt create(final JsonObject original, final JsonObject current) {
-        if (Ut.isNil(original) && Ut.isNil(current)) throw new AptParameterException();
+        if (Ut.isNil(original) && Ut.isNil(current)) {
+            throw new AptParameterException();
+        }
         return new Apt(original, current);
     }
 
@@ -71,80 +75,149 @@ public class Apt {
         return create(original, original.copy(), null);
     }
 
+    // -------------  Async Method for `create` method --------------
+    public static Future<Apt> inEdit(final JsonArray original) {
+        return Future.succeededFuture(create(original));
+    }
+
+    public static Future<Apt> inDelete(final JsonObject original) {
+        return Future.succeededFuture(create(original, null));
+    }
+
+    public static Future<Apt> inDelete(final JsonArray original) {
+        return Future.succeededFuture(create(original, null));
+    }
+
+    public static Future<Apt> inAdd(final JsonObject current) {
+        return Future.succeededFuture(create(null, current));
+    }
+
+    public static Future<Apt> inAdd(final JsonArray current) {
+        return Future.succeededFuture(create(null, current));
+    }
+
     // =============================================================
 
     // -------------  Extract data here --------------
-    /* JsonObject / JsonArray Return to original data T */
+    /*
+     * Flag Meaning
+     * 1. O - Old
+     * 2. N - New
+     * 3. I - Initialize ( Default Value )
+     * 4. S - Save,     Add + Replaced
+     * 5. A - Save,     Add + Appended
+     * 6. K - Kill,     Replaced + Deleted
+     * 7. D - Delete,   Appended + Deleted
+     */
+    /*
+     * 「Old Data」
+     * JsonObject / JsonArray Return to original data T
+     **/
     @SuppressWarnings("unchecked")
     public <T> T dataO() {
-        return this.isBatch ?
-            (T) this.batch.dataO() :
-            (T) this.single.dataO();
+        return this.isBatch ? (T) this.batch.dataO() : (T) this.single.dataO();
     }
 
-    /* ChangeFlag, Return to change flag here, ADD / UPDATE / DELETE */
-    public ChangeFlag type() {
-        return this.isBatch ? this.batch.type() : this.single.type();
+    public <T> Future<T> dataOAsync() {
+        return Future.succeededFuture(this.dataO());
     }
 
-    /* JsonObject / JsonArray Read current data T */
+    /*
+     * 「New Data」
+     * JsonObject / JsonArray Read current data T
+     * */
     public <T> T dataN() {
-        return this.isBatch ?
-            (T) this.batch.dataN() :
-            (T) this.single.dataN();
+        return this.isBatch ? (T) this.batch.dataN() : (T) this.single.dataN();
     }
 
-    /* Old Refer */
-    public <T> T dataDft() {
-        return this.isBatch ?
-            (T) this.batch.dataDft() :
-            (T) this.single.dataDft();
+    public <T> Future<T> dataNAsync() {
+        return Future.succeededFuture(this.dataN());
     }
 
     /*  `io` method is for current data updating, it will replace the latest data ( JsonObject / JsonArray ) */
     public <T> T dataN(final T updated) {
-        return this.isBatch ?
-            (T) this.batch.set((JsonArray) updated) :
-            (T) this.single.set((JsonObject) updated);
-    }
-
-    public JsonArray dataS() {
-        return this.dataS(false);
-    }
-
-    public JsonArray dataK() {
-        return this.dataK(false);
-    }
-
-    public JsonArray dataK(final Boolean append) {
-        return this.doBatch(() -> {
-            final JsonArray deleted = ((AptBatch) this.batch).dataDelete();
-            final JsonArray appended = this.batch.dataA();
-            final JsonArray replaced = this.batch.dataR();
-            if (append) {
-                return new JsonArray().addAll(deleted).addAll(appended);
-            } else {
-                return new JsonArray().addAll(deleted).addAll(replaced);
-            }
-        }, JsonArray::new, "dataK(Boolean)");
-    }
-
-    public JsonArray dataS(final Boolean append) {
-        return this.doBatch(() -> {
-            final JsonArray add = ((AptBatch) this.batch).dataAdd();
-            final JsonArray appended = this.batch.dataA();
-            final JsonArray replaced = this.batch.dataR();
-            if (append) {
-                return new JsonArray().addAll(add).addAll(appended);
-            } else {
-                return new JsonArray().addAll(add).addAll(replaced);
-            }
-        }, JsonArray::new, "dataS(Boolean)");
+        return this.isBatch ? (T) this.batch.set((JsonArray) updated) : (T) this.single.set((JsonObject) updated);
     }
 
     public <T> Future<T> dataNAsync(final T updated) {
         return Future.succeededFuture(this.dataN(updated));
     }
+
+    /*
+     * 「Initialize Data」
+     * Old Refer, default value, I - Initialized
+     * */
+    public <T> T dataI() {
+        return this.isBatch ? (T) this.batch.dataI() : (T) this.single.dataI();
+    }
+
+    public <T> Future<T> dataIAsync() {
+        return Future.succeededFuture(this.dataI());
+    }
+
+    // -------------  Data Array Part Extraction --------------
+    /*
+     * 「Save Data」
+     * Append = false, the mode is overwritten.
+     * - dataS, Overwrite mode
+     * - dataA, Append mode
+     */
+
+    /*
+     *      ADD     UPDATE (R + A)    DELETE
+     *     -----   ----- ( Replaced )
+     */
+    public JsonArray dataS() {
+        return this.dataS(false);
+    }
+
+    public Future<JsonArray> dataSAsync() {
+        return Future.succeededFuture(this.dataS());
+    }
+
+    /*
+     *      ADD     UPDATE (R + A)    DELETE
+     *     -----   ----- ( Appended )
+     */
+    public JsonArray dataA() {
+        return this.dataS(true);
+    }
+
+    public Future<JsonArray> dataAAsync() {
+        return Future.succeededFuture(this.dataA());
+    }
+
+    /*
+     * 「Kill Data of Delete」
+     * Append = false, the mode is overwritten.
+     */
+
+    /*
+     *      ADD     UPDATE (R + A)    DELETE
+     *             ----- ( Replaced ) -----
+     */
+    public JsonArray dataK() {
+        return this.dataK(false);
+    }
+
+    public Future<JsonArray> dataKAsync() {
+        return Future.succeededFuture(this.dataK());
+    }
+
+    /*
+     *      ADD     UPDATE (R + A)    DELETE
+     *             ----- ( Appended ) -----
+     */
+    public JsonArray dataD() {
+        return this.dataK(true);
+    }
+
+    public Future<JsonArray> dataDAsync() {
+        return Future.succeededFuture(this.dataD());
+    }
+
+
+    // -------------  Compared Api Here --------------
 
     public JsonArray comparedA() {
         return this.compared.get(ChangeFlag.ADD);
@@ -156,6 +229,11 @@ public class Apt {
 
     public ConcurrentMap<ChangeFlag, JsonArray> compared() {
         return this.doBatch(() -> this.compared, ConcurrentHashMap::new, "compared()");
+    }
+
+    /* ChangeFlag, Return to change flag here, ADD / UPDATE / DELETE */
+    public ChangeFlag type() {
+        return this.isBatch ? this.batch.type() : this.single.type();
     }
 
     @Fluent
@@ -198,6 +276,7 @@ public class Apt {
         return Future.succeededFuture(this.comparedU(updated));
     }
 
+    // -------------  Update Data --------------
     @Fluent
     public Apt update(final JsonObject updated) {
         if (this.isBatch) {
@@ -218,14 +297,21 @@ public class Apt {
         return this;
     }
 
-    public void doBatch(final Actuator actuator, final String method) {
+    public <T> Future<Apt> setAsync(final T updated) {
+        this.dataN(updated);
+        return Future.succeededFuture(this);
+    }
+
+    // --------------------- Private Method --------------------
+
+    private void doBatch(final Actuator actuator, final String method) {
         this.doBatch(() -> {
             actuator.execute();
             return null;
         }, null, method);
     }
 
-    public <T> T doBatch(final Supplier<T> supplier, final Supplier<T> defaultSupplier, final String method) {
+    private <T> T doBatch(final Supplier<T> supplier, final Supplier<T> defaultSupplier, final String method) {
         final Supplier<T> valueSupplier = Objects.isNull(defaultSupplier) ? () -> null : defaultSupplier;
         if (this.isBatch) {
             return supplier.get();
@@ -237,9 +323,49 @@ public class Apt {
         }
     }
 
-    public <T> Future<Apt> setAsync(final T updated) {
-        this.dataN(updated);
-        return Future.succeededFuture(this);
+    /*
+     * 1. Get data from current ( New Data ) array first.
+     * 2. Operation on JsonArray
+     * - 1). append = true ( add + appended )
+     * - 2). append = false ( add + replaced )
+     * 3. The data range are as following:
+     *      ADD     UPDATE (R + A)    DELETE
+     *             ----- ( Appended ) ------
+     *             ----- ( Replaced ) ------
+     */
+    private JsonArray dataK(final Boolean append) {
+        return this.doBatch(() -> {
+            final JsonArray deleted = ((AptBatch) this.batch).dataDelete();
+            final JsonArray appended = this.batch.dataA();
+            final JsonArray replaced = this.batch.dataS();
+            if (append) {
+                return new JsonArray().addAll(deleted).addAll(appended);
+            } else {
+                return new JsonArray().addAll(deleted).addAll(replaced);
+            }
+        }, JsonArray::new, "dataK(Boolean)");
     }
 
+    /*
+     * 1. Get data from current ( New Data ) array first.
+     * 2. Operation on JsonArray
+     * - 1). append = true ( add + appended )
+     * - 2). append = false ( add + replaced )
+     * 3. The data range are as following:
+     *      ADD     UPDATE (R + A)    DELETE
+     *     -----   ----- ( Appended )
+     *     -----   ----- ( Replaced )
+     */
+    private JsonArray dataS(final Boolean append) {
+        return this.doBatch(() -> {
+            final JsonArray add = ((AptBatch) this.batch).dataAdd();
+            final JsonArray appended = this.batch.dataA();
+            final JsonArray replaced = this.batch.dataS();
+            if (append) {
+                return new JsonArray().addAll(add).addAll(appended);
+            } else {
+                return new JsonArray().addAll(add).addAll(replaced);
+            }
+        }, JsonArray::new, "dataS(Boolean)");
+    }
 }

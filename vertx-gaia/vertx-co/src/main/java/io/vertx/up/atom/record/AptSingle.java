@@ -52,7 +52,7 @@ class AptSingle implements AptOp<JsonObject> {
     }
 
     @Override
-    public JsonObject dataR() {
+    public JsonObject dataS() {
         return this.replaced;
     }
 
@@ -105,7 +105,7 @@ class AptSingle implements AptOp<JsonObject> {
     }
 
     @Override
-    public JsonObject dataDft() {
+    public JsonObject dataI() {
         return this.combine.get(this.flag);
     }
 

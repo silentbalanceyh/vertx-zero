@@ -1,10 +1,11 @@
 package cn.originx.optic.component;
 
-import cn.originx.scaffold.component.AbstractAdaptor;
+import cn.originx.scaffold.stdn.AbstractHOne;
 import io.vertx.core.Future;
+import io.vertx.core.json.JsonObject;
+import io.vertx.tp.atom.modeling.data.DataAtom;
+import io.vertx.up.atom.record.Apt;
 import io.vertx.up.commune.ActIn;
-import io.vertx.up.commune.ActOut;
-import io.vertx.up.commune.Record;
 
 /**
  * ## 「Channel」更新记录通道
@@ -50,21 +51,26 @@ import io.vertx.up.commune.Record;
  *
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-public class UpdateComponent extends AbstractAdaptor {
+public class UpdateComponent extends AbstractHOne {
 
-    /**
-     * 「Async」通道主方法
-     *
-     * @param request 通道的标准请求参数，类型{@link ActIn}。
-     *
-     * @return 返回`{@link Future}<{@link ActOut}>`
+    @Override
+    public Future<Apt> transferIn(final ActIn request) {
+        return this.inUpdate(request);
+    }
+
+    /*
+     * transferIn 中的数据为旧数据
      */
     @Override
-    public Future<ActOut> transferAsync(final ActIn request) {
-        /* 和 DataAtom 绑定 */
-        final Record record = this.activeRecord(request);
-        /* 读取主键 */
-        return this.dao().updateAsync(record)
-            .compose(ActOut::future);
+    public Future<JsonObject> transferAsync(final Apt apt, final ActIn request,
+                                            final DataAtom atom) {
+        /* 压缩数据 */
+        return apt.<JsonObject>dataIAsync()
+
+            /* 写二期库 */
+            .compose(pushed -> this.completer(atom).update(pushed))
+
+            /* 比较生成变更历史 */
+            .compose(newRecord -> this.trackAsyncU(apt.dataO(), newRecord, atom));
     }
 }

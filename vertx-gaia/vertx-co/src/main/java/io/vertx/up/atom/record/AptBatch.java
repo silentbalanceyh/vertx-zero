@@ -47,7 +47,7 @@ class AptBatch implements AptOp<JsonArray> {
     }
 
     @Override
-    public JsonArray dataR() {
+    public JsonArray dataS() {
         return this.array.replace();
     }
 
@@ -74,7 +74,7 @@ class AptBatch implements AptOp<JsonArray> {
     }
 
     @Override
-    public JsonArray dataDft() {
+    public JsonArray dataI() {
         return this.combine.get(this.flag);
     }
 

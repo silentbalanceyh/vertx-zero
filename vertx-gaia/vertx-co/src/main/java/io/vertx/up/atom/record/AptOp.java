@@ -13,14 +13,14 @@ interface AptOp<T> {
     /* New */
     T dataN();
 
-    /* Replace */
-    T dataR();
+    /* Replace, Save */
+    T dataS();
 
     /* Append */
     T dataA();
 
-    /* Current data ( Maybe update ) */
-    T dataDft();
+    /* Current data ( Maybe update ), Capture default value */
+    T dataI();
 
     /* Return current type of Change */
     ChangeFlag type();

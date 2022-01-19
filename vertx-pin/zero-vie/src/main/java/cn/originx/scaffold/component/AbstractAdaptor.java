@@ -385,6 +385,12 @@ public abstract class AbstractAdaptor extends AbstractComponent {
         return new FieldMapper();
     }
 
+    @SuppressWarnings("unchecked")
+    protected <T> T option(final String key) {
+        final JsonObject options = Ut.sureJObject(this.options());
+        return (T) options.getValue(key);
+    }
+
     /**
      * 「Async」异常专用方法，如果未实现，则直接抛出异常{@link _501NotSupportException}标识API未实现。
      *
