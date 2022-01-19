@@ -23,7 +23,7 @@ public class CompleterDefault implements Completer {
     protected CompleterIo<JsonObject> single;
     protected CompleterIo<JsonArray> batch;
 
-    CompleterDefault(final AoDao dao, final DataAtom atom) {
+    public CompleterDefault(final AoDao dao, final DataAtom atom) {
         this.single = new CompleterIoOne(dao, atom);
         this.batch = new CompleterIoMore(dao, atom);
     }
