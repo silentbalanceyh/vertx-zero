@@ -54,6 +54,10 @@ public interface HWay<T, ID> {
      */
     Future<T> transferAsync(Apt apt, ActIn request, DataAtom atom);
 
+    Future<T> transferAsync(Apt apt, ActIn request);
+
+    T preprocessDefault(Apt apt);
+
     /**
      * 重写顶层方法，为当前通道组件的主方法
      *

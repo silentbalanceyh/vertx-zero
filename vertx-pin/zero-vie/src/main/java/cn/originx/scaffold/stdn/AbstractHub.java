@@ -1,5 +1,6 @@
 package cn.originx.scaffold.stdn;
 
+import cn.originx.cv.OxCv;
 import cn.originx.refine.Ox;
 import cn.originx.scaffold.component.AbstractActor;
 import cn.originx.uca.commerce.Completer;
@@ -19,6 +20,7 @@ import io.vertx.up.commune.ActOut;
 import io.vertx.up.commune.config.Integration;
 import io.vertx.up.eon.KName;
 import io.vertx.up.unity.Ux;
+import io.vertx.up.util.Ut;
 
 import java.util.Objects;
 
@@ -171,7 +173,8 @@ public class AbstractHub extends AbstractActor {
      * @return {@link java.lang.String}
      */
     protected String diffKey() {
-        return KName.KEY;
+        final String diffKey = this.option(OxCv.Field.DIFF_KEY);
+        return Ut.isNil(diffKey) ? KName.KEY : diffKey;
     }
     // ------------- 历史记录处理 -------------
 
@@ -180,6 +183,51 @@ public class AbstractHub extends AbstractActor {
      *
      * 1. 启用了「删除历史」功能的数据可执行该操作。
      * 2. 原始库`DB_IOP`和`DB_IOP_HIS`，该方法会将数据记录存储到`DB_IOP_HIS`中执行备份。
+     * 3. 记录条件是打开了 Trash 过后启用的功能。
+     *
+     * 下边步骤用于打开历史记录功能：
+     * 1. 项目中创建类，源代码内容如下：
+     *
+     * // <pre><code class="java">
+     *      package cn.originx.channel;
+     *
+     *      import io.vertx.core.Future;
+     *      import io.vertx.core.json.JsonArray;
+     *      import io.vertx.core.json.JsonObject;
+     *      import io.vertx.tp.optic.Trash;
+     *      import io.vertx.tp.plugin.history.TrashInfix;
+     *      import io.vertx.tp.plugin.history.TrashPlatform;
+     *      import io.vertx.up.unity.Ux;
+     *      import io.vertx.up.util.Ut;
+     *
+     *      public class TrashTunnel implements Trash {
+     *
+     *          private final transient TrashPlatform platform = TrashInfix.getClient();
+     *
+     *          \@Override
+     *          public Future<JsonObject> backupAsync(final String identifier, final JsonObject data) {
+     *              if (Ut.notNil(identifier)) {
+     *                  return this.platform.getClient(identifier)
+     *                      .backupAsync(data);
+     *              } else return Ux.future(new JsonObject());
+     *          }
+     *
+     *          \@Override
+     *          public Future<JsonArray> backupAsync(final String identifier, final JsonArray data) {
+     *              if (Ut.notNil(identifier)) {
+     *                  return this.platform.getClient(identifier)
+     *                      .backupAsync(data);
+     *              } else return Ux.future(new JsonArray());
+     *          }
+     *      }
+     * // </code></pre>
+     *
+     * 2. 然后在您的项目创建 ServiceLoader相关配置：
+     * - 配置目录位于 src/main/resources/META-INF/services/
+     * - 文件名为接口名：io.vertx.tp.optic.Trash
+     * - 文件内容为上述类名：cn.originx.channel.TrashTunnel
+     *
+     * 3. 上述配置完成后，就开启了"历史记录"专用功能。
      *
      * 该库中的数据记录会被备份到历史库，后续版本会有专程的模块来访问。
      *
@@ -328,5 +376,21 @@ public class AbstractHub extends AbstractActor {
 
     protected Class<?> completerCls() {
         return CompleterDefault.class;
+    }
+
+    protected JsonObject inDataJ(final ActIn request) {
+        final JsonObject body = request.getJObject();
+        return Ut.sureJObject(body.getJsonObject(KName.DATA));
+    }
+
+    protected JsonArray inDataA(final ActIn request) {
+        final JsonObject body = request.getJObject();
+        return Ut.sureJArray(body.getJsonArray(KName.DATA));
+    }
+
+    protected String[] inKeys(final ActIn request) {
+        final JsonObject body = request.getJObject();
+        final JsonArray keysData = Ut.sureJArray(body.getJsonArray(KName.KEYS));
+        return Ut.toSet(keysData).toArray(new String[]{});
     }
 }

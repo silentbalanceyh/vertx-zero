@@ -76,6 +76,10 @@ public class Apt {
     }
 
     // -------------  Async Method for `create` method --------------
+    public static Future<Apt> inEdit(final JsonArray original) {
+        return Future.succeededFuture(create(original));
+    }
+
     public static Future<Apt> inDelete(final JsonObject original) {
         return Future.succeededFuture(create(original, null));
     }

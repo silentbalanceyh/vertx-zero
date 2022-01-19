@@ -289,6 +289,8 @@ public interface OxCv {
         String DIM_1 = "dim1";
         String DIM_2 = "dim2";
         String DIM_3 = "dim3";
+
+        String DIFF_KEY = "diff.key";
     }
 
     /**

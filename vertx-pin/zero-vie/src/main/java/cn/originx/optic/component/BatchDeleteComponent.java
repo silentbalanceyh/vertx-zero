@@ -6,6 +6,7 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.tp.atom.modeling.data.DataAtom;
 import io.vertx.up.atom.record.Apt;
 import io.vertx.up.commune.ActIn;
+import io.vertx.up.commune.ActOut;
 
 /**
  * ## 「Channel」批量删除通道
@@ -45,9 +46,13 @@ import io.vertx.up.commune.ActIn;
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 public class BatchDeleteComponent extends AbstractHMore {
+
     /**
-     * 「Async」核心通道
-     * 读取旧数据专用的上层方法
+     * 「Async」通道主方法
+     *
+     * @param request 通道的标准请求参数，类型{@link ActIn}。
+     *
+     * @return 返回`{@link Future}<{@link ActOut}>`
      */
     @Override
     public Future<Apt> transferIn(final ActIn request) {
@@ -73,7 +78,16 @@ public class BatchDeleteComponent extends AbstractHMore {
     }
 
     @Override
-    public Future<JsonArray> transferAsync(final Apt Apt, final ActIn request, final DataAtom atom) {
-        return super.transferAsync(Apt, request, atom);
+    public Future<JsonArray> transferAsync(final Apt apt, final ActIn request, final DataAtom atom) {
+        return apt.<JsonArray>dataOAsync()
+
+            /* 1. Trash 历史备份 */
+            .compose(data -> this.backupAsync(data, atom))
+
+            /* 2. 模型 */
+            .compose(this.completer(atom)::remove)
+
+            /* 3. 生成删除专用的变更历史 */
+            .compose(oldArray -> this.trackAsyncD(oldArray, atom));
     }
 }
