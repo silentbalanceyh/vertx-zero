@@ -2,8 +2,11 @@ package cn.originx.refine;
 
 import cn.originx.cv.OxCv;
 import cn.originx.cv.em.TypeLog;
+import cn.originx.uca.code.Numeration;
+import cn.vertxup.ambient.domain.tables.pojos.XActivity;
 import cn.vertxup.ambient.service.application.AppStub;
 import cn.vertxup.ambient.service.application.InitStub;
+import cn.vertxup.workflow.domain.tables.pojos.WTodo;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
@@ -27,6 +30,7 @@ import io.vertx.up.util.Ut;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.function.BiFunction;
 import java.util.function.Function;
@@ -57,10 +61,21 @@ import java.util.function.Supplier;
  */
 @SuppressWarnings("all")
 public final class Ox {
+    private static ConcurrentMap<Class<?>, String> NUM_MAP = new ConcurrentHashMap<Class<?>, String>() {
+        {
+            this.put(XActivity.class, "NUM.ACTIVITY");
+            this.put(WTodo.class, "NUM.TODO");
+        }
+    };
+
     /*
      * 私有构造函数（工具类转换）
      */
     private Ox() {
+    }
+
+    public static void numerationStd() {
+        Numeration.preprocess(NUM_MAP);
     }
 
     public static Future<Record> viGet(final DataAtom atom, final String identifier,

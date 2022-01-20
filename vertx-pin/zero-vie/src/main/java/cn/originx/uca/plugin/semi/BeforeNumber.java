@@ -2,7 +2,6 @@ package cn.originx.uca.plugin.semi;
 
 import cn.originx.refine.Ox;
 import cn.originx.uca.code.Numeration;
-import cn.originx.uca.code.NumerationService;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
@@ -39,8 +38,8 @@ public class BeforeNumber implements BeforePlugin {
             /*
              * Code 没有，执行编号生成
              */
-            final Numeration numeration = new NumerationService(this.atom, config);
-            return numeration.numberByIdAsync(this.atom.identifier())
+            final Numeration numeration = Numeration.service(this.atom.sigma());
+            return numeration.atom(this.atom, config)
                 /*
                  * 填充序号信息
                  */
@@ -64,8 +63,8 @@ public class BeforeNumber implements BeforePlugin {
             /*
              * 生成序号数量
              */
-            final Numeration numeration = new NumerationService(this.atom, config);
-            return numeration.numberByIdAsync(this.atom.identifier(), fields.size())
+            final Numeration numeration = Numeration.service(this.atom.sigma());
+            return numeration.atom(this.atom, fields.size(), config)
                 /*
                  * 填充序号信息
                  */

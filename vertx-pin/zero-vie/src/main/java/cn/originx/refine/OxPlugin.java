@@ -36,6 +36,7 @@ import java.util.function.Supplier;
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 final class OxPlugin {
+
     /*
      * 私有构造函数（工具类转换）
      */

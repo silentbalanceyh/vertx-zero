@@ -66,8 +66,8 @@
         <encoding>UTF-8</encoding>
 
         <!-- Vertx Framework Version -->
-        <vertx.version>4.2.3</vertx.version>
-        <stack.version>4.2.3</stack.version>
+        <vertx.version>4.2.4</vertx.version>
+        <stack.version>4.2.4</stack.version>
 
         <jcabi.version>0.23.2</jcabi.version>
         <jersey.version>2.35</jersey.version>
