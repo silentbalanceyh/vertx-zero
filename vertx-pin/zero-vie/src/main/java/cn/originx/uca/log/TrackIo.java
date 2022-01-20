@@ -2,7 +2,6 @@ package cn.originx.uca.log;
 
 import cn.originx.refine.Ox;
 import cn.originx.uca.code.Numeration;
-import cn.originx.uca.code.NumerationService;
 import cn.vertxup.ambient.domain.tables.pojos.XActivity;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
@@ -34,6 +33,8 @@ public class TrackIo {
     private final transient Set<String> ignoreSet;
 
     private TrackIo(final DataAtom atom, final AoDao dao) {
+        // 打开注入
+        Ox.numerationStd();
         this.atom = atom;
         this.dao = dao;
         /*
@@ -67,8 +68,8 @@ public class TrackIo {
                 final WebException error = new _400TrackingErrorException(this.getClass());
                 return Future.failedFuture(error);
             } else {
-                final Numeration numeration = new NumerationService(this.atom);
-                return numeration.numberAsync(XActivity.class, counter).compose(serials -> {
+                final Numeration numeration = Numeration.service(this.atom.sigma());
+                return numeration.clazz(XActivity.class, counter).compose(serials -> {
                     /*
                      * 初始化 Auditor
                      * 直接生成合法变更历史
@@ -117,8 +118,8 @@ public class TrackIo {
                 final WebException error = new _400TrackingErrorException(this.getClass());
                 return Future.failedFuture(error);
             } else {
-                final Numeration numeration = new NumerationService(this.atom);
-                return numeration.numberAsync(XActivity.class).compose(serial -> {
+                final Numeration numeration = Numeration.service(this.atom.sigma());
+                return numeration.clazz(XActivity.class).compose(serial -> {
                     /*
                      * 初始化 Auditor
                      */
