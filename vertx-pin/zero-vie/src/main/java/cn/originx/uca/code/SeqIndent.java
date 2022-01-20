@@ -7,9 +7,9 @@ import java.util.Queue;
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-class SeqCode extends AbstractSeq<String> {
+class SeqIndent extends AbstractSeq<String> {
 
-    SeqCode(final String sigma) {
+    SeqIndent(final String sigma) {
         super(sigma);
     }
 

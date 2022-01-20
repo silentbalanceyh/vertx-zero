@@ -13,6 +13,7 @@ import io.vertx.up.util.Ut;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Queue;
 import java.util.stream.Collectors;
 
 public class BeforeNumber implements BeforePlugin {
@@ -30,81 +31,78 @@ public class BeforeNumber implements BeforePlugin {
     public Future<JsonObject> beforeAsync(final JsonObject record, final JsonObject config) {
         final String fieldName = this.beforeField(record, config);
         if (Ut.isNil(fieldName)) {
-            /*
-             * 不需要生成序号
-             */
+            // 「不生成」不需要生成序号
             return Ux.future(record);
-        } else {
-            /*
-             * Code 没有，执行编号生成
-             */
-            final Numeration numeration = Numeration.service(this.atom.sigma());
-            return numeration.atom(this.atom, config)
-                /*
-                 * 填充序号信息
-                 */
-                .compose(number -> {
-                    Ox.Log.infoHub(this.getClass(), PLUGIN_NUMBER_SINGLE, number);
-                    return Ux.future(record.put(fieldName, number));
-                });
         }
-    }
 
-    @Override
-    public Future<JsonArray> beforeAsync(final JsonArray records, final JsonObject config) {
-        final List<String> fields = Ut.itJArray(records).map(record -> this.beforeField(record, config))
-            .filter(Objects::nonNull).collect(Collectors.toList());
-        if (fields.isEmpty()) {
-            /*
-             * 不需要生成序号
-             */
-            return Ux.future(records);
-        } else {
-            /*
-             * 生成序号数量
-             */
-            final Numeration numeration = Numeration.service(this.atom.sigma());
-            return numeration.atom(this.atom, fields.size(), config)
-                /*
-                 * 填充序号信息
-                 */
-                .compose(numberQueue -> {
-                    Ox.Log.infoHub(this.getClass(), PLUGIN_NUMBER_BATCH, numberQueue.size());
-                    Ut.itJArray(records).forEach(record -> {
-                        final String fieldName = this.beforeField(record, config);
-                        if (Ut.notNil(fieldName)) {
-                            record.put(fieldName, numberQueue.poll());
-                        }
-                    });
-                    return Ux.future(records);
-                });
-        }
+        // Code 没有，执行编号生成
+        return this.numberAsync(config).compose(number -> {
+            Ox.Log.infoHub(this.getClass(), PLUGIN_NUMBER_SINGLE, number);
+            return Ux.future(record.put(fieldName, number));
+        });
     }
 
     private String beforeField(final JsonObject record, final JsonObject config) {
         final JsonObject configOpt = Ut.sureJObject(config);
         final String fieldNum = configOpt.getString(KName.FIELD);
         if (Ut.isNil(fieldNum)) {
-            /*
-             * 没有配置 field 字段
-             */
+            // 「不生成」配置中不存在 `field` 字段
             return null;
-        } else {
-            /*
-             * 配置了 field 字段
-             */
-            final String inputNum = record.getString(fieldNum);
-            if (Ut.isNil(inputNum)) {
-                /*
-                 * 只有这样的情况会生成 XNumber 记录
-                 */
-                return fieldNum;
-            } else {
-                /*
-                 * 不需要生成 number
-                 */
-                return null;
-            }
         }
+        // 检查数据中是否包含了该字段
+        final String inputNum = record.getString(fieldNum);
+        if (Ut.isNil(inputNum)) {
+            // 只有这样的情况会生成 XNumber 记录
+            return fieldNum;
+        } else {
+            // 「不生成」不需要生成 number
+            return null;
+        }
+    }
+
+    private Future<String> numberAsync(final JsonObject config) {
+        final Numeration numeration = Numeration.service(this.atom.sigma());
+        final String indent = config.getString(KName.INDENT);
+        if (Ut.isNil(indent)) {
+            return numeration.atom(this.atom, config);
+        } else {
+            return numeration.indent(indent, config);
+        }
+    }
+
+    @Override
+    public Future<JsonArray> beforeAsync(final JsonArray records, final JsonObject config) {
+        final List<String> fields = this.beforeField(records, config);
+        if (fields.isEmpty()) {
+            // 不需要生成序号
+            return Ux.future(records);
+        }
+        // 根据数量生成序号
+        return this.numberAsync(config, fields.size()).compose(numberQueue -> {
+            Ox.Log.infoHub(this.getClass(), PLUGIN_NUMBER_BATCH, numberQueue.size());
+            Ut.itJArray(records).forEach(record -> {
+                // 双重检查，为没有 field 值的记录填充序号
+                final String fieldName = this.beforeField(record, config);
+                if (Ut.notNil(fieldName)) {
+                    record.put(fieldName, numberQueue.poll());
+                }
+            });
+            return Ux.future(records);
+        });
+    }
+
+    private Future<Queue<String>> numberAsync(final JsonObject config, final Integer size) {
+        final Numeration numeration = Numeration.service(this.atom.sigma());
+        final String indent = config.getString(KName.INDENT);
+        if (Ut.isNil(indent)) {
+            return numeration.atom(this.atom, size, config);
+        } else {
+            return numeration.indent(indent, size, config);
+        }
+    }
+
+    private List<String> beforeField(final JsonArray records, final JsonObject config) {
+        return Ut.itJArray(records).map(record -> this.beforeField(record, config))
+            .filter(Objects::nonNull).collect(Collectors.toList());
     }
 }

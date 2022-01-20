@@ -21,7 +21,7 @@ class SeqClass extends AbstractSeq<Class<?>> {
 
     SeqClass(final String sigma) {
         super(sigma);
-        this.fixed = new SeqCode(sigma);
+        this.fixed = new SeqIndent(sigma);
     }
 
     static void bindStatic(final Class<?> clazz, final String code) {

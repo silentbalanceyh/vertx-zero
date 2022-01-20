@@ -85,8 +85,8 @@ public class NumerationService implements Numeration {
      */
 
     @Override
-    public Future<Queue<String>> code(final String code, final Integer counter, final JsonObject options) {
-        final Seq<String> fixed = Fn.pool(POOL_CODE, code, () -> new SeqCode(this.sigma));
+    public Future<Queue<String>> indent(final String code, final Integer counter, final JsonObject options) {
+        final Seq<String> fixed = Fn.pool(POOL_CODE, code, () -> new SeqIndent(this.sigma));
         fixed.bind(options);
         return fixed.generate(code, counter);
     }

@@ -62,17 +62,17 @@ public interface Numeration {
     Future<Queue<String>> atom(DataAtom atom, Integer counter, JsonObject options);
 
     /* 序号生成专用（直接根据 code）*/
-    default Future<String> code(final String code) {
-        return this.code(code, new JsonObject());
+    default Future<String> indent(final String code) {
+        return this.indent(code, new JsonObject());
     }
 
-    default Future<String> code(final String code, final JsonObject options) {
-        return this.code(code, 1, options).compose(queue -> Ux.future(queue.poll()));
+    default Future<String> indent(final String code, final JsonObject options) {
+        return this.indent(code, 1, options).compose(queue -> Ux.future(queue.poll()));
     }
 
-    default Future<Queue<String>> code(final String code, final Integer counter) {
-        return this.code(code, counter, new JsonObject());
+    default Future<Queue<String>> indent(final String code, final Integer counter) {
+        return this.indent(code, counter, new JsonObject());
     }
 
-    Future<Queue<String>> code(final String code, final Integer counter, final JsonObject options);
+    Future<Queue<String>> indent(final String code, final Integer counter, final JsonObject options);
 }
