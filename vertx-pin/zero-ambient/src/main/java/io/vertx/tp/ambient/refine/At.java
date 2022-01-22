@@ -2,7 +2,6 @@ package io.vertx.tp.ambient.refine;
 
 import cn.vertxup.ambient.domain.tables.pojos.XNumber;
 import io.vertx.core.Future;
-import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.FileUpload;
 import io.vertx.tp.optic.extension.*;
@@ -69,21 +68,5 @@ public class At {
      */
     public static JsonObject upload(final String category, final FileUpload fileUpload) {
         return AtEnv.upload(category, fileUpload);
-    }
-
-    public static JsonObject filters(final String appId, final String type, final String code) {
-        return AtQuery.filters(appId, new JsonArray().add(type), code);
-    }
-
-    public static JsonObject filters(final String appId, final JsonArray types, final String code) {
-        return AtQuery.filters(appId, types, code);
-    }
-
-    public static JsonObject filtersSigma(final String sigma, final String type, final String code) {
-        return AtQuery.filtersSigma(sigma, new JsonArray().add(type), code);
-    }
-
-    public static JsonObject filtersSigma(final String sigma, final JsonArray types, final String code) {
-        return AtQuery.filtersSigma(sigma, types, code);
     }
 }

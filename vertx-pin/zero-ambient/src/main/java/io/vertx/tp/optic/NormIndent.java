@@ -23,7 +23,7 @@ public class NormIndent implements Indent {
         if (Ut.isNil(sigma)) {
             return Ux.thenError(_400SigmaMissingException.class, this.getClass());
         }
-        return stub.numbersBySigma(sigma, code, 1).compose(item -> {
+        return stub.numberSigma(sigma, code, 1).compose(item -> {
             if (item.isEmpty()) {
                 return Ux.future(null);
             } else {
@@ -38,7 +38,7 @@ public class NormIndent implements Indent {
         if (Ut.isNil(sigma)) {
             return Ux.thenError(_400SigmaMissingException.class, getClass());
         }
-        return stub.numbersBySigma(sigma, code, size).compose(item -> {
+        return stub.numberSigma(sigma, code, size).compose(item -> {
             if (item.isEmpty()) {
                 return Ux.future(new PriorityQueue<>());
             } else {

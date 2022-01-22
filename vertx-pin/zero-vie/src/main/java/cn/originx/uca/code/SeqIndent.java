@@ -15,7 +15,7 @@ class SeqIndent extends AbstractSeq<String> {
 
     @Override
     public Future<Queue<String>> generate(final String input, final Integer counter) {
-        return this.stub().numbersBySigma(this.sigma(), input, counter)
+        return this.stub().numberSigma(this.sigma(), input, counter)
             .compose(this::batch);
     }
 }

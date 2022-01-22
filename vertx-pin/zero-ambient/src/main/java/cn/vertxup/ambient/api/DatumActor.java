@@ -18,31 +18,31 @@ public class DatumActor {
 
     @Address(Addr.Datum.CATEGORY_TYPE)
     public Future<JsonArray> categoryByType(final String appId, final String type, final Boolean includeLeaf) {
-        return this.stub.categories(appId, type, includeLeaf);
+        return this.stub.treeApp(appId, type, includeLeaf);
     }
 
     @Address(Addr.Datum.CATEGORY_TYPES)
     public Future<JsonArray> fetchCategories(final String appId, final JsonArray types) {
-        return this.stub.categories(appId, types);
+        return this.stub.treeApp(appId, types);
     }
 
     @Address(Addr.Datum.CATEGORY_CODE)
     public Future<JsonObject> fetchCategory(final String appId, final String type, final String code) {
-        return this.stub.category(appId, type, code);
+        return this.stub.treeApp(appId, type, code);
     }
 
     @Address(Addr.Datum.TABULAR_TYPE)
     public Future<JsonArray> tabularByType(final String appId, final String type) {
-        return this.stub.tabulars(appId, type);
+        return this.stub.dictApp(appId, type);
     }
 
     @Address(Addr.Datum.TABULAR_TYPES)
     public Future<JsonArray> fetchTabulars(final String appId, final JsonArray types) {
-        return this.stub.tabulars(appId, types);
+        return this.stub.dictApp(appId, types);
     }
 
     @Address(Addr.Datum.TABULAR_CODE)
     public Future<JsonObject> fetchTabular(final String appId, final String type, final String code) {
-        return this.stub.tabular(appId, type, code);
+        return this.stub.dictApp(appId, type, code);
     }
 }
