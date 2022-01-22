@@ -36,6 +36,6 @@ class SeqAtom extends AbstractSeq<DataAtom> {
         condition.put(KName.IDENTIFIER, identifier);
         return Ux.Jooq.on(XNumberDao.class).<XNumber>fetchOneAsync(condition)
             .compose(Ut.ifNil(() -> null, (number) -> Ux.future(number.getCode())))
-            .compose(code -> this.fixed.generate(identifier, counter));
+            .compose(code -> this.fixed.generate(code, counter));
     }
 }
