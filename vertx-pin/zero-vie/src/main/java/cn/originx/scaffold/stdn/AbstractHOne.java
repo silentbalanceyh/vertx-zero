@@ -83,7 +83,11 @@ public abstract class AbstractHOne extends AbstractHub implements HWay<JsonObjec
 
     @Override
     public Future<JsonObject> transferOut(final JsonObject input) {
-        return Ux.futureJ();
+        /*
+         * Avoid there is no data in response
+         * This operation is critical
+         */
+        return Ux.future(input);
     }
 
     @Override
