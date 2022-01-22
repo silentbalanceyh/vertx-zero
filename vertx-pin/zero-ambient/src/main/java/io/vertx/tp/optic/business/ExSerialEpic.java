@@ -15,19 +15,19 @@ public class ExSerialEpic implements ExSerial {
 
     @Override
     public Future<String> serial(final String sigma, final String code) {
-        return this.stub.numbersBySigma(sigma, code, 1)
+        return this.stub.numberSigma(sigma, code, 1)
             .compose(generate -> Ux.future(generate.getString(Values.IDX)));
     }
 
     @Override
     public Future<Boolean> reset(final String sigma, final String code, final Long defaultValue) {
-        return this.stub.numbersReset(sigma, code, defaultValue);
+        return this.stub.numberSigmaR(sigma, code, defaultValue);
     }
 
     @Override
     @SuppressWarnings("unchecked")
     public Future<List<String>> serial(final String sigma, final String code, final Integer counter) {
-        return this.stub.numbersBySigma(sigma, code, counter)
+        return this.stub.numberSigma(sigma, code, counter)
             .compose(generate -> Ux.future(generate.getList()));
     }
 }

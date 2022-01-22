@@ -41,7 +41,7 @@
         <dependency>
             <groupId>org.apache.poi</groupId>
             <artifactId>poi-ooxml-schemas</artifactId>
-            <version>${poi.version}</version>
+            <version>${poi.schema.version}</version>
         </dependency>
     </dependencies>
 </project>
