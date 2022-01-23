@@ -39,24 +39,24 @@ public class UArray {
     }
 
     public UArray convert(final String from, final String to) {
-        Self.convert(this.arrayReference, new ConcurrentHashMap<String, String>() {{
+        UObjectInternal.convert(this.arrayReference, new ConcurrentHashMap<String, String>() {{
             this.put(from, to);
         }}, false);
         return this;
     }
 
     public <I, O> UArray convert(final String field, final Function<I, O> function) {
-        Self.convert(this.arrayReference, field, function, false);
+        UObjectInternal.convert(this.arrayReference, field, function, false);
         return this;
     }
 
     public UArray filter(final Predicate<JsonObject> testFun) {
-        Self.filter(this.arrayReference, testFun, false);
+        UObjectInternal.filter(this.arrayReference, testFun, false);
         return this;
     }
 
     public UArray filter(final String field, final Object expected) {
-        Self.filter(this.arrayReference, (item) -> {
+        UObjectInternal.filter(this.arrayReference, (item) -> {
             final Object actual = item.getValue(field);
             return (null != expected && expected.equals(actual));
         }, false);
@@ -64,47 +64,47 @@ public class UArray {
     }
 
     public UArray dft(final String field, final Object value) {
-        Self.defaultValue(this.arrayReference, field, value, false);
+        UObjectInternal.defaultValue(this.arrayReference, field, value, false);
         return this;
     }
 
     public UArray dft(final JsonObject values) {
-        Self.defaultValue(this.arrayReference, values, false);
+        UObjectInternal.defaultValue(this.arrayReference, values, false);
         return this;
     }
 
     public UArray distinct() {
-        Self.distinct(this.arrayReference, false);
+        UObjectInternal.distinct(this.arrayReference, false);
         return this;
     }
 
     public UArray sort() {
-        Self.distinct(this.arrayReference, false);
+        UObjectInternal.distinct(this.arrayReference, false);
         return this;
     }
 
     public UArray remove(final String... keys) {
-        Self.remove(this.arrayReference, false, keys);
+        UObjectInternal.remove(this.arrayReference, false, keys);
         return this;
     }
 
     public UArray vertical(final String field) {
-        Self.vertical(this.arrayReference, field, false);
+        UObjectInternal.vertical(this.arrayReference, field, false);
         return this;
     }
 
     public UArray copy(final String from, final String to) {
-        Self.copy(this.arrayReference, from, to, false);
+        UObjectInternal.copy(this.arrayReference, from, to, false);
         return this;
     }
 
     public UArray zip(final JsonArray array, final String fromKey, final String toKey) {
-        Dual.zip(this.arrayReference, array, fromKey, toKey);
+        UArrayInternal.zip(this.arrayReference, array, fromKey, toKey);
         return this;
     }
 
     public UArray zip(final JsonArray target) {
-        Dual.zip(this.arrayReference, target);
+        UArrayInternal.zip(this.arrayReference, target);
         return this;
     }
 

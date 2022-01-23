@@ -38,7 +38,7 @@ public class BladeTc extends ZeroBase {
     public void testArray() {
         final JsonArray target = Ut.ioJArray(this.ioString("From.json"));
         final JsonArray source = Ut.ioJArray(this.ioString("To.json"));
-        final JsonArray zip = Dual.zip(target, source, "name", "name1");
+        final JsonArray zip = UArrayInternal.zip(target, source, "name", "name1");
         System.out.println(zip);
         final JsonArray arr = UArray.create(target).zip(source, "name", "name1").to();
         System.out.println(arr);
