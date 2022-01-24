@@ -8,7 +8,6 @@ import io.vertx.tp.error._417TableCounterException;
 import io.vertx.up.eon.Strings;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
-import org.jooq.Record;
 import org.jooq.*;
 import org.jooq.impl.DSL;
 
@@ -72,7 +71,6 @@ class Meta {
             /*
              * Table Condition
              */
-            TableOnConditionStep<Record> conditionStep;
             final Iterator<String> itJoin = joined.keySet()
                 .stream().filter(table -> !leader.equals(table))
                 .iterator();
@@ -90,20 +88,36 @@ class Meta {
             });
             /*
              * T1 join T2
+             * first = T1, joinTable = T2
              */
             final String firstJoin = itJoin.next();
             final Table<Record> joinTable = table(firstJoin, aliasMap.get(firstJoin));
-            conditionStep = joinCondition(first, joinTable, normalized);
+
+            final String fromTable = first.getName();
+            final String toTable = joinTable.getName();
+            /*
+             * T1 Join T2
+             */
+            TableOnConditionStep<Record> conditionStep = first.leftJoin(joinTable)
+                .on(joinCondition(fromTable, normalized.get(fromTable), toTable, normalized.get(toTable)));
             while (itJoin.hasNext()) {
-                final String nextJoin = itJoin.next();
-                final Table<Record> nextTable = table(nextJoin, aliasMap.get(nextJoin));
-                conditionStep = joinCondition(conditionStep, nextTable, normalized);
+                final String join = itJoin.next();
+                final Table<Record> tableJoin = table(join, aliasMap.get(join));
+                final String nextName = tableJoin.getName();
+                /*
+                 * Joined Join T3, but on use
+                 * T1.FIELD = T3.FIELD always
+                 */
+                conditionStep = conditionStep.join(tableJoin)
+                    .on(joinCondition(fromTable, normalized.get(fromTable), nextName, normalized.get(nextName)));
             }
             return conditionStep;
         }
     }
 
-    private static TableOnConditionStep<Record> joinCondition(
+/*  Fix issue of `join.null`, here could not do re-assignment of
+    variable, instead you should do as new code.
+private static TableOnConditionStep<Record> joinCondition(
         final Table<Record> from, final Table<Record> to,
         final ConcurrentMap<String, String> joined) {
         final String fromTable = from.getName();
@@ -111,7 +125,7 @@ class Meta {
         return from.leftJoin(to).on(joinCondition(
             fromTable, joined.get(fromTable),
             toTable, joined.get(toTable)));
-    }
+    }*/
 
     @SuppressWarnings("unchecked")
     private static Condition joinCondition(final String fromTable, final String fromField,

@@ -13,7 +13,6 @@ import io.vertx.up.atom.query.Criteria;
 import io.vertx.up.atom.query.Sorter;
 import io.vertx.up.atom.query.tree.QTree;
 import io.vertx.up.log.Annal;
-import org.jooq.Record;
 import org.jooq.*;
 import org.jooq.impl.DSL;
 
@@ -72,6 +71,7 @@ class JoinIngest implements Ingest {
              * 直接使用自然连接
              * join 中的 priority 全部为 null 的情况，直接使用自然连接
              */
+            Ao.infoSQL(LOGGER, "连接模式: Nature（自然连接）");
             return Jq.joinNature(aliasMap);
         } else {
             /*
@@ -107,6 +107,7 @@ class JoinIngest implements Ingest {
             /*
              * 列专用处理
              */
+            Ao.infoSQL(LOGGER, "连接模式: Left（左连接）");
             return Jq.joinLeft(primary, joinedCols, aliasMap);
         }
     }
