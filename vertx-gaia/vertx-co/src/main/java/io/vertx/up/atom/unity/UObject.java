@@ -38,12 +38,12 @@ public class UObject {
     }
 
     public UObject append(final JsonObject object) {
-        Dual.append(this.objectReference, object, false);
+        UArrayInternal.append(this.objectReference, object, false);
         return this;
     }
 
     public UObject append(final JsonArray array) {
-        Dual.append(this.objectReference, array);
+        UArrayInternal.append(this.objectReference, array);
         return this;
     }
 
@@ -53,19 +53,19 @@ public class UObject {
     }
 
     public UObject convert(final String from, final String to) {
-        Self.convert(this.objectReference, new ConcurrentHashMap<String, String>() {{
+        UObjectInternal.convert(this.objectReference, new ConcurrentHashMap<String, String>() {{
             this.put(from, to);
         }}, false);
         return this;
     }
 
     public UObject dft(final String field, final Object value) {
-        Self.defaultValue(this.objectReference, field, value, false);
+        UObjectInternal.defaultValue(this.objectReference, field, value, false);
         return this;
     }
 
     public UObject dft(final JsonObject values) {
-        Self.defaultValue(this.objectReference, values, false);
+        UObjectInternal.defaultValue(this.objectReference, values, false);
         return this;
     }
 
@@ -79,27 +79,27 @@ public class UObject {
     }
 
     public <I, O> UObject convert(final String field, final Function<I, O> function) {
-        Self.convert(this.objectReference, field, function, false);
+        UObjectInternal.convert(this.objectReference, field, function, false);
         return this;
     }
 
     public UObject copy(final String from, final String to) {
-        Self.copy(this.objectReference, from, to, false);
+        UObjectInternal.copy(this.objectReference, from, to, false);
         return this;
     }
 
     public UObject remove(final String... keys) {
-        Self.remove(this.objectReference, false, keys);
+        UObjectInternal.remove(this.objectReference, false, keys);
         return this;
     }
 
     public UObject pickup(final String... keys) {
-        Self.pickup(this.objectReference, keys);
+        UObjectInternal.pickup(this.objectReference, keys);
         return this;
     }
 
     public UObject denull() {
-        Self.deNull(this.objectReference, false);
+        UObjectInternal.deNull(this.objectReference, false);
         return this;
     }
 

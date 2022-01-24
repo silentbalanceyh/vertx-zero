@@ -49,10 +49,25 @@ public final class SqlDDLProvider {
         Fn.outWeb(null == this.sentence, _501AoSentenceNullException.class, this.getClass());
         final List<String> lines = new ArrayList<>();
         {
-            /* 字段定义信息 */
+            /*
+             * 字段定义信息
+             * */
             final Set<MField> fields = new TreeSet<>(new FieldComparator());
             fields.addAll(Arrays.asList(schema.getFields()));
-            fields.forEach(field -> this.addLine(lines, this.sentence.segmentField(field)));
+            fields.forEach(field -> {
+                if (Objects.nonNull(field.getIsPrimary()) && field.getIsPrimary()) {
+                    /*
+                     * 追加逻辑防止MySQL自然连接问题
+                     * natural join 要求同名主键通常是位于最前边，所以把主键定义放到最前边执行
+                     */
+                    final String pkLine = this.sentence.segmentField(field);
+                    if (Ut.notNil(pkLine)) {
+                        lines.add(0, pkLine);
+                    }
+                } else {
+                    this.addLine(lines, this.sentence.segmentField(field));
+                }
+            });
         }
         {
             /* Unique/Primary 约束 */

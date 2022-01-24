@@ -52,8 +52,14 @@ class JQPre {
             /*
              * There exist Elementary field based on RQuote, and the condition contains
              * value here.
+             * The enhancement version should contain `op` input from criteria condition
+             *
+             * The old version contains `=` and `i` only, the latest version:
+             *
+             * 1) The default operator is `=`.
+             * 2) The operator came from `qr.op()` result here.
              */
-            final JsonArray data = query.fetchBy(qr.value());
+            final JsonArray data = query.fetchBy(qr.op(), qr.value());
             /*
              * Calculate query map
              */
