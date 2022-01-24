@@ -3,6 +3,7 @@ package io.vertx.tp.atom.modeling.reference;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.atom.Kv;
+import io.vertx.up.atom.query.engine.Qr;
 import io.vertx.up.eon.Strings;
 import io.vertx.up.util.Ut;
 
@@ -46,12 +47,13 @@ public class RQuery implements Serializable {
         return this;
     }
 
-    public JsonArray fetchBy(final Object value) {
+    public JsonArray fetchBy(final String op, final Object value) {
         final JsonObject condition = new JsonObject();
         if (value instanceof JsonArray) {
             condition.put(this.sourceField + ",i", value);
         } else {
-            condition.put(this.sourceField, value);
+            final String operator = Ut.isNil(op) ? Qr.Op.EQ : op;
+            condition.put(this.sourceField + "," + operator, value);
         }
         condition.put(Strings.EMPTY, Boolean.TRUE);
         return this.daoRef.fetchBy(condition);
