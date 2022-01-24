@@ -72,7 +72,12 @@ public class ControlService implements ControlStub {
          */
         final JsonObject criteria = Ux.whereAnd();
         criteria.put(KName.TYPE, controlType.name());
-        criteria.mergeIn(params);
+        Ut.jsonCopy(criteria, params,
+            KName.SIGMA,
+            KName.IDENTIFIER,
+            KName.Ui.PAGE,
+            KName.App.PATH
+        );
         Ui.infoUi(LOGGER, "Control ( type = {0} ) with parameters = `{1}`", controlType, criteria.encode());
         return Ux.Jooq.on(UiVisitorDao.class).<UiVisitor>fetchOneAsync(criteria).compose(visitor -> {
             if (Objects.isNull(visitor)) {
@@ -87,11 +92,16 @@ public class ControlService implements ControlStub {
                     return Ux.futureJ();
                 }
                 final Class<?> clazz = Ut.clazz(component, null);
-                if (Objects.isNull(clazz) || !Ut.isImplement(UiHunter.class, clazz)) {
+                /*
+                 * 两个规范
+                 * 1. 「空」clazz 为空，跳出
+                 * 2. 「实现」clazz 必须实现了 UiHunter.class 接口
+                 */
+                if (Objects.isNull(clazz) || !Ut.isImplement(clazz, UiHunter.class)) {
                     /* 「空」组件规范不合法，返回空结果 */
                     return Ux.futureJ();
                 }
-                /* 再次检索 */
+                /* 再次检索，构造 UData */
                 final UiHunter hunter = Ut.instance(clazz);
                 final UData data = UData.createJ(params);
                 return hunter.seek(data, visitor).compose(controlId -> {
