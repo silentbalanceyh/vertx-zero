@@ -102,7 +102,15 @@ public abstract class AbstractHOne extends AbstractHub implements HWay<JsonObjec
 
     @Override
     public Future<JsonObject> fetchFull(final String key) {
-        return this.fetchByKey(key).compose(this::fetchByData);
+        return this.fetchByKey(key).compose(queried -> {
+            if (Objects.isNull(this.switcher())) {
+                /* Switcher Null, return the queried data directly */
+                return Ux.future(queried);
+            } else {
+                /* Switcher Enabled */
+                return this.fetchByData(queried);
+            }
+        });
     }
 
     // ------------------ 特殊逻辑 ----------------
