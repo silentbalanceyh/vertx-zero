@@ -1,10 +1,10 @@
 {
-    "eStart": {
+    "e.start": {
         "data": {
             "draft": "draft"
         }
     },
-    "eFileApprove": {
+    "e.approve": {
         "data": {
             "confirmed": "confirmed"
         },
