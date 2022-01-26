@@ -12,7 +12,7 @@
           "value": true
         }
       ],
-      "label": "申请文件模式",
+      "label": "申请模式",
       "type": "radio",
       "id": "Field_0uxcgce",
       "key": "draft",
@@ -22,5 +22,5 @@
     }
   ],
   "type": "default",
-  "id": "file.start"
+  "id": "e.start.form"
 }

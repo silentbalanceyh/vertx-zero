@@ -7,7 +7,7 @@
     <bpmn:sequenceFlow id="t.start-draft" name="存草稿" sourceRef="e.start.d" targetRef="e.draft">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">#{draft==true}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
-    <bpmn:userTask id="e.draft" name="文件申请" camunda:formKey="camunda-forms:deployment:file.request.form">
+    <bpmn:userTask id="e.draft" name="文件申请" camunda:formKey="camunda-forms:deployment:file.draft.form">
       <bpmn:incoming>t.start-draft</bpmn:incoming>
       <bpmn:incoming>t.approve-draft</bpmn:incoming>
       <bpmn:outgoing>t.draft-approve</bpmn:outgoing>
@@ -45,7 +45,7 @@
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="process.file.management">
-      <bpmndi:BPMNEdge id="Flow_0pov2q4_di" bpmnElement="t.start-approve">
+      <bpmndi:BPMNEdge id="Flow_0pov2q4_di" bpmnElement="t.start-approve" bioc:stroke="#000" bioc:fill="#fff">
         <di:waypoint x="345" y="120" />
         <di:waypoint x="594" y="120" />
         <bpmndi:BPMNLabel>
@@ -82,7 +82,7 @@
         <di:waypoint x="470" y="140" />
         <di:waypoint x="594" y="140" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_0q9oadt_di" bpmnElement="t.start-draft">
+      <bpmndi:BPMNEdge id="Flow_0q9oadt_di" bpmnElement="t.start-draft" bioc:stroke="#000" bioc:fill="#fff">
         <di:waypoint x="320" y="145" />
         <di:waypoint x="320" y="237" />
         <di:waypoint x="420" y="237" />
