@@ -10,6 +10,7 @@ import io.vertx.tp.optic.robin.Switcher;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
+import java.util.Objects;
 import java.util.function.Supplier;
 
 /**
@@ -44,7 +45,14 @@ public class AgileSwitcher {
 
     public Future<Arrow> switchAsync(final JsonObject data, final Supplier<Arrow> supplier) {
         if (this.dynamic) {
-            return this.switcher.atom(data, this.atom).compose(switched -> Ux.future(this.arrow(supplier, switched, this.dao)));
+            if (Objects.isNull(this.switcher)) {
+                // Switcher is not configured
+                return Ux.future(this.arrow(supplier, this.atom, this.dao));
+            } else {
+                // Switcher configured and here call switcher
+                return this.switcher.atom(data, this.atom)
+                    .compose(switched -> Ux.future(this.arrow(supplier, switched, this.dao)));
+            }
         } else {
             return this.switchAsync(supplier);
         }
