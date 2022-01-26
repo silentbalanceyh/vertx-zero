@@ -1,0 +1,16 @@
+{
+  "schemaVersion": 2,
+  "components": [
+    {
+      "label": "流程编号",
+      "type": "textfield",
+      "id": "Field_1rx913t",
+      "key": "workflow",
+      "validate": {
+        "required": true
+      }
+    }
+  ],
+  "type": "default",
+  "id": "e.init.form"
+}
