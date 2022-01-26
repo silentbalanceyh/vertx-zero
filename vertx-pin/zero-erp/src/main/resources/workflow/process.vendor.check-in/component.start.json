@@ -1,0 +1,13 @@
+{
+    "todo": {
+        "name": "`出库申请：${serial}, ${name}`",
+        "icon": "upload",
+        "todoUrl": "`/ambient/flow-view?tid=${key}&id=${modelKey}`",
+        "modelComponent": "",
+        "modelId": "",
+        "indent": "WF.NUM.P-OUTCOME"
+    },
+    "record": {
+        "flag": "ADD"
+    }
+}

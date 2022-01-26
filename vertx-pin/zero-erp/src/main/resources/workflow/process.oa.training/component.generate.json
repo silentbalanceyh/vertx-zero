@@ -1,0 +1,16 @@
+{
+    "e.approve": {
+        "data": {
+            "confirmed": "confirmed"
+        },
+        "rule": [
+            {
+                "field": "confirmed",
+                "value": false,
+                "todo": {
+                    "status": "DRAFT"
+                }
+            }
+        ]
+    }
+}
