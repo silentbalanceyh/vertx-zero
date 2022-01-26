@@ -39,7 +39,7 @@
     <bpmn:sequenceFlow id="t.approve-verify" name="同意" sourceRef="e.approve.d" targetRef="e.end">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">#{confirmed==true}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
-    <bpmn:endEvent id="e.end" name="出库完成">
+    <bpmn:endEvent id="e.end" name="考核完成">
       <bpmn:incoming>t.approve-verify</bpmn:incoming>
     </bpmn:endEvent>
     <bpmn:sequenceFlow id="t.pre-approve" sourceRef="e.pre" targetRef="e.approve" />
@@ -112,7 +112,7 @@
       <bpmndi:BPMNShape id="Event_0vfwydc_di" bpmnElement="e.end">
         <dc:Bounds x="892" y="212" width="36" height="36" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="888" y="255" width="44" height="14" />
+          <dc:Bounds x="888" y="193" width="44" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_09dzp27_di" bpmnElement="e.approve">
