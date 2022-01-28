@@ -42,6 +42,8 @@
         "record@category"
     ],
     "initial": {
+        "status": "DRAFT",
+        "catalog": "UNIQUE:service.catalog,code,code=FIX:w.document.request",
         "record@category": "FIX:FILE.REQUEST"
     }
 }

@@ -19,7 +19,7 @@ CREATE TABLE IF NOT EXISTS W_TICKET
     `NAME`                VARCHAR(255) COMMENT '「name」- 单据标题',
     `CODE`                VARCHAR(36) COMMENT '「code」- 单据系统编号（内码）',
     `STATUS`              VARCHAR(36) COMMENT '「status」- 主单据状态',
-    `TYPE`                VARCHAR(36) COMMENT '「type」- 待办类型',
+    `TYPE`                VARCHAR(36) COMMENT '「type」- 主单类型类型',
 
     /*
      * Modeling Engine（建模管理）
