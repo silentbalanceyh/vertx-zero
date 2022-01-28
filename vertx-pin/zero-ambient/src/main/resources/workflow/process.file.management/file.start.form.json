@@ -44,6 +44,8 @@
     "initial": {
         "status": "DRAFT",
         "catalog": "UNIQUE:service.catalog,code,code=FIX:w.document.request",
+        "openBy": "USER:key",
+        "owner": "USER:key",
         "record@category": "FIX:FILE.REQUEST"
     }
 }
