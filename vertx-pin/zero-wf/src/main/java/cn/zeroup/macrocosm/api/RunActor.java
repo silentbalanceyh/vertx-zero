@@ -4,6 +4,7 @@ import cn.zeroup.macrocosm.cv.HighWay;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.workflow.atom.EngineOn;
+import io.vertx.tp.workflow.refine.Wf;
 import io.vertx.tp.workflow.uca.component.Movement;
 import io.vertx.tp.workflow.uca.component.Stay;
 import io.vertx.tp.workflow.uca.component.Transfer;
@@ -19,62 +20,61 @@ import io.vertx.up.unity.Ux;
 public class RunActor {
     /*
     {
-      "roleName" : "开发人员",
-      "typeName" : "文件管理服务",
-      "toUser" : "63b5383e-5a2e-44ec-87d4-add096aac548",
-      "toGroupMode" : "ROLE",
-      "name" : "TEST",
-      "record" : {
-        "size" : 4262533,
-        "name" : "4k0001.jpg",
-        "instance" : {
-          "uid" : "rc-upload-1636893185841-2",
-          "name" : "4k0001.jpg",
-          "key" : "b840cd3a-8510-420d-b5c1-7f030111ef21",
-          "type" : "image/jpeg",
-          "size" : 4262533,
-          "sizeUi" : "4.07MB",
-          "extension" : "jpg"
+        "openBy": "f7fbfaf9-8319-4eb0-9ee7-1948b8b56a67",
+        "toUser": "a0b1c6bc-4162-47e2-8f16-c9f4dd162739",
+        "record": {
+            "size": 1114042,
+            "name": "error.jpeg",
+            "sizeUi": "1.06MB",
+            "type": "image/jpeg",
+            "file": [
+                {
+                    "uid": "rc-upload-1643355423248-2",
+                    "name": "error.jpeg",
+                    "key": "ceafc8ec-0137-46df-a60f-38ae475b0242",
+                    "type": "image/jpeg",
+                    "size": 1114042,
+                    "sizeUi": "1.06MB",
+                    "extension": "jpeg"
+                }
+            ],
+            "category": "FILE.REQUEST",
+            "extension": "jpeg",
+            "key": "ceafc8ec-0137-46df-a60f-38ae475b0242"
         },
-        "sizeUi" : "4.07MB",
-        "type" : "image/jpeg",
-        "category" : "FILE.REQUEST",
-        "extension" : "jpg",
-        "key" : "b840cd3a-8510-420d-b5c1-7f030111ef21"
-      },
-      "toRole" : "1f27530f-38db-4662-81d4-46ea15b04205",
-      "status" : "DRAFT",
-      "userName" : "开发者",
-      "type" : "cat.doc.file",
-      "description" : "Description",
-      "language" : "cn",
-      "active" : true,
-      "sigma" : "Qxw5HDkluJFnAPmcQCtu9uhGdXEiGNtP",
-      "draft" : true,
-      "workflow" : {
-        "definitionKey" : "process.file.management",
-        "definitionId" : "process.file.management:1:6",
-        "instanceId": "instance id",
-        "language" : "cn"
-      },
-      "createdBy" : "f7fbfaf9-8319-4eb0-9ee7-1948b8b56a67",
-      "createdAt" : "2021-11-14T12:33:51.019091Z",
-      "updatedBy" : "f7fbfaf9-8319-4eb0-9ee7-1948b8b56a67",
-      "updatedAt" : "2021-11-14T12:33:51.019091Z"
+        "toUserName": "开发者",
+        "status": "DRAFT",
+        "owner": "f7fbfaf9-8319-4eb0-9ee7-1948b8b56a67",
+        "title": "TEST",
+        "catalog": "w.document.request",
+        "type": "workflow.doc",
+        "description": "<p>TEST</p>",
+        "openAt": "2022-01-28T07:37:06.141Z",
+        "ownerName": "虞浪",
+        "language": "cn",
+        "active": true,
+        "sigma": "Qxw5HDkluJFnAPmcQCtu9uhGdXEiGNtP",
+        "workflow": {
+            "definitionKey": "process.file.management",
+            "definitionId": "process.file.management:1:c80c1ad1-7fd9-11ec-b990-f60fb9ea15d8"
+        },
+        "draft": true
     }
      */
     @Me
     @Address(HighWay.Do.FLOW_START)
     public Future<JsonObject> start(final JsonObject data) {
         final EngineOn engine = EngineOn.connect(data);
-        final Transfer transfer = engine.componentStart();
-        final Movement runner = engine.componentRun();
+
+
         // Camunda Processing
-        return runner.moveAsync(data)
-            .compose(instance -> transfer.moveAsync(data, instance)
-                // Callback
-                .compose(Ux::futureJ)
-            );
+        final Movement runner = engine.componentRun();
+        // Transfer Processing
+        final Transfer transfer = engine.componentStart();
+        Wf.Log.infoWeb(this.getClass(), "Movement = {0}, Transfer = {1}", runner.getClass(), transfer.getClass());
+
+
+        return runner.moveAsync(data).compose(instance -> transfer.moveAsync(data, instance).compose(Ux::futureJ));
     }
 
     @Me

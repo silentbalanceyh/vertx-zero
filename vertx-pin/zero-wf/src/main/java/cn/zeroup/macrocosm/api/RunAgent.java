@@ -17,39 +17,47 @@ import javax.ws.rs.Path;
 @Path("/api")
 public interface RunAgent {
     /*
-            {
-                "roleName": "开发人员",
-                "record": {
-                    "sizeUi": "1.86MB",
-                    "instance": {
-                        "uid": "rc-upload-1636725967401-2",
-                        "name": "4k0005.jpg",
-                        "key": "91157696-661d-412b-8d83-e750f36acab3",
-                        "type": "image/jpeg",
-                        "size": 1948572,
-                        "sizeUi": "1.86MB",
-                        "extension": "jpg"
-                    },
-                    "key": "key",
-                    "fileKey": "fileKey"
+    {
+        "openBy": "f7fbfaf9-8319-4eb0-9ee7-1948b8b56a67",
+        "toUser": "a0b1c6bc-4162-47e2-8f16-c9f4dd162739",
+        "record": {
+            "size": 1114042,
+            "name": "error.jpeg",
+            "sizeUi": "1.06MB",
+            "type": "image/jpeg",
+            "file": [
+                {
+                    "uid": "rc-upload-1643355423248-2",
+                    "name": "error.jpeg",
+                    "key": "ceafc8ec-0137-46df-a60f-38ae475b0242",
                     "type": "image/jpeg",
-                    "category": "FILE.REQUEST",
-                    "size": 1948572,
-                    "extension": "jpg",
-                    "name": "4k0005.jpg"
-                },
-                "toUser": "63b5383e-5a2e-44ec-87d4-add096aac548",
-                "toGroupMode": "ROLE",
-                "name": "Test",
-                "toRole": "1f27530f-38db-4662-81d4-46ea15b04205",
-                "status": "DRAFT",
-                "userName": "开发者",
-                "draft": true,
-                "workflow":{
-                    "code": "xxx, definitionKey",
-                    "definitionId": "xxx"
+                    "size": 1114042,
+                    "sizeUi": "1.06MB",
+                    "extension": "jpeg"
                 }
-            }
+            ],
+            "category": "FILE.REQUEST",
+            "extension": "jpeg",
+            "key": "ceafc8ec-0137-46df-a60f-38ae475b0242"
+        },
+        "toUserName": "开发者",
+        "status": "DRAFT",
+        "owner": "f7fbfaf9-8319-4eb0-9ee7-1948b8b56a67",
+        "title": "TEST",
+        "catalog": "w.document.request",
+        "type": "workflow.doc",
+        "description": "<p>TEST</p>",
+        "openAt": "2022-01-28T07:37:06.141Z",
+        "ownerName": "虞浪",
+        "language": "cn",
+        "active": true,
+        "sigma": "Qxw5HDkluJFnAPmcQCtu9uhGdXEiGNtP",
+        "workflow": {
+            "definitionKey": "process.file.management",
+            "definitionId": "process.file.management:1:c80c1ad1-7fd9-11ec-b990-f60fb9ea15d8"
+        },
+        "draft": true
+    }
      */
     @POST
     @Path("/up/flow/start")

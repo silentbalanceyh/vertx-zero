@@ -1,2 +1,36 @@
 {
+    "canvas": {
+        "height": 240,
+        "offset": 4
+    },
+    "op": {
+        "$opDraft": {
+            "comment": "存草稿专用",
+            "e.start": {
+                "draft": true,
+                "status": "DRAFT"
+            }
+        },
+        "$opOpen": {
+            "comment": "提交专用",
+            "e.start": {
+                "draft": false,
+                "status": "PENDING"
+            }
+        },
+        "$opApprove": {
+            "comment": "审批专用",
+            "e.approve": {
+                "confirmed": true,
+                "status": "FINISHED"
+            }
+        },
+        "$opReject": {
+            "comment": "拒绝专用",
+            "e.approve": {
+                "confirmed": false,
+                "status": "REJECTED"
+            }
+        }
+    }
 }

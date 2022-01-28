@@ -69,11 +69,12 @@ public class ConfigTodo implements Serializable {
         return this.indent;
     }
 
-    public Future<WTodo> generate(final String modelKey) {
+    public Future<JsonObject> generate(final String modelKey) {
         return Ke.umIndent(this.data, this.indent).compose(processed -> {
             final JsonObject todoData = processed.copy();
             Ut.ifJCopy(todoData, KName.INDENT, KName.SERIAL);
             // Todo Generate `key` for `todoUrl`
+            Ut.ifJCopy(todoData, KName.INDENT, KName.CODE);
             {
                 todoData.put(KName.KEY, UUID.randomUUID().toString());
                 todoData.put(KName.MODEL_KEY, modelKey);
@@ -88,7 +89,13 @@ public class ConfigTodo implements Serializable {
                 }
             });
             todoData.mergeIn(combine);
-            return Ux.future(Ux.fromJson(todoData, WTodo.class));
+            // Camunda Definition
+            final JsonObject workflow = todoData.getJsonObject(KName.Flow.WORKFLOW, new JsonObject());
+            {
+                todoData.put("flowDefinitionKey", workflow.getString(KName.Flow.DEFINITION_KEY));
+                todoData.put("flowDefinitionId", workflow.getString(KName.Flow.DEFINITION_ID));
+            }
+            return Ux.future(todoData);
         });
     }
 }

@@ -1,11 +1,11 @@
 {
     "todo": {
-        "name": "`文件申请：${serial}, ${name}`",
+        "name": "`文件申请：${serial}, ${title}`",
         "icon": "file",
         "todoUrl": "`/ambient/flow-view?tid=${key}&id=${modelKey}`",
         "modelComponent": "cn.vertxup.ambient.domain.tables.daos.XAttachmentDao",
         "modelId": "x.attachment",
-        "indent": "WF.NUM.FILE"
+        "indent": "W.File.Request"
     },
     "record": {
         "flag": "UPDATE"

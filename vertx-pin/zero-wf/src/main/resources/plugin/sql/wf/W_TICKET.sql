@@ -44,9 +44,9 @@ CREATE TABLE IF NOT EXISTS W_TICKET
      * - processId,     流程执行专用Key，标识当前主单目前处于哪个流程节点专用
      * - finished,      （主单是否执行完成）
      */
-    `FLOW_DEFINITION_KEY` VARCHAR(36) COMMENT '「flowDefinitionKey」- 流程定义的KEY, getProcessDefinitionKey',
-    `FLOW_DEFINITION_ID`  VARCHAR(36) COMMENT '「flowDefinitionId」- 流程定义的ID，getProcessDefinitionKey',
-    `FLOW_INSTANCE_ID`    VARCHAR(36) COMMENT '「flowInstanceId」- 流程定义的ID，getProcessId',
+    `FLOW_DEFINITION_KEY` VARCHAR(64) COMMENT '「flowDefinitionKey」- 流程定义的KEY, getProcessDefinitionKey',
+    `FLOW_DEFINITION_ID`  VARCHAR(64) COMMENT '「flowDefinitionId」- 流程定义的ID，getProcessDefinitionKey',
+    `FLOW_INSTANCE_ID`    VARCHAR(64) COMMENT '「flowInstanceId」- 流程定义的ID，getProcessId',
     `FLOW_END`            BIT         DEFAULT NULL COMMENT '「flowEnd」- 主单是否执行完成',
 
 

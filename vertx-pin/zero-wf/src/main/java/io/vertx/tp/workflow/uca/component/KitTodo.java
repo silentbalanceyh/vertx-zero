@@ -1,6 +1,8 @@
 package io.vertx.tp.workflow.uca.component;
 
+import cn.vertxup.workflow.domain.tables.daos.WTicketDao;
 import cn.vertxup.workflow.domain.tables.daos.WTodoDao;
+import cn.vertxup.workflow.domain.tables.pojos.WTicket;
 import cn.vertxup.workflow.domain.tables.pojos.WTodo;
 import cn.zeroup.macrocosm.cv.em.TodoStatus;
 import io.vertx.core.Future;
@@ -174,25 +176,146 @@ class KitTodo {
         });
     }
 
+    /*
+     params:
+
+     normalized:
+    {
+        "openBy": "f7fbfaf9-8319-4eb0-9ee7-1948b8b56a67",
+        "toUser": "a0b1c6bc-4162-47e2-8f16-c9f4dd162739",
+        "record": {
+            "size": 1114042,
+            "name": "error.jpeg",
+            "sizeUi": "1.06MB",
+            "type": "image/jpeg",
+            "file": [
+                {
+                    "uid": "rc-upload-1643358391244-2",
+                    "name": "error.jpeg",
+                    "key": "f7f77109-fa6d-4fc2-a959-fa7b5877ef31",
+                    "type": "image/jpeg",
+                    "size": 1114042,
+                    "sizeUi": "1.06MB",
+                    "extension": "jpeg"
+                }
+            ],
+            "category": "FILE.REQUEST",
+            "extension": "jpeg",
+            "key": "f7f77109-fa6d-4fc2-a959-fa7b5877ef31"
+        },
+        "toUserName": "开发者",
+        "status": "DRAFT",
+        "owner": "f7fbfaf9-8319-4eb0-9ee7-1948b8b56a67",
+        "title": "TEST",
+        "catalog": "w.document.request",
+        "type": "workflow.doc",
+        "description": "<p>TEST</p>",
+        "openAt": "2022-01-28T08:26:46.246Z",
+        "ownerName": "虞浪",
+        "language": "cn",
+        "active": true,
+        "sigma": "Qxw5HDkluJFnAPmcQCtu9uhGdXEiGNtP",
+        "workflow": {
+            "definitionKey": "process.file.management",
+            "definitionId": "process.file.management:1:c80c1ad1-7fd9-11ec-b990-f60fb9ea15d8"
+        },
+        "draft": true,
+        "createdBy": "f7fbfaf9-8319-4eb0-9ee7-1948b8b56a67",
+        "createdAt": "2022-01-28T08:27:00.281624Z",
+        "updatedBy": "f7fbfaf9-8319-4eb0-9ee7-1948b8b56a67",
+        "updatedAt": "2022-01-28T08:27:00.281624Z",
+        "todo": {
+            "name": "`文件申请：${serial}, ${title}`",
+            "icon": "file",
+            "todoUrl": "`/ambient/flow-view?tid=${key}&id=${modelKey}`",
+            "modelComponent": "cn.vertxup.ambient.domain.tables.daos.XAttachmentDao",
+            "modelId": "x.attachment",
+            "indent": "W.File.Request"
+        },
+        "indent": "W.File.Request",
+        "serial": "WFR22012800100007",
+        "key": "283c98a1-4184-4cd1-8a5d-52194f7b38a4",
+        "modelKey": "f7f77109-fa6d-4fc2-a959-fa7b5877ef31",
+        "name": "文件申请：WFR22012800100007, TEST",
+        "icon": "file",
+        "todoUrl": "/ambient/flow-view?tid=283c98a1-4184-4cd1-8a5d-52194f7b38a4&id=f7f77109-fa6d-4fc2-a959-fa7b5877ef31",
+        "modelComponent": "cn.vertxup.ambient.domain.tables.daos.XAttachmentDao",
+        "modelId": "x.attachment"
+    }
+     */
     Future<WTodo> insertAsync(final JsonObject params, final ConfigTodo config,
                               final ProcessInstance instance) {
+        // Todo Build ( WTicket / WTodo )
+
         // Todo Build
-        final UxJooq jooq = Ux.Jooq.on(WTodoDao.class);
-        return config.generate(params.getString(KName.KEY)).compose(entity -> {
-            // Order Re-Calculate
-            if (Objects.isNull(entity.getTraceOrder())) {
-                entity.setTraceOrder(1);
-            }
-            entity.setSerial(entity.getSerial() + "-" + entity.getTraceOrder());
-            // Code Synced with Serial
-            if (Objects.isNull(entity.getCode())) {
-                entity.setCode(entity.getSerial());
-            }
-            // Owner is as created todo here.d
-            // entity.setOwner(entity.getCreatedBy());
-            Objects.requireNonNull(entity.getKey());
-            return this.traceAsync(entity, instance)
-                .compose(jooq::insertAsync);
+        return config.generate(params.getString(KName.KEY)).compose(normalized -> {
+            // Ticket Workflow
+            final WTicket ticket = Ux.fromJson(normalized, WTicket.class);
+            /*
+             * null value when ticket processed
+             *
+             *  - code: came from serial
+             * 「Camunda」
+             *  - flowDefinitionKey: came from json
+             *  - flowDefinitionId: came from json
+             *  - flowInstanceId: came from process
+             *  - flowEnd: false when insert todo
+             *
+             * 「Flow」
+             *  - cancelBy
+             *  - cancelAt
+             *  - closeBy
+             *  - closeAt
+             *  - closeSolution
+             *  - closeCode
+             *
+             * 「Future」
+             *  - metadata
+             *  - modelCategory
+             *  - category
+             *  - categorySub
+             */
+            ticket.setFlowEnd(Boolean.FALSE);
+            ticket.setFlowInstanceId(instance.getId());
+            return Ux.Jooq.on(WTicketDao.class).insertAsync(ticket).compose(inserted -> {
+                // Todo Workflow
+                final WTodo todo = Ux.fromJson(normalized, WTodo.class);
+
+                /*
+                 * null value when processed
+                 * 「Related」
+                 *  - traceId
+                 *  - traceOrder
+                 *  - parentId
+                 *
+                 * 「Camunda」
+                 *  - taskId
+                 *  - taskKey
+                 *
+                 * 「Flow」
+                 *  - assignedBy
+                 *  - assignedAt
+                 *  - acceptedBy
+                 *  - acceptedAt
+                 *  - finishedBy
+                 *  - finishedAt
+                 *  - comment
+                 *  - commentApproval
+                 *  - commentReject
+                 *
+                 * 「Future」
+                 *  - metadata
+                 *  - modelCategory
+                 *  - activityId
+                 */
+                todo.setTraceId(ticket.getKey());
+                todo.setTraceOrder(1);
+                todo.setCode(ticket.getCode() + "-" +
+                    Ut.fromAdjust(todo.getTraceOrder(), 2));
+                todo.setSerial(ticket.getSerial() + "-" +
+                    Ut.fromAdjust(todo.getTraceOrder(), 2));
+                return Ux.Jooq.on(WTodoDao.class).insertAsync(todo);
+            });
         });
     }
 
