@@ -39,14 +39,16 @@ public class TaskService implements TaskStub {
             if (Objects.isNull(todo)) {
                 return Ux.futureJ();
             }
+            final String traceId = todo.getTraceId();
+            return Wf.instance(traceId).compose(process -> this.runningFlow(todo, process, userId));
+
             // Fetch ProcessDefinition
-            if (todo.getInstance()) {
-                // Workflow Processing
+/*            if (todo.getInstance()) {
                 final String traceId = todo.getTraceId();
                 return Wf.instance(traceId).compose(process -> this.runningFlow(todo, process, userId));
             } else {
                 return this.running(todo);
-            }
+            }*/
         });
     }
 
@@ -54,13 +56,15 @@ public class TaskService implements TaskStub {
     public Future<JsonObject> fetchFinished(final String key) {
         return Ux.Jooq.on(WTodoDao.class).<WTodo>fetchByIdAsync(key).compose(todo -> {
             // Fetch ProcessDefinition
-            if (todo.getInstance()) {
-                // Workflow Processing
+            // Workflow Processing
+            final String traceId = todo.getTraceId();
+            return Wf.instance(traceId).compose(process -> this.historyFlow(todo, process));
+/*            if (todo.getInstance()) {
                 final String traceId = todo.getTraceId();
                 return Wf.instance(traceId).compose(process -> this.historyFlow(todo, process));
             } else {
                 return this.history(todo);
-            }
+            }*/
         });
     }
 

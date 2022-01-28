@@ -5,6 +5,7 @@ package cn.vertxup.workflow.domain;
 
 
 import cn.vertxup.workflow.domain.tables.WFlow;
+import cn.vertxup.workflow.domain.tables.WTicket;
 import cn.vertxup.workflow.domain.tables.WTodo;
 import io.vertx.tp.ke.refine.Ke;
 import org.jooq.Catalog;
@@ -32,6 +33,11 @@ public class Db extends SchemaImpl {
     public final WFlow W_FLOW = WFlow.W_FLOW;
 
     /**
+     * The table <code>DB_ETERNAL.W_TICKET</code>.
+     */
+    public final WTicket W_TICKET = WTicket.W_TICKET;
+
+    /**
      * The table <code>DB_ETERNAL.W_TODO</code>.
      */
     public final WTodo W_TODO = WTodo.W_TODO;
@@ -53,6 +59,7 @@ public class Db extends SchemaImpl {
     public final List<Table<?>> getTables() {
         return Arrays.asList(
             WFlow.W_FLOW,
+            WTicket.W_TICKET,
             WTodo.W_TODO
         );
     }

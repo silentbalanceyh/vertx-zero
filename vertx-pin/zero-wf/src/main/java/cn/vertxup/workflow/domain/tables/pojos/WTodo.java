@@ -28,38 +28,35 @@ public class WTodo implements VertxPojo, IWTodo {
     private String        status;
     private String        todoUrl;
     private String        type;
+    private LocalDateTime expiredAt;
     private String        modelId;
     private String        modelKey;
     private String        modelCategory;
-    private String        modelForm;
-    private String        modelComponent;
-    private Boolean       instance;
     private String        parentId;
     private String        traceId;
-    private String        traceTaskId;
-    private Boolean       traceEnd;
     private Integer       traceOrder;
-    private String        traceExtra;
+    private String        taskId;
+    private String        taskKey;
+    private String        activityId;
     private String        comment;
     private String        commentApproval;
     private String        commentReject;
-    private String        toGroupMode;
+    private String        toLocation;
     private String        toGroup;
+    private String        toDept;
+    private String        toTeam;
     private String        toUser;
     private String        toRole;
-    private Boolean       active;
-    private String        sigma;
-    private String        metadata;
-    private String        language;
-    private String        owner;
-    private String        supervisor;
     private String        assignedBy;
     private LocalDateTime assignedAt;
     private String        acceptedBy;
     private LocalDateTime acceptedAt;
     private String        finishedBy;
     private LocalDateTime finishedAt;
-    private LocalDateTime expiredAt;
+    private Boolean       active;
+    private String        sigma;
+    private String        metadata;
+    private String        language;
     private LocalDateTime createdAt;
     private String        createdBy;
     private LocalDateTime updatedAt;
@@ -76,38 +73,35 @@ public class WTodo implements VertxPojo, IWTodo {
         this.status = value.getStatus();
         this.todoUrl = value.getTodoUrl();
         this.type = value.getType();
+        this.expiredAt = value.getExpiredAt();
         this.modelId = value.getModelId();
         this.modelKey = value.getModelKey();
         this.modelCategory = value.getModelCategory();
-        this.modelForm = value.getModelForm();
-        this.modelComponent = value.getModelComponent();
-        this.instance = value.getInstance();
         this.parentId = value.getParentId();
         this.traceId = value.getTraceId();
-        this.traceTaskId = value.getTraceTaskId();
-        this.traceEnd = value.getTraceEnd();
         this.traceOrder = value.getTraceOrder();
-        this.traceExtra = value.getTraceExtra();
+        this.taskId = value.getTaskId();
+        this.taskKey = value.getTaskKey();
+        this.activityId = value.getActivityId();
         this.comment = value.getComment();
         this.commentApproval = value.getCommentApproval();
         this.commentReject = value.getCommentReject();
-        this.toGroupMode = value.getToGroupMode();
+        this.toLocation = value.getToLocation();
         this.toGroup = value.getToGroup();
+        this.toDept = value.getToDept();
+        this.toTeam = value.getToTeam();
         this.toUser = value.getToUser();
         this.toRole = value.getToRole();
-        this.active = value.getActive();
-        this.sigma = value.getSigma();
-        this.metadata = value.getMetadata();
-        this.language = value.getLanguage();
-        this.owner = value.getOwner();
-        this.supervisor = value.getSupervisor();
         this.assignedBy = value.getAssignedBy();
         this.assignedAt = value.getAssignedAt();
         this.acceptedBy = value.getAcceptedBy();
         this.acceptedAt = value.getAcceptedAt();
         this.finishedBy = value.getFinishedBy();
         this.finishedAt = value.getFinishedAt();
-        this.expiredAt = value.getExpiredAt();
+        this.active = value.getActive();
+        this.sigma = value.getSigma();
+        this.metadata = value.getMetadata();
+        this.language = value.getLanguage();
         this.createdAt = value.getCreatedAt();
         this.createdBy = value.getCreatedBy();
         this.updatedAt = value.getUpdatedAt();
@@ -123,38 +117,35 @@ public class WTodo implements VertxPojo, IWTodo {
         String        status,
         String        todoUrl,
         String        type,
+        LocalDateTime expiredAt,
         String        modelId,
         String        modelKey,
         String        modelCategory,
-        String        modelForm,
-        String        modelComponent,
-        Boolean       instance,
         String        parentId,
         String        traceId,
-        String        traceTaskId,
-        Boolean       traceEnd,
         Integer       traceOrder,
-        String        traceExtra,
+        String        taskId,
+        String        taskKey,
+        String        activityId,
         String        comment,
         String        commentApproval,
         String        commentReject,
-        String        toGroupMode,
+        String        toLocation,
         String        toGroup,
+        String        toDept,
+        String        toTeam,
         String        toUser,
         String        toRole,
-        Boolean       active,
-        String        sigma,
-        String        metadata,
-        String        language,
-        String        owner,
-        String        supervisor,
         String        assignedBy,
         LocalDateTime assignedAt,
         String        acceptedBy,
         LocalDateTime acceptedAt,
         String        finishedBy,
         LocalDateTime finishedAt,
-        LocalDateTime expiredAt,
+        Boolean       active,
+        String        sigma,
+        String        metadata,
+        String        language,
         LocalDateTime createdAt,
         String        createdBy,
         LocalDateTime updatedAt,
@@ -168,38 +159,35 @@ public class WTodo implements VertxPojo, IWTodo {
         this.status = status;
         this.todoUrl = todoUrl;
         this.type = type;
+        this.expiredAt = expiredAt;
         this.modelId = modelId;
         this.modelKey = modelKey;
         this.modelCategory = modelCategory;
-        this.modelForm = modelForm;
-        this.modelComponent = modelComponent;
-        this.instance = instance;
         this.parentId = parentId;
         this.traceId = traceId;
-        this.traceTaskId = traceTaskId;
-        this.traceEnd = traceEnd;
         this.traceOrder = traceOrder;
-        this.traceExtra = traceExtra;
+        this.taskId = taskId;
+        this.taskKey = taskKey;
+        this.activityId = activityId;
         this.comment = comment;
         this.commentApproval = commentApproval;
         this.commentReject = commentReject;
-        this.toGroupMode = toGroupMode;
+        this.toLocation = toLocation;
         this.toGroup = toGroup;
+        this.toDept = toDept;
+        this.toTeam = toTeam;
         this.toUser = toUser;
         this.toRole = toRole;
-        this.active = active;
-        this.sigma = sigma;
-        this.metadata = metadata;
-        this.language = language;
-        this.owner = owner;
-        this.supervisor = supervisor;
         this.assignedBy = assignedBy;
         this.assignedAt = assignedAt;
         this.acceptedBy = acceptedBy;
         this.acceptedAt = acceptedAt;
         this.finishedBy = finishedBy;
         this.finishedAt = finishedAt;
-        this.expiredAt = expiredAt;
+        this.active = active;
+        this.sigma = sigma;
+        this.metadata = metadata;
+        this.language = language;
         this.createdAt = createdAt;
         this.createdBy = createdBy;
         this.updatedAt = updatedAt;
@@ -352,6 +340,23 @@ public class WTodo implements VertxPojo, IWTodo {
     }
 
     /**
+     * Getter for <code>DB_ETERNAL.W_TODO.EXPIRED_AT</code>. 「expiredAt」- 超时时间
+     */
+    @Override
+    public LocalDateTime getExpiredAt() {
+        return this.expiredAt;
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.W_TODO.EXPIRED_AT</code>. 「expiredAt」- 超时时间
+     */
+    @Override
+    public WTodo setExpiredAt(LocalDateTime expiredAt) {
+        this.expiredAt = expiredAt;
+        return this;
+    }
+
+    /**
      * Getter for <code>DB_ETERNAL.W_TODO.MODEL_ID</code>. 「modelId」-
      * 关联的模型identifier，用于描述
      */
@@ -409,61 +414,6 @@ public class WTodo implements VertxPojo, IWTodo {
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.W_TODO.MODEL_FORM</code>. 「modelForm」-
-     * 待办专用的表单关联
-     */
-    @Override
-    public String getModelForm() {
-        return this.modelForm;
-    }
-
-    /**
-     * Setter for <code>DB_ETERNAL.W_TODO.MODEL_FORM</code>. 「modelForm」-
-     * 待办专用的表单关联
-     */
-    @Override
-    public WTodo setModelForm(String modelForm) {
-        this.modelForm = modelForm;
-        return this;
-    }
-
-    /**
-     * Getter for <code>DB_ETERNAL.W_TODO.MODEL_COMPONENT</code>.
-     * 「modelComponent」- 关联的待办组件记录
-     */
-    @Override
-    public String getModelComponent() {
-        return this.modelComponent;
-    }
-
-    /**
-     * Setter for <code>DB_ETERNAL.W_TODO.MODEL_COMPONENT</code>.
-     * 「modelComponent」- 关联的待办组件记录
-     */
-    @Override
-    public WTodo setModelComponent(String modelComponent) {
-        this.modelComponent = modelComponent;
-        return this;
-    }
-
-    /**
-     * Getter for <code>DB_ETERNAL.W_TODO.INSTANCE</code>. 「instance」- 是否启用工作流？
-     */
-    @Override
-    public Boolean getInstance() {
-        return this.instance;
-    }
-
-    /**
-     * Setter for <code>DB_ETERNAL.W_TODO.INSTANCE</code>. 「instance」- 是否启用工作流？
-     */
-    @Override
-    public WTodo setInstance(Boolean instance) {
-        this.instance = instance;
-        return this;
-    }
-
-    /**
      * Getter for <code>DB_ETERNAL.W_TODO.PARENT_ID</code>. 「parentId」-
      * 待办支持父子集结构，父待办执行时候子待办同样执行
      */
@@ -502,42 +452,6 @@ public class WTodo implements VertxPojo, IWTodo {
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.W_TODO.TRACE_TASK_ID</code>. 「traceTaskId」-
-     * 和待办绑定的taskId
-     */
-    @Override
-    public String getTraceTaskId() {
-        return this.traceTaskId;
-    }
-
-    /**
-     * Setter for <code>DB_ETERNAL.W_TODO.TRACE_TASK_ID</code>. 「traceTaskId」-
-     * 和待办绑定的taskId
-     */
-    @Override
-    public WTodo setTraceTaskId(String traceTaskId) {
-        this.traceTaskId = traceTaskId;
-        return this;
-    }
-
-    /**
-     * Getter for <code>DB_ETERNAL.W_TODO.TRACE_END</code>. 「traceEnd」- 主单执行完成
-     */
-    @Override
-    public Boolean getTraceEnd() {
-        return this.traceEnd;
-    }
-
-    /**
-     * Setter for <code>DB_ETERNAL.W_TODO.TRACE_END</code>. 「traceEnd」- 主单执行完成
-     */
-    @Override
-    public WTodo setTraceEnd(Boolean traceEnd) {
-        this.traceEnd = traceEnd;
-        return this;
-    }
-
-    /**
      * Getter for <code>DB_ETERNAL.W_TODO.TRACE_ORDER</code>. 「traceOrder」-
      * 待办的处理顺序
      */
@@ -557,21 +471,59 @@ public class WTodo implements VertxPojo, IWTodo {
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.W_TODO.TRACE_EXTRA</code>. 「traceExtra」-
-     * 执行完成时，如果要存储额外的信息，则直接存储在该字段中
+     * Getter for <code>DB_ETERNAL.W_TODO.TASK_ID</code>. 「traceTask」-
+     * 和待办绑定的taskId（任务）
      */
     @Override
-    public String getTraceExtra() {
-        return this.traceExtra;
+    public String getTaskId() {
+        return this.taskId;
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.W_TODO.TRACE_EXTRA</code>. 「traceExtra」-
-     * 执行完成时，如果要存储额外的信息，则直接存储在该字段中
+     * Setter for <code>DB_ETERNAL.W_TODO.TASK_ID</code>. 「traceTask」-
+     * 和待办绑定的taskId（任务）
      */
     @Override
-    public WTodo setTraceExtra(String traceExtra) {
-        this.traceExtra = traceExtra;
+    public WTodo setTaskId(String taskId) {
+        this.taskId = taskId;
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.W_TODO.TASK_KEY</code>. 「traceTaskKey」-
+     * 和待办绑定的taskKey
+     */
+    @Override
+    public String getTaskKey() {
+        return this.taskKey;
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.W_TODO.TASK_KEY</code>. 「traceTaskKey」-
+     * 和待办绑定的taskKey
+     */
+    @Override
+    public WTodo setTaskKey(String taskKey) {
+        this.taskKey = taskKey;
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.W_TODO.ACTIVITY_ID</code>. 「activityId」-
+     * 生成的ACTIVITY_ID
+     */
+    @Override
+    public String getActivityId() {
+        return this.activityId;
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.W_TODO.ACTIVITY_ID</code>. 「activityId」-
+     * 生成的ACTIVITY_ID
+     */
+    @Override
+    public WTodo setActivityId(String activityId) {
+        this.activityId = activityId;
         return this;
     }
 
@@ -631,26 +583,26 @@ public class WTodo implements VertxPojo, IWTodo {
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.W_TODO.TO_GROUP_MODE</code>. 「toGroupMode」-
-     * 部门、业务组、组、角色、地点等
+     * Getter for <code>DB_ETERNAL.W_TODO.TO_LOCATION</code>. 「toLocation」-
+     * 指定地址区域
      */
     @Override
-    public String getToGroupMode() {
-        return this.toGroupMode;
+    public String getToLocation() {
+        return this.toLocation;
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.W_TODO.TO_GROUP_MODE</code>. 「toGroupMode」-
-     * 部门、业务组、组、角色、地点等
+     * Setter for <code>DB_ETERNAL.W_TODO.TO_LOCATION</code>. 「toLocation」-
+     * 指定地址区域
      */
     @Override
-    public WTodo setToGroupMode(String toGroupMode) {
-        this.toGroupMode = toGroupMode;
+    public WTodo setToLocation(String toLocation) {
+        this.toLocation = toLocation;
         return this;
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.W_TODO.TO_GROUP</code>. 「toGroup」- 待办指定组
+     * Getter for <code>DB_ETERNAL.W_TODO.TO_GROUP</code>. 「toGroup」- 指定用户组
      */
     @Override
     public String getToGroup() {
@@ -658,11 +610,45 @@ public class WTodo implements VertxPojo, IWTodo {
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.W_TODO.TO_GROUP</code>. 「toGroup」- 待办指定组
+     * Setter for <code>DB_ETERNAL.W_TODO.TO_GROUP</code>. 「toGroup」- 指定用户组
      */
     @Override
     public WTodo setToGroup(String toGroup) {
         this.toGroup = toGroup;
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.W_TODO.TO_DEPT</code>. 「toDept」- 指定部门
+     */
+    @Override
+    public String getToDept() {
+        return this.toDept;
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.W_TODO.TO_DEPT</code>. 「toDept」- 指定部门
+     */
+    @Override
+    public WTodo setToDept(String toDept) {
+        this.toDept = toDept;
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.W_TODO.TO_TEAM</code>. 「toTeam」- 指定业务组
+     */
+    @Override
+    public String getToTeam() {
+        return this.toTeam;
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.W_TODO.TO_TEAM</code>. 「toTeam」- 指定业务组
+     */
+    @Override
+    public WTodo setToTeam(String toTeam) {
+        this.toTeam = toTeam;
         return this;
     }
 
@@ -697,108 +683,6 @@ public class WTodo implements VertxPojo, IWTodo {
     @Override
     public WTodo setToRole(String toRole) {
         this.toRole = toRole;
-        return this;
-    }
-
-    /**
-     * Getter for <code>DB_ETERNAL.W_TODO.ACTIVE</code>. 「active」- 是否启用
-     */
-    @Override
-    public Boolean getActive() {
-        return this.active;
-    }
-
-    /**
-     * Setter for <code>DB_ETERNAL.W_TODO.ACTIVE</code>. 「active」- 是否启用
-     */
-    @Override
-    public WTodo setActive(Boolean active) {
-        this.active = active;
-        return this;
-    }
-
-    /**
-     * Getter for <code>DB_ETERNAL.W_TODO.SIGMA</code>. 「sigma」- 统一标识
-     */
-    @Override
-    public String getSigma() {
-        return this.sigma;
-    }
-
-    /**
-     * Setter for <code>DB_ETERNAL.W_TODO.SIGMA</code>. 「sigma」- 统一标识
-     */
-    @Override
-    public WTodo setSigma(String sigma) {
-        this.sigma = sigma;
-        return this;
-    }
-
-    /**
-     * Getter for <code>DB_ETERNAL.W_TODO.METADATA</code>. 「metadata」- 附加配置
-     */
-    @Override
-    public String getMetadata() {
-        return this.metadata;
-    }
-
-    /**
-     * Setter for <code>DB_ETERNAL.W_TODO.METADATA</code>. 「metadata」- 附加配置
-     */
-    @Override
-    public WTodo setMetadata(String metadata) {
-        this.metadata = metadata;
-        return this;
-    }
-
-    /**
-     * Getter for <code>DB_ETERNAL.W_TODO.LANGUAGE</code>. 「language」- 使用的语言
-     */
-    @Override
-    public String getLanguage() {
-        return this.language;
-    }
-
-    /**
-     * Setter for <code>DB_ETERNAL.W_TODO.LANGUAGE</code>. 「language」- 使用的语言
-     */
-    @Override
-    public WTodo setLanguage(String language) {
-        this.language = language;
-        return this;
-    }
-
-    /**
-     * Getter for <code>DB_ETERNAL.W_TODO.OWNER</code>. 「owner」- 拥有者
-     */
-    @Override
-    public String getOwner() {
-        return this.owner;
-    }
-
-    /**
-     * Setter for <code>DB_ETERNAL.W_TODO.OWNER</code>. 「owner」- 拥有者
-     */
-    @Override
-    public WTodo setOwner(String owner) {
-        this.owner = owner;
-        return this;
-    }
-
-    /**
-     * Getter for <code>DB_ETERNAL.W_TODO.SUPERVISOR</code>. 「supervisor」- 监督人
-     */
-    @Override
-    public String getSupervisor() {
-        return this.supervisor;
-    }
-
-    /**
-     * Setter for <code>DB_ETERNAL.W_TODO.SUPERVISOR</code>. 「supervisor」- 监督人
-     */
-    @Override
-    public WTodo setSupervisor(String supervisor) {
-        this.supervisor = supervisor;
         return this;
     }
 
@@ -911,19 +795,70 @@ public class WTodo implements VertxPojo, IWTodo {
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.W_TODO.EXPIRED_AT</code>. 「expiredAt」- 超时时间
+     * Getter for <code>DB_ETERNAL.W_TODO.ACTIVE</code>. 「active」- 是否启用
      */
     @Override
-    public LocalDateTime getExpiredAt() {
-        return this.expiredAt;
+    public Boolean getActive() {
+        return this.active;
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.W_TODO.EXPIRED_AT</code>. 「expiredAt」- 超时时间
+     * Setter for <code>DB_ETERNAL.W_TODO.ACTIVE</code>. 「active」- 是否启用
      */
     @Override
-    public WTodo setExpiredAt(LocalDateTime expiredAt) {
-        this.expiredAt = expiredAt;
+    public WTodo setActive(Boolean active) {
+        this.active = active;
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.W_TODO.SIGMA</code>. 「sigma」- 统一标识
+     */
+    @Override
+    public String getSigma() {
+        return this.sigma;
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.W_TODO.SIGMA</code>. 「sigma」- 统一标识
+     */
+    @Override
+    public WTodo setSigma(String sigma) {
+        this.sigma = sigma;
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.W_TODO.METADATA</code>. 「metadata」- 附加配置
+     */
+    @Override
+    public String getMetadata() {
+        return this.metadata;
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.W_TODO.METADATA</code>. 「metadata」- 附加配置
+     */
+    @Override
+    public WTodo setMetadata(String metadata) {
+        this.metadata = metadata;
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.W_TODO.LANGUAGE</code>. 「language」- 使用的语言
+     */
+    @Override
+    public String getLanguage() {
+        return this.language;
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.W_TODO.LANGUAGE</code>. 「language」- 使用的语言
+     */
+    @Override
+    public WTodo setLanguage(String language) {
+        this.language = language;
         return this;
     }
 
@@ -1007,38 +942,35 @@ public class WTodo implements VertxPojo, IWTodo {
         sb.append(", ").append(status);
         sb.append(", ").append(todoUrl);
         sb.append(", ").append(type);
+        sb.append(", ").append(expiredAt);
         sb.append(", ").append(modelId);
         sb.append(", ").append(modelKey);
         sb.append(", ").append(modelCategory);
-        sb.append(", ").append(modelForm);
-        sb.append(", ").append(modelComponent);
-        sb.append(", ").append(instance);
         sb.append(", ").append(parentId);
         sb.append(", ").append(traceId);
-        sb.append(", ").append(traceTaskId);
-        sb.append(", ").append(traceEnd);
         sb.append(", ").append(traceOrder);
-        sb.append(", ").append(traceExtra);
+        sb.append(", ").append(taskId);
+        sb.append(", ").append(taskKey);
+        sb.append(", ").append(activityId);
         sb.append(", ").append(comment);
         sb.append(", ").append(commentApproval);
         sb.append(", ").append(commentReject);
-        sb.append(", ").append(toGroupMode);
+        sb.append(", ").append(toLocation);
         sb.append(", ").append(toGroup);
+        sb.append(", ").append(toDept);
+        sb.append(", ").append(toTeam);
         sb.append(", ").append(toUser);
         sb.append(", ").append(toRole);
-        sb.append(", ").append(active);
-        sb.append(", ").append(sigma);
-        sb.append(", ").append(metadata);
-        sb.append(", ").append(language);
-        sb.append(", ").append(owner);
-        sb.append(", ").append(supervisor);
         sb.append(", ").append(assignedBy);
         sb.append(", ").append(assignedAt);
         sb.append(", ").append(acceptedBy);
         sb.append(", ").append(acceptedAt);
         sb.append(", ").append(finishedBy);
         sb.append(", ").append(finishedAt);
-        sb.append(", ").append(expiredAt);
+        sb.append(", ").append(active);
+        sb.append(", ").append(sigma);
+        sb.append(", ").append(metadata);
+        sb.append(", ").append(language);
         sb.append(", ").append(createdAt);
         sb.append(", ").append(createdBy);
         sb.append(", ").append(updatedAt);
@@ -1062,38 +994,35 @@ public class WTodo implements VertxPojo, IWTodo {
         setStatus(from.getStatus());
         setTodoUrl(from.getTodoUrl());
         setType(from.getType());
+        setExpiredAt(from.getExpiredAt());
         setModelId(from.getModelId());
         setModelKey(from.getModelKey());
         setModelCategory(from.getModelCategory());
-        setModelForm(from.getModelForm());
-        setModelComponent(from.getModelComponent());
-        setInstance(from.getInstance());
         setParentId(from.getParentId());
         setTraceId(from.getTraceId());
-        setTraceTaskId(from.getTraceTaskId());
-        setTraceEnd(from.getTraceEnd());
         setTraceOrder(from.getTraceOrder());
-        setTraceExtra(from.getTraceExtra());
+        setTaskId(from.getTaskId());
+        setTaskKey(from.getTaskKey());
+        setActivityId(from.getActivityId());
         setComment(from.getComment());
         setCommentApproval(from.getCommentApproval());
         setCommentReject(from.getCommentReject());
-        setToGroupMode(from.getToGroupMode());
+        setToLocation(from.getToLocation());
         setToGroup(from.getToGroup());
+        setToDept(from.getToDept());
+        setToTeam(from.getToTeam());
         setToUser(from.getToUser());
         setToRole(from.getToRole());
-        setActive(from.getActive());
-        setSigma(from.getSigma());
-        setMetadata(from.getMetadata());
-        setLanguage(from.getLanguage());
-        setOwner(from.getOwner());
-        setSupervisor(from.getSupervisor());
         setAssignedBy(from.getAssignedBy());
         setAssignedAt(from.getAssignedAt());
         setAcceptedBy(from.getAcceptedBy());
         setAcceptedAt(from.getAcceptedAt());
         setFinishedBy(from.getFinishedBy());
         setFinishedAt(from.getFinishedAt());
-        setExpiredAt(from.getExpiredAt());
+        setActive(from.getActive());
+        setSigma(from.getSigma());
+        setMetadata(from.getMetadata());
+        setLanguage(from.getLanguage());
         setCreatedAt(from.getCreatedAt());
         setCreatedBy(from.getCreatedBy());
         setUpdatedAt(from.getUpdatedAt());

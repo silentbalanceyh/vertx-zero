@@ -142,7 +142,7 @@ class KitTodo {
         {
             final Task nextTask = wInstance.task();
             entity.setTraceId(nextTask.getProcessInstanceId());
-            entity.setTraceTaskId(nextTask.getId());
+            // entity.setTraceTaskId(nextTask.getId());
             entity.setStatus(TodoStatus.PENDING.name());           // Force Pending
         }
         {
@@ -189,7 +189,7 @@ class KitTodo {
                 entity.setCode(entity.getSerial());
             }
             // Owner is as created todo here.d
-            entity.setOwner(entity.getCreatedBy());
+            // entity.setOwner(entity.getCreatedBy());
             Objects.requireNonNull(entity.getKey());
             return this.traceAsync(entity, instance)
                 .compose(jooq::insertAsync);
@@ -205,9 +205,9 @@ class KitTodo {
     private Future<WTodo> traceAsync(final WTodo todo, final ProcessInstance instance) {
         final EventOn event = EventOn.get();
         return event.taskActive(instance).compose(task -> {
-            todo.setInstance(Boolean.TRUE);                   // Camunda Engine
+            // todo.setInstance(Boolean.TRUE);                   // Camunda Engine
             todo.setTraceId(instance.getId());                // Trace ID Related
-            todo.setTraceTaskId(task.getId());                // Trace Task ID
+            // todo.setTraceTaskId(task.getId());                // Trace Task ID
             return Ux.future(todo);
         });
     }

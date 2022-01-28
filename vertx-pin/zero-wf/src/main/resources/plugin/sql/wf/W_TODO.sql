@@ -1,7 +1,7 @@
 -- liquibase formatted sql
 
 -- changeset Lang:w-todo-1
--- 应用程序表：W_TODO
+-- 待办单：W_TODO
 DROP TABLE IF EXISTS W_TODO;
 CREATE TABLE IF NOT EXISTS W_TODO
 (
@@ -21,11 +21,13 @@ CREATE TABLE IF NOT EXISTS W_TODO
      */
     `STATUS`           VARCHAR(36) COMMENT '「status」- 待办状态',
     `TODO_URL`         VARCHAR(255) COMMENT '「todoUrl」- 待办路径',
+
     /*
      * EXPIRED：会超时的待办
      * STANDARD：标准的待办（不会超时）
      */
     `TYPE`             VARCHAR(36) COMMENT '「type」- 待办类型',
+    `EXPIRED_AT`       DATETIME COMMENT '「expiredAt」- 超时时间',
 
     /*
      * 定义模型的详细信息，该内容属于最核心的关联任务
@@ -43,8 +45,6 @@ CREATE TABLE IF NOT EXISTS W_TODO
     `MODEL_ID`         VARCHAR(255) COMMENT '「modelId」- 关联的模型identifier，用于描述',
     `MODEL_KEY`        VARCHAR(36) COMMENT '「modelKey」- 关联的模型记录ID，用于描述哪一个Model中的记录',
     `MODEL_CATEGORY`   VARCHAR(128) COMMENT '「modelCategory」- 关联的category记录，只包含叶节点',
-    `MODEL_FORM`       VARCHAR(255) COMMENT '「modelForm」- 待办专用的表单关联',
-    `MODEL_COMPONENT`  VARCHAR(255) COMMENT '「modelComponent」- 关联的待办组件记录',
 
     /*
      * 分离配置项待办和关系待办，形成不同类型
@@ -57,47 +57,55 @@ CREATE TABLE IF NOT EXISTS W_TODO
      * trace_id = Workflow ID ( Business Key )
      * trace_task_id = Active Task ID ( Multi Tasks )
      */
-    `INSTANCE`         BIT         DEFAULT NULL COMMENT '「instance」- 是否启用工作流？',
     `PARENT_ID`        VARCHAR(36) COMMENT '「parentId」- 待办支持父子集结构，父待办执行时候子待办同样执行',
+
+    -- 主单ID（TraceId）
     `TRACE_ID`         VARCHAR(36) COMMENT '「traceId」- 同一个流程的待办执行分组',
-    `TRACE_TASK_ID`    VARCHAR(36) COMMENT '「traceTaskId」- 和待办绑定的taskId',
-    `TRACE_END`        BIT         DEFAULT NULL COMMENT '「traceEnd」- 主单执行完成',
     `TRACE_ORDER`      INTEGER COMMENT '「traceOrder」- 待办的处理顺序',
-    `TRACE_EXTRA`      LONGTEXT COMMENT '「traceExtra」- 执行完成时，如果要存储额外的信息，则直接存储在该字段中',
+
+    `TASK_ID`          VARCHAR(36) COMMENT '「traceTask」- 和待办绑定的taskId（任务）',
+    `TASK_KEY`         VARCHAR(255) COMMENT '「traceTaskKey」- 和待办绑定的taskKey',
+    `ACTIVITY_ID`      VARCHAR(36) COMMENT '「activityId」- 生成的ACTIVITY_ID',
+
 
     -- 特殊字段
     `COMMENT`          LONGTEXT COMMENT '「comment」- 待办描述',
     `COMMENT_APPROVAL` LONGTEXT COMMENT '「commentApproval」- 审批描述',
     `COMMENT_REJECT`   LONGTEXT COMMENT '「commentReject」- 拒绝理由',
+
+
     /*
      * 完整流程：
-     * 1）创建待办，填充 toGroup，特殊的填充 toUser，状态 PENDING
-     * - 系统创建
-     * - 人工创建，如果是人工待办，那么 assignedBy 则指定创建人，同 createdBy
-     * 2）待办接收：填充 acceptedBy
-     * 3) 待办完成：填充 finishedBy
+     * 查询条件专用
+     * 1）toX（单个待办多维度）
+     * 2）toX + toUser（多待办单维度处理）
      */
-    `TO_GROUP_MODE`    VARCHAR(32) COMMENT '「toGroupMode」- 部门、业务组、组、角色、地点等',
-    `TO_GROUP`         VARCHAR(36) COMMENT '「toGroup」- 待办指定组',
+    `TO_LOCATION`      VARCHAR(36) COMMENT '「toLocation」- 指定地址区域',
+    `TO_GROUP`         VARCHAR(36) COMMENT '「toGroup」- 指定用户组',
+    `TO_DEPT`          VARCHAR(36) COMMENT '「toDept」- 指定部门',
+    `TO_TEAM`          VARCHAR(36) COMMENT '「toTeam」- 指定业务组',
     `TO_USER`          VARCHAR(36) COMMENT '「toUser」- 待办指定人',
     `TO_ROLE`          VARCHAR(36) COMMENT '「toRole」- 待办角色（集体）',
 
 
-    `ACTIVE`           BIT         DEFAULT NULL COMMENT '「active」- 是否启用',
-    `SIGMA`            VARCHAR(32) DEFAULT NULL COMMENT '「sigma」- 统一标识',
-    `METADATA`         TEXT COMMENT '「metadata」- 附加配置',
-    `LANGUAGE`         VARCHAR(8)  DEFAULT NULL COMMENT '「language」- 使用的语言',
-
-    -- 指派字段
-    `OWNER`            VARCHAR(36) COMMENT '「owner」- 拥有者',        -- 拥有者
-    `SUPERVISOR`       VARCHAR(36) COMMENT '「supervisor」- 监督人',   -- 监督人
+    /*
+     * 任务三个主体：
+     * 1. 指派人
+     * 2. 接收人
+     * 3. 完成人
+     */
     `ASSIGNED_BY`      VARCHAR(36) COMMENT '「assignedBy」- 待办指派人', -- 指派人
     `ASSIGNED_AT`      DATETIME COMMENT '「assignedAt」- 指派时间',
     `ACCEPTED_BY`      VARCHAR(36) COMMENT '「acceptedBy」- 待办接收人', -- 接收人
     `ACCEPTED_AT`      DATETIME COMMENT '「acceptedAt」- 接收时间',
     `FINISHED_BY`      VARCHAR(36) COMMENT '「finishedBy」- 待办完成人', -- 完成人
     `FINISHED_AT`      DATETIME COMMENT '「finishedAt」- 完成时间',
-    `EXPIRED_AT`       DATETIME COMMENT '「expiredAt」- 超时时间',
+
+    `ACTIVE`           BIT         DEFAULT NULL COMMENT '「active」- 是否启用',
+    `SIGMA`            VARCHAR(32) DEFAULT NULL COMMENT '「sigma」- 统一标识',
+    `METADATA`         TEXT COMMENT '「metadata」- 附加配置',
+    `LANGUAGE`         VARCHAR(8)  DEFAULT NULL COMMENT '「language」- 使用的语言',
+
     -- Auditor字段
     `CREATED_AT`       DATETIME COMMENT '「createdAt」- 创建时间',
     `CREATED_BY`       VARCHAR(36) COMMENT '「createdBy」- 创建人',    -- 创建人

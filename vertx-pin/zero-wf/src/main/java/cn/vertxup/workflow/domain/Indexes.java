@@ -4,6 +4,7 @@
 package cn.vertxup.workflow.domain;
 
 
+import cn.vertxup.workflow.domain.tables.WTicket;
 import cn.vertxup.workflow.domain.tables.WTodo;
 
 import org.jooq.Index;
@@ -22,6 +23,10 @@ public class Indexes {
     // INDEX definitions
     // -------------------------------------------------------------------------
 
+    public static final Index W_TICKET_IDXM_W_TICKET_SIGMA_CATALOG = Internal.createIndex(DSL.name("IDXM_W_TICKET_SIGMA_CATALOG"), WTicket.W_TICKET, new OrderField[] { WTicket.W_TICKET.SIGMA, WTicket.W_TICKET.CATALOG }, false);
+    public static final Index W_TICKET_IDXM_W_TICKET_SIGMA_FLOW_DEFINITION_KEY = Internal.createIndex(DSL.name("IDXM_W_TICKET_SIGMA_FLOW_DEFINITION_KEY"), WTicket.W_TICKET, new OrderField[] { WTicket.W_TICKET.SIGMA, WTicket.W_TICKET.FLOW_DEFINITION_KEY }, false);
+    public static final Index W_TICKET_IDXM_W_TICKET_SIGMA_STATUS = Internal.createIndex(DSL.name("IDXM_W_TICKET_SIGMA_STATUS"), WTicket.W_TICKET, new OrderField[] { WTicket.W_TICKET.SIGMA, WTicket.W_TICKET.STATUS }, false);
+    public static final Index W_TICKET_IDXM_W_TICKET_SIGMA_TYPE_STATUS = Internal.createIndex(DSL.name("IDXM_W_TICKET_SIGMA_TYPE_STATUS"), WTicket.W_TICKET, new OrderField[] { WTicket.W_TICKET.SIGMA, WTicket.W_TICKET.STATUS, WTicket.W_TICKET.TYPE }, false);
     public static final Index W_TODO_IDXM_W_TODO_SIGMA_STATUS = Internal.createIndex(DSL.name("IDXM_W_TODO_SIGMA_STATUS"), WTodo.W_TODO, new OrderField[] { WTodo.W_TODO.SIGMA, WTodo.W_TODO.STATUS }, false);
     public static final Index W_TODO_IDXM_W_TODO_SIGMA_TYPE_STATUS = Internal.createIndex(DSL.name("IDXM_W_TODO_SIGMA_TYPE_STATUS"), WTodo.W_TODO, new OrderField[] { WTodo.W_TODO.SIGMA, WTodo.W_TODO.STATUS, WTodo.W_TODO.TYPE }, false);
 }

@@ -321,6 +321,15 @@ public interface KName {
         String TRACE_END = "traceEnd";
         String TRACE_EXTRA = "traceExtra";
 
+        // Processing
+        String CONFIG_START = "startConfig";
+        String CONFIG_END = "endConfig";
+        String CONFIG_RUN = "runConfig";
+        String CONFIG_GENERATE = "generateConfig";
+        String CONFIG_AUTHORIZED = "authorizedConfig";
+        String CONFIG_UI = "uiConfig";
+        String CONFIG_ASSIST = "uiAssist";
+
         // Auditor
         interface Auditor {
             String FINISHED_BY = "finishedBy";

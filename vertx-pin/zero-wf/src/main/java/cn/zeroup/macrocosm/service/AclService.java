@@ -21,10 +21,9 @@ public class AclService implements AclStub {
         final TodoStatus todoStatus = Ut.toEnum(TodoStatus.class, todo.getStatus());
         final JsonObject edition = new JsonObject();
         if (TodoStatus.DRAFT == todoStatus) {
-            if (!userId.equals(todo.getOwner())) {
-                // Owner != userId ( Non Self Disabled )
-                edition.put(KName.EDITION, Boolean.FALSE);
-            }
+            // Owner != userId ( Non Self Disabled )
+            edition.put(KName.EDITION, Boolean.FALSE);
+
         } else if (TodoStatus.PENDING == todoStatus) {
             if (userId.equals(todo.getToUser())) {
                 // Owner == toUser ( Part Edition )
