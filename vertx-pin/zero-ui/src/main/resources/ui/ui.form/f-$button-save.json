@@ -1,0 +1,6 @@
+{
+    "extension": [
+        "$opSave,保存,SUBMIT,primary",
+        "$opReset,重置,RESET"
+    ]
+}

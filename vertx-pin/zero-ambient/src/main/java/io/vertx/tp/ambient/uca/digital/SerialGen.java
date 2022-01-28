@@ -33,7 +33,7 @@ public class SerialGen implements Serial {
                 return At.generateAsync(number, count).compose(generated -> {
                     final XNumber processed = At.serialAdjust(number, count);
                     return jq.updateAsync(processed)
-                        .compose(nil -> Ux.futureA(generated));
+                        .compose(nil -> Ux.future(new JsonArray(generated)));
                 }).otherwise(Ux.otherwise(JsonArray::new));
             }
         });

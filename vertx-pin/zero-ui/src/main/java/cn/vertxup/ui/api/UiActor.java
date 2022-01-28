@@ -124,6 +124,9 @@ public class UiActor {
 
             /*
              * Build Parameters
+             * Here must contain following two node for dynamic seeking.
+             * 1. `data`
+             * 2. `config`
              */
             final JsonObject request = new JsonObject();
             request.put(KName.SIGMA, params.getString(KName.SIGMA));
@@ -131,6 +134,11 @@ public class UiActor {
             request.put(KName.Ui.PAGE, page);
             final String path = view + Strings.SLASH + position + Strings.SLASH + alias;
             request.put(KName.App.PATH, path);
+            /*
+             * data
+             * config
+             */
+            Ut.jsonCopy(request, params, KName.DATA, KName.CONFIG);
             return this.controlStub.fetchControl(controlType, request);
         }
     }

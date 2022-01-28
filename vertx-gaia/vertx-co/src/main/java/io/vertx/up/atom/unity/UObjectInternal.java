@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
  * Two object calculation
  */
 @SuppressWarnings("all")
-class Self {
+class UObjectInternal {
 
     static JsonObject deNull(
         final JsonObject entity,

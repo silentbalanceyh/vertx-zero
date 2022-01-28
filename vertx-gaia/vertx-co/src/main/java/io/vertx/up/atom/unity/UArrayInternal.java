@@ -10,7 +10,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
 @SuppressWarnings("all")
-class Dual {
+class UArrayInternal {
 
     static JsonObject append(
         final JsonObject target,

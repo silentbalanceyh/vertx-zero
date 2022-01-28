@@ -76,7 +76,7 @@
 
         <!-- Database Needed -->
         <hikari.cp.version>5.0.1</hikari.cp.version>
-        <jooq.version>3.16.2</jooq.version>
+        <jooq.version>3.16.3</jooq.version>
         <vertx.jooq.version>6.4.0</vertx.jooq.version>
         <mysql.version>8.0.28</mysql.version>
 
@@ -95,7 +95,7 @@
 
         <jwt.version>3.18.3</jwt.version>
         <jetbrains.version>23.0.0</jetbrains.version>
-        <guice.version>5.0.1</guice.version>
+        <guice.version>5.1.0</guice.version>
         <guava.version>31.0.1-jre</guava.version>
         <scala.version>2.12.15</scala.version>
         <feign.version>8.18.0</feign.version>
@@ -146,12 +146,12 @@
 
         <!-- Vert.x Addition -->
         <rxjava2.version>2.2.21</rxjava2.version>
-        <netty.tcnative.version>2.0.47.Final</netty.tcnative.version>
+        <netty.tcnative.version>2.0.48.Final</netty.tcnative.version>
         <netty.version>4.1.73.Final</netty.version>
         <!-- Upload Issue -->
         <hazelcast.version>5.0.2</hazelcast.version>
         <swagger.version>1.6.0</swagger.version>
-        <error.prone.version>2.10.0</error.prone.version>
+        <error.prone.version>2.11.0</error.prone.version>
         <reactive.streams.version>1.0.3</reactive.streams.version>
         <zookeeper.version>3.7.0</zookeeper.version>
         <!-- JSR -->
@@ -180,7 +180,7 @@
         <log4j2.version>2.17.1</log4j2.version>
         <logback.version>1.2.10</logback.version>
         <logback.cal10n.version>0.8.1</logback.cal10n.version>
-        <slf4j.version>1.7.33</slf4j.version>
+        <slf4j.version>1.7.35</slf4j.version>
 
         <!-- Plugin -->
         <maven.plugin.assembly>3.3.0</maven.plugin.assembly>

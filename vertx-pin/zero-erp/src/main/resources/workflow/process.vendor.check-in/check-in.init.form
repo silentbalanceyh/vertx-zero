@@ -2,15 +2,15 @@
   "schemaVersion": 2,
   "components": [
     {
-      "label": "文件名称",
+      "label": "流程编号",
       "type": "textfield",
-      "id": "Field_1qzqged",
-      "key": "filename",
+      "id": "Field_1rx913t",
+      "key": "workflow",
       "validate": {
         "required": true
       }
     }
   ],
   "type": "default",
-  "id": "file.request"
+  "id": "e.init.form"
 }

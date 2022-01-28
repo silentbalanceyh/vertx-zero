@@ -1,0 +1,13 @@
+{
+    "todo": {
+        "name": "`报废申请：${serial}, ${name}`",
+        "icon": "delete",
+        "todoUrl": "`/ambient/flow-view?tid=${key}&id=${modelKey}`",
+        "modelComponent": "",
+        "modelId": "",
+        "indent": "WF.NUM.P-DISCARD"
+    },
+    "record": {
+        "flag": "ADD"
+    }
+}

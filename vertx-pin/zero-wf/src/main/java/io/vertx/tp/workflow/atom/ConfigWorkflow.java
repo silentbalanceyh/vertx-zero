@@ -31,6 +31,10 @@ public class ConfigWorkflow {
     @JsonDeserialize(using = JsonArrayDeserializer.class)
     private transient JsonArray builtIn = new JsonArray();
 
+    @JsonSerialize(using = JsonArraySerializer.class)
+    @JsonDeserialize(using = JsonArrayDeserializer.class)
+    private transient JsonArray resource = new JsonArray();
+
     public String getName() {
         return this.name;
     }
@@ -55,8 +59,20 @@ public class ConfigWorkflow {
         this.builtIn = builtIn;
     }
 
+    public JsonArray getResource() {
+        return this.resource;
+    }
+
+    public void setResource(final JsonArray resource) {
+        this.resource = resource;
+    }
+
     public Set<String> camundaBuiltIn() {
         return Ut.toSet(this.builtIn);
+    }
+
+    public Set<String> camundaResource() {
+        return Ut.toSet(this.resource);
     }
 
     public Database camundaDatabase() {

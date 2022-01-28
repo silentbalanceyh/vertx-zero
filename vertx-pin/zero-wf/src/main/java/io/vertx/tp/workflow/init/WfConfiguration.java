@@ -53,7 +53,7 @@ final class WfConfiguration {
                 configuration.encode());
             CONFIG = Ut.deserialize(configuration, ConfigWorkflow.class);
             ENABLED = true;
-        }else{
+        } else {
             ENABLED = false;
         }
     }
@@ -87,12 +87,16 @@ final class WfConfiguration {
     }
 
     static List<String> camundaResources() {
-        if(ENABLED) {
+        if (ENABLED) {
             final List<String> folders = Ut.ioDirectories(WfCv.FOLDER_ROOT);
             final List<String> results = new ArrayList<>();
             folders.forEach(each -> results.add(WfCv.FOLDER_ROOT + "/" + each));
+            final Set<String> internal = CONFIG.camundaResource();
+            if (!internal.isEmpty()) {
+                internal.forEach(each -> results.add(WfCv.FOLDER_ROOT + "/" + each));
+            }
             return results;
-        }else{
+        } else {
             // Workflow does not enable, disabled here.
             return new ArrayList<>();
         }
