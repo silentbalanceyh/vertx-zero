@@ -54,7 +54,20 @@ public class UserService implements UserStub {
             /* User Information */
             .<SUser>fetchByIdAsync(userId)
             /* Employee Information */
-            .compose(UserHelper::fetchEmployee);
+            .compose(UserHelper::fetchEmployee)
+            /* Relation for roles / groups */
+            .compose(this::fetchRelation);
+    }
+
+    private Future<JsonObject> fetchRelation(final JsonObject userJson) {
+        final String key = userJson.getString(KName.KEY);
+        return this.fetchRoleIds(key).compose(roles -> {
+            userJson.put(KName.ROLE, Ut.encryptBase64(roles.encodePrettily()));
+            return Ux.future();
+        }).compose(nil -> this.fetchGroupIds(key)).compose(groups -> {
+            userJson.put(KName.GROUP, Ut.encryptBase64(groups.encodePrettily()));
+            return Ux.future(userJson);
+        });
     }
 
     @Override

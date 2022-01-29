@@ -27,8 +27,22 @@ public class QueueActor {
     @Inject
     private transient TaskStub taskStub;
 
+    /*
+     * The basic qr contains three view:
+     * 1. The `owner` is userId
+     * 2. The `supervisor` is userId
+     * 3. The `openBy` is userId
+     *
+     * The input qr should be following:
+     * {
+     *     "criteria": {
+     *
+     *     }
+     * }
+     */
     @Address(HighWay.Queue.TASK_QUEUE)
     public Future<JsonObject> fetchQueue(final JsonObject qr, final User user) {
+        System.out.println(qr.encodePrettily());
         final String userId = Ux.keyUser(user);
         // My Queue
         final JsonObject queueCreate = Ux.whereAnd();

@@ -28,9 +28,9 @@ public class TaskService implements TaskStub {
 
     @Override
     public Future<JsonObject> fetchQueue(final JsonObject condition) {
-        final JsonObject normalized = Ux.whereQrA(condition, KName.INSTANCE, Boolean.TRUE);
         // Condition / Connect to Task of Camunda Platform
-        return Ux.Jooq.on(WTodoDao.class).searchAsync(normalized);
+        // W_TICKET Join W_TODO
+        return Ux.Jooq.on(WTodoDao.class).searchAsync(condition);
     }
 
     @Override
