@@ -24,8 +24,8 @@ public class WTicket implements VertxPojo, IWTicket {
     private String        serial;
     private String        name;
     private String        code;
-    private String        status;
     private String        type;
+    private String        phase;
     private String        modelId;
     private String        modelKey;
     private String        modelCategory;
@@ -65,8 +65,8 @@ public class WTicket implements VertxPojo, IWTicket {
         this.serial = value.getSerial();
         this.name = value.getName();
         this.code = value.getCode();
-        this.status = value.getStatus();
         this.type = value.getType();
+        this.phase = value.getPhase();
         this.modelId = value.getModelId();
         this.modelKey = value.getModelKey();
         this.modelCategory = value.getModelCategory();
@@ -105,8 +105,8 @@ public class WTicket implements VertxPojo, IWTicket {
         String        serial,
         String        name,
         String        code,
-        String        status,
         String        type,
+        String        phase,
         String        modelId,
         String        modelKey,
         String        modelCategory,
@@ -143,8 +143,8 @@ public class WTicket implements VertxPojo, IWTicket {
         this.serial = serial;
         this.name = name;
         this.code = code;
-        this.status = status;
         this.type = type;
+        this.phase = phase;
         this.modelId = modelId;
         this.modelKey = modelKey;
         this.modelCategory = modelCategory;
@@ -254,24 +254,7 @@ public class WTicket implements VertxPojo, IWTicket {
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.W_TICKET.STATUS</code>. 「status」- 主单据状态
-     */
-    @Override
-    public String getStatus() {
-        return this.status;
-    }
-
-    /**
-     * Setter for <code>DB_ETERNAL.W_TICKET.STATUS</code>. 「status」- 主单据状态
-     */
-    @Override
-    public WTicket setStatus(String status) {
-        this.status = status;
-        return this;
-    }
-
-    /**
-     * Getter for <code>DB_ETERNAL.W_TICKET.TYPE</code>. 「type」- 待办类型
+     * Getter for <code>DB_ETERNAL.W_TICKET.TYPE</code>. 「type」- 主单类型类型
      */
     @Override
     public String getType() {
@@ -279,11 +262,30 @@ public class WTicket implements VertxPojo, IWTicket {
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.W_TICKET.TYPE</code>. 「type」- 待办类型
+     * Setter for <code>DB_ETERNAL.W_TICKET.TYPE</code>. 「type」- 主单类型类型
      */
     @Override
     public WTicket setType(String type) {
         this.type = type;
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.W_TICKET.PHASE</code>. 「phase」-
+     * 主单据所属阶段（状态描述，由于挂TODO，所以不使用status）
+     */
+    @Override
+    public String getPhase() {
+        return this.phase;
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.W_TICKET.PHASE</code>. 「phase」-
+     * 主单据所属阶段（状态描述，由于挂TODO，所以不使用status）
+     */
+    @Override
+    public WTicket setPhase(String phase) {
+        this.phase = phase;
         return this;
     }
 
@@ -842,8 +844,8 @@ public class WTicket implements VertxPojo, IWTicket {
         sb.append(", ").append(serial);
         sb.append(", ").append(name);
         sb.append(", ").append(code);
-        sb.append(", ").append(status);
         sb.append(", ").append(type);
+        sb.append(", ").append(phase);
         sb.append(", ").append(modelId);
         sb.append(", ").append(modelKey);
         sb.append(", ").append(modelCategory);
@@ -890,8 +892,8 @@ public class WTicket implements VertxPojo, IWTicket {
         setSerial(from.getSerial());
         setName(from.getName());
         setCode(from.getCode());
-        setStatus(from.getStatus());
         setType(from.getType());
+        setPhase(from.getPhase());
         setModelId(from.getModelId());
         setModelKey(from.getModelKey());
         setModelCategory(from.getModelCategory());

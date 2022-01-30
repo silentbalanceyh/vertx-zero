@@ -18,8 +18,8 @@ CREATE TABLE IF NOT EXISTS W_TICKET
     `SERIAL`              VARCHAR(255) COMMENT '「serial」- 单据编号，使用 X_NUMBER 生成',
     `NAME`                VARCHAR(255) COMMENT '「name」- 单据标题',
     `CODE`                VARCHAR(36) COMMENT '「code」- 单据系统编号（内码）',
-    `STATUS`              VARCHAR(36) COMMENT '「status」- 主单据状态',
     `TYPE`                VARCHAR(36) COMMENT '「type」- 主单类型类型',
+    `PHASE`               VARCHAR(36) COMMENT '「phase」- 主单据所属阶段（状态描述，由于挂TODO，所以不使用status）',
 
     /*
      * Modeling Engine（建模管理）
@@ -104,7 +104,7 @@ ALTER TABLE W_TICKET
 
 -- 查询单一状态
 ALTER TABLE W_TICKET
-    ADD INDEX IDXM_W_TICKET_SIGMA_STATUS (`SIGMA`, `STATUS`);
+    ADD INDEX IDXM_W_TICKET_SIGMA_STATUS (`SIGMA`, `PHASE`);
 -- 查询单一流程
 ALTER TABLE W_TICKET
     ADD INDEX IDXM_W_TICKET_SIGMA_FLOW_DEFINITION_KEY (`SIGMA`, `FLOW_DEFINITION_KEY`);
@@ -113,4 +113,4 @@ ALTER TABLE W_TICKET
     ADD INDEX IDXM_W_TICKET_SIGMA_CATALOG (`SIGMA`, `CATALOG`);
 -- 状态 + 类型
 ALTER TABLE W_TICKET
-    ADD INDEX IDXM_W_TICKET_SIGMA_TYPE_STATUS (`SIGMA`, `STATUS`, `TYPE`);
+    ADD INDEX IDXM_W_TICKET_SIGMA_TYPE_STATUS (`SIGMA`, `PHASE`, `TYPE`);

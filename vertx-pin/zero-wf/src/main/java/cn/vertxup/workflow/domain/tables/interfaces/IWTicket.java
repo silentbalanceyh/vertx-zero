@@ -60,24 +60,26 @@ public interface IWTicket extends VertxPojo, Serializable {
     public String getCode();
 
     /**
-     * Setter for <code>DB_ETERNAL.W_TICKET.STATUS</code>. 「status」- 主单据状态
-     */
-    public IWTicket setStatus(String value);
-
-    /**
-     * Getter for <code>DB_ETERNAL.W_TICKET.STATUS</code>. 「status」- 主单据状态
-     */
-    public String getStatus();
-
-    /**
-     * Setter for <code>DB_ETERNAL.W_TICKET.TYPE</code>. 「type」- 待办类型
+     * Setter for <code>DB_ETERNAL.W_TICKET.TYPE</code>. 「type」- 主单类型类型
      */
     public IWTicket setType(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.W_TICKET.TYPE</code>. 「type」- 待办类型
+     * Getter for <code>DB_ETERNAL.W_TICKET.TYPE</code>. 「type」- 主单类型类型
      */
     public String getType();
+
+    /**
+     * Setter for <code>DB_ETERNAL.W_TICKET.PHASE</code>. 「phase」-
+     * 主单据所属阶段（状态描述，由于挂TODO，所以不使用status）
+     */
+    public IWTicket setPhase(String value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.W_TICKET.PHASE</code>. 「phase」-
+     * 主单据所属阶段（状态描述，由于挂TODO，所以不使用status）
+     */
+    public String getPhase();
 
     /**
      * Setter for <code>DB_ETERNAL.W_TICKET.MODEL_ID</code>. 「modelId」-
@@ -431,8 +433,8 @@ public interface IWTicket extends VertxPojo, Serializable {
                 setOrThrow(this::setSerial,json::getString,"SERIAL","java.lang.String");
                 setOrThrow(this::setName,json::getString,"NAME","java.lang.String");
                 setOrThrow(this::setCode,json::getString,"CODE","java.lang.String");
-                setOrThrow(this::setStatus,json::getString,"STATUS","java.lang.String");
                 setOrThrow(this::setType,json::getString,"TYPE","java.lang.String");
+                setOrThrow(this::setPhase,json::getString,"PHASE","java.lang.String");
                 setOrThrow(this::setModelId,json::getString,"MODEL_ID","java.lang.String");
                 setOrThrow(this::setModelKey,json::getString,"MODEL_KEY","java.lang.String");
                 setOrThrow(this::setModelCategory,json::getString,"MODEL_CATEGORY","java.lang.String");
@@ -475,8 +477,8 @@ public interface IWTicket extends VertxPojo, Serializable {
                 json.put("SERIAL",getSerial());
                 json.put("NAME",getName());
                 json.put("CODE",getCode());
-                json.put("STATUS",getStatus());
                 json.put("TYPE",getType());
+                json.put("PHASE",getPhase());
                 json.put("MODEL_ID",getModelId());
                 json.put("MODEL_KEY",getModelKey());
                 json.put("MODEL_CATEGORY",getModelCategory());

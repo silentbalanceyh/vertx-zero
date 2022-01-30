@@ -95,36 +95,38 @@ public class WTicketRecord extends UpdatableRecordImpl<WTicketRecord> implements
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.W_TICKET.STATUS</code>. 「status」- 主单据状态
+     * Setter for <code>DB_ETERNAL.W_TICKET.TYPE</code>. 「type」- 主单类型类型
      */
     @Override
-    public WTicketRecord setStatus(String value) {
+    public WTicketRecord setType(String value) {
         set(4, value);
         return this;
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.W_TICKET.STATUS</code>. 「status」- 主单据状态
+     * Getter for <code>DB_ETERNAL.W_TICKET.TYPE</code>. 「type」- 主单类型类型
      */
     @Override
-    public String getStatus() {
+    public String getType() {
         return (String) get(4);
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.W_TICKET.TYPE</code>. 「type」- 待办类型
+     * Setter for <code>DB_ETERNAL.W_TICKET.PHASE</code>. 「phase」-
+     * 主单据所属阶段（状态描述，由于挂TODO，所以不使用status）
      */
     @Override
-    public WTicketRecord setType(String value) {
+    public WTicketRecord setPhase(String value) {
         set(5, value);
         return this;
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.W_TICKET.TYPE</code>. 「type」- 待办类型
+     * Getter for <code>DB_ETERNAL.W_TICKET.PHASE</code>. 「phase」-
+     * 主单据所属阶段（状态描述，由于挂TODO，所以不使用status）
      */
     @Override
-    public String getType() {
+    public String getPhase() {
         return (String) get(5);
     }
 
@@ -694,8 +696,8 @@ public class WTicketRecord extends UpdatableRecordImpl<WTicketRecord> implements
         setSerial(from.getSerial());
         setName(from.getName());
         setCode(from.getCode());
-        setStatus(from.getStatus());
         setType(from.getType());
+        setPhase(from.getPhase());
         setModelId(from.getModelId());
         setModelKey(from.getModelKey());
         setModelCategory(from.getModelCategory());
@@ -749,15 +751,15 @@ public class WTicketRecord extends UpdatableRecordImpl<WTicketRecord> implements
     /**
      * Create a detached, initialised WTicketRecord
      */
-    public WTicketRecord(String key, String serial, String name, String code, String status, String type, String modelId, String modelKey, String modelCategory, String modelComponent, String flowDefinitionKey, String flowDefinitionId, String flowInstanceId, Boolean flowEnd, String title, String description, String catalog, String category, String categorySub, String owner, String supervisor, String openBy, LocalDateTime openAt, String cancelBy, LocalDateTime cancelAt, String closeBy, LocalDateTime closeAt, String closeSolution, String closeCode, Boolean active, String sigma, String metadata, String language, LocalDateTime createdAt, String createdBy, LocalDateTime updatedAt, String updatedBy) {
+    public WTicketRecord(String key, String serial, String name, String code, String type, String phase, String modelId, String modelKey, String modelCategory, String modelComponent, String flowDefinitionKey, String flowDefinitionId, String flowInstanceId, Boolean flowEnd, String title, String description, String catalog, String category, String categorySub, String owner, String supervisor, String openBy, LocalDateTime openAt, String cancelBy, LocalDateTime cancelAt, String closeBy, LocalDateTime closeAt, String closeSolution, String closeCode, Boolean active, String sigma, String metadata, String language, LocalDateTime createdAt, String createdBy, LocalDateTime updatedAt, String updatedBy) {
         super(WTicket.W_TICKET);
 
         setKey(key);
         setSerial(serial);
         setName(name);
         setCode(code);
-        setStatus(status);
         setType(type);
+        setPhase(phase);
         setModelId(modelId);
         setModelKey(modelKey);
         setModelCategory(modelCategory);
@@ -802,8 +804,8 @@ public class WTicketRecord extends UpdatableRecordImpl<WTicketRecord> implements
             setSerial(value.getSerial());
             setName(value.getName());
             setCode(value.getCode());
-            setStatus(value.getStatus());
             setType(value.getType());
+            setPhase(value.getPhase());
             setModelId(value.getModelId());
             setModelKey(value.getModelKey());
             setModelCategory(value.getModelCategory());

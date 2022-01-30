@@ -84,21 +84,6 @@ public class WTicketDao extends AbstractVertxDAO<WTicketRecord, cn.vertxup.workf
         }
 
         /**
-     * Find records that have <code>STATUS IN (values)</code> asynchronously
-     */
-        public Future<List<cn.vertxup.workflow.domain.tables.pojos.WTicket>> findManyByStatus(Collection<String> values) {
-                return findManyByCondition(WTicket.W_TICKET.STATUS.in(values));
-        }
-
-        /**
-     * Find records that have <code>STATUS IN (values)</code> asynchronously
-     * limited by the given limit
-     */
-        public Future<List<cn.vertxup.workflow.domain.tables.pojos.WTicket>> findManyByStatus(Collection<String> values, int limit) {
-                return findManyByCondition(WTicket.W_TICKET.STATUS.in(values),limit);
-        }
-
-        /**
      * Find records that have <code>TYPE IN (values)</code> asynchronously
      */
         public Future<List<cn.vertxup.workflow.domain.tables.pojos.WTicket>> findManyByType(Collection<String> values) {
@@ -111,6 +96,21 @@ public class WTicketDao extends AbstractVertxDAO<WTicketRecord, cn.vertxup.workf
      */
         public Future<List<cn.vertxup.workflow.domain.tables.pojos.WTicket>> findManyByType(Collection<String> values, int limit) {
                 return findManyByCondition(WTicket.W_TICKET.TYPE.in(values),limit);
+        }
+
+        /**
+     * Find records that have <code>PHASE IN (values)</code> asynchronously
+     */
+        public Future<List<cn.vertxup.workflow.domain.tables.pojos.WTicket>> findManyByPhase(Collection<String> values) {
+                return findManyByCondition(WTicket.W_TICKET.PHASE.in(values));
+        }
+
+        /**
+     * Find records that have <code>PHASE IN (values)</code> asynchronously
+     * limited by the given limit
+     */
+        public Future<List<cn.vertxup.workflow.domain.tables.pojos.WTicket>> findManyByPhase(Collection<String> values, int limit) {
+                return findManyByCondition(WTicket.W_TICKET.PHASE.in(values),limit);
         }
 
         /**

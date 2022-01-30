@@ -47,13 +47,14 @@ public class WTicket extends TableImpl<WTicketRecord> {
      */
     public final TableField<WTicketRecord, String> CODE = createField(DSL.name("CODE"), SQLDataType.VARCHAR(36), this, "「code」- 单据系统编号（内码）");
     /**
-     * The column <code>DB_ETERNAL.W_TICKET.STATUS</code>. 「status」- 主单据状态
+     * The column <code>DB_ETERNAL.W_TICKET.TYPE</code>. 「type」- 主单类型类型
      */
-    public final TableField<WTicketRecord, String> STATUS = createField(DSL.name("STATUS"), SQLDataType.VARCHAR(36), this, "「status」- 主单据状态");
+    public final TableField<WTicketRecord, String> TYPE = createField(DSL.name("TYPE"), SQLDataType.VARCHAR(36), this, "「type」- 主单类型类型");
     /**
-     * The column <code>DB_ETERNAL.W_TICKET.TYPE</code>. 「type」- 待办类型
+     * The column <code>DB_ETERNAL.W_TICKET.PHASE</code>. 「phase」-
+     * 主单据所属阶段（状态描述，由于挂TODO，所以不使用status）
      */
-    public final TableField<WTicketRecord, String> TYPE = createField(DSL.name("TYPE"), SQLDataType.VARCHAR(36), this, "「type」- 待办类型");
+    public final TableField<WTicketRecord, String> PHASE = createField(DSL.name("PHASE"), SQLDataType.VARCHAR(36), this, "「phase」- 主单据所属阶段（状态描述，由于挂TODO，所以不使用status）");
     /**
      * The column <code>DB_ETERNAL.W_TICKET.MODEL_ID</code>. 「modelId」-
      * 关联的模型identifier，用于描述
@@ -78,17 +79,17 @@ public class WTicket extends TableImpl<WTicketRecord> {
      * The column <code>DB_ETERNAL.W_TICKET.FLOW_DEFINITION_KEY</code>.
      * 「flowDefinitionKey」- 流程定义的KEY, getProcessDefinitionKey
      */
-    public final TableField<WTicketRecord, String> FLOW_DEFINITION_KEY = createField(DSL.name("FLOW_DEFINITION_KEY"), SQLDataType.VARCHAR(36), this, "「flowDefinitionKey」- 流程定义的KEY, getProcessDefinitionKey");
+    public final TableField<WTicketRecord, String> FLOW_DEFINITION_KEY = createField(DSL.name("FLOW_DEFINITION_KEY"), SQLDataType.VARCHAR(64), this, "「flowDefinitionKey」- 流程定义的KEY, getProcessDefinitionKey");
     /**
      * The column <code>DB_ETERNAL.W_TICKET.FLOW_DEFINITION_ID</code>.
      * 「flowDefinitionId」- 流程定义的ID，getProcessDefinitionKey
      */
-    public final TableField<WTicketRecord, String> FLOW_DEFINITION_ID = createField(DSL.name("FLOW_DEFINITION_ID"), SQLDataType.VARCHAR(36), this, "「flowDefinitionId」- 流程定义的ID，getProcessDefinitionKey");
+    public final TableField<WTicketRecord, String> FLOW_DEFINITION_ID = createField(DSL.name("FLOW_DEFINITION_ID"), SQLDataType.VARCHAR(64), this, "「flowDefinitionId」- 流程定义的ID，getProcessDefinitionKey");
     /**
      * The column <code>DB_ETERNAL.W_TICKET.FLOW_INSTANCE_ID</code>.
      * 「flowInstanceId」- 流程定义的ID，getProcessId
      */
-    public final TableField<WTicketRecord, String> FLOW_INSTANCE_ID = createField(DSL.name("FLOW_INSTANCE_ID"), SQLDataType.VARCHAR(36), this, "「flowInstanceId」- 流程定义的ID，getProcessId");
+    public final TableField<WTicketRecord, String> FLOW_INSTANCE_ID = createField(DSL.name("FLOW_INSTANCE_ID"), SQLDataType.VARCHAR(64), this, "「flowInstanceId」- 流程定义的ID，getProcessId");
     /**
      * The column <code>DB_ETERNAL.W_TICKET.FLOW_END</code>. 「flowEnd」- 主单是否执行完成
      */
