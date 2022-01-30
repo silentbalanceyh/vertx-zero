@@ -11,6 +11,7 @@ import org.jooq.Record;
 import java.math.BigDecimal;
 import java.util.*;
 import java.util.concurrent.ConcurrentMap;
+import java.util.function.BiConsumer;
 import java.util.stream.Collectors;
 
 /*
@@ -36,7 +37,7 @@ public class JqOut {
     public static JsonArray toJoin(
         final List<Record> records,
         final JsonArray projection,
-        final ConcurrentMap<String, String> fields,
+        final ConcurrentMap<String, Set<String>> fields,
         final Mojo mojo) {
         final JsonArray joinResult = new JsonArray();
         records.forEach(record -> {
@@ -50,30 +51,11 @@ public class JqOut {
                      * Un translated
                      */
                     final String key = field.getQualifiedName().toString().toUpperCase();
-                    String resultField = fields.get(key);
-                    if (Ut.notNil(resultField) && !data.containsKey(resultField)) {
-                        if (Objects.nonNull(mojo)) {
-                            final String hitField = mojo.getOut().get(resultField);
-                            if (Ut.notNil(hitField)) {
-                                resultField = hitField;
-                            }
-                        }
-                        if (value instanceof java.sql.Timestamp) {
-                            /*
-                             * Resolve issue: java.lang.IllegalStateException: Illegal type in JsonObject: class java.sql.Timestamp
-                             */
-                            final Date dateTime = (Date) value;
-                            putEarly(data, resultField, dateTime.toInstant());
-                        } else if (value instanceof BigDecimal) {
-                            /*
-                             * java.lang.IllegalStateException: Illegal type in JsonObject: class java.math.BigDecimal
-                             */
-                            final BigDecimal decimal = (BigDecimal) value;
-                            putEarly(data, resultField, decimal.doubleValue());
-                        } else {
-                            putEarly(data, resultField, value);
-                        }
-                    }
+                    /*
+                     * field, alias in all
+                     */
+                    Set<String> fieldSet = fields.get(key);
+                    fieldSet.forEach(resultField -> putField(data, mojo, resultField, value));
                 }
             }
             joinResult.add(data);
@@ -82,7 +64,8 @@ public class JqOut {
         return toResult(joinResult, projections);
     }
 
-    private static void putEarly(final JsonObject data, final String field, final Object value) {
+    private static void putField(final JsonObject data, final Mojo mojo,
+                                 final String field, final Object value) {
         /*
          * Early Loading, when the data contains the pick up field, ignore the rest
          * It means that we used the T1 table data as the major data
@@ -94,8 +77,34 @@ public class JqOut {
          *
          * Early Policy
          */
-        if (!data.containsKey(field)) {
-            data.put(field, value);
+        final BiConsumer<String, Object> executor = (resultField, valueData) -> {
+            if (!data.containsKey(field)) {
+                data.put(resultField, valueData);
+            }
+        };
+        String resultField = field;
+        if (Ut.notNil(resultField) && !data.containsKey(resultField)) {
+            if (Objects.nonNull(mojo)) {
+                final String hitField = mojo.getOut().get(resultField);
+                if (Ut.notNil(hitField)) {
+                    resultField = hitField;
+                }
+            }
+            if (value instanceof java.sql.Timestamp) {
+                /*
+                 * Resolve issue: java.lang.IllegalStateException: Illegal type in JsonObject: class java.sql.Timestamp
+                 */
+                final Date dateTime = (Date) value;
+                executor.accept(resultField, dateTime.toInstant());
+            } else if (value instanceof BigDecimal) {
+                /*
+                 * java.lang.IllegalStateException: Illegal type in JsonObject: class java.math.BigDecimal
+                 */
+                final BigDecimal decimal = (BigDecimal) value;
+                executor.accept(resultField, decimal.doubleValue());
+            } else {
+                executor.accept(resultField, value);
+            }
         }
     }
 
