@@ -23,16 +23,21 @@ import java.util.stream.Collectors;
 class JoinStore {
     /*
      * Class -> Analyzer
+     * Here each Dao class contain only one JqAnalyzer for deep analyzing
+     * and future usage.
      */
     private transient final ConcurrentMap<Class<?>, JqAnalyzer> ANALYZERS
         = new ConcurrentHashMap<>();
     /*
-     * Table prefix: Name -> Alias
+     * Table prefix: Name -> Prefix.Name
+     * Here the system append prefix to table name for duplicated column issue.
      */
     private transient final ConcurrentMap<String, String> PREFIX_MAP
         = new ConcurrentHashMap<>();
     /*
      * Mapping assist for calculation
+     * Class<?> -> Table Name
+     * Table Name -> Class<?>
      */
     private transient final ConcurrentMap<Class<?>, String> CLASS_MAP
         = new ConcurrentHashMap<>();

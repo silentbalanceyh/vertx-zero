@@ -1,5 +1,6 @@
 package cn.zeroup.macrocosm.service;
 
+import cn.vertxup.workflow.domain.tables.daos.WTicketDao;
 import cn.vertxup.workflow.domain.tables.daos.WTodoDao;
 import cn.vertxup.workflow.domain.tables.pojos.WTodo;
 import cn.zeroup.macrocosm.cv.em.TodoStatus;
@@ -28,9 +29,16 @@ public class TaskService implements TaskStub {
 
     @Override
     public Future<JsonObject> fetchQueue(final JsonObject condition) {
-        // Condition / Connect to Task of Camunda Platform
-        // W_TICKET Join W_TODO
-        return Ux.Jooq.on(WTodoDao.class).searchAsync(condition);
+        final JsonObject combine = Ux.whereQrA(condition, "flowEnd", Boolean.FALSE);
+        return Ux.Join.on()
+            .add(WTodoDao.class, KName.Flow.TRACE_ID)
+            // Renamed WTicket
+            .alias(WTicketDao.class, KName.KEY, "keyT")
+            .alias(WTicketDao.class, KName.SERIAL, "serialT")
+            .alias(WTicketDao.class, KName.STATUS, "statusT")
+            // Join WTodo Here
+            .join(WTicketDao.class)
+            .searchAsync(combine);
     }
 
     @Override
@@ -41,14 +49,6 @@ public class TaskService implements TaskStub {
             }
             final String traceId = todo.getTraceId();
             return Wf.instance(traceId).compose(process -> this.runningFlow(todo, process, userId));
-
-            // Fetch ProcessDefinition
-/*            if (todo.getInstance()) {
-                final String traceId = todo.getTraceId();
-                return Wf.instance(traceId).compose(process -> this.runningFlow(todo, process, userId));
-            } else {
-                return this.running(todo);
-            }*/
         });
     }
 

@@ -77,6 +77,12 @@ public final class UxJoin {
         return this;
     }
 
+    public <T> UxJoin alias(final Class<?> daoCls, final JsonObject fieldMap) {
+        Ut.<String>itJObject(fieldMap,
+            (alias, field) -> this.alias(daoCls, field, alias));
+        return this;
+    }
+
     /*
      * The pojo mapping configuration for Dao class, the pojo configuration came from
      * pojo/pojo.yml

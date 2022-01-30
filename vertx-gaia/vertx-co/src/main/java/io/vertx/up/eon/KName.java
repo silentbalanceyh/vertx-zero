@@ -318,6 +318,7 @@ public interface KName {
         String COMMENT_APPROVAL = "commentApproval";
         String COMMENT_REJECT = "commentReject";
 
+        String TRACE_ID = "traceId";
         String TRACE_END = "traceEnd";
         String TRACE_EXTRA = "traceExtra";
 
@@ -334,6 +335,19 @@ public interface KName {
         interface Auditor {
             String FINISHED_BY = "finishedBy";
             String FINISHED_AT = "finishedAt";
+
+            String OPEN_BY = "openBy";
+            String OPEN_AT = "openAt";
+
+            String OWNER = "owner";
+            String SUPERVISOR = "supervisor";
+
+            String TO_USER = "toUser";
+
+            String TO_TEAM = "toTeam";
+            String TO_DEPT = "toDept";
+            String TO_ROLE = "toRole";
+            String TO_GROUP = "toGroup";
         }
 
         // Bpmn

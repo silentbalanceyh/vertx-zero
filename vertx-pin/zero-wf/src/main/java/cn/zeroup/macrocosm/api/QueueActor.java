@@ -2,6 +2,7 @@ package cn.zeroup.macrocosm.api;
 
 import cn.zeroup.macrocosm.cv.HighWay;
 import cn.zeroup.macrocosm.cv.em.TodoStatus;
+import cn.zeroup.macrocosm.service.CondStub;
 import cn.zeroup.macrocosm.service.FlowStub;
 import cn.zeroup.macrocosm.service.TaskStub;
 import io.vertx.core.Future;
@@ -26,6 +27,8 @@ public class QueueActor {
     private transient FlowStub flowStub;
     @Inject
     private transient TaskStub taskStub;
+    @Inject
+    private transient CondStub condStub;
 
     /*
      * The basic qr contains three view:
@@ -36,36 +39,24 @@ public class QueueActor {
      * The input qr should be following:
      * {
      *     "criteria": {
-     *
      *     }
      * }
+     * The criteria fields = [
+     *      "owner, W_TICKET, I'm the ticket owner.",
+     *      "supervisor, W_TICKET, I'm the ticket supervisor.",
+     *      "openBy, W_TICKET, I'm the openBy."
+     * ]
+     *
+     * W_TICKET Join W_TODO by `traceId`,
+     * renamed field:
+     * - W_TODO status -> statusT
+     * - W_TODO serial -> serialT
      */
     @Address(HighWay.Queue.TASK_QUEUE)
     public Future<JsonObject> fetchQueue(final JsonObject qr, final User user) {
-        System.out.println(qr.encodePrettily());
         final String userId = Ux.keyUser(user);
-        // My Queue
-        final JsonObject queueCreate = Ux.whereAnd();
-        queueCreate.put(KName.CREATED_BY, userId);
-        queueCreate.put(KName.STATUS + ",i",
-            new JsonArray()
-                .add(TodoStatus.PENDING.name())
-                .add(TodoStatus.ACCEPTED.name())
-                .add(TodoStatus.DRAFT.name())
-        );
-        // Other Queue
-        final JsonObject queueApprove = Ux.whereAnd();
-        queueApprove.put("toUser", userId);
-        queueApprove.put(KName.STATUS + ",i",
-            new JsonArray()
-                .add(TodoStatus.PENDING.name())
-        );
-        final JsonObject combine = Ux.whereOr();
-        combine.put("$MY$", queueCreate);
-        combine.put("$AP$", queueApprove);
-        final JsonObject qrCombine = Ux.whereQrA(qr, "$Q$", combine);
-        Wf.Log.initQueue(this.getClass(), "Queue condition: {0}", qrCombine.encode());
-        return this.taskStub.fetchQueue(qrCombine);
+        return this.condStub.qrQueue(qr, userId)
+            .compose(this.taskStub::fetchQueue);
     }
 
 
