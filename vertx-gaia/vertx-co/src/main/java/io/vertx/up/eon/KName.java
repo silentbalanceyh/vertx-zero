@@ -318,8 +318,15 @@ public interface KName {
         String COMMENT_APPROVAL = "commentApproval";
         String COMMENT_REJECT = "commentReject";
 
+        // Trace Information Data
         String TRACE_ID = "traceId";
+        String TRACE_KEY = "traceKey";
+        String TRACE_STATUS = "traceStatus";
+        String TRACE_CODE = "traceCode";
+        String TRACE_SERIAL = "traceSerial";
+
         String TRACE_END = "traceEnd";
+
         String TRACE_EXTRA = "traceExtra";
 
         // Processing

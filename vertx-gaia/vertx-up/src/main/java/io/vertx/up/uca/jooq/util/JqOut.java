@@ -55,7 +55,9 @@ public class JqOut {
                      * field, alias in all
                      */
                     Set<String> fieldSet = fields.get(key);
-                    fieldSet.forEach(resultField -> putField(data, mojo, resultField, value));
+                    if (Objects.nonNull(fieldSet)) {
+                        fieldSet.forEach(resultField -> putField(data, mojo, resultField, value));
+                    }
                 }
             }
             joinResult.add(data);

@@ -245,11 +245,10 @@ class KitTodo {
      */
     Future<WTodo> insertAsync(final JsonObject params, final ConfigTodo config,
                               final ProcessInstance instance) {
-        // Todo Build ( WTicket / WTodo )
-
         // Todo Build
         return config.generate(params.getString(KName.KEY)).compose(normalized -> {
             // Ticket Workflow
+            normalized.remove(KName.KEY);
             final WTicket ticket = Ux.fromJson(normalized, WTicket.class);
             /*
              * null value when ticket processed
@@ -280,7 +279,6 @@ class KitTodo {
             return Ux.Jooq.on(WTicketDao.class).insertAsync(ticket).compose(inserted -> {
                 // Todo Workflow
                 final WTodo todo = Ux.fromJson(normalized, WTodo.class);
-
                 /*
                  * null value when processed
                  * 「Related」
@@ -308,12 +306,10 @@ class KitTodo {
                  *  - modelCategory
                  *  - activityId
                  */
-                todo.setTraceId(ticket.getKey());
+                todo.setTraceId(inserted.getKey());
                 todo.setTraceOrder(1);
-                todo.setCode(ticket.getCode() + "-" +
-                    Ut.fromAdjust(todo.getTraceOrder(), 2));
-                todo.setSerial(ticket.getSerial() + "-" +
-                    Ut.fromAdjust(todo.getTraceOrder(), 2));
+                todo.setCode(inserted.getCode() + "-" + Ut.fromAdjust(todo.getTraceOrder(), 2));
+                todo.setSerial(inserted.getSerial() + "-" + Ut.fromAdjust(todo.getTraceOrder(), 2));
                 return Ux.Jooq.on(WTodoDao.class).insertAsync(todo);
             });
         });

@@ -31,13 +31,18 @@ public class TaskService implements TaskStub {
     public Future<JsonObject> fetchQueue(final JsonObject condition) {
         final JsonObject combine = Ux.whereQrA(condition, "flowEnd", Boolean.FALSE);
         return Ux.Join.on()
-            .add(WTodoDao.class, KName.Flow.TRACE_ID)
-            // Renamed WTicket
-            .alias(WTicketDao.class, KName.KEY, "keyT")
-            .alias(WTicketDao.class, KName.SERIAL, "serialT")
-            .alias(WTicketDao.class, KName.STATUS, "statusT")
+
             // Join WTodo Here
+            .add(WTodoDao.class, KName.Flow.TRACE_ID)
             .join(WTicketDao.class)
+
+            // Alias must be called after `add/join`
+            .alias(WTicketDao.class, new JsonObject()
+                .put(KName.KEY, KName.Flow.TRACE_KEY)
+                .put(KName.STATUS, KName.Flow.TRACE_STATUS)
+                .put(KName.SERIAL, KName.Flow.TRACE_SERIAL)
+                .put(KName.CODE, KName.Flow.TRACE_CODE)
+            )
             .searchAsync(combine);
     }
 
