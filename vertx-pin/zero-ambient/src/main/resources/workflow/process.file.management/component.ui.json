@@ -3,6 +3,12 @@
         "height": 240,
         "offset": 4
     },
+    "phase": {
+        "forbidden": [
+            "ACCEPTED",
+            "EXPIRED"
+        ]
+    },
     "op": {
         "$opDraft": {
             "comment": "存草稿专用",
