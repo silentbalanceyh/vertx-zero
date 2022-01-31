@@ -117,7 +117,7 @@ public class QueueActor {
     @Address(HighWay.Flow.BY_TODO)
     public Future<JsonObject> fetchTodo(final String key, final User user) {
         final String userId = Ux.keyUser(user);
-        return this.taskStub.fetchTodo(key, userId);
+        return this.taskStub.fetchPending(key, userId);
     }
 
     @Address(HighWay.Flow.BY_HISTORY)

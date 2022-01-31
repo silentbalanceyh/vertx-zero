@@ -69,7 +69,7 @@ public class TransferStandard extends AbstractTodo implements Transfer {
             /*
              * Draft -> Pending, no decision field processing
              */
-            final ConfigTodo configTodo = new ConfigTodo(todo);
+            final ConfigTodo configTodo = new ConfigTodo(new JsonObject());
             return this.recordUpdate(request, configTodo).compose(nil -> Ux.future(todo));
         } else if (TodoStatus.PENDING == status) {
             final WMoveRule moveRule = instance.rule();
@@ -83,7 +83,7 @@ public class TransferStandard extends AbstractTodo implements Transfer {
                 /*
                  * Contains record modification, do updating on record.
                  */
-                final ConfigTodo configTodo = new ConfigTodo(todo);
+                final ConfigTodo configTodo = new ConfigTodo(new JsonObject());
                 return this.recordUpdate(request, configTodo).compose(nil -> Ux.future(todo));
             }
         }

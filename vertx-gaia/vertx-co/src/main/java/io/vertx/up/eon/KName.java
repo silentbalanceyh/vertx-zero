@@ -326,6 +326,8 @@ public interface KName {
 
         // Flow Field
         String FLOW_END = "flowEnd";
+        String FLOW_DEFINITION_KEY = "flowDefinitionKey";
+        String FLOW_DEFINITION_ID = "flowDefinitionId";
         String TRACE_END = "traceEnd";
 
         String TRACE_EXTRA = "traceExtra";

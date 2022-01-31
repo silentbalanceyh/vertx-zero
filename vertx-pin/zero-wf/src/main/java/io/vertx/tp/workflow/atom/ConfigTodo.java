@@ -1,6 +1,5 @@
 package io.vertx.tp.workflow.atom;
 
-import cn.vertxup.workflow.domain.tables.pojos.WTodo;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.ke.refine.Ke;
@@ -23,12 +22,12 @@ public class ConfigTodo implements Serializable {
     // Todo Number definition
     private transient Class<?> daoCls;
 
-    public ConfigTodo(final WTodo todo) {
-        Objects.requireNonNull(todo);
+    public ConfigTodo(final WRecord record) {
+        Objects.requireNonNull(record);
         // this.daoCls = Ut.clazz(todo.getModelComponent(), null);
-        this.identifier = todo.getModelId();
-        this.key = todo.getModelKey();
-        this.data.mergeIn(Ux.toJson(todo), true);
+        this.identifier = record.identifier();
+        this.key = record.key();
+        this.data.mergeIn(record.data());
         this.indent = null;
     }
 
@@ -92,8 +91,8 @@ public class ConfigTodo implements Serializable {
             // Camunda Definition
             final JsonObject workflow = todoData.getJsonObject(KName.Flow.WORKFLOW, new JsonObject());
             {
-                todoData.put("flowDefinitionKey", workflow.getString(KName.Flow.DEFINITION_KEY));
-                todoData.put("flowDefinitionId", workflow.getString(KName.Flow.DEFINITION_ID));
+                todoData.put(KName.Flow.FLOW_DEFINITION_KEY, workflow.getString(KName.Flow.DEFINITION_KEY));
+                todoData.put(KName.Flow.FLOW_DEFINITION_ID, workflow.getString(KName.Flow.DEFINITION_ID));
             }
             return Ux.future(todoData);
         });

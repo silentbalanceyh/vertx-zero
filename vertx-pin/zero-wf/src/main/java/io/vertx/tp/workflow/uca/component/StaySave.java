@@ -15,7 +15,8 @@ public class StaySave extends AbstractTodo implements Stay {
     public Future<WTodo> keepAsync(final JsonObject params, final WInstance instance) {
         // Todo Updating
         return this.todoUpdate(params).compose(todo -> {
-            final ConfigTodo configTodo = new ConfigTodo(todo);
+            // TODO:
+            final ConfigTodo configTodo = new ConfigTodo(new JsonObject());
             // Record Updating
             return this.recordUpdate(params, configTodo).compose(nil -> Ux.future(todo));
         });
