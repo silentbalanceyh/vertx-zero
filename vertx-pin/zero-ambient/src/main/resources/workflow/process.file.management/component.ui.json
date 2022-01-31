@@ -14,28 +14,32 @@
             "comment": "存草稿专用",
             "e.start": {
                 "draft": true,
-                "status": "DRAFT"
+                "status": "DRAFT",
+                "phase": "DRAFT"
             }
         },
         "$opOpen": {
             "comment": "提交专用",
             "e.start": {
                 "draft": false,
-                "status": "PENDING"
+                "status": "PENDING",
+                "phase": "PENDING"
             }
         },
         "$opApprove": {
             "comment": "审批专用",
             "e.approve": {
                 "confirmed": true,
-                "status": "FINISHED"
+                "status": "FINISHED",
+                "phase": "FINISHED"
             }
         },
         "$opReject": {
             "comment": "拒绝专用",
             "e.approve": {
                 "confirmed": false,
-                "status": "REJECTED"
+                "status": "REJECTED",
+                "phase": "REJECTED"
             }
         }
     }

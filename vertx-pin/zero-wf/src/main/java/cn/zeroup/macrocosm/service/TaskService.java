@@ -29,7 +29,7 @@ public class TaskService implements TaskStub {
 
     @Override
     public Future<JsonObject> fetchQueue(final JsonObject condition) {
-        final JsonObject combine = Ux.whereQrA(condition, "flowEnd", Boolean.FALSE);
+        final JsonObject combine = Ux.whereQrA(condition, KName.Flow.FLOW_END, Boolean.FALSE);
         return Ux.Join.on()
 
             // Join WTodo Here
@@ -39,7 +39,6 @@ public class TaskService implements TaskStub {
             // Alias must be called after `add/join`
             .alias(WTicketDao.class, new JsonObject()
                 .put(KName.KEY, KName.Flow.TRACE_KEY)
-                .put(KName.STATUS, KName.Flow.TRACE_STATUS)
                 .put(KName.SERIAL, KName.Flow.TRACE_SERIAL)
                 .put(KName.CODE, KName.Flow.TRACE_CODE)
             )

@@ -321,10 +321,11 @@ public interface KName {
         // Trace Information Data
         String TRACE_ID = "traceId";
         String TRACE_KEY = "traceKey";
-        String TRACE_STATUS = "traceStatus";
         String TRACE_CODE = "traceCode";
         String TRACE_SERIAL = "traceSerial";
 
+        // Flow Field
+        String FLOW_END = "flowEnd";
         String TRACE_END = "traceEnd";
 
         String TRACE_EXTRA = "traceExtra";
