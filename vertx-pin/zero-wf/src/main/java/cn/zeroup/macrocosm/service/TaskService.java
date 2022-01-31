@@ -46,7 +46,7 @@ public class TaskService implements TaskStub {
                 // WTodo binding
                 record.bind(todo);
                 return Ux.Jooq.on(WTicketDao.class)
-                    .<WTicket>fetchByIdAsync(todo.getTaskId())
+                    .<WTicket>fetchByIdAsync(todo.getTraceId())
                     .compose(Ut.ifNil(record::bind, (ticket) -> {
                         // WTicket binding
                         record.bind(ticket);

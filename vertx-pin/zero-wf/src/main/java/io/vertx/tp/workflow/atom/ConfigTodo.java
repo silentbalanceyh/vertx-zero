@@ -24,10 +24,15 @@ public class ConfigTodo implements Serializable {
 
     public ConfigTodo(final WRecord record) {
         Objects.requireNonNull(record);
-        // this.daoCls = Ut.clazz(todo.getModelComponent(), null);
         this.identifier = record.identifier();
         this.key = record.key();
         this.data.mergeIn(record.data());
+        /*
+         * Dao Component Processing
+         */
+        if (this.data.containsKey(KName.MODEL_COMPONENT)) {
+            this.daoCls = Ut.clazz(this.data.getString(KName.MODEL_COMPONENT), null);
+        }
         this.indent = null;
     }
 
