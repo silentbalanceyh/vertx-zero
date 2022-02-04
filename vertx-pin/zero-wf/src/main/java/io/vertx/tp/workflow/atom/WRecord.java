@@ -24,6 +24,10 @@ public class WRecord implements Serializable {
     private transient WTodo todo;
     private transient WProcess process;
 
+    public static Future<WRecord> future(final WTicket ticket, final WTodo todo) {
+        return Ux.future(new WRecord().bind(ticket).bind(todo));
+    }
+
     public WRecord bind(final WTicket ticket) {
         this.ticket = ticket;
         return this;
@@ -42,6 +46,10 @@ public class WRecord implements Serializable {
 
     public WTodo todo() {
         return this.todo;
+    }
+
+    public WTicket ticket() {
+        return this.ticket;
     }
 
     public boolean isEmpty() {
@@ -64,11 +72,7 @@ public class WRecord implements Serializable {
     }
 
     public Future<JsonObject> futureJ() {
-        if (this.isEmpty()) {
-            return Ux.futureJ();
-        } else {
-            return Ux.futureJ();
-        }
+        return Ux.future(this.data());
     }
 
     // ------------- Field Get

@@ -1,13 +1,9 @@
 package io.vertx.tp.workflow.uca.component;
 
-import cn.vertxup.workflow.domain.tables.pojos.WTodo;
 import cn.zeroup.macrocosm.cv.em.TodoStatus;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.workflow.atom.ConfigTodo;
-import io.vertx.tp.workflow.atom.WInstance;
-import io.vertx.tp.workflow.atom.WMove;
-import io.vertx.tp.workflow.atom.WMoveRule;
+import io.vertx.tp.workflow.atom.*;
 import io.vertx.tp.workflow.uca.runner.IsOn;
 import io.vertx.up.eon.KName;
 import io.vertx.up.unity.Ux;
@@ -21,14 +17,13 @@ import java.util.Objects;
  */
 public class TransferStandard extends AbstractTodo implements Transfer {
     @Override
-    public Future<WTodo> moveAsync(final JsonObject params, final WInstance wInstance) {
+    public Future<WRecord> moveAsync(final JsonObject params, final WInstance wInstance) {
         // Update current todo information
-        final JsonObject updatedData = KitTodo.inputClose(params, wInstance);
-
-        return this.todoUpdate(updatedData)
-            // Record Updating or not
-            .compose(todo -> this.updateRecord(todo, params, wInstance))
-            .compose(todo -> wInstance.next().compose(taskNext -> {
+        final JsonObject updatedData = KitTodo.closeJ(params, wInstance);
+        return this.updateAsync(updatedData)
+            // Record Updating or Not
+            .compose(record -> this.updateRecord(record, params, wInstance))
+            .compose(record -> wInstance.next().compose(taskNext -> {
                 /*
                  * Todo Generation Condition
                  * 1. Instance is not ended
@@ -55,22 +50,22 @@ public class TransferStandard extends AbstractTodo implements Transfer {
                         move.stored(params);
                         instanceNext.bind(taskNext).bind(move).bind(wInstance.instance());
                     }
-                    return this.todoGenerate(todo, instanceNext);
+                    return this.generateAsync(record, instanceNext);
                 } else {
-                    return Ux.future(todo);
+                    return Ux.future(record);
                 }
             }));
     }
 
-    private Future<WTodo> updateRecord(final WTodo todo, final JsonObject params, final WInstance instance) {
+    private Future<WRecord> updateRecord(final WRecord wRecord, final JsonObject params, final WInstance instance) {
         final TodoStatus status = Ut.toEnum(TodoStatus.class, params.getString(KName.STATUS));
         final JsonObject request = params.copy();
         if (TodoStatus.DRAFT == status) {
             /*
              * Draft -> Pending, no decision field processing
              */
-            final ConfigTodo configTodo = new ConfigTodo(new JsonObject());
-            return this.recordUpdate(request, configTodo).compose(nil -> Ux.future(todo));
+            final ConfigTodo configTodo = new ConfigTodo(wRecord);
+            return this.recordUpdate(request, configTodo).compose(nil -> Ux.future(wRecord));
         } else if (TodoStatus.PENDING == status) {
             final WMoveRule moveRule = instance.rule();
             if (Objects.nonNull(moveRule) && Ut.notNil(moveRule.getRecord())) {
@@ -83,10 +78,10 @@ public class TransferStandard extends AbstractTodo implements Transfer {
                 /*
                  * Contains record modification, do updating on record.
                  */
-                final ConfigTodo configTodo = new ConfigTodo(new JsonObject());
-                return this.recordUpdate(request, configTodo).compose(nil -> Ux.future(todo));
+                final ConfigTodo configTodo = new ConfigTodo(record);
+                return this.recordUpdate(request, configTodo).compose(nil -> Ux.future(wRecord));
             }
         }
-        return Ux.future(todo);
+        return Ux.future(wRecord);
     }
 }

@@ -4,6 +4,7 @@ import cn.zeroup.macrocosm.cv.HighWay;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.workflow.atom.EngineOn;
+import io.vertx.tp.workflow.atom.WRecord;
 import io.vertx.tp.workflow.refine.Wf;
 import io.vertx.tp.workflow.uca.component.Movement;
 import io.vertx.tp.workflow.uca.component.Stay;
@@ -19,6 +20,7 @@ import io.vertx.up.unity.Ux;
 @Queue
 public class RunActor {
     /*
+    DRAFT Generation Data Request:
     {
         "openBy": "f7fbfaf9-8319-4eb0-9ee7-1948b8b56a67",
         "toUser": "a0b1c6bc-4162-47e2-8f16-c9f4dd162739",
@@ -66,15 +68,80 @@ public class RunActor {
     public Future<JsonObject> start(final JsonObject data) {
         final EngineOn engine = EngineOn.connect(data);
 
-
         // Camunda Processing
         final Movement runner = engine.componentRun();
         // Transfer Processing
         final Transfer transfer = engine.componentStart();
-        Wf.Log.infoWeb(this.getClass(), "Movement = {0}, Transfer = {1}", runner.getClass(), transfer.getClass());
+
+        Wf.Log.infoWeb(this.getClass(), "Movement = {0}, Transfer = {1}",
+            runner.getClass(), transfer.getClass());
 
 
-        return runner.moveAsync(data).compose(instance -> transfer.moveAsync(data, instance).compose(Ux::futureJ));
+        return runner.moveAsync(data)
+            .compose(instance -> transfer.moveAsync(data, instance))
+            .compose(WRecord::futureJ);
+    }
+
+
+    /*
+    DRAFT Saving Data Request:
+     {
+        "openBy": "f7fbfaf9-8319-4eb0-9ee7-1948b8b56a67",
+        "openByNo": "EMP00001",
+        "openByMobile": "15922611447",
+        "toUserTeam": "deeaf16d-8903-4b22-9877-01498a81d0e6",
+        "toUser": "c43efe17-2431-40ad-8ed7-7a412208003f",
+        "openByDept": "88775480-bf0b-462e-9266-063f2e9afbd1",
+        "toUserNo": "EM000004",
+        "toUserMobile": "15922611442",
+        "toUserDept": "4ee61296-bf84-499e-89df-a4d40e3f80bc",
+        "openByName": "虞浪",
+        "record": {
+            "size": 1114042,
+            "fileKey": "JdScpmRDhzYk1jlpH2vXC7dBPWxBpuCpCiC44XJz0Z4VHx0ixWLISqkktKqy1e7R",
+            "name": "error.jpeg",
+            "type": "image/jpeg",
+            "extension": "jpeg",
+            "key": "deb2cfc2-2a53-4a4f-84e5-cb479e5f5d13"
+        },
+        "toUserName": "审批者",
+        "owner": "f7fbfaf9-8319-4eb0-9ee7-1948b8b56a67",
+        "serial": "WFR22020200100015-01",
+        "toUserEmail": "approver@126.com",
+        "title": "AAA",
+        "catalog": "w.document.request",
+        "type": "workflow.doc",
+        "phase": "DRAFT",
+        "openByEmail": "silentbalanceyh@126.com",
+        "description": "<p>AAA</p>",
+        "openAt": "2022-02-02T08:37:06.000Z",
+        "openByTeam": "013e543f-0569-476a-bfb1-85fecfe4b5eb",
+        "key": "33cb12d9-a51c-4c64-adc1-cad829b9788c",
+        "language": "cn",
+        "active": true,
+        "sigma": "Qxw5HDkluJFnAPmcQCtu9uhGdXEiGNtP",
+        "workflow": {
+            "definitionKey": "process.file.management",
+            "definitionId": "process.file.management:1:549abe4c-8229-11ec-9943-c2ddbf8634fa",
+            "instanceId": "5af9ef57-8403-11ec-a2c8-acde48001122",
+            "taskId": "5b0009df-8403-11ec-a2c8-acde48001122"
+        },
+        "updatedBy": "f7fbfaf9-8319-4eb0-9ee7-1948b8b56a67",
+        "updatedAt": "2022-02-02T08:53:24.616055Z"
+    }
+     */
+    @Me
+    @Address(HighWay.Do.FLOW_DRAFT)
+    public Future<JsonObject> draft(final JsonObject data) {
+        final EngineOn engine = EngineOn.connect(data);
+
+        // Camunda Processing
+        final Stay stay = engine.stayDraft();
+
+        Wf.Log.infoWeb(this.getClass(), "Stay = {0}", stay.getClass());
+        return stay.keepAsync(data, null)
+            // Callback
+            .compose(WRecord::futureJ);
     }
 
     @Me
@@ -86,19 +153,8 @@ public class RunActor {
         return runner.moveAsync(data)
             .compose(instance -> transfer.moveAsync(data, instance)
                 // Callback
-                .compose(Ux::futureJ)
+                .compose(WRecord::futureJ)
             );
-    }
-
-    @Me
-    @Address(HighWay.Do.FLOW_DRAFT)
-    public Future<JsonObject> draft(final JsonObject data) {
-        final EngineOn engine = EngineOn.connect(data);
-        // ProcessDefinition
-        final Stay stay = engine.stayDraft();
-        return stay.keepAsync(data, null)
-            // Callback
-            .compose(Ux::futureJ);
     }
 
     @Me
