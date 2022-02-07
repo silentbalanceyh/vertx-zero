@@ -39,7 +39,13 @@ public class TaskService implements TaskStub {
     }
 
     @Override
-    public Future<WRecord> fetchRecord(final String todoKey) {
+    public Future<JsonObject> fetchHistory(final JsonObject condition) {
+        final JsonObject combine = Ux.whereQrA(condition, KName.Flow.FLOW_END, Boolean.TRUE);
+        return Ux.Jooq.on(WTicketDao.class).searchAsync(combine);
+    }
+
+    @Override
+    public Future<WRecord> readRecord(final String todoKey) {
         final WRecord record = new WRecord();
         return Ux.Jooq.on(WTodoDao.class)
             .<WTodo>fetchByIdAsync(todoKey).compose(Ut.ifNil(record::bind, (todo) -> {
@@ -56,8 +62,8 @@ public class TaskService implements TaskStub {
     }
 
     @Override
-    public Future<JsonObject> fetchPending(final String key, final String userId) {
-        return this.fetchRecord(key).compose(wData -> {
+    public Future<JsonObject> readPending(final String key, final String userId) {
+        return this.readRecord(key).compose(wData -> {
             if (wData.isEmpty()) {
                 return Ux.future(wData.data());
             } else {
@@ -70,8 +76,8 @@ public class TaskService implements TaskStub {
     }
 
     @Override
-    public Future<JsonObject> fetchFinished(final String key) {
-        return this.fetchRecord(key).compose(wData -> {
+    public Future<JsonObject> readFinished(final String key) {
+        return this.readRecord(key).compose(wData -> {
             if (wData.isEmpty()) {
                 return Ux.future(wData.data());
             } else {

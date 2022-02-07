@@ -18,7 +18,7 @@ import java.util.Set;
  */
 public class CondService implements CondStub {
 
-    private static final Set<String> SKIP_SET = new HashSet<>() {
+    private static final Set<String> SKIP_QUEUE_SET = new HashSet<>() {
         {
             this.add(KName.Flow.Auditor.OWNER);
             this.add(KName.Flow.Auditor.SUPERVISOR);
@@ -31,11 +31,33 @@ public class CondService implements CondStub {
         }
     };
 
+    private static final Set<String> SKIP_HISTORY_SET = new HashSet<>() {
+        {
+            this.add(KName.Flow.Auditor.OWNER);
+            this.add(KName.Flow.Auditor.SUPERVISOR);
+            this.add(KName.Flow.Auditor.OPEN_BY);
+            this.add(KName.Flow.Auditor.CANCEL_BY);
+            this.add(KName.Flow.Auditor.CLOSE_BY);
+        }
+    };
+
     @Override
     public Future<JsonObject> qrQueue(final JsonObject qr, final String user) {
-        if (this.skipDefault(qr)) {
+        if (this.skipDefault(qr, SKIP_QUEUE_SET)) {
             Wf.Log.initQueue(this.getClass(), "Qr Skip: {0}", qr.encode());
-            return Ux.future(qr);
+            // Status Must be in following
+            // -- PENDING
+            // -- DRAFT
+            // -- ACCEPTED
+            final JsonObject qrStatus = Ux.whereAnd();
+            qrStatus.put(KName.STATUS + ",i", new JsonArray()
+                .add(TodoStatus.PENDING.name())
+                .add(TodoStatus.ACCEPTED.name())
+                .add(TodoStatus.DRAFT.name())
+            );
+            final JsonObject qrCombine = Ux.whereQrA(qr, "$Q$", qrStatus);
+            Wf.Log.initQueue(this.getClass(), "Qr Queue ( Skip ): {0}", qrCombine.encode());
+            return Ux.future(qrCombine);
         } else {
             final JsonObject qrQueue = Ux.whereOr();
             // Open By Me
@@ -55,12 +77,34 @@ public class CondService implements CondStub {
 
             // Divide to AND / OR
             final JsonObject qrCombine = Ux.whereQrA(qr, "$Q$", qrQueue);
-            Wf.Log.initQueue(this.getClass(), "Qr Combine: {0}", qrCombine.encode());
+            Wf.Log.initQueue(this.getClass(), "Qr Queue: {0}", qrCombine.encode());
             return Ux.future(qrCombine);
         }
     }
 
-    private boolean skipDefault(final JsonObject qr) {
+    @Override
+    public Future<JsonObject> qrHistory(final JsonObject qr, final String user) {
+        if (this.skipDefault(qr, SKIP_HISTORY_SET)) {
+            Wf.Log.initQueue(this.getClass(), "Qr Skip: {0}", qr.encode());
+            // Status Must be in following
+            // -- PENDING
+            // -- DRAFT
+            // -- ACCEPTED
+            return Ux.future(qr);
+        } else {
+            // Open By Me, Owner Is Me
+            final JsonObject qrHistory =
+                Ux.whereOr(KName.Flow.Auditor.OPEN_BY, user);
+            qrHistory.put(KName.OWNER, user);
+
+            // Divide to AND / OR
+            final JsonObject qrCombine = Ux.whereQrA(qr, "$Q$", qrHistory);
+            Wf.Log.initQueue(this.getClass(), "Qr History: {0}", qrCombine.encode());
+            return Ux.future(qrCombine);
+        }
+    }
+
+    private boolean skipDefault(final JsonObject qr, final Set<String> skipSet) {
         final JsonObject criteria = qr.getJsonObject(Qr.KEY_CRITERIA, new JsonObject());
         final long counter = criteria.fieldNames().stream().map(field -> {
             if (field.contains(Strings.COMMA)) {
@@ -68,7 +112,7 @@ public class CondService implements CondStub {
             } else {
                 return field;
             }
-        }).filter(SKIP_SET::contains).count();
+        }).filter(skipSet::contains).count();
         return 0 < counter;
     }
 }

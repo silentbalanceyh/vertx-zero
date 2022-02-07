@@ -13,15 +13,17 @@ public interface TaskStub {
      */
     Future<JsonObject> fetchQueue(JsonObject condition);
 
+    Future<JsonObject> fetchHistory(JsonObject condition);
+
     /*
      * WTicket + WTodo
      */
-    Future<WRecord> fetchRecord(String todoKey);
+    Future<WRecord> readRecord(String todoKey);
 
     /*
      * Fetch detail information
      */
-    Future<JsonObject> fetchPending(String key, String userId);
+    Future<JsonObject> readPending(String key, String userId);
 
-    Future<JsonObject> fetchFinished(String key);
+    Future<JsonObject> readFinished(String key);
 }

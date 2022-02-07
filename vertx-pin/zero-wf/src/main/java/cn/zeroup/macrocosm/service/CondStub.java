@@ -56,4 +56,12 @@ public interface CondStub {
      * 2) When condition contains value ( Not Empty ), User/Assignment
      */
     Future<JsonObject> qrQueue(JsonObject qr, String user);
+
+
+    /*
+     * History Queue based on WTicket
+     * - flowEnd = true
+     * - WTicket is ok to display in the done queue
+     */
+    Future<JsonObject> qrHistory(JsonObject qr, String user);
 }

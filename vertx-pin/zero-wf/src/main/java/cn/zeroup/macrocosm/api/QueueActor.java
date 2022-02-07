@@ -1,12 +1,10 @@
 package cn.zeroup.macrocosm.api;
 
 import cn.zeroup.macrocosm.cv.HighWay;
-import cn.zeroup.macrocosm.cv.em.TodoStatus;
 import cn.zeroup.macrocosm.service.CondStub;
 import cn.zeroup.macrocosm.service.FlowStub;
 import cn.zeroup.macrocosm.service.TaskStub;
 import io.vertx.core.Future;
-import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.auth.User;
 import io.vertx.tp.workflow.refine.Wf;
@@ -61,16 +59,10 @@ public class QueueActor {
 
 
     @Address(HighWay.Queue.TASK_HISTORY)
-    public Future<JsonObject> fetchHistory(final JsonObject qr) {
-        final JsonObject qrCombine = Ux.whereQrA(qr, KName.STATUS + ",i",
-            new JsonArray()
-                .add(TodoStatus.FINISHED.name())
-                .add(TodoStatus.REJECTED.name())
-                .add(TodoStatus.CANCELED.name())
-        );
-        final JsonObject qrFinal = Ux.whereQrA(qrCombine, "traceEnd", Boolean.TRUE);
-        Wf.Log.initQueue(this.getClass(), "History condition: {0}", qrCombine.encode());
-        return this.taskStub.fetchQueue(qrFinal);
+    public Future<JsonObject> fetchHistory(final JsonObject qr, final User user) {
+        final String userId = Ux.keyUser(user);
+        return this.condStub.qrHistory(qr, userId)
+            .compose(this.taskStub::fetchHistory);
     }
 
     @Address(HighWay.Flow.BY_CODE)
@@ -117,11 +109,11 @@ public class QueueActor {
     @Address(HighWay.Flow.BY_TODO)
     public Future<JsonObject> fetchTodo(final String key, final User user) {
         final String userId = Ux.keyUser(user);
-        return this.taskStub.fetchPending(key, userId);
+        return this.taskStub.readPending(key, userId);
     }
 
     @Address(HighWay.Flow.BY_HISTORY)
     public Future<JsonObject> fetchHistory(final String key) {
-        return this.taskStub.fetchFinished(key);
+        return this.taskStub.readFinished(key);
     }
 }
