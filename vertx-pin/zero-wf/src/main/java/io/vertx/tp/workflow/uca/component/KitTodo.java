@@ -195,20 +195,15 @@ class KitTodo {
          * 1. Extract key from `traceId` field
          * 2. Remove `key` because here the `key` field is W_TODO
          */
-        final JsonObject ticketJson = params.copy();
-        ticketJson.remove(KName.KEY);
-        final String tKey = ticketJson.getString(KName.Flow.TRACE_ID);
-        return this.updateTicket(tKey, ticketJson).compose(ticket -> {
+        final String tKey = params.getString(KName.Flow.TRACE_ID);
+        return this.updateTicket(tKey, params).compose(ticket -> {
             /*
              * Todo Data Updating
              * Updating the todo record for future usage
              */
-            final UxJooq jooq = Ux.Jooq.on(WTodoDao.class);
             final String key = params.getString(KName.KEY);
-            return jooq.<WTodo>fetchByIdAsync(key).compose(query -> {
-                final WTodo updated = Ux.updateT(query, params);
-                return jooq.updateAsync(updated);
-            }).compose(todo -> WRecord.future(ticket, todo));
+            return this.updateTodo(key, params)
+                .compose(todo -> WRecord.future(ticket, todo));
         });
     }
 
@@ -218,10 +213,28 @@ class KitTodo {
                 .compose(nil -> Ux.future(record)));
     }
 
+    private Future<WTodo> updateTodo(final String key, final JsonObject params) {
+        final UxJooq tJq = Ux.Jooq.on(WTodoDao.class);
+        return tJq.<WTodo>fetchByIdAsync(key).compose(query -> {
+            final JsonObject todoJ = params.copy();
+            // Non-Update Field: key, serial, code
+            todoJ.remove(KName.KEY);
+            todoJ.remove(KName.SERIAL);
+            todoJ.remove(KName.CODE);
+            final WTodo updated = Ux.updateT(query, todoJ);
+            return tJq.updateAsync(updated);
+        });
+    }
+
     private Future<WTicket> updateTicket(final String key, final JsonObject params) {
         final UxJooq tJq = Ux.Jooq.on(WTicketDao.class);
         return tJq.<WTicket>fetchByIdAsync(key).compose(ticket -> {
-            final WTicket updated = Ux.updateT(ticket, params);
+            final JsonObject ticketJ = params.copy();
+            // Non-Update Field: key, serial, code
+            ticketJ.remove(KName.KEY);
+            ticketJ.remove(KName.SERIAL);
+            ticketJ.remove(KName.CODE);
+            final WTicket updated = Ux.updateT(ticket, ticketJ);
             return tJq.updateAsync(updated);
         });
     }

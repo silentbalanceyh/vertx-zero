@@ -62,11 +62,21 @@ public class WRecord implements Serializable {
             return new JsonObject();
         } else {
             final JsonObject response = Ux.toJson(this.ticket);
-            response.put(KName.Flow.TRACE_KEY, this.ticket.getKey());
-            response.put(KName.Flow.TRACE_SERIAL, this.ticket.getSerial());
-            response.put(KName.Flow.TRACE_CODE, this.ticket.getCode());
             final JsonObject todo = Ux.toJson(this.todo);
             response.mergeIn(todo, true);
+            // WTicket
+            // traceKey <- key
+            response.put(KName.Flow.TRACE_KEY, this.ticket.getKey());
+            // WTodo
+            // taskCode <- code
+            // taskSerial <- serial
+            response.put(KName.Flow.TASK_CODE, this.todo.getCode());
+            response.put(KName.Flow.TASK_SERIAL, this.todo.getSerial());
+            // WTicket
+            // serial
+            // code
+            response.put(KName.SERIAL, this.ticket.getSerial());
+            response.put(KName.CODE, this.ticket.getCode());
             return response;
         }
     }

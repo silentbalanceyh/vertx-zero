@@ -323,6 +323,8 @@ public interface KName {
         String TRACE_KEY = "traceKey";
         String TRACE_CODE = "traceCode";
         String TRACE_SERIAL = "traceSerial";
+        String TASK_SERIAL = "taskSerial";
+        String TASK_CODE = "taskCode";
 
         // Flow Field
         String FLOW_END = "flowEnd";
