@@ -111,8 +111,7 @@ public class WRecord implements Serializable {
             // Record based on start
             final EngineOn engine = EngineOn.connect(workflow.getString(KName.Flow.DEFINITION_KEY));
             // Record Action processing
-            final ConfigRecord record = engine.configRecord();
-            final ActionOn action = ActionOn.action(record.getMode());
+            final ActionOn action = engine.action();
             // Record of Todo processing
             final ConfigTodo configTodo = new ConfigTodo(this);
             return action.fetchAsync(this.todo.getModelKey(), configTodo).compose(json -> {

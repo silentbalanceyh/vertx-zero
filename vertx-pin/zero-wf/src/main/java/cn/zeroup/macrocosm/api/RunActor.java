@@ -151,10 +151,9 @@ public class RunActor {
         final Transfer transfer = engine.componentGenerate();
         final Movement runner = engine.componentRun();
         return runner.moveAsync(data)
-            .compose(instance -> transfer.moveAsync(data, instance)
-                // Callback
-                .compose(WRecord::futureJ)
-            );
+            .compose(instance -> transfer.moveAsync(data, instance))
+            // Callback
+            .compose(WRecord::futureJ);
     }
 
     @Me

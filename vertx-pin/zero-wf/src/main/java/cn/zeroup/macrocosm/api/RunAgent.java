@@ -18,21 +18,22 @@ import javax.ws.rs.Path;
 @EndPoint
 @Path("/api")
 public interface RunAgent {
-
+    // Testing Passed ---------------------------
     @POST
     @Path("/up/flow/start")
     @Address(HighWay.Do.FLOW_START)
     JsonObject start(@BodyParam JsonObject body);
 
     @PUT
-    @Path("/up/flow/complete")
-    @Address(HighWay.Do.FLOW_COMPLETE)
-    JsonObject complete(@BodyParam JsonObject body);
-
-    @PUT
     @Path("/up/flow/saving")
     @Address(HighWay.Do.FLOW_DRAFT)
     JsonObject draft(@BodyParam JsonObject body);
+
+    // Waiting for Testing -----------------------
+    @PUT
+    @Path("/up/flow/complete")
+    @Address(HighWay.Do.FLOW_COMPLETE)
+    JsonObject complete(@BodyParam JsonObject body);
 
     @PUT
     @Path("/up/flow/batch")

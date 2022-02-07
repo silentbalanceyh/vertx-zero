@@ -5,6 +5,7 @@ import cn.zeroup.macrocosm.cv.WfPool;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.workflow.init.WfPin;
 import io.vertx.tp.workflow.uca.component.*;
+import io.vertx.tp.workflow.uca.modeling.ActionOn;
 import io.vertx.up.eon.KName;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.unity.Ux;
@@ -19,11 +20,13 @@ import java.util.function.Supplier;
 public class EngineOn {
     private final transient WFlow workflow;
     private final transient ConfigRecord record;
+    private final transient ConfigTodo todo;
 
     private EngineOn(final WFlow workflow) {
         this.workflow = workflow;
         final JsonObject sure = Ut.toJObject(workflow.getStartConfig());
         this.record = Ux.fromJson(sure.getJsonObject(KName.RECORD, new JsonObject()), ConfigRecord.class);
+        this.todo = new ConfigTodo(sure);
     }
 
     public static EngineOn connect(final String definitionKey) {
@@ -102,13 +105,16 @@ public class EngineOn {
         }
         return (C) Fn.poolThread(WfPool.POOL_COMPONENT, () -> {
             final C instance = Ut.instance(clazz);
-            instance.bind(Ut.toJObject(componentValue)).bind(this.record);
+            instance.bind(Ut.toJObject(componentValue))
+                .bind(this.record)
+                .bind(this.todo);
             return instance;
         }, componentKey.toString());       // Critical Key Pool for different record configuration
     }
 
-    public ConfigRecord configRecord() {
-        // Start Component
-        return Objects.requireNonNull(this.record);
+    public ActionOn action() {
+        Objects.requireNonNull(this.record);
+        final ConfigRecord record = this.record;
+        return ActionOn.action(record.getMode());
     }
 }

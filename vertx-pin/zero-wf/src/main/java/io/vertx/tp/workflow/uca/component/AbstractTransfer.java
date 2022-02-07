@@ -39,6 +39,12 @@ public abstract class AbstractTransfer implements Behaviour {
     }
 
     @Override
+    public Behaviour bind(final ConfigTodo todo) {
+        // Not Required
+        return this;
+    }
+
+    @Override
     public Behaviour bind(final ConfigRecord record) {
         Objects.requireNonNull(record);
         this.recordKit = new KitRecord(record);

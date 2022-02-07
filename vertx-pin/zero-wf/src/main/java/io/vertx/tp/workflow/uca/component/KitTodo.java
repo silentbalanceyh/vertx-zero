@@ -167,11 +167,39 @@ class KitTodo {
         return new WRecord().bind(ticket).bind(entity);
     }
 
+    Future<WRecord> saveAsync(final JsonObject params, final ConfigTodo config,
+                              final ProcessInstance instance) {
+        /*
+         * Ticket Data Updating
+         * 1. Fetch record by `traceId` field
+         * 2. If null, create new ticket with todo ( Closed )
+         */
+        final JsonObject ticketJson = params.copy();
+        final String tKey = ticketJson.getString(KName.Flow.TRACE_ID);
+        final UxJooq tJq = Ux.Jooq.on(WTicketDao.class);
+        return tJq.<WTicket>fetchByIdAsync(tKey).compose(ticket -> {
+            if (Objects.isNull(ticket)) {
+                return this.insertAsync(params, config, instance);
+            } else {
+                return this.updateAsync(params);
+            }
+        });
+    }
+
     Future<WRecord> updateAsync(final JsonObject params) {
-        // Ticket Data Updating
-        final String tKey = params.getString(KName.Flow.TRACE_ID);
-        return this.updateTicket(tKey, params).compose(ticket -> {
-            // Todo Data Updating
+        /*
+         * Ticket Data Updating
+         * 1. Extract key from `traceId` field
+         * 2. Remove `key` because here the `key` field is W_TODO
+         */
+        final JsonObject ticketJson = params.copy();
+        ticketJson.remove(KName.KEY);
+        final String tKey = ticketJson.getString(KName.Flow.TRACE_ID);
+        return this.updateTicket(tKey, ticketJson).compose(ticket -> {
+            /*
+             * Todo Data Updating
+             * Updating the todo record for future usage
+             */
             final UxJooq jooq = Ux.Jooq.on(WTodoDao.class);
             final String key = params.getString(KName.KEY);
             return jooq.<WTodo>fetchByIdAsync(key).compose(query -> {

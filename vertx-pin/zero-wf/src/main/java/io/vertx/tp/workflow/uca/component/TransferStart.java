@@ -14,9 +14,11 @@ import org.camunda.bpm.engine.runtime.ProcessInstance;
 public class TransferStart extends AbstractTodo implements Transfer {
     @Override
     public Future<WRecord> moveAsync(final JsonObject params, final WInstance wInstance) {
-        // Record processing first
-        final ConfigTodo config = this.configuration(params);
+        /*
+         * Record processing first, here the parameters are following:
+         */
         final ProcessInstance instance = wInstance.instance();
+        final ConfigTodo config = this.config();
         /*
          * 1. Process Record
          * 2. Todo Record
@@ -29,11 +31,11 @@ public class TransferStart extends AbstractTodo implements Transfer {
              */
             return this.recordInsert(params, config)
                 // Todo Processing
-                .compose(processed -> this.insertAsync(processed, config, instance));
+                .compose(processed -> this.insertAsync(processed, instance));
         } else {
             return this.recordUpdate(params, config)
                 // Todo Processing
-                .compose(processed -> this.insertAsync(processed, config, instance));
+                .compose(processed -> this.insertAsync(processed, instance));
         }
     }
 }

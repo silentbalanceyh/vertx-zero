@@ -20,7 +20,15 @@ public class TransferStandard extends AbstractTodo implements Transfer {
     public Future<WRecord> moveAsync(final JsonObject params, final WInstance wInstance) {
         // Update current todo information
         final JsonObject updatedData = KitTodo.closeJ(params, wInstance);
-        return this.updateAsync(updatedData)
+        /*
+         * Check if create new ticket with todo here.
+         * 1. Submit Direct
+         * 2. Create new record here:
+         * -- saveAsync instead of updateAsync
+         * -- create new ticket
+         * -- create new todo
+         */
+        return this.saveAsync(updatedData, wInstance.instance())
             // Record Updating or Not
             .compose(record -> this.updateRecord(record, params, wInstance))
             .compose(record -> wInstance.next().compose(taskNext -> {
@@ -76,7 +84,7 @@ public class TransferStandard extends AbstractTodo implements Transfer {
                 record.mergeIn(moveRule.getRecord());
                 request.put(KName.RECORD, record);
                 /*
-                 * Contains record modification, do updating on record.
+                 * Contains record modification, do update on record.
                  */
                 final ConfigTodo configTodo = new ConfigTodo(record);
                 return this.recordUpdate(request, configTodo).compose(nil -> Ux.future(wRecord));

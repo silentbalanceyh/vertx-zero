@@ -22,6 +22,12 @@ public class ConfigTodo implements Serializable {
     // Todo Number definition
     private transient Class<?> daoCls;
 
+    /*
+     * This constructor will be called when the data have been populated
+     * from database ( storage ) and build `ConfigTodo` based on system record
+     * - WTicket
+     * - WTodo
+     */
     public ConfigTodo(final WRecord record) {
         Objects.requireNonNull(record);
         this.identifier = record.identifier();
@@ -36,9 +42,14 @@ public class ConfigTodo implements Serializable {
         this.indent = null;
     }
 
+
     /*
+     * This constructor will be called when todo started, it means that the
+     * instance has been created by
      * {
-     *      "todo": "config
+     *      "todo": {
+     *          "comment": "Todo Configuration"
+     *      }
      * }
      */
     public ConfigTodo(final JsonObject data) {
