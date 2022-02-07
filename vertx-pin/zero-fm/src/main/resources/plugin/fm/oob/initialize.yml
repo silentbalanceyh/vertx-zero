@@ -14,3 +14,7 @@
     key: key
     unique:
     - code
+-   dao: cn.vertxup.fm.domain.tables.daos.FBookDao
+    key: key
+    unique:
+        - code
