@@ -1,5 +1,6 @@
 package cn.zeroup.macrocosm.service;
 
+import cn.vertxup.workflow.domain.tables.pojos.WTicket;
 import cn.vertxup.workflow.domain.tables.pojos.WTodo;
 import cn.zeroup.macrocosm.cv.em.TodoStatus;
 import io.vertx.core.Future;
@@ -26,25 +27,31 @@ public class AclService implements AclStub {
              */
             return Ux.future(new JsonObject().put(KName.EDITION, Boolean.FALSE));
         } else {
-            /*
-             * Sample Rule Here ( Here are no definition )
-             */
+            /* Sample Rule Here ( Here are no definition ) */
             final WTodo todo = record.todo();
             final TodoStatus todoStatus = Ut.toEnum(TodoStatus.class, todo.getStatus());
             final JsonObject edition = new JsonObject();
-            if (TodoStatus.DRAFT == todoStatus) {
-                // Owner != userId ( Non Self Disabled )
-                edition.put(KName.EDITION, Boolean.FALSE);
 
-            } else if (TodoStatus.PENDING == todoStatus) {
-                if (userId.equals(todo.getToUser())) {
-                    // Owner == toUser ( Part Edition )
+
+            /*
+             * Rule 1:
+             * 1. - openBy `userId`
+             * 2. - status = `DRAFT` ( Draft Version )
+             */
+            final WTicket ticket = record.ticket();
+            if (userId.equals(ticket.getOpenBy())) {
+                // Draft Edit
+                edition.put(KName.EDITION, TodoStatus.DRAFT == todoStatus);
+            } else {
+                // OpenBy != toUser
+                if (userId.equals(todo.getToUser()) && TodoStatus.PENDING == todoStatus) {
+                    // OpenBy == toUser ( Part Edition )
                     final JsonObject fields = new JsonObject();
                     fields.put(KName.Flow.COMMENT_APPROVAL, Boolean.TRUE);
                     fields.put(KName.Flow.COMMENT_REJECT, Boolean.TRUE);
                     edition.put(KName.EDITION, fields);
                 } else {
-                    // Owner != toUser ( Disabled )
+                    // View Only OpenBy != toUser ( Disabled )
                     edition.put(KName.EDITION, Boolean.FALSE);
                 }
             }
