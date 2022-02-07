@@ -19,11 +19,23 @@
             }
         },
         "$opOpen": {
-            "comment": "提交专用",
+            "comment": "e.start - 直接提交，e.draft - 存草稿提交",
             "e.start": {
                 "draft": false,
                 "status": "PENDING",
                 "phase": "PENDING"
+            },
+            "e.draft": {
+                "draft": false,
+                "status": "PENDING",
+                "phase": "PENDING"
+            }
+        },
+        "$opCancel": {
+            "comment": "撤销专用",
+            "e.approve": {
+                "status": "CANCELED",
+                "phase": "CANCELED"
             }
         },
         "$opApprove": {
