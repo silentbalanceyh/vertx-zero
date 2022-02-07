@@ -2,10 +2,10 @@ package io.vertx.tp.workflow.atom;
 
 import cn.vertxup.workflow.domain.tables.pojos.WFlow;
 import cn.zeroup.macrocosm.cv.WfPool;
+import cn.zeroup.macrocosm.cv.em.TodoCase;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.workflow.init.WfPin;
 import io.vertx.tp.workflow.uca.component.*;
-import io.vertx.tp.workflow.uca.modeling.ActionOn;
 import io.vertx.up.eon.KName;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.unity.Ux;
@@ -112,9 +112,8 @@ public class EngineOn {
         }, componentKey.toString());       // Critical Key Pool for different record configuration
     }
 
-    public ActionOn action() {
+    public TodoCase mode() {
         Objects.requireNonNull(this.record);
-        final ConfigRecord record = this.record;
-        return ActionOn.action(record.getMode());
+        return this.record.getMode();
     }
 }

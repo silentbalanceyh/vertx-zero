@@ -144,8 +144,11 @@ class KitTodo {
         }
         {
             final Task nextTask = wInstance.task();
-            entity.setTraceId(nextTask.getProcessInstanceId());
+            // entity.setTraceId(nextTask.getProcessInstanceId());
             // entity.setTraceTaskId(nextTask.getId());
+            entity.setTraceId(ticket.getKey());
+            entity.setTaskId(nextTask.getId());
+            entity.setTaskKey(nextTask.getTaskDefinitionKey());
             entity.setStatus(TodoStatus.PENDING.name());           // Force Pending
         }
         {
@@ -227,7 +230,7 @@ class KitTodo {
     Future<WRecord> insertAsync(final JsonObject params, final ConfigTodo config,
                                 final ProcessInstance instance) {
         // Todo Build
-        return config.generate(params.getString(KName.KEY)).compose(normalized -> {
+        return config.generate(params).compose(normalized -> {
             // Ticket Workflow
             final String todoKey = normalized.getString(KName.KEY);
             normalized.remove(KName.KEY);

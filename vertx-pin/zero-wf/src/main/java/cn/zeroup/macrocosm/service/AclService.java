@@ -18,10 +18,16 @@ public class AclService implements AclStub {
     @Override
     public Future<JsonObject> authorize(final WRecord record, final String userId) {
         if (Objects.isNull(userId)) {
+            /*
+             * `userId` is null, it means that the user haven't logged into
+             * the system to read the data, following data will be set:
+             *
+             * -- edition = false
+             */
             return Ux.future(new JsonObject().put(KName.EDITION, Boolean.FALSE));
         } else {
             /*
-             * Sample Rule Here
+             * Sample Rule Here ( Here are no definition )
              */
             final WTodo todo = record.todo();
             final TodoStatus todoStatus = Ut.toEnum(TodoStatus.class, todo.getStatus());
