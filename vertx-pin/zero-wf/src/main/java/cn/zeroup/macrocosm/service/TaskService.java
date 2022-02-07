@@ -44,8 +44,7 @@ public class TaskService implements TaskStub {
         return Ux.Jooq.on(WTicketDao.class).searchAsync(combine);
     }
 
-    @Override
-    public Future<WRecord> readRecord(final String todoKey) {
+    private Future<WRecord> readPending(final String todoKey) {
         final WRecord record = new WRecord();
         return Ux.Jooq.on(WTodoDao.class)
             .<WTodo>fetchByIdAsync(todoKey).compose(Ut.ifNil(record::bind, (todo) -> {
@@ -63,29 +62,18 @@ public class TaskService implements TaskStub {
 
     @Override
     public Future<JsonObject> readPending(final String key, final String userId) {
-        return this.readRecord(key).compose(wData -> {
-            if (wData.isEmpty()) {
-                return Ux.future(wData.data());
-            } else {
-                return wData.futureJ(false)
-                    .compose(response -> this.aclStub.authorize(wData, userId)
-                        .compose(acl -> Ux.future(response.put(KName.Flow.ACL, acl)))
-                    );
-            }
-        });
+        return this.readPending(key).compose(wData -> wData.futureJ(false)
+            .compose(response -> this.aclStub.authorize(wData, userId)
+                .compose(acl -> Ux.future(response.put(KName.Flow.ACL, acl)))
+            ));
     }
 
     @Override
     public Future<JsonObject> readFinished(final String key) {
-        return this.readRecord(key).compose(wData -> {
-            if (wData.isEmpty()) {
-                return Ux.future(wData.data());
-            } else {
-                return wData.futureJ(true)
-                    .compose(response -> this.aclStub.authorize(wData, null)
-                        .compose(acl -> Ux.future(response.put(KName.Flow.ACL, acl)))
-                    );
-            }
-        });
+        return Ux.Jooq.on(WTicketDao.class).<WTicket>fetchByIdAsync(key)
+            .compose(ticket -> {
+                final WRecord wData = new WRecord();
+                return wData.bind(ticket).futureJ(true);
+            });
     }
 }

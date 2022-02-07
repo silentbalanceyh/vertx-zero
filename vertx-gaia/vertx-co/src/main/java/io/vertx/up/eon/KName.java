@@ -347,7 +347,9 @@ public interface KName {
 
             String OPEN_BY = "openBy";
             String CLOSE_BY = "closeBy";
+            String CLOSE_AT = "closeAt";
             String CANCEL_BY = "cancelBy";
+            String CANCEL_AT = "cancelAt";
 
             String OWNER = "owner";
             String SUPERVISOR = "supervisor";

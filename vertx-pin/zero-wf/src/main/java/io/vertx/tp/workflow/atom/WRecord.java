@@ -52,33 +52,29 @@ public class WRecord implements Serializable {
         return this.ticket;
     }
 
-    public boolean isEmpty() {
-        return Objects.isNull(this.todo) ||
-            Objects.isNull(this.ticket);
-    }
-
     public JsonObject data() {
-        if (this.isEmpty()) {
-            return new JsonObject();
-        } else {
-            final JsonObject response = Ux.toJson(this.ticket);
-            final JsonObject todo = Ux.toJson(this.todo);
-            response.mergeIn(todo, true);
-            // WTicket
-            // traceKey <- key
-            response.put(KName.Flow.TRACE_KEY, this.ticket.getKey());
+        Objects.requireNonNull(this.ticket);
+        final JsonObject response = new JsonObject();
+        final JsonObject ticketJ = Ux.toJson(this.ticket);
+        // WTicket
+        // traceKey <- key
+        ticketJ.put(KName.Flow.TRACE_KEY, this.ticket.getKey());
+        response.mergeIn(ticketJ, true);
+        if (Objects.nonNull(this.todo)) {
+            final JsonObject todoJson = Ux.toJson(this.todo);
+            response.mergeIn(todoJson, true);
             // WTodo
             // taskCode <- code
             // taskSerial <- serial
             response.put(KName.Flow.TASK_CODE, this.todo.getCode());
             response.put(KName.Flow.TASK_SERIAL, this.todo.getSerial());
-            // WTicket
-            // serial
-            // code
-            response.put(KName.SERIAL, this.ticket.getSerial());
-            response.put(KName.CODE, this.ticket.getCode());
-            return response;
         }
+        // WTicket
+        // serial
+        // code
+        response.put(KName.SERIAL, this.ticket.getSerial());
+        response.put(KName.CODE, this.ticket.getCode());
+        return response;
     }
 
     public Future<JsonObject> futureJ() {
@@ -88,11 +84,11 @@ public class WRecord implements Serializable {
     // ------------- Field Get
 
     public String identifier() {
-        return this.todo.getModelId();
+        return this.ticket.getModelId();
     }
 
     public String key() {
-        return this.todo.getModelKey();
+        return this.ticket.getModelKey();
     }
 
     // ------------- Code Logical for
@@ -124,7 +120,7 @@ public class WRecord implements Serializable {
             final ActionOn action = ActionOn.action(engine.mode());
             // Record of Todo processing
             final ConfigTodo configTodo = new ConfigTodo(this);
-            return action.fetchAsync(this.todo.getModelKey(), configTodo).compose(json -> {
+            return action.fetchAsync(this.ticket.getModelKey(), configTodo).compose(json -> {
                 // record processing
                 response.put(KName.RECORD, json);
                 return Ux.future(response);
@@ -138,7 +134,7 @@ public class WRecord implements Serializable {
              */
             final JsonObject criteria = Ux.whereAnd();
             criteria.put(KName.Flow.TRACE_ID, this.ticket.getKey());
-            if (!history) {
+            if (!history && Objects.nonNull(this.todo)) {
                 // Exclude current todo
                 criteria.put(KName.KEY + ",<>", this.todo.getKey());
             }

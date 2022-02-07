@@ -36,7 +36,7 @@ class KitTodo {
      *      "status": "FINISHED",
      *      "finishedAt": "",
      *      "finishedBy": "",
-     *      "traceEnd": "Depend on instance",
+     *      "flowEnd": "Depend on instance",
      *      "active": true
      * }
      */
@@ -48,6 +48,12 @@ class KitTodo {
         updatedData.put(KName.Flow.Auditor.FINISHED_BY, user);
         // updatedAt / updatedBy contain values
         updatedData.put(KName.ACTIVE, Boolean.TRUE);
+
+        /*
+         * Closable Data
+         */
+        updatedData.put(KName.Flow.Auditor.CLOSE_AT, Instant.now());
+        updatedData.put(KName.Flow.Auditor.CLOSE_BY, user);
 
         if (wInstance.isEnd()) {
             updatedData.put(KName.Flow.FLOW_END, Boolean.TRUE);
@@ -63,10 +69,7 @@ class KitTodo {
     /*
      * Modification
      * {
-     *      "traceEnd": true
-     *      "traceExtra":{
-     *          "history": "ADD"
-     *      },
+     *      "flowEnd": true
      *      "status": "CANCELED",
      *      "finishedAt": "",
      *      "finishedBy": ""
@@ -74,6 +77,7 @@ class KitTodo {
      */
     static JsonObject cancelJ(final JsonObject params, final WInstance wInstance, final Set<String> historySet) {
         final JsonObject todoData = params.copy();
+        final String user = todoData.getString(KName.UPDATED_BY);
         /*
          * History building
          */
@@ -89,12 +93,20 @@ class KitTodo {
             final JsonObject history = new JsonObject();
             history.put(KName.HISTORY, Ut.toJArray(traceSet));
             // todoData.put(KName.Flow.TRACE_EXTRA, history.encode());
-
-            final String user = todoData.getString(KName.UPDATED_BY);
             todoData.put(KName.STATUS, TodoStatus.CANCELED.name());
             todoData.put(KName.Flow.Auditor.FINISHED_AT, Instant.now());
             todoData.put(KName.Flow.Auditor.FINISHED_BY, user);
             todoData.put(KName.Flow.FLOW_END, Boolean.TRUE);
+        }
+        /*
+         * Closable Data
+         */
+        {
+            todoData.put(KName.Flow.Auditor.CANCEL_AT, Instant.now());
+            todoData.put(KName.Flow.Auditor.CANCEL_BY, user);
+
+            todoData.put(KName.Flow.Auditor.CLOSE_AT, Instant.now());
+            todoData.put(KName.Flow.Auditor.CLOSE_BY, user);
         }
         return todoData;
     }

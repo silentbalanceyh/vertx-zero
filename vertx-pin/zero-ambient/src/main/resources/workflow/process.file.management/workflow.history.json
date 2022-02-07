@@ -44,5 +44,16 @@
         "record@fileKey",
         "record@size",
         "record@category"
-    ]
+    ],
+    "transform": {
+        "record@file": {
+            "type": "FILE",
+            "field": "record@fileKey",
+            "fieldName": "record@name"
+        },
+        "record@sizeUi": {
+            "type": "SIZE",
+            "field": "record@size"
+        }
+    }
 }
