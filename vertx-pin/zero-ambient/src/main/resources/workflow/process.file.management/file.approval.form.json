@@ -1,10 +1,6 @@
 {
     "ui": [
         [
-            "commentApproval,审批意见,12,,aiTextArea,rows=4",
-            "commentReject,拒绝原因,12,,aiTextArea,rows=4"
-        ],
-        [
             "record@name,文件名,8,,,readOnly=true",
             "record@type,文件类型,8,,,readOnly=true",
             "record@sizeUi,文件大小,8,,,readOnly=true"
