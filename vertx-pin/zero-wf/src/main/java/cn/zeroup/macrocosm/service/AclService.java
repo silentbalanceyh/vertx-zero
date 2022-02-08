@@ -47,8 +47,7 @@ public class AclService implements AclStub {
                 if (userId.equals(todo.getToUser()) && TodoStatus.PENDING == todoStatus) {
                     // OpenBy == toUser ( Part Edition )
                     final JsonObject fields = new JsonObject();
-                    fields.put(KName.Flow.COMMENT_APPROVAL, Boolean.TRUE);
-                    fields.put(KName.Flow.COMMENT_REJECT, Boolean.TRUE);
+                    this.approveEdition(fields);
                     edition.put(KName.EDITION, fields);
                 } else {
                     // View Only OpenBy != toUser ( Disabled )
@@ -57,5 +56,15 @@ public class AclService implements AclStub {
             }
             return Ux.futureJ(edition);
         }
+    }
+
+    private void approveEdition(final JsonObject fields) {
+        fields.put(KName.Flow.COMMENT_APPROVAL, Boolean.TRUE);
+        fields.put(KName.Flow.COMMENT_REJECT, Boolean.TRUE);
+        // toUser
+        fields.put(KName.Flow.Auditor.TO_USER, Boolean.TRUE);
+        fields.put(KName.Flow.CLOSE_CODE, Boolean.TRUE);
+        fields.put(KName.Flow.CLOSE_KB, Boolean.TRUE);
+        fields.put(KName.Flow.CLOSE_SOLUTION, Boolean.TRUE);
     }
 }

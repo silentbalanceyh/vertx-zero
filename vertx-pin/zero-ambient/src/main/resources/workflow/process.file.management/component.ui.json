@@ -34,7 +34,6 @@
         "$opCancel": {
             "comment": "撤销专用",
             "e.approve": {
-                "status": "CANCELED",
                 "phase": "CANCELED"
             }
         },
@@ -42,7 +41,6 @@
             "comment": "审批专用",
             "e.approve": {
                 "confirmed": true,
-                "status": "FINISHED",
                 "phase": "FINISHED"
             }
         },
@@ -50,7 +48,6 @@
             "comment": "拒绝专用",
             "e.approve": {
                 "confirmed": false,
-                "status": "REJECTED",
                 "phase": "REJECTED"
             }
         }

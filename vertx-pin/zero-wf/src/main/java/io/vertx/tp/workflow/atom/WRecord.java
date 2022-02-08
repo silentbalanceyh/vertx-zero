@@ -12,6 +12,7 @@ import io.vertx.tp.workflow.uca.modeling.ActionOn;
 import io.vertx.tp.workflow.uca.runner.StoreOn;
 import io.vertx.up.eon.KName;
 import io.vertx.up.unity.Ux;
+import io.vertx.up.util.Ut;
 
 import java.io.Serializable;
 import java.util.Objects;
@@ -22,11 +23,8 @@ import java.util.Objects;
 public class WRecord implements Serializable {
     private transient WTicket ticket;
     private transient WTodo todo;
+    private transient TodoStatus status;
     private transient WProcess process;
-
-    public static Future<WRecord> future(final WTicket ticket, final WTodo todo) {
-        return Ux.future(new WRecord().bind(ticket).bind(todo));
-    }
 
     public WRecord bind(final WTicket ticket) {
         this.ticket = ticket;
@@ -89,6 +87,24 @@ public class WRecord implements Serializable {
 
     public String key() {
         return this.ticket.getModelKey();
+    }
+
+
+    // ------------- Workflow Moving
+    /*
+     * These two methods are only called when UPDATING todo
+     * Here the `status` field stored the original status of W_TODO
+     * for future usage:
+     * - Update the actual records by ActionOn
+     * - Update the related records by ActionOn
+     */
+    public WRecord status(final String literal) {
+        this.status = Ut.toEnum(() -> literal, TodoStatus.class, null);
+        return this;
+    }
+
+    public TodoStatus status() {
+        return this.status;
     }
 
     // ------------- Code Logical for

@@ -66,7 +66,7 @@ public class TransferStandard extends AbstractTodo implements Transfer {
     }
 
     private Future<WRecord> updateRecord(final WRecord wRecord, final JsonObject params, final WInstance instance) {
-        final TodoStatus status = Ut.toEnum(TodoStatus.class, params.getString(KName.STATUS));
+        final TodoStatus status = wRecord.status();
         final JsonObject request = params.copy();
         if (TodoStatus.DRAFT == status) {
             /*
@@ -86,7 +86,7 @@ public class TransferStandard extends AbstractTodo implements Transfer {
                 /*
                  * Contains record modification, do update on record.
                  */
-                final ConfigTodo configTodo = new ConfigTodo(record);
+                final ConfigTodo configTodo = new ConfigTodo(wRecord);
                 return this.recordUpdate(request, configTodo).compose(nil -> Ux.future(wRecord));
             }
         }

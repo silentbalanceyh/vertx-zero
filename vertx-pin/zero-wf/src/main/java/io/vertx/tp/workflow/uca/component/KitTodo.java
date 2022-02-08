@@ -42,7 +42,7 @@ class KitTodo {
      */
     static JsonObject closeJ(final JsonObject params, final WInstance wInstance) {
         final JsonObject updatedData = params.copy();
-        updatedData.put(KName.STATUS, TodoStatus.FINISHED);
+        updatedData.put(KName.STATUS, TodoStatus.FINISHED.name());
         final String user = params.getString(KName.UPDATED_BY);
         updatedData.put(KName.Flow.Auditor.FINISHED_AT, Instant.now());
         updatedData.put(KName.Flow.Auditor.FINISHED_BY, user);
@@ -214,8 +214,11 @@ class KitTodo {
              * Updating the todo record for future usage
              */
             final String key = params.getString(KName.KEY);
-            return this.updateTodo(key, params)
-                .compose(todo -> WRecord.future(ticket, todo));
+            final WRecord record = new WRecord();
+            return this.updateTodo(key, params, record).compose(todo -> {
+                record.bind(ticket).bind(todo);
+                return Ux.future(record);
+            });
         });
     }
 
@@ -225,9 +228,16 @@ class KitTodo {
                 .compose(nil -> Ux.future(record)));
     }
 
-    private Future<WTodo> updateTodo(final String key, final JsonObject params) {
+    private Future<WTodo> updateTodo(final String key, final JsonObject params,
+                                     final WRecord recordRef) {
         final UxJooq tJq = Ux.Jooq.on(WTodoDao.class);
         return tJq.<WTodo>fetchByIdAsync(key).compose(query -> {
+            /*
+             * Critical Step for status binding
+             * and the recordRef must bind original status
+             */
+            recordRef.status(query.getStatus());
+
             final JsonObject todoJ = params.copy();
             // Non-Update Field: key, serial, code
             todoJ.remove(KName.KEY);
@@ -342,7 +352,14 @@ class KitTodo {
                         return Ux.future(todo);
                     })
                     .compose(Ux.Jooq.on(WTodoDao.class)::insertAsync)
-                    .compose(insertedTodo -> WRecord.future(inserted, insertedTodo));
+                    .compose(insertedTodo -> {
+                        /*
+                         * No `status` field here.
+                         */
+                        final WRecord record = new WRecord();
+                        record.bind(inserted).bind(insertedTodo);
+                        return Ux.future(record);
+                    });
             });
         });
     }
