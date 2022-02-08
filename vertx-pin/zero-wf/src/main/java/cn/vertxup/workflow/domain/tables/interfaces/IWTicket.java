@@ -332,6 +332,18 @@ public interface IWTicket extends VertxPojo, Serializable {
     public String getCloseCode();
 
     /**
+     * Setter for <code>DB_ETERNAL.W_TICKET.CLOSE_KB</code>. 「closeKb」-
+     * 关闭时KB链接地址
+     */
+    public IWTicket setCloseKb(String value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.W_TICKET.CLOSE_KB</code>. 「closeKb」-
+     * 关闭时KB链接地址
+     */
+    public String getCloseKb();
+
+    /**
      * Setter for <code>DB_ETERNAL.W_TICKET.ACTIVE</code>. 「active」- 是否启用
      */
     public IWTicket setActive(Boolean value);
@@ -458,6 +470,7 @@ public interface IWTicket extends VertxPojo, Serializable {
                 setOrThrow(this::setCloseAt,key -> {String s = json.getString(key); return s==null?null:java.time.LocalDateTime.parse(s);},"CLOSE_AT","java.time.LocalDateTime");
                 setOrThrow(this::setCloseSolution,json::getString,"CLOSE_SOLUTION","java.lang.String");
                 setOrThrow(this::setCloseCode,json::getString,"CLOSE_CODE","java.lang.String");
+                setOrThrow(this::setCloseKb,json::getString,"CLOSE_KB","java.lang.String");
                 setOrThrow(this::setActive,json::getBoolean,"ACTIVE","java.lang.Boolean");
                 setOrThrow(this::setSigma,json::getString,"SIGMA","java.lang.String");
                 setOrThrow(this::setMetadata,json::getString,"METADATA","java.lang.String");
@@ -502,6 +515,7 @@ public interface IWTicket extends VertxPojo, Serializable {
                 json.put("CLOSE_AT",getCloseAt()==null?null:getCloseAt().toString());
                 json.put("CLOSE_SOLUTION",getCloseSolution());
                 json.put("CLOSE_CODE",getCloseCode());
+                json.put("CLOSE_KB",getCloseKb());
                 json.put("ACTIVE",getActive());
                 json.put("SIGMA",getSigma());
                 json.put("METADATA",getMetadata());

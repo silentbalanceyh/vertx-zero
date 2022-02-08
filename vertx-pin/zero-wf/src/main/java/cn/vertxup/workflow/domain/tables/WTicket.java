@@ -158,6 +158,11 @@ public class WTicket extends TableImpl<WTicketRecord> {
      */
     public final TableField<WTicketRecord, String> CLOSE_CODE = createField(DSL.name("CLOSE_CODE"), SQLDataType.VARCHAR(255), this, "「closeCode」- 关闭代码");
     /**
+     * The column <code>DB_ETERNAL.W_TICKET.CLOSE_KB</code>. 「closeKb」-
+     * 关闭时KB链接地址
+     */
+    public final TableField<WTicketRecord, String> CLOSE_KB = createField(DSL.name("CLOSE_KB"), SQLDataType.VARCHAR(1024), this, "「closeKb」- 关闭时KB链接地址");
+    /**
      * The column <code>DB_ETERNAL.W_TICKET.ACTIVE</code>. 「active」- 是否启用
      */
     public final TableField<WTicketRecord, Boolean> ACTIVE = createField(DSL.name("ACTIVE"), SQLDataType.BIT, this, "「active」- 是否启用");

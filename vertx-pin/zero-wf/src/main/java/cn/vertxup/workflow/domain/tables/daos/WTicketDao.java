@@ -467,6 +467,21 @@ public class WTicketDao extends AbstractVertxDAO<WTicketRecord, cn.vertxup.workf
         }
 
         /**
+     * Find records that have <code>CLOSE_KB IN (values)</code> asynchronously
+     */
+        public Future<List<cn.vertxup.workflow.domain.tables.pojos.WTicket>> findManyByCloseKb(Collection<String> values) {
+                return findManyByCondition(WTicket.W_TICKET.CLOSE_KB.in(values));
+        }
+
+        /**
+     * Find records that have <code>CLOSE_KB IN (values)</code> asynchronously
+     * limited by the given limit
+     */
+        public Future<List<cn.vertxup.workflow.domain.tables.pojos.WTicket>> findManyByCloseKb(Collection<String> values, int limit) {
+                return findManyByCondition(WTicket.W_TICKET.CLOSE_KB.in(values),limit);
+        }
+
+        /**
      * Find records that have <code>ACTIVE IN (values)</code> asynchronously
      */
         public Future<List<cn.vertxup.workflow.domain.tables.pojos.WTicket>> findManyByActive(Collection<Boolean> values) {

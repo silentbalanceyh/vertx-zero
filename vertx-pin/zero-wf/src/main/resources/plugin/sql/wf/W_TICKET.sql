@@ -80,6 +80,7 @@ CREATE TABLE IF NOT EXISTS W_TICKET
     `CLOSE_AT`            DATETIME COMMENT '「closeAt」- 关闭时间',
     `CLOSE_SOLUTION`      LONGTEXT COMMENT '「closeSolution」- 关闭解决方案',
     `CLOSE_CODE`          VARCHAR(255) COMMENT '「closeCode」- 关闭代码',
+    `CLOSE_KB`            VARCHAR(1024) COMMENT '「closeKb」- 关闭时KB链接地址',
 
     /*
      * 核心八个信息（Zero Framework自带）

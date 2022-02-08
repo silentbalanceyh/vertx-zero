@@ -542,11 +542,30 @@ public class WTicketRecord extends UpdatableRecordImpl<WTicketRecord> implements
     }
 
     /**
+     * Setter for <code>DB_ETERNAL.W_TICKET.CLOSE_KB</code>. 「closeKb」-
+     * 关闭时KB链接地址
+     */
+    @Override
+    public WTicketRecord setCloseKb(String value) {
+        set(29, value);
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.W_TICKET.CLOSE_KB</code>. 「closeKb」-
+     * 关闭时KB链接地址
+     */
+    @Override
+    public String getCloseKb() {
+        return (String) get(29);
+    }
+
+    /**
      * Setter for <code>DB_ETERNAL.W_TICKET.ACTIVE</code>. 「active」- 是否启用
      */
     @Override
     public WTicketRecord setActive(Boolean value) {
-        set(29, value);
+        set(30, value);
         return this;
     }
 
@@ -555,7 +574,7 @@ public class WTicketRecord extends UpdatableRecordImpl<WTicketRecord> implements
      */
     @Override
     public Boolean getActive() {
-        return (Boolean) get(29);
+        return (Boolean) get(30);
     }
 
     /**
@@ -563,7 +582,7 @@ public class WTicketRecord extends UpdatableRecordImpl<WTicketRecord> implements
      */
     @Override
     public WTicketRecord setSigma(String value) {
-        set(30, value);
+        set(31, value);
         return this;
     }
 
@@ -572,7 +591,7 @@ public class WTicketRecord extends UpdatableRecordImpl<WTicketRecord> implements
      */
     @Override
     public String getSigma() {
-        return (String) get(30);
+        return (String) get(31);
     }
 
     /**
@@ -580,7 +599,7 @@ public class WTicketRecord extends UpdatableRecordImpl<WTicketRecord> implements
      */
     @Override
     public WTicketRecord setMetadata(String value) {
-        set(31, value);
+        set(32, value);
         return this;
     }
 
@@ -589,7 +608,7 @@ public class WTicketRecord extends UpdatableRecordImpl<WTicketRecord> implements
      */
     @Override
     public String getMetadata() {
-        return (String) get(31);
+        return (String) get(32);
     }
 
     /**
@@ -597,7 +616,7 @@ public class WTicketRecord extends UpdatableRecordImpl<WTicketRecord> implements
      */
     @Override
     public WTicketRecord setLanguage(String value) {
-        set(32, value);
+        set(33, value);
         return this;
     }
 
@@ -606,7 +625,7 @@ public class WTicketRecord extends UpdatableRecordImpl<WTicketRecord> implements
      */
     @Override
     public String getLanguage() {
-        return (String) get(32);
+        return (String) get(33);
     }
 
     /**
@@ -614,7 +633,7 @@ public class WTicketRecord extends UpdatableRecordImpl<WTicketRecord> implements
      */
     @Override
     public WTicketRecord setCreatedAt(LocalDateTime value) {
-        set(33, value);
+        set(34, value);
         return this;
     }
 
@@ -623,7 +642,7 @@ public class WTicketRecord extends UpdatableRecordImpl<WTicketRecord> implements
      */
     @Override
     public LocalDateTime getCreatedAt() {
-        return (LocalDateTime) get(33);
+        return (LocalDateTime) get(34);
     }
 
     /**
@@ -631,7 +650,7 @@ public class WTicketRecord extends UpdatableRecordImpl<WTicketRecord> implements
      */
     @Override
     public WTicketRecord setCreatedBy(String value) {
-        set(34, value);
+        set(35, value);
         return this;
     }
 
@@ -640,7 +659,7 @@ public class WTicketRecord extends UpdatableRecordImpl<WTicketRecord> implements
      */
     @Override
     public String getCreatedBy() {
-        return (String) get(34);
+        return (String) get(35);
     }
 
     /**
@@ -648,7 +667,7 @@ public class WTicketRecord extends UpdatableRecordImpl<WTicketRecord> implements
      */
     @Override
     public WTicketRecord setUpdatedAt(LocalDateTime value) {
-        set(35, value);
+        set(36, value);
         return this;
     }
 
@@ -657,7 +676,7 @@ public class WTicketRecord extends UpdatableRecordImpl<WTicketRecord> implements
      */
     @Override
     public LocalDateTime getUpdatedAt() {
-        return (LocalDateTime) get(35);
+        return (LocalDateTime) get(36);
     }
 
     /**
@@ -665,7 +684,7 @@ public class WTicketRecord extends UpdatableRecordImpl<WTicketRecord> implements
      */
     @Override
     public WTicketRecord setUpdatedBy(String value) {
-        set(36, value);
+        set(37, value);
         return this;
     }
 
@@ -674,7 +693,7 @@ public class WTicketRecord extends UpdatableRecordImpl<WTicketRecord> implements
      */
     @Override
     public String getUpdatedBy() {
-        return (String) get(36);
+        return (String) get(37);
     }
 
     // -------------------------------------------------------------------------
@@ -721,6 +740,7 @@ public class WTicketRecord extends UpdatableRecordImpl<WTicketRecord> implements
         setCloseAt(from.getCloseAt());
         setCloseSolution(from.getCloseSolution());
         setCloseCode(from.getCloseCode());
+        setCloseKb(from.getCloseKb());
         setActive(from.getActive());
         setSigma(from.getSigma());
         setMetadata(from.getMetadata());
@@ -751,7 +771,7 @@ public class WTicketRecord extends UpdatableRecordImpl<WTicketRecord> implements
     /**
      * Create a detached, initialised WTicketRecord
      */
-    public WTicketRecord(String key, String serial, String name, String code, String type, String phase, String modelId, String modelKey, String modelCategory, String modelComponent, String flowDefinitionKey, String flowDefinitionId, String flowInstanceId, Boolean flowEnd, String title, String description, String catalog, String category, String categorySub, String owner, String supervisor, String openBy, LocalDateTime openAt, String cancelBy, LocalDateTime cancelAt, String closeBy, LocalDateTime closeAt, String closeSolution, String closeCode, Boolean active, String sigma, String metadata, String language, LocalDateTime createdAt, String createdBy, LocalDateTime updatedAt, String updatedBy) {
+    public WTicketRecord(String key, String serial, String name, String code, String type, String phase, String modelId, String modelKey, String modelCategory, String modelComponent, String flowDefinitionKey, String flowDefinitionId, String flowInstanceId, Boolean flowEnd, String title, String description, String catalog, String category, String categorySub, String owner, String supervisor, String openBy, LocalDateTime openAt, String cancelBy, LocalDateTime cancelAt, String closeBy, LocalDateTime closeAt, String closeSolution, String closeCode, String closeKb, Boolean active, String sigma, String metadata, String language, LocalDateTime createdAt, String createdBy, LocalDateTime updatedAt, String updatedBy) {
         super(WTicket.W_TICKET);
 
         setKey(key);
@@ -783,6 +803,7 @@ public class WTicketRecord extends UpdatableRecordImpl<WTicketRecord> implements
         setCloseAt(closeAt);
         setCloseSolution(closeSolution);
         setCloseCode(closeCode);
+        setCloseKb(closeKb);
         setActive(active);
         setSigma(sigma);
         setMetadata(metadata);
@@ -829,6 +850,7 @@ public class WTicketRecord extends UpdatableRecordImpl<WTicketRecord> implements
             setCloseAt(value.getCloseAt());
             setCloseSolution(value.getCloseSolution());
             setCloseCode(value.getCloseCode());
+            setCloseKb(value.getCloseKb());
             setActive(value.getActive());
             setSigma(value.getSigma());
             setMetadata(value.getMetadata());

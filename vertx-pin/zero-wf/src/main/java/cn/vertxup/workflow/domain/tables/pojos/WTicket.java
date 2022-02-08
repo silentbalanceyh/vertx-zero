@@ -49,6 +49,7 @@ public class WTicket implements VertxPojo, IWTicket {
     private LocalDateTime closeAt;
     private String        closeSolution;
     private String        closeCode;
+    private String        closeKb;
     private Boolean       active;
     private String        sigma;
     private String        metadata;
@@ -90,6 +91,7 @@ public class WTicket implements VertxPojo, IWTicket {
         this.closeAt = value.getCloseAt();
         this.closeSolution = value.getCloseSolution();
         this.closeCode = value.getCloseCode();
+        this.closeKb = value.getCloseKb();
         this.active = value.getActive();
         this.sigma = value.getSigma();
         this.metadata = value.getMetadata();
@@ -130,6 +132,7 @@ public class WTicket implements VertxPojo, IWTicket {
         LocalDateTime closeAt,
         String        closeSolution,
         String        closeCode,
+        String        closeKb,
         Boolean       active,
         String        sigma,
         String        metadata,
@@ -168,6 +171,7 @@ public class WTicket implements VertxPojo, IWTicket {
         this.closeAt = closeAt;
         this.closeSolution = closeSolution;
         this.closeCode = closeCode;
+        this.closeKb = closeKb;
         this.active = active;
         this.sigma = sigma;
         this.metadata = metadata;
@@ -701,6 +705,25 @@ public class WTicket implements VertxPojo, IWTicket {
     }
 
     /**
+     * Getter for <code>DB_ETERNAL.W_TICKET.CLOSE_KB</code>. 「closeKb」-
+     * 关闭时KB链接地址
+     */
+    @Override
+    public String getCloseKb() {
+        return this.closeKb;
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.W_TICKET.CLOSE_KB</code>. 「closeKb」-
+     * 关闭时KB链接地址
+     */
+    @Override
+    public WTicket setCloseKb(String closeKb) {
+        this.closeKb = closeKb;
+        return this;
+    }
+
+    /**
      * Getter for <code>DB_ETERNAL.W_TICKET.ACTIVE</code>. 「active」- 是否启用
      */
     @Override
@@ -869,6 +892,7 @@ public class WTicket implements VertxPojo, IWTicket {
         sb.append(", ").append(closeAt);
         sb.append(", ").append(closeSolution);
         sb.append(", ").append(closeCode);
+        sb.append(", ").append(closeKb);
         sb.append(", ").append(active);
         sb.append(", ").append(sigma);
         sb.append(", ").append(metadata);
@@ -917,6 +941,7 @@ public class WTicket implements VertxPojo, IWTicket {
         setCloseAt(from.getCloseAt());
         setCloseSolution(from.getCloseSolution());
         setCloseCode(from.getCloseCode());
+        setCloseKb(from.getCloseKb());
         setActive(from.getActive());
         setSigma(from.getSigma());
         setMetadata(from.getMetadata());
