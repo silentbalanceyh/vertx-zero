@@ -29,7 +29,6 @@
         <module>zero-wf</module>                <!-- Workflow -->
         <!-- Scaffold Extension Here -->
         <module>zero-vie</module>
-        <module>zero-vista</module>
     </modules>
     <dependencies>
         <dependency>
