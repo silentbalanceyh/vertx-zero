@@ -11,6 +11,7 @@ import io.vertx.up.eon.KName;
 import io.vertx.up.eon.Strings;
 import io.vertx.up.uca.jooq.UxJooq;
 import io.vertx.up.unity.Ux;
+import io.vertx.up.util.Ut;
 
 import java.util.List;
 
@@ -21,7 +22,10 @@ public class MenuService implements MenuStub {
 
     @Override
     public Future<JsonArray> fetchByApp(final String appId) {
-        return Ux.Jooq.on(XMenuDao.class).fetchJAsync(KName.APP_ID, appId);
+        return Ux.Jooq.on(XMenuDao.class)
+            .fetchJAsync(KName.APP_ID, appId)
+            // metadata field extraction
+            .compose(Ut.ifJArray(KName.METADATA));
     }
 
     @Override

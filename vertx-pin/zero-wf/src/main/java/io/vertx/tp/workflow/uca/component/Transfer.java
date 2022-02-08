@@ -1,9 +1,9 @@
 package io.vertx.tp.workflow.uca.component;
 
-import cn.vertxup.workflow.domain.tables.pojos.WTodo;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.workflow.atom.WInstance;
+import io.vertx.tp.workflow.atom.WRecord;
 
 /**
  * Todo Generation
@@ -14,5 +14,5 @@ import io.vertx.tp.workflow.atom.WInstance;
  */
 public interface Transfer extends Behaviour {
 
-    Future<WTodo> moveAsync(JsonObject params, WInstance instance);
+    Future<WRecord> moveAsync(JsonObject params, WInstance wInstance);
 }

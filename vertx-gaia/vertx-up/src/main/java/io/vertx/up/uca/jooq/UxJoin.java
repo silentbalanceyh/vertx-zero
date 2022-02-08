@@ -23,7 +23,7 @@ public final class UxJoin {
     private transient final JsonObject configuration = new JsonObject();
     private transient final JoinEngine joinder = new JoinEngine();
 
-    private transient final ConcurrentMap<Class<?>, String> POJO_MAP
+    private transient final ConcurrentMap<Class<?>, String> pojoMap
         = new ConcurrentHashMap<>();
     private transient Mojo merged = null;
     private transient Set<String> fieldSet = new HashSet<>();
@@ -77,6 +77,12 @@ public final class UxJoin {
         return this;
     }
 
+    public <T> UxJoin alias(final Class<?> daoCls, final JsonObject fieldMap) {
+        Ut.<String>itJObject(fieldMap,
+            (alias, field) -> this.alias(daoCls, field, alias));
+        return this;
+    }
+
     /*
      * The pojo mapping configuration for Dao class, the pojo configuration came from
      * pojo/pojo.yml
@@ -85,7 +91,7 @@ public final class UxJoin {
      */
     public <T> UxJoin pojo(final Class<?> daoCls, final String pojo) {
         final Mojo created = Mirror.create(UxJoin.class).mount(pojo).mojo();
-        this.POJO_MAP.put(daoCls, pojo);
+        this.pojoMap.put(daoCls, pojo);
         if (Objects.isNull(this.merged)) {
             this.merged = new Mojo();
         }
@@ -121,7 +127,7 @@ public final class UxJoin {
     }
 
     public Future<JsonObject> searchAsync(final Qr qr) {
-        this.POJO_MAP.forEach(this.joinder::pojo);
+        this.pojoMap.forEach(this.joinder::pojo);
         return this.joinder.searchAsync(qr, this.merged);
     }
 
@@ -134,7 +140,7 @@ public final class UxJoin {
     }
 
     public Future<Long> countAsync(final Qr qr) {
-        this.POJO_MAP.forEach(this.joinder::pojo);
+        this.pojoMap.forEach(this.joinder::pojo);
         return this.joinder.countAsync(qr);
     }
 
@@ -148,7 +154,7 @@ public final class UxJoin {
      * fetchAsync(JsonObject)
      */
     public JsonArray fetch(final Qr qr) {
-        this.POJO_MAP.forEach(this.joinder::pojo);
+        this.pojoMap.forEach(this.joinder::pojo);
         return this.joinder.searchArray(qr, this.merged);
     }
 
@@ -209,7 +215,7 @@ public final class UxJoin {
     }
 
     private String translate(final Class<?> daoCls, final String field) {
-        final String pojoFile = this.POJO_MAP.get(daoCls);
+        final String pojoFile = this.pojoMap.get(daoCls);
         if (Ut.isNil(pojoFile)) {
             return field;
         } else {

@@ -41,7 +41,29 @@ public class WInstance {
 
     public Future<ProcessInstance> future(final ProcessInstance instance) {
         this.instance = instance;
-        return Ux.future(instance);
+        if (Objects.isNull(this.task) && Objects.nonNull(instance)) {
+
+
+            /*
+             * Get the first task of Active after process
+             * instance started. Here after process instance started,
+             * the workflow engine should set the task instance to
+             * WInstance here
+             */
+            final EventOn event = EventOn.get();
+            return event.taskActive(instance).compose(task -> {
+
+
+                /*
+                 * Here the WInstance should set `task` instance
+                 * The task object must be located after workflow started.
+                 */
+                this.task = task;
+                return Ux.future(instance);
+            });
+        } else {
+            return Ux.future(instance);
+        }
     }
 
     public Future<Task> future(final Task task) {

@@ -1,6 +1,6 @@
 package io.vertx.tp.workflow.atom;
 
-import cn.vertxup.workflow.domain.tables.pojos.WTodo;
+import cn.vertxup.workflow.domain.tables.pojos.WTicket;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.ke.refine.Ke;
@@ -18,23 +18,39 @@ import java.util.UUID;
 public class ConfigTodo implements Serializable {
     private final transient String identifier;
     private final transient String key;
-    private final transient JsonObject data = new JsonObject();
     private final transient String indent;
+    private final transient JsonObject todoData = new JsonObject();
     // Todo Number definition
     private transient Class<?> daoCls;
 
-    public ConfigTodo(final WTodo todo) {
-        Objects.requireNonNull(todo);
-        this.daoCls = Ut.clazz(todo.getModelComponent(), null);
-        this.identifier = todo.getModelId();
-        this.key = todo.getModelKey();
-        this.data.mergeIn(Ux.toJson(todo), true);
+    /*
+     * This constructor will be called when the data have been populated
+     * from database ( storage ) and build `ConfigTodo` based on system record
+     * - WTicket
+     * - WTodo
+     */
+    public ConfigTodo(final WRecord record) {
+        Objects.requireNonNull(record);
+        this.identifier = record.identifier();
+        this.key = record.key();
+        /*
+         * Dao Component Processing
+         */
+        final WTicket ticket = record.ticket();
+        if (Objects.nonNull(ticket) && Objects.nonNull(ticket.getModelComponent())) {
+            this.daoCls = Ut.clazz(ticket.getModelComponent(), null);
+        }
         this.indent = null;
     }
 
+
     /*
+     * This constructor will be called when todo started, it means that the
+     * instance has been created by
      * {
-     *      "todo": "config
+     *      "todo": {
+     *          "comment": "Todo Configuration"
+     *      }
      * }
      */
     public ConfigTodo(final JsonObject data) {
@@ -46,7 +62,7 @@ public class ConfigTodo implements Serializable {
         }
         this.identifier = todo.getString(KName.MODEL_ID, null);
         this.key = todo.getString(KName.MODEL_KEY, null);
-        this.data.mergeIn(data, true);
+        this.todoData.mergeIn(todo, true);
     }
 
     public String identifier() {
@@ -57,10 +73,6 @@ public class ConfigTodo implements Serializable {
         return this.key;
     }
 
-    public JsonObject data() {
-        return this.data;
-    }
-
     public Class<?> dao() {
         return this.daoCls;
     }
@@ -69,16 +81,27 @@ public class ConfigTodo implements Serializable {
         return this.indent;
     }
 
-    public Future<WTodo> generate(final String modelKey) {
-        return Ke.umIndent(this.data, this.indent).compose(processed -> {
+    public Future<JsonObject> generate(final JsonObject data) {
+        return Ke.umIndent(data, this.indent).compose(processed -> {
             final JsonObject todoData = processed.copy();
             Ut.ifJCopy(todoData, KName.INDENT, KName.SERIAL);
             // Todo Generate `key` for `todoUrl`
+            Ut.ifJCopy(todoData, KName.INDENT, KName.CODE);
+            todoData.put(KName.KEY, UUID.randomUUID().toString());
             {
-                todoData.put(KName.KEY, UUID.randomUUID().toString());
-                todoData.put(KName.MODEL_KEY, modelKey);
+                /*
+                 * modelKey processing here.
+                 * Extract from
+                 * {
+                 *      "record": {
+                 *          "key": "modelKey here"
+                 *      }
+                 * }
+                 */
+                final JsonObject record = data.getJsonObject(KName.RECORD);
+                todoData.put(KName.MODEL_KEY, record.getValue(KName.KEY));
             }
-            final JsonObject todo = this.data.getJsonObject(KName.Flow.TODO);
+            final JsonObject todo = this.todoData.copy();
             final JsonObject combine = new JsonObject();
             Ut.<String>itJObject(todo, (expression, field) -> {
                 if (expression.contains("`")) {
@@ -88,7 +111,13 @@ public class ConfigTodo implements Serializable {
                 }
             });
             todoData.mergeIn(combine);
-            return Ux.future(Ux.fromJson(todoData, WTodo.class));
+            // Camunda Definition
+            final JsonObject workflow = todoData.getJsonObject(KName.Flow.WORKFLOW, new JsonObject());
+            {
+                todoData.put(KName.Flow.FLOW_DEFINITION_KEY, workflow.getString(KName.Flow.DEFINITION_KEY));
+                todoData.put(KName.Flow.FLOW_DEFINITION_ID, workflow.getString(KName.Flow.DEFINITION_ID));
+            }
+            return Ux.future(todoData);
         });
     }
 }

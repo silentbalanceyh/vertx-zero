@@ -7,10 +7,17 @@ import io.vertx.core.json.JsonObject;
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 public interface TaskStub {
-
+    /*
+     * W_TODO JOIN W_TICKET
+     */
     Future<JsonObject> fetchQueue(JsonObject condition);
 
-    Future<JsonObject> fetchTodo(String key, String userId);
+    Future<JsonObject> fetchHistory(JsonObject condition);
 
-    Future<JsonObject> fetchFinished(String key);
+    /*
+     * Fetch detail information
+     */
+    Future<JsonObject> readPending(String key, String userId);
+
+    Future<JsonObject> readFinished(String key);
 }

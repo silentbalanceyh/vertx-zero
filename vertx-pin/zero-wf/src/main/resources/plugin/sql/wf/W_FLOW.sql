@@ -33,6 +33,16 @@ CREATE TABLE IF NOT EXISTS W_FLOW
     `END_COMPONENT`        VARCHAR(255) COMMENT '「endComponent」- 完成组件',
     `END_CONFIG`           LONGTEXT COMMENT '「endConfig」- 完成配置',
 
+    /*
+     * 界面组件配置中
+     * - uiComponent 为保留配置，后期扩展用
+     * - uiConfig 为标准化的界面配置
+     * - uiAssist 为当前流程容器专用辅助数据配置，一个界面提供给所有节点使用
+     */
+    `UI_COMPONENT`         VARCHAR(255) COMMENT '「uiComponent」- 界面组件',
+    `UI_CONFIG`            LONGTEXT COMMENT '「uiConfig」- 界面配置',
+    `UI_ASSIST`            LONGTEXT COMMENT '「uiAssist」- 界面辅助数据专用配置',
+
     -- 特殊字段
     `COMMENT`              LONGTEXT COMMENT '「comment」 - 流程定义备注',
     `ACTIVE`               BIT         DEFAULT NULL COMMENT '「active」- 是否启用',
