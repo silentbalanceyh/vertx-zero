@@ -1,0 +1,18 @@
+{
+    "ticket": {
+        "filter": {
+            "catalog,i": [
+                "w.document.request"
+            ]
+        },
+        "initial": {
+            "alias": "工单关联记录",
+            "type": "TICKET - TICKET",
+            "linkType": "BI",
+            "name": "`${serial}-${serial}`",
+            "region": "process.file.management",
+            "sourceType": "w.ticket",
+            "targetType": "w.ticket"
+        }
+    }
+}

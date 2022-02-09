@@ -38,6 +38,7 @@ public class WFlow implements VertxPojo, IWFlow {
     private String        uiComponent;
     private String        uiConfig;
     private String        uiAssist;
+    private String        uiLinkage;
     private String        comment;
     private Boolean       active;
     private String        sigma;
@@ -69,6 +70,7 @@ public class WFlow implements VertxPojo, IWFlow {
         this.uiComponent = value.getUiComponent();
         this.uiConfig = value.getUiConfig();
         this.uiAssist = value.getUiAssist();
+        this.uiLinkage = value.getUiLinkage();
         this.comment = value.getComment();
         this.active = value.getActive();
         this.sigma = value.getSigma();
@@ -99,6 +101,7 @@ public class WFlow implements VertxPojo, IWFlow {
         String        uiComponent,
         String        uiConfig,
         String        uiAssist,
+        String        uiLinkage,
         String        comment,
         Boolean       active,
         String        sigma,
@@ -127,6 +130,7 @@ public class WFlow implements VertxPojo, IWFlow {
         this.uiComponent = uiComponent;
         this.uiConfig = uiConfig;
         this.uiAssist = uiAssist;
+        this.uiLinkage = uiLinkage;
         this.comment = comment;
         this.active = active;
         this.sigma = sigma;
@@ -474,6 +478,25 @@ public class WFlow implements VertxPojo, IWFlow {
     }
 
     /**
+     * Getter for <code>DB_ETERNAL.W_FLOW.UI_LINKAGE</code>. 「uiLinkage」-
+     * 关联部分专用配置：关联工单、关联资产、关联附件
+     */
+    @Override
+    public String getUiLinkage() {
+        return this.uiLinkage;
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.W_FLOW.UI_LINKAGE</code>. 「uiLinkage」-
+     * 关联部分专用配置：关联工单、关联资产、关联附件
+     */
+    @Override
+    public WFlow setUiLinkage(String uiLinkage) {
+        this.uiLinkage = uiLinkage;
+        return this;
+    }
+
+    /**
      * Getter for <code>DB_ETERNAL.W_FLOW.COMMENT</code>. 「comment」 - 流程定义备注
      */
     @Override
@@ -648,6 +671,7 @@ public class WFlow implements VertxPojo, IWFlow {
         sb.append(", ").append(uiComponent);
         sb.append(", ").append(uiConfig);
         sb.append(", ").append(uiAssist);
+        sb.append(", ").append(uiLinkage);
         sb.append(", ").append(comment);
         sb.append(", ").append(active);
         sb.append(", ").append(sigma);
@@ -686,6 +710,7 @@ public class WFlow implements VertxPojo, IWFlow {
         setUiComponent(from.getUiComponent());
         setUiConfig(from.getUiConfig());
         setUiAssist(from.getUiAssist());
+        setUiLinkage(from.getUiLinkage());
         setComment(from.getComment());
         setActive(from.getActive());
         setSigma(from.getSigma());

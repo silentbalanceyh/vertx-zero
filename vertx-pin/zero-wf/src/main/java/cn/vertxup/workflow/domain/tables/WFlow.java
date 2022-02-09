@@ -113,6 +113,11 @@ public class WFlow extends TableImpl<WFlowRecord> {
      */
     public final TableField<WFlowRecord, String> UI_ASSIST = createField(DSL.name("UI_ASSIST"), SQLDataType.CLOB, this, "「uiAssist」- 界面辅助数据专用配置");
     /**
+     * The column <code>DB_ETERNAL.W_FLOW.UI_LINKAGE</code>. 「uiLinkage」-
+     * 关联部分专用配置：关联工单、关联资产、关联附件
+     */
+    public final TableField<WFlowRecord, String> UI_LINKAGE = createField(DSL.name("UI_LINKAGE"), SQLDataType.CLOB, this, "「uiLinkage」- 关联部分专用配置：关联工单、关联资产、关联附件");
+    /**
      * The column <code>DB_ETERNAL.W_FLOW.COMMENT</code>. 「comment」 - 流程定义备注
      */
     public final TableField<WFlowRecord, String> COMMENT = createField(DSL.name("COMMENT"), SQLDataType.CLOB, this, "「comment」 - 流程定义备注");

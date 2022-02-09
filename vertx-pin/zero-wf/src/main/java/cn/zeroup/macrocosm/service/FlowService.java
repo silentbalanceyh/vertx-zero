@@ -40,8 +40,9 @@ public class FlowService implements FlowStub {
                     KName.Flow.CONFIG_END,
                     KName.Flow.CONFIG_RUN,
                     KName.Flow.CONFIG_GENERATE,
-                    KName.Flow.CONFIG_UI,
-                    KName.Flow.CONFIG_ASSIST
+                    KName.Flow.UI_CONFIG,
+                    KName.Flow.UI_ASSIST,
+                    KName.Flow.UI_LINKAGE
                 ).apply(response);
             });
         });

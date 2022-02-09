@@ -16,12 +16,14 @@ CREATE TABLE `X_LINKAGE`
     `LINK_KEY`    VARCHAR(255) COMMENT '「linkKey」- 双向Key计算，根据 source / target 计算',
     `LINK_TYPE`   VARCHAR(255) COMMENT '「linkType」- 关系记录类型',
     `LINK_DATA`   LONGTEXT COMMENT '「linkData」- 关联数据Json格式',
+
+    -- 源和目标
     `SOURCE_KEY`  VARCHAR(255) COMMENT '「sourceKey」- 源实体',
     `SOURCE_TYPE` VARCHAR(255) COMMENT '「sourceType」- 源实体类型',
     `SOURCE_DATA` LONGTEXT COMMENT '「sourceData」- 源记录Json格式',
     `TARGET_KEY`  VARCHAR(255) COMMENT '「targetKey」- 目标实体',
     `TARGET_TYPE` VARCHAR(255) COMMENT '「targetType」- 目标实体类型',
-    `TARGET_DATA` LONGTEXT COMMENT '「tourceData」- 目标记录Json格式',
+    `TARGET_DATA` LONGTEXT COMMENT '「targetData」- 目标记录Json格式',
 
     -- 特殊字段
     `SIGMA`       VARCHAR(32) COMMENT '「sigma」- 统一标识',
