@@ -1,9 +1,19 @@
 {
     "ticket": {
-        "filter": {
-            "catalog,i": [
-                "w.document.request"
-            ]
+        "message": {
+            "window": "选择关联工单",
+            "add": "添加关联工单",
+            "search": "搜索工单："
+        },
+        "tree": {
+            "type": "zero.service.catalog",
+            "title": "服务目录",
+            "config": {
+                "parent": "parentId",
+                "title": "name",
+                "text": "name",
+                "value": "code"
+            }
         },
         "initial": {
             "alias": "工单关联记录",
