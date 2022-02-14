@@ -3,7 +3,9 @@
         "message": {
             "window": "选择关联工单",
             "add": "添加关联工单",
-            "search": "搜索工单："
+            "search": "搜索工单：",
+            "tip": "（默认只有`已完成`的工单可以被选择关联，若要关联其他工单，请联系管理员。）",
+            "failure": "请选择您要添加的工单信息，您未选择任何工单！"
         },
         "tree": {
             "type": "zero.service.catalog",
@@ -13,13 +15,13 @@
                 "title": "name",
                 "text": "name",
                 "value": "code"
-            }
+            },
+            "condition": "catalog,i"
         },
         "initial": {
             "alias": "工单关联记录",
-            "type": "TICKET - TICKET",
-            "linkType": "BI",
-            "name": "`${serial}-${serial}`",
+            "type": "TICKET",
+            "linkType": "TICKET-TICKET",
             "region": "process.file.management",
             "sourceType": "w.ticket",
             "targetType": "w.ticket"
@@ -36,25 +38,11 @@
             "method": "POST"
         },
         "table": {
-            "total": {
-                "report": "（总共:page页，:total条数据）",
-                "selected": "勾选了:count条"
-            },
             "columns": [
                 {
-                    "title": "操作",
-                    "dataIndex": "key",
-                    "fixed": "left",
-                    "width": 80,
-                    "$render": "EXECUTOR",
-                    "$option": [
-                        {
-                            "text": "查看",
-                            "executor": "fnView"
-                        }
-                    ]
+                    "metadata": "serial,单号",
+                    "width": 120
                 },
-                "serial,单号",
                 {
                     "metadata": "phase,工单状态,RENDERS",
                     "width": 100,

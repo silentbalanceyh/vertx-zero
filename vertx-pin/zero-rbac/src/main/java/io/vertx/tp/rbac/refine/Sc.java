@@ -10,6 +10,7 @@ import io.vertx.up.commune.secure.Acl;
 import io.vertx.up.log.Annal;
 
 import java.util.List;
+import java.util.function.Supplier;
 
 public class Sc {
     /*
@@ -89,6 +90,24 @@ public class Sc {
 
     public static String valueProfile(final SResource resource) {
         return ScTool.valueProfile(resource);
+    }
+
+    /*
+     * Lock Part
+     * - lockOn, when failure, the counter increased
+     * - lockOff, when success, the counter cleared
+     * - lockVerify, when before login, verify the specification first
+     */
+    public static Future<JsonObject> lockVerify(final String username, final Supplier<Future<JsonObject>> executor) {
+        return ScTool.lockVerify(username, executor);
+    }
+
+    public static Future<Integer> lockOn(final String username) {
+        return ScTool.lockOn(username);
+    }
+
+    public static Future<Integer> lockOff(final String username) {
+        return ScTool.lockOff(username);
     }
 
     /*

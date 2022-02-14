@@ -60,4 +60,19 @@ public interface AuthKey {
         String AFTER_ROWS = "AFTER_ROWS";
         String AFTER_COLLECTION = "AFTER_COLLECTION";
     }
+
+    interface Pool {
+        // POOL_PERMISSIONS
+        String PERMISSIONS = "POOL_PERMISSIONS";
+        // POOL_RESOURCES
+        String RESOURCES = "POOL_RESOURCES";
+        // POOL_TOKEN
+        String TOKEN = "POOL_TOKEN";
+        // POOL_CODE
+        String CODE = "POOL_CODE";
+        // POOL_VERIFY
+        String VERIFY = "POOL_VERIFY";
+        // POOL_LIMITATION
+        String LIMITATION = "POOL_LIMITATION";
+    }
 }

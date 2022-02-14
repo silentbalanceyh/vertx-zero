@@ -25,13 +25,22 @@ public interface AuthAgent {
      * Request:
      * {
      *      username: "lang.yu",
-     *      password: "XXX(MD5)"
+     *      password: "XXX(MD5)",
+     *      verifyCode: "When `verifyCode` enabled, here must contains additional part"
      * }
      */
     @POST
     @Path("/oauth/login")
     @Address(Addr.Auth.LOGIN)
     JsonObject login(@BodyParam @Codex JsonObject data);
+
+    /*
+     * Sigma must be in XHeader for multi application here
+     */
+    @POST
+    @Path("/oauth/verify-code")
+    @Address(Addr.Auth.VERIFY_CODE)
+    JsonObject verify();
 
     /*
      * /oauth/authorize

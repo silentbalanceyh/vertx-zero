@@ -32,6 +32,8 @@ public interface Addr {
         String AUTHORIZE = Prefix._EVENT + "O-AUTHORIZE";
 
         String TOKEN = Prefix._EVENT + "O-TOKEN";
+
+        String VERIFY_CODE = Prefix._EVENT + "O-VERIFY-CODE";
     }
 
     interface User {
