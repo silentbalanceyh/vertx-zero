@@ -189,7 +189,7 @@ E80212: "(403) - (RBAC) The user = `{0}` of profile = `{1}` has no permission fo
 E80213: "(403) - (RBAC) Sorry, you have no access to visit the resource that you required, action = `{0}`, permissionId = `{1}`"
 E80215: "(500) - (RBAC) Dwarf instance is null when analyzed result type = {0}"
 E80220: "(401) - (RBAC) The user `{0}` that you have provided is locked, please contact administrator"
-E80216: "(401) - (RBAC) Your wrong password typing exceed `{0}` times, please wait around `{1}` mins and try again"
+E80221: "(401) - (RBAC) Your wrong password typing exceed `{0}` times, please wait around `{1}` mins and try again"
 
 # Kernel Module
 E80214: "(409) - (Ke) Zero system could not identify the session you provided `{0}`, maybe it''s expired or destroyed"

@@ -1,5 +1,6 @@
 package io.vertx.tp.error;
 
+import io.vertx.core.http.HttpStatusCode;
 import io.vertx.up.exception.WebException;
 
 import java.util.Objects;
@@ -16,6 +17,11 @@ public class _401MaximumTimesException extends WebException {
 
     @Override
     public int getCode() {
-        return -80216;
+        return -80221;
+    }
+
+    @Override
+    public HttpStatusCode getStatus() {
+        return HttpStatusCode.UNAUTHORIZED;
     }
 }

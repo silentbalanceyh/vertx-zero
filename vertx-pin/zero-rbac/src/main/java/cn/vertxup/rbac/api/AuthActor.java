@@ -2,6 +2,7 @@ package cn.vertxup.rbac.api;
 
 import cn.vertxup.rbac.service.login.AuthStub;
 import io.vertx.core.Future;
+import io.vertx.core.buffer.Buffer;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.Session;
 import io.vertx.tp.rbac.cv.Addr;
@@ -9,6 +10,8 @@ import io.vertx.tp.rbac.cv.AuthKey;
 import io.vertx.up.annotations.Address;
 import io.vertx.up.annotations.Queue;
 import io.vertx.up.atom.unity.UObject;
+import io.vertx.up.commune.config.XHeader;
+import io.vertx.up.unity.Ux;
 
 import javax.inject.Inject;
 
@@ -38,5 +41,10 @@ public class AuthActor {
     @Address(Addr.Auth.TOKEN)
     public Future<JsonObject> token(final JsonObject data, final Session session) {
         return this.stub.token(data.copy(), session);
+    }
+
+    @Address(Addr.Auth.VERIFY_CODE)
+    public Future<Buffer> verify(final XHeader header) {
+        return Ux.future(Buffer.buffer());
     }
 }
