@@ -33,11 +33,11 @@ public interface Addr {
 
         String TOKEN = Prefix._EVENT + "O-TOKEN";
 
-        String GENERATE_IMAGE = Prefix._EVENT + "O-GENERATE/IMAGE";
+        String CAPTCHA_IMAGE = Prefix._EVENT + "X-CAPTCHA/IMAGE";
 
-        String IMAGE_VERIFY = Prefix._EVENT + "O-GENERATE/IMAGE/VERIFY";
+        String CAPTCHA_IMAGE_VERIFY = Prefix._EVENT + "X-CAPTCHA/IMAGE/VERIFY";
 
-        String GENERATE_SMS = Prefix._EVENT + "O-GENERATE/SMS";
+        String CAPTCHA_SMS = Prefix._EVENT + "X-CAPTCHA/SMS";
     }
 
     interface User {

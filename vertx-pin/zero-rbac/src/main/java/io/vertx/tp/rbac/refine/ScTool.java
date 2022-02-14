@@ -119,7 +119,7 @@ class ScTool {
     static <T> Future<T> imageVerify(final JsonObject params, final Function<JsonObject, Future<T>> executor) {
         final Boolean support = CONFIG.getVerifyCode();
         if (Objects.nonNull(support) && support) {
-            final String imageCode = params.getString(AuthKey.CODE_IMAGE);
+            final String imageCode = params.getString(AuthKey.CAPTCHA_IMAGE);
             if (Objects.isNull(imageCode)) {
                 // Not Match
                 return Ux.thenError(_401ImageCodeWrongException.class, ScTool.class, null);
@@ -134,7 +134,7 @@ class ScTool {
                 } else {
                     if (stored.equals(imageCode)) {
                         final JsonObject processed = params.copy();
-                        processed.remove(AuthKey.CODE_IMAGE);
+                        processed.remove(AuthKey.CAPTCHA_IMAGE);
                         return rapid.clear(username).compose(nil -> executor.apply(processed));
                     } else {
                         // Not Match

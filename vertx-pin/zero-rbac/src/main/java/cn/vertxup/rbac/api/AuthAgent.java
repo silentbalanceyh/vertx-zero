@@ -74,11 +74,11 @@ public interface AuthAgent {
      */
     @POST
     @Path("/captcha/image/:username")
-    @Address(Addr.Auth.GENERATE_IMAGE)
+    @Address(Addr.Auth.CAPTCHA_IMAGE)
     JsonObject generateImage(@PathParam(KName.USERNAME) String username);
 
     @POST
     @Path("/captcha/image-verify")
-    @Address(Addr.Auth.IMAGE_VERIFY)
+    @Address(Addr.Auth.CAPTCHA_IMAGE_VERIFY)
     JsonObject verifyImage(@BodyParam JsonObject request);
 }

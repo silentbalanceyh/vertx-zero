@@ -45,12 +45,12 @@ public class AuthActor {
     }
 
 
-    @Address(Addr.Auth.IMAGE_VERIFY)
+    @Address(Addr.Auth.CAPTCHA_IMAGE_VERIFY)
     public Future<Boolean> imageVerity(final JsonObject request) {
         return Sc.imageVerify(request, (normalized) -> Ux.futureT());
     }
 
-    @Address(Addr.Auth.GENERATE_IMAGE)
+    @Address(Addr.Auth.CAPTCHA_IMAGE)
     public Future<Buffer> generateImage(final String username) {
         return Sc.imageOn(username);
     }
