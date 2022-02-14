@@ -116,7 +116,7 @@ class ScTool {
     /*
      * Image generation for tool
      */
-    static <T> Future<T> imageVerify(final JsonObject params, final Function<JsonObject, Future<T>> executor) {
+    static <T> Future<T> imageVerify(final String sessionId, final JsonObject params, final Function<JsonObject, Future<T>> executor) {
         final Boolean support = CONFIG.getVerifyCode();
         if (Objects.nonNull(support) && support) {
             final String imageCode = params.getString(AuthKey.CAPTCHA_IMAGE);
@@ -125,9 +125,8 @@ class ScTool {
                 return Ux.thenError(_401ImageCodeWrongException.class, ScTool.class, null);
             }
             final String imagePool = CONFIG.getPoolVerify();
-            final String username = params.getString(AuthKey.USER_NAME);
             final Rapid<String, String> rapid = Rapid.t(imagePool);
-            return rapid.read(username).compose(stored -> {
+            return rapid.read(sessionId).compose(stored -> {
                 if (Objects.isNull(stored)) {
                     // Not Match
                     return Ux.thenError(_401ImageCodeWrongException.class, ScTool.class, imageCode);
@@ -135,7 +134,7 @@ class ScTool {
                     if (stored.equals(imageCode)) {
                         final JsonObject processed = params.copy();
                         processed.remove(AuthKey.CAPTCHA_IMAGE);
-                        return rapid.clear(username).compose(nil -> executor.apply(processed));
+                        return rapid.clear(sessionId).compose(nil -> executor.apply(processed));
                     } else {
                         // Not Match
                         return Ux.thenError(_401ImageCodeWrongException.class, ScTool.class, imageCode);
@@ -148,13 +147,13 @@ class ScTool {
         }
     }
 
-    static Future<Buffer> imageOn(final String username) {
+    static Future<Buffer> imageOn(final String sessionId) {
         final Boolean support = CONFIG.getVerifyCode();
         if (Objects.nonNull(support) && support) {
             // Username in Pool
             final String imagePool = CONFIG.getPoolVerify();
             final String code = Ut.randomString(5);
-            return Rapid.<String, String>t(imagePool).write(username, code)
+            return Rapid.<String, String>t(imagePool).write(sessionId, code)
                 // Generate Image Bufffer to Front-End
                 .compose(codeImage -> ScImage.imageGenerate(codeImage, 120, 40));
         } else {

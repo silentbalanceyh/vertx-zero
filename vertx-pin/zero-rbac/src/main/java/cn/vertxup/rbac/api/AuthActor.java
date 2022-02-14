@@ -25,9 +25,9 @@ public class AuthActor {
     private transient AuthStub stub;
 
     @Address(Addr.Auth.LOGIN)
-    public Future<JsonObject> login(final JsonObject user) {
+    public Future<JsonObject> login(final JsonObject user, final Session session) {
         final JsonObject params = user.copy();
-        return Sc.imageVerify(params, this.stub::login);
+        return Sc.imageVerify(session.id(), params, this.stub::login);
     }
 
     @Address(Addr.Auth.AUTHORIZE)
@@ -46,12 +46,12 @@ public class AuthActor {
 
 
     @Address(Addr.Auth.CAPTCHA_IMAGE_VERIFY)
-    public Future<Boolean> imageVerity(final JsonObject request) {
-        return Sc.imageVerify(request, (normalized) -> Ux.futureT());
+    public Future<Boolean> imageVerity(final JsonObject request, final Session session) {
+        return Sc.imageVerify(session.id(), request, (normalized) -> Ux.futureT());
     }
 
     @Address(Addr.Auth.CAPTCHA_IMAGE)
-    public Future<Buffer> generateImage(final String username) {
-        return Sc.imageOn(username);
+    public Future<Buffer> generateImage(final Session session) {
+        return Sc.imageOn(session.id());
     }
 }

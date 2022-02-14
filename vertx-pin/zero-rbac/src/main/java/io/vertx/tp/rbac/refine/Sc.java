@@ -119,9 +119,10 @@ public class Sc {
         return ScTool.imageOn(username);
     }
 
-    public static <T> Future<T> imageVerify(final JsonObject params,
+    public static <T> Future<T> imageVerify(final String sessionId,
+                                            final JsonObject params,
                                             final Function<JsonObject, Future<T>> executor) {
-        return ScTool.imageVerify(params, executor);
+        return ScTool.imageVerify(sessionId, params, executor);
     }
 
     /*
