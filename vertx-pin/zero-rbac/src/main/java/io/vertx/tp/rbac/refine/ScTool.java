@@ -2,10 +2,14 @@ package io.vertx.tp.rbac.refine;
 
 import cn.vertxup.rbac.domain.tables.pojos.SResource;
 import io.vertx.core.Future;
+import io.vertx.core.buffer.Buffer;
 import io.vertx.core.json.JsonObject;
+import io.vertx.tp.error._401ImageCodeWrongException;
 import io.vertx.tp.error._401MaximumTimesException;
 import io.vertx.tp.rbac.atom.ScConfig;
+import io.vertx.tp.rbac.cv.AuthKey;
 import io.vertx.tp.rbac.init.ScPin;
+import io.vertx.up.exception.web._501NotSupportException;
 import io.vertx.up.log.Annal;
 import io.vertx.up.uca.cache.Rapid;
 import io.vertx.up.unity.Ux;
@@ -13,6 +17,7 @@ import io.vertx.up.util.Ut;
 
 import java.util.Locale;
 import java.util.Objects;
+import java.util.function.Function;
 import java.util.function.Supplier;
 
 class ScTool {
@@ -109,9 +114,61 @@ class ScTool {
     }
 
     /*
+     * Image generation for tool
+     */
+    static Future<JsonObject> imageVerify(final JsonObject params, final Function<JsonObject, Future<JsonObject>> executor) {
+        final Boolean support = CONFIG.getVerifyCode();
+        if (Objects.nonNull(support) && support) {
+            final String imageCode = params.getString(AuthKey.CODE_IMAGE);
+            if (Objects.isNull(imageCode)) {
+                // Not Match
+                return Ux.thenError(_401ImageCodeWrongException.class, ScTool.class, null);
+            }
+            final String imagePool = CONFIG.getPoolVerify();
+            final String username = params.getString(AuthKey.USER_NAME);
+            final Rapid<String, String> rapid = Rapid.t(imagePool);
+            return rapid.read(username).compose(stored -> {
+                if (Objects.isNull(stored)) {
+                    // Not Match
+                    return Ux.thenError(_401ImageCodeWrongException.class, ScTool.class, imageCode);
+                } else {
+                    if (stored.equals(imageCode)) {
+                        final JsonObject processed = params.copy();
+                        processed.remove(AuthKey.CODE_IMAGE);
+                        return rapid.clear(username).compose(nil -> executor.apply(processed));
+                    } else {
+                        // Not Match
+                        return Ux.thenError(_401ImageCodeWrongException.class, ScTool.class, imageCode);
+                    }
+                }
+            });
+        } else {
+            // Skip because image Verify off
+            return executor.apply(params);
+        }
+    }
+
+    static Future<Buffer> imageOn(final String username) {
+        final Boolean support = CONFIG.getVerifyCode();
+        if (Objects.nonNull(support) && support) {
+            // Username in Pool
+            final String imagePool = CONFIG.getPoolVerify();
+            final String code = Ut.randomString(5);
+            return Rapid.<String, String>t(imagePool).write(username, code)
+                // Generate Image Bufffer to Front-End
+                .compose(codeImage -> ScImage.imageGenerate(codeImage, 120, 40));
+        } else {
+            // Skip because image Verify off
+            return Ux.thenError(_501NotSupportException.class, ScTool.class);
+        }
+    }
+
+    /*
      * Login limitation for times in system, If failed the counter of current username should
      * increase by 1, the max limitation failure time is ScConfig.getVerifyLimitation
-     * -
+     * - lockVerify
+     * - lockOn
+     * - lockOff
      */
     static Future<JsonObject> lockVerify(final String username, final Supplier<Future<JsonObject>> executor) {
         final Integer limitation = CONFIG.getVerifyLimitation();

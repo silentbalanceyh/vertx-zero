@@ -7,11 +7,10 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.Session;
 import io.vertx.tp.rbac.cv.Addr;
 import io.vertx.tp.rbac.cv.AuthKey;
+import io.vertx.tp.rbac.refine.Sc;
 import io.vertx.up.annotations.Address;
 import io.vertx.up.annotations.Queue;
 import io.vertx.up.atom.unity.UObject;
-import io.vertx.up.commune.config.XHeader;
-import io.vertx.up.unity.Ux;
 
 import javax.inject.Inject;
 
@@ -26,7 +25,8 @@ public class AuthActor {
 
     @Address(Addr.Auth.LOGIN)
     public Future<JsonObject> login(final JsonObject user) {
-        return this.stub.login(user);
+        final JsonObject params = user.copy();
+        return Sc.imageVerify(params, this.stub::login);
     }
 
     @Address(Addr.Auth.AUTHORIZE)
@@ -43,8 +43,8 @@ public class AuthActor {
         return this.stub.token(data.copy(), session);
     }
 
-    @Address(Addr.Auth.VERIFY_CODE)
-    public Future<Buffer> verify(final XHeader header) {
-        return Ux.future(Buffer.buffer());
+    @Address(Addr.Auth.GENERATE_IMAGE)
+    public Future<Buffer> generateImage(final String username) {
+        return Sc.imageOn(username);
     }
 }

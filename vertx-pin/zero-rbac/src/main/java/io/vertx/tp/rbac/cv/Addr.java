@@ -33,7 +33,9 @@ public interface Addr {
 
         String TOKEN = Prefix._EVENT + "O-TOKEN";
 
-        String VERIFY_CODE = Prefix._EVENT + "O-VERIFY-CODE";
+        String GENERATE_IMAGE = Prefix._EVENT + "O-GENERATE/IMAGE";
+
+        String GENERATE_SMS = Prefix._EVENT + "O-GENERATE/SMS";
     }
 
     interface User {

@@ -4,12 +4,14 @@ import cn.vertxup.rbac.domain.tables.pojos.OAccessToken;
 import cn.vertxup.rbac.domain.tables.pojos.SResource;
 import io.vertx.core.CompositeFuture;
 import io.vertx.core.Future;
+import io.vertx.core.buffer.Buffer;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.commune.secure.Acl;
 import io.vertx.up.log.Annal;
 
 import java.util.List;
+import java.util.function.Function;
 import java.util.function.Supplier;
 
 public class Sc {
@@ -108,6 +110,18 @@ public class Sc {
 
     public static Future<Integer> lockOff(final String username) {
         return ScTool.lockOff(username);
+    }
+
+    /*
+     * Image Part
+     */
+    public static Future<Buffer> imageOn(final String username) {
+        return ScTool.imageOn(username);
+    }
+
+    public static Future<JsonObject> imageVerify(final JsonObject params,
+                                                 final Function<JsonObject, Future<JsonObject>> executor) {
+        return ScTool.imageVerify(params, executor);
     }
 
     /*

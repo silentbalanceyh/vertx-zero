@@ -5,10 +5,12 @@ import io.vertx.tp.rbac.cv.Addr;
 import io.vertx.up.annotations.Address;
 import io.vertx.up.annotations.Codex;
 import io.vertx.up.annotations.EndPoint;
+import io.vertx.up.eon.KName;
 
 import javax.ws.rs.BodyParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 
 /*
  * Login Api
@@ -38,9 +40,9 @@ public interface AuthAgent {
      * Sigma must be in XHeader for multi application here
      */
     @POST
-    @Path("/oauth/verify-code")
-    @Address(Addr.Auth.VERIFY_CODE)
-    JsonObject verify();
+    @Path("/captcha/image/:username")
+    @Address(Addr.Auth.GENERATE_IMAGE)
+    JsonObject generateImage(@PathParam(KName.USERNAME) String username);
 
     /*
      * /oauth/authorize

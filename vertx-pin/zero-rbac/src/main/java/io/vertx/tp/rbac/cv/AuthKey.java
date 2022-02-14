@@ -13,6 +13,7 @@ public interface AuthKey {
     String USER_NAME = "username";
     String PASSWORD = "password";
     String PRIORITY = "priority";
+    String CODE_IMAGE = "codeImage";
     /**
      * Request Parameters
      */
