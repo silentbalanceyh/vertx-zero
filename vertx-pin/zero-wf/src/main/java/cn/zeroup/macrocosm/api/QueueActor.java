@@ -1,5 +1,6 @@
 package cn.zeroup.macrocosm.api;
 
+import cn.vertxup.workflow.domain.tables.daos.WTicketDao;
 import cn.zeroup.macrocosm.cv.HighWay;
 import cn.zeroup.macrocosm.service.CondStub;
 import cn.zeroup.macrocosm.service.FlowStub;
@@ -58,7 +59,7 @@ public class QueueActor {
     }
 
 
-    @Address(HighWay.Queue.TASK_HISTORY)
+    @Address(HighWay.Queue.TICKET_HISTORY)
     public Future<JsonObject> fetchHistory(final JsonObject qr, final User user) {
         final String userId = Ux.keyUser(user);
         return this.condStub.qrHistory(qr, userId)
@@ -115,5 +116,10 @@ public class QueueActor {
     @Address(HighWay.Flow.BY_HISTORY)
     public Future<JsonObject> fetchHistory(final String key) {
         return this.taskStub.readFinished(key);
+    }
+
+    @Address(HighWay.Queue.TICKET_LINKAGE)
+    public Future<JsonObject> searchTicket(final JsonObject query) {
+        return Ux.Jooq.on(WTicketDao.class).searchAsync(query);
     }
 }

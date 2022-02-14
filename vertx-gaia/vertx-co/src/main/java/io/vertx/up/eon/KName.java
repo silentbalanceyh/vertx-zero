@@ -341,8 +341,9 @@ public interface KName {
         String CONFIG_RUN = "runConfig";
         String CONFIG_GENERATE = "generateConfig";
         String CONFIG_AUTHORIZED = "authorizedConfig";
-        String CONFIG_UI = "uiConfig";
-        String CONFIG_ASSIST = "uiAssist";
+        String UI_CONFIG = "uiConfig";
+        String UI_ASSIST = "uiAssist";
+        String UI_LINKAGE = "uiLinkage";
 
         // Auditor
         interface Auditor {

@@ -6,9 +6,8 @@ import io.vertx.up.annotations.Address;
 import io.vertx.up.annotations.Codex;
 import io.vertx.up.annotations.EndPoint;
 
-import javax.ws.rs.BodyParam;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
+import javax.ws.rs.*;
+import javax.ws.rs.core.MediaType;
 
 /*
  * Login Api
@@ -25,7 +24,8 @@ public interface AuthAgent {
      * Request:
      * {
      *      username: "lang.yu",
-     *      password: "XXX(MD5)"
+     *      password: "XXX(MD5)",
+     *      verifyCode: "When `verifyCode` enabled, here must contains additional part"
      * }
      */
     @POST
@@ -62,4 +62,22 @@ public interface AuthAgent {
     @Path("/oauth/token")
     @Address(Addr.Auth.TOKEN)
     JsonObject token(@BodyParam @Codex JsonObject data);
+
+    // --------------------- Image Code ------------------------
+
+
+    /*
+     * Sigma must be in XHeader for multi application here
+     */
+    @POST
+    @Path("/captcha/image")
+    @Address(Addr.Auth.CAPTCHA_IMAGE)
+    @Consumes(MediaType.APPLICATION_OCTET_STREAM)
+    @Produces(MediaType.APPLICATION_OCTET_STREAM)
+    JsonObject generateImage();
+
+    @POST
+    @Path("/captcha/image-verify")
+    @Address(Addr.Auth.CAPTCHA_IMAGE_VERIFY)
+    JsonObject verifyImage(@BodyParam JsonObject request);
 }

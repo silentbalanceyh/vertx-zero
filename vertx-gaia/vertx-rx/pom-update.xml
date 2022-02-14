@@ -42,6 +42,13 @@
             </ignoreVersions>
         </rule>
 
+        <!-- es 7.x -->
+        <rule groupId="org.elasticsearch" comparisonMethod="maven">
+            <ignoreVersions>
+                <ignoreVersion type="regex">8.*</ignoreVersion>
+            </ignoreVersions>
+        </rule>
+
         <rule groupId="*.maven" comparisonMethod="mercury"/>
         <rule groupId="org.scala-lang" comparisonMethod="maven">
             <ignoreVersions>

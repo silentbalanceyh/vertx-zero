@@ -31,7 +31,7 @@ public class MatrixService implements MatrixStub {
     public Future<DataBound> fetchBound(final ScUser user, final ScResource request) {
         /* User fetch first */
         final ScConfig config = ScPin.getConfig();
-        return Rapid.<String, JsonObject>t(config.getResourcePool()).read(request.key()).compose(data -> {
+        return Rapid.<String, JsonObject>t(config.getPoolResource()).read(request.key()).compose(data -> {
             final SResource resource = Ux.fromJson(data.getJsonObject(KName.RECORD), SResource.class);
             /* Fetch User First */
             return this.fetchViews(user, resource, request.view())

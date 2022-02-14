@@ -32,6 +32,12 @@ public interface Addr {
         String AUTHORIZE = Prefix._EVENT + "O-AUTHORIZE";
 
         String TOKEN = Prefix._EVENT + "O-TOKEN";
+
+        String CAPTCHA_IMAGE = Prefix._EVENT + "X-CAPTCHA/IMAGE";
+
+        String CAPTCHA_IMAGE_VERIFY = Prefix._EVENT + "X-CAPTCHA/IMAGE/VERIFY";
+
+        String CAPTCHA_SMS = Prefix._EVENT + "X-CAPTCHA/SMS";
     }
 
     interface User {

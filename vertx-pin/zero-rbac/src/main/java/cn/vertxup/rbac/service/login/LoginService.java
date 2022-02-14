@@ -32,7 +32,7 @@ public class LoginService implements LoginStub {
     @SuppressWarnings("all")
     public Future<JsonObject> execute(final String username, final String password) {
         /* Find the user record with username */
-        return Ux.Jooq.on(SUserDao.class).<SUser>fetchOneAsync(AuthKey.USER_NAME, username).compose(fetched -> {
+        return Sc.lockVerify(username, () -> Ux.Jooq.on(SUserDao.class).<SUser>fetchOneAsync(AuthKey.USER_NAME, username).compose(fetched -> {
             /* Not Found */
             if (Objects.isNull(fetched)) {
                 Sc.warnAuth(LOGGER, AuthMsg.LOGIN_USER, username);
@@ -46,11 +46,18 @@ public class LoginService implements LoginStub {
             }
             /* Password Wrong */
             if (Objects.isNull(password) || !password.equals(fetched.getPassword())) {
+
+
+                // Lock On when password invalid
                 Sc.warnAuth(LOGGER, AuthMsg.LOGIN_PWD, username);
-                return Ux.thenError(_401PasswordWrongException.class, this.getClass(), username);
+                return Sc.lockOn(username)
+                    .compose(nil -> Ux.thenError(_401PasswordWrongException.class, this.getClass(), username));
             }
+
+
+            // Lock Off when login successfully
             Sc.infoAudit(LOGGER, AuthMsg.LOGIN_SUCCESS, username);
-            return Ux.future(fetched);
+            return Sc.lockOff(username).compose(nil -> Ux.future(fetched));
         }).compose(user -> this.userStub.fetchOUser(user.getKey()).compose(Ux::futureJ).compose(ouserJson -> {
             final JsonObject userJson = Ut.serializeJson(user);
             final JsonObject merged = Ut.jsonAppend(userJson, ouserJson);
@@ -68,7 +75,7 @@ public class LoginService implements LoginStub {
                 response.put(KName.PASSWORD, false);
             }
             return Ux.future(response);
-        }));
+        })));
     }
 
     @Override

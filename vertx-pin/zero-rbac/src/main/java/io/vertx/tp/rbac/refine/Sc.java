@@ -4,12 +4,15 @@ import cn.vertxup.rbac.domain.tables.pojos.OAccessToken;
 import cn.vertxup.rbac.domain.tables.pojos.SResource;
 import io.vertx.core.CompositeFuture;
 import io.vertx.core.Future;
+import io.vertx.core.buffer.Buffer;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.commune.secure.Acl;
 import io.vertx.up.log.Annal;
 
 import java.util.List;
+import java.util.function.Function;
+import java.util.function.Supplier;
 
 public class Sc {
     /*
@@ -89,6 +92,41 @@ public class Sc {
 
     public static String valueProfile(final SResource resource) {
         return ScTool.valueProfile(resource);
+    }
+
+    /*
+     * Lock Part
+     * - lockOn, when failure, the counter increased
+     * - lockOff, when success, the counter cleared
+     * - lockVerify, when before login, verify the specification first
+     */
+    public static Future<JsonObject> lockVerify(final String username, final Supplier<Future<JsonObject>> executor) {
+        return ScTool.lockVerify(username, executor);
+    }
+
+    public static Future<Integer> lockOn(final String username) {
+        return ScTool.lockOn(username);
+    }
+
+    public static Future<Integer> lockOff(final String username) {
+        return ScTool.lockOff(username);
+    }
+
+    /*
+     * Image Part
+     */
+    public static Future<Buffer> imageOn(final String sessionId, final int width, final int height) {
+        return ScTool.imageOn(sessionId, width, height);
+    }
+
+    public static <T> Future<T> imageVerify(final String sessionId,
+                                            final JsonObject params,
+                                            final Function<JsonObject, Future<T>> executor) {
+        return ScTool.imageVerify(sessionId, params, executor);
+    }
+
+    public static Future<Boolean> imageOff(final String sessionId) {
+        return ScTool.imageKo(sessionId);
     }
 
     /*
