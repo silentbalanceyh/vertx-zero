@@ -11,9 +11,13 @@ import io.vertx.tp.rbac.refine.Sc;
 import io.vertx.up.annotations.Address;
 import io.vertx.up.annotations.Queue;
 import io.vertx.up.atom.unity.UObject;
+import io.vertx.up.commune.config.XHeader;
+import io.vertx.up.exception.web._501NotSupportException;
+import io.vertx.up.fn.Fn;
 import io.vertx.up.unity.Ux;
 
 import javax.inject.Inject;
+import java.util.Objects;
 
 /*
  * Auth Actor
@@ -25,9 +29,9 @@ public class AuthActor {
     private transient AuthStub stub;
 
     @Address(Addr.Auth.LOGIN)
-    public Future<JsonObject> login(final JsonObject user, final Session session) {
+    public Future<JsonObject> login(final JsonObject user, final XHeader header) {
         final JsonObject params = user.copy();
-        return Sc.imageVerify(session.id(), params, this.stub::login);
+        return Sc.imageVerify(header.session(), params, this.stub::login);
     }
 
     @Address(Addr.Auth.AUTHORIZE)
@@ -46,12 +50,17 @@ public class AuthActor {
 
 
     @Address(Addr.Auth.CAPTCHA_IMAGE_VERIFY)
-    public Future<Boolean> imageVerity(final JsonObject request, final Session session) {
-        return Sc.imageVerify(session.id(), request, (normalized) -> Ux.futureT());
+    public Future<Boolean> imageVerity(final JsonObject request, final XHeader header) {
+        Fn.out(Objects.isNull(header.session()), _501NotSupportException.class, this.getClass());
+        return Sc.imageVerify(header.session(), request, (normalized) -> Ux.futureT());
     }
 
+    /*
+     * Default: 180 x 40
+     */
     @Address(Addr.Auth.CAPTCHA_IMAGE)
-    public Future<Buffer> generateImage(final Session session) {
-        return Sc.imageOn(session.id());
+    public Future<Buffer> generateImage(final XHeader header) {
+        Fn.out(Objects.isNull(header.session()), _501NotSupportException.class, this.getClass());
+        return Sc.imageOn(header.session(), 180, 40);
     }
 }

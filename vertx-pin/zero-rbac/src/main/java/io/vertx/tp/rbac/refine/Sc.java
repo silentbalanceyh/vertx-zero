@@ -115,14 +115,18 @@ public class Sc {
     /*
      * Image Part
      */
-    public static Future<Buffer> imageOn(final String username) {
-        return ScTool.imageOn(username);
+    public static Future<Buffer> imageOn(final String sessionId, final int width, final int height) {
+        return ScTool.imageOn(sessionId, width, height);
     }
 
     public static <T> Future<T> imageVerify(final String sessionId,
                                             final JsonObject params,
                                             final Function<JsonObject, Future<T>> executor) {
         return ScTool.imageVerify(sessionId, params, executor);
+    }
+
+    public static Future<Boolean> imageOff(final String sessionId) {
+        return ScTool.imageKo(sessionId);
     }
 
     /*

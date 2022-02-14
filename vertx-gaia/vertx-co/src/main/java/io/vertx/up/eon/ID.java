@@ -77,6 +77,9 @@ public interface ID {
     interface Header {
 
         String PREFIX = "X-";
+
+        String X_SESSION_ID = "X-Session-Id";
+
         /* appId */
         String X_APP_ID = "X-App-Id";
 

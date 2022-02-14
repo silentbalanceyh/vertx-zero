@@ -10,6 +10,7 @@ import io.vertx.tp.rbac.atom.ScConfig;
 import io.vertx.tp.rbac.cv.AuthKey;
 import io.vertx.tp.rbac.init.ScPin;
 import io.vertx.up.exception.web._501NotSupportException;
+import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import io.vertx.up.uca.cache.Rapid;
 import io.vertx.up.unity.Ux;
@@ -119,6 +120,7 @@ class ScTool {
     static <T> Future<T> imageVerify(final String sessionId, final JsonObject params, final Function<JsonObject, Future<T>> executor) {
         final Boolean support = CONFIG.getVerifyCode();
         if (Objects.nonNull(support) && support) {
+            Fn.out(Objects.isNull(sessionId), _501NotSupportException.class, ScTool.class);
             final String imageCode = params.getString(AuthKey.CAPTCHA_IMAGE);
             if (Objects.isNull(imageCode)) {
                 // Not Match
@@ -131,7 +133,8 @@ class ScTool {
                     // Not Match
                     return Ux.thenError(_401ImageCodeWrongException.class, ScTool.class, imageCode);
                 } else {
-                    if (stored.equals(imageCode)) {
+                    // Case Ignored
+                    if (stored.equalsIgnoreCase(imageCode)) {
                         final JsonObject processed = params.copy();
                         processed.remove(AuthKey.CAPTCHA_IMAGE);
                         return rapid.clear(sessionId).compose(nil -> executor.apply(processed));
@@ -147,15 +150,28 @@ class ScTool {
         }
     }
 
-    static Future<Buffer> imageOn(final String sessionId) {
+    static Future<Buffer> imageOn(final String sessionId, final Integer width, final Integer height) {
         final Boolean support = CONFIG.getVerifyCode();
         if (Objects.nonNull(support) && support) {
             // Username in Pool
             final String imagePool = CONFIG.getPoolVerify();
             final String code = Ut.randomString(5);
-            return Rapid.<String, String>t(imagePool).write(sessionId, code)
+            return Rapid.<String, String>t(imagePool, 300).write(sessionId, code)
                 // Generate Image Bufffer to Front-End
-                .compose(codeImage -> ScImage.imageGenerate(codeImage, 120, 40));
+                .compose(codeImage -> ScImage.imageGenerate(codeImage, width, height));
+        } else {
+            // Skip because image Verify off
+            return Ux.thenError(_501NotSupportException.class, ScTool.class);
+        }
+    }
+
+    static Future<Boolean> imageKo(final String sessionId) {
+        final Boolean support = CONFIG.getVerifyCode();
+        if (Objects.nonNull(support) && support) {
+            // Username in Pool
+            final String imagePool = CONFIG.getPoolVerify();
+            return Rapid.<String, String>t(imagePool).clear(sessionId)
+                .compose(nil -> Ux.futureT());
         } else {
             // Skip because image Verify off
             return Ux.thenError(_501NotSupportException.class, ScTool.class);

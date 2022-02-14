@@ -20,7 +20,7 @@ class ScImage {
     private static final Random RANDOM = new Random();
     // BG / FG
     private static final Font FONT_DEFAULT = new Font("Times New Roman", Font.PLAIN, 18);
-    private static final Font FONT_TEXT = new Font("Fixedsys", Font.BOLD, 18);
+    private static final Font FONT_TEXT = new Font("Fixedsys", Font.BOLD, 28);
 
     static Future<Buffer> imageGenerate(final String code, final int width, final int height) {
         // Buffered Image
@@ -31,7 +31,7 @@ class ScImage {
         graphics.setFont(FONT_DEFAULT);
         graphics.setColor(colorRandom(160, 200));
         // Draw the line of failure
-        for (int i = 1; i <= 50; i++) {
+        for (int i = 1; i <= 100; i++) {
             drawLine(graphics, width, height);
         }
         drawText(graphics, code);
@@ -48,7 +48,7 @@ class ScImage {
             graphics.setFont(FONT_TEXT);
             graphics.setColor(new Color(RANDOM.nextInt(101), RANDOM.nextInt(111), RANDOM.nextInt(121)));
             graphics.translate(RANDOM.nextInt(3), RANDOM.nextInt(3));
-            graphics.drawString(String.valueOf(code.charAt(i)), 13 * i, 16);
+            graphics.drawString(String.valueOf(code.charAt(i)), 30 + 28 * i, 24);
         }
     }
 

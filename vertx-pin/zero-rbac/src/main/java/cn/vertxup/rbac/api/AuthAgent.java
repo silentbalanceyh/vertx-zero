@@ -6,9 +6,8 @@ import io.vertx.up.annotations.Address;
 import io.vertx.up.annotations.Codex;
 import io.vertx.up.annotations.EndPoint;
 
-import javax.ws.rs.BodyParam;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
+import javax.ws.rs.*;
+import javax.ws.rs.core.MediaType;
 
 /*
  * Login Api
@@ -73,6 +72,8 @@ public interface AuthAgent {
     @POST
     @Path("/captcha/image")
     @Address(Addr.Auth.CAPTCHA_IMAGE)
+    @Consumes(MediaType.APPLICATION_OCTET_STREAM)
+    @Produces(MediaType.APPLICATION_OCTET_STREAM)
     JsonObject generateImage();
 
     @POST
