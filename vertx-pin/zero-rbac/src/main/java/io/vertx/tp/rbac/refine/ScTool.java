@@ -116,7 +116,7 @@ class ScTool {
     /*
      * Image generation for tool
      */
-    static Future<JsonObject> imageVerify(final JsonObject params, final Function<JsonObject, Future<JsonObject>> executor) {
+    static <T> Future<T> imageVerify(final JsonObject params, final Function<JsonObject, Future<T>> executor) {
         final Boolean support = CONFIG.getVerifyCode();
         if (Objects.nonNull(support) && support) {
             final String imageCode = params.getString(AuthKey.CODE_IMAGE);

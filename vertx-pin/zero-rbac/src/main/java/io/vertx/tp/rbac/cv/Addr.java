@@ -35,6 +35,8 @@ public interface Addr {
 
         String GENERATE_IMAGE = Prefix._EVENT + "O-GENERATE/IMAGE";
 
+        String IMAGE_VERIFY = Prefix._EVENT + "O-GENERATE/IMAGE/VERIFY";
+
         String GENERATE_SMS = Prefix._EVENT + "O-GENERATE/SMS";
     }
 

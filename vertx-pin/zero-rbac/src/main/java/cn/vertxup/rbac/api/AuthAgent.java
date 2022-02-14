@@ -37,14 +37,6 @@ public interface AuthAgent {
     JsonObject login(@BodyParam @Codex JsonObject data);
 
     /*
-     * Sigma must be in XHeader for multi application here
-     */
-    @POST
-    @Path("/captcha/image/:username")
-    @Address(Addr.Auth.GENERATE_IMAGE)
-    JsonObject generateImage(@PathParam(KName.USERNAME) String username);
-
-    /*
      * /oauth/authorize
      *
      * Request:
@@ -73,4 +65,20 @@ public interface AuthAgent {
     @Path("/oauth/token")
     @Address(Addr.Auth.TOKEN)
     JsonObject token(@BodyParam @Codex JsonObject data);
+
+    // --------------------- Image Code ------------------------
+
+
+    /*
+     * Sigma must be in XHeader for multi application here
+     */
+    @POST
+    @Path("/captcha/image/:username")
+    @Address(Addr.Auth.GENERATE_IMAGE)
+    JsonObject generateImage(@PathParam(KName.USERNAME) String username);
+
+    @POST
+    @Path("/captcha/image-verify")
+    @Address(Addr.Auth.IMAGE_VERIFY)
+    JsonObject verifyImage(@BodyParam JsonObject request);
 }

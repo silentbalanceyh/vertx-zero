@@ -11,6 +11,7 @@ import io.vertx.tp.rbac.refine.Sc;
 import io.vertx.up.annotations.Address;
 import io.vertx.up.annotations.Queue;
 import io.vertx.up.atom.unity.UObject;
+import io.vertx.up.unity.Ux;
 
 import javax.inject.Inject;
 
@@ -41,6 +42,12 @@ public class AuthActor {
     @Address(Addr.Auth.TOKEN)
     public Future<JsonObject> token(final JsonObject data, final Session session) {
         return this.stub.token(data.copy(), session);
+    }
+
+
+    @Address(Addr.Auth.IMAGE_VERIFY)
+    public Future<Boolean> imageVerity(final JsonObject request) {
+        return Sc.imageVerify(request, (normalized) -> Ux.futureT());
     }
 
     @Address(Addr.Auth.GENERATE_IMAGE)
