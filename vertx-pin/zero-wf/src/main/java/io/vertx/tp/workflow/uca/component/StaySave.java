@@ -1,10 +1,10 @@
 package io.vertx.tp.workflow.uca.component;
 
-import cn.vertxup.workflow.domain.tables.pojos.WTodo;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.workflow.atom.ConfigTodo;
 import io.vertx.tp.workflow.atom.WInstance;
+import io.vertx.tp.workflow.atom.WRecord;
 import io.vertx.up.unity.Ux;
 
 /**
@@ -12,12 +12,13 @@ import io.vertx.up.unity.Ux;
  */
 public class StaySave extends AbstractTodo implements Stay {
     @Override
-    public Future<WTodo> keepAsync(final JsonObject params, final WInstance instance) {
+    public Future<WRecord> keepAsync(final JsonObject params, final WInstance instance) {
         // Todo Updating
-        return this.todoUpdate(params).compose(todo -> {
-            final ConfigTodo configTodo = new ConfigTodo(todo);
+        return this.updateAsync(params).compose(record -> {
+            final ConfigTodo configTodo = new ConfigTodo(record);
             // Record Updating
-            return this.recordUpdate(params, configTodo).compose(nil -> Ux.future(todo));
+            return this.recordUpdate(params, configTodo)
+                .compose(nil -> Ux.future(record));
         });
     }
 }

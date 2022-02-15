@@ -23,46 +23,41 @@ import java.util.stream.Collectors;
 class JoinStore {
     /*
      * Class -> Analyzer
+     * Here each Dao class contain only one JqAnalyzer for deep analyzing
+     * and future usage.
      */
-    private transient final ConcurrentMap<Class<?>, JqAnalyzer> ANALYZERS
+    private transient final ConcurrentMap<Class<?>, JqAnalyzer> daoAnalyzer
         = new ConcurrentHashMap<>();
     /*
-     * Table prefix: Name -> Alias
+     * Table prefix: Name -> Prefix.Name
+     * Here the system append prefix to table name for duplicated column issue.
      */
-    private transient final ConcurrentMap<String, String> PREFIX_MAP
+    private transient final ConcurrentMap<String, String> tablePrefix
         = new ConcurrentHashMap<>();
     /*
      * Mapping assist for calculation
+     * Class<?> -> Table Name
+     * Table Name -> Class<?>
      */
-    private transient final ConcurrentMap<Class<?>, String> CLASS_MAP
+    private transient final ConcurrentMap<Class<?>, String> daoTable
         = new ConcurrentHashMap<>();
-    private transient final ConcurrentMap<String, Class<?>> NAME_MAP
+    private transient final ConcurrentMap<String, Class<?>> tableDao
         = new ConcurrentHashMap<>();
-    /*
-     * Field Map
-     */
-    private transient final ConcurrentMap<String, String> FIELD_TABLE_MAP
-        = new ConcurrentHashMap<>();
-    private transient final ConcurrentMap<String, Field> FIELD_MAP
-        = new ConcurrentHashMap<>();
-    /*
-     * AS Map
-     */
-    private transient final ConcurrentMap<String, String> COLUMN_MAP
-        = new ConcurrentHashMap<>();
+
+
     /*
      * Next table ( exclude the first added table here )
      */
-    private transient final List<String> TABLES = new ArrayList<>();
+    private transient final List<String> tableList = new ArrayList<>();
 
-    private transient final List<JqEdge> EDGES = new ArrayList<>();
-
+    private transient final List<JqEdge> edgeList = new ArrayList<>();
+    private transient final JoinAlias alias;
     private transient Kv<String, String> first;
     private transient JqAnalyzer firstAnalyzer;
     private transient Class<?> firstDao;
-    private JoinEngine talbe;
 
     JoinStore() {
+        this.alias = new JoinAlias();
     }
 
     <T> void join(final Class<?> daoCls, final String field) {
@@ -72,18 +67,18 @@ class JoinStore {
          * to re-design database instead of using `JOIN`
          * Because multi tables join may caused performance issue.
          */
-        if (2 < this.ANALYZERS.size()) {
+        if (2 < this.daoAnalyzer.size()) {
             throw new RuntimeException("Join table counter limitation! ");
         }
         /*
          * Stored analyzer by daoCls
          */
-        putDao(daoCls);
+        this.addDao(daoCls);
         /*
          * Build Relation
          */
-        final String toTable = this.CLASS_MAP.get(daoCls);
-        this.TABLES.add(toTable);
+        final String toTable = this.daoTable.get(daoCls);
+        this.tableList.add(toTable);
         /*
          * JqEdge
          */
@@ -91,7 +86,7 @@ class JoinStore {
             final JqEdge edge = new JqEdge();
             edge.setFrom(this.first.getKey(), this.first.getValue());
             edge.setTo(toTable, field);
-            this.EDGES.add(edge);
+            this.edgeList.add(edge);
         }
     }
 
@@ -99,25 +94,24 @@ class JoinStore {
         /*
          * Stored analyzer by daoCls
          */
-        this.putDao(daoCls);
+        this.addDao(daoCls);
         /*
          * The first
          */
-        final String firstTable = this.CLASS_MAP.get(daoCls);
+        final String firstTable = this.daoTable.get(daoCls);
         this.first = Kv.create(firstTable, field);
         /*
          * Assist for joining here
          */
         this.firstDao = daoCls;
-        this.firstAnalyzer = this.ANALYZERS.get(daoCls);
+        this.firstAnalyzer = this.daoAnalyzer.get(daoCls);
     }
 
     <T> void alias(final Class<?> daoCls, final String field, final String alias) {
-        final String tableName = this.CLASS_MAP.getOrDefault(daoCls, null);
-        final JqAnalyzer analyzer = this.ANALYZERS.get(daoCls);
+        final String tableName = this.daoTable.getOrDefault(daoCls, null);
         if (Objects.nonNull(tableName)) {
-            final Field column = analyzer.column(field);
-            this.putColumn(tableName, column, alias);
+            final JqAnalyzer analyzer = this.daoAnalyzer.get(daoCls);
+            this.alias.addAlias(analyzer, tableName, field, alias);
         }
     }
 
@@ -127,7 +121,7 @@ class JoinStore {
      * be done in banch.
      */
     <T> void pojo(final Class<?> daoCls, final String pojo) {
-        final JqAnalyzer analyzer = this.ANALYZERS.get(daoCls);
+        final JqAnalyzer analyzer = this.daoAnalyzer.get(daoCls);
         if (Objects.nonNull(analyzer)) {
             analyzer.on(pojo, daoCls);
         }
@@ -139,17 +133,12 @@ class JoinStore {
         return this.firstAnalyzer.fieldSet();
     }
 
-    String metaTableName(final String field) {
-        return this.FIELD_TABLE_MAP.get(field);
+    String metaTable(final String field) {
+        return this.alias.table(field);
     }
 
     Field metaColumn(final String field) {
-        final Field found = this.FIELD_MAP.get(field);
-        if (Objects.isNull(found)) {
-            return null;
-        } else {
-            return found;
-        }
+        return this.alias.field(field);
     }
 
 
@@ -159,23 +148,23 @@ class JoinStore {
 
     String metaPrefix(final String table) {
         Objects.requireNonNull(table);
-        return PREFIX_MAP.get(table);
+        return this.tablePrefix.get(table);
     }
 
     // -------------------- Spec Meta Operation -----------
 
 
     boolean noPrefix() {
-        return this.PREFIX_MAP.isEmpty();
+        return this.tablePrefix.isEmpty();
     }
 
     boolean hasTable() {
-        return this.TABLES.isEmpty();
+        return this.tableList.isEmpty();
     }
 
     JqAnalyzer analyzer(final String name) {
-        final Class<?> daoCls = this.NAME_MAP.get(name);
-        return this.ANALYZERS.get(daoCls);
+        final Class<?> daoCls = this.tableDao.get(name);
+        return this.daoAnalyzer.get(daoCls);
     }
 
     UxJooq jooq() {
@@ -183,48 +172,48 @@ class JoinStore {
     }
 
     UxJooq childJooq() {
-        final Set<Class<?>> analyzers = this.ANALYZERS.keySet()
+        final Set<Class<?>> analyzers = this.daoAnalyzer.keySet()
             .stream().filter(item -> !item.equals(this.firstDao))
             .collect(Collectors.toSet());
         if (1 == analyzers.size()) {
             final Class<?> daoCls = analyzers.iterator().next();
             return Ux.Jooq.on(daoCls);
         } else {
-            throw new _501NotSupportException(getClass());
+            throw new _501NotSupportException(this.getClass());
         }
     }
 
     Set<String> childKeySet() {
-        final Collection<JqAnalyzer> analyzers = this.ANALYZERS.values()
+        final Collection<JqAnalyzer> analyzers = this.daoAnalyzer.values()
             .stream().filter(item -> !item.equals(this.firstAnalyzer))
             .collect(Collectors.toSet());
         if (1 == analyzers.size()) {
             final JqAnalyzer analyzer = analyzers.iterator().next();
             return analyzer.primarySet();
         } else {
-            throw new _501NotSupportException(getClass());
+            throw new _501NotSupportException(this.getClass());
         }
     }
 
-    ConcurrentMap<String, String> mapColumn() {
-        return this.COLUMN_MAP;
+    ConcurrentMap<String, Set<String>> mapColumn() {
+        return this.alias.mapColumn();
     }
 
-    Field fieldFull(final String field) {
-        final Field original = this.FIELD_MAP.get(field);
-        return DSL.field(this.PREFIX_MAP.get(this.first.getKey()) + "." + original.getName());
+    Field field(final String field) {
+        final String prefix = this.tablePrefix.get(this.first.getKey());
+        return this.alias.field(field, prefix);
     }
 
-    Field fieldFull() {
-        return this.fieldFull(this.first.getValue());
+    Field field() {
+        return this.field(this.first.getValue());
     }
 
     JqEdge edge(final int index) {
-        return this.EDGES.get(index);
+        return this.edgeList.get(index);
     }
 
     List<String> tables() {
-        return this.TABLES;
+        return this.tableList;
     }
 
     Table<Record> tableRecord() {
@@ -232,14 +221,13 @@ class JoinStore {
     }
 
     Table<Record> tableRecord(final int index) {
-        final String table = this.TABLES.get(index);
+        final String table = this.tableList.get(index);
         return this.tableRecord(table);
     }
 
     Table<Record> tableRecord(final String tableName) {
-        final String alias = this.PREFIX_MAP.get(tableName);
-        final Table<Record> tableRecord = DSL.table(DSL.name(tableName)).as(DSL.name(alias));
-        return tableRecord;
+        final String alias = this.tablePrefix.get(tableName);
+        return DSL.table(DSL.name(tableName)).as(DSL.name(alias));
     }
 
 
@@ -255,7 +243,7 @@ class JoinStore {
         final String firstField = this.first.getValue();
         final Object value = record.getValue(firstField);
         if (Objects.nonNull(value)) {
-            this.EDGES.forEach(edge -> {
+            this.edgeList.forEach(edge -> {
                 final String toField = edge.getToField();
                 if (Objects.nonNull(toField)) {
                     joined.put(toField, value);
@@ -266,46 +254,25 @@ class JoinStore {
     }
     // -------------------- Private Operation -----------
 
-    private <T> void putDao(final Class<T> daoCls) {
+    private <T> void addDao(final Class<T> daoCls) {
         /*
          * Analyzer building
          */
         final JooqDsl dsl = JooqInfix.getDao(daoCls);
         final JqAnalyzer analyzer = JqAnalyzer.create(dsl);
         final String tableName = analyzer.table().getName();
-        this.ANALYZERS.put(daoCls, analyzer);
+        this.daoAnalyzer.put(daoCls, analyzer);
         {
-            this.CLASS_MAP.put(daoCls, tableName);
-            this.NAME_MAP.put(tableName, daoCls);
+            this.daoTable.put(daoCls, tableName);
+            this.tableDao.put(tableName, daoCls);
         }
         /*
          * Table Name -> Table Alias mapping
          */
-        final Integer size = this.ANALYZERS.size();
+        final int size = this.daoAnalyzer.size();
         final String tableAlias = "T" + size;
-        this.PREFIX_MAP.put(tableName, DSL.table(tableAlias).getName());
-        /*
-         * Field -> Table
-         */
-        final ConcurrentMap<String, Field> fields = analyzer.columns();
-        for (final String fieldName : fields.keySet()) {
-            final Field field = fields.get(fieldName);
-            this.FIELD_MAP.put(fieldName, field);
-            /*
-             * Column Field here
-             */
-            if (!this.FIELD_TABLE_MAP.containsKey(field.getName())) {
-                this.FIELD_TABLE_MAP.put(field.getName(), tableAlias);
-                /*
-                 * Prefix.Column -> Field
-                 */
-                this.putColumn(tableName, field, fieldName);
-            }
-        }
-    }
-
-    private void putColumn(final String tableName, final Field column, final String alias) {
-        final String key = '"' + tableName + "\".\"" + column.getName() + '"';
-        this.COLUMN_MAP.put(key.toUpperCase(), alias);
+        this.tablePrefix.put(tableName, DSL.table(tableAlias).getName());
+        // Alias Reference
+        this.alias.addDao(analyzer, tableName, tableAlias);
     }
 }

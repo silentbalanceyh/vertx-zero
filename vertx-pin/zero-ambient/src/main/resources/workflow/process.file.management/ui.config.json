@@ -1,0 +1,55 @@
+{
+    "canvas": {
+        "height": 240,
+        "offset": 4
+    },
+    "phase": {
+        "forbidden": [
+            "ACCEPTED",
+            "EXPIRED"
+        ]
+    },
+    "op": {
+        "$opDraft": {
+            "comment": "存草稿专用",
+            "e.start": {
+                "draft": true,
+                "status": "DRAFT",
+                "phase": "DRAFT"
+            }
+        },
+        "$opOpen": {
+            "comment": "e.start - 直接提交，e.draft - 存草稿提交",
+            "e.start": {
+                "draft": false,
+                "status": "PENDING",
+                "phase": "PENDING"
+            },
+            "e.draft": {
+                "draft": false,
+                "status": "PENDING",
+                "phase": "PENDING"
+            }
+        },
+        "$opCancel": {
+            "comment": "撤销专用",
+            "e.approve": {
+                "phase": "CANCELED"
+            }
+        },
+        "$opApprove": {
+            "comment": "审批专用",
+            "e.approve": {
+                "confirmed": true,
+                "phase": "FINISHED"
+            }
+        },
+        "$opReject": {
+            "comment": "拒绝专用",
+            "e.approve": {
+                "confirmed": false,
+                "phase": "REJECTED"
+            }
+        }
+    }
+}

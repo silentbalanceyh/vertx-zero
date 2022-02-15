@@ -39,14 +39,14 @@ class JoinSearch {
         /*
          * Started step
          */
-        final Field field = this.store.fieldFull();
+        final Field field = this.store.field();
         final SelectWhereStep started = context.select(field).from(table);
         /*
          * Condition for "criteria"
          */
         if (null != qr.getCriteria()) {
             final Condition condition = JooqCond.transform(qr.getCriteria().toJson(),
-                this.store::metaColumn, this.store::metaTableName);
+                this.store::metaColumn, this.store::metaTable);
             started.where(condition);
         }
         /*
@@ -75,7 +75,7 @@ class JoinSearch {
          */
         if (null != qr.getCriteria()) {
             final Condition condition = JooqCond.transform(qr.getCriteria().toJson(),
-                this.store::metaColumn, this.store::metaTableName);
+                this.store::metaColumn, this.store::metaTable);
             started.where(condition);
         }
         /*
@@ -83,7 +83,7 @@ class JoinSearch {
          */
         if (null != qr.getSorter()) {
             final List<OrderField> orders = JooqCond.orderBy(qr.getSorter(),
-                this.store::metaColumn, this.store::metaTableName);
+                this.store::metaColumn, this.store::metaTable);
             started.orderBy(orders);
         }
         /*

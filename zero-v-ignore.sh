@@ -14,7 +14,7 @@ cp pom-update.xml ./vertx-ifx/zero-ifx-feign/pom-update.xml
 cp pom-update.xml ./vertx-ifx/zero-ifx-history/pom-update.xml
 cp pom-update.xml ./vertx-ifx/zero-ifx-iqiy/pom-update.xml
 cp pom-update.xml ./vertx-ifx/zero-ifx-mongo/pom-update.xml
-cp pom-update.xml ./vertx-ifx/zero-ifx-native/pom-update.xml
+# cp pom-update.xml ./vertx-ifx/zero-ifx-native/pom-update.xml
 cp pom-update.xml ./vertx-ifx/zero-ifx-neo4j/pom-update.xml
 cp pom-update.xml ./vertx-ifx/zero-ifx-redis/pom-update.xml
 cp pom-update.xml ./vertx-ifx/zero-ifx-shell/pom-update.xml

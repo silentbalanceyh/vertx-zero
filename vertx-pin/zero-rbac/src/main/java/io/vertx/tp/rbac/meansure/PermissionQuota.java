@@ -19,7 +19,7 @@ public class PermissionQuota extends AbstractQuota {
     public void handle(final Promise<Status> event) {
         // Permission Pool
         final ScConfig config = ScPin.getConfig();
-        this.mapAsync(config.getPermissionPool(), map -> {
+        this.mapAsync(config.getPoolPermission(), map -> {
             System.out.println(map);
         });
     }

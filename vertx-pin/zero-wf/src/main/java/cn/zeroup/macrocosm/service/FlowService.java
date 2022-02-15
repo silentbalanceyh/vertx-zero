@@ -33,7 +33,17 @@ public class FlowService implements FlowStub {
                 final JsonObject response = new JsonObject();
                 response.mergeIn(workflow);
                 response.mergeIn(definition);
-                return Ux.future(response);
+                // configuration should be JsonObject type
+                return Ut.ifJObject(
+                    KName.Flow.CONFIG_START,
+                    KName.Flow.CONFIG_AUTHORIZED,
+                    KName.Flow.CONFIG_END,
+                    KName.Flow.CONFIG_RUN,
+                    KName.Flow.CONFIG_GENERATE,
+                    KName.Flow.UI_CONFIG,
+                    KName.Flow.UI_ASSIST,
+                    KName.Flow.UI_LINKAGE
+                ).apply(response);
             });
         });
     }

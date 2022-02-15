@@ -258,6 +258,67 @@ public class WFlowDao extends AbstractVertxDAO<WFlowRecord, cn.vertxup.workflow.
         }
 
         /**
+     * Find records that have <code>UI_COMPONENT IN (values)</code>
+     * asynchronously
+     */
+        public Future<List<cn.vertxup.workflow.domain.tables.pojos.WFlow>> findManyByUiComponent(Collection<String> values) {
+                return findManyByCondition(WFlow.W_FLOW.UI_COMPONENT.in(values));
+        }
+
+        /**
+     * Find records that have <code>UI_COMPONENT IN (values)</code>
+     * asynchronously limited by the given limit
+     */
+        public Future<List<cn.vertxup.workflow.domain.tables.pojos.WFlow>> findManyByUiComponent(Collection<String> values, int limit) {
+                return findManyByCondition(WFlow.W_FLOW.UI_COMPONENT.in(values),limit);
+        }
+
+        /**
+     * Find records that have <code>UI_CONFIG IN (values)</code> asynchronously
+     */
+        public Future<List<cn.vertxup.workflow.domain.tables.pojos.WFlow>> findManyByUiConfig(Collection<String> values) {
+                return findManyByCondition(WFlow.W_FLOW.UI_CONFIG.in(values));
+        }
+
+        /**
+     * Find records that have <code>UI_CONFIG IN (values)</code> asynchronously
+     * limited by the given limit
+     */
+        public Future<List<cn.vertxup.workflow.domain.tables.pojos.WFlow>> findManyByUiConfig(Collection<String> values, int limit) {
+                return findManyByCondition(WFlow.W_FLOW.UI_CONFIG.in(values),limit);
+        }
+
+        /**
+     * Find records that have <code>UI_ASSIST IN (values)</code> asynchronously
+     */
+        public Future<List<cn.vertxup.workflow.domain.tables.pojos.WFlow>> findManyByUiAssist(Collection<String> values) {
+                return findManyByCondition(WFlow.W_FLOW.UI_ASSIST.in(values));
+        }
+
+        /**
+     * Find records that have <code>UI_ASSIST IN (values)</code> asynchronously
+     * limited by the given limit
+     */
+        public Future<List<cn.vertxup.workflow.domain.tables.pojos.WFlow>> findManyByUiAssist(Collection<String> values, int limit) {
+                return findManyByCondition(WFlow.W_FLOW.UI_ASSIST.in(values),limit);
+        }
+
+        /**
+     * Find records that have <code>UI_LINKAGE IN (values)</code> asynchronously
+     */
+        public Future<List<cn.vertxup.workflow.domain.tables.pojos.WFlow>> findManyByUiLinkage(Collection<String> values) {
+                return findManyByCondition(WFlow.W_FLOW.UI_LINKAGE.in(values));
+        }
+
+        /**
+     * Find records that have <code>UI_LINKAGE IN (values)</code> asynchronously
+     * limited by the given limit
+     */
+        public Future<List<cn.vertxup.workflow.domain.tables.pojos.WFlow>> findManyByUiLinkage(Collection<String> values, int limit) {
+                return findManyByCondition(WFlow.W_FLOW.UI_LINKAGE.in(values),limit);
+        }
+
+        /**
      * Find records that have <code>COMMENT IN (values)</code> asynchronously
      */
         public Future<List<cn.vertxup.workflow.domain.tables.pojos.WFlow>> findManyByComment(Collection<String> values) {

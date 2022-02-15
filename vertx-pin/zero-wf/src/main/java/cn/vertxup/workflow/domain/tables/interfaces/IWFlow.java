@@ -188,6 +188,52 @@ public interface IWFlow extends VertxPojo, Serializable {
     public String getEndConfig();
 
     /**
+     * Setter for <code>DB_ETERNAL.W_FLOW.UI_COMPONENT</code>. 「uiComponent」-
+     * 界面组件
+     */
+    public IWFlow setUiComponent(String value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.W_FLOW.UI_COMPONENT</code>. 「uiComponent」-
+     * 界面组件
+     */
+    public String getUiComponent();
+
+    /**
+     * Setter for <code>DB_ETERNAL.W_FLOW.UI_CONFIG</code>. 「uiConfig」- 界面配置
+     */
+    public IWFlow setUiConfig(String value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.W_FLOW.UI_CONFIG</code>. 「uiConfig」- 界面配置
+     */
+    public String getUiConfig();
+
+    /**
+     * Setter for <code>DB_ETERNAL.W_FLOW.UI_ASSIST</code>. 「uiAssist」-
+     * 界面辅助数据专用配置
+     */
+    public IWFlow setUiAssist(String value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.W_FLOW.UI_ASSIST</code>. 「uiAssist」-
+     * 界面辅助数据专用配置
+     */
+    public String getUiAssist();
+
+    /**
+     * Setter for <code>DB_ETERNAL.W_FLOW.UI_LINKAGE</code>. 「uiLinkage」-
+     * 关联部分专用配置：关联工单、关联资产、关联附件
+     */
+    public IWFlow setUiLinkage(String value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.W_FLOW.UI_LINKAGE</code>. 「uiLinkage」-
+     * 关联部分专用配置：关联工单、关联资产、关联附件
+     */
+    public String getUiLinkage();
+
+    /**
      * Setter for <code>DB_ETERNAL.W_FLOW.COMMENT</code>. 「comment」 - 流程定义备注
      */
     public IWFlow setComment(String value);
@@ -310,6 +356,10 @@ public interface IWFlow extends VertxPojo, Serializable {
                 setOrThrow(this::setStartConfig,json::getString,"START_CONFIG","java.lang.String");
                 setOrThrow(this::setEndComponent,json::getString,"END_COMPONENT","java.lang.String");
                 setOrThrow(this::setEndConfig,json::getString,"END_CONFIG","java.lang.String");
+                setOrThrow(this::setUiComponent,json::getString,"UI_COMPONENT","java.lang.String");
+                setOrThrow(this::setUiConfig,json::getString,"UI_CONFIG","java.lang.String");
+                setOrThrow(this::setUiAssist,json::getString,"UI_ASSIST","java.lang.String");
+                setOrThrow(this::setUiLinkage,json::getString,"UI_LINKAGE","java.lang.String");
                 setOrThrow(this::setComment,json::getString,"COMMENT","java.lang.String");
                 setOrThrow(this::setActive,json::getBoolean,"ACTIVE","java.lang.Boolean");
                 setOrThrow(this::setSigma,json::getString,"SIGMA","java.lang.String");
@@ -341,6 +391,10 @@ public interface IWFlow extends VertxPojo, Serializable {
                 json.put("START_CONFIG",getStartConfig());
                 json.put("END_COMPONENT",getEndComponent());
                 json.put("END_CONFIG",getEndConfig());
+                json.put("UI_COMPONENT",getUiComponent());
+                json.put("UI_CONFIG",getUiConfig());
+                json.put("UI_ASSIST",getUiAssist());
+                json.put("UI_LINKAGE",getUiLinkage());
                 json.put("COMMENT",getComment());
                 json.put("ACTIVE",getActive());
                 json.put("SIGMA",getSigma());

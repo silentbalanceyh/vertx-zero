@@ -157,6 +157,11 @@ public class Wf {
             WfLog.info(logger, "Move", message, args);
         }
 
+        public static void infoWeb(final Class<?> clazz, final String message, final Object... args) {
+            final Annal logger = Annal.get(clazz);
+            WfLog.info(logger, "Web", message, args);
+        }
+
         public static void debugMove(final Class<?> clazz, final String message, final Object... args) {
             final Annal logger = Annal.get(clazz);
             WfLog.debug(logger, "Move", message, args);

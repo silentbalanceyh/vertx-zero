@@ -4,6 +4,8 @@ import cn.zeroup.macrocosm.cv.HighWay;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.workflow.atom.EngineOn;
+import io.vertx.tp.workflow.atom.WRecord;
+import io.vertx.tp.workflow.refine.Wf;
 import io.vertx.tp.workflow.uca.component.Movement;
 import io.vertx.tp.workflow.uca.component.Stay;
 import io.vertx.tp.workflow.uca.component.Transfer;
@@ -18,63 +20,128 @@ import io.vertx.up.unity.Ux;
 @Queue
 public class RunActor {
     /*
+    DRAFT Generation Data Request:
     {
-      "roleName" : "开发人员",
-      "typeName" : "文件管理服务",
-      "toUser" : "63b5383e-5a2e-44ec-87d4-add096aac548",
-      "toGroupMode" : "ROLE",
-      "name" : "TEST",
-      "record" : {
-        "size" : 4262533,
-        "name" : "4k0001.jpg",
-        "instance" : {
-          "uid" : "rc-upload-1636893185841-2",
-          "name" : "4k0001.jpg",
-          "key" : "b840cd3a-8510-420d-b5c1-7f030111ef21",
-          "type" : "image/jpeg",
-          "size" : 4262533,
-          "sizeUi" : "4.07MB",
-          "extension" : "jpg"
+        "openBy": "f7fbfaf9-8319-4eb0-9ee7-1948b8b56a67",
+        "toUser": "a0b1c6bc-4162-47e2-8f16-c9f4dd162739",
+        "record": {
+            "size": 1114042,
+            "name": "error.jpeg",
+            "sizeUi": "1.06MB",
+            "type": "image/jpeg",
+            "file": [
+                {
+                    "uid": "rc-upload-1643355423248-2",
+                    "name": "error.jpeg",
+                    "key": "ceafc8ec-0137-46df-a60f-38ae475b0242",
+                    "type": "image/jpeg",
+                    "size": 1114042,
+                    "sizeUi": "1.06MB",
+                    "extension": "jpeg"
+                }
+            ],
+            "category": "FILE.REQUEST",
+            "extension": "jpeg",
+            "key": "ceafc8ec-0137-46df-a60f-38ae475b0242"
         },
-        "sizeUi" : "4.07MB",
-        "type" : "image/jpeg",
-        "category" : "FILE.REQUEST",
-        "extension" : "jpg",
-        "key" : "b840cd3a-8510-420d-b5c1-7f030111ef21"
-      },
-      "toRole" : "1f27530f-38db-4662-81d4-46ea15b04205",
-      "status" : "DRAFT",
-      "userName" : "开发者",
-      "type" : "cat.doc.file",
-      "description" : "Description",
-      "language" : "cn",
-      "active" : true,
-      "sigma" : "Qxw5HDkluJFnAPmcQCtu9uhGdXEiGNtP",
-      "draft" : true,
-      "workflow" : {
-        "definitionKey" : "process.file.management",
-        "definitionId" : "process.file.management:1:6",
-        "instanceId": "instance id",
-        "language" : "cn"
-      },
-      "createdBy" : "f7fbfaf9-8319-4eb0-9ee7-1948b8b56a67",
-      "createdAt" : "2021-11-14T12:33:51.019091Z",
-      "updatedBy" : "f7fbfaf9-8319-4eb0-9ee7-1948b8b56a67",
-      "updatedAt" : "2021-11-14T12:33:51.019091Z"
+        "toUserName": "开发者",
+        "status": "DRAFT",
+        "owner": "f7fbfaf9-8319-4eb0-9ee7-1948b8b56a67",
+        "title": "TEST",
+        "catalog": "w.document.request",
+        "type": "workflow.doc",
+        "description": "<p>TEST</p>",
+        "openAt": "2022-01-28T07:37:06.141Z",
+        "ownerName": "虞浪",
+        "language": "cn",
+        "active": true,
+        "sigma": "Qxw5HDkluJFnAPmcQCtu9uhGdXEiGNtP",
+        "workflow": {
+            "definitionKey": "process.file.management",
+            "definitionId": "process.file.management:1:c80c1ad1-7fd9-11ec-b990-f60fb9ea15d8"
+        },
+        "draft": true
     }
      */
     @Me
     @Address(HighWay.Do.FLOW_START)
     public Future<JsonObject> start(final JsonObject data) {
         final EngineOn engine = EngineOn.connect(data);
-        final Transfer transfer = engine.componentStart();
-        final Movement runner = engine.componentRun();
+
         // Camunda Processing
+        final Movement runner = engine.componentRun();
+        // Transfer Processing
+        final Transfer transfer = engine.componentStart();
+
+        Wf.Log.infoWeb(this.getClass(), "Movement = {0}, Transfer = {1}",
+            runner.getClass(), transfer.getClass());
+
+
         return runner.moveAsync(data)
-            .compose(instance -> transfer.moveAsync(data, instance)
-                // Callback
-                .compose(Ux::futureJ)
-            );
+            .compose(instance -> transfer.moveAsync(data, instance))
+            .compose(WRecord::futureJ);
+    }
+
+
+    /*
+    DRAFT Saving Data Request:
+     {
+        "openBy": "f7fbfaf9-8319-4eb0-9ee7-1948b8b56a67",
+        "openByNo": "EMP00001",
+        "openByMobile": "15922611447",
+        "toUserTeam": "deeaf16d-8903-4b22-9877-01498a81d0e6",
+        "toUser": "c43efe17-2431-40ad-8ed7-7a412208003f",
+        "openByDept": "88775480-bf0b-462e-9266-063f2e9afbd1",
+        "toUserNo": "EM000004",
+        "toUserMobile": "15922611442",
+        "toUserDept": "4ee61296-bf84-499e-89df-a4d40e3f80bc",
+        "openByName": "虞浪",
+        "record": {
+            "size": 1114042,
+            "fileKey": "JdScpmRDhzYk1jlpH2vXC7dBPWxBpuCpCiC44XJz0Z4VHx0ixWLISqkktKqy1e7R",
+            "name": "error.jpeg",
+            "type": "image/jpeg",
+            "extension": "jpeg",
+            "key": "deb2cfc2-2a53-4a4f-84e5-cb479e5f5d13"
+        },
+        "toUserName": "审批者",
+        "owner": "f7fbfaf9-8319-4eb0-9ee7-1948b8b56a67",
+        "serial": "WFR22020200100015-01",
+        "toUserEmail": "approver@126.com",
+        "title": "AAA",
+        "catalog": "w.document.request",
+        "type": "workflow.doc",
+        "phase": "DRAFT",
+        "openByEmail": "silentbalanceyh@126.com",
+        "description": "<p>AAA</p>",
+        "openAt": "2022-02-02T08:37:06.000Z",
+        "openByTeam": "013e543f-0569-476a-bfb1-85fecfe4b5eb",
+        "key": "33cb12d9-a51c-4c64-adc1-cad829b9788c",
+        "language": "cn",
+        "active": true,
+        "sigma": "Qxw5HDkluJFnAPmcQCtu9uhGdXEiGNtP",
+        "workflow": {
+            "definitionKey": "process.file.management",
+            "definitionId": "process.file.management:1:549abe4c-8229-11ec-9943-c2ddbf8634fa",
+            "instanceId": "5af9ef57-8403-11ec-a2c8-acde48001122",
+            "taskId": "5b0009df-8403-11ec-a2c8-acde48001122"
+        },
+        "updatedBy": "f7fbfaf9-8319-4eb0-9ee7-1948b8b56a67",
+        "updatedAt": "2022-02-02T08:53:24.616055Z"
+    }
+     */
+    @Me
+    @Address(HighWay.Do.FLOW_DRAFT)
+    public Future<JsonObject> draft(final JsonObject data) {
+        final EngineOn engine = EngineOn.connect(data);
+
+        // Camunda Processing
+        final Stay stay = engine.stayDraft();
+
+        Wf.Log.infoWeb(this.getClass(), "Stay = {0}", stay.getClass());
+        return stay.keepAsync(data, null)
+            // Callback
+            .compose(WRecord::futureJ);
     }
 
     @Me
@@ -84,21 +151,9 @@ public class RunActor {
         final Transfer transfer = engine.componentGenerate();
         final Movement runner = engine.componentRun();
         return runner.moveAsync(data)
-            .compose(instance -> transfer.moveAsync(data, instance)
-                // Callback
-                .compose(Ux::futureJ)
-            );
-    }
-
-    @Me
-    @Address(HighWay.Do.FLOW_DRAFT)
-    public Future<JsonObject> draft(final JsonObject data) {
-        final EngineOn engine = EngineOn.connect(data);
-        // ProcessDefinition
-        final Stay stay = engine.stayDraft();
-        return stay.keepAsync(data, null)
+            .compose(instance -> transfer.moveAsync(data, instance))
             // Callback
-            .compose(Ux::futureJ);
+            .compose(WRecord::futureJ);
     }
 
     @Me

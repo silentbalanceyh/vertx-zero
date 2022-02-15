@@ -19,4 +19,10 @@ public interface FileSuffix {
     String BPMN = "bpmn";
 
     String BPMN_FORM = "form";
+
+    String IMG_PNG = "png";
+
+    String IMG_JPG = "jpg";
+
+    String IMG_JPEG = "jpeg";
 }

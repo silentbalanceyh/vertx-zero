@@ -15,6 +15,7 @@ public class XHeader implements Serializable, Json {
     private transient String appId;
     private transient String appKey;
     private transient String language;
+    private transient String session;
 
     public String getLanguage() {
         return this.language;
@@ -48,6 +49,10 @@ public class XHeader implements Serializable, Json {
         this.appKey = appKey;
     }
 
+    public String session() {
+        return this.session;
+    }
+
     @Override
     public void fromJson(final JsonObject json) {
         final XHeader header = Ut.deserialize(json, XHeader.class);
@@ -56,6 +61,7 @@ public class XHeader implements Serializable, Json {
             this.appKey = header.appKey;
             this.sigma = header.sigma;
             this.language = header.language;
+            this.session = header.session;
         }
     }
 
@@ -65,6 +71,7 @@ public class XHeader implements Serializable, Json {
             this.appKey = headers.get(ID.Header.X_APP_KEY);
             this.sigma = headers.get(ID.Header.X_SIGMA);
             this.language = headers.get(ID.Header.X_LANG);
+            this.session = headers.get(ID.Header.X_SESSION_ID);
         }
     }
 

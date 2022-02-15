@@ -5,6 +5,7 @@ package cn.vertxup.workflow.domain;
 
 
 import cn.vertxup.workflow.domain.tables.WFlow;
+import cn.vertxup.workflow.domain.tables.WTicket;
 import cn.vertxup.workflow.domain.tables.WTodo;
 
 
@@ -18,6 +19,11 @@ public class Tables {
      * The table <code>DB_ETERNAL.W_FLOW</code>.
      */
     public static final WFlow W_FLOW = WFlow.W_FLOW;
+
+    /**
+     * The table <code>DB_ETERNAL.W_TICKET</code>.
+     */
+    public static final WTicket W_TICKET = WTicket.W_TICKET;
 
     /**
      * The table <code>DB_ETERNAL.W_TODO</code>.

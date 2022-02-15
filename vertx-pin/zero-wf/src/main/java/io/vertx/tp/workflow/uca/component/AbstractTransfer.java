@@ -7,6 +7,7 @@ import io.vertx.tp.workflow.atom.ConfigTodo;
 import io.vertx.tp.workflow.atom.WMove;
 import io.vertx.up.eon.KName;
 import io.vertx.up.eon.em.ChangeFlag;
+import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
 import java.util.Objects;
@@ -39,6 +40,12 @@ public abstract class AbstractTransfer implements Behaviour {
     }
 
     @Override
+    public Behaviour bind(final ConfigTodo todo) {
+        // Not Required
+        return this;
+    }
+
+    @Override
     public Behaviour bind(final ConfigRecord record) {
         Objects.requireNonNull(record);
         this.recordKit = new KitRecord(record);
@@ -58,13 +65,21 @@ public abstract class AbstractTransfer implements Behaviour {
      * Record UPDATE Processing
      */
     protected Future<JsonObject> recordUpdate(final JsonObject params, final ConfigTodo config) {
-        return this.recordKit.updateAsync(params, config);
+        return this.recordKit.updateAsync(params, config)
+            /* Record must be put in `params` -> `record` field */
+            .compose(record -> this.recordPost(params, record));
     }
 
     /*
      * Record Indent Processing
      */
     protected Future<JsonObject> recordInsert(final JsonObject params, final ConfigTodo config) {
-        return this.recordKit.insertAsync(params, config);
+        return this.recordKit.insertAsync(params, config)
+            /* Record must be put in `params` -> `record` field */
+            .compose(record -> this.recordPost(params, record));
+    }
+
+    private Future<JsonObject> recordPost(final JsonObject params, final JsonObject record) {
+        return Ux.future(params.put(KName.RECORD, record));
     }
 }

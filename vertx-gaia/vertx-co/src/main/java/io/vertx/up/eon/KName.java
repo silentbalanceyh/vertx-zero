@@ -318,13 +318,53 @@ public interface KName {
         String COMMENT_APPROVAL = "commentApproval";
         String COMMENT_REJECT = "commentReject";
 
-        String TRACE_END = "traceEnd";
-        String TRACE_EXTRA = "traceExtra";
+        String CLOSE_CODE = "closeCode";
+        String CLOSE_KB = "closeKb";
+        String CLOSE_SOLUTION = "closeSolution";
+
+        // Trace Information Data
+        String TRACE_ID = "traceId";
+        String TRACE_KEY = "traceKey";
+        String TRACE_CODE = "traceCode";
+        String TRACE_SERIAL = "traceSerial";
+        String TASK_SERIAL = "taskSerial";
+        String TASK_CODE = "taskCode";
+
+        // Flow Field
+        String FLOW_END = "flowEnd";
+        String FLOW_DEFINITION_KEY = "flowDefinitionKey";
+        String FLOW_DEFINITION_ID = "flowDefinitionId";
+
+        // Processing
+        String CONFIG_START = "startConfig";
+        String CONFIG_END = "endConfig";
+        String CONFIG_RUN = "runConfig";
+        String CONFIG_GENERATE = "generateConfig";
+        String CONFIG_AUTHORIZED = "authorizedConfig";
+        String UI_CONFIG = "uiConfig";
+        String UI_ASSIST = "uiAssist";
+        String UI_LINKAGE = "uiLinkage";
 
         // Auditor
         interface Auditor {
             String FINISHED_BY = "finishedBy";
             String FINISHED_AT = "finishedAt";
+
+            String OPEN_BY = "openBy";
+            String CLOSE_BY = "closeBy";
+            String CLOSE_AT = "closeAt";
+            String CANCEL_BY = "cancelBy";
+            String CANCEL_AT = "cancelAt";
+
+            String OWNER = "owner";
+            String SUPERVISOR = "supervisor";
+
+            String TO_USER = "toUser";
+
+            String TO_TEAM = "toTeam";
+            String TO_DEPT = "toDept";
+            String TO_ROLE = "toRole";
+            String TO_GROUP = "toGroup";
         }
 
         // Bpmn

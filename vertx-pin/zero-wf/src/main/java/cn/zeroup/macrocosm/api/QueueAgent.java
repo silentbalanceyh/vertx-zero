@@ -26,8 +26,13 @@ public interface QueueAgent {
 
     @POST
     @Path("/up/flow-history")
-    @Address(HighWay.Queue.TASK_HISTORY)
+    @Address(HighWay.Queue.TICKET_HISTORY)
     JsonObject fetchHistory(@BodyParam JsonObject body);
+
+    @POST
+    @Path("/up/flow-ticket")
+    @Address(HighWay.Queue.TICKET_LINKAGE)
+    JsonObject searchLinkage(@BodyParam JsonObject body);
 
     /*
      * SELECT * FROM X_FLOW by code/instanceKey

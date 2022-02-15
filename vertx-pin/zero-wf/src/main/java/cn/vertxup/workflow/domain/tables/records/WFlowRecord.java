@@ -300,11 +300,85 @@ public class WFlowRecord extends UpdatableRecordImpl<WFlowRecord> implements Ver
     }
 
     /**
+     * Setter for <code>DB_ETERNAL.W_FLOW.UI_COMPONENT</code>. 「uiComponent」-
+     * 界面组件
+     */
+    @Override
+    public WFlowRecord setUiComponent(String value) {
+        set(15, value);
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.W_FLOW.UI_COMPONENT</code>. 「uiComponent」-
+     * 界面组件
+     */
+    @Override
+    public String getUiComponent() {
+        return (String) get(15);
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.W_FLOW.UI_CONFIG</code>. 「uiConfig」- 界面配置
+     */
+    @Override
+    public WFlowRecord setUiConfig(String value) {
+        set(16, value);
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.W_FLOW.UI_CONFIG</code>. 「uiConfig」- 界面配置
+     */
+    @Override
+    public String getUiConfig() {
+        return (String) get(16);
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.W_FLOW.UI_ASSIST</code>. 「uiAssist」-
+     * 界面辅助数据专用配置
+     */
+    @Override
+    public WFlowRecord setUiAssist(String value) {
+        set(17, value);
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.W_FLOW.UI_ASSIST</code>. 「uiAssist」-
+     * 界面辅助数据专用配置
+     */
+    @Override
+    public String getUiAssist() {
+        return (String) get(17);
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.W_FLOW.UI_LINKAGE</code>. 「uiLinkage」-
+     * 关联部分专用配置：关联工单、关联资产、关联附件
+     */
+    @Override
+    public WFlowRecord setUiLinkage(String value) {
+        set(18, value);
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.W_FLOW.UI_LINKAGE</code>. 「uiLinkage」-
+     * 关联部分专用配置：关联工单、关联资产、关联附件
+     */
+    @Override
+    public String getUiLinkage() {
+        return (String) get(18);
+    }
+
+    /**
      * Setter for <code>DB_ETERNAL.W_FLOW.COMMENT</code>. 「comment」 - 流程定义备注
      */
     @Override
     public WFlowRecord setComment(String value) {
-        set(15, value);
+        set(19, value);
         return this;
     }
 
@@ -313,7 +387,7 @@ public class WFlowRecord extends UpdatableRecordImpl<WFlowRecord> implements Ver
      */
     @Override
     public String getComment() {
-        return (String) get(15);
+        return (String) get(19);
     }
 
     /**
@@ -321,7 +395,7 @@ public class WFlowRecord extends UpdatableRecordImpl<WFlowRecord> implements Ver
      */
     @Override
     public WFlowRecord setActive(Boolean value) {
-        set(16, value);
+        set(20, value);
         return this;
     }
 
@@ -330,7 +404,7 @@ public class WFlowRecord extends UpdatableRecordImpl<WFlowRecord> implements Ver
      */
     @Override
     public Boolean getActive() {
-        return (Boolean) get(16);
+        return (Boolean) get(20);
     }
 
     /**
@@ -338,7 +412,7 @@ public class WFlowRecord extends UpdatableRecordImpl<WFlowRecord> implements Ver
      */
     @Override
     public WFlowRecord setSigma(String value) {
-        set(17, value);
+        set(21, value);
         return this;
     }
 
@@ -347,7 +421,7 @@ public class WFlowRecord extends UpdatableRecordImpl<WFlowRecord> implements Ver
      */
     @Override
     public String getSigma() {
-        return (String) get(17);
+        return (String) get(21);
     }
 
     /**
@@ -355,7 +429,7 @@ public class WFlowRecord extends UpdatableRecordImpl<WFlowRecord> implements Ver
      */
     @Override
     public WFlowRecord setMetadata(String value) {
-        set(18, value);
+        set(22, value);
         return this;
     }
 
@@ -364,7 +438,7 @@ public class WFlowRecord extends UpdatableRecordImpl<WFlowRecord> implements Ver
      */
     @Override
     public String getMetadata() {
-        return (String) get(18);
+        return (String) get(22);
     }
 
     /**
@@ -372,7 +446,7 @@ public class WFlowRecord extends UpdatableRecordImpl<WFlowRecord> implements Ver
      */
     @Override
     public WFlowRecord setLanguage(String value) {
-        set(19, value);
+        set(23, value);
         return this;
     }
 
@@ -381,7 +455,7 @@ public class WFlowRecord extends UpdatableRecordImpl<WFlowRecord> implements Ver
      */
     @Override
     public String getLanguage() {
-        return (String) get(19);
+        return (String) get(23);
     }
 
     /**
@@ -389,7 +463,7 @@ public class WFlowRecord extends UpdatableRecordImpl<WFlowRecord> implements Ver
      */
     @Override
     public WFlowRecord setCreatedAt(LocalDateTime value) {
-        set(20, value);
+        set(24, value);
         return this;
     }
 
@@ -398,7 +472,7 @@ public class WFlowRecord extends UpdatableRecordImpl<WFlowRecord> implements Ver
      */
     @Override
     public LocalDateTime getCreatedAt() {
-        return (LocalDateTime) get(20);
+        return (LocalDateTime) get(24);
     }
 
     /**
@@ -406,7 +480,7 @@ public class WFlowRecord extends UpdatableRecordImpl<WFlowRecord> implements Ver
      */
     @Override
     public WFlowRecord setCreatedBy(String value) {
-        set(21, value);
+        set(25, value);
         return this;
     }
 
@@ -415,7 +489,7 @@ public class WFlowRecord extends UpdatableRecordImpl<WFlowRecord> implements Ver
      */
     @Override
     public String getCreatedBy() {
-        return (String) get(21);
+        return (String) get(25);
     }
 
     /**
@@ -423,7 +497,7 @@ public class WFlowRecord extends UpdatableRecordImpl<WFlowRecord> implements Ver
      */
     @Override
     public WFlowRecord setUpdatedAt(LocalDateTime value) {
-        set(22, value);
+        set(26, value);
         return this;
     }
 
@@ -432,7 +506,7 @@ public class WFlowRecord extends UpdatableRecordImpl<WFlowRecord> implements Ver
      */
     @Override
     public LocalDateTime getUpdatedAt() {
-        return (LocalDateTime) get(22);
+        return (LocalDateTime) get(26);
     }
 
     /**
@@ -440,7 +514,7 @@ public class WFlowRecord extends UpdatableRecordImpl<WFlowRecord> implements Ver
      */
     @Override
     public WFlowRecord setUpdatedBy(String value) {
-        set(23, value);
+        set(27, value);
         return this;
     }
 
@@ -449,7 +523,7 @@ public class WFlowRecord extends UpdatableRecordImpl<WFlowRecord> implements Ver
      */
     @Override
     public String getUpdatedBy() {
-        return (String) get(23);
+        return (String) get(27);
     }
 
     // -------------------------------------------------------------------------
@@ -482,6 +556,10 @@ public class WFlowRecord extends UpdatableRecordImpl<WFlowRecord> implements Ver
         setStartConfig(from.getStartConfig());
         setEndComponent(from.getEndComponent());
         setEndConfig(from.getEndConfig());
+        setUiComponent(from.getUiComponent());
+        setUiConfig(from.getUiConfig());
+        setUiAssist(from.getUiAssist());
+        setUiLinkage(from.getUiLinkage());
         setComment(from.getComment());
         setActive(from.getActive());
         setSigma(from.getSigma());
@@ -513,7 +591,7 @@ public class WFlowRecord extends UpdatableRecordImpl<WFlowRecord> implements Ver
     /**
      * Create a detached, initialised WFlowRecord
      */
-    public WFlowRecord(String key, String name, String code, String type, String definitionKey, String authorizedComponent, String authorizedConfig, String generateComponent, String generateConfig, String runComponent, String runConfig, String startComponent, String startConfig, String endComponent, String endConfig, String comment, Boolean active, String sigma, String metadata, String language, LocalDateTime createdAt, String createdBy, LocalDateTime updatedAt, String updatedBy) {
+    public WFlowRecord(String key, String name, String code, String type, String definitionKey, String authorizedComponent, String authorizedConfig, String generateComponent, String generateConfig, String runComponent, String runConfig, String startComponent, String startConfig, String endComponent, String endConfig, String uiComponent, String uiConfig, String uiAssist, String uiLinkage, String comment, Boolean active, String sigma, String metadata, String language, LocalDateTime createdAt, String createdBy, LocalDateTime updatedAt, String updatedBy) {
         super(WFlow.W_FLOW);
 
         setKey(key);
@@ -531,6 +609,10 @@ public class WFlowRecord extends UpdatableRecordImpl<WFlowRecord> implements Ver
         setStartConfig(startConfig);
         setEndComponent(endComponent);
         setEndConfig(endConfig);
+        setUiComponent(uiComponent);
+        setUiConfig(uiConfig);
+        setUiAssist(uiAssist);
+        setUiLinkage(uiLinkage);
         setComment(comment);
         setActive(active);
         setSigma(sigma);
@@ -564,6 +646,10 @@ public class WFlowRecord extends UpdatableRecordImpl<WFlowRecord> implements Ver
             setStartConfig(value.getStartConfig());
             setEndComponent(value.getEndComponent());
             setEndConfig(value.getEndConfig());
+            setUiComponent(value.getUiComponent());
+            setUiConfig(value.getUiConfig());
+            setUiAssist(value.getUiAssist());
+            setUiLinkage(value.getUiLinkage());
             setComment(value.getComment());
             setActive(value.getActive());
             setSigma(value.getSigma());

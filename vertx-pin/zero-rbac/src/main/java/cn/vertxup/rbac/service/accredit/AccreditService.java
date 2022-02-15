@@ -52,7 +52,7 @@ public class AccreditService implements AccreditStub {
         final ScResource request = ScResource.create(requestData);
         // First Phase
         final ScConfig config = ScPin.getConfig();
-        return Rapid.<String, JsonObject>t(config.getResourcePool()).cached(request.key(), () -> {
+        return Rapid.<String, JsonObject>t(config.getPoolResource()).cached(request.key(), () -> {
             /* Fetch Action */
             final Refer actionHod = new Refer();
             // Action Checking

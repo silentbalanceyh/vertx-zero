@@ -38,7 +38,7 @@ public class MenuActor {
         final JsonObject condition = Ux.whereAnd();
         Ut.ifJAssign(data,
             KName.OWNER,
-            "page",
+            KName.Ui.PAGE,
             KName.POSITION,
             KName.TYPE
         ).apply(condition);
@@ -48,7 +48,7 @@ public class MenuActor {
         final JsonObject combine = new JsonObject();
         Ut.ifJAssign(data,
             KName.OWNER,
-            "page",
+            KName.Ui.PAGE,
             KName.POSITION,
             KName.TYPE,
             KName.LANGUAGE,
