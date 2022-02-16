@@ -129,4 +129,8 @@ public class EngineOn {
         Objects.requireNonNull(this.record);
         return this.record.getMode();
     }
+
+    public ConfigLinkage linkage() {
+        return this.linkage;
+    }
 }

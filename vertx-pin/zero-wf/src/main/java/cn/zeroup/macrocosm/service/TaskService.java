@@ -5,13 +5,22 @@ import cn.vertxup.workflow.domain.tables.daos.WTodoDao;
 import cn.vertxup.workflow.domain.tables.pojos.WTicket;
 import cn.vertxup.workflow.domain.tables.pojos.WTodo;
 import io.vertx.core.Future;
+import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
+import io.vertx.tp.ke.refine.Ke;
+import io.vertx.tp.optic.business.ExLink;
+import io.vertx.tp.workflow.atom.ConfigLinkage;
+import io.vertx.tp.workflow.atom.EngineOn;
 import io.vertx.tp.workflow.atom.WRecord;
 import io.vertx.up.eon.KName;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
 import javax.inject.Inject;
+import java.util.Objects;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
@@ -44,36 +53,94 @@ public class TaskService implements TaskStub {
         return Ux.Jooq.on(WTicketDao.class).searchAsync(combine);
     }
 
-    private Future<WRecord> readPending(final String todoKey) {
-        final WRecord record = new WRecord();
-        return Ux.Jooq.on(WTodoDao.class)
-            .<WTodo>fetchByIdAsync(todoKey).compose(Ut.ifNil(record::bind, (todo) -> {
-                // WTodo binding
-                record.bind(todo);
-                return Ux.Jooq.on(WTicketDao.class)
-                    .<WTicket>fetchByIdAsync(todo.getTraceId())
-                    .compose(Ut.ifNil(record::bind, (ticket) -> {
-                        // WTicket binding
-                        record.bind(ticket);
-                        return Ux.future(record);
-                    }));
-            }));
-    }
-
+    // ====================== Single Record
     @Override
     public Future<JsonObject> readPending(final String key, final String userId) {
-        return this.readPending(key).compose(wData -> wData.futureJ(false)
-            .compose(response -> this.aclStub.authorize(wData, userId)
+        final WRecord record = new WRecord();
+
+
+        // Read Todo Record
+        return this.readTodo(key, record)
+            // Extract traceId from WTodo
+            .compose(processed -> {
+                final WTodo todo = processed.todo();
+                return Ux.future(todo.getTraceId());
+            })
+
+
+            // Read Ticket Record
+            .compose(ticketId -> this.readTicket(ticketId, record))
+
+
+            // Linkage
+            .compose(this::readLinkage)
+
+
+            // Generate JsonObject of response
+            .compose(wData -> wData.futureJ(false))
+
+
+            // Acl Mount
+            .compose(response -> this.aclStub.authorize(record, userId)
                 .compose(acl -> Ux.future(response.put(KName.Flow.ACL, acl)))
-            ));
+            );
     }
+
+    private Future<WRecord> readTodo(final String key, final WRecord response) {
+        return Ux.Jooq.on(WTodoDao.class).<WTodo>fetchByIdAsync(key)
+            .compose(Ut.ifNil(response::bind, todo -> Ux.future(response.bind(todo))));
+    }
+
+    private Future<WRecord> readTicket(final String key, final WRecord response) {
+        return Ux.Jooq.on(WTicketDao.class).<WTicket>fetchByIdAsync(key)
+            .compose(Ut.ifNil(response::bind, ticket -> Ux.future(response.bind(ticket))));
+    }
+
+    private Future<WRecord> readLinkage(final WRecord response) {
+        final WTicket ticket = response.ticket();
+        Objects.requireNonNull(ticket);
+
+        // Connect to Workflow Engine
+        final EngineOn engine = EngineOn.connect(ticket.getFlowDefinitionKey());
+
+        // Linkage Extract
+        final ConfigLinkage linkage = engine.linkage();
+
+        if (Objects.isNull(linkage)) {
+            return Ux.future(response);
+        }
+
+        // ConcurrentMap
+        final ConcurrentMap<String, Future<JsonArray>> futures = new ConcurrentHashMap<>();
+        final Set<String> fields = linkage.fields();
+        fields.forEach(field -> {
+            final String sourceKey = ticket.getKey();
+            final JsonObject condition = linkage.condition(field);
+            condition.put(KName.SOURCE_KEY, sourceKey);
+            futures.put(field, Ke.channelAsync(ExLink.class, Ux::futureA,
+                link -> link.fetch(condition)));
+        });
+        return Ux.thenCombine(futures).compose(dataMap -> {
+            dataMap.forEach(response::linkage);
+            return Ux.future(response);
+        });
+    }
+
 
     @Override
     public Future<JsonObject> readFinished(final String key) {
-        return Ux.Jooq.on(WTicketDao.class).<WTicket>fetchByIdAsync(key)
-            .compose(ticket -> {
-                final WRecord wData = new WRecord();
-                return wData.bind(ticket).futureJ(true);
-            });
+        final WRecord record = new WRecord();
+
+
+        // Read Ticket Record
+        return this.readTicket(key, record)
+
+
+            // Linkage
+            .compose(this::readLinkage)
+
+
+            // Generate JsonObject of response
+            .compose(wData -> wData.futureJ(true));
     }
 }
