@@ -35,10 +35,10 @@ public class LinkService implements LinkStub {
         } else {
             final JsonObject criteria = Ux.whereOr();
             if (Ut.notNil(sourceKey)) {
-                criteria.put("sourceKey", sourceKey);
+                criteria.put(KName.SOURCE_KEY, sourceKey);
             }
             if (Ut.notNil(targetKey)) {
-                criteria.put("targetKey", targetKey);
+                criteria.put(KName.TARGET_KEY, targetKey);
             }
             return Ux.Jooq.on(XLinkageDao.class).fetchJAsync(criteria);
         }

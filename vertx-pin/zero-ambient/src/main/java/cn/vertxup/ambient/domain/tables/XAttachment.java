@@ -49,11 +49,11 @@ public class XAttachment extends TableImpl<XAttachmentRecord> {
      * The column <code>DB_ETERNAL.X_ATTACHMENT.TYPE</code>. 「type」-
      * 文件类型，直接关联zero.file.tree类型
      */
-    public final TableField<XAttachmentRecord, String> TYPE = createField(DSL.name("TYPE"), SQLDataType.VARCHAR(36), this, "「type」- 文件类型，直接关联zero.file.tree类型");
+    public final TableField<XAttachmentRecord, String> TYPE = createField(DSL.name("TYPE"), SQLDataType.VARCHAR(128), this, "「type」- 文件类型，直接关联zero.file.tree类型");
     /**
      * The column <code>DB_ETERNAL.X_ATTACHMENT.MIME</code>. 「mime」- 该文件的MIME类型
      */
-    public final TableField<XAttachmentRecord, String> MIME = createField(DSL.name("MIME"), SQLDataType.VARCHAR(64), this, "「mime」- 该文件的MIME类型");
+    public final TableField<XAttachmentRecord, String> MIME = createField(DSL.name("MIME"), SQLDataType.VARCHAR(128), this, "「mime」- 该文件的MIME类型");
     /**
      * The column <code>DB_ETERNAL.X_ATTACHMENT.SIZE</code>. 「size」- 该文件的尺寸
      */

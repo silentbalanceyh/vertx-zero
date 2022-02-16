@@ -2,6 +2,7 @@ package io.vertx.tp.workflow.uca.component;
 
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
+import io.vertx.tp.workflow.atom.ConfigLinkage;
 import io.vertx.tp.workflow.atom.ConfigTodo;
 import io.vertx.tp.workflow.atom.WInstance;
 import io.vertx.tp.workflow.atom.WRecord;
@@ -14,25 +15,21 @@ import java.util.Objects;
  */
 public abstract class AbstractTodo extends AbstractTransfer {
 
-    private final transient KitTodo todoKit;
-    private transient ConfigTodo todo;
-
-    public AbstractTodo() {
-        super();
-        this.todoKit = new KitTodo();
-    }
+    private transient KtTodo todoKit;
+    private transient KtLinkage linkageKit;
 
     /*
      * Overwrite the `Todo` Here
      */
     @Override
-    public Behaviour bind(final ConfigTodo todo) {
-        this.todo = todo;
+    public Behaviour bind(final ConfigTodo todo, final ConfigLinkage linkage) {
+        this.todoKit = new KtTodo(todo);
+        this.linkageKit = new KtLinkage(linkage);
         return this;
     }
 
     protected ConfigTodo config() {
-        return Objects.requireNonNull(this.todo);
+        return Objects.requireNonNull(this.todoKit.config());
     }
 
     /*
@@ -103,20 +100,26 @@ public abstract class AbstractTodo extends AbstractTransfer {
         }
          */
     protected Future<WRecord> insertAsync(final JsonObject params, final ProcessInstance instance) {
-        return this.todoKit.insertAsync(params, this.todo, instance);
+        return this.todoKit.insertAsync(params, instance)
+            // Linkage Sync
+            .compose(record -> this.linkageKit.syncAsync(params, record));
     }
 
     protected Future<WRecord> updateAsync(final JsonObject params) {
-        return this.todoKit.updateAsync(params);
+        return this.todoKit.updateAsync(params)
+            // Linkage Sync
+            .compose(record -> this.linkageKit.syncAsync(params, record));
     }
 
     protected Future<WRecord> saveAsync(final JsonObject params, final ProcessInstance instance) {
-        return this.todoKit.saveAsync(params, this.todo, instance);
+        return this.todoKit.saveAsync(params, instance)
+            // Linkage Sync
+            .compose(record -> this.linkageKit.syncAsync(params, record));
     }
 
     protected Future<WRecord> generateAsync(final WRecord record, final WInstance instance) {
         // final WTodo generated = KitTodo.inputNext(todo, instance);
-        final WRecord generated = KitTodo.nextJ(record, instance);
+        final WRecord generated = KtTodo.nextJ(record, instance);
         // return this.todoKit.generateAsync(todo, instance);
         return this.todoKit.generateAsync(generated);
     }

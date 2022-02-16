@@ -21,11 +21,22 @@ public class EngineOn {
     private final transient WFlow workflow;
     private final transient ConfigRecord record;
     private final transient ConfigTodo todo;
+    private final transient ConfigLinkage linkage;
 
     private EngineOn(final WFlow workflow) {
+        Objects.requireNonNull(workflow);
         this.workflow = workflow;
         final JsonObject sure = Ut.toJObject(workflow.getStartConfig());
+        /*
+         * Configuration for
+         * - record
+         * - todo
+         * - linkage
+         *
+         * All the configuration came from `StartConfig`
+         */
         this.record = Ux.fromJson(sure.getJsonObject(KName.RECORD, new JsonObject()), ConfigRecord.class);
+        this.linkage = Ux.fromJson(sure.getJsonObject(KName.LINKAGE, new JsonObject()), ConfigLinkage.class);
         this.todo = new ConfigTodo(sure);
     }
 
@@ -106,8 +117,10 @@ public class EngineOn {
         return (C) Fn.poolThread(WfPool.POOL_COMPONENT, () -> {
             final C instance = Ut.instance(clazz);
             instance.bind(Ut.toJObject(componentValue))
+                // Level 1, Record for Transfer
                 .bind(this.record)
-                .bind(this.todo);
+                // Level 2, Todo / Linkage for Movement
+                .bind(this.todo, this.linkage);
             return instance;
         }, componentKey.toString());       // Critical Key Pool for different record configuration
     }

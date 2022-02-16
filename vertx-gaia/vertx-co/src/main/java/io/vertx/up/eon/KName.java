@@ -71,6 +71,8 @@ public interface KName {
     String APP = "application";                  /* Reserved: */
 
     String KEY = "key";                          /* Common: primary key */
+    String TARGET_KEY = "targetKey";
+    String SOURCE_KEY = "sourceKey";
     String NAME = "name";                        /* Common: name */
     String CODE = "code";                        /* Common: code */
     String VALUE = "value";                      /* Common: value */
@@ -168,6 +170,8 @@ public interface KName {
 
     String FILE_KEY = "fileKey";                 /* XAttachment belong-to field */
     String FILE_NAME = "filename";               /* XAttachment filename */
+
+    String LINKAGE = "linkage";                  /* XLinkage instance */
 
     interface Attachment {
         String STORE_WAY = "storeWay";               /* XAttachment, store way of the file */
