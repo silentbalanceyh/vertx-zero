@@ -16,7 +16,6 @@ import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
 import javax.inject.Inject;
-import java.util.Set;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
@@ -78,7 +77,7 @@ public class LinkActor {
          * Copy to `data`
          */
         final JsonArray data = Ut.sureJArray(request, KName.DATA);
-        final Set<String> removed = Ut.toSet(request.getJsonArray("removed"));
+        final JsonArray removed = Ut.sureJArray(request, "removed");
         Ut.itJArray(data).forEach(json -> {
             Ut.jsonCopy(json, request,
                 KName.ACTIVE,
