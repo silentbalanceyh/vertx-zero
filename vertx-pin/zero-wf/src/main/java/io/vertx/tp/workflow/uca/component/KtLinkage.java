@@ -8,11 +8,13 @@ import io.vertx.tp.ke.refine.Ke;
 import io.vertx.tp.optic.business.ExLink;
 import io.vertx.tp.workflow.atom.ConfigLinkage;
 import io.vertx.tp.workflow.atom.WRecord;
+import io.vertx.tp.workflow.refine.Wf;
 import io.vertx.up.eon.KName;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
 import java.util.Objects;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.stream.Collectors;
@@ -37,7 +39,9 @@ class KtLinkage {
             return Ux.future(record);
         }
         final ConcurrentMap<String, Future<JsonArray>> futures = new ConcurrentHashMap<>();
-        this.configLinkage.fields().forEach(field -> {
+        final Set<String> fields = this.configLinkage.fields();
+        Wf.Log.infoWeb(this.getClass(), "Linkage Definition Size: {0}", fields.size());
+        fields.forEach(field -> {
             /*
              * Data Array extract from `params` based on `field`
              */
@@ -64,6 +68,22 @@ class KtLinkage {
         });
     }
 
+    @SuppressWarnings("all")
+    private void buildName(final JsonObject json, final String field, final JsonObject sourceData) {
+        // name parsing on ADD / UPDATE
+        final String literal = json.getString(field);
+        if (Ut.notNil(literal) && literal.contains("`")) {
+            final JsonObject targetData = json.getJsonObject("targetData");
+            // parameters building
+            final JsonObject parameters = new JsonObject();
+            sourceData.fieldNames()
+                .forEach(k -> parameters.put("source." + k, sourceData.getValue(k)));
+            targetData.fieldNames()
+                .forEach(k -> parameters.put("target." + k, sourceData.getValue(k)));
+            json.put(field, Ut.fromExpression(literal, parameters));
+        }
+    }
+
     private JsonArray buildData(final JsonObject params, final String field, final WTicket ticket) {
         final JsonArray linkageData = Ut.sureJArray(params, field);
         /*
@@ -75,26 +95,30 @@ class KtLinkage {
          */
         final JsonObject sourceData = Ux.toJson(ticket);
         Ut.itJArray(linkageData).forEach(json -> {
-            if (json.containsKey(KName.SOURCE_KEY)) {
-                // Updated
-                json.put(KName.SOURCE_KEY, ticket.getKey());
-            } else {
-                // Created
+            // If not `sourceKey`, here put sourceKey
+            json.put(KName.SOURCE_KEY, ticket.getKey());
+
+            // name parsing on ADD / UPDATE
+            this.buildName(json, KName.NAME, sourceData);
+
+            if (!json.containsKey(KName.CREATED_BY)) {
+                // Created new linkage
+                // - createdAt, createdBy
                 json.put(KName.CREATED_BY, params.getValue(KName.UPDATED_BY));
+                json.put(KName.CREATED_AT, params.getValue(KName.UPDATED_AT));
             }
+
+            // All information came from
             Ut.jsonCopy(json, params,
                 KName.UPDATED_BY,
+                KName.UPDATED_AT,
                 KName.ACTIVE,
                 KName.LANGUAGE,
                 KName.SIGMA
             );
 
             // Updated source data
-            json.put("sourceData", sourceData);
-
-            // Auditor Part
-            json.put(KName.UPDATED_BY, params.getValue(KName.UPDATED_BY));
-            json.put(KName.UPDATED_AT, params.getValue(KName.UPDATED_AT));
+            json.put(KName.SOURCE_DATA, sourceData);
         });
         return linkageData;
     }
