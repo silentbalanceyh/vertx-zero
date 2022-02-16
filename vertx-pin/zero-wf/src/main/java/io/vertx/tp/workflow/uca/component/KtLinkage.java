@@ -33,7 +33,7 @@ class KtLinkage {
          * Linkage Sync based on configuration
          */
         final WTicket ticket = record.ticket();
-        if (Objects.isNull(ticket)) {
+        if (Objects.isNull(ticket) || Objects.isNull(this.configLinkage)) {
             return Ux.future(record);
         }
         final ConcurrentMap<String, Future<JsonArray>> futures = new ConcurrentHashMap<>();
