@@ -16,11 +16,14 @@ import io.vertx.up.util.Ut;
 
 import java.io.Serializable;
 import java.util.Objects;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 public class WRecord implements Serializable {
+    private final transient ConcurrentMap<String, JsonArray> linkage = new ConcurrentHashMap<>();
     private transient WTicket ticket;
     private transient WTodo todo;
     private transient TodoStatus status;
@@ -39,6 +42,12 @@ public class WRecord implements Serializable {
     public WRecord bind() {
         this.todo = null;
         this.ticket = null;
+        return this;
+    }
+
+    public WRecord linkage(final String field, final JsonArray linkage) {
+        final JsonArray data = Ut.sureJArray(linkage);
+        this.linkage.put(field, data);
         return this;
     }
 
@@ -161,6 +170,10 @@ public class WRecord implements Serializable {
             );
             return Ux.Jooq.on(WTodoDao.class).fetchAsync(criteria)
                 .compose(Ux::futureA);
-        }).compose(Ux.attachJ(KName.HISTORY, response));
+        }).compose(Ux.attachJ(KName.HISTORY, response)).compose(result -> {
+            // Linkage Data Put
+            this.linkage.forEach(result::put);
+            return Ux.future(result);
+        });
     }
 }

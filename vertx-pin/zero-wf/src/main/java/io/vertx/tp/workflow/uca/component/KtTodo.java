@@ -29,7 +29,13 @@ import java.util.UUID;
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-class KitTodo {
+class KtTodo {
+    private final transient ConfigTodo todo;
+
+    KtTodo(final ConfigTodo todo) {
+        this.todo = todo;
+    }
+
     /*
      * Close current
      * {
@@ -182,8 +188,11 @@ class KitTodo {
         return new WRecord().bind(ticket).bind(entity);
     }
 
-    Future<WRecord> saveAsync(final JsonObject params, final ConfigTodo config,
-                              final ProcessInstance instance) {
+    ConfigTodo config() {
+        return this.todo;
+    }
+
+    Future<WRecord> saveAsync(final JsonObject params, final ProcessInstance instance) {
         /*
          * Ticket Data Updating
          * 1. Fetch record by `traceId` field
@@ -194,31 +203,10 @@ class KitTodo {
         final UxJooq tJq = Ux.Jooq.on(WTicketDao.class);
         return tJq.<WTicket>fetchByIdAsync(tKey).compose(ticket -> {
             if (Objects.isNull(ticket)) {
-                return this.insertAsync(params, config, instance);
+                return this.insertAsync(params, instance);
             } else {
                 return this.updateAsync(params);
             }
-        });
-    }
-
-    Future<WRecord> updateAsync(final JsonObject params) {
-        /*
-         * Ticket Data Updating
-         * 1. Extract key from `traceId` field
-         * 2. Remove `key` because here the `key` field is W_TODO
-         */
-        final String tKey = params.getString(KName.Flow.TRACE_ID);
-        return this.updateTicket(tKey, params).compose(ticket -> {
-            /*
-             * Todo Data Updating
-             * Updating the todo record for future usage
-             */
-            final String key = params.getString(KName.KEY);
-            final WRecord record = new WRecord();
-            return this.updateTodo(key, params, record).compose(todo -> {
-                record.bind(ticket).bind(todo);
-                return Ux.future(record);
-            });
         });
     }
 
@@ -261,11 +249,11 @@ class KitTodo {
         });
     }
 
-    // ------------- Todo Insert ----------------------
-    Future<WRecord> insertAsync(final JsonObject params, final ConfigTodo config,
-                                final ProcessInstance instance) {
+    // ------------- Todo Insert/Update ----------------------
+    // Save = Insert + Update
+    Future<WRecord> insertAsync(final JsonObject params, final ProcessInstance instance) {
         // Todo Build
-        return config.generate(params).compose(normalized -> {
+        return this.todo.generate(params).compose(normalized -> {
             // Ticket Workflow
             final String todoKey = normalized.getString(KName.KEY);
             normalized.remove(KName.KEY);
@@ -360,6 +348,27 @@ class KitTodo {
                         record.bind(inserted).bind(insertedTodo);
                         return Ux.future(record);
                     });
+            });
+        });
+    }
+
+    Future<WRecord> updateAsync(final JsonObject params) {
+        /*
+         * Ticket Data Updating
+         * 1. Extract key from `traceId` field
+         * 2. Remove `key` because here the `key` field is W_TODO
+         */
+        final String tKey = params.getString(KName.Flow.TRACE_ID);
+        return this.updateTicket(tKey, params).compose(ticket -> {
+            /*
+             * Todo Data Updating
+             * Updating the todo record for future usage
+             */
+            final String key = params.getString(KName.KEY);
+            final WRecord record = new WRecord();
+            return this.updateTodo(key, params, record).compose(todo -> {
+                record.bind(ticket).bind(todo);
+                return Ux.future(record);
             });
         });
     }

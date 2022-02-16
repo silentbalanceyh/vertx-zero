@@ -19,7 +19,7 @@ public class TransferStandard extends AbstractTodo implements Transfer {
     @Override
     public Future<WRecord> moveAsync(final JsonObject params, final WInstance wInstance) {
         // Update current todo information
-        final JsonObject updatedData = KitTodo.closeJ(params, wInstance);
+        final JsonObject updatedData = KtTodo.closeJ(params, wInstance);
         /*
          * Check if create new ticket with todo here.
          * 1. Submit Direct

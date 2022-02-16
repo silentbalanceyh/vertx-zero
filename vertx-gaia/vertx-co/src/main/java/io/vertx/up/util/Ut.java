@@ -46,10 +46,17 @@ public final class Ut {
         return Jackson.sureJArray(array);
     }
 
+    public static JsonArray sureJArray(final JsonObject input, final String field) {
+        return Jackson.sureJArray(input, field);
+    }
+
     public static JsonObject sureJObject(final JsonObject object) {
         return Jackson.sureJObject(object);
     }
 
+    public static JsonObject sureJObject(final JsonObject input, final String field) {
+        return Jackson.sureJObject(input, field);
+    }
     /*
      * Set Calculating
      * 1) intersect:    Set1 And Set2

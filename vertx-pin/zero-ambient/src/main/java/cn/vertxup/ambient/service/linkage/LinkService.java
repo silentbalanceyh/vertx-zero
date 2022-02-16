@@ -35,10 +35,10 @@ public class LinkService implements LinkStub {
         } else {
             final JsonObject criteria = Ux.whereOr();
             if (Ut.notNil(sourceKey)) {
-                criteria.put("sourceKey", sourceKey);
+                criteria.put(KName.SOURCE_KEY, sourceKey);
             }
             if (Ut.notNil(targetKey)) {
-                criteria.put("targetKey", targetKey);
+                criteria.put(KName.TARGET_KEY, targetKey);
             }
             return Ux.Jooq.on(XLinkageDao.class).fetchJAsync(criteria);
         }
@@ -49,6 +49,9 @@ public class LinkService implements LinkStub {
         final List<XLinkage> queueA = new ArrayList<>();
         final List<XLinkage> queueU = new ArrayList<>();
         Ut.itJArray(batchData).forEach(json -> {
+            // Cannot deserialize value of type `java.lang.String` from Object value (token `JsonToken.START_OBJECT`)
+            this.calcData(json, KName.SOURCE_DATA);
+            this.calcData(json, KName.TARGET_DATA);
             if (json.containsKey("linkKey")) {
                 // Update Directly
                 // json.remove(KName.KEY);
@@ -63,7 +66,19 @@ public class LinkService implements LinkStub {
         final List<Future<List<XLinkage>>> futures = new ArrayList<>();
         futures.add(jooq.insertAsync(queueA));
         futures.add(jooq.updateAsync(queueU));
-        return Ux.thenCombineArrayT(futures).compose(Ux::futureA);
+        return Ux.thenCombineArrayT(futures)
+            .compose(Ux::futureA)
+            .compose(Ut.ifJArray(KName.SOURCE_DATA, KName.TARGET_DATA));
+    }
+
+    @Override
+    public Future<JsonArray> syncB(final JsonArray data, final JsonArray removed) {
+        // Deleting
+        final JsonObject condition = new JsonObject();
+        condition.put("key,i", removed);
+        return Ux.Jooq.on(XLinkageDao.class).deleteByAsync(condition)
+            // Saving
+            .compose(deleted -> this.saving(data, false));
     }
 
     @Override
@@ -72,9 +87,20 @@ public class LinkService implements LinkStub {
         return Ux.Jooq.on(XLinkageDao.class).insertJAsync(data);
     }
 
+    private void calcData(final JsonObject json, final String field) {
+        if (json.containsKey(field)) {
+            final Object value = json.getValue(field);
+            if (value instanceof JsonObject) {
+                json.put(field, ((JsonObject) value).encode());
+            } else if (value instanceof JsonArray) {
+                json.put(field, ((JsonArray) value).encode());
+            }
+        }
+    }
+
     private void calcKey(final JsonObject json, final boolean vector) {
-        final String sourceKey = json.getString("sourceKey");
-        final String targetKey = json.getString("targetKey");
+        final String sourceKey = json.getString(KName.SOURCE_KEY);
+        final String targetKey = json.getString(KName.TARGET_KEY);
         final String seed;
         if (vector) {
             // Vector ( Un-Sorted )

@@ -21,4 +21,6 @@ public interface LinkStub {
     Future<JsonArray> saving(JsonArray batchData, boolean vector);
 
     Future<JsonObject> create(JsonObject data, boolean vector);
+
+    Future<JsonArray> syncB(JsonArray data, JsonArray removed);
 }

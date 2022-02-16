@@ -16,6 +16,9 @@ import java.util.Objects;
 import java.util.Set;
 
 /**
+ * The workflow config instance for deployment
+ * the data came from `yml` file instead of `json`
+ *
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 public class ConfigWorkflow {

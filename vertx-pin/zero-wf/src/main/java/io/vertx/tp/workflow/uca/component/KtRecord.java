@@ -15,10 +15,10 @@ import java.util.Objects;
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-class KitRecord {
+class KtRecord {
     private final transient ConfigRecord configRecord;
 
-    KitRecord(final ConfigRecord recordConfig) {
+    KtRecord(final ConfigRecord recordConfig) {
         this.configRecord = recordConfig;
     }
 

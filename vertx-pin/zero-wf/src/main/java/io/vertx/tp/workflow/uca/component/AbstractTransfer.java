@@ -2,6 +2,7 @@ package io.vertx.tp.workflow.uca.component;
 
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
+import io.vertx.tp.workflow.atom.ConfigLinkage;
 import io.vertx.tp.workflow.atom.ConfigRecord;
 import io.vertx.tp.workflow.atom.ConfigTodo;
 import io.vertx.tp.workflow.atom.WMove;
@@ -21,7 +22,7 @@ public abstract class AbstractTransfer implements Behaviour {
     protected final transient JsonObject config = new JsonObject();
     private final transient ConcurrentMap<String, WMove> moveMap = new ConcurrentHashMap<>();
 
-    private transient KitRecord recordKit;
+    private transient KtRecord recordKit;
 
     @Override
     public Behaviour bind(final JsonObject config) {
@@ -40,15 +41,15 @@ public abstract class AbstractTransfer implements Behaviour {
     }
 
     @Override
-    public Behaviour bind(final ConfigTodo todo) {
-        // Not Required
+    public Behaviour bind(final ConfigTodo todo, final ConfigLinkage linkage) {
+        // Not Required for this component
         return this;
     }
 
     @Override
     public Behaviour bind(final ConfigRecord record) {
         Objects.requireNonNull(record);
-        this.recordKit = new KitRecord(record);
+        this.recordKit = new KtRecord(record);
         return this;
     }
 

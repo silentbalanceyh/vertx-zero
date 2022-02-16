@@ -265,7 +265,7 @@ public class XLinkageRecord extends UpdatableRecordImpl<XLinkageRecord> implemen
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.X_LINKAGE.TARGET_DATA</code>. 「tourceData」-
+     * Setter for <code>DB_ETERNAL.X_LINKAGE.TARGET_DATA</code>. 「targetData」-
      * 目标记录Json格式
      */
     @Override
@@ -275,7 +275,7 @@ public class XLinkageRecord extends UpdatableRecordImpl<XLinkageRecord> implemen
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.X_LINKAGE.TARGET_DATA</code>. 「tourceData」-
+     * Getter for <code>DB_ETERNAL.X_LINKAGE.TARGET_DATA</code>. 「targetData」-
      * 目标记录Json格式
      */
     @Override
