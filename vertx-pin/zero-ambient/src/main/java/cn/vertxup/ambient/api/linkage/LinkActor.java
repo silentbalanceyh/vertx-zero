@@ -13,8 +13,10 @@ import io.vertx.up.commune.config.XHeader;
 import io.vertx.up.eon.KName;
 import io.vertx.up.uca.jooq.UxJooq;
 import io.vertx.up.unity.Ux;
+import io.vertx.up.util.Ut;
 
 import javax.inject.Inject;
+import java.util.Set;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
@@ -67,6 +69,30 @@ public class LinkActor {
     @Address(Addr.Linkage.ADD_NEW_V)
     public Future<JsonObject> addNewV(final JsonObject data) {
         return this.stub.create(data, true);
+    }
+
+    @Me
+    @Address(Addr.Linkage.SYNC_B)
+    public Future<JsonArray> syncB(final JsonObject request) {
+        /*
+         * Copy to `data`
+         */
+        final JsonArray data = Ut.sureJArray(request, KName.DATA);
+        final Set<String> removed = Ut.toSet(request.getJsonArray("removed"));
+        Ut.itJArray(data).forEach(json -> {
+            Ut.jsonCopy(json, request,
+                KName.ACTIVE,
+                KName.LANGUAGE,
+                KName.SIGMA,
+                KName.UPDATED_BY,
+                KName.UPDATED_AT
+            );
+            if (!json.containsKey(KName.CREATED_BY)) {
+                json.put(KName.CREATED_AT, request.getValue(KName.UPDATED_AT));
+                json.put(KName.CREATED_BY, request.getValue(KName.UPDATED_BY));
+            }
+        });
+        return this.stub.syncB(data, removed);
     }
 
     @Address(Addr.Linkage.FETCH_BY_KEY)

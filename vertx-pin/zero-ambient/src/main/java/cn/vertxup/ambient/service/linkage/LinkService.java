@@ -70,6 +70,14 @@ public class LinkService implements LinkStub {
     }
 
     @Override
+    public Future<JsonArray> syncB(final JsonArray data, final Collection<String> removed) {
+        // Deleting
+        return Ux.Jooq.on(XLinkageDao.class).deleteByIdAsync(removed)
+            // Saving
+            .compose(deleted -> this.saving(data, false));
+    }
+
+    @Override
     public Future<JsonObject> create(final JsonObject data, final boolean vector) {
         this.calcKey(data, vector);
         return Ux.Jooq.on(XLinkageDao.class).insertJAsync(data);

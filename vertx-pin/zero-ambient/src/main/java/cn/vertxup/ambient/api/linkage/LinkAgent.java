@@ -64,6 +64,20 @@ public interface LinkAgent {
     @Address(Addr.Linkage.SAVE_BATCH_V)
     JsonArray batchSaveV(@BodyParam JsonArray data);
 
+    /*
+     * Three part of following:
+     * {
+     *     removed: []
+     *     data: []
+     * }
+     * - removed: key set of removed linkage, the key is X_LINKAGE primary key
+     * - data: JsonArray data of linkage that should be stored.
+     */
+    @POST
+    @Path("/linkage/b/sync")
+    @Address(Addr.Linkage.SYNC_B)
+    JsonArray syncB(@BodyParam JsonObject request);
+
     // ----------------- Spec for CRUD
     @POST
     @Path("/linkage/b/:type")
