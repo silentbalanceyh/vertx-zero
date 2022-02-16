@@ -74,7 +74,7 @@ public interface LinkAgent {
      * - data: JsonArray data of linkage that should be stored.
      */
     @POST
-    @Path("/linkage/b/sync")
+    @Path("/linkage/sync/b")
     @Address(Addr.Linkage.SYNC_B)
     JsonArray syncB(@BodyParam JsonObject request);
 
