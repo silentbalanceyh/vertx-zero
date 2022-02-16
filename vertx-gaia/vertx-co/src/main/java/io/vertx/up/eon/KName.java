@@ -71,8 +71,6 @@ public interface KName {
     String APP = "application";                  /* Reserved: */
 
     String KEY = "key";                          /* Common: primary key */
-    String TARGET_KEY = "targetKey";
-    String SOURCE_KEY = "sourceKey";
     String NAME = "name";                        /* Common: name */
     String CODE = "code";                        /* Common: code */
     String VALUE = "value";                      /* Common: value */
@@ -106,6 +104,11 @@ public interface KName {
     String SOURCE_NORM = "sourceNorm";           /* sourceNorm */
     String SOURCE_EXPR = "sourceExpression";     /* sourceExpression */
     String SOURCE_EXPR_CHAIN = "sourceExprChain";/* sourceExpressionChain */
+
+    String TARGET_KEY = "targetKey";
+    String TARGET_DATA = "targetData";
+    String SOURCE_KEY = "sourceKey";
+
 
     String EPSILON = "epsilon";                  /* Dictionary Consumer */
     String FORMAT = "format";                    /* DataFormat json configuration of uniform */

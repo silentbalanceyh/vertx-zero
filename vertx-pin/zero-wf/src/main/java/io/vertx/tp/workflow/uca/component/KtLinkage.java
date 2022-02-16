@@ -73,7 +73,7 @@ public class KtLinkage {
         // name parsing on ADD / UPDATE
         final String literal = json.getString(field);
         if (Ut.notNil(literal) && literal.contains("`")) {
-            final JsonObject targetData = json.getJsonObject("targetData");
+            final JsonObject targetData = json.getJsonObject(KName.TARGET_DATA);
             // parameters building
             final JsonObject parameters = new JsonObject();
             sourceData.fieldNames()

@@ -6,6 +6,7 @@ import cn.vertxup.ambient.service.linkage.LinkStub;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
+import io.vertx.up.eon.KName;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
@@ -26,6 +27,9 @@ public class ExLinkage implements ExLink {
 
     @Override
     public Future<JsonArray> fetch(final JsonObject criteria) {
-        return Ux.Jooq.on(XLinkageDao.class).fetchJAsync(criteria);
+        return Ux.Jooq.on(XLinkageDao.class).fetchJAsync(criteria).compose(Ut.ifJArray(
+            KName.SOURCE_DATA,
+            KName.TARGET_DATA
+        ));
     }
 }

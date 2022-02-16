@@ -51,7 +51,7 @@ public class LinkService implements LinkStub {
         Ut.itJArray(batchData).forEach(json -> {
             // Cannot deserialize value of type `java.lang.String` from Object value (token `JsonToken.START_OBJECT`)
             this.calcData(json, KName.SOURCE_DATA);
-            this.calcData(json, "targetData");
+            this.calcData(json, KName.TARGET_DATA);
             if (json.containsKey("linkKey")) {
                 // Update Directly
                 // json.remove(KName.KEY);
