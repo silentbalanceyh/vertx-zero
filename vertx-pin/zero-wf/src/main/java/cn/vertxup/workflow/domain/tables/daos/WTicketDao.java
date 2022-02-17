@@ -176,6 +176,37 @@ public class WTicketDao extends AbstractVertxDAO<WTicketRecord, cn.vertxup.workf
         }
 
         /**
+     * Find records that have <code>MODEL_CHILD IN (values)</code>
+     * asynchronously
+     */
+        public Future<List<cn.vertxup.workflow.domain.tables.pojos.WTicket>> findManyByModelChild(Collection<String> values) {
+                return findManyByCondition(WTicket.W_TICKET.MODEL_CHILD.in(values));
+        }
+
+        /**
+     * Find records that have <code>MODEL_CHILD IN (values)</code>
+     * asynchronously limited by the given limit
+     */
+        public Future<List<cn.vertxup.workflow.domain.tables.pojos.WTicket>> findManyByModelChild(Collection<String> values, int limit) {
+                return findManyByCondition(WTicket.W_TICKET.MODEL_CHILD.in(values),limit);
+        }
+
+        /**
+     * Find records that have <code>QUANTITY IN (values)</code> asynchronously
+     */
+        public Future<List<cn.vertxup.workflow.domain.tables.pojos.WTicket>> findManyByQuantity(Collection<Integer> values) {
+                return findManyByCondition(WTicket.W_TICKET.QUANTITY.in(values));
+        }
+
+        /**
+     * Find records that have <code>QUANTITY IN (values)</code> asynchronously
+     * limited by the given limit
+     */
+        public Future<List<cn.vertxup.workflow.domain.tables.pojos.WTicket>> findManyByQuantity(Collection<Integer> values, int limit) {
+                return findManyByCondition(WTicket.W_TICKET.QUANTITY.in(values),limit);
+        }
+
+        /**
      * Find records that have <code>FLOW_DEFINITION_KEY IN (values)</code>
      * asynchronously
      */

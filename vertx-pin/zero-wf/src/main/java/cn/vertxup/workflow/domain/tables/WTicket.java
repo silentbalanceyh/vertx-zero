@@ -76,6 +76,16 @@ public class WTicket extends TableImpl<WTicketRecord> {
      */
     public final TableField<WTicketRecord, String> MODEL_COMPONENT = createField(DSL.name("MODEL_COMPONENT"), SQLDataType.VARCHAR(255), this, "「modelComponent」- 关联的待办组件记录");
     /**
+     * The column <code>DB_ETERNAL.W_TICKET.MODEL_CHILD</code>. 「modelChild」-
+     * 关联多个模型的记录ID，JsonArray格式
+     */
+    public final TableField<WTicketRecord, String> MODEL_CHILD = createField(DSL.name("MODEL_CHILD"), SQLDataType.CLOB, this, "「modelChild」- 关联多个模型的记录ID，JsonArray格式");
+    /**
+     * The column <code>DB_ETERNAL.W_TICKET.QUANTITY</code>. 「quantity」-
+     * 数量信息，多个模型记录时统计模型总数
+     */
+    public final TableField<WTicketRecord, Integer> QUANTITY = createField(DSL.name("QUANTITY"), SQLDataType.INTEGER, this, "「quantity」- 数量信息，多个模型记录时统计模型总数");
+    /**
      * The column <code>DB_ETERNAL.W_TICKET.FLOW_DEFINITION_KEY</code>.
      * 「flowDefinitionKey」- 流程定义的KEY, getProcessDefinitionKey
      */

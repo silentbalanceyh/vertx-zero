@@ -30,6 +30,8 @@ public class WTicket implements VertxPojo, IWTicket {
     private String        modelKey;
     private String        modelCategory;
     private String        modelComponent;
+    private String        modelChild;
+    private Integer       quantity;
     private String        flowDefinitionKey;
     private String        flowDefinitionId;
     private String        flowInstanceId;
@@ -72,6 +74,8 @@ public class WTicket implements VertxPojo, IWTicket {
         this.modelKey = value.getModelKey();
         this.modelCategory = value.getModelCategory();
         this.modelComponent = value.getModelComponent();
+        this.modelChild = value.getModelChild();
+        this.quantity = value.getQuantity();
         this.flowDefinitionKey = value.getFlowDefinitionKey();
         this.flowDefinitionId = value.getFlowDefinitionId();
         this.flowInstanceId = value.getFlowInstanceId();
@@ -113,6 +117,8 @@ public class WTicket implements VertxPojo, IWTicket {
         String        modelKey,
         String        modelCategory,
         String        modelComponent,
+        String        modelChild,
+        Integer       quantity,
         String        flowDefinitionKey,
         String        flowDefinitionId,
         String        flowInstanceId,
@@ -152,6 +158,8 @@ public class WTicket implements VertxPojo, IWTicket {
         this.modelKey = modelKey;
         this.modelCategory = modelCategory;
         this.modelComponent = modelComponent;
+        this.modelChild = modelChild;
+        this.quantity = quantity;
         this.flowDefinitionKey = flowDefinitionKey;
         this.flowDefinitionId = flowDefinitionId;
         this.flowInstanceId = flowInstanceId;
@@ -366,6 +374,44 @@ public class WTicket implements VertxPojo, IWTicket {
     @Override
     public WTicket setModelComponent(String modelComponent) {
         this.modelComponent = modelComponent;
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.W_TICKET.MODEL_CHILD</code>. 「modelChild」-
+     * 关联多个模型的记录ID，JsonArray格式
+     */
+    @Override
+    public String getModelChild() {
+        return this.modelChild;
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.W_TICKET.MODEL_CHILD</code>. 「modelChild」-
+     * 关联多个模型的记录ID，JsonArray格式
+     */
+    @Override
+    public WTicket setModelChild(String modelChild) {
+        this.modelChild = modelChild;
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.W_TICKET.QUANTITY</code>. 「quantity」-
+     * 数量信息，多个模型记录时统计模型总数
+     */
+    @Override
+    public Integer getQuantity() {
+        return this.quantity;
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.W_TICKET.QUANTITY</code>. 「quantity」-
+     * 数量信息，多个模型记录时统计模型总数
+     */
+    @Override
+    public WTicket setQuantity(Integer quantity) {
+        this.quantity = quantity;
         return this;
     }
 
@@ -873,6 +919,8 @@ public class WTicket implements VertxPojo, IWTicket {
         sb.append(", ").append(modelKey);
         sb.append(", ").append(modelCategory);
         sb.append(", ").append(modelComponent);
+        sb.append(", ").append(modelChild);
+        sb.append(", ").append(quantity);
         sb.append(", ").append(flowDefinitionKey);
         sb.append(", ").append(flowDefinitionId);
         sb.append(", ").append(flowInstanceId);
@@ -922,6 +970,8 @@ public class WTicket implements VertxPojo, IWTicket {
         setModelKey(from.getModelKey());
         setModelCategory(from.getModelCategory());
         setModelComponent(from.getModelComponent());
+        setModelChild(from.getModelChild());
+        setQuantity(from.getQuantity());
         setFlowDefinitionKey(from.getFlowDefinitionKey());
         setFlowDefinitionId(from.getFlowDefinitionId());
         setFlowInstanceId(from.getFlowInstanceId());
