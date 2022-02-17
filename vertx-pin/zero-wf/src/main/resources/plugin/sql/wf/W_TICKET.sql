@@ -31,9 +31,11 @@ CREATE TABLE IF NOT EXISTS W_TICKET
      * -- MODEL_KEY（记录专用主键）
      * -- MODEL_CATEGORY（关联的category记录）
      *
-     *                  WTicket       T_??       Model
-     * 文件管理             1           0           1
-     * 资产入库             1           1           N
+     *                  WTicket       T_??              Model
+     * 文件管理             1           0                   1
+     * 资产入库             1         1 x ASSET_IN          N
+     * 资产出库             1         1 x ASSET_OUT         N
+     * 资产报废             1         1 x ASSET_KO          N
      * -- MODEL_CHILD 只有在 Model = N 的时候使用，在 Model = N 时，还依赖另外一张 T_?? 的单据表，单据中
      *    存储了主单没有的特殊信息，此时MODEL_CHILD中存储的是相关实体的主键集，为JsonArray格式
      */

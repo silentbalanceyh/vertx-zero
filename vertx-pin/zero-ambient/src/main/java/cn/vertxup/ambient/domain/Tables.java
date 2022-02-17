@@ -15,8 +15,10 @@ import cn.vertxup.ambient.domain.tables.XLinkage;
 import cn.vertxup.ambient.domain.tables.XLog;
 import cn.vertxup.ambient.domain.tables.XMenu;
 import cn.vertxup.ambient.domain.tables.XMenuMy;
+import cn.vertxup.ambient.domain.tables.XMessage;
+import cn.vertxup.ambient.domain.tables.XMessageTpl;
 import cn.vertxup.ambient.domain.tables.XModule;
-import cn.vertxup.ambient.domain.tables.XNotification;
+import cn.vertxup.ambient.domain.tables.XNotice;
 import cn.vertxup.ambient.domain.tables.XNumber;
 import cn.vertxup.ambient.domain.tables.XSource;
 import cn.vertxup.ambient.domain.tables.XTabular;
@@ -84,14 +86,24 @@ public class Tables {
     public static final XMenuMy X_MENU_MY = XMenuMy.X_MENU_MY;
 
     /**
+     * The table <code>DB_ETERNAL.X_MESSAGE</code>.
+     */
+    public static final XMessage X_MESSAGE = XMessage.X_MESSAGE;
+
+    /**
+     * The table <code>DB_ETERNAL.X_MESSAGE_TPL</code>.
+     */
+    public static final XMessageTpl X_MESSAGE_TPL = XMessageTpl.X_MESSAGE_TPL;
+
+    /**
      * The table <code>DB_ETERNAL.X_MODULE</code>.
      */
     public static final XModule X_MODULE = XModule.X_MODULE;
 
     /**
-     * The table <code>DB_ETERNAL.X_NOTIFICATION</code>.
+     * The table <code>DB_ETERNAL.X_NOTICE</code>.
      */
-    public static final XNotification X_NOTIFICATION = XNotification.X_NOTIFICATION;
+    public static final XNotice X_NOTICE = XNotice.X_NOTICE;
 
     /**
      * The table <code>DB_ETERNAL.X_NUMBER</code>.

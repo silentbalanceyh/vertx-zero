@@ -40,11 +40,17 @@ databaseChangeLog:
       file: plugin/sql/ambient/X_EMAIL_SERVER.sql
       relativeToChangelogFile: false
   - include:
-      file: plugin/sql/ambient/X_NOTIFICATION.sql
-      relativeToChangelogFile: false
-  - include:
       file: plugin/sql/ambient/X_INTEGRATION.sql
       relativeToChangelogFile: false
   - include:
       file: plugin/sql/ambient/X_LINKAGE.sql
+      relativeToChangelogFile: false
+  - include:
+      file: plugin/sql/ambient/X_MESSAGE_TPL.sql
+      relativeToChangelogFile: false
+  - include:
+      file: plugin/sql/ambient/X_MESSAGE.sql
+      relativeToChangelogFile: false
+  - include:
+      file: plugin/sql/ambient/X_NOTICE.sql
       relativeToChangelogFile: false
