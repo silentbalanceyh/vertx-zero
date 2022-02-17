@@ -6,12 +6,11 @@ DROP TABLE IF EXISTS X_NOTICE;
 CREATE TABLE IF NOT EXISTS X_NOTICE
 (
     `KEY`        VARCHAR(36) COMMENT '「key」- 公告主键',
-    `NAME`       VARCHAR(255) COMMENT '「name」- 公告名称',
-    `CODE`       VARCHAR(36) COMMENT '「code」- 公告编码',
+    `NAME`       VARCHAR(255) COMMENT '「name」- 公告标题',
+    `CODE`       VARCHAR(255) COMMENT '「code」- 公告编码',
     `TYPE`       VARCHAR(255) COMMENT '「type」- 公告类型',
 
     `STATUS`     VARCHAR(255) COMMENT '「status」- 公告状态',
-    `SUBJECT`    VARCHAR(255) COMMENT '「subject」- 公告标题',
     `CONTENT`    LONGTEXT COMMENT '「content」- 公告内容',
     `EXPIRED_AT` DATETIME COMMENT '「createdAt」- 公告到期时间',
 

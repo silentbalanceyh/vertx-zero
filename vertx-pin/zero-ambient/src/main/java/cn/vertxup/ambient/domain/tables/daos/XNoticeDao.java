@@ -99,21 +99,6 @@ public class XNoticeDao extends AbstractVertxDAO<XNoticeRecord, cn.vertxup.ambie
         }
 
         /**
-     * Find records that have <code>SUBJECT IN (values)</code> asynchronously
-     */
-        public Future<List<cn.vertxup.ambient.domain.tables.pojos.XNotice>> findManyBySubject(Collection<String> values) {
-                return findManyByCondition(XNotice.X_NOTICE.SUBJECT.in(values));
-        }
-
-        /**
-     * Find records that have <code>SUBJECT IN (values)</code> asynchronously
-     * limited by the given limit
-     */
-        public Future<List<cn.vertxup.ambient.domain.tables.pojos.XNotice>> findManyBySubject(Collection<String> values, int limit) {
-                return findManyByCondition(XNotice.X_NOTICE.SUBJECT.in(values),limit);
-        }
-
-        /**
      * Find records that have <code>CONTENT IN (values)</code> asynchronously
      */
         public Future<List<cn.vertxup.ambient.domain.tables.pojos.XNotice>> findManyByContent(Collection<String> values) {

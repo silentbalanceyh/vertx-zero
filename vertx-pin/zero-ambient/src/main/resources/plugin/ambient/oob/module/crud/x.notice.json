@@ -1,4 +1,12 @@
 {
     "name": "x-notice",
-    "daoCls": "cn.vertxup.ambient.domain.tables.daos.XNoticeDao"
+    "daoCls": "cn.vertxup.ambient.domain.tables.daos.XNoticeDao",
+    "field": {
+        "unique": [
+            [
+                "name",
+                "appId"
+            ]
+        ]
+    }
 }

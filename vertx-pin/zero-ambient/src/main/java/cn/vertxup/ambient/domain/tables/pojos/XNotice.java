@@ -25,7 +25,6 @@ public class XNotice implements VertxPojo, IXNotice {
     private String        code;
     private String        type;
     private String        status;
-    private String        subject;
     private String        content;
     private LocalDateTime expiredAt;
     private String        appId;
@@ -46,7 +45,6 @@ public class XNotice implements VertxPojo, IXNotice {
         this.code = value.getCode();
         this.type = value.getType();
         this.status = value.getStatus();
-        this.subject = value.getSubject();
         this.content = value.getContent();
         this.expiredAt = value.getExpiredAt();
         this.appId = value.getAppId();
@@ -66,7 +64,6 @@ public class XNotice implements VertxPojo, IXNotice {
         String        code,
         String        type,
         String        status,
-        String        subject,
         String        content,
         LocalDateTime expiredAt,
         String        appId,
@@ -84,7 +81,6 @@ public class XNotice implements VertxPojo, IXNotice {
         this.code = code;
         this.type = type;
         this.status = status;
-        this.subject = subject;
         this.content = content;
         this.expiredAt = expiredAt;
         this.appId = appId;
@@ -121,7 +117,7 @@ public class XNotice implements VertxPojo, IXNotice {
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.X_NOTICE.NAME</code>. 「name」- 公告名称
+     * Getter for <code>DB_ETERNAL.X_NOTICE.NAME</code>. 「name」- 公告标题
      */
     @Override
     public String getName() {
@@ -129,7 +125,7 @@ public class XNotice implements VertxPojo, IXNotice {
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.X_NOTICE.NAME</code>. 「name」- 公告名称
+     * Setter for <code>DB_ETERNAL.X_NOTICE.NAME</code>. 「name」- 公告标题
      */
     @Override
     public XNotice setName(String name) {
@@ -185,23 +181,6 @@ public class XNotice implements VertxPojo, IXNotice {
     @Override
     public XNotice setStatus(String status) {
         this.status = status;
-        return this;
-    }
-
-    /**
-     * Getter for <code>DB_ETERNAL.X_NOTICE.SUBJECT</code>. 「subject」- 公告标题
-     */
-    @Override
-    public String getSubject() {
-        return this.subject;
-    }
-
-    /**
-     * Setter for <code>DB_ETERNAL.X_NOTICE.SUBJECT</code>. 「subject」- 公告标题
-     */
-    @Override
-    public XNotice setSubject(String subject) {
-        this.subject = subject;
         return this;
     }
 
@@ -403,7 +382,6 @@ public class XNotice implements VertxPojo, IXNotice {
         sb.append(", ").append(code);
         sb.append(", ").append(type);
         sb.append(", ").append(status);
-        sb.append(", ").append(subject);
         sb.append(", ").append(content);
         sb.append(", ").append(expiredAt);
         sb.append(", ").append(appId);
@@ -431,7 +409,6 @@ public class XNotice implements VertxPojo, IXNotice {
         setCode(from.getCode());
         setType(from.getType());
         setStatus(from.getStatus());
-        setSubject(from.getSubject());
         setContent(from.getContent());
         setExpiredAt(from.getExpiredAt());
         setAppId(from.getAppId());

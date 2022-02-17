@@ -33,13 +33,13 @@ public class XNotice extends TableImpl<XNoticeRecord> {
      */
     public final TableField<XNoticeRecord, String> KEY = createField(DSL.name("KEY"), SQLDataType.VARCHAR(36).nullable(false), this, "「key」- 公告主键");
     /**
-     * The column <code>DB_ETERNAL.X_NOTICE.NAME</code>. 「name」- 公告名称
+     * The column <code>DB_ETERNAL.X_NOTICE.NAME</code>. 「name」- 公告标题
      */
-    public final TableField<XNoticeRecord, String> NAME = createField(DSL.name("NAME"), SQLDataType.VARCHAR(255), this, "「name」- 公告名称");
+    public final TableField<XNoticeRecord, String> NAME = createField(DSL.name("NAME"), SQLDataType.VARCHAR(255), this, "「name」- 公告标题");
     /**
      * The column <code>DB_ETERNAL.X_NOTICE.CODE</code>. 「code」- 公告编码
      */
-    public final TableField<XNoticeRecord, String> CODE = createField(DSL.name("CODE"), SQLDataType.VARCHAR(36), this, "「code」- 公告编码");
+    public final TableField<XNoticeRecord, String> CODE = createField(DSL.name("CODE"), SQLDataType.VARCHAR(255), this, "「code」- 公告编码");
     /**
      * The column <code>DB_ETERNAL.X_NOTICE.TYPE</code>. 「type」- 公告类型
      */
@@ -48,10 +48,6 @@ public class XNotice extends TableImpl<XNoticeRecord> {
      * The column <code>DB_ETERNAL.X_NOTICE.STATUS</code>. 「status」- 公告状态
      */
     public final TableField<XNoticeRecord, String> STATUS = createField(DSL.name("STATUS"), SQLDataType.VARCHAR(255), this, "「status」- 公告状态");
-    /**
-     * The column <code>DB_ETERNAL.X_NOTICE.SUBJECT</code>. 「subject」- 公告标题
-     */
-    public final TableField<XNoticeRecord, String> SUBJECT = createField(DSL.name("SUBJECT"), SQLDataType.VARCHAR(255), this, "「subject」- 公告标题");
     /**
      * The column <code>DB_ETERNAL.X_NOTICE.CONTENT</code>. 「content」- 公告内容
      */
@@ -181,11 +177,11 @@ public class XNotice extends TableImpl<XNoticeRecord> {
     }
 
     // -------------------------------------------------------------------------
-    // Row17 type methods
+    // Row16 type methods
     // -------------------------------------------------------------------------
 
     @Override
-    public Row17<String, String, String, String, String, String, String, LocalDateTime, String, Boolean, String, String, String, LocalDateTime, String, LocalDateTime, String> fieldsRow() {
-        return (Row17) super.fieldsRow();
+    public Row16<String, String, String, String, String, String, LocalDateTime, String, Boolean, String, String, String, LocalDateTime, String, LocalDateTime, String> fieldsRow() {
+        return (Row16) super.fieldsRow();
     }
 }

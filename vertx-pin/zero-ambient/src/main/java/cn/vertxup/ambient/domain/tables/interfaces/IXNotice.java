@@ -28,12 +28,12 @@ public interface IXNotice extends VertxPojo, Serializable {
     public String getKey();
 
     /**
-     * Setter for <code>DB_ETERNAL.X_NOTICE.NAME</code>. 「name」- 公告名称
+     * Setter for <code>DB_ETERNAL.X_NOTICE.NAME</code>. 「name」- 公告标题
      */
     public IXNotice setName(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.X_NOTICE.NAME</code>. 「name」- 公告名称
+     * Getter for <code>DB_ETERNAL.X_NOTICE.NAME</code>. 「name」- 公告标题
      */
     public String getName();
 
@@ -66,16 +66,6 @@ public interface IXNotice extends VertxPojo, Serializable {
      * Getter for <code>DB_ETERNAL.X_NOTICE.STATUS</code>. 「status」- 公告状态
      */
     public String getStatus();
-
-    /**
-     * Setter for <code>DB_ETERNAL.X_NOTICE.SUBJECT</code>. 「subject」- 公告标题
-     */
-    public IXNotice setSubject(String value);
-
-    /**
-     * Getter for <code>DB_ETERNAL.X_NOTICE.SUBJECT</code>. 「subject」- 公告标题
-     */
-    public String getSubject();
 
     /**
      * Setter for <code>DB_ETERNAL.X_NOTICE.CONTENT</code>. 「content」- 公告内容
@@ -212,7 +202,6 @@ public interface IXNotice extends VertxPojo, Serializable {
                 setOrThrow(this::setCode,json::getString,"CODE","java.lang.String");
                 setOrThrow(this::setType,json::getString,"TYPE","java.lang.String");
                 setOrThrow(this::setStatus,json::getString,"STATUS","java.lang.String");
-                setOrThrow(this::setSubject,json::getString,"SUBJECT","java.lang.String");
                 setOrThrow(this::setContent,json::getString,"CONTENT","java.lang.String");
                 setOrThrow(this::setExpiredAt,key -> {String s = json.getString(key); return s==null?null:java.time.LocalDateTime.parse(s);},"EXPIRED_AT","java.time.LocalDateTime");
                 setOrThrow(this::setAppId,json::getString,"APP_ID","java.lang.String");
@@ -236,7 +225,6 @@ public interface IXNotice extends VertxPojo, Serializable {
                 json.put("CODE",getCode());
                 json.put("TYPE",getType());
                 json.put("STATUS",getStatus());
-                json.put("SUBJECT",getSubject());
                 json.put("CONTENT",getContent());
                 json.put("EXPIRED_AT",getExpiredAt()==null?null:getExpiredAt().toString());
                 json.put("APP_ID",getAppId());
