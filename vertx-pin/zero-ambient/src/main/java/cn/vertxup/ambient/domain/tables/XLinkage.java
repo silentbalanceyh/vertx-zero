@@ -90,10 +90,10 @@ public class XLinkage extends TableImpl<XLinkageRecord> {
      */
     public final TableField<XLinkageRecord, String> TARGET_TYPE = createField(DSL.name("TARGET_TYPE"), SQLDataType.VARCHAR(255), this, "「targetType」- 目标实体类型");
     /**
-     * The column <code>DB_ETERNAL.X_LINKAGE.TARGET_DATA</code>. 「tourceData」-
+     * The column <code>DB_ETERNAL.X_LINKAGE.TARGET_DATA</code>. 「targetData」-
      * 目标记录Json格式
      */
-    public final TableField<XLinkageRecord, String> TARGET_DATA = createField(DSL.name("TARGET_DATA"), SQLDataType.CLOB, this, "「tourceData」- 目标记录Json格式");
+    public final TableField<XLinkageRecord, String> TARGET_DATA = createField(DSL.name("TARGET_DATA"), SQLDataType.CLOB, this, "「targetData」- 目标记录Json格式");
     /**
      * The column <code>DB_ETERNAL.X_LINKAGE.SIGMA</code>. 「sigma」- 统一标识
      */

@@ -23,7 +23,7 @@ public class StayCancel extends AbstractTodo implements Stay {
         final ProcessInstance instance = wInstance.instance();
         return event.taskHistory(instance).compose(historySet -> {
             // Cancel data processing
-            final JsonObject todoData = KitTodo.cancelJ(params, wInstance, historySet);
+            final JsonObject todoData = KtTodo.cancelJ(params, wInstance, historySet);
             return this.updateAsync(todoData);
         }).compose(record -> {
             // Remove ProcessDefinition

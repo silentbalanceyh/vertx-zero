@@ -361,7 +361,7 @@ public class XLinkage implements VertxPojo, IXLinkage {
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.X_LINKAGE.TARGET_DATA</code>. 「tourceData」-
+     * Getter for <code>DB_ETERNAL.X_LINKAGE.TARGET_DATA</code>. 「targetData」-
      * 目标记录Json格式
      */
     @Override
@@ -370,7 +370,7 @@ public class XLinkage implements VertxPojo, IXLinkage {
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.X_LINKAGE.TARGET_DATA</code>. 「tourceData」-
+     * Setter for <code>DB_ETERNAL.X_LINKAGE.TARGET_DATA</code>. 「targetData」-
      * 目标记录Json格式
      */
     @Override

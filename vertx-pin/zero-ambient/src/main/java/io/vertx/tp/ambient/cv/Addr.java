@@ -101,5 +101,7 @@ public interface Addr {
         String ADD_NEW_V = Prefix._EVENT + "X-LINKAGE/ADD/NEW-V";
         String SAVE_BATCH_B = Prefix._EVENT + "X-LINKAGE/BATCH/SAVING-B";
         String SAVE_BATCH_V = Prefix._EVENT + "X-LINKAGE/BATCH/SAVING-V";
+
+        String SYNC_B = Prefix._EVENT + "X-LINKAGE/SYNC-B";
     }
 }

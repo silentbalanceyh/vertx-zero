@@ -9,9 +9,9 @@ CREATE TABLE IF NOT EXISTS X_ATTACHMENT
     `EXTENSION`  VARCHAR(10) COMMENT '「extension」- 文件扩展名',
     `MODULE`     VARCHAR(64) COMMENT '「module」- 业务标识',
     -- 文件管理专用
-    `TYPE`       VARCHAR(36) COMMENT '「type」- 文件类型，直接关联zero.file.tree类型',
+    `TYPE`       VARCHAR(128) COMMENT '「type」- 文件类型，直接关联zero.file.tree类型',
 
-    `MIME`       VARCHAR(64) COMMENT '「mime」- 该文件的MIME类型',
+    `MIME`       VARCHAR(128) COMMENT '「mime」- 该文件的MIME类型',
     `SIZE`       INTEGER COMMENT '「size」- 该文件的尺寸',
 
     `STATUS`     VARCHAR(12) COMMENT '「status」- 状态，PROGRESS / SUCCESS',

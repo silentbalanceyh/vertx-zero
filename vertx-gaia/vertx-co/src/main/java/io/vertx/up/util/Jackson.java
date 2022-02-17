@@ -12,6 +12,7 @@ import io.vertx.up.eon.Strings;
 import io.vertx.up.eon.Values;
 import io.vertx.up.eon.em.ChangeFlag;
 import io.vertx.up.fn.Fn;
+import io.vertx.up.log.Annal;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -23,7 +24,7 @@ import java.util.Objects;
  */
 @SuppressWarnings({"all"})
 final class Jackson {
-
+    private static final Annal LOGGER = Annal.get(Jackson.class);
     private static final ObjectMapper MAPPER = new ObjectMapper();
 
     static {
@@ -256,6 +257,34 @@ final class Jackson {
             return new JsonArray();
         } else {
             return array;
+        }
+    }
+
+    static JsonArray sureJArray(JsonObject input, final String field) {
+        input = sureJObject(input);
+        final Object value = input.getValue(field);
+        if (Objects.isNull(value)) {
+            return new JsonArray();
+        }
+        if (value instanceof JsonArray) {
+            return (JsonArray) value;
+        } else {
+            LOGGER.warn("The value could not be converted to JsonArray = {0}", value);
+            return new JsonArray();
+        }
+    }
+
+    static JsonObject sureJObject(JsonObject input, final String field) {
+        input = sureJObject(input);
+        final Object value = input.getValue(field);
+        if (Objects.isNull(value)) {
+            return new JsonObject();
+        }
+        if (value instanceof JsonObject) {
+            return (JsonObject) value;
+        } else {
+            LOGGER.warn("The value could not be converted to JsonObject = {0}", value);
+            return new JsonObject();
         }
     }
 
