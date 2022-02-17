@@ -13,6 +13,7 @@ CREATE TABLE IF NOT EXISTS X_NOTICE
     `STATUS`     VARCHAR(255) COMMENT '「status」- 公告状态',
     `SUBJECT`    VARCHAR(255) COMMENT '「subject」- 公告标题',
     `CONTENT`    LONGTEXT COMMENT '「content」- 公告内容',
+    `EXPIRED_AT` DATETIME COMMENT '「createdAt」- 公告到期时间',
 
     -- 特殊属性
     `APP_ID`     VARCHAR(36) COMMENT '「appId」- 所属应用ID',

@@ -27,6 +27,7 @@ public class XNotice implements VertxPojo, IXNotice {
     private String        status;
     private String        subject;
     private String        content;
+    private LocalDateTime expiredAt;
     private String        appId;
     private Boolean       active;
     private String        sigma;
@@ -47,6 +48,7 @@ public class XNotice implements VertxPojo, IXNotice {
         this.status = value.getStatus();
         this.subject = value.getSubject();
         this.content = value.getContent();
+        this.expiredAt = value.getExpiredAt();
         this.appId = value.getAppId();
         this.active = value.getActive();
         this.sigma = value.getSigma();
@@ -66,6 +68,7 @@ public class XNotice implements VertxPojo, IXNotice {
         String        status,
         String        subject,
         String        content,
+        LocalDateTime expiredAt,
         String        appId,
         Boolean       active,
         String        sigma,
@@ -83,6 +86,7 @@ public class XNotice implements VertxPojo, IXNotice {
         this.status = status;
         this.subject = subject;
         this.content = content;
+        this.expiredAt = expiredAt;
         this.appId = appId;
         this.active = active;
         this.sigma = sigma;
@@ -215,6 +219,25 @@ public class XNotice implements VertxPojo, IXNotice {
     @Override
     public XNotice setContent(String content) {
         this.content = content;
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.X_NOTICE.EXPIRED_AT</code>. 「createdAt」-
+     * 公告到期时间
+     */
+    @Override
+    public LocalDateTime getExpiredAt() {
+        return this.expiredAt;
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.X_NOTICE.EXPIRED_AT</code>. 「createdAt」-
+     * 公告到期时间
+     */
+    @Override
+    public XNotice setExpiredAt(LocalDateTime expiredAt) {
+        this.expiredAt = expiredAt;
         return this;
     }
 
@@ -382,6 +405,7 @@ public class XNotice implements VertxPojo, IXNotice {
         sb.append(", ").append(status);
         sb.append(", ").append(subject);
         sb.append(", ").append(content);
+        sb.append(", ").append(expiredAt);
         sb.append(", ").append(appId);
         sb.append(", ").append(active);
         sb.append(", ").append(sigma);
@@ -409,6 +433,7 @@ public class XNotice implements VertxPojo, IXNotice {
         setStatus(from.getStatus());
         setSubject(from.getSubject());
         setContent(from.getContent());
+        setExpiredAt(from.getExpiredAt());
         setAppId(from.getAppId());
         setActive(from.getActive());
         setSigma(from.getSigma());

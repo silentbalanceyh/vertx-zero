@@ -88,6 +88,18 @@ public interface IXNotice extends VertxPojo, Serializable {
     public String getContent();
 
     /**
+     * Setter for <code>DB_ETERNAL.X_NOTICE.EXPIRED_AT</code>. 「createdAt」-
+     * 公告到期时间
+     */
+    public IXNotice setExpiredAt(LocalDateTime value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.X_NOTICE.EXPIRED_AT</code>. 「createdAt」-
+     * 公告到期时间
+     */
+    public LocalDateTime getExpiredAt();
+
+    /**
      * Setter for <code>DB_ETERNAL.X_NOTICE.APP_ID</code>. 「appId」- 所属应用ID
      */
     public IXNotice setAppId(String value);
@@ -202,6 +214,7 @@ public interface IXNotice extends VertxPojo, Serializable {
                 setOrThrow(this::setStatus,json::getString,"STATUS","java.lang.String");
                 setOrThrow(this::setSubject,json::getString,"SUBJECT","java.lang.String");
                 setOrThrow(this::setContent,json::getString,"CONTENT","java.lang.String");
+                setOrThrow(this::setExpiredAt,key -> {String s = json.getString(key); return s==null?null:java.time.LocalDateTime.parse(s);},"EXPIRED_AT","java.time.LocalDateTime");
                 setOrThrow(this::setAppId,json::getString,"APP_ID","java.lang.String");
                 setOrThrow(this::setActive,json::getBoolean,"ACTIVE","java.lang.Boolean");
                 setOrThrow(this::setSigma,json::getString,"SIGMA","java.lang.String");
@@ -225,6 +238,7 @@ public interface IXNotice extends VertxPojo, Serializable {
                 json.put("STATUS",getStatus());
                 json.put("SUBJECT",getSubject());
                 json.put("CONTENT",getContent());
+                json.put("EXPIRED_AT",getExpiredAt()==null?null:getExpiredAt().toString());
                 json.put("APP_ID",getAppId());
                 json.put("ACTIVE",getActive());
                 json.put("SIGMA",getSigma());

@@ -129,6 +129,21 @@ public class XNoticeDao extends AbstractVertxDAO<XNoticeRecord, cn.vertxup.ambie
         }
 
         /**
+     * Find records that have <code>EXPIRED_AT IN (values)</code> asynchronously
+     */
+        public Future<List<cn.vertxup.ambient.domain.tables.pojos.XNotice>> findManyByExpiredAt(Collection<LocalDateTime> values) {
+                return findManyByCondition(XNotice.X_NOTICE.EXPIRED_AT.in(values));
+        }
+
+        /**
+     * Find records that have <code>EXPIRED_AT IN (values)</code> asynchronously
+     * limited by the given limit
+     */
+        public Future<List<cn.vertxup.ambient.domain.tables.pojos.XNotice>> findManyByExpiredAt(Collection<LocalDateTime> values, int limit) {
+                return findManyByCondition(XNotice.X_NOTICE.EXPIRED_AT.in(values),limit);
+        }
+
+        /**
      * Find records that have <code>APP_ID IN (values)</code> asynchronously
      */
         public Future<List<cn.vertxup.ambient.domain.tables.pojos.XNotice>> findManyByAppId(Collection<String> values) {

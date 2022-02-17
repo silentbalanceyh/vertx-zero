@@ -57,6 +57,11 @@ public class XNotice extends TableImpl<XNoticeRecord> {
      */
     public final TableField<XNoticeRecord, String> CONTENT = createField(DSL.name("CONTENT"), SQLDataType.CLOB, this, "「content」- 公告内容");
     /**
+     * The column <code>DB_ETERNAL.X_NOTICE.EXPIRED_AT</code>. 「createdAt」-
+     * 公告到期时间
+     */
+    public final TableField<XNoticeRecord, LocalDateTime> EXPIRED_AT = createField(DSL.name("EXPIRED_AT"), SQLDataType.LOCALDATETIME(0), this, "「createdAt」- 公告到期时间");
+    /**
      * The column <code>DB_ETERNAL.X_NOTICE.APP_ID</code>. 「appId」- 所属应用ID
      */
     public final TableField<XNoticeRecord, String> APP_ID = createField(DSL.name("APP_ID"), SQLDataType.VARCHAR(36), this, "「appId」- 所属应用ID");
@@ -176,11 +181,11 @@ public class XNotice extends TableImpl<XNoticeRecord> {
     }
 
     // -------------------------------------------------------------------------
-    // Row16 type methods
+    // Row17 type methods
     // -------------------------------------------------------------------------
 
     @Override
-    public Row16<String, String, String, String, String, String, String, String, Boolean, String, String, String, LocalDateTime, String, LocalDateTime, String> fieldsRow() {
-        return (Row16) super.fieldsRow();
+    public Row17<String, String, String, String, String, String, String, LocalDateTime, String, Boolean, String, String, String, LocalDateTime, String, LocalDateTime, String> fieldsRow() {
+        return (Row17) super.fieldsRow();
     }
 }
