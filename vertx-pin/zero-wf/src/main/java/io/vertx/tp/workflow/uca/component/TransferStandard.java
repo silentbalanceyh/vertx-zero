@@ -79,14 +79,14 @@ public class TransferStandard extends AbstractTodo implements Transfer {
         if (!params.containsKey(KName.MODEL_KEY)) {
             params.put(KName.MODEL_KEY, ticket.getKey());
         }
-        return this.recordSave(params, metadata).compose(processed -> {
+        return this.saveAsync(params, metadata).compose(processed -> {
             final TodoStatus status = wRecord.status();
             final JsonObject request = processed.copy();
             if (TodoStatus.DRAFT == status) {
                 /*
                  * Draft -> Pending, no decision field processing
                  */
-                return this.recordUpdate(request, metadata).compose(nil -> Ux.future(wRecord));
+                return this.updateAsync(request, metadata).compose(nil -> Ux.future(wRecord));
             } else if (TodoStatus.PENDING == status) {
                 final WMoveRule moveRule = instance.rule();
                 if (Objects.nonNull(moveRule) && Ut.notNil(moveRule.getRecord())) {
@@ -100,7 +100,7 @@ public class TransferStandard extends AbstractTodo implements Transfer {
                     /*
                      * Contains record modification, do update on record.
                      */
-                    return this.recordUpdate(request, metadata).compose(nil -> Ux.future(wRecord));
+                    return this.updateAsync(request, metadata).compose(nil -> Ux.future(wRecord));
                 }
             }
             return Ux.future(wRecord);

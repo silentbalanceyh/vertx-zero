@@ -17,7 +17,7 @@ public class StaySave extends AbstractTodo implements Stay {
         return this.updateAsync(params).compose(record -> {
             final MetaInstance metadata = MetaInstance.output(record);
             // Record Updating
-            return this.recordUpdate(params, metadata)
+            return this.updateAsync(params, metadata)
                 .compose(nil -> Ux.future(record));
         });
     }

@@ -50,7 +50,7 @@ public abstract class AbstractTransfer implements Behaviour {
     /*
      * Record UPDATE Processing
      */
-    protected Future<JsonObject> recordUpdate(final JsonObject params, final MetaInstance metadata) {
+    protected Future<JsonObject> updateAsync(final JsonObject params, final MetaInstance metadata) {
         final KtRecord recordKit = KtRecord.toolkit(metadata);
         return recordKit.updateAsync(params)
             /* Record must be put in `params` -> `record` field */
@@ -61,7 +61,7 @@ public abstract class AbstractTransfer implements Behaviour {
      * Record Indent Processing
      * ( Reserved )
      */
-    protected Future<JsonObject> recordInsert(final JsonObject params, final MetaInstance metadata) {
+    protected Future<JsonObject> insertAsync(final JsonObject params, final MetaInstance metadata) {
         final KtRecord recordKit = KtRecord.toolkit(metadata);
         return recordKit.insertAsync(params)
             /* Record must be put in `params` -> `record` field */
@@ -71,7 +71,7 @@ public abstract class AbstractTransfer implements Behaviour {
     /*
      * Record Save Processing
      */
-    protected Future<JsonObject> recordSave(final JsonObject params, final MetaInstance metadata) {
+    protected Future<JsonObject> saveAsync(final JsonObject params, final MetaInstance metadata) {
         final KtRecord recordKit = KtRecord.toolkit(metadata);
         if (Objects.isNull(this.config)) {
             return Ux.future(params);
