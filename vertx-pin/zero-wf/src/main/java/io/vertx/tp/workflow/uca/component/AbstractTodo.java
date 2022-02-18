@@ -2,9 +2,8 @@ package io.vertx.tp.workflow.uca.component;
 
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.workflow.atom.ConfigLinkage;
-import io.vertx.tp.workflow.atom.ConfigTodo;
-import io.vertx.tp.workflow.atom.WInstance;
+import io.vertx.tp.workflow.atom.MetaInstance;
+import io.vertx.tp.workflow.atom.WProcess;
 import io.vertx.tp.workflow.atom.WRecord;
 import org.camunda.bpm.engine.runtime.ProcessInstance;
 
@@ -17,19 +16,22 @@ public abstract class AbstractTodo extends AbstractTransfer {
 
     private transient KtTodo todoKit;
     private transient KtLinkage linkageKit;
+    private transient MetaInstance metadata;
 
     /*
      * Overwrite the `Todo` Here
      */
     @Override
-    public Behaviour bind(final ConfigTodo todo, final ConfigLinkage linkage) {
-        this.todoKit = new KtTodo(todo);
-        this.linkageKit = new KtLinkage(linkage);
-        return this;
+    public Behaviour bind(final MetaInstance metadata) {
+        Objects.requireNonNull(metadata);
+        this.metadata = metadata;
+        this.todoKit = new KtTodo(metadata);
+        this.linkageKit = new KtLinkage(metadata);
+        return super.bind(metadata);
     }
 
-    protected ConfigTodo config() {
-        return Objects.requireNonNull(this.todoKit.config());
+    protected MetaInstance metadataConfigured() {
+        return this.metadata;
     }
 
     /*
@@ -117,7 +119,7 @@ public abstract class AbstractTodo extends AbstractTransfer {
             .compose(record -> this.linkageKit.syncAsync(params, record));
     }
 
-    protected Future<WRecord> generateAsync(final WRecord record, final WInstance instance) {
+    protected Future<WRecord> generateAsync(final WRecord record, final WProcess instance) {
         // final WTodo generated = KitTodo.inputNext(todo, instance);
         final WRecord generated = KtTodo.nextJ(record, instance);
         // return this.todoKit.generateAsync(todo, instance);

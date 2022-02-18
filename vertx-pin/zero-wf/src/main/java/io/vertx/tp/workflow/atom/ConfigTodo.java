@@ -15,7 +15,7 @@ import java.util.UUID;
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-public class ConfigTodo implements Serializable {
+class ConfigTodo implements Serializable {
     private final transient String identifier;
     private final transient String key;
     private final transient String indent;
@@ -49,7 +49,7 @@ public class ConfigTodo implements Serializable {
      * instance has been created by
      * {
      *      "todo": {
-     *          "comment": "Todo Configuration"
+     *          "comment": "Todo ConfigRunner"
      *      }
      * }
      */

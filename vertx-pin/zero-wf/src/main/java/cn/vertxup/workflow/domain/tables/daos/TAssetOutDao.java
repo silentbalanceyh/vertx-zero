@@ -24,7 +24,7 @@ import io.github.jklingsporn.vertx.jooq.classic.jdbc.JDBCClassicQueryExecutor;
 public class TAssetOutDao extends AbstractVertxDAO<TAssetOutRecord, cn.vertxup.workflow.domain.tables.pojos.TAssetOut, String, Future<List<cn.vertxup.workflow.domain.tables.pojos.TAssetOut>>, Future<cn.vertxup.workflow.domain.tables.pojos.TAssetOut>, Future<Integer>, Future<String>> implements io.github.jklingsporn.vertx.jooq.classic.VertxDAO<TAssetOutRecord,cn.vertxup.workflow.domain.tables.pojos.TAssetOut,String> {
 
         /**
-     * @param configuration The Configuration used for rendering and query
+     * @param configuration The ConfigRunner used for rendering and query
      * execution.
      *      * @param vertx the vertx instance
      */

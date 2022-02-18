@@ -2,12 +2,9 @@ package io.vertx.tp.workflow.uca.component;
 
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.workflow.atom.ConfigLinkage;
-import io.vertx.tp.workflow.atom.ConfigRecord;
-import io.vertx.tp.workflow.atom.ConfigTodo;
+import io.vertx.tp.workflow.atom.MetaInstance;
 import io.vertx.tp.workflow.atom.WMove;
 import io.vertx.up.eon.KName;
-import io.vertx.up.eon.em.ChangeFlag;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
@@ -22,8 +19,6 @@ public abstract class AbstractTransfer implements Behaviour {
     protected final transient JsonObject config = new JsonObject();
     private final transient ConcurrentMap<String, WMove> moveMap = new ConcurrentHashMap<>();
 
-    private transient KtRecord recordKit;
-
     @Override
     public Behaviour bind(final JsonObject config) {
         final JsonObject sure = Ut.sureJObject(config);
@@ -32,6 +27,7 @@ public abstract class AbstractTransfer implements Behaviour {
             // Ignore `record` and `todo` configuration key
             .filter(field -> !KName.RECORD.equals(field))
             .filter(field -> !KName.Flow.TODO.equals(field))
+            .filter(field -> !KName.LINKAGE.equals(field))
             .forEach(field -> {
                 final JsonObject value = this.config.getJsonObject(field);
                 final WMove item = WMove.create(field, value);
@@ -41,15 +37,8 @@ public abstract class AbstractTransfer implements Behaviour {
     }
 
     @Override
-    public Behaviour bind(final ConfigTodo todo, final ConfigLinkage linkage) {
-        // Not Required for this component
-        return this;
-    }
-
-    @Override
-    public Behaviour bind(final ConfigRecord record) {
-        Objects.requireNonNull(record);
-        this.recordKit = new KtRecord(record);
+    public Behaviour bind(final MetaInstance metadata) {
+        // Empty Binding on Instance
         return this;
     }
 
@@ -58,15 +47,12 @@ public abstract class AbstractTransfer implements Behaviour {
         return this.moveMap.getOrDefault(node, WMove.empty());
     }
 
-    protected ChangeFlag recordMode() {
-        return this.recordKit.mode();
-    }
-
     /*
      * Record UPDATE Processing
      */
-    protected Future<JsonObject> recordUpdate(final JsonObject params, final ConfigTodo config) {
-        return this.recordKit.updateAsync(params, config)
+    protected Future<JsonObject> recordUpdate(final JsonObject params, final MetaInstance metadata) {
+        final KtRecord recordKit = KtRecord.toolkit(metadata);
+        return recordKit.updateAsync(params)
             /* Record must be put in `params` -> `record` field */
             .compose(record -> this.recordPost(params, record));
     }
@@ -75,8 +61,9 @@ public abstract class AbstractTransfer implements Behaviour {
      * Record Indent Processing
      * ( Reserved )
      */
-    protected Future<JsonObject> recordInsert(final JsonObject params, final ConfigTodo config) {
-        return this.recordKit.insertAsync(params, config)
+    protected Future<JsonObject> recordInsert(final JsonObject params, final MetaInstance metadata) {
+        final KtRecord recordKit = KtRecord.toolkit(metadata);
+        return recordKit.insertAsync(params)
             /* Record must be put in `params` -> `record` field */
             .compose(record -> this.recordPost(params, record));
     }
@@ -84,11 +71,12 @@ public abstract class AbstractTransfer implements Behaviour {
     /*
      * Record Save Processing
      */
-    protected Future<JsonObject> recordSave(final JsonObject params, final ConfigTodo config) {
-        if (Objects.isNull(config)) {
+    protected Future<JsonObject> recordSave(final JsonObject params, final MetaInstance metadata) {
+        final KtRecord recordKit = KtRecord.toolkit(metadata);
+        if (Objects.isNull(this.config)) {
             return Ux.future(params);
         }
-        return this.recordKit.saveAsync(params, config)
+        return recordKit.saveAsync(params)
             /* Record must be put in `params` -> `record` field */
             .compose(record -> this.recordPost(params, record));
     }

@@ -7,9 +7,9 @@ import cn.vertxup.workflow.domain.tables.pojos.WTodo;
 import cn.zeroup.macrocosm.cv.em.TodoStatus;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.workflow.atom.ConfigTodo;
-import io.vertx.tp.workflow.atom.WInstance;
+import io.vertx.tp.workflow.atom.MetaInstance;
 import io.vertx.tp.workflow.atom.WMoveRule;
+import io.vertx.tp.workflow.atom.WProcess;
 import io.vertx.tp.workflow.atom.WRecord;
 import io.vertx.tp.workflow.uca.runner.EventOn;
 import io.vertx.up.eon.KName;
@@ -30,10 +30,10 @@ import java.util.UUID;
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 class KtTodo {
-    private final transient ConfigTodo todo;
+    private final transient MetaInstance metadata;
 
-    KtTodo(final ConfigTodo todo) {
-        this.todo = todo;
+    KtTodo(final MetaInstance metadata) {
+        this.metadata = metadata;
     }
 
     /*
@@ -46,7 +46,7 @@ class KtTodo {
      *      "active": true
      * }
      */
-    static JsonObject closeJ(final JsonObject params, final WInstance wInstance) {
+    static JsonObject closeJ(final JsonObject params, final WProcess wProcess) {
         final JsonObject updatedData = params.copy();
         updatedData.put(KName.STATUS, TodoStatus.FINISHED.name());
         final String user = params.getString(KName.UPDATED_BY);
@@ -61,11 +61,11 @@ class KtTodo {
         updatedData.put(KName.Flow.Auditor.CLOSE_AT, Instant.now());
         updatedData.put(KName.Flow.Auditor.CLOSE_BY, user);
 
-        if (wInstance.isEnd()) {
+        if (wProcess.isEnd()) {
             updatedData.put(KName.Flow.FLOW_END, Boolean.TRUE);
         }
         // Todo based on previous
-        final WMoveRule rule = wInstance.rule();
+        final WMoveRule rule = wProcess.rule();
         if (Objects.nonNull(rule) && Ut.notNil(rule.getTodo())) {
             updatedData.mergeIn(rule.getTodo());
         }
@@ -81,14 +81,14 @@ class KtTodo {
      *      "finishedBy": ""
      * }
      */
-    static JsonObject cancelJ(final JsonObject params, final WInstance wInstance, final Set<String> historySet) {
+    static JsonObject cancelJ(final JsonObject params, final WProcess wProcess, final Set<String> historySet) {
         final JsonObject todoData = params.copy();
         final String user = todoData.getString(KName.UPDATED_BY);
         /*
          * History building
          */
         final Set<String> traceSet = new HashSet<>(historySet);
-        final Task task = wInstance.task();
+        final Task task = wProcess.task();
         if (Objects.nonNull(task)) {
             traceSet.add(task.getTaskDefinitionKey());
         }
@@ -143,7 +143,7 @@ class KtTodo {
      *      "toUser": null
      * }
      */
-    static WRecord nextJ(final WRecord record, final WInstance wInstance) {
+    static WRecord nextJ(final WRecord record, final WProcess wProcess) {
         // Todo New
         final JsonObject newJson = record.data();
         final WTodo todo = record.todo();
@@ -161,7 +161,7 @@ class KtTodo {
             entity.setCommentReject(null);
         }
         {
-            final Task nextTask = wInstance.task();
+            final Task nextTask = wProcess.task();
             // entity.setTraceId(nextTask.getProcessInstanceId());
             // entity.setTraceTaskId(nextTask.getId());
             entity.setTraceId(ticket.getKey());
@@ -180,16 +180,12 @@ class KtTodo {
             entity.setUpdatedAt(LocalDateTime.now());
             entity.setUpdatedBy(todo.getUpdatedBy());
         }
-        final WMoveRule rule = wInstance.rule();
+        final WMoveRule rule = wProcess.rule();
         if (Objects.nonNull(rule)) {
             final JsonObject todoUpdate = rule.getTodo();
             entity = Ux.updateT(entity, todoUpdate);
         }
         return new WRecord().bind(ticket).bind(entity);
-    }
-
-    ConfigTodo config() {
-        return this.todo;
     }
 
     Future<WRecord> saveAsync(final JsonObject params, final ProcessInstance instance) {
@@ -253,7 +249,7 @@ class KtTodo {
     // Save = Insert + Update
     Future<WRecord> insertAsync(final JsonObject params, final ProcessInstance instance) {
         // Todo Build
-        return this.todo.generate(params).compose(normalized -> {
+        return this.metadata.serialT(params).compose(normalized -> {
             // Ticket Workflow
             final String todoKey = normalized.getString(KName.KEY);
             normalized.remove(KName.KEY);

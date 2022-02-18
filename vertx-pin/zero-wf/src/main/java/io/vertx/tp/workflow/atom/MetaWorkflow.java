@@ -21,7 +21,7 @@ import java.util.Set;
  *
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-public class ConfigWorkflow {
+public class MetaWorkflow {
     private transient String name;
     @JsonSerialize(using = JsonObjectSerializer.class)
     @JsonDeserialize(using = JsonObjectDeserializer.class)

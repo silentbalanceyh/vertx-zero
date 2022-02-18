@@ -27,7 +27,7 @@ public class WRecord implements Serializable {
     private transient WTicket ticket;
     private transient WTodo todo;
     private transient TodoStatus status;
-    private transient WProcess process;
+    private transient WProcessDefinition process;
 
     public WRecord bind(final WTicket ticket) {
         this.ticket = ticket;
@@ -141,11 +141,12 @@ public class WRecord implements Serializable {
         }).compose(workflow -> {
             // Record based on start
             final EngineOn engine = EngineOn.connect(workflow.getString(KName.Flow.DEFINITION_KEY));
+            final MetaInstance metadataInput = engine.metadata();
             // Record Action processing
-            final ActionOn action = ActionOn.action(engine.mode());
+            final ActionOn action = ActionOn.action(metadataInput.recordMode());
             // Record of Todo processing
-            final ConfigTodo configTodo = new ConfigTodo(this);
-            return action.fetchAsync(this.ticket.getModelKey(), configTodo).compose(json -> {
+            final MetaInstance metadataOutput = MetaInstance.output(this);
+            return action.fetchAsync(this.ticket.getModelKey(), metadataOutput).compose(json -> {
                 // record processing
                 response.put(KName.RECORD, json);
                 return Ux.future(response);

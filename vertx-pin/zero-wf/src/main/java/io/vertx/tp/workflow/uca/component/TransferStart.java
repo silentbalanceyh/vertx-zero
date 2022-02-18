@@ -2,8 +2,7 @@ package io.vertx.tp.workflow.uca.component;
 
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.workflow.atom.ConfigTodo;
-import io.vertx.tp.workflow.atom.WInstance;
+import io.vertx.tp.workflow.atom.WProcess;
 import io.vertx.tp.workflow.atom.WRecord;
 import org.camunda.bpm.engine.runtime.ProcessInstance;
 
@@ -12,7 +11,7 @@ import org.camunda.bpm.engine.runtime.ProcessInstance;
  */
 public class TransferStart extends AbstractTodo implements Transfer {
     @Override
-    public Future<WRecord> moveAsync(final JsonObject params, final WInstance wInstance) {
+    public Future<WRecord> moveAsync(final JsonObject params, final WProcess wProcess) {
         /*
          * Record processing first, here the parameters are following:
          *
@@ -21,12 +20,11 @@ public class TransferStart extends AbstractTodo implements Transfer {
          *
          * Record support ADD / UPDATE operation combined
          */
-        final ConfigTodo config = this.config();
-        return this.recordSave(params, config).compose(processed -> {
+        return this.recordSave(params, this.metadataConfigured()).compose(processed -> {
             /*
              * Todo Inserting here
              */
-            final ProcessInstance instance = wInstance.instance();
+            final ProcessInstance instance = wProcess.instance();
             return this.insertAsync(params, instance);
         });
     }

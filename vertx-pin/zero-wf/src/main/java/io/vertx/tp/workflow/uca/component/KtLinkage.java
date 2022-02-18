@@ -6,7 +6,7 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.ke.refine.Ke;
 import io.vertx.tp.optic.business.ExLink;
-import io.vertx.tp.workflow.atom.ConfigLinkage;
+import io.vertx.tp.workflow.atom.MetaInstance;
 import io.vertx.tp.workflow.atom.WRecord;
 import io.vertx.tp.workflow.refine.Wf;
 import io.vertx.up.eon.KName;
@@ -24,10 +24,10 @@ import java.util.stream.Collectors;
  */
 public class KtLinkage {
 
-    private final transient ConfigLinkage configLinkage;
+    private final transient MetaInstance metadata;
 
-    KtLinkage(final ConfigLinkage configLinkage) {
-        this.configLinkage = configLinkage;
+    KtLinkage(final MetaInstance metadata) {
+        this.metadata = metadata;
     }
 
     Future<WRecord> syncAsync(final JsonObject params, final WRecord record) {
@@ -35,11 +35,11 @@ public class KtLinkage {
          * Linkage Sync based on configuration
          */
         final WTicket ticket = record.ticket();
-        if (Objects.isNull(ticket) || Objects.isNull(this.configLinkage)) {
+        if (Objects.isNull(ticket) || this.metadata.linkSkip()) {
             return Ux.future(record);
         }
         final ConcurrentMap<String, Future<JsonArray>> futures = new ConcurrentHashMap<>();
-        final Set<String> fields = this.configLinkage.fields();
+        final Set<String> fields = this.metadata.linkFields();
         Wf.Log.infoWeb(this.getClass(), "Linkage Definition Size: {0}", fields.size());
         fields.forEach(field -> {
             /*
@@ -57,7 +57,7 @@ public class KtLinkage {
                  * - sourceType
                  */
                 final String sourceKey = ticket.getKey();
-                final JsonObject condition = this.configLinkage.condition(field);
+                final JsonObject condition = this.metadata.linkCondition(field);
                 condition.put(KName.SOURCE_KEY, sourceKey);
                 futures.put(field, this.buildEach(condition, linkageData));
             }

@@ -15,17 +15,25 @@
                 "optionJsx.ajax.uri": "/api/file/upload/:identifier",
                 "optionJsx.ajax.download": "/api/file/download/:key",
                 "optionJsx.ajax.params": {
-                    "category": "FIX:FILE.REQUEST"
+                    "identifier": "FIX:w.ticket"
                 },
                 "optionJsx.config": {
                     "linker": {
                         "key": "record@key",
                         "fileKey": "record@fileKey",
+                        "fileName": "record@fileName",
+                        "filePath": "record@filePath",
+                        "fileUrl": "record@fileUrl",
+                        "size": "record@size",
+                        "mime": "record@mime",
+                        "status": "record@status",
+                        "storeWay": "record@storeWay",
+                        "modelId": "record@modelId",
+                        "metadata": "record@metadata",
                         "name": "record@name",
                         "type": "record@type",
-                        "size": "record@size",
-                        "sizeUi": "record@sizeUi",
-                        "extension": "record@extension"
+                        "extension": "record@extension",
+                        "sizeUi": "record@sizeUi"
                     }
                 },
                 "optionConfig.rules": [
@@ -38,14 +46,20 @@
     "hidden": [
         "record@key",
         "record@fileKey",
+        "record@fileName",
+        "record@filePath",
+        "record@fileUrl",
         "record@size",
-        "record@identifier"
+        "record@mime",
+        "record@status",
+        "record@storeWay",
+        "record@modelId",
+        "record@metadata"
     ],
     "initial": {
         "phase": "INIT",
         "catalog": "UNIQUE:service.catalog,code,code=FIX:w.document.request",
         "openBy": "USER:key",
-        "owner": "USER:key",
-        "record@identifier": "FIX:w.ticket"
+        "owner": "USER:key"
     }
 }

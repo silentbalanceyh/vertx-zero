@@ -11,6 +11,7 @@ import io.vertx.tp.ambient.refine.At;
 import io.vertx.up.annotations.Address;
 import io.vertx.up.annotations.Queue;
 import io.vertx.up.commune.Envelop;
+import io.vertx.up.eon.KName;
 import io.vertx.up.log.Annal;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
@@ -37,6 +38,7 @@ public class AttachActor {
          */
         final JsonObject content = envelop.body();
         At.infoFile(LOGGER, AtMsg.FILE_UPLOAD, content.encodePrettily());
+        Ut.ifJObject(content, KName.METADATA);
         return Ux.future(content);
 
         /*

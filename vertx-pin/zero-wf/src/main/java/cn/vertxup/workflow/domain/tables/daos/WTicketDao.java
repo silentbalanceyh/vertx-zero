@@ -25,7 +25,7 @@ import io.github.jklingsporn.vertx.jooq.classic.jdbc.JDBCClassicQueryExecutor;
 public class WTicketDao extends AbstractVertxDAO<WTicketRecord, cn.vertxup.workflow.domain.tables.pojos.WTicket, String, Future<List<cn.vertxup.workflow.domain.tables.pojos.WTicket>>, Future<cn.vertxup.workflow.domain.tables.pojos.WTicket>, Future<Integer>, Future<String>> implements io.github.jklingsporn.vertx.jooq.classic.VertxDAO<WTicketRecord,cn.vertxup.workflow.domain.tables.pojos.WTicket,String> {
 
         /**
-     * @param configuration The Configuration used for rendering and query
+     * @param configuration The ConfigRunner used for rendering and query
      * execution.
      *      * @param vertx the vertx instance
      */
