@@ -70,4 +70,23 @@ class KtRecord {
         Objects.requireNonNull(key);
         return action.updateAsync(key, recordData, config);
     }
+
+    Future<JsonObject> saveAsync(final JsonObject params, final ConfigTodo config) {
+        Objects.requireNonNull(this.configRecord);
+        final ActionOn action = ActionOn.action(this.configRecord.getMode());
+        final JsonObject recordData = this.normalize(params, true);
+        final String key = this.configRecord.unique(recordData);
+        Objects.requireNonNull(key);
+        return action.fetchAsync(key, config).compose(queried -> {
+            if (Objects.isNull(queried)) {
+                // Create New
+                return action.createAsync(recordData, config);
+            } else {
+                // Update New ( Skip createdAt, createdBy )
+                recordData.remove(KName.CREATED_AT);
+                recordData.remove(KName.CREATED_BY);
+                return action.updateAsync(key, recordData, config);
+            }
+        });
+    }
 }

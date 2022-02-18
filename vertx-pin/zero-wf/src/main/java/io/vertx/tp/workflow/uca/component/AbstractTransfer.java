@@ -73,9 +73,22 @@ public abstract class AbstractTransfer implements Behaviour {
 
     /*
      * Record Indent Processing
+     * ( Reserved )
      */
     protected Future<JsonObject> recordInsert(final JsonObject params, final ConfigTodo config) {
         return this.recordKit.insertAsync(params, config)
+            /* Record must be put in `params` -> `record` field */
+            .compose(record -> this.recordPost(params, record));
+    }
+
+    /*
+     * Record Save Processing
+     */
+    protected Future<JsonObject> recordSave(final JsonObject params, final ConfigTodo config) {
+        if (Objects.isNull(config)) {
+            return Ux.future(params);
+        }
+        return this.recordKit.saveAsync(params, config)
             /* Record must be put in `params` -> `record` field */
             .compose(record -> this.recordPost(params, record));
     }

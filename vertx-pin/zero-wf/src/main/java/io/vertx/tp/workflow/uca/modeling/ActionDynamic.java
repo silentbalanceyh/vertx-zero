@@ -9,12 +9,12 @@ import io.vertx.tp.workflow.atom.ConfigTodo;
  */
 class ActionDynamic implements ActionOn {
     @Override
-    public <T> Future<JsonObject> createAsync(final JsonObject params, final ConfigTodo config) {
+    public Future<JsonObject> createAsync(final JsonObject params, final ConfigTodo config) {
         return null;
     }
 
     @Override
-    public <T> Future<JsonObject> updateAsync(final String key, final JsonObject params, final ConfigTodo config) {
+    public Future<JsonObject> updateAsync(final String key, final JsonObject params, final ConfigTodo config) {
         return null;
     }
 

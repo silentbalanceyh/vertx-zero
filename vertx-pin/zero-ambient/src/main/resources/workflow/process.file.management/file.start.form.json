@@ -12,7 +12,7 @@
                 "optionJsx.config.filekey": "key",
                 "optionJsx.config.limit": 10240,
                 "optionJsx.config.single": true,
-                "optionJsx.ajax.uri": "/api/file/upload/:category",
+                "optionJsx.ajax.uri": "/api/file/upload/:identifier",
                 "optionJsx.ajax.download": "/api/file/download/:key",
                 "optionJsx.ajax.params": {
                     "category": "FIX:FILE.REQUEST"
@@ -39,13 +39,13 @@
         "record@key",
         "record@fileKey",
         "record@size",
-        "record@category"
+        "record@identifier"
     ],
     "initial": {
         "phase": "INIT",
         "catalog": "UNIQUE:service.catalog,code,code=FIX:w.document.request",
         "openBy": "USER:key",
         "owner": "USER:key",
-        "record@category": "FIX:FILE.REQUEST"
+        "record@identifier": "FIX:w.ticket"
     }
 }

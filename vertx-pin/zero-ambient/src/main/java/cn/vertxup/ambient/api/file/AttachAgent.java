@@ -18,12 +18,12 @@ import javax.ws.rs.core.MediaType;
 @Path("/api")
 public class AttachAgent {
 
-    @Path("/file/upload/{category}")
+    @Path("/file/upload/{identifier}")
     @POST
     @Address(Addr.File.UPLOAD)
-    public JsonObject upload(@PathParam(KName.CATEGORY) final String category,
+    public JsonObject upload(@PathParam(KName.IDENTIFIER) final String identifier,
                              @StreamParam final FileUpload fileUpload) {
-        return At.upload(category, fileUpload);
+        return At.upload(identifier, fileUpload);
     }
 
     @Path("/file/download/{fileKey}")

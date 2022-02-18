@@ -15,7 +15,7 @@ import java.util.Objects;
  */
 class ActionDao implements ActionOn {
     @Override
-    public <T> Future<JsonObject> createAsync(final JsonObject params, final ConfigTodo config) {
+    public Future<JsonObject> createAsync(final JsonObject params, final ConfigTodo config) {
         Objects.requireNonNull(config.dao());
         final UxJooq jooq = Ux.Jooq.on(config.dao());
         return null;
@@ -23,7 +23,7 @@ class ActionDao implements ActionOn {
 
     @Override
     @SuppressWarnings("all")
-    public <T> Future<JsonObject> updateAsync(final String key, final JsonObject params, final ConfigTodo config) {
+    public Future<JsonObject> updateAsync(final String key, final JsonObject params, final ConfigTodo config) {
         Objects.requireNonNull(config.dao());
         final UxJooq jooq = Ux.Jooq.on(config.dao());
         return jooq.<T>fetchByIdAsync(key).compose(query -> {

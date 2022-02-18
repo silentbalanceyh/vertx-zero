@@ -23,9 +23,9 @@ public interface ActionOn {
         return Fn.poolThread(WfPool.POOL_ACTION, supplier, caseType.name());
     }
 
-    <T> Future<JsonObject> createAsync(JsonObject params, ConfigTodo config);
+    Future<JsonObject> createAsync(JsonObject params, ConfigTodo config);
 
-    <T> Future<JsonObject> updateAsync(String key, JsonObject params, ConfigTodo config);
+    Future<JsonObject> updateAsync(String key, JsonObject params, ConfigTodo config);
 
     Future<JsonObject> fetchAsync(String key, ConfigTodo config);
 }
