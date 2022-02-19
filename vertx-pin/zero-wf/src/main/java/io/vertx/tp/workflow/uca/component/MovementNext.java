@@ -2,8 +2,8 @@ package io.vertx.tp.workflow.uca.component;
 
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.workflow.atom.WInstance;
 import io.vertx.tp.workflow.atom.WKey;
+import io.vertx.tp.workflow.atom.WProcess;
 import io.vertx.tp.workflow.refine.Wf;
 import io.vertx.tp.workflow.uca.runner.EventOn;
 import io.vertx.tp.workflow.uca.runner.RunOn;
@@ -17,7 +17,7 @@ import java.util.Objects;
  */
 public class MovementNext extends AbstractTransfer implements Movement {
     @Override
-    public Future<WInstance> moveAsync(final JsonObject params) {
+    public Future<WProcess> moveAsync(final JsonObject params) {
         // Extract workflow parameters
         final WKey key = WKey.build(params);
         final String instanceId = key.instanceId();
@@ -25,10 +25,10 @@ public class MovementNext extends AbstractTransfer implements Movement {
         final EventOn eventOn = EventOn.get();
 
         // Instance Building
-        final WInstance wInstance = WInstance.create();
+        final WProcess wProcess = WProcess.create();
         return Wf.instanceById(instanceId)
-            // WInstance -> Bind ProcessInstance
-            .compose(wInstance::future)
+            // WProcess -> Bind ProcessInstance
+            .compose(wProcess::future)
             .compose(instance -> {
                 // Whether instance existing
                 if (Objects.isNull(instance)) {
@@ -48,27 +48,27 @@ public class MovementNext extends AbstractTransfer implements Movement {
                      */
                     final String taskId = key.taskId();
                     return eventOn.taskSmart(instance, taskId)
-                        // WInstance -> Bind Task
-                        .compose(wInstance::future)
+                        // WProcess -> Bind Task
+                        .compose(wProcess::future)
                         .compose(task -> Ux.future(this.moveGet(task.getTaskDefinitionKey())));
                 }
             })
             .compose(move -> {
-                // WInstance -> Bind Moving, Camunda Instance Moving
-                wInstance.bind(move.stored(params));
-                final ProcessInstance instance = wInstance.instance();
+                // WProcess -> Bind Moving, Camunda Instance Moving
+                wProcess.bind(move.stored(params));
+                final ProcessInstance instance = wProcess.instance();
 
                 // Camunda Workflow Running
                 final RunOn runOn = RunOn.get();
                 if (Objects.isNull(instance)) {
                     final String definitionKey = key.definitionKey();
                     return runOn.startAsync(definitionKey, move)
-                        // WInstance -> Bind ProcessInstance
-                        .compose(wInstance::future)
-                        .compose(nil -> wInstance.future());
+                        // WProcess -> Bind ProcessInstance
+                        .compose(wProcess::future)
+                        .compose(nil -> wProcess.future());
                 } else {
                     return runOn.moveAsync(instance, move)
-                        .compose(nil -> wInstance.future());
+                        .compose(nil -> wProcess.future());
                 }
             });
     }

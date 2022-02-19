@@ -2,8 +2,8 @@ package io.vertx.tp.workflow.uca.component;
 
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.workflow.atom.WInstance;
 import io.vertx.tp.workflow.atom.WKey;
+import io.vertx.tp.workflow.atom.WProcess;
 import io.vertx.tp.workflow.refine.Wf;
 import io.vertx.tp.workflow.uca.runner.EventOn;
 
@@ -12,14 +12,14 @@ import io.vertx.tp.workflow.uca.runner.EventOn;
  */
 public class MovementPre extends AbstractTransfer implements Movement {
     @Override
-    public Future<WInstance> moveAsync(final JsonObject params) {
+    public Future<WProcess> moveAsync(final JsonObject params) {
         final WKey key = WKey.build(params);
-        final WInstance wInstance = WInstance.create();
+        final WProcess wProcess = WProcess.create();
         final EventOn event = EventOn.get();
         return Wf.instanceById(key.instanceId())
-            .compose(wInstance::future)
-            .compose(nil -> event.taskActive(wInstance.instance()))
-            .compose(wInstance::future)
-            .compose(nil -> wInstance.future());
+            .compose(wProcess::future)
+            .compose(nil -> event.taskActive(wProcess.instance()))
+            .compose(wProcess::future)
+            .compose(nil -> wProcess.future());
     }
 }

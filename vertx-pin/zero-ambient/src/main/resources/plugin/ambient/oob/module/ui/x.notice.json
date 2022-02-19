@@ -1,0 +1,30 @@
+[
+    {
+        "metadata": "status,状态,MAPPING",
+        "$mapping": {
+            "RUNNING": "发布中,notification,16,#58c623",
+            "FINISHED": "已结束,stop,16,#3053EB"
+        }
+    },
+    "name,公告标题",
+    {
+        "metadata": "expiredAt,截止时间,DATE",
+        "$format": "YYYY-MM-DD HH:mm"
+    },
+    {
+        "title": "更新人",
+        "dataIndex": "updatedBy",
+        "$render": "USER",
+        "$config": {
+            "uri": "/api/user/:key",
+            "field": "realname"
+        },
+        "$empty": "（系统）"
+    },
+    {
+        "title": "更新时间",
+        "dataIndex": "updatedAt",
+        "$render": "DATE",
+        "$format": "YYYY-MM-DD HH:mm"
+    }
+]

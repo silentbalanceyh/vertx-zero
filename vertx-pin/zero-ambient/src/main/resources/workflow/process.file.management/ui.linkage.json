@@ -44,8 +44,13 @@
                     "metadata": "serial,单号",
                     "width": 120
                 },
+                "title,工单标题",
                 {
-                    "metadata": "phase,工单状态,RENDERS",
+                    "metadata": "catalog,类型,DATUM",
+                    "$datum": "source=service.catalog,value=code,display=name"
+                },
+                {
+                    "metadata": "phase,状态,RENDERS",
                     "width": 100,
                     "config": {
                         "items": [
@@ -60,7 +65,6 @@
                         ]
                     }
                 },
-                "title,工单标题",
                 {
                     "metadata": "openBy,制单人,USER",
                     "$config": {

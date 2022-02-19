@@ -17,7 +17,7 @@
             <overridePrimaryKeys>override_primmary_key</overridePrimaryKeys>
             <name>org.jooq.meta.mysql.MySQLDatabase</name>
             <inputSchema>DB_ETERNAL</inputSchema>
-            <includes>(^(W_).*)</includes>
+            <includes>(^(W_|T_).*)</includes>
             <unsignedTypes>false</unsignedTypes>
         </database>
         <generate>

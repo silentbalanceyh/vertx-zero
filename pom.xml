@@ -66,8 +66,8 @@
         <encoding>UTF-8</encoding>
 
         <!-- Vertx Framework Version -->
-        <vertx.version>4.2.4</vertx.version>
-        <stack.version>4.2.4</stack.version>
+        <vertx.version>4.2.5</vertx.version>
+        <stack.version>4.2.5</stack.version>
 
         <jcabi.version>0.23.2</jcabi.version>
         <jersey.version>2.35</jersey.version>
@@ -134,7 +134,7 @@
 
         <!-- Rpc -->
         <vertx.grpc.version>1.6.1</vertx.grpc.version>
-        <grpc.version>1.44.0</grpc.version>
+        <grpc.version>1.44.1</grpc.version>
         <protobuf.version>3.19.4</protobuf.version>
         <annotation.api.version>6.0.53</annotation.api.version>
         <gson.version>2.9.0</gson.version>

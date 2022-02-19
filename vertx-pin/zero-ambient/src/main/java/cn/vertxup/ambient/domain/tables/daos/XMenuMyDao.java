@@ -206,6 +206,21 @@ public class XMenuMyDao extends AbstractVertxDAO<XMenuMyRecord, cn.vertxup.ambie
         }
 
         /**
+     * Find records that have <code>PARAMETER IN (values)</code> asynchronously
+     */
+        public Future<List<cn.vertxup.ambient.domain.tables.pojos.XMenuMy>> findManyByParameter(Collection<String> values) {
+                return findManyByCondition(XMenuMy.X_MENU_MY.PARAMETER.in(values));
+        }
+
+        /**
+     * Find records that have <code>PARAMETER IN (values)</code> asynchronously
+     * limited by the given limit
+     */
+        public Future<List<cn.vertxup.ambient.domain.tables.pojos.XMenuMy>> findManyByParameter(Collection<String> values, int limit) {
+                return findManyByCondition(XMenuMy.X_MENU_MY.PARAMETER.in(values),limit);
+        }
+
+        /**
      * Find records that have <code>ACTIVE IN (values)</code> asynchronously
      */
         public Future<List<cn.vertxup.ambient.domain.tables.pojos.XMenuMy>> findManyByActive(Collection<Boolean> values) {

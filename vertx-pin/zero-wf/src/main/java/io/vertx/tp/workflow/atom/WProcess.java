@@ -1,63 +1,108 @@
 package io.vertx.tp.workflow.atom;
 
 import io.vertx.core.Future;
+import io.vertx.tp.workflow.uca.runner.EventOn;
+import io.vertx.tp.workflow.uca.runner.IsOn;
 import io.vertx.up.unity.Ux;
-import org.camunda.bpm.engine.history.HistoricProcessInstance;
-import org.camunda.bpm.engine.repository.ProcessDefinition;
 import org.camunda.bpm.engine.runtime.ProcessInstance;
+import org.camunda.bpm.engine.task.Task;
 
-import java.io.Serializable;
 import java.util.Objects;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-public class WProcess implements Serializable {
-    private final ProcessDefinition definition;
-    private final HistoricProcessInstance instanceFinished;
-    private final ProcessInstance instance;
+public class WProcess {
+    private transient ProcessInstance instance;
+    private transient Task task;
+    private transient WMove move;
 
-    private WProcess(final ProcessDefinition definition, final ProcessInstance instance) {
-        this.definition = definition;
+    private WProcess() {
+    }
+
+    public static WProcess create() {
+        return new WProcess();
+    }
+
+    public WProcess bind(final ProcessInstance instance) {
         this.instance = instance;
-        this.instanceFinished = null;
+        return this;
     }
 
-    private WProcess(final ProcessDefinition definition, final HistoricProcessInstance instance) {
-        this.definition = definition;
-        this.instance = null;
-        this.instanceFinished = instance;
+    public WProcess bind(final Task task) {
+        this.task = task;
+        return this;
     }
 
-    public static WProcess on(final ProcessDefinition definition, final ProcessInstance instance) {
-        return new WProcess(definition, instance);
+    public WProcess bind(final WMove move) {
+        this.move = move;
+        return this;
     }
 
-    public static WProcess on(final ProcessDefinition definition, final HistoricProcessInstance instance) {
-        return new WProcess(definition, instance);
+    public Future<ProcessInstance> future(final ProcessInstance instance) {
+        this.instance = instance;
+        if (Objects.isNull(this.task) && Objects.nonNull(instance)) {
+
+
+            /*
+             * Get the first task of Active after process
+             * instance started. Here after process instance started,
+             * the workflow engine should set the task instance to
+             * WProcess here
+             */
+            final EventOn event = EventOn.get();
+            return event.taskActive(instance).compose(task -> {
+
+
+                /*
+                 * Here the WProcess should set `task` instance
+                 * The task object must be located after workflow started.
+                 */
+                this.task = task;
+                return Ux.future(instance);
+            });
+        } else {
+            return Ux.future(instance);
+        }
     }
 
-    public static Future<WProcess> future(final ProcessDefinition definition, final ProcessInstance instance) {
-        return Ux.future(on(definition, instance));
+    public Future<Task> future(final Task task) {
+        this.task = task;
+        return Ux.future(task);
     }
 
-    public static Future<WProcess> future(final ProcessDefinition definition, final HistoricProcessInstance instance) {
-        return Ux.future(on(definition, instance));
+    public Future<WMove> future(final WMove move) {
+        this.move = move;
+        return Ux.future(move);
     }
 
-    public ProcessDefinition definition() {
-        return this.definition;
+    public Future<WProcess> future() {
+        return Ux.future(this);
     }
 
     public ProcessInstance instance() {
         return this.instance;
     }
 
-    public HistoricProcessInstance instanceFinished() {
-        return this.instanceFinished;
+    public Task task() {
+        return this.task;
     }
 
-    public boolean isRunning() {
-        return Objects.nonNull(this.instance);
+    public WMoveRule rule() {
+        return Objects.requireNonNull(this.move).ruleFind();
+    }
+
+    public boolean isEnd() {
+        final IsOn is = IsOn.get();
+        return is.isEnd(this.instance);
+    }
+
+    public boolean isContinue() {
+        return !this.isEnd();
+    }
+
+    public Future<Task> next() {
+        final EventOn event = EventOn.get();
+        return event.taskActive(this.instance);
     }
 }

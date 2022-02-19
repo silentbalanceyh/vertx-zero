@@ -151,7 +151,7 @@ class WfFlow {
     static JsonObject formOut(final String formKey, final String definitionId, final String definitionKey) {
         Objects.requireNonNull(formKey);
         final String code = formKey.substring(formKey.lastIndexOf(Strings.COLON) + 1);
-        // Build Form Configuration parameters
+        // Build Form ConfigRunner parameters
         final JsonObject response = new JsonObject();
         response.put(KName.CODE, code);
         response.put(KName.Flow.FORM_KEY, formKey);

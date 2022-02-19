@@ -8,7 +8,7 @@
         "indent": "W.File.Request"
     },
     "record": {
-        "flag": "UPDATE"
+        "flag": "ADD"
     },
     "linkage": {
         "fields": [

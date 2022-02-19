@@ -9,8 +9,8 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.ke.refine.Ke;
 import io.vertx.tp.optic.business.ExLink;
-import io.vertx.tp.workflow.atom.ConfigLinkage;
 import io.vertx.tp.workflow.atom.EngineOn;
+import io.vertx.tp.workflow.atom.MetaInstance;
 import io.vertx.tp.workflow.atom.WRecord;
 import io.vertx.up.eon.KName;
 import io.vertx.up.unity.Ux;
@@ -102,20 +102,18 @@ public class TaskService implements TaskStub {
 
         // Connect to Workflow Engine
         final EngineOn engine = EngineOn.connect(ticket.getFlowDefinitionKey());
-
+        final MetaInstance meta = engine.metadata();
         // Linkage Extract
-        final ConfigLinkage linkage = engine.linkage();
-
-        if (Objects.isNull(linkage)) {
+        if (meta.linkSkip()) {
             return Ux.future(response);
         }
 
         // ConcurrentMap
         final ConcurrentMap<String, Future<JsonArray>> futures = new ConcurrentHashMap<>();
-        final Set<String> fields = linkage.fields();
+        final Set<String> fields = meta.linkFields();
         fields.forEach(field -> {
             final String sourceKey = ticket.getKey();
-            final JsonObject condition = linkage.condition(field);
+            final JsonObject condition = meta.linkCondition(field);
             condition.put(KName.SOURCE_KEY, sourceKey);
             futures.put(field, Ke.channelAsync(ExLink.class, Ux::futureA,
                 link -> link.fetch(condition)));

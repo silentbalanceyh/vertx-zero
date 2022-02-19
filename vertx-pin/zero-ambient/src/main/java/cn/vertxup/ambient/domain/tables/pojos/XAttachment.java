@@ -23,13 +23,14 @@ public class XAttachment implements VertxPojo, IXAttachment {
     private String        key;
     private String        name;
     private String        extension;
-    private String        module;
     private String        type;
     private String        mime;
     private Integer       size;
     private String        status;
     private String        storeWay;
     private String        storeId;
+    private String        modelId;
+    private String        modelKey;
     private String        fileName;
     private String        fileKey;
     private String        fileUrl;
@@ -49,13 +50,14 @@ public class XAttachment implements VertxPojo, IXAttachment {
         this.key = value.getKey();
         this.name = value.getName();
         this.extension = value.getExtension();
-        this.module = value.getModule();
         this.type = value.getType();
         this.mime = value.getMime();
         this.size = value.getSize();
         this.status = value.getStatus();
         this.storeWay = value.getStoreWay();
         this.storeId = value.getStoreId();
+        this.modelId = value.getModelId();
+        this.modelKey = value.getModelKey();
         this.fileName = value.getFileName();
         this.fileKey = value.getFileKey();
         this.fileUrl = value.getFileUrl();
@@ -74,13 +76,14 @@ public class XAttachment implements VertxPojo, IXAttachment {
         String        key,
         String        name,
         String        extension,
-        String        module,
         String        type,
         String        mime,
         Integer       size,
         String        status,
         String        storeWay,
         String        storeId,
+        String        modelId,
+        String        modelKey,
         String        fileName,
         String        fileKey,
         String        fileUrl,
@@ -97,13 +100,14 @@ public class XAttachment implements VertxPojo, IXAttachment {
         this.key = key;
         this.name = name;
         this.extension = extension;
-        this.module = module;
         this.type = type;
         this.mime = mime;
         this.size = size;
         this.status = status;
         this.storeWay = storeWay;
         this.storeId = storeId;
+        this.modelId = modelId;
+        this.modelKey = modelKey;
         this.fileName = fileName;
         this.fileKey = fileKey;
         this.fileUrl = fileUrl;
@@ -173,23 +177,6 @@ public class XAttachment implements VertxPojo, IXAttachment {
     @Override
     public XAttachment setExtension(String extension) {
         this.extension = extension;
-        return this;
-    }
-
-    /**
-     * Getter for <code>DB_ETERNAL.X_ATTACHMENT.MODULE</code>. 「module」- 业务标识
-     */
-    @Override
-    public String getModule() {
-        return this.module;
-    }
-
-    /**
-     * Setter for <code>DB_ETERNAL.X_ATTACHMENT.MODULE</code>. 「module」- 业务标识
-     */
-    @Override
-    public XAttachment setModule(String module) {
-        this.module = module;
         return this;
     }
 
@@ -300,6 +287,44 @@ public class XAttachment implements VertxPojo, IXAttachment {
     @Override
     public XAttachment setStoreId(String storeId) {
         this.storeId = storeId;
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.X_ATTACHMENT.MODEL_ID</code>. 「modelId」-
+     * 关联的模型identifier，用于描述
+     */
+    @Override
+    public String getModelId() {
+        return this.modelId;
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.X_ATTACHMENT.MODEL_ID</code>. 「modelId」-
+     * 关联的模型identifier，用于描述
+     */
+    @Override
+    public XAttachment setModelId(String modelId) {
+        this.modelId = modelId;
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.X_ATTACHMENT.MODEL_KEY</code>. 「modelKey」-
+     * 关联的模型记录ID，用于描述哪一个Model中的记录
+     */
+    @Override
+    public String getModelKey() {
+        return this.modelKey;
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.X_ATTACHMENT.MODEL_KEY</code>. 「modelKey」-
+     * 关联的模型记录ID，用于描述哪一个Model中的记录
+     */
+    @Override
+    public XAttachment setModelKey(String modelKey) {
+        this.modelKey = modelKey;
         return this;
     }
 
@@ -534,13 +559,14 @@ public class XAttachment implements VertxPojo, IXAttachment {
         sb.append(key);
         sb.append(", ").append(name);
         sb.append(", ").append(extension);
-        sb.append(", ").append(module);
         sb.append(", ").append(type);
         sb.append(", ").append(mime);
         sb.append(", ").append(size);
         sb.append(", ").append(status);
         sb.append(", ").append(storeWay);
         sb.append(", ").append(storeId);
+        sb.append(", ").append(modelId);
+        sb.append(", ").append(modelKey);
         sb.append(", ").append(fileName);
         sb.append(", ").append(fileKey);
         sb.append(", ").append(fileUrl);
@@ -567,13 +593,14 @@ public class XAttachment implements VertxPojo, IXAttachment {
         setKey(from.getKey());
         setName(from.getName());
         setExtension(from.getExtension());
-        setModule(from.getModule());
         setType(from.getType());
         setMime(from.getMime());
         setSize(from.getSize());
         setStatus(from.getStatus());
         setStoreWay(from.getStoreWay());
         setStoreId(from.getStoreId());
+        setModelId(from.getModelId());
+        setModelKey(from.getModelKey());
         setFileName(from.getFileName());
         setFileKey(from.getFileKey());
         setFileUrl(from.getFileUrl());

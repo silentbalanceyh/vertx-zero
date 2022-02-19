@@ -142,6 +142,18 @@ public interface IXMenuMy extends VertxPojo, Serializable {
     public String getOwner();
 
     /**
+     * Setter for <code>DB_ETERNAL.X_MENU_MY.PARAMETER</code>. 「parameter」-
+     * 该菜单的参数（收藏夹专用）
+     */
+    public IXMenuMy setParameter(String value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.X_MENU_MY.PARAMETER</code>. 「parameter」-
+     * 该菜单的参数（收藏夹专用）
+     */
+    public String getParameter();
+
+    /**
      * Setter for <code>DB_ETERNAL.X_MENU_MY.ACTIVE</code>. 「active」- 是否启用
      */
     public IXMenuMy setActive(Boolean value);
@@ -255,6 +267,7 @@ public interface IXMenuMy extends VertxPojo, Serializable {
                 setOrThrow(this::setPage,json::getString,"PAGE","java.lang.String");
                 setOrThrow(this::setPosition,json::getString,"POSITION","java.lang.String");
                 setOrThrow(this::setOwner,json::getString,"OWNER","java.lang.String");
+                setOrThrow(this::setParameter,json::getString,"PARAMETER","java.lang.String");
                 setOrThrow(this::setActive,json::getBoolean,"ACTIVE","java.lang.Boolean");
                 setOrThrow(this::setSigma,json::getString,"SIGMA","java.lang.String");
                 setOrThrow(this::setMetadata,json::getString,"METADATA","java.lang.String");
@@ -282,6 +295,7 @@ public interface IXMenuMy extends VertxPojo, Serializable {
                 json.put("PAGE",getPage());
                 json.put("POSITION",getPosition());
                 json.put("OWNER",getOwner());
+                json.put("PARAMETER",getParameter());
                 json.put("ACTIVE",getActive());
                 json.put("SIGMA",getSigma());
                 json.put("METADATA",getMetadata());
