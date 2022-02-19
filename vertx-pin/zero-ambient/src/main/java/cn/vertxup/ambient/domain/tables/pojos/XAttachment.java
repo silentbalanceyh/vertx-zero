@@ -31,6 +31,7 @@ public class XAttachment implements VertxPojo, IXAttachment {
     private String        storeId;
     private String        modelId;
     private String        modelKey;
+    private String        modelCategory;
     private String        fileName;
     private String        fileKey;
     private String        fileUrl;
@@ -58,6 +59,7 @@ public class XAttachment implements VertxPojo, IXAttachment {
         this.storeId = value.getStoreId();
         this.modelId = value.getModelId();
         this.modelKey = value.getModelKey();
+        this.modelCategory = value.getModelCategory();
         this.fileName = value.getFileName();
         this.fileKey = value.getFileKey();
         this.fileUrl = value.getFileUrl();
@@ -84,6 +86,7 @@ public class XAttachment implements VertxPojo, IXAttachment {
         String        storeId,
         String        modelId,
         String        modelKey,
+        String        modelCategory,
         String        fileName,
         String        fileKey,
         String        fileUrl,
@@ -108,6 +111,7 @@ public class XAttachment implements VertxPojo, IXAttachment {
         this.storeId = storeId;
         this.modelId = modelId;
         this.modelKey = modelKey;
+        this.modelCategory = modelCategory;
         this.fileName = fileName;
         this.fileKey = fileKey;
         this.fileUrl = fileUrl;
@@ -325,6 +329,25 @@ public class XAttachment implements VertxPojo, IXAttachment {
     @Override
     public XAttachment setModelKey(String modelKey) {
         this.modelKey = modelKey;
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.X_ATTACHMENT.MODEL_CATEGORY</code>.
+     * 「modelCategory」- 如果一个模型记录包含多种附件，则需要设置模型相关字段，等价于 field
+     */
+    @Override
+    public String getModelCategory() {
+        return this.modelCategory;
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.X_ATTACHMENT.MODEL_CATEGORY</code>.
+     * 「modelCategory」- 如果一个模型记录包含多种附件，则需要设置模型相关字段，等价于 field
+     */
+    @Override
+    public XAttachment setModelCategory(String modelCategory) {
+        this.modelCategory = modelCategory;
         return this;
     }
 
@@ -567,6 +590,7 @@ public class XAttachment implements VertxPojo, IXAttachment {
         sb.append(", ").append(storeId);
         sb.append(", ").append(modelId);
         sb.append(", ").append(modelKey);
+        sb.append(", ").append(modelCategory);
         sb.append(", ").append(fileName);
         sb.append(", ").append(fileKey);
         sb.append(", ").append(fileUrl);
@@ -601,6 +625,7 @@ public class XAttachment implements VertxPojo, IXAttachment {
         setStoreId(from.getStoreId());
         setModelId(from.getModelId());
         setModelKey(from.getModelKey());
+        setModelCategory(from.getModelCategory());
         setFileName(from.getFileName());
         setFileKey(from.getFileKey());
         setFileUrl(from.getFileUrl());
