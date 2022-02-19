@@ -13,7 +13,7 @@ import io.vertx.up.util.Ut;
  */
 class ActionDao implements ActionOn {
     @Override
-    public Future<JsonObject> createAsync(final JsonObject params, final MetaInstance metadata) {
+    public <T> Future<JsonObject> createAsync(final JsonObject params, final MetaInstance metadata) {
         final UxJooq jooq = metadata.recordDao();
         Ut.ifString(params, KName.METADATA);
         return jooq.insertJAsync(params);
@@ -21,7 +21,7 @@ class ActionDao implements ActionOn {
 
     @Override
     @SuppressWarnings("all")
-    public Future<JsonObject> updateAsync(final String key, final JsonObject params, final MetaInstance metadata) {
+    public <T> Future<JsonObject> updateAsync(final String key, final JsonObject params, final MetaInstance metadata) {
         final UxJooq jooq = metadata.recordDao();
         return jooq.<T>fetchByIdAsync(key).compose(query -> {
             // Fix Bug: Cannot deserialize value of type `java.lang.String` from Object value (token `JsonToken.START_OBJECT`)
@@ -32,7 +32,7 @@ class ActionDao implements ActionOn {
     }
 
     @Override
-    public Future<JsonObject> fetchAsync(final String key, final MetaInstance metadata) {
+    public <T> Future<JsonObject> fetchAsync(final String key, final MetaInstance metadata) {
         final UxJooq jooq = metadata.recordDao();
         return jooq.fetchByIdAsync(key)
             .compose(Ux::futureJ)

@@ -33,7 +33,14 @@ public class TransferStandard extends AbstractTodo implements Transfer {
              * Entity / Extension Ticket Record Execution, ( Update )
              * Todo Updated with normalized
              * */
-            .compose(normalized -> this.saveAsync(normalized, wProcess).compose(this.saveAsyncFn(normalized, wProcess)))
+            .compose(normalized -> {
+                /*
+                 * Todo Data Only
+                 */
+                final JsonObject todoData = KtTodo.closeJ(normalized, wProcess);
+                return this.saveAsync(todoData, wProcess)
+                    .compose(this.saveAsyncFn(normalized, wProcess));
+            })
 
 
             /*
@@ -101,12 +108,12 @@ public class TransferStandard extends AbstractTodo implements Transfer {
                      */
                     final JsonObject recordData = Ut.sureJObject(request.getJsonObject(KName.RECORD));
                     recordData.mergeIn(moveRule.getRecord());
-                    request.put(KName.RECORD, record);
-                    /*
-                     * Contains record modification, do update on record.
-                     */
-                    return this.saveAsync(request, metadataOut).compose(nil -> Ux.future(record));
+                    request.put(KName.RECORD, recordData);
                 }
+                /*
+                 * Contains record modification, do update on record.
+                 */
+                return this.saveAsync(request, metadataOut).compose(nil -> Ux.future(record));
             }
             return Ux.future(record);
         };

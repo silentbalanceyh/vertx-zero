@@ -142,13 +142,17 @@ public abstract class AbstractTransfer implements Behaviour {
             } else if (record instanceof JsonArray) {
                 // Record is JsonArray ( Each Json )
                 final JsonArray recordA = (JsonArray) record;
-                Ut.itJArray(recordA).forEach(json -> this.inputAsync(params, json, false));
+                final JsonArray modelChild = new JsonArray();
+                Ut.itJArray(recordA)
+                    .map(json -> this.inputAsync(params, json, false))
+                    .forEach(modelChild::add);
+                params.put(KName.MODEL_CHILD, modelChild.encode());         // String Format for `modelChild`
             }
             return Ux.future(params);
         }
     }
 
-    private void inputAsync(final JsonObject params, final JsonObject record, final boolean o2o) {
+    private String inputAsync(final JsonObject params, final JsonObject record, final boolean o2o) {
         /*
          * Here the params JsonObject instance must contain `key` field
          */
@@ -180,5 +184,6 @@ public abstract class AbstractTransfer implements Behaviour {
          * Copy the `key` of ticket to each record
          */
         record.put(KName.MODEL_KEY, params.getValue(KName.Flow.TRACE_KEY));
+        return recordKey;
     }
 }

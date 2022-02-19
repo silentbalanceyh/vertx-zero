@@ -23,11 +23,11 @@ public interface ActionOn {
         return Fn.poolThread(WfPool.POOL_ACTION, supplier, caseType.name());
     }
 
-    Future<JsonObject> createAsync(JsonObject params, MetaInstance metadata);
+    <T> Future<JsonObject> createAsync(JsonObject params, MetaInstance metadata);
 
-    Future<JsonObject> updateAsync(String key, JsonObject params, MetaInstance metadata);
+    <T> Future<JsonObject> updateAsync(String key, JsonObject params, MetaInstance metadata);
 
-    Future<JsonObject> fetchAsync(String key, MetaInstance metadata);
+    <T> Future<JsonObject> fetchAsync(String key, MetaInstance metadata);
 }
 
 interface T {
