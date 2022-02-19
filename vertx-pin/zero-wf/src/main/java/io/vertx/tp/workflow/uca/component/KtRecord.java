@@ -37,10 +37,15 @@ class KtRecord {
         }
         // Auditor Processing
         if (isNew) {
-            Ut.ifJAssign(params,
-                KName.CREATED_AT,
-                KName.CREATED_BY
-            ).apply(rData);
+            if (params.containsKey(KName.CREATED_AT)) {
+                Ut.ifJAssign(params,
+                    KName.CREATED_AT,
+                    KName.CREATED_BY
+                ).apply(rData);
+            } else {
+                rData.put(KName.CREATED_BY, params.getValue(KName.UPDATED_BY));
+                rData.put(KName.CREATED_AT, params.getValue(KName.UPDATED_AT));
+            }
         }
         Ut.ifJAssign(params,
             KName.UPDATED_AT,
@@ -48,6 +53,10 @@ class KtRecord {
             KName.SIGMA,
             KName.LANGUAGE
         ).apply(rData);
+        // Zero Specification
+        if (!rData.containsKey(KName.ACTIVE)) {
+            rData.put(KName.ACTIVE, Boolean.TRUE);
+        }
         return rData;
     }
 

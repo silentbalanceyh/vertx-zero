@@ -87,16 +87,17 @@ public class TransferStandard extends AbstractTodo implements Transfer {
              * Here will execute twice on entity record instead of one
              * 1. Insert -> Move Update
              * 2. Update -> Move Update
+             * The `status` should be previous status
+             * - ADD -> Inserted Status
+             * - UPDATE -> Original Stored Status
              */
             final TodoStatus status = record.status();
             final JsonObject request = updated.copy();
             final MetaInstance metadataOut = MetaInstance.output(record, this.metadataIn());
-            if (TodoStatus.DRAFT == status) {
-                /*
-                 * Draft -> Pending, no decision field processing
-                 */
+/*          if (TodoStatus.DRAFT == status) {
                 return this.saveAsync(request, metadataOut).compose(nil -> Ux.future(record));
-            } else if (TodoStatus.PENDING == status) {
+            } else */
+            if (TodoStatus.PENDING == status) {
                 /*
                  * Move Rules
                  */
@@ -110,12 +111,11 @@ public class TransferStandard extends AbstractTodo implements Transfer {
                     recordData.mergeIn(moveRule.getRecord());
                     request.put(KName.RECORD, recordData);
                 }
-                /*
-                 * Contains record modification, do update on record.
-                 */
-                return this.saveAsync(request, metadataOut).compose(nil -> Ux.future(record));
             }
-            return Ux.future(record);
+            /*
+             * Contains record modification, do update on record.
+             */
+            return this.saveAsync(request, metadataOut).compose(nil -> Ux.future(record));
         };
     }
 }
