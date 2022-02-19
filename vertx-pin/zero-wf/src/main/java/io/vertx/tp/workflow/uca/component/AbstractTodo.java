@@ -115,7 +115,9 @@ public abstract class AbstractTodo extends AbstractTransfer {
             .compose(record -> this.linkageKit.syncAsync(params, record));
     }
 
-    protected Future<WRecord> saveAsync(final JsonObject params, final ProcessInstance instance) {
+    protected Future<WRecord> saveAsync(final JsonObject params, final WProcess process) {
+        // Todo
+        final ProcessInstance instance = process.instance();
         return this.todoKit.saveAsync(params, instance)
             // Linkage Sync
             .compose(record -> this.linkageKit.syncAsync(params, record));

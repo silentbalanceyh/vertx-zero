@@ -265,9 +265,10 @@ class KtTodo {
         // Todo Build
         return this.metadata.serialT(params).compose(normalized -> {
             // Ticket Workflow
-            final String ticketKey = normalized.getString(KName.KEY);
+            final String todoKey = normalized.getString(KName.KEY);
             normalized.remove(KName.KEY);
             final WTicket ticket = Ux.fromJson(normalized, WTicket.class);
+            ticket.setKey(normalized.getString(KName.Flow.TRACE_KEY));      // Connect ticket key
             /*
              * null value when ticket processed
              *
@@ -302,7 +303,7 @@ class KtTodo {
                  * it means that we must set the `key` fixed to avoid todoUrl capture
                  * the key of ticket.
                  */
-                todo.setKey(ticketKey);
+                todo.setKey(todoKey);
                 /*
                  * null value when processed
                  * 「Related」

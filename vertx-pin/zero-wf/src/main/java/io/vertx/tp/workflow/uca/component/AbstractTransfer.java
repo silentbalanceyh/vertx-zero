@@ -54,6 +54,10 @@ public abstract class AbstractTransfer implements Behaviour {
      */
     protected Future<JsonObject> updateAsync(final JsonObject params, final MetaInstance metadata) {
         final KtRecord recordKit = KtRecord.toolkit(metadata);
+        // If Skip `record` processing
+        if (!params.containsKey(KName.RECORD)) {
+            return Ux.future(params);
+        }
         return recordKit.updateAsync(params)
             /* Record must be put in `params` -> `record` field */
             .compose(record -> this.outputAsync(params, record));
@@ -65,6 +69,10 @@ public abstract class AbstractTransfer implements Behaviour {
      */
     protected Future<JsonObject> insertAsync(final JsonObject params, final MetaInstance metadata) {
         final KtRecord recordKit = KtRecord.toolkit(metadata);
+        // If Skip `record` processing
+        if (!params.containsKey(KName.RECORD)) {
+            return Ux.future(params);
+        }
         return recordKit.insertAsync(params)
             /* Record must be put in `params` -> `record` field */
             .compose(record -> this.outputAsync(params, record));
@@ -75,7 +83,8 @@ public abstract class AbstractTransfer implements Behaviour {
      */
     protected Future<JsonObject> saveAsync(final JsonObject params, final MetaInstance metadata) {
         final KtRecord recordKit = KtRecord.toolkit(metadata);
-        if (Objects.isNull(this.config)) {
+        // If Skip `record` processing
+        if (!params.containsKey(KName.RECORD)) {
             return Ux.future(params);
         }
         return recordKit.saveAsync(params)
@@ -90,9 +99,11 @@ public abstract class AbstractTransfer implements Behaviour {
     /*
      * Basic Data Structure Here:
      * {
-     *      "key": "WTicket Key",
+     *      "key": "WTodo Key",
+     *      "traceKey": "WTicket Key",
      *      "record": {
-     *          "key": "Entity / Extension Ticket Key"
+     *          "key": "Entity / Extension Ticket Key",
+     *          "modelKey": "Refer WTicket Key"
      *      }
      * }
      * Here the request could be the spec situation
@@ -102,13 +113,19 @@ public abstract class AbstractTransfer implements Behaviour {
         if (!params.containsKey(KName.KEY)) {
             /*
              * Add `key` field to root json object
-             * Step 1: add generated `key` into root json object
-             * - key: WTicket key is here as major primary key, it's reflect to `W_TICKET` record.
-             *
-             * This `key` will be copied to W_TODO field `traceKey` instead of direct record
+             * Todo Key
              */
             params.put(KName.KEY, UUID.randomUUID().toString());
         }
+
+
+        if (!params.containsKey(KName.Flow.TRACE_KEY)) {
+            /*
+             * Add `traceKey` field to root json object
+             */
+            params.put(KName.Flow.TRACE_KEY, UUID.randomUUID().toString());
+        }
+
 
         final Object record = params.getValue(KName.RECORD);
         if (Objects.isNull(record)) {
@@ -162,6 +179,6 @@ public abstract class AbstractTransfer implements Behaviour {
         /*
          * Copy the `key` of ticket to each record
          */
-        record.put(KName.MODEL_KEY, recordKey);
+        record.put(KName.MODEL_KEY, params.getValue(KName.Flow.TRACE_KEY));
     }
 }

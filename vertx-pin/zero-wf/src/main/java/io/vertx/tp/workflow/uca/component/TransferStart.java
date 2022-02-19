@@ -22,11 +22,11 @@ public class TransferStart extends AbstractTodo implements Transfer {
         return this.inputAsync(params)
 
 
-            /* Entity / Extension Ticket Record Execution */
+            /* Entity / Extension Ticket Record Execution, ( Insert or Update ) */
             .compose(normalized -> this.saveAsync(normalized, this.metadataIn()))
 
 
-            /* Todo Execution */
+            /* Todo Execution ( Todo Insert ) */
             .compose(processed -> this.insertAsync(processed, wProcess));
     }
 }
