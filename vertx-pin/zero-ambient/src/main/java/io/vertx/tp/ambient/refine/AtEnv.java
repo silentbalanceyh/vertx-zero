@@ -21,7 +21,8 @@ class AtEnv {
      * File Upload
      */
     static JsonObject upload(final String identifier,
-                             final FileUpload fileUpload) {
+                             final FileUpload fileUpload,
+                             final String category) {
         final JsonObject uploaded = new JsonObject();
         final String originalFile = fileUpload.fileName();
         if (Ut.notNil(originalFile) && originalFile.contains(".")) {
@@ -46,6 +47,7 @@ class AtEnv {
                 .put(KName.Attachment.FILE_URL, downloadUrl)                    // Download Url for user download
                 .put(KName.Attachment.FILE_PATH, fileUpload.uploadedFileName()) // Stored file path, schedule remove all invalid files based on this field
                 .put(KName.MODEL_ID, identifier)                                // Related Model Identifier
+                .put(KName.MODEL_CATEGORY, category)                            // Related Model field dim for different category
                 .put(KName.Attachment.STORE_WAY, config.getFileStorage())       // Configured Stored Way
                 .put(KName.LANGUAGE, config.getFileLanguage())                  // Configured System Language
                 .put(KName.METADATA, new JsonObject().encode());                // (Reserved)
