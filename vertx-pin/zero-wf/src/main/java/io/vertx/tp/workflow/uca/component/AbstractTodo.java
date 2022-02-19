@@ -30,7 +30,7 @@ public abstract class AbstractTodo extends AbstractTransfer {
         return super.bind(metadata);
     }
 
-    protected MetaInstance metadataConfigured() {
+    protected MetaInstance metadataIn() {
         return this.metadata;
     }
 
@@ -100,8 +100,10 @@ public abstract class AbstractTodo extends AbstractTransfer {
             "modelComponent": "cn.vertxup.ambient.domain.tables.daos.XAttachmentDao",
             "modelId": "x.attachment"
         }
-         */
-    protected Future<WRecord> insertAsync(final JsonObject params, final ProcessInstance instance) {
+    */
+    protected Future<WRecord> insertAsync(final JsonObject params, final WProcess process) {
+        // Todo
+        final ProcessInstance instance = process.instance();
         return this.todoKit.insertAsync(params, instance)
             // Linkage Sync
             .compose(record -> this.linkageKit.syncAsync(params, record));

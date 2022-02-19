@@ -145,7 +145,7 @@ public class WRecord implements Serializable {
             // Record Action processing
             final ActionOn action = ActionOn.action(metadataInput.recordMode());
             // Record of Todo processing
-            final MetaInstance metadataOutput = MetaInstance.output(this);
+            final MetaInstance metadataOutput = MetaInstance.output(this, metadataInput);
             return action.fetchAsync(this.ticket.getModelKey(), metadataOutput).compose(json -> {
                 // record processing
                 response.put(KName.RECORD, json);

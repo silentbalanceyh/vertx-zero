@@ -199,6 +199,20 @@ class KtTodo {
         final UxJooq tJq = Ux.Jooq.on(WTicketDao.class);
         return tJq.<WTicket>fetchByIdAsync(tKey).compose(ticket -> {
             if (Objects.isNull(ticket)) {
+                /*
+                 * Code Logical 1:
+                 * Here the system will create new ticket, it means that related `MODEL_KEY` is null, the structure is:
+                 * {
+                 *      "key": null,
+                 *      "record": {
+                 *          "key": null or has value
+                 *      }
+                 * }
+                 * We should prepare the whole key related here to build relationship between
+                 * -- WTicket + Extension Ticket
+                 * -- WTicket + Extension Entity
+                 *
+                 */
                 return this.insertAsync(params, instance);
             } else {
                 return this.updateAsync(params);
@@ -251,7 +265,7 @@ class KtTodo {
         // Todo Build
         return this.metadata.serialT(params).compose(normalized -> {
             // Ticket Workflow
-            final String todoKey = normalized.getString(KName.KEY);
+            final String ticketKey = normalized.getString(KName.KEY);
             normalized.remove(KName.KEY);
             final WTicket ticket = Ux.fromJson(normalized, WTicket.class);
             /*
@@ -288,7 +302,7 @@ class KtTodo {
                  * it means that we must set the `key` fixed to avoid todoUrl capture
                  * the key of ticket.
                  */
-                todo.setKey(todoKey);
+                todo.setKey(ticketKey);
                 /*
                  * null value when processed
                  * 「Related」
@@ -357,8 +371,8 @@ class KtTodo {
         final String tKey = params.getString(KName.Flow.TRACE_ID);
         return this.updateTicket(tKey, params).compose(ticket -> {
             /*
-             * Todo Data Updating
-             * Updating the todo record for future usage
+             * Todo Data Update
+             * Update the todo record for future usage
              */
             final String key = params.getString(KName.KEY);
             final WRecord record = new WRecord();

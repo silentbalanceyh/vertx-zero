@@ -10,7 +10,6 @@ import io.vertx.up.util.Ut;
 
 import java.io.Serializable;
 import java.util.Objects;
-import java.util.UUID;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
@@ -83,11 +82,14 @@ class ConfigTodo implements Serializable {
 
     public Future<JsonObject> generate(final JsonObject data) {
         return Ke.umIndent(data, this.indent).compose(processed -> {
-            final JsonObject todoData = processed.copy();
-            Ut.ifJCopy(todoData, KName.INDENT, KName.SERIAL);
-            // Todo Generate `key` for `todoUrl`
-            Ut.ifJCopy(todoData, KName.INDENT, KName.CODE);
-            todoData.put(KName.KEY, UUID.randomUUID().toString());
+            final JsonObject ticketData = processed.copy();
+            Ut.ifJCopy(ticketData, KName.INDENT, KName.SERIAL);
+            /*
+             * Todo Generate `key` for `todoUrl`
+             * Previous
+             * ticketData.put(KName.KEY, UUID.randomUUID().toString());
+             */
+            Ut.ifJCopy(ticketData, KName.INDENT, KName.CODE);
             {
                 /*
                  * modelKey processing here.
@@ -99,25 +101,25 @@ class ConfigTodo implements Serializable {
                  * }
                  */
                 final JsonObject record = data.getJsonObject(KName.RECORD);
-                todoData.put(KName.MODEL_KEY, record.getValue(KName.KEY));
+                ticketData.put(KName.MODEL_KEY, record.getValue(KName.KEY));
             }
             final JsonObject todo = this.todoData.copy();
             final JsonObject combine = new JsonObject();
             Ut.<String>itJObject(todo, (expression, field) -> {
                 if (expression.contains("`")) {
-                    combine.put(field, Ut.fromExpression(expression, todoData));
+                    combine.put(field, Ut.fromExpression(expression, ticketData));
                 } else {
                     combine.put(field, expression);
                 }
             });
-            todoData.mergeIn(combine);
+            ticketData.mergeIn(combine);
             // Camunda Definition
-            final JsonObject workflow = todoData.getJsonObject(KName.Flow.WORKFLOW, new JsonObject());
+            final JsonObject workflow = ticketData.getJsonObject(KName.Flow.WORKFLOW, new JsonObject());
             {
-                todoData.put(KName.Flow.FLOW_DEFINITION_KEY, workflow.getString(KName.Flow.DEFINITION_KEY));
-                todoData.put(KName.Flow.FLOW_DEFINITION_ID, workflow.getString(KName.Flow.DEFINITION_ID));
+                ticketData.put(KName.Flow.FLOW_DEFINITION_KEY, workflow.getString(KName.Flow.DEFINITION_KEY));
+                ticketData.put(KName.Flow.FLOW_DEFINITION_ID, workflow.getString(KName.Flow.DEFINITION_ID));
             }
-            return Ux.future(todoData);
+            return Ux.future(ticketData);
         });
     }
 }

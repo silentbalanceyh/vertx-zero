@@ -35,9 +35,9 @@ public class MetaInstance {
         this.todo = new ConfigTodo(sure);
     }
 
-    private MetaInstance(final WRecord record) {
-        this.record = null;
-        this.linkage = null;
+    private MetaInstance(final WRecord record, final MetaInstance input) {
+        this.record = input.record;
+        this.linkage = input.linkage;
         this.todo = new ConfigTodo(record);
     }
 
@@ -45,8 +45,8 @@ public class MetaInstance {
         return new MetaInstance(configJson);
     }
 
-    public static MetaInstance output(final WRecord record) {
-        return new MetaInstance(record);
+    public static MetaInstance output(final WRecord record, final MetaInstance input) {
+        return new MetaInstance(record, input);
     }
 
     // ------------------- Record Part ---------------------

@@ -1,6 +1,7 @@
 package io.vertx.tp.workflow.uca.component;
 
 import io.vertx.core.Future;
+import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.workflow.atom.MetaInstance;
 import io.vertx.tp.workflow.atom.WMove;
@@ -9,6 +10,7 @@ import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
 import java.util.Objects;
+import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
@@ -54,7 +56,7 @@ public abstract class AbstractTransfer implements Behaviour {
         final KtRecord recordKit = KtRecord.toolkit(metadata);
         return recordKit.updateAsync(params)
             /* Record must be put in `params` -> `record` field */
-            .compose(record -> this.recordPost(params, record));
+            .compose(record -> this.outputAsync(params, record));
     }
 
     /*
@@ -65,7 +67,7 @@ public abstract class AbstractTransfer implements Behaviour {
         final KtRecord recordKit = KtRecord.toolkit(metadata);
         return recordKit.insertAsync(params)
             /* Record must be put in `params` -> `record` field */
-            .compose(record -> this.recordPost(params, record));
+            .compose(record -> this.outputAsync(params, record));
     }
 
     /*
@@ -78,10 +80,88 @@ public abstract class AbstractTransfer implements Behaviour {
         }
         return recordKit.saveAsync(params)
             /* Record must be put in `params` -> `record` field */
-            .compose(record -> this.recordPost(params, record));
+            .compose(record -> this.outputAsync(params, record));
     }
 
-    private Future<JsonObject> recordPost(final JsonObject params, final JsonObject record) {
+    private Future<JsonObject> outputAsync(final JsonObject params, final JsonObject record) {
         return Ux.future(params.put(KName.RECORD, record));
+    }
+
+    /*
+     * Basic Data Structure Here:
+     * {
+     *      "key": "WTicket Key",
+     *      "record": {
+     *          "key": "Entity / Extension Ticket Key"
+     *      }
+     * }
+     * Here the request could be the spec situation
+     * -- record is null ( No Related Here )
+     */
+    protected Future<JsonObject> inputAsync(final JsonObject params) {
+        if (!params.containsKey(KName.KEY)) {
+            /*
+             * Add `key` field to root json object
+             * Step 1: add generated `key` into root json object
+             * - key: WTicket key is here as major primary key, it's reflect to `W_TICKET` record.
+             *
+             * This `key` will be copied to W_TODO field `traceKey` instead of direct record
+             */
+            params.put(KName.KEY, UUID.randomUUID().toString());
+        }
+
+        final Object record = params.getValue(KName.RECORD);
+        if (Objects.isNull(record)) {
+            /*
+             * Skip Record Processing
+             * Situation 1: Because `record` is null, skip `record` processing
+             */
+            return Ux.future(params);
+        } else {
+            if (record instanceof JsonObject) {
+                // Record is JsonObject
+                final JsonObject recordJ = (JsonObject) record;
+                this.inputAsync(params, recordJ, true);
+            } else if (record instanceof JsonArray) {
+                // Record is JsonArray ( Each Json )
+                final JsonArray recordA = (JsonArray) record;
+                Ut.itJArray(recordA).forEach(json -> this.inputAsync(params, json, false));
+            }
+            return Ux.future(params);
+        }
+    }
+
+    private void inputAsync(final JsonObject params, final JsonObject record, final boolean o2o) {
+        /*
+         * Here the params JsonObject instance must contain `key` field
+         */
+        final String recordKey;
+        if (record.containsKey(KName.KEY)) {
+            /*
+             * Get existing `key` from record json object
+             */
+            recordKey = record.getString(KName.KEY);
+        } else {
+            /*
+             * Generate new `key` here
+             */
+            recordKey = UUID.randomUUID().toString();
+            record.put(KName.KEY, recordKey);
+        }
+
+
+        /*
+         * Copy the `key` of record to ticket when
+         * JsonObject <-> JsonObject
+         */
+        if (o2o) {
+            params.put(KName.MODEL_KEY, recordKey);
+        }
+
+
+        /*
+         * Copy the `key` of ticket to each record
+         */
+        record.put(KName.MODEL_KEY, recordKey);
     }
 }

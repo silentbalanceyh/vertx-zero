@@ -51,6 +51,9 @@ class KtRecord {
         return rData;
     }
 
+    /*
+     * When insert new record
+     */
     Future<JsonObject> insertAsync(final JsonObject params) {
         Objects.requireNonNull(this.metadata);
         final ActionOn action = ActionOn.action(this.metadata.recordMode());
@@ -86,5 +89,9 @@ class KtRecord {
                 return action.updateAsync(key, recordData, this.metadata);
             }
         });
+    }
+
+    private void buildMapping(final JsonObject requestRef, final JsonObject recordData) {
+
     }
 }
