@@ -19,7 +19,11 @@ import java.util.function.*;
 public class Ke {
 
     /*
+     * Jooq related:
      * Read jooq configuration database name `catalog`
+     *
+     * 1. getDatabase()
+     * 2. getConfiguration()
      */
     public static String getDatabase() {
         return KeTool.getCatalog();
@@ -29,6 +33,16 @@ public class Ke {
         return KeTool.getConfiguration();
     }
 
+    /*
+     * Data Importing / Exporting Feature
+     *
+     * 1. combineAsync(JsonArray, ConcurrentMap<String,String>)
+     * 2. combineAsync(JsonArray, ConcurrentMap<String,String>, List<String>)
+     * 3. combineAsync(JsonArray, ConcurrentMap<String,String>, List<String>, TypeAtom)
+     *
+     * Dict Transfer Method
+     * 1. fabricAsync(String field)
+     */
     public static Future<JsonArray> combineAsync(final JsonArray data, final ConcurrentMap<String, String> headers) {
         return KeCompare.combineAsync(data, headers);
     }
@@ -44,10 +58,33 @@ public class Ke {
         return KeCompare.combineAsync(data, headers, columns, TypeAtom);
     }
 
-    public static Function<JsonObject, Future<JsonObject>> fabricAsync(final String field) {
+    public static Function<JsonObject, Future<JsonObject>> fabricFn(final String field) {
         return KeCompare.combineAsync(field);
     }
 
+    /*
+     * 1. mapFn(String, ConcurrentMap<String,JsonObject>, fn)
+     * 2. mapFn(ConcurrentMap<String,JsonObject>, fn)
+     */
+    public static Function<JsonObject, Future<JsonObject>> mapFn(final String field, final ConcurrentMap<String, JsonObject> fieldConfig,
+                                                                 final BiFunction<JsonObject, JsonArray, Future<JsonArray>> fileFn) {
+        return data -> KeTool.map(data, field, fieldConfig, fileFn);
+    }
+
+    public static Function<JsonObject, Future<JsonObject>> mapFn(final ConcurrentMap<String, JsonObject> fieldConfig,
+                                                                 final BiFunction<JsonObject, JsonArray, Future<JsonArray>> fileFn) {
+        return data -> KeTool.map(data, KName.KEY, fieldConfig, fileFn);
+    }
+
+
+    /*
+     * Banner Message
+     * 1. banner(String)
+     *
+     * Log Method
+     * 1. infoKe
+     * 2. debugKe
+     */
     public static void banner(final String module) {
         KeTool.banner(module);
     }
@@ -60,6 +97,13 @@ public class Ke {
         KeLog.debugKe(logger, pattern, args);
     }
 
+    /*
+     * Execution combined for function chain
+     *
+     * 1. runString(Supplier<String>, Consumer<String>)
+     * 2. runBoolean(Supplier<Boolean>, Consumer<Boolean>)
+     * 3. runInteger(Supplier<Integer>, Consumer<Integer>)
+     */
     public static void runString(final Supplier<String> supplier, final Consumer<String> consumer) {
         KeTool.consume(supplier, consumer);
     }
@@ -72,6 +116,14 @@ public class Ke {
         KeTool.consume(supplier, consumer);
     }
 
+    /*
+     * Channel Execution
+     *
+     * 1. channel
+     * 2. channelSync
+     * 3. channelAsync
+     * 4. channelFile
+     */
     public static <T, O> Future<O> channel(final Class<T> clazz, final Supplier<O> supplier,
                                            final Function<T, Future<O>> executor) {
         return KeRun.channel(clazz, supplier, executor);
@@ -89,6 +141,16 @@ public class Ke {
 
     /*
      * Session key generation
+     *
+     * 1. uri(String, String)
+     * 2. uri(RoutingContext)
+     *
+     * Key Generation for different usage
+     * 1. keyView(String, String, Vis)
+     * 2. keyView(RoutingContext)
+     * 3. keyAuthorized(String, String)
+     * 4. keyResource(String, String)
+     *
      */
     public static String uri(final String uri, final String requestUri) {
         return KeCache.uri(uri, requestUri);
@@ -114,6 +176,12 @@ public class Ke {
         return KeCache.keyResource(method, uri);
     }
 
+    /*
+     * Comparing method
+     * 1. compared(Apt, String)
+     * 2. compared(Apt, String, String)
+     * 3. atomyFn(Class<?>, Apt)
+     */
     public static Apt compmared(final Apt apt, final String user) {
         return KeCompare.compared(apt, KName.CODE, user);
     }
@@ -129,7 +197,24 @@ public class Ke {
     /*
      * Data Audit
      * - umCreated
+     *      - active
+     *      - language
+     *      - sigma
+     *      - metadata
+     *      - updatedAt
+     *      - updatedBy
+     *      - createdAt
+     *      - createdBy
      * - umUpdated
+     *      - active
+     *      - language
+     *      - sigma
+     *      - metadata
+     *      - updatedAt
+     *      - updatedBy
+     * - umIndent
+     *      - XNumber Generation
+     *      - Support T and Json
      */
 
     public static <T, I> void umCreated(final I output, final T input) {
