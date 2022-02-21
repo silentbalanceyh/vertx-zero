@@ -42,10 +42,6 @@ public class XAttachment extends TableImpl<XAttachmentRecord> {
      */
     public final TableField<XAttachmentRecord, String> EXTENSION = createField(DSL.name("EXTENSION"), SQLDataType.VARCHAR(10), this, "「extension」- 文件扩展名");
     /**
-     * The column <code>DB_ETERNAL.X_ATTACHMENT.MODULE</code>. 「module」- 业务标识
-     */
-    public final TableField<XAttachmentRecord, String> MODULE = createField(DSL.name("MODULE"), SQLDataType.VARCHAR(64), this, "「module」- 业务标识");
-    /**
      * The column <code>DB_ETERNAL.X_ATTACHMENT.TYPE</code>. 「type」-
      * 文件类型，直接关联zero.file.tree类型
      */
@@ -73,6 +69,16 @@ public class XAttachment extends TableImpl<XAttachmentRecord> {
      * 存储关联的Integration ID
      */
     public final TableField<XAttachmentRecord, String> STORE_ID = createField(DSL.name("STORE_ID"), SQLDataType.VARCHAR(36), this, "「storeId」- 存储关联的Integration ID");
+    /**
+     * The column <code>DB_ETERNAL.X_ATTACHMENT.MODEL_ID</code>. 「modelId」-
+     * 关联的模型identifier，用于描述
+     */
+    public final TableField<XAttachmentRecord, String> MODEL_ID = createField(DSL.name("MODEL_ID"), SQLDataType.VARCHAR(255), this, "「modelId」- 关联的模型identifier，用于描述");
+    /**
+     * The column <code>DB_ETERNAL.X_ATTACHMENT.MODEL_KEY</code>. 「modelKey」-
+     * 关联的模型记录ID，用于描述哪一个Model中的记录
+     */
+    public final TableField<XAttachmentRecord, String> MODEL_KEY = createField(DSL.name("MODEL_KEY"), SQLDataType.VARCHAR(36), this, "「modelKey」- 关联的模型记录ID，用于描述哪一个Model中的记录");
     /**
      * The column <code>DB_ETERNAL.X_ATTACHMENT.FILE_NAME</code>. 「fileName」-
      * 原始文件名（不带扩展名）
@@ -212,14 +218,5 @@ public class XAttachment extends TableImpl<XAttachmentRecord> {
     @Override
     public XAttachment rename(Name name) {
         return new XAttachment(name, null);
-    }
-
-    // -------------------------------------------------------------------------
-    // Row22 type methods
-    // -------------------------------------------------------------------------
-
-    @Override
-    public Row22<String, String, String, String, String, String, Integer, String, String, String, String, String, String, String, Boolean, String, String, String, LocalDateTime, String, LocalDateTime, String> fieldsRow() {
-        return (Row22) super.fieldsRow();
     }
 }

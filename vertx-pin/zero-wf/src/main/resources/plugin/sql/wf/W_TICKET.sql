@@ -30,11 +30,24 @@ CREATE TABLE IF NOT EXISTS W_TICKET
      * 3）数据详细信息
      * -- MODEL_KEY（记录专用主键）
      * -- MODEL_CATEGORY（关联的category记录）
+     *
+     *                  WTicket       T_??              Model
+     * 文件管理             1           0                   1
+     * 资产入库             1         1 x ASSET_IN          N
+     * 资产出库             1         1 x ASSET_OUT         N
+     * 资产报废             1         1 x ASSET_KO          N
+     * -- MODEL_CHILD 只有在 Model = N 的时候使用，在 Model = N 时，还依赖另外一张 T_?? 的单据表，单据中
+     *    存储了主单没有的特殊信息，此时MODEL_CHILD中存储的是相关实体的主键集，为JsonArray格式
      */
     `MODEL_ID`            VARCHAR(255) COMMENT '「modelId」- 关联的模型identifier，用于描述',
     `MODEL_KEY`           VARCHAR(36) COMMENT '「modelKey」- 关联的模型记录ID，用于描述哪一个Model中的记录',
     `MODEL_CATEGORY`      VARCHAR(128) COMMENT '「modelCategory」- 关联的category记录，只包含叶节点',
     `MODEL_COMPONENT`     VARCHAR(255) COMMENT '「modelComponent」- 关联的待办组件记录',
+    /*
+     * 批量专用字段
+     */
+    `MODEL_CHILD`         LONGTEXT COMMENT '「modelChild」- 关联多个模型的记录ID，JsonArray格式',
+    `QUANTITY`            INTEGER COMMENT '「quantity」- 数量信息，多个模型记录时统计模型总数',
 
 
     /*

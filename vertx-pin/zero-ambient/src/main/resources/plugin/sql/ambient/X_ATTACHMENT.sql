@@ -7,7 +7,6 @@ CREATE TABLE IF NOT EXISTS X_ATTACHMENT
     `KEY`        VARCHAR(36) COMMENT '「key」- 附件的ID值',
     `NAME`       VARCHAR(255) COMMENT '「name」- 文件名（带扩展名）',
     `EXTENSION`  VARCHAR(10) COMMENT '「extension」- 文件扩展名',
-    `MODULE`     VARCHAR(64) COMMENT '「module」- 业务标识',
     -- 文件管理专用
     `TYPE`       VARCHAR(128) COMMENT '「type」- 文件类型，直接关联zero.file.tree类型',
 
@@ -17,6 +16,10 @@ CREATE TABLE IF NOT EXISTS X_ATTACHMENT
     `STATUS`     VARCHAR(12) COMMENT '「status」- 状态，PROGRESS / SUCCESS',
     `STORE_WAY`  VARCHAR(12) COMMENT '「storeWay」- 存储方式，BLOB / FILE / TPL / REMOTE',
     `STORE_ID`   VARCHAR(36) COMMENT '「storeId」- 存储关联的Integration ID',
+
+    -- 关联模型信息
+    `MODEL_ID`   VARCHAR(255) COMMENT '「modelId」- 关联的模型identifier，用于描述',
+    `MODEL_KEY`  VARCHAR(36) COMMENT '「modelKey」- 关联的模型记录ID，用于描述哪一个Model中的记录',
 
     -- 原始文件相关信息
     `FILE_NAME`  VARCHAR(255) COMMENT '「fileName」- 原始文件名（不带扩展名）',

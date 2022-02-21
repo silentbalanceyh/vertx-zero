@@ -1,9 +1,9 @@
 -- liquibase formatted sql
 
--- changeset Lang:x-notification-1
--- 邮件模板：X_NOTIFICATION
-DROP TABLE IF EXISTS X_NOTIFICATION;
-CREATE TABLE IF NOT EXISTS X_NOTIFICATION
+-- changeset Lang:x-message-tpl-1
+-- 邮件模板：X_MESSAGE_TPL
+DROP TABLE IF EXISTS X_MESSAGE_TPL;
+CREATE TABLE IF NOT EXISTS X_MESSAGE_TPL
 (
     `KEY`            VARCHAR(36) COMMENT '「key」- 模板唯一主键',
     `NAME`           VARCHAR(255) COMMENT '「name」- 模板名称',
@@ -31,8 +31,8 @@ CREATE TABLE IF NOT EXISTS X_NOTIFICATION
     `UPDATED_BY`     VARCHAR(36) COMMENT '「updatedBy」- 更新人',
     PRIMARY KEY (`KEY`) USING BTREE
 );
--- changeset Lang:x-notification-2
-ALTER TABLE X_NOTIFICATION
+-- changeset Lang:x-message-tpl-2
+ALTER TABLE X_MESSAGE_TPL
     ADD UNIQUE (`APP_ID`, `CODE`); -- 模板名称/编码
-ALTER TABLE X_NOTIFICATION
+ALTER TABLE X_MESSAGE_TPL
     ADD UNIQUE (`APP_ID`, `NAME`);

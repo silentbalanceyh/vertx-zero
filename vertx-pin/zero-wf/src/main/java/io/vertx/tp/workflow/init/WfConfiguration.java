@@ -7,7 +7,7 @@ import io.vertx.core.Future;
 import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.ke.refine.Ke;
-import io.vertx.tp.workflow.atom.ConfigWorkflow;
+import io.vertx.tp.workflow.atom.MetaWorkflow;
 import io.vertx.tp.workflow.refine.Wf;
 import io.vertx.up.commune.config.Database;
 import io.vertx.up.uca.yaml.Node;
@@ -37,7 +37,7 @@ import java.util.concurrent.ConcurrentMap;
 final class WfConfiguration {
     private static final Node<JsonObject> READER = Ut.singleton(ZeroUniform.class);
     private static final ConcurrentMap<String, WFlow> FLOW_POOL = new ConcurrentHashMap<>();
-    private static ConfigWorkflow CONFIG;
+    private static MetaWorkflow CONFIG;
     private static ProcessEngine ENGINE;
     private static boolean ENABLED;
     private static HistoryEventHandler HANDLER;
@@ -51,7 +51,7 @@ final class WfConfiguration {
             final JsonObject configuration = configJson.getJsonObject(WfCv.FOLDER_ROOT, new JsonObject());
             Wf.Log.infoInit(WfConfiguration.class, "The workflow engine will be initialized!! `{0}`",
                 configuration.encode());
-            CONFIG = Ut.deserialize(configuration, ConfigWorkflow.class);
+            CONFIG = Ut.deserialize(configuration, MetaWorkflow.class);
             ENABLED = true;
         } else {
             ENABLED = false;

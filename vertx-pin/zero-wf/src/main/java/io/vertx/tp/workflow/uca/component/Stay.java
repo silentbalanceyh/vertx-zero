@@ -2,7 +2,7 @@ package io.vertx.tp.workflow.uca.component;
 
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.workflow.atom.WInstance;
+import io.vertx.tp.workflow.atom.WProcess;
 import io.vertx.tp.workflow.atom.WRecord;
 
 /**
@@ -10,5 +10,5 @@ import io.vertx.tp.workflow.atom.WRecord;
  */
 public interface Stay extends Behaviour {
 
-    Future<WRecord> keepAsync(JsonObject params, WInstance instance);
+    Future<WRecord> keepAsync(JsonObject params, WProcess instance);
 }

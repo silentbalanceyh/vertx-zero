@@ -130,6 +130,30 @@ public interface IWTicket extends VertxPojo, Serializable {
     public String getModelComponent();
 
     /**
+     * Setter for <code>DB_ETERNAL.W_TICKET.MODEL_CHILD</code>. 「modelChild」-
+     * 关联多个模型的记录ID，JsonArray格式
+     */
+    public IWTicket setModelChild(String value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.W_TICKET.MODEL_CHILD</code>. 「modelChild」-
+     * 关联多个模型的记录ID，JsonArray格式
+     */
+    public String getModelChild();
+
+    /**
+     * Setter for <code>DB_ETERNAL.W_TICKET.QUANTITY</code>. 「quantity」-
+     * 数量信息，多个模型记录时统计模型总数
+     */
+    public IWTicket setQuantity(Integer value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.W_TICKET.QUANTITY</code>. 「quantity」-
+     * 数量信息，多个模型记录时统计模型总数
+     */
+    public Integer getQuantity();
+
+    /**
      * Setter for <code>DB_ETERNAL.W_TICKET.FLOW_DEFINITION_KEY</code>.
      * 「flowDefinitionKey」- 流程定义的KEY, getProcessDefinitionKey
      */
@@ -451,6 +475,8 @@ public interface IWTicket extends VertxPojo, Serializable {
                 setOrThrow(this::setModelKey,json::getString,"MODEL_KEY","java.lang.String");
                 setOrThrow(this::setModelCategory,json::getString,"MODEL_CATEGORY","java.lang.String");
                 setOrThrow(this::setModelComponent,json::getString,"MODEL_COMPONENT","java.lang.String");
+                setOrThrow(this::setModelChild,json::getString,"MODEL_CHILD","java.lang.String");
+                setOrThrow(this::setQuantity,json::getInteger,"QUANTITY","java.lang.Integer");
                 setOrThrow(this::setFlowDefinitionKey,json::getString,"FLOW_DEFINITION_KEY","java.lang.String");
                 setOrThrow(this::setFlowDefinitionId,json::getString,"FLOW_DEFINITION_ID","java.lang.String");
                 setOrThrow(this::setFlowInstanceId,json::getString,"FLOW_INSTANCE_ID","java.lang.String");
@@ -496,6 +522,8 @@ public interface IWTicket extends VertxPojo, Serializable {
                 json.put("MODEL_KEY",getModelKey());
                 json.put("MODEL_CATEGORY",getModelCategory());
                 json.put("MODEL_COMPONENT",getModelComponent());
+                json.put("MODEL_CHILD",getModelChild());
+                json.put("QUANTITY",getQuantity());
                 json.put("FLOW_DEFINITION_KEY",getFlowDefinitionKey());
                 json.put("FLOW_DEFINITION_ID",getFlowDefinitionId());
                 json.put("FLOW_INSTANCE_ID",getFlowInstanceId());

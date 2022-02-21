@@ -69,21 +69,6 @@ public class XAttachmentDao extends AbstractVertxDAO<XAttachmentRecord, cn.vertx
         }
 
         /**
-     * Find records that have <code>MODULE IN (values)</code> asynchronously
-     */
-        public Future<List<cn.vertxup.ambient.domain.tables.pojos.XAttachment>> findManyByModule(Collection<String> values) {
-                return findManyByCondition(XAttachment.X_ATTACHMENT.MODULE.in(values));
-        }
-
-        /**
-     * Find records that have <code>MODULE IN (values)</code> asynchronously
-     * limited by the given limit
-     */
-        public Future<List<cn.vertxup.ambient.domain.tables.pojos.XAttachment>> findManyByModule(Collection<String> values, int limit) {
-                return findManyByCondition(XAttachment.X_ATTACHMENT.MODULE.in(values),limit);
-        }
-
-        /**
      * Find records that have <code>TYPE IN (values)</code> asynchronously
      */
         public Future<List<cn.vertxup.ambient.domain.tables.pojos.XAttachment>> findManyByType(Collection<String> values) {
@@ -171,6 +156,36 @@ public class XAttachmentDao extends AbstractVertxDAO<XAttachmentRecord, cn.vertx
      */
         public Future<List<cn.vertxup.ambient.domain.tables.pojos.XAttachment>> findManyByStoreId(Collection<String> values, int limit) {
                 return findManyByCondition(XAttachment.X_ATTACHMENT.STORE_ID.in(values),limit);
+        }
+
+        /**
+     * Find records that have <code>MODEL_ID IN (values)</code> asynchronously
+     */
+        public Future<List<cn.vertxup.ambient.domain.tables.pojos.XAttachment>> findManyByModelId(Collection<String> values) {
+                return findManyByCondition(XAttachment.X_ATTACHMENT.MODEL_ID.in(values));
+        }
+
+        /**
+     * Find records that have <code>MODEL_ID IN (values)</code> asynchronously
+     * limited by the given limit
+     */
+        public Future<List<cn.vertxup.ambient.domain.tables.pojos.XAttachment>> findManyByModelId(Collection<String> values, int limit) {
+                return findManyByCondition(XAttachment.X_ATTACHMENT.MODEL_ID.in(values),limit);
+        }
+
+        /**
+     * Find records that have <code>MODEL_KEY IN (values)</code> asynchronously
+     */
+        public Future<List<cn.vertxup.ambient.domain.tables.pojos.XAttachment>> findManyByModelKey(Collection<String> values) {
+                return findManyByCondition(XAttachment.X_ATTACHMENT.MODEL_KEY.in(values));
+        }
+
+        /**
+     * Find records that have <code>MODEL_KEY IN (values)</code> asynchronously
+     * limited by the given limit
+     */
+        public Future<List<cn.vertxup.ambient.domain.tables.pojos.XAttachment>> findManyByModelKey(Collection<String> values, int limit) {
+                return findManyByCondition(XAttachment.X_ATTACHMENT.MODEL_KEY.in(values),limit);
         }
 
         /**

@@ -11,11 +11,11 @@ import io.vertx.tp.ambient.refine.At;
 import io.vertx.up.annotations.Address;
 import io.vertx.up.annotations.Queue;
 import io.vertx.up.commune.Envelop;
+import io.vertx.up.eon.KName;
 import io.vertx.up.log.Annal;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
-import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Queue
@@ -25,17 +25,34 @@ public class AttachActor {
 
     @Address(Addr.File.UPLOAD)
     public Future<JsonObject> upload(final Envelop envelop) {
+        /*
+         * New file processing workflow, here should be careful
+         * 1. ADD:
+         * -- 1.1. Upload the file to server ( Do not insert record into database )
+         * -- 1.2. When add record, based configured the file field in CRUD, insert the record
+         *
+         * 2. EDIT:
+         * -- 2.1. Upload the file to server
+         * -- 2.2. Remove all the related attachment and files
+         * -- 2.3. Update all the attachments
+         */
         final JsonObject content = envelop.body();
         At.infoFile(LOGGER, AtMsg.FILE_UPLOAD, content.encodePrettily());
+        Ut.ifJObject(content, KName.METADATA);
+        return Ux.future(content);
+
+        /*
         final XAttachment attachment = Ut.deserialize(content, XAttachment.class);
         final String userKey = Ux.keyUser(envelop.user());
         if (Objects.nonNull(userKey)) {
             attachment.setCreatedBy(userKey);
         }
         attachment.setCreatedAt(LocalDateTime.now());
+
         return Ux.Jooq.on(XAttachmentDao.class)
             .insertAsync(attachment)
             .compose(Ux::futureJ);
+        */
     }
 
     @Address(Addr.File.DOWNLOAD)

@@ -1,26 +1,20 @@
 package io.vertx.tp.workflow.uca.component;
 
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.workflow.atom.ConfigLinkage;
-import io.vertx.tp.workflow.atom.ConfigRecord;
-import io.vertx.tp.workflow.atom.ConfigTodo;
+import io.vertx.tp.workflow.atom.MetaInstance;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 public interface Behaviour {
     /*
-     * Component Configuration Binding
+     * Component ConfigRunner Binding
      */
     Behaviour bind(JsonObject config);
 
     /*
-     * Ticket, Todo, Linkage Configuration
+     * 1. Ticket, Todo, Linkage ConfigRunner
+     * 2. Record / Entity ConfigRunner
      */
-    Behaviour bind(ConfigTodo todo, ConfigLinkage linkage);
-
-    /*
-     * Record / Entity Configuration
-     */
-    Behaviour bind(ConfigRecord record);
+    Behaviour bind(MetaInstance metadata);
 }

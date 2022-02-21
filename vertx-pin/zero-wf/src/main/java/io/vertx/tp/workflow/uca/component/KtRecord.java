@@ -2,12 +2,9 @@ package io.vertx.tp.workflow.uca.component;
 
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.ke.refine.Ke;
-import io.vertx.tp.workflow.atom.ConfigRecord;
-import io.vertx.tp.workflow.atom.ConfigTodo;
+import io.vertx.tp.workflow.atom.MetaInstance;
 import io.vertx.tp.workflow.uca.modeling.ActionOn;
 import io.vertx.up.eon.KName;
-import io.vertx.up.eon.em.ChangeFlag;
 import io.vertx.up.util.Ut;
 
 import java.util.Objects;
@@ -16,14 +13,14 @@ import java.util.Objects;
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 class KtRecord {
-    private final transient ConfigRecord configRecord;
+    private final transient MetaInstance metadata;
 
-    KtRecord(final ConfigRecord recordConfig) {
-        this.configRecord = recordConfig;
+    private KtRecord(final MetaInstance metadata) {
+        this.metadata = metadata;
     }
 
-    ChangeFlag mode() {
-        return this.configRecord.getFlag();
+    static KtRecord toolkit(final MetaInstance metadata) {
+        return new KtRecord(metadata);
     }
 
     /*
@@ -40,34 +37,70 @@ class KtRecord {
         }
         // Auditor Processing
         if (isNew) {
-            Ut.ifJAssign(params,
-                KName.CREATED_AT,
-                KName.CREATED_BY
-            ).apply(rData);
+            if (params.containsKey(KName.CREATED_AT)) {
+                Ut.ifJAssign(params,
+                    KName.CREATED_AT,
+                    KName.CREATED_BY
+                ).apply(rData);
+            } else {
+                rData.put(KName.CREATED_BY, params.getValue(KName.UPDATED_BY));
+                rData.put(KName.CREATED_AT, params.getValue(KName.UPDATED_AT));
+            }
         }
         Ut.ifJAssign(params,
             KName.UPDATED_AT,
             KName.UPDATED_BY,
-            KName.SIGMA
+            KName.SIGMA,
+            KName.LANGUAGE
         ).apply(rData);
+        // Zero Specification
+        if (!rData.containsKey(KName.ACTIVE)) {
+            rData.put(KName.ACTIVE, Boolean.TRUE);
+        }
         return rData;
     }
 
-    Future<JsonObject> insertAsync(final JsonObject params, final ConfigTodo configTodo) {
-        Objects.requireNonNull(this.configRecord);
-        final ActionOn action = ActionOn.action(this.configRecord.getMode());
+    /*
+     * When insert new record
+     */
+    Future<JsonObject> insertAsync(final JsonObject params) {
+        Objects.requireNonNull(this.metadata);
+        final ActionOn action = ActionOn.action(this.metadata.recordMode());
         final JsonObject recordData = this.normalize(params, true);
-        return Ke.umIndent(recordData, this.configRecord.getIndent())
-            .compose(processed -> action.createAsync(processed, configTodo));
+        // Generate the record serial number
+        return this.metadata.serialR(recordData)
+            .compose(processed -> action.createAsync(processed, this.metadata));
     }
 
-    Future<JsonObject> updateAsync(final JsonObject params, final ConfigTodo config) {
-        Objects.requireNonNull(this.configRecord);
-        final ActionOn action = ActionOn.action(this.configRecord.getMode());
+    Future<JsonObject> updateAsync(final JsonObject params) {
+        Objects.requireNonNull(this.metadata);
+        final ActionOn action = ActionOn.action(this.metadata.recordMode());
         // Data Preparing
         final JsonObject recordData = this.normalize(params, false);
-        final String key = this.configRecord.unique(recordData);
+        final String key = this.metadata.recordKeyU(recordData);
+        return action.updateAsync(key, recordData, this.metadata);
+    }
+
+    Future<JsonObject> saveAsync(final JsonObject params) {
+        Objects.requireNonNull(this.metadata);
+        final ActionOn action = ActionOn.action(this.metadata.recordMode());
+        final JsonObject recordData = this.normalize(params, true);
+        final String key = this.metadata.recordKeyU(recordData);
         Objects.requireNonNull(key);
-        return action.updateAsync(key, recordData, config);
+        return action.fetchAsync(key, this.metadata).compose(queried -> {
+            if (Ut.isNil(queried)) {
+                // Create New
+                return action.createAsync(recordData, this.metadata);
+            } else {
+                // Update New ( Skip createdAt, createdBy )
+                recordData.remove(KName.CREATED_AT);
+                recordData.remove(KName.CREATED_BY);
+                return action.updateAsync(key, recordData, this.metadata);
+            }
+        });
+    }
+
+    private void buildMapping(final JsonObject requestRef, final JsonObject recordData) {
+
     }
 }

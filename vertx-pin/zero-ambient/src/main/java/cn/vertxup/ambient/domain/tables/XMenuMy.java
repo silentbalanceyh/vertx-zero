@@ -79,6 +79,11 @@ public class XMenuMy extends TableImpl<XMenuMyRecord> {
      */
     public final TableField<XMenuMyRecord, String> OWNER = createField(DSL.name("OWNER"), SQLDataType.VARCHAR(36), this, "「owner」- 拥有者ID");
     /**
+     * The column <code>DB_ETERNAL.X_MENU_MY.PARAMETER</code>. 「parameter」-
+     * 该菜单的参数（收藏夹专用）
+     */
+    public final TableField<XMenuMyRecord, String> PARAMETER = createField(DSL.name("PARAMETER"), SQLDataType.CLOB, this, "「parameter」- 该菜单的参数（收藏夹专用）");
+    /**
      * The column <code>DB_ETERNAL.X_MENU_MY.ACTIVE</code>. 「active」- 是否启用
      */
     public final TableField<XMenuMyRecord, Boolean> ACTIVE = createField(DSL.name("ACTIVE"), SQLDataType.BIT, this, "「active」- 是否启用");
@@ -196,11 +201,11 @@ public class XMenuMy extends TableImpl<XMenuMyRecord> {
     }
 
     // -------------------------------------------------------------------------
-    // Row20 type methods
+    // Row21 type methods
     // -------------------------------------------------------------------------
 
     @Override
-    public Row20<String, String, String, String, Long, String, String, String, String, String, String, String, Boolean, String, String, String, LocalDateTime, String, LocalDateTime, String> fieldsRow() {
-        return (Row20) super.fieldsRow();
+    public Row21<String, String, String, String, Long, String, String, String, String, String, String, String, String, Boolean, String, String, String, LocalDateTime, String, LocalDateTime, String> fieldsRow() {
+        return (Row21) super.fieldsRow();
     }
 }

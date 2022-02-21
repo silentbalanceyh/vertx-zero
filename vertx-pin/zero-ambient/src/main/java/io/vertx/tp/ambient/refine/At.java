@@ -66,7 +66,7 @@ public class At {
     /*
      * File
      */
-    public static JsonObject upload(final String category, final FileUpload fileUpload) {
-        return AtEnv.upload(category, fileUpload);
+    public static JsonObject upload(final String identifier, final FileUpload fileUpload) {
+        return AtEnv.upload(identifier, fileUpload);
     }
 }

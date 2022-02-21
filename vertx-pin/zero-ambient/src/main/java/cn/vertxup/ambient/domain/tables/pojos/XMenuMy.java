@@ -32,6 +32,7 @@ public class XMenuMy implements VertxPojo, IXMenuMy {
     private String        page;
     private String        position;
     private String        owner;
+    private String        parameter;
     private Boolean       active;
     private String        sigma;
     private String        metadata;
@@ -56,6 +57,7 @@ public class XMenuMy implements VertxPojo, IXMenuMy {
         this.page = value.getPage();
         this.position = value.getPosition();
         this.owner = value.getOwner();
+        this.parameter = value.getParameter();
         this.active = value.getActive();
         this.sigma = value.getSigma();
         this.metadata = value.getMetadata();
@@ -79,6 +81,7 @@ public class XMenuMy implements VertxPojo, IXMenuMy {
         String        page,
         String        position,
         String        owner,
+        String        parameter,
         Boolean       active,
         String        sigma,
         String        metadata,
@@ -100,6 +103,7 @@ public class XMenuMy implements VertxPojo, IXMenuMy {
         this.page = page;
         this.position = position;
         this.owner = owner;
+        this.parameter = parameter;
         this.active = active;
         this.sigma = sigma;
         this.metadata = metadata;
@@ -324,6 +328,25 @@ public class XMenuMy implements VertxPojo, IXMenuMy {
     }
 
     /**
+     * Getter for <code>DB_ETERNAL.X_MENU_MY.PARAMETER</code>. 「parameter」-
+     * 该菜单的参数（收藏夹专用）
+     */
+    @Override
+    public String getParameter() {
+        return this.parameter;
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.X_MENU_MY.PARAMETER</code>. 「parameter」-
+     * 该菜单的参数（收藏夹专用）
+     */
+    @Override
+    public XMenuMy setParameter(String parameter) {
+        this.parameter = parameter;
+        return this;
+    }
+
+    /**
      * Getter for <code>DB_ETERNAL.X_MENU_MY.ACTIVE</code>. 「active」- 是否启用
      */
     @Override
@@ -479,6 +502,7 @@ public class XMenuMy implements VertxPojo, IXMenuMy {
         sb.append(", ").append(page);
         sb.append(", ").append(position);
         sb.append(", ").append(owner);
+        sb.append(", ").append(parameter);
         sb.append(", ").append(active);
         sb.append(", ").append(sigma);
         sb.append(", ").append(metadata);
@@ -510,6 +534,7 @@ public class XMenuMy implements VertxPojo, IXMenuMy {
         setPage(from.getPage());
         setPosition(from.getPosition());
         setOwner(from.getOwner());
+        setParameter(from.getParameter());
         setActive(from.getActive());
         setSigma(from.getSigma());
         setMetadata(from.getMetadata());

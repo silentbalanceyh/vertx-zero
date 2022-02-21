@@ -4,9 +4,7 @@
 package cn.vertxup.workflow.domain;
 
 
-import cn.vertxup.workflow.domain.tables.WFlow;
-import cn.vertxup.workflow.domain.tables.WTicket;
-import cn.vertxup.workflow.domain.tables.WTodo;
+import cn.vertxup.workflow.domain.tables.*;
 import io.vertx.tp.ke.refine.Ke;
 import org.jooq.Catalog;
 import org.jooq.Table;
@@ -27,6 +25,21 @@ public class Db extends SchemaImpl {
      */
     public static final Db DB_ETERNAL = new Db();
     private static final long serialVersionUID = 1L;
+    /**
+     * The table <code>DB_ETERNAL.T_ASSET_IN</code>.
+     */
+    public final TAssetIn T_ASSET_IN = TAssetIn.T_ASSET_IN;
+
+    /**
+     * The table <code>DB_ETERNAL.T_ASSET_KO</code>.
+     */
+    public final TAssetKo T_ASSET_KO = TAssetKo.T_ASSET_KO;
+
+    /**
+     * The table <code>DB_ETERNAL.T_ASSET_OUT</code>.
+     */
+    public final TAssetOut T_ASSET_OUT = TAssetOut.T_ASSET_OUT;
+
     /**
      * The table <code>DB_ETERNAL.W_FLOW</code>.
      */
@@ -58,6 +71,9 @@ public class Db extends SchemaImpl {
     @Override
     public final List<Table<?>> getTables() {
         return Arrays.asList(
+            TAssetIn.T_ASSET_IN,
+            TAssetKo.T_ASSET_KO,
+            TAssetOut.T_ASSET_OUT,
             WFlow.W_FLOW,
             WTicket.W_TICKET,
             WTodo.W_TODO

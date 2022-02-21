@@ -2,7 +2,7 @@ package io.vertx.tp.workflow.refine;
 
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.workflow.atom.WProcess;
+import io.vertx.tp.workflow.atom.WProcessDefinition;
 import io.vertx.up.log.Annal;
 import org.camunda.bpm.engine.repository.ProcessDefinition;
 import org.camunda.bpm.engine.runtime.ProcessInstance;
@@ -96,20 +96,20 @@ public class Wf {
         return WfFlow.instanceById(instanceId);
     }
 
-    // Fetch WProcess ( Running )
-    public static Future<WProcess> instance(final String instanceId) {
+    // Fetch WProcessDefinition ( Running )
+    public static Future<WProcessDefinition> instance(final String instanceId) {
         // Fetch Instance First
         return WfFlow.instanceById(instanceId).compose(instance -> {
             if (Objects.isNull(instance)) {
                 // History
                 return WfFlow.instanceFinished(instanceId)
                     .compose(instanceFinished -> WfFlow.processById(instanceFinished.getProcessDefinitionId())
-                        .compose(definition -> WProcess.future(definition, instanceFinished))
+                        .compose(definition -> WProcessDefinition.future(definition, instanceFinished))
                     );
             } else {
                 // Running
                 return WfFlow.processById(instance.getProcessDefinitionId())
-                    .compose(definition -> WProcess.future(definition, instance));
+                    .compose(definition -> WProcessDefinition.future(definition, instance));
             }
         });
     }

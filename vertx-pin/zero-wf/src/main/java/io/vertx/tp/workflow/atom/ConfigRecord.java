@@ -1,6 +1,6 @@
 package io.vertx.tp.workflow.atom;
 
-import cn.zeroup.macrocosm.cv.em.TodoCase;
+import cn.zeroup.macrocosm.cv.em.RecordMode;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.eon.KName;
 import io.vertx.up.eon.em.ChangeFlag;
@@ -11,11 +11,11 @@ import java.util.Objects;
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-public class ConfigRecord implements Serializable {
+class ConfigRecord implements Serializable {
     private transient String unique = KName.KEY;
     private transient String indent;
     private transient ChangeFlag flag;
-    private transient TodoCase mode = TodoCase.DAO;
+    private transient RecordMode mode = RecordMode.DAO;
 
     public String getIndent() {
         return this.indent;
@@ -41,11 +41,11 @@ public class ConfigRecord implements Serializable {
         this.flag = flag;
     }
 
-    public TodoCase getMode() {
+    public RecordMode getMode() {
         return this.mode;
     }
 
-    public void setMode(final TodoCase mode) {
+    public void setMode(final RecordMode mode) {
         this.mode = mode;
     }
 

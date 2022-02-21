@@ -25,7 +25,7 @@ import io.github.jklingsporn.vertx.jooq.classic.jdbc.JDBCClassicQueryExecutor;
 public class WTicketDao extends AbstractVertxDAO<WTicketRecord, cn.vertxup.workflow.domain.tables.pojos.WTicket, String, Future<List<cn.vertxup.workflow.domain.tables.pojos.WTicket>>, Future<cn.vertxup.workflow.domain.tables.pojos.WTicket>, Future<Integer>, Future<String>> implements io.github.jklingsporn.vertx.jooq.classic.VertxDAO<WTicketRecord,cn.vertxup.workflow.domain.tables.pojos.WTicket,String> {
 
         /**
-     * @param configuration The Configuration used for rendering and query
+     * @param configuration The ConfigRunner used for rendering and query
      * execution.
      *      * @param vertx the vertx instance
      */
@@ -173,6 +173,37 @@ public class WTicketDao extends AbstractVertxDAO<WTicketRecord, cn.vertxup.workf
      */
         public Future<List<cn.vertxup.workflow.domain.tables.pojos.WTicket>> findManyByModelComponent(Collection<String> values, int limit) {
                 return findManyByCondition(WTicket.W_TICKET.MODEL_COMPONENT.in(values),limit);
+        }
+
+        /**
+     * Find records that have <code>MODEL_CHILD IN (values)</code>
+     * asynchronously
+     */
+        public Future<List<cn.vertxup.workflow.domain.tables.pojos.WTicket>> findManyByModelChild(Collection<String> values) {
+                return findManyByCondition(WTicket.W_TICKET.MODEL_CHILD.in(values));
+        }
+
+        /**
+     * Find records that have <code>MODEL_CHILD IN (values)</code>
+     * asynchronously limited by the given limit
+     */
+        public Future<List<cn.vertxup.workflow.domain.tables.pojos.WTicket>> findManyByModelChild(Collection<String> values, int limit) {
+                return findManyByCondition(WTicket.W_TICKET.MODEL_CHILD.in(values),limit);
+        }
+
+        /**
+     * Find records that have <code>QUANTITY IN (values)</code> asynchronously
+     */
+        public Future<List<cn.vertxup.workflow.domain.tables.pojos.WTicket>> findManyByQuantity(Collection<Integer> values) {
+                return findManyByCondition(WTicket.W_TICKET.QUANTITY.in(values));
+        }
+
+        /**
+     * Find records that have <code>QUANTITY IN (values)</code> asynchronously
+     * limited by the given limit
+     */
+        public Future<List<cn.vertxup.workflow.domain.tables.pojos.WTicket>> findManyByQuantity(Collection<Integer> values, int limit) {
+                return findManyByCondition(WTicket.W_TICKET.QUANTITY.in(values),limit);
         }
 
         /**

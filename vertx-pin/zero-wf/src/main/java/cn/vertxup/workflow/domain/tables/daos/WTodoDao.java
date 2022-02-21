@@ -25,7 +25,7 @@ import io.github.jklingsporn.vertx.jooq.classic.jdbc.JDBCClassicQueryExecutor;
 public class WTodoDao extends AbstractVertxDAO<WTodoRecord, cn.vertxup.workflow.domain.tables.pojos.WTodo, String, Future<List<cn.vertxup.workflow.domain.tables.pojos.WTodo>>, Future<cn.vertxup.workflow.domain.tables.pojos.WTodo>, Future<Integer>, Future<String>> implements io.github.jklingsporn.vertx.jooq.classic.VertxDAO<WTodoRecord,cn.vertxup.workflow.domain.tables.pojos.WTodo,String> {
 
         /**
-     * @param configuration The Configuration used for rendering and query
+     * @param configuration The ConfigRunner used for rendering and query
      * execution.
      *      * @param vertx the vertx instance
      */
