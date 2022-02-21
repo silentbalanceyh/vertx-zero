@@ -80,6 +80,10 @@ public class Ix {
         return IxFn.fetchFn(in);
     }
 
+    public static Function<JsonObject, Future<JsonObject>> fileFn(final IxMod in, final BiFunction<JsonObject, JsonArray, Future<JsonArray>> fileFn) {
+        return IxFn.fileFn(in, fileFn);
+    }
+
     // JqTool
     @SafeVarargs
     public static <T> Future<T> passion(final T input, final IxMod in, final BiFunction<T, IxMod, Future<T>>... executors) {

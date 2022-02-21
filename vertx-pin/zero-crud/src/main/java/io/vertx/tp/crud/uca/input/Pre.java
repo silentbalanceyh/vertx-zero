@@ -88,6 +88,18 @@ public interface Pre {
         }
     }
 
+    static Pre fileIn(final boolean createOnly) {
+        if (createOnly) {
+            return Fn.poolThread(Pooled.PRE_MAP, FCreatePre::new, FCreatePre.class.getName());
+        } else {
+            return Fn.poolThread(Pooled.PRE_MAP, FSavePre::new, FSavePre.class.getName());
+        }
+    }
+
+    static Pre fileOut() {
+        return Fn.poolThread(Pooled.PRE_MAP, FDeletePre::new, FDeletePre.class.getName());
+    }
+
     /*
      * 1) UniqueKey condition
      * 2) All key condition: sigma = xxx
@@ -110,6 +122,13 @@ public interface Pre {
         return Fn.poolThread(Pooled.PRE_MAP, QPkPre::new, QPkPre.class.getName());
     }
 
+    /*
+     * Major code execution logical
+     * J - JsonObject -> JsonObject
+     * A - JsonArray -> JsonArray
+     * AJ - JsonArray -> JsonObject
+     * JA - JsonObject -> JsonArray
+     */
     // JsonObject -> JsonObject
     default Future<JsonObject> inJAsync(final JsonObject data, final IxMod in) {
         return Future.failedFuture(new _501NotSupportException(this.getClass()));

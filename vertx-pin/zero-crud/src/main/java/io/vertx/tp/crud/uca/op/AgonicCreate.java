@@ -36,7 +36,8 @@ class AgonicCreate implements Agonic {
                         Pre.key(true)::inJAsync,             // UUID Generated
                         Pre.serial()::inJAsync,              // Serial/Number
                         Pre.auditor(true)::inJAsync,         // createdAt, createdBy
-                        Pre.auditor(false)::inJAsync         // updatedAt, updatedBy
+                        Pre.auditor(false)::inJAsync,        // updatedAt, updatedBy
+                        Pre.fileIn(true)::inJAsync           // File: Attachment creating
                     )
                     .compose(processed -> Ix.deserializeT(processed, module))
                     .compose(jooq::insertAsync)

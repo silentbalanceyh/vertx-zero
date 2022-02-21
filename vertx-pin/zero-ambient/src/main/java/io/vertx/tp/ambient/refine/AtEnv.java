@@ -36,7 +36,8 @@ class AtEnv {
             // File Url
             final String downloadUrl = MessageFormat.format(AtConstant.DOWNLOAD_URI, key);
             uploaded.put(KName.KEY, key)                                        // The primary key of attachment
-                .put(KName.STATUS, FileStatus.PROGRESS.name())                  // File Status: PROGRESS, DONE
+                // New workflow for uploading, the default status is DONE
+                .put(KName.STATUS, FileStatus.DONE.name())                      // File Status: PROGRESS, DONE
                 .put(KName.TYPE, fileUpload.contentType())                      // (Reserved)
                 .put(KName.MIME, fileUpload.contentType())                      // MIME type here
                 .put(KName.NAME, originalFile)                                  // File name: name.extension
