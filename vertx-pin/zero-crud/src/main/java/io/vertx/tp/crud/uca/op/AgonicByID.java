@@ -1,6 +1,7 @@
 package io.vertx.tp.crud.uca.op;
 
 import io.vertx.core.Future;
+import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.crud.init.IxPin;
 import io.vertx.tp.crud.refine.Ix;
@@ -8,6 +9,8 @@ import io.vertx.tp.crud.uca.desk.IxKit;
 import io.vertx.tp.crud.uca.desk.IxMod;
 import io.vertx.tp.crud.uca.next.Co;
 import io.vertx.tp.ke.atom.specification.KModule;
+import io.vertx.tp.ke.refine.Ke;
+import io.vertx.tp.optic.business.ExFile;
 import io.vertx.up.uca.jooq.UxJooq;
 import io.vertx.up.unity.Ux;
 
@@ -29,17 +32,25 @@ class AgonicByID implements Agonic {
             // For Format Beauty
             final KModule module = in.module();
             final JsonObject active = Ix.serializeJ(entity, module);
-            // Try to connecting
-            final IxMod connect = in.connecting(active);
-            if (Objects.isNull(connect)) {
-                // STOP: Return to stop code executing
-                return Ux.future(active);
-            }
-            // Next Json
-            final Co<JsonObject, JsonObject, JsonObject, JsonObject> co = Co.nextQ(in, false);
-            return co.next(input, active)
-                .compose(params -> this.runJAsync(params, connect))
-                .compose(standBy -> co.ok(active, standBy));
+
+            // File: Attachment extraction
+            return Ix.fileFn(in, (criteria, dataArray) -> Ke.channel(
+                ExFile.class,                       // Component
+                JsonArray::new,                     // JsonArray Data
+                file -> file.fetchAsync(criteria)   // Execution Logical
+            )).apply(active).compose(dataJ -> {
+                // Try to connecting
+                final IxMod connect = in.connecting(dataJ);
+                if (Objects.isNull(connect)) {
+                    // STOP: Return to stop code executing
+                    return Ux.future(dataJ);
+                }
+                // Next Json
+                final Co<JsonObject, JsonObject, JsonObject, JsonObject> co = Co.nextQ(in, false);
+                return co.next(input, dataJ)
+                    .compose(params -> this.runJAsync(params, connect))
+                    .compose(standBy -> co.ok(dataJ, standBy));
+            });
         });
     }
 }

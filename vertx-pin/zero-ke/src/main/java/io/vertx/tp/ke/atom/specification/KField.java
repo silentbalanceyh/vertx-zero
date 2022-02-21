@@ -15,6 +15,8 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
 /**
  * 「Pojo」Critical Fields
@@ -120,6 +122,13 @@ public class KField implements Serializable {
     @JsonDeserialize(using = JsonArrayDeserializer.class)
     private JsonArray array;
 
+    /**
+     * `attachment` information
+     */
+    @JsonSerialize(using = JsonArraySerializer.class)
+    @JsonDeserialize(using = JsonArrayDeserializer.class)
+    private JsonArray attachment;
+
     public String getKey() {
         return this.key;
     }
@@ -176,6 +185,14 @@ public class KField implements Serializable {
         this.array = array;
     }
 
+    public JsonArray getAttachment() {
+        return this.attachment;
+    }
+
+    public void setAttachment(final JsonArray attachment) {
+        this.attachment = attachment;
+    }
+
     public Set<String> fieldArray() {
         return Ut.toSet(this.array);
     }
@@ -197,6 +214,19 @@ public class KField implements Serializable {
         return set;
     }
 
+    public ConcurrentMap<String, JsonObject> fieldFile() {
+        final JsonArray attachments = Ut.sureJArray(this.attachment);
+        final ConcurrentMap<String, JsonObject> fieldMap = new ConcurrentHashMap<>();
+        Ut.itJArray(attachments).forEach(attachment -> {
+            final String field = attachment.getString(KName.FIELD);
+            final Object value = attachment.getValue("condition");
+            if (Ut.notNil(field) && value instanceof JsonObject) {
+                fieldMap.put(field, (JsonObject) value);
+            }
+        });
+        return fieldMap;
+    }
+
     @Override
     public String toString() {
         return "KField{" +
@@ -207,6 +237,7 @@ public class KField implements Serializable {
             ", numbers=" + this.numbers +
             ", object=" + this.object +
             ", array=" + this.array +
+            ", attachment=" + this.attachment +
             '}';
     }
 }

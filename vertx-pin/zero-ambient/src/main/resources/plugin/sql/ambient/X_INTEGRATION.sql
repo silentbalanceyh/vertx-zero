@@ -14,6 +14,7 @@ CREATE TABLE IF NOT EXISTS X_INTEGRATION
     `PORT`         INT COMMENT '「port」- 端口号',
     `PROTOCOL`     VARCHAR(64) COMMENT '「protocol」- 协议类型：HTTP, HTTPS, FTP',
     `ENDPOINT`     VARCHAR(255) COMMENT '「endpoint」- 端地址',
+
     -- FTP需要使用
     `PATH`         VARCHAR(255) COMMENT '「path」- 集成专用根路径',
     `OS_KEY`       NVARCHAR(1024) COMMENT '「osKey」- 开源专用Key',

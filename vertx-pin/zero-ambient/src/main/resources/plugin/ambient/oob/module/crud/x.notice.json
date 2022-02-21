@@ -7,6 +7,14 @@
                 "name",
                 "appId"
             ]
+        ],
+        "attachment": [
+            {
+                "field": "files",
+                "condition": {
+                    "modelId": "x.notice"
+                }
+            }
         ]
     }
 }

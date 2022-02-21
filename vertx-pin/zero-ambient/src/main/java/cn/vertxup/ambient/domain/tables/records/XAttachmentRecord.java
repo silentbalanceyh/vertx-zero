@@ -226,12 +226,31 @@ public class XAttachmentRecord extends UpdatableRecordImpl<XAttachmentRecord> im
     }
 
     /**
+     * Setter for <code>DB_ETERNAL.X_ATTACHMENT.MODEL_CATEGORY</code>.
+     * 「modelCategory」- 如果一个模型记录包含多种附件，则需要设置模型相关字段，等价于 field
+     */
+    @Override
+    public XAttachmentRecord setModelCategory(String value) {
+        set(11, value);
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.X_ATTACHMENT.MODEL_CATEGORY</code>.
+     * 「modelCategory」- 如果一个模型记录包含多种附件，则需要设置模型相关字段，等价于 field
+     */
+    @Override
+    public String getModelCategory() {
+        return (String) get(11);
+    }
+
+    /**
      * Setter for <code>DB_ETERNAL.X_ATTACHMENT.FILE_NAME</code>. 「fileName」-
      * 原始文件名（不带扩展名）
      */
     @Override
     public XAttachmentRecord setFileName(String value) {
-        set(11, value);
+        set(12, value);
         return this;
     }
 
@@ -241,7 +260,7 @@ public class XAttachmentRecord extends UpdatableRecordImpl<XAttachmentRecord> im
      */
     @Override
     public String getFileName() {
-        return (String) get(11);
+        return (String) get(12);
     }
 
     /**
@@ -250,7 +269,7 @@ public class XAttachmentRecord extends UpdatableRecordImpl<XAttachmentRecord> im
      */
     @Override
     public XAttachmentRecord setFileKey(String value) {
-        set(12, value);
+        set(13, value);
         return this;
     }
 
@@ -260,7 +279,7 @@ public class XAttachmentRecord extends UpdatableRecordImpl<XAttachmentRecord> im
      */
     @Override
     public String getFileKey() {
-        return (String) get(12);
+        return (String) get(13);
     }
 
     /**
@@ -269,7 +288,7 @@ public class XAttachmentRecord extends UpdatableRecordImpl<XAttachmentRecord> im
      */
     @Override
     public XAttachmentRecord setFileUrl(String value) {
-        set(13, value);
+        set(14, value);
         return this;
     }
 
@@ -279,7 +298,7 @@ public class XAttachmentRecord extends UpdatableRecordImpl<XAttachmentRecord> im
      */
     @Override
     public String getFileUrl() {
-        return (String) get(13);
+        return (String) get(14);
     }
 
     /**
@@ -288,7 +307,7 @@ public class XAttachmentRecord extends UpdatableRecordImpl<XAttachmentRecord> im
      */
     @Override
     public XAttachmentRecord setFilePath(String value) {
-        set(14, value);
+        set(15, value);
         return this;
     }
 
@@ -298,7 +317,7 @@ public class XAttachmentRecord extends UpdatableRecordImpl<XAttachmentRecord> im
      */
     @Override
     public String getFilePath() {
-        return (String) get(14);
+        return (String) get(15);
     }
 
     /**
@@ -306,7 +325,7 @@ public class XAttachmentRecord extends UpdatableRecordImpl<XAttachmentRecord> im
      */
     @Override
     public XAttachmentRecord setActive(Boolean value) {
-        set(15, value);
+        set(16, value);
         return this;
     }
 
@@ -315,7 +334,7 @@ public class XAttachmentRecord extends UpdatableRecordImpl<XAttachmentRecord> im
      */
     @Override
     public Boolean getActive() {
-        return (Boolean) get(15);
+        return (Boolean) get(16);
     }
 
     /**
@@ -323,7 +342,7 @@ public class XAttachmentRecord extends UpdatableRecordImpl<XAttachmentRecord> im
      */
     @Override
     public XAttachmentRecord setSigma(String value) {
-        set(16, value);
+        set(17, value);
         return this;
     }
 
@@ -332,7 +351,7 @@ public class XAttachmentRecord extends UpdatableRecordImpl<XAttachmentRecord> im
      */
     @Override
     public String getSigma() {
-        return (String) get(16);
+        return (String) get(17);
     }
 
     /**
@@ -341,7 +360,7 @@ public class XAttachmentRecord extends UpdatableRecordImpl<XAttachmentRecord> im
      */
     @Override
     public XAttachmentRecord setMetadata(String value) {
-        set(17, value);
+        set(18, value);
         return this;
     }
 
@@ -351,7 +370,7 @@ public class XAttachmentRecord extends UpdatableRecordImpl<XAttachmentRecord> im
      */
     @Override
     public String getMetadata() {
-        return (String) get(17);
+        return (String) get(18);
     }
 
     /**
@@ -360,7 +379,7 @@ public class XAttachmentRecord extends UpdatableRecordImpl<XAttachmentRecord> im
      */
     @Override
     public XAttachmentRecord setLanguage(String value) {
-        set(18, value);
+        set(19, value);
         return this;
     }
 
@@ -370,7 +389,7 @@ public class XAttachmentRecord extends UpdatableRecordImpl<XAttachmentRecord> im
      */
     @Override
     public String getLanguage() {
-        return (String) get(18);
+        return (String) get(19);
     }
 
     /**
@@ -379,7 +398,7 @@ public class XAttachmentRecord extends UpdatableRecordImpl<XAttachmentRecord> im
      */
     @Override
     public XAttachmentRecord setCreatedAt(LocalDateTime value) {
-        set(19, value);
+        set(20, value);
         return this;
     }
 
@@ -389,7 +408,7 @@ public class XAttachmentRecord extends UpdatableRecordImpl<XAttachmentRecord> im
      */
     @Override
     public LocalDateTime getCreatedAt() {
-        return (LocalDateTime) get(19);
+        return (LocalDateTime) get(20);
     }
 
     /**
@@ -398,7 +417,7 @@ public class XAttachmentRecord extends UpdatableRecordImpl<XAttachmentRecord> im
      */
     @Override
     public XAttachmentRecord setCreatedBy(String value) {
-        set(20, value);
+        set(21, value);
         return this;
     }
 
@@ -408,7 +427,7 @@ public class XAttachmentRecord extends UpdatableRecordImpl<XAttachmentRecord> im
      */
     @Override
     public String getCreatedBy() {
-        return (String) get(20);
+        return (String) get(21);
     }
 
     /**
@@ -417,7 +436,7 @@ public class XAttachmentRecord extends UpdatableRecordImpl<XAttachmentRecord> im
      */
     @Override
     public XAttachmentRecord setUpdatedAt(LocalDateTime value) {
-        set(21, value);
+        set(22, value);
         return this;
     }
 
@@ -427,7 +446,7 @@ public class XAttachmentRecord extends UpdatableRecordImpl<XAttachmentRecord> im
      */
     @Override
     public LocalDateTime getUpdatedAt() {
-        return (LocalDateTime) get(21);
+        return (LocalDateTime) get(22);
     }
 
     /**
@@ -436,7 +455,7 @@ public class XAttachmentRecord extends UpdatableRecordImpl<XAttachmentRecord> im
      */
     @Override
     public XAttachmentRecord setUpdatedBy(String value) {
-        set(22, value);
+        set(23, value);
         return this;
     }
 
@@ -446,7 +465,7 @@ public class XAttachmentRecord extends UpdatableRecordImpl<XAttachmentRecord> im
      */
     @Override
     public String getUpdatedBy() {
-        return (String) get(22);
+        return (String) get(23);
     }
 
     // -------------------------------------------------------------------------
@@ -475,6 +494,7 @@ public class XAttachmentRecord extends UpdatableRecordImpl<XAttachmentRecord> im
         setStoreId(from.getStoreId());
         setModelId(from.getModelId());
         setModelKey(from.getModelKey());
+        setModelCategory(from.getModelCategory());
         setFileName(from.getFileName());
         setFileKey(from.getFileKey());
         setFileUrl(from.getFileUrl());
@@ -509,7 +529,7 @@ public class XAttachmentRecord extends UpdatableRecordImpl<XAttachmentRecord> im
     /**
      * Create a detached, initialised XAttachmentRecord
      */
-    public XAttachmentRecord(String key, String name, String extension, String type, String mime, Integer size, String status, String storeWay, String storeId, String modelId, String modelKey, String fileName, String fileKey, String fileUrl, String filePath, Boolean active, String sigma, String metadata, String language, LocalDateTime createdAt, String createdBy, LocalDateTime updatedAt, String updatedBy) {
+    public XAttachmentRecord(String key, String name, String extension, String type, String mime, Integer size, String status, String storeWay, String storeId, String modelId, String modelKey, String modelCategory, String fileName, String fileKey, String fileUrl, String filePath, Boolean active, String sigma, String metadata, String language, LocalDateTime createdAt, String createdBy, LocalDateTime updatedAt, String updatedBy) {
         super(XAttachment.X_ATTACHMENT);
 
         setKey(key);
@@ -523,6 +543,7 @@ public class XAttachmentRecord extends UpdatableRecordImpl<XAttachmentRecord> im
         setStoreId(storeId);
         setModelId(modelId);
         setModelKey(modelKey);
+        setModelCategory(modelCategory);
         setFileName(fileName);
         setFileKey(fileKey);
         setFileUrl(fileUrl);
@@ -555,6 +576,7 @@ public class XAttachmentRecord extends UpdatableRecordImpl<XAttachmentRecord> im
             setStoreId(value.getStoreId());
             setModelId(value.getModelId());
             setModelKey(value.getModelKey());
+            setModelCategory(value.getModelCategory());
             setFileName(value.getFileName());
             setFileKey(value.getFileKey());
             setFileUrl(value.getFileUrl());

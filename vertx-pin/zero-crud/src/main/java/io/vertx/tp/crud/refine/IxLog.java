@@ -37,6 +37,10 @@ class IxLog {
         warn(logger, "Rest", pattern, args);
     }
 
+    static void warnWeb(final Annal logger, final String pattern, final Object... args) {
+        warn(logger, "Web", pattern, args);
+    }
+
     static void debugRest(final Annal logger, final String pattern, final Object... args) {
         debug(logger, "Rest", pattern, args);
     }
