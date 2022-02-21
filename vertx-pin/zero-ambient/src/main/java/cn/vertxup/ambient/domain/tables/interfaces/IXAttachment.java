@@ -142,6 +142,18 @@ public interface IXAttachment extends VertxPojo, Serializable {
     public String getModelKey();
 
     /**
+     * Setter for <code>DB_ETERNAL.X_ATTACHMENT.MODEL_CATEGORY</code>.
+     * 「modelCategory」- 如果一个模型记录包含多种附件，则需要设置模型相关字段，等价于 field
+     */
+    public IXAttachment setModelCategory(String value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.X_ATTACHMENT.MODEL_CATEGORY</code>.
+     * 「modelCategory」- 如果一个模型记录包含多种附件，则需要设置模型相关字段，等价于 field
+     */
+    public String getModelCategory();
+
+    /**
      * Setter for <code>DB_ETERNAL.X_ATTACHMENT.FILE_NAME</code>. 「fileName」-
      * 原始文件名（不带扩展名）
      */
@@ -310,6 +322,7 @@ public interface IXAttachment extends VertxPojo, Serializable {
                 setOrThrow(this::setStoreId,json::getString,"STORE_ID","java.lang.String");
                 setOrThrow(this::setModelId,json::getString,"MODEL_ID","java.lang.String");
                 setOrThrow(this::setModelKey,json::getString,"MODEL_KEY","java.lang.String");
+                setOrThrow(this::setModelCategory,json::getString,"MODEL_CATEGORY","java.lang.String");
                 setOrThrow(this::setFileName,json::getString,"FILE_NAME","java.lang.String");
                 setOrThrow(this::setFileKey,json::getString,"FILE_KEY","java.lang.String");
                 setOrThrow(this::setFileUrl,json::getString,"FILE_URL","java.lang.String");
@@ -340,6 +353,7 @@ public interface IXAttachment extends VertxPojo, Serializable {
                 json.put("STORE_ID",getStoreId());
                 json.put("MODEL_ID",getModelId());
                 json.put("MODEL_KEY",getModelKey());
+                json.put("MODEL_CATEGORY",getModelCategory());
                 json.put("FILE_NAME",getFileName());
                 json.put("FILE_KEY",getFileKey());
                 json.put("FILE_URL",getFileUrl());

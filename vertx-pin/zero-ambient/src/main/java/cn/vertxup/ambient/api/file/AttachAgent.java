@@ -22,8 +22,9 @@ public class AttachAgent {
     @POST
     @Address(Addr.File.UPLOAD)
     public JsonObject upload(@PathParam(KName.IDENTIFIER) final String identifier,
+                             @QueryParam(KName.CATEGORY) final String category,
                              @StreamParam final FileUpload fileUpload) {
-        return At.upload(identifier, fileUpload);
+        return At.upload(identifier, fileUpload, category);
     }
 
     @Path("/file/download/{fileKey}")

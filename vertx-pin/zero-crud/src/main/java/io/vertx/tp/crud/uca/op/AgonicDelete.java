@@ -7,6 +7,7 @@ import io.vertx.tp.crud.init.IxPin;
 import io.vertx.tp.crud.refine.Ix;
 import io.vertx.tp.crud.uca.desk.IxKit;
 import io.vertx.tp.crud.uca.desk.IxMod;
+import io.vertx.tp.crud.uca.input.Pre;
 import io.vertx.tp.ke.atom.specification.KModule;
 import io.vertx.tp.ke.refine.Ke;
 import io.vertx.tp.optic.Trash;
@@ -29,9 +30,12 @@ class AgonicDelete implements Agonic {
             } else {
                 final KModule module = in.module();
                 final JsonObject json = Ix.serializeJ(entity, module);
-                /* BackUp future */
-                return Ke.channelAsync(Trash.class, () -> Ux.future(json),
-                        (stub) -> stub.backupAsync(module.getIdentifier(), json))
+
+                /* File: Remove Attachment Part */
+                return Pre.fileOut().inJAsync(json, in)
+                    /* BackUp future */
+                    .compose(removed -> Ke.channelAsync(Trash.class, () -> Ux.future(removed),
+                        (stub) -> stub.backupAsync(module.getIdentifier(), removed)))
 
                     /* 200, IxLinker deleted first and then delete related record */
                     .compose(processed -> Ix.<Boolean>seekFn(in, processed)
@@ -52,10 +56,12 @@ class AgonicDelete implements Agonic {
             } else {
                 final KModule module = in.module();
                 final JsonArray array = Ix.serializeA(queried, module);
-                /* BackUp future */
-                return Ke.channelAsync(Trash.class, () -> Ux.future(array),
-                        stub -> stub.backupAsync(module.getIdentifier(), array))
 
+                /* File: Remove Attachment Part */
+                return Pre.fileOut().inAAsync(array, in)
+                    /* BackUp future */
+                    .compose(removed -> Ke.channelAsync(Trash.class, () -> Ux.future(array),
+                        stub -> stub.backupAsync(module.getIdentifier(), array)))
                     /* 200, IxLinker deleted first and then delete related records */
                     .compose(processed -> Ix.<Boolean>seekFn(in, processed)
                         .apply(() -> Boolean.FALSE, UxJooq::deleteByAsync))

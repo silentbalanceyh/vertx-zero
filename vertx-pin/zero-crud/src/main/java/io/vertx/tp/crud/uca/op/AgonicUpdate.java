@@ -45,7 +45,8 @@ class AgonicUpdate extends AgonicUnique {
                 // Do Update
                 final JsonObject merged = json.copy().mergeIn(input, true);
                 return Ix.passion(merged, in,
-                        Pre.auditor(false)::inJAsync         // updatedAt, updatedBy
+                        Pre.auditor(false)::inJAsync,        // updatedAt, updatedBy
+                        Pre.fileIn(false)::inJAsync          // File: Attachment creating
                     )
                     .compose(processed -> Ix.deserializeT(processed, module))
                     .compose(jooq::updateAsync)

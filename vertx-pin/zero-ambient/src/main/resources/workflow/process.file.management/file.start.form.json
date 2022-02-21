@@ -11,7 +11,6 @@
                 "optionJsx.accept": "*/*",
                 "optionJsx.config.filekey": "key",
                 "optionJsx.config.limit": 10240,
-                "optionJsx.config.single": true,
                 "optionJsx.ajax.uri": "/api/file/upload/:identifier",
                 "optionJsx.ajax.download": "/api/file/download/:key",
                 "optionJsx.ajax.params": {
