@@ -1,15 +1,12 @@
 package io.vertx.tp.workflow.atom;
 
-import com.fasterxml.jackson.databind.JsonArrayDeserializer;
-import com.fasterxml.jackson.databind.JsonArraySerializer;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
+import io.vertx.up.eon.KName;
 import io.vertx.up.eon.Strings;
 import io.vertx.up.util.Ut;
 
 import java.io.Serializable;
+import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
@@ -18,35 +15,63 @@ import java.util.concurrent.ConcurrentMap;
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 class ConfigLinkage implements Serializable {
+    private final static String CLS_DAO = "cn.vertxup.ambient.domain.tables.daos.XLinkageDao";
 
-    @JsonSerialize(using = JsonArraySerializer.class)
-    @JsonDeserialize(using = JsonArrayDeserializer.class)
-    private transient JsonArray fields = new JsonArray();
+    private final transient ConcurrentMap<String, Class<?>> daoMap = new ConcurrentHashMap<>();
+    private final transient ConcurrentMap<String, JsonObject> queryMap = new ConcurrentHashMap<>();
 
-    private transient ConcurrentMap<String, JsonObject> condition = new ConcurrentHashMap<>();
+    ConfigLinkage(final JsonObject linkageJ) {
+        /*
+         * field: {
+         *      "disabled": "UI Enable Or Not"
+         *      "config": {
+         *          "dao": "default is linkage dao"
+         *      },
+         *      "message": {
+         *      },
+         *      "editor": {
+         *          "tree": ...,
+         *          "initial": ...,
+         *          "search": ...,
+         *          "ajax"
+         *      },
+         *      "table": {
+         *      }
+         * }
+         */
+        Ut.<JsonObject>itJObject(linkageJ, (json, field) -> {
+            final JsonObject config = Ut.sureJObject(json, KName.CONFIG);
 
-    public JsonArray getFields() {
-        return this.fields;
-    }
+            if (Ut.notNil(config)) {
+                /*
+                 * First Map
+                 *
+                 * field = Dao
+                 */
+                final String clazzCls = config.containsKey(KName.DAO) ? config.getString(KName.DAO) : CLS_DAO;
+                final Class<?> clazz = Ut.clazz(clazzCls, null);
+                if (Objects.nonNull(clazz)) {
+                    this.daoMap.put(field, clazz);
+                }
 
-    public void setFields(final JsonArray fields) {
-        this.fields = fields;
-    }
 
-    public ConcurrentMap<String, JsonObject> getCondition() {
-        return this.condition;
-    }
-
-    public void setCondition(final ConcurrentMap<String, JsonObject> condition) {
-        this.condition = condition;
+                /*
+                 * Second Map
+                 */
+                if (this.daoMap.containsKey(field)) {
+                    final JsonObject query = Ut.sureJObject(config, KName.QUERY);
+                    this.queryMap.put(field, query);
+                }
+            }
+        });
     }
 
     public Set<String> fields() {
-        return Ut.toSet(this.fields);
+        return this.daoMap.keySet();
     }
 
     public JsonObject condition(final String field) {
-        final JsonObject conditionJ = this.condition.getOrDefault(field, new JsonObject());
+        final JsonObject conditionJ = this.queryMap.getOrDefault(field, new JsonObject());
         conditionJ.put(Strings.EMPTY, Boolean.TRUE);
         return conditionJ.copy();
     }

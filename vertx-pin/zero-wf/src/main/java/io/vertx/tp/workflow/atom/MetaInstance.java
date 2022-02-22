@@ -20,7 +20,7 @@ public class MetaInstance {
     private final transient ConfigTodo todo;
     private final transient ConfigLinkage linkage;
 
-    private MetaInstance(final JsonObject startJson) {
+    private MetaInstance(final JsonObject startJson, final JsonObject linkageJson) {
         final JsonObject sure = Ut.sureJObject(startJson);
         /*
          * ConfigRunner for
@@ -31,7 +31,7 @@ public class MetaInstance {
          * All the configuration came from `StartConfig`
          */
         this.record = Ux.fromJson(sure.getJsonObject(KName.RECORD, new JsonObject()), ConfigRecord.class);
-        this.linkage = Ux.fromJson(sure.getJsonObject(KName.LINKAGE, new JsonObject()), ConfigLinkage.class);
+        this.linkage = new ConfigLinkage(linkageJson);
         this.todo = new ConfigTodo(sure);
     }
 
@@ -41,8 +41,8 @@ public class MetaInstance {
         this.todo = new ConfigTodo(record);
     }
 
-    public static MetaInstance input(final JsonObject configJson) {
-        return new MetaInstance(configJson);
+    public static MetaInstance input(final JsonObject configJson, final JsonObject linkageJson) {
+        return new MetaInstance(configJson, linkageJson);
     }
 
     public static MetaInstance output(final WRecord record, final MetaInstance input) {

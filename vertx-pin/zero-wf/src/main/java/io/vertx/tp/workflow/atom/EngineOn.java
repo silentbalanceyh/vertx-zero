@@ -21,7 +21,10 @@ public class EngineOn {
     private EngineOn(final WFlow workflow) {
         Objects.requireNonNull(workflow);
         this.workflow = workflow;
-        this.metadata = MetaInstance.input(Ut.toJObject(workflow.getStartConfig()));
+        this.metadata = MetaInstance.input(
+            Ut.toJObject(workflow.getStartConfig()),
+            Ut.toJObject(workflow.getUiLinkage())
+        );
     }
 
     public static EngineOn connect(final String definitionKey) {
