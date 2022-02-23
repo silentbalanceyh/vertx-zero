@@ -6,7 +6,7 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.atom.modeling.data.DataAtom;
 import io.vertx.tp.atom.modeling.data.DataGroup;
-import io.vertx.tp.optic.environment.IndentSolver;
+import io.vertx.tp.optic.environment.Identifier;
 import io.vertx.tp.optic.robin.Switcher;
 import io.vertx.up.commune.config.Identity;
 import io.vertx.up.commune.rule.RuleUnique;
@@ -28,7 +28,7 @@ public class AtomSwitcher implements Switcher {
     /*
      * 动态 identifier
      */
-    private final transient IndentSolver indent;
+    private final transient Identifier indent;
     private final transient Identity identity;
     private final transient JsonObject options = new JsonObject();
 
@@ -41,7 +41,7 @@ public class AtomSwitcher implements Switcher {
             this.indent = null;
             this.identity = null;
         } else {
-            if (Ut.isImplement(instanceCls, IndentSolver.class)) {
+            if (Ut.isImplement(instanceCls, Identifier.class)) {
                 this.indent = Ut.instance(instanceCls);
                 this.identity = identity;
                 /*
@@ -83,7 +83,7 @@ public class AtomSwitcher implements Switcher {
         } else {
             final JsonObject input = this.options.copy();
             input.put(KName.DATA, data);
-            Ox.Log.debugUca(this.getClass(), " IndentSolver 选择器：{0}", this.indent.getClass());
+            Ox.Log.debugUca(this.getClass(), " Identifier 选择器：{0}", this.indent.getClass());
             final JsonObject config = Ox.pluginOptions(this.indent.getClass(), input);
             return this.indent.resolve(input, config).compose(Ut.ifNil(
 
@@ -107,12 +107,12 @@ public class AtomSwitcher implements Switcher {
     @Override
     public Future<Set<DataGroup>> atom(final JsonArray data, final DataAtom atom) {
         if (Objects.isNull(this.indent)) {
-            Ox.Log.warnUca(this.getClass(), " IndentSolver 选择器未配置，请检查，数据：{0}", data.encode());
+            Ox.Log.warnUca(this.getClass(), " Identifier 选择器未配置，请检查，数据：{0}", data.encode());
             return Ux.future(Ox.toGroup(atom, data));
         } else {
             final JsonObject input = this.options.copy();
             input.put(KName.DATA, data);
-            Ox.Log.debugUca(this.getClass(), " IndentSolver 选择器（批量）：{0}", this.indent.getClass());
+            Ox.Log.debugUca(this.getClass(), " Identifier 选择器（批量）：{0}", this.indent.getClass());
             final JsonObject config = Ox.pluginOptions(this.indent.getClass(), input);
             return this.indent.resolve(input, atom.identifier(), config).compose(Ut.ifNil(
                 /* 默认值，配置优先 */

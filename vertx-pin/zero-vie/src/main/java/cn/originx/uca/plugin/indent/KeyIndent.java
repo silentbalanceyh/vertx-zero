@@ -7,7 +7,7 @@ import cn.vertxup.ambient.domain.tables.pojos.XCategory;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.optic.environment.IndentSolver;
+import io.vertx.tp.optic.environment.Identifier;
 import io.vertx.up.eon.KName;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
@@ -20,7 +20,7 @@ import java.util.concurrent.ConcurrentMap;
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-public class KeyIndent implements IndentSolver {
+public class KeyIndent implements Identifier {
 
     @Override
     public Future<String> resolve(final JsonObject input, final JsonObject config) {
