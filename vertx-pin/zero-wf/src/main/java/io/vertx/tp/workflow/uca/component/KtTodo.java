@@ -221,7 +221,7 @@ class KtTodo {
         });
     }
 
-    Future<WRecord> generateAsync(final WRecord record) {
+    Future<WRecord> generateAsync(final JsonObject params, final WRecord record) {
         return Ux.Jooq.on(WTicketDao.class).updateAsync(record.ticket())
             .compose(ticket -> Ux.Jooq.on(WTodoDao.class).insertAsync(record.todo())
                 .compose(nil -> Ux.future(record)));
@@ -263,71 +263,73 @@ class KtTodo {
              */
             ticket.setFlowEnd(Boolean.FALSE);
             ticket.setFlowInstanceId(instance.getId());
-            return Ux.Jooq.on(WTicketDao.class).insertAsync(ticket).compose(inserted -> {
-                // Todo Workflow
-                final WTodo todo = Ux.fromJson(normalized, WTodo.class);
-                /*
-                 * Key Point: The todo key will be used in `todoUrl` field here,
-                 * it means that we must set the `key` fixed to avoid todoUrl capture
-                 * the key of ticket.
-                 */
-                todo.setKey(todoKey);
-                /*
-                 * null value when processed
-                 * 「Related」
-                 *  - traceId
-                 *  - traceOrder
-                 *  - parentId
-                 *
-                 * 「Camunda」
-                 *  - taskId
-                 *  - taskKey
-                 *
-                 * 「Flow」
-                 *  - assignedBy
-                 *  - assignedAt
-                 *  - acceptedBy
-                 *  - acceptedAt
-                 *  - finishedBy
-                 *  - finishedAt
-                 *  - comment
-                 *  - commentApproval
-                 *  - commentReject
-                 *
-                 * 「Future」
-                 *  - metadata
-                 *  - modelCategory
-                 *  - activityId
-                 */
-                todo.setTraceId(inserted.getKey());
-                todo.setTraceOrder(1);
-                todo.setCode(inserted.getCode() + "-" + Ut.fromAdjust(todo.getTraceOrder(), 2));
-                todo.setSerial(inserted.getSerial() + "-" + Ut.fromAdjust(todo.getTraceOrder(), 2));
+            return Ux.Jooq.on(WTicketDao.class).insertAsync(ticket)
+                .compose(inserted -> this.updateChild(normalized, inserted))
+                .compose(inserted -> {
+                    // Todo Workflow
+                    final WTodo todo = Ux.fromJson(normalized, WTodo.class);
+                    /*
+                     * Key Point: The todo key will be used in `todoUrl` field here,
+                     * it means that we must set the `key` fixed to avoid todoUrl capture
+                     * the key of ticket.
+                     */
+                    todo.setKey(todoKey);
+                    /*
+                     * null value when processed
+                     * 「Related」
+                     *  - traceId
+                     *  - traceOrder
+                     *  - parentId
+                     *
+                     * 「Camunda」
+                     *  - taskId
+                     *  - taskKey
+                     *
+                     * 「Flow」
+                     *  - assignedBy
+                     *  - assignedAt
+                     *  - acceptedBy
+                     *  - acceptedAt
+                     *  - finishedBy
+                     *  - finishedAt
+                     *  - comment
+                     *  - commentApproval
+                     *  - commentReject
+                     *
+                     * 「Future」
+                     *  - metadata
+                     *  - modelCategory
+                     *  - activityId
+                     */
+                    todo.setTraceId(inserted.getKey());
+                    todo.setTraceOrder(1);
+                    todo.setCode(inserted.getCode() + "-" + Ut.fromAdjust(todo.getTraceOrder(), 2));
+                    todo.setSerial(inserted.getSerial() + "-" + Ut.fromAdjust(todo.getTraceOrder(), 2));
 
 
-                /*
-                 *  Connect WTodo and ProcessInstance
-                 *  1. taskId = Task, getId
-                 *  2. taskKey = Task, getTaskDefinitionKey
-                 */
-                final EventOn event = EventOn.get();
-                return event.taskActive(instance)
-                    .compose(task -> {
-                        // Camunda Engine
-                        todo.setTaskId(task.getId());
-                        todo.setTaskKey(task.getTaskDefinitionKey());        // Task Key/Id
-                        return Ux.future(todo);
-                    })
-                    .compose(Ux.Jooq.on(WTodoDao.class)::insertAsync)
-                    .compose(insertedTodo -> {
-                        /*
-                         * No `status` field here.
-                         */
-                        final WRecord record = new WRecord();
-                        record.bind(inserted).bind(insertedTodo);
-                        return Ux.future(record);
-                    });
-            });
+                    /*
+                     *  Connect WTodo and ProcessInstance
+                     *  1. taskId = Task, getId
+                     *  2. taskKey = Task, getTaskDefinitionKey
+                     */
+                    final EventOn event = EventOn.get();
+                    return event.taskActive(instance)
+                        .compose(task -> {
+                            // Camunda Engine
+                            todo.setTaskId(task.getId());
+                            todo.setTaskKey(task.getTaskDefinitionKey());        // Task Key/Id
+                            return Ux.future(todo);
+                        })
+                        .compose(Ux.Jooq.on(WTodoDao.class)::insertAsync)
+                        .compose(insertedTodo -> {
+                            /*
+                             * No `status` field here.
+                             */
+                            final WRecord record = new WRecord();
+                            record.bind(inserted).bind(insertedTodo);
+                            return Ux.future(record);
+                        });
+                });
         });
     }
 
@@ -340,6 +342,7 @@ class KtTodo {
         final String tKey = params.getString(KName.Flow.TRACE_ID);
         return Ux.Jooq.on(WTicketDao.class).<WTicket>fetchByIdAsync(tKey)
             .compose(ticket -> this.updateTicket(params, ticket))
+            .compose(ticket -> this.updateChild(params, ticket))
             .compose(ticket -> this.updateTodo(params, new WRecord().bind(ticket)));
     }
 
@@ -376,5 +379,19 @@ class KtTodo {
         ticketJ.remove(KName.CODE);
         final WTicket updated = Ux.updateT(ticket, ticketJ);
         return tJq.updateAsync(updated);
+    }
+
+    private Future<WTicket> updateChild(final JsonObject params, final WTicket ticket) {
+        final UxJooq tJq = this.metadata.childDao();
+        if (Objects.isNull(tJq)) {
+            return Ux.future(ticket);
+        } else {
+            // JsonObject data for child
+            final JsonObject data = this.metadata.childData(params);
+            // Shared `key` between ticket / child ticket
+            data.put(KName.KEY, ticket.getKey());
+            return tJq.upsertJAsync(ticket.getKey(), data)
+                .compose(child -> Ux.future(ticket));
+        }
     }
 }

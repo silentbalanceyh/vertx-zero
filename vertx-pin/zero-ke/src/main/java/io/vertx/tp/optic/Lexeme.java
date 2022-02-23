@@ -1,4 +1,4 @@
-package io.vertx.tp.optic.atom;
+package io.vertx.tp.optic;
 
 import io.vertx.up.util.Ut;
 

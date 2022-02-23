@@ -1,4 +1,4 @@
-package io.vertx.tp.optic.component;
+package io.vertx.tp.optic.environment;
 
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
@@ -21,7 +21,7 @@ import java.util.concurrent.ConcurrentMap;
  * 2) identifier, The model id in our framework to identify model
  * -- 2.1) Model unique id should be `namespace + identifier` here.
  */
-public interface ComponentIndent {
+public interface IndentSolver {
     /*
      * Get identifier directly by params
      */

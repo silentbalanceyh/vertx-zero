@@ -1,8 +1,8 @@
-package io.vertx.tp.optic.fantom;
+package io.vertx.tp.optic.ui;
 
 import io.vertx.core.Future;
 
-public interface Fabric<T> {
+public interface Combiner<T> {
 
     Future<T> combine(T input);
 }

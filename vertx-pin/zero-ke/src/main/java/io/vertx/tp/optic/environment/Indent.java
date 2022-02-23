@@ -1,4 +1,4 @@
-package io.vertx.tp.optic;
+package io.vertx.tp.optic.environment;
 
 import io.vertx.core.Future;
 
@@ -14,6 +14,15 @@ public interface Indent {
      * Single Number
      */
     Future<String> indent(String code, String sigma);
+
+    /*
+     * Update serial definition
+     */
+    Future<Boolean> reset(String code, String sigma, Long defaultValue);
+
+    default Future<Boolean> reset(final String code, final String sigma) {
+        return this.reset(code, sigma, 1L);
+    }
 
     /*
      * Multi Number

@@ -1,4 +1,4 @@
-package io.vertx.tp.optic.business;
+package io.vertx.tp.optic.environment;
 
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
@@ -9,7 +9,7 @@ import java.util.concurrent.ConcurrentMap;
 /*
  * Model information for some connected points usage.
  */
-public interface ExModel {
+public interface Modeling {
 
     Future<ConcurrentMap<String, JsonObject>> keyAsync(String sigma, JsonArray users);
 

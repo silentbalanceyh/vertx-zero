@@ -166,6 +166,25 @@ class Compare {
         return (T) From.fromJson(original, entityCls, "");
     }
 
+    static <T> List<T> updateT(final List<T> query, final JsonArray params, final String field) {
+        Objects.requireNonNull(query);
+        if (query.isEmpty()) {
+            return new ArrayList<>();
+        } else {
+            final ConcurrentMap<String, JsonObject> dataMap = Ut.elementMap(params, field);
+            final List<T> result = new ArrayList<>();
+            query.forEach(item -> {
+                final Object key = Ut.field(item, field);
+                if (Objects.nonNull(key)) {
+                    final JsonObject merge = dataMap.get(key.toString());
+                    final T entity = updateT(item, merge);
+                    result.add(entity);
+                }
+            });
+            return result;
+        }
+    }
+
 
     static <T> Future<JsonArray> run(final ConcurrentMap<ChangeFlag, List<T>> compared,
                                      final Function<List<T>, Future<List<T>>> insertAsyncFn,

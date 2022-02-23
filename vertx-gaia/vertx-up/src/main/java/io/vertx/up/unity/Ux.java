@@ -104,6 +104,14 @@ public final class Ux {
         return Compare.updateT(query, params);
     }
 
+    public static <T> List<T> updateT(final List<T> query, final JsonArray params) {
+        return Compare.updateT(query, params, KName.KEY);
+    }
+
+    public static <T> List<T> updateT(final List<T> query, final JsonArray params, final String field) {
+        return Compare.updateT(query, params, field);
+    }
+
     /*
      * Rule Match
      * 1. single checking

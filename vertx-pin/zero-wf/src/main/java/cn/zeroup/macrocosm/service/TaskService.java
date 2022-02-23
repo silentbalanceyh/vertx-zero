@@ -8,11 +8,12 @@ import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.ke.refine.Ke;
-import io.vertx.tp.optic.business.ExLink;
+import io.vertx.tp.optic.feature.Linkage;
 import io.vertx.tp.workflow.atom.EngineOn;
 import io.vertx.tp.workflow.atom.MetaInstance;
 import io.vertx.tp.workflow.atom.WRecord;
 import io.vertx.up.eon.KName;
+import io.vertx.up.uca.jooq.UxJooq;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
@@ -76,6 +77,10 @@ public class TaskService implements TaskStub {
             .compose(this::readLinkage)
 
 
+            // Child
+            .compose(this::readChild)
+
+
             // Generate JsonObject of response
             .compose(wData -> wData.futureJ(false))
 
@@ -94,6 +99,23 @@ public class TaskService implements TaskStub {
     private Future<WRecord> readTicket(final String key, final WRecord response) {
         return Ux.Jooq.on(WTicketDao.class).<WTicket>fetchByIdAsync(key)
             .compose(Ut.ifNil(response::bind, ticket -> Ux.future(response.bind(ticket))));
+    }
+
+    private Future<WRecord> readChild(final WRecord response) {
+        final WTicket ticket = response.ticket();
+        Objects.requireNonNull(ticket);
+
+        // Connect to Workflow Engine
+        final EngineOn engine = EngineOn.connect(ticket.getFlowDefinitionKey());
+        final MetaInstance meta = engine.metadata();
+
+        // Read Child
+        final UxJooq jq = meta.childDao();
+        if (Objects.isNull(jq)) {
+            return Ux.future(response);
+        }
+        return jq.fetchJByIdAsync(ticket.getKey())
+            .compose(queried -> Ux.future(response.child(queried)));
     }
 
     private Future<WRecord> readLinkage(final WRecord response) {
@@ -115,7 +137,7 @@ public class TaskService implements TaskStub {
             final String sourceKey = ticket.getKey();
             final JsonObject condition = meta.linkCondition(field);
             condition.put(KName.SOURCE_KEY, sourceKey);
-            futures.put(field, Ke.channelAsync(ExLink.class, Ux::futureA,
+            futures.put(field, Ke.channelAsync(Linkage.class, Ux::futureA,
                 link -> link.fetch(condition)));
         });
         return Ux.thenCombine(futures).compose(dataMap -> {
@@ -136,6 +158,10 @@ public class TaskService implements TaskStub {
 
             // Linkage
             .compose(this::readLinkage)
+
+
+            // Child
+            .compose(this::readChild)
 
 
             // Generate JsonObject of response

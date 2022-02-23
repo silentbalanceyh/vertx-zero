@@ -5,7 +5,6 @@ import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.workflow.atom.*;
 import io.vertx.tp.workflow.uca.runner.IsOn;
-import io.vertx.up.eon.KName;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 import org.camunda.bpm.engine.task.Task;
@@ -73,7 +72,7 @@ public class TransferStandard extends AbstractTodo implements Transfer {
                         move.stored(params);
                         instanceNext.bind(taskNext).bind(move).bind(wProcess.instance());
                     }
-                    return this.generateAsync(record, instanceNext);
+                    return this.generateAsync(params, instanceNext, record);
                 } else {
                     return Ux.future(record);
                 }
@@ -92,7 +91,7 @@ public class TransferStandard extends AbstractTodo implements Transfer {
              * - UPDATE -> Original Stored Status
              */
             final TodoStatus status = record.status();
-            final JsonObject request = updated.copy();
+            JsonObject request = updated.copy();
             final MetaInstance metadataOut = MetaInstance.output(record, this.metadataIn());
 /*          if (TodoStatus.DRAFT == status) {
                 return this.saveAsync(request, metadataOut).compose(nil -> Ux.future(record));
@@ -107,15 +106,14 @@ public class TransferStandard extends AbstractTodo implements Transfer {
                      * Here will fetch record auto
                      * Critical step to update `record` field here
                      */
-                    final JsonObject recordData = Ut.sureJObject(request.getJsonObject(KName.RECORD));
-                    recordData.mergeIn(moveRule.getRecord());
-                    request.put(KName.RECORD, recordData);
+                    request = this.recordMove(request, moveRule);
                 }
             }
             /*
              * Contains record modification, do update on record.
              */
-            return this.saveAsync(request, metadataOut).compose(nil -> Ux.future(record));
+            final Register register = Register.phantom(request, metadataOut);
+            return register.saveAsync(request, metadataOut).compose(nil -> Ux.future(record));
         };
     }
 }

@@ -10,7 +10,7 @@ import io.vertx.tp.crud.uca.desk.IxMod;
 import io.vertx.tp.crud.uca.next.Co;
 import io.vertx.tp.ke.atom.specification.KModule;
 import io.vertx.tp.ke.refine.Ke;
-import io.vertx.tp.optic.business.ExFile;
+import io.vertx.tp.optic.feature.Attachment;
 import io.vertx.up.uca.jooq.UxJooq;
 import io.vertx.up.unity.Ux;
 
@@ -35,7 +35,7 @@ class AgonicByID implements Agonic {
 
             // File: Attachment extraction
             return Ix.fileFn(in, (criteria, dataArray) -> Ke.channel(
-                ExFile.class,                       // Component
+                Attachment.class,                       // Component
                 JsonArray::new,                     // JsonArray Data
                 file -> file.fetchAsync(criteria)   // Execution Logical
             )).apply(active).compose(dataJ -> {

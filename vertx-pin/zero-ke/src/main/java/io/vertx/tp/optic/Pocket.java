@@ -1,7 +1,5 @@
 package io.vertx.tp.optic;
 
-import io.vertx.tp.optic.atom.Income;
-import io.vertx.tp.optic.atom.Lexeme;
 import io.vertx.up.util.Ut;
 
 import java.util.Objects;

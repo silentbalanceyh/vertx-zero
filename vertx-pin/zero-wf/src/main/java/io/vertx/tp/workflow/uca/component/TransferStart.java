@@ -19,11 +19,15 @@ public class TransferStart extends AbstractTodo implements Transfer {
          *
          * Record support ADD / UPDATE operation combined
          */
+
         return this.inputAsync(params)
 
 
             /* Entity / Extension Ticket Record Execution, ( Insert or Update ) */
-            .compose(normalized -> this.saveAsync(normalized, this.metadataIn()))
+            .compose(normalized -> {
+                final Register register = Register.phantom(normalized, this.metadataIn());
+                return register.saveAsync(normalized, this.metadataIn());
+            })
 
 
             /* Todo Execution ( Todo Insert ) */

@@ -1,7 +1,6 @@
-package io.vertx.tp.optic;
+package io.vertx.tp.optic.ui;
 
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.optic.fantom.Fabric;
 
 /*
  * Combiner for processing
@@ -12,5 +11,5 @@ import io.vertx.tp.optic.fantom.Fabric;
  * 3. UI_OP is standalone and it will not be combined by combiner but another api
  *    instead for frontend usage.
  */
-public interface UiFabric extends Fabric<JsonObject> {
+public interface UiControl extends Combiner<JsonObject> {
 }

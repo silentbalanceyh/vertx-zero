@@ -5,7 +5,7 @@ import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.ke.refine.Ke;
-import io.vertx.tp.optic.business.ExLink;
+import io.vertx.tp.optic.feature.Linkage;
 import io.vertx.tp.workflow.atom.MetaInstance;
 import io.vertx.tp.workflow.atom.WRecord;
 import io.vertx.tp.workflow.refine.Wf;
@@ -132,7 +132,7 @@ public class KtLinkage {
             .filter(Ut::notNil)
             .collect(Collectors.toSet()));
         condition.put("key,!i", keys);
-        return Ke.channelAsync(ExLink.class, Ux::futureA, (link) ->
+        return Ke.channelAsync(Linkage.class, Ux::futureA, (link) ->
             // Linkage Processing build for Each
             link.unlink(condition).compose(deleted -> link.link(data, false))
         );

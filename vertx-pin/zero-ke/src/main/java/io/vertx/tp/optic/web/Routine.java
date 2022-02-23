@@ -1,4 +1,4 @@
-package io.vertx.tp.optic.business;
+package io.vertx.tp.optic.web;
 
 import io.vertx.core.Future;
 import io.vertx.up.runtime.soul.UriMeta;
@@ -10,7 +10,7 @@ import java.util.List;
  *
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-public interface ExRoute {
+public interface Routine {
     /*
      * Search `UriMeta` definition by channel
      *

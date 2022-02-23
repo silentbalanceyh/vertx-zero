@@ -157,8 +157,8 @@ class ConfigTodo implements Serializable {
                 final JsonArray records = (JsonArray) recordObj;
                 final JsonArray modelChild = new JsonArray();
                 Ut.itJArray(records).forEach(json -> modelChild.add(json.getValue(KName.KEY)));
-
                 todoData.put(KName.MODEL_CHILD, modelChild.encode());
+                todoData.put(KName.QUANTITY, modelChild.size());
             } else {
                 Wf.Log.warnMove(this.getClass(), "`record` field type conflicts: {0}, type = {1}",
                     recordObj, recordObj.getClass());

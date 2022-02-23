@@ -6,8 +6,8 @@ import io.vertx.tp.crud.init.IxPin;
 import io.vertx.tp.crud.uca.desk.IxMod;
 import io.vertx.tp.crud.uca.input.Pre;
 import io.vertx.tp.ke.refine.Ke;
-import io.vertx.tp.optic.ApeakMy;
-import io.vertx.tp.optic.Seeker;
+import io.vertx.tp.optic.ui.ApeakMy;
+import io.vertx.tp.optic.web.Seeker;
 import io.vertx.up.eon.KName;
 import io.vertx.up.uca.jooq.UxJooq;
 

@@ -3,11 +3,13 @@ package io.vertx.tp.workflow.uca.modeling;
 import cn.zeroup.macrocosm.cv.WfPool;
 import cn.zeroup.macrocosm.cv.em.RecordMode;
 import io.vertx.core.Future;
+import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.workflow.atom.MetaInstance;
 import io.vertx.up.fn.Fn;
 
 import java.util.Objects;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.function.Supplier;
@@ -15,6 +17,7 @@ import java.util.function.Supplier;
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
+@SuppressWarnings("all")
 public interface ActionOn {
 
     static ActionOn action(final RecordMode caseType) {
@@ -23,11 +26,18 @@ public interface ActionOn {
         return Fn.poolThread(WfPool.POOL_ACTION, supplier, caseType.name());
     }
 
+    // -------------------- Single ---------------
     <T> Future<JsonObject> createAsync(JsonObject params, MetaInstance metadata);
 
     <T> Future<JsonObject> updateAsync(String key, JsonObject params, MetaInstance metadata);
 
     <T> Future<JsonObject> fetchAsync(String key, MetaInstance metadata);
+
+    // -------------------- Batch ----------------
+
+    <T> Future<JsonArray> updateAsync(Set<String> keys, JsonArray params, MetaInstance metadata);
+
+    <T> Future<JsonArray> fetchAsync(Set<String> keys, MetaInstance metadata);
 }
 
 interface T {

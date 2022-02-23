@@ -43,10 +43,10 @@ public abstract class AbstractPlugin<T> {
         final BiMapping item = this.mapping(mapping);
         /* 双条件检查，为 NULL 和 Empty 都没有任何 Mapping 配置*/
         if (Objects.isNull(item) || item.isEmpty()) {
-            this.logger().info("[ Fabric ] No mapping! {0}", options.encode());
+            this.logger().info("[ Combiner ] No mapping! {0}", options.encode());
             return this.fabric;
         } else {
-            this.logger().info("[ Fabric ] Mapping found! {0}", item.toString());
+            this.logger().info("[ Combiner ] Mapping found! {0}", item.toString());
             return this.fabric.copy(item);
         }
     }

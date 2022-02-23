@@ -1,8 +1,7 @@
-package io.vertx.tp.optic.atom;
+package io.vertx.tp.optic;
 
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.ke.refine.Ke;
-import io.vertx.tp.optic.Pocket;
 import io.vertx.up.log.Annal;
 
 import java.io.Serializable;

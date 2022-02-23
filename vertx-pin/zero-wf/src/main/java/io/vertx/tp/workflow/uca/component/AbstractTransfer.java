@@ -5,6 +5,7 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.workflow.atom.MetaInstance;
 import io.vertx.tp.workflow.atom.WMove;
+import io.vertx.tp.workflow.atom.WMoveRule;
 import io.vertx.up.eon.KName;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
@@ -50,53 +51,6 @@ public abstract class AbstractTransfer implements Behaviour {
     }
 
     /*
-     * Record UPDATE Processing
-     */
-    protected Future<JsonObject> updateAsync(final JsonObject params, final MetaInstance metadata) {
-        final KtRecord recordKit = KtRecord.toolkit(metadata);
-        // If Skip `record` processing
-        if (!params.containsKey(KName.RECORD)) {
-            return Ux.future(params);
-        }
-        return recordKit.updateAsync(params)
-            /* Record must be put in `params` -> `record` field */
-            .compose(record -> this.outputAsync(params, record));
-    }
-
-    /*
-     * Record Indent Processing
-     * ( Reserved )
-     */
-    protected Future<JsonObject> insertAsync(final JsonObject params, final MetaInstance metadata) {
-        final KtRecord recordKit = KtRecord.toolkit(metadata);
-        // If Skip `record` processing
-        if (!params.containsKey(KName.RECORD)) {
-            return Ux.future(params);
-        }
-        return recordKit.insertAsync(params)
-            /* Record must be put in `params` -> `record` field */
-            .compose(record -> this.outputAsync(params, record));
-    }
-
-    /*
-     * Record Save Processing
-     */
-    protected Future<JsonObject> saveAsync(final JsonObject params, final MetaInstance metadata) {
-        final KtRecord recordKit = KtRecord.toolkit(metadata);
-        // If Skip `record` processing
-        if (!params.containsKey(KName.RECORD)) {
-            return Ux.future(params);
-        }
-        return recordKit.saveAsync(params)
-            /* Record must be put in `params` -> `record` field */
-            .compose(record -> this.outputAsync(params, record));
-    }
-
-    private Future<JsonObject> outputAsync(final JsonObject params, final JsonObject record) {
-        return Ux.future(params.put(KName.RECORD, record));
-    }
-
-    /*
      * Basic Data Structure Here:
      * {
      *      "key": "WTodo Key",
@@ -125,16 +79,12 @@ public abstract class AbstractTransfer implements Behaviour {
              */
             params.put(KName.Flow.TRACE_KEY, UUID.randomUUID().toString());
         }
+        return Ux.future(this.recordInput(params));
+    }
 
-
+    protected JsonObject recordInput(final JsonObject params) {
         final Object record = params.getValue(KName.RECORD);
-        if (Objects.isNull(record)) {
-            /*
-             * Skip Record Processing
-             * Situation 1: Because `record` is null, skip `record` processing
-             */
-            return Ux.future(params);
-        } else {
+        if (Objects.nonNull(record)) {
             if (record instanceof JsonObject) {
                 // Record is JsonObject
                 final JsonObject recordJ = (JsonObject) record;
@@ -148,8 +98,25 @@ public abstract class AbstractTransfer implements Behaviour {
                     .forEach(modelChild::add);
                 params.put(KName.MODEL_CHILD, modelChild.encode());         // String Format for `modelChild`
             }
-            return Ux.future(params);
         }
+        return params;
+    }
+
+    protected JsonObject recordMove(final JsonObject request, final WMoveRule rule) {
+        final Object recordData = request.getValue(KName.RECORD);
+        if (Objects.isNull(recordData)) {
+            return request;
+        }
+        if (recordData instanceof JsonObject) {
+            final JsonObject recordJ = ((JsonObject) recordData);
+            recordJ.mergeIn(rule.getRecord());
+            request.put(KName.RECORD, recordJ);
+        } else if (recordData instanceof JsonArray) {
+            final JsonArray recordA = ((JsonArray) recordData);
+            Ut.itJArray(recordA).forEach(recordJ -> recordJ.mergeIn(rule.getRecord()));
+            request.put(KName.RECORD, recordA);
+        }
+        return request;
     }
 
     private String inputAsync(final JsonObject params, final JsonObject record, final boolean o2o) {

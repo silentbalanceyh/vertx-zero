@@ -1,4 +1,4 @@
-package io.vertx.tp.optic;
+package io.vertx.tp.optic.ui;
 
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
@@ -6,7 +6,7 @@ import io.vertx.core.json.JsonObject;
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-public interface DForm {
+public interface Form {
     /*
      * {
      *     "dynamic": false,

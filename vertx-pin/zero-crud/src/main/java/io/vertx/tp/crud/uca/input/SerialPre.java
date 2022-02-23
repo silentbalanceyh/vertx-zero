@@ -7,12 +7,13 @@ import io.vertx.tp.crud.uca.desk.IxMod;
 import io.vertx.tp.ke.atom.specification.KField;
 import io.vertx.tp.ke.atom.specification.KModule;
 import io.vertx.tp.ke.refine.Ke;
-import io.vertx.tp.optic.business.ExSerial;
+import io.vertx.tp.optic.environment.Indent;
 import io.vertx.up.eon.KName;
 import io.vertx.up.log.Annal;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Queue;
@@ -36,7 +37,7 @@ class SerialPre implements Pre {
             return Ux.future(data);
         }
         /* Number generation */
-        return this.run(data, in, (numbers) -> Ke.channelAsync(ExSerial.class, () -> Ux.future(data), stub -> {
+        return this.run(data, in, (numbers) -> Ke.channelAsync(Indent.class, () -> Ux.future(data), stub -> {
             Ke.infoKe(LOGGER, "Table here {0}, Serial numbers {1}", in.module().getTable(), numbers.encode());
             /* Channel */
             final ConcurrentMap<String, Future<String>> numberMap = new ConcurrentHashMap<>();
@@ -45,7 +46,7 @@ class SerialPre implements Pre {
                 .filter(numberField -> Objects.nonNull(numbers.getString(numberField)))
                 .forEach(numberField -> {
                     final String code = numbers.getString(numberField);
-                    numberMap.put(numberField, stub.serial(sigma, code));
+                    numberMap.put(numberField, stub.indent(code, sigma));
                 });
             /* Combine number map here for generation */
             return Ux.thenCombine(numberMap).compose(generated -> {
@@ -63,7 +64,7 @@ class SerialPre implements Pre {
             return Ux.future(data);
         }
         /* Number generation */
-        return this.run(data, in, (numbers) -> Ke.channelAsync(ExSerial.class, () -> Ux.future(data), stub -> {
+        return this.run(data, in, (numbers) -> Ke.channelAsync(Indent.class, () -> Ux.future(data), stub -> {
             Ke.infoKe(LOGGER, "Table here {0}, Size {1}, Serial numbers {2}", in.module().getTable(), data.size(), numbers.encode());
             /* Queue<String> */
             final ConcurrentMap<String, Future<List<String>>> numberMap = new ConcurrentHashMap<>();
@@ -71,7 +72,8 @@ class SerialPre implements Pre {
                 .filter(numberField -> Objects.nonNull(numbers.getString(numberField)))
                 .forEach(numberField -> {
                     final String code = numbers.getString(numberField);
-                    numberMap.put(numberField, stub.serial(sigma, code, data.size()));
+                    numberMap.put(numberField, stub.indent(code, sigma, data.size())
+                        .compose(queue -> Ux.future(new ArrayList<>(queue))));
                 });
             /* Combine */
             return Ux.thenCombine(numberMap).compose(generated -> {
