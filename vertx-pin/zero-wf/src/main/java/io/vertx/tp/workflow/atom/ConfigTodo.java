@@ -2,8 +2,10 @@ package io.vertx.tp.workflow.atom;
 
 import cn.vertxup.workflow.domain.tables.pojos.WTicket;
 import io.vertx.core.Future;
+import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.ke.refine.Ke;
+import io.vertx.tp.workflow.refine.Wf;
 import io.vertx.up.eon.KName;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
@@ -80,7 +82,7 @@ class ConfigTodo implements Serializable {
         return this.indent;
     }
 
-    public Future<JsonObject> generate(final JsonObject data) {
+    public Future<JsonObject> initialize(final JsonObject data) {
         return Ke.umIndent(data, this.indent).compose(processed -> {
             final JsonObject ticketData = processed.copy();
             Ut.ifJCopy(ticketData, KName.INDENT, KName.SERIAL);
@@ -90,30 +92,30 @@ class ConfigTodo implements Serializable {
              * ticketData.put(KName.KEY, UUID.randomUUID().toString());
              */
             Ut.ifJCopy(ticketData, KName.INDENT, KName.CODE);
+
+
+            // ---------- modelKey / modelChild
             {
-                /*
-                 * modelKey processing here.
-                 * Extract from
-                 * {
-                 *      "record": {
-                 *          "key": "modelKey here"
-                 *      }
-                 * }
-                 */
-                final JsonObject record = data.getJsonObject(KName.RECORD);
-                ticketData.put(KName.MODEL_KEY, record.getValue(KName.KEY));
+                this.connecting(ticketData);
             }
-            final JsonObject todo = this.todoData.copy();
-            final JsonObject combine = new JsonObject();
-            Ut.<String>itJObject(todo, (expression, field) -> {
-                if (expression.contains("`")) {
-                    combine.put(field, Ut.fromExpression(expression, ticketData));
-                } else {
-                    combine.put(field, expression);
-                }
-            });
-            ticketData.mergeIn(combine);
+
+            // ---------- todo data include name expression parsing
+            {
+                final JsonObject todo = this.todoData.copy();
+                final JsonObject combine = new JsonObject();
+                Ut.<String>itJObject(todo, (expression, field) -> {
+                    if (expression.contains("`")) {
+                        combine.put(field, Ut.fromExpression(expression, ticketData));
+                    } else {
+                        combine.put(field, expression);
+                    }
+                });
+                ticketData.mergeIn(combine);
+            }
+
+
             // Camunda Definition
+            // ----------- flowDefinitionKey / flowDefinitionId
             final JsonObject workflow = ticketData.getJsonObject(KName.Flow.WORKFLOW, new JsonObject());
             {
                 ticketData.put(KName.Flow.FLOW_DEFINITION_KEY, workflow.getString(KName.Flow.DEFINITION_KEY));
@@ -121,5 +123,46 @@ class ConfigTodo implements Serializable {
             }
             return Ux.future(ticketData);
         });
+    }
+
+
+    /*
+     * modelKey processing here.
+     * Extract from
+     * {
+     *      "record": {
+     *          "key": "modelKey here"
+     *      }
+     * }
+     */
+    public void connecting(final JsonObject todoData) {
+        final Object recordObj = todoData.getValue(KName.RECORD);
+        if (Objects.nonNull(recordObj)) {
+            if (recordObj instanceof JsonObject) {
+
+
+                /*
+                 * modelKey connecting
+                 * Single
+                 */
+                final JsonObject record = (JsonObject) recordObj;
+                todoData.put(KName.MODEL_KEY, record.getValue(KName.KEY));
+            } else if (recordObj instanceof JsonArray) {
+
+
+                /*
+                 * modelChild connecting
+                 * Batch
+                 */
+                final JsonArray records = (JsonArray) recordObj;
+                final JsonArray modelChild = new JsonArray();
+                Ut.itJArray(records).forEach(json -> modelChild.add(json.getValue(KName.KEY)));
+
+                todoData.put(KName.MODEL_CHILD, modelChild.encode());
+            } else {
+                Wf.Log.warnMove(this.getClass(), "`record` field type conflicts: {0}, type = {1}",
+                    recordObj, recordObj.getClass());
+            }
+        }
     }
 }

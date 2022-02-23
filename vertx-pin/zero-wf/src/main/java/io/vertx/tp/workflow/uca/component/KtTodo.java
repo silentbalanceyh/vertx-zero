@@ -231,7 +231,7 @@ class KtTodo {
     // Save = Insert + Update
     Future<WRecord> insertAsync(final JsonObject params, final ProcessInstance instance) {
         // Todo Build
-        return this.metadata.serialT(params).compose(normalized -> {
+        return this.metadata.todoInitialize(params).compose(normalized -> {
             // Ticket Workflow
             final String todoKey = normalized.getString(KName.KEY);
             normalized.remove(KName.KEY);
