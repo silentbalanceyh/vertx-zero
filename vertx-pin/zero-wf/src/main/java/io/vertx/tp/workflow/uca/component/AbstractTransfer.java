@@ -50,53 +50,6 @@ public abstract class AbstractTransfer implements Behaviour {
     }
 
     /*
-     * Record UPDATE Processing
-     */
-    protected Future<JsonObject> updateAsync(final JsonObject params, final MetaInstance metadata) {
-        final KtRecord recordKit = KtRecord.toolkit(metadata);
-        // If Skip `record` processing
-        if (!params.containsKey(KName.RECORD)) {
-            return Ux.future(params);
-        }
-        return recordKit.updateAsync(params)
-            /* Record must be put in `params` -> `record` field */
-            .compose(record -> this.outputAsync(params, record));
-    }
-
-    /*
-     * Record Indent Processing
-     * ( Reserved )
-     */
-    protected Future<JsonObject> insertAsync(final JsonObject params, final MetaInstance metadata) {
-        final KtRecord recordKit = KtRecord.toolkit(metadata);
-        // If Skip `record` processing
-        if (!params.containsKey(KName.RECORD)) {
-            return Ux.future(params);
-        }
-        return recordKit.insertAsync(params)
-            /* Record must be put in `params` -> `record` field */
-            .compose(record -> this.outputAsync(params, record));
-    }
-
-    /*
-     * Record Save Processing
-     */
-    protected Future<JsonObject> saveAsync(final JsonObject params, final MetaInstance metadata) {
-        final KtRecord recordKit = KtRecord.toolkit(metadata);
-        // If Skip `record` processing
-        if (!params.containsKey(KName.RECORD)) {
-            return Ux.future(params);
-        }
-        return recordKit.saveAsync(params)
-            /* Record must be put in `params` -> `record` field */
-            .compose(record -> this.outputAsync(params, record));
-    }
-
-    private Future<JsonObject> outputAsync(final JsonObject params, final JsonObject record) {
-        return Ux.future(params.put(KName.RECORD, record));
-    }
-
-    /*
      * Basic Data Structure Here:
      * {
      *      "key": "WTodo Key",

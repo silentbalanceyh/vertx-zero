@@ -123,10 +123,10 @@ public abstract class AbstractTodo extends AbstractTransfer {
             .compose(record -> this.linkageKit.syncAsync(params, record));
     }
 
-    protected Future<WRecord> generateAsync(final WRecord record, final WProcess instance) {
+    protected Future<WRecord> generateAsync(final JsonObject params, final WProcess instance, final WRecord record) {
         // final WTodo generated = KitTodo.inputNext(todo, instance);
         final WRecord generated = KtTodo.nextJ(record, instance);
         // return this.todoKit.generateAsync(todo, instance);
-        return this.todoKit.generateAsync(generated);
+        return this.todoKit.generateAsync(params, generated);
     }
 }

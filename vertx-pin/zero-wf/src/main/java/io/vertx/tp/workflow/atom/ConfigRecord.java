@@ -12,9 +12,29 @@ import java.util.Objects;
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 class ConfigRecord implements Serializable {
+    /*
+     * Whether current record operation is virtual
+     * 1. When record is Single ( JsonObject ), skip virtual checking here.
+     * 2. When record is Batch ( JsonArray )
+     * -- virtual = FALSE ( default ), actual crud will be triggered.
+     * -- virtual = TRUE ( configured ), actual crud will not be triggered except the last step ( End )
+     *
+     * For example
+     *
+     * 1. File Management:  Single, skip virtual checking here.
+     * 2. Asset Income:     Batch, Related linkage `asset` as record, ( virtual = true )
+     * 3. Other workflow:   Batch, Actual entities will be in `record` node ( virtual = false ), CRUD happened.
+     */
+    private transient Boolean virtual = Boolean.FALSE;
+    // Default unique field: `key` as default
     private transient String unique = KName.KEY;
+    // Code generation here
     private transient String indent;
+    // ADD, UPDATE, DELETE
     private transient ChangeFlag flag;
+    // DAO      - Static Dao of Jooq
+    // ATOM     - Dynamic Model
+    // CASE     - Camunda Case of Incident
     private transient RecordMode mode = RecordMode.DAO;
 
     public String getIndent() {
@@ -51,6 +71,14 @@ class ConfigRecord implements Serializable {
 
     public String unique(final JsonObject params) {
         return params.getString(this.unique, null);
+    }
+
+    public Boolean getVirtual() {
+        return this.virtual;
+    }
+
+    public void setVirtual(final Boolean virtual) {
+        this.virtual = virtual;
     }
 
     @Override

@@ -3,7 +3,6 @@ package io.vertx.tp.workflow.atom;
 import cn.zeroup.macrocosm.cv.em.RecordMode;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.ke.refine.Ke;
 import io.vertx.up.eon.KName;
 import io.vertx.up.uca.jooq.UxJooq;
 import io.vertx.up.unity.Ux;
@@ -88,6 +87,15 @@ public class MetaInstance {
         return Ux.Jooq.on(this.todo.dao());
     }
 
+    public String recordIndent() {
+        Objects.requireNonNull(this.record);
+        return this.record.getIndent();
+    }
+
+    public Boolean recordSkip() {
+        return this.record.getVirtual();
+    }
+
     public String recordKeyU(final JsonObject recordData) {
         Objects.requireNonNull(this.record);
         final String key = this.record.unique(recordData);
@@ -149,11 +157,5 @@ public class MetaInstance {
         final Set<String> fields = Ut.toSet(this.children.getFields());
         fields.forEach(field -> childData.put(field, params.getValue(field)));
         return childData;
-    }
-
-    // -------------------- Serial Part --------------------
-    public Future<JsonObject> serialR(final JsonObject recordData) {
-        Objects.requireNonNull(this.record);
-        return Ke.umIndent(recordData, this.record.getIndent());
     }
 }
