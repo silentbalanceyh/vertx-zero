@@ -9,17 +9,19 @@ import io.vertx.up.uca.jooq.UxJooq;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
+import java.util.List;
 import java.util.Set;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
+@SuppressWarnings("all")
 class ActionDao implements ActionOn {
     @Override
     public <T> Future<JsonObject> createAsync(final JsonObject params, final MetaInstance metadata) {
         final UxJooq jooq = metadata.recordDao();
         Ut.ifString(params, KName.METADATA);
-        return jooq.insertJAsync(params);
+        return jooq.insertJAsync(params).compose(Ut.ifJObject(KName.METADATA));
     }
 
     @Override
@@ -31,7 +33,7 @@ class ActionDao implements ActionOn {
             Ut.ifString(params, KName.METADATA);
             final T entity = Ux.updateT(query, params);
             return jooq.updateAsync(entity);
-        }).compose(Ux::futureJ);
+        }).compose(Ux::futureJ).compose(Ut.ifJObject(KName.METADATA));
     }
 
     @Override
@@ -44,11 +46,24 @@ class ActionDao implements ActionOn {
 
     @Override
     public <T> Future<JsonArray> updateAsync(final Set<String> keys, final JsonArray params, final MetaInstance metadata) {
-        return null;
+        final UxJooq jooq = metadata.recordDao();
+        final JsonObject condition = new JsonObject();
+        condition.put(KName.KEY + ",i", Ut.toJArray(keys));
+        return jooq.<T>fetchAsync(condition).compose(query -> {
+            final List<T> updated = Ux.updateT(query, params);
+            return jooq.<T>updateAsync(updated)
+                .compose(Ux::futureA)
+                .compose(Ut.ifJArray(KName.METADATA));
+        });
     }
 
     @Override
     public <T> Future<JsonArray> fetchAsync(final Set<String> keys, final MetaInstance metadata) {
-        return null;
+        final UxJooq jooq = metadata.recordDao();
+        final JsonObject condition = new JsonObject();
+        condition.put(KName.KEY + ",i", Ut.toJArray(keys));
+        return jooq.<T>fetchAsync(condition)
+            .compose(Ux::futureA)
+            .compose(Ut.ifJArray(KName.METADATA));
     }
 }

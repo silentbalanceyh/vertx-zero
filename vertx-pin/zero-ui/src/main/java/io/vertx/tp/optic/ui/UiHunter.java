@@ -1,4 +1,4 @@
-package io.vertx.tp.optic;
+package io.vertx.tp.optic.ui;
 
 import cn.vertxup.ui.domain.tables.pojos.UiVisitor;
 import io.vertx.core.Future;

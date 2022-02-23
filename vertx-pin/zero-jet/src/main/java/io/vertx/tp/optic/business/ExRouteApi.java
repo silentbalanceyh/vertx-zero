@@ -7,6 +7,7 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.tp.jet.atom.JtApp;
 import io.vertx.tp.jet.refine.Jt;
 import io.vertx.tp.optic.environment.Ambient;
+import io.vertx.tp.optic.web.Routine;
 import io.vertx.up.eon.KName;
 import io.vertx.up.runtime.soul.UriMeta;
 import io.vertx.up.unity.Ux;
@@ -19,7 +20,7 @@ import java.util.Objects;
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-public class ExRouteApi implements ExRoute {
+public class ExRouteApi implements Routine {
 
     @Override
     public Future<List<UriMeta>> searchAsync(final String keyword, final String sigma) {

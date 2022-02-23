@@ -6,7 +6,7 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.tp.crud.refine.Ix;
 import io.vertx.tp.crud.uca.desk.IxMod;
 import io.vertx.tp.ke.refine.Ke;
-import io.vertx.tp.optic.business.ExFile;
+import io.vertx.tp.optic.feature.Attachment;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
@@ -15,7 +15,7 @@ class FCreatePre implements Pre {
     @Override
     public Future<JsonObject> inJAsync(final JsonObject data, final IxMod in) {
         return Ix.fileFn(in, (criteria, dataArray) -> Ke.channel(
-            ExFile.class,                       // Component
+            Attachment.class,                       // Component
             JsonArray::new,                     // JsonArray Data
             file -> file.createAsync(dataArray) // Execution Logical
         )).apply(data);

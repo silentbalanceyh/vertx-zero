@@ -21,6 +21,6 @@ public class RegisterA extends AbstractRecord {
 
     @Override
     public Future<JsonObject> saveAsync(final JsonObject params, final MetaInstance metadata) {
-        return Ux.future(params);
+        return this.updateAsync(params, metadata);
     }
 }

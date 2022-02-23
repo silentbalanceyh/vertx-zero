@@ -23,7 +23,7 @@ import io.vertx.up.commune.Envelop;
  *
  * - 类型：ADAPTOR
  * - 直接从`DataAtom`中读取模型标识符
- * - 内置调用`ServiceLoader`通道`io.vertx.tp.optic.Apeak`
+ * - 内置调用`ServiceLoader`通道`io.vertx.tp.optic.ui.Apeak`
  *
  * ### 3. 请求格式
  *

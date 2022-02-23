@@ -5,6 +5,7 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.tp.jet.atom.JtApp;
 import io.vertx.tp.ke.atom.KCredential;
 import io.vertx.tp.optic.environment.Ambient;
+import io.vertx.tp.optic.web.Credential;
 import io.vertx.up.eon.KName;
 import io.vertx.up.unity.Ux;
 

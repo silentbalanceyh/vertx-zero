@@ -8,7 +8,7 @@ import io.vertx.tp.crud.refine.Ix;
 import io.vertx.tp.ke.atom.specification.*;
 import io.vertx.tp.ke.cv.em.DSMode;
 import io.vertx.tp.ke.refine.Ke;
-import io.vertx.tp.optic.DS;
+import io.vertx.tp.optic.environment.DS;
 import io.vertx.tp.plugin.booting.KBoot;
 import io.vertx.up.eon.FileSuffix;
 import io.vertx.up.eon.ID;

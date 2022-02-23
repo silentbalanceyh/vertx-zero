@@ -17,6 +17,7 @@ import java.util.function.Supplier;
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
+@SuppressWarnings("all")
 public interface ActionOn {
 
     static ActionOn action(final RecordMode caseType) {

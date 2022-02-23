@@ -6,6 +6,7 @@ import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.ambient.refine.At;
+import io.vertx.tp.optic.feature.Attachment;
 import io.vertx.up.eon.KName;
 import io.vertx.up.log.Annal;
 import io.vertx.up.uca.jooq.UxJooq;
@@ -17,7 +18,7 @@ import java.util.List;
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-public class ExAttachment implements ExFile {
+public class ExAttachment implements Attachment {
     private static final Annal LOGGER = Annal.get(ExAttachment.class);
 
     @Override

@@ -388,6 +388,8 @@ class KtTodo {
         } else {
             // JsonObject data for child
             final JsonObject data = this.metadata.childData(params);
+            // Shared `key` between ticket / child ticket
+            data.put(KName.KEY, ticket.getKey());
             return tJq.upsertJAsync(ticket.getKey(), data)
                 .compose(child -> Ux.future(ticket));
         }

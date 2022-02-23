@@ -6,9 +6,9 @@ import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.ke.refine.Ke;
-import io.vertx.tp.optic.Trash;
-import io.vertx.tp.optic.business.ExSerial;
 import io.vertx.tp.optic.business.ExUser;
+import io.vertx.tp.optic.environment.Indent;
+import io.vertx.tp.optic.feature.Trash;
 import io.vertx.up.eon.KName;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
@@ -21,8 +21,8 @@ public class EmployeeService implements EmployeeStub {
     public Future<JsonObject> createAsync(final JsonObject data) {
         final EEmployee employee = Ut.deserialize(data, EEmployee.class);
         if (Ut.isNil(employee.getWorkNumber())) {
-            return Ke.channelAsync(ExSerial.class, () -> this.insertAsync(employee, data),
-                serial -> serial.serial(data.getString(KName.SIGMA), "NUM.EMPLOYEE").compose(workNum -> {
+            return Ke.channelAsync(Indent.class, () -> this.insertAsync(employee, data),
+                serial -> serial.indent("NUM.EMPLOYEE", data.getString(KName.SIGMA)).compose(workNum -> {
                     employee.setWorkNumber(workNum);
                     return this.insertAsync(employee, data);
                 }));

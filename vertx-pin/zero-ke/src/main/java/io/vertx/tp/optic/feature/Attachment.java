@@ -1,4 +1,4 @@
-package io.vertx.tp.optic.business;
+package io.vertx.tp.optic.feature;
 
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
@@ -20,7 +20,7 @@ import io.vertx.core.json.JsonObject;
  *
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-public interface ExFile {
+public interface Attachment {
     /*
      * 1. Create Attachment Directly
      */

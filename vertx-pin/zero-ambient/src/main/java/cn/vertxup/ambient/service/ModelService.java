@@ -6,7 +6,7 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.ambient.cache.AcCache;
 import io.vertx.tp.ke.refine.Ke;
-import io.vertx.tp.optic.business.ExModel;
+import io.vertx.tp.optic.environment.Modeling;
 import io.vertx.up.eon.KName;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
@@ -30,13 +30,13 @@ public class ModelService implements ModelStub {
 
     @Override
     public Future<JsonArray> fetchModels(final String sigma) {
-        return Ke.channel(ExModel.class, JsonArray::new,
+        return Ke.channel(Modeling.class, JsonArray::new,
             model -> model.fetchAsync(sigma));
     }
 
     @Override
     public Future<JsonArray> fetchAttrs(final String identifier, final String sigma) {
-        return Ke.channel(ExModel.class, JsonArray::new,
+        return Ke.channel(Modeling.class, JsonArray::new,
             model -> model.fetchAttrs(identifier, sigma));
     }
 }

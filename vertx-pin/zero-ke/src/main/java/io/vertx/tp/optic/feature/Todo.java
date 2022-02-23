@@ -1,4 +1,4 @@
-package io.vertx.tp.optic.business;
+package io.vertx.tp.optic.feature;
 
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
@@ -8,7 +8,7 @@ import io.vertx.up.unity.Ux;
 /*
  * WTodo Record fetching workflow
  */
-public interface ExTodo {
+public interface Todo {
     /*
      * Read data by options
      * 1）tid - WTodo id ( tid )

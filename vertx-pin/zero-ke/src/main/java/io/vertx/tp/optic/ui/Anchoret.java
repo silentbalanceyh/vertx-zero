@@ -1,4 +1,4 @@
-package io.vertx.tp.optic.fantom;
+package io.vertx.tp.optic.ui;
 
 import io.vertx.up.log.Annal;
 import io.vertx.up.uca.jooq.UxJooq;

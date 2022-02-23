@@ -14,16 +14,19 @@ import java.util.Set;
 class ActionDynamic implements ActionOn {
     @Override
     public <T> Future<JsonObject> createAsync(final JsonObject params, final MetaInstance metadata) {
-        return null;
+        // TODO: In Future Version
+        return Ux.futureJ();
     }
 
     @Override
     public <T> Future<JsonObject> updateAsync(final String key, final JsonObject params, final MetaInstance metadata) {
-        return null;
+        // TODO: In Future Version
+        return Ux.futureJ();
     }
 
     @Override
     public <T> Future<JsonObject> fetchAsync(final String key, final MetaInstance metadata) {
+        // TODO: In Future Version
         return Ux.futureJ();
     }
 
@@ -34,6 +37,7 @@ class ActionDynamic implements ActionOn {
 
     @Override
     public <T> Future<JsonArray> fetchAsync(final Set<String> keys, final MetaInstance metadata) {
+        // TODO: In Future Version
         return Ux.futureA();
     }
 }

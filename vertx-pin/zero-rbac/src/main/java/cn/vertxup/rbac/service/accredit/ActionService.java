@@ -10,7 +10,7 @@ import io.vertx.core.http.HttpMethod;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.ke.refine.Ke;
-import io.vertx.tp.optic.business.ExRoute;
+import io.vertx.tp.optic.web.Routine;
 import io.vertx.up.eon.KName;
 import io.vertx.up.eon.Strings;
 import io.vertx.up.runtime.soul.UriAeon;
@@ -96,7 +96,7 @@ public class ActionService implements ActionStub {
         /*
          * Dynamic by `keyword` and `sigma` ( zero-jet )
          */
-        return Ke.channel(ExRoute.class, ArrayList::new, route -> route.searchAsync(keyword, sigma)).compose(uris -> {
+        return Ke.channel(Routine.class, ArrayList::new, route -> route.searchAsync(keyword, sigma)).compose(uris -> {
             /*
              * Combine two list of uri metadata
              */

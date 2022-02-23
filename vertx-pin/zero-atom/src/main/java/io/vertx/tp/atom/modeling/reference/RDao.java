@@ -10,7 +10,7 @@ import io.vertx.tp.ke.atom.specification.KJoin;
 import io.vertx.tp.ke.atom.specification.KPoint;
 import io.vertx.tp.ke.refine.Ke;
 import io.vertx.tp.modular.dao.AoDao;
-import io.vertx.tp.optic.DS;
+import io.vertx.tp.optic.environment.DS;
 import io.vertx.tp.plugin.database.DataPool;
 import io.vertx.up.commune.Record;
 import io.vertx.up.commune.config.Database;

@@ -3,6 +3,7 @@ package io.vertx.tp.optic;
 import cn.vertxup.ambient.service.DatumService;
 import cn.vertxup.ambient.service.DatumStub;
 import io.vertx.core.Future;
+import io.vertx.tp.optic.environment.Indent;
 import io.vertx.up.eon.Values;
 import io.vertx.up.exception.web._400SigmaMissingException;
 import io.vertx.up.unity.Ux;
@@ -30,6 +31,14 @@ public class NormIndent implements Indent {
                 return Ux.future(item.getString(Values.IDX));
             }
         });
+    }
+
+    @Override
+    public Future<Boolean> reset(final String code, final String sigma, final Long defaultValue) {
+        if (Ut.isNil(sigma)) {
+            return Ux.thenError(_400SigmaMissingException.class, this.getClass());
+        }
+        return stub.numberSigmaR(sigma, code, defaultValue);
     }
 
     @Override

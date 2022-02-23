@@ -1,4 +1,4 @@
-package io.vertx.tp.optic;
+package io.vertx.tp.optic.web;
 
 import io.vertx.core.Future;
 import io.vertx.tp.ke.atom.KCredential;

@@ -3,7 +3,7 @@ package io.vertx.tp.ke.refine;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.optic.Indent;
+import io.vertx.tp.optic.environment.Indent;
 import io.vertx.up.eon.KName;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;

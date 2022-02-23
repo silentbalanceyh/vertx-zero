@@ -4,6 +4,7 @@ import io.vertx.core.MultiMap;
 import io.vertx.tp.error._501DataSourceException;
 import io.vertx.tp.jet.atom.JtApp;
 import io.vertx.tp.optic.environment.Ambient;
+import io.vertx.tp.optic.environment.DS;
 import io.vertx.tp.plugin.database.DataPool;
 import io.vertx.up.commune.config.Database;
 import io.vertx.up.fn.Fn;

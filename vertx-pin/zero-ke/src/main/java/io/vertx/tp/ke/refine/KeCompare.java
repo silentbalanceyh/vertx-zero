@@ -3,7 +3,7 @@ package io.vertx.tp.ke.refine;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.optic.fantom.Fabric;
+import io.vertx.tp.optic.ui.Combiner;
 import io.vertx.up.atom.record.Apt;
 import io.vertx.up.commune.element.TypeAtom;
 import io.vertx.up.commune.element.TypeField;
@@ -27,7 +27,7 @@ class KeCompare {
                 return Ux.future(json);
             } else {
                 final Class<?> clazz = Ut.clazz(json.getString(field));
-                final Fabric<JsonObject> fabric = Ut.instance(clazz);
+                final Combiner<JsonObject> fabric = Ut.instance(clazz);
                 return fabric.combine(json);
             }
         };

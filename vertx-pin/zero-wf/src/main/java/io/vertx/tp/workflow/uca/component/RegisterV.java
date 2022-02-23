@@ -27,6 +27,6 @@ public class RegisterV extends AbstractRecord {
     public Future<JsonObject> saveAsync(final JsonObject params, final MetaInstance metadata) {
         Wf.Log.infoMove(this.getClass(), "`virtual` configured to true");
         final Register register = Register.instance(params);
-        return register.updateAsync(params, metadata);
+        return register.saveAsync(params, metadata);
     }
 }

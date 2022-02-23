@@ -1,4 +1,4 @@
-package io.vertx.tp.optic;
+package io.vertx.tp.optic.ui;
 
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
