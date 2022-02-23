@@ -28,6 +28,7 @@ public interface KName {
     String MODEL_CATEGORY = "modelCategory";     /* Model Consumer ( related XCategory ) field */
     String MODEL_COMPONENT = "modelComponent";   /* Model Component */
     String MODEL_CHILD = "modelChild";           /* Model Component */
+    String QUANTITY = "quantity";                /* Quantity -> Children Size */
 
     String SCOPE = "scope";                      /* OAuth scope field */
     String REALM = "realm";                      /* Authorization realm field for security */

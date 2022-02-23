@@ -37,7 +37,7 @@ public interface Register {
              * - save = update
              * - update only
              */
-            return Fn.poolThread(Pool.THREAD_POOL, RegisterV::new);
+            return Fn.poolThread(Pool.THREAD_POOL, RegisterV::new, RegisterV.class.getName());
         } else {
             return instance(params);
         }
@@ -48,10 +48,10 @@ public interface Register {
             final Object record = params.getValue(KName.RECORD);
             if (record instanceof JsonObject) {
                 // Json Processing
-                return Fn.poolThread(Pool.THREAD_POOL, RegisterJ::new);
+                return Fn.poolThread(Pool.THREAD_POOL, RegisterJ::new, RegisterJ.class.getName());
             } else if (record instanceof JsonArray) {
                 // Array Processing
-                return Fn.poolThread(Pool.THREAD_POOL, RegisterA::new);
+                return Fn.poolThread(Pool.THREAD_POOL, RegisterA::new, RegisterA.class.getName());
             } else {
                 // Single for nothing
                 return Ut.singleton(RegisterN.class);

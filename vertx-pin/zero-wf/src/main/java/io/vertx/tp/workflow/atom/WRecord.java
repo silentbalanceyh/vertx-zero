@@ -16,6 +16,7 @@ import io.vertx.up.util.Ut;
 
 import java.io.Serializable;
 import java.util.Objects;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
@@ -146,11 +147,25 @@ public class WRecord implements Serializable {
             final ActionOn action = ActionOn.action(metadataInput.recordMode());
             // Record of Todo processing
             final MetaInstance metadataOutput = MetaInstance.output(this, metadataInput);
-            return action.fetchAsync(this.ticket.getModelKey(), metadataOutput).compose(json -> {
-                // record processing
-                response.put(KName.RECORD, json);
+            if (metadataOutput.recordSkip()) {
                 return Ux.future(response);
-            });
+            }
+            // Record for different fetch
+            final String modelKey = this.ticket.getModelKey();
+            if (Objects.isNull(modelKey)) {
+                final Set<String> keys = Ut.toSet(Ut.toJArray(this.ticket.getModelChild()));
+                return action.fetchAsync(keys, metadataOutput).compose(array -> {
+                    // record processing
+                    response.put(KName.RECORD, array);
+                    return Ux.future(response);
+                });
+            } else {
+                return action.fetchAsync(this.ticket.getModelKey(), metadataOutput).compose(json -> {
+                    // record processing
+                    response.put(KName.RECORD, json);
+                    return Ux.future(response);
+                });
+            }
         }).compose(processed -> {
             /*
              * Condition:

@@ -33,11 +33,8 @@ public interface ActionOn {
     <T> Future<JsonObject> fetchAsync(String key, MetaInstance metadata);
 
     // -------------------- Batch ----------------
-    <T> Future<JsonArray> createAsync(JsonArray params, MetaInstance metadata);
 
     <T> Future<JsonArray> updateAsync(Set<String> keys, JsonArray params, MetaInstance metadata);
-
-    <T> Future<Boolean> removeAsync(Set<String> keys);
 
     <T> Future<JsonArray> fetchAsync(Set<String> keys, MetaInstance metadata);
 }
