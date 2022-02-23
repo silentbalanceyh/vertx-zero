@@ -21,7 +21,7 @@ import java.util.concurrent.ConcurrentMap;
  * 2) identifier, The model id in our framework to identify model
  * -- 2.1) Model unique id should be `namespace + identifier` here.
  */
-public interface IndentSolver {
+public interface Identifier {
     /*
      * Get identifier directly by params
      */
