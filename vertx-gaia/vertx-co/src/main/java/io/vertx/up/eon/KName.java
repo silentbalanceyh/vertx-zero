@@ -176,6 +176,7 @@ public interface KName {
     String FILE_NAME = "filename";               /* XAttachment filename */
 
     String LINKAGE = "linkage";                  /* XLinkage instance */
+    String QUERY = "query";                      /* XLinkage query */
 
     interface Attachment {
         String STORE_WAY = "storeWay";               /* XAttachment, store way of the file */

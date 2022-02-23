@@ -74,7 +74,7 @@ public class ListService implements ListStub {
             /* vSegment */
             .compose(Ux.attachJ(ListStub.FIELD_V_SEGMENT, this.optionStub::fetchFragment))
             /* Combiner for final processing */
-            .compose(Ke.fabricAsync("classCombiner"));
+            .compose(Ke.fabricFn("classCombiner"));
     }
 
     @Override

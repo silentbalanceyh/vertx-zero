@@ -9,26 +9,5 @@
     },
     "record": {
         "flag": "ADD"
-    },
-    "linkage": {
-        "fields": [
-            "linkageTicket",
-            "linkageAssert",
-            "linkageAttachment"
-        ],
-        "condition": {
-            "linkageTicket": {
-                "sourceType": "w.ticket",
-                "targetType": "w.ticket"
-            },
-            "linkageAssert": {
-                "sourceType": "w.ticket",
-                "targetType": "ci.device"
-            },
-            "linkageAttachment": {
-                "sourceType": "w.ticket",
-                "targetType": "x.attachment"
-            }
-        }
     }
 }

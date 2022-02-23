@@ -1,0 +1,5 @@
+一级菜单,二级菜单,三级菜单,菜单代码,菜单序号,菜单类型
+个人信息,,,zero.personal.info,1005,TOP-MENU
+修改密码,,,zero.personal.password,1010,TOP-MENU
+企业信息,,,zero.personal.company,1015,TOP-MENU
+退出系统,,,zero.personal.logout,1020,TOP-MENU

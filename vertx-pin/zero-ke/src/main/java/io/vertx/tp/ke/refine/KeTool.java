@@ -1,14 +1,22 @@
 package io.vertx.tp.ke.refine;
 
+import io.vertx.core.Future;
+import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.plugin.database.DataPool;
 import io.vertx.up.commune.config.Database;
+import io.vertx.up.eon.KName;
+import io.vertx.up.eon.Strings;
 import io.vertx.up.uca.yaml.Node;
 import io.vertx.up.uca.yaml.ZeroUniform;
+import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 import org.jooq.Configuration;
 
 import java.util.Objects;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
+import java.util.function.BiFunction;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
@@ -29,6 +37,42 @@ class KeTool {
         final Database database = Database.getCurrent();
         final DataPool pool = DataPool.create(database);
         return pool.getExecutor().configuration();
+    }
+
+    static Future<JsonObject> map(final JsonObject data, final String field,
+                                  final ConcurrentMap<String, JsonObject> attachmentMap,
+                                  final BiFunction<JsonObject, JsonArray, Future<JsonArray>> fileFn) {
+        /*
+         * Here call add only
+         */
+        final String key = data.getString(field);
+        Objects.requireNonNull(key);
+        final ConcurrentMap<String, Future<JsonArray>> futures = new ConcurrentHashMap<>();
+        attachmentMap.forEach((fieldF, condition) -> {
+            /*
+             * Put `key` of data into `modelKey`
+             */
+            final JsonObject criteria = condition.copy();
+            if (Ut.notNil(criteria)) {
+                criteria.put(Strings.EMPTY, Boolean.TRUE);
+                criteria.put(KName.MODEL_KEY, key);
+                /*
+                 * JsonArray normalize
+                 */
+                final JsonArray dataArray = Ut.sureJArray(data, fieldF);
+                Ut.itJArray(dataArray).forEach(json -> json.put(KName.MODEL_KEY, key));
+                futures.put(fieldF, fileFn.apply(criteria, dataArray));
+            } else {
+                /*
+                 * Log
+                 */
+                KeLog.warnChannel(KeRun.class, "Criteria must be not empty");
+            }
+        });
+        return Ux.thenCombine(futures).compose(mapData -> {
+            mapData.forEach(data::put);
+            return Ux.future(data);
+        });
     }
 
     static <T> void consume(final Supplier<T> supplier, final Consumer<T> consumer) {
