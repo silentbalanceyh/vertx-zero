@@ -244,7 +244,7 @@ public abstract class AbstractAdaptor extends AbstractComponent {
      * @return {@link AoDao}数据库访问器
      */
     protected AoDao dao() {
-        return Ao.toDao(this.database, this.atom());
+        return Ao.toDao(this.atom(), this.database);
     }
 
     /**
@@ -258,7 +258,7 @@ public abstract class AbstractAdaptor extends AbstractComponent {
      * @return {@link AoDao}数据库访问器
      */
     protected AoDao dao(final DataAtom atom) {
-        return Ao.toDao(this.database, atom.ruleConnect(this.rule()));
+        return Ao.toDao(atom.ruleConnect(this.rule()), this.database);
     }
 
 

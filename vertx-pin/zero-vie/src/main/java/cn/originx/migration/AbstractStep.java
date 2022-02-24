@@ -44,7 +44,7 @@ public abstract class AbstractStep implements MigrateStep {
 
     protected AoDao ioDao(final String identifier) {
         final DataAtom atom = Ox.toAtom(this.app.getAppId(), identifier);
-        return Ao.toDao(this.app.getSource(), atom);
+        return Ao.toDao(atom, this.app.getSource());
     }
 
     protected String ioRoot(final JsonObject config) {

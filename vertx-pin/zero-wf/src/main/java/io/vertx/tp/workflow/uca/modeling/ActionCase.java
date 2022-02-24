@@ -22,7 +22,7 @@ class ActionCase implements ActionOn {
     }
 
     @Override
-    public <T> Future<JsonObject> fetchAsync(final String key, final MetaInstance metadata) {
+    public <T> Future<JsonObject> fetchAsync(final String key, final String identifier, final MetaInstance metadata) {
         return null;
     }
 
@@ -32,7 +32,7 @@ class ActionCase implements ActionOn {
     }
 
     @Override
-    public <T> Future<JsonArray> fetchAsync(final Set<String> keys, final MetaInstance metadata) {
+    public <T> Future<JsonArray> fetchAsync(final Set<String> keys, final String identifier, final MetaInstance metadata) {
         return null;
     }
 }

@@ -31,13 +31,13 @@ public interface ActionOn {
 
     <T> Future<JsonObject> updateAsync(String key, JsonObject params, MetaInstance metadata);
 
-    <T> Future<JsonObject> fetchAsync(String key, MetaInstance metadata);
+    <T> Future<JsonObject> fetchAsync(String key, String identifier, MetaInstance metadata);
 
     // -------------------- Batch ----------------
 
     <T> Future<JsonArray> updateAsync(Set<String> keys, JsonArray params, MetaInstance metadata);
 
-    <T> Future<JsonArray> fetchAsync(Set<String> keys, MetaInstance metadata);
+    <T> Future<JsonArray> fetchAsync(Set<String> keys, String identifier, MetaInstance metadata);
 }
 
 interface T {

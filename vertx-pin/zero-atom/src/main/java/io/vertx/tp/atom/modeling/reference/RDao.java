@@ -8,12 +8,8 @@ import io.vertx.tp.atom.modeling.data.DataAtom;
 import io.vertx.tp.atom.refine.Ao;
 import io.vertx.tp.ke.atom.specification.KJoin;
 import io.vertx.tp.ke.atom.specification.KPoint;
-import io.vertx.tp.ke.refine.Ke;
 import io.vertx.tp.modular.dao.AoDao;
-import io.vertx.tp.optic.environment.DS;
-import io.vertx.tp.plugin.database.DataPool;
 import io.vertx.up.commune.Record;
-import io.vertx.up.commune.config.Database;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
@@ -160,16 +156,6 @@ public class RDao {
     }
 
     private AoDao daoD() {
-        return Ke.channelSync(DS.class, () -> null, ds -> {
-            /* 连接池绑定数据库 */
-            final DataPool pool = ds.switchDs(this.atom.sigma());
-            if (Objects.nonNull(pool)) {
-                /* 返回AoDao */
-                final Database database = pool.getDatabase();
-                return Ao.toDao(database, this.atom);
-            } else {
-                return null;
-            }
-        });
+        return Ao.toDao(this.atom);
     }
 }

@@ -113,7 +113,7 @@ public abstract class AbstractIncome extends AbstractJob implements JobIncome {
      * @return {@link Future}<{@link AoDao}>
      */
     protected Future<AoDao> dao() {
-        return Ux.future(Ao.toDao(this.database(), this.atom()));
+        return Ux.future(Ao.toDao(this.atom(), this.database()));
     }
 
     /**

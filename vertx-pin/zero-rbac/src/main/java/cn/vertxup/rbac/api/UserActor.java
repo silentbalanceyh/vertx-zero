@@ -62,7 +62,7 @@ public class UserActor {
         return this.loginStub.logout(token, habitus).compose(result -> {
             /*
              * Here we should do
-             * 1. Session / Context Purging
+             * 1. Session / ES Purging
              * 2. User clean
              * 3. Fix issue of 4.x
              * 4. Permission Pool / Auth Pool Clean

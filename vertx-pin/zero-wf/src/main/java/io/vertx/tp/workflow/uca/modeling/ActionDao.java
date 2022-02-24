@@ -37,7 +37,7 @@ class ActionDao implements ActionOn {
     }
 
     @Override
-    public <T> Future<JsonObject> fetchAsync(final String key, final MetaInstance metadata) {
+    public <T> Future<JsonObject> fetchAsync(final String key, final String identifier, final MetaInstance metadata) {
         final UxJooq jooq = metadata.recordDao();
         return jooq.fetchByIdAsync(key)
             .compose(Ux::futureJ)
@@ -58,7 +58,7 @@ class ActionDao implements ActionOn {
     }
 
     @Override
-    public <T> Future<JsonArray> fetchAsync(final Set<String> keys, final MetaInstance metadata) {
+    public <T> Future<JsonArray> fetchAsync(final Set<String> keys, final String identifier, final MetaInstance metadata) {
         final UxJooq jooq = metadata.recordDao();
         final JsonObject condition = new JsonObject();
         condition.put(KName.KEY + ",i", Ut.toJArray(keys));
