@@ -1,4 +1,4 @@
-package io.vertx.tp.workflow.uca.component;
+package io.vertx.tp.workflow.uca.modeling;
 
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
@@ -9,7 +9,7 @@ import io.vertx.up.unity.Ux;
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-public class RegisterV extends AbstractRecord {
+public class RegisterV extends AbstractRegister {
     @Override
     public Future<JsonObject> insertAsync(final JsonObject params, final MetaInstance metadata) {
         Wf.Log.infoMove(this.getClass(), "`virtual` configured to true");

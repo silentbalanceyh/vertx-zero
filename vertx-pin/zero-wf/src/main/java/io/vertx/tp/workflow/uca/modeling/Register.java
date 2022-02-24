@@ -1,4 +1,4 @@
-package io.vertx.tp.workflow.uca.component;
+package io.vertx.tp.workflow.uca.modeling;
 
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
@@ -8,15 +8,6 @@ import io.vertx.up.eon.KName;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.util.Ut;
 
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
-
-/**
- * @author <a href="http://www.origin-x.cn">Lang</a>
- */
-interface Pool {
-    ConcurrentMap<String, Register> THREAD_POOL = new ConcurrentHashMap<>();
-}
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>

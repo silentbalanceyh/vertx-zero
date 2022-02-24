@@ -12,10 +12,10 @@ import java.util.Objects;
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-public abstract class AbstractTodo extends AbstractTransfer {
+public abstract class AbstractMovement extends AbstractTransfer {
 
-    private transient KtTodo todoKit;
-    private transient KtLinkage linkageKit;
+    private transient HelperTodo todoKit;
+    private transient HelperLinkage linkageKit;
     private transient MetaInstance metadata;
 
     /*
@@ -25,8 +25,8 @@ public abstract class AbstractTodo extends AbstractTransfer {
     public Behaviour bind(final MetaInstance metadata) {
         Objects.requireNonNull(metadata);
         this.metadata = metadata;
-        this.todoKit = new KtTodo(metadata);
-        this.linkageKit = new KtLinkage(metadata);
+        this.todoKit = new HelperTodo(metadata);
+        this.linkageKit = new HelperLinkage(metadata);
         return super.bind(metadata);
     }
 
@@ -125,7 +125,7 @@ public abstract class AbstractTodo extends AbstractTransfer {
 
     protected Future<WRecord> generateAsync(final JsonObject params, final WProcess instance, final WRecord record) {
         // final WTodo generated = KitTodo.inputNext(todo, instance);
-        final WRecord generated = KtTodo.nextJ(record, instance);
+        final WRecord generated = HelperTodo.nextJ(record, instance);
         // return this.todoKit.generateAsync(todo, instance);
         return this.todoKit.generateAsync(params, generated);
     }

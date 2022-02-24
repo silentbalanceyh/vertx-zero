@@ -1,6 +1,8 @@
 package io.vertx.tp.workflow.atom;
 
 import io.vertx.core.json.JsonObject;
+import io.vertx.tp.workflow.uca.modeling.Respect;
+import io.vertx.tp.workflow.uca.modeling.RespectFile;
 import io.vertx.up.eon.KName;
 import io.vertx.up.eon.Strings;
 import io.vertx.up.util.Ut;
@@ -15,7 +17,6 @@ import java.util.concurrent.ConcurrentMap;
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 class ConfigLinkage implements Serializable {
-    private final static String CLS_DAO = "cn.vertxup.ambient.domain.tables.daos.XLinkageDao";
 
     private final transient ConcurrentMap<String, Class<?>> daoMap = new ConcurrentHashMap<>();
     private final transient ConcurrentMap<String, JsonObject> queryMap = new ConcurrentHashMap<>();
@@ -48,9 +49,10 @@ class ConfigLinkage implements Serializable {
                  *
                  * field = Dao
                  */
-                final String clazzCls = config.containsKey(KName.DAO) ? config.getString(KName.DAO) : CLS_DAO;
-                final Class<?> clazz = Ut.clazz(clazzCls, null);
-                if (Objects.nonNull(clazz)) {
+                final Class<?> clazz = Ut.clazz(config.getString("respect"), null);
+                if (Objects.isNull(clazz)) {
+                    this.daoMap.put(field, RespectFile.class);
+                } else {
                     this.daoMap.put(field, clazz);
                 }
 
@@ -60,6 +62,7 @@ class ConfigLinkage implements Serializable {
                  */
                 if (this.daoMap.containsKey(field)) {
                     final JsonObject query = Ut.sureJObject(config, KName.QUERY);
+                    query.put(Strings.EMPTY, Boolean.TRUE);
                     this.queryMap.put(field, query);
                 }
             }
@@ -70,9 +73,19 @@ class ConfigLinkage implements Serializable {
         return this.daoMap.keySet();
     }
 
-    public JsonObject condition(final String field) {
+    public JsonObject query(final String field) {
         final JsonObject conditionJ = this.queryMap.getOrDefault(field, new JsonObject());
         conditionJ.put(Strings.EMPTY, Boolean.TRUE);
         return conditionJ.copy();
+    }
+
+    public Respect respect(final String field) {
+        /*
+         * HashCode
+         * 1. Respect Class Name
+         * 2. Condition ( Hash Code )
+         * 3. Field Name
+         */
+        return null;
     }
 }

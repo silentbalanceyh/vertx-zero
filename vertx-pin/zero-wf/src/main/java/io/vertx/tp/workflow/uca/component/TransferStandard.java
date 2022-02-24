@@ -4,6 +4,7 @@ import cn.zeroup.macrocosm.cv.em.TodoStatus;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.workflow.atom.*;
+import io.vertx.tp.workflow.uca.modeling.Register;
 import io.vertx.tp.workflow.uca.runner.IsOn;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
@@ -15,7 +16,7 @@ import java.util.function.Function;
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-public class TransferStandard extends AbstractTodo implements Transfer {
+public class TransferStandard extends AbstractMovement implements Transfer {
     @Override
     public Future<WRecord> moveAsync(final JsonObject params, final WProcess wProcess) {
         /*
@@ -36,7 +37,7 @@ public class TransferStandard extends AbstractTodo implements Transfer {
                 /*
                  * Todo Data Only
                  */
-                final JsonObject todoData = KtTodo.closeJ(normalized, wProcess);
+                final JsonObject todoData = HelperTodo.closeJ(normalized, wProcess);
                 return this.saveAsync(todoData, wProcess)
                     .compose(this.saveAsyncFn(normalized, wProcess));
             })
@@ -79,7 +80,7 @@ public class TransferStandard extends AbstractTodo implements Transfer {
             }));
     }
 
-    private Function<WRecord, Future<WRecord>> saveAsyncFn(final JsonObject updated, final WProcess process) {
+    private Function<WRecord, Future<WRecord>> saveAsyncFn(final JsonObject input, final WProcess process) {
         return record -> {
             /*
              * Double check for `insert record`
@@ -91,7 +92,8 @@ public class TransferStandard extends AbstractTodo implements Transfer {
              * - UPDATE -> Original Stored Status
              */
             final TodoStatus status = record.status();
-            JsonObject request = updated.copy();
+            JsonObject request = input.copy();
+            request.mergeIn(record.data());
             final MetaInstance metadataOut = MetaInstance.output(record, this.metadataIn());
 /*          if (TodoStatus.DRAFT == status) {
                 return this.saveAsync(request, metadataOut).compose(nil -> Ux.future(record));
@@ -112,7 +114,7 @@ public class TransferStandard extends AbstractTodo implements Transfer {
             /*
              * Contains record modification, do update on record.
              */
-            final Register register = Register.phantom(request, metadataOut);
+            final Register register = Register.instance(request);
             return register.saveAsync(request, metadataOut).compose(nil -> Ux.future(record));
         };
     }

@@ -122,9 +122,10 @@ public class MetaInstance {
         return Objects.isNull(this.linkage);
     }
 
-    public JsonObject linkCondition(final String field) {
+    @Deprecated
+    public JsonObject linkQuery(final String field) {
         Objects.requireNonNull(this.linkage);
-        return this.linkage.condition(field);
+        return this.linkage.query(field);
     }
 
     // -------------------- Todo Generate ------------------
