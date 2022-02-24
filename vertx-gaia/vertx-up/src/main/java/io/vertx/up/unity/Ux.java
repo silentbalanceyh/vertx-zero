@@ -112,6 +112,19 @@ public final class Ux {
         return Compare.updateT(query, params, field);
     }
 
+    public static Record updateR(final Record record, final JsonObject params) {
+        return Compare.updateR(record, params, () -> UUID.randomUUID().toString());
+    }
+
+    public static Record[] updateR(final Record[] record, final JsonArray array) {
+        return updateR(record, array, KName.KEY);
+    }
+
+    public static Record[] updateR(final Record[] record, final JsonArray array, final String field) {
+        final List<Record> recordList = Arrays.asList(record);
+        return Compare.updateR(recordList, array, field).toArray(new Record[]{});
+    }
+
     /*
      * Rule Match
      * 1. single checking

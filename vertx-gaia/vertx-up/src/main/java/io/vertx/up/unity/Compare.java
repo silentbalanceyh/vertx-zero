@@ -3,6 +3,7 @@ package io.vertx.up.unity;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
+import io.vertx.up.commune.Record;
 import io.vertx.up.eon.em.ChangeFlag;
 import io.vertx.up.util.Ut;
 
@@ -13,6 +14,7 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.function.Function;
+import java.util.function.Supplier;
 
 /*
  * Compare two entity collection for
@@ -164,6 +166,32 @@ class Compare {
         final JsonObject original = Ux.toJson(query);
         original.mergeIn(params, true);
         return (T) From.fromJson(original, entityCls, "");
+    }
+
+    static <ID> Record updateR(final Record record, final JsonObject data,
+                               final Supplier<ID> supplier) {
+        Objects.requireNonNull(record);
+        record.set(data);
+        final ID key = record.key();
+        if (Objects.isNull(key)) {
+            record.key(supplier.get());
+        }
+        return record;
+    }
+
+    static List<Record> updateR(final List<Record> recordList, final JsonArray array, final String field) {
+        final ConcurrentMap<String, JsonObject> dataMap = Ut.elementMap(array, field);
+        recordList.forEach(record -> {
+            final String key = record.key();
+            if (Objects.nonNull(key)) {
+                final JsonObject dataJ = dataMap.getOrDefault(key, new JsonObject());
+                if (Ut.notNil(dataJ)) {
+                    dataJ.remove(field);
+                    record.set(dataJ);
+                }
+            }
+        });
+        return recordList;
     }
 
     static <T> List<T> updateT(final List<T> query, final JsonArray params, final String field) {

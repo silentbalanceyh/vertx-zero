@@ -48,7 +48,7 @@ class RiseRapid implements Rise {
     }
 
     private Future<JsonArray> inputData(final JsonObject criteria, final DataAtom atom) {
-        final AoDao dao = Ao.toDao(this.database, atom);
+        final AoDao dao = Ao.toDao(atom, this.database);
         return dao.fetchAsync(criteria)
             .compose(records -> Ux.future(Ut.toJArray(records)));
     }

@@ -12,6 +12,12 @@ import io.vertx.up.util.Ut;
  */
 public abstract class AbstractRecord implements Register {
 
+    protected JsonArray normalize(final JsonObject params, final JsonArray rData, final boolean isNew) {
+        final JsonArray normalized = new JsonArray();
+        Ut.itJArray(rData).forEach(record -> normalized.add(this.normalize(params, record, isNew)));
+        return normalized;
+    }
+
     /*
      * {
      *     "record": "...",
@@ -42,6 +48,8 @@ public abstract class AbstractRecord implements Register {
         if (!rData.containsKey(KName.ACTIVE)) {
             rData.put(KName.ACTIVE, Boolean.TRUE);
         }
+        // Identifier Processing
+        rData.put(KName.IDENTIFIER, params.getValue(KName.MODEL_ID));
         return rData;
     }
 

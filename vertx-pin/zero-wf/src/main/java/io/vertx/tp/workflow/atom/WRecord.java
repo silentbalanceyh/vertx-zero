@@ -174,13 +174,15 @@ public class WRecord implements Serializable {
             final String modelKey = this.ticket.getModelKey();
             if (Objects.isNull(modelKey)) {
                 final Set<String> keys = Ut.toSet(Ut.toJArray(this.ticket.getModelChild()));
-                return action.fetchAsync(keys, metadataOutput).compose(array -> {
+                return action.fetchAsync(keys, this.ticket.getModelId(),
+                    metadataOutput).compose(array -> {
                     // record processing
                     response.put(KName.RECORD, array);
                     return Ux.future(response);
                 });
             } else {
-                return action.fetchAsync(this.ticket.getModelKey(), metadataOutput).compose(json -> {
+                return action.fetchAsync(this.ticket.getModelKey(), this.ticket.getModelId(),
+                    metadataOutput).compose(json -> {
                     // record processing
                     response.put(KName.RECORD, json);
                     return Ux.future(response);

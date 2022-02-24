@@ -59,7 +59,7 @@ final class OxTo {
     static AoDao toDao(final String key, final String identifier) {
         final JtApp app = Ambient.getApp(key);
         final Database database = Objects.isNull(app) ? null : app.getSource();
-        return Ao.toDao(database, () -> toAtom(key, identifier));
+        return Ao.toDao(toAtom(key, identifier), database);
     }
 
     /**

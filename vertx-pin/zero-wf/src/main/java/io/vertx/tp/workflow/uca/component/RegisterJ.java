@@ -47,7 +47,8 @@ public class RegisterJ extends AbstractRecord {
         final JsonObject recordData = this.normalize(params, rData, true);
         final String key = metadata.recordKeyU(recordData);
         Objects.requireNonNull(key);
-        return action.fetchAsync(key, metadata).compose(queried -> {
+        final String identifier = rData.getString(KName.IDENTIFIER);
+        return action.fetchAsync(key, identifier, metadata).compose(queried -> {
             if (Ut.isNil(queried)) {
                 // Create New
                 return action.createAsync(recordData, metadata);
