@@ -5,13 +5,11 @@ import cn.vertxup.workflow.domain.tables.daos.WTodoDao;
 import cn.vertxup.workflow.domain.tables.pojos.WTicket;
 import cn.vertxup.workflow.domain.tables.pojos.WTodo;
 import io.vertx.core.Future;
-import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.ke.refine.Ke;
-import io.vertx.tp.optic.feature.Linkage;
 import io.vertx.tp.workflow.atom.EngineOn;
 import io.vertx.tp.workflow.atom.MetaInstance;
 import io.vertx.tp.workflow.atom.WRecord;
+import io.vertx.tp.workflow.uca.component.HelperLinkage;
 import io.vertx.up.eon.KName;
 import io.vertx.up.uca.jooq.UxJooq;
 import io.vertx.up.unity.Ux;
@@ -19,9 +17,6 @@ import io.vertx.up.util.Ut;
 
 import javax.inject.Inject;
 import java.util.Objects;
-import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
@@ -74,7 +69,7 @@ public class TaskService implements TaskStub {
 
 
             // Linkage
-            .compose(this::readLinkage)
+            .compose(HelperLinkage::readLinkage)
 
 
             // Child
@@ -118,34 +113,6 @@ public class TaskService implements TaskStub {
             .compose(queried -> Ux.future(response.child(queried)));
     }
 
-    private Future<WRecord> readLinkage(final WRecord response) {
-        final WTicket ticket = response.ticket();
-        Objects.requireNonNull(ticket);
-
-        // Connect to Workflow Engine
-        final EngineOn engine = EngineOn.connect(ticket.getFlowDefinitionKey());
-        final MetaInstance meta = engine.metadata();
-        // Linkage Extract
-        if (meta.linkSkip()) {
-            return Ux.future(response);
-        }
-
-        // ConcurrentMap
-        final ConcurrentMap<String, Future<JsonArray>> futures = new ConcurrentHashMap<>();
-        final Set<String> fields = meta.linkFields();
-        fields.forEach(field -> {
-            final String sourceKey = ticket.getKey();
-            final JsonObject condition = meta.linkQuery(field);
-            condition.put(KName.SOURCE_KEY, sourceKey);
-            futures.put(field, Ke.channelAsync(Linkage.class, Ux::futureA,
-                link -> link.fetch(condition)));
-        });
-        return Ux.thenCombine(futures).compose(dataMap -> {
-            dataMap.forEach(response::linkage);
-            return Ux.future(response);
-        });
-    }
-
 
     @Override
     public Future<JsonObject> readFinished(final String key) {
@@ -157,7 +124,7 @@ public class TaskService implements TaskStub {
 
 
             // Linkage
-            .compose(this::readLinkage)
+            .compose(HelperLinkage::readLinkage)
 
 
             // Child
