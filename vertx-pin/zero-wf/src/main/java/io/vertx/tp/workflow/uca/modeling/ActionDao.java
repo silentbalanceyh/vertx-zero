@@ -45,6 +45,13 @@ class ActionDao implements ActionOn {
     }
 
     @Override
+    public <T> Future<JsonArray> createAsync(JsonArray params, MetaInstance metadata) {
+        final UxJooq jooq = metadata.recordDao();
+        Ut.itJArray(params).forEach(json -> Ut.ifString(json, KName.METADATA));
+        return jooq.insertJAsync(params).compose(Ut.ifJArray(KName.METADATA));
+    }
+
+    @Override
     public <T> Future<JsonArray> updateAsync(final Set<String> keys, final JsonArray params, final MetaInstance metadata) {
         final UxJooq jooq = metadata.recordDao();
         final JsonObject condition = new JsonObject();

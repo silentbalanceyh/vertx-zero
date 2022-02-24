@@ -2,12 +2,14 @@ package io.vertx.tp.workflow.atom;
 
 import cn.zeroup.macrocosm.cv.em.RecordMode;
 import io.vertx.core.Future;
+import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.eon.KName;
 import io.vertx.up.uca.jooq.UxJooq;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
@@ -101,6 +103,13 @@ public class MetaInstance {
         final String key = this.record.unique(recordData);
         Objects.requireNonNull(key);
         return key;
+    }
+
+    public Set<String> recordKeyU(final JsonArray recordData) {
+        Objects.requireNonNull(this.record);
+        final Set<String> keys = new HashSet<>();
+        Ut.itJArray(recordData).forEach(record -> keys.add(this.record.unique(record)));
+        return keys;
     }
 
     // -------------------- Linkage Part -----------------

@@ -27,6 +27,11 @@ class ActionCase implements ActionOn {
     }
 
     @Override
+    public <T> Future<JsonArray> createAsync(final JsonArray params, final MetaInstance instance) {
+        return null;
+    }
+
+    @Override
     public <T> Future<JsonArray> updateAsync(final Set<String> keys, final JsonArray params, final MetaInstance metadata) {
         return null;
     }

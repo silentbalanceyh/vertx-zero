@@ -45,6 +45,15 @@ class ActionDynamic implements ActionOn {
     }
 
     @Override
+    public <T> Future<JsonArray> createAsync(final JsonArray params, final MetaInstance instance) {
+        return this.identifierA((identifier, dataArray) ->
+            // Batch Create
+            Ke.channel(Atom.class, JsonArray::new,
+                // Channel
+                atom -> atom.createAsync(identifier, dataArray))).apply(params);
+    }
+
+    @Override
     public <T> Future<JsonArray> updateAsync(final Set<String> keys, final JsonArray params, final MetaInstance metadata) {
         // Batch Update
         return this.identifierA((identifier, dataArray) ->
