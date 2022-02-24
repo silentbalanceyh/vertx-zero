@@ -75,4 +75,12 @@ class ConfigLinkage implements Serializable {
         conditionJ.put(Strings.EMPTY, Boolean.TRUE);
         return conditionJ.copy();
     }
+
+    boolean isDefault(final String field) {
+        final Class<?> clazz = this.daoMap.getOrDefault(field, null);
+        if (Objects.isNull(clazz)) {
+            return false;
+        }
+        return CLS_DAO.equals(clazz.getName());
+    }
 }

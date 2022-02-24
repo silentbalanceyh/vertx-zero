@@ -5,12 +5,13 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.tp.workflow.atom.MetaInstance;
 import io.vertx.tp.workflow.atom.WProcess;
 import io.vertx.tp.workflow.atom.WRecord;
+import io.vertx.tp.workflow.uca.modeling.Register;
 import io.vertx.up.unity.Ux;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-public class StaySave extends AbstractTodo implements Stay {
+public class StaySave extends AbstractMovement implements Stay {
     @Override
     public Future<WRecord> keepAsync(final JsonObject params, final WProcess instance) {
         // Todo Updating

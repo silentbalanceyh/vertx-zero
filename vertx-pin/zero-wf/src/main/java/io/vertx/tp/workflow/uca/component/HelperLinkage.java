@@ -22,11 +22,11 @@ import java.util.stream.Collectors;
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-public class KtLinkage {
+public class HelperLinkage {
 
     private final transient MetaInstance metadata;
 
-    KtLinkage(final MetaInstance metadata) {
+    HelperLinkage(final MetaInstance metadata) {
         this.metadata = metadata;
     }
 

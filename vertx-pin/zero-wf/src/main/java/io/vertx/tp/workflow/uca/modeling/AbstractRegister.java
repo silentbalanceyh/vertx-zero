@@ -1,4 +1,4 @@
-package io.vertx.tp.workflow.uca.component;
+package io.vertx.tp.workflow.uca.modeling;
 
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
@@ -10,7 +10,7 @@ import io.vertx.up.util.Ut;
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-public abstract class AbstractRecord implements Register {
+public abstract class AbstractRegister implements Register {
 
     protected JsonArray normalize(final JsonObject params, final JsonArray rData, final boolean isNew) {
         final JsonArray normalized = new JsonArray();

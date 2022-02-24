@@ -1,11 +1,10 @@
-package io.vertx.tp.workflow.uca.component;
+package io.vertx.tp.workflow.uca.modeling;
 
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.ke.refine.Ke;
 import io.vertx.tp.workflow.atom.MetaInstance;
-import io.vertx.tp.workflow.uca.modeling.ActionOn;
 import io.vertx.up.eon.KName;
 
 import java.util.Set;
@@ -13,7 +12,7 @@ import java.util.Set;
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-public class RegisterA extends AbstractRecord {
+public class RegisterA extends AbstractRegister {
     @Override
     public Future<JsonObject> insertAsync(final JsonObject params, final MetaInstance metadata) {
         final JsonArray rData = params.getJsonArray(KName.RECORD, new JsonArray());

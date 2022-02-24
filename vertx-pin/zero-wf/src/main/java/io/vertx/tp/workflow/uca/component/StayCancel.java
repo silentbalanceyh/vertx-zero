@@ -12,7 +12,7 @@ import org.camunda.bpm.engine.runtime.ProcessInstance;
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-public class StayCancel extends AbstractTodo implements Stay {
+public class StayCancel extends AbstractMovement implements Stay {
     @Override
     public Future<WRecord> keepAsync(final JsonObject params, final WProcess wProcess) {
         /*
@@ -23,7 +23,7 @@ public class StayCancel extends AbstractTodo implements Stay {
         final ProcessInstance instance = wProcess.instance();
         return event.taskHistory(instance).compose(historySet -> {
             // Cancel data processing
-            final JsonObject todoData = KtTodo.cancelJ(params, wProcess, historySet);
+            final JsonObject todoData = HelperTodo.cancelJ(params, wProcess, historySet);
             return this.updateAsync(todoData);
         }).compose(record -> {
             // Remove ProcessDefinition
