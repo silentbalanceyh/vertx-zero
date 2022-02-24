@@ -80,7 +80,7 @@ public class TransferStandard extends AbstractMovement implements Transfer {
             }));
     }
 
-    private Function<WRecord, Future<WRecord>> saveAsyncFn(final JsonObject updated, final WProcess process) {
+    private Function<WRecord, Future<WRecord>> saveAsyncFn(final JsonObject input, final WProcess process) {
         return record -> {
             /*
              * Double check for `insert record`
@@ -92,7 +92,8 @@ public class TransferStandard extends AbstractMovement implements Transfer {
              * - UPDATE -> Original Stored Status
              */
             final TodoStatus status = record.status();
-            JsonObject request = updated.copy();
+            JsonObject request = input.copy();
+            request.mergeIn(record.data());
             final MetaInstance metadataOut = MetaInstance.output(record, this.metadataIn());
 /*          if (TodoStatus.DRAFT == status) {
                 return this.saveAsync(request, metadataOut).compose(nil -> Ux.future(record));
@@ -113,7 +114,7 @@ public class TransferStandard extends AbstractMovement implements Transfer {
             /*
              * Contains record modification, do update on record.
              */
-            final Register register = Register.phantom(request, metadataOut);
+            final Register register = Register.instance(request);
             return register.saveAsync(request, metadataOut).compose(nil -> Ux.future(record));
         };
     }

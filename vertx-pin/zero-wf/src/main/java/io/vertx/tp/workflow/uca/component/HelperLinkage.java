@@ -57,7 +57,7 @@ public class HelperLinkage {
                  * - sourceType
                  */
                 final String sourceKey = ticket.getKey();
-                final JsonObject condition = this.metadata.linkCondition(field);
+                final JsonObject condition = this.metadata.linkQuery(field);
                 condition.put(KName.SOURCE_KEY, sourceKey);
                 futures.put(field, this.buildEach(condition, linkageData));
             }

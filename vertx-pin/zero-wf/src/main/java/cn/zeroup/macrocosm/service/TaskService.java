@@ -135,7 +135,7 @@ public class TaskService implements TaskStub {
         final Set<String> fields = meta.linkFields();
         fields.forEach(field -> {
             final String sourceKey = ticket.getKey();
-            final JsonObject condition = meta.linkCondition(field);
+            final JsonObject condition = meta.linkQuery(field);
             condition.put(KName.SOURCE_KEY, sourceKey);
             futures.put(field, Ke.channelAsync(Linkage.class, Ux::futureA,
                 link -> link.fetch(condition)));
