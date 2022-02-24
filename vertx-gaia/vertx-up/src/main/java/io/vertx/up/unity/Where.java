@@ -62,7 +62,9 @@ class Where {
                 final JsonObject criteria = new JsonObject();
                 criteria.put("$Or$", original.copy());
                 criteria.put(field, value);
-                criteria.put(Strings.EMPTY, Boolean.TRUE);
+                if (!criteria.containsKey(Strings.EMPTY)) {
+                    criteria.put(Strings.EMPTY, Boolean.TRUE);
+                }
                 query.put(Qr.KEY_CRITERIA, criteria);
             } else {
                 // Replace old conditions.
@@ -78,7 +80,9 @@ class Where {
             // Because you have added new condition, the connector must be AND
             final JsonObject criteria = query.getJsonObject(Qr.KEY_CRITERIA);
             criteria.put(field, value);
-            criteria.put(Strings.EMPTY, Boolean.TRUE);
+            if (!criteria.containsKey(Strings.EMPTY)) {
+                criteria.put(Strings.EMPTY, Boolean.TRUE);
+            }
             query.put(Qr.KEY_CRITERIA, criteria);   // Double sure reference of `criteria`
             return query;
         }
