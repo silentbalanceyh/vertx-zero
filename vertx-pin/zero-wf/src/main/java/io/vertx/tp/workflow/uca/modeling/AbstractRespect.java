@@ -5,6 +5,7 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.workflow.atom.WRecord;
 import io.vertx.up.eon.KName;
+import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
 /**
@@ -22,7 +23,7 @@ public abstract class AbstractRespect implements Respect {
     }
 
     protected JsonObject queryTpl(final WTicket ticket) {
-        final JsonObject parameters = Ut.toJObject(ticket);
+        final JsonObject parameters = Ux.toJson(ticket);
         final JsonObject queryJ = this.query.copy();
         return Ut.fromExpression(queryJ, parameters);
     }
