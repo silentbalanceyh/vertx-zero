@@ -47,7 +47,16 @@ public class RespectFile extends AbstractRespect {
     public Future<JsonArray> fetchAsync(final WRecord record) {
         final WTicket ticket = record.ticket();
         final JsonObject condition = this.queryTpl(ticket);
-        condition.put(KName.SOURCE_KEY, ticket.getKey());
+        condition.put(KName.MODEL_KEY, ticket.getKey());
         return Ke.channelAsync(Attachment.class, Ux::futureA, link -> link.fetchAsync(condition));
+    }
+
+    /*
+     *  Model Key
+     */
+    @Override
+    protected void syncPre(final JsonObject data, final JsonObject params, final WRecord record) {
+        final WTicket ticket = record.ticket();
+        data.put(KName.MODEL_KEY, ticket.getKey());
     }
 }
