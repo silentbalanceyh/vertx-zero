@@ -2,7 +2,7 @@ package io.vertx.tp.workflow.atom;
 
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.workflow.uca.modeling.Respect;
-import io.vertx.tp.workflow.uca.modeling.RespectFile;
+import io.vertx.tp.workflow.uca.modeling.RespectLink;
 import io.vertx.up.eon.KName;
 import io.vertx.up.eon.Strings;
 import io.vertx.up.fn.Fn;
@@ -44,7 +44,7 @@ class ConfigLinkage implements Serializable {
          * }
          */
         Ut.<JsonObject>itJObject(linkageJ, (json, field) -> {
-            final JsonObject config = Ut.sureJObject(json, KName.CONFIG);
+            final JsonObject config = Ut.valueJObject(json, KName.CONFIG);
 
             if (Ut.notNil(config)) {
                 /*
@@ -54,7 +54,7 @@ class ConfigLinkage implements Serializable {
                  */
                 final Class<?> clazz = Ut.clazz(config.getString("respect"), null);
                 if (Objects.isNull(clazz)) {
-                    this.respectMap.put(field, RespectFile.class);
+                    this.respectMap.put(field, RespectLink.class);
                 } else {
                     this.respectMap.put(field, clazz);
                 }
@@ -64,7 +64,7 @@ class ConfigLinkage implements Serializable {
                  * Second Map
                  */
                 if (this.respectMap.containsKey(field)) {
-                    final JsonObject query = Ut.sureJObject(config, KName.QUERY);
+                    final JsonObject query = Ut.valueJObject(config, KName.QUERY);
                     query.put(Strings.EMPTY, Boolean.TRUE);
                     this.queryMap.put(field, query);
                 }

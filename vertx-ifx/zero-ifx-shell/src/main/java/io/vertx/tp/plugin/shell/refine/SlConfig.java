@@ -23,7 +23,7 @@ class SlConfig {
             /*
              * command configuration
              */
-            final JsonObject commands = Ut.sureJObject(config.getJsonObject(FIELD_COMMANDS));
+            final JsonObject commands = Ut.valueJObject(config.getJsonObject(FIELD_COMMANDS));
             /*
              * default, defined
              */
@@ -43,7 +43,7 @@ class SlConfig {
     }
 
     static JsonObject welcome() {
-        return Ut.sureJObject(CONFIGURATION.getJsonObject("welcome"));
+        return Ut.valueJObject(CONFIGURATION.getJsonObject("welcome"));
     }
 
     static boolean isDebug() {
@@ -55,16 +55,16 @@ class SlConfig {
     }
 
     static JsonObject validate() {
-        return Ut.sureJObject(CONFIGURATION.getJsonObject("validate"));
+        return Ut.valueJObject(CONFIGURATION.getJsonObject("validate"));
     }
 
     static JsonArray commands() {
         final JsonObject commands = CONFIGURATION.getJsonObject(FIELD_COMMANDS);
-        return Ut.sureJArray(commands.getJsonArray(FIELD_DEFINED));
+        return Ut.valueJArray(commands.getJsonArray(FIELD_DEFINED));
     }
 
     static JsonArray commandsDefault() {
         final JsonObject commands = CONFIGURATION.getJsonObject(FIELD_COMMANDS);
-        return Ut.sureJArray(commands.getJsonArray(FIELD_DEFAULT));
+        return Ut.valueJArray(commands.getJsonArray(FIELD_DEFAULT));
     }
 }

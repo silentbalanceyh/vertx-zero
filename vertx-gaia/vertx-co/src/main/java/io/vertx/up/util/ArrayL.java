@@ -130,6 +130,16 @@ final class ArrayL {
         return grouped;
     }
 
+    static <T, V> Set<V> set(final List<T> listT, final Function<T, V> executor) {
+        final Set<V> valueSet = new HashSet<>();
+        listT.stream()
+            .filter(Objects::nonNull)
+            .map(executor)
+            .filter(Objects::nonNull)
+            .forEach(valueSet::add);
+        return valueSet;
+    }
+
     static <K, V> ConcurrentMap<K, List<V>> compress(final List<ConcurrentMap<K, List<V>>> dataList) {
         final ConcurrentMap<K, List<V>> resultMap = new ConcurrentHashMap<>();
         dataList.forEach(each -> each.forEach((k, vList) -> {

@@ -1,5 +1,6 @@
 package io.vertx.tp.workflow.uca.modeling;
 
+import cn.vertxup.workflow.domain.tables.pojos.WTicket;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.workflow.atom.WRecord;
@@ -20,6 +21,25 @@ public abstract class AbstractRespect implements Respect {
         return this.query.copy();
     }
 
+    protected JsonObject queryTpl(final WTicket ticket) {
+        final JsonObject parameters = Ut.toJObject(ticket);
+        final JsonObject queryJ = this.query.copy();
+        return Ut.fromExpression(queryJ, parameters);
+    }
+
+    /*
+     * Assign new fields from `params` here
+     * 1. Create Workflow
+     * - createdAt
+     * - createdBy
+     *
+     * 2. Common Workflow Include ( Update )
+     * - updatedAt
+     * - updatedBy
+     * - active
+     * - language
+     * - sigma
+     */
     protected JsonArray syncPre(final JsonArray data, final JsonObject params, final WRecord record) {
         Ut.itJArray(data).forEach(json -> {
             if (!json.containsKey(KName.CREATED_BY)) {
@@ -30,7 +50,7 @@ public abstract class AbstractRespect implements Respect {
             }
 
             // All information came from
-            Ut.jsonCopy(json, params,
+            Ut.elementCopy(json, params,
                 KName.UPDATED_BY,
                 KName.UPDATED_AT,
                 KName.ACTIVE,

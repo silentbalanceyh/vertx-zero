@@ -380,17 +380,17 @@ public class AbstractHub extends AbstractActor {
 
     protected JsonObject inDataJ(final ActIn request) {
         final JsonObject body = request.getJObject();
-        return Ut.sureJObject(body.getJsonObject(KName.DATA));
+        return Ut.valueJObject(body.getJsonObject(KName.DATA));
     }
 
     protected JsonArray inDataA(final ActIn request) {
         final JsonObject body = request.getJObject();
-        return Ut.sureJArray(body.getJsonArray(KName.DATA));
+        return Ut.valueJArray(body.getJsonArray(KName.DATA));
     }
 
     protected String[] inKeys(final ActIn request) {
         final JsonObject body = request.getJObject();
-        final JsonArray keysData = Ut.sureJArray(body.getJsonArray(KName.KEYS));
+        final JsonArray keysData = Ut.valueJArray(body.getJsonArray(KName.KEYS));
         return Ut.toSet(keysData).toArray(new String[]{});
     }
 }

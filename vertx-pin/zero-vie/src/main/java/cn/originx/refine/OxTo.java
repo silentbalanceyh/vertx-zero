@@ -173,8 +173,8 @@ final class OxTo {
     static <T> JsonArray toLinker(final T source) {
         final JsonArray links = (JsonArray) Ut.itJson(source, json -> {
             final JsonArray normalized = new JsonArray();
-            normalized.addAll(Ut.sureJArray(json.getJsonArray(OxCv.RELATION_DOWN)));
-            normalized.addAll(Ut.sureJArray(json.getJsonArray(OxCv.RELATION_UP)));
+            normalized.addAll(Ut.valueJArray(json.getJsonArray(OxCv.RELATION_DOWN)));
+            normalized.addAll(Ut.valueJArray(json.getJsonArray(OxCv.RELATION_UP)));
             return (T) normalized;
         });
         return Ut.elementFlat(links);

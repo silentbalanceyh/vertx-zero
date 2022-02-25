@@ -87,7 +87,7 @@ class KoData {
     }
 
     private static String toMessage(final JsonObject record) {
-        final JsonObject recordJson = Ut.sureJObject(record);
+        final JsonObject recordJson = Ut.valueJObject(record);
         return MessageFormat.format("数据记录：{0}", recordJson.encodePrettily());
     }
 }

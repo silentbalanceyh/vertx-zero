@@ -28,7 +28,7 @@ class ScAcl {
 
     private static JsonArray aclProjection(final JsonArray original, final Acl acl,
                                            final Predicate<Acl> predicate) {
-        final JsonArray projection = Ut.sureJArray(original);
+        final JsonArray projection = Ut.valueJArray(original);
         if (Objects.isNull(acl)) {
             /*
              * No acl, default projection defined in S_VIEW

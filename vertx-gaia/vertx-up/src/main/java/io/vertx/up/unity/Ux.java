@@ -620,7 +620,7 @@ public final class Ux {
     }
 
     public static JsonArray pageData(final JsonObject data) {
-        return Ut.sureJArray(data.getJsonArray(KName.LIST));
+        return Ut.valueJArray(data.getJsonArray(KName.LIST));
     }
 
     public static JsonObject pageData(final JsonObject pageData, final Function<JsonArray, JsonArray> function) {

@@ -31,7 +31,7 @@ public class AspectSwitcher {
     public AspectSwitcher(final DataAtom atom, final JsonObject optionsInput, final DiFabric fabric) {
         /* 合并横切配置 */
         final JsonObject options = new JsonObject();
-        options.mergeIn(Ut.sureJObject(optionsInput));
+        options.mergeIn(Ut.valueJObject(optionsInput));
         this.options = options;
         /* identifier 真实替换 */
         this.options.put(KName.IDENTIFIER, atom.identifier());
@@ -107,7 +107,7 @@ public class AspectSwitcher {
      * 单条记录执行前后插件
      */
     public Future<JsonObject> run(final JsonObject input, final Function<JsonObject, Future<JsonObject>> runner) {
-        final JsonObject params = Ut.sureJObject(input);
+        final JsonObject params = Ut.valueJObject(input);
         return Ux.future(params)
             /*
              * 前置处理
@@ -127,7 +127,7 @@ public class AspectSwitcher {
      * 多条记录执行前后插件
      */
     public Future<JsonArray> run(final JsonArray input, final Function<JsonArray, Future<JsonArray>> runner) {
-        final JsonArray params = Ut.sureJArray(input);
+        final JsonArray params = Ut.valueJArray(input);
         return Ux.future(params)
             /*
              * 前置处理

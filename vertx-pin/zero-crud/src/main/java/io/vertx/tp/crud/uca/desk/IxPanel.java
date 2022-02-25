@@ -130,12 +130,12 @@ public class IxPanel {
     }
 
     public <A, S, O> Future<O> runJ(final JsonObject input) {
-        final JsonObject sure = Ut.sureJObject(input);
+        final JsonObject sure = Ut.valueJObject(input);
         return this.<JsonObject, A, S, O>runInternal(sure.copy(), outputFn);
     }
 
     public <A, S, O> Future<O> runA(final JsonArray input) {
-        final JsonArray sure = Ut.sureJArray(input);
+        final JsonArray sure = Ut.valueJArray(input);
         return this.<JsonArray, A, S, O>runInternal(sure.copy(), outputFn);
     }
 

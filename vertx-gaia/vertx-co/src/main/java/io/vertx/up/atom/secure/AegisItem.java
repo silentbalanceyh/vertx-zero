@@ -25,7 +25,7 @@ public class AegisItem implements Serializable {
 
     static {
         final JsonObject config = NODE.read();
-        final JsonObject configuration = Ut.sureJObject(config.getJsonObject(KEY));
+        final JsonObject configuration = Ut.valueJObject(config.getJsonObject(KEY));
         final Set<String> keys = AuthWall.keys();
         Ut.<JsonObject>itJObject(configuration, (value, field) -> {
             if (keys.contains(field)) {

@@ -29,7 +29,7 @@ public class JSix implements Serializable {
     private final transient JsonObject rawData = new JsonObject();
 
     private JSix(final JsonObject options) {
-        final JsonObject configuration = Ut.sureJObject(options);
+        final JsonObject configuration = Ut.valueJObject(options);
         final JsonObject pluginComponent = configuration.getJsonObject("components");
         if (Ut.notNil(pluginComponent)) {
             this.rawData.mergeIn(pluginComponent, true);
@@ -56,7 +56,7 @@ public class JSix implements Serializable {
          * 构造 key
          */
         final String field = type.name() + Strings.DOT + batch;
-        final JsonObject configData = Ut.sureJObject(this.rawData.getJsonObject(field));
+        final JsonObject configData = Ut.valueJObject(this.rawData.getJsonObject(field));
         /*
          * configuration.operation
          */

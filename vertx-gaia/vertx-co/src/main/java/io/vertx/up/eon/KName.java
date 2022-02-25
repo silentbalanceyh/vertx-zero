@@ -107,6 +107,7 @@ public interface KName {
     String SOURCE_EXPR = "sourceExpression";     /* sourceExpression */
     String SOURCE_EXPR_CHAIN = "sourceExprChain";/* sourceExpressionChain */
 
+    String TARGET = "target";
     String TARGET_KEY = "targetKey";
     String TARGET_DATA = "targetData";
     String SOURCE_KEY = "sourceKey";

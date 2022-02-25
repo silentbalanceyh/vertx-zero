@@ -11,8 +11,6 @@ import io.vertx.up.eon.KName;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
-import java.util.stream.Collectors;
-
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
@@ -40,17 +38,20 @@ public class RespectLink extends AbstractRespect {
         /*
          * Exclude the data stored in database here
          */
-        final JsonArray keys = Ut.toJArray(Ut.itJArray(dataArray)
-            .map(json -> json.getString(KName.KEY))
-            .filter(Ut::notNil)
-            .collect(Collectors.toSet()));
+        final JsonArray keys = Ut.valueJArray(dataArray, KName.KEY);
         condition.put("key,!i", keys);
         return Ke.channelAsync(Linkage.class, Ux::futureA, (link) ->
-            // Linkage Processing build for Each
+            // Linkage Removing / Create
             link.unlink(condition).compose(deleted -> link.link(dataArray, false))
         );
     }
 
+    /*
+     * XLinkage record fields assignment
+     * - sourceKey
+     * - sourceData
+     * - name: calculation on name based on expression parsing.
+     */
     @Override
     protected void syncPre(final JsonObject data, final JsonObject params, final WRecord record) {
         /*
@@ -65,29 +66,22 @@ public class RespectLink extends AbstractRespect {
         // If not `sourceKey`, here put sourceKey
         data.put(KName.SOURCE_KEY, ticket.getKey());
         data.put(KName.SOURCE_DATA, sourceData);
-        /*
-         * Name Processing
-         */
-        // name parsing on ADD / UPDATE
-        final String literal = data.getString(KName.NAME);
-        if (Ut.notNil(literal) && literal.contains("`")) {
+
+        final JsonObject parameters = new JsonObject();
+        {
+            parameters.mergeIn(Ut.fromPrefix(sourceData, KName.SOURCE));
             final JsonObject targetData = data.getJsonObject(KName.TARGET_DATA);
-            // parameters building
-            final JsonObject parameters = new JsonObject();
-            sourceData.fieldNames()
-                .forEach(k -> parameters.put("source." + k, sourceData.getValue(k)));
-            targetData.fieldNames()
-                .forEach(k -> parameters.put("target." + k, sourceData.getValue(k)));
-            data.put(KName.NAME, Ut.fromExpression(literal, parameters));
+            parameters.mergeIn(Ut.fromPrefix(targetData, KName.TARGET));
         }
+        // Parsing Expression
+        Ut.fromExpression(data, parameters);
     }
 
     @Override
     public Future<JsonArray> fetchAsync(final WRecord record) {
         final WTicket ticket = record.ticket();
-        final String sourceKey = ticket.getKey();
         final JsonObject condition = this.queryTpl();
-        condition.put(KName.SOURCE_KEY, sourceKey);
+        condition.put(KName.SOURCE_KEY, ticket.getKey());
         return Ke.channelAsync(Linkage.class, Ux::futureA, link -> link.fetch(condition));
     }
 }

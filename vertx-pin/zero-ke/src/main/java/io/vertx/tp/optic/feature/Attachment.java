@@ -33,6 +33,11 @@ public interface Attachment {
      */
     Future<JsonArray> saveAsync(JsonObject condition, JsonArray data);
 
+    /*
+     * 1. Remove Original Only
+     */
+    Future<Boolean> removeAsync(JsonObject condition);
+
 
     /*
      * 1. Fetch attachments in single field

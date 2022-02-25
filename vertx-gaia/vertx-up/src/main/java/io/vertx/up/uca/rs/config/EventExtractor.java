@@ -137,7 +137,7 @@ public class EventExtractor implements Extractor<Set<Event>> {
         final Class<?> clazz = method.getDeclaringClass();
         final Object proxy;
         if (clazz.isInterface()) {
-            final Class<?> implClass = Ut.childUnique(clazz);
+            final Class<?> implClass = Ut.child(clazz);
             if (null != implClass) {
                 proxy = PLUGIN.createComponent(implClass); // Ut.singleton(implClass);
             } else {

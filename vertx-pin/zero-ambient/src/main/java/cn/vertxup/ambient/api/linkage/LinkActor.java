@@ -76,10 +76,10 @@ public class LinkActor {
         /*
          * Copy to `data`
          */
-        final JsonArray data = Ut.sureJArray(request, KName.DATA);
-        final JsonArray removed = Ut.sureJArray(request, "removed");
+        final JsonArray data = Ut.valueJArray(request, KName.DATA);
+        final JsonArray removed = Ut.valueJArray(request, "removed");
         Ut.itJArray(data).forEach(json -> {
-            Ut.jsonCopy(json, request,
+            Ut.elementCopy(json, request,
                 KName.ACTIVE,
                 KName.LANGUAGE,
                 KName.SIGMA,

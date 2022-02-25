@@ -33,7 +33,7 @@ public class OutDpmExpr extends ExAttributeComponent implements OComponent {
     public Object express(final Kv<String, Object> kv, final Record record, final JsonObject combineData) {
         List<OExpression> exprChain = new ArrayList<>();
         String field = kv.getKey();
-        JsonArray sourceExpressionChain = Ut.sureJArray(combineData.getJsonArray(KName.SOURCE_EXPR_CHAIN));
+        JsonArray sourceExpressionChain = Ut.valueJArray(combineData.getJsonArray(KName.SOURCE_EXPR_CHAIN));
         sourceExpressionChain.forEach(o -> {
             String sourceExpr = (String) o;
             exprChain.add(Ut.singleton(sourceExpr));

@@ -89,7 +89,7 @@ class IxData {
          * Add key into group as the high est priority
          */
         priority.add(new JsonArray().add(keyField));
-        final JsonArray matrix = Ut.sureJArray(field.getUnique());
+        final JsonArray matrix = Ut.valueJArray(field.getUnique());
         priority.addAll(matrix);
         return priority;
     }

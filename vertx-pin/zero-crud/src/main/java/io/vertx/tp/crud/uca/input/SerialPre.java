@@ -59,7 +59,7 @@ class SerialPre implements Pre {
     @Override
     public Future<JsonArray> inAAsync(final JsonArray data, final IxMod in) {
         /* Compress all sigma no value */
-        final String sigma = Ut.mapOneS(data, KName.SIGMA);
+        final String sigma = Ut.valueString(data, KName.SIGMA);
         if (Ut.isNil(sigma) || Ut.isNil(data)) {
             return Ux.future(data);
         }

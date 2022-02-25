@@ -59,7 +59,7 @@ class KeTool {
                 /*
                  * JsonArray normalize
                  */
-                final JsonArray dataArray = Ut.sureJArray(data, fieldF);
+                final JsonArray dataArray = Ut.valueJArray(data, fieldF);
                 Ut.itJArray(dataArray).forEach(json -> json.put(KName.MODEL_KEY, key));
                 futures.put(fieldF, fileFn.apply(criteria, dataArray));
             } else {

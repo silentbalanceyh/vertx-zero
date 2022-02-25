@@ -15,7 +15,7 @@ public class JsonObjectSider implements Converter<String, JsonObject> {
 
     @Override
     public String to(final JsonObject objects) {
-        final JsonObject safe = Ut.sureJObject(objects);
+        final JsonObject safe = Ut.valueJObject(objects);
         return safe.encode();
     }
 

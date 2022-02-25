@@ -170,7 +170,7 @@ public class PermGService implements PermGStub {
      * -- DELETE ( No Permission because of condition, code in here )
      */
     private Future<ConcurrentMap<ChangeFlag, List<SPermission>>> calcPermission(final JsonArray permissions, final String sigma) {
-        final Set<String> permCodes = Ut.mapString(permissions, KName.CODE);
+        final Set<String> permCodes = Ut.valueSetString(permissions, KName.CODE);
         final JsonObject criteria = new JsonObject();
         criteria.put(KName.SIGMA, sigma);
         criteria.put("code,i", Ut.toJArray(permCodes));

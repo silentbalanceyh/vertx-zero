@@ -72,7 +72,7 @@ public class ControlService implements ControlStub {
          */
         final JsonObject criteria = Ux.whereAnd();
         criteria.put(KName.TYPE, controlType.name());
-        Ut.jsonCopy(criteria, params,
+        Ut.elementCopy(criteria, params,
             KName.SIGMA,
             KName.IDENTIFIER,
             KName.Ui.PAGE,

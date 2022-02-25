@@ -77,7 +77,7 @@ public class HelperLinkage {
             /*
              * Data Array extract from `params` based on `field`
              */
-            final JsonArray linkageData = Ut.sureJArray(params, field);
+            final JsonArray linkageData = Ut.valueJArray(params, field);
             if (Ut.notNil(linkageData)) {
                 final Respect respect = this.metadata.linkRespect(field);
                 futures.put(field, respect.syncAsync(linkageData, params, record));

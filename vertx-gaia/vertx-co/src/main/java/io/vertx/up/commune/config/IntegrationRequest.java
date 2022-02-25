@@ -55,7 +55,7 @@ public class IntegrationRequest implements Serializable {
 
     public void setExecutor(final String endpoint, final String expr) {
         this.executor = params -> {
-            final JsonObject normalized = Ut.sureJObject(params);
+            final JsonObject normalized = Ut.valueJObject(params);
             final String result = Ut.fromExpression(expr, normalized);
             return endpoint + result;
         };

@@ -68,13 +68,13 @@ public class FileActor {
 
         /* Exported columns here for future calculation */
         final JsonObject condition = request.dataJ();
-        final JsonArray projection = Ut.sureJArray(condition.getJsonArray(KName.Ui.COLUMNS));
+        final JsonArray projection = Ut.valueJArray(condition.getJsonArray(KName.Ui.COLUMNS));
         final List<String> columnList = Ut.toList(projection);
         /* Remove columns here and set criteria as condition
          * Here extract query by `criteria` node, it will be synced with
          * dynamic exporting here.
          **/
-        JsonObject criteria = Ut.sureJObject(condition.getJsonObject(Qr.KEY_CRITERIA));
+        JsonObject criteria = Ut.valueJObject(condition.getJsonObject(Qr.KEY_CRITERIA));
         final IxPanel panel = IxPanel.on(request);
         final IxMod mod = request.active();
         return T.fetchFull(request).runJ(request.dataV())

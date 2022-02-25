@@ -69,7 +69,7 @@ public class WRecord implements Serializable {
      * Linkage Bind
      */
     public WRecord linkage(final String field, final JsonArray linkage) {
-        final JsonArray data = Ut.sureJArray(linkage);
+        final JsonArray data = Ut.valueJArray(linkage);
         this.linkage.put(field, data);
         return this;
     }

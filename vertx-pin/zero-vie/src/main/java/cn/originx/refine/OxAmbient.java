@@ -55,8 +55,8 @@ final class OxAmbient {
      * @return {@link JsonObject}
      */
     static JsonObject pluginOptions(final Class<?> clazz, final JsonObject options) {
-        final JsonObject normalized = Ut.sureJObject(options);
-        final JsonObject configData = Ut.sureJObject(normalized.getJsonObject(OxCv.PLUGIN_CONFIG)).copy();
+        final JsonObject normalized = Ut.valueJObject(options);
+        final JsonObject configData = Ut.valueJObject(normalized.getJsonObject(OxCv.PLUGIN_CONFIG)).copy();
         /*
          * 查找单个组件配置
          */
@@ -84,8 +84,8 @@ final class OxAmbient {
      * @return {@link List}<{@link Class}>
      */
     static List<Class<?>> pluginClass(final JsonObject options, final String key) {
-        final JsonObject normalized = Ut.sureJObject(options);
-        final JsonArray configured = Ut.sureJArray(normalized.getJsonArray(key));
+        final JsonObject normalized = Ut.valueJObject(options);
+        final JsonArray configured = Ut.valueJArray(normalized.getJsonArray(key));
         final List<Class<?>> queue = new ArrayList<>();
         Ut.itJArray(configured, String.class, (className, index) -> {
             final Class<?> clazz = Ut.clazz(className, null);

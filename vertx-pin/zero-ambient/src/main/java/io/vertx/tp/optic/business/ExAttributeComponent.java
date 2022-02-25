@@ -101,7 +101,7 @@ public abstract class ExAttributeComponent {
         epsilon.fromJson(consumer);
 
         /* Data */
-        final JsonObject dictData = Ut.sureJObject(definition.getJsonObject(KName.SOURCE_DATA));
+        final JsonObject dictData = Ut.valueJObject(definition.getJsonObject(KName.SOURCE_DATA));
         final String key = epsilon.getSource();
         final JsonArray data = Ut.notNil(key) ? dictData.getJsonArray(key) : new JsonArray();
         final JsonObject result = new JsonObject();
@@ -132,7 +132,7 @@ public abstract class ExAttributeComponent {
             return null;
         } else {
             if (definition.containsKey(KName.SOURCE_NORM)) {
-                final JsonObject normData = Ut.sureJObject(definition.getJsonObject(KName.SOURCE_NORM));
+                final JsonObject normData = Ut.valueJObject(definition.getJsonObject(KName.SOURCE_NORM));
                 return normData.getValue(value.toString(), value);
             } else return value;
         }

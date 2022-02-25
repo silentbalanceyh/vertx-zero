@@ -24,7 +24,7 @@ public class MetaInstance {
     private final transient ConfigChild children;
 
     private MetaInstance(final JsonObject startJson, final JsonObject linkageJson) {
-        final JsonObject sure = Ut.sureJObject(startJson);
+        final JsonObject sure = Ut.valueJObject(startJson);
         /*
          * ConfigRunner for
          * - record

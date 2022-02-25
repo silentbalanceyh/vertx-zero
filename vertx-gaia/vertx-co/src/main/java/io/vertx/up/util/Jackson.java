@@ -296,7 +296,7 @@ final class Jackson {
         }
     }
 
-    static String aiStringA(final String literal) {
+    static String aiJArray(final String literal) {
         if (literal.contains(Strings.QUOTE_DOUBLE)) {
             return literal;
         } else {

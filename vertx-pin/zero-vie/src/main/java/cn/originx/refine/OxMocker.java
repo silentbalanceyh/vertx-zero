@@ -43,7 +43,7 @@ final class OxMocker {
     static JsonObject mockJ(final Integration integration, final String file, final Supplier<JsonObject> supplier) {
         return mock(integration, () -> {
             final JsonObject mockData = Ut.ioJObject(file);
-            return Ut.sureJObject(mockData);
+            return Ut.valueJObject(mockData);
         }, supplier);
     }
 
@@ -59,7 +59,7 @@ final class OxMocker {
     static JsonArray mockA(final Integration integration, final String file, final Supplier<JsonArray> supplier) {
         return mock(integration, () -> {
             final JsonArray mockData = Ut.ioJArray(file);
-            return Ut.sureJArray(mockData);
+            return Ut.valueJArray(mockData);
         }, supplier);
     }
 
@@ -89,7 +89,7 @@ final class OxMocker {
     static Future<JsonObject> mockAsyncJ(final Integration integration, final String file, final Supplier<Future<JsonObject>> supplier) {
         return mock(integration, () -> {
             final JsonObject mockData = Ut.ioJObject(file);
-            final JsonObject normalized = Ut.sureJObject(mockData);
+            final JsonObject normalized = Ut.valueJObject(mockData);
             return Ux.future(normalized);
         }, supplier);
     }
@@ -106,7 +106,7 @@ final class OxMocker {
     static Future<JsonArray> mockAsyncA(final Integration integration, final String file, final Supplier<Future<JsonArray>> supplier) {
         return mock(integration, () -> {
             final JsonArray mockData = Ut.ioJArray(file);
-            final JsonArray normalized = Ut.sureJArray(mockData);
+            final JsonArray normalized = Ut.valueJArray(mockData);
             return Ux.future(normalized);
         }, supplier);
     }

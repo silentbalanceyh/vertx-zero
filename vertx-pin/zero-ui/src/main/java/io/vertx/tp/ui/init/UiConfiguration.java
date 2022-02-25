@@ -109,7 +109,7 @@ class UiConfiguration {
     }
 
     static JsonArray getOp() {
-        return Ut.sureJArray(CONFIG.getOp());
+        return Ut.valueJArray(CONFIG.getOp());
     }
 
     static JsonArray attributes(final String key) {

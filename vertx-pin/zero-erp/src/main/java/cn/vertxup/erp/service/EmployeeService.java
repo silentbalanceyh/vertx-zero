@@ -169,7 +169,7 @@ public class EmployeeService implements EmployeeStub {
 
     private Future<JsonArray> fetchRef(final JsonArray input) {
         return this.switchA(input, (user, data) -> {
-            final Set<String> keys = Ut.mapString(data, KName.KEY);
+            final Set<String> keys = Ut.valueSetString(data, KName.KEY);
             return user.fetchRef(keys);
         }).compose(employee -> {
             final JsonArray merged = Ut.elementZip(input, employee, KName.KEY, KName.MODEL_KEY);

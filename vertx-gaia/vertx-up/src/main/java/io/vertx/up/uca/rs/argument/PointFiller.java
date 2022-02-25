@@ -34,7 +34,7 @@ public class PointFiller implements Filler {
             // No input for this parameters
             return null;
         } else {
-            final String normalized = Ut.aiStringA(literal);
+            final String normalized = Ut.aiJArray(literal);
             // Convert to correct type
             return this.resolve(paramType, normalized);
         }

@@ -37,7 +37,7 @@ public class OutCategory extends OutDpmExpr implements OComponent {
         Object value0 = kv.getValue(); //category key
         if (Objects.nonNull(value0)) {
             cat3Key = (String) value0;
-            JsonObject sourceNorm = Ut.sureJObject(combineData.getJsonObject(KName.SOURCE_NORM));
+            JsonObject sourceNorm = Ut.valueJObject(combineData.getJsonObject(KName.SOURCE_NORM));
             JsonArray records2Index = Ut.visitJArray(combineData, KName.SOURCE_DATA, "ci.type");
             this.createIndexes(records2Index);
 

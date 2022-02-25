@@ -27,7 +27,7 @@ public class AbstractRapid<K, T> implements Rapid<K, T> {
     protected AbstractRapid(final User user) {
         Objects.requireNonNull(user);
         this.expired = -1;
-        final JsonObject credit = Ut.sureJObject(user.principal());
+        final JsonObject credit = Ut.valueJObject(user.principal());
         final String poolName = credit.getString(KName.HABITUS);
         this.pool = Ux.Pool.on(poolName);
     }
