@@ -134,7 +134,7 @@ public class AoAttribute implements Serializable {
         this.type = TypeField.create(attribute.getName(), attribute.getAlias(), attributeType);
 
         // Expand the `fields` lookup range
-        final JsonArray fields = Ut.sureJArray(config.getJsonArray(KName.FIELDS));
+        final JsonArray fields = Ut.valueJArray(config.getJsonArray(KName.FIELDS));
         Ut.itJArray(fields).forEach(item -> {
             final String field = item.getString(KName.FIELD);
             if (Ut.notNil(field)) {
@@ -154,7 +154,7 @@ public class AoAttribute implements Serializable {
          * `sourceConfig` here
          */
         if (reference.containsKey(KName.RULE)) {
-            final JsonObject ruleData = Ut.sureJObject(reference.getJsonObject(KName.RULE));
+            final JsonObject ruleData = Ut.valueJObject(reference.getJsonObject(KName.RULE));
             this.rule = Ut.deserialize(ruleData, AoRule.class);
             /* Bind type into rule */
             this.rule.type(attributeType);

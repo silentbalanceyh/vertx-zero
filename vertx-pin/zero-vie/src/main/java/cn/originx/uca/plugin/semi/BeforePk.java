@@ -58,7 +58,7 @@ public class BeforePk extends AbstractBefore {
         final ConcurrentMap<String, JsonObject> config = this.configField(options);
         final ConcurrentMap<String, Future<ConcurrentMap<String, Record>>> futures = new ConcurrentHashMap<>();
         config.forEach((field, fieldConfig) -> {
-            final Set<String> values = Ut.mapString(records, field);
+            final Set<String> values = Ut.valueSetString(records, field);
             if (Objects.nonNull(values) && !values.isEmpty()) {
                 final String identifier = fieldConfig.getString(KName.IDENTIFIER);
                 final String viField = fieldConfig.getString(KName.SOURCE);

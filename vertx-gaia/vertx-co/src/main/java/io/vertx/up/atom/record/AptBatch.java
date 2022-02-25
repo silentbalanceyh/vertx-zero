@@ -19,8 +19,8 @@ class AptBatch implements AptOp<JsonArray> {
     private final transient ChangeFlag flag;
 
     AptBatch(final JsonArray original, final JsonArray current, final String field) {
-        this.original = Ut.sureJArray(original);
-        this.current = Ut.sureJArray(current);
+        this.original = Ut.valueJArray(original);
+        this.current = Ut.valueJArray(current);
         this.array.setField(field);
         if (Ut.isNil(original)) {
             /* ADD */
@@ -98,7 +98,7 @@ class AptBatch implements AptOp<JsonArray> {
      */
     @Override
     public AptOp<JsonArray> update(final JsonObject input) {
-        final JsonObject inputData = Ut.sureJObject(input);
+        final JsonObject inputData = Ut.valueJObject(input);
         if (Ut.notNil(inputData)) {
             /* DELETE -> UPDATE */
             // if (this.current.isEmpty()) {

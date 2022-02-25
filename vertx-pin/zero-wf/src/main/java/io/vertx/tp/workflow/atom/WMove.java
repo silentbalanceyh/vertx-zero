@@ -41,11 +41,11 @@ public class WMove implements Serializable {
         // Node Name
         this.node = node;
         // Config for Camunda Engine
-        final JsonObject data = Ut.sureJObject(config.getJsonObject(KName.DATA));
+        final JsonObject data = Ut.valueJObject(config.getJsonObject(KName.DATA));
         Ut.<String>itJObject(data, (value, field) -> this.data.put(field, value));
 
         // Processing for left rules
-        final JsonArray rules = Ut.sureJArray(config.getJsonArray(KName.RULE));
+        final JsonArray rules = Ut.valueJArray(config.getJsonArray(KName.RULE));
         Ut.itJArray(rules).forEach(json -> {
             final WMoveRule rule = Ux.fromJson(json, WMoveRule.class);
             if (rule.valid()) {

@@ -53,7 +53,7 @@ public class AdjustUiInstruction extends AbstractInstruction {
     }
 
     private void printHeader(final StringBuilder content, final String identifier) {
-        final JsonObject config = Ut.sureJObject(this.atom.getConfig().getJsonObject("header"));
+        final JsonObject config = Ut.valueJObject(this.atom.getConfig().getJsonObject("header"));
 
         /* Format Table */
         content.append(this.atom.getConfig().getString("identifier")).append(" : ");

@@ -387,7 +387,7 @@ public abstract class AbstractAdaptor extends AbstractComponent {
 
     @SuppressWarnings("unchecked")
     protected <T> T option(final String key) {
-        final JsonObject options = Ut.sureJObject(this.options());
+        final JsonObject options = Ut.valueJObject(this.options());
         return (T) options.getValue(key);
     }
 

@@ -29,7 +29,7 @@ public class KEnv implements Serializable {
     private final transient Database database;
 
     private KEnv(final JsonObject data) {
-        final JsonObject dataJ = Ut.sureJObject(data);
+        final JsonObject dataJ = Ut.valueJObject(data);
         /*
          * appId
          * appKey

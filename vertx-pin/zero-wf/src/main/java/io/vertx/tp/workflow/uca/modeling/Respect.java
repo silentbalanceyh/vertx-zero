@@ -1,6 +1,7 @@
 package io.vertx.tp.workflow.uca.modeling;
 
 import io.vertx.core.Future;
+import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.workflow.atom.WRecord;
 
@@ -13,7 +14,7 @@ public interface Respect {
      * 1 - XLinkage
      * 2 - XAttachment
      */
-    Future<WRecord> syncAsync(JsonObject params, WRecord record);
+    Future<JsonArray> syncAsync(JsonArray data, JsonObject params, WRecord record);
 
-    Future<WRecord> fetchAsync(WRecord record);
+    Future<JsonArray> fetchAsync(WRecord record);
 }

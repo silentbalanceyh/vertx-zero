@@ -18,7 +18,7 @@ public class TrashClientImpl implements TrashClient {
 
     @Override
     public Future<JsonObject> backupAsync(final JsonObject record, final MultiMap params) {
-        final JsonObject content = Ut.sureJObject(record);
+        final JsonObject content = Ut.valueJObject(record);
         if (Ut.notNil(content)) {
             this.builder.createHistory(record, params);
         }
@@ -27,7 +27,7 @@ public class TrashClientImpl implements TrashClient {
 
     @Override
     public Future<JsonArray> backupAsync(final JsonArray records, final MultiMap params) {
-        final JsonArray content = Ut.sureJArray(records);
+        final JsonArray content = Ut.valueJArray(records);
         if (!content.isEmpty()) {
             this.builder.createHistory(content, params);
         }

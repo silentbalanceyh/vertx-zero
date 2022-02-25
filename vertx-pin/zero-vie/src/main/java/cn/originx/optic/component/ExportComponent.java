@@ -139,7 +139,7 @@ public class ExportComponent extends AbstractAdaptor {
              */
             .compose(columnList -> {
                 /* 前端传入参数 */
-                final JsonArray expected = Ut.sureJArray(body.getJsonArray("columns"));
+                final JsonArray expected = Ut.valueJArray(body.getJsonArray("columns"));
 
                 /* 包含的内容在 includes */
                 final Set<String> includes = Ut.toSet(expected);
@@ -186,7 +186,7 @@ public class ExportComponent extends AbstractAdaptor {
              */
             .compose(response -> {
                 /* 提取将要导出的数据信息 */
-                final JsonArray data = Ut.sureJArray(response.getJsonArray("list"));
+                final JsonArray data = Ut.valueJArray(response.getJsonArray("list"));
                 /* 字典翻译 KeField.Api.EPSILON */
                 final JsonObject epsilonJson = this.options().getJsonObject("epsilon");
                 return this.fabric(epsilonJson).inTo(data);

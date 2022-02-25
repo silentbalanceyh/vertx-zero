@@ -37,7 +37,7 @@ class RadixTool {
     }
 
     static JsonObject toCriteria(final JsonObject inputData, final JsonObject tpl) {
-        final JsonObject formatTpl = Ut.sureJObject(tpl);
+        final JsonObject formatTpl = Ut.valueJObject(tpl);
         final JsonObject normalized = formatTpl.copy();
         Ut.itJObject(formatTpl, (item, field) -> {
             if (item instanceof String) {

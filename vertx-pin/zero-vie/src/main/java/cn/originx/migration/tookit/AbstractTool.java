@@ -86,7 +86,7 @@ public abstract class AbstractTool extends AbstractStep {
         /*
          * 写入文件
          */
-        final JsonArray result = Ut.sureJArray(data.getJsonArray("list"));
+        final JsonArray result = Ut.valueJArray(data.getJsonArray("list"));
         Ox.Log.infoShell(this.getClass(), "第 {2} 页，处理 {0} 条, 文件：{1}",
             String.valueOf(result.size()), file, String.valueOf(page));
         Ut.ioOutCompress(file, result);

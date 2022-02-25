@@ -59,7 +59,7 @@ public interface Infix {
         final Annal logger = Annal.get(clazz);
         final JsonObject options = InfixTool.init(logger, key, clazz);
         return InfixTool.init(logger, key,
-            Ut.sureJObject(options.getJsonObject(key)), executor);
+            Ut.valueJObject(options.getJsonObject(key)), executor);
     }
 
     <T> T get();

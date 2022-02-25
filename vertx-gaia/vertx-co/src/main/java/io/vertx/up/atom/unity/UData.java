@@ -30,7 +30,7 @@ public class UData implements Serializable {
     private transient final Object data;
 
     private <T> UData(final T input, final JsonObject config) {
-        final JsonObject configuration = Ut.sureJObject(config);
+        final JsonObject configuration = Ut.valueJObject(config);
         this.config.mergeIn(configuration, true);
         this.data = input;
     }

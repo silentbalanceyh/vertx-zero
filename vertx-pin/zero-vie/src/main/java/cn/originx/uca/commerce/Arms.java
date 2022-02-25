@@ -152,7 +152,7 @@ public class Arms {
             if (Ut.isNil(criteria)) {
                 return this.dao.fetchAllAsync().compose(Ux::futureA);
             } else {
-                return this.dao.fetchAsync(Ut.sureJObject(criteria)).compose(Ux::futureA);
+                return this.dao.fetchAsync(Ut.valueJObject(criteria)).compose(Ux::futureA);
             }
         } else {
             return this.fnFetcher.get();

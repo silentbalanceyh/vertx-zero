@@ -75,7 +75,7 @@ public class FlowService implements FlowStub {
         return storeOn.workflowGet(definition, instance)
             .compose(Ux.attachJ(KName.Flow.WORKFLOW, response))
             .compose(processed -> {
-                final JsonObject workflow = Ut.sureJObject(processed.getJsonObject(KName.Flow.WORKFLOW));
+                final JsonObject workflow = Ut.valueJObject(processed.getJsonObject(KName.Flow.WORKFLOW));
                 final JsonObject formData = workflow.copy();
                 formData.put(KName.CODE, WfCv.CODE_HISTORY);
                 return this.fetchFormInternal(formData, sigma);

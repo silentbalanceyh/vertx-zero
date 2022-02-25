@@ -93,13 +93,13 @@ public class PermActor {
             processed.encode(), sigma);
 
         // Permission Data
-        final JsonArray permissions = Ut.sureJArray(processed.getJsonArray(KName.DATA));
+        final JsonArray permissions = Ut.valueJArray(processed.getJsonArray(KName.DATA));
         final String group = processed.getString("group");
         final String type = processed.getString("type");
 
         // Action Data
-        final JsonArray removed = Ut.sureJArray(processed.getJsonArray("removed"));
-        final JsonObject relation = Ut.sureJObject(processed.getJsonObject("relation"));
+        final JsonArray removed = Ut.valueJArray(processed.getJsonArray("removed"));
+        final JsonObject relation = Ut.valueJObject(processed.getJsonObject("relation"));
 
         final String userKey = Ux.keyUser(user);
 

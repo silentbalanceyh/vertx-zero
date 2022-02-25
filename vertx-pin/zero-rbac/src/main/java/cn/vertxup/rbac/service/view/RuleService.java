@@ -49,7 +49,7 @@ public class RuleService implements RuleStub {
     @Override
     public Future<JsonArray> saveViews(final String ownerType, final String ownerId,
                                        final JsonArray views, final String view) {
-        final Set<String> keySet = Ut.mapString(views, KName.RESOURCE_ID);
+        final Set<String> keySet = Ut.valueSetString(views, KName.RESOURCE_ID);
         /*
          * owner, ownerType, resourceId, name are unique
          * Because of here:

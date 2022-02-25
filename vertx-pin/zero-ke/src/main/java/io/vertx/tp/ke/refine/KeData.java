@@ -65,7 +65,7 @@ class KeData {
 
     static Future<JsonArray> indent(final JsonArray data, final String code) {
         return KeRun.channel(Indent.class, () -> data, stub -> {
-            final String sigma = Ut.mapOneS(data, KName.SIGMA);
+            final String sigma = Ut.valueString(data, KName.SIGMA);
             if (Ut.isNil(sigma)) {
                 return Ux.future(data);
             } else {

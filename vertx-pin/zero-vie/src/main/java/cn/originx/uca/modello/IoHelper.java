@@ -32,7 +32,7 @@ class IoHelper {
      * @return {@link ConcurrentMap}
      */
     static ConcurrentMap<String, OExpression> afterExpression(final JsonObject combineData) {
-        final JsonObject sourceNorm = Ut.sureJObject(combineData.getJsonObject(KName.SOURCE_EXPR));
+        final JsonObject sourceNorm = Ut.valueJObject(combineData.getJsonObject(KName.SOURCE_EXPR));
         final ConcurrentMap<String, OExpression> exprMap = new ConcurrentHashMap<>();
         Ut.<String>itJObject(sourceNorm, (className, field) -> {
             final Class<?> expression = Ut.clazz(className, null);
@@ -72,8 +72,8 @@ class IoHelper {
      */
     static JsonObject configCompress(final JsonObject combineData) {
         final JsonObject config = new JsonObject();
-        config.mergeIn(Ut.sureJObject(combineData.getJsonObject(KName.SOURCE_NORM)));
-        config.mergeIn(Ut.sureJObject(combineData.getJsonObject(KName.ATTRIBUTE)));
+        config.mergeIn(Ut.valueJObject(combineData.getJsonObject(KName.SOURCE_NORM)));
+        config.mergeIn(Ut.valueJObject(combineData.getJsonObject(KName.ATTRIBUTE)));
         return config;
     }
 

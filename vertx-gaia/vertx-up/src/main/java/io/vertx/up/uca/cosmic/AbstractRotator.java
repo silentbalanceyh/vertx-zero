@@ -104,7 +104,7 @@ public abstract class AbstractRotator implements Rotator {
      * - dataString：Build string content response here.
      */
     protected StringEntity dataJson(final JsonObject data) {
-        final JsonObject normalized = Ut.sureJObject(data);
+        final JsonObject normalized = Ut.valueJObject(data);
 
         /*
          *  Here the secondary argument will be in Chinese ??? confused characters.

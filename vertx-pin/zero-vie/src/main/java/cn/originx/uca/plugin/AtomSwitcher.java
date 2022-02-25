@@ -55,7 +55,7 @@ public class AtomSwitcher implements Switcher {
                  * options -> serviceConfig
                  * data -> JsonObject / JsonArray
                  */
-                this.options.mergeIn(Ut.sureJObject(options));
+                this.options.mergeIn(Ut.valueJObject(options));
             } else {
                 this.indent = null;
                 this.identity = null;

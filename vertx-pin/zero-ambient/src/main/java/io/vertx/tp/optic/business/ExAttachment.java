@@ -14,6 +14,7 @@ import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
@@ -33,8 +34,21 @@ public class ExAttachment implements Attachment {
         Ut.ifStrings(data, KName.METADATA);
         final List<XAttachment> attachments = Ux.fromJson(data, XAttachment.class);
         At.infoFile(LOGGER, "Save Operation, condition: {0}", condition);
+        return this.removeAsync(condition)
+            .compose(nil -> Ux.Jooq.on(XAttachmentDao.class).insertJAsync(attachments));
+    }
+
+    @Override
+    public Future<Boolean> removeAsync(final JsonObject condition) {
+        At.infoFile(LOGGER, "Remove Operation, condition: {0}", condition);
         final UxJooq jq = Ux.Jooq.on(XAttachmentDao.class);
-        return jq.deleteByAsync(condition).compose(nil -> jq.insertJAsync(attachments));
+        return jq.<XAttachment>fetchAsync(condition).compose(attachments -> {
+            // Remove Actual File on Server System
+            final Set<String> files = Ut.elementSet(attachments, XAttachment::getFilePath);
+            Ut.ioDelete(files);
+            At.infoFile(LOGGER, "Deleted files: {0}", String.valueOf(files.size()));
+            return jq.deleteByAsync(condition);
+        });
     }
 
     @Override

@@ -15,7 +15,7 @@ public class JsonArraySider implements Converter<String, JsonArray> {
 
     @Override
     public String to(final JsonArray objects) {
-        final JsonArray safe = Ut.sureJArray(objects);
+        final JsonArray safe = Ut.valueJArray(objects);
         return safe.encode();
     }
 

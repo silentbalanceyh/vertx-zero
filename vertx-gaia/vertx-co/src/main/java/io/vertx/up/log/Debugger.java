@@ -24,7 +24,7 @@ public class Debugger {
     static {
         final JsonObject configuration = VISITOR.read();
         if (configuration.containsKey("debug")) {
-            JSON_DEBUG.mergeIn(Ut.sureJObject(configuration.getJsonObject("debug")));
+            JSON_DEBUG.mergeIn(Ut.valueJObject(configuration.getJsonObject("debug")));
         }
     }
 

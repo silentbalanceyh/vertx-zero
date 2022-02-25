@@ -127,6 +127,27 @@ final class StringUtil {
         return builder.toString();
     }
 
+    static JsonObject expression(final JsonObject data, final JsonObject params) {
+        // Iterator On Json Object
+        data.fieldNames().forEach(k -> {
+            final Object value = data.getValue(k);
+            if (value instanceof String) {
+                final String valueExpr = (String) value;
+                if (Ut.notNil(valueExpr) && valueExpr.contains("`")) {
+                    data.put(k, expression(valueExpr, params));
+                }
+            }
+        });
+        return data;
+    }
+
+    static JsonObject prefix(final JsonObject data, final String prefix) {
+        // Add prefix to each key to build new JsonObject
+        final JsonObject resultJ = new JsonObject();
+        data.fieldNames().forEach(k -> resultJ.put(prefix + Strings.DOT + k, data.getValue(k)));
+        return resultJ;
+    }
+
     static String expression(final String expr, final JsonObject params) {
         try {
             final JexlExpression expression = EXPR.createExpression(expr);

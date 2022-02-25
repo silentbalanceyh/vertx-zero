@@ -70,7 +70,7 @@ public class KCredential implements Serializable, Json {
 
     @Override
     public void fromJson(final JsonObject json) {
-        final JsonObject data = Ut.sureJObject(json);
+        final JsonObject data = Ut.valueJObject(json);
         this.sigma = data.getString(KName.SIGMA);
         this.appId = data.getString(KName.APP_ID);
         this.realm = data.getString(KName.REALM);

@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
  */
 class Epsilon {
 
-    static Set<String> mapString(final JsonArray array, final String field, final boolean nil) {
+    static Set<String> vStringSet(final JsonArray array, final String field) {
         Set<String> set = new HashSet<>();
         if (Objects.nonNull(array)) {
             set = array.stream()
@@ -23,13 +23,13 @@ class Epsilon {
                 .map(item -> (JsonObject) item)
                 .filter(item -> item.getValue(field) instanceof String)
                 .map(item -> item.getString(field))
-                .filter(item -> nil || Ut.notNil(item))
+                .filter(Ut::notNil)
                 .collect(Collectors.toSet());
         }
         return set;
     }
 
-    static String mapOneS(final JsonArray array, final String field) {
+    static String vString(final JsonArray array, final String field) {
         final Set<String> set = new HashSet<>();
         Ut.itJArray(array).map(json -> json.getString(field))
             .filter(Objects::nonNull)
@@ -41,7 +41,7 @@ class Epsilon {
         }
     }
 
-    static Set<JsonArray> mapArray(final JsonArray array, final String field) {
+    static Set<JsonArray> vArraySet(final JsonArray array, final String field) {
         Set<JsonArray> set = new HashSet<>();
         if (Objects.nonNull(array)) {
             set = array.stream()
@@ -56,7 +56,7 @@ class Epsilon {
     }
 
     @SuppressWarnings("unchecked")
-    static <T> T mapValue(final JsonObject item, final String field, final Class<T> clazz) {
+    static <T> T vValue(final JsonObject item, final String field, final Class<T> clazz) {
         if (Ut.isNil(item)) {
             return null;
         } else {

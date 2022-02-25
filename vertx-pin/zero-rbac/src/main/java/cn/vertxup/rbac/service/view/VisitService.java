@@ -22,7 +22,7 @@ public class VisitService implements VisitStub {
     @Override
     public Future<JsonObject> fetchVisitant(final String ownerType, final String ownerId,
                                             final JsonObject request) {
-        final JsonObject input = Ut.sureJObject(request);
+        final JsonObject input = Ut.valueJObject(request);
         Sc.infoView(this.getClass(), "Visitant Request: {0}", input);
         final String resourceId = input.getString(KName.RESOURCE_ID);
         final String type = input.getString(KName.TYPE);
@@ -107,14 +107,14 @@ public class VisitService implements VisitStub {
          * sigma
          * viewId
          */
-        Ut.jsonCopy(request, view,
+        Ut.elementCopy(request, view,
             KName.SIGMA, KName.LANGUAGE, KName.ACTIVE);
         request.put("viewId", view.getValue(KName.KEY));
         /*
          * Distinguish INSERT / UPDATE
          */
         final JsonObject criteria = new JsonObject();
-        Ut.jsonCopy(criteria, request,
+        Ut.elementCopy(criteria, request,
             "viewId", KName.TYPE, KName.SIGMA);
         /*
          * If `configKey` provide

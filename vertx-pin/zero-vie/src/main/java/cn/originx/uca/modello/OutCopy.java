@@ -22,7 +22,7 @@ public class OutCopy implements OComponent {
 
     @Override
     public Object after(final Kv<String, Object> kv, final Record record, final JsonObject combineData) {
-        final JsonObject sourceNorm = Ut.sureJObject(combineData.getJsonObject(KName.SOURCE_NORM));
+        final JsonObject sourceNorm = Ut.valueJObject(combineData.getJsonObject(KName.SOURCE_NORM));
         if (Ut.notNil(sourceNorm)) {
             /*
              * Record Processing

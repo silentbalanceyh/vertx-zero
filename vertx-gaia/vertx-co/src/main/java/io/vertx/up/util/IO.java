@@ -277,9 +277,18 @@ final class IO {
         return new String(compressed, Values.DEFAULT_CHARSET);
     }
 
-    static boolean deleteFile(final String filename) {
+    static boolean rmFile(final String filename) {
         final File file = getFile(filename);
         file.deleteOnExit();
         return true;
+    }
+
+    static boolean deleteFile(final String filename) {
+        final File file = getFile(filename);
+        boolean deleted = false;
+        if (file.exists()) {
+            deleted = file.delete();
+        }
+        return deleted;
     }
 }

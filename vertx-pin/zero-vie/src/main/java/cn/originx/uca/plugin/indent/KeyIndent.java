@@ -24,7 +24,7 @@ public class KeyIndent implements Identifier {
 
     @Override
     public Future<String> resolve(final JsonObject input, final JsonObject config) {
-        final JsonObject data = Ut.sureJObject(input.getJsonObject(KName.DATA));
+        final JsonObject data = Ut.valueJObject(input.getJsonObject(KName.DATA));
         final String hitKey = this.key(data, config);
         if (Ut.isNil(data) || Ut.isNil(hitKey)) {
             Ox.Log.warnPlugin(this.getClass(), "未读取到标识信息：{0}, 配置：{1}",

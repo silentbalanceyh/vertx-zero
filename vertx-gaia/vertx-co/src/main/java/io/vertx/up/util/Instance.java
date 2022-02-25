@@ -237,7 +237,7 @@ final class Instance {
     /**
      * Find the unique implementation for interfaceCls
      */
-    static Class<?> uniqueChild(final Class<?> interfaceCls) {
+    static Class<?> child(final Class<?> interfaceCls) {
         return Fn.getNull(null, () -> {
             final Set<Class<?>> classes = ZeroPack.getClasses();
             final List<Class<?>> filtered = classes.stream()

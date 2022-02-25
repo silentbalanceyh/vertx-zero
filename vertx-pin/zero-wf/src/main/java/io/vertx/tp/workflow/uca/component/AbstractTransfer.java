@@ -24,7 +24,7 @@ public abstract class AbstractTransfer implements Behaviour {
 
     @Override
     public Behaviour bind(final JsonObject config) {
-        final JsonObject sure = Ut.sureJObject(config);
+        final JsonObject sure = Ut.valueJObject(config);
         this.config.mergeIn(sure.copy(), true);
         this.config.fieldNames().stream()
             // Ignore `record` and `todo` configuration key

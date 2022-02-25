@@ -42,7 +42,7 @@ class HDiff {
         } else {
             final JsonArray lookup = new JsonArray();
             /* 读取 group 中的 key */
-            final Set<String> keys = Ut.mapString(group, diffKey);
+            final Set<String> keys = Ut.valueSetString(group, diffKey);
             /* 读取 新数据 */
             final JsonArray current = apt.dataN();
             Ut.itJArray(current).filter(json -> keys.contains(json.getString(diffKey)))

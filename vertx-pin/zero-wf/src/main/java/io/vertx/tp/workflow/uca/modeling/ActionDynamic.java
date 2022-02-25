@@ -73,7 +73,7 @@ class ActionDynamic implements ActionOn {
     private Function<JsonArray, Future<JsonArray>> identifierA(
         final BiFunction<String, JsonArray, Future<JsonArray>> executor) {
         return recordArray -> {
-            final String identifier = Ut.mapOneS(recordArray, KName.IDENTIFIER);
+            final String identifier = Ut.valueString(recordArray, KName.IDENTIFIER);
             if (Ut.isNil(identifier)) {
                 return Ux.futureA();
             } else {

@@ -49,7 +49,7 @@ public class KTransform implements Serializable {
     }
 
     public JsonObject getInitial() {
-        return Ut.sureJObject(this.initial);
+        return Ut.valueJObject(this.initial);
     }
 
     public void setInitial(final JsonObject initial) {
@@ -57,7 +57,7 @@ public class KTransform implements Serializable {
     }
 
     public JsonObject getMapping() {
-        return Ut.sureJObject(this.mapping);
+        return Ut.valueJObject(this.mapping);
     }
 
     public void setMapping(final JsonObject mapping) {
@@ -65,12 +65,12 @@ public class KTransform implements Serializable {
     }
 
     public ConcurrentMap<String, DiConsumer> epsilon() {
-        final JsonObject dictionary = Ut.sureJObject(this.fabric);
-        return Ux.dictEpsilon(Ut.sureJObject(dictionary.getJsonObject(KName.EPSILON)));
+        final JsonObject dictionary = Ut.valueJObject(this.fabric);
+        return Ux.dictEpsilon(Ut.valueJObject(dictionary.getJsonObject(KName.EPSILON)));
     }
 
     public DiSetting source() {
-        final JsonObject dictionary = Ut.sureJObject(this.fabric);
-        return new DiSetting(Ut.sureJArray(dictionary.getJsonArray(KName.SOURCE)));
+        final JsonObject dictionary = Ut.valueJObject(this.fabric);
+        return new DiSetting(Ut.valueJArray(dictionary.getJsonArray(KName.SOURCE)));
     }
 }

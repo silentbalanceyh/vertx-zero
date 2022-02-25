@@ -41,7 +41,7 @@ public class DDLExecution extends AbstractStep {
             final File file = Ut.ioFile(ddl);
             if (Objects.nonNull(file)) {
                 final JsonObject data = Ut.ioJObject(ddl);
-                final JsonArray statements = Ut.sureJArray(data.getJsonArray("sql"));
+                final JsonArray statements = Ut.valueJArray(data.getJsonArray("sql"));
                 if (Ut.notNil(statements)) {
                     /*
                      * 执行 DDL 语句

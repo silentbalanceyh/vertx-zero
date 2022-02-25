@@ -153,7 +153,7 @@ class Web {
     }
 
     static JsonObject pageData(final JsonObject pageData, final Function<JsonArray, JsonArray> function) {
-        final JsonArray data = Ut.sureJArray(pageData.getJsonArray(KName.LIST));
+        final JsonArray data = Ut.valueJArray(pageData.getJsonArray(KName.LIST));
         final JsonArray updated;
         if (Objects.nonNull(function)) {
             updated = function.apply(data);

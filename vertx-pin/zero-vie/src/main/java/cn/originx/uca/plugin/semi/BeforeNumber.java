@@ -43,7 +43,7 @@ public class BeforeNumber implements BeforePlugin {
     }
 
     private String beforeField(final JsonObject record, final JsonObject config) {
-        final JsonObject configOpt = Ut.sureJObject(config);
+        final JsonObject configOpt = Ut.valueJObject(config);
         final String fieldNum = configOpt.getString(KName.FIELD);
         if (Ut.isNil(fieldNum)) {
             // 「不生成」配置中不存在 `field` 字段

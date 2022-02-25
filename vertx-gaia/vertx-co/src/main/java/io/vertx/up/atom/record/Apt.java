@@ -253,7 +253,7 @@ public class Apt {
     @Fluent
     public Apt comparedA(final JsonArray inserted) {
         this.doBatch(() -> {
-            final JsonArray normalized = Ut.sureJArray(inserted);
+            final JsonArray normalized = Ut.valueJArray(inserted);
             this.compared.put(ChangeFlag.ADD, normalized);
         }, "add(JsonArray)");
         return this;
@@ -266,7 +266,7 @@ public class Apt {
     @Fluent
     public Apt comparedU(final JsonArray updated) {
         this.doBatch(() -> {
-            final JsonArray normalized = Ut.sureJArray(updated);
+            final JsonArray normalized = Ut.valueJArray(updated);
             this.compared.put(ChangeFlag.UPDATE, normalized);
         }, "edit(JsonArray)");
         return this;

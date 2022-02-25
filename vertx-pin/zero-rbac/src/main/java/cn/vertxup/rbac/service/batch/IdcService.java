@@ -53,7 +53,7 @@ class IdcService extends AbstractIdc {
                  * Batch user fetching
                  */
                 final JsonObject condition = new JsonObject();
-                condition.put(KName.USERNAME + ",i", Ut.toJArray(Ut.mapString(filtered, KName.USERNAME)));
+                condition.put(KName.USERNAME + ",i", Ut.toJArray(Ut.valueSetString(filtered, KName.USERNAME)));
                 condition.put(KName.SIGMA, this.sigma);
                 condition.put(Strings.EMPTY, Boolean.TRUE);
                 Sc.infoWeb(this.getClass(), "Unique filters: {0}", condition.encode());

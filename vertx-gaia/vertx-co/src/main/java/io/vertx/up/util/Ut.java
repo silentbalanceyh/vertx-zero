@@ -41,22 +41,6 @@ public final class Ut {
     public static ObjectMapper mapper() {
         return Jackson.getMapper();
     }
-
-    public static JsonArray sureJArray(final JsonArray array) {
-        return Jackson.sureJArray(array);
-    }
-
-    public static JsonArray sureJArray(final JsonObject input, final String field) {
-        return Jackson.sureJArray(input, field);
-    }
-
-    public static JsonObject sureJObject(final JsonObject object) {
-        return Jackson.sureJObject(object);
-    }
-
-    public static JsonObject sureJObject(final JsonObject input, final String field) {
-        return Jackson.sureJObject(input, field);
-    }
     /*
      * Set Calculating
      * 1) intersect:    Set1 And Set2
@@ -145,6 +129,7 @@ public final class Ut {
      * 9) elementEach
      * 10) elementFlat
      * 11) elementCompress
+     * 12) elementSet
      */
     public static JsonArray elementFlat(final JsonArray input) {
         return ArrayJ.flat(input);
@@ -272,6 +257,10 @@ public final class Ut {
 
     public static <K, V> ConcurrentMap<K, List<V>> elementCompress(final List<ConcurrentMap<K, List<V>>> dataList) {
         return ArrayL.compress(dataList);
+    }
+
+    public static <T, V> Set<V> elementSet(final List<T> listT, final Function<T, V> executor) {
+        return ArrayL.set(listT, executor);
     }
 
     /*
@@ -547,8 +536,8 @@ public final class Ut {
         return Instance.noarg(clazz);
     }
 
-    public static Class<?> childUnique(final Class<?> clazz) {
-        return Instance.uniqueChild(clazz);
+    public static Class<?> child(final Class<?> clazz) {
+        return Instance.child(clazz);
     }
 
     public static <T> void field(final Object instance, final String name, final T value) {
@@ -585,22 +574,27 @@ public final class Ut {
     }
 
     /*
-     * 1) jsonCopy
-     * 2) jsonAppend ( The old name is ifMerge )
-     * 3) jsonMerge
+     * 1) elementCopy
+     * 2) elementAppend ( The old name is ifMerge )
+     * 3) elementMerge
+     * 4) elementFind
      */
-    public static void jsonCopy(final JsonObject target, final JsonObject source, final String... fields) {
+    public static void elementCopy(final JsonObject target, final JsonObject source, final String... fields) {
         Jackson.jsonCopy(target, source, fields);
     }
 
-    public static JsonObject jsonAppend(final JsonObject target, final JsonObject... sources) {
+    public static JsonObject elementAppend(final JsonObject target, final JsonObject... sources) {
         Arrays.stream(sources).forEach(source -> Jackson.jsonAppend(target, source, true));
         return target;
     }
 
-    public static JsonObject jsonMerge(final JsonObject target, final JsonObject... sources) {
+    public static JsonObject elementMerge(final JsonObject target, final JsonObject... sources) {
         Arrays.stream(sources).forEach(source -> Jackson.jsonMerge(target, source, true));
         return target;
+    }
+
+    public static <T> T elementFind(final JsonObject item, final String field, final Class<T> clazz) {
+        return Epsilon.vValue(item, field, clazz);
     }
 
     /*
@@ -664,7 +658,16 @@ public final class Ut {
     }
 
     public static boolean ioRm(final String filename) {
+        return IO.rmFile(filename);
+    }
+
+    public static boolean ioDelete(final String filename) {
         return IO.deleteFile(filename);
+    }
+
+    public static boolean ioDelete(final Set<String> filename) {
+        filename.forEach(Ut::ioDelete);
+        return true;
     }
 
     public static JsonObject ioJObject(final String filename) {
@@ -1185,8 +1188,8 @@ public final class Ut {
         return Jackson.flag(recordN, recordO);
     }
 
-    public static String aiStringA(final String literal) {
-        return Jackson.aiStringA(literal);
+    public static String aiJArray(final String literal) {
+        return Jackson.aiJArray(literal);
     }
 
     public static JsonObject aiIn(final JsonObject in, final BiMapping mapping, final boolean keepNil) {
@@ -1513,8 +1516,16 @@ public final class Ut {
         return StringUtil.adjust(seed, width, '0');
     }
 
-    public static String fromExpression(final String expr, final JsonObject data) {
-        return StringUtil.expression(expr, data);
+    public static String fromExpression(final String expr, final JsonObject params) {
+        return StringUtil.expression(expr, params);
+    }
+
+    public static JsonObject fromExpression(final JsonObject data, final JsonObject params) {
+        return StringUtil.expression(data, params);
+    }
+
+    public static JsonObject fromPrefix(final JsonObject data, final String prefix) {
+        return StringUtil.prefix(data, prefix);
     }
 
     public static Instant fromAt(final String expr) {
@@ -1546,24 +1557,46 @@ public final class Ut {
 
     /*
      * Mapping operation
+     *
+     * - valueJObject(JsonObject)                     Null Checking
+     * - valueJObject(JsonObject, String)             JsonObject -> field -> JsonObject
+     * - valueJArray(JsonArray)                       Null Checking
+     * - valueJArray(JsonObject, String)              JsonObject -> field -> JsonArray
+     * - valueSetArray(JsonArray, String)             JsonArray -> field -> Set<JsonArray>
+     * - valueSetString(JsonArray, String)            JsonArray -> field -> Set<String>
+     * - valueSetString(JsonArray, String, boolean )  JsonArray -> field -> Set<String> ( include null when boolean = true )
+     * - valueString(JsonArray, String)               JsonArray -> field -> String ( Unique Mapping )
      */
-    public static Set<String> mapString(final JsonArray array, final String field) {
-        return Epsilon.mapString(array, field, true);
+    public static Set<String> valueSetString(final JsonArray array, final String field) {
+        return Epsilon.vStringSet(array, field);
     }
 
-    public static Set<String> mapString(final JsonArray array, final String field, final boolean nil) {
-        return Epsilon.mapString(array, field, nil);
+    public static Set<JsonArray> valueSetArray(final JsonArray array, final String field) {
+        return Epsilon.vArraySet(array, field);
     }
 
-    public static String mapOneS(final JsonArray array, final String field) {
-        return Epsilon.mapOneS(array, field);
+    // Single Processing
+    public static String valueString(final JsonArray array, final String field) {
+        return Epsilon.vString(array, field);
     }
 
-    public static Set<JsonArray> mapArray(final JsonArray array, final String field) {
-        return Epsilon.mapArray(array, field);
+    public static JsonArray valueJArray(final JsonArray array, final String field) {
+        return To.toJArray(valueSetString(array, field));
     }
 
-    public static <T> T mapValue(final JsonObject item, final String field, final Class<T> clazz) {
-        return Epsilon.mapValue(item, field, clazz);
+    public static JsonArray valueJArray(final JsonArray array) {
+        return Jackson.sureJArray(array);
+    }
+
+    public static JsonArray valueJArray(final JsonObject input, final String field) {
+        return Jackson.sureJArray(input, field);
+    }
+
+    public static JsonObject valueJObject(final JsonObject object) {
+        return Jackson.sureJObject(object);
+    }
+
+    public static JsonObject valueJObject(final JsonObject input, final String field) {
+        return Jackson.sureJObject(input, field);
     }
 }

@@ -4,6 +4,7 @@ import cn.zeroup.macrocosm.cv.em.RecordMode;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
+import io.vertx.tp.workflow.uca.modeling.Respect;
 import io.vertx.up.eon.KName;
 import io.vertx.up.uca.jooq.UxJooq;
 import io.vertx.up.unity.Ux;
@@ -23,7 +24,7 @@ public class MetaInstance {
     private final transient ConfigChild children;
 
     private MetaInstance(final JsonObject startJson, final JsonObject linkageJson) {
-        final JsonObject sure = Ut.sureJObject(startJson);
+        final JsonObject sure = Ut.valueJObject(startJson);
         /*
          * ConfigRunner for
          * - record
@@ -122,10 +123,9 @@ public class MetaInstance {
         return Objects.isNull(this.linkage);
     }
 
-    @Deprecated
-    public JsonObject linkQuery(final String field) {
+    public Respect linkRespect(final String field) {
         Objects.requireNonNull(this.linkage);
-        return this.linkage.query(field);
+        return this.linkage.respect(field);
     }
 
     // -------------------- Todo Generate ------------------

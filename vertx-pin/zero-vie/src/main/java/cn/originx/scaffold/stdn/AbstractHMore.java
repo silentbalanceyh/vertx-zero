@@ -131,7 +131,7 @@ public abstract class AbstractHMore extends AbstractHub implements HWay<JsonArra
     protected Future<JsonArray> inImport(final JsonArray data, final String uniqueKey) {
         return this.atom(data).compose(Ax.setTA(group -> {
             final JsonArray groupData = group.data();
-            final Set<String> values = Ut.mapString(groupData, uniqueKey);
+            final Set<String> values = Ut.valueSetString(groupData, uniqueKey);
             /*
              * 条件构造
              */
