@@ -15,6 +15,8 @@ public interface KeIpc {
 
     /* Module Crud */
     interface Module {
+        // zero-is
+        String IS = "is";
         // zero-ambient
         String AMBIENT = "ambient";
         // zero-rbac

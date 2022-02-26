@@ -31,6 +31,12 @@
             <artifactId>zero-ambient</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <!-- 集成专用 -->
+        <dependency>
+            <groupId>cn.vertxup</groupId>
+            <artifactId>zero-is</artifactId>
+            <version>${project.version}</version>
+        </dependency>
         <!-- User Interface 专用模块 -->
         <dependency>
             <groupId>cn.vertxup</groupId>

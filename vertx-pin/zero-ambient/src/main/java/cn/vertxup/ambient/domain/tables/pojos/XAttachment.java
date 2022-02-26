@@ -27,8 +27,10 @@ public class XAttachment implements VertxPojo, IXAttachment {
     private String        mime;
     private Integer       size;
     private String        status;
+    private String        directoryId;
     private String        storeWay;
-    private String        storeId;
+    private String        storePath;
+    private String        storeUri;
     private String        modelId;
     private String        modelKey;
     private String        modelCategory;
@@ -55,8 +57,10 @@ public class XAttachment implements VertxPojo, IXAttachment {
         this.mime = value.getMime();
         this.size = value.getSize();
         this.status = value.getStatus();
+        this.directoryId = value.getDirectoryId();
         this.storeWay = value.getStoreWay();
-        this.storeId = value.getStoreId();
+        this.storePath = value.getStorePath();
+        this.storeUri = value.getStoreUri();
         this.modelId = value.getModelId();
         this.modelKey = value.getModelKey();
         this.modelCategory = value.getModelCategory();
@@ -82,8 +86,10 @@ public class XAttachment implements VertxPojo, IXAttachment {
         String        mime,
         Integer       size,
         String        status,
+        String        directoryId,
         String        storeWay,
-        String        storeId,
+        String        storePath,
+        String        storeUri,
         String        modelId,
         String        modelKey,
         String        modelCategory,
@@ -107,8 +113,10 @@ public class XAttachment implements VertxPojo, IXAttachment {
         this.mime = mime;
         this.size = size;
         this.status = status;
+        this.directoryId = directoryId;
         this.storeWay = storeWay;
-        this.storeId = storeId;
+        this.storePath = storePath;
+        this.storeUri = storeUri;
         this.modelId = modelId;
         this.modelKey = modelKey;
         this.modelCategory = modelCategory;
@@ -257,8 +265,27 @@ public class XAttachment implements VertxPojo, IXAttachment {
     }
 
     /**
+     * Getter for <code>DB_ETERNAL.X_ATTACHMENT.DIRECTORY_ID</code>.
+     * 「directoryId」- 文件存储所属目录
+     */
+    @Override
+    public String getDirectoryId() {
+        return this.directoryId;
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.X_ATTACHMENT.DIRECTORY_ID</code>.
+     * 「directoryId」- 文件存储所属目录
+     */
+    @Override
+    public XAttachment setDirectoryId(String directoryId) {
+        this.directoryId = directoryId;
+        return this;
+    }
+
+    /**
      * Getter for <code>DB_ETERNAL.X_ATTACHMENT.STORE_WAY</code>. 「storeWay」-
-     * 存储方式，BLOB / FILE / TPL / REMOTE
+     * 存储方式，BLOB / FILE / REMOTE
      */
     @Override
     public String getStoreWay() {
@@ -267,7 +294,7 @@ public class XAttachment implements VertxPojo, IXAttachment {
 
     /**
      * Setter for <code>DB_ETERNAL.X_ATTACHMENT.STORE_WAY</code>. 「storeWay」-
-     * 存储方式，BLOB / FILE / TPL / REMOTE
+     * 存储方式，BLOB / FILE / REMOTE
      */
     @Override
     public XAttachment setStoreWay(String storeWay) {
@@ -276,21 +303,40 @@ public class XAttachment implements VertxPojo, IXAttachment {
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.X_ATTACHMENT.STORE_ID</code>. 「storeId」-
-     * 存储关联的Integration ID
+     * Getter for <code>DB_ETERNAL.X_ATTACHMENT.STORE_PATH</code>. 「storePath」-
+     * 远程存储的目录信息（显示专用，去服务器和协议部分）
      */
     @Override
-    public String getStoreId() {
-        return this.storeId;
+    public String getStorePath() {
+        return this.storePath;
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.X_ATTACHMENT.STORE_ID</code>. 「storeId」-
-     * 存储关联的Integration ID
+     * Setter for <code>DB_ETERNAL.X_ATTACHMENT.STORE_PATH</code>. 「storePath」-
+     * 远程存储的目录信息（显示专用，去服务器和协议部分）
      */
     @Override
-    public XAttachment setStoreId(String storeId) {
-        this.storeId = storeId;
+    public XAttachment setStorePath(String storePath) {
+        this.storePath = storePath;
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.X_ATTACHMENT.STORE_URI</code>. 「storeUri」-
+     * 远程存储的目录URI部分
+     */
+    @Override
+    public String getStoreUri() {
+        return this.storeUri;
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.X_ATTACHMENT.STORE_URI</code>. 「storeUri」-
+     * 远程存储的目录URI部分
+     */
+    @Override
+    public XAttachment setStoreUri(String storeUri) {
+        this.storeUri = storeUri;
         return this;
     }
 
@@ -586,8 +632,10 @@ public class XAttachment implements VertxPojo, IXAttachment {
         sb.append(", ").append(mime);
         sb.append(", ").append(size);
         sb.append(", ").append(status);
+        sb.append(", ").append(directoryId);
         sb.append(", ").append(storeWay);
-        sb.append(", ").append(storeId);
+        sb.append(", ").append(storePath);
+        sb.append(", ").append(storeUri);
         sb.append(", ").append(modelId);
         sb.append(", ").append(modelKey);
         sb.append(", ").append(modelCategory);
@@ -621,8 +669,10 @@ public class XAttachment implements VertxPojo, IXAttachment {
         setMime(from.getMime());
         setSize(from.getSize());
         setStatus(from.getStatus());
+        setDirectoryId(from.getDirectoryId());
         setStoreWay(from.getStoreWay());
-        setStoreId(from.getStoreId());
+        setStorePath(from.getStorePath());
+        setStoreUri(from.getStoreUri());
         setModelId(from.getModelId());
         setModelKey(from.getModelKey());
         setModelCategory(from.getModelCategory());
