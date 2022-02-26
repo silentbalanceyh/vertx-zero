@@ -1,0 +1,6 @@
+-   dao: cn.vertxup.integration.domain.tables.daos.IIntegrationDao   # I_INTEGRATION
+    key: key
+    unique:
+    - appId
+    - path
+    - endpoint

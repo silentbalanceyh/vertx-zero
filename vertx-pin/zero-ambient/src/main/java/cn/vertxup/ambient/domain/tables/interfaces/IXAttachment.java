@@ -94,28 +94,52 @@ public interface IXAttachment extends VertxPojo, Serializable {
     public String getStatus();
 
     /**
+     * Setter for <code>DB_ETERNAL.X_ATTACHMENT.DIRECTORY_ID</code>.
+     * 「directoryId」- 文件存储所属目录
+     */
+    public IXAttachment setDirectoryId(String value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.X_ATTACHMENT.DIRECTORY_ID</code>.
+     * 「directoryId」- 文件存储所属目录
+     */
+    public String getDirectoryId();
+
+    /**
      * Setter for <code>DB_ETERNAL.X_ATTACHMENT.STORE_WAY</code>. 「storeWay」-
-     * 存储方式，BLOB / FILE / TPL / REMOTE
+     * 存储方式，BLOB / FILE / REMOTE
      */
     public IXAttachment setStoreWay(String value);
 
     /**
      * Getter for <code>DB_ETERNAL.X_ATTACHMENT.STORE_WAY</code>. 「storeWay」-
-     * 存储方式，BLOB / FILE / TPL / REMOTE
+     * 存储方式，BLOB / FILE / REMOTE
      */
     public String getStoreWay();
 
     /**
-     * Setter for <code>DB_ETERNAL.X_ATTACHMENT.STORE_ID</code>. 「storeId」-
-     * 存储关联的Integration ID
+     * Setter for <code>DB_ETERNAL.X_ATTACHMENT.STORE_PATH</code>. 「storePath」-
+     * 远程存储的目录信息（显示专用，去服务器和协议部分）
      */
-    public IXAttachment setStoreId(String value);
+    public IXAttachment setStorePath(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.X_ATTACHMENT.STORE_ID</code>. 「storeId」-
-     * 存储关联的Integration ID
+     * Getter for <code>DB_ETERNAL.X_ATTACHMENT.STORE_PATH</code>. 「storePath」-
+     * 远程存储的目录信息（显示专用，去服务器和协议部分）
      */
-    public String getStoreId();
+    public String getStorePath();
+
+    /**
+     * Setter for <code>DB_ETERNAL.X_ATTACHMENT.STORE_URI</code>. 「storeUri」-
+     * 远程存储的目录URI部分
+     */
+    public IXAttachment setStoreUri(String value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.X_ATTACHMENT.STORE_URI</code>. 「storeUri」-
+     * 远程存储的目录URI部分
+     */
+    public String getStoreUri();
 
     /**
      * Setter for <code>DB_ETERNAL.X_ATTACHMENT.MODEL_ID</code>. 「modelId」-
@@ -318,8 +342,10 @@ public interface IXAttachment extends VertxPojo, Serializable {
                 setOrThrow(this::setMime,json::getString,"MIME","java.lang.String");
                 setOrThrow(this::setSize,json::getInteger,"SIZE","java.lang.Integer");
                 setOrThrow(this::setStatus,json::getString,"STATUS","java.lang.String");
+                setOrThrow(this::setDirectoryId,json::getString,"DIRECTORY_ID","java.lang.String");
                 setOrThrow(this::setStoreWay,json::getString,"STORE_WAY","java.lang.String");
-                setOrThrow(this::setStoreId,json::getString,"STORE_ID","java.lang.String");
+                setOrThrow(this::setStorePath,json::getString,"STORE_PATH","java.lang.String");
+                setOrThrow(this::setStoreUri,json::getString,"STORE_URI","java.lang.String");
                 setOrThrow(this::setModelId,json::getString,"MODEL_ID","java.lang.String");
                 setOrThrow(this::setModelKey,json::getString,"MODEL_KEY","java.lang.String");
                 setOrThrow(this::setModelCategory,json::getString,"MODEL_CATEGORY","java.lang.String");
@@ -349,8 +375,10 @@ public interface IXAttachment extends VertxPojo, Serializable {
                 json.put("MIME",getMime());
                 json.put("SIZE",getSize());
                 json.put("STATUS",getStatus());
+                json.put("DIRECTORY_ID",getDirectoryId());
                 json.put("STORE_WAY",getStoreWay());
-                json.put("STORE_ID",getStoreId());
+                json.put("STORE_PATH",getStorePath());
+                json.put("STORE_URI",getStoreUri());
                 json.put("MODEL_ID",getModelId());
                 json.put("MODEL_KEY",getModelKey());
                 json.put("MODEL_CATEGORY",getModelCategory());

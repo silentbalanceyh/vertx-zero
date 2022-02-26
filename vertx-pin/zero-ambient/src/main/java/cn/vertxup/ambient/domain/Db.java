@@ -51,16 +51,6 @@ public class Db extends SchemaImpl {
     public final XCategory X_CATEGORY = XCategory.X_CATEGORY;
 
     /**
-     * The table <code>DB_ETERNAL.X_EMAIL_SERVER</code>.
-     */
-    public final XEmailServer X_EMAIL_SERVER = XEmailServer.X_EMAIL_SERVER;
-
-    /**
-     * The table <code>DB_ETERNAL.X_INTEGRATION</code>.
-     */
-    public final XIntegration X_INTEGRATION = XIntegration.X_INTEGRATION;
-
-    /**
      * The table <code>DB_ETERNAL.X_LINKAGE</code>.
      */
     public final XLinkage X_LINKAGE = XLinkage.X_LINKAGE;
@@ -79,16 +69,6 @@ public class Db extends SchemaImpl {
      * The table <code>DB_ETERNAL.X_MENU_MY</code>.
      */
     public final XMenuMy X_MENU_MY = XMenuMy.X_MENU_MY;
-
-    /**
-     * The table <code>DB_ETERNAL.X_MESSAGE</code>.
-     */
-    public final XMessage X_MESSAGE = XMessage.X_MESSAGE;
-
-    /**
-     * The table <code>DB_ETERNAL.X_MESSAGE_TPL</code>.
-     */
-    public final XMessageTpl X_MESSAGE_TPL = XMessageTpl.X_MESSAGE_TPL;
 
     /**
      * The table <code>DB_ETERNAL.X_MODULE</code>.
@@ -136,14 +116,10 @@ public class Db extends SchemaImpl {
             XApp.X_APP,
             XAttachment.X_ATTACHMENT,
             XCategory.X_CATEGORY,
-            XEmailServer.X_EMAIL_SERVER,
-            XIntegration.X_INTEGRATION,
             XLinkage.X_LINKAGE,
             XLog.X_LOG,
             XMenu.X_MENU,
             XMenuMy.X_MENU_MY,
-            XMessage.X_MESSAGE,
-            XMessageTpl.X_MESSAGE_TPL,
             XModule.X_MODULE,
             XNotice.X_NOTICE,
             XNumber.X_NUMBER,

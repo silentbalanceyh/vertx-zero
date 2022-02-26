@@ -129,6 +129,22 @@ public class XAttachmentDao extends AbstractVertxDAO<XAttachmentRecord, cn.vertx
         }
 
         /**
+     * Find records that have <code>DIRECTORY_ID IN (values)</code>
+     * asynchronously
+     */
+        public Future<List<cn.vertxup.ambient.domain.tables.pojos.XAttachment>> findManyByDirectoryId(Collection<String> values) {
+                return findManyByCondition(XAttachment.X_ATTACHMENT.DIRECTORY_ID.in(values));
+        }
+
+        /**
+     * Find records that have <code>DIRECTORY_ID IN (values)</code>
+     * asynchronously limited by the given limit
+     */
+        public Future<List<cn.vertxup.ambient.domain.tables.pojos.XAttachment>> findManyByDirectoryId(Collection<String> values, int limit) {
+                return findManyByCondition(XAttachment.X_ATTACHMENT.DIRECTORY_ID.in(values),limit);
+        }
+
+        /**
      * Find records that have <code>STORE_WAY IN (values)</code> asynchronously
      */
         public Future<List<cn.vertxup.ambient.domain.tables.pojos.XAttachment>> findManyByStoreWay(Collection<String> values) {
@@ -144,18 +160,33 @@ public class XAttachmentDao extends AbstractVertxDAO<XAttachmentRecord, cn.vertx
         }
 
         /**
-     * Find records that have <code>STORE_ID IN (values)</code> asynchronously
+     * Find records that have <code>STORE_PATH IN (values)</code> asynchronously
      */
-        public Future<List<cn.vertxup.ambient.domain.tables.pojos.XAttachment>> findManyByStoreId(Collection<String> values) {
-                return findManyByCondition(XAttachment.X_ATTACHMENT.STORE_ID.in(values));
+        public Future<List<cn.vertxup.ambient.domain.tables.pojos.XAttachment>> findManyByStorePath(Collection<String> values) {
+                return findManyByCondition(XAttachment.X_ATTACHMENT.STORE_PATH.in(values));
         }
 
         /**
-     * Find records that have <code>STORE_ID IN (values)</code> asynchronously
+     * Find records that have <code>STORE_PATH IN (values)</code> asynchronously
      * limited by the given limit
      */
-        public Future<List<cn.vertxup.ambient.domain.tables.pojos.XAttachment>> findManyByStoreId(Collection<String> values, int limit) {
-                return findManyByCondition(XAttachment.X_ATTACHMENT.STORE_ID.in(values),limit);
+        public Future<List<cn.vertxup.ambient.domain.tables.pojos.XAttachment>> findManyByStorePath(Collection<String> values, int limit) {
+                return findManyByCondition(XAttachment.X_ATTACHMENT.STORE_PATH.in(values),limit);
+        }
+
+        /**
+     * Find records that have <code>STORE_URI IN (values)</code> asynchronously
+     */
+        public Future<List<cn.vertxup.ambient.domain.tables.pojos.XAttachment>> findManyByStoreUri(Collection<String> values) {
+                return findManyByCondition(XAttachment.X_ATTACHMENT.STORE_URI.in(values));
+        }
+
+        /**
+     * Find records that have <code>STORE_URI IN (values)</code> asynchronously
+     * limited by the given limit
+     */
+        public Future<List<cn.vertxup.ambient.domain.tables.pojos.XAttachment>> findManyByStoreUri(Collection<String> values, int limit) {
+                return findManyByCondition(XAttachment.X_ATTACHMENT.STORE_URI.in(values),limit);
         }
 
         /**

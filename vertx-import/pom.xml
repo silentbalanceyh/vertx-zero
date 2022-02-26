@@ -151,6 +151,11 @@
                 <artifactId>zero-wf</artifactId>
                 <version>${zero.version}</version>
             </dependency>
+            <dependency>
+                <groupId>cn.vertxup</groupId>
+                <artifactId>zero-is</artifactId>
+                <version>${zero.version}</version>
+            </dependency>
             <!-- Zero Infix -->
             <dependency>
                 <groupId>cn.vertxup</groupId>
@@ -160,6 +165,11 @@
             <dependency>
                 <groupId>cn.vertxup</groupId>
                 <artifactId>zero-ifx-sms</artifactId>
+                <version>${zero.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.vertxup</groupId>
+                <artifactId>zero-ifx-ftp</artifactId>
                 <version>${zero.version}</version>
             </dependency>
             <dependency>

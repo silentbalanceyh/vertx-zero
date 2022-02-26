@@ -24,6 +24,7 @@
         <module>zero-ifx-sms</module>
         <module>zero-ifx-shell</module>
         <module>zero-ifx-auth</module>
+        <module>zero-ifx-ftp</module>
     </modules>
     <dependencies>
         <dependency>
