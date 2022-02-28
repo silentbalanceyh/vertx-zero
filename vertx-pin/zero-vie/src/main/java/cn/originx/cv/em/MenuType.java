@@ -11,7 +11,9 @@ public enum MenuType {
     TOP_MENU("TOP-MENU"),
     SIDE_MENU("SIDE-MENU"),
     NAV_MENU("NAV-MENU"),
-    SC_MENU("SC-MENU");
+    SC_MENU("SC-MENU"),
+    DEV_MENU("DEV-MENU"),
+    SYS_MENU("SYS-MENU");
 
     private final static List<String> VALUES = new ArrayList<>() {
         {
@@ -20,6 +22,8 @@ public enum MenuType {
             this.add(SIDE_MENU.value);
             this.add(NAV_MENU.value);
             this.add(SC_MENU.value);
+            this.add(DEV_MENU.value);
+            this.add(SYS_MENU.value);
         }
     };
     private final transient String value;
