@@ -74,7 +74,7 @@ If you want to use Zero framework, you can add following dependency into you `po
 <parent>
     <artifactId>vertx-import</artifactId>
     <groupId>cn.vertxup</groupId>
-    <version>0.7.0</version>
+    <version>0.8.0</version>
 </parent>
 ```
 
@@ -149,14 +149,27 @@ public final class Statute {
 
 ## 3. Other Information
 
-### 3.1. Case Actions
+### 3.1. Cases
 
-1. TLK Video Mobile System ( 0.4.6 )
-2. Micro Hotel Platform ( latest )
-3. CMDB/ITSM Platform ( latest )
-4. Training Demo ( latest )
-5. Data Analyzing Platform ( latest )
-6. Workflow Engine Tool ( latest )
+> Because of Contract and Confidentiality Agreement, removed Sensitive information of customer include system name, customer name etc.
+
+* **Deprecated**: Not Running Now
+* **In Progress**: In Development or Upgraded Development
+* **Running**: Running on Production Environment
+
+| System Information                |Zero Version| System Status |
+|-----------------------------------|---|---------------|
+| TLK Video Mobile System           |0.4.6| Deprecated    |
+| CMDB Platform of Bank             |Latest| Running       |
+| ITSM/ITIL Platform of Bank        |Latest|Running |
+| Integration of XBank              |Latest| Running       |
+| Zero Training Demo                |Latest| Running       |
+| Data Analyzing Exam               |Latest| Running       |
+| Commercial Opportunity Management |Latest| Running |
+| Hotel Management Platform         |Latest| In Progress   |
+| ISO27000 Management Platform      |Latest| In Progress |
+| IoT Control System                |Latest| In Progress |
+| Medical Workflow Management       |Latest | In Progress |
 
 ### 3.2. WeChat Group
 
