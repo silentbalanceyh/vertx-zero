@@ -171,6 +171,8 @@ public final class Statute {
 | IoT Control System                |Latest| In Progress |
 | Medical Workflow Management       |Latest | In Progress |
 
+> From `0.8.0`, if you want to use Zero Extension of Dynamic Modeling, you need the project of <https://github.com/silentbalanceyh/vertx-zero/tree/master/vertx-pin/zero-vista>. The latest version is `0.8.0-SNAPSHOT`, you can modify the version and rebuild it. This feature is not needed in Core Framework.
+
 ### 3.2. WeChat Group
 
 You can send request to group leader: `445191171` to contact with the author team of zero.
