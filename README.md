@@ -74,7 +74,7 @@ If you want to use Zero framework, you can add following dependency into you `po
 <parent>
     <artifactId>vertx-import</artifactId>
     <groupId>cn.vertxup</groupId>
-    <version>0.8.0</version>
+    <version>0.8.1</version>
 </parent>
 ```
 
@@ -171,7 +171,10 @@ public final class Statute {
 | IoT Control System                |Latest| In Progress |
 | Medical Workflow Management       |Latest | In Progress |
 
-> From `0.8.0`, if you want to use Zero Extension of Dynamic Modeling, you need the project of <https://github.com/silentbalanceyh/vertx-zero/tree/master/vertx-pin/zero-vista>. The latest version is `0.8.0-SNAPSHOT`, you can modify the version and rebuild it. This feature is not needed in Core Framework.
+* From `0.8.0`, if you want to use Zero Extension of Dynamic Modeling, you need the project
+  of <https://github.com/silentbalanceyh/vertx-zero/tree/master/vertx-pin/zero-vista>. The latest version
+  is `0.8.0-SNAPSHOT`, you can modify the version and rebuild it. This feature is not needed in Core Framework.
+* Above issue has been fixed in `0.8.1`.
 
 ### 3.2. WeChat Group
 
