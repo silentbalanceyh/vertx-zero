@@ -6,10 +6,7 @@ import io.vertx.up.annotations.Address;
 import io.vertx.up.annotations.EndPoint;
 import io.vertx.up.eon.ID;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.HeaderParam;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
+import javax.ws.rs.*;
 
 @EndPoint
 public interface AppAgent {
@@ -54,4 +51,13 @@ public interface AppAgent {
     @GET
     @Address(Addr.App.BY_ID)
     JsonObject byId(@HeaderParam(ID.Header.X_APP_ID) String appId);
+
+    /*
+     * RESTful Api to Update Basic X_APP information
+     */
+    @Path("/api/app")
+    @PUT
+    @Address(Addr.App.UP_BY_ID)
+    JsonObject updateBy(@HeaderParam(ID.Header.X_APP_ID) String appId,
+                        @BodyParam JsonObject data);
 }

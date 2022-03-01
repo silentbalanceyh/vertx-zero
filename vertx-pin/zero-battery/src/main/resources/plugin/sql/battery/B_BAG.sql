@@ -13,10 +13,9 @@
  * -- ASSET                 （资产管理），银行可用
  * -- ISO27000              （督办、审计、连续性管理），银行可用
  * -- IOT                   （物联网包）
- * -- HBM                   （酒店管理包）
- * -- ZERO-F                （基础层）
- * -- ZERO-D                （开发层）
- * -- ZERO-E                （业务层）
+ * -- HBM                   （HBM管理包）
+ * -- ZERO-F                （基础层，技术性内容）
+ * -- ZERO-E                （业务层，业务性内容）
  */
 DROP TABLE IF EXISTS B_BAG;
 CREATE TABLE IF NOT EXISTS B_BAG

@@ -34,4 +34,9 @@ public class AppActor {
     public Future<JsonArray> fetchMenus(final String appId) {
         return this.menuStub.fetchByApp(appId);
     }
+
+    @Address(Addr.App.UP_BY_ID)
+    public Future<JsonObject> updateBy(final String appId, final JsonObject data) {
+        return this.appStub.updateBy(appId, data);
+    }
 }

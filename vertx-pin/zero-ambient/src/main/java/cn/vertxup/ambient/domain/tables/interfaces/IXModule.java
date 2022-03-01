@@ -58,6 +58,18 @@ public interface IXModule extends VertxPojo, Serializable {
     public String getEntry();
 
     /**
+     * Setter for <code>DB_ETERNAL.X_MODULE.BLOCK_CODE</code>. 「blockCode」—
+     * 所属模块系统编码
+     */
+    public IXModule setBlockCode(String value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.X_MODULE.BLOCK_CODE</code>. 「blockCode」—
+     * 所属模块系统编码
+     */
+    public String getBlockCode();
+
+    /**
      * Setter for <code>DB_ETERNAL.X_MODULE.APP_ID</code>. 「appId」- 关联的应用程序ID
      */
     public IXModule setAppId(String value);
@@ -181,6 +193,7 @@ public interface IXModule extends VertxPojo, Serializable {
                 setOrThrow(this::setName,json::getString,"NAME","java.lang.String");
                 setOrThrow(this::setCode,json::getString,"CODE","java.lang.String");
                 setOrThrow(this::setEntry,json::getString,"ENTRY","java.lang.String");
+                setOrThrow(this::setBlockCode,json::getString,"BLOCK_CODE","java.lang.String");
                 setOrThrow(this::setAppId,json::getString,"APP_ID","java.lang.String");
                 setOrThrow(this::setModelId,json::getString,"MODEL_ID","java.lang.String");
                 setOrThrow(this::setActive,json::getBoolean,"ACTIVE","java.lang.Boolean");
@@ -202,6 +215,7 @@ public interface IXModule extends VertxPojo, Serializable {
                 json.put("NAME",getName());
                 json.put("CODE",getCode());
                 json.put("ENTRY",getEntry());
+                json.put("BLOCK_CODE",getBlockCode());
                 json.put("APP_ID",getAppId());
                 json.put("MODEL_ID",getModelId());
                 json.put("ACTIVE",getActive());

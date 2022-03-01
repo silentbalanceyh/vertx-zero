@@ -16,6 +16,8 @@ public interface Addr {
 
         String BY_ID = Prefix._EVENT + "X-APP/BY-ID";
 
+        String UP_BY_ID = Prefix._EVENT + "X-APP/UPDATE/BY-ID";
+
     }
 
     interface Menu {

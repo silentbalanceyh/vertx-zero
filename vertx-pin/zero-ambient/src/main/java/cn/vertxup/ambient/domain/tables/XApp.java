@@ -48,7 +48,7 @@ public class XApp extends TableImpl<XAppRecord> {
     /**
      * The column <code>DB_ETERNAL.X_APP.LOGO</code>. 「logo」- 应用程序图标
      */
-    public final TableField<XAppRecord, String> LOGO = createField(DSL.name("LOGO"), SQLDataType.VARCHAR(255), this, "「logo」- 应用程序图标");
+    public final TableField<XAppRecord, String> LOGO = createField(DSL.name("LOGO"), SQLDataType.CLOB, this, "「logo」- 应用程序图标");
     /**
      * The column <code>DB_ETERNAL.X_APP.ICP</code>. 「icp」- ICP备案号
      */

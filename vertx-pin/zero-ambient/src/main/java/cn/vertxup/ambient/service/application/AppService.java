@@ -4,11 +4,14 @@ import cn.vertxup.ambient.domain.tables.daos.XAppDao;
 import cn.vertxup.ambient.domain.tables.daos.XSourceDao;
 import cn.vertxup.ambient.domain.tables.pojos.XApp;
 import io.vertx.core.Future;
+import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.ke.refine.Ke;
 import io.vertx.tp.optic.business.ExApp;
+import io.vertx.tp.optic.feature.Attachment;
 import io.vertx.up.atom.unity.UObject;
 import io.vertx.up.eon.KName;
+import io.vertx.up.eon.Strings;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
@@ -49,5 +52,30 @@ public class AppService implements AppStub {
             .fetchOneAsync(KName.APP_ID, appId)
             /* Get Result */
             .compose(Ux::futureJ);
+    }
+
+    @Override
+    public Future<JsonObject> updateBy(final String appId, final JsonObject data) {
+        return this.updateLogo(appId, data)
+            .compose(updated -> Ux.Jooq.on(XAppDao.class).updateJAsync(appId, updated)
+                /* Image field: logo */
+                .compose(Ut.ifJObject(KName.App.LOGO)));
+    }
+
+    private Future<JsonObject> updateLogo(final String appId, final JsonObject data) {
+        final JsonArray attachment = data.getJsonArray(KName.App.LOGO, new JsonArray());
+        // Multi Application Needed
+        Ut.itJArray(attachment).forEach(each -> each.put(KName.MODEL_KEY, appId));
+        final JsonObject condition = new JsonObject();
+        condition.put(KName.MODEL_ID, "x.application");
+        condition.put(KName.MODEL_CATEGORY, KName.App.LOGO);
+        condition.put(KName.MODEL_KEY, appId);
+        condition.put(Strings.EMPTY, Boolean.TRUE);
+        return Ke.channel(Attachment.class, () -> data,
+            // Sync Attachment with channel
+            file -> file.saveAsync(condition, attachment).compose(saved -> {
+                data.put(KName.App.LOGO, saved.encode());
+                return Ux.future(data);
+            }));
     }
 }
