@@ -27,9 +27,10 @@
         <module>zero-ui</module>                <!-- Ui Configuration -->
         <module>zero-psi</module>               <!-- Purchase, Sale, In Management -->
         <module>zero-wf</module>                <!-- Workflow -->
+        <module>zero-is</module>                <!-- Integration Service -->
         <!-- Scaffold Extension Here -->
         <module>zero-vie</module>
-        <module>zero-is</module>
+        <module>zero-battery</module>
     </modules>
     <dependencies>
         <dependency>
