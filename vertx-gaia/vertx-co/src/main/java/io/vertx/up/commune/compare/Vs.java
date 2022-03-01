@@ -153,8 +153,8 @@ public class Vs implements Serializable {
 
     public boolean isChange(final JsonObject previous, final JsonObject current) {
         // Copy each compared json object
-        final JsonObject oldCopy = Ut.sureJObject(previous).copy();
-        final JsonObject newCopy = Ut.sureJObject(current).copy();
+        final JsonObject oldCopy = Ut.valueJObject(previous).copy();
+        final JsonObject newCopy = Ut.valueJObject(current).copy();
 
         /*
          * Remove ignore fields, iterating once only, old code ( Twice iterating )
@@ -192,7 +192,7 @@ public class Vs implements Serializable {
     }
 
     public boolean isChange(final JsonObject twins) {
-        final JsonObject secure = Ut.sureJObject(twins);
+        final JsonObject secure = Ut.valueJObject(twins);
         return this.isChange(secure.getJsonObject(Values.VS.OLD), secure.getJsonObject(Values.VS.NEW));
     }
 

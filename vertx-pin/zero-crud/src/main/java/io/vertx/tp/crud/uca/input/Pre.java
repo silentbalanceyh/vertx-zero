@@ -53,7 +53,7 @@ public interface Pre {
     /*
      * 1) User information: user, habitus
      * 2) Auditor: createdAt / createdBy / updatedAt / updatedBy
-     * 3) Fabric for DictFabric
+     * 3) Combiner for DictFabric
      * 4) Initial Data
      */
     static Pre user() {

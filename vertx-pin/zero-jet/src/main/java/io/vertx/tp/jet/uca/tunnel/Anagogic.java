@@ -54,7 +54,7 @@ class Anagogic {
                 /*
                  * JsonObject options inject ( without `mapping` node for Diode )
                  */
-                final JsonObject options = Ut.sureJObject(commercial.options());
+                final JsonObject options = Ut.valueJObject(commercial.options());
 
                 Ut.contract(component, JsonObject.class, options);                  /* serviceConfig */
                 Ut.contract(component, Identity.class, commercial.identity());      /* identifierComponent -> converted to identity */

@@ -16,6 +16,7 @@ import io.vertx.up.util.Ut;
 
 import java.io.Serializable;
 import java.util.Objects;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
@@ -24,11 +25,36 @@ import java.util.concurrent.ConcurrentMap;
  */
 public class WRecord implements Serializable {
     private final transient ConcurrentMap<String, JsonArray> linkage = new ConcurrentHashMap<>();
+    private final transient JsonObject child = new JsonObject();
     private transient WTicket ticket;
     private transient WTodo todo;
     private transient TodoStatus status;
     private transient WProcessDefinition process;
 
+    // ------------- Response Build
+    /*
+     *  Empty Response Build
+     *  - WTodo = null
+     *  - WTicket = null
+     */
+    public WRecord bind() {
+        this.todo = null;
+        this.ticket = null;
+        return this;
+    }
+
+    /*
+     *  Success Response Build
+     *  - WTicket = {} with JsonObject ( Child )
+     *  - WTodo = {}
+     *  - history = []
+     *  - linkageXX = []
+     *
+     *  1. Ticket Full Data = WTicket + <Extension> = {}
+     *     Extension Ticket primary key is the same as Ticket
+     *  2. History should be JsonArray ( Captured WTodo / Camunda Task )
+     *  3. Linkage should be related to current WTodo record
+     */
     public WRecord bind(final WTicket ticket) {
         this.ticket = ticket;
         return this;
@@ -39,18 +65,34 @@ public class WRecord implements Serializable {
         return this;
     }
 
-    public WRecord bind() {
-        this.todo = null;
-        this.ticket = null;
-        return this;
-    }
-
+    /*
+     * Linkage Bind
+     */
     public WRecord linkage(final String field, final JsonArray linkage) {
-        final JsonArray data = Ut.sureJArray(linkage);
+        final JsonArray data = Ut.valueJArray(linkage);
         this.linkage.put(field, data);
         return this;
     }
 
+    /*
+     * Child Bind
+     */
+    public WRecord child(final JsonObject child) {
+        if (Ut.notNil(child)) {
+            this.child.mergeIn(child);
+        }
+        return this;
+    }
+
+    // ------------- Field Get
+    /*
+     * Different Field for usage here
+     * - todo()                         WTodo instance
+     * - ticket()                       WTicket instance
+     * - identifier()                   WTicket ( modelId field ) for uniform model identifier
+     * - key()                          WTicket ( modelKey field ) for model record primary key
+     * - status()                       Todo Status ( Original Status stored in database )
+     */
     public WTodo todo() {
         return this.todo;
     }
@@ -58,37 +100,6 @@ public class WRecord implements Serializable {
     public WTicket ticket() {
         return this.ticket;
     }
-
-    public JsonObject data() {
-        Objects.requireNonNull(this.ticket);
-        final JsonObject response = new JsonObject();
-        final JsonObject ticketJ = Ux.toJson(this.ticket);
-        // WTicket
-        // traceKey <- key
-        ticketJ.put(KName.Flow.TRACE_KEY, this.ticket.getKey());
-        response.mergeIn(ticketJ, true);
-        if (Objects.nonNull(this.todo)) {
-            final JsonObject todoJson = Ux.toJson(this.todo);
-            response.mergeIn(todoJson, true);
-            // WTodo
-            // taskCode <- code
-            // taskSerial <- serial
-            response.put(KName.Flow.TASK_CODE, this.todo.getCode());
-            response.put(KName.Flow.TASK_SERIAL, this.todo.getSerial());
-        }
-        // WTicket
-        // serial
-        // code
-        response.put(KName.SERIAL, this.ticket.getSerial());
-        response.put(KName.CODE, this.ticket.getCode());
-        return response;
-    }
-
-    public Future<JsonObject> futureJ() {
-        return Ux.future(this.data());
-    }
-
-    // ------------- Field Get
 
     public String identifier() {
         return this.ticket.getModelId();
@@ -98,6 +109,9 @@ public class WRecord implements Serializable {
         return this.ticket.getModelKey();
     }
 
+    public TodoStatus status() {
+        return this.status;
+    }
 
     // ------------- Workflow Moving
     /*
@@ -112,11 +126,18 @@ public class WRecord implements Serializable {
         return this;
     }
 
-    public TodoStatus status() {
-        return this.status;
+    // ------------- Async Code Logical
+    /*
+     * Async code logical for Future usage here
+     * - futureJ()                      WTicket + WTodo only
+     * - futureJ(Boolean)               WTicket + WTodo
+     *                                  Linkage Fields
+     *                                  history ( Tracking )
+     */
+    public Future<JsonObject> futureJ() {
+        return Ux.future(this.data());
     }
 
-    // ------------- Code Logical for
     public Future<JsonObject> futureJ(final boolean history) {
         // Here read `flowProcessId`
         final String instanceId = this.ticket.getFlowInstanceId();
@@ -146,11 +167,27 @@ public class WRecord implements Serializable {
             final ActionOn action = ActionOn.action(metadataInput.recordMode());
             // Record of Todo processing
             final MetaInstance metadataOutput = MetaInstance.output(this, metadataInput);
-            return action.fetchAsync(this.ticket.getModelKey(), metadataOutput).compose(json -> {
-                // record processing
-                response.put(KName.RECORD, json);
+            if (metadataOutput.recordSkip()) {
                 return Ux.future(response);
-            });
+            }
+            // Record for different fetch
+            final String modelKey = this.ticket.getModelKey();
+            if (Objects.isNull(modelKey)) {
+                final Set<String> keys = Ut.toSet(Ut.toJArray(this.ticket.getModelChild()));
+                return action.fetchAsync(keys, this.ticket.getModelId(),
+                    metadataOutput).compose(array -> {
+                    // record processing
+                    response.put(KName.RECORD, array);
+                    return Ux.future(response);
+                });
+            } else {
+                return action.fetchAsync(this.ticket.getModelKey(), this.ticket.getModelId(),
+                    metadataOutput).compose(json -> {
+                    // record processing
+                    response.put(KName.RECORD, json);
+                    return Ux.future(response);
+                });
+            }
         }).compose(processed -> {
             /*
              * Condition:
@@ -174,7 +211,94 @@ public class WRecord implements Serializable {
         }).compose(Ux.attachJ(KName.HISTORY, response)).compose(result -> {
             // Linkage Data Put
             this.linkage.forEach(result::put);
+            // Child
+            if (Ut.notNil(this.child)) {
+                /*
+                 * Switch `key` and `traceKey` instead of all records
+                 * - `key` field is W_TODO record primary key
+                 * - `traceKey` field is W_TICKET record primary key
+                 *
+                 * Please be careful about following.
+                 */
+                final JsonObject childJ = this.child.copy();
+                if (!result.containsKey(KName.Flow.TRACE_KEY)) {
+                    result.put(KName.Flow.TRACE_KEY, childJ.getValue(KName.KEY));
+                }
+                childJ.remove(KName.KEY);
+                result.mergeIn(childJ);
+            }
             return Ux.future(result);
         });
+    }
+
+
+    /*
+     * Data Specification of current record:
+     * {
+     *      "ticket.field1": "value1",
+     *      "ticket.field2": "value2",
+     *      "...": "..."
+     *      "modelChild": [
+     *          "when multi entities"
+     *      ],
+     *
+     *      "serial": "ticket serial",
+     *      "code": "ticket code"
+     *      "traceKey": "ticket field",
+     *
+     *      "key": "todo field",
+     *      "taskCode": "todo code",
+     *      "taskSerial": "todo serial"
+     * }
+     *
+     *
+     *
+     * Json Data for following critical in data structure
+     * 1. Camunda Workflow
+     *  - flowDefinitionKey                 - Process Definition Key
+     *  - flowDefinitionId                  - Process Definition Key/Id
+     *                                        ( Different workflow instance contain different id )
+     *  - flowEnd                           - Whether workflow is ended
+     *  - flowInstanceId                    - Process Instance Key
+     *
+     *  - taskKey                           - Task Definition Key
+     *  - taskCode                          - Todo Serial ( -01, -02, -03 )
+     *  - taskId                            - Task Id ( Camunda Workflow Id )
+     *
+     *
+     * 2. Critical Key
+     *  - key                               - W_TODO primary key
+     *  - traceKey                          - W_TICKET primary key ( ticket extension key )
+     *
+     *
+     * 3. Entity Part
+     *  - modelId                           - Entity identifier
+     *  - modelKey                          - 「Single Record」Primary Key of JsonObject entity record
+     *  - modelChild ( With quantity )      - 「Multi Record」Primary Keys of JsonArray entity records
+     */
+    public JsonObject data() {
+        Objects.requireNonNull(this.ticket);
+        final JsonObject response = new JsonObject();
+        final JsonObject ticketJ = Ux.toJson(this.ticket);
+        Ut.ifJObject(ticketJ, KName.MODEL_CHILD);
+        // WTicket
+        // traceKey <- key
+        ticketJ.put(KName.Flow.TRACE_KEY, this.ticket.getKey());
+        response.mergeIn(ticketJ, true);
+        if (Objects.nonNull(this.todo)) {
+            final JsonObject todoJson = Ux.toJson(this.todo);
+            response.mergeIn(todoJson, true);
+            // WTodo
+            // taskCode <- code
+            // taskSerial <- serial
+            response.put(KName.Flow.TASK_CODE, this.todo.getCode());
+            response.put(KName.Flow.TASK_SERIAL, this.todo.getSerial());
+        }
+        // WTicket
+        // serial
+        // code
+        response.put(KName.SERIAL, this.ticket.getSerial());
+        response.put(KName.CODE, this.ticket.getCode());
+        return response;
     }
 }

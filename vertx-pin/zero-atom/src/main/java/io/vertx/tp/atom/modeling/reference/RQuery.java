@@ -65,7 +65,7 @@ public class RQuery implements Serializable {
             final String name = kv.getValue();
             final String extract = kv.getKey();
 
-            final JsonArray compress = Ut.toJArray(Ut.mapString(data, extract));
+            final JsonArray compress = Ut.toJArray(Ut.valueSetString(data, extract));
             query.put(name, compress);
         });
         return query;

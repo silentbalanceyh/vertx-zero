@@ -51,7 +51,7 @@ public abstract class AbstractAide implements Aide {
     // -------------- private criteria --------------------
     private void condition(final JsonObject criteria, final JsonArray types, final String code) {
         Objects.requireNonNull(criteria);
-        final JsonArray typeArray = Ut.sureJArray(types);
+        final JsonArray typeArray = Ut.valueJArray(types);
         criteria.put(KName.ACTIVE, Boolean.TRUE);
         if (Values.ONE == typeArray.size()) {
             final String firstArg = typeArray.getString(Values.IDX);

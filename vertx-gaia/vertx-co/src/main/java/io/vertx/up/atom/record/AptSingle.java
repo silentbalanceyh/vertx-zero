@@ -63,7 +63,7 @@ class AptSingle implements AptOp<JsonObject> {
 
     @Override
     public AptOp<JsonObject> update(final JsonObject input) {
-        final JsonObject normalized = Ut.sureJObject(input);
+        final JsonObject normalized = Ut.valueJObject(input);
         final JsonObject dataRef = this.combine.get(this.flag);
         dataRef.mergeIn(normalized, true);
         /* Double Confirmation */
@@ -92,14 +92,14 @@ class AptSingle implements AptOp<JsonObject> {
          * 1. Default, Replaced
          * 2. Appended, only the field that original does not contains added.
          */
-        final JsonObject original = Ut.sureJObject(this.original).copy();
+        final JsonObject original = Ut.valueJObject(this.original).copy();
 
         this.replaced.clear();
         this.replaced.mergeIn(original, true);
         this.replaced.mergeIn(current, true);
 
         this.appended.clear();
-        Ut.jsonAppend(this.appended, original, current);
+        Ut.elementAppend(this.appended, original, current);
         // Default situation, Overwrite ( Merge )
         this.combine.put(ChangeFlag.UPDATE, this.replaced);
     }

@@ -34,8 +34,8 @@ public class Around {
      * 配置层专用处理，注意合约模式
      */
     public Future<JsonObject> aspectAsync(final JsonObject config, final String key) {
-        final JsonObject configData = Ut.sureJObject(config);
-        final JsonObject component = Ut.sureJObject(configData.getJsonObject(key));
+        final JsonObject configData = Ut.valueJObject(config);
+        final JsonObject component = Ut.valueJObject(configData.getJsonObject(key));
         if (Ut.isNil(component)) {
             /*
              * 为空，直接过
@@ -52,7 +52,7 @@ public class Around {
                 /*
                  * 组件配置
                  */
-                final JsonObject componentConfig = Ut.sureJObject(component.getJsonObject("config"));
+                final JsonObject componentConfig = Ut.valueJObject(component.getJsonObject("config"));
                 return this.captureAsync(componentCls, componentConfig).compose(Ut.ifNil(
                     () -> config,
                     step -> step.procAsync(config))

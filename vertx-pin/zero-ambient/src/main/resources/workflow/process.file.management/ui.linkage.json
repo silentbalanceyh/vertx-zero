@@ -1,5 +1,30 @@
 {
-    "ticket": {
+    "linkageAttachment": {
+        "disabled": true,
+        "config": {
+            "dao": "cn.vertxup.ambient.domain.tables.daos.XAttachmentDao",
+            "query": {
+                "sourceType": "w.ticket",
+                "targetType": "x.attachment"
+            }
+        }
+    },
+    "linkageAssert": {
+        "disabled": true,
+        "config": {
+            "query": {
+                "sourceType": "w.ticket",
+                "targetType": "ci.device"
+            }
+        }
+    },
+    "linkageTicket": {
+        "config": {
+            "query": {
+                "sourceType": "w.ticket",
+                "targetType": "w.ticket"
+            }
+        },
         "message": {
             "window": "选择关联工单",
             "add": "添加关联工单",
@@ -8,35 +33,43 @@
             "failure": "请选择您要添加的工单信息，您未选择任何工单！",
             "success": "您的关联工单信息已成功保存！"
         },
-        "tree": {
-            "type": "zero.service.catalog",
-            "title": "服务目录",
-            "config": {
-                "parent": "parentId",
-                "title": "name",
-                "text": "name",
-                "value": "code"
+        "editor": {
+            "selection": {
+                "phase": [
+                    "FINISHED",
+                    "CANCELED"
+                ]
             },
-            "condition": "catalog,i"
-        },
-        "initial": {
-            "alias": "工单关联记录",
-            "type": "TICKET",
-            "linkType": "TICKET-TICKET",
-            "region": "process.file.management",
-            "sourceType": "w.ticket",
-            "targetType": "w.ticket"
-        },
-        "search": {
-            "condition": [
-                "serial,c",
-                "title,c"
-            ],
-            "placeholder": "单号/标题"
-        },
-        "ajax": {
-            "uri": "/api/up/flow-ticket",
-            "method": "POST"
+            "tree": {
+                "type": "zero.service.catalog",
+                "title": "服务目录",
+                "config": {
+                    "parent": "parentId",
+                    "title": "name",
+                    "text": "name",
+                    "value": "code"
+                },
+                "condition": "catalog,i"
+            },
+            "initial": {
+                "alias": "工单关联记录",
+                "type": "TICKET",
+                "linkType": "TICKET-TICKET",
+                "region": "process.file.management",
+                "sourceType": "w.ticket",
+                "targetType": "w.ticket"
+            },
+            "search": {
+                "condition": [
+                    "serial,c",
+                    "title,c"
+                ],
+                "placeholder": "单号/标题"
+            },
+            "ajax": {
+                "uri": "/api/up/flow-ticket",
+                "method": "POST"
+            }
         },
         "table": {
             "columns": [

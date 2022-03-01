@@ -51,7 +51,7 @@ class DiStore {
      * Api for update / add / get operation on `dictData`
      */
     void itemUpdate(final String dictName, final JsonObject input, final String keyField) {
-        final JsonObject data = Ut.sureJObject(input);
+        final JsonObject data = Ut.valueJObject(input);
         final JsonArray original = this.item(dictName);
         // Check not null
         if (Objects.nonNull(data.getValue(keyField))) {
@@ -61,7 +61,7 @@ class DiStore {
     }
 
     void itemUpdate(final String dictName, final JsonArray input, final String keyField) {
-        final JsonArray data = Ut.sureJArray(input);
+        final JsonArray data = Ut.valueJArray(input);
         Ut.itJArray(data).filter(item -> Objects.nonNull(item.getValue(keyField)))
             .forEach(json -> this.itemUpdate(dictName, json, keyField));
     }

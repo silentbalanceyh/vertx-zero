@@ -60,15 +60,25 @@ public class XAttachment extends TableImpl<XAttachmentRecord> {
      */
     public final TableField<XAttachmentRecord, String> STATUS = createField(DSL.name("STATUS"), SQLDataType.VARCHAR(12), this, "「status」- 状态，PROGRESS / SUCCESS");
     /**
-     * The column <code>DB_ETERNAL.X_ATTACHMENT.STORE_WAY</code>. 「storeWay」-
-     * 存储方式，BLOB / FILE / TPL / REMOTE
+     * The column <code>DB_ETERNAL.X_ATTACHMENT.DIRECTORY_ID</code>.
+     * 「directoryId」- 文件存储所属目录
      */
-    public final TableField<XAttachmentRecord, String> STORE_WAY = createField(DSL.name("STORE_WAY"), SQLDataType.VARCHAR(12), this, "「storeWay」- 存储方式，BLOB / FILE / TPL / REMOTE");
+    public final TableField<XAttachmentRecord, String> DIRECTORY_ID = createField(DSL.name("DIRECTORY_ID"), SQLDataType.VARCHAR(36), this, "「directoryId」- 文件存储所属目录");
     /**
-     * The column <code>DB_ETERNAL.X_ATTACHMENT.STORE_ID</code>. 「storeId」-
-     * 存储关联的Integration ID
+     * The column <code>DB_ETERNAL.X_ATTACHMENT.STORE_WAY</code>. 「storeWay」-
+     * 存储方式，BLOB / FILE / REMOTE
      */
-    public final TableField<XAttachmentRecord, String> STORE_ID = createField(DSL.name("STORE_ID"), SQLDataType.VARCHAR(36), this, "「storeId」- 存储关联的Integration ID");
+    public final TableField<XAttachmentRecord, String> STORE_WAY = createField(DSL.name("STORE_WAY"), SQLDataType.VARCHAR(12), this, "「storeWay」- 存储方式，BLOB / FILE / REMOTE");
+    /**
+     * The column <code>DB_ETERNAL.X_ATTACHMENT.STORE_PATH</code>. 「storePath」-
+     * 远程存储的目录信息（显示专用，去服务器和协议部分）
+     */
+    public final TableField<XAttachmentRecord, String> STORE_PATH = createField(DSL.name("STORE_PATH"), SQLDataType.VARCHAR(1024), this, "「storePath」- 远程存储的目录信息（显示专用，去服务器和协议部分）");
+    /**
+     * The column <code>DB_ETERNAL.X_ATTACHMENT.STORE_URI</code>. 「storeUri」-
+     * 远程存储的目录URI部分
+     */
+    public final TableField<XAttachmentRecord, String> STORE_URI = createField(DSL.name("STORE_URI"), SQLDataType.VARCHAR(1024), this, "「storeUri」- 远程存储的目录URI部分");
     /**
      * The column <code>DB_ETERNAL.X_ATTACHMENT.MODEL_ID</code>. 「modelId」-
      * 关联的模型identifier，用于描述

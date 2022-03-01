@@ -3,7 +3,7 @@ package io.vertx.tp.ke.refine;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.optic.Indent;
+import io.vertx.tp.optic.environment.Indent;
 import io.vertx.up.eon.KName;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
@@ -65,7 +65,7 @@ class KeData {
 
     static Future<JsonArray> indent(final JsonArray data, final String code) {
         return KeRun.channel(Indent.class, () -> data, stub -> {
-            final String sigma = Ut.mapOneS(data, KName.SIGMA);
+            final String sigma = Ut.valueString(data, KName.SIGMA);
             if (Ut.isNil(sigma)) {
                 return Ux.future(data);
             } else {

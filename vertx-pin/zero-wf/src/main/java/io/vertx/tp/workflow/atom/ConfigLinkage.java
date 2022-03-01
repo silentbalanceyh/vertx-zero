@@ -1,15 +1,15 @@
 package io.vertx.tp.workflow.atom;
 
-import com.fasterxml.jackson.databind.JsonArrayDeserializer;
-import com.fasterxml.jackson.databind.JsonArraySerializer;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
+import io.vertx.tp.workflow.uca.modeling.Respect;
+import io.vertx.tp.workflow.uca.modeling.RespectLink;
+import io.vertx.up.eon.KName;
 import io.vertx.up.eon.Strings;
+import io.vertx.up.fn.Fn;
 import io.vertx.up.util.Ut;
 
 import java.io.Serializable;
+import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
@@ -19,35 +19,73 @@ import java.util.concurrent.ConcurrentMap;
  */
 class ConfigLinkage implements Serializable {
 
-    @JsonSerialize(using = JsonArraySerializer.class)
-    @JsonDeserialize(using = JsonArrayDeserializer.class)
-    private transient JsonArray fields = new JsonArray();
+    private final static ConcurrentMap<String, Respect> POOL_RESPECT = new ConcurrentHashMap<>();
 
-    private transient ConcurrentMap<String, JsonObject> condition = new ConcurrentHashMap<>();
+    private final transient ConcurrentMap<String, Class<?>> respectMap = new ConcurrentHashMap<>();
+    private final transient ConcurrentMap<String, JsonObject> queryMap = new ConcurrentHashMap<>();
 
-    public JsonArray getFields() {
-        return this.fields;
-    }
+    ConfigLinkage(final JsonObject linkageJ) {
+        /*
+         * field: {
+         *      "disabled": "UI Enable Or Not"
+         *      "config": {
+         *          "respect": "default is linkage dao"
+         *      },
+         *      "message": {
+         *      },
+         *      "editor": {
+         *          "tree": ...,
+         *          "initial": ...,
+         *          "search": ...,
+         *          "ajax"
+         *      },
+         *      "table": {
+         *      }
+         * }
+         */
+        Ut.<JsonObject>itJObject(linkageJ, (json, field) -> {
+            final JsonObject config = Ut.valueJObject(json, KName.CONFIG);
 
-    public void setFields(final JsonArray fields) {
-        this.fields = fields;
-    }
+            if (Ut.notNil(config)) {
+                /*
+                 * First Map
+                 *
+                 * field = Dao
+                 */
+                final Class<?> clazz = Ut.clazz(config.getString("respect"), null);
+                if (Objects.isNull(clazz)) {
+                    this.respectMap.put(field, RespectLink.class);
+                } else {
+                    this.respectMap.put(field, clazz);
+                }
 
-    public ConcurrentMap<String, JsonObject> getCondition() {
-        return this.condition;
-    }
 
-    public void setCondition(final ConcurrentMap<String, JsonObject> condition) {
-        this.condition = condition;
+                /*
+                 * Second Map
+                 */
+                if (this.respectMap.containsKey(field)) {
+                    final JsonObject query = Ut.valueJObject(config, KName.QUERY);
+                    query.put(Strings.EMPTY, Boolean.TRUE);
+                    this.queryMap.put(field, query);
+                }
+            }
+        });
     }
 
     public Set<String> fields() {
-        return Ut.toSet(this.fields);
+        return this.respectMap.keySet();
     }
 
-    public JsonObject condition(final String field) {
-        final JsonObject conditionJ = this.condition.getOrDefault(field, new JsonObject());
-        conditionJ.put(Strings.EMPTY, Boolean.TRUE);
-        return conditionJ.copy();
+    public Respect respect(final String field) {
+        /*
+         * HashCode
+         * 1. Respect Class Name
+         * 2. Condition ( Hash Code )
+         * 3. Field Name
+         */
+        final JsonObject query = this.queryMap.getOrDefault(field, new JsonObject());
+        final Class<?> respectCls = this.respectMap.get(field);
+        final String hashKey = Ut.encryptMD5(field + query.hashCode() + respectCls.getName());
+        return Fn.pool(POOL_RESPECT, hashKey, () -> Ut.instance(respectCls, query));
     }
 }

@@ -68,7 +68,7 @@ public class HelpCommander extends AbstractCommander {
     }
 
     private void printCommands(final List<CommandAtom> atoms) {
-        final JsonObject config = Ut.sureJObject(this.atom.getConfig().getJsonObject("header"));
+        final JsonObject config = Ut.valueJObject(this.atom.getConfig().getJsonObject("header"));
         final String name = config.containsKey("name") ? config.getString("name") : "Command Name";
         final String simple = config.containsKey("simple") ? config.getString("simple") : "Command Simple";
         final String description = config.containsKey("description") ? config.getString("description") : "Description";

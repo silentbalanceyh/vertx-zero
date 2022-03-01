@@ -5,7 +5,7 @@
     <parent>
         <artifactId>vertx-zero</artifactId>
         <groupId>cn.vertxup</groupId>
-        <version>0.8.0-SNAPSHOT</version>
+        <version>0.9.0-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <artifactId>vertx-import</artifactId>
@@ -15,7 +15,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>11</java.version>
         <encoding>UTF-8</encoding>
-        <zero.version>0.8.0-SNAPSHOT</zero.version>
+        <zero.version>0.9.0-SNAPSHOT</zero.version>
         <maven.javadoc.skip>true</maven.javadoc.skip>
     </properties>
     <dependencies>
@@ -151,6 +151,11 @@
                 <artifactId>zero-wf</artifactId>
                 <version>${zero.version}</version>
             </dependency>
+            <dependency>
+                <groupId>cn.vertxup</groupId>
+                <artifactId>zero-is</artifactId>
+                <version>${zero.version}</version>
+            </dependency>
             <!-- Zero Infix -->
             <dependency>
                 <groupId>cn.vertxup</groupId>
@@ -160,6 +165,11 @@
             <dependency>
                 <groupId>cn.vertxup</groupId>
                 <artifactId>zero-ifx-sms</artifactId>
+                <version>${zero.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.vertxup</groupId>
+                <artifactId>zero-ifx-ftp</artifactId>
                 <version>${zero.version}</version>
             </dependency>
             <dependency>

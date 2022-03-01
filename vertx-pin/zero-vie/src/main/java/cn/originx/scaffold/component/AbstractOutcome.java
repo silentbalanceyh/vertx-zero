@@ -80,7 +80,7 @@ public abstract class AbstractOutcome extends AbstractJob implements JobOutcome 
      * @return {@link Future}<{@link AoDao}>
      */
     protected Future<AoDao> dao() {
-        return Ux.future(Ao.toDao(this.database(), this.atom()));
+        return Ux.future(Ao.toDao(this.atom(), this.database()));
     }
 
 }

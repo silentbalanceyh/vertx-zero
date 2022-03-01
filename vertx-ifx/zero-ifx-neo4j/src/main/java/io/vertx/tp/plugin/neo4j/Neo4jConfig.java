@@ -25,7 +25,7 @@ public class Neo4jConfig implements Serializable {
     private final transient Config config;
 
     private Neo4jConfig(final JsonObject params) {
-        final JsonObject input = Ut.sureJObject(params);
+        final JsonObject input = Ut.valueJObject(params);
         LOGGER.info("[ ZERO ] Neo4j configuration: {0}", input.encode());
         this.username = input.getString("username");
         this.password = input.getString("password");

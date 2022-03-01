@@ -28,6 +28,7 @@ public interface KName {
     String MODEL_CATEGORY = "modelCategory";     /* Model Consumer ( related XCategory ) field */
     String MODEL_COMPONENT = "modelComponent";   /* Model Component */
     String MODEL_CHILD = "modelChild";           /* Model Component */
+    String QUANTITY = "quantity";                /* Quantity -> Children Size */
 
     String SCOPE = "scope";                      /* OAuth scope field */
     String REALM = "realm";                      /* Authorization realm field for security */
@@ -106,6 +107,7 @@ public interface KName {
     String SOURCE_EXPR = "sourceExpression";     /* sourceExpression */
     String SOURCE_EXPR_CHAIN = "sourceExprChain";/* sourceExpressionChain */
 
+    String TARGET = "target";
     String TARGET_KEY = "targetKey";
     String TARGET_DATA = "targetData";
     String SOURCE_KEY = "sourceKey";
@@ -176,6 +178,7 @@ public interface KName {
     String FILE_NAME = "filename";               /* XAttachment filename */
 
     String LINKAGE = "linkage";                  /* XLinkage instance */
+    String QUERY = "query";                      /* XLinkage query */
 
     interface Attachment {
         String STORE_WAY = "storeWay";               /* XAttachment, store way of the file */

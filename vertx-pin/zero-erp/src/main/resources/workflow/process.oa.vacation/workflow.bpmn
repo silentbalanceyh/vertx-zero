@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_1v4vksd" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.12.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.15.0">
-  <bpmn:process id="process.work.vacation" name="员工休假申请流程" isExecutable="true">
+  <bpmn:process id="process.oa.vacation" name="员工休假申请流程" isExecutable="true">
     <bpmn:startEvent id="e.start" name="发起休假申请" camunda:formKey="camunda-forms:deployment:vacation.start.form">
       <bpmn:outgoing>t.start-d</bpmn:outgoing>
     </bpmn:startEvent>
@@ -61,7 +61,7 @@
     </bpmn:sequenceFlow>
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
-    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="process.work.vacation">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="process.oa.vacation">
       <bpmndi:BPMNEdge id="Flow_0zxk2q8_di" bpmnElement="t.approve-draft">
         <di:waypoint x="744" y="270" />
         <di:waypoint x="400" y="270" />

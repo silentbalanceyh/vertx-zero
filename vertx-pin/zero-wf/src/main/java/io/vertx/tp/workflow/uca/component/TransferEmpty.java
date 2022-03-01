@@ -10,7 +10,7 @@ import io.vertx.up.unity.Ux;
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-public class TransferEmpty extends AbstractTodo implements Transfer {
+public class TransferEmpty extends AbstractMovement implements Transfer {
     @Override
     public Future<WRecord> moveAsync(final JsonObject params, final WProcess instance) {
         Wf.Log.warnMove(this.getClass(), "[ Empty ] `Transfer` component has not been configured. ");

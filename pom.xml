@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>cn.vertxup</groupId>
     <artifactId>vertx-zero</artifactId>
-    <version>0.8.0-SNAPSHOT</version>
+    <version>0.9.0-SNAPSHOT</version>
     <name>「vertx-zero」Zero Framework</name>
     <description>Vertx Zero Framework is a tool for Service Mesh Micro Service.</description>
     <url>http://www.vertxup.cn</url>
@@ -146,7 +146,7 @@
 
         <!-- Vert.x Addition -->
         <rxjava2.version>2.2.21</rxjava2.version>
-        <netty.tcnative.version>2.0.48.Final</netty.tcnative.version>
+        <netty.tcnative.version>2.0.50.Final</netty.tcnative.version>
         <netty.version>4.1.74.Final</netty.version>
         <!-- Upload Issue -->
         <hazelcast.version>5.0.2</hazelcast.version>
@@ -177,7 +177,7 @@
         <mdoclet.version>1.4</mdoclet.version>
 
         <!-- Logging -->
-        <log4j2.version>2.17.1</log4j2.version>
+        <log4j2.version>2.17.2</log4j2.version>
         <logback.version>1.2.10</logback.version>
         <logback.cal10n.version>0.8.1</logback.cal10n.version>
         <slf4j.version>1.7.36</slf4j.version>
@@ -213,7 +213,7 @@
 
         <!-- Camunda -->
         <camunda.version>7.16.0</camunda.version>
-        <camunda.spin.version>1.13.0</camunda.spin.version>
+        <camunda.spin.version>1.13.1</camunda.spin.version>
         <camunda.bpm.version>1.2.0</camunda.bpm.version>
         <java.uuid.generator>4.0.1</java.uuid.generator>
         <mybatis.version>3.5.9</mybatis.version>
@@ -1817,8 +1817,7 @@
                 </configuration>
             </plugin>
             <!-- Deploy Only -->
-            <!--
-            <plugin>
+            <!--<plugin>
                 <artifactId>maven-gpg-plugin</artifactId>
                 <version>${maven.plugin.pgp}</version>
                 <executions>
@@ -1835,8 +1834,7 @@
                         </configuration>
                     </execution>
                 </executions>
-            </plugin>
-            -->
+            </plugin>-->
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>versions-maven-plugin</artifactId>

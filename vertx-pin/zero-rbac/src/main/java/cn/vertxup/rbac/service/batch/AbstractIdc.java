@@ -5,8 +5,8 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.ke.atom.KCredential;
 import io.vertx.tp.ke.refine.Ke;
-import io.vertx.tp.optic.Credential;
-import io.vertx.tp.optic.business.ExModel;
+import io.vertx.tp.optic.environment.Modeling;
+import io.vertx.tp.optic.web.Credential;
 import io.vertx.up.eon.KName;
 import io.vertx.up.exception.web._400BadRequestException;
 import io.vertx.up.exception.web._400SigmaMissingException;
@@ -38,7 +38,7 @@ public abstract class AbstractIdc implements IdcStub {
      * Put modelKey from `username` = `employee key`
      */
     protected Future<JsonArray> model(final JsonArray userJson) {
-        return Ke.channelAsync(ExModel.class,
+        return Ke.channelAsync(Modeling.class,
             () -> Ux.future(userJson),
             stub -> stub.keyAsync(this.sigma, userJson).compose(keyMap -> {
                 /*

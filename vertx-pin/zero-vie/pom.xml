@@ -5,7 +5,7 @@
     <parent>
         <artifactId>vertx-pin</artifactId>
         <groupId>cn.vertxup</groupId>
-        <version>0.8.0-SNAPSHOT</version>
+        <version>0.9.0-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -29,6 +29,12 @@
         <dependency>
             <groupId>cn.vertxup</groupId>
             <artifactId>zero-ambient</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <!-- 集成专用 -->
+        <dependency>
+            <groupId>cn.vertxup</groupId>
+            <artifactId>zero-is</artifactId>
             <version>${project.version}</version>
         </dependency>
         <!-- User Interface 专用模块 -->

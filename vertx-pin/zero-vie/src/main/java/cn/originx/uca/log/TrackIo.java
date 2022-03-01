@@ -57,7 +57,7 @@ public class TrackIo {
                                        final JsonArray oldArray,
                                        final JsonObject options,
                                        final Integer counter) {
-        final JsonObject optJson = Ut.sureJObject(options);
+        final JsonObject optJson = Ut.valueJObject(options);
         final AspectPlugin plugin = Ox.pluginActivity(optJson);
         final Set<String> trackFields = this.atom.trueTrack();
         if (Objects.isNull(plugin) || !this.isTrack || trackFields.isEmpty()) {
@@ -95,7 +95,7 @@ public class TrackIo {
     public Future<JsonObject> procAsync(final JsonObject newRecord,
                                         final JsonObject oldRecord,
                                         final JsonObject options) {
-        final JsonObject optJson = Ut.sureJObject(options);
+        final JsonObject optJson = Ut.valueJObject(options);
         final AspectPlugin plugin = Ox.pluginActivity(optJson);
         /*
          * 变更历史记录条件

@@ -199,7 +199,7 @@ public interface OxCv {
      */
     String PLUGIN_CONFIG = "plugin.config";
     /**
-     * <value>plugin.identifier</value>，「Plugin」ServiceConfig配置中<strong>标识选择</strong>插件，实现接口`io.vertx.tp.optic.component.ComponentIndent`。
+     * <value>plugin.identifier</value>，「Plugin」ServiceConfig配置中<strong>标识选择</strong>插件，实现接口`io.vertx.tp.optic.environment.Identifier`。
      */
     String PLUGIN_IDENTIFIER = "plugin.identifier";
 

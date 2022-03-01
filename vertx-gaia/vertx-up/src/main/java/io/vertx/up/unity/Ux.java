@@ -104,6 +104,27 @@ public final class Ux {
         return Compare.updateT(query, params);
     }
 
+    public static <T> List<T> updateT(final List<T> query, final JsonArray params) {
+        return Compare.updateT(query, params, KName.KEY);
+    }
+
+    public static <T> List<T> updateT(final List<T> query, final JsonArray params, final String field) {
+        return Compare.updateT(query, params, field);
+    }
+
+    public static Record updateR(final Record record, final JsonObject params) {
+        return Compare.updateR(record, params, () -> UUID.randomUUID().toString());
+    }
+
+    public static Record[] updateR(final Record[] record, final JsonArray array) {
+        return updateR(record, array, KName.KEY);
+    }
+
+    public static Record[] updateR(final Record[] record, final JsonArray array, final String field) {
+        final List<Record> recordList = Arrays.asList(record);
+        return Compare.updateR(recordList, array, field).toArray(new Record[]{});
+    }
+
     /*
      * Rule Match
      * 1. single checking
@@ -599,7 +620,7 @@ public final class Ux {
     }
 
     public static JsonArray pageData(final JsonObject data) {
-        return Ut.sureJArray(data.getJsonArray(KName.LIST));
+        return Ut.valueJArray(data.getJsonArray(KName.LIST));
     }
 
     public static JsonObject pageData(final JsonObject pageData, final Function<JsonArray, JsonArray> function) {

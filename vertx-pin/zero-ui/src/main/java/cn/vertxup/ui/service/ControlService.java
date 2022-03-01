@@ -7,7 +7,7 @@ import cn.vertxup.ui.domain.tables.pojos.UiVisitor;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.optic.UiHunter;
+import io.vertx.tp.optic.ui.UiHunter;
 import io.vertx.tp.ui.cv.em.ControlType;
 import io.vertx.tp.ui.refine.Ui;
 import io.vertx.up.atom.unity.UData;
@@ -72,7 +72,7 @@ public class ControlService implements ControlStub {
          */
         final JsonObject criteria = Ux.whereAnd();
         criteria.put(KName.TYPE, controlType.name());
-        Ut.jsonCopy(criteria, params,
+        Ut.elementCopy(criteria, params,
             KName.SIGMA,
             KName.IDENTIFIER,
             KName.Ui.PAGE,

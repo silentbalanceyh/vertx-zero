@@ -3,6 +3,7 @@ package io.vertx.up.uca.jooq.util;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.atom.pojo.Mojo;
+import io.vertx.up.eon.KName;
 import io.vertx.up.uca.jooq.JqAnalyzer;
 import io.vertx.up.util.Ut;
 import org.jooq.Field;
@@ -91,6 +92,18 @@ public class JqOut {
                 if (Ut.notNil(hitField)) {
                     resultField = hitField;
                 }
+            }
+            /*
+             * `key` could not be overwrite by T2
+             * Here are situation of following:
+             * 1) T1 = X_CATEGORY
+             * 2) T2 = F_TERM
+             *
+             * Situation 1:
+             *
+             */
+            if (KName.KEY.equals(resultField) && data.containsKey(KName.KEY)) {
+                return;
             }
             if (value instanceof java.sql.Timestamp) {
                 /*

@@ -66,7 +66,7 @@ final class OxCompareUi {
     private static List<FieldReport> toList(final JsonObject list, final DataAtom atom) {
         final ConcurrentMap<String, Class<?>> types = atom.type();
         /* 分组 */
-        final ConcurrentMap<String, JsonObject> listMap = Ut.elementMap(Ut.sureJArray(list.getJsonArray(KName.Ui.COLUMNS)), "dataIndex");
+        final ConcurrentMap<String, JsonObject> listMap = Ut.elementMap(Ut.valueJArray(list.getJsonArray(KName.Ui.COLUMNS)), "dataIndex");
         /* 计算 */
         final Supplier<FieldReport> supplier = () -> {
             final FieldReport report = new FieldReport();
@@ -123,7 +123,7 @@ final class OxCompareUi {
     private static List<FieldReport> toForm(final JsonObject form, final DataAtom atom) {
         final ConcurrentMap<String, Class<?>> types = atom.type();
         /* 分组 */
-        final ConcurrentMap<String, JsonObject> formMap = Ut.elementMap(Ut.sureJArray(form.getJsonArray(KName.Modeling.FIELDS)), KName.NAME);
+        final ConcurrentMap<String, JsonObject> formMap = Ut.elementMap(Ut.valueJArray(form.getJsonArray(KName.Modeling.FIELDS)), KName.NAME);
         final ConcurrentMap<String, JsonObject> converted = new ConcurrentHashMap<>();
 
         formMap.keySet().forEach(item -> {

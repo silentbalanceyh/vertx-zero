@@ -59,12 +59,12 @@ class TreeTran implements Tran {
                  * From is importing, code will be the condition
                  * code = key
                  */
-                values = Ut.toJArray(Ut.mapString(data, tree.getField()));
+                values = Ut.toJArray(Ut.valueSetString(data, tree.getField()));
                 keyValue = Kv.create(tree.getIn(), tree.getOut());
 
             } else {
                 // key = code
-                values = Ut.toJArray(Ut.mapArray(data, tree.getField()));
+                values = Ut.toJArray(Ut.valueSetArray(data, tree.getField()));
                 keyValue = Kv.create(tree.getOut(), tree.getIn());
             }
             return this.treeAsync(in, tree, values, keyValue).compose(map -> {

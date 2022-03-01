@@ -60,7 +60,7 @@ public class LoginService implements LoginStub {
             return Sc.lockOff(username).compose(nil -> Ux.future(fetched));
         }).compose(user -> this.userStub.fetchOUser(user.getKey()).compose(Ux::futureJ).compose(ouserJson -> {
             final JsonObject userJson = Ut.serializeJson(user);
-            final JsonObject merged = Ut.jsonAppend(userJson, ouserJson);
+            final JsonObject merged = Ut.elementAppend(userJson, ouserJson);
             return UObject.create(merged).pickup(
                 KName.KEY,                /* client_id parameter */
                 AuthKey.SCOPE,              /* scope parameter */

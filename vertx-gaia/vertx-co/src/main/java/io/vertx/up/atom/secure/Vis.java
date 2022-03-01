@@ -72,7 +72,7 @@ public class Vis extends JsonObject {
             /*
              * Normalized
              */
-            final String normalized = Ut.aiStringA(literal);
+            final String normalized = Ut.aiJArray(literal);
             final JsonArray data = Ut.toJArray(normalized);
             return create(data);
         }

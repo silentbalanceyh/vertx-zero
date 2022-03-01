@@ -9,17 +9,15 @@ import io.vertx.tp.ke.atom.specification.KField;
 import io.vertx.tp.ke.atom.specification.KJoin;
 import io.vertx.tp.ke.atom.specification.KModule;
 import io.vertx.tp.ke.atom.specification.KPoint;
-import io.vertx.up.eon.KName;
+import io.vertx.tp.ke.refine.Ke;
 import io.vertx.up.eon.Strings;
 import io.vertx.up.eon.Values;
-import io.vertx.up.log.Annal;
 import io.vertx.up.uca.jooq.UxJoin;
 import io.vertx.up.uca.jooq.UxJooq;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
 import java.util.Objects;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.function.BiFunction;
 import java.util.function.Function;
@@ -29,8 +27,6 @@ import java.util.function.Supplier;
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 class IxFn {
-
-    private static final Annal LOGGER = Annal.get(IxFn.class);
 
     static Function<JsonObject, Future<JsonObject>> fileFn(final IxMod in,
                                                            final BiFunction<JsonObject, JsonArray, Future<JsonArray>> fileFn) {
@@ -55,37 +51,7 @@ class IxFn {
                 return Ux.future(data);
             }
             final ConcurrentMap<String, JsonObject> attachmentMap = field.fieldFile();
-            /*
-             * Here call add only
-             */
-            final String key = data.getString(KName.KEY);
-            Objects.requireNonNull(key);
-            final ConcurrentMap<String, Future<JsonArray>> futures = new ConcurrentHashMap<>();
-            attachmentMap.forEach((fieldF, condition) -> {
-                /*
-                 * Put `key` of data into `modelKey`
-                 */
-                final JsonObject criteria = condition.copy();
-                if (Ut.notNil(criteria)) {
-                    criteria.put(Strings.EMPTY, Boolean.TRUE);
-                    criteria.put(KName.MODEL_KEY, key);
-                    /*
-                     * JsonArray normalize
-                     */
-                    final JsonArray dataArray = Ut.sureJArray(data, fieldF);
-                    Ut.itJArray(dataArray).forEach(json -> json.put(KName.MODEL_KEY, key));
-                    futures.put(fieldF, fileFn.apply(criteria, dataArray));
-                } else {
-                    /*
-                     * Log
-                     */
-                    IxLog.warnWeb(LOGGER, "Criteria must be not empty, identifier = {0}", module.getIdentifier());
-                }
-            });
-            return Ux.thenCombine(futures).compose(mapData -> {
-                mapData.forEach(data::put);
-                return Ux.future(data);
-            });
+            return Ke.mapFn(attachmentMap, fileFn).apply(data);
         };
     }
 

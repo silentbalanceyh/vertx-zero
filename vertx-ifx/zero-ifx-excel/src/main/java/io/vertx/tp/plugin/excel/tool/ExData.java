@@ -93,8 +93,8 @@ class ExData {
                 /*
                  * 1, 3 processing
                  */
-                final JsonArray labelHeader = Ut.sureJArray(tableData.getJsonArray(Values.ONE));
-                final JsonArray fieldHeader = Ut.sureJArray(tableData.getJsonArray(Values.THREE));
+                final JsonArray labelHeader = Ut.valueJArray(tableData.getJsonArray(Values.ONE));
+                final JsonArray fieldHeader = Ut.valueJArray(tableData.getJsonArray(Values.THREE));
                 consumer.accept(Math.max(labelHeader.size(), fieldHeader.size()));
                 return true;
             } else return false; // Header generation failure
@@ -103,8 +103,8 @@ class ExData {
                 /*
                  * 0, 1 processing
                  */
-                final JsonArray labelHeader = Ut.sureJArray(tableData.getJsonArray(Values.IDX));
-                final JsonArray fieldHeader = Ut.sureJArray(tableData.getJsonArray(Values.ONE));
+                final JsonArray labelHeader = Ut.valueJArray(tableData.getJsonArray(Values.IDX));
+                final JsonArray fieldHeader = Ut.valueJArray(tableData.getJsonArray(Values.ONE));
                 consumer.accept(Math.max(labelHeader.size(), fieldHeader.size()));
                 return true;
             } else return false; // Header generation failure

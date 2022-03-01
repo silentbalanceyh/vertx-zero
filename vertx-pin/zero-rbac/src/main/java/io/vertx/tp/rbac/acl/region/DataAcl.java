@@ -54,7 +54,7 @@ class DataAcl {
             }
             final JsonObject condition = new JsonObject();
             {
-                final JsonObject syntaxData = Ut.sureJObject(syntax.getJsonObject(KName.DATA));
+                final JsonObject syntaxData = Ut.valueJObject(syntax.getJsonObject(KName.DATA));
                 Ut.<String>itJObject(syntaxData, (expr, field) -> {
                     final String literal;
                     if (expr.contains("`")) {

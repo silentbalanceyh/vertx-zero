@@ -6,6 +6,7 @@ import cn.vertxup.ambient.service.linkage.LinkStub;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
+import io.vertx.tp.optic.feature.Linkage;
 import io.vertx.up.eon.KName;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
@@ -13,7 +14,7 @@ import io.vertx.up.util.Ut;
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-public class ExLinkage implements ExLink {
+public class ExLinkage implements Linkage {
     @Override
     public Future<JsonArray> link(final JsonArray linkage, final boolean vector) {
         final LinkStub linkStub = Ut.singleton(LinkService.class);

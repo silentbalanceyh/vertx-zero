@@ -1,0 +1,8 @@
+{
+    "phase": "AFTER",
+    "data": {
+        "type": "RECORD",
+        "viewId": "`${viewId}`",
+        "identifier": "i.integration"
+    }
+}

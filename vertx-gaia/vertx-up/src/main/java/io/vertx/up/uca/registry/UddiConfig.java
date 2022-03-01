@@ -32,6 +32,6 @@ class UddiConfig {
          * configuration in vertx-tp.yml
          */
         final JsonObject data = config.getJsonObject("uddi");
-        return Ut.sureJObject(data);
+        return Ut.valueJObject(data);
     }
 }

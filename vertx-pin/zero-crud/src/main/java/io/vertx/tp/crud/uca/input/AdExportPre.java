@@ -60,7 +60,7 @@ class AdExportPre implements Pre {
         final Set<String> auditSet = field.fieldAudit();
         final Set<String> idSet = new HashSet<>();
         auditSet.forEach(each -> {
-            final Set<String> keys = Ut.mapString(data, each);
+            final Set<String> keys = Ut.valueSetString(data, each);
             idSet.addAll(keys);
         });
         return idSet;

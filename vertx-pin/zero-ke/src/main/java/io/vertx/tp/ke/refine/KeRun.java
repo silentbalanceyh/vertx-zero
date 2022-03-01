@@ -9,6 +9,7 @@ import java.util.function.Function;
 import java.util.function.Supplier;
 
 class KeRun {
+
     static <T, O> Future<O> channel(final Class<T> clazz, final Supplier<O> supplier,
                                     final Function<T, Future<O>> executor) {
         final T channel = Pocket.lookup(clazz);

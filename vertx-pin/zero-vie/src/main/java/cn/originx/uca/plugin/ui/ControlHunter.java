@@ -5,8 +5,8 @@ import cn.vertxup.ui.domain.tables.daos.UiVisitorDao;
 import cn.vertxup.ui.domain.tables.pojos.UiVisitor;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.optic.UiHunter;
-import io.vertx.tp.optic.component.ComponentIndent;
+import io.vertx.tp.optic.environment.Identifier;
+import io.vertx.tp.optic.ui.UiHunter;
 import io.vertx.tp.ui.refine.Ui;
 import io.vertx.up.atom.unity.UData;
 import io.vertx.up.eon.KName;
@@ -21,7 +21,7 @@ import java.util.Objects;
  */
 public class ControlHunter implements UiHunter {
     private static final Annal LOGGER = Annal.get(ControlHunter.class);
-    private transient final ComponentIndent indent = new KeyIndent();
+    private transient final Identifier indent = new KeyIndent();
 
     @Override
     public Future<String> seek(final UData data, final UiVisitor visitor) {

@@ -203,11 +203,11 @@ public class KField implements Serializable {
 
     public Set<String> fieldAudit() {
         final Set<String> set = new HashSet<>();
-        final JsonObject created = Ut.sureJObject(this.created);
+        final JsonObject created = Ut.valueJObject(this.created);
         if (Objects.nonNull(created.getValue(KName.BY))) {
             set.add(created.getString(KName.BY));
         }
-        final JsonObject updated = Ut.sureJObject(this.updated);
+        final JsonObject updated = Ut.valueJObject(this.updated);
         if (Objects.nonNull(updated.getValue(KName.BY))) {
             set.add(updated.getString(KName.BY));
         }
@@ -215,7 +215,7 @@ public class KField implements Serializable {
     }
 
     public ConcurrentMap<String, JsonObject> fieldFile() {
-        final JsonArray attachments = Ut.sureJArray(this.attachment);
+        final JsonArray attachments = Ut.valueJArray(this.attachment);
         final ConcurrentMap<String, JsonObject> fieldMap = new ConcurrentHashMap<>();
         Ut.itJArray(attachments).forEach(attachment -> {
             final String field = attachment.getString(KName.FIELD);

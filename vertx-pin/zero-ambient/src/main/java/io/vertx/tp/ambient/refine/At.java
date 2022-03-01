@@ -30,6 +30,11 @@ public class At {
         AtLog.info(logger, "Application", pattern, args);
     }
 
+    public static void infoApp(final Class<?> clazz, final String pattern, final Object... args) {
+        final Annal logger = Annal.get(clazz);
+        AtLog.info(logger, "Application", pattern, args);
+    }
+
     public static void infoFlow(final Class<?> clazz, final String pattern, final Object... args) {
         final Annal logger = Annal.get(clazz);
         AtLog.info(logger, "Execution", pattern, args);

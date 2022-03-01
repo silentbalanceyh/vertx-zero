@@ -16,13 +16,14 @@ import io.vertx.up.commune.config.Identity;
 import io.vertx.up.commune.element.JBag;
 import io.vertx.up.eon.em.ChangeFlag;
 import io.vertx.up.log.Annal;
+import io.vertx.up.util.Ut;
 import org.jooq.Converter;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Queue;
 import java.util.Set;
 import java.util.concurrent.ConcurrentMap;
-import java.util.function.Supplier;
 
 public class Ao {
     /*
@@ -144,6 +145,18 @@ public class Ao {
         AoKey.toKey(data, atom, defaultKey);
     }
 
+    /*
+     * - Schema
+     *   toSchema(String, JsonObject)
+     *   toSchema(String, String)
+     *
+     * - Model
+     *   toModel(String, JsonObject)
+     *   toModel(String, String)
+     *
+     * - Switcher
+     *   toSwitcher(Identity, JsonObject)
+     */
     public static Schema toSchema(final String appName, final JsonObject schemaJson) {
         return AoImpl.toSchema(appName, schemaJson);
     }
@@ -163,6 +176,8 @@ public class Ao {
     public static Switcher toSwitcher(final Identity identity, final JsonObject options) {
         return AoImpl.toSwitcher(identity, options);
     }
+
+    // ------------------- Dao / Atom -----------------
     /*
      * 构造 DataAtom 数据
      * 1）传入的是 IService，直接反序列化构造 DataAtom
@@ -172,26 +187,47 @@ public class Ao {
      *     "name": "应用名称",
      *     "identifier": "模型ID"
      * }
-     */
-
-    public static DataAtom toAtom(final JsonObject options) {
-        return AoImpl.toAtom(options);
-    }
-
-    /*
+     *
      * 构造 oxDao
      * 1）传入 key 和 identifier，构造 AoDao
      * 2）传入 Database 和 DataAtom，构造 AoDao
      * 3）构造纯的 AoDao（不和任何 DataAtom绑定）
+     *
+     * 这里有一点需说明：
+     * 1. 复杂参数内置了 appId 或 sigma，所以可直接通过对象级获取
+     * 2. 简单参数 String 通常只传入 identifier
      */
-
-    public static AoDao toDao(final Database database, final DataAtom atom) {
-        return AoImpl.toDao(database, atom);
+    public static DataAtom toAtom(final JsonObject options) {
+        return AoImpl.toAtom(options);
     }
 
-    public static AoDao toDao(final Database database, final Supplier<DataAtom> supplier) {
-        return AoImpl.toDao(database, supplier);
+    public static AoDao toDao(final DataAtom atom) {
+        return AoImpl.toDao(atom);
     }
+
+    public static AoDao toDao(final DataAtom atom, final Database database) {
+        return AoImpl.toDao(() -> atom, database);
+    }
+
+    public static DataAtom toAtom(final String identifier) {
+        return AoImpl.toAtom(identifier);
+    }
+
+    public static AoDao toDao(final String identifier) {
+        return AoImpl.toDao(identifier);
+    }
+
+    public static Record toRecord(final String identifier, final JsonObject data) {
+        return AoImpl.toRecord(identifier, data);
+    }
+
+    public static Record[] toRecord(final String identifier, final JsonArray data) {
+        final List<Record> recordList = new ArrayList<>();
+        Ut.itJArray(data).forEach(json -> recordList.add(toRecord(identifier, json)));
+        return recordList.toArray(new Record[]{});
+    }
+
+    // ------------------- Other Information -----------------
 
     public static String joinKey(final Model model) {
         return AoKey.joinKey(model);

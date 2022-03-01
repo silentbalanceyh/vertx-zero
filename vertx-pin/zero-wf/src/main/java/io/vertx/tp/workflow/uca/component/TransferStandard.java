@@ -4,8 +4,8 @@ import cn.zeroup.macrocosm.cv.em.TodoStatus;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.workflow.atom.*;
+import io.vertx.tp.workflow.uca.modeling.Register;
 import io.vertx.tp.workflow.uca.runner.IsOn;
-import io.vertx.up.eon.KName;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 import org.camunda.bpm.engine.task.Task;
@@ -16,7 +16,7 @@ import java.util.function.Function;
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-public class TransferStandard extends AbstractTodo implements Transfer {
+public class TransferStandard extends AbstractMovement implements Transfer {
     @Override
     public Future<WRecord> moveAsync(final JsonObject params, final WProcess wProcess) {
         /*
@@ -37,7 +37,7 @@ public class TransferStandard extends AbstractTodo implements Transfer {
                 /*
                  * Todo Data Only
                  */
-                final JsonObject todoData = KtTodo.closeJ(normalized, wProcess);
+                final JsonObject todoData = HelperTodo.closeJ(normalized, wProcess);
                 return this.saveAsync(todoData, wProcess)
                     .compose(this.saveAsyncFn(normalized, wProcess));
             })
@@ -73,14 +73,14 @@ public class TransferStandard extends AbstractTodo implements Transfer {
                         move.stored(params);
                         instanceNext.bind(taskNext).bind(move).bind(wProcess.instance());
                     }
-                    return this.generateAsync(record, instanceNext);
+                    return this.generateAsync(params, instanceNext, record);
                 } else {
                     return Ux.future(record);
                 }
             }));
     }
 
-    private Function<WRecord, Future<WRecord>> saveAsyncFn(final JsonObject updated, final WProcess process) {
+    private Function<WRecord, Future<WRecord>> saveAsyncFn(final JsonObject input, final WProcess process) {
         return record -> {
             /*
              * Double check for `insert record`
@@ -92,7 +92,8 @@ public class TransferStandard extends AbstractTodo implements Transfer {
              * - UPDATE -> Original Stored Status
              */
             final TodoStatus status = record.status();
-            final JsonObject request = updated.copy();
+            JsonObject request = input.copy();
+            request.mergeIn(record.data());
             final MetaInstance metadataOut = MetaInstance.output(record, this.metadataIn());
 /*          if (TodoStatus.DRAFT == status) {
                 return this.saveAsync(request, metadataOut).compose(nil -> Ux.future(record));
@@ -107,15 +108,14 @@ public class TransferStandard extends AbstractTodo implements Transfer {
                      * Here will fetch record auto
                      * Critical step to update `record` field here
                      */
-                    final JsonObject recordData = Ut.sureJObject(request.getJsonObject(KName.RECORD));
-                    recordData.mergeIn(moveRule.getRecord());
-                    request.put(KName.RECORD, recordData);
+                    request = this.recordMove(request, moveRule);
                 }
             }
             /*
              * Contains record modification, do update on record.
              */
-            return this.saveAsync(request, metadataOut).compose(nil -> Ux.future(record));
+            final Register register = Register.instance(request);
+            return register.saveAsync(request, metadataOut).compose(nil -> Ux.future(record));
         };
     }
 }

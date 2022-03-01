@@ -8,7 +8,7 @@ import io.vertx.tp.crud.refine.Ix;
 import io.vertx.tp.ke.atom.specification.*;
 import io.vertx.tp.ke.cv.em.DSMode;
 import io.vertx.tp.ke.refine.Ke;
-import io.vertx.tp.optic.DS;
+import io.vertx.tp.optic.environment.DS;
 import io.vertx.tp.plugin.booting.KBoot;
 import io.vertx.up.eon.FileSuffix;
 import io.vertx.up.eon.ID;
@@ -168,7 +168,7 @@ class IxDao {
         }
 
         /* Header Processing */
-        final JsonObject header = Ut.sureJObject(module.getHeader());
+        final JsonObject header = Ut.valueJObject(module.getHeader());
         /* sigma -> X-Sigma */
         Fn.safeSemi(!header.containsKey(KName.SIGMA),
             () -> header.put(KName.SIGMA, ID.Header.X_SIGMA));
@@ -182,12 +182,12 @@ class IxDao {
         // key -> key
         Fn.safeSemi(Objects.isNull(field.getKey()), () -> field.setKey(KName.KEY));
         // created
-        final JsonObject created = Ut.sureJObject(field.getCreated());
+        final JsonObject created = Ut.valueJObject(field.getCreated());
         Fn.safeSemi(!created.containsKey(KName.AT), () -> created.put(KName.AT, KName.CREATED_AT));
         Fn.safeSemi(!created.containsKey(KName.BY), () -> created.put(KName.BY, KName.CREATED_BY));
         field.setCreated(created);
         // updated
-        final JsonObject updated = Ut.sureJObject(field.getUpdated());
+        final JsonObject updated = Ut.valueJObject(field.getUpdated());
         Fn.safeSemi(!updated.containsKey(KName.AT), () -> updated.put(KName.AT, KName.UPDATED_AT));
         Fn.safeSemi(!updated.containsKey(KName.BY), () -> updated.put(KName.BY, KName.UPDATED_BY));
         field.setUpdated(updated);

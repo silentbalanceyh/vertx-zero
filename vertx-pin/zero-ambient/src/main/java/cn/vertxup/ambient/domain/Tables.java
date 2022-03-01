@@ -9,14 +9,10 @@ import cn.vertxup.ambient.domain.tables.XActivityChange;
 import cn.vertxup.ambient.domain.tables.XApp;
 import cn.vertxup.ambient.domain.tables.XAttachment;
 import cn.vertxup.ambient.domain.tables.XCategory;
-import cn.vertxup.ambient.domain.tables.XEmailServer;
-import cn.vertxup.ambient.domain.tables.XIntegration;
 import cn.vertxup.ambient.domain.tables.XLinkage;
 import cn.vertxup.ambient.domain.tables.XLog;
 import cn.vertxup.ambient.domain.tables.XMenu;
 import cn.vertxup.ambient.domain.tables.XMenuMy;
-import cn.vertxup.ambient.domain.tables.XMessage;
-import cn.vertxup.ambient.domain.tables.XMessageTpl;
 import cn.vertxup.ambient.domain.tables.XModule;
 import cn.vertxup.ambient.domain.tables.XNotice;
 import cn.vertxup.ambient.domain.tables.XNumber;
@@ -56,16 +52,6 @@ public class Tables {
     public static final XCategory X_CATEGORY = XCategory.X_CATEGORY;
 
     /**
-     * The table <code>DB_ETERNAL.X_EMAIL_SERVER</code>.
-     */
-    public static final XEmailServer X_EMAIL_SERVER = XEmailServer.X_EMAIL_SERVER;
-
-    /**
-     * The table <code>DB_ETERNAL.X_INTEGRATION</code>.
-     */
-    public static final XIntegration X_INTEGRATION = XIntegration.X_INTEGRATION;
-
-    /**
      * The table <code>DB_ETERNAL.X_LINKAGE</code>.
      */
     public static final XLinkage X_LINKAGE = XLinkage.X_LINKAGE;
@@ -84,16 +70,6 @@ public class Tables {
      * The table <code>DB_ETERNAL.X_MENU_MY</code>.
      */
     public static final XMenuMy X_MENU_MY = XMenuMy.X_MENU_MY;
-
-    /**
-     * The table <code>DB_ETERNAL.X_MESSAGE</code>.
-     */
-    public static final XMessage X_MESSAGE = XMessage.X_MESSAGE;
-
-    /**
-     * The table <code>DB_ETERNAL.X_MESSAGE_TPL</code>.
-     */
-    public static final XMessageTpl X_MESSAGE_TPL = XMessageTpl.X_MESSAGE_TPL;
 
     /**
      * The table <code>DB_ETERNAL.X_MODULE</code>.
