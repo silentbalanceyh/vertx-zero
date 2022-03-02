@@ -213,7 +213,7 @@
 
         <!-- Camunda -->
         <camunda.version>7.16.0</camunda.version>
-        <camunda.spin.version>1.13.1</camunda.spin.version>
+        <camunda.spin.version>1.14.0</camunda.spin.version>
         <camunda.bpm.version>1.2.0</camunda.bpm.version>
         <java.uuid.generator>4.0.1</java.uuid.generator>
         <mybatis.version>3.5.9</mybatis.version>

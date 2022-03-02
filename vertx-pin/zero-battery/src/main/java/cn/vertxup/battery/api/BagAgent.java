@@ -19,7 +19,7 @@ public interface BagAgent {
      * Fetch all modules in current application
      */
     @GET
-    @Path("/api/bag")
+    @Path("/bag")
     @Address(Addr.Module.FETCH)
     JsonArray module(@HeaderParam(ID.Header.X_APP_ID) String appId);
 
@@ -30,7 +30,7 @@ public interface BagAgent {
      * }
      */
     @POST
-    @Path("/api/block/process")
+    @Path("/block/process")
     @Address(Addr.Module.UP_PROCESS)
     Boolean process(@BodyParam JsonObject body);
 
@@ -43,7 +43,7 @@ public interface BagAgent {
      * }
      */
     @POST
-    @Path("/api/block/authorize")
+    @Path("/block/authorize")
     @Address(Addr.Module.UP_AUTHORIZE)
     Boolean authorize(@BodyParam JsonObject body);
 }

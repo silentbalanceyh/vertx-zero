@@ -1,14 +1,15 @@
 package cn.vertxup.battery.api;
 
-import cn.vertxup.battery.domain.tables.daos.BBagDao;
+import cn.vertxup.battery.service.BagStub;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.battery.cv.Addr;
 import io.vertx.up.annotations.Address;
 import io.vertx.up.annotations.Queue;
-import io.vertx.up.eon.KName;
 import io.vertx.up.unity.Ux;
+
+import javax.inject.Inject;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
@@ -16,11 +17,12 @@ import io.vertx.up.unity.Ux;
 @Queue
 public class BagActor {
 
+    @Inject
+    private transient BagStub bagStub;
+
     @Address(Addr.Module.FETCH)
     public Future<JsonArray> fetchModule(final String appId) {
-        final JsonObject condition = Ux.whereAnd();
-        condition.put(KName.APP_ID, appId);
-        return Ux.Jooq.on(BBagDao.class).fetchJAsync(condition);
+        return this.bagStub.fetchBag(appId);
     }
 
     @Address(Addr.Module.UP_PROCESS)
