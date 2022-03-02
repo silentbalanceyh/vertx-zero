@@ -57,13 +57,18 @@ public class IDirectory extends TableImpl<IDirectoryRecord> {
     public final TableField<IDirectoryRecord, String> CATEGORY = createField(DSL.name("CATEGORY"), SQLDataType.VARCHAR(36), this, "「category」- 目录连接的类型树");
     /**
      * The column <code>DB_ETERNAL.I_DIRECTORY.TYPE</code>. 「type」- 目录类型：ROOT /
-     * STORE
+     * STORE / LINK
      */
-    public final TableField<IDirectoryRecord, String> TYPE = createField(DSL.name("TYPE"), SQLDataType.VARCHAR(36).nullable(false), this, "「type」- 目录类型：ROOT / STORE");
+    public final TableField<IDirectoryRecord, String> TYPE = createField(DSL.name("TYPE"), SQLDataType.VARCHAR(36).nullable(false), this, "「type」- 目录类型：ROOT / STORE / LINK");
     /**
      * The column <code>DB_ETERNAL.I_DIRECTORY.OWNER</code>. 「owner」- 目录访问人
      */
     public final TableField<IDirectoryRecord, String> OWNER = createField(DSL.name("OWNER"), SQLDataType.VARCHAR(36), this, "「owner」- 目录访问人");
+    /**
+     * The column <code>DB_ETERNAL.I_DIRECTORY.INTEGRATION_ID</code>.
+     * 「integrationId」- 该目录关联的 Integration，不关联则不转存
+     */
+    public final TableField<IDirectoryRecord, String> INTEGRATION_ID = createField(DSL.name("INTEGRATION_ID"), SQLDataType.VARCHAR(36), this, "「integrationId」- 该目录关联的 Integration，不关联则不转存");
     /**
      * The column <code>DB_ETERNAL.I_DIRECTORY.RUN_COMPONENT</code>.
      * 「runComponent」- 目录执行组件，抓文件专用
@@ -212,14 +217,5 @@ public class IDirectory extends TableImpl<IDirectoryRecord> {
     @Override
     public IDirectory rename(Name name) {
         return new IDirectory(name, null);
-    }
-
-    // -------------------------------------------------------------------------
-    // Row22 type methods
-    // -------------------------------------------------------------------------
-
-    @Override
-    public Row22<String, String, String, String, String, String, String, String, String, Boolean, String, String, String, String, String, String, Boolean, String, LocalDateTime, String, LocalDateTime, String> fieldsRow() {
-        return (Row22) super.fieldsRow();
     }
 }

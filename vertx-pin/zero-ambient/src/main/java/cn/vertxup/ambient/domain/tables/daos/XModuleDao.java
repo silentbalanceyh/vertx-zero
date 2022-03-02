@@ -84,6 +84,21 @@ public class XModuleDao extends AbstractVertxDAO<XModuleRecord, cn.vertxup.ambie
         }
 
         /**
+     * Find records that have <code>BLOCK_CODE IN (values)</code> asynchronously
+     */
+        public Future<List<cn.vertxup.ambient.domain.tables.pojos.XModule>> findManyByBlockCode(Collection<String> values) {
+                return findManyByCondition(XModule.X_MODULE.BLOCK_CODE.in(values));
+        }
+
+        /**
+     * Find records that have <code>BLOCK_CODE IN (values)</code> asynchronously
+     * limited by the given limit
+     */
+        public Future<List<cn.vertxup.ambient.domain.tables.pojos.XModule>> findManyByBlockCode(Collection<String> values, int limit) {
+                return findManyByCondition(XModule.X_MODULE.BLOCK_CODE.in(values),limit);
+        }
+
+        /**
      * Find records that have <code>APP_ID IN (values)</code> asynchronously
      */
         public Future<List<cn.vertxup.ambient.domain.tables.pojos.XModule>> findManyByAppId(Collection<String> values) {

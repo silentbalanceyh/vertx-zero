@@ -10,6 +10,11 @@ CREATE TABLE `I_DIRECTORY`
 
     -- 目录全名
     -- 目录本身树结构（创建目录时必须拷贝 STORE_ID）
+    /*
+     * 目录的 STORE_PATH 具有二义性
+     * 1. 如果是实际目录，则是真实地址，从 / 开始
+     * 2. 如果是非实际目录，则是虚拟地址，使用 软链接规范
+     */
     `STORE_PATH`      VARCHAR(512) NOT NULL COMMENT '「storePath」- 目录根路径',
     `PARENT_ID`       VARCHAR(36) COMMENT '「parentId」- 父目录ID',
     `CATEGORY`        VARCHAR(36) COMMENT '「category」- 目录连接的类型树',
@@ -17,9 +22,11 @@ CREATE TABLE `I_DIRECTORY`
     -- 目录视图专用
     -- 1）category, parentId 同时存在，该目录一定是 STORE（手工创建）
     -- 2）category存在，parentId 不存在，该目录是根目录 ROOT，旗下会包含所有的所属文件
-    -- 3）typeComponent存在时，目录包含执行组件，用于抓取目录下的文件专用
-    `TYPE`            VARCHAR(36)  NOT NULL COMMENT '「type」- 目录类型：ROOT / STORE',
+    -- 3）runComponent存在时，目录包含执行组件，用于抓取目录下的文件专用
+    -- 4) integrationId不存在时，目录为虚拟目录，和 runComponent 配合执行
+    `TYPE`            VARCHAR(36)  NOT NULL COMMENT '「type」- 目录类型：ROOT / STORE / LINK',
     `OWNER`           VARCHAR(36) COMMENT '「owner」- 目录访问人',
+    `INTEGRATION_ID`  VARCHAR(36) COMMENT '「integrationId」- 该目录关联的 Integration，不关联则不转存',
     `RUN_COMPONENT`   TEXT COMMENT '「runComponent」- 目录执行组件，抓文件专用',
 
     -- 目录计算专用规则（以目录为核心权限）

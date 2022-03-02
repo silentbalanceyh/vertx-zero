@@ -1,5 +1,6 @@
 package cn.vertxup.ambient.api.application;
 
+import cn.vertxup.ambient.service.application.AppStub;
 import cn.vertxup.ambient.service.application.InitStub;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
@@ -17,6 +18,8 @@ public class InitActor {
 
     @Inject
     private transient InitStub stub;
+    @Inject
+    private transient AppStub appStub;
 
     @Address(Addr.Init.INIT)
     public Future<JsonObject> initApp(final String appId, final JsonObject data) {

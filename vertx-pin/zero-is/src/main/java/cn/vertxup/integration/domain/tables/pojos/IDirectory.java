@@ -28,6 +28,7 @@ public class IDirectory implements VertxPojo, IIDirectory {
     private String        category;
     private String        type;
     private String        owner;
+    private String        integrationId;
     private String        runComponent;
     private Boolean       visit;
     private String        visitMode;
@@ -54,6 +55,7 @@ public class IDirectory implements VertxPojo, IIDirectory {
         this.category = value.getCategory();
         this.type = value.getType();
         this.owner = value.getOwner();
+        this.integrationId = value.getIntegrationId();
         this.runComponent = value.getRunComponent();
         this.visit = value.getVisit();
         this.visitMode = value.getVisitMode();
@@ -79,6 +81,7 @@ public class IDirectory implements VertxPojo, IIDirectory {
         String        category,
         String        type,
         String        owner,
+        String        integrationId,
         String        runComponent,
         Boolean       visit,
         String        visitMode,
@@ -102,6 +105,7 @@ public class IDirectory implements VertxPojo, IIDirectory {
         this.category = category;
         this.type = type;
         this.owner = owner;
+        this.integrationId = integrationId;
         this.runComponent = runComponent;
         this.visit = visit;
         this.visitMode = visitMode;
@@ -233,7 +237,7 @@ public class IDirectory implements VertxPojo, IIDirectory {
 
     /**
      * Getter for <code>DB_ETERNAL.I_DIRECTORY.TYPE</code>. 「type」- 目录类型：ROOT /
-     * STORE
+     * STORE / LINK
      */
     @Override
     public String getType() {
@@ -242,7 +246,7 @@ public class IDirectory implements VertxPojo, IIDirectory {
 
     /**
      * Setter for <code>DB_ETERNAL.I_DIRECTORY.TYPE</code>. 「type」- 目录类型：ROOT /
-     * STORE
+     * STORE / LINK
      */
     @Override
     public IDirectory setType(String type) {
@@ -264,6 +268,25 @@ public class IDirectory implements VertxPojo, IIDirectory {
     @Override
     public IDirectory setOwner(String owner) {
         this.owner = owner;
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.I_DIRECTORY.INTEGRATION_ID</code>.
+     * 「integrationId」- 该目录关联的 Integration，不关联则不转存
+     */
+    @Override
+    public String getIntegrationId() {
+        return this.integrationId;
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.I_DIRECTORY.INTEGRATION_ID</code>.
+     * 「integrationId」- 该目录关联的 Integration，不关联则不转存
+     */
+    @Override
+    public IDirectory setIntegrationId(String integrationId) {
+        this.integrationId = integrationId;
         return this;
     }
 
@@ -539,6 +562,7 @@ public class IDirectory implements VertxPojo, IIDirectory {
         sb.append(", ").append(category);
         sb.append(", ").append(type);
         sb.append(", ").append(owner);
+        sb.append(", ").append(integrationId);
         sb.append(", ").append(runComponent);
         sb.append(", ").append(visit);
         sb.append(", ").append(visitMode);
@@ -572,6 +596,7 @@ public class IDirectory implements VertxPojo, IIDirectory {
         setCategory(from.getCategory());
         setType(from.getType());
         setOwner(from.getOwner());
+        setIntegrationId(from.getIntegrationId());
         setRunComponent(from.getRunComponent());
         setVisit(from.getVisit());
         setVisitMode(from.getVisitMode());

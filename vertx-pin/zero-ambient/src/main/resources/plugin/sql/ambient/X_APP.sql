@@ -11,7 +11,7 @@ CREATE TABLE IF NOT EXISTS X_APP
 
     -- 常用属性
     `TITLE`      VARCHAR(64) COMMENT '「title」- 应用程序标题',
-    `LOGO`       VARCHAR(255) COMMENT '「logo」- 应用程序图标',
+    `LOGO`       LONGTEXT COMMENT '「logo」- 应用程序图标',
     `ICP`        VARCHAR(64) COMMENT '「icp」- ICP备案号',
     `COPY_RIGHT` VARCHAR(255) COMMENT '「copyRight」- CopyRight版权信息',
     `EMAIL`      VARCHAR(255) COMMENT '「email」- 应用Email信息',
@@ -38,7 +38,7 @@ CREATE TABLE IF NOT EXISTS X_APP
     `CREATED_BY` VARCHAR(36) COMMENT '「createdBy」- 创建人',
     `UPDATED_AT` DATETIME COMMENT '「updatedAt」- 更新时间',
     `UPDATED_BY` VARCHAR(36) COMMENT '「updatedBy」- 更新人',
-    PRIMARY KEY (`KEY`) USING BTREE
+    PRIMARY KEY (`KEY`)
 );
 
 -- changeset Lang:ox-app-2

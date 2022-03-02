@@ -1,0 +1,26 @@
+-   dao: cn.vertxup.battery.domain.tables.daos.BAuthorityDao   # B_AUTHORITY
+    key: key
+    unique:
+    - code
+    - blockId
+-   dao: cn.vertxup.battery.domain.tables.daos.BWebDao   # B_WEB
+    key: key
+    unique:
+    - code
+    - blockId
+-   dao: cn.vertxup.battery.domain.tables.daos.BComponentDao   # B_COMPONENT
+    key: key
+    unique:
+    - specImpl
+    - blockId
+-   dao: cn.vertxup.battery.domain.tables.daos.BBagDao   # B_BAG
+    key: key
+    unique:
+    - name
+    - appId
+-   dao: cn.vertxup.battery.domain.tables.daos.BBlockDao   # B_BLOCK
+    key: key
+    unique:
+    - name
+    - appId
+    - bagId

@@ -16,6 +16,8 @@ public interface Addr {
 
         String BY_ID = Prefix._EVENT + "X-APP/BY-ID";
 
+        String UP_BY_ID = Prefix._EVENT + "X-APP/UPDATE/BY-ID";
+
     }
 
     interface Menu {
@@ -34,6 +36,8 @@ public interface Addr {
         String INIT = Prefix._EVENT + "X-INIT";
 
         String CONNECT = Prefix._EVENT + "X-CONNECT";
+
+        String SOURCE = Prefix._EVENT + "X-SOURCE";
     }
 
     interface File {

@@ -9,6 +9,8 @@ CREATE TABLE IF NOT EXISTS X_MODULE
     `NAME`       VARCHAR(255) COMMENT '「name」- 模块名称',
     `CODE`       VARCHAR(36) COMMENT '「code」- 模块编码',
     `ENTRY`      VARCHAR(255) COMMENT '「entry」— 模块入口地址',
+    `BLOCK_CODE` VARCHAR(255) COMMENT '「blockCode」— 所属模块系统编码',
+
     `APP_ID`     VARCHAR(255) COMMENT '「appId」- 关联的应用程序ID', -- 一对多，一个App下会包含多个Module
     `MODEL_ID`   VARCHAR(36) COMMENT '「modelId」- 当前模块关联的主模型ID',
 

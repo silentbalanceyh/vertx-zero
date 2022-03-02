@@ -19,4 +19,9 @@ public interface AppStub {
      * Unique for each app
      */
     Future<JsonObject> fetchSource(String appId);
+
+    /*
+     * Update
+     */
+    Future<JsonObject> updateBy(String appId, JsonObject data);
 }

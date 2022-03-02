@@ -4,3 +4,8 @@
     - appId
     - path
     - endpoint
+-   dao: cn.vertxup.integration.domain.tables.daos.IDirectoryDao   # I_DIRECTORY
+    key: key
+    unique:
+    - storePath
+    - sigma

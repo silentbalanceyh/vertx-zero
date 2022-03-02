@@ -17,6 +17,8 @@ public interface KeIpc {
     interface Module {
         // zero-is
         String IS = "is";
+        // zero-battery
+        String BATTERY = "battery";
         // zero-ambient
         String AMBIENT = "ambient";
         // zero-rbac

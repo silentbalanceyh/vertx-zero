@@ -286,7 +286,7 @@ final class IO {
     static boolean deleteFile(final String filename) {
         final File file = getFile(filename);
         boolean deleted = false;
-        if (file.exists()) {
+        if (Objects.nonNull(file) && file.exists()) {
             deleted = file.delete();
         }
         return deleted;
