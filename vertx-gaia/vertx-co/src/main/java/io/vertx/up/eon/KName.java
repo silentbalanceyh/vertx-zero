@@ -209,6 +209,10 @@ public interface KName {
         String PATH = "path";
         String URL_ENTRY = "urlEntry";
         String URL_MAIN = "urlMain";
+
+        // Modulat
+        String BAG_ID = "bagId";
+        String BLOCK = "block";
     }
 
     /*
@@ -355,6 +359,7 @@ public interface KName {
         String UI_CONFIG = "uiConfig";
         String UI_ASSIST = "uiAssist";
         String UI_LINKAGE = "uiLinkage";
+        String UI_STYLE = "uiStyle";
 
         // Auditor
         interface Auditor {

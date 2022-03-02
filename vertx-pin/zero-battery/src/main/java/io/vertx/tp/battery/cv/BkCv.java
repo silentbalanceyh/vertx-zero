@@ -6,4 +6,10 @@ package io.vertx.tp.battery.cv;
 public interface BkCv {
 
     String FOLDER_MODULE = "module";
+
+    interface License {
+
+        String LIC_IDENTIFIER = "licIdentifier";
+        String LIC_MENU = "licMenu";
+    }
 }
