@@ -49,7 +49,7 @@ final class WfConfiguration {
         final JsonObject configJson = READER.read();
         if (configJson.containsKey(WfCv.FOLDER_ROOT)) {
             final JsonObject configuration = configJson.getJsonObject(WfCv.FOLDER_ROOT, new JsonObject());
-            Wf.Log.infoInit(WfConfiguration.class, "The workflow engine will be initialized!! `{0}`",
+            Wf.Log.infoInit(WfConfiguration.class, "The Workflow Engine will be initialized!! `{0}`",
                 configuration.encode());
             CONFIG = Ut.deserialize(configuration, MetaWorkflow.class);
             ENABLED = true;
