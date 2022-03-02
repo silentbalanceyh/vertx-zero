@@ -85,13 +85,13 @@ public interface IIDirectory extends VertxPojo, Serializable {
 
     /**
      * Setter for <code>DB_ETERNAL.I_DIRECTORY.TYPE</code>. 「type」- 目录类型：ROOT /
-     * STORE
+     * STORE / LINK
      */
     public IIDirectory setType(String value);
 
     /**
      * Getter for <code>DB_ETERNAL.I_DIRECTORY.TYPE</code>. 「type」- 目录类型：ROOT /
-     * STORE
+     * STORE / LINK
      */
     public String getType();
 
@@ -104,6 +104,18 @@ public interface IIDirectory extends VertxPojo, Serializable {
      * Getter for <code>DB_ETERNAL.I_DIRECTORY.OWNER</code>. 「owner」- 目录访问人
      */
     public String getOwner();
+
+    /**
+     * Setter for <code>DB_ETERNAL.I_DIRECTORY.INTEGRATION_ID</code>.
+     * 「integrationId」- 该目录关联的 Integration，不关联则不转存
+     */
+    public IIDirectory setIntegrationId(String value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.I_DIRECTORY.INTEGRATION_ID</code>.
+     * 「integrationId」- 该目录关联的 Integration，不关联则不转存
+     */
+    public String getIntegrationId();
 
     /**
      * Setter for <code>DB_ETERNAL.I_DIRECTORY.RUN_COMPONENT</code>.
@@ -293,6 +305,7 @@ public interface IIDirectory extends VertxPojo, Serializable {
                 setOrThrow(this::setCategory,json::getString,"CATEGORY","java.lang.String");
                 setOrThrow(this::setType,json::getString,"TYPE","java.lang.String");
                 setOrThrow(this::setOwner,json::getString,"OWNER","java.lang.String");
+                setOrThrow(this::setIntegrationId,json::getString,"INTEGRATION_ID","java.lang.String");
                 setOrThrow(this::setRunComponent,json::getString,"RUN_COMPONENT","java.lang.String");
                 setOrThrow(this::setVisit,json::getBoolean,"VISIT","java.lang.Boolean");
                 setOrThrow(this::setVisitMode,json::getString,"VISIT_MODE","java.lang.String");
@@ -322,6 +335,7 @@ public interface IIDirectory extends VertxPojo, Serializable {
                 json.put("CATEGORY",getCategory());
                 json.put("TYPE",getType());
                 json.put("OWNER",getOwner());
+                json.put("INTEGRATION_ID",getIntegrationId());
                 json.put("RUN_COMPONENT",getRunComponent());
                 json.put("VISIT",getVisit());
                 json.put("VISIT_MODE",getVisitMode());

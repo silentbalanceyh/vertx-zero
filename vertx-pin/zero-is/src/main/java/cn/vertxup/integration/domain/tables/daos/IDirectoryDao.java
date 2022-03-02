@@ -144,6 +144,22 @@ public class IDirectoryDao extends AbstractVertxDAO<IDirectoryRecord, cn.vertxup
         }
 
         /**
+     * Find records that have <code>INTEGRATION_ID IN (values)</code>
+     * asynchronously
+     */
+        public Future<List<cn.vertxup.integration.domain.tables.pojos.IDirectory>> findManyByIntegrationId(Collection<String> values) {
+                return findManyByCondition(IDirectory.I_DIRECTORY.INTEGRATION_ID.in(values));
+        }
+
+        /**
+     * Find records that have <code>INTEGRATION_ID IN (values)</code>
+     * asynchronously limited by the given limit
+     */
+        public Future<List<cn.vertxup.integration.domain.tables.pojos.IDirectory>> findManyByIntegrationId(Collection<String> values, int limit) {
+                return findManyByCondition(IDirectory.I_DIRECTORY.INTEGRATION_ID.in(values),limit);
+        }
+
+        /**
      * Find records that have <code>RUN_COMPONENT IN (values)</code>
      * asynchronously
      */
