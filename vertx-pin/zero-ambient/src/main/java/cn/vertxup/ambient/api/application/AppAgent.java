@@ -60,4 +60,18 @@ public interface AppAgent {
     @Address(Addr.App.UP_BY_ID)
     JsonObject updateBy(@HeaderParam(ID.Header.X_APP_ID) String appId,
                         @BodyParam JsonObject data);
+
+    /*
+     * Fetch all datasource
+     * {
+     *      "database": "",
+     *      "history": "",
+     *      "workflow": "",
+     *      "atom": ""
+     * }
+     */
+    @GET
+    @Path("/api/database")
+    @Address(Addr.Init.SOURCE)
+    JsonObject database(@HeaderParam(ID.Header.X_APP_ID) String appId);
 }

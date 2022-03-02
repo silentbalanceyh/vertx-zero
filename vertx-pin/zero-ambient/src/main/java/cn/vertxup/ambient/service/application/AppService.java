@@ -51,7 +51,9 @@ public class AppService implements AppStub {
             /* Fetch One by appId */
             .fetchOneAsync(KName.APP_ID, appId)
             /* Get Result */
-            .compose(Ux::futureJ);
+            .compose(Ux::futureJ)
+            /* JDBC */
+            .compose(Ut.ifJObject("jdbcConfig"));
     }
 
     @Override

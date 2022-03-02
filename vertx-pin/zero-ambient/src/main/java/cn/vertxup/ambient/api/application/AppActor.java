@@ -8,8 +8,12 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.tp.ambient.cv.Addr;
 import io.vertx.up.annotations.Address;
 import io.vertx.up.annotations.Queue;
+import io.vertx.up.commune.config.Database;
+import io.vertx.up.eon.KName;
+import io.vertx.up.unity.Ux;
 
 import javax.inject.Inject;
+import java.util.function.Function;
 
 @Queue
 public class AppActor {
@@ -38,5 +42,41 @@ public class AppActor {
     @Address(Addr.App.UP_BY_ID)
     public Future<JsonObject> updateBy(final String appId, final JsonObject data) {
         return this.appStub.updateBy(appId, data);
+    }
+
+
+    /*
+     * Fetch all datasource
+     * {
+     *      "database": "",
+     *      "history": "",
+     *      "workflow": "",
+     *      "atom": ""
+     * }
+     */
+    @Address(Addr.Init.SOURCE)
+    public Future<JsonObject> database(final String appId) {
+        return this.appStub.fetchSource(appId).compose(atom -> {
+            /*
+             * 一个动态库
+             */
+            final Function<JsonObject, JsonObject> consumer = json -> {
+                json.remove(KName.PASSWORD);
+                json.remove(KName.USERNAME);
+                return json;
+            };
+            /*
+             * 三个静态库
+             */
+            final Database current = Database.getCurrent();
+            final Database orbit = Database.getHistory();
+            final Database workflow = Database.getCamunda();
+            final JsonObject response = new JsonObject();
+            response.put("database", consumer.apply(current.toJson()));
+            response.put("history", consumer.apply(orbit.toJson()));
+            response.put("workflow", consumer.apply(workflow.toJson()));
+            response.put("atom", consumer.apply(atom));
+            return Ux.future(response);
+        });
     }
 }

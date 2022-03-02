@@ -36,6 +36,8 @@ public interface Addr {
         String INIT = Prefix._EVENT + "X-INIT";
 
         String CONNECT = Prefix._EVENT + "X-CONNECT";
+
+        String SOURCE = Prefix._EVENT + "X-SOURCE";
     }
 
     interface File {
