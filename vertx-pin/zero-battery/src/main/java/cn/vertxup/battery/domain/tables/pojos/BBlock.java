@@ -23,14 +23,19 @@ public class BBlock implements VertxPojo, IBBlock {
     private String        key;
     private String        code;
     private String        name;
+    private String        version;
+    private Boolean       authorized;
     private String        uiIcon;
     private String        uiStyle;
     private Long          uiSort;
     private String        uiConfig;
-    private String        signLic;
     private String        signIssuer;
     private String        signName;
-    private String        signKey;
+    private LocalDateTime signAt;
+    private String        signSecret;
+    private String        signLic;
+    private LocalDateTime signEnd;
+    private LocalDateTime signStart;
     private String        licIdentifier;
     private String        licMenu;
     private String        appId;
@@ -50,14 +55,19 @@ public class BBlock implements VertxPojo, IBBlock {
         this.key = value.getKey();
         this.code = value.getCode();
         this.name = value.getName();
+        this.version = value.getVersion();
+        this.authorized = value.getAuthorized();
         this.uiIcon = value.getUiIcon();
         this.uiStyle = value.getUiStyle();
         this.uiSort = value.getUiSort();
         this.uiConfig = value.getUiConfig();
-        this.signLic = value.getSignLic();
         this.signIssuer = value.getSignIssuer();
         this.signName = value.getSignName();
-        this.signKey = value.getSignKey();
+        this.signAt = value.getSignAt();
+        this.signSecret = value.getSignSecret();
+        this.signLic = value.getSignLic();
+        this.signEnd = value.getSignEnd();
+        this.signStart = value.getSignStart();
         this.licIdentifier = value.getLicIdentifier();
         this.licMenu = value.getLicMenu();
         this.appId = value.getAppId();
@@ -76,14 +86,19 @@ public class BBlock implements VertxPojo, IBBlock {
         String        key,
         String        code,
         String        name,
+        String        version,
+        Boolean       authorized,
         String        uiIcon,
         String        uiStyle,
         Long          uiSort,
         String        uiConfig,
-        String        signLic,
         String        signIssuer,
         String        signName,
-        String        signKey,
+        LocalDateTime signAt,
+        String        signSecret,
+        String        signLic,
+        LocalDateTime signEnd,
+        LocalDateTime signStart,
         String        licIdentifier,
         String        licMenu,
         String        appId,
@@ -100,14 +115,19 @@ public class BBlock implements VertxPojo, IBBlock {
         this.key = key;
         this.code = code;
         this.name = name;
+        this.version = version;
+        this.authorized = authorized;
         this.uiIcon = uiIcon;
         this.uiStyle = uiStyle;
         this.uiSort = uiSort;
         this.uiConfig = uiConfig;
-        this.signLic = signLic;
         this.signIssuer = signIssuer;
         this.signName = signName;
-        this.signKey = signKey;
+        this.signAt = signAt;
+        this.signSecret = signSecret;
+        this.signLic = signLic;
+        this.signEnd = signEnd;
+        this.signStart = signStart;
         this.licIdentifier = licIdentifier;
         this.licMenu = licMenu;
         this.appId = appId;
@@ -175,6 +195,40 @@ public class BBlock implements VertxPojo, IBBlock {
     @Override
     public BBlock setName(String name) {
         this.name = name;
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.B_BLOCK.VERSION</code>. 「version」- 子模块版本
+     */
+    @Override
+    public String getVersion() {
+        return this.version;
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.B_BLOCK.VERSION</code>. 「version」- 子模块版本
+     */
+    @Override
+    public BBlock setVersion(String version) {
+        this.version = version;
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.B_BLOCK.AUTHORIZED</code>. 「authorized」- 是否授权
+     */
+    @Override
+    public Boolean getAuthorized() {
+        return this.authorized;
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.B_BLOCK.AUTHORIZED</code>. 「authorized」- 是否授权
+     */
+    @Override
+    public BBlock setAuthorized(Boolean authorized) {
+        this.authorized = authorized;
         return this;
     }
 
@@ -247,25 +301,8 @@ public class BBlock implements VertxPojo, IBBlock {
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.B_BLOCK.SIGN_LIC</code>. 「signLic」- License信息
-     */
-    @Override
-    public String getSignLic() {
-        return this.signLic;
-    }
-
-    /**
-     * Setter for <code>DB_ETERNAL.B_BLOCK.SIGN_LIC</code>. 「signLic」- License信息
-     */
-    @Override
-    public BBlock setSignLic(String signLic) {
-        this.signLic = signLic;
-        return this;
-    }
-
-    /**
      * Getter for <code>DB_ETERNAL.B_BLOCK.SIGN_ISSUER</code>. 「signIssuer」-
-     * License发证机构
+     * 许可证发证机构
      */
     @Override
     public String getSignIssuer() {
@@ -274,7 +311,7 @@ public class BBlock implements VertxPojo, IBBlock {
 
     /**
      * Setter for <code>DB_ETERNAL.B_BLOCK.SIGN_ISSUER</code>. 「signIssuer」-
-     * License发证机构
+     * 许可证发证机构
      */
     @Override
     public BBlock setSignIssuer(String signIssuer) {
@@ -283,7 +320,7 @@ public class BBlock implements VertxPojo, IBBlock {
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.B_BLOCK.SIGN_NAME</code>. 「signName」- 证书名称
+     * Getter for <code>DB_ETERNAL.B_BLOCK.SIGN_NAME</code>. 「signName」- 许可证名称
      */
     @Override
     public String getSignName() {
@@ -291,7 +328,7 @@ public class BBlock implements VertxPojo, IBBlock {
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.B_BLOCK.SIGN_NAME</code>. 「signName」- 证书名称
+     * Setter for <code>DB_ETERNAL.B_BLOCK.SIGN_NAME</code>. 「signName」- 许可证名称
      */
     @Override
     public BBlock setSignName(String signName) {
@@ -300,19 +337,91 @@ public class BBlock implements VertxPojo, IBBlock {
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.B_BLOCK.SIGN_KEY</code>. 「signKey」- 签名专用标识
+     * Getter for <code>DB_ETERNAL.B_BLOCK.SIGN_AT</code>. 「signAt」- 发证时间
      */
     @Override
-    public String getSignKey() {
-        return this.signKey;
+    public LocalDateTime getSignAt() {
+        return this.signAt;
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.B_BLOCK.SIGN_KEY</code>. 「signKey」- 签名专用标识
+     * Setter for <code>DB_ETERNAL.B_BLOCK.SIGN_AT</code>. 「signAt」- 发证时间
      */
     @Override
-    public BBlock setSignKey(String signKey) {
-        this.signKey = signKey;
+    public BBlock setSignAt(LocalDateTime signAt) {
+        this.signAt = signAt;
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.B_BLOCK.SIGN_SECRET</code>. 「signSecret」-
+     * 证书专用密钥
+     */
+    @Override
+    public String getSignSecret() {
+        return this.signSecret;
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.B_BLOCK.SIGN_SECRET</code>. 「signSecret」-
+     * 证书专用密钥
+     */
+    @Override
+    public BBlock setSignSecret(String signSecret) {
+        this.signSecret = signSecret;
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.B_BLOCK.SIGN_LIC</code>. 「signLic」- 许可证内容
+     */
+    @Override
+    public String getSignLic() {
+        return this.signLic;
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.B_BLOCK.SIGN_LIC</code>. 「signLic」- 许可证内容
+     */
+    @Override
+    public BBlock setSignLic(String signLic) {
+        this.signLic = signLic;
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.B_BLOCK.SIGN_END</code>. 「signEnd」- 证书过期时间
+     */
+    @Override
+    public LocalDateTime getSignEnd() {
+        return this.signEnd;
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.B_BLOCK.SIGN_END</code>. 「signEnd」- 证书过期时间
+     */
+    @Override
+    public BBlock setSignEnd(LocalDateTime signEnd) {
+        this.signEnd = signEnd;
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.B_BLOCK.SIGN_START</code>. 「signStart」-
+     * 证书过期时间
+     */
+    @Override
+    public LocalDateTime getSignStart() {
+        return this.signStart;
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.B_BLOCK.SIGN_START</code>. 「signStart」-
+     * 证书过期时间
+     */
+    @Override
+    public BBlock setSignStart(LocalDateTime signStart) {
+        this.signStart = signStart;
         return this;
     }
 
@@ -531,14 +640,19 @@ public class BBlock implements VertxPojo, IBBlock {
         sb.append(key);
         sb.append(", ").append(code);
         sb.append(", ").append(name);
+        sb.append(", ").append(version);
+        sb.append(", ").append(authorized);
         sb.append(", ").append(uiIcon);
         sb.append(", ").append(uiStyle);
         sb.append(", ").append(uiSort);
         sb.append(", ").append(uiConfig);
-        sb.append(", ").append(signLic);
         sb.append(", ").append(signIssuer);
         sb.append(", ").append(signName);
-        sb.append(", ").append(signKey);
+        sb.append(", ").append(signAt);
+        sb.append(", ").append(signSecret);
+        sb.append(", ").append(signLic);
+        sb.append(", ").append(signEnd);
+        sb.append(", ").append(signStart);
         sb.append(", ").append(licIdentifier);
         sb.append(", ").append(licMenu);
         sb.append(", ").append(appId);
@@ -565,14 +679,19 @@ public class BBlock implements VertxPojo, IBBlock {
         setKey(from.getKey());
         setCode(from.getCode());
         setName(from.getName());
+        setVersion(from.getVersion());
+        setAuthorized(from.getAuthorized());
         setUiIcon(from.getUiIcon());
         setUiStyle(from.getUiStyle());
         setUiSort(from.getUiSort());
         setUiConfig(from.getUiConfig());
-        setSignLic(from.getSignLic());
         setSignIssuer(from.getSignIssuer());
         setSignName(from.getSignName());
-        setSignKey(from.getSignKey());
+        setSignAt(from.getSignAt());
+        setSignSecret(from.getSignSecret());
+        setSignLic(from.getSignLic());
+        setSignEnd(from.getSignEnd());
+        setSignStart(from.getSignStart());
         setLicIdentifier(from.getLicIdentifier());
         setLicMenu(from.getLicMenu());
         setAppId(from.getAppId());

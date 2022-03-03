@@ -8,6 +8,7 @@ import io.vertx.up.uca.yaml.Node;
 import io.vertx.up.uca.yaml.ZeroUniform;
 import io.vertx.up.util.Ut;
 
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
@@ -35,6 +36,6 @@ class BkConfiguration {
         if (Objects.isNull(CONFIG)) {
             init();
         }
-        return CONFIG.buildIn();
+        return Objects.isNull(CONFIG) ? new HashSet<>() : CONFIG.buildIn();
     }
 }

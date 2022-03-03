@@ -69,6 +69,36 @@ public class BBlockDao extends AbstractVertxDAO<BBlockRecord, cn.vertxup.battery
         }
 
         /**
+     * Find records that have <code>VERSION IN (values)</code> asynchronously
+     */
+        public Future<List<cn.vertxup.battery.domain.tables.pojos.BBlock>> findManyByVersion(Collection<String> values) {
+                return findManyByCondition(BBlock.B_BLOCK.VERSION.in(values));
+        }
+
+        /**
+     * Find records that have <code>VERSION IN (values)</code> asynchronously
+     * limited by the given limit
+     */
+        public Future<List<cn.vertxup.battery.domain.tables.pojos.BBlock>> findManyByVersion(Collection<String> values, int limit) {
+                return findManyByCondition(BBlock.B_BLOCK.VERSION.in(values),limit);
+        }
+
+        /**
+     * Find records that have <code>AUTHORIZED IN (values)</code> asynchronously
+     */
+        public Future<List<cn.vertxup.battery.domain.tables.pojos.BBlock>> findManyByAuthorized(Collection<Boolean> values) {
+                return findManyByCondition(BBlock.B_BLOCK.AUTHORIZED.in(values));
+        }
+
+        /**
+     * Find records that have <code>AUTHORIZED IN (values)</code> asynchronously
+     * limited by the given limit
+     */
+        public Future<List<cn.vertxup.battery.domain.tables.pojos.BBlock>> findManyByAuthorized(Collection<Boolean> values, int limit) {
+                return findManyByCondition(BBlock.B_BLOCK.AUTHORIZED.in(values),limit);
+        }
+
+        /**
      * Find records that have <code>UI_ICON IN (values)</code> asynchronously
      */
         public Future<List<cn.vertxup.battery.domain.tables.pojos.BBlock>> findManyByUiIcon(Collection<String> values) {
@@ -129,21 +159,6 @@ public class BBlockDao extends AbstractVertxDAO<BBlockRecord, cn.vertxup.battery
         }
 
         /**
-     * Find records that have <code>SIGN_LIC IN (values)</code> asynchronously
-     */
-        public Future<List<cn.vertxup.battery.domain.tables.pojos.BBlock>> findManyBySignLic(Collection<String> values) {
-                return findManyByCondition(BBlock.B_BLOCK.SIGN_LIC.in(values));
-        }
-
-        /**
-     * Find records that have <code>SIGN_LIC IN (values)</code> asynchronously
-     * limited by the given limit
-     */
-        public Future<List<cn.vertxup.battery.domain.tables.pojos.BBlock>> findManyBySignLic(Collection<String> values, int limit) {
-                return findManyByCondition(BBlock.B_BLOCK.SIGN_LIC.in(values),limit);
-        }
-
-        /**
      * Find records that have <code>SIGN_ISSUER IN (values)</code>
      * asynchronously
      */
@@ -175,18 +190,79 @@ public class BBlockDao extends AbstractVertxDAO<BBlockRecord, cn.vertxup.battery
         }
 
         /**
-     * Find records that have <code>SIGN_KEY IN (values)</code> asynchronously
+     * Find records that have <code>SIGN_AT IN (values)</code> asynchronously
      */
-        public Future<List<cn.vertxup.battery.domain.tables.pojos.BBlock>> findManyBySignKey(Collection<String> values) {
-                return findManyByCondition(BBlock.B_BLOCK.SIGN_KEY.in(values));
+        public Future<List<cn.vertxup.battery.domain.tables.pojos.BBlock>> findManyBySignAt(Collection<LocalDateTime> values) {
+                return findManyByCondition(BBlock.B_BLOCK.SIGN_AT.in(values));
         }
 
         /**
-     * Find records that have <code>SIGN_KEY IN (values)</code> asynchronously
+     * Find records that have <code>SIGN_AT IN (values)</code> asynchronously
      * limited by the given limit
      */
-        public Future<List<cn.vertxup.battery.domain.tables.pojos.BBlock>> findManyBySignKey(Collection<String> values, int limit) {
-                return findManyByCondition(BBlock.B_BLOCK.SIGN_KEY.in(values),limit);
+        public Future<List<cn.vertxup.battery.domain.tables.pojos.BBlock>> findManyBySignAt(Collection<LocalDateTime> values, int limit) {
+                return findManyByCondition(BBlock.B_BLOCK.SIGN_AT.in(values),limit);
+        }
+
+        /**
+     * Find records that have <code>SIGN_SECRET IN (values)</code>
+     * asynchronously
+     */
+        public Future<List<cn.vertxup.battery.domain.tables.pojos.BBlock>> findManyBySignSecret(Collection<String> values) {
+                return findManyByCondition(BBlock.B_BLOCK.SIGN_SECRET.in(values));
+        }
+
+        /**
+     * Find records that have <code>SIGN_SECRET IN (values)</code>
+     * asynchronously limited by the given limit
+     */
+        public Future<List<cn.vertxup.battery.domain.tables.pojos.BBlock>> findManyBySignSecret(Collection<String> values, int limit) {
+                return findManyByCondition(BBlock.B_BLOCK.SIGN_SECRET.in(values),limit);
+        }
+
+        /**
+     * Find records that have <code>SIGN_LIC IN (values)</code> asynchronously
+     */
+        public Future<List<cn.vertxup.battery.domain.tables.pojos.BBlock>> findManyBySignLic(Collection<String> values) {
+                return findManyByCondition(BBlock.B_BLOCK.SIGN_LIC.in(values));
+        }
+
+        /**
+     * Find records that have <code>SIGN_LIC IN (values)</code> asynchronously
+     * limited by the given limit
+     */
+        public Future<List<cn.vertxup.battery.domain.tables.pojos.BBlock>> findManyBySignLic(Collection<String> values, int limit) {
+                return findManyByCondition(BBlock.B_BLOCK.SIGN_LIC.in(values),limit);
+        }
+
+        /**
+     * Find records that have <code>SIGN_END IN (values)</code> asynchronously
+     */
+        public Future<List<cn.vertxup.battery.domain.tables.pojos.BBlock>> findManyBySignEnd(Collection<LocalDateTime> values) {
+                return findManyByCondition(BBlock.B_BLOCK.SIGN_END.in(values));
+        }
+
+        /**
+     * Find records that have <code>SIGN_END IN (values)</code> asynchronously
+     * limited by the given limit
+     */
+        public Future<List<cn.vertxup.battery.domain.tables.pojos.BBlock>> findManyBySignEnd(Collection<LocalDateTime> values, int limit) {
+                return findManyByCondition(BBlock.B_BLOCK.SIGN_END.in(values),limit);
+        }
+
+        /**
+     * Find records that have <code>SIGN_START IN (values)</code> asynchronously
+     */
+        public Future<List<cn.vertxup.battery.domain.tables.pojos.BBlock>> findManyBySignStart(Collection<LocalDateTime> values) {
+                return findManyByCondition(BBlock.B_BLOCK.SIGN_START.in(values));
+        }
+
+        /**
+     * Find records that have <code>SIGN_START IN (values)</code> asynchronously
+     * limited by the given limit
+     */
+        public Future<List<cn.vertxup.battery.domain.tables.pojos.BBlock>> findManyBySignStart(Collection<LocalDateTime> values, int limit) {
+                return findManyByCondition(BBlock.B_BLOCK.SIGN_START.in(values),limit);
         }
 
         /**

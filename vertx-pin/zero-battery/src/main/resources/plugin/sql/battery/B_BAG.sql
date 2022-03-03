@@ -25,6 +25,14 @@ CREATE TABLE IF NOT EXISTS B_BAG
     `NAME`       VARCHAR(255) COMMENT '「name」- 模块名称',
     `NAME_ABBR`  VARCHAR(255) COMMENT '「nameAbbr」- 模块缩写',
     `NAME_FULL`  VARCHAR(255) COMMENT '「nameFull」- 模块全名',
+    /*
+     *  Z-KERNEL：            内核模块
+     *  Z-FOUNDATION：        基础模块
+     *  Z-COMMERCE：          业务模块
+     *  SPECIFICATION：       标准化模块
+     *  EXTENSION：           甲方专用模块
+     */
+    `TYPE`       VARCHAR(64) COMMENT '「type」- 包类型',
 
     `UI_ICON`    VARCHAR(255) COMMENT '「uiIcon」- 模块图标',
     `UI_STYLE`   TEXT COMMENT '「uiStyle」- 模块风格',

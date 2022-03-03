@@ -76,11 +76,45 @@ public class BBlockRecord extends UpdatableRecordImpl<BBlockRecord> implements V
     }
 
     /**
+     * Setter for <code>DB_ETERNAL.B_BLOCK.VERSION</code>. 「version」- 子模块版本
+     */
+    @Override
+    public BBlockRecord setVersion(String value) {
+        set(3, value);
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.B_BLOCK.VERSION</code>. 「version」- 子模块版本
+     */
+    @Override
+    public String getVersion() {
+        return (String) get(3);
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.B_BLOCK.AUTHORIZED</code>. 「authorized」- 是否授权
+     */
+    @Override
+    public BBlockRecord setAuthorized(Boolean value) {
+        set(4, value);
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.B_BLOCK.AUTHORIZED</code>. 「authorized」- 是否授权
+     */
+    @Override
+    public Boolean getAuthorized() {
+        return (Boolean) get(4);
+    }
+
+    /**
      * Setter for <code>DB_ETERNAL.B_BLOCK.UI_ICON</code>. 「uiIcon」- 子模块图标
      */
     @Override
     public BBlockRecord setUiIcon(String value) {
-        set(3, value);
+        set(5, value);
         return this;
     }
 
@@ -89,7 +123,7 @@ public class BBlockRecord extends UpdatableRecordImpl<BBlockRecord> implements V
      */
     @Override
     public String getUiIcon() {
-        return (String) get(3);
+        return (String) get(5);
     }
 
     /**
@@ -97,7 +131,7 @@ public class BBlockRecord extends UpdatableRecordImpl<BBlockRecord> implements V
      */
     @Override
     public BBlockRecord setUiStyle(String value) {
-        set(4, value);
+        set(6, value);
         return this;
     }
 
@@ -106,7 +140,7 @@ public class BBlockRecord extends UpdatableRecordImpl<BBlockRecord> implements V
      */
     @Override
     public String getUiStyle() {
-        return (String) get(4);
+        return (String) get(6);
     }
 
     /**
@@ -114,7 +148,7 @@ public class BBlockRecord extends UpdatableRecordImpl<BBlockRecord> implements V
      */
     @Override
     public BBlockRecord setUiSort(Long value) {
-        set(5, value);
+        set(7, value);
         return this;
     }
 
@@ -123,7 +157,7 @@ public class BBlockRecord extends UpdatableRecordImpl<BBlockRecord> implements V
      */
     @Override
     public Long getUiSort() {
-        return (Long) get(5);
+        return (Long) get(7);
     }
 
     /**
@@ -131,7 +165,7 @@ public class BBlockRecord extends UpdatableRecordImpl<BBlockRecord> implements V
      */
     @Override
     public BBlockRecord setUiConfig(String value) {
-        set(6, value);
+        set(8, value);
         return this;
     }
 
@@ -140,77 +174,132 @@ public class BBlockRecord extends UpdatableRecordImpl<BBlockRecord> implements V
      */
     @Override
     public String getUiConfig() {
-        return (String) get(6);
-    }
-
-    /**
-     * Setter for <code>DB_ETERNAL.B_BLOCK.SIGN_LIC</code>. 「signLic」- License信息
-     */
-    @Override
-    public BBlockRecord setSignLic(String value) {
-        set(7, value);
-        return this;
-    }
-
-    /**
-     * Getter for <code>DB_ETERNAL.B_BLOCK.SIGN_LIC</code>. 「signLic」- License信息
-     */
-    @Override
-    public String getSignLic() {
-        return (String) get(7);
-    }
-
-    /**
-     * Setter for <code>DB_ETERNAL.B_BLOCK.SIGN_ISSUER</code>. 「signIssuer」-
-     * License发证机构
-     */
-    @Override
-    public BBlockRecord setSignIssuer(String value) {
-        set(8, value);
-        return this;
-    }
-
-    /**
-     * Getter for <code>DB_ETERNAL.B_BLOCK.SIGN_ISSUER</code>. 「signIssuer」-
-     * License发证机构
-     */
-    @Override
-    public String getSignIssuer() {
         return (String) get(8);
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.B_BLOCK.SIGN_NAME</code>. 「signName」- 证书名称
+     * Setter for <code>DB_ETERNAL.B_BLOCK.SIGN_ISSUER</code>. 「signIssuer」-
+     * 许可证发证机构
      */
     @Override
-    public BBlockRecord setSignName(String value) {
+    public BBlockRecord setSignIssuer(String value) {
         set(9, value);
         return this;
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.B_BLOCK.SIGN_NAME</code>. 「signName」- 证书名称
+     * Getter for <code>DB_ETERNAL.B_BLOCK.SIGN_ISSUER</code>. 「signIssuer」-
+     * 许可证发证机构
      */
     @Override
-    public String getSignName() {
+    public String getSignIssuer() {
         return (String) get(9);
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.B_BLOCK.SIGN_KEY</code>. 「signKey」- 签名专用标识
+     * Setter for <code>DB_ETERNAL.B_BLOCK.SIGN_NAME</code>. 「signName」- 许可证名称
      */
     @Override
-    public BBlockRecord setSignKey(String value) {
+    public BBlockRecord setSignName(String value) {
         set(10, value);
         return this;
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.B_BLOCK.SIGN_KEY</code>. 「signKey」- 签名专用标识
+     * Getter for <code>DB_ETERNAL.B_BLOCK.SIGN_NAME</code>. 「signName」- 许可证名称
      */
     @Override
-    public String getSignKey() {
+    public String getSignName() {
         return (String) get(10);
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.B_BLOCK.SIGN_AT</code>. 「signAt」- 发证时间
+     */
+    @Override
+    public BBlockRecord setSignAt(LocalDateTime value) {
+        set(11, value);
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.B_BLOCK.SIGN_AT</code>. 「signAt」- 发证时间
+     */
+    @Override
+    public LocalDateTime getSignAt() {
+        return (LocalDateTime) get(11);
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.B_BLOCK.SIGN_SECRET</code>. 「signSecret」-
+     * 证书专用密钥
+     */
+    @Override
+    public BBlockRecord setSignSecret(String value) {
+        set(12, value);
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.B_BLOCK.SIGN_SECRET</code>. 「signSecret」-
+     * 证书专用密钥
+     */
+    @Override
+    public String getSignSecret() {
+        return (String) get(12);
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.B_BLOCK.SIGN_LIC</code>. 「signLic」- 许可证内容
+     */
+    @Override
+    public BBlockRecord setSignLic(String value) {
+        set(13, value);
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.B_BLOCK.SIGN_LIC</code>. 「signLic」- 许可证内容
+     */
+    @Override
+    public String getSignLic() {
+        return (String) get(13);
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.B_BLOCK.SIGN_END</code>. 「signEnd」- 证书过期时间
+     */
+    @Override
+    public BBlockRecord setSignEnd(LocalDateTime value) {
+        set(14, value);
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.B_BLOCK.SIGN_END</code>. 「signEnd」- 证书过期时间
+     */
+    @Override
+    public LocalDateTime getSignEnd() {
+        return (LocalDateTime) get(14);
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.B_BLOCK.SIGN_START</code>. 「signStart」-
+     * 证书过期时间
+     */
+    @Override
+    public BBlockRecord setSignStart(LocalDateTime value) {
+        set(15, value);
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.B_BLOCK.SIGN_START</code>. 「signStart」-
+     * 证书过期时间
+     */
+    @Override
+    public LocalDateTime getSignStart() {
+        return (LocalDateTime) get(15);
     }
 
     /**
@@ -219,7 +308,7 @@ public class BBlockRecord extends UpdatableRecordImpl<BBlockRecord> implements V
      */
     @Override
     public BBlockRecord setLicIdentifier(String value) {
-        set(11, value);
+        set(16, value);
         return this;
     }
 
@@ -229,7 +318,7 @@ public class BBlockRecord extends UpdatableRecordImpl<BBlockRecord> implements V
      */
     @Override
     public String getLicIdentifier() {
-        return (String) get(11);
+        return (String) get(16);
     }
 
     /**
@@ -238,7 +327,7 @@ public class BBlockRecord extends UpdatableRecordImpl<BBlockRecord> implements V
      */
     @Override
     public BBlockRecord setLicMenu(String value) {
-        set(12, value);
+        set(17, value);
         return this;
     }
 
@@ -248,7 +337,7 @@ public class BBlockRecord extends UpdatableRecordImpl<BBlockRecord> implements V
      */
     @Override
     public String getLicMenu() {
-        return (String) get(12);
+        return (String) get(17);
     }
 
     /**
@@ -256,7 +345,7 @@ public class BBlockRecord extends UpdatableRecordImpl<BBlockRecord> implements V
      */
     @Override
     public BBlockRecord setAppId(String value) {
-        set(13, value);
+        set(18, value);
         return this;
     }
 
@@ -265,7 +354,7 @@ public class BBlockRecord extends UpdatableRecordImpl<BBlockRecord> implements V
      */
     @Override
     public String getAppId() {
-        return (String) get(13);
+        return (String) get(18);
     }
 
     /**
@@ -273,7 +362,7 @@ public class BBlockRecord extends UpdatableRecordImpl<BBlockRecord> implements V
      */
     @Override
     public BBlockRecord setBagId(String value) {
-        set(14, value);
+        set(19, value);
         return this;
     }
 
@@ -282,7 +371,7 @@ public class BBlockRecord extends UpdatableRecordImpl<BBlockRecord> implements V
      */
     @Override
     public String getBagId() {
-        return (String) get(14);
+        return (String) get(19);
     }
 
     /**
@@ -290,7 +379,7 @@ public class BBlockRecord extends UpdatableRecordImpl<BBlockRecord> implements V
      */
     @Override
     public BBlockRecord setActive(Boolean value) {
-        set(15, value);
+        set(20, value);
         return this;
     }
 
@@ -299,7 +388,7 @@ public class BBlockRecord extends UpdatableRecordImpl<BBlockRecord> implements V
      */
     @Override
     public Boolean getActive() {
-        return (Boolean) get(15);
+        return (Boolean) get(20);
     }
 
     /**
@@ -307,7 +396,7 @@ public class BBlockRecord extends UpdatableRecordImpl<BBlockRecord> implements V
      */
     @Override
     public BBlockRecord setSigma(String value) {
-        set(16, value);
+        set(21, value);
         return this;
     }
 
@@ -316,7 +405,7 @@ public class BBlockRecord extends UpdatableRecordImpl<BBlockRecord> implements V
      */
     @Override
     public String getSigma() {
-        return (String) get(16);
+        return (String) get(21);
     }
 
     /**
@@ -324,7 +413,7 @@ public class BBlockRecord extends UpdatableRecordImpl<BBlockRecord> implements V
      */
     @Override
     public BBlockRecord setMetadata(String value) {
-        set(17, value);
+        set(22, value);
         return this;
     }
 
@@ -333,7 +422,7 @@ public class BBlockRecord extends UpdatableRecordImpl<BBlockRecord> implements V
      */
     @Override
     public String getMetadata() {
-        return (String) get(17);
+        return (String) get(22);
     }
 
     /**
@@ -341,7 +430,7 @@ public class BBlockRecord extends UpdatableRecordImpl<BBlockRecord> implements V
      */
     @Override
     public BBlockRecord setLanguage(String value) {
-        set(18, value);
+        set(23, value);
         return this;
     }
 
@@ -350,7 +439,7 @@ public class BBlockRecord extends UpdatableRecordImpl<BBlockRecord> implements V
      */
     @Override
     public String getLanguage() {
-        return (String) get(18);
+        return (String) get(23);
     }
 
     /**
@@ -358,7 +447,7 @@ public class BBlockRecord extends UpdatableRecordImpl<BBlockRecord> implements V
      */
     @Override
     public BBlockRecord setCreatedAt(LocalDateTime value) {
-        set(19, value);
+        set(24, value);
         return this;
     }
 
@@ -367,7 +456,7 @@ public class BBlockRecord extends UpdatableRecordImpl<BBlockRecord> implements V
      */
     @Override
     public LocalDateTime getCreatedAt() {
-        return (LocalDateTime) get(19);
+        return (LocalDateTime) get(24);
     }
 
     /**
@@ -375,7 +464,7 @@ public class BBlockRecord extends UpdatableRecordImpl<BBlockRecord> implements V
      */
     @Override
     public BBlockRecord setCreatedBy(String value) {
-        set(20, value);
+        set(25, value);
         return this;
     }
 
@@ -384,7 +473,7 @@ public class BBlockRecord extends UpdatableRecordImpl<BBlockRecord> implements V
      */
     @Override
     public String getCreatedBy() {
-        return (String) get(20);
+        return (String) get(25);
     }
 
     /**
@@ -392,7 +481,7 @@ public class BBlockRecord extends UpdatableRecordImpl<BBlockRecord> implements V
      */
     @Override
     public BBlockRecord setUpdatedAt(LocalDateTime value) {
-        set(21, value);
+        set(26, value);
         return this;
     }
 
@@ -401,7 +490,7 @@ public class BBlockRecord extends UpdatableRecordImpl<BBlockRecord> implements V
      */
     @Override
     public LocalDateTime getUpdatedAt() {
-        return (LocalDateTime) get(21);
+        return (LocalDateTime) get(26);
     }
 
     /**
@@ -409,7 +498,7 @@ public class BBlockRecord extends UpdatableRecordImpl<BBlockRecord> implements V
      */
     @Override
     public BBlockRecord setUpdatedBy(String value) {
-        set(22, value);
+        set(27, value);
         return this;
     }
 
@@ -418,7 +507,7 @@ public class BBlockRecord extends UpdatableRecordImpl<BBlockRecord> implements V
      */
     @Override
     public String getUpdatedBy() {
-        return (String) get(22);
+        return (String) get(27);
     }
 
     // -------------------------------------------------------------------------
@@ -439,14 +528,19 @@ public class BBlockRecord extends UpdatableRecordImpl<BBlockRecord> implements V
         setKey(from.getKey());
         setCode(from.getCode());
         setName(from.getName());
+        setVersion(from.getVersion());
+        setAuthorized(from.getAuthorized());
         setUiIcon(from.getUiIcon());
         setUiStyle(from.getUiStyle());
         setUiSort(from.getUiSort());
         setUiConfig(from.getUiConfig());
-        setSignLic(from.getSignLic());
         setSignIssuer(from.getSignIssuer());
         setSignName(from.getSignName());
-        setSignKey(from.getSignKey());
+        setSignAt(from.getSignAt());
+        setSignSecret(from.getSignSecret());
+        setSignLic(from.getSignLic());
+        setSignEnd(from.getSignEnd());
+        setSignStart(from.getSignStart());
         setLicIdentifier(from.getLicIdentifier());
         setLicMenu(from.getLicMenu());
         setAppId(from.getAppId());
@@ -481,20 +575,25 @@ public class BBlockRecord extends UpdatableRecordImpl<BBlockRecord> implements V
     /**
      * Create a detached, initialised BBlockRecord
      */
-    public BBlockRecord(String key, String code, String name, String uiIcon, String uiStyle, Long uiSort, String uiConfig, String signLic, String signIssuer, String signName, String signKey, String licIdentifier, String licMenu, String appId, String bagId, Boolean active, String sigma, String metadata, String language, LocalDateTime createdAt, String createdBy, LocalDateTime updatedAt, String updatedBy) {
+    public BBlockRecord(String key, String code, String name, String version, Boolean authorized, String uiIcon, String uiStyle, Long uiSort, String uiConfig, String signIssuer, String signName, LocalDateTime signAt, String signSecret, String signLic, LocalDateTime signEnd, LocalDateTime signStart, String licIdentifier, String licMenu, String appId, String bagId, Boolean active, String sigma, String metadata, String language, LocalDateTime createdAt, String createdBy, LocalDateTime updatedAt, String updatedBy) {
         super(BBlock.B_BLOCK);
 
         setKey(key);
         setCode(code);
         setName(name);
+        setVersion(version);
+        setAuthorized(authorized);
         setUiIcon(uiIcon);
         setUiStyle(uiStyle);
         setUiSort(uiSort);
         setUiConfig(uiConfig);
-        setSignLic(signLic);
         setSignIssuer(signIssuer);
         setSignName(signName);
-        setSignKey(signKey);
+        setSignAt(signAt);
+        setSignSecret(signSecret);
+        setSignLic(signLic);
+        setSignEnd(signEnd);
+        setSignStart(signStart);
         setLicIdentifier(licIdentifier);
         setLicMenu(licMenu);
         setAppId(appId);
@@ -519,14 +618,19 @@ public class BBlockRecord extends UpdatableRecordImpl<BBlockRecord> implements V
             setKey(value.getKey());
             setCode(value.getCode());
             setName(value.getName());
+            setVersion(value.getVersion());
+            setAuthorized(value.getAuthorized());
             setUiIcon(value.getUiIcon());
             setUiStyle(value.getUiStyle());
             setUiSort(value.getUiSort());
             setUiConfig(value.getUiConfig());
-            setSignLic(value.getSignLic());
             setSignIssuer(value.getSignIssuer());
             setSignName(value.getSignName());
-            setSignKey(value.getSignKey());
+            setSignAt(value.getSignAt());
+            setSignSecret(value.getSignSecret());
+            setSignLic(value.getSignLic());
+            setSignEnd(value.getSignEnd());
+            setSignStart(value.getSignStart());
             setLicIdentifier(value.getLicIdentifier());
             setLicMenu(value.getLicMenu());
             setAppId(value.getAppId());

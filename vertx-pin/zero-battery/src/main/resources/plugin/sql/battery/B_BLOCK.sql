@@ -7,17 +7,26 @@ CREATE TABLE IF NOT EXISTS B_BLOCK
     `KEY`            VARCHAR(36) COMMENT '「key」- 模块主键',
     `CODE`           VARCHAR(255) COMMENT '「code」- 子模块编码',
     `NAME`           VARCHAR(255) COMMENT '「name」- 子模块名称',
+    `VERSION`        VARCHAR(64) COMMENT '「version」- 子模块版本', -- 模块版本
+    `AUTHORIZED`     BIT         DEFAULT NULL COMMENT '「authorized」- 是否授权',
 
     `UI_ICON`        VARCHAR(255) COMMENT '「uiIcon」- 子模块图标',
     `UI_STYLE`       TEXT COMMENT '「uiStyle」- 子模块风格',
     `UI_SORT`        BIGINT COMMENT '「uiSort」- 子模块排序',
     `UI_CONFIG`      LONGTEXT COMMENT '「uiConfig」- 子模块核心配置',
 
-    `SIGN_LIC`       LONGTEXT COMMENT '「signLic」- License信息',
-    `SIGN_ISSUER`    VARCHAR(255) COMMENT '「signIssuer」- License发证机构',
-    `SIGN_NAME`      VARCHAR(255) COMMENT '「signName」- 证书名称',
-    `SIGN_KEY`       VARCHAR(64) COMMENT '「signKey」- 签名专用标识',
+    /*
+     * 许可证相关信息
+     */
+    `SIGN_ISSUER`    VARCHAR(255) COMMENT '「signIssuer」- 许可证发证机构',
+    `SIGN_NAME`      VARCHAR(255) COMMENT '「signName」- 许可证名称',
+    `SIGN_AT`        DATETIME COMMENT '「signAt」- 发证时间',
 
+    `SIGN_SECRET`    VARCHAR(64) COMMENT '「signSecret」- 证书专用密钥',
+    `SIGN_LIC`       LONGTEXT COMMENT '「signLic」- 许可证内容',
+
+    `SIGN_END`       DATETIME COMMENT '「signEnd」- 证书过期时间',
+    `SIGN_START`     DATETIME COMMENT '「signStart」- 证书过期时间',
     /*
      * 整个Block所需的基本信息
      */
@@ -47,4 +56,4 @@ ALTER TABLE B_BLOCK
 ALTER TABLE B_BLOCK
     ADD UNIQUE (`CODE`, `APP_ID`);
 ALTER TABLE B_BLOCK
-    ADD UNIQUE (`SIGN_KEY`);
+    ADD UNIQUE (`SIGN_SECRET`);
