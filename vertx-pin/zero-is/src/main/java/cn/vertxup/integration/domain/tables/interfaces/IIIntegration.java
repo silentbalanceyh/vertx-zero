@@ -80,6 +80,18 @@ public interface IIIntegration extends VertxPojo, Serializable {
     public String getHostname();
 
     /**
+     * Setter for <code>DB_ETERNAL.I_INTEGRATION.ENDPOINT</code>. 「endpoint」-
+     * 端地址
+     */
+    public IIIntegration setEndpoint(String value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.I_INTEGRATION.ENDPOINT</code>. 「endpoint」-
+     * 端地址
+     */
+    public String getEndpoint();
+
+    /**
      * Setter for <code>DB_ETERNAL.I_INTEGRATION.PORT</code>. 「port」- 端口号
      */
     public IIIntegration setPort(Integer value);
@@ -102,16 +114,28 @@ public interface IIIntegration extends VertxPojo, Serializable {
     public String getProtocol();
 
     /**
-     * Setter for <code>DB_ETERNAL.I_INTEGRATION.ENDPOINT</code>. 「endpoint」-
-     * 端地址
+     * Setter for <code>DB_ETERNAL.I_INTEGRATION.SECURE_PORT</code>.
+     * 「securePort」- 传输层安全接口
      */
-    public IIIntegration setEndpoint(String value);
+    public IIIntegration setSecurePort(Integer value);
 
     /**
-     * Getter for <code>DB_ETERNAL.I_INTEGRATION.ENDPOINT</code>. 「endpoint」-
-     * 端地址
+     * Getter for <code>DB_ETERNAL.I_INTEGRATION.SECURE_PORT</code>.
+     * 「securePort」- 传输层安全接口
      */
-    public String getEndpoint();
+    public Integer getSecurePort();
+
+    /**
+     * Setter for <code>DB_ETERNAL.I_INTEGRATION.SECURE_PROTOCOL</code>.
+     * 「secureProtocol」- 传入层协议：TLS / SSL（邮件服务器需要）
+     */
+    public IIIntegration setSecureProtocol(String value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.I_INTEGRATION.SECURE_PROTOCOL</code>.
+     * 「secureProtocol」- 传入层协议：TLS / SSL（邮件服务器需要）
+     */
+    public String getSecureProtocol();
 
     /**
      * Setter for <code>DB_ETERNAL.I_INTEGRATION.PATH</code>. 「path」- 集成专用根路径
@@ -341,9 +365,11 @@ public interface IIIntegration extends VertxPojo, Serializable {
                 setOrThrow(this::setIpV4,json::getString,"IP_V4","java.lang.String");
                 setOrThrow(this::setIpV6,json::getString,"IP_V6","java.lang.String");
                 setOrThrow(this::setHostname,json::getString,"HOSTNAME","java.lang.String");
+                setOrThrow(this::setEndpoint,json::getString,"ENDPOINT","java.lang.String");
                 setOrThrow(this::setPort,json::getInteger,"PORT","java.lang.Integer");
                 setOrThrow(this::setProtocol,json::getString,"PROTOCOL","java.lang.String");
-                setOrThrow(this::setEndpoint,json::getString,"ENDPOINT","java.lang.String");
+                setOrThrow(this::setSecurePort,json::getInteger,"SECURE_PORT","java.lang.Integer");
+                setOrThrow(this::setSecureProtocol,json::getString,"SECURE_PROTOCOL","java.lang.String");
                 setOrThrow(this::setPath,json::getString,"PATH","java.lang.String");
                 setOrThrow(this::setOsKey,json::getString,"OS_KEY","java.lang.String");
                 setOrThrow(this::setOsSecret,json::getString,"OS_SECRET","java.lang.String");
@@ -375,9 +401,11 @@ public interface IIIntegration extends VertxPojo, Serializable {
                 json.put("IP_V4",getIpV4());
                 json.put("IP_V6",getIpV6());
                 json.put("HOSTNAME",getHostname());
+                json.put("ENDPOINT",getEndpoint());
                 json.put("PORT",getPort());
                 json.put("PROTOCOL",getProtocol());
-                json.put("ENDPOINT",getEndpoint());
+                json.put("SECURE_PORT",getSecurePort());
+                json.put("SECURE_PROTOCOL",getSecureProtocol());
                 json.put("PATH",getPath());
                 json.put("OS_KEY",getOsKey());
                 json.put("OS_SECRET",getOsSecret());

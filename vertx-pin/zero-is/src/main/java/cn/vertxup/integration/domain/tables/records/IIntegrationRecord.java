@@ -129,48 +129,12 @@ public class IIntegrationRecord extends UpdatableRecordImpl<IIntegrationRecord> 
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.I_INTEGRATION.PORT</code>. 「port」- 端口号
-     */
-    @Override
-    public IIntegrationRecord setPort(Integer value) {
-        set(6, value);
-        return this;
-    }
-
-    /**
-     * Getter for <code>DB_ETERNAL.I_INTEGRATION.PORT</code>. 「port」- 端口号
-     */
-    @Override
-    public Integer getPort() {
-        return (Integer) get(6);
-    }
-
-    /**
-     * Setter for <code>DB_ETERNAL.I_INTEGRATION.PROTOCOL</code>. 「protocol」-
-     * 协议类型：HTTP, HTTPS, FTP
-     */
-    @Override
-    public IIntegrationRecord setProtocol(String value) {
-        set(7, value);
-        return this;
-    }
-
-    /**
-     * Getter for <code>DB_ETERNAL.I_INTEGRATION.PROTOCOL</code>. 「protocol」-
-     * 协议类型：HTTP, HTTPS, FTP
-     */
-    @Override
-    public String getProtocol() {
-        return (String) get(7);
-    }
-
-    /**
      * Setter for <code>DB_ETERNAL.I_INTEGRATION.ENDPOINT</code>. 「endpoint」-
      * 端地址
      */
     @Override
     public IIntegrationRecord setEndpoint(String value) {
-        set(8, value);
+        set(6, value);
         return this;
     }
 
@@ -180,7 +144,81 @@ public class IIntegrationRecord extends UpdatableRecordImpl<IIntegrationRecord> 
      */
     @Override
     public String getEndpoint() {
+        return (String) get(6);
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.I_INTEGRATION.PORT</code>. 「port」- 端口号
+     */
+    @Override
+    public IIntegrationRecord setPort(Integer value) {
+        set(7, value);
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.I_INTEGRATION.PORT</code>. 「port」- 端口号
+     */
+    @Override
+    public Integer getPort() {
+        return (Integer) get(7);
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.I_INTEGRATION.PROTOCOL</code>. 「protocol」-
+     * 协议类型：HTTP, HTTPS, FTP
+     */
+    @Override
+    public IIntegrationRecord setProtocol(String value) {
+        set(8, value);
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.I_INTEGRATION.PROTOCOL</code>. 「protocol」-
+     * 协议类型：HTTP, HTTPS, FTP
+     */
+    @Override
+    public String getProtocol() {
         return (String) get(8);
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.I_INTEGRATION.SECURE_PORT</code>.
+     * 「securePort」- 传输层安全接口
+     */
+    @Override
+    public IIntegrationRecord setSecurePort(Integer value) {
+        set(9, value);
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.I_INTEGRATION.SECURE_PORT</code>.
+     * 「securePort」- 传输层安全接口
+     */
+    @Override
+    public Integer getSecurePort() {
+        return (Integer) get(9);
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.I_INTEGRATION.SECURE_PROTOCOL</code>.
+     * 「secureProtocol」- 传入层协议：TLS / SSL（邮件服务器需要）
+     */
+    @Override
+    public IIntegrationRecord setSecureProtocol(String value) {
+        set(10, value);
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.I_INTEGRATION.SECURE_PROTOCOL</code>.
+     * 「secureProtocol」- 传入层协议：TLS / SSL（邮件服务器需要）
+     */
+    @Override
+    public String getSecureProtocol() {
+        return (String) get(10);
     }
 
     /**
@@ -188,7 +226,7 @@ public class IIntegrationRecord extends UpdatableRecordImpl<IIntegrationRecord> 
      */
     @Override
     public IIntegrationRecord setPath(String value) {
-        set(9, value);
+        set(11, value);
         return this;
     }
 
@@ -197,7 +235,7 @@ public class IIntegrationRecord extends UpdatableRecordImpl<IIntegrationRecord> 
      */
     @Override
     public String getPath() {
-        return (String) get(9);
+        return (String) get(11);
     }
 
     /**
@@ -205,7 +243,7 @@ public class IIntegrationRecord extends UpdatableRecordImpl<IIntegrationRecord> 
      */
     @Override
     public IIntegrationRecord setOsKey(String value) {
-        set(10, value);
+        set(12, value);
         return this;
     }
 
@@ -214,7 +252,7 @@ public class IIntegrationRecord extends UpdatableRecordImpl<IIntegrationRecord> 
      */
     @Override
     public String getOsKey() {
-        return (String) get(10);
+        return (String) get(12);
     }
 
     /**
@@ -223,7 +261,7 @@ public class IIntegrationRecord extends UpdatableRecordImpl<IIntegrationRecord> 
      */
     @Override
     public IIntegrationRecord setOsSecret(String value) {
-        set(11, value);
+        set(13, value);
         return this;
     }
 
@@ -233,7 +271,7 @@ public class IIntegrationRecord extends UpdatableRecordImpl<IIntegrationRecord> 
      */
     @Override
     public String getOsSecret() {
-        return (String) get(11);
+        return (String) get(13);
     }
 
     /**
@@ -242,7 +280,7 @@ public class IIntegrationRecord extends UpdatableRecordImpl<IIntegrationRecord> 
      */
     @Override
     public IIntegrationRecord setOsAuthorize(String value) {
-        set(12, value);
+        set(14, value);
         return this;
     }
 
@@ -252,7 +290,7 @@ public class IIntegrationRecord extends UpdatableRecordImpl<IIntegrationRecord> 
      */
     @Override
     public String getOsAuthorize() {
-        return (String) get(12);
+        return (String) get(14);
     }
 
     /**
@@ -261,7 +299,7 @@ public class IIntegrationRecord extends UpdatableRecordImpl<IIntegrationRecord> 
      */
     @Override
     public IIntegrationRecord setOsToken(String value) {
-        set(13, value);
+        set(15, value);
         return this;
     }
 
@@ -271,7 +309,7 @@ public class IIntegrationRecord extends UpdatableRecordImpl<IIntegrationRecord> 
      */
     @Override
     public String getOsToken() {
-        return (String) get(13);
+        return (String) get(15);
     }
 
     /**
@@ -279,7 +317,7 @@ public class IIntegrationRecord extends UpdatableRecordImpl<IIntegrationRecord> 
      */
     @Override
     public IIntegrationRecord setUsername(String value) {
-        set(14, value);
+        set(16, value);
         return this;
     }
 
@@ -288,7 +326,7 @@ public class IIntegrationRecord extends UpdatableRecordImpl<IIntegrationRecord> 
      */
     @Override
     public String getUsername() {
-        return (String) get(14);
+        return (String) get(16);
     }
 
     /**
@@ -296,7 +334,7 @@ public class IIntegrationRecord extends UpdatableRecordImpl<IIntegrationRecord> 
      */
     @Override
     public IIntegrationRecord setPassword(String value) {
-        set(15, value);
+        set(17, value);
         return this;
     }
 
@@ -305,7 +343,7 @@ public class IIntegrationRecord extends UpdatableRecordImpl<IIntegrationRecord> 
      */
     @Override
     public String getPassword() {
-        return (String) get(15);
+        return (String) get(17);
     }
 
     /**
@@ -314,7 +352,7 @@ public class IIntegrationRecord extends UpdatableRecordImpl<IIntegrationRecord> 
      */
     @Override
     public IIntegrationRecord setPublicKey(String value) {
-        set(16, value);
+        set(18, value);
         return this;
     }
 
@@ -324,7 +362,7 @@ public class IIntegrationRecord extends UpdatableRecordImpl<IIntegrationRecord> 
      */
     @Override
     public String getPublicKey() {
-        return (String) get(16);
+        return (String) get(18);
     }
 
     /**
@@ -333,7 +371,7 @@ public class IIntegrationRecord extends UpdatableRecordImpl<IIntegrationRecord> 
      */
     @Override
     public IIntegrationRecord setOptions(String value) {
-        set(17, value);
+        set(19, value);
         return this;
     }
 
@@ -343,7 +381,7 @@ public class IIntegrationRecord extends UpdatableRecordImpl<IIntegrationRecord> 
      */
     @Override
     public String getOptions() {
-        return (String) get(17);
+        return (String) get(19);
     }
 
     /**
@@ -352,7 +390,7 @@ public class IIntegrationRecord extends UpdatableRecordImpl<IIntegrationRecord> 
      */
     @Override
     public IIntegrationRecord setAppId(String value) {
-        set(18, value);
+        set(20, value);
         return this;
     }
 
@@ -362,7 +400,7 @@ public class IIntegrationRecord extends UpdatableRecordImpl<IIntegrationRecord> 
      */
     @Override
     public String getAppId() {
-        return (String) get(18);
+        return (String) get(20);
     }
 
     /**
@@ -370,7 +408,7 @@ public class IIntegrationRecord extends UpdatableRecordImpl<IIntegrationRecord> 
      */
     @Override
     public IIntegrationRecord setActive(Boolean value) {
-        set(19, value);
+        set(21, value);
         return this;
     }
 
@@ -379,7 +417,7 @@ public class IIntegrationRecord extends UpdatableRecordImpl<IIntegrationRecord> 
      */
     @Override
     public Boolean getActive() {
-        return (Boolean) get(19);
+        return (Boolean) get(21);
     }
 
     /**
@@ -387,7 +425,7 @@ public class IIntegrationRecord extends UpdatableRecordImpl<IIntegrationRecord> 
      */
     @Override
     public IIntegrationRecord setSigma(String value) {
-        set(20, value);
+        set(22, value);
         return this;
     }
 
@@ -396,7 +434,7 @@ public class IIntegrationRecord extends UpdatableRecordImpl<IIntegrationRecord> 
      */
     @Override
     public String getSigma() {
-        return (String) get(20);
+        return (String) get(22);
     }
 
     /**
@@ -405,7 +443,7 @@ public class IIntegrationRecord extends UpdatableRecordImpl<IIntegrationRecord> 
      */
     @Override
     public IIntegrationRecord setMetadata(String value) {
-        set(21, value);
+        set(23, value);
         return this;
     }
 
@@ -415,7 +453,7 @@ public class IIntegrationRecord extends UpdatableRecordImpl<IIntegrationRecord> 
      */
     @Override
     public String getMetadata() {
-        return (String) get(21);
+        return (String) get(23);
     }
 
     /**
@@ -424,7 +462,7 @@ public class IIntegrationRecord extends UpdatableRecordImpl<IIntegrationRecord> 
      */
     @Override
     public IIntegrationRecord setLanguage(String value) {
-        set(22, value);
+        set(24, value);
         return this;
     }
 
@@ -434,7 +472,7 @@ public class IIntegrationRecord extends UpdatableRecordImpl<IIntegrationRecord> 
      */
     @Override
     public String getLanguage() {
-        return (String) get(22);
+        return (String) get(24);
     }
 
     /**
@@ -443,7 +481,7 @@ public class IIntegrationRecord extends UpdatableRecordImpl<IIntegrationRecord> 
      */
     @Override
     public IIntegrationRecord setCreatedAt(LocalDateTime value) {
-        set(23, value);
+        set(25, value);
         return this;
     }
 
@@ -453,7 +491,7 @@ public class IIntegrationRecord extends UpdatableRecordImpl<IIntegrationRecord> 
      */
     @Override
     public LocalDateTime getCreatedAt() {
-        return (LocalDateTime) get(23);
+        return (LocalDateTime) get(25);
     }
 
     /**
@@ -462,7 +500,7 @@ public class IIntegrationRecord extends UpdatableRecordImpl<IIntegrationRecord> 
      */
     @Override
     public IIntegrationRecord setCreatedBy(String value) {
-        set(24, value);
+        set(26, value);
         return this;
     }
 
@@ -472,7 +510,7 @@ public class IIntegrationRecord extends UpdatableRecordImpl<IIntegrationRecord> 
      */
     @Override
     public String getCreatedBy() {
-        return (String) get(24);
+        return (String) get(26);
     }
 
     /**
@@ -481,7 +519,7 @@ public class IIntegrationRecord extends UpdatableRecordImpl<IIntegrationRecord> 
      */
     @Override
     public IIntegrationRecord setUpdatedAt(LocalDateTime value) {
-        set(25, value);
+        set(27, value);
         return this;
     }
 
@@ -491,7 +529,7 @@ public class IIntegrationRecord extends UpdatableRecordImpl<IIntegrationRecord> 
      */
     @Override
     public LocalDateTime getUpdatedAt() {
-        return (LocalDateTime) get(25);
+        return (LocalDateTime) get(27);
     }
 
     /**
@@ -500,7 +538,7 @@ public class IIntegrationRecord extends UpdatableRecordImpl<IIntegrationRecord> 
      */
     @Override
     public IIntegrationRecord setUpdatedBy(String value) {
-        set(26, value);
+        set(28, value);
         return this;
     }
 
@@ -510,7 +548,7 @@ public class IIntegrationRecord extends UpdatableRecordImpl<IIntegrationRecord> 
      */
     @Override
     public String getUpdatedBy() {
-        return (String) get(26);
+        return (String) get(28);
     }
 
     // -------------------------------------------------------------------------
@@ -534,9 +572,11 @@ public class IIntegrationRecord extends UpdatableRecordImpl<IIntegrationRecord> 
         setIpV4(from.getIpV4());
         setIpV6(from.getIpV6());
         setHostname(from.getHostname());
+        setEndpoint(from.getEndpoint());
         setPort(from.getPort());
         setProtocol(from.getProtocol());
-        setEndpoint(from.getEndpoint());
+        setSecurePort(from.getSecurePort());
+        setSecureProtocol(from.getSecureProtocol());
         setPath(from.getPath());
         setOsKey(from.getOsKey());
         setOsSecret(from.getOsSecret());
@@ -577,7 +617,7 @@ public class IIntegrationRecord extends UpdatableRecordImpl<IIntegrationRecord> 
     /**
      * Create a detached, initialised IIntegrationRecord
      */
-    public IIntegrationRecord(String key, String name, String type, String ipV4, String ipV6, String hostname, Integer port, String protocol, String endpoint, String path, String osKey, String osSecret, String osAuthorize, String osToken, String username, String password, String publicKey, String options, String appId, Boolean active, String sigma, String metadata, String language, LocalDateTime createdAt, String createdBy, LocalDateTime updatedAt, String updatedBy) {
+    public IIntegrationRecord(String key, String name, String type, String ipV4, String ipV6, String hostname, String endpoint, Integer port, String protocol, Integer securePort, String secureProtocol, String path, String osKey, String osSecret, String osAuthorize, String osToken, String username, String password, String publicKey, String options, String appId, Boolean active, String sigma, String metadata, String language, LocalDateTime createdAt, String createdBy, LocalDateTime updatedAt, String updatedBy) {
         super(IIntegration.I_INTEGRATION);
 
         setKey(key);
@@ -586,9 +626,11 @@ public class IIntegrationRecord extends UpdatableRecordImpl<IIntegrationRecord> 
         setIpV4(ipV4);
         setIpV6(ipV6);
         setHostname(hostname);
+        setEndpoint(endpoint);
         setPort(port);
         setProtocol(protocol);
-        setEndpoint(endpoint);
+        setSecurePort(securePort);
+        setSecureProtocol(secureProtocol);
         setPath(path);
         setOsKey(osKey);
         setOsSecret(osSecret);
@@ -622,9 +664,11 @@ public class IIntegrationRecord extends UpdatableRecordImpl<IIntegrationRecord> 
             setIpV4(value.getIpV4());
             setIpV6(value.getIpV6());
             setHostname(value.getHostname());
+            setEndpoint(value.getEndpoint());
             setPort(value.getPort());
             setProtocol(value.getProtocol());
-            setEndpoint(value.getEndpoint());
+            setSecurePort(value.getSecurePort());
+            setSecureProtocol(value.getSecureProtocol());
             setPath(value.getPath());
             setOsKey(value.getOsKey());
             setOsSecret(value.getOsSecret());

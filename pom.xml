@@ -91,7 +91,7 @@
         <etcd.version>2.18.0</etcd.version>
 
         <!-- Bean Validation -->
-        <hibernate.validator.version>6.2.2.Final</hibernate.validator.version>
+        <hibernate.validator.version>6.2.3.Final</hibernate.validator.version>
 
         <jwt.version>3.18.3</jwt.version>
         <jetbrains.version>23.0.0</jetbrains.version>
@@ -153,7 +153,7 @@
         <swagger.version>1.6.0</swagger.version>
         <error.prone.version>2.11.0</error.prone.version>
         <reactive.streams.version>1.0.3</reactive.streams.version>
-        <zookeeper.version>3.7.0</zookeeper.version>
+        <zookeeper.version>3.8.0</zookeeper.version>
         <!-- JSR -->
         <!--
             <jsr311.version>1.1.1</jsr311.version>          Replaced by Jersey-Common

@@ -54,6 +54,11 @@ public class IIntegration extends TableImpl<IIntegrationRecord> {
      */
     public final TableField<IIntegrationRecord, String> HOSTNAME = createField(DSL.name("HOSTNAME"), SQLDataType.VARCHAR(255), this, "「hostname」- 主机地址");
     /**
+     * The column <code>DB_ETERNAL.I_INTEGRATION.ENDPOINT</code>. 「endpoint」-
+     * 端地址
+     */
+    public final TableField<IIntegrationRecord, String> ENDPOINT = createField(DSL.name("ENDPOINT"), SQLDataType.VARCHAR(255), this, "「endpoint」- 端地址");
+    /**
      * The column <code>DB_ETERNAL.I_INTEGRATION.PORT</code>. 「port」- 端口号
      */
     public final TableField<IIntegrationRecord, Integer> PORT = createField(DSL.name("PORT"), SQLDataType.INTEGER, this, "「port」- 端口号");
@@ -63,10 +68,15 @@ public class IIntegration extends TableImpl<IIntegrationRecord> {
      */
     public final TableField<IIntegrationRecord, String> PROTOCOL = createField(DSL.name("PROTOCOL"), SQLDataType.VARCHAR(64), this, "「protocol」- 协议类型：HTTP, HTTPS, FTP");
     /**
-     * The column <code>DB_ETERNAL.I_INTEGRATION.ENDPOINT</code>. 「endpoint」-
-     * 端地址
+     * The column <code>DB_ETERNAL.I_INTEGRATION.SECURE_PORT</code>.
+     * 「securePort」- 传输层安全接口
      */
-    public final TableField<IIntegrationRecord, String> ENDPOINT = createField(DSL.name("ENDPOINT"), SQLDataType.VARCHAR(255), this, "「endpoint」- 端地址");
+    public final TableField<IIntegrationRecord, Integer> SECURE_PORT = createField(DSL.name("SECURE_PORT"), SQLDataType.INTEGER, this, "「securePort」- 传输层安全接口");
+    /**
+     * The column <code>DB_ETERNAL.I_INTEGRATION.SECURE_PROTOCOL</code>.
+     * 「secureProtocol」- 传入层协议：TLS / SSL（邮件服务器需要）
+     */
+    public final TableField<IIntegrationRecord, String> SECURE_PROTOCOL = createField(DSL.name("SECURE_PROTOCOL"), SQLDataType.VARCHAR(32), this, "「secureProtocol」- 传入层协议：TLS / SSL（邮件服务器需要）");
     /**
      * The column <code>DB_ETERNAL.I_INTEGRATION.PATH</code>. 「path」- 集成专用根路径
      */
