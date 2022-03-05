@@ -1,0 +1,12 @@
+{
+    "name": "i-directory",
+    "daoCls": "cn.vertxup.integration.domain.tables.daos.IDirectoryDao",
+    "field": {
+        "unique": [
+            [
+                "storePath",
+                "sigma"
+            ]
+        ]
+    }
+}
