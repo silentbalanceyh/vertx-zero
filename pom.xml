@@ -178,7 +178,7 @@
 
         <!-- Logging -->
         <log4j2.version>2.17.2</log4j2.version>
-        <logback.version>1.2.10</logback.version>
+        <logback.version>1.2.11</logback.version>
         <logback.cal10n.version>0.8.1</logback.cal10n.version>
         <slf4j.version>1.7.36</slf4j.version>
 
