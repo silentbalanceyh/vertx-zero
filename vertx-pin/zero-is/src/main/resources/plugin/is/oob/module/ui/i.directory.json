@@ -34,9 +34,9 @@
         "metadata": "visitMode,访问模式,RENDERS",
         "width": 180,
         "$mapping": {
-            "r": "读取（r）",
-            "w": "写入（w）",
-            "x": "可执行（x）"
+            "r": "读取",
+            "w": "写入",
+            "x": "可执行"
         }
     },
     {
