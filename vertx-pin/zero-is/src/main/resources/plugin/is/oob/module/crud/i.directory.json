@@ -2,11 +2,19 @@
     "name": "i-directory",
     "daoCls": "cn.vertxup.integration.domain.tables.daos.IDirectoryDao",
     "field": {
+        "numbers": {
+            "code": "NUM.DIRECTORY"
+        },
         "unique": [
             [
                 "storePath",
                 "sigma"
             ]
+        ],
+        "array": [
+            "visitMode",
+            "visitRole",
+            "visitGroup"
         ]
     }
 }

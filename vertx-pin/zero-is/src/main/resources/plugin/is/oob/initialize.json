@@ -1,5 +1,6 @@
 [
     "plugin/is/oob/data/is.menu.xlsx",
+    "plugin/is/oob/data/is.number.xlsx",
     "plugin/is/oob/cab/i.directory.xlsx",
     "plugin/is/oob/cab/i.integration.xlsx",
     "plugin/is/oob/role/ADMIN.SUPER/falcon.i.directory.xlsx",
