@@ -58,6 +58,16 @@ public interface IBBag extends VertxPojo, Serializable {
     public String getNameFull();
 
     /**
+     * Setter for <code>DB_ETERNAL.B_BAG.TYPE</code>. 「type」- 包类型
+     */
+    public IBBag setType(String value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.B_BAG.TYPE</code>. 「type」- 包类型
+     */
+    public String getType();
+
+    /**
      * Setter for <code>DB_ETERNAL.B_BAG.UI_ICON</code>. 「uiIcon」- 模块图标
      */
     public IBBag setUiIcon(String value);
@@ -209,6 +219,7 @@ public interface IBBag extends VertxPojo, Serializable {
                 setOrThrow(this::setName,json::getString,"NAME","java.lang.String");
                 setOrThrow(this::setNameAbbr,json::getString,"NAME_ABBR","java.lang.String");
                 setOrThrow(this::setNameFull,json::getString,"NAME_FULL","java.lang.String");
+                setOrThrow(this::setType,json::getString,"TYPE","java.lang.String");
                 setOrThrow(this::setUiIcon,json::getString,"UI_ICON","java.lang.String");
                 setOrThrow(this::setUiStyle,json::getString,"UI_STYLE","java.lang.String");
                 setOrThrow(this::setUiSort,json::getLong,"UI_SORT","java.lang.Long");
@@ -233,6 +244,7 @@ public interface IBBag extends VertxPojo, Serializable {
                 json.put("NAME",getName());
                 json.put("NAME_ABBR",getNameAbbr());
                 json.put("NAME_FULL",getNameFull());
+                json.put("TYPE",getType());
                 json.put("UI_ICON",getUiIcon());
                 json.put("UI_STYLE",getUiStyle());
                 json.put("UI_SORT",getUiSort());

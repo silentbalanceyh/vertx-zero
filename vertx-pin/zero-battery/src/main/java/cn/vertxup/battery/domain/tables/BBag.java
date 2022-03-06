@@ -45,6 +45,10 @@ public class BBag extends TableImpl<BBagRecord> {
      */
     public final TableField<BBagRecord, String> NAME_FULL = createField(DSL.name("NAME_FULL"), SQLDataType.VARCHAR(255), this, "「nameFull」- 模块全名");
     /**
+     * The column <code>DB_ETERNAL.B_BAG.TYPE</code>. 「type」- 包类型
+     */
+    public final TableField<BBagRecord, String> TYPE = createField(DSL.name("TYPE"), SQLDataType.VARCHAR(64), this, "「type」- 包类型");
+    /**
      * The column <code>DB_ETERNAL.B_BAG.UI_ICON</code>. 「uiIcon」- 模块图标
      */
     public final TableField<BBagRecord, String> UI_ICON = createField(DSL.name("UI_ICON"), SQLDataType.VARCHAR(255), this, "「uiIcon」- 模块图标");
@@ -180,11 +184,11 @@ public class BBag extends TableImpl<BBagRecord> {
     }
 
     // -------------------------------------------------------------------------
-    // Row17 type methods
+    // Row18 type methods
     // -------------------------------------------------------------------------
 
     @Override
-    public Row17<String, String, String, String, String, String, Long, String, String, Boolean, String, String, String, LocalDateTime, String, LocalDateTime, String> fieldsRow() {
-        return (Row17) super.fieldsRow();
+    public Row18<String, String, String, String, String, String, String, Long, String, String, Boolean, String, String, String, LocalDateTime, String, LocalDateTime, String> fieldsRow() {
+        return (Row18) super.fieldsRow();
     }
 }

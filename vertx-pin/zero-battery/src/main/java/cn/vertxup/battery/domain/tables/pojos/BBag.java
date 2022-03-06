@@ -24,6 +24,7 @@ public class BBag implements VertxPojo, IBBag {
     private String        name;
     private String        nameAbbr;
     private String        nameFull;
+    private String        type;
     private String        uiIcon;
     private String        uiStyle;
     private Long          uiSort;
@@ -45,6 +46,7 @@ public class BBag implements VertxPojo, IBBag {
         this.name = value.getName();
         this.nameAbbr = value.getNameAbbr();
         this.nameFull = value.getNameFull();
+        this.type = value.getType();
         this.uiIcon = value.getUiIcon();
         this.uiStyle = value.getUiStyle();
         this.uiSort = value.getUiSort();
@@ -65,6 +67,7 @@ public class BBag implements VertxPojo, IBBag {
         String        name,
         String        nameAbbr,
         String        nameFull,
+        String        type,
         String        uiIcon,
         String        uiStyle,
         Long          uiSort,
@@ -83,6 +86,7 @@ public class BBag implements VertxPojo, IBBag {
         this.name = name;
         this.nameAbbr = nameAbbr;
         this.nameFull = nameFull;
+        this.type = type;
         this.uiIcon = uiIcon;
         this.uiStyle = uiStyle;
         this.uiSort = uiSort;
@@ -168,6 +172,23 @@ public class BBag implements VertxPojo, IBBag {
     @Override
     public BBag setNameFull(String nameFull) {
         this.nameFull = nameFull;
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.B_BAG.TYPE</code>. 「type」- 包类型
+     */
+    @Override
+    public String getType() {
+        return this.type;
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.B_BAG.TYPE</code>. 「type」- 包类型
+     */
+    @Override
+    public BBag setType(String type) {
+        this.type = type;
         return this;
     }
 
@@ -400,6 +421,7 @@ public class BBag implements VertxPojo, IBBag {
         sb.append(", ").append(name);
         sb.append(", ").append(nameAbbr);
         sb.append(", ").append(nameFull);
+        sb.append(", ").append(type);
         sb.append(", ").append(uiIcon);
         sb.append(", ").append(uiStyle);
         sb.append(", ").append(uiSort);
@@ -428,6 +450,7 @@ public class BBag implements VertxPojo, IBBag {
         setName(from.getName());
         setNameAbbr(from.getNameAbbr());
         setNameFull(from.getNameFull());
+        setType(from.getType());
         setUiIcon(from.getUiIcon());
         setUiStyle(from.getUiStyle());
         setUiSort(from.getUiSort());

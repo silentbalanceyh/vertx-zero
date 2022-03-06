@@ -40,7 +40,7 @@ public class Keys {
     public static final UniqueKey<BBlockRecord> KEY_B_BLOCK_CODE = Internal.createUniqueKey(BBlock.B_BLOCK, DSL.name("KEY_B_BLOCK_CODE"), new TableField[] { BBlock.B_BLOCK.CODE, BBlock.B_BLOCK.APP_ID }, true);
     public static final UniqueKey<BBlockRecord> KEY_B_BLOCK_NAME = Internal.createUniqueKey(BBlock.B_BLOCK, DSL.name("KEY_B_BLOCK_NAME"), new TableField[] { BBlock.B_BLOCK.NAME, BBlock.B_BLOCK.APP_ID, BBlock.B_BLOCK.BAG_ID }, true);
     public static final UniqueKey<BBlockRecord> KEY_B_BLOCK_PRIMARY = Internal.createUniqueKey(BBlock.B_BLOCK, DSL.name("KEY_B_BLOCK_PRIMARY"), new TableField[] { BBlock.B_BLOCK.KEY }, true);
-    public static final UniqueKey<BBlockRecord> KEY_B_BLOCK_SIGN_KEY = Internal.createUniqueKey(BBlock.B_BLOCK, DSL.name("KEY_B_BLOCK_SIGN_KEY"), new TableField[] { BBlock.B_BLOCK.SIGN_KEY }, true);
+    public static final UniqueKey<BBlockRecord> KEY_B_BLOCK_SIGN_SECRET = Internal.createUniqueKey(BBlock.B_BLOCK, DSL.name("KEY_B_BLOCK_SIGN_SECRET"), new TableField[] { BBlock.B_BLOCK.SIGN_SECRET }, true);
     public static final UniqueKey<BComponentRecord> KEY_B_COMPONENT_PRIMARY = Internal.createUniqueKey(BComponent.B_COMPONENT, DSL.name("KEY_B_COMPONENT_PRIMARY"), new TableField[] { BComponent.B_COMPONENT.KEY }, true);
     public static final UniqueKey<BComponentRecord> KEY_B_COMPONENT_SPEC_IMPL = Internal.createUniqueKey(BComponent.B_COMPONENT, DSL.name("KEY_B_COMPONENT_SPEC_IMPL"), new TableField[] { BComponent.B_COMPONENT.SPEC_IMPL, BComponent.B_COMPONENT.BLOCK_ID }, true);
     public static final UniqueKey<BWebRecord> KEY_B_WEB_CODE = Internal.createUniqueKey(BWeb.B_WEB, DSL.name("KEY_B_WEB_CODE"), new TableField[] { BWeb.B_WEB.CODE, BWeb.B_WEB.BLOCK_ID }, true);

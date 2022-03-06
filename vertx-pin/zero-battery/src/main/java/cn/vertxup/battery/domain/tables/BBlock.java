@@ -41,6 +41,14 @@ public class BBlock extends TableImpl<BBlockRecord> {
      */
     public final TableField<BBlockRecord, String> NAME = createField(DSL.name("NAME"), SQLDataType.VARCHAR(255), this, "「name」- 子模块名称");
     /**
+     * The column <code>DB_ETERNAL.B_BLOCK.VERSION</code>. 「version」- 子模块版本
+     */
+    public final TableField<BBlockRecord, String> VERSION = createField(DSL.name("VERSION"), SQLDataType.VARCHAR(64), this, "「version」- 子模块版本");
+    /**
+     * The column <code>DB_ETERNAL.B_BLOCK.AUTHORIZED</code>. 「authorized」- 是否授权
+     */
+    public final TableField<BBlockRecord, Boolean> AUTHORIZED = createField(DSL.name("AUTHORIZED"), SQLDataType.BIT, this, "「authorized」- 是否授权");
+    /**
      * The column <code>DB_ETERNAL.B_BLOCK.UI_ICON</code>. 「uiIcon」- 子模块图标
      */
     public final TableField<BBlockRecord, String> UI_ICON = createField(DSL.name("UI_ICON"), SQLDataType.VARCHAR(255), this, "「uiIcon」- 子模块图标");
@@ -57,22 +65,36 @@ public class BBlock extends TableImpl<BBlockRecord> {
      */
     public final TableField<BBlockRecord, String> UI_CONFIG = createField(DSL.name("UI_CONFIG"), SQLDataType.CLOB, this, "「uiConfig」- 子模块核心配置");
     /**
-     * The column <code>DB_ETERNAL.B_BLOCK.SIGN_LIC</code>. 「signLic」- License信息
-     */
-    public final TableField<BBlockRecord, String> SIGN_LIC = createField(DSL.name("SIGN_LIC"), SQLDataType.CLOB, this, "「signLic」- License信息");
-    /**
      * The column <code>DB_ETERNAL.B_BLOCK.SIGN_ISSUER</code>. 「signIssuer」-
-     * License发证机构
+     * 许可证发证机构
      */
-    public final TableField<BBlockRecord, String> SIGN_ISSUER = createField(DSL.name("SIGN_ISSUER"), SQLDataType.VARCHAR(255), this, "「signIssuer」- License发证机构");
+    public final TableField<BBlockRecord, String> SIGN_ISSUER = createField(DSL.name("SIGN_ISSUER"), SQLDataType.VARCHAR(255), this, "「signIssuer」- 许可证发证机构");
     /**
-     * The column <code>DB_ETERNAL.B_BLOCK.SIGN_NAME</code>. 「signName」- 证书名称
+     * The column <code>DB_ETERNAL.B_BLOCK.SIGN_NAME</code>. 「signName」- 许可证名称
      */
-    public final TableField<BBlockRecord, String> SIGN_NAME = createField(DSL.name("SIGN_NAME"), SQLDataType.VARCHAR(255), this, "「signName」- 证书名称");
+    public final TableField<BBlockRecord, String> SIGN_NAME = createField(DSL.name("SIGN_NAME"), SQLDataType.VARCHAR(255), this, "「signName」- 许可证名称");
     /**
-     * The column <code>DB_ETERNAL.B_BLOCK.SIGN_KEY</code>. 「signKey」- 签名专用标识
+     * The column <code>DB_ETERNAL.B_BLOCK.SIGN_AT</code>. 「signAt」- 发证时间
      */
-    public final TableField<BBlockRecord, String> SIGN_KEY = createField(DSL.name("SIGN_KEY"), SQLDataType.VARCHAR(64), this, "「signKey」- 签名专用标识");
+    public final TableField<BBlockRecord, LocalDateTime> SIGN_AT = createField(DSL.name("SIGN_AT"), SQLDataType.LOCALDATETIME(0), this, "「signAt」- 发证时间");
+    /**
+     * The column <code>DB_ETERNAL.B_BLOCK.SIGN_SECRET</code>. 「signSecret」-
+     * 证书专用密钥
+     */
+    public final TableField<BBlockRecord, String> SIGN_SECRET = createField(DSL.name("SIGN_SECRET"), SQLDataType.VARCHAR(64), this, "「signSecret」- 证书专用密钥");
+    /**
+     * The column <code>DB_ETERNAL.B_BLOCK.SIGN_LIC</code>. 「signLic」- 许可证内容
+     */
+    public final TableField<BBlockRecord, String> SIGN_LIC = createField(DSL.name("SIGN_LIC"), SQLDataType.CLOB, this, "「signLic」- 许可证内容");
+    /**
+     * The column <code>DB_ETERNAL.B_BLOCK.SIGN_END</code>. 「signEnd」- 证书过期时间
+     */
+    public final TableField<BBlockRecord, LocalDateTime> SIGN_END = createField(DSL.name("SIGN_END"), SQLDataType.LOCALDATETIME(0), this, "「signEnd」- 证书过期时间");
+    /**
+     * The column <code>DB_ETERNAL.B_BLOCK.SIGN_START</code>. 「signStart」-
+     * 证书过期时间
+     */
+    public final TableField<BBlockRecord, LocalDateTime> SIGN_START = createField(DSL.name("SIGN_START"), SQLDataType.LOCALDATETIME(0), this, "「signStart」- 证书过期时间");
     /**
      * The column <code>DB_ETERNAL.B_BLOCK.LIC_IDENTIFIER</code>.
      * 「licIdentifier」- 允许的模型标识
@@ -177,7 +199,7 @@ public class BBlock extends TableImpl<BBlockRecord> {
 
     @Override
     public List<UniqueKey<BBlockRecord>> getUniqueKeys() {
-        return Arrays.asList(Keys.KEY_B_BLOCK_CODE, Keys.KEY_B_BLOCK_NAME, Keys.KEY_B_BLOCK_SIGN_KEY);
+        return Arrays.asList(Keys.KEY_B_BLOCK_CODE, Keys.KEY_B_BLOCK_NAME, Keys.KEY_B_BLOCK_SIGN_SECRET);
     }
 
     @Override

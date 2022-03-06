@@ -48,6 +48,26 @@ public interface IBBlock extends VertxPojo, Serializable {
     public String getName();
 
     /**
+     * Setter for <code>DB_ETERNAL.B_BLOCK.VERSION</code>. 「version」- 子模块版本
+     */
+    public IBBlock setVersion(String value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.B_BLOCK.VERSION</code>. 「version」- 子模块版本
+     */
+    public String getVersion();
+
+    /**
+     * Setter for <code>DB_ETERNAL.B_BLOCK.AUTHORIZED</code>. 「authorized」- 是否授权
+     */
+    public IBBlock setAuthorized(Boolean value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.B_BLOCK.AUTHORIZED</code>. 「authorized」- 是否授权
+     */
+    public Boolean getAuthorized();
+
+    /**
      * Setter for <code>DB_ETERNAL.B_BLOCK.UI_ICON</code>. 「uiIcon」- 子模块图标
      */
     public IBBlock setUiIcon(String value);
@@ -88,46 +108,80 @@ public interface IBBlock extends VertxPojo, Serializable {
     public String getUiConfig();
 
     /**
-     * Setter for <code>DB_ETERNAL.B_BLOCK.SIGN_LIC</code>. 「signLic」- License信息
-     */
-    public IBBlock setSignLic(String value);
-
-    /**
-     * Getter for <code>DB_ETERNAL.B_BLOCK.SIGN_LIC</code>. 「signLic」- License信息
-     */
-    public String getSignLic();
-
-    /**
      * Setter for <code>DB_ETERNAL.B_BLOCK.SIGN_ISSUER</code>. 「signIssuer」-
-     * License发证机构
+     * 许可证发证机构
      */
     public IBBlock setSignIssuer(String value);
 
     /**
      * Getter for <code>DB_ETERNAL.B_BLOCK.SIGN_ISSUER</code>. 「signIssuer」-
-     * License发证机构
+     * 许可证发证机构
      */
     public String getSignIssuer();
 
     /**
-     * Setter for <code>DB_ETERNAL.B_BLOCK.SIGN_NAME</code>. 「signName」- 证书名称
+     * Setter for <code>DB_ETERNAL.B_BLOCK.SIGN_NAME</code>. 「signName」- 许可证名称
      */
     public IBBlock setSignName(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.B_BLOCK.SIGN_NAME</code>. 「signName」- 证书名称
+     * Getter for <code>DB_ETERNAL.B_BLOCK.SIGN_NAME</code>. 「signName」- 许可证名称
      */
     public String getSignName();
 
     /**
-     * Setter for <code>DB_ETERNAL.B_BLOCK.SIGN_KEY</code>. 「signKey」- 签名专用标识
+     * Setter for <code>DB_ETERNAL.B_BLOCK.SIGN_AT</code>. 「signAt」- 发证时间
      */
-    public IBBlock setSignKey(String value);
+    public IBBlock setSignAt(LocalDateTime value);
 
     /**
-     * Getter for <code>DB_ETERNAL.B_BLOCK.SIGN_KEY</code>. 「signKey」- 签名专用标识
+     * Getter for <code>DB_ETERNAL.B_BLOCK.SIGN_AT</code>. 「signAt」- 发证时间
      */
-    public String getSignKey();
+    public LocalDateTime getSignAt();
+
+    /**
+     * Setter for <code>DB_ETERNAL.B_BLOCK.SIGN_SECRET</code>. 「signSecret」-
+     * 证书专用密钥
+     */
+    public IBBlock setSignSecret(String value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.B_BLOCK.SIGN_SECRET</code>. 「signSecret」-
+     * 证书专用密钥
+     */
+    public String getSignSecret();
+
+    /**
+     * Setter for <code>DB_ETERNAL.B_BLOCK.SIGN_LIC</code>. 「signLic」- 许可证内容
+     */
+    public IBBlock setSignLic(String value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.B_BLOCK.SIGN_LIC</code>. 「signLic」- 许可证内容
+     */
+    public String getSignLic();
+
+    /**
+     * Setter for <code>DB_ETERNAL.B_BLOCK.SIGN_END</code>. 「signEnd」- 证书过期时间
+     */
+    public IBBlock setSignEnd(LocalDateTime value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.B_BLOCK.SIGN_END</code>. 「signEnd」- 证书过期时间
+     */
+    public LocalDateTime getSignEnd();
+
+    /**
+     * Setter for <code>DB_ETERNAL.B_BLOCK.SIGN_START</code>. 「signStart」-
+     * 证书过期时间
+     */
+    public IBBlock setSignStart(LocalDateTime value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.B_BLOCK.SIGN_START</code>. 「signStart」-
+     * 证书过期时间
+     */
+    public LocalDateTime getSignStart();
 
     /**
      * Setter for <code>DB_ETERNAL.B_BLOCK.LIC_IDENTIFIER</code>.
@@ -274,14 +328,19 @@ public interface IBBlock extends VertxPojo, Serializable {
                 setOrThrow(this::setKey,json::getString,"KEY","java.lang.String");
                 setOrThrow(this::setCode,json::getString,"CODE","java.lang.String");
                 setOrThrow(this::setName,json::getString,"NAME","java.lang.String");
+                setOrThrow(this::setVersion,json::getString,"VERSION","java.lang.String");
+                setOrThrow(this::setAuthorized,json::getBoolean,"AUTHORIZED","java.lang.Boolean");
                 setOrThrow(this::setUiIcon,json::getString,"UI_ICON","java.lang.String");
                 setOrThrow(this::setUiStyle,json::getString,"UI_STYLE","java.lang.String");
                 setOrThrow(this::setUiSort,json::getLong,"UI_SORT","java.lang.Long");
                 setOrThrow(this::setUiConfig,json::getString,"UI_CONFIG","java.lang.String");
-                setOrThrow(this::setSignLic,json::getString,"SIGN_LIC","java.lang.String");
                 setOrThrow(this::setSignIssuer,json::getString,"SIGN_ISSUER","java.lang.String");
                 setOrThrow(this::setSignName,json::getString,"SIGN_NAME","java.lang.String");
-                setOrThrow(this::setSignKey,json::getString,"SIGN_KEY","java.lang.String");
+                setOrThrow(this::setSignAt,key -> {String s = json.getString(key); return s==null?null:java.time.LocalDateTime.parse(s);},"SIGN_AT","java.time.LocalDateTime");
+                setOrThrow(this::setSignSecret,json::getString,"SIGN_SECRET","java.lang.String");
+                setOrThrow(this::setSignLic,json::getString,"SIGN_LIC","java.lang.String");
+                setOrThrow(this::setSignEnd,key -> {String s = json.getString(key); return s==null?null:java.time.LocalDateTime.parse(s);},"SIGN_END","java.time.LocalDateTime");
+                setOrThrow(this::setSignStart,key -> {String s = json.getString(key); return s==null?null:java.time.LocalDateTime.parse(s);},"SIGN_START","java.time.LocalDateTime");
                 setOrThrow(this::setLicIdentifier,json::getString,"LIC_IDENTIFIER","java.lang.String");
                 setOrThrow(this::setLicMenu,json::getString,"LIC_MENU","java.lang.String");
                 setOrThrow(this::setAppId,json::getString,"APP_ID","java.lang.String");
@@ -304,14 +363,19 @@ public interface IBBlock extends VertxPojo, Serializable {
                 json.put("KEY",getKey());
                 json.put("CODE",getCode());
                 json.put("NAME",getName());
+                json.put("VERSION",getVersion());
+                json.put("AUTHORIZED",getAuthorized());
                 json.put("UI_ICON",getUiIcon());
                 json.put("UI_STYLE",getUiStyle());
                 json.put("UI_SORT",getUiSort());
                 json.put("UI_CONFIG",getUiConfig());
-                json.put("SIGN_LIC",getSignLic());
                 json.put("SIGN_ISSUER",getSignIssuer());
                 json.put("SIGN_NAME",getSignName());
-                json.put("SIGN_KEY",getSignKey());
+                json.put("SIGN_AT",getSignAt()==null?null:getSignAt().toString());
+                json.put("SIGN_SECRET",getSignSecret());
+                json.put("SIGN_LIC",getSignLic());
+                json.put("SIGN_END",getSignEnd()==null?null:getSignEnd().toString());
+                json.put("SIGN_START",getSignStart()==null?null:getSignStart().toString());
                 json.put("LIC_IDENTIFIER",getLicIdentifier());
                 json.put("LIC_MENU",getLicMenu());
                 json.put("APP_ID",getAppId());

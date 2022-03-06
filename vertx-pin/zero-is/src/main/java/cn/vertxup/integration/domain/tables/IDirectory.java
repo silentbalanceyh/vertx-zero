@@ -42,9 +42,9 @@ public class IDirectory extends TableImpl<IDirectoryRecord> {
     public final TableField<IDirectoryRecord, String> CODE = createField(DSL.name("CODE"), SQLDataType.VARCHAR(255).nullable(false), this, "「code」- 目录编号");
     /**
      * The column <code>DB_ETERNAL.I_DIRECTORY.STORE_PATH</code>. 「storePath」-
-     * 目录根路径
+     * 目录相对路径
      */
-    public final TableField<IDirectoryRecord, String> STORE_PATH = createField(DSL.name("STORE_PATH"), SQLDataType.VARCHAR(512).nullable(false), this, "「storePath」- 目录根路径");
+    public final TableField<IDirectoryRecord, String> STORE_PATH = createField(DSL.name("STORE_PATH"), SQLDataType.VARCHAR(512).nullable(false), this, "「storePath」- 目录相对路径");
     /**
      * The column <code>DB_ETERNAL.I_DIRECTORY.PARENT_ID</code>. 「parentId」-
      * 父目录ID
@@ -56,10 +56,10 @@ public class IDirectory extends TableImpl<IDirectoryRecord> {
      */
     public final TableField<IDirectoryRecord, String> CATEGORY = createField(DSL.name("CATEGORY"), SQLDataType.VARCHAR(36), this, "「category」- 目录连接的类型树");
     /**
-     * The column <code>DB_ETERNAL.I_DIRECTORY.TYPE</code>. 「type」- 目录类型：ROOT /
-     * STORE / LINK
+     * The column <code>DB_ETERNAL.I_DIRECTORY.TYPE</code>. 「type」-
+     * 目录类型：INTEGRATION / STORE / LINK
      */
-    public final TableField<IDirectoryRecord, String> TYPE = createField(DSL.name("TYPE"), SQLDataType.VARCHAR(36).nullable(false), this, "「type」- 目录类型：ROOT / STORE / LINK");
+    public final TableField<IDirectoryRecord, String> TYPE = createField(DSL.name("TYPE"), SQLDataType.VARCHAR(36).nullable(false), this, "「type」- 目录类型：INTEGRATION / STORE / LINK");
     /**
      * The column <code>DB_ETERNAL.I_DIRECTORY.OWNER</code>. 「owner」- 目录访问人
      */
@@ -84,10 +84,10 @@ public class IDirectory extends TableImpl<IDirectoryRecord> {
      */
     public final TableField<IDirectoryRecord, String> VISIT_MODE = createField(DSL.name("VISIT_MODE"), SQLDataType.VARCHAR(36), this, "「visitMode」- 目录模式：只读 / 可写，以后扩展为其他");
     /**
-     * The column <code>DB_ETERNAL.I_DIRECTORY.VISIT_USER</code>. 「visitUser」-
-     * 目录访问者
+     * The column <code>DB_ETERNAL.I_DIRECTORY.VISIT_ROLE</code>. 「visitRole」-
+     * 目录访问角色
      */
-    public final TableField<IDirectoryRecord, String> VISIT_USER = createField(DSL.name("VISIT_USER"), SQLDataType.CLOB, this, "「visitUser」- 目录访问者");
+    public final TableField<IDirectoryRecord, String> VISIT_ROLE = createField(DSL.name("VISIT_ROLE"), SQLDataType.CLOB, this, "「visitRole」- 目录访问角色");
     /**
      * The column <code>DB_ETERNAL.I_DIRECTORY.VISIT_GROUP</code>. 「visitGroup」-
      * 目录访问组

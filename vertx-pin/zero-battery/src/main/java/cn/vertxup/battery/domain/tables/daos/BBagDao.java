@@ -84,6 +84,21 @@ public class BBagDao extends AbstractVertxDAO<BBagRecord, cn.vertxup.battery.dom
         }
 
         /**
+     * Find records that have <code>TYPE IN (values)</code> asynchronously
+     */
+        public Future<List<cn.vertxup.battery.domain.tables.pojos.BBag>> findManyByType(Collection<String> values) {
+                return findManyByCondition(BBag.B_BAG.TYPE.in(values));
+        }
+
+        /**
+     * Find records that have <code>TYPE IN (values)</code> asynchronously
+     * limited by the given limit
+     */
+        public Future<List<cn.vertxup.battery.domain.tables.pojos.BBag>> findManyByType(Collection<String> values, int limit) {
+                return findManyByCondition(BBag.B_BAG.TYPE.in(values),limit);
+        }
+
+        /**
      * Find records that have <code>UI_ICON IN (values)</code> asynchronously
      */
         public Future<List<cn.vertxup.battery.domain.tables.pojos.BBag>> findManyByUiIcon(Collection<String> values) {

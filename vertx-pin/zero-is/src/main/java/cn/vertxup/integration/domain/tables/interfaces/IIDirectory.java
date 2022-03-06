@@ -49,13 +49,13 @@ public interface IIDirectory extends VertxPojo, Serializable {
 
     /**
      * Setter for <code>DB_ETERNAL.I_DIRECTORY.STORE_PATH</code>. 「storePath」-
-     * 目录根路径
+     * 目录相对路径
      */
     public IIDirectory setStorePath(String value);
 
     /**
      * Getter for <code>DB_ETERNAL.I_DIRECTORY.STORE_PATH</code>. 「storePath」-
-     * 目录根路径
+     * 目录相对路径
      */
     public String getStorePath();
 
@@ -84,14 +84,14 @@ public interface IIDirectory extends VertxPojo, Serializable {
     public String getCategory();
 
     /**
-     * Setter for <code>DB_ETERNAL.I_DIRECTORY.TYPE</code>. 「type」- 目录类型：ROOT /
-     * STORE / LINK
+     * Setter for <code>DB_ETERNAL.I_DIRECTORY.TYPE</code>. 「type」-
+     * 目录类型：INTEGRATION / STORE / LINK
      */
     public IIDirectory setType(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.I_DIRECTORY.TYPE</code>. 「type」- 目录类型：ROOT /
-     * STORE / LINK
+     * Getter for <code>DB_ETERNAL.I_DIRECTORY.TYPE</code>. 「type」-
+     * 目录类型：INTEGRATION / STORE / LINK
      */
     public String getType();
 
@@ -152,16 +152,16 @@ public interface IIDirectory extends VertxPojo, Serializable {
     public String getVisitMode();
 
     /**
-     * Setter for <code>DB_ETERNAL.I_DIRECTORY.VISIT_USER</code>. 「visitUser」-
-     * 目录访问者
+     * Setter for <code>DB_ETERNAL.I_DIRECTORY.VISIT_ROLE</code>. 「visitRole」-
+     * 目录访问角色
      */
-    public IIDirectory setVisitUser(String value);
+    public IIDirectory setVisitRole(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.I_DIRECTORY.VISIT_USER</code>. 「visitUser」-
-     * 目录访问者
+     * Getter for <code>DB_ETERNAL.I_DIRECTORY.VISIT_ROLE</code>. 「visitRole」-
+     * 目录访问角色
      */
-    public String getVisitUser();
+    public String getVisitRole();
 
     /**
      * Setter for <code>DB_ETERNAL.I_DIRECTORY.VISIT_GROUP</code>. 「visitGroup」-
@@ -309,7 +309,7 @@ public interface IIDirectory extends VertxPojo, Serializable {
                 setOrThrow(this::setRunComponent,json::getString,"RUN_COMPONENT","java.lang.String");
                 setOrThrow(this::setVisit,json::getBoolean,"VISIT","java.lang.Boolean");
                 setOrThrow(this::setVisitMode,json::getString,"VISIT_MODE","java.lang.String");
-                setOrThrow(this::setVisitUser,json::getString,"VISIT_USER","java.lang.String");
+                setOrThrow(this::setVisitRole,json::getString,"VISIT_ROLE","java.lang.String");
                 setOrThrow(this::setVisitGroup,json::getString,"VISIT_GROUP","java.lang.String");
                 setOrThrow(this::setVisitComponent,json::getString,"VISIT_COMPONENT","java.lang.String");
                 setOrThrow(this::setSigma,json::getString,"SIGMA","java.lang.String");
@@ -339,7 +339,7 @@ public interface IIDirectory extends VertxPojo, Serializable {
                 json.put("RUN_COMPONENT",getRunComponent());
                 json.put("VISIT",getVisit());
                 json.put("VISIT_MODE",getVisitMode());
-                json.put("VISIT_USER",getVisitUser());
+                json.put("VISIT_ROLE",getVisitRole());
                 json.put("VISIT_GROUP",getVisitGroup());
                 json.put("VISIT_COMPONENT",getVisitComponent());
                 json.put("SIGMA",getSigma());

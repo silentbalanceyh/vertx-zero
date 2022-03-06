@@ -206,18 +206,18 @@ public class IDirectoryDao extends AbstractVertxDAO<IDirectoryRecord, cn.vertxup
         }
 
         /**
-     * Find records that have <code>VISIT_USER IN (values)</code> asynchronously
+     * Find records that have <code>VISIT_ROLE IN (values)</code> asynchronously
      */
-        public Future<List<cn.vertxup.integration.domain.tables.pojos.IDirectory>> findManyByVisitUser(Collection<String> values) {
-                return findManyByCondition(IDirectory.I_DIRECTORY.VISIT_USER.in(values));
+        public Future<List<cn.vertxup.integration.domain.tables.pojos.IDirectory>> findManyByVisitRole(Collection<String> values) {
+                return findManyByCondition(IDirectory.I_DIRECTORY.VISIT_ROLE.in(values));
         }
 
         /**
-     * Find records that have <code>VISIT_USER IN (values)</code> asynchronously
+     * Find records that have <code>VISIT_ROLE IN (values)</code> asynchronously
      * limited by the given limit
      */
-        public Future<List<cn.vertxup.integration.domain.tables.pojos.IDirectory>> findManyByVisitUser(Collection<String> values, int limit) {
-                return findManyByCondition(IDirectory.I_DIRECTORY.VISIT_USER.in(values),limit);
+        public Future<List<cn.vertxup.integration.domain.tables.pojos.IDirectory>> findManyByVisitRole(Collection<String> values, int limit) {
+                return findManyByCondition(IDirectory.I_DIRECTORY.VISIT_ROLE.in(values),limit);
         }
 
         /**
