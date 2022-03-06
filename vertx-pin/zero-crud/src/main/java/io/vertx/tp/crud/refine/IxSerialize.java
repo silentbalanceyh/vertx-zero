@@ -53,6 +53,22 @@ class IxSerialize {
         }
     }
 
+    static JsonObject serializeP(final JsonObject pageData, final KModule active, final KModule standBy) {
+        if (Ut.isNil(pageData)) {
+            return new JsonObject().put(KName.LIST, new JsonArray()).put(KName.COUNT, 0);
+        } else {
+            final JsonArray serializedA = Ut.valueJArray(pageData, KName.LIST);
+            Ut.itJArray(serializedA).forEach(refJson -> {
+                serializeInternal(refJson, active);
+                if (Objects.nonNull(standBy)) {
+                    serializeInternal(refJson, standBy);
+                }
+            });
+            pageData.put(KName.LIST, serializedA);
+            return pageData;
+        }
+    }
+
     @SuppressWarnings("all")
     static <T> T deserializeT(final JsonObject data, final KModule config) {
         IxLog.infoDao(LOGGER, "Normalized: \u001b[0;37m{0}\u001b[m", data.encode());

@@ -22,8 +22,23 @@
             }
         }
     },
-    "sortPath,真实路径",
-    "visitMode,访问模式",
+    "storePath,真实路径",
+    {
+        "metadata": "visit,是否私有,LOGICAL,true",
+        "$mapping": {
+            "true": "私有目录",
+            "false": "公有目录"
+        }
+    },
+    {
+        "metadata": "visitMode,访问模式,RENDERS",
+        "width": 180,
+        "$mapping": {
+            "r": "读取（r）",
+            "w": "写入（w）",
+            "x": "可执行（x）"
+        }
+    },
     {
         "metadata": "updatedBy,更新人,USER",
         "$config": {
