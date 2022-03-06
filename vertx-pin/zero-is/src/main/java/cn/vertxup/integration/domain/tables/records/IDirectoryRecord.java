@@ -77,7 +77,7 @@ public class IDirectoryRecord extends UpdatableRecordImpl<IDirectoryRecord> impl
 
     /**
      * Setter for <code>DB_ETERNAL.I_DIRECTORY.STORE_PATH</code>. 「storePath」-
-     * 目录根路径
+     * 目录相对路径
      */
     @Override
     public IDirectoryRecord setStorePath(String value) {
@@ -87,7 +87,7 @@ public class IDirectoryRecord extends UpdatableRecordImpl<IDirectoryRecord> impl
 
     /**
      * Getter for <code>DB_ETERNAL.I_DIRECTORY.STORE_PATH</code>. 「storePath」-
-     * 目录根路径
+     * 目录相对路径
      */
     @Override
     public String getStorePath() {
@@ -133,8 +133,8 @@ public class IDirectoryRecord extends UpdatableRecordImpl<IDirectoryRecord> impl
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.I_DIRECTORY.TYPE</code>. 「type」- 目录类型：ROOT /
-     * STORE / LINK
+     * Setter for <code>DB_ETERNAL.I_DIRECTORY.TYPE</code>. 「type」-
+     * 目录类型：INTEGRATION / STORE / LINK
      */
     @Override
     public IDirectoryRecord setType(String value) {
@@ -143,8 +143,8 @@ public class IDirectoryRecord extends UpdatableRecordImpl<IDirectoryRecord> impl
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.I_DIRECTORY.TYPE</code>. 「type」- 目录类型：ROOT /
-     * STORE / LINK
+     * Getter for <code>DB_ETERNAL.I_DIRECTORY.TYPE</code>. 「type」-
+     * 目录类型：INTEGRATION / STORE / LINK
      */
     @Override
     public String getType() {
@@ -243,21 +243,21 @@ public class IDirectoryRecord extends UpdatableRecordImpl<IDirectoryRecord> impl
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.I_DIRECTORY.VISIT_USER</code>. 「visitUser」-
-     * 目录访问者
+     * Setter for <code>DB_ETERNAL.I_DIRECTORY.VISIT_ROLE</code>. 「visitRole」-
+     * 目录访问角色
      */
     @Override
-    public IDirectoryRecord setVisitUser(String value) {
+    public IDirectoryRecord setVisitRole(String value) {
         set(12, value);
         return this;
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.I_DIRECTORY.VISIT_USER</code>. 「visitUser」-
-     * 目录访问者
+     * Getter for <code>DB_ETERNAL.I_DIRECTORY.VISIT_ROLE</code>. 「visitRole」-
+     * 目录访问角色
      */
     @Override
-    public String getVisitUser() {
+    public String getVisitRole() {
         return (String) get(12);
     }
 
@@ -474,7 +474,7 @@ public class IDirectoryRecord extends UpdatableRecordImpl<IDirectoryRecord> impl
         setRunComponent(from.getRunComponent());
         setVisit(from.getVisit());
         setVisitMode(from.getVisitMode());
-        setVisitUser(from.getVisitUser());
+        setVisitRole(from.getVisitRole());
         setVisitGroup(from.getVisitGroup());
         setVisitComponent(from.getVisitComponent());
         setSigma(from.getSigma());
@@ -507,7 +507,7 @@ public class IDirectoryRecord extends UpdatableRecordImpl<IDirectoryRecord> impl
     /**
      * Create a detached, initialised IDirectoryRecord
      */
-    public IDirectoryRecord(String key, String name, String code, String storePath, String parentId, String category, String type, String owner, String integrationId, String runComponent, Boolean visit, String visitMode, String visitUser, String visitGroup, String visitComponent, String sigma, String language, Boolean active, String metadata, LocalDateTime createdAt, String createdBy, LocalDateTime updatedAt, String updatedBy) {
+    public IDirectoryRecord(String key, String name, String code, String storePath, String parentId, String category, String type, String owner, String integrationId, String runComponent, Boolean visit, String visitMode, String visitRole, String visitGroup, String visitComponent, String sigma, String language, Boolean active, String metadata, LocalDateTime createdAt, String createdBy, LocalDateTime updatedAt, String updatedBy) {
         super(IDirectory.I_DIRECTORY);
 
         setKey(key);
@@ -522,7 +522,7 @@ public class IDirectoryRecord extends UpdatableRecordImpl<IDirectoryRecord> impl
         setRunComponent(runComponent);
         setVisit(visit);
         setVisitMode(visitMode);
-        setVisitUser(visitUser);
+        setVisitRole(visitRole);
         setVisitGroup(visitGroup);
         setVisitComponent(visitComponent);
         setSigma(sigma);
@@ -554,7 +554,7 @@ public class IDirectoryRecord extends UpdatableRecordImpl<IDirectoryRecord> impl
             setRunComponent(value.getRunComponent());
             setVisit(value.getVisit());
             setVisitMode(value.getVisitMode());
-            setVisitUser(value.getVisitUser());
+            setVisitRole(value.getVisitRole());
             setVisitGroup(value.getVisitGroup());
             setVisitComponent(value.getVisitComponent());
             setSigma(value.getSigma());

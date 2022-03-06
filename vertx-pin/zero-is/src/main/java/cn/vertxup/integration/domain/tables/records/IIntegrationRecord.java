@@ -129,30 +129,11 @@ public class IIntegrationRecord extends UpdatableRecordImpl<IIntegrationRecord> 
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.I_INTEGRATION.ENDPOINT</code>. 「endpoint」-
-     * 端地址
-     */
-    @Override
-    public IIntegrationRecord setEndpoint(String value) {
-        set(6, value);
-        return this;
-    }
-
-    /**
-     * Getter for <code>DB_ETERNAL.I_INTEGRATION.ENDPOINT</code>. 「endpoint」-
-     * 端地址
-     */
-    @Override
-    public String getEndpoint() {
-        return (String) get(6);
-    }
-
-    /**
      * Setter for <code>DB_ETERNAL.I_INTEGRATION.PORT</code>. 「port」- 端口号
      */
     @Override
     public IIntegrationRecord setPort(Integer value) {
-        set(7, value);
+        set(6, value);
         return this;
     }
 
@@ -161,7 +142,7 @@ public class IIntegrationRecord extends UpdatableRecordImpl<IIntegrationRecord> 
      */
     @Override
     public Integer getPort() {
-        return (Integer) get(7);
+        return (Integer) get(6);
     }
 
     /**
@@ -170,7 +151,7 @@ public class IIntegrationRecord extends UpdatableRecordImpl<IIntegrationRecord> 
      */
     @Override
     public IIntegrationRecord setProtocol(String value) {
-        set(8, value);
+        set(7, value);
         return this;
     }
 
@@ -180,7 +161,7 @@ public class IIntegrationRecord extends UpdatableRecordImpl<IIntegrationRecord> 
      */
     @Override
     public String getProtocol() {
-        return (String) get(8);
+        return (String) get(7);
     }
 
     /**
@@ -189,7 +170,7 @@ public class IIntegrationRecord extends UpdatableRecordImpl<IIntegrationRecord> 
      */
     @Override
     public IIntegrationRecord setSecurePort(Integer value) {
-        set(9, value);
+        set(8, value);
         return this;
     }
 
@@ -199,7 +180,7 @@ public class IIntegrationRecord extends UpdatableRecordImpl<IIntegrationRecord> 
      */
     @Override
     public Integer getSecurePort() {
-        return (Integer) get(9);
+        return (Integer) get(8);
     }
 
     /**
@@ -208,7 +189,7 @@ public class IIntegrationRecord extends UpdatableRecordImpl<IIntegrationRecord> 
      */
     @Override
     public IIntegrationRecord setSecureProtocol(String value) {
-        set(10, value);
+        set(9, value);
         return this;
     }
 
@@ -218,6 +199,25 @@ public class IIntegrationRecord extends UpdatableRecordImpl<IIntegrationRecord> 
      */
     @Override
     public String getSecureProtocol() {
+        return (String) get(9);
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.I_INTEGRATION.ENDPOINT</code>. 「endpoint」-
+     * 端地址
+     */
+    @Override
+    public IIntegrationRecord setEndpoint(String value) {
+        set(10, value);
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.I_INTEGRATION.ENDPOINT</code>. 「endpoint」-
+     * 端地址
+     */
+    @Override
+    public String getEndpoint() {
         return (String) get(10);
     }
 
@@ -572,11 +572,11 @@ public class IIntegrationRecord extends UpdatableRecordImpl<IIntegrationRecord> 
         setIpV4(from.getIpV4());
         setIpV6(from.getIpV6());
         setHostname(from.getHostname());
-        setEndpoint(from.getEndpoint());
         setPort(from.getPort());
         setProtocol(from.getProtocol());
         setSecurePort(from.getSecurePort());
         setSecureProtocol(from.getSecureProtocol());
+        setEndpoint(from.getEndpoint());
         setPath(from.getPath());
         setOsKey(from.getOsKey());
         setOsSecret(from.getOsSecret());
@@ -617,7 +617,7 @@ public class IIntegrationRecord extends UpdatableRecordImpl<IIntegrationRecord> 
     /**
      * Create a detached, initialised IIntegrationRecord
      */
-    public IIntegrationRecord(String key, String name, String type, String ipV4, String ipV6, String hostname, String endpoint, Integer port, String protocol, Integer securePort, String secureProtocol, String path, String osKey, String osSecret, String osAuthorize, String osToken, String username, String password, String publicKey, String options, String appId, Boolean active, String sigma, String metadata, String language, LocalDateTime createdAt, String createdBy, LocalDateTime updatedAt, String updatedBy) {
+    public IIntegrationRecord(String key, String name, String type, String ipV4, String ipV6, String hostname, Integer port, String protocol, Integer securePort, String secureProtocol, String endpoint, String path, String osKey, String osSecret, String osAuthorize, String osToken, String username, String password, String publicKey, String options, String appId, Boolean active, String sigma, String metadata, String language, LocalDateTime createdAt, String createdBy, LocalDateTime updatedAt, String updatedBy) {
         super(IIntegration.I_INTEGRATION);
 
         setKey(key);
@@ -626,11 +626,11 @@ public class IIntegrationRecord extends UpdatableRecordImpl<IIntegrationRecord> 
         setIpV4(ipV4);
         setIpV6(ipV6);
         setHostname(hostname);
-        setEndpoint(endpoint);
         setPort(port);
         setProtocol(protocol);
         setSecurePort(securePort);
         setSecureProtocol(secureProtocol);
+        setEndpoint(endpoint);
         setPath(path);
         setOsKey(osKey);
         setOsSecret(osSecret);
@@ -664,11 +664,11 @@ public class IIntegrationRecord extends UpdatableRecordImpl<IIntegrationRecord> 
             setIpV4(value.getIpV4());
             setIpV6(value.getIpV6());
             setHostname(value.getHostname());
-            setEndpoint(value.getEndpoint());
             setPort(value.getPort());
             setProtocol(value.getProtocol());
             setSecurePort(value.getSecurePort());
             setSecureProtocol(value.getSecureProtocol());
+            setEndpoint(value.getEndpoint());
             setPath(value.getPath());
             setOsKey(value.getOsKey());
             setOsSecret(value.getOsSecret());

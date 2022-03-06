@@ -1,2 +1,39 @@
 [
+    "name,目录名称",
+    {
+        "metadata": "type,目录类型,MAPPING",
+        "$mapping": {
+            "STORE": "本地存储",
+            "INTEGRATION": "远程集成",
+            "LINK": "软链接"
+        }
+    },
+    {
+        "metadata": "category,绑定业务分类",
+        "$datum": "source=zero.directory,value=code,display=name",
+        "$config": {
+            "adorn": {
+                "field": "code",
+                "items": {
+                    "document": "database,14,#9ACD32",
+                    "department": "cluster,14,#1E90FF",
+                    "workflow": "gateway,14,#CD5555"
+                }
+            }
+        }
+    },
+    "sortPath,真实路径",
+    "visitMode,访问模式",
+    {
+        "metadata": "updatedBy,更新人,USER",
+        "$config": {
+            "uri": "/api/user/:key",
+            "field": "realname"
+        },
+        "$empty": "（系统）"
+    },
+    {
+        "metadata": "updatedAt,更新时间,DATE",
+        "$format": "YYYY-MM-DD"
+    }
 ]

@@ -26,11 +26,11 @@ public class IIntegration implements VertxPojo, IIIntegration {
     private String        ipV4;
     private String        ipV6;
     private String        hostname;
-    private String        endpoint;
     private Integer       port;
     private String        protocol;
     private Integer       securePort;
     private String        secureProtocol;
+    private String        endpoint;
     private String        path;
     private String        osKey;
     private String        osSecret;
@@ -59,11 +59,11 @@ public class IIntegration implements VertxPojo, IIIntegration {
         this.ipV4 = value.getIpV4();
         this.ipV6 = value.getIpV6();
         this.hostname = value.getHostname();
-        this.endpoint = value.getEndpoint();
         this.port = value.getPort();
         this.protocol = value.getProtocol();
         this.securePort = value.getSecurePort();
         this.secureProtocol = value.getSecureProtocol();
+        this.endpoint = value.getEndpoint();
         this.path = value.getPath();
         this.osKey = value.getOsKey();
         this.osSecret = value.getOsSecret();
@@ -91,11 +91,11 @@ public class IIntegration implements VertxPojo, IIIntegration {
         String        ipV4,
         String        ipV6,
         String        hostname,
-        String        endpoint,
         Integer       port,
         String        protocol,
         Integer       securePort,
         String        secureProtocol,
+        String        endpoint,
         String        path,
         String        osKey,
         String        osSecret,
@@ -121,11 +121,11 @@ public class IIntegration implements VertxPojo, IIIntegration {
         this.ipV4 = ipV4;
         this.ipV6 = ipV6;
         this.hostname = hostname;
-        this.endpoint = endpoint;
         this.port = port;
         this.protocol = protocol;
         this.securePort = securePort;
         this.secureProtocol = secureProtocol;
+        this.endpoint = endpoint;
         this.path = path;
         this.osKey = osKey;
         this.osSecret = osSecret;
@@ -256,25 +256,6 @@ public class IIntegration implements VertxPojo, IIIntegration {
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.I_INTEGRATION.ENDPOINT</code>. 「endpoint」-
-     * 端地址
-     */
-    @Override
-    public String getEndpoint() {
-        return this.endpoint;
-    }
-
-    /**
-     * Setter for <code>DB_ETERNAL.I_INTEGRATION.ENDPOINT</code>. 「endpoint」-
-     * 端地址
-     */
-    @Override
-    public IIntegration setEndpoint(String endpoint) {
-        this.endpoint = endpoint;
-        return this;
-    }
-
-    /**
      * Getter for <code>DB_ETERNAL.I_INTEGRATION.PORT</code>. 「port」- 端口号
      */
     @Override
@@ -345,6 +326,25 @@ public class IIntegration implements VertxPojo, IIIntegration {
     @Override
     public IIntegration setSecureProtocol(String secureProtocol) {
         this.secureProtocol = secureProtocol;
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.I_INTEGRATION.ENDPOINT</code>. 「endpoint」-
+     * 端地址
+     */
+    @Override
+    public String getEndpoint() {
+        return this.endpoint;
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.I_INTEGRATION.ENDPOINT</code>. 「endpoint」-
+     * 端地址
+     */
+    @Override
+    public IIntegration setEndpoint(String endpoint) {
+        this.endpoint = endpoint;
         return this;
     }
 
@@ -688,11 +688,11 @@ public class IIntegration implements VertxPojo, IIIntegration {
         sb.append(", ").append(ipV4);
         sb.append(", ").append(ipV6);
         sb.append(", ").append(hostname);
-        sb.append(", ").append(endpoint);
         sb.append(", ").append(port);
         sb.append(", ").append(protocol);
         sb.append(", ").append(securePort);
         sb.append(", ").append(secureProtocol);
+        sb.append(", ").append(endpoint);
         sb.append(", ").append(path);
         sb.append(", ").append(osKey);
         sb.append(", ").append(osSecret);
@@ -728,11 +728,11 @@ public class IIntegration implements VertxPojo, IIIntegration {
         setIpV4(from.getIpV4());
         setIpV6(from.getIpV6());
         setHostname(from.getHostname());
-        setEndpoint(from.getEndpoint());
         setPort(from.getPort());
         setProtocol(from.getProtocol());
         setSecurePort(from.getSecurePort());
         setSecureProtocol(from.getSecureProtocol());
+        setEndpoint(from.getEndpoint());
         setPath(from.getPath());
         setOsKey(from.getOsKey());
         setOsSecret(from.getOsSecret());
