@@ -3,6 +3,7 @@ package cn.vertxup.ambient.api.application;
 import cn.vertxup.ambient.service.application.AppStub;
 import cn.vertxup.ambient.service.application.InitStub;
 import io.vertx.core.Future;
+import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.ambient.cv.Addr;
 import io.vertx.up.annotations.Address;
@@ -36,5 +37,10 @@ public class InitActor {
         final Database database = Ut.deserialize(data, Database.class);
         final boolean checked = database.test();
         return Ux.futureB(checked);
+    }
+
+    @Address(Addr.Init.DOCUMENT)
+    public Future<JsonArray> startDoc(final String appId) {
+        return Ux.futureA();
     }
 }

@@ -131,15 +131,27 @@ public interface IXCategory extends VertxPojo, Serializable {
 
     /**
      * Setter for <code>DB_ETERNAL.X_CATEGORY.TREE_COMPONENT</code>.
-     * 「treeComponent」- 目录组件
+     * 「treeComponent」- 目录组件，构造树专用
      */
     public IXCategory setTreeComponent(String value);
 
     /**
      * Getter for <code>DB_ETERNAL.X_CATEGORY.TREE_COMPONENT</code>.
-     * 「treeComponent」- 目录组件
+     * 「treeComponent」- 目录组件，构造树专用
      */
     public String getTreeComponent();
+
+    /**
+     * Setter for <code>DB_ETERNAL.X_CATEGORY.TREE_CONFIG</code>. 「treeConfig」-
+     * 目录组件运行配置，特殊场景专用
+     */
+    public IXCategory setTreeConfig(String value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.X_CATEGORY.TREE_CONFIG</code>. 「treeConfig」-
+     * 目录组件运行配置，特殊场景专用
+     */
+    public String getTreeConfig();
 
     /**
      * Setter for <code>DB_ETERNAL.X_CATEGORY.RUN_COMPONENT</code>.
@@ -152,6 +164,18 @@ public interface IXCategory extends VertxPojo, Serializable {
      * 「runComponent」- 执行组件
      */
     public String getRunComponent();
+
+    /**
+     * Setter for <code>DB_ETERNAL.X_CATEGORY.RUN_CONFIG</code>. 「runConfig」-
+     * 执行组件相关配置
+     */
+    public IXCategory setRunConfig(String value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.X_CATEGORY.RUN_CONFIG</code>. 「runConfig」-
+     * 执行组件相关配置
+     */
+    public String getRunConfig();
 
     /**
      * Setter for <code>DB_ETERNAL.X_CATEGORY.ACTIVE</code>. 「active」- 是否启用
@@ -271,7 +295,9 @@ public interface IXCategory extends VertxPojo, Serializable {
                 setOrThrow(this::setComment,json::getString,"COMMENT","java.lang.String");
                 setOrThrow(this::setAppId,json::getString,"APP_ID","java.lang.String");
                 setOrThrow(this::setTreeComponent,json::getString,"TREE_COMPONENT","java.lang.String");
+                setOrThrow(this::setTreeConfig,json::getString,"TREE_CONFIG","java.lang.String");
                 setOrThrow(this::setRunComponent,json::getString,"RUN_COMPONENT","java.lang.String");
+                setOrThrow(this::setRunConfig,json::getString,"RUN_CONFIG","java.lang.String");
                 setOrThrow(this::setActive,json::getBoolean,"ACTIVE","java.lang.Boolean");
                 setOrThrow(this::setSigma,json::getString,"SIGMA","java.lang.String");
                 setOrThrow(this::setMetadata,json::getString,"METADATA","java.lang.String");
@@ -299,7 +325,9 @@ public interface IXCategory extends VertxPojo, Serializable {
                 json.put("COMMENT",getComment());
                 json.put("APP_ID",getAppId());
                 json.put("TREE_COMPONENT",getTreeComponent());
+                json.put("TREE_CONFIG",getTreeConfig());
                 json.put("RUN_COMPONENT",getRunComponent());
+                json.put("RUN_CONFIG",getRunConfig());
                 json.put("ACTIVE",getActive());
                 json.put("SIGMA",getSigma());
                 json.put("METADATA",getMetadata());

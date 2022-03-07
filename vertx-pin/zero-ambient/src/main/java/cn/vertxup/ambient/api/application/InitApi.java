@@ -27,4 +27,15 @@ public interface InitApi {
     @POST
     @Address(Addr.Init.CONNECT)
     String connect(@BodyParam JsonObject body);
+
+    /*
+     * Document Management Platform
+     * 1. Fetch Category by `zero.directory`.
+     * 2. Capture the component of these three and call `ExIo` interface ( Service Loader )
+     * 3. Create all folders based on components defined.
+     */
+    @Path("/document/start")
+    @POST
+    @Address(Addr.Init.DOCUMENT)
+    String document(@HeaderParam(ID.Header.X_APP_ID) String appId);
 }

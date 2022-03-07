@@ -38,6 +38,8 @@ public interface Addr {
         String CONNECT = Prefix._EVENT + "X-CONNECT";
 
         String SOURCE = Prefix._EVENT + "X-SOURCE";
+
+        String DOCUMENT = Prefix._EVENT + "X-DOCUMENT/DOCUMENT";
     }
 
     interface File {
