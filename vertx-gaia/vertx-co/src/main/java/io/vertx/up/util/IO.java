@@ -283,6 +283,14 @@ final class IO {
         return true;
     }
 
+    static boolean mkdirFile(final String filename) {
+        final File file = new File(filename);
+        if (!file.exists()) {
+            return file.mkdirs();
+        }
+        return true;
+    }
+
     static boolean deleteFile(final String filename) {
         final File file = getFile(filename);
         boolean deleted = false;

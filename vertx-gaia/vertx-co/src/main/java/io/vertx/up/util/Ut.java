@@ -665,6 +665,10 @@ public final class Ut {
         return IO.rmFile(filename);
     }
 
+    public static boolean ioMkdir(final String filename) {
+        return IO.mkdirFile(filename);
+    }
+
     public static boolean ioDelete(final String filename) {
         return IO.deleteFile(filename);
     }

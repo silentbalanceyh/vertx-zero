@@ -4,6 +4,7 @@ import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.is.uca.AbstractExPath;
+import io.vertx.up.unity.Ux;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
@@ -15,6 +16,8 @@ public class ExPath extends AbstractExPath {
         // Compress all operations
         return this.compress(data).compose(normalized ->
             // Group compressed
-            this.componentRun(data, (fs, dataGroup) -> fs.mkdir(dataGroup, config)));
+            this.componentRun(data, (fs, dataGroup) -> fs.mkdir(dataGroup, config)
+                // Returned Original
+                .compose(nil -> Ux.future(dataGroup))));
     }
 }
