@@ -30,9 +30,8 @@ public class FsDefault extends AbstractFs {
         // Data Part for I_DIRECTORY Initializing
         return this.syncDirectory(data, config).compose(inserted -> {
             final Set<String> dirSet = new HashSet<>();
-            final JsonObject store = config.getJsonObject(KName.STORE);
+            final String root = config.getString(KName.STORE_ROOT);
             Ut.itJArray(inserted).forEach(json -> {
-                final String root = store.getString(KName.STORE_ROOT);
                 final String path = json.getString(KName.STORE_PATH);
                 dirSet.add(Ut.ioPath(root, path));
             });

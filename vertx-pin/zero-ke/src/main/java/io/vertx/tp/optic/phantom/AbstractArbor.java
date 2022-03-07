@@ -9,6 +9,8 @@ import io.vertx.tp.optic.feature.Arbor;
 import io.vertx.up.eon.KName;
 import io.vertx.up.util.Ut;
 
+import java.util.Objects;
+
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
@@ -23,8 +25,8 @@ public abstract class AbstractArbor implements Arbor {
          */
         final JsonObject store = configuration.getJsonObject(KName.STORE);
         final JsonArray normalized = new JsonArray();
-        normalized.add(this.storePathOn(category, store));
-        Ut.itJArray(children).map(json -> this.storePathOn(json, store)).forEach(normalized::add);
+        normalized.add(this.storePathOn(category, null, store));
+        Ut.itJArray(children).map(json -> this.storePathOn(json, category, store)).forEach(normalized::add);
         return Ke.channel(ExIo.class, () -> children, stub -> stub.mkdir(normalized, store));
     }
 
@@ -38,16 +40,23 @@ public abstract class AbstractArbor implements Arbor {
      *      "storePath": ""
      * }
      */
-    private JsonObject storePathOn(final JsonObject record, final JsonObject store) {
+    private JsonObject storePathOn(final JsonObject record, final JsonObject parent, final JsonObject store) {
         final JsonObject storeInfo = store.copy();
         /*
          * Re-Calculate `storePath`
          */
         final String name = record.getString(KName.NAME);
         final String storePath = store.getString(KName.STORE_PATH);
-        storeInfo.put(KName.STORE_PATH, Ut.ioPath(storePath, name));
-        storeInfo.put(KName.CATEGORY, record.getValue(KName.CODE));
-        storeInfo.put(KName.STORE_PARENT, storePath);
+        final String parentPath;
+        if (Objects.isNull(parent)) {
+            parentPath = storePath;
+            storeInfo.put(KName.CATEGORY, record.getValue(KName.CODE));
+        } else {
+            parentPath = Ut.ioPath(storePath, parent.getString(KName.NAME));
+            storeInfo.put(KName.CATEGORY, parent.getValue(KName.CODE));
+        }
+        storeInfo.put(KName.STORE_PATH, Ut.ioPath(parentPath, name));
+        storeInfo.put(KName.STORE_PARENT, parentPath);
         record.mergeIn(storeInfo);
         return record;
     }
