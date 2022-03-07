@@ -46,7 +46,9 @@ public abstract class AbstractArbor implements Arbor {
         final String name = record.getString(KName.NAME);
         final String storePath = store.getString(KName.STORE_PATH);
         storeInfo.put(KName.STORE_PATH, Ut.ioPath(storePath, name));
-        record.put(KName.STORE, storeInfo);
+        storeInfo.put(KName.CATEGORY, record.getValue(KName.CODE));
+        storeInfo.put(KName.STORE_PARENT, storePath);
+        record.mergeIn(storeInfo);
         return record;
     }
 }

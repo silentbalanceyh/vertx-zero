@@ -1,5 +1,6 @@
-package io.vertx.tp.is;
+package io.vertx.tp.is.uca;
 
+import cn.vertxup.integration.domain.tables.pojos.IDirectory;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.tp.optic.business.ExIo;
@@ -10,20 +11,38 @@ import io.vertx.up.util.Ut;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.function.BiFunction;
+import java.util.stream.Collectors;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 public abstract class AbstractExPath implements ExIo {
-    private static final String FS_DEFAULT = "io.vertx.tp.is.FsDefault";
+    private static final String FS_DEFAULT = "io.vertx.tp.is.uca.FsDefault";
 
-    protected Future<JsonArray> componentRun(final JsonArray data, final BiFunction<Fs, JsonArray, Future<JsonArray>> runner) {
+    protected Future<JsonArray> compress(final JsonArray data) {
+        return FsKit.queryDirectory(data, KName.STORE_PATH).compose(queried -> {
+            final Set<String> storePath = queried.stream()
+                .filter(Objects::nonNull)
+                .map(IDirectory::getStorePath).collect(Collectors.toSet());
+            final JsonArray compressed = new JsonArray();
+            Ut.itJArray(data).forEach(json -> {
+                final String path = json.getString(KName.STORE_PATH);
+                if (!storePath.contains(path)) {
+                    compressed.add(json);
+                }
+            });
+            return Ux.future(compressed);
+        });
+    }
+
+    protected Future<JsonArray> componentRun(final JsonArray data, final BiFunction<Fs, JsonArray, Future<JsonArray>> fsRunner) {
         final ConcurrentMap<Fs, JsonArray> componentMap = this.componentGroup(data);
         final List<Future<JsonArray>> futures = new ArrayList<>();
-        componentMap.forEach((fs, dataEach) -> futures.add(runner.apply(fs, dataEach)));
+        componentMap.forEach((fs, dataEach) -> futures.add(fsRunner.apply(fs, dataEach.copy())));
         return Ux.thenCombineArray(futures);
     }
 

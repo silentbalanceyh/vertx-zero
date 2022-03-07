@@ -185,7 +185,9 @@ public interface KName {
     String STORE = "store";
     String STORE_ROOT = "storeRoot";
     String STORE_PATH = "storePath";
+    String STORE_PARENT = "storeParent";
     String INTEGRATION_ID = "integrationId";
+    String PARENT_ID = "parentId";
 
     interface Attachment {
         String STORE_WAY = "storeWay";               /* XAttachment, store way of the file */
