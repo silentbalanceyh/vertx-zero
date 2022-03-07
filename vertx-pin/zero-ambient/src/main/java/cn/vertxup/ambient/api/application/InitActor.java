@@ -1,8 +1,8 @@
 package cn.vertxup.ambient.api.application;
 
-import cn.vertxup.ambient.service.DatumStub;
 import cn.vertxup.ambient.service.application.AppStub;
 import cn.vertxup.ambient.service.application.InitStub;
+import cn.vertxup.ambient.service.directory.TreeStub;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
@@ -19,7 +19,7 @@ import javax.inject.Inject;
 public class InitActor {
 
     @Inject
-    private transient DatumStub datumStub;
+    private transient TreeStub treeStub;
     @Inject
     private transient InitStub stub;
     @Inject
@@ -45,6 +45,6 @@ public class InitActor {
     @Address(Addr.Init.DOCUMENT)
     public Future<JsonArray> startDoc(final String type,
                                       final String appId) {
-        return this.datumStub.treeApp(appId, type);
+        return this.treeStub.seekAsync(appId, type);
     }
 }
