@@ -181,6 +181,12 @@ public interface KName {
     String LINKAGE = "linkage";                  /* XLinkage instance */
     String QUERY = "query";                      /* XLinkage query */
 
+    // Store Path/Root
+    String STORE = "store";
+    String STORE_ROOT = "storeRoot";
+    String STORE_PATH = "storePath";
+    String INTEGRATION_ID = "integrationId";
+
     interface Attachment {
         String STORE_WAY = "storeWay";               /* XAttachment, store way of the file */
         String FILE_NAME = "fileName";               /* XAttachment filename */

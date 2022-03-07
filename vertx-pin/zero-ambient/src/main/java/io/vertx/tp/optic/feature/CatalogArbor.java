@@ -4,6 +4,7 @@ import cn.vertxup.ambient.domain.tables.daos.XCategoryDao;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
+import io.vertx.tp.optic.phantom.AbstractArbor;
 import io.vertx.up.eon.KName;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
@@ -11,7 +12,7 @@ import io.vertx.up.util.Ut;
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-public class CatalogArbor implements Arbor {
+public class CatalogArbor extends AbstractArbor {
     @Override
     public Future<JsonArray> generate(final JsonObject category, final JsonObject configuration) {
         final JsonObject condition = Ux.whereAnd();
@@ -25,9 +26,6 @@ public class CatalogArbor implements Arbor {
                 KName.Component.TREE_CONFIG,
                 KName.Component.RUN_CONFIG
             ))
-            .compose(children -> {
-
-                return Ux.future(children);
-            });
+            .compose(children -> this.ensureChildren(category, children, configuration));
     }
 }

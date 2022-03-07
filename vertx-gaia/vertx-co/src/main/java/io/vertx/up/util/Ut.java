@@ -606,9 +606,13 @@ public final class Ut {
      * 5) ioJArray / ioJObject
      * 6) ioString
      * 7) ioBuffer / ioStream
-     *
+     * 8) ioPath
      * `input` operation
      */
+    public static String ioPath(final String folder, final String file) {
+        return StringUtil.path(folder, file);
+    }
+
     public static List<String> ioFiles(final String folder) {
         return Folder.listFiles(folder, null);
     }

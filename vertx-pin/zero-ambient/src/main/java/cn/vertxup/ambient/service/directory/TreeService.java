@@ -4,8 +4,13 @@ import cn.vertxup.ambient.service.DatumStub;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
+import io.vertx.tp.ambient.atom.AtConfig;
+import io.vertx.tp.ambient.init.AtPin;
+import io.vertx.tp.ambient.refine.At;
 import io.vertx.tp.optic.feature.Arbor;
 import io.vertx.up.eon.KName;
+import io.vertx.up.fn.Fn;
+import io.vertx.up.log.Annal;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
@@ -13,11 +18,15 @@ import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 public class TreeService implements TreeStub {
+    private static final ConcurrentMap<String, Arbor> POOL_ARBOR = new ConcurrentHashMap<>();
+    private static final Annal LOGGER = Annal.get(TreeService.class);
     @Inject
     private transient DatumStub stub;
 
@@ -37,8 +46,9 @@ public class TreeService implements TreeStub {
             // Nothing To Do
             return Ux.future(input);
         }
-        final JsonObject configuration = Ut.toJObject(input.getString(KName.Component.TREE_CONFIG));
-        final Arbor arbor = Ut.instance(arborCls);
+        final JsonObject configuration = this.seekConfig(input);
+        final Arbor arbor = Fn.poolThread(POOL_ARBOR, () -> Ut.instance(arborCls), arborCls.getName());
+        At.infoFile(LOGGER, "Arbor = {0}, Configuration = {1}", arborCls.getName(), configuration.encode());
         return arbor.generate(input, configuration).compose(children -> {
             /*
              * Configuration Extract Mapping
@@ -57,5 +67,17 @@ public class TreeService implements TreeStub {
             input.put(KName.CHILDREN, children);
             return Ux.future(input);
         });
+    }
+
+    private JsonObject seekConfig(final JsonObject input) {
+        final JsonObject configuration = input.getJsonObject(KName.Component.TREE_CONFIG);
+        if (!configuration.containsKey(KName.STORE)) {
+            final AtConfig config = AtPin.getConfig();
+            final JsonObject store = new JsonObject();
+            store.put(KName.STORE_ROOT, config.getStoreRoot());
+            store.put(KName.STORE_PATH, config.getStorePath());
+            configuration.put(KName.STORE, store);
+        }
+        return configuration;
     }
 }

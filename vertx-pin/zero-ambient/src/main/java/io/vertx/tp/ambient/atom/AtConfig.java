@@ -68,6 +68,10 @@ public class AtConfig implements Serializable {
      */
     private String dataFolder;
 
+    private String storeRoot;
+
+    private String storePath;
+
     /**
      * Return to `fileStorage` attribute.
      *
@@ -180,6 +184,22 @@ public class AtConfig implements Serializable {
         this.dataFolder = dataFolder;
     }
 
+    public String getStoreRoot() {
+        return this.storeRoot;
+    }
+
+    public void setStoreRoot(final String storeRoot) {
+        this.storeRoot = storeRoot;
+    }
+
+    public String getStorePath() {
+        return this.storePath;
+    }
+
+    public void setStorePath(final String storePath) {
+        this.storePath = storePath;
+    }
+
     @Override
     public String toString() {
         return "AtConfig{" +
@@ -190,6 +210,8 @@ public class AtConfig implements Serializable {
             ", fileStorage='" + this.fileStorage + '\'' +
             ", fileLanguage='" + this.fileLanguage + '\'' +
             ", dataFolder='" + this.dataFolder + '\'' +
+            ", storeRoot='" + this.storeRoot + '\'' +
+            ", storePath='" + this.storePath + '\'' +
             '}';
     }
 }
