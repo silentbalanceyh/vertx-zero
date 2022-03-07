@@ -67,6 +67,7 @@ public interface KName {
     String APP_KEY = "appKey";                   /* XHeader for X-App-Key */
     String APP_ID = "appId";                     /* XHeader for X-App-Id */
     String SIGMA = "sigma";                      /* XHeader for X-Sigma */
+    String CATALOG = "catalog";                  /* catalog */
 
     String DEBUG = "debug";                      /* Development: for debugging */
 
@@ -388,5 +389,14 @@ public interface KName {
             String CLASS = "class";
             String EVENT = "event";
         }
+    }
+
+    interface Component {
+        // Run Component
+        String RUN_COMPONENT = "runComponent";
+        String RUN_CONFIG = "runConfig";
+        // Tree Component
+        String TREE_COMPONENT = "treeComponent";
+        String TREE_CONFIG = "treeConfig";
     }
 }

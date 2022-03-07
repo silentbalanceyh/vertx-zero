@@ -5,6 +5,7 @@ import io.vertx.tp.ambient.cv.Addr;
 import io.vertx.up.annotations.Address;
 import io.vertx.up.annotations.EndPoint;
 import io.vertx.up.eon.ID;
+import io.vertx.up.eon.KName;
 
 import javax.ws.rs.*;
 
@@ -34,8 +35,9 @@ public interface InitApi {
      * 2. Capture the component of these three and call `ExIo` interface ( Service Loader )
      * 3. Create all folders based on components defined.
      */
-    @Path("/document/start")
-    @POST
+    @Path("/document/start/:type")
+    @GET
     @Address(Addr.Init.DOCUMENT)
-    String document(@HeaderParam(ID.Header.X_APP_ID) String appId);
+    String document(@PathParam(KName.TYPE) String type,
+                    @HeaderParam(ID.Header.X_APP_ID) String appId);
 }

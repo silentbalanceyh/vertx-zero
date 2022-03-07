@@ -17,12 +17,12 @@ public class DatumActor {
     private transient DatumStub stub;
 
     @Address(Addr.Datum.CATEGORY_TYPE)
-    public Future<JsonArray> categoryByType(final String appId, final String type, final Boolean includeLeaf) {
+    public Future<JsonArray> fetchCategory(final String appId, final String type, final Boolean includeLeaf) {
         return this.stub.treeApp(appId, type, includeLeaf);
     }
 
     @Address(Addr.Datum.CATEGORY_TYPES)
-    public Future<JsonArray> fetchCategories(final String appId, final JsonArray types) {
+    public Future<JsonArray> fetchCategory(final String appId, final JsonArray types) {
         return this.stub.treeApp(appId, types);
     }
 
@@ -32,12 +32,12 @@ public class DatumActor {
     }
 
     @Address(Addr.Datum.TABULAR_TYPE)
-    public Future<JsonArray> tabularByType(final String appId, final String type) {
+    public Future<JsonArray> fetchTabular(final String appId, final String type) {
         return this.stub.dictApp(appId, type);
     }
 
     @Address(Addr.Datum.TABULAR_TYPES)
-    public Future<JsonArray> fetchTabulars(final String appId, final JsonArray types) {
+    public Future<JsonArray> fetchTabular(final String appId, final JsonArray types) {
         return this.stub.dictApp(appId, types);
     }
 

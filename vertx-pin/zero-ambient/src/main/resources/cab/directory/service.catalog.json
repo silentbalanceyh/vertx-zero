@@ -1,0 +1,5 @@
+{
+    "query": {
+        "type": "zero.service.catalog"
+    }
+}
