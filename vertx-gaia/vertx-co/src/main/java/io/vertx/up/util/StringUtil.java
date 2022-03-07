@@ -216,6 +216,7 @@ final class StringUtil {
         } else {
             valueFile = "/" + file;
         }
-        return valueFolder + valueFile;
+        // Convert `//` to `/`
+        return (valueFolder + valueFile).replace("//", "/");
     }
 }

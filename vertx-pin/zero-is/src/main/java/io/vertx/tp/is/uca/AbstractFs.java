@@ -25,16 +25,18 @@ public abstract class AbstractFs implements Fs {
      *  1. Here the integrationId must be the same
      */
     protected Future<JsonArray> syncDirectory(final JsonArray data, final JsonObject config) {
+        final JsonArray formatted = data.copy();
+        Ut.itJArray(formatted).forEach(json -> json.put(KName.KEY, UUID.randomUUID().toString()));
         /*
          * Group by `storePath`
          * Group by `storeParent`
          */
-        final ConcurrentMap<String, JsonObject> stored = Ut.elementMap(data, KName.STORE_PATH);
-        final ConcurrentMap<String, JsonArray> storeParent = Ut.elementGroup(data, KName.STORE_PARENT);
+        final ConcurrentMap<String, JsonObject> stored = Ut.elementMap(formatted, KName.STORE_PATH);
+        final ConcurrentMap<String, JsonArray> storeParent = Ut.elementGroup(formatted, KName.STORE_PARENT);
         /*
          * Fetch by `parent`
          */
-        return FsKit.queryDirectory(data, KName.STORE_PARENT).compose(queried -> {
+        return FsKit.queryDirectory(formatted, KName.STORE_PARENT).compose(queried -> {
             /*
              * Apply data by storeParent
              */
@@ -55,7 +57,6 @@ public abstract class AbstractFs implements Fs {
                 final JsonObject storeInput = stored.get(pathParent);
                 Ut.itJArray(dataGroup).forEach(json -> {
                     final JsonObject dataRecord = json.copy();
-                    dataRecord.put(KName.KEY, UUID.randomUUID());
                     inserted.add(this.syncDirectory(dataRecord, storeObj, storeInput));
                 });
             });
@@ -66,6 +67,8 @@ public abstract class AbstractFs implements Fs {
     protected IDirectory syncDirectory(final JsonObject data, final IDirectory parentD, final JsonObject parentJ) {
         final JsonObject directoryJ = new JsonObject();
         Ut.elementCopy(directoryJ, data,
+            // key for inserted
+            KName.KEY,
             // category, name, storePath
             KName.NAME,
             KName.CATEGORY,
