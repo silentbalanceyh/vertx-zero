@@ -3,6 +3,7 @@ package io.vertx.tp.is.uca;
 import cn.vertxup.integration.domain.tables.pojos.IDirectory;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
+import io.vertx.core.json.JsonObject;
 import io.vertx.tp.optic.business.ExIo;
 import io.vertx.up.eon.KName;
 import io.vertx.up.unity.Ux;
@@ -46,6 +47,41 @@ public abstract class AbstractExPath implements ExIo {
         return Ux.thenCombineArray(futures);
     }
 
+    // ---------------------- mkdir -----------------------
+
+    protected Future<JsonArray> commandMkdir(final JsonArray queueAd, final JsonObject config) {
+        if (Ut.isNil(queueAd)) {
+            return Ux.futureA();
+        }
+        // Group queueAd, Re-Calculate `directoryId` here.
+        return this.componentRun(queueAd, (fs, dataGroup) -> fs.mkdir(dataGroup, config)).compose(inserted -> {
+            /*
+             * storePath = key
+             */
+            Ut.itJArray(inserted).forEach(json -> Ut.ifJCopy(json, KName.KEY, KName.DIRECTORY_ID));
+            return Ux.future(inserted);
+        });
+    }
+
+    protected Future<JsonArray> commandMkdir(final JsonArray queueUp, final List<IDirectory> storeList) {
+        if (Ut.isNil(queueUp)) {
+            return Ux.futureA();
+        }
+
+        final ConcurrentMap<String, IDirectory> storeMap = Ut.elementMap(storeList, IDirectory::getStorePath);
+        Ut.itJArray(queueUp).forEach(json -> {
+            final String storePath = json.getString(KName.STORE_PATH);
+            if (Ut.notNil(storePath)) {
+                final IDirectory store = storeMap.get(storePath);
+                if (Objects.nonNull(store)) {
+                    json.put(KName.DIRECTORY_ID, store.getKey());
+                }
+            }
+        });
+        return Ux.future(queueUp);
+    }
+
+    // ---------------------- shared ----------------------
     /*
      * data structure of each json
      * {
@@ -54,7 +90,7 @@ public abstract class AbstractExPath implements ExIo {
      *      "integrationId": "If integrated by directory"
      * }
      */
-    protected ConcurrentMap<Fs, JsonArray> componentGroup(final JsonArray data) {
+    private ConcurrentMap<Fs, JsonArray> componentGroup(final JsonArray data) {
         /*
          * Group data
          * 1. All the integrationId = null, extract `storeRoot` from data.

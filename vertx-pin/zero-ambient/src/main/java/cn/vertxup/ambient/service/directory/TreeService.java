@@ -71,13 +71,23 @@ public class TreeService implements TreeStub {
 
     private JsonObject seekConfig(final JsonObject input) {
         final JsonObject configuration = input.getJsonObject(KName.Component.TREE_CONFIG);
-        if (!configuration.containsKey(KName.STORE)) {
-            final AtConfig config = AtPin.getConfig();
-            final JsonObject store = new JsonObject();
-            store.put(KName.STORE_ROOT, config.getStoreRoot());
-            store.put(KName.STORE_PATH, config.getStorePath());
-            configuration.put(KName.STORE, store);
+        JsonObject storeRef = configuration.getJsonObject(KName.STORE);
+        if (Ut.isNil(storeRef)) {
+            storeRef = new JsonObject();
         }
+        /*
+         * Combine the configuration information attached into
+         * {
+         *      "store": {
+         *          "storeRoot": ""
+         *          "storePath": ""
+         *      }
+         * }
+         */
+        final AtConfig config = AtPin.getConfig();
+        storeRef.put(KName.STORE_ROOT, config.getStoreRoot());
+        storeRef.put(KName.STORE_PATH, config.getStorePath());
+        configuration.put(KName.STORE, storeRef);
         return configuration;
     }
 }

@@ -40,9 +40,8 @@ public abstract class AbstractArbor implements Arbor {
             final JsonArray valid = new JsonArray();
             Ut.itJArray(processed).forEach(json -> {
                 if (storePath.equals(json.getString(KName.STORE_PATH))) {
-                    category.put(KName.DIRECTORY_ID, json.getString(KName.KEY));
+                    category.put(KName.DIRECTORY_ID, json.getString(KName.DIRECTORY_ID));
                 } else {
-                    json.put(KName.DIRECTORY_ID, json.getString(KName.KEY));
                     valid.add(json);
                 }
             });

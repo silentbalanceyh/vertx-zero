@@ -1,5 +1,12 @@
 {
     "query": {
         "type": "zero.service.catalog"
+    },
+    "store": {
+        "initialize": {
+            "visitMode": [
+                "r"
+            ]
+        }
     }
 }
