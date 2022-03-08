@@ -130,7 +130,7 @@
         <http.core.version>4.4.15</http.core.version>
 
         <!-- Liquibase -->
-        <liquibase.version>3.10.3</liquibase.version>
+        <liquibase.version>4.8.0</liquibase.version>
 
         <!-- Rpc -->
         <vertx.grpc.version>1.6.1</vertx.grpc.version>
